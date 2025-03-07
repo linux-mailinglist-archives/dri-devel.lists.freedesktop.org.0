@@ -2,74 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4471BA567A0
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 13:15:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52517A567E0
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 13:33:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9378810E17B;
-	Fri,  7 Mar 2025 12:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3629D10E182;
+	Fri,  7 Mar 2025 12:33:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="Be5SaSGg";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lPeFiW15";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8969110E17B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 12:15:38 +0000 (UTC)
-Received: from [127.0.0.1] ([76.133.66.138]) (authenticated bits=0)
- by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 527CEaSZ216144
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Fri, 7 Mar 2025 04:14:36 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 527CEaSZ216144
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2025021701; t=1741349679;
- bh=jpHguGFzA2ESTQPvqJoIr0NmAS1zWgolyOTrgBL62N8=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=Be5SaSGgmsWvlkd2HRqfzArk9nnQa/gbB2kCd/vi2QEK8XF7tn7E007LPGCySYBmv
- IBe4UFr66OEmtiNpObBgvlVSM3dsVFMAmcCg1qk0KnpRrF+aipL4y7W2YaKWxosfjg
- cWf5lVQ4b9ZseS/T4Ejdb1zr76nvhUjdua5R2Pch5YNHmdUnn4vc+zzlh64uFhK6vb
- WTkqjjxZYMKmKvVthPXAaIt6oPShwbOs2Gi2goJSFgvNUhGes6srmI4eDqrLD0uLkC
- /B3MuqYu4V3A5+3QHFJOLT2DdF/UOScSb+vcFfW82sFlWlX0qiCgDEt2HYcKJg4NnR
- 6SqqnMn8wULdA==
-Date: Fri, 07 Mar 2025 04:14:34 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Ingo Molnar <mingo@kernel.org>, Jiri Slaby <jirislaby@kernel.org>
-CC: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
- hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- yury.norov@gmail.com, akpm@linux-foundation.org, alistair@popple.id.au,
- linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Z8ri5h-nvNXNp6NB@gmail.com>
-References: <20250306162541.2633025-1-visitorckw@gmail.com>
- <20250306162541.2633025-2-visitorckw@gmail.com>
- <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org>
- <Z8ra0s9uRoS35brb@gmail.com>
- <a4040c78-8765-425e-a44e-c374dfc02a9c@kernel.org>
- <Z8ri5h-nvNXNp6NB@gmail.com>
-Message-ID: <04AA7852-2D68-4B3F-9AA7-51AA57E3D23D@zytor.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2082.outbound.protection.outlook.com [40.107.244.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEC610E182;
+ Fri,  7 Mar 2025 12:33:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=syXqGrrS/uKpE430lwtDIs56TSkhuR0avotvC8f8bo62k8L3kIZalLI6bB+agB20SR4J8Ej+91A6yQQAOVcDRwEf00VDLKY/oCdb1IPb+0RIcT54wjp7NzTT/73TdWn9FH/n9/lKIG5f8IFGRcLpSIWWAM9CMC2VA1ccQbXyiTH75Rr7KYw2Y+GtiVKGguj/pAbD36XM02QvZCrpaOpMu2djV/2A9OEYCBuXa7SLLHAiGmROXyPHjoYwNlBzgwFjLYO3N6As8Ojh/Z2UrvCeFvWkF3vWtb46wFSWii9OoyxpRUQjlJ8eY/RP0XZrPrcD/pWxI/1t/xBzNSuFh1bkqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PLvAiD0JhA+JB6QAtcfODrDKZ+dYHKv4DhAZlXdNivI=;
+ b=rOudph8qf87ZaDwBWHwFpNds4e3G+FT/o8igFDWJP4jFwKBP75WeXhONErlzI8bRUx1SnyUv8xp8ixqMNMLlnZAu3tk092HbE6XT+IOfB0Ho8PHreFKNvCRgs6qN40aSzLQIJXr8OdbkihhtLnvof+mBzVwr4WLAkM2bEa6RNX7/E3HADNqjLnr5jo7Bbu2wyM5OaT1OfjG3pHIOgUYd0LsRocDu1BqOJ45PoAuo6fw7hqbg75xxXdpXRh4VpNheeRFrV+2ajroQ7SMGKAaVaAjywyzTs6lYjCXGCpeotMeykupl/c5+R7/+ZSbXiM1jZHQlHazDqtXXc9YD/ImpoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PLvAiD0JhA+JB6QAtcfODrDKZ+dYHKv4DhAZlXdNivI=;
+ b=lPeFiW1594AvEs8KWVmEKsTGWwY5b9YkRYQ3UL9sZRgg35O4xfBwwoup1DV3b4NJtYkP1v1L517LA3VDFzNw9KIvihvCIycwkWh2v6xB6mRA09SQtHKivZf4zXBZNF0tkmj78P0+/jQoXAK5EyAoV+5mLjHSEXAh0ky9/0kD3l2Eeta67J/jLXVQMdF0RixN4x0/Y0S4GZEdk2sUpBzHp34rejvxUm5GHkBAi/gQXt2CyNd1gev/kFfmHz1G5Xf2E1MvLbijva7unEAmuRdJZ8uG8s3sJB3LDV/suzsKogIKIQeC7mIlOePRl+uu2PY+CFB8R8EcLcjiBxWEPDy5NQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW6PR12MB8663.namprd12.prod.outlook.com (2603:10b6:303:240::9)
+ by DS7PR12MB6288.namprd12.prod.outlook.com (2603:10b6:8:93::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8511.17; Fri, 7 Mar 2025 12:32:57 +0000
+Received: from MW6PR12MB8663.namprd12.prod.outlook.com
+ ([fe80::594:5be3:34d:77f]) by MW6PR12MB8663.namprd12.prod.outlook.com
+ ([fe80::594:5be3:34d:77f%2]) with mapi id 15.20.8511.017; Fri, 7 Mar 2025
+ 12:32:57 +0000
+Date: Fri, 7 Mar 2025 08:32:55 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: John Hubbard <jhubbard@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <20250307123255.GK354511@nvidia.com>
+References: <D82UB3V6NZ55.3OEPPW2W8MFZV@nvidia.com>
+ <Z8GViQzZJVFPxfNd@phenom.ffwll.local>
+ <20250228184013.GF39591@nvidia.com>
+ <Z8cmBWB8rl97-zSG@phenom.ffwll.local>
+ <20250304164201.GN133783@nvidia.com>
+ <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
+ <20250305151012.GW133783@nvidia.com>
+ <Z8l8HgZOV7sDWqBh@phenom.ffwll.local>
+ <20250306153236.GE354511@nvidia.com>
+ <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
+X-ClientProxiedBy: BL1PR13CA0274.namprd13.prod.outlook.com
+ (2603:10b6:208:2bc::9) To MW6PR12MB8663.namprd12.prod.outlook.com
+ (2603:10b6:303:240::9)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW6PR12MB8663:EE_|DS7PR12MB6288:EE_
+X-MS-Office365-Filtering-Correlation-Id: 152382b4-fda9-4412-6998-08dd5d743092
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Kf+RVKuR0mNmFCkGA9+mQOLTK/OoFrh1tLA4A8fyXfxm0+ckLSmOQbe5M8u5?=
+ =?us-ascii?Q?Lq0673j3p1PEls+f+KeWWREV9sYS5g6RNrdLGtM9wR0fxk0jtMwBklxb63td?=
+ =?us-ascii?Q?idkU1S5rScRG+WjT5RuFECln75kElRVUl94kmBXpMrv17HlChPF5Q9UCaqqR?=
+ =?us-ascii?Q?DAuiN6I/svbOGFoskFhvSAIg9GYN1PHZr954jY5ggXyHQbQCaeg3By3DII/Q?=
+ =?us-ascii?Q?/TSn209DogLblWeKtacv0uXRUqSOj6OQdiN+JiSF7piYPpE352bUkKusa3FG?=
+ =?us-ascii?Q?5vgeYj1gZAUXQJFx9Pat/N0ro2E3aZfV5vMceJLuwoZ1VGTYVclEQl3Xn9qC?=
+ =?us-ascii?Q?uLlONXKNnl3LP4PtT9zeaJ1avGGr23FegTTnlpKwh5XjH0/xFm+8gww7AZIx?=
+ =?us-ascii?Q?noWJLitADaz1c8sAuA3U8mSFSmyUTjOW6T9RWuDlQL83zM8GIwtefDqkm3OB?=
+ =?us-ascii?Q?eypsQDeY2Ie1IHMa3sKbH7ZTlz+7cY+abZNOasoKGGRSIZN9g6TKXMBb4EqL?=
+ =?us-ascii?Q?p3ZbmSUJUxFTvteNCMOq92QaBnah2Qgsfz6jPU3XgW/PIxus+ewS8yGKsLif?=
+ =?us-ascii?Q?CWTSbB1LZ2VN9JhfUA8yIW34UAyKrkB/tkSUExY5Rdj34QhP0LGXv3ld0in6?=
+ =?us-ascii?Q?hi7NjhEmrYTN9Vxhie+GP8Jp7t+pbZobNVa6AcZiiLNzfLJaWRsefdYs3JJC?=
+ =?us-ascii?Q?CGc1GYkwB5xZXYJnJ5nTo4bdx6C6kLk4kZ7sKqLeLmK/lBNoIBnhupd+V+fU?=
+ =?us-ascii?Q?YkeKZsRyVOt8Fp8zevKHnb1rPRgGOnqUtk3J83LQdfqOQw4EMfU0ITBdEyKc?=
+ =?us-ascii?Q?StUzmDGa0Hsg0R9hPDVYK3dDEEG6ZNSdWaM7wqqlGkmJqDNC5ww9W3BEzTba?=
+ =?us-ascii?Q?bq/RXYjhTkG0wQxboRgO3s24bmmytfLhizATmulXKvndvjKLOFldNzBqUqQd?=
+ =?us-ascii?Q?I5queVYCHBhVVegjLHK/yIOosgQ/K0t8gYXcbfYRytpHXxVEUy5qmHVHkrMI?=
+ =?us-ascii?Q?CTToLOO3DC0pbu5A2PohS9Osa8KTMjqv0VkrUah6NkJxFvD+wskRfUUYEcyB?=
+ =?us-ascii?Q?8RTb7ReFh0PL2ReIqz2jSyNhZbrYkHIl1Q0GiGD0540FMjmr3xV16I/RuoUq?=
+ =?us-ascii?Q?Yjb8Gkn26L6ksPdk4u73PIYdbWpHgaZcFsNpJa5fySCk+UGDM4R5SNcvA4+H?=
+ =?us-ascii?Q?QCBEnSdzbTKIbEhomp0utThM1iStSwEJdfM/y0U3xXt1jo044bqyb4XHalMF?=
+ =?us-ascii?Q?Z4rLgq17imODOzGJxnuCyuFJqzIBuuNuDZQZjTgpWdD8UcYqJABXHcg6u3cA?=
+ =?us-ascii?Q?5MfTVwTBcAyefr1j6RMW+FuX9GByxIDijpiiVVuL1kEaDVYUOjqateGEtQfg?=
+ =?us-ascii?Q?jjwwlchdHV+Q2uGUyjzP6XZi3LfpBWswr4vfKPiFHlgypQAejYjrmCMdO01T?=
+ =?us-ascii?Q?Msu7xRTm4OE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW6PR12MB8663.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yvMhjiT6++/ExQyCEHIeDH0BRwhTKa9Azya8O0Tt8AFZPFgUmuQLYEM2NERC?=
+ =?us-ascii?Q?oA2j6hliR8pVMJ/eGfc92OVulao4Vbf99wDUVgVuHBMda5H2Fr/kJXB5zHpu?=
+ =?us-ascii?Q?XAjMG8c2MfOXlSJfoypp4JYK3ZfQ4uD5/Hlaa/NlriWT6+zWPO6MWeRIzH5N?=
+ =?us-ascii?Q?8REjLU5Epv2y8O5IEhrLeAcruom7jMOBPlc0xwku+De6pDLfMrC+9OmwFSQZ?=
+ =?us-ascii?Q?txDAShus/FL3J9JzjQGKfG0ZJs6kXazqYH9Ylww6mEbU700T/Q/CNAIvW+te?=
+ =?us-ascii?Q?xUklcO87f0S5o+XRl3xyStA/UGlqRMuvZ5VO5ssKsqbQOomgmcvn33WtGbpp?=
+ =?us-ascii?Q?ipnO+PIDEe61GK78KET47O3ujZSOm/0AKaTeeRexIUzV/84nQbblJnFpCgMK?=
+ =?us-ascii?Q?ni3TmSrkbabgGW9Fuk9COQEQlfFJM+lkxcJll2qiN52cRpssCu3bStNIoEUe?=
+ =?us-ascii?Q?fB29kqdtpHzTAS7PsK40mldcSJke81RIH4s2dnItDK3UV4NA7qhvxabBimKX?=
+ =?us-ascii?Q?hU9L8ibgKJbWgVK5PdwilrlxXuxZAoematRGy9fJ3RnOv10/cMq89/56/3pu?=
+ =?us-ascii?Q?rYFi8bslteSpNcf3WVFu0YVDE//Ai+yM/DwgF6zbktK3F6Lqzd+8riiGZT5L?=
+ =?us-ascii?Q?MHYU0qBApnsXXMreQuUTlE+STEBCZyZAEQlYc1Bbwov8zgy/0YhBH/TBICbL?=
+ =?us-ascii?Q?Ey/TA+EF2sL4qdE3/GeeFcOUNwdsOxoqAmlkPodKSQiNrVIF9KM/BEPBunwM?=
+ =?us-ascii?Q?LB56Bv/k6rH7ToJEO6JPy/gYvQIygH9ssB5dMIUphFrbRrQ5NazFXm+ShD5h?=
+ =?us-ascii?Q?Hr2imsVQoborHKmuxXFGh78e00lhkxmAJnErL7i50/dGdEn5/WmZumFrfiKQ?=
+ =?us-ascii?Q?eUC+o2MRdq6tWCgDx9XlhiZRH+QLi/v1/uSdrsR//lLiBGaarzmxcvmq9gKZ?=
+ =?us-ascii?Q?fuLLkIhMHBpHJSEdMdZr1hvnxwHQV2336uqVjTeIoqvU0eMZJmfp6z1wT1vx?=
+ =?us-ascii?Q?RcceUYY12yvebzFMmQkJF13KLo+lu6ellJyiAir+yCEbGixqaafAS0hTAdhQ?=
+ =?us-ascii?Q?IGxaoexix1pbs30VY9siC2DTAkTToTHRSoLqX9DgRFsHGdn0gdtIrCyVq+wF?=
+ =?us-ascii?Q?KmEPiNr5HFd3ABs9qWGzbEqsKTayTKlBxHWCKAg93faART3euL2o/gavU4j3?=
+ =?us-ascii?Q?yGtPvKmhWQtbHfkhNpDR2DkX8Y5+zJ+N50p/QHE3Pmh77IHzY0xOXCNa9gsM?=
+ =?us-ascii?Q?H2hiVzTqZ1ZXurA05ysk2YXB4n+6+yS281uhYAeacKQw8yXWaiaGUV7faBd8?=
+ =?us-ascii?Q?ZhzKDavLpaUD0LSujr/4RljozD0c2iOg8/fQvW+P+vxMbRv31jv+nhkGoyTn?=
+ =?us-ascii?Q?Yn6+NSNwUstSUMYAbx24m1/PNf7u3SWGpt0B/2/Sb0wDCX3tT3gE1lldNBH+?=
+ =?us-ascii?Q?YW3yq3pAKcdN7xJuXLQgjRDFmX7BNlb752W8BF7hNlfDIz9EvGIxHZTHWVKD?=
+ =?us-ascii?Q?XG3neKCJ62+gcRzXM1n9j6WG0c9tXpfDjGS8UjcHipAIBPoqUmju3PyKNxPx?=
+ =?us-ascii?Q?L3sg8vStSXTj+ysYXAIbSWdcGqiWt7XNHmjH7a6d?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 152382b4-fda9-4412-6998-08dd5d743092
+X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8663.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2025 12:32:57.0314 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iJoqvDFTuuJ3YjYWB38mSAwxbqgdhDV3bycoJ42f9qcXksELnmNOCm4JKFXAAeZs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6288
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,70 +161,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On March 7, 2025 4:13:26 AM PST, Ingo Molnar <mingo@kernel=2Eorg> wrote:
->
->* Jiri Slaby <jirislaby@kernel=2Eorg> wrote:
->
->> On 07=2E 03=2E 25, 12:38, Ingo Molnar wrote:
->> >=20
->> > * Jiri Slaby <jirislaby@kernel=2Eorg> wrote:
->> >=20
->> > > On 06=2E 03=2E 25, 17:25, Kuan-Wei Chiu wrote:
->> > > > Change return type to bool for better clarity=2E Update the kerne=
-l doc
->> > > > comment accordingly, including fixing "@value" to "@val" and adju=
-sting
->> > > > examples=2E Also mark the function with __attribute_const__ to al=
-low
->> > > > potential compiler optimizations=2E
->> > > >=20
->> > > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
->> > > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
->> > > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail=2Ecom>
->> > > > ---
->> > > >    include/linux/bitops=2Eh | 10 +++++-----
->> > > >    1 file changed, 5 insertions(+), 5 deletions(-)
->> > > >=20
->> > > > diff --git a/include/linux/bitops=2Eh b/include/linux/bitops=2Eh
->> > > > index c1cb53cf2f0f=2E=2E44e5765b8bec 100644
->> > > > --- a/include/linux/bitops=2Eh
->> > > > +++ b/include/linux/bitops=2Eh
->> > > > @@ -231,26 +231,26 @@ static inline int get_count_order_long(unsi=
-gned long l)
->> > > >    /**
->> > > >     * parity8 - get the parity of an u8 value
->> > > > - * @value: the value to be examined
->> > > > + * @val: the value to be examined
->> > > >     *
->> > > >     * Determine the parity of the u8 argument=2E
->> > > >     *
->> > > >     * Returns:
->> > > > - * 0 for even parity, 1 for odd parity
->> > > > + * false for even parity, true for odd parity
->> > >=20
->> > > This occurs somehow inverted to me=2E When something is in parity m=
-eans that
->> > > it has equal number of 1s and 0s=2E I=2Ee=2E return true for even d=
-istribution=2E
->> > > Dunno what others think? Or perhaps this should be dubbed odd_parit=
-y() when
->> > > bool is returned? Then you'd return true for odd=2E
->> >=20
->> > OTOH:
->> >=20
->> >   - '0' is an even number and is returned for even parity,
->> >   - '1' is an odd  number and is returned for odd  parity=2E
->>=20
->> Yes, that used to make sense for me=2E For bool/true/false, it no longe=
-r does=2E
->> But as I wrote, it might be only me=2E=2E=2E
->
->No strong opinion on this from me either, I'd guess existing practice=20
->with other parity functions should probably control=2E (If a coherent=20
->praxis exists=2E)=2E
->
->Thanks,
->
->	Ingo
+On Fri, Mar 07, 2025 at 11:28:37AM +0100, Simona Vetter wrote:
 
-Instead of "bool" think of it as "bit" and it makes more sense 
+> > I wouldn't say it is wrong. It is still the correct thing to do, and
+> > following down the normal cleanup paths is a good way to ensure the
+> > special case doesn't have bugs. The primary difference is you want to
+> > understand the device is dead and stop waiting on it faster. Drivers
+> > need to consider these things anyhow if they want resiliency against
+> > device crashes, PCI link wobbles and so on that don't involve
+> > remove().
+> 
+> Might need to revisit that discussion, but Greg didn't like when we asked
+> for a pci helper to check whether the device is physically gone (at least
+> per the driver model). Hacking that in drivers is doable, but feels
+> icky.
+
+I think Greg is right here, the driver model has less knowledge than
+the driver if the device is alive.
+
+The resiliency/fast-failure issue is not just isolated to having
+observed a proper hot-unplug, but there are many classes of failure
+that cause the device HW to malfunction that a robust driver can
+detect and recover from. mlx5 attempts to do this for instance.
+
+It turns out when you deploy clusters with 800,000 NICs in them there
+are weird HW fails constantly and you have to be resilient on the SW
+side and try to recover from them when possible.
+
+So I'd say checking for a -1 read return on PCI is a sufficient
+technique for the driver to use to understand if it's device is still
+present. mlx5 devices further have an interactive register operation
+"health check" that proves the device and it's PCI path is alive.
+
+Failing health checks trigger recovery, which shoot downs sleeps,
+cleanly destroys stuff, resets the device, and starts running
+again. IIRC this is actually done with a rdma hot unplug/plug sequence
+autonomously executed inside the driver.
+
+A driver can do a health check immediately in remove() and make a
+decision if the device is alive or not to speed up removal in the
+hostile hot unplug case.
+
+Jason
