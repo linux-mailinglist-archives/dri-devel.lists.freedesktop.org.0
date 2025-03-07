@@ -2,50 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14085A569F2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:06:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC9AA56AB5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:43:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 465AE10EBC0;
-	Fri,  7 Mar 2025 14:06:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B069110E059;
+	Fri,  7 Mar 2025 14:43:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="MHwg6mD5";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="H5qbbPjt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9468910EBC9
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 14:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=UBQ6q3i2ePjT2i8U7tBuzMQdDLItSqljC2sOjafdBNw=; b=MHwg6mD546FqX8Qj
- TTP1dLVNaTx/Us4Jukg/gkx3CPbq9+KmF18KUfEyNmQARN+9/JlkGWgYJ/vydPZsvCMCrqwYTDjG1
- yWPWAei5PZFGyapLmjmB9VIyCypdeDm/SIjSn6d8Qw+fyNNNKNBBn/AxPIZi6dfa+oWVnWZT1UxAG
- sucV4PDp3n+rMZH8mvQO/6al7/VEhUdjVKLekXH5+KWg55EVrmMAEVVnuxCbYOVa/fv8NbEd/hkAy
- GNrdja++lzROCpZDPNbBiHzRXQoJYPuzpmqo1qzhOrWogkE59ADqBe5qO0p1hWzvhzHL5mhaW8LFZ
- M6uvPM+z3/DTLgJvJQ==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1tqYLQ-003Phw-2S;
- Fri, 07 Mar 2025 14:06:32 +0000
-Date: Fri, 7 Mar 2025 14:06:32 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/gma500: Remove unused mrst_clock_funcs
-Message-ID: <Z8r9aE0mtb9_R0p8@gallifrey>
-References: <20250306155155.212599-1-linux@treblig.org>
- <CAMeQTsaNfQJ=OgWXwQ2bAxa1xbbQxAWDYEcokQ3VJE_EApPbzQ@mail.gmail.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9CD710E059
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 14:43:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741358583; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=H2fVjMOkffjiXvmG9xCg+vJ5+D2gXdLKyb+3nVIx0w7Y8oc/NQA+Npd4YdcAU2cjvYW9oayBTFAzGg6zemDQU+AbbTVcJM5UIGt/LwDUTVBifVBC08l3do0L9gw6S9P/Op5wFeiCpQvcsCOA3yZdjOXaRlpxqMmAaJMxHrrJcIw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1741358583;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=CdJvEDvfRKKZ2s8djvWjkSeJlfVd33yZekSI5wpoUVk=; 
+ b=Dz090sNog6EqHV8IaoNTUYJKv0JBoUOGmWYUmzITILdLgQLtzf4dbVz6hnrBnuzfZePfFWi+Uv/cDKvL7APjWgB5Egx7eb+Ck7rgZXu01yCBZnV/i9rdXOPZ7BBxm/zQGgudDy9uhMnMsGZScrckNFGm0RH5SeerOgewitqRuUY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741358583; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=CdJvEDvfRKKZ2s8djvWjkSeJlfVd33yZekSI5wpoUVk=;
+ b=H5qbbPjtjkWxP1tT0TTm2M2feba/uGdT1fZWNQK3uC1iJMkfsdR3R3R6dY24QyF2
+ vl5lPEZiHaum/w20nvD7KzwRC2aFM0WJOueqKR+hhdp9IMIw+S8FNxSOm9zOU1KxkXe
+ 4Tc7WB4wPQn483lML/NIH98xhfcmeBWwnsk0ILcU=
+Received: by mx.zohomail.com with SMTPS id 1741358581890942.2723624374091;
+ Fri, 7 Mar 2025 06:43:01 -0800 (PST)
+Message-ID: <46456505-0267-4274-a8e4-35c6ece420e5@collabora.com>
+Date: Fri, 7 Mar 2025 11:42:56 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMeQTsaNfQJ=OgWXwQ2bAxa1xbbQxAWDYEcokQ3VJE_EApPbzQ@mail.gmail.com>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 14:06:22 up 303 days,  1:20,  1 user,  load average: 0.03, 0.01, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/4] drm/panfrost: Support ARM_64_LPAE_S1 page table
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robh@kernel.org, steven.price@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+References: <20250226183043.140773-1-ariel.dalessandro@collabora.com>
+ <20250226183043.140773-4-ariel.dalessandro@collabora.com>
+ <20250227093030.1a45b4b7@collabora.com>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250227093030.1a45b4b7@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,57 +70,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Patrik Jakobsson (patrik.r.jakobsson@gmail.com) wrote:
-> On Thu, Mar 6, 2025 at 4:52 PM <linux@treblig.org> wrote:
-> >
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> >
-> > The mrst_clock_funcs const was added in 2013 by
-> > commit ac6113ebb70d ("drm/gma500/mrst: Add SDVO clock calculation")
-> > and commented as 'Not used yet'.
-> >
-> > It's not been used since, so remove it.
-> > The helper functions it points to are still used elsewhere.
-> >
-> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Boris,
+
+On 2/27/25 5:30 AM, Boris Brezillon wrote:
+> On Wed, 26 Feb 2025 15:30:42 -0300
+> Ariel D'Alessandro <ariel.dalessandro@collabora.com> wrote:
 > 
-> Applied to drm-misc-next
+>> Bifrost MMUs support AArch64 4kB granule specification. However,
+>> panfrost only enables MMU in legacy mode, despite the presence of the
+>> HW_FEATURE_AARCH64_MMU feature flag.
+>>
+>> This commit adds support to use page tables according to AArch64 4kB
+>> granule specification. This feature is enabled conditionally based on
+>> the GPU model's HW_FEATURE_AARCH64_MMU feature flag.
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> ---
+>>   drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
+>>   drivers/gpu/drm/panfrost/panfrost_mmu.c    | 118 +++++++++++++++++----
+>>   drivers/gpu/drm/panfrost/panfrost_regs.h   |  29 +++++
+>>   3 files changed, 128 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> index cffcb0ac7c11..dea252f43c58 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> @@ -153,6 +153,7 @@ struct panfrost_device {
+>>   };
+>>   
+>>   struct panfrost_mmu {
+>> +	void (*enable)(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
+> 
+> The enable sequence is the same, it's just the transtab, memattr and
+> transcfg values that differ depending on the format, so let's prepare
+> them at panfrost_mmu init time, and cache them here.
+
+Agreed. AFAICS, this would be:
+
+Add the following to struct panfrost_mmu:
+
+struct {
+	u64 transtab;
+	u64 memattr;
+	u64 transcfg;
+} cfg;
+
+and have it initialized in panfrost_mmu_ctx_create().
+
+For consistency, we should do this for both modes MALI_LPAE and 
+AARCH64_4K. As for the MALI_LPAE case, I'd move out the initialization 
+done in drivers/iommu/io-pgtable-arm.c for:
+
+struct {
+	u64     transtab;
+	u64     memattr;
+} arm_mali_lpae_cfg;
+
+I'll send a proposal for this in the next patchset v1.
 
 Thanks!
 
-Dave
-
-> Thanks
-> 
-> 
-> > ---
-> > v2
-> >   commit message fixed to use correct struct name, and add
-> >   note about the functions used still being used.
-> >
-> >  drivers/gpu/drm/gma500/oaktrail_crtc.c | 7 -------
-> >  1 file changed, 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-> > index de8ccfe9890f..ea9b41af0867 100644
-> > --- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
-> > +++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-> > @@ -658,10 +658,3 @@ const struct drm_crtc_helper_funcs oaktrail_helper_funcs = {
-> >         .prepare = gma_crtc_prepare,
-> >         .commit = gma_crtc_commit,
-> >  };
-> > -
-> > -/* Not used yet */
-> > -const struct gma_clock_funcs mrst_clock_funcs = {
-> > -       .clock = mrst_lvds_clock,
-> > -       .limit = mrst_limit,
-> > -       .pll_is_valid = gma_pll_is_valid,
-> > -};
-> > --
-> > 2.48.1
-> >
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
+
