@@ -2,150 +2,188 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52517A567E0
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 13:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EC1A56803
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 13:41:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3629D10E182;
-	Fri,  7 Mar 2025 12:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFFF10E187;
+	Fri,  7 Mar 2025 12:41:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lPeFiW15";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZpTaY4hX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2082.outbound.protection.outlook.com [40.107.244.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEC610E182;
- Fri,  7 Mar 2025 12:33:04 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1ADC10E183;
+ Fri,  7 Mar 2025 12:41:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741351276; x=1772887276;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=OMHjOLhEFun8vHXZ5sQZVjl7VVnL664ayJTfVsuXMVI=;
+ b=ZpTaY4hXtq70WP/4nh9tpG8nC4/hbiFbBq6/CLIG2Xpb3Oirx8gNnQrE
+ 0FF3f8KKV5RBQPSa6SGcHcwKrDyKXpXkHfZ6bvfZrt7mnulglttyFKWb+
+ JoTjXATarOm50leqpEKYYayDx3mC9yL2gKWPMNbZjmjhQ+AV2ShNB4OT5
+ wFapNHN0YUXeC4jwod2D7mSDtT6RifSMVvrwi20JY6u/Z1CXYgL3HVe2N
+ M2oGFL97MMRc2htLs/VlpfSimGUCLelEeu2t0iFsr7GYQxqGJUeZ9T5OA
+ jGX9Sik5FHL9yehwTGka+v/X10rp4hKUNPosCaZA2eof2maUmE5zNhsyV w==;
+X-CSE-ConnectionGUID: UTIGIa0dQFSVxdr7mnsHLw==
+X-CSE-MsgGUID: lRiBBCJKQRKW44gQa2A9ng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="46323184"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="46323184"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2025 04:41:15 -0800
+X-CSE-ConnectionGUID: W+gpwsZFRBCTxjMWivw/fQ==
+X-CSE-MsgGUID: uJZH0wfgQ/yj9x6X3JFBSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="119311731"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2025 04:41:15 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Fri, 7 Mar 2025 04:41:13 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Fri, 7 Mar 2025 04:41:13 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.174)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 7 Mar 2025 04:41:13 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=syXqGrrS/uKpE430lwtDIs56TSkhuR0avotvC8f8bo62k8L3kIZalLI6bB+agB20SR4J8Ej+91A6yQQAOVcDRwEf00VDLKY/oCdb1IPb+0RIcT54wjp7NzTT/73TdWn9FH/n9/lKIG5f8IFGRcLpSIWWAM9CMC2VA1ccQbXyiTH75Rr7KYw2Y+GtiVKGguj/pAbD36XM02QvZCrpaOpMu2djV/2A9OEYCBuXa7SLLHAiGmROXyPHjoYwNlBzgwFjLYO3N6As8Ojh/Z2UrvCeFvWkF3vWtb46wFSWii9OoyxpRUQjlJ8eY/RP0XZrPrcD/pWxI/1t/xBzNSuFh1bkqw==
+ b=dLIxtjxIvBixnxUEmjuxS+vqihboMR+gGlnFI+B5KyaflDo99dZcfJc1Bh5xVfYHLbq7FR8Z8KOBz9reCothq2lR3shpEm6pQk5dF+brS7yXIIrZQh5KTCo56ODVa9P7ojBjq8txxcEm45EtFccsRS4bXSu3kemu/Z84ehR3D5tVbqLNPnPCtwTRdtQTQqyeyHCWh+71WqE9ovf59dqsUKGfVBHEOFbMTxAB+j9Ftjj4Q8F3nXS0xXduxkVbW1avw6nzpROJDjetEckerHi8v7bTAIpKWt+BwhevGfmhQ0OxvPLCZl3RV0ZFXSz9+d2ENZPzJfKwQSgBskUy/7gMNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PLvAiD0JhA+JB6QAtcfODrDKZ+dYHKv4DhAZlXdNivI=;
- b=rOudph8qf87ZaDwBWHwFpNds4e3G+FT/o8igFDWJP4jFwKBP75WeXhONErlzI8bRUx1SnyUv8xp8ixqMNMLlnZAu3tk092HbE6XT+IOfB0Ho8PHreFKNvCRgs6qN40aSzLQIJXr8OdbkihhtLnvof+mBzVwr4WLAkM2bEa6RNX7/E3HADNqjLnr5jo7Bbu2wyM5OaT1OfjG3pHIOgUYd0LsRocDu1BqOJ45PoAuo6fw7hqbg75xxXdpXRh4VpNheeRFrV+2ajroQ7SMGKAaVaAjywyzTs6lYjCXGCpeotMeykupl/c5+R7/+ZSbXiM1jZHQlHazDqtXXc9YD/ImpoQ==
+ bh=Z/BHKftyDt2pCwMpWfi1C79MOV/CCg/mRxtLVX/BrY0=;
+ b=lVp0Hv0E8aFgZjLq3gq4wig33rhQcI/mJpmXcrM0+b1js4AjiegCpqkLoxISKlMbFuBPpW3g8+zl1mDhtIhb9xAvWcgvpJu/cD1EzlFOTj37ELlKTQwfgPn89gTMpiGvYLzdYYaAX03Pi8sVInNVKSyaPR2o5kEojlmuakJ9G5D02TS1BL4Cpb2lZokaU4Mk6Qo7bofBnjGgCQSkUhdw0PrIQEvVCxG7S/JCWQQC9+bwPi8TrCZcM1RO3F4jxCc4d40pZkG6blyAiiRQPm7Zfo9sE4PhFQe2NZAxE3LTptbwIcHRw6SvDXGneC0jZFXalUHd9x8625v6/HjA9DFJ6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PLvAiD0JhA+JB6QAtcfODrDKZ+dYHKv4DhAZlXdNivI=;
- b=lPeFiW1594AvEs8KWVmEKsTGWwY5b9YkRYQ3UL9sZRgg35O4xfBwwoup1DV3b4NJtYkP1v1L517LA3VDFzNw9KIvihvCIycwkWh2v6xB6mRA09SQtHKivZf4zXBZNF0tkmj78P0+/jQoXAK5EyAoV+5mLjHSEXAh0ky9/0kD3l2Eeta67J/jLXVQMdF0RixN4x0/Y0S4GZEdk2sUpBzHp34rejvxUm5GHkBAi/gQXt2CyNd1gev/kFfmHz1G5Xf2E1MvLbijva7unEAmuRdJZ8uG8s3sJB3LDV/suzsKogIKIQeC7mIlOePRl+uu2PY+CFB8R8EcLcjiBxWEPDy5NQ==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW6PR12MB8663.namprd12.prod.outlook.com (2603:10b6:303:240::9)
- by DS7PR12MB6288.namprd12.prod.outlook.com (2603:10b6:8:93::7) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7904.namprd11.prod.outlook.com (2603:10b6:8:f8::8) by
+ DM4PR11MB7253.namprd11.prod.outlook.com (2603:10b6:8:10f::18) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8511.17; Fri, 7 Mar 2025 12:32:57 +0000
-Received: from MW6PR12MB8663.namprd12.prod.outlook.com
- ([fe80::594:5be3:34d:77f]) by MW6PR12MB8663.namprd12.prod.outlook.com
- ([fe80::594:5be3:34d:77f%2]) with mapi id 15.20.8511.017; Fri, 7 Mar 2025
- 12:32:57 +0000
-Date: Fri, 7 Mar 2025 08:32:55 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: John Hubbard <jhubbard@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <20250307123255.GK354511@nvidia.com>
-References: <D82UB3V6NZ55.3OEPPW2W8MFZV@nvidia.com>
- <Z8GViQzZJVFPxfNd@phenom.ffwll.local>
- <20250228184013.GF39591@nvidia.com>
- <Z8cmBWB8rl97-zSG@phenom.ffwll.local>
- <20250304164201.GN133783@nvidia.com>
- <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
- <20250305151012.GW133783@nvidia.com>
- <Z8l8HgZOV7sDWqBh@phenom.ffwll.local>
- <20250306153236.GE354511@nvidia.com>
- <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
-X-ClientProxiedBy: BL1PR13CA0274.namprd13.prod.outlook.com
- (2603:10b6:208:2bc::9) To MW6PR12MB8663.namprd12.prod.outlook.com
- (2603:10b6:303:240::9)
+ 15.20.8511.19; Fri, 7 Mar 2025 12:41:06 +0000
+Received: from DS0PR11MB7904.namprd11.prod.outlook.com
+ ([fe80::f97d:d6b8:112a:7739]) by DS0PR11MB7904.namprd11.prod.outlook.com
+ ([fe80::f97d:d6b8:112a:7739%2]) with mapi id 15.20.8511.017; Fri, 7 Mar 2025
+ 12:41:06 +0000
+Message-ID: <890216ca-e30c-4573-a9ef-14ed1e39ae07@intel.com>
+Date: Fri, 7 Mar 2025 14:39:45 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/6] drm/xe/xe_vm: Add per VM pagefault info
+To: Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ <intel-xe@lists.freedesktop.org>
+CC: <saurabhg.gupta@intel.com>, <alex.zuo@intel.com>,
+ <joonas.lahtinen@linux.intel.com>, <matthew.brost@intel.com>,
+ <jianxun.zhang@intel.com>, <shuicheng.lin@intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20250304170854.67195-1-jonathan.cavitt@intel.com>
+ <20250304170854.67195-4-jonathan.cavitt@intel.com>
+Content-Language: en-US
+From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+In-Reply-To: <20250304170854.67195-4-jonathan.cavitt@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MI2P293CA0006.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:45::18) To DS0PR11MB7904.namprd11.prod.outlook.com
+ (2603:10b6:8:f8::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW6PR12MB8663:EE_|DS7PR12MB6288:EE_
-X-MS-Office365-Filtering-Correlation-Id: 152382b4-fda9-4412-6998-08dd5d743092
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7904:EE_|DM4PR11MB7253:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4526cac-61aa-4cca-bd55-08dd5d755405
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Kf+RVKuR0mNmFCkGA9+mQOLTK/OoFrh1tLA4A8fyXfxm0+ckLSmOQbe5M8u5?=
- =?us-ascii?Q?Lq0673j3p1PEls+f+KeWWREV9sYS5g6RNrdLGtM9wR0fxk0jtMwBklxb63td?=
- =?us-ascii?Q?idkU1S5rScRG+WjT5RuFECln75kElRVUl94kmBXpMrv17HlChPF5Q9UCaqqR?=
- =?us-ascii?Q?DAuiN6I/svbOGFoskFhvSAIg9GYN1PHZr954jY5ggXyHQbQCaeg3By3DII/Q?=
- =?us-ascii?Q?/TSn209DogLblWeKtacv0uXRUqSOj6OQdiN+JiSF7piYPpE352bUkKusa3FG?=
- =?us-ascii?Q?5vgeYj1gZAUXQJFx9Pat/N0ro2E3aZfV5vMceJLuwoZ1VGTYVclEQl3Xn9qC?=
- =?us-ascii?Q?uLlONXKNnl3LP4PtT9zeaJ1avGGr23FegTTnlpKwh5XjH0/xFm+8gww7AZIx?=
- =?us-ascii?Q?noWJLitADaz1c8sAuA3U8mSFSmyUTjOW6T9RWuDlQL83zM8GIwtefDqkm3OB?=
- =?us-ascii?Q?eypsQDeY2Ie1IHMa3sKbH7ZTlz+7cY+abZNOasoKGGRSIZN9g6TKXMBb4EqL?=
- =?us-ascii?Q?p3ZbmSUJUxFTvteNCMOq92QaBnah2Qgsfz6jPU3XgW/PIxus+ewS8yGKsLif?=
- =?us-ascii?Q?CWTSbB1LZ2VN9JhfUA8yIW34UAyKrkB/tkSUExY5Rdj34QhP0LGXv3ld0in6?=
- =?us-ascii?Q?hi7NjhEmrYTN9Vxhie+GP8Jp7t+pbZobNVa6AcZiiLNzfLJaWRsefdYs3JJC?=
- =?us-ascii?Q?CGc1GYkwB5xZXYJnJ5nTo4bdx6C6kLk4kZ7sKqLeLmK/lBNoIBnhupd+V+fU?=
- =?us-ascii?Q?YkeKZsRyVOt8Fp8zevKHnb1rPRgGOnqUtk3J83LQdfqOQw4EMfU0ITBdEyKc?=
- =?us-ascii?Q?StUzmDGa0Hsg0R9hPDVYK3dDEEG6ZNSdWaM7wqqlGkmJqDNC5ww9W3BEzTba?=
- =?us-ascii?Q?bq/RXYjhTkG0wQxboRgO3s24bmmytfLhizATmulXKvndvjKLOFldNzBqUqQd?=
- =?us-ascii?Q?I5queVYCHBhVVegjLHK/yIOosgQ/K0t8gYXcbfYRytpHXxVEUy5qmHVHkrMI?=
- =?us-ascii?Q?CTToLOO3DC0pbu5A2PohS9Osa8KTMjqv0VkrUah6NkJxFvD+wskRfUUYEcyB?=
- =?us-ascii?Q?8RTb7ReFh0PL2ReIqz2jSyNhZbrYkHIl1Q0GiGD0540FMjmr3xV16I/RuoUq?=
- =?us-ascii?Q?Yjb8Gkn26L6ksPdk4u73PIYdbWpHgaZcFsNpJa5fySCk+UGDM4R5SNcvA4+H?=
- =?us-ascii?Q?QCBEnSdzbTKIbEhomp0utThM1iStSwEJdfM/y0U3xXt1jo044bqyb4XHalMF?=
- =?us-ascii?Q?Z4rLgq17imODOzGJxnuCyuFJqzIBuuNuDZQZjTgpWdD8UcYqJABXHcg6u3cA?=
- =?us-ascii?Q?5MfTVwTBcAyefr1j6RMW+FuX9GByxIDijpiiVVuL1kEaDVYUOjqateGEtQfg?=
- =?us-ascii?Q?jjwwlchdHV+Q2uGUyjzP6XZi3LfpBWswr4vfKPiFHlgypQAejYjrmCMdO01T?=
- =?us-ascii?Q?Msu7xRTm4OE=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bjM2YmM5M3BNZHVKQUpYVms3UlZxdFhzMGplMWJaM3BnenJ4NGtpRzdxK3hl?=
+ =?utf-8?B?cnpQWHlwQjBpcVpzR0hsbzZSZ2FENnRtUEdSUXdJQzV4a0RDMGdsOEtlMWVz?=
+ =?utf-8?B?anVQV21qRGxIUms3bU9VWXRwNmxxNWNBMGlzUmM3WnQwUnM0TXlnRTh2YkM5?=
+ =?utf-8?B?SExNZys4UVRselVJYWZUaUVtU2xYNEJwL3l1SzJDaXpQaGFSdFluazV0bm5m?=
+ =?utf-8?B?TkR4YjN3YWg4b3NEL210L1VHY0lEaFNQRDJ6TzlMdCtlZitwR21GM24vZGlz?=
+ =?utf-8?B?Y0NCeWZOa0hZQTRTTHBxZGE3MzZ4aWNrY3licnBRbE1aR2lZTWJFUDNSZHNJ?=
+ =?utf-8?B?VnlFZ0w5cWxXTzVSNmpqME10VzAvdlZocDUvOGphaVJ5WXRlZDdWRXBmcW9L?=
+ =?utf-8?B?dTVLUVRIc1Fmby85NFN6T0xIYTk3dHVBd1orMmNUb3gyaHlDK2xOUUFEWXdR?=
+ =?utf-8?B?czZrdm04WGtPdi95RE8zOVhwS0xHcUIxYXNlb0tmTDhyMWtWdk1IRG9UVDhm?=
+ =?utf-8?B?eEhxWjVzL0pGa0VKK2p1bVFId2I1UjhkU0wzM2JvWW9MNk5XTTB0dmp6eFhk?=
+ =?utf-8?B?L0J4aUZYQVUyL1ZQS2svQlh3R21FQTJRbC9ubHlUUVhNZjF0QnBSYmhrM29Z?=
+ =?utf-8?B?MHdIaFlYNFFMVzFLditZUXVnV255UE5xaWJRbXpLZFVxZ2tYRWJhM3ZlQVln?=
+ =?utf-8?B?Z0tCNTdnSHh5aXY3eWcxQlIxMkRkT0piMUxBZkpZS1V6WEttRXU0NEVQbDB0?=
+ =?utf-8?B?aVQwa0lQaVZnWjFjTXpYV0h2bXZ1NUpFbzJMaXZPTnF4VTBQWTBKaFlLdWpa?=
+ =?utf-8?B?RjdVRUJOUmlnOFA2bVN3Q0J5VXRSWFlqZXVTTFZuU3dYMllEcG5EWUQzODJ3?=
+ =?utf-8?B?YWJsMzNic3lnUGY1SE8wWStvaUdNRmdEUmFkMWVQVExCM0dFM2VwaDVya1Ba?=
+ =?utf-8?B?OC9qeUpHMmNDL0p0amkxdnRmSFA2b0tkTTU1UVRHVUU5QUZIQTNWNjRmOEQy?=
+ =?utf-8?B?QVdxTjIwVHpSZ05uV0ZOU25JdVBBNUYwR2VUcTN6THV1bk5qcVU0eUVwV0Qw?=
+ =?utf-8?B?QW5aZkoxVU40d1FZVytxcWpucW1aNXV4OGN2QnBSK2FUVmNFTFUvYTY1b2RG?=
+ =?utf-8?B?TUVxSWVMbzBBbGdISUxsdE5QOFRqaGgvSExVVzhjazhJZkdreTJoYld1RGx5?=
+ =?utf-8?B?UXhIZ29SSlYrZWZhSXNxM1RHMmJKblZvdk4yWkFqUWZtWUkzQjc5dXNhZENZ?=
+ =?utf-8?B?QTBjZng2dGpmN2U0cFlGQkxxbWMyUXAwYzROSlRUYzJsTlYrQms5STZFc0I0?=
+ =?utf-8?B?aHRSRTJQeHlYaDRSbkNyOHl2QUVTSkhjelJxQzVhMFk0cXRDRmFETFZSbm4r?=
+ =?utf-8?B?dWFibG1IRUljb3pKUm1IbWZkcXg1WlJlUVJ3M2VEWEtIdExkOUl4aElqaGZB?=
+ =?utf-8?B?WHBzcGlNU0JaOWl5UUVkWis3ZUU1dGV1Q0RJMTQ0WTBEWHJZSWJHb0Y4cmEw?=
+ =?utf-8?B?Qy95VGtGOVpxOXNBcFp1UzdydS9tUXB5NS9CVDhib2VFSVJ5czhxSGlIN3FL?=
+ =?utf-8?B?ejFxT3phZFVIYW1iek5BSkhaUzdVZzk1WTdLRUlIUzBQR0dUM0tCOUVxWENO?=
+ =?utf-8?B?NUlrVHNvelFCM01mNW5lOVBucFpQa2JuSFZkaFo0OWRBd2RIUVJGeGlneE9W?=
+ =?utf-8?B?VmowWEszMUV4NkJPV2JMcU9UNUoxb20vNzJ5ZlpKYWdUaXRqYVBJcjV0MEJu?=
+ =?utf-8?B?QVZpTFNRbi9jZGRpVEEvZmQwMndkNGRINkVQSXdOU1k4d08rOHBCRmZoOE9D?=
+ =?utf-8?B?Q3lRdXEzZUVZQkJSRk1LOFFHRmZHajdVK3Y2bzdNVDNSSnIwbDZSNkl6ck9k?=
+ =?utf-8?Q?QzYZh9d8UL/bc?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW6PR12MB8663.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020); DIR:OUT; SFP:1101;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB7904.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yvMhjiT6++/ExQyCEHIeDH0BRwhTKa9Azya8O0Tt8AFZPFgUmuQLYEM2NERC?=
- =?us-ascii?Q?oA2j6hliR8pVMJ/eGfc92OVulao4Vbf99wDUVgVuHBMda5H2Fr/kJXB5zHpu?=
- =?us-ascii?Q?XAjMG8c2MfOXlSJfoypp4JYK3ZfQ4uD5/Hlaa/NlriWT6+zWPO6MWeRIzH5N?=
- =?us-ascii?Q?8REjLU5Epv2y8O5IEhrLeAcruom7jMOBPlc0xwku+De6pDLfMrC+9OmwFSQZ?=
- =?us-ascii?Q?txDAShus/FL3J9JzjQGKfG0ZJs6kXazqYH9Ylww6mEbU700T/Q/CNAIvW+te?=
- =?us-ascii?Q?xUklcO87f0S5o+XRl3xyStA/UGlqRMuvZ5VO5ssKsqbQOomgmcvn33WtGbpp?=
- =?us-ascii?Q?ipnO+PIDEe61GK78KET47O3ujZSOm/0AKaTeeRexIUzV/84nQbblJnFpCgMK?=
- =?us-ascii?Q?ni3TmSrkbabgGW9Fuk9COQEQlfFJM+lkxcJll2qiN52cRpssCu3bStNIoEUe?=
- =?us-ascii?Q?fB29kqdtpHzTAS7PsK40mldcSJke81RIH4s2dnItDK3UV4NA7qhvxabBimKX?=
- =?us-ascii?Q?hU9L8ibgKJbWgVK5PdwilrlxXuxZAoematRGy9fJ3RnOv10/cMq89/56/3pu?=
- =?us-ascii?Q?rYFi8bslteSpNcf3WVFu0YVDE//Ai+yM/DwgF6zbktK3F6Lqzd+8riiGZT5L?=
- =?us-ascii?Q?MHYU0qBApnsXXMreQuUTlE+STEBCZyZAEQlYc1Bbwov8zgy/0YhBH/TBICbL?=
- =?us-ascii?Q?Ey/TA+EF2sL4qdE3/GeeFcOUNwdsOxoqAmlkPodKSQiNrVIF9KM/BEPBunwM?=
- =?us-ascii?Q?LB56Bv/k6rH7ToJEO6JPy/gYvQIygH9ssB5dMIUphFrbRrQ5NazFXm+ShD5h?=
- =?us-ascii?Q?Hr2imsVQoborHKmuxXFGh78e00lhkxmAJnErL7i50/dGdEn5/WmZumFrfiKQ?=
- =?us-ascii?Q?eUC+o2MRdq6tWCgDx9XlhiZRH+QLi/v1/uSdrsR//lLiBGaarzmxcvmq9gKZ?=
- =?us-ascii?Q?fuLLkIhMHBpHJSEdMdZr1hvnxwHQV2336uqVjTeIoqvU0eMZJmfp6z1wT1vx?=
- =?us-ascii?Q?RcceUYY12yvebzFMmQkJF13KLo+lu6ellJyiAir+yCEbGixqaafAS0hTAdhQ?=
- =?us-ascii?Q?IGxaoexix1pbs30VY9siC2DTAkTToTHRSoLqX9DgRFsHGdn0gdtIrCyVq+wF?=
- =?us-ascii?Q?KmEPiNr5HFd3ABs9qWGzbEqsKTayTKlBxHWCKAg93faART3euL2o/gavU4j3?=
- =?us-ascii?Q?yGtPvKmhWQtbHfkhNpDR2DkX8Y5+zJ+N50p/QHE3Pmh77IHzY0xOXCNa9gsM?=
- =?us-ascii?Q?H2hiVzTqZ1ZXurA05ysk2YXB4n+6+yS281uhYAeacKQw8yXWaiaGUV7faBd8?=
- =?us-ascii?Q?ZhzKDavLpaUD0LSujr/4RljozD0c2iOg8/fQvW+P+vxMbRv31jv+nhkGoyTn?=
- =?us-ascii?Q?Yn6+NSNwUstSUMYAbx24m1/PNf7u3SWGpt0B/2/Sb0wDCX3tT3gE1lldNBH+?=
- =?us-ascii?Q?YW3yq3pAKcdN7xJuXLQgjRDFmX7BNlb752W8BF7hNlfDIz9EvGIxHZTHWVKD?=
- =?us-ascii?Q?XG3neKCJ62+gcRzXM1n9j6WG0c9tXpfDjGS8UjcHipAIBPoqUmju3PyKNxPx?=
- =?us-ascii?Q?L3sg8vStSXTj+ysYXAIbSWdcGqiWt7XNHmjH7a6d?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 152382b4-fda9-4412-6998-08dd5d743092
-X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8663.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVV2YmhXemNVQzV1RTJLUzNQWEhzOG0xZ1lnTGxybnpVdTJFVzFGNWlyRXRx?=
+ =?utf-8?B?NDcwZmZuVXdRa3A0czBPSTJRT05iNUMrTVBXOFZmSW51Q3dBRWNPN2ZHRW95?=
+ =?utf-8?B?dzVaRmVFeDJNdGJkRHp1MnlNMlVPSDBVWmFZVm01eVFzankva3lta0tiVENi?=
+ =?utf-8?B?NmpneDhyd3dSOEtlZnpLbStEVVAyVWhqUk4ya1MybEhiaDJNdytQckcxWWlw?=
+ =?utf-8?B?eVRTL3UyVTdwTG0wS2dSc2VNMnVrM1FqZ3J2RFVtaUhoZnBrUDNRRklQcDhI?=
+ =?utf-8?B?M0lhQURLSkZtV25OY0RsZGVFdHF1NG40a09tQzJ1VklnWC9vTFlaQ3FoNG4v?=
+ =?utf-8?B?dGNLekc3Z252SDBRUlFPajNrZFhpZ3ZkUkNuTENjNFBrOHU3dmRXaUZrQWl5?=
+ =?utf-8?B?USt5QkpSSTVoVXJmcFFacGpydVFNRHZubkNxR2pTSy9KbWd2aTg5bC9YSjB0?=
+ =?utf-8?B?bWZBeVM2WE9WVGVnL3c4QTNhc2M2SE9jdEFRc2s4WnBPVW1ibjdReHkwakFS?=
+ =?utf-8?B?YTl4VmFpbkZWbWMyTXYwcDdRWC9zdkt0aDhtNUdlcnVXeHlMTWpoRjZSYXFk?=
+ =?utf-8?B?Ynd0TnJpMUdYMUNhMDVvVllvUW9oWE83cGxseHFtQldNK0x1MmkxTkwxQkRR?=
+ =?utf-8?B?NzZjMmdyY2gvaE1oT0hZaE9zK015QXhjdEk1NnVGNjZ3K1RsL1huZnRKaTdD?=
+ =?utf-8?B?c3BIcjlrRUw4Z3lxcFBBRUs4bG5PbmhOdmxOZjV5dUo0Y2xaeTlNYjJSREhU?=
+ =?utf-8?B?MnZ3WWdJRkVHT0UyQXg4SkRla3dKSnJiQmlJOVNVc0RndE5XcEFYbXY3YjNN?=
+ =?utf-8?B?dm82bVU5TkNFM1RINHNSMnNvWTk3OUlxRUtjanRTaTRHbVBrUVdUcVNLZlJ0?=
+ =?utf-8?B?Wk50WWs3OVhnYzE5M2R4M2trd1VHMzRpbDhJU2hJbmhrN210bmFrZHdGS00z?=
+ =?utf-8?B?N1d2dE04VlJjVTJtdTNEUnZBRGRTdllRT0laaVI5WnhjYTkweS9zb0lxeldZ?=
+ =?utf-8?B?Mml5MmNPS3BCZjA5RzcxOHhRWnc5SUJ6SUt1andDMUxnejFwWG9GUExGYUFX?=
+ =?utf-8?B?V043bnpoOU5ZMi85UXFCUmtoRDJwbFczZnIvdjJXUVJDbzlFQmtwQmZIb2N6?=
+ =?utf-8?B?SEFEckhPS0E0RUZzdzc2L2Y3a0ZpTlBLME9BMjdTRzJ4bHAvaW53RUEwcjdm?=
+ =?utf-8?B?bVBqUHpsdW5EakFQZUNBMWg0VStWRnp0SmtmZHhKa0wyNWJOWmxTZWNCUFZn?=
+ =?utf-8?B?SjIrbEQ2OFpISXB6QUFneW1TYTFTQ3AvOUVOOWdmLzRPUG1WZlhhQzAvQVoy?=
+ =?utf-8?B?ekkxY1JJL3ovZVNwQ2VyeFc2NE1rUzdOemlQQ2w5L25IUzlNc1AyN1M2V0JG?=
+ =?utf-8?B?Vnc0RDV0N0EyN3BsRjNQWjhrQ3ZseXFvcWVoRUpZQk9ML2JZNTh1NmRhNkhO?=
+ =?utf-8?B?cXZVZGNlREV0ZmlSMXZZbUFjZjUvbUw4Ykw3dElxVXRuUmtyN1ZUR0hNRTJE?=
+ =?utf-8?B?Y2RnTUNJZzJiT2gvUDRuWml4UDcrOCtRMnB0QS83VWQzT3pENTErZXU1WHFa?=
+ =?utf-8?B?SGY0d05FWjNpd2ZKZXhuSUJXbUJGdlRFTFE3czVORnN3VGVYbktwQWFxUGo1?=
+ =?utf-8?B?ZlVWQmk2eFZRRE5IdjM5QlhSN2k3TUtDcjY0eUREMkl0MDBjbVFiQ09PK25i?=
+ =?utf-8?B?R0srcXBoNnkzSE1WSXEvQVVxSS84RXZkZUN0dWRhd09Mb0hpanh2SzNuYkRB?=
+ =?utf-8?B?aklJWjlaWVVxTjVwU0ZQcitSZkl4L0FrMlNOUnRidUJHdXcvQVh6bmxxMUs2?=
+ =?utf-8?B?OWt4WW1senJmODR4azIwZ09wZlRLbmJhMTRZQmZPUWlWN3dBa290T2xMRDl2?=
+ =?utf-8?B?bG8xZGY3OGNlSVE0Rjd0TC9OaXYvZUxEQXg1L3gxbFI1QUVzYk1CVXFXY0xQ?=
+ =?utf-8?B?L092U20vNk5Cd1lpTTg1Q0JxSVR1cnZBM3A1S3BHQlE5RG8wZkNickFxZldT?=
+ =?utf-8?B?TDVJQWxEMGJkUUVBTUdkZzRXUTZmQjRoRERWdHRFU3lCKzF3NDlxc3RKUldk?=
+ =?utf-8?B?djFXR01MTEtrcWtMY2ZPNWg2TURpdDYxT0lhM21ZUkI0NkNBeCtXWm9RTTJD?=
+ =?utf-8?B?clp1ODdlbDZMTnl2Y2cwUGN6UkhYS2tYSDJFRnhFY3ZJMzJUbisxZmNEa3Mz?=
+ =?utf-8?B?THc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4526cac-61aa-4cca-bd55-08dd5d755405
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7904.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2025 12:32:57.0314 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2025 12:41:06.2563 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iJoqvDFTuuJ3YjYWB38mSAwxbqgdhDV3bycoJ42f9qcXksELnmNOCm4JKFXAAeZs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6288
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9C0bM/e6jBNeONeDffiV+H40JYmxZOV3T+QPAKBqhwxh3+YOBoSChXNXJgL4JTF2Kq6VOLDEq7IEguLLhr0ZwOnd13482xxsFQ35Jb091aM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7253
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,45 +199,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 07, 2025 at 11:28:37AM +0100, Simona Vetter wrote:
 
-> > I wouldn't say it is wrong. It is still the correct thing to do, and
-> > following down the normal cleanup paths is a good way to ensure the
-> > special case doesn't have bugs. The primary difference is you want to
-> > understand the device is dead and stop waiting on it faster. Drivers
-> > need to consider these things anyhow if they want resiliency against
-> > device crashes, PCI link wobbles and so on that don't involve
-> > remove().
+
+On 3/4/25 7:08 PM, Jonathan Cavitt wrote:
+> Add additional information to each VM so they can report up to the last
+> 50 seen pagefaults.  Only failed pagefaults are saved this way, as
+> successful pagefaults should recover and not need to be reported to
+> userspace.
 > 
-> Might need to revisit that discussion, but Greg didn't like when we asked
-> for a pci helper to check whether the device is physically gone (at least
-> per the driver model). Hacking that in drivers is doable, but feels
-> icky.
+The unrecoverable pagefault scenario causes a caterr or context reset. 
+so It would be enough to store one uncoverable pagefault for providing a 
+unrecoverable pagefault details to userspace. how do you think?
 
-I think Greg is right here, the driver model has less knowledge than
-the driver if the device is alive.
+G.G.
 
-The resiliency/fast-failure issue is not just isolated to having
-observed a proper hot-unplug, but there are many classes of failure
-that cause the device HW to malfunction that a robust driver can
-detect and recover from. mlx5 attempts to do this for instance.
+> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/xe/xe_gt_pagefault.c | 17 +++++++++++
+>   drivers/gpu/drm/xe/xe_vm.c           | 45 ++++++++++++++++++++++++++++
+>   drivers/gpu/drm/xe/xe_vm.h           |  6 ++++
+>   drivers/gpu/drm/xe/xe_vm_types.h     | 20 +++++++++++++
+>   4 files changed, 88 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+> index 07b52d3c1a60..84907fb4295e 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
+> +++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+> @@ -335,6 +335,22 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *msg, u32 len)
+>   	return full ? -ENOSPC : 0;
+>   }
+>   
+> +static void save_pagefault_to_vm(struct xe_device *xe, struct xe_pagefault *pf)
+> +{
+> +	struct xe_vm *vm;
+> +	struct xe_pagefault *store;
+> +
+> +	vm = asid_to_vm(xe, pf->asid);
+> +	if (IS_ERR(vm))
+> +		return;
+> +
+> +	spin_lock(&vm->pfs.lock);
+> +	store = kzalloc(sizeof(*pf), GFP_KERNEL);
+> +	memcpy(store, pf, sizeof(*pf));
+> +	xe_vm_add_pf_entry(vm, store);
+> +	spin_unlock(&vm->pfs.lock);
+> +}
+> +
+>   #define USM_QUEUE_MAX_RUNTIME_MS	20
+>   
+>   static void pf_queue_work_func(struct work_struct *w)
+> @@ -353,6 +369,7 @@ static void pf_queue_work_func(struct work_struct *w)
+>   		ret = handle_pagefault(gt, &pf);
+>   		if (unlikely(ret)) {
+>   			print_pagefault(xe, &pf);
+> +			save_pagefault_to_vm(xe, &pf);
+>   			pf.fault_unsuccessful = 1;
+>   			drm_dbg(&xe->drm, "Fault response: Unsuccessful %d\n", ret);
+>   		}
+> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> index 996000f2424e..6211b971bbbd 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.c
+> +++ b/drivers/gpu/drm/xe/xe_vm.c
+> @@ -746,6 +746,46 @@ int xe_vm_userptr_check_repin(struct xe_vm *vm)
+>   		list_empty_careful(&vm->userptr.invalidated)) ? 0 : -EAGAIN;
+>   }
+>   
+> +static void free_pf_entry(struct xe_vm *vm, struct xe_vm_pf_entry *e)
+> +{
+> +	list_del(&e->list);
+> +	kfree(e->pf);
+> +	kfree(e);
+> +	vm->pfs.len--;
+> +}
+> +
+> +void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf)
+> +{
+> +	struct xe_vm_pf_entry *e = NULL;
+> +
+> +	e = kzalloc(sizeof(*e), GFP_KERNEL);
+> +	xe_assert(vm->xe, e);
+> +
+> +	spin_lock(&vm->pfs.lock);
+> +	list_add_tail(&e->list, &vm->pfs.list);
+> +	vm->pfs.len++;
+> +	/**
+> +	 * Limit the number of pfs in the pf list to prevent memory overuse.
+> +	 */
+> +	if (vm->pfs.len > MAX_PFS) {
+> +		struct xe_vm_pf_entry *rem =
+> +			list_first_entry(&vm->pfs.list, struct xe_vm_pf_entry, list);
+> +
+> +		free_pf_entry(vm, rem);
+> +	}
+> +	spin_unlock(&vm->pfs.lock);
+> +}
+> +
+> +void xe_vm_remove_pf_entries(struct xe_vm *vm)
+> +{
+> +	struct xe_vm_pf_entry *e, *tmp;
+> +
+> +	spin_lock(&vm->pfs.lock);
+> +	list_for_each_entry_safe(e, tmp, &vm->pfs.list, list)
+> +		free_pf_entry(vm, e);
+> +	spin_unlock(&vm->pfs.lock);
+> +}
+> +
+>   static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool array_of_binds)
+>   {
+>   	int i;
+> @@ -1448,6 +1488,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags)
+>   	init_rwsem(&vm->userptr.notifier_lock);
+>   	spin_lock_init(&vm->userptr.invalidated_lock);
+>   
+> +	INIT_LIST_HEAD(&vm->pfs.list);
+> +	spin_lock_init(&vm->pfs.lock);
+> +
+>   	ttm_lru_bulk_move_init(&vm->lru_bulk_move);
+>   
+>   	INIT_WORK(&vm->destroy_work, vm_destroy_work_func);
+> @@ -1672,6 +1715,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)
+>   	}
+>   	up_write(&xe->usm.lock);
+>   
+> +	xe_vm_remove_pf_entries(vm);
+> +
+>   	for_each_tile(tile, xe, id)
+>   		xe_range_fence_tree_fini(&vm->rftree[id]);
+>   
+> diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
+> index f66075f8a6fe..4d94ab5c8ea4 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.h
+> +++ b/drivers/gpu/drm/xe/xe_vm.h
+> @@ -12,6 +12,8 @@
+>   #include "xe_map.h"
+>   #include "xe_vm_types.h"
+>   
+> +#define MAX_PFS 50
+> +
+>   struct drm_device;
+>   struct drm_printer;
+>   struct drm_file;
+> @@ -244,6 +246,10 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma);
+>   
+>   int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);
+>   
+> +void xe_vm_add_pf_entry(struct xe_vm *vm, struct xe_pagefault *pf);
+> +
+> +void xe_vm_remove_pf_entries(struct xe_vm *vm);
+> +
+>   bool xe_vm_validate_should_retry(struct drm_exec *exec, int err, ktime_t *end);
+>   
+>   int xe_vm_lock_vma(struct drm_exec *exec, struct xe_vma *vma);
+> diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
+> index 52467b9b5348..10b0952db56c 100644
+> --- a/drivers/gpu/drm/xe/xe_vm_types.h
+> +++ b/drivers/gpu/drm/xe/xe_vm_types.h
+> @@ -18,6 +18,7 @@
+>   #include "xe_range_fence.h"
+>   
+>   struct xe_bo;
+> +struct xe_pagefault;
+>   struct xe_sync_entry;
+>   struct xe_user_fence;
+>   struct xe_vm;
+> @@ -135,6 +136,13 @@ struct xe_userptr_vma {
+>   
+>   struct xe_device;
+>   
+> +struct xe_vm_pf_entry {
+> +	/** @pf: observed pagefault */
+> +	struct xe_pagefault *pf;
+> +	/** @list: link into @xe_vm.pfs.list */
+> +	struct list_head list;
+> +};
+> +
+>   struct xe_vm {
+>   	/** @gpuvm: base GPUVM used to track VMAs */
+>   	struct drm_gpuvm gpuvm;
+> @@ -274,6 +282,18 @@ struct xe_vm {
+>   		bool capture_once;
+>   	} error_capture;
+>   
+> +	/**
+> +	 * @pfs: List of all pagefaults associated with this VM
+> +	 */
+> +	struct {
+> +		/** @lock: lock protecting @bans.list */
+> +		spinlock_t lock;
+> +		/** @list: list of xe_exec_queue_ban_entry entries */
+> +		struct list_head list;
+> +		/** @len: length of @bans.list */
+> +		unsigned int len;
+> +	} pfs;
+> +
+>   	/**
+>   	 * @tlb_flush_seqno: Required TLB flush seqno for the next exec.
+>   	 * protected by the vm resv.
 
-It turns out when you deploy clusters with 800,000 NICs in them there
-are weird HW fails constantly and you have to be resilient on the SW
-side and try to recover from them when possible.
-
-So I'd say checking for a -1 read return on PCI is a sufficient
-technique for the driver to use to understand if it's device is still
-present. mlx5 devices further have an interactive register operation
-"health check" that proves the device and it's PCI path is alive.
-
-Failing health checks trigger recovery, which shoot downs sleeps,
-cleanly destroys stuff, resets the device, and starts running
-again. IIRC this is actually done with a rdma hot unplug/plug sequence
-autonomously executed inside the driver.
-
-A driver can do a health check immediately in remove() and make a
-decision if the device is alive or not to speed up removal in the
-hostile hot unplug case.
-
-Jason
