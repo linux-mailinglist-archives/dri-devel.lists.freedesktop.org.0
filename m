@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6865BA569E3
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:04:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14085A569F2
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:06:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8DC10EBBE;
-	Fri,  7 Mar 2025 14:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 465AE10EBC0;
+	Fri,  7 Mar 2025 14:06:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="DwGKzPBq";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="MHwg6mD5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9177E10EBBE
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 14:04:14 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Z8ShB620xz9ssx;
- Fri,  7 Mar 2025 15:04:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1741356250; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type: content-transfer-encoding:content-transfer-encoding;
- bh=anLulmD0OJDdOodYc4nXV1wUU80sO1SqFOcWb+Yie/E=;
- b=DwGKzPBqqMlqug5z1QRkaKL2rR0md6PaOKcjJmUuK0I8VTzKcmrskbCrEDah8wRPby+1Ne
- o9hKY69tONYRT58O6znTH36bD7jf2HCKkllXucXrR9TiEmeqq94NC46wJ5QsQiqvkKZ/zZ
- 2ywBnyZVSSSvUS9GkJlw+x3TQxfN/T6195kx5Lt1IgiuQcyajRvvl2KxXIahiTgM6GnOca
- O5pJeN5nQTCci/C0F+rNbBsntB9sclzZKY23Z4OSAccTAjlqo2OE6nOQxUvvr2A43cAFLn
- Bp2II9vMaChwxVlYuNhV9zVlHLihIuYPRLFQj43puaW2CoegSFBQoweVS5WnRw==
-Message-ID: <a7655158a6367ac46194d57f4b7433ef0772a73e.camel@mailbox.org>
-Subject: drm_analog_tv_mode: memory Leaks in DRM Kunit Tests
-From: Philipp Stanner <phasta@mailbox.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
-Date: Fri, 07 Mar 2025 15:04:09 +0100
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9468910EBC9
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 14:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+ :Subject; bh=UBQ6q3i2ePjT2i8U7tBuzMQdDLItSqljC2sOjafdBNw=; b=MHwg6mD546FqX8Qj
+ TTP1dLVNaTx/Us4Jukg/gkx3CPbq9+KmF18KUfEyNmQARN+9/JlkGWgYJ/vydPZsvCMCrqwYTDjG1
+ yWPWAei5PZFGyapLmjmB9VIyCypdeDm/SIjSn6d8Qw+fyNNNKNBBn/AxPIZi6dfa+oWVnWZT1UxAG
+ sucV4PDp3n+rMZH8mvQO/6al7/VEhUdjVKLekXH5+KWg55EVrmMAEVVnuxCbYOVa/fv8NbEd/hkAy
+ GNrdja++lzROCpZDPNbBiHzRXQoJYPuzpmqo1qzhOrWogkE59ADqBe5qO0p1hWzvhzHL5mhaW8LFZ
+ M6uvPM+z3/DTLgJvJQ==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+ (envelope-from <dg@treblig.org>) id 1tqYLQ-003Phw-2S;
+ Fri, 07 Mar 2025 14:06:32 +0000
+Date: Fri, 7 Mar 2025 14:06:32 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/gma500: Remove unused mrst_clock_funcs
+Message-ID: <Z8r9aE0mtb9_R0p8@gallifrey>
+References: <20250306155155.212599-1-linux@treblig.org>
+ <CAMeQTsaNfQJ=OgWXwQ2bAxa1xbbQxAWDYEcokQ3VJE_EApPbzQ@mail.gmail.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: 46f25cb4a120132d6a3
-X-MBO-RS-META: 6bcehtnbcnp4pk59guqih1za8y1njx1r
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMeQTsaNfQJ=OgWXwQ2bAxa1xbbQxAWDYEcokQ3VJE_EApPbzQ@mail.gmail.com>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 14:06:22 up 303 days,  1:20,  1 user,  load average: 0.03, 0.01, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,266 +58,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hallo,
+* Patrik Jakobsson (patrik.r.jakobsson@gmail.com) wrote:
+> On Thu, Mar 6, 2025 at 4:52 PM <linux@treblig.org> wrote:
+> >
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> >
+> > The mrst_clock_funcs const was added in 2013 by
+> > commit ac6113ebb70d ("drm/gma500/mrst: Add SDVO clock calculation")
+> > and commented as 'Not used yet'.
+> >
+> > It's not been used since, so remove it.
+> > The helper functions it points to are still used elsewhere.
+> >
+> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> 
+> Applied to drm-misc-next
 
-so, I was just debugging stuff on drm-misc-next and ran the DRM kunit
-tests and found a zoo of memleaks, which you find at the end of this
-mail.
+Thanks!
 
-How to reproduce:
-   1. Check out drm-misc-next @ c82734fbdc50 (HEAD -> drm-misc-next)
-      drm/panthor: Update CS_STATUS_ defines to correct valuesmake
-      defconfig (on AMD64)make menuconfig -> DRM -> <*> KUnit tests for
-      DRM
-      (means build hard-wired, not as a module)make modules_install &&
-      make installbuild initramfsadd boot loader entryBoot that kernel2
-      times: echo "scan"> /sys/kernel/debug/kmemleak=C2=A0cat
-      /sys/kernel/debug/kmemleak
+Dave
 
-
-Tell me if you need more input or stuff.
-
-P.
-
-
-Complete output from kmemleak:
-
-cat /sys/kernel/debug/kmemleak unreferenced object 0xffff888104903b00
-(size 128): comm "kunit_try_catch", pid 429, jiffies 4294669878 hex
-dump (first 32 bytes): bc 34 00 00 d0 02 e0 02 20 03 5a 03 00 00 e0 01
-.4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00 00 00 00 00 00 00
-................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_cmdline_tv_options+0xcb/0xbe0 kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff8881089e8000 (size 128): comm "kunit_try_catch", pid 431, jiffies
-4294669879 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02 20 03 5a
-03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00 00 00 00
-00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_cmdline_tv_options+0xcb/0xbe0 kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff8881047e8200 (size 128): comm "kunit_try_catch", pid 433, jiffies
-4294669879 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02 20 03 5a
-03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00 00 00 00
-00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_cmdline_tv_options+0xcb/0xbe0 kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810397c000 (size 128): comm "kunit_try_catch", pid 435, jiffies
-4294669880 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02 1c 03 60
-03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00 00 00 00
-00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_cmdline_tv_options+0xcb/0xbe0 kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff8881045fa000 (size 128): comm "kunit_try_catch", pid 437, jiffies
-4294669880 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02 20 03 5a
-03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00 00 00 00
-00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_cmdline_tv_options+0xcb/0xbe0 kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810a536500 (size 128): comm "kunit_try_catch", pid 439, jiffies
-4294669881 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02 1c 03 60
-03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00 00 00 00
-00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_cmdline_tv_options+0xcb/0xbe0 kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810a536600 (size 128): comm "kunit_try_catch", pid 441, jiffies
-4294669881 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02 1c 03 60
-03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00 00 00 00
-00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_cmdline_tv_options+0xcb/0xbe0 kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810a536700 (size 128): comm "kunit_try_catch", pid 443, jiffies
-4294669881 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02 20 03 5a
-03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00 00 00 00
-00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_cmdline_tv_options+0xcb/0xbe0 kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810a536800 (size 128): comm "kunit_try_catch", pid 445, jiffies
-4294669881 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02 1c 03 60
-03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00 00 00 00
-00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_cmdline_tv_options+0xcb/0xbe0 kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810d30d340 (size 16): comm "kunit_try_catch", pid 1265, jiffies
-4294670713 hex dump (first 16 bytes): 00 00 00 00 00 00 00 00 0b 00 00
-00 0b 00 00 00 ................ backtrace (crc 8a6b9b57):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_prime_pages_to_sg+0x48/0x100
-drm_gem_shmem_test_get_pages_sgt+0x208/0x910
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810e8a0a00 (size 128): comm "kunit_try_catch", pid 1355,
-jiffies 4294670857 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02
-1c 03 60 03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00
-00 00 00 00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_modes_analog_tv_mono_576i+0xca/0x7c0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810ed1b700 (size 128): comm "kunit_try_catch", pid 1357,
-jiffies 4294670859 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02
-20 03 5a 03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00
-00 00 00 00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_modes_analog_tv_ntsc_480i+0xc7/0x7c0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810d0c4a00 (size 128): comm "kunit_try_catch", pid 1359,
-jiffies 4294670861 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02
-20 03 5a 03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00
-00 00 00 00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_modes_analog_tv_ntsc_480i_inlined+0xcd/0x370
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810d0c4b00 (size 128): comm "kunit_try_catch", pid 1359,
-jiffies 4294670861 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02
-20 03 5a 03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00
-00 00 00 00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_modes_analog_tv_ntsc_480i_inlined+0x175/0x370
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810e73bc00 (size 128): comm "kunit_try_catch", pid 1361,
-jiffies 4294670864 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02
-1c 03 60 03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00
-00 00 00 00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_modes_analog_tv_pal_576i+0xca/0x7c0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810ea02700 (size 128): comm "kunit_try_catch", pid 1363,
-jiffies 4294670865 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02
-1c 03 60 03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00
-00 00 00 00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_modes_analog_tv_pal_576i_inlined+0xd0/0x380
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810ea02800 (size 128): comm "kunit_try_catch", pid 1363,
-jiffies 4294670865 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02
-1c 03 60 03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00
-00 00 00 00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_modes_analog_tv_pal_576i_inlined+0x17b/0x380
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810d4ed900 (size 128): comm "kunit_try_catch", pid 1391,
-jiffies 4294670884 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02
-1c 03 60 03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00
-00 00 00 00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x5b9/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810e74cc00 (size 128): comm "kunit_try_catch", pid 1393,
-jiffies 4294670890 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02
-20 03 5a 03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00
-00 00 00 00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x5b9/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810e8adb00 (size 128): comm "kunit_try_catch", pid 1395,
-jiffies 4294670892 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02
-20 03 5a 03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00
-00 00 00 00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x5b9/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810e8adc00 (size 128): comm "kunit_try_catch", pid 1395,
-jiffies 4294670892 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02
-1c 03 60 03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00
-00 00 00 00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x808/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810ed2a800 (size 128): comm "kunit_try_catch", pid 1397,
-jiffies 4294670895 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02
-1c 03 60 03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00
-00 00 00 00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x5b9/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810ed2a900 (size 128): comm "kunit_try_catch", pid 1397,
-jiffies 4294670895 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02
-20 03 5a 03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00
-00 00 00 00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x808/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810e823900 (size 128): comm "kunit_try_catch", pid 1399,
-jiffies 4294670897 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02
-1c 03 60 03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00
-00 00 00 00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x5b9/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810e823a00 (size 128): comm "kunit_try_catch", pid 1399,
-jiffies 4294670897 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02
-20 03 5a 03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00
-00 00 00 00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x808/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810e570500 (size 128): comm "kunit_try_catch", pid 1401,
-jiffies 4294670899 hex dump (first 32 bytes): bc 34 00 00 d0 02 e0 02
-20 03 5a 03 00 00 e0 01 .4...... .Z..... e6 01 ec 01 0d 02 00 00 1a 00
-00 00 00 00 00 00 ................ backtrace (crc 4b90f964):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x5b9/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30 unreferenced object
-0xffff88810e570600 (size 128): comm "kunit_try_catch", pid 1401,
-jiffies 4294670899 hex dump (first 32 bytes): bc 34 00 00 d0 02 dc 02
-1c 03 60 03 00 00 40 02 .4........`...@. 45 02 4b 02 71 02 00 00 1a 00
-00 00 00 00 00 00 E.K.q........... backtrace (crc c90da5a8):
-__kmalloc_cache_noprof+0x2cd/0x360 drm_analog_tv_mode+0x76/0x23d0
-drm_test_connector_helper_tv_get_modes_check+0x808/0x10e0
-kunit_try_run_case+0x1ae/0x490
-kunit_generic_run_threadfn_adapter+0x7b/0xe0 kthread+0x30f/0x620
-ret_from_fork+0x2f/0x70 ret_from_fork_asm+0x1a/0x30
-
+> Thanks
+> 
+> 
+> > ---
+> > v2
+> >   commit message fixed to use correct struct name, and add
+> >   note about the functions used still being used.
+> >
+> >  drivers/gpu/drm/gma500/oaktrail_crtc.c | 7 -------
+> >  1 file changed, 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma500/oaktrail_crtc.c
+> > index de8ccfe9890f..ea9b41af0867 100644
+> > --- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
+> > +++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
+> > @@ -658,10 +658,3 @@ const struct drm_crtc_helper_funcs oaktrail_helper_funcs = {
+> >         .prepare = gma_crtc_prepare,
+> >         .commit = gma_crtc_commit,
+> >  };
+> > -
+> > -/* Not used yet */
+> > -const struct gma_clock_funcs mrst_clock_funcs = {
+> > -       .clock = mrst_lvds_clock,
+> > -       .limit = mrst_limit,
+> > -       .pll_is_valid = gma_pll_is_valid,
+> > -};
+> > --
+> > 2.48.1
+> >
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
