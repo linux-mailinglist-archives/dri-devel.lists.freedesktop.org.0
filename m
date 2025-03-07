@@ -2,78 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736D0A56D21
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 17:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB1AA56DC2
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 17:33:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82B1B10EBE2;
-	Fri,  7 Mar 2025 16:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A10C10E079;
+	Fri,  7 Mar 2025 16:32:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W6h/QrYf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AmqZXY3e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA51710EBE0;
- Fri,  7 Mar 2025 16:07:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741363644; x=1772899644;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=pnnr3yVXjXJ58yTtOIaxhRCfVdG1kFVJBYONEQQH3cU=;
- b=W6h/QrYfDPxW/+exce+M+OIUVYUOz/8eJYYW9k/JlTQZRCRIvIyGudsL
- aW6wlg7319YWFeJCfdjDcEm01idVGkVoGA7G2P2JjNiUYpqcQJzndv0os
- nL/WH2U0uJMFgL/R/czOtXjZcRxFKRgwSc0aLli/TApa28F12XGCJdk3n
- UVy829MT9aHXUmJMNhoMGMK51VIBPxxu9ea4lldUFJ2zjrDG9aT9/Jzj5
- asksFaqWozadtxc3TX3UPzcZP2bVG+eWDjAhukaLsL9+b5bUlQqwmSxay
- S/rr+fypD97wkZX/HqpMckBVU1sfttmwwOxUEn3HssWz0WOHF1sVOOzKf A==;
-X-CSE-ConnectionGUID: ybzIy+lATpKCNBlYbyK8Jw==
-X-CSE-MsgGUID: d9bQWDP8QauIhJ6Glwc7CA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42616361"
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="42616361"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2025 08:07:24 -0800
-X-CSE-ConnectionGUID: i9ofbq1LTJuoORwKtHGmqg==
-X-CSE-MsgGUID: XLRy0tlCRPOx572f+D2fuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="119350170"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2025 08:07:19 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tqaEG-00000000S60-02V0; Fri, 07 Mar 2025 18:07:16 +0200
-Date: Fri, 7 Mar 2025 18:07:15 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Yury Norov <yury.norov@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- David Laight <David.Laight@aculab.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v5 7/7] test_bits: add tests for BIT_U*()
-Message-ID: <Z8sZs_Tfl4G8PoAM@smile.fi.intel.com>
-References: <20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr>
- <20250306-fixed-type-genmasks-v5-7-b443e9dcba63@wanadoo.fr>
- <Z8mfAQGUvm3z86kE@smile.fi.intel.com>
- <722e147b-fdd1-4098-8d60-48c83e36a7f7@wanadoo.fr>
- <Z8nhdz5FZIHYb4Yi@smile.fi.intel.com>
- <df371256-d981-433b-bcba-00a445e04c41@wanadoo.fr>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 315AD10EBE4
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 16:32:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D6F2EA45279;
+ Fri,  7 Mar 2025 16:27:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87472C4CED1;
+ Fri,  7 Mar 2025 16:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741365170;
+ bh=IYtqKF6RNYuUGwDssKjvbaMKZWh50JK81ILez6ZwBro=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AmqZXY3eAmBagMUhD/bF9pCoaMAre3597fTvRXSrgx4KDSzpE7OIrhKyPOsl9G1zE
+ mHIiqQa3IM0TYy7GRM4nhxbbpZEc+CuhqdCQpru3xe08YHQWWiYMMKRsD0YYO0szML
+ i8ho+W8Xm+/vmKubB9gMO7H3jKK+YCXJwnYSKeDSBMIJJ6gnHj+SeHS0Ia0I4u1Ny2
+ ONY5aGltXyKbwzcdExuTaaXPyVX5yDfQe1ncNqFXYUSQK15T/tGjgMsASAF2BEL2AH
+ tO9AbhOVMerxDn7HL3x7O1rzkoAcId7EgyftX2f8uMno4a25bkvjnwHaRE3tiAR4UF
+ JD7iZDmoKjlww==
+Date: Fri, 7 Mar 2025 17:32:46 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ Danilo Krummrich <dakr@kernel.org>, mcanal@igalia.com,
+ Alice Ryhl <aliceryhl@google.com>, 
+ Simona Vetter <sima@ffwll.ch>, Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Asahi Lina <lina@asahilina.net>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC v3 01/33] rust: drm: Add a small handful of fourcc bindings
+Message-ID: <20250307-hypersonic-beryl-buzzard-d06c5f@houat>
+References: <20250305230406.567126-1-lyude@redhat.com>
+ <20250305230406.567126-2-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="mbognbzweqfbmz6c"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <df371256-d981-433b-bcba-00a445e04c41@wanadoo.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250305230406.567126-2-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,37 +67,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 07, 2025 at 07:11:42PM +0900, Vincent Mailhol wrote:
-> On 07/03/2025 at 02:55, Andy Shevchenko wrote:
-> > On Fri, Mar 07, 2025 at 01:08:15AM +0900, Vincent Mailhol wrote:
-> >> On 06/03/2025 at 22:11, Andy Shevchenko wrote:
-> >>> On Thu, Mar 06, 2025 at 08:29:58PM +0900, Vincent Mailhol via B4 Relay wrote:
-> >>>> From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-> >>>>
-> >>>> Add some additional tests in lib/test_bits.c to cover the expected
-> >>>> results of the fixed type BIT_U*() macros.
-> >>>
-> >>> Still would be good to have a small assembly test case for GENMASK*() as they
-> >>> went split and it will be a good regression test in case somebody decides to
-> >>> unify both without much thinking..
-> >>
-> >> Let me confirm that I correctly understood your ask. Would something
-> >> like this meet your expectations?
-> > 
-> > I believe it should be written in asm.
-> 
-> I am not confident enough in my assembly skills to submit asm patches to
-> the kernel. So, I would rather take a pass on that one.
-> 
-> Regardless, if somebody decides to unify both without much thinking as
-> you said, I am fully confident that the patch will get Nack-ed right
 
-As I said above "would be good", if you think it's not feasible by you, perhaps
-a comment (FIXME: ?) in the Kunit test cases that we lack of / need an asm test
-as well.
+--mbognbzweqfbmz6c
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC v3 01/33] rust: drm: Add a small handful of fourcc bindings
+MIME-Version: 1.0
 
--- 
-With Best Regards,
-Andy Shevchenko
+Hi,
 
+On Wed, Mar 05, 2025 at 05:59:17PM -0500, Lyude Paul wrote:
+> This adds some very basic rust bindings for fourcc. We only have a single
+> format code added for the moment, but this is enough to get a driver
+> registered.
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+>=20
+> ---
+> V3:
+> * Drop FormatList and ModifierList
+>   These aren't actually needed as pointed out by Louis Chauvet
+> * Add a constant for FORMAT_MOD_INVALID
+>   I realized that we actually need this because the format list isn't
+>   terminated with a 0 like I thought, and we can't pick this up
+>   automatically through bindgen
+> * Split out the FormatInfo WIP
+>   We'll want this someday, but not yet.
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  rust/kernel/drm/fourcc.rs | 21 +++++++++++++++++++++
+>  rust/kernel/drm/mod.rs    |  1 +
+>  2 files changed, 22 insertions(+)
+>  create mode 100644 rust/kernel/drm/fourcc.rs
+>=20
+> diff --git a/rust/kernel/drm/fourcc.rs b/rust/kernel/drm/fourcc.rs
+> new file mode 100644
+> index 0000000000000..62203478b5955
+> --- /dev/null
+> +++ b/rust/kernel/drm/fourcc.rs
+> @@ -0,0 +1,21 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> +
+> +//! DRM fourcc bindings.
+> +//!
+> +//! C header: [`include/uapi/drm/drm_fourcc.h`](srctree/include/uapi/drm=
+/drm_fourcc.h)
+> +
+> +/// Return a fourcc format code.
+> +const fn fourcc_code(a: u8, b: u8, c: u8, d: u8) -> u32 {
+> +    (a as u32) | (b as u32) << 8 | (c as u32) << 16 | (d as u32) << 24
+> +}
+> +
+> +// TODO: We manually import this because we don't have a reasonable way =
+of getting constants from
+> +// function-like macros in bindgen yet.
+> +#[allow(dead_code)]
+> +pub(crate) const FORMAT_MOD_INVALID: u64 =3D 0xffffffffffffff;
+> +
+> +// TODO: We need to automate importing all of these. For the time being,=
+ just add the single one
+> +// that we need
+> +
+> +/// 32 bpp RGB
+> +pub const XRGB888: u32 =3D fourcc_code(b'X', b'R', b'2', b'4');
 
+It would be nice to keep the DRM prefix still. Fourccs aren't quite
+standardized and the ones from v4l2 and DRM don't match for the same
+formats.
+
+The rest looks good to me
+
+Maxime
+
+--mbognbzweqfbmz6c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ8sfrgAKCRDj7w1vZxhR
+xVjHAQD6iHjWhdGUo4ttrAjNAbZcn611frmBg/w0iAIZKE9PaQD/e87kUsZqmpF5
+VaUSzEUHmsQFXkNdEd+Dl4HibbOOEQc=
+=lIqa
+-----END PGP SIGNATURE-----
+
+--mbognbzweqfbmz6c--
