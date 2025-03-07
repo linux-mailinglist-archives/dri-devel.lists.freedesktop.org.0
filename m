@@ -2,140 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB26A570C6
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 19:50:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D07A5710E
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 20:05:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 086AC10EC32;
-	Fri,  7 Mar 2025 18:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D961010EC2F;
+	Fri,  7 Mar 2025 19:05:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=citrix.com header.i=@citrix.com header.b="FzKQzBv9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m2M9GzWS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9791D10EC27
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 18:50:00 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-390f5f48eafso1191984f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Mar 2025 10:50:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=citrix.com; s=google; t=1741373399; x=1741978199; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:subject:references:cc:to:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=iY8btfX+g/V/cLT+RlidyZhd+i1kGYYOkkkl+VytfXM=;
- b=FzKQzBv9TNk0GhvG1cLKxBaC0oBUsFoQZpCTfqGY8Dt60YEaXwWitWDneMKhga+mOj
- 3gkyvQuMRxkKmXY5OjoW5105J4hOXwA+bOelhZw1HHEHV3y+2ho7UsQVRF4qWELGexD4
- /KmiQsBgJC+j0Ggt3FccS5kE0EwoIO4lNIXGs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741373399; x=1741978199;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:subject:references:cc:to:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iY8btfX+g/V/cLT+RlidyZhd+i1kGYYOkkkl+VytfXM=;
- b=ElKuqWPkcFru1fTY8ABodR/jGyvdxZQ2tKUYSOKuFCS5P4ymJluJzjXrP0Tcmm+7jx
- kQufB2GndjbJGeAi8OLpUX0E13JqDOsLnwuRPn+QX1hJZxRjvlzZzLkjtER5e8RtPQ+q
- ryGYgtEOl+6DNU3Au4aM9ktWnxRE/3yjgaAGWsqdp7kUor3ikzYMFDmaXc6O+/OzgBLk
- oUOm1DuhaUcwxO82bYnMmNvH0SkFsUO2d4im8X73BqHQw2oGhOMn/ljk8AyKu48o9DMY
- qGIPjuntmDMBXFgqlwvPDMwxwghHInvgDGo2NzrfuX0YMHFA6EuRtN2aXMeAbHv9+wdP
- +t7w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWxHTW671Weh94b5s4n6lqU4Bdfm7VsW6ky/nVZJ522NAARC/ZhWdq+4kI+JNVhE5FGQh+1VEUuk60=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw3UE9bmxju9tWFGsOvQHuMdzb5/mZs6ve98pA8j/Ch1xxC9AaP
- ge9gh9d8watgN+RBIyOfptaU6Lb23mhuEkmi8wywirxRHOZ2ndeiJSvn6OCMGgQ=
-X-Gm-Gg: ASbGncsONIVGUtH6EQgf4EfJ+l3ruii4ZoW/4IgncaO3XqB3ikYUrtz6Ww701vWGajs
- LPQCMQEVvnwmWztuXWxp275ci3ycNhYhKMToYK+xcZ9GmKquMvLvDFJoU8Mu/lMpH3S5tC6HymZ
- MYKE7osg+PoyRxUHcNo50JsDYueo5JjKYdY87nAF+qoQmIsRV4EOxrp/eISecO+z5L5sys38KDu
- E2vHTqnrHM1bhjQ5f1HqUEBCSV09P9ic7i8kCOiSic9bxzKLvaBxKgpggo+JEWTaCiWt2LlF+lM
- l3nj2OsASsuBBNBmAz8SqAc2FPMyJoOKY8UiG91ynErpgg86KTtoKv7fdTexeeha/p3+m+1qVa3
- Op+9gxewy
-X-Google-Smtp-Source: AGHT+IGmeOPTWjHa0Be27hfI/1kYnZp0UHx0P0R/hj81LDLYhuR4kj7WMmpAAdsX/afUuDK/xqqF5Q==
-X-Received: by 2002:a5d:59a7:0:b0:391:1139:2653 with SMTP id
- ffacd0b85a97d-39132de145bmr3407200f8f.52.1741373399039; 
- Fri, 07 Mar 2025 10:49:59 -0800 (PST)
-Received: from [192.168.1.10] (host-92-26-98-202.as13285.net. [92.26.98.202])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3912bfba848sm6051474f8f.4.2025.03.07.10.49.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Mar 2025 10:49:57 -0800 (PST)
-Message-ID: <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com>
-Date: Fri, 7 Mar 2025 18:49:56 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 554AB10EC27;
+ Fri,  7 Mar 2025 19:05:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741374313; x=1772910313;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=Nm2BIE8ttgu5hsoT72L3OfVttFaBxq1sofs5dZDbYQs=;
+ b=m2M9GzWSng5vNCmBzJa8uCF16vJlRgOD4QaB9qLc64CuWCF8O87tmcRg
+ h7kdwsAi7NzAyJdqwj8gBXlmDr4YcVTu0leyLWeF7l/Xs7ORqjIcfm+dZ
+ lewWvs/fwp8viFOlZ+djoUEL4AJjO/j9MLGf7D6fbPN73tiD64T5aY8rf
+ Y+MKbDvobxAnTUODE7jcuE5K97ehpukjbXr9Ct3EaBX+A5A29kauwUihE
+ tTE+7TRfwrc/OA72ru+nuiJOSzZJ4nPa4F3QIyRdvBeQJTr5KYFLOaKWi
+ Su6dvxn6utItf6QnMv+6wIotIV6Fh/XuPp8SS91qqwj46RhyW01QkAS3i w==;
+X-CSE-ConnectionGUID: j9zRinE9TIqrfP+HpQ78CA==
+X-CSE-MsgGUID: zWYyA4yTS0GYQEkdeavv1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42468750"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="42468750"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2025 11:05:11 -0800
+X-CSE-ConnectionGUID: md3v2krMRHKMjGkEGrJGUw==
+X-CSE-MsgGUID: m6Tz4pyESeuPDgfGzZm3GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; d="scan'208";a="124002434"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2025 11:05:11 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Fri, 7 Mar 2025 11:05:10 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Fri, 7 Mar 2025 11:05:10 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.42) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 7 Mar 2025 11:05:09 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ovlrw9yhDoLCKjmAW5A/B+3vdwdt1iOadrw4b+SuV57at+cC0DKxCdalr3K/kEzTcEmUqghu8b6AATUJ/+gAJDqzxGM+vsOlt2GONzkUp5nvEdZIHPwsbFewK5rSvec0md4sB//aCdPJTvKLn032u9sTqS/k818TlXf4j1BWENYSblYtH05KC+dp4gtZHt5ZXwP9GqeBQPph6H3rwZOm36rx+f8y+LO3GWS1vMDDhJbZ1AJsSjBD27NBEm0CpvRfONT36KH8OV8Tx8ndooq+lRBnK+f8pOQqmr8nns1yQRj30t05pjU2f0KsJJ+h45Tt58tym56wS8KOW6KVChRdGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nm2BIE8ttgu5hsoT72L3OfVttFaBxq1sofs5dZDbYQs=;
+ b=yPmyxgHaYtRnSe5szu0HIfxZJPag7h7HRnkxEm7V2+YMy9aE2J1VXC0dHZO/fMQ0c5ep5nfgCon/DJVvR6fFB1LlbHh9v4L2IdaPFqQHF9pjeCP0xWQmwaTmWKXOK63SelW9H0dRhiwAwI2IJYQCkLj1L1hQC0+cq/FEUcgeTzNP+7bM3Jg8rObsIazx8QFss86kYhQodl0s9OWDbIo5blePPjCq0GiA7mFO0RoGBU1bmSKz2e/h3MhyAjc946KA1Qj0vCzPV9AzM37+TYjcEvFtycn9KOurt5m0+GIuPdem+8gDIpPb83iVUY2FqDVsLGUZeabHzpp1zPlKZQqcfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by CH3PR11MB8361.namprd11.prod.outlook.com (2603:10b6:610:172::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Fri, 7 Mar
+ 2025 19:04:54 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%3]) with mapi id 15.20.8511.017; Fri, 7 Mar 2025
+ 19:04:54 +0000
+Date: Fri, 7 Mar 2025 13:04:48 -0600
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <dim-tools@lists.freedesktop.org>
+Subject: Re: [PULL] drm-xe-next
+Message-ID: <rzqk5wbntjrgp2fzybtzs7avnn7vowusg5ehsoxhvb77ehamun@3h22bhef5ssg>
+References: <ilc5jvtyaoyi6woyhght5a6sw5jcluiojjueorcyxbynrcpcjp@mw2mi6rd6a7l>
+ <dzpjpp4ctdgbar6t7rcnlm5id4prs77koktzhe2sr5iyjwwl2b@3w3fom73utv7>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <dzpjpp4ctdgbar6t7rcnlm5id4prs77koktzhe2sr5iyjwwl2b@3w3fom73utv7>
+X-ClientProxiedBy: MW4PR03CA0073.namprd03.prod.outlook.com
+ (2603:10b6:303:b6::18) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: hpa@zytor.com
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
- akpm@linux-foundation.org, alistair@popple.id.au, andrew+netdev@lunn.ch,
- andrzej.hajda@intel.com, arend.vanspriel@broadcom.com,
- awalls@md.metrocast.net, bp@alien8.de, bpf@vger.kernel.org,
- brcm80211-dev-list.pdl@broadcom.com, brcm80211@lists.linux.dev,
- dave.hansen@linux.intel.com, davem@davemloft.net, dmitry.torokhov@gmail.com,
- dri-devel@lists.freedesktop.org, eajames@linux.ibm.com, edumazet@google.com,
- eleanor15x@gmail.com, gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
- jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
- joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
- jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux@rasmusvillemoes.dk, louis.peens@corigine.com,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mingo@redhat.com,
- miquel.raynal@bootlin.com, mripard@kernel.org, neil.armstrong@linaro.org,
- netdev@vger.kernel.org, oss-drivers@corigine.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
- simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de, vigneshr@ti.com,
- visitorckw@gmail.com, x86@kernel.org, yury.norov@gmail.com
-References: <4732F6F6-1D41-4E3F-BE24-E54489BC699C@zytor.com>
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-Content-Language: en-GB
-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
- 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
- 6+ahAA==
-In-Reply-To: <4732F6F6-1D41-4E3F-BE24-E54489BC699C@zytor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|CH3PR11MB8361:EE_
+X-MS-Office365-Filtering-Correlation-Id: ffe80980-e07e-4890-f7d4-08dd5daaf222
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ABL+uHcrkx4Sri5RQhL1zgeq3bm27uBqO6zCzx+83CKDXm/AR3YPuJ3rPgZJ?=
+ =?us-ascii?Q?lBinTRoeoT4+69RCKS6UBsMYaxVxyRJbceZCgXV9j2OgDxK6VxiMC4EO2pkX?=
+ =?us-ascii?Q?KfldmaH0aD2J466AHpItuVYIy+I4419rIFM7YGSbGZcPcswKCKcmtbgsh0CC?=
+ =?us-ascii?Q?UKZqFoU8QgI3N2Vfz/p4OQfWBgZESPqZJVMug8p6imMbQb7flf67ucDsDLWO?=
+ =?us-ascii?Q?VDoyFU8gKWnuMDFR268udTZekjeFNIIW+1e4P1zJ/QEglEfs6MaPPqjK5MG4?=
+ =?us-ascii?Q?PbJURo+gpg9zNyfABsJnn/eHh4DeDUTSpUzuhd5K1tNEUtADDPWa+BGLsK3L?=
+ =?us-ascii?Q?A7a8/XrPEaqNDUKrTVAOMU4A5+1riBi57Bf3hnnYUM5t8C2u5xl39eYNNVba?=
+ =?us-ascii?Q?12YmFOBdfEJOFsmZhkuVg5ABrJD0f0vzcObagg2py3nxM/DEKl63l6is0w6z?=
+ =?us-ascii?Q?zTqr7vC1Y0pGyYyyTSsCYPz4NK7Xv2X/1P6/e1ieZ7RekGgnnzT4m7h5Zubh?=
+ =?us-ascii?Q?mJExlhZX2RXItwD7GuF4VgdVXzx//DniGlKk9GF+aJE+zeZdc9SuE1ubnpi9?=
+ =?us-ascii?Q?Kmu+Q6lO0SEQ7gMipwS7+6rPZbM/XqGocEN5QiOJx90qDXFWfUkpSGNKWTC1?=
+ =?us-ascii?Q?LeJll4ZfzZ9Lrk35ukCygzkmzQlvymZ1hyGUXDhp8W/Z9SL5inFrHXUarCQF?=
+ =?us-ascii?Q?A0xW8ha8pqT10xfi2Eje3jRXmuBE33AnSWEJj2IC87LyULNkDpuGeTX32TmY?=
+ =?us-ascii?Q?6584OAg6AR0xgiCudDUffA6fJ6EPiNW4ybvjAKgQBLAausqcGdDDD3GYK0TI?=
+ =?us-ascii?Q?/TkuN+OSsjqEVnCh3jWyqTLOFY38zOzbz7S+VscVrI9A1uQyBGNCsNrdbeU5?=
+ =?us-ascii?Q?kevQssBDDrIN/ARMSx98DjsBrPe7TPQPwtUy+tZEQN43QxPD2s0zPpdwQgne?=
+ =?us-ascii?Q?Pmmrp7Q1ozGnvh4JqIFf12vyLI5uLjfDoSNXDn4JJ7iGzAKcHbMoDC/IkXJe?=
+ =?us-ascii?Q?IvTN1LrugmWcP9y/qH2SNR73RAHnHB1imPiWhw1YvnNCpYkNr4nC5FAOjCex?=
+ =?us-ascii?Q?oSxEJzZJYbSjMppkxt7l02sbXgQ0P4X1LqgAy16JWLaTt17K/mvMPiK7ktHf?=
+ =?us-ascii?Q?XIEJxzljb22qa1sWuLDBqqRX3bUFW6midtREPC9PzxRR34aN4WkB38ghOSUW?=
+ =?us-ascii?Q?3IUvN3JIGf/EpDiSbU4acpBxkNB1G1sSHFrwAjCqF2pl5c+eXWVDlx40JJ+u?=
+ =?us-ascii?Q?Kvz+gb/8MPRFTHdYaop4y9rZzugpcAXS+8c9mBizWEITbA8jGh2dpUrFIVmn?=
+ =?us-ascii?Q?LcYwz9sUPX/bnFltYwvcWbDGz12bqbEQp9TN0J/gY357SOUdY8oFlPxTGT2a?=
+ =?us-ascii?Q?HxyFGiysyPh9ZoRFdnEyqylnrXu691pgAJ/tJUQwRFgnQLgOzQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tzhOobg5uSneB5zoObKIk78z7OrwMQJOFgStV689m5lE7NCqw9C+r032+Kt+?=
+ =?us-ascii?Q?NJYPV0Gc4mGLzTMAto5JEu7uoQHbDsXmVFhhvONgK1XzkdbhuSsPLhEKhkmO?=
+ =?us-ascii?Q?KG+ea7Fe4TPZzSyXnHBW/kG6cItbo3YCRK8i4T1dbUwjV+fGm8vln22+t9Zi?=
+ =?us-ascii?Q?m0wOHiTmewwb3HZcbnMqhe8jLecQMq+oiOcrYwmxQWOS0y+TJLcyaW/k+nXv?=
+ =?us-ascii?Q?mT5ThbnWy5KOPNn0SUumEHFIlMr63s4DsqKc0FkPhHVsOqGUx7vuj25T8+ZT?=
+ =?us-ascii?Q?377HfjYYfPLN+DOUYe7ltuPVHFBhpz1uqCDYgxr4GNO7drPsijlS1STM8Sh/?=
+ =?us-ascii?Q?AszUQJ5QiA7nJA7BX6+sGf7WWPIFKDsXg+tKKJQ1encJE9DzQMdyciziFXgb?=
+ =?us-ascii?Q?UOVLDUpSttaiqB8+y+IAShVKcztdNf7raZ3JFPdilaxIECXc3o1xzah+V6k/?=
+ =?us-ascii?Q?PEjsb0vVTIzP0eOzWnYnqtW+mCpxqgpqSO41U3A2p+Pv7CVmCH+p8pOaqzYo?=
+ =?us-ascii?Q?LsH9mkeVd/CAv7+nz8brxaa39sEa9Q3lbWC5bKhaYebFNUvYg79vAEJPGTTJ?=
+ =?us-ascii?Q?B1myGAugJB+vgFhcbPhzA1fCUFBvO+rpkeDZ2GUCo+NvbQfqQWCM6j8p0D8D?=
+ =?us-ascii?Q?KIIneWzBsyEeDWYjpR1WxXbyqEE5qj9COOrjk2zKlBTkFO2WxTm3J2/tDNiD?=
+ =?us-ascii?Q?+yAiHR2QUKpqtxirhwgjZVhD+baSNfw+XwjD215DjEBvGWZCpvDomUl2XvlP?=
+ =?us-ascii?Q?s5jhtDP9IgR+H4x2P3SmOeG35IS3iqN5D2KFoqymLgkSnH4jgqBtX9xHUAPY?=
+ =?us-ascii?Q?JDeuRAwPgzU5U95XnFf8voZKZXzlM0u6++fPgDU2BoShcNrnlwzGI390Ljkg?=
+ =?us-ascii?Q?GisvL6S87raZxLNnOjNKWTvvn5T6rAfg5knDKFG26pgdohbGSdl590ZsjBUq?=
+ =?us-ascii?Q?UEARms7Xe8raQJf5hRvQjM6yIW4uFTafHl29y/QkzpIVxOEmJqImSvPd7SFC?=
+ =?us-ascii?Q?wJiKFoSrCpqAjsCRFBpTGXMNj+G4LeCkQup9gohnZKhNfA0x0PToN/OiE32n?=
+ =?us-ascii?Q?s5anegXST5Y3DLQOYwXliFC/POiZm04UEDyM1/06RWCPUjqyqvGQdbM0lyaz?=
+ =?us-ascii?Q?/6y3AZacOqubA8GU8CGzK8Faar6JHuT56D2tAxtIhTVpmvtJpr8LsiR0QJjQ?=
+ =?us-ascii?Q?k2GuYENMKDpWieHrcX+e55q4/KfS+Ou6fegmuQeGs1Z8gfmlno891v57HlMI?=
+ =?us-ascii?Q?OKwVUXoq5oFwrfs6QVUYkeINguA1rf+WLOpKW9ypQgSBjbWk6eZa/gdkIO2S?=
+ =?us-ascii?Q?rL2tCVIoJ5bI2fX6/Zc5tQLw92IvUCZ0s4duxCw6/aGUZWHS91oZTR/QTiWl?=
+ =?us-ascii?Q?2WMYL0jHsB/Y93qdaaN1sdIkp7HjH0y+U+8ZlfYq/Mr1sfZxEOm/LkAzX64Z?=
+ =?us-ascii?Q?Y3LIbGMM++5nE1J3Zy3TyWKGlvfvLJWW+6Wt5fdO3sI95hTGcSw+XuGKL9yW?=
+ =?us-ascii?Q?pHu52JHTFLeal/yQhQSf5Vn5BBRdWxmcMe2uzNQhV3jfQ4jfbkKu3jpa8pyk?=
+ =?us-ascii?Q?0dNsH96dZLQXnnW0qNqPJAJAEg/MUf2riFsWkFr+/EBrjLYtkIFgqi+vxCgy?=
+ =?us-ascii?Q?tQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffe80980-e07e-4890-f7d4-08dd5daaf222
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2025 19:04:54.6690 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1DFDNkm8nj0RuZPwKcJRlumg2icWWOUanBayLkafr3CQBWaN2lpWcXsUuHqwRlH0z7Gw+DvFy7ayhNS5SAeXjQVE07KvXPItJ44/UBCR0XM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8361
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,13 +183,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> (int)true most definitely is guaranteed to be 1.
+On Fri, Mar 07, 2025 at 08:51:03AM -0600, Lucas De Marchi wrote:
+>On Fri, Mar 07, 2025 at 02:02:15AM -0600, Lucas De Marchi wrote:
+>>Hi Dave and Sima,
+>>
+>>Last drm-xe-next pull request for 6.15. It comes with some big features
+>>that we have been working on for some time: EU stall sampling and SVM.
+>>The latter also touches other subsystems and provides the common parts
+>>in the drm layer. Low latency hints from userspace to improve some
+>>workloads and more events exposed via perf complete the UAPI changes
+>>for this cycle.
+>>
+>>Another cross-subsystem change is to drivers/base to improve devres
+>>handling. Fixes, workarounds and refactors also made their appearance as
+>>usual.
+>>
+>>Worth noting 2 conflicts reported by Stephen on linux-next. One is a git
+>>conflict and the other is on build:
+>>https://lore.kernel.org/intel-xe/20250307122954.1ab65809@canb.auug.org.au/
+>>and https://lore.kernel.org/intel-xe/20250307132112.18b6ce90@canb.auug.org.au/
+>>
+>>These will probably show up when Linus merges drm. I checked the fixes
+>>on linux-next by Stephen and they look good to me.
+>>
+>>thanks
+>>Lucas De Marchi
+>
+>Please hold on applying this. There's one fix that I merged just after
+>submitting the pull yesterday and today we got reports of kernel docs
+>failing. I'm fixing it and will submit another pull request later today.
+>Sorry for the noise.
 
-That's not technically correct any more.
+ok, looking at the 2 fixes again, they are not very critical and can
+wait next week. No point in rushing them. I will let them soak in
+drm-xe-next for more time before sending another pull.
 
-GCC has introduced hardened bools that intentionally have bit patterns
-other than 0 and 1.
+Plan is to send an early pull next week that should contain these.
 
-https://gcc.gnu.org/gcc-14/changes.html
+thanks
+Lucas De Marchi
 
-~Andrew
+>
+>Lucas De Marchi
