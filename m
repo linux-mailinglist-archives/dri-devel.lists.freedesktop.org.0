@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0960CA569D5
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:00:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD35A569DE
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Mar 2025 15:02:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A53310EB98;
-	Fri,  7 Mar 2025 14:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 987A110EBB2;
+	Fri,  7 Mar 2025 14:02:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fzFiMSof";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="bOTLs64f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF61410EB98;
- Fri,  7 Mar 2025 14:00:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 209775C5422;
- Fri,  7 Mar 2025 13:57:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1DC0C4CED1;
- Fri,  7 Mar 2025 14:00:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1741356013;
- bh=MU+C8WbcetcKkddPtvMu8XaFGjwcxIw90GFaJbuu6iU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fzFiMSof2btrCftHqZlPnCqV4m8aPjlsYpYVE4kM2KWMwlfZErFmROsc/m1CNRawK
- sz/IaKUDxRYmVvRkNGh9ZQV6kjwTZTg1UP/znLOqw5g3WOljGOYwUlz7Nc0ENu2GAq
- mDevphihXfBNLZZnDLk6xJQjJcMEd5+t1JiT/MOk=
-Date: Fri, 7 Mar 2025 15:00:09 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, Danilo Krummrich <dakr@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <2025030753-celtic-quarry-1799@gregkh>
-References: <Z8GViQzZJVFPxfNd@phenom.ffwll.local>
- <20250228184013.GF39591@nvidia.com>
- <Z8cmBWB8rl97-zSG@phenom.ffwll.local>
- <20250304164201.GN133783@nvidia.com>
- <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
- <20250305151012.GW133783@nvidia.com>
- <Z8l8HgZOV7sDWqBh@phenom.ffwll.local>
- <20250306153236.GE354511@nvidia.com>
- <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
- <20250307123255.GK354511@nvidia.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37AAD10EBB2
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Mar 2025 14:02:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741356142; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=MLurPKlC1elfN1Ga9djK+24eSHs3N/1L0XNgxqacuiZpdaM+LNn8WsQM/xhqYlApJZNqAEAffa4PpmrwKLQpbtI3bsQiVr3m+Iz6+u7xIKhq7xA+4YL5T/AFoivc76K3fjheasR2m/AJI/XVkH/7VFLfVz5fAw+Ofw4d1HDdAXs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1741356142;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=KTxgJbKE1OR0cJEsl1DelDSQA9kndID/O86cy0Ze3Yk=; 
+ b=CNgRBgkhWztM4lcCCq98sq19xeMLA6F4W3pHio4fNQIab0SNFzknsF2o0aGryjYn97F+xaLXotgEkvoSwquxFZs44SxrEMpx6wH4P+9irxHQRrKKWEitIXVjiEznGSb2VjrfMbv0dFns3LOKiV7Mj0lYY2fNW7Yi/Y95gW8xDPo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741356142; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=KTxgJbKE1OR0cJEsl1DelDSQA9kndID/O86cy0Ze3Yk=;
+ b=bOTLs64f75Z2dyd5OOMwW1c/9IeTnFIFmOxXquSRnoUPQF6P/tjVDxH8PtoTAV4U
+ AkQgWxkgbEWh0ikQ6whEsWDaajLB95GoDmKzDopdRxNzN3ob8/7EE/t7dJhXXeSx/CV
+ mq3LaKhLygUm0kGLe8vjtkrNUwCelRmg1lD+hwZw=
+Received: by mx.zohomail.com with SMTPS id 1741356140228336.02250564093174;
+ Fri, 7 Mar 2025 06:02:20 -0800 (PST)
+Message-ID: <6f3b879b-22ea-4d48-ad6e-e75e8b2990f1@collabora.com>
+Date: Fri, 7 Mar 2025 11:02:14 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250307123255.GK354511@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/4] drm/panfrost: Split LPAE MMU TRANSTAB register
+ values
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robh@kernel.org, steven.price@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+References: <20250226183043.140773-1-ariel.dalessandro@collabora.com>
+ <20250226183043.140773-3-ariel.dalessandro@collabora.com>
+ <20250227092537.63053596@collabora.com>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250227092537.63053596@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,79 +71,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 07, 2025 at 08:32:55AM -0400, Jason Gunthorpe wrote:
-> On Fri, Mar 07, 2025 at 11:28:37AM +0100, Simona Vetter wrote:
+Boris,
+
+On 2/27/25 5:25 AM, Boris Brezillon wrote:
+> On Wed, 26 Feb 2025 15:30:41 -0300
+> Ariel D'Alessandro <ariel.dalessandro@collabora.com> wrote:
+
+[snip]
+
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+>> index b5f279a19a08..4e6064d5feaa 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+>> @@ -317,14 +317,19 @@
+>>   #define MMU_AS_STRIDE			(1 << MMU_AS_SHIFT)
+>>   
+>>   /*
+>> - * Begin LPAE MMU TRANSTAB register values
+>> + * Begin LPAE MMU TRANSTAB register values (legacy mode)
+>>    */
+>> -#define AS_TRANSTAB_LPAE_ADDR_SPACE_MASK	0xfffffffffffff000
+>> -#define AS_TRANSTAB_LPAE_ADRMODE_IDENTITY	0x2
+>> -#define AS_TRANSTAB_LPAE_ADRMODE_TABLE		0x3
+>> -#define AS_TRANSTAB_LPAE_ADRMODE_MASK		0x3
+>> -#define AS_TRANSTAB_LPAE_READ_INNER		BIT(2)
+>> -#define AS_TRANSTAB_LPAE_SHARE_OUTER		BIT(4)
+>> +#define AS_TRANSTAB_LEGACY_ADDR_SPACE_MASK	0xfffffffffffff000
+>> +#define AS_TRANSTAB_LEGACY_ADRMODE_IDENTITY	0x2
+>> +#define AS_TRANSTAB_LEGACY_ADRMODE_TABLE	0x3
+>> +#define AS_TRANSTAB_LEGACY_ADRMODE_MASK		0x3
+>> +#define AS_TRANSTAB_LEGACY_READ_INNER		BIT(2)
+>> +#define AS_TRANSTAB_LEGACY_SHARE_OUTER		BIT(4)
 > 
-> > > I wouldn't say it is wrong. It is still the correct thing to do, and
-> > > following down the normal cleanup paths is a good way to ensure the
-> > > special case doesn't have bugs. The primary difference is you want to
-> > > understand the device is dead and stop waiting on it faster. Drivers
-> > > need to consider these things anyhow if they want resiliency against
-> > > device crashes, PCI link wobbles and so on that don't involve
-> > > remove().
-> > 
-> > Might need to revisit that discussion, but Greg didn't like when we asked
-> > for a pci helper to check whether the device is physically gone (at least
-> > per the driver model). Hacking that in drivers is doable, but feels
-> > icky.
+> How about we keep AS_TRANSTAB_LPAE_ here and prefix the new reg values
+> with AS_xxx_AARCH64_ when there's a collision between the two formats.
+
+Agreed. Will use AS_TRANSTAB_AARCH64_4K_ prefix for the new ones.
+
 > 
-> I think Greg is right here, the driver model has less knowledge than
-> the driver if the device is alive.
-
-That's not why I don't want this.  Think about this sequence:
-	if (!device_is_gone(dev)) {
-		// do something
-	}
-right after you check it, the value can change.  So all you really can
-check for is:
-	if (device_is_gone(dev)) {
-		// clean up
-	}
-which is going to be racy as well, because you should already be
-handling this if you care about it because the device could be gone but
-not yet told the driver core / bus yet.
-
-So this type of check can't really work, which is why I don't want
-people to even consider it.
-
-> The resiliency/fast-failure issue is not just isolated to having
-> observed a proper hot-unplug, but there are many classes of failure
-> that cause the device HW to malfunction that a robust driver can
-> detect and recover from. mlx5 attempts to do this for instance.
+>> +
+>> +/*
+>> + * Begin LPAE MMU TRANSTAB register values (no-legacy mode)
+>> + */
+>> +#define AS_TRANSTAB_LPAE_ADDR_SPACE_MASK	0xfffffffffffffff0
 > 
-> It turns out when you deploy clusters with 800,000 NICs in them there
-> are weird HW fails constantly and you have to be resilient on the SW
-> side and try to recover from them when possible.
-> 
-> So I'd say checking for a -1 read return on PCI is a sufficient
-> technique for the driver to use to understand if it's device is still
-> present. mlx5 devices further have an interactive register operation
-> "health check" that proves the device and it's PCI path is alive.
+> It looks like we're not use AS_TRANSTAB_LPAE_ADDR_SPACE_MASK, so I'm
+> not sure it's worth defining the mask for the AARCH64 format.
 
-The -1 read is what PCI says will happen if the device is gone, so all
-drivers have to do this if they care about it.  USB does something
-different, as does all other busses.  So this is a very driver/bus
-specific thing as you say.
+None of the original AS_TRANSTAB_LPAE_* values are used, but these refer 
+to the LPAE (legacy mode) format.
 
-> Failing health checks trigger recovery, which shoot downs sleeps,
-> cleanly destroys stuff, resets the device, and starts running
-> again. IIRC this is actually done with a rdma hot unplug/plug sequence
-> autonomously executed inside the driver.
-> 
-> A driver can do a health check immediately in remove() and make a
-> decision if the device is alive or not to speed up removal in the
-> hostile hot unplug case.
+The new mask for the AARCH64 format is required by the follow up patch 
+`[RFC PATCH 3/4] drm/panfrost: Support ARM_64_LPAE_S1 page table`. It 
+probably makes sense to just squash it now that this patch got 
+simplified and the naming will be more clear.
 
-Agreed.
+I'll send a new patchset version with these changes.
 
-But really, all these gyrations just to attempt to make it easier for
-driver developers, the smallest number of people who will ever interact
-with the device in the world, just to prevent rebooting, seems not
-really all that important.
+Thanks!
 
-Handle the real cases, like you are are saying here, and then all should
-be ok.
+-- 
+Ariel D'Alessandro
+Software Engineer
 
-thanks,
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
-greg k-h
