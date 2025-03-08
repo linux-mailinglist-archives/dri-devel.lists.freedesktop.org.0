@@ -2,47 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB7BA57756
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 02:42:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0823AA5775A
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 02:42:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1638510E1C9;
-	Sat,  8 Mar 2025 01:42:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9253510EC46;
+	Sat,  8 Mar 2025 01:42:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QJ5pZUKb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pmsl+QWu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 480FC10E1C9;
- Sat,  8 Mar 2025 01:42:32 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C74F10E36B;
+ Sat,  8 Mar 2025 01:42:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 463C1A44E90;
- Sat,  8 Mar 2025 01:37:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E758EC4CED1;
- Sat,  8 Mar 2025 01:42:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7A7905C661F;
+ Sat,  8 Mar 2025 01:40:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A75FFC4CEED;
+ Sat,  8 Mar 2025 01:42:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741398150;
- bh=0xzbMLIyrzOvtrnxOzYygHtiJhTxXWscGZfJynbxvwE=;
- h=From:Subject:Date:To:Cc:From;
- b=QJ5pZUKbRsqvbYz/lq9JxpxMM0rzw4BP0U3hvqByTUqqfWq4I7vgoOZlhe6BmDanN
- bO0P0K5+BXoyPKc+2JlRUgTNIDuhKONbNV2ccbADr+rm3RChmQtaI2xzr6f2LZQUJJ
- PvjpbED9drEJjfGoYIoJxR+96D8L0vx5jY42PdS5hcb2TxWUyq51daID/23iwWRJr6
- zSvSx9banYT2m5WKSY70oj/X1hBPPwo+sQ4dQ8gohCwwS0CqCjeDoptJA7l+CTSt7K
- 35MQjJRA3JvzrX/nl3mIG7MQyjdNxaZRHKeK9RxnTIDwvRy61lNZdHYA0DHcdpHVu2
- WyW1llAYfADaA==
+ s=k20201202; t=1741398155;
+ bh=5hWJtl0bbFBeYtO0tEd4eEDLjlvjsXOMVv/w4vcQqSs=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=pmsl+QWuYcfHXCLMH9ZyF/fZKnctpG011XtInd86CbOmleTeoGexB/I/uNZfBfVOi
+ uCedBF3+K36az7pZ2k8kxkqd6rZ+zT5iLvyvhH7Y6MObbhJasz6t+NAwXh/OkbM6rq
+ 0+3l8E7zMZwx2H3MkW+xWPTU3Zb52TJVQSjm0Th7WIW6pkabRCHqIzfPNnbS8gAGsx
+ sj2e5r5tJGI1AIkeithbErEE8ugz+qZ9Cn1ea5S+yg+Mm51jSn3oojPVK0O7sMW+cj
+ 3xiTRRSXxkxg4b2kxtv+bvNuGNGbB/ha9cF6Wd/3iRZ1OSX+vL4poJ5RKvMFXVOb5A
+ k6lyjszMaG16Q==
 From: Dmitry Baryshkov <lumag@kernel.org>
-Subject: [PATCH 00/10] drm/msm: add support for SAR2130P
-Date: Sat, 08 Mar 2025 03:42:18 +0200
-Message-Id: <20250308-sar2130p-display-v1-0-1d4c30f43822@linaro.org>
+Date: Sat, 08 Mar 2025 03:42:19 +0200
+Subject: [PATCH 01/10] dt-bindings: display/msm: dp-controller: describe
+ SAR2130P
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHqgy2cC/z2OQW7DIBBFr2KxLurA2GD7KlUWMMw0SLXjAq1SR
- bl7aSJ1+b70nv5NVS6Zq1qHmyr8nWu+7B3My6DoHPZ31jl1VhbsBAizrqFYg3DolOvxEX50BAd
- GSDgiqK4dhSVfH8m305MLf371cnuO6giNzr27DjEIOeJkR2fF2wURxcwilnyC2QVvowE/jo/uv
- +VQfMCpy/0JxdktAinSQuAoTSNGTwEF7Z8VQ2VNl23LbR12vrbXLdTGRZ3u91/lDYi6/QAAAA=
- =
-X-Change-ID: 20250308-sar2130p-display-b0601fcfeb30
+Message-Id: <20250308-sar2130p-display-v1-1-1d4c30f43822@linaro.org>
+References: <20250308-sar2130p-display-v1-0-1d4c30f43822@linaro.org>
+In-Reply-To: <20250308-sar2130p-display-v1-0-1d4c30f43822@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>, 
@@ -62,16 +59,16 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2348;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=883;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=0xzbMLIyrzOvtrnxOzYygHtiJhTxXWscGZfJynbxvwE=;
- b=owEBbAGT/pANAwAKAYs8ij4CKSjVAcsmYgBny6B+rPiCzDjdVbOKP2y8wSLBqEba+tnYtIVmQ
- /BQyLQBNAqJATIEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8ugfgAKCRCLPIo+Aiko
- 1dKsB/jpWhfIyF/tcV2lxgpDgnw8y1WeevEZbOVeV6M6hr/dE0v+HYy5JSfJH0SYh/d4kpmaBgu
- q2lvDQQ6dOLnvyE66RdOK25xRXmKKEhS74IB7vlf9Gdi9ZPUZkIY4aMhApDoME5n9wDQ9nkXYXV
- munhewHGKbi1hb3gSvLdQtc49VswONOmX4bGR56E/mdIOF6HHglpV27/FAisCkJjRdB9V8ou0Zi
- myamgawXe81BJWb5X2RCdz4KOw4ef8Sn23aueGrwrTyTuHSmKVVNVHk8/3xIBdB1SxTivTNvvLZ
- BOYhKeLuhUSkKxH9fvghEFZHjsQDM2pIlopMOAEK/G+I5uM=
+ bh=ACdmjYmshapneuIqWrn19zGGrSmaveZcBX5lcfEgHW8=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBny6B+bI8+Wn/W3nwtSqCnoIReC3di5Id0PJg4f
+ sU5YOYJqvqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8ugfgAKCRCLPIo+Aiko
+ 1TXwCAChR5vuCAEudmiTE+lhAXH7j22cWADUqnSu1Z0cDDyBH67GZhFTX/Zh61+onFk0hMYw4M3
+ +tJYPJ1giq8/Y8E/8EGS+3UTQ8op8Qx6SH8PRHz69gn2GvKuGoHUBfu80Lczpf+Hp5nWJaKNo89
+ 8sO27klWACmew8HJtlT4HUvHXloT4nEYRDVnMUI59tJIAeupKYxcrG80d7cOT/s6Nc96gslew4R
+ 5jsSwR/HCSp2ZRHKFwZvBZYAa3h7e7yaizcuJZISWm99YaaPlmNqGEvIc1jB42ryovl3pc9Y98B
+ wZ7O8AdcP5So2QW236a+ZwiV2oTeGmS0UZxMg3quRJjqYKlX
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,51 +86,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Mobile Display SubSystem (MDSS) device present on
-the Qualcomm SAR2130P platform. The MDSS device is similar to SM8550, it
-features two MIPI DSI controllers, two MIPI DSI PHYs and one DisplayPort
-controller.
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Note, due to the technical limitations DP controller wasn't completely
-evaluated.
+Describe DisplayPort controller present on Qualcomm SAR2130P platform.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (10):
-      dt-bindings: display/msm: dp-controller: describe SAR2130P
-      dt-bindings: display/msm: dsi-controller-main: describe SAR2130P
-      dt-bindings: display/msm: dsi-phy-7nm: describe SAR2130P
-      dt-bindings: display/msm: qcom,sc7280-dpu: describe SAR2130P
-      dt-bindings: display/msm: Add Qualcomm SAR2130P
-      drm/msm/mdss: add SAR2130P device configuration
-      drm/msm/dsi/phy: add configuration for SAR2130P
-      drm/msm/dpu: add catalog entry for SAR2130P
-      iommu/arm-smmu-qcom: Add SAR2130P MDSS compatible
-      arm64: dts: qcom: sar2130p: add display nodes
+ Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../bindings/display/msm/dp-controller.yaml        |   1 +
- .../bindings/display/msm/dsi-controller-main.yaml  |   2 +
- .../bindings/display/msm/dsi-phy-7nm.yaml          |   1 +
- .../bindings/display/msm/qcom,sar2130p-mdss.yaml   | 445 +++++++++++++++++++++
- .../bindings/display/msm/qcom,sc7280-dpu.yaml      |   1 +
- arch/arm64/boot/dts/qcom/sar2130p.dtsi             | 394 ++++++++++++++++++
- .../drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h   | 434 ++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |  23 ++
- drivers/gpu/drm/msm/msm_mdss.c                     |  11 +
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c         |   1 +
- 15 files changed, 1319 insertions(+), 1 deletion(-)
----
-base-commit: 0a2f889128969dab41861b6e40111aa03dc57014
-change-id: 20250308-sar2130p-display-b0601fcfeb30
-prerequisite-patch-id: bafc6ced2462f729333f18ff2c7d086a72b10744
-prerequisite-patch-id: 63f7a35baf213cb869f0dbc9c06cd543b7ca3f32
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index e00b88332f2fed2fc33f6d72c5cc3d827cd7594e..246bbb509bea18bed32e3a442d0926a24498c960 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -31,6 +31,7 @@ properties:
+           - qcom,sm8650-dp
+       - items:
+           - enum:
++              - qcom,sar2130p-dp
+               - qcom,sm6350-dp
+               - qcom,sm8150-dp
+               - qcom,sm8250-dp
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.5
 
