@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E74A57888
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 06:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C696A57889
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 06:38:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C78D10E29E;
-	Sat,  8 Mar 2025 05:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A04E610E342;
+	Sat,  8 Mar 2025 05:38:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kxag/M3W";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="esDfbYFr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C48110E20A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6069010E284;
  Sat,  8 Mar 2025 05:38:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5F1D15C02EF;
- Sat,  8 Mar 2025 05:36:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 972A1C4CEE7;
- Sat,  8 Mar 2025 05:38:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0DFC25C41B7;
+ Sat,  8 Mar 2025 05:36:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4998EC4CEE0;
+ Sat,  8 Mar 2025 05:38:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741412315;
- bh=KIF/gpZzjp1qJUxyZwx7NERtKxqbEMkwiHYb2P2nTt8=;
+ s=k20201202; t=1741412318;
+ bh=zqPN7MsrTMU/8hYOiHjo1d3t4P549jr67n+7N4DS/xM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Kxag/M3W40pb5nnbpvP6TJsptjxVDJHzbrU8zHVYwJOjfGNCLN49M2SP/DkRfdpK1
- +F5B8YxxgwYubtPcYt+r8qCsGF4UBwZYNq8gWAz5hvR9b8qcacHsHvMKbkq4StTBRt
- A9PEWzuPw/FTxdeALgiM4trCatwPGWXDm0f3WP1uXDNh7k0xgOsIumrHmc709cR4At
- z1dc/dZ1T+bXyspXS1Ni4lMwREXBYaOITmuuQCS5oVU+j+QEFO1320+dPJ03X8bM8Q
- rnkS/jlZ62TkDNOOrBp3FEmZt/NNUpAVek2Xg9jYD3uCKwGvl98LsUfCROgb7oyLDk
- ZO31hhPdQHm4g==
+ b=esDfbYFr/tBVeNiaypH2iCjbA9wLgnaycudumxaF3IIlrjcCm57ho/96Ix/4XTx7L
+ RGLb3vlETidZ36ls3VeVX2dVQQED/RfDPHPgpRXy6U1VS9BTmtVLTLHmYuXjCXG+9T
+ YfIBSVtUkgcuvOFr/b4vhOhwsNROl0D6pqDS/3Tdj0EDU5cyAMzNE8QhVWpvvs3PQW
+ qAJaQbXhlJrAFZPhdPYUC7i0YZ17ZlrewJdZ8Ix/C99w6hO0gIgYPkc+EC4kGEweTc
+ WoEcobTlUbJLN7yKAiu+WXwT5G0DlF9+49MTJqGwIagNzpo1piPmDbYi2iVlbTRE+b
+ 7/OOdPbfbtLaw==
 From: Dmitry Baryshkov <lumag@kernel.org>
-Date: Sat, 08 Mar 2025 07:38:25 +0200
-Subject: [PATCH 2/5] drm/msm/dpu: enable SmartDMA on SC8180X
+Date: Sat, 08 Mar 2025 07:38:26 +0200
+Subject: [PATCH 3/5] drm/msm/dpu: enable SmartDMA on SC8280XP
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250308-dpu-rework-vig-masks-v1-2-f1b5d101ae0b@linaro.org>
+Message-Id: <20250308-dpu-rework-vig-masks-v1-3-f1b5d101ae0b@linaro.org>
 References: <20250308-dpu-rework-vig-masks-v1-0-f1b5d101ae0b@linaro.org>
 In-Reply-To: <20250308-dpu-rework-vig-masks-v1-0-f1b5d101ae0b@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -48,16 +48,16 @@ To: Rob Clark <robdclark@gmail.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3199;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3138;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=ESu0GYllHy5o1kKCrlQTczJy25kDP1UXYmGH8T/qf3M=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBny9fT3VTJwm1ua/LkP74+dlhwM8IlULrGg2nyd
- X65yRPU77eJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8vX0wAKCRCLPIo+Aiko
- 1YueB/92sBL+7E4zqZbjh7Vb0+QXjhVPljCGVPFhsXcffbA7j9BXdcm7vEJqzXHoQwuBBzIYqSC
- x6TijpglmQE9/TR3BQWl8qHoqPEMZFjYV9xwi7LZFO6NzEiHOBJSZmfjkRMKWelTVr2yfukXb1F
- CJPqkRZziN5ovpa8K3bZH+03ht2GVaWEtEQgwX/gXbqOhMGQF9mDVEF343iRySNjDlWJmOiHtDk
- 1WMMiwpuC9LeJE9Hv6ZZZIY7JmeJaLl57S5rxtker0MWk9EyWYa6VV5VEChh1Bi7JCYfYdiqySW
- Nfm9pieW7xJQY/YRtG4hnK/M2kfrg0aWW9JVQs0js/sj7wLU
+ bh=3UyKCdf0YuPzoh9+A0LlbQ5Kgm2pqJNL8CZBmc249dc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBny9fTFObNkhsuO2itydST/jURIWb+5Mb1JfN4p
+ lWLq8REl/SJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8vX0wAKCRCLPIo+Aiko
+ 1etDB/9aRVLZyblX0Ht5qZK9Awx+EujMFIvqLCUZxi6F4SkxgvPz1zoniRTOWO76u+BgxQ88jHX
+ KgEET+pvXhIo4Vhh/24bOm0eBhoDKkwF3pGmVV0rPH3hlEIIhdK8xtHJPvH77jjZSGSlhE0Mbse
+ BIiHkWuEF2gr+od8SDouPDzMtTvlnZmEWeuEHLzZFEVnXX7wXb1R/bnXVCsoF+KJMOWig7bZbl/
+ XhV/DEPJOJJbaenag6AQAas10grmnV06A8NubhKHF5KQ9bhmEqeaPsvpUsjFpaSefsXaIFjnwWu
+ cXM8kenTVZjyFVIrH11BcfdCL9Imq3cDm0SPy/v8FM77K7Ho
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,88 +75,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Reworking of the catalog dropped the SmartDMA feature bit on the SC8180X
-platform. Renable SmartDMA support on this SoC.
+In order to support more versatile configuration of the display pipes on
+SC8280XP, enable SmartDMA for this platform.
 
-Fixes: 460c410f02e4 ("drm/msm/dpu: duplicate sdm845 catalog entries")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 16 ++++++++--------
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 16 ++++++++--------
  1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-index de8ccf589f1fe026ca0697d48f9533befda4659d..330490d10247e6347df71927ce601da1468f466e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-@@ -75,7 +75,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+index fcee1c3665f88a9defca4fec38dd76d56c97297e..923afc202f5195fa15bcfc1e141fc44134c965e4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+@@ -74,7 +74,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
  	{
  		.name = "sspp_0", .id = SSPP_VIG0,
- 		.base = 0x4000, .len = 0x1f0,
+ 		.base = 0x4000, .len = 0x2ac,
 -		.features = VIG_SDM845_MASK,
 +		.features = VIG_SDM845_MASK_SDMA,
- 		.sblk = &dpu_vig_sblk_qseed3_1_4,
+ 		.sblk = &dpu_vig_sblk_qseed3_3_0,
  		.xin_id = 0,
  		.type = SSPP_TYPE_VIG,
-@@ -83,7 +83,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
+@@ -82,7 +82,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
  	}, {
  		.name = "sspp_1", .id = SSPP_VIG1,
- 		.base = 0x6000, .len = 0x1f0,
+ 		.base = 0x6000, .len = 0x2ac,
 -		.features = VIG_SDM845_MASK,
 +		.features = VIG_SDM845_MASK_SDMA,
- 		.sblk = &dpu_vig_sblk_qseed3_1_4,
+ 		.sblk = &dpu_vig_sblk_qseed3_3_0,
  		.xin_id = 4,
  		.type = SSPP_TYPE_VIG,
-@@ -91,7 +91,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
+@@ -90,7 +90,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
  	}, {
  		.name = "sspp_2", .id = SSPP_VIG2,
- 		.base = 0x8000, .len = 0x1f0,
+ 		.base = 0x8000, .len = 0x2ac,
 -		.features = VIG_SDM845_MASK,
 +		.features = VIG_SDM845_MASK_SDMA,
- 		.sblk = &dpu_vig_sblk_qseed3_1_4,
+ 		.sblk = &dpu_vig_sblk_qseed3_3_0,
  		.xin_id = 8,
  		.type = SSPP_TYPE_VIG,
-@@ -99,7 +99,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
+@@ -98,7 +98,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
  	}, {
  		.name = "sspp_3", .id = SSPP_VIG3,
- 		.base = 0xa000, .len = 0x1f0,
+ 		.base = 0xa000, .len = 0x2ac,
 -		.features = VIG_SDM845_MASK,
 +		.features = VIG_SDM845_MASK_SDMA,
- 		.sblk = &dpu_vig_sblk_qseed3_1_4,
+ 		.sblk = &dpu_vig_sblk_qseed3_3_0,
  		.xin_id = 12,
  		.type = SSPP_TYPE_VIG,
-@@ -107,7 +107,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
+@@ -106,7 +106,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
  	}, {
  		.name = "sspp_8", .id = SSPP_DMA0,
- 		.base = 0x24000, .len = 0x1f0,
+ 		.base = 0x24000, .len = 0x2ac,
 -		.features = DMA_SDM845_MASK,
 +		.features = DMA_SDM845_MASK_SDMA,
  		.sblk = &dpu_dma_sblk,
  		.xin_id = 1,
  		.type = SSPP_TYPE_DMA,
-@@ -115,7 +115,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
+@@ -114,7 +114,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
  	}, {
  		.name = "sspp_9", .id = SSPP_DMA1,
- 		.base = 0x26000, .len = 0x1f0,
+ 		.base = 0x26000, .len = 0x2ac,
 -		.features = DMA_SDM845_MASK,
 +		.features = DMA_SDM845_MASK_SDMA,
  		.sblk = &dpu_dma_sblk,
  		.xin_id = 5,
  		.type = SSPP_TYPE_DMA,
-@@ -123,7 +123,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
+@@ -122,7 +122,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
  	}, {
  		.name = "sspp_10", .id = SSPP_DMA2,
- 		.base = 0x28000, .len = 0x1f0,
+ 		.base = 0x28000, .len = 0x2ac,
 -		.features = DMA_CURSOR_SDM845_MASK,
 +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
  		.sblk = &dpu_dma_sblk,
  		.xin_id = 9,
  		.type = SSPP_TYPE_DMA,
-@@ -131,7 +131,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
+@@ -130,7 +130,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
  	}, {
  		.name = "sspp_11", .id = SSPP_DMA3,
- 		.base = 0x2a000, .len = 0x1f0,
+ 		.base = 0x2a000, .len = 0x2ac,
 -		.features = DMA_CURSOR_SDM845_MASK,
 +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
  		.sblk = &dpu_dma_sblk,
