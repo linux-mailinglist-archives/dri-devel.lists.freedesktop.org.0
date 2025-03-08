@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D56A5775B
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 02:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412B2A5775E
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 02:42:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA7C10EC57;
-	Sat,  8 Mar 2025 01:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 309B310EC5F;
+	Sat,  8 Mar 2025 01:42:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="El6ZpBzO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NrzYtW2Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B30610E36B;
- Sat,  8 Mar 2025 01:42:43 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 456F210EC5D;
+ Sat,  8 Mar 2025 01:42:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8154AA44E90;
- Sat,  8 Mar 2025 01:37:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EE66C4CEEB;
- Sat,  8 Mar 2025 01:42:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DE40A5C661E;
+ Sat,  8 Mar 2025 01:40:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18C5AC4CEE8;
+ Sat,  8 Mar 2025 01:42:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741398161;
- bh=iPx+WBr8fx06alijfcgISN/safqfJBFq2eNoYJhSkxU=;
+ s=k20201202; t=1741398167;
+ bh=8XBXBagKLZU02BZTCbyYSWDs7g51/WZF2wIxyboks8k=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=El6ZpBzOyzWZCj0RW6VimlAEF7mrsiyeWpB3Rzv5IWd9EOpHiI3FipKsUq9gOZcrE
- Hn/r8ehPE/7aMkD32LW9Zk5CyOucPviqex7xRQVadMEJq1nSiqWDvivtNSO+/q6jjt
- eBUqRiT+jXeFFl143NERRs3piVejvXRxHgn7sSrtCkE7WkdxkNM0u9Ae+ONWjNqkeW
- hpHQpBLf42aQYkf0HP2u3XO7FpE6ph0qvGB0SBR+NOws9+f5sPHMJj4V9SqymAJfby
- qcInQhQQs0xFAEIeqxg68Cz/f3R3lRX3LFPVxYr73nCRuZWCGkgJ0a3F0SdqZFxsur
- 7h0WEQQSDKH2Q==
+ b=NrzYtW2YaPgG88BSMLcj2ypezAXBFLlKiUIm3j9n4nZNT2JSwUB0pFcJZALq3YRYk
+ FRYQIKB541q/XIuzayOlld5S/flpquYYAkBG4v0ZbT3XzmhfLQf/5kdXpfuiCOD0fH
+ CURmXFjU+GqKlikhsGVlD6nbKzu5XnAO6YOhSkpKJfWILVmosp1nMeKrA23snOCrdq
+ FjBAwtevWtQEzFXOshp2EX2EOukhOxpDIkHEWfxxWWYx6KJEsnini/mFJYKD18f5it
+ SstIOMvnwV58CY47TGUnIN8sW7Ig0SPIVQp2EbqstAxTiV0oU2p3eYeXLrkdTKKZRs
+ K/82V06EwmiYg==
 From: Dmitry Baryshkov <lumag@kernel.org>
-Date: Sat, 08 Mar 2025 03:42:20 +0200
-Subject: [PATCH 02/10] dt-bindings: display/msm: dsi-controller-main:
- describe SAR2130P
+Date: Sat, 08 Mar 2025 03:42:21 +0200
+Subject: [PATCH 03/10] dt-bindings: display/msm: dsi-phy-7nm: describe SAR2130P
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250308-sar2130p-display-v1-2-1d4c30f43822@linaro.org>
+Message-Id: <20250308-sar2130p-display-v1-3-1d4c30f43822@linaro.org>
 References: <20250308-sar2130p-display-v1-0-1d4c30f43822@linaro.org>
 In-Reply-To: <20250308-sar2130p-display-v1-0-1d4c30f43822@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -59,16 +58,16 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1258;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=872;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=rDGcZM2rvCdHm9sgR4lxUwNRWngl4FDx86wKfG6c6y4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBny6B/fQpJRnRqw1lfiMDhDsGG68sdQHMwYIMns
- lOOOgdvQi+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8ugfwAKCRCLPIo+Aiko
- 1SSOB/957aAJj2pRGjifVA6cDUWmwLG9wagizLPR/EPxJNgs6Ac4VDq0h6zGKp5oOB8YXuh3D9w
- gadAix7f31u0NniYOnkt6SV5szfhK49WwP69B8/Jzpa6nd5SGjpT4KU3x4P83BgvY+/MUCh3lga
- uVNRpoEgXtq0YjnjovDmvzO5Q4UNfs9Yp1E0Ki+bm1wxyu2gP20Ezt0JZvVK2nHQIDCL4fJ6JGa
- foLQ9e/GOmJS6myKW/gBy1kZgLIJboSsADqwFdu1wcpDTnvjDKuLIaDsogMvazlYqutGO4VFnEm
- F0QtKO6Y+np3gtFP4CUmRq9WpPra866+TKVo8kNquHq84ZOC
+ bh=ewz4mf+BJciAJgxQYRY8QHAfbvsLqEfizb9EYwvy3iU=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBny6B/8QvGT0I58bWL8/CWKhSUTHk77FvMas4u8
+ Pymrw7zPEiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ8ugfwAKCRCLPIo+Aiko
+ 1b70B/41hJerK6Kc5l4OX8X+HjPetK3Vc9wlLVOOKKZ7VXzUWGn5JFUVW21/Cy+UkWwOmHoxrVm
+ lvSzUWPl6BR4gxpcRUUUwIlvolsVbvtV5KknxRh7f6OTvNGst3POwq8idX2XCi6ZuYJx+GWWOTJ
+ WdrUxGOUrSWJp8bEt4yVprFbcoAWiQWOWQml0WX7jt5z+w8j/31zlPDFUkhJNegEVvmPhi8+oHb
+ +pCdC/JnvpyRDBbktIqHHQYh47ofyk0Jv8PtnA5lQKWTWovTjKtl9Bqu3wz4Heidxpzt5EtNmae
+ 3m5xjnoB9W58mv0kDjuf8N+sTLpYWWEOozhH+dkOjWHdZG64
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,33 +87,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Describe MIPI DSI controller present on Qualcomm SAR2130P platform.
+Describe MIPI DSI PHY present on Qualcomm SAR2130P platform.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index 2aab33cd0017cd4a0c915b7297bb3952e62561fa..a3e05e34bf14dd5802fc538ca8b69846384f8742 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -23,6 +23,7 @@ properties:
-               - qcom,msm8996-dsi-ctrl
-               - qcom,msm8998-dsi-ctrl
-               - qcom,qcm2290-dsi-ctrl
-+              - qcom,sar2130p-dsi-ctrl
-               - qcom,sc7180-dsi-ctrl
-               - qcom,sc7280-dsi-ctrl
-               - qcom,sdm660-dsi-ctrl
-@@ -314,6 +315,7 @@ allOf:
-           contains:
-             enum:
-               - qcom,msm8998-dsi-ctrl
-+              - qcom,sar2130p-dsi-ctrl
-               - qcom,sc7180-dsi-ctrl
-               - qcom,sc7280-dsi-ctrl
-               - qcom,sdm845-dsi-ctrl
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+index 321470435e654f1d569fc54f6a810e3f70fb168c..f79be422b8892484216b407f7385789764c2de1b 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+@@ -17,6 +17,7 @@ properties:
+     enum:
+       - qcom,dsi-phy-7nm
+       - qcom,dsi-phy-7nm-8150
++      - qcom,sar2130p-dsi-phy-5nm
+       - qcom,sc7280-dsi-phy-7nm
+       - qcom,sm6375-dsi-phy-7nm
+       - qcom,sm8350-dsi-phy-5nm
 
 -- 
 2.39.5
