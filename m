@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6876BA5789E
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 06:43:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96665A578A1
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 06:43:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 177EA10E1F4;
-	Sat,  8 Mar 2025 05:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FBB610E1FE;
+	Sat,  8 Mar 2025 05:43:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ix6KklKK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="blccUPlJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0520D10E0F5;
- Sat,  8 Mar 2025 05:43:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2571010E1FE;
+ Sat,  8 Mar 2025 05:43:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9EE5E5C479B;
- Sat,  8 Mar 2025 05:41:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4043AC4CEE0;
- Sat,  8 Mar 2025 05:43:17 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C3B915C47FB;
+ Sat,  8 Mar 2025 05:41:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92ED0C4CEE4;
+ Sat,  8 Mar 2025 05:43:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741412600;
- bh=vPGcIo+dX3lU5SKzUanCaLNZJi70a7dPvGebYotrBic=;
+ s=k20201202; t=1741412603;
+ bh=lvNTCquoZYOLdzB9Rda/Upj28Ljqn6eKuZ5H/y0HYfc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ix6KklKK61+5qR20kJBOLEDRiMmMcGmlqIoqN3pQimEZaueg+N+2BkzFlLnXUoNg/
- wKyaHV+uWtIMAYq3MUHH5XA5nSk8AY3VqbKErJVUJbZyAXYHKFr0r7Ad/fVml1KJj6
- rbTJwv28aMJm9UhT4Y9fJ5pZVjMa8C+SHDVpoY2ghH0Zsau/GrvaB9qD8rK8M/jP+6
- xDtmgGYj4BLZmP8jy1L0QGGJ6hlnYMHFaUILsKORfyPBxD5wA52RM97Blnv4WxvJkj
- WzsHNajL6A11Wx3FObOkr/nWq4d26UKnwmOSKa9MvuqgUrCoxJOOsMmlOzZHBpFxV5
- yD0ZIp+Xo5I3w==
+ b=blccUPlJjQ5fUZrnnFy4BsUZWcIANLNXgj+t+/+5ezyO9zO4vj/rfNBQbi8Yn058h
+ krWcPw5ooXABPzvywoDqJWxrtD//lBhvybvU5eSLXmOJZedxPnlCxOcHmlfwnj9mQB
+ 0mZdt+Lw6+ndNTDjKXDfmcoLMANL9y2+c2UU7TErGR++Cevz/8vu8z0Wu01SMVJhPM
+ rc4tVhxiXGiz5GvPWq4k0iC2KeYyWwUCg/3e29lARzZPW7yvRc0s42gCcBXB/B3v9k
+ CliKBOq2bHokpZz5L2LQnPN8IPk+zjGznt4kRJEMjY6hmlrQfe8UNUZ3D15P1uo5dP
+ Edp+hbNr76plg==
 From: Dmitry Baryshkov <lumag@kernel.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/msm/dpu: Fix uninitialized variable in
- dpu_crtc_kickoff_clone_mode()
-Date: Sat,  8 Mar 2025 07:43:11 +0200
-Message-Id: <174141256285.1924437.97313316814458618.b4-ty@linaro.org>
+To: robdclark@gmail.com,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, quic_abhinavk@quicinc.com,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] drm/msm/dpu: Remove duplicate dpu_hw_cwb.h header
+Date: Sat,  8 Mar 2025 07:43:12 +0200
+Message-Id: <174141256286.1924437.12866846639274689100.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <f8ba03dc-0f90-4781-8d54-c16b3251ecb1@stanley.mountain>
-References: <f8ba03dc-0f90-4781-8d54-c16b3251ecb1@stanley.mountain>
+In-Reply-To: <20250307015030.86282-1-jiapeng.chong@linux.alibaba.com>
+References: <20250307015030.86282-1-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -69,16 +65,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
-On Fri, 07 Mar 2025 12:29:39 +0300, Dan Carpenter wrote:
-> After the loop there is a check for whether "wb_encoder" has been set
-> to non-NULL, however it was never set to NULL.  Initialize it to NULL.
+On Fri, 07 Mar 2025 09:50:30 +0800, Jiapeng Chong wrote:
+> ./drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: dpu_hw_cwb.h is included more than once.
 > 
 > 
 
 Applied, thanks!
 
-[1/1] drm/msm/dpu: Fix uninitialized variable in dpu_crtc_kickoff_clone_mode()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/1b9d131a098e
+[1/1] drm/msm/dpu: Remove duplicate dpu_hw_cwb.h header
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/2060a2db1253
 
 Best regards,
 -- 
