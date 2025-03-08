@@ -2,70 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A32DA579C3
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 11:28:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDF8A579C8
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 11:38:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73F9C10E168;
-	Sat,  8 Mar 2025 10:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13EEA10E180;
+	Sat,  8 Mar 2025 10:38:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zNJTdXNY";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="cAUOkt0X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A63F710E168
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Mar 2025 10:28:23 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-390fdaf2897so2685746f8f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Mar 2025 02:28:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741429702; x=1742034502; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=v+3Fyu9sDNhajk8b64PGk0i9eVZ//11lf/1KZPjBx9k=;
- b=zNJTdXNYhdpXNlT0zMz1zpaa4iQznN5AVZr6GwXIWAaejnNmmdfnKdmtTbJv0RSb+7
- wEjcty1T3VMOZg6CqmrENw9cvZZiByoyY1UxNTRQBkoFB1YW9f1QuW2/x61N4prn4Me+
- GSOTxEvxYrJdtYtALZ16B93R2tjiKvtmJEBrt1YAgflNKG4MXEap+hjHej7fgOQN/Rbc
- RXo/qgr/UgSmht83/kTu3nKJFUcmiMg1I17cV4ftXeG+044Nlu8H8y9JLUh4a9nWVHxF
- XPFMrDyVZ9deM0ZHMkFbg5mbWq3k/AfP3u2DR0UCUZsi4I8365DoI1sKANTrFQzu2P6l
- UAOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741429702; x=1742034502;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v+3Fyu9sDNhajk8b64PGk0i9eVZ//11lf/1KZPjBx9k=;
- b=YH1KxJu9IBiKH7k8LGOOaaSYDr3cf2Y5yijE3YkpZ1gC4RpYZJyd3c0b/uTuqDMuFc
- ABW6nicnd3tgEPw0nUIfLYL+Ep5OsJv9yRElDwsNrJR1StyR+om3ba4Bbg46yAFkDWwE
- yhWTstgsB9TY0uIGSj8pQMlPppUqE8rLwhGhGrT2zUguXwcb7NhFYD4SIGjPcuzU33mt
- AIDUY40lDUEF+4ihu9Z+9edySGIxYoHbAm2nK0R/W1upVcJzkez20bCKYUMZvzlCL+Sq
- VKo0KSSGNkCOYAHTxwAT3M/EL9TcR9yX+gE/+PEFjro+QOWba6vdDCnMNZzgyUpTlXJM
- ARhw==
-X-Gm-Message-State: AOJu0YzyTZwXC/2Mqs0NN4iCEKSgAYmK8fxvmhMLfArsydt5Ksxa1QZa
- vsBNbvPIgq6u6oO2GVYE+ez9OOlW4H/0zd3srnqFpCRuk7hS2FJ9hzbz+OF1zTk=
-X-Gm-Gg: ASbGnctO451FWEhwQg0nMon0rzfbW9vTM81Ehhwbtal6BedzSOXyg+J+T5oN8eTBz/W
- XdqBPmLJ3HsbyJYjCeRrTxEOLafvSx5Vdm1DJpHGQOXgtc92V5XK5w+JHFVCQoQpmPqWbmelrcq
- aBc6gooKlnEuAzPLKCY8ayx8EPcOY5RRvtpV7EE8aVrO2xok62mp4g+TpqJdQ0fVOAnQRtLj1WK
- AGgfNStb3DdQ9nf8886wkzmzkaU11SK7cwTf1GzXEfCd08mXVexhs4kUOq2zC/bWeRjoEkfVPhU
- MD642tZa/tYw9RS4QpFJ1vdZPuU61UnxwXwxKe14S7GiwENhVQ==
-X-Google-Smtp-Source: AGHT+IFekvo2S+akE5zww3JV4LzsnwvAQaGoF4ZP4tDmZ3mW/9aD9dsALlmzhrggSYs9/xte/hRdpw==
-X-Received: by 2002:a5d:6d0c:0:b0:390:de33:b0ef with SMTP id
- ffacd0b85a97d-39132d7084emr5986328f8f.30.1741429701720; 
- Sat, 08 Mar 2025 02:28:21 -0800 (PST)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3912c0194f2sm8473409f8f.54.2025.03.08.02.28.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Mar 2025 02:28:21 -0800 (PST)
-Date: Sat, 8 Mar 2025 13:28:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: [bug report] drm/gpusvm: Add support for GPU Shared Virtual Memory
-Message-ID: <adaef4dd-5866-48ca-bc22-4a1ddef20381@stanley.mountain>
+Received: from out.smtpout.orange.fr (out-17.smtpout.orange.fr [193.252.22.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82C2F10E20C;
+ Sat,  8 Mar 2025 10:36:21 +0000 (UTC)
+Received: from [172.16.82.72] ([124.33.176.97]) by smtp.orange.fr with ESMTPA
+ id qrXKto1FVACDNqrXPtbz9o; Sat, 08 Mar 2025 11:36:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1741430178;
+ bh=3r6CNq7c1UF1VpR9t/DNQ2vWkrvLhXco71nuRKB37ek=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=cAUOkt0XhKkPVCP7sPPdl6eDa5wXICtIPMZMYju5W72dV5z2SOjwLCcfuPLWAHk9n
+ 2gTYHZXd0R4sI8KMvK3SXBwfJCDIS1b1K6HKf8bMbeNqk9FmIL5tMnOi1VgF9PRT3Y
+ nCpkIQgcXFRAYCNVi89hpt91TV94UknqNVbC2yysaRIeyZYrBIwrFnoCKROpKJ1+Ux
+ A4s6V8kF4TjX7zNe/m+EmBbeqY6E1yA7+p9nFMbg5UbUznxwaH978S2CA0bk2LuW3z
+ SW1iyANPCxfEo3SlDMTXHUprAnZ7bBGfVnUTD7p1WZniJ4R7/r1qpZ9IzolDgenoHP
+ 8p0zl3mLtMCvQ==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 08 Mar 2025 11:36:18 +0100
+X-ME-IP: 124.33.176.97
+Message-ID: <b34f0fbe-43e2-41c0-b47d-4c026432272b@wanadoo.fr>
+Date: Sat, 8 Mar 2025 19:36:05 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/7] drm/i915: Convert REG_GENMASK*() to fixed-width
+ GENMASK_U*()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Yury Norov <yury.norov@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jani Nikula <jani.nikula@intel.com>
+References: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
+ <20250308-fixed-type-genmasks-v6-4-f59315e73c29@wanadoo.fr>
+ <Z8syw47cN0eEW7lO@smile.fi.intel.com>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <Z8syw47cN0eEW7lO@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,48 +84,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Matthew Brost,
+On 08/03/2025 at 02:54, Andy Shevchenko wrote:
+> On Sat, Mar 08, 2025 at 01:48:51AM +0900, Vincent Mailhol via B4 Relay wrote:
+>> From: Lucas De Marchi <lucas.demarchi@intel.com>
+>>
+>> Now that include/linux/bits.h implements fixed-width GENMASK_U*(), use
+>> them to implement the i915/xe specific macros. Converting each driver
+>> to use the generic macros are left for later, when/if other
+>> driver-specific macros are also generalized.
+> 
+> ...
+> 
+>> +/*
+>> + * Wrappers over the generic BIT_* and GENMASK_* implementations,
+> 
+> BIT_U*(), GENMASK_U*() as far as I can see.
+> 
+> Also "...generic fixed-width...".
 
-Commit 99624bdff867 ("drm/gpusvm: Add support for GPU Shared Virtual
-Memory") from Mar 5, 2025 (linux-next), leads to the following Smatch
-static checker warning:
+Ack. I will address both in next version.
 
-	drivers/gpu/drm/drm_gpusvm.c:794 drm_gpusvm_range_alloc()
-	error: 'range' dereferencing possible ERR_PTR()
 
-drivers/gpu/drm/drm_gpusvm.c
-    777 static struct drm_gpusvm_range *
-    778 drm_gpusvm_range_alloc(struct drm_gpusvm *gpusvm,
-    779                        struct drm_gpusvm_notifier *notifier,
-    780                        unsigned long fault_addr, unsigned long chunk_size,
-    781                        bool migrate_devmem)
-    782 {
-    783         struct drm_gpusvm_range *range;
-    784 
-    785         if (gpusvm->ops->range_alloc)
-    786                 range = gpusvm->ops->range_alloc(gpusvm);
+Yours sincerely,
+Vincent Mailhol
 
-xe_svm_range_alloc() returns ERR_PTR(-ENOMEM).
-
-    787         else
-    788                 range = kzalloc(sizeof(*range), GFP_KERNEL);
-    789 
-    790         if (!range)
-    791                 return ERR_PTR(-ENOMEM);
-    792 
-    793         kref_init(&range->refcount);
---> 794         range->gpusvm = gpusvm;
-                ^^^^^^^^^^^^^
-
-    795         range->notifier = notifier;
-    796         range->itree.start = ALIGN_DOWN(fault_addr, chunk_size);
-    797         range->itree.last = ALIGN(fault_addr + 1, chunk_size) - 1;
-    798         INIT_LIST_HEAD(&range->entry);
-    799         range->notifier_seq = LONG_MAX;
-    800         range->flags.migrate_devmem = migrate_devmem ? 1 : 0;
-    801 
-    802         return range;
-    803 }
-
-regards,
-dan carpenter
