@@ -2,48 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96665A578A1
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 06:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE88CA578A5
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 06:43:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FBB610E1FE;
-	Sat,  8 Mar 2025 05:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2822B10E208;
+	Sat,  8 Mar 2025 05:43:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="blccUPlJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qdOF2JqA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2571010E1FE;
- Sat,  8 Mar 2025 05:43:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6C5E10E208;
+ Sat,  8 Mar 2025 05:43:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C3B915C47FB;
- Sat,  8 Mar 2025 05:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92ED0C4CEE4;
- Sat,  8 Mar 2025 05:43:20 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 60C265C479B;
+ Sat,  8 Mar 2025 05:41:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA39FC4CEE0;
+ Sat,  8 Mar 2025 05:43:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741412603;
- bh=lvNTCquoZYOLdzB9Rda/Upj28Ljqn6eKuZ5H/y0HYfc=;
+ s=k20201202; t=1741412608;
+ bh=ovZlCRfpGxU3/hjuo4CLsJ1CEQZkEYIY+jKDnqT6rSY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=blccUPlJjQ5fUZrnnFy4BsUZWcIANLNXgj+t+/+5ezyO9zO4vj/rfNBQbi8Yn058h
- krWcPw5ooXABPzvywoDqJWxrtD//lBhvybvU5eSLXmOJZedxPnlCxOcHmlfwnj9mQB
- 0mZdt+Lw6+ndNTDjKXDfmcoLMANL9y2+c2UU7TErGR++Cevz/8vu8z0Wu01SMVJhPM
- rc4tVhxiXGiz5GvPWq4k0iC2KeYyWwUCg/3e29lARzZPW7yvRc0s42gCcBXB/B3v9k
- CliKBOq2bHokpZz5L2LQnPN8IPk+zjGznt4kRJEMjY6hmlrQfe8UNUZ3D15P1uo5dP
- Edp+hbNr76plg==
+ b=qdOF2JqAGlZ3avu+8eSjQmrorNfh5LAh3694+nIPDuUdNdmAcEqD3CtUUBz9ZS4P0
+ UaC/bPe/yBJnZKSgohUjBrYuMApX9swb/yhBsOe5IbcqFRchtfdpXWht+22aBGzCGB
+ z/m9vNlNDbIiCwoKoqTqUawawmXjxgihNbJQ0e8+f7tgvA+jpmk2yv6IX/bRo5BgQ+
+ oGgCHvmFDsComwPcm2g/bNYH1CmZXIhnpl2VZzEDOnRJhITbgfRVeJGuJwP9PYhshr
+ yXzXLQsPyBV83WIbKfJlKeiEZa/KATUISQeN4GfrEGCP3WlRka1i/0En57/Fb1W1Tl
+ EiHTT3ntKrR4Q==
 From: Dmitry Baryshkov <lumag@kernel.org>
-To: robdclark@gmail.com,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, quic_abhinavk@quicinc.com,
- sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
- simona@ffwll.ch, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH -next] drm/msm/dpu: Remove duplicate dpu_hw_cwb.h header
-Date: Sat,  8 Mar 2025 07:43:12 +0200
-Message-Id: <174141256286.1924437.12866846639274689100.b4-ty@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Srini Kandagatla <srinivas.kandagatla@linaro.org>,
+ Rob Clark <robdclark@chromium.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH v3 00/21] drm/msm: Add support for SM8750
+Date: Sat,  8 Mar 2025 07:43:13 +0200
+Message-Id: <174141256285.1924437.13836613214296970424.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250307015030.86282-1-jiapeng.chong@linux.alibaba.com>
-References: <20250307015030.86282-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
+References: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -65,15 +78,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
-On Fri, 07 Mar 2025 09:50:30 +0800, Jiapeng Chong wrote:
-> ./drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: dpu_hw_cwb.h is included more than once.
+On Fri, 21 Feb 2025 16:24:10 +0100, Krzysztof Kozlowski wrote:
+> Dependency / Rabased on top of
+> ==============================
+> https://lore.kernel.org/all/20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org/
 > 
+> Merging
+> =======
+> DSI pieces here might not be ready - I got modetest writeback working,
+> but DSI panel on MTP8750 still shows darkness.  Therefore we discussed
+> that DPU/catalog things could be applied first.
 > 
+> [...]
 
 Applied, thanks!
 
-[1/1] drm/msm/dpu: Remove duplicate dpu_hw_cwb.h header
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/2060a2db1253
+[01/21] dt-bindings: display/msm: dsi-controller-main: Combine if:then: entries
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/0edf7b1f3190
+[02/21] dt-bindings: display/msm: dsi-controller-main: Add missing minItems
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/83ee6d2ec52f
 
 Best regards,
 -- 
