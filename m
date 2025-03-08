@@ -2,74 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE32A57C34
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 18:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AB0A57C48
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 18:19:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743CD10E257;
-	Sat,  8 Mar 2025 17:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C432810E265;
+	Sat,  8 Mar 2025 17:19:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DRsKL1aW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MrnmAze8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E270410E214;
- Sat,  8 Mar 2025 17:05:42 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5052D10E265
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Mar 2025 17:19:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 17EBC5C6203;
- Sat,  8 Mar 2025 17:03:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1719BC4CEE4;
- Sat,  8 Mar 2025 17:05:38 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id C4EACA45A03;
+ Sat,  8 Mar 2025 17:14:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392D4C4CEE0;
+ Sat,  8 Mar 2025 17:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741453538;
- bh=spD0x337wJctW2/W0LOakh/QP95xehRUlEjwpgN4CeM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=DRsKL1aWZPZ4nMoNZ3J3eN8DotDY0BGtTXEwgYFrVNmy0XbHxLwOAZnaAUhLMeRY9
- Dnzn2SaziUAUZXBjpp0NLQffUHZ+bvIYTTq03tMnlx7BnuVBS2SuQ2RSe9gIZdZDgR
- K2pLKJXdnTJJPbiwfoB/sNtB6RF6gDc0npT7+3Cql76HguGqZqefhaYO5PyGrfy914
- fOtnqZUfEqWy/WOz13/P8V63coMmY9PLApxpWx+jX6yx9hW7hQad5Mw1bwJiSfOI3k
- ztYC5gW/7vH6lHUaAu1yC41I+Hkcy4rTDiK6BdjVIf+YsgyiziTCJyY7fOKdrW3P4q
- r85ItPhaP09qg==
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5499da759e8so237232e87.0; 
- Sat, 08 Mar 2025 09:05:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW/K8UciR6lVrocK3+umgbmAnHpdl+x9M1TCAZIPuSh0yagJJG+gz+yajmQcQbjzzUTpGswqhO5Tb0p@lists.freedesktop.org,
- AJvYcCW2+UVeNsT89S8ohmcrvZOBePe98Q9BgSzpw0LJT6NipcnD6Ap+j5wdetBdnZjSfkR4z73P9EYKEpQ=@lists.freedesktop.org,
- AJvYcCWRM6KZz/ltqE5rAzpU/xSzZOGJMi/NWQAebUfBsskNooiRbS2SjPfcojxfJHQJVhYHDo/+FKRDdxE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAKg5eaToQWsSW2EQmi8lfWYK6f+TKBp3gd4+h6BVzcQgmwYQi
- cTdI5gRCrKKRKu9jKr3UMsXdCvzOznTlT8V+lqoAt4ZHpJoUGUOMHNLz+MqoyxaTaSDyJhkSlYx
- 6lHXeVML9YMWzvEvgGmfsLrui4dw=
-X-Google-Smtp-Source: AGHT+IENRDKmWLj+WY1kfGBN4ed7jrzyXk1/GC6kfk4gFHHLgxv9+VUf8rHCwp6m0ZhTErnGKHWA7HZfwQszV/MeyKA=
-X-Received: by 2002:a05:6512:b0a:b0:549:8c0c:ea15 with SMTP id
- 2adb3069b0e04-54997d99dbemr1648551e87.0.1741453536762; Sat, 08 Mar 2025
- 09:05:36 -0800 (PST)
+ s=k20201202; t=1741454384;
+ bh=WIXPEAfYW6XziCXxNrSUx8MTO0qn8BfggsX4aIVdclE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=MrnmAze88WmBN/BzwaskCEYUl/E7BBXL4zio3IYdhby50e3KiZaPauGIURpacE/Dw
+ UBb+o9RKvUtD8FZcx+9DBz69KbwMmZvn2ADR3VrAbBy/2I1GDssGYJO/4K4wzG8GHO
+ ZNbnsL1ebkV6GXU+0h1iUkYgnp4fYYw0r6cpHTSamn2fJL7YrK3H+DbBSVhBrHd79z
+ 4+8kH/U1hj2tQWYIYiWfT6rJ+xAVemaQUqHdmxSzu99yAMjBKruAuTJ6pwXAwXukK4
+ 3H6s/bCklWlVZPO+/buxuUFR+Kh2tQE6JcuTP6m2tyv9PI3eg6FIP25uHYQWvuJQmp
+ EmH1Nmlv0ciDg==
+Date: Sat, 8 Mar 2025 17:19:32 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>, Daniel
+ Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Helge
+ Deller <deller@gmx.de>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@baylibre.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] mfd: lm3533: convert to use OF
+Message-ID: <20250308171932.2a5f0a9b@jic23-huawei>
+In-Reply-To: <CAPVz0n3Qt00my1ejoyEgxTRi-mQszHybwhPq70eO=94oxMfECQ@mail.gmail.com>
+References: <20250224114815.146053-1-clamor95@gmail.com>
+ <20250224114815.146053-3-clamor95@gmail.com>
+ <20250228085927.GM824852@google.com>
+ <CAPVz0n0jaR=UM7WbBs3zM-cZzuaPVWBjf4Q7i82hvxtXg2oCzQ@mail.gmail.com>
+ <20250305134455.2843f603@jic23-huawei>
+ <CAPVz0n3Qt00my1ejoyEgxTRi-mQszHybwhPq70eO=94oxMfECQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <cover.1737556766.git.jani.nikula@intel.com>
- <d8ad1c6d707f38a55987f616cb9650aef30b84e1.1737556766.git.jani.nikula@intel.com>
- <CAK7LNATHXwEkjJHP7b-ZmhzLfyyuOdsyimna-=r-sJk+DxigrA@mail.gmail.com>
- <87r03e1lft.fsf@intel.com>
- <CAK7LNARYBtpwkJxbf84+bzBYn05Kk2zvdVLDZMMBg=B_zzFokg@mail.gmail.com>
- <8734fu1arq.fsf@intel.com>
- <CAK7LNATu9OLEANiSzY3Smo=Bm_9M75EDyvmD6HT5kaS2sxRorw@mail.gmail.com>
- <20250305-modest-finch-of-genius-917605@houat>
-In-Reply-To: <20250305-modest-finch-of-genius-917605@houat>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 9 Mar 2025 02:05:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATYi5HPR+J0cdS33itHUdq5Qd+543X=z+AFyHxQssSJRw@mail.gmail.com>
-X-Gm-Features: AQ5f1JrcpiwPWbOqe8DUcKJzIYj3izGyKq0j-4vGn25dcPlBNvrmPcAy1roUDQ8
-Message-ID: <CAK7LNATYi5HPR+J0cdS33itHUdq5Qd+543X=z+AFyHxQssSJRw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm: ensure drm headers are self-contained and pass
- kernel-doc
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- simona.vetter@ffwll.ch, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,57 +71,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 5, 2025 at 10:59=E2=80=AFPM Maxime Ripard <mripard@kernel.org> =
-wrote:
->
-> On Wed, Mar 05, 2025 at 03:05:25AM +0900, Masahiro Yamada wrote:
-> > > IMO headers should almost invariably be self-contained, instead of
-> > > putting the burden on their users to include other headers to make it
-> > > work. It's a PITA in a project the size of the kernel, or even just t=
-he
-> > > drm subsystem, to track these cases when you modify includes in eithe=
-r
-> > > users or the headers being included.
+On Wed, 5 Mar 2025 16:18:38 +0200
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+
+> =D1=81=D1=80, 5 =D0=B1=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 15:45 Jon=
+athan Cameron <jic23@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > On Fri, 28 Feb 2025 11:30:51 +0200
+> > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > =20
+> > > =D0=BF=D1=82, 28 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 10:5=
+9 Lee Jones <lee@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5: =20
+> > > >
+> > > > On Mon, 24 Feb 2025, Svyatoslav Ryhel wrote:
+> > > > =20
+> > > > > Remove platform data and fully relay on OF and device tree
+> > > > > parsing and binding devices.
+> > > > >
+> > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > > ---
+> > > > >  drivers/iio/light/lm3533-als.c      |  40 ++++---
+> > > > >  drivers/leds/leds-lm3533.c          |  46 +++++---
+> > > > >  drivers/mfd/lm3533-core.c           | 159 ++++++++--------------=
+------
+> > > > >  drivers/video/backlight/lm3533_bl.c |  71 ++++++++++---
+> > > > >  include/linux/mfd/lm3533.h          |  35 +-----
+> > > > >  5 files changed, 164 insertions(+), 187 deletions(-)
+> > > > > =20
+> ...
+> > > > >       /* ALS input is always high impedance in PWM-mode. */
+> > > > > -     if (!pdata->pwm_mode) {
+> > > > > -             ret =3D lm3533_als_set_resistor(als, pdata->r_selec=
+t);
+> > > > > +     if (!als->pwm_mode) {
+> > > > > +             ret =3D lm3533_als_set_resistor(als, als->r_select)=
+; =20
+> > > >
+> > > > You're already passing 'als'.
+> > > >
+> > > > Just teach lm3533_als_set_resistor that 'r_select' is now contained.
+> > > > =20
 > > >
-> > > The exception to this are headers that are not to be included directl=
-y
-> > > by users, but rather by other headers as an implementation detail. Th=
-ere
-> > > may be such cases in include/linux, but not under include/drm.
+> > > This is not scope of this patchset. I was already accused in too much
+> > > changes which make it unreadable. This patchset is dedicated to
+> > > swapping platform data to use of the device tree. NOT improving
+> > > functions, NOT rewriting arbitrary mechanics. If you feed a need for
+> > > this change, then propose a followup. I need from this driver only one
+> > > thing, that it could work with device tree. But it seems that it is
+> > > better that it just rots in the garbage bin until removed cause no one
+> > > cared. =20
 > >
-> > This results in a false check for include/linux/.
+> > This is not an unreasonable request as you added r_select to als.
+> > Perhaps it belongs in a separate follow up patch. =20
+>=20
+> I have just moved values used in pdata to private structs of each
+> driver. Without changing names or purpose.
+>=20
+> > However
+> > it is worth remembering the motivation here is that you want get
+> > this code upstream, the maintainers don't have that motivation. =20
+>=20
+> This driver is already upstream and it is useless and incompatible
+> with majority of supported devices. Maintainers should encourage those
+> who try to help and instead we have what? A total discouragement. Well
+> defined path into nowhere.
+
+That is not how I read the situation. A simple request was made to
+result in more maintainable code as a direct result of that
+improvement being enabled by code changes you were making.
+I'm sorry to hear that discouraged you.
+
+>=20
 > >
-> > I don=E2=80=99t see much sense in doing this exceptionally for include/=
-drm/
-> > after we've learned that it doesn't work globally.
->
-> As far as I'm concerned, I find this extremely helpful for DRM. If only
-> to ensure that the huge amount of work that went into cleaning up our
-> headers doesn't get lost.
->
-> Nobody here claims that it should be enabled globally, just that it
-> should be enabled for DRM. We already have plenty of exceptions like
-> that for compiler flags, checkpatch, contribution process, etc. so I'm
-> not sure why those would be ok, but additional checks limited to a
-> subsystem wouldn't.
->
-> Maxime
+> > Greg KH has given various talks on the different motivations in the
+> > past. It maybe worth a watch.
+> >
+> > =20
+> > > =20
+> > > > >               if (ret)
+> > > > >                       return ret;
+> > > > >       }
+> > > > > @@ -828,22 +833,16 @@ static const struct iio_info lm3533_als_inf=
+o =3D {
+> > > > >
+> > > > >  static int lm3533_als_probe(struct platform_device *pdev)
+> > > > >  {
+> > > > > -     const struct lm3533_als_platform_data *pdata;
+> > > > >       struct lm3533 *lm3533;
+> > > > >       struct lm3533_als *als;
+> > > > >       struct iio_dev *indio_dev;
+> > > > > +     u32 val; =20
+> > > >
+> > > > Value of what, potatoes?
+> > > > =20
+> > >
+> > > Oranges. =20
+> >
+> > A well named variable would avoid need for any discussion of
+> > what it is the value of.
+> > =20
+>=20
+> This is temporary placeholder used to get values from the tree and
+> then pass it driver struct.
 
-Because we learned this feature is broken.
-It was broken under include/linux/, so it will be broken under include/drm/=
- too.
+Better if it is a temporary placeholder with a meaningful name.
 
-Headers are included conditionally.
-There is no need to make them self-contained in all cases
-by compile-testing every header detected by the 'find' command.
+>=20
+> > > =20
+> > > > >       int ret;
+> > > > >
+> > > > >       lm3533 =3D dev_get_drvdata(pdev->dev.parent);
+> > > > >       if (!lm3533)
+> > > > >               return -EINVAL;
+> > > > >
+> > > > > -     pdata =3D dev_get_platdata(&pdev->dev);
+> > > > > -     if (!pdata) {
+> > > > > -             dev_err(&pdev->dev, "no platform data\n");
+> > > > > -             return -EINVAL;
+> > > > > -     }
+> > > > > -
+> > > > >       indio_dev =3D devm_iio_device_alloc(&pdev->dev, sizeof(*als=
+));
+> > > > >       if (!indio_dev)
+> > > > >               return -ENOMEM;
+> > > > > @@ -864,13 +863,21 @@ static int lm3533_als_probe(struct platform=
+_device *pdev)
+> > > > >
+> > > > >       platform_set_drvdata(pdev, indio_dev);
+> > > > >
+> > > > > +     val =3D 200 * KILO; /* 200kOhm */ =20
+> > > >
+> > > > Better to #define magic numbers; DEFAULT_{DESCRIPTION}_OHMS
+> > > > =20
+> > >
+> > > Why? that is not needed. =20
+> > If this variable had a more useful name there would be no need for
+> > the comment either.
+> >
+> >         val_resitor_ohms =3D 200 * KILLO;
+> >
+> > or similar.
+> > =20
+>=20
+> So I have to add a "reasonably" named variable for each property I
+> want to get from device tree? Why? It seems to be a bit of overkill,
+> no? Maybe I am not aware, have variables stopped being reusable?
 
-I am very negative about this patch.
-I hope the upstream maintainers and Linus will not pull this.
+Lets go with yes if you want a definitive answer. In reality it's
+a question of how many are needed.  If 10-100s sure reuse is fine,
+if just a few sensible naming can remove the need for comments
+and improve readability.
 
+Jonathan
 
-
-
-
---
-Best Regards
-Masahiro Yamada
