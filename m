@@ -2,87 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A73A57B6D
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 16:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D572A57B8D
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 16:25:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D26AE10E15A;
-	Sat,  8 Mar 2025 15:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD4810E1F3;
+	Sat,  8 Mar 2025 15:25:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iKWvLh/3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pCh1E7se";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
- [209.85.166.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEFA110E15A
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Mar 2025 15:06:10 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id
- ca18e2360f4ac-855bd88ee2cso68871639f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Mar 2025 07:06:10 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 830E410E1D9
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Mar 2025 15:25:20 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-30613802a6bso29997341fa.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Mar 2025 07:25:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741446369; x=1742051169; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oHOwT3n1PCUo/y6NdHENnjQLFXdpyvoVHDUJfhV/W6g=;
- b=iKWvLh/3wcXNs/sBf2qGeQxi+OBHIzHUk1NZi3OMKLcyWMro/Hm7xuluoUDmNwYqvz
- 7FBJzlKQoXnaJl8SvvB7nVXLyF9H92c07yuhon/c7JnCJaO181SDXnhzEIM7BGzZyMe2
- SeJjAtBIZfrBXKvQJzU4voMKoVxE5TadJphSDIpchyo4btzkqk0RxScHtbiBsQ2NzUNs
- lR9ug2XaZz2eJfZZm7eNWuQa55VM4nAhjbM4nqtpSJJt5bwVC5gslbjqOb9vmLKFG2SQ
- 8kjYNSg4THvWAoysQoON3j5WvAEZ2xhEZepkE7Z0fBAPjaJWILFZ3gU15bOiJKZiEkWx
- U1ig==
+ d=linaro.org; s=google; t=1741447519; x=1742052319; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=HKBg6m2ZBD+SRolEbJmxTaEbWBs0aYZ+E9F5kWCXB5g=;
+ b=pCh1E7seoI/UEWudAjFm8KTmwFx8PiQYAKUq/tOZeqeVprTjh5v2cYLeXBMMkujr9s
+ WK6tmuZbNSHT7OocxgVNLiDUlkEDuyDkTlBSslS3sssB8NpQr8LHVMwQ62UnRyG2064h
+ J1vhoxwRKsneVH8UdtkGF7oTBtGmr6hkvTmaAM6xcBIWhA5Twb6L5IkQ2AU+3G3K1sXh
+ 3+Pwkb/OM3N7obadM0yTSJwLiJmFbGIHP+pgf4AEHbRgR2R7Xepz6WCMLNehlVOsND3y
+ QyT9nsui2n6tnZflJOa5HqkF3zQnz6IKz47lpWhsiPflAvTevfbjZngKs8yyMyBEXlXJ
+ HZVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741446369; x=1742051169;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oHOwT3n1PCUo/y6NdHENnjQLFXdpyvoVHDUJfhV/W6g=;
- b=Bo4YgoGl+RGioY8oqhpzxRJUZ9q4QcZCfrOdBKR1HcnDnNUFi/uEa6e5MAL8rTzYNP
- zGv1qtiO6zW5wlVmJFfrExa2Dnf5CW5PDE3ttMTRWOn00NDIXWyvqTaK/sP1zfJsLOwZ
- Hoyt5YBgJBgQEelf0SphFL1LuY/qUDmxwa9ydwO5B+lgW3OleCjNmYSu0VD1imKWqJna
- JnnahOZFt7XlGkm6UGUOW84cWT2ez5Cwm9s9/TDuXVkwO5Bh2PsogNQAZbjZZTtyb8lo
- s/aoS0AM2oJ4656uUyM/KMUhZ0kZLa9cKlfZsxWsVtDQyOTOSfJ0CUtsRSxnhWyOAsNF
- G7sg==
+ d=1e100.net; s=20230601; t=1741447519; x=1742052319;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HKBg6m2ZBD+SRolEbJmxTaEbWBs0aYZ+E9F5kWCXB5g=;
+ b=XDz1Fccm1kZeD1H611s/RRGBRAx1YFd3dFRFey3rjF6Mn+Lw8gpIPzs7npcgtFcWvV
+ JTiE/r0b2ctt0V0Tii0226BPh7zU+yRKuK9qGLDL4s/S1Wwf4oRFgHOGDGXaAvFB+RTb
+ /dH7k0GU7NdYziumBtKYwstto4RmD9mh+ta4XA+uT/ZNA+72zLDpSArPjacjUL+fh9ia
+ 9zATt9ENUIhgVbYwvCOy79GU891i8UfeRGQ0zDhSjQkne5c9RXbYVbM/vyQWQ+zfGoKs
+ BV8/Os1c4FoQbcuWPWgUuL73iY1orMHCwgvDjsWJJ8gc99aU2WSp8G8QCbTE9fHhVynv
+ PEyg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV+JudarCmyyBoGcS5sl417ABWohg1wZuKiH5JudKxNnwmy0mAeO0qvIPXGq/TKmfwX5MuPp1JHeaM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyX0OxcSrEa+pwZKFVHUZWjdHJEto9dcD7G4oE6lP9tyOMTPImW
- 2lEHrelkcpzS59R4S3fkx2r1R+Q4EjwPskYOaeRTn0p5KYoLF+/CSTXcfbK0HeV+ZQDYwt8IYoz
- qPEJZqmbiJB0GC4KuBoxWYMdMYj4=
-X-Gm-Gg: ASbGnctPycGTJrW+88DxqzJJ+UtYFh/4IT9QOBXblJo/gi5lQ7Ib1VMvQLdi6eP+WDS
- 9TjVMw9QDYu1YGYv7wjYwqYJd50k6H23mUbtNeIVokJgPRAOOkcjxNjER3+4s+DqYhRWI5oyend
- DJ65qRzFqsj0qs1PE3wYNGBlyV42y1rVFeDa5g
-X-Google-Smtp-Source: AGHT+IE6rMhIOcUDTE9g+KCKbXkQJ6AA9pb8ULsdh0ph11ccSmoOt0Po2EHEXMAWJApHuVHh3LPZsU0Ywh+KmUc+5s0=
-X-Received: by 2002:a92:c543:0:b0:3d4:28c0:1692 with SMTP id
- e9e14a558f8ab-3d4418d5121mr86422555ab.5.1741446368590; Sat, 08 Mar 2025
- 07:06:08 -0800 (PST)
+ AJvYcCX6U5wSbqxhv4juiu+Zhe0Ypu7VMNbLXL+PEEq7BDK1IcWjNTEsiHhjUb+CZ4Ox/kbAfzw95TaCSKI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzh/jg7TS+8JP7iA4UgfKrqcHHYit0MozuqHbkTJnTvMT9ViiVK
+ zfcBk238YG38F0DlqNuEKz9+ccV5YlXaolt2O0M2XPNAl8UxDtpUbNZFytCeGsU=
+X-Gm-Gg: ASbGncuX3l/t7dK/i3qHG0kKcHUHGjlunXM5/8WtnWeVtJo6Vaesp4U8zmh1EANqI5S
+ vkOjXXmnJE9zbpvIWkLT4t2aW22JzHmelem3N/P3wxnbK3Cqi+M/x1oMfWxK56Eo+C/wiqkNVVE
+ iWYCWBXwvIwDokdSjZJISu12LKb5waObac12C+jamaoJ2wKZQ1gPXaZWv/5WKs/Cz6sE16LIemE
+ yskIbQ3VHat+xsO3ooEVT7sadUYxRAiI7jkGQjdSKs3Y6ZvXZvhZDpLVv8f4vtwwE8UmcCFEsbH
+ 9e2VZBo6yPx8vxtoSwFS+hAT7nKSgFZv2cd/yMfUOQnPcqFXAZCWqqOK6Gv6RiRG6SGTf+2V3qm
+ dOPrHIqfNCWsLebVN8QTznwFJ
+X-Google-Smtp-Source: AGHT+IGa+Ul+zGmtbtHzOv+NiUo+h+jc38TvQkxrCnLVKsfBxUNjbh9YNgRAJWxI0GRtuRncaHMZ6w==
+X-Received: by 2002:a05:651c:19a1:b0:30b:ec4d:e5df with SMTP id
+ 38308e7fff4ca-30bf466dbcfmr32754081fa.34.1741447518937; 
+ Sat, 08 Mar 2025 07:25:18 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30be99c85c0sm9452071fa.87.2025.03.08.07.25.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Mar 2025 07:25:17 -0800 (PST)
+Date: Sat, 8 Mar 2025 17:25:15 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Joerg Roedel <joro@8bytes.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 07/10] drm/msm/dsi/phy: add configuration for SAR2130P
+Message-ID: <qextyfjeniihulyilehcldd5x5pdpaxo3etstlcq4a43cka3a4@4n3mqkjjysqt>
+References: <20250308-sar2130p-display-v1-0-1d4c30f43822@linaro.org>
+ <20250308-sar2130p-display-v1-7-1d4c30f43822@linaro.org>
+ <53c3d2c3-2bfb-43f9-ad25-0d1fdd96f19f@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <CAF6AEGvGZp=WhGxmqVjqPnR3G33GTng+L0kwABCRxAKb0nHc9g@mail.gmail.com>
- <CAA8EJppyM_-5fBL6VFp+kxyg36LAbjxqUgA+ico9LBuJvaahxQ@mail.gmail.com>
- <20240909-marvellous-ostrich-of-improvement-c7d2c8@houat>
- <CAA8EJpoe=Ei7fjZNd24OCVrapt5Y13ZFk8mheqPOy2FBF1a43Q@mail.gmail.com>
- <CAF6AEGub4O86pRM6iM5xaDKVrR57D=OCm00ifFksG1LT9a4+og@mail.gmail.com>
- <qs72n3l6l63er3d5lrxoravqbjrjllscnyhs7crb6anabvaez4@4hathpqkwnnd>
- <67c8cf4c-f224-4c24-96b2-92aaa3224321@collabora.com>
- <CAF6AEGvDc7RfZ2Y4B2oBag=MaAuUTJxjMwvD0yieA6qb42QMVQ@mail.gmail.com>
- <20250307-just-calm-centipede-b617ab@houat>
- <CAF6AEGsaqy0rXFMTV-6nrusqK1wpV2AkHP4=fwJJC_xd7kQROA@mail.gmail.com>
- <ppohyz3ibdaoifqkhgp6ym5qm33hutak54dlgfb75hpxfhepjl@2u3bf75ixyac>
-In-Reply-To: <ppohyz3ibdaoifqkhgp6ym5qm33hutak54dlgfb75hpxfhepjl@2u3bf75ixyac>
-From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 8 Mar 2025 07:05:55 -0800
-X-Gm-Features: AQ5f1Jrj_V-6G_U7KJy-tuGYdT8WD6FDhEVoUWJQLBCYxxO4m6oWcI9zU4rxarU
-Message-ID: <CAF6AEGsapCc2=j31=spWkcrB25+OHSq_uOne_my=mS9rbOfVuw@mail.gmail.com>
-Subject: Re: Time for drm-ci-next?
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maxime Ripard <mripard@redhat.com>,
- Vignesh Raman <vignesh.raman@collabora.com>, 
- Helen Koike <helen.koike@collabora.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Dave Airlie <airlied@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>, 
- Daniel Stone <daniels@collabora.com>, Rob Clark <robdclark@chromium.org>, 
- Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov <lumag@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53c3d2c3-2bfb-43f9-ad25-0d1fdd96f19f@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,379 +107,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 7, 2025 at 7:14=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Fri, Mar 07, 2025 at 09:26:54AM -0800, Rob Clark wrote:
-> > On Fri, Mar 7, 2025 at 9:00=E2=80=AFAM Maxime Ripard <mripard@redhat.co=
-m> wrote:
-> > >
-> > > On Fri, Mar 07, 2025 at 08:42:46AM -0800, Rob Clark wrote:
-> > > > On Tue, Sep 24, 2024 at 5:27=E2=80=AFAM Vignesh Raman
-> > > > <vignesh.raman@collabora.com> wrote:
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > On 12/09/24 11:18, Dmitry Baryshkov wrote:
-> > > > > > On Mon, Sep 09, 2024 at 07:34:04AM GMT, Rob Clark wrote:
-> > > > > >> On Mon, Sep 9, 2024 at 2:54=E2=80=AFAM Dmitry Baryshkov
-> > > > > >> <dmitry.baryshkov@linaro.org> wrote:
-> > > > > >>>
-> > > > > >>> On Mon, 9 Sept 2024 at 10:50, Maxime Ripard <mripard@redhat.c=
-om> wrote:
-> > > > > >>>>
-> > > > > >>>> Hi,
-> > > > > >>>>
-> > > > > >>>> On Tue, Jul 09, 2024 at 01:27:51AM GMT, Dmitry Baryshkov wro=
-te:
-> > > > > >>>>> On Mon, 8 Jul 2024 at 21:38, Rob Clark <robdclark@gmail.com=
-> wrote:
-> > > > > >>>>>>
-> > > > > >>>>>> On Mon, Jul 8, 2024 at 1:52=E2=80=AFAM Daniel Vetter <dani=
-el.vetter@ffwll.ch> wrote:
-> > > > > >>>>>>>
-> > > > > >>>>>>> On Fri, Jul 05, 2024 at 12:31:36PM -0700, Rob Clark wrote=
-:
-> > > > > >>>>>>>> On Fri, Jul 5, 2024 at 3:36=E2=80=AFAM Daniel Vetter <da=
-niel.vetter@ffwll.ch> wrote:
-> > > > > >>>>>>>>>
-> > > > > >>>>>>>>> On Thu, Jul 04, 2024 at 08:40:26AM -0700, Rob Clark wro=
-te:
-> > > > > >>>>>>>>>> On Thu, Jul 4, 2024 at 7:08=E2=80=AFAM Daniel Vetter <=
-daniel.vetter@ffwll.ch> wrote:
-> > > > > >>>>>>>>>>>
-> > > > > >>>>>>>>>>> On Tue, Jul 02, 2024 at 05:32:39AM -0700, Rob Clark w=
-rote:
-> > > > > >>>>>>>>>>>> On Fri, Jun 28, 2024 at 10:44=E2=80=AFAM Daniel Vett=
-er <daniel@ffwll.ch> wrote:
-> > > > > >>>>>>>>>>>>>
-> > > > > >>>>>>>>>>>>> On Thu, Jun 27, 2024 at 11:51:37AM -0700, Rob Clark=
- wrote:
-> > > > > >>>>>>>>>>>>>> On Wed, Jun 26, 2024 at 10:47=E2=80=AFAM Daniel Ve=
-tter <daniel@ffwll.ch> wrote:
-> > > > > >>>>>>>>>>>>>>>
-> > > > > >>>>>>>>>>>>>>> On Wed, Jun 26, 2024 at 11:38:30AM +0300, Dmitry =
-Baryshkov wrote:
-> > > > > >>>>>>>>>>>>>>>> On Wed, Jun 26, 2024 at 09:32:44AM GMT, Daniel V=
-etter wrote:
-> > > > > >>>>>>>>>>>>>>>>> On Mon, Jun 24, 2024 at 10:25:25AM -0300, Helen=
- Koike wrote:
-> > > > > >>>>>>>>>>>>>>>>>>
-> > > > > >>>>>>>>>>>>>>>>>>
-> > > > > >>>>>>>>>>>>>>>>>> On 24/06/2024 02:34, Vignesh Raman wrote:
-> > > > > >>>>>>>>>>>>>>>>>>> Hi,
-> > > > > >>>>>>>>>>>>>>>>>>>
-> > > > > >>>>>>>>>>>>>>>>>>> On 15/03/24 22:50, Rob Clark wrote:
-> > > > > >>>>>>>>>>>>>>>>>>>> Basically, I often find myself needing to me=
-rge CI patches on top of
-> > > > > >>>>>>>>>>>>>>>>>>>> msm-next in order to run CI, and then after =
-a clean CI run, reset HEAD
-> > > > > >>>>>>>>>>>>>>>>>>>> back before the merge and force-push.  Which=
- isn't really how things
-> > > > > >>>>>>>>>>>>>>>>>>>> should work.
-> > > > > >>>>>>>>>>>>>>>>>
-> > > > > >>>>>>>>>>>>>>>>> This sounds more like you want an integration t=
-ree like drm-tip. Get msm
-> > > > > >>>>>>>>>>>>>>>>> branches integrated there, done. Backmerges jus=
-t for integration testing
-> > > > > >>>>>>>>>>>>>>>>> are not a good idea indeed.
-> > > > > >>>>>>>>>>>>>>
-> > > > > >>>>>>>>>>>>>> But AFAIU this doesn't help for pre-merge testing,=
- ie. prior to a
-> > > > > >>>>>>>>>>>>>> patch landing in msm-next
-> > > > > >>>>>>>>>>>>>>
-> > > > > >>>>>>>>>>>>>> My idea was to have a drm-ci-next managed similar =
-to drm-misc-next, if
-> > > > > >>>>>>>>>>>>>> we have needed drm/ci patches we could push them t=
-o drm-ci-next, and
-> > > > > >>>>>>>>>>>>>> then merge that into the driver tree (along with a=
- PR from drm-ci-next
-> > > > > >>>>>>>>>>>>>> to Dave).
-> > > > > >>>>>>>>>>>>>
-> > > > > >>>>>>>>>>>>> I guess I'm confused about what kind of pre-merge t=
-esting we're talking
-> > > > > >>>>>>>>>>>>> about then ... Or maybe this just doesn't work too =
-well with the linux
-> > > > > >>>>>>>>>>>>> kernel. The model is that you have some pile of tre=
-es, they're split up,
-> > > > > >>>>>>>>>>>>> and testing of all the trees together is done in in=
-tegration trees like
-> > > > > >>>>>>>>>>>>> linux-next or drm-tip.
-> > > > > >>>>>>>>>>>>
-> > > > > >>>>>>>>>>>> pre-merge: for msm we've been collecting up patches =
-from list into a
-> > > > > >>>>>>>>>>>> fast-forward MR which triggers CI before merging to =
-msm-next/msm-fixes
-> > > > > >>>>>>>>>>>>
-> > > > > >>>>>>>>>>>> Ideally drm-misc and other trees would do similar, w=
-e'd catch more
-> > > > > >>>>>>>>>>>> regressions that way.  For example, in msm-next the =
-nodebugfs build is
-> > > > > >>>>>>>>>>>> currently broken, because we merged drm-misc-next at=
- a time when
-> > > > > >>>>>>>>>>>> komeda was broken:
-> > > > > >>>>>>>>>>>>
-> > > > > >>>>>>>>>>>> https://gitlab.freedesktop.org/drm/msm/-/jobs/605756=
-81#L9520
-> > > > > >>>>>>>>>>>>
-> > > > > >>>>>>>>>>>> If drm-misc was using pre-merge CI this would have b=
-een caught and the
-> > > > > >>>>>>>>>>>> offending patch dropped.
-> > > > > >>>>>>>>>>>
-> > > > > >>>>>>>>>>> That sounds more like we should push on the drm-misc =
-pre-merge CI boulder
-> > > > > >>>>>>>>>>> to move it uphill, than add even more trees to make i=
-t even harder to get
-> > > > > >>>>>>>>>>> there long term ...
-> > > > > >>>>>>>>>>>
-> > > > > >>>>>>>>>>> Short term it helps locally to have finer trees, but =
-only short term and
-> > > > > >>>>>>>>>>> only very locally.
-> > > > > >>>>>>>>>>
-> > > > > >>>>>>>>>> The path to have fewer trees (ideally only one for all=
- of drm) is to
-> > > > > >>>>>>>>>> use gitlab MRs to land everything :-)
-> > > > > >>>>>>>>>>
-> > > > > >>>>>>>>>> drm-ci-next is only a stop-gap.. but one that we need.=
-  The
-> > > > > >>>>>>>>>> ${branchname}-external-fixes trick covers _most_ cases=
- where we need
-> > > > > >>>>>>>>>> unrelated patches (ie. to fix random ToT breakage outs=
-ide of drm or in
-> > > > > >>>>>>>>>> core drm), but it doesn't help when the needed changes=
- are yml
-> > > > > >>>>>>>>>> (because gitlab processes all the yml before merging t=
-he
-> > > > > >>>>>>>>>> -external-fixes branch).  This is where we need drm-ci=
--next, otherwise
-> > > > > >>>>>>>>>> we are having to create a separate MR which cherry-pic=
-ks drm/ci
-> > > > > >>>>>>>>>> patches for doing the CI.  This is a rather broken pro=
-cess.
-> > > > > >>>>>>>>>
-> > > > > >>>>>>>>> So what I don't get is ... if we CI drm-misc, how does =
-that not help
-> > > > > >>>>>>>>> improve the situation here? Step one would be post-merg=
-e (i.e. just enable
-> > > > > >>>>>>>>> CI in the repo), then get MRs going.
-> > > > > >>>>>>>>
-> > > > > >>>>>>>> I guess post-merge is better than nothing.. but pre-merg=
-e is better.
-> > > > > >>>>>>>>
-> > > > > >>>>>>>> post-merge can work if you have a "sheriff" system where=
- someone
-> > > > > >>>>>>>> (perhaps on a rotation) is actively monitoring results a=
-nd "revert and
-> > > > > >>>>>>>> ask questions later" when something breaks.  Pre-merge e=
-nsures the
-> > > > > >>>>>>>> interested party is involved in the process ;-)
-> > > > > >>>>>>>
-> > > > > >>>>>>> So ... make that happen? And it doesn't have to be for al=
-l of drm-misc,
-> > > > > >>>>>>> mesa after all switched over to MR also on a bit a driver=
-/area basis. So
-> > > > > >>>>>>> agreeing among all drm-ci folks to use gitlab MR in drm-m=
-isc for pre-merge
-> > > > > >>>>>>> testing shouldn't be that hard to make happen. And unlike=
- a separate
-> > > > > >>>>>>> branch it's not some kind of detour with a good chance to=
- get stuck in a
-> > > > > >>>>>>> local optimum.
-> > > > > >>>>>>
-> > > > > >>>>>> Tree vs branch doesn't really have much in the way of dist=
-inction,
-> > > > > >>>>>> modulo gitlab permissions.  In that it doesn't do much goo=
-d if drm/ci
-> > > > > >>>>>> patches are landing on a different branch.
-> > > > > >>>>>>
-> > > > > >>>>>> I guess what you are suggesting is that we have a single t=
-ree/branch
-> > > > > >>>>>> that drm/ci + drm/msm + (plus whoever else wants to get in=
- on the
-> > > > > >>>>>> drm/ci, so probably at least vkms) lands patches into via =
-gitlab MRs?
-> > > > > >>>>>
-> > > > > >>>>> This again brings a separate CI-enabled tree. I think it ha=
-s been
-> > > > > >>>>> suggested to start with enabling DRM CI for drm-misc branch=
-es. Then we
-> > > > > >>>>> can possibly start landing MRs with CI testing (probably st=
-arting with
-> > > > > >>>>> vkms).
-> > > > > >>>>
-> > > > > >>>> It's something we've discussed with Sima for a while, but en=
-abling CI on
-> > > > > >>>> drm-misc at some point will make sense so we could just as w=
-ell start
-> > > > > >>>> now.
-> > > > > >>>>
-> > > > > >>>> The biggest unknown at the moment to start doing so is how w=
-e could keep
-> > > > > >>>> drm-tip and the rerere repo with MR.
-> > > > > >>>
-> > > > > >>> Let's do a slow start and begin with post-merge testing. At l=
-east this
-> > > > > >>> gives us an idea of how stable it is (and what does it take t=
-o keep it
-> > > > > >>> green). Maybe we can perform post-merge testing for both drm-=
-misc and
-> > > > > >>> drm-tip.
-> > > > > >>
-> > > > > >> The one thing is that currently the runtime for igt is quite l=
-ong
-> > > > > >> (~1hr) because you can't really parallelize kms tests.  So may=
-be
-> > > > > >> nightly scheduled runs would be a better idea.
-> > > > > >
-> > > > > > SGTM. So, the question would be, who can set it up?
-> > > > > >
-> > > > >
-> > > > > We will test the nightly pipelines in a forked repo and then will
-> > > > > set it up for drm-misc and drm-tip.
-> > > > >
-> > > >
-> > > > Revisiting this old thread...
-> > > >
-> > > > It's becoming increasingly clear that landing drm/ci changes via dr=
-m-misc
-> > > > (where gitlab CI is not used) isn't working out.
-> > >
-> > > Why?
-> >
-> > Some of it has been breakage in drm/ci, which would have been noticed
-> > if drm/ci went thru CI.
-> >
-> > And some of it is that expectation changes in other drivers when we
-> > backmerge drm-next/drm-misc-next aren't cared for.  So we end up not
-> > enforcing a green-pipeline, and just ignoring failed jobs on other
-> > drivers.  I guess we could just make expectation updates for other
-> > drivers as part of drm/msm MRs, but that feels a bit strange.
-> >
-> > Related question, should we just smash expectation updates into the
-> > merge commit?  Or keep it a separate commit?  In the latter case, I
-> > think the expectation update commit should not need a r-b on list,
-> > since it is just updating expectations to the reality of changes
-> > merged elsewhere without a CI run.
->
-> I'd still think that it needs _some_ review. Otherwise it's easy to miss
-> the IGT issue. Consider the kms_invalid_mode@overflow-vrefresh on
-> sc7180-trogdor-kingoftown. It would be really easy to mark it and the
-> next failing test as 'failures', then face that some of the tests sart
-> being flaky or randomly failing just because they are scheduled after
-> the offending test.
+On Sat, Mar 08, 2025 at 03:17:23PM +0100, Konrad Dybcio wrote:
+> On 8.03.2025 2:42 AM, Dmitry Baryshkov wrote:
+> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > 
+> > Qualcomm SAR2130P requires slightly different setup for the DSI PHY. It
+> > is a 5nm PHY (like SM8450), so supplies are the same, but the rest of
+> > the configuration is the same as SM8550 DSI PHY.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  2 ++
+> >  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
+> >  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 23 +++++++++++++++++++++++
+> >  3 files changed, 26 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> > index c0bcc68289633fd7506ce4f1f963655d862e8f08..a58bafe9fe8635730cb82e8c82ec1ded394988cd 100644
+> > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> > @@ -581,6 +581,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
+> >  	  .data = &dsi_phy_7nm_cfgs },
+> >  	{ .compatible = "qcom,dsi-phy-7nm-8150",
+> >  	  .data = &dsi_phy_7nm_8150_cfgs },
+> > +	{ .compatible = "qcom,sar2130p-dsi-phy-5nm",
+> > +	  .data = &dsi_phy_5nm_sar2130p_cfgs },
+> >  	{ .compatible = "qcom,sc7280-dsi-phy-7nm",
+> >  	  .data = &dsi_phy_7nm_7280_cfgs },
+> >  	{ .compatible = "qcom,sm6375-dsi-phy-7nm",
+> > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> > index 1925418d9999a24263d6621299cae78f1fb9455c..1ed08b56e056094bc0096d07d4470b89d9824060 100644
+> > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> > @@ -59,6 +59,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs;
+> >  extern const struct msm_dsi_phy_cfg dsi_phy_7nm_7280_cfgs;
+> >  extern const struct msm_dsi_phy_cfg dsi_phy_5nm_8350_cfgs;
+> >  extern const struct msm_dsi_phy_cfg dsi_phy_5nm_8450_cfgs;
+> > +extern const struct msm_dsi_phy_cfg dsi_phy_5nm_sar2130p_cfgs;
+> >  extern const struct msm_dsi_phy_cfg dsi_phy_4nm_8550_cfgs;
+> >  extern const struct msm_dsi_phy_cfg dsi_phy_4nm_8650_cfgs;
+> >  
+> > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> > index a92decbee5b5433853ed973747f7705d9079068d..cad55702746b8d35949d22090796cca60f03b9e1 100644
+> > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> > @@ -1289,6 +1289,29 @@ const struct msm_dsi_phy_cfg dsi_phy_5nm_8450_cfgs = {
+> >  	.quirks = DSI_PHY_7NM_QUIRK_V4_3,
+> >  };
+> >  
+> > +const struct msm_dsi_phy_cfg dsi_phy_5nm_sar2130p_cfgs = {
+> > +	.has_phy_lane = true,
+> > +	.regulator_data = dsi_phy_7nm_97800uA_regulators,
+> > +	.num_regulators = ARRAY_SIZE(dsi_phy_7nm_97800uA_regulators),
+> > +	.ops = {
+> > +		.enable = dsi_7nm_phy_enable,
+> > +		.disable = dsi_7nm_phy_disable,
+> > +		.pll_init = dsi_pll_7nm_init,
+> > +		.save_pll_state = dsi_7nm_pll_save_state,
+> > +		.restore_pll_state = dsi_7nm_pll_restore_state,
+> > +		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+> > +	},
+> > +	.min_pll_rate = 600000000UL,
+> > +#ifdef CONFIG_64BIT
+> > +	.max_pll_rate = 5000000000UL,
+> > +#else
+> > +	.max_pll_rate = ULONG_MAX,
+> > +#endif
+> > +	.io_start = { 0xae95000, 0xae97000 },
+> > +	.num_dsi_phy = 2,
+> > +	.quirks = DSI_PHY_7NM_QUIRK_V5_2,
+> > +};
+> 
+> I'm squinting very very hard and can't tell how this is different from
+> dsi_phy_4nm_8550_cfgs
 
-I'm only talking here about changes flowing in from
-drm-next/drm-misc-next, not drm/msm or drm/ci (incl igt uprevs).
+97800 uA vs 98400 uA is the only difference AFAIK.
 
-And we should still ofc notify driver maintainers.
-
-My only point was to not block backmerging of changes that didn't go thru C=
-I.
-
-> >
-> > > Also, tbf, drm-misc doesn't use gitlab CI because nobody solved the
-> > > drm-tip issue. And because the mail I sent 6 months ago about didn't =
-get
-> > > any feedback.
-> >
-> > If gitlab MRs were used to land changes in drm-misc, this would solve
-> > the problem.  I'd be happy to start landing drm/msm changes through
-> > that path.
-> >
-> > But I don't think there is any good way to mix/match gitlab MRs with
-> > other processes (dim, or raw git) in the same tree.  We need to be
-> > able to enforce a green CI run to land changes.
->
-> I thought that the first step should be to enable at least daily testing
-> of drm-misc and drm-tip.
-
-That could help, if people pay attention to it.  There has been a lot
-of work from collabora on monitoring results of longer nightly jobs on
-the mesa side, without something like that it is rather easy to just
-not notice the nightly results.  Nightly runs and automated generation
-of patches to expectation files on drm-misc/drm-tip would make things
-easier for whoever ends up needing to backmerge into drm-gitlab (ie.
-less manual work to update expectations).
-
-BR,
--R
-
->
-> >
-> > > > On the drm/msm side, we pretty regularly end up needing a 2nd dummy=
- MR
-> > > > with additional drm/ci, etc patches on top for running our CI
-> > > > pipelines, which is really _not_ the way this is supposed to work.
-> > > >
-> > > > So I think we want a single tree to merge drm/ci, drm/msm, and chan=
-ges for
-> > > > any other driver that wants to participate in the CI process.  We c=
-ould
-> > > > call it drm-gitlab or drm-ci or whatever.  The rules would be:
-> > > >
-> > > > * _Only_ land changes via MR with passing CI pipeline.  We should c=
-onfigure
-> > > >   the gitlab tree to disallow MRs without a green pipeline.
-> > > >
-> > > > * All drm/ci changes go thru this tree.
-> > > >
-> > > > * When we need to backmerge drm-next/files or drm-misc-next/fixes, =
-that
-> > > >   goes via an MR into this shared tree, just like any other change.
-> > > >
-> > > >   If there are expectation updates (tests start to fail or pass, we=
- make
-> > > >   the fails/flakes/skips changes on the same MR, no questions asked=
-.
-> > > >   (But would be polite to tag the associated driver maintainer on t=
-he
-> > > >   MR for visibility.)
-> > > >
-> > > > * Once we've done this, we could conceivable use similar file-path =
-rules
-> > > >   like mesa does to only run applicable jobs.  Ie. if the MR only t=
-ouches
-> > > >   drm/msm there is no need to run i915 CI jobs.  So we could optimi=
-ze
-> > > >   the CI runner utilization this way.
-> > > >
-> > > > * Only ff-merges.  At least to start with it would be only driver
-> > > >   maintainers submitting MRs with patches collected up from list, s=
-o
-> > > >   it would be few enough people that this shouldn't be a problem to
-> > > >   coordinate.
->
-> I think this is what we already have for drm-misc.
->
-> > > >
-> > > > * I'd be open to the idea of allowing drm core and cross-driver cha=
-nges
-> > > >   thru this tree.  These are especially the sorts of things that we=
-'d
-> > > >   like to see have a clean CI pipeline.  But not sure how this woul=
-d
-> > > >   conflict with drm-misc.  One possible future is that it replaces
-> > > >   drm-misc eventually.
-> > >
-> > > And we get back to the drm-tip discussion here. If you want to do any
-> > > meaningful cross-driver or core changes, you need to have an integrat=
-ion
-> > > tree like drm-tip. And if we solve that, afaict, we solve the only
-> > > obstacle to using gitlab ci in drm-misc so we might just take drm/msm
-> > > in instead.
-> >
-> > I definitely agree about the usefulness of an integration tree.  And
-> > an integration tree is where CI is especially valuable.  So I'm open
-> > to ideas to have gitlab CI integrated in this tree.  But I don't see a
-> > good alternative to requiring a green CI pipeline for merging changes
-> > into this tree, which means using gitlab MRs.  Maybe I'm not thinking
-> > creatively enough here, but landing changes without a green CI run
-> > just means discovering unrelated breakages when the next batch of
-> > changes comes in via an MR.
-> >
-> > BR,
-> > -R
->
-> --
-> With best wishes
-> Dmitry
+-- 
+With best wishes
+Dmitry
