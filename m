@@ -2,72 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A90A579C9
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 11:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF0D4A579FD
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 12:32:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6FD10E20E;
-	Sat,  8 Mar 2025 10:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE8110E048;
+	Sat,  8 Mar 2025 11:32:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="H6SJPHuD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IBekcoLN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out.smtpout.orange.fr (out-13.smtpout.orange.fr [193.252.22.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFED10E20E;
- Sat,  8 Mar 2025 10:40:14 +0000 (UTC)
-Received: from [172.16.82.72] ([124.33.176.97]) by smtp.orange.fr with ESMTPA
- id qrb7twWi1ALzcqrbBtNgXo; Sat, 08 Mar 2025 11:40:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1741430412;
- bh=/j8zMOSOfHLTeXM/zRrMNeAIVt8zB+gxs/PMQCLhw4k=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=H6SJPHuDoGPq2dPUXUS3W2Dq6vuvk2E8b4mngN2NeTNXKy7+gf0Hv/hgjW+mFrTcb
- j3oea+6qJ3z2ra22KrIwsubNdo2RsuHjk1SoU/cOc31v7ku+pp72WJLv/4w5bCpHou
- AnW+xmu1b7IPvDR+U7uR4/hcoD7r6kg0o/v3diXq7yh9U8QEPOUyuL9Swx1ZZXw41d
- Y2zwIWX5skkrGProIw+pNrURBRXjX1DnjqMgppca6Y/W4RwRuDhW5lczwNJpdmEcb3
- 65yNdu2l4OQ8V0DwRTUtl6qtuEW/tpAsE+L/BmS9Gl+KVQYf9KcWu6Sr2rQ7RAIxC9
- w7DE2e1/z/9xA==
-X-ME-Helo: [172.16.82.72]
-X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 08 Mar 2025 11:40:12 +0100
-X-ME-IP: 124.33.176.97
-Message-ID: <1258559e-e23d-42db-910c-f5d84dda8218@wanadoo.fr>
-Date: Sat, 8 Mar 2025 19:40:00 +0900
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2C610E048
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Mar 2025 11:32:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741433537; x=1772969537;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=mGyzuQSYI7lxTaG2jXM1kKKIwq/K5pIrgPk+wo5OWgs=;
+ b=IBekcoLNJC4CD/dWjW8+kTbMex0vw49C4L2ge37dfNeYZ99Q+OF2o6pH
+ Z6wQfUumkq/FbXQZCu0D/V8qgM6gHSysrx39s0Fzk5LafVw9rWsUZYxCh
+ 0WLRVKSxncuEyAzm0/4DzgjV9vPBN2IfQGfQ8jRIZiuykI/zWQFu13gO3
+ AUZJK43sUesIbRbaGJDMeIrK9K2bHYN9A4grSQFm8c7jiL/CbAGbOWlVR
+ ZmfcWcOooxz6/MSmUYWEwsZglRNMIRUQtbPtlAinQ8f+jDnjIkQsYhqdo
+ gustSIujflOZ7NXYU9R8sBrIZNjWsKnVNH/49DXfpfIGV6fWvmrv0GV1I g==;
+X-CSE-ConnectionGUID: iLN0jFv5SwiEpkiKjJ62ow==
+X-CSE-MsgGUID: s/XvSn+yQIWFUIf4CDb8Nw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="46259554"
+X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; d="scan'208";a="46259554"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2025 03:32:16 -0800
+X-CSE-ConnectionGUID: IMg6izIxRlW2TFhEeyHY2g==
+X-CSE-MsgGUID: wh3GvtK/TuespLgCOnphSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; d="scan'208";a="119724206"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+ by fmviesa008.fm.intel.com with ESMTP; 08 Mar 2025 03:32:13 -0800
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tqsPb-0001qk-2a;
+ Sat, 08 Mar 2025 11:32:11 +0000
+Date: Sat, 8 Mar 2025 19:31:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org, pavel@ucw.cz,
+ danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 06/11] backlight: Replace fb events with a dedicated
+ function call
+Message-ID: <202503081907.HxPC1bKV-lkp@intel.com>
+References: <20250306140947.580324-7-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/7] bits: Fixed-type GENMASK_U*() and BIT_U*()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Yury Norov <yury.norov@gmail.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- David Laight <David.Laight@aculab.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@intel.com>
-References: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
- <Z8sqSpKZzfolKm8Q@thinkpad> <Z8swXUGf9rtTHw1o@smile.fi.intel.com>
- <Z8sxdOjk3LksG9ky@thinkpad> <Z8sx__SHALZI1NCx@smile.fi.intel.com>
-Content-Language: en-US
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
- GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
- bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
- BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
- 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
- yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
- CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
- ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <Z8sx__SHALZI1NCx@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250306140947.580324-7-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,50 +73,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/03/2025 at 02:50, Andy Shevchenko wrote:
-> On Fri, Mar 07, 2025 at 12:48:36PM -0500, Yury Norov wrote:
->> On Fri, Mar 07, 2025 at 07:43:57PM +0200, Andy Shevchenko wrote:
->>> On Fri, Mar 07, 2025 at 12:18:02PM -0500, Yury Norov wrote:
->>>> No rush, please allow your reviewers a week or two before submitting
->>>> a new iteration unless you want to disregard the previous version for
->>>> some reason, of course. This will not get into the upcoming merge
->>>> window, anyways.
+Hi Thomas,
 
-Ack. I was not expecting this to go into the next merge windows either.
+kernel test robot noticed the following build errors:
 
-Most of the feedback was not on the actual code but just on the naming,
-the code comments or the patch descriptions. I normally wait longer on
-the first version of a series but I tend to do kick re-spin when
-addressing the nitpicks.
+[auto build test ERROR on lee-backlight/for-backlight-next]
+[also build test ERROR on lee-leds/for-leds-next linus/master lee-backlight/for-backlight-fixes v6.14-rc5 next-20250307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-But message taken! I will wait a couple of weeks before the next iteration.
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Rework-fb_blank/20250306-221554
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+patch link:    https://lore.kernel.org/r/20250306140947.580324-7-tzimmermann%40suse.de
+patch subject: [PATCH v3 06/11] backlight: Replace fb events with a dedicated function call
+config: i386-randconfig-005-20250308 (https://download.01.org/0day-ci/archive/20250308/202503081907.HxPC1bKV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503081907.HxPC1bKV-lkp@intel.com/reproduce)
 
->>>> So, what should I do? Go through the v5 and all discussions in there,
->>>> or just jump on this?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503081907.HxPC1bKV-lkp@intel.com/
 
-The code is the same between v5 and v6.
+All errors (new ones prefixed by >>):
 
-There is this message from David in which he suggested to make some
-changes to the uapi __GENMASK() and __GENMASK_ULL() and to which I
-commented that I was not confident doing such changes:
-
-  https://lore.kernel.org/all/20250306192331.2701a029@pumpkin/t/#u
-
-Aside from the above, you wouldn't miss much by directly jumping on this v6.
-
->>> There is also question to you. Are we going to leave with U128 variants or is
->>> it subject to remove? If the latter, can you issue a formal patch?
->>
->> I asked Anshuman about it as he's the only person interested in it. Will wait
->> for a _usual_ few weeks for reply before making any conclusions. If you know
->> anyone relevant in ARM or everywhere else, feel free to loop them.
-> 
-> I see, yep, we still have time for that, let's wait a bit.
-
-Ack. Andy, I already addressed your last comments in my local tree. I
-will now wait for others' feedback.
+   ld: drivers/video/fbdev/core/fb_backlight.o: in function `fb_bl_notify_blank':
+>> drivers/video/fbdev/core/fb_backlight.c:47: undefined reference to `backlight_notify_blank'
+>> ld: drivers/video/fbdev/core/fb_backlight.c:49: undefined reference to `backlight_notify_blank_all'
 
 
-Yours sincerely,
-Vincent Mailhol
+vim +47 drivers/video/fbdev/core/fb_backlight.c
 
+    40	
+    41	void fb_bl_notify_blank(struct fb_info *info, int old_blank)
+    42	{
+    43		bool on = info->blank == FB_BLANK_UNBLANK;
+    44		bool prev_on = old_blank == FB_BLANK_UNBLANK;
+    45	
+    46		if (info->bl_dev)
+  > 47			backlight_notify_blank(info->bl_dev, info->device, on, prev_on);
+    48		else
+  > 49			backlight_notify_blank_all(info->device, on, prev_on);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
