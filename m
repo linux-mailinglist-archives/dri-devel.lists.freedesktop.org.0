@@ -2,117 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0FA1A57C8C
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 18:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082CBA57DE1
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Mar 2025 20:56:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 265D810E219;
-	Sat,  8 Mar 2025 17:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C28210E1BA;
+	Sat,  8 Mar 2025 19:56:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bp8AdKXK";
+	dkim=pass (2048-bit key; unprotected) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="QERspmPT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (unknown [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 903D110E074
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Mar 2025 17:50:29 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5287kqDR029623
- for <dri-devel@lists.freedesktop.org>; Sat, 8 Mar 2025 17:50:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- zj9BnuPodZObJbGZ4wO29xgzIU45v7SD9LP2K3bAeJc=; b=bp8AdKXKCQU0aZ+z
- PXGOaa0Y9Js0wMBIgch4E82UVeQPjB/LSmoIQwEVkoHq0QFZc4sq2BVX1BMXvR3O
- Ol2/jPgN8zedvuw5Mfa9En87qOZL4kWW+tMY//qZJx3/VjJzerFTUQPElWzCEpBa
- sICvlOE2rvqDzp6RF7C8snMchafCHDzkteSsYHE+BqZzROI8VUTjoKnxOAE3HENz
- XpYV4pU6ajPwS94hWnfb7JZvVo8uCCjAc1pmvogjSmcmSUxy1aYAXiYlKCyGMi+T
- BZq7mZLqLSTIU4xiTHjuMVmul2fS+V0sp1rqtGqfESolodSaHhzebSvd4mDdz19g
- U1Dbag==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 458f0w0wde-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Mar 2025 17:50:19 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6e906c422a9so3913026d6.2
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Mar 2025 09:50:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741456218; x=1742061018;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zj9BnuPodZObJbGZ4wO29xgzIU45v7SD9LP2K3bAeJc=;
- b=iB8P02/lQeuh89HcXH2+kBgDISgA4BgIhsIANooSrwkHxMWAdgm+KKvXTbrKXftKZj
- 1ux1h9ngM1Ixc0M7Kh6g/QFrwlo2C8nxQgvzBb2QT7gdmDbiiCp0obT5J28xrnJs07Cq
- tJMatR3YXdLs6kZuA44ASy87zJ4uS81Gq/5MW6iwyvJKZKdzMKz/+qicpP86TrHcNsyg
- +qkvPGM5zj1w0QonoZ2od14yQIK74JIqIAIMNG4/6qj/bZtq4YrBC3SlMPzQseSui7fg
- bc2FktwfxneitarHjoUqzzzO+t1gmyES1L2K5BtnFThanCw1p8epFgr8GgDLdre+QeRv
- qD2g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWHbtBBqMWeGp6pzVzLkLjaz9hs0ebcVzWGv+XDsG8/wDjKrks4uGNZoyqxr015t5FJygAvylB7puk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyipdIu6DoYvvKsO0cxcbpE/7Te7Td9anqQ5HewwaHX1XLeZhdI
- qMpdzrQURkyxe4nDEK3i6s/2khCBOI7vdxziSb5kk03o96gYXmKShFZ5fsl5rRC6G9pRjAPeUaK
- xq05ZKYpzia4ckHvDzbrwARzA41V44AJeVtE8ONTvFKFwYAjahI9kqBeikQaAPQ4DJE8=
-X-Gm-Gg: ASbGncu1IrgLwwuXmYbqKvKeFssejBwUinXaKrBZfz1SfypvkjjkT/XIxBjVf/sL8hv
- 82eDYMW3jSkoKxQXOpg7U6vf16rKV2fctwYdX0IvZY0dlUeYjsVAqA1sONfQJnVBwYy5HJ1prXQ
- llmzam7Rj/8qzgDSoxl7yOS7ytwKWFCrTvS7p1knyR2DJeRcFz++2PAkn/prAHEnkRpzJeZ05kB
- CiZEXAmfaw7hlLKLEeU8d/wHaAnA78CKVRYBpiasm+3G2VjbJw+dL8kG5k+hk/eSXU5qrxaW+XM
- F4F99grrKA/KdwWeb67hPY3/9Q7pr7y3RYEfoResjfS0wHxtiz1VsIoKEJ4Co9w7KogWtg==
-X-Received: by 2002:a05:6214:d88:b0:6e8:fa58:85fc with SMTP id
- 6a1803df08f44-6e908ca70f5mr20078216d6.3.1741456217897; 
- Sat, 08 Mar 2025 09:50:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGkXMzgQacIMxKsPPQ0qqQUPmgYGnLd1EMdHSa1p+AZWWj27YmK4io2DsVwwuxR16lQY4gJ9w==
-X-Received: by 2002:a05:6214:d88:b0:6e8:fa58:85fc with SMTP id
- 6a1803df08f44-6e908ca70f5mr20078086d6.3.1741456217568; 
- Sat, 08 Mar 2025 09:50:17 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac23988b64asm462789466b.155.2025.03.08.09.50.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 Mar 2025 09:50:17 -0800 (PST)
-Message-ID: <d2db3fc1-3889-4718-a905-9dba892be251@oss.qualcomm.com>
-Date: Sat, 8 Mar 2025 18:50:13 +0100
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA5D910E1BA
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Mar 2025 19:56:21 +0000 (UTC)
+Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
+ by ksmg01.maxima.ru (Postfix) with ESMTP id 523E4C0006;
+ Sat,  8 Mar 2025 22:56:13 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 523E4C0006
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
+ s=sl; t=1741463773; bh=WpEM5XZntMVPqkHvNhpNB66b5R4qVE7anHYLznaG1Jk=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+ b=QERspmPTqiuStZeqLF8pXge0J4m0s/73gTLd7NJfetxqWiKEsYqCo/8TQHJ/F5j3H
+ tPIsXp87UWa0akx1aUDObXyMRQunHdxSJaityC7NO/0wZW6HnUtS7WkkAqDO9Cri2q
+ hY6yjJmE858RUslCV8htsksIA6xYQtLAgACcXlajne34FyS8sGT1J65vqWP4eO9khs
+ lkbHVqYJpdoTc/g99W69ft6h8Oquk0czakm1JXKM+huyhy1OalC3He5VwnYPSkw8lo
+ hkTqXYxDNGlUSAgJ9BJ3ntD6LuAb6Y7LNYrBuzpwEWWyC1jtijCW1HlfZ5nedROsrG
+ dD2JhL4rgaevA==
+Received: from ksmg01.maxima.ru (mail.maxima.ru [81.200.124.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "*.maxima.ru",
+ Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+ by ksmg01.maxima.ru (Postfix) with ESMTPS;
+ Sat,  8 Mar 2025 22:56:13 +0300 (MSK)
+Received: from localhost.localdomain (5.1.51.128) by mmail-p-exch01.mt.ru
+ (81.200.124.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Sat, 8 Mar 2025
+ 22:56:12 +0300
+From: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+To: Dave Airlie <airlied@redhat.com>
+CC: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Jocelyn Falempe <jfalempe@redhat.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <lvc-project@linuxtesting.org>
+Subject: [PATCH] drm/mgag200: fix division by zero in
+ mgag200_g200_pixpllc_atomic_check()
+Date: Sun, 9 Mar 2025 00:54:45 +0500
+Message-ID: <20250308195451.14853-1-v.shevtsov@mt-integration.ru>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/7] drm/msm/mdp4: use parent_data for LVDS PLL
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250227-fd-mdp4-lvds-v3-0-c983788987ae@linaro.org>
- <20250227-fd-mdp4-lvds-v3-4-c983788987ae@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250227-fd-mdp4-lvds-v3-4-c983788987ae@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: Rg3_Da-kyZvKZr7KtwfYCvQk5588q9K2
-X-Proofpoint-GUID: Rg3_Da-kyZvKZr7KtwfYCvQk5588q9K2
-X-Authority-Analysis: v=2.4 cv=MICamNZl c=1 sm=1 tr=0 ts=67cc835b cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=f9hqsFba6A7s5isENxwA:9 a=QEXdDO2ut3YA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-08_07,2025-03-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=737 lowpriorityscore=0 phishscore=0 spamscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 mlxscore=0 adultscore=0 bulkscore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2503080137
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [5.1.51.128]
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
+ (81.200.124.61)
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;
+ spf=none smtp.mailfrom=mt-integration.ru; dkim=none
+X-KSMG-AntiSpam-Envelope-From: v.shevtsov@mt-integration.ru
+X-KSMG-AntiSpam-Info: LuaCore: 51 0.3.51
+ 68896fb0083a027476849bf400a331a2d5d94398, {rep_avail},
+ {Tracking_from_domain_doesnt_match_to},
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; 127.0.0.199:7.1.2;
+ ksmg01.maxima.ru:7.1.1; 81.200.124.61:7.1.2;
+ mt-integration.ru:7.1.1, FromAlignment: s, ApMailHostAddress: 81.200.124.61
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 191593 [Mar 08 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.11
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310,
+ bases: 2025/03/08 18:36:00 #27678783
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,14 +95,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27.02.2025 3:25 AM, Dmitry Baryshkov wrote:
-> Instead of using .parent_names, use .parent_data, which binds parent
-> clocks by using relative names specified in DT in addition to using global
-> system clock names.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+There is a small chance to perform a division by zero. According to the
+driver code, clock may have a value less than (p_clk_min >> 3). p_clk_min
+itself may have a value up to 2032000 in case of a BIOS PINS version 5.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+If this is the case, then f_vco gets the value greater than delta and the
+condition (tmp_delta < delta) is always false because the variable computed
+is always less than f_vco. This was tested with ref_clk = 27050.
 
-Konrad
+As a result variable m remains zero and then is used as a divisor.
+
+Check if m is zero before performing a possibly unsafe division.
+
+Found by Linux Verification Center (linuxtesting.org) with Svace.
+
+Fixes: 877507bb954e ("drm/mgag200: Provide per-device callbacks for PIXPLLC")
+Signed-off-by: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+---
+ drivers/gpu/drm/mgag200/mgag200_g200.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200.c b/drivers/gpu/drm/mgag200/mgag200_g200.c
+index f874e2949840..484b22930ce1 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200.c
+@@ -115,6 +115,10 @@ static int mgag200_g200_pixpllc_atomic_check(struct drm_crtc *crtc, struct drm_a
+ 			}
+ 		}
+ 	}
++
++	if (!m)
++		return -EINVAL;
++
+ 	f_vco = ref_clk * n / m;
+ 	if (f_vco < 100000)
+ 		s = 0;
+-- 
+2.48.1
+
