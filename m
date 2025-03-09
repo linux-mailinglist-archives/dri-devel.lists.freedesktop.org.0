@@ -2,50 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982E8A58047
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 03:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32BBAA5804F
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 03:28:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE8D10E2E0;
-	Sun,  9 Mar 2025 02:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 194B010E2E3;
+	Sun,  9 Mar 2025 02:28:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="tgsqWNBv";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="aYLeKpPj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21C7210E2E0
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 02:00:51 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 199A810E2E3
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 02:28:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1741485638; x=1742090438; i=deller@gmx.de;
- bh=Nv7q73JewaaMP/j8eSwUqHgxHRPYRCgSF5TBSrI+cXI=;
+ s=s31663417; t=1741487301; x=1742092101; i=deller@gmx.de;
+ bh=b2MUapp1D8zy3Ec40S7ikFXYXwwoSCT8736UppSJRik=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=tgsqWNBvR8iNMbjK9gIf1isiv+mJxQJs5c1XHjdWQglQMIXiqsmax/ljie12AiN+
- rtXXZMbtrKCRCdm+nd736M0UzCYbYTpCAXXOn3yXGgcR6uNSkE92fiEwuM6mzuoW8
- YLrHfDk5LYr0p1uRE3jhCWDdQJlWBlHI3u03gFdZ/I/w3lFl06nLEU2j5oFzU1vjG
- O+f0i1RCUAIbn4ayytQCFRdkfhuK1WkBVluMeKCiivifTiKqSCNb2IZ3YYFvh0Mhr
- 9y7Y5gmIYB4GPNnR493ri9vAgIYrDvmo5R5Fxx5/IsgAIU/OY4NHheyrCZDujrZM+
- MXjXZRGB8nTXekFaNw==
+ b=aYLeKpPj+D9P/fnbGrd3j/ycXwLhLk0GfYvnwijv3f+4Jyg581m8zkO9oN4ec/aS
+ FRDzKmseONU65OBTa9GdlWSdvQWlfh+tsOfsA5XWDaMplhsPBq0w3xU3O1aksrK6O
+ nz4W0/KLFy42otZLMi4mYrfvF6WrZCrB9BYvlFxL5cThycTABuJK9ZmvFgg5jK+cS
+ CE8hOW5Bqj9ZpCxtwm4OtWbRnNCvQSroLaqwwbo8AsZqqNzhZQOP+tcjbBW5ZQbjw
+ i92OBSOc6efcVth9+MeTOhzq4iT9IzzsAf4mrp91V3uXy41DLlShOIXa8oNxJg43v
+ QswdObHKao2u5v9CMg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.173] ([109.250.63.121]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M7K3Y-1tsBMv3jpc-00CI6G; Sun, 09
- Mar 2025 03:00:38 +0100
-Message-ID: <e88f483c-1439-40f2-8945-dfa4de373153@gmx.de>
-Date: Sun, 9 Mar 2025 03:00:35 +0100
+Received: from [192.168.20.173] ([109.250.63.121]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mk0JM-1tOK6P16Eq-00ikTl; Sun, 09
+ Mar 2025 03:28:21 +0100
+Message-ID: <91f20115-5579-4915-8dcd-b6b332ec73ee@gmx.de>
+Date: Sun, 9 Mar 2025 03:28:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: lcdcfb: Register sysfs groups through driver core
-To: oushixiong1025@163.com
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Subject: Re: [PATCH] fbdev: fsl-diu-fb: add missing device_remove_file()
+To: oushixiong1025@163.com, Timur Tabi <timur@kernel.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250219084427.244985-1-oushixiong1025@163.com>
+References: <20250208102359.279333-1-oushixiong1025@163.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -91,35 +87,35 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20250219084427.244985-1-oushixiong1025@163.com>
+In-Reply-To: <20250208102359.279333-1-oushixiong1025@163.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2g9LTpSp5bLNqSSewIt9NQ7qAMuxvFHZweNuCCcp31D1/7qhW4N
- xRNKvDYSy4XhDGwy3F2o4JdEBD5yjuTUV+nr3Kms4VMU/nW5j1NnN16jg3WeXh0/j8etTgv
- P9cVPR8AbI+qpxr8+3Jk4ckbvic3+4TXLUz+PN5AypoJHpTABlCpDIxdnlz/7qOboLSJj8H
- L0P4c1pi9s9dCB/tmqqAA==
+X-Provags-ID: V03:K1:St5+9oElqOxix1PHr4neUE832p8VH2NQION9EV5UJ/v3UYBMVo8
+ QBffN7YopHCQ2Pa/cIyWfnozlggOG8vnEgg6K761ooH0K3hYEQRFS04AjEI4m5OU6Cp6s9z
+ zyyyilXiLBBJPt+sCyqBruXTU3T9bZ6qmtP1ZdytgJJGzTo4DMeiclQvYbEFjbVoVQdJoBh
+ +xHqPqfXvl+MzPngJ1TLw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:aBWmrqUcUKc=;KbW3XNSUl3sl4yfSDDLejpzHFBZ
- PYGrQQSrAuUJWsj/r4EnKhx56Vi7HRxnZcFijJNdpSdMeUxvsOVN3cJNieod8Mo4zB4xOsZKk
- uuvLDH99mQbuC8XJ28v6KBDvGxmZET8vWhLLBevZU7Kbs5RT22ZOlOYcIs+cBYM4HPIeW7gI9
- 13guhXFbnejOoOPiCIfo7FO0mRHbZs6u8nOGnnCtXoh1j0SCd6eXhkvIRLszBKBYoJR3cqDsy
- 7cEVXdYw4B+eSSEhAr0C7Y4d86K1xn9v6T7AtP9YxMTjP2mVli7CvDtUYMnrpCRAA0FSPu2r5
- HEAsUV8cROsRyvrSAhsOxlAVbqUDvBxTjuruBwlKxQruU0bKbXXjnLNzmSqZjSX3Vkk4XKlzd
- OOayXAOGK59xL9vjYsfUJHYqIkeEY5UKpygR7TlA1JYQH5nvWRUtRGKbB6fBhsOa5IRay5gjn
- ogXgDMViFcgAXM5NfaGntbGL6tWPhTGmqA5Gc/NJ53AOCgS2ONZJ5vN4sO5oya5Q7ToU+/Ew6
- FcGbBBdpw//b8XxS983D4mvYwX2OhqLn3iGSCaEFctuTvesX0c/cQ6p4WQQ3vB5xu+KxlbTrN
- uPZOrqsCyWlfOFjt/VQPf62lwne5wFycDJS9I/XpMGDk9lSEjOEWmD4Dr6gLWTsGcq0MteB1o
- DLzlatY1lqRz1LF/4hCcMNI8bAHUFStYDbbwFjdt5vi8a4tK46bgqEtgLaQa/TZhOrv9b+kKS
- h+DQJjqJLuqz3Dc16r9ZX0jc4TlNkj0v0PFKQ104dAcsMAvCU2TRBQoXTuQfXNvvypd9VvVpf
- J+GjD9Y3UXXLO6UBlD0i7nbSHUOu9r58Zu2MVa+vHwcYN8Q5pSl2OnQyr1aO73OjVgETIWl9Y
- 3UH0aW1sRwHAzdnIX0b4xuEFmDRDcurolJEQ6fuZLIHsjw+23E8pez7+XcaTyGN8TUYcfA/5H
- 4u6esnL0ciV39Ptkg6rlvuE9XWZuVRsJuy6ZcltFDXjsrk8p9afNopdL8EDzop68yVpM1K97J
- AI/OTM1yc9C0r4JcgtGO6hg99jPL2ItxauDUP1NpEfaauXGQUaytE7k6FmCJxID9IuAentaZC
- PaGqApv6HLQlHMwxNxKurntN3KYk3fY+WPvfpKj1SVU80FS9hX2zW9mu2JvGMX+Bs35XBG9Iq
- GjSR4Cg2HLgsM9lnvnMG9p+aDdyJaXFdr9iV8bfU5vBpicqIB1WkavrqR9PeDsUX4AfxTG9Nv
- taHhdkuoWJw/lkRCqD9mPwxbs8T+S4w7pHHLnYBDKa7wIf26y14mDcQU80UNMzfdSlB8V2Vcs
- UmP1oG7ta0Dc7eeAH5Bno49hJq/ogHnXGciP1lO1zKSQBgfvGZtz2r8/JAw8GYHiwPko19Heo
- FZCax0uC81ilHFRk93jJgg7JlUJ2VhQNmQR03zfzKLwYOvPZETMS5lDMpD
+UI-OutboundReport: notjunk:1;M01:P0:B2zENpV3T7c=;JFVMLcivJw93Vi6ENQD+4CcifUZ
+ 4OnlCXAqOpJUofDVsoK0ZCNteiZBF67qXeUCZmM3gdN4wbwzSs+PMmUmUcIQL++7KFHZUpcTj
+ 7lFgLxeB6SY9dO8WJ0cvOkBSGcw5Cl5jsY0ww+K1ztQbxoNdmnbJL7o7HJqySHHkfoP/NFXTb
+ YoHJ7vVWjWNeI1CftdnyFlHOUeJ0xxDvO3pz5FW6ooqDymYsv+GvKnL8kJkj8YVnCKhla2kPa
+ +0VNVVs2i2atKFgoid91dBkKG+NYTJuhFFJ9kU0l8nuVEq0ppARYdlHvu4CKO1MwXm5K3KF0E
+ 54JFGN/qCNw5oY4TSkZnM7SalYRjVvufwLwCKeFBXAnanPKA6tkSTK6bjeYHNzKero4yo9AhP
+ C7KXTcjLOD05rp3puOpGLTQnmEL0YR45+QqohYYAPTbaTk/qilmNdXo3USEF71vhEWBhIS+0x
+ SbJITIl29BCXukr26kDMkylrXFCYVJ6uYGx+Oy7JlHKWvwVg+RgetOw4jXaPp74SHBHgFr968
+ myjsaurg7uaQ4RGERyWZVZegveyNr7iKmd0r4xrJ+bVWQwseaGvy4iPpGDC8514Nju/TFaxyU
+ oycwVbpLcwTBTr7UvhhYubVsVGh+r6Cujmi5xsaMYqIzjHxx3MWtUc2i5KfE+VVUkwn31CnYb
+ 13U6l5gP0o2tFqa3ObSFR50qgoUx/Si2mTr8CLrRqDEsL0lbAo4C1wQpOmoA5jpy2Y2vvb8uY
+ 76DW5YBjv0jkaa1VMgUk6M3imtzkVu9ZSuNCmdpMvuSq/h45nCWI6W9yhppglIqSwy09Xa15Q
+ wRiiUassh2/+TpjDATg31CLvvI83rBkKi2cU8HY0JsTKydPRdPC+WQ1e6yiv7uDp0W/ul6Pzg
+ 6NeEf90YKqaXz4gNJAqHb0BCib37+plw25mnEbIiKgxGwtYmCOtALK06VwyAhA/ynJ5fz/jl+
+ GMHQqnQP3hRm+CAJsBQFygcVpi9vEXlLEo91TfOXpQ2hMqmzAIzvuOezQJ9xkDilDqkQP35VI
+ xH/HWjILZaQbXNmUQWpWYfeiqE1QVGwPMwNtNbyEC4FaedFejng2gyX327LoQAKaIatOOGYCT
+ 1Vxf00Blh+dsL6dKa9ASPfoku+oG3FPVMWQibt84JoKtn25eDMnwD7qHc+xYMSzPwHoVa7fq2
+ usZzrNkiKqbeV+u8riUHJcj7yPH+1Q1FdwEJGhqwFel8GFUuf64gsNKGfDfor4Zdm76E/ex0l
+ ELGDGJXPLVWWEIQwlpch4FM9W+rFXilR7sBLzQDDrPZHNM2ytqOxdXYE3aQ7mvaGi49U3U6Rr
+ /JWEOH/yhvXQzyjsTB8J7wDYAw2laLbbwghfYfFaIc2AV1g2w0UY8CWWpSbOXPUC9SkqvYNnK
+ 5RuencfLeivwlYZRaomH/nCWkixLchV4ZPDvZ2LXdy+QD90PnyEBPc2MEI
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,30 +131,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/19/25 09:44, oushixiong1025@163.com wrote:
+On 2/8/25 11:23, oushixiong1025@163.com wrote:
 > From: Shixiong Ou <oushixiong@kylinos.cn>
 >
-> [WHY]
->     1. The driver forgot to call device_remove_file()
->     in sh_mobile_lcdc_overlay_fb_unregister(), and there was
->     no error handling when calling device_create_file() failed.
->
->     2. This should probably use device_add_group() instead of
->     individual files to simplify both creation and removal. [Arnd]
->
->     3. The driver core can register and cleanup sysfs groups already.
->     as commit 95cdd538e0e5 ("fbdev: efifb: Register sysfs groups
->     through driver core").
->
-> [HOW]
->     Register sysfs groups through driver core.
+> Call device_remove_file() when driver remove.
 >
 > Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 > ---
->   drivers/video/fbdev/sh_mobile_lcdcfb.c | 29 ++++++++++++--------------
->   1 file changed, 13 insertions(+), 16 deletions(-)
+>   drivers/video/fbdev/fsl-diu-fb.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-=
+diu-fb.c
+> index 5ac8201c3533..8c91af9a9156 100644
+> --- a/drivers/video/fbdev/fsl-diu-fb.c
+> +++ b/drivers/video/fbdev/fsl-diu-fb.c
+> @@ -1807,6 +1807,7 @@ static int fsl_diu_probe(struct platform_device *p=
+dev)
+>   	if (ret) {
+>   		dev_err(&pdev->dev, "could not create sysfs file %s\n",
+>   			data->dev_attr.attr.name);
+> +		goto error;
 
-applied.
+this seems to miss calling free_irq() then at least...
 
-Thanks!
 Helge
