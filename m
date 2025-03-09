@@ -2,127 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7093CA584E3
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 15:20:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56B0A5857D
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 16:48:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFCB10E35C;
-	Sun,  9 Mar 2025 14:20:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E130110E1C6;
+	Sun,  9 Mar 2025 15:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Al6M4roF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gv1luz1T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7755310E171
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 14:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1741530005; x=1742134805; i=deller@gmx.de;
- bh=l2/iG8WKtiNO+mz+C3vHD3EsnLQNxECdkNSFLgEYfS4=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=Al6M4roFMILcRHikaMXvoQw0aUiKqEv2inbBH2Sr2sFdQtvjEaoZ8uqwpOdLZZzk
- Qi0PKCQtdDVXNAN6H1MLkgyiLU0foX1ok9ikiYia+PX0ovxJeD1hPlXYZ0ZAqYeMk
- 7hqzwh78PacTB/qfmrb1XC6Jn8AKsVBFwXn+DtOfQV6tH5RspKL14YHy+ZHT02IQK
- HUx9+QW4rceBt+jfuKV1V0jC1GxXLjLQhbteWRyzGUhimAoyGRapVf8dgBGVf2A1Z
- AicnB2GHzRgpghz+0SmIpkFq0SWohFzT8FbFGy4De3g4GRXw57IvXFcODyLlxGYhF
- 2melBE2fB/jb9Al1zw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.173] ([109.250.63.121]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhU5R-1tMdNu1SD5-00bqKV; Sun, 09
- Mar 2025 15:20:05 +0100
-Message-ID: <fc8f7246-2e05-4433-85d8-65dbed723826@gmx.de>
-Date: Sun, 9 Mar 2025 15:20:04 +0100
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0130910E1C6
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 15:48:36 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-2254e0b4b79so22453545ad.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Mar 2025 08:48:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741535316; x=1742140116; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=DgWYE3yJh/lyMxOG1Kh3pm47EvZJ8tal8TpSNO72h98=;
+ b=gv1luz1ThSceKCiwp4c1h/6Wc5DwtnwdsAZqdZAbOrduNp/YeewAgbc4b05PzPKmk0
+ p9A88ApxLNNyXxU13tp/u0F148PEHCCERIp8U7ar6zdfRNImUUxfVKaDxvEeRE5/mYWG
+ flWVZ5cJ1KvV7HzY3sFtp9abmHEXXIUBwyfQ1opVWiYc16OJd2DUpvKHURJ5Z8rs72fK
+ Kb06c/kpmH9KDx/p46W/pI8ixS7dVt8e7qI6dx2eLtUpzJ3yAgBlNaKul5gdeZcNofPr
+ w5jBFtobWgmA/E4Y78eLwBmFlnhZLNuY5iiKfjwbllmbIezK8amFprvTl9Y9dFpG+BwB
+ XDkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741535316; x=1742140116;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DgWYE3yJh/lyMxOG1Kh3pm47EvZJ8tal8TpSNO72h98=;
+ b=AejvNddojF2SSItevCeHZHXxwZSYpkzs8qcyHFL00LgeaXNWznPmkCkxrNoTUWRPaJ
+ nVR/8YMliEnM08JEoKjhbJ6SP1WxPpBHd37U5oWSHqdQry3YgbzxNkyh+cH+8UGZ0tac
+ YbLK76QZWRzzNVfxX7hiagSHI2T/FwTI1uuHdU9Sy/+YfNhDFAamenkP47zeSVk0czPg
+ 0XcA2/hRciawBDaPkmhzGK43uDL/gDUr+X6qlE9qzAFWyQeXkZ5D0fl3mGJGLKEugcGa
+ 6gDYqumI+mYktqa0ffErxNsIEo7PzEiWnzcCzH0ivK2791EH1LD8G73a1opV5TJNEq24
+ qNAg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUgBer+Un698xUXaIMxcRO/bkBd3Mw5pisNULRM0sTOoElORCuAUJ7dQVGaIGb2kD2RkHlK+GbRNS4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3lpARiF72GIN8He3uu+W33mquzjAIQkvAE5sybnf7pwgco5Kl
+ oQ61rQqaEDiCQ7jE6lzhu5nqya67szG/XVnQjLo+10RqFvwnUnJr
+X-Gm-Gg: ASbGncv1uRGuPnldE8dymuyzvm4hRbfyQ4Jrhy4favPkhIF4NqLz2/A3Aicymn3XA9I
+ NcIQRaPmOxvqsQuqQrxK7Jh26ljr4ZLJbLvWt2DTCdsezRzLGJYvB3DrpXT8BcI/EOUkAaIREJu
+ D/lV2ui0a1+GQhxGm1IbLB2Py4JV1s1eB9n2DOpNTuGjQpMIUwXQhkNPHHz949NHnOWwjs5etU3
+ QHunoEp4ojUAUl5RoRmcTWD1/UUbidwTGa25DFqJMzRbRYBtgCZ8CM6Ga+fAhgfdVdSypNg3oZo
+ CRAUfSoCDvJRV2de6NyMtW7ZBQUfFM9g/EVoDkIGwzkNx8aV0PMLZgRwDInkCaXB34/bVcjc
+X-Google-Smtp-Source: AGHT+IEkPjdlZsP28acQWQx0Qye7i9usm3kNOW0i6DfYwW0Xas+u0oor8hXm2eg176ewgjMSRnRBqg==
+X-Received: by 2002:a05:6a20:4328:b0:1f3:4661:d19e with SMTP id
+ adf61e73a8af0-1f544acd6ffmr16482561637.9.1741535316400; 
+ Sun, 09 Mar 2025 08:48:36 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-af2894e3cdasm5384249a12.24.2025.03.09.08.48.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 09 Mar 2025 08:48:35 -0700 (PDT)
+Date: Sun, 9 Mar 2025 23:48:26 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: David Laight <david.laight.linux@gmail.com>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ akpm@linux-foundation.org, alistair@popple.id.au,
+ andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
+ arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
+ bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+ brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
+ davem@davemloft.net, dmitry.torokhov@gmail.com,
+ dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
+ edumazet@google.com, eleanor15x@gmail.com,
+ gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
+ jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
+ jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux@rasmusvillemoes.dk, louis.peens@corigine.com,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
+ mingo@redhat.com, miquel.raynal@bootlin.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, netdev@vger.kernel.org,
+ oss-drivers@corigine.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, rfoss@kernel.org,
+ richard@nod.at, simona@ffwll.ch, tglx@linutronix.de,
+ tzimmermann@suse.de, vigneshr@ti.com, x86@kernel.org, yury.norov@gmail.com
+Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
+Message-ID: <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name>
+References: <4732F6F6-1D41-4E3F-BE24-E54489BC699C@zytor.com>
+ <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com>
+ <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com>
+ <20250307195310.58abff8c@pumpkin>
+ <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] fbdev: hyperv_fb: Fix hang in kdump kernel when on
- Hyper-V Gen 2 VMs
-To: Michael Kelley <mhklinux@outlook.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-References: <20250218230130.3207-1-mhklinux@outlook.com>
- <24668c7d-6333-423e-bd48-28af1431b263@gmx.de>
- <SN6PR02MB4157594508B80319444C6C24D4D72@SN6PR02MB4157.namprd02.prod.outlook.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <SN6PR02MB4157594508B80319444C6C24D4D72@SN6PR02MB4157.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:l70lS2fMfJxjdlphzMlS2nvWxd1I98pF1dIsGqawjoEGjZG074S
- khIHmH+AlgLRErba8t9RP9JTC5pGBidh7FK3p14ISZLtVb8fWeqH6135L/MGk1I9UwfNiFs
- 6220HUhpOK3Bz2BOP5v263T6BJ4Aq81uP9fgkkzHcBz1eoO+KCFXRERhyNtNUrbR6Xzh7EF
- LglDCD1Qzfe82z3JT2qaA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vGdK+Z0kilA=;JpL4QeABnVv/sJkRK/eOzZB/e01
- ujDrvqwQW/2bvgvZv7JeEERECgFMRWMtjHcAgSACL0xZTg2BLSK+LT6ZQW0gNtXrmuTnH9ZJE
- AjiG2cqorPObhYkJezlwFL6ybt+kUGppLMrLd/vdxdFGR0fVutbFqaZ3U5Dkx9VRj1Tz5t6Jg
- dJf8tX0qgZWrMVBtTiylSopy8yPwL3keK/PivD7tdKPe5dg1RCOfK+hyx+Gfnb0Ow3cQ17XQw
- vJ9ddt7cyyMjWpsyuIx1uNo3V/KlRlJug/IoW6CD4/gcQna4fdl+xEIfWeN7IrRBmNj+l59ab
- Rdp5TO3e07uhSoGg2c0PyyyuduRakXJQcjpEBZ0KFCCyfl2BBg1hqJyCOmUGccunY7npUI2fQ
- wZ+ZkoPZc1xhPB3AKamUDSvB88kCOH9qk/a5xFDugoKcb1EZGgPwJBXtGc6/Eqe6BI1HxKVtU
- qXpw6ra5ETZDg4C3wkEZCet6/GCvTgToGpZU+eHybNpXlGT8IlyA7k9805sIXocmYNBD9CHfI
- VRiCR2Dd7vf5OkAoWZMHh1c5F49j+L1kIum86g4OYgukvHXypFV6HWqEJOP+oH0cjDUKwQCmN
- ak2Cb8pd2eU/Oxv9Kz0yZd/7ZAy7lxd+IWMdhKl49QXO01cwkdq9Pkv2spUiYrLejPsJsreX4
- C5x+miIBEApKsaLTj1M8ixWwngzAJk2VkEWZ7zZZGp3ndvKdCKXBqrfdsBMo3aJfMRT8z6bCR
- FFRHqrCZJtpE/ckmihawGSxU/sSDD97LpyXBMTSN+Fwb4N6WhOqrwPU+wFbJZGIoxow8W30cF
- jodnkbX4Xkk639vniL2Qz1klgpn/um4y1NKKM8/HyVdwQZMMnzVP4Ny0j/Jegdu3JscpO1bpQ
- 7CYFW9uqF7Dgyq0lP85wDzmh14wJKWCw1j7bpvH1RWNHpRnwjxTWf06mPyFTCSkoVdQrqEg6K
- 8ktzMyQWkX/Jk1tMTKsBHEWS7TObHSTwhqaBJ4kO06sIIKt8FNJ2zhNwdZMFBQITlsS/EJYrq
- Bt6BOqN20zIxAj3/ZCeN4axRseBkWXLHimztF5uwgYBzjkh0pc80aYmGIgL7Bq3XzOc4/iAyC
- n1Jb9+gv7SG1htI13IdgNOff+CJbxinPJgMbRycwoz07SUCX3PPlzd8FsDH5z0DEyKDLgeGJQ
- VPwYPWB3DowGSgqtm7DEdSCnpAqOetKLj6t/yKHmh5NV3yhR3jBDRq2fFTXuzOVEQoORYLnfv
- eUvTogLQdSePYu0fcgIhDmVnPelEm7hglYi1DXwnFPVA094Scd7K9/BhvDAg3Mc+Lukj9Zq1I
- oQ+TOngX9XXXIo6ZzjO8uPcxhHsxBUFoiG+DRYWv88AFSwYUfBiUZHEueuqJXoROdy/NeLcbe
- ASjsQ7Vmj86qrjyYN+eXd+tCbcpyIHgrQ7JiRsmsz/LIBl0mPkL3pQojUz73Gqli3owuqJDSF
- k9FInNg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,46 +115,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/9/25 05:10, Michael Kelley wrote:
-> From: Helge Deller <deller@gmx.de> Sent: Saturday, March 8, 2025 6:59 PM
->>
->> On 2/19/25 00:01, mhkelley58@gmail.com wrote:
->>> From: Michael Kelley <mhklinux@outlook.com>
->>>
-> [snip]
->
->>>
->>> Reported-by: Thomas Tai <thomas.tai@oracle.com>
->>> Fixes: c25a19afb81c ("fbdev/hyperv_fb: Do not clear global screen_info=
-")
->>> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
->>> ---
->>> The "Fixes" tag uses commit c25a19afb81c because that's where the prob=
-lem
->>> was re-exposed, and how far back a stable backport is needed. But I've
->>> taken a completely different, and hopefully better, approach in the
->>> solution that isn't related to the code changes in c25a19afb81c.
->>>
->>>    drivers/video/fbdev/hyperv_fb.c | 20 +++++++++++++-------
->>>    1 file changed, 13 insertions(+), 7 deletions(-)
->>
->> applied to fbdev tree.
->>
->
-> Thank you!
->
-> Related, I noticed the patch "fbdev: hyperv_fb: iounmap() the correct
-> memory when removing a device" is also in the fbdev for-next branch.
-> Wei Liu previously applied this patch to the hyperv-fixes tree (see [1])
-> and it's already in linux-next. Won't having it also in fbdev produce a
-> merge conflict?
-> [1] https://lore.kernel.org/linux-hyperv/Z6wHDw8BssJyQHiM@liuwe-devbox-d=
-ebian-v2/
+On Fri, Mar 07, 2025 at 12:07:02PM -0800, H. Peter Anvin wrote:
+> On March 7, 2025 11:53:10 AM PST, David Laight <david.laight.linux@gmail.com> wrote:
+> >On Fri, 07 Mar 2025 11:30:35 -0800
+> >"H. Peter Anvin" <hpa@zytor.com> wrote:
+> >
+> >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew.cooper3@citrix.com> wrote:
+> >> >> (int)true most definitely is guaranteed to be 1.  
+> >> >
+> >> >That's not technically correct any more.
+> >> >
+> >> >GCC has introduced hardened bools that intentionally have bit patterns
+> >> >other than 0 and 1.
+> >> >
+> >> >https://gcc.gnu.org/gcc-14/changes.html
+> >> >
+> >> >~Andrew  
+> >> 
+> >> Bit patterns in memory maybe (not that I can see the Linux kernel using them) but
+> >> for compiler-generated conversations that's still a given, or the manager isn't C
+> >> or anything even remotely like it.
+> >> 
+> >
+> >The whole idea of 'bool' is pretty much broken by design.
+> >The underlying problem is that values other than 'true' and 'false' can
+> >always get into 'bool' variables.
+> >
+> >Once that has happened it is all fubar.
+> >
+> >Trying to sanitise a value with (say):
+> >int f(bool v)
+> >{
+> >	return (int)v & 1;
+> >}    
+> >just doesn't work (see https://www.godbolt.org/z/MEndP3q9j)
+> >
+> >I really don't see how using (say) 0xaa and 0x55 helps.
+> >What happens if the value is wrong? a trap or exception?, good luck recovering
+> >from that.
+> >
+> >	David
+> 
+> Did you just discover GIGO?
 
-Thanks Michael!
-I now dropped that patch from the fbdev tree to avoid collisions.
+Thanks for all the suggestions.
 
-Btw, I'm fine if we agree that all hyperv-fbdev fixes & patches go through
-hyperv or other trees. Just let me know.
+I don't have a strong opinion on the naming or return type. I'm still a
+bit confused about whether I can assume that casting bool to int always
+results in 0 or 1.
 
-Helge
+If that's the case, since most people prefer bool over int as the
+return type and some are against introducing u1, my current plan is to
+use the following in the next version:
+
+bool parity_odd(u64 val);
+
+This keeps the bool return type, renames the function for better
+clarity, and avoids extra maintenance burden by having just one
+function.
+
+If I can't assume that casting bool to int always results in 0 or 1,
+would it be acceptable to keep the return type as int?
+
+Would this work for everyone?
+
+Regards,
+Kuan-Wei
