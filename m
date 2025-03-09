@@ -2,93 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3EAAA58171
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 09:08:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC3AA58180
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 09:14:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBD5010E21C;
-	Sun,  9 Mar 2025 08:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EACE10E2FC;
+	Sun,  9 Mar 2025 08:14:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SbNsWys8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mFHjYm2y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2F110E21C
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 08:08:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741507694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VMLbs4g+4S3w8PTcwZhqCiZ4jHgvhgmMpYzifm6s+EY=;
- b=SbNsWys8uYmuQELkadRLZhHt2ajZxt53tjndRg5kh2twPvKMzb43TO8NCsZSiSZ7Qiux6d
- ZTpV/GWIqq94nOI2WRno+sdIl1GqzNeKv5FLd77JY5YdPDo2y47UkU3uy15vEvoTcsllBz
- 20UgQqlt4TCc3CZdCmNaSeN+e9aoqWM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-634-YDwsFhRLMZ2D9XrzH2OdBA-1; Sun, 09 Mar 2025 04:08:12 -0400
-X-MC-Unique: YDwsFhRLMZ2D9XrzH2OdBA-1
-X-Mimecast-MFC-AGG-ID: YDwsFhRLMZ2D9XrzH2OdBA_1741507691
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-ac297c7a0c2so8948566b.3
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Mar 2025 00:08:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741507691; x=1742112491;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VMLbs4g+4S3w8PTcwZhqCiZ4jHgvhgmMpYzifm6s+EY=;
- b=IV1IB8HjuxECpc/t+eSoZtpyHGVSbPiCQHT3CbOHrXLjevzeLkcXt1Z8vczHPqcRHX
- yhFXZhITZRW2S6sceGN1GGFd09KiAYGm/TLKoomF6ZtzEalPjWAExjLrTn5SqS/HFuTX
- oS0aZ1CQvZRKySEtma7xSKJRCMUhjrfEVuo7DGDk8Bhov8wrRW4Qell6eUu5dWsdPn4d
- GIugwaalFojzf7Rrhv+M8dJpsAqxj3lPX4Vsqh7OBw90u/e+NgIcx6MwYj1j6HJXjFVt
- IF437JnP7x11zjzwsFt2iFq7C4C+yd8zVQuh6QF8gOMHlQlViAAu56UiGHJvALDqVucK
- elSQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsYDgbX7SNGkEvFx/8aPho8W5LKc7J5qj7MwlybcMZdSudQrCCk9uTPu8e2gf+nMsPG7eK+ynvArE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwuayD/nJego/qKiWsLFUDS9UG3/TpKyYxm+5vLCQOrAqc/5VeV
- +6i2U8DMIy4DVg4vCWb5c0WZTfEQw9J6+Yi5AU88FrtftBkGNRchop34HVPUFnTdNc5f9CwkvK4
- LOgQGrUJvllVMmnOYwyF+Fp0rJE1y2w7F0SngE3Le+wqsN0xc0GO6sPy4K9whhzUmWlc2daPSoD
- O3iQK3g4KYukThSHyyG4hBJNXPZbKJS7//w0Y8wztP
-X-Gm-Gg: ASbGncsQTI/IgcfWTl9SKTtC0PmRJEGBKomEtH9mkvIFEWBhv80Ynqkv7AfT7SvWK3a
- 9fjfT3IfIq6Q0SpIpXC3Y+5rhMhjp3U7MDVlITQNvDFOV/QidlRRGo/kBw1sYekbO3ltoTAlpDT
- EDE9e6k2lfC0R1ieDaK5uMLo2onbyW
-X-Received: by 2002:a17:907:c99b:b0:abf:5778:f949 with SMTP id
- a640c23a62f3a-ac252e9ebd1mr767362966b.42.1741507690643; 
- Sun, 09 Mar 2025 00:08:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH7U1iyGgohuKugYCzgXBl6WixJZcBRcoUmHFNJf08mvE/aZ1aJlHcdE0jtRjcmbMxi9Sw/rCbNZ3E/zzGi4b0=
-X-Received: by 2002:a17:907:c99b:b0:abf:5778:f949 with SMTP id
- a640c23a62f3a-ac252e9ebd1mr767360566b.42.1741507690308; Sun, 09 Mar 2025
- 00:08:10 -0800 (PST)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11AC210E2F8;
+ Sun,  9 Mar 2025 08:14:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 53C30A458F0;
+ Sun,  9 Mar 2025 08:08:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42974C4CEE5;
+ Sun,  9 Mar 2025 08:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741508043;
+ bh=9BlOFXAcL52pqaOXhKgnjzByr6uM1wVuOwRZXNaUb5U=;
+ h=From:Subject:Date:To:Cc:From;
+ b=mFHjYm2yvmooa7VfxOxgsAscGInvMY323dYDX60lY26eCBThxwGaL0HW2fKbanbpc
+ ELX3fBT2vf/s56edwOmnZs0z9/MTlrwW1A5Q/r/MSs9eVdojUpjjd4+YhBoLlck3aV
+ L7Ix0QXLrTSo4NoEIbepg6xcXaPrxcBaXo39f0wNjT3cXy1s22LEAP8Nqr937qrrgf
+ Nw39hEHX8ZinCGx75RxxirHedc6Gm54rstKIgVbRSCO3mnC6He9HO6cXt9xlbPao8w
+ LZg4kvVmsXD+hhFbRTQZXOBZ4VHADAk4Bj7SbEjKzt/oYf64N6VOGqhNlJXASBKBds
+ 5baqpIPnQhTxQ==
+From: Dmitry Baryshkov <lumag@kernel.org>
+Subject: [PATCH 0/4] drm/display: hdmi: provide common code to get Audio
+ Clock Recovery params
+Date: Sun, 09 Mar 2025 10:13:55 +0200
+Message-Id: <20250309-drm-hdmi-acr-v1-0-bb9c242f4d4b@linaro.org>
 MIME-Version: 1.0
-References: <20250305152555.318159-1-ryasuoka@redhat.com>
- <20250305152555.318159-2-ryasuoka@redhat.com>
- <Z8kp9Z9VgTpQmV9d@casper.infradead.org>
- <3bfd4238-6954-41a3-a5a3-8515a3ac9dce@redhat.com>
- <Z8nEqDQhjU-Ly8Js@phenom.ffwll.local>
- <51c11147-4927-4ebc-9737-fd1eebe4e0bd@redhat.com>
-In-Reply-To: <51c11147-4927-4ebc-9737-fd1eebe4e0bd@redhat.com>
-From: Ryosuke Yasuoka <ryasuoka@redhat.com>
-Date: Sun, 9 Mar 2025 17:07:59 +0900
-X-Gm-Features: AQ5f1Jom-CKnJdgtaquTd67G5uzgxxqs44dKctiQ9yfQQxkLNniKi8t6ppg6oo4
-Message-ID: <CAHpthZqn7ZZW1ekFQe7nN0+xfsNvMQMKhjMNcB3EyQ18yfQhiA@mail.gmail.com>
-Subject: Re: [PATCH drm-next 1/2] vmalloc: Add atomic_vmap
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Matthew Wilcox <willy@infradead.org>, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com, 
- akpm@linux-foundation.org, urezki@gmail.com, hch@infradead.org, 
- dmitry.osipenko@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
- linux-mm@kvack.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: VB_wnYO41PN5wVouFsdOwqFkMhwjmp5yYIHYeqVl3bQ_1741507691
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMNNzWcC/x3MMQqAMAxA0atIZgNpRRSvIg6lSTWDVVIQQby7x
+ fEN/z9QxFQKTM0DJpcWPXKFaxuIW8iroHI1ePI9dTQi244b74ohGg6BXSIm5zlBTU6TpPe/m5f
+ 3/QAV9Dc7XgAAAA==
+X-Change-ID: 20250308-drm-hdmi-acr-7ad1f0d012df
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1241;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=9BlOFXAcL52pqaOXhKgnjzByr6uM1wVuOwRZXNaUb5U=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnzU3Gy7L1n0F+9PZnSM8l3ElHgqHAXY9nQIo/u
+ R01KQwreQWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ81NxgAKCRCLPIo+Aiko
+ 1aKeB/95KJqQpYAAWap+VHmraWFLscqQJ7F7hm5jYkVoocd3/6Yk08Xc56MZByxJYoH748BXYxk
+ WrPZDf/487GWfes9Iib7OVFPjn2lCecJtXZCoqqMHxQMjmFyx66Lg4kdW4IvEBeYl/QRWEQyXaj
+ vveEHUUTNJAU/BGSwoVUhU5PrcF4w9QQbNrBya+6RgXnmJqLlHZsoVnOPt7IV/mmtuEZX6OY6qN
+ GM0JZrUNZ7QgYnRL24Xv8HS9QG1mJlSty1hHH1GV2rE9I8Bsya6QtAyQNUvqR7GTjSrE+zuTa5/
+ 5HUneJNp8V74RgjTPA00gtFKGb1tCZ9qK6ZHMkfm72vNSLUJ
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,90 +84,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 7, 2025 at 4:55=E2=80=AFPM Jocelyn Falempe <jfalempe@redhat.com=
-> wrote:
->
-> On 06/03/2025 16:52, Simona Vetter wrote:
-> > On Thu, Mar 06, 2025 at 02:24:51PM +0100, Jocelyn Falempe wrote:
-> >> On 06/03/2025 05:52, Matthew Wilcox wrote:
-> >>> On Thu, Mar 06, 2025 at 12:25:53AM +0900, Ryosuke Yasuoka wrote:
-> >>>> Some drivers can use vmap in drm_panic, however, vmap is sleepable a=
-nd
-> >>>> takes locks. Since drm_panic will vmap in panic handler, atomic_vmap
-> >>>> requests pages with GFP_ATOMIC and maps KVA without locks and sleep.
-> >>>
-> >>> In addition to the implicit GFP_KERNEL allocations Vlad mentioned, ho=
-w
-> >>> is this supposed to work?
-> >>>
-> >>>> +  vn =3D addr_to_node(va->va_start);
-> >>>> +
-> >>>> +  insert_vmap_area(va, &vn->busy.root, &vn->busy.head);
-> >>>
-> >>> If someone else is holding the vn->busy.lock because they're modifyin=
-g the
-> >>> busy tree, you'll corrupt the tree.  You can't just say "I can't take=
- a
-> >>> lock here, so I won't bother".  You need to figure out how to do some=
-thing
-> >>> safe without taking the lock.  For example, you could preallocate the
-> >>> page tables and reserve a vmap area when the driver loads that would
-> >>> then be usable for the panic situation.  I don't know that we have AP=
-Is
-> >>> to let you do that today, but it's something that could be added.
-> >>>
-> >> Regarding the lock, it should be possible to use the trylock() variant=
-, and
-> >> fail if the lock is already taken. (In the panic handler, only 1 CPU r=
-emain
-> >> active, so it's unlikely the lock would be released anyway).
-> >>
-> >> If we need to pre-allocate the page table and reserve the vmap area, m=
-aybe
-> >> it would be easier to just always vmap() the primary framebuffer, so i=
-t can
-> >> be used in the panic handler?
-> >
-> > Yeah I really don't like the idea of creating some really brittle one-o=
-ff
-> > core mm code just so we don't have to vmap a buffer unconditionally. I
-> > think even better would be if drm_panic can cope with non-linear buffer=
-s,
-> > it's entirely fine if the drawing function absolutely crawls and sets e=
-ach
-> > individual byte ...
->
-> It already supports some non-linear buffer, like Nvidia block-linear:
-> https://elixir.bootlin.com/linux/v6.13.5/source/drivers/gpu/drm/nouveau/d=
-ispnv50/wndw.c#L606
->
-> And I've also sent some patches to support Intel's 4-tile and Y-tile form=
-at:
-> https://patchwork.freedesktop.org/patch/637200/?series=3D141936&rev=3D5
-> https://patchwork.freedesktop.org/patch/637202/?series=3D141936&rev=3D5
->
-> Hopefully Color Compression can be disabled on intel's GPU, otherwise
-> that would be a bit harder to implement than tiling.
->
-> >
-> > The only thing you're allowed to do in panic is try_lock on a raw spinl=
-ock
-> > (plus some really scare lockless tricks), imposing that on core mm soun=
-ds
-> > like a non-starter to me.
-> >
-> > Cheers, Sima
->
+HDMI standards define a recommended set of values to be used for Audio
+Clock Regeneration. Nevertheless, each HDMI driver dealing with audio
+implements its own way to determine those values. Implement a common
+helper and use it for MSM HDMI (tested), VC4 and DW-HDMI (compile-tested
+only) drivers.
 
-Thank you all for your comments.
-I understand adding atomic_vmap is not possible as vmalloc is not compatibl=
-e
-with GFP_ATOMIC. I'll re-implement this by pre-allocating the page table an=
-d
-reserve the vmap area while the kernel is alive. It'll might be
-allocated in driver
-codes so maybe I don't need to add any features in core mm code.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Dmitry Baryshkov (4):
+      drm/display: hdmi: provide central data authority for ACR params
+      drm/msm/hdmi: use new helper for ACR tables
+      drm/vc4: use new helper to get ACR values
+      drm: bridge: dw-hdmi: use new helper to get ACR values
+
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c |  90 ++--------------
+ drivers/gpu/drm/display/drm_hdmi_helper.c | 164 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/hdmi/hdmi_audio.c     | 107 ++-----------------
+ drivers/gpu/drm/vc4/vc4_hdmi.c            |  10 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.h            |   7 ++
+ include/drm/display/drm_hdmi_helper.h     |   6 ++
+ 6 files changed, 197 insertions(+), 187 deletions(-)
+---
+base-commit: 0a2f889128969dab41861b6e40111aa03dc57014
+change-id: 20250308-drm-hdmi-acr-7ad1f0d012df
 
 Best regards,
-Ryosuke
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
