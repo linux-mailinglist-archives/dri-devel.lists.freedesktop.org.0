@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BBAA5804F
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 03:28:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713ABA58061
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 03:59:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 194B010E2E3;
-	Sun,  9 Mar 2025 02:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1994410E1A4;
+	Sun,  9 Mar 2025 02:58:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="aYLeKpPj";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="ZjSPWoGV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 199A810E2E3
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 02:28:42 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF7A10E0D4
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 02:58:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1741487301; x=1742092101; i=deller@gmx.de;
- bh=b2MUapp1D8zy3Ec40S7ikFXYXwwoSCT8736UppSJRik=;
+ s=s31663417; t=1741489120; x=1742093920; i=deller@gmx.de;
+ bh=nJBkMsS0v7qRX5aa5e+44c/E2mxBpR2Z9drP3iujy58=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=aYLeKpPj+D9P/fnbGrd3j/ycXwLhLk0GfYvnwijv3f+4Jyg581m8zkO9oN4ec/aS
- FRDzKmseONU65OBTa9GdlWSdvQWlfh+tsOfsA5XWDaMplhsPBq0w3xU3O1aksrK6O
- nz4W0/KLFy42otZLMi4mYrfvF6WrZCrB9BYvlFxL5cThycTABuJK9ZmvFgg5jK+cS
- CE8hOW5Bqj9ZpCxtwm4OtWbRnNCvQSroLaqwwbo8AsZqqNzhZQOP+tcjbBW5ZQbjw
- i92OBSOc6efcVth9+MeTOhzq4iT9IzzsAf4mrp91V3uXy41DLlShOIXa8oNxJg43v
- QswdObHKao2u5v9CMg==
+ b=ZjSPWoGVfnFecFQnqiRuoZk3ARKST6TKeOCRDllcrSLVge83Sip/idtcxaUYLfoX
+ ubGiycKBLcVe4iS6TgCfkVgj4u3tp4kA31vTH//E5K8+gW1bCQrS3J/Yuman0PdhP
+ TL80WbR3DdwnrjpFr3lBoFPT8i4H8OQTiQzZS/bw9H61dtSZ0VMCLvdhIY8UnG2Xg
+ tOGxc1rbFX1OZBlwS1UouXJmZClnNuSFRWmFJ+Kgq4JlTDV3RRHrbNccIrZ/RmZnW
+ IVNB11xgG94MAgWFbVHEHuSyd/0DPjJ56EMDFVWH7T6P9e9brzAGAZgk9Qoyvwb3R
+ SRUbVS/imUwEHV/q+Q==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.173] ([109.250.63.121]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mk0JM-1tOK6P16Eq-00ikTl; Sun, 09
- Mar 2025 03:28:21 +0100
-Message-ID: <91f20115-5579-4915-8dcd-b6b332ec73ee@gmx.de>
-Date: Sun, 9 Mar 2025 03:28:17 +0100
+Received: from [192.168.20.173] ([109.250.63.121]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M3lc9-1trNim3l9n-00GPup; Sun, 09
+ Mar 2025 03:58:39 +0100
+Message-ID: <24668c7d-6333-423e-bd48-28af1431b263@gmx.de>
+Date: Sun, 9 Mar 2025 03:58:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: fsl-diu-fb: add missing device_remove_file()
-To: oushixiong1025@163.com, Timur Tabi <timur@kernel.org>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250208102359.279333-1-oushixiong1025@163.com>
+Subject: Re: [PATCH 1/1] fbdev: hyperv_fb: Fix hang in kdump kernel when on
+ Hyper-V Gen 2 VMs
+To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, javierm@redhat.com, thomas.tai@oracle.com
+Cc: tzimmermann@suse.de, kasong@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org
+References: <20250218230130.3207-1-mhklinux@outlook.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -87,35 +90,36 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20250208102359.279333-1-oushixiong1025@163.com>
+In-Reply-To: <20250218230130.3207-1-mhklinux@outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:St5+9oElqOxix1PHr4neUE832p8VH2NQION9EV5UJ/v3UYBMVo8
- QBffN7YopHCQ2Pa/cIyWfnozlggOG8vnEgg6K761ooH0K3hYEQRFS04AjEI4m5OU6Cp6s9z
- zyyyilXiLBBJPt+sCyqBruXTU3T9bZ6qmtP1ZdytgJJGzTo4DMeiclQvYbEFjbVoVQdJoBh
- +xHqPqfXvl+MzPngJ1TLw==
+X-Provags-ID: V03:K1:mjL3hSxydgxv7auKb+SF1HiGYsIAUsuqH4aH6FyBTYujmpsQrlr
+ mVRi1TjTwptv0fzG3qplQmey45gO+xpH2l7vdBQdCxuQq36Uh0Zb7hczbnMI00hkvC8P71L
+ zAEGWlfYgYFxMVAnxECokdx4vBaao1qvoqPk3Ogw8/FpOEIViSc19mK8T/FLXiFIdCZNjLO
+ utPCl0/kTBxN+Y3JygsXQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:B2zENpV3T7c=;JFVMLcivJw93Vi6ENQD+4CcifUZ
- 4OnlCXAqOpJUofDVsoK0ZCNteiZBF67qXeUCZmM3gdN4wbwzSs+PMmUmUcIQL++7KFHZUpcTj
- 7lFgLxeB6SY9dO8WJ0cvOkBSGcw5Cl5jsY0ww+K1ztQbxoNdmnbJL7o7HJqySHHkfoP/NFXTb
- YoHJ7vVWjWNeI1CftdnyFlHOUeJ0xxDvO3pz5FW6ooqDymYsv+GvKnL8kJkj8YVnCKhla2kPa
- +0VNVVs2i2atKFgoid91dBkKG+NYTJuhFFJ9kU0l8nuVEq0ppARYdlHvu4CKO1MwXm5K3KF0E
- 54JFGN/qCNw5oY4TSkZnM7SalYRjVvufwLwCKeFBXAnanPKA6tkSTK6bjeYHNzKero4yo9AhP
- C7KXTcjLOD05rp3puOpGLTQnmEL0YR45+QqohYYAPTbaTk/qilmNdXo3USEF71vhEWBhIS+0x
- SbJITIl29BCXukr26kDMkylrXFCYVJ6uYGx+Oy7JlHKWvwVg+RgetOw4jXaPp74SHBHgFr968
- myjsaurg7uaQ4RGERyWZVZegveyNr7iKmd0r4xrJ+bVWQwseaGvy4iPpGDC8514Nju/TFaxyU
- oycwVbpLcwTBTr7UvhhYubVsVGh+r6Cujmi5xsaMYqIzjHxx3MWtUc2i5KfE+VVUkwn31CnYb
- 13U6l5gP0o2tFqa3ObSFR50qgoUx/Si2mTr8CLrRqDEsL0lbAo4C1wQpOmoA5jpy2Y2vvb8uY
- 76DW5YBjv0jkaa1VMgUk6M3imtzkVu9ZSuNCmdpMvuSq/h45nCWI6W9yhppglIqSwy09Xa15Q
- wRiiUassh2/+TpjDATg31CLvvI83rBkKi2cU8HY0JsTKydPRdPC+WQ1e6yiv7uDp0W/ul6Pzg
- 6NeEf90YKqaXz4gNJAqHb0BCib37+plw25mnEbIiKgxGwtYmCOtALK06VwyAhA/ynJ5fz/jl+
- GMHQqnQP3hRm+CAJsBQFygcVpi9vEXlLEo91TfOXpQ2hMqmzAIzvuOezQJ9xkDilDqkQP35VI
- xH/HWjILZaQbXNmUQWpWYfeiqE1QVGwPMwNtNbyEC4FaedFejng2gyX327LoQAKaIatOOGYCT
- 1Vxf00Blh+dsL6dKa9ASPfoku+oG3FPVMWQibt84JoKtn25eDMnwD7qHc+xYMSzPwHoVa7fq2
- usZzrNkiKqbeV+u8riUHJcj7yPH+1Q1FdwEJGhqwFel8GFUuf64gsNKGfDfor4Zdm76E/ex0l
- ELGDGJXPLVWWEIQwlpch4FM9W+rFXilR7sBLzQDDrPZHNM2ytqOxdXYE3aQ7mvaGi49U3U6Rr
- /JWEOH/yhvXQzyjsTB8J7wDYAw2laLbbwghfYfFaIc2AV1g2w0UY8CWWpSbOXPUC9SkqvYNnK
- 5RuencfLeivwlYZRaomH/nCWkixLchV4ZPDvZ2LXdy+QD90PnyEBPc2MEI
+UI-OutboundReport: notjunk:1;M01:P0:SVlwpZIM65s=;hImY14q1ReQCkPBo9c3HVJW24Vi
+ bySCSPP22C2nUvsMCaajKmS7Ixn8lCf1z9NhNY57sh5h57LWGdkOTAre915uDf8vkJTImdJps
+ RziLMSvb6H9Ed1xeh0kniBLhqd9V4iNUbOf44e5vRBACzEnEZKXx/RyQjsFjDl2sB3fhnOsOg
+ 8p4sem9b8tesVNGN7QR756mHdCXHyiG4+RKEAinPvCR5payYzLvXsVzmLNwtqLx1yQIUaGP6X
+ 8OHtelwCBxnzSfrmzjLLkbRbY6mpeiAu5x/P3WM8QCyyfUcGxXU3ous33EdXt2vNUf5abJon1
+ qCFnxw1k56rLVn2gvD11kSa7mPaQgxIq+kLZ8uFhzYijzixoI2cM9lqK5XuyxT+ZDyCrTjMhV
+ Ms5j/ELgFb4W1lOxb2U1Rvx1I+n3tjQHEZ6FECK/aug59YYkVkYtS4w+UaBBioeIP/tJm/R9t
+ ZxZKECUD1nY8ap2T0vnzq5eIoM8Bbnesmc9FnuwTdp3nrivyxd8+wNo6QRQvguCFBUtrEvYYG
+ bgN+K9XWkxJsms1O2e8rbsLz42Qz/i9xadErW3Jja0Okycywb6ZlvIaZ8qe4oiyKV51vUS3NE
+ ii0nfdTumZKx5PKJV4vIe3bbxsNyi6hLgLnktHd2fU4dT84tgTiKMsW1DAaXhxPTyDgp7l4ct
+ JeeYpqzTV666IFgsa1Xi6I9kjaXdNQLcisTo8wqS6HxxGfOLdvxBvQhDdn5rfvOvN6rdGZNYn
+ AD0VtqctXP3g0bGkvGAv8MALw4fpmBTb7hLjj09cqGID48Mtgo7FfQNDSa8gyF71BmGwmmjO5
+ ywEKx4kBxP4fDz7ojBFjztWMwZE9QzHq9xuDNM/Ut/ve21+VZ3GphoOg8OK55qG0Khkqj176V
+ Xh3CRwq9C5jPy2qFF7e37FFYnxOvojtiNua+CWsk2SXBfVZjl29Y7SR+hkPeYOimeGySa4YHk
+ oPsGuseex5JPD1mZpAFNUFuAgUTNj38Gh9ZEQVUk++n0DFTQxzfMIgznKcCV7gskjlV/XFJMA
+ xYfFXBuakM5ExaHtfI2HBXzXsnFpf3IV9HFB7aN+Yh7XVRJfmkH9sEeLhpewVSPj6bkzmvvg6
+ iMnB0O2r2RpAErPWwCOoht4dZ25wVoYhlNK4VXlrerpGTk/tuNFFNIDHGUZ/Qzv+J90RkiFG9
+ sw0EYyxp7PKwwXxzwPnC5dg0BDnA576PygDymsHoch/IHNeRY9U7aNj1DxCP8WFhkc+MIwA+l
+ pSZYl1Dx/aDBVHKRkqTgHe/k6T6T0I00ukvxGrNSkClDyRguhhwUtogKh2HYGDsyqWcwcSxSk
+ kvETH+12UG5nZcavO9srgVygPbj7tI46tNi8TTXBVGSBJnuoieYMOuvsZG+m8SLY+KxCQBgJZ
+ A046kIBgGH147jaPBx8F35NqIgc/m49ZsYKB4nNhW8TzAMT0kt3PAGgcpibUepBWYRx0dVcxO
+ fyK9rIw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,28 +135,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/8/25 11:23, oushixiong1025@163.com wrote:
-> From: Shixiong Ou <oushixiong@kylinos.cn>
+On 2/19/25 00:01, mhkelley58@gmail.com wrote:
+> From: Michael Kelley <mhklinux@outlook.com>
 >
-> Call device_remove_file() when driver remove.
+> Gen 2 Hyper-V VMs boot via EFI and have a standard EFI framebuffer
+> device. When the kdump kernel runs in such a VM, loading the efifb
+> driver may hang because of accessing the framebuffer at the wrong
+> memory address.
 >
-> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+> The scenario occurs when the hyperv_fb driver in the original kernel
+> moves the framebuffer to a different MMIO address because of conflicts
+> with an already-running efifb or simplefb driver. The hyperv_fb driver
+> then informs Hyper-V of the change, which is allowed by the Hyper-V FB
+> VMBus device protocol. However, when the kexec command loads the kdump
+> kernel into crash memory via the kexec_file_load() system call, the
+> system call doesn't know the framebuffer has moved, and it sets up the
+> kdump screen_info using the original framebuffer address. The transition
+> to the kdump kernel does not go through the Hyper-V host, so Hyper-V
+> does not reset the framebuffer address like it would do on a reboot.
+> When efifb tries to run, it accesses a non-existent framebuffer
+> address, which traps to the Hyper-V host. After many such accesses,
+> the Hyper-V host thinks the guest is being malicious, and throttles
+> the guest to the point that it runs very slowly or appears to have hung.
+>
+> When the kdump kernel is loaded into crash memory via the kexec_load()
+> system call, the problem does not occur. In this case, the kexec command
+> builds the screen_info table itself in user space from data returned
+> by the FBIOGET_FSCREENINFO ioctl against /dev/fb0, which gives it the
+> new framebuffer location.
+>
+> This problem was originally reported in 2020 [1], resulting in commit
+> 3cb73bc3fa2a ("hyperv_fb: Update screen_info after removing old
+> framebuffer"). This commit solved the problem by setting orig_video_isVG=
+A
+> to 0, so the kdump kernel was unaware of the EFI framebuffer. The efifb
+> driver did not try to load, and no hang occurred. But in 2024, commit
+> c25a19afb81c ("fbdev/hyperv_fb: Do not clear global screen_info")
+> effectively reverted 3cb73bc3fa2a. Commit c25a19afb81c has no reference
+> to 3cb73bc3fa2a, so perhaps it was done without knowing the implications
+> that were reported with 3cb73bc3fa2a. In any case, as of commit
+> c25a19afb81c, the original problem came back again.
+>
+> Interestingly, the hyperv_drm driver does not have this problem because
+> it never moves the framebuffer. The difference is that the hyperv_drm
+> driver removes any conflicting framebuffers *before* allocating an MMIO
+> address, while the hyperv_fb drivers removes conflicting framebuffers
+> *after* allocating an MMIO address. With the "after" ordering, hyperv_fb
+> may encounter a conflict and move the framebuffer to a different MMIO
+> address. But the conflict is essentially bogus because it is removed
+> a few lines of code later.
+>
+> Rather than fix the problem with the approach from 2020 in commit
+> 3cb73bc3fa2a, instead slightly reorder the steps in hyperv_fb so
+> conflicting framebuffers are removed before allocating an MMIO address.
+> Then the default framebuffer MMIO address should always be available, an=
+d
+> there's never any confusion about which framebuffer address the kdump
+> kernel should use -- it's always the original address provided by
+> the Hyper-V host. This approach is already used by the hyperv_drm
+> driver, and is consistent with the usage guidelines at the head of
+> the module with the function aperture_remove_conflicting_devices().
+>
+> This approach also solves a related minor problem when kexec_load()
+> is used to load the kdump kernel. With current code, unbinding and
+> rebinding the hyperv_fb driver could result in the framebuffer moving
+> back to the default framebuffer address, because on the rebind there
+> are no conflicts. If such a move is done after the kdump kernel is
+> loaded with the new framebuffer address, at kdump time it could again
+> have the wrong address.
+>
+> This problem and fix are described in terms of the kdump kernel, but
+> it can also occur with any kernel started via kexec.
+>
+> See extensive discussion of the problem and solution at [2].
+>
+> [1] https://lore.kernel.org/linux-hyperv/20201014092429.1415040-1-kasong=
+@redhat.com/
+> [2] https://lore.kernel.org/linux-hyperv/BLAPR10MB521793485093FDB448F7B2=
+E5FDE92@BLAPR10MB5217.namprd10.prod.outlook.com/
+>
+> Reported-by: Thomas Tai <thomas.tai@oracle.com>
+> Fixes: c25a19afb81c ("fbdev/hyperv_fb: Do not clear global screen_info")
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 > ---
->   drivers/video/fbdev/fsl-diu-fb.c | 4 ++++
->   1 file changed, 4 insertions(+)
+> The "Fixes" tag uses commit c25a19afb81c because that's where the proble=
+m
+> was re-exposed, and how far back a stable backport is needed. But I've
+> taken a completely different, and hopefully better, approach in the
+> solution that isn't related to the code changes in c25a19afb81c.
 >
-> diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-=
-diu-fb.c
-> index 5ac8201c3533..8c91af9a9156 100644
-> --- a/drivers/video/fbdev/fsl-diu-fb.c
-> +++ b/drivers/video/fbdev/fsl-diu-fb.c
-> @@ -1807,6 +1807,7 @@ static int fsl_diu_probe(struct platform_device *p=
-dev)
->   	if (ret) {
->   		dev_err(&pdev->dev, "could not create sysfs file %s\n",
->   			data->dev_attr.attr.name);
-> +		goto error;
+>   drivers/video/fbdev/hyperv_fb.c | 20 +++++++++++++-------
+>   1 file changed, 13 insertions(+), 7 deletions(-)
 
-this seems to miss calling free_irq() then at least...
+applied to fbdev tree.
 
+Thanks!
 Helge
