@@ -2,74 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938A6A588A9
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 22:55:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C109A588EF
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 23:58:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 398E710E0A5;
-	Sun,  9 Mar 2025 21:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D6B10E37A;
+	Sun,  9 Mar 2025 22:58:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C4SZu6jd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BjdWeWVy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13F1810E06A;
- Sun,  9 Mar 2025 21:55:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741557330; x=1773093330;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=XV4TFGJPOwdEuo+Uu6vVn9rLCbiRTLhhS72SB0Cnyxo=;
- b=C4SZu6jdPS5NRnpt8LsE7pK1Dy6x83hSAfD6WBfw2OpYIa7PHjw9l+e9
- Zn6cUFMONT0bsZcj7QDfXDiyelK8Z2V00R3JlQgJps4CWJOaEtaY+gE13
- Kr+5oOpKneSnbpS5EtCzWKcW9wIqS4IRhPf/UAXd8KTt/Xn0+a1rJRK9e
- 9F56+eg4510yRViHkxkTT89t5SRSpkGxgq0setekkYkk+xKV6mlBGtJGP
- TRhg2neBDGJseJc/UmNKjVVGHVMWJjmvhDwdJQQrDR8aeJSE6gdLDWewA
- KaJHyT/heXdr3j2GL/50w4bYNLC/OcPHAtAbBFZgMC0T96MpgZcp4dfbS w==;
-X-CSE-ConnectionGUID: GYVbc2zzTVK1F308FYnBwQ==
-X-CSE-MsgGUID: pZFYX0+kSliIOPbYcq81sQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="42657020"
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; d="scan'208";a="42657020"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2025 14:55:30 -0700
-X-CSE-ConnectionGUID: KmuazXWsTQuQ/12EcYE7Ug==
-X-CSE-MsgGUID: dX7NmjAVR0eX9IkEFZMktA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; d="scan'208";a="119668697"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
- by fmviesa006.fm.intel.com with ESMTP; 09 Mar 2025 14:55:24 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1trOcD-0003VI-2o;
- Sun, 09 Mar 2025 21:55:21 +0000
-Date: Mon, 10 Mar 2025 05:55:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 4/4] drm: bridge: dw-hdmi: use new helper to get ACR values
-Message-ID: <202503100501.SlwYOb9U-lkp@intel.com>
-References: <20250309-drm-hdmi-acr-v1-4-bb9c242f4d4b@linaro.org>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B0DA10E06A;
+ Sun,  9 Mar 2025 22:58:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9F7B9A45D45;
+ Sun,  9 Mar 2025 22:53:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE5F8C4CEE3;
+ Sun,  9 Mar 2025 22:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741561120;
+ bh=nsDhumEQyZw47FuNI6BGorbwqRz8lQI1xdmorqLvdhI=;
+ h=Date:From:To:Cc:Subject:From;
+ b=BjdWeWVy2Do9PkeGAteYzW7wxSg6DHofpcMhR/X1NSWhmvnLCD/kpoAxEP6uaNq+u
+ s7JYNX9XjzNKSzw3bby1eHBcf+7kesI9PEw/ffRn/972QMtdVG0D+s9AOu/V69z/hx
+ FABBbM7c3rMisJ8WljNkaVDkRg0swokbq2dojqqjnRCFsOL060TcluHe/Fe3sabGaF
+ ullngDktoK9E2lrlhVp/BYSYeFVNZ7E7cyBwltxRjVwFbIxjkf9hzDYP8dN7OvaZ7N
+ Q+1o5HxlgFj/G/SLnTv9XswTEJ5iE6WtCV/B/bjoeAdWCh6PifT9nyEfNgn8phyBj2
+ z+a02qdnwl+Sg==
+Date: Sun, 9 Mar 2025 23:58:36 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ Russ Weight <russ.weight@linux.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] Nova changes for v6.15
+Message-ID: <Z84dHHEn6xfvlRxk@cassiopeiae>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250309-drm-hdmi-acr-v1-4-bb9c242f4d4b@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,29 +57,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi Dave and Sima,
 
-kernel test robot noticed the following build errors:
+This is the inital PR for Nova (nova-core).
 
-[auto build test ERROR on 0a2f889128969dab41861b6e40111aa03dc57014]
+Besides the nova-core skeleton driver and the initial project documentation,
+I picked up two firmware patches and one Rust patch (no conflicts expected) as
+dependency of nova-core.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-hdmi-provide-central-data-authority-for-ACR-params/20250309-161610
-base:   0a2f889128969dab41861b6e40111aa03dc57014
-patch link:    https://lore.kernel.org/r/20250309-drm-hdmi-acr-v1-4-bb9c242f4d4b%40linaro.org
-patch subject: [PATCH 4/4] drm: bridge: dw-hdmi: use new helper to get ACR values
-config: arm64-randconfig-002-20250310 (https://download.01.org/0day-ci/archive/20250310/202503100501.SlwYOb9U-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503100501.SlwYOb9U-lkp@intel.com/reproduce)
+The following changes since commit 7eb172143d5508b4da468ed59ee857c6e5e01da6:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503100501.SlwYOb9U-lkp@intel.com/
+  Linux 6.14-rc5 (2025-03-02 11:48:20 -0800)
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+are available in the Git repository at:
 
->> ERROR: modpost: "drm_hdmi_acr_get_n_cts" [drivers/gpu/drm/bridge/synopsys/dw-hdmi.ko] undefined!
+  git@gitlab.freedesktop.org:drm/nova.git tags/nova-next-6.15-2025-03-09
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+for you to fetch changes up to b28786b190d1ae2df5e6a5181ad78c6f226ea3e1:
+
+  gpu: nova-core: add initial documentation (2025-03-09 19:24:29 +0100)
+
+----------------------------------------------------------------
+Nova changes for v6.15
+
+nova-core:
+  - initial skeleton driver
+  - documentation
+    - project guidelines
+    - task (todo) list
+
+firmware:
+  - `module_firmware!` macro
+  - `firmware::ModInfoBuilder`
+
+Rust:
+  - `LocalModule` type alias
+
+----------------------------------------------------------------
+Danilo Krummrich (5):
+      rust: module: add type `LocalModule`
+      rust: firmware: introduce `firmware::ModInfoBuilder`
+      rust: firmware: add `module_firmware!` macro
+      gpu: nova-core: add initial driver stub
+      gpu: nova-core: add initial documentation
+
+ Documentation/gpu/drivers.rst              |   1 +
+ Documentation/gpu/nova/core/guidelines.rst |  24 ++++++
+ Documentation/gpu/nova/core/todo.rst       | 446 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/gpu/nova/guidelines.rst      |  69 +++++++++++++++++
+ Documentation/gpu/nova/index.rst           |  30 ++++++++
+ MAINTAINERS                                |  11 +++
+ drivers/gpu/Makefile                       |   1 +
+ drivers/gpu/nova-core/Kconfig              |  14 ++++
+ drivers/gpu/nova-core/Makefile             |   3 +
+ drivers/gpu/nova-core/driver.rs            |  47 ++++++++++++
+ drivers/gpu/nova-core/firmware.rs          |  45 +++++++++++
+ drivers/gpu/nova-core/gpu.rs               | 199 +++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/nova-core/nova_core.rs         |  20 +++++
+ drivers/gpu/nova-core/regs.rs              |  55 ++++++++++++++
+ drivers/gpu/nova-core/util.rs              |  21 ++++++
+ drivers/video/Kconfig                      |   1 +
+ rust/kernel/firmware.rs                    | 216 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ rust/macros/module.rs                      |   4 +
+ 18 files changed, 1207 insertions(+)
+ create mode 100644 Documentation/gpu/nova/core/guidelines.rst
+ create mode 100644 Documentation/gpu/nova/core/todo.rst
+ create mode 100644 Documentation/gpu/nova/guidelines.rst
+ create mode 100644 Documentation/gpu/nova/index.rst
+ create mode 100644 drivers/gpu/nova-core/Kconfig
+ create mode 100644 drivers/gpu/nova-core/Makefile
+ create mode 100644 drivers/gpu/nova-core/driver.rs
+ create mode 100644 drivers/gpu/nova-core/firmware.rs
+ create mode 100644 drivers/gpu/nova-core/gpu.rs
+ create mode 100644 drivers/gpu/nova-core/nova_core.rs
+ create mode 100644 drivers/gpu/nova-core/regs.rs
+ create mode 100644 drivers/gpu/nova-core/util.rs
