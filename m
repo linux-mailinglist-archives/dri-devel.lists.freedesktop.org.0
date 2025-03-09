@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC257A587A2
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 20:37:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F08AA587A9
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 20:37:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E15610E1D3;
-	Sun,  9 Mar 2025 19:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEEEE10E276;
+	Sun,  9 Mar 2025 19:37:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ZZqA3VcF";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="izeRSyGh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A6C10E1D3
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 19:37:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACC6710E323
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 19:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=PTHHpGneiUEeWnFXNFBaFyXoGWMjYB9q2UZzdF4jnAM=; b=ZZqA3VcFi90+YU2C
- GZWdJ8JLNzNBGt2ElSLvI2JgUeWvDDfDCB3mSIep/DLCl4tl2O4n4jEDTx7nDOPG28TJYHiGPyDH2
- 3INrv54asBa0ZmF6jF5MgrxJP/A8YxHGmVhann3E7S0R5ufWSsdGP0am/nv4WPEPbH90z49Dn1YbD
- Gdgy+3OXSciaFJvX7b/kCeL/OkZn3xBRVSiMOfAM9vUaVH9UrNzvJeXEEa+xsBR/tR6vRUkrw6/l8
- fN0kHoza+xhd0Ld0Jcc4GJqLDWYjzdV8qu+kIcRfPeIRKlUiLW653oBZKzAFuG2DqzkN8MIFwZtXi
- CKKPidy5AFzcQ1qh+g==;
+ :Subject; bh=WllGNPT9Qb88WBI5IvX9d/OnHL9HA00jWipcxsm3QAQ=; b=izeRSyGhUVknISbS
+ Juh47rBWJ9rF6c4k6QTP/c4pOQJbBQkFgP+bBxscPE4PNxU6sAbFJtV7D6LHbr5koUU6+eylTwyvb
+ z6oV8qk7Bes0IgFfMM9o6F7TtFio1vDfIUH0AY1UyNvjnpBaMIxX7hycm/4Ywqrix6MiAGhBqsywx
+ YstGrm3ABf9TshHx+fxqwEVRxdjLbGQPX87br8M46Q4DoNe0mk9iDXSUM35yDxqWTsWp06e7HUiT+
+ 2hwVhGrJA4JTRliUHty058viMqO5MQkneK19eRVOAnJvrzpzGfuzrLuz0LUsiYuIwOR6IkbNxhEZc
+ cbn8jTNo8urmNa27jA==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1trMSG-003kFU-13;
- Sun, 09 Mar 2025 19:36:56 +0000
+ (envelope-from <linux@treblig.org>) id 1trMSM-003kFU-01;
+ Sun, 09 Mar 2025 19:37:02 +0000
 From: linux@treblig.org
 To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org,
  lgirdwood@gmail.com, broonie@kernel.org, alexandre.belloni@bootlin.com,
@@ -38,9 +38,9 @@ Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 7/9] power: supply: pcf50633: Remove charger
-Date: Sun,  9 Mar 2025 19:36:10 +0000
-Message-ID: <20250309193612.251929-8-linux@treblig.org>
+Subject: [PATCH 8/9] mfd: pcf50633: Remove irq code
+Date: Sun,  9 Mar 2025 19:36:11 +0000
+Message-ID: <20250309193612.251929-9-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250309193612.251929-1-linux@treblig.org>
 References: <20250309193612.251929-1-linux@treblig.org>
@@ -63,523 +63,379 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-The pcf50633 was used as part of the OpenMoko devices but
-the support for its main chip was recently removed in:
-commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
-
-See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
-
-Remove it.
+As part of the pcf50633 removal, take out it's irq code
+(which includes one bit still called from the core, but it'll
+go soon).
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/power/supply/Kconfig            |   6 -
- drivers/power/supply/Makefile           |   1 -
- drivers/power/supply/pcf50633-charger.c | 466 ------------------------
- 3 files changed, 473 deletions(-)
- delete mode 100644 drivers/power/supply/pcf50633-charger.c
+ drivers/mfd/Makefile        |   2 +-
+ drivers/mfd/pcf50633-core.c |   5 +-
+ drivers/mfd/pcf50633-irq.c  | 312 ------------------------------------
+ 3 files changed, 2 insertions(+), 317 deletions(-)
+ delete mode 100644 drivers/mfd/pcf50633-irq.c
 
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index 7b18358f194a..aa569badaf73 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -449,12 +449,6 @@ config CHARGER_88PM860X
- 	help
- 	  Say Y here to enable charger for Marvell 88PM860x chip.
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index d769e40251c8..f1c7a15c8f7b 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -183,7 +183,7 @@ obj-$(CONFIG_MFD_MT6370)	+= mt6370.o
+ mt6397-objs			:= mt6397-core.o mt6397-irq.o mt6358-irq.o
+ obj-$(CONFIG_MFD_MT6397)	+= mt6397.o
  
--config CHARGER_PCF50633
--	tristate "NXP PCF50633 MBC"
--	depends on MFD_PCF50633
--	help
--	  Say Y to include support for NXP PCF50633 Main Battery Charger.
+-pcf50633-objs			:= pcf50633-core.o pcf50633-irq.o
++pcf50633-objs			:= pcf50633-core.o
+ obj-$(CONFIG_MFD_PCF50633)	+= pcf50633.o
+ obj-$(CONFIG_RZ_MTU3)		+= rz-mtu3.o
+ obj-$(CONFIG_ABX500_CORE)	+= abx500-core.o
+diff --git a/drivers/mfd/pcf50633-core.c b/drivers/mfd/pcf50633-core.c
+index be90ca30b75b..1637816a23d1 100644
+--- a/drivers/mfd/pcf50633-core.c
++++ b/drivers/mfd/pcf50633-core.c
+@@ -203,8 +203,6 @@ static int pcf50633_probe(struct i2c_client *client)
+ 	dev_info(pcf->dev, "Probed device version %d variant %d\n",
+ 							version, variant);
+ 
+-	pcf50633_irq_init(pcf, client->irq);
 -
- config BATTERY_RX51
- 	tristate "Nokia RX-51 (N900) battery driver"
- 	depends on TWL4030_MADC
-diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
-index b55cc48a4c86..eedb00e377cb 100644
---- a/drivers/power/supply/Makefile
-+++ b/drivers/power/supply/Makefile
-@@ -62,7 +62,6 @@ obj-$(CONFIG_CHARGER_RT9467)	+= rt9467-charger.o
- obj-$(CONFIG_CHARGER_RT9471)	+= rt9471.o
- obj-$(CONFIG_BATTERY_TWL4030_MADC)	+= twl4030_madc_battery.o
- obj-$(CONFIG_CHARGER_88PM860X)	+= 88pm860x_charger.o
--obj-$(CONFIG_CHARGER_PCF50633)	+= pcf50633-charger.o
- obj-$(CONFIG_BATTERY_RX51)	+= rx51_battery.o
- obj-$(CONFIG_AB8500_BM)		+= ab8500_bmdata.o ab8500_charger.o ab8500_fg.o ab8500_btemp.o ab8500_chargalg.o
- obj-$(CONFIG_CHARGER_CPCAP)	+= cpcap-charger.o
-diff --git a/drivers/power/supply/pcf50633-charger.c b/drivers/power/supply/pcf50633-charger.c
+ 	/* Create sub devices */
+ 	pcf50633_client_dev_register(pcf, "pcf50633-mbc", &pcf->mbc_pdev);
+ 
+@@ -224,7 +222,6 @@ static void pcf50633_remove(struct i2c_client *client)
+ 	struct pcf50633 *pcf = i2c_get_clientdata(client);
+ 
+ 	sysfs_remove_group(&client->dev.kobj, &pcf_attr_group);
+-	pcf50633_irq_free(pcf);
+ 
+ 	platform_device_unregister(pcf->mbc_pdev);
+ }
+@@ -238,7 +235,7 @@ MODULE_DEVICE_TABLE(i2c, pcf50633_id_table);
+ static struct i2c_driver pcf50633_driver = {
+ 	.driver = {
+ 		.name	= "pcf50633",
+-		.pm	= pm_sleep_ptr(&pcf50633_pm),
++		/* going.... .pm	= pm_sleep_ptr(&pcf50633_pm), */
+ 	},
+ 	.id_table = pcf50633_id_table,
+ 	.probe = pcf50633_probe,
+diff --git a/drivers/mfd/pcf50633-irq.c b/drivers/mfd/pcf50633-irq.c
 deleted file mode 100644
-index 0136bc87b105..000000000000
---- a/drivers/power/supply/pcf50633-charger.c
+index e85af7f1cb0b..000000000000
+--- a/drivers/mfd/pcf50633-irq.c
 +++ /dev/null
-@@ -1,466 +0,0 @@
+@@ -1,312 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0-or-later
--/* NXP PCF50633 Main Battery Charger Driver
+-/* NXP PCF50633 Power Management Unit (PMU) driver
 - *
 - * (C) 2006-2008 by Openmoko, Inc.
-- * Author: Balaji Rao <balajirrao@openmoko.org>
+- * Author: Harald Welte <laforge@openmoko.org>
+- * 	   Balaji Rao <balajirrao@openmoko.org>
 - * All rights reserved.
-- *
-- * Broken down from monstrous PCF50633 driver mainly by
-- * Harald Welte, Andy Green and Werner Almesberger
 - */
 -
+-#include <linux/i2c.h>
+-#include <linux/interrupt.h>
 -#include <linux/kernel.h>
--#include <linux/module.h>
+-#include <linux/mutex.h>
+-#include <linux/export.h>
 -#include <linux/slab.h>
--#include <linux/init.h>
--#include <linux/types.h>
--#include <linux/device.h>
--#include <linux/sysfs.h>
--#include <linux/platform_device.h>
--#include <linux/power_supply.h>
 -
 -#include <linux/mfd/pcf50633/core.h>
 -#include <linux/mfd/pcf50633/mbc.h>
 -
--struct pcf50633_mbc {
--	struct pcf50633 *pcf;
--
--	int adapter_online;
--	int usb_online;
--
--	struct power_supply *usb;
--	struct power_supply *adapter;
--	struct power_supply *ac;
--};
--
--int pcf50633_mbc_usb_curlim_set(struct pcf50633 *pcf, int ma)
+-int pcf50633_register_irq(struct pcf50633 *pcf, int irq,
+-			void (*handler) (int, void *), void *data)
 -{
--	struct pcf50633_mbc *mbc = platform_get_drvdata(pcf->mbc_pdev);
--	int ret = 0;
--	u8 bits;
--	u8 mbcs2, chgmod;
--	unsigned int mbcc5;
+-	if (irq < 0 || irq >= PCF50633_NUM_IRQ || !handler)
+-		return -EINVAL;
 -
--	if (ma >= 1000) {
--		bits = PCF50633_MBCC7_USB_1000mA;
--		ma = 1000;
--	} else if (ma >= 500) {
--		bits = PCF50633_MBCC7_USB_500mA;
--		ma = 500;
--	} else if (ma >= 100) {
--		bits = PCF50633_MBCC7_USB_100mA;
--		ma = 100;
--	} else {
--		bits = PCF50633_MBCC7_USB_SUSPEND;
--		ma = 0;
--	}
+-	if (WARN_ON(pcf->irq_handler[irq].handler))
+-		return -EBUSY;
 -
--	ret = pcf50633_reg_set_bit_mask(pcf, PCF50633_REG_MBCC7,
--					PCF50633_MBCC7_USB_MASK, bits);
--	if (ret)
--		dev_err(pcf->dev, "error setting usb curlim to %d mA\n", ma);
+-	mutex_lock(&pcf->lock);
+-	pcf->irq_handler[irq].handler = handler;
+-	pcf->irq_handler[irq].data = data;
+-	mutex_unlock(&pcf->lock);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_register_irq);
+-
+-int pcf50633_free_irq(struct pcf50633 *pcf, int irq)
+-{
+-	if (irq < 0 || irq >= PCF50633_NUM_IRQ)
+-		return -EINVAL;
+-
+-	mutex_lock(&pcf->lock);
+-	pcf->irq_handler[irq].handler = NULL;
+-	mutex_unlock(&pcf->lock);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_free_irq);
+-
+-static int __pcf50633_irq_mask_set(struct pcf50633 *pcf, int irq, u8 mask)
+-{
+-	u8 reg, bit;
+-	int idx;
+-
+-	idx = irq >> 3;
+-	reg = PCF50633_REG_INT1M + idx;
+-	bit = 1 << (irq & 0x07);
+-
+-	pcf50633_reg_set_bit_mask(pcf, reg, bit, mask ? bit : 0);
+-
+-	mutex_lock(&pcf->lock);
+-
+-	if (mask)
+-		pcf->mask_regs[idx] |= bit;
 -	else
--		dev_info(pcf->dev, "usb curlim to %d mA\n", ma);
+-		pcf->mask_regs[idx] &= ~bit;
 -
--	/*
--	 * We limit the charging current to be the USB current limit.
--	 * The reason is that on pcf50633, when it enters PMU Standby mode,
--	 * which it does when the device goes "off", the USB current limit
--	 * reverts to the variant default.  In at least one common case, that
--	 * default is 500mA.  By setting the charging current to be the same
--	 * as the USB limit we set here before PMU standby, we enforce it only
--	 * using the correct amount of current even when the USB current limit
--	 * gets reset to the wrong thing
--	 */
--
--	if (mbc->pcf->pdata->charger_reference_current_ma) {
--		mbcc5 = (ma << 8) / mbc->pcf->pdata->charger_reference_current_ma;
--		if (mbcc5 > 255)
--			mbcc5 = 255;
--		pcf50633_reg_write(mbc->pcf, PCF50633_REG_MBCC5, mbcc5);
--	}
--
--	mbcs2 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2);
--	chgmod = (mbcs2 & PCF50633_MBCS2_MBC_MASK);
--
--	/* If chgmod == BATFULL, setting chgena has no effect.
--	 * Datasheet says we need to set resume instead but when autoresume is
--	 * used resume doesn't work. Clear and set chgena instead.
--	 */
--	if (chgmod != PCF50633_MBCS2_MBC_BAT_FULL)
--		pcf50633_reg_set_bit_mask(pcf, PCF50633_REG_MBCC1,
--				PCF50633_MBCC1_CHGENA, PCF50633_MBCC1_CHGENA);
--	else {
--		pcf50633_reg_clear_bits(pcf, PCF50633_REG_MBCC1,
--				PCF50633_MBCC1_CHGENA);
--		pcf50633_reg_set_bit_mask(pcf, PCF50633_REG_MBCC1,
--				PCF50633_MBCC1_CHGENA, PCF50633_MBCC1_CHGENA);
--	}
--
--	power_supply_changed(mbc->usb);
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(pcf50633_mbc_usb_curlim_set);
--
--int pcf50633_mbc_get_status(struct pcf50633 *pcf)
--{
--	struct pcf50633_mbc *mbc  = platform_get_drvdata(pcf->mbc_pdev);
--	int status = 0;
--	u8 chgmod;
--
--	if (!mbc)
--		return 0;
--
--	chgmod = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2)
--		& PCF50633_MBCS2_MBC_MASK;
--
--	if (mbc->usb_online)
--		status |= PCF50633_MBC_USB_ONLINE;
--	if (chgmod == PCF50633_MBCS2_MBC_USB_PRE ||
--	    chgmod == PCF50633_MBCS2_MBC_USB_PRE_WAIT ||
--	    chgmod == PCF50633_MBCS2_MBC_USB_FAST ||
--	    chgmod == PCF50633_MBCS2_MBC_USB_FAST_WAIT)
--		status |= PCF50633_MBC_USB_ACTIVE;
--	if (mbc->adapter_online)
--		status |= PCF50633_MBC_ADAPTER_ONLINE;
--	if (chgmod == PCF50633_MBCS2_MBC_ADP_PRE ||
--	    chgmod == PCF50633_MBCS2_MBC_ADP_PRE_WAIT ||
--	    chgmod == PCF50633_MBCS2_MBC_ADP_FAST ||
--	    chgmod == PCF50633_MBCS2_MBC_ADP_FAST_WAIT)
--		status |= PCF50633_MBC_ADAPTER_ACTIVE;
--
--	return status;
--}
--EXPORT_SYMBOL_GPL(pcf50633_mbc_get_status);
--
--int pcf50633_mbc_get_usb_online_status(struct pcf50633 *pcf)
--{
--	struct pcf50633_mbc *mbc  = platform_get_drvdata(pcf->mbc_pdev);
--
--	if (!mbc)
--		return 0;
--
--	return mbc->usb_online;
--}
--EXPORT_SYMBOL_GPL(pcf50633_mbc_get_usb_online_status);
--
--static ssize_t
--show_chgmode(struct device *dev, struct device_attribute *attr, char *buf)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--
--	u8 mbcs2 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2);
--	u8 chgmod = (mbcs2 & PCF50633_MBCS2_MBC_MASK);
--
--	return sysfs_emit(buf, "%d\n", chgmod);
--}
--static DEVICE_ATTR(chgmode, S_IRUGO, show_chgmode, NULL);
--
--static ssize_t
--show_usblim(struct device *dev, struct device_attribute *attr, char *buf)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--	u8 usblim = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC7) &
--						PCF50633_MBCC7_USB_MASK;
--	unsigned int ma;
--
--	if (usblim == PCF50633_MBCC7_USB_1000mA)
--		ma = 1000;
--	else if (usblim == PCF50633_MBCC7_USB_500mA)
--		ma = 500;
--	else if (usblim == PCF50633_MBCC7_USB_100mA)
--		ma = 100;
--	else
--		ma = 0;
--
--	return sysfs_emit(buf, "%u\n", ma);
--}
--
--static ssize_t set_usblim(struct device *dev,
--		struct device_attribute *attr, const char *buf, size_t count)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--	unsigned long ma;
--	int ret;
--
--	ret = kstrtoul(buf, 10, &ma);
--	if (ret)
--		return ret;
--
--	pcf50633_mbc_usb_curlim_set(mbc->pcf, ma);
--
--	return count;
--}
--
--static DEVICE_ATTR(usb_curlim, S_IRUGO | S_IWUSR, show_usblim, set_usblim);
--
--static ssize_t
--show_chglim(struct device *dev, struct device_attribute *attr, char *buf)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--	u8 mbcc5 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC5);
--	unsigned int ma;
--
--	if (!mbc->pcf->pdata->charger_reference_current_ma)
--		return -ENODEV;
--
--	ma = (mbc->pcf->pdata->charger_reference_current_ma *  mbcc5) >> 8;
--
--	return sysfs_emit(buf, "%u\n", ma);
--}
--
--static ssize_t set_chglim(struct device *dev,
--		struct device_attribute *attr, const char *buf, size_t count)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--	unsigned long ma;
--	unsigned int mbcc5;
--	int ret;
--
--	if (!mbc->pcf->pdata->charger_reference_current_ma)
--		return -ENODEV;
--
--	ret = kstrtoul(buf, 10, &ma);
--	if (ret)
--		return ret;
--
--	mbcc5 = (ma << 8) / mbc->pcf->pdata->charger_reference_current_ma;
--	if (mbcc5 > 255)
--		mbcc5 = 255;
--	pcf50633_reg_write(mbc->pcf, PCF50633_REG_MBCC5, mbcc5);
--
--	return count;
--}
--
--/*
-- * This attribute allows to change MBC charging limit on the fly
-- * independently of usb current limit. It also gets set automatically every
-- * time usb current limit is changed.
-- */
--static DEVICE_ATTR(chg_curlim, S_IRUGO | S_IWUSR, show_chglim, set_chglim);
--
--static struct attribute *pcf50633_mbc_sysfs_attrs[] = {
--	&dev_attr_chgmode.attr,
--	&dev_attr_usb_curlim.attr,
--	&dev_attr_chg_curlim.attr,
--	NULL,
--};
--
--ATTRIBUTE_GROUPS(pcf50633_mbc_sysfs);
--
--static void
--pcf50633_mbc_irq_handler(int irq, void *data)
--{
--	struct pcf50633_mbc *mbc = data;
--
--	/* USB */
--	if (irq == PCF50633_IRQ_USBINS) {
--		mbc->usb_online = 1;
--	} else if (irq == PCF50633_IRQ_USBREM) {
--		mbc->usb_online = 0;
--		pcf50633_mbc_usb_curlim_set(mbc->pcf, 0);
--	}
--
--	/* Adapter */
--	if (irq == PCF50633_IRQ_ADPINS)
--		mbc->adapter_online = 1;
--	else if (irq == PCF50633_IRQ_ADPREM)
--		mbc->adapter_online = 0;
--
--	power_supply_changed(mbc->ac);
--	power_supply_changed(mbc->usb);
--	power_supply_changed(mbc->adapter);
--
--	if (mbc->pcf->pdata->mbc_event_callback)
--		mbc->pcf->pdata->mbc_event_callback(mbc->pcf, irq);
--}
--
--static int adapter_get_property(struct power_supply *psy,
--			enum power_supply_property psp,
--			union power_supply_propval *val)
--{
--	struct pcf50633_mbc *mbc = power_supply_get_drvdata(psy);
--	int ret = 0;
--
--	switch (psp) {
--	case POWER_SUPPLY_PROP_ONLINE:
--		val->intval =  mbc->adapter_online;
--		break;
--	default:
--		ret = -EINVAL;
--		break;
--	}
--	return ret;
--}
--
--static int usb_get_property(struct power_supply *psy,
--			enum power_supply_property psp,
--			union power_supply_propval *val)
--{
--	struct pcf50633_mbc *mbc = power_supply_get_drvdata(psy);
--	int ret = 0;
--	u8 usblim = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC7) &
--						PCF50633_MBCC7_USB_MASK;
--
--	switch (psp) {
--	case POWER_SUPPLY_PROP_ONLINE:
--		val->intval = mbc->usb_online &&
--				(usblim <= PCF50633_MBCC7_USB_500mA);
--		break;
--	default:
--		ret = -EINVAL;
--		break;
--	}
--	return ret;
--}
--
--static int ac_get_property(struct power_supply *psy,
--			enum power_supply_property psp,
--			union power_supply_propval *val)
--{
--	struct pcf50633_mbc *mbc = power_supply_get_drvdata(psy);
--	int ret = 0;
--	u8 usblim = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC7) &
--						PCF50633_MBCC7_USB_MASK;
--
--	switch (psp) {
--	case POWER_SUPPLY_PROP_ONLINE:
--		val->intval = mbc->usb_online &&
--				(usblim == PCF50633_MBCC7_USB_1000mA);
--		break;
--	default:
--		ret = -EINVAL;
--		break;
--	}
--	return ret;
--}
--
--static enum power_supply_property power_props[] = {
--	POWER_SUPPLY_PROP_ONLINE,
--};
--
--static const u8 mbc_irq_handlers[] = {
--	PCF50633_IRQ_ADPINS,
--	PCF50633_IRQ_ADPREM,
--	PCF50633_IRQ_USBINS,
--	PCF50633_IRQ_USBREM,
--	PCF50633_IRQ_BATFULL,
--	PCF50633_IRQ_CHGHALT,
--	PCF50633_IRQ_THLIMON,
--	PCF50633_IRQ_THLIMOFF,
--	PCF50633_IRQ_USBLIMON,
--	PCF50633_IRQ_USBLIMOFF,
--	PCF50633_IRQ_LOWSYS,
--	PCF50633_IRQ_LOWBAT,
--};
--
--static const struct power_supply_desc pcf50633_mbc_adapter_desc = {
--	.name		= "adapter",
--	.type		= POWER_SUPPLY_TYPE_MAINS,
--	.properties	= power_props,
--	.num_properties	= ARRAY_SIZE(power_props),
--	.get_property	= &adapter_get_property,
--};
--
--static const struct power_supply_desc pcf50633_mbc_usb_desc = {
--	.name		= "usb",
--	.type		= POWER_SUPPLY_TYPE_USB,
--	.properties	= power_props,
--	.num_properties	= ARRAY_SIZE(power_props),
--	.get_property	= usb_get_property,
--};
--
--static const struct power_supply_desc pcf50633_mbc_ac_desc = {
--	.name		= "ac",
--	.type		= POWER_SUPPLY_TYPE_MAINS,
--	.properties	= power_props,
--	.num_properties	= ARRAY_SIZE(power_props),
--	.get_property	= ac_get_property,
--};
--
--static int pcf50633_mbc_probe(struct platform_device *pdev)
--{
--	struct power_supply_config psy_cfg = {};
--	struct power_supply_config usb_psy_cfg;
--	struct pcf50633_mbc *mbc;
--	int i;
--	u8 mbcs1;
--
--	mbc = devm_kzalloc(&pdev->dev, sizeof(*mbc), GFP_KERNEL);
--	if (!mbc)
--		return -ENOMEM;
--
--	platform_set_drvdata(pdev, mbc);
--	mbc->pcf = dev_to_pcf50633(pdev->dev.parent);
--
--	/* Set up IRQ handlers */
--	for (i = 0; i < ARRAY_SIZE(mbc_irq_handlers); i++)
--		pcf50633_register_irq(mbc->pcf, mbc_irq_handlers[i],
--					pcf50633_mbc_irq_handler, mbc);
--
--	psy_cfg.supplied_to		= mbc->pcf->pdata->batteries;
--	psy_cfg.num_supplicants		= mbc->pcf->pdata->num_batteries;
--	psy_cfg.drv_data		= mbc;
--
--	/* Create power supplies */
--	mbc->adapter = devm_power_supply_register(&pdev->dev,
--						  &pcf50633_mbc_adapter_desc,
--						  &psy_cfg);
--	if (IS_ERR(mbc->adapter)) {
--		dev_err(mbc->pcf->dev, "failed to register adapter\n");
--		return PTR_ERR(mbc->adapter);
--	}
--
--	usb_psy_cfg = psy_cfg;
--	usb_psy_cfg.attr_grp = pcf50633_mbc_sysfs_groups;
--
--	mbc->usb = devm_power_supply_register(&pdev->dev,
--					      &pcf50633_mbc_usb_desc,
--					      &usb_psy_cfg);
--	if (IS_ERR(mbc->usb)) {
--		dev_err(mbc->pcf->dev, "failed to register usb\n");
--		return PTR_ERR(mbc->usb);
--	}
--
--	mbc->ac = devm_power_supply_register(&pdev->dev,
--					     &pcf50633_mbc_ac_desc,
--					     &psy_cfg);
--	if (IS_ERR(mbc->ac)) {
--		dev_err(mbc->pcf->dev, "failed to register ac\n");
--		return PTR_ERR(mbc->ac);
--	}
--
--	mbcs1 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS1);
--	if (mbcs1 & PCF50633_MBCS1_USBPRES)
--		pcf50633_mbc_irq_handler(PCF50633_IRQ_USBINS, mbc);
--	if (mbcs1 & PCF50633_MBCS1_ADAPTPRES)
--		pcf50633_mbc_irq_handler(PCF50633_IRQ_ADPINS, mbc);
+-	mutex_unlock(&pcf->lock);
 -
 -	return 0;
 -}
 -
--static void pcf50633_mbc_remove(struct platform_device *pdev)
+-int pcf50633_irq_mask(struct pcf50633 *pcf, int irq)
 -{
--	struct pcf50633_mbc *mbc = platform_get_drvdata(pdev);
--	int i;
+-	dev_dbg(pcf->dev, "Masking IRQ %d\n", irq);
 -
--	/* Remove IRQ handlers */
--	for (i = 0; i < ARRAY_SIZE(mbc_irq_handlers); i++)
--		pcf50633_free_irq(mbc->pcf, mbc_irq_handlers[i]);
+-	return __pcf50633_irq_mask_set(pcf, irq, 1);
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_irq_mask);
+-
+-int pcf50633_irq_unmask(struct pcf50633 *pcf, int irq)
+-{
+-	dev_dbg(pcf->dev, "Unmasking IRQ %d\n", irq);
+-
+-	return __pcf50633_irq_mask_set(pcf, irq, 0);
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_irq_unmask);
+-
+-int pcf50633_irq_mask_get(struct pcf50633 *pcf, int irq)
+-{
+-	u8 reg, bits;
+-
+-	reg =  irq >> 3;
+-	bits = 1 << (irq & 0x07);
+-
+-	return pcf->mask_regs[reg] & bits;
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_irq_mask_get);
+-
+-static void pcf50633_irq_call_handler(struct pcf50633 *pcf, int irq)
+-{
+-	if (pcf->irq_handler[irq].handler)
+-		pcf->irq_handler[irq].handler(irq, pcf->irq_handler[irq].data);
 -}
 -
--static struct platform_driver pcf50633_mbc_driver = {
--	.driver = {
--		.name = "pcf50633-mbc",
--	},
--	.probe = pcf50633_mbc_probe,
--	.remove = pcf50633_mbc_remove,
--};
+-/* Maximum amount of time ONKEY is held before emergency action is taken */
+-#define PCF50633_ONKEY1S_TIMEOUT 8
 -
--module_platform_driver(pcf50633_mbc_driver);
+-static irqreturn_t pcf50633_irq(int irq, void *data)
+-{
+-	struct pcf50633 *pcf = data;
+-	int ret, i, j;
+-	u8 pcf_int[5], chgstat;
 -
--MODULE_AUTHOR("Balaji Rao <balajirrao@openmoko.org>");
--MODULE_DESCRIPTION("PCF50633 mbc driver");
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:pcf50633-mbc");
+-	/* Read the 5 INT regs in one transaction */
+-	ret = pcf50633_read_block(pcf, PCF50633_REG_INT1,
+-						ARRAY_SIZE(pcf_int), pcf_int);
+-	if (ret != ARRAY_SIZE(pcf_int)) {
+-		dev_err(pcf->dev, "Error reading INT registers\n");
+-
+-		/*
+-		 * If this doesn't ACK the interrupt to the chip, we'll be
+-		 * called once again as we're level triggered.
+-		 */
+-		goto out;
+-	}
+-
+-	/* defeat 8s death from lowsys on A5 */
+-	pcf50633_reg_write(pcf, PCF50633_REG_OOCSHDWN,  0x04);
+-
+-	/* We immediately read the usb and adapter status. We thus make sure
+-	 * only of USBINS/USBREM IRQ handlers are called */
+-	if (pcf_int[0] & (PCF50633_INT1_USBINS | PCF50633_INT1_USBREM)) {
+-		chgstat = pcf50633_reg_read(pcf, PCF50633_REG_MBCS2);
+-		if (chgstat & (0x3 << 4))
+-			pcf_int[0] &= ~PCF50633_INT1_USBREM;
+-		else
+-			pcf_int[0] &= ~PCF50633_INT1_USBINS;
+-	}
+-
+-	/* Make sure only one of ADPINS or ADPREM is set */
+-	if (pcf_int[0] & (PCF50633_INT1_ADPINS | PCF50633_INT1_ADPREM)) {
+-		chgstat = pcf50633_reg_read(pcf, PCF50633_REG_MBCS2);
+-		if (chgstat & (0x3 << 4))
+-			pcf_int[0] &= ~PCF50633_INT1_ADPREM;
+-		else
+-			pcf_int[0] &= ~PCF50633_INT1_ADPINS;
+-	}
+-
+-	dev_dbg(pcf->dev, "INT1=0x%02x INT2=0x%02x INT3=0x%02x "
+-			"INT4=0x%02x INT5=0x%02x\n", pcf_int[0],
+-			pcf_int[1], pcf_int[2], pcf_int[3], pcf_int[4]);
+-
+-	/* Some revisions of the chip don't have a 8s standby mode on
+-	 * ONKEY1S press. We try to manually do it in such cases. */
+-	if ((pcf_int[0] & PCF50633_INT1_SECOND) && pcf->onkey1s_held) {
+-		dev_info(pcf->dev, "ONKEY1S held for %d secs\n",
+-							pcf->onkey1s_held);
+-		if (pcf->onkey1s_held++ == PCF50633_ONKEY1S_TIMEOUT)
+-			if (pcf->pdata->force_shutdown)
+-				pcf->pdata->force_shutdown(pcf);
+-	}
+-
+-	if (pcf_int[2] & PCF50633_INT3_ONKEY1S) {
+-		dev_info(pcf->dev, "ONKEY1S held\n");
+-		pcf->onkey1s_held = 1 ;
+-
+-		/* Unmask IRQ_SECOND */
+-		pcf50633_reg_clear_bits(pcf, PCF50633_REG_INT1M,
+-						PCF50633_INT1_SECOND);
+-
+-		/* Unmask IRQ_ONKEYR */
+-		pcf50633_reg_clear_bits(pcf, PCF50633_REG_INT2M,
+-						PCF50633_INT2_ONKEYR);
+-	}
+-
+-	if ((pcf_int[1] & PCF50633_INT2_ONKEYR) && pcf->onkey1s_held) {
+-		pcf->onkey1s_held = 0;
+-
+-		/* Mask SECOND and ONKEYR interrupts */
+-		if (pcf->mask_regs[0] & PCF50633_INT1_SECOND)
+-			pcf50633_reg_set_bit_mask(pcf,
+-					PCF50633_REG_INT1M,
+-					PCF50633_INT1_SECOND,
+-					PCF50633_INT1_SECOND);
+-
+-		if (pcf->mask_regs[1] & PCF50633_INT2_ONKEYR)
+-			pcf50633_reg_set_bit_mask(pcf,
+-					PCF50633_REG_INT2M,
+-					PCF50633_INT2_ONKEYR,
+-					PCF50633_INT2_ONKEYR);
+-	}
+-
+-	/* Have we just resumed ? */
+-	if (pcf->is_suspended) {
+-		pcf->is_suspended = 0;
+-
+-		/* Set the resume reason filtering out non resumers */
+-		for (i = 0; i < ARRAY_SIZE(pcf_int); i++)
+-			pcf->resume_reason[i] = pcf_int[i] &
+-						pcf->pdata->resumers[i];
+-
+-		/* Make sure we don't pass on any ONKEY events to
+-		 * userspace now */
+-		pcf_int[1] &= ~(PCF50633_INT2_ONKEYR | PCF50633_INT2_ONKEYF);
+-	}
+-
+-	for (i = 0; i < ARRAY_SIZE(pcf_int); i++) {
+-		/* Unset masked interrupts */
+-		pcf_int[i] &= ~pcf->mask_regs[i];
+-
+-		for (j = 0; j < 8 ; j++)
+-			if (pcf_int[i] & (1 << j))
+-				pcf50633_irq_call_handler(pcf, (i * 8) + j);
+-	}
+-
+-out:
+-	return IRQ_HANDLED;
+-}
+-
+-static int pcf50633_suspend(struct device *dev)
+-{
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct pcf50633 *pcf = i2c_get_clientdata(client);
+-	int ret;
+-	int i;
+-	u8 res[5];
+-
+-
+-	/* Make sure our interrupt handlers are not called
+-	 * henceforth */
+-	disable_irq(pcf->irq);
+-
+-	/* Save the masks */
+-	ret = pcf50633_read_block(pcf, PCF50633_REG_INT1M,
+-				ARRAY_SIZE(pcf->suspend_irq_masks),
+-					pcf->suspend_irq_masks);
+-	if (ret < 0) {
+-		dev_err(pcf->dev, "error saving irq masks\n");
+-		goto out;
+-	}
+-
+-	/* Write wakeup irq masks */
+-	for (i = 0; i < ARRAY_SIZE(res); i++)
+-		res[i] = ~pcf->pdata->resumers[i];
+-
+-	ret = pcf50633_write_block(pcf, PCF50633_REG_INT1M,
+-					ARRAY_SIZE(res), &res[0]);
+-	if (ret < 0) {
+-		dev_err(pcf->dev, "error writing wakeup irq masks\n");
+-		goto out;
+-	}
+-
+-	pcf->is_suspended = 1;
+-
+-out:
+-	return ret;
+-}
+-
+-static int pcf50633_resume(struct device *dev)
+-{
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct pcf50633 *pcf = i2c_get_clientdata(client);
+-	int ret;
+-
+-	/* Write the saved mask registers */
+-	ret = pcf50633_write_block(pcf, PCF50633_REG_INT1M,
+-				ARRAY_SIZE(pcf->suspend_irq_masks),
+-					pcf->suspend_irq_masks);
+-	if (ret < 0)
+-		dev_err(pcf->dev, "Error restoring saved suspend masks\n");
+-
+-	enable_irq(pcf->irq);
+-
+-	return ret;
+-}
+-
+-EXPORT_GPL_SIMPLE_DEV_PM_OPS(pcf50633_pm, pcf50633_suspend, pcf50633_resume);
+-
+-int pcf50633_irq_init(struct pcf50633 *pcf, int irq)
+-{
+-	int ret;
+-
+-	pcf->irq = irq;
+-
+-	/* Enable all interrupts except RTC SECOND */
+-	pcf->mask_regs[0] = 0x80;
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT1M, pcf->mask_regs[0]);
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT2M, 0x00);
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT3M, 0x00);
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT4M, 0x00);
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT5M, 0x00);
+-
+-	ret = request_threaded_irq(irq, NULL, pcf50633_irq,
+-					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
+-					"pcf50633", pcf);
+-
+-	if (ret)
+-		dev_err(pcf->dev, "Failed to request IRQ %d\n", ret);
+-
+-	if (enable_irq_wake(irq) < 0)
+-		dev_err(pcf->dev, "IRQ %u cannot be enabled as wake-up source"
+-			"in this hardware revision", irq);
+-
+-	return ret;
+-}
+-
+-void pcf50633_irq_free(struct pcf50633 *pcf)
+-{
+-	free_irq(pcf->irq, pcf);
+-}
 -- 
 2.48.1
 
