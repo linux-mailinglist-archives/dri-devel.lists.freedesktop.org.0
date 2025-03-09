@@ -2,79 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021D5A582D8
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 10:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C082AA582DE
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 11:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95A2410E073;
-	Sun,  9 Mar 2025 09:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 974D510E2CC;
+	Sun,  9 Mar 2025 10:00:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lItLYkVV";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="elGo6Ws9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E84B310E073;
- Sun,  9 Mar 2025 09:55:30 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-43bcc85ba13so25706335e9.0; 
- Sun, 09 Mar 2025 01:55:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741514129; x=1742118929; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8ZpuHav96lrk832Cicku4PQcIvGBzmRkHChNSbUFJB4=;
- b=lItLYkVV9GrR+byIKL7kJ4VRr2oBnTfVhptgAT+f92G/J3D8w5Oore6pAABWJymnTz
- byvxRPSxYzMP6mgKlyc9JLexh8s7fD8R+pvnfJlu8LGv2jcdpVU6dZiMsD0GobjaygVA
- kMOH2s83ul8u3gND38RdEkcjbcjefjko0EvB/XMYD7s5g9j0byKa9R/pXxRHuQW3nwE1
- T48sJUYkHPMW9f1aX1xVc+naDEix164wuTmuVfmVKm2XyY2722awG3fBkK7ozRXmkioJ
- YIqCeMnFKb4kYN9iwdpL6QhdT7LsOSN8iKj5HTXxjm6Rdrc0bCxD3LifwQaV4NQDfuJg
- LXxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741514129; x=1742118929;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8ZpuHav96lrk832Cicku4PQcIvGBzmRkHChNSbUFJB4=;
- b=T0dfDePC+CXaF/yp27oz28/spNuUsO5G4uZY0N8kdyG2b5VbVKsewk9QqB405HIU9Z
- U5eCLqOjpDaAi8V0nSWZLwLgxOKXLMhqFap3YUtRRrUAZLk8X15swmBl1ptXEJYsvu56
- tuQ7k6/fAAL+6Pga2QYc7Ke0m38oBQyXEcJi0/0Mn4pIM4omMCGo6lexlXbIyew0na3a
- vQToBh90WFm5Y13dNSRgTjO5WF/OPSPs4TPiCDNpJEBZtLd9pfnvVkjn9eftLsp0XBRe
- Ka9+rgdpbhcC9ADLUwHDaIbOLUZ77olpFbkOjen9p940g7TkXbThuzVjR8KxRBhxNMl0
- Y51g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUfk1pAQlqoo98c6F4M+/q83geT4BLT0/dgBpVyaquY8nIDV1YkfBDUR3mjmFMVbBLDcqH0BSRBbS0=@lists.freedesktop.org,
- AJvYcCXzEJsXHDAAY16tnPBzEnxpRCF5KaYrk/hOZ1rXuTCxbndjw3r8EW/XTe2PhYkj1j0groD4E2mLC35s@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxy+wuEqPpRMhas6k67qyMM6zBr89rB/djGz56rCgHTm/0CJd6P
- BoJ815y46qHdI+PvpwF4j+z9mrFE8uqreIZf1pDaGVJ06clVzj1k
-X-Gm-Gg: ASbGncuHhi6yXkB15ou+QbXX9I2WgnpoJpR4Seo8YKvBJmNEMb3FalfN4MtG1vtcFEp
- 1KfM/tKUVdfRE2xOlEPCMPMJ4SIW3rdsRIyLkvEzwpi7iDyeUH4iKXwEb0LIS6Okzxs2P82Qmcv
- 3YVwzCIBGR41CX7A6TrQfem2D3NX3OMEgossRNN1M3qZ66mQQxi2j0kEIn4QjZCU2Y9+unZDCvt
- Ic38H5vYLwyRtBdPBI/wpS12v5m9bCbUnMOdaFG3F+JmaurdFg40erD6BWmVjzRk10CJC3ZXnvA
- gEJextYr39eI0qrB5C9PT3wVYSOWwSUtkXpuYa7CfHE9Cg==
-X-Google-Smtp-Source: AGHT+IHfI/VJZftDRqHYeb3Xwib26RWuigXJPjvLBRgin8Bg+mZushMIzjAxfzKYiLNvU6b4hTnErA==
-X-Received: by 2002:a5d:6d8a:0:b0:391:12a5:3cb3 with SMTP id
- ffacd0b85a97d-39132d2af8bmr6599086f8f.3.1741514129156; 
- Sun, 09 Mar 2025 01:55:29 -0800 (PST)
-Received: from qasdev.Home ([2a02:c7c:6696:8300:8afb:1194:b90e:9410])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3912c0e2bb7sm11567926f8f.63.2025.03.09.01.55.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Mar 2025 01:55:27 -0800 (PST)
-From: Qasim Ijaz <qasdev00@gmail.com>
-To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- quic_jesszhan@quicinc.com
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/msm/dpu: reorder pointer operations after sanity
- checks to avoid NULL deref 
-Date: Sun,  9 Mar 2025 09:55:25 +0000
-Message-Id: <20250309095525.7738-1-qasdev00@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801B610E2CC;
+ Sun,  9 Mar 2025 10:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1741514418; x=1742119218; i=markus.elfring@web.de;
+ bh=vCfhMg9R938vwtMtzUz95fNbLj1gywbLqULeR9Dbivo=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=elGo6Ws9ayXNezVXbzFU1P6+TK+IFM6dpvOh9b5jalPctpWJ9IcbIO+hysAYCWyF
+ RuheIrDVrFsfERcMWI/X266aHSU6TVQ4djCJBCFyu153LE30oAGfzdr0lrtAfEvsL
+ i8utYPxGPei04BAerulpiCr9MGrrGgqhDybgpw8bKUBkWTOVrc0Mgb1ribvOZgedE
+ WEzvre/b0x4piBi3Y7bRaa9JGZbHqYRxQXDQd+RLvCNoRUeGnMZAC7yoXaHgRW5qg
+ 4ki9rc1ZwVpEOhfOhqkrbrnF9uwdfzWDjogKHcbav6VIocn7Rz7v1SrngSdEjnzTE
+ euiiczTx+T24Iz5Q7w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.26]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M1rTQ-1tp1b73epc-00AyRN; Sun, 09
+ Mar 2025 11:00:17 +0100
+Message-ID: <25e29571-6b96-49cc-aa72-e3040fde8004@web.de>
+Date: Sun, 9 Mar 2025 11:00:15 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Qasim Ijaz <qasdev00@gmail.com>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Simona Vetter <simona@ffwll.ch>
+References: <20250308144839.33849-1-qasdev00@gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: reorder pointer operations after sanity
+ checks to avoid NULL deref
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250308144839.33849-1-qasdev00@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:YRZtq9TUAoPm8rhJitIcG7Jcn8vs7jJjq1tg1yPZdkW1fQQ4qZe
+ hshYarNYkgB3BdK+5T60far+NFl+lUfNpIYE7aOE0EmW2Vlbl6fvNm6KI2BjmqoQ3eiT6E/
+ hivnCFA3UrTb1TeigR5VN18hIfQAUHddc321j5pgaVRx21SZHlD1tY2Qdz6d/lCi86f/p6w
+ qGObaDSAMTeuv5/Apxe4Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:YyKem+iWpWw=;wEYr0geeA4XIjjiHyWUhwJUnyak
+ orL4oNDTScVYJ0MHlfFGOn+UMUaBGPrbdh5MiqedNDhlPnJtqDfjmZWxsH/QNUHVP/TalvSCK
+ SpbLfkgws+CsbRVnnOITcbOFzDleQLgn266+EfeUnY2KRfvgGwsEsoQPaSb+aHAjiz0vaoEk5
+ 1h42TYq2PUaEZ3BCcmlGQZhTyHrpgDXRw4NT+eQuJTVFUHFHxMbDkT6u3H71U1Vqk1bcP5hu5
+ OGMm6rXu7jxSH2cClnUY4FF++RFcjGdYvK+JFezr29arOjt9Tt2GeKZWgE49KX1903X9XTENX
+ K+49iXvhAD6quCVUsZ9gCnfHdFxaF5yCjSodJ3+5Dz8uT1vcaJfgyf/zrcbqVT1SzycPWVClU
+ YXJLnbBhNwqCRiMfvqI61ykAFVmDLqpXWnl8P1pcthxh3BKPm7HfE1rR3CfRaRmo9wjNdfUQO
+ zizKe5oOnw7jkFY6qjIzeaJVIbu7lDe73gKHpI54RvgFV1QFq1eWa0BcCmbBbGs5xG5dAsrmc
+ mYg8TqOHXjOyBHnFjNwPv29Xur0a5KFxV9Xlsr0wGmHYBWxDE60nerL7KoRUREs7/5eyYIZ4S
+ maB1ugCoPDadvhyp0ReePb9OY+1A56dYQhNZdBiR6GbFWp2IEhOcojXwbbEhWW8k6eX0I8fPp
+ yAum1T7jz8OXW0xAHn2Y20QNkIH269RsFcE37sCmtg60dU9GgSrnFGazk6pBB18FheClXsNv4
+ 245Fa/28al+joCgu2CV/ZFTEILSiWYNVuthjf7886mnH5lcsSBSpJIqaIrw7Y3kcqLgoX++yM
+ eWbhG3q1Sl7sEnBzIX7QENlXex4HV8/Du23bSANWvyLE/NNG9yiIjmrg1VDIAJYECI0oF7eZi
+ Wm4M20s5wdIEC1/DIU1teaVDnXBU+I2yNz4+KMbuYWz2Mv3bw8EKGDebAM0RKhLeFgyQyXgtW
+ hEQEaRJ1R7uiKqEFK9nGpwLw5BjWeRWYNnwvsNp3JRoBlSWNbAcZYWr7ao5Org8cWVQLdrTSx
+ h4NERBcm+xVYbbtPfZ9s+dN9TU1wC+J8WQyrf51UdmTF/8hEfQsRqg9sggMKYR++RHpW7H4Tt
+ kKfnqx5VWI7CGwBn97huv6r+gmDN45HyW+GmDNVZ5TmoTxY0MKFucYMS/wHs3hhB5jS6lkBu/
+ lbPGnhNAXrs6GzSQ4+JZKvvHsKglDRiNRSmvEOS8ukkVhcHW9KjlnNk/rHLRWSwSsHnZknWsP
+ huTXTSGvG97r/sSVGl22J6uwS/Qtic7j5oYWTv7XgsfUfBEaqxYsDV8oo3FFllZX5O3VGfGzX
+ jpBo8oG/PLvqmw7nEKTdvS9K+DoDNlgVQp4hlsoE3phHUHweetzvoD/wZ2FiP0Wyc+Yco7rBa
+ mQW2faNoQ+rUQl3SvuePT6aCbVX51EDdNP/xTfAGB1ONbrztgXzZyKxtA9RRWqpGbszFae9U5
+ ffQOhKw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,44 +95,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-_dpu_encoder_trigger_start dereferences "struct dpu_encoder_phys *phys"
-before the sanity checks which can lead to a NULL pointer dereference if
-phys is NULL.
- 
-Fix this by reordering the dereference after the sanity checks.
- 
-Fixes: 8144d17a81d9 ("drm/msm/dpu: Skip trigger flush and start for CWB")
-Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
----
-v2:
-- Moved Signed-off tag below Fixes tag
-- Moved dpu_enc declaration to the top and initialisation below sanity checks
+=E2=80=A6
+> Fix this by reordering the dereference after the sanity checks.
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Another wording suggestion:
+Thus move the assignment of the variable =E2=80=9Cdpu_enc=E2=80=9D behind =
+a null pointer check.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 0eed93a4d056..0bd1f2bfaaff 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1667,7 +1667,7 @@ static void _dpu_encoder_trigger_flush(struct drm_encoder *drm_enc,
-  */
- static void _dpu_encoder_trigger_start(struct dpu_encoder_phys *phys)
- {
--	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(phys->parent);
-+	struct dpu_encoder_virt *dpu_enc;
- 
- 	if (!phys) {
- 		DPU_ERROR("invalid argument(s)\n");
-@@ -1678,6 +1678,8 @@ static void _dpu_encoder_trigger_start(struct dpu_encoder_phys *phys)
- 		DPU_ERROR("invalid pingpong hw\n");
- 		return;
- 	}
-+
-+	dpu_enc = to_dpu_encoder_virt(phys->parent);
- 
- 	if (phys->parent->encoder_type == DRM_MODE_ENCODER_VIRTUAL &&
- 	    dpu_enc->cwb_mask) {
--- 
-2.39.5
 
+Would an other summary phrase be nicer?
+
+Regards,
+Markus
