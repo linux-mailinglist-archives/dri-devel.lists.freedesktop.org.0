@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6E77A587A1
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 20:36:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC257A587A2
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Mar 2025 20:37:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DDD710E30D;
-	Sun,  9 Mar 2025 19:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E15610E1D3;
+	Sun,  9 Mar 2025 19:37:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ip7x4GoF";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ZZqA3VcF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F04910E30D
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 19:36:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61A6C10E1D3
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Mar 2025 19:37:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=VDx/vx74AX9uSjm40zIYghmBbHkHjYVqQJXVjZJWJ4g=; b=ip7x4GoFixgQxX/v
- mxPPyVnlRN/Qfj0t94QY8sa3LMejz0vyePE1GHlX/u+Qa1S7oUNvkJ4ApKuV0DtTevnGJ41GHM6uC
- voQBdNpoV8/x4qeKPANtJ5IxNsOx+ukEWneNyKfdc0g1CyJ52LGZje6vMrhbhiPdrb3kSBp0ysIE2
- cYQanp7CHUPBsNl3LBAocK8d8uI98CtZ01gAKt/EUo4u+AgruyO9Pm7XyjbQi1w7aTBXyIYyzc3uM
- p9/WMXqGN0zeCyypP84Jp7aLxExopRMLR1B88r7UDkhpTG4+D8xNAXYvPe0ejDPQvisSRkTERcTzr
- 0pWfrctQmtRYgNYc3A==;
+ :Subject; bh=PTHHpGneiUEeWnFXNFBaFyXoGWMjYB9q2UZzdF4jnAM=; b=ZZqA3VcFi90+YU2C
+ GZWdJ8JLNzNBGt2ElSLvI2JgUeWvDDfDCB3mSIep/DLCl4tl2O4n4jEDTx7nDOPG28TJYHiGPyDH2
+ 3INrv54asBa0ZmF6jF5MgrxJP/A8YxHGmVhann3E7S0R5ufWSsdGP0am/nv4WPEPbH90z49Dn1YbD
+ Gdgy+3OXSciaFJvX7b/kCeL/OkZn3xBRVSiMOfAM9vUaVH9UrNzvJeXEEa+xsBR/tR6vRUkrw6/l8
+ fN0kHoza+xhd0Ld0Jcc4GJqLDWYjzdV8qu+kIcRfPeIRKlUiLW653oBZKzAFuG2DqzkN8MIFwZtXi
+ CKKPidy5AFzcQ1qh+g==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1trMSB-003kFU-17;
- Sun, 09 Mar 2025 19:36:51 +0000
+ (envelope-from <linux@treblig.org>) id 1trMSG-003kFU-13;
+ Sun, 09 Mar 2025 19:36:56 +0000
 From: linux@treblig.org
 To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org,
  lgirdwood@gmail.com, broonie@kernel.org, alexandre.belloni@bootlin.com,
@@ -38,9 +38,9 @@ Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 6/9] regulator: pcf50633-regulator: Remove
-Date: Sun,  9 Mar 2025 19:36:09 +0000
-Message-ID: <20250309193612.251929-7-linux@treblig.org>
+Subject: [PATCH 7/9] power: supply: pcf50633: Remove charger
+Date: Sun,  9 Mar 2025 19:36:10 +0000
+Message-ID: <20250309193612.251929-8-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250309193612.251929-1-linux@treblig.org>
 References: <20250309193612.251929-1-linux@treblig.org>
@@ -73,257 +73,513 @@ Remove it.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/mfd/pcf50633-core.c            |  35 +------
- drivers/regulator/Kconfig              |   7 --
- drivers/regulator/Makefile             |   1 -
- drivers/regulator/pcf50633-regulator.c | 124 -------------------------
- include/linux/mfd/pcf50633/core.h      |   1 -
- 5 files changed, 1 insertion(+), 167 deletions(-)
- delete mode 100644 drivers/regulator/pcf50633-regulator.c
+ drivers/power/supply/Kconfig            |   6 -
+ drivers/power/supply/Makefile           |   1 -
+ drivers/power/supply/pcf50633-charger.c | 466 ------------------------
+ 3 files changed, 473 deletions(-)
+ delete mode 100644 drivers/power/supply/pcf50633-charger.c
 
-diff --git a/drivers/mfd/pcf50633-core.c b/drivers/mfd/pcf50633-core.c
-index f12359f42140..be90ca30b75b 100644
---- a/drivers/mfd/pcf50633-core.c
-+++ b/drivers/mfd/pcf50633-core.c
-@@ -166,9 +166,8 @@ static const struct regmap_config pcf50633_regmap_config = {
- static int pcf50633_probe(struct i2c_client *client)
- {
- 	struct pcf50633 *pcf;
--	struct platform_device *pdev;
- 	struct pcf50633_platform_data *pdata = dev_get_platdata(&client->dev);
--	int i, j, ret;
-+	int ret;
- 	int version, variant;
+diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
+index 7b18358f194a..aa569badaf73 100644
+--- a/drivers/power/supply/Kconfig
++++ b/drivers/power/supply/Kconfig
+@@ -449,12 +449,6 @@ config CHARGER_88PM860X
+ 	help
+ 	  Say Y here to enable charger for Marvell 88PM860x chip.
  
- 	if (!client->irq) {
-@@ -210,26 +209,6 @@ static int pcf50633_probe(struct i2c_client *client)
- 	pcf50633_client_dev_register(pcf, "pcf50633-mbc", &pcf->mbc_pdev);
- 
- 
--	for (i = 0; i < PCF50633_NUM_REGULATORS; i++) {
--		pdev = platform_device_alloc("pcf50633-regulator", i);
--		if (!pdev) {
--			ret = -ENOMEM;
--			goto err2;
--		}
--
--		pdev->dev.parent = pcf->dev;
--		ret = platform_device_add_data(pdev, &pdata->reg_init_data[i],
--					       sizeof(pdata->reg_init_data[i]));
--		if (ret)
--			goto err;
--
--		ret = platform_device_add(pdev);
--		if (ret)
--			goto err;
--
--		pcf->regulator_pdev[i] = pdev;
--	}
--
- 	ret = sysfs_create_group(&client->dev.kobj, &pcf_attr_group);
- 	if (ret)
- 		dev_warn(pcf->dev, "error creating sysfs entries\n");
-@@ -238,28 +217,16 @@ static int pcf50633_probe(struct i2c_client *client)
- 		pdata->probe_done(pcf);
- 
- 	return 0;
--
--err:
--	platform_device_put(pdev);
--err2:
--	for (j = 0; j < i; j++)
--		platform_device_put(pcf->regulator_pdev[j]);
--
--	return ret;
- }
- 
- static void pcf50633_remove(struct i2c_client *client)
- {
- 	struct pcf50633 *pcf = i2c_get_clientdata(client);
--	int i;
- 
- 	sysfs_remove_group(&client->dev.kobj, &pcf_attr_group);
- 	pcf50633_irq_free(pcf);
- 
- 	platform_device_unregister(pcf->mbc_pdev);
--
--	for (i = 0; i < PCF50633_NUM_REGULATORS; i++)
--		platform_device_unregister(pcf->regulator_pdev[i]);
- }
- 
- static const struct i2c_device_id pcf50633_id_table[] = {
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 39297f7d8177..1236b3a1f93f 100644
---- a/drivers/regulator/Kconfig
-+++ b/drivers/regulator/Kconfig
-@@ -988,13 +988,6 @@ config REGULATOR_PCAP
- 	 This driver provides support for the voltage regulators of the
- 	 PCAP2 PMIC.
- 
--config REGULATOR_PCF50633
--	tristate "NXP PCF50633 regulator driver"
+-config CHARGER_PCF50633
+-	tristate "NXP PCF50633 MBC"
 -	depends on MFD_PCF50633
 -	help
--	 Say Y here to support the voltage regulators and converters
--	 on PCF50633
+-	  Say Y to include support for NXP PCF50633 Main Battery Charger.
 -
- config REGULATOR_PF8X00
- 	tristate "NXP PF8100/PF8121A/PF8200 regulator driver"
- 	depends on I2C && OF
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 3d5a803dce8a..8dca3567437f 100644
---- a/drivers/regulator/Makefile
-+++ b/drivers/regulator/Makefile
-@@ -132,7 +132,6 @@ obj-$(CONFIG_REGULATOR_PWM) += pwm-regulator.o
- obj-$(CONFIG_REGULATOR_TPS51632) += tps51632-regulator.o
- obj-$(CONFIG_REGULATOR_PBIAS) += pbias-regulator.o
- obj-$(CONFIG_REGULATOR_PCAP) += pcap-regulator.o
--obj-$(CONFIG_REGULATOR_PCF50633) += pcf50633-regulator.o
- obj-$(CONFIG_REGULATOR_RAA215300) += raa215300.o
- obj-$(CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY)  += rpi-panel-attiny-regulator.o
- obj-$(CONFIG_REGULATOR_RC5T583)  += rc5t583-regulator.o
-diff --git a/drivers/regulator/pcf50633-regulator.c b/drivers/regulator/pcf50633-regulator.c
+ config BATTERY_RX51
+ 	tristate "Nokia RX-51 (N900) battery driver"
+ 	depends on TWL4030_MADC
+diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
+index b55cc48a4c86..eedb00e377cb 100644
+--- a/drivers/power/supply/Makefile
++++ b/drivers/power/supply/Makefile
+@@ -62,7 +62,6 @@ obj-$(CONFIG_CHARGER_RT9467)	+= rt9467-charger.o
+ obj-$(CONFIG_CHARGER_RT9471)	+= rt9471.o
+ obj-$(CONFIG_BATTERY_TWL4030_MADC)	+= twl4030_madc_battery.o
+ obj-$(CONFIG_CHARGER_88PM860X)	+= 88pm860x_charger.o
+-obj-$(CONFIG_CHARGER_PCF50633)	+= pcf50633-charger.o
+ obj-$(CONFIG_BATTERY_RX51)	+= rx51_battery.o
+ obj-$(CONFIG_AB8500_BM)		+= ab8500_bmdata.o ab8500_charger.o ab8500_fg.o ab8500_btemp.o ab8500_chargalg.o
+ obj-$(CONFIG_CHARGER_CPCAP)	+= cpcap-charger.o
+diff --git a/drivers/power/supply/pcf50633-charger.c b/drivers/power/supply/pcf50633-charger.c
 deleted file mode 100644
-index 9f08a62c800e..000000000000
---- a/drivers/regulator/pcf50633-regulator.c
+index 0136bc87b105..000000000000
+--- a/drivers/power/supply/pcf50633-charger.c
 +++ /dev/null
-@@ -1,124 +0,0 @@
+@@ -1,466 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0-or-later
--/* NXP PCF50633 PMIC Driver
+-/* NXP PCF50633 Main Battery Charger Driver
 - *
 - * (C) 2006-2008 by Openmoko, Inc.
 - * Author: Balaji Rao <balajirrao@openmoko.org>
 - * All rights reserved.
 - *
 - * Broken down from monstrous PCF50633 driver mainly by
-- * Harald Welte and Andy Green and Werner Almesberger
+- * Harald Welte, Andy Green and Werner Almesberger
 - */
 -
 -#include <linux/kernel.h>
 -#include <linux/module.h>
+-#include <linux/slab.h>
 -#include <linux/init.h>
+-#include <linux/types.h>
 -#include <linux/device.h>
--#include <linux/err.h>
+-#include <linux/sysfs.h>
 -#include <linux/platform_device.h>
+-#include <linux/power_supply.h>
 -
 -#include <linux/mfd/pcf50633/core.h>
--#include <linux/mfd/pcf50633/pmic.h>
+-#include <linux/mfd/pcf50633/mbc.h>
 -
--#define PCF50633_REGULATOR(_name, _id, _min_uV, _uV_step, _min_sel, _n) \
--	{							\
--		.name = _name,					\
--		.id = PCF50633_REGULATOR_##_id,			\
--		.ops = &pcf50633_regulator_ops,			\
--		.n_voltages = _n,				\
--		.min_uV = _min_uV,				\
--		.uV_step = _uV_step,				\
--		.linear_min_sel = _min_sel,			\
--		.type = REGULATOR_VOLTAGE,			\
--		.owner = THIS_MODULE,				\
--		.vsel_reg = PCF50633_REG_##_id##OUT,		\
--		.vsel_mask = 0xff,				\
--		.enable_reg = PCF50633_REG_##_id##OUT + 1,	\
--		.enable_mask = PCF50633_REGULATOR_ON,		\
+-struct pcf50633_mbc {
+-	struct pcf50633 *pcf;
+-
+-	int adapter_online;
+-	int usb_online;
+-
+-	struct power_supply *usb;
+-	struct power_supply *adapter;
+-	struct power_supply *ac;
+-};
+-
+-int pcf50633_mbc_usb_curlim_set(struct pcf50633 *pcf, int ma)
+-{
+-	struct pcf50633_mbc *mbc = platform_get_drvdata(pcf->mbc_pdev);
+-	int ret = 0;
+-	u8 bits;
+-	u8 mbcs2, chgmod;
+-	unsigned int mbcc5;
+-
+-	if (ma >= 1000) {
+-		bits = PCF50633_MBCC7_USB_1000mA;
+-		ma = 1000;
+-	} else if (ma >= 500) {
+-		bits = PCF50633_MBCC7_USB_500mA;
+-		ma = 500;
+-	} else if (ma >= 100) {
+-		bits = PCF50633_MBCC7_USB_100mA;
+-		ma = 100;
+-	} else {
+-		bits = PCF50633_MBCC7_USB_SUSPEND;
+-		ma = 0;
 -	}
 -
--static const struct regulator_ops pcf50633_regulator_ops = {
--	.set_voltage_sel = regulator_set_voltage_sel_regmap,
--	.get_voltage_sel = regulator_get_voltage_sel_regmap,
--	.list_voltage = regulator_list_voltage_linear,
--	.map_voltage = regulator_map_voltage_linear,
--	.enable = regulator_enable_regmap,
--	.disable = regulator_disable_regmap,
--	.is_enabled = regulator_is_enabled_regmap,
--};
+-	ret = pcf50633_reg_set_bit_mask(pcf, PCF50633_REG_MBCC7,
+-					PCF50633_MBCC7_USB_MASK, bits);
+-	if (ret)
+-		dev_err(pcf->dev, "error setting usb curlim to %d mA\n", ma);
+-	else
+-		dev_info(pcf->dev, "usb curlim to %d mA\n", ma);
 -
--static const struct regulator_desc regulators[] = {
--	[PCF50633_REGULATOR_AUTO] =
--		PCF50633_REGULATOR("auto", AUTO, 1800000, 25000, 0x2f, 128),
--	[PCF50633_REGULATOR_DOWN1] =
--		PCF50633_REGULATOR("down1", DOWN1, 625000, 25000, 0, 96),
--	[PCF50633_REGULATOR_DOWN2] =
--		PCF50633_REGULATOR("down2", DOWN2, 625000, 25000, 0, 96),
--	[PCF50633_REGULATOR_LDO1] =
--		PCF50633_REGULATOR("ldo1", LDO1, 900000, 100000, 0, 28),
--	[PCF50633_REGULATOR_LDO2] =
--		PCF50633_REGULATOR("ldo2", LDO2, 900000, 100000, 0, 28),
--	[PCF50633_REGULATOR_LDO3] =
--		PCF50633_REGULATOR("ldo3", LDO3, 900000, 100000, 0, 28),
--	[PCF50633_REGULATOR_LDO4] =
--		PCF50633_REGULATOR("ldo4", LDO4, 900000, 100000, 0, 28),
--	[PCF50633_REGULATOR_LDO5] =
--		PCF50633_REGULATOR("ldo5", LDO5, 900000, 100000, 0, 28),
--	[PCF50633_REGULATOR_LDO6] =
--		PCF50633_REGULATOR("ldo6", LDO6, 900000, 100000, 0, 28),
--	[PCF50633_REGULATOR_HCLDO] =
--		PCF50633_REGULATOR("hcldo", HCLDO, 900000, 100000, 0, 28),
--	[PCF50633_REGULATOR_MEMLDO] =
--		PCF50633_REGULATOR("memldo", MEMLDO, 900000, 100000, 0, 28),
--};
+-	/*
+-	 * We limit the charging current to be the USB current limit.
+-	 * The reason is that on pcf50633, when it enters PMU Standby mode,
+-	 * which it does when the device goes "off", the USB current limit
+-	 * reverts to the variant default.  In at least one common case, that
+-	 * default is 500mA.  By setting the charging current to be the same
+-	 * as the USB limit we set here before PMU standby, we enforce it only
+-	 * using the correct amount of current even when the USB current limit
+-	 * gets reset to the wrong thing
+-	 */
 -
--static int pcf50633_regulator_probe(struct platform_device *pdev)
+-	if (mbc->pcf->pdata->charger_reference_current_ma) {
+-		mbcc5 = (ma << 8) / mbc->pcf->pdata->charger_reference_current_ma;
+-		if (mbcc5 > 255)
+-			mbcc5 = 255;
+-		pcf50633_reg_write(mbc->pcf, PCF50633_REG_MBCC5, mbcc5);
+-	}
+-
+-	mbcs2 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2);
+-	chgmod = (mbcs2 & PCF50633_MBCS2_MBC_MASK);
+-
+-	/* If chgmod == BATFULL, setting chgena has no effect.
+-	 * Datasheet says we need to set resume instead but when autoresume is
+-	 * used resume doesn't work. Clear and set chgena instead.
+-	 */
+-	if (chgmod != PCF50633_MBCS2_MBC_BAT_FULL)
+-		pcf50633_reg_set_bit_mask(pcf, PCF50633_REG_MBCC1,
+-				PCF50633_MBCC1_CHGENA, PCF50633_MBCC1_CHGENA);
+-	else {
+-		pcf50633_reg_clear_bits(pcf, PCF50633_REG_MBCC1,
+-				PCF50633_MBCC1_CHGENA);
+-		pcf50633_reg_set_bit_mask(pcf, PCF50633_REG_MBCC1,
+-				PCF50633_MBCC1_CHGENA, PCF50633_MBCC1_CHGENA);
+-	}
+-
+-	power_supply_changed(mbc->usb);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_mbc_usb_curlim_set);
+-
+-int pcf50633_mbc_get_status(struct pcf50633 *pcf)
 -{
--	struct regulator_dev *rdev;
--	struct pcf50633 *pcf;
--	struct regulator_config config = { };
+-	struct pcf50633_mbc *mbc  = platform_get_drvdata(pcf->mbc_pdev);
+-	int status = 0;
+-	u8 chgmod;
 -
--	/* Already set by core driver */
--	pcf = dev_to_pcf50633(pdev->dev.parent);
+-	if (!mbc)
+-		return 0;
 -
--	config.dev = &pdev->dev;
--	config.init_data = dev_get_platdata(&pdev->dev);
--	config.driver_data = pcf;
--	config.regmap = pcf->regmap;
+-	chgmod = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2)
+-		& PCF50633_MBCS2_MBC_MASK;
 -
--	rdev = devm_regulator_register(&pdev->dev, &regulators[pdev->id],
--				       &config);
--	if (IS_ERR(rdev))
--		return PTR_ERR(rdev);
+-	if (mbc->usb_online)
+-		status |= PCF50633_MBC_USB_ONLINE;
+-	if (chgmod == PCF50633_MBCS2_MBC_USB_PRE ||
+-	    chgmod == PCF50633_MBCS2_MBC_USB_PRE_WAIT ||
+-	    chgmod == PCF50633_MBCS2_MBC_USB_FAST ||
+-	    chgmod == PCF50633_MBCS2_MBC_USB_FAST_WAIT)
+-		status |= PCF50633_MBC_USB_ACTIVE;
+-	if (mbc->adapter_online)
+-		status |= PCF50633_MBC_ADAPTER_ONLINE;
+-	if (chgmod == PCF50633_MBCS2_MBC_ADP_PRE ||
+-	    chgmod == PCF50633_MBCS2_MBC_ADP_PRE_WAIT ||
+-	    chgmod == PCF50633_MBCS2_MBC_ADP_FAST ||
+-	    chgmod == PCF50633_MBCS2_MBC_ADP_FAST_WAIT)
+-		status |= PCF50633_MBC_ADAPTER_ACTIVE;
 -
--	platform_set_drvdata(pdev, rdev);
+-	return status;
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_mbc_get_status);
 -
--	if (pcf->pdata->regulator_registered)
--		pcf->pdata->regulator_registered(pcf, pdev->id);
+-int pcf50633_mbc_get_usb_online_status(struct pcf50633 *pcf)
+-{
+-	struct pcf50633_mbc *mbc  = platform_get_drvdata(pcf->mbc_pdev);
+-
+-	if (!mbc)
+-		return 0;
+-
+-	return mbc->usb_online;
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_mbc_get_usb_online_status);
+-
+-static ssize_t
+-show_chgmode(struct device *dev, struct device_attribute *attr, char *buf)
+-{
+-	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
+-
+-	u8 mbcs2 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2);
+-	u8 chgmod = (mbcs2 & PCF50633_MBCS2_MBC_MASK);
+-
+-	return sysfs_emit(buf, "%d\n", chgmod);
+-}
+-static DEVICE_ATTR(chgmode, S_IRUGO, show_chgmode, NULL);
+-
+-static ssize_t
+-show_usblim(struct device *dev, struct device_attribute *attr, char *buf)
+-{
+-	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
+-	u8 usblim = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC7) &
+-						PCF50633_MBCC7_USB_MASK;
+-	unsigned int ma;
+-
+-	if (usblim == PCF50633_MBCC7_USB_1000mA)
+-		ma = 1000;
+-	else if (usblim == PCF50633_MBCC7_USB_500mA)
+-		ma = 500;
+-	else if (usblim == PCF50633_MBCC7_USB_100mA)
+-		ma = 100;
+-	else
+-		ma = 0;
+-
+-	return sysfs_emit(buf, "%u\n", ma);
+-}
+-
+-static ssize_t set_usblim(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t count)
+-{
+-	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
+-	unsigned long ma;
+-	int ret;
+-
+-	ret = kstrtoul(buf, 10, &ma);
+-	if (ret)
+-		return ret;
+-
+-	pcf50633_mbc_usb_curlim_set(mbc->pcf, ma);
+-
+-	return count;
+-}
+-
+-static DEVICE_ATTR(usb_curlim, S_IRUGO | S_IWUSR, show_usblim, set_usblim);
+-
+-static ssize_t
+-show_chglim(struct device *dev, struct device_attribute *attr, char *buf)
+-{
+-	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
+-	u8 mbcc5 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC5);
+-	unsigned int ma;
+-
+-	if (!mbc->pcf->pdata->charger_reference_current_ma)
+-		return -ENODEV;
+-
+-	ma = (mbc->pcf->pdata->charger_reference_current_ma *  mbcc5) >> 8;
+-
+-	return sysfs_emit(buf, "%u\n", ma);
+-}
+-
+-static ssize_t set_chglim(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t count)
+-{
+-	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
+-	unsigned long ma;
+-	unsigned int mbcc5;
+-	int ret;
+-
+-	if (!mbc->pcf->pdata->charger_reference_current_ma)
+-		return -ENODEV;
+-
+-	ret = kstrtoul(buf, 10, &ma);
+-	if (ret)
+-		return ret;
+-
+-	mbcc5 = (ma << 8) / mbc->pcf->pdata->charger_reference_current_ma;
+-	if (mbcc5 > 255)
+-		mbcc5 = 255;
+-	pcf50633_reg_write(mbc->pcf, PCF50633_REG_MBCC5, mbcc5);
+-
+-	return count;
+-}
+-
+-/*
+- * This attribute allows to change MBC charging limit on the fly
+- * independently of usb current limit. It also gets set automatically every
+- * time usb current limit is changed.
+- */
+-static DEVICE_ATTR(chg_curlim, S_IRUGO | S_IWUSR, show_chglim, set_chglim);
+-
+-static struct attribute *pcf50633_mbc_sysfs_attrs[] = {
+-	&dev_attr_chgmode.attr,
+-	&dev_attr_usb_curlim.attr,
+-	&dev_attr_chg_curlim.attr,
+-	NULL,
+-};
+-
+-ATTRIBUTE_GROUPS(pcf50633_mbc_sysfs);
+-
+-static void
+-pcf50633_mbc_irq_handler(int irq, void *data)
+-{
+-	struct pcf50633_mbc *mbc = data;
+-
+-	/* USB */
+-	if (irq == PCF50633_IRQ_USBINS) {
+-		mbc->usb_online = 1;
+-	} else if (irq == PCF50633_IRQ_USBREM) {
+-		mbc->usb_online = 0;
+-		pcf50633_mbc_usb_curlim_set(mbc->pcf, 0);
+-	}
+-
+-	/* Adapter */
+-	if (irq == PCF50633_IRQ_ADPINS)
+-		mbc->adapter_online = 1;
+-	else if (irq == PCF50633_IRQ_ADPREM)
+-		mbc->adapter_online = 0;
+-
+-	power_supply_changed(mbc->ac);
+-	power_supply_changed(mbc->usb);
+-	power_supply_changed(mbc->adapter);
+-
+-	if (mbc->pcf->pdata->mbc_event_callback)
+-		mbc->pcf->pdata->mbc_event_callback(mbc->pcf, irq);
+-}
+-
+-static int adapter_get_property(struct power_supply *psy,
+-			enum power_supply_property psp,
+-			union power_supply_propval *val)
+-{
+-	struct pcf50633_mbc *mbc = power_supply_get_drvdata(psy);
+-	int ret = 0;
+-
+-	switch (psp) {
+-	case POWER_SUPPLY_PROP_ONLINE:
+-		val->intval =  mbc->adapter_online;
+-		break;
+-	default:
+-		ret = -EINVAL;
+-		break;
+-	}
+-	return ret;
+-}
+-
+-static int usb_get_property(struct power_supply *psy,
+-			enum power_supply_property psp,
+-			union power_supply_propval *val)
+-{
+-	struct pcf50633_mbc *mbc = power_supply_get_drvdata(psy);
+-	int ret = 0;
+-	u8 usblim = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC7) &
+-						PCF50633_MBCC7_USB_MASK;
+-
+-	switch (psp) {
+-	case POWER_SUPPLY_PROP_ONLINE:
+-		val->intval = mbc->usb_online &&
+-				(usblim <= PCF50633_MBCC7_USB_500mA);
+-		break;
+-	default:
+-		ret = -EINVAL;
+-		break;
+-	}
+-	return ret;
+-}
+-
+-static int ac_get_property(struct power_supply *psy,
+-			enum power_supply_property psp,
+-			union power_supply_propval *val)
+-{
+-	struct pcf50633_mbc *mbc = power_supply_get_drvdata(psy);
+-	int ret = 0;
+-	u8 usblim = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC7) &
+-						PCF50633_MBCC7_USB_MASK;
+-
+-	switch (psp) {
+-	case POWER_SUPPLY_PROP_ONLINE:
+-		val->intval = mbc->usb_online &&
+-				(usblim == PCF50633_MBCC7_USB_1000mA);
+-		break;
+-	default:
+-		ret = -EINVAL;
+-		break;
+-	}
+-	return ret;
+-}
+-
+-static enum power_supply_property power_props[] = {
+-	POWER_SUPPLY_PROP_ONLINE,
+-};
+-
+-static const u8 mbc_irq_handlers[] = {
+-	PCF50633_IRQ_ADPINS,
+-	PCF50633_IRQ_ADPREM,
+-	PCF50633_IRQ_USBINS,
+-	PCF50633_IRQ_USBREM,
+-	PCF50633_IRQ_BATFULL,
+-	PCF50633_IRQ_CHGHALT,
+-	PCF50633_IRQ_THLIMON,
+-	PCF50633_IRQ_THLIMOFF,
+-	PCF50633_IRQ_USBLIMON,
+-	PCF50633_IRQ_USBLIMOFF,
+-	PCF50633_IRQ_LOWSYS,
+-	PCF50633_IRQ_LOWBAT,
+-};
+-
+-static const struct power_supply_desc pcf50633_mbc_adapter_desc = {
+-	.name		= "adapter",
+-	.type		= POWER_SUPPLY_TYPE_MAINS,
+-	.properties	= power_props,
+-	.num_properties	= ARRAY_SIZE(power_props),
+-	.get_property	= &adapter_get_property,
+-};
+-
+-static const struct power_supply_desc pcf50633_mbc_usb_desc = {
+-	.name		= "usb",
+-	.type		= POWER_SUPPLY_TYPE_USB,
+-	.properties	= power_props,
+-	.num_properties	= ARRAY_SIZE(power_props),
+-	.get_property	= usb_get_property,
+-};
+-
+-static const struct power_supply_desc pcf50633_mbc_ac_desc = {
+-	.name		= "ac",
+-	.type		= POWER_SUPPLY_TYPE_MAINS,
+-	.properties	= power_props,
+-	.num_properties	= ARRAY_SIZE(power_props),
+-	.get_property	= ac_get_property,
+-};
+-
+-static int pcf50633_mbc_probe(struct platform_device *pdev)
+-{
+-	struct power_supply_config psy_cfg = {};
+-	struct power_supply_config usb_psy_cfg;
+-	struct pcf50633_mbc *mbc;
+-	int i;
+-	u8 mbcs1;
+-
+-	mbc = devm_kzalloc(&pdev->dev, sizeof(*mbc), GFP_KERNEL);
+-	if (!mbc)
+-		return -ENOMEM;
+-
+-	platform_set_drvdata(pdev, mbc);
+-	mbc->pcf = dev_to_pcf50633(pdev->dev.parent);
+-
+-	/* Set up IRQ handlers */
+-	for (i = 0; i < ARRAY_SIZE(mbc_irq_handlers); i++)
+-		pcf50633_register_irq(mbc->pcf, mbc_irq_handlers[i],
+-					pcf50633_mbc_irq_handler, mbc);
+-
+-	psy_cfg.supplied_to		= mbc->pcf->pdata->batteries;
+-	psy_cfg.num_supplicants		= mbc->pcf->pdata->num_batteries;
+-	psy_cfg.drv_data		= mbc;
+-
+-	/* Create power supplies */
+-	mbc->adapter = devm_power_supply_register(&pdev->dev,
+-						  &pcf50633_mbc_adapter_desc,
+-						  &psy_cfg);
+-	if (IS_ERR(mbc->adapter)) {
+-		dev_err(mbc->pcf->dev, "failed to register adapter\n");
+-		return PTR_ERR(mbc->adapter);
+-	}
+-
+-	usb_psy_cfg = psy_cfg;
+-	usb_psy_cfg.attr_grp = pcf50633_mbc_sysfs_groups;
+-
+-	mbc->usb = devm_power_supply_register(&pdev->dev,
+-					      &pcf50633_mbc_usb_desc,
+-					      &usb_psy_cfg);
+-	if (IS_ERR(mbc->usb)) {
+-		dev_err(mbc->pcf->dev, "failed to register usb\n");
+-		return PTR_ERR(mbc->usb);
+-	}
+-
+-	mbc->ac = devm_power_supply_register(&pdev->dev,
+-					     &pcf50633_mbc_ac_desc,
+-					     &psy_cfg);
+-	if (IS_ERR(mbc->ac)) {
+-		dev_err(mbc->pcf->dev, "failed to register ac\n");
+-		return PTR_ERR(mbc->ac);
+-	}
+-
+-	mbcs1 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS1);
+-	if (mbcs1 & PCF50633_MBCS1_USBPRES)
+-		pcf50633_mbc_irq_handler(PCF50633_IRQ_USBINS, mbc);
+-	if (mbcs1 & PCF50633_MBCS1_ADAPTPRES)
+-		pcf50633_mbc_irq_handler(PCF50633_IRQ_ADPINS, mbc);
 -
 -	return 0;
 -}
 -
--static struct platform_driver pcf50633_regulator_driver = {
+-static void pcf50633_mbc_remove(struct platform_device *pdev)
+-{
+-	struct pcf50633_mbc *mbc = platform_get_drvdata(pdev);
+-	int i;
+-
+-	/* Remove IRQ handlers */
+-	for (i = 0; i < ARRAY_SIZE(mbc_irq_handlers); i++)
+-		pcf50633_free_irq(mbc->pcf, mbc_irq_handlers[i]);
+-}
+-
+-static struct platform_driver pcf50633_mbc_driver = {
 -	.driver = {
--		.name = "pcf50633-regulator",
--		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+-		.name = "pcf50633-mbc",
 -	},
--	.probe = pcf50633_regulator_probe,
+-	.probe = pcf50633_mbc_probe,
+-	.remove = pcf50633_mbc_remove,
 -};
 -
--static int __init pcf50633_regulator_init(void)
--{
--	return platform_driver_register(&pcf50633_regulator_driver);
--}
--subsys_initcall(pcf50633_regulator_init);
--
--static void __exit pcf50633_regulator_exit(void)
--{
--	platform_driver_unregister(&pcf50633_regulator_driver);
--}
--module_exit(pcf50633_regulator_exit);
+-module_platform_driver(pcf50633_mbc_driver);
 -
 -MODULE_AUTHOR("Balaji Rao <balajirrao@openmoko.org>");
--MODULE_DESCRIPTION("PCF50633 regulator driver");
+-MODULE_DESCRIPTION("PCF50633 mbc driver");
 -MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:pcf50633-regulator");
-diff --git a/include/linux/mfd/pcf50633/core.h b/include/linux/mfd/pcf50633/core.h
-index 8d63059f1153..0bd7f7e46e46 100644
---- a/include/linux/mfd/pcf50633/core.h
-+++ b/include/linux/mfd/pcf50633/core.h
-@@ -147,7 +147,6 @@ struct pcf50633 {
- 	int onkey1s_held;
- 
- 	struct platform_device *mbc_pdev;
--	struct platform_device *regulator_pdev[PCF50633_NUM_REGULATORS];
- };
- 
- enum pcf50633_reg_int1 {
+-MODULE_ALIAS("platform:pcf50633-mbc");
 -- 
 2.48.1
 
