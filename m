@@ -2,78 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24A4A58D26
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 08:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFF6A58D46
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 08:50:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4027F10E064;
-	Mon, 10 Mar 2025 07:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE8B710E3AB;
+	Mon, 10 Mar 2025 07:50:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YZDMYkKM";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BP6Mwt64";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC10410E064
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 07:44:19 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-391211ea598so2151221f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 00:44:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741592658; x=1742197458; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UdzhdiThRJbETPGG8Kzj+Pu9zaED3TFBUkZ2Nnvl2nk=;
- b=YZDMYkKMdowA1Zk6vo9tzlkPMhUy+oDqw5g21IphUppGpDgl2e9FXq+upLQg5yTGLW
- yYKGH+WlrKTRCvUI2JLZtLEeIOwdcTcmI07H/7dkEgjWUmCPwonfFLg0HRtgw4IjfI3X
- T9wsH+QxIDYOvEOXKYvdeph4RB5DUifawe84o8CCtOaPI0Lo+ZAGd3IF+ttOzoXiSrce
- nHlGAe4WSBJDRA9MQ9flEIKb0TQM2QNR9y6UuWmvUxK6xlPqlvUuw3EzlUsvVnIcVMv9
- NHgOuuKmEnvT26wZNT8H1a63vmgXJd0SFGX114616AVhr7bEBfkDwN0w+Ci5FkRO51SP
- bt/Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2F3E10E3AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 07:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741592998;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u5kIvy1af+TbHcL/hyxVpb8RVtEt62vD4Y3oqmjYEDE=;
+ b=BP6Mwt64RLUDxOMxBB3CcuNXlXZSwrXHViNDfYrshT0PCdmxepR/Pd9Ym4NdzZcsjrdhji
+ nV402H9hfbY5fXcYB2WTkIKCGY2FUD+TglI/GNClL0EMbGwRH+32VrxgAjbztSL+A5EE/p
+ xwxHNsjso1Td5DrHQyBSelWy2quTmxk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-138-ivP2Li4fMgmjxqFproChPw-1; Mon, 10 Mar 2025 03:49:55 -0400
+X-MC-Unique: ivP2Li4fMgmjxqFproChPw-1
+X-Mimecast-MFC-AGG-ID: ivP2Li4fMgmjxqFproChPw_1741592994
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-43cf5196c25so3408905e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 00:49:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741592658; x=1742197458;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UdzhdiThRJbETPGG8Kzj+Pu9zaED3TFBUkZ2Nnvl2nk=;
- b=dqadROgueHE2dAyFd8NRN4EcqKOeNy82YR+HCkPqVpUN5bwOSQISCrSB3oxkvx23qa
- 4cmP3myAbH8D1Gpl1MMDoK5OFCBvnPcX8uSw6pCUv91B3Nw/XVGcYpDEagXPYXXqpK5m
- a1WnXq8D7a/YTotWoLdUZOhvbbs2fkOeByZeTFanUdaa84tGB9jU6J8tXJQ8R1oiLyRa
- FhlMPuTigsf4ElMZYGwguEmyqxL0iB2RUlk4+wwmtdEG2KNcFj+8Na99S/mQ69cA4RRz
- AkAJm6YeWmFRWZG6xqyAHpDAlPHB4eDitqf2vsXz//YiK+AJzMhFvoHYXiHOBRR+L2nO
- Dcwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXsy696sJ1Cum/BS9BF14r+5MvOrtEVtWzQkpi9i86dpR5LqVxLXGFH927VTMmKKqkiyVuhuWkuPf8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzyed/KpFUgx+PZJa+aUGMIYPtY1jf5+ngv/zktPDlm3hfXbkzF
- YNsy60+iSSrEOML8rmhIML8iAmhZvf+SR1HE89HIipkqVRMMqtz2
-X-Gm-Gg: ASbGnctRGwe/n9qWlsR/9AnExxDnTm7frYGEmETLDfMJ9M23w5zqX8NelQ05YoLmgAF
- kekuqtPbvrNS7t6NxygSV3kPORifdp491zyAn5EcKtmQAIjohaXHrw+y7Q1SCcpppfZ/B6zHjWc
- Uh+dfilkQNEzDw6NLub1UEL/nbl3TbFi4Onk1Teyde82MBXEDzhQgfdnwGT8FTytl/xl9JiN6Vg
- 2u7JP4s7pFrXL3++ogsEj1XSocVbwm8+Jkwa22PZYp11jdT04UEsWrkCLaqZDiVYS9qMoydGG99
- xrTmlZU37DXJlPmSqc1U266pdnQUOGua0DqAwBmaOuHdR6ypWlaLMiRl201y21AFqg==
-X-Google-Smtp-Source: AGHT+IHebDWlET/u+P6beGzYSGkjHeI8nA0vwv5+V8ZYrg6etAhuOdBDtAlDyZJecmoNUIgXwKvnTw==
-X-Received: by 2002:a05:6000:1564:b0:390:f45e:c84a with SMTP id
- ffacd0b85a97d-39132db77acmr7926279f8f.48.1741592658043; 
- Mon, 10 Mar 2025 00:44:18 -0700 (PDT)
-Received: from EliteBook.amd.com (munvpn.amd.com. [165.204.72.6])
+ d=1e100.net; s=20230601; t=1741592994; x=1742197794;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=u5kIvy1af+TbHcL/hyxVpb8RVtEt62vD4Y3oqmjYEDE=;
+ b=INyjt1yGQMhGvRR7bgFBWvyY+2MImIezqwNHxzAYiAySB2gN6Tdu+T1MZl09tfNHVr
+ jgk1zDadZ6jflAvf5BiPEXa0zAv+zNLfZNyaCYQy560qpH8GXEbl4kdf1TNNtiuqrnmf
+ m5RAdYzWlnd11nWCMkE0W5c6iABok2EKbBhQYOFzjAQe3Z2/r3n2IEf4Xo/HhQCPI4Pw
+ POLlv5pAigrBdRLdPxBnkGUKKmRcqdOs5Dj7FFVx/GAH8bL53+xhYwmen/ikFTzHMNeq
+ MzN100ekdhm82jSv5u6hVfZgDuj6TwO9m0TCtwv8jARG0PYKev9Z2XjueYFYRNH0aW77
+ fa3A==
+X-Gm-Message-State: AOJu0Yy7KsBfeWmXK0dTIWY8dkwi5oU+qm2QkHZyQLci9WyPhBW14NkJ
+ PR+kzPl3BHHvCjEth74rzoQ0bTiXApnc41uW6r8f/FXWYYouRzCqNj//yphl/og1c/vGSgPW9Tk
+ cp3eGKM67TAt3WoS6hh7frNbifkYq1cdgL4IbIaBF++N+QinhjET6ZIlrjiQ+gIDV+w==
+X-Gm-Gg: ASbGncvfOYT5k2z1oBLdNZZWh1mHFQHEppsjUceWybSyQ/yMQpDOVWNbKLY4Oz6lKZ2
+ dSm5+eMCHGoiA2ldyW1+Zt20d2fE6Jhc13peZLZPfvYa6TEnV00Q3NM/1Su0gew5UKyPdVR+L+T
+ +tK57nVVUTPHPvwJQNFLG6v4uTYrgeqY6LPmAiZHTsd9M6qQT6KsjSkQAANM5+ekpujbr/zuXAf
+ cFjQEippHR9+Bah5e9zHzeMhvPIKmFQrXuOGLI5+zllPtJFjwBhIqICbapDqMteIqbNHQy38u1C
+ uWQhYTlNPjquJfQ3nuKpsOGqKsDCYbhv2C5IYO/goet59t5LK2sFbMg=
+X-Received: by 2002:a5d:6d09:0:b0:391:34:4fa9 with SMTP id
+ ffacd0b85a97d-39132b56eccmr8992845f8f.0.1741592994109; 
+ Mon, 10 Mar 2025 00:49:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHFGDJo2dCkSOhn/W3s56Mf4MrQ0JYSQmeOFCRJ3rj6SEOpkuthbr1LKEQhE5Wn257lq7BmQQ==
+X-Received: by 2002:a5d:6d09:0:b0:391:34:4fa9 with SMTP id
+ ffacd0b85a97d-39132b56eccmr8992816f8f.0.1741592993752; 
+ Mon, 10 Mar 2025 00:49:53 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3912c01957csm13963242f8f.47.2025.03.10.00.44.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 00:44:17 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: matthew.brost@intel.com, dakr@kernel.org, phasta@kernel.org,
- tvrtko.ursulin@igalia.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/sched: revert "drm_sched_job_cleanup(): correct false doc"
-Date: Mon, 10 Mar 2025 08:44:14 +0100
-Message-Id: <20250310074414.2129157-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+ ffacd0b85a97d-3912c01cd31sm14138878f8f.52.2025.03.10.00.49.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Mar 2025 00:49:52 -0700 (PDT)
+Message-ID: <7fa51125-3015-446a-93b1-57b07a7ee8f5@redhat.com>
+Date: Mon, 10 Mar 2025 08:49:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/panic: use `div_ceil` to clean Clippy warning
+To: Miguel Ojeda <ojeda@kernel.org>, =?UTF-8?Q?Thomas_B=C3=B6hler?=
+ <witcher@wiredspace.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Gaynor <alex.gaynor@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev
+References: <20250301231602.917580-1-ojeda@kernel.org>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250301231602.917580-1-ojeda@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: R9IV-ZZ-e_EwIbO9CXjV6M94jzUWvle0-_ZPcPiHQdg_1741592994
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,61 +109,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 44d2f310f008613c1dbe5e234c2cf2be90cbbfab.
+On 02/03/2025 00:16, Miguel Ojeda wrote:
+> Starting with the upcoming Rust 1.86.0 (to be released 2025-04-03),
+> Clippy warns:
+> 
+>      error: manually reimplementing `div_ceil`
+>         --> drivers/gpu/drm/drm_panic_qr.rs:548:26
+>          |
+>      548 |         let pad_offset = (offset + 7) / 8;
+>          |                          ^^^^^^^^^^^^^^^^ help: consider using `.div_ceil()`: `offset.div_ceil(8)`
+>          |
+>          = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#manual_div_ceil
+> 
+> And similarly for `stride`. Thus apply the suggestion to both.
+> 
+> The behavior (and thus codegen) is not exactly equivalent [1][2], since
+> `div_ceil()` returns the right value for the values that currently
+> would overflow.
 
-Sorry for the delayed response, I only stumbled over this now while going
-over old mails and then re-thinking my reviewed by for this change.
+I pushed both patches to drm-misc-fixes, with the "Cc" tag added.
 
-The function drm_sched_job_arm() is indeed the point of no return. The
-background is that it is nearly impossible for the driver to correctly
-retract the fence and signal it in the order enforced by the dma_fence
-framework.
+Thanks a lot for your contributions.
 
-The code in drm_sched_job_cleanup() is for the purpose to cleanup after
-the job was armed through drm_sched_job_arm() *and* processed by the
-scheduler.
-
-The correct approach for error handling in this situation is to set the
-error on the fences and then push to the entity anyway. We can certainly
-improve the documentation, but removing the warning is clearly not a good
-idea.
-
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 53e6aec37b46..4d4219fbe49d 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1015,13 +1015,11 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
-  * Cleans up the resources allocated with drm_sched_job_init().
-  *
-  * Drivers should call this from their error unwind code if @job is aborted
-- * before it was submitted to an entity with drm_sched_entity_push_job().
-+ * before drm_sched_job_arm() is called.
-  *
-- * Since calling drm_sched_job_arm() causes the job's fences to be initialized,
-- * it is up to the driver to ensure that fences that were exposed to external
-- * parties get signaled. drm_sched_job_cleanup() does not ensure this.
-- *
-- * This function must also be called in &struct drm_sched_backend_ops.free_job
-+ * After that point of no return @job is committed to be executed by the
-+ * scheduler, and this function should be called from the
-+ * &drm_sched_backend_ops.free_job callback.
-  */
- void drm_sched_job_cleanup(struct drm_sched_job *job)
- {
-@@ -1032,7 +1030,7 @@ void drm_sched_job_cleanup(struct drm_sched_job *job)
- 		/* drm_sched_job_arm() has been called */
- 		dma_fence_put(&job->s_fence->finished);
- 	} else {
--		/* aborted job before arming */
-+		/* aborted job before committing to run it */
- 		drm_sched_fence_free(job->s_fence);
- 	}
- 
 -- 
-2.34.1
+
+Jocelyn
+> 
+> Link: https://github.com/rust-lang/rust-clippy/issues/14333 [1]
+> Link: https://godbolt.org/z/dPq6nGnv3 [2]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>   drivers/gpu/drm/drm_panic_qr.rs | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
+> index bcf248f69252..8bb5e52d75cc 100644
+> --- a/drivers/gpu/drm/drm_panic_qr.rs
+> +++ b/drivers/gpu/drm/drm_panic_qr.rs
+> @@ -545,7 +545,7 @@ fn add_segments(&mut self, segments: &[&Segment<'_>]) {
+>           }
+>           self.push(&mut offset, (MODE_STOP, 4));
+>   
+> -        let pad_offset = (offset + 7) / 8;
+> +        let pad_offset = offset.div_ceil(8);
+>           for i in pad_offset..self.version.max_data() {
+>               self.data[i] = PADDING[(i & 1) ^ (pad_offset & 1)];
+>           }
+> @@ -659,7 +659,7 @@ struct QrImage<'a> {
+>   impl QrImage<'_> {
+>       fn new<'a, 'b>(em: &'b EncodedMsg<'b>, qrdata: &'a mut [u8]) -> QrImage<'a> {
+>           let width = em.version.width();
+> -        let stride = (width + 7) / 8;
+> +        let stride = width.div_ceil(8);
+>           let data = qrdata;
+>   
+>           let mut qr_image = QrImage {
+> 
+> base-commit: d082ecbc71e9e0bf49883ee4afd435a77a5101b6
 
