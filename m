@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CBC7A58F4B
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFB4A58F4E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:20:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE7EB10E1BF;
-	Mon, 10 Mar 2025 09:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A34610E3BE;
+	Mon, 10 Mar 2025 09:20:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZaLUK3QQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g0B6XOks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
- [209.85.160.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 747C110E1BF
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:20:05 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id
- 586e51a60fabf-2c186270230so997861fac.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 02:20:05 -0700 (PDT)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
+ [209.85.161.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 399A310E3BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:20:23 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id
+ 006d021491bc7-5fe944b3fa0so1855502eaf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 02:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741598404; x=1742203204; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1741598422; x=1742203222; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Mx58Q4P7N7gbyHphpDmZNJaiTyIEMGGfUPF1jF1bXfg=;
- b=ZaLUK3QQmyb7jD2mo9NgQm3+h8oywKuDBN9x1rGRBoA4xKkZCvqSSNfjqGed9+Ic4r
- 0eIjCr1krCSiA6s+Dz4Ag3pYc6nRGtM8Iywki7lW+prnnJC1raJxz8VF2yLdDhbV2AT9
- 5t1JOnNSMUILXSlPXk6+LadCMigy1vZ9N1ZGeQy4mdk0wwCobi0P0sSiGRWPD3F3ZaX8
- S/HjUP31290iEt8JwiztfzwbHlQtPea/uFhrrRgqDRIxAxzk8gyZIqmWoyx6cEHQt7FU
- 7g0FEh7yPjUWGtcwEshVH3yfETgDrgWXduTNFNj7JB/N1Au6YZ2cd0iE0vn/bqtdYDUk
- t/qw==
+ bh=M8hUQaBWntrhNATBo5/FEWJXi4nQQHSzEudgTZIuU8Y=;
+ b=g0B6XOksPy6iFTuezVRMC8hOvLbqpkwNh5XTbVPFjdt4k2HhSOK4dtM2rR3vHnUy7t
+ mnuGCi3Yjb1v25wSKYW2lka41nzUAbtePpIBguDkX8aY33yiJx1UIBkuK/STUmmfpwgL
+ RTAWZLClSG3Tl3aLwkKm4jgG2lW7amTuomzGLE8VlJ85mhblFIkGcD6665C2vphkpo8s
+ rymtP3KjlkR6ksCBNostp1trkhuk0zDGMBFd02eb60FVEjnvxkpEtpupfAzqAXfV4CSu
+ XRZWL1ujVMNNLFxiu2tiVP1zMaPmhjKRdzqWg1nmboL92nI+ntghCiNLBmGrOAdoo4nF
+ 91eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741598404; x=1742203204;
+ d=1e100.net; s=20230601; t=1741598422; x=1742203222;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Mx58Q4P7N7gbyHphpDmZNJaiTyIEMGGfUPF1jF1bXfg=;
- b=DZj6vdxvd7K9E2OQYC1YaQm1xZ0l25xqxBaXa48oqFy67kvrLYaMAWSO9kFJpxKNJ1
- 2mDPOe5RYBjtOIcMLP0Utq5fw9u3C8nWBGZ76VEWNTHGMNGv28M+zvoiO/LzGRCrb5+z
- e5SThOOiJ0r0ekQA+cWvhAyTPrkiU6WAkRgdUj2yFqXX5hGmVJ7wUEtOUq+pfuwPT0Tp
- bBIh1lFeRJP8QGd1fHLmrICZi8GYb2NVf6Di/l3T0y/yAK784YlR501rXfyE9MjH7jbr
- 0fRT4zhmimx8FHqDGehdDmGoX31VwgIHZpWmV8y8OA3900gHc/veeGX7H8zVQf4+00az
- FS9g==
+ bh=M8hUQaBWntrhNATBo5/FEWJXi4nQQHSzEudgTZIuU8Y=;
+ b=WPXZ0wCHQ0c7pT+eHQpIhnTT1SjxNKyQ7hdFr9+ftlUmsq3KvL0+TqTCjtpEyRk6ng
+ yv9OUD+rKgZjMIYLbVCoDwG5sODbLk54IiA/Dpr2czCGnYmL88gg53HUG424G4L/jtSz
+ /KMy8rZhq/KK+Uoh2XdPMGLFvtzb7F7alXwWMVhycrE7G543p++wg2Ub2YuJN7hXvwif
+ gc2LyQRbc/ABFg8sY7Wa8biOVjAjysY+8rqKdoif4hCr+tBYhnQbP6q1HE8elcVUP6Ev
+ EcDgiUH7dnCGD1zLPlwya/z/vPAbPJ1hHbX7BnT+RWWQNqA/5FCk9Y9Acs+Jt+UhTfVt
+ 7TiA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXIk5UFs4M/umNurNwGJg1eyMVXeUfSs+ebgmZEzto8s21JYtxQ861w/xHDEyhN07Qwdm+bWWz88G8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxS/0APajB3e1x7kngiH8P6r6RWD6Xpw6NLMDvuZWTXmrbnFnWJ
- G07VxQN7ZxU4xQi7xJyhIEEI/LuGtbCiEexmiSFyzqwMff9dH6g6UUKW/wSHR/CWU2UYbHPIYd+
- LHVWGUjcmC5xgYYqgmX6pr22eE4w=
-X-Gm-Gg: ASbGncuDMtpuqGs63KDKljxAkiu1wf4YylziC5t3yalc3bL+PbzhOhAvYzbX43IR/fr
- dRGXdYVFAX16ceEvhkU07Ck8L8IX2ZkNySMZqMlASqbYo32ciBsPIRPRUrP3mB7N8zZoM7gYArl
- 63AcoOTfc5o9gfrOSP6TtbA7fA
-X-Google-Smtp-Source: AGHT+IFHmB/cu7w8l+SlHdsxgg/iICDetyzer8cW/fdk/a10EwAdxJNsooT7jc7tZ/VrIsnPoRFxTlKB2Y5Rk0lHJpY=
-X-Received: by 2002:a05:6808:1315:b0:3f6:a9ea:eab3 with SMTP id
- 5614622812f47-3f6a9eaecc2mr3340392b6e.5.1741598404388; Mon, 10 Mar 2025
- 02:20:04 -0700 (PDT)
+ AJvYcCUttHGD++TC4H/+QmndQ8rA88PLM3SYnZQz/mw9Suspt5yBP4+2mU6sKZ8U2OJx58F6xDB15nZwynE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw8aORxBqTRsnDo3frsq964jmuE1pajX/CyAkop39XxA72auaUX
+ iOt94IilcHZlgui7pmbUDAg3BUoW4gwKuDm2Cip6+qfaciohmpEEJ30xuPoC9FrwTzhpxduLZMC
+ cbM+C1gn2p3jZydgoBbvshU0KVe4=
+X-Gm-Gg: ASbGncu0iC5eU0r9dkeEZzXzmOUw4fZGgVZ5d4krCE+lmlcvSqyewArctf9GScN3xth
+ 1S99WBRdgEia17zio/gqgPNJ7ivm/D2EX0HpemWt+1PztkVMRmUhkivW9yCeghz6FtMPpdf/7qt
+ VFbyf/Xb51iFRn2c+iA2uLwkoq
+X-Google-Smtp-Source: AGHT+IHlKpNfQ17CORnW4feh4HgPSN5pa0orUf1ds4fgLmew9uDRmnDx96KaSR7W3sZokTY2X/z3FM4DkSrPCJkR7WI=
+X-Received: by 2002:a05:6820:992:b0:5fd:50d:49e4 with SMTP id
+ 006d021491bc7-6004abd3116mr6176682eaf.7.1741598422280; Mon, 10 Mar 2025
+ 02:20:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250308234356.255114-1-linux@treblig.org>
-In-Reply-To: <20250308234356.255114-1-linux@treblig.org>
+References: <20250308234428.255164-1-linux@treblig.org>
+In-Reply-To: <20250308234428.255164-1-linux@treblig.org>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Mon, 10 Mar 2025 10:19:53 +0100
-X-Gm-Features: AQ5f1JqKcgKl52x22Rs8Hce1oSaBk2HDLSNfOMs5GSxFr_gJm67cqX5SgZwvVao
-Message-ID: <CAMeQTsbq7Gz=fqnAGPcLobt3P+vFKTYWfY8+gUcPKYqDKx_R=w@mail.gmail.com>
-Subject: Re: [PATCH] drm/gma500/psb_intel_modes: Remove unused
- psb_intel_ddc_probe
+Date: Mon, 10 Mar 2025 10:20:11 +0100
+X-Gm-Features: AQ5f1JryzndsgFb-pSg_WhcxWTfnaRxcwrsJfnmRRQa8SA2TF1cLJDFDoCtLJEM
+Message-ID: <CAMeQTsYGbFZbx7oG5x2R0mLsyFFbEwOGowDrKghjZCopaZsyrw@mail.gmail.com>
+Subject: Re: [PATCH] drm/gma500: Remove unused psb_mmu_virtual_to_pfn
 To: linux@treblig.org
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
@@ -89,10 +88,9 @@ On Sun, Mar 9, 2025 at 12:44=E2=80=AFAM <linux@treblig.org> wrote:
 >
 > From: "Dr. David Alan Gilbert" <linux@treblig.org>
 >
-> psb_intel_ddc_probe() was added in 2011 by
-> commit 89c78134cc54 ("gma500: Add Poulsbo support")
-> but has remained unused (probably because drm_get_edid is used
-> instead).
+> psb_mmu_virtual_to_pfn() was added in 2011 by
+> commit 8c8f1c958ab5 ("gma500: introduce the GTT and MMU handling logic")
+> but hasn't been used.
 >
 > Remove it.
 >
@@ -102,67 +100,78 @@ Applied to drm-misc-next
 Thanks
 
 > ---
->  drivers/gpu/drm/gma500/psb_intel_drv.h   |  1 -
->  drivers/gpu/drm/gma500/psb_intel_modes.c | 31 ------------------------
->  2 files changed, 32 deletions(-)
+>  drivers/gpu/drm/gma500/mmu.c | 41 ------------------------------------
+>  drivers/gpu/drm/gma500/mmu.h |  2 --
+>  2 files changed, 43 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma=
-500/psb_intel_drv.h
-> index 2499fd6a80c9..d80f2d0b712e 100644
-> --- a/drivers/gpu/drm/gma500/psb_intel_drv.h
-> +++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
-> @@ -182,7 +182,6 @@ struct gma_i2c_chan *gma_i2c_create(struct drm_device=
- *dev, const u32 reg,
->  void gma_i2c_destroy(struct gma_i2c_chan *chan);
->  int psb_intel_ddc_get_modes(struct drm_connector *connector,
->                             struct i2c_adapter *adapter);
-> -extern bool psb_intel_ddc_probe(struct i2c_adapter *adapter);
+> diff --git a/drivers/gpu/drm/gma500/mmu.c b/drivers/gpu/drm/gma500/mmu.c
+> index 4d78b33eaa82..e6753282e70e 100644
+> --- a/drivers/gpu/drm/gma500/mmu.c
+> +++ b/drivers/gpu/drm/gma500/mmu.c
+> @@ -730,44 +730,3 @@ int psb_mmu_insert_pages(struct psb_mmu_pd *pd, stru=
+ct page **pages,
 >
->  extern void psb_intel_crtc_init(struct drm_device *dev, int pipe,
->                             struct psb_intel_mode_device *mode_dev);
-> diff --git a/drivers/gpu/drm/gma500/psb_intel_modes.c b/drivers/gpu/drm/g=
-ma500/psb_intel_modes.c
-> index 8be0ec340de5..45b10f30a2a9 100644
-> --- a/drivers/gpu/drm/gma500/psb_intel_modes.c
-> +++ b/drivers/gpu/drm/gma500/psb_intel_modes.c
-> @@ -11,37 +11,6 @@
->
->  #include "psb_intel_drv.h"
->
-> -/**
-> - * psb_intel_ddc_probe
-> - * @adapter:   Associated I2C adaptor
-> - */
-> -bool psb_intel_ddc_probe(struct i2c_adapter *adapter)
+>         return ret;
+>  }
+> -
+> -int psb_mmu_virtual_to_pfn(struct psb_mmu_pd *pd, uint32_t virtual,
+> -                          unsigned long *pfn)
 > -{
-> -       u8 out_buf[] =3D { 0x0, 0x0 };
-> -       u8 buf[2];
 > -       int ret;
-> -       struct i2c_msg msgs[] =3D {
-> -               {
-> -                .addr =3D 0x50,
-> -                .flags =3D 0,
-> -                .len =3D 1,
-> -                .buf =3D out_buf,
-> -                },
-> -               {
-> -                .addr =3D 0x50,
-> -                .flags =3D I2C_M_RD,
-> -                .len =3D 1,
-> -                .buf =3D buf,
-> -                }
-> -       };
+> -       struct psb_mmu_pt *pt;
+> -       uint32_t tmp;
+> -       spinlock_t *lock =3D &pd->driver->lock;
 > -
-> -       ret =3D i2c_transfer(adapter, msgs, 2);
-> -       if (ret =3D=3D 2)
-> -               return true;
+> -       down_read(&pd->driver->sem);
+> -       pt =3D psb_mmu_pt_map_lock(pd, virtual);
+> -       if (!pt) {
+> -               uint32_t *v;
 > -
-> -       return false;
+> -               spin_lock(lock);
+> -               v =3D kmap_atomic(pd->p);
+> -               tmp =3D v[psb_mmu_pd_index(virtual)];
+> -               kunmap_atomic(v);
+> -               spin_unlock(lock);
+> -
+> -               if (tmp !=3D pd->invalid_pde || !(tmp & PSB_PTE_VALID) ||
+> -                   !(pd->invalid_pte & PSB_PTE_VALID)) {
+> -                       ret =3D -EINVAL;
+> -                       goto out;
+> -               }
+> -               ret =3D 0;
+> -               *pfn =3D pd->invalid_pte >> PAGE_SHIFT;
+> -               goto out;
+> -       }
+> -       tmp =3D pt->v[psb_mmu_pt_index(virtual)];
+> -       if (!(tmp & PSB_PTE_VALID)) {
+> -               ret =3D -EINVAL;
+> -       } else {
+> -               ret =3D 0;
+> -               *pfn =3D tmp >> PAGE_SHIFT;
+> -       }
+> -       psb_mmu_pt_unmap_unlock(pt);
+> -out:
+> -       up_read(&pd->driver->sem);
+> -       return ret;
 > -}
-> -
->  /**
->   * psb_intel_ddc_get_modes - get modelist from monitor
->   * @connector: DRM connector device to use
+> diff --git a/drivers/gpu/drm/gma500/mmu.h b/drivers/gpu/drm/gma500/mmu.h
+> index d4b5720ef08e..e6d39703718c 100644
+> --- a/drivers/gpu/drm/gma500/mmu.h
+> +++ b/drivers/gpu/drm/gma500/mmu.h
+> @@ -71,8 +71,6 @@ extern int psb_mmu_insert_pfn_sequence(struct psb_mmu_p=
+d *pd,
+>                                        uint32_t start_pfn,
+>                                        unsigned long address,
+>                                        uint32_t num_pages, int type);
+> -extern int psb_mmu_virtual_to_pfn(struct psb_mmu_pd *pd, uint32_t virtua=
+l,
+> -                                 unsigned long *pfn);
+>  extern void psb_mmu_set_pd_context(struct psb_mmu_pd *pd, int hw_context=
+);
+>  extern int psb_mmu_insert_pages(struct psb_mmu_pd *pd, struct page **pag=
+es,
+>                                 unsigned long address, uint32_t num_pages=
+,
 > --
 > 2.48.1
 >
