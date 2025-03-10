@@ -2,99 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD88EA59547
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 13:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3B6A59580
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 14:01:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F6910E253;
-	Mon, 10 Mar 2025 12:55:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 661A910E435;
+	Mon, 10 Mar 2025 13:01:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M5VLUjbt";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Wt9tNwfH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0196910E253
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 12:55:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A21795C5D41;
- Mon, 10 Mar 2025 12:53:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9635C4CEE5;
- Mon, 10 Mar 2025 12:55:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741611317;
- bh=FKHx3hmkGeOEpcIh5h+GlCH3fd6fGXZt7R80JKQ3PbE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=M5VLUjbtCcPc3+4syWE7Ssk/AZZiJLFZnMCE+OaJZyOKl7MlddliiJ63d15Z6zNhW
- lKwu7Wdx2YNX54StXvzA2gKiUFUWN2e2c/kT38vBPDcKBiC+ewiGWPps40YzPSmRA3
- P1Dclzjg92vnb9ZmUGj81xEKoWyJYMFH+E+p5Pa2zMYVVykB70Ikl6xFbp9VOAMN+7
- xD361vB54s7aY7fYtQv8anbA8n8l2fyBbmbTJ3vVC72YxOfeCM0NabAMWwMmYM9fe1
- WAA+NmjQ0feMmXDziYxyrurcdmucpAu86M2n+ALEybFcWXTyM1iG0FwVrcXc8Z2QXh
- DuWcQDOHK6GqQ==
-Message-ID: <6f87918b-b4ca-4404-8f1e-e1100190c0f6@kernel.org>
-Date: Mon, 10 Mar 2025 13:55:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] dt-bindings: gpu: v3d: Add SMS to the registers'
- list
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Cc: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, devicetree@vger.kernel.org
-References: <20250308-v3d-gpu-reset-fixes-v2-0-2939c30f0cc4@igalia.com>
- <20250308-v3d-gpu-reset-fixes-v2-4-2939c30f0cc4@igalia.com>
- <20250310-calculating-flat-cuttlefish-4c9fc2@krzk-bin>
- <4d224fc2-d077-47aa-8b52-edba30c62d19@igalia.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2047.outbound.protection.outlook.com [40.107.101.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B333A10E435;
+ Mon, 10 Mar 2025 13:01:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qr1JnYoKN2UMq/KfnO7ZqE6E3MyeDWbXFca7HgO0H0Es6mpSO4+S3uGpco56pJwHTlsVedp2yPn7a4jKgw6RxDe6hbqBv2N46fYbjWXvTTPBxUsivqg9LsFwzo4iGe/JhG3k412mfiF+QykPtXXmrLe+UCGuIzG9Ei2PwGOhQNnWUlZbJwoM1jj1An395rkvjYABMNugOznZ8vCl3nUH7Khwpx7rJ0k0wz6gzoU1ovBA86EFWG8A+35e+05n2uBZVo5aSGjoz+pvLkSZwhklK9jIHjuQLUM9HQKaYHdVOB1H+TQjdSzJWqZ4GvIkjjXsuWOnpXJFRj+8sQ32jgCuvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SKfJY2qhhehgh+mG9wIC/Jb/LJcN4lujIh5kgoPY4IY=;
+ b=LzPuCHCAO2fJ6ts/2WhzteQ81s1fHtHQWScsLPqItVA/9jXrd8mQeiiZiDuUqQsxSsrIMkfH2pKtu53/Jk3415yClkbK4RfgGqNBUdy6B+w3XC4itI079fPzzPn0mXD44QnJvqBPK36Gq5ey+IYkn85L3NFrDp/6Noub0wPNA+ZlsQ66e6cFAfmUdZitZ+xcmSXTQgI5uiaUlyUhb0YOrqIGxNQMUZWiw41h4SPeYRlBff4okDK/2zdHK+e0E0UcicvUQMZmPOzo/d5iRLja8QgTKRf3KEOafKYspSo5HRYwlv2V2Q+t7Y5tAAbt1+Kh7DwQ34vmcgaPJ9na0NQivQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SKfJY2qhhehgh+mG9wIC/Jb/LJcN4lujIh5kgoPY4IY=;
+ b=Wt9tNwfHx1Bh2OIspu4bymGPMdaRaNJUZz5w1kROSePxaZYQJqtROa5FvSOhHXVrw89mQcZlEf2nX/s1uOJ2FRYvuFTYwQ0uRN2jPXZeJ41RkxO31i/cFce5932BcYEPirLuBNTyvaPNA9aHubdHXRlToETvfSdId3aadg/R1i0=
+Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
+ by DS4PR12MB9659.namprd12.prod.outlook.com (2603:10b6:8:27f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Mon, 10 Mar
+ 2025 13:01:25 +0000
+Received: from CO6PR12MB5489.namprd12.prod.outlook.com
+ ([fe80::5f4:a2a9:3d28:3282]) by CO6PR12MB5489.namprd12.prod.outlook.com
+ ([fe80::5f4:a2a9:3d28:3282%4]) with mapi id 15.20.8511.026; Mon, 10 Mar 2025
+ 13:01:25 +0000
+From: "Lin, Wayne" <Wayne.Lin@amd.com>
+To: "imre.deak@intel.com" <imre.deak@intel.com>
+CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Lyude
+ Paul <lyude@redhat.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: RE: [PATCH] drm/dp_mst: Fix locking when skipping CSN before topology
+ probing
+Thread-Topic: [PATCH] drm/dp_mst: Fix locking when skipping CSN before
+ topology probing
+Thread-Index: AQHbj482QRprfF/0iEK8Px6Ys6YLELNsC6BwgAAsaoCAAB6fMA==
+Date: Mon, 10 Mar 2025 13:01:25 +0000
+Message-ID: <CO6PR12MB548903C49BF9AD7F335E3EC8FCD62@CO6PR12MB5489.namprd12.prod.outlook.com>
+References: <20250307183152.3822170-1-imre.deak@intel.com>
+ <CO6PR12MB5489FF5590A559FD1B48A34EFCD62@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <Z87GNTziGPAl6UCv@ideak-desk.fi.intel.com>
+In-Reply-To: <Z87GNTziGPAl6UCv@ideak-desk.fi.intel.com>
+Accept-Language: en-US, zh-TW
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <4d224fc2-d077-47aa-8b52-edba30c62d19@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ActionId=53778b97-bbae-46c6-a1db-d46197d1c55e;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ContentBits=0;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Enabled=true;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Method=Privileged;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Name=Open Source;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SetDate=2025-03-10T12:49:52Z;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Tag=10, 0, 1, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|DS4PR12MB9659:EE_
+x-ms-office365-filtering-correlation-id: 4891fe14-d015-4341-f5ed-08dd5fd3aa21
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?VId/MQ2uhESY4CFk5U7JI7xe7m3kV4yYnZT1rDCb4T35BPJimz8qgtzkpViG?=
+ =?us-ascii?Q?UXzb6gk94cEYgB6VV/CzY0kzH8lBjqZPC7DZN6rt+sLc6ixJlZkXPSpsqLBE?=
+ =?us-ascii?Q?tNlpqD2Dqmc7VgBPXFuCTneKz7kaUEKpoTbUgXheFIncQPPQoM7d+9HZrtwB?=
+ =?us-ascii?Q?/cJnX6oC+mMb+8Xn2D1VmpK8TJA+rl39NmPR+BVOnOQXWJCCgeMvJ5ymKQ2e?=
+ =?us-ascii?Q?4IJJQ9/+gZYR87mb9rBGDDZUfjfeifcxLwFzpTS+ZGzMuhuj6/VZv5EAekTK?=
+ =?us-ascii?Q?3yRepGhGx8SbNrLIya61XycSeFY2zgTwPY7H9UtpWjGYg5hLehhCNlQiH6ly?=
+ =?us-ascii?Q?KwvfVguu5ize6voxXFTCyz1HFVTCAPPb7a50KS1ZswgYcQ05jPhWPwFG8nOk?=
+ =?us-ascii?Q?Q3STvYBnIUQErgwd/zpgOuxpYQiX6EIKby4kjdt2p7UBsL5BgVoFxG63L8VX?=
+ =?us-ascii?Q?AE1+ThlL8i68EdDvJ1lCNj0uWjqYaXssJ5zmB3O+5I1fo4XjMA6oDQQdpwRI?=
+ =?us-ascii?Q?lwMq05faZy9eFU8XmDOE8vGe2Vx3nZs47ia7HqmASBD3PdU0/RyG0rHGJc9G?=
+ =?us-ascii?Q?uPWTIu7VE5P2ckrahjiSSdPLZBsyqodycczTY+CDDyI4cxEP/NlldcyFKFmV?=
+ =?us-ascii?Q?6Kzne0OPUCXqHG2p9DM56WxsrIIEMbhANCb43y5aSBZgtaLvVnyvZ7RDh+XM?=
+ =?us-ascii?Q?fjkKvaVjZpeX0PNTXSLxe+CrmPwgBP/4swrJ/9NYfU7QMRCT9cxWKRT31fp5?=
+ =?us-ascii?Q?vyv+wqRQkjEfJ4hTRRdwjj7o0xEHtyrxJMSJZxZTYviyRnD5JiG823X1XxpD?=
+ =?us-ascii?Q?yA0ap0laRGVnu3qQftjsE4jwYjHS6lep0olvjf42cLApJiadOuEcMc4PogqC?=
+ =?us-ascii?Q?UhkgUqKB4NeZ1jKj4SeWfle04Vcx7mRxkgCoayKzp9tz0PsqYgynkm84tHOg?=
+ =?us-ascii?Q?WLr0E0dDFNwrwY3JSG+YR40erKck7O6GLMuyzVW+XfRGGjuP6+/Pj2ratb2j?=
+ =?us-ascii?Q?zJXN5Oq3NmXpOm/DMh0DD/rMsoQHjAFmHgloqT+wG7NWOJhUvd1z3SBQNmJo?=
+ =?us-ascii?Q?KSIF5tvKvsmss+gc/4jnjI0pGKBHqhxSZTM8a4ErJ5v6ukeOtbTaoKx8f0kB?=
+ =?us-ascii?Q?DjobXB81pYWpwhq5yejY/GGgCU/3d9AuZMSZyGJotPlMPPx77TuolKYa9xoF?=
+ =?us-ascii?Q?AKq6aKxDna3f6PEcX/gUPUWJWy5KYhiO3N5+toCBC55R1FOqEedCIuTP9KZ+?=
+ =?us-ascii?Q?u6p73kXPLivkayd3U3hMon5zasCYD1HRyT7IS5y4VQPKKvOJ9L28dXHeh0xf?=
+ =?us-ascii?Q?/BJ1y97qnj2U+4HrTYhKEYcNW4zva1DLVkzGJOHGAybFcP4XlGEJAd0czdJM?=
+ =?us-ascii?Q?xhZDJNerch0zqQGYr6zsN1d9cHcNIXqBiTCOC/R1t8c7lOmnpfKxmONU/66N?=
+ =?us-ascii?Q?RKD651BZJ0IRq97bduSq9Bo9S9nivzms?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Go4l53jU1WHIwUhAP5rP5BfMSRou+QVskBNCeBtiVY6cDCMpMqUMg11sB/QX?=
+ =?us-ascii?Q?9P/EfzhasRvnJ4XRVqioxfCfEsyrVfKeOZB7c5tWFKEcqyMIKoeKLQjyl+7r?=
+ =?us-ascii?Q?fc6IWjh8wQCZlBGHAMt4Kz5dK837GdJWEenAqE1bsjqz9WcsyN3dXS3rH4LY?=
+ =?us-ascii?Q?yE05dEiveO6eMcWJi067wRHUnpEk2v62dwwAqVVbR6AHkxoAzMxMFMychnNy?=
+ =?us-ascii?Q?lNDw7rg5MA9/MbP/AKwDsy35QhSKfLMaAPvOxXjpt903CjMYyY5+stkWX9/D?=
+ =?us-ascii?Q?jrUS9g0/fzcqTnJZ/7Pd+eCQFr8E1aVuKjXX/8ARs3Z276k3/6arj+pTUFkd?=
+ =?us-ascii?Q?HbU8fEOMRFW45eY5HfmumxjpARaItU7lWMTw4D4buYpgoinodcXsMUY9TNcU?=
+ =?us-ascii?Q?Ah+3mfrANvpOSAGpVVhNsxISk65JjtdWhIGYM6u/2sx8IUS4m62M9BWcnXoA?=
+ =?us-ascii?Q?uO3Ip+BAWZZrainiq09Cg0DFZFMcFJmOC3ly+bRG8815ASzVvpVi+sjWqo0+?=
+ =?us-ascii?Q?JXKkTvrRQ7+ot3x6IudzvwOk+RqwJ5QBSNkF9Yf0V0Cb+0feFlom9oDNaRtK?=
+ =?us-ascii?Q?ojrlRnTIZqiVA0FpcleuNn4WMurRgeY/np3YfGq+YHFMiX7U42oeo4tXfKeE?=
+ =?us-ascii?Q?jKfjtvCYWRuypPTc8aSHkuAYsiGZfG7GIMRMx3V/83xq5Yv6kdOn5HSccDhu?=
+ =?us-ascii?Q?gbheNYMIYVddIhB9K1tfF07Uo2o+RSbEcxpvO+IKBvkqoDlro98poV9cgR6q?=
+ =?us-ascii?Q?3uhCLm8/AhzxwngUTEeE1d8Y5CTt7DUFJ0hjaqTSkeWUQasXvokMzv647UnA?=
+ =?us-ascii?Q?oG9UCztjIeZUK0TGNlh9hefcEaTyX4GAx3jzSBn358fdvUZDkV99DKkYGGOm?=
+ =?us-ascii?Q?ao+ACNvfEKMQLvAiqz1a7j00TvhgHwSCFchlj57f7PAhv4yiqA79qJm4d2AP?=
+ =?us-ascii?Q?mo1vqpVLk9rV48lLVRVZoXJOzxHPEC5+n7LUgxTZZ7+HhieENoarfSBZTsko?=
+ =?us-ascii?Q?JQ8XLKAH8l65YSbT0QPJRoQvOP1feD0BKl4NBnt9j7lYDwPVln6EQBzDzLsP?=
+ =?us-ascii?Q?vhT51h1T4SJdWk/6q2uOpWmLhbY2gxRRwWrjfvDjDsG6yYtLpgUcx8AbPpTW?=
+ =?us-ascii?Q?on84lKtP+Zqz3IerQPDgE6XFvuOLva/Z5YjvOpS8owcOt9efzCd9E4GjCx6p?=
+ =?us-ascii?Q?jB9skqEUxvQHOKMQSUz6SQ/VgRRncS7KK2S+BDeExwypioQaRFyiPnECWo69?=
+ =?us-ascii?Q?ATTdMRiZe30C64h6knHQg+yyYVoIanrQNgZl/OWOxQvlpzmCPOjpy40AFU+b?=
+ =?us-ascii?Q?/Do1CB/+a78wQAfdNiGM5YAVWoGGdbwRo+IMMM3ulJAncg5Akyn4ak1oHlDh?=
+ =?us-ascii?Q?OhEOe0Ybkb67e/yRjrX/xUMsURfa5RJquVene8SSmRkPS6Sr0TfdM6hFN7ZL?=
+ =?us-ascii?Q?BVJx4lRHkFzF5cmbSbGmHFv29p9kocoBUNmNYnU7/TAMW5DK7bW4Be7NENaz?=
+ =?us-ascii?Q?YZKhOw0Zw5tHZblU07zjdnpJA0YdP7rhWIw8WWe+Q1xsL7nu1eIaziIxTCjs?=
+ =?us-ascii?Q?twGcO/wAm1RTmjthRYA=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4891fe14-d015-4341-f5ed-08dd5fd3aa21
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2025 13:01:25.3160 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DarhhXbcTxxo2EAwJCfvgv6sptMZ1tvj6rakcHfy2zky5kubOoVBzzNEr3Dhzok41btYZHl/+E3CcMiTz+HClg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9659
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,125 +160,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/03/2025 12:57, Maíra Canal wrote:
->>
->>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>> ---
->>>   .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 60 ++++++++++++++++++++--
->>>   1 file changed, 55 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->>> index dc078ceeca9ac3447ba54a7c8830821f0b2a7f9f..c0caee055e8c18dbcac0e51aa192951996545695 100644
->>> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->>> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->>> @@ -27,15 +27,12 @@ properties:
->>>         - description: core0 register (required)
->>>         - description: GCA cache controller register (if GCA controller present)
->>>         - description: bridge register (if no external reset controller)
->>> +      - description: SMS register (if SMS controller present)
->>
->> This lists five items, but you say you have max 4?
-> 
-> V3D 3.1 uses hub, core0, gca, and bridge (optional)
-> V3D 4.1 and 4.2 uses hub, core, and bridge (optional)
-> V3D 7.1 uses hub, core0, sms, and bridge (optional)
-> 
-> Therefore, for a given DT, you will have 4 items max.
+[Public]
 
-And how many items do you have here?
-
-> 
->>
->>>       minItems: 2
->>>   
->>>     reg-names:
->>> -    items:
->>> -      - const: hub
->>> -      - const: core0
->>> -      - enum: [ bridge, gca ]
->>> -      - enum: [ bridge, gca ]
->>>       minItems: 2
->>> +    maxItems: 4
->>
->> So here 4, but earlier 5? These must come in sync.
-> 
-> I added maxItems for reg in the allOf section.
-
-I don't think you answer the comments. I said you listed earlier 5 items
-and then you answered with saying devices have 4 items. Here I said
-these properties must be synced and you said why you added maxItems...
-Not related, read again the feedback.
-
-
-> 
->>
->>>   
->>>     interrupts:
->>>       items:
->>> @@ -60,6 +57,59 @@ required:
->>>   
->>>   additionalProperties: false
->>>   
->>> +allOf:
->>
->> This goes above additionalProperties.
-> 
-> Got it.
-> 
->>
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            enum:
->>> +              - brcm,2711-v3d
->>> +              - brcm,7278-v3d
->>> +    then:
->>> +      properties:
->>> +        reg:
->>> +          minItems: 2
->>> +          maxItems: 3
->>> +        reg-names:
->>> +          items:
->>> +            - const: hub
->>> +            - const: core0
->>> +            - const: bridge
->>
->> Again un-synced lists.
-> 
-> Sorry, what do you mean by un-synced lists?
-
-xxx and xxx-names must have the same constraints. They do not have here.
-You have two different constraints and you can test your DTS to see that.
-
-> 
->>
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            const: brcm,2712-v3d
->>> +    then:
->>> +      properties:
->>> +        reg:
->>> +          minItems: 3
->>> +          maxItems: 4
->>> +        reg-names:
->>> +          items:
->>> +            - const: hub
->>> +            - const: core0
->>> +            - enum: [ bridge, sms ]
->>> +            - enum: [ bridge, sms ]
->>> +          minItems: 3
->>
->> Why is this flexible?
-> 
-> I cannot guarantee the order and bridge is optional.
-
-Hm? You must guarantee the order and I do not understand why this needs
-some sort of exception from all other bindings that only here you cannot
-guarantee the order.
+> -----Original Message-----
+> From: Imre Deak <imre.deak@intel.com>
+> Sent: Monday, March 10, 2025 7:00 PM
+> To: Lin, Wayne <Wayne.Lin@amd.com>
+> Cc: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; dri-
+> devel@lists.freedesktop.org; Lyude Paul <lyude@redhat.com>;
+> stable@vger.kernel.org
+> Subject: Re: [PATCH] drm/dp_mst: Fix locking when skipping CSN before top=
+ology
+> probing
+>
+> On Mon, Mar 10, 2025 at 08:59:51AM +0000, Lin, Wayne wrote:
+> >
+> > > -----Original Message-----
+> > > From: Imre Deak <imre.deak@intel.com>
+> > > Sent: Saturday, March 8, 2025 2:32 AM
+> > > To: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org;
+> > > dri- devel@lists.freedesktop.org
+> > > Cc: Lin, Wayne <Wayne.Lin@amd.com>; Lyude Paul <lyude@redhat.com>;
+> > > stable@vger.kernel.org
+> > > Subject: [PATCH] drm/dp_mst: Fix locking when skipping CSN before
+> > > topology probing
+> > >
+> > > The handling of the MST Connection Status Notify message is skipped
+> > > if the probing of the topology is still pending. Acquiring the
+> > > drm_dp_mst_topology_mgr::probe_lock
+> > > for this in
+> > > drm_dp_mst_handle_up_req() is problematic: the task/work this
+> > > function is called from is also responsible for handling MST
+> > > down-request replies (in drm_dp_mst_handle_down_rep()). Thus
+> > > drm_dp_mst_link_probe_work() - holding already probe_lock - could be
+> > > blocked waiting for an MST down-request reply while
+> > > drm_dp_mst_handle_up_req() is waiting for probe_lock while
+> > > processing a CSN message. This leads to the probe work's down-request
+> message timing out.
+> > >
+> > > A scenario similar to the above leading to a down-request timeout is
+> > > handling a CSN message in drm_dp_mst_handle_conn_stat(), holding the
+> > > probe_lock and sending down-request messages while a second CSN
+> > > message sent by the sink subsequently is handled by
+> drm_dp_mst_handle_up_req().
+> > >
+> > > Fix the above by moving the logic to skip the CSN handling to
+> > > drm_dp_mst_process_up_req(). This function is called from a work
+> > > (separate from the task/work handling new up/down messages), already
+> > > holding probe_lock. This solves the above timeout issue, since
+> > > handling of down-request replies won't be blocked by probe_lock.
+> > >
+> > > Fixes: ddf983488c3e ("drm/dp_mst: Skip CSN if topology probing is
+> > > not done yet")
+> > > Cc: Wayne Lin <Wayne.Lin@amd.com>
+> > > Cc: Lyude Paul <lyude@redhat.com>
+> > > Cc: stable@vger.kernel.org # v6.6+
+> > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 40
+> > > +++++++++++--------
+> > >  1 file changed, 24 insertions(+), 16 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > index 8b68bb3fbffb0..3a1f1ffc7b552 100644
+> > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > @@ -4036,6 +4036,22 @@ static int drm_dp_mst_handle_down_rep(struct
+> > > drm_dp_mst_topology_mgr *mgr)
+> > >       return 0;
+> > >  }
+> > >
+> > > +static bool primary_mstb_probing_is_done(struct
+> > > +drm_dp_mst_topology_mgr
+> > > +*mgr) {
+> > > +     bool probing_done =3D false;
+> > > +
+> > > +     mutex_lock(&mgr->lock);
+> >
+> > Thanks for catching this, Imre!
+> >
+> > Here I think using mgr->lock is not sufficient for determining probing
+> > is done or not by mst_primary->link_address_sent. Since it might still
+> > be probing the rest of the topology with mst_primary probed. Use
+> > probe_lock instead? Thanks!
+>
+> mgr->lock is taken here to guard the mgr->mst_primary access.
+>
+> probe_lock is also held, taken already by the caller in drm_dp_mst_up_req=
+_work().
 
 
-Best regards,
-Krzysztof
+Oh I see. It looks good to me. Feel free to add:
+
+Reviewed-by: Wayne Lin <Wayne.Lin@amd.com>
+
+Thanks!
+>
+> > > +
+> > > +     if (mgr->mst_primary && drm_dp_mst_topology_try_get_mstb(mgr->
+> >mst_primary)) {
+> > > +             probing_done =3D mgr->mst_primary->link_address_sent;
+> > > +             drm_dp_mst_topology_put_mstb(mgr->mst_primary);
+> > > +     }
+> > > +
+> > > +     mutex_unlock(&mgr->lock);
+> > > +
+> > > +     return probing_done;
+> > > +}
+--
+Regards,
+Wayne Lin
