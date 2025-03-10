@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3C2A5AF84
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 00:51:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C51CA5AF7E
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 00:50:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6161010E4EA;
-	Mon, 10 Mar 2025 23:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A55310E0D7;
+	Mon, 10 Mar 2025 23:50:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hB+9sc3g";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MZhBfjYM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E32510E4B4;
- Mon, 10 Mar 2025 18:42:44 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-5e56b229d60so10269569a12.0; 
- Mon, 10 Mar 2025 11:42:44 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6DE210E4E5;
+ Mon, 10 Mar 2025 18:53:37 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-5e6194e9d2cso4615131a12.2; 
+ Mon, 10 Mar 2025 11:53:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741632162; x=1742236962; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1741632815; x=1742237615; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XgJCvzIPEwf8mUYv4Q3MVNUs9y7jwf3bddf8AuCY4hU=;
- b=hB+9sc3gk8pgpoNmIVm6ksYEdNSGXcX7wQnyXsn4x4Nb8rTnhc8RLBoEftfnUd3Ekg
- g+IoZukb6pnhDP9xx0j1lrmvP1eqEHb99OHyqD2cVy0cGZdvIMDxSeb14WSAbUdLBx2/
- 8APkwZmXcWtFs3V+FP1BSRYJTu3M7yh/rrrvu7qzje3XIQy5WSaJRV/pUUZW4PJqXw3a
- w1Z8K+YbhiMRJIQ2sVLmSPLTLPRLq7FuW1yGWoMUMZanxJJ5vj929Gw4TFshS19RlzFz
- 9WYoUpZbBAzEU45njacLYB8E5VDpBhEXfWTt6r9QxmtaPZZ3D7C0eaXqPmcI0oMGL1cH
- y5Vg==
+ bh=Iho3W+on/N75gV3bzXMK3KP/OeD/0YyFIl0pc8ybBsU=;
+ b=MZhBfjYMb0PNvshzUb13QY1JEvRAgzmpZuUgdJ9W8lqdAljrIei774tKueZBFd1y+H
+ JgLI/Ha5fL3zGz/geGP784trUkzQUCnuezvbWRr6887+BrSB6/X0S6FJJx2UJ0m9uMXh
+ uOUckIulKrcCg/r7/Y05AV0Y8isQSRe3ivfQFy6fsumM8fisphI/VzMbY/yWu2BNV46X
+ Y9DtoIwHTswByt5BzqcBSDlNV9X3BFEbGe7EYbH6nATCCkhA0N9aebQgyKyL5yO7SqYQ
+ vdu+CnHqa0jFVxxCJq8KeCoLcd30xi8qhO5ey9XFLk6YKFYEjYRouET04N4hS/bcusyp
+ kczA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741632162; x=1742236962;
+ d=1e100.net; s=20230601; t=1741632815; x=1742237615;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=XgJCvzIPEwf8mUYv4Q3MVNUs9y7jwf3bddf8AuCY4hU=;
- b=siW9dwqL2KbmD4d8cxf+bZoDIzs/bbCHvO6ow84GnwxvNml5HMSWq9n0MaCqTpajbl
- /OrIaTx5Bl7MV7uy2Xs5Bjj2kbE18mPuDppDMvZJ8rq6WrCAFa/OP9djMAQarlIXP1xE
- N4zv/S6b0M5i15906GtBFwD/yRkTPfH9EG90OPIr8M8B8qpf2X09pOf9eVHOe/B65Z9M
- o68EQgGyHlQ2vJafWMG++Saw7n3x4LkUzlwMx3i81OsnHBrI6B3PCbb0ewObxhIZzeB3
- VhNhZrEehqmWI60CE6lm1REGhafIrD5M2CQZPmQYBVrVXQG+t5Oi0PSTOdT6taVl1snK
- VX9w==
+ bh=Iho3W+on/N75gV3bzXMK3KP/OeD/0YyFIl0pc8ybBsU=;
+ b=n7RdfBxHZne491SCwNRtaxN61H/LpRZ0s/1OMiiABDVHlMtWbmAS6ykfusMt1KaWeS
+ PTWzkrNeFXD39m1gz23u55UtZ8yFC0oPhhpqoiUSLid8n5rM45FTxvrXiSLOeA4oUtAg
+ FbLPGZsTwrmPYIMRVFOEdrsrVJmvuEH11X/lREiX0asmP50+thdbAfNxzEUy4elp4IeU
+ ihURfFjDtZMwECKESnl51RGigZFmQQUN6cZG7qkzc5dD5/kieDCFH8SOed920PnmqTnv
+ 6aZs4u8vJIiinTKMi11xSrwngB0lOa2H/e8feqE4ZEys/yMcny+F4hUU0vxYqYJ4QBn/
+ sZ1w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV7K6Gdz4QGpyfy8VzXZH0CmIrVqybU48PWrIa8FYmAvAYf5fKnG0fZy7Eotzy+7UVLPjmvvQXgqAQ=@lists.freedesktop.org,
- AJvYcCXgKFC8m4hYrBGMp7Ig9YA+324C/JKZ6MA2BJwZcMXHJ0OuNRq6uO2iGsGjRYInQJ7398VSqO6woVja@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXzvJMmSkOOHISpJ78fbSFUBBMjdaDx+E+LYNmqgwblZm8tOVQ
- +rCfB9FPApZwMG8ynsBlKG6+Zk1G08y/qQ9jEsL2lk7QPIpy+hIhsl46GOGVDzMrDvtZhCRY9lZ
- 37relNISndDRWxTdyNi84p/GhfxuBcQ==
-X-Gm-Gg: ASbGncvyscJ7HWpmoeHQ8xrYFXQRLvlqJuC+TiUmOyO3trgNGVLadybfBW2DqgoYjhF
- Q0U1WZ3NvneWWVLMuFE+oZ6VC0X9W0BUCn33Ds7zINRubX/ooxJwDJ6Ne69UKcwFO6qRn9IMQi+
- WV9EL2I+H1Cm13PUOQZJnGkdc=
-X-Google-Smtp-Source: AGHT+IHvhXHY7HeoNi8ADifMjcj4l/umqgtrbcmBIb0z1G71TTHxvNq1iGQY0NuQb3PuBVLrfBKn4VoSEs7tmCDu5bA=
-X-Received: by 2002:a17:907:c08c:b0:ac2:a1c9:4a98 with SMTP id
- a640c23a62f3a-ac2ba49ba2amr68646066b.9.1741632162272; Mon, 10 Mar 2025
- 11:42:42 -0700 (PDT)
+ AJvYcCUY4AZTJrZs/YymjVSM4rlg0yU+G3vOYkLQ9tQb6uuPeAjcwEOaeUhzTx1fer0Lx+vsGoNC6QLxQmM=@lists.freedesktop.org,
+ AJvYcCUuXOxbl6UdxqCXzXDFP74QdS9lHq/lhN0/+bsdxQXRyQJjPTAK8ChMwMidry3JCFNYH3qv/YAWvlZV@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz1ygr4tfWqW60fC5IULCQ7BNB00Aw20kaZAT6gsKDa+oljf2D7
+ zypnryMRmN6oT90uC+7G4BUJX39E7OtRlCvirze2V9v1PbNiy3lHxq/MopD/XDW53x+P1ZrmAgB
+ R/voR2lXP/Yp2bcwy4WY4kVbgOWs=
+X-Gm-Gg: ASbGncvn9xEge1LdioNIM7K8wk+3OJiDF6l/zt7bY8Mdsu9ejZy2z9652Tlx7h64waX
+ 8tsinVPwunI3VwNTh3hVaHvw/hKdiA0iBVpHEoF0GZQYC4hKAVsTITEfSU+QYABfLJKLz4NKDdm
+ 8fC2KcrThWQthtDU2Y+2y7IE8=
+X-Google-Smtp-Source: AGHT+IFj2StyJDg8zD4+4OYRlXLPXJNcU5Jtcm4ExyNxF52AN+gkr26ntR7ajNz1qA9VYVgHyTLLvsClcakzJMJaJi4=
+X-Received: by 2002:a17:907:6ea8:b0:ac2:8a59:92f4 with SMTP id
+ a640c23a62f3a-ac28a5997fdmr958819166b.51.1741632815001; Mon, 10 Mar 2025
+ 11:53:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250307-dp-hdmi-audio-v5-0-f3be215fdb78@linaro.org>
- <20250307-dp-hdmi-audio-v5-1-f3be215fdb78@linaro.org>
- <20250310-unnatural-puffin-of-revolution-59d726@houat>
-In-Reply-To: <20250310-unnatural-puffin-of-revolution-59d726@houat>
+ <20250307-dp-hdmi-audio-v5-2-f3be215fdb78@linaro.org>
+ <20250310-daft-bittern-of-foundation-67c657@houat>
+In-Reply-To: <20250310-daft-bittern-of-foundation-67c657@houat>
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Date: Mon, 10 Mar 2025 20:42:29 +0200
-X-Gm-Features: AQ5f1JplfZRW_V6D8vq8XsAv5sIxbwbs1c2mxo_HjHGDckih5ta9pgAGYn2lcQE
-Message-ID: <CALT56yPKe8+tSyChAo6ypHR8EWUpqeJDNM6mcOBUnFwFE7rg4w@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] drm/bridge: split HDMI Audio from
- DRM_BRIDGE_OP_HDMI
+Date: Mon, 10 Mar 2025 20:53:24 +0200
+X-Gm-Features: AQ5f1JqlmlLOpUwZ-kWfmAsXGhTE0IXiFeiLkgthHrJ2sgZ6D0uTL6LbkYiaKKM
+Message-ID: <CALT56yMSs7K_0b5YtkCW5Ypyt9Hu_YLkitFFJwTtBkwUJk-NHA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] drm/msm/dp: reuse generic HDMI codec implementation
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Dmitry Baryshkov <lumag@kernel.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -99,238 +98,429 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Mar 2025 at 16:55, Maxime Ripard <mripard@kernel.org> wrote:
+On Mon, 10 Mar 2025 at 17:08, Maxime Ripard <mripard@kernel.org> wrote:
 >
-> Hi,
->
-> On Fri, Mar 07, 2025 at 07:55:52AM +0200, Dmitry Baryshkov wrote:
+> On Fri, Mar 07, 2025 at 07:55:53AM +0200, Dmitry Baryshkov wrote:
 > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > >
-> > As pointed out by Laurent, OP bits are supposed to describe operations.
-> > Split DRM_BRIDGE_OP_HDMI_AUDIO from DRM_BRIDGE_OP_HDMI instead of
-> > overloading DRM_BRIDGE_OP_HDMI.
+> > The MSM DisplayPort driver implements several HDMI codec functions
+> > in the driver, e.g. it manually manages HDMI codec device registration,
+> > returning ELD and plugged_cb support. In order to reduce code
+> > duplication reuse drm_hdmi_audio_* helpers and drm_bridge_connector
+> > integration.
 > >
 > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >  drivers/gpu/drm/bridge/lontium-lt9611.c        |  2 +-
-> >  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   |  1 +
-> >  drivers/gpu/drm/display/drm_bridge_connector.c | 59 +++++++++++++++++---------
-> >  drivers/gpu/drm/msm/hdmi/hdmi_bridge.c         |  1 +
-> >  include/drm/drm_bridge.h                       | 23 ++++++++--
-> >  5 files changed, 61 insertions(+), 25 deletions(-)
+> >  drivers/gpu/drm/msm/Kconfig         |   1 +
+> >  drivers/gpu/drm/msm/dp/dp_audio.c   | 131 ++++--------------------------------
+> >  drivers/gpu/drm/msm/dp/dp_audio.h   |  27 ++------
+> >  drivers/gpu/drm/msm/dp/dp_display.c |  28 ++------
+> >  drivers/gpu/drm/msm/dp/dp_display.h |   6 --
+> >  drivers/gpu/drm/msm/dp/dp_drm.c     |   8 +++
+> >  6 files changed, 31 insertions(+), 170 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> > index 026803034231f78c17f619dc04119bdd9b2b6679..3b93c17e25c18ae0d13e9bb74553cf21dcc39f9d 100644
-> > --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> > +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> > @@ -1130,7 +1130,7 @@ static int lt9611_probe(struct i2c_client *client)
-> >       lt9611->bridge.of_node = client->dev.of_node;
-> >       lt9611->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
-> >                            DRM_BRIDGE_OP_HPD | DRM_BRIDGE_OP_MODES |
-> > -                          DRM_BRIDGE_OP_HDMI;
-> > +                          DRM_BRIDGE_OP_HDMI | DRM_BRIDGE_OP_HDMI_AUDIO;
-> >       lt9611->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-> >       lt9611->bridge.vendor = "Lontium";
-> >       lt9611->bridge.product = "LT9611";
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> > index 6166f197e37b552cb8a52b7b0d23ffc632f54557..5e5f8c2f95be1f5c4633f1093b17a00f9425bb37 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> > @@ -1077,6 +1077,7 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
-> >       hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT |
-> >                          DRM_BRIDGE_OP_EDID |
-> >                          DRM_BRIDGE_OP_HDMI |
-> > +                        DRM_BRIDGE_OP_HDMI_AUDIO |
-> >                          DRM_BRIDGE_OP_HPD;
-> >       hdmi->bridge.of_node = pdev->dev.of_node;
-> >       hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-> > diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-> > index 30c736fc0067e31a97db242e5b16ea8a5b4cf359..030f98d454608a63154827c65d4822d378df3b4c 100644
-> > --- a/drivers/gpu/drm/display/drm_bridge_connector.c
-> > +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-> > @@ -98,6 +98,13 @@ struct drm_bridge_connector {
-> >        * HDMI connector infrastructure, if any (see &DRM_BRIDGE_OP_HDMI).
-> >        */
-> >       struct drm_bridge *bridge_hdmi;
-> > +     /**
-> > +      * @bridge_hdmi_audio:
-> > +      *
-> > +      * The bridge in the chain that implements necessary support for the
-> > +      * HDMI Audio infrastructure, if any (see &DRM_BRIDGE_OP_HDMI_AUDIO).
-> > +      */
-> > +     struct drm_bridge *bridge_hdmi_audio;
-> >  };
+> > diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> > index 974bc7c0ea761147d3326bdce9039d6f26f290d0..7f127e2ae44292f8f5c7ff6a9251c3d7ec8c9f58 100644
+> > --- a/drivers/gpu/drm/msm/Kconfig
+> > +++ b/drivers/gpu/drm/msm/Kconfig
+> > @@ -104,6 +104,7 @@ config DRM_MSM_DPU
+> >  config DRM_MSM_DP
+> >       bool "Enable DisplayPort support in MSM DRM driver"
+> >       depends on DRM_MSM
+> > +     select DRM_DISPLAY_HDMI_AUDIO_HELPER
+> >       select RATIONAL
+> >       default y
+> >       help
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
+> > index 70fdc9fe228a7149546accd8479a9e4397f3d5dd..f8bfb908f9b4bf93ad5480f0785e3aed23dde160 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_audio.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+> > @@ -13,13 +13,13 @@
 > >
-> >  #define to_drm_bridge_connector(x) \
-> > @@ -433,7 +440,7 @@ static int drm_bridge_connector_audio_startup(struct drm_connector *connector)
-> >               to_drm_bridge_connector(connector);
-> >       struct drm_bridge *bridge;
+> >  #include "dp_catalog.h"
+> >  #include "dp_audio.h"
+> > +#include "dp_drm.h"
+> >  #include "dp_panel.h"
+> >  #include "dp_reg.h"
+> >  #include "dp_display.h"
+> >  #include "dp_utils.h"
 > >
-> > -     bridge = bridge_connector->bridge_hdmi;
-> > +     bridge = bridge_connector->bridge_hdmi_audio;
-> >       if (!bridge)
-> >               return -EINVAL;
+> >  struct msm_dp_audio_private {
+> > -     struct platform_device *audio_pdev;
+> >       struct platform_device *pdev;
+> >       struct drm_device *drm_dev;
+> >       struct msm_dp_catalog *catalog;
+> > @@ -160,24 +160,11 @@ static void msm_dp_audio_enable(struct msm_dp_audio_private *audio, bool enable)
+> >       msm_dp_catalog_audio_enable(catalog, enable);
+> >  }
 > >
-> > @@ -451,7 +458,7 @@ static int drm_bridge_connector_audio_prepare(struct drm_connector *connector,
-> >               to_drm_bridge_connector(connector);
-> >       struct drm_bridge *bridge;
-> >
-> > -     bridge = bridge_connector->bridge_hdmi;
-> > +     bridge = bridge_connector->bridge_hdmi_audio;
-> >       if (!bridge)
-> >               return -EINVAL;
-> >
-> > @@ -464,7 +471,7 @@ static void drm_bridge_connector_audio_shutdown(struct drm_connector *connector)
-> >               to_drm_bridge_connector(connector);
-> >       struct drm_bridge *bridge;
-> >
-> > -     bridge = bridge_connector->bridge_hdmi;
-> > +     bridge = bridge_connector->bridge_hdmi_audio;
-> >       if (!bridge)
-> >               return;
-> >
-> > @@ -478,7 +485,7 @@ static int drm_bridge_connector_audio_mute_stream(struct drm_connector *connecto
-> >               to_drm_bridge_connector(connector);
-> >       struct drm_bridge *bridge;
-> >
-> > -     bridge = bridge_connector->bridge_hdmi;
-> > +     bridge = bridge_connector->bridge_hdmi_audio;
-> >       if (!bridge)
-> >               return -EINVAL;
-> >
-> > @@ -576,6 +583,21 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> >                               max_bpc = bridge->max_bpc;
-> >               }
-> >
-> > +             if (bridge->ops & DRM_BRIDGE_OP_HDMI_AUDIO) {
-> > +                     if (bridge_connector->bridge_hdmi_audio)
-> > +                             return ERR_PTR(-EBUSY);
-> > +
-> > +                     if (!bridge->hdmi_audio_max_i2s_playback_channels &&
-> > +                         !bridge->hdmi_audio_spdif_playback)
-> > +                             return ERR_PTR(-EINVAL);
-> > +
-> > +                     if (!bridge->funcs->hdmi_audio_prepare ||
-> > +                         !bridge->funcs->hdmi_audio_shutdown)
-> > +                             return ERR_PTR(-EINVAL);
-> > +
-> > +                     bridge_connector->bridge_hdmi_audio = bridge;
-> > +             }
-> > +
-> >               if (!drm_bridge_get_next_bridge(bridge))
-> >                       connector_type = bridge->type;
-> >
-> > @@ -611,22 +633,6 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> >                                              max_bpc);
-> >               if (ret)
-> >                       return ERR_PTR(ret);
+> > -static struct msm_dp_audio_private *msm_dp_audio_get_data(struct platform_device *pdev)
+> > +static struct msm_dp_audio_private *msm_dp_audio_get_data(struct msm_dp *msm_dp_display)
+> >  {
+> >       struct msm_dp_audio *msm_dp_audio;
+> > -     struct msm_dp *msm_dp_display;
 > > -
-> > -             if (bridge->hdmi_audio_max_i2s_playback_channels ||
-> > -                 bridge->hdmi_audio_spdif_playback) {
-> > -                     if (!bridge->funcs->hdmi_audio_prepare ||
-> > -                         !bridge->funcs->hdmi_audio_shutdown)
-> > -                             return ERR_PTR(-EINVAL);
+> > -     if (!pdev) {
+> > -             DRM_ERROR("invalid input\n");
+> > -             return ERR_PTR(-ENODEV);
+> > -     }
 > > -
-> > -                     ret = drm_connector_hdmi_audio_init(connector,
-> > -                                                         bridge->hdmi_audio_dev,
-> > -                                                         &drm_bridge_connector_hdmi_audio_funcs,
-> > -                                                         bridge->hdmi_audio_max_i2s_playback_channels,
-> > -                                                         bridge->hdmi_audio_spdif_playback,
-> > -                                                         bridge->hdmi_audio_dai_port);
-> > -                     if (ret)
-> > -                             return ERR_PTR(ret);
-> > -             }
-> >       } else {
-> >               ret = drmm_connector_init(drm, connector,
-> >                                         &drm_bridge_connector_funcs,
-> > @@ -635,6 +641,19 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> >                       return ERR_PTR(ret);
+> > -     msm_dp_display = platform_get_drvdata(pdev);
+> > -     if (!msm_dp_display) {
+> > -             DRM_ERROR("invalid input\n");
+> > -             return ERR_PTR(-ENODEV);
+> > -     }
+> >
+> >       msm_dp_audio = msm_dp_display->msm_dp_audio;
+> > -
+> >       if (!msm_dp_audio) {
+> >               DRM_ERROR("invalid msm_dp_audio data\n");
+> >               return ERR_PTR(-EINVAL);
+> > @@ -186,68 +173,16 @@ static struct msm_dp_audio_private *msm_dp_audio_get_data(struct platform_device
+> >       return container_of(msm_dp_audio, struct msm_dp_audio_private, msm_dp_audio);
+> >  }
+> >
+> > -static int msm_dp_audio_hook_plugged_cb(struct device *dev, void *data,
+> > -             hdmi_codec_plugged_cb fn,
+> > -             struct device *codec_dev)
+> > -{
+> > -
+> > -     struct platform_device *pdev;
+> > -     struct msm_dp *msm_dp_display;
+> > -
+> > -     pdev = to_platform_device(dev);
+> > -     if (!pdev) {
+> > -             pr_err("invalid input\n");
+> > -             return -ENODEV;
+> > -     }
+> > -
+> > -     msm_dp_display = platform_get_drvdata(pdev);
+> > -     if (!msm_dp_display) {
+> > -             pr_err("invalid input\n");
+> > -             return -ENODEV;
+> > -     }
+> > -
+> > -     return msm_dp_display_set_plugged_cb(msm_dp_display, fn, codec_dev);
+> > -}
+> > -
+> > -static int msm_dp_audio_get_eld(struct device *dev,
+> > -     void *data, uint8_t *buf, size_t len)
+> > -{
+> > -     struct platform_device *pdev;
+> > -     struct msm_dp *msm_dp_display;
+> > -
+> > -     pdev = to_platform_device(dev);
+> > -
+> > -     if (!pdev) {
+> > -             DRM_ERROR("invalid input\n");
+> > -             return -ENODEV;
+> > -     }
+> > -
+> > -     msm_dp_display = platform_get_drvdata(pdev);
+> > -     if (!msm_dp_display) {
+> > -             DRM_ERROR("invalid input\n");
+> > -             return -ENODEV;
+> > -     }
+> > -
+> > -     mutex_lock(&msm_dp_display->connector->eld_mutex);
+> > -     memcpy(buf, msm_dp_display->connector->eld,
+> > -             min(sizeof(msm_dp_display->connector->eld), len));
+> > -     mutex_unlock(&msm_dp_display->connector->eld_mutex);
+> > -
+> > -     return 0;
+> > -}
+> > -
+> > -int msm_dp_audio_hw_params(struct device *dev,
+> > -     void *data,
+> > -     struct hdmi_codec_daifmt *daifmt,
+> > -     struct hdmi_codec_params *params)
+> > +int msm_dp_audio_prepare(struct drm_connector *connector,
+> > +                      struct drm_bridge *bridge,
+> > +                      struct hdmi_codec_daifmt *daifmt,
+> > +                      struct hdmi_codec_params *params)
+> >  {
+> >       int rc = 0;
+> >       struct msm_dp_audio_private *audio;
+> > -     struct platform_device *pdev;
+> >       struct msm_dp *msm_dp_display;
+> >
+> > -     pdev = to_platform_device(dev);
+> > -     msm_dp_display = platform_get_drvdata(pdev);
+> > +     msm_dp_display = to_dp_bridge(bridge)->msm_dp_display;
+> >
+> >       /*
+> >        * there could be cases where sound card can be opened even
+> > @@ -262,7 +197,7 @@ int msm_dp_audio_hw_params(struct device *dev,
+> >               goto end;
 > >       }
 > >
-> > +     if (bridge_connector->bridge_hdmi_audio) {
-> > +             bridge = bridge_connector->bridge_hdmi_audio;
-> > +
-> > +             ret = drm_connector_hdmi_audio_init(connector,
-> > +                                                 bridge->hdmi_audio_dev,
-> > +                                                 &drm_bridge_connector_hdmi_audio_funcs,
-> > +                                                 bridge->hdmi_audio_max_i2s_playback_channels,
-> > +                                                 bridge->hdmi_audio_spdif_playback,
-> > +                                                 bridge->hdmi_audio_dai_port);
-> > +             if (ret)
-> > +                     return ERR_PTR(ret);
-> > +     }
-> > +
-> >       drm_connector_helper_add(connector, &drm_bridge_connector_helper_funcs);
+> > -     audio = msm_dp_audio_get_data(pdev);
+> > +     audio = msm_dp_audio_get_data(msm_dp_display);
+> >       if (IS_ERR(audio)) {
+> >               rc = PTR_ERR(audio);
+> >               goto end;
+> > @@ -281,15 +216,14 @@ int msm_dp_audio_hw_params(struct device *dev,
+> >       return rc;
+> >  }
 > >
-> >       if (bridge_connector->bridge_hpd)
-> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> > index 1456354c8af4bc7f655e8a47e958e9e0b99b7d29..ab6c8bc4a30b681f7de8ca7031f833795d1f7d94 100644
-> > --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> > @@ -515,6 +515,7 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
-> >       bridge->ops = DRM_BRIDGE_OP_HPD |
-> >               DRM_BRIDGE_OP_DETECT |
-> >               DRM_BRIDGE_OP_HDMI |
-> > +             DRM_BRIDGE_OP_HDMI_AUDIO |
-> >               DRM_BRIDGE_OP_EDID;
-> >       bridge->hdmi_audio_max_i2s_playback_channels = 8;
-> >       bridge->hdmi_audio_dev = &hdmi->pdev->dev;
-> > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > index d4c75d59fa12be1bd7375ce3ea56415235781b28..dff8cf035b30d5c7e00bfdf5d6e12802559823ba 100644
-> > --- a/include/drm/drm_bridge.h
-> > +++ b/include/drm/drm_bridge.h
-> > @@ -693,8 +693,10 @@ struct drm_bridge_funcs {
-> >       /**
-> >        * @hdmi_audio_prepare:
-> >        * Configures HDMI-encoder for audio stream. Can be called multiple
-> > -      * times for each setup. Mandatory if HDMI audio is enabled in the
-> > -      * bridge's configuration.
-> > +      * times for each setup.
-> > +      *
-> > +      * This callback is optional but it must be implemented by bridges that
-> > +      * set the DRM_BRIDGE_OP_HDMI_AUDIO flag in their &drm_bridge->ops.
-> >        *
-> >        * Returns:
-> >        * 0 on success, a negative error code otherwise
-> > @@ -707,8 +709,10 @@ struct drm_bridge_funcs {
-> >       /**
-> >        * @hdmi_audio_shutdown:
-> >        *
-> > -      * Shut down the audio stream. Mandatory if HDMI audio is enabled in
-> > -      * the bridge's configuration.
-> > +      * Shut down the audio stream.
-> > +      *
-> > +      * This callback is optional but it must be implemented by bridges that
-> > +      * set the DRM_BRIDGE_OP_HDMI_AUDIO flag in their &drm_bridge->ops.
-> >        *
-> >        * Returns:
-> >        * 0 on success, a negative error code otherwise
-> > @@ -814,6 +818,17 @@ enum drm_bridge_ops {
-> >        * drivers.
+> > -static void msm_dp_audio_shutdown(struct device *dev, void *data)
+> > +void msm_dp_audio_shutdown(struct drm_connector *connector,
+> > +                        struct drm_bridge *bridge)
+> >  {
+> >       struct msm_dp_audio_private *audio;
+> > -     struct platform_device *pdev;
+> >       struct msm_dp *msm_dp_display;
+> >
+> > -     pdev = to_platform_device(dev);
+> > -     msm_dp_display = platform_get_drvdata(pdev);
+> > -     audio = msm_dp_audio_get_data(pdev);
+> > +     msm_dp_display = to_dp_bridge(bridge)->msm_dp_display;
+> > +     audio = msm_dp_audio_get_data(msm_dp_display);
+> >       if (IS_ERR(audio)) {
+> >               DRM_ERROR("failed to get audio data\n");
+> >               return;
+> > @@ -311,47 +245,6 @@ static void msm_dp_audio_shutdown(struct device *dev, void *data)
+> >       msm_dp_display_signal_audio_complete(msm_dp_display);
+> >  }
+> >
+> > -static const struct hdmi_codec_ops msm_dp_audio_codec_ops = {
+> > -     .hw_params = msm_dp_audio_hw_params,
+> > -     .audio_shutdown = msm_dp_audio_shutdown,
+> > -     .get_eld = msm_dp_audio_get_eld,
+> > -     .hook_plugged_cb = msm_dp_audio_hook_plugged_cb,
+> > -};
+> > -
+> > -static struct hdmi_codec_pdata codec_data = {
+> > -     .ops = &msm_dp_audio_codec_ops,
+> > -     .max_i2s_channels = 8,
+> > -     .i2s = 1,
+> > -};
+> > -
+> > -void msm_dp_unregister_audio_driver(struct device *dev, struct msm_dp_audio *msm_dp_audio)
+> > -{
+> > -     struct msm_dp_audio_private *audio_priv;
+> > -
+> > -     audio_priv = container_of(msm_dp_audio, struct msm_dp_audio_private, msm_dp_audio);
+> > -
+> > -     if (audio_priv->audio_pdev) {
+> > -             platform_device_unregister(audio_priv->audio_pdev);
+> > -             audio_priv->audio_pdev = NULL;
+> > -     }
+> > -}
+> > -
+> > -int msm_dp_register_audio_driver(struct device *dev,
+> > -             struct msm_dp_audio *msm_dp_audio)
+> > -{
+> > -     struct msm_dp_audio_private *audio_priv;
+> > -
+> > -     audio_priv = container_of(msm_dp_audio,
+> > -                     struct msm_dp_audio_private, msm_dp_audio);
+> > -
+> > -     audio_priv->audio_pdev = platform_device_register_data(dev,
+> > -                                             HDMI_CODEC_DRV_NAME,
+> > -                                             PLATFORM_DEVID_AUTO,
+> > -                                             &codec_data,
+> > -                                             sizeof(codec_data));
+> > -     return PTR_ERR_OR_ZERO(audio_priv->audio_pdev);
+> > -}
+> > -
+> >  struct msm_dp_audio *msm_dp_audio_get(struct platform_device *pdev,
+> >                       struct msm_dp_catalog *catalog)
+> >  {
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_audio.h b/drivers/gpu/drm/msm/dp/dp_audio.h
+> > index beea34cbab77f31b33873297dc454a9cee446240..58fc14693e48bff2b57ef7278983e5f21ee80ac7 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_audio.h
+> > +++ b/drivers/gpu/drm/msm/dp/dp_audio.h
+> > @@ -35,23 +35,6 @@ struct msm_dp_audio {
+> >  struct msm_dp_audio *msm_dp_audio_get(struct platform_device *pdev,
+> >                       struct msm_dp_catalog *catalog);
+> >
+> > -/**
+> > - * msm_dp_register_audio_driver()
+> > - *
+> > - * Registers DP device with hdmi_codec interface.
+> > - *
+> > - * @dev: DP device instance.
+> > - * @msm_dp_audio: an instance of msm_dp_audio module.
+> > - *
+> > - *
+> > - * Returns the error code in case of failure, otherwise
+> > - * zero on success.
+> > - */
+> > -int msm_dp_register_audio_driver(struct device *dev,
+> > -             struct msm_dp_audio *msm_dp_audio);
+> > -
+> > -void msm_dp_unregister_audio_driver(struct device *dev, struct msm_dp_audio *msm_dp_audio);
+> > -
+> >  /**
+> >   * msm_dp_audio_put()
+> >   *
+> > @@ -61,10 +44,12 @@ void msm_dp_unregister_audio_driver(struct device *dev, struct msm_dp_audio *msm
+> >   */
+> >  void msm_dp_audio_put(struct msm_dp_audio *msm_dp_audio);
+> >
+> > -int msm_dp_audio_hw_params(struct device *dev,
+> > -     void *data,
+> > -     struct hdmi_codec_daifmt *daifmt,
+> > -     struct hdmi_codec_params *params);
+> > +int msm_dp_audio_prepare(struct drm_connector *connector,
+> > +                      struct drm_bridge *bridge,
+> > +                      struct hdmi_codec_daifmt *daifmt,
+> > +                      struct hdmi_codec_params *params);
+> > +void msm_dp_audio_shutdown(struct drm_connector *connector,
+> > +                        struct drm_bridge *bridge);
+> >
+> >  #endif /* _DP_AUDIO_H_ */
+> >
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > index bbc47d86ae9e67245c87a8365df366cce0dc529e..ece184d20c0f8bffa3c2a48216015185d6cbc99e 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > @@ -13,6 +13,7 @@
+> >  #include <linux/delay.h>
+> >  #include <linux/string_choices.h>
+> >  #include <drm/display/drm_dp_aux_bus.h>
+> > +#include <drm/display/drm_hdmi_audio_helper.h>
+> >  #include <drm/drm_edid.h>
+> >
+> >  #include "msm_drv.h"
+> > @@ -288,13 +289,6 @@ static int msm_dp_display_bind(struct device *dev, struct device *master,
+> >               goto end;
+> >       }
+> >
+> > -
+> > -     rc = msm_dp_register_audio_driver(dev, dp->audio);
+> > -     if (rc) {
+> > -             DRM_ERROR("Audio registration Dp failed\n");
+> > -             goto end;
+> > -     }
+> > -
+> >       rc = msm_dp_hpd_event_thread_start(dp);
+> >       if (rc) {
+> >               DRM_ERROR("Event thread create failed\n");
+> > @@ -316,7 +310,6 @@ static void msm_dp_display_unbind(struct device *dev, struct device *master,
+> >
+> >       of_dp_aux_depopulate_bus(dp->aux);
+> >
+> > -     msm_dp_unregister_audio_driver(dev, dp->audio);
+> >       msm_dp_aux_unregister(dp->aux);
+> >       dp->drm_dev = NULL;
+> >       dp->aux->drm_dev = NULL;
+> > @@ -626,9 +619,9 @@ static void msm_dp_display_handle_plugged_change(struct msm_dp *msm_dp_display,
+> >                       struct msm_dp_display_private, msm_dp_display);
+> >
+> >       /* notify audio subsystem only if sink supports audio */
+> > -     if (msm_dp_display->plugged_cb && msm_dp_display->codec_dev &&
+> > -                     dp->audio_supported)
+> > -             msm_dp_display->plugged_cb(msm_dp_display->codec_dev, plugged);
+> > +     if (dp->audio_supported)
+> > +             drm_connector_hdmi_audio_plugged_notify(msm_dp_display->connector,
+> > +                                                     plugged);
+> >  }
+> >
+> >  static int msm_dp_hpd_unplug_handle(struct msm_dp_display_private *dp, u32 data)
+> > @@ -907,19 +900,6 @@ static int msm_dp_display_disable(struct msm_dp_display_private *dp)
+> >       return 0;
+> >  }
+> >
+> > -int msm_dp_display_set_plugged_cb(struct msm_dp *msm_dp_display,
+> > -             hdmi_codec_plugged_cb fn, struct device *codec_dev)
+> > -{
+> > -     bool plugged;
+> > -
+> > -     msm_dp_display->plugged_cb = fn;
+> > -     msm_dp_display->codec_dev = codec_dev;
+> > -     plugged = msm_dp_display->link_ready;
+> > -     msm_dp_display_handle_plugged_change(msm_dp_display, plugged);
+> > -
+> > -     return 0;
+> > -}
+> > -
+> >  /**
+> >   * msm_dp_bridge_mode_valid - callback to determine if specified mode is valid
+> >   * @bridge: Pointer to drm bridge structure
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+> > index ecbc2d92f546a346ee53adcf1b060933e4f54317..cc6e2cab36e9c0b1527ff292e547cbb4d69fd95c 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_display.h
+> > +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+> > @@ -7,7 +7,6 @@
+> >  #define _DP_DISPLAY_H_
+> >
+> >  #include "dp_panel.h"
+> > -#include <sound/hdmi-codec.h>
+> >  #include "disp/msm_disp_snapshot.h"
+> >
+> >  #define DP_MAX_PIXEL_CLK_KHZ 675000
+> > @@ -15,7 +14,6 @@
+> >  struct msm_dp {
+> >       struct drm_device *drm_dev;
+> >       struct platform_device *pdev;
+> > -     struct device *codec_dev;
+> >       struct drm_connector *connector;
+> >       struct drm_bridge *next_bridge;
+> >       bool link_ready;
+> > @@ -25,14 +23,10 @@ struct msm_dp {
+> >       bool is_edp;
+> >       bool internal_hpd;
+> >
+> > -     hdmi_codec_plugged_cb plugged_cb;
+> > -
+> >       struct msm_dp_audio *msm_dp_audio;
+> >       bool psr_supported;
+> >  };
+> >
+> > -int msm_dp_display_set_plugged_cb(struct msm_dp *msm_dp_display,
+> > -             hdmi_codec_plugged_cb fn, struct device *codec_dev);
+> >  int msm_dp_display_get_modes(struct msm_dp *msm_dp_display);
+> >  bool msm_dp_display_check_video_test(struct msm_dp *msm_dp_display);
+> >  int msm_dp_display_get_test_bpp(struct msm_dp *msm_dp_display);
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+> > index cca57e56c906255a315e759e85a5af5982c80e9c..20b24eea0a4b619598079fbe4a32188485852b04 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> > @@ -12,6 +12,7 @@
+> >
+> >  #include "msm_drv.h"
+> >  #include "msm_kms.h"
+> > +#include "dp_audio.h"
+> >  #include "dp_drm.h"
+> >
+> >  /**
+> > @@ -114,6 +115,9 @@ static const struct drm_bridge_funcs msm_dp_bridge_ops = {
+> >       .hpd_disable  = msm_dp_bridge_hpd_disable,
+> >       .hpd_notify   = msm_dp_bridge_hpd_notify,
+> >       .debugfs_init = msm_dp_bridge_debugfs_init,
+> > +
+> > +     .hdmi_audio_prepare = msm_dp_audio_prepare,
+> > +     .hdmi_audio_shutdown = msm_dp_audio_shutdown,
+> >  };
+> >
+> >  static int msm_edp_bridge_atomic_check(struct drm_bridge *drm_bridge,
+> > @@ -320,9 +324,13 @@ int msm_dp_bridge_init(struct msm_dp *msm_dp_display, struct drm_device *dev,
 > >        */
-> >       DRM_BRIDGE_OP_HDMI = BIT(4),
-> > +     /**
-> > +      * @DRM_BRIDGE_OP_HDMI_AUDIO: The bridge provides HDMI audio operations.
-> > +      * Bridges that set this flag must implement the
-> > +      * &drm_bridge_funcs->hdmi_audio_prepare and
-> > +      * &drm_bridge_funcs->hdmi_audio_shutdown callbacks.
-> > +      *
-> > +      * Note: currently there can be at most one bridge in a chain that sets
-> > +      * this bit. This is to simplify corresponding glue code in connector
-> > +      * drivers.
-> > +      */
-> > +     DRM_BRIDGE_OP_HDMI_AUDIO = BIT(5),
+> >       if (!msm_dp_display->is_edp) {
+> >               bridge->ops =
+> > +                     DRM_BRIDGE_OP_HDMI_AUDIO |
+> >                       DRM_BRIDGE_OP_DETECT |
+> >                       DRM_BRIDGE_OP_HPD |
+> >                       DRM_BRIDGE_OP_MODES;
+> > +             bridge->hdmi_audio_dev = &msm_dp_display->pdev->dev;
+> > +             bridge->hdmi_audio_max_i2s_playback_channels = 8;
+> > +             bridge->hdmi_audio_dai_port = -1;
+> >       }
 >
-> We should make this conditional on HDMI being set. It doesn't make sense
-> to have OP_HDMI_AUDIO enabled when OP_HDMI isn't.
+> I think I'd prefer the toggle to be OP_DP_AUDIO, even if the
+> implementation is exactly the same. That way, we'll be able to condition
+> it to the DP support when that arrives, and we have the latitude to
+> rework it to accomodate some DP subtleties without affecting the drivers
+> later on.
 
-It totally does. In the second patch I'm using OP_HDMI_AUDIO for the
-DisplayPort driver.
-
->
-> This should be mentioned in the documentation, and possibly with a
-> sanity check at initialization.
-
+I don't think that there is a point in having OP_DP_AUDIO. There is
+not so much difference in the driver. Also currently OP_HDMI_AUDIO
+follows existing approach (which was pointed out by Laurent) - that
+OP_foo should guard a particular set of callbacks. From this
+perspective, OP_HDMI_AUDIO is fine - it guards usage of
+hdmi_audio_foo(). OP_DP_AUDIO would duplicate that.
 
 
 -- 
