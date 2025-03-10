@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4309AA5A2AE
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 19:23:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F944A5A2F7
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 19:33:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FBFA899A3;
-	Mon, 10 Mar 2025 18:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4054910E4BD;
+	Mon, 10 Mar 2025 18:33:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ElmbqlGz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hJkpJefg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAFD7890D2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 18:22:55 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-38f403edb4eso2497432f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 11:22:55 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2284310E4BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 18:33:19 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-6feb229b716so41044127b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 11:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741630974; x=1742235774; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=IM67112e6aVWPb0y1+A+iibMGJnbZ9dK5fhRXopQ0Rg=;
- b=ElmbqlGzeOnAA5zbu5fQDaZtK+C5Y6WFEddEd9UJZdfrlQJGYbQh7eb/PtRKL1NkQ4
- 6CdwPCRVdpNhPLrrRMFXqJV8MQ4+iZHbXkGwaZKNSM39IzuGv3e97x1zEsIHzAAjzlqo
- ELgcqpQjFHq7uin/hvJxfvTMzqjgxgaJWhpsfbONPz0+o9tchlAI3t9BtgbP302XJbv3
- Ath6rQ+zBTGZLpNP/6XKxecGker+BPsePzp3Jwz+/GLAi0kn5jcoZUwgk4fE19eE0ihF
- 0iGtPWoFWGYj/eXzVBH6PKRIfkzj2ucH4caHsP1JagQuEExTdzkiMr9wtWbMKb6we97B
- TeMQ==
+ d=gmail.com; s=20230601; t=1741631598; x=1742236398; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=r3YXhamQojbHtJJvdyYIQwmP7+xllN6ycD91lj4YM/k=;
+ b=hJkpJefgM5MOYZtvPncqLf2821b2MzxW/NaSbGdwJAIwelEChlT95Nn9Jb5hEAz7Ri
+ YwWzxW9RrEZ9sccBFqnerRHMuyXKCIKa3PfYzTPlzhsFRUt719XmG9UEWgC+tIVwy34Q
+ rmqlZipWPl6m6fxeDieRGMUzoO7h/q41aUjg2Af4ubnwmbZYh7RkycLtt3ezNgMMH49y
+ kkH/5uEiGIdJG8801ZwRuq40JU6vj7iQzaDEjIclDBuT+Cy98YknNNQnC+I8ATBxWb0g
+ 1LDnIWiGSzuGzNxhsrxoiW9QPZGzDZ48YV7cmkEcKJPqfZswE1EMWxf14hYhokVvatTT
+ ugsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741630974; x=1742235774;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IM67112e6aVWPb0y1+A+iibMGJnbZ9dK5fhRXopQ0Rg=;
- b=VA1najfnR2ndDXbNjvdAI+gwRI0BjY1FFkrIOk8pP6QYBeS1knA1OwggnvVMtUaw8U
- R5lUANqPqxFlHZNPvWOWQCFBsA3yUffZwAyG2sGexHzfaNu7cRCroZshBxqrm/WhGHTV
- v82T5IX2pi5LTWnwsvCeqAvOgNIMaOKTh7xIP/wo2FRrBT0TYG7JjmS2KtbaX9HR1XuS
- SBSRjI/DqzD9o8S7/tJO6Kcnq+wGC0MJtNf6813DtokPwzkXrhB7aFixOVE7pZHVkx8k
- Jpkwc1t9y3YZ6x5MFglWjDAWdudZm+5Pq2z+gQzQ0OHln6/SASk2l8fGRKFv7Hh9y4Cf
- QPUg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX5h04959UD0eSzMZI2roO77xuIeN8fZGYifU3Ys8qw56R4zseYTL4FkwO9V1jorS1vgi3qxxvrRW8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwQAE9clX12KiYj1vBOi7fZt+z7B7C9n8Xmck3kXA9bu+DXi5g3
- i3X1leVuYInZd6So1OczpBoGCdgwzYzIlmPivyTvwDqOrATP65H5NofqPMHIEX8=
-X-Gm-Gg: ASbGncuvm3HIr9vG0DfzJK9wYyhJTVyEXID9v5L3OYOjkRnqXFqpdB1ztIjbdlH+Iba
- TxuM2GjBj5NH09PitJUAwREsAkJlbBZDzdExxj0rgbDB6GUQ+OFFomwRCQrg2ycPJDNZECRH89i
- +Qt9zYrGO+QwE2beld8zX72SyR2/EfQAZpWNGxOb3CX9FgN0Gkm5Uw7VCvocdUp6jmWh7sy4aQA
- 8X/xv/zisECGufkEMh7FZFJ4KAQIHh3syMmMMqSjo8bfn+SK1W+ngc1+4wQZ1ERKeNxB0fSSpB0
- XBQzDAn9OY360IAKIeZPG3YJUyeFVdCdp38KlMVXGewexh4t0g==
-X-Google-Smtp-Source: AGHT+IFPPRTmEdhJHKxLy8Tag7aJ8MCR6K5N/RY9rHYVd+ENG21KhflHXXSPp3UiTZ2sQh+jQtPtYA==
-X-Received: by 2002:a5d:584f:0:b0:391:ffc:2413 with SMTP id
- ffacd0b85a97d-39132da08b4mr9411995f8f.40.1741630974330; 
- Mon, 10 Mar 2025 11:22:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3912c015c2csm15382176f8f.49.2025.03.10.11.22.53
+ d=1e100.net; s=20230601; t=1741631598; x=1742236398;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=r3YXhamQojbHtJJvdyYIQwmP7+xllN6ycD91lj4YM/k=;
+ b=ZlKUr8oYse8b/EMR2MYMLGeXRj54l1Zgpe0QHIsokc2R8S7+PUXa0fhi44+/OuRjeA
+ vGNk4TiJUVPOyPFk2Ai0qGI71jM3YtIwotxXg1BtbVa+QKfXYb9gOE1X9NT8TwMoWbk5
+ dFXNQYoWmBAcZBAszerFk4G3WHZ1Niuw/6i0Pzfdo5VZe6MTWbmXDxMoyFZF0feDGJEP
+ RNj0SPPDPbyChwWMu3lT04Wji6LSjQF4R6R9NQftDHkK7GKSgfVHHfnMA34DG/7naSoL
+ 3F1biMEiDmoVbUQ/seP2LOjqre6PqEr95rCz/VF0VAVML3omeefEJZJ8xD+uSYwdeKq9
+ sjow==
+X-Gm-Message-State: AOJu0YxwMvjBoboG/JcyaNGjY4SrNPLXs6msB4mrgVnDnZtLS/qS2hUt
+ uWHsfZSKeQeFArDKC92URBk2L/CXmhDem8AgMsLcvdZOfz0DJraP
+X-Gm-Gg: ASbGncuEuiNkRv7cpdDy3IyBq0Wxi8Lb2jZjd0huscaxkkGuKeSOXXnf+1Hx3+XGKmP
+ qsL0diMML4KaWQU6K/EMGN/Ml+WLgGKP46VUq9WwL6yvCekItAMDJsCUSOa7aFD7VBI2lK1wpDV
+ wmWIXTRM0LfLlSAWurytXIpARdc+/FdX4QL6ZizvsR8ylAoYgPcOzuVp2lQyASPJQhx7vb73Ofu
+ ruysVNzgHT2GwJZHbIgjpckWY3BAiPLPFVDthZxD0UzhF0On1et/JaTe6VgK4wQWUQz0KS6Mv/D
+ iOGrYuk4GJbGThiv1On0PLCn3GWDHEg6MYE0bEdzs+EVGQ==
+X-Google-Smtp-Source: AGHT+IG9x3RNxbucQwyhnEXEtB1I7ZsqaQu2W4mSyd/Nl6ytgjOLcoEVhj+IM0h5reI8GpfKddxcUw==
+X-Received: by 2002:a05:690c:6c02:b0:6fd:2321:567f with SMTP id
+ 00721157ae682-6febf2a660emr165289867b3.8.1741631598363; 
+ Mon, 10 Mar 2025 11:33:18 -0700 (PDT)
+Received: from VM-Arch ([2601:6c0:c200:fc20:4cad:74f0:cdb0:1c6d])
+ by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6feb2a1bfb8sm22417827b3.8.2025.03.10.11.33.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 11:22:53 -0700 (PDT)
-Date: Mon, 10 Mar 2025 21:22:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/xe: Fix uninitialized variable in
- xe_vm_bind_ioctl()
-Message-ID: <95a4da90-dfa0-4033-aba5-276b3d9a1824@stanley.mountain>
-References: <4a74b296-8b51-4dab-a2f1-69919da1ca62@stanley.mountain>
- <Z88ZzoFA5KpQTLmH@intel.com>
+ Mon, 10 Mar 2025 11:33:17 -0700 (PDT)
+Date: Mon, 10 Mar 2025 14:33:15 -0400
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: Josef =?utf-8?B?THXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
+Cc: dri-devel@lists.freedesktop.org, noralf@tronnes.org
+Subject: Re: drm: mipi_dbi_hw_reset() keeps display in reset
+Message-ID: <p6ajylavycnvylrn7wmtsp2rqrezkkthajszuobqsm4bhymqzz@lki2bo6ybxpz>
+References: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
+ <n7qaikyyisdq3m74buqjfxzyi5lgntnsmtirrmw5vi2nkf7izl@6coklitzp3uc>
+ <fm4kqbfknroub3onbbhbzvurw7ig3fsjrxpeucdtioobssstjk@hzmdxa7uby6f>
+ <CACnTymYBYmGMk8z5Xp=OGBHvsA-hwJtGAi6MSHfpTGJBHMQqSw@mail.gmail.com>
+ <spav7ftc45ypks3no2sgaciagym2jbd2hfcyqmforvwli47ixj@6rtvedapu342>
+ <CACnTymaA5UZGRGveAOOFTtRWrWr9rnyWj8Ah6qmMOTS0dbuVNg@mail.gmail.com>
+ <6he4g5se6cqu6l3bdbfv636pm62ucvzsm5ujhi2xjig7srxxqb@gagbovuujysx>
+ <CACnTymbj8u_QchzC9CT2mcbg-0MPfVBs8ukwdWkJtjq_SpCvwQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z88ZzoFA5KpQTLmH@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACnTymbj8u_QchzC9CT2mcbg-0MPfVBs8ukwdWkJtjq_SpCvwQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,75 +93,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 10, 2025 at 12:56:46PM -0400, Rodrigo Vivi wrote:
-> On Mon, Mar 10, 2025 at 01:48:00PM +0300, Dan Carpenter wrote:
-> > The error handling assumes that vm_bind_ioctl_check_args() will
-> > initialize "bind_ops" but there are a couple early returns where that's
-> > not true.  Initialize "bind_ops" to NULL from the start.
-> 
-> It is not a couple, but only the one goto put_vm where this bind_ops
-> gets actually initialized, or not...
+On Fri, Mar 07, 2025 at 10:25:18AM +0100, Josef Luštický wrote:
+> Ok, I'll implement the change and post it for a review.
+> About the property naming, I tend to name it something like
+> "inverted-reset-gpio-fixed" to denote that it is assumed the code
+> using the "reset-gpios" property was fixed.
+> What are your thoughts?
 > 
 
-I'm on linux-next.  I'm not seeing the goto put_vm...  I think we're
-looking at different code.
+You probably wnat something more concise and in present tense like
+'invert-reset-gpio'
 
-  3063  static int vm_bind_ioctl_check_args(struct xe_device *xe, struct xe_vm *vm,
-  3064                                      struct drm_xe_vm_bind *args,
-  3065                                      struct drm_xe_vm_bind_op **bind_ops)
-  3066  {
-  3067          int err;
-  3068          int i;
-  3069  
-  3070          if (XE_IOCTL_DBG(xe, args->pad || args->pad2) ||
-  3071              XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
-  3072                  return -EINVAL;
+Best regards,
+Alex
 
-One.
-
-  3073  
-  3074          if (XE_IOCTL_DBG(xe, args->extensions))
-  3075                  return -EINVAL;
-
-Two.
-
-  3076  
-  3077          if (args->num_binds > 1) {
-  3078                  u64 __user *bind_user =
-  3079                          u64_to_user_ptr(args->vector_of_binds);
-  3080  
-  3081                  *bind_ops = kvmalloc_array(args->num_binds,
-
-Initialized.
-
-  3082                                             sizeof(struct drm_xe_vm_bind_op),
-  3083                                             GFP_KERNEL | __GFP_ACCOUNT |
-  3084                                             __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
-  3085                  if (!*bind_ops)
-  3086                          return args->num_binds > 1 ? -ENOBUFS : -ENOMEM;
-  3087  
-  3088                  err = __copy_from_user(*bind_ops, bind_user,
-  3089                                         sizeof(struct drm_xe_vm_bind_op) *
-  3090                                         args->num_binds);
-  3091                  if (XE_IOCTL_DBG(xe, err)) {
-  3092                          err = -EFAULT;
-  3093                          goto free_bind_ops;
-  3094                  }
-  3095          } else {
-  3096                  *bind_ops = &args->bind;
-  3097          }
-
-> but perhaps the order in the exit is wrong and we should move the
-> kvfree(bind_ops) upper to the end of put_exec_queue?
-> 
-> Matt, thoughts on the order here?
-> 
-> Cc: Matthew Brost <matthew.brost@intel.com>
-
-I feel like ideally vm_bind_ioctl_check_args() would clean up after
-itself on failure and, yes, it should be in reverse order from how
-it was allocated.
-
-regards,
-dan carpenter
-
+> On Tue, Feb 25, 2025 at 2:46 PM Alex Lanzano <lanzano.alex@gmail.com> wrote:
+> >
+> > On Tue, Feb 25, 2025 at 12:59:59PM +0100, Josef Luštický wrote:
+> > > On Mon, Feb 24, 2025 at 12:13 AM Alex Lanzano <lanzano.alex@gmail.com> wrote:
+> > > >
+> > > > On Mon, Feb 17, 2025 at 12:39:01PM +0100, Josef Luštický wrote:
+> > > > > On Sat, Feb 15, 2025 at 8:14 PM Alex Lanzano <lanzano.alex@gmail.com> wrote:
+> > > > > >
+> > > > > > On Fri, Feb 14, 2025 at 08:04:41PM -0500, Alex Lanzano wrote:
+> > > > > > > On Fri, Feb 14, 2025 at 10:29:29AM +0100, Josef Luštický wrote:
+> > > > > > > > Hello Alex,
+> > > > > > > > there is a bug in mipi_dbi_hw_reset() function that implements the logic of
+> > > > > > > > display reset contrary.
+> > > > > > > > It keeps the reset line activated which keeps displays in reset state.
+> > > > > > > >
+> > > > > > > > I reported the bug to
+> > > > > > > > https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/63
+> > > > > > > >
+> > > > > > > > Unfortunately, fixing the bug would mean current DTB-ABI breakage and
+> > > > > > > > device-trees modification would be needed.
+> > > > > > > > I mainly write this email to let you and other people know about it, so
+> > > > > > > > hopefully it can be found easier.
+> > > > > > > > What are your thoughts?
+> > > > > > > Thanks for making me aware. I'll dig into over the weekend and get back
+> > > > > > > to you
+> > > > > >
+> > > > > > Alright so I looked into a bit more. Looks like the MIPI Specification
+> > > > > > says that the reset line is active low. So, if we want dt entries to be
+> > > > > > correct the logic for setting the reset line in mipi_dbi_hw_reset()
+> > > > > > should be flipped. However, like you said, this is going to cause a some
+> > > > > > confused developers to break out their oscilloscopes to figure out
+> > > > > > why their display isn't working.
+> > > > > >
+> > > > > > Best regards,
+> > > > > > Alex
+> > > > >
+> > > > > Thank you Alex for looking into this.
+> > > > > I think all the supported dts can be changed together with
+> > > > > mipi_dbi_hw_reset(), however the fix would break existing DTBs and
+> > > > > third party DTSs.
+> > > > > So I think it shall be either noted somewhere that due to this bug,
+> > > > > the reset line needs to be "wrongly" ACTIVE_HIGH in DTS
+> > > > > or the mipi_dbi_hw_reset() is changed and the compatibility is broken,
+> > > > > which needs to be announced.
+> > > > >
+> > > > > BTW Zephyr fixed the code [1], but they introduced the MIPI DBI
+> > > > > support just a couple of weeks before the fix, so they avoided the
+> > > > > compatibility issue.
+> > > > > I was not able to find users mentioning issues related to the display
+> > > > > not functioning properly, so I had to dig into the code.
+> > > > > But afterwards I found a thread on Raspberry PI forums, where one of
+> > > > > the moderators mentions it [2].
+> > > > >
+> > > > > [1] https://github.com/zephyrproject-rtos/zephyr/issues/68562
+> > > > > [2] https://forums.raspberrypi.com/viewtopic.php?p=2165720#p2165720
+> > > >
+> > > > So, here are my thoughts on this after pondering it over for a bit.
+> > > > Ideally we should eventually reverse the reset logic so the DTS entry
+> > > > correctly specifies the hardware. However, instead of an abrupt change
+> > > > maybe we add an additional property to the DTS node that when present
+> > > > uses the correct reset logic. If the property isn't present we use the
+> > > > current incorrect reset logic and print out a dev_warn that it will soon
+> > > > be deprecated.
+> > > >
+> > > > Let me know what you think.
+> > > >
+> > > > Best regards,
+> > > > Alex
+> > > >
+> > > >
+> > > I think it's a good idea if the current logic is about to be fixed.
+> > > Another (probably not as good) idea is to introduce a new property
+> > > named "nreset-gpios = ..." or something like that, but I realise that
+> > > "reset-gpios" is the de-facto standard naming.
+> > >
+> > > Best regards,
+> > > Josef
+> > >
+> >
+> > Yeah I think it may be simpler to just add a boolean property like
+> > 'reverse-reset'. It would make the driver code simpler to implement too.
+> > Would you like to implement this change and submit the patch or would
+> > you like me to?
+> >
+> > Best regards,
+> > Alex
