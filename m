@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434BFA58CCC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 08:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 986EBA58CCD
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 08:23:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A532A10E3A6;
-	Mon, 10 Mar 2025 07:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF53310E3A4;
+	Mon, 10 Mar 2025 07:23:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N7lcU/JZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YMUUmsbK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B315010E3A5;
- Mon, 10 Mar 2025 07:23:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6C3110E3A4;
+ Mon, 10 Mar 2025 07:23:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id AC3E8A44B92;
- Mon, 10 Mar 2025 07:17:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5290C4CEE5;
- Mon, 10 Mar 2025 07:23:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 49AAD5C577D;
+ Mon, 10 Mar 2025 07:21:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D59CBC4CEE5;
+ Mon, 10 Mar 2025 07:23:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741591387;
- bh=RlvKs07iuCvZ/lpYdSqVxJ2vXNGKN73rfYEc3+gIKNw=;
+ s=k20201202; t=1741591402;
+ bh=4ETkd0jFHLyp3RPMBWiubYsNSXRDodyaLu0wHY0y2XU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=N7lcU/JZEenWdzfzzb0tr1SWG3ZkhI0EoTYO2icU/G0L0RaJ7ZHQqtPfGuzJai0HC
- csLJE5UnThUxUaxF0bE34TVJL0ewvOMiRUrpS1LpzGlEk3REzTuKwya6g19OoTRiDS
- Vz1PJKupNDxoNgTQCzwAKVx8ovdnCg/wWlA7ZN224R6D2I7duzgJkvJvSVrBYG2slZ
- p3u6yjBN9ebkdY2O8lhGFXlyjDWThPCcrnH0pS9VPLA+fbrK6jIKHIgOnuOzbgwGMo
- 0+KIgoJJRn/t2TN1ijKgRSzdVchI1UrORXhbGhg6icw/pthPbr0kJBZ2/ft/GNI5QH
- 50MUxij1sgAHg==
-Date: Mon, 10 Mar 2025 08:23:03 +0100
+ b=YMUUmsbKMTpJIOzlDQphAuc2kpcQCU4fCSZ4fQtG+R+LQNt6YwQciN23OZgf0/itk
+ ZHbKHvjGM45dX2MbZ32QNS/PwrHxj753MYl4pfeJmj8IG+zd21QH8uk7puO/mVUPw/
+ d3vK3nq1DDBM6gRdMG2xVvD9ZnXQ2Hak9xP/rHOpyf7ZZPCVq7Hqw+ydmVGdjM56Ul
+ ikLzRYbPfFZ8Iz2AeAtACS929d5fWzFnJTVmj1FqpnQbLhuoJ2I17qUPM4tIiCuM2Q
+ ncunR/tRH4scVhXHG1p1hO46Jw3YcZptVCK5qVxeL7nteF7lj966YbXe+ntvpAneqj
+ UWIIfKEDhKqqw==
+Date: Mon, 10 Mar 2025 08:23:18 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Baryshkov <lumag@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -51,15 +51,15 @@ Cc: Rob Clark <robdclark@gmail.com>,
  freedreno@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 03/10] dt-bindings: display/msm: dsi-phy-7nm: describe
- SAR2130P
-Message-ID: <20250310-prompt-economic-gaur-ef0bbe@krzk-bin>
+Subject: Re: [PATCH 04/10] dt-bindings: display/msm: qcom,sc7280-dpu:
+ describe SAR2130P
+Message-ID: <20250310-eccentric-rare-rook-e4fb60@krzk-bin>
 References: <20250308-sar2130p-display-v1-0-1d4c30f43822@linaro.org>
- <20250308-sar2130p-display-v1-3-1d4c30f43822@linaro.org>
+ <20250308-sar2130p-display-v1-4-1d4c30f43822@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250308-sar2130p-display-v1-3-1d4c30f43822@linaro.org>
+In-Reply-To: <20250308-sar2130p-display-v1-4-1d4c30f43822@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,14 +75,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 08, 2025 at 03:42:21AM +0200, Dmitry Baryshkov wrote:
+On Sat, Mar 08, 2025 at 03:42:22AM +0200, Dmitry Baryshkov wrote:
 > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
-> Describe MIPI DSI PHY present on Qualcomm SAR2130P platform.
+> Describe DPU controller present on Qualcomm SAR2130P platform.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 1 +
+>  Documentation/devicetree/bindings/display/msm/qcom,sc7280-dpu.yaml | 1 +
 >  1 file changed, 1 insertion(+)
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
