@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA01A59A0F
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C043A59A48
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:46:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEA2110E434;
-	Mon, 10 Mar 2025 15:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD55E10E477;
+	Mon, 10 Mar 2025 15:46:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="QAvzpGjK";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="hECOg93O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 553B910E434
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 15:34:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1741620879; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9177510E477
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 15:46:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741621569; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=DzrekeHXCnD07yLLuY9kF+sth2UjlCNk1s4871aVms+4GuRthn3JEvdxKgxfzhK86oZN9tYQfOOr1lctAG3C8BXNlGtD/0PXLonNfc5Re6jMkXHSZA5dfp1EK296TxYgR8SVRuzm2uTXGyD8M17dNwdLazp0DE4vUNn0vOE3ToM=
+ b=NiHi27hdfQxbeW3CxdZzSRA4K8O8/l6SjnpHs7duMHLEy4dE8oIYRLiDNPlqAJ1isWWnvvAd6koFCCs+ia3Lg8VrivMrQ1joLVu2easq+Z4mfy6LPZp5CG+pIU46rZyEZPbVPoWDT6FgJC019FSUIy6UcwA6ty818xPuHL6ktY4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1741620879;
+ s=zohoarc; t=1741621569;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=fKGYjqu4Ev4SqaAEdORO3V9LqmGHctq0CSPM/977IfQ=; 
- b=NmOrwpT6AAtoZP/TrXyYOBgChsgLjxIZSqYOTj2kLm8PrTfQoFNQMDecXKoKob5fLRfl//k6lsMrc7zwohpl7RrCCE6Spdbv/8RN32yI04udiOTGDWTNocaVnmOr4f1Cow9NajLBj2MGjtCHkkyrCrYzHRprOcleMUyJ8ecC9vA=
+ bh=nteUPilcCeVNoxHOhuQ2B/1Kq1k+d99vAmMwSOhuO1k=; 
+ b=Wf4EZ5HjBzs4Eo1DdCVBtixBqviwh7FP2WhB/xImrKi1S49sPwRkbS0ttEAbvQXX1GhBWsX1B90ei/Qq8rLGjG+Jyzj/wqbXxXkYKn4PbG4mAjYGErOsylUqH18S0STcvt/HuEDRGDcH9/vl2Q6RzjypifS4pL+pMKlsob0MDB0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
  dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741620879; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741621569; 
  s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
  h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=fKGYjqu4Ev4SqaAEdORO3V9LqmGHctq0CSPM/977IfQ=;
- b=QAvzpGjK9VnN7UqGBMBTo+N83eYP0pmKLVdfSpxGEldWGMlefXxFCAdtRaa/uv7j
- n/QO+HCaIe+qZhGDy/ljjHKyoVgrv0e9G47YaMSVGKg24OBWLRHicomssfyk9qT9+7T
- lHsYJ6dz1rt9hmjwuFZfgnPR2TGdg+m8JGmt9tSM=
-Received: by mx.zohomail.com with SMTPS id 1741620876294195.17720317390024;
- Mon, 10 Mar 2025 08:34:36 -0700 (PDT)
-Message-ID: <ec151d39-2cb2-4f67-a23a-dafc421fff75@collabora.com>
-Date: Mon, 10 Mar 2025 12:34:30 -0300
+ bh=nteUPilcCeVNoxHOhuQ2B/1Kq1k+d99vAmMwSOhuO1k=;
+ b=hECOg93O14P+PU8FRdiwCKOM+wz6C4qoEWp0Pe+407qBRy71Fp43CpF8AdrfR6lI
+ wCLZj8OKW0mIsrYIejIrOBQ3oUj4KuX1t7HAr4gtEKLnOJaJbrRHt4sSequOrzrSXZH
+ D1HcX0cmV+JlthV03oCKWR7NP09LkJ/+dt6Cvgto=
+Received: by mx.zohomail.com with SMTPS id 1741621566672706.8975406997224;
+ Mon, 10 Mar 2025 08:46:06 -0700 (PDT)
+Message-ID: <bc587831-97b2-4991-9d5e-71e6962c63a1@collabora.com>
+Date: Mon, 10 Mar 2025 12:46:01 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 3/4] drm/panfrost: Support ARM_64_LPAE_S1 page table
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robh@kernel.org, steven.price@arm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+To: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: boris.brezillon@collabora.com, robh@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
 References: <20250226183043.140773-1-ariel.dalessandro@collabora.com>
  <20250226183043.140773-4-ariel.dalessandro@collabora.com>
- <20250227155539.59944e18@collabora.com>
+ <6cdaafa2-68f9-4d5b-abe5-5c9c549e3c6e@arm.com>
 Content-Language: en-US
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250227155539.59944e18@collabora.com>
+In-Reply-To: <6cdaafa2-68f9-4d5b-abe5-5c9c549e3c6e@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
@@ -70,47 +71,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Boris,
+Hi Steven,
 
-On 2/27/25 11:55 AM, Boris Brezillon wrote:
-> On Wed, 26 Feb 2025 15:30:42 -0300
-> Ariel D'Alessandro <ariel.dalessandro@collabora.com> wrote:
+On 2/27/25 11:44 AM, Steven Price wrote:
+> On 26/02/2025 18:30, Ariel D'Alessandro wrote:
+>> Bifrost MMUs support AArch64 4kB granule specification. However,
+>> panfrost only enables MMU in legacy mode, despite the presence of the
+>> HW_FEATURE_AARCH64_MMU feature flag.
+>>
+>> This commit adds support to use page tables according to AArch64 4kB
+>> granule specification. This feature is enabled conditionally based on
+>> the GPU model's HW_FEATURE_AARCH64_MMU feature flag.
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 > 
->> @@ -642,8 +713,15 @@ struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
->>   		.iommu_dev	= pfdev->dev,
->>   	};
->>   
->> -	mmu->pgtbl_ops = alloc_io_pgtable_ops(ARM_MALI_LPAE, &mmu->pgtbl_cfg,
->> -					      mmu);
->> +	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_AARCH64_MMU)) {
->> +		fmt = ARM_64_LPAE_S1;
->> +		mmu->enable = mmu_lpae_s1_enable;
->> +	} else {
->> +		fmt = ARM_MALI_LPAE;
->> +		mmu->enable = mmu_mali_lpae_enable;
->> +	}
+> I find some of the naming confusing here. The subject calls it
+> 'ARM_64_LPAE_S1' which in an unfortunate name from the iommu code.
 > 
-> How about we stick to the legacy pgtable format for all currently
-> supported GPUs, and make this an opt-in property attached to the
-> compatible. This way, we can progressively move away from the legacy
-> format once enough testing has been done, while allowing support for
-> GPUs that can't use the old format because the cachability/shareability
-> configuration is too limited.
+> AIUI, LPAE is the "Large Physical Address Extension" and is a v7 feature
+> for 32 bit. "LEGACY" (as Bifrost calls it) mode is a (modified) version
+> of LPAE, which in Linux we've called "mali_lpae".
+> 
+> What you're adding support for is AARCH64_4K which is the v8 64 bit
+> mode. So I think it's worth including the "64" part of the name of the
+> mmu_lpae_s1_enable() function. Personally I'd be tempted to drop the
+> "_s1" part, but I guess there's a small chance someone will find a use
+> for the second stage one day.
 
-Indeed, that's a better way to go.
+Yes, overall agreed. I'll definitely keep the "64_4k" part of the name 
+explicit and also keep the "mali_lpae" for the legacy mode. Will send a 
+patchset v1 soon with all this, we can continue reviewing it there.
 
-Specifically, what you mean is: keep the same compatible string and add 
-a new property to the `panfrost_compatible` private data for that 
-specific variant? E.g.
+> 
+> Note also that it's not necessarily a clear-cut improvement to use
+> AARCH64_4K over LEGACY. I wouldn't be surprised if this actually causes
+> (minor) performance regressions on some platforms. Sadly I don't have
+> access to a range of hardware to test this on.
 
-In drivers/gpu/drm/panfrost/panfrost_drv.c:
-```
-struct panfrost_compatible mediatek_mt8188_data
-[...]
-{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
-```
+FWIW, I'm using Mesa CI [0] to test this as much as possible, at least 
+to detect any (major) regressions. As proposed by Boris, we should use a 
+property to progressively enable this feature.
 
-Thanks,
+Thanks!
+
+[0] https://gitlab.freedesktop.org/mesa/mesa/
 
 -- 
 Ariel D'Alessandro
