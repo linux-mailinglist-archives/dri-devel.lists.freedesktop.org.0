@@ -2,61 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16462A59A72
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED68A59AC0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 17:15:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7846010E478;
-	Mon, 10 Mar 2025 15:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C316210E47C;
+	Mon, 10 Mar 2025 16:15:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jVGCPUE2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mh8UI97A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3156610E478
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 15:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741622220; x=1773158220;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=HUOoS96yEGNDr6tmWxBEsNiNGsOwUXnMZoZqjoX9vAA=;
- b=jVGCPUE2yavaZ6Ej4W6xwNBOM/G+mAAiMgjk25ZeAyzE4o3OURIJLwOa
- DbH/cxjtkpQi1ze8COSd24mvEET73nfydGkqs2jxuCK6oFp1/6Bc2wZO4
- mV0Kv8NLV3ydvdp6tDY+dH6VPjDkAsRwSj2wEdR0yuopafyW2tXx08sJ0
- 7mDIKtkSE0Wk1M4QKHAjTQUpYeQcJScmbhU5Tk/R7aZBaJMa72G9QuNOB
- Pe+0gJ/pLD8Ln14wglTelVqi+3UAdmzi8ZqZB0uOI7ZfxLx2zZ1klqN9J
- 216rYHA1gItlS/ytbZCXn/RuhMqqIslpDEziL7D4I/+O9Hj+6J0SjnDXa w==;
-X-CSE-ConnectionGUID: Tg3Or40AQ+CF19R5kKWqjw==
-X-CSE-MsgGUID: fmAwYA12QnCThisKcFZQNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="65081039"
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; d="scan'208";a="65081039"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2025 08:56:59 -0700
-X-CSE-ConnectionGUID: h9n+icFATluKVx9K7ImYmQ==
-X-CSE-MsgGUID: pgat/bVPTj+l6ZZfBU3B7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; d="scan'208";a="125260838"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
- by orviesa005.jf.intel.com with ESMTP; 10 Mar 2025 08:56:57 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1trfUs-0004Pw-35;
- Mon, 10 Mar 2025 15:56:54 +0000
-Date: Mon, 10 Mar 2025 23:56:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zsolt Kajtar <soci@c64.rulez.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Zsolt Kajtar <soci@c64.rulez.org>
-Subject: Re: [PATCH RESEND 1/2] Refactoring the fbcon packed pixel drawing
- routines
-Message-ID: <202503102312.rSGvBwl1-lkp@intel.com>
-References: <20250309184716.13732-2-soci@c64.rulez.org>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7844B10E484
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 16:15:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=xSskNVptJbvMTkPzKho3ucI4cPchjASDk5rW61oE5gc=; b=mh8UI97A7814QVAgQOl8oWg8Xs
+ VOz7wJJqagkxjlfl49p15LtEOGM4zEm2ZSXVJbZB7CkGIp4kaxi14v5AqxAy6TE+Fxjsf0/v7vpjh
+ eITLv+K7AbSWCOjwxcRCZbJArtiS7g2XP8y83g0WocfFp3UPZKyIGaOmq2VoQgm85HT8oB7SxAz5W
+ 2CT8Wvw/mFd3JA34Sle56OBhmvNgoTqY/+m5AysXTzb0cDsH/0VMEPet7VlzUdu6yTmY9o5T874Or
+ 2ys7M8md+gla4D4cBvBrJJfoHlQJ0zqyue7tTN33bmtcAKKWfUp40etaZsM3fEPm+JwDQLYuN3EWu
+ HhRrOt2g==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1trfma-006YAW-Oj; Mon, 10 Mar 2025 17:15:18 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>
+Subject: [PATCH v6 0/6] DRM scheduler kunit tests
+Date: Mon, 10 Mar 2025 16:15:10 +0000
+Message-ID: <20250310161516.39942-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250309184716.13732-2-soci@c64.rulez.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,135 +61,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zsolt,
+There has repeatedly been quite a bit of apprehension when any change to the DRM
+scheduler is proposed, with two main reasons being code base is considered
+fragile, not well understood and not very well documented, and secondly the lack
+of systematic testing outside the vendor specific tests suites and/or test
+farms.
 
-kernel test robot noticed the following build warnings:
+This series is an attempt to dislodge this status quo by adding some unit tests
+using the kunit framework.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.14-rc6 next-20250307]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+General approach is that there is a mock "hardware" backend which can be
+controlled from tests, which in turn allows exercising various scheduler code
+paths.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zsolt-Kajtar/Refactoring-the-fbcon-packed-pixel-drawing-routines/20250310-025619
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250309184716.13732-2-soci%40c64.rulez.org
-patch subject: [PATCH RESEND 1/2] Refactoring the fbcon packed pixel drawing routines
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250310/202503102312.rSGvBwl1-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503102312.rSGvBwl1-lkp@intel.com/reproduce)
+Only some simple basic tests get added in the series and hopefully it is easy to
+understand what tests are doing.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503102312.rSGvBwl1-lkp@intel.com/
+An obligatory "screenshot" for reference:
 
-All warnings (new ones prefixed by >>):
+[14:09:05] ============ drm_sched_basic_tests (3 subtests) ============
+[14:09:06] [PASSED] drm_sched_basic_submit
+[14:09:06] ================== drm_sched_basic_test  ===================
+[14:09:06] [PASSED] A queue of jobs in a single entity
+[14:09:06] [PASSED] A chain of dependent jobs across multiple entities
+[14:09:06] [PASSED] Multiple independent job queues
+[14:09:06] [PASSED] Multiple inter-dependent job queues
+[14:09:07] ============== [PASSED] drm_sched_basic_test ===============
+[14:09:07] [PASSED] drm_sched_basic_entity_cleanup
+[14:09:07] ============== [PASSED] drm_sched_basic_tests ==============
+[14:09:07] ======== drm_sched_basic_timeout_tests (1 subtest) =========
+[14:09:08] [PASSED] drm_sched_basic_timeout
+[14:09:08] ========== [PASSED] drm_sched_basic_timeout_tests ==========
+[14:09:08] ======= drm_sched_basic_priority_tests (2 subtests) ========
+[14:09:10] [PASSED] drm_sched_priorities
+[14:09:10] [PASSED] drm_sched_change_priority
+[14:09:10] ========= [PASSED] drm_sched_basic_priority_tests ==========
+[14:09:10] ====== drm_sched_basic_modify_sched_tests (1 subtest) ======
+[14:09:11] [PASSED] drm_sched_test_modify_sched
+[14:09:11] ======= [PASSED] drm_sched_basic_modify_sched_tests ========
+[14:09:11] ======== drm_sched_basic_credits_tests (1 subtest) =========
+[14:09:12] [PASSED] drm_sched_test_credits
+[14:09:12] ========== [PASSED] drm_sched_basic_credits_tests ==========
+[14:09:12] ============================================================
+[14:09:12] Testing complete. Ran 11 tests: passed: 11
+[14:09:13] Elapsed time: 13.539s total, 0.001s configuring, 3.004s building, 10.462s running
 
-   In file included from drivers/video/fbdev/wmt_ge_rops.c:15:
->> drivers/video/fbdev/core/fb_draw.h:16:48: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
-      16 | static inline void fb_address_move_long(struct fb_address *adr, int offset)
-         |                                                ^
-   drivers/video/fbdev/core/fb_draw.h:18:5: error: incomplete definition of type 'struct fb_address'
-      18 |         adr->address += offset * (BITS_PER_LONG / BITS_PER_BYTE);
-         |         ~~~^
-   drivers/video/fbdev/core/fb_draw.h:16:48: note: forward declaration of 'struct fb_address'
-      16 | static inline void fb_address_move_long(struct fb_address *adr, int offset)
-         |                                                ^
-   drivers/video/fbdev/core/fb_draw.h:22:46: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
-      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
-         |                                              ^
-   drivers/video/fbdev/core/fb_draw.h:24:39: error: incomplete definition of type 'struct fb_address'
-      24 |         unsigned int bits = (unsigned int)adr->bits + offset;
-         |                                           ~~~^
-   drivers/video/fbdev/core/fb_draw.h:22:46: note: forward declaration of 'struct fb_address'
-      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
-         |                                              ^
-   drivers/video/fbdev/core/fb_draw.h:26:5: error: incomplete definition of type 'struct fb_address'
-      26 |         adr->bits = bits & (BITS_PER_LONG - 1u);
-         |         ~~~^
-   drivers/video/fbdev/core/fb_draw.h:22:46: note: forward declaration of 'struct fb_address'
-      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
-         |                                              ^
-   drivers/video/fbdev/core/fb_draw.h:27:5: error: incomplete definition of type 'struct fb_address'
-      27 |         adr->address += (bits & ~(BITS_PER_LONG - 1u)) / BITS_PER_BYTE;
-         |         ~~~^
-   drivers/video/fbdev/core/fb_draw.h:22:46: note: forward declaration of 'struct fb_address'
-      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
-         |                                              ^
-   drivers/video/fbdev/core/fb_draw.h:31:47: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
-      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
-         |                                               ^
-   drivers/video/fbdev/core/fb_draw.h:33:16: error: incomplete definition of type 'struct fb_address'
-      33 |         int bits = adr->bits - (int)offset;
-         |                    ~~~^
-   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
-      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
-         |                                               ^
-   drivers/video/fbdev/core/fb_draw.h:35:5: error: incomplete definition of type 'struct fb_address'
-      35 |         adr->bits = bits & (BITS_PER_LONG - 1);
-         |         ~~~^
-   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
-      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
-         |                                               ^
-   drivers/video/fbdev/core/fb_draw.h:37:6: error: incomplete definition of type 'struct fb_address'
-      37 |                 adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
-         |                 ~~~^
-   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
-      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
-         |                                               ^
-   drivers/video/fbdev/core/fb_draw.h:37:23: error: incomplete definition of type 'struct fb_address'
-      37 |                 adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
-         |                                  ~~~^
-   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
-      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
-         |                                               ^
-   drivers/video/fbdev/core/fb_draw.h:39:6: error: incomplete definition of type 'struct fb_address'
-      39 |                 adr->address += (bits - adr->bits) / BITS_PER_BYTE;
-         |                 ~~~^
-   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
-      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
-         |                                               ^
-   drivers/video/fbdev/core/fb_draw.h:39:30: error: incomplete definition of type 'struct fb_address'
-      39 |                 adr->address += (bits - adr->bits) / BITS_PER_BYTE;
-         |                                         ~~~^
-   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
-      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
-         |                                               ^
-   drivers/video/fbdev/core/fb_draw.h:50:34: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
-      50 |                                     int offset, const struct fb_address *dst)
-         |                                                              ^
-   drivers/video/fbdev/core/fb_draw.h:52:2: error: call to undeclared function 'fb_write_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
-         |         ^
-   drivers/video/fbdev/core/fb_draw.h:52:2: note: did you mean 'fb_modify_offset'?
-   drivers/video/fbdev/core/fb_draw.h:49:20: note: 'fb_modify_offset' declared here
-      49 | static inline void fb_modify_offset(unsigned long val, unsigned long mask,
-         |                    ^
-      50 |                                     int offset, const struct fb_address *dst)
-      51 | {
-      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
-         |         ~~~~~~~~~~~~~~~
-         |         fb_modify_offset
-   drivers/video/fbdev/core/fb_draw.h:52:31: error: call to undeclared function 'fb_read_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
-         |                                      ^
-   drivers/video/fbdev/wmt_ge_rops.c:57:8: error: call to undeclared function 'pixel_to_pat'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      57 |         pat = pixel_to_pat(p->var.bits_per_pixel, fg);
-         |               ^
-   4 warnings and 13 errors generated.
+v2:
+ * Parameterize a bunch of similar tests.
+ * Improve test commentary.
+ * Rename TDR test to timeout. (Christian)
+ * Improve quality and consistency of naming. (Philipp)
 
+RFC v2 -> series v1:
+ * Rebased for drm_sched_init changes.
+ * Fixed modular build.
+ * Added some comments.
+ * Filename renames. (Philipp)
 
-vim +16 drivers/video/fbdev/core/fb_draw.h
+v2:
+ * Dealt with a bunch of checkpatch warnings.
 
-    14	
-    15	/* move the address pointer by the number of words */
-  > 16	static inline void fb_address_move_long(struct fb_address *adr, int offset)
-    17	{
-    18		adr->address += offset * (BITS_PER_LONG / BITS_PER_BYTE);
-    19	}
-    20	
+v3:
+ * Some mock API renames, kerneldoc grammar fixes and indentation fixes.
+
+v4:
+ * Fix use after free caused by relying on scheduler fence for querying status.
+ * Kerneldoc fixes.
+
+v5:
+ * Cleanup in-flight jobs on scheduler shutdown.
+ * Change hang_limit to 1.
+
+v6:
+ * Use KUNIT_ASSERT_TRUE/FALSE.
+ * Fixed patch titles.
+ * Added credit_limit test.
+ * Added CONFIG_DRM_SCHED_KUNIT_TEST_ASPIRATIONAL.
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Philipp Stanner <phasta@kernel.org>
+
+Tvrtko Ursulin (6):
+  drm/sched: Add scheduler unit testing infrastructure and some basic
+    tests
+  drm/sched: Add aspirational unit test mode
+  drm/sched: Add a simple timeout test
+  drm/sched: Add basic priority tests
+  drm/sched: Add a basic test for modifying entities scheduler list
+  drm/sched: Add a basic test for checking credit limit
+
+ drivers/gpu/drm/Kconfig.debug                 |  25 +
+ drivers/gpu/drm/scheduler/.kunitconfig        |  12 +
+ drivers/gpu/drm/scheduler/Makefile            |   2 +
+ drivers/gpu/drm/scheduler/tests/Makefile      |   7 +
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  | 345 +++++++++++++
+ drivers/gpu/drm/scheduler/tests/sched_tests.h | 224 +++++++++
+ drivers/gpu/drm/scheduler/tests/tests_basic.c | 476 ++++++++++++++++++
+ 7 files changed, 1091 insertions(+)
+ create mode 100644 drivers/gpu/drm/scheduler/.kunitconfig
+ create mode 100644 drivers/gpu/drm/scheduler/tests/Makefile
+ create mode 100644 drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+ create mode 100644 drivers/gpu/drm/scheduler/tests/sched_tests.h
+ create mode 100644 drivers/gpu/drm/scheduler/tests/tests_basic.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.48.0
+
