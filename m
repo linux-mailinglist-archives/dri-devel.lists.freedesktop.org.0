@@ -2,55 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6588A59065
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:55:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7D5A59070
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:56:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF70F10E3D8;
-	Mon, 10 Mar 2025 09:55:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1447410E3D9;
+	Mon, 10 Mar 2025 09:56:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kdgYj/aA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jtDGjh88";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 109D610E3D8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:55:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=nRj3/ISKfDo3VaVRj9Wq0neneEFtj2p+5GVtrNlIDTA=; b=kdgYj/aAt1yiYC+dsEmaZKTwoV
- +53n0gSkmqXrNFEzl8u4VPqXvaIZm9g6FCB644gBFBet6U1jwunFIRt2eOdvT86BqdfD2Lnc7b/uO
- lseB7x9cEeXnVJD1zxUO4m9i5SVMK63IUIAlekw8j+sCJwtHhLvrnZaaxNDNiKT3pD70bSL3h1AgH
- WDvwnab5Gq5KXTPlSuLnhwLOi6wPqo/Cxu6g7w0X2TqUIoUUa9fCG0R5KJrexVWLkCcFed/UhtI/p
- b4FDGMVrn2wmVGCY/B7KiuY0TRMyPDXWA0Lmb0KHU29VmHt+Ep86yG6/2gO2I8jn4/PMFHde8JA0+
- RJzcEC/Q==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1trZrE-006QMn-1m; Mon, 10 Mar 2025 10:55:41 +0100
-Message-ID: <7070a805-653c-4664-b0df-aa9c800e2f05@igalia.com>
-Date: Mon, 10 Mar 2025 09:55:40 +0000
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56DB510E3DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:56:39 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-39133f709f5so1297462f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 02:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741600598; x=1742205398; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vID61GIkIDMW8pPTgroYzl1dfmYmLe/cwdAmJLdVfrc=;
+ b=jtDGjh88nzvl46X8viJFp+HHRqODbCzEC9hnwpf9fAevqJHvoG97Sar7KW5a4SilX2
+ gWT/aE9LuTA75udYT+9otmDSf+Rs7BWDJ9XzKbcw58oMjakgQti3vb3UDJtQYm/o9EGW
+ ugrpVH9Y8hJ6w0IQ5zdO32AQOAJcHaB+nLjsUDEwCS43TKHazS2QBLWSLXJQY4wMhVlW
+ g+QZBQ9jDmyMK0QkUeeuZuqvwuaS0eXN9QmUmOZdj5wHNzXRGOVZjWoEq3ezOK2rewa7
+ OhV0lDV7+oLri6o50CZn3d5pZ+CYZLJRlBvGJzHmlFv9mh0QpBEBPm60pezTDTReXyzQ
+ srCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741600598; x=1742205398;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vID61GIkIDMW8pPTgroYzl1dfmYmLe/cwdAmJLdVfrc=;
+ b=PUe9YZiIJqW65j24Rm3Rbr3xPDNiVpkAD8dLRnsACCRJTnLPIPPEO1oC89s6ofTpfl
+ 8NpTNAX3WjuwRSOCaj1ffh+9rs1YCdQToFG9VLmLLGbezfm0VEL4LWpNXD6fKGy/N1U4
+ nz1UTznv8znfYPLKU5UQJjTa76myixIdixK5U1FrCR8yGUmZiDyqWZqHu70/qUnkjlm5
+ XNjGpnRR//6L3uFkY1nJz71AXDBmWJOCBIbfb/bTxejgtFZ9qIsYRHQ4iziFsua4ckpd
+ rmq4ATN5JO0KYcjixiw/cK0oXDtoCFMref8v+TlpmR4Ky+W32cbyb/RxptxosjuRNtFr
+ TIoQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU+8YCPZbAyO/q5Ldv+6PDglZlq1yfdq6e600BG3RbrSFET02ely13dyiYDMGT5Ka7QiGjO7Ne24P8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsfBaeyUnhnhCU3iOj8XAL0yxPnA+5+o5RCLBbsSki5jFqVatc
+ YRO+kUt7DpNhvfqH0mdJeeEszTf/Xm5dDUMI+IQDCgDcdqAPyZHX
+X-Gm-Gg: ASbGnctfKaljrAJPtDMxmeuDqs7/66poUAv5yT0CL+qg3AIHVvbmfYZyF6thCIdq48h
+ clusnllV24rwCFXGhotFjjDsbg26s0Ev3IwG5owjmBvlP1b18aOyH3tMLFejxSvqQBU+Z3BmuJu
+ 8pgUc89+SkxWuhdhbb1HM9MNhrcZ2LD7nef9rWrazwaMmQ4Wl+f0IMHVzbsbkU+CIra01K5V/cA
+ eQIlr8b5XdwUjYbKrhodMLTR0HiJL1c0OSuXTXHPHCGA0wD92GE56SMvNEkvIGrmZ82K7IgAFzC
+ MLcBxgrPGPDcDoOIMvEiLD7Bwsm8aYr31hkWhQInnTMsINGaJ0KxsUC33+iaygBpbNLVRfpptg=
+ =
+X-Google-Smtp-Source: AGHT+IF1YNcz5yu7cikYuEyUTudT7kaZPD/iwTorPAEsnp+8VhcciviAqxqQhGNErUbrhAMDho5OoA==
+X-Received: by 2002:a5d:5f89:0:b0:391:253b:4046 with SMTP id
+ ffacd0b85a97d-39132d3331bmr9845300f8f.16.1741600597614; 
+ Mon, 10 Mar 2025 02:56:37 -0700 (PDT)
+Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43ce8a493d0sm78351955e9.1.2025.03.10.02.56.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Mar 2025 02:56:37 -0700 (PDT)
+Message-ID: <3d770f3e-9600-41a0-86c4-84700f7cc8f5@gmail.com>
+Date: Mon, 10 Mar 2025 10:56:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] drm: Move some options to separate new Kconfig
-To: phasta@kernel.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Simona Vetter <simona@ffwll.ch>,
- David Airlie <airlied@gmail.com>
-References: <20250306170555.7244-1-tvrtko.ursulin@igalia.com>
- <20250306170555.7244-2-tvrtko.ursulin@igalia.com>
- <d355bccc3127b727c9f6fe03dfd7a43e4c5cc78e.camel@mailbox.org>
- <f9bbc28f-d2ee-403d-ba9b-708edcc4fb20@igalia.com>
- <61b4e7342572269b61ed4188dccfb688c3d95d79.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <61b4e7342572269b61ed4188dccfb688c3d95d79.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] drm/sched: revert "drm_sched_job_cleanup(): correct false
+ doc"
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org,
+ matthew.brost@intel.com, dakr@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20250310074414.2129157-1-christian.koenig@amd.com>
+ <cb3745c15e5e2c3a2b03e47a56d2e4db555664b5.camel@mailbox.org>
+ <37a58172-c2fa-4942-bafa-d96be85cd26f@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <37a58172-c2fa-4942-bafa-d96be85cd26f@igalia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,138 +95,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 07/03/2025 18:06, Philipp Stanner wrote:
-> On Fri, 2025-03-07 at 16:59 +0000, Tvrtko Ursulin wrote:
+Am 10.03.25 um 10:30 schrieb Tvrtko Ursulin:
+>
+> On 10/03/2025 08:41, Philipp Stanner wrote:
+>> On Mon, 2025-03-10 at 08:44 +0100, Christian König wrote:
+>>> This reverts commit 44d2f310f008613c1dbe5e234c2cf2be90cbbfab.
+>>>
+>>> Sorry for the delayed response, I only stumbled over this now while
+>>> going
+>>> over old mails and then re-thinking my reviewed by for this change.
+>>>
+>>> The function drm_sched_job_arm() is indeed the point of no return.
 >>
->> On 07/03/2025 13:41, Philipp Stanner wrote:
->>> Hi,
->>>
->>> You forgot to put folks in CC as recipents for the cover letter :(
->>>
->>>
->>> On Thu, 2025-03-06 at 17:05 +0000, Tvrtko Ursulin wrote:
->>>> Move some options out into a new debug specific kconfig file in
->>>> order
->>>> to
->>>> make things a bit cleaner.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>> Cc: Philipp Stanner <phasta@kernel.org>
->>>
->>> We all have our individual work flows, so don't take this as
->>> lecturing
->>> or anything – I just suspect that I was forgotten in the cover
->>> letter
->>> because you Cc people by hand in the individual patches.
->>>
->>> What I do is that I run get_maintainer and then put the individuals
->>> listed there into the --to= field. That sends the entire series to
->>> all
->>> of them.
->>>
->>> Only sometimes, when there's a huge list of recipents or when the
->>> patches of a series are very independent, I deviate from that rule.
->>>
->>> JFYI
+>> So would you say that the comment in the function's body,
+>> "drm_sched_job_arm() has been called" actually means / should mean "job
+>> had been submitted with drm_sched_entity_push_job()"?
+
+Yes, probably. The problem is simply that we need to guarantee correct order of signaling for the dma_fence.
+
+Otherwise functions like dma_fence_is_later()/dma_fence_later() start to blow up and we run into potential use after free problems.
+
 >>
->> Notice it was there in v3, I just omitted to paste it this time.
->>
->>> Anyways, we have a bigger problem about the entire series. I now
->>> tested
->>> again with the same setup as yesterday and the faults are indeed
->>> gone,
->>> so that's good.
+>>> The
+>>> background is that it is nearly impossible for the driver to
+>>> correctly
+>>> retract the fence and signal it in the order enforced by the
+>>> dma_fence
+>>> framework.
 >>>
->>> But to be sure I then did run kmemleak and got a list of leaks that
->>> is
->>> more than 2000 lines long.
+>>> The code in drm_sched_job_cleanup() is for the purpose to cleanup
+>>> after
+>>> the job was armed through drm_sched_job_arm() *and* processed by the
+>>> scheduler.
+>>>
+>>> The correct approach for error handling in this situation is to set
+>>> the
+>>> error on the fences and then push to the entity anyway.
 >>
->> There is this comment for drm_sched_fini which ends with:
+>> You expect the driver to set an error on scheduled and finished fence?
+
+Ideally we would avoid that as well. In general drivers should be coded so that after calling drm_sched_job_arm() nothing can go wrong any more.
+
+Setting an error on either the scheduler or the finished fence is basically just the last resort if we can't really avoid any error handling.
+
+>> I think this would be very likely to explode. AFAICS the scheduler code
+>> has no awareness for anyone else having touched those fences.
+
+Yeah that is probably not well handled today.
+
 >>
->> """
->> ...
->>    * This stops submission of new jobs to the hardware through
->>    * drm_sched_backend_ops.run_job(). Consequently,
->> drm_sched_backend_ops.free_job()
->>    * will not be called for all jobs still in
->> drm_gpu_scheduler.pending_list.
->>    * There is no solution for this currently. Thus, it is up to the
->> driver to make
->>    * sure that:
->>    *
->>    *  a) drm_sched_fini() is only called after for all submitted jobs
->>    *     drm_sched_backend_ops.free_job() has been called or that
->>    *  b) the jobs for which drm_sched_backend_ops.free_job() has not
->> been
->> called
->>    *     after drm_sched_fini() ran are freed manually.
->>    *
->>
->>    * FIXME: Take care of the above problem and prevent this function
->> from
->> leaking
->>    * the jobs in drm_gpu_scheduler.pending_list under any
->> circumstances.
->> """
->>
->> I got bitten by that. Keep forgetting how fragile the thing is.. :(
-> 
-> argh damn, those are *all* from the pending_list?!
+>> If at all, if this is really a problem, we should tell the driver that
+>> it must enforce that there will be no failure between
+>> drm_sched_job_arm() and drm_sched_job_entity_push_job(). That's how
+>> Nouveau does it.
+>
+> On top of Philipp's questions - I just want to raise that amdgpu_cs_submit then also needs explaining. I always take amdgpu as kind of almost reference, since that is where scheduler originated from. And in there there is definitely the path of drm_sched_job_cleanup() called after drm_sched_job_arm() when adding gang dependencies fails.
 
-Right, all leaks I saw were from the drm_sched_basic_entity_cleanup 
-test. All other tests actually wait for jobs to finish so can't hit that.
+Oh shit, yeah that doesn't work correctly at all. The user pages handling is completely broken as well.
 
-Fix was simply to add a drm_sched_job_cleanup call when unwinding 
-unfinished mock scheduler jobs from drm_mock_sched_fini, which happens 
-before calling drm_sched_fini.
-
-That's pretty much how things are expected to be handled AFAIU.
-
-> OK. Well.
-> 
-> Now we've got a philosophical problem:
-> 
-> We still have to fix those leaks (I'm still working on it, but my
-> current attempt has failed and I probably fall back to a refcount
-> solution).
-
-You propose to move the responsibility of cleaning up in-flight jobs to 
-the scheduler core?
-
-> And to see whether the fix actually fixes the leaks, directly using the
-> kunit tests would be handy.
-> 
-> After all, this is what the kunit tests are there for: show what is
-> broken within the scheduler. And those leaks definitely qualify. Or
-> should kunit tests follow the same rules we demand from drivers?
-> 
-> I'd like to hear more opinions about that.
-> 
-> @Danilo, @Dave, @Sima
-> would it be OK if we add kunit tests for the scheduler to DRM that
-> cause leaks until we can fix them?
-
-It is indeed a bit philosophical. I'd say only if there is a 100% 
-agreement that drm_sched_fini should be able to clean up, or drive 
-cleaning up, all driver state. And if we are prepared to handle a 
-permanently failing test from now to some future date when this would be 
-implemented.
-
-I have a similar conundrum with set priority, where I was contemplating 
-to add a permanently failing test showing how that does not fully work, 
-and then get improved with my deadline scheduling series.
-
-On the other side of the argument is the past experience of CI systems 
-generally not coping well with permanently failing test. Eventually they 
-succumb to the pressure to remove them due noisy results. Therefore 
-other option is to have the mock scheduler adhere to the current 
-implementation and only change it once the DRM scheduler rules change.
+Thanks for pointing that out.
 
 Regards,
+Christian.
 
-Tvrtko
+>
+> Regards,
+>
+> Tvrtko
+>
+>>
+>> Let's set our understanding straight before reverting. What
+>> drm_sched_job_arm() does is:
+>>
+>>     1. Pick scheduler, rq and priority for the job
+>>     2. Atomically increment the job_id_count and assign to job
+>>     3. Call drm_sched_fence_init() and therefore:
+>>     4. Set the fence's scheduler
+>>     5. Set the fences seq nr atomically
+>>     6. Initialize scheduled and finished fence
+>>
+>> What of the above precisely is the problem?
+>>
+>> You say the driver cannot "correctly retract the fence and signal it in
+>> the order enforced by the dma_fence framework". You mean that the
+>> finished_fences have to be signalled in an order only the scheduler
+>> knows? I assume you're referring to set dependencies?
+>>
+>> P.
+>>
+>>> We can certainly
+>>> improve the documentation, but removing the warning is clearly not a
+>>> good
+>>> idea.
+>>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/scheduler/sched_main.c | 12 +++++-------
+>>>   1 file changed, 5 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 53e6aec37b46..4d4219fbe49d 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -1015,13 +1015,11 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
+>>>    * Cleans up the resources allocated with drm_sched_job_init().
+>>>    *
+>>>    * Drivers should call this from their error unwind code if @job is
+>>> aborted
+>>> - * before it was submitted to an entity with
+>>> drm_sched_entity_push_job().
+>>> + * before drm_sched_job_arm() is called.
+>>>    *
+>>> - * Since calling drm_sched_job_arm() causes the job's fences to be
+>>> initialized,
+>>> - * it is up to the driver to ensure that fences that were exposed to
+>>> external
+>>> - * parties get signaled. drm_sched_job_cleanup() does not ensure
+>>> this.
+>>> - *
+>>> - * This function must also be called in &struct
+>>> drm_sched_backend_ops.free_job
+>>> + * After that point of no return @job is committed to be executed by
+>>> the
+>>> + * scheduler, and this function should be called from the
+>>> + * &drm_sched_backend_ops.free_job callback.
+>>>    */
+>>>   void drm_sched_job_cleanup(struct drm_sched_job *job)
+>>>   {
+>>> @@ -1032,7 +1030,7 @@ void drm_sched_job_cleanup(struct drm_sched_job
+>>> *job)
+>>>    /* drm_sched_job_arm() has been called */
+>>>    dma_fence_put(&job->s_fence->finished);
+>>>    } else {
+>>> - /* aborted job before arming */
+>>> + /* aborted job before committing to run it */
+>>>    drm_sched_fence_free(job->s_fence);
+>>>    }
+>>>   
+>>
+>
 
