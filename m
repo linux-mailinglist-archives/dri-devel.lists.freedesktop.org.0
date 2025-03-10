@@ -2,81 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC38A58FEC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:42:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17657A59004
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45ABF10E3D5;
-	Mon, 10 Mar 2025 09:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7701110E3E0;
+	Mon, 10 Mar 2025 09:44:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MrnyraWt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ng1yhFrL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E22110E3D5
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:42:25 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-2240b4de10eso8402945ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 02:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741599745; x=1742204545; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7VWz2km1p8A5Qrb528dwkKrCW4fkTzMxBmqo/9LnHk4=;
- b=MrnyraWt4UhS5DSx8OVd4tKM/QMGHtyu8hw/yynNHeFVm4KS4jQ1WlyZfy+XKOrc6d
- VB+svOsr4d2J7sNNSy4h20PPHXllpOC2hdl6jpgWCcR7jN1w/eFR0cQ1NonCVShmEp8Q
- AO9qhrYS8aNJXSyqjAf5ZRbU50EjWq3Y6jeftxf89oYmYVLqgA8qTkFaBeMxWg/8On58
- 2k9jLM7zdSwdTt7N9w9ZWrW6n4US/8+DGkKys905tI8/c4g93wYofQST54f0XwpdZdmJ
- WNV2SQo9OvDHqL5R+y6Y09/mp2U2YgJOO4kkNyGoxwHU4yRmdhf910tH9b2dqVp9Mdnr
- QJqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741599745; x=1742204545;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7VWz2km1p8A5Qrb528dwkKrCW4fkTzMxBmqo/9LnHk4=;
- b=nbE3GtUF4lkopbO4VqKO0MsImpo+sOBJTj+A3I8X7K0zLkNvTh8YX4XxwqvI6+P5PJ
- kPMHj6nCmegM9fOOL72/O50bbJHTNLFq1hpcQ9/4yEtuEvDjM6KADZrWfssPRSrcFjhA
- zsWPNV7gGuK5Bdgo0SB6PFEioZ5iD+SsTRFdn9z3ztsqFinhTMG9s58jp/r5zHQvesSK
- 9v/o3rlO4ZNa1NPwUy7wlo+vB01nyeqVhkYSpUkE6I1o2mTFRbgM0Tvc67OI64XT/Cks
- d73Woyqxpw6MOJ8d6SAKxCuMSrKzE/YXwlWUUkyk5nuAHnzQ2rsfDK7a97kKdS1gwpLg
- 1DDg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXzAdGITJdRYjRVoOKxqYbdyivpMTtzQ1OCBUQW7qBxrOu+98d0UCUJRCa/Y7xUa9Mz6pZ4P3TlL1w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxwBAMqcN630iyv7LbT7dRyG52akDEZ7rhu5yEw7iYBRLkQGIFv
- x/IfnVRzpedj+Nc/lO1h6lrOp+G643n2xkJFFpHhOEEqsuuhX8k3
-X-Gm-Gg: ASbGncsbmSdgBAtkX7aA0jUAuyc2icfk5a9fghrhOg5M1Hv11dJ/z+Qrj4ovpEwjSX1
- OaIJG1s83RIQggvvdtbVoTHbFL7wKwEb3uP8HAy4mrYrQ6J4ijOm4/0NjGQncnV5TgVfcfS/Os5
- HflnDiyjPMihGCTTBoB6tIJzqSiBhsQhtC6kLlElImhTJqxazKmeT00TmoY1qD5OOZLm5LbxLI6
- p42hduoZfaPmvog+0ky8TLPUpG3kjz3gaR4+nG2v4JwL0aYgajzgJL2Fjxe+Ad8dM061Gmbkxd6
- GaQYUDur4dL+pM+fz58AfafO+qtvdVcmDle4RqOW4n8ULhlWBeAWHTNNllQ7NA==
-X-Google-Smtp-Source: AGHT+IFo0zr5IznfFqV/6Ax1xUdw01T8Ui1VTflInlSacqsAlrf5cMCvN4QODRufJlVGOpwF2k+jhA==
-X-Received: by 2002:a17:903:2302:b0:224:1212:7da1 with SMTP id
- d9443c01a7336-225422a8e8emr49856275ad.13.1741599744843; 
- Mon, 10 Mar 2025 02:42:24 -0700 (PDT)
-Received: from localhost.localdomain ([182.148.13.253])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22410a91971sm73285915ad.165.2025.03.10.02.42.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 02:42:23 -0700 (PDT)
-From: Qianyi Liu <liuqianyi125@gmail.com>
-To: phasta@mailbox.org
-Cc: airlied@gmail.com, ckoenig.leichtzumerken@gmail.com, dakr@kernel.org,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, liuqianyi125@gmail.com,
- maarten.lankhorst@linux.intel.com, matthew.brost@intel.com,
- mripard@kernel.org, phasta@kernel.org, stable@vger.kernel.org,
- tzimmermann@suse.de
-Subject: [PATCH V3] drm/sched: Fix fence reference count leak
-Date: Mon, 10 Mar 2025 17:42:16 +0800
-Message-Id: <20250310094216.3821893-1-liuqianyi125@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <a5f389b1c08847fb658f4120b205521e4a8ea0c1.camel@mailbox.org>
-References: <a5f389b1c08847fb658f4120b205521e4a8ea0c1.camel@mailbox.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4114810E3D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:44:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 866625C5A31;
+ Mon, 10 Mar 2025 09:42:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72DD7C4CEE5;
+ Mon, 10 Mar 2025 09:44:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741599867;
+ bh=bW6fcLN+wmFlWQcC1rUSzsTxORCMjUYUnkpkmtftfM8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ng1yhFrLzNv1KXqIoXM4i61bYSCURRakkB8PUpYHGZnQi5zI8rEScWOSnUTle3DQ3
+ AHfFjAZasso2IJwH0dbbKC8HnUf68QDtEGZTlol5HUbFXFWipdrN5H6jUGjTzs/FX+
+ J50mioRB8fAX+PI4nwCToiDKkCtXI1kyA/GMu622Z+TkfBu9zz1r2AmKVKUyMge+XM
+ ZChdbP8u7aFTlHt6XPAWbcSFzxDIlzT+JiqQgGe40mr1TZJKD5v9IHfTOdw8nLVB0s
+ GkYn7WilkT2QPwOBDTHorK2qFOzPzGA2ElA0pq16o7mZI8fgolxVMCv3ITwIw1w4Wk
+ yJ/767ui+MHpw==
+Date: Mon, 10 Mar 2025 10:44:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Rob Herring <robh@kernel.org>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
+ color encoder
+Message-ID: <20250310-hopeful-helpful-quoll-e0dee8@houat>
+References: <20250304101530.969920-1-victor.liu@nxp.com>
+ <20250304101530.969920-4-victor.liu@nxp.com>
+ <20250304152320.GA2630063-robh@kernel.org>
+ <1891036.atdPhlSkOF@steina-w>
+ <20250305163805.GA2071011-robh@kernel.org>
+ <7d98163d-10c8-457d-92e7-6a1d6e379beb@nxp.com>
+ <20250306-kangaroo-of-pastoral-typhoon-8aefb2@houat>
+ <0e82c4d6-8b93-4dd0-ae34-155e537ab344@nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="swpyuuee57g33z2r"
+Content-Disposition: inline
+In-Reply-To: <0e82c4d6-8b93-4dd0-ae34-155e537ab344@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,66 +72,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Sorry for the delay
->
-> On Wed, 2025-02-26 at 17:05 +0800, Qianyi Liu wrote:
->> From: qianyi liu <liuqianyi125@gmail.com>
->>
->> The last_scheduled fence leaked when an entity was being killed and
->> adding its callback failed.
->
-> s/leaked/leaks
->
-> s/was being/is being
->
-> s/its callback/the cleanup callback
->
-> s/failed/fails
 
->>
->> Decrement the reference count of prev when dma_fence_add_callback()
->> fails, ensuring proper balance.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and
->> fini")
->> Signed-off-by: qianyi liu <liuqianyi125@gmail.com>
->> ---
->> v2 -> v3: Rework commit message (Markus)
->> v1 -> v2: Added 'Fixes:' tag and clarified commit message (Philipp
->> and Matthew)
->> ---
->>  drivers/gpu/drm/scheduler/sched_entity.c | 7 +++++--
->>  1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
->> b/drivers/gpu/drm/scheduler/sched_entity.c
->> index 69bcf0e99d57..1c0c14bcf726 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -259,9 +259,12 @@ static void drm_sched_entity_kill(struct
->> drm_sched_entity *entity)
->>  		struct drm_sched_fence *s_fence = job->s_fence;
->>
->>  		dma_fence_get(&s_fence->finished);
->> -		if (!prev || dma_fence_add_callback(prev, &job-
->> >finish_cb,
->> -
->> drm_sched_entity_kill_jobs_cb))
->> +		if (!prev ||
->> +		    dma_fence_add_callback(prev, &job->finish_cb,
->> +
->> drm_sched_entity_kill_jobs_cb)) {
->> +			dma_fence_put(prev);
->
-> Please add a little comment about the dma_fence_put()'s purpose. Sth
-> like "Adding callback above failed. dma_fence_put() checks for NULL."
->
-> Then we should be good I think
->
-> Thx
+--swpyuuee57g33z2r
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
+ color encoder
+MIME-Version: 1.0
 
-OK, thank you for your detailed feedback.
+On Fri, Mar 07, 2025 at 11:10:00AM +0800, Liu Ying wrote:
+> On 03/06/2025, Maxime Ripard wrote:
+> > On Thu, Mar 06, 2025 at 03:02:41PM +0800, Liu Ying wrote:
+> >> On 03/06/2025, Rob Herring wrote:
+> >>> On Wed, Mar 05, 2025 at 10:35:26AM +0100, Alexander Stein wrote:
+> >>>> Hi,
+> >>>>
+> >>>> Am Dienstag, 4. M=E4rz 2025, 16:23:20 CET schrieb Rob Herring:
+> >>>>> On Tue, Mar 04, 2025 at 06:15:28PM +0800, Liu Ying wrote:
+> >>>>>> A DPI color encoder, as a simple display bridge, converts input DP=
+I color
+> >>>>>> coding to output DPI color coding, like Adafruit Kippah DPI hat[1]=
+ which
+> >>>>>> converts input 18-bit pixel data to 24-bit pixel data(with 2 low p=
+adding
+> >>>>>> bits in every color component though). Document the DPI color enco=
+der.
+> >>>>>
+> >>>>> Why do we need a node for this? Isn't this just wired how it is wir=
+ed=20
+> >>>>> and there's nothing for s/w to see or do? I suppose if you are tryi=
+ng to=20
+> >>>>> resolve the mode with 24-bit on one end and 18-bit on the other end=
+, you=20
+> >>>>> need to allow that and not require an exact match. You still might =
+need=20
+> >>>>> to figure out which pins the 18-bit data comes out on, but you have=
+ that=20
+> >>>>> problem with an 18-bit panel too. IOW, how is this any different if=
+ you=20
+> >>>>> have an 18-bit panel versus 24-bit panel?
+> >>>>
+> >>>> Especially panel-simple.c has a fixed configuration for each display=
+, such as:
+> >>>>> .bus_format =3D MEDIA_BUS_FMT_RGB666_1X18
+> >>>>
+> >>>> How would you allow or even know it should be addressed as
+> >>>> MEDIA_BUS_FMT_RGB888_1X24 instead? I see different ways:
+> >>>> 1. Create a new display setting/compatible
+> >>>> 2. Add an overwrite property to the displays
+> >>>> 3. Use a (transparent) bridge (this series)
+> >>>>
+> >>>> Number 1 is IMHO out of question.=20
+> >>>
+> >>> Agreed.
+> >>>
+> >>>> I personally don't like number 2 as this
+> >>>> feels like adding quirks to displays, which they don't have.
+> >>>
+> >>> This is what I would do except apply it to the controller side. We kn=
+ow=20
+> >>> the panel side already. This is a board variation, so a property make=
+s=20
+> >>> sense. I don't think you need any more than knowing what's on each en=
+d.=20
+> >>
+> >> With option 2, no matter putting a property in source side or sink sid=
+e,
+> >> impacted display drivers and DT bindings need to be changed, once a bo=
+ard
+> >> manipulates the DPI color coding.  This adds burdens and introduces new
+> >> versions of those DT bindings.  Is this what we want?
+> >=20
+> > There's an option 4: make it a property of the OF graph endpoints. In
+> > essence, it's similar to properties that are already there like
+> > lane-mapping, and it wouldn't affect the panel drivers, or create an
+> > intermediate bridge.
+>=20
+> I don't see lane-mapping anywhere. Do you mean data-mapping instead?
+> data-mapping is not defined in dtschema. Only lvds-codec.yaml defines
+> data-mapping in endpoint.
 
-Best regards.
-QianYi.
+I meant as a general concept. The properties are data-lanes and
+clock-lanes in
+Documentation/devicetree/bindings/media/video-interfaces.yaml
+
+> With option 4, I guess you meant display sink drivers, i.e., panel and
+> bridge drivers, wouldn't be affected. Then, display source drivers, i.e.,
+> display controller and bridge drivers, would be affected. This adds
+> burdens for driver developers/maintainers(though almost no effort from
+> DT's PoV), doesn't it?
+
+Not necessarily, panels have a phandle to the parent endpoint too so
+they can do that walk and configure their format if it's any easier.
+
+> Moreover, why it has to be the display sink drivers which are not affecte=
+d?
+> DT writers might choose to set the format at the sink endpoint, e.g., set=
+ting
+> RGB666 at the sink endpoint of a RGB888 DPI panel or bridge.
+
+Why wouldn't you run the panel at the highest bpc possible?
+
+Maxime
+
+--swpyuuee57g33z2r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ860dwAKCRDj7w1vZxhR
+xfIvAQCfpg7xTuK6h3dnIje1go/hDo9eR5Ul9+nTMUMqopojgAEA7AZ0UdH61pOY
+N6RyLXAAU+VWWkZ17jWwRC9ikLsWUAk=
+=Pd5P
+-----END PGP SIGNATURE-----
+
+--swpyuuee57g33z2r--
