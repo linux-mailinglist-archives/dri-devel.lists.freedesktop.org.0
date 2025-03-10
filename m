@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C44FA59199
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 11:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2D0A591A2
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 11:48:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D138E10E3F1;
-	Mon, 10 Mar 2025 10:47:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41FE810E26B;
+	Mon, 10 Mar 2025 10:48:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qEOD6wfo";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UzzfUNn2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 712E510E3F4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 10:47:31 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-3914bc3e01aso348538f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 03:47:31 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E05F10E26B
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 10:48:06 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-43cf680d351so4663965e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 03:48:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741603650; x=1742208450; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741603685; x=1742208485; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=sR/CcMTKsdlA9AlU4rM5jg8thXN0o1ZO9YRyBCXqGLI=;
- b=qEOD6wfoQmfVplkiMgzuVFJbU8XZs80NhGl01e5rFyn1LIRP3+80Dpbm3+qR9kA2SK
- 3bRhXvf/vuPavVNdC9ixROoRVRTnXBQtoiGru7OkF51MBO0Ypg8BsXV+KzL98EkWPiwN
- /Cqc38i3WW9U/GwV6RrNnDCUIiJ3aA+7W13zfZL1nECY4PBAQYVZyU0rm5zALIdrYTas
- qJVihOP8bR4BPUF9TqH5w0PB8i7baCGVXzIl5/u4ZW4xgYeWqckvK7NGFjLIJ8hgSbs5
- 32gwB3SR+sF/r+DqdcMMCHH3vqVssE9xqJE+OUR/7C2h/T3UuvF0I4usiwyUuS8g/1V+
- acJA==
+ bh=E0yircpCo/QVU3P+N7sKYScgPv6naVVovFtBRlbgD6Q=;
+ b=UzzfUNn2h61lx78Lvd67li16jeAMAfcj7P91XCFhSKrhSoohUAH16TlJeIzwwv/kxb
+ r/IKR3aA2gp7NCEqJ1xXKMXp+H6VBuofxUlwuPzLS1qAAJuorUsEFW0IYxE+JUAJcXnk
+ SBeCQ7rjQbq2kT4YK+P5+UpLiKMRG5VI2wtcJkFVBsTHdvQ+Oi0Xr+dVYqh96eCQnMj8
+ hW3dr00ffcAES5SiAxA2rY7ScRlnoj1kOdjCLBqSLKneRHi8biN92jFLlyEH19p+Bbqu
+ C57Y5rqRVZOF7U204yAm/t6hW1a76aLjm3FTJO/gfBz3WFXCBU713I4C3s+0cCmSgOMe
+ n3sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741603650; x=1742208450;
+ d=1e100.net; s=20230601; t=1741603685; x=1742208485;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sR/CcMTKsdlA9AlU4rM5jg8thXN0o1ZO9YRyBCXqGLI=;
- b=H1MplPKlZKeepUkPI2VMo7fW/+qR98tLo62BVvSYIFC1Wlw4pChgt2MI3KaizB7jbw
- lnajUgACuiMyY2/GuYNem0qIDqFdaj27+JdUAzx7HtNlKD5GmjTTgyxIMyuH8n+zDBCU
- HRIWK8ZJvFFa9M5bl1GVH47xL+2g70GB2AnQJzClVDFeiwmvKgmk8Vm4w58YH69d4IU5
- tQXOkQ9AOejEIamiwIGfNP4NNPn8rpzIH1BioclP78i1NInMT7QZCdijG7BF6dxilVz1
- sU+V+lGM7i7oTyuA7vRSu6+hAda0YzVwOWRx4C1BfxeFCjP5Zd/Sd2NzfLD6lp7+ytd0
- IKbQ==
+ bh=E0yircpCo/QVU3P+N7sKYScgPv6naVVovFtBRlbgD6Q=;
+ b=VFvTsOAFTqwUYisBVXQB7pxEUIJAWocTDvCWaED2Rm3q3SHeMRrquGg2bJ/XaVHVm+
+ yTe3/Vf6rSNE7kS6Srt5BGAYxzlv4lZdDtbtAiBAEZiBp0pc0uv2/05C/kwwziZsfcfU
+ e8oUj+3r+99xOsJ5gLmRUEYatucMv21q/7cX5YVady1znU9lI3WOVFtxpeo0Rf6I3kkV
+ 6H7kKDcvkfWBiard8Wpq3nhmOp4vUURf+XsYklqJ6LwoFO3ktbbOukBIPuOJOipTWyob
+ COkYVXwJg7H6BCgRPwKRreS7p6vFB+ZFeYt173m8QcTeL9qkjsOz6roqKYRpCgFcw1cO
+ M78w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWrGxGu3SZ+MiafslcJIIE0T+NLofq3FV9J5UkBpewAqDLic/vFCyY5uatiAwxU3EiOHSwyeKZ2slI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw58DgkyST+xn8nwVEMrT41d+T4c8/bobBK4j80LQXTsCihKlUR
- 6TQrO6cwSldPBbwkgBYaOKqLpITrBl2zUz9NoQwsqOdN/bUnJTC0eg15ySFJexE=
-X-Gm-Gg: ASbGncs0jTUxQ7F/u98dfWQaRvFAEX0M9234i1JUt41wZdKw+69TkP/OpvfWGERPwCy
- qTdHhR3i7tilO8stvIWLjzNjuHzaQ92JdM9Ef6NGvTzB6H/T9zj8cW40TGlIM0rKah3RUIa7BrE
- RELkJJIQzgN4Aa8Zr4lIrrsKN/SuFCUGzviasNW4gY3aAuoMPKdgkyJIyQ6/d8D4GoAh7JdP4bc
- pmefabRxLwViGcHjG0RBFBQYWs9VevEnawlCJyPXfCDBw+9HeKZnbE4MUhhJZfeghD9aN/4n461
- kAP6MQAKWMlv6kHwsgbfKr7KoLm2O9aF3lgFnr0uKDEI/McyCuRKS70NfHsx
-X-Google-Smtp-Source: AGHT+IG8QM+WxzxCzm0SZiOEb6aIF64Be3WE+Zs9nuUEYTEOzCjQ3A3RPLHlKVFRDpcen2hFRlv+hw==
-X-Received: by 2002:a5d:5f45:0:b0:390:fb37:1bd with SMTP id
- ffacd0b85a97d-39132da8e47mr7295090f8f.46.1741603649926; 
- Mon, 10 Mar 2025 03:47:29 -0700 (PDT)
+ AJvYcCXOi1vJTOVOW8Kja+ECUYqLTc0MC8b0P0cqW/EtYD25OtTCI1Hrrl0AzDFLuQqkeNhd6hngSh/u/dI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxMA5oJjshr2aBx7ceLPrywQKlarqWvYB9D0Uwc/KxOMpdTE6Jz
+ 2HyuW5T31DJeoPg+n06oajrF5b+QMl1Ce5TR71lNrW9iue85hYJ/2QccqdQxfMI=
+X-Gm-Gg: ASbGncumYsaAblWdP6DF3QmofUgt3vY5DkY3SUJe91D4/tLbUGYKa1KMyA/c2TGcO3O
+ MOkZLy4BZo23KCbeNh/7p10EWjMy9oADw804oZjb4CnZvi6kUlLwsoLf0Svkv7S5sQT52tkqilY
+ tZBK0D8u8TROajvKhA+7M5DSraEOHPCcD9F+xpYxUAk1nAn1K6/Xwf+cmtm7dC3yXWce35dt1az
+ JDVxpKgTJM2cPr+ZosN0f486qiVfy2scWQSsKh50+PqBAOUxJvlZzXHgwClqZMDk0ZbGWk9IUtT
+ YA6CqbwLgUlQy+YOgTDNq2QVRflghaKgvFreebtGUtofG3AWnpkEeePkOE2Z
+X-Google-Smtp-Source: AGHT+IFlBbMsdDkibGs+3E90ni36pDU1DtBtQx2GYLaxL8v3OUzQ9CG7PxwMtpFknCcyL00KBQQ92Q==
+X-Received: by 2002:a5d:47cb:0:b0:390:df83:1f22 with SMTP id
+ ffacd0b85a97d-3913af390a9mr5568803f8f.25.1741603684736; 
+ Mon, 10 Mar 2025 03:48:04 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
  by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3912c01952dsm14227332f8f.45.2025.03.10.03.47.28
+ ffacd0b85a97d-3912c0e2bb7sm14676793f8f.63.2025.03.10.03.48.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 03:47:29 -0700 (PDT)
-Date: Mon, 10 Mar 2025 13:47:25 +0300
+ Mon, 10 Mar 2025 03:48:04 -0700 (PDT)
+Date: Mon, 10 Mar 2025 13:48:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Felix Kuehling <Felix.Kuehling@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/amdkfd: delete stray tab in kfd_dbg_set_mes_debug_mode()
-Message-ID: <ece8324f-0d58-4c83-adca-7187f730c56f@stanley.mountain>
+Subject: [PATCH next] drm/xe: Fix uninitialized variable in xe_vm_bind_ioctl()
+Message-ID: <4a74b296-8b51-4dab-a2f1-69919da1ca62@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -88,37 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These lines are indented one tab more than they should be.  Delete
-the stray tabs.
+The error handling assumes that vm_bind_ioctl_check_args() will
+initialize "bind_ops" but there are a couple early returns where that's
+not true.  Initialize "bind_ops" to NULL from the start.
 
+Fixes: b43e864af0d4 ("drm/xe/uapi: Add DRM_XE_VM_BIND_FLAG_CPU_ADDR_MIRROR")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_debug.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/xe/xe_vm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debug.c b/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
-index 12456c61ffa5..ba99e0f258ae 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
-@@ -357,12 +357,12 @@ int kfd_dbg_set_mes_debug_mode(struct kfd_process_device *pdd, bool sq_trap_en)
- 		return 0;
- 
- 	if (!pdd->proc_ctx_cpu_ptr) {
--			r = amdgpu_amdkfd_alloc_gtt_mem(adev,
--				AMDGPU_MES_PROC_CTX_SIZE,
--				&pdd->proc_ctx_bo,
--				&pdd->proc_ctx_gpu_addr,
--				&pdd->proc_ctx_cpu_ptr,
--				false);
-+		r = amdgpu_amdkfd_alloc_gtt_mem(adev,
-+			AMDGPU_MES_PROC_CTX_SIZE,
-+			&pdd->proc_ctx_bo,
-+			&pdd->proc_ctx_gpu_addr,
-+			&pdd->proc_ctx_cpu_ptr,
-+			false);
- 		if (r) {
- 			dev_err(adev->dev,
- 			"failed to allocate process context bo\n");
+diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+index 22a26aff3a6e..d85759b958d0 100644
+--- a/drivers/gpu/drm/xe/xe_vm.c
++++ b/drivers/gpu/drm/xe/xe_vm.c
+@@ -3287,7 +3287,7 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+ 	struct xe_exec_queue *q = NULL;
+ 	u32 num_syncs, num_ufence = 0;
+ 	struct xe_sync_entry *syncs = NULL;
+-	struct drm_xe_vm_bind_op *bind_ops;
++	struct drm_xe_vm_bind_op *bind_ops = NULL;
+ 	struct xe_vma_ops vops;
+ 	struct dma_fence *fence;
+ 	int err;
 -- 
 2.47.2
 
