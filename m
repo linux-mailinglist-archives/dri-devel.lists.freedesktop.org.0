@@ -2,94 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D84A5998E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C48EA59910
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:06:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9A5C10E422;
-	Mon, 10 Mar 2025 15:16:55 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WX/AaLGL";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F28D10E387;
+	Mon, 10 Mar 2025 15:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2128610E422
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 15:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741619813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SyOrr1T2OvECu87SVwETtCju49YTmk9OGRizV4KZMmk=;
- b=WX/AaLGLD0tWp6/e9QGgODlXRoVTAWO4NEqARwL+pLxnYGNhnrVEOB3bbfIlEGzqa7Lc34
- QuAbEn0JXqcjrVJTpobsY9CakCQa3eTtCe9lM0FbfbN5vnWYOnEtoRsV3EnPxyzwI/HmVI
- BEFCK0TpLfblQs1mWxRLPqao24iG4hc=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-657-V6E6QQbRNtKVzR3hCfbcWg-1; Mon, 10 Mar 2025 11:16:49 -0400
-X-MC-Unique: V6E6QQbRNtKVzR3hCfbcWg-1
-X-Mimecast-MFC-AGG-ID: V6E6QQbRNtKVzR3hCfbcWg_1741619809
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-6f3ff1ff13aso70822327b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 08:16:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741619809; x=1742224609;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SyOrr1T2OvECu87SVwETtCju49YTmk9OGRizV4KZMmk=;
- b=hbPMNlbvCFhgpzT4d19iDsXLuHHHtTtKdfr3kNnsNi7uAgD9duadxsb168XwQed4uK
- zyWtNlVkCmlZFXOkLBSNWmttAhtkRkBkGoP7Gs+V/wRJpUZp296ZObdHiR51Y0k/utPn
- 5lq+1qete2I4/6DqnrJYtLcbuzaVLrgXE3SqyFwdaZoDwa91qCWgVa1PDVZMxnvFShov
- OLH4n2GsIi5oocdfW3Yt1wNJo3zHWw80Wz4XeWmesNiDDJwkJhMWVnz84pSdiG2XxGVT
- OHKVBJnRQpwv0dSTFBMFkDOYIkxkFMisP/T77wqY4fEqj7y8mkmPvsCrH4KRJ5zJ4HDX
- FTPg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhdEIclRQSzWJUU1AAEB443KB5YmlI7EFmpI3dc3SrcbVIpU76HDU44RlOUzfEnHUYKprLcNKFpVo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxURN+eXpfU+vN45RyNuIrudRrUgbb7jEm/ViB4tRFsVwXYO845
- YLN3tAuhhkCHLQN1PxV2UnYAnFEJ0tvhDXpRPhM97sPpKuG9RAL6mi2AYWibMOXfc4k/KGBpqoU
- PYsUlOQfRWxQsPgiUcRQzqYpKIs4sNpxT6zOYF53Lzc+06Y12H/r28fXxyFK9WLFTrli6MlUtLy
- 1rH/p4MYd76Y04QlcRJd5VuHeFqnf7dexuB1kJrltn
-X-Gm-Gg: ASbGncsSDa/LUbc9sCtXI4obSBXwyMtz3BCZUgJms0VgsmI90ouREw7jX5VGJi/sLHq
- 9GzjgYr34pnactY+7/Mg00IapQd86yC8iiMCyY5vXHh+3Y2zS3+fGPxYkaVRBTm58doAR6J8=
-X-Received: by 2002:a05:690c:3612:b0:6fb:b2c0:71da with SMTP id
- 00721157ae682-6febf3b37c8mr190672247b3.36.1741619809217; 
- Mon, 10 Mar 2025 08:16:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEBBOHktzu5bbZ/9SqBlz4Uwv8xZLjj0fVJM8Z3SXFYgNimj2JUnVcP4I8nkoxc4ITIWm3wuzKw2Kn8VyPQRvA=
-X-Received: by 2002:a05:690c:3612:b0:6fb:b2c0:71da with SMTP id
- 00721157ae682-6febf3b37c8mr190671887b3.36.1741619808920; Mon, 10 Mar 2025
- 08:16:48 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 542B610E387
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 15:06:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E10516F2;
+ Mon, 10 Mar 2025 08:06:18 -0700 (PDT)
+Received: from [10.57.39.174] (unknown [10.57.39.174])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F15A23F5A1;
+ Mon, 10 Mar 2025 08:06:02 -0700 (PDT)
+Message-ID: <8bb8dfcb-bc44-48f2-acdb-58e6d259d25b@arm.com>
+Date: Mon, 10 Mar 2025 15:06:00 +0000
 MIME-Version: 1.0
-References: <20250305-mipi-synaptic-1-v1-1-92017cd19ef6@redhat.com>
- <20250306-clever-lime-tanuki-e2fc43@houat>
- <CAN9Xe3SDyC47HWww1eH63aZOiM-WF9BGxztM3yh9bf6ORuY7VA@mail.gmail.com>
- <20250306-brave-wonderful-sambar-3d0bc5@houat>
- <CAD=FV=XZJjNpzUgvGog0pFGwqUR09SocYFEk5355eptbK_gjqA@mail.gmail.com>
- <CAN9Xe3TEYjfjDcaCL7MOUBMu5Uq0ifN36=jRumtDX7pQ0FsK3g@mail.gmail.com>
- <20250307-happy-jasmine-raccoon-c6226c@houat>
-In-Reply-To: <20250307-happy-jasmine-raccoon-c6226c@houat>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Mon, 10 Mar 2025 10:14:20 -0400
-X-Gm-Features: AQ5f1Jrl_6dO-62n7DDkAP8Da0-SqM6S3gw4PgeuZyabEYjXI8zIARyPPdZeYN0
-Message-ID: <CAN9Xe3QGVkccvtexP1riR8DkgDuETE-eCNG_L9UOP1oB1w2GgQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel/synaptics-r63353: Use _multi variants
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Doug Anderson <dianders@chromium.org>,
- Michael Trimarchi <michael@amarulasolutions.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 11/12] drm/gem: Add cgroup memory accounting
+To: Maxime Ripard <mripard@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Tejas Vipin <tejasvipin76@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wTuWxdi8JNk_trlzwW65yu-9ByygvCiORyVfinvW7bQ_1741619809
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000000b7e31062ffe769c"
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Tomasz Figa <tfiga@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+ <20250310-dmem-cgroups-v1-11-2984c1bc9312@kernel.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250310-dmem-cgroups-v1-11-2984c1bc9312@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,467 +62,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000000b7e31062ffe769c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2025-03-10 12:06 pm, Maxime Ripard wrote:
+> In order to support any device using the GEM support, let's charge any
+> GEM DMA allocation into the dmem cgroup.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/drm_gem.c            | 5 +++++
+>   drivers/gpu/drm/drm_gem_dma_helper.c | 6 ++++++
+>   include/drm/drm_device.h             | 1 +
+>   include/drm/drm_gem.h                | 2 ++
+>   4 files changed, 14 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index ee811764c3df4b4e9c377a66afd4967512ba2001..e04733cb49353cf3ff9672d883b106a083f80d86 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -108,10 +108,11 @@ drm_gem_init(struct drm_device *dev)
+>   	dev->vma_offset_manager = vma_offset_manager;
+>   	drm_vma_offset_manager_init(vma_offset_manager,
+>   				    DRM_FILE_PAGE_OFFSET_START,
+>   				    DRM_FILE_PAGE_OFFSET_SIZE);
+>   
+> +
+>   	return drmm_add_action(dev, drm_gem_init_release, NULL);
+>   }
+>   
+>   /**
+>    * drm_gem_object_init_with_mnt - initialize an allocated shmem-backed GEM
+> @@ -973,10 +974,14 @@ drm_gem_release(struct drm_device *dev, struct drm_file *file_private)
+>    * drm_gem_object_init().
+>    */
+>   void
+>   drm_gem_object_release(struct drm_gem_object *obj)
+>   {
+> +
+> +	if (obj->cgroup_pool_state)
+> +		dmem_cgroup_uncharge(obj->cgroup_pool_state, obj->size);
+> +
+>   	if (obj->filp)
+>   		fput(obj->filp);
+>   
+>   	drm_gem_private_object_fini(obj);
+>   
+> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+> index 16988d316a6dc702310fa44c15c92dc67b82802b..6236feb67ddd6338f0f597a0606377e0352ca6ed 100644
+> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+> @@ -104,10 +104,16 @@ __drm_gem_dma_create(struct drm_device *drm, size_t size, bool private)
+>   	if (ret) {
+>   		drm_gem_object_release(gem_obj);
+>   		goto error;
+>   	}
+>   
+> +	ret = dmem_cgroup_try_charge(dma_get_dmem_cgroup_region(drm->dev),
+> +				     size,
+> +				     &dma_obj->base.cgroup_pool_state, NULL);
+> +	if (ret)
+> +		goto error;
 
-On Fri, Mar 7, 2025 at 12:47=E2=80=AFPM Maxime Ripard <mripard@kernel.org> =
-wrote:
+Doesn't that miss cleaning up gem_obj? However, surely you want the 
+accounting before the allocation anyway, like in the other cases. 
+Otherwise userspace is still able to allocate massive amounts of memory 
+and incur some of the associated side-effects of that, it just doesn't 
+get to keep said memory for very long :)
 
-> On Thu, Mar 06, 2025 at 02:12:14PM -0500, Anusha Srivatsa wrote:
-> > On Thu, Mar 6, 2025 at 12:54=E2=80=AFPM Doug Anderson <dianders@chromiu=
-m.org>
-> wrote:
-> > > On Thu, Mar 6, 2025 at 9:20=E2=80=AFAM Maxime Ripard <mripard@kernel.=
-org>
-> wrote:
-> > > >
-> > > > On Thu, Mar 06, 2025 at 10:08:24AM -0500, Anusha Srivatsa wrote:
-> > > > > On Thu, Mar 6, 2025 at 4:31=E2=80=AFAM Maxime Ripard <mripard@ker=
-nel.org>
-> > > wrote:
-> > > > >
-> > > > > > Hi Anusha,
-> > > > > >
-> > > > > > On Wed, Mar 05, 2025 at 07:01:41PM -0500, Anusha Srivatsa wrote=
-:
-> > > > > > > Move away from using deprecated API and use _multi
-> > > > > > > variants if available. Use mipi_dsi_msleep()
-> > > > > > > and mipi_dsi_usleep_range() instead of msleep()
-> > > > > > > and usleep_range() respectively.
-> > > > > > >
-> > > > > > > Used Coccinelle to find the multiple occurences.
-> > > > > > > SmPl patch:
-> > > > > > > @rule@
-> > > > > > > identifier dsi_var;
-> > > > > > > identifier r;
-> > > > > > > identifier func;
-> > > > > > > type t;
-> > > > > > > position p;
-> > > > > > > expression dsi_device;
-> > > > > > > expression list es;
-> > > > > > > @@
-> > > > > > > t func(...) {
-> > > > > > > ...
-> > > > > > > struct mipi_dsi_device *dsi_var =3D dsi_device;
-> > > > > > > +struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var=
- };
-> > > > > > > <+...
-> > > > > > > (
-> > > > > > > -mipi_dsi_dcs_write_seq(dsi_var,es)@p;
-> > > > > > > +mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
-> > > > > > > |
-> > > > > > > -mipi_dsi_generic_write_seq(dsi_var,es)@p;
-> > > > > > > +mipi_dsi_generic_write_seq_multi(&dsi_ctx,es);
-> > > > > > > |
-> > > > > > > -mipi_dsi_generic_write(dsi_var,es)@p;
-> > > > > > > +mipi_dsi_generic_write_multi(&dsi_ctx,es);
-> > > > > > > |
-> > > > > > > -r =3D mipi_dsi_dcs_nop(dsi_var)@p;
-> > > > > > > +mipi_dsi_dcs_nop_multi(&dsi_ctx);
-> > > > > > > |
-> > > > > > > ....rest of API
-> > > > > > > ..
-> > > > > > > )
-> > > > > > > -if(r < 0) {
-> > > > > > > -...
-> > > > > > > -}
-> > > > > > > ...+>
-> > > > > >
-> > > > > > The point of sending a single patch was to review the coccinell=
-e
-> > > script,
-> > > > > > so you must put the entire script you used here.
-> > > > >
-> > > > > I was actually thinking of sending patches per driver this time
-> around
-> > > > > since Tejas also seems to be looking into similar
-> parts....Thoughts?
-> > > >
-> > > > Not really?
-> > > >
-> > > > The point of doing it with one driver was to make sure the coccinel=
-le
-> > > > script was fine before rolling it to other drivers. And actually, i=
-t
-> > > > doesn't really matter: the whole point of putting the script in the
-> > > > commit log is to be able to review and document the script you used=
-.
-> If
-> > > > you're not going to put the one you used, it's kind of pointless.
-> > >
-> > > Personally, I don't have any interest in reviewing the coccinelle
-> > > script so I don't need it and, from my point of view, you could just
-> > > remove it from the patch description (or point to it indirectly or
-> > > something). I'll review each patch on its own merits. I am a bit
-> > > curious if you ended up fully generating this patch with a coccinelle
-> > > script or if you used a coccinelle script to start and then had to
-> > > manually tweak the patch after. Actually, I guess I'll take it back.
-> > > If you manage to fully generate conversions for all the panels with a
-> > > single cocinelle script, I would love to take a glance at your full
-> > > script just to satisfy my curiosity for how you handled everything
-> > > properly. :-P
-> > >
-> >
-> > managed to get all conversions other than the usleep_range() and mslee(=
-)
-> > because I was trying to replace them with mipi_dsi_* variants only in
-> > functions that I was  touching and not each and every occurrence. Didnt
-> > spend enough time to get the script smart enough to do that and did onl=
-y
-> > usleep() and msleep change manually. Here goes the script:
-> >
-> > @rule_1@
-> > identifier dsi_var;
-> > expression dsi_device;
-> > expression list es;
-> > @@
-> > struct mipi_dsi_device *dsi_var =3D dsi_device;
-> > +struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };
-> > <+...
-> > -mipi_dsi_dcs_write_seq(dsi_var,es);
-> > +mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
-> > ...+>
-> >
-> > //rule_2
-> > @@
-> > expression list es;
-> > identifier jdi;
-> > @@
-> > static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
-> > {
-> > +struct mipi_dsi_multi_context dsi_ctx1 =3D { .dsi =3D jdi->link1 };
-> > +struct mipi_dsi_multi_context dsi_ctx2 =3D { .dsi =3D jdi->link2 };
-> > <+...
-> > -mipi_dsi_generic_write_seq(jdi->link1,es);
-> > +mipi_dsi_generic_write_seq_multi(&dsi_ctx1,es);
-> > -mipi_dsi_generic_write_seq(jdi->link2,es);
-> > +mipi_dsi_generic_write_seq_multi(&dsi_ctx2,es);
-> > ...+>
-> > }
-> > @rule_3@
-> > identifier dsi_var;
-> > identifier r;
-> > identifier func;
-> > type t;
-> > position p;
-> > expression dsi_device;
-> > expression list es;
-> > @@
-> > t func(...) {
-> > ...
-> > struct mipi_dsi_device *dsi_var =3D dsi_device;
-> > +struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };
-> > <+...
-> > (
-> > -r =3D mipi_dsi_dcs_nop(dsi_var)@p;
-> > +mipi_dsi_dcs_nop_multi(&dsi_ctx);
-> > |
-> > -r =3D mipi_dsi_dcs_exit_sleep_mode(dsi_var)@p;
-> > +mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-> > |
-> > -r =3D mipi_dsi_dcs_enter_sleep_mode(dsi_var)@p;
-> > +mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-> > |
-> > |
-> > -r =3D mipi_dsi_dcs_write_buffer(dsi_var,es)@p;
-> > +mipi_dsi_dcs_write_buffer_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_dcs_set_display_off(dsi_var,es)@p;
-> > +mipi_dsi_dcs_set_display_off_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_compression_mode_ext(dsi_var,es)@p;
-> > +mipi_dsi_compression_mode_ext_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_compression_mode(dsi_var,es)@p;
-> > +mipi_dsi_compression_mode_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_picture_parameter_set(dsi_var,es)@p;
-> > +mipi_dsi_picture_parameter_set_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_dcs_set_display_on(dsi_var,es)@p;
-> > +mipi_dsi_dcs_set_display_on_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_dcs_set_tear_on(dsi_var)@p;
-> > +mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx);
-> > |
-> > -r =3D mipi_dsi_turn_on_peripheral(dsi_var)@p;
-> > +mipi_dsi_turn_on_peripheral_multi(&dsi_ctx);
-> > |
-> > -r =3D mipi_dsi_dcs_soft_reset(dsi_var)@p;
-> > +mipi_dsi_dcs_soft_reset_multi(&dsi_ctx);
-> > |
-> > -r =3D mipi_dsi_dcs_set_display_brightness(dsi_var,es)@p;
-> > +mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_dcs_set_pixel_format(dsi_var,es)@p;
-> > +mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_dcs_set_column_address(dsi_var,es)@p;
-> > +mipi_dsi_dcs_set_column_address_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_dcs_set_page_address(dsi_var,es)@p;
-> > +mipi_dsi_dcs_set_page_address_multi(&dsi_ctx,es);
-> > |
-> > -r =3D mipi_dsi_dcs_set_tear_scanline(dsi_var,es)@p;
-> > +mipi_dsi_dcs_set_tear_scanline_multi(&dsi_ctx,es);
-> > )
->
-> You're not matching on msleep because it doesn't return anything, and
-> here you're expecting a return value. You need to make 'r =3D' optional.
->
-> Yup! works now :)
+Thanks,
+Robin.
 
-Anusha
-
-> Maxime
->
-
---0000000000000b7e31062ffe769c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 7, =
-2025 at 12:47=E2=80=AFPM Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel=
-.org">mripard@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">On Thu, Mar 06, 2025 at 02:12:14PM -0500, Anusha Sr=
-ivatsa wrote:<br>
-&gt; On Thu, Mar 6, 2025 at 12:54=E2=80=AFPM Doug Anderson &lt;<a href=3D"m=
-ailto:dianders@chromium.org" target=3D"_blank">dianders@chromium.org</a>&gt=
-; wrote:<br>
-&gt; &gt; On Thu, Mar 6, 2025 at 9:20=E2=80=AFAM Maxime Ripard &lt;<a href=
-=3D"mailto:mripard@kernel.org" target=3D"_blank">mripard@kernel.org</a>&gt;=
- wrote:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; On Thu, Mar 06, 2025 at 10:08:24AM -0500, Anusha Srivatsa wr=
-ote:<br>
-&gt; &gt; &gt; &gt; On Thu, Mar 6, 2025 at 4:31=E2=80=AFAM Maxime Ripard &l=
-t;<a href=3D"mailto:mripard@kernel.org" target=3D"_blank">mripard@kernel.or=
-g</a>&gt;<br>
-&gt; &gt; wrote:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Hi Anusha,<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; On Wed, Mar 05, 2025 at 07:01:41PM -0500, Anusha S=
-rivatsa wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; Move away from using deprecated API and use _=
-multi<br>
-&gt; &gt; &gt; &gt; &gt; &gt; variants if available. Use mipi_dsi_msleep()<=
-br>
-&gt; &gt; &gt; &gt; &gt; &gt; and mipi_dsi_usleep_range() instead of msleep=
-()<br>
-&gt; &gt; &gt; &gt; &gt; &gt; and usleep_range() respectively.<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; Used Coccinelle to find the multiple occurenc=
-es.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; SmPl patch:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; @rule@<br>
-&gt; &gt; &gt; &gt; &gt; &gt; identifier dsi_var;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; identifier r;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; identifier func;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; type t;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; position p;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; expression dsi_device;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; expression list es;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; @@<br>
-&gt; &gt; &gt; &gt; &gt; &gt; t func(...) {<br>
-&gt; &gt; &gt; &gt; &gt; &gt; ...<br>
-&gt; &gt; &gt; &gt; &gt; &gt; struct mipi_dsi_device *dsi_var =3D dsi_devic=
-e;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +struct mipi_dsi_multi_context dsi_ctx =3D { =
-.dsi =3D dsi_var };<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &lt;+...<br>
-&gt; &gt; &gt; &gt; &gt; &gt; (<br>
-&gt; &gt; &gt; &gt; &gt; &gt; -mipi_dsi_dcs_write_seq(dsi_var,es)@p;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +mipi_dsi_dcs_write_seq_multi(&amp;dsi_ctx,es=
-);<br>
-&gt; &gt; &gt; &gt; &gt; &gt; |<br>
-&gt; &gt; &gt; &gt; &gt; &gt; -mipi_dsi_generic_write_seq(dsi_var,es)@p;<br=
->
-&gt; &gt; &gt; &gt; &gt; &gt; +mipi_dsi_generic_write_seq_multi(&amp;dsi_ct=
-x,es);<br>
-&gt; &gt; &gt; &gt; &gt; &gt; |<br>
-&gt; &gt; &gt; &gt; &gt; &gt; -mipi_dsi_generic_write(dsi_var,es)@p;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +mipi_dsi_generic_write_multi(&amp;dsi_ctx,es=
-);<br>
-&gt; &gt; &gt; &gt; &gt; &gt; |<br>
-&gt; &gt; &gt; &gt; &gt; &gt; -r =3D mipi_dsi_dcs_nop(dsi_var)@p;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +mipi_dsi_dcs_nop_multi(&amp;dsi_ctx);<br>
-&gt; &gt; &gt; &gt; &gt; &gt; |<br>
-&gt; &gt; &gt; &gt; &gt; &gt; ....rest of API<br>
-&gt; &gt; &gt; &gt; &gt; &gt; ..<br>
-&gt; &gt; &gt; &gt; &gt; &gt; )<br>
-&gt; &gt; &gt; &gt; &gt; &gt; -if(r &lt; 0) {<br>
-&gt; &gt; &gt; &gt; &gt; &gt; -...<br>
-&gt; &gt; &gt; &gt; &gt; &gt; -}<br>
-&gt; &gt; &gt; &gt; &gt; &gt; ...+&gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; The point of sending a single patch was to review =
-the coccinelle<br>
-&gt; &gt; script,<br>
-&gt; &gt; &gt; &gt; &gt; so you must put the entire script you used here.<b=
-r>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; I was actually thinking of sending patches per driver t=
-his time around<br>
-&gt; &gt; &gt; &gt; since Tejas also seems to be looking into similar parts=
-....Thoughts?<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Not really?<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; The point of doing it with one driver was to make sure the c=
-occinelle<br>
-&gt; &gt; &gt; script was fine before rolling it to other drivers. And actu=
-ally, it<br>
-&gt; &gt; &gt; doesn&#39;t really matter: the whole point of putting the sc=
-ript in the<br>
-&gt; &gt; &gt; commit log is to be able to review and document the script y=
-ou used. If<br>
-&gt; &gt; &gt; you&#39;re not going to put the one you used, it&#39;s kind =
-of pointless.<br>
-&gt; &gt;<br>
-&gt; &gt; Personally, I don&#39;t have any interest in reviewing the coccin=
-elle<br>
-&gt; &gt; script so I don&#39;t need it and, from my point of view, you cou=
-ld just<br>
-&gt; &gt; remove it from the patch description (or point to it indirectly o=
-r<br>
-&gt; &gt; something). I&#39;ll review each patch on its own merits. I am a =
-bit<br>
-&gt; &gt; curious if you ended up fully generating this patch with a coccin=
-elle<br>
-&gt; &gt; script or if you used a coccinelle script to start and then had t=
-o<br>
-&gt; &gt; manually tweak the patch after. Actually, I guess I&#39;ll take i=
-t back.<br>
-&gt; &gt; If you manage to fully generate conversions for all the panels wi=
-th a<br>
-&gt; &gt; single cocinelle script, I would love to take a glance at your fu=
-ll<br>
-&gt; &gt; script just to satisfy my curiosity for how you handled everythin=
-g<br>
-&gt; &gt; properly. :-P<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; managed to get all conversions other than the usleep_range() and mslee=
-()<br>
-&gt; because I was trying to replace them with mipi_dsi_* variants only in<=
-br>
-&gt; functions that I was=C2=A0 touching and not each and every occurrence.=
- Didnt<br>
-&gt; spend enough time to get the script smart enough to do that and did on=
-ly<br>
-&gt; usleep() and msleep change manually. Here goes the script:<br>
-&gt; <br>
-&gt; @rule_1@<br>
-&gt; identifier dsi_var;<br>
-&gt; expression dsi_device;<br>
-&gt; expression list es;<br>
-&gt; @@<br>
-&gt; struct mipi_dsi_device *dsi_var =3D dsi_device;<br>
-&gt; +struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };<br>
-&gt; &lt;+...<br>
-&gt; -mipi_dsi_dcs_write_seq(dsi_var,es);<br>
-&gt; +mipi_dsi_dcs_write_seq_multi(&amp;dsi_ctx,es);<br>
-&gt; ...+&gt;<br>
-&gt; <br>
-&gt; //rule_2<br>
-&gt; @@<br>
-&gt; expression list es;<br>
-&gt; identifier jdi;<br>
-&gt; @@<br>
-&gt; static int jdi_write_dcdc_registers(struct jdi_panel *jdi)<br>
-&gt; {<br>
-&gt; +struct mipi_dsi_multi_context dsi_ctx1 =3D { .dsi =3D jdi-&gt;link1 }=
-;<br>
-&gt; +struct mipi_dsi_multi_context dsi_ctx2 =3D { .dsi =3D jdi-&gt;link2 }=
-;<br>
-&gt; &lt;+...<br>
-&gt; -mipi_dsi_generic_write_seq(jdi-&gt;link1,es);<br>
-&gt; +mipi_dsi_generic_write_seq_multi(&amp;dsi_ctx1,es);<br>
-&gt; -mipi_dsi_generic_write_seq(jdi-&gt;link2,es);<br>
-&gt; +mipi_dsi_generic_write_seq_multi(&amp;dsi_ctx2,es);<br>
-&gt; ...+&gt;<br>
-&gt; }<br>
-&gt; @rule_3@<br>
-&gt; identifier dsi_var;<br>
-&gt; identifier r;<br>
-&gt; identifier func;<br>
-&gt; type t;<br>
-&gt; position p;<br>
-&gt; expression dsi_device;<br>
-&gt; expression list es;<br>
-&gt; @@<br>
-&gt; t func(...) {<br>
-&gt; ...<br>
-&gt; struct mipi_dsi_device *dsi_var =3D dsi_device;<br>
-&gt; +struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi_var };<br>
-&gt; &lt;+...<br>
-&gt; (<br>
-&gt; -r =3D mipi_dsi_dcs_nop(dsi_var)@p;<br>
-&gt; +mipi_dsi_dcs_nop_multi(&amp;dsi_ctx);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_exit_sleep_mode(dsi_var)@p;<br>
-&gt; +mipi_dsi_dcs_exit_sleep_mode_multi(&amp;dsi_ctx);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_enter_sleep_mode(dsi_var)@p;<br>
-&gt; +mipi_dsi_dcs_enter_sleep_mode_multi(&amp;dsi_ctx);<br>
-&gt; |<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_write_buffer(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_dcs_write_buffer_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_set_display_off(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_dcs_set_display_off_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_compression_mode_ext(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_compression_mode_ext_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_compression_mode(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_compression_mode_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_picture_parameter_set(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_picture_parameter_set_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_set_display_on(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_dcs_set_display_on_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_set_tear_on(dsi_var)@p;<br>
-&gt; +mipi_dsi_dcs_set_tear_on_multi(&amp;dsi_ctx);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_turn_on_peripheral(dsi_var)@p;<br>
-&gt; +mipi_dsi_turn_on_peripheral_multi(&amp;dsi_ctx);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_soft_reset(dsi_var)@p;<br>
-&gt; +mipi_dsi_dcs_soft_reset_multi(&amp;dsi_ctx);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_set_display_brightness(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_dcs_set_display_brightness_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_set_pixel_format(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_dcs_set_pixel_format_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_set_column_address(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_dcs_set_column_address_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_set_page_address(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_dcs_set_page_address_multi(&amp;dsi_ctx,es);<br>
-&gt; |<br>
-&gt; -r =3D mipi_dsi_dcs_set_tear_scanline(dsi_var,es)@p;<br>
-&gt; +mipi_dsi_dcs_set_tear_scanline_multi(&amp;dsi_ctx,es);<br>
-&gt; )<br>
-<br>
-You&#39;re not matching on msleep because it doesn&#39;t return anything, a=
-nd<br>
-here you&#39;re expecting a return value. You need to make &#39;r =3D&#39; =
-optional.<br>
-<br></blockquote><div>Yup! works now :)</div><div><br></div><div>Anusha=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Maxime<br>
-</blockquote></div></div>
-
---0000000000000b7e31062ffe769c--
+> +
+>   	return dma_obj;
+>   
+>   error:
+>   	kfree(dma_obj);
+>   	return ERR_PTR(ret);
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index c91f87b5242d7a499917eb4aeb6ca8350f856eb3..58987f39ba8718eb768f6261fb0a1fbf16b38549 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -1,8 +1,9 @@
+>   #ifndef _DRM_DEVICE_H_
+>   #define _DRM_DEVICE_H_
+>   
+> +#include <linux/cgroup_dmem.h>
+>   #include <linux/list.h>
+>   #include <linux/kref.h>
+>   #include <linux/mutex.h>
+>   #include <linux/idr.h>
+>   
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index fdae947682cd0b7b06db5e35e120f049a0f30179..95fe8ed48a26204020bb47d6074689829c410465 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -430,10 +430,12 @@ struct drm_gem_object {
+>   	 * @lru:
+>   	 *
+>   	 * The current LRU list that the GEM object is on.
+>   	 */
+>   	struct drm_gem_lru *lru;
+> +
+> +	struct dmem_cgroup_pool_state *cgroup_pool_state;
+>   };
+>   
+>   /**
+>    * DRM_GEM_FOPS - Default drm GEM file operations
+>    *
+> 
 
