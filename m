@@ -2,83 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C13AA59A0C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43827A599C5
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:21:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C9AA10E41B;
-	Mon, 10 Mar 2025 15:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0186510E46F;
+	Mon, 10 Mar 2025 15:21:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zcpv6Fd8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tN6SUlZf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53B5A10E41B;
- Mon, 10 Mar 2025 15:34:37 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4394345e4d5so25577315e9.0; 
- Mon, 10 Mar 2025 08:34:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741620876; x=1742225676; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=z2UW3DGFaIT/OlHaafnnTm7ntqZnQZLSZf8OhxhOmO4=;
- b=Zcpv6Fd8aqy3QhaXRH4tb5UvuyVTSQ8dG/5aeRYuAdvA9t9DGxBcMAyJgggmWbixEz
- 3bVJPYR/Hn3gcIKR3/vjdBd+s9qbDcSzi9/ek+qifIB5Io5pt8y1o/M9ukM6h5ANbTVn
- jZ2ZEfz9Q20yD+UXN1pw2e2Qp6vvE47j7oZqbDm8UVZxixnyPlK0NhNHABzNXp6wTkGA
- F5HC4wD3T2AEq9sS9kzaEVdmU5YFqzp7/UprbJt9iytxYax6w+5VQR/+tf+n6s67g1hc
- BaRtFbg9/ULL53jQoQ/5gN/SXe/z/aZQCgP6P6gSsXZOIxzH9BPrvE87xz1pAg1WSpE9
- 0Itg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741620876; x=1742225676;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z2UW3DGFaIT/OlHaafnnTm7ntqZnQZLSZf8OhxhOmO4=;
- b=hlLiEn5z/Y8uZYHFNmZBOhC+v9VgEqkFjlhm9l8eddjKav9NGbnPhDOBnoaJyWZvyp
- oXrzfAnAR0P8/Lf74lkKR1ZljHeN4A+pHz9XFH6SCUvapUVA1J96I+hn30MLPYwkANpq
- Q5LvnoVJp3h8fJ/0N0j/thwkmA23YE0wvpnbFBwW+akpyqKBd4VDUqXd1Z+GSqVaMwUH
- wp4AUTbHlqW8CaRklBaSiGM2r1qY12Sb6wFeYAhOAf4o/ey4wCRgL1mAfOUkOVxtjrut
- ApuniDV1+L0zbWdw1QV5LnS60pU+sCDzspuWMoPzatOtuoZur9z8gVJyS3HFhgseT6xT
- Q1qQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+v/hWQtB4JSG8tpblipY518cKp9px9bjZXz8O6Na1EfhAWnx1RkA8OtwaaSWuVAh7GB0mECIW@lists.freedesktop.org,
- AJvYcCVoNiSHBfWekYAMmcV2aAN1UysBHmlirFB8nyZcIKIEQPGaYvbAlFkU1tGqk0vo0Elg9AB0YS5B4Ow3@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRwPEiO3E4oq0GyX41dF4bLmysf1N7qQIT3GXWgPPnZF63rYNR
- TEWfHv3I8NDOLyBpX0XExCkL/tq2xyaA0wAs95o3E3ljo29oPxLF
-X-Gm-Gg: ASbGncsbgn3r4VjuBwimfY9Y4U59pDHj2QxlsGjBcqkK/ePgt04RIBGkDnehIgMLZCl
- mtKl77tY5lDKjoYqUI4Dzh/+G5nZeD9Lr3OfRv1tR8l0kjc+p8QWGWs3DDxt30bz/H4htmq3WGW
- NeBKGToSr0ww/0+Xk+RKKt9CSzZvckTp9WqNNabgA7Gv/1vHhxtvIo+jPmQJSW/r2AUPVQceH2B
- pdqXJJSovS0/xBvQwonCNMaJCJZnvSK2POUZN4djKwZDTOOLg7P3/l4YGxeeDvd7L+CdDtgaFq8
- 3kYexOnGi/L+7gWC5ZyGiS/frY6Ka1jPUTw=
-X-Google-Smtp-Source: AGHT+IFPB9H89htTJ8gi+6j6UdIu7tu/68Ca/noH/NXJTp/f9gbF0i/RpmkDIJCF+VEYSdvTCn1u9w==
-X-Received: by 2002:a05:600c:3148:b0:43b:cd0d:9457 with SMTP id
- 5b1f17b1804b1-43c601d901dmr103550815e9.10.1741620875543; 
- Mon, 10 Mar 2025 08:34:35 -0700 (PDT)
-Received: from pc ([196.235.255.34]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43ce715731csm88286025e9.2.2025.03.10.08.34.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 08:34:34 -0700 (PDT)
-Date: Mon, 10 Mar 2025 16:19:09 +0100
-From: Salah Triki <salah.triki@gmail.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Felix Kuehling <felix.kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: amdkfd: Replace (un)register_chrdev() by
- (unregister/alloc)_chrdev_region()
-Message-ID: <Z88C7ZzM88skw+qr@pc>
-References: <20250305210809.218138-1-salah.triki@gmail.com>
- <a5b1d94e-30ee-411c-88f5-1e340068220c@amd.com>
- <Z8tEti/ZRbx5pt5M@pc>
- <b2068f4f-c832-4cd5-b9bb-e175217d7647@amd.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4C4810E46D
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 15:21:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id B5558A45A18;
+ Mon, 10 Mar 2025 15:15:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420A6C4CEF0;
+ Mon, 10 Mar 2025 15:21:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741620077;
+ bh=Lq4ng9tUDh+Do3SLF+xgV+HmrJ7By4mHdda8vZYyX2o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tN6SUlZfZij8LZDhONGQZYa0e7YUVUuznQJoN7QxJNnpe+jbNxOnouR+r6lsg7jz3
+ 4Lnrtw2jbVBA9IJxSTQbHidaF0Xgxo30DQX/+dScJ3X+P/HfURJVPE7azLzRl75Iuj
+ R8qcVAe8zjuSBe0ms+K4GbTB1xyvm5SpRUbS7iX6tIkR0RqnWdsnTrb6c3W7zMZDv7
+ l93X3XUIGRPiEP671e+UX6rqe3SSv1Mnw8M1IfM3zl0B/hdXNP+qm2TErT9R6lsSAV
+ DzqqaC9VfMcf1rxLXbPztaw+62TIEvlf6O7v94iUwpFr2XUemJJ7QAOlLrT9UrMiF8
+ HR7YneCmAO6Ug==
+Date: Mon, 10 Mar 2025 15:21:07 +0000
+From: Mark Brown <broonie@kernel.org>
+To: linux@treblig.org
+Cc: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com,
+ sre@kernel.org, lgirdwood@gmail.com, alexandre.belloni@bootlin.com,
+ danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ linus.walleij@linaro.org, brgl@bgdev.pl, tsbogend@alpha.franken.de,
+ linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/9] regulator: pcf50633-regulator: Remove
+Message-ID: <a45de47a-d3f8-4730-bb91-2782f52fd25f@sirena.org.uk>
+References: <20250309193612.251929-1-linux@treblig.org>
+ <20250309193612.251929-7-linux@treblig.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="xd0V7MnYEiEQnSNp"
 Content-Disposition: inline
-In-Reply-To: <b2068f4f-c832-4cd5-b9bb-e175217d7647@amd.com>
+In-Reply-To: <20250309193612.251929-7-linux@treblig.org>
+X-Cookie: I'm having an emotional outburst!!
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,15 +66,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > register_chrdev() registers 256 minor numbers, calling it will result in
-> > calling kmalloc_array(256, sizeof(struct probe), GFP_KERNEL) whereas
-> > calling alloc_chrdev_region() with count parameter equals to 1, which is
-> > the number of minor numbers requested, will result in calling
-> > kmalloc_array(1, sizeof(stuct probe), GFP_KERNEL). 
-> >
 
-Is it worth replacing register_chrdev() by alloc_chrdev_region() for
-this ? If so I will change the patch description.
+--xd0V7MnYEiEQnSNp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best Regards,
-Salah Triki
+On Sun, Mar 09, 2025 at 07:36:09PM +0000, linux@treblig.org wrote:
+
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>  drivers/mfd/pcf50633-core.c            |  35 +------
+>  drivers/regulator/Kconfig              |   7 --
+>  drivers/regulator/Makefile             |   1 -
+>  drivers/regulator/pcf50633-regulator.c | 124 -------------------------
+>  include/linux/mfd/pcf50633/core.h      |   1 -
+
+Putting MFD changes into the subsystem changes just makes everything
+harder to apply, please keep things separate unless there's a strong
+need to keep everything integrated.
+
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--xd0V7MnYEiEQnSNp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfPA2MACgkQJNaLcl1U
+h9DJ2Af/XTN0nfI5RCpJ/Fr/iN6MekiWRzaQb3lLzvZytMpntNc4uPwT7p5rYEHa
+ydU9MVFQh7Dyt0gJynsGwsny1gwwpV6lbD/t9Larxqo0gCebDw8KDzLqOEuj2U3k
+0qHsl4zlFCcPbafwODYl+E6ZsaE2i6qIaaYkuRVNtMVDmJ60E3NBfow87xLD56q3
+VH/Vp8e4kPNG/tHAfDadzy705WzmwwJHYSt1JCDPoyxlbXSrCzEDyN5w2+hq0Jvf
+YbmzdUrP2MUQlvOolK/ciND0mX/VT17xsO6Wg2b4t2ZyuDkxJ9bod08/xTZk7BxA
+j94zeh1q8atD27MZlCcC4ibCsF317A==
+=A1eA
+-----END PGP SIGNATURE-----
+
+--xd0V7MnYEiEQnSNp--
