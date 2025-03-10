@@ -2,85 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FA0A5A55E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 21:55:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C915DA5A562
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 21:58:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9682010E32B;
-	Mon, 10 Mar 2025 20:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB3C810E4E1;
+	Mon, 10 Mar 2025 20:58:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="s0QCqipB";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DvqWb4ma";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D02710E32B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 20:55:40 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-30761be8fa8so52734251fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 13:55:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741640139; x=1742244939; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=VOWDQFfh/dqAVjze2LQJgK0R1nQSBQ+Z81JUBKH/8tY=;
- b=s0QCqipB14tm2mGbk83PN4McEXyKSn8dt9tZjqr9mtF49oHE7AEZY43q0vz/tdaOPh
- Zjp7hDT4ry5MZWL1/Jc0f4IAIrKckUwbiYS9V/oOaWYwDG0sjJbly93DVmDkcIMUj+Wl
- eeHbqQIV57je6ywYrQ1W8CkfbY8A68iADgNtZv+3/gwnRFc/nd8hunyWLJm6DwXuybqo
- DqrXgfbd9UER48EwNWEZSN/0Dt1gf7nTFIhBHmdJs+Vtc7C9FQ1luWoMXUXnN4MHctnM
- 9SEO54nbpb16bX9l0mdbAiHzTI31Ezxqdtn4ClgdfTPA5j4Ekh2VeXLhOMM8jmcpstJJ
- m0zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741640139; x=1742244939;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VOWDQFfh/dqAVjze2LQJgK0R1nQSBQ+Z81JUBKH/8tY=;
- b=StgIr/x0gozLcfUeE8bgrsrUqnT1jJG3T63N8cxpjU47mSwdKO0uv3XFXRQ9U8ARod
- +o8jkukf+yM3/+x08kjzdbS+bLhgJcUZZwMhyWGV4fbLINXlVP0jr+LivO9BbJd99KA3
- pYL5oWBUoHV4N5WFaHkcTiyWfHlDmavTXr+NxfV9uU7MAxcWl1LAqjTHvBfgRNJTUP6x
- nhHwI6beGvmQ0oV5LROE954C357bRYp+ZVvmNrSp1y9odl8IdMCB3zLeL9EKocGJBVG+
- STno+9YZBn/fNsXbt1TvPypquvtiGrrKwWONEqqu60EvoCU1AAaqamn6HL6PymX3h14B
- xLCQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQEQufdM4In7ENu1/z4R+dQYe+UbDOktb2exGMrfXcZCgVdE1I9nzA28nQi2ejM4YBbznok4Jpozo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzy2Fwd2hLEyNx2xJaECrxTdOtcrBmT3Vu/HJWb7oL+ITUZ9YMt
- Lx5bHfGg6BwxMuyYxO8ri2qQefBHYAJ45rY/auTfg1EZE8rEYW8nu+YJotEg0M4=
-X-Gm-Gg: ASbGncvGUqsvhphpynNFPfjEgEExgT2y0/dEAxr5Zxu/SKAAx9redUrG2K25n8W41ft
- w+wohoMrm3UL+8hdqDgmA/nV/8/lx8CB4OU4ec1LmrXuptIoOgnw9nSYfhZ50f/S+xaF8aTdKJA
- kWR8J0PnDOBRDT2sbDXAM6mAVoIfADJG1wiqKY3GJaXy89DE5hF8WjuFrGuFAm2GxxCnnPX3XDC
- LBCAuO/6hbfly71tUwlcGH4zF5oYR603vUlR4D5TpfGPjjewQ4k/liK+tUjIqyJfe8qtJMN2hIv
- SMoKa7NZfR2/c+gBwXjSTkatC9WjTtLmCVU2m47ffruE3h53WIZBYLg3VHzU7uc7FGW1nUCqO7+
- xvk4lv1uXr8La7YmcXqk/Z/rm
-X-Google-Smtp-Source: AGHT+IHubY+f/rhxrSBxiaa325h/nsC0f2kSD//bxK0bB6+HKDQJSbjODqNhRDdqPFgVEC8cmQYHNw==
-X-Received: by 2002:a05:6512:224f:b0:545:aa5:d44f with SMTP id
- 2adb3069b0e04-54990e673e4mr5915381e87.30.1741640138654; 
- Mon, 10 Mar 2025 13:55:38 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5498ae5f4d1sm1565991e87.103.2025.03.10.13.55.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 13:55:37 -0700 (PDT)
-Date: Mon, 10 Mar 2025 22:55:35 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
- chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
- shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 drm-dp 7/9] drm/hisilicon/hibmc: Enable this hot plug
- detect of irq feature
-Message-ID: <k4c72nwjyke62eyurj6v6ymfwmdgu3hoxwv6zx442c5afin5cy@scqalfe3kwo3>
-References: <20250310040138.2025715-1-shiyongbang@huawei.com>
- <20250310040138.2025715-8-shiyongbang@huawei.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3B2310E4E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 20:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741640320;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qPgQv/hP8UqA5nzcqWb76E7oukotngIgYGzn+E1eUYQ=;
+ b=DvqWb4maqf5ZZ6nwuys7xEzqrEFZfGlQFPMclBYpsMF0jh0Yf0fIpp6gv/S5RcOWf9bwlT
+ i+LJcKSAjgHuIU6z18mnQNnQklBc4jzYbHkHHHD0YmYZFR+60SdJwVC9OUpbQkENETQW0n
+ 74FmrPMUM+tOKSFU3UDOAl2emZTKLrI=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-672-zt7YUAseMROHvPzMeTqI_Q-1; Mon,
+ 10 Mar 2025 16:58:35 -0400
+X-MC-Unique: zt7YUAseMROHvPzMeTqI_Q-1
+X-Mimecast-MFC-AGG-ID: zt7YUAseMROHvPzMeTqI_Q_1741640313
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id EA0B11800262; Mon, 10 Mar 2025 20:58:32 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.186])
+ by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id A14A41800265; Mon, 10 Mar 2025 20:58:29 +0000 (UTC)
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Mon, 10 Mar 2025 16:58:22 -0400
+Subject: [PATCH v2] drm/panel/synaptics-r63353: Use _multi variants
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250310040138.2025715-8-shiyongbang@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250310-mipi-synaptic-1-v2-1-20ee4397c670@redhat.com>
+X-B4-Tracking: v=1; b=H4sIAG1Sz2cC/3WNywrDIBREfyXcdS0+Yku66n+ULERv6l1Eg4o0B
+ P+9NvtuBs7AnDkgYyLM8BgOSFgpUwwd5GUA6014IyPXGSSXmiuu2UobsbwHsxWyTDAj+aj0qKx
+ TBvpqS7jQ5zS+5s6ecolpPw+q+LX/XVX0mCQXd+vEhMvtmdB5U642rjC31r6W7DHcrwAAAA==
+X-Change-ID: 20250305-mipi-synaptic-1-a2043543cd3a
+To: Michael Trimarchi <michael@amarulasolutions.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Tejas Vipin <tejasvipin76@gmail.com>, Doug Anderson <dianders@chromium.org>, 
+ Anusha Srivatsa <asrivats@redhat.com>, Maxime Ripard <mripard@kernel.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741640309; l=6301;
+ i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
+ bh=R9wFbiiTelT3DbPRos8B8hIqJ7+qKA8JPSdKic43iXA=;
+ b=Z0LyBHcCadKlsxNblzVkG4nF48hqaB1lNBrIJD3WtCouqvogwmK5TOQGmfTJs5sdNqzXH+YGG
+ IJIOGPlwIXNBGaVBmNIp8E7IUlELxu2tOwgksr2wikuD3PjSHNcg6s9
+X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
+ pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,17 +86,221 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 10, 2025 at 12:01:36PM +0800, Yongbang Shi wrote:
-> From: Baihan Li <libaihan@huawei.com>
-> 
-> Add HPD interrupt enable functions in drm framework, and also add
-> detect_ctx functions. Because of the debouncing when HPD pulled out,
-> add 200 ms delay in detect_ctx(). Add link reset process to reset link
-> status when a new connector pulgged in.
-> 
+Move away from using deprecated API and use _multi
+variants if available. Use mipi_dsi_msleep()
+and mipi_dsi_usleep_range() instead of msleep()
+and usleep_range() respectively.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Used Coccinelle to find the multiple occurences.
+SmPl patch:
+@rule@
+identifier dsi_var;
+identifier r;
+identifier func;
+type t;
+position p;
+expression dsi_device;
+expression list es;
+@@
+t func(...) {
+...
+struct mipi_dsi_device *dsi_var = dsi_device;
++struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi_var };
+<+...
+(
+-mipi_dsi_dcs_write_seq(dsi_var,es)@p;
++mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
+|
+-mipi_dsi_generic_write_seq(dsi_var,es)@p;
++mipi_dsi_generic_write_seq_multi(&dsi_ctx,es);
+|
+-mipi_dsi_generic_write(dsi_var,es)@p;
++mipi_dsi_generic_write_multi(&dsi_ctx,es);
+|
+-r = mipi_dsi_dcs_nop(dsi_var)@p;
++mipi_dsi_dcs_nop_multi(&dsi_ctx);
+|
+....rest of API
+..
+)
+-if(r < 0) {
+-...
+-}
+...+>
 
+v2: Do not skip the reset in case of error during
+panel activate (Dmitry)
+- Convert all usleep_range()
+
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: Doug Anderson <dianders@chromium.org>
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+---
+Previous attempt for this change was addressed in:[1]
+The series did not handle returns properly and still
+used msleep() and usleep_range() API.
+It also collided with an Tejas's similar efforts.
+
+Will be sending the patches per driver instead of
+major haul of changes.
+
+Following [2] for reference.
+
+[1] -> https://patchwork.freedesktop.org/series/144824/
+[2] -> https://lore.kernel.org/dri-devel/20250220045721.145905-1-tejasvipin76@gmail.com/#iZ31drivers:gpu:drm:panel:panel-sony-td4353-jdi.c
+---
+Changes in v2:
+- Handle the reset case properly 
+- Handle msleep() and  usleep_range()
+
+- Link to v1: https://lore.kernel.org/r/20250305-mipi-synaptic-1-v1-1-92017cd19ef6@redhat.com
+---
+ drivers/gpu/drm/panel/panel-synaptics-r63353.c | 69 ++++++++++----------------
+ 1 file changed, 27 insertions(+), 42 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-synaptics-r63353.c b/drivers/gpu/drm/panel/panel-synaptics-r63353.c
+index 17349825543fe6a117bbfd9cb92a564ce433d13a..991723e5545725ac1de8e1f1968e3eea8254e2b2 100644
+--- a/drivers/gpu/drm/panel/panel-synaptics-r63353.c
++++ b/drivers/gpu/drm/panel/panel-synaptics-r63353.c
+@@ -70,6 +70,7 @@ static int r63353_panel_power_on(struct r63353_panel *rpanel)
+ {
+ 	struct mipi_dsi_device *dsi = rpanel->dsi;
+ 	struct device *dev = &dsi->dev;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 	int ret;
+ 
+ 	ret = regulator_enable(rpanel->avdd);
+@@ -78,7 +79,7 @@ static int r63353_panel_power_on(struct r63353_panel *rpanel)
+ 		return ret;
+ 	}
+ 
+-	usleep_range(15000, 25000);
++	mipi_dsi_usleep_range(&dsi_ctx, 15000, 25000);
+ 
+ 	ret = regulator_enable(rpanel->dvdd);
+ 	if (ret) {
+@@ -87,9 +88,9 @@ static int r63353_panel_power_on(struct r63353_panel *rpanel)
+ 		return ret;
+ 	}
+ 
+-	usleep_range(300000, 350000);
++	mipi_dsi_usleep_range(&dsi_ctx, 300000, 350000);
+ 	gpiod_set_value(rpanel->reset_gpio, 1);
+-	usleep_range(15000, 25000);
++	mipi_dsi_usleep_range(&dsi_ctx, 15000, 25000);
+ 
+ 	return 0;
+ }
+@@ -106,53 +107,46 @@ static int r63353_panel_power_off(struct r63353_panel *rpanel)
+ static int r63353_panel_activate(struct r63353_panel *rpanel)
+ {
+ 	struct mipi_dsi_device *dsi = rpanel->dsi;
+-	struct device *dev = &dsi->dev;
+-	int i, ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
++	int i;
+ 
+-	ret = mipi_dsi_dcs_soft_reset(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to do Software Reset (%d)\n", ret);
++	mipi_dsi_dcs_soft_reset_multi(&dsi_ctx);
++	if (dsi_ctx.accum_err)
+ 		goto fail;
+-	}
+ 
+-	usleep_range(15000, 17000);
++	mipi_dsi_usleep_range(&dsi_ctx, 15000, 17000);
+ 
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to enter sleep mode (%d)\n", ret);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	if (dsi_ctx.accum_err)
+ 		goto fail;
+-	}
+ 
+ 	for (i = 0; i < rpanel->pdata->init_length; i++) {
+ 		const struct r63353_instr *instr = &rpanel->pdata->init[i];
+ 
+-		ret = mipi_dsi_dcs_write_buffer(dsi, instr->data, instr->len);
+-		if (ret < 0)
++		mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, instr->data,
++						instr->len);
++		if (dsi_ctx.accum_err)
+ 			goto fail;
+ 	}
+ 
+-	msleep(120);
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ 
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to exit sleep mode (%d)\n", ret);
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	if (dsi_ctx.accum_err)
+ 		goto fail;
+-	}
+ 
+-	usleep_range(5000, 10000);
++	mipi_dsi_usleep_range(&dsi_ctx, 5000, 10000);
+ 
+-	ret = mipi_dsi_dcs_set_display_on(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display ON (%d)\n", ret);
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
++	if (dsi_ctx.accum_err)
+ 		goto fail;
+-	}
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ 
+ fail:
+ 	gpiod_set_value(rpanel->reset_gpio, 0);
+ 
+-	return ret;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int r63353_panel_prepare(struct drm_panel *panel)
+@@ -181,24 +175,15 @@ static int r63353_panel_prepare(struct drm_panel *panel)
+ static int r63353_panel_deactivate(struct r63353_panel *rpanel)
+ {
+ 	struct mipi_dsi_device *dsi = rpanel->dsi;
+-	struct device *dev = &dsi->dev;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display OFF (%d)\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+ 
+-	usleep_range(5000, 10000);
++	mipi_dsi_usleep_range(&dsi_ctx, 5000, 10000);
+ 
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to enter sleep mode (%d)\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int r63353_panel_unprepare(struct drm_panel *panel)
+
+---
+base-commit: ced7486468ac3b38d59a69fca5d97998499c936b
+change-id: 20250305-mipi-synaptic-1-a2043543cd3a
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Anusha Srivatsa <asrivats@redhat.com>
+
