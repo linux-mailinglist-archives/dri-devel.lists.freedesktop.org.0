@@ -2,81 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D888A5A3FF
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 20:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CDBEA5A43B
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 21:00:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A68F810E4D8;
-	Mon, 10 Mar 2025 19:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8795410E05A;
+	Mon, 10 Mar 2025 20:00:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hfLekJwF";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="eJbETDYH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10FD410E4D6
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 19:46:25 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-3913d129c1aso1502101f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 12:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741635983; x=1742240783; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IvLfn3qhWG0LPJSKPMLdwGHyzm3ZQnbWN9kL2fMh4Mw=;
- b=hfLekJwF+5xjjaCsXkJjJ+8WM5+vtIIjZzrfduozUhhP1YF8S5HBJzY/cHgKsS9w5K
- d++nNjnftoRGKgyAji7CIq2nLfyCTsebhXDV01ENXVLNtD6zon4ln/hkLEu+WXi9XOyy
- PdsyIJ0rcwoCeju2GemKsBPdQ0QZKlOzqaUbxOaS+im5Ynt5kEKjrJBMkjAdrEP9xATy
- vtSL02DMgOVzHLS7pD1r2coAqYVt5cgL9arke+A/g0Yl5IKV1NZSgNLsztdIPwQQ7tZE
- FRQSPT0IRh7HHIkbouybU5HpfLUjahIZOF9A9jw62zvaE1k+VN9FaMmFO0yn8Vl6V0DJ
- +3AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741635983; x=1742240783;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IvLfn3qhWG0LPJSKPMLdwGHyzm3ZQnbWN9kL2fMh4Mw=;
- b=nBxwgphvzS9zpFhTdjK3HlGgEYCy2tNVInK72DvjGFjgqOuvHnAMiKIvvdHNS6dViI
- cvUK21rZb1T5QUuAGDkawsvdMeHInOxhaerfb5zFc7/ZxUvs8vZ5wPeB/goCVTz46Uhh
- /KXqlEEs67xxtDRo1lTsUrDIOr04vtzIFMj3sNNqLxCg7ConPR9+a5iM3XCPQ/ta3K6g
- pqqx13JwpZQD2lbJ527bxYH4ZA3l3DroqiX8AY+G4uiHsm1UjImL6wRHqcIknow91B6+
- UKEJZBJP1qxt0VHWrO2M6FJdo9p+BG1ct2+mUIX8T3UQ1/EgxsyoVtqPhLSujMbPPkcu
- X65A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXHsnt+kEfQj56KDP++Ktt7P0884ZSMyncGyfdqlBbLAQaXnrz8ZgOmFwyvOtWFmuDcBcygO8HsZso=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwqTxDOfHF9/DxmvpzMEH+75d67n30C5Nmv3R0cN9a5Idx1Y1e4
- 2PJQz140nPgHFMJw9e2nYeqSamJltG1o1BawpcC0S1UklEcNgc7TMacs4CnHmPo=
-X-Gm-Gg: ASbGncsgajJNk6qPBPkP9i640UwjOp3aJ38UqF3pTZrCCdDxlVKh8VGzfwMvUNaowAw
- moKv6KNMPlMdI266Afz2AAkS3Pb8Y/Mu6pg5vXensEr4DTb7xxPpBCuyPVSOau/5sNTh/Xm451d
- EHYVeY5plK0F+Cg+nacnIA2bQh7ohgzHuYG37PwGfR6LebglwhAXjX7EvpDp5yFFiGy6m1XIFPy
- jJTJ/Oi8WFqZCHzVTZmiBMrjvQ21F4do5/3CeUmp5f+PalR3S6bxhcU064AcCUc2EtOJbsGCHyV
- dESL7m5U5S5SQ2Uc6TA9/4bVNL7sVDnhCFK6PxY5lbRkuVq/iw==
-X-Google-Smtp-Source: AGHT+IEd/pl739SBNrD6h1Towv44982Wiak2l2/J5QTRayAEyqBes8blAzLgBmUO87jKdAG+98SPfw==
-X-Received: by 2002:a5d:64e4:0:b0:391:865:5a93 with SMTP id
- ffacd0b85a97d-3926d123ba9mr995249f8f.22.1741635983490; 
- Mon, 10 Mar 2025 12:46:23 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3912c0e3250sm15993154f8f.61.2025.03.10.12.46.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 12:46:23 -0700 (PDT)
-Date: Mon, 10 Mar 2025 22:46:19 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- John Harrison <John.C.Harrison@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/i915/gsc: delete a stray tab in
- intel_gsc_fw_get_binary_info()
-Message-ID: <6152e1ac-745d-4b38-ba49-f013e6760936@stanley.mountain>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2677B10E05A
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 20:00:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741636789; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=mTWhI5ljOxaH+MZDEieAyDNSUiszcmKsQaV0GCeb1LuLbcokr8+lKYjtkfVgPmYvC9ngOt4G1EmnqXbVbrg2Na5nF651Ang7Rmgxxd3BMuF3oHd4j2s/IocV22Te1XjfvaSCDcTZm2ozP3fCZarMe9KAg+OgwU0M8xCPdhyUa7A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1741636789;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=XnPLtUq7gfXI+7/0APvhFGaW+4ilm1CeUoTlvhHmsDI=; 
+ b=CowNFAKRa1rulQAjGp406e5k3Ji8XogVwTmLpPw4E0cGkKvj7/9GlVP1Sm/AE/zmHVMMPjl0nQmW/icflW7iQZD8UtgR8qDwfByHjjZ8wFCxsBbYALIUTWTvs9ZAhW4CypE1baiIS8m95pXqHr5z+4qfrA5KpKTaB0A5RTTjahU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741636789; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=XnPLtUq7gfXI+7/0APvhFGaW+4ilm1CeUoTlvhHmsDI=;
+ b=eJbETDYHzZaq0ZHObtlo93olKYwZ24KkPAakpeCc9NHqep4SkdkWi6ouJRfo9sHC
+ WgN/SnIxyLCx0XXgHW2+ZiWwZRAIaVe8wEhu6YqMMDddyfxB/TBgqtaP9bpCE93vrsu
+ OHRLcz40aLLG0DMuq4NTPBcOtBNIVCb50wwFGXvE=
+Received: by mx.zohomail.com with SMTPS id 1741636786814304.76226844373525;
+ Mon, 10 Mar 2025 12:59:46 -0700 (PDT)
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Cc: boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, kernel@collabora.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ sjoerd@collabora.com, Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Subject: [PATCH v1 0/6] drm/panfrost: Add support for AARCH64_4K page table
+ format
+Date: Mon, 10 Mar 2025 16:59:15 -0300
+Message-ID: <20250310195921.157511-1-ariel.dalessandro@collabora.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,26 +68,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This line is indented on tab too far.  Delete the extra tab.
+Hi all,
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Following the previous RFC [0], this is the first iteration on Panfrost
+support for AARCH64_4K page table format.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-index 5dc0ccd07636..d550eb6edfb8 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-@@ -230,7 +230,7 @@ int intel_gsc_fw_get_binary_info(struct intel_uc_fw *gsc_fw, const void *data, s
- 		gt_info(gt, "Invalid GSC firmware for MTL/ARL, got %d.%d.%d.%d but need 102.x.x.x",
- 			gsc->release.major, gsc->release.minor,
- 			gsc->release.patch, gsc->release.build);
--			return -EINVAL;
-+		return -EINVAL;
- 	}
- 
- 	if (min_ver.major) {
+Currently, Panfrost only supports MMU configuration in LEGACY mode, as
+named by Bifrost. This is a (modified) version of LPAE "Large Physical
+Address Extension", which in Linux we've called ARM_MALI_LPAE.
+
+This commit adds support for conditionally enabling AARCH64_4K page
+table format in Panfrost, based on the newly added GPU_CONFIG_AARCH64_4K
+flag. This way, we can progressively move away from the legacy format
+once enough testing has been done on each target.
+
+The patchset only enables the new format on Mediatek MT8188, which has
+been tested on a Mediatek Genio 700 EVK (MT8390) board, with an
+integrated Mali-G57 MC3 GPU. No regressions were reported in Mesa CI [1]
+for the rest of the currently supported platforms.
+
+[0] https://lore.kernel.org/all/20250226183043.140773-1-ariel.dalessandro@collabora.com/
+[1] https://gitlab.freedesktop.org/mesa/mesa/
+
+Thanks!
+
+Changes in v1:
+* Added "Set IOMMU_CACHE flag" patch.
+* Replaced `panfrost_mmu->enable()` function pointer by `cfg` struct
+prepared during init time.
+* Made mali_lpae/aarch64_4k name more clear.
+* Added GPU_CONFIG_AARCH64_4K flag to enable AARCH64_4K page table
+  format.
+* Enabled AARCH64_4K mode only on mediatek-mt8188.
+
+Ariel D'Alessandro (6):
+  drm/panfrost: Set IOMMU_CACHE flag
+  drm/panfrost: Use GPU_MMU_FEATURES_VA_BITS/PA_BITS macros
+  drm/panfrost: Unify panfrost_mmu_enable/disable common code
+  drm/panfrost: Add support for AARCH64_4K page table format
+  drm/panfrost: Enable AARCH64_4K page table format on mediatek_mt8188
+  drm/panfrost: Set HW_FEATURE_AARCH64_MMU feature flag on Bifrost
+    models
+
+ drivers/gpu/drm/panfrost/panfrost_device.h   |  16 ++
+ drivers/gpu/drm/panfrost/panfrost_drv.c      |   1 +
+ drivers/gpu/drm/panfrost/panfrost_features.h |   3 +
+ drivers/gpu/drm/panfrost/panfrost_mmu.c      | 159 ++++++++++++++++---
+ drivers/gpu/drm/panfrost/panfrost_regs.h     |  36 +++++
+ 5 files changed, 189 insertions(+), 26 deletions(-)
+
 -- 
 2.47.2
 
