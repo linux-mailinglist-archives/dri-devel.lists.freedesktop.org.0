@@ -2,59 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED222A5991A
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A88A59933
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:09:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B703110E494;
-	Mon, 10 Mar 2025 15:08:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F125210E2B0;
+	Mon, 10 Mar 2025 15:09:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fKH9qsZw";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="x5mfVe5A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7672410E2B0;
- Mon, 10 Mar 2025 15:08:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 49DE2A45D9B;
- Mon, 10 Mar 2025 15:03:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CD2C4CEE5;
- Mon, 10 Mar 2025 15:08:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741619319;
- bh=Omof6Xd8LarrT4and9eviwbTFWywOKED69nZ/fWp6YA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fKH9qsZwP8ugDles+JJsA8D0cjO3imwfKDmoqX2GrIgi11IFb7nO24xKbW5JAr/cM
- ww8yTgxTWNSLt0bpPz/FxQIXYfVCMW6x35II9cy0H7nYYfBgq6hrWNqGEC4Cv2ZJ53
- 36hQXEWQHnC++8/un9InLLE+xgDbUl8gOtdQy7yfmSBe/J/a0LM8S6giXyjtHYNFmA
- ANvOd69bbbXXOrvqOrAiI4AXPYTgOL5f0/4pCCePQqGC/iHPRLGDZP63EKox+gGO1d
- ZbVDYEicoAm9mnFgZ/GJ3/Yj/Vn2ZUjMrlktQpZD0kH9ebw/7XivPdO++PA8l0IL/g
- p9/fgNKi67sSw==
-Date: Mon, 10 Mar 2025 16:08:33 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <lumag@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Hermes Wu <Hermes.wu@ite.com.tw>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v5 2/2] drm/msm/dp: reuse generic HDMI codec implementation
-Message-ID: <20250310-daft-bittern-of-foundation-67c657@houat>
-References: <20250307-dp-hdmi-audio-v5-0-f3be215fdb78@linaro.org>
- <20250307-dp-hdmi-audio-v5-2-f3be215fdb78@linaro.org>
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2042.outbound.protection.outlook.com [40.107.95.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F63B10E2A1;
+ Mon, 10 Mar 2025 15:09:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ONspvDYbs8RDqps/8aJCQpVn2bfsJXpGN8kN2POpJEfucJdItzOzPr7zwY0AK/76KxZWS2u6dc/ofbMQjkhZgvFZk+PnUGIAaQOFKeoVZzW73SQ2gS+Hx1HNEynki9siyfVAwqpYJ0p3dTCDORSw3DbGUoYWPhN7KWOLKyKz6NR6hx0kWcCzAYAfeqgZOB7VsQL6UDMG3DLSCpnUOg380uTQGBrt9qdJU4gIVeMEWraPW8jN0qaJY1BPjSSoPoVufXPNRkFTRWBplh+DneQ8YMtSoLyTgA7pafFOq6airZQyY/jf03rvMVZoTxCglzYR3Z4j4R8E+PWtrcPm4TwdnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7yFLX3i6eO5J5h2GUaj1DGMnI9Ph0kJkraJmhYgfxoY=;
+ b=tIV3ZJDwdeaUOO2sjzHiQZ32HHHxtVA4/aNdvcM/fAyZ/j5FLslqXwIvxP3ZWKPiRaYDWkRxaour58eLRjermCAukRtEq6mo5P9gxP+tODfZQn3W40emyEToTnwt90R4JvtCBM5ffGf12UedFXok5T8WzN7Uck4IvnRFMdgsGAcvU/LuB/wvX5cL+QcO9yfo5KKJVQ04+7OGB0ecpE0Rz1wyBh+7ncxSRT7qvgK0Lw+6gLc88vOimQdjA4J6nHgDtNfk3UK9F6HB4+93N5SqwyirqpoH/dQiTjOCsP+XwHpQM0CGu+WPmfQDGCkbj82SERetUjmmFu6Y7mppPrfvYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7yFLX3i6eO5J5h2GUaj1DGMnI9Ph0kJkraJmhYgfxoY=;
+ b=x5mfVe5A8AMifDkhvgLCaick1L9ANhMbCLa0H4jUGRLBav2U4KLZLdAxhKpsAfLKSiXjxp85Ag+pcgrVLDxVul5Dk73JKCLswwJxUkl0o/lHasAtrozFcWUByH7VPmdcPkzyWNor+RbA3jkd7YNqjePWRlIft/rV5WmySrSz+TE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SN7PR12MB8058.namprd12.prod.outlook.com (2603:10b6:806:348::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.26; Mon, 10 Mar
+ 2025 15:09:46 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062%5]) with mapi id 15.20.8489.033; Mon, 10 Mar 2025
+ 15:09:44 +0000
+Message-ID: <379160f4-9399-4c48-b355-eb2bd2d90015@amd.com>
+Date: Mon, 10 Mar 2025 11:09:42 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [V7 15/45] drm/vkms: Add kunit tests for linear and sRGB LUTs
+To: Louis Chauvet <louis.chauvet@bootlin.com>, Alex Hung <alex.hung@amd.com>, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org
+References: <20241220043410.416867-1-alex.hung@amd.com>
+ <20241220043410.416867-16-alex.hung@amd.com>
+ <cf3528d1-9e56-4fe2-beb1-de7cb9c172f3@bootlin.com>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <cf3528d1-9e56-4fe2-beb1-de7cb9c172f3@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0313.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10a::23) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="q5m7akfsaxvrrrfh"
-Content-Disposition: inline
-In-Reply-To: <20250307-dp-hdmi-audio-v5-2-f3be215fdb78@linaro.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SN7PR12MB8058:EE_
+X-MS-Office365-Filtering-Correlation-Id: a45310b9-0438-4e25-23d6-08dd5fe5973f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OTkxTTVzc1Zwczk5Y2pobVh6K25pUVRIV3ZpR1hQUDZpTEhWUGpvL25Vd3R6?=
+ =?utf-8?B?TFRmb2s4bDVFdE96K3luL21sdkcwREFOaDNTVmFHbzcvMW01UStvZHgzRzlY?=
+ =?utf-8?B?VW9qaWNWb3Npa2NxeUIvZWR0OXFnMC9nTVZEbjUxNkNESjZtdm1jTXRTVXdU?=
+ =?utf-8?B?WlhISUVVTUdqb3M4S2RSbnI5WXZrQUJBL3AwY0xCSmRFaXM1SmRITGFXQnhN?=
+ =?utf-8?B?eE5tS2UzbnBnZkxBWWYzRHB3Z3VOVW9RcVJydXRUTjhydWJ1NDRnd3Vsd2d6?=
+ =?utf-8?B?eEp5R0h6Rmw3UjR1TSt2R2JzTlNJaXJaSXFHcUsvdkg5SW9nbEc2Ty9heDY3?=
+ =?utf-8?B?WHBTNnJlbEllMzR5NjBUeFpMVVkvd1d0eVZDaVRhNnVMWHA3blNNTW83Unl1?=
+ =?utf-8?B?N2ZVMW41NlF0QzMvazl3bHJVdlhTL3B4bFY4SmJ6c2pYY1RmVTlYWjVya1dC?=
+ =?utf-8?B?eDFodGpZcUpOSkFoamtMZEY1bHVvcHY0TEdWcTdOSnArcXVsNUxGUmRtNGxU?=
+ =?utf-8?B?dkp5RXdjWFErbVdSSGw3aUNRQXJaeHF4ckNXOUQ0QmptZkovZWJ3TFJkc0V4?=
+ =?utf-8?B?aUlkTFJXSmVnUXhKelhhT21VdVB5MHUxT3Y3Njd6Ny9MWFAveHZBQUhPWG9i?=
+ =?utf-8?B?RUVZZDVMT3BRLzlxbFNvN1gvUVdBQ3pTQlRFYWVQbDU0RVFYZmt5Y3NVbUk5?=
+ =?utf-8?B?ZncraURHM1lwalZhWFk5YWhuMGpGVjFDSVRJZHVsZWtLUjhvNjdVM2ZJUHQy?=
+ =?utf-8?B?VkdwcE15SkJPRHlGdWwwVlMzbG5NMWgyV1BnaGhyUWw1anRSQmlmU2lLcnhj?=
+ =?utf-8?B?TTNPNzN1UWdzSlpYSTNQZjRJVFNCL1BwcjVIMk1leVlaajZCSHdTSFl3R0Nz?=
+ =?utf-8?B?WXl2VysvQnBYWDVhdUNLMFJSbC80V1p1V2dGbVNUQ3lRa29QQjR2NXMzQllP?=
+ =?utf-8?B?MG45SFhROEtFWWE0ell4T0VaN09Wc2Z3OFRGamZiTUhwcmhPQ2RUZ01QREFZ?=
+ =?utf-8?B?amROQXlGUW5RcVcxL3lDN1EwdUVmWFg4WUdMOElpM3NMbnZnL0VxUU93eTg1?=
+ =?utf-8?B?dDlCYmRRb3BLTC9BWERReVRUUHZvMk5Da1NWRWptNy9VVG5wU1ZsV0pHQUVm?=
+ =?utf-8?B?c3VjTnFvMVRUNlV4YlFQTndCRmp4eEF5UVpkM0dRNWp0NHpWRll4eEVsYjFV?=
+ =?utf-8?B?VktjWE5iTGNyd2V5ajRhSmJaK2N3SnYvZzIvNkJCWERtaXVSc3N2ejBnZmxN?=
+ =?utf-8?B?ZXhqdVA0djdwWnhDYXExL1lISVBQOWNrN1hBenR0WUlTV2djRjl3Y1U2ZzFN?=
+ =?utf-8?B?VlZpU2x0S2dXQnR2Q2puMDJ6T3owM01ZWVAvZXA0cXU2WjBPNm5TczR6Vm44?=
+ =?utf-8?B?bHBCUHpxSnlLa2h3dlA5b0w5eUZPZU5tUENMVTRHUWwrbURLdURTaUM5a0VL?=
+ =?utf-8?B?cWZkVHpEVGZmT1l5MnlvQVNhRDZvck9PRkNkNjJueUZDLzJiaWRGSHhWQXpZ?=
+ =?utf-8?B?elJleVF3NE45YlRSVEN6QjdKNzFuclg4c1Joa3NpSHlNay90cENZM0hBaTRM?=
+ =?utf-8?B?QVZkbnBWdy9xaXB6UUsxNUtYalR3YWo3cmZmRjNPai9XZmIyUjNTMWNnQVJG?=
+ =?utf-8?B?T3JWOWVUV3lERGhKNkhoa1NWWDN5ZnZNaDF3RkdiZWNsUlQyVGQvMEc2UFJs?=
+ =?utf-8?B?TnA3akk2RlJGRlVKdWt6MWtVVFRQNktEZ0xGNGFXUmNyTE93b1VLTDhtTkRy?=
+ =?utf-8?B?WXkzRzZQWTNhSkVnWlEwZ2MxTjJNM2VPVDFYUlNTSzNnblpnTGRKVU8vZ0FX?=
+ =?utf-8?B?TFYvaG13TzRlWE1DUlRxQjNXbTMwYlNxUXlHdnFXbkxxcWZlcmt6eVcvTlMy?=
+ =?utf-8?Q?W5nQnq++FdBhI?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHB2ZUgwbTU2cGFodjVMMWpLcnBqTnFPaUF5ck05QzlJU3VOSkp0dDRDUklP?=
+ =?utf-8?B?S2I1aVE2bFYzTzRIT1F0TjZTcWJoQU9PdmFyeWJYZzB6azlKZWVxTCtnWFJ4?=
+ =?utf-8?B?S1hKYmVjVTZBVVd2dThpQXdSS0ExOWpIVXVlZVFXRjQ0S0dhekRReGpHMXlz?=
+ =?utf-8?B?TFRCRGJVbmQrVDV3TkVsUUZrTlgxTysvYkR2WllwWFFEcmJkZEdlTXdiVlVU?=
+ =?utf-8?B?K3p5cWlvTktzQm5LSkpRVlczcWkwaWRJczBZbjluV0JGSVl2UGJuelQ5L0t4?=
+ =?utf-8?B?QlJMN3NKSHJsVDRPOU4xdkRXajBhWjRhZHVnNE1DNFRJdmRjVU1yRTVJNXhz?=
+ =?utf-8?B?WUFFSEhBQWhsQ0Q4QnJXUUtFeDJVUWVaQjBuVkpDcVhxNUVUR2c3WkhJOE9G?=
+ =?utf-8?B?N1hmb0lXdDNSWnY5VHdiWVFuOVpNN1RUNFVaSWFaTk9DeEVzM25oNXFPM1NP?=
+ =?utf-8?B?akFRWW4xMkxzblU2SG5IMkJBUzByUVYrM3Q5MDBVZkZSa3BkKzRYSkpFVDB4?=
+ =?utf-8?B?dkJZeEdJYnZmSndiR3N3c0ZzQU1lZVoxdHd1clAxUm9TMkRhckFZSGNhYS9D?=
+ =?utf-8?B?UjE5c25YR3hKZXVkRlNkRG5LVlhocG0wSDI4UmNVa0tWa01XUHRiRFBOTjRF?=
+ =?utf-8?B?MzB6elB2NUlHZTVqZ2s3M1luQmV2dWgvaTRCUU1KSHJycmVvcnZLc2trd0tC?=
+ =?utf-8?B?S1A5a2J1MytaSmhsZ2VyV3lzaDQ5ZzV5YXZ6RzBBcnZ6WXlxSTRDanlvR21y?=
+ =?utf-8?B?RiszamtFQ0VkT1BOWFVjSmlGZjEwMlFsNVovU0xWcUhyQjVKTmtHRlVWd1hp?=
+ =?utf-8?B?K1NPYUlpMzgzY3hJUFFnNWcya1U1WEFVYkhOL1pnUTZRNGNkY3FybFlBZUxu?=
+ =?utf-8?B?QkZTeGRwaW5TME14dkt3Zm1oWmx3Y1NhMVpaMjlxaVdKNVp3SWpRQm4vQ2pZ?=
+ =?utf-8?B?Qk9rRjI1QTNwZzhJQ2RMSDJnTnJoU1hsOHdUcmtpTGk3Y2NQdUs4bU52SFky?=
+ =?utf-8?B?Q25wL3Y2Nk8zOG8zS2d5YnBXeFFrZUJLNi9MbVJxZUlEeTEvZkVDdGhZb3Jq?=
+ =?utf-8?B?TzdxUjkzNG1CRGFXWnRHcXlWUllPZ2cxcHF0Rmp5Q2x6MjdVWGx2WlhLd2F6?=
+ =?utf-8?B?TEwrOHY2SlFkd2dHTUMydDJtNGljemI2YnhEeGVnV01hanVVTG9FTS9wVzRq?=
+ =?utf-8?B?ZkhCUTN4bkMxczVNeEhjem5KOGI5by9UUGRYTm9jVnVOZmdqaUZ4aXN1NWxF?=
+ =?utf-8?B?dGN2akFoVm9qUnZFWkswNlJDR1FFa3RRdkk1cC9OenJQL1RvNjlGZGphZDFl?=
+ =?utf-8?B?eWNnYldLZEtMZVFsVGFrU2Vpa3c5VDhvNWR3c0ZPbEpPeVJNc1RqcElHWWZv?=
+ =?utf-8?B?Rys3R3ZXQ2hIMUdFM2UrV2ZGUjVnMTJFeHp5VEJRRG9YTnY2Tk1qYmVTU2FI?=
+ =?utf-8?B?WCthRllXK3FHU2ZodmtoQ3ZZZGU0S1pwNW1RUy91a0d3Q0lHbnZaOVJLUGdT?=
+ =?utf-8?B?Ty9SemtibkNYZTM1eEs2ZkxNcVRIMW9Fb0ZGV3JjUEtWNTRYdzRoZjg2MHJ0?=
+ =?utf-8?B?cm82SjI3R3FVZG9ZNmNubkIwNVdYeDNaUlIyQ04vdmkvZlV0bXZxM2ZuUzJQ?=
+ =?utf-8?B?N1diTVFVclpNOFRabzBNc3VCelpLTE1yK1VtZWxxeHY0U0hkc0FIbFYzZXRn?=
+ =?utf-8?B?bWJ3RmRDZ3hheW5mMTRvT2k4ZkU5NXhlR3lZSmhNOFhFL0xTRU1TSjdqRkVs?=
+ =?utf-8?B?aW9RVDRRemQxbVkwS1AxSnU5MGpMdlNZVFpORXg4S1cvSVRST0hwOGRiT0NE?=
+ =?utf-8?B?RWUyNGRuaUVNV2haS0NZbXNyOXU1cGo3UzhuNTQyUnNBVnY5SUI5eXNXY1lr?=
+ =?utf-8?B?WExqUHFmU0pHNDJXcDlvZUhFd1hrL1dPbFYrSThUSzd0NWliVCtpTGZ5cjJK?=
+ =?utf-8?B?MFlSTUFna0JJbE9JSllza2hnaGVta0RWM1NqUVVPYSs0a1dhd3RiTlo3S0p4?=
+ =?utf-8?B?SEtCU0dnUGgycktHOTI1dlpxSzF1Q21WR2x5RCt2TGxDNEJlM0lieHJxM2NI?=
+ =?utf-8?B?RmRxV3czYlEvcFJCVndKTmUvMklhR0hSVWZCNWFhQUJ3Qmltak5WMXY5NThK?=
+ =?utf-8?Q?ZBFwdl8siKhgoOaTMxDEhxNRC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a45310b9-0438-4e25-23d6-08dd5fe5973f
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 15:09:44.7843 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aTn8MPIyRm3xJkAVGVH4IcWnZ4Ko+2MRaIDUvAU2WX35hHYxgEjLS9ClmoQbarLavpXI0xtvg4yj3jA86PoXhg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8058
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,470 +164,166 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---q5m7akfsaxvrrrfh
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 2/2] drm/msm/dp: reuse generic HDMI codec
- implementation
-MIME-Version: 1.0
 
-On Fri, Mar 07, 2025 at 07:55:53AM +0200, Dmitry Baryshkov wrote:
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->=20
-> The MSM DisplayPort driver implements several HDMI codec functions
-> in the driver, e.g. it manually manages HDMI codec device registration,
-> returning ELD and plugged_cb support. In order to reduce code
-> duplication reuse drm_hdmi_audio_* helpers and drm_bridge_connector
-> integration.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/Kconfig         |   1 +
->  drivers/gpu/drm/msm/dp/dp_audio.c   | 131 ++++--------------------------=
-------
->  drivers/gpu/drm/msm/dp/dp_audio.h   |  27 ++------
->  drivers/gpu/drm/msm/dp/dp_display.c |  28 ++------
->  drivers/gpu/drm/msm/dp/dp_display.h |   6 --
->  drivers/gpu/drm/msm/dp/dp_drm.c     |   8 +++
->  6 files changed, 31 insertions(+), 170 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-> index 974bc7c0ea761147d3326bdce9039d6f26f290d0..7f127e2ae44292f8f5c7ff6a9=
-251c3d7ec8c9f58 100644
-> --- a/drivers/gpu/drm/msm/Kconfig
-> +++ b/drivers/gpu/drm/msm/Kconfig
-> @@ -104,6 +104,7 @@ config DRM_MSM_DPU
->  config DRM_MSM_DP
->  	bool "Enable DisplayPort support in MSM DRM driver"
->  	depends on DRM_MSM
-> +	select DRM_DISPLAY_HDMI_AUDIO_HELPER
->  	select RATIONAL
->  	default y
->  	help
-> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/d=
-p_audio.c
-> index 70fdc9fe228a7149546accd8479a9e4397f3d5dd..f8bfb908f9b4bf93ad5480f07=
-85e3aed23dde160 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_audio.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
-> @@ -13,13 +13,13 @@
-> =20
->  #include "dp_catalog.h"
->  #include "dp_audio.h"
-> +#include "dp_drm.h"
->  #include "dp_panel.h"
->  #include "dp_reg.h"
->  #include "dp_display.h"
->  #include "dp_utils.h"
-> =20
->  struct msm_dp_audio_private {
-> -	struct platform_device *audio_pdev;
->  	struct platform_device *pdev;
->  	struct drm_device *drm_dev;
->  	struct msm_dp_catalog *catalog;
-> @@ -160,24 +160,11 @@ static void msm_dp_audio_enable(struct msm_dp_audio=
-_private *audio, bool enable)
->  	msm_dp_catalog_audio_enable(catalog, enable);
->  }
-> =20
-> -static struct msm_dp_audio_private *msm_dp_audio_get_data(struct platfor=
-m_device *pdev)
-> +static struct msm_dp_audio_private *msm_dp_audio_get_data(struct msm_dp =
-*msm_dp_display)
->  {
->  	struct msm_dp_audio *msm_dp_audio;
-> -	struct msm_dp *msm_dp_display;
-> -
-> -	if (!pdev) {
-> -		DRM_ERROR("invalid input\n");
-> -		return ERR_PTR(-ENODEV);
-> -	}
-> -
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> -	if (!msm_dp_display) {
-> -		DRM_ERROR("invalid input\n");
-> -		return ERR_PTR(-ENODEV);
-> -	}
-> =20
->  	msm_dp_audio =3D msm_dp_display->msm_dp_audio;
-> -
->  	if (!msm_dp_audio) {
->  		DRM_ERROR("invalid msm_dp_audio data\n");
->  		return ERR_PTR(-EINVAL);
-> @@ -186,68 +173,16 @@ static struct msm_dp_audio_private *msm_dp_audio_ge=
-t_data(struct platform_device
->  	return container_of(msm_dp_audio, struct msm_dp_audio_private, msm_dp_a=
-udio);
->  }
-> =20
-> -static int msm_dp_audio_hook_plugged_cb(struct device *dev, void *data,
-> -		hdmi_codec_plugged_cb fn,
-> -		struct device *codec_dev)
-> -{
-> -
-> -	struct platform_device *pdev;
-> -	struct msm_dp *msm_dp_display;
-> -
-> -	pdev =3D to_platform_device(dev);
-> -	if (!pdev) {
-> -		pr_err("invalid input\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> -	if (!msm_dp_display) {
-> -		pr_err("invalid input\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	return msm_dp_display_set_plugged_cb(msm_dp_display, fn, codec_dev);
-> -}
-> -
-> -static int msm_dp_audio_get_eld(struct device *dev,
-> -	void *data, uint8_t *buf, size_t len)
-> -{
-> -	struct platform_device *pdev;
-> -	struct msm_dp *msm_dp_display;
-> -
-> -	pdev =3D to_platform_device(dev);
-> -
-> -	if (!pdev) {
-> -		DRM_ERROR("invalid input\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> -	if (!msm_dp_display) {
-> -		DRM_ERROR("invalid input\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	mutex_lock(&msm_dp_display->connector->eld_mutex);
-> -	memcpy(buf, msm_dp_display->connector->eld,
-> -		min(sizeof(msm_dp_display->connector->eld), len));
-> -	mutex_unlock(&msm_dp_display->connector->eld_mutex);
-> -
-> -	return 0;
-> -}
-> -
-> -int msm_dp_audio_hw_params(struct device *dev,
-> -	void *data,
-> -	struct hdmi_codec_daifmt *daifmt,
-> -	struct hdmi_codec_params *params)
-> +int msm_dp_audio_prepare(struct drm_connector *connector,
-> +			 struct drm_bridge *bridge,
-> +			 struct hdmi_codec_daifmt *daifmt,
-> +			 struct hdmi_codec_params *params)
->  {
->  	int rc =3D 0;
->  	struct msm_dp_audio_private *audio;
-> -	struct platform_device *pdev;
->  	struct msm_dp *msm_dp_display;
-> =20
-> -	pdev =3D to_platform_device(dev);
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> +	msm_dp_display =3D to_dp_bridge(bridge)->msm_dp_display;
-> =20
->  	/*
->  	 * there could be cases where sound card can be opened even
-> @@ -262,7 +197,7 @@ int msm_dp_audio_hw_params(struct device *dev,
->  		goto end;
->  	}
-> =20
-> -	audio =3D msm_dp_audio_get_data(pdev);
-> +	audio =3D msm_dp_audio_get_data(msm_dp_display);
->  	if (IS_ERR(audio)) {
->  		rc =3D PTR_ERR(audio);
->  		goto end;
-> @@ -281,15 +216,14 @@ int msm_dp_audio_hw_params(struct device *dev,
->  	return rc;
->  }
-> =20
-> -static void msm_dp_audio_shutdown(struct device *dev, void *data)
-> +void msm_dp_audio_shutdown(struct drm_connector *connector,
-> +			   struct drm_bridge *bridge)
->  {
->  	struct msm_dp_audio_private *audio;
-> -	struct platform_device *pdev;
->  	struct msm_dp *msm_dp_display;
-> =20
-> -	pdev =3D to_platform_device(dev);
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> -	audio =3D msm_dp_audio_get_data(pdev);
-> +	msm_dp_display =3D to_dp_bridge(bridge)->msm_dp_display;
-> +	audio =3D msm_dp_audio_get_data(msm_dp_display);
->  	if (IS_ERR(audio)) {
->  		DRM_ERROR("failed to get audio data\n");
->  		return;
-> @@ -311,47 +245,6 @@ static void msm_dp_audio_shutdown(struct device *dev=
-, void *data)
->  	msm_dp_display_signal_audio_complete(msm_dp_display);
->  }
-> =20
-> -static const struct hdmi_codec_ops msm_dp_audio_codec_ops =3D {
-> -	.hw_params =3D msm_dp_audio_hw_params,
-> -	.audio_shutdown =3D msm_dp_audio_shutdown,
-> -	.get_eld =3D msm_dp_audio_get_eld,
-> -	.hook_plugged_cb =3D msm_dp_audio_hook_plugged_cb,
-> -};
-> -
-> -static struct hdmi_codec_pdata codec_data =3D {
-> -	.ops =3D &msm_dp_audio_codec_ops,
-> -	.max_i2s_channels =3D 8,
-> -	.i2s =3D 1,
-> -};
-> -
-> -void msm_dp_unregister_audio_driver(struct device *dev, struct msm_dp_au=
-dio *msm_dp_audio)
-> -{
-> -	struct msm_dp_audio_private *audio_priv;
-> -
-> -	audio_priv =3D container_of(msm_dp_audio, struct msm_dp_audio_private, =
-msm_dp_audio);
-> -
-> -	if (audio_priv->audio_pdev) {
-> -		platform_device_unregister(audio_priv->audio_pdev);
-> -		audio_priv->audio_pdev =3D NULL;
-> -	}
-> -}
-> -
-> -int msm_dp_register_audio_driver(struct device *dev,
-> -		struct msm_dp_audio *msm_dp_audio)
-> -{
-> -	struct msm_dp_audio_private *audio_priv;
-> -
-> -	audio_priv =3D container_of(msm_dp_audio,
-> -			struct msm_dp_audio_private, msm_dp_audio);
-> -
-> -	audio_priv->audio_pdev =3D platform_device_register_data(dev,
-> -						HDMI_CODEC_DRV_NAME,
-> -						PLATFORM_DEVID_AUTO,
-> -						&codec_data,
-> -						sizeof(codec_data));
-> -	return PTR_ERR_OR_ZERO(audio_priv->audio_pdev);
-> -}
-> -
->  struct msm_dp_audio *msm_dp_audio_get(struct platform_device *pdev,
->  			struct msm_dp_catalog *catalog)
->  {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.h b/drivers/gpu/drm/msm/dp/d=
-p_audio.h
-> index beea34cbab77f31b33873297dc454a9cee446240..58fc14693e48bff2b57ef7278=
-983e5f21ee80ac7 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_audio.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_audio.h
-> @@ -35,23 +35,6 @@ struct msm_dp_audio {
->  struct msm_dp_audio *msm_dp_audio_get(struct platform_device *pdev,
->  			struct msm_dp_catalog *catalog);
-> =20
-> -/**
-> - * msm_dp_register_audio_driver()
-> - *
-> - * Registers DP device with hdmi_codec interface.
-> - *
-> - * @dev: DP device instance.
-> - * @msm_dp_audio: an instance of msm_dp_audio module.
-> - *
-> - *
-> - * Returns the error code in case of failure, otherwise
-> - * zero on success.
-> - */
-> -int msm_dp_register_audio_driver(struct device *dev,
-> -		struct msm_dp_audio *msm_dp_audio);
-> -
-> -void msm_dp_unregister_audio_driver(struct device *dev, struct msm_dp_au=
-dio *msm_dp_audio);
-> -
->  /**
->   * msm_dp_audio_put()
->   *
-> @@ -61,10 +44,12 @@ void msm_dp_unregister_audio_driver(struct device *de=
-v, struct msm_dp_audio *msm
->   */
->  void msm_dp_audio_put(struct msm_dp_audio *msm_dp_audio);
-> =20
-> -int msm_dp_audio_hw_params(struct device *dev,
-> -	void *data,
-> -	struct hdmi_codec_daifmt *daifmt,
-> -	struct hdmi_codec_params *params);
-> +int msm_dp_audio_prepare(struct drm_connector *connector,
-> +			 struct drm_bridge *bridge,
-> +			 struct hdmi_codec_daifmt *daifmt,
-> +			 struct hdmi_codec_params *params);
-> +void msm_dp_audio_shutdown(struct drm_connector *connector,
-> +			   struct drm_bridge *bridge);
-> =20
->  #endif /* _DP_AUDIO_H_ */
-> =20
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp=
-/dp_display.c
-> index bbc47d86ae9e67245c87a8365df366cce0dc529e..ece184d20c0f8bffa3c2a4821=
-6015185d6cbc99e 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -13,6 +13,7 @@
->  #include <linux/delay.h>
->  #include <linux/string_choices.h>
->  #include <drm/display/drm_dp_aux_bus.h>
-> +#include <drm/display/drm_hdmi_audio_helper.h>
->  #include <drm/drm_edid.h>
-> =20
->  #include "msm_drv.h"
-> @@ -288,13 +289,6 @@ static int msm_dp_display_bind(struct device *dev, s=
-truct device *master,
->  		goto end;
->  	}
-> =20
-> -
-> -	rc =3D msm_dp_register_audio_driver(dev, dp->audio);
-> -	if (rc) {
-> -		DRM_ERROR("Audio registration Dp failed\n");
-> -		goto end;
-> -	}
-> -
->  	rc =3D msm_dp_hpd_event_thread_start(dp);
->  	if (rc) {
->  		DRM_ERROR("Event thread create failed\n");
-> @@ -316,7 +310,6 @@ static void msm_dp_display_unbind(struct device *dev,=
- struct device *master,
-> =20
->  	of_dp_aux_depopulate_bus(dp->aux);
-> =20
-> -	msm_dp_unregister_audio_driver(dev, dp->audio);
->  	msm_dp_aux_unregister(dp->aux);
->  	dp->drm_dev =3D NULL;
->  	dp->aux->drm_dev =3D NULL;
-> @@ -626,9 +619,9 @@ static void msm_dp_display_handle_plugged_change(stru=
-ct msm_dp *msm_dp_display,
->  			struct msm_dp_display_private, msm_dp_display);
-> =20
->  	/* notify audio subsystem only if sink supports audio */
-> -	if (msm_dp_display->plugged_cb && msm_dp_display->codec_dev &&
-> -			dp->audio_supported)
-> -		msm_dp_display->plugged_cb(msm_dp_display->codec_dev, plugged);
-> +	if (dp->audio_supported)
-> +		drm_connector_hdmi_audio_plugged_notify(msm_dp_display->connector,
-> +							plugged);
->  }
-> =20
->  static int msm_dp_hpd_unplug_handle(struct msm_dp_display_private *dp, u=
-32 data)
-> @@ -907,19 +900,6 @@ static int msm_dp_display_disable(struct msm_dp_disp=
-lay_private *dp)
->  	return 0;
->  }
-> =20
-> -int msm_dp_display_set_plugged_cb(struct msm_dp *msm_dp_display,
-> -		hdmi_codec_plugged_cb fn, struct device *codec_dev)
-> -{
-> -	bool plugged;
-> -
-> -	msm_dp_display->plugged_cb =3D fn;
-> -	msm_dp_display->codec_dev =3D codec_dev;
-> -	plugged =3D msm_dp_display->link_ready;
-> -	msm_dp_display_handle_plugged_change(msm_dp_display, plugged);
-> -
-> -	return 0;
-> -}
-> -
->  /**
->   * msm_dp_bridge_mode_valid - callback to determine if specified mode is=
- valid
->   * @bridge: Pointer to drm bridge structure
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp=
-/dp_display.h
-> index ecbc2d92f546a346ee53adcf1b060933e4f54317..cc6e2cab36e9c0b1527ff292e=
-547cbb4d69fd95c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -7,7 +7,6 @@
->  #define _DP_DISPLAY_H_
-> =20
->  #include "dp_panel.h"
-> -#include <sound/hdmi-codec.h>
->  #include "disp/msm_disp_snapshot.h"
-> =20
->  #define DP_MAX_PIXEL_CLK_KHZ	675000
-> @@ -15,7 +14,6 @@
->  struct msm_dp {
->  	struct drm_device *drm_dev;
->  	struct platform_device *pdev;
-> -	struct device *codec_dev;
->  	struct drm_connector *connector;
->  	struct drm_bridge *next_bridge;
->  	bool link_ready;
-> @@ -25,14 +23,10 @@ struct msm_dp {
->  	bool is_edp;
->  	bool internal_hpd;
-> =20
-> -	hdmi_codec_plugged_cb plugged_cb;
-> -
->  	struct msm_dp_audio *msm_dp_audio;
->  	bool psr_supported;
->  };
-> =20
-> -int msm_dp_display_set_plugged_cb(struct msm_dp *msm_dp_display,
-> -		hdmi_codec_plugged_cb fn, struct device *codec_dev);
->  int msm_dp_display_get_modes(struct msm_dp *msm_dp_display);
->  bool msm_dp_display_check_video_test(struct msm_dp *msm_dp_display);
->  int msm_dp_display_get_test_bpp(struct msm_dp *msm_dp_display);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_=
-drm.c
-> index cca57e56c906255a315e759e85a5af5982c80e9c..20b24eea0a4b619598079fbe4=
-a32188485852b04 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -12,6 +12,7 @@
-> =20
->  #include "msm_drv.h"
->  #include "msm_kms.h"
-> +#include "dp_audio.h"
->  #include "dp_drm.h"
-> =20
->  /**
-> @@ -114,6 +115,9 @@ static const struct drm_bridge_funcs msm_dp_bridge_op=
-s =3D {
->  	.hpd_disable  =3D msm_dp_bridge_hpd_disable,
->  	.hpd_notify   =3D msm_dp_bridge_hpd_notify,
->  	.debugfs_init =3D msm_dp_bridge_debugfs_init,
-> +
-> +	.hdmi_audio_prepare =3D msm_dp_audio_prepare,
-> +	.hdmi_audio_shutdown =3D msm_dp_audio_shutdown,
->  };
-> =20
->  static int msm_edp_bridge_atomic_check(struct drm_bridge *drm_bridge,
-> @@ -320,9 +324,13 @@ int msm_dp_bridge_init(struct msm_dp *msm_dp_display=
-, struct drm_device *dev,
->  	 */
->  	if (!msm_dp_display->is_edp) {
->  		bridge->ops =3D
-> +			DRM_BRIDGE_OP_HDMI_AUDIO |
->  			DRM_BRIDGE_OP_DETECT |
->  			DRM_BRIDGE_OP_HPD |
->  			DRM_BRIDGE_OP_MODES;
-> +		bridge->hdmi_audio_dev =3D &msm_dp_display->pdev->dev;
-> +		bridge->hdmi_audio_max_i2s_playback_channels =3D 8;
-> +		bridge->hdmi_audio_dai_port =3D -1;
->  	}
+On 2025-02-25 06:19, Louis Chauvet wrote:
+> 
+> 
+> Le 20/12/2024 à 05:33, Alex Hung a écrit :
+>> From: Harry Wentland <harry.wentland@amd.com>
+>>
+>> Two tests are added to VKMS LUT handling:
+>> - linear
+>> - inv_srgb
+>>
+>> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>> Signed-off-by: Alex Hung <alex.hung@amd.com>
+>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+>> ---
+>> v7:
+>>   - Fix checkpatch warnings (Louis Chauvet)
+>>    - Adde a commit messages
+>>    - Fix code styles by adding and removing spaces (new lines, tabs and so on)
+>>
+>>   drivers/gpu/drm/vkms/tests/vkms_color_test.c | 39 +++++++++++++++++++-
+>>   drivers/gpu/drm/vkms/vkms_composer.c         | 17 ++-------
+>>   drivers/gpu/drm/vkms/vkms_composer.h         | 13 +++++++
+>>   3 files changed, 55 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_test.c b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+>> index b53beaac2703..d765c5eb5d88 100644
+>> --- a/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+>> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+>> @@ -6,6 +6,7 @@
+>>   #include <drm/drm_mode.h>
+>>   #include "../vkms_drv.h"
+>>   #include "../vkms_composer.h"
+>> +#include "../vkms_luts.h"
+>>     #define TEST_LUT_SIZE 16
+>>   @@ -36,7 +37,6 @@ static const struct vkms_color_lut test_linear_lut = {
+>>       .channel_value2index_ratio = 0xf000fll
+>>   };
+>>   -
+>>   static void vkms_color_test_get_lut_index(struct kunit *test)
+>>   {
+>>       s64 lut_index;
+>> @@ -49,6 +49,19 @@ static void vkms_color_test_get_lut_index(struct kunit *test)
+>>           lut_index = get_lut_index(&test_linear_lut, test_linear_array[i].red);
+>>           KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(lut_index), i);
+>>       }
+>> +
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int(get_lut_index(&srgb_eotf, 0x0)), 0x0);
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0x0)), 0x0);
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0x101)), 0x1);
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0x202)), 0x2);
+>> +
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int(get_lut_index(&srgb_inv_eotf, 0x0)), 0x0);
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_inv_eotf, 0x0)), 0x0);
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_inv_eotf, 0x101)), 0x1);
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_inv_eotf, 0x202)), 0x2);
+>> +
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0xfefe)), 0xfe);
+>> +    KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0xffff)), 0xff);
+> 
+> Did you see the kernel bot warning? I think you can simply add EXPORT_SYMBOL_IF_KUNIT(srgb_eotf) in vkms_lut.h.
+> 
 
-I think I'd prefer the toggle to be OP_DP_AUDIO, even if the
-implementation is exactly the same. That way, we'll be able to condition
-it to the DP support when that arrives, and we have the latitude to
-rework it to accomodate some DP subtleties without affecting the drivers
-later on.
+I did not and don't see any warnings if I run this locally.
+Adding EXPORT_SYMBOL_IF_KUNIT would require pulling in kunit
+headers into vkms_luts.h. I would prefer not to do that if
+it's not needed.
 
-Maxime
+Harry
 
---q5m7akfsaxvrrrfh
-Content-Type: application/pgp-signature; name="signature.asc"
+>>   }
+>>     static void vkms_color_test_lerp(struct kunit *test)
+>> @@ -155,9 +168,33 @@ static void vkms_color_test_lerp(struct kunit *test)
+>>       KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000), 0x1);
+>>   }
+>>   +static void vkms_color_test_linear(struct kunit *test)
+>> +{
+>> +    for (int i = 0; i < LUT_SIZE; i++) {
+>> +        int linear = apply_lut_to_channel_value(&linear_eotf, i * 0x101, LUT_RED);
+>> +
+>> +        KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(linear, 0x101), i);
+>> +    }
+>> +}
+>> +
+>> +static void vkms_color_srgb_inv_srgb(struct kunit *test)
+>> +{
+>> +    u16 srgb, final;
+>> +
+>> +    for (int i = 0; i < LUT_SIZE; i++) {
+>> +        srgb = apply_lut_to_channel_value(&srgb_eotf, i * 0x101, LUT_RED);
+>> +        final = apply_lut_to_channel_value(&srgb_inv_eotf, srgb, LUT_RED);
+>> +
+>> +        KUNIT_EXPECT_GE(test, final / 0x101, i - 1);
+>> +        KUNIT_EXPECT_LE(test, final / 0x101, i + 1);
+>> +    }
+>> +}
+>> +
+>>   static struct kunit_case vkms_color_test_cases[] = {
+>>       KUNIT_CASE(vkms_color_test_get_lut_index),
+>>       KUNIT_CASE(vkms_color_test_lerp),
+>> +    KUNIT_CASE(vkms_color_test_linear),
+>> +    KUNIT_CASE(vkms_color_srgb_inv_srgb),
+>>       {}
+>>   };
+>>   diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+>> index 983654540ee5..ee3cfe153d8f 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+>> @@ -113,19 +113,8 @@ VISIBLE_IF_KUNIT s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel
+>>   }
+>>   EXPORT_SYMBOL_IF_KUNIT(get_lut_index);
+>>   -/*
+>> - * This enum is related to the positions of the variables inside
+>> - * `struct drm_color_lut`, so the order of both needs to be the same.
+>> - */
+>> -enum lut_channel {
+>> -    LUT_RED = 0,
+>> -    LUT_GREEN,
+>> -    LUT_BLUE,
+>> -    LUT_RESERVED
+>> -};
+>> -
+>> -static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
+>> -                      enum lut_channel channel)
+>> +VISIBLE_IF_KUNIT u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
+>> +                        enum lut_channel channel)
+>>   {
+>>       s64 lut_index = get_lut_index(lut, channel_value);
+>>       u16 *floor_lut_value, *ceil_lut_value;
+>> @@ -150,6 +139,8 @@ static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 chan
+>>       return lerp_u16(floor_channel_value, ceil_channel_value,
+>>               lut_index & DRM_FIXED_DECIMAL_MASK);
+>>   }
+>> +EXPORT_SYMBOL_IF_KUNIT(apply_lut_to_channel_value);
+>> +
+>>     static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buffer *output_buffer)
+>>   {
+>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.h b/drivers/gpu/drm/vkms/vkms_composer.h
+>> index 9316a053e7d7..67ae09913460 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_composer.h
+>> +++ b/drivers/gpu/drm/vkms/vkms_composer.h
+>> @@ -5,9 +5,22 @@
+>>     #include <kunit/visibility.h>
+>>   +/*
+>> + * This enum is related to the positions of the variables inside
+>> + * `struct drm_color_lut`, so the order of both needs to be the same.
+>> + */
+>> +enum lut_channel {
+>> +    LUT_RED = 0,
+>> +    LUT_GREEN,
+>> +    LUT_BLUE,
+>> +    LUT_RESERVED
+>> +};
+>> +
+>>   #if IS_ENABLED(CONFIG_KUNIT)
+>>   u16 lerp_u16(u16 a, u16 b, s64 t);
+>>   s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
+>> +u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
+>> +                   enum lut_channel channel);
+>>   #endif
+>>     #endif /* _VKMS_COMPOSER_H_ */
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ88AcQAKCRDj7w1vZxhR
-xdoyAP4gqyo+oy1DbMYdDBWTXi+GyeSBggSLilr63lEMY5G7/QD/eH8XSVGrEDnY
-1dYvK8gcF3IF1rgZ1wGXm3TwR4NLBg8=
-=UBLY
------END PGP SIGNATURE-----
-
---q5m7akfsaxvrrrfh--
