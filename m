@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43827A599C5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA01A59A0F
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 16:34:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0186510E46F;
-	Mon, 10 Mar 2025 15:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEA2110E434;
+	Mon, 10 Mar 2025 15:34:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tN6SUlZf";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="QAvzpGjK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4C4810E46D
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 15:21:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B5558A45A18;
- Mon, 10 Mar 2025 15:15:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420A6C4CEF0;
- Mon, 10 Mar 2025 15:21:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741620077;
- bh=Lq4ng9tUDh+Do3SLF+xgV+HmrJ7By4mHdda8vZYyX2o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tN6SUlZfZij8LZDhONGQZYa0e7YUVUuznQJoN7QxJNnpe+jbNxOnouR+r6lsg7jz3
- 4Lnrtw2jbVBA9IJxSTQbHidaF0Xgxo30DQX/+dScJ3X+P/HfURJVPE7azLzRl75Iuj
- R8qcVAe8zjuSBe0ms+K4GbTB1xyvm5SpRUbS7iX6tIkR0RqnWdsnTrb6c3W7zMZDv7
- l93X3XUIGRPiEP671e+UX6rqe3SSv1Mnw8M1IfM3zl0B/hdXNP+qm2TErT9R6lsSAV
- DzqqaC9VfMcf1rxLXbPztaw+62TIEvlf6O7v94iUwpFr2XUemJJ7QAOlLrT9UrMiF8
- HR7YneCmAO6Ug==
-Date: Mon, 10 Mar 2025 15:21:07 +0000
-From: Mark Brown <broonie@kernel.org>
-To: linux@treblig.org
-Cc: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com,
- sre@kernel.org, lgirdwood@gmail.com, alexandre.belloni@bootlin.com,
- danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- linus.walleij@linaro.org, brgl@bgdev.pl, tsbogend@alpha.franken.de,
- linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/9] regulator: pcf50633-regulator: Remove
-Message-ID: <a45de47a-d3f8-4730-bb91-2782f52fd25f@sirena.org.uk>
-References: <20250309193612.251929-1-linux@treblig.org>
- <20250309193612.251929-7-linux@treblig.org>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 553B910E434
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 15:34:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741620879; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=DzrekeHXCnD07yLLuY9kF+sth2UjlCNk1s4871aVms+4GuRthn3JEvdxKgxfzhK86oZN9tYQfOOr1lctAG3C8BXNlGtD/0PXLonNfc5Re6jMkXHSZA5dfp1EK296TxYgR8SVRuzm2uTXGyD8M17dNwdLazp0DE4vUNn0vOE3ToM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1741620879;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=fKGYjqu4Ev4SqaAEdORO3V9LqmGHctq0CSPM/977IfQ=; 
+ b=NmOrwpT6AAtoZP/TrXyYOBgChsgLjxIZSqYOTj2kLm8PrTfQoFNQMDecXKoKob5fLRfl//k6lsMrc7zwohpl7RrCCE6Spdbv/8RN32yI04udiOTGDWTNocaVnmOr4f1Cow9NajLBj2MGjtCHkkyrCrYzHRprOcleMUyJ8ecC9vA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741620879; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=fKGYjqu4Ev4SqaAEdORO3V9LqmGHctq0CSPM/977IfQ=;
+ b=QAvzpGjK9VnN7UqGBMBTo+N83eYP0pmKLVdfSpxGEldWGMlefXxFCAdtRaa/uv7j
+ n/QO+HCaIe+qZhGDy/ljjHKyoVgrv0e9G47YaMSVGKg24OBWLRHicomssfyk9qT9+7T
+ lHsYJ6dz1rt9hmjwuFZfgnPR2TGdg+m8JGmt9tSM=
+Received: by mx.zohomail.com with SMTPS id 1741620876294195.17720317390024;
+ Mon, 10 Mar 2025 08:34:36 -0700 (PDT)
+Message-ID: <ec151d39-2cb2-4f67-a23a-dafc421fff75@collabora.com>
+Date: Mon, 10 Mar 2025 12:34:30 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xd0V7MnYEiEQnSNp"
-Content-Disposition: inline
-In-Reply-To: <20250309193612.251929-7-linux@treblig.org>
-X-Cookie: I'm having an emotional outburst!!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/4] drm/panfrost: Support ARM_64_LPAE_S1 page table
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robh@kernel.org, steven.price@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+References: <20250226183043.140773-1-ariel.dalessandro@collabora.com>
+ <20250226183043.140773-4-ariel.dalessandro@collabora.com>
+ <20250227155539.59944e18@collabora.com>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250227155539.59944e18@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +70,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Boris,
 
---xd0V7MnYEiEQnSNp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 2/27/25 11:55 AM, Boris Brezillon wrote:
+> On Wed, 26 Feb 2025 15:30:42 -0300
+> Ariel D'Alessandro <ariel.dalessandro@collabora.com> wrote:
+> 
+>> @@ -642,8 +713,15 @@ struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
+>>   		.iommu_dev	= pfdev->dev,
+>>   	};
+>>   
+>> -	mmu->pgtbl_ops = alloc_io_pgtable_ops(ARM_MALI_LPAE, &mmu->pgtbl_cfg,
+>> -					      mmu);
+>> +	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_AARCH64_MMU)) {
+>> +		fmt = ARM_64_LPAE_S1;
+>> +		mmu->enable = mmu_lpae_s1_enable;
+>> +	} else {
+>> +		fmt = ARM_MALI_LPAE;
+>> +		mmu->enable = mmu_mali_lpae_enable;
+>> +	}
+> 
+> How about we stick to the legacy pgtable format for all currently
+> supported GPUs, and make this an opt-in property attached to the
+> compatible. This way, we can progressively move away from the legacy
+> format once enough testing has been done, while allowing support for
+> GPUs that can't use the old format because the cachability/shareability
+> configuration is too limited.
 
-On Sun, Mar 09, 2025 at 07:36:09PM +0000, linux@treblig.org wrote:
+Indeed, that's a better way to go.
 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  drivers/mfd/pcf50633-core.c            |  35 +------
->  drivers/regulator/Kconfig              |   7 --
->  drivers/regulator/Makefile             |   1 -
->  drivers/regulator/pcf50633-regulator.c | 124 -------------------------
->  include/linux/mfd/pcf50633/core.h      |   1 -
+Specifically, what you mean is: keep the same compatible string and add 
+a new property to the `panfrost_compatible` private data for that 
+specific variant? E.g.
 
-Putting MFD changes into the subsystem changes just makes everything
-harder to apply, please keep things separate unless there's a strong
-need to keep everything integrated.
+In drivers/gpu/drm/panfrost/panfrost_drv.c:
+```
+struct panfrost_compatible mediatek_mt8188_data
+[...]
+{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
+```
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Thanks,
 
---xd0V7MnYEiEQnSNp
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Ariel D'Alessandro
+Software Engineer
 
------BEGIN PGP SIGNATURE-----
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfPA2MACgkQJNaLcl1U
-h9DJ2Af/XTN0nfI5RCpJ/Fr/iN6MekiWRzaQb3lLzvZytMpntNc4uPwT7p5rYEHa
-ydU9MVFQh7Dyt0gJynsGwsny1gwwpV6lbD/t9Larxqo0gCebDw8KDzLqOEuj2U3k
-0qHsl4zlFCcPbafwODYl+E6ZsaE2i6qIaaYkuRVNtMVDmJ60E3NBfow87xLD56q3
-VH/Vp8e4kPNG/tHAfDadzy705WzmwwJHYSt1JCDPoyxlbXSrCzEDyN5w2+hq0Jvf
-YbmzdUrP2MUQlvOolK/ciND0mX/VT17xsO6Wg2b4t2ZyuDkxJ9bod08/xTZk7BxA
-j94zeh1q8atD27MZlCcC4ibCsF317A==
-=A1eA
------END PGP SIGNATURE-----
-
---xd0V7MnYEiEQnSNp--
