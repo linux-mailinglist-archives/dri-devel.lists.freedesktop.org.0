@@ -2,77 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B037A59193
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 11:47:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEE5A59197
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 11:47:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAA3A10E3F0;
-	Mon, 10 Mar 2025 10:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C0710E3F5;
+	Mon, 10 Mar 2025 10:47:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RQ8qLKDc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gAY+69F4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C212B10E3F0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 10:47:08 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-43690d4605dso23867935e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 03:47:08 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E14A710E3F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 10:47:20 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-39129fc51f8so3367491f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 03:47:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741603627; x=1742208427; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741603639; x=1742208439; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dxe2UdMnuICWXIR/40yTHRWRgSj119FGmCYLgFhERXk=;
- b=RQ8qLKDc5svHoBtbsJlpdO+sl2G4W1JqPV+KeEvhgNG93WNseQhskto8aC7lXCiZc9
- sb+DRcsVpN8OUSEfN+4U9rMpdSsFE+TnYkoTZY1A5SwtR5OmhnZA5vubl1G5bdWQ8+UY
- Hs1cTcpmtrTl4fd/WApm+uzPdAiQwkF3/s7LiIktBj0cO0myUbxtSgd+BaKGUUPFLldk
- qjZclxpg/bjJgCdThzvyEdv6CT1WwxNOvOFKXXvOcE42wxWwk50BN0IiA/RGQqk53QzO
- s3X7bbWULEhCcfScIUa68KGGYgjbSUynB89MFxrZ+km1mULXZZ6utTmTRKy8c8T5nZiZ
- ZY5g==
+ bh=S/usSyZvOMqcO02UgIaZS38RjkJHQ2qzt+JqdGQEbLM=;
+ b=gAY+69F4DL7VigeqCE0RN9F5kkDVPH7KAcFkfJ6DQMNowERtbW8Vdp5+C2uBSnznB/
+ +8ycTUa5Kz7Kkr7n4be9FlEvUElDVZlBppLiKgK+agTRZiyYfpbu80QAE03MAx5tBYno
+ cnKFUIMhqieq1nftzHfis92JZzAuGe6YA3EezwfBoTsZMDTVmx/DFY/06T0KgrO/x5PO
+ lIYM2tclfykGd7SgLNLCMSzrOWpC2h/v5IQ5zBLa0dd9GCw0slZ8KtedRRZklwGn327e
+ 9AZvrvGg3W8gedyoEeQPIBLrKUXj3enNVKnulVeblVWDlsmgK0tNfv41b1hZdiwKeZVg
+ UdQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741603627; x=1742208427;
+ d=1e100.net; s=20230601; t=1741603639; x=1742208439;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dxe2UdMnuICWXIR/40yTHRWRgSj119FGmCYLgFhERXk=;
- b=h4Ca2tXKAlL3VtbHq30ypJlvpTLt8hKrvFonU/BdBm3IPw+0B2yPRDd18B7LKh9PQc
- T5xEtVFTo4qjrRTI6/zXWdci6FUeoLJGT/JfLrWwAHqO424tn83d9IUQ/QXsDy2hEw8z
- TSXM3OIS/h+De4Ng3tk/w1D6h1KJHX15TP2SPMfOIq/lfEysbduN9/oZWHU7eVo7fMku
- dTT22/P57cQwGSNsz1RNyLU053DAG2u+CrruP9I53OAcu0dHFRiuw1njHH7PMHzZ1DWm
- oFodNt2vux91GuM3pm8yDkMd4h6SiWbMIRjBMeJMMthhBerR9jtb7usCXchxoueT9m27
- bpFA==
+ bh=S/usSyZvOMqcO02UgIaZS38RjkJHQ2qzt+JqdGQEbLM=;
+ b=C84jUfUqmoeKQm57FFCJvir34mabtaC8Zr4xzNuZv4YaBvOu3yMCiqE7nPqEBck0zf
+ a2ETsBuXkNMbMAUpv/IKlQwjov1VKaxf8hMAYSsCl2qhxN6HLaao+MrgWz2S/wN8bc2U
+ lic5QfmIptcPZ7sOZSNhY9zpRHbI6+awSqhF8q/uKnSA0qOcVBCXsVqtzRoxsjc3As19
+ C+67wA/0qCHPth2TktX4BbknAc+mbb2s6x28BWaPyeB8rzUOPnTRj5uGUVRPu2PqbbO7
+ 8jKKhgey77cZnXyByW3bb7k/MVSaeq01IOp/JQRChW9RQZU1YOjjg/9Lc1um4E1TgZU+
+ Igxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWOxB3WaqIMUQvyDO7RHvZeRBVBZ0fI3eoMmvRfe8jIav72XxTgCaqWcbIS/e8DI34TRTG8803WhqQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywad8jCOzOKJ6fPIAgv7lqPYbu0yZPKsVsS0oZbjH5tUEG6FxG5
- chBWZNsToy6oKPea6FQGc4SZRJvgwrNRpOWSqxq2G3UxASKMSG6zMgq8s4qjbRE=
-X-Gm-Gg: ASbGnctOJ0aFF/IbdDPV/4kyO+IZgWrXJr1zTK0HYchcFHsuoOlXxpOSd6c8pOYe4On
- Fnjg4BLELa05mnDgYgN9LH5VjuUP6sCHokXvL3arX/UnKm4PbpYnQXCFwp/pxrjDaA2AlYv/T70
- fyUtoGAKbZ6Wh1h7a0SQDwvNtGnmNswosIhQl3+y4p2KnJeGMyH994tkZ7wFfKo9emtOTqor4o8
- wkb1Ij+tTONibO4+XkG0ifnp7ulZLNkXyqLQSVgUWDcWhNao3xx3OEOMmFRhQjgKorIKNBKnorE
- eW9rqlIBI+0MuqOM+qvh5ihLQqHGcj2TjT6Lo+RbZgI6vykdvw==
-X-Google-Smtp-Source: AGHT+IHZYEMjLRapPZhjVBke2kOIMDf3xY9p9R2H2E6KyfQ0Ja2SOjNPA2cXqXY6FK9cu+NqkjeCfw==
-X-Received: by 2002:a05:600c:474c:b0:439:9b19:9e2d with SMTP id
- 5b1f17b1804b1-43c601e1393mr91960565e9.16.1741603626942; 
- Mon, 10 Mar 2025 03:47:06 -0700 (PDT)
+ AJvYcCUdeiXMx+Npni4aDFT0hek3WYDRhP1W9LQP+TvitScbupd2sz5cZtZuX2cKEZcm5TqxYv3ZKkeUaA4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxjk4+MfPKMn0N8D0w4iVsbKc5GW48Cr1fTwYI4q1yDf7h7cQ1/
+ 3f5VwM3D4kSvFXqfqivsXkMsmOFZRvc5EHI+WJVlrT7c7I6y9xVCspJN63yixw4=
+X-Gm-Gg: ASbGnct5cY26WWg9fLFsM0ryVO3cVKMTKt/+y5Jna743XRzR5JbnM7lKsD96i+/XfvQ
+ 6cOPIhwMmo5ldqs9PgSShYoj6brJK18pkzmeNkm25/oO/K7GYm9rcrGuGFTi+s23+Gwxncn78E5
+ hRu3IFvahgFVxDrrlZSawyOP045f+eTK1vtmUi9TdwlIBqHMtDlz+TRZm1AGwc6x/p9jAwF5uUU
+ iRtR63S3s6G+UhNZtVtSHjmStEI/c0lXntUOCBdP/ezQ+a0HhkPPu6T0TQY/MxOExs571BXqLtP
+ 13su1XiXFu3agJCA2feTOBTf5xNszqYYHoG7earcyE52CrJ7c9gTBVe2erW6
+X-Google-Smtp-Source: AGHT+IG0DRVFzL2VYuk4+0xwXKcyqK/IIpus26os/g6Pm2aV01RIKQYEWia+Sq3ARp2iOSgT/MR1WQ==
+X-Received: by 2002:a05:6000:4105:b0:391:41c9:7a8d with SMTP id
+ ffacd0b85a97d-39141c97c1bmr2940385f8f.54.1741603638928; 
+ Mon, 10 Mar 2025 03:47:18 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
  by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-43bdd8dad73sm142867745e9.19.2025.03.10.03.47.05
+ ffacd0b85a97d-3912c0195casm14715253f8f.53.2025.03.10.03.47.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 03:47:06 -0700 (PDT)
-Date: Mon, 10 Mar 2025 13:47:02 +0300
+ Mon, 10 Mar 2025 03:47:18 -0700 (PDT)
+Date: Mon, 10 Mar 2025 13:47:15 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+To: "Jesse.zhang@amd.com" <Jesse.zhang@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Jack Xiao <Jack.Xiao@amd.com>,
- "Jesse.zhang@amd.com" <Jesse.zhang@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, amd-gfx@lists.freedesktop.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Tim Huang <tim.huang@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Likun Gao <Likun.Gao@amd.com>, Le Ma <le.ma@amd.com>,
+ Yang Wang <kevinyang.wang@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/amdgpu/gfx: delete stray tabs
-Message-ID: <92b9d527-fa20-4e4d-a4ce-7c442df9df0e@stanley.mountain>
+Subject: [PATCH] drm/amdgpu: Use tabs for indenting in
+ amdgpu_sdma_reset_engine()
+Message-ID: <2503b45f-751e-4b50-96fd-8dad33821c40@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -92,28 +93,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These lines are indented one tab too far.  Delete the extra tabs.
+This line has a seven space indent instead of a tab.
 
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-index a194bf3347cb..984e6ff6e463 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-@@ -2002,8 +2002,8 @@ void amdgpu_gfx_enforce_isolation_handler(struct work_struct *work)
- 		if (adev->kfd.init_complete) {
- 			WARN_ON_ONCE(!adev->gfx.kfd_sch_inactive[idx]);
- 			WARN_ON_ONCE(adev->gfx.kfd_sch_req_count[idx]);
--				amdgpu_amdkfd_start_sched(adev, idx);
--				adev->gfx.kfd_sch_inactive[idx] = false;
-+			amdgpu_amdkfd_start_sched(adev, idx);
-+			adev->gfx.kfd_sch_inactive[idx] = false;
- 		}
- 	}
- 	mutex_unlock(&adev->enforce_isolation_mutex);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c
+index 39669f8788a7..3a4cef896018 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c
+@@ -621,5 +621,5 @@ int amdgpu_sdma_reset_engine(struct amdgpu_device *adev, uint32_t instance_id, b
+ 	if (suspend_user_queues)
+ 		amdgpu_amdkfd_resume(adev, false);
+ 
+-       return ret;
++	return ret;
+ }
 -- 
 2.47.2
 
