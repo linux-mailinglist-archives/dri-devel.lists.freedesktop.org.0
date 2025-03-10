@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E03A59373
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 13:06:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 466D1A59371
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 13:06:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CA7A10E405;
-	Mon, 10 Mar 2025 12:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E989610E290;
+	Mon, 10 Mar 2025 12:06:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fd8MwOI6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D51WTw1v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29AEC10E3FF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2987B10E290
  for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 12:06:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 64EAB5C6122;
- Mon, 10 Mar 2025 12:04:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59344C4CEED;
- Mon, 10 Mar 2025 12:06:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2F23F5C5FD8;
+ Mon, 10 Mar 2025 12:04:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D876C4CEF2;
+ Mon, 10 Mar 2025 12:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741608389;
- bh=MHX69KTowxgUBaIq2U0nJk1Dh2Qpf931EJ3Gm20lDzU=;
+ s=k20201202; t=1741608392;
+ bh=Qro4bxDwIqe16ab1F2sB7BE0N7tDo7mzmoJ4I8TRdJo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Fd8MwOI6Gr4g8BxyrBDoPe5CkR6LxWSS86cWJnaVKQOIKhwpyInBkAsVLEqZkg+Wb
- 92kysW/uU1DvJxhXvHDYryxQcl3F3RW8iCg7E3r49YcFoC0joeuTsIlwEf2tyc1CNQ
- bm5BMdZG6Wdemat7usQFs9xfPoIcoavti+dtm/KPA+l8DVWGohgUkhECakNgp7YyGk
- skf2qKyhtWb0v7FHzEEToVkb+KYzmvqOptZkOO/efesCe/PhU/vWxW3fznUnDzM+TC
- 4fJfyO59HAxcIcLLolGaqV65cB2wXS0MRBKmBdOFpi+X98F+pVQCGw+kCDg250k8t5
- HlmHQEHBVHCbQ==
+ b=D51WTw1vtvstBl3vA6JvF9mJlq8j1sR8WR9qqmKOGz+7DJOVHwT2Kyu8P57f2urTP
+ CcYglBYtnuHm740POtZsbS+c/avUeR+UJF6Dm89rG4q/w96U7nc3KllbLk3dYYAbcm
+ 7aVwrst/8lH5sL1VUq7gavKQxdqv4Mk/P5S/KKkTbQ2XeEY6Cf7iqmRIp8G7/jsn1G
+ e2aM8hRmquBs3cACUrGaYZkeX0oqiLvQqGDvMp5TTuJpMfP1ECtFpniPlTgDzMm9da
+ 30WiRVu14OryQa/TWUpQxatBX+kELTV279o/nPrT/8j5qdqoMbFDSDO8ckXUVJZGDO
+ LopwJfsypVydw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 10 Mar 2025 13:06:10 +0100
-Subject: [PATCH RFC 04/12] dma: coherent: Provide accessor to dmem region
+Date: Mon, 10 Mar 2025 13:06:11 +0100
+Subject: [PATCH RFC 05/12] dma: contiguous: Provide accessor to dmem region
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250310-dmem-cgroups-v1-4-2984c1bc9312@kernel.org>
+Message-Id: <20250310-dmem-cgroups-v1-5-2984c1bc9312@kernel.org>
 References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
 In-Reply-To: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -56,12 +56,12 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2413; i=mripard@kernel.org;
- h=from:subject:message-id; bh=MHX69KTowxgUBaIq2U0nJk1Dh2Qpf931EJ3Gm20lDzU=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOnnrm56E/7yxj4HNfHYzFPqWVsnsExuXHlz2uHEp0wf5
- 4tcjNRa11HCwiDGxSArpsgSI2y+JO7UrNedbHzzYOawMoEMYeDiFICJCF9k+B899/qseSLBUSsv
- u3VNuPdaYHmEpcNpV5fGg7++GJWmq6sx/LgUnqF8xVvbKyHQrUnf1ZLllVSE0cWvT9SnbvsRnOj
- NCAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1928; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=Qro4bxDwIqe16ab1F2sB7BE0N7tDo7mzmoJ4I8TRdJo=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOnnrm6qvuS1X/e7kHRZT3uA1u0ltrJ7v62s3zidrfnc4
+ uvXokTKO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCR1EhGht8NTNPURafMNOm7
+ kfjSL08gJ6V+/YO0W5df7s09yXj3x1SG/xXZzw7vC5rw1We/aXFph+FWnjcK3376mE4Ly39l8N1
+ SlhkA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,73 +79,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Consumers of the coherent DMA API will have to know which coherent
-region their device allocate from in order for them to charge the memory
-allocation in the right one.
+Consumers of the DMA contiguous API will have to know which region their
+device allocates from in order for them to charge the memory allocation
+in the right one.
 
 Let's provide an accessor for that region.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/linux/dma-map-ops.h | 11 +++++++++++
- kernel/dma/coherent.c       | 14 ++++++++++++++
- 2 files changed, 25 insertions(+)
+ include/linux/dma-map-ops.h | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index e172522cd93651594607e16461fac56e4d67cbce..a2c10ed186efb6e08f64df0954b4d389589b6e35 100644
+index a2c10ed186efb6e08f64df0954b4d389589b6e35..bfc928d3bac37f3eece93d152abd57da513a1cc8 100644
 --- a/include/linux/dma-map-ops.h
 +++ b/include/linux/dma-map-ops.h
-@@ -199,10 +199,21 @@ static inline int dma_mmap_from_global_coherent(struct vm_area_struct *vma,
- {
- 	return 0;
- }
- #endif /* CONFIG_DMA_GLOBAL_POOL */
+@@ -4,10 +4,11 @@
+  * It should not be included in drivers just using the DMA API.
+  */
+ #ifndef _LINUX_DMA_MAP_OPS_H
+ #define _LINUX_DMA_MAP_OPS_H
  
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM) && IS_ENABLED(CONFIG_DMA_DECLARE_COHERENT)
-+struct dmem_cgroup_region *
-+dma_coherent_get_dmem_cgroup_region(struct device *dev);
-+#else /* CONFIG_CGROUP_DMEM && CONFIG_DMA_DECLARE_COHERENT */
++#include <linux/cma.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/pgtable.h>
+ #include <linux/slab.h>
+ 
+ struct cma;
+@@ -153,10 +154,30 @@ static inline void dma_free_contiguous(struct device *dev, struct page *page,
+ {
+ 	__free_pages(page, get_order(size));
+ }
+ #endif /* CONFIG_DMA_CMA*/
+ 
++#if IS_ENABLED(CONFIG_DMA_CMA) && IS_ENABLED(CONFIG_CGROUP_DMEM)
++
 +static inline struct dmem_cgroup_region *
-+dma_coherent_get_dmem_cgroup_region(struct device *dev)
++dma_contiguous_get_dmem_cgroup_region(struct device *dev)
++{
++	struct cma *cma = dev_get_cma_area(dev);
++
++	return cma_get_dmem_cgroup_region(cma);
++}
++
++#else /* IS_ENABLED(CONFIG_DMA_CMA) && IS_ENABLED(CONFIG_CGROUP_DMEM) */
++
++static inline struct dmem_cgroup_region *
++dma_contiguous_get_dmem_cgroup_region(struct device *dev)
 +{
 +	return NULL;
 +}
-+#endif /* CONFIG_CGROUP_DMEM && CONFIG_DMA_DECLARE_COHERENT */
 +
- int dma_common_get_sgtable(struct device *dev, struct sg_table *sgt,
- 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
- 		unsigned long attrs);
- int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
- 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
-diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
-index 2a2d515e43acbdef19c14d8840ed90e48e7ebb43..74c5ff5105110487770c1b73812eefe8b3d7eb3c 100644
---- a/kernel/dma/coherent.c
-+++ b/kernel/dma/coherent.c
-@@ -28,10 +28,24 @@ static inline struct dma_coherent_mem *dev_get_coherent_memory(struct device *de
- 	if (dev && dev->dma_mem)
- 		return dev->dma_mem;
- 	return NULL;
- }
- 
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+struct dmem_cgroup_region *
-+dma_coherent_get_dmem_cgroup_region(struct device *dev)
-+{
-+	struct dma_coherent_mem *mem;
++#endif /* IS_ENABLED(CONFIG_DMA_CMA) && IS_ENABLED(CONFIG_CGROUP_DMEM) */
 +
-+	mem = dev_get_coherent_memory(dev);
-+	if (!mem)
-+		return NULL;
-+
-+	return mem->dmem_cgroup_region;
-+}
-+#endif
-+
- static inline dma_addr_t dma_get_device_base(struct device *dev,
- 					     struct dma_coherent_mem * mem)
- {
- 	if (mem->use_dev_dma_pfn_offset)
- 		return phys_to_dma(dev, PFN_PHYS(mem->pfn_base));
+ #ifdef CONFIG_DMA_DECLARE_COHERENT
+ int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
+ 		dma_addr_t device_addr, size_t size);
+ void dma_release_coherent_memory(struct device *dev);
+ int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
 
 -- 
 2.48.1
