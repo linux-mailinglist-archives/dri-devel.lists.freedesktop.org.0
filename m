@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE79A59319
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 12:54:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052F1A5932C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 12:56:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9297110E03A;
-	Mon, 10 Mar 2025 11:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D3E910E291;
+	Mon, 10 Mar 2025 11:56:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Cx12r1/B";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="a+4eVCNr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E059F10E03A
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 11:54:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5110A10E3F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 11:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,36 +22,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=04ApAvGFoTVIuBnuq6BZJtCgOziVp8G3s4z5zQgcSiM=; b=Cx12r1/B8ll2frkUo4yNqeUHgi
- eIcCG0GO3kiEM4nBYosfInlL/MdobENebup8h2o9nEJuJhJrmkMF8dzEf2uKPR0XJy2Dsge0Fexl3
- L3Q9w59nPvUD6uBHfxnqr6YnCp19//ONu+9mp+xsM5y3z4CGi84XPYp3bQMASPLA5zJc5xs3kL8zC
- 7Oxah2bX5eFd2dAD8cNQLU3z+WgZMj6oXkCXsB82dndXfj1QjhJmueIwcQcoArwiFFmR2FHZe4JGp
- t4SnvURFOafheoLMxXJFmAYSL7hpxlJtZwCO2QGentrswm5PrVboRqpAiyoD6sGjNLoLnPHuFLIHP
- UcxnGJ2Q==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
+ bh=KQGViS5hJqTMRIRM6RIbk/s1slShSph0D0BqL260LP0=; b=a+4eVCNrl85q3SwPQ0e95yhEW+
+ HDNqafgw3e2liMwlwKsiu5/wqGLKkVCM7/IRtWcJh99U94iHK+8Q7kM8UcwB8Uy2Wm+aQzmelIdUu
+ 0qqKh13BbgVVGdWtOEXiY9Z3mscejC9OZ5TSNwNNQIr2R2ubxPRmQFnNEOXGK5wkl3r03h53QStj6
+ zpa0gpotdAFEgVQQ29cqzYXid+kxv7ndSjizdgSONlujnPZKbwcrB2PK/Dh2ucxFfU/yUTVq/Vmzs
+ D1fhB5+m/sQplnUCxH3nAoAhS/VrlE0AKxC7NBW82Q4haryTzghnowaFkw1VTJfUOtfPpUH2wLE6H
+ +dOjUhoA==;
+Received: from [143.107.182.242] (helo=[10.41.68.132])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1trbi6-006SjA-B6; Mon, 10 Mar 2025 12:54:24 +0100
-Message-ID: <219fc5e3-759b-4013-8def-673c7946f5e1@igalia.com>
-Date: Mon, 10 Mar 2025 11:54:23 +0000
+ id 1trbkC-006SmH-Uy; Mon, 10 Mar 2025 12:56:35 +0100
+Message-ID: <4d224fc2-d077-47aa-8b52-edba30c62d19@igalia.com>
+Date: Mon, 10 Mar 2025 08:57:25 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] drm: Move some options to separate new Kconfig
-To: phasta@kernel.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Simona Vetter <simona@ffwll.ch>,
- David Airlie <airlied@gmail.com>
-References: <20250306170555.7244-1-tvrtko.ursulin@igalia.com>
- <20250306170555.7244-2-tvrtko.ursulin@igalia.com>
- <d355bccc3127b727c9f6fe03dfd7a43e4c5cc78e.camel@mailbox.org>
- <f9bbc28f-d2ee-403d-ba9b-708edcc4fb20@igalia.com>
- <61b4e7342572269b61ed4188dccfb688c3d95d79.camel@mailbox.org>
- <7070a805-653c-4664-b0df-aa9c800e2f05@igalia.com>
- <d3b3a1210009223000e88a60d1215469bf765545.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <d3b3a1210009223000e88a60d1215469bf765545.camel@mailbox.org>
+Subject: Re: [PATCH v2 4/6] dt-bindings: gpu: v3d: Add SMS to the registers'
+ list
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
+ Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>, devicetree@vger.kernel.org
+References: <20250308-v3d-gpu-reset-fixes-v2-0-2939c30f0cc4@igalia.com>
+ <20250308-v3d-gpu-reset-fixes-v2-4-2939c30f0cc4@igalia.com>
+ <20250310-calculating-flat-cuttlefish-4c9fc2@krzk-bin>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <20250310-calculating-flat-cuttlefish-4c9fc2@krzk-bin>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,207 +92,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Krzysztof,
 
-On 10/03/2025 11:11, Philipp Stanner wrote:
-> On Mon, 2025-03-10 at 09:55 +0000, Tvrtko Ursulin wrote:
->>
->> On 07/03/2025 18:06, Philipp Stanner wrote:
->>> On Fri, 2025-03-07 at 16:59 +0000, Tvrtko Ursulin wrote:
->>>>
->>>> On 07/03/2025 13:41, Philipp Stanner wrote:
->>>>> Hi,
->>>>>
->>>>> You forgot to put folks in CC as recipents for the cover letter
->>>>> :(
->>>>>
->>>>>
->>>>> On Thu, 2025-03-06 at 17:05 +0000, Tvrtko Ursulin wrote:
->>>>>> Move some options out into a new debug specific kconfig file
->>>>>> in
->>>>>> order
->>>>>> to
->>>>>> make things a bit cleaner.
->>>>>>
->>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>>>> Cc: Philipp Stanner <phasta@kernel.org>
->>>>>
->>>>> We all have our individual work flows, so don't take this as
->>>>> lecturing
->>>>> or anything – I just suspect that I was forgotten in the cover
->>>>> letter
->>>>> because you Cc people by hand in the individual patches.
->>>>>
->>>>> What I do is that I run get_maintainer and then put the
->>>>> individuals
->>>>> listed there into the --to= field. That sends the entire series
->>>>> to
->>>>> all
->>>>> of them.
->>>>>
->>>>> Only sometimes, when there's a huge list of recipents or when
->>>>> the
->>>>> patches of a series are very independent, I deviate from that
->>>>> rule.
->>>>>
->>>>> JFYI
->>>>
->>>> Notice it was there in v3, I just omitted to paste it this time.
->>>>
->>>>> Anyways, we have a bigger problem about the entire series. I
->>>>> now
->>>>> tested
->>>>> again with the same setup as yesterday and the faults are
->>>>> indeed
->>>>> gone,
->>>>> so that's good.
->>>>>
->>>>> But to be sure I then did run kmemleak and got a list of leaks
->>>>> that
->>>>> is
->>>>> more than 2000 lines long.
->>>>
->>>> There is this comment for drm_sched_fini which ends with:
->>>>
->>>> """
->>>> ...
->>>>     * This stops submission of new jobs to the hardware through
->>>>     * drm_sched_backend_ops.run_job(). Consequently,
->>>> drm_sched_backend_ops.free_job()
->>>>     * will not be called for all jobs still in
->>>> drm_gpu_scheduler.pending_list.
->>>>     * There is no solution for this currently. Thus, it is up to
->>>> the
->>>> driver to make
->>>>     * sure that:
->>>>     *
->>>>     *  a) drm_sched_fini() is only called after for all submitted
->>>> jobs
->>>>     *     drm_sched_backend_ops.free_job() has been called or that
->>>>     *  b) the jobs for which drm_sched_backend_ops.free_job() has
->>>> not
->>>> been
->>>> called
->>>>     *     after drm_sched_fini() ran are freed manually.
->>>>     *
->>>>
->>>>     * FIXME: Take care of the above problem and prevent this
->>>> function
->>>> from
->>>> leaking
->>>>     * the jobs in drm_gpu_scheduler.pending_list under any
->>>> circumstances.
->>>> """
->>>>
->>>> I got bitten by that. Keep forgetting how fragile the thing is..
->>>> :(
->>>
->>> argh damn, those are *all* from the pending_list?!
->>
->> Right, all leaks I saw were from the drm_sched_basic_entity_cleanup
->> test. All other tests actually wait for jobs to finish so can't hit
->> that.
->>
->> Fix was simply to add a drm_sched_job_cleanup call when unwinding
->> unfinished mock scheduler jobs from drm_mock_sched_fini, which
->> happens
->> before calling drm_sched_fini.
->>
->> That's pretty much how things are expected to be handled AFAIU.
->>
->>> OK. Well.
->>>
->>> Now we've got a philosophical problem:
->>>
->>> We still have to fix those leaks (I'm still working on it, but my
->>> current attempt has failed and I probably fall back to a refcount
->>> solution).
->>
->> You propose to move the responsibility of cleaning up in-flight jobs
->> to
->> the scheduler core?
+On 3/10/25 06:49, Krzysztof Kozlowski wrote:
+> On Sat, Mar 08, 2025 at 11:33:43AM -0300, Maíra Canal wrote:
+>> V3D 7.1 exposes a new register block, called V3D_SMS. As BCM2712 has a
 > 
-> The scheduler core is already and has always been responsible for
-> cleaning up "in-flight jobs". It does so through
-> backend_ops.free_job(). And we prevent it from cleaning up all jobs by
-> cancelling the work items in drm_sched_fini().
+> Where is the comaptible for this new block? Or was it already documented
+> but with missing register?
+
+The compatible is brcm,2712-v3d, which was already documented, but with
+a missing register.
+
 > 
-> Semantically, the scheduler is the one in charge of the job life times.
+>> V3D 7.1 core, add a new register item to the list. Similar to the GCA
+>> and bridge register, SMS is optional and should only be added for V3D
+>> 7.1 variants.
+>>
+>> In order to enforce per-SoC register rules, add per-compatible
+>> restrictions. The restrictions will assure that GCA will only be added
+>> in BCM7268 (V3D 3.3) and SMS will only be added in BCM2712 (V3D 7.1).
+>>
+>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>> Cc: Conor Dooley <conor+dt@kernel.org>
+>> Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
+>> Cc: devicetree@vger.kernel.org
 > 
-> As of right now, every single driver is effectively forced to implement
-> the same logic, but they have implemented it in different ways (Xe
-> refcounts the scheduler and only calls drm_sched_fini() once refcnt ==
-> 0, Nouveau maintains a copy of the pending_list, blocking for it to
-> become empty before calling drm_sched_fini())
-
-Right. And to change it means making ->free_job() for all drivers handle 
-different potential job states, while today it only needs to handle 
-finished jobs. Or adding a new vfunc. Or something. It sounds doable but 
-a lot of work, not least because there is a lot of drivers.
-
->>> And to see whether the fix actually fixes the leaks, directly using
->>> the
->>> kunit tests would be handy.
->>>
->>> After all, this is what the kunit tests are there for: show what is
->>> broken within the scheduler. And those leaks definitely qualify. Or
->>> should kunit tests follow the same rules we demand from drivers?
->>>
->>> I'd like to hear more opinions about that.
->>>
->>> @Danilo, @Dave, @Sima
->>> would it be OK if we add kunit tests for the scheduler to DRM that
->>> cause leaks until we can fix them?
->>
->> It is indeed a bit philosophical. I'd say only if there is a 100%
->> agreement that drm_sched_fini should be able to clean up, or drive
->> cleaning up, all driver state. And if we are prepared to handle a
->> permanently failing test from now to some future date when this would
->> be
->> implemented.
->>
->> I have a similar conundrum with set priority, where I was
->> contemplating
->> to add a permanently failing test showing how that does not fully
->> work,
->> and then get improved with my deadline scheduling series.
->>
->> On the other side of the argument is the past experience of CI
->> systems
->> generally not coping well with permanently failing test. Eventually
->> they
->> succumb to the pressure to remove them due noisy results. Therefore
->> other option is to have the mock scheduler adhere to the current
->> implementation and only change it once the DRM scheduler rules
->> change.
+> Please drop the autogenerated scripts/get_maintainer.pl CC-entries from
+> commit msg. There is no single need to store automated output of
+> get_maintainers.pl in the git log. It can be easily re-created at any
+> given time, thus its presence in the git history is redundant and
+> obfuscates the log.
 > 
-> Can you think of a way, like flags or kconfig options, with which
-> developers such as you and I could "switch the bugs on" for working on
-> those issues?
+> If you need it for your own patch management purposes, keep it under the
+> --- separator.
 
-We could do that easily I think. Something like:
+Sorry, I'll change it for v3.
 
-config DRM_SCHED_KUNIT_TEST_ASPIRATIONAL
-         bool "Turn on the aspirational mode for DRM scheduler unit 
-tests" if !KUNIT_ALL_TESTS
-         select DRM_SCHED
-         depends on DRM && KUNIT && DRM_SCHED_KUNIT_TEST
-         default KUNIT_ALL_TESTS
-         help
-           Choose this option to make the DRM scheduler unit tests test 
-for behaviour which was agreed as a design goal, even if the current 
-implementation can make specific tests fail.
+> 
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 60 ++++++++++++++++++++--
+>>   1 file changed, 55 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+>> index dc078ceeca9ac3447ba54a7c8830821f0b2a7f9f..c0caee055e8c18dbcac0e51aa192951996545695 100644
+>> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+>> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+>> @@ -27,15 +27,12 @@ properties:
+>>         - description: core0 register (required)
+>>         - description: GCA cache controller register (if GCA controller present)
+>>         - description: bridge register (if no external reset controller)
+>> +      - description: SMS register (if SMS controller present)
+> 
+> This lists five items, but you say you have max 4?
 
-           Recommended for driver developers only.
+V3D 3.1 uses hub, core0, gca, and bridge (optional)
+V3D 4.1 and 4.2 uses hub, core, and bridge (optional)
+V3D 7.1 uses hub, core0, sms, and bridge (optional)
 
-           If in doubt, say "N".
+Therefore, for a given DT, you will have 4 items max.
 
-I can skip the job cleanup based on it and also add some validation that 
-the pending list is empty after drm_sched_fini if on.
+> 
+>>       minItems: 2
+>>   
+>>     reg-names:
+>> -    items:
+>> -      - const: hub
+>> -      - const: core0
+>> -      - enum: [ bridge, gca ]
+>> -      - enum: [ bridge, gca ]
+>>       minItems: 2
+>> +    maxItems: 4
+> 
+> So here 4, but earlier 5? These must come in sync.
 
-Regards,
+I added maxItems for reg in the allOf section.
 
-Tvrtko
+> 
+>>   
+>>     interrupts:
+>>       items:
+>> @@ -60,6 +57,59 @@ required:
+>>   
+>>   additionalProperties: false
+>>   
+>> +allOf:
+> 
+> This goes above additionalProperties.
+
+Got it.
+
+> 
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - brcm,2711-v3d
+>> +              - brcm,7278-v3d
+>> +    then:
+>> +      properties:
+>> +        reg:
+>> +          minItems: 2
+>> +          maxItems: 3
+>> +        reg-names:
+>> +          items:
+>> +            - const: hub
+>> +            - const: core0
+>> +            - const: bridge
+> 
+> Again un-synced lists.
+
+Sorry, what do you mean by un-synced lists?
+
+> 
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: brcm,2712-v3d
+>> +    then:
+>> +      properties:
+>> +        reg:
+>> +          minItems: 3
+>> +          maxItems: 4
+>> +        reg-names:
+>> +          items:
+>> +            - const: hub
+>> +            - const: core0
+>> +            - enum: [ bridge, sms ]
+>> +            - enum: [ bridge, sms ]
+>> +          minItems: 3
+> 
+> Why is this flexible?
+
+I cannot guarantee the order and bridge is optional.
+
+Best Regards,
+- Maíra
+
+> 
+> Best regards,
+> Krzysztof
+> 
 
