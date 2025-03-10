@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAA6A59376
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 13:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1245EA59377
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 13:06:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EDD910E3FF;
-	Mon, 10 Mar 2025 12:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9AF10E40A;
+	Mon, 10 Mar 2025 12:06:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c4uygRPz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qP1HaEej";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98F0010E40A
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 12:06:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3908710E3FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 12:06:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 7F3D6A458B2;
- Mon, 10 Mar 2025 12:01:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3DF7C4CEED;
- Mon, 10 Mar 2025 12:06:42 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 342E6A4599F;
+ Mon, 10 Mar 2025 12:01:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881E4C4CEF1;
+ Mon, 10 Mar 2025 12:06:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741608403;
- bh=bMCIvn+7jf6RMiYjEqkNRC/cCXSSxQerkW6ogfdek4M=;
+ s=k20201202; t=1741608406;
+ bh=NXKrlxOk8nYj3oekFD8GiKq9/u4PNdR9ojkDiIpqr8Y=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=c4uygRPz6bHzOv7JaNd0BKTZdiJEeNNcAfN7JlO1sp451josGYGwOPeVSWBgd+N12
- QOw5/LBuUY8o2XXn8mk3aPWeFcHLDfF4dARIrSn4peA4LCdlIglwRYGe80L9TOm5Nh
- fvWbAvaafZU7hsRYue9WrYK6wXtSF1uVl//tLeDIrXiOtET1ST1idAgk0sOcpN66Qo
- XMSEACHHxWrEhXDsq2mFwDakCRpfhdwUZuF+V9Ym0SbSNxk+GszSTQGzQutE5uF9Dj
- 6rEwFHnGHfJlI3b/8CaV0AU7g2mk6SMB2CX3lBmI1fBYXzaIJa5H7iLWESsMAH0nBP
- iQ7NEvKYLtyYw==
+ b=qP1HaEejl3XbM+OS0ZKFaaD86jNWg/27gajc0J541SsR7ZFPhKVTG3ZBJjpoQMliu
+ NOawWgEwaEwZ01wa9RTULuZgGivrBBZtKlDVAMzRxJDPnZAoKrNIUz/OMqTxQf68MV
+ oyaDfZg98cxeS9aToEfD74iRQdNbpy6aqcpqBlADSmFpsqUKq0cg/k6/MaH2vfGyKW
+ 6HCbzZuIqVzOOtJXoG2bQpZofznzIf+76AEZdiodRQm3L1e2cymwgusOb2W1/8vrC2
+ M1i0C9qr6qkLBJrKtljZQ4kUeY/hyStMuDlAMt7Sh2OLM1pXA2nCBEzZQs2jdbpcFl
+ hz5IMtNseNp+g==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 10 Mar 2025 13:06:15 +0100
-Subject: [PATCH RFC 09/12] dma-buf: Clear cgroup accounting on release
+Date: Mon, 10 Mar 2025 13:06:16 +0100
+Subject: [PATCH RFC 10/12] dma-buf: cma: Account for allocations in dmem cgroup
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250310-dmem-cgroups-v1-9-2984c1bc9312@kernel.org>
+Message-Id: <20250310-dmem-cgroups-v1-10-2984c1bc9312@kernel.org>
 References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
 In-Reply-To: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -56,12 +56,12 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1990; i=mripard@kernel.org;
- h=from:subject:message-id; bh=bMCIvn+7jf6RMiYjEqkNRC/cCXSSxQerkW6ogfdek4M=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOnnrm5t/yVnmCnbdWIBb4tvabPfyl9udfO64jiO/quN4
- GNJyz/dUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgInsOsLIcPDV65S2uVZWc348
- +bw4wjdK8HDKtbceyZUZ2688natTF8zI8LhqgYHRIbd71bsl7t4JEb5RWWed883UeuOfx6vX9BW
- 8ZwUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2422; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=NXKrlxOk8nYj3oekFD8GiKq9/u4PNdR9ojkDiIpqr8Y=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOnnrm7790W4odtyuqKjtsCfpWvTZgqvnjx9dp4mw4Vnx
+ om7O58YdpSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAi4sUM/+OM1uZ9mxg4/6n9
+ j+bjKyIYp3zkEPha/IbRz9lBedkrhq0M/5Pe2ZUEOkbWVapK+j80WiT1S7Ppivsji5iFe/Z+XWB
+ nwgEA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,69 +79,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to clean thing up when dma-heaps will allocate and register
-buffers in the dev cgroup, let's uncharge a released buffer for any
-(optional) cgroup controller.
+Now that we have a DMEM region per CMA region, we can track the
+allocations of the CMA heap through DMEM.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/dma-buf/dma-buf.c | 7 +++++++
- include/linux/dma-buf.h   | 5 +++++
- 2 files changed, 12 insertions(+)
+ drivers/dma-buf/heaps/cma_heap.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 5baa83b855156516a0a766bee0789b122473efb3..a95eef17f193454b018dc8177ddfd434d7b64473 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -11,10 +11,11 @@
-  * refining of this idea.
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 9512d050563a9ad0a735230c4870c3d3b3b01b25..4951c41db3ba0cbd903b6d62787f51b83f4a1e7e 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -7,10 +7,11 @@
+  *
+  * Also utilizing parts of Andrew Davis' SRAM heap:
+  * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
+  *	Andrew F. Davis <afd@ti.com>
   */
- 
- #include <linux/fs.h>
- #include <linux/slab.h>
 +#include <linux/cgroup_dmem.h>
+ #include <linux/cma.h>
  #include <linux/dma-buf.h>
- #include <linux/dma-fence.h>
- #include <linux/dma-fence-unwrap.h>
- #include <linux/anon_inodes.h>
- #include <linux/export.h>
-@@ -97,10 +98,16 @@ static void dma_buf_release(struct dentry *dentry)
- 	 * * dmabuf->cb_in/out.active are non-0 despite no pending fence callback
- 	 */
- 	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+ #include <linux/dma-heap.h>
+ #include <linux/dma-map-ops.h>
+ #include <linux/err.h>
+@@ -276,23 +277,31 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+ 					 unsigned long len,
+ 					 u32 fd_flags,
+ 					 u64 heap_flags)
+ {
+ 	struct cma_heap *cma_heap = dma_heap_get_drvdata(heap);
++	struct dmem_cgroup_pool_state *pool;
+ 	struct cma_heap_buffer *buffer;
+ 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+ 	size_t size = PAGE_ALIGN(len);
+ 	pgoff_t pagecount = size >> PAGE_SHIFT;
+ 	unsigned long align = get_order(size);
+ 	struct page *cma_pages;
+ 	struct dma_buf *dmabuf;
+ 	int ret = -ENOMEM;
+ 	pgoff_t pg;
  
- 	dma_buf_stats_teardown(dmabuf);
++	ret = dmem_cgroup_try_charge(cma_get_dmem_cgroup_region(cma_heap->cma),
++				     size, &pool, NULL);
++	if (ret)
++		return ERR_PTR(ret);
 +
-+#ifdef CONFIG_CGROUP_DMEM
-+	if (dmabuf->cgroup_pool)
-+		dmem_cgroup_uncharge(dmabuf->cgroup_pool, dmabuf->size);
-+#endif
-+
- 	dmabuf->ops->release(dmabuf);
+ 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+-	if (!buffer)
+-		return ERR_PTR(-ENOMEM);
++	if (!buffer) {
++		ret = -ENOMEM;
++		goto uncharge_cgroup;
++	}
  
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
- 		dma_resv_fini(dmabuf->resv);
+ 	INIT_LIST_HEAD(&buffer->attachments);
+ 	mutex_init(&buffer->lock);
+ 	buffer->len = size;
  
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 36216d28d8bdc01a9c9c47e27c392413f7f6c5fb..111ca5a738ae0a816ba1551313dfb0a958720b6c 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -437,10 +437,15 @@ struct dma_buf {
- 		struct dma_fence_cb cb;
- 		wait_queue_head_t *poll;
+@@ -348,18 +357,23 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+ 	dmabuf = dma_buf_export(&exp_info);
+ 	if (IS_ERR(dmabuf)) {
+ 		ret = PTR_ERR(dmabuf);
+ 		goto free_pages;
+ 	}
++
++	dmabuf->cgroup_pool = pool;
++
+ 	return dmabuf;
  
- 		__poll_t active;
- 	} cb_in, cb_out;
-+
-+#ifdef CONFIG_CGROUP_DMEM
-+	struct dmem_cgroup_pool_state *cgroup_pool;
-+#endif
-+
- #ifdef CONFIG_DMABUF_SYSFS_STATS
- 	/**
- 	 * @sysfs_entry:
- 	 *
- 	 * For exposing information about this buffer in sysfs. See also
+ free_pages:
+ 	kfree(buffer->pages);
+ free_cma:
+ 	cma_release(cma_heap->cma, cma_pages, pagecount);
+ free_buffer:
+ 	kfree(buffer);
++uncharge_cgroup:
++	dmem_cgroup_uncharge(pool, len);
+ 
+ 	return ERR_PTR(ret);
+ }
+ 
+ static const struct dma_heap_ops cma_heap_ops = {
 
 -- 
 2.48.1
