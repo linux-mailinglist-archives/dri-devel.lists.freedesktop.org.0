@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1245EA59377
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 13:06:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1D8A59379
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 13:06:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9AF10E40A;
-	Mon, 10 Mar 2025 12:06:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7EB10E403;
+	Mon, 10 Mar 2025 12:06:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qP1HaEej";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JvjKiebn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3908710E3FF
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 12:06:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 622CE10E40C
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 12:06:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 342E6A4599F;
- Mon, 10 Mar 2025 12:01:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881E4C4CEF1;
- Mon, 10 Mar 2025 12:06:45 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 50BE0A45AEF;
+ Mon, 10 Mar 2025 12:01:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AC88C4CEE5;
+ Mon, 10 Mar 2025 12:06:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741608406;
- bh=NXKrlxOk8nYj3oekFD8GiKq9/u4PNdR9ojkDiIpqr8Y=;
+ s=k20201202; t=1741608408;
+ bh=Qsf/4cmIwOEBWG+KEjMk+VXbjNJ+CMnPc++S7Uaux44=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=qP1HaEejl3XbM+OS0ZKFaaD86jNWg/27gajc0J541SsR7ZFPhKVTG3ZBJjpoQMliu
- NOawWgEwaEwZ01wa9RTULuZgGivrBBZtKlDVAMzRxJDPnZAoKrNIUz/OMqTxQf68MV
- oyaDfZg98cxeS9aToEfD74iRQdNbpy6aqcpqBlADSmFpsqUKq0cg/k6/MaH2vfGyKW
- 6HCbzZuIqVzOOtJXoG2bQpZofznzIf+76AEZdiodRQm3L1e2cymwgusOb2W1/8vrC2
- M1i0C9qr6qkLBJrKtljZQ4kUeY/hyStMuDlAMt7Sh2OLM1pXA2nCBEzZQs2jdbpcFl
- hz5IMtNseNp+g==
+ b=JvjKiebn6NPadaYopEROu2Wk78rdDJEvtjKTS7MkrdREUkAJTHFkGfSG4VjpCAIxq
+ ttK+MqSZtwngZd9TC+nTvymEMN2Z1f0hr3lqfy10jJxQB3UHQr0XgrNUnK9i23DUrF
+ zc1zrnOde4h44bOj69AwItqo98bkHzWaQhTwoWTxr+M2rJUk3HZWf07AceA84I0hfb
+ 2drmUOmf6Ggo0nxrxKKe7iAypbLa5169lUFwKDmlZJPUPxw1F+kK0y3X8xeKel9j2a
+ h6BqBn4N7fH7hWDFgvGuFE6oAcgmi2G1iKoh52DDhw/HW4x6dTT39dvzW4+xn6sBHC
+ nr6zPuPrdq+aQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 10 Mar 2025 13:06:16 +0100
-Subject: [PATCH RFC 10/12] dma-buf: cma: Account for allocations in dmem cgroup
+Date: Mon, 10 Mar 2025 13:06:17 +0100
+Subject: [PATCH RFC 11/12] drm/gem: Add cgroup memory accounting
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250310-dmem-cgroups-v1-10-2984c1bc9312@kernel.org>
+Message-Id: <20250310-dmem-cgroups-v1-11-2984c1bc9312@kernel.org>
 References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
 In-Reply-To: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -56,12 +56,12 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2422; i=mripard@kernel.org;
- h=from:subject:message-id; bh=NXKrlxOk8nYj3oekFD8GiKq9/u4PNdR9ojkDiIpqr8Y=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOnnrm7790W4odtyuqKjtsCfpWvTZgqvnjx9dp4mw4Vnx
- om7O58YdpSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAi4sUM/+OM1uZ9mxg4/6n9
- j+bjKyIYp3zkEPha/IbRz9lBedkrhq0M/5Pe2ZUEOkbWVapK+j80WiT1S7Ppivsji5iFe/Z+XWB
- nwgEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3032; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=Qsf/4cmIwOEBWG+KEjMk+VXbjNJ+CMnPc++S7Uaux44=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOnnrm7L3LlrwvOPawsFQufNnL1sEuPDM1N2vlzGOm3i9
+ 7c1F51fc3aUsjCIcTHIiimyxAibL4k7Net1JxvfPJg5rEwgQxi4OAVgIpn+jAwNq5b4NK817Srv
+ kizRirktpJJcwtdd9bHHKpDL4wLbQmlGhifBexJPKh1i3RB2LvSO9UxWBz/dvOu+Ovv4ZRNaNvt
+ LMwEA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,88 +79,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have a DMEM region per CMA region, we can track the
-allocations of the CMA heap through DMEM.
+In order to support any device using the GEM support, let's charge any
+GEM DMA allocation into the dmem cgroup.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/dma-buf/heaps/cma_heap.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_gem.c            | 5 +++++
+ drivers/gpu/drm/drm_gem_dma_helper.c | 6 ++++++
+ include/drm/drm_device.h             | 1 +
+ include/drm/drm_gem.h                | 2 ++
+ 4 files changed, 14 insertions(+)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 9512d050563a9ad0a735230c4870c3d3b3b01b25..4951c41db3ba0cbd903b6d62787f51b83f4a1e7e 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -7,10 +7,11 @@
-  *
-  * Also utilizing parts of Andrew Davis' SRAM heap:
-  * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-  *	Andrew F. Davis <afd@ti.com>
-  */
-+#include <linux/cgroup_dmem.h>
- #include <linux/cma.h>
- #include <linux/dma-buf.h>
- #include <linux/dma-heap.h>
- #include <linux/dma-map-ops.h>
- #include <linux/err.h>
-@@ -276,23 +277,31 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
- 					 unsigned long len,
- 					 u32 fd_flags,
- 					 u64 heap_flags)
- {
- 	struct cma_heap *cma_heap = dma_heap_get_drvdata(heap);
-+	struct dmem_cgroup_pool_state *pool;
- 	struct cma_heap_buffer *buffer;
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
- 	size_t size = PAGE_ALIGN(len);
- 	pgoff_t pagecount = size >> PAGE_SHIFT;
- 	unsigned long align = get_order(size);
- 	struct page *cma_pages;
- 	struct dma_buf *dmabuf;
- 	int ret = -ENOMEM;
- 	pgoff_t pg;
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index ee811764c3df4b4e9c377a66afd4967512ba2001..e04733cb49353cf3ff9672d883b106a083f80d86 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -108,10 +108,11 @@ drm_gem_init(struct drm_device *dev)
+ 	dev->vma_offset_manager = vma_offset_manager;
+ 	drm_vma_offset_manager_init(vma_offset_manager,
+ 				    DRM_FILE_PAGE_OFFSET_START,
+ 				    DRM_FILE_PAGE_OFFSET_SIZE);
  
-+	ret = dmem_cgroup_try_charge(cma_get_dmem_cgroup_region(cma_heap->cma),
-+				     size, &pool, NULL);
-+	if (ret)
-+		return ERR_PTR(ret);
 +
- 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
--	if (!buffer)
--		return ERR_PTR(-ENOMEM);
-+	if (!buffer) {
-+		ret = -ENOMEM;
-+		goto uncharge_cgroup;
-+	}
- 
- 	INIT_LIST_HEAD(&buffer->attachments);
- 	mutex_init(&buffer->lock);
- 	buffer->len = size;
- 
-@@ -348,18 +357,23 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
- 	dmabuf = dma_buf_export(&exp_info);
- 	if (IS_ERR(dmabuf)) {
- 		ret = PTR_ERR(dmabuf);
- 		goto free_pages;
- 	}
-+
-+	dmabuf->cgroup_pool = pool;
-+
- 	return dmabuf;
- 
- free_pages:
- 	kfree(buffer->pages);
- free_cma:
- 	cma_release(cma_heap->cma, cma_pages, pagecount);
- free_buffer:
- 	kfree(buffer);
-+uncharge_cgroup:
-+	dmem_cgroup_uncharge(pool, len);
- 
- 	return ERR_PTR(ret);
+ 	return drmm_add_action(dev, drm_gem_init_release, NULL);
  }
  
- static const struct dma_heap_ops cma_heap_ops = {
+ /**
+  * drm_gem_object_init_with_mnt - initialize an allocated shmem-backed GEM
+@@ -973,10 +974,14 @@ drm_gem_release(struct drm_device *dev, struct drm_file *file_private)
+  * drm_gem_object_init().
+  */
+ void
+ drm_gem_object_release(struct drm_gem_object *obj)
+ {
++
++	if (obj->cgroup_pool_state)
++		dmem_cgroup_uncharge(obj->cgroup_pool_state, obj->size);
++
+ 	if (obj->filp)
+ 		fput(obj->filp);
+ 
+ 	drm_gem_private_object_fini(obj);
+ 
+diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+index 16988d316a6dc702310fa44c15c92dc67b82802b..6236feb67ddd6338f0f597a0606377e0352ca6ed 100644
+--- a/drivers/gpu/drm/drm_gem_dma_helper.c
++++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+@@ -104,10 +104,16 @@ __drm_gem_dma_create(struct drm_device *drm, size_t size, bool private)
+ 	if (ret) {
+ 		drm_gem_object_release(gem_obj);
+ 		goto error;
+ 	}
+ 
++	ret = dmem_cgroup_try_charge(dma_get_dmem_cgroup_region(drm->dev),
++				     size,
++				     &dma_obj->base.cgroup_pool_state, NULL);
++	if (ret)
++		goto error;
++
+ 	return dma_obj;
+ 
+ error:
+ 	kfree(dma_obj);
+ 	return ERR_PTR(ret);
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+index c91f87b5242d7a499917eb4aeb6ca8350f856eb3..58987f39ba8718eb768f6261fb0a1fbf16b38549 100644
+--- a/include/drm/drm_device.h
++++ b/include/drm/drm_device.h
+@@ -1,8 +1,9 @@
+ #ifndef _DRM_DEVICE_H_
+ #define _DRM_DEVICE_H_
+ 
++#include <linux/cgroup_dmem.h>
+ #include <linux/list.h>
+ #include <linux/kref.h>
+ #include <linux/mutex.h>
+ #include <linux/idr.h>
+ 
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index fdae947682cd0b7b06db5e35e120f049a0f30179..95fe8ed48a26204020bb47d6074689829c410465 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -430,10 +430,12 @@ struct drm_gem_object {
+ 	 * @lru:
+ 	 *
+ 	 * The current LRU list that the GEM object is on.
+ 	 */
+ 	struct drm_gem_lru *lru;
++
++	struct dmem_cgroup_pool_state *cgroup_pool_state;
+ };
+ 
+ /**
+  * DRM_GEM_FOPS - Default drm GEM file operations
+  *
 
 -- 
 2.48.1
