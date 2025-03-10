@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFB4A58F4E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:20:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCA0A58FB0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:30:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A34610E3BE;
-	Mon, 10 Mar 2025 09:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9052010E3D2;
+	Mon, 10 Mar 2025 09:30:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g0B6XOks";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="hsE34/rl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
- [209.85.161.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 399A310E3BE
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:20:23 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id
- 006d021491bc7-5fe944b3fa0so1855502eaf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 02:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741598422; x=1742203222; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=M8hUQaBWntrhNATBo5/FEWJXi4nQQHSzEudgTZIuU8Y=;
- b=g0B6XOksPy6iFTuezVRMC8hOvLbqpkwNh5XTbVPFjdt4k2HhSOK4dtM2rR3vHnUy7t
- mnuGCi3Yjb1v25wSKYW2lka41nzUAbtePpIBguDkX8aY33yiJx1UIBkuK/STUmmfpwgL
- RTAWZLClSG3Tl3aLwkKm4jgG2lW7amTuomzGLE8VlJ85mhblFIkGcD6665C2vphkpo8s
- rymtP3KjlkR6ksCBNostp1trkhuk0zDGMBFd02eb60FVEjnvxkpEtpupfAzqAXfV4CSu
- XRZWL1ujVMNNLFxiu2tiVP1zMaPmhjKRdzqWg1nmboL92nI+ntghCiNLBmGrOAdoo4nF
- 91eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741598422; x=1742203222;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=M8hUQaBWntrhNATBo5/FEWJXi4nQQHSzEudgTZIuU8Y=;
- b=WPXZ0wCHQ0c7pT+eHQpIhnTT1SjxNKyQ7hdFr9+ftlUmsq3KvL0+TqTCjtpEyRk6ng
- yv9OUD+rKgZjMIYLbVCoDwG5sODbLk54IiA/Dpr2czCGnYmL88gg53HUG424G4L/jtSz
- /KMy8rZhq/KK+Uoh2XdPMGLFvtzb7F7alXwWMVhycrE7G543p++wg2Ub2YuJN7hXvwif
- gc2LyQRbc/ABFg8sY7Wa8biOVjAjysY+8rqKdoif4hCr+tBYhnQbP6q1HE8elcVUP6Ev
- EcDgiUH7dnCGD1zLPlwya/z/vPAbPJ1hHbX7BnT+RWWQNqA/5FCk9Y9Acs+Jt+UhTfVt
- 7TiA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUttHGD++TC4H/+QmndQ8rA88PLM3SYnZQz/mw9Suspt5yBP4+2mU6sKZ8U2OJx58F6xDB15nZwynE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw8aORxBqTRsnDo3frsq964jmuE1pajX/CyAkop39XxA72auaUX
- iOt94IilcHZlgui7pmbUDAg3BUoW4gwKuDm2Cip6+qfaciohmpEEJ30xuPoC9FrwTzhpxduLZMC
- cbM+C1gn2p3jZydgoBbvshU0KVe4=
-X-Gm-Gg: ASbGncu0iC5eU0r9dkeEZzXzmOUw4fZGgVZ5d4krCE+lmlcvSqyewArctf9GScN3xth
- 1S99WBRdgEia17zio/gqgPNJ7ivm/D2EX0HpemWt+1PztkVMRmUhkivW9yCeghz6FtMPpdf/7qt
- VFbyf/Xb51iFRn2c+iA2uLwkoq
-X-Google-Smtp-Source: AGHT+IHlKpNfQ17CORnW4feh4HgPSN5pa0orUf1ds4fgLmew9uDRmnDx96KaSR7W3sZokTY2X/z3FM4DkSrPCJkR7WI=
-X-Received: by 2002:a05:6820:992:b0:5fd:50d:49e4 with SMTP id
- 006d021491bc7-6004abd3116mr6176682eaf.7.1741598422280; Mon, 10 Mar 2025
- 02:20:22 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72FF710E3C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:30:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=nNE4q856lrPWDsmUBJ+5VDcgzzJsZjy5E0OK8MgEIVY=; b=hsE34/rlRUAKTi/Laulsztr531
+ 62roU7G8H4G9mW+KlVqpLCSKH7kaxgbpeungtBW9vOMgMFAsm3bAZAFWsixmP4ChHNwSf3DaHSW/5
+ 7pAf+SIhz9zPscLhSjPn5Y2LpTGOaISDT2b+xcTZKlnxSvunVoS1cfGbcq4jecg73AmwJTodi5aD3
+ hz3OwMy95pjdA6PS+kldwPWyOujC5ML8+WhQ9A7mvEbscqeK5zmag/eXQgH0Lmh4XgFgysPrLZ4Qv
+ aVLjsenJFooy1ktGkcvU09D2obff2ijh5FCD9mx2Xz08YlCDYKXzU4jQhhw0wuiBqSLXesfWeOh5s
+ Q51BIhvw==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1trZSr-006Pph-9r; Mon, 10 Mar 2025 10:30:31 +0100
+Message-ID: <37a58172-c2fa-4942-bafa-d96be85cd26f@igalia.com>
+Date: Mon, 10 Mar 2025 09:30:30 +0000
 MIME-Version: 1.0
-References: <20250308234428.255164-1-linux@treblig.org>
-In-Reply-To: <20250308234428.255164-1-linux@treblig.org>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Mon, 10 Mar 2025 10:20:11 +0100
-X-Gm-Features: AQ5f1JryzndsgFb-pSg_WhcxWTfnaRxcwrsJfnmRRQa8SA2TF1cLJDFDoCtLJEM
-Message-ID: <CAMeQTsYGbFZbx7oG5x2R0mLsyFFbEwOGowDrKghjZCopaZsyrw@mail.gmail.com>
-Subject: Re: [PATCH] drm/gma500: Remove unused psb_mmu_virtual_to_pfn
-To: linux@treblig.org
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: revert "drm_sched_job_cleanup(): correct false
+ doc"
+To: phasta@kernel.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, matthew.brost@intel.com,
+ dakr@kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20250310074414.2129157-1-christian.koenig@amd.com>
+ <cb3745c15e5e2c3a2b03e47a56d2e4db555664b5.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <cb3745c15e5e2c3a2b03e47a56d2e4db555664b5.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,94 +65,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 9, 2025 at 12:44=E2=80=AFAM <linux@treblig.org> wrote:
->
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> psb_mmu_virtual_to_pfn() was added in 2011 by
-> commit 8c8f1c958ab5 ("gma500: introduce the GTT and MMU handling logic")
-> but hasn't been used.
->
-> Remove it.
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-Applied to drm-misc-next
-Thanks
+On 10/03/2025 08:41, Philipp Stanner wrote:
+> On Mon, 2025-03-10 at 08:44 +0100, Christian König wrote:
+>> This reverts commit 44d2f310f008613c1dbe5e234c2cf2be90cbbfab.
+>>
+>> Sorry for the delayed response, I only stumbled over this now while
+>> going
+>> over old mails and then re-thinking my reviewed by for this change.
+>>
+>> The function drm_sched_job_arm() is indeed the point of no return.
+> 
+> So would you say that the comment in the function's body,
+> "drm_sched_job_arm() has been called" actually means / should mean "job
+> had been submitted with drm_sched_entity_push_job()"?
+> 
+>> The
+>> background is that it is nearly impossible for the driver to
+>> correctly
+>> retract the fence and signal it in the order enforced by the
+>> dma_fence
+>> framework.
+>>
+>> The code in drm_sched_job_cleanup() is for the purpose to cleanup
+>> after
+>> the job was armed through drm_sched_job_arm() *and* processed by the
+>> scheduler.
+>>
+>> The correct approach for error handling in this situation is to set
+>> the
+>> error on the fences and then push to the entity anyway.
+> 
+> You expect the driver to set an error on scheduled and finished fence?
+> I think this would be very likely to explode. AFAICS the scheduler code
+> has no awareness for anyone else having touched those fences.
+> 
+> If at all, if this is really a problem, we should tell the driver that
+> it must enforce that there will be no failure between
+> drm_sched_job_arm() and drm_sched_job_entity_push_job(). That's how
+> Nouveau does it.
 
-> ---
->  drivers/gpu/drm/gma500/mmu.c | 41 ------------------------------------
->  drivers/gpu/drm/gma500/mmu.h |  2 --
->  2 files changed, 43 deletions(-)
->
-> diff --git a/drivers/gpu/drm/gma500/mmu.c b/drivers/gpu/drm/gma500/mmu.c
-> index 4d78b33eaa82..e6753282e70e 100644
-> --- a/drivers/gpu/drm/gma500/mmu.c
-> +++ b/drivers/gpu/drm/gma500/mmu.c
-> @@ -730,44 +730,3 @@ int psb_mmu_insert_pages(struct psb_mmu_pd *pd, stru=
-ct page **pages,
->
->         return ret;
->  }
-> -
-> -int psb_mmu_virtual_to_pfn(struct psb_mmu_pd *pd, uint32_t virtual,
-> -                          unsigned long *pfn)
-> -{
-> -       int ret;
-> -       struct psb_mmu_pt *pt;
-> -       uint32_t tmp;
-> -       spinlock_t *lock =3D &pd->driver->lock;
-> -
-> -       down_read(&pd->driver->sem);
-> -       pt =3D psb_mmu_pt_map_lock(pd, virtual);
-> -       if (!pt) {
-> -               uint32_t *v;
-> -
-> -               spin_lock(lock);
-> -               v =3D kmap_atomic(pd->p);
-> -               tmp =3D v[psb_mmu_pd_index(virtual)];
-> -               kunmap_atomic(v);
-> -               spin_unlock(lock);
-> -
-> -               if (tmp !=3D pd->invalid_pde || !(tmp & PSB_PTE_VALID) ||
-> -                   !(pd->invalid_pte & PSB_PTE_VALID)) {
-> -                       ret =3D -EINVAL;
-> -                       goto out;
-> -               }
-> -               ret =3D 0;
-> -               *pfn =3D pd->invalid_pte >> PAGE_SHIFT;
-> -               goto out;
-> -       }
-> -       tmp =3D pt->v[psb_mmu_pt_index(virtual)];
-> -       if (!(tmp & PSB_PTE_VALID)) {
-> -               ret =3D -EINVAL;
-> -       } else {
-> -               ret =3D 0;
-> -               *pfn =3D tmp >> PAGE_SHIFT;
-> -       }
-> -       psb_mmu_pt_unmap_unlock(pt);
-> -out:
-> -       up_read(&pd->driver->sem);
-> -       return ret;
-> -}
-> diff --git a/drivers/gpu/drm/gma500/mmu.h b/drivers/gpu/drm/gma500/mmu.h
-> index d4b5720ef08e..e6d39703718c 100644
-> --- a/drivers/gpu/drm/gma500/mmu.h
-> +++ b/drivers/gpu/drm/gma500/mmu.h
-> @@ -71,8 +71,6 @@ extern int psb_mmu_insert_pfn_sequence(struct psb_mmu_p=
-d *pd,
->                                        uint32_t start_pfn,
->                                        unsigned long address,
->                                        uint32_t num_pages, int type);
-> -extern int psb_mmu_virtual_to_pfn(struct psb_mmu_pd *pd, uint32_t virtua=
-l,
-> -                                 unsigned long *pfn);
->  extern void psb_mmu_set_pd_context(struct psb_mmu_pd *pd, int hw_context=
-);
->  extern int psb_mmu_insert_pages(struct psb_mmu_pd *pd, struct page **pag=
-es,
->                                 unsigned long address, uint32_t num_pages=
-,
-> --
-> 2.48.1
->
+On top of Philipp's questions - I just want to raise that 
+amdgpu_cs_submit then also needs explaining. I always take amdgpu as 
+kind of almost reference, since that is where scheduler originated from. 
+And in there there is definitely the path of drm_sched_job_cleanup() 
+called after drm_sched_job_arm() when adding gang dependencies fails.
+
+Regards,
+
+Tvrtko
+
+> 
+> Let's set our understanding straight before reverting. What
+> drm_sched_job_arm() does is:
+> 
+>     1. Pick scheduler, rq and priority for the job
+>     2. Atomically increment the job_id_count and assign to job
+>     3. Call drm_sched_fence_init() and therefore:
+>     4. Set the fence's scheduler
+>     5. Set the fences seq nr atomically
+>     6. Initialize scheduled and finished fence
+> 
+> What of the above precisely is the problem?
+> 
+> You say the driver cannot "correctly retract the fence and signal it in
+> the order enforced by the dma_fence framework". You mean that the
+> finished_fences have to be signalled in an order only the scheduler
+> knows? I assume you're referring to set dependencies?
+> 
+> P.
+> 
+>> We can certainly
+>> improve the documentation, but removing the warning is clearly not a
+>> good
+>> idea.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 12 +++++-------
+>>   1 file changed, 5 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>> b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 53e6aec37b46..4d4219fbe49d 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -1015,13 +1015,11 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
+>>    * Cleans up the resources allocated with drm_sched_job_init().
+>>    *
+>>    * Drivers should call this from their error unwind code if @job is
+>> aborted
+>> - * before it was submitted to an entity with
+>> drm_sched_entity_push_job().
+>> + * before drm_sched_job_arm() is called.
+>>    *
+>> - * Since calling drm_sched_job_arm() causes the job's fences to be
+>> initialized,
+>> - * it is up to the driver to ensure that fences that were exposed to
+>> external
+>> - * parties get signaled. drm_sched_job_cleanup() does not ensure
+>> this.
+>> - *
+>> - * This function must also be called in &struct
+>> drm_sched_backend_ops.free_job
+>> + * After that point of no return @job is committed to be executed by
+>> the
+>> + * scheduler, and this function should be called from the
+>> + * &drm_sched_backend_ops.free_job callback.
+>>    */
+>>   void drm_sched_job_cleanup(struct drm_sched_job *job)
+>>   {
+>> @@ -1032,7 +1030,7 @@ void drm_sched_job_cleanup(struct drm_sched_job
+>> *job)
+>>    /* drm_sched_job_arm() has been called */
+>>    dma_fence_put(&job->s_fence->finished);
+>>    } else {
+>> - /* aborted job before arming */
+>> + /* aborted job before committing to run it */
+>>    drm_sched_fence_free(job->s_fence);
+>>    }
+>>   
+> 
+
