@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED02EA594A5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 13:38:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7016A594AF
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 13:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8838510E05C;
-	Mon, 10 Mar 2025 12:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CB4C89B78;
+	Mon, 10 Mar 2025 12:40:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="YIiKwph8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OU7eweTU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC97610E05C
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 12:37:57 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4ZBGdG4c8fz9ss0;
- Mon, 10 Mar 2025 13:37:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1741610274; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r4Q2+Zz4aPz+PBPNZqysqjDenVpdOzlAYx4ww6BzQo4=;
- b=YIiKwph8lnDvc8xzpJULkDrrGUJFVJys2OWJUuH4wZ7Z8cNIwL0WofYCiM28BtS+alqJSB
- xw59xsNsjuG63BcKsnWdzJaxoOkQA6mZo4Yjb2oxIM3+lnQhBKnl0s8D/Tf0jVCwKZ+KAS
- zoxsfW/aXA9R5k0N7QgQcyoZwcKLIGwvAjGN1qjAGB411SMqqJDjTvU14o4F06aV02Ix+5
- gkKMhR4/unbHJEyx2T6jtIZFUTZI0Vpdo4P2A0TnVeY6VME3Gt07OXUnYz34rapLCenkVM
- /L+tQ2A2lvehqt+EpGHvURxXFTe3uwj/+lRG2140tRoeVigxJ3WTGFRRo2Vfpw==
-Message-ID: <95f663076b59fc85818d14a1a14416b88aae1c73.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: revert "drm_sched_job_cleanup(): correct
- false doc"
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, matthew.brost@intel.com,
- dakr@kernel.org,  tvrtko.ursulin@igalia.com,
- dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org
-Date: Mon, 10 Mar 2025 13:37:52 +0100
-In-Reply-To: <4269639b-56e0-4f44-8485-6120eeaf28e5@amd.com>
-References: <20250310074414.2129157-1-christian.koenig@amd.com>
- <564be70f7d64c04c1ad77499522d99c64ea4d4d3.camel@mailbox.org>
- <4269639b-56e0-4f44-8485-6120eeaf28e5@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A42589B78
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 12:40:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4D2FBA45B73;
+ Mon, 10 Mar 2025 12:34:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE40BC4CEF0;
+ Mon, 10 Mar 2025 12:40:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741610416;
+ bh=H8MkukXKrs1gXyaQdWlj/mYQZibbo5Fhpikh/80QqZk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OU7eweTUodKoVT9kzSHOX2+bCR2sRfjGewUj0AL42sokgzxf+zbLLoCvkUBRMkYHr
+ YqnVHTLHzG8wBV9cQFVqvTFOfjOWP5vIlPsnRotGJQD5OIbBlvPQDqO7Xsuf/L0heg
+ Frq89NR/lx7PZ39bM3gmfQgOjzXS3ZrX95CjIZn3m+32cf8DBqseFi667hvz6QONN3
+ hVb2aCfOLeMOHgO6/Jb+ffvfv0m/foHouvTQ44LvzUaBYY1TN0f8Fls4iOUWjThlqE
+ BgK6bUDdsTF8X3lA7uovbQc3BT/2WTsUg33dxKagtAxdQOjCUFzc1bjTfJhfdQz230
+ mxjaGxJJgTEkw==
+Date: Mon, 10 Mar 2025 07:40:14 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Andre Przywara <andre.przywara@arm.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Philippe Simons <simons.philippe@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v8 05/11] dt-bindings: allwinner: add H616 DE33 bus binding
+Message-ID: <20250310124014.GA3866055-robh@kernel.org>
+References: <20250310092345.31708-1-ryan@testtoast.com>
+ <20250310092345.31708-6-ryan@testtoast.com>
 MIME-Version: 1.0
-X-MBO-RS-META: a6khkh5hoafds3zsfej451zfbp68wwtj
-X-MBO-RS-ID: 6bac97aba1c6295e0e0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250310092345.31708-6-ryan@testtoast.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,133 +71,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-03-10 at 13:25 +0100, Christian K=C3=B6nig wrote:
-> Am 10.03.25 um 13:11 schrieb Philipp Stanner:
-> > On Mon, 2025-03-10 at 08:44 +0100, Christian K=C3=B6nig wrote:
-> > > This reverts commit 44d2f310f008613c1dbe5e234c2cf2be90cbbfab.
-> > OK, your arguments with fence ordering are strong. Please update
-> > the
-> > commit message according to our discussion:
-> >=20
-> > > Sorry for the delayed response, I only stumbled over this now
-> > > while
-> > > going
-> > > over old mails and then re-thinking my reviewed by for this
-> > > change.
-> > Your RB hadn't even been applied (I merged before you gave it), so
-> > you
-> > can remove this first paragraph from the commit message
-> >=20
-> > > The function drm_sched_job_arm() is indeed the point of no
-> > > return.
-> > > The
-> > > background is that it is nearly impossible for the driver to
-> > > correctly
-> > > retract the fence and signal it in the order enforced by the
-> > > dma_fence
-> > > framework.
-> > >=20
-> > > The code in drm_sched_job_cleanup() is for the purpose to cleanup
-> > > after
-> > > the job was armed through drm_sched_job_arm() *and* processed by
-> > > the
-> > > scheduler.
-> > >=20
-> > > The correct approach for error handling in this situation is to
-> > > set
-> > > the
-> > > error on the fences and then push to the entity anyway. We can
-> > > certainly
-> > > improve the documentation, but removing the warning is clearly
-> > > not a
-> > > good
-> > > idea.
-> > This last paragraph, as per our discussion, seems invalid. We
-> > shouldn't
-> > have that in the commit log, so that it won't give later hackers
-> > browsing it wrong ideas and we end up with someone actually
-> > mengling
-> > with those fences.
->=20
-> Sure, going to make those updates. I just wanted to give people a
-> possible direction to look into when they really run into a situation
-> where they need to abort some submission very late.
->=20
-> Should I also clarify the comment in drm_sched_job_cleanup()?
+On Mon, Mar 10, 2025 at 10:09:51PM +1300, Ryan Walklin wrote:
+> The Allwinner H616 and variants have a new display engine revision
+> (DE33).
+> 
+> Add a display engine bus binding for the DE33 and increase reg maxItems
+> to 3 to accommodate additional register blocks.
+> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+> 
+> ---
+> Changelog v1..v2:
+> - Correct DE2 bus enum to reflect fallback devices accurately.
+> 
+> Changelog v2..v3:
+> - Separate content into three patches for three separate subsystems
+> 
+> Changelog v5..v6:
+> - Increase reg maxItems to 3.
+> ---
+>  .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml  | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
+> index 9845a187bdf6..317a27cf590b 100644
+> --- a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
+> +++ b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
+> @@ -24,11 +24,14 @@ properties:
+>      oneOf:
+>        - const: allwinner,sun50i-a64-de2
+>        - items:
+> -          - const: allwinner,sun50i-h6-de3
+> +          - enum:
+> +              - allwinner,sun50i-h6-de3
+> +              - allwinner,sun50i-h616-de33
+>            - const: allwinner,sun50i-a64-de2
+>  
+>    reg:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 3
 
-Shouldn't be done in a revert-commit I think.
+You have to define what each region is and the order.
 
-I'd say we revert for now (it's not a big loss, just a bit of docu) and
-then you (or maybe I) submit a new patch where we discuss Tvrtko's
-questions and then write down the rules and issues precisely in both
-commit message and the function's comments.
+And there should be constraints such that the existing cases don't 
+now allow 2-3 entries.
 
-
-P.
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > Thx
-> > P.
-> >=20
-> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > ---
-> > > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 12 +++++-------
-> > > =C2=A01 file changed, 5 insertions(+), 7 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > index 53e6aec37b46..4d4219fbe49d 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > @@ -1015,13 +1015,11 @@
-> > > EXPORT_SYMBOL(drm_sched_job_has_dependency);
-> > > =C2=A0 * Cleans up the resources allocated with drm_sched_job_init().
-> > > =C2=A0 *
-> > > =C2=A0 * Drivers should call this from their error unwind code if @jo=
-b
-> > > is
-> > > aborted
-> > > - * before it was submitted to an entity with
-> > > drm_sched_entity_push_job().
-> > > + * before drm_sched_job_arm() is called.
-> > > =C2=A0 *
-> > > - * Since calling drm_sched_job_arm() causes the job's fences to
-> > > be
-> > > initialized,
-> > > - * it is up to the driver to ensure that fences that were
-> > > exposed to
-> > > external
-> > > - * parties get signaled. drm_sched_job_cleanup() does not ensure
-> > > this.
-> > > - *
-> > > - * This function must also be called in &struct
-> > > drm_sched_backend_ops.free_job
-> > > + * After that point of no return @job is committed to be
-> > > executed by
-> > > the
-> > > + * scheduler, and this function should be called from the
-> > > + * &drm_sched_backend_ops.free_job callback.
-> > > =C2=A0 */
-> > > =C2=A0void drm_sched_job_cleanup(struct drm_sched_job *job)
-> > > =C2=A0{
-> > > @@ -1032,7 +1030,7 @@ void drm_sched_job_cleanup(struct
-> > > drm_sched_job
-> > > *job)
-> > > =C2=A0		/* drm_sched_job_arm() has been called */
-> > > =C2=A0		dma_fence_put(&job->s_fence->finished);
-> > > =C2=A0	} else {
-> > > -		/* aborted job before arming */
-> > > +		/* aborted job before committing to run it */
-> > > =C2=A0		drm_sched_fence_free(job->s_fence);
-> > > =C2=A0	}
-> > > =C2=A0
->=20
-
+>  
+>    allwinner,sram:
+>      description:
+> -- 
+> 2.48.1
+> 
