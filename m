@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91276A5A440
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 21:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EFBA5A442
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 21:00:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0282710E4DB;
-	Mon, 10 Mar 2025 20:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2538A10E4DA;
+	Mon, 10 Mar 2025 20:00:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="HOtJv/GI";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="XRFB2hK9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C158410E4DF
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 20:00:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1741636812; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 571D510E4DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 20:00:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741636816; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=CfKFyRtG78SxuIVyU6HuLIa4uHqNDXPn0Di1jkcaH0HJEtFbMyLkFYRI69VCgVIQMjSUdE/zswaITT7bCk6IItvu6IvP2SzgbiilV8PX0HUsp4ePQoTE2x61m7Qf2uJRXcWYWoRMSc7BbzNWX0xKhaExDPbEhHNh6A+Ld61wT8U=
+ b=Qyxr3aJkeBQAq0L6yjvx4RPkXyFEiMxLPcg6PjjDqbYBfC6EIxrM7c3oXROTecwsy0llDeAGgCVobyi1raYrYovEmi9ugwbRdJtnx1DQgh18kYql9G0SiCZn6Mr4xx3/2zlEKFNvTL+krZU1z7eUnAxjdcGrpP0QGnc4qF4LlkQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1741636812;
+ s=zohoarc; t=1741636816;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=zatpsj+gdBdKamfThnzVCKLLy8nFW3cK+OjTia4Wf/g=; 
- b=Yez1HZy1SlXJBylUJSyN36VU2AR5tHZ6sdwaUrd4o14Y0Wsv96QkHJqdcpFgvQB8bWG7pUL8IRiYiV9gZoYPqPBFMqYk8rZclvt4RUqZaDpMtK75c2aNXN+Vp6mnYXe3zPxdQgtMJP/MvBDzsf6iPvu6zczm+PUns/Fgs7BFx5g=
+ bh=ZFdaB7brRwLIqNemNPKTG25GbzNbXSuAOMUD7Q7r3hc=; 
+ b=MIqBBl36ZSvjTnWbQfb7iDBMKvhL2sW8Ae+r/YYNiYuyr6bOmjNKp6xFWjWr14/nlsc0o24rA2atfDLi8B4NXNkmbVLGOd2gSOMXT2CXOG22DG42GqDncj9krV0VVhFBAYx2piA5e29c3UDIrzhP9AUGqbb2vOH1+70fKvnFiFk=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
  dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741636811; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741636816; 
  s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=zatpsj+gdBdKamfThnzVCKLLy8nFW3cK+OjTia4Wf/g=;
- b=HOtJv/GIBUsBZfsoeK54HQWiqrQmiCPP5JeIXb8i1AK5+TYJVFSApzAIFsXUWsY2
- VRvZMxIodZQBQ+tHTg41diDE2ei2z7IYxNPI2V5z/+cCxKmd6cv7OPqYtivCIXz6/Vj
- z3aX5ilOWxApoJ5eJV3wOwj7H4M/XUK+3OZVka7s=
-Received: by mx.zohomail.com with SMTPS id 1741636809673712.2564638878398;
- Mon, 10 Mar 2025 13:00:09 -0700 (PDT)
+ bh=ZFdaB7brRwLIqNemNPKTG25GbzNbXSuAOMUD7Q7r3hc=;
+ b=XRFB2hK94KDo+X/2ol9lRhnmk62XqlLS4u/WptOz30sIj5qc6tC7UxaCtuf0AkPI
+ 6miSmXzgg42EZpN5SyzRZZXLBYVaxRVJe0B/RLcJpyO7ar9tfplJ5JZTCmX11DZDwwW
+ QEJ7Y1ZPxnc6rsuyL8lPygnXwV3YwKRN169eQELw=
+Received: by mx.zohomail.com with SMTPS id 1741636814321993.7241909367491;
+ Mon, 10 Mar 2025 13:00:14 -0700 (PDT)
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
@@ -45,10 +45,10 @@ Cc: boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
  airlied@gmail.com, simona@ffwll.ch, kernel@collabora.com,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  sjoerd@collabora.com, Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Subject: [PATCH v1 4/6] drm/panfrost: Add support for AARCH64_4K page table
- format
-Date: Mon, 10 Mar 2025 16:59:19 -0300
-Message-ID: <20250310195921.157511-5-ariel.dalessandro@collabora.com>
+Subject: [PATCH v1 5/6] drm/panfrost: Enable AARCH64_4K page table format on
+ mediatek_mt8188
+Date: Mon, 10 Mar 2025 16:59:20 -0300
+Message-ID: <20250310195921.157511-6-ariel.dalessandro@collabora.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250310195921.157511-1-ariel.dalessandro@collabora.com>
 References: <20250310195921.157511-1-ariel.dalessandro@collabora.com>
@@ -70,314 +70,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, Panfrost only supports MMU configuration in "LEGACY" (as
-Bifrost calls it) mode, a (modified) version of LPAE "Large Physical
-Address Extension", which in Linux we've called "mali_lpae".
-
-This commit adds support for conditionally enabling AARCH64_4K page
-table format. To achieve that, a "GPU optional configurations" field was
-added to `struct panfrost_features` with the related flag.
-
-Note that, in order to enable AARCH64_4K mode, the GPU variant must have
-the HW_FEATURE_AARCH64_MMU feature flag present.
+Now that Panfrost supports AARCH64_4K page table format, let's enable it
+on Mediatek MT8188.
 
 Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_device.h |  16 +++
- drivers/gpu/drm/panfrost/panfrost_mmu.c    | 132 +++++++++++++++++++--
- drivers/gpu/drm/panfrost/panfrost_regs.h   |  34 ++++++
- 3 files changed, 169 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index cffcb0ac7c111..0385702aa43c7 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -42,6 +42,14 @@ enum panfrost_gpu_pm {
- 	GPU_PM_VREG_OFF,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 0f3935556ac76..d7b8bded6d784 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -824,6 +824,7 @@ static const struct panfrost_compatible mediatek_mt8188_data = {
+ 	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
+ 	.pm_domain_names = mediatek_mt8183_pm_domains,
+ 	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
++	.gpu_configs = BIT(GPU_CONFIG_AARCH64_4K),
  };
  
-+/**
-+ * enum panfrost_gpu_config - GPU optional configurations
-+ * @GPU_CONFIG_AARCH64_4K: Use AARCH64_4K page table format
-+ */
-+enum panfrost_gpu_config {
-+	GPU_CONFIG_AARCH64_4K,
-+};
-+
- struct panfrost_features {
- 	u16 id;
- 	u16 revision;
-@@ -95,6 +103,9 @@ struct panfrost_compatible {
- 
- 	/* Allowed PM features */
- 	u8 pm_features;
-+
-+	/* GPU features */
-+	u8 gpu_configs;
- };
- 
- struct panfrost_device {
-@@ -162,6 +173,11 @@ struct panfrost_mmu {
- 	int as;
- 	atomic_t as_count;
- 	struct list_head list;
-+	struct {
-+		u64 transtab;
-+		u64 memattr;
-+		u64 transcfg;
-+	} cfg;
- };
- 
- struct panfrost_engine_usage {
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index 31df3a96f89bd..4a9b8de2ff987 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -26,6 +26,48 @@
- #define mmu_write(dev, reg, data) writel(data, dev->iomem + reg)
- #define mmu_read(dev, reg) readl(dev->iomem + reg)
- 
-+static u64 mair_to_memattr(u64 mair, bool coherent)
-+{
-+	u64 memattr = 0;
-+	u32 i;
-+
-+	for (i = 0; i < 8; i++) {
-+		u8 in_attr = mair >> (8 * i), out_attr;
-+		u8 outer = in_attr >> 4, inner = in_attr & 0xf;
-+
-+		/* For caching to be enabled, inner and outer caching policy
-+		 * have to be both write-back, if one of them is write-through
-+		 * or non-cacheable, we just choose non-cacheable. Device
-+		 * memory is also translated to non-cacheable.
-+		 */
-+		if (!(outer & 3) || !(outer & 4) || !(inner & 4)) {
-+			out_attr = AS_MEMATTR_AARCH64_INNER_OUTER_NC |
-+				   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER |
-+				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(false, false);
-+		} else {
-+			out_attr = AS_MEMATTR_AARCH64_INNER_OUTER_WB |
-+				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(inner & 1, inner & 2);
-+			/* Use SH_MIDGARD_INNER mode when device isn't coherent,
-+			 * so SH_IS, which is used when IOMMU_CACHE is set, maps
-+			 * to Mali's internal-shareable mode. As per the Mali
-+			 * Spec, inner and outer-shareable modes aren't allowed
-+			 * for WB memory when coherency is disabled.
-+			 * Use SH_CPU_INNER mode when coherency is enabled, so
-+			 * that SH_IS actually maps to the standard definition of
-+			 * inner-shareable.
-+			 */
-+			if (!coherent)
-+				out_attr |= AS_MEMATTR_AARCH64_SH_MIDGARD_INNER;
-+			else
-+				out_attr |= AS_MEMATTR_AARCH64_SH_CPU_INNER;
-+		}
-+
-+		memattr |= (u64)out_attr << (8 * i);
-+	}
-+
-+	return memattr;
-+}
-+
- static int wait_ready(struct panfrost_device *pfdev, u32 as_nr)
- {
- 	int ret;
-@@ -121,9 +163,57 @@ static int mmu_hw_do_operation(struct panfrost_device *pfdev,
- 	return ret;
- }
- 
-+static void mmu_cfg_init_mali_lpae(struct panfrost_mmu *mmu)
-+{
-+	struct io_pgtable_cfg *pgtbl_cfg = &mmu->pgtbl_cfg;
-+
-+	/* TODO: The following fields are duplicated between the MMU and Page
-+	 * Table config structs. Ideally, should be kept in one place.
-+	 */
-+	mmu->cfg.transtab = pgtbl_cfg->arm_mali_lpae_cfg.transtab;
-+	mmu->cfg.memattr = pgtbl_cfg->arm_mali_lpae_cfg.memattr;
-+	mmu->cfg.transcfg = AS_TRANSCFG_ADRMODE_LEGACY;
-+}
-+
-+static void mmu_cfg_init_aarch64_4k(struct panfrost_mmu *mmu)
-+{
-+	struct io_pgtable_cfg *pgtbl_cfg = &mmu->pgtbl_cfg;
-+
-+	mmu->cfg.transtab = pgtbl_cfg->arm_lpae_s1_cfg.ttbr &
-+				AS_TRANSTAB_AARCH64_4K_ADDR_MASK;
-+
-+	mmu->cfg.memattr = mair_to_memattr(pgtbl_cfg->arm_lpae_s1_cfg.mair,
-+					   pgtbl_cfg->coherent_walk);
-+
-+	mmu->cfg.transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
-+			    AS_TRANSCFG_PTW_RA |
-+			    AS_TRANSCFG_ADRMODE_AARCH64_4K |
-+			    AS_TRANSCFG_INA_BITS(55 - pgtbl_cfg->ias);
-+	if (pgtbl_cfg->coherent_walk)
-+		mmu->cfg.transcfg |= AS_TRANSCFG_PTW_SH_OS;
-+}
-+
-+static void panfrost_mmu_cfg_init(struct panfrost_mmu *mmu,
-+				  enum io_pgtable_fmt fmt)
-+{
-+	struct panfrost_device *pfdev = mmu->pfdev;
-+
-+	switch (fmt) {
-+	case ARM_64_LPAE_S1:
-+		mmu_cfg_init_aarch64_4k(mmu);
-+		break;
-+	case ARM_MALI_LPAE:
-+		mmu_cfg_init_mali_lpae(mmu);
-+		break;
-+	default:
-+		dev_WARN_ONCE(pfdev->dev, 1, "Unhandled page table format\n");
-+		break;
-+	}
-+}
-+
- static void
- _panfrost_mmu_as_control_write(struct panfrost_device *pfdev, u32 as_nr,
--			       u64 transtab, u64 memattr)
-+			       u64 transtab, u64 memattr, u64 transcfg)
- {
- 	mmu_hw_do_operation_locked(pfdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
- 
-@@ -133,25 +223,28 @@ _panfrost_mmu_as_control_write(struct panfrost_device *pfdev, u32 as_nr,
- 	mmu_write(pfdev, AS_MEMATTR_LO(as_nr), lower_32_bits(memattr));
- 	mmu_write(pfdev, AS_MEMATTR_HI(as_nr), upper_32_bits(memattr));
- 
-+	mmu_write(pfdev, AS_TRANSCFG_LO(as_nr), lower_32_bits(transcfg));
-+	mmu_write(pfdev, AS_TRANSCFG_HI(as_nr), upper_32_bits(transcfg));
-+
- 	write_cmd(pfdev, as_nr, AS_COMMAND_UPDATE);
-+
-+	dev_dbg(pfdev->dev, "mmu_as_control: as=%d, transtab=0x%016llx, memattr=0x%016llx, transcfg=0x%016llx",
-+		as_nr, transtab, memattr, transcfg);
- }
- 
- static void panfrost_mmu_enable(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
- {
--	int as_nr = mmu->as;
--	struct io_pgtable_cfg *cfg = &mmu->pgtbl_cfg;
--	u64 transtab = cfg->arm_mali_lpae_cfg.transtab;
--	u64 memattr = cfg->arm_mali_lpae_cfg.memattr;
--
- 	/* Need to revisit mem attrs.
- 	 * NC is the default, Mali driver is inner WT.
- 	 */
--	_panfrost_mmu_as_control_write(pfdev, as_nr, transtab, memattr);
-+	_panfrost_mmu_as_control_write(pfdev, mmu->as, mmu->cfg.transtab,
-+				       mmu->cfg.memattr, mmu->cfg.transcfg);
- }
- 
- static void panfrost_mmu_disable(struct panfrost_device *pfdev, u32 as_nr)
- {
--	_panfrost_mmu_as_control_write(pfdev, as_nr, 0, 0);
-+	_panfrost_mmu_as_control_write(pfdev, as_nr, 0, 0,
-+				       AS_TRANSCFG_ADRMODE_UNMAPPED);
- }
- 
- u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
-@@ -616,6 +709,7 @@ struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
- {
- 	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(pfdev->features.mmu_features);
- 	u32 pa_bits = GPU_MMU_FEATURES_PA_BITS(pfdev->features.mmu_features);
-+	enum io_pgtable_fmt fmt = ARM_MALI_LPAE;
- 	struct panfrost_mmu *mmu;
- 
- 	mmu = kzalloc(sizeof(*mmu), GFP_KERNEL);
-@@ -641,16 +735,28 @@ struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
- 		.iommu_dev	= pfdev->dev,
- 	};
- 
--	mmu->pgtbl_ops = alloc_io_pgtable_ops(ARM_MALI_LPAE, &mmu->pgtbl_cfg,
--					      mmu);
--	if (!mmu->pgtbl_ops) {
--		kfree(mmu);
--		return ERR_PTR(-EINVAL);
-+	if (pfdev->comp->gpu_configs & BIT(GPU_CONFIG_AARCH64_4K)) {
-+		if (!panfrost_has_hw_feature(pfdev, HW_FEATURE_AARCH64_MMU)) {
-+			dev_err_once(pfdev->dev,
-+				     "AARCH64_4K page table not supported\n");
-+			goto err_free_mmu;
-+		}
-+		fmt = ARM_64_LPAE_S1;
- 	}
- 
-+	mmu->pgtbl_ops = alloc_io_pgtable_ops(fmt, &mmu->pgtbl_cfg, mmu);
-+	if (!mmu->pgtbl_ops)
-+		goto err_free_mmu;
-+
-+	panfrost_mmu_cfg_init(mmu, fmt);
-+
- 	kref_init(&mmu->refcount);
- 
- 	return mmu;
-+
-+err_free_mmu:
-+	kfree(mmu);
-+	return ERR_PTR(-EINVAL);
- }
- 
- static const char *access_type_name(struct panfrost_device *pfdev,
-diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-index b5f279a19a084..2b8f1617b8369 100644
---- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-@@ -301,6 +301,17 @@
- #define AS_TRANSTAB_HI(as)		(MMU_AS(as) + 0x04) /* (RW) Translation Table Base Address for address space n, high word */
- #define AS_MEMATTR_LO(as)		(MMU_AS(as) + 0x08) /* (RW) Memory attributes for address space n, low word. */
- #define AS_MEMATTR_HI(as)		(MMU_AS(as) + 0x0C) /* (RW) Memory attributes for address space n, high word. */
-+#define   AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL		(2 << 2)
-+#define   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(w, r)	((3 << 2) | \
-+							 ((w) ? BIT(0) : 0) | \
-+							 ((r) ? BIT(1) : 0))
-+#define   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER		(0 << 4)
-+#define   AS_MEMATTR_AARCH64_SH_CPU_INNER		(1 << 4)
-+#define   AS_MEMATTR_AARCH64_SH_CPU_INNER_SHADER_COH	(2 << 4)
-+#define   AS_MEMATTR_AARCH64_SHARED			(0 << 6)
-+#define   AS_MEMATTR_AARCH64_INNER_OUTER_NC		(1 << 6)
-+#define   AS_MEMATTR_AARCH64_INNER_OUTER_WB		(2 << 6)
-+#define   AS_MEMATTR_AARCH64_FAULT			(3 << 6)
- #define AS_LOCKADDR_LO(as)		(MMU_AS(as) + 0x10) /* (RW) Lock region address for address space n, low word */
- #define AS_LOCKADDR_HI(as)		(MMU_AS(as) + 0x14) /* (RW) Lock region address for address space n, high word */
- #define AS_COMMAND(as)			(MMU_AS(as) + 0x18) /* (WO) MMU command register for address space n */
-@@ -311,6 +322,24 @@
- /* Additional Bifrost AS registers */
- #define AS_TRANSCFG_LO(as)		(MMU_AS(as) + 0x30) /* (RW) Translation table configuration for address space n, low word */
- #define AS_TRANSCFG_HI(as)		(MMU_AS(as) + 0x34) /* (RW) Translation table configuration for address space n, high word */
-+#define   AS_TRANSCFG_ADRMODE_LEGACY			(0 << 0)
-+#define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
-+#define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
-+#define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
-+#define   AS_TRANSCFG_ADRMODE_AARCH64_64K		(8 << 0)
-+#define   AS_TRANSCFG_INA_BITS(x)			((x) << 6)
-+#define   AS_TRANSCFG_OUTA_BITS(x)			((x) << 14)
-+#define   AS_TRANSCFG_SL_CONCAT				BIT(22)
-+#define   AS_TRANSCFG_PTW_MEMATTR_NC			(1 << 24)
-+#define   AS_TRANSCFG_PTW_MEMATTR_WB			(2 << 24)
-+#define   AS_TRANSCFG_PTW_SH_NS				(0 << 28)
-+#define   AS_TRANSCFG_PTW_SH_OS				(2 << 28)
-+#define   AS_TRANSCFG_PTW_SH_IS				(3 << 28)
-+#define   AS_TRANSCFG_PTW_RA				BIT(30)
-+#define   AS_TRANSCFG_DISABLE_HIER_AP			BIT(33)
-+#define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
-+#define   AS_TRANSCFG_WXN				BIT(35)
-+#define   AS_TRANSCFG_XREADABLE				BIT(36)
- #define AS_FAULTEXTRA_LO(as)		(MMU_AS(as) + 0x38) /* (RO) Secondary fault address for address space n, low word */
- #define AS_FAULTEXTRA_HI(as)		(MMU_AS(as) + 0x3C) /* (RO) Secondary fault address for address space n, high word */
- 
-@@ -326,6 +355,11 @@
- #define AS_TRANSTAB_LPAE_READ_INNER		BIT(2)
- #define AS_TRANSTAB_LPAE_SHARE_OUTER		BIT(4)
- 
-+/*
-+ * Begin AARCH64_4K MMU TRANSTAB register values
-+ */
-+#define AS_TRANSTAB_AARCH64_4K_ADDR_MASK	0xfffffffffffffff0
-+
- #define AS_STATUS_AS_ACTIVE			0x01
- 
- #define AS_FAULTSTATUS_ACCESS_TYPE_MASK		(0x3 << 8)
+ static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
 -- 
 2.47.2
 
