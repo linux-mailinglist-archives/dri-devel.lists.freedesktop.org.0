@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17657A59004
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2639EA59037
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:49:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7701110E3E0;
-	Mon, 10 Mar 2025 09:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2044210E264;
+	Mon, 10 Mar 2025 09:49:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ng1yhFrL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ip58Zrlp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4114810E3D6
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:44:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CDB610E264
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:49:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 866625C5A31;
- Mon, 10 Mar 2025 09:42:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72DD7C4CEE5;
- Mon, 10 Mar 2025 09:44:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D6DBE5C5A73;
+ Mon, 10 Mar 2025 09:47:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D66AC4CEE5;
+ Mon, 10 Mar 2025 09:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741599867;
- bh=bW6fcLN+wmFlWQcC1rUSzsTxORCMjUYUnkpkmtftfM8=;
+ s=k20201202; t=1741600188;
+ bh=U0fqyLzoEiBduTFUD3IxVvg2fyHscMYPNzGm4QJC+TI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ng1yhFrLzNv1KXqIoXM4i61bYSCURRakkB8PUpYHGZnQi5zI8rEScWOSnUTle3DQ3
- AHfFjAZasso2IJwH0dbbKC8HnUf68QDtEGZTlol5HUbFXFWipdrN5H6jUGjTzs/FX+
- J50mioRB8fAX+PI4nwCToiDKkCtXI1kyA/GMu622Z+TkfBu9zz1r2AmKVKUyMge+XM
- ZChdbP8u7aFTlHt6XPAWbcSFzxDIlzT+JiqQgGe40mr1TZJKD5v9IHfTOdw8nLVB0s
- GkYn7WilkT2QPwOBDTHorK2qFOzPzGA2ElA0pq16o7mZI8fgolxVMCv3ITwIw1w4Wk
- yJ/767ui+MHpw==
-Date: Mon, 10 Mar 2025 10:44:24 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
- color encoder
-Message-ID: <20250310-hopeful-helpful-quoll-e0dee8@houat>
-References: <20250304101530.969920-1-victor.liu@nxp.com>
- <20250304101530.969920-4-victor.liu@nxp.com>
- <20250304152320.GA2630063-robh@kernel.org>
- <1891036.atdPhlSkOF@steina-w>
- <20250305163805.GA2071011-robh@kernel.org>
- <7d98163d-10c8-457d-92e7-6a1d6e379beb@nxp.com>
- <20250306-kangaroo-of-pastoral-typhoon-8aefb2@houat>
- <0e82c4d6-8b93-4dd0-ae34-155e537ab344@nxp.com>
+ b=Ip58ZrlpbOZAS3K9qIphNCNejE3AS7p/0sOmuG7Yg4Sy8fe+/Mr+QLN8GwrJIMmmL
+ 0wADap2iRzNQVuPZnA9Hp1iHKTNbuGgqZsvBiJAzRyrSbpHbfECd6v2xAIAvzlKldb
+ sKFdJPPC5pcpGZQuTpU6eQEP0N+B1yYeurGfhbskO5dydFxihYIq3bMOaCghf18U9j
+ /AYqU3jNerLK7kl5Wh0n+WXemSYrUV0H6+XPYKFnVToG8X15zIVJN9w1u/R3nP+Ge1
+ Y1puqO2yaS16RbsQT+cTiYVQbte8tWO4Ox3hz0WuJUXkNR1OTqXpSP3ZFupsxekNtD
+ Z1YVePeRLNu+w==
+Date: Mon, 10 Mar 2025 10:49:44 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>, 
+ Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
+ Phil Elwell <phil@raspberrypi.com>, 
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] dt-bindings: gpu: v3d: Add SMS to the registers'
+ list
+Message-ID: <20250310-calculating-flat-cuttlefish-4c9fc2@krzk-bin>
+References: <20250308-v3d-gpu-reset-fixes-v2-0-2939c30f0cc4@igalia.com>
+ <20250308-v3d-gpu-reset-fixes-v2-4-2939c30f0cc4@igalia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="swpyuuee57g33z2r"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0e82c4d6-8b93-4dd0-ae34-155e537ab344@nxp.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250308-v3d-gpu-reset-fixes-v2-4-2939c30f0cc4@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,119 +65,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, Mar 08, 2025 at 11:33:43AM -0300, Ma=C3=ADra Canal wrote:
+> V3D 7.1 exposes a new register block, called V3D_SMS. As BCM2712 has a
 
---swpyuuee57g33z2r
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
- color encoder
-MIME-Version: 1.0
+Where is the comaptible for this new block? Or was it already documented
+but with missing register?
 
-On Fri, Mar 07, 2025 at 11:10:00AM +0800, Liu Ying wrote:
-> On 03/06/2025, Maxime Ripard wrote:
-> > On Thu, Mar 06, 2025 at 03:02:41PM +0800, Liu Ying wrote:
-> >> On 03/06/2025, Rob Herring wrote:
-> >>> On Wed, Mar 05, 2025 at 10:35:26AM +0100, Alexander Stein wrote:
-> >>>> Hi,
-> >>>>
-> >>>> Am Dienstag, 4. M=E4rz 2025, 16:23:20 CET schrieb Rob Herring:
-> >>>>> On Tue, Mar 04, 2025 at 06:15:28PM +0800, Liu Ying wrote:
-> >>>>>> A DPI color encoder, as a simple display bridge, converts input DP=
-I color
-> >>>>>> coding to output DPI color coding, like Adafruit Kippah DPI hat[1]=
- which
-> >>>>>> converts input 18-bit pixel data to 24-bit pixel data(with 2 low p=
-adding
-> >>>>>> bits in every color component though). Document the DPI color enco=
-der.
-> >>>>>
-> >>>>> Why do we need a node for this? Isn't this just wired how it is wir=
-ed=20
-> >>>>> and there's nothing for s/w to see or do? I suppose if you are tryi=
-ng to=20
-> >>>>> resolve the mode with 24-bit on one end and 18-bit on the other end=
-, you=20
-> >>>>> need to allow that and not require an exact match. You still might =
-need=20
-> >>>>> to figure out which pins the 18-bit data comes out on, but you have=
- that=20
-> >>>>> problem with an 18-bit panel too. IOW, how is this any different if=
- you=20
-> >>>>> have an 18-bit panel versus 24-bit panel?
-> >>>>
-> >>>> Especially panel-simple.c has a fixed configuration for each display=
-, such as:
-> >>>>> .bus_format =3D MEDIA_BUS_FMT_RGB666_1X18
-> >>>>
-> >>>> How would you allow or even know it should be addressed as
-> >>>> MEDIA_BUS_FMT_RGB888_1X24 instead? I see different ways:
-> >>>> 1. Create a new display setting/compatible
-> >>>> 2. Add an overwrite property to the displays
-> >>>> 3. Use a (transparent) bridge (this series)
-> >>>>
-> >>>> Number 1 is IMHO out of question.=20
-> >>>
-> >>> Agreed.
-> >>>
-> >>>> I personally don't like number 2 as this
-> >>>> feels like adding quirks to displays, which they don't have.
-> >>>
-> >>> This is what I would do except apply it to the controller side. We kn=
-ow=20
-> >>> the panel side already. This is a board variation, so a property make=
-s=20
-> >>> sense. I don't think you need any more than knowing what's on each en=
-d.=20
-> >>
-> >> With option 2, no matter putting a property in source side or sink sid=
-e,
-> >> impacted display drivers and DT bindings need to be changed, once a bo=
-ard
-> >> manipulates the DPI color coding.  This adds burdens and introduces new
-> >> versions of those DT bindings.  Is this what we want?
-> >=20
-> > There's an option 4: make it a property of the OF graph endpoints. In
-> > essence, it's similar to properties that are already there like
-> > lane-mapping, and it wouldn't affect the panel drivers, or create an
-> > intermediate bridge.
+> V3D 7.1 core, add a new register item to the list. Similar to the GCA
+> and bridge register, SMS is optional and should only be added for V3D
+> 7.1 variants.
 >=20
-> I don't see lane-mapping anywhere. Do you mean data-mapping instead?
-> data-mapping is not defined in dtschema. Only lvds-codec.yaml defines
-> data-mapping in endpoint.
+> In order to enforce per-SoC register rules, add per-compatible
+> restrictions. The restrictions will assure that GCA will only be added
+> in BCM7268 (V3D 3.3) and SMS will only be added in BCM2712 (V3D 7.1).
+>=20
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
+> Cc: devicetree@vger.kernel.org
 
-I meant as a general concept. The properties are data-lanes and
-clock-lanes in
-Documentation/devicetree/bindings/media/video-interfaces.yaml
+Please drop the autogenerated scripts/get_maintainer.pl CC-entries from
+commit msg. There is no single need to store automated output of
+get_maintainers.pl in the git log. It can be easily re-created at any
+given time, thus its presence in the git history is redundant and
+obfuscates the log.
 
-> With option 4, I guess you meant display sink drivers, i.e., panel and
-> bridge drivers, wouldn't be affected. Then, display source drivers, i.e.,
-> display controller and bridge drivers, would be affected. This adds
-> burdens for driver developers/maintainers(though almost no effort from
-> DT's PoV), doesn't it?
+If you need it for your own patch management purposes, keep it under the
+--- separator.
 
-Not necessarily, panels have a phandle to the parent endpoint too so
-they can do that walk and configure their format if it's any easier.
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+>  .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 60 ++++++++++++++++=
+++++--
+>  1 file changed, 55 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Do=
+cumentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> index dc078ceeca9ac3447ba54a7c8830821f0b2a7f9f..c0caee055e8c18dbcac0e51aa=
+192951996545695 100644
+> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> @@ -27,15 +27,12 @@ properties:
+>        - description: core0 register (required)
+>        - description: GCA cache controller register (if GCA controller pr=
+esent)
+>        - description: bridge register (if no external reset controller)
+> +      - description: SMS register (if SMS controller present)
 
-> Moreover, why it has to be the display sink drivers which are not affecte=
-d?
-> DT writers might choose to set the format at the sink endpoint, e.g., set=
-ting
-> RGB666 at the sink endpoint of a RGB888 DPI panel or bridge.
+This lists five items, but you say you have max 4?
 
-Why wouldn't you run the panel at the highest bpc possible?
+>      minItems: 2
+> =20
+>    reg-names:
+> -    items:
+> -      - const: hub
+> -      - const: core0
+> -      - enum: [ bridge, gca ]
+> -      - enum: [ bridge, gca ]
+>      minItems: 2
+> +    maxItems: 4
 
-Maxime
+So here 4, but earlier 5? These must come in sync.
 
---swpyuuee57g33z2r
-Content-Type: application/pgp-signature; name="signature.asc"
+> =20
+>    interrupts:
+>      items:
+> @@ -60,6 +57,59 @@ required:
+> =20
+>  additionalProperties: false
+> =20
+> +allOf:
 
------BEGIN PGP SIGNATURE-----
+This goes above additionalProperties.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ860dwAKCRDj7w1vZxhR
-xfIvAQCfpg7xTuK6h3dnIje1go/hDo9eR5Ul9+nTMUMqopojgAEA7AZ0UdH61pOY
-N6RyLXAAU+VWWkZ17jWwRC9ikLsWUAk=
-=Pd5P
------END PGP SIGNATURE-----
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - brcm,2711-v3d
+> +              - brcm,7278-v3d
+> +    then:
+> +      properties:
+> +        reg:
+> +          minItems: 2
+> +          maxItems: 3
+> +        reg-names:
+> +          items:
+> +            - const: hub
+> +            - const: core0
+> +            - const: bridge
 
---swpyuuee57g33z2r--
+Again un-synced lists.
+
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: brcm,2712-v3d
+> +    then:
+> +      properties:
+> +        reg:
+> +          minItems: 3
+> +          maxItems: 4
+> +        reg-names:
+> +          items:
+> +            - const: hub
+> +            - const: core0
+> +            - enum: [ bridge, sms ]
+> +            - enum: [ bridge, sms ]
+> +          minItems: 3
+
+Why is this flexible?
+
+Best regards,
+Krzysztof
+
