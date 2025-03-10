@@ -2,79 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB82A5965B
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 14:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F094A596B9
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 14:51:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4E010E464;
-	Mon, 10 Mar 2025 13:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6D310E292;
+	Mon, 10 Mar 2025 13:51:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N6gaNjDS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nVmd/kXu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA38810E464;
- Mon, 10 Mar 2025 13:30:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9037B10E0E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 13:51:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6A844A45CF4;
- Mon, 10 Mar 2025 13:25:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED397C4CEF1;
- Mon, 10 Mar 2025 13:30:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6140B5C662C;
+ Mon, 10 Mar 2025 13:48:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3019AC4CEEB;
+ Mon, 10 Mar 2025 13:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741613455;
- bh=7DK+rBnIB6+gK5GprT7obsuYQKNEBuzPpYg+bZU61VM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=N6gaNjDSopjXklq/smuCritonxIFRZcviors5Z6GWB5x2DpMe9pO4/a1jaWMwCMRO
- XKM0+fEzSCVucV5ScvQoQ4r3iOQZWQMoaLcQwNYuCYgYOPHTldegww1SII5Cau6QnD
- Ju03QmZ8EZu0/Et5J9/gLX9NlW2ViKuUxQAbeyiJOzIgHK/EPz0Rs0AsEuTpPIuBkf
- s7vhEeKFI5S7yvD9DwzksfDuNkTyjBrUjAYlCAPqeey+zdk2sx/hHA0zHc9pJZtbEU
- VDn34iKB3dun0ff6ieYvPwjaWIEv4a1r+crojlHQkLeNctJcxqWBGH9useMMIp3X/m
- 2Nxnwt4X2GZBw==
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-5e5e22e6ed2so4920124a12.3; 
- Mon, 10 Mar 2025 06:30:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZbDGPQcau8RH4sc5hR76x5jFPw2M3TrpsCajfiQJOpYwPxQ6NpAXHYchuyq+EvCWzyfVHj0dABJZv@lists.freedesktop.org,
- AJvYcCW15J8sTY7vTuCPWgj+oQH6Wn0GCoBerb90iKkXOj3JXlKAK0TicjUOxOxLtkuwPw/hTgKMDgscE1w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+lBOvsVcpMQrG6n8JZfkYvZv4l0EchXq6ICuT7GpWnF7xa01d
- 1szOf495EfF8GIcbMTWn7Znv+9ndi2m9x8RaHqwfASgzI4+m/2oD5btUTeyup0iF+M+yEfG3gRo
- dfSb3vkb0K+SdVQ0AGX0R+qnlCA==
-X-Google-Smtp-Source: AGHT+IHQqQev9Mt/kBzD3p7JhI6eC5lr1d6ht0exKs8fcQ7bw7GOc5LSSjJJgeGQCo3IH1yYOPaQ4qbZnGMKJ40RyrI=
-X-Received: by 2002:a05:6402:4409:b0:5e7:110a:c55 with SMTP id
- 4fb4d7f45d1cf-5e7110a0c6dmr3695220a12.18.1741613453358; Mon, 10 Mar 2025
- 06:30:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250308-sar2130p-display-v1-0-1d4c30f43822@linaro.org>
- <20250308-sar2130p-display-v1-5-1d4c30f43822@linaro.org>
- <174140525677.1770282.3232695979994091275.robh@kernel.org>
- <nddxntwmiyurqew75gc6yoj2dcinhjqu36cdujhruqyrz62ry5@4e2y76ghmo4h>
-In-Reply-To: <nddxntwmiyurqew75gc6yoj2dcinhjqu36cdujhruqyrz62ry5@4e2y76ghmo4h>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 10 Mar 2025 08:30:41 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJ6iYm-8BF+4QwimAX69jmivpCNqKbD_AtWkKDtAn_Wgw@mail.gmail.com>
-X-Gm-Features: AQ5f1JqRkP_MsxtbTrRXJIVMatqOMN_D3NTt1ZS-seDKkCW2KxLIXoxniVXXOnU
-Message-ID: <CAL_JsqJ6iYm-8BF+4QwimAX69jmivpCNqKbD_AtWkKDtAn_Wgw@mail.gmail.com>
-Subject: Re: [PATCH 05/10] dt-bindings: display/msm: Add Qualcomm SAR2130P
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Sean Paul <sean@poorly.run>, 
+ s=k20201202; t=1741614673;
+ bh=Es9DYIbOCvddMNCMB1N4LXfb4XFWVevll/hVNIpQhQM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nVmd/kXuTHkNgqXj6PX0a8/D1eHIl2hMZq46609cklZPZPplSUZBmOoFKBdHhWInY
+ nkxGJ6l2TktZyjTEZS8ExDZdlM2NXb9oP9oM34XirJ5I6Xcc1x87VwvIC2HhEGvYkm
+ DFIv5IO4Yj71yMYO+TVfamSQ6u+JaAZJV5Ak5SxOztl/ND0p+oC4aGgD9SOf9PTXAs
+ jhAcI3kkvQwbfHkbh4ejxydYl+MNVpcuUA2DwQulF/NMH915rRPbyorkjwJdaCYPaE
+ eWWdoPgsbk/cyXdHQ9QGnaPek4QWu2YVn0rbv0gy+3nsT4KmqlpKjaQJ+H7dWmcsyW
+ sfl1toAt091eg==
+Date: Mon, 10 Mar 2025 14:51:10 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: David Turner <david.turner@raspberrypi.com>
+Cc: Stefan Wahren <wahrenst@gmx.net>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Conor Dooley <conor+dt@kernel.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, devicetree@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Simona Vetter <simona@ffwll.ch>, freedreno@lists.freedesktop.org, 
- Bjorn Andersson <andersson@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Joerg Roedel <joro@8bytes.org>, Jonathan Marek <jonathan@marek.ca>,
- Maxime Ripard <mripard@kernel.org>, 
- iommu@lists.linux.dev, Krishna Manikandan <quic_mkrishn@quicinc.com>, 
- linux-arm-kernel@lists.infradead.org, Will Deacon <will@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ kernel-list@raspberrypi.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH V2 2/2] drm/vc4: hdmi: Add jack detection to HDMI audio
+ driver
+Message-ID: <20250310-efficient-nonchalant-lorikeet-e14fc6@houat>
+References: <20250304193912.5696-1-wahrenst@gmx.net>
+ <20250304193912.5696-3-wahrenst@gmx.net>
+ <20250306-delectable-quixotic-polecat-ecd2c3@houat>
+ <CACXvZi-NT1e8YXJEmcHyf29eSr5NSL2fdLXfQb5amCf_YFL16A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wbzi2mywobytncqp"
+Content-Disposition: inline
+In-Reply-To: <CACXvZi-NT1e8YXJEmcHyf29eSr5NSL2fdLXfQb5amCf_YFL16A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,54 +69,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 7, 2025 at 11:09=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Fri, Mar 07, 2025 at 09:40:56PM -0600, Rob Herring (Arm) wrote:
-> >
-> > On Sat, 08 Mar 2025 03:42:23 +0200, Dmitry Baryshkov wrote:
-> > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >
-> > > Describe the Mobile Display SubSystem (MDSS) device present on the
-> > > Qualcomm SAR2130P platform. It looks pretty close to SM8550 on the
-> > > system level. SAR2130P features two DSI hosts and single DisplayPort
-> > > controller.
-> > >
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > ---
-> > >  .../bindings/display/msm/qcom,sar2130p-mdss.yaml   | 445 +++++++++++=
-++++++++++
-> > >  1 file changed, 445 insertions(+)
-> > >
-> >
-> > My bot found errors running 'make dt_binding_check' on your patch:
-> >
-> > yamllint warnings/errors:
-> >
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
-/display/msm/qcom,sar2130p-mdss.example.dtb: dsi@ae94000: compatible: 'oneO=
-f' conditional failed, one must be fixed:
-> >       ['qcom,sar2130p-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
-> >       'qcom,sar2130p-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', =
-'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', =
-'qcom,msm8974-dsi-ctrl', 'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', =
-'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', '=
-qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl', 'qco=
-m,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm6125-dsi-ctrl', 'qcom,s=
-m6150-dsi-ctrl', 'qcom,sm6350-dsi-ctrl', 'qcom,sm6375-dsi-ctrl', 'qcom,sm71=
-50-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-=
-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl', 'qcom,sm8650-dsi=
--ctrl']
-> >       'qcom,sar2130p-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290=
-', 'qcom,mdss-dsi-ctrl']
-> >       from schema $id: http://devicetree.org/schemas/display/msm/dsi-co=
-ntroller-main.yaml#
->
-> It looks like the patch 2 could not be applied and was skipped. Is the
-> bot parsing the dependencies from the cover letter?
 
-No, it's not that smart. I need to move it to using b4 though that has
-its own quirks when no dependencies are given.
+--wbzi2mywobytncqp
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH V2 2/2] drm/vc4: hdmi: Add jack detection to HDMI audio
+ driver
+MIME-Version: 1.0
 
-Rob
+On Thu, Mar 06, 2025 at 03:47:27PM +0000, David Turner wrote:
+> Hi all,
+>=20
+> On Thu, 6 Mar 2025 at 13:39, Maxime Ripard <mripard@kernel.org> wrote:
+> > It looks fairly generic to me. Is there any reason you didn't put it in
+> > the HDMI audio helpers?
+>=20
+> I originally wrote the downstream patch last year on 6.6, before the
+> generic HDMI audio code existed.
+>=20
+> I just had a look at doing this.  At the moment drm_hdmi_audio_helper
+> doesn't manage the snd_soc_card (needed to setup the jack) at all,
+> that still lives in vc4_hdmi_audio, so I can't see an easy way to move
+> this over without a lot more reorganising.
+
+
+Ah, yes, of course. Most (all?) the other drivers just use an external
+I2S controller so the card is mostly likely going to be described
+through simple-card.
+
+I guess we can always turn that code into a helper if a similar case
+comes along in the future.
+
+Thanks,
+Maxime
+
+--wbzi2mywobytncqp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ87uTgAKCRDj7w1vZxhR
+xQFtAQCcn+WnymsJWLNDwnp9IG/O2RDSYMTmIETZ3NFuaaeOwQEAsQZReyCZR9rK
+Ql1QslSWA5ClgWPNFPgISDUHS2WpFAE=
+=Vj9v
+-----END PGP SIGNATURE-----
+
+--wbzi2mywobytncqp--
