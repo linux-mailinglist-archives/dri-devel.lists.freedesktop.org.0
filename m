@@ -2,54 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCA0A58FB0
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:30:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C14A58FB2
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:31:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9052010E3D2;
-	Mon, 10 Mar 2025 09:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B71F410E3C2;
+	Mon, 10 Mar 2025 09:31:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="hsE34/rl";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="crOe3gB2";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="u0EkRWlI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72FF710E3C2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:30:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=nNE4q856lrPWDsmUBJ+5VDcgzzJsZjy5E0OK8MgEIVY=; b=hsE34/rlRUAKTi/Laulsztr531
- 62roU7G8H4G9mW+KlVqpLCSKH7kaxgbpeungtBW9vOMgMFAsm3bAZAFWsixmP4ChHNwSf3DaHSW/5
- 7pAf+SIhz9zPscLhSjPn5Y2LpTGOaISDT2b+xcTZKlnxSvunVoS1cfGbcq4jecg73AmwJTodi5aD3
- hz3OwMy95pjdA6PS+kldwPWyOujC5ML8+WhQ9A7mvEbscqeK5zmag/eXQgH0Lmh4XgFgysPrLZ4Qv
- aVLjsenJFooy1ktGkcvU09D2obff2ijh5FCD9mx2Xz08YlCDYKXzU4jQhhw0wuiBqSLXesfWeOh5s
- Q51BIhvw==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1trZSr-006Pph-9r; Mon, 10 Mar 2025 10:30:31 +0100
-Message-ID: <37a58172-c2fa-4942-bafa-d96be85cd26f@igalia.com>
-Date: Mon, 10 Mar 2025 09:30:30 +0000
+Received: from fout-a1-smtp.messagingengine.com
+ (fout-a1-smtp.messagingengine.com [103.168.172.144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9028E10E3D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:30:58 +0000 (UTC)
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal
+ [10.202.2.53])
+ by mailfout.phl.internal (Postfix) with ESMTP id 1D02C1382D1A;
+ Mon, 10 Mar 2025 05:30:58 -0400 (EDT)
+Received: from phl-imap-07 ([10.202.2.97])
+ by phl-compute-13.internal (MEProxy); Mon, 10 Mar 2025 05:30:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-transfer-encoding:content-type:content-type
+ :date:date:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+ t=1741599058; x=1741685458; bh=TlfIZxwEH199yoeoqgqRaK5o2m1xiByl
+ +CXP110BFB0=; b=crOe3gB2m9g9LoW1nZ9xJ4JRKWSvgMKPhyNVaRc6CqiYaLoA
+ 3U0pyvo9RVmrTPbjo4c/bdDRKkY5vVhKod+VE4309QlgDDHp59sRVK3mkj2vxiGd
+ Y3huigyNK2yXlM4VG/znms3jSLiah/7SCNG2BNLE3tUu3xmOKg8N0mQOsnFgFmB0
+ ALAP7tti1+xqy8hx4+G/Pc6QblscqXMVsOkboANEqGyS0TTFxChdeluSwazoNLXr
+ HpQ7Wn7D2O7qjpHw8ul/4hh8mhRS793lDgwzUjxPA1siH74LoROmOf64Oihrtw37
+ 7EGJAoMm7VtYpBqelniC3TuvpZbUdRDYZDMHnA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741599058; x=
+ 1741685458; bh=TlfIZxwEH199yoeoqgqRaK5o2m1xiByl+CXP110BFB0=; b=u
+ 0EkRWlI+dB79gh3+6iouR+oWqISL8XTriiMRFPHBOE5yd+eWRSn1rNKC4EkGZ+LE
+ 3tH4Jd+tiWbs/jVEauBT8EQmRkfUzzclWhw+2cjDkpyBKv0fXzXxqgcI97Imyiyb
+ FIzutPS72ft7kiH0QqYvsT4Vq+sCPjprAYEhVoW9DUtLlzP8VC3Fqbt46dZbw8Oj
+ zxQ8ZJaBVN1MPx8eCBRS7O3CG1ma0lfqeA7p1kaIkZVCRhhTyLzBaGlt3nB4Nnc0
+ YaWP9m7ZbWbsYX5DRaTK3lq6ksdletNNL/5cZ9YO64JxaCjv9HOnSQErHp8s48eE
+ BUt110looaBeZ0mrc3n3Q==
+X-ME-Sender: <xms:UbHOZ8wHmz67RttlxjK4vuG8ibl4ELp5ZmYqeioxIV-co8ABaWrfXg>
+ <xme:UbHOZwS2CVHk_NYWZDOYQhaZTXgnQUg0mNZFku3oJ3idzN4zc6cgmUgxAP7IIGNhU
+ uFEjMZOOZXCHI7D6Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudekleelucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+ gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+ tddtnecuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtth
+ horghsthdrtghomheqnecuggftrfgrthhtvghrnhepjefhueekjeejgfduvdffheevveej
+ hfdtuddthfduuddvveefjeffgfdvleefuefgnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhn
+ sggprhgtphhtthhopedvgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghnug
+ hrvgdrphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghpthhtohepmhhtuhhrqhhuvght
+ thgvsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopeifvghnshestghsihgvrdhorh
+ hgpdhrtghpthhtohepuggrnhhivghlsehffhiflhhlrdgthhdprhgtphhtthhopegrihhr
+ lhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvg
+ gtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhhikhhutghhrghnleeksehgmhgrihhl
+ rdgtohhmpdhrtghpthhtohepmhgrtghrohgrlhhphhgrkedvsehgmhgrihhlrdgtohhmpd
+ hrtghpthhtohepshhimhhonhhsrdhphhhilhhiphhpvgesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:UbHOZ-VvunW_sPPqtlJ4BobU9ozGTaPNwI7gISNyjW605kq8rsiutg>
+ <xmx:UbHOZ6jO6KL1OWVSrcVwHKnfQWL_hNjwzCti0stxgZ1la7IGZ1xd-g>
+ <xmx:UbHOZ-Cx7vVhpcqtxcRLmRLEyFb62dzxk45gt33YtUBx2HWjWMk-0w>
+ <xmx:UbHOZ7KY1-XU9dCC_z9ki8E0QLxUx5ETJ4qaVoMyAV2eEid6ajUrDg>
+ <xmx:UrHOZ_z3lUbW02xPGs-PdXpXZY7xJAo2BujQGyYXOK-S67PqbneLl-A2>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 76AABBA006F; Mon, 10 Mar 2025 05:30:57 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: revert "drm_sched_job_cleanup(): correct false
- doc"
-To: phasta@kernel.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <ckoenig.leichtzumerken@gmail.com>, matthew.brost@intel.com,
- dakr@kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20250310074414.2129157-1-christian.koenig@amd.com>
- <cb3745c15e5e2c3a2b03e47a56d2e4db555664b5.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <cb3745c15e5e2c3a2b03e47a56d2e4db555664b5.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Mon, 10 Mar 2025 22:30:36 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Andre Przywara" <andre.przywara@arm.com>
+Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Chris Morgan" <macroalpha82@gmail.com>,
+ "Hironori KIKUCHI" <kikuchan98@gmail.com>,
+ "Philippe Simons" <simons.philippe@gmail.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, "Conor Dooley" <conor.dooley@microchip.com>
+Message-Id: <c8b85753-5c97-4258-a158-06a17929fad6@app.fastmail.com>
+In-Reply-To: <20250224175642.170c124e@donnerap.manchester.arm.com>
+References: <20250216183710.8443-3-ryan@testtoast.com>
+ <20250216183710.8443-23-ryan@testtoast.com>
+ <20250224175642.170c124e@donnerap.manchester.arm.com>
+Subject: Re: [PATCH v7 22/27] dt-bindings: allwinner: add H616 DE33 mixer
+ binding
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,125 +119,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 25 Feb 2025, at 6:56 AM, Andre Przywara wrote:
 
-On 10/03/2025 08:41, Philipp Stanner wrote:
-> On Mon, 2025-03-10 at 08:44 +0100, Christian König wrote:
->> This reverts commit 44d2f310f008613c1dbe5e234c2cf2be90cbbfab.
->>
->> Sorry for the delayed response, I only stumbled over this now while
->> going
->> over old mails and then re-thinking my reviewed by for this change.
->>
->> The function drm_sched_job_arm() is indeed the point of no return.
-> 
-> So would you say that the comment in the function's body,
-> "drm_sched_job_arm() has been called" actually means / should mean "job
-> had been submitted with drm_sched_entity_push_job()"?
-> 
->> The
->> background is that it is nearly impossible for the driver to
->> correctly
->> retract the fence and signal it in the order enforced by the
->> dma_fence
->> framework.
->>
->> The code in drm_sched_job_cleanup() is for the purpose to cleanup
->> after
->> the job was armed through drm_sched_job_arm() *and* processed by the
->> scheduler.
->>
->> The correct approach for error handling in this situation is to set
->> the
->> error on the fences and then push to the entity anyway.
-> 
-> You expect the driver to set an error on scheduled and finished fence?
-> I think this would be very likely to explode. AFAICS the scheduler code
-> has no awareness for anyone else having touched those fences.
-> 
-> If at all, if this is really a problem, we should tell the driver that
-> it must enforce that there will be no failure between
-> drm_sched_job_arm() and drm_sched_job_entity_push_job(). That's how
-> Nouveau does it.
+Apologies Andre, I came to review your comments on the TCON series and realised I had missed responding to this comment before sending v8. 
 
-On top of Philipp's questions - I just want to raise that 
-amdgpu_cs_submit then also needs explaining. I always take amdgpu as 
-kind of almost reference, since that is where scheduler originated from. 
-And in there there is definitely the path of drm_sched_job_cleanup() 
-called after drm_sched_job_arm() when adding gang dependencies fails.
+>> +      - allwinner,sun50i-h616-de33-mixer-0
+>>  
+>>    reg:
+>> -    maxItems: 1
+>> +    minItems: 1
+>> +    maxItems: 3
+>
+> What are those three regions? I wonder if we should have reg-names here,
+> to fix the order, and to document them on the way?
+
+This would be the top, display and mixer groups for the DE333, and mixer for DE3 and earlier. Can certainly add in names for these. Is there any example elsewhere in the bindings to look at?
+
+>> @@ -61,6 +63,23 @@ properties:
+>>      required:
+>>        - port@1
+>>  
+>> +allOf:
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          enum:
+>> +            - allwinner,sun50i-h616-de33-mixer-0
+>> +
+>> +    then:
+>> +      properties:
+>> +        reg:
+>> +          maxItems: 3
+>
+> Should we override minItems here as well? I guess any driver would need
+> all three region to work?
+
+This seems sensible, as you say it would always be 3 groups for the DE33.
 
 Regards,
 
-Tvrtko
-
-> 
-> Let's set our understanding straight before reverting. What
-> drm_sched_job_arm() does is:
-> 
->     1. Pick scheduler, rq and priority for the job
->     2. Atomically increment the job_id_count and assign to job
->     3. Call drm_sched_fence_init() and therefore:
->     4. Set the fence's scheduler
->     5. Set the fences seq nr atomically
->     6. Initialize scheduled and finished fence
-> 
-> What of the above precisely is the problem?
-> 
-> You say the driver cannot "correctly retract the fence and signal it in
-> the order enforced by the dma_fence framework". You mean that the
-> finished_fences have to be signalled in an order only the scheduler
-> knows? I assume you're referring to set dependencies?
-> 
-> P.
-> 
->> We can certainly
->> improve the documentation, but removing the warning is clearly not a
->> good
->> idea.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/scheduler/sched_main.c | 12 +++++-------
->>   1 file changed, 5 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->> b/drivers/gpu/drm/scheduler/sched_main.c
->> index 53e6aec37b46..4d4219fbe49d 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -1015,13 +1015,11 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
->>    * Cleans up the resources allocated with drm_sched_job_init().
->>    *
->>    * Drivers should call this from their error unwind code if @job is
->> aborted
->> - * before it was submitted to an entity with
->> drm_sched_entity_push_job().
->> + * before drm_sched_job_arm() is called.
->>    *
->> - * Since calling drm_sched_job_arm() causes the job's fences to be
->> initialized,
->> - * it is up to the driver to ensure that fences that were exposed to
->> external
->> - * parties get signaled. drm_sched_job_cleanup() does not ensure
->> this.
->> - *
->> - * This function must also be called in &struct
->> drm_sched_backend_ops.free_job
->> + * After that point of no return @job is committed to be executed by
->> the
->> + * scheduler, and this function should be called from the
->> + * &drm_sched_backend_ops.free_job callback.
->>    */
->>   void drm_sched_job_cleanup(struct drm_sched_job *job)
->>   {
->> @@ -1032,7 +1030,7 @@ void drm_sched_job_cleanup(struct drm_sched_job
->> *job)
->>    /* drm_sched_job_arm() has been called */
->>    dma_fence_put(&job->s_fence->finished);
->>    } else {
->> - /* aborted job before arming */
->> + /* aborted job before committing to run it */
->>    drm_sched_fence_free(job->s_fence);
->>    }
->>   
-> 
-
+Ryan
