@@ -2,55 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8FCA58E69
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 09:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C33A58EA0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 09:54:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABEB610E3B5;
-	Mon, 10 Mar 2025 08:41:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE3210E3B7;
+	Mon, 10 Mar 2025 08:54:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="UMrrEjwe";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VSLQUb2Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D04810E3B5
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 08:41:47 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ZB9Ng3pGkz9t6M;
- Mon, 10 Mar 2025 09:41:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1741596099; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pj9YyUHtB58au90L2cXLcwO3crRUYeD3IqPgZ3hNa2k=;
- b=UMrrEjweewmLhOB+wBNZzyJ0r8FomabYHLl6JbsdsT939y3SVt5zv0sjUGdtnGZWBPG2Tm
- n5ZxrNy2Y6ed+0OX9gM5XCr1pMHZxP1YiOf5NhK75nMgAGdbvI/98X6OGyDupK5ezJ3I7R
- ZfiPBzvlnIRKGpQMsF+SAG5lpHZSJsadKCgf5G7kuHpXCcrHQTicCMB/KsqwxukhzosXae
- GnJeR0IxN7AZdrL+oQIzkcJazWmpvdzLal/9MT0A0NX0kWMiACGDY/hwVND0G7Yuf4knc4
- R3uHD+JfJ7meEsLWHaBblQ5RkCz+BP03XLWthVohjfz2EYFdjv8HeNDO5bT5qw==
-Message-ID: <cb3745c15e5e2c3a2b03e47a56d2e4db555664b5.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: revert "drm_sched_job_cleanup(): correct
- false doc"
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- matthew.brost@intel.com, dakr@kernel.org, phasta@kernel.org, 
- tvrtko.ursulin@igalia.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Date: Mon, 10 Mar 2025 09:41:36 +0100
-In-Reply-To: <20250310074414.2129157-1-christian.koenig@amd.com>
-References: <20250310074414.2129157-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45C0F10E3B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 08:54:42 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 529NI9dY028287;
+ Mon, 10 Mar 2025 08:54:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:message-id:mime-version:subject:to; s=
+ qcppdkim1; bh=h+dLEhJ2HnsiI/7pbyyqsuhYD2EbS9UfMhuK8jIsEqA=; b=VS
+ LQUb2ZuFycoEMP6Z6K/ndFByYlwSkTlnbcZGqYJeWDM/+vqTGw4s3AmrD4lVZ6oY
+ 0oU5XbyulwWoBS50DLpRZUCO/QpZr2R2ysXbWF62ZNlPeEQhc0So1TWFgxHjTKu4
+ VgbfH5v0KeqGwqHgdui8bd0kbLnrMzvFLuD/CyZF5uZjkqRYHVaiEHnOtK7X8Sct
+ QAECKR6eKJLww/ixLI0zbl731F9qSRMyb0S359o+wLhsgDtLSNkHdBIsTrOtMpEF
+ YSPX8g39oK2IhEBeJzWH2QsWizoM4968YprmZJj1DccmxqXha1l7Hr5k7Ky8pVxI
+ mfgJzs4doWoXty+MPRQA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 458ewk46gy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Mar 2025 08:54:36 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52A8sZYH013853
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Mar 2025 08:54:35 GMT
+Received: from hu-anane-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 10 Mar 2025 01:54:32 -0700
+From: Anandu Krishnan E <quic_anane@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>
+CC: <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
+ <quic_ekangupt@quicinc.com>, <linux-kernel@vger.kernel.org>,
+ <quic_chennak@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <arnd@arndb.de>
+Subject: [PATCH v3] misc: fastrpc: Add meaningful labels for exit paths
+Date: Mon, 10 Mar 2025 14:24:17 +0530
+Message-ID: <20250310085417.25559-1-quic_anane@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MBO-RS-META: pb36k69c177kywtrmnw4x9z65u6rje4z
-X-MBO-RS-ID: 835e40521a2dc2c37e0
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=Tr8chCXh c=1 sm=1 tr=0 ts=67cea8cc cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=i2-9LFCxhnPdUyQ0F-UA:9
+ a=0bXxn9q0MV6snEgNplNhOjQmxlI=:19 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: kgi2LM1fQr1hJpiRCwqlv8ONm9Paf955
+X-Proofpoint-ORIG-GUID: kgi2LM1fQr1hJpiRCwqlv8ONm9Paf955
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-10_03,2025-03-07_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ priorityscore=1501 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1011 phishscore=0 malwarescore=0 impostorscore=0
+ bulkscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503100069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,115 +89,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-03-10 at 08:44 +0100, Christian K=C3=B6nig wrote:
-> This reverts commit 44d2f310f008613c1dbe5e234c2cf2be90cbbfab.
->=20
-> Sorry for the delayed response, I only stumbled over this now while
-> going
-> over old mails and then re-thinking my reviewed by for this change.
->=20
-> The function drm_sched_job_arm() is indeed the point of no return.
+In the fastrpc_rpmsg_probe function, the exit path labels are not
+intuitive and do not clearly indicate the purpose of the goto
+statements. Rename goto labels to make it more intuitive and to
+align with labels of other functions.
 
-So would you say that the comment in the function's body,
-"drm_sched_job_arm() has been called" actually means / should mean "job
-had been submitted with drm_sched_entity_push_job()"?
+Signed-off-by: Anandu Krishnan E <quic_anane@quicinc.com>
+---
+Changes in v3:
+ - moved out from patch series to stand-alone patch.
+ - Link to v2: https://lore.kernel.org/all/20241223100101.29844-1-quic_anane@quicinc.com/
 
-> The
-> background is that it is nearly impossible for the driver to
-> correctly
-> retract the fence and signal it in the order enforced by the
-> dma_fence
-> framework.
->=20
-> The code in drm_sched_job_cleanup() is for the purpose to cleanup
-> after
-> the job was armed through drm_sched_job_arm() *and* processed by the
-> scheduler.
->=20
-> The correct approach for error handling in this situation is to set
-> the
-> error on the fences and then push to the entity anyway.
+Changes in v2:
+ - Added Fixes: tag and cc:stable.
+ - Fixed author name.
+ - Link to v1: https://lore.kernel.org/all/20241220061854.24428-1-quic_anane@quicinc.com/
 
-You expect the driver to set an error on scheduled and finished fence?
-I think this would be very likely to explode. AFAICS the scheduler code
-has no awareness for anyone else having touched those fences.
+ drivers/misc/fastrpc.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-If at all, if this is really a problem, we should tell the driver that
-it must enforce that there will be no failure between
-drm_sched_job_arm() and drm_sched_job_entity_push_job(). That's how
-Nouveau does it.
-
-Let's set our understanding straight before reverting. What
-drm_sched_job_arm() does is:
-
-   1. Pick scheduler, rq and priority for the job
-   2. Atomically increment the job_id_count and assign to job
-   3. Call drm_sched_fence_init() and therefore:
-   4. Set the fence's scheduler
-   5. Set the fences seq nr atomically
-   6. Initialize scheduled and finished fence
-
-What of the above precisely is the problem?
-
-You say the driver cannot "correctly retract the fence and signal it in
-the order enforced by the dma_fence framework". You mean that the
-finished_fences have to be signalled in an order only the scheduler
-knows? I assume you're referring to set dependencies?
-
-P.
-
-> We can certainly
-> improve the documentation, but removing the warning is clearly not a
-> good
-> idea.
->=20
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 12 +++++-------
-> =C2=A01 file changed, 5 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index 53e6aec37b46..4d4219fbe49d 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1015,13 +1015,11 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
-> =C2=A0 * Cleans up the resources allocated with drm_sched_job_init().
-> =C2=A0 *
-> =C2=A0 * Drivers should call this from their error unwind code if @job is
-> aborted
-> - * before it was submitted to an entity with
-> drm_sched_entity_push_job().
-> + * before drm_sched_job_arm() is called.
-> =C2=A0 *
-> - * Since calling drm_sched_job_arm() causes the job's fences to be
-> initialized,
-> - * it is up to the driver to ensure that fences that were exposed to
-> external
-> - * parties get signaled. drm_sched_job_cleanup() does not ensure
-> this.
-> - *
-> - * This function must also be called in &struct
-> drm_sched_backend_ops.free_job
-> + * After that point of no return @job is committed to be executed by
-> the
-> + * scheduler, and this function should be called from the
-> + * &drm_sched_backend_ops.free_job callback.
-> =C2=A0 */
-> =C2=A0void drm_sched_job_cleanup(struct drm_sched_job *job)
-> =C2=A0{
-> @@ -1032,7 +1030,7 @@ void drm_sched_job_cleanup(struct drm_sched_job
-> *job)
-> =C2=A0 /* drm_sched_job_arm() has been called */
-> =C2=A0 dma_fence_put(&job->s_fence->finished);
-> =C2=A0 } else {
-> - /* aborted job before arming */
-> + /* aborted job before committing to run it */
-> =C2=A0 drm_sched_fence_free(job->s_fence);
-> =C2=A0 }
-> =C2=A0
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index 7b7a22c91fe4..378923594f02 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -2313,7 +2313,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 		rmem = of_reserved_mem_lookup(rmem_node);
+ 		if (!rmem) {
+ 			err = -EINVAL;
+-			goto fdev_error;
++			goto err_free_data;
+ 		}
+ 
+ 		src_perms = BIT(QCOM_SCM_VMID_HLOS);
+@@ -2334,7 +2334,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 		data->unsigned_support = false;
+ 		err = fastrpc_device_register(rdev, data, secure_dsp, domains[domain_id]);
+ 		if (err)
+-			goto fdev_error;
++			goto err_free_data;
+ 		break;
+ 	case CDSP_DOMAIN_ID:
+ 	case CDSP1_DOMAIN_ID:
+@@ -2342,15 +2342,15 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 		/* Create both device nodes so that we can allow both Signed and Unsigned PD */
+ 		err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
+ 		if (err)
+-			goto fdev_error;
++			goto err_free_data;
+ 
+ 		err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
+ 		if (err)
+-			goto populate_error;
++			goto err_deregister_fdev;
+ 		break;
+ 	default:
+ 		err = -EINVAL;
+-		goto fdev_error;
++		goto err_free_data;
+ 	}
+ 
+ 	kref_init(&data->refcount);
+@@ -2367,17 +2367,17 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 
+ 	err = of_platform_populate(rdev->of_node, NULL, NULL, rdev);
+ 	if (err)
+-		goto populate_error;
++		goto err_deregister_fdev;
+ 
+ 	return 0;
+ 
+-populate_error:
++err_deregister_fdev:
+ 	if (data->fdevice)
+ 		misc_deregister(&data->fdevice->miscdev);
+ 	if (data->secure_fdevice)
+ 		misc_deregister(&data->secure_fdevice->miscdev);
+ 
+-fdev_error:
++err_free_data:
+ 	kfree(data);
+ 	return err;
+ }
+-- 
+2.17.1
 
