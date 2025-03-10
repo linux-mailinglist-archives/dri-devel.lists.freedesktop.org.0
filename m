@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1D1A59050
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:53:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6588A59065
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03C110E3E5;
-	Mon, 10 Mar 2025 09:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF70F10E3D8;
+	Mon, 10 Mar 2025 09:55:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e7FE5Dfz";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kdgYj/aA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9E2B10E3E5
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:53:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DEF43A449E7;
- Mon, 10 Mar 2025 09:47:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 450ADC4CEE5;
- Mon, 10 Mar 2025 09:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741600396;
- bh=C8cQBoSLgcQl6tmD3Xal2tFbWst3CZYzZlbhfgxnR8I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e7FE5DfzHboSIvO5aiHAlSQ6D2hWo3tT4t6XteTOws1h+83pp7enNxpUqjQ7UylSL
- bmjDnqykEs7XyNzSI/QQfptktGsTuvXWOzBLfd98Xb8mos7gElcihUuPu6TS5aF/Og
- 2jiuUHYqsg4Qk4zb0P391BlcP6FNMA83O0cIXVphEkHMrqcuh7KerRZjoGADBZV7SR
- RCwVyZS/sdGx0xvFGB/d11mPyszuAkA3y6VX9tvAkw/IGeqYCFtRYO4KMZQBt+FRpb
- WlUlrSZn2MLnYS6MZQVn7NQ7F7Wm5vSWr0d4Rv3sYI9afbf1bbO61fOHv9uF8v4bik
- 7y177l72prllw==
-Date: Mon, 10 Mar 2025 10:53:14 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
- color encoder
-Message-ID: <20250310-orthodox-unyielding-kagu-decaf9@houat>
-References: <20250304101530.969920-1-victor.liu@nxp.com>
- <20250304101530.969920-4-victor.liu@nxp.com>
- <20250304152320.GA2630063-robh@kernel.org>
- <1891036.atdPhlSkOF@steina-w>
- <20250305163805.GA2071011-robh@kernel.org>
- <7d98163d-10c8-457d-92e7-6a1d6e379beb@nxp.com>
- <20250306-kangaroo-of-pastoral-typhoon-8aefb2@houat>
- <20250306203444.GA570402-robh@kernel.org>
- <3836a4d2-ef4e-427e-a820-39dd4823458b@nxp.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 109D610E3D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:55:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=nRj3/ISKfDo3VaVRj9Wq0neneEFtj2p+5GVtrNlIDTA=; b=kdgYj/aAt1yiYC+dsEmaZKTwoV
+ +53n0gSkmqXrNFEzl8u4VPqXvaIZm9g6FCB644gBFBet6U1jwunFIRt2eOdvT86BqdfD2Lnc7b/uO
+ lseB7x9cEeXnVJD1zxUO4m9i5SVMK63IUIAlekw8j+sCJwtHhLvrnZaaxNDNiKT3pD70bSL3h1AgH
+ WDvwnab5Gq5KXTPlSuLnhwLOi6wPqo/Cxu6g7w0X2TqUIoUUa9fCG0R5KJrexVWLkCcFed/UhtI/p
+ b4FDGMVrn2wmVGCY/B7KiuY0TRMyPDXWA0Lmb0KHU29VmHt+Ep86yG6/2gO2I8jn4/PMFHde8JA0+
+ RJzcEC/Q==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1trZrE-006QMn-1m; Mon, 10 Mar 2025 10:55:41 +0100
+Message-ID: <7070a805-653c-4664-b0df-aa9c800e2f05@igalia.com>
+Date: Mon, 10 Mar 2025 09:55:40 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nokzvrads2o637d3"
-Content-Disposition: inline
-In-Reply-To: <3836a4d2-ef4e-427e-a820-39dd4823458b@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/5] drm: Move some options to separate new Kconfig
+To: phasta@kernel.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ David Airlie <airlied@gmail.com>
+References: <20250306170555.7244-1-tvrtko.ursulin@igalia.com>
+ <20250306170555.7244-2-tvrtko.ursulin@igalia.com>
+ <d355bccc3127b727c9f6fe03dfd7a43e4c5cc78e.camel@mailbox.org>
+ <f9bbc28f-d2ee-403d-ba9b-708edcc4fb20@igalia.com>
+ <61b4e7342572269b61ed4188dccfb688c3d95d79.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <61b4e7342572269b61ed4188dccfb688c3d95d79.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,114 +68,137 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---nokzvrads2o637d3
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 3/5] dt-bindings: display: simple-bridge: Document DPI
- color encoder
-MIME-Version: 1.0
+On 07/03/2025 18:06, Philipp Stanner wrote:
+> On Fri, 2025-03-07 at 16:59 +0000, Tvrtko Ursulin wrote:
+>>
+>> On 07/03/2025 13:41, Philipp Stanner wrote:
+>>> Hi,
+>>>
+>>> You forgot to put folks in CC as recipents for the cover letter :(
+>>>
+>>>
+>>> On Thu, 2025-03-06 at 17:05 +0000, Tvrtko Ursulin wrote:
+>>>> Move some options out into a new debug specific kconfig file in
+>>>> order
+>>>> to
+>>>> make things a bit cleaner.
+>>>>
+>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>>> Cc: Philipp Stanner <phasta@kernel.org>
+>>>
+>>> We all have our individual work flows, so don't take this as
+>>> lecturing
+>>> or anything – I just suspect that I was forgotten in the cover
+>>> letter
+>>> because you Cc people by hand in the individual patches.
+>>>
+>>> What I do is that I run get_maintainer and then put the individuals
+>>> listed there into the --to= field. That sends the entire series to
+>>> all
+>>> of them.
+>>>
+>>> Only sometimes, when there's a huge list of recipents or when the
+>>> patches of a series are very independent, I deviate from that rule.
+>>>
+>>> JFYI
+>>
+>> Notice it was there in v3, I just omitted to paste it this time.
+>>
+>>> Anyways, we have a bigger problem about the entire series. I now
+>>> tested
+>>> again with the same setup as yesterday and the faults are indeed
+>>> gone,
+>>> so that's good.
+>>>
+>>> But to be sure I then did run kmemleak and got a list of leaks that
+>>> is
+>>> more than 2000 lines long.
+>>
+>> There is this comment for drm_sched_fini which ends with:
+>>
+>> """
+>> ...
+>>    * This stops submission of new jobs to the hardware through
+>>    * drm_sched_backend_ops.run_job(). Consequently,
+>> drm_sched_backend_ops.free_job()
+>>    * will not be called for all jobs still in
+>> drm_gpu_scheduler.pending_list.
+>>    * There is no solution for this currently. Thus, it is up to the
+>> driver to make
+>>    * sure that:
+>>    *
+>>    *  a) drm_sched_fini() is only called after for all submitted jobs
+>>    *     drm_sched_backend_ops.free_job() has been called or that
+>>    *  b) the jobs for which drm_sched_backend_ops.free_job() has not
+>> been
+>> called
+>>    *     after drm_sched_fini() ran are freed manually.
+>>    *
+>>
+>>    * FIXME: Take care of the above problem and prevent this function
+>> from
+>> leaking
+>>    * the jobs in drm_gpu_scheduler.pending_list under any
+>> circumstances.
+>> """
+>>
+>> I got bitten by that. Keep forgetting how fragile the thing is.. :(
+> 
+> argh damn, those are *all* from the pending_list?!
 
-On Fri, Mar 07, 2025 at 11:25:40AM +0800, Liu Ying wrote:
-> On 03/07/2025, Rob Herring wrote:
-> > On Thu, Mar 06, 2025 at 12:35:49PM +0100, Maxime Ripard wrote:
-> >> On Thu, Mar 06, 2025 at 03:02:41PM +0800, Liu Ying wrote:
-> >>> On 03/06/2025, Rob Herring wrote:
-> >>>> On Wed, Mar 05, 2025 at 10:35:26AM +0100, Alexander Stein wrote:
-> >>>>> Hi,
-> >>>>>
-> >>>>> Am Dienstag, 4. M=E4rz 2025, 16:23:20 CET schrieb Rob Herring:
-> >>>>>> On Tue, Mar 04, 2025 at 06:15:28PM +0800, Liu Ying wrote:
-> >>>>>>> A DPI color encoder, as a simple display bridge, converts input D=
-PI color
-> >>>>>>> coding to output DPI color coding, like Adafruit Kippah DPI hat[1=
-] which
-> >>>>>>> converts input 18-bit pixel data to 24-bit pixel data(with 2 low =
-padding
-> >>>>>>> bits in every color component though). Document the DPI color enc=
-oder.
-> >>>>>>
-> >>>>>> Why do we need a node for this? Isn't this just wired how it is wi=
-red=20
-> >>>>>> and there's nothing for s/w to see or do? I suppose if you are try=
-ing to=20
-> >>>>>> resolve the mode with 24-bit on one end and 18-bit on the other en=
-d, you=20
-> >>>>>> need to allow that and not require an exact match. You still might=
- need=20
-> >>>>>> to figure out which pins the 18-bit data comes out on, but you hav=
-e that=20
-> >>>>>> problem with an 18-bit panel too. IOW, how is this any different i=
-f you=20
-> >>>>>> have an 18-bit panel versus 24-bit panel?
-> >>>>>
-> >>>>> Especially panel-simple.c has a fixed configuration for each displa=
-y, such as:
-> >>>>>> .bus_format =3D MEDIA_BUS_FMT_RGB666_1X18
-> >>>>>
-> >>>>> How would you allow or even know it should be addressed as
-> >>>>> MEDIA_BUS_FMT_RGB888_1X24 instead? I see different ways:
-> >>>>> 1. Create a new display setting/compatible
-> >>>>> 2. Add an overwrite property to the displays
-> >>>>> 3. Use a (transparent) bridge (this series)
-> >>>>>
-> >>>>> Number 1 is IMHO out of question.=20
-> >>>>
-> >>>> Agreed.
-> >>>>
-> >>>>> I personally don't like number 2 as this
-> >>>>> feels like adding quirks to displays, which they don't have.
-> >>>>
-> >>>> This is what I would do except apply it to the controller side. We k=
-now=20
-> >>>> the panel side already. This is a board variation, so a property mak=
-es=20
-> >>>> sense. I don't think you need any more than knowing what's on each e=
-nd.=20
-> >>>
-> >>> With option 2, no matter putting a property in source side or sink si=
-de,
-> >>> impacted display drivers and DT bindings need to be changed, once a b=
-oard
-> >>> manipulates the DPI color coding.  This adds burdens and introduces n=
-ew
-> >>> versions of those DT bindings.  Is this what we want?
-> >>
-> >> There's an option 4: make it a property of the OF graph endpoints. In
-> >> essence, it's similar to properties that are already there like
-> >> lane-mapping, and it wouldn't affect the panel drivers, or create an
-> >> intermediate bridge.
-> >=20
-> > Yes, that's actually where I meant to put the property(ies).
->=20
-> Put optional dpi-color-coding or something else in endpoint-base?
+Right, all leaks I saw were from the drm_sched_basic_entity_cleanup 
+test. All other tests actually wait for jobs to finish so can't hit that.
 
-I'm not sure what you mean by endpoint base, but it would be just like
-data-lanes, on the endpoint itself, right next to remote-endpoint. Given
-the nomenclature we have, something like "color-format" or
-"color-encoding", and taking the media format bus as value.
+Fix was simply to add a drm_sched_job_cleanup call when unwinding 
+unfinished mock scheduler jobs from drm_mock_sched_fini, which happens 
+before calling drm_sched_fini.
 
-> Assuming it's optional, then it implies that it will overwrite OS's
-> setting, which sounds kinda awkward, because it is supposed to be
-> required to describe the actual color coding.
+That's pretty much how things are expected to be handled AFAIU.
 
-I'm sorry, I don't understand what you mean here. Your bridge would have
-been optional as well, right?
+> OK. Well.
+> 
+> Now we've got a philosophical problem:
+> 
+> We still have to fix those leaks (I'm still working on it, but my
+> current attempt has failed and I probably fall back to a refcount
+> solution).
 
-Worst case scenario, your driver could make that property mandatory on
-its endpoints. Plenty of drivers are doing it.
+You propose to move the responsibility of cleaning up in-flight jobs to 
+the scheduler core?
 
-Maxime
+> And to see whether the fix actually fixes the leaks, directly using the
+> kunit tests would be handy.
+> 
+> After all, this is what the kunit tests are there for: show what is
+> broken within the scheduler. And those leaks definitely qualify. Or
+> should kunit tests follow the same rules we demand from drivers?
+> 
+> I'd like to hear more opinions about that.
+> 
+> @Danilo, @Dave, @Sima
+> would it be OK if we add kunit tests for the scheduler to DRM that
+> cause leaks until we can fix them?
 
---nokzvrads2o637d3
-Content-Type: application/pgp-signature; name="signature.asc"
+It is indeed a bit philosophical. I'd say only if there is a 100% 
+agreement that drm_sched_fini should be able to clean up, or drive 
+cleaning up, all driver state. And if we are prepared to handle a 
+permanently failing test from now to some future date when this would be 
+implemented.
 
------BEGIN PGP SIGNATURE-----
+I have a similar conundrum with set priority, where I was contemplating 
+to add a permanently failing test showing how that does not fully work, 
+and then get improved with my deadline scheduling series.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ862iQAKCRDj7w1vZxhR
-xfjPAP9Q21oDiutNW4kjM5Uqr1gdJjlndAkKPdt4WIFvmF8NagD7BJzqcRLgcvQ2
-oQiFDp8F/4TL/si8mNvOwh7oIGZonwo=
-=j0ea
------END PGP SIGNATURE-----
+On the other side of the argument is the past experience of CI systems 
+generally not coping well with permanently failing test. Eventually they 
+succumb to the pressure to remove them due noisy results. Therefore 
+other option is to have the mock scheduler adhere to the current 
+implementation and only change it once the DRM scheduler rules change.
 
---nokzvrads2o637d3--
+Regards,
+
+Tvrtko
+
