@@ -2,84 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7D5A59070
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 10:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644AAA5908D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 11:00:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1447410E3D9;
-	Mon, 10 Mar 2025 09:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B53B10E3DA;
+	Mon, 10 Mar 2025 10:00:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jtDGjh88";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RZ2RO//6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DB510E3DA
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:56:39 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-39133f709f5so1297462f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 02:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741600598; x=1742205398; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vID61GIkIDMW8pPTgroYzl1dfmYmLe/cwdAmJLdVfrc=;
- b=jtDGjh88nzvl46X8viJFp+HHRqODbCzEC9hnwpf9fAevqJHvoG97Sar7KW5a4SilX2
- gWT/aE9LuTA75udYT+9otmDSf+Rs7BWDJ9XzKbcw58oMjakgQti3vb3UDJtQYm/o9EGW
- ugrpVH9Y8hJ6w0IQ5zdO32AQOAJcHaB+nLjsUDEwCS43TKHazS2QBLWSLXJQY4wMhVlW
- g+QZBQ9jDmyMK0QkUeeuZuqvwuaS0eXN9QmUmOZdj5wHNzXRGOVZjWoEq3ezOK2rewa7
- OhV0lDV7+oLri6o50CZn3d5pZ+CYZLJRlBvGJzHmlFv9mh0QpBEBPm60pezTDTReXyzQ
- srCA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACF110E3DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 09:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741600796;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AQ+pSa8sIsuU2xtscwDYe98bcGEdRUw/0m+Fk+VSrb8=;
+ b=RZ2RO//6RxQogMA7wAoYUgNmZb8FWUcNzFWqnqozw8PmUg6DF8aubLv5bwDy2BczAxBt7S
+ m/Dfp0LiRXTzZ5pJoWscdSGSoK0271mi1r2029jCstZIEnwDx7/o2WCeR5lTtLxM+2lwnK
+ nDol/79+OfO+PTzJxCGG6Nl6Hoasuz0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-609-LNgtVdDFORuosDV3X_1CLA-1; Mon, 10 Mar 2025 05:59:54 -0400
+X-MC-Unique: LNgtVdDFORuosDV3X_1CLA-1
+X-Mimecast-MFC-AGG-ID: LNgtVdDFORuosDV3X_1CLA_1741600794
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-39135d31ca4so1241888f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 02:59:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741600598; x=1742205398;
+ d=1e100.net; s=20230601; t=1741600794; x=1742205594;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vID61GIkIDMW8pPTgroYzl1dfmYmLe/cwdAmJLdVfrc=;
- b=PUe9YZiIJqW65j24Rm3Rbr3xPDNiVpkAD8dLRnsACCRJTnLPIPPEO1oC89s6ofTpfl
- 8NpTNAX3WjuwRSOCaj1ffh+9rs1YCdQToFG9VLmLLGbezfm0VEL4LWpNXD6fKGy/N1U4
- nz1UTznv8znfYPLKU5UQJjTa76myixIdixK5U1FrCR8yGUmZiDyqWZqHu70/qUnkjlm5
- XNjGpnRR//6L3uFkY1nJz71AXDBmWJOCBIbfb/bTxejgtFZ9qIsYRHQ4iziFsua4ckpd
- rmq4ATN5JO0KYcjixiw/cK0oXDtoCFMref8v+TlpmR4Ky+W32cbyb/RxptxosjuRNtFr
- TIoQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+8YCPZbAyO/q5Ldv+6PDglZlq1yfdq6e600BG3RbrSFET02ely13dyiYDMGT5Ka7QiGjO7Ne24P8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxsfBaeyUnhnhCU3iOj8XAL0yxPnA+5+o5RCLBbsSki5jFqVatc
- YRO+kUt7DpNhvfqH0mdJeeEszTf/Xm5dDUMI+IQDCgDcdqAPyZHX
-X-Gm-Gg: ASbGnctfKaljrAJPtDMxmeuDqs7/66poUAv5yT0CL+qg3AIHVvbmfYZyF6thCIdq48h
- clusnllV24rwCFXGhotFjjDsbg26s0Ev3IwG5owjmBvlP1b18aOyH3tMLFejxSvqQBU+Z3BmuJu
- 8pgUc89+SkxWuhdhbb1HM9MNhrcZ2LD7nef9rWrazwaMmQ4Wl+f0IMHVzbsbkU+CIra01K5V/cA
- eQIlr8b5XdwUjYbKrhodMLTR0HiJL1c0OSuXTXHPHCGA0wD92GE56SMvNEkvIGrmZ82K7IgAFzC
- MLcBxgrPGPDcDoOIMvEiLD7Bwsm8aYr31hkWhQInnTMsINGaJ0KxsUC33+iaygBpbNLVRfpptg=
- =
-X-Google-Smtp-Source: AGHT+IF1YNcz5yu7cikYuEyUTudT7kaZPD/iwTorPAEsnp+8VhcciviAqxqQhGNErUbrhAMDho5OoA==
-X-Received: by 2002:a5d:5f89:0:b0:391:253b:4046 with SMTP id
- ffacd0b85a97d-39132d3331bmr9845300f8f.16.1741600597614; 
- Mon, 10 Mar 2025 02:56:37 -0700 (PDT)
-Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
+ bh=AQ+pSa8sIsuU2xtscwDYe98bcGEdRUw/0m+Fk+VSrb8=;
+ b=N4s7qA7ocM9tW08cO4GE83uIZuA8Nw93MnwcdRmTg0iGtBYlVFH5WX65lGhD8Gsvs4
+ j7HRja4JpJJWsfvuuMPuRTpWgbaGZNmw1HOiYf6avcK7uBB4uB1q5fcySJ07d/1Thc84
+ ufwWDEmyomaWvGggscCzBNnXCJgqDDkpWIcLNxvh+9OIFsgoLi/aSqvZRqjqxTgEjq6q
+ 3+uDXp0J8xlZ7LHwqRvid7otLVoA1+br+7hYnMWDt6ZbWF2kXZ7XrPIzUe0Kic6JxAZc
+ fRExMV+kTOLmApbV5wR9D3dAWXmkSp3mYk7W3Dacv2e+wuxY1iKgV8HVgJ0ukGRLhwiL
+ Ia0g==
+X-Gm-Message-State: AOJu0YwBxiv1HU7u8ZDRtXeCZfWG3/HPeDPFIHIB2lyi8Iqr7C5CBRnu
+ 7ZVGrpn0/zexqKZ+CDDsovZYYgeAg5bDjgiWEwEQGBY2QooMV6bD1S3ghEyccNciIU9uCwvA08O
+ b3oLFrvD6EijBYXXQa1hCOMc6sTrfzPwuzSmfJM6BJ1ftzrxColn3fRCnXfyPNt2/+A==
+X-Gm-Gg: ASbGncs7JCTxAEsIiillsjGuE7SozXun0NSYOcWogK9Km2/C6biqBnabayqUWZ7oXtV
+ SqE2Rrdde3n4kwTQDHmuR5IXftVRuqkl9tmfKWYANyJA+7zxsH/8Whv0tfMFzw+2CuMV/8vqfAN
+ cHoAWUDQDhxXO8PKML2frNPdj0a6cS+lCPzL8h4LUEH/p7MJVXKXHIq3JL4Y5fut1M8y69HYxtt
+ zV9wh9+PP7FH1MA6/1nl6jnSpTKswCfslvFl9VLgpFu6p8D3uHj1yWzLa6JG+Fl00dpBeHO7bfd
+ EUHptu3Ln4Ja6z9lG2ggiG5ewvCuz78u8sdnFUxibRzGe4uda4sHg3o=
+X-Received: by 2002:a05:6000:184b:b0:38f:23c4:208c with SMTP id
+ ffacd0b85a97d-3913af2e472mr5013409f8f.18.1741600793709; 
+ Mon, 10 Mar 2025 02:59:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGX9wDZkgqzcXWNadk7lA63fXqzI59Xv6gjXmdznaOhUQyAtcnnGk1X47jRovjSDv9uACyJBg==
+X-Received: by 2002:a05:6000:184b:b0:38f:23c4:208c with SMTP id
+ ffacd0b85a97d-3913af2e472mr5013370f8f.18.1741600793351; 
+ Mon, 10 Mar 2025 02:59:53 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43ce8a493d0sm78351955e9.1.2025.03.10.02.56.36
+ ffacd0b85a97d-3912bfdfa52sm14018794f8f.21.2025.03.10.02.59.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Mar 2025 02:56:37 -0700 (PDT)
-Message-ID: <3d770f3e-9600-41a0-86c4-84700f7cc8f5@gmail.com>
-Date: Mon, 10 Mar 2025 10:56:34 +0100
+ Mon, 10 Mar 2025 02:59:52 -0700 (PDT)
+Message-ID: <ca830ba6-5e02-446e-87d8-4e120c357312@redhat.com>
+Date: Mon, 10 Mar 2025 10:59:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: revert "drm_sched_job_cleanup(): correct false
- doc"
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org,
- matthew.brost@intel.com, dakr@kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20250310074414.2129157-1-christian.koenig@amd.com>
- <cb3745c15e5e2c3a2b03e47a56d2e4db555664b5.camel@mailbox.org>
- <37a58172-c2fa-4942-bafa-d96be85cd26f@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <37a58172-c2fa-4942-bafa-d96be85cd26f@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] drm/panic: clean Clippy warning
+To: Miguel Ojeda <ojeda@kernel.org>, =?UTF-8?Q?Thomas_B=C3=B6hler?=
+ <witcher@wiredspace.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Gaynor <alex.gaynor@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev
+References: <20250303093242.1011790-1-ojeda@kernel.org>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250303093242.1011790-1-ojeda@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: qX_SrclpzYOWo5jXZ6KU__GkcYXFMPCDv0GwbMAzuds_1741600794
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,144 +109,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.03.25 um 10:30 schrieb Tvrtko Ursulin:
->
-> On 10/03/2025 08:41, Philipp Stanner wrote:
->> On Mon, 2025-03-10 at 08:44 +0100, Christian König wrote:
->>> This reverts commit 44d2f310f008613c1dbe5e234c2cf2be90cbbfab.
->>>
->>> Sorry for the delayed response, I only stumbled over this now while
->>> going
->>> over old mails and then re-thinking my reviewed by for this change.
->>>
->>> The function drm_sched_job_arm() is indeed the point of no return.
->>
->> So would you say that the comment in the function's body,
->> "drm_sched_job_arm() has been called" actually means / should mean "job
->> had been submitted with drm_sched_entity_push_job()"?
+On 03/03/2025 10:32, Miguel Ojeda wrote:
+> Clippy warns:
+> 
+>      error: manual implementation of an assign operation
+>         --> drivers/gpu/drm/drm_panic_qr.rs:418:25
+>          |
+>      418 |                         self.carry = self.carry % pow;
+>          |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: replace it with: `self.carry %= pow`
+>          |
+>          = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#assign_op_pattern
+> 
+> Thus clean it up.
 
-Yes, probably. The problem is simply that we need to guarantee correct order of signaling for the dma_fence.
+Applied to drm-misc-next (because dbed4a797e00 is only present in this 
+branch).
 
-Otherwise functions like dma_fence_is_later()/dma_fence_later() start to blow up and we run into potential use after free problems.
+Thanks for your contribution.
 
->>
->>> The
->>> background is that it is nearly impossible for the driver to
->>> correctly
->>> retract the fence and signal it in the order enforced by the
->>> dma_fence
->>> framework.
->>>
->>> The code in drm_sched_job_cleanup() is for the purpose to cleanup
->>> after
->>> the job was armed through drm_sched_job_arm() *and* processed by the
->>> scheduler.
->>>
->>> The correct approach for error handling in this situation is to set
->>> the
->>> error on the fences and then push to the entity anyway.
->>
->> You expect the driver to set an error on scheduled and finished fence?
+-- 
 
-Ideally we would avoid that as well. In general drivers should be coded so that after calling drm_sched_job_arm() nothing can go wrong any more.
+Jocelyn
 
-Setting an error on either the scheduler or the finished fence is basically just the last resort if we can't really avoid any error handling.
-
->> I think this would be very likely to explode. AFAICS the scheduler code
->> has no awareness for anyone else having touched those fences.
-
-Yeah that is probably not well handled today.
-
->>
->> If at all, if this is really a problem, we should tell the driver that
->> it must enforce that there will be no failure between
->> drm_sched_job_arm() and drm_sched_job_entity_push_job(). That's how
->> Nouveau does it.
->
-> On top of Philipp's questions - I just want to raise that amdgpu_cs_submit then also needs explaining. I always take amdgpu as kind of almost reference, since that is where scheduler originated from. And in there there is definitely the path of drm_sched_job_cleanup() called after drm_sched_job_arm() when adding gang dependencies fails.
-
-Oh shit, yeah that doesn't work correctly at all. The user pages handling is completely broken as well.
-
-Thanks for pointing that out.
-
-Regards,
-Christian.
-
->
-> Regards,
->
-> Tvrtko
->
->>
->> Let's set our understanding straight before reverting. What
->> drm_sched_job_arm() does is:
->>
->>     1. Pick scheduler, rq and priority for the job
->>     2. Atomically increment the job_id_count and assign to job
->>     3. Call drm_sched_fence_init() and therefore:
->>     4. Set the fence's scheduler
->>     5. Set the fences seq nr atomically
->>     6. Initialize scheduled and finished fence
->>
->> What of the above precisely is the problem?
->>
->> You say the driver cannot "correctly retract the fence and signal it in
->> the order enforced by the dma_fence framework". You mean that the
->> finished_fences have to be signalled in an order only the scheduler
->> knows? I assume you're referring to set dependencies?
->>
->> P.
->>
->>> We can certainly
->>> improve the documentation, but removing the warning is clearly not a
->>> good
->>> idea.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>   drivers/gpu/drm/scheduler/sched_main.c | 12 +++++-------
->>>   1 file changed, 5 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->>> b/drivers/gpu/drm/scheduler/sched_main.c
->>> index 53e6aec37b46..4d4219fbe49d 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -1015,13 +1015,11 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
->>>    * Cleans up the resources allocated with drm_sched_job_init().
->>>    *
->>>    * Drivers should call this from their error unwind code if @job is
->>> aborted
->>> - * before it was submitted to an entity with
->>> drm_sched_entity_push_job().
->>> + * before drm_sched_job_arm() is called.
->>>    *
->>> - * Since calling drm_sched_job_arm() causes the job's fences to be
->>> initialized,
->>> - * it is up to the driver to ensure that fences that were exposed to
->>> external
->>> - * parties get signaled. drm_sched_job_cleanup() does not ensure
->>> this.
->>> - *
->>> - * This function must also be called in &struct
->>> drm_sched_backend_ops.free_job
->>> + * After that point of no return @job is committed to be executed by
->>> the
->>> + * scheduler, and this function should be called from the
->>> + * &drm_sched_backend_ops.free_job callback.
->>>    */
->>>   void drm_sched_job_cleanup(struct drm_sched_job *job)
->>>   {
->>> @@ -1032,7 +1030,7 @@ void drm_sched_job_cleanup(struct drm_sched_job
->>> *job)
->>>    /* drm_sched_job_arm() has been called */
->>>    dma_fence_put(&job->s_fence->finished);
->>>    } else {
->>> - /* aborted job before arming */
->>> + /* aborted job before committing to run it */
->>>    drm_sched_fence_free(job->s_fence);
->>>    }
->>>   
->>
->
+> 
+> Fixes: dbed4a797e00 ("drm/panic: Better binary encoding in QR code")
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>   drivers/gpu/drm/drm_panic_qr.rs | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
+> index 62cb8a162483..3b0dd59781d4 100644
+> --- a/drivers/gpu/drm/drm_panic_qr.rs
+> +++ b/drivers/gpu/drm/drm_panic_qr.rs
+> @@ -415,7 +415,7 @@ fn next(&mut self) -> Option<Self::Item> {
+>                           self.carry_len -= out_len;
+>                           let pow = u64::pow(10, self.carry_len as u32);
+>                           let out = (self.carry / pow) as u16;
+> -                        self.carry = self.carry % pow;
+> +                        self.carry %= pow;
+>                           Some((out, NUM_CHARS_BITS[out_len]))
+>                       }
+>                   }
+> 
+> base-commit: c0eb65494e59d9834af7cbad983629e9017b25a1
 
