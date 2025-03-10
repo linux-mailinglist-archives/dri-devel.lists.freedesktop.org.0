@@ -2,53 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B60A5A35D
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 19:45:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 225F1A5A372
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 19:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6091710E028;
-	Mon, 10 Mar 2025 18:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5712010E4C2;
+	Mon, 10 Mar 2025 18:54:29 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ar0jJ3Ws";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 04F4510E028
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 18:44:57 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ADD28152B;
- Mon, 10 Mar 2025 11:45:08 -0700 (PDT)
-Received: from [10.57.39.174] (unknown [10.57.39.174])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AB873F673;
- Mon, 10 Mar 2025 11:44:53 -0700 (PDT)
-Message-ID: <0b057c55-fe02-4c83-af69-37770dc83eb8@arm.com>
-Date: Mon, 10 Mar 2025 18:44:51 +0000
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C781F10E4C1;
+ Mon, 10 Mar 2025 18:54:27 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-2ff6b9a7f91so1190885a91.3; 
+ Mon, 10 Mar 2025 11:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741632867; x=1742237667; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kxGVCl+Faues7cvxc95q/41RjYYvmImGBSS+GmyZKh0=;
+ b=Ar0jJ3Wsu7QSyT58Yy3B+jcqKEHIPVYdEYBFL90cQKEM159DVAN5axJX3JNJh08Wbl
+ 1bpfTKARU453VQJyx/CmGizJzH84SLw5M9J2zJ5UBOu9vPogPyWv4hVaaDSbOvAVTOhG
+ fVbDb2uI73Mf75I+n2sJKVpo7HOOpCLLk8zhoZAViRO2vlG6wfVlXS0UKYwyMr+5oZpW
+ B7bHUbq+anIQIoK03cPuAatJATCvvbXBs1vHoCUedqmno/vf1b/YSOIM0M1cH8cC0fyV
+ e/pxc7O7LrOFSYOSEltIRHsEtR/Xog5pu0T8I+JlkkZuFeuPAmPrC2FA29UBsjkX7WsU
+ 0UPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741632867; x=1742237667;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kxGVCl+Faues7cvxc95q/41RjYYvmImGBSS+GmyZKh0=;
+ b=eOXH0AC7AH3CEgsCroeVz7Zlc44nklu5hHnT4v44McsIqr1GOXONp413sUlpWaenaa
+ gOstuBIfr4Rk6Mz/z3jxM6qez6gVNCwUMl49T0VUq0CoOsTbYqPlH3ESAneGWjEli21N
+ PLNRlFKMpC50UJv9DTNdm8Se4mdh0kZmHKzEdAqfXL8hLw2jPrrN/1pOCIKUl80SvrEQ
+ Kkk3Jr0csqVW2j61qWFimNotY8yza+L1rRqbq0F0Q4Zhf4hmK+Ws8CBwuTo11sexUU37
+ 1hifzsciDWK09n/gmK4k2rrEexprd8/knqe0JqLqODd/OBZfEnbiZss+xhY4khjIYoIa
+ 5iOw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVsY6y+q87PXbb2ARdnwCZo4U1v2rM3YzMJTXfyNGiEbNs8SM+oUhrh5Nav9B0ph7K/HAId+9Gm@lists.freedesktop.org,
+ AJvYcCXZnvhWRSCbbXZesoWVPqf8p2Tx00nNhqixE8Mn2xMuKrC88ngdbD9OoHUoEGzVZ6DmNPUV/K/TKfGF@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHEAgjdoa1mU4x0xGzG+5e/Ir/rllmKGasJayu3J4m7zrMsgLo
+ EgF5A9hUU9yJaiwfH3y1W4crcCKUTnWzOuJDIT6NjZnWhs89t30DwvI4VKKoOBgn2IsM6dOvIq9
+ CpR2HxkfuaxIazatdIAfYh7LiWVc=
+X-Gm-Gg: ASbGncvfG8qKVg+oZEqyeRKmbtn+s7lhK3zN07MMmR//3yH1xqjUdWnOY0bNk7OyhWX
+ lJq9H5PhatNbPO0JtggQ4xfC806ogNuU1FWo93sacFH00PSpH+iAA0MWUtxjkW6pAOCPb8wnyJO
+ S8Nh8eqbUPqwn3qGh7QMotpwVgmQ==
+X-Google-Smtp-Source: AGHT+IGMG6tNffXX/ec7iRvcQJXp2a6gFwyUvHgDcQJa2LTBWDElhXw8oi+8O7IN2mjhGprkF5y7dERbY0ZX3zUBdgA=
+X-Received: by 2002:a17:90b:1d84:b0:2ff:4be6:c5bd with SMTP id
+ 98e67ed59e1d1-300a57a7d5emr5888384a91.8.1741632866983; Mon, 10 Mar 2025
+ 11:54:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 06/12] dma: direct: Provide accessor to dmem region
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tomasz Figa <tfiga@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
- <20250310-dmem-cgroups-v1-6-2984c1bc9312@kernel.org>
- <2af9ea85-b31d-49c9-b574-38c33cc89cef@arm.com>
- <20250310-expert-piculet-of-fascination-3813cd@houat>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250310-expert-piculet-of-fascination-3813cd@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250225010221.537059-1-andrealmeid@igalia.com>
+ <334ebbe1-6897-4946-b64c-d7d85cae765f@amd.com>
+In-Reply-To: <334ebbe1-6897-4946-b64c-d7d85cae765f@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 10 Mar 2025 14:54:14 -0400
+X-Gm-Features: AQ5f1JoPVqOBfA9hLjv2sfz1bgOjEfAMoGJVkI3NKzv8T93iZQ1Y115X0mIXh4Q
+Message-ID: <CADnq5_OVg50R6fSMNPWf=8OT7fsiZDQZcwkiwcmJ36v0nZ6yBw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/amdgpu: Trigger a wedged event for ring reset
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com, siqueira@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,76 +87,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-03-10 4:28 pm, Maxime Ripard wrote:
-> On Mon, Mar 10, 2025 at 02:56:37PM +0000, Robin Murphy wrote:
->> On 2025-03-10 12:06 pm, Maxime Ripard wrote:
->>> Consumers of the direct DMA API will have to know which region their
->>> device allocate from in order for them to charge the memory allocation
->>> in the right one.
->>
->> This doesn't seem to make much sense - dma-direct is not an allocator
->> itself, it just provides the high-level dma_alloc_attrs/dma_alloc_pages/etc.
->> interfaces wherein the underlying allocations _could_ come from CMA, but
->> also a per-device coherent/restricted pool, or a global coherent/atomic
->> pool, or the regular page allocator, or in one weird corner case the SWIOTLB
->> buffer, or...
-> 
-> I guess it wasn't super clear, but what I meant is that it's an
-> allocator to the consumer: it gets called, and returns a buffer. How it
-> does so is transparent to the device, and on the other side of the
-> abstraction.
-> 
-> I do agree that the logic is complicated to follow, and that's what I
-> was getting at in the cover letter.
+Applied.  Thanks
 
-Right, but ultimately my point is that when we later end up with:
 
-struct dmem_cgroup_region *
-dma_get_dmem_cgroup_region(struct device *dev)
-{
-	if (dma_alloc_direct(dev, get_dma_ops(dev)))
-		return dma_direct_get_dmem_cgroup_region(dev);
-
-		= dma_contiguous_get_dmem_cgroup_region(dev);
-
-it's objectively wrong given what dma_alloc_direct() means in context:
-
-void *dma_alloc_attrs(...)
-{
-	if (dma_alloc_direct(dev, ops))
-		cpu_addr = dma_direct_alloc(...);
-
-where dma_direct_alloc() may then use at least 5 different allocation 
-methods, only one of which is CMA. Accounting things which are not CMA 
-to CMA seems to thoroughly defeat the purpose of having such 
-fine-grained accounting at all.
-
-This is why the very notion of "consumers of dma-direct" should 
-fundamentally not be a thing IMO. Drivers consume the DMA API 
-interfaces, and the DMA API ultimately consumes various memory 
-allocators, but what happens in between is nobody else's business; 
-dma-direct happens to represent *some* paths between the two, but there 
-are plenty more paths to the same (and different) allocators through 
-other DMA API implementations as well. Which route a particular call 
-takes to end up at a particular allocator is not meaningful unless you 
-are the DMA ops dispatch code.
-
-Or to put it another way, to even go for the "dumbest possible correct 
-solution", the plumbing of dma_get_dmem_cgroup_region() would need to be 
-about as complex and widespread as the plumbing of dma_alloc_attrs() 
-itself ;)
-
-I think I see why a simple DMA attribute couldn't be made to work, as 
-dmem_cgroup_uncharge() can't simply look up the pool the same way 
-dmem_cgroup_try_charge() found it, since we still need a cg for that and 
-get_current_dmemcs() can't be assumed to be stable over time, right?
-At the point I'm probably starting to lean towards a whole new DMA op 
-with a properly encapsulated return type (and maybe a long-term goal of 
-consolidating the 3 or 4 different allocation type we already have), or 
-just have a single dmem region for "DMA API memory" and don't care where 
-it came from (although I do see the issues with that too - you probably 
-wouldn't want to ration a device-private pool the same way as global 
-system memory, for example)
-
-Thanks,
-Robin.
+On Tue, Mar 4, 2025 at 4:29=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> Am 25.02.25 um 02:02 schrieb Andr=C3=A9 Almeida:
+> > Instead of only triggering a wedged event for complete GPU resets,
+> > trigger for ring resets. Regardless of the reset, it's useful for
+> > userspace to know that it happened because the kernel will reject
+> > further submissions from that app.
+> >
+> > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> Sorry for the delay, have been on sick leave for nearly two weeks.
+>
+> Regards,
+> Christian.
+>
+> > ---
+> > v3: do only for ring resets, no soft recoveries
+> > v2: Keep the wedge event in amdgpu_device_gpu_recover() and add and
+> >     extra check to avoid triggering two events.
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_job.c
+> > index 698e5799e542..760a720c842e 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> > @@ -150,6 +150,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(=
+struct drm_sched_job *s_job)
+> >                       if (amdgpu_ring_sched_ready(ring))
+> >                               drm_sched_start(&ring->sched, 0);
+> >                       dev_err(adev->dev, "Ring %s reset succeeded\n", r=
+ing->sched.name);
+> > +                     drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE=
+_RECOVERY_NONE);
+> >                       goto exit;
+> >               }
+> >               dev_err(adev->dev, "Ring %s reset failure\n", ring->sched=
+.name);
+>
