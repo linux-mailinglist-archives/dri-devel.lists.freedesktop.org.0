@@ -2,85 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD65A5A463
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 21:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823E7A5A48E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 21:15:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 219B210E4D7;
-	Mon, 10 Mar 2025 20:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 112C910E2AF;
+	Mon, 10 Mar 2025 20:15:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YxWKLKkd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bdLPKGMy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD97C10E4D7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 20:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=HLLjr37JFfsgHE45pv/RVp8Xm1ReKxZjl7TJMhTCiiQ=; b=YxWKLKkd5y8wMfA54BDxyolkIj
- 4uWon87tT8OoMG6O6Em2BNKsKvzxYb150CrJtl4rlSoe82iMyyXKUQvrvdUZoWNJ9dfbYCiwC1HHE
- Otcv4Swj10CWUvDWfPVQYWJPpq3D6h+chSUBjNkgIdf8lwjzeO2PXKMT301VYU1yb/BA1FP51DnTL
- bQd+gUGHtRPWJODdSzx10IjCeUE39Aaz3W5ofCyQCoV9Xm2bTIXeLaJsNzKv81GNWI0SqO+FFp4uF
- FGSvFnfRh/ou/0eiMluLuQKxdb4PD3zUPQ5HtiGcElngbaNylE4vcF9mCMiDMafqh19AxrceUYDkA
- StSUBYyg==;
-Received: from [143.107.183.66] (helo=[172.21.12.174])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1trjOT-006dbp-N4; Mon, 10 Mar 2025 21:06:39 +0100
-Message-ID: <4c658ba0-aa3b-4f8c-b1eb-fc7993a33ffa@igalia.com>
-Date: Mon, 10 Mar 2025 17:07:31 -0300
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18CE410E0DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 20:14:57 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-5499e3ec54dso2015457e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 13:14:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1741637696; x=1742242496; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=h9ZJhe15SI2R1lxy0woL42QmbLTLLNcrjryXpvdsrm0=;
+ b=bdLPKGMyz0wcVwha/SUhyzOt/xFHYFykk0DTL2VljxgIZQAhhpcrSw2A2Py90qcoPY
+ unjdB5/qU1nTXN5+3+Ydxl5/JXY13ogjg13EL49YCXHUQBweOKJhi3imb/kCd7qb/lT6
+ dg8qJT/gPDzjwRWlUlLaGX7SBEdRsvhsAP54KNrkZMOAJb7qUGBgAag85p+nA5RvDEdC
+ fTVEce4/1fdIp309hWihHeU/tn3Jd3qR3atIsXrkT43c27Lj/CzFRTLT4N1GMZzdtosc
+ 0QHxIPLIEuqDqud2n4g2kkudX7cr29pXuztmx0GGbBNYQDB5FZn3zQmy76DhUNoW23h1
+ ZfIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741637696; x=1742242496;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h9ZJhe15SI2R1lxy0woL42QmbLTLLNcrjryXpvdsrm0=;
+ b=acPkzw9ru8XgLACSW8d2Xcj6pZ2pm6qhSP7y5d23NYIULnfhTtx7a0hICbVQmgoVZq
+ pnzaP5U8YmpUNSyTLtgPQhCFKsaAOTW7ButGwrD4I5WE4wsN1ccD9VNa5L1tnpORvXDj
+ itb3Vt8SyI0MNF40UyrtKfqUEZqR54Lr2vDhOhuQ8IrxWb1jS36AOpRFnkrBCoa/7q3A
+ JVsLotoXULYChpC17lxGclan+TarI+tiKl2OydxgWK6iubuVZ9RhquG699TLwVuqZq+P
+ IUK9Ypty/6JtZZZw5tjXCAmgDucG3B1OGWambnTpMqZQkrDFQXvsfsdvdwxY3+rf3y9C
+ bdMw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU6T/fWGYm+Tom2IwK05KRgh/RCL5Q5FHDKf34ZUSCkUZ5uoysvV1ZqVLzPXN6lWYZD7D4q/5ldYws=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwZpZ0lsvTclhzqQNfDHSbKtFbeEP2y3WuQB7xiJ6iLaCX7FW1Z
+ 7IK7IOnKIm9PMKWH9lMMZaqTDfhDUlIcUjsvx/vjGAk+Ld6YEEDT0UGeyVeH2qM=
+X-Gm-Gg: ASbGncuteUZpzEJory/+y12SW2d3f4kyj52yiWGOTz7B0VhevTMv5MO3BYRmOuOLbzK
+ /AFP77UYwcwlBjz1hkFFULYR1DXRUoCNYHsWZsYxVP2VklyPupOWAbkwkPz5RPOqVvwISHIS3wR
+ z/I+YDwe4IatHmpggTsmm9mcMqqA2cs3DJo8C/mhf6JCSwSzM8J+88jf/6xonmfwdAMSVfTtydd
+ REdlur8NUcrEornxKCetuRifzZl/rtEFtNkv1T8zo6/qQ2SZeM2OXt+FIiMsyofwduHXr/mrJc2
+ E3NY10yxNLjsVkJ+DuVfR7r/MmfiXx+Tj5MZcGh50mDwbumxp5S4rQSvhbT6Qdk8VIEs4o44MzW
+ BDsMjat362w7KNJy70Em5hDKE
+X-Google-Smtp-Source: AGHT+IGctet0tbvnmmVPz/oI5Fqb6I+mucDKMgJv9axzwjfvPetRICONErkndHiBh4Y5t/R08GW8iA==
+X-Received: by 2002:a05:6512:3ba5:b0:549:4e78:9ed7 with SMTP id
+ 2adb3069b0e04-549910d0e7bmr5230788e87.49.1741637695928; 
+ Mon, 10 Mar 2025 13:14:55 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5498b1c29adsm1554207e87.215.2025.03.10.13.14.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Mar 2025 13:14:55 -0700 (PDT)
+Date: Mon, 10 Mar 2025 22:14:52 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <lumag@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 1/4] drm/display: hdmi: provide central data authority
+ for ACR params
+Message-ID: <bensvtxc67i566qqcjketdlffyrwxcnydwarqyjau6b7ibcq4b@d6d4sbm3rubf>
+References: <20250309-drm-hdmi-acr-v1-0-bb9c242f4d4b@linaro.org>
+ <20250309-drm-hdmi-acr-v1-1-bb9c242f4d4b@linaro.org>
+ <20250310-funny-malamute-of-promotion-bb759e@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] dt-bindings: gpu: v3d: Add SMS to the registers'
- list
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, devicetree@vger.kernel.org
-References: <20250308-v3d-gpu-reset-fixes-v2-0-2939c30f0cc4@igalia.com>
- <20250308-v3d-gpu-reset-fixes-v2-4-2939c30f0cc4@igalia.com>
- <20250310-calculating-flat-cuttlefish-4c9fc2@krzk-bin>
- <4d224fc2-d077-47aa-8b52-edba30c62d19@igalia.com>
- <6f87918b-b4ca-4404-8f1e-e1100190c0f6@kernel.org>
- <2bc573c6-e44f-441b-9b13-baa7df64a641@igalia.com>
- <130b6c9e-9e11-433c-881f-1a7ea8b0f86e@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
- /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
- gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
- SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
- G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
- AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
- dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
- P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
- O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
- GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
- 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
- FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
- TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
- Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
- 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
- LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
- T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
- wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
- zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
- it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
- Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
- uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
- raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <130b6c9e-9e11-433c-881f-1a7ea8b0f86e@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250310-funny-malamute-of-promotion-bb759e@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,195 +107,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
-
-On 3/10/25 14:34, Krzysztof Kozlowski wrote:
-> On 10/03/2025 14:15, Maíra Canal wrote:
->> Hi Krzysztof,
->>
->> On 3/10/25 09:55, Krzysztof Kozlowski wrote:
->>> On 10/03/2025 12:57, Maíra Canal wrote:
->>>>>
->>>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>>>>> ---
->>>>>>     .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 60 ++++++++++++++++++++--
->>>>>>     1 file changed, 55 insertions(+), 5 deletions(-)
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->>>>>> index dc078ceeca9ac3447ba54a7c8830821f0b2a7f9f..c0caee055e8c18dbcac0e51aa192951996545695 100644
->>>>>> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->>>>>> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->>>>>> @@ -27,15 +27,12 @@ properties:
->>>>>>           - description: core0 register (required)
->>>>>>           - description: GCA cache controller register (if GCA controller present)
->>>>>>           - description: bridge register (if no external reset controller)
->>>>>> +      - description: SMS register (if SMS controller present)
->>>>>
->>>>> This lists five items, but you say you have max 4?
->>>>
->>>> V3D 3.1 uses hub, core0, gca, and bridge (optional)
->>>> V3D 4.1 and 4.2 uses hub, core, and bridge (optional)
->>>> V3D 7.1 uses hub, core0, sms, and bridge (optional)
->>>>
->>>> Therefore, for a given DT, you will have 4 items max.
->>>
->>> And how many items do you have here?
->>>
->>>>
->>>>>
->>>>>>         minItems: 2
->>>>>>     
->>>>>>       reg-names:
->>>>>> -    items:
->>>>>> -      - const: hub
->>>>>> -      - const: core0
->>>>>> -      - enum: [ bridge, gca ]
->>>>>> -      - enum: [ bridge, gca ]
->>>>>>         minItems: 2
->>>>>> +    maxItems: 4
->>>>>
->>>>> So here 4, but earlier 5? These must come in sync.
->>>>
->>>> I added maxItems for reg in the allOf section.
->>>
->>> I don't think you answer the comments. I said you listed earlier 5 items
->>> and then you answered with saying devices have 4 items. Here I said
->>> these properties must be synced and you said why you added maxItems...
->>> Not related, read again the feedback.
->>
->> I'm sorry, I don't usually write DTBs. I believe what I need is to
->> specify the reg items for each compatible, right?
+On Mon, Mar 10, 2025 at 03:46:33PM +0100, Maxime Ripard wrote:
+> On Sun, Mar 09, 2025 at 10:13:56AM +0200, Dmitry Baryshkov wrote:
+> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > 
+> > HDMI standard defines recommended N and CTS values for Audio Clock
+> > Regeneration. Currently each driver implements those, frequently in
+> > somewhat unique way. Provide a generic helper for getting those values
+> > to be used by the HDMI drivers.
+> > 
+> > The helper is added to drm_hdmi_helper.c rather than drm_hdmi_audio.c
+> > since HDMI drivers can be using this helper function even without
+> > switching to DRM HDMI Audio helpers.
+> > 
+> > Note: currently this only handles the values per HDMI 1.4b Section 7.2
+> > and HDMI 2.0 Section 9.2.1. Later the table can be expanded to
+> > accommodate for Deep Color TMDS char rates per HDMI 1.4 Appendix D
+> > and/or HDMI 2.0 / 2.1 Appendix C).
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/display/drm_hdmi_helper.c | 164 ++++++++++++++++++++++++++++++
+> >  include/drm/display/drm_hdmi_helper.h     |   6 ++
+> >  2 files changed, 170 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > index 74dd4d01dd9bb2c9e69ec1c60b0056bd69417e8a..89d25571bfd21c56c6835821d2272a12c816a76e 100644
+> > --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > @@ -256,3 +256,167 @@ drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> >  	return DIV_ROUND_CLOSEST_ULL(clock * bpc, 8);
+> >  }
+> >  EXPORT_SYMBOL(drm_hdmi_compute_mode_clock);
+> > +
+> > +struct drm_hdmi_acr_n_cts_entry {
+> > +	unsigned int n;
+> > +	unsigned int cts;
+> > +};
+> > +
+> > +struct drm_hdmi_acr_data {
+> > +	unsigned long tmds_clock_khz;
+> > +	struct drm_hdmi_acr_n_cts_entry n_cts_32k,
+> > +					n_cts_44k1,
+> > +					n_cts_48k;
+> > +};
+> > +
+> > +static const struct drm_hdmi_acr_data hdmi_acr_n_cts[] = {
+> > +	{
+> > +		/* "Other" entry */
+> > +		.n_cts_32k =  { .n = 4096, },
+> > +		.n_cts_44k1 = { .n = 6272, },
+> > +		.n_cts_48k =  { .n = 6144, },
+> > +	}, {
+> > +		.tmds_clock_khz = 25175,
+> > +		.n_cts_32k =  { .n = 4576,  .cts = 28125, },
+> > +		.n_cts_44k1 = { .n = 7007,  .cts = 31250, },
+> > +		.n_cts_48k =  { .n = 6864,  .cts = 28125, },
+> > +	}, {
+> > +		.tmds_clock_khz = 25200,
+> > +		.n_cts_32k =  { .n = 4096,  .cts = 25200, },
+> > +		.n_cts_44k1 = { .n = 6272,  .cts = 28000, },
+> > +		.n_cts_48k =  { .n = 6144,  .cts = 25200, },
+> > +	}, {
+> > +		.tmds_clock_khz = 27000,
+> > +		.n_cts_32k =  { .n = 4096,  .cts = 27000, },
+> > +		.n_cts_44k1 = { .n = 6272,  .cts = 30000, },
+> > +		.n_cts_48k =  { .n = 6144,  .cts = 27000, },
+> > +	}, {
+> > +		.tmds_clock_khz = 27027,
+> > +		.n_cts_32k =  { .n = 4096,  .cts = 27027, },
+> > +		.n_cts_44k1 = { .n = 6272,  .cts = 30030, },
+> > +		.n_cts_48k =  { .n = 6144,  .cts = 27027, },
+> > +	}, {
+> > +		.tmds_clock_khz = 54000,
+> > +		.n_cts_32k =  { .n = 4096,  .cts = 54000, },
+> > +		.n_cts_44k1 = { .n = 6272,  .cts = 60000, },
+> > +		.n_cts_48k =  { .n = 6144,  .cts = 54000, },
+> > +	}, {
+> > +		.tmds_clock_khz = 54054,
+> > +		.n_cts_32k =  { .n = 4096,  .cts = 54054, },
+> > +		.n_cts_44k1 = { .n = 6272,  .cts = 60060, },
+> > +		.n_cts_48k =  { .n = 6144,  .cts = 54054, },
+> > +	}, {
+> > +		.tmds_clock_khz = 74176,
+> > +		.n_cts_32k =  { .n = 11648, .cts = 210937, }, /* and 210938 */
+> > +		.n_cts_44k1 = { .n = 17836, .cts = 234375, },
+> > +		.n_cts_48k =  { .n = 11648, .cts = 140625, },
+> > +	}, {
+> > +		.tmds_clock_khz = 74250,
+> > +		.n_cts_32k =  { .n = 4096,  .cts = 74250, },
+> > +		.n_cts_44k1 = { .n = 6272,  .cts = 82500, },
+> > +		.n_cts_48k =  { .n = 6144,  .cts = 74250, },
+> > +	}, {
+> > +		.tmds_clock_khz = 148352,
+> > +		.n_cts_32k =  { .n = 11648, .cts = 421875, },
+> > +		.n_cts_44k1 = { .n = 8918,  .cts = 234375, },
+> > +		.n_cts_48k =  { .n = 5824,  .cts = 140625, },
+> > +	}, {
+> > +		.tmds_clock_khz = 148500,
+> > +		.n_cts_32k =  { .n = 4096,  .cts = 148500, },
+> > +		.n_cts_44k1 = { .n = 6272,  .cts = 165000, },
+> > +		.n_cts_48k =  { .n = 6144,  .cts = 148500, },
+> > +	}, {
+> > +		.tmds_clock_khz = 296703,
+> > +		.n_cts_32k =  { .n = 5824,  .cts = 421875, },
+> > +		.n_cts_44k1 = { .n = 4459,  .cts = 234375, },
+> > +		.n_cts_48k =  { .n = 5824,  .cts = 281250, },
+> > +	}, {
+> > +		.tmds_clock_khz = 297000,
+> > +		.n_cts_32k =  { .n = 3072,  .cts = 222750, },
+> > +		.n_cts_44k1 = { .n = 4704,  .cts = 247500, },
+> > +		.n_cts_48k =  { .n = 5120,  .cts = 247500, },
+> > +	}, {
+> > +		.tmds_clock_khz = 593407,
+> > +		.n_cts_32k =  { .n = 5824,  .cts = 843750, },
+> > +		.n_cts_44k1 = { .n = 8918,  .cts = 937500, },
+> > +		.n_cts_48k =  { .n = 5824,  .cts = 562500, },
+> > +	}, {
+> > +		.tmds_clock_khz = 594000,
+> > +		.n_cts_32k =  { .n = 3072,  .cts = 445500, },
+> > +		.n_cts_44k1 = { .n = 9408,  .cts = 990000, },
+> > +		.n_cts_48k =  { .n = 6144,  .cts = 594000, },
+> > +	},
+> > +};
+> > +
+> > +static int drm_hdmi_acr_find_tmds_entry(unsigned long tmds_clock_khz)
+> > +{
+> > +	int i;
+> > +
+> > +	/* skip the "other" entry */
+> > +	for (i = 1; i < ARRAY_SIZE(hdmi_acr_n_cts); i++) {
+> > +		if (hdmi_acr_n_cts[i].tmds_clock_khz == tmds_clock_khz)
+> > +			return i;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/**
+> > + * drm_hdmi_acr_get_n_cts() - get N and CTS values for Audio Clock Regeneration
+> > + *
+> > + * @tmds_char_rate: TMDS clock (char rate) as used by the HDMI connector
+> > + * @sample_rate: audio sample rate
+> > + * @out_n: a pointer to write the N value
+> > + * @out_cts: a pointer to write the CTS value
+> > + *
+> > + * Get the N and CTS values (either by calculating them or by returning data
+> > + * from the tables. This follows the HDMI 1.4b Section 7.2 "Audio Sample Clock
+> > + * Capture and Regeneration".
+> > + */
 > 
-> You need to list four items in 'reg' and last items' description would
-> need to describe two different sets.
-> 
-> And commit msg must explain why now this device needs to use sms, not
-> gca. Why you cannot use the gca range instead of sms? So many questions.
+> I think we need to make it clear that it's for L-PCM only (I think?),
+> either through a format parameter or through the documentation.
 
-I believe I understood the issue now. From my point of view, the idea is
-preserving the semantics of the register bank names. GCA is a cache
-controller that it is only available in V3D 3.3 (so, only brcm,7268-v3d
-has it). SMS is a power controller that it is only available in V3D 7.1
-(so, only brcm,2712-v3d has it).
-
-Each one of those compatibles represent different V3D generations (3.3,
-4.1, 4.2, 7.1).
-
- From my understanding, I'm keeping the ABI preserved, as brcm,7268-v3d
-needs to have a GCA register (otherwise, you won't be able to flush the
-cache) and brcm,2711-v3d doesn't even have this piece of hardware.
-
-I understand that now I'm imposing per-compatible restrictions that
-didn't exist in the spec, but the new restrictions are compatible to the
-hardware specification. I'd like to understand if I can:
-
-1. Use two register items (gca and sms) to preserve the semantics of the
-register names.
-
-2. Can I add per-compatible restrictions to the DT even if the original
-bindings didn't do it? If not, can I just add a new register to the
-register list? Like:
-
-    reg-names:
-      items:
-        - const: hub
-        - const: core0
--      - enum: [ bridge, gca ]
--      - enum: [ bridge, gca ]
-+      - enum: [ bridge, gca, sms ]
-+      - enum: [ bridge, gca, sms ]
-+      - enum: [ bridge, gca, sms ]
-      minItems: 2
-
-Best Regards,
-- Maíra
+Ack
 
 > 
->>
->>>
->>>
->>>>
->>>>>bcm
->>>>>>     
->>>>>>       interrupts:
->>>>>>         items:
->>>>>> @@ -60,6 +57,59 @@ required:
->>>>>>     
->>>>>>     additionalProperties: false
->>>>>>     
->>>>>> +allOf:
->>>>>
->>>>> This goes above additionalProperties.
->>>>
->>>> Got it.
->>>>
->>>>>
->>>>>> +  - if:
->>>>>> +      properties:
->>>>>> +        compatible:
->>>>>> +          contains:
->>>>>> +            enum:
->>>>>> +              - brcm,2711-v3d
->>>>>> +              - brcm,7278-v3d
->>>>>> +    then:
->>>>>> +      properties:
->>>>>> +        reg:
->>>>>> +          minItems: 2
->>>>>> +          maxItems: 3
->>>>>> +        reg-names:
->>>>>> +          items:
->>>>>> +            - const: hub
->>>>>> +            - const: core0
->>>>>> +            - const: bridge
->>>>>
->>>>> Again un-synced lists.
->>>>
->>>> Sorry, what do you mean by un-synced lists?
->>>
->>> xxx and xxx-names must have the same constraints. They do not have here.
->>> You have two different constraints and you can test your DTS to see that.
->>   >
->>
->> I used `make dt_binding_check` to test it and it didn't catch any
->> errors.
+> > +void
+> > +drm_hdmi_acr_get_n_cts(unsigned long long tmds_char_rate,
+> > +		       unsigned int sample_rate,
+> > +		       unsigned int *out_n,
+> > +		       unsigned int *out_cts)
 > 
-> So change the example to have one list with two items and second list
-> with three items. Is it correct DTS? No. Does this pass tests? Yes.
-> 
->>
->>>>
->>>>>
->>>>>> +  - if:
->>>>>> +      properties:
->>>>>> +        compatible:
->>>>>> +          contains:
->>>>>> +            const: brcm,2712-v3d
->>>>>> +    then:
->>>>>> +      properties:
->>>>>> +        reg:
->>>>>> +          minItems: 3
->>>>>> +          maxItems: 4
->>>>>> +        reg-names:
->>>>>> +          items:
->>>>>> +            - const: hub
->>>>>> +            - const: core0
->>>>>> +            - enum: [ bridge, sms ]
->>>>>> +            - enum: [ bridge, sms ]
->>>>>> +          minItems: 3
->>>>>
->>>>> Why is this flexible?
->>>>
->>>> I cannot guarantee the order and bridge is optional.
->>>
->>> Hm? You must guarantee the order and I do not understand why this needs
->>> some sort of exception from all other bindings that only here you cannot
->>> guarantee the order.
->>
->> I'm trying to keep backwards compatibility. This binding exists for many
->> years and it always used "enum: [ bridge, gca ]".
-> 
-> But it is now sms, not gca,, so I do not see how the ABI is preserved.
-> 
-> Best regards,
-> Krzysztof
+> And we should probably take the connector (or EDID) to make sure the
+> monitor can support the format and sample rates.
 
+Interesting perspective, I'll give it a thought. I was really just
+trying to get rid of the duplication.
+
+I think that 'supported' parts should be implemented in the hdmi-codec
+instead, parsing the ELD and updating hw constraints. WDYT?
+
+> 
+> > +{
+> > +	/* be a bit more tolerant, especially for the 1.001 entries */
+> > +	unsigned long tmds_clock_khz = DIV_ROUND_CLOSEST_ULL(tmds_char_rate, 1000);
+> > +	const struct drm_hdmi_acr_n_cts_entry *entry;
+> > +	unsigned int n, cts, mult;
+> > +	int tmds_idx;
+> > +
+> > +	tmds_idx = drm_hdmi_acr_find_tmds_entry(tmds_clock_khz);
+> > +
+> > +	/*
+> > +	 * Don't change the order, 192 kHz is divisible by 48k and 32k, but it
+> > +	 * should use 48k entry.
+> > +	 */
+> > +	if (sample_rate % 48000 == 0) {
+> > +		entry = &hdmi_acr_n_cts[tmds_idx].n_cts_48k;
+> > +		mult = sample_rate / 48000;
+> > +	} else if (sample_rate % 44100 == 0) {
+> > +		entry = &hdmi_acr_n_cts[tmds_idx].n_cts_44k1;
+> > +		mult = sample_rate / 44100;
+> > +	} else if (sample_rate % 32000 == 0) {
+> > +		entry = &hdmi_acr_n_cts[tmds_idx].n_cts_32k;
+> > +		mult = sample_rate / 32000;
+> > +	} else {
+> > +		entry = NULL;
+> > +	}
+> > +
+> > +	if (entry) {
+> > +		n = entry->n * mult;
+> > +		cts = entry->cts;
+> > +	} else {
+> > +		/* Recommended optimal value, HDMI 1.4b, Section 7.2.1 */
+> > +		n = 128 * sample_rate / 1000;
+> > +		cts = 0;
+> > +	}
+> > +
+> > +	if (!cts)
+> > +		cts = DIV_ROUND_CLOSEST_ULL(tmds_char_rate * n,
+> > +					    128 * sample_rate);
+> > +
+> > +	*out_n = n;
+> > +	*out_cts = cts;
+> > +}
+> 
+> EXPORT_SYMBOL?
+
+Yes, I forgot it.
+
+> 
+> Also, I'd really like to have some unit tests for this. Not for all the
+> combinations, obviously, but testing that, say, 44.1kHz with a 148.5 MHz
+> char rate works as expected, and then all the failure conditions
+> depending on the monitor capabilities.
+
+Ack for the tests. For the monitor capabilities, let's finish the
+discussion above first.
+
+
+
+-- 
+With best wishes
+Dmitry
