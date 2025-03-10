@@ -2,91 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C722AA5A54C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 21:51:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FA0A5A55E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Mar 2025 21:55:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A0E910E2EA;
-	Mon, 10 Mar 2025 20:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9682010E32B;
+	Mon, 10 Mar 2025 20:55:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="a49I3h9w";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="s0QCqipB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 343C510E2EA
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 20:51:19 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-30bf5d7d107so35770991fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 13:51:19 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D02710E32B
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 20:55:40 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-30761be8fa8so52734251fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 13:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741639877; x=1742244677; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741640139; x=1742244939; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=kxNF8e48hf51wGrFc06CsODYSc9fXYwI5IwZer2AB2U=;
- b=a49I3h9wIYz1stRYF4ps6b1VgN5rn/oCrkETRAtNzdSnmaj2NGKnjh/m8OWXLKBV7m
- 7RLmd6m3e9cAe0z5dG5P/JelzTtg17at2TgA0acBHNTYeqWqJ8HT1RPnRrokxJaYjeRh
- dyG9aqZEMAL8exSGGXP/sk1udkkMpDHmvcy3BqJKvbnIOaYRYxf41toLp3sSptdFYDp1
- zOCxRi/Yl0oN96LG6AxuhzHaUiJT7SQRC0YpCnmcPZ/oXViGrKYGj82X42ZG9Q/tj0+e
- JsJ5qRFru+S1JFjzrtMvWHEdYVOLzTu4oRYSkuN+zRqClQ2S0I8PNFlwT3A3DTGq6Hyf
- d4Gg==
+ bh=VOWDQFfh/dqAVjze2LQJgK0R1nQSBQ+Z81JUBKH/8tY=;
+ b=s0QCqipB14tm2mGbk83PN4McEXyKSn8dt9tZjqr9mtF49oHE7AEZY43q0vz/tdaOPh
+ Zjp7hDT4ry5MZWL1/Jc0f4IAIrKckUwbiYS9V/oOaWYwDG0sjJbly93DVmDkcIMUj+Wl
+ eeHbqQIV57je6ywYrQ1W8CkfbY8A68iADgNtZv+3/gwnRFc/nd8hunyWLJm6DwXuybqo
+ DqrXgfbd9UER48EwNWEZSN/0Dt1gf7nTFIhBHmdJs+Vtc7C9FQ1luWoMXUXnN4MHctnM
+ 9SEO54nbpb16bX9l0mdbAiHzTI31Ezxqdtn4ClgdfTPA5j4Ekh2VeXLhOMM8jmcpstJJ
+ m0zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741639877; x=1742244677;
+ d=1e100.net; s=20230601; t=1741640139; x=1742244939;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kxNF8e48hf51wGrFc06CsODYSc9fXYwI5IwZer2AB2U=;
- b=ImEpgjzKvn1mcnACR0yJVkTJAHfRtvsRVXExJz8ncVUvIxpwS8W3ttIG+IPK3d3tJ9
- uwmLX3s8OY6cQo4nd/QX3PqHbEs/MpY09CQh9huIz264TGPbXEayHXecH6+y4J1xtwol
- +0ZK3jNj79AEqDNK8FehmgG0hew1w9OXo7cIfT/AvKXnbRhXRYodT+jxSZbTn+sRalb6
- 905BaYnd7n5UZqAIjj+qQURkZdYQOZNy8JxIGbGgddvInJwKS6OrGJ2NrdfEoE5acmiG
- 2ih6hllzauCcV3OBRCUwKMdeN4AHIf2uLEDJ+nr60RyhG4gjP7NkVnu7s7OLoN0W30c1
- ujoA==
+ bh=VOWDQFfh/dqAVjze2LQJgK0R1nQSBQ+Z81JUBKH/8tY=;
+ b=StgIr/x0gozLcfUeE8bgrsrUqnT1jJG3T63N8cxpjU47mSwdKO0uv3XFXRQ9U8ARod
+ +o8jkukf+yM3/+x08kjzdbS+bLhgJcUZZwMhyWGV4fbLINXlVP0jr+LivO9BbJd99KA3
+ pYL5oWBUoHV4N5WFaHkcTiyWfHlDmavTXr+NxfV9uU7MAxcWl1LAqjTHvBfgRNJTUP6x
+ nhHwI6beGvmQ0oV5LROE954C357bRYp+ZVvmNrSp1y9odl8IdMCB3zLeL9EKocGJBVG+
+ STno+9YZBn/fNsXbt1TvPypquvtiGrrKwWONEqqu60EvoCU1AAaqamn6HL6PymX3h14B
+ xLCQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVZYAhQ5PVTxpkGudUcQtY3ekfphptmvE2OOIzTA/S0yRqpyE1oGMlnrsn6w/j8qGMCVn+cx5tL8CA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpbabugMlgmCeDbRNt8npaq15z+93ZSZQ2Gh7V1s5itWUIIJPl
- lX5OgEiOhbQBqLZmaqZqyS1FEk6XlwuGBAkPgjSR29hkO9hl/n+ySzHC9FznCGQ=
-X-Gm-Gg: ASbGncu3L0cr9L9BhtRbKJki62avNdilN1QvCkOKm+39URjzvrVCs6++vFI3MY9yM2L
- wlR4zkv/7muyHh+snkHxl4mPun3zUUDM1KVPnwY3SOOXZnFRGEWHs+Lv0hwt4DmH9L0KnkSYy+b
- hOB7/W+nsWxF0iCzgNeo7/tn5ZXBOzSFsniCmpvRE2Vh0r/1p4BBntQZuC+rfxJ2oIDQrwv5Ev1
- 0Yi2ZqvLX9rMjlpM7oQLLUHjPnFDeEqzE8M46ZZDZXig28tgFMv8M66eqFs8p/H3gQJ1h1B3LhW
- Cr3a5mtQJiTK5fst/Y1Y2LENbEtou86UfB2MGlCUYa7GG5LgHf+B5mVnBUpOcy+GCxb4DXQkQC0
- SZ2WySHpBHY6tf5784NQu7aOr
-X-Google-Smtp-Source: AGHT+IFPbDF/2E9yu0QkgjYjNcSbSQMHb9SKSyVgCW0jWJzt0rN/zgSyXWNMQzVNMXXx8FaEgf2kjw==
-X-Received: by 2002:a2e:81a:0:b0:30c:12b8:fb76 with SMTP id
- 38308e7fff4ca-30c12b90187mr13907201fa.15.1741639877485; 
- Mon, 10 Mar 2025 13:51:17 -0700 (PDT)
+ AJvYcCUQEQufdM4In7ENu1/z4R+dQYe+UbDOktb2exGMrfXcZCgVdE1I9nzA28nQi2ejM4YBbznok4Jpozo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzy2Fwd2hLEyNx2xJaECrxTdOtcrBmT3Vu/HJWb7oL+ITUZ9YMt
+ Lx5bHfGg6BwxMuyYxO8ri2qQefBHYAJ45rY/auTfg1EZE8rEYW8nu+YJotEg0M4=
+X-Gm-Gg: ASbGncvGUqsvhphpynNFPfjEgEExgT2y0/dEAxr5Zxu/SKAAx9redUrG2K25n8W41ft
+ w+wohoMrm3UL+8hdqDgmA/nV/8/lx8CB4OU4ec1LmrXuptIoOgnw9nSYfhZ50f/S+xaF8aTdKJA
+ kWR8J0PnDOBRDT2sbDXAM6mAVoIfADJG1wiqKY3GJaXy89DE5hF8WjuFrGuFAm2GxxCnnPX3XDC
+ LBCAuO/6hbfly71tUwlcGH4zF5oYR603vUlR4D5TpfGPjjewQ4k/liK+tUjIqyJfe8qtJMN2hIv
+ SMoKa7NZfR2/c+gBwXjSTkatC9WjTtLmCVU2m47ffruE3h53WIZBYLg3VHzU7uc7FGW1nUCqO7+
+ xvk4lv1uXr8La7YmcXqk/Z/rm
+X-Google-Smtp-Source: AGHT+IHubY+f/rhxrSBxiaa325h/nsC0f2kSD//bxK0bB6+HKDQJSbjODqNhRDdqPFgVEC8cmQYHNw==
+X-Received: by 2002:a05:6512:224f:b0:545:aa5:d44f with SMTP id
+ 2adb3069b0e04-54990e673e4mr5915381e87.30.1741640138654; 
+ Mon, 10 Mar 2025 13:55:38 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30be99e81cbsm17438501fa.93.2025.03.10.13.51.15
+ 2adb3069b0e04-5498ae5f4d1sm1565991e87.103.2025.03.10.13.55.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 13:51:16 -0700 (PDT)
-Date: Mon, 10 Mar 2025 22:51:13 +0200
+ Mon, 10 Mar 2025 13:55:37 -0700 (PDT)
+Date: Mon, 10 Mar 2025 22:55:35 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: heiko@sntech.de, andy.yan@rock-chips.com, hjc@rock-chips.com, 
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, 
- simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- dianders@chromium.org, 
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
- boris.brezillon@collabora.com, 
- l.stach@pengutronix.de, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
+ chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
+ shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 06/13] drm/bridge: analogix_dp: Add support to get
- panel from the DP AUX bus
-Message-ID: <mz7qmjokw4b3zk4y2u45ykzgtgqpsu6f53pflhqodyjd6svvvk@7jzggqezbubl>
-References: <20250310104114.2608063-1-damon.ding@rock-chips.com>
- <20250310104114.2608063-7-damon.ding@rock-chips.com>
+Subject: Re: [PATCH v6 drm-dp 7/9] drm/hisilicon/hibmc: Enable this hot plug
+ detect of irq feature
+Message-ID: <k4c72nwjyke62eyurj6v6ymfwmdgu3hoxwv6zx442c5afin5cy@scqalfe3kwo3>
+References: <20250310040138.2025715-1-shiyongbang@huawei.com>
+ <20250310040138.2025715-8-shiyongbang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250310104114.2608063-7-damon.ding@rock-chips.com>
+In-Reply-To: <20250310040138.2025715-8-shiyongbang@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,15 +96,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 10, 2025 at 06:41:07PM +0800, Damon Ding wrote:
-> The main modification is moving the DP AUX initialization from function
-> analogix_dp_bind() to analogix_dp_probe(). In order to get the EDID of
-> eDP panel during probing, it is also needed to advance PM operations to
-> ensure that eDP controller and phy are prepared for AUX transmission.
+On Mon, Mar 10, 2025 at 12:01:36PM +0800, Yongbang Shi wrote:
+> From: Baihan Li <libaihan@huawei.com>
 > 
-> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> 
-> ---
+> Add HPD interrupt enable functions in drm framework, and also add
+> detect_ctx functions. Because of the debouncing when HPD pulled out,
+> add 200 ms delay in detect_ctx(). Add link reset process to reset link
+> status when a new connector pulgged in.
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
