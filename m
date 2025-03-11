@@ -2,123 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABCFDA5CBCC
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 18:12:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A239A5CBCF
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 18:13:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1215810E64B;
-	Tue, 11 Mar 2025 17:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D98A10E2BF;
+	Tue, 11 Mar 2025 17:13:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Eob1SebL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fcfFIT1r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2061.outbound.protection.outlook.com [40.107.237.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2E110E649;
- Tue, 11 Mar 2025 17:12:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wInka1witmHDU+3dxFc678ze5n8fwgIRyFoS8mo4Z0AAGwsbg1vqiFK7jMXAKXVVUz7UGjTKiY7YXYI7c+0w0K/L1uac9aD+5Eeo2CKvaZvBIGpcXPXSZWu05Dsm1kBPwwOvavvU8DVkrNjxE9g0KB+/9w7/I7dvLPG7Z65ua5Uksc4PwW9Z/MbdIAHDjsUBI+rebXD0EQuz0CEJZTBAsw4QmlMUhaIfBULtWVXfQo709jyJ1BkuQwENv76pod/0qfvmCvDuEJmzh5AHAv7TSu6Z8AapbiD5KHZOSjc+xlzQzwgi2NqgYT75jOuNTnzmMITIk5D1yQYbceCAbEFE1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=biL5HQbjvlv7sRBYPC1aZ498oESvQy+181tT5ASQMTw=;
- b=sPCm0ylP7+Ei1UxyCq0eO4D6BFqjXLbllZ9paxTKn2y0qJ4zsc9usRtqOEto3FZyFi7H9qgOs3mnZPfCMcgt2zWFxNr+veB3gh+vfgEY7SN7wuffDAAUJHTlJSTUCqElJWZpXpyTGH7vjcReSYNaLej8Q09yB0+wx/WJYKFjJ7iuXhJ1Mf8XQWT4oFxj79/ftf+UI1DlHJ46XyEkakMquYQYVxsvNLpeLcq9Ocz9/W1XVsaP0KSxyfBWbe7xRAu2SSAkh5e88IUAHJX84TXikLMNzQZhn8iyEG6zEmLgrsFUVAv11GXv1hODruPePhiq9/I4oiJa2T6hLsxFsFL4Iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=igalia.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=biL5HQbjvlv7sRBYPC1aZ498oESvQy+181tT5ASQMTw=;
- b=Eob1SebLtqd3x3W/L34BQ/rv9qcfRjPLOrj+sSu5AchyJgy5Plk9yQeIPXD/Jrd0lTTEAhvZF7PbBPgJFhehWgqZdJaS10ASFGl2PUfn6ZTqb/58lhk51koKUwkGyT6C3k1jFpj6Bu1FOSOAQUWuEC/6eTXX7QzL7XZn1hf8A+4=
-Received: from SJ0PR13CA0190.namprd13.prod.outlook.com (2603:10b6:a03:2c3::15)
- by DS4PR12MB9681.namprd12.prod.outlook.com (2603:10b6:8:281::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Tue, 11 Mar
- 2025 17:12:07 +0000
-Received: from CY4PEPF0000FCC1.namprd03.prod.outlook.com
- (2603:10b6:a03:2c3:cafe::d1) by SJ0PR13CA0190.outlook.office365.com
- (2603:10b6:a03:2c3::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.20 via Frontend Transport; Tue,
- 11 Mar 2025 17:12:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000FCC1.mail.protection.outlook.com (10.167.242.103) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8534.20 via Frontend Transport; Tue, 11 Mar 2025 17:12:06 +0000
-Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 11 Mar
- 2025 12:12:03 -0500
-From: Alex Hung <alex.hung@amd.com>
-To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>, <siqueira@igalia.com>,
- <alexander.deucher@amd.com>, <jun.lei@amd.com>, <aurabindo.pillai@amd.com>,
- <christian.koenig@amd.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <Samson.Tam@amd.com>, <alex.hung@amd.com>, <Navid.Assadian@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/amd/display: Remove incorrect macro guard
-Date: Tue, 11 Mar 2025 11:10:17 -0600
-Message-ID: <20250311171017.3053891-1-alex.hung@amd.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9E6010E2BF;
+ Tue, 11 Mar 2025 17:13:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741713203; x=1773249203;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=24+5qJIcAfCH8EBR18YUzgbstW0szGfuyAGdr6wElAA=;
+ b=fcfFIT1rK/64E491BKGHG6sHIX/Ew74gkwiko06d8blqS91MDQLD/tS+
+ 6h3ULk+Z8GJizlMblohXclvJ3UJOMRpSKs9aUaBW8zaWIAb+qr7shruj5
+ vEyluNP2jPf6EXv0tcR64v1ryW+vgKUq9mGmUOnLsVVR3BwA99J2a5bsR
+ e5SBO5npEE3eRv9bgLAoINURb2uRVVvHb2A17HQcWDr8QkJB3LSk0Li+v
+ g3+sr6+tDDKJgbR22cA1QK6w2vQW6sDgzeoqFpkSIVYetpH4BUYZXG37q
+ jH8v9SE01PJFl9LW6j119G0RTEdCo1rngvBZxkQ9t3a+rXGBRZRFtQlhn Q==;
+X-CSE-ConnectionGUID: Vl6ZSD3cRLSaOeap2qmVXg==
+X-CSE-MsgGUID: IZgCsrD8SX253GBZhawPAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="60312353"
+X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; d="scan'208";a="60312353"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2025 10:13:22 -0700
+X-CSE-ConnectionGUID: Sd44fNiVQvS0KlFxHSngYQ==
+X-CSE-MsgGUID: YYdp9I3OToyuGLScQZb5UA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; d="scan'208";a="120326006"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2025 10:13:18 -0700
+Date: Tue, 11 Mar 2025 19:13:15 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ siqueira@igalia.com, airlied@gmail.com, simona@ffwll.ch,
+ rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ Xaver Hugl <xaver.hugl@kde.org>
+Subject: Re: [PATCH 2/2] drm/amdgpu: Make use of drm_wedge_app_info
+Message-ID: <Z9BvK55_Nim54eOu@black.fi.intel.com>
+References: <20250228121353.1442591-1-andrealmeid@igalia.com>
+ <20250228121353.1442591-3-andrealmeid@igalia.com>
+ <Z8HO-s_otb2u44V7@black.fi.intel.com>
+ <38b9cc8b-2a55-4815-a19f-f5bdf0f7687c@igalia.com>
+ <Z8KjZfLYjH6ehYwy@black.fi.intel.com>
+ <73602c9b-74f6-4b4a-82c6-918292b13cf7@igalia.com>
+ <CADnq5_PbZUoyxyqweqa=kUNsSXanjY=5mUJrn03aY3je6rER+w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC1:EE_|DS4PR12MB9681:EE_
-X-MS-Office365-Filtering-Correlation-Id: aaf7dcdd-657e-4482-1603-08dd60bfd9c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|82310400026|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DcPl9fW5E5QI7x2GZ6yw3bsjTOeL2hfl77Z4vaZTpesf3Sw5RXHFcr/l2Kmt?=
- =?us-ascii?Q?DQxznmo4MpjbkQ92Ms7hHD4OiGJV3qq3te5ffeAOhQmOBLI8X7yZGbtLwsM/?=
- =?us-ascii?Q?MOkSoCPrbITm9lyC49xVdATKzk1DrnDSSUpneCKGGF5vpDB+wLdz6GvG8u4d?=
- =?us-ascii?Q?Boalq2Uqn+lX8K8jyp6ZMX0sWfjoQZz116rLig++8A1zcinpA0JLI9vB/lu7?=
- =?us-ascii?Q?pvLW9PGKTfia+g8nvq6kXRoubeiM830UCEbPj0yXoaVRozyliVQR7sltwuW5?=
- =?us-ascii?Q?uOt9E9JO/fFrM6R54Whh4O1v/tlj6EyCagqcp1qK7GTn7ai8wbW+uIxwwxnS?=
- =?us-ascii?Q?NqcEY7dwTpvKS5dcpIfbbLwumVGmrPbY2whP/gwfCkb+p4Ww5+gVrB9Z6PZc?=
- =?us-ascii?Q?Btzkupx07TGNOWMQt2Qir8QbaOpEAvyHFcPamK1lUJMSc5AVbQD8w0pcaxRo?=
- =?us-ascii?Q?cX0wvnh6TaQ17jTgvKqjlzstng2DHBdCn4sjZgB5Umr1ozfhwjo9Da8HSfgm?=
- =?us-ascii?Q?eh8triCL2nyAP5tL0pnpUd8VFVR23/a1yVoc2LJvElBmp3Ul1IebfpTO/nzz?=
- =?us-ascii?Q?FTNdMuIAY+ZgMduOJs/Z2VYFEBExScc5nj80ai0RSGQkV7du5X0DyZIGE+u9?=
- =?us-ascii?Q?rDRATdaTR8WCo2bfDOaKcBKvstvDEcxbkEoeFNKbLd8Thu+MK+cl9NcFCk0v?=
- =?us-ascii?Q?Bc2euhF1ZsTg/MVtZNxCY3XRBTcKIc5ceTgaxsvHG3XgXfN3MuZsSrkjcDkC?=
- =?us-ascii?Q?vykEpDRdakp09iNShb5yC/b0UOdbrH1uYQ838nxqMDhRZYPaLOCrXD0VvRoT?=
- =?us-ascii?Q?uzRUADPThQzts9E5OFd7t+mwuxy45XAtFzx/5aEcw8MdvTMVwW9wFs2AN3lA?=
- =?us-ascii?Q?faU481qQxDTf0D2yd7h8IjYdgli6kOo8aBE20kxEeuOT0ag3NneiI4TrYQoM?=
- =?us-ascii?Q?rljeQzT9cpvgxBfw1Nex1XA8b2YQd1ZRBY9jtczaFOoPcRQWF9UCJ7nyvauQ?=
- =?us-ascii?Q?uWFCj8vfoMHw2uXGPlH6o39IzqZNp+4wMFQZ/tNNzcY7quC8SiLuBQOZ9P3r?=
- =?us-ascii?Q?x7uWj6wL3WZrqKgD06BQhae7szBKOC813lScQxNq2GDAh00KLXBdJVPjDDn8?=
- =?us-ascii?Q?JtrkGDCfAah13Lqn+JffS10it/q5ARMCDB1rVR7N093iz0lhqE+HOwaSzjrP?=
- =?us-ascii?Q?4OCLuXyhkXRhHnbreDTRSxvI1TYzlKI70c+62+jyhKTEtC4jIFR2Tp5cUeuW?=
- =?us-ascii?Q?VIQHTTAo9uKfWJlE8ICEazBRduOU25XjweHLQHXp7bG9R6lp+JPOiuLP2UF9?=
- =?us-ascii?Q?uIrJJBYQmvvZcCQBLAV5D4dS8JFUpB0gVJMu6tI10FAkNnqPCEdCDvybp6HW?=
- =?us-ascii?Q?OqrjCxrIrPy6ClEP9CzkZGJd8aoGXn15BGj3nH/YJO6Oqbc9T5szBR/OF08v?=
- =?us-ascii?Q?GE4lkTuZZLLssH3EK/1nF4Cv8m/fHa3lVf0K2kVCz0kxB9c4JtplqoYSRJxG?=
- =?us-ascii?Q?7X9OMuKUG9d5v+irHzoqZOUUnjDc7osUHoGp?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014)(921020); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2025 17:12:06.3351 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aaf7dcdd-657e-4482-1603-08dd60bfd9c5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000FCC1.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9681
+In-Reply-To: <CADnq5_PbZUoyxyqweqa=kUNsSXanjY=5mUJrn03aY3je6rER+w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,27 +82,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This macro guard "__cplusplus" is unnecessary and should not be there.
+On Mon, Mar 10, 2025 at 06:03:27PM -0400, Alex Deucher wrote:
+> On Mon, Mar 10, 2025 at 5:54 PM André Almeida <andrealmeid@igalia.com> wrote:
+> >
+> > Em 01/03/2025 03:04, Raag Jadav escreveu:
+> > > On Fri, Feb 28, 2025 at 06:49:43PM -0300, André Almeida wrote:
+> > >> Hi Raag,
+> > >>
+> > >> On 2/28/25 11:58, Raag Jadav wrote:
+> > >>> On Fri, Feb 28, 2025 at 09:13:53AM -0300, André Almeida wrote:
+> > >>>> To notify userspace about which app (if any) made the device get in a
+> > >>>> wedge state, make use of drm_wedge_app_info parameter, filling it with
+> > >>>> the app PID and name.
+> > >>>>
+> > >>>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> > >>>> ---
+> > >>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 19 +++++++++++++++++--
+> > >>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    |  6 +++++-
+> > >>>>    2 files changed, 22 insertions(+), 3 deletions(-)
+> > >>>>
+> > >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > >>>> index 00b9b87dafd8..e06adf6f34fd 100644
+> > >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > >>>> @@ -6123,8 +6123,23 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+> > >>>>            atomic_set(&adev->reset_domain->reset_res, r);
+> > >>>> -  if (!r)
+> > >>>> -          drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE, NULL);
+> > >>>> +  if (!r) {
+> > >>>> +          struct drm_wedge_app_info aux, *info = NULL;
+> > >>>> +
+> > >>>> +          if (job) {
+> > >>>> +                  struct amdgpu_task_info *ti;
+> > >>>> +
+> > >>>> +                  ti = amdgpu_vm_get_task_info_pasid(adev, job->pasid);
+> > >>>> +                  if (ti) {
+> > >>>> +                          aux.pid = ti->pid;
+> > >>>> +                          aux.comm = ti->process_name;
+> > >>>> +                          info = &aux;
+> > >>>> +                          amdgpu_vm_put_task_info(ti);
+> > >>>> +                  }
+> > >>>> +          }
+> > >>> Is this guaranteed to be guilty app and not some scheduled worker?
+> > >>
+> > >> This is how amdgpu decides which app is the guilty one earlier in the code
+> > >> as in the print:
+> > >>
+> > >>      ti = amdgpu_vm_get_task_info_pasid(ring->adev, job->pasid);
+> > >>
+> > >>      "Process information: process %s pid %d thread %s pid %d\n"
+> > >>
+> > >> So I think it's consistent with what the driver thinks it's the guilty
+> > >> process.
+> > >
+> > > Sure, but with something like app_info we're kind of hinting to userspace
+> > > that an application was _indeed_ involved with reset. Is that also guaranteed?
+> > >
+> > > Is it possible that an application needlessly suffers from a false positive
+> > > scenario (reset due to other factors)?
+> > >
+> >
+> > I asked Alex Deucher in IRC about that and yes, there's a chance that
+> > this is a false positive. However, for the majority of cases this is the
+> > right app that caused the hang. This is what amdgpu is doing for GL
+> > robustness as well and devcoredump, so it's very consistent with how
+> > amdgpu deals with this scenario even if the mechanism is still not perfect.
+> 
+> It's usually the guilty one, but it's not guaranteed.  For example,
+> say you have a ROCm user queue and a gfx job submitted to a kernel
+> queue.  The actual guilty job may be the ROCm user queue, but the
+> driver may not detect that the ROCm queue was hung until some other
+> event (e.g., memory pressure).  However, the timer for the gfx job may
+> timeout before that happens on the ROCm queue so in that case the gfx
+> job would be incorrectly considered guilty.
 
-Signed-off-by: Alex Hung <alex.hung@amd.com>
----
- drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h | 3 ---
- 1 file changed, 3 deletions(-)
+So it boils down to what are the chances of that happening and whether
+it's significant enough to open the door for API abuse.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h b/drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h
-index 145961803a92..d621c42a237e 100644
---- a/drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h
-+++ b/drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h
-@@ -17,9 +17,6 @@
- #define SPL_EXPAND(a, b)          SPL_EXPAND2(a, b)
- #define SPL_NAMESPACE(symbol)     SPL_EXPAND(SPL_PFX_, symbol)
- 
--#ifdef __cplusplus
--extern "C" {
--#endif
- 
- /* SPL interfaces */
- 
--- 
-2.43.0
+Considering this is amd specific accuracy, it's still an open question
+how other drivers are/will be managing it.
 
+Raag
