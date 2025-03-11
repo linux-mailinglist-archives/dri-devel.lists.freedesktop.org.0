@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FCDA5C7C8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 16:38:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F4DA5C7FE
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 16:39:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1CF10E17A;
-	Tue, 11 Mar 2025 15:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD9B10E057;
+	Tue, 11 Mar 2025 15:39:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XiLxVxfc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TzKC5yKE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4E110E057;
- Tue, 11 Mar 2025 15:38:47 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 414E110E057;
+ Tue, 11 Mar 2025 15:39:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E8B3E5C658A;
- Tue, 11 Mar 2025 15:36:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1081BC4CEED;
- Tue, 11 Mar 2025 15:38:40 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 64ADDA451F0;
+ Tue, 11 Mar 2025 15:34:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C324AC4CEE9;
+ Tue, 11 Mar 2025 15:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741707526;
- bh=HtvJtW5x7rGS6E+g5R+r/WekMuPMy/9Qrk12gsnBDOM=;
+ s=k20201202; t=1741707596;
+ bh=0uaioJB2qNBcM6iTwrAoMMsO3wwEbIudWy2wENjYiLM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XiLxVxfc8ZYpgdwW6Krrqaut3oeTvkHsT2M/mAk7G98IDnkfWbkn31VHNjDch5iBd
- OhtNDJskdC1WIbfjNfr10Mv1wrsVieMTWRzaxxyhSqtoKozGpvSAqZnotDAWj7BCQE
- y83SP8Z29JGyGtyvaxHfPBVFY4VVcBZQEwF57XY2u1WgA/RphqI9HC7CajarE5l9c1
- W9KscJVx2cTR8Nf6rKQO85kJulhC3DD5lwOsm4ebjciI79NtGi8tlTQeq5CVIZ3C2Q
- V3umsPccgm87OlyeQ2N/Ww3D6bM979sZIEtUFJE8ARzuaT+AuXVNjfiFujmEIpwF3W
- XhrDVeR5SwMxQ==
-Date: Tue, 11 Mar 2025 17:38:38 +0200
+ b=TzKC5yKEUVlwntBZl6Bg0L6W4nqeVZP858CD8HC+F/0nA72LQlPvyzv+qendn6xjx
+ ZfInROABdvFflu8fEb/92c5/jMMnir9jcERDxZji+bQwGcF/PhnxQLnu82zCXbbHEH
+ r9szJQcVJHm/UQs4I1EHaPc40lbsWvAou9ztggjyZCnuqokoiBSq/KjdCmCrlIhRE1
+ rfBJnLhrFp6vG//MnAp1+0pIhYW9s9Cd9KtOhSSC7pib6MTehFQWEzUaF7C58tpNIF
+ Kcn3FivMNhIIngvj2tq783e/FLNt7eDNtADLkhyuq7ADdn95iiq2Nfkh97CNy0CTSo
+ ry7Py+FrYdLzw==
+Date: Tue, 11 Mar 2025 17:39:48 +0200
 From: Dmitry Baryshkov <lumag@kernel.org>
 To: Ayushi Makhija <quic_amakhija@quicinc.com>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
@@ -44,15 +44,14 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
  quic_abhinavk@quicinc.com, quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
  quic_jesszhan@quicinc.com
-Subject: Re: [PATCH v2 06/10] arm64: dts: qcom: sa8775p: add Display Serial
- Interface device nodes
-Message-ID: <h6a6evxcabqwoxejxsnl26zc3dzmxyp62p6em5rsrqmo4i4ovi@mlvha2qewtqu>
+Subject: Re: [PATCH v2 08/10] drm/bridge: anx7625: enable HPD interrupts
+Message-ID: <5hvpacx3qeqhjqemhqizws4esdhwg7reli77qey2nin2fggljp@ykgyayj2v3e6>
 References: <20250311122445.3597100-1-quic_amakhija@quicinc.com>
- <20250311122445.3597100-7-quic_amakhija@quicinc.com>
+ <20250311122445.3597100-9-quic_amakhija@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250311122445.3597100-7-quic_amakhija@quicinc.com>
+In-Reply-To: <20250311122445.3597100-9-quic_amakhija@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,17 +67,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 11, 2025 at 05:54:41PM +0530, Ayushi Makhija wrote:
-> Add device tree nodes for the DSI0 and DSI1 controllers
-> with their corresponding PHYs found on Qualcomm SA8775P SoC.
+On Tue, Mar 11, 2025 at 05:54:43PM +0530, Ayushi Makhija wrote:
+> When device enters the suspend state, it prevents
+> HPD interrupts from occurring. To address this,
+> add an additional PM runtime vote in hpd_enable().
+> This vote is removed in hpd_disable().
+
+Is it really enough to toggle the HPD interrupts? Is there any kind of
+programming that should be moved to .hpd_enable() too (so that by
+default the bridge doesn't generate HPD interrupts)?
+
 > 
 > Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
 > ---
->  arch/arm64/boot/dts/qcom/sa8775p.dtsi | 186 +++++++++++++++++++++++++-
->  1 file changed, 185 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 > 
-
-Reviewed-by: Dmitry Baryshkov <lumag@kernel.org>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 4be34d5c7a3b..764da1c1dc11 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -2474,6 +2474,22 @@ static const struct drm_edid *anx7625_bridge_edid_read(struct drm_bridge *bridge
+>  	return anx7625_edid_read(ctx);
+>  }
+>  
+> +static void anx7625_bridge_hpd_enable(struct drm_bridge *bridge)
+> +{
+> +	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+> +	struct device *dev = ctx->dev;
+> +
+> +	pm_runtime_get_sync(dev);
+> +}
+> +
+> +static void anx7625_bridge_hpd_disable(struct drm_bridge *bridge)
+> +{
+> +	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+> +	struct device *dev = ctx->dev;
+> +
+> +	pm_runtime_put_sync(dev);
+> +}
+> +
+>  static const struct drm_bridge_funcs anx7625_bridge_funcs = {
+>  	.attach = anx7625_bridge_attach,
+>  	.detach = anx7625_bridge_detach,
+> @@ -2487,6 +2503,8 @@ static const struct drm_bridge_funcs anx7625_bridge_funcs = {
+>  	.atomic_reset = drm_atomic_helper_bridge_reset,
+>  	.detect = anx7625_bridge_detect,
+>  	.edid_read = anx7625_bridge_edid_read,
+> +	.hpd_enable = anx7625_bridge_hpd_enable,
+> +	.hpd_disable = anx7625_bridge_hpd_disable,
+>  };
+>  
+>  static int anx7625_register_i2c_dummy_clients(struct anx7625_data *ctx,
+> -- 
+> 2.34.1
+> 
 
 -- 
 With best wishes
