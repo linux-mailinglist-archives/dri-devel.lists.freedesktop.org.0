@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13D7A5C90D
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 16:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56308A5C910
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 16:55:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D50810E5DB;
-	Tue, 11 Mar 2025 15:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B955310E5E5;
+	Tue, 11 Mar 2025 15:55:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="c5QgyUMR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fqCLHjQJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c5QgyUMR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fqCLHjQJ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="yz45gS8C";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7U7YCVsw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yz45gS8C";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7U7YCVsw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83F6210E5E1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 15:54:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CDF810E5E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 15:55:03 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 02CA821182;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 85AA62117D;
  Tue, 11 Mar 2025 15:54:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1741708490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L/ul14IrM0uo8R4Fn9Yzk2D5pnGb4X/CD2s89jDy53c=;
- b=c5QgyUMR/5N9VZDSoO8HIzx7SJQIOYyD1kff3Qoy0l+0rW36oZ4Ip9cpufRtNDfx4Cd309
- F0RCrh5IrM8CZ5i/tYbae8T5ned9eWg77T9nuJEVtEcEL95wWFiRvtfCyGRWrG11qkF4wk
- XQ+s0D0RcDG2/JXd+E1vWqWkknTGiEY=
+ bh=yMMGLrtVVhDmJyhqakJon+MPSH4DP55cAIQ1HDFmEFE=;
+ b=yz45gS8COIA0gwXrjGPeX3Iu0WArLQWi3UVE/txxXX2o0qaz3G3SvTnrPf50+qmsA2CXru
+ kCFfZVzrGR65dcJ62yvCpO2qmhPcpgUG7ASvMaOHvOyV37TujMxHRsifOfz3shAKeG9ltD
+ py9ZZM+bsD9xBftLZ9RUhhZfUe3P3b0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1741708490;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L/ul14IrM0uo8R4Fn9Yzk2D5pnGb4X/CD2s89jDy53c=;
- b=fqCLHjQJeaE2Lph8JpwHNy9hLwoDx2rxzp5Ah3GTFPJzanwOI2U64iFi9Fdicg1oKrCgJr
- LNa5XXuVcxwe6WBw==
+ bh=yMMGLrtVVhDmJyhqakJon+MPSH4DP55cAIQ1HDFmEFE=;
+ b=7U7YCVswFKccdzPTtVgV/0HFrVuY7QTcsTQwaxDK0GywHb/qFdxOt6Eu17ieVgn13hlzYy
+ O47HTL2Nt7L8lSBA==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -49,28 +49,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L/ul14IrM0uo8R4Fn9Yzk2D5pnGb4X/CD2s89jDy53c=;
- b=c5QgyUMR/5N9VZDSoO8HIzx7SJQIOYyD1kff3Qoy0l+0rW36oZ4Ip9cpufRtNDfx4Cd309
- F0RCrh5IrM8CZ5i/tYbae8T5ned9eWg77T9nuJEVtEcEL95wWFiRvtfCyGRWrG11qkF4wk
- XQ+s0D0RcDG2/JXd+E1vWqWkknTGiEY=
+ bh=yMMGLrtVVhDmJyhqakJon+MPSH4DP55cAIQ1HDFmEFE=;
+ b=yz45gS8COIA0gwXrjGPeX3Iu0WArLQWi3UVE/txxXX2o0qaz3G3SvTnrPf50+qmsA2CXru
+ kCFfZVzrGR65dcJ62yvCpO2qmhPcpgUG7ASvMaOHvOyV37TujMxHRsifOfz3shAKeG9ltD
+ py9ZZM+bsD9xBftLZ9RUhhZfUe3P3b0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1741708490;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L/ul14IrM0uo8R4Fn9Yzk2D5pnGb4X/CD2s89jDy53c=;
- b=fqCLHjQJeaE2Lph8JpwHNy9hLwoDx2rxzp5Ah3GTFPJzanwOI2U64iFi9Fdicg1oKrCgJr
- LNa5XXuVcxwe6WBw==
+ bh=yMMGLrtVVhDmJyhqakJon+MPSH4DP55cAIQ1HDFmEFE=;
+ b=7U7YCVswFKccdzPTtVgV/0HFrVuY7QTcsTQwaxDK0GywHb/qFdxOt6Eu17ieVgn13hlzYy
+ O47HTL2Nt7L8lSBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 72B74134A0;
- Tue, 11 Mar 2025 15:54:49 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 09A6213AB8;
+ Tue, 11 Mar 2025 15:54:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id GOVMGslc0GdUdQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 11 Mar 2025 15:54:49 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id MIANAcpc0GdUdQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 11 Mar 2025 15:54:50 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, geert@linux-m68k.org,
@@ -83,10 +83,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
  intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 04/25] drm/gem-shmem: Compute dumb-buffer sizes with
+Subject: [PATCH v4 05/25] drm/gem-vram: Compute dumb-buffer sizes with
  drm_mode_size_dumb()
-Date: Tue, 11 Mar 2025 16:47:08 +0100
-Message-ID: <20250311155120.442633-5-tzimmermann@suse.de>
+Date: Tue, 11 Mar 2025 16:47:09 +0100
+Message-ID: <20250311155120.442633-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250311155120.442633-1-tzimmermann@suse.de>
 References: <20250311155120.442633-1-tzimmermann@suse.de>
@@ -126,48 +126,62 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
-buffer size. Align the pitch to a multiple of 8.
+buffer size. Inline code from drm_gem_vram_fill_create_dumb() without
+the existing size computation. Align the pitch to a multiple of 8.
+
+Only hibmc and vboxvideo use gem-vram. Hibmc invokes the call to
+drm_gem_vram_fill_create_dumb() directly and is therefore not affected.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/drm_gem_vram_helper.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index d99dee67353a..849ee2cde990 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -18,6 +18,7 @@
- #include <drm/drm.h>
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index 22b1fe9c03b8..15cd564cbeac 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -6,6 +6,7 @@
+ #include <drm/drm_debugfs.h>
  #include <drm/drm_device.h>
  #include <drm/drm_drv.h>
 +#include <drm/drm_dumb_buffers.h>
- #include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_prime.h>
- #include <drm/drm_print.h>
-@@ -514,18 +515,11 @@ EXPORT_SYMBOL(drm_gem_shmem_purge);
- int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
- 			      struct drm_mode_create_dumb *args)
+ #include <drm/drm_file.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
+@@ -582,10 +583,31 @@ int drm_gem_vram_driver_dumb_create(struct drm_file *file,
+ 				    struct drm_device *dev,
+ 				    struct drm_mode_create_dumb *args)
  {
--	u32 min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
++	struct drm_gem_vram_object *gbo;
 +	int ret;
++
+ 	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
+ 		return -EINVAL;
  
--	if (!args->pitch || !args->size) {
--		args->pitch = min_pitch;
--		args->size = PAGE_ALIGN(args->pitch * args->height);
--	} else {
--		/* ensure sane minimum values */
--		if (args->pitch < min_pitch)
--			args->pitch = min_pitch;
--		if (args->size < args->pitch * args->height)
--			args->size = PAGE_ALIGN(args->pitch * args->height);
--	}
+-	return drm_gem_vram_fill_create_dumb(file, dev, 0, 0, args);
 +	ret = drm_mode_size_dumb(dev, args, SZ_8, 0);
 +	if (ret)
 +		return ret;
- 
- 	return drm_gem_shmem_create_with_handle(file, dev, args->size, &args->handle);
++
++	gbo = drm_gem_vram_create(dev, args->size, 0);
++	if (IS_ERR(gbo))
++		return PTR_ERR(gbo);
++
++	ret = drm_gem_handle_create(file, &gbo->bo.base, &args->handle);
++	if (ret)
++		goto err_drm_gem_object_put;
++
++	drm_gem_object_put(&gbo->bo.base);
++
++	return 0;
++
++err_drm_gem_object_put:
++	drm_gem_object_put(&gbo->bo.base);
++	return ret;
  }
+ EXPORT_SYMBOL(drm_gem_vram_driver_dumb_create);
+ 
 -- 
 2.48.1
 
