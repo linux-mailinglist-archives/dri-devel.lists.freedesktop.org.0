@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22631A5B606
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:50:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C36A5B605
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:50:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9661310E501;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20A4310E4F9;
 	Tue, 11 Mar 2025 01:50:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="HqA/qxtP";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="Nww/WACD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF4E810E508
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:50:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B199410E0E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=VY/DIWys+9hgx9n38Wl/0AM82g3+b7rakdL8YW8mjII=; b=HqA/qxtPHqcoCg1P
- uYMBkSqV2kjXFS4TOiTlYQ5s1wy/r41djyLh9abngkvDfZZvZ8VWlkxqs2n4Bw2L1X8gDW/kVeVQ7
- Js8hJ7w6B95gxzeVgO3tRuf65+nOIzMBb1ffpTtOQbODpg9KU6id+tUskaj5SfVYlYte6LOSJ0oec
- z3utgS93uL4un6fZAuD2GA+2wRe+9b8XZ2IiAVI4/uBhl8IHPTvVIHIGH0qH4/UYCw2Um3XJC5b+W
- kfeGZflgvhcXOYBixnSXjkW6WgOqfpZzJEZmumc85JA7oo/gFFTO8OEmbPpqXKqYDYxfZwaoA5p9l
- ijFEGAttOPZ1iLUkog==;
+ :Subject; bh=+d46BPLvipXfDZBRt41PoG8ZsixKnv/kpFmnpnQWRoE=; b=Nww/WACDuz3O2/7t
+ J0AoTjpd1xJu9pF+CZJhvhO2QjhUwkyf+4IcInZPnn6ohzW0wczb46EEQx3gFuicNoImaemiPXUyP
+ YGFzOXqoIOcshuCx6mlgfrKx+Wz6nWHjytmVZYbMmbr0WVSqHHoRmpZSYbF1ZQOAcpdMt/pc8dQHa
+ jvBu+V3JrAxh0S8YEWIEagDzRdyON1RHVF0PGM+lRwNvCZeIzv82uFvFoTY+NoA+O+Ezr5i0568G7
+ 4xgkjUvh3b5zyi+c3LjZj+aI4wprWmd5XwEO/vSzf/q0zuzAOczWgod2RwYjLQJCSXRTOUe6/23E4
+ dRrVugAHF2yZxSuLyA==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1trokr-0042n5-04;
+ (envelope-from <linux@treblig.org>) id 1trokr-0042n5-21;
  Tue, 11 Mar 2025 01:50:01 +0000
 From: linux@treblig.org
 To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org,
@@ -38,9 +38,9 @@ Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH v2 1/9] mfd: pcf50633-adc:  Remove
-Date: Tue, 11 Mar 2025 01:49:51 +0000
-Message-ID: <20250311014959.743322-2-linux@treblig.org>
+Subject: [PATCH v2 2/9] rtc: pcf50633: Remove
+Date: Tue, 11 Mar 2025 01:49:52 +0000
+Message-ID: <20250311014959.743322-3-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250311014959.743322-1-linux@treblig.org>
 References: <20250311014959.743322-1-linux@treblig.org>
@@ -73,65 +73,50 @@ Remove it.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- arch/mips/configs/ip27_defconfig |   1 -
- drivers/mfd/Kconfig              |   7 -
- drivers/mfd/Makefile             |   1 -
- drivers/mfd/pcf50633-adc.c       | 255 -------------------------------
- include/linux/mfd/pcf50633/adc.h |  69 ---------
- 5 files changed, 333 deletions(-)
- delete mode 100644 drivers/mfd/pcf50633-adc.c
- delete mode 100644 include/linux/mfd/pcf50633/adc.h
+ drivers/rtc/Kconfig        |   7 -
+ drivers/rtc/Makefile       |   1 -
+ drivers/rtc/rtc-pcf50633.c | 284 -------------------------------------
+ 3 files changed, 292 deletions(-)
+ delete mode 100644 drivers/rtc/rtc-pcf50633.c
 
-diff --git a/arch/mips/configs/ip27_defconfig b/arch/mips/configs/ip27_defconfig
-index b08a199767d1..66085bb71bc4 100644
---- a/arch/mips/configs/ip27_defconfig
-+++ b/arch/mips/configs/ip27_defconfig
-@@ -256,7 +256,6 @@ CONFIG_I2C_STUB=m
- # CONFIG_HWMON is not set
- CONFIG_THERMAL=y
- CONFIG_MFD_PCF50633=m
--CONFIG_PCF50633_ADC=m
- CONFIG_PCF50633_GPIO=m
- # CONFIG_VGA_ARB is not set
- CONFIG_LEDS_LP3944=m
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 6b0682af6e32..051272126fe1 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -1129,13 +1129,6 @@ config MFD_PCF50633
- 	  facilities, and registers devices for the various functions
- 	  so that function-specific drivers can bind to them.
+diff --git a/drivers/rtc/Kconfig b/drivers/rtc/Kconfig
+index 0bbbf778ecfa..838bdc138ffe 100644
+--- a/drivers/rtc/Kconfig
++++ b/drivers/rtc/Kconfig
+@@ -1321,13 +1321,6 @@ config RTC_DRV_SPEAR
+ 	 If you say Y here you will get support for the RTC found on
+ 	 spear
  
--config PCF50633_ADC
--	tristate "NXP PCF50633 ADC"
+-config RTC_DRV_PCF50633
 -	depends on MFD_PCF50633
+-	tristate "NXP PCF50633 RTC"
 -	help
--	  Say yes here if you want to include support for ADC in the
--	  NXP PCF50633 chip.
+-	  If you say yes here you get support for the RTC subsystem of the
+-	  NXP PCF50633 used in embedded systems.
 -
- config PCF50633_GPIO
- 	tristate "NXP PCF50633 GPIO"
- 	depends on MFD_PCF50633
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index 9220eaf7cf12..e085da3f13c3 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -185,7 +185,6 @@ obj-$(CONFIG_MFD_MT6397)	+= mt6397.o
- 
- pcf50633-objs			:= pcf50633-core.o pcf50633-irq.o
- obj-$(CONFIG_MFD_PCF50633)	+= pcf50633.o
--obj-$(CONFIG_PCF50633_ADC)	+= pcf50633-adc.o
- obj-$(CONFIG_PCF50633_GPIO)	+= pcf50633-gpio.o
- obj-$(CONFIG_RZ_MTU3)		+= rz-mtu3.o
- obj-$(CONFIG_ABX500_CORE)	+= abx500-core.o
-diff --git a/drivers/mfd/pcf50633-adc.c b/drivers/mfd/pcf50633-adc.c
+ config RTC_DRV_AB8500
+ 	tristate "ST-Ericsson AB8500 RTC"
+ 	depends on AB8500_CORE
+diff --git a/drivers/rtc/Makefile b/drivers/rtc/Makefile
+index 489b4ab07068..31473b3276d9 100644
+--- a/drivers/rtc/Makefile
++++ b/drivers/rtc/Makefile
+@@ -126,7 +126,6 @@ obj-$(CONFIG_RTC_DRV_PALMAS)	+= rtc-palmas.o
+ obj-$(CONFIG_RTC_DRV_PCAP)	+= rtc-pcap.o
+ obj-$(CONFIG_RTC_DRV_PCF2123)	+= rtc-pcf2123.o
+ obj-$(CONFIG_RTC_DRV_PCF2127)	+= rtc-pcf2127.o
+-obj-$(CONFIG_RTC_DRV_PCF50633)	+= rtc-pcf50633.o
+ obj-$(CONFIG_RTC_DRV_PCF85063)	+= rtc-pcf85063.o
+ obj-$(CONFIG_RTC_DRV_PCF8523)	+= rtc-pcf8523.o
+ obj-$(CONFIG_RTC_DRV_PCF85363)	+= rtc-pcf85363.o
+diff --git a/drivers/rtc/rtc-pcf50633.c b/drivers/rtc/rtc-pcf50633.c
 deleted file mode 100644
-index 1fbba0e666d5..000000000000
---- a/drivers/mfd/pcf50633-adc.c
+index c019c4d91c7d..000000000000
+--- a/drivers/rtc/rtc-pcf50633.c
 +++ /dev/null
-@@ -1,255 +0,0 @@
+@@ -1,284 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0-or-later
--/* NXP PCF50633 ADC Driver
+-/* NXP PCF50633 RTC Driver
 - *
 - * (C) 2006-2008 by Openmoko, Inc.
 - * Author: Balaji Rao <balajirrao@openmoko.org>
@@ -139,327 +124,281 @@ index 1fbba0e666d5..000000000000
 - *
 - * Broken down from monstrous PCF50633 driver mainly by
 - * Harald Welte, Andy Green and Werner Almesberger
-- *
-- *  NOTE: This driver does not yet support subtractive ADC mode, which means
-- *  you can do only one measurement per read request.
 - */
 -
 -#include <linux/kernel.h>
--#include <linux/slab.h>
 -#include <linux/module.h>
+-#include <linux/init.h>
 -#include <linux/device.h>
+-#include <linux/slab.h>
 -#include <linux/platform_device.h>
--#include <linux/completion.h>
+-#include <linux/rtc.h>
+-#include <linux/bcd.h>
+-#include <linux/err.h>
 -
 -#include <linux/mfd/pcf50633/core.h>
--#include <linux/mfd/pcf50633/adc.h>
 -
--struct pcf50633_adc_request {
--	int mux;
--	int avg;
--	void (*callback)(struct pcf50633 *, void *, int);
--	void *callback_param;
+-#define PCF50633_REG_RTCSC	0x59 /* Second */
+-#define PCF50633_REG_RTCMN	0x5a /* Minute */
+-#define PCF50633_REG_RTCHR	0x5b /* Hour */
+-#define PCF50633_REG_RTCWD	0x5c /* Weekday */
+-#define PCF50633_REG_RTCDT	0x5d /* Day */
+-#define PCF50633_REG_RTCMT	0x5e /* Month */
+-#define PCF50633_REG_RTCYR	0x5f /* Year */
+-#define PCF50633_REG_RTCSCA	0x60 /* Alarm Second */
+-#define PCF50633_REG_RTCMNA	0x61 /* Alarm Minute */
+-#define PCF50633_REG_RTCHRA	0x62 /* Alarm Hour */
+-#define PCF50633_REG_RTCWDA	0x63 /* Alarm Weekday */
+-#define PCF50633_REG_RTCDTA	0x64 /* Alarm Day */
+-#define PCF50633_REG_RTCMTA	0x65 /* Alarm Month */
+-#define PCF50633_REG_RTCYRA	0x66 /* Alarm Year */
+-
+-enum pcf50633_time_indexes {
+-	PCF50633_TI_SEC,
+-	PCF50633_TI_MIN,
+-	PCF50633_TI_HOUR,
+-	PCF50633_TI_WKDAY,
+-	PCF50633_TI_DAY,
+-	PCF50633_TI_MONTH,
+-	PCF50633_TI_YEAR,
+-	PCF50633_TI_EXTENT /* always last */
 -};
 -
--struct pcf50633_adc_sync_request {
--	int result;
--	struct completion completion;
+-struct pcf50633_time {
+-	u_int8_t time[PCF50633_TI_EXTENT];
 -};
 -
--#define PCF50633_MAX_ADC_FIFO_DEPTH 8
+-struct pcf50633_rtc {
+-	int alarm_enabled;
+-	int alarm_pending;
 -
--struct pcf50633_adc {
 -	struct pcf50633 *pcf;
--
--	/* Private stuff */
--	struct pcf50633_adc_request *queue[PCF50633_MAX_ADC_FIFO_DEPTH];
--	int queue_head;
--	int queue_tail;
--	struct mutex queue_mutex;
+-	struct rtc_device *rtc_dev;
 -};
 -
--static inline struct pcf50633_adc *__to_adc(struct pcf50633 *pcf)
+-static void pcf2rtc_time(struct rtc_time *rtc, struct pcf50633_time *pcf)
 -{
--	return platform_get_drvdata(pcf->adc_pdev);
+-	rtc->tm_sec = bcd2bin(pcf->time[PCF50633_TI_SEC]);
+-	rtc->tm_min = bcd2bin(pcf->time[PCF50633_TI_MIN]);
+-	rtc->tm_hour = bcd2bin(pcf->time[PCF50633_TI_HOUR]);
+-	rtc->tm_wday = bcd2bin(pcf->time[PCF50633_TI_WKDAY]);
+-	rtc->tm_mday = bcd2bin(pcf->time[PCF50633_TI_DAY]);
+-	rtc->tm_mon = bcd2bin(pcf->time[PCF50633_TI_MONTH]) - 1;
+-	rtc->tm_year = bcd2bin(pcf->time[PCF50633_TI_YEAR]) + 100;
 -}
 -
--static void adc_setup(struct pcf50633 *pcf, int channel, int avg)
+-static void rtc2pcf_time(struct pcf50633_time *pcf, struct rtc_time *rtc)
 -{
--	channel &= PCF50633_ADCC1_ADCMUX_MASK;
--
--	/* kill ratiometric, but enable ACCSW biasing */
--	pcf50633_reg_write(pcf, PCF50633_REG_ADCC2, 0x00);
--	pcf50633_reg_write(pcf, PCF50633_REG_ADCC3, 0x01);
--
--	/* start ADC conversion on selected channel */
--	pcf50633_reg_write(pcf, PCF50633_REG_ADCC1, channel | avg |
--		    PCF50633_ADCC1_ADCSTART | PCF50633_ADCC1_RES_10BIT);
--}
--
--static void trigger_next_adc_job_if_any(struct pcf50633 *pcf)
--{
--	struct pcf50633_adc *adc = __to_adc(pcf);
--	int head;
--
--	head = adc->queue_head;
--
--	if (!adc->queue[head])
--		return;
--
--	adc_setup(pcf, adc->queue[head]->mux, adc->queue[head]->avg);
+-	pcf->time[PCF50633_TI_SEC] = bin2bcd(rtc->tm_sec);
+-	pcf->time[PCF50633_TI_MIN] = bin2bcd(rtc->tm_min);
+-	pcf->time[PCF50633_TI_HOUR] = bin2bcd(rtc->tm_hour);
+-	pcf->time[PCF50633_TI_WKDAY] = bin2bcd(rtc->tm_wday);
+-	pcf->time[PCF50633_TI_DAY] = bin2bcd(rtc->tm_mday);
+-	pcf->time[PCF50633_TI_MONTH] = bin2bcd(rtc->tm_mon + 1);
+-	pcf->time[PCF50633_TI_YEAR] = bin2bcd(rtc->tm_year % 100);
 -}
 -
 -static int
--adc_enqueue_request(struct pcf50633 *pcf, struct pcf50633_adc_request *req)
+-pcf50633_rtc_alarm_irq_enable(struct device *dev, unsigned int enabled)
 -{
--	struct pcf50633_adc *adc = __to_adc(pcf);
--	int head, tail;
+-	struct pcf50633_rtc *rtc = dev_get_drvdata(dev);
+-	int err;
 -
--	mutex_lock(&adc->queue_mutex);
+-	if (enabled)
+-		err = pcf50633_irq_unmask(rtc->pcf, PCF50633_IRQ_ALARM);
+-	else
+-		err = pcf50633_irq_mask(rtc->pcf, PCF50633_IRQ_ALARM);
 -
--	head = adc->queue_head;
--	tail = adc->queue_tail;
+-	if (err < 0)
+-		return err;
 -
--	if (adc->queue[tail]) {
--		mutex_unlock(&adc->queue_mutex);
--		dev_err(pcf->dev, "ADC queue is full, dropping request\n");
--		return -EBUSY;
--	}
--
--	adc->queue[tail] = req;
--	if (head == tail)
--		trigger_next_adc_job_if_any(pcf);
--	adc->queue_tail = (tail + 1) & (PCF50633_MAX_ADC_FIFO_DEPTH - 1);
--
--	mutex_unlock(&adc->queue_mutex);
+-	rtc->alarm_enabled = enabled;
 -
 -	return 0;
 -}
 -
--static void pcf50633_adc_sync_read_callback(struct pcf50633 *pcf, void *param,
--	int result)
+-static int pcf50633_rtc_read_time(struct device *dev, struct rtc_time *tm)
 -{
--	struct pcf50633_adc_sync_request *req = param;
--
--	req->result = result;
--	complete(&req->completion);
--}
--
--int pcf50633_adc_sync_read(struct pcf50633 *pcf, int mux, int avg)
--{
--	struct pcf50633_adc_sync_request req;
+-	struct pcf50633_rtc *rtc;
+-	struct pcf50633_time pcf_tm;
 -	int ret;
 -
--	init_completion(&req.completion);
+-	rtc = dev_get_drvdata(dev);
 -
--	ret = pcf50633_adc_async_read(pcf, mux, avg,
--		pcf50633_adc_sync_read_callback, &req);
--	if (ret)
--		return ret;
+-	ret = pcf50633_read_block(rtc->pcf, PCF50633_REG_RTCSC,
+-					    PCF50633_TI_EXTENT,
+-					    &pcf_tm.time[0]);
+-	if (ret != PCF50633_TI_EXTENT) {
+-		dev_err(dev, "Failed to read time\n");
+-		return -EIO;
+-	}
 -
--	wait_for_completion(&req.completion);
+-	dev_dbg(dev, "PCF_TIME: %02x.%02x.%02x %02x:%02x:%02x\n",
+-		pcf_tm.time[PCF50633_TI_DAY],
+-		pcf_tm.time[PCF50633_TI_MONTH],
+-		pcf_tm.time[PCF50633_TI_YEAR],
+-		pcf_tm.time[PCF50633_TI_HOUR],
+-		pcf_tm.time[PCF50633_TI_MIN],
+-		pcf_tm.time[PCF50633_TI_SEC]);
 -
--	return req.result;
+-	pcf2rtc_time(tm, &pcf_tm);
+-
+-	dev_dbg(dev, "RTC_TIME: %ptRr\n", tm);
+-
+-	return 0;
 -}
--EXPORT_SYMBOL_GPL(pcf50633_adc_sync_read);
 -
--int pcf50633_adc_async_read(struct pcf50633 *pcf, int mux, int avg,
--			     void (*callback)(struct pcf50633 *, void *, int),
--			     void *callback_param)
+-static int pcf50633_rtc_set_time(struct device *dev, struct rtc_time *tm)
 -{
--	struct pcf50633_adc_request *req;
--	int ret;
+-	struct pcf50633_rtc *rtc;
+-	struct pcf50633_time pcf_tm;
+-	int alarm_masked, ret = 0;
 -
--	/* req is freed when the result is ready, in interrupt handler */
--	req = kmalloc(sizeof(*req), GFP_KERNEL);
--	if (!req)
--		return -ENOMEM;
+-	rtc = dev_get_drvdata(dev);
 -
--	req->mux = mux;
--	req->avg = avg;
--	req->callback = callback;
--	req->callback_param = callback_param;
+-	dev_dbg(dev, "RTC_TIME: %ptRr\n", tm);
 -
--	ret = adc_enqueue_request(pcf, req);
--	if (ret)
--		kfree(req);
+-	rtc2pcf_time(&pcf_tm, tm);
+-
+-	dev_dbg(dev, "PCF_TIME: %02x.%02x.%02x %02x:%02x:%02x\n",
+-		pcf_tm.time[PCF50633_TI_DAY],
+-		pcf_tm.time[PCF50633_TI_MONTH],
+-		pcf_tm.time[PCF50633_TI_YEAR],
+-		pcf_tm.time[PCF50633_TI_HOUR],
+-		pcf_tm.time[PCF50633_TI_MIN],
+-		pcf_tm.time[PCF50633_TI_SEC]);
+-
+-
+-	alarm_masked = pcf50633_irq_mask_get(rtc->pcf, PCF50633_IRQ_ALARM);
+-
+-	if (!alarm_masked)
+-		pcf50633_irq_mask(rtc->pcf, PCF50633_IRQ_ALARM);
+-
+-	/* Returns 0 on success */
+-	ret = pcf50633_write_block(rtc->pcf, PCF50633_REG_RTCSC,
+-					     PCF50633_TI_EXTENT,
+-					     &pcf_tm.time[0]);
+-
+-	if (!alarm_masked)
+-		pcf50633_irq_unmask(rtc->pcf, PCF50633_IRQ_ALARM);
 -
 -	return ret;
 -}
--EXPORT_SYMBOL_GPL(pcf50633_adc_async_read);
 -
--static int adc_result(struct pcf50633 *pcf)
+-static int pcf50633_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alrm)
 -{
--	u8 adcs1, adcs3;
--	u16 result;
+-	struct pcf50633_rtc *rtc;
+-	struct pcf50633_time pcf_tm;
+-	int ret = 0;
 -
--	adcs1 = pcf50633_reg_read(pcf, PCF50633_REG_ADCS1);
--	adcs3 = pcf50633_reg_read(pcf, PCF50633_REG_ADCS3);
--	result = (adcs1 << 2) | (adcs3 & PCF50633_ADCS3_ADCDAT1L_MASK);
+-	rtc = dev_get_drvdata(dev);
 -
--	dev_dbg(pcf->dev, "adc result = %d\n", result);
+-	alrm->enabled = rtc->alarm_enabled;
+-	alrm->pending = rtc->alarm_pending;
 -
--	return result;
--}
--
--static void pcf50633_adc_irq(int irq, void *data)
--{
--	struct pcf50633_adc *adc = data;
--	struct pcf50633 *pcf = adc->pcf;
--	struct pcf50633_adc_request *req;
--	int head, res;
--
--	mutex_lock(&adc->queue_mutex);
--	head = adc->queue_head;
--
--	req = adc->queue[head];
--	if (WARN_ON(!req)) {
--		dev_err(pcf->dev, "pcf50633-adc irq: ADC queue empty!\n");
--		mutex_unlock(&adc->queue_mutex);
--		return;
+-	ret = pcf50633_read_block(rtc->pcf, PCF50633_REG_RTCSCA,
+-				PCF50633_TI_EXTENT, &pcf_tm.time[0]);
+-	if (ret != PCF50633_TI_EXTENT) {
+-		dev_err(dev, "Failed to read time\n");
+-		return -EIO;
 -	}
--	adc->queue[head] = NULL;
--	adc->queue_head = (head + 1) &
--				      (PCF50633_MAX_ADC_FIFO_DEPTH - 1);
 -
--	res = adc_result(pcf);
--	trigger_next_adc_job_if_any(pcf);
+-	pcf2rtc_time(&alrm->time, &pcf_tm);
 -
--	mutex_unlock(&adc->queue_mutex);
--
--	req->callback(pcf, req->callback_param, res);
--	kfree(req);
+-	return rtc_valid_tm(&alrm->time);
 -}
 -
--static int pcf50633_adc_probe(struct platform_device *pdev)
+-static int pcf50633_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
 -{
--	struct pcf50633_adc *adc;
+-	struct pcf50633_rtc *rtc;
+-	struct pcf50633_time pcf_tm;
+-	int alarm_masked, ret = 0;
 -
--	adc = devm_kzalloc(&pdev->dev, sizeof(*adc), GFP_KERNEL);
--	if (!adc)
+-	rtc = dev_get_drvdata(dev);
+-
+-	rtc2pcf_time(&pcf_tm, &alrm->time);
+-
+-	/* do like mktime does and ignore tm_wday */
+-	pcf_tm.time[PCF50633_TI_WKDAY] = 7;
+-
+-	alarm_masked = pcf50633_irq_mask_get(rtc->pcf, PCF50633_IRQ_ALARM);
+-
+-	/* disable alarm interrupt */
+-	if (!alarm_masked)
+-		pcf50633_irq_mask(rtc->pcf, PCF50633_IRQ_ALARM);
+-
+-	/* Returns 0 on success */
+-	ret = pcf50633_write_block(rtc->pcf, PCF50633_REG_RTCSCA,
+-				PCF50633_TI_EXTENT, &pcf_tm.time[0]);
+-	if (!alrm->enabled)
+-		rtc->alarm_pending = 0;
+-
+-	if (!alarm_masked || alrm->enabled)
+-		pcf50633_irq_unmask(rtc->pcf, PCF50633_IRQ_ALARM);
+-	rtc->alarm_enabled = alrm->enabled;
+-
+-	return ret;
+-}
+-
+-static const struct rtc_class_ops pcf50633_rtc_ops = {
+-	.read_time		= pcf50633_rtc_read_time,
+-	.set_time		= pcf50633_rtc_set_time,
+-	.read_alarm		= pcf50633_rtc_read_alarm,
+-	.set_alarm		= pcf50633_rtc_set_alarm,
+-	.alarm_irq_enable	= pcf50633_rtc_alarm_irq_enable,
+-};
+-
+-static void pcf50633_rtc_irq(int irq, void *data)
+-{
+-	struct pcf50633_rtc *rtc = data;
+-
+-	rtc_update_irq(rtc->rtc_dev, 1, RTC_AF | RTC_IRQF);
+-	rtc->alarm_pending = 1;
+-}
+-
+-static int pcf50633_rtc_probe(struct platform_device *pdev)
+-{
+-	struct pcf50633_rtc *rtc;
+-
+-	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+-	if (!rtc)
 -		return -ENOMEM;
 -
--	adc->pcf = dev_to_pcf50633(pdev->dev.parent);
--	platform_set_drvdata(pdev, adc);
+-	rtc->pcf = dev_to_pcf50633(pdev->dev.parent);
+-	platform_set_drvdata(pdev, rtc);
+-	rtc->rtc_dev = devm_rtc_device_register(&pdev->dev, "pcf50633-rtc",
+-				&pcf50633_rtc_ops, THIS_MODULE);
 -
--	pcf50633_register_irq(adc->pcf, PCF50633_IRQ_ADCRDY,
--					pcf50633_adc_irq, adc);
+-	if (IS_ERR(rtc->rtc_dev))
+-		return PTR_ERR(rtc->rtc_dev);
 -
--	mutex_init(&adc->queue_mutex);
--
+-	pcf50633_register_irq(rtc->pcf, PCF50633_IRQ_ALARM,
+-					pcf50633_rtc_irq, rtc);
 -	return 0;
 -}
 -
--static void pcf50633_adc_remove(struct platform_device *pdev)
+-static void pcf50633_rtc_remove(struct platform_device *pdev)
 -{
--	struct pcf50633_adc *adc = platform_get_drvdata(pdev);
--	int i, head;
+-	struct pcf50633_rtc *rtc;
 -
--	pcf50633_free_irq(adc->pcf, PCF50633_IRQ_ADCRDY);
--
--	mutex_lock(&adc->queue_mutex);
--	head = adc->queue_head;
--
--	if (WARN_ON(adc->queue[head]))
--		dev_err(adc->pcf->dev,
--			"adc driver removed with request pending\n");
--
--	for (i = 0; i < PCF50633_MAX_ADC_FIFO_DEPTH; i++)
--		kfree(adc->queue[i]);
--
--	mutex_unlock(&adc->queue_mutex);
+-	rtc = platform_get_drvdata(pdev);
+-	pcf50633_free_irq(rtc->pcf, PCF50633_IRQ_ALARM);
 -}
 -
--static struct platform_driver pcf50633_adc_driver = {
+-static struct platform_driver pcf50633_rtc_driver = {
 -	.driver = {
--		.name = "pcf50633-adc",
+-		.name = "pcf50633-rtc",
 -	},
--	.probe = pcf50633_adc_probe,
--	.remove = pcf50633_adc_remove,
+-	.probe = pcf50633_rtc_probe,
+-	.remove = pcf50633_rtc_remove,
 -};
 -
--module_platform_driver(pcf50633_adc_driver);
+-module_platform_driver(pcf50633_rtc_driver);
 -
+-MODULE_DESCRIPTION("PCF50633 RTC driver");
 -MODULE_AUTHOR("Balaji Rao <balajirrao@openmoko.org>");
--MODULE_DESCRIPTION("PCF50633 adc driver");
 -MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:pcf50633-adc");
 -
-diff --git a/include/linux/mfd/pcf50633/adc.h b/include/linux/mfd/pcf50633/adc.h
-deleted file mode 100644
-index 6a81896d4889..000000000000
---- a/include/linux/mfd/pcf50633/adc.h
-+++ /dev/null
-@@ -1,69 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/*
-- * adc.h  -- Driver for NXP PCF50633 ADC
-- *
-- * (C) 2006-2008 by Openmoko, Inc.
-- * All rights reserved.
-- */
--
--#ifndef __LINUX_MFD_PCF50633_ADC_H
--#define __LINUX_MFD_PCF50633_ADC_H
--
--#include <linux/mfd/pcf50633/core.h>
--#include <linux/platform_device.h>
--
--/* ADC Registers */
--#define PCF50633_REG_ADCC3		0x52
--#define PCF50633_REG_ADCC2		0x53
--#define PCF50633_REG_ADCC1		0x54
--#define PCF50633_REG_ADCS1		0x55
--#define PCF50633_REG_ADCS2		0x56
--#define PCF50633_REG_ADCS3		0x57
--
--#define PCF50633_ADCC1_ADCSTART		0x01
--#define PCF50633_ADCC1_RES_8BIT		0x02
--#define PCF50633_ADCC1_RES_10BIT	0x00
--#define PCF50633_ADCC1_AVERAGE_NO	0x00
--#define PCF50633_ADCC1_AVERAGE_4	0x04
--#define PCF50633_ADCC1_AVERAGE_8	0x08
--#define PCF50633_ADCC1_AVERAGE_16	0x0c
--#define PCF50633_ADCC1_MUX_BATSNS_RES	0x00
--#define PCF50633_ADCC1_MUX_BATSNS_SUBTR	0x10
--#define PCF50633_ADCC1_MUX_ADCIN2_RES	0x20
--#define PCF50633_ADCC1_MUX_ADCIN2_SUBTR	0x30
--#define PCF50633_ADCC1_MUX_BATTEMP	0x60
--#define PCF50633_ADCC1_MUX_ADCIN1	0x70
--#define PCF50633_ADCC1_AVERAGE_MASK	0x0c
--#define PCF50633_ADCC1_ADCMUX_MASK	0xf0
--
--#define PCF50633_ADCC2_RATIO_NONE	0x00
--#define PCF50633_ADCC2_RATIO_BATTEMP	0x01
--#define PCF50633_ADCC2_RATIO_ADCIN1	0x02
--#define PCF50633_ADCC2_RATIO_BOTH	0x03
--#define PCF50633_ADCC2_RATIOSETTL_100US 0x04
--
--#define PCF50633_ADCC3_ACCSW_EN		0x01
--#define PCF50633_ADCC3_NTCSW_EN		0x04
--#define PCF50633_ADCC3_RES_DIV_TWO	0x10
--#define PCF50633_ADCC3_RES_DIV_THREE	0x00
--
--#define PCF50633_ADCS3_REF_NTCSW	0x00
--#define PCF50633_ADCS3_REF_ACCSW	0x10
--#define PCF50633_ADCS3_REF_2V0		0x20
--#define PCF50633_ADCS3_REF_VISA		0x30
--#define PCF50633_ADCS3_REF_2V0_2	0x70
--#define PCF50633_ADCS3_ADCRDY		0x80
--
--#define PCF50633_ADCS3_ADCDAT1L_MASK	0x03
--#define PCF50633_ADCS3_ADCDAT2L_MASK	0x0c
--#define PCF50633_ADCS3_ADCDAT2L_SHIFT	2
--#define PCF50633_ASCS3_REF_MASK		0x70
--
--extern int
--pcf50633_adc_async_read(struct pcf50633 *pcf, int mux, int avg,
--		void (*callback)(struct pcf50633 *, void *, int),
--		void *callback_param);
--extern int
--pcf50633_adc_sync_read(struct pcf50633 *pcf, int mux, int avg);
--
--#endif /* __LINUX_PCF50633_ADC_H */
 -- 
 2.48.1
 
