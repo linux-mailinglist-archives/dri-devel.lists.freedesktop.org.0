@@ -2,99 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439E1A5B911
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 07:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65851A5B917
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 07:17:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C1B110E10B;
-	Tue, 11 Mar 2025 06:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C653110E123;
+	Tue, 11 Mar 2025 06:17:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="o8xoj3wR";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hlqCPBvZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5AF610E0C5;
- Tue, 11 Mar 2025 06:16:33 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52AKjhn9006253;
- Tue, 11 Mar 2025 06:16:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- JHbVnjh4q9xB2LzjdS6wKi6kBiBzwQ1KsR99fp+DG5Q=; b=o8xoj3wRXkNGjHkd
- m17NVXxJSmYebZ39uddwWFBFVLv7GC8TDVZ4ywuP/QbdtAM/LhcfsnLwgG6o8nz6
- q4WtbRL9Jk9sPWwaUD+MdjKYce7WWHI0cult3UNBokRIGpZZXXS9WLH66+bvEHfA
- yzdj7JWelO/OVKAiAoj0DblS6AzrWWKyRmT9D0db5LopDLxn3iVdAzoRi/Pj7fYm
- kIo0Y1nNj8RJSLXvuHWWL1c6Vi43k/AGtlhSEWw/+XIv3jB5j0po6hRTE/e0Ud5R
- AiPdvZmH942Qe0YOvsjCPtZoNcUCXoGmfL/of5UOVK7lvPDO3NtUJUZT7e0cADAt
- GFjHpA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 458f2mf92x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Mar 2025 06:16:21 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52B6GKfs015925
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Mar 2025 06:16:20 GMT
-Received: from [10.216.23.206] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Mar
- 2025 23:16:13 -0700
-Message-ID: <8d54a612-433e-4860-a843-294fe0d6db4e@quicinc.com>
-Date: Tue, 11 Mar 2025 11:46:11 +0530
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC1510E0C5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 06:17:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741673834;
+ bh=+c3rP9l5bYRgyQgzqdBiyBHNs0Vnao3tQSZD7Jt0tYs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hlqCPBvZMIIR/XIcU/pmYxeSrxXNRMeqE9xR9QTJ4wXTEUxs3Y5jTim9sw3HRYpoo
+ G9Cn9/HfnD3xKt+3i25/+u69Cp8WQdO2kILlNGOm0ZQQzj2WZiCegRAcj3h4BfjBgo
+ VaEMtjKwNyMgXHqC/wI4Gi0ru52KWtdJYM2pMqESWC7BDS+FL1uGabefiNeANI4YDQ
+ meYujK8q04Tv57hsOWrV2qC21mWV9/qEC7fYfV0Z/6oRhzSUIglMjB9katfKwnTNME
+ 0x5hVGViqbiWqg/agYeAKgAPkvrxm8tXPrzRFGCaEh+7Y5ZI+BbWGjm/RbKMKfQtvT
+ dh/bFTY9YsGpw==
+Received: from localhost.localdomain (unknown [103.163.65.90])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id D1F9617E05C1;
+ Tue, 11 Mar 2025 07:17:12 +0100 (CET)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: linux-mediatek@lists.infradead.org
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, nfraprado@collabora.com,
+ angelogioacchino.delregno@collabora.com, daniels@collabora.com,
+ airlied@gmail.com, simona.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1] arm64: defconfig: mediatek: enable PHY drivers
+Date: Tue, 11 Mar 2025 11:46:59 +0530
+Message-ID: <20250311061703.16850-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] Support for Adreno 623 GPU
-To: "Rob Herring (Arm)" <robh@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, Simona Vetter <simona@ffwll.ch>,
- <linux-kernel@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- "Abhinav Kumar" <quic_abhinavk@quicinc.com>,
- Jie Zhang <quic_jiezh@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Konrad Dybcio
- <konradybcio@kernel.org>, <dri-devel@lists.freedesktop.org>, "Thomas
- Zimmermann" <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, <freedreno@lists.freedesktop.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "David Airlie" <airlied@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, "Bjorn
- Andersson" <andersson@kernel.org>, <devicetree@vger.kernel.org>
-References: <20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com>
- <174075232770.2756163.15128447349702656600.robh@kernel.org>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <174075232770.2756163.15128447349702656600.robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: EFmODcM4L_YS48Fyr14FyKTDBWPkoAE0
-X-Proofpoint-ORIG-GUID: EFmODcM4L_YS48Fyr14FyKTDBWPkoAE0
-X-Authority-Analysis: v=2.4 cv=ab+bnQot c=1 sm=1 tr=0 ts=67cfd535 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=gEfo2CItAAAA:8
- a=Qi1LLK4JJPgfJq4B5soA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-11_01,2025-03-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=999 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- mlxscore=0 impostorscore=0 phishscore=0 clxscore=1015 spamscore=0
- adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2503110040
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,93 +59,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/28/2025 7:53 PM, Rob Herring (Arm) wrote:
-> 
-> On Fri, 28 Feb 2025 01:37:48 +0530, Akhil P Oommen wrote:
->> This series adds support for A623 GPU found in QCS8300 chipsets. This
->> GPU IP is very similar to A621 GPU, except for the UBWC configuration
->> and the GMU firmware.
->>
->> Both DT patches are for Bjorn and rest of the patches for Rob Clark to
->> pick up.
->>
->> ---
->> Changes in v2:
->> - Fix hwcg config (Konrad)
->> - Split gpucc reg list patch (Rob)
->> - Rebase on msm-next tip
->> - Link to v1: https://lore.kernel.org/r/20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com
->>
->> ---
->> Jie Zhang (6):
->>       drm/msm/a6xx: Split out gpucc register block
->>       drm/msm/a6xx: Fix gpucc register block for A621
->>       drm/msm/a6xx: Add support for Adreno 623
->>       dt-bindings: display/msm/gmu: Add Adreno 623 GMU
->>       arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
->>       arm64: dts: qcom: qcs8300-ride: Enable Adreno 623 GPU
->>
->>  .../devicetree/bindings/display/msm/gmu.yaml       |  1 +
->>  arch/arm64/boot/dts/qcom/qcs8300-ride.dts          |  8 ++
->>  arch/arm64/boot/dts/qcom/qcs8300.dtsi              | 93 ++++++++++++++++++++++
->>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c          | 29 +++++++
->>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  8 ++
->>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        | 13 ++-
->>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        | 17 ++++
->>  drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  5 ++
->>  8 files changed, 171 insertions(+), 3 deletions(-)
->> ---
->> base-commit: 89839e69f6154feecd79bd01171375225b0296e9
->> change-id: 20250213-a623-gpu-support-f6698603fb85
->> prerequisite-change-id: 20250131-b4-branch-gfx-smmu-b03261963064:v5
->> prerequisite-patch-id: f8fd1a2020c940e595e58a8bd3c55d00d3d87271
->> prerequisite-patch-id: 08a0540f75b0f95fd2018b38c9ed5c6f96433b4d
->>
->> Best regards,
->> --
->> Akhil P Oommen <quic_akhilpo@quicinc.com>
->>
->>
->>
-> 
-> 
-> My bot found new DTB warnings on the .dts files added or changed in this
-> series.
-> 
-> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-> are fixed by another series. Ultimately, it is up to the platform
-> maintainer whether these warnings are acceptable or not. No need to reply
-> unless the platform maintainer has comments.
-> 
-> If you already ran DT checks and didn't see these error(s), then
-> make sure dt-schema is up to date:
-> 
->   pip3 install dtschema --upgrade
-> 
-> 
-> New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com:
-> 
-> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:0: 'gcc_gpu_memnoc_gfx_clk' was expected
-> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
-> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:1: 'gcc_gpu_snoc_dvm_gfx_clk' was expected
-> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
-> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:2: 'gpu_cc_ahb_clk' was expected
-> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
-> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:3: 'gpu_cc_hlos1_vote_gpu_smmu_clk' was expected
-> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
-> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:4: 'gpu_cc_cx_gmu_clk' was expected
-> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
-> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:5: 'gpu_cc_hub_cx_int_clk' was expected
-> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
-> 
-> 
-> 
-> 
-> 
+The mediatek display driver fails to probe on mt8173 and mt8183 in
+v6.14-rc4, with the following errors:
 
-These warnings are for the smmu dt change which I marked as a
-dependency. Hopefully, the v6 revision from Pratyush will fix this.
+mt8173:
+platform 1401b000.dsi: deferred probe pending: mtk-dsi: Failed to get hs clock
+platform 14025000.hdmi: deferred probe pending: (reason unknown)
+i2c 1-0008: deferred probe pending: (reason unknown)
 
-https://lore.kernel.org/linux-arm-kernel/20250310-b4-branch-gfx-smmu-v6-1-15c60b8abd99@quicinc.com/T/
+mt8183:
+platform 14014000.dsi: deferred probe pending: mtk-dsi: Failed to get hs clock
+i2c 4-0058: deferred probe pending: anx7625: fail to find dsi host.
 
--Akhil.
+Enabling CONFIG_PHY_MTK_MIPI_DSI=y in drm-ci resolves this error,
+but mt8173 still fails with,
+
+[drm:mtk_dsi_host_attach] *ERROR* failed to add dsi_host component: -517
+panel-simple-dp-aux aux-1-0008: DP AUX done_probing() can't defer
+panel-simple-dp-aux aux-1-0008: probe with driver panel-simple-dp-aux failed with error -22
+
+Enabling CONFIG_PHY_MTK_XSPHY=y and CONFIG_PHY_MTK_HDMI=y in drm-ci
+resolves this issue for mt8173.
+
+So enable these PHY configs for mediatek platforms.
+
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
+ arch/arm64/configs/defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 1f25423de383..09aedc3447b7 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1573,6 +1573,9 @@ CONFIG_PHY_HISTB_COMBPHY=y
+ CONFIG_PHY_HISI_INNO_USB2=y
+ CONFIG_PHY_MVEBU_CP110_COMPHY=y
+ CONFIG_PHY_MTK_TPHY=y
++CONFIG_PHY_MTK_MIPI_DSI=m
++CONFIG_PHY_MTK_XSPHY=m
++CONFIG_PHY_MTK_HDMI=m
+ CONFIG_PHY_QCOM_EDP=m
+ CONFIG_PHY_QCOM_PCIE2=m
+ CONFIG_PHY_QCOM_QMP=m
+-- 
+2.47.2
+
