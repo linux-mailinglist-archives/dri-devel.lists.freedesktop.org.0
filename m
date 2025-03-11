@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4753FA5B609
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE577A5B60E
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:50:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BAD410E500;
-	Tue, 11 Mar 2025 01:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F9310E506;
+	Tue, 11 Mar 2025 01:50:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="M5m3A2cb";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="M14R+/DR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD1B110E500
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:50:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B30DE10E0E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=PTHHpGneiUEeWnFXNFBaFyXoGWMjYB9q2UZzdF4jnAM=; b=M5m3A2cbplppquOW
- MUcSq7F5ihU8YSEKopC22nEIPV6P03XwKE9sAdZ/ZJnm9rckCPvSSlreo203/lcPPDZy9Bp3cAyGA
- mfDc9tQd8KGuyZOoy3en44Nc0U9y9rQB2ht0XwQYhaRtnWCSK1xXlCCW/DTJuYRmxLPK6CEIwRcMD
- Ey3p4eGx2Z+8HtWDARB1h6EUAow0yQMKxQKyHurzp1vAyhV7kuP/BCUPgFI92H+fOdfD18MIiQ8ff
- 3TH5XjVXzxt8wlKGdy4QGsMGkLSXwtn6CbsCsDAB7waBBcWQKr25hYCAkZDKsQKHpLK8ontp5uqmX
- Vq9ygYe32Y8LPbjeMQ==;
+ :Subject; bh=rZnAvENr0DIhM9IWOLU76ewsRWLJoiG2rOzhF0E/rK0=; b=M14R+/DR8lMO7sKQ
+ MgJcOHnqnh1RPBobnw9lQWls9APNWFb5fdhN7+/n5qN1NwC9etK3wKzUjYqzgUWSXWSh1U2V4+8F9
+ ITsW3Pmnhd6ck9wVnEe+GNRzSood2D6I83NZn8ZxLE7fDnE+LCts9HoYiMAL2t2eGf34P1CIzFLtJ
+ dwDm794nUHDfIjwTPjax+yzVcbadQ155oc1trI6oxTzNuNfF+IAfn7aAhdIjb+5GwQWuxt04Jxv4y
+ jMU7xpsUInO6Cc8mX3LDPFHmPPCo+S8uZSBgVaomqojfbbSJy8zB6y8rtdZliOYi7QZYFxpaovJ8Q
+ VAgEwMkeQIq0Sx6LNw==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1troku-0042n5-06;
+ (envelope-from <linux@treblig.org>) id 1troku-0042n5-2F;
  Tue, 11 Mar 2025 01:50:04 +0000
 From: linux@treblig.org
 To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org,
@@ -38,9 +38,9 @@ Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH v2 6/9] power: supply: pcf50633: Remove charger
-Date: Tue, 11 Mar 2025 01:49:56 +0000
-Message-ID: <20250311014959.743322-7-linux@treblig.org>
+Subject: [PATCH v2 7/9] backlight: pcf50633-backlight: Remove
+Date: Tue, 11 Mar 2025 01:49:57 +0000
+Message-ID: <20250311014959.743322-8-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250311014959.743322-1-linux@treblig.org>
 References: <20250311014959.743322-1-linux@treblig.org>
@@ -73,513 +73,274 @@ Remove it.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/power/supply/Kconfig            |   6 -
- drivers/power/supply/Makefile           |   1 -
- drivers/power/supply/pcf50633-charger.c | 466 ------------------------
- 3 files changed, 473 deletions(-)
- delete mode 100644 drivers/power/supply/pcf50633-charger.c
+ drivers/video/backlight/Kconfig              |   7 -
+ drivers/video/backlight/Makefile             |   1 -
+ drivers/video/backlight/pcf50633-backlight.c | 154 -------------------
+ include/linux/mfd/pcf50633/backlight.h       |  42 -----
+ include/linux/mfd/pcf50633/core.h            |   3 -
+ 5 files changed, 207 deletions(-)
+ delete mode 100644 drivers/video/backlight/pcf50633-backlight.c
+ delete mode 100644 include/linux/mfd/pcf50633/backlight.h
 
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index 7b18358f194a..aa569badaf73 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -449,12 +449,6 @@ config CHARGER_88PM860X
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index 3614a5d29c71..ef4ac1ac7520 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -359,13 +359,6 @@ config BACKLIGHT_88PM860X
  	help
- 	  Say Y here to enable charger for Marvell 88PM860x chip.
+ 	  Say Y to enable the backlight driver for Marvell 88PM8606.
  
--config CHARGER_PCF50633
--	tristate "NXP PCF50633 MBC"
+-config BACKLIGHT_PCF50633
+-	tristate "Backlight driver for NXP PCF50633 MFD"
 -	depends on MFD_PCF50633
 -	help
--	  Say Y to include support for NXP PCF50633 Main Battery Charger.
+-	  If you have a backlight driven by a NXP PCF50633 MFD, say Y here to
+-	  enable its driver.
 -
- config BATTERY_RX51
- 	tristate "Nokia RX-51 (N900) battery driver"
- 	depends on TWL4030_MADC
-diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
-index b55cc48a4c86..eedb00e377cb 100644
---- a/drivers/power/supply/Makefile
-+++ b/drivers/power/supply/Makefile
-@@ -62,7 +62,6 @@ obj-$(CONFIG_CHARGER_RT9467)	+= rt9467-charger.o
- obj-$(CONFIG_CHARGER_RT9471)	+= rt9471.o
- obj-$(CONFIG_BATTERY_TWL4030_MADC)	+= twl4030_madc_battery.o
- obj-$(CONFIG_CHARGER_88PM860X)	+= 88pm860x_charger.o
--obj-$(CONFIG_CHARGER_PCF50633)	+= pcf50633-charger.o
- obj-$(CONFIG_BATTERY_RX51)	+= rx51_battery.o
- obj-$(CONFIG_AB8500_BM)		+= ab8500_bmdata.o ab8500_charger.o ab8500_fg.o ab8500_btemp.o ab8500_chargalg.o
- obj-$(CONFIG_CHARGER_CPCAP)	+= cpcap-charger.o
-diff --git a/drivers/power/supply/pcf50633-charger.c b/drivers/power/supply/pcf50633-charger.c
+ config BACKLIGHT_AAT2870
+ 	tristate "AnalogicTech AAT2870 Backlight"
+ 	depends on MFD_AAT2870_CORE
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index 8fc98f760a8a..21bf62bcaccf 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -49,7 +49,6 @@ obj-$(CONFIG_BACKLIGHT_MP3309C)		+= mp3309c.o
+ obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
+ obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
+ obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
+-obj-$(CONFIG_BACKLIGHT_PCF50633)	+= pcf50633-backlight.o
+ obj-$(CONFIG_BACKLIGHT_PWM)		+= pwm_bl.o
+ obj-$(CONFIG_BACKLIGHT_QCOM_WLED)	+= qcom-wled.o
+ obj-$(CONFIG_BACKLIGHT_RT4831)		+= rt4831-backlight.o
+diff --git a/drivers/video/backlight/pcf50633-backlight.c b/drivers/video/backlight/pcf50633-backlight.c
 deleted file mode 100644
-index 0136bc87b105..000000000000
---- a/drivers/power/supply/pcf50633-charger.c
+index 157be2f366df..000000000000
+--- a/drivers/video/backlight/pcf50633-backlight.c
 +++ /dev/null
-@@ -1,466 +0,0 @@
+@@ -1,154 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0-or-later
--/* NXP PCF50633 Main Battery Charger Driver
-- *
-- * (C) 2006-2008 by Openmoko, Inc.
-- * Author: Balaji Rao <balajirrao@openmoko.org>
-- * All rights reserved.
-- *
-- * Broken down from monstrous PCF50633 driver mainly by
-- * Harald Welte, Andy Green and Werner Almesberger
+-/*
+- *  Copyright (C) 2009-2010, Lars-Peter Clausen <lars@metafoo.de>
+- *      PCF50633 backlight device driver
 - */
 -
 -#include <linux/kernel.h>
 -#include <linux/module.h>
 -#include <linux/slab.h>
--#include <linux/init.h>
--#include <linux/types.h>
--#include <linux/device.h>
--#include <linux/sysfs.h>
 -#include <linux/platform_device.h>
--#include <linux/power_supply.h>
+-
+-#include <linux/backlight.h>
 -
 -#include <linux/mfd/pcf50633/core.h>
--#include <linux/mfd/pcf50633/mbc.h>
+-#include <linux/mfd/pcf50633/backlight.h>
 -
--struct pcf50633_mbc {
+-struct pcf50633_bl {
 -	struct pcf50633 *pcf;
+-	struct backlight_device *bl;
 -
--	int adapter_online;
--	int usb_online;
--
--	struct power_supply *usb;
--	struct power_supply *adapter;
--	struct power_supply *ac;
+-	unsigned int brightness;
+-	unsigned int brightness_limit;
 -};
--
--int pcf50633_mbc_usb_curlim_set(struct pcf50633 *pcf, int ma)
--{
--	struct pcf50633_mbc *mbc = platform_get_drvdata(pcf->mbc_pdev);
--	int ret = 0;
--	u8 bits;
--	u8 mbcs2, chgmod;
--	unsigned int mbcc5;
--
--	if (ma >= 1000) {
--		bits = PCF50633_MBCC7_USB_1000mA;
--		ma = 1000;
--	} else if (ma >= 500) {
--		bits = PCF50633_MBCC7_USB_500mA;
--		ma = 500;
--	} else if (ma >= 100) {
--		bits = PCF50633_MBCC7_USB_100mA;
--		ma = 100;
--	} else {
--		bits = PCF50633_MBCC7_USB_SUSPEND;
--		ma = 0;
--	}
--
--	ret = pcf50633_reg_set_bit_mask(pcf, PCF50633_REG_MBCC7,
--					PCF50633_MBCC7_USB_MASK, bits);
--	if (ret)
--		dev_err(pcf->dev, "error setting usb curlim to %d mA\n", ma);
--	else
--		dev_info(pcf->dev, "usb curlim to %d mA\n", ma);
--
--	/*
--	 * We limit the charging current to be the USB current limit.
--	 * The reason is that on pcf50633, when it enters PMU Standby mode,
--	 * which it does when the device goes "off", the USB current limit
--	 * reverts to the variant default.  In at least one common case, that
--	 * default is 500mA.  By setting the charging current to be the same
--	 * as the USB limit we set here before PMU standby, we enforce it only
--	 * using the correct amount of current even when the USB current limit
--	 * gets reset to the wrong thing
--	 */
--
--	if (mbc->pcf->pdata->charger_reference_current_ma) {
--		mbcc5 = (ma << 8) / mbc->pcf->pdata->charger_reference_current_ma;
--		if (mbcc5 > 255)
--			mbcc5 = 255;
--		pcf50633_reg_write(mbc->pcf, PCF50633_REG_MBCC5, mbcc5);
--	}
--
--	mbcs2 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2);
--	chgmod = (mbcs2 & PCF50633_MBCS2_MBC_MASK);
--
--	/* If chgmod == BATFULL, setting chgena has no effect.
--	 * Datasheet says we need to set resume instead but when autoresume is
--	 * used resume doesn't work. Clear and set chgena instead.
--	 */
--	if (chgmod != PCF50633_MBCS2_MBC_BAT_FULL)
--		pcf50633_reg_set_bit_mask(pcf, PCF50633_REG_MBCC1,
--				PCF50633_MBCC1_CHGENA, PCF50633_MBCC1_CHGENA);
--	else {
--		pcf50633_reg_clear_bits(pcf, PCF50633_REG_MBCC1,
--				PCF50633_MBCC1_CHGENA);
--		pcf50633_reg_set_bit_mask(pcf, PCF50633_REG_MBCC1,
--				PCF50633_MBCC1_CHGENA, PCF50633_MBCC1_CHGENA);
--	}
--
--	power_supply_changed(mbc->usb);
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(pcf50633_mbc_usb_curlim_set);
--
--int pcf50633_mbc_get_status(struct pcf50633 *pcf)
--{
--	struct pcf50633_mbc *mbc  = platform_get_drvdata(pcf->mbc_pdev);
--	int status = 0;
--	u8 chgmod;
--
--	if (!mbc)
--		return 0;
--
--	chgmod = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2)
--		& PCF50633_MBCS2_MBC_MASK;
--
--	if (mbc->usb_online)
--		status |= PCF50633_MBC_USB_ONLINE;
--	if (chgmod == PCF50633_MBCS2_MBC_USB_PRE ||
--	    chgmod == PCF50633_MBCS2_MBC_USB_PRE_WAIT ||
--	    chgmod == PCF50633_MBCS2_MBC_USB_FAST ||
--	    chgmod == PCF50633_MBCS2_MBC_USB_FAST_WAIT)
--		status |= PCF50633_MBC_USB_ACTIVE;
--	if (mbc->adapter_online)
--		status |= PCF50633_MBC_ADAPTER_ONLINE;
--	if (chgmod == PCF50633_MBCS2_MBC_ADP_PRE ||
--	    chgmod == PCF50633_MBCS2_MBC_ADP_PRE_WAIT ||
--	    chgmod == PCF50633_MBCS2_MBC_ADP_FAST ||
--	    chgmod == PCF50633_MBCS2_MBC_ADP_FAST_WAIT)
--		status |= PCF50633_MBC_ADAPTER_ACTIVE;
--
--	return status;
--}
--EXPORT_SYMBOL_GPL(pcf50633_mbc_get_status);
--
--int pcf50633_mbc_get_usb_online_status(struct pcf50633 *pcf)
--{
--	struct pcf50633_mbc *mbc  = platform_get_drvdata(pcf->mbc_pdev);
--
--	if (!mbc)
--		return 0;
--
--	return mbc->usb_online;
--}
--EXPORT_SYMBOL_GPL(pcf50633_mbc_get_usb_online_status);
--
--static ssize_t
--show_chgmode(struct device *dev, struct device_attribute *attr, char *buf)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--
--	u8 mbcs2 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS2);
--	u8 chgmod = (mbcs2 & PCF50633_MBCS2_MBC_MASK);
--
--	return sysfs_emit(buf, "%d\n", chgmod);
--}
--static DEVICE_ATTR(chgmode, S_IRUGO, show_chgmode, NULL);
--
--static ssize_t
--show_usblim(struct device *dev, struct device_attribute *attr, char *buf)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--	u8 usblim = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC7) &
--						PCF50633_MBCC7_USB_MASK;
--	unsigned int ma;
--
--	if (usblim == PCF50633_MBCC7_USB_1000mA)
--		ma = 1000;
--	else if (usblim == PCF50633_MBCC7_USB_500mA)
--		ma = 500;
--	else if (usblim == PCF50633_MBCC7_USB_100mA)
--		ma = 100;
--	else
--		ma = 0;
--
--	return sysfs_emit(buf, "%u\n", ma);
--}
--
--static ssize_t set_usblim(struct device *dev,
--		struct device_attribute *attr, const char *buf, size_t count)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--	unsigned long ma;
--	int ret;
--
--	ret = kstrtoul(buf, 10, &ma);
--	if (ret)
--		return ret;
--
--	pcf50633_mbc_usb_curlim_set(mbc->pcf, ma);
--
--	return count;
--}
--
--static DEVICE_ATTR(usb_curlim, S_IRUGO | S_IWUSR, show_usblim, set_usblim);
--
--static ssize_t
--show_chglim(struct device *dev, struct device_attribute *attr, char *buf)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--	u8 mbcc5 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC5);
--	unsigned int ma;
--
--	if (!mbc->pcf->pdata->charger_reference_current_ma)
--		return -ENODEV;
--
--	ma = (mbc->pcf->pdata->charger_reference_current_ma *  mbcc5) >> 8;
--
--	return sysfs_emit(buf, "%u\n", ma);
--}
--
--static ssize_t set_chglim(struct device *dev,
--		struct device_attribute *attr, const char *buf, size_t count)
--{
--	struct pcf50633_mbc *mbc = dev_get_drvdata(dev);
--	unsigned long ma;
--	unsigned int mbcc5;
--	int ret;
--
--	if (!mbc->pcf->pdata->charger_reference_current_ma)
--		return -ENODEV;
--
--	ret = kstrtoul(buf, 10, &ma);
--	if (ret)
--		return ret;
--
--	mbcc5 = (ma << 8) / mbc->pcf->pdata->charger_reference_current_ma;
--	if (mbcc5 > 255)
--		mbcc5 = 255;
--	pcf50633_reg_write(mbc->pcf, PCF50633_REG_MBCC5, mbcc5);
--
--	return count;
--}
 -
 -/*
-- * This attribute allows to change MBC charging limit on the fly
-- * independently of usb current limit. It also gets set automatically every
-- * time usb current limit is changed.
+- * pcf50633_bl_set_brightness_limit
+- *
+- * Update the brightness limit for the pc50633 backlight. The actual brightness
+- * will not go above the limit. This is useful to limit power drain for example
+- * on low battery.
+- *
+- * @dev: Pointer to a pcf50633 device
+- * @limit: The brightness limit. Valid values are 0-63
 - */
--static DEVICE_ATTR(chg_curlim, S_IRUGO | S_IWUSR, show_chglim, set_chglim);
--
--static struct attribute *pcf50633_mbc_sysfs_attrs[] = {
--	&dev_attr_chgmode.attr,
--	&dev_attr_usb_curlim.attr,
--	&dev_attr_chg_curlim.attr,
--	NULL,
--};
--
--ATTRIBUTE_GROUPS(pcf50633_mbc_sysfs);
--
--static void
--pcf50633_mbc_irq_handler(int irq, void *data)
+-int pcf50633_bl_set_brightness_limit(struct pcf50633 *pcf, unsigned int limit)
 -{
--	struct pcf50633_mbc *mbc = data;
+-	struct pcf50633_bl *pcf_bl = platform_get_drvdata(pcf->bl_pdev);
 -
--	/* USB */
--	if (irq == PCF50633_IRQ_USBINS) {
--		mbc->usb_online = 1;
--	} else if (irq == PCF50633_IRQ_USBREM) {
--		mbc->usb_online = 0;
--		pcf50633_mbc_usb_curlim_set(mbc->pcf, 0);
--	}
+-	if (!pcf_bl)
+-		return -ENODEV;
 -
--	/* Adapter */
--	if (irq == PCF50633_IRQ_ADPINS)
--		mbc->adapter_online = 1;
--	else if (irq == PCF50633_IRQ_ADPREM)
--		mbc->adapter_online = 0;
--
--	power_supply_changed(mbc->ac);
--	power_supply_changed(mbc->usb);
--	power_supply_changed(mbc->adapter);
--
--	if (mbc->pcf->pdata->mbc_event_callback)
--		mbc->pcf->pdata->mbc_event_callback(mbc->pcf, irq);
--}
--
--static int adapter_get_property(struct power_supply *psy,
--			enum power_supply_property psp,
--			union power_supply_propval *val)
--{
--	struct pcf50633_mbc *mbc = power_supply_get_drvdata(psy);
--	int ret = 0;
--
--	switch (psp) {
--	case POWER_SUPPLY_PROP_ONLINE:
--		val->intval =  mbc->adapter_online;
--		break;
--	default:
--		ret = -EINVAL;
--		break;
--	}
--	return ret;
--}
--
--static int usb_get_property(struct power_supply *psy,
--			enum power_supply_property psp,
--			union power_supply_propval *val)
--{
--	struct pcf50633_mbc *mbc = power_supply_get_drvdata(psy);
--	int ret = 0;
--	u8 usblim = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC7) &
--						PCF50633_MBCC7_USB_MASK;
--
--	switch (psp) {
--	case POWER_SUPPLY_PROP_ONLINE:
--		val->intval = mbc->usb_online &&
--				(usblim <= PCF50633_MBCC7_USB_500mA);
--		break;
--	default:
--		ret = -EINVAL;
--		break;
--	}
--	return ret;
--}
--
--static int ac_get_property(struct power_supply *psy,
--			enum power_supply_property psp,
--			union power_supply_propval *val)
--{
--	struct pcf50633_mbc *mbc = power_supply_get_drvdata(psy);
--	int ret = 0;
--	u8 usblim = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCC7) &
--						PCF50633_MBCC7_USB_MASK;
--
--	switch (psp) {
--	case POWER_SUPPLY_PROP_ONLINE:
--		val->intval = mbc->usb_online &&
--				(usblim == PCF50633_MBCC7_USB_1000mA);
--		break;
--	default:
--		ret = -EINVAL;
--		break;
--	}
--	return ret;
--}
--
--static enum power_supply_property power_props[] = {
--	POWER_SUPPLY_PROP_ONLINE,
--};
--
--static const u8 mbc_irq_handlers[] = {
--	PCF50633_IRQ_ADPINS,
--	PCF50633_IRQ_ADPREM,
--	PCF50633_IRQ_USBINS,
--	PCF50633_IRQ_USBREM,
--	PCF50633_IRQ_BATFULL,
--	PCF50633_IRQ_CHGHALT,
--	PCF50633_IRQ_THLIMON,
--	PCF50633_IRQ_THLIMOFF,
--	PCF50633_IRQ_USBLIMON,
--	PCF50633_IRQ_USBLIMOFF,
--	PCF50633_IRQ_LOWSYS,
--	PCF50633_IRQ_LOWBAT,
--};
--
--static const struct power_supply_desc pcf50633_mbc_adapter_desc = {
--	.name		= "adapter",
--	.type		= POWER_SUPPLY_TYPE_MAINS,
--	.properties	= power_props,
--	.num_properties	= ARRAY_SIZE(power_props),
--	.get_property	= &adapter_get_property,
--};
--
--static const struct power_supply_desc pcf50633_mbc_usb_desc = {
--	.name		= "usb",
--	.type		= POWER_SUPPLY_TYPE_USB,
--	.properties	= power_props,
--	.num_properties	= ARRAY_SIZE(power_props),
--	.get_property	= usb_get_property,
--};
--
--static const struct power_supply_desc pcf50633_mbc_ac_desc = {
--	.name		= "ac",
--	.type		= POWER_SUPPLY_TYPE_MAINS,
--	.properties	= power_props,
--	.num_properties	= ARRAY_SIZE(power_props),
--	.get_property	= ac_get_property,
--};
--
--static int pcf50633_mbc_probe(struct platform_device *pdev)
--{
--	struct power_supply_config psy_cfg = {};
--	struct power_supply_config usb_psy_cfg;
--	struct pcf50633_mbc *mbc;
--	int i;
--	u8 mbcs1;
--
--	mbc = devm_kzalloc(&pdev->dev, sizeof(*mbc), GFP_KERNEL);
--	if (!mbc)
--		return -ENOMEM;
--
--	platform_set_drvdata(pdev, mbc);
--	mbc->pcf = dev_to_pcf50633(pdev->dev.parent);
--
--	/* Set up IRQ handlers */
--	for (i = 0; i < ARRAY_SIZE(mbc_irq_handlers); i++)
--		pcf50633_register_irq(mbc->pcf, mbc_irq_handlers[i],
--					pcf50633_mbc_irq_handler, mbc);
--
--	psy_cfg.supplied_to		= mbc->pcf->pdata->batteries;
--	psy_cfg.num_supplicants		= mbc->pcf->pdata->num_batteries;
--	psy_cfg.drv_data		= mbc;
--
--	/* Create power supplies */
--	mbc->adapter = devm_power_supply_register(&pdev->dev,
--						  &pcf50633_mbc_adapter_desc,
--						  &psy_cfg);
--	if (IS_ERR(mbc->adapter)) {
--		dev_err(mbc->pcf->dev, "failed to register adapter\n");
--		return PTR_ERR(mbc->adapter);
--	}
--
--	usb_psy_cfg = psy_cfg;
--	usb_psy_cfg.attr_grp = pcf50633_mbc_sysfs_groups;
--
--	mbc->usb = devm_power_supply_register(&pdev->dev,
--					      &pcf50633_mbc_usb_desc,
--					      &usb_psy_cfg);
--	if (IS_ERR(mbc->usb)) {
--		dev_err(mbc->pcf->dev, "failed to register usb\n");
--		return PTR_ERR(mbc->usb);
--	}
--
--	mbc->ac = devm_power_supply_register(&pdev->dev,
--					     &pcf50633_mbc_ac_desc,
--					     &psy_cfg);
--	if (IS_ERR(mbc->ac)) {
--		dev_err(mbc->pcf->dev, "failed to register ac\n");
--		return PTR_ERR(mbc->ac);
--	}
--
--	mbcs1 = pcf50633_reg_read(mbc->pcf, PCF50633_REG_MBCS1);
--	if (mbcs1 & PCF50633_MBCS1_USBPRES)
--		pcf50633_mbc_irq_handler(PCF50633_IRQ_USBINS, mbc);
--	if (mbcs1 & PCF50633_MBCS1_ADAPTPRES)
--		pcf50633_mbc_irq_handler(PCF50633_IRQ_ADPINS, mbc);
+-	pcf_bl->brightness_limit = limit & 0x3f;
+-	backlight_update_status(pcf_bl->bl);
 -
 -	return 0;
 -}
 -
--static void pcf50633_mbc_remove(struct platform_device *pdev)
+-static int pcf50633_bl_update_status(struct backlight_device *bl)
 -{
--	struct pcf50633_mbc *mbc = platform_get_drvdata(pdev);
--	int i;
+-	struct pcf50633_bl *pcf_bl = bl_get_data(bl);
+-	unsigned int new_brightness;
 -
--	/* Remove IRQ handlers */
--	for (i = 0; i < ARRAY_SIZE(mbc_irq_handlers); i++)
--		pcf50633_free_irq(mbc->pcf, mbc_irq_handlers[i]);
+-
+-	if (bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK) ||
+-		bl->props.power != BACKLIGHT_POWER_ON)
+-		new_brightness = 0;
+-	else if (bl->props.brightness < pcf_bl->brightness_limit)
+-		new_brightness = bl->props.brightness;
+-	else
+-		new_brightness = pcf_bl->brightness_limit;
+-
+-
+-	if (pcf_bl->brightness == new_brightness)
+-		return 0;
+-
+-	if (new_brightness) {
+-		pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDOUT,
+-					new_brightness);
+-		if (!pcf_bl->brightness)
+-			pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDENA, 1);
+-	} else {
+-		pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDENA, 0);
+-	}
+-
+-	pcf_bl->brightness = new_brightness;
+-
+-	return 0;
 -}
 -
--static struct platform_driver pcf50633_mbc_driver = {
--	.driver = {
--		.name = "pcf50633-mbc",
--	},
--	.probe = pcf50633_mbc_probe,
--	.remove = pcf50633_mbc_remove,
+-static int pcf50633_bl_get_brightness(struct backlight_device *bl)
+-{
+-	struct pcf50633_bl *pcf_bl = bl_get_data(bl);
+-
+-	return pcf_bl->brightness;
+-}
+-
+-static const struct backlight_ops pcf50633_bl_ops = {
+-	.get_brightness = pcf50633_bl_get_brightness,
+-	.update_status	= pcf50633_bl_update_status,
+-	.options	= BL_CORE_SUSPENDRESUME,
 -};
 -
--module_platform_driver(pcf50633_mbc_driver);
+-static int pcf50633_bl_probe(struct platform_device *pdev)
+-{
+-	struct pcf50633_bl *pcf_bl;
+-	struct device *parent = pdev->dev.parent;
+-	struct pcf50633_platform_data *pcf50633_data = dev_get_platdata(parent);
+-	struct pcf50633_bl_platform_data *pdata = pcf50633_data->backlight_data;
+-	struct backlight_properties bl_props;
 -
--MODULE_AUTHOR("Balaji Rao <balajirrao@openmoko.org>");
--MODULE_DESCRIPTION("PCF50633 mbc driver");
+-	pcf_bl = devm_kzalloc(&pdev->dev, sizeof(*pcf_bl), GFP_KERNEL);
+-	if (!pcf_bl)
+-		return -ENOMEM;
+-
+-	memset(&bl_props, 0, sizeof(bl_props));
+-	bl_props.type = BACKLIGHT_RAW;
+-	bl_props.max_brightness = 0x3f;
+-	bl_props.power = BACKLIGHT_POWER_ON;
+-
+-	if (pdata) {
+-		bl_props.brightness = pdata->default_brightness;
+-		pcf_bl->brightness_limit = pdata->default_brightness_limit;
+-	} else {
+-		bl_props.brightness = 0x3f;
+-		pcf_bl->brightness_limit = 0x3f;
+-	}
+-
+-	pcf_bl->pcf = dev_to_pcf50633(pdev->dev.parent);
+-
+-	pcf_bl->bl = devm_backlight_device_register(&pdev->dev, pdev->name,
+-						&pdev->dev, pcf_bl,
+-						&pcf50633_bl_ops, &bl_props);
+-
+-	if (IS_ERR(pcf_bl->bl))
+-		return PTR_ERR(pcf_bl->bl);
+-
+-	platform_set_drvdata(pdev, pcf_bl);
+-
+-	pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDDIM, pdata->ramp_time);
+-
+-	/*
+-	 * Should be different from bl_props.brightness, so we do not exit
+-	 * update_status early the first time it's called
+-	 */
+-	pcf_bl->brightness = pcf_bl->bl->props.brightness + 1;
+-
+-	backlight_update_status(pcf_bl->bl);
+-
+-	return 0;
+-}
+-
+-static struct platform_driver pcf50633_bl_driver = {
+-	.probe =	pcf50633_bl_probe,
+-	.driver = {
+-		.name = "pcf50633-backlight",
+-	},
+-};
+-
+-module_platform_driver(pcf50633_bl_driver);
+-
+-MODULE_AUTHOR("Lars-Peter Clausen <lars@metafoo.de>");
+-MODULE_DESCRIPTION("PCF50633 backlight driver");
 -MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:pcf50633-mbc");
+-MODULE_ALIAS("platform:pcf50633-backlight");
+diff --git a/include/linux/mfd/pcf50633/backlight.h b/include/linux/mfd/pcf50633/backlight.h
+deleted file mode 100644
+index fd4a4f8d6c13..000000000000
+--- a/include/linux/mfd/pcf50633/backlight.h
++++ /dev/null
+@@ -1,42 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/*
+- *  Copyright (C) 2009-2010, Lars-Peter Clausen <lars@metafoo.de>
+- *      PCF50633 backlight device driver
+- */
+-
+-#ifndef __LINUX_MFD_PCF50633_BACKLIGHT
+-#define __LINUX_MFD_PCF50633_BACKLIGHT
+-
+-/*
+-* @default_brightness: Backlight brightness is initialized to this value
+-*
+-* Brightness to be used after the driver has been probed.
+-* Valid range 0-63.
+-*
+-* @default_brightness_limit: The actual brightness is limited by this value
+-*
+-* Brightness limit to be used after the driver has been probed. This is useful
+-* when it is not known how much power is available for the backlight during
+-* probe.
+-* Valid range 0-63. Can be changed later with pcf50633_bl_set_brightness_limit.
+-*
+-* @ramp_time: Display ramp time when changing brightness
+-*
+-* When changing the backlights brightness the change is not instant, instead
+-* it fades smooth from one state to another. This value specifies how long
+-* the fade should take. The lower the value the higher the fade time.
+-* Valid range 0-255
+-*/
+-struct pcf50633_bl_platform_data {
+-	unsigned int	default_brightness;
+-	unsigned int	default_brightness_limit;
+-	uint8_t		ramp_time;
+-};
+-
+-
+-struct pcf50633;
+-
+-int pcf50633_bl_set_brightness_limit(struct pcf50633 *pcf, unsigned int limit);
+-
+-#endif
+-
+diff --git a/include/linux/mfd/pcf50633/core.h b/include/linux/mfd/pcf50633/core.h
+index 539f27f8bd89..42d2b0e4884e 100644
+--- a/include/linux/mfd/pcf50633/core.h
++++ b/include/linux/mfd/pcf50633/core.h
+@@ -15,7 +15,6 @@
+ #include <linux/regulator/machine.h>
+ #include <linux/pm.h>
+ #include <linux/power_supply.h>
+-#include <linux/mfd/pcf50633/backlight.h>
+ 
+ struct pcf50633;
+ struct regmap;
+@@ -42,8 +41,6 @@ struct pcf50633_platform_data {
+ 	void (*force_shutdown)(struct pcf50633 *);
+ 
+ 	u8 resumers[5];
+-
+-	struct pcf50633_bl_platform_data *backlight_data;
+ };
+ 
+ struct pcf50633_irq {
 -- 
 2.48.1
 
