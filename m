@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70942A5CD88
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 19:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9107BA5CD8A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 19:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE30010E665;
-	Tue, 11 Mar 2025 18:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCA4D10E666;
+	Tue, 11 Mar 2025 18:14:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iL1m8Azx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dZ7oBP1t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D12C510E662
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 18:14:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E941F10E657
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 18:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VpwF6DNm+Bt9uCs+gmG561oMa3I3ktNWCYMlnoWusCw=; b=iL1m8Azx7FVBe7IPk8P6rdkJnF
- GsXt5YRGMW4PmdqMMgoaDSyhaWtWgLQ7Az0eMk3xGQRQO/l+5NewDZ6gFm+k1oe2Axy83jybbMdqm
- FqATiUi9u0Yx9lBkDgjxHy0irKwKb88k2zzWSl4Y3jkOicGA7gMqdtltyDCurGn531xwMUKz9uu8f
- hHJsJVGP43pzWCxlJOdxlqZO9jjELagOys6f+MnCJ0F5z5Tio5ROG9RjJvQy5G0HHAZjUREZbdZ+9
- hkVwPw9w1IWA8+oIO9ilCTy/Nk2vSt2IfDZ2GYjMB6KtpdK7gvcTPGCdfiYhv1uIo16EjmAW641OS
- TWjjgHqA==;
+ bh=dMAHjyrQRw/qQ6f/gvOeBlalmR7zv7Z86weqDbNizCg=; b=dZ7oBP1tCIPLwXch4+j6t7o9i/
+ YZbYOPLvXjPC+Vg7iLaEqXxE8xQ5DmNU69fQeX0OFUp+IcuphouHJzdUio6F5sYyMjkhPAjodmv2e
+ hkclONqN8pAM0WNgNE4ZrsUQ1LjDZBNOnw0hDINqp8PqCmRqe0cJx7VjI+5mkTNl7AEaWQEVsdWhG
+ i2EfUCuc1KzcsxDqsHNK3rxDqnnl/5LYrcXIZEJSh5j4J+TRDvlKoSf3sg3d00fssPB5ldCfrS5cC
+ 1k+HVwTW5RXXQLvSbiug9QVTXGbVQIQrobGmvsmWfTguKT/7rwenNdUQ0GmQBGM7nV/6rGMGhgi/t
+ MiMnAeEA==;
 Received: from [189.7.87.170] (helo=janis.local)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ts47b-007Dal-0w; Tue, 11 Mar 2025 19:14:37 +0100
+ id 1ts47e-007Dal-MN; Tue, 11 Mar 2025 19:14:40 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Tue, 11 Mar 2025 15:13:47 -0300
-Subject: [PATCH v3 5/7] dt-bindings: gpu: v3d: Add SMS register to BCM2712
- compatible
+Date: Tue, 11 Mar 2025 15:13:48 -0300
+Subject: [PATCH v3 6/7] drm/v3d: Use V3D_SMS registers for power on/off and
+ reset on V3D 7.x
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250311-v3d-gpu-reset-fixes-v3-5-64f7a4247ec0@igalia.com>
+Message-Id: <20250311-v3d-gpu-reset-fixes-v3-6-64f7a4247ec0@igalia.com>
 References: <20250311-v3d-gpu-reset-fixes-v3-0-64f7a4247ec0@igalia.com>
 In-Reply-To: <20250311-v3d-gpu-reset-fixes-v3-0-64f7a4247ec0@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>, 
@@ -50,15 +50,15 @@ Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, kernel-dev@igalia.com, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1804; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=48zMzobtxZ+l6WQP0ZJI1sIdoXWKIYXkCXAqbNLowk0=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBn0H11Yh8dT2uDN6baR/bEdp0voJwmBUbVhK4tw
- IFPj1GaYGWJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCZ9B9dQAKCRA/8w6Kdoj6
- qoZcB/9uEh9M8DzUwMvicks4uYIu39OgLwEl5oI0u6LNK1qqzwK47y3I9WsE8mCVWux6uNGB1aW
- L0S8ukUgppexdYbwxTRnMI2+bMJV2PZ7dtz82aRvTEqT5xZgDgu/nyrd40dlk2Mjf4ZxFwnKfwT
- TBuh4u/jfO136wX2gwNXFYf0KtEwkpi/OoQ9SsdZMnzKbJ6k0H3PhOXRA4ocQueg/BQQ2LURWbk
- TN7FjEBHL0tGRVAY/ychPxt12f9F02G55CgqxSmfErrE+HBYj2+rJmZABC2HZ4dhjMMlg/wHcQb
- 29xB/iz8ZUz1Zusv8FsqC013bPbxrmxZ59/pWeeLfDZ92T7u
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7723; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=g57RTjAHqcLmtmKjxuWc7XiSHGgWLzj6GPyFU2FAEaM=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBn0H11Qmx1+T7IA4D4y1+M5a+oB8ljJyerQqxxl
+ ZTQKJuDBNWJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCZ9B9dQAKCRA/8w6Kdoj6
+ qk4lB/413/lEGmuAeqSy+dsiPv0vgt6bvq8U0/AOWhIrNyuKICRINgMF9+OnQOriecMWyRtYO41
+ 3BovehjSapBZUPJ/TmGszL6TI44hKyoSFwgqJntFnRUlWLJzOIx8RERfgJUqodcA3Hd7GulUL9X
+ Xzxq/raVupG0G0wuzeeYb2BEnVyeS2pU7ZplFDg3FRQKmTovJbz8MkMXI8Dslir0bc/sWI8uncu
+ Nse9Kldcpllkk6sDuJwP/aiDh/A7qCy6zYfPDTHQ2W/Mv35ebwlT21kBiexmL7sDqwWlLoHNRSe
+ d/ymINmhvSwm5WZCOhXaiaK1soIwNeR/1yStY2hPK6zFpRPx
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,56 +76,204 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V3D 7.1 exposes a new register block, called V3D_SMS. As BCM2712 has a
-V3D 7.1 core, add a new register item to its compatible. Similar to the
-GCA, which is specific for V3D 3.3, SMS is optional and should only be
-added for V3D 7.1 variants (such as brcm,2712-v3d).
+In addition to the standard reset controller, V3D 7.x requires configuring
+the V3D_SMS registers for proper power on/off and reset. Add the new
+registers to `v3d_regs.h` and ensure they are properly configured during
+device probing, removal, and reset.
 
+This change fixes GPU reset issues on the Raspberry Pi 5 (BCM2712).
+Without exposing these registers, a GPU reset causes the GPU to hang,
+stopping any further job execution and freezing the desktop GUI. The same
+issue occurs when unloading and loading the v3d driver.
+
+Link: https://github.com/raspberrypi/linux/issues/6660
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/v3d/v3d_drv.c  | 40 ++++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_drv.h  | 11 +++++++++++
+ drivers/gpu/drm/v3d/v3d_gem.c  | 17 +++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_regs.h | 26 ++++++++++++++++++++++++++
+ 4 files changed, 94 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-index 141f2ed540bb4ddb85a933d7d44a4078c386ba39..7349347da1c0034a8849deaa6d64dde6d9d5a81a 100644
---- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-+++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-@@ -57,7 +57,6 @@ allOf:
-           contains:
-             enum:
-               - brcm,2711-v3d
--              - brcm,2712-v3d
-               - brcm,7278-v3d
-     then:
-       properties:
-@@ -71,6 +70,27 @@ allOf:
-             - const: hub
-             - const: core0
-             - const: bridge
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: brcm,2712-v3d
-+    then:
-+      properties:
-+        reg:
-+          items:
-+            - description: hub register (required)
-+            - description: core0 register (required)
-+            - description: SMS register (required)
-+            - description: bridge register (if no external reset controller)
-+          minItems: 3
-+        reg-names:
-+          items:
-+            - const: hub
-+            - const: core0
-+            - const: sms
-+            - const: bridge
-+          minItems: 3
-   - if:
-       properties:
-         compatible:
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index c63f0ed1bd8a3d5511085e76ed2fbd6ee7df6f80..122848cdccc4a02039d9ea2e77aa2f377886b5d6 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -263,6 +263,36 @@ static const struct of_device_id v3d_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, v3d_of_match);
+ 
++static void
++v3d_idle_sms(struct v3d_dev *v3d)
++{
++	if (v3d->ver < V3D_GEN_71)
++		return;
++
++	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_CLEAR_POWER_OFF);
++
++	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
++				    V3D_SMS_STATE) == V3D_SMS_IDLE), 100)) {
++		DRM_ERROR("Failed to power up SMS\n");
++	}
++
++	v3d_reset_sms(v3d);
++}
++
++static void
++v3d_power_off_sms(struct v3d_dev *v3d)
++{
++	if (v3d->ver < V3D_GEN_71)
++		return;
++
++	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_POWER_OFF);
++
++	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
++				    V3D_SMS_STATE) == V3D_SMS_POWER_OFF_STATE), 100)) {
++		DRM_ERROR("Failed to power off SMS\n");
++	}
++}
++
+ static int
+ map_regs(struct v3d_dev *v3d, void __iomem **regs, const char *name)
+ {
+@@ -300,6 +330,12 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
++	if (v3d->ver >= V3D_GEN_71) {
++		ret = map_regs(v3d, &v3d->sms_regs, "sms");
++		if (ret)
++			return ret;
++	}
++
+ 	v3d->clk = devm_clk_get_optional(dev, NULL);
+ 	if (IS_ERR(v3d->clk))
+ 		return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n");
+@@ -310,6 +346,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
++	v3d_idle_sms(v3d);
++
+ 	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
+ 	mask = DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
+ 	ret = dma_set_mask_and_coherent(dev, mask);
+@@ -410,6 +448,8 @@ static void v3d_platform_drm_remove(struct platform_device *pdev)
+ 	dma_free_wc(v3d->drm.dev, 4096, v3d->mmu_scratch,
+ 		    v3d->mmu_scratch_paddr);
+ 
++	v3d_power_off_sms(v3d);
++
+ 	clk_disable_unprepare(v3d->clk);
+ }
+ 
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index de4a9e18f6a9039edf57f406ab1cee9dad4c0a49..b51f0b648a08011f737317ec1841d5ab316355b2 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -118,6 +118,7 @@ struct v3d_dev {
+ 	void __iomem *core_regs[3];
+ 	void __iomem *bridge_regs;
+ 	void __iomem *gca_regs;
++	void __iomem *sms_regs;
+ 	struct clk *clk;
+ 	struct reset_control *reset;
+ 
+@@ -268,6 +269,15 @@ to_v3d_fence(struct dma_fence *fence)
+ #define V3D_GCA_READ(offset) readl(v3d->gca_regs + offset)
+ #define V3D_GCA_WRITE(offset, val) writel(val, v3d->gca_regs + offset)
+ 
++#define V3D_SMS_IDLE				0x0
++#define V3D_SMS_ISOLATING_FOR_RESET		0xa
++#define V3D_SMS_RESETTING			0xb
++#define V3D_SMS_ISOLATING_FOR_POWER_OFF	0xc
++#define V3D_SMS_POWER_OFF_STATE		0xd
++
++#define V3D_SMS_READ(offset) readl(v3d->sms_regs + (offset))
++#define V3D_SMS_WRITE(offset, val) writel(val, v3d->sms_regs + (offset))
++
+ #define V3D_CORE_READ(core, offset) readl(v3d->core_regs[core] + offset)
+ #define V3D_CORE_WRITE(core, offset, val) writel(val, v3d->core_regs[core] + offset)
+ 
+@@ -546,6 +556,7 @@ struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue queue);
+ /* v3d_gem.c */
+ int v3d_gem_init(struct drm_device *dev);
+ void v3d_gem_destroy(struct drm_device *dev);
++void v3d_reset_sms(struct v3d_dev *v3d);
+ void v3d_reset(struct v3d_dev *v3d);
+ void v3d_invalidate_caches(struct v3d_dev *v3d);
+ void v3d_clean_caches(struct v3d_dev *v3d);
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 1ea6d3832c2212d9cbbd90236478d18491f0ff14..d7d16da78db328f004d1d702731d1a1b5437a394 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -104,6 +104,22 @@ v3d_reset_v3d(struct v3d_dev *v3d)
+ 	v3d_init_hw_state(v3d);
+ }
+ 
++void
++v3d_reset_sms(struct v3d_dev *v3d)
++{
++	if (v3d->ver < V3D_GEN_71)
++		return;
++
++	V3D_SMS_WRITE(V3D_SMS_REE_CS, V3D_SET_FIELD(0x4, V3D_SMS_STATE));
++
++	if (wait_for(!(V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_REE_CS),
++				     V3D_SMS_STATE) == V3D_SMS_ISOLATING_FOR_RESET) &&
++		     !(V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_REE_CS),
++				     V3D_SMS_STATE) == V3D_SMS_RESETTING), 100)) {
++		DRM_ERROR("Failed to wait for SMS reset\n");
++	}
++}
++
+ void
+ v3d_reset(struct v3d_dev *v3d)
+ {
+@@ -119,6 +135,7 @@ v3d_reset(struct v3d_dev *v3d)
+ 		v3d_idle_axi(v3d, 0);
+ 
+ 	v3d_idle_gca(v3d);
++	v3d_reset_sms(v3d);
+ 	v3d_reset_v3d(v3d);
+ 
+ 	v3d_mmu_set_page_table(v3d);
+diff --git a/drivers/gpu/drm/v3d/v3d_regs.h b/drivers/gpu/drm/v3d/v3d_regs.h
+index 6da3c69082bd6d5954bf88bd9ff2543a5e4e04c4..c1870265eaeecc188afc4f09cf13a5201d3aa1c6 100644
+--- a/drivers/gpu/drm/v3d/v3d_regs.h
++++ b/drivers/gpu/drm/v3d/v3d_regs.h
+@@ -515,4 +515,30 @@
+ # define V3D_ERR_VPAERGS                               BIT(1)
+ # define V3D_ERR_VPAEABB                               BIT(0)
+ 
++#define V3D_SMS_REE_CS                                 0x00000
++#define V3D_SMS_TEE_CS                                 0x00400
++# define V3D_SMS_INTERRUPT                             BIT(31)
++# define V3D_SMS_POWER_OFF                             BIT(30)
++# define V3D_SMS_CLEAR_POWER_OFF                       BIT(29)
++# define V3D_SMS_LOCK                                  BIT(28)
++# define V3D_SMS_CLEAR_LOCK                            BIT(27)
++# define V3D_SMS_SVP_MODE_EXIT                         BIT(26)
++# define V3D_SMS_CLEAR_SVP_MODE_EXIT                   BIT(25)
++# define V3D_SMS_SVP_MODE_ENTER                        BIT(24)
++# define V3D_SMS_CLEAR_SVP_MODE_ENTER                  BIT(23)
++# define V3D_SMS_THEIR_MODE_EXIT                       BIT(22)
++# define V3D_SMS_THEIR_MODE_ENTER                      BIT(21)
++# define V3D_SMS_OUR_MODE_EXIT                         BIT(20)
++# define V3D_SMS_CLEAR_OUR_MODE_EXIT                   BIT(19)
++# define V3D_SMS_SEQ_PC_MASK                           V3D_MASK(16, 10)
++# define V3D_SMS_SEQ_PC_SHIFT                          10
++# define V3D_SMS_HUBCORE_STATUS_MASK                   V3D_MASK(9, 8)
++# define V3D_SMS_HUBCORE_STATUS_SHIFT                  8
++# define V3D_SMS_NEW_MODE_MASK                         V3D_MASK(7, 6)
++# define V3D_SMS_NEW_MODE_SHIFT                        6
++# define V3D_SMS_OLD_MODE_MASK                         V3D_MASK(5, 4)
++# define V3D_SMS_OLD_MODE_SHIFT                        4
++# define V3D_SMS_STATE_MASK                            V3D_MASK(3, 0)
++# define V3D_SMS_STATE_SHIFT                           0
++
+ #endif /* V3D_REGS_H */
 
 -- 
 Git-154)
