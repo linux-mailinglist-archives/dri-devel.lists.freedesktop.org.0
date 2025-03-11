@@ -2,75 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E2EA5B8FE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 07:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439E1A5B911
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 07:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73F0010E011;
-	Tue, 11 Mar 2025 06:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C1B110E10B;
+	Tue, 11 Mar 2025 06:16:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HbWim7JM";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="o8xoj3wR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACE4710E011
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 06:02:58 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-2240ff0bd6eso10499055ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Mar 2025 23:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741672978; x=1742277778; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=JulbF52Nzw24BwpCt4Ixlc53AouAB03xm9qoZqBqETw=;
- b=HbWim7JMPIt5waVy010Nri7+8aJHPS0sVy0pdYPoIf8Z8CPxFDUjZzITYOzXhLp6jm
- 3Hn2d5hA2oJ5T/Tz5HwVjcnx+MKlSij3WsQivQGuAsvWbiYdTo/0bYJo7HMuMreDHmpd
- gHGHNYpaVpfLsRASMqRGx70TLvugxqVvgMpPA9wG4ujzR1phfngrVyh67lbddeGSA0U2
- PaR6KTogcbqiC2zuGLSI0cOjjgVauHYl/kcX3T/6OP/pN3rBvW3gJGBoE9MgbdbgwKwq
- QdEaXvJsIu0osshILmi4zoMnqL45NBm+DoqJoF3dJcTr7s72f85SKLPP0xgiByay8df3
- Oe3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741672978; x=1742277778;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JulbF52Nzw24BwpCt4Ixlc53AouAB03xm9qoZqBqETw=;
- b=Zmdm8424rq9r9mgt0SvCNsBkxsTyUfpxWWn62kAnyDtxu2tCns2hebaD9o0Tg2faSI
- nBSJjbgep7cXEjV0KypCLAtPUGUg5WTStVDUNlXfKCSFpZv5x/BwAK7a1kfFH6KDGBiL
- 0Ydvxo2aaex/Z0mrHPft253B7B1M0KZcM+MgYNGOIuMi2FcCqhaWb2ozxZwGq1eYIkZn
- cSzv0bZsf9sxrNTc+n86zFjd4CFBk9lci2NONbQ4P8YVHRuUJGR8qKFnoy8NusnqkjYJ
- 3Ho4JaLs1+/gYVbToR2XXGnVjAlej9jiy6bSMYeUywoEOC/LVG3NIxI1pQSymY8JEgYF
- jlDQ==
-X-Gm-Message-State: AOJu0Yzf6Y7uZTeEHcyaKd/qRc2k/JnUdRnRoJAvp3XlpxawKMhXzNzR
- +SvrghBpa/yZZlf0KX1UMvg5eBjkObtLfYFt5/Shu88v3M95t4YGCNEUD5CL
-X-Gm-Gg: ASbGncvwxYxbpxALdnqkfMSL8PwowH2cTOu8qA8ACnvi/kwCPW8XyOVRPEucj4+OY+x
- SPWLK9XnENHSSfwGTT+GpSd36Gs8srfG847PRpWi85zm7UQnAdthLqUSy1wAGtKfmPur/TNSpdM
- DPHqJzGfw3k5VTXw2i8nsg/ljzudrsoqgX/funmmSCEmWv7KNTs7wKpouqJU3Os7daorEWfu0BQ
- ur+CszxCSmHTjaqGxu6UXhEMGiyOrb/7bwl/Grv0uYAXR0Rbl0lZKWxO+eIlodFpeJfOEWjo4+p
- xDkpJrXkaAdvHPRmKNHw8jq0q9k0umdWV0Nn6HckRaTbfgDmh/c1hHR8IUTwrQ==
-X-Google-Smtp-Source: AGHT+IE4gF9L12lkMnnuy83IJhQOl+v0FkPavSfxpwEcmbXeQ7gR2r0o8PwM4B1Z0tBb/fM5R+7Ywg==
-X-Received: by 2002:a17:902:e802:b0:215:8d29:af0b with SMTP id
- d9443c01a7336-225932f6a0cmr12423375ad.14.1741672978048; 
- Mon, 10 Mar 2025 23:02:58 -0700 (PDT)
-Received: from localhost.localdomain ([182.148.13.253])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22410a91b8asm88833735ad.171.2025.03.10.23.02.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Mar 2025 23:02:57 -0700 (PDT)
-From: Qianyi Liu <liuqianyi125@gmail.com>
-To: phasta@mailbox.org, airlied@gmail.com, ckoenig.leichtzumerken@gmail.com,
- dakr@kernel.org, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- matthew.brost@intel.com, mripard@kernel.org, phasta@kernel.org,
- tzimmermann@suse.de
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- liuqianyi125@gmail.com, stable@vger.kernel.org
-Subject: [PATCH V4] drm/sched: Fix fence reference count leak
-Date: Tue, 11 Mar 2025 14:02:51 +0800
-Message-Id: <20250311060251.4041101-1-liuqianyi125@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5AF610E0C5;
+ Tue, 11 Mar 2025 06:16:33 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52AKjhn9006253;
+ Tue, 11 Mar 2025 06:16:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ JHbVnjh4q9xB2LzjdS6wKi6kBiBzwQ1KsR99fp+DG5Q=; b=o8xoj3wRXkNGjHkd
+ m17NVXxJSmYebZ39uddwWFBFVLv7GC8TDVZ4ywuP/QbdtAM/LhcfsnLwgG6o8nz6
+ q4WtbRL9Jk9sPWwaUD+MdjKYce7WWHI0cult3UNBokRIGpZZXXS9WLH66+bvEHfA
+ yzdj7JWelO/OVKAiAoj0DblS6AzrWWKyRmT9D0db5LopDLxn3iVdAzoRi/Pj7fYm
+ kIo0Y1nNj8RJSLXvuHWWL1c6Vi43k/AGtlhSEWw/+XIv3jB5j0po6hRTE/e0Ud5R
+ AiPdvZmH942Qe0YOvsjCPtZoNcUCXoGmfL/of5UOVK7lvPDO3NtUJUZT7e0cADAt
+ GFjHpA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 458f2mf92x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Mar 2025 06:16:21 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52B6GKfs015925
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Mar 2025 06:16:20 GMT
+Received: from [10.216.23.206] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Mar
+ 2025 23:16:13 -0700
+Message-ID: <8d54a612-433e-4860-a843-294fe0d6db4e@quicinc.com>
+Date: Tue, 11 Mar 2025 11:46:11 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/6] Support for Adreno 623 GPU
+To: "Rob Herring (Arm)" <robh@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ "Abhinav Kumar" <quic_abhinavk@quicinc.com>,
+ Jie Zhang <quic_jiezh@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Konrad Dybcio
+ <konradybcio@kernel.org>, <dri-devel@lists.freedesktop.org>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, <freedreno@lists.freedesktop.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "David Airlie" <airlied@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, "Bjorn
+ Andersson" <andersson@kernel.org>, <devicetree@vger.kernel.org>
+References: <20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com>
+ <174075232770.2756163.15128447349702656600.robh@kernel.org>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <174075232770.2756163.15128447349702656600.robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: EFmODcM4L_YS48Fyr14FyKTDBWPkoAE0
+X-Proofpoint-ORIG-GUID: EFmODcM4L_YS48Fyr14FyKTDBWPkoAE0
+X-Authority-Analysis: v=2.4 cv=ab+bnQot c=1 sm=1 tr=0 ts=67cfd535 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=gEfo2CItAAAA:8
+ a=Qi1LLK4JJPgfJq4B5soA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+ a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-11_01,2025-03-07_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=999 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ mlxscore=0 impostorscore=0 phishscore=0 clxscore=1015 spamscore=0
+ adultscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503110040
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,48 +110,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: qianyi liu <liuqianyi125@gmail.com>
+On 2/28/2025 7:53 PM, Rob Herring (Arm) wrote:
+> 
+> On Fri, 28 Feb 2025 01:37:48 +0530, Akhil P Oommen wrote:
+>> This series adds support for A623 GPU found in QCS8300 chipsets. This
+>> GPU IP is very similar to A621 GPU, except for the UBWC configuration
+>> and the GMU firmware.
+>>
+>> Both DT patches are for Bjorn and rest of the patches for Rob Clark to
+>> pick up.
+>>
+>> ---
+>> Changes in v2:
+>> - Fix hwcg config (Konrad)
+>> - Split gpucc reg list patch (Rob)
+>> - Rebase on msm-next tip
+>> - Link to v1: https://lore.kernel.org/r/20250213-a623-gpu-support-v1-0-993c65c39fd2@quicinc.com
+>>
+>> ---
+>> Jie Zhang (6):
+>>       drm/msm/a6xx: Split out gpucc register block
+>>       drm/msm/a6xx: Fix gpucc register block for A621
+>>       drm/msm/a6xx: Add support for Adreno 623
+>>       dt-bindings: display/msm/gmu: Add Adreno 623 GMU
+>>       arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
+>>       arm64: dts: qcom: qcs8300-ride: Enable Adreno 623 GPU
+>>
+>>  .../devicetree/bindings/display/msm/gmu.yaml       |  1 +
+>>  arch/arm64/boot/dts/qcom/qcs8300-ride.dts          |  8 ++
+>>  arch/arm64/boot/dts/qcom/qcs8300.dtsi              | 93 ++++++++++++++++++++++
+>>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c          | 29 +++++++
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  8 ++
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        | 13 ++-
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        | 17 ++++
+>>  drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  5 ++
+>>  8 files changed, 171 insertions(+), 3 deletions(-)
+>> ---
+>> base-commit: 89839e69f6154feecd79bd01171375225b0296e9
+>> change-id: 20250213-a623-gpu-support-f6698603fb85
+>> prerequisite-change-id: 20250131-b4-branch-gfx-smmu-b03261963064:v5
+>> prerequisite-patch-id: f8fd1a2020c940e595e58a8bd3c55d00d3d87271
+>> prerequisite-patch-id: 08a0540f75b0f95fd2018b38c9ed5c6f96433b4d
+>>
+>> Best regards,
+>> --
+>> Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>
+>>
+>>
+> 
+> 
+> My bot found new DTB warnings on the .dts files added or changed in this
+> series.
+> 
+> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+> are fixed by another series. Ultimately, it is up to the platform
+> maintainer whether these warnings are acceptable or not. No need to reply
+> unless the platform maintainer has comments.
+> 
+> If you already ran DT checks and didn't see these error(s), then
+> make sure dt-schema is up to date:
+> 
+>   pip3 install dtschema --upgrade
+> 
+> 
+> New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com:
+> 
+> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:0: 'gcc_gpu_memnoc_gfx_clk' was expected
+> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:1: 'gcc_gpu_snoc_dvm_gfx_clk' was expected
+> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:2: 'gpu_cc_ahb_clk' was expected
+> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:3: 'gpu_cc_hlos1_vote_gpu_smmu_clk' was expected
+> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:4: 'gpu_cc_cx_gmu_clk' was expected
+> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: iommu@3da0000: clock-names:5: 'gpu_cc_hub_cx_int_clk' was expected
+> 	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu.yaml#
+> 
+> 
+> 
+> 
+> 
 
-The last_scheduled fence leaks when an entity is being killed and adding
-the cleanup callback fails.
+These warnings are for the smmu dt change which I marked as a
+dependency. Hopefully, the v6 revision from Pratyush will fix this.
 
-Decrement the reference count of prev when dma_fence_add_callback()
-fails, ensuring proper balance.
+https://lore.kernel.org/linux-arm-kernel/20250310-b4-branch-gfx-smmu-v6-1-15c60b8abd99@quicinc.com/T/
 
-Cc: stable@vger.kernel.org
-Fixes: 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
-Signed-off-by: qianyi liu <liuqianyi125@gmail.com>
----
-v3 -> v4: Improve commit message and add code comments (Philipp)
-v2 -> v3: Rework commit message (Markus)
-v1 -> v2: Added 'Fixes:' tag and clarified commit message (Philipp and Matthew)
----
- drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 69bcf0e99d57..da00572d7d42 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -259,9 +259,16 @@ static void drm_sched_entity_kill(struct drm_sched_entity *entity)
- 		struct drm_sched_fence *s_fence = job->s_fence;
- 
- 		dma_fence_get(&s_fence->finished);
--		if (!prev || dma_fence_add_callback(prev, &job->finish_cb,
--					   drm_sched_entity_kill_jobs_cb))
-+		if (!prev ||
-+		    dma_fence_add_callback(prev, &job->finish_cb,
-+					   drm_sched_entity_kill_jobs_cb)) {
-+			/*
-+			 * Adding callback above failed.
-+			 * dma_fence_put() checks for NULL.
-+			 */
-+			dma_fence_put(prev);
- 			drm_sched_entity_kill_jobs_cb(NULL, &job->finish_cb);
-+		}
- 
- 		prev = &s_fence->finished;
- 	}
--- 
-2.25.1
-
+-Akhil.
