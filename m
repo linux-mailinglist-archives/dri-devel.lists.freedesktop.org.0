@@ -2,116 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987D8A5B5B8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01670A5B60D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:50:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 715DA10E102;
-	Tue, 11 Mar 2025 01:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26CA910E507;
+	Tue, 11 Mar 2025 01:50:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="NJKW6AJB";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="dovkdPDU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBA6810E102
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:20:16 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52ALfsCC014731;
- Tue, 11 Mar 2025 01:19:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=
- corp-2023-11-20; bh=vga/g3evdtXKKUPmygpssFnr7zgCG3URniCGU1ZM1xE=; b=
- NJKW6AJBCUgSa6sEAdBIf4DaXLPeUgHAKf41rBKDFGo5SjRdlrRbpN54Ty58ItXM
- oGD7nb3Q0uwkkdmnp0ycEArwam9sgXQD4YMaPgqr389Bd8TyLohkh6ZIKN4rNlT+
- Bpympy+L/hcrIhDn/kD55cVKOSw8ejQJO36KmiNlf5XfUeQJp6m8Q24vYP8Mf0v1
- oKp3AZovYIdtDEz3r1hCsceNjBHmSOkEWBsfM1GQaIvGVRKwNq/8RKyo4biJAYa9
- 89xwFFS5UP2nMoHsh70+Pxwh1HmLupNHk+onNTJ3wMWxaPvJ89/dKt8k67AV9RhX
- i4SZZq8dgRCgXyDYLj3clg==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 458cacbvd9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Mar 2025 01:19:46 +0000 (GMT)
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 52ANxWwp015363; Tue, 11 Mar 2025 01:19:45 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 458cbencn1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Mar 2025 01:19:45 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 52B1JfrC014960;
- Tue, 11 Mar 2025 01:19:44 GMT
-Received: from ca-mkp2.ca.oracle.com.com
- (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com
- [100.100.251.135])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 458cbencm8-4; Tue, 11 Mar 2025 01:19:44 +0000
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
- Yaron Avizrat <yaron.avizrat@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
- Nicolas Palix <nicolas.palix@imag.fr>,
- James Smart <james.smart@broadcom.com>,
- Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>,
- Jens Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Selvin Xavier <selvin.xavier@broadcom.com>,
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>, cocci@inria.fr,
- linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
- linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- platform-driver-x86@vger.kernel.org,
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org,
- Takashi Iwai <tiwai@suse.de>, Carlos Maiolino <cmaiolino@redhat.com>
-Subject: Re: (subset) [PATCH v3 00/16] Converge on using secs_to_jiffies()
- part two
-Date: Mon, 10 Mar 2025 21:19:03 -0400
-Message-ID: <174165504986.528513.3575505677065987375.b4-ty@oracle.com>
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C4E10E501
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+ :Subject; bh=jXYs1u+pjL0qr1vHTKm0DQerWnFqgvy1EC6wUyQXJiA=; b=dovkdPDUdcFfcNgj
+ HMFaZotBxaTqsUneRHr978c+UFzi4ix5UUa6CM3TCDbuH81bY1G+jrGZGcGFb0fQcNKeI5AjrC/xF
+ nM5dPVofxgGcOJ3mqPJZUpsnff+teQLatal19+d8k2sbNJP8IVkDMjmlYqoACZ0V6ciTk2XADymeC
+ yKaUY0/KkpmDUiDFFcktY4e5952URL5LxT7H5vGPpHTc/89Mo7GnCGULaBGsorMIf3gEt22OyOQJZ
+ 8qMA61y5zV5alFGPG1aPkReIJyGQ4MlfjeK+l4uxq3tSHtFLlk9f8yg5i/KK7xBBX+cNSlT3lwzwv
+ CMA9/hZxhUQ1SIlu6A==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+ by mx.treblig.org with esmtp (Exim 4.96)
+ (envelope-from <linux@treblig.org>) id 1trokq-0042n5-1X;
+ Tue, 11 Mar 2025 01:50:00 +0000
+From: linux@treblig.org
+To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org,
+ lgirdwood@gmail.com, broonie@kernel.org, alexandre.belloni@bootlin.com,
+ danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ linus.walleij@linaro.org, brgl@bgdev.pl, tsbogend@alpha.franken.de
+Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH v2 0/9] Remove pcf50633
+Date: Tue, 11 Mar 2025 01:49:50 +0000
+Message-ID: <20250311014959.743322-1-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-11_01,2025-03-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- adultscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 suspectscore=0 mlxscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502100000
- definitions=main-2503110007
-X-Proofpoint-ORIG-GUID: sv1nwOEp4AdaVFwdqzCD5uTWITacYh8x
-X-Proofpoint-GUID: sv1nwOEp4AdaVFwdqzCD5uTWITacYh8x
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,21 +59,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Feb 2025 20:17:14 +0000, Easwar Hariharan wrote:
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-> This is the second series (part 1*) that converts users of msecs_to_jiffies() that
-> either use the multiply pattern of either of:
-> - msecs_to_jiffies(N*1000) or
-> - msecs_to_jiffies(N*MSEC_PER_SEC)
-> 
-> where N is a constant or an expression, to avoid the multiplication.
-> 
-> [...]
+The pcf50633 was used as part of the OpenMoko devices but
+the support for its main chip was recently removed in:
+commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
 
-Applied to 6.15/scsi-queue, thanks!
+See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
 
-[02/16] scsi: lpfc: convert timeouts to secs_to_jiffies()
-        https://git.kernel.org/mkp/scsi/c/a131f20804d6
+Remove it.
+
+I've split this up based on the subcomponents to make the size
+of each patch sensible.
+
+v2
+  Moved most of the mfd updates out of the subsystem patches.
+  Swung the backlight nearer the end, since we can't avoid fixing
+  up the core.
+
+Dave
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+
+Dr. David Alan Gilbert (9):
+  mfd: pcf50633-adc:  Remove
+  rtc: pcf50633: Remove
+  mfd: pcF50633-gpio: Remove
+  Input: pcf50633-input - Remove
+  regulator: pcf50633-regulator: Remove
+  power: supply: pcf50633: Remove charger
+  backlight: pcf50633-backlight: Remove
+  mfd: pcf50633: Remove irq code
+  mfd: pcf50633: Remove remains
+
+ arch/mips/configs/ip27_defconfig             |   3 -
+ drivers/input/misc/Kconfig                   |   7 -
+ drivers/input/misc/Makefile                  |   1 -
+ drivers/input/misc/pcf50633-input.c          | 113 -----
+ drivers/mfd/Kconfig                          |  24 -
+ drivers/mfd/Makefile                         |   4 -
+ drivers/mfd/pcf50633-adc.c                   | 255 ----------
+ drivers/mfd/pcf50633-core.c                  | 304 ------------
+ drivers/mfd/pcf50633-gpio.c                  |  92 ----
+ drivers/mfd/pcf50633-irq.c                   | 312 -------------
+ drivers/power/supply/Kconfig                 |   6 -
+ drivers/power/supply/Makefile                |   1 -
+ drivers/power/supply/pcf50633-charger.c      | 466 -------------------
+ drivers/regulator/Kconfig                    |   7 -
+ drivers/regulator/Makefile                   |   1 -
+ drivers/regulator/pcf50633-regulator.c       | 124 -----
+ drivers/rtc/Kconfig                          |   7 -
+ drivers/rtc/Makefile                         |   1 -
+ drivers/rtc/rtc-pcf50633.c                   | 284 -----------
+ drivers/video/backlight/Kconfig              |   7 -
+ drivers/video/backlight/Makefile             |   1 -
+ drivers/video/backlight/pcf50633-backlight.c | 154 ------
+ include/linux/mfd/pcf50633/adc.h             |  69 ---
+ include/linux/mfd/pcf50633/backlight.h       |  42 --
+ include/linux/mfd/pcf50633/core.h            | 232 ---------
+ include/linux/mfd/pcf50633/gpio.h            |  48 --
+ include/linux/mfd/pcf50633/mbc.h             | 130 ------
+ include/linux/mfd/pcf50633/pmic.h            |  68 ---
+ 28 files changed, 2763 deletions(-)
+ delete mode 100644 drivers/input/misc/pcf50633-input.c
+ delete mode 100644 drivers/mfd/pcf50633-adc.c
+ delete mode 100644 drivers/mfd/pcf50633-core.c
+ delete mode 100644 drivers/mfd/pcf50633-gpio.c
+ delete mode 100644 drivers/mfd/pcf50633-irq.c
+ delete mode 100644 drivers/power/supply/pcf50633-charger.c
+ delete mode 100644 drivers/regulator/pcf50633-regulator.c
+ delete mode 100644 drivers/rtc/rtc-pcf50633.c
+ delete mode 100644 drivers/video/backlight/pcf50633-backlight.c
+ delete mode 100644 include/linux/mfd/pcf50633/adc.h
+ delete mode 100644 include/linux/mfd/pcf50633/backlight.h
+ delete mode 100644 include/linux/mfd/pcf50633/core.h
+ delete mode 100644 include/linux/mfd/pcf50633/gpio.h
+ delete mode 100644 include/linux/mfd/pcf50633/mbc.h
+ delete mode 100644 include/linux/mfd/pcf50633/pmic.h
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.48.1
+
