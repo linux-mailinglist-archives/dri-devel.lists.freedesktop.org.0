@@ -2,83 +2,193 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477C1A5BAAE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 09:20:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E22A5BAC7
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 09:25:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC81310E528;
-	Tue, 11 Mar 2025 08:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 198CD10E12F;
+	Tue, 11 Mar 2025 08:25:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fPhA+ZZt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mCZhAh22";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E845710E528
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 08:20:21 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-43cf58eea0fso11881015e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:20:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741681220; x=1742286020; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YZPGTU50Ws38AW0HjS/5KDAyC34WXW4R9Ltnw/jI+eM=;
- b=fPhA+ZZtJPXj1bHqmTgCdG5bCIQNwmu0mWSqgH/2qNYpX1zT5qNDYDQCZ+uLUMExQl
- ilP7uYB5BdU36nzEwUnHngok1lYRGZR5V2SHJigopYNDPy1OMNIckQaHBTWho6XDDptY
- pM4xfatKyc1YreRG9iawJCtZLSDb1otf+yPoJ+1/vmhY3hXAfT+tZgTqRmpxHzR85wwf
- nKGV48Eed1mmGYmZJO0qmS2oWR59brN7UUqcF+jMzoTwJG02znKg5wu/C/1rAtACVoNZ
- dcEL7YsoF6avqDcmlxHFybCdjI18YFIRzu/5FzWlPKMfl5CcFvYulAbindtfx1Ab1Rx0
- RIdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741681220; x=1742286020;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YZPGTU50Ws38AW0HjS/5KDAyC34WXW4R9Ltnw/jI+eM=;
- b=IO08Bdga2VopAP47InT8LQCwKdVp6djFagjldjlhmT5Xsublqxyrj/scwM3esG7qE+
- TOi/9ZBMxQP/yoCQUo8/Ep5st07WsAMYgHc+XI8vxnjsN0x9y4QL/HXsCBFphyF+8Uyf
- FgOH4U6ODIEhefcMTYiFku8ARBaoLHpKnWRaz6pdXjmxKvOZ1brnNLf/WZsEOH9hrWsd
- JNz7NYrLCg1AVsLWaG2Nu8H/kJdpkb2ejuJuufbAH7z8wXP4Yrfqp2X6BIp+pUnBO3jK
- UkjouHupTkxjYr8IJpRQgKEa7UBxa5ptYXMerpmXsjhhaXzrQA+3dqdPMhOvito/b5gE
- Vq2Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWWqqKDkjRb2hnhHNeIVFcW+qd/cOCyDGWJ5zeBI7DqHt3SXL5/Rr4uyyHpxFRv+yHavLegHF4YbVE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/I3KOzw3q9y78xeO9OnXVjKScBHQWLXH2W0c3w0hAvOXOQdje
- eKk61hZ8Co3sPGySmWtxB/7wxlGCm9NtOSC8n8YgHSpD+ybV/q556W2HyOdwf68=
-X-Gm-Gg: ASbGnctkGV68JuIUOiMQMewNnocqn2FfLyYA5CR8RTmZFOu3cCiyu4Rg9p947sCB9XP
- qyj8uT33FTbfKQdtRqKAzbwgrxlv4j9BxRxC/b/BzmnxEnbf8sfYMYyMR2FO+CoqU1dmzWlGA2B
- 1TGsuKrFH5sLNejyN6HEPvry9amYETtsoPluLNHwDlM/iVsKXYlxCezXvDNb4g7LuURef2366kv
- khY0FRXc+PB5I7NPfD2ndyvcqW3WJWmMWpU6sMRJoUlIzlcCoMgwIPk/yPga9Jz1f6GvpoWljtG
- 8GNjBNQnZR5TpwhaUjbiNwG00aDStX9EOM4xJh1n8umH7AJ5GJRZ
-X-Google-Smtp-Source: AGHT+IF0T6uCuKPW4cmR1KWx5OtI4Jr0uqhH6tH+7c2IYER/0RP4xNsmD56xV4MalnbRwrGn21IQsg==
-X-Received: by 2002:a05:600c:3542:b0:43c:ec4c:25b4 with SMTP id
- 5b1f17b1804b1-43d01bdbc01mr39267425e9.10.1741681220315; 
- Tue, 11 Mar 2025 01:20:20 -0700 (PDT)
-Received: from linaro.org ([62.231.96.41]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3912bfb7ae4sm16893786f8f.5.2025.03.11.01.20.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Mar 2025 01:20:19 -0700 (PDT)
-Date: Tue, 11 Mar 2025 10:20:18 +0200
-From: Abel Vesa <abel.vesa@linaro.org>
-To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- laurentiu.tudor1@dell.com, johan@kernel.org
-Subject: Re: [PATCH v1 2/2] drm/msm/dp: Introduce link training per-segment
- for LTTPRs
-Message-ID: <Z8/yQsiaPtJHKBUl@linaro.org>
-References: <20250310211039.29843-1-alex.vinarskis@gmail.com>
- <20250310211039.29843-3-alex.vinarskis@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3BE410E12F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 08:25:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741681515; x=1773217515;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=6ySlVE8pZM+yvEj1Uv9CcNl8OeIF6yo4+E6AQBjmuGM=;
+ b=mCZhAh22elezdhPaRD0g74iIq27eyP8EgI+vDkipfn1RcVGrlPgtKVw0
+ QtN79o64T3OYaM4q5ZxOFBEAelmE8JblnYmaKYg+oJ0p72+hj6VR5/Nig
+ G4tuiY0m5ethoPCvdelJ0L+mbBHbXkA6X0BRv2v2we4urpzhs2tCLxTbK
+ 9rs+JP07mn68X1qQXFTWBdeRJx27OIpcDriZvjKkvwPVMImph61G2Mq50
+ BhHNShfKqNAIgQTAlYOeUHO+gD9EX305M2U+bz6jZfIllnpcijkZjnNKT
+ lfnbxG4pEoYqgIIz1nllFXoP7p7XDPZzLo57YwBeU9mM0cV88IefJ+MRR Q==;
+X-CSE-ConnectionGUID: xIsm5M8cRFeZleFoTWYbdg==
+X-CSE-MsgGUID: gnsk4BiXS3KWLYsvXnh3VA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="42423243"
+X-IronPort-AV: E=Sophos;i="6.14,238,1736841600"; d="scan'208";a="42423243"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2025 01:25:15 -0700
+X-CSE-ConnectionGUID: nHTlPvkyQ2qAxAV3KIHEog==
+X-CSE-MsgGUID: P1iKG2JdSmubH+5PFlK2kg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,238,1736841600"; d="scan'208";a="125445510"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 11 Mar 2025 01:25:14 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Tue, 11 Mar 2025 01:25:14 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Tue, 11 Mar 2025 01:25:14 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 11 Mar 2025 01:25:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=njzpPrXW6dm2RDqAjUgZt0aW77BwXH5beGmVw+5hDxCbpfom8SJiaKR1xD25R/zEVyB7Y+tB03Rdh5p9YK5hWI/8C0aUvfh56tQHLSAQe2EqT2w1TXJHQEaNGb0vVNxL3dXOQFgTVhg7s4/LalAG3aIL7SwYuwWokNs3vcb9cL0JzqbixHkmHYAdV4b6cAhWFC0m9/ZMD0WhNba+VXi02GZA+AzOdAiBhjYNN3512GkIKzQVWxDtAY/eCzUkp65M4zGJOzlHQqRMiuPS/o+GtP8GIgM7ruq3Viwau+T2Plnp9RyUOWRdTmybLB2zuUYTsgSw87OgcTOcgtRtSohSSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3woGJbLw5Z3bIWN6gb15cx3yj38pNGkMheXwobrOMUU=;
+ b=aWGv7N8kThrIbyIiKuH3f1/vbscBG5qxEQL3h4ABY0Vo9V0ktaRMAy8m1vnqYv5r1Sk/ZouF2itgFMXYEFLZd/pnh7pWFXDMSiyPS24SDbzso4nOlV+KXXyEqDAIxJM8G6lAKL1cZdjF+6JvvKUFRde84Kg4EaxWjpG7+3SPf8xdWvk/BtsqJrpGu3DITn21318TA1TGAm0Glowss1fY/Ia7rx4ygtBvzoBcrocvJP4VPkK3Pu24sw/Fo1vlfPzBWymZLOI0Rb+7xrMz+y9tTDflFQ3nhVGQeeJLacZBjeAUaM4xnCQcZbg/3G/YGHVAHUXuT2OLlca95xLUlDD3rw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com (2603:10b6:5:388::7) by
+ CH3PR11MB8316.namprd11.prod.outlook.com (2603:10b6:610:17b::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8511.27; Tue, 11 Mar 2025 08:25:12 +0000
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::6c31:ab8a:d70:2555]) by DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::6c31:ab8a:d70:2555%5]) with mapi id 15.20.8511.026; Tue, 11 Mar 2025
+ 08:25:11 +0000
+Message-ID: <be353276-3dce-49c1-8a35-164a33ddb9f9@intel.com>
+Date: Tue, 11 Mar 2025 10:25:05 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] MAINTAINERS: Change habanalabs maintainer
+To: Oded Gabbay <ogabbay@kernel.org>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Ofir Bitton
+ <obitton@habana.ai>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "gregkh@linuxfoundation.org"
+ <gregkh@linuxfoundation.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "sfr@canb.auug.org.au"
+ <sfr@canb.auug.org.au>, "jgg@nvidia.com" <jgg@nvidia.com>,
+ <koby.elbaz@intel.com>, <konstantin.sinyuk@intel.com>
+References: <20240729121718.540489-1-obitton@habana.ai>
+ <20240729121718.540489-2-obitton@habana.ai>
+ <dc139f06-3f5a-4216-93c2-1e8b3b9c27ba@intel.com> <87cyevy9k0.fsf@intel.com>
+ <f543ec81-1092-4700-b695-c4126f122444@intel.com> <Z8q6pCmCnVCCvBJK@GABBAY.>
+Content-Language: en-US
+From: "Avizrat, Yaron" <yaron.avizrat@intel.com>
+In-Reply-To: <Z8q6pCmCnVCCvBJK@GABBAY.>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TL0P290CA0009.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:5::6)
+ To DM4PR11MB5549.namprd11.prod.outlook.com
+ (2603:10b6:5:388::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250310211039.29843-3-alex.vinarskis@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5549:EE_|CH3PR11MB8316:EE_
+X-MS-Office365-Filtering-Correlation-Id: fdd2fdce-af01-487f-5ec0-08dd60763d62
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MjFRYVRkTFZvTlpPZWRyOXprTjRDR3V2bnlxeDdwMUdaWTRaV2dldU40QS9x?=
+ =?utf-8?B?bXRhOGQ1WUYreDNZejZmTWNyaVhFcVpHZU5QemNDT1pyOHJLSU1RcmpCaWVX?=
+ =?utf-8?B?Z0FHQlNJalM3Qm01U3pPMGNDTjhDODZaclFFNE5COE04NStoSlIrY085Ny85?=
+ =?utf-8?B?OVVCa01wSG9MQUF5anp5TmZ2eXFqWGxRV1o1Q0pPTUlvbk9OczBES1ZOOGJU?=
+ =?utf-8?B?MlRYMlRaWEZxWHlDOG5QdXA3azZDdU9TSVlDbmlnUjdmVm5nN3F6L2NnQ3Ur?=
+ =?utf-8?B?allsYjRVYUZocFpmQzgwTUZ6cThhZ0NEbWFvZFFXNHF3VG9UcU5QRTA0bmZp?=
+ =?utf-8?B?bzFhdEJ4YjVxRnk4U25WMFoxbThnd0ZOSmZ6MXNRdXVWS1hiZmFLVFpuVGlL?=
+ =?utf-8?B?TU9mdnlTQkpsUTBaS2pxVW9jbWJ4NG1YdGttamRyd0IvaHN3NG5ZOHh2R2F3?=
+ =?utf-8?B?bVNIZkkrLzZ3SWJUNmdxTXVKSlRXeDFlUkxBOWxhN25JNmFiZC9JQkRKb1pZ?=
+ =?utf-8?B?ekxYbEhadzNvblg4bktFeUdQenBscEVTT1YzbkthSE8ydEVPd0tlNTZnanRY?=
+ =?utf-8?B?VW1rUFExenRDYXBXSCs4TXgvZmY4bVhubS8vSkV2R0RkdnZ1bnJ6SEY0T01U?=
+ =?utf-8?B?cTQ1NW5mclBCOWg1MzdEZDBJdVora3BhUTBZRVVkd2djeVNqbWxZQitaQkdS?=
+ =?utf-8?B?TXY0b3VMYUx5MmRXOXRDQUFCRGhLejgrSWdzUmxXV3hJeCtwT1ZDZjI4STVL?=
+ =?utf-8?B?d1BSeEhwS1Q3M3Z6Ym90TlRUOUNpM0RtRkxvdkpydW9aWkFVYktjclhWWTRs?=
+ =?utf-8?B?Q3VrUk9BL3RLK0dDZzEzNWZoN1JxWFplWEdVRkRqbmNrSm1WdFF6K1NVNEFU?=
+ =?utf-8?B?ME1rKzFzSmJ3SWpTekRwRTlYcE1vc2FQeFNoTW5iVFhnYTFlWG5PNTRXSCs2?=
+ =?utf-8?B?eXQ2Q2prb3JoMnZSQkxramxWUnlwY0U3S28vb3c4UzBaWkR5MkMrcjd4L3RO?=
+ =?utf-8?B?TDQ5aHNIc0lqeUtnRHRYYmNRR0NERGtMeDRsSzdaRjIxMWh4VUpnSWw3emxs?=
+ =?utf-8?B?MVRKQXhsb2lHbDFuUjJ4WFFqNW9QaEpNYlp3QTdGV1h5V0swVUxYWjRQalFT?=
+ =?utf-8?B?U0wyb2FVdHBmUE1NVk53UG9mck9HbnZ4ODRjQzlPZEZPMFFaTGQ2R1NDZXpT?=
+ =?utf-8?B?MHJUMTkwckFKa2tKU3VWRlJRSERFV1V5K0p1SWc2bGpoK05zQzJsell4eGxW?=
+ =?utf-8?B?UXlLWFp4bFhPVjlsV0NhQTdqRTN4d3RIZllrSHIyRk5JaWlvMFg0RVdHWUZD?=
+ =?utf-8?B?aERML1cyRk1PZ2VMQVh4c3FWeXhGTHZKV1dXaytHUG5yVmpWdU9RSzRvMFAw?=
+ =?utf-8?B?ZDN2aVhQaFlib0NOd3pNNWFSTnJYbTRVZXVDckErZ0NkSXN6bWdKYU14WlZM?=
+ =?utf-8?B?T2pnVlF1clZUS1dMZVg2cFhzd0txaW9XSFVIK1lSdE16b0dkbE9FdFlYYzFY?=
+ =?utf-8?B?Y1djZUhhVXJrN3J5RHBVZE5GOThoWXZxckRSdEoyUStVcXYvVlg0c2MyMFlJ?=
+ =?utf-8?B?ZXorQ0gzVlhJYWZPditpM2dRRXRhU1F6aWkzUGxKdytXMWtxektNWlozRnUr?=
+ =?utf-8?B?aWw5dUV1bXpuUmtHc0o4ejlHYUQ0TmZxcUhaWTVpUlNTNGFwekxKK3NSSUc2?=
+ =?utf-8?B?MDhCL2hzbHUyc2RBclI3Z3NYNytSbHNmcS9YZmtkRXVlQkVHQ1RIeUEyZ2cy?=
+ =?utf-8?B?YVExQ1JSa0k0K2YxZktvd1dpR2VJYkwvYzc2S2VzRzBuTEZ5RW41Nk9pRWxw?=
+ =?utf-8?B?YzN4TC9CZTJnREF6TFBxb013Qm5ZS3BqSTdjOU5JY1pmYU0xQ1FsOGpGU1Ro?=
+ =?utf-8?Q?QZnD31qLto6CL?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5549.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z2lvS29xblZOdTB1Mi8wR2ZJYjgxVnEvTjRNTWlEQ3VWOVF5M2toZ25kREQx?=
+ =?utf-8?B?L1QrdVJ5UTl4VFIzTFZrTWJOVVVpRElxcjdKYTJURzRJNWFodHJIL2FEWmVp?=
+ =?utf-8?B?RlQwOG9qaXpYdm1PSnMvdHhZMm5WRGpReEw3bkNzTzY5RyttL0lMZTdGbmc4?=
+ =?utf-8?B?Y21mb24zbmZlSXUwZ2hDQTdIZ0tzc3NOS1hHSkpNWlZTR1IxUE4wVmdTcnJB?=
+ =?utf-8?B?M1BDeHNBNWRSbXpFNm14YWVyekw5aEF2S2Y3S3A1eVpIZHZOS2UxZ2gxcTRZ?=
+ =?utf-8?B?M20vY0I0NTNVWkRRajJ2YmJXNDh6cXF0d1o1MVp1elBhZnR2cmhjcnNqQTBx?=
+ =?utf-8?B?WHB4NHorS01kNEwzWk5hZEtDZWVRS2pxbjZyeEg4Rlpndk9MSVdCbUNnTjhX?=
+ =?utf-8?B?K3dMMXFnSTJ1NXpyeVFMU2krekYvU2hnOXA0SjhnOGF4UVlndHNYZGhBTENw?=
+ =?utf-8?B?S3Yxd2hLV2FqR2ZabkxoQkR1V1duZUJxbFZaYlNidzBZeWIvSHk4U0wvN24y?=
+ =?utf-8?B?UUxhejNtekJBdUw1YklUdExDcGQvZVh2VlNkQjA2bFpnMFRoS0hQYkQybzdV?=
+ =?utf-8?B?SE5ZUTNTNG9lMHZEaXpId3FvV1dYWXllMG1PSEZCYzE2b2FTZ21aVXVqeWtq?=
+ =?utf-8?B?WE1XU3lyRlBNb202WnVmbS81Nm0reHpOcUgxRS8rbGt6UW5XRFFDMWtvSU5Y?=
+ =?utf-8?B?SFVqU0NrR3V5MGlvMTdtVFlHajN2VnpQUTlGc1V5WG1kdWV2K1U0eklyOW1r?=
+ =?utf-8?B?WnFSVkRnc1JITTY3ZTVuSGZCRk9DaHZJN1pIUFp4NXhqeWVlTzh2WCs5V0dM?=
+ =?utf-8?B?dU5wQU8zV0p4S2I1R1kvV1B3dHZOUGNYbHpFN3JpOEFyZThFNjZINnNxV3RZ?=
+ =?utf-8?B?VkVGZTBJeGVvVzFHNUczM29UL1NibG1YZnNIalpCMmJJaXpocEc2Zm9tR0JE?=
+ =?utf-8?B?ZDJFNDNhT2ZkOFpVbCswVlhrbTRlRElJMVY0OVh6NUdkNURFUFF2ZTY2RjhH?=
+ =?utf-8?B?ZGdVcEgxREZEdEtDUDM4RnVzS2Jzd1U1UlpVbURaYTZYK0dNQkhZSGFHMzFt?=
+ =?utf-8?B?c2R0Z1ZOcWVNWjI1Wk9GVkJDT0FDdm04OXlpZHlPZ1grMWp2N3NORXprMkph?=
+ =?utf-8?B?aVROZDVtbDRBa3NRVUR3ZWpWUys3Sk5QaXFnUHZ0SXpsYktlTm9wWEd0bmZQ?=
+ =?utf-8?B?dUQ0RWZhRlJQQndYTEpuTzBKYitYSkQrbWFzUEdvMWRPdlMyemlFT0NVLzl4?=
+ =?utf-8?B?QklBNjFJY2t0OExyRDdRbld2SlhxaUVobVVMdWhnVjBJMXRZZ0ZaTmp5aVBM?=
+ =?utf-8?B?NGYyRk5yRXFKUFRYTE5lTFNoU1VIQzJxaHhKbW9qL1ViNDlLWEQzU0lMdXFp?=
+ =?utf-8?B?YmZoaDFJRWQwTG9PU2xmTDVaZ1I1bWROZVU2VFUxTHlHYUZpYk15c3BIM1JW?=
+ =?utf-8?B?ekpWNkdYSHIycHg0NDlVOENBRnZSK0hlczVFU2dUNFh0SEhHS2l5cmQwY01p?=
+ =?utf-8?B?aldOajVFLzVTU0IraTlweXBrbjBPM0xtdWlOanhZdGlGTWo3dlR6L3pSTWdN?=
+ =?utf-8?B?cURldnMzamFldFF5Zm1nMEUyZ3RHOTFVZkI3a25oMFVuZjhLN0cwMGR4L1Nn?=
+ =?utf-8?B?cVcydXZDZDd3bmwyQVRaNlRNZkoxNW1qMnR0Z0Znd2JuaFRGNVkveDliS0JZ?=
+ =?utf-8?B?RWc1U2hmVXNtR0w0bEo4a3I5WDg3WjVlWmRudlVnVzVEN3pnMFRIN2xTZ1J3?=
+ =?utf-8?B?emk4cG9jSCtuS2kxUTRoNStCUG9GS0pPUlV5Wk1LOFZiZTZWakd1YlJOL1Nk?=
+ =?utf-8?B?ZU5UZFRueWRMNTR4KzNveXZteWJ2cHlXOWpRTXhZTjZIdzd1Y1g4c2Y2akRj?=
+ =?utf-8?B?MG9kVnorR1BGc1dTb2FkeXloWFNsc2JmRFdybkxOb0JGQXVkTnYwN0kzQW9z?=
+ =?utf-8?B?WjZwMnV2VGg5OTBCY0Y1N1haN0JWSDlxR2xwQzI2WFEzRThRUDlodExsRUZO?=
+ =?utf-8?B?S1lFdDFJUkJ3ZzN1QmcyeDdIbmdKRXRzOGgrZkJPNGsrQzk1RkdER1NUNVFm?=
+ =?utf-8?B?YVhTRWowQ0V5Rkk5RU1KUjMyb08wckJaeWg0L2NiOFM2UzJIU3p0R0xNdml3?=
+ =?utf-8?B?WS81R3VyQmFncy9rYVRtSVBkaXZDZ0xaZmltUVRqUnpWZWZQWmNHQWw3Z0Mv?=
+ =?utf-8?B?Mnc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fdd2fdce-af01-487f-5ec0-08dd60763d62
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5549.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2025 08:25:11.7010 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cG7LpQSVH4tBo2cu7oh2lr1tqfSJNw3rFVjwphyvxbfBGPBObYVsbIL4SNo06ZYmzlv8dvXXjk7v3AxOefCDQQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8316
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,405 +204,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25-03-10 22:05:52, Aleksandrs Vinarskis wrote:
-> DisplayPort requires per-segment link training when LTTPR are switched
-> to non-transparent mode, starting with LTTPR closest to the source.
-> Only when each segment is trained individually, source can link train
-> to sink.
-> 
-> Implement per-segment link traning when LTTPR(s) are detected, to
-> support external docking stations. On higher level, changes are:
-> 
-> *  Pass phy being trained down to all required helpers
-> *  Run CR, EQ link training per phy
-> *  Set voltage swing, pre-emphasis levels per phy
-> 
-> This ensures successful link training both when connected directly to
-> the monitor (single LTTPR onboard most X1E laptops) and via the docking
-> station (at least two LTTPRs). This does not address/resolve underlying
-> mainlink initialization issues.
-> 
-> Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 
-Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
+On 07/03/2025 11:21, Oded Gabbay wrote:
+> On Thu, Mar 06, 2025 at 03:51:24PM +0200, Avizrat, Yaron wrote:
+>> On 05/03/2025 13:57, Jani Nikula wrote:
+>>> On Wed, 05 Mar 2025, "Avizrat, Yaron" <yaron.avizrat@intel.com> wrote:
+>>>> On 29/07/2024 15:17, Ofir Bitton wrote:
+>>>>> I will be leaving Intel soon, Yaron Avizrat will take the role
+>>>>> of habanalabs driver maintainer.
+>>>>>
+>>>>> Signed-off-by: Ofir Bitton <obitton@habana.ai>
+>>>>> ---
+>>>>>  MAINTAINERS | 2 +-
+>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>>> index ed2d2dbcec81..a4b36590061e 100644
+>>>>> --- a/MAINTAINERS
+>>>>> +++ b/MAINTAINERS
+>>>>> @@ -9599,7 +9599,7 @@ S:	Maintained
+>>>>>  F:	block/partitions/efi.*
+>>>>>
+>>>>>  HABANALABS PCI DRIVER
+>>>>> -M:	Ofir Bitton <obitton@habana.ai>
+>>>>> +M:	Yaron Avizrat <yaron.avizrat@intel.com>
+>>>>>  L:	dri-devel@lists.freedesktop.org
+>>>>>  S:	Supported
+>>>>>  C:	irc://irc.oftc.net/dri-devel
+>>>> Acked-by: Yaron Avizrat <yaron.avizrat@intel.com>
+>>>>
+>>>> Apologies for the long silence — it’s been a challenging period with
+>>>> the Habanalabs-Intel merger, but we're back and ready to continue
+>>>> contributing.
+>>>>
+>>>> We'll be moving forward with our roadmap — upstreaming the latest
+>>>> HabanaLabs driver, including recent changes and full support for the
+>>>> entire GaudiX series.
+>>>>
+>>>> To support this effort, Koby Elbaz and Konstantin Sinyuk will join me
+>>>> as co-maintainers on a regular basis.
+>>> Should they be added as maintainers in the MAINTAINERS entry too?
+>>>
+>>> Are you going to pick this up and apply to the Habanalabs repo, and send
+>>> a pull request with it? Or how do you propose to proceed?
+>>>
+>>>
+>>> BR,
+>>> Jani.
+>>>
+>> Yes, in a later patch, they would be added as maintainers in the MAINTAINERS entry too.
+>> Regarding your second question, we should start with merging Ofir's initial patch.
+>> Any additional/upcoming changes will be initially merged into the official HabanaLabs repo as you mentioned above.
+>>
+>> Regards,
+>> Yaron
+>>
+> Acked-by: Oded Gabbay <ogabbay@kernel.org>
 
-> ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 136 +++++++++++++++++++---------
->  drivers/gpu/drm/msm/dp/dp_ctrl.h    |   2 +-
->  drivers/gpu/drm/msm/dp/dp_display.c |   4 +-
->  3 files changed, 98 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index d8633a596f8d..20f07ef46ef3 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -79,6 +79,8 @@ struct msm_dp_ctrl_private {
->  	struct msm_dp_link *link;
->  	struct msm_dp_catalog *catalog;
->  
-> +	int *lttpr_count;
-> +
->  	struct phy *phy;
->  
->  	unsigned int num_core_clks;
-> @@ -1034,7 +1036,8 @@ static int msm_dp_ctrl_set_vx_px(struct msm_dp_ctrl_private *ctrl,
->  	return 0;
->  }
->  
-> -static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
-> +static int msm_dp_ctrl_update_phy_vx_px(struct msm_dp_ctrl_private *ctrl,
-> +					enum drm_dp_phy dp_phy)
->  {
->  	struct msm_dp_link *link = ctrl->link;
->  	int ret = 0, lane, lane_cnt;
-> @@ -1075,8 +1078,12 @@ static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
->  
->  	drm_dbg_dp(ctrl->drm_dev, "sink: p|v=0x%x\n",
->  			voltage_swing_level | pre_emphasis_level);
-> -	ret = drm_dp_dpcd_write(ctrl->aux, DP_TRAINING_LANE0_SET,
-> -					buf, lane_cnt);
-> +
-> +	int reg = dp_phy == DP_PHY_DPRX ?
-> +			    DP_TRAINING_LANE0_SET :
-> +			    DP_TRAINING_LANE0_SET_PHY_REPEATER(dp_phy);
-> +
-> +	ret = drm_dp_dpcd_write(ctrl->aux, reg, buf, lane_cnt);
->  	if (ret == lane_cnt)
->  		ret = 0;
->  
-> @@ -1084,10 +1091,13 @@ static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
->  }
->  
->  static bool msm_dp_ctrl_train_pattern_set(struct msm_dp_ctrl_private *ctrl,
-> -		u8 pattern)
-> +		u8 pattern, enum drm_dp_phy dp_phy)
->  {
->  	u8 buf;
->  	int ret = 0;
-> +	int reg = dp_phy == DP_PHY_DPRX ?
-> +			    DP_TRAINING_PATTERN_SET :
-> +			    DP_TRAINING_PATTERN_SET_PHY_REPEATER(dp_phy);
->  
->  	drm_dbg_dp(ctrl->drm_dev, "sink: pattern=%x\n", pattern);
->  
-> @@ -1096,7 +1106,7 @@ static bool msm_dp_ctrl_train_pattern_set(struct msm_dp_ctrl_private *ctrl,
->  	if (pattern && pattern != DP_TRAINING_PATTERN_4)
->  		buf |= DP_LINK_SCRAMBLING_DISABLE;
->  
-> -	ret = drm_dp_dpcd_writeb(ctrl->aux, DP_TRAINING_PATTERN_SET, buf);
-> +	ret = drm_dp_dpcd_writeb(ctrl->aux, reg, buf);
->  	return ret == 1;
->  }
->  
-> @@ -1115,12 +1125,16 @@ static int msm_dp_ctrl_read_link_status(struct msm_dp_ctrl_private *ctrl,
->  }
->  
->  static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
-> -			int *training_step)
-> +			int *training_step, enum drm_dp_phy dp_phy)
->  {
-> +	int delay_us;
->  	int tries, old_v_level, ret = 0;
->  	u8 link_status[DP_LINK_STATUS_SIZE];
->  	int const maximum_retries = 4;
->  
-> +	delay_us = drm_dp_read_clock_recovery_delay(ctrl->aux,
-> +		ctrl->panel->dpcd, dp_phy, false);
-> +
->  	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
->  
->  	*training_step = DP_TRAINING_1;
-> @@ -1129,18 +1143,19 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
->  	if (ret)
->  		return ret;
->  	msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_1 |
-> -		DP_LINK_SCRAMBLING_DISABLE);
-> +		DP_LINK_SCRAMBLING_DISABLE, dp_phy);
->  
-> -	ret = msm_dp_ctrl_update_vx_px(ctrl);
-> +	msm_dp_link_reset_phy_params_vx_px(ctrl->link);
-> +	ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
->  	if (ret)
->  		return ret;
->  
->  	tries = 0;
->  	old_v_level = ctrl->link->phy_params.v_level;
->  	for (tries = 0; tries < maximum_retries; tries++) {
-> -		drm_dp_link_train_clock_recovery_delay(ctrl->aux, ctrl->panel->dpcd);
-> +		fsleep(delay_us);
->  
-> -		ret = msm_dp_ctrl_read_link_status(ctrl, link_status);
-> +		ret = drm_dp_dpcd_read_phy_link_status(ctrl->aux, dp_phy, link_status);
->  		if (ret)
->  			return ret;
->  
-> @@ -1161,7 +1176,7 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
->  		}
->  
->  		msm_dp_link_adjust_levels(ctrl->link, link_status);
-> -		ret = msm_dp_ctrl_update_vx_px(ctrl);
-> +		ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
->  		if (ret)
->  			return ret;
->  	}
-> @@ -1213,21 +1228,31 @@ static int msm_dp_ctrl_link_lane_down_shift(struct msm_dp_ctrl_private *ctrl)
->  	return 0;
->  }
->  
-> -static void msm_dp_ctrl_clear_training_pattern(struct msm_dp_ctrl_private *ctrl)
-> +static void msm_dp_ctrl_clear_training_pattern(struct msm_dp_ctrl_private *ctrl,
-> +					       enum drm_dp_phy dp_phy)
->  {
-> -	msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_DISABLE);
-> -	drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
-> +	int delay_us;
-> +
-> +	msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_DISABLE, dp_phy);
-> +
-> +	delay_us = drm_dp_read_channel_eq_delay(ctrl->aux,
-> +		ctrl->panel->dpcd, dp_phy, false);
-> +	fsleep(delay_us);
->  }
->  
->  static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
-> -			int *training_step)
-> +			int *training_step, enum drm_dp_phy dp_phy)
->  {
-> +	int delay_us;
->  	int tries = 0, ret = 0;
->  	u8 pattern;
->  	u32 state_ctrl_bit;
->  	int const maximum_retries = 5;
->  	u8 link_status[DP_LINK_STATUS_SIZE];
->  
-> +	delay_us = drm_dp_read_channel_eq_delay(ctrl->aux,
-> +		ctrl->panel->dpcd, dp_phy, false);
-> +
->  	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
->  
->  	*training_step = DP_TRAINING_2;
-> @@ -1247,12 +1272,12 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
->  	if (ret)
->  		return ret;
->  
-> -	msm_dp_ctrl_train_pattern_set(ctrl, pattern);
-> +	msm_dp_ctrl_train_pattern_set(ctrl, pattern, dp_phy);
->  
->  	for (tries = 0; tries <= maximum_retries; tries++) {
-> -		drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
-> +		fsleep(delay_us);
->  
-> -		ret = msm_dp_ctrl_read_link_status(ctrl, link_status);
-> +		ret = drm_dp_dpcd_read_phy_link_status(ctrl->aux, dp_phy, link_status);
->  		if (ret)
->  			return ret;
->  
-> @@ -1262,7 +1287,7 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
->  		}
->  
->  		msm_dp_link_adjust_levels(ctrl->link, link_status);
-> -		ret = msm_dp_ctrl_update_vx_px(ctrl);
-> +		ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
->  		if (ret)
->  			return ret;
->  
-> @@ -1271,10 +1296,32 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
->  	return -ETIMEDOUT;
->  }
->  
-> +static int msm_dp_ctrl_link_train_1_2(struct msm_dp_ctrl_private *ctrl,
-> +				      int *training_step, enum drm_dp_phy dp_phy)
-> +{
-> +	int ret;
-> +
-> +	ret = msm_dp_ctrl_link_train_1(ctrl, training_step, dp_phy);
-> +	if (ret) {
-> +		DRM_ERROR("link training #1 on phy %d failed. ret=%d\n", dp_phy, ret);
-> +		return ret;
-> +	}
-> +	drm_dbg_dp(ctrl->drm_dev, "link training #1 on phy %d successful\n", dp_phy);
-> +
-> +	ret = msm_dp_ctrl_link_train_2(ctrl, training_step, dp_phy);
-> +	if (ret) {
-> +		DRM_ERROR("link training #2 on phy %d failed. ret=%d\n", dp_phy, ret);
-> +		return ret;
-> +	}
-> +	drm_dbg_dp(ctrl->drm_dev, "link training #2 on phy %d successful\n", dp_phy);
-> +
-> +	return 0;
-> +}
-> +
->  static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
->  			int *training_step)
->  {
-> -	int ret = 0;
-> +	int ret = 0, i;
->  	const u8 *dpcd = ctrl->panel->dpcd;
->  	u8 encoding[] = { 0, DP_SET_ANSI_8B10B };
->  	u8 assr;
-> @@ -1286,8 +1333,6 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
->  	link_info.rate = ctrl->link->link_params.rate;
->  	link_info.capabilities = DP_LINK_CAP_ENHANCED_FRAMING;
->  
-> -	msm_dp_link_reset_phy_params_vx_px(ctrl->link);
-> -
->  	msm_dp_aux_link_configure(ctrl->aux, &link_info);
->  
->  	if (drm_dp_max_downspread(dpcd))
-> @@ -1302,23 +1347,29 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
->  				&assr, 1);
->  	}
->  
-> -	ret = msm_dp_ctrl_link_train_1(ctrl, training_step);
-> +	for (i = *ctrl->lttpr_count - 1; i >= 0; i--) {
-> +		enum drm_dp_phy dp_phy = DP_PHY_LTTPR(i);
-> +
-> +		ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, dp_phy);
-> +		msm_dp_ctrl_clear_training_pattern(ctrl, dp_phy);
-> +
-> +		if (ret)
-> +			break;
-> +	}
-> +
->  	if (ret) {
-> -		DRM_ERROR("link training #1 failed. ret=%d\n", ret);
-> +		DRM_ERROR("link training of LTTPR(s) failed. ret=%d\n", ret);
->  		goto end;
->  	}
->  
-> -	/* print success info as this is a result of user initiated action */
-> -	drm_dbg_dp(ctrl->drm_dev, "link training #1 successful\n");
-> -
-> -	ret = msm_dp_ctrl_link_train_2(ctrl, training_step);
-> +	ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, DP_PHY_DPRX);
->  	if (ret) {
-> -		DRM_ERROR("link training #2 failed. ret=%d\n", ret);
-> +		DRM_ERROR("link training on sink failed. ret=%d\n", ret);
->  		goto end;
->  	}
->  
->  	/* print success info as this is a result of user initiated action */
-> -	drm_dbg_dp(ctrl->drm_dev, "link training #2 successful\n");
-> +	drm_dbg_dp(ctrl->drm_dev, "link training on sink successful\n");
->  
->  end:
->  	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-> @@ -1636,7 +1687,7 @@ static int msm_dp_ctrl_link_maintenance(struct msm_dp_ctrl_private *ctrl)
->  	if (ret)
->  		goto end;
->  
-> -	msm_dp_ctrl_clear_training_pattern(ctrl);
-> +	msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
->  
->  	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
->  
-> @@ -1660,7 +1711,7 @@ static bool msm_dp_ctrl_send_phy_test_pattern(struct msm_dp_ctrl_private *ctrl)
->  		return false;
->  	}
->  	msm_dp_catalog_ctrl_send_phy_pattern(ctrl->catalog, pattern_requested);
-> -	msm_dp_ctrl_update_vx_px(ctrl);
-> +	msm_dp_ctrl_update_phy_vx_px(ctrl, DP_PHY_DPRX);
->  	msm_dp_link_send_test_response(ctrl->link);
->  
->  	pattern_sent = msm_dp_catalog_ctrl_read_phy_pattern(ctrl->catalog);
-> @@ -1902,7 +1953,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
->  			}
->  
->  			/* stop link training before start re training  */
-> -			msm_dp_ctrl_clear_training_pattern(ctrl);
-> +			msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
->  		}
->  
->  		rc = msm_dp_ctrl_reinitialize_mainlink(ctrl);
-> @@ -1926,7 +1977,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
->  		 * link training failed
->  		 * end txing train pattern here
->  		 */
-> -		msm_dp_ctrl_clear_training_pattern(ctrl);
-> +		msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
->  
->  		msm_dp_ctrl_deinitialize_mainlink(ctrl);
->  		rc = -ECONNRESET;
-> @@ -1997,7 +2048,7 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train
->  		msm_dp_ctrl_link_retrain(ctrl);
->  
->  	/* stop txing train pattern to end link training */
-> -	msm_dp_ctrl_clear_training_pattern(ctrl);
-> +	msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
->  
->  	/*
->  	 * Set up transfer unit values and set controller state to send
-> @@ -2207,7 +2258,7 @@ static int msm_dp_ctrl_clk_init(struct msm_dp_ctrl *msm_dp_ctrl)
->  
->  struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link,
->  			struct msm_dp_panel *panel,	struct drm_dp_aux *aux,
-> -			struct msm_dp_catalog *catalog,
-> +			struct msm_dp_catalog *catalog, int *lttpr_count,
->  			struct phy *phy)
->  {
->  	struct msm_dp_ctrl_private *ctrl;
-> @@ -2242,12 +2293,13 @@ struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link
->  	init_completion(&ctrl->video_comp);
->  
->  	/* in parameters */
-> -	ctrl->panel    = panel;
-> -	ctrl->aux      = aux;
-> -	ctrl->link     = link;
-> -	ctrl->catalog  = catalog;
-> -	ctrl->dev      = dev;
-> -	ctrl->phy      = phy;
-> +	ctrl->panel       = panel;
-> +	ctrl->aux         = aux;
-> +	ctrl->link        = link;
-> +	ctrl->catalog     = catalog;
-> +	ctrl->dev         = dev;
-> +	ctrl->phy         = phy;
-> +	ctrl->lttpr_count = lttpr_count;
->  
->  	ret = msm_dp_ctrl_clk_init(&ctrl->msm_dp_ctrl);
->  	if (ret) {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> index b7abfedbf574..3fb45b138b31 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> @@ -27,7 +27,7 @@ irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl);
->  void msm_dp_ctrl_handle_sink_request(struct msm_dp_ctrl *msm_dp_ctrl);
->  struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link,
->  			struct msm_dp_panel *panel,	struct drm_dp_aux *aux,
-> -			struct msm_dp_catalog *catalog,
-> +			struct msm_dp_catalog *catalog, int *lttpr_count,
->  			struct phy *phy);
->  
->  void msm_dp_ctrl_reset_irq_ctrl(struct msm_dp_ctrl *msm_dp_ctrl, bool enable);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 2edbc6adfde5..5fcc5951797b 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -108,6 +108,7 @@ struct msm_dp_display_private {
->  	struct msm_dp_event event_list[DP_EVENT_Q_MAX];
->  	spinlock_t event_lock;
->  
-> +	int lttpr_count;
->  	u8 lttpr_common_caps[DP_LTTPR_COMMON_CAP_SIZE];
->  
->  	bool wide_bus_supported;
-> @@ -397,7 +398,7 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
->  	if (rc)
->  		goto end;
->  
-> -	msm_dp_display_lttpr_init(dp, dpcd);
-> +	dp->lttpr_count = msm_dp_display_lttpr_init(dp, dpcd);
->  
->  	rc = msm_dp_panel_read_sink_caps(dp->panel, dp->lttpr_common_caps, connector);
->  	if (rc)
-> @@ -798,6 +799,7 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
->  
->  	dp->ctrl = msm_dp_ctrl_get(dev, dp->link, dp->panel, dp->aux,
->  			       dp->catalog,
-> +			       &dp->lttpr_count,
->  			       phy);
->  	if (IS_ERR(dp->ctrl)) {
->  		rc = PTR_ERR(dp->ctrl);
-> -- 
-> 2.45.2
-> 
+Reminder: can someone pick it up, please?
+
