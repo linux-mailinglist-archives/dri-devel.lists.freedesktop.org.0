@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D83A5CE79
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 20:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D8BA5CE7D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 20:02:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA8C910E66B;
-	Tue, 11 Mar 2025 19:02:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76AC810E675;
+	Tue, 11 Mar 2025 19:02:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EcHuhj2e";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AziB3rCx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC4F10E66F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 19:02:26 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-43ce5cd91e5so3684435e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 12:02:26 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 852D510E671
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 19:02:28 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-38da6a1a20bso335743f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 12:02:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741719745; x=1742324545; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741719747; x=1742324547; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=HMwQylNN1keD1LXzQIzfgxocXgJrdLeSwuocytue+I0=;
- b=EcHuhj2eTbVMq5bgDDe7Utwdn38o/+4rd63ZuD219/anGYRC9RF2Ak8woMUFUxFkTu
- 1plhazKTnRQBM1Bn5cJK62jKqjpamCgqkDAz3kKSGIJrI0byo1Ruk9n12TLiwt3Z7uvg
- QDjcH3lIX0FuwRoCB9ax1afC7vgWxA+U5T6krPRrWgbbR1hCU+q9RzeZdRfdC+3+2fQK
- quK0Ttx0YkLEJsyBe0bG/OItWQlZ0TlpXBaueAjYQks4AKBVG/6zxLcVBBQtOcg+6h+C
- EVI/cmbZ3cMNmr0fcmyi2oXaVo8T3uPnn1nKLzW2Ks2VAXywHLYodfy+zJHly7GpI+v/
- 7hmg==
+ :reply-to; bh=FX08Ji8HI3+KbtFLo37LoGENRgVWTP1rrMFXfNP52RU=;
+ b=AziB3rCxj8FoK1GioYIV+E5Tkrl86OuKa5WMo6cSv3+/7In9CKdD983Nb0veyJtDO8
+ iaUK81UXmkYYBCYkXz4ckWf8M88fXYPGxRgjWoLH6qs80Q1DuiZktfl/pSAAyS5H5Izv
+ JjGn7QNZ92ZHKI77TyeQjOMCNe66Dtsxo2KIhuOJ91PE7E+7DXjTwVui7sou/C5W9EfM
+ /bHfdvtPxKurJLcWG5OdVBR5Ayv1olpFZsOrijqt2U/qml+ilz26bOws4xJ+oll/RhJ2
+ 4CWPWCrgewWHW+A16jrp9FlTBYMWWZlH5NTg/dHUCy7wTJK8P6Mfu9LnirI4cke9+/2S
+ vO1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741719745; x=1742324545;
+ d=1e100.net; s=20230601; t=1741719747; x=1742324547;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HMwQylNN1keD1LXzQIzfgxocXgJrdLeSwuocytue+I0=;
- b=WKenJw9fNAS9Th1y/0ot7UFV4bd3CDClyzXa9p7VQi+eciHr4CMG2KSbHhgtyaKRyY
- c1i56dKZUCiSP/DiJNaiPqPjiGWM7iNacrtM0BWbkTsoaX7Mo4W+B+x3QebkNMYEBu2M
- CQf+630BuE9OJ/+rO4m9/M7NSxdx1E9aGQAlSMtL2f0DcovtBG7o//meCNnzd3UWNe8U
- WmEy64DPxRzpGy1g1XAqhlnqpwPtBj2xrD+5VlcEbJ8p+rV4THqnDbmOr+LdgD82ygv9
- 75MSH5BS7rw67vZ1yoWB7+vE3qVPv3woBKzpmrJdfghRy25mPrWE4xcya09I2c3T4cks
- zg0w==
+ bh=FX08Ji8HI3+KbtFLo37LoGENRgVWTP1rrMFXfNP52RU=;
+ b=K3bQ/TwiNw2gT5NbFNiwoUYFA0s7+r9YgSMDpvhL8QKH99Lnule3tpUM+o4w/CvGMS
+ r5pr1aGT2ALZvxebfEn74DgJF0e83cNaCrhvEioP6JtrCj6zGngrqmh2zhzdGbIsf3gQ
+ O5Fw9tb+hTQzAxOICI2KYbG9/0XPTmA2P2B35e1ATsS5FSURHKQEwAlzNfzL2oc4sHix
+ 9nlgNTDtafDhefIx3Sew6ABFgWFWUjZhUMfMJn1vFjDtKaj7dvzdHeK4EfwzbRFrnb+g
+ T0WoMY5/5vqh1ldbjLTtnvtTo6ZOg4o/40ynMJiYGBncM+fqC76U4ZdSfQePddwV5IIw
+ 90hA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUnmUqAPj6JJnjnwZT+BEFpqQrt4o+BFirE8R5IjHx4372+w9dHv2tSLrcA7h/gAPYVr4t1Mits840=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyRCIX5ImdUUeV8PMVZjaoOcX7cMbUXkcGzeU4Dh8wKZzMyPz8v
- QyGyaESfh6lIkgd0UYmNrQfIwKuYm6nbx70/Gw+wq9OWPVxP4O8eQmedi4U7GOg=
-X-Gm-Gg: ASbGncsbZKGJnPD/v3Oa0if/63pbFIboKka1hJYnx2jV1SZo+KBopkL5RFAYqQstIwV
- GjnfMSUGI4n1Dc9dy0wjNfsnkMP33xVGr55eKZo0RwxesWx+LHJU8/mfjQhdsUyUClU6cLMSxEd
- 7y0xPGuTqcHJn0dz+otGV49itXc+BG4jOqe5fdlF9+PmFvqnHcd6DUa/LTEQjqzgoc/ULT14P54
- Necg/8Xpj1WYCgD/EBh3NQ5Op4/wa2XIctI398PKRRx9kNMQmEm1EkLKexKwNaFzJGpmbpMuU1T
- rZd1Z6JgfwherTkgeqW5kjuB1VRGP/5YDct5Fcq0Gkj5SCHNYzW52PTzuuZ4PMB7YIuz4w==
-X-Google-Smtp-Source: AGHT+IFtSACGiTtY/7OwcqqLsxGKFPwpnfo/L0NhtuuAhW3jAAZXWSdbOgGKmBqu/tmKYdpHknvnvw==
-X-Received: by 2002:a05:600c:310d:b0:43b:c825:6cde with SMTP id
- 5b1f17b1804b1-43d01c126a3mr23602955e9.3.1741719744864; 
- Tue, 11 Mar 2025 12:02:24 -0700 (PDT)
+ AJvYcCUtBv4Vyf2jHm3oQSPeDc851tUgGz+04T17+s8I7oPYFn5a6wnjWWTcEMBgBwmDFUBwBPM2HS3aU/0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzM2nYAT9Kv5cv2Cs18xzOMZDsgaOqeQbAKd4AK5Ojdprs18FdY
+ a6CEv9XesqDY8OdlpBbj6SwQZwZSk+wN1I8RMIEyiQCwgEOmNQPE2HqsQor7WZs=
+X-Gm-Gg: ASbGncviUmrAn5ZouDfPgUGH/RMPmJoncc/jd47Yq/1MUjU7l0D6WP9zytVmy7wgpUS
+ gFdNMbweXzW4I3asJIC2CqOPMWGl/xvFtlZvS41naZL4qPPD+aHhDOxfUp0DOINUxFCNSr79/io
+ hkuBURGWRjvVmN9i5/xv9TvCgzMXkbtaSPlZmormGKWp2szCE5cWhjRqjEpybTNE4E7ZK0LlwAL
+ hyHZ6HyoaV65nwtmmJfpWWwa8CuitXJA1j7P36q9OFWyKLS0HFNwlHJz4xLeQDPAjTIIOyYW+v5
+ 14I0f9Gvq0juIxKF37OUpIg9lAqewzmz92ZKNL7z3wcP15Cj8cP6iSjjqSU=
+X-Google-Smtp-Source: AGHT+IE2n0MfJYoUab/sCdFT6aJjrI3Uvq0aDb8rnqdRJQHOYDQUaJhfbkTymsdz/VIXrXgdwkFI5A==
+X-Received: by 2002:a05:600c:1992:b0:439:9b3f:2dd9 with SMTP id
+ 5b1f17b1804b1-43d01c305cfmr25909345e9.7.1741719746990; 
+ Tue, 11 Mar 2025 12:02:26 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.198.86]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43ce70d13b4sm127681155e9.38.2025.03.11.12.02.22
+ 5b1f17b1804b1-43ce70d13b4sm127681155e9.38.2025.03.11.12.02.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Mar 2025 12:02:24 -0700 (PDT)
+ Tue, 11 Mar 2025 12:02:26 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Tue, 11 Mar 2025 20:01:53 +0100
-Subject: [PATCH v4 03/19] dt-bindings: display/msm: dp-controller: Add SM8750
+Date: Tue, 11 Mar 2025 20:01:54 +0100
+Subject: [PATCH v4 04/19] dt-bindings: display/msm: qcom,sm8650-dpu: Add SM8750
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250311-b4-sm8750-display-v4-3-da6b3e959c76@linaro.org>
+Message-Id: <20250311-b4-sm8750-display-v4-4-da6b3e959c76@linaro.org>
 References: <20250311-b4-sm8750-display-v4-0-da6b3e959c76@linaro.org>
 In-Reply-To: <20250311-b4-sm8750-display-v4-0-da6b3e959c76@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
@@ -84,23 +84,23 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  Srini Kandagatla <srinivas.kandagatla@linaro.org>, 
- Rob Clark <robdclark@chromium.org>, Dmitry Baryshkov <lumag@kernel.org>
+ Rob Clark <robdclark@chromium.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1260;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=943;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=XAiYLxRtRR03zRuiEeNU+04LRvnGN6GksYFFL4NnpKE=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBn0IinIpSionyZrcP3NS3QKIozmXPcBscI9+NJw
- OCnZxrY/2mJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ9CIpwAKCRDBN2bmhouD
- 1zjOD/oCeI4/7ol8PdiEwfTURIFeuy/KseUOvLUXQiak1Ni/wWLqmwl/UqelmsPvCW7I/e2eJOw
- eVXCVBGoTIoV9Y2aZ6nZu7Sk3NOGFE5ciNIpCN+UAXcuqPGOfnp8cL4TT/48jOCO2CZtnTxHn2R
- kbBGXwEQgXJnxZsAEBrxfW7FNZ51Y75YF8tu7h7RVBsfRH/1OZzCfVniEQBnBvewzAKXl0GeNt6
- GSkvFP3cRdachphRHjR4lag9J6+GnYb2ghG0Nq776jyyhmHpDyEU3xwp4dulaJcY5h2VEjtIlw5
- YeiUwBwXDMQ1AvbAcMnX6eiDCwyV5PQU9x/SspyuFnTpINTt02JWx8erDADvqqjAMmHmWCYJNL+
- IGkkmll4LRhqCgcEmMh9naZI8ZapNeqdSbVaG9uWP1Irp7aMCcKE9aanjVKH5n/jOyFM6aAM7id
- TF3Xl21SO1ogBrVsr2mjUsFpaLRCEocpcn71fComh2rKyM5vwN/E/H+6BynQOJLihoutS4L5HJ/
- V+/KKGku/DuSWFjnHidhaHySAmc0A/dyG6xZdxAd0sWHCusQBz2uGhJ6S6ZmMCGa6DyVVMilnm8
- UXITSz0BFiN2G65O29JXpJBBh/PcHH+VaEXc3jhYzQi2Hg7Dl6CPeb2k0sdnQJYTnBNEPqLP093
- 4PoFant8VFgVKLg==
+ bh=vM/Rhh3m/LDu1luem1JmpPvieCwNMZVHKpBxAm5wGsQ=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBn0IiocmK7G66FTqUKGat1Pcxqrslw0gSJB99AE
+ o+CCOeaee+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ9CIqAAKCRDBN2bmhouD
+ 12fHD/4rXszGtQ6+BkcqOFgb6A3GryEXr2IaxtUfqKrWkKyjYlq6wvQ9318mCdgZrm/DHBVqdsv
+ G4JWx+ued+V+4MctrGrkeeITliPnnPVgI4BkWhbQa6gRo5dFGsVVbKZwcltpk7gwrB58tm/JYzx
+ L+ED/1OP+uGKSfM+rJfQgnnppTAn7JBefwB9maqx0dyXfT0eW0AIhEVZ0omaz+/fVZFKGaM8Ylw
+ JXK6UPuVxjF8LVr2wxXYt4efqgWX2vvhllxTuq6xZZdTtYjDPUVQDHYWoxkv1raZyDuBstdG30k
+ oJelobea91F8Vo6W2q+PvKNCXz1msLvAMT8nkfPXxUEtORLp+2Mc+dZm1HB0K85ZDrH6pcJydLs
+ 99GEHJBeOOACp0gJU1GUfobaMGDmEpSMdGZMhsaH/njw11yvmOgh6rT451cXUhm3+MomAwV7FBw
+ 8anWN/cwJB3/XDiohxwhhtC6JsK+ep7FuwAT4XRx6uFBTvtiKvZglVEvhu5lKIXZuK/k674D62e
+ kwxHPFO51rJrApDv3bh2nT8GUwYnFcyrT9nsMi0svF0N6ufaEvducVNJIk03srOfdmeSoAKtiYQ
+ FhbFbElPjWiu+9yp59id6Zxx9lbs6tAkto7btoGFtAzKPiHqgbRd7zeI3+vkadvc+rhln9vBFnj
+ NUBdxpqFxUTm+iw==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,37 +118,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DisplayPort controller for Qualcomm SM8750 SoC which so far looks
-fully compatible with earlier SM8650 variant - both are of version
-v1.5.1 of the IP block.  Datasheet also mentions that both support 4x
-MST for DPTX0 and 2x MST for DPTX1.
+Add DPU for Qualcomm SM8750 SoC which has several differences, new
+blocks and changes in registers, making it incompatible with SM8650.
 
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
+ Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes in v3:
-1. Extend commit msg
----
- Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index e00b88332f2fed2fc33f6d72c5cc3d827cd7594e..a4bf9e07a28355c0391d1757fab16ebe5ff14a44 100644
---- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -37,6 +37,10 @@ properties:
-               - qcom,sm8450-dp
-               - qcom,sm8550-dp
-           - const: qcom,sm8350-dp
-+      - items:
-+          - enum:
-+              - qcom,sm8750-dp
-+          - const: qcom,sm8650-dp
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
+index 01cf79bd754b491349c52c5aef49ba06e835d0bf..0a46120dd8680371ed031f7773859716f49c3aa1 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
+@@ -16,6 +16,7 @@ properties:
+     enum:
+       - qcom,sa8775p-dpu
+       - qcom,sm8650-dpu
++      - qcom,sm8750-dpu
+       - qcom,x1e80100-dpu
  
    reg:
-     minItems: 4
 
 -- 
 2.43.0
