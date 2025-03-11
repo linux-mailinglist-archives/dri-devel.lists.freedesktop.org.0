@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEECA5B610
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC12A5B603
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:50:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56D3710E509;
-	Tue, 11 Mar 2025 01:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC3110E0E2;
+	Tue, 11 Mar 2025 01:50:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="YkF+WBhv";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="J07cUTyb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBB7310E507
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:50:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B93C810E4FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=YAkUjNLNCjv+yvfpQR/TU0k2FV8ltLB9WNQ+5r3dGxA=; b=YkF+WBhvCnLVTSc9
- 4UlcQhexNbskMtjM8gdR3gMGsiX9dHP6bjTKrJH5LaA3J94dNWUCuvbTpIGxbpy6F+WnEvc3yV+Vr
- QbcpZeQmcU5CHIZas39MuHpUKWgMUPm8ftX0xNnk0M9kEub2QEBizoIsYaK4fgN8lczTAfpw47zsX
- l6RRIZxyfXiG1AJwF5NkfbBfSM9fnOPucBie8mwxZje/O3mygt348VGnjtMrDIMggnn+Z5s3qi0UT
- DhaKYs/U2qCcj/wWDYbP3dtTsUHqZGSQQW7dfjEsTASt91rBV2Xxhq08mSs/LRaPxXp0uz5Okffw0
- r8VnA8mKUFVrOsUNMQ==;
+ :Subject; bh=qNX/32/y/eek03+mO8Mcyd55EvyQ+nmtHunaLNtjVjw=; b=J07cUTybI7MRGCFw
+ bs4k4SdQy0zNVMGTEG2dQ6FK0WVsgKJ2bjqsZdYTBdxdl3HFHUsDEWSsi1zbnJU/kIMap1MRMK9/B
+ cIqHCX12yn1vzsaK2sWjAbhef4TekzCoHZpZE4SAwDTQDrCuWy/95U2WWUV9h24JGMR1xfMH0ySBk
+ yEORO4BH1+6um2IIwoKPQUpNLdyfYKhvHg7klP/FblBkwfEFOtlRfJnfkZkRxtcIyX1IbmJ8q0cYx
+ RoyvbpoLQs1S8HpV4TOlRjKzhzVuPht4mvgG573Iz/ovzNFDVxa65ihULACG086lEsz0juakGceq+
+ DbKk9xc934zowK9fSw==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1troks-0042n5-0d;
+ (envelope-from <linux@treblig.org>) id 1troks-0042n5-2c;
  Tue, 11 Mar 2025 01:50:02 +0000
 From: linux@treblig.org
 To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org,
@@ -38,9 +38,9 @@ Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH v2 3/9] mfd: pcF50633-gpio: Remove
-Date: Tue, 11 Mar 2025 01:49:53 +0000
-Message-ID: <20250311014959.743322-4-linux@treblig.org>
+Subject: [PATCH v2 4/9] Input: pcf50633-input - Remove
+Date: Tue, 11 Mar 2025 01:49:54 +0000
+Message-ID: <20250311014959.743322-5-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250311014959.743322-1-linux@treblig.org>
 References: <20250311014959.743322-1-linux@treblig.org>
@@ -73,65 +73,50 @@ Remove it.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- arch/mips/configs/ip27_defconfig  |  1 -
- drivers/mfd/Kconfig               |  7 ---
- drivers/mfd/Makefile              |  1 -
- drivers/mfd/pcf50633-gpio.c       | 92 -------------------------------
- include/linux/mfd/pcf50633/gpio.h | 48 ----------------
- 5 files changed, 149 deletions(-)
- delete mode 100644 drivers/mfd/pcf50633-gpio.c
- delete mode 100644 include/linux/mfd/pcf50633/gpio.h
+ drivers/input/misc/Kconfig          |   7 --
+ drivers/input/misc/Makefile         |   1 -
+ drivers/input/misc/pcf50633-input.c | 113 ----------------------------
+ 3 files changed, 121 deletions(-)
+ delete mode 100644 drivers/input/misc/pcf50633-input.c
 
-diff --git a/arch/mips/configs/ip27_defconfig b/arch/mips/configs/ip27_defconfig
-index 66085bb71bc4..0a9ec09aff65 100644
---- a/arch/mips/configs/ip27_defconfig
-+++ b/arch/mips/configs/ip27_defconfig
-@@ -256,7 +256,6 @@ CONFIG_I2C_STUB=m
- # CONFIG_HWMON is not set
- CONFIG_THERMAL=y
- CONFIG_MFD_PCF50633=m
--CONFIG_PCF50633_GPIO=m
- # CONFIG_VGA_ARB is not set
- CONFIG_LEDS_LP3944=m
- CONFIG_LEDS_PCA955X=m
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 051272126fe1..766453ef6c2d 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -1129,13 +1129,6 @@ config MFD_PCF50633
- 	  facilities, and registers devices for the various functions
- 	  so that function-specific drivers can bind to them.
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index 13d135257e06..62819144bd8c 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -584,13 +584,6 @@ config INPUT_PALMAS_PWRBUTTON
+ 	  To compile this driver as a module, choose M here. The module will
+ 	  be called palmas_pwrbutton.
  
--config PCF50633_GPIO
--	tristate "NXP PCF50633 GPIO"
+-config INPUT_PCF50633_PMU
+-	tristate "PCF50633 PMU events"
 -	depends on MFD_PCF50633
 -	help
--	  Say yes here if you want to include support GPIO for pins on
--	  the PCF50633 chip.
+-	 Say Y to include support for delivering  PMU events via  input
+-	 layer on NXP PCF50633.
 -
- config MFD_PM8XXX
- 	tristate "Qualcomm PM8xxx PMIC chips driver"
- 	depends on ARM || HEXAGON || COMPILE_TEST
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index e085da3f13c3..d769e40251c8 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -185,7 +185,6 @@ obj-$(CONFIG_MFD_MT6397)	+= mt6397.o
- 
- pcf50633-objs			:= pcf50633-core.o pcf50633-irq.o
- obj-$(CONFIG_MFD_PCF50633)	+= pcf50633.o
--obj-$(CONFIG_PCF50633_GPIO)	+= pcf50633-gpio.o
- obj-$(CONFIG_RZ_MTU3)		+= rz-mtu3.o
- obj-$(CONFIG_ABX500_CORE)	+= abx500-core.o
- obj-$(CONFIG_MFD_DB8500_PRCMU)	+= db8500-prcmu.o
-diff --git a/drivers/mfd/pcf50633-gpio.c b/drivers/mfd/pcf50633-gpio.c
+ config INPUT_PCF8574
+ 	tristate "PCF8574 Keypad input device"
+ 	depends on I2C
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index 6d91804d0a6f..d468c8140b93 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -59,7 +59,6 @@ obj-$(CONFIG_INPUT_MC13783_PWRBUTTON)	+= mc13783-pwrbutton.o
+ obj-$(CONFIG_INPUT_MMA8450)		+= mma8450.o
+ obj-$(CONFIG_INPUT_PALMAS_PWRBUTTON)	+= palmas-pwrbutton.o
+ obj-$(CONFIG_INPUT_PCAP)		+= pcap_keys.o
+-obj-$(CONFIG_INPUT_PCF50633_PMU)	+= pcf50633-input.o
+ obj-$(CONFIG_INPUT_PCF8574)		+= pcf8574_keypad.o
+ obj-$(CONFIG_INPUT_PCSPKR)		+= pcspkr.o
+ obj-$(CONFIG_INPUT_PM8941_PWRKEY)	+= pm8941-pwrkey.o
+diff --git a/drivers/input/misc/pcf50633-input.c b/drivers/input/misc/pcf50633-input.c
 deleted file mode 100644
-index 3e368219479a..000000000000
---- a/drivers/mfd/pcf50633-gpio.c
+index 6d046e236ba6..000000000000
+--- a/drivers/input/misc/pcf50633-input.c
 +++ /dev/null
-@@ -1,92 +0,0 @@
+@@ -1,113 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0-or-later
--/* NXP PCF50633 GPIO Driver
+-/* NXP PCF50633 Input Driver
 - *
 - * (C) 2006-2008 by Openmoko, Inc.
 - * Author: Balaji Rao <balajirrao@openmoko.org>
@@ -143,139 +128,106 @@ index 3e368219479a..000000000000
 -
 -#include <linux/kernel.h>
 -#include <linux/module.h>
+-#include <linux/device.h>
+-#include <linux/platform_device.h>
+-#include <linux/input.h>
+-#include <linux/slab.h>
 -
 -#include <linux/mfd/pcf50633/core.h>
--#include <linux/mfd/pcf50633/gpio.h>
--#include <linux/mfd/pcf50633/pmic.h>
 -
--static const u8 pcf50633_regulator_registers[PCF50633_NUM_REGULATORS] = {
--	[PCF50633_REGULATOR_AUTO]	= PCF50633_REG_AUTOOUT,
--	[PCF50633_REGULATOR_DOWN1]	= PCF50633_REG_DOWN1OUT,
--	[PCF50633_REGULATOR_DOWN2]	= PCF50633_REG_DOWN2OUT,
--	[PCF50633_REGULATOR_MEMLDO]	= PCF50633_REG_MEMLDOOUT,
--	[PCF50633_REGULATOR_LDO1]	= PCF50633_REG_LDO1OUT,
--	[PCF50633_REGULATOR_LDO2]	= PCF50633_REG_LDO2OUT,
--	[PCF50633_REGULATOR_LDO3]	= PCF50633_REG_LDO3OUT,
--	[PCF50633_REGULATOR_LDO4]	= PCF50633_REG_LDO4OUT,
--	[PCF50633_REGULATOR_LDO5]	= PCF50633_REG_LDO5OUT,
--	[PCF50633_REGULATOR_LDO6]	= PCF50633_REG_LDO6OUT,
--	[PCF50633_REGULATOR_HCLDO]	= PCF50633_REG_HCLDOOUT,
+-#define PCF50633_OOCSTAT_ONKEY	0x01
+-#define PCF50633_REG_OOCSTAT	0x12
+-#define PCF50633_REG_OOCMODE	0x10
+-
+-struct pcf50633_input {
+-	struct pcf50633 *pcf;
+-	struct input_dev *input_dev;
 -};
 -
--int pcf50633_gpio_set(struct pcf50633 *pcf, int gpio, u8 val)
+-static void
+-pcf50633_input_irq(int irq, void *data)
 -{
--	u8 reg;
+-	struct pcf50633_input *input;
+-	int onkey_released;
 -
--	reg = gpio - PCF50633_GPIO1 + PCF50633_REG_GPIO1CFG;
+-	input = data;
 -
--	return pcf50633_reg_set_bit_mask(pcf, reg, 0x07, val);
+-	/* We report only one event depending on the key press status */
+-	onkey_released = pcf50633_reg_read(input->pcf, PCF50633_REG_OOCSTAT)
+-						& PCF50633_OOCSTAT_ONKEY;
+-
+-	if (irq == PCF50633_IRQ_ONKEYF && !onkey_released)
+-		input_report_key(input->input_dev, KEY_POWER, 1);
+-	else if (irq == PCF50633_IRQ_ONKEYR && onkey_released)
+-		input_report_key(input->input_dev, KEY_POWER, 0);
+-
+-	input_sync(input->input_dev);
 -}
--EXPORT_SYMBOL_GPL(pcf50633_gpio_set);
 -
--u8 pcf50633_gpio_get(struct pcf50633 *pcf, int gpio)
+-static int pcf50633_input_probe(struct platform_device *pdev)
 -{
--	u8 reg, val;
+-	struct pcf50633_input *input;
+-	struct input_dev *input_dev;
+-	int ret;
 -
--	reg = gpio - PCF50633_GPIO1 + PCF50633_REG_GPIO1CFG;
--	val = pcf50633_reg_read(pcf, reg) & 0x07;
 -
--	return val;
+-	input = kzalloc(sizeof(*input), GFP_KERNEL);
+-	if (!input)
+-		return -ENOMEM;
+-
+-	input_dev = input_allocate_device();
+-	if (!input_dev) {
+-		kfree(input);
+-		return -ENOMEM;
+-	}
+-
+-	platform_set_drvdata(pdev, input);
+-	input->pcf = dev_to_pcf50633(pdev->dev.parent);
+-	input->input_dev = input_dev;
+-
+-	input_dev->name = "PCF50633 PMU events";
+-	input_dev->id.bustype = BUS_I2C;
+-	input_dev->evbit[0] = BIT(EV_KEY) | BIT(EV_PWR);
+-	set_bit(KEY_POWER, input_dev->keybit);
+-
+-	ret = input_register_device(input_dev);
+-	if (ret) {
+-		input_free_device(input_dev);
+-		kfree(input);
+-		return ret;
+-	}
+-	pcf50633_register_irq(input->pcf, PCF50633_IRQ_ONKEYR,
+-				pcf50633_input_irq, input);
+-	pcf50633_register_irq(input->pcf, PCF50633_IRQ_ONKEYF,
+-				pcf50633_input_irq, input);
+-
+-	return 0;
 -}
--EXPORT_SYMBOL_GPL(pcf50633_gpio_get);
 -
--int pcf50633_gpio_invert_set(struct pcf50633 *pcf, int gpio, int invert)
+-static void pcf50633_input_remove(struct platform_device *pdev)
 -{
--	u8 val, reg;
+-	struct pcf50633_input *input  = platform_get_drvdata(pdev);
 -
--	reg = gpio - PCF50633_GPIO1 + PCF50633_REG_GPIO1CFG;
--	val = !!invert << 3;
+-	pcf50633_free_irq(input->pcf, PCF50633_IRQ_ONKEYR);
+-	pcf50633_free_irq(input->pcf, PCF50633_IRQ_ONKEYF);
 -
--	return pcf50633_reg_set_bit_mask(pcf, reg, 1 << 3, val);
+-	input_unregister_device(input->input_dev);
+-	kfree(input);
 -}
--EXPORT_SYMBOL_GPL(pcf50633_gpio_invert_set);
 -
--int pcf50633_gpio_invert_get(struct pcf50633 *pcf, int gpio)
--{
--	u8 reg, val;
+-static struct platform_driver pcf50633_input_driver = {
+-	.driver = {
+-		.name = "pcf50633-input",
+-	},
+-	.probe = pcf50633_input_probe,
+-	.remove = pcf50633_input_remove,
+-};
+-module_platform_driver(pcf50633_input_driver);
 -
--	reg = gpio - PCF50633_GPIO1 + PCF50633_REG_GPIO1CFG;
--	val = pcf50633_reg_read(pcf, reg);
--
--	return val & (1 << 3);
--}
--EXPORT_SYMBOL_GPL(pcf50633_gpio_invert_get);
--
--int pcf50633_gpio_power_supply_set(struct pcf50633 *pcf,
--					int gpio, int regulator, int on)
--{
--	u8 reg, val, mask;
--
--	/* the *ENA register is always one after the *OUT register */
--	reg = pcf50633_regulator_registers[regulator] + 1;
--
--	val = !!on << (gpio - PCF50633_GPIO1);
--	mask = 1 << (gpio - PCF50633_GPIO1);
--
--	return pcf50633_reg_set_bit_mask(pcf, reg, mask, val);
--}
--EXPORT_SYMBOL_GPL(pcf50633_gpio_power_supply_set);
--
--MODULE_DESCRIPTION("NXP PCF50633 GPIO Driver");
+-MODULE_AUTHOR("Balaji Rao <balajirrao@openmoko.org>");
+-MODULE_DESCRIPTION("PCF50633 input driver");
 -MODULE_LICENSE("GPL");
-diff --git a/include/linux/mfd/pcf50633/gpio.h b/include/linux/mfd/pcf50633/gpio.h
-deleted file mode 100644
-index f589e35795f1..000000000000
---- a/include/linux/mfd/pcf50633/gpio.h
-+++ /dev/null
-@@ -1,48 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/*
-- * gpio.h -- GPIO driver for NXP PCF50633
-- *
-- * (C) 2006-2008 by Openmoko, Inc.
-- * All rights reserved.
-- */
--
--#ifndef __LINUX_MFD_PCF50633_GPIO_H
--#define __LINUX_MFD_PCF50633_GPIO_H
--
--#include <linux/mfd/pcf50633/core.h>
--
--#define PCF50633_GPIO1		1
--#define PCF50633_GPIO2		2
--#define PCF50633_GPIO3		3
--#define PCF50633_GPO		4
--
--#define PCF50633_REG_GPIO1CFG	0x14
--#define PCF50633_REG_GPIO2CFG	0x15
--#define PCF50633_REG_GPIO3CFG	0x16
--#define PCF50633_REG_GPOCFG 	0x17
--
--#define PCF50633_GPOCFG_GPOSEL_MASK	0x07
--
--enum pcf50633_reg_gpocfg {
--	PCF50633_GPOCFG_GPOSEL_0	= 0x00,
--	PCF50633_GPOCFG_GPOSEL_LED_NFET	= 0x01,
--	PCF50633_GPOCFG_GPOSEL_SYSxOK	= 0x02,
--	PCF50633_GPOCFG_GPOSEL_CLK32K	= 0x03,
--	PCF50633_GPOCFG_GPOSEL_ADAPUSB	= 0x04,
--	PCF50633_GPOCFG_GPOSEL_USBxOK	= 0x05,
--	PCF50633_GPOCFG_GPOSEL_ACTPH4	= 0x06,
--	PCF50633_GPOCFG_GPOSEL_1	= 0x07,
--	PCF50633_GPOCFG_GPOSEL_INVERSE	= 0x08,
--};
--
--int pcf50633_gpio_set(struct pcf50633 *pcf, int gpio, u8 val);
--u8 pcf50633_gpio_get(struct pcf50633 *pcf, int gpio);
--
--int pcf50633_gpio_invert_set(struct pcf50633 *, int gpio, int invert);
--int pcf50633_gpio_invert_get(struct pcf50633 *pcf, int gpio);
--
--int pcf50633_gpio_power_supply_set(struct pcf50633 *,
--					int gpio, int regulator, int on);
--#endif /* __LINUX_MFD_PCF50633_GPIO_H */
--
--
+-MODULE_ALIAS("platform:pcf50633-input");
 -- 
 2.48.1
 
