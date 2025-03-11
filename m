@@ -2,85 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22B5A5C1E7
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 14:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D51A5C1EA
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 14:07:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C33B710E5AC;
-	Tue, 11 Mar 2025 13:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA2B10E5AD;
+	Tue, 11 Mar 2025 13:07:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IXWcbgEG";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="H/2eme/5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8E1F10E5AC
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 13:07:31 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63EA410E5AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 13:07:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741698450;
+ s=mimecast20190719; t=1741698460;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yGAb8tLBGAAD3ldkqr4DdMOGR6awHtYPthniynSmrVw=;
- b=IXWcbgEGKVLXKkyR8A3cCd6CnkDJhhkvjEYf4kEawPXk+V6EwtSY11Hk7+mKatKT0OOhKP
- FynpyG4Wod4V/ml6j8uKuZM7GvBo9g6luQAbvrqTMzy2t7UIGDQy5bEqOSG2TBfmG4W3nn
- RzcHsbCNj/+S2g/abixRLUWxbXC/1l0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PRaJcl4pv1GBKSj9TjKmhUJgkF/kvR8KRC0NkEExJis=;
+ b=H/2eme/5LJl/2AU/oOH5PmBaSs+g/2o8YB25rmZLTm9TAxqId1k2JmagGrbX5cF5WvD8pU
+ shbtJjjenC6soJBHACUGk1luH3NRhzQIE5o87pYVnUogqLFRDUSB95NjMLMZWVRgjE97HU
+ fmtDKhSGj7Xg/aXCjtJnyGmKVY396bY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-136-537KNFcMNySDnY_1d3-KpA-1; Tue, 11 Mar 2025 09:07:29 -0400
-X-MC-Unique: 537KNFcMNySDnY_1d3-KpA-1
-X-Mimecast-MFC-AGG-ID: 537KNFcMNySDnY_1d3-KpA_1741698448
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3912fe32a30so2171130f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 06:07:29 -0700 (PDT)
+ us-mta-59-gdTcoSGLMbKq2cinZktSIQ-1; Tue, 11 Mar 2025 09:07:39 -0400
+X-MC-Unique: gdTcoSGLMbKq2cinZktSIQ-1
+X-Mimecast-MFC-AGG-ID: gdTcoSGLMbKq2cinZktSIQ_1741698458
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-43941ad86d4so26583235e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 06:07:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741698448; x=1742303248;
+ d=1e100.net; s=20230601; t=1741698458; x=1742303258;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yGAb8tLBGAAD3ldkqr4DdMOGR6awHtYPthniynSmrVw=;
- b=PX3qu1+/XA3P9QATCjBigNIhyCkPSoBdns+D+sNah2/gZEtGZXzGI46tGX+89nXLah
- W/6SmpNfZWVjLa4FP30K+XGt05PO9SdT9sJ48FQUBf/RsyU2WjbnukmRWAV5CU/rf0M2
- EsVvwstH6LNyfz8fIFc4RoqFX/kiyJTvn0rS8L/WS1TNWtTe5ehvZuWt/WLg3Sa+k37k
- KOVd/kwXQL346+XtKoP4bzJGveTJ++63W0f9kdnG4cnz/rnPzgNbYXd/rrhlZMiW2ljn
- iVMecVAfN8Wt/smeF0BDuVhPL6ZR2YqNqW5bQm3oE80uNUmIK3jadDGlCCuMB7Dnk1/6
- Antw==
-X-Gm-Message-State: AOJu0YxEgSreThnKFuoK3DJ/ca/mOz5HKsg3CTVi9Y/dzOmet3qCD/gQ
- kjc+YpUD+p4itpjB+xdiLs7zhaYzzFMLenqUGfyTB7RZw80WC8bU4OVKRqqohLpA753fjsmxwqY
- hwEHO5zmuzNePvIsgX1LqVNVrGzziF3Oi04Kfri/zN7O7CzHP+k+IRHurN2OFtBL6FA==
-X-Gm-Gg: ASbGncsswF7CtMwS+x34F76wWhCIpu7LIgdlaSanFmXkspnn0x0eBDh4HI9sfzEwVgj
- /9ayDxqP5daXxycpmSozy44XhShDs9e+L8R/+ONmZLvZlcyk9JgTFQEl8b9ZIbXs2E64Ebqu7I3
- NGaKv7RZtR1kr4atMarZn6uZOZs6kr1ppH9BjkKnrOmJ56RHBv254U2FLVjJmCJ0JjCWNdPnNGR
- 1WU/zMgIfincH9lbD/a3dCqsflF3oLYf8ZoPoYVW0LkK7VLODn/CyV3WxXHmiT07UQ8oqjaOY+Z
- SL1jmNB/VzR62k/p2lOafKyYbMwiJ7P6R65MmbKD6ZdpELywLzDeCFI=
-X-Received: by 2002:a05:6000:1faa:b0:391:22a9:4408 with SMTP id
- ffacd0b85a97d-392641bd0f0mr5560839f8f.16.1741698447977; 
- Tue, 11 Mar 2025 06:07:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGnmum8LCi6Okg352ru4Tpe4ynPfNeuJesK9CiOBv4Lg14nVVJB9j3H6C/yJq5SVvn7LGlo5w==
-X-Received: by 2002:a05:6000:1faa:b0:391:22a9:4408 with SMTP id
- ffacd0b85a97d-392641bd0f0mr5560783f8f.16.1741698447535; 
- Tue, 11 Mar 2025 06:07:27 -0700 (PDT)
+ bh=PRaJcl4pv1GBKSj9TjKmhUJgkF/kvR8KRC0NkEExJis=;
+ b=Ak6ygv9G+DIOu+SHnpYEI4Kq96D1rzpxNkBCeqI+RA4R2jnkIjdIxXaDn6sE6q1q+U
+ bRjWir6ylZxszXVSmRHJex4nOj6Az29shlfX2QzASMRZ9SnNS4BcpvJ6Znije/yul99z
+ 4Kqaliw1nc7PtDEI9C5jF29zRUJGzo39sJtMKX0L/r/9OWuSIrvSP5kqxwDSsaVM6FBP
+ OoikPXFyKWBTi+OZYv/JEq4lI3CCKMzA/pA1SlmmKMxd90anwURnz/VaIya8sp1zlq+v
+ o3+HTA3h3ikHDRoONYG+NKcgxcFmll4DpCXva57ZVJGOoicpER3n2SXc0KW0JyXLZF2a
+ KQhw==
+X-Gm-Message-State: AOJu0Yw0FCIyNv3NPPusFZH1Qp/ryLGvRKAYeIRlEPAtIe3K3BPOrgWe
+ hKAWJ+jnBwcqSDDyqYEvjSQsiFO6pEaipud/e462eo1JXbRSInMzZk3KXWLgwmzjxtJHlpc2q6D
+ YPUmVTo0/eIA3W+QhWt1bPqCMvoI3B7FyTZrFZCkbZSjqeGqr9tValQm7lykhczyDdw==
+X-Gm-Gg: ASbGncugIpC2C3BM1DVeD23ec1AJv3n6oYnR6p5gg4exzgUDbe8mpcoRYeD3L+eMCLl
+ xRbtVaMTcjnllb7FZZf5mMuiDuGsDtxTiaBia/YCBlsFpuArdi6aeHt9iwc2+aX7e7A91z+f6r9
+ bP56ZnxsS8mohgfs1LpcdRBP3C/FRvjF4OXtro9HkpQROU4Zcnbfq2nd6caUwSriXZS2YCydDT/
+ 85j/EEIHlt4aGpSxYKxlCZzwxn0oQevVtNycA8zBvWFQHJ3pbwYWbhwwRefZTYtjNh+n1MILiV5
+ D+W0BOpoax+NcNAsuKWMgf7w3wmJLmLfna81Xwhfg8PonprUcKZoLk4=
+X-Received: by 2002:a05:600c:3510:b0:43b:d1ad:9241 with SMTP id
+ 5b1f17b1804b1-43c601d889dmr117399315e9.9.1741698457978; 
+ Tue, 11 Mar 2025 06:07:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEI6BhUtCxhEWpw8Y08IorlgXPkTO2OP0A5H0/lns0sXG47nqRADZSYLOzYc5pWP505cPhHDw==
+X-Received: by 2002:a05:600c:3510:b0:43b:d1ad:9241 with SMTP id
+ 5b1f17b1804b1-43c601d889dmr117398775e9.9.1741698457507; 
+ Tue, 11 Mar 2025 06:07:37 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3912c0194f2sm18384176f8f.54.2025.03.11.06.07.26
+ 5b1f17b1804b1-43cfd5082ccsm53050635e9.32.2025.03.11.06.07.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Mar 2025 06:07:26 -0700 (PDT)
-Message-ID: <78498943-cb4a-4423-a2fd-15f98d2d5eb8@redhat.com>
-Date: Tue, 11 Mar 2025 14:07:26 +0100
+ Tue, 11 Mar 2025 06:07:37 -0700 (PDT)
+Message-ID: <1326612b-c288-4934-b9c6-4a860e2d0b88@redhat.com>
+Date: Tue, 11 Mar 2025 14:07:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/7] drm/ast: Add VGACR99 register constants
+Subject: Re: [PATCH v2 4/7] drm/ast: cursor: Add helpers for computing
+ location in video memory
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
 Cc: dri-devel@lists.freedesktop.org
 References: <20250305163207.267650-1-tzimmermann@suse.de>
- <20250305163207.267650-4-tzimmermann@suse.de>
+ <20250305163207.267650-5-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250305163207.267650-4-tzimmermann@suse.de>
+In-Reply-To: <20250305163207.267650-5-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hTKeenfhmKf_VeF-5jF4i37eb8C9EQEHGecxA5xLFLU_1741698448
+X-Mimecast-MFC-PROC-ID: yhXokYLxTYjcj4SP2fR_kLLWcOW8yt8phYcS-gbTTZs_1741698458
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -101,9 +102,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 05/03/2025 17:30, Thomas Zimmermann wrote:
-> Add register constants for VGACR99 and use them when detecting the
-> size of the VGA memory. Aligns the code with the programming manual.
-> Also replace literal size values with Linux' SZ_ size constants.
+> The ast drivers stores the cursor image at the end of the video memory.
+> Add helpers to calculate the offset and size.
 > 
 Thanks, it looks good to me.
 
@@ -111,57 +111,66 @@ Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/ast/ast_mm.c  | 13 ++++++-------
->   drivers/gpu/drm/ast/ast_reg.h |  1 +
->   2 files changed, 7 insertions(+), 7 deletions(-)
+>   drivers/gpu/drm/ast/ast_cursor.c | 21 +++++++++++++++++++--
+>   drivers/gpu/drm/ast/ast_drv.h    |  1 +
+>   2 files changed, 20 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
-> index 8d8aac8c0814..3d03ef556d0a 100644
-> --- a/drivers/gpu/drm/ast/ast_mm.c
-> +++ b/drivers/gpu/drm/ast/ast_mm.c
-> @@ -35,9 +35,8 @@
+> diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
+> index 139ab00dee8f..05e297f30b4e 100644
+> --- a/drivers/gpu/drm/ast/ast_cursor.c
+> +++ b/drivers/gpu/drm/ast/ast_cursor.c
+> @@ -45,6 +45,21 @@
+>   #define AST_HWC_SIGNATURE_HOTSPOTX	0x14
+>   #define AST_HWC_SIGNATURE_HOTSPOTY	0x18
 >   
->   static u32 ast_get_vram_size(struct ast_device *ast)
+> +static unsigned long ast_cursor_vram_size(void)
+> +{
+> +	return AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE;
+> +}
+> +
+> +long ast_cursor_vram_offset(struct ast_device *ast)
+> +{
+> +	unsigned long size = ast_cursor_vram_size();
+> +
+> +	if (size > ast->vram_size)
+> +		return -EINVAL;
+> +
+> +	return PAGE_ALIGN_DOWN(ast->vram_size - size);
+> +}
+> +
+>   static u32 ast_cursor_calculate_checksum(const void *src, unsigned int width, unsigned int height)
 >   {
-> -	u8 jreg;
->   	u32 vram_size;
-> -	u8 vgacraa;
-> +	u8 vgacr99, vgacraa;
+>   	u32 csum = 0;
+> @@ -276,7 +291,7 @@ int ast_cursor_plane_init(struct ast_device *ast)
+>   	struct drm_plane *cursor_plane = &ast_plane->base;
+>   	size_t size;
+>   	void __iomem *vaddr;
+> -	u64 offset;
+> +	long offset;
+>   	int ret;
 >   
->   	vgacraa = ast_get_index_reg(ast, AST_IO_VGACRI, 0xaa);
->   	switch (vgacraa & AST_IO_VGACRAA_VGAMEM_SIZE_MASK) {
-> @@ -55,16 +54,16 @@ static u32 ast_get_vram_size(struct ast_device *ast)
->   		break;
->   	}
+>   	/*
+> @@ -290,7 +305,9 @@ int ast_cursor_plane_init(struct ast_device *ast)
+>   		return -ENOMEM;
 >   
-> -	jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0x99, 0xff);
-> -	switch (jreg & 0x03) {
-> +	vgacr99 = ast_get_index_reg(ast, AST_IO_VGACRI, 0x99);
-> +	switch (vgacr99 & AST_IO_VGACR99_VGAMEM_RSRV_MASK) {
->   	case 1:
-> -		vram_size -= 0x100000;
-> +		vram_size -= SZ_1M;
->   		break;
->   	case 2:
-> -		vram_size -= 0x200000;
-> +		vram_size -= SZ_2M;
->   		break;
->   	case 3:
-> -		vram_size -= 0x400000;
-> +		vram_size -= SZ_4M;
->   		break;
->   	}
+>   	vaddr = ast->vram + ast->vram_fb_available - size;
+> -	offset = ast->vram_fb_available - size;
+> +	offset = ast_cursor_vram_offset(ast);
+> +	if (offset < 0)
+> +		return offset;
 >   
-> diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-> index 039b93bed19e..e15adaf3a80e 100644
-> --- a/drivers/gpu/drm/ast/ast_reg.h
-> +++ b/drivers/gpu/drm/ast/ast_reg.h
-> @@ -30,6 +30,7 @@
+>   	ret = ast_plane_init(dev, ast_plane, vaddr, offset, size,
+>   			     0x01, &ast_cursor_plane_funcs,
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index 2c7861835cfb..ec9ec77260e9 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -432,6 +432,7 @@ int ast_vga_output_init(struct ast_device *ast);
+>   int ast_sil164_output_init(struct ast_device *ast);
 >   
->   #define AST_IO_VGACRI			(0x54)
->   #define AST_IO_VGACR80_PASSWORD		(0xa8)
-> +#define AST_IO_VGACR99_VGAMEM_RSRV_MASK	GENMASK(1, 0)
->   #define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
->   #define AST_IO_VGACRA1_MMIO_ENABLED	BIT(2)
->   #define AST_IO_VGACRA3_DVO_ENABLED	BIT(7)
+>   /* ast_cursor.c */
+> +long ast_cursor_vram_offset(struct ast_device *ast);
+>   int ast_cursor_plane_init(struct ast_device *ast);
+>   
+>   /* ast dp501 */
 
