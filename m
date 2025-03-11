@@ -2,86 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D51A5C1EA
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 14:07:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02016A5C1EF
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 14:08:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA2B10E5AD;
-	Tue, 11 Mar 2025 13:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 545B010E5AE;
+	Tue, 11 Mar 2025 13:08:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="H/2eme/5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MaC7LYoS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63EA410E5AD
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 13:07:41 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A185B10E5AE
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 13:08:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741698460;
+ s=mimecast20190719; t=1741698492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PRaJcl4pv1GBKSj9TjKmhUJgkF/kvR8KRC0NkEExJis=;
- b=H/2eme/5LJl/2AU/oOH5PmBaSs+g/2o8YB25rmZLTm9TAxqId1k2JmagGrbX5cF5WvD8pU
- shbtJjjenC6soJBHACUGk1luH3NRhzQIE5o87pYVnUogqLFRDUSB95NjMLMZWVRgjE97HU
- fmtDKhSGj7Xg/aXCjtJnyGmKVY396bY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=58hbt3C3ko4UzEzLuDrzbnIj5lSuinoBYdsY/+LDqhg=;
+ b=MaC7LYoSWCTvdSQROprH4wM9rW66O7MUKpObOjHX57hnqh3+PoeQsM29b3sxU2NEr75bSn
+ 76vec44tbSsRv+5ErF8aBiuZ0TMMLKBwHktaHlCVgl6fym0s5gELwQejtEQJWtudDCtV7X
+ MmkIR5CjPXed+xLT+wN+Zt6pXuYY8Xk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-59-gdTcoSGLMbKq2cinZktSIQ-1; Tue, 11 Mar 2025 09:07:39 -0400
-X-MC-Unique: gdTcoSGLMbKq2cinZktSIQ-1
-X-Mimecast-MFC-AGG-ID: gdTcoSGLMbKq2cinZktSIQ_1741698458
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43941ad86d4so26583235e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 06:07:39 -0700 (PDT)
+ us-mta-246-zSYAIojzO-mZLRzbCn0UAw-1; Tue, 11 Mar 2025 09:08:11 -0400
+X-MC-Unique: zSYAIojzO-mZLRzbCn0UAw-1
+X-Mimecast-MFC-AGG-ID: zSYAIojzO-mZLRzbCn0UAw_1741698490
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-43cf327e9a2so18378905e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 06:08:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741698458; x=1742303258;
+ d=1e100.net; s=20230601; t=1741698490; x=1742303290;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PRaJcl4pv1GBKSj9TjKmhUJgkF/kvR8KRC0NkEExJis=;
- b=Ak6ygv9G+DIOu+SHnpYEI4Kq96D1rzpxNkBCeqI+RA4R2jnkIjdIxXaDn6sE6q1q+U
- bRjWir6ylZxszXVSmRHJex4nOj6Az29shlfX2QzASMRZ9SnNS4BcpvJ6Znije/yul99z
- 4Kqaliw1nc7PtDEI9C5jF29zRUJGzo39sJtMKX0L/r/9OWuSIrvSP5kqxwDSsaVM6FBP
- OoikPXFyKWBTi+OZYv/JEq4lI3CCKMzA/pA1SlmmKMxd90anwURnz/VaIya8sp1zlq+v
- o3+HTA3h3ikHDRoONYG+NKcgxcFmll4DpCXva57ZVJGOoicpER3n2SXc0KW0JyXLZF2a
- KQhw==
-X-Gm-Message-State: AOJu0Yw0FCIyNv3NPPusFZH1Qp/ryLGvRKAYeIRlEPAtIe3K3BPOrgWe
- hKAWJ+jnBwcqSDDyqYEvjSQsiFO6pEaipud/e462eo1JXbRSInMzZk3KXWLgwmzjxtJHlpc2q6D
- YPUmVTo0/eIA3W+QhWt1bPqCMvoI3B7FyTZrFZCkbZSjqeGqr9tValQm7lykhczyDdw==
-X-Gm-Gg: ASbGncugIpC2C3BM1DVeD23ec1AJv3n6oYnR6p5gg4exzgUDbe8mpcoRYeD3L+eMCLl
- xRbtVaMTcjnllb7FZZf5mMuiDuGsDtxTiaBia/YCBlsFpuArdi6aeHt9iwc2+aX7e7A91z+f6r9
- bP56ZnxsS8mohgfs1LpcdRBP3C/FRvjF4OXtro9HkpQROU4Zcnbfq2nd6caUwSriXZS2YCydDT/
- 85j/EEIHlt4aGpSxYKxlCZzwxn0oQevVtNycA8zBvWFQHJ3pbwYWbhwwRefZTYtjNh+n1MILiV5
- D+W0BOpoax+NcNAsuKWMgf7w3wmJLmLfna81Xwhfg8PonprUcKZoLk4=
-X-Received: by 2002:a05:600c:3510:b0:43b:d1ad:9241 with SMTP id
- 5b1f17b1804b1-43c601d889dmr117399315e9.9.1741698457978; 
- Tue, 11 Mar 2025 06:07:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEI6BhUtCxhEWpw8Y08IorlgXPkTO2OP0A5H0/lns0sXG47nqRADZSYLOzYc5pWP505cPhHDw==
-X-Received: by 2002:a05:600c:3510:b0:43b:d1ad:9241 with SMTP id
- 5b1f17b1804b1-43c601d889dmr117398775e9.9.1741698457507; 
- Tue, 11 Mar 2025 06:07:37 -0700 (PDT)
+ bh=58hbt3C3ko4UzEzLuDrzbnIj5lSuinoBYdsY/+LDqhg=;
+ b=q70XJp9TYJmm7Z0gr7FkBi8HQ5ny34EjwZSX6jHvmda94xJRxbs9EstwFfwORqDqF8
+ xhr/gRGZ+qvb4vCLwyPvZ1N3yOGKeTLjARPLxdrqkmWlZSCawa7Yyn5rBCCMwhfgHZml
+ TaDkTYea4h2f8AKvEks9pyN80yw/AmO26WkiIq+X48JXMPEyTQEIYome1xRNPnxmjx0a
+ zZGda9YyITYGKZT91MVCR/L/M1TjLiq23MZUq23U0lpPy1E6nsdvsMVxd5oLl3Ub31ZL
+ +nFFA3+gcBEXYdvgDnuwUHK4YsEd799IWc8ffyLG/0yPneW6YFSy42FRY/kSGi2WZbbO
+ SwwA==
+X-Gm-Message-State: AOJu0Yyl7Z2P5uR4yLlfKJ4iUqP/Qgg+kglIxdTtAMk13m+WzmVHraqX
+ SIpflYWJeAMSEQ/9hoka+MACr3TRbTmUEHO4RkVmrlcEUk7Ao/7s96/1IoiUje7kDcWvNqv2OhG
+ DFA4Dn6di7xPYDCH4wUnVmzsaHTTPAWi/PeJJDZC5R2GO9r7hywJ7/+nC0fkpt37fQPycxmM4SQ
+ ==
+X-Gm-Gg: ASbGncuBv0KroikdWFEn2L4Lt8vIEjpZxp3urllw9boCThTsWFrYRmyTIzFgYFt3tAk
+ UhzNCMy9zvtHcBFv3n5CCoSdp0wdISt8cyP8ReEM8+SHZtGSNlosC+RutD/SAbgNaRcBRAqR7KM
+ kw1QBTeGmvkO+rfmtet0l4BsmzMXSuo+hIQQR5D2RKfcLIFwbRtMCZI+yQxGLiNzosMf+GDgi+1
+ rMdwrWYCJWMVnT+JpwoDocjmQRwcIPlODJTvLjmjiqJ7SGVEPa0snpa/ocSfHGl18w0NDj7tzFf
+ zLnfAD0RET4WIyr3QOEfL19cZzxp5nFqVPPW78AVSTt7x2QckwG6yWo=
+X-Received: by 2002:a05:600c:45d3:b0:43b:c0fa:f9cd with SMTP id
+ 5b1f17b1804b1-43d01bdbdb1mr50714925e9.7.1741698490030; 
+ Tue, 11 Mar 2025 06:08:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFwM6wxpUFo+U0khL2YY+0gZxD1oInTc3TMY9kAgy63tGvPA1hqs8hMkSpv1tH/RK6ACkCsUQ==
+X-Received: by 2002:a05:600c:45d3:b0:43b:c0fa:f9cd with SMTP id
+ 5b1f17b1804b1-43d01bdbdb1mr50714225e9.7.1741698489404; 
+ Tue, 11 Mar 2025 06:08:09 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43cfd5082ccsm53050635e9.32.2025.03.11.06.07.36
+ ffacd0b85a97d-3912c11e9desm17808027f8f.101.2025.03.11.06.08.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Mar 2025 06:07:37 -0700 (PDT)
-Message-ID: <1326612b-c288-4934-b9c6-4a860e2d0b88@redhat.com>
-Date: Tue, 11 Mar 2025 14:07:36 +0100
+ Tue, 11 Mar 2025 06:08:08 -0700 (PDT)
+Message-ID: <5cd4e334-5e37-40d9-bc06-4474a25d22ae@redhat.com>
+Date: Tue, 11 Mar 2025 14:08:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] drm/ast: cursor: Add helpers for computing
+Subject: Re: [PATCH v2 5/7] drm/ast: Add helper for computing framebuffer
  location in video memory
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
 Cc: dri-devel@lists.freedesktop.org
 References: <20250305163207.267650-1-tzimmermann@suse.de>
- <20250305163207.267650-5-tzimmermann@suse.de>
+ <20250305163207.267650-6-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250305163207.267650-5-tzimmermann@suse.de>
+In-Reply-To: <20250305163207.267650-6-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: yhXokYLxTYjcj4SP2fR_kLLWcOW8yt8phYcS-gbTTZs_1741698458
+X-Mimecast-MFC-PROC-ID: 9YgPEmh5V1Dur0wEpOAr0NvP7Z_onmIZGGOBTrtw9EU_1741698490
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -102,8 +103,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 05/03/2025 17:30, Thomas Zimmermann wrote:
-> The ast drivers stores the cursor image at the end of the video memory.
-> Add helpers to calculate the offset and size.
+> The ast driver stores the primary plane's image in the framebuffer
+> memory up to where the cursor is located. Add helpers to calculate
+> the offset and size.
 > 
 Thanks, it looks good to me.
 
@@ -111,66 +113,57 @@ Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/ast/ast_cursor.c | 21 +++++++++++++++++++--
->   drivers/gpu/drm/ast/ast_drv.h    |  1 +
->   2 files changed, 20 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/ast/ast_mode.c | 25 +++++++++++++++++++++----
+>   1 file changed, 21 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-> index 139ab00dee8f..05e297f30b4e 100644
-> --- a/drivers/gpu/drm/ast/ast_cursor.c
-> +++ b/drivers/gpu/drm/ast/ast_cursor.c
-> @@ -45,6 +45,21 @@
->   #define AST_HWC_SIGNATURE_HOTSPOTX	0x14
->   #define AST_HWC_SIGNATURE_HOTSPOTY	0x18
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index c3b950675485..4cac5c7f4547 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -51,6 +51,24 @@
 >   
-> +static unsigned long ast_cursor_vram_size(void)
+>   #define AST_LUT_SIZE 256
+>   
+> +static unsigned long ast_fb_vram_offset(void)
 > +{
-> +	return AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE;
+> +	return 0; // with shmem, the primary plane is always at offset 0
 > +}
 > +
-> +long ast_cursor_vram_offset(struct ast_device *ast)
+> +static unsigned long ast_fb_vram_size(struct ast_device *ast)
 > +{
-> +	unsigned long size = ast_cursor_vram_size();
+> +	struct drm_device *dev = &ast->base;
+> +	unsigned long offset = ast_fb_vram_offset(); // starts at offset
+> +	long cursor_offset = ast_cursor_vram_offset(ast); // ends at cursor offset
 > +
-> +	if (size > ast->vram_size)
-> +		return -EINVAL;
-> +
-> +	return PAGE_ALIGN_DOWN(ast->vram_size - size);
+> +	if (cursor_offset < 0)
+> +		cursor_offset = ast->vram_size; // no cursor; it's all ours
+> +	if (drm_WARN_ON_ONCE(dev, offset > cursor_offset))
+> +		return 0; // cannot legally happen; signal error
+> +	return cursor_offset - offset;
 > +}
 > +
->   static u32 ast_cursor_calculate_checksum(const void *src, unsigned int width, unsigned int height)
->   {
->   	u32 csum = 0;
-> @@ -276,7 +291,7 @@ int ast_cursor_plane_init(struct ast_device *ast)
->   	struct drm_plane *cursor_plane = &ast_plane->base;
->   	size_t size;
->   	void __iomem *vaddr;
-> -	u64 offset;
-> +	long offset;
+>   static inline void ast_load_palette_index(struct ast_device *ast,
+>   				     u8 index, u8 red, u8 green,
+>   				     u8 blue)
+> @@ -609,9 +627,8 @@ static int ast_primary_plane_init(struct ast_device *ast)
+>   	struct ast_plane *ast_primary_plane = &ast->primary_plane;
+>   	struct drm_plane *primary_plane = &ast_primary_plane->base;
+>   	void __iomem *vaddr = ast->vram;
+> -	u64 offset = 0; /* with shmem, the primary plane is always at offset 0 */
+> -	unsigned long cursor_size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+> -	unsigned long size = ast->vram_fb_available - cursor_size;
+> +	u64 offset = ast_fb_vram_offset();
+> +	unsigned long size = ast_fb_vram_size(ast);
 >   	int ret;
 >   
->   	/*
-> @@ -290,7 +305,9 @@ int ast_cursor_plane_init(struct ast_device *ast)
->   		return -ENOMEM;
+>   	ret = ast_plane_init(dev, ast_primary_plane, vaddr, offset, size,
+> @@ -942,7 +959,7 @@ static enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
+>   	struct ast_device *ast = to_ast_device(dev);
+>   	unsigned long fbsize, fbpages, max_fbpages;
 >   
->   	vaddr = ast->vram + ast->vram_fb_available - size;
-> -	offset = ast->vram_fb_available - size;
-> +	offset = ast_cursor_vram_offset(ast);
-> +	if (offset < 0)
-> +		return offset;
+> -	max_fbpages = (ast->vram_fb_available) >> PAGE_SHIFT;
+> +	max_fbpages = ast_fb_vram_size(ast) >> PAGE_SHIFT;
 >   
->   	ret = ast_plane_init(dev, ast_plane, vaddr, offset, size,
->   			     0x01, &ast_cursor_plane_funcs,
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 2c7861835cfb..ec9ec77260e9 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -432,6 +432,7 @@ int ast_vga_output_init(struct ast_device *ast);
->   int ast_sil164_output_init(struct ast_device *ast);
->   
->   /* ast_cursor.c */
-> +long ast_cursor_vram_offset(struct ast_device *ast);
->   int ast_cursor_plane_init(struct ast_device *ast);
->   
->   /* ast dp501 */
+>   	fbsize = mode->hdisplay * mode->vdisplay * max_bpp;
+>   	fbpages = DIV_ROUND_UP(fbsize, PAGE_SIZE);
 
