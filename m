@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0049BA5CA97
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 17:17:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31259A5CAC4
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 17:25:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9FB610E270;
-	Tue, 11 Mar 2025 16:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08AD410E63D;
+	Tue, 11 Mar 2025 16:25:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tk20rqU6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NbUe9Dtc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9440F10E229
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 16:17:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15C8910E2A0;
+ Tue, 11 Mar 2025 16:25:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A61CDA44224;
- Tue, 11 Mar 2025 16:11:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC667C4CEEC;
- Tue, 11 Mar 2025 16:17:10 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E2F96A45FDB;
+ Tue, 11 Mar 2025 16:19:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5628C4CEE9;
+ Tue, 11 Mar 2025 16:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741709831;
- bh=dAacS6pM8DLqKxFPAs1POWYCMSIz8OriSExs4t/LaOA=;
+ s=k20201202; t=1741710304;
+ bh=qaHg9TZ/u/KpRnHhdqQajkXaqiwDjPjVD2+Cg0eyXsE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tk20rqU6xAF2qgFtUDzvKzc/ddb0gLaMjtKWiUUihY5eP+co3hVIi2UtIfdXWy5dm
- LnvwX9PHDfrX2VbHON3+ABY/DLdSBTu/7R6oEm8+p66birFi8OqAex749+N0fKugNY
- oSt3pV7tYHebYXOaK+4Iv41FJRSt1k9988czDtzJe+EfyZMW0lixwoEb6iB5WMxNhO
- 4IgaqylCwV65/TNlMXwmr/1rRiLu8PMGb00mglEprxtiuK4d0aSrc7YYm+3E4QO6Al
- FqoewVvw+nXYpRhGUmUtPX4e9B7LUA/zPOqbGUQEJ+debksDv89cV9wX3MbrET4HTe
- cEEYXrwKbe0ZQ==
-Date: Tue, 11 Mar 2025 17:17:08 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
+ b=NbUe9DtcpfHIGEMT6uz1RREf5ezvlrsD5/16BqY3BmsFPfH2WQWm012jQgDeoYQdq
+ RxRZpw7I+FxNkedlHT05lthDo5ZypiCaf+yliE4VYtsIoEv8+SioJUx4zbm0LMq8Ut
+ lPuzxiKpfynwx+hc/9YCoYY9Zv1M6b7BK4yCt0/+UoQfJclQfvMRjXCVT8CND7fnzL
+ tB78j2VCVQXEVEo5IH8dCj8k/cPIeow1KB2cZDpS8WY92eOZ7gswxNHoJyHJD8Q+Vf
+ LvcbHMV5z1ODAHskN64E8ISEt4H2MzNmXlqGG/BiyPKQGShYBsvXzGBm2ndotXMkxB
+ EpkzwV6kThOfA==
+Date: Tue, 11 Mar 2025 18:24:57 +0200
+From: Dmitry Baryshkov <lumag@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] drm/tests: hdmi: Add limited range tests for
- YUV420 mode
-Message-ID: <20250311-burgundy-cat-of-diversity-b89681@houat>
-References: <20250311-hdmi-conn-yuv-v2-0-fbdb94f02562@collabora.com>
- <20250311-hdmi-conn-yuv-v2-6-fbdb94f02562@collabora.com>
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 1/4] drm/display: hdmi: provide central data authority
+ for ACR params
+Message-ID: <xidaohhyugexyapghteaioladfs2ma3trett6lyenmz2ubnlud@hnxjccqvbvz2>
+References: <20250309-drm-hdmi-acr-v1-0-bb9c242f4d4b@linaro.org>
+ <20250309-drm-hdmi-acr-v1-1-bb9c242f4d4b@linaro.org>
+ <20250310-funny-malamute-of-promotion-bb759e@houat>
+ <bensvtxc67i566qqcjketdlffyrwxcnydwarqyjau6b7ibcq4b@d6d4sbm3rubf>
+ <20250311-bouncy-hissing-chupacabra-0dff3f@houat>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="csssixfkyybruyh2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250311-hdmi-conn-yuv-v2-6-fbdb94f02562@collabora.com>
+In-Reply-To: <20250311-bouncy-hissing-chupacabra-0dff3f@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,149 +77,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Mar 11, 2025 at 08:59:45AM +0100, Maxime Ripard wrote:
+> On Mon, Mar 10, 2025 at 10:14:52PM +0200, Dmitry Baryshkov wrote:
+> > On Mon, Mar 10, 2025 at 03:46:33PM +0100, Maxime Ripard wrote:
+> > > On Sun, Mar 09, 2025 at 10:13:56AM +0200, Dmitry Baryshkov wrote:
+> > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > 
+> > > > HDMI standard defines recommended N and CTS values for Audio Clock
+> > > > Regeneration. Currently each driver implements those, frequently in
+> > > > somewhat unique way. Provide a generic helper for getting those values
+> > > > to be used by the HDMI drivers.
+> > > > 
+> > > > The helper is added to drm_hdmi_helper.c rather than drm_hdmi_audio.c
+> > > > since HDMI drivers can be using this helper function even without
+> > > > switching to DRM HDMI Audio helpers.
+> > > > 
+> > > > Note: currently this only handles the values per HDMI 1.4b Section 7.2
+> > > > and HDMI 2.0 Section 9.2.1. Later the table can be expanded to
+> > > > accommodate for Deep Color TMDS char rates per HDMI 1.4 Appendix D
+> > > > and/or HDMI 2.0 / 2.1 Appendix C).
+> > > > 
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > ---
+> > > >  drivers/gpu/drm/display/drm_hdmi_helper.c | 164 ++++++++++++++++++++++++++++++
+> > > >  include/drm/display/drm_hdmi_helper.h     |   6 ++
+> > > >  2 files changed, 170 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > > > index 74dd4d01dd9bb2c9e69ec1c60b0056bd69417e8a..89d25571bfd21c56c6835821d2272a12c816a76e 100644
+> > > > --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > > > +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > > > @@ -256,3 +256,167 @@ drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> > > >  	return DIV_ROUND_CLOSEST_ULL(clock * bpc, 8);
+> > > >  }
+> > > >  EXPORT_SYMBOL(drm_hdmi_compute_mode_clock);
+> > > > +
+> > > > +struct drm_hdmi_acr_n_cts_entry {
+> > > > +	unsigned int n;
+> > > > +	unsigned int cts;
+> > > > +};
+> > > > +
+> > > > +struct drm_hdmi_acr_data {
+> > > > +	unsigned long tmds_clock_khz;
+> > > > +	struct drm_hdmi_acr_n_cts_entry n_cts_32k,
+> > > > +					n_cts_44k1,
+> > > > +					n_cts_48k;
+> > > > +};
+> > > > +
+> > > > +static const struct drm_hdmi_acr_data hdmi_acr_n_cts[] = {
+> > > > +	{
+> > > > +		/* "Other" entry */
+> > > > +		.n_cts_32k =  { .n = 4096, },
+> > > > +		.n_cts_44k1 = { .n = 6272, },
+> > > > +		.n_cts_48k =  { .n = 6144, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 25175,
+> > > > +		.n_cts_32k =  { .n = 4576,  .cts = 28125, },
+> > > > +		.n_cts_44k1 = { .n = 7007,  .cts = 31250, },
+> > > > +		.n_cts_48k =  { .n = 6864,  .cts = 28125, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 25200,
+> > > > +		.n_cts_32k =  { .n = 4096,  .cts = 25200, },
+> > > > +		.n_cts_44k1 = { .n = 6272,  .cts = 28000, },
+> > > > +		.n_cts_48k =  { .n = 6144,  .cts = 25200, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 27000,
+> > > > +		.n_cts_32k =  { .n = 4096,  .cts = 27000, },
+> > > > +		.n_cts_44k1 = { .n = 6272,  .cts = 30000, },
+> > > > +		.n_cts_48k =  { .n = 6144,  .cts = 27000, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 27027,
+> > > > +		.n_cts_32k =  { .n = 4096,  .cts = 27027, },
+> > > > +		.n_cts_44k1 = { .n = 6272,  .cts = 30030, },
+> > > > +		.n_cts_48k =  { .n = 6144,  .cts = 27027, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 54000,
+> > > > +		.n_cts_32k =  { .n = 4096,  .cts = 54000, },
+> > > > +		.n_cts_44k1 = { .n = 6272,  .cts = 60000, },
+> > > > +		.n_cts_48k =  { .n = 6144,  .cts = 54000, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 54054,
+> > > > +		.n_cts_32k =  { .n = 4096,  .cts = 54054, },
+> > > > +		.n_cts_44k1 = { .n = 6272,  .cts = 60060, },
+> > > > +		.n_cts_48k =  { .n = 6144,  .cts = 54054, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 74176,
+> > > > +		.n_cts_32k =  { .n = 11648, .cts = 210937, }, /* and 210938 */
+> > > > +		.n_cts_44k1 = { .n = 17836, .cts = 234375, },
+> > > > +		.n_cts_48k =  { .n = 11648, .cts = 140625, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 74250,
+> > > > +		.n_cts_32k =  { .n = 4096,  .cts = 74250, },
+> > > > +		.n_cts_44k1 = { .n = 6272,  .cts = 82500, },
+> > > > +		.n_cts_48k =  { .n = 6144,  .cts = 74250, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 148352,
+> > > > +		.n_cts_32k =  { .n = 11648, .cts = 421875, },
+> > > > +		.n_cts_44k1 = { .n = 8918,  .cts = 234375, },
+> > > > +		.n_cts_48k =  { .n = 5824,  .cts = 140625, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 148500,
+> > > > +		.n_cts_32k =  { .n = 4096,  .cts = 148500, },
+> > > > +		.n_cts_44k1 = { .n = 6272,  .cts = 165000, },
+> > > > +		.n_cts_48k =  { .n = 6144,  .cts = 148500, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 296703,
+> > > > +		.n_cts_32k =  { .n = 5824,  .cts = 421875, },
+> > > > +		.n_cts_44k1 = { .n = 4459,  .cts = 234375, },
+> > > > +		.n_cts_48k =  { .n = 5824,  .cts = 281250, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 297000,
+> > > > +		.n_cts_32k =  { .n = 3072,  .cts = 222750, },
+> > > > +		.n_cts_44k1 = { .n = 4704,  .cts = 247500, },
+> > > > +		.n_cts_48k =  { .n = 5120,  .cts = 247500, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 593407,
+> > > > +		.n_cts_32k =  { .n = 5824,  .cts = 843750, },
+> > > > +		.n_cts_44k1 = { .n = 8918,  .cts = 937500, },
+> > > > +		.n_cts_48k =  { .n = 5824,  .cts = 562500, },
+> > > > +	}, {
+> > > > +		.tmds_clock_khz = 594000,
+> > > > +		.n_cts_32k =  { .n = 3072,  .cts = 445500, },
+> > > > +		.n_cts_44k1 = { .n = 9408,  .cts = 990000, },
+> > > > +		.n_cts_48k =  { .n = 6144,  .cts = 594000, },
+> > > > +	},
+> > > > +};
+> > > > +
+> > > > +static int drm_hdmi_acr_find_tmds_entry(unsigned long tmds_clock_khz)
+> > > > +{
+> > > > +	int i;
+> > > > +
+> > > > +	/* skip the "other" entry */
+> > > > +	for (i = 1; i < ARRAY_SIZE(hdmi_acr_n_cts); i++) {
+> > > > +		if (hdmi_acr_n_cts[i].tmds_clock_khz == tmds_clock_khz)
+> > > > +			return i;
+> > > > +	}
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * drm_hdmi_acr_get_n_cts() - get N and CTS values for Audio Clock Regeneration
+> > > > + *
+> > > > + * @tmds_char_rate: TMDS clock (char rate) as used by the HDMI connector
+> > > > + * @sample_rate: audio sample rate
+> > > > + * @out_n: a pointer to write the N value
+> > > > + * @out_cts: a pointer to write the CTS value
+> > > > + *
+> > > > + * Get the N and CTS values (either by calculating them or by returning data
+> > > > + * from the tables. This follows the HDMI 1.4b Section 7.2 "Audio Sample Clock
+> > > > + * Capture and Regeneration".
+> > > > + */
+> > > 
+> > > I think we need to make it clear that it's for L-PCM only (I think?),
+> > > either through a format parameter or through the documentation.
+> > 
+> > Ack
+> > 
+> > > 
+> > > > +void
+> > > > +drm_hdmi_acr_get_n_cts(unsigned long long tmds_char_rate,
+> > > > +		       unsigned int sample_rate,
+> > > > +		       unsigned int *out_n,
+> > > > +		       unsigned int *out_cts)
+> > > 
+> > > And we should probably take the connector (or EDID) to make sure the
+> > > monitor can support the format and sample rates.
+> > 
+> > Interesting perspective, I'll give it a thought. I was really just
+> > trying to get rid of the duplication.
+> > 
+> > I think that 'supported' parts should be implemented in the hdmi-codec
+> > instead, parsing the ELD and updating hw constraints. WDYT?
+> 
+> Basically, I want to make sure we cover section 7.3 of HDMI 1.4, ie,
+> make sure we can't end up (or validate) in a situation that isn't
+> allowed by the spec.
 
---csssixfkyybruyh2
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 6/7] drm/tests: hdmi: Add limited range tests for
- YUV420 mode
-MIME-Version: 1.0
+I think that's a question for a separate function. This one really
+targets 7.2 rather than 7.3.
 
-On Tue, Mar 11, 2025 at 12:57:38PM +0200, Cristian Ciocaltea wrote:
-> Provide tests to verify that drm_atomic_helper_connector_hdmi_check()
-> helper behaviour when using YUV420 output format is to always set the
-> limited RGB quantization range to 'limited', no matter what the value of
-> Broadcast RGB property is.
->=20
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  89 +++++++++++++++-
->  drivers/gpu/drm/tests/drm_kunit_edid.h             | 112 +++++++++++++++=
-++++++
->  2 files changed, 196 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
-/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> index a3f7f3ce31c73335c2c2643bdc5395b6ceb6f071..1df12c0b7768e4f85f4c94384=
-0d9b4dcb6e079e0 100644
-> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> @@ -227,6 +227,8 @@ connector_hdmi_init_funcs_set_edid(struct kunit *test,
->  	enc->possible_crtcs =3D drm_crtc_mask(priv->crtc);
-> =20
->  	conn =3D &priv->connector;
-> +	conn->ycbcr_420_allowed =3D !!(formats & BIT(HDMI_COLORSPACE_YUV420));
-> +
->  	ret =3D drmm_connector_hdmi_init(drm, conn,
->  				       "Vendor", "Product",
->  				       &dummy_connector_funcs,
-> @@ -751,6 +753,86 @@ static void drm_test_check_broadcast_rgb_limited_cea=
-_mode_vic_1(struct kunit *te
->  	drm_modeset_acquire_fini(&ctx);
->  }
-> =20
-> +/*
-> + * Test that for an HDMI connector, with an HDMI monitor, we will
-> + * get a limited RGB Quantization Range with a YUV420 mode, no
-> + * matter what the value of the Broadcast RGB property is set to.
-> + */
-> +static void drm_test_check_broadcast_rgb_cea_mode_yuv420(struct kunit *t=
-est)
-> +{
-> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
-> +	enum drm_hdmi_broadcast_rgb broadcast_rgb;
-> +	struct drm_modeset_acquire_ctx ctx;
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_atomic_state *state;
-> +	struct drm_display_mode *mode;
-> +	struct drm_connector *conn;
-> +	struct drm_device *drm;
-> +	struct drm_crtc *crtc;
-> +	int ret;
-> +
-> +	broadcast_rgb =3D *(enum drm_hdmi_broadcast_rgb *)test->param_value;
-> +
-> +	priv =3D drm_kunit_helper_connector_hdmi_init_set_edid(test,
-> +				BIT(HDMI_COLORSPACE_RGB) |
-> +				BIT(HDMI_COLORSPACE_YUV420),
-> +				8,
-> +				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
-> +	KUNIT_ASSERT_NOT_NULL(test, priv);
-> +
-> +	drm =3D &priv->drm;
-> +	crtc =3D priv->crtc;
-> +	conn =3D &priv->connector;
-> +	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
-> +
-> +	mode =3D drm_kunit_display_mode_from_cea_vic(test, drm, 95);
-> +	KUNIT_ASSERT_NOT_NULL(test, mode);
-> +
-> +	drm_modeset_acquire_init(&ctx, 0);
-> +
-> +	ret =3D light_up_connector(test, drm, crtc, conn, mode, &ctx);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	state =3D drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-> +
-> +	conn_state =3D drm_atomic_get_connector_state(state, conn);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
-> +
-> +	conn_state->hdmi.broadcast_rgb =3D broadcast_rgb;
-> +
-> +	ret =3D drm_atomic_check_only(state);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	conn_state =3D drm_atomic_get_connector_state(state, conn);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
-> +
-> +	KUNIT_ASSERT_EQ(test, conn_state->hdmi.broadcast_rgb, broadcast_rgb);
-> +	KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_Y=
-UV420);
-> +
-> +	KUNIT_EXPECT_TRUE(test, conn_state->hdmi.is_limited_range);
-> +
-> +	drm_modeset_drop_locks(&ctx);
-> +	drm_modeset_acquire_fini(&ctx);
-> +}
-> +
-> +static const enum drm_hdmi_broadcast_rgb check_broadcast_rgb_cea_mode_yu=
-v420_tests[] =3D {
-> +	DRM_HDMI_BROADCAST_RGB_AUTO,
-> +	DRM_HDMI_BROADCAST_RGB_FULL,
-> +	DRM_HDMI_BROADCAST_RGB_LIMITED,
-> +};
-> +
-> +static void
-> +check_broadcast_rgb_cea_mode_yuv420_desc(const enum drm_hdmi_broadcast_r=
-gb *broadcast_rgb,
-> +					 char *desc)
-> +{
-> +	sprintf(desc, "%s", drm_hdmi_connector_get_broadcast_rgb_name(*broadcas=
-t_rgb));
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(check_broadcast_rgb_cea_mode_yuv420,
-> +		  check_broadcast_rgb_cea_mode_yuv420_tests,
-> +		  check_broadcast_rgb_cea_mode_yuv420_desc);
-> +
+> If ALSA covers it already, then I guess it's fine, but we should
+> document it and point to where it's dealt with.
 
-We need more tests than that to test the various combinations, whether
-the fallback to YUV420 should work or not depending on the EDID, the
-driver capabilities, YUV420-only vs YUV420-also, etc.
+I'm not sure if it covers that right now, but it should be handled on
+ALSA side. For example, see sound/pci/hda/patch_hdmi.c, I think it is
+handling those bits. We are providing ELD to hdmi-codec, it can
+implement and propagate HW constraints.
 
-Maxime
 
---csssixfkyybruyh2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ9BiBAAKCRDj7w1vZxhR
-xUvlAQDL6N83IyNqafHlo3sadwTdpCNWd+crAmiVsRLfUEdeDgD7BDjL6Nksg1DW
-BZWzwo42fBiibREgpgNWMFayg7P33gw=
-=9aiN
------END PGP SIGNATURE-----
-
---csssixfkyybruyh2--
+-- 
+With best wishes
+Dmitry
