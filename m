@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D52DA5BDE2
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 11:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F40A5BDEC
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 11:33:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF69310E12A;
-	Tue, 11 Mar 2025 10:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A72F110E14D;
+	Tue, 11 Mar 2025 10:33:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="PXrlBUYn";
-	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="BG3bPJZw";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="KwPpmmqW";
+	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="i6AKt1wd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
  [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A24810E12A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 10:28:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 601F510E14D
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 10:33:41 +0000 (UTC)
 Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52B6uBJx011093;
- Tue, 11 Mar 2025 10:28:08 GMT
+ by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52B7XLPM005315;
+ Tue, 11 Mar 2025 10:33:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
  :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=dk201812; bh=7S5YU77nKVhA+PBC3tz35zpLB
- kg9h0l7bIXZdYipCpk=; b=PXrlBUYnk1NSpt02mevxgBHH3TGzTMlzgwA9wLH27
- ZDKhfKIrupsSZx7arnWuEsSpJEojD6KyzL+FoBnj/pWviFHyhXsmEEz7lL5nZMcP
- JfLdH9sZvMnDcCsz3vzufp9LgcMIwJihDrotG0eWVAJdiMzARz4TE9JwAF9xNfdy
- VSkOmFEMIp4vOBkpV+nrZsdu7Fofd8X4fam76XVNaSXAil0C6YUo00ljo9chHiFp
- Jl3SvivDdUU7VbecEme3yUYngmOmAkYXWmqShrFqhLl2uNIuAT8rCKJGcWTzgbpz
- oIfyHE64bgx6XcKyt3U/+UPmMf2OrTyMRJ+jz+RkD9Acg==
-Received: from lo2p265cu024.outbound.protection.outlook.com
- (mail-uksouthazlp17011030.outbound.protection.outlook.com [40.93.67.30])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 45a224rhga-1
+ :references:subject:to; s=dk201812; bh=rlqqn/zV6dW+PVMvvzejjC3Tq
+ +ob+1gisKYrjIJdjEA=; b=KwPpmmqWqzI3h0FM+fuIdMGV7aKY+2+yiSnB2agGJ
+ jZbm5oWZNlYCMubjg3HiSmF5pIyqB95JBnnD8FJMfkl/zOcRApIpmCNyClofvpkX
+ +jGwutu3AD7okyWXUssOdcfMDh4oFsXMlll7rwkmgu02w/MZwmLeN44QRFKwPnaj
+ wPV/Qfa+p9Nx8YGs5nxjxaJOD/Psb6Ogdmi3Y0Tk+lkMiOoRD4xNO5iW8kRT18Dq
+ tFv57z9eaFgjhsyS62oREVi3HnR4b8P9WUgQfTcecQOZ6nxqAv5jLXOolJYS2AZn
+ yvzsXy/mKKjQjBX6fEujuJiDhBVRnsStwM4fjhjs5M6Yw==
+Received: from outbound.mail.protection.outlook.com
+ (mail-ukwestazlp17010004.outbound.protection.outlook.com [40.93.68.4])
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 45a224rhjv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Mar 2025 10:28:07 +0000 (GMT)
+ Tue, 11 Mar 2025 10:33:29 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EQ/4/dNBZW70OYJBh2TBhpm+O4/RTuf3BPEJx24OQgi6038JMi+ncdHWgVvUvOmvA1U6YFLUdKLwkC+Ew5zdvWuzZK/vd8M71u/5WaQSV/kU7ZWXBMt12TnVU2Xfm/6rljUiCHt+dCIVYy1I8570RN9vzFexAcmAtM/MoyFrmRrJbo4rNdl7RLi1vrNk45RYhJHt0rfJQyn552yPAYuHMSbHofHVhhDtqHr6YPy/xOoKHvo4lVcVuQgw+sRWIO9dDQ4dlNNFcA/Px0coAKL6WBDp/IXhmOIQHIMyBUmvrN9i22FYXyjM6C+jYXyjh4twsRJz8r0W58WILEviRer1Fw==
+ b=kqUlHdQ3lHwF5CsM2z2v/wxjPwsPfAx6h4LWVSFtUe4S553hp4DUqck69rGnN5x6oMVB+mm7faVTAetX7bORzyJDATBkCEzv2DoZF72E+gRlIhQbeZdaYDSikQZ8xBtqb+06RHe2J1tYL2glqj5JrK7bLLwtFNEOw31J59CkTRJ/KuhB0dBuPdjVNj/kOQbefik4pe1snzcBAWi1ZmcrGYCc8aPbQQ2mx5voM0VsA5sDID6k7q3PKP0NNhFsWHhjpM3AAefQ/OVUeCm1M8BNgig4zS+g3hLZmJrXwgcQkldyb3l+vqgAoRmoKu4KJlKYCfpM/QujDxpY9RV7TI7COA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7S5YU77nKVhA+PBC3tz35zpLBkg9h0l7bIXZdYipCpk=;
- b=lM60ihNykoalXnG3CzVhay74KOUkiDRTIHHpS8SXmpP/Ptq2LWWRuNMo7hW1jgrJMVO9fQc9MV4LAYI5iLrU019AfMFFxxUVLzlozpwMMH1EGYf9DC1TTFQXnjLNgx6RXjHHzQrP9uiOK/7Jlrf0/x8rr7sF/qzDbzxAzK7eACr6+WkBa2G5E5Y2O06N47vWF8s01Kk3rSIzzxiADYywS9oU/++2p/mymNEnJ4vav6eeYnnt6hXCuxGYGcwkUfoUhJLLrA91QekWjrkRD3IN+2Ul4wri9TPJCNu1yR7t6mtaALlSdROl1lO+YssAdL9O1BxfRuGTa0NBHKRtOtMf6g==
+ bh=rlqqn/zV6dW+PVMvvzejjC3Tq+ob+1gisKYrjIJdjEA=;
+ b=mK4Ay3lLP8mj40BNuLyK9hWfjkPGm3Nemb2W34zKKxfFY15nz9G+uMBWrhwN4nVkTSHSpD6lWdSewMU8tcsUDMZjlrZS3327pNT+++Vv5C0eVyzsAEpxQYJXbjCokHz5+GiKeb74UIafsWInNRg4yOkUiCIPvRAP3TSMRP/EHLlQIWQ45X4octkBJ4HGNyULWulVGkMyuoDeACJ9INAKvi+lhHYJVYai3oy/8nx1kyl1WHml1FvPFTGrG37bll10ULqDssW21D9eyHCOPHUHJWFRt4JfgTPqt69OYS3bN0d/hOoiD97uGwFkBLOnEIR9i5t/BLAuHt55DV2bK3mJ3Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7S5YU77nKVhA+PBC3tz35zpLBkg9h0l7bIXZdYipCpk=;
- b=BG3bPJZwRvP1VRiogg9UIR3mfBj6vPnS2Pa9xt1+38Ndue1D7Wuc57sZqDAycE7gjuszt+baijL+P9nv4FfYHp14GEYbxQWoTrIoB+zc2dmBcOxHWFnwJbtiusffjLqFSjF3yy3eNj4T3Ir1WqSwouib/jIo3fismlQ9H6GcfMY=
+ bh=rlqqn/zV6dW+PVMvvzejjC3Tq+ob+1gisKYrjIJdjEA=;
+ b=i6AKt1wd3fPAkow0KhwtHd6CtNRNkJEsRaTnocAYhfJ+KWDtH8sXzxVpnE8fHwcGzNVSbomu2P3B1O4s64tS151N6Qs5KbjVLxCc//cwLV3dblcPRHdyLfikwdeaENiD1tbWIN55emHUz8L2HhsY/4UtQLvGM1aE+jEEpt0pKK0=
 Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
- CWLP265MB2659.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:a2::10) with
+ LO7P265MB7637.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:412::22) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8534.21; Tue, 11 Mar 2025 10:28:04 +0000
+ 15.20.8534.21; Tue, 11 Mar 2025 10:33:26 +0000
 Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
  ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
  ([fe80::8e9d:6b2f:9881:1e15%4]) with mapi id 15.20.8534.018; Tue, 11 Mar 2025
- 10:28:04 +0000
+ 10:33:23 +0000
 From: Matt Coster <Matt.Coster@imgtec.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Frank Binns <Frank.Binns@imgtec.com>, David Airlie <airlied@gmail.com>,
@@ -74,127 +74,127 @@ CC: Frank Binns <Frank.Binns@imgtec.com>, David Airlie <airlied@gmail.com>,
  <linux-arm-kernel@lists.infradead.org>, Randolph Sapp <rs@ti.com>, Darren
  Etheridge <detheridge@ti.com>, Alessio Belle <Alessio.Belle@imgtec.com>,
  Alexandru Dadu <Alexandru.Dadu@imgtec.com>
-Subject: Re: [PATCH v3 02/18] dt-bindings: gpu: img: Add BXS-4-64 devicetree
- bindings
-Thread-Topic: [PATCH v3 02/18] dt-bindings: gpu: img: Add BXS-4-64 devicetree
- bindings
-Thread-Index: AQHbkb3WxrKi4JKYG0GQQeymxf/vB7NtkWYAgAArqIA=
-Date: Tue, 11 Mar 2025 10:28:04 +0000
-Message-ID: <7472842f-73d5-49ad-a93e-cd3b8b66cfa3@imgtec.com>
+Subject: Re: [PATCH v3 01/18] dt-bindings: gpu: img: Future-proofing
+ enhancements
+Thread-Topic: [PATCH v3 01/18] dt-bindings: gpu: img: Future-proofing
+ enhancements
+Thread-Index: AQHbkb3XF6GcdeLkqEaOsDCRsFWB5bNtkQqAgAAtgYA=
+Date: Tue, 11 Mar 2025 10:33:23 +0000
+Message-ID: <cc6a19b3-ba35-465c-9fa6-a764df7c01c1@imgtec.com>
 References: <20250310-sets-bxs-4-64-patch-v1-v3-0-143b3dbef02f@imgtec.com>
- <20250310-sets-bxs-4-64-patch-v1-v3-2-143b3dbef02f@imgtec.com>
- <20250311-bizarre-debonair-macaque-451c4f@krzk-bin>
-In-Reply-To: <20250311-bizarre-debonair-macaque-451c4f@krzk-bin>
+ <20250310-sets-bxs-4-64-patch-v1-v3-1-143b3dbef02f@imgtec.com>
+ <20250311-flashy-rattlesnake-of-rain-dcc4f6@krzk-bin>
+In-Reply-To: <20250311-flashy-rattlesnake-of-rain-dcc4f6@krzk-bin>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: yes
 X-MS-TNEF-Correlator: 
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CWXP265MB3397:EE_|CWLP265MB2659:EE_
-x-ms-office365-filtering-correlation-id: c483a77c-dbe3-4c7b-6525-08dd6087685d
+x-ms-traffictypediagnostic: CWXP265MB3397:EE_|LO7P265MB7637:EE_
+x-ms-office365-filtering-correlation-id: 59f4621a-efce-4fdc-5d87-08dd608826bf
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|7416014|38070700018|4053099003; 
-x-microsoft-antispam-message-info: =?utf-8?B?V3c4dHVXdUVsdEpkdFRBVmwzZityYkp1cDhEajFmNGhxY2ljMWZWSGdKMmpS?=
- =?utf-8?B?czYxV1pEMU9lMFdMTVFlTEFKMFlUekV2N3VQdUM3L1h3OW54bllvUEVOd3lE?=
- =?utf-8?B?VFlEVi9kZjVqTDk4bHZ1TUdwVzExT1dmcThmRUhQVE5JVVY4SGl2dERtbmU5?=
- =?utf-8?B?S1NPQ0VCa3hRRGU5cnJ0WVdYdzRmeVorNjVreENlZUhZQUJXTkRVdG53QStW?=
- =?utf-8?B?UU42UFJ3QjZlSEppeE85RXc4SWp5bkZpR01KUWlndE9QWHRkOE9HM1NtMFVR?=
- =?utf-8?B?RHJQZ2k4YVBPanJjMWpPRnRmZU1iQnJnam1oUGkxNmF5U29uOGZabE9IYUdJ?=
- =?utf-8?B?WW9HWmlQUVV6VEhrU3d1TzhoKzdyYWxxZUJkdzhvUkkveUZwOUcxWUNBQzVV?=
- =?utf-8?B?bHYrSGZNaFZCNmV4bXNLbzFFcE5icUNxVDQ4dGViQXZYNTk3bkVXOUJhcmZ1?=
- =?utf-8?B?VSs0SGtoQllCcmdLdTg5S1R0Q2VPWllUcVBFYkE5U082ejB4WWtuck42TTFD?=
- =?utf-8?B?QlFqdVNTU1k0bkZXajh6MmhpUjMvZGJqZTFvYk54SERtOTZvc3lOajNrLy9k?=
- =?utf-8?B?OVdyNXhPKzhQT0dZSTFVK05veGIzS29ZQ2lzemZ6TGZZVCs4MXJaVnV2OFh5?=
- =?utf-8?B?cjFLV1ErN0xIOVdBOXlxN2NvMStYTTBPRHNWVEpvbHczMVNmYk45TmFrQTdn?=
- =?utf-8?B?c2QwN3ZxcC9FdXVrbkh5TVBkK1VqWEo0b3l4aFJFNkhIbkdONDlPdlQzUENJ?=
- =?utf-8?B?QXl2YkR3L1NqLzk4Qkc5ajZkcTdacTFNUTAzUC92L0RhT0NvR2crMG40SEI0?=
- =?utf-8?B?ZDNValVXdU1GUzI3SVhVSFNHUGtETEtvQzV2YWhDOVRlZHh4K084K2VwbzZ2?=
- =?utf-8?B?Mkx1WXpuTVc1Z2dFb3U2TGxLTUo2dElqa0xaYlRPcHZCaUx6N3V6NDRpRmRk?=
- =?utf-8?B?ZVQ4aTBaand4S3hBTk53Q0pJUnA5bFZHVzc0OWNBdFZ6SytKM09UZTRWMVpr?=
- =?utf-8?B?T213WHM1eThXSGV2TmhvMzMxbHBMa2RNT1FPVlh6MWhjcUQvVGZVL0xoR2Zp?=
- =?utf-8?B?MzVUK2hydVFhUUNvLy93akk3UFMwL3QvaisvR3p1SzNCT0dYb08xNnlhSjNJ?=
- =?utf-8?B?bnB6WVdtY09UUUN6SFlZZE1nVU9CL0VnRVhKdWhDOVJwanBXcXNXVEpSUGs5?=
- =?utf-8?B?WXhvOUxWckI3ZXkzL2QveHJ5TVFPd3JtTy9id3BuMnJmT0FmSVpKNHJ6QmFn?=
- =?utf-8?B?SlZUM1VjdndDWG93U2JFUzRJTjZuZnlBTm1nS2hSR3phWHBTRHl2dHJScHRy?=
- =?utf-8?B?bXBvaEhqUFNnOUxSOVJqWDczNFlGUEJWUTlodjNwRzdnTmZJNmN4RldLcllu?=
- =?utf-8?B?Q3lNWHRSeHArbk9GMFdqei9tVWNpcUw2bFZraU5vRzJlUGFCU1dCYnllY2Qx?=
- =?utf-8?B?UHEvSnorRThHMEhHcHRqck50b2VBV2wxQmJualNiaVVUemlJck9GOHJrVFZi?=
- =?utf-8?B?dUpCSC9Id2FPZlQ0SjVwRVJueFh0cFdGcEFlQ1gxeklQa3VEYXQ3N3ZxS0RS?=
- =?utf-8?B?bk53WExOMnhsRG84bVR3K2g5UFlyVHVXS0VMNzBzaGRyRXFEUkIzTk53OUZj?=
- =?utf-8?B?dmd3UlZHNzk2bVJDNjBiRHQ3Wk1FVlBNcG9zMStzdmtqUEs2STI0UGNDRmc0?=
- =?utf-8?B?UzF5aG1ieHVOaGd3bWE1V1lZU2dKaHhWbDBNQkxzWS9kcS9aK2tqUk1vOG16?=
- =?utf-8?B?RURHcXlRclpDZGFoSlZKWXZ4YnlBKzJzRUtqV0tZanhuaWNKQU1iNDZDOVcy?=
- =?utf-8?B?TFB6ZVBQT2dsMGlPR2ZQQnhzQUIvdHZjL3VzQi9XaUZqb001Y3BBUWVLdmdj?=
- =?utf-8?B?M3lOaHNRekJuVDk5bTJsdW5NT3ZrK01VdTJybDNzditta3ZDa29nVkpkVGVM?=
- =?utf-8?B?di92MkxVTWI3Z0RGdUtLbDBlSVNFNC9VbFZoMWxMTHpTZGlndXo4d1UzQ0E3?=
- =?utf-8?B?Y2ZpZHlmZU1RPT0=?=
+ ARA:13230040|376014|7416014|366016|1800799024|4053099003|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?UmJOKyswaENZQUZpSDR6SlIyWlBZSGwydVRRT2tqcUIza1NaMGgxOUkxZE5O?=
+ =?utf-8?B?VDVQRkx2OGl1V2tROU94dXBQUG1XRUxmc0g4VjlOUk1PbDlIbmVmbGJYUE1n?=
+ =?utf-8?B?UlpzRnJ4U3ZhTTlPZjErZWc5TVdMMU9QUDhHcTEyUlN1S2lLNnpFYitUUDIy?=
+ =?utf-8?B?bGlIbC94VUdqbGUyVXEvSDVyRmNSOVRMbEhnNFludGJBRU1sS1NOcnFSbTBU?=
+ =?utf-8?B?U3dKNXZkVy9MSGJUVHUwNlJ4Zm1JUGdTaHg0czhNdFVTT3F5WXh0VXNrUzky?=
+ =?utf-8?B?TFJ6UUtab0llSWNHbVJLSEFGNmxXcVRjUSs5RS80WVMzZU44NnhyUTA1OWRF?=
+ =?utf-8?B?TEVKMFRoZWE5NnJraGltQlowcHdUQndGZTNSd1hnUy9YS05rZ2lsbzF5c0FE?=
+ =?utf-8?B?eGNrYTdudkw1WW9MYm1MVDJ1OWdRNVRyNUxHTVM5Tzc5STlMMHE1aVhVeTNJ?=
+ =?utf-8?B?a2lkNGczM1ZSam1mVTlpS09JWEZiWFc5OEs1c2pQVzZvWW04cjU4L0xBQ1BU?=
+ =?utf-8?B?Q2h3TEdhaXAyV2FLSDBBT1Nwc3pvWmJBYXVMZ3RCS21LSjh4N1EzNXlONTRX?=
+ =?utf-8?B?Z00rYjdvZ1VFL3AxNWwvVFB0QkdVdkYzNUlrSDdhbHhWWDNvOWs4WSt1L2l0?=
+ =?utf-8?B?OFJUaUd3SXZocHFmdE43K1phdm1qbjN6SXhuVzFaSDV6bS9NY2xVb0xGZlJT?=
+ =?utf-8?B?eWFDWDNnL1E4ZnNFQW9Bbm9wd1BrRkRkaXA4bGlXczg1Ny85d1lHclFEajk1?=
+ =?utf-8?B?MmRNZWRBRk9WTkZTWFd3V3EremJXSVpES1QxNENpNWhCcGlJUEJBVHNjNXFN?=
+ =?utf-8?B?YnZ0SXoyQmVlbDI3bFBsUUJoMlhDaTN3alMyQllaM3BhM2tSS0hKdUVUT3J0?=
+ =?utf-8?B?T015a0lhdU9nR2dMc2hkdVMyYWtxSzVtaDI1czlwRThWcGNCaEl5UEVQWFN2?=
+ =?utf-8?B?VFFQWlJHeG5TaGVHT2FyaWRyYmIyRHBxenFrcUhCWDdtUFQ1NVdZaGVaMWlh?=
+ =?utf-8?B?aXdNS1N0MUVOd2hNUk8vK3JYTkpnRmdjd21xR3Zua3VMT1VUNDk5aVJRV0pp?=
+ =?utf-8?B?UG12bWswMjRqdGdaZGVFZGl6b0ZWVWViRkgxZUhoWDNNWW5ORms5MWc2OTJ1?=
+ =?utf-8?B?cXcvZzdCM2FrVEM4Q3pBck1icnJYazNxMzdwbzNRQzJMTkpCN1MxcG13NkJ1?=
+ =?utf-8?B?MkdTdVIvZ2JseXZoWFIzTHdkUDBwMHBOelZiR3RQK3VnMWNBS0d0S242eHRZ?=
+ =?utf-8?B?SzZON1FUa3F0UUQrRnJqR2lmd1lnR2FYdnBDL2V1ckhLV0J5cGRoaVN6LzFo?=
+ =?utf-8?B?UWxGYlFWVzR1ajJ3YWdIZXNKbk1VdGhCNm1qU1YzY3ZzUmtDWUJ6L05ITnht?=
+ =?utf-8?B?WmFxQU55VEIweDVJMFJSUDR0V1JHYVl5eWN4MjFNaVU4ckJtTmxENUVLWThS?=
+ =?utf-8?B?Rm8rK0dIVlJhbHNBR0M4WlI5dVd5MDFWWlZyenVCTEdDT2J0bW9sVXZuczlr?=
+ =?utf-8?B?d3FCdzNMWlZvZkxISFJqY3REaHlyTVhNcFhsTHZzZzY2S2d4cytIc1VQbkhN?=
+ =?utf-8?B?ZlArZWd0aEVMSE81N3d0SjNRMGZCMWorWlZrUWVJQkdNbEtMVW1YMmNQZ2Fz?=
+ =?utf-8?B?Zkc0TS9PWDJZNWEwQ2J1ZjV3TjNEcEVHanM2RXA0TkduOUdTdVVqNWkraUpy?=
+ =?utf-8?B?b1MxY3JMcUhXeWM2NXFqdUM2U05FSW03RE03WXZ4MC9UemxOYVIwemt0TjFp?=
+ =?utf-8?B?MUNxM052UTJqdFpXUXh3N2pLVFNmTTVsdG9jengyMW1iRzdMTURzYm5rcGlD?=
+ =?utf-8?B?eVc0SURpbjNWU0NXYis2NFNweER4bFhHZStzYk1MblFaUThSaDg3emZCUFN4?=
+ =?utf-8?B?WTRoemR6Znk0bG9JZ1IvYkNZRFhaVG9vUlp5ZDZaUnF6N3NRZWRNVjFjR2h6?=
+ =?utf-8?B?ZEpUYmNlTG5zNkFwYVdpTktZVzRESFdBcU5qR3o2WGhGK3VUS3N4WGNEWWVW?=
+ =?utf-8?B?dmV3MGlBdzRBPT0=?=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018)(4053099003);
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(4053099003)(38070700018);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?STdRcGZkU3E0bWhEdmFiUmM1cWxKV0UxRTNtZ1loVzJ6VHB3QlI2L3FPNkgz?=
- =?utf-8?B?bWNsekFVdXJXVUxEVXh5N0xrWGtIaGZSNyt0bWFKRWhFQ01GQ3JJTnMzeFho?=
- =?utf-8?B?TEIxSWZGN3h6VW9pM3dHb3pkMjR5WkNRUVg0Qkg0c0ZyeEtjei9ZKzBLMENS?=
- =?utf-8?B?aEs3TU01amg5TDlUNFo5YmpKK3hMSE01Nm13a0VDSjFCajY2NXZtK2x5ZnJM?=
- =?utf-8?B?REdBNENiUkZNRUxmb2dieXd6K0tRQVlUdzBCY3MzaVNMc21NRGxtcjY2WVN1?=
- =?utf-8?B?OW4weWd3L1VLUGtxVjdleTBqc015SkRXUzhPcDVNdm10K3VEVDBGQVlrTGth?=
- =?utf-8?B?YmxIYmFsclFBMWh1ZGdsK2R2TUFoSDVCeGh3Q1VDSGtnd05aRzIzVEcyVGJ5?=
- =?utf-8?B?ZVVTd3pZNVBmTEVwK3JoY0VGTWlkTVA1STI4cndpcFF3cjVyK00xTmdUYlJO?=
- =?utf-8?B?OFJnaUhzKzhlaStrWkVNZ1h2U3VJaElnUXVLN3dxUnFWRTArYWdzQTUvOTB2?=
- =?utf-8?B?UXduUXByKytZZERpYVhvT2hnZGY3RnBoYzQ1ZitFZ25LQVY1WFpXaGJadFB4?=
- =?utf-8?B?Q1gvRU9ZRkQrT2diekVaY0NiUGYwYmZ3SmE0cGhoRDV5QXhQQlNlVjlCcnVz?=
- =?utf-8?B?WEFrS1NEMEtJTWZJZEt6dVc2c1pwVnllcHpOcitGZEk0TFBseENUUDZaS1FY?=
- =?utf-8?B?SysyRTAxREtjc3NveU93ajRvVFJpbG10cVo3SXh4bWdEaFNNcUE3UHZUamNF?=
- =?utf-8?B?bjJqaDUvNWk4TFdpbXp3b2xQREZ1d3UvWGx3RklHUlFRUW9MWDJlakFreE1U?=
- =?utf-8?B?aHY4bWlzbVFTNFpSSWhkcFIzRkhMWVhXeHhRcnpKMWJQMzBJSW1KQjh4cTFp?=
- =?utf-8?B?b3Q1SVJSWVgrWGFuSkVieVJndGhqeUlzbjBDMU9vbVRIdTlZRGh0aVV5aHhi?=
- =?utf-8?B?RFZHeHc0YStmQ3ZpSzF2SGI0NzdNeXM2TTdQcjExYnpZTjB3WVZtYUNiamlj?=
- =?utf-8?B?bHRrc1NYYk5LTnJxYnJ0S2k3d3htYWhoT0pvOThMeDhaRU9uQXE1RjhKZVls?=
- =?utf-8?B?MVB1NVhnWWU0M2tsMzVnNnRXQitoSURMU080WEc4N2NXQ3dmMkFZMlhOY2du?=
- =?utf-8?B?blF2dllxV0JIVHJDQnB5LytCQkEvRCt6UWJxeE44eEpJdnlmbkp4dmJtMUp2?=
- =?utf-8?B?d3I2eW8xMHoyVisrOWEzYnNTWU9BU3NFNzFrSzlKdmhwOEVHWDRYWTIycFZ1?=
- =?utf-8?B?MmtnZzNEUHdTZ2lGQW5BREJSeGNPSk9GZ0piaDFPeXVpdXRTWmVoTUh6VlNZ?=
- =?utf-8?B?UUl6cnpoNDlab2VmbThjUmJYbUQwY0pudDA0YnVneDg4eFc4Q2hGYTFuLzdC?=
- =?utf-8?B?cEN2M0NlSDJuaFV2ZG9Sdy9HTGJvRThmdTI4alErRHVkbXhZa09COXdxVmU1?=
- =?utf-8?B?dVdaYXNuajFJZlNFUkhwbG1uQjZSWXVzZ2VUZG9vbCtmaGtwNGFYZC8xRG52?=
- =?utf-8?B?UXBESjlXdkdoZ2ZLUy9jclN6RFJ3djVrKy9uV0hIcURkSlZkd2hVRWp4d0t1?=
- =?utf-8?B?NTIreURXT2xJWjN4dVpCY3J1MVJHL1NUdUFjTG0xSGt6cjd4TGViRXBYOEg0?=
- =?utf-8?B?U2wxMTkzMzBmT3AyMDJDN1d0aXY1QmcxZGM1NTFJdXlNS1k3QzdxT0lHSkU5?=
- =?utf-8?B?UEpRNjh0Z294SlR3OXlJNDdqcEFUdjBhRzY2clhaOUJWSEhjYkozWHBRSjli?=
- =?utf-8?B?akkxd2V2VTBQZWEvVi9EMi9FUG1ITHhWZ2g4RDlPTEtmTThFWWdZd2FXbU1p?=
- =?utf-8?B?djVISVpnWEphc0gvMlZZY0hKQzhaV0svSnRlM2FWR2RRNDRvMnNOdjFiZTdS?=
- =?utf-8?B?SkRia2RmcUxUL3BQV2tDcUxvNXlHSzhXNGgvQkNyZ1p3eUlzNm92OVVndjJk?=
- =?utf-8?B?Sms0Zk1aVTNLa2ladGNvNVZ2OUQreVVGeUJWQmtjYllDS3dwRlF1K1djNzdn?=
- =?utf-8?B?UUNwcmd5NjBSTmdBN2JRbFFST3FXenBpQWdpbE50THp2U0lmV0FPUk1lYkVB?=
- =?utf-8?B?MEV6Z1Z4RFJGRUFOUlVrQzcrNGNZeTRJUU9RWWt1V2tyNFBGc2kyZ2toOVFJ?=
- =?utf-8?B?RUVabXVEK1RCZmJnczhSb09zQm9kYlJMVHlDOXZzUGtXR2cwdFdtSUJReU9n?=
- =?utf-8?B?RHc9PQ==?=
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?elkzOTJmeXlpdGZOcDhWZU1KV20yMjU4VzRoS2Q0dTdReTB0eDNuUEVRQjhk?=
+ =?utf-8?B?dy9MK1dZcVBjWFF5V2ozMnUvZWpSYkZlUEkxTlZxMkJuN3NTT2NKaCtTYmVq?=
+ =?utf-8?B?K1Q1cHdYTG5JVWdtTDI3RnNtTjR1Z0hMa3VabXdSM3VKUGVOUWtKdTBESktP?=
+ =?utf-8?B?OG9PM2p4YVZhSFUrQnhWQVhyOXJheCtDbS9OMk5ZemN0OWFaU3h2ZDBKekRt?=
+ =?utf-8?B?Q0ppRmx5Sktpd1ZxNlk3VjNQNWxrcXE0MmhTcjNMNlIyUnZId29zdnF2NW96?=
+ =?utf-8?B?MW1Bb2dlS1ZOZFA5TGRzOUZGU3FlcGxXdEVqck9jbGxOSkJDUzZEd2hHT3RB?=
+ =?utf-8?B?SUZQUUROWlRGZERKU2dDQ3g0NmJlU0VWR0pxM3Fka2pGcmhKVHdYcnZ4VlhM?=
+ =?utf-8?B?UE8rYXRjQnQ4bGN3QnAzTEFxYXJjYmhpa1lTYUZWaGcxTnIrekM2dE1VcEtB?=
+ =?utf-8?B?WmIzR3JmVkJ4dTJIWUJ4SW1DTmtQZDIwV2hySGI4K00rNTA0OUw5UzlTNXdK?=
+ =?utf-8?B?NnVOZ0tSWjJrZHBSaGh0VWYxZVFJUmNZd1B1dG1xcjVIZnlEWGE0MzNPSU9W?=
+ =?utf-8?B?bTZxMG90VGNldW5SK0ViNGdtRmRFQ242UFdGaUpsWHNnaW5MYTFGR2ovOEZP?=
+ =?utf-8?B?R0RhRFF6RlpaZUtzdW12NjdZUDJFRkI4TnY5TkFMN1N1ZjZZKzFnV1ZkQkFN?=
+ =?utf-8?B?NmZlaVp1cFFuNnFtaXZvZWJqd3c3SXErQjk2NnRqcVhnUWRIMjhhN2NxWlh5?=
+ =?utf-8?B?dCttQ2pTNzRwNXIxN3d4ZDMrclhBRXBNZHd4dGV6V3pKNVJ1NlJlb1d4cjda?=
+ =?utf-8?B?L0NEa3duTzJpZzRJZVFOZXhYTmU5czV1QnRGY0NtZmxqM2wyT1g5UHp1QUZS?=
+ =?utf-8?B?Zkh2Rzd5QzEwV3d4ZU41cXJEMzVYd014N0QyclBXVVZpOVM3eFdxckdZVDM1?=
+ =?utf-8?B?Zkt0aFo0R1RUdm1Vc0k2Qk9DOExiQmRCUVMzZ3dhRUZpcGdrVC9va0U2ZFBn?=
+ =?utf-8?B?MXNBMEErYWJVM1I2T0JtNnVDdE1kUTJ5ekVWdnVqbkQ4MFJjc2hqMkNqelZR?=
+ =?utf-8?B?OEJNazdzWFd5emNNbWRYVHZzSk5rMkZPMHhLd3JGbnJRWXVWRk05SmgyTSs4?=
+ =?utf-8?B?RDJzSGRJV2NWZTRSL1RPc0Jhbjk1L2pzenBGVjhWVEFYcVd4UFkveitaSUNv?=
+ =?utf-8?B?K05JSUlZY1JQZm9CdVNqcjNxYWFZOFJCTkM2b2ttdXF5U1I5S3lJakR1QmEx?=
+ =?utf-8?B?MHZKa1hIQlZKRjNYTnZoWkRMR2tER0prMG1PU0RLWUtDNWlzREFRZEUrRmtN?=
+ =?utf-8?B?b2hBVlFOc0FhekthUlVHZFJIT0ZMWjdxV2NtUXljYmkxU3pFRzRXb1pKQ3Vm?=
+ =?utf-8?B?TytLQWJNMExGRTdpYW5Qa3kyQ3NEcDVidFFUbWFxTm51dXFvemE2Y0g0MEg0?=
+ =?utf-8?B?NlJCUkJOR0Nqa0l2UGc1SzV2M0hvUlUwaUhjRVN0TmF3endsT2tZaitPRWNp?=
+ =?utf-8?B?czAxdGpUZjRmeTZ3RGxxejBmZEZHWGhERFlEc0c3VU95QURydFFvdFdjcW15?=
+ =?utf-8?B?YjdRMWJWSjEyYWM4eThxMk44NjViL21CTEp6ODlzRGFUVnQ4QUFZOUg5Q3g2?=
+ =?utf-8?B?K3hIUU5KN0lvN0ZSZ1pKUi9IM25kSW4yVzg4Q2JEdkYxRk1QQ2g4bWhjd2FS?=
+ =?utf-8?B?OGVmQ1dNMlpuTE9oN3B6S250WDVCT1JxTlJmZThjT3h3UUJHTXVseTc1ZGZP?=
+ =?utf-8?B?eXBKRzhkbjFtV0wwK1UvcmNqcW9FQUp1ZUlnNEtCU0cwVVVMOG8yWVNXTERD?=
+ =?utf-8?B?SXdaQkpLdENJYXhLaDN6TGFLVEVBcXJKZTlvUjVrQkx6S2t3elFtZEU5UVAx?=
+ =?utf-8?B?a2VnT1orbzZHOUNKdGRaNmsxT1VDRXZyMlk1RlNXRXd4ZkM3TWFWbDlOZ1c5?=
+ =?utf-8?B?N2lWbmZxNGNXYmpJRlR1OEtJd0xRdkhwenFaR09CZ1NPQ0xxbXZLakhQSWti?=
+ =?utf-8?B?Qlovb0JOdW1xemJDMnJlcDRWZ1dyQVRZc3FicEJYZTBxZytDMWNHTTM5TERD?=
+ =?utf-8?B?RkJhS0kzUWhCcE4vZHBTeEJUZE5OeGc4QnA3OXljeERrbmx5Zm5UaUx4V2E1?=
+ =?utf-8?B?QldFZVpzMnNRaEgzcjNyYUVNcXNvRjVpTFhhMFhwWHQ1TVYxSFJGdGVHa2th?=
+ =?utf-8?B?MFE9PQ==?=
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------gr4byKnpf13JqZuRz1xHb0IY"
+ boundary="------------BIQGar00IJmhu2u0nlgGln1w"
 MIME-Version: 1.0
 X-OriginatorOrg: imgtec.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c483a77c-dbe3-4c7b-6525-08dd6087685d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2025 10:28:04.3971 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59f4621a-efce-4fdc-5d87-08dd608826bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2025 10:33:23.8277 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: At1MniWPYxmjSfdBhaLnWEi4uNLm6WNhpTO8d8G8E8l/khxlOoxJ/+R7T+b/JIdDuhS+yZBBnKYTF0MUGD0E5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2659
-X-Proofpoint-ORIG-GUID: GhqQU6zyoson-BR3raNi8J0-lL6sPrpt
-X-Authority-Analysis: v=2.4 cv=U+eSDfru c=1 sm=1 tr=0 ts=67d01038 cx=c_pps
- a=cRjhvmALJ7+JJty0Yz2dHg==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+X-MS-Exchange-CrossTenant-userprincipalname: w5R3LC1CgwxmWpP0z5Ns/bPkXfX1Z8xXvaOHQ8xfp8YeXHEqNMvyeOAn53Nug6ZT3tBDj1wcZ+GLaQWa8afJaA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7637
+X-Proofpoint-ORIG-GUID: qa5IKub6wgxuRO9DMe69z5uOpbslksiL
+X-Authority-Analysis: v=2.4 cv=U+eSDfru c=1 sm=1 tr=0 ts=67d0117a cx=c_pps
+ a=tbUAc5YXJZE2aXMCunvlBA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
  a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10
- a=NgoYpvdbvlAA:10 a=VwQbUJbxAAAA:8 a=r_1tXGB3AAAA:8 a=9vVJUd7ar8FOpOZwlh8A:9
- a=QEXdDO2ut3YA:10 a=ihAo4eevfFZXQa0tqmMA:9 a=FfaGCDsud1wA:10
+ a=NgoYpvdbvlAA:10 a=VwQbUJbxAAAA:8 a=r_1tXGB3AAAA:8 a=rntjs3-v37qsdkEPFO4A:9
+ a=QEXdDO2ut3YA:10 a=1zhuFutDXnl0JYzLNnYA:9 a=FfaGCDsud1wA:10
  a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: GhqQU6zyoson-BR3raNi8J0-lL6sPrpt
+X-Proofpoint-GUID: qa5IKub6wgxuRO9DMe69z5uOpbslksiL
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -210,8 +210,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------gr4byKnpf13JqZuRz1xHb0IY
-Content-Type: multipart/mixed; boundary="------------9wMnukjF00b8pupIfjMLEGXN";
+--------------BIQGar00IJmhu2u0nlgGln1w
+Content-Type: multipart/mixed; boundary="------------1WpGWfr5QTDpGaYBknF1PKu0";
  protected-headers="v1"
 From: Matt Coster <matt.coster@imgtec.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
@@ -227,157 +227,206 @@ Cc: Frank Binns <frank.binns@imgtec.com>, David Airlie <airlied@gmail.com>,
  Randolph Sapp <rs@ti.com>, Darren Etheridge <detheridge@ti.com>,
  Alessio Belle <alessio.belle@imgtec.com>,
  Alexandru Dadu <alexandru.dadu@imgtec.com>
-Message-ID: <7472842f-73d5-49ad-a93e-cd3b8b66cfa3@imgtec.com>
-Subject: Re: [PATCH v3 02/18] dt-bindings: gpu: img: Add BXS-4-64 devicetree
- bindings
+Message-ID: <cc6a19b3-ba35-465c-9fa6-a764df7c01c1@imgtec.com>
+Subject: Re: [PATCH v3 01/18] dt-bindings: gpu: img: Future-proofing
+ enhancements
 References: <20250310-sets-bxs-4-64-patch-v1-v3-0-143b3dbef02f@imgtec.com>
- <20250310-sets-bxs-4-64-patch-v1-v3-2-143b3dbef02f@imgtec.com>
- <20250311-bizarre-debonair-macaque-451c4f@krzk-bin>
-In-Reply-To: <20250311-bizarre-debonair-macaque-451c4f@krzk-bin>
+ <20250310-sets-bxs-4-64-patch-v1-v3-1-143b3dbef02f@imgtec.com>
+ <20250311-flashy-rattlesnake-of-rain-dcc4f6@krzk-bin>
+In-Reply-To: <20250311-flashy-rattlesnake-of-rain-dcc4f6@krzk-bin>
 
---------------9wMnukjF00b8pupIfjMLEGXN
+--------------1WpGWfr5QTDpGaYBknF1PKu0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 11/03/2025 07:51, Krzysztof Kozlowski wrote:
-> On Mon, Mar 10, 2025 at 01:10:26PM +0000, Matt Coster wrote:
->> Unlike AXE-1-16M, BXS-4-64 uses two power domains.
+On 11/03/2025 07:50, Krzysztof Kozlowski wrote:
+> On Mon, Mar 10, 2025 at 01:10:25PM +0000, Matt Coster wrote:
+>> The first compatible strings added for the AXE-1-16M are not sufficien=
+t to
+>> accurately describe all the IMG Rogue GPUs. The current "img,img-axe"
+>> string refers to the entire family of Series AXE GPUs, but this is
+>> primarily a marketing term and does not denote a level of hardware
+>> similarity any greater than just "Rogue".
 >>
->> Like the existing AXE-1-16M integration, BXS-4-64 uses the single cloc=
-k
->> integration in the TI k3-j721s2.
+>> The more specific "img,img-axe-1-16m" string refers to individual AXE-=
+1-16M
+>> GPU. For example, unlike the rest of the Series AXE GPUs, the AXE-1-16=
+M
+>> only uses a single power domain.
+>>
+>> The situation is actually slightly worse than described in the first
+>> paragraph, since many "series" (such as Series BXS found in the TI AM6=
+8
+>> among others and added later in this series) contain cores with both R=
+ogue
+>> and Volcanic architectures.
+>>
+>> Besides attempting to move away from vague groupings defined only
+>> by marketing terms, we want to draw a line between properties inherent=
+ to
+>> the IP core and choices made by the silicon vendor at integration time=
+=2E
+>> For instance, the number of power domains is a property of the IP core=
+,
+>> whereas the decision to use one or multiple clocks is a vendor one.
+>>
+>> In the original compatible strings, we must use "ti,am62-gpu" to const=
+rain
+>> both of these properties since the number of power domains cannot be f=
+ixed
+>> for "img,img-axe".
+>>
+>> Work is currently underway to add support for volcanic-based Imaginati=
+on
+>> GPUs, for which bindings will be added in "img,powervr-volcanic.yaml".=
+
+>> As alluded to previously, the split between rogue and volcanic cores i=
+s
+>> non-obvious at times, so add a generic top-level "img,img-rogue" compa=
+tible
+>> string here to allow for simpler differentiation in devicetrees withou=
+t
+>> referring back to the bindings.
+>>
+>> The currently supported GPU (AXE-1-16M) only requires a single power
+>> domain. Subsequent patches will add support for BXS-4-64 MC1, which ha=
+s
+>> two power domains. Add infrastructure now to allow for this.
+>>
+>> Also allow the dma-coherent property to be added to IMG Rogue GPUs, wh=
+ich
+>> are DMA devices. The decision for coherency is made at integration tim=
+e and
+>> this property should be applied wherever it accurately describes the
+>> vendor integration.
+>>
+>> Note that the new required properties for power domains are conditiona=
+l on
+>> the new base compatible string to avoid an ABI break.
 >>
 >> Signed-off-by: Matt Coster <matt.coster@imgtec.com>
 >> ---
 >> Changes in v3:
->> - Include adding the second power domain so it's in context
 >> - Remove unnecessary example
->> - Link to v2: https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v=
-1-v2-8-3fd45d9fb0cf@imgtec.com
->> Changes in v2:
->> - Use normal reg syntax for 64-bit values
->> - Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v=
-1-v1-8-4ed30e865892@imgtec.com
+>> - Remove second power domain details, add these where they're used ins=
+tead
+>> - Avoid ABI breaks by limiting new required properties to new compatib=
+le
+>>   strings and making all binding changes in a single patch.
+>> - Links to v2:
+>>   https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-1-3fd45=
+d9fb0cf@imgtec.com
+>>   https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-3-3fd45=
+d9fb0cf@imgtec.com
+>>   https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-4-3fd45=
+d9fb0cf@imgtec.com
 >> ---
->>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 34 +++++++++++++=
-++++++++-
->>  1 file changed, 33 insertions(+), 1 deletion(-)
+>>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 43 +++++++++++++=
++++++----
+>>  1 file changed, 36 insertions(+), 7 deletions(-)
 >>
 >> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.y=
 aml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
->> index 5c16b2881447c9cda78e5bb46569e2f675d740c4..d9409d33154d429019776d=
-dbf9d123b33f8c9740 100644
+>> index 256e252f8087fa0d6081f771a01601d34b66fe19..5c16b2881447c9cda78e5b=
+b46569e2f675d740c4 100644
 >> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
 >> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
->> @@ -18,6 +18,11 @@ properties:
->>                - ti,am62-gpu
->>            - const: img,img-axe-1-16m
->>            - const: img,img-rogue
+>> @@ -12,10 +12,20 @@ maintainers:
+>> =20
+>>  properties:
+>>    compatible:
+>> -    items:
+>> -      - enum:
+>> -          - ti,am62-gpu
+>> -      - const: img,img-axe # IMG AXE GPU model/revision is fully disc=
+overable
+>> +    oneOf:
 >> +      - items:
 >> +          - enum:
->> +              - ti,j721s2-gpu
->> +          - const: img,img-bxs-4-64
+>> +              - ti,am62-gpu
+>> +          - const: img,img-axe-1-16m
 >> +          - const: img,img-rogue
->> =20
->>        # This legacy combination of compatible strings was introduced =
-early on
->>        # before the more specific GPU identifiers were used.
->> @@ -49,6 +54,7 @@ properties:
->>    power-domain-names:
->>      items:
->>        - const: a
->> +      - const: b
 >=20
-> No, you just affected old device claiming it has two items. What's more=
-,
-> it's not synced with power-domains. Both properties must have the same
-> constraints, but above power domains have "anything".
+> That's still ABI break. You got here NAK. You ust preserve img,img-axe.=
 
-My mistake. This is tied to to my misunderstanding below.
+> Your marketing troubles do not concern Linux.
+
+I think I'm misunderstanding something here. Is keeping the existing
+compatible string around in the deprecated item below not sufficient to
+maintain the existing ABI?
+
+Would adding img,img-axe back into the updated list (bringing it to four
+elements) be acceptable?
 
 >=20
->> =20
->>    dma-coherent: true
->> =20
->> @@ -74,12 +80,38 @@ allOf:
->>          - power-domains
->>          - power-domain-names
->> =20
->> +  # Cores with one power domain
->=20
-> Drop
-
-Ack
-
->=20
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: img,img-axe-1-16m
->> +    then:
->> +      properties:
->> +        power-domain-names:
->> +          minItems: 1
->=20
-> Drop
-
-Ack
-
->=20
->> +          maxItems: 1
 >> +
->> +  # Cores with two power domains
+>> +      # This legacy combination of compatible strings was introduced =
+early on
+>> +      # before the more specific GPU identifiers were used.
+>> +      - items:
+>> +          - enum:
+>> +              - ti,am62-gpu
+>> +          - const: img,img-axe
+>> +        deprecated: true
+>> =20
+>>    reg:
+>>      maxItems: 1
+>> @@ -34,8 +44,13 @@ properties:
+>>    interrupts:
+>>      maxItems: 1
+>> =20
+>> -  power-domains:
+>> -    maxItems: 1
+>> +  power-domains: true
 >=20
-> Drop
+> No, widest constraints always stay here.
 
 Ack
 
 >=20
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: img,img-bxs-4-64
->> +    then:
->> +      properties:
->> +        power-domain-names:
->> +          minItems: 2
->> +          maxItems: 2
+>> +
+>> +  power-domain-names:
+>> +    items:
+>> +      - const: a
 >=20
-> Missing constraints for power-domains.
+> That's not a useful name. Are you sure that datasheet calls it power
+> domain A?
 
-My mistake, I misunderstood your comment on the V2 series as meaning
-replace power-domains, not add to.
-
-Thank you for taking the time to look through these patches again!
+Sadly yes. With the Volcanic architecture the power domains get real
+names, but until then we were stuck with abc. I shared a snipet from the
+BXS-4-64 TRM with Conor in the replies to the V1 series in [1].
 
 Cheers,
 Matt
 
 >=20
+>> +
+>> +  dma-coherent: true
+>=20
 > Best regards,
 > Krzysztof
 >=20
 
+[1]: https://lore.kernel.org/all/ff4e96e4-ebc2-4c50-9715-82ba3d7b8612@img=
+tec.com
 
 --=20
 Matt Coster
 E: matt.coster@imgtec.com
 
---------------9wMnukjF00b8pupIfjMLEGXN--
+--------------1WpGWfr5QTDpGaYBknF1PKu0--
 
---------------gr4byKnpf13JqZuRz1xHb0IY
+--------------BIQGar00IJmhu2u0nlgGln1w
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCZ9AQNAUDAAAAAAAKCRB5vBnz2d5qsEf+
-AP9yJXVarXPht7/RAOrQ2tvuRFgl3M/TYnIbpxI9lNQ1hgD+J2AbJ/SLCjF0wWFpmla6Ouf6DWfu
-zsGMj6AO3+vSxAc=
-=x9Bw
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCZ9ARcwUDAAAAAAAKCRB5vBnz2d5qsLP4
+AP9IpADjYkcJBxf2TbZu3S3oAJxkIuvu0dy1AhKw7cB1aQEA715g7+3Zb/78xF2DWdj0V7l5Tu72
+OlkyLJIxFjjWyAQ=
+=ukCL
 -----END PGP SIGNATURE-----
 
---------------gr4byKnpf13JqZuRz1xHb0IY--
+--------------BIQGar00IJmhu2u0nlgGln1w--
