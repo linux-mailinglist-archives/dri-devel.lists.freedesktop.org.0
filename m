@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5B1A5CE8A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 20:02:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5A2A5CE8D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 20:02:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC4410E67A;
-	Tue, 11 Mar 2025 19:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 759EF10E67C;
+	Tue, 11 Mar 2025 19:02:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IPG3TPZG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UlTjhGnG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C804810E67B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 19:02:43 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-39123ad8a9fso371402f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 12:02:43 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDBB910E67C
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 19:02:46 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-38c62ef85daso571854f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 12:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741719762; x=1742324562; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741719765; x=1742324565; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=FoHt8+Qv2KBvycEBRbSOT+7Q4Tanwbir/+be358nDD8=;
- b=IPG3TPZGWClA9b6wY21G8rHqKQs+UZxwtwV5FiX8pAoGVn8RuQAFp4xphjhQvDFHol
- fUBrVOj7Bwt49TYG9tKeg99e+4dHLsrq5GoJy5x6GHpDO0VX4GD5x74S1pmb11I8sauR
- ZXFUj9IA2lknOAWcAib9EjNVmQ/AK4sNJzfvLcZ9fKuUzadSNzz7vKTK0CtrtGmcentc
- 47mVByZThmZddE0KP15zsI9dMjUe2w8GuRhewU+HsRmpSI7MOyEVMP0AGBh7oqcAOVUV
- HYGey/SWCzIXTdXiCIEeUl/q6aMB7YHacSnP+pKsqQRDV8YO3BDzLEhDGP5PgWcIzWSu
- vlJA==
+ :reply-to; bh=A0d0ZttAFtkwUxOwwsVTFt/HnprneOl6Wo5KShqPwIY=;
+ b=UlTjhGnGjf3Bzb7WjrUpbdgmfd2s69/56mgnePwzUZ/Vj1qCUa2WABs64Sh/JDy1ng
+ OlbL17eaRYKRYB8JRaL34l6QKwRd3aYb1OPw6PSlT/2qacUUysIyitOBbhNo3cT/V8pJ
+ LoYeP4W+MwWyiFd+8pn01BlZ+rrP9UCKXblIU8yO4hRyG/TFMTECTSAbWVkzVnk7OKIg
+ OC5awOB72sxM0rSh1laieQLwJVLP+XZMFdc/0wC+QEilKSRWZTsUxcXKp0uB6tarXvi2
+ pwgUlHmteNpKfvYeQe7iNTno6l/lfX+1MnargzNj4GOXd3mbdfnXIBinNFX8lWd2hkBh
+ Pbng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741719762; x=1742324562;
+ d=1e100.net; s=20230601; t=1741719765; x=1742324565;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FoHt8+Qv2KBvycEBRbSOT+7Q4Tanwbir/+be358nDD8=;
- b=P8rV3SpoRGv8dXkODIeXd7ctHs+JBALaZEMDUybLIv4c+hBcHy8kJcDJ6gH29UMGVp
- 0mfVxsKqsvWYnaao4sdhPTIK2H0maNuOwAvtKzKVIK3iMkVMXh8J3KOYWaOjKaBQnjS7
- z8ZfSRpNbUk9VBudRB7UINLLXwDPNV2rFN3hSs6dIujYY9DnTu/DZhZL1iW0hmzXWOGc
- uImuq8aOZ0NjM50iwQxp26DGsYZdFEaIMkh5Vymz0HNNmuCzfmGTwxWBjIjlmb7s8E2C
- c8uRhsl2D5q54i6lmDpvd8m2B6pgPQCse0nE7iVDIX/cBSrhzZrerU2DKUy5OKv1coYt
- HrlQ==
+ bh=A0d0ZttAFtkwUxOwwsVTFt/HnprneOl6Wo5KShqPwIY=;
+ b=hmWLJqyDjtbBvLVd1Uf7hxIWnPGTPks1Fza5h6ZW+EZQDWA+dDHuXxBD5wSbzEjJ0Y
+ PjLTI8Bc7Frq1dY1zfOv/4CuN/0LQ3+8vL7ijB2p4foNfh0ncRTZGoPgRAUAsLRAI1Nx
+ wsk0tK1kPwLaYQKVs/zCy5lhBOxg+B7PKF+MTX2uVdlzRJVANx1ZNyyvMN5ha7d2/kTZ
+ YWir/4SoIX3AJct4BG1IE5xNdIvqdWZA6RUyCby+KQ6E7AY5qJlqqL6j9dL3Iaw8ECTe
+ pirGTpF3UH/MZ6eluJU8d4shTYgOemoGRrlYcFp3T2aCUvSzrOUm+3zrjsaHBCCI41AZ
+ Xu3Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVUj93WQM8Z/w7KyVtjlDrpymw+TWiGq+EP+bUVIftV7gV+SEVE/FlBMREHXm7l0esLmGT0SZFIO1c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1wU8jBkhN+RyqBOCGk9wBA5Sv6Bm4kKziTa8csrhcTcXZmJ8q
- oIbfSjEprRLdlXFtF3K8vlSrgNV74utw8Y1l2xAAQuJEVsU5xvY2BaDr6qwST00=
-X-Gm-Gg: ASbGncsJawwGisHieVgq6+LGyBYUKnfcGErvIMwpnyyXEnVCp3wB/SHxIkuj7PdZ3RD
- Po5dO0FgV+ozZP/2J6Ai7U7sDAp7FtnV759LnQBIMl1wPc4Z8rrgL0VgHXd/QWej1q1GpZ0LxOK
- jhb+3t+bP+ya7U3KwpxBRQbHZ//fkblbFkZQcEjmhqm8xqDPmS2EqQEpGQlgdFasebHfyR3azFy
- CevZASbomJ/G5QbGlrC0R/WHyiby67yInu5qvcyp5JYjih726WeUC8PRYsmP1eVOwix1vLODubn
- ezz+lSTbC/FBb9ZwKigcJGKmlH1vWQtYN8l2lLeE9WaEI/kUoZit0TK1Cok=
-X-Google-Smtp-Source: AGHT+IGtubQYzLqe6qMHPh2YhYmcldjpGkwHVseYKBCi8jZBCwCNslEBMj62gHB7lTtanzJPhgFk1w==
-X-Received: by 2002:a05:600c:3113:b0:43b:d547:6336 with SMTP id
- 5b1f17b1804b1-43d01c3105dmr22168095e9.8.1741719762312; 
- Tue, 11 Mar 2025 12:02:42 -0700 (PDT)
+ AJvYcCUFs8V4E/2coX6HRBS8n9RY2JCKTBWo5yRsRwt4Mm57b5BbYl4HUQFBc57jOx60BQhFX+8NEqHBfug=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyb7/dFUjQtHRsg1yLRDOWPUeRco/tYQrcCqZj0xDrH5pC0eMI+
+ ccyadsbU7fYeJ5HnbO8KUDGGWtX4cdvm+hH+D8229Er4Vo7yO+VNOuHc/jPYvMY=
+X-Gm-Gg: ASbGnctY3YOTCrc59S6zvvJKBltTuEcu6pga6DRv8XXdeiEE/rUo3lbC0FaDxQNgddm
+ hLjufd4WYvOWWmvDL3w8YLLboTqzuQlZTp9nPay6uvW+OFNt2/2wUJqo/DUJ3c3RuRFbn5ZgJvG
+ r7vaCrEmW6umFaOc5bi/MA/4a8bo+cZ8iV/+9xxu79UxaHxLbuFah6nb7zB6P7vvjHflWkpRZJ+
+ W3hQlKKW/rvhj2XlXoWdsZpzjF11lZnju52WPhQiq7ipZnq5em9vpXv3NizSEzTjJlE4U9YnAgL
+ FASY47By7DxErj4Hc4LmGpezoFh11oXVplgxBk033agnh4H0GFr6YRM7lH4=
+X-Google-Smtp-Source: AGHT+IFTq1fzI9DkxH76SuI6zs9b5L+7VoKkIdA2FrUOKKcp1yLpAGWBZ+iTVuss7hP++dlwksCTTA==
+X-Received: by 2002:a05:600c:1c1f:b0:439:a30f:2e49 with SMTP id
+ 5b1f17b1804b1-43ce6d46431mr46166985e9.5.1741719765380; 
+ Tue, 11 Mar 2025 12:02:45 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.198.86]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43ce70d13b4sm127681155e9.38.2025.03.11.12.02.38
+ 5b1f17b1804b1-43ce70d13b4sm127681155e9.38.2025.03.11.12.02.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Mar 2025 12:02:40 -0700 (PDT)
+ Tue, 11 Mar 2025 12:02:44 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Tue, 11 Mar 2025 20:02:00 +0100
-Subject: [PATCH v4 10/19] drm/msm/dpu: Drop useless comments
+Date: Tue, 11 Mar 2025 20:02:01 +0100
+Subject: [PATCH v4 11/19] drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and
+ MERGE_3D_5
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250311-b4-sm8750-display-v4-10-da6b3e959c76@linaro.org>
+Message-Id: <20250311-b4-sm8750-display-v4-11-da6b3e959c76@linaro.org>
 References: <20250311-b4-sm8750-display-v4-0-da6b3e959c76@linaro.org>
 In-Reply-To: <20250311-b4-sm8750-display-v4-0-da6b3e959c76@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
@@ -88,21 +89,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Dmitry Baryshkov <lumag@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1894;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1188;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=3xk0pyKS4szEe/9MhLY0udi1S0AkDYWMQ5qVNXd7KNA=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBn0IitXyBOAqRPMp/KeWk+fUVdkX6Z9R8/hGg9S
- IEiI9aoyTiJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ9CIrQAKCRDBN2bmhouD
- 1/VkD/41O3QOWYZQCz/a0hGAcXFdCxiwdt52Ij6fy7kFN9HC8l+eoOd3C+t73FbxyP7vOOpTEB6
- ldE1DezPsO3nMYCBNS6xWz2nfXKkZCPsD0yQFauOBzlr9DlY7vSj+be9QELlrCtQ9LCvGLL3ofC
- 9m4IenWnpfH0nCkPEPeB7A+BizuF9GFMTqLIIauaHYiGtkieTPZ0c5eSV7Cb9WeEbirH4+WqM6H
- huEJo6H6WJinBZ2KDBNyO9fGP+XgEpkZSHSvY3VLdsXiPO5pkxfKyM5C9c+iYuGUeJzmKjRB1vb
- qDcGUrLd4xCX7CaBXqX/92oeIGIcXOoAIY/KO4ScEcoIMoyvvAFYCZm/L43vJpST6F3Rq2hEKdP
- sTGrMWlRwfWPAbCx6ROKVSUDrSyCf/n+b1KWfU82+G8X5NSYC/YAiW/9s4gNXsU45AIC4ZHtCPz
- K2VH3kaOFUulwd+OVtqnvv29bFVuliq4DP8BGw/FnlYPpVokRPc5DjCbNYvxWzdXmS7Vf2wzW9d
- w++w+S9/b86Ls8p4vmJ+mwbXWy5ZYZJtld+2KOgAZ7ITmlyMVghTehYUGfC/hBz24V5L1F85fkn
- IjLcdFIxoIE+lfmrr86j0xbqzyPewR1QmPz7twsAfiQi+WdIINP/+wsn7V/JY5uy6Z+5fUzqY9O
- AOHbyo42s2JjvQQ==
+ bh=rbASTPjBDVDuXUnK84Co/5HFSWBJv467bNqZtllby24=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBn0IiuAtRk7ULRCYHnIA+Yy3/Ys1ZPh0+TZ6jAi
+ P/Zjo0rvv6JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ9CIrgAKCRDBN2bmhouD
+ 1wEWD/9XY1AwSdm0gW7NukB2Yk9ql/zcWkUHY5jiG73tr03VG3aMj+LWrhmvCOQ4sn6OnBma8Ny
+ 15V9ldZXcpHXWklX4FE0zsluV1rll+L9GbUXN4xmo3GSLzqH96FdNJKpsMLoa8FGR93zt59O9ZK
+ UJQvH9frlTY+jrfneZKUtSW46yIeX4P9DxFOLvKWyBU0olISugqyt6MhGTG0CoTHBFjfHDcnzhQ
+ YNSo5st8TgNSUy4hUzh9V4bWC0P+ZQVes6DZ6cEvd1hDO1ryGIgPAoXwnpZdF/NJ7UY5GLiIQiw
+ VTcNNzixZswnUejfRvdrrvkseYnKLYWwPzPdA6z6OridtQecwcfX8C/Bn49yRW2UucP1gt/jqqJ
+ xb4BvVJkzoya3U5bLvugbhjZMWHXA7Sy448EDmIGCFroSCZsXLs4AbKa+W7iR+Fc+3PqG/wGhHN
+ S/FcBjL0WCCwrxhes44a3tffmSeFlOefZ8TtxtpyzIMQtjZtn/MjWtXXLcCpwBDKfjni+vEEgEN
+ GoD/Iev+vnVSmCiHGATQHkX94gK4hKp8sUUg4Bj2CEVJJ3j13r/2HdHiEbxgZN40A5IUT3RzByf
+ 7oLh/jj+OGSf4WMVosWDhUEplJwcOvXc12k2D4/I+9DKM8+0YjaeJXQfoJkx+wkXYws34QkqXDh
+ Wdb/h1wX2bpPRWg==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,56 +121,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop comments about SoC before each 'struct dpu_lm_sub_blks' for given
-SoC because it's duplicating the actual name of structure.
+Add IDs for new blocks present in MDSS/MDP v12 for LM, DSC, PINGPONG and
+MERGE_3D blocks.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 2db27c55787791309962acf796d5c49aaf018fc1..a310a5234e99ea4886e82ac2100c4099e6a1841e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -331,8 +331,6 @@ static const struct dpu_sspp_sub_blks dpu_dma_sblk = _DMA_SBLK();
-  * MIXER sub blocks config
-  *************************************************************/
- 
--/* MSM8998 */
--
- static const struct dpu_lm_sub_blks msm8998_lm_sblk = {
- 	.maxwidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.maxblendstages = 7, /* excluding base layer */
-@@ -342,8 +340,6 @@ static const struct dpu_lm_sub_blks msm8998_lm_sblk = {
- 	},
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+index 8d820cd1b5545d247515763039b341184e814e32..175639c8bfbb9bbd02ed35f1780bcbd869f08c36 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+@@ -125,6 +125,7 @@ enum dpu_lm {
+ 	LM_4,
+ 	LM_5,
+ 	LM_6,
++	LM_7,
+ 	LM_MAX
  };
  
--/* SDM845 */
--
- static const struct dpu_lm_sub_blks sdm845_lm_sblk = {
- 	.maxwidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.maxblendstages = 11, /* excluding base layer */
-@@ -353,8 +349,6 @@ static const struct dpu_lm_sub_blks sdm845_lm_sblk = {
- 	},
+@@ -169,6 +170,8 @@ enum dpu_dsc {
+ 	DSC_3,
+ 	DSC_4,
+ 	DSC_5,
++	DSC_6,
++	DSC_7,
+ 	DSC_MAX
  };
  
--/* SC7180 */
--
- static const struct dpu_lm_sub_blks sc7180_lm_sblk = {
- 	.maxwidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.maxblendstages = 7, /* excluding base layer */
-@@ -363,8 +357,6 @@ static const struct dpu_lm_sub_blks sc7180_lm_sblk = {
- 	},
+@@ -185,6 +188,8 @@ enum dpu_pingpong {
+ 	PINGPONG_3,
+ 	PINGPONG_4,
+ 	PINGPONG_5,
++	PINGPONG_6,
++	PINGPONG_7,
+ 	PINGPONG_CWB_0,
+ 	PINGPONG_CWB_1,
+ 	PINGPONG_CWB_2,
+@@ -199,6 +204,7 @@ enum dpu_merge_3d {
+ 	MERGE_3D_2,
+ 	MERGE_3D_3,
+ 	MERGE_3D_4,
++	MERGE_3D_5,
+ 	MERGE_3D_MAX
  };
  
--/* QCM2290 */
--
- static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
- 	.maxwidth = DEFAULT_DPU_LINE_WIDTH,
- 	.maxblendstages = 4, /* excluding base layer */
 
 -- 
 2.43.0
