@@ -2,76 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99ACDA5D27F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 23:25:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B756DA5D2AB
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 23:44:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEF010E042;
-	Tue, 11 Mar 2025 22:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC3BD10E159;
+	Tue, 11 Mar 2025 22:44:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="QWEZWp44";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="n8VvlI74";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3419310E042
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 22:25:51 +0000 (UTC)
-Received: from [127.0.0.1] ([76.133.66.138]) (authenticated bits=0)
- by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52BMOF3B2275039
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Tue, 11 Mar 2025 15:24:15 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52BMOF3B2275039
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2025021701; t=1741731862;
- bh=GFDhiFKvtRD+W2XGLJDNjRiea0qe1W3j0iK0xY8JZL8=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=QWEZWp44Cu/zN1UIDmdWXY6QcwrSH2LoTB7gxC/oODFA2E5hnyx87scqetv/EJqaq
- W3NGSD2lutyv9Jcq8m20s075mr19ouosvjSfuoByKOZE3mQ3jwMuLYAfFD7NHXFjMu
- PSNQMtgdMv8Ylzz6iTK9sKEdCddWc+fBTUdrnEKWu4ZtGPAVnloe7NrgEcViX9/54l
- wN7/sR5ozYXyi5j6Ocpn7dIVIj/aVN6iIt0U8c7AYlRPFAXzs4Zww/v+elJgd/PqhB
- MqAlIlffCnFmITyc2l4ZgqDCwWd5yt6Lw5IBPI6hlmBqX3gG06MBm8zXyyFfILZebk
- u/gMoXml+mBPw==
-Date: Tue, 11 Mar 2025 15:24:14 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Yury Norov <yury.norov@gmail.com>, Kuan-Wei Chiu <visitorckw@gmail.com>
-CC: David Laight <david.laight.linux@gmail.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
- akpm@linux-foundation.org, alistair@popple.id.au,
- andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
- arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
- bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
- davem@davemloft.net, dmitry.torokhov@gmail.com,
- dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
- edumazet@google.com, eleanor15x@gmail.com, gregkh@linuxfoundation.org,
- hverkuil@xs4all.nl, jernej.skrabec@gmail.com, jirislaby@kernel.org,
- jk@ozlabs.org, joel@jms.id.au, johannes@sipsolutions.net,
- jonas@kwiboo.se, jserv@ccns.ncku.edu.tw, kuba@kernel.org,
- linux-fsi@lists.ozlabs.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-serial@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux@rasmusvillemoes.dk,
- louis.peens@corigine.com, maarten.lankhorst@linux.intel.com,
- mchehab@kernel.org, mingo@redhat.com, miquel.raynal@bootlin.com,
- mripard@kernel.org, neil.armstrong@linaro.org, netdev@vger.kernel.org,
- oss-drivers@corigine.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
- simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de,
- vigneshr@ti.com, x86@kernel.org
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Z9CyuowYsZyez36c@thinkpad>
-References: <4732F6F6-1D41-4E3F-BE24-E54489BC699C@zytor.com>
- <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com>
- <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com>
- <20250307195310.58abff8c@pumpkin>
- <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
- <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name> <Z9CyuowYsZyez36c@thinkpad>
-Message-ID: <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B95410E159
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 22:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741733068;
+ bh=rumNZz+nbkwUqosYZDH87JxuURktvLmlm42+WewyqgY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=n8VvlI74ynV7LINmJ/MoFt1sEtTI7kVyUkKfbM+3UymvHUsVo+WKA4NsPMLeSR2sM
+ yUt2/CMSfz37R1DVNDnfBuSIjGZjULzFdD19ooFCUVBN51/hjaO0lKZy2+NzL/sQYg
+ YHTu3A6YeGqPL8Dp7sbBvLMiH1CcfYrbKyhy7t+aSc3HEjcfhZ1x7v6bfb1ydCR/tD
+ TY9MytIcq2CggJZHJfpqIU/EthcMllPvwhj9nYsAqOjcuGil1JRET2V9WDyrAvKHiB
+ Sw7AZ47Me685rJs/MqylE+MCSOPKYVeA33ZHfEzT3ZmHUtwXFIGCwkQkztqM4myq5o
+ IX3LoGxq2P4dA==
+Received: from [192.168.1.90] (unknown [84.232.140.93])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id BF68817E0B25;
+ Tue, 11 Mar 2025 23:44:27 +0100 (CET)
+Message-ID: <a91cabd5-f0af-42a3-95b5-de68e30f7f23@collabora.com>
+Date: Wed, 12 Mar 2025 00:44:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/7] drm/tests: hdmi: Add macros to simplify EDID setup
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250311-hdmi-conn-yuv-v2-0-fbdb94f02562@collabora.com>
+ <20250311-hdmi-conn-yuv-v2-5-fbdb94f02562@collabora.com>
+ <20250311-spiritual-hornet-of-prestige-ef4132@houat>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250311-spiritual-hornet-of-prestige-ef4132@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,118 +67,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury=2Enorov@gmail=2Ecom> wro=
-te:
->On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
->> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H=2E Peter Anvin wrote:
->> > On March 7, 2025 11:53:10 AM PST, David Laight <david=2Elaight=2Elinu=
-x@gmail=2Ecom> wrote:
->> > >On Fri, 07 Mar 2025 11:30:35 -0800
->> > >"H=2E Peter Anvin" <hpa@zytor=2Ecom> wrote:
->> > >
->> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew=2Ecooper3@=
-citrix=2Ecom> wrote:
->> > >> >> (int)true most definitely is guaranteed to be 1=2E =20
->> > >> >
->> > >> >That's not technically correct any more=2E
->> > >> >
->> > >> >GCC has introduced hardened bools that intentionally have bit pat=
-terns
->> > >> >other than 0 and 1=2E
->> > >> >
->> > >> >https://gcc=2Egnu=2Eorg/gcc-14/changes=2Ehtml
->> > >> >
->> > >> >~Andrew =20
->> > >>=20
->> > >> Bit patterns in memory maybe (not that I can see the Linux kernel =
-using them) but
->> > >> for compiler-generated conversations that's still a given, or the =
-manager isn't C
->> > >> or anything even remotely like it=2E
->> > >>=20
->> > >
->> > >The whole idea of 'bool' is pretty much broken by design=2E
->> > >The underlying problem is that values other than 'true' and 'false' =
-can
->> > >always get into 'bool' variables=2E
->> > >
->> > >Once that has happened it is all fubar=2E
->> > >
->> > >Trying to sanitise a value with (say):
->> > >int f(bool v)
->> > >{
->> > >	return (int)v & 1;
->> > >}   =20
->> > >just doesn't work (see https://www=2Egodbolt=2Eorg/z/MEndP3q9j)
->> > >
->> > >I really don't see how using (say) 0xaa and 0x55 helps=2E
->> > >What happens if the value is wrong? a trap or exception?, good luck =
-recovering
->> > >from that=2E
->> > >
->> > >	David
->> >=20
->> > Did you just discover GIGO?
->>=20
->> Thanks for all the suggestions=2E
->>=20
->> I don't have a strong opinion on the naming or return type=2E I'm still=
- a
->> bit confused about whether I can assume that casting bool to int always
->> results in 0 or 1=2E
->>=20
->> If that's the case, since most people prefer bool over int as the
->> return type and some are against introducing u1, my current plan is to
->> use the following in the next version:
->>=20
->> bool parity_odd(u64 val);
->>=20
->> This keeps the bool return type, renames the function for better
->> clarity, and avoids extra maintenance burden by having just one
->> function=2E
->>=20
->> If I can't assume that casting bool to int always results in 0 or 1,
->> would it be acceptable to keep the return type as int?
->>=20
->> Would this work for everyone?
->
->Alright, it's clearly a split opinion=2E So what I would do myself in
->such case is to look at existing code and see what people who really
->need parity invent in their drivers:
->
->                                     bool      parity_odd
->static inline int parity8(u8 val)       -               -
->static u8 calc_parity(u8 val)           -               -
->static int odd_parity(u8 c)             -               +
->static int saa711x_odd_parity           -               +
->static int max3100_do_parity            -               -
->static inline int parity(unsigned x)    -               -
->static int bit_parity(u32 pkt)          -               -
->static int oa_tc6_get_parity(u32 p)     -               -
->static u32 parity32(__le32 data)        -               -
->static u32 parity(u32 sample)           -               -
->static int get_parity(int number,       -               -
->                      int size)
->static bool i2cr_check_parity32(u32 v,  +               -
->                        bool parity)
->static bool i2cr_check_parity64(u64 v)  +               -
->static int sw_parity(__u64 t)           -               -
->static bool parity(u64 value)           +               -
->
->Now you can refer to that table say that int parity(uXX) is what
->people want to see in their drivers=2E
->
->Whichever interface you choose, please discuss it's pros and cons=2E
->What bloat-o-meter says for each option? What's maintenance burden?
->Perf test? Look at generated code?
->
->I personally for a macro returning boolean, something like I
->proposed at the very beginning=2E
->
->Thanks,
->Yury
+On 3/11/25 6:12 PM, Maxime Ripard wrote:
+> On Tue, Mar 11, 2025 at 12:57:37PM +0200, Cristian Ciocaltea wrote:
+>> Introduce a few macros to facilitate setting custom (i.e. non-default)
+>> EDID data during connector initialization.
+>>
+>> This helps reducing boilerplate code while also drops some redundant
+>> calls to set_connector_edid().
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 245 ++++++++-------------
+>>  1 file changed, 93 insertions(+), 152 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> index e97efd3af9ed18e6cf8ee66b4923dfc805b34e19..a3f7f3ce31c73335c2c2643bdc5395b6ceb6f071 100644
+>> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> @@ -183,10 +183,12 @@ static const struct drm_connector_funcs dummy_connector_funcs = {
+>>  
+>>  static
+>>  struct drm_atomic_helper_connector_hdmi_priv *
+>> -drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
+>> -					   unsigned int formats,
+>> -					   unsigned int max_bpc,
+>> -					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
+>> +connector_hdmi_init_funcs_set_edid(struct kunit *test,
+>> +				   unsigned int formats,
+>> +				   unsigned int max_bpc,
+>> +				   const struct drm_connector_hdmi_funcs *hdmi_funcs,
+>> +				   const char *edid_data,
+>> +				   size_t edid_len)
+>>  {
+>>  	struct drm_atomic_helper_connector_hdmi_priv *priv;
+>>  	struct drm_connector *conn;
+>> @@ -240,30 +242,27 @@ drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
+>>  
+>>  	drm_mode_config_reset(drm);
+>>  
+>> +	if (edid_data && edid_len) {
+>> +		ret = set_connector_edid(test, &priv->connector, edid_data, edid_len);
+>> +		KUNIT_ASSERT_GT(test, ret, 0);
+>> +	}
+>> +
+>>  	return priv;
+>>  }
+>>  
+>> -static
+>> -struct drm_atomic_helper_connector_hdmi_priv *
+>> -drm_kunit_helper_connector_hdmi_init(struct kunit *test,
+>> -				     unsigned int formats,
+>> -				     unsigned int max_bpc)
+>> -{
+>> -	struct drm_atomic_helper_connector_hdmi_priv *priv;
+>> -	int ret;
+>> +#define drm_kunit_helper_connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, edid) \
+>> +	connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, edid, ARRAY_SIZE(edid))
+>>  
+>> -	priv = drm_kunit_helper_connector_hdmi_init_funcs(test,
+>> -							  formats, max_bpc,
+>> -							  &dummy_connector_hdmi_funcs);
+>> -	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
+>> +#define drm_kunit_helper_connector_hdmi_init_funcs(test, formats, max_bpc, funcs)		\
+>> +	connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, NULL, 0)
+>>  
+>> -	ret = set_connector_edid(test, &priv->connector,
+>> -				 test_edid_hdmi_1080p_rgb_max_200mhz,
+>> -				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+>> -	KUNIT_ASSERT_GT(test, ret, 0);
+>> +#define drm_kunit_helper_connector_hdmi_init_set_edid(test, formats, max_bpc, edid)		\
+>> +	drm_kunit_helper_connector_hdmi_init_funcs_set_edid(test, formats, max_bpc,		\
+>> +							    &dummy_connector_hdmi_funcs, edid)
+>>  
+>> -	return priv;
+>> -}
+>> +#define drm_kunit_helper_connector_hdmi_init(test, formats, max_bpc)				\
+>> +	drm_kunit_helper_connector_hdmi_init_set_edid(test, formats, max_bpc,			\
+>> +						      test_edid_hdmi_1080p_rgb_max_200mhz)
+> 
+> I'd really prefer to have functions to macros here. They are easier to
+> read, extend, and don't have any particular drawbacks.
 
-Also, please at least provide a way for an arch to opt in to using the bui=
-ltins, which seem to produce as good results or better at least on some arc=
-hitectures like x86 and probably with CPU options that imply fast popcnt is=
- available=2E
+Yeah, the main reason I opted for macros was to allow dropping
+ARRAY_SIZE(edid) from the caller side, hence making the API as simple as
+possible.
+
+> I also don't think we need that many, looking at the tests:
+> 
+>   - We need drm_kunit_helper_connector_hdmi_init() to setup a connector
+>     with test_edid_hdmi_1080p_rgb_max_200mhz and
+>     dummy_connector_hdmi_funcs()
+
+Correct.
+
+>   - We need to create a
+>     drm_kunit_helper_connector_hdmi_init_with_edid_funcs() to pass both
+>     the funcs and edid pointers
+
+That's drm_kunit_helper_connector_hdmi_init_funcs_set_edid(), but I can
+rename it if you prefer - I've just tried to keep the name length under
+control, as there are already some indentation challenges when calling
+the helpers.
+
+Currently it's only used to implement
+drm_kunit_helper_connector_hdmi_init_set_edid() by passing
+&dummy_connector_hdmi_funcs, but there are a few test cases that can
+benefit of it and help extend the cleanup - will do for v3.
+
+drm_kunit_helper_connector_hdmi_init_set_edid() should also stay as it's
+already being used to drop boilerplate code from a lot of places.
+
+> And that's it, right?
+
+There's also drm_kunit_helper_connector_hdmi_init_funcs() which has been
+used for a few times, but it can be further optimized out via
+drm_kunit_helper_connector_hdmi_init_funcs_set_edid(), so I'll drop it.
+
+That means we could end up with just the following:
+
+- drm_kunit_helper_connector_hdmi_init()
+- drm_kunit_helper_connector_hdmi_init_set_edid()
+- drm_kunit_helper_connector_hdmi_init_funcs_set_edid()
+
+>>  /*
+>>   * Test that if we change the RGB quantization property to a different
+>> @@ -771,19 +770,15 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
+>>  	struct drm_crtc *crtc;
+>>  	int ret;
+>>  
+>> -	priv = drm_kunit_helper_connector_hdmi_init(test,
+>> -						    BIT(HDMI_COLORSPACE_RGB),
+>> -						    10);
+>> +	priv = drm_kunit_helper_connector_hdmi_init_set_edid(test,
+>> +				BIT(HDMI_COLORSPACE_RGB),
+>> +				10,
+>> +				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
+> 
+> I think that convertion should be part of another patch.
+
+Ack, will move all conversions to a dedicated patch.
+
+Thanks,
+Cristian
