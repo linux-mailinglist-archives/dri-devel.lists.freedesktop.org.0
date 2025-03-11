@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8EBA5C9E8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 16:58:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0EEA5C9F1
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 16:59:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE09810E5E2;
-	Tue, 11 Mar 2025 15:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED1B10E5D4;
+	Tue, 11 Mar 2025 15:59:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M37FfNOU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iOUtArjQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CEE810E5D4;
- Tue, 11 Mar 2025 15:58:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5D2D10E5D4;
+ Tue, 11 Mar 2025 15:59:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 78B2FA45D9E;
- Tue, 11 Mar 2025 15:52:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEC7EC4CEE9;
- Tue, 11 Mar 2025 15:58:21 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8B882A45B05;
+ Tue, 11 Mar 2025 15:53:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF56FC4CEEF;
+ Tue, 11 Mar 2025 15:59:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741708706;
- bh=s/BI0c/mXjRIlHmmtIUh0vfxDHCIvIHWrReoajMcp3w=;
+ s=k20201202; t=1741708742;
+ bh=ey0TvjtocjBIN/gJtaPZmGpboACR4kND9J0lHiP1218=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M37FfNOUp8wIK6kCnGLOcug2rsqGqnA2ypPy4D1rjVfsu0hwzbBfTyxhC/fFO7SB3
- vZaCDm/fSf3F4iKXhAWODZPyeBQYmtKVZzgq7jsmOTBLGj/imFRenVxJfM6j2T6+A0
- kU6YKGremPgPfdmMToSpOzfT8TO+GFU4QaIWngkOJWyEQjG3IfpSOzKr7vFuw0Olz/
- 0DvToCb4pdILnhZxsMoBgtGkl2DRcxgcaVnpRm1h/uRDo+WOUd65Fd/1SGCYuA5myO
- fx7IcWkOYSBLP6RsoqIggTbYsXE+mQnxm7/SFWe6ehpc0wYG6+YtRhui1DpizRkmO2
- NOQORL9/gfBhQ==
-Date: Tue, 11 Mar 2025 17:58:19 +0200
-From: Dmitry Baryshkov <lumag@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
+ b=iOUtArjQndy07Zy38L727Ruxnz/8ksN6kE/fkWAPM1AnImem1bckhuCZuqtVNgHT+
+ oCnbFBqLL2z+qgFR0qHQRKpyn1CeVZB9FO6emRJ/g+TxHk8Ek28ZMoRs01mD6R6rHD
+ 5JM2nQEp1D358yHJ1HhjlMemDEJiQnL6f5ZpZavy6KyhbWedE9IkBbsQMKSvAsgfAn
+ x1ncQA8Yq1P/cOZNzSL5jdPiPXVVOrS3vt6Q+GcEsNRu35XCwCQoZexUgssafeiQmj
+ fsPeznnac04lfvhNU0/oNnOX+bxgn+Bw4wxKYq+VtYSsqj9gNMHWql2tU4570Jj4yl
+ cIn9Rt43yHBQA==
+Date: Tue, 11 Mar 2025 16:58:59 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <lumag@kernel.org>
 Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>, 
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -48,17 +48,20 @@ Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>,
  Hermes Wu <Hermes.wu@ite.com.tw>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v5 2/2] drm/msm/dp: reuse generic HDMI codec implementation
-Message-ID: <ecw5wdvkf2iqwxvigze374q3lb3esqbokv43mkblbnpfmudutu@e75i4lqhuux7>
+Subject: Re: [PATCH v5 1/2] drm/bridge: split HDMI Audio from
+ DRM_BRIDGE_OP_HDMI
+Message-ID: <20250311-benevolent-goat-of-thunder-8e73bb@houat>
 References: <20250307-dp-hdmi-audio-v5-0-f3be215fdb78@linaro.org>
- <20250307-dp-hdmi-audio-v5-2-f3be215fdb78@linaro.org>
- <20250310-daft-bittern-of-foundation-67c657@houat>
- <CALT56yMSs7K_0b5YtkCW5Ypyt9Hu_YLkitFFJwTtBkwUJk-NHA@mail.gmail.com>
- <20250311-vivid-almond-elk-83fda5@houat>
+ <20250307-dp-hdmi-audio-v5-1-f3be215fdb78@linaro.org>
+ <20250310-unnatural-puffin-of-revolution-59d726@houat>
+ <CALT56yPKe8+tSyChAo6ypHR8EWUpqeJDNM6mcOBUnFwFE7rg4w@mail.gmail.com>
+ <20250311-quizzical-warthog-of-leadership-53d224@houat>
+ <nx67lft5x4ytsxsd4mpxfocig5dfaolsurlwqzvkrniwzv3huz@hmwucvqykaid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pl6g7hvtmixanolq"
 Content-Disposition: inline
-In-Reply-To: <20250311-vivid-almond-elk-83fda5@houat>
+In-Reply-To: <nx67lft5x4ytsxsd4mpxfocig5dfaolsurlwqzvkrniwzv3huz@hmwucvqykaid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,89 +77,333 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 11, 2025 at 09:41:13AM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Mon, Mar 10, 2025 at 08:53:24PM +0200, Dmitry Baryshkov wrote:
-> > On Mon, 10 Mar 2025 at 17:08, Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > On Fri, Mar 07, 2025 at 07:55:53AM +0200, Dmitry Baryshkov wrote:
-> > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+--pl6g7hvtmixanolq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 1/2] drm/bridge: split HDMI Audio from
+ DRM_BRIDGE_OP_HDMI
+MIME-Version: 1.0
+
+On Tue, Mar 11, 2025 at 05:50:09PM +0200, Dmitry Baryshkov wrote:
+> On Tue, Mar 11, 2025 at 09:36:37AM +0100, Maxime Ripard wrote:
+> > On Mon, Mar 10, 2025 at 08:42:29PM +0200, Dmitry Baryshkov wrote:
+> > > On Mon, 10 Mar 2025 at 16:55, Maxime Ripard <mripard@kernel.org> wrot=
+e:
 > > > >
-> > > > The MSM DisplayPort driver implements several HDMI codec functions
-> > > > in the driver, e.g. it manually manages HDMI codec device registration,
-> > > > returning ELD and plugged_cb support. In order to reduce code
-> > > > duplication reuse drm_hdmi_audio_* helpers and drm_bridge_connector
-> > > > integration.
+> > > > Hi,
 > > > >
-> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > ---
-> > > >  drivers/gpu/drm/msm/Kconfig         |   1 +
-> > > >  drivers/gpu/drm/msm/dp/dp_audio.c   | 131 ++++--------------------------------
-> > > >  drivers/gpu/drm/msm/dp/dp_audio.h   |  27 ++------
-> > > >  drivers/gpu/drm/msm/dp/dp_display.c |  28 ++------
-> > > >  drivers/gpu/drm/msm/dp/dp_display.h |   6 --
-> > > >  drivers/gpu/drm/msm/dp/dp_drm.c     |   8 +++
-> > > >  6 files changed, 31 insertions(+), 170 deletions(-)
+> > > > On Fri, Mar 07, 2025 at 07:55:52AM +0200, Dmitry Baryshkov wrote:
+> > > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > >
+> > > > > As pointed out by Laurent, OP bits are supposed to describe opera=
+tions.
+> > > > > Split DRM_BRIDGE_OP_HDMI_AUDIO from DRM_BRIDGE_OP_HDMI instead of
+> > > > > overloading DRM_BRIDGE_OP_HDMI.
+> > > > >
+> > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > ---
+> > > > >  drivers/gpu/drm/bridge/lontium-lt9611.c        |  2 +-
+> > > > >  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   |  1 +
+> > > > >  drivers/gpu/drm/display/drm_bridge_connector.c | 59 ++++++++++++=
++++++---------
+> > > > >  drivers/gpu/drm/msm/hdmi/hdmi_bridge.c         |  1 +
+> > > > >  include/drm/drm_bridge.h                       | 23 ++++++++--
+> > > > >  5 files changed, 61 insertions(+), 25 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gp=
+u/drm/bridge/lontium-lt9611.c
+> > > > > index 026803034231f78c17f619dc04119bdd9b2b6679..3b93c17e25c18ae0d=
+13e9bb74553cf21dcc39f9d 100644
+> > > > > --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> > > > > +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> > > > > @@ -1130,7 +1130,7 @@ static int lt9611_probe(struct i2c_client *=
+client)
+> > > > >       lt9611->bridge.of_node =3D client->dev.of_node;
+> > > > >       lt9611->bridge.ops =3D DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP=
+_EDID |
+> > > > >                            DRM_BRIDGE_OP_HPD | DRM_BRIDGE_OP_MODE=
+S |
+> > > > > -                          DRM_BRIDGE_OP_HDMI;
+> > > > > +                          DRM_BRIDGE_OP_HDMI | DRM_BRIDGE_OP_HDM=
+I_AUDIO;
+> > > > >       lt9611->bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
+> > > > >       lt9611->bridge.vendor =3D "Lontium";
+> > > > >       lt9611->bridge.product =3D "LT9611";
+> > > > > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drive=
+rs/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> > > > > index 6166f197e37b552cb8a52b7b0d23ffc632f54557..5e5f8c2f95be1f5c4=
+633f1093b17a00f9425bb37 100644
+> > > > > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> > > > > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> > > > > @@ -1077,6 +1077,7 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct p=
+latform_device *pdev,
+> > > > >       hdmi->bridge.ops =3D DRM_BRIDGE_OP_DETECT |
+> > > > >                          DRM_BRIDGE_OP_EDID |
+> > > > >                          DRM_BRIDGE_OP_HDMI |
+> > > > > +                        DRM_BRIDGE_OP_HDMI_AUDIO |
+> > > > >                          DRM_BRIDGE_OP_HPD;
+> > > > >       hdmi->bridge.of_node =3D pdev->dev.of_node;
+> > > > >       hdmi->bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
+> > > > > diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/dri=
+vers/gpu/drm/display/drm_bridge_connector.c
+> > > > > index 30c736fc0067e31a97db242e5b16ea8a5b4cf359..030f98d454608a631=
+54827c65d4822d378df3b4c 100644
+> > > > > --- a/drivers/gpu/drm/display/drm_bridge_connector.c
+> > > > > +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+> > > > > @@ -98,6 +98,13 @@ struct drm_bridge_connector {
+> > > > >        * HDMI connector infrastructure, if any (see &DRM_BRIDGE_O=
+P_HDMI).
+> > > > >        */
+> > > > >       struct drm_bridge *bridge_hdmi;
+> > > > > +     /**
+> > > > > +      * @bridge_hdmi_audio:
+> > > > > +      *
+> > > > > +      * The bridge in the chain that implements necessary suppor=
+t for the
+> > > > > +      * HDMI Audio infrastructure, if any (see &DRM_BRIDGE_OP_HD=
+MI_AUDIO).
+> > > > > +      */
+> > > > > +     struct drm_bridge *bridge_hdmi_audio;
+> > > > >  };
+> > > > >
+> > > > >  #define to_drm_bridge_connector(x) \
+> > > > > @@ -433,7 +440,7 @@ static int drm_bridge_connector_audio_startup=
+(struct drm_connector *connector)
+> > > > >               to_drm_bridge_connector(connector);
+> > > > >       struct drm_bridge *bridge;
+> > > > >
+> > > > > -     bridge =3D bridge_connector->bridge_hdmi;
+> > > > > +     bridge =3D bridge_connector->bridge_hdmi_audio;
+> > > > >       if (!bridge)
+> > > > >               return -EINVAL;
+> > > > >
+> > > > > @@ -451,7 +458,7 @@ static int drm_bridge_connector_audio_prepare=
+(struct drm_connector *connector,
+> > > > >               to_drm_bridge_connector(connector);
+> > > > >       struct drm_bridge *bridge;
+> > > > >
+> > > > > -     bridge =3D bridge_connector->bridge_hdmi;
+> > > > > +     bridge =3D bridge_connector->bridge_hdmi_audio;
+> > > > >       if (!bridge)
+> > > > >               return -EINVAL;
+> > > > >
+> > > > > @@ -464,7 +471,7 @@ static void drm_bridge_connector_audio_shutdo=
+wn(struct drm_connector *connector)
+> > > > >               to_drm_bridge_connector(connector);
+> > > > >       struct drm_bridge *bridge;
+> > > > >
+> > > > > -     bridge =3D bridge_connector->bridge_hdmi;
+> > > > > +     bridge =3D bridge_connector->bridge_hdmi_audio;
+> > > > >       if (!bridge)
+> > > > >               return;
+> > > > >
+> > > > > @@ -478,7 +485,7 @@ static int drm_bridge_connector_audio_mute_st=
+ream(struct drm_connector *connecto
+> > > > >               to_drm_bridge_connector(connector);
+> > > > >       struct drm_bridge *bridge;
+> > > > >
+> > > > > -     bridge =3D bridge_connector->bridge_hdmi;
+> > > > > +     bridge =3D bridge_connector->bridge_hdmi_audio;
+> > > > >       if (!bridge)
+> > > > >               return -EINVAL;
+> > > > >
+> > > > > @@ -576,6 +583,21 @@ struct drm_connector *drm_bridge_connector_i=
+nit(struct drm_device *drm,
+> > > > >                               max_bpc =3D bridge->max_bpc;
+> > > > >               }
+> > > > >
+> > > > > +             if (bridge->ops & DRM_BRIDGE_OP_HDMI_AUDIO) {
+> > > > > +                     if (bridge_connector->bridge_hdmi_audio)
+> > > > > +                             return ERR_PTR(-EBUSY);
+> > > > > +
+> > > > > +                     if (!bridge->hdmi_audio_max_i2s_playback_ch=
+annels &&
+> > > > > +                         !bridge->hdmi_audio_spdif_playback)
+> > > > > +                             return ERR_PTR(-EINVAL);
+> > > > > +
+> > > > > +                     if (!bridge->funcs->hdmi_audio_prepare ||
+> > > > > +                         !bridge->funcs->hdmi_audio_shutdown)
+> > > > > +                             return ERR_PTR(-EINVAL);
+> > > > > +
+> > > > > +                     bridge_connector->bridge_hdmi_audio =3D bri=
+dge;
+> > > > > +             }
+> > > > > +
+> > > > >               if (!drm_bridge_get_next_bridge(bridge))
+> > > > >                       connector_type =3D bridge->type;
+> > > > >
+> > > > > @@ -611,22 +633,6 @@ struct drm_connector *drm_bridge_connector_i=
+nit(struct drm_device *drm,
+> > > > >                                              max_bpc);
+> > > > >               if (ret)
+> > > > >                       return ERR_PTR(ret);
+> > > > > -
+> > > > > -             if (bridge->hdmi_audio_max_i2s_playback_channels ||
+> > > > > -                 bridge->hdmi_audio_spdif_playback) {
+> > > > > -                     if (!bridge->funcs->hdmi_audio_prepare ||
+> > > > > -                         !bridge->funcs->hdmi_audio_shutdown)
+> > > > > -                             return ERR_PTR(-EINVAL);
+> > > > > -
+> > > > > -                     ret =3D drm_connector_hdmi_audio_init(conne=
+ctor,
+> > > > > -                                                         bridge-=
+>hdmi_audio_dev,
+> > > > > -                                                         &drm_br=
+idge_connector_hdmi_audio_funcs,
+> > > > > -                                                         bridge-=
+>hdmi_audio_max_i2s_playback_channels,
+> > > > > -                                                         bridge-=
+>hdmi_audio_spdif_playback,
+> > > > > -                                                         bridge-=
+>hdmi_audio_dai_port);
+> > > > > -                     if (ret)
+> > > > > -                             return ERR_PTR(ret);
+> > > > > -             }
+> > > > >       } else {
+> > > > >               ret =3D drmm_connector_init(drm, connector,
+> > > > >                                         &drm_bridge_connector_fun=
+cs,
+> > > > > @@ -635,6 +641,19 @@ struct drm_connector *drm_bridge_connector_i=
+nit(struct drm_device *drm,
+> > > > >                       return ERR_PTR(ret);
+> > > > >       }
+> > > > >
+> > > > > +     if (bridge_connector->bridge_hdmi_audio) {
+> > > > > +             bridge =3D bridge_connector->bridge_hdmi_audio;
+> > > > > +
+> > > > > +             ret =3D drm_connector_hdmi_audio_init(connector,
+> > > > > +                                                 bridge->hdmi_au=
+dio_dev,
+> > > > > +                                                 &drm_bridge_con=
+nector_hdmi_audio_funcs,
+> > > > > +                                                 bridge->hdmi_au=
+dio_max_i2s_playback_channels,
+> > > > > +                                                 bridge->hdmi_au=
+dio_spdif_playback,
+> > > > > +                                                 bridge->hdmi_au=
+dio_dai_port);
+> > > > > +             if (ret)
+> > > > > +                     return ERR_PTR(ret);
+> > > > > +     }
+> > > > > +
+> > > > >       drm_connector_helper_add(connector, &drm_bridge_connector_h=
+elper_funcs);
+> > > > >
+> > > > >       if (bridge_connector->bridge_hpd)
+> > > > > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu=
+/drm/msm/hdmi/hdmi_bridge.c
+> > > > > index 1456354c8af4bc7f655e8a47e958e9e0b99b7d29..ab6c8bc4a30b681f7=
+de8ca7031f833795d1f7d94 100644
+> > > > > --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> > > > > +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> > > > > @@ -515,6 +515,7 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
+> > > > >       bridge->ops =3D DRM_BRIDGE_OP_HPD |
+> > > > >               DRM_BRIDGE_OP_DETECT |
+> > > > >               DRM_BRIDGE_OP_HDMI |
+> > > > > +             DRM_BRIDGE_OP_HDMI_AUDIO |
+> > > > >               DRM_BRIDGE_OP_EDID;
+> > > > >       bridge->hdmi_audio_max_i2s_playback_channels =3D 8;
+> > > > >       bridge->hdmi_audio_dev =3D &hdmi->pdev->dev;
+> > > > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> > > > > index d4c75d59fa12be1bd7375ce3ea56415235781b28..dff8cf035b30d5c7e=
+00bfdf5d6e12802559823ba 100644
+> > > > > --- a/include/drm/drm_bridge.h
+> > > > > +++ b/include/drm/drm_bridge.h
+> > > > > @@ -693,8 +693,10 @@ struct drm_bridge_funcs {
+> > > > >       /**
+> > > > >        * @hdmi_audio_prepare:
+> > > > >        * Configures HDMI-encoder for audio stream. Can be called =
+multiple
+> > > > > -      * times for each setup. Mandatory if HDMI audio is enabled=
+ in the
+> > > > > -      * bridge's configuration.
+> > > > > +      * times for each setup.
+> > > > > +      *
+> > > > > +      * This callback is optional but it must be implemented by =
+bridges that
+> > > > > +      * set the DRM_BRIDGE_OP_HDMI_AUDIO flag in their &drm_brid=
+ge->ops.
+> > > > >        *
+> > > > >        * Returns:
+> > > > >        * 0 on success, a negative error code otherwise
+> > > > > @@ -707,8 +709,10 @@ struct drm_bridge_funcs {
+> > > > >       /**
+> > > > >        * @hdmi_audio_shutdown:
+> > > > >        *
+> > > > > -      * Shut down the audio stream. Mandatory if HDMI audio is e=
+nabled in
+> > > > > -      * the bridge's configuration.
+> > > > > +      * Shut down the audio stream.
+> > > > > +      *
+> > > > > +      * This callback is optional but it must be implemented by =
+bridges that
+> > > > > +      * set the DRM_BRIDGE_OP_HDMI_AUDIO flag in their &drm_brid=
+ge->ops.
+> > > > >        *
+> > > > >        * Returns:
+> > > > >        * 0 on success, a negative error code otherwise
+> > > > > @@ -814,6 +818,17 @@ enum drm_bridge_ops {
+> > > > >        * drivers.
+> > > > >        */
+> > > > >       DRM_BRIDGE_OP_HDMI =3D BIT(4),
+> > > > > +     /**
+> > > > > +      * @DRM_BRIDGE_OP_HDMI_AUDIO: The bridge provides HDMI audi=
+o operations.
+> > > > > +      * Bridges that set this flag must implement the
+> > > > > +      * &drm_bridge_funcs->hdmi_audio_prepare and
+> > > > > +      * &drm_bridge_funcs->hdmi_audio_shutdown callbacks.
+> > > > > +      *
+> > > > > +      * Note: currently there can be at most one bridge in a cha=
+in that sets
+> > > > > +      * this bit. This is to simplify corresponding glue code in=
+ connector
+> > > > > +      * drivers.
+> > > > > +      */
+> > > > > +     DRM_BRIDGE_OP_HDMI_AUDIO =3D BIT(5),
 > > > >
+> > > > We should make this conditional on HDMI being set. It doesn't make =
+sense
+> > > > to have OP_HDMI_AUDIO enabled when OP_HDMI isn't.
+> > >=20
+> > > It totally does.
+> >=20
+> > I'm sure it works properly. I meant on a conceptual level. In our
+> > codebase, as it is today, the HDMI audio support is part of the HDMI
+> > infrastructure, and thus implementing audio without the main part
+> > doesn't make sense. IIRC, the spec also mandates video support, but
+> > audio is optional.
+>=20
+> I can imagine a HDMI bridge using OP_HDMI_AUDIO, but not OP_HDMI. For
+> example, lontium-lt9611uxc.c. It is a 'smart' chip, which handles nearly
+> everything on its own. I even don't know if there is a way to program
+> the InfoFrames, etc., so I'm very skeptical about setting OP_HDMI.
+> However at the same time, it would defeinitely benefit from using
+> OP_HDMI_AUDIO.
 
-[...]
+You're going to have the same argument for that chip for audio: if not
+be able to set the infoframe disqualifies, then there's audio infoframes
+too and thus it should be disqualified from OP_HDMI_AUDIO.
 
-> > > >
-> > > >  static int msm_edp_bridge_atomic_check(struct drm_bridge *drm_bridge,
-> > > > @@ -320,9 +324,13 @@ int msm_dp_bridge_init(struct msm_dp *msm_dp_display, struct drm_device *dev,
-> > > >        */
-> > > >       if (!msm_dp_display->is_edp) {
-> > > >               bridge->ops =
-> > > > +                     DRM_BRIDGE_OP_HDMI_AUDIO |
-> > > >                       DRM_BRIDGE_OP_DETECT |
-> > > >                       DRM_BRIDGE_OP_HPD |
-> > > >                       DRM_BRIDGE_OP_MODES;
-> > > > +             bridge->hdmi_audio_dev = &msm_dp_display->pdev->dev;
-> > > > +             bridge->hdmi_audio_max_i2s_playback_channels = 8;
-> > > > +             bridge->hdmi_audio_dai_port = -1;
-> > > >       }
-> > >
-> > > I think I'd prefer the toggle to be OP_DP_AUDIO, even if the
-> > > implementation is exactly the same. That way, we'll be able to condition
-> > > it to the DP support when that arrives, and we have the latitude to
-> > > rework it to accomodate some DP subtleties without affecting the drivers
-> > > later on.
-> > 
-> > I don't think that there is a point in having OP_DP_AUDIO. There is
-> > not so much difference in the driver. Also currently OP_HDMI_AUDIO
-> > follows existing approach (which was pointed out by Laurent) - that
-> > OP_foo should guard a particular set of callbacks. From this
-> > perspective, OP_HDMI_AUDIO is fine - it guards usage of
-> > hdmi_audio_foo(). OP_DP_AUDIO would duplicate that.
-> 
-> HDMI and DP are two competing standards, with different governing
-> bodies. I don't think either have claimed that they will strictly adhere
-> to what the other is doing, and I don't have the will to cross-check
-> every given audio feature in both HDMI and DP right now.
+I don't believe it's an issue though: if a driver doesn't want the
+infoframes for whatever reason, it's free to do so.
 
-Hmm. Currently (or before the first hdmi_audio patchset) everybody has
-been plumbing hdmi-codec directly from the driver (even for DP audio).
+It's also something I'd like to reevaluate when we actually have that
+problem to deal with. At the moment, it sounds like reducing the safety
+of the API for an hypothetical case.
 
-> However, I think we should really have the flexibility to deal with that
-> situation if it happens, and without having to do any major refactoring.
-> That means providing an API that is consistent to the drivers, and
-> provides what the driver needs. Here, it needs DP audio support, not
-> HDMI's.
+Maxime
 
-Would OP_HDMI_CODEC be a better name for the OP? (we can rename the
-existing callbacks to be hdmi_codec instead of hdmi_audio too).
+--pl6g7hvtmixanolq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> How we plumb it is an implementation detail, and I do agree we can use
-> the same functions under the hood right now. But the driver is a DP
-> driver, it wants DP infrastructure and DP audio support.
+-----BEGIN PGP SIGNATURE-----
 
-Would OP_DP_AUDIO require a different set of callbacks on the bridge
-level? I don't want to end up with too much of duplication. Maybe we
-should the cdns bridges which implement both HDMI and DP functionality
-IIRC.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ9BdwwAKCRDj7w1vZxhR
+xR/IAP9v2rXA6H+WNAN3pWG4eBzvmHPfv6A8dmEtShhwat2DXgEAhqR080GlXY6t
+2tKR+NI6rpcNiWdaNKEgeH77PIDjVwE=
+=3j/T
+-----END PGP SIGNATURE-----
 
-
--- 
-With best wishes
-Dmitry
+--pl6g7hvtmixanolq--
