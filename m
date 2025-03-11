@@ -2,140 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3EDA5CA4C
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 17:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ECBEA5CA77
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 17:12:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0E3310E20F;
-	Tue, 11 Mar 2025 16:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5D010E263;
+	Tue, 11 Mar 2025 16:11:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="TmIdSPfk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KzHUd8gn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TmIdSPfk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KzHUd8gn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lRBwZ3y2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB3F10E20F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 16:07:22 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BB4A021169;
- Tue, 11 Mar 2025 16:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1741709240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GW1kVZlVU0x+VxQiA9000ISlT/tZnOaEiTo2RH6TqLA=;
- b=TmIdSPfk/JLEwfHRA8hIwfX7zTkQtFhaiY7c48C6ZdprbvXKTpc+QnQETokhFqF/+YDKb4
- kpAbxkU86IxWP4CZGrhkp0Ck8tWZ2UGr4TqFd4iShUFziaYl+8bGJynevcoIYL4dUC5L4S
- zvyY55izpHmZfxXCojRc3/DRgvy+4WQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1741709240;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GW1kVZlVU0x+VxQiA9000ISlT/tZnOaEiTo2RH6TqLA=;
- b=KzHUd8gndNTSq5TlyD8z1mKYmTi0gD8ENFDY1PC+c/Q1eIrrarboNfFE0b2fIoRvAgvx4h
- aiwkhtdjQCoJcJDA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TmIdSPfk;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KzHUd8gn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1741709240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GW1kVZlVU0x+VxQiA9000ISlT/tZnOaEiTo2RH6TqLA=;
- b=TmIdSPfk/JLEwfHRA8hIwfX7zTkQtFhaiY7c48C6ZdprbvXKTpc+QnQETokhFqF/+YDKb4
- kpAbxkU86IxWP4CZGrhkp0Ck8tWZ2UGr4TqFd4iShUFziaYl+8bGJynevcoIYL4dUC5L4S
- zvyY55izpHmZfxXCojRc3/DRgvy+4WQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1741709240;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GW1kVZlVU0x+VxQiA9000ISlT/tZnOaEiTo2RH6TqLA=;
- b=KzHUd8gndNTSq5TlyD8z1mKYmTi0gD8ENFDY1PC+c/Q1eIrrarboNfFE0b2fIoRvAgvx4h
- aiwkhtdjQCoJcJDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9BD40134A0;
- Tue, 11 Mar 2025 16:07:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id VnGxJLhf0GdzeQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 11 Mar 2025 16:07:20 +0000
-Message-ID: <7b8a1d83-8dd4-4fde-b017-bb7405238727@suse.de>
-Date: Tue, 11 Mar 2025 17:07:20 +0100
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0884E10E25A;
+ Tue, 11 Mar 2025 16:11:54 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-2ff5f2c5924so1560181a91.2; 
+ Tue, 11 Mar 2025 09:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741709514; x=1742314314; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tbXgDbQe6odtzN7qJt3Hn9EsxbW1Jh0Po6Yo1yHTQZY=;
+ b=lRBwZ3y2TltEQ6OdMdJfMThNq3GTBoHgNDK0tlArpSnZI13shsSQ4rpLYWJYFPblpX
+ XAVF4KW3qCDWUTrJ4ZE4LyT1uTz/JoXKIZZuXqzER8qR/5sFrnxlQBIL4uKRqfari5Ht
+ sG8+PVR+iailpzg6FQrIf4f7tI/auImgZKRQQvNhcSyMQ0/fIE3ZxLsOHLWmfAfHsLPr
+ tFRiy7cugL+vMmTTHt1/XMWYe98L/m1Av7ARFNzlEBe7BH2CbdodMnXwtqHM8uxC9Ud1
+ ZTIgVTfAazts3UQo41NyZrSEOH8VqPrco7JxEVxz2T+vTvg/FLjcl/WhqwxvH2+Mp+pA
+ 074A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741709514; x=1742314314;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tbXgDbQe6odtzN7qJt3Hn9EsxbW1Jh0Po6Yo1yHTQZY=;
+ b=dmKHyVOiqCDKDBouwEoJDLJ0dZ2opRpocj/d+qBOluTT/wHhKP+JufbIQBFSIusggk
+ twBOZuztqqvVyJLyaNNfYj1wueRWE7uhF3au+Bs4y5TbYdGj/+G34QJ/mAKY6PIK7Uyc
+ sxvpXlFfF2jPu5Cji2wAtcKZl14upZrWQceOe0XTHRygvbGVcju0ybqBgCvhAJZE1gDh
+ TCszPfMRjPnBXSCWw8bTI/nndeLPaKcBU7reqLeAGCdvQ2F7yX9hirv1KyokaEPSAmQX
+ 3iNJgdUN7bUUuk8FEiZDArIbHNZmLDljL9PxfIQZ0jtoWg9aMyXUOViRHnsX5ptHitp5
+ vRDA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV5nbNoj5CCxnGrQ802h5TDcylPFzPlkqo8VOpMy6zsZ8Rnbe98App9BufQePNQDdT89V3HDWnV7tyo@lists.freedesktop.org,
+ AJvYcCVKEiP1/0VfnHhnPqSfXUelTv7DLyFkoO9V4oigRz/EsryZeR7aV29/i87HlH6fByQhzwchoDNu@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwnHr08LOABCRMcVwK4RcL06xbNCAk/tDPNdGkSw7lomX/ziJGt
+ Cp9c46LOsaYOH6hx9RoSqI6N7kFQddMOZRcbu+kiDmotEHe//LxYBeNo2E57Y8AgtkJUGhAVr+O
+ qBn1pGx4pzaFphOICwmAOamqtw/Y=
+X-Gm-Gg: ASbGncvDXs1z9L1AnrmscgFTgD8vkgRfS86RepfofRwAQpm0//ybzgHfZXQGzNo6E82
+ 2hEyMH5SHePZ8mbHy/Weaxfe0O0D8O8gqFw+Kvlcsiv9+IL0CbfDKfZYNp+idaw3CgLsPPwk38O
+ 0kK+KK0x/PUFZkg91rWCgYYl7+BSkPHn4kNG8M
+X-Google-Smtp-Source: AGHT+IHoUI2IVDeSuvbHPxuzIsIzy8DbeE/xia2Z5IbkvUSauYjGSV2OlB5NBKJvQwzYZ9fQklzxpagAfdTPP7TP2rY=
+X-Received: by 2002:a17:90b:4d0b:b0:2fe:8fa0:e7a1 with SMTP id
+ 98e67ed59e1d1-300ff720794mr2092338a91.2.1741709513631; Tue, 11 Mar 2025
+ 09:11:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] drm/ast: cursor: Drop page alignment
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com
-Cc: dri-devel@lists.freedesktop.org
-References: <20250305163207.267650-1-tzimmermann@suse.de>
- <20250305163207.267650-8-tzimmermann@suse.de>
- <c83563fd-3260-479c-a6fb-40e5dbbd1183@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <c83563fd-3260-479c-a6fb-40e5dbbd1183@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: BB4A021169
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MIME_TRACE(0.00)[0:+];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MID_RHS_MATCH_FROM(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[3]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
+References: <20250311111501.9190-1-n.zhandarovich@fintech.ru>
+In-Reply-To: <20250311111501.9190-1-n.zhandarovich@fintech.ru>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 11 Mar 2025 12:11:41 -0400
+X-Gm-Features: AQ5f1Jo_n7znu1k53mWqt5ocAdZXDWFpNjqsQGbU5mMQMuEwRLuEpw7wKFxIBH4
+Message-ID: <CADnq5_M0vVpU-puopwNjJcaSKfHr3ZDS3_n-Cmf5MWAA_4qViQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: fix uninitialized size issue in
+ radeon_vce_cs_parse()
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,68 +89,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Applied.  Thanks!
 
-Am 11.03.25 um 14:10 schrieb Jocelyn Falempe:
-> On 05/03/2025 17:30, Thomas Zimmermann wrote:
->> The cursor scanout address requires alignment to a multiple of 8,
->> but does not require page alignment. Change the offset calculation
->> accordingly. Frees up a few more bytes for the primary framebuffer.
->>
-> The framebuffer is page aligned, so I'm not sure you can use the extra 
-> bytes.
+Alex
 
-The GEM buffer located in system ram is page aligned, so that mmap works 
-as expected. But the scanout buffer in VRAM doesn't have to be as we 
-don't ever mmap that to user space. The cursor scanout address only 
-requires an alignment of 8. The damage handling only copies visible 
-bytes, hence we don't accidentally overwrite cursor bytes when we copy 
-the primary plane. So this should all be fine.
-
-The driver likely requires an improved version of 
-ast_mode_config_mode_valid() to really use these extra bytes. I've been 
-working on this a bit.
-
-I think this might not make much of a difference on most machines, but 
-there are lowest-of-the-low-end systems with only 4 MiB of VRAM 
-available. Maybe there's a case where those additional bytes will be useful.
-
-> Otherwise, it looks good to me.
+On Tue, Mar 11, 2025 at 7:23=E2=80=AFAM Nikita Zhandarovich
+<n.zhandarovich@fintech.ru> wrote:
 >
-> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-
-Thanks for reviewing, BTW
-
-Best regards
-Thomas
-
+> On the off chance that command stream passed from userspace via
+> ioctl() call to radeon_vce_cs_parse() is weirdly crafted and
+> first command to execute is to encode (case 0x03000001), the function
+> in question will attempt to call radeon_vce_cs_reloc() with size
+> argument that has not been properly initialized. Specifically, 'size'
+> will point to 'tmp' variable before the latter had a chance to be
+> assigned any value.
 >
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/ast/ast_cursor.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_cursor.c 
->> b/drivers/gpu/drm/ast/ast_cursor.c
->> index cb0c48d47207..5ee724bfd682 100644
->> --- a/drivers/gpu/drm/ast/ast_cursor.c
->> +++ b/drivers/gpu/drm/ast/ast_cursor.c
->> @@ -58,7 +58,7 @@ long ast_cursor_vram_offset(struct ast_device *ast)
->>       if (size > ast->vram_size)
->>           return -EINVAL;
->>   -    return PAGE_ALIGN_DOWN(ast->vram_size - size);
->> +    return ALIGN_DOWN(ast->vram_size - size, SZ_8);
->>   }
->>     static u32 ast_cursor_calculate_checksum(const void *src, 
->> unsigned int width, unsigned int height)
+> Play it safe and init 'tmp' with 0, thus ensuring that
+> radeon_vce_cs_reloc() will catch an early error in cases like these.
 >
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+> Found by Linux Verification Center (linuxtesting.org) with static
+> analysis tool SVACE.
+>
+> Fixes: 2fc5703abda2 ("drm/radeon: check VCE relocation buffer range v3")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> ---
+>  drivers/gpu/drm/radeon/radeon_vce.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_vce.c b/drivers/gpu/drm/radeon=
+/radeon_vce.c
+> index d1871af967d4..2355a78e1b69 100644
+> --- a/drivers/gpu/drm/radeon/radeon_vce.c
+> +++ b/drivers/gpu/drm/radeon/radeon_vce.c
+> @@ -557,7 +557,7 @@ int radeon_vce_cs_parse(struct radeon_cs_parser *p)
+>  {
+>         int session_idx =3D -1;
+>         bool destroyed =3D false, created =3D false, allocated =3D false;
+> -       uint32_t tmp, handle =3D 0;
+> +       uint32_t tmp =3D 0, handle =3D 0;
+>         uint32_t *size =3D &tmp;
+>         int i, r =3D 0;
+>
