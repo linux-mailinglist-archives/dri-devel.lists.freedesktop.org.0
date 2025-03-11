@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2152A5BC0A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 10:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA9EA5BC04
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 10:24:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A6010E53F;
-	Tue, 11 Mar 2025 09:24:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCC6B10E156;
+	Tue, 11 Mar 2025 09:23:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MngOh1n9";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LOIqVpJx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE68410E53E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF2E410E542
  for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 09:23:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,25 +22,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=TkvCdGqsOLPVAtwvMfdp4GA8VI0AUKRvpqoDXz229Cc=; b=MngOh1n98jvZtwwS0UXQ4qWNIa
- cPn7B579zZ2BEwupa9vgSI7thiUyhHt/xhu0wTF3/bUayJXhie7AOBeLT78EBJlLh6siSslf8YRsV
- F8WhGqhrUTs0HZ5aCWKf/IUhdedPMsKmR0qpMFrFDWy23hhwUCoeTs7wsyeZRg+/xmJjqUQdhe9g4
- z78R3C5WMtX4BgOHjCLglbDEcVVhr1IzHt2kjLg8CMe3afvoY0mKESNFEz6d9Wb039K5OFrRv/2nR
- W2/3KJ6vVHjp/Z7exXPuMVzNgNqmBFATrzoKwsU7CA5tYiUcBrlVMCwsoX3i4LAjYwz9hnNf/VrYB
- kiMWzo3g==;
+ bh=1sRFQdO2FBk7Koep11BABDRrD+mxVccEn42fFRM4PxU=; b=LOIqVpJxmzDw4ddHDvHKSCuZ0+
+ kQ7oB4agzohX8mUO0eNbRgbL6jTuf6v82JpV2JJwsIyti2oaAUgGvLvOBJZIKpsTEUoNvksW7VyYy
+ /axzj7uwplqqW6nWnKgLWMoyAPu6dKwLNg0aJY5C6YN/mMZwk9dgmXt843qCTY5qEXGrV/Y1htQCF
+ EOokSJT87bSBqNJccnR2igc/lQ80gb+XEKHXycupf/K4dTy0SngWiv6h/a7z0FISEJu5WAJQINndt
+ dZtTGVYFYuDN8oMdasT8PeE33ezB72jB8/g/OAlvX0aZh8W+4RpXmm79I1Ziw1o+fTOFDQGXqUfFg
+ /qNZWYuA==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1trvpr-006yTB-4h; Tue, 11 Mar 2025 10:23:45 +0100
+ id 1trvpr-006yTF-Re; Tue, 11 Mar 2025 10:23:45 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Philipp Stanner <phasta@kernel.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
-Subject: [PATCH v7 3/7] drm/sched: Add aspirational unit test mode
-Date: Tue, 11 Mar 2025 09:23:35 +0000
-Message-ID: <20250311092339.52199-4-tvrtko.ursulin@igalia.com>
+ Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>
+Subject: [PATCH v7 4/7] drm/sched: Add a simple timeout test
+Date: Tue, 11 Mar 2025 09:23:36 +0000
+Message-ID: <20250311092339.52199-5-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250311092339.52199-1-tvrtko.ursulin@igalia.com>
 References: <20250311092339.52199-1-tvrtko.ursulin@igalia.com>
@@ -62,87 +63,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Aspirational unit test mode can be activated via
-CONFIG_DRM_SCHED_KUNIT_TEST_ASPIRATIONAL and will test the scheduler not
-against the criteria of how it is implemented today, but according to the
-future design goals and agreements.
-
-First example of this is the scheduler cleanup flow which currently can
-leak jobs from drivers which fail to implement own tear down of in-flight
-submissions.
-
-The test which can demonstrate this is
-drm_sched_basic_entity_cleanup which, based on this kconfig, will skip the
-mock scheduler specific cleanup and instead rely on drm_sched_fini to idle
-and free everything. That will not currently happen and therefore
-drm_mock_sched_fini will assert on test exit.
+Add a very simple timeout test which submits a single job and verifies
+that the timeout handling will run if the backend failed to complete the
+job in time.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Suggested-by: Philipp Stanner <phasta@kernel.org>
 Cc: Christian König <christian.koenig@amd.com>
 Cc: Danilo Krummrich <dakr@kernel.org>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/Kconfig.debug                    | 13 +++++++++++++
- drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 10 ++++++++++
- 2 files changed, 23 insertions(+)
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  | 11 +++-
+ drivers/gpu/drm/scheduler/tests/sched_tests.h |  4 +-
+ drivers/gpu/drm/scheduler/tests/tests_basic.c | 64 ++++++++++++++++++-
+ 3 files changed, 73 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig.debug b/drivers/gpu/drm/Kconfig.debug
-index 6fd4c5669400..e98ff556e4c4 100644
---- a/drivers/gpu/drm/Kconfig.debug
-+++ b/drivers/gpu/drm/Kconfig.debug
-@@ -111,5 +111,18 @@ config DRM_SCHED_KUNIT_TEST
- 
- 	  If in doubt, say "N".
- 
-+config DRM_SCHED_KUNIT_TEST_ASPIRATIONAL
-+	bool "Aspirational mode for DRM scheduler unit tests" if !KUNIT_ALL_TESTS
-+	depends on DRM && KUNIT && DRM_SCHED_KUNIT_TEST
-+	default n
-+	help
-+	  Choose this option to make the DRM scheduler unit tests test for
-+	  behaviour which was agreed as a design goal, even if the current
-+	  implementation can make specific tests fail.
-+
-+	  Recommended for driver developers only.
-+
-+	  If in doubt, say "N".
-+
- config DRM_EXPORT_FOR_TESTS
- 	bool
 diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-index b7d4890a1651..69b963b619d5 100644
+index 69b963b619d5..8e8c7a7527a7 100644
 --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
 +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-@@ -261,9 +261,13 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test)
- void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
+@@ -202,7 +202,11 @@ static struct dma_fence *mock_sched_run_job(struct drm_sched_job *sched_job)
+ static enum drm_gpu_sched_stat
+ mock_sched_timedout_job(struct drm_sched_job *sched_job)
  {
- 	struct drm_mock_sched_job *job, *next;
-+	struct kunit  *test = sched->test;
- 	unsigned long flags;
- 	LIST_HEAD(signal);
- 
-+	if (IS_ENABLED(CONFIG_DRM_SCHED_KUNIT_TEST_ASPIRATIONAL))
-+		goto sched_fini;
+-	return DRM_GPU_SCHED_STAT_ENODEV;
++	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
 +
- 	drm_sched_wqueue_stop(&sched->base);
- 
- 	spin_lock_irqsave(&sched->lock, flags);
-@@ -278,7 +282,13 @@ void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
- 		drm_sched_job_cleanup(&job->base);
- 	}
- 
-+sched_fini:
- 	drm_sched_fini(&sched->base);
++	job->flags |= DRM_MOCK_SCHED_JOB_TIMEDOUT;
 +
-+	if (IS_ENABLED(CONFIG_DRM_SCHED_KUNIT_TEST_ASPIRATIONAL)) {
-+		KUNIT_ASSERT_TRUE(test, list_empty(&sched->job_list));
-+		KUNIT_ASSERT_TRUE(test, list_empty(&sched->base.pending_list));
-+	}
++	return DRM_GPU_SCHED_STAT_NOMINAL;
  }
  
- /**
+ static void mock_sched_free_job(struct drm_sched_job *sched_job)
+@@ -220,17 +224,18 @@ static const struct drm_sched_backend_ops drm_mock_scheduler_ops = {
+  * drm_mock_sched_new - Create a new mock scheduler
+  *
+  * @test: KUnit test owning the job
++ * @timeout: Job timeout to set
+  *
+  * Returns: New mock scheduler with allocation managed by the test
+  */
+-struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test)
++struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
+ {
+ 	struct drm_sched_init_args args = {
+ 		.ops		= &drm_mock_scheduler_ops,
+ 		.num_rqs	= DRM_SCHED_PRIORITY_COUNT,
+ 		.credit_limit	= U32_MAX,
+ 		.hang_limit	= 1,
+-		.timeout	= MAX_SCHEDULE_TIMEOUT,
++		.timeout	= timeout,
+ 		.name		= "drm-mock-scheduler",
+ 	};
+ 	struct drm_mock_scheduler *sched;
+diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+index 655e2c7d29eb..89eeb7655460 100644
+--- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
++++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+@@ -95,6 +95,7 @@ struct drm_mock_sched_job {
+ 	struct completion	done;
+ 
+ #define DRM_MOCK_SCHED_JOB_DONE		0x1
++#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
+ 	unsigned long		flags;
+ 
+ 	struct list_head	link;
+@@ -127,7 +128,8 @@ drm_sched_job_to_mock_job(struct drm_sched_job *sched_job)
+ 	return container_of(sched_job, struct drm_mock_sched_job, base);
+ };
+ 
+-struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test);
++struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test,
++					      long timeout);
+ void drm_mock_sched_fini(struct drm_mock_scheduler *sched);
+ unsigned int drm_mock_sched_advance(struct drm_mock_scheduler *sched,
+ 				    unsigned int num);
+diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+index c06672e13cf6..0e1fa4767b0d 100644
+--- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
++++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+@@ -12,7 +12,7 @@
+ 
+ static int drm_sched_basic_init(struct kunit *test)
+ {
+-	test->priv = drm_mock_sched_new(test);
++	test->priv = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
+ 
+ 	return 0;
+ }
+@@ -24,6 +24,13 @@ static void drm_sched_basic_exit(struct kunit *test)
+ 	drm_mock_sched_fini(sched);
+ }
+ 
++static int drm_sched_timeout_init(struct kunit *test)
++{
++	test->priv = drm_mock_sched_new(test, HZ);
++
++	return 0;
++}
++
+ static void drm_sched_basic_submit(struct kunit *test)
+ {
+ 	struct drm_mock_scheduler *sched = test->priv;
+@@ -195,4 +202,57 @@ static struct kunit_suite drm_sched_basic = {
+ 	.test_cases = drm_sched_basic_tests,
+ };
+ 
+-kunit_test_suite(drm_sched_basic);
++static void drm_sched_basic_timeout(struct kunit *test)
++{
++	struct drm_mock_scheduler *sched = test->priv;
++	struct drm_mock_sched_entity *entity;
++	struct drm_mock_sched_job *job;
++	bool done;
++
++	/*
++	 * Submit a single job against a scheduler with the timeout configured
++	 * and verify that the timeout handling will run if the backend fails
++	 * to complete it in time.
++	 */
++
++	entity = drm_mock_sched_entity_new(test,
++					   DRM_SCHED_PRIORITY_NORMAL,
++					   sched);
++	job = drm_mock_sched_job_new(test, entity);
++
++	drm_mock_sched_job_submit(job);
++
++	done = drm_mock_sched_job_wait_scheduled(job, HZ);
++	KUNIT_ASSERT_TRUE(test, done);
++
++	done = drm_mock_sched_job_wait_finished(job, HZ / 2);
++	KUNIT_ASSERT_FALSE(test, done);
++
++	KUNIT_ASSERT_EQ(test,
++			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
++			0);
++
++	done = drm_mock_sched_job_wait_finished(job, HZ);
++	KUNIT_ASSERT_FALSE(test, done);
++
++	KUNIT_ASSERT_EQ(test,
++			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
++			DRM_MOCK_SCHED_JOB_TIMEDOUT);
++
++	drm_mock_sched_entity_free(entity);
++}
++
++static struct kunit_case drm_sched_timeout_tests[] = {
++	KUNIT_CASE(drm_sched_basic_timeout),
++	{}
++};
++
++static struct kunit_suite drm_sched_timeout = {
++	.name = "drm_sched_basic_timeout_tests",
++	.init = drm_sched_timeout_init,
++	.exit = drm_sched_basic_exit,
++	.test_cases = drm_sched_timeout_tests,
++};
++
++kunit_test_suites(&drm_sched_basic,
++		  &drm_sched_timeout);
 -- 
 2.48.0
 
