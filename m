@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE05A5C2E6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 14:41:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB96A5C2ED
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 14:42:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03AE710E1CF;
-	Tue, 11 Mar 2025 13:41:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C2D10E5BC;
+	Tue, 11 Mar 2025 13:42:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="n92srBkW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MQRzC31s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8BC610E1E1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 13:41:47 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-ac24ec112fcso86345266b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 06:41:47 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483AD10E200
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 13:42:48 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-ac24ec112fcso86373266b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 06:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741700506; x=1742305306; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1741700567; x=1742305367; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=HdKPWEjQ9MubZzHzANAR1B1dJk3X5c8iz/F2XLpQWFQ=;
- b=n92srBkW5Gt82Y8z3mNLwOHgG1kgikKcQoVmhR9SIactnv85Gm4vdQzU5onrqutGzd
- E555P0g0MONOqLRM7TY+dVnfonS9tA1OeiP0RWz+4jY9WHDD+1Q9ViAlYlQnt+vWIRWx
- jsNja2Ye80XsQDioRYnlZKycl0nRJ4DDGjcTK/vkafZlm9E0rgGJROmQ1qle/0V/w4Gn
- d5YzkuCb8wj6kiLvEc8kuWDAgX6cug4nWxQ0UDGX0gypiWrs6lWU/+W4aexLQ4u8Xr37
- bwNN5pU/nFb0wWtHiio27xFp0EM/L8dZY0fls4pCWS8+ZygAzEoACtVmY+THa4ziZUrV
- xlxA==
+ bh=OK/mNeXOS3BnFUBUb28LMgXW4oDwAfaEiFXsceleu8s=;
+ b=MQRzC31sGkP7kFDjVXj0e3fEh/20bb0zCgsvSS8Q6X9dWQJsE0lUIuXOftyz0JBg+2
+ /YxjBLm5KmchsL8454SXIifF6BK9KWgMqg+5nc7/ZPDses86pvxYT01OtsBhMW1oB5C3
+ GL4T4nxCY/vh4i/Sz4Mff1lnA0oDRtMwal+UOz6wJ0OcM3VcfBPsCO38/UfVM1+NcGQF
+ DkE9D78DCP+JLEZDLnfJmIQNFtSHD3B2niU11+MaDCVD8O59wIrbOYvbhu9kRbtT4zjo
+ JbD0N/J/o8MftZhoSJLdC9eFrVVAv3y8L0Ondgll6zMOOrkE2Bph86YTPiJ9sZqswdiI
+ E7nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741700506; x=1742305306;
+ d=1e100.net; s=20230601; t=1741700567; x=1742305367;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=HdKPWEjQ9MubZzHzANAR1B1dJk3X5c8iz/F2XLpQWFQ=;
- b=H4eFuVXQ8CASNSLO4I4Xdx07Y1oTXPVVdSVNMiOkPCR1K3yDyW6kAdG5ANeBhix1rI
- zPGFvd1ZCWjifro3vyDIlLK1HjhFAPMPJbfL2RjRe2XywKXOEnu6imQTpifrpmDW6Y/9
- KrVJZiUBFxslLNLpwy9l7y1t8lKCUEeIZfT4zN1jab1sQNnwNeubC7L+ePrTNoX0mVEH
- j7NDyMs09om0kgq9Y07lm9VBIhCiBQeAEkhVfPQ/f5uVXJ4iIu7fgEZk7t0lzx53C0a0
- jevxNUxlPr+u2b4qIVRmfByXzsXziIB43kKAe9TXGD1FL0UlkJ3tcJi5BcY3Jq+DTATU
- 7lNQ==
+ bh=OK/mNeXOS3BnFUBUb28LMgXW4oDwAfaEiFXsceleu8s=;
+ b=MrSH3H2qVh8Wpq/lVtDsg8epKlhgEl9ZYbHT0IkA0TxuHIDqgR2T+DOzpCNwgmLXdj
+ PH+ZRSS5L+MAFtXI0oNc6oCHWdmA4yE02iJ3RWpnulEz/iTHBamkehUQilQCVKsLP97D
+ zI5656mS3hKFm+wKzpuvR/GnvuuO6MTrXTt5wPwYMFvmCpnE4XnpwpgCfUGID2DlNdQY
+ wO3DMONSNR4bGdMCrxEm4a9C/Pc3QnPL2ps7MLQ0jAMqA+A87T5P530ooZWbucP52rMk
+ z0ID+/ywTh/f3jCd65ZnDA0L63hIFKqNFBtDIq8ZEeOrJ5xm5Dme+Isdq3WqyB1YHzRl
+ b0+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVV2ba05xNgzjcTcYpxZzOnfypGEGqmOX/IVUaRkvsH305yO5qWClbufRUu37dOZwlA+cttCj+R5ho=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsmKmtUh3v9cMaOOHqlVpWr6cRf2TWt018HpK95nfi4CZvygsr
- x++lCaogYgjNOLFl4KNshVfcV718vMMTqOBdkLni1YS+kEoB4RMB5MkjcixtGC0=
-X-Gm-Gg: ASbGnctkRvaltpXapo8iVNGVvU3/5vLkwDl2pld6b1ajdhA6f2Kxnyg4uVwdXht5bCx
- T4/Da5oFgqFYrTH2/pU7ZYysnlQh+GffMjLNYpjjV4BxJXbNlclC7uvjufWGBB8KqRcHwA+FFGI
- QiaBvStWf8sk0n9MkBdqClcgPYDDkORdeBnfY0D1cHcVVxIFLGqMafx7xYMO8NawmvAGpul9LAU
- 2KQmI9KhVL+Z0H/kmaZe4kYd2ERwQDxrFJJM5H8I/+RhMtUZr/iJDYiLS/v3Sn8ki5BULZgBL90
- 1+b7Y7+zVuQmPMhVNtIXev/HQRc1vqddulrsK3y7UZAr7srGRHJqFOwosEhctuY=
-X-Google-Smtp-Source: AGHT+IEqEAGnHplIQlC9/HTd3OQLI+WAu1AQWvDUyhIkVSadRnO3CylrdWWKlM5lhSqAt8Davw0wjg==
-X-Received: by 2002:a17:906:7311:b0:abf:6f87:6730 with SMTP id
- a640c23a62f3a-ac2b9de959fmr168044566b.5.1741700506149; 
- Tue, 11 Mar 2025 06:41:46 -0700 (PDT)
+ AJvYcCWHUj/kSB3oJFtOazTXEIDk0hNhp44TVY6rlufs7oWU2vJk7qQMtw9jfCBrLLptl+PtXHUOU3g3x1k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0J3QznCq8bM6uiNiZXffkhSA//wLyfLBiEmj140WDam6RCUkH
+ rMpeoF7QXTHqIxi6z4W1BufBMAYQzzE9IxIgDsRZa4z3SLKdOdCzJOl/Q6bidVQ=
+X-Gm-Gg: ASbGncvTJIukP48lIBqWW8pboF0vPFH02rzUkCDdeA/n1W0/b5ItK515xkPWN0EFOoJ
+ a/H1Cu8kbhKDFn0gb4/GagK3t+jw/56jORoBebtTtt7tf8v79EcjRhX184JjqwHdotj8ReECU2l
+ yzjYhBhxwr6hPG3jTX6znBDvI/s/Zpxz4XykyPHPOjHrlgIOp1Mk4pBRYCwHifwV0+qIHDUSf2d
+ J8ONxK2ATsJ5CavwXCFcdkeOhRBYuYyrcbXAoO+i7PW2DLeJhJSzJPhbrfKYfBDZljOHgOeIomN
+ /8hZdwgJ7NsP6EvJdkZu7/Afw9PP06LUmCYwpxADEFygTIePcqo43Q4ZUgn/WnM=
+X-Google-Smtp-Source: AGHT+IHtY6iWQCXAHAWxWQCwXcAH70yQ6uYRmE6uUNf099ZZ+4osiFbnrB1uJPfMgJq80ObdnKhGcw==
+X-Received: by 2002:a17:906:f5aa:b0:ac1:4da:3edd with SMTP id
+ a640c23a62f3a-ac2b9db47ddmr183374666b.1.1741700566810; 
+ Tue, 11 Mar 2025 06:42:46 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.198.86])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac239517802sm915329766b.86.2025.03.11.06.41.44
+ a640c23a62f3a-ac256654fa6sm773804766b.93.2025.03.11.06.42.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Mar 2025 06:41:45 -0700 (PDT)
-Message-ID: <5a88dc9e-3952-478e-840c-5d6dac1cd81d@linaro.org>
-Date: Tue, 11 Mar 2025 14:41:42 +0100
+ Tue, 11 Mar 2025 06:42:46 -0700 (PDT)
+Message-ID: <c7c72397-c7d3-426d-b971-35b1cd213775@linaro.org>
+Date: Tue, 11 Mar 2025 14:42:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 18/21] drm/msm/dpu: Implement 10-bit color alpha for
- v12.0 DPU
+Subject: Re: [PATCH v3 19/21] drm/msm/dpu: Implement CTL_PIPE_ACTIVE for v12.0
+ DPU
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
  <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
@@ -85,8 +85,8 @@ Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
  Srini Kandagatla <srinivas.kandagatla@linaro.org>,
  Rob Clark <robdclark@chromium.org>
 References: <20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org>
- <20250221-b4-sm8750-display-v3-18-3ea95b1630ea@linaro.org>
- <4y2nj6qxbbp7etuweoyarcg7vpbyemparzclj7ulb46rxk7k3s@s6wjrjebuc3g>
+ <20250221-b4-sm8750-display-v3-19-3ea95b1630ea@linaro.org>
+ <5rlcxx7pcu32hz3r4qufqcq2jzk2z4g2ep7reecpm2kksttwyi@66p2u4nwfzx6>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -133,7 +133,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <4y2nj6qxbbp7etuweoyarcg7vpbyemparzclj7ulb46rxk7k3s@s6wjrjebuc3g>
+In-Reply-To: <5rlcxx7pcu32hz3r4qufqcq2jzk2z4g2ep7reecpm2kksttwyi@66p2u4nwfzx6>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -151,100 +151,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/02/2025 17:25, Dmitry Baryshkov wrote:
->> -static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
->> -		struct dpu_plane_state *pstate, const struct msm_format *format)
->> +static void _dpu_crtc_setup_blend_cfg(const struct dpu_hw_ctl *ctl,
->> +				      struct dpu_crtc_mixer *mixer,
->> +				      struct dpu_plane_state *pstate,
->> +				      const struct msm_format *format)
->>  {
->>  	struct dpu_hw_mixer *lm = mixer->hw_lm;
->>  	uint32_t blend_op;
->> -	uint32_t fg_alpha, bg_alpha;
->> +	uint32_t fg_alpha, bg_alpha, max_alpha;
->>  
->>  	fg_alpha = pstate->base.alpha >> 8;
->> -	bg_alpha = 0xff - fg_alpha;
->> +	if (ctl->mdss_ver->core_major_ver < 12)
->> +		max_alpha = 0xff;
->> +	else
->> +		max_alpha = 0x3ff;
+On 21/02/2025 17:26, Dmitry Baryshkov wrote:
+> Minot nit below
 > 
-> So, CTL is passed only to get struct dpu_mdss_version? It can either be
-> passed directly or fetched via dpu_kms->catalog->mdss_ver
-
-Ack.
-
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+>> index 43a254cf57da571e2ec8aad38028477652f9283c..3e0bdd1100ebb0d302a852ceeaf8af86835e69a1 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+>> @@ -40,6 +40,7 @@
+>>  #define   CTL_INTF_FLUSH                0x110
+>>  #define   CTL_CDM_FLUSH                0x114
+>>  #define   CTL_PERIPH_FLUSH              0x128
+>> +#define   CTL_PIPE_ACTIVE               0x12C
 > 
->> +	bg_alpha = max_alpha - fg_alpha;
->>  
->>  	/* default to opaque blending */
->>  	if (pstate->base.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE ||
->> @@ -337,7 +343,7 @@ static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
->>  	} else if (pstate->base.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI) {
->>  		blend_op = DPU_BLEND_FG_ALPHA_FG_CONST |
->>  			DPU_BLEND_BG_ALPHA_FG_PIXEL;
->> -		if (fg_alpha != 0xff) {
->> +		if (fg_alpha != max_alpha) {
->>  			bg_alpha = fg_alpha;
->>  			blend_op |= DPU_BLEND_BG_MOD_ALPHA |
->>  				    DPU_BLEND_BG_INV_MOD_ALPHA;
->> @@ -348,7 +354,7 @@ static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
->>  		/* coverage blending */
->>  		blend_op = DPU_BLEND_FG_ALPHA_FG_PIXEL |
->>  			DPU_BLEND_BG_ALPHA_FG_PIXEL;
->> -		if (fg_alpha != 0xff) {
->> +		if (fg_alpha != max_alpha) {
->>  			bg_alpha = fg_alpha;
->>  			blend_op |= DPU_BLEND_FG_MOD_ALPHA |
->>  				    DPU_BLEND_FG_INV_MOD_ALPHA |
->> @@ -482,7 +488,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
->>  
->>  		/* blend config update */
->>  		for (lm_idx = 0; lm_idx < cstate->num_mixers; lm_idx++) {
->> -			_dpu_crtc_setup_blend_cfg(mixer + lm_idx, pstate, format);
->> +			_dpu_crtc_setup_blend_cfg(ctl, mixer + lm_idx, pstate, format);
->>  
->>  			if (bg_alpha_enable && !format->alpha_enable)
->>  				mixer[lm_idx].mixer_op_mode = 0;
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
->> index 3bfb61cb83672dca4236bdbbbfb1e442223576d2..75bf3521b03c8e243ccfe1fc226aa71f23b296df 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
->> @@ -19,12 +19,20 @@
->>  
->>  /* These register are offset to mixer base + stage base */
->>  #define LM_BLEND0_OP                     0x00
->> +
->> +/* <v12 DPU with offset to mixer base + stage base */
->>  #define LM_BLEND0_CONST_ALPHA            0x04
->>  #define LM_FG_COLOR_FILL_COLOR_0         0x08
->>  #define LM_FG_COLOR_FILL_COLOR_1         0x0C
-> 
-> lowercase hex
-
+> lowercase hex, please.
 Ack
-
-> 
->>  #define LM_FG_COLOR_FILL_SIZE            0x10
->>  #define LM_FG_COLOR_FILL_XY              0x14
->>  
->> +/* >= v12 DPU */
->> +#define LM_BORDER_COLOR_0_V12		0x1C
-> 
-> lowercase hex
-> 
->> +#define LM_BORDER_COLOR_1_V12		0x20
->> +
->> +/* >= v12 DPU with offset to mixer base + stage base */
->> +#define LM_BLEND0_CONST_ALPHA_V12	0x08
-> 
-> This doesn't seem to be aligned properly
-
-That's only patch view... because I used tabs. I think existing code
-uses spaces, so I will switch to spaces.
-
 
 Best regards,
 Krzysztof
