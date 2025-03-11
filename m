@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE577A5B60E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:50:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D2DA5B612
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:50:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F9310E506;
-	Tue, 11 Mar 2025 01:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 217AA10E50F;
+	Tue, 11 Mar 2025 01:50:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="M14R+/DR";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="SkE/Swuj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B30DE10E0E2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:50:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C813910E506
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=rZnAvENr0DIhM9IWOLU76ewsRWLJoiG2rOzhF0E/rK0=; b=M14R+/DR8lMO7sKQ
- MgJcOHnqnh1RPBobnw9lQWls9APNWFb5fdhN7+/n5qN1NwC9etK3wKzUjYqzgUWSXWSh1U2V4+8F9
- ITsW3Pmnhd6ck9wVnEe+GNRzSood2D6I83NZn8ZxLE7fDnE+LCts9HoYiMAL2t2eGf34P1CIzFLtJ
- dwDm794nUHDfIjwTPjax+yzVcbadQ155oc1trI6oxTzNuNfF+IAfn7aAhdIjb+5GwQWuxt04Jxv4y
- jMU7xpsUInO6Cc8mX3LDPFHmPPCo+S8uZSBgVaomqojfbbSJy8zB6y8rtdZliOYi7QZYFxpaovJ8Q
- VAgEwMkeQIq0Sx6LNw==;
+ :Subject; bh=GBpDPMc7Ne/UqbYumGvsyiWcHTvdPHc82NlIZ4ispN0=; b=SkE/SwujqUG63bRO
+ FNz02U1nH0TgMZ1arW8n3qAVaWpAAkTi/rOyLCN/7hGKu5XQMicZt/bwiSkp9YYfkGndQl5ni8XYS
+ TGoid9TErFWZAhkOdFVVN0YewAv4PRCcIxnJWHsfxJDe7j1VYL9PXTaY6SYDUL4h1ndDrlUD0R/bZ
+ PMtWv+Nov3TS2BuEKgI0SfKy9soAiHXcVx1+8jfbPkcvkKHv2bAY8rm3YCPnvfEBaT6/65FWjB3Y1
+ bpueovLNm1yY0Oa/XLaJhwFTbUvd33R7w19iC0NP3Jj6q6ed0w2IY7/fJsoQSE0oTacaNyiyPJrvO
+ Eg4N3Mi2VXwn00IFvQ==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1troku-0042n5-2F;
- Tue, 11 Mar 2025 01:50:04 +0000
+ (envelope-from <linux@treblig.org>) id 1trokv-0042n5-1A;
+ Tue, 11 Mar 2025 01:50:05 +0000
 From: linux@treblig.org
 To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org,
  lgirdwood@gmail.com, broonie@kernel.org, alexandre.belloni@bootlin.com,
@@ -38,9 +38,9 @@ Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH v2 7/9] backlight: pcf50633-backlight: Remove
-Date: Tue, 11 Mar 2025 01:49:57 +0000
-Message-ID: <20250311014959.743322-8-linux@treblig.org>
+Subject: [PATCH v2 8/9] mfd: pcf50633: Remove irq code
+Date: Tue, 11 Mar 2025 01:49:58 +0000
+Message-ID: <20250311014959.743322-9-linux@treblig.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250311014959.743322-1-linux@treblig.org>
 References: <20250311014959.743322-1-linux@treblig.org>
@@ -63,284 +63,379 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-The pcf50633 was used as part of the OpenMoko devices but
-the support for its main chip was recently removed in:
-commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
-
-See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
-
-Remove it.
+As part of the pcf50633 removal, take out it's irq code
+(which includes one bit still called from the core, but it'll
+go soon).
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/video/backlight/Kconfig              |   7 -
- drivers/video/backlight/Makefile             |   1 -
- drivers/video/backlight/pcf50633-backlight.c | 154 -------------------
- include/linux/mfd/pcf50633/backlight.h       |  42 -----
- include/linux/mfd/pcf50633/core.h            |   3 -
- 5 files changed, 207 deletions(-)
- delete mode 100644 drivers/video/backlight/pcf50633-backlight.c
- delete mode 100644 include/linux/mfd/pcf50633/backlight.h
+ drivers/mfd/Makefile        |   2 +-
+ drivers/mfd/pcf50633-core.c |   5 +-
+ drivers/mfd/pcf50633-irq.c  | 312 ------------------------------------
+ 3 files changed, 2 insertions(+), 317 deletions(-)
+ delete mode 100644 drivers/mfd/pcf50633-irq.c
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 3614a5d29c71..ef4ac1ac7520 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -359,13 +359,6 @@ config BACKLIGHT_88PM860X
- 	help
- 	  Say Y to enable the backlight driver for Marvell 88PM8606.
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index d769e40251c8..f1c7a15c8f7b 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -183,7 +183,7 @@ obj-$(CONFIG_MFD_MT6370)	+= mt6370.o
+ mt6397-objs			:= mt6397-core.o mt6397-irq.o mt6358-irq.o
+ obj-$(CONFIG_MFD_MT6397)	+= mt6397.o
  
--config BACKLIGHT_PCF50633
--	tristate "Backlight driver for NXP PCF50633 MFD"
--	depends on MFD_PCF50633
--	help
--	  If you have a backlight driven by a NXP PCF50633 MFD, say Y here to
--	  enable its driver.
+-pcf50633-objs			:= pcf50633-core.o pcf50633-irq.o
++pcf50633-objs			:= pcf50633-core.o
+ obj-$(CONFIG_MFD_PCF50633)	+= pcf50633.o
+ obj-$(CONFIG_RZ_MTU3)		+= rz-mtu3.o
+ obj-$(CONFIG_ABX500_CORE)	+= abx500-core.o
+diff --git a/drivers/mfd/pcf50633-core.c b/drivers/mfd/pcf50633-core.c
+index 014a68711b18..5605f176061a 100644
+--- a/drivers/mfd/pcf50633-core.c
++++ b/drivers/mfd/pcf50633-core.c
+@@ -204,8 +204,6 @@ static int pcf50633_probe(struct i2c_client *client)
+ 	dev_info(pcf->dev, "Probed device version %d variant %d\n",
+ 							version, variant);
+ 
+-	pcf50633_irq_init(pcf, client->irq);
 -
- config BACKLIGHT_AAT2870
- 	tristate "AnalogicTech AAT2870 Backlight"
- 	depends on MFD_AAT2870_CORE
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index 8fc98f760a8a..21bf62bcaccf 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -49,7 +49,6 @@ obj-$(CONFIG_BACKLIGHT_MP3309C)		+= mp3309c.o
- obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
- obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
- obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
--obj-$(CONFIG_BACKLIGHT_PCF50633)	+= pcf50633-backlight.o
- obj-$(CONFIG_BACKLIGHT_PWM)		+= pwm_bl.o
- obj-$(CONFIG_BACKLIGHT_QCOM_WLED)	+= qcom-wled.o
- obj-$(CONFIG_BACKLIGHT_RT4831)		+= rt4831-backlight.o
-diff --git a/drivers/video/backlight/pcf50633-backlight.c b/drivers/video/backlight/pcf50633-backlight.c
+ 	/* Create sub devices */
+ 	pcf50633_client_dev_register(pcf, "pcf50633-input", &pcf->input_pdev);
+ 	pcf50633_client_dev_register(pcf, "pcf50633-rtc", &pcf->rtc_pdev);
+@@ -258,7 +256,6 @@ static void pcf50633_remove(struct i2c_client *client)
+ 	int i;
+ 
+ 	sysfs_remove_group(&client->dev.kobj, &pcf_attr_group);
+-	pcf50633_irq_free(pcf);
+ 
+ 	platform_device_unregister(pcf->input_pdev);
+ 	platform_device_unregister(pcf->rtc_pdev);
+@@ -279,7 +276,7 @@ MODULE_DEVICE_TABLE(i2c, pcf50633_id_table);
+ static struct i2c_driver pcf50633_driver = {
+ 	.driver = {
+ 		.name	= "pcf50633",
+-		.pm	= pm_sleep_ptr(&pcf50633_pm),
++		/* going.... .pm	= pm_sleep_ptr(&pcf50633_pm), */
+ 	},
+ 	.id_table = pcf50633_id_table,
+ 	.probe = pcf50633_probe,
+diff --git a/drivers/mfd/pcf50633-irq.c b/drivers/mfd/pcf50633-irq.c
 deleted file mode 100644
-index 157be2f366df..000000000000
---- a/drivers/video/backlight/pcf50633-backlight.c
+index e85af7f1cb0b..000000000000
+--- a/drivers/mfd/pcf50633-irq.c
 +++ /dev/null
-@@ -1,154 +0,0 @@
+@@ -1,312 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- *  Copyright (C) 2009-2010, Lars-Peter Clausen <lars@metafoo.de>
-- *      PCF50633 backlight device driver
+-/* NXP PCF50633 Power Management Unit (PMU) driver
+- *
+- * (C) 2006-2008 by Openmoko, Inc.
+- * Author: Harald Welte <laforge@openmoko.org>
+- * 	   Balaji Rao <balajirrao@openmoko.org>
+- * All rights reserved.
 - */
 -
+-#include <linux/i2c.h>
+-#include <linux/interrupt.h>
 -#include <linux/kernel.h>
--#include <linux/module.h>
+-#include <linux/mutex.h>
+-#include <linux/export.h>
 -#include <linux/slab.h>
--#include <linux/platform_device.h>
--
--#include <linux/backlight.h>
 -
 -#include <linux/mfd/pcf50633/core.h>
--#include <linux/mfd/pcf50633/backlight.h>
+-#include <linux/mfd/pcf50633/mbc.h>
 -
--struct pcf50633_bl {
--	struct pcf50633 *pcf;
--	struct backlight_device *bl;
--
--	unsigned int brightness;
--	unsigned int brightness_limit;
--};
--
--/*
-- * pcf50633_bl_set_brightness_limit
-- *
-- * Update the brightness limit for the pc50633 backlight. The actual brightness
-- * will not go above the limit. This is useful to limit power drain for example
-- * on low battery.
-- *
-- * @dev: Pointer to a pcf50633 device
-- * @limit: The brightness limit. Valid values are 0-63
-- */
--int pcf50633_bl_set_brightness_limit(struct pcf50633 *pcf, unsigned int limit)
+-int pcf50633_register_irq(struct pcf50633 *pcf, int irq,
+-			void (*handler) (int, void *), void *data)
 -{
--	struct pcf50633_bl *pcf_bl = platform_get_drvdata(pcf->bl_pdev);
+-	if (irq < 0 || irq >= PCF50633_NUM_IRQ || !handler)
+-		return -EINVAL;
 -
--	if (!pcf_bl)
--		return -ENODEV;
+-	if (WARN_ON(pcf->irq_handler[irq].handler))
+-		return -EBUSY;
 -
--	pcf_bl->brightness_limit = limit & 0x3f;
--	backlight_update_status(pcf_bl->bl);
+-	mutex_lock(&pcf->lock);
+-	pcf->irq_handler[irq].handler = handler;
+-	pcf->irq_handler[irq].data = data;
+-	mutex_unlock(&pcf->lock);
 -
 -	return 0;
 -}
+-EXPORT_SYMBOL_GPL(pcf50633_register_irq);
 -
--static int pcf50633_bl_update_status(struct backlight_device *bl)
+-int pcf50633_free_irq(struct pcf50633 *pcf, int irq)
 -{
--	struct pcf50633_bl *pcf_bl = bl_get_data(bl);
--	unsigned int new_brightness;
+-	if (irq < 0 || irq >= PCF50633_NUM_IRQ)
+-		return -EINVAL;
 -
+-	mutex_lock(&pcf->lock);
+-	pcf->irq_handler[irq].handler = NULL;
+-	mutex_unlock(&pcf->lock);
 -
--	if (bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK) ||
--		bl->props.power != BACKLIGHT_POWER_ON)
--		new_brightness = 0;
--	else if (bl->props.brightness < pcf_bl->brightness_limit)
--		new_brightness = bl->props.brightness;
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_free_irq);
+-
+-static int __pcf50633_irq_mask_set(struct pcf50633 *pcf, int irq, u8 mask)
+-{
+-	u8 reg, bit;
+-	int idx;
+-
+-	idx = irq >> 3;
+-	reg = PCF50633_REG_INT1M + idx;
+-	bit = 1 << (irq & 0x07);
+-
+-	pcf50633_reg_set_bit_mask(pcf, reg, bit, mask ? bit : 0);
+-
+-	mutex_lock(&pcf->lock);
+-
+-	if (mask)
+-		pcf->mask_regs[idx] |= bit;
 -	else
--		new_brightness = pcf_bl->brightness_limit;
+-		pcf->mask_regs[idx] &= ~bit;
 -
--
--	if (pcf_bl->brightness == new_brightness)
--		return 0;
--
--	if (new_brightness) {
--		pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDOUT,
--					new_brightness);
--		if (!pcf_bl->brightness)
--			pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDENA, 1);
--	} else {
--		pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDENA, 0);
--	}
--
--	pcf_bl->brightness = new_brightness;
+-	mutex_unlock(&pcf->lock);
 -
 -	return 0;
 -}
 -
--static int pcf50633_bl_get_brightness(struct backlight_device *bl)
+-int pcf50633_irq_mask(struct pcf50633 *pcf, int irq)
 -{
--	struct pcf50633_bl *pcf_bl = bl_get_data(bl);
+-	dev_dbg(pcf->dev, "Masking IRQ %d\n", irq);
 -
--	return pcf_bl->brightness;
+-	return __pcf50633_irq_mask_set(pcf, irq, 1);
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_irq_mask);
+-
+-int pcf50633_irq_unmask(struct pcf50633 *pcf, int irq)
+-{
+-	dev_dbg(pcf->dev, "Unmasking IRQ %d\n", irq);
+-
+-	return __pcf50633_irq_mask_set(pcf, irq, 0);
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_irq_unmask);
+-
+-int pcf50633_irq_mask_get(struct pcf50633 *pcf, int irq)
+-{
+-	u8 reg, bits;
+-
+-	reg =  irq >> 3;
+-	bits = 1 << (irq & 0x07);
+-
+-	return pcf->mask_regs[reg] & bits;
+-}
+-EXPORT_SYMBOL_GPL(pcf50633_irq_mask_get);
+-
+-static void pcf50633_irq_call_handler(struct pcf50633 *pcf, int irq)
+-{
+-	if (pcf->irq_handler[irq].handler)
+-		pcf->irq_handler[irq].handler(irq, pcf->irq_handler[irq].data);
 -}
 -
--static const struct backlight_ops pcf50633_bl_ops = {
--	.get_brightness = pcf50633_bl_get_brightness,
--	.update_status	= pcf50633_bl_update_status,
--	.options	= BL_CORE_SUSPENDRESUME,
--};
+-/* Maximum amount of time ONKEY is held before emergency action is taken */
+-#define PCF50633_ONKEY1S_TIMEOUT 8
 -
--static int pcf50633_bl_probe(struct platform_device *pdev)
+-static irqreturn_t pcf50633_irq(int irq, void *data)
 -{
--	struct pcf50633_bl *pcf_bl;
--	struct device *parent = pdev->dev.parent;
--	struct pcf50633_platform_data *pcf50633_data = dev_get_platdata(parent);
--	struct pcf50633_bl_platform_data *pdata = pcf50633_data->backlight_data;
--	struct backlight_properties bl_props;
+-	struct pcf50633 *pcf = data;
+-	int ret, i, j;
+-	u8 pcf_int[5], chgstat;
 -
--	pcf_bl = devm_kzalloc(&pdev->dev, sizeof(*pcf_bl), GFP_KERNEL);
--	if (!pcf_bl)
--		return -ENOMEM;
+-	/* Read the 5 INT regs in one transaction */
+-	ret = pcf50633_read_block(pcf, PCF50633_REG_INT1,
+-						ARRAY_SIZE(pcf_int), pcf_int);
+-	if (ret != ARRAY_SIZE(pcf_int)) {
+-		dev_err(pcf->dev, "Error reading INT registers\n");
 -
--	memset(&bl_props, 0, sizeof(bl_props));
--	bl_props.type = BACKLIGHT_RAW;
--	bl_props.max_brightness = 0x3f;
--	bl_props.power = BACKLIGHT_POWER_ON;
--
--	if (pdata) {
--		bl_props.brightness = pdata->default_brightness;
--		pcf_bl->brightness_limit = pdata->default_brightness_limit;
--	} else {
--		bl_props.brightness = 0x3f;
--		pcf_bl->brightness_limit = 0x3f;
+-		/*
+-		 * If this doesn't ACK the interrupt to the chip, we'll be
+-		 * called once again as we're level triggered.
+-		 */
+-		goto out;
 -	}
 -
--	pcf_bl->pcf = dev_to_pcf50633(pdev->dev.parent);
+-	/* defeat 8s death from lowsys on A5 */
+-	pcf50633_reg_write(pcf, PCF50633_REG_OOCSHDWN,  0x04);
 -
--	pcf_bl->bl = devm_backlight_device_register(&pdev->dev, pdev->name,
--						&pdev->dev, pcf_bl,
--						&pcf50633_bl_ops, &bl_props);
+-	/* We immediately read the usb and adapter status. We thus make sure
+-	 * only of USBINS/USBREM IRQ handlers are called */
+-	if (pcf_int[0] & (PCF50633_INT1_USBINS | PCF50633_INT1_USBREM)) {
+-		chgstat = pcf50633_reg_read(pcf, PCF50633_REG_MBCS2);
+-		if (chgstat & (0x3 << 4))
+-			pcf_int[0] &= ~PCF50633_INT1_USBREM;
+-		else
+-			pcf_int[0] &= ~PCF50633_INT1_USBINS;
+-	}
 -
--	if (IS_ERR(pcf_bl->bl))
--		return PTR_ERR(pcf_bl->bl);
+-	/* Make sure only one of ADPINS or ADPREM is set */
+-	if (pcf_int[0] & (PCF50633_INT1_ADPINS | PCF50633_INT1_ADPREM)) {
+-		chgstat = pcf50633_reg_read(pcf, PCF50633_REG_MBCS2);
+-		if (chgstat & (0x3 << 4))
+-			pcf_int[0] &= ~PCF50633_INT1_ADPREM;
+-		else
+-			pcf_int[0] &= ~PCF50633_INT1_ADPINS;
+-	}
 -
--	platform_set_drvdata(pdev, pcf_bl);
+-	dev_dbg(pcf->dev, "INT1=0x%02x INT2=0x%02x INT3=0x%02x "
+-			"INT4=0x%02x INT5=0x%02x\n", pcf_int[0],
+-			pcf_int[1], pcf_int[2], pcf_int[3], pcf_int[4]);
 -
--	pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDDIM, pdata->ramp_time);
+-	/* Some revisions of the chip don't have a 8s standby mode on
+-	 * ONKEY1S press. We try to manually do it in such cases. */
+-	if ((pcf_int[0] & PCF50633_INT1_SECOND) && pcf->onkey1s_held) {
+-		dev_info(pcf->dev, "ONKEY1S held for %d secs\n",
+-							pcf->onkey1s_held);
+-		if (pcf->onkey1s_held++ == PCF50633_ONKEY1S_TIMEOUT)
+-			if (pcf->pdata->force_shutdown)
+-				pcf->pdata->force_shutdown(pcf);
+-	}
 -
--	/*
--	 * Should be different from bl_props.brightness, so we do not exit
--	 * update_status early the first time it's called
--	 */
--	pcf_bl->brightness = pcf_bl->bl->props.brightness + 1;
+-	if (pcf_int[2] & PCF50633_INT3_ONKEY1S) {
+-		dev_info(pcf->dev, "ONKEY1S held\n");
+-		pcf->onkey1s_held = 1 ;
 -
--	backlight_update_status(pcf_bl->bl);
+-		/* Unmask IRQ_SECOND */
+-		pcf50633_reg_clear_bits(pcf, PCF50633_REG_INT1M,
+-						PCF50633_INT1_SECOND);
 -
--	return 0;
+-		/* Unmask IRQ_ONKEYR */
+-		pcf50633_reg_clear_bits(pcf, PCF50633_REG_INT2M,
+-						PCF50633_INT2_ONKEYR);
+-	}
+-
+-	if ((pcf_int[1] & PCF50633_INT2_ONKEYR) && pcf->onkey1s_held) {
+-		pcf->onkey1s_held = 0;
+-
+-		/* Mask SECOND and ONKEYR interrupts */
+-		if (pcf->mask_regs[0] & PCF50633_INT1_SECOND)
+-			pcf50633_reg_set_bit_mask(pcf,
+-					PCF50633_REG_INT1M,
+-					PCF50633_INT1_SECOND,
+-					PCF50633_INT1_SECOND);
+-
+-		if (pcf->mask_regs[1] & PCF50633_INT2_ONKEYR)
+-			pcf50633_reg_set_bit_mask(pcf,
+-					PCF50633_REG_INT2M,
+-					PCF50633_INT2_ONKEYR,
+-					PCF50633_INT2_ONKEYR);
+-	}
+-
+-	/* Have we just resumed ? */
+-	if (pcf->is_suspended) {
+-		pcf->is_suspended = 0;
+-
+-		/* Set the resume reason filtering out non resumers */
+-		for (i = 0; i < ARRAY_SIZE(pcf_int); i++)
+-			pcf->resume_reason[i] = pcf_int[i] &
+-						pcf->pdata->resumers[i];
+-
+-		/* Make sure we don't pass on any ONKEY events to
+-		 * userspace now */
+-		pcf_int[1] &= ~(PCF50633_INT2_ONKEYR | PCF50633_INT2_ONKEYF);
+-	}
+-
+-	for (i = 0; i < ARRAY_SIZE(pcf_int); i++) {
+-		/* Unset masked interrupts */
+-		pcf_int[i] &= ~pcf->mask_regs[i];
+-
+-		for (j = 0; j < 8 ; j++)
+-			if (pcf_int[i] & (1 << j))
+-				pcf50633_irq_call_handler(pcf, (i * 8) + j);
+-	}
+-
+-out:
+-	return IRQ_HANDLED;
 -}
 -
--static struct platform_driver pcf50633_bl_driver = {
--	.probe =	pcf50633_bl_probe,
--	.driver = {
--		.name = "pcf50633-backlight",
--	},
--};
--
--module_platform_driver(pcf50633_bl_driver);
--
--MODULE_AUTHOR("Lars-Peter Clausen <lars@metafoo.de>");
--MODULE_DESCRIPTION("PCF50633 backlight driver");
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:pcf50633-backlight");
-diff --git a/include/linux/mfd/pcf50633/backlight.h b/include/linux/mfd/pcf50633/backlight.h
-deleted file mode 100644
-index fd4a4f8d6c13..000000000000
---- a/include/linux/mfd/pcf50633/backlight.h
-+++ /dev/null
-@@ -1,42 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/*
-- *  Copyright (C) 2009-2010, Lars-Peter Clausen <lars@metafoo.de>
-- *      PCF50633 backlight device driver
-- */
--
--#ifndef __LINUX_MFD_PCF50633_BACKLIGHT
--#define __LINUX_MFD_PCF50633_BACKLIGHT
--
--/*
--* @default_brightness: Backlight brightness is initialized to this value
--*
--* Brightness to be used after the driver has been probed.
--* Valid range 0-63.
--*
--* @default_brightness_limit: The actual brightness is limited by this value
--*
--* Brightness limit to be used after the driver has been probed. This is useful
--* when it is not known how much power is available for the backlight during
--* probe.
--* Valid range 0-63. Can be changed later with pcf50633_bl_set_brightness_limit.
--*
--* @ramp_time: Display ramp time when changing brightness
--*
--* When changing the backlights brightness the change is not instant, instead
--* it fades smooth from one state to another. This value specifies how long
--* the fade should take. The lower the value the higher the fade time.
--* Valid range 0-255
--*/
--struct pcf50633_bl_platform_data {
--	unsigned int	default_brightness;
--	unsigned int	default_brightness_limit;
--	uint8_t		ramp_time;
--};
+-static int pcf50633_suspend(struct device *dev)
+-{
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct pcf50633 *pcf = i2c_get_clientdata(client);
+-	int ret;
+-	int i;
+-	u8 res[5];
 -
 -
--struct pcf50633;
+-	/* Make sure our interrupt handlers are not called
+-	 * henceforth */
+-	disable_irq(pcf->irq);
 -
--int pcf50633_bl_set_brightness_limit(struct pcf50633 *pcf, unsigned int limit);
+-	/* Save the masks */
+-	ret = pcf50633_read_block(pcf, PCF50633_REG_INT1M,
+-				ARRAY_SIZE(pcf->suspend_irq_masks),
+-					pcf->suspend_irq_masks);
+-	if (ret < 0) {
+-		dev_err(pcf->dev, "error saving irq masks\n");
+-		goto out;
+-	}
 -
--#endif
+-	/* Write wakeup irq masks */
+-	for (i = 0; i < ARRAY_SIZE(res); i++)
+-		res[i] = ~pcf->pdata->resumers[i];
 -
-diff --git a/include/linux/mfd/pcf50633/core.h b/include/linux/mfd/pcf50633/core.h
-index 539f27f8bd89..42d2b0e4884e 100644
---- a/include/linux/mfd/pcf50633/core.h
-+++ b/include/linux/mfd/pcf50633/core.h
-@@ -15,7 +15,6 @@
- #include <linux/regulator/machine.h>
- #include <linux/pm.h>
- #include <linux/power_supply.h>
--#include <linux/mfd/pcf50633/backlight.h>
- 
- struct pcf50633;
- struct regmap;
-@@ -42,8 +41,6 @@ struct pcf50633_platform_data {
- 	void (*force_shutdown)(struct pcf50633 *);
- 
- 	u8 resumers[5];
+-	ret = pcf50633_write_block(pcf, PCF50633_REG_INT1M,
+-					ARRAY_SIZE(res), &res[0]);
+-	if (ret < 0) {
+-		dev_err(pcf->dev, "error writing wakeup irq masks\n");
+-		goto out;
+-	}
 -
--	struct pcf50633_bl_platform_data *backlight_data;
- };
- 
- struct pcf50633_irq {
+-	pcf->is_suspended = 1;
+-
+-out:
+-	return ret;
+-}
+-
+-static int pcf50633_resume(struct device *dev)
+-{
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct pcf50633 *pcf = i2c_get_clientdata(client);
+-	int ret;
+-
+-	/* Write the saved mask registers */
+-	ret = pcf50633_write_block(pcf, PCF50633_REG_INT1M,
+-				ARRAY_SIZE(pcf->suspend_irq_masks),
+-					pcf->suspend_irq_masks);
+-	if (ret < 0)
+-		dev_err(pcf->dev, "Error restoring saved suspend masks\n");
+-
+-	enable_irq(pcf->irq);
+-
+-	return ret;
+-}
+-
+-EXPORT_GPL_SIMPLE_DEV_PM_OPS(pcf50633_pm, pcf50633_suspend, pcf50633_resume);
+-
+-int pcf50633_irq_init(struct pcf50633 *pcf, int irq)
+-{
+-	int ret;
+-
+-	pcf->irq = irq;
+-
+-	/* Enable all interrupts except RTC SECOND */
+-	pcf->mask_regs[0] = 0x80;
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT1M, pcf->mask_regs[0]);
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT2M, 0x00);
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT3M, 0x00);
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT4M, 0x00);
+-	pcf50633_reg_write(pcf, PCF50633_REG_INT5M, 0x00);
+-
+-	ret = request_threaded_irq(irq, NULL, pcf50633_irq,
+-					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
+-					"pcf50633", pcf);
+-
+-	if (ret)
+-		dev_err(pcf->dev, "Failed to request IRQ %d\n", ret);
+-
+-	if (enable_irq_wake(irq) < 0)
+-		dev_err(pcf->dev, "IRQ %u cannot be enabled as wake-up source"
+-			"in this hardware revision", irq);
+-
+-	return ret;
+-}
+-
+-void pcf50633_irq_free(struct pcf50633 *pcf)
+-{
+-	free_irq(pcf->irq, pcf);
+-}
 -- 
 2.48.1
 
