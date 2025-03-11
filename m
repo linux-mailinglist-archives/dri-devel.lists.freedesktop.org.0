@@ -2,77 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B55A5B676
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 03:08:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408D5A5B687
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 03:12:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CB2610E010;
-	Tue, 11 Mar 2025 02:08:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF5110E094;
+	Tue, 11 Mar 2025 02:12:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="wQfQZG6I";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="fNPJBRQU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2331110E010
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 02:08:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8CA06A4656C;
- Tue, 11 Mar 2025 02:02:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 872A9C4CEE5;
- Tue, 11 Mar 2025 02:08:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1741658886;
- bh=EO2y2EASnimfmC0To8IgjADGLB03IrpBXSrBRgvMOXc=;
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C45EA10E094;
+ Tue, 11 Mar 2025 02:12:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1741659135;
+ bh=sPRc+SLGGmBsjVapsNsec//vcORc+A/EDQ02Tjp9hxk=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=wQfQZG6IKVV4Tew+S+0o+lnw12y0URQfWSPems1i8x5dKQTaPMYHdQMJDIg/0LCcq
- 9ysqdCzIccJgUTy5+1XImjyPHewrVrCASW3U/ThAkRtkSNX1mJCMOLQBPQJNwR3UZE
- sXCoysWhDTs3Eikr7+eLtWHhOyIiad0yrUckBntM=
-Date: Mon, 10 Mar 2025 19:08:03 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix
- <nicolas.palix@imag.fr>, James Smart <james.smart@broadcom.com>, Dick
- Kennedy <dick.kennedy@broadcom.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Chris Mason <clm@fb.com>, Josef Bacik
- <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Ilya Dryomov
- <idryomov@gmail.com>, Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens
- Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>, Damien Le Moal
- <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Carlos Maiolino
- <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel
- <sre@kernel.org>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
- <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Frank Li
- <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Hans de Goede
- <hdegoede@redhat.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Henrique de Moraes Holschuh
- <hmh@hmh.eng.br>, Selvin Xavier <selvin.xavier@broadcom.com>, Kalesh AP
- <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>, Leon
- Romanovsky <leon@kernel.org>, Easwar Hariharan
- <eahariha@linux.microsoft.com>, cocci@inria.fr,
- linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
- linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
- linux-rdma@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, Carlos Maiolino
- <cmaiolino@redhat.com>
-Subject: Re: (subset) [PATCH v3 00/16] Converge on using secs_to_jiffies()
- part two
-Message-Id: <20250310190803.aaf868760781c9ae3fbe6df1@linux-foundation.org>
-In-Reply-To: <174165504986.528513.3575505677065987375.b4-ty@oracle.com>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
- <174165504986.528513.3575505677065987375.b4-ty@oracle.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ b=fNPJBRQUlWyQoZ4l+yuMk9PjEFga7EpUUJBxPHBvL/78UNUd5LK9ekyvB0VfzcNbX
+ 8kRos6qJs5Fjh8LdO1KnzQCq5XHhg+v3Cu9q6LRv0TxoTHHlQUX6g+r8Mbg7pC/xpP
+ I0AGq+wOL2qBzOUdyt3UHC8zkIxtoMZbO7+bhy/F1p3BYGyw3iSSrEeMMF6mqFnwZB
+ ZCpsM6U7WQJ0zdnz/IF9v78uRkO/9tsWcNFLRA7HNRhdFdc3F7bNHvguKTYuh4qo9C
+ INEq465rvxTzR+io+c4V2G5PgDbqRTOuL2gq4ilIypqLGcOcDQXtKboS72TlqFbmNA
+ WZZ2wCuXZVUTw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4ZBchv00qfz4wcw;
+ Tue, 11 Mar 2025 13:12:14 +1100 (AEDT)
+Date: Tue, 11 Mar 2025 13:12:14 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Andrew Morton <akpm@linux-foundation.org>, Dave Airlie <airlied@redhat.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0?=
+ =?UTF-8?B?csO2bQ==?= <thomas.hellstrom@linux.intel.com>, DRM XE List
+ <intel-xe@lists.freedesktop.org>, Alistair Popple <apopple@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Matthew Brost <matthew.brost@intel.com>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: manual merge of the drm-xe tree with the mm tree
+Message-ID: <20250311131214.530934a4@canb.auug.org.au>
+In-Reply-To: <20250307122954.1ab65809@canb.auug.org.au>
+References: <20250307122954.1ab65809@canb.auug.org.au>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_//FZSXrmCnoUDnIwitfLYCfG";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,52 +63,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Mar 2025 21:19:03 -0400 "Martin K. Petersen" <martin.petersen@oracle.com> wrote:
+--Sig_//FZSXrmCnoUDnIwitfLYCfG
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> On Tue, 25 Feb 2025 20:17:14 +0000, Easwar Hariharan wrote:
-> 
-> > This is the second series (part 1*) that converts users of msecs_to_jiffies() that
-> > either use the multiply pattern of either of:
-> > - msecs_to_jiffies(N*1000) or
-> > - msecs_to_jiffies(N*MSEC_PER_SEC)
-> > 
-> > where N is a constant or an expression, to avoid the multiplication.
-> > 
-> > [...]
-> 
-> Applied to 6.15/scsi-queue, thanks!
-> 
-> [02/16] scsi: lpfc: convert timeouts to secs_to_jiffies()
->         https://git.kernel.org/mkp/scsi/c/a131f20804d6
+Hi all,
 
-Really, an acked-by would have been much easier all around, but whatever.
+On Fri, 7 Mar 2025 12:29:54 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
+>
+> Hi all,
+>=20
+> Today's linux-next merge of the drm-xe tree got a conflict in:
+>=20
+>   mm/memory.c
+>=20
+> between commit:
+>=20
+>   089b22f60a0f ("mm: allow compound zone device pages")
+>=20
+> from the mm-unstable branch of the mm tree and commit:
+>=20
+>   1afaeb8293c9 ("mm/migrate: Trylock device page in do_swap_page")
+>=20
+> from the drm-xe tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+>=20
+> diff --cc mm/memory.c
+> index d21f6cded7e3,59b804f4bf3f..000000000000
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@@ -4473,11 -4348,15 +4473,16 @@@ vm_fault_t do_swap_page(struct vm_faul
+>   			 * Get a page reference while we know the page can't be
+>   			 * freed.
+>   			 */
+> - 			get_page(vmf->page);
+> - 			pte_unmap_unlock(vmf->pte, vmf->ptl);
+> - 			pgmap =3D page_pgmap(vmf->page);
+> - 			ret =3D pgmap->ops->migrate_to_ram(vmf);
+> - 			put_page(vmf->page);
+> + 			if (trylock_page(vmf->page)) {
+> + 				get_page(vmf->page);
+> + 				pte_unmap_unlock(vmf->pte, vmf->ptl);
+>  -				ret =3D vmf->page->pgmap->ops->migrate_to_ram(vmf);
+> ++				pgmap =3D page_pgmap(vmf->page);
+> ++				ret =3D pgmap->ops->migrate_to_ram(vmf);
+> + 				unlock_page(vmf->page);
+> + 				put_page(vmf->page);
+> + 			} else {
+> + 				pte_unmap_unlock(vmf->pte, vmf->ptl);
+> + 			}
+>   		} else if (is_hwpoison_entry(entry)) {
+>   			ret =3D VM_FAULT_HWPOISON;
+>   		} else if (is_pte_marker_entry(entry)) {
 
-Did you get my fix?
+This is now conflict between the mm tree and the drm tree.
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: scsi-lpfc-convert-timeouts-to-secs_to_jiffies-fix
-Date: Tue Feb 25 07:32:03 PM PST 2025
+--=20
+Cheers,
+Stephen Rothwell
 
-fix build
+--Sig_//FZSXrmCnoUDnIwitfLYCfG
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Cc: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: James Bottomley <james.bottomley@HansenPartnership.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
+-----BEGIN PGP SIGNATURE-----
 
- drivers/scsi/lpfc/lpfc_sli.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmfPm/4ACgkQAVBC80lX
+0GwWgwf/dqiOYAQOJABrMGZlP96+Re5v5AI0/oZmQI8+MQRGYeeXMNCjKfQiMaTb
+zvZ12zDkJ3vfTd4aNBcO8uGO+rxiq9vH1w4vCyGhq+IHGITnDwos5pxLegtaUI/p
+69kuQNxO+iQL41EBii0t7w+tEUj0UEkUyfwi1zyPlPaunLtDVpEL05t2n8aD9A0O
+NKYrvND55PlC2OMncDvOwhy3B66KtUgFB3EyG1UdWYIPwlcwg3qiI1XBumb1pWFX
+/MihC/1QVJbzim3rbNmljyQM8GhBaz++2D7lf6LInAnVRwavcPHZoi0kKep12oYn
+vev33M8do2498+8JyrckThlnZnqxqQ==
+=Zw5K
+-----END PGP SIGNATURE-----
 
---- a/drivers/scsi/lpfc/lpfc_sli.c~scsi-lpfc-convert-timeouts-to-secs_to_jiffies-fix
-+++ a/drivers/scsi/lpfc/lpfc_sli.c
-@@ -3954,7 +3954,7 @@ void lpfc_poll_eratt(struct timer_list *
- 	else
- 		/* Restart the timer for next eratt poll */
- 		mod_timer(&phba->eratt_poll,
--			  jiffies + secs_to_jiffies(phba->eratt_poll_interval);
-+			  jiffies + secs_to_jiffies(phba->eratt_poll_interval));
- 	return;
- }
- 
-_
-
+--Sig_//FZSXrmCnoUDnIwitfLYCfG--
