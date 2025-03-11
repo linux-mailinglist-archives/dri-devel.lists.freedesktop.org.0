@@ -2,54 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB793A5B76E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 04:47:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3DFEA5B815
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 05:50:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E031310E00F;
-	Tue, 11 Mar 2025 03:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B52810E0D3;
+	Tue, 11 Mar 2025 04:50:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mZEUp9Sj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
- [91.218.175.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D15F810E076
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 03:46:57 +0000 (UTC)
-Message-ID: <657416e8-bb05-42ca-b139-dc25177f5eb8@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1741664815;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hOsU2O6D/NyorM3+gmGM4JjNYMTiWmpvnLs938pCNf0=;
- b=icZleH04sD8pZ7umEC7q3EQaJHHCmld8mkTeApTJIIFfvtaRr5cjjwjDfimh4U/gJzK6RF
- g/OQi9yyQ7i9EVFC62t1b2DgED8zcB0RocCDmGCUYqBSNsEDLOKmA+KayRlPvle1gOaGA8
- lcX8f65j1w9TEOFmLEUZDieN275wQmE=
-Date: Tue, 11 Mar 2025 09:16:46 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48F7710E0D3;
+ Tue, 11 Mar 2025 04:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741668618; x=1773204618;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=b5vzful44IZGka9ESmyCBZcsfN9Zck5TwWmiqPJZs/g=;
+ b=mZEUp9Sj4Bcj1aI9unYF1GyUkVgnWxUcvjG33vjMuUgRTcrlrUu1FUpn
+ dQOBFPfszhP/EelzMWGFWYnayvF0b1i5GE4umTKX963iWE6cupGdn5u/n
+ 5rtnAWWQrZzSwJgvnK0JHhQoW+Hv2Jg8xtoviGIRHs22h8EVMO3Hr3wm1
+ AJcdGDUz3uQGIe8LbEdVYI4pC28Nlv6ErVSLJ8SIaobzL7u2ORlhkj9VH
+ z+lkpdw/3FMo/SFN60ICpSuKkbOdU9evypnWgBGwCp7Ryik6lklUSQHgc
+ HNwndXuKu4AhT0E4w78hJUc+dF9ER/5VW+rGAhEef81tJkLvetBG0gJRH w==;
+X-CSE-ConnectionGUID: TTEahtGHRPiwg9+x8geuyw==
+X-CSE-MsgGUID: nyiSxNGJQpW1g20Q9BjYOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="42563454"
+X-IronPort-AV: E=Sophos;i="6.14,238,1736841600"; d="scan'208";a="42563454"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2025 21:50:17 -0700
+X-CSE-ConnectionGUID: oo6OkJHzT6yBotSbZGxHaw==
+X-CSE-MsgGUID: MdxYy0KxSb6OafI5okAv8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,238,1736841600"; d="scan'208";a="125102754"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 10 Mar 2025 21:50:15 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Mon, 10 Mar 2025 21:50:13 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Mon, 10 Mar 2025 21:50:13 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.174)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 10 Mar 2025 21:50:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xWV+OUCEnqK7Zyd8K2lCUDqHMgB59Zk2LU5COPZfPsbc6zyLEcC1R7MfG8r01STy4hejlNa4a/Ev95dxd/+HMtAuDjfJYAMhl51IWbZYAtuhhxpOqgoePPYIECh1Lf3fMrmeJuTWYHSZhxgHQsxPigO0KVNH7UuXDKvVINXlwSvVK/s90v7fGAElOuZ5MHKgFMgxgtnnAg610hJyXT1icpYD/I+V1bkblCu/8CzqTkaxC3vS/C7nmdxRggD0bfbTs/EIueYz1D15/9BU7ICOsXyBHb41ylMwHN5vMhjGeNF8aQAMC/18ZR2nu3XvnObgbcgAejKeB8p2TBa0HnWhPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NWrSScAm0dcXJJ5GhevP8if4r0BnxRNeo+qH0rWCFTo=;
+ b=wGNrR1oXwkGxGQE3Bhjz8Sox+tHREGOR+O/y3JItMy1c22OrdtDJIPaN4hh7CxsuJTg7hoGagm33FOdjVXBTz0sL01VARLZ+H6Drt+3nuKQa104YLPfuYRaKBiR4Wv/pqTl/Xi7QlfL82ZNuSXgZ6nJvoCFCNBwDftGl0kfj1+D6dgbOPdEkHlDRub6w0Gf1pnqankOPY92Sw53DDLqrfdvKnn9kZn0IG3lQAP51YJ3OCHR7xxBz8Uo8ySkaAqFPStamBQK2A+6rOszM55DXH0BuTt/mqI5H/+3w+hkRZmTZ5uOiF6ITYt1H76HQD1ySbWIJ7mSE1NijWyvgZj8Ibw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by MW4PR11MB6714.namprd11.prod.outlook.com (2603:10b6:303:20f::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Tue, 11 Mar
+ 2025 04:49:31 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.8511.026; Tue, 11 Mar 2025
+ 04:49:30 +0000
+Date: Mon, 10 Mar 2025 21:50:38 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Jonathan Cavitt <jonathan.cavitt@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <saurabhg.gupta@intel.com>,
+ <alex.zuo@intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <jianxun.zhang@intel.com>, <shuicheng.lin@intel.com>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v7 4/6] drm/xe/uapi: Define drm_xe_vm_get_faults
+Message-ID: <Z8/BHmPM6h/agrvX@lstrano-desk.jf.intel.com>
+References: <20250310171834.78299-1-jonathan.cavitt@intel.com>
+ <20250310171834.78299-5-jonathan.cavitt@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250310171834.78299-5-jonathan.cavitt@intel.com>
+X-ClientProxiedBy: MW4PR03CA0114.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::29) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-Subject: Re: [PATCH v10 00/13] drm/bridge: cdns-dsi: Fix the color-shift issue
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>
-References: <20250226155228.564289-1-aradhya.bhatia@linux.dev>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <20250226155228.564289-1-aradhya.bhatia@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB6714:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54775027-cb11-47f1-47d7-08dd60581c72
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?p8S1heyH/Ox/dXePPRfYu8VTZQugB03G+YlOikDYz5KR7AJ3BA3IthhDWsyM?=
+ =?us-ascii?Q?gUZPKPBsxtOvzWVcfOxlCLUER7GKkhy5Ck8ddO0NSZlo6GrjeJLI8WI9AY4c?=
+ =?us-ascii?Q?FrY6fHiaFpHcfWGYmo/Ch0MrUOuOpDsVDaL4H13/HRGTELNiK4TdJuIByqr0?=
+ =?us-ascii?Q?Kj4EoroAH3wttjX3nAwNcN4GrpjUmub88OAOU4ZOX1aXTy555dtzlDrfTYqv?=
+ =?us-ascii?Q?zYznb+uh2tTF7QqIoKS5aw5jx1tQUxUySdvMrBOkIGgXWCGD6cfUZSnOCEVb?=
+ =?us-ascii?Q?9ChJAsxqt1AuLbxs6xPTYzo8Rm5TJoFF9rrs8j8A4m7JtgdD0rOGxujh32tV?=
+ =?us-ascii?Q?TMsyQAT9qA5oC2x/bh5h5eFZDjCRhWjms27qTdEoZkeoeKW1QJ4hi8Js+Zxx?=
+ =?us-ascii?Q?nxAgDX/nAfBEg7kypdCPBQBH6maxY0uDJAPCtW1qo+O5aftXbSR0QrGN2qfh?=
+ =?us-ascii?Q?/vhbLsRxEbp7Ig1Jw64X0kpAwFvWBFsV35EKf+Kd/4DwkTkxhv7E+aB4lRzk?=
+ =?us-ascii?Q?EvIpCRi+fAe4I3+2q4JQfKLvGZ+aR8Afgdj2LbPzsamUQ5hQCChzEtAdyEZB?=
+ =?us-ascii?Q?g62dil3jNRLZVfAqpSdql+iguyBOURUjISvecbFX6u34ccqIuYozhqKxQJzO?=
+ =?us-ascii?Q?nqu+IoSxlj3a7pVdxlOUhMAKvDuxeX127IN9Xdj38VMbpTQLCb7oJn5P00Bx?=
+ =?us-ascii?Q?PZDtuAoETVV1m2OmcUZlCS5lJu+BnEOzIMPPcZc0GNGx0nRAd/BRpofqjS0N?=
+ =?us-ascii?Q?tBfmMRqNVo3iCoUZ8d1CVKHKaD9dyIFQg6QV+0F1AJqmpk/A2yHy6wQh0w4+?=
+ =?us-ascii?Q?dV89citT7b/kzr1tZ8LOwIVFw5iSv+N7lktT+PTOnZKyzMYCmdU+bqMyen+e?=
+ =?us-ascii?Q?2iyTbX9677FuCFgOz8cfqqqdYVX8B7zSlpzk8KLeJWV+bAAlhk3E8dN6dwJP?=
+ =?us-ascii?Q?4mJBXzpWkIuNe28CfeaDpO5FZj1At8aKQc7WjRQ7FKfK+7ETygRZPXVqGJfq?=
+ =?us-ascii?Q?3/UOIo04aBYNAJ85QysceXOxKD6BT/hpa1nuCp8l6DbcV8pYYx9zCVBY9nF4?=
+ =?us-ascii?Q?148LhG31WAPTvHBEd6A1CfkZGkNvhgm8I23lUyUbsfGVbMN/VEp6K8TDNcuL?=
+ =?us-ascii?Q?TT3VfS3RiGgAqF75Oz0CStKfaUxUnhg+m2erT0OEDaqZbkVvNXWhoKYiv4Ib?=
+ =?us-ascii?Q?B/kmvx2CPWVdYyX1pEgomVoTLSFa/kBb9ThHfuLL+tJ+B7ytJkcaf6pCeQgz?=
+ =?us-ascii?Q?aBm2ToHY95bfZnq/3qMPB474xUS0emTVpaOg+9jTQow69s8zZ+5oD8cRkJMN?=
+ =?us-ascii?Q?UTAqsZRFrmPXfXTKBmY1jGJuw+5QF3t80o5aX+4F74C7k9g4Tg1V5RE0XQaN?=
+ =?us-ascii?Q?LWx+NrscNheSgJ8nplCdpKMBgS0Q?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?r8oFAR1MJGDWxoRjahYSNEeyzgTI8NGrxGRFJsd0cTs5uWxbvnV94KFxhLvp?=
+ =?us-ascii?Q?8Osrdcwgf07IowIAsMyKNvh6R73m6KD1pK7xYCqTdGyEpr0If1477DW72N/H?=
+ =?us-ascii?Q?zP9b/YvbIglnaf3HXU3W9+gZD4ENP1AhhgsdMAJ1kKdouXfofL6k3G8LXPpy?=
+ =?us-ascii?Q?yZO01N+ClWYuzmgdr6luj2/8V64TAlmHTO3ZE9hvPxMab5sMjsylblW7Ymzm?=
+ =?us-ascii?Q?Toe1OriFRfSmxAxqyzmOrQVAshTw3J9RzWAqZPR8JOEL/KgrD+AZQaF340B2?=
+ =?us-ascii?Q?BYrWZAzCw0htkOWRSutFUmgh70k4TsaNgc+Ty/kwM7vpn21TQD79ZQ2dwp6K?=
+ =?us-ascii?Q?sV4zaDgIQn2h01sk/aFbTjIvpZeH2u5VnIXuPBMPxyivxv/NvDVMzysprQlE?=
+ =?us-ascii?Q?3joB3pPA6ufGn5JCm0K8drKYhCyZJfGLmb/Drw4AgFAGum9iygVetbZOEg/L?=
+ =?us-ascii?Q?wdfrVJvzzYjI+3QD9nFx4JWuQoh7fGU/+lnapdr1vQ5pghCrAABwk4l6x4w+?=
+ =?us-ascii?Q?si4IJpAThshN1ar1cTxLXh8wbeWnGMIhdCph4O90pIOqIbU811vrYnmkKWqC?=
+ =?us-ascii?Q?+wKy7HF4UYHSDZqv5w4if5CwQ1daQeoHYZl6fKYUoOMtlmXH7lkMVKwRNmLc?=
+ =?us-ascii?Q?dmPHpdKHl+Wxuz/GtrUcoMedO1oQ9XqWtQoeJDL5goPLCUCT/eieGhBtDyk6?=
+ =?us-ascii?Q?71ZvRusBfcYUvo8RHbOdkhDW0d/Ilr424q8U3bzHJ+nIr0t0/DHt55cVnZzp?=
+ =?us-ascii?Q?TvEMPVk04TJDRjg6OaVZZwlIyBkTh3nSeQ0ghRjOTnTIPk1khNP+IqHauo2J?=
+ =?us-ascii?Q?xmQGM2Y+IwY5BoqFA39bltkPI3g3oiPKiOMTws423ApL9G3+7wE5p4mtxyjG?=
+ =?us-ascii?Q?qg7k7adeO1OdJO6YDt8G0kqHTfByJXtvbA/kb/VC7/fskwkZq1lVn6KskKTn?=
+ =?us-ascii?Q?H9QQ7ovbO35vZ90UMIa6Fy8mcX8YJqGL4JJYE8gHZY6LHemhl3x4+cZQ56to?=
+ =?us-ascii?Q?jC2snvA41wbD8/sIn5XckAveYnw3m8mt5A26r6HFjS7zhOc8y+BDRqkcyS03?=
+ =?us-ascii?Q?2ram2uHE46o/sJIp9lGj14AQqynE21giuP2pPYccx+PhfGzD51fBxSCtmfdl?=
+ =?us-ascii?Q?dSFJFBqDpce+0xdKE9nkiS92Rfq7ED7XB5RW0fu/EeoET3wIb1AxlrhiWouK?=
+ =?us-ascii?Q?EcqfWhRX3VzME/1sCxGiInrJqk/y6pMXXc5p287WCyFUAGm0P+xltD4OaWeh?=
+ =?us-ascii?Q?NJgOImtbYsY/ZpiwHkhViRg6ACSahnaTzicTaGJ2SE9g8auG2pbLJPZAYl4w?=
+ =?us-ascii?Q?I3YR6Q9MjiC1cOnjJrHeBzBdizhWjbWL4Q4LMtE965LysYjMFWef4n7H2gj4?=
+ =?us-ascii?Q?jbmKK8ywh1M0SD2AMJ477Ov/yFBY7ROEyJwKbxO2isRYX/AtU81okuuAu0Wf?=
+ =?us-ascii?Q?5hf4uzXERHV+0/BVkci0fGqJ1xDYQcrhp87DSFkXZKSsXFSIoOvHhL0Ws190?=
+ =?us-ascii?Q?9xNEgk7nQSDwMEO0Q4DjdcUvfPkSvqZPIgVrPWJXgHiuy6KVjuTg3XMVB88M?=
+ =?us-ascii?Q?DteCWbpDPzEEQaCgD/yhtuMPD/c4wS2s1IpIKuuj3+CNu5kK03u2AV5t2M5U?=
+ =?us-ascii?Q?RQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54775027-cb11-47f1-47d7-08dd60581c72
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2025 04:49:30.8407 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VFY6Y1R5XqC9jP3f29spqTh8g+5ngGjhy4IjWd7Fcb9555mqDNJQ5dQL9OKfqMnvWHXZXAQsodgbzc5L2rxZ8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6714
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,246 +179,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Mar 10, 2025 at 05:18:32PM +0000, Jonathan Cavitt wrote:
+> Add initial declarations for the drm_xe_vm_get_faults ioctl.
+> 
+> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> ---
+>  include/uapi/drm/xe_drm.h | 49 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+> 
+> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+> index 616916985e3f..90c2fcdbd5c1 100644
+> --- a/include/uapi/drm/xe_drm.h
+> +++ b/include/uapi/drm/xe_drm.h
+> @@ -81,6 +81,7 @@ extern "C" {
+>   *  - &DRM_IOCTL_XE_EXEC
+>   *  - &DRM_IOCTL_XE_WAIT_USER_FENCE
+>   *  - &DRM_IOCTL_XE_OBSERVATION
+> + *  - %DRM_IOCTL_XE_VM_GET_FAULTS
 
-All the patches within this series have been reviewed.
-Are there any more concerns that should be taken care of?
+This should be a generic "get VM property" IOCTL, not a specific IOCTL
+that only retrieves faults. This allows for future expansion of the
+uAPI.
 
+>   */
+>  
+>  /*
+> @@ -102,6 +103,7 @@ extern "C" {
+>  #define DRM_XE_EXEC			0x09
+>  #define DRM_XE_WAIT_USER_FENCE		0x0a
+>  #define DRM_XE_OBSERVATION		0x0b
+> +#define DRM_XE_VM_GET_FAULTS		0x0c
+>  
+>  /* Must be kept compact -- no holes */
+>  
+> @@ -117,6 +119,7 @@ extern "C" {
+>  #define DRM_IOCTL_XE_EXEC			DRM_IOW(DRM_COMMAND_BASE + DRM_XE_EXEC, struct drm_xe_exec)
+>  #define DRM_IOCTL_XE_WAIT_USER_FENCE		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_WAIT_USER_FENCE, struct drm_xe_wait_user_fence)
+>  #define DRM_IOCTL_XE_OBSERVATION		DRM_IOW(DRM_COMMAND_BASE + DRM_XE_OBSERVATION, struct drm_xe_observation_param)
+> +#define DRM_IOCTL_XE_VM_GET_FAULTS		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_VM_GET_FAULTS, struct drm_xe_vm_get_faults)
+>  
+>  /**
+>   * DOC: Xe IOCTL Extensions
+> @@ -1189,6 +1192,52 @@ struct drm_xe_vm_bind {
+>  	__u64 reserved[2];
+>  };
+>  
+> +struct xe_vm_fault {
+> +	/** @address: Address of the fault, if relevant */
+> +	__u64 address;
+> +#define DRM_XE_FAULT_ADDRESS_TYPE_NONE_EXT		0
+> +#define DRM_XE_FAULT_ADDRESS_TYPE_READ_INVALID_EXT	1
+> +#define DRM_XE_FAULT_ADDRESS_TYPE_WRITE_INVALID_EXT	2
+> +	/** @address_type: , if relevant */
+> +	__u32 address_type;
+> +	/**
+> +	 * @address_precision: Precision of faulted address, if relevant.
+> +	 * Currently only SZ_4K.
+> +	 */
+> +	__u32 address_precision;
+> +	/** @reserved: MBZ */
+> +	__u64 reserved[3];
+> +};
+> +
+> +/**
+> + * struct drm_xe_vm_get_faults - Input of &DRM_IOCTL_XE_VM_GET_FAULTS
+> + *
+> + * The user provides a VM ID, and the ioctl will
+> + *
+> + */
+> +struct drm_xe_vm_get_faults {
+> +	/** @extensions: Pointer to the first extension struct, if any */
+> +	__u64 extensions;
+> +
+> +	/** @vm_id: The ID of the VM to query the properties of */
+> +	__u32 vm_id;
+> +
+> +	/** @size: Size to allocate for @ptr */
+> +	__u32 size;
+> +
+> +	/** @fault_count: Number of faults to be returned */
+> +	__u32 fault_count;
+> +
 
-On 26/02/25 21:22, Aradhya Bhatia wrote:
-> Hello all,
-> 
-> This series provides some crucial fixes and improvements for the Cadence's DSI
-> TX (cdns-dsi) controller found commonly in Texas Instruments' J7 family of SoCs,
-> as well as in Sitara AM62P and AM62L SoCs.
-> 
-> Along with that, this series aims to fix the color-shift issue that has been
-> going on with the DSI controller. This controller requires to be enabled before
-> the previous entity enables its stream[0]. It's a strict requirement which, if
-> not followed, causes the colors to "shift" on the display. The fix happens in
-> 2 steps.
-> 
->     1. The bridge pre_enable calls have been shifted before the crtc_enable and
->        the bridge post_disable calls have been shifted after the crtc_disable.
->        This has been done as per the definition of bridge pre_enable.
-> 
->        "The display pipe (i.e. clocks and timing signals) feeding this bridge
->        will not yet be running when this callback is called".
-> 
->        Since CRTC is also a source feeding the bridge, it should not be enabled
->        before the bridges in the pipeline are pre_enabled.
-> 
->        The sequence of enable after this patch will look like:
-> 
-> 	        bridge[n]_pre_enable
-> 	        ...
-> 	        bridge[1]_pre_enable
-> 
-> 	        crtc_enable
-> 	        encoder_enable
-> 
-> 	        bridge[1]_enable
-> 	        ...
-> 	        bridge[n]_enable
-> 
->        and vice-versa for the bridge chain disable sequence.
-> 
-> 
->     2. The cdns-dsi enable / disable sequences have now been moved to pre_enable
->        and post_disable sequences. This is the only way to have cdns-dsi drivers
->        be up and ready before the previous entity is enables its streaming.
-> 
-> The DSI also spec requires the Clock and Data Lanes be ready before the DSI TX
-> enables its stream[0]. A patch has been added to make the code wait for that to
-> happen. Going ahead with further DSI (and DSS configuration), while the lanes
-> are not ready, has been found to be another reason for shift in colors.
-> 
-> These patches have been tested with J721E based BeagleboneAI64 along with a
-> RaspberryPi 7" DSI panel. The extra patches can be found in the
-> "next_dsi-v10_1-tests" branch[1] of my github fork if anyone would like to test
-> them.
-> 
-> Thanks,
-> Aradhya
-> 
-> 
-> * Important note about the authorship of patches *
-> 
-> All but one of the patches have been authored when I owned a "ti.com" based
-> email id, i.e. <a-bhatia1@ti.com>. This email id is not in use anymore, and all
-> the work done later has been part of my personal work. Since the original
-> patches were authored using TI's email id, I have maintained the original
-> authorships as they are, as well as their sign offs.
-> 
-> I have further added another sign off that uses my current (and personal) email
-> id, the one that is being used to send this revision, i.e.
-> <aradhya.bhatia@linux.dev>.
-> 
-> 
-> * Note on checkpatch warning in patch 11/13 *
-> Patch 11/13 causes the checkpatch to flare up for 1 checkpatch 'check' -
-> 
-> CHECK: Lines should not end with a '('
-> #77: FILE: drivers/gpu/drm/drm_atomic_helper.c:1304:
-> +                       new_crtc_state = drm_atomic_get_new_crtc_state(
-> 
-> This patch is largely duplicating the original code, with minor differences to
-> perform different operations. This line of code pre-exists in the file and
-> have simply been duplicated. I have decided to keep it as is to maintain the
-> uniformity and the originally intended readability. Should perhaps a fix be
-> required, this patch/series is not the right place, and another patch can be
-> created to fix this across the whole file.
-> 
-> 
-> [0]: Section 12.6.5.7.3: "Start-up Procedure" [For DSI TX controller]
->      in TDA4VM Technical Reference Manual https://www.ti.com/lit/zip/spruil1
-> 
-> [1]: https://github.com/aradhya07/linux-ab/tree/next_dsi-v10_1-tests
-> 
-> 
-> Change Log:
->   - Changes in v10:
->     - Rebase on latest linux-next (next-20250226).
->     - As part of rebase, update the patches to accommodate a couple of
->       widespread changes in DRM Framework -
->         - All the ("drm/atomic-helper: Change parameter name of ***") commits.
->         - All the ("drm/bridge: Pass full state to ***") commits.
->       (These updates are only trivial substitutions.)
->     - Add Tomi Valkeinen's T-b tags in all the patches.
-> 
->   - Changes in v9:
->     - Fix the oops in 11/13 - where the encoder_bridge_enable _was_ pre_enabling
->       the bridges instead of enabling.
->     - Add the following tags:
->       - Dmitry Baryshkov's R-b in patches 2, 10, 11, and A-b in patch 12.
->       - Jayesh Choudhary's R-b in patch 12.
->       - Tomi Valkeinen's R-b in patches 2, 10, 11, 12.
-> 
->   - Changes in v8:
->     - Move the phy de-initialization to bridge post_disable() instead of bridge
->       disable() in patch-3.
->     - Copy the private bridge state (dsi_cfg), in addition to the bridge_state,
->       in patch-9.
->     - Split patch v7:11/12 into three patches, v8:{10,11,12}/13, to separate out
->       different refactorings into different patches, and improve bisectability.
->     - Move patch v7:02/12 down to v8:06/12, to keep the initial patches for
->       fixes only.
->     - Drop patch v7:04/12 as it doesn't become relevant until patch v7:12/12.
->     - Add R-b tags of Dmitry Baryshkov in patch-9 and patch-3, and of
->       Tomi Valkeinen in patch-9.
->    
->   - Changes in v7:
->     - phy_init()/exit() were called from the PM path in v6. Change it back to
->       the bridge enable/disable path in patch-3, so that the phy_init() can go
->       back to being called after D-Phy reset assert.
->     - Reword commit text in patch-5 to explain the need of the fix.
->     - Drop the stray code in patch-10.
->     - Add R-b tag of Dmitry Baryshkov in patch-6.
-> 
->   - Changes in v6:
->     - Reword patch 3 to better explain the fixes around phy de-init.
->     - Fix the Lane ready timeout condition in patch 7.
->     - Fix the dsi _bridge_atomic_check() implementation by adding a new
->       bridge state structure in patch 10.
->     - Rework and combine patches v5:11/13 and v5:12/13 to v6:11/12.
->     - Generate the patches of these series using the "patience" algorithm.
->       Note: All patches, except v6:11/12, *do not* differ from their default
->       (greedy) algorithm variants.
->       For patch 11, the patience algorithm significantly improves the readability.
->     - Rename and move the Bridge enable/disable enums from public to private
->       in patch 11.
->     - Add R-b tags of Tomi Valkeinen in patch 6, and Dmitry Baryshkov in patch 2.
-> 
->   - Changes in v5:
->     - Fix subject and description in patch 1/13.
->     - Add patch to check the return value of
->       phy_mipi_dphy_get_default_config() (patch: 6/13).
->     - Change the Clk and Data Lane ready timeout from forever to 5s.
->     - Print an error instead of calling WARN_ON_ONCE in patch 7/13.
->     - Drop patch v4-07/11: "drm/bridge: cdns-dsi: Reset the DCS write FIFO".
->       There has been some inconsistencies found with this patch upon further
->       testing. This patch was being used to enable a DSI panel based on ILITEK
->       ILI9881C bridge. This will be debugged separately.
->     - Add patch to move the DSI mode check from _atomic_enable() to
->       _atomic_check() (patch: 10/13).
->     - Split patch v4-10/11 into 2 patches - 11/13 and 12/13.
->       Patch 11/13 separates out the Encoder-Bridge operations into a helper
->       function *without* changing the logic. Patch 12/13 then changes the order
->       of the encoder-bridge operations as was intended in the original patch.
->     - Add detailed comment for patch 13/13.
->     - Add Tomi Valkeinen's R-b in patches 1, 2, 4, 5, 7, 8, 9, 13.
-> 
->   - Changes in v4:
->     - Add new patch, "drm/bridge: cdns-dsi: Move to devm_drm_of_get_bridge()",
->       to update to an auto-managed way of finding next bridge in the chain.
->     - Drop patch "drm/bridge: cdns-dsi: Fix the phy_initialized variable" and
->       add "drm/bridge: cdns-dsi: Fix Phy _init() and _exit()" that properly
->       de-initializes the Phy and maintains the initialization state.
->     - Reword patch "drm/bridge: cdns-dsi: Reset the DCS write FIFO" to explain
->       the HW concerns better.
->     - Add R-b tag from Dmitry Baryshkov for patches 1/11 and 8/11.
-> 
->   - Changes in v3:
->     - Reword the commit message for patch "drm/bridge: cdns-dsi: Fix OF node
->       pointer".
->     - Add a new helper API to figure out DSI host input pixel format
->       in patch "drm/mipi-dsi: Add helper to find input format".
->     - Use a common function for bridge pre-enable and enable, and bridge disable
->       and post-disable, to avoid code duplication.
->     - Add T-b tag from Dominik Haller in patch 5/10. (Missed to add it in v2).
->     - Add R-b tag from Dmitry Baryshkov for patch 8/10.
-> 
->   - Changes in v2:
->     - Drop patch "drm/tidss: Add CRTC mode_fixup"
->     - Split patch "drm/bridge: cdns-dsi: Fix minor bugs" into 4 separate ones
->     - Drop support for early_enable/late_disable APIs and instead re-order the
->       pre_enable / post_disable APIs to be called before / after crtc_enable /
->       crtc_disable.
->     - Drop support for early_enable/late_disable in cdns-dsi and use
->       pre_enable/post_disable APIs instead to do bridge enable/disable.
-> 
-> 
-> Previous versions:
-> 
-> v1: https://lore.kernel.org/all/20240511153051.1355825-1-a-bhatia1@ti.com/
-> v2: https://lore.kernel.org/all/20240530093621.1925863-1-a-bhatia1@ti.com/
-> v3: https://lore.kernel.org/all/20240617105311.1587489-1-a-bhatia1@ti.com/
-> v4: https://lore.kernel.org/all/20240622110929.3115714-1-a-bhatia1@ti.com/
-> v5: https://lore.kernel.org/all/20241019195411.266860-1-aradhya.bhatia@linux.dev/
-> v6: https://lore.kernel.org/all/20250111192738.308889-1-aradhya.bhatia@linux.dev/
-> v7: https://lore.kernel.org/all/20250114055626.18816-1-aradhya.bhatia@linux.dev/
-> v8: https://lore.kernel.org/all/20250126191551.741957-1-aradhya.bhatia@linux.dev/
-> v9: https://lore.kernel.org/all/20250209121032.32655-1-aradhya.bhatia@linux.dev/
-> 
-> Aradhya Bhatia (13):
->   drm/bridge: cdns-dsi: Fix connecting to next bridge
->   drm/bridge: cdns-dsi: Fix phy de-init and flag it so
->   drm/bridge: cdns-dsi: Fix the clock variable for mode_valid()
->   drm/bridge: cdns-dsi: Check return value when getting default PHY
->     config
->   drm/bridge: cdns-dsi: Wait for Clk and Data Lanes to be ready
->   drm/bridge: cdns-dsi: Move to devm_drm_of_get_bridge()
->   drm/mipi-dsi: Add helper to find input format
->   drm/bridge: cdns-dsi: Support atomic bridge APIs
->   drm/bridge: cdns-dsi: Move DSI mode check to _atomic_check()
->   drm/atomic-helper: Refactor crtc & encoder-bridge op loops into
->     separate functions
->   drm/atomic-helper: Separate out bridge pre_enable/post_disable from
->     enable/disable
->   drm/atomic-helper: Re-order bridge chain pre-enable and post-disable
->   drm/bridge: cdns-dsi: Use pre_enable/post_disable to enable/disable
-> 
->  .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 224 ++++++++++++++----
->  .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |   2 -
->  drivers/gpu/drm/drm_atomic_helper.c           | 160 +++++++++++--
->  drivers/gpu/drm/drm_mipi_dsi.c                |  37 +++
->  include/drm/drm_mipi_dsi.h                    |   1 +
->  5 files changed, 348 insertions(+), 76 deletions(-)
-> 
-> 
-> base-commit: 8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
+fault_count is implied by size.
 
--- 
-Regards
-Aradhya
+Matt
 
+> +	/** @pad: MBZ */
+> +	__u32 pad;
+> +
+> +	/** @reserved: MBZ */
+> +	__u64 reserved[2];
+> +
+> +	/** @faults: Pointer to user-defined array of xe_vm_fault of flexible size */
+> +	__u64 faults;
+> +};
+> +
+>  /**
+>   * struct drm_xe_exec_queue_create - Input of &DRM_IOCTL_XE_EXEC_QUEUE_CREATE
+>   *
+> -- 
+> 2.43.0
+> 
