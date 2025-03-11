@@ -2,34 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897DCA5D156
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 22:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D89A5D1A4
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 22:16:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6CAC10E27A;
-	Tue, 11 Mar 2025 21:06:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E58DD10E282;
+	Tue, 11 Mar 2025 21:16:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="Pz04Z1fv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lNEGake5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE37E10E27A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 21:06:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=8cQ/NQPSdJvXIo45BwmVpV7YAKqa0qFriHj8RB6qbiE=; b=Pz04Z1fvHkkbn+am
- bDaVD+7ggiir2qFZ2Iqkr7OXYGTOz8FuXkQ2AP4fsFAAgsWetrP6mohkF0dCc9GMbLL9M8VmTztz4
- msU/eXqHFhgCyS3670Sj3w1LlpeJnRr7fTL26B8NOwlW1jSckvtiDi+6PrZvycwDhznZLa8N4az8D
- oc5MOLb6mleltSBbkpodGkqU71/JhnLe+f9SC2ZjKp0A1C8sDMcW9sUMyRgCCoMVkzNU3I3uGOTzW
- 8TTrrk+vMkCdGnYb5dww4Cbeln3tIOs8l8/Qx8jom91OlYW2NjXW1s2qfM+4dmTo3hWQ9qCLfk3aL
- rxKKxORjsRATavJ46w==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1ts6nV-004Gh7-2p;
- Tue, 11 Mar 2025 21:05:57 +0000
-Date: Tue, 11 Mar 2025 21:05:57 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Mark Brown <broonie@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C184010E282
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 21:15:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A62E95C11B1;
+ Tue, 11 Mar 2025 21:13:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 373E7C4CEE9;
+ Tue, 11 Mar 2025 21:15:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741727752;
+ bh=xjQgGwXvLDBc6wOl7YbU39yWFahSwmm6ndteUlBc5XA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lNEGake5cXKvDxoQt58Up95lRwHNDm6HXeKyolv9F+TzSB+diFhdgBsSbmQFhNke+
+ Usj4htxgn2r0w9+b12VH8efkevZmZtqRbrdyUPX9EoY3w4R+qm1dv3tWOA8VFL3R8K
+ 1AJSSnsh/D7e0VbeumqoVyFuWr74ae/PkQU/YETFfCijnx/U9M2FyK2uaXIKfSGmsx
+ /iltx9Dk2kLavw+3M7pKv2gMuJ7UXhLen9Z32ZFGuLsTBxoJ3DEFB4Q/AcCA2FNh7B
+ Izce93wkuItQf0qOWitWN7up+RBZDT2qptzbYH4hiIgs8QC2/MqJWq7UJDQMskl5VJ
+ UujMfVpEpPJYg==
+Date: Tue, 11 Mar 2025 21:15:45 +0000
+From: Mark Brown <broonie@kernel.org>
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
 Cc: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com,
  sre@kernel.org, lgirdwood@gmail.com, alexandre.belloni@bootlin.com,
  danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
@@ -39,17 +42,16 @@ Cc: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: (subset) [PATCH 0/9] Remove pcf50633
-Message-ID: <Z9CltdJsg_qaTKzQ@gallifrey>
+Message-ID: <ad81e242-36d0-4f0b-a5ee-c073d7d92f7f@sirena.org.uk>
 References: <20250309193612.251929-1-linux@treblig.org>
  <174172393659.371198.1480937233663952854.b4-ty@kernel.org>
+ <Z9CltdJsg_qaTKzQ@gallifrey>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="+OmabGPn0b5DXlH7"
 Content-Disposition: inline
-In-Reply-To: <174172393659.371198.1480937233663952854.b4-ty@kernel.org>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 21:05:11 up 307 days,  8:19,  1 user,  load average: 0.00, 0.01, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <Z9CltdJsg_qaTKzQ@gallifrey>
+X-Cookie: Androphobia:
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,55 +67,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Mark Brown (broonie@kernel.org) wrote:
-> On Sun, 09 Mar 2025 19:36:03 +0000, linux@treblig.org wrote:
-> > The pcf50633 was used as part of the OpenMoko devices but
-> > the support for its main chip was recently removed in:
-> > commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
-> > 
-> > See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
-> > 
-> > Remove it.
-> > 
-> > [...]
-> 
-> Applied to
-> 
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-> 
+
+--+OmabGPn0b5DXlH7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Mar 11, 2025 at 09:05:57PM +0000, Dr. David Alan Gilbert wrote:
+> * Mark Brown (broonie@kernel.org) wrote:
+
+> > [6/9] regulator: pcf50633-regulator: Remove
+> >       commit: 248bc01138b11ff3af38c3b4a39cb8db7aae6eb6
+
 > Thanks!
-> 
-> [6/9] regulator: pcf50633-regulator: Remove
->       commit: 248bc01138b11ff3af38c3b4a39cb8db7aae6eb6
+> Although....I'd only tested this as part of the series and assumed
+> someone (Lee?) would pick the lot up in one go.
 
-Thanks!
-Although....I'd only tested this as part of the series and assumed
-someone (Lee?) would pick the lot up in one go.
+I test things as I apply them, it really shouldn't make a difference
+either way for leaf drivers.  From my PoV this way it cuts down on
+resends.
 
-Dave
+--+OmabGPn0b5DXlH7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
-> 
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
-> 
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
-> 
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
-> 
-> Thanks,
-> Mark
-> 
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfQqAAACgkQJNaLcl1U
+h9AD1wf+I2aQLWbF5xfLjvKl72h8bg0RLiGAjZM1NfYz/hLS0dWlF3300oSwCY+G
+rV9Wq8rDd7CWCKnPjzhF61Snu+atLhVVUQrUcYAwRVM/Srm7LNGFPiyMflHQe9mJ
+Nko5SMqN9nRn5CNMLIORrD+uO4uT3KXuXYjrHtYrxmz+O57B+Dii5dEwZDxSbTD2
+wnc1lt45lulI4GDYH0yheKpFvKIe44PN8BHZ+c54BA5WAqSf9moP15PdDK9CLIcc
+bfpBXKvYHO7g2FpUGHN9TmXo0L/UmSaoRhvl0cT1sz2POYC52dqXOhSXvVG2/qdA
+6v0mJL74pnETZ6ZNfFyQpsOIXzCaOw==
+=jn9q
+-----END PGP SIGNATURE-----
+
+--+OmabGPn0b5DXlH7--
