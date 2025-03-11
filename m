@@ -2,66 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D53A5CD90
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 19:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A25A5CE5B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 19:59:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E52810E657;
-	Tue, 11 Mar 2025 18:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF5E10E633;
+	Tue, 11 Mar 2025 18:59:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iwIXMwU2";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iE433v9L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02ED810E657
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 18:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wHfm+dDO395R2eG8WU/d9U717WWZTtw7JHQg5xw8yFQ=; b=iwIXMwU2HIpji2Mgb/YGMOSbGP
- 2T3DBO7zED0tqZGPJIRt8jly4jLODlx15iPSE/llFfixj8b1W7hG1cYI2FtlX3dBVYY1xjv9Q7SKl
- lYmz/ALN+zwad/vGWYTqWz3K2ZZg533+fZ919i1OhFQZObu1eQQF5sxNxH2QsgYdlwIgpFaMrkJyI
- /CMKm26KiLjO5L+arnkhaR8HAxcdDFCTP641JHeyrBEztCJlz/undhos9Co86uj0kuZmmYh26PRXA
- 1XkgQITdsUsXFjX6xYXtj4SwjURckcfhgYuVFgZbmzZqUIo8fTRjV4Mlyw2QW2BPqeLwXvXu2oB5x
- TemTT+zg==;
-Received: from [189.7.87.170] (helo=janis.local)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ts47i-007Dal-S0; Tue, 11 Mar 2025 19:14:44 +0100
-From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Tue, 11 Mar 2025 15:13:49 -0300
-Subject: [PATCH v3 7/7] dt-bindings: gpu: Add V3D driver maintainer as DT
- maintainer
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D729010E103
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 18:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741719543;
+ bh=g9Dr5RFwe+3748yvUldOlrbFsi1pIRousif7xhhE6jo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=iE433v9LI/VjSUbp5aw18W2Pk3m+DjCiSgoHjZmyKmr6aYUFg+4KkAjo9T6lZ0Hll
+ 0BCCleFBneP9HscjH3EO0xe4FtuVDNpPvse/Oc2aEr2qG9eMEtAR+pZfuClABCyJDz
+ gWcFkjbojwRcDaESnrJQnp/o8rnbYyFz1yVBzPqbLD9dXC9hBO/HA2FelBhk05BiTA
+ NoU5YwWnDRijekqDWUniBXDUmO5uodZp6wSYD8qDExKIDyNGWRtkB1uVVeov/6+ZXD
+ /41JJnV9EnMHzpTku8tYe4BjDvCgkTk3fbVHNjT9rdMnMNLcqLhYv7kkrwRh6w1Cr0
+ mvzUBXn0MOXyQ==
+Received: from [192.168.1.90] (unknown [84.232.140.93])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B5D3817E0657;
+ Tue, 11 Mar 2025 19:59:02 +0100 (CET)
+Message-ID: <c6f4233f-4a66-44c2-b962-9c80352bb7e1@collabora.com>
+Date: Tue, 11 Mar 2025 20:59:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250311-v3d-gpu-reset-fixes-v3-7-64f7a4247ec0@igalia.com>
-References: <20250311-v3d-gpu-reset-fixes-v3-0-64f7a4247ec0@igalia.com>
-In-Reply-To: <20250311-v3d-gpu-reset-fixes-v3-0-64f7a4247ec0@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>, 
- Jose Maria Casanova Crespo <jmcasanova@igalia.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Nicolas Saenz Julienne <nsaenz@kernel.org>
-Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, kernel-dev@igalia.com, 
- Emma Anholt <emma@anholt.net>, "Rob Herring (Arm)" <robh@kernel.org>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1160; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=IgswhJeGUCpn63w4wEQWBrPTgIx/PwHZlZGaseENbg0=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBn0H12DUQfcuNsBJwPrP/IZEJnVmqx143UoS+L9
- JIGrVuYgk2JATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCZ9B9dgAKCRA/8w6Kdoj6
- qrhYCAC6Cub2Zd9xeoNAa6XtKNw0MiPmmlYujFly+c+ODzzbsHGiueegnWus44ghow+w31bOKFi
- Bihm1CPDPhF2Lw0Xnz7JzXu2hNyp8zBEv0/4CNXji+GrNRv7BT3teF1bY0Ma/wOou6AiJZ0Ad/b
- USLngj3N1svqEbcweXYu6xnwrj5Lf6h0WiSm5UeqECaN/ekYAE/ARGoQ1yzLY16stZ6Jr1oiCKb
- ijTNTcfFz8++B4BWqdcMELn0+AL5D0Gk5I70Hm1SAGg4wT+WsZRHK1rPnt500mPPX9CFtJFHooA
- dAPihYsSxtL/krxvLjsaqvpjmlt9iFnOzDd9pxzGJYWmkUW0
-X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
- fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/7] drm/connector: hdmi: Use YUV420 output format as
+ an RGB fallback
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250311-hdmi-conn-yuv-v2-0-fbdb94f02562@collabora.com>
+ <20250311-hdmi-conn-yuv-v2-4-fbdb94f02562@collabora.com>
+ <20250311-hypersonic-mature-leopard-d3afdc@houat>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20250311-hypersonic-mature-leopard-d3afdc@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,32 +68,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As established in commit 89d04995f76c ("MAINTAINERS: Drop Emma Anholt
-from all M lines."), Emma is no longer active in the Linux kernel and
-dropped the V3D maintainership. Therefore, remove Emma as one of the DT
-maintainers and add the current V3D driver maintainer.
+Hi Maxime,
 
-Acked-by: Emma Anholt <emma@anholt.net>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 3/11/25 5:55 PM, Maxime Ripard wrote:
+> Hi,
+> 
+> I think the first thing we need to address is that we will need to
+> differentiate between HDMI 1.4 devices and HDMI 2.0.
+> 
+> It applies to YUV420, which is HDMI 2.0-only, and I guess your patches
+> are good enough if you consider YUV420 support only
 
-diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-index 7349347da1c0034a8849deaa6d64dde6d9d5a81a..95cc459e805b41359e14e1e081904f1c831adf90 100644
---- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-+++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Broadcom V3D GPU
- 
- maintainers:
--  - Eric Anholt <eric@anholt.net>
-+  - Maíra Canal <mcanal@igalia.com>
-   - Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
- 
- properties:
+Yes, my intention was to get the very basic support for now.
 
--- 
-Git-154)
+, but scrambler setup
+> for example is a thing we want to support in that infrastructure
+> eventually, and is conditioned on HDMI 2.0 as well.
+
+Right, the scrambler setup is actually among the next tasks I'll focus on,
+e.g. this is still missing on dw-hdmi-qp side and I got it reworked a bit
+according to your initial review.  It would probably make sense for me to
+submit that and get some feedback before attempting to go for a generic
+approach (still need to do a few more checks/improvements before).
+
+> On Tue, Mar 11, 2025 at 12:57:36PM +0200, Cristian Ciocaltea wrote:
+>> Try to make use of YUV420 when computing the best output format and
+>> RGB cannot be supported for any of the available color depths.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 69 +++++++++++++------------
+>>  1 file changed, 35 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+>> index a70e204a8df3ac1c2d7318e81cde87a83267dd21..f2052781b797dd09b41127e33d98fe25408a9b23 100644
+>> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+>> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+>> @@ -287,8 +287,9 @@ hdmi_try_format_bpc(const struct drm_connector *connector,
+>>  	struct drm_device *dev = connector->dev;
+>>  	int ret;
+>>  
+>> -	drm_dbg_kms(dev, "Trying %s output format\n",
+>> -		    drm_hdmi_connector_get_output_format_name(fmt));
+>> +	drm_dbg_kms(dev, "Trying %s output format with %u bpc\n",
+>> +		    drm_hdmi_connector_get_output_format_name(fmt),
+>> +		    bpc);
+> 
+> That part should be in a separate patch, it's independant of the rest.
+
+Ack.
+
+> 
+>>  	if (!sink_supports_format_bpc(connector, info, mode, fmt, bpc)) {
+>>  		drm_dbg_kms(dev, "%s output format not supported with %u bpc\n",
+>> @@ -313,47 +314,22 @@ hdmi_try_format_bpc(const struct drm_connector *connector,
+>>  }
+>>  
+>>  static int
+>> -hdmi_compute_format(const struct drm_connector *connector,
+>> -		    struct drm_connector_state *conn_state,
+>> -		    const struct drm_display_mode *mode,
+>> -		    unsigned int bpc)
+>> -{
+>> -	struct drm_device *dev = connector->dev;
+>> -
+>> -	/*
+>> -	 * TODO: Add support for YCbCr420 output for HDMI 2.0 capable
+>> -	 * devices, for modes that only support YCbCr420.
+>> -	 */
+>> -	if (hdmi_try_format_bpc(connector, conn_state, mode, bpc, HDMI_COLORSPACE_RGB)) {
+>> -		conn_state->hdmi.output_format = HDMI_COLORSPACE_RGB;
+>> -		return 0;
+>> -	}
+>> -
+>> -	drm_dbg_kms(dev, "Failed. No Format Supported for that bpc count.\n");
+>> -
+>> -	return -EINVAL;
+>> -}
+>> -
+>> -static int
+>> -hdmi_compute_config(const struct drm_connector *connector,
+>> -		    struct drm_connector_state *conn_state,
+>> -		    const struct drm_display_mode *mode)
+>> +hdmi_try_format(const struct drm_connector *connector,
+>> +		struct drm_connector_state *conn_state,
+>> +		const struct drm_display_mode *mode,
+>> +		unsigned int max_bpc, enum hdmi_colorspace fmt)
+>>  {
+>>  	struct drm_device *dev = connector->dev;
+>> -	unsigned int max_bpc = clamp_t(unsigned int,
+>> -				       conn_state->max_bpc,
+>> -				       8, connector->max_bpc);
+>>  	unsigned int bpc;
+>>  	int ret;
+>>  
+>>  	for (bpc = max_bpc; bpc >= 8; bpc -= 2) {
+>> -		drm_dbg_kms(dev, "Trying with a %d bpc output\n", bpc);
+>> -
+>> -		ret = hdmi_compute_format(connector, conn_state, mode, bpc);
+>> -		if (ret)
+>> +		ret = hdmi_try_format_bpc(connector, conn_state, mode, bpc, fmt);
+>> +		if (!ret)
+>>  			continue;
+>>  
+>>  		conn_state->hdmi.output_bpc = bpc;
+>> +		conn_state->hdmi.output_format = fmt;
+> 
+> I guess it's a matter of semantics, but if it sets the value in the
+> state, it doesn't try. Maybe the function should be named
+> hdmi_compute_format_bpc then?
+
+Good point!
+
+> 
+> That renaming should be in a separate patch too (possibly several).
+
+Yes, I'll move all these preparatory changes into separate patch(es).
+
+> 
+>>  		drm_dbg_kms(dev,
+>>  			    "Mode %ux%u @ %uHz: Found configuration: bpc: %u, fmt: %s, clock: %llu\n",
+>> @@ -368,6 +344,31 @@ hdmi_compute_config(const struct drm_connector *connector,
+>>  	return -EINVAL;
+>>  }
+>>  
+>> +static int
+>> +hdmi_compute_config(const struct drm_connector *connector,
+>> +		    struct drm_connector_state *conn_state,
+>> +		    const struct drm_display_mode *mode)
+>> +{
+>> +	unsigned int max_bpc = clamp_t(unsigned int,
+>> +				       conn_state->max_bpc,
+>> +				       8, connector->max_bpc);
+>> +	int ret;
+>> +
+>> +	ret = hdmi_try_format(connector, conn_state, mode, max_bpc,
+>> +			      HDMI_COLORSPACE_RGB);
+>> +	if (!ret)
+>> +		return 0;
+>> +
+>> +	if (connector->ycbcr_420_allowed)
+>> +		ret = hdmi_try_format(connector, conn_state, mode, max_bpc,
+>> +				      HDMI_COLORSPACE_YUV420);
+> 
+> I think that's conditioned on a few more things:
+
+I've actually expected this! :-)
+
+You've already raised some points during v1, but I preferred to restart the
+discussion on updated code instead - sorry for taking so long to respin the
+series.  In particular, I worked on [1] to improve handling of
+ycbcr_420_allowed flag and fix some consistency issues with
+HDMI_COLORSPACE_YUV420 advertised in drm_bridge->supported_formats.  Hence
+I assumed it's now safe to rely exclusively on this flag to indicate the
+connector is YUV420 capable, without doing any additional checks.
+
+>   - That the driver supports HDMI 2.0
+
+Probably I'm missing something obvious here, but is this necessary to
+actually double-check ycbcr_420_allowed has been set correctly?
+
+E.g. for bridges with DRM_BRIDGE_OP_HDMI set in drm_bridge->ops, the
+framework does already adjust ycbcr_420_allowed, hence any additional
+verification would be redundant.  When not making use of the framework,
+drivers are not expected to set the flag if they are not HDMI 2.0 compliant
+or not supporting YUV420, right? Are there any other use cases we need to
+handle?
+
+>   - That the display is an HDMI output
+
+I think this should be handled by sink_supports_format_bpc() via:
+
+    if (!info->is_hdmi &&
+        (format != HDMI_COLORSPACE_RGB || bpc != 8)) {
+            drm_dbg_kms(dev, "DVI Monitors require an RGB output at 8 bpc\n");
+            return false;
+    }
+
+>   - That the mode is allowed YUV420 by the sink EDIDs
+
+And that would be handled via the changes introduced by "drm/connector:
+hdmi: Add support for YUV420 format verification".
+
+>> +	else
+>> +		drm_dbg_kms(connector->dev,
+>> +			    "%s output format not allowed for connector\n",
+>> +			    drm_hdmi_connector_get_output_format_name(HDMI_COLORSPACE_YUV420));
+> 
+> And I think we should keep the catch-all failure message we had.
+
+IIRC, the rational for the change was to get rid of some redundancy, but
+I'll recheck and make sure to keep that message in place.
+
+Thanks,
+Cristian
+
+[1] https://patchwork.freedesktop.org/series/142679/
 
