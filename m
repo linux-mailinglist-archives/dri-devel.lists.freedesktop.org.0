@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7AAA5CA7B
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 17:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0049BA5CA97
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 17:17:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9574E10E29F;
-	Tue, 11 Mar 2025 16:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9FB610E270;
+	Tue, 11 Mar 2025 16:17:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KM0sz2kL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tk20rqU6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1013E10E29F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 16:12:49 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9440F10E229
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 16:17:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 19E5E5C6409;
- Tue, 11 Mar 2025 16:10:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AEA8C4CEE9;
- Tue, 11 Mar 2025 16:12:45 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id A61CDA44224;
+ Tue, 11 Mar 2025 16:11:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC667C4CEEC;
+ Tue, 11 Mar 2025 16:17:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741709565;
- bh=Vv+W8BWsFIppfBrJLl0xt21IvxzSdTfjfugnv+BbV0g=;
+ s=k20201202; t=1741709831;
+ bh=dAacS6pM8DLqKxFPAs1POWYCMSIz8OriSExs4t/LaOA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KM0sz2kLlgIEOGF3OtSqFogA8Rmo8q8WX37MYFiIEKqkHGKYSaY7bTOBsT/xXLh/Q
- wfUFMWhut+plVI6fu95jyUAjRsllmezflUIEg+AqBA5UpdmCE1Y18mPoGtte9V39hL
- WilpP39C5rm3SxsmxmLnX5CT0zFbsz8Q0tEp9/839Qjukp3cvmhxbhW8xdN0G0X+WK
- 3myKIRnSTXnuExb9sVqvX8HodJn1scg5rBf6654KrdBTOWkse3hdGwsIL/xtJGWJkG
- exFtj9Gng4QHT/Vg4f8wdzpC+CIEorxtqjQ+Uopa6J4y0MnunpbBLoAYuK5FFGCvti
- HJ6Ef3L3cy5Fw==
-Date: Tue, 11 Mar 2025 17:12:42 +0100
+ b=Tk20rqU6xAF2qgFtUDzvKzc/ddb0gLaMjtKWiUUihY5eP+co3hVIi2UtIfdXWy5dm
+ LnvwX9PHDfrX2VbHON3+ABY/DLdSBTu/7R6oEm8+p66birFi8OqAex749+N0fKugNY
+ oSt3pV7tYHebYXOaK+4Iv41FJRSt1k9988czDtzJe+EfyZMW0lixwoEb6iB5WMxNhO
+ 4IgaqylCwV65/TNlMXwmr/1rRiLu8PMGb00mglEprxtiuK4d0aSrc7YYm+3E4QO6Al
+ FqoewVvw+nXYpRhGUmUtPX4e9B7LUA/zPOqbGUQEJ+debksDv89cV9wX3MbrET4HTe
+ cEEYXrwKbe0ZQ==
+Date: Tue, 11 Mar 2025 17:17:08 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -39,15 +39,16 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/7] drm/tests: hdmi: Add macros to simplify EDID setup
-Message-ID: <20250311-spiritual-hornet-of-prestige-ef4132@houat>
+Subject: Re: [PATCH v2 6/7] drm/tests: hdmi: Add limited range tests for
+ YUV420 mode
+Message-ID: <20250311-burgundy-cat-of-diversity-b89681@houat>
 References: <20250311-hdmi-conn-yuv-v2-0-fbdb94f02562@collabora.com>
- <20250311-hdmi-conn-yuv-v2-5-fbdb94f02562@collabora.com>
+ <20250311-hdmi-conn-yuv-v2-6-fbdb94f02562@collabora.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ehgan4hodvsqo6jl"
+ protocol="application/pgp-signature"; boundary="csssixfkyybruyh2"
 Content-Disposition: inline
-In-Reply-To: <20250311-hdmi-conn-yuv-v2-5-fbdb94f02562@collabora.com>
+In-Reply-To: <20250311-hdmi-conn-yuv-v2-6-fbdb94f02562@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,146 +65,148 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ehgan4hodvsqo6jl
+--csssixfkyybruyh2
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 5/7] drm/tests: hdmi: Add macros to simplify EDID setup
+Subject: Re: [PATCH v2 6/7] drm/tests: hdmi: Add limited range tests for
+ YUV420 mode
 MIME-Version: 1.0
 
-On Tue, Mar 11, 2025 at 12:57:37PM +0200, Cristian Ciocaltea wrote:
-> Introduce a few macros to facilitate setting custom (i.e. non-default)
-> EDID data during connector initialization.
->=20
-> This helps reducing boilerplate code while also drops some redundant
-> calls to set_connector_edid().
+On Tue, Mar 11, 2025 at 12:57:38PM +0200, Cristian Ciocaltea wrote:
+> Provide tests to verify that drm_atomic_helper_connector_hdmi_check()
+> helper behaviour when using YUV420 output format is to always set the
+> limited RGB quantization range to 'limited', no matter what the value of
+> Broadcast RGB property is.
 >=20
 > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 245 ++++++++-------=
-------
->  1 file changed, 93 insertions(+), 152 deletions(-)
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  89 +++++++++++++++-
+>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 112 +++++++++++++++=
+++++++
+>  2 files changed, 196 insertions(+), 5 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
 /gpu/drm/tests/drm_hdmi_state_helper_test.c
-> index e97efd3af9ed18e6cf8ee66b4923dfc805b34e19..a3f7f3ce31c73335c2c2643bd=
-c5395b6ceb6f071 100644
+> index a3f7f3ce31c73335c2c2643bdc5395b6ceb6f071..1df12c0b7768e4f85f4c94384=
+0d9b4dcb6e079e0 100644
 > --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
 > +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> @@ -183,10 +183,12 @@ static const struct drm_connector_funcs dummy_conne=
-ctor_funcs =3D {
+> @@ -227,6 +227,8 @@ connector_hdmi_init_funcs_set_edid(struct kunit *test,
+>  	enc->possible_crtcs =3D drm_crtc_mask(priv->crtc);
 > =20
->  static
->  struct drm_atomic_helper_connector_hdmi_priv *
-> -drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
-> -					   unsigned int formats,
-> -					   unsigned int max_bpc,
-> -					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
-> +connector_hdmi_init_funcs_set_edid(struct kunit *test,
-> +				   unsigned int formats,
-> +				   unsigned int max_bpc,
-> +				   const struct drm_connector_hdmi_funcs *hdmi_funcs,
-> +				   const char *edid_data,
-> +				   size_t edid_len)
->  {
->  	struct drm_atomic_helper_connector_hdmi_priv *priv;
->  	struct drm_connector *conn;
-> @@ -240,30 +242,27 @@ drm_kunit_helper_connector_hdmi_init_funcs(struct k=
-unit *test,
-> =20
->  	drm_mode_config_reset(drm);
-> =20
-> +	if (edid_data && edid_len) {
-> +		ret =3D set_connector_edid(test, &priv->connector, edid_data, edid_len=
-);
-> +		KUNIT_ASSERT_GT(test, ret, 0);
-> +	}
+>  	conn =3D &priv->connector;
+> +	conn->ycbcr_420_allowed =3D !!(formats & BIT(HDMI_COLORSPACE_YUV420));
 > +
->  	return priv;
+>  	ret =3D drmm_connector_hdmi_init(drm, conn,
+>  				       "Vendor", "Product",
+>  				       &dummy_connector_funcs,
+> @@ -751,6 +753,86 @@ static void drm_test_check_broadcast_rgb_limited_cea=
+_mode_vic_1(struct kunit *te
+>  	drm_modeset_acquire_fini(&ctx);
 >  }
 > =20
-> -static
-> -struct drm_atomic_helper_connector_hdmi_priv *
-> -drm_kunit_helper_connector_hdmi_init(struct kunit *test,
-> -				     unsigned int formats,
-> -				     unsigned int max_bpc)
-> -{
-> -	struct drm_atomic_helper_connector_hdmi_priv *priv;
-> -	int ret;
-> +#define drm_kunit_helper_connector_hdmi_init_funcs_set_edid(test, format=
-s, max_bpc, funcs, edid) \
-> +	connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, edid,=
- ARRAY_SIZE(edid))
-> =20
-> -	priv =3D drm_kunit_helper_connector_hdmi_init_funcs(test,
-> -							  formats, max_bpc,
-> -							  &dummy_connector_hdmi_funcs);
-> -	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
-> +#define drm_kunit_helper_connector_hdmi_init_funcs(test, formats, max_bp=
-c, funcs)		\
-> +	connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, NULL,=
- 0)
-> =20
-> -	ret =3D set_connector_edid(test, &priv->connector,
-> -				 test_edid_hdmi_1080p_rgb_max_200mhz,
-> -				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
-> -	KUNIT_ASSERT_GT(test, ret, 0);
-> +#define drm_kunit_helper_connector_hdmi_init_set_edid(test, formats, max=
-_bpc, edid)		\
-> +	drm_kunit_helper_connector_hdmi_init_funcs_set_edid(test, formats, max_=
-bpc,		\
-> +							    &dummy_connector_hdmi_funcs, edid)
-> =20
-> -	return priv;
-> -}
-> +#define drm_kunit_helper_connector_hdmi_init(test, formats, max_bpc)				\
-> +	drm_kunit_helper_connector_hdmi_init_set_edid(test, formats, max_bpc,		=
-	\
-> +						      test_edid_hdmi_1080p_rgb_max_200mhz)
-
-I'd really prefer to have functions to macros here. They are easier to
-read, extend, and don't have any particular drawbacks.
-
-I also don't think we need that many, looking at the tests:
-
-  - We need drm_kunit_helper_connector_hdmi_init() to setup a connector
-    with test_edid_hdmi_1080p_rgb_max_200mhz and
-    dummy_connector_hdmi_funcs()
-
-  - We need to create a
-    drm_kunit_helper_connector_hdmi_init_with_edid_funcs() to pass both
-    the funcs and edid pointers
-
-And that's it, right?
-
->  /*
->   * Test that if we change the RGB quantization property to a different
-> @@ -771,19 +770,15 @@ static void drm_test_check_output_bpc_crtc_mode_cha=
-nged(struct kunit *test)
->  	struct drm_crtc *crtc;
->  	int ret;
-> =20
-> -	priv =3D drm_kunit_helper_connector_hdmi_init(test,
-> -						    BIT(HDMI_COLORSPACE_RGB),
-> -						    10);
+> +/*
+> + * Test that for an HDMI connector, with an HDMI monitor, we will
+> + * get a limited RGB Quantization Range with a YUV420 mode, no
+> + * matter what the value of the Broadcast RGB property is set to.
+> + */
+> +static void drm_test_check_broadcast_rgb_cea_mode_yuv420(struct kunit *t=
+est)
+> +{
+> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +	enum drm_hdmi_broadcast_rgb broadcast_rgb;
+> +	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_connector_state *conn_state;
+> +	struct drm_atomic_state *state;
+> +	struct drm_display_mode *mode;
+> +	struct drm_connector *conn;
+> +	struct drm_device *drm;
+> +	struct drm_crtc *crtc;
+> +	int ret;
+> +
+> +	broadcast_rgb =3D *(enum drm_hdmi_broadcast_rgb *)test->param_value;
+> +
 > +	priv =3D drm_kunit_helper_connector_hdmi_init_set_edid(test,
-> +				BIT(HDMI_COLORSPACE_RGB),
-> +				10,
-> +				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
+> +				BIT(HDMI_COLORSPACE_RGB) |
+> +				BIT(HDMI_COLORSPACE_YUV420),
+> +				8,
+> +				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	drm =3D &priv->drm;
+> +	crtc =3D priv->crtc;
+> +	conn =3D &priv->connector;
+> +	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
+> +
+> +	mode =3D drm_kunit_display_mode_from_cea_vic(test, drm, 95);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	drm_modeset_acquire_init(&ctx, 0);
+> +
+> +	ret =3D light_up_connector(test, drm, crtc, conn, mode, &ctx);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	state =3D drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+> +
+> +	conn_state =3D drm_atomic_get_connector_state(state, conn);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
+> +
+> +	conn_state->hdmi.broadcast_rgb =3D broadcast_rgb;
+> +
+> +	ret =3D drm_atomic_check_only(state);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	conn_state =3D drm_atomic_get_connector_state(state, conn);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
+> +
+> +	KUNIT_ASSERT_EQ(test, conn_state->hdmi.broadcast_rgb, broadcast_rgb);
+> +	KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_Y=
+UV420);
+> +
+> +	KUNIT_EXPECT_TRUE(test, conn_state->hdmi.is_limited_range);
+> +
+> +	drm_modeset_drop_locks(&ctx);
+> +	drm_modeset_acquire_fini(&ctx);
+> +}
+> +
+> +static const enum drm_hdmi_broadcast_rgb check_broadcast_rgb_cea_mode_yu=
+v420_tests[] =3D {
+> +	DRM_HDMI_BROADCAST_RGB_AUTO,
+> +	DRM_HDMI_BROADCAST_RGB_FULL,
+> +	DRM_HDMI_BROADCAST_RGB_LIMITED,
+> +};
+> +
+> +static void
+> +check_broadcast_rgb_cea_mode_yuv420_desc(const enum drm_hdmi_broadcast_r=
+gb *broadcast_rgb,
+> +					 char *desc)
+> +{
+> +	sprintf(desc, "%s", drm_hdmi_connector_get_broadcast_rgb_name(*broadcas=
+t_rgb));
+> +}
+> +
+> +KUNIT_ARRAY_PARAM(check_broadcast_rgb_cea_mode_yuv420,
+> +		  check_broadcast_rgb_cea_mode_yuv420_tests,
+> +		  check_broadcast_rgb_cea_mode_yuv420_desc);
+> +
 
-I think that convertion should be part of another patch.
+We need more tests than that to test the various combinations, whether
+the fallback to YUV420 should work or not depending on the EDID, the
+driver capabilities, YUV420-only vs YUV420-also, etc.
 
 Maxime
 
---ehgan4hodvsqo6jl
+--csssixfkyybruyh2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ9Bg+gAKCRDj7w1vZxhR
-xZ0RAP9ZOjOoFg8CpHr2Bi37SQdP5J9ZAOHIW8zTNCC42bKF4QD/UBVPIUNL6Bc7
-5qTju7pvnBUnivSNbLt4ywKJ7QsASAo=
-=VrjK
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ9BiBAAKCRDj7w1vZxhR
+xUvlAQDL6N83IyNqafHlo3sadwTdpCNWd+crAmiVsRLfUEdeDgD7BDjL6Nksg1DW
+BZWzwo42fBiibREgpgNWMFayg7P33gw=
+=9aiN
 -----END PGP SIGNATURE-----
 
---ehgan4hodvsqo6jl--
+--csssixfkyybruyh2--
