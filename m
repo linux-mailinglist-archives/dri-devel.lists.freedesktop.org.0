@@ -2,78 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECBEA5CA77
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 17:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7AAA5CA7B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 17:12:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5D010E263;
-	Tue, 11 Mar 2025 16:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9574E10E29F;
+	Tue, 11 Mar 2025 16:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lRBwZ3y2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KM0sz2kL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0884E10E25A;
- Tue, 11 Mar 2025 16:11:54 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2ff5f2c5924so1560181a91.2; 
- Tue, 11 Mar 2025 09:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741709514; x=1742314314; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tbXgDbQe6odtzN7qJt3Hn9EsxbW1Jh0Po6Yo1yHTQZY=;
- b=lRBwZ3y2TltEQ6OdMdJfMThNq3GTBoHgNDK0tlArpSnZI13shsSQ4rpLYWJYFPblpX
- XAVF4KW3qCDWUTrJ4ZE4LyT1uTz/JoXKIZZuXqzER8qR/5sFrnxlQBIL4uKRqfari5Ht
- sG8+PVR+iailpzg6FQrIf4f7tI/auImgZKRQQvNhcSyMQ0/fIE3ZxLsOHLWmfAfHsLPr
- tFRiy7cugL+vMmTTHt1/XMWYe98L/m1Av7ARFNzlEBe7BH2CbdodMnXwtqHM8uxC9Ud1
- ZTIgVTfAazts3UQo41NyZrSEOH8VqPrco7JxEVxz2T+vTvg/FLjcl/WhqwxvH2+Mp+pA
- 074A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741709514; x=1742314314;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tbXgDbQe6odtzN7qJt3Hn9EsxbW1Jh0Po6Yo1yHTQZY=;
- b=dmKHyVOiqCDKDBouwEoJDLJ0dZ2opRpocj/d+qBOluTT/wHhKP+JufbIQBFSIusggk
- twBOZuztqqvVyJLyaNNfYj1wueRWE7uhF3au+Bs4y5TbYdGj/+G34QJ/mAKY6PIK7Uyc
- sxvpXlFfF2jPu5Cji2wAtcKZl14upZrWQceOe0XTHRygvbGVcju0ybqBgCvhAJZE1gDh
- TCszPfMRjPnBXSCWw8bTI/nndeLPaKcBU7reqLeAGCdvQ2F7yX9hirv1KyokaEPSAmQX
- 3iNJgdUN7bUUuk8FEiZDArIbHNZmLDljL9PxfIQZ0jtoWg9aMyXUOViRHnsX5ptHitp5
- vRDA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV5nbNoj5CCxnGrQ802h5TDcylPFzPlkqo8VOpMy6zsZ8Rnbe98App9BufQePNQDdT89V3HDWnV7tyo@lists.freedesktop.org,
- AJvYcCVKEiP1/0VfnHhnPqSfXUelTv7DLyFkoO9V4oigRz/EsryZeR7aV29/i87HlH6fByQhzwchoDNu@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwnHr08LOABCRMcVwK4RcL06xbNCAk/tDPNdGkSw7lomX/ziJGt
- Cp9c46LOsaYOH6hx9RoSqI6N7kFQddMOZRcbu+kiDmotEHe//LxYBeNo2E57Y8AgtkJUGhAVr+O
- qBn1pGx4pzaFphOICwmAOamqtw/Y=
-X-Gm-Gg: ASbGncvDXs1z9L1AnrmscgFTgD8vkgRfS86RepfofRwAQpm0//ybzgHfZXQGzNo6E82
- 2hEyMH5SHePZ8mbHy/Weaxfe0O0D8O8gqFw+Kvlcsiv9+IL0CbfDKfZYNp+idaw3CgLsPPwk38O
- 0kK+KK0x/PUFZkg91rWCgYYl7+BSkPHn4kNG8M
-X-Google-Smtp-Source: AGHT+IHoUI2IVDeSuvbHPxuzIsIzy8DbeE/xia2Z5IbkvUSauYjGSV2OlB5NBKJvQwzYZ9fQklzxpagAfdTPP7TP2rY=
-X-Received: by 2002:a17:90b:4d0b:b0:2fe:8fa0:e7a1 with SMTP id
- 98e67ed59e1d1-300ff720794mr2092338a91.2.1741709513631; Tue, 11 Mar 2025
- 09:11:53 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1013E10E29F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 16:12:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 19E5E5C6409;
+ Tue, 11 Mar 2025 16:10:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AEA8C4CEE9;
+ Tue, 11 Mar 2025 16:12:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741709565;
+ bh=Vv+W8BWsFIppfBrJLl0xt21IvxzSdTfjfugnv+BbV0g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KM0sz2kLlgIEOGF3OtSqFogA8Rmo8q8WX37MYFiIEKqkHGKYSaY7bTOBsT/xXLh/Q
+ wfUFMWhut+plVI6fu95jyUAjRsllmezflUIEg+AqBA5UpdmCE1Y18mPoGtte9V39hL
+ WilpP39C5rm3SxsmxmLnX5CT0zFbsz8Q0tEp9/839Qjukp3cvmhxbhW8xdN0G0X+WK
+ 3myKIRnSTXnuExb9sVqvX8HodJn1scg5rBf6654KrdBTOWkse3hdGwsIL/xtJGWJkG
+ exFtj9Gng4QHT/Vg4f8wdzpC+CIEorxtqjQ+Uopa6J4y0MnunpbBLoAYuK5FFGCvti
+ HJ6Ef3L3cy5Fw==
+Date: Tue, 11 Mar 2025 17:12:42 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/7] drm/tests: hdmi: Add macros to simplify EDID setup
+Message-ID: <20250311-spiritual-hornet-of-prestige-ef4132@houat>
+References: <20250311-hdmi-conn-yuv-v2-0-fbdb94f02562@collabora.com>
+ <20250311-hdmi-conn-yuv-v2-5-fbdb94f02562@collabora.com>
 MIME-Version: 1.0
-References: <20250311111501.9190-1-n.zhandarovich@fintech.ru>
-In-Reply-To: <20250311111501.9190-1-n.zhandarovich@fintech.ru>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 11 Mar 2025 12:11:41 -0400
-X-Gm-Features: AQ5f1Jo_n7znu1k53mWqt5ocAdZXDWFpNjqsQGbU5mMQMuEwRLuEpw7wKFxIBH4
-Message-ID: <CADnq5_M0vVpU-puopwNjJcaSKfHr3ZDS3_n-Cmf5MWAA_4qViQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: fix uninitialized size issue in
- radeon_vce_cs_parse()
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ehgan4hodvsqo6jl"
+Content-Disposition: inline
+In-Reply-To: <20250311-hdmi-conn-yuv-v2-5-fbdb94f02562@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,45 +63,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-Alex
+--ehgan4hodvsqo6jl
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 5/7] drm/tests: hdmi: Add macros to simplify EDID setup
+MIME-Version: 1.0
 
-On Tue, Mar 11, 2025 at 7:23=E2=80=AFAM Nikita Zhandarovich
-<n.zhandarovich@fintech.ru> wrote:
->
-> On the off chance that command stream passed from userspace via
-> ioctl() call to radeon_vce_cs_parse() is weirdly crafted and
-> first command to execute is to encode (case 0x03000001), the function
-> in question will attempt to call radeon_vce_cs_reloc() with size
-> argument that has not been properly initialized. Specifically, 'size'
-> will point to 'tmp' variable before the latter had a chance to be
-> assigned any value.
->
-> Play it safe and init 'tmp' with 0, thus ensuring that
-> radeon_vce_cs_reloc() will catch an early error in cases like these.
->
-> Found by Linux Verification Center (linuxtesting.org) with static
-> analysis tool SVACE.
->
-> Fixes: 2fc5703abda2 ("drm/radeon: check VCE relocation buffer range v3")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+On Tue, Mar 11, 2025 at 12:57:37PM +0200, Cristian Ciocaltea wrote:
+> Introduce a few macros to facilitate setting custom (i.e. non-default)
+> EDID data during connector initialization.
+>=20
+> This helps reducing boilerplate code while also drops some redundant
+> calls to set_connector_edid().
+>=20
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->  drivers/gpu/drm/radeon/radeon_vce.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_vce.c b/drivers/gpu/drm/radeon=
-/radeon_vce.c
-> index d1871af967d4..2355a78e1b69 100644
-> --- a/drivers/gpu/drm/radeon/radeon_vce.c
-> +++ b/drivers/gpu/drm/radeon/radeon_vce.c
-> @@ -557,7 +557,7 @@ int radeon_vce_cs_parse(struct radeon_cs_parser *p)
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 245 ++++++++-------=
+------
+>  1 file changed, 93 insertions(+), 152 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
+/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> index e97efd3af9ed18e6cf8ee66b4923dfc805b34e19..a3f7f3ce31c73335c2c2643bd=
+c5395b6ceb6f071 100644
+> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> @@ -183,10 +183,12 @@ static const struct drm_connector_funcs dummy_conne=
+ctor_funcs =3D {
+> =20
+>  static
+>  struct drm_atomic_helper_connector_hdmi_priv *
+> -drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
+> -					   unsigned int formats,
+> -					   unsigned int max_bpc,
+> -					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
+> +connector_hdmi_init_funcs_set_edid(struct kunit *test,
+> +				   unsigned int formats,
+> +				   unsigned int max_bpc,
+> +				   const struct drm_connector_hdmi_funcs *hdmi_funcs,
+> +				   const char *edid_data,
+> +				   size_t edid_len)
 >  {
->         int session_idx =3D -1;
->         bool destroyed =3D false, created =3D false, allocated =3D false;
-> -       uint32_t tmp, handle =3D 0;
-> +       uint32_t tmp =3D 0, handle =3D 0;
->         uint32_t *size =3D &tmp;
->         int i, r =3D 0;
->
+>  	struct drm_atomic_helper_connector_hdmi_priv *priv;
+>  	struct drm_connector *conn;
+> @@ -240,30 +242,27 @@ drm_kunit_helper_connector_hdmi_init_funcs(struct k=
+unit *test,
+> =20
+>  	drm_mode_config_reset(drm);
+> =20
+> +	if (edid_data && edid_len) {
+> +		ret =3D set_connector_edid(test, &priv->connector, edid_data, edid_len=
+);
+> +		KUNIT_ASSERT_GT(test, ret, 0);
+> +	}
+> +
+>  	return priv;
+>  }
+> =20
+> -static
+> -struct drm_atomic_helper_connector_hdmi_priv *
+> -drm_kunit_helper_connector_hdmi_init(struct kunit *test,
+> -				     unsigned int formats,
+> -				     unsigned int max_bpc)
+> -{
+> -	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> -	int ret;
+> +#define drm_kunit_helper_connector_hdmi_init_funcs_set_edid(test, format=
+s, max_bpc, funcs, edid) \
+> +	connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, edid,=
+ ARRAY_SIZE(edid))
+> =20
+> -	priv =3D drm_kunit_helper_connector_hdmi_init_funcs(test,
+> -							  formats, max_bpc,
+> -							  &dummy_connector_hdmi_funcs);
+> -	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
+> +#define drm_kunit_helper_connector_hdmi_init_funcs(test, formats, max_bp=
+c, funcs)		\
+> +	connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, NULL,=
+ 0)
+> =20
+> -	ret =3D set_connector_edid(test, &priv->connector,
+> -				 test_edid_hdmi_1080p_rgb_max_200mhz,
+> -				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+> -	KUNIT_ASSERT_GT(test, ret, 0);
+> +#define drm_kunit_helper_connector_hdmi_init_set_edid(test, formats, max=
+_bpc, edid)		\
+> +	drm_kunit_helper_connector_hdmi_init_funcs_set_edid(test, formats, max_=
+bpc,		\
+> +							    &dummy_connector_hdmi_funcs, edid)
+> =20
+> -	return priv;
+> -}
+> +#define drm_kunit_helper_connector_hdmi_init(test, formats, max_bpc)				\
+> +	drm_kunit_helper_connector_hdmi_init_set_edid(test, formats, max_bpc,		=
+	\
+> +						      test_edid_hdmi_1080p_rgb_max_200mhz)
+
+I'd really prefer to have functions to macros here. They are easier to
+read, extend, and don't have any particular drawbacks.
+
+I also don't think we need that many, looking at the tests:
+
+  - We need drm_kunit_helper_connector_hdmi_init() to setup a connector
+    with test_edid_hdmi_1080p_rgb_max_200mhz and
+    dummy_connector_hdmi_funcs()
+
+  - We need to create a
+    drm_kunit_helper_connector_hdmi_init_with_edid_funcs() to pass both
+    the funcs and edid pointers
+
+And that's it, right?
+
+>  /*
+>   * Test that if we change the RGB quantization property to a different
+> @@ -771,19 +770,15 @@ static void drm_test_check_output_bpc_crtc_mode_cha=
+nged(struct kunit *test)
+>  	struct drm_crtc *crtc;
+>  	int ret;
+> =20
+> -	priv =3D drm_kunit_helper_connector_hdmi_init(test,
+> -						    BIT(HDMI_COLORSPACE_RGB),
+> -						    10);
+> +	priv =3D drm_kunit_helper_connector_hdmi_init_set_edid(test,
+> +				BIT(HDMI_COLORSPACE_RGB),
+> +				10,
+> +				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
+
+I think that convertion should be part of another patch.
+
+Maxime
+
+--ehgan4hodvsqo6jl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ9Bg+gAKCRDj7w1vZxhR
+xZ0RAP9ZOjOoFg8CpHr2Bi37SQdP5J9ZAOHIW8zTNCC42bKF4QD/UBVPIUNL6Bc7
+5qTju7pvnBUnivSNbLt4ywKJ7QsASAo=
+=VrjK
+-----END PGP SIGNATURE-----
+
+--ehgan4hodvsqo6jl--
