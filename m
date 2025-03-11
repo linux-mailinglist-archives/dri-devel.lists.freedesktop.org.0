@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1192BA5BE51
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 11:58:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E686A5BE53
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 11:58:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E566A10E569;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F3110E568;
 	Tue, 11 Mar 2025 10:58:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HPOdu0Cq";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="B/q+k2gU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA8910E561
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 10:58:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6522D10E561
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 10:58:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1741690686;
- bh=p2gfkVVabY/GhfIneO85LyBcgXwSlPbU15BzAEUGvDI=;
+ s=mail; t=1741690687;
+ bh=lPhvqY/DWixvUiDxDCvdqjupeH75rYCFT5oA6pH3xgs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=HPOdu0CqvcWAbgbTKJjVqs2pwwXeh1dpzyXIFBLRwISH1hbIrRwHBDJZTZIHEAqxW
- Mf6SNzKcECiksAK8/yFBE9vQXaMZ6xY5V44kXiSKT5zo1K3TsleVMG/dGy0qerep3n
- zz1E1DuShUpBOpIR/jVSdAXOQWy1eRt815z+I9Hb8tbY67FK3edS8MlsGRyupBwXIT
- k/o/rqsnRmQ2fRdU4NSAwjO5DN/jNF1uTBD9VHm/TWv6MqMqQdB6S0/FfLKzRqcHfV
- bBroMBCrYgKhNH2NRln6euAkAhtM9ZM+3d8uYRbFstIxxOTQLUE2Qgjev6lSSSN4C2
- Tk39JBjFghIVA==
+ b=B/q+k2gUfpJxaP1MbZbcLp6p5RMuemUtDJ79SVYugM6u7/FxDrr/G4ASyZxvWsH6f
+ /FzEODi8d1u4w9ZPncPGqQ4sejL9HE5V5eaYWlovyzOEICCgm3PwCyjDOgFkpfediT
+ v0c6Nuhczt7h3xwByfXvftyrgZrpzncvrTIt26Tb/l6RPUxg4vH6Rg4NEskgz9Kf7P
+ ROISW5JfOU5pfQD6Ze5WgD8c0nmQHxWIjbtMeztWDaC47Mn+qPPns5YRI7eycwv9k1
+ ur+FPbJigTQ/8+sSTfcX3rvMEbgOAsFElRc6VePAhJZ3Sb4MPrtXq9r6N/k3bGi/+C
+ VG14cBaPyNjfw==
 Received: from localhost (unknown [84.232.140.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 32BC917E0649;
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 0448D17E0657;
  Tue, 11 Mar 2025 11:58:06 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 11 Mar 2025 12:57:38 +0200
-Subject: [PATCH v2 6/7] drm/tests: hdmi: Add limited range tests for YUV420
- mode
+Date: Tue, 11 Mar 2025 12:57:39 +0200
+Subject: [PATCH v2 7/7] drm/tests: hdmi: Add max TMDS rate fallback tests
+ for YUV420 mode
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250311-hdmi-conn-yuv-v2-6-fbdb94f02562@collabora.com>
+Message-Id: <20250311-hdmi-conn-yuv-v2-7-fbdb94f02562@collabora.com>
 References: <20250311-hdmi-conn-yuv-v2-0-fbdb94f02562@collabora.com>
 In-Reply-To: <20250311-hdmi-conn-yuv-v2-0-fbdb94f02562@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -66,137 +66,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide tests to verify that drm_atomic_helper_connector_hdmi_check()
-helper behaviour when using YUV420 output format is to always set the
-limited RGB quantization range to 'limited', no matter what the value of
-Broadcast RGB property is.
+Provide tests to verify drm_atomic_helper_connector_hdmi_check() helper
+fallback behavior when using YUV420 output.
+
+Also rename drm_test_check_max_tmds_rate_{bpc|format}_fallback() to
+better differentiate from the newly introduced *_yuv420() variants.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  89 +++++++++++++++-
- drivers/gpu/drm/tests/drm_kunit_edid.h             | 112 +++++++++++++++++++++
- 2 files changed, 196 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 145 ++++++++++++++++++++-
+ drivers/gpu/drm/tests/drm_kunit_edid.h             | 110 ++++++++++++++++
+ 2 files changed, 251 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index a3f7f3ce31c73335c2c2643bdc5395b6ceb6f071..1df12c0b7768e4f85f4c943840d9b4dcb6e079e0 100644
+index 1df12c0b7768e4f85f4c943840d9b4dcb6e079e0..77da5b88c4cbd5bba22f4f0ce1ef2928042d7d50 100644
 --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
 +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -227,6 +227,8 @@ connector_hdmi_init_funcs_set_edid(struct kunit *test,
- 	enc->possible_crtcs = drm_crtc_mask(priv->crtc);
- 
- 	conn = &priv->connector;
-+	conn->ycbcr_420_allowed = !!(formats & BIT(HDMI_COLORSPACE_YUV420));
-+
- 	ret = drmm_connector_hdmi_init(drm, conn,
- 				       "Vendor", "Product",
- 				       &dummy_connector_funcs,
-@@ -751,6 +753,86 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode_vic_1(struct kunit *te
+@@ -1223,7 +1223,7 @@ static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
+  * Then we will pick the latter, and the computed TMDS character rate
+  * will be equal to 1.25 times the mode pixel clock.
+  */
+-static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
++static void drm_test_check_max_tmds_rate_bpc_fallback_rgb(struct kunit *test)
+ {
+ 	struct drm_atomic_helper_connector_hdmi_priv *priv;
+ 	struct drm_modeset_acquire_ctx ctx;
+@@ -1275,6 +1275,72 @@ static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
  	drm_modeset_acquire_fini(&ctx);
  }
  
 +/*
-+ * Test that for an HDMI connector, with an HDMI monitor, we will
-+ * get a limited RGB Quantization Range with a YUV420 mode, no
-+ * matter what the value of the Broadcast RGB property is set to.
++ * Test that if:
++ * - We have an HDMI connector supporting both RGB and YUV420
++ * - The chosen mode can be supported in YUV420 output format only
++ * - The chosen mode has a TMDS character rate higher than the display
++ *   supports in YUV420/12bpc
++ * - The chosen mode has a TMDS character rate lower than the display
++ *   supports in YUV420/10bpc.
++ *
++ * Then we will pick the latter, and the computed TMDS character rate
++ * will be equal to 1.25 * 0.5 times the mode pixel clock.
 + */
-+static void drm_test_check_broadcast_rgb_cea_mode_yuv420(struct kunit *test)
++static void drm_test_check_max_tmds_rate_bpc_fallback_yuv420(struct kunit *test)
 +{
 +	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	enum drm_hdmi_broadcast_rgb broadcast_rgb;
 +	struct drm_modeset_acquire_ctx ctx;
 +	struct drm_connector_state *conn_state;
-+	struct drm_atomic_state *state;
-+	struct drm_display_mode *mode;
++	struct drm_display_info *info;
++	struct drm_display_mode *yuv420_only_mode;
++	unsigned long long rate;
 +	struct drm_connector *conn;
 +	struct drm_device *drm;
 +	struct drm_crtc *crtc;
 +	int ret;
 +
-+	broadcast_rgb = *(enum drm_hdmi_broadcast_rgb *)test->param_value;
-+
 +	priv = drm_kunit_helper_connector_hdmi_init_set_edid(test,
 +				BIT(HDMI_COLORSPACE_RGB) |
 +				BIT(HDMI_COLORSPACE_YUV420),
-+				8,
++				12,
 +				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
 +	KUNIT_ASSERT_NOT_NULL(test, priv);
 +
 +	drm = &priv->drm;
 +	crtc = priv->crtc;
 +	conn = &priv->connector;
-+	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
++	info = &conn->display_info;
++	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
++	KUNIT_ASSERT_GT(test, info->max_tmds_clock, 0);
 +
-+	mode = drm_kunit_display_mode_from_cea_vic(test, drm, 95);
-+	KUNIT_ASSERT_NOT_NULL(test, mode);
++	yuv420_only_mode = drm_kunit_display_mode_from_cea_vic(test, drm, 95);
++	KUNIT_ASSERT_NOT_NULL(test, yuv420_only_mode);
++	KUNIT_ASSERT_TRUE(test, drm_mode_is_420_only(info, yuv420_only_mode));
++
++	rate = drm_hdmi_compute_mode_clock(yuv420_only_mode, 12, HDMI_COLORSPACE_YUV420);
++	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
++
++	rate = drm_hdmi_compute_mode_clock(yuv420_only_mode, 10, HDMI_COLORSPACE_YUV420);
++	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
 +
 +	drm_modeset_acquire_init(&ctx, 0);
 +
-+	ret = light_up_connector(test, drm, crtc, conn, mode, &ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
++	ret = light_up_connector(test, drm, crtc, conn, yuv420_only_mode, &ctx);
++	KUNIT_EXPECT_EQ(test, ret, 0);
 +
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
++	conn_state = conn->state;
++	KUNIT_ASSERT_NOT_NULL(test, conn_state);
 +
-+	conn_state = drm_atomic_get_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
-+
-+	conn_state->hdmi.broadcast_rgb = broadcast_rgb;
-+
-+	ret = drm_atomic_check_only(state);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	conn_state = drm_atomic_get_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
-+
-+	KUNIT_ASSERT_EQ(test, conn_state->hdmi.broadcast_rgb, broadcast_rgb);
-+	KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_YUV420);
-+
-+	KUNIT_EXPECT_TRUE(test, conn_state->hdmi.is_limited_range);
++	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 10);
++	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_YUV420);
++	KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate,
++			yuv420_only_mode->clock * 1250 * 0.5);
 +
 +	drm_modeset_drop_locks(&ctx);
 +	drm_modeset_acquire_fini(&ctx);
 +}
 +
-+static const enum drm_hdmi_broadcast_rgb check_broadcast_rgb_cea_mode_yuv420_tests[] = {
-+	DRM_HDMI_BROADCAST_RGB_AUTO,
-+	DRM_HDMI_BROADCAST_RGB_FULL,
-+	DRM_HDMI_BROADCAST_RGB_LIMITED,
-+};
-+
-+static void
-+check_broadcast_rgb_cea_mode_yuv420_desc(const enum drm_hdmi_broadcast_rgb *broadcast_rgb,
-+					 char *desc)
+ /*
+  * Test that if:
+  * - We have an HDMI connector supporting both RGB and YUV422 and up to
+@@ -1288,7 +1354,7 @@ static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
+  * Then we will prefer to keep the RGB format with a lower bpc over
+  * picking YUV422.
+  */
+-static void drm_test_check_max_tmds_rate_format_fallback(struct kunit *test)
++static void drm_test_check_max_tmds_rate_format_fallback_yuv422(struct kunit *test)
+ {
+ 	struct drm_atomic_helper_connector_hdmi_priv *priv;
+ 	struct drm_modeset_acquire_ctx ctx;
+@@ -1344,6 +1410,75 @@ static void drm_test_check_max_tmds_rate_format_fallback(struct kunit *test)
+ 	drm_modeset_acquire_fini(&ctx);
+ }
+ 
++/*
++ * Test that if:
++ * - We have an HDMI connector supporting both RGB and YUV420 and up to
++ *   12 bpc
++ * - The chosen mode has a TMDS character rate higher than the display
++ *   supports in RGB/10bpc but lower than the display supports in
++ *   RGB/8bpc
++ * - The chosen mode has a TMDS character rate lower than the display
++ *   supports in YUV420/12bpc.
++ *
++ * Then we will prefer to keep the RGB format with a lower bpc over
++ * picking YUV420.
++ */
++static void drm_test_check_max_tmds_rate_format_fallback_yuv420(struct kunit *test)
 +{
-+	sprintf(desc, "%s", drm_hdmi_connector_get_broadcast_rgb_name(*broadcast_rgb));
++	struct drm_atomic_helper_connector_hdmi_priv *priv;
++	struct drm_modeset_acquire_ctx ctx;
++	struct drm_connector_state *conn_state;
++	struct drm_display_info *info;
++	struct drm_display_mode *preferred;
++	unsigned long long rate;
++	struct drm_connector *conn;
++	struct drm_device *drm;
++	struct drm_crtc *crtc;
++	int ret;
++
++	priv = drm_kunit_helper_connector_hdmi_init_set_edid(test,
++				BIT(HDMI_COLORSPACE_RGB) |
++				BIT(HDMI_COLORSPACE_YUV420),
++				12,
++				test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz);
++	KUNIT_ASSERT_NOT_NULL(test, priv);
++
++	drm = &priv->drm;
++	crtc = priv->crtc;
++	conn = &priv->connector;
++	info = &conn->display_info;
++	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
++	KUNIT_ASSERT_GT(test, info->max_tmds_clock, 0);
++
++	preferred = find_preferred_mode(conn);
++	KUNIT_ASSERT_NOT_NULL(test, preferred);
++	KUNIT_ASSERT_FALSE(test, preferred->flags & DRM_MODE_FLAG_DBLCLK);
++	KUNIT_ASSERT_TRUE(test, drm_mode_is_420_also(info, preferred));
++
++	rate = drm_hdmi_compute_mode_clock(preferred, 8, HDMI_COLORSPACE_RGB);
++	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
++
++	rate = drm_hdmi_compute_mode_clock(preferred, 10, HDMI_COLORSPACE_RGB);
++	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
++
++	rate = drm_hdmi_compute_mode_clock(preferred, 12, HDMI_COLORSPACE_YUV420);
++	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
++
++	drm_modeset_acquire_init(&ctx, 0);
++
++	ret = light_up_connector(test, drm, crtc, conn, preferred, &ctx);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++
++	conn_state = conn->state;
++	KUNIT_ASSERT_NOT_NULL(test, conn_state);
++
++	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 8);
++	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
++
++	drm_modeset_drop_locks(&ctx);
++	drm_modeset_acquire_fini(&ctx);
 +}
 +
-+KUNIT_ARRAY_PARAM(check_broadcast_rgb_cea_mode_yuv420,
-+		  check_broadcast_rgb_cea_mode_yuv420_tests,
-+		  check_broadcast_rgb_cea_mode_yuv420_desc);
-+
  /*
-  * Test that if we change the maximum bpc property to a different value,
-  * we trigger a mode change on the connector's CRTC, which will in turn
-@@ -1625,11 +1707,8 @@ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
- 	KUNIT_CASE(drm_test_check_broadcast_rgb_full_cea_mode_vic_1),
- 	KUNIT_CASE(drm_test_check_broadcast_rgb_limited_cea_mode),
- 	KUNIT_CASE(drm_test_check_broadcast_rgb_limited_cea_mode_vic_1),
--	/*
--	 * TODO: When we'll have YUV output support, we need to check
--	 * that the limited range is always set to limited no matter
--	 * what the value of Broadcast RGB is.
--	 */
-+	KUNIT_CASE_PARAM(drm_test_check_broadcast_rgb_cea_mode_yuv420,
-+			 check_broadcast_rgb_cea_mode_yuv420_gen_params),
- 	KUNIT_CASE(drm_test_check_broadcast_rgb_crtc_mode_changed),
+  * Test that if a driver and screen supports RGB and YUV formats, and we
+  * try to set the VIC 1 mode, we end up with 8bpc RGB even if we could
+@@ -1713,8 +1848,10 @@ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
  	KUNIT_CASE(drm_test_check_broadcast_rgb_crtc_mode_not_changed),
  	KUNIT_CASE(drm_test_check_disable_connector),
+ 	KUNIT_CASE(drm_test_check_hdmi_funcs_reject_rate),
+-	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback),
+-	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback),
++	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback_rgb),
++	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback_yuv420),
++	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback_yuv422),
++	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback_yuv420),
+ 	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_changed),
+ 	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_not_changed),
+ 	KUNIT_CASE(drm_test_check_output_bpc_dvi),
 diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tests/drm_kunit_edid.h
-index 6358397a5d7ab0bcdea1c824fc9fd382560f4b0e..ff316e6114d65c96b1338cd83bc0d8d9e6e143e9 100644
+index ff316e6114d65c96b1338cd83bc0d8d9e6e143e9..8e9086df20c690f34623d7858c716032d77d0c26 100644
 --- a/drivers/gpu/drm/tests/drm_kunit_edid.h
 +++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
-@@ -583,4 +583,116 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[] = {
- 	0x00, 0x00, 0x00, 0x8c
+@@ -695,4 +695,114 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz[
+ 	0x00, 0x00, 0x00, 0xca
  };
  
 +/*
@@ -205,20 +276,20 @@ index 6358397a5d7ab0bcdea1c824fc9fd382560f4b0e..ff316e6114d65c96b1338cd83bc0d8d9
 + * 00 ff ff ff ff ff ff 00 31 d8 34 00 00 00 00 00
 + * ff 23 01 03 80 60 36 78 0f ee 91 a3 54 4c 99 26
 + * 0f 50 54 20 00 00 01 01 01 01 01 01 01 01 01 01
-+ * 01 01 01 01 01 01 02 3a 80 18 71 38 2d 40 58 2c
-+ * 45 00 c0 1c 32 00 00 1e 00 00 00 fc 00 54 65 73
++ * 01 01 01 01 01 01 04 74 00 30 f2 70 5a 80 b0 58
++ * 8a 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
 + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 18
-+ * 55 18 5e 11 00 0a 20 20 20 20 20 20 00 00 00 10
-+ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 bb
++ * 55 18 5e 22 00 0a 20 20 20 20 20 20 00 00 00 10
++ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 ce
 + *
-+ * 02 03 29 31 42 90 5f 6c 03 0c 00 10 00 78 28 20
-+ * 00 00 01 03 6d d8 5d c4 01 28 80 07 00 00 00 00
-+ * 00 00 e3 0f 00 00 e2 0e 5f 00 00 00 00 00 00 00
++ * 02 03 27 31 41 5f 6c 03 0c 00 10 00 78 44 20 00
++ * 00 01 03 6d d8 5d c4 01 44 80 07 00 00 00 00 00
++ * 00 e3 0f 01 00 e1 0e 00 00 00 00 00 00 00 00 00
 + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ca
++ * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 84
 + *
 + * ----------------
 + *
@@ -245,15 +316,15 @@ index 6358397a5d7ab0bcdea1c824fc9fd382560f4b0e..ff316e6114d65c96b1338cd83bc0d8d9
 + *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
 + *   Standard Timings: none
 + *   Detailed Timing Descriptors:
-+ *     DTD 1:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz (960 mm x 540 mm)
-+ *                  Hfront   88 Hsync  44 Hback  148 Hpol P
-+ *                  Vfront    4 Vsync   5 Vback   36 Vpol P
++ *     DTD 1:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz (1600 mm x 900 mm)
++ *                  Hfront  176 Hsync  88 Hback  296 Hpol P
++ *                  Vfront    8 Vsync  10 Vback   72 Vpol P
 + *     Display Product Name: 'Test EDID'
 + *     Display Range Limits:
-+ *       Monitor ranges (GTF): 24-85 Hz V, 24-94 kHz H, max dotclock 170 MHz
++ *       Monitor ranges (GTF): 24-85 Hz V, 24-94 kHz H, max dotclock 340 MHz
 + *     Dummy Descriptor:
 + *   Extension blocks: 1
-+ * Checksum: 0xbb
++ * Checksum: 0xce
 + *
 + * ----------------
 + *
@@ -263,7 +334,6 @@ index 6358397a5d7ab0bcdea1c824fc9fd382560f4b0e..ff316e6114d65c96b1338cd83bc0d8d9
 + *   Supports YCbCr 4:2:2
 + *   Native detailed modes: 1
 + *   Video Data Block:
-+ *     VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz (native)
 + *     VIC  95:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
 + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
 + *     Source physical address: 1.0.0.0
@@ -271,44 +341,43 @@ index 6358397a5d7ab0bcdea1c824fc9fd382560f4b0e..ff316e6114d65c96b1338cd83bc0d8d9
 + *     DC_36bit
 + *     DC_30bit
 + *     DC_Y444
-+ *     Maximum TMDS clock: 200 MHz
++ *     Maximum TMDS clock: 340 MHz
 + *     Extended HDMI video details:
 + *   Vendor-Specific Data Block (HDMI Forum), OUI C4-5D-D8:
 + *     Version: 1
-+ *     Maximum TMDS Character Rate: 200 MHz
++ *     Maximum TMDS Character Rate: 340 MHz
 + *     SCDC Present
 + *     Supports 16-bits/component Deep Color 4:2:0 Pixel Encoding
 + *     Supports 12-bits/component Deep Color 4:2:0 Pixel Encoding
 + *     Supports 10-bits/component Deep Color 4:2:0 Pixel Encoding
 + *   YCbCr 4:2:0 Capability Map Data Block:
-+ *     Empty Capability Map
-+ *   YCbCr 4:2:0 Video Data Block:
 + *     VIC  95:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
-+ * Checksum: 0xca
++ *   YCbCr 4:2:0 Video Data Block:
++ * Checksum: 0x84
 + */
-+static const unsigned char test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz[] = {
++static const unsigned char test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz[] = {
 +	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x34, 0x00,
 +	0x00, 0x00, 0x00, 0x00, 0xff, 0x23, 0x01, 0x03, 0x80, 0x60, 0x36, 0x78,
 +	0x0f, 0xee, 0x91, 0xa3, 0x54, 0x4c, 0x99, 0x26, 0x0f, 0x50, 0x54, 0x20,
 +	0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a, 0x80, 0x18, 0x71, 0x38,
-+	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0xc0, 0x1c, 0x32, 0x00, 0x00, 0x1e,
++	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x04, 0x74, 0x00, 0x30, 0xf2, 0x70,
++	0x5a, 0x80, 0xb0, 0x58, 0x8a, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
 +	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
 +	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x18,
-+	0x55, 0x18, 0x5e, 0x11, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
++	0x55, 0x18, 0x5e, 0x22, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
 +	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0xbb, 0x02, 0x03, 0x29, 0x31,
-+	0x42, 0x90, 0x5f, 0x6c, 0x03, 0x0c, 0x00, 0x10, 0x00, 0x78, 0x28, 0x20,
-+	0x00, 0x00, 0x01, 0x03, 0x6d, 0xd8, 0x5d, 0xc4, 0x01, 0x28, 0x80, 0x07,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe3, 0x0f, 0x00, 0x00, 0xe2, 0x0e,
-+	0x5f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0xce, 0x02, 0x03, 0x27, 0x31,
++	0x41, 0x5f, 0x6c, 0x03, 0x0c, 0x00, 0x10, 0x00, 0x78, 0x44, 0x20, 0x00,
++	0x00, 0x01, 0x03, 0x6d, 0xd8, 0x5d, 0xc4, 0x01, 0x44, 0x80, 0x07, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0xe3, 0x0f, 0x01, 0x00, 0xe1, 0x0e, 0x00,
 +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0xca
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x84
 +};
 +
  #endif // DRM_KUNIT_EDID_H_
