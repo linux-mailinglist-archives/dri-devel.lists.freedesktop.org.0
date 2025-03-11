@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07A7A5C68F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 16:26:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0D2A5C4E0
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 16:09:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB5938920D;
-	Tue, 11 Mar 2025 15:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 551BB10E5B2;
+	Tue, 11 Mar 2025 15:09:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QAjbL/I/";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ytAEfZTp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA918920D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 15:26:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7713810E5B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 15:09:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 140375C5D94;
- Tue, 11 Mar 2025 15:24:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AAB6C4CEE9;
- Tue, 11 Mar 2025 15:26:27 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C51585C6482;
+ Tue, 11 Mar 2025 15:06:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A51CC4CEEA;
+ Tue, 11 Mar 2025 15:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1741706788;
- bh=Jyzfswtbd02+H1SwTO3SSgnzdRQxYiZaNhQsjF2XmFE=;
+ s=korg; t=1741705737;
+ bh=XXiKbN0SCyvZ+V8HJz+MqaGnZ48jTbLvmqcZHBemcZA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QAjbL/I/vxRRdLGb5A0S/jIQ+/+yik2NXVyFeZND/IIvS0H2xVdDxf25vbqrnbPvu
- WlG5vf++zsKBFpAHusknq8DhYDRyznU0uRTVHb/q9/JDfnlVEwomrEwCw+Eo7ClzC9
- 4jIJeAADnWrRHAwBJlbXY/REK0XDTU3zMcuzHTDo=
+ b=ytAEfZTpa/kY3X5j/1fZ1UZHFVksNO7COolopqPKmATPRVUC61KyFnvC0mhpDVosZ
+ aQQluiG1CTKMdtObek7awYNoq5bxYOeZge9EPAgP+Btept0iuRLjbWT2ArJoewmqXh
+ zU0iQye2hJbZkxFA1GL5PKQdm4hIFV0g2YKrLeG8=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Thomas Zimmermann <tzimmermann@suse.de>, kernel test robot <lkp@intel.com>,
  Geert Uytterhoeven <geert@linux-m68k.org>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Helge Deller <deller@gmx.de>
-Subject: [PATCH 5.10 167/462] m68k: vga: Fix I/O defines
-Date: Tue, 11 Mar 2025 15:57:13 +0100
-Message-ID: <20250311145804.950923052@linuxfoundation.org>
+Subject: [PATCH 5.4 120/328] m68k: vga: Fix I/O defines
+Date: Tue, 11 Mar 2025 15:58:10 +0100
+Message-ID: <20250311145719.664756521@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250311145758.343076290@linuxfoundation.org>
-References: <20250311145758.343076290@linuxfoundation.org>
+In-Reply-To: <20250311145714.865727435@linuxfoundation.org>
+References: <20250311145714.865727435@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -59,7 +59,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+5.4-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
