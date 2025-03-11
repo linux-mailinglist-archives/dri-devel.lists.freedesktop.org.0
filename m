@@ -2,54 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BF5A5B64A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 02:51:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B55A5B676
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Mar 2025 03:08:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE3610E50A;
-	Tue, 11 Mar 2025 01:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CB2610E010;
+	Tue, 11 Mar 2025 02:08:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="IC9ctY59";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="wQfQZG6I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4660210E508
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 01:51:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=NEqOnfxZNcmn2LgGL93widqC+Pfk+3b4HnWZx6HPkdc=; b=IC9ctY59MNwsJGB1
- KDkOokDnCYzLkR3h5NpmzxozIj5BKDBTqM96Wer4SeAhbatSczejsYG6i+1vGetPFwa8xjBzF+4Bt
- 62L6X2IVb8slnv+G+A/7qHfT4N4tc80LTlX3wUKUL3FFuml8KB7T5hcKyFtM4IqFhAlopufIvKKqo
- q66HvHxhpFlTmjXafP4Lrp/8ZR7HZxxZb5sEcMmBkTMByOPx+kfBHkOwRsrxI1gpU3kjnNrn0jvqK
- 4a2BqUUTED9Zci3ymteJ6+qwwoDhwkWZByQcDIVN08SGGbZqrCC5L9iu0zjpUScPgHrAEprAbpr1k
- 5FeKwFYf/hI/vUl98w==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1tromY-0042vt-0p;
- Tue, 11 Mar 2025 01:51:46 +0000
-Date: Tue, 11 Mar 2025 01:51:46 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com,
- sre@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
- alexandre.belloni@bootlin.com, danielt@kernel.org,
- jingoohan1@gmail.com, deller@gmx.de, linus.walleij@linaro.org,
- brgl@bgdev.pl, tsbogend@alpha.franken.de
-Cc: linux-mips@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/9] Remove pcf50633
-Message-ID: <Z8-XMr3fVKpol6c0@gallifrey>
-References: <20250309193612.251929-1-linux@treblig.org>
- <Z883nYWpaOF2OZbs@gallifrey>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <Z883nYWpaOF2OZbs@gallifrey>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 01:51:14 up 306 days, 13:05,  1 user,  load average: 0.05, 0.03, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2331110E010
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Mar 2025 02:08:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8CA06A4656C;
+ Tue, 11 Mar 2025 02:02:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 872A9C4CEE5;
+ Tue, 11 Mar 2025 02:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+ s=korg; t=1741658886;
+ bh=EO2y2EASnimfmC0To8IgjADGLB03IrpBXSrBRgvMOXc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=wQfQZG6IKVV4Tew+S+0o+lnw12y0URQfWSPems1i8x5dKQTaPMYHdQMJDIg/0LCcq
+ 9ysqdCzIccJgUTy5+1XImjyPHewrVrCASW3U/ThAkRtkSNX1mJCMOLQBPQJNwR3UZE
+ sXCoysWhDTs3Eikr7+eLtWHhOyIiad0yrUckBntM=
+Date: Mon, 10 Mar 2025 19:08:03 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix
+ <nicolas.palix@imag.fr>, James Smart <james.smart@broadcom.com>, Dick
+ Kennedy <dick.kennedy@broadcom.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Chris Mason <clm@fb.com>, Josef Bacik
+ <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Ilya Dryomov
+ <idryomov@gmail.com>, Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens
+ Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>, Damien Le Moal
+ <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Carlos Maiolino
+ <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel
+ <sre@kernel.org>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+ <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Frank Li
+ <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Hans de Goede
+ <hdegoede@redhat.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Henrique de Moraes Holschuh
+ <hmh@hmh.eng.br>, Selvin Xavier <selvin.xavier@broadcom.com>, Kalesh AP
+ <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>, Leon
+ Romanovsky <leon@kernel.org>, Easwar Hariharan
+ <eahariha@linux.microsoft.com>, cocci@inria.fr,
+ linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+ linux-rdma@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, Carlos Maiolino
+ <cmaiolino@redhat.com>
+Subject: Re: (subset) [PATCH v3 00/16] Converge on using secs_to_jiffies()
+ part two
+Message-Id: <20250310190803.aaf868760781c9ae3fbe6df1@linux-foundation.org>
+In-Reply-To: <174165504986.528513.3575505677065987375.b4-ty@oracle.com>
+References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+ <174165504986.528513.3575505677065987375.b4-ty@oracle.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,107 +88,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Dr. David Alan Gilbert (linux@treblig.org) wrote:
-> * linux@treblig.org (linux@treblig.org) wrote:
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > 
-> > The pcf50633 was used as part of the OpenMoko devices but
-> > the support for its main chip was recently removed in:
-> > commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
-> > 
-> > See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
-> > 
-> > Remove it.
-> > 
-> > I've split this up based on the subcomponents to make the size
-> > of each patch sensible.
-> > 
+On Mon, 10 Mar 2025 21:19:03 -0400 "Martin K. Petersen" <martin.petersen@oracle.com> wrote:
+
+> On Tue, 25 Feb 2025 20:17:14 +0000, Easwar Hariharan wrote:
 > 
-> Both Alexandre and Mark would prefer the mfd changes to be
-> more separate from the subsystem changes, so I'll cook a v2
-> shortly.
-
-v2 thread starting with message
-  20250311014959.743322-1-linux@treblig.org
-just posted.
-
-Thanks!
-
-Dave
-
-> Dave
+> > This is the second series (part 1*) that converts users of msecs_to_jiffies() that
+> > either use the multiply pattern of either of:
+> > - msecs_to_jiffies(N*1000) or
+> > - msecs_to_jiffies(N*MSEC_PER_SEC)
+> > 
+> > where N is a constant or an expression, to avoid the multiplication.
+> > 
+> > [...]
 > 
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> > 
-> > 
-> > Dr. David Alan Gilbert (9):
-> >   mfd: pcf50633-adc:  Remove
-> >   backlight: pcf50633-backlight: Remove
-> >   rtc: pcf50633: Remove
-> >   mfd: pcF50633-gpio: Remove
-> >   Input: pcf50633-input - Remove
-> >   regulator: pcf50633-regulator: Remove
-> >   power: supply: pcf50633: Remove charger
-> >   mfd: pcf50633: Remove irq code
-> >   mfd: pcf50633: Remove remains
-> > 
-> >  arch/mips/configs/ip27_defconfig             |   3 -
-> >  drivers/input/misc/Kconfig                   |   7 -
-> >  drivers/input/misc/Makefile                  |   1 -
-> >  drivers/input/misc/pcf50633-input.c          | 113 -----
-> >  drivers/mfd/Kconfig                          |  24 -
-> >  drivers/mfd/Makefile                         |   4 -
-> >  drivers/mfd/pcf50633-adc.c                   | 255 ----------
-> >  drivers/mfd/pcf50633-core.c                  | 304 ------------
-> >  drivers/mfd/pcf50633-gpio.c                  |  92 ----
-> >  drivers/mfd/pcf50633-irq.c                   | 312 -------------
-> >  drivers/power/supply/Kconfig                 |   6 -
-> >  drivers/power/supply/Makefile                |   1 -
-> >  drivers/power/supply/pcf50633-charger.c      | 466 -------------------
-> >  drivers/regulator/Kconfig                    |   7 -
-> >  drivers/regulator/Makefile                   |   1 -
-> >  drivers/regulator/pcf50633-regulator.c       | 124 -----
-> >  drivers/rtc/Kconfig                          |   7 -
-> >  drivers/rtc/Makefile                         |   1 -
-> >  drivers/rtc/rtc-pcf50633.c                   | 284 -----------
-> >  drivers/video/backlight/Kconfig              |   7 -
-> >  drivers/video/backlight/Makefile             |   1 -
-> >  drivers/video/backlight/pcf50633-backlight.c | 154 ------
-> >  include/linux/mfd/pcf50633/adc.h             |  69 ---
-> >  include/linux/mfd/pcf50633/backlight.h       |  42 --
-> >  include/linux/mfd/pcf50633/core.h            | 232 ---------
-> >  include/linux/mfd/pcf50633/gpio.h            |  48 --
-> >  include/linux/mfd/pcf50633/mbc.h             | 130 ------
-> >  include/linux/mfd/pcf50633/pmic.h            |  68 ---
-> >  28 files changed, 2763 deletions(-)
-> >  delete mode 100644 drivers/input/misc/pcf50633-input.c
-> >  delete mode 100644 drivers/mfd/pcf50633-adc.c
-> >  delete mode 100644 drivers/mfd/pcf50633-core.c
-> >  delete mode 100644 drivers/mfd/pcf50633-gpio.c
-> >  delete mode 100644 drivers/mfd/pcf50633-irq.c
-> >  delete mode 100644 drivers/power/supply/pcf50633-charger.c
-> >  delete mode 100644 drivers/regulator/pcf50633-regulator.c
-> >  delete mode 100644 drivers/rtc/rtc-pcf50633.c
-> >  delete mode 100644 drivers/video/backlight/pcf50633-backlight.c
-> >  delete mode 100644 include/linux/mfd/pcf50633/adc.h
-> >  delete mode 100644 include/linux/mfd/pcf50633/backlight.h
-> >  delete mode 100644 include/linux/mfd/pcf50633/core.h
-> >  delete mode 100644 include/linux/mfd/pcf50633/gpio.h
-> >  delete mode 100644 include/linux/mfd/pcf50633/mbc.h
-> >  delete mode 100644 include/linux/mfd/pcf50633/pmic.h
-> > 
-> > -- 
-> > 2.48.1
-> > 
-> -- 
->  -----Open up your eyes, open up your mind, open up your code -------   
-> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-> \        dave @ treblig.org |                               | In Hex /
->  \ _________________________|_____ http://www.treblig.org   |_______/
+> Applied to 6.15/scsi-queue, thanks!
 > 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+> [02/16] scsi: lpfc: convert timeouts to secs_to_jiffies()
+>         https://git.kernel.org/mkp/scsi/c/a131f20804d6
+
+Really, an acked-by would have been much easier all around, but whatever.
+
+Did you get my fix?
+
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: scsi-lpfc-convert-timeouts-to-secs_to_jiffies-fix
+Date: Tue Feb 25 07:32:03 PM PST 2025
+
+fix build
+
+Cc: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: James Bottomley <james.bottomley@HansenPartnership.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ drivers/scsi/lpfc/lpfc_sli.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/scsi/lpfc/lpfc_sli.c~scsi-lpfc-convert-timeouts-to-secs_to_jiffies-fix
++++ a/drivers/scsi/lpfc/lpfc_sli.c
+@@ -3954,7 +3954,7 @@ void lpfc_poll_eratt(struct timer_list *
+ 	else
+ 		/* Restart the timer for next eratt poll */
+ 		mod_timer(&phba->eratt_poll,
+-			  jiffies + secs_to_jiffies(phba->eratt_poll_interval);
++			  jiffies + secs_to_jiffies(phba->eratt_poll_interval));
+ 	return;
+ }
+ 
+_
+
