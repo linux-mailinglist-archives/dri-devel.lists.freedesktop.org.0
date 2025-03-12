@@ -2,59 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB36A5DE34
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 14:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A520DA5DE45
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 14:44:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D6D010E2BC;
-	Wed, 12 Mar 2025 13:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01DDC10E6F8;
+	Wed, 12 Mar 2025 13:44:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o4iY7BvY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ScIDlDaw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6880810E2BC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 13:39:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 060915C5BB9;
- Wed, 12 Mar 2025 13:37:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44815C4CEEE;
- Wed, 12 Mar 2025 13:39:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741786768;
- bh=sZ3e4BpGXfmrcZB9nIeL901BLD7b8fOHw5W772r0HY4=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=o4iY7BvYOdroePIgi0KHkgpQbxULx8F+YItn0ssuafHeo+Svr3YJVNOOQn7VN1CK+
- VTyhd90J884RrMyr2ST0wqtzWYK1iwvWmQ1d++BPYgF2+FcTJ2UbOH7SFzNTmSXV4X
- RB12zM72/L16BOAjo3K3TrHyPZuNQ1M4aBQ3EJ9A3OuasrUkCdNztcH0rhqowraykb
- qtyrddsD1QpsBcgOoRApPLz+5EJxrNaoubDfEcIgiH55sbwzYWug7EGqZgJd2tI1sH
- bADTfTsFurtTtj0UlMpdsxiTLOxbDrXVWCsRzUeJbWqoRFliVqhlIRPuKcfS+fULkN
- tDCz82z02NifQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 12 Mar 2025 14:39:17 +0100
-Subject: [PATCH v2 2/2] drm/display: hdmi: Mention Infoframes testing with
- edid-decode
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0AF710E6F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 13:44:05 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-43d0618746bso11523885e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 06:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741787044; x=1742391844; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=73uRTAi6beMwHyvWny8Wq4267ZNP8zWmJCQ5mpXmlkY=;
+ b=ScIDlDawpW3MAVx+adRopTeNOZ6C4hsuhC5s8/vYuXnrH3K7gktp2LxnlnD01e2ow7
+ wLB1ncyETKgBnXlVKQAWNO4crmPBl6ju+F1u65nnYq9UocfoTa4rACatzr6ldR8F30Xh
+ heOgJsgYu8prLMrGS8mHqQn2rlJg1UVK796cKcO6ql6s8JYO80wQBYJuKoW3WX0IC+td
+ XkpFcMy0E/XrOJIC915QzNpI0D4Mwbn4twW/Q5mZOkbOZZyxxt4gC1p8/JbZyQwD1eBC
+ WqtC5bXdKsO7IAFLUYzUjEEeCU5tWJ4BltJ5Q6LPMS+dlgO9EYahTrxcJA8l9Bw9j3R+
+ hzkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741787044; x=1742391844;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=73uRTAi6beMwHyvWny8Wq4267ZNP8zWmJCQ5mpXmlkY=;
+ b=IU5KOUE47Z/sQLFndcpOWMutKGUGG7Ub7dj7h0N+31ZpPuYXKUgWU+5tqcpk0p74Mo
+ 5vEt7aNj5decWkRFfnKeoXOinFB/bVtGHF9mkvRyzvxAvTE/hQqoh5FoIK7YnheBjyxI
+ k/xIPdnuFi2Y+Z6ohpHahCD7sroCm7prBhNKV4gccCeg8qZ2+CIuGH13ebqunviIMtrs
+ Bjc/t9ORozo9ibWo5iaZzt8qulLAzMyl3aH+1kbIO7iiib211gvQGGGVsiwpdYvJXVKe
+ UbcgrOngy8eD9mCrcjqAaQguTcMbAletxQZYb/rchXBwkAqC8PEAWgsJ15q2qY1HhM+t
+ jIfg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXtRNppkePVckc+cBn9We3UA6o62EPytpFOeBom1D4Uau5BynTuV8Bb5kIBdxmpjPbmeohPJqOu7Kc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxU5oD794r/WKNT2p/Fd1pzoQPaMHh2/hywntIvOkzXydXykDv/
+ QnGX2WXFmBAj1+flufYsJRLGn94PIyGMsDeFo8PPGswOmOv5X4Qe
+X-Gm-Gg: ASbGnctsdi4TKr5ijNZa5sI9FDX7DDko+4suZmuRjExny3qbWrKaZHKEu0LepEb/zwj
+ ppESVeN/nSGV8IR6FvHIu3shd9XGOmgkj+abiQtg+2vd9sgNAEhx80T+NazAWen59rJflSbHoIP
+ NE5nfjAp3PxfLx2fPtHjXv2KctgFUereMgYNyxPyePPIW8AiIPLkjOJ/QWwIzhsuyxFBqWJHEws
+ yeF/SolETB9yf6BRDRAJYEpUp2qPVYgIo4cDRumAtXM7f76NkyrKjLQK+/wO0S4pWvvUZu9hkmr
+ HvsvXfBDS1s5Zd1U9FzAuhRmLrSCcjUmE3W0uMnaFaUwvR8/s8KWntdHs+3hvp3OmA==
+X-Google-Smtp-Source: AGHT+IFkIupCzPytkumNPE397SLf2nKz/tXNhzhZjT1K7fcibOD2vhxKGblwc4Qs/1LGI7iBC+8B8A==
+X-Received: by 2002:a5d:59a7:0:b0:391:43cb:43fa with SMTP id
+ ffacd0b85a97d-39143cb4581mr9986947f8f.51.1741787044138; 
+ Wed, 12 Mar 2025 06:44:04 -0700 (PDT)
+Received: from EliteBook.amd.com (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3912bfdfca1sm20735406f8f.22.2025.03.12.06.44.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Mar 2025 06:44:03 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: phasta@mailbox.org,
+	phasta@kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] drm/sched: revert "drm_sched_job_cleanup(): correct false doc"
+Date: Wed, 12 Mar 2025 14:44:00 +0100
+Message-Id: <20250312134400.2176393-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250312-drm-hdmi-state-docs-v2-2-6352a5d68d5b@kernel.org>
-References: <20250312-drm-hdmi-state-docs-v2-0-6352a5d68d5b@kernel.org>
-In-Reply-To: <20250312-drm-hdmi-state-docs-v2-0-6352a5d68d5b@kernel.org>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
- Hans Verkuil <hverkuil@xs4all.nl>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12098; i=mripard@kernel.org;
- h=from:subject:message-id; bh=sZ3e4BpGXfmrcZB9nIeL901BLD7b8fOHw5W772r0HY4=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOkX+9rrqti+T5oaeqUwY1eN2LbdkayqDppPYzz89dccu
- TLnltKjjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzkVygjw3Ifxqmlu/beP/jt
- wlXRF2ackaetIm0vREz5se+hjud0RU5Ghss38/03vGismRmlulbre/rFTXUe31i3fri86ard6T+
- z1nIAAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,308 +89,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-edid-decode gained recently support to check that infoframes are
-compliant and match the EDID the monitor exposes.
+This reverts commit 44d2f310f008613c1dbe5e234c2cf2be90cbbfab.
 
-Since the HDMI helpers provide those infoframes in debugfs, it makes it
-easy to check from userspace that the drivers (and helpers) behave
-properly.
+The function drm_sched_job_arm() is indeed the point of no return. The
+background is that it is nearly impossible for the driver to correctly
+retract the fence and signal it in the order enforced by the dma_fence
+framework.
 
-Let's document it.
+The code in drm_sched_job_cleanup() is for the purpose to cleanup after
+the job was armed through drm_sched_job_arm() *and* processed by the
+scheduler.
 
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+We can certainly improve the documentation, but removing the warning is
+clearly not a good idea.
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 271 ++++++++++++++++++++++++
- 1 file changed, 271 insertions(+)
+ drivers/gpu/drm/scheduler/sched_main.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 24bfc82bf9b02bf3201d97432e3c239ccc8714b4..4df3d25529071e8e822f1fe00fb22c90860ec97b 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -16,10 +16,281 @@
-  * in the form of KMS helpers.
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 53e6aec37b46..4d4219fbe49d 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1015,13 +1015,11 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
+  * Cleans up the resources allocated with drm_sched_job_init().
   *
-  * It contains TMDS character rate computation, automatic selection of
-  * output formats, infoframes generation, etc.
+  * Drivers should call this from their error unwind code if @job is aborted
+- * before it was submitted to an entity with drm_sched_entity_push_job().
++ * before drm_sched_job_arm() is called.
   *
-+ * Infoframes Compliance
-+ * ~~~~~~~~~~~~~~~~~~~~~
-+ *
-+ * Drivers using the helpers will expose the various infoframes
-+ * generated according to the HDMI specification in debugfs.
-+ *
-+ * Compliance can then be tested using ``edid-decode`` from the ``v4l-utils`` project
-+ * (https://git.linuxtv.org/v4l-utils.git/). A sample run would look like:
-+ *
-+ * .. code-block:: bash
-+ *
-+ *	# edid-decode \
-+ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/audio \
-+ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/avi \
-+ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/hdmi \
-+ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/hdr_drm \
-+ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/spd \
-+ *		/sys/class/drm/card1-HDMI-A-1/edid \
-+ *		-c
-+ *
-+ *	edid-decode (hex):
-+ *
-+ *	00 ff ff ff ff ff ff 00 1e 6d f4 5b 1e ef 06 00
-+ *	07 20 01 03 80 2f 34 78 ea 24 05 af 4f 42 ab 25
-+ *	0f 50 54 21 08 00 d1 c0 61 40 45 40 01 01 01 01
-+ *	01 01 01 01 01 01 98 d0 00 40 a1 40 d4 b0 30 20
-+ *	3a 00 d1 0b 12 00 00 1a 00 00 00 fd 00 3b 3d 1e
-+ *	b2 31 00 0a 20 20 20 20 20 20 00 00 00 fc 00 4c
-+ *	47 20 53 44 51 48 44 0a 20 20 20 20 00 00 00 ff
-+ *	00 32 30 37 4e 54 52 4c 44 43 34 33 30 0a 01 46
-+ *
-+ *	02 03 42 72 23 09 07 07 4d 01 03 04 90 12 13 1f
-+ *	22 5d 5e 5f 60 61 83 01 00 00 6d 03 0c 00 10 00
-+ *	b8 3c 20 00 60 01 02 03 67 d8 5d c4 01 78 80 03
-+ *	e3 0f 00 18 e2 00 6a e3 05 c0 00 e6 06 05 01 52
-+ *	52 51 11 5d 00 a0 a0 40 29 b0 30 20 3a 00 d1 0b
-+ *	12 00 00 1a 00 00 00 00 00 00 00 00 00 00 00 00
-+ *	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+ *	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 c3
-+ *
-+ *	----------------
-+ *
-+ *	Block 0, Base EDID:
-+ *	  EDID Structure Version & Revision: 1.3
-+ *	  Vendor & Product Identification:
-+ *	    Manufacturer: GSM
-+ *	    Model: 23540
-+ *	    Serial Number: 454430 (0x0006ef1e)
-+ *	    Made in: week 7 of 2022
-+ *	  Basic Display Parameters & Features:
-+ *	    Digital display
-+ *	    Maximum image size: 47 cm x 52 cm
-+ *	    Gamma: 2.20
-+ *	    DPMS levels: Standby Suspend Off
-+ *	    RGB color display
-+ *	    First detailed timing is the preferred timing
-+ *	  Color Characteristics:
-+ *	    Red  : 0.6835, 0.3105
-+ *	    Green: 0.2587, 0.6679
-+ *	    Blue : 0.1445, 0.0585
-+ *	    White: 0.3134, 0.3291
-+ *	  Established Timings I & II:
-+ *	    DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
-+ *	    DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
-+ *	    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz
-+ *	  Standard Timings:
-+ *	    DMT 0x52:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz
-+ *	    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz
-+ *	    DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
-+ *	  Detailed Timing Descriptors:
-+ *	    DTD 1:  2560x2880   59.966580 Hz   8:9    185.417 kHz    534.000000 MHz (465 mm x 523 mm)
-+ *	                 Hfront   48 Hsync  32 Hback  240 Hpol P
-+ *	                 Vfront    3 Vsync  10 Vback  199 Vpol N
-+ *	    Display Range Limits:
-+ *	      Monitor ranges (GTF): 59-61 Hz V, 30-178 kHz H, max dotclock 490 MHz
-+ *	    Display Product Name: 'LG SDQHD'
-+ *	    Display Product Serial Number: '207NTRLDC430'
-+ *	  Extension blocks: 1
-+ *	Checksum: 0x46
-+ *
-+ *	----------------
-+ *
-+ *	Block 1, CTA-861 Extension Block:
-+ *	  Revision: 3
-+ *	  Basic audio support
-+ *	  Supports YCbCr 4:4:4
-+ *	  Supports YCbCr 4:2:2
-+ *	  Native detailed modes: 2
-+ *	  Audio Data Block:
-+ *	    Linear PCM:
-+ *	      Max channels: 2
-+ *	      Supported sample rates (kHz): 48 44.1 32
-+ *	      Supported sample sizes (bits): 24 20 16
-+ *	  Video Data Block:
-+ *	    VIC   1:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
-+ *	    VIC   3:   720x480    59.940060 Hz  16:9     31.469 kHz     27.000000 MHz
-+ *	    VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
-+ *	    VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz (native)
-+ *	    VIC  18:   720x576    50.000000 Hz  16:9     31.250 kHz     27.000000 MHz
-+ *	    VIC  19:  1280x720    50.000000 Hz  16:9     37.500 kHz     74.250000 MHz
-+ *	    VIC  31:  1920x1080   50.000000 Hz  16:9     56.250 kHz    148.500000 MHz
-+ *	    VIC  34:  1920x1080   30.000000 Hz  16:9     33.750 kHz     74.250000 MHz
-+ *	    VIC  93:  3840x2160   24.000000 Hz  16:9     54.000 kHz    297.000000 MHz
-+ *	    VIC  94:  3840x2160   25.000000 Hz  16:9     56.250 kHz    297.000000 MHz
-+ *	    VIC  95:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
-+ *	    VIC  96:  3840x2160   50.000000 Hz  16:9    112.500 kHz    594.000000 MHz
-+ *	    VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
-+ *	  Speaker Allocation Data Block:
-+ *	    FL/FR - Front Left/Right
-+ *	  Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
-+ *	    Source physical address: 1.0.0.0
-+ *	    Supports_AI
-+ *	    DC_36bit
-+ *	    DC_30bit
-+ *	    DC_Y444
-+ *	    Maximum TMDS clock: 300 MHz
-+ *	    Extended HDMI video details:
-+ *	      HDMI VICs:
-+ *	        HDMI VIC 1:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
-+ *	        HDMI VIC 2:  3840x2160   25.000000 Hz  16:9     56.250 kHz    297.000000 MHz
-+ *	        HDMI VIC 3:  3840x2160   24.000000 Hz  16:9     54.000 kHz    297.000000 MHz
-+ *	  Vendor-Specific Data Block (HDMI Forum), OUI C4-5D-D8:
-+ *	    Version: 1
-+ *	    Maximum TMDS Character Rate: 600 MHz
-+ *	    SCDC Present
-+ *	    Supports 12-bits/component Deep Color 4:2:0 Pixel Encoding
-+ *	    Supports 10-bits/component Deep Color 4:2:0 Pixel Encoding
-+ *	  YCbCr 4:2:0 Capability Map Data Block:
-+ *	    VIC  96:  3840x2160   50.000000 Hz  16:9    112.500 kHz    594.000000 MHz
-+ *	    VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
-+ *	  Video Capability Data Block:
-+ *	    YCbCr quantization: No Data
-+ *	    RGB quantization: Selectable (via AVI Q)
-+ *	    PT scan behavior: Always Underscanned
-+ *	    IT scan behavior: Always Underscanned
-+ *	    CE scan behavior: Always Underscanned
-+ *	  Colorimetry Data Block:
-+ *	    BT2020YCC
-+ *	    BT2020RGB
-+ *	  HDR Static Metadata Data Block:
-+ *	    Electro optical transfer functions:
-+ *	      Traditional gamma - SDR luminance range
-+ *	      SMPTE ST2084
-+ *	    Supported static metadata descriptors:
-+ *	      Static metadata type 1
-+ *	    Desired content max luminance: 82 (295.365 cd/m^2)
-+ *	    Desired content max frame-average luminance: 82 (295.365 cd/m^2)
-+ *	    Desired content min luminance: 81 (0.298 cd/m^2)
-+ *	  Detailed Timing Descriptors:
-+ *	    DTD 2:  2560x2880   29.986961 Hz   8:9     87.592 kHz    238.250000 MHz (465 mm x 523 mm)
-+ *	                 Hfront   48 Hsync  32 Hback   80 Hpol P
-+ *	                 Vfront    3 Vsync  10 Vback   28 Vpol N
-+ *	Checksum: 0xc3  Unused space in Extension Block: 43 bytes
-+ *
-+ *	----------------
-+ *
-+ *	edid-decode 1.29.0-5346
-+ *	edid-decode SHA: c363e9aa6d70 2025-03-11 11:41:18
-+ *
-+ *	Warnings:
-+ *
-+ *	Block 1, CTA-861 Extension Block:
-+ *	  IT Video Formats are overscanned by default, but normally this should be underscanned.
-+ *	  Video Data Block: VIC 1 and the first DTD are not identical. Is this intended?
-+ *	  Video Data Block: All VICs are in ascending order, and the first (preferred) VIC <= 4, is that intended?
-+ *	  Video Capability Data Block: Set Selectable YCbCr Quantization to avoid interop issues.
-+ *	  Video Capability Data Block: S_PT is equal to S_IT and S_CE, so should be set to 0 instead.
-+ *	  Colorimetry Data Block: Set the sRGB colorimetry bit to avoid interop issues.
-+ *	  Display Product Serial Number is set, so the Serial Number in the Base EDID should be 0.
-+ *	EDID:
-+ *	  Base EDID: Some timings are out of range of the Monitor Ranges:
-+ *	    Vertical Freq: 24.000 - 60.317 Hz (Monitor: 59.000 - 61.000 Hz)
-+ *	    Horizontal Freq: 31.250 - 185.416 kHz (Monitor: 30.000 - 178.000 kHz)
-+ *	    Maximum Clock: 594.000 MHz (Monitor: 490.000 MHz)
-+ *
-+ *	Failures:
-+ *
-+ *	Block 1, CTA-861 Extension Block:
-+ *	  Video Capability Data Block: IT video formats are always underscanned, but bit 7 of Byte 3 of the CTA-861 Extension header is set to overscanned.
-+ *	EDID:
-+ *	  CTA-861: Native progressive timings are a mix of several resolutions.
-+ *
-+ *	EDID conformity: FAIL
-+ *
-+ *	================
-+ *
-+ *	InfoFrame of '/sys/kernel/debug/dri/1/HDMI-A-1/infoframes/audio' was empty.
-+ *
-+ *	================
-+ *
-+ *	edid-decode InfoFrame (hex):
-+ *
-+ *	82 02 0d 31 12 28 04 00 00 00 00 00 00 00 00 00
-+ *	00
-+ *
-+ *	----------------
-+ *
-+ *	HDMI InfoFrame Checksum: 0x31
-+ *
-+ *	AVI InfoFrame
-+ *	  Version: 2
-+ *	  Length: 13
-+ *	  Y: Color Component Sample Format: RGB
-+ *	  A: Active Format Information Present: Yes
-+ *	  B: Bar Data Present: Bar Data not present
-+ *	  S: Scan Information: Composed for an underscanned display
-+ *	  C: Colorimetry: No Data
-+ *	  M: Picture Aspect Ratio: 16:9
-+ *	  R: Active Portion Aspect Ratio: 8
-+ *	  ITC: IT Content: No Data
-+ *	  EC: Extended Colorimetry: xvYCC601
-+ *	  Q: RGB Quantization Range: Limited Range
-+ *	  SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
-+ *	  YQ: YCC Quantization Range: Limited Range
-+ *	  CN: IT Content Type: Graphics
-+ *	  PR: Pixel Data Repetition Count: 0
-+ *	  Line Number of End of Top Bar: 0
-+ *	  Line Number of Start of Bottom Bar: 0
-+ *	  Pixel Number of End of Left Bar: 0
-+ *	  Pixel Number of Start of Right Bar: 0
-+ *
-+ *	----------------
-+ *
-+ *	AVI InfoFrame conformity: PASS
-+ *
-+ *	================
-+ *
-+ *	edid-decode InfoFrame (hex):
-+ *
-+ *	81 01 05 49 03 0c 00 20 01
-+ *
-+ *	----------------
-+ *
-+ *	HDMI InfoFrame Checksum: 0x49
-+ *
-+ *	Vendor-Specific InfoFrame (HDMI), OUI 00-0C-03
-+ *	  Version: 1
-+ *	  Length: 5
-+ *	  HDMI Video Format: HDMI_VIC is present
-+ *	  HDMI VIC 1:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
-+ *
-+ *	----------------
-+ *
-+ *	Vendor-Specific InfoFrame (HDMI), OUI 00-0C-03 conformity: PASS
-+ *
-+ *	================
-+ *
-+ *	InfoFrame of '/sys/kernel/debug/dri/1/HDMI-A-1/infoframes/hdr_drm' was empty.
-+ *
-+ *	================
-+ *
-+ *	edid-decode InfoFrame (hex):
-+ *
-+ *	83 01 19 93 42 72 6f 61 64 63 6f 6d 56 69 64 65
-+ *	6f 63 6f 72 65 00 00 00 00 00 00 00 09
-+ *
-+ *	----------------
-+ *
-+ *	HDMI InfoFrame Checksum: 0x93
-+ *
-+ *	Source Product Description InfoFrame
-+ *	  Version: 1
-+ *	  Length: 25
-+ *	  Vendor Name: 'Broadcom'
-+ *	  Product Description: 'Videocore'
-+ *	  Source Information: PC general
-+ *
-+ *	----------------
-+ *
-+ *	Source Product Description InfoFrame conformity: PASS
-+ *
-  * Testing
-  * ~~~~~~~
-  *
-  * The helpers have unit testing and can be tested using kunit with:
-  *
-
+- * Since calling drm_sched_job_arm() causes the job's fences to be initialized,
+- * it is up to the driver to ensure that fences that were exposed to external
+- * parties get signaled. drm_sched_job_cleanup() does not ensure this.
+- *
+- * This function must also be called in &struct drm_sched_backend_ops.free_job
++ * After that point of no return @job is committed to be executed by the
++ * scheduler, and this function should be called from the
++ * &drm_sched_backend_ops.free_job callback.
+  */
+ void drm_sched_job_cleanup(struct drm_sched_job *job)
+ {
+@@ -1032,7 +1030,7 @@ void drm_sched_job_cleanup(struct drm_sched_job *job)
+ 		/* drm_sched_job_arm() has been called */
+ 		dma_fence_put(&job->s_fence->finished);
+ 	} else {
+-		/* aborted job before arming */
++		/* aborted job before committing to run it */
+ 		drm_sched_fence_free(job->s_fence);
+ 	}
+ 
 -- 
-2.48.1
+2.34.1
 
