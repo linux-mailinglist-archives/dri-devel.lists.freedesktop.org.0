@@ -2,56 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3F4A5E85C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 00:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF1CA5E864
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 00:29:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC1A510E1C7;
-	Wed, 12 Mar 2025 23:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6EE010E7CA;
+	Wed, 12 Mar 2025 23:29:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OdIDQoRS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kseCjW2T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4B910E0F6;
- Wed, 12 Mar 2025 23:24:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=UG0QUj+/F5+iHlDvlkjoHha5ViuzaUsXPRlMDLy6Qkw=; b=OdIDQoRSsOqSy4znaL05QmSl2O
- QQ7KC4wBUQwDjcxCFYy21XDHI37n0mJfWY26iRAEui1v7We8u52titD8Y7Zg3H7a6Eq72UNq9iDsq
- OfZb87WI6lbghBG+Lrqf6mN4U4G+m43Bd4C5/SNxeul/7nRGult9mGiERHl/9/gcHBlg2zAZXc70g
- GCBnaCNVplQ4ozz700Fm6uj4P0YqnAO2Vb27K/pryqNeQTXuggd/kmotid0tvnpHYo7YKzfshRwCu
- WqDYnyt4rKfvhD7MkW4P+9BPtdgcbLT4b3iJQPxlB857VDCxNwE1EqKZ1bWqaCOKDEJMwx1RT1sOQ
- b+vFXNkw==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tsVR8-007plu-Po; Thu, 13 Mar 2025 00:24:36 +0100
-Date: Wed, 12 Mar 2025 23:24:35 +0000
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <Z9IXs5CzHHKScuQn@linux>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B41BC10E69D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 23:29:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7F2835C3478;
+ Wed, 12 Mar 2025 23:26:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13CC7C4CEDD;
+ Wed, 12 Mar 2025 23:29:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741822154;
+ bh=x62sbzA5ZGFY6Vpx4VKtlq3SQzLkZlbRve7cNBb0oWU=;
+ h=From:To:Subject:Date:From;
+ b=kseCjW2Tq4Ugz8JV7IfKJEKkTCrp3D9G6oktITPUad7QBX82kKdRfBWTx1QYRq+ke
+ YXcbgW7ngVzWCJ5Jmy/QDxYmb89kSLoM0A/Ff+WmnTdC2spJi4o6sB0Mw4myv41qfF
+ q/mAC7HxNsVEmLECqr1ndkQGBs8mf3l2I0yevhqHlSCi12BRUPtmUu8til9a1Ydjfb
+ c6SdP5U2VjMwSSR6ps/ii4soOv1MoSWHU/zKSIiQTVjsmFRQhjam7kNtUL1b7hFx/8
+ Bi9cL8Rqrxr3YNtiwmrxNlR/2IzILq3D3xzQ4F1E4WtUXTBmVnzcz+xXYvZDiaFwWH
+ 1cdAPLUFq1Zeg==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Anusha Srivatsa <asrivats@redhat.com>,
+ Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Fabien Parent <fparent@baylibre.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [GIT PULL v2] mediatek drm next for 6.15
+Date: Wed, 12 Mar 2025 23:29:09 +0000
+Message-Id: <20250312232909.9304-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,94 +60,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Dave & Daniel:
 
-Hi Dave, Sima,
+This includes:
+1. HDMI fixup and refinement
+2. Move to devm_platform_ioremap_resource() usage
+3. Add MT8188 dsc compatible
+4. Fix config_updating flag never false when no mbox channel
+5. dp: drm_err => dev_err in HPD path to avoid NULL ptr
+6. Add dpi power-domains example
+7. Add MT8365 SoC support
+8. Fix error codes in mtk_dsi_host_transfer()
 
-Here comes the final pull request for 6.15.
-
-Main thing is the bump of the reported mmap ioctl feature level, which
-enables Mesa to reliably detect full partial mmap support. Then the DRM
-client implementation gains vmap support and the remaining changes are just
-some refactors and cleanups.
+---
+Change from v1: Fix build warning.
 
 Regards,
+Chun-Kuang.
 
-Tvrtko
+The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
 
-drm-intel-gt-next-2025-03-12:
-UAPI Changes:
-
-- Increase I915_PARAM_MMAP_GTT_VERSION version to indicate support for partial mmaps (José Roberto de Souza)
-
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Implement vmap/vunmap GEM object functions (Asbjørn Sloth Tønnesen)
-
-Miscellaneous:
-
-- Various register definition cleanups (Ville Syrjälä)
-- Fix typo in a comment [gt/uc] (Yuichiro Tsuji)
-The following changes since commit 7ded94bd11d47a8ddef051aef1d1a42d8191e09f:
-
-  drm/i915/gt: add wait on depth stall done bit handling (2025-02-18 12:37:04 +0100)
+  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
 
 are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2025-03-12
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.15-v2
 
-for you to fetch changes up to bfef148f3680e6b9d28e7fca46d9520f80c5e50e:
+for you to fetch changes up to dcb166ee43c3d594e7b73a24f6e8cf5663eeff2c:
 
-  drm/i915: Increase I915_PARAM_MMAP_GTT_VERSION version to indicate support for partial mmaps (2025-03-11 07:04:51 -0700)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-- Increase I915_PARAM_MMAP_GTT_VERSION version to indicate support for partial mmaps (José Roberto de Souza)
-
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Implement vmap/vunmap GEM object functions (Asbjørn Sloth Tønnesen)
-
-Miscellaneous:
-
-- Various register definition cleanups (Ville Syrjälä)
-- Fix typo in a comment [gt/uc] (Yuichiro Tsuji)
+  drm/mediatek: dsi: fix error codes in mtk_dsi_host_transfer() (2025-03-12 23:17:22 +0000)
 
 ----------------------------------------------------------------
-Asbjørn Sloth Tønnesen (1):
-      drm/i915: implement vmap/vunmap GEM object functions
+Mediatek DRM Next for Linux 6.15
 
-José Roberto de Souza (1):
-      drm/i915: Increase I915_PARAM_MMAP_GTT_VERSION version to indicate support for partial mmaps
+1. HDMI fixup and refinement
+2. Move to devm_platform_ioremap_resource() usage
+3. Add MT8188 dsc compatible
+4. Fix config_updating flag never false when no mbox channel
+5. dp: drm_err => dev_err in HPD path to avoid NULL ptr
+6. Add dpi power-domains example
+7. Add MT8365 SoC support
+8. Fix error codes in mtk_dsi_host_transfer()
 
-Ville Syrjälä (12):
-      drm/i915: Bump RING_FAULT engine ID bits
-      drm/i915: Relocate RING_FAULT bits
-      drm/i915: Use REG_BIT() & co. for ring fault registers
-      drm/i915: Document which RING_FAULT bits apply to which platforms
-      drm/i915: Introduce RING_FAULT_VADDR_MASK
-      drm/i915: Extract gen8_report_fault()
-      drm/i915: Use REG_BIT() & co. for CHV EU/slice fuse bits
-      drm/i915: Reoder CHV EU/slice fuse bits
-      drm/i915: Use REG_BIT() & co. for BDW+ EU/slice fuse bits
-      drm/i915: Reoder BDW+ EU/slice fuse bits
-      drm/i915: Use REG_BIT() & co. for gen9+ timestamp freq registers
-      drm/i915: Reoder gen9+ timestamp freq register bits
+----------------------------------------------------------------
+AngeloGioacchino Del Regno (21):
+      drm/mediatek: mtk_hdmi: Unregister audio platform device on failure
+      drm/mediatek: mtk_hdmi: Fix typo for aud_sampe_size member
+      drm/mediatek: mtk_hdmi: Compress of_device_id array entries
+      drm/mediatek: mtk_hdmi: Move vendor/product strings to drm_bridge
+      drm/mediatek: mtk_hdmi: Remove unused members of struct mtk_hdmi
+      drm/mediatek: mtk_hdmi: Use devm managed version of drm_bridge_add
+      drm/mediatek: mtk_hdmi: Remove ifdef for CONFIG_PM_SLEEP
+      drm/mediatek: mtk_hdmi: Remove goto in mtk_hdmi_clk_enable_audio()
+      drm/mediatek: mtk_hdmi: Remove driver bound to HDMI print
+      drm/mediatek: mtk_hdmi: Cleanup function mtk_hdmi_resume()
+      dt-bindings: display: mediatek: dpi: Add MT8195 and MT8188 compat
+      drm/mediatek: mtk_dpi: Add support for Pattern Generator in debugfs
+      drm/mediatek: mtk_dpi: Use an array for pixclk factor calculation
+      drm/mediatek: mtk_dpi: Move pixel clock setting flow to function
+      drm/mediatek: mtk_dpi: Add checks for reg_h_fre_con existence
+      drm/mediatek: mtk_dpi: Move the input_2p_en bit to platform data
+      drm/mediatek: mtk_dpi: Add support for DPI input clock from HDMI
+      drm/mediatek: mtk_dpi: Support AFIFO 1T1P output and conversion
+      drm/mediatek: mtk_dpi: Explicitly manage TVD clock in power on/off
+      drm/mediatek: Add support for MT8195 Digital Parallel Interface
+      dt-bindings: display: mediatek: dsc: Add MT8188 compatible
 
-Yuichiro Tsuji (1):
-      drm/i915/gt/uc: Fix typo in a comment
+Anusha Srivatsa (1):
+      drm/mediatek: Move to devm_platform_ioremap_resource() usage
 
- drivers/gpu/drm/i915/gem/i915_gem_mman.c          |   5 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c        |  26 +++++
- drivers/gpu/drm/i915/gt/intel_engine_cs.c         |   5 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                |  89 ++++++--------
- drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c    |  10 +-
- drivers/gpu/drm/i915/gt/intel_gt_mcr.c            |   5 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h           | 136 ++++++++++------------
- drivers/gpu/drm/i915/gt/intel_sseu.c              |  56 +++++----
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |   9 +-
- 9 files changed, 166 insertions(+), 175 deletions(-)
+Dan Carpenter (1):
+      drm/mediatek: dsi: fix error codes in mtk_dsi_host_transfer()
+
+Douglas Anderson (1):
+      drm/mediatek: dp: drm_err => dev_err in HPD path to avoid NULL ptr
+
+Fabien Parent (2):
+      dt-bindings: display: mediatek: dpi: add power-domains example
+      drm/mediatek: add MT8365 SoC support
+
+Jason-JH Lin (1):
+      drm/mediatek: Fix config_updating flag never false when no mbox channel
+
+ .../bindings/display/mediatek/mediatek,dpi.yaml    |   7 +
+ .../bindings/display/mediatek/mediatek,dsc.yaml    |   3 +
+ drivers/gpu/drm/mediatek/mtk_crtc.c                |   7 +-
+ drivers/gpu/drm/mediatek/mtk_disp_color.c          |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c          |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c          |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c                  |   6 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 | 323 +++++++++++++++------
+ drivers/gpu/drm/mediatek/mtk_dpi_regs.h            |   9 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  10 +
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |  10 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                | 108 +++----
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c            |   4 +-
+ 15 files changed, 336 insertions(+), 171 deletions(-)
