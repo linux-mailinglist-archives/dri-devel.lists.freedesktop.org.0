@@ -2,61 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731CDA5DDE7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 14:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67666A5DD6D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 14:09:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD3C10E784;
-	Wed, 12 Mar 2025 13:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4EC10E070;
+	Wed, 12 Mar 2025 13:09:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KBxhN74u";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SR8ZeLvy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4FE110E780;
- Wed, 12 Mar 2025 13:24:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741785894; x=1773321894;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=5Z9WScdd/VJgSt/+szWqiE/qDCWQgCP/zmab9ju706w=;
- b=KBxhN74uJM/KMgkbFbzGtOxA5/k4r31imOOZo3yXPuYMCaM1hsaxhSt3
- 4ygnYXrFD1TFCa2lSZ+18jI9jraCZxLdFGdt7p7q5OE4b3TDkDLshCd8M
- GjxP+QKIdaDp8Vt7jZwkEmNHd91rzcGqbw1t6eZ0DngJKzK4EiirrP3H8
- 7vEk9mYnHNXjrJob40pAwD5bDiAUy5JCV3oMWmKDwp2kQOiAfij9ZT2CZ
- VBELgzh8pMO51nv3DK0H7Ii/tCL/9AsGuoOStmtYy3KG4beVJXjgWH53R
- ybxY8BoXPznnCuyQJTwJUL8qxy6pPLClGqF9zjxwDbFSmjJf24tvbNP6i A==;
-X-CSE-ConnectionGUID: RIS1ETTjTDKLXOLM6VrGgA==
-X-CSE-MsgGUID: QSz7itjuSDqI9meFoULH6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="42028497"
-X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; d="scan'208";a="42028497"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2025 06:24:53 -0700
-X-CSE-ConnectionGUID: 3xxyYHLlQC2HdFsy1QYOig==
-X-CSE-MsgGUID: 5Va9/LqPSnqU4QqyN7h89w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; d="scan'208";a="125821667"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa005.jf.intel.com with ESMTP; 12 Mar 2025 06:24:51 -0700
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Wed, 12 Mar 2025 18:39:23 +0530
-Subject: [PATCH v8 3/3] drm/i915/display: Add i915 hook for
- format_mod_supported_async
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF9B610E070;
+ Wed, 12 Mar 2025 13:09:40 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-43cef035a3bso25127105e9.1; 
+ Wed, 12 Mar 2025 06:09:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741784979; x=1742389779; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:content-disposition:mime-version
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BesuV5iUBr9H3CHJKVubwaztfZ8d7wDanwbVw8gGgQA=;
+ b=SR8ZeLvy7Nvine0jJobC5l7lXgKM1HXUr8UKWihqD2hP4SQgV4AE9vOeZ/ak8Xq9B9
+ g5xHerY6Gy89WfwwM99SHPJYLFFyKvgEw+Gi7/moWu8Vk0S5KQfW3zVdhhfTmZo3Re3Q
+ aMZfxvI+kG2WFhjDHqVDXUuq0mFKW+UK3JUaKB008ngxfTSVcpa5y0C9pzvovBseSets
+ SeCdV8vUmPhRtDV/VTd/33uRhNCr1WWg0Rl2BChnhwRH1Yo0y/f1mfFt71z7VjtHGcmU
+ qY58eAMAoIy1xPjfKuWnW3yWen5UzpkPZog5bGALy5UKU3cvMLub4UDZaeCkqg52Tabi
+ KSPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741784979; x=1742389779;
+ h=content-transfer-encoding:content-disposition:mime-version
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BesuV5iUBr9H3CHJKVubwaztfZ8d7wDanwbVw8gGgQA=;
+ b=XkEw/dwRw4pP6Lt58KJKgHMFyappN//hvAErLIYpFDo4pFMYaIto/9OC/DJm7nzbCw
+ y0v3pOcCXqip9iud5y6idgZ7okn0VYeCG+C2j7U54d9uorP6mvFYyFBRoWuV4esB3Geh
+ v9yCzWYD6eFg8BDwYNt1QduH1dJY8VphhFbpujAxr0Y2GL+0qHFq9MX1SwOpwGVhAi4o
+ La3b8ShGJK18n45If3inlMcCE5g7ZLBvLyRnnEAWTgFJtY+r/qXfM0vppc76tTFuMxb+
+ lwrj9PTgl06tLqYPgb/OIMDM6wZlZ8lEg0rfSF6IQspKAUUnF2kYbNbrjJzXJtG1gOxj
+ 3c3w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXJdid5hg2dfYoIM6kWKbn66Lessq2C//evl8A4AaZZRY0Z0KoYDvzCjhS4N59jQlAizA8Gv3lBp5c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQU+k5gA4qQFEsUx56XMTZ5FB/sxIDIVdE7EuySrRw6D+x0Iq/
+ uffAN4kFXygjAOtemEnwUI97O5TrjZtzrQESyLLaZ/Lg/vWLmyJW+ytANIJQ
+X-Gm-Gg: ASbGnctuUuJ2JI6QTv5i27wSy5rEqvvLk/o9bgIb540fR2CMzj6LrVhOgNEXR1Lndiu
+ JgGnUD6wOWQDPAbUH1PAePHZ8jihAc1OmiBSkpk3m0iBQjkric1Hy1yVfkJzzu6iE0bjVQcDZrL
+ /wki6PGQ3yVFOzPxDybtXr6eOQPOsYa2EgIuODLThlD2/NMwl5bIsTw5d6nVtb/UxGf8M5JSdAp
+ TsqE0ZsgiFL1diQ+uEPVPtmGy+8vHjJaWJeUgjYSvU4Bnb3UiwPuh7f+sjhYXpEy/yeA8LMid52
+ padIDqW/8EV7BZR4deP90DhVxqm/4znd5//vtrRX4/4uKP1Ki86V9mOhtoNuN2g=
+X-Google-Smtp-Source: AGHT+IEWvAbnYEcsY0S3sZRK65NS9EF9SyTrlTuzSCKkbzoiPm9A0wySzWIsDJgR35ApeXwsRAGZhA==
+X-Received: by 2002:a05:600d:14:b0:43c:e2dd:98f3 with SMTP id
+ 5b1f17b1804b1-43ce2dda00amr130086975e9.21.1741784979045; 
+ Wed, 12 Mar 2025 06:09:39 -0700 (PDT)
+Received: from debian.local ([84.70.89.211]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43d0a8c5cbfsm20408135e9.30.2025.03.12.06.09.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Mar 2025 06:09:38 -0700 (PDT)
+Date: Wed, 12 Mar 2025 13:09:35 +0000
+From: Chris Bainbridge <chris.bainbridge@gmail.com>
+To: nouveau@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ lyude@redhat.com, dakr@kernel.org, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/nouveau: prime: fix ttm_bo_delayed_delete oops
+Message-ID: <Z9GHj-edWJmyzpdY@debian.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250312-asyn-v8-3-0c4cbe5a066d@intel.com>
-References: <20250312-asyn-v8-0-0c4cbe5a066d@intel.com>
-In-Reply-To: <20250312-asyn-v8-0-0c4cbe5a066d@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Cc: chaitanya.kumar.borah@intel.com, 
- 20250219093211.4059187-1-arun.r.murthy@intel.com, 
- 20250311085422.2573860-1-santhosh.reddy.guddati@intel.com, 
- Arun R Murthy <arun.r.murthy@intel.com>
-X-Mailer: b4 0.15-dev
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,202 +89,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hook up the newly added plane function pointer
-format_mod_supported_async to populate the modifiers/formats supported
-by asynchronous flips.
+Fix an oops in ttm_bo_delayed_delete which results from dererencing a
+dangling pointer:
 
-v5: Correct the if condition for modifier support check (Chaitanya)
-v6: Replace uint32_t/uint64_t with u32/u64 (Jani)
-v7: Move plannar check from intel_async_flip_check_hw() to
-intel_plane_format_mod_supported_async() (Ville)
-v8: In case of error print format/modifier (Chaitanya
+Oops: general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b6b7b: 0000 [#1] PREEMPT SMP
+CPU: 4 UID: 0 PID: 1082 Comm: kworker/u65:2 Not tainted 6.14.0-rc4-00267-g505460b44513-dirty #216
+Hardware name: LENOVO 82N6/LNVNB161216, BIOS GKCN65WW 01/16/2024
+Workqueue: ttm ttm_bo_delayed_delete [ttm]
+RIP: 0010:dma_resv_iter_first_unlocked+0x55/0x290
+Code: 31 f6 48 c7 c7 00 2b fa aa e8 97 bd 52 ff e8 a2 c1 53 00 5a 85 c0 74 48 e9 88 01 00 00 4c 89 63 20 4d 85 e4 0f 84 30 01 00 00 <41> 8b 44 24 10 c6 43 2c 01 48 89 df 89 43 28 e8 97 fd ff ff 4c 8b
+RSP: 0018:ffffbf9383473d60 EFLAGS: 00010202
+RAX: 0000000000000001 RBX: ffffbf9383473d88 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffbf9383473d78 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 6b6b6b6b6b6b6b6b
+R13: ffffa003bbf78580 R14: ffffa003a6728040 R15: 00000000000383cc
+FS:  0000000000000000(0000) GS:ffffa00991c00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000758348024dd0 CR3: 000000012c259000 CR4: 0000000000f50ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ ? __die_body.cold+0x19/0x26
+ ? die_addr+0x3d/0x70
+ ? exc_general_protection+0x159/0x460
+ ? asm_exc_general_protection+0x27/0x30
+ ? dma_resv_iter_first_unlocked+0x55/0x290
+ dma_resv_wait_timeout+0x56/0x100
+ ttm_bo_delayed_delete+0x69/0xb0 [ttm]
+ process_one_work+0x217/0x5c0
+ worker_thread+0x1c8/0x3d0
+ ? apply_wqattrs_cleanup.part.0+0xc0/0xc0
+ kthread+0x10b/0x240
+ ? kthreads_online_cpu+0x140/0x140
+ ret_from_fork+0x40/0x70
+ ? kthreads_online_cpu+0x140/0x140
+ ret_from_fork_asm+0x11/0x20
+ </TASK>
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+The cause of this is:
+
+- drm_prime_gem_destroy calls dma_buf_put(dma_buf) which releases the
+  reference to the shared dma_buf. The reference count is 0, so the
+  dma_buf is destroyed, which in turn decrements the corresponding
+  amdgpu_bo reference count to 0, and the amdgpu_bo is destroyed -
+  calling drm_gem_object_release then dma_resv_fini (which destroys the
+  reservation object), then finally freeing the amdgpu_bo.
+
+- nouveau_bo obj->bo.base.resv is now a dangling pointer to the memory
+  formerly allocated to the amdgpu_bo.
+
+- nouveau_gem_object_del calls ttm_bo_put(&nvbo->bo) which calls
+  ttm_bo_release, which schedules ttm_bo_delayed_delete.
+
+- ttm_bo_delayed_delete runs and dereferences the dangling resv pointer,
+  resulting in a general protection fault.
+
+Fix this by moving the drm_prime_gem_destroy call from
+nouveau_gem_object_del to nouveau_bo_del_ttm. This ensures that it will
+be run after ttm_bo_delayed_delete.
+
+Signed-off-by: Chris Bainbridge <chris.bainbridge@gmail.com>
+Co-Developed-by: Christian König <christian.koenig@amd.com>
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3937
 ---
- drivers/gpu/drm/i915/display/i9xx_plane.c          |  6 +++--
- drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 31 +++++++++++++++++++++-
- drivers/gpu/drm/i915/display/intel_atomic_plane.h  |  6 ++++-
- drivers/gpu/drm/i915/display/intel_display.c       | 14 +++-------
- drivers/gpu/drm/i915/display/skl_universal_plane.c |  5 +++-
- 5 files changed, 47 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/drm_prime.c           | 8 ++++++--
+ drivers/gpu/drm/nouveau/nouveau_bo.c  | 3 +++
+ drivers/gpu/drm/nouveau/nouveau_gem.c | 3 ---
+ 3 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/i915/display/i9xx_plane.c
-index 013295f66d56ec5e919b3a0c904034bf7985986a..6bd09adb8a30ba002ef334261d7638f398587a3e 100644
---- a/drivers/gpu/drm/i915/display/i9xx_plane.c
-+++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
-@@ -820,7 +820,7 @@ unsigned int vlv_plane_min_alignment(struct intel_plane *plane,
- {
- 	struct intel_display *display = to_intel_display(plane);
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 32a8781cfd67..4b90fa8954d7 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -929,7 +929,9 @@ EXPORT_SYMBOL(drm_gem_prime_export);
+  * &drm_driver.gem_prime_import_sg_table internally.
+  *
+  * Drivers must arrange to call drm_prime_gem_destroy() from their
+- * &drm_gem_object_funcs.free hook when using this function.
++ * &ttm_buffer_object.destroy hook when using this function,
++ * to avoid the dma_buf being freed while the ttm_buffer_object can still
++ * dereference it.
+  */
+ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
+ 					    struct dma_buf *dma_buf,
+@@ -999,7 +1001,9 @@ EXPORT_SYMBOL(drm_gem_prime_import_dev);
+  * implementation in drm_gem_prime_fd_to_handle().
+  *
+  * Drivers must arrange to call drm_prime_gem_destroy() from their
+- * &drm_gem_object_funcs.free hook when using this function.
++ * &ttm_buffer_object.destroy hook when using this function,
++ * to avoid the dma_buf being freed while the ttm_buffer_object can still
++ * dereference it.
+  */
+ struct drm_gem_object *drm_gem_prime_import(struct drm_device *dev,
+ 					    struct dma_buf *dma_buf)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index db961eade225..2016c1e7242f 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -144,6 +144,9 @@ nouveau_bo_del_ttm(struct ttm_buffer_object *bo)
+ 	nouveau_bo_del_io_reserve_lru(bo);
+ 	nv10_bo_put_tile_region(dev, nvbo->tile, NULL);
  
--	if (intel_plane_can_async_flip(plane, fb->modifier))
-+	if (intel_plane_can_async_flip(plane, fb->format->format, fb->modifier))
- 		return 256 * 1024;
- 
- 	/* FIXME undocumented so not sure what's actually needed */
-@@ -844,7 +844,7 @@ static unsigned int g4x_primary_min_alignment(struct intel_plane *plane,
- {
- 	struct intel_display *display = to_intel_display(plane);
- 
--	if (intel_plane_can_async_flip(plane, fb->modifier))
-+	if (intel_plane_can_async_flip(plane, fb->format->format, fb->modifier))
- 		return 256 * 1024;
- 
- 	if (intel_scanout_needs_vtd_wa(display))
-@@ -889,6 +889,7 @@ static const struct drm_plane_funcs i965_plane_funcs = {
- 	.atomic_duplicate_state = intel_plane_duplicate_state,
- 	.atomic_destroy_state = intel_plane_destroy_state,
- 	.format_mod_supported = i965_plane_format_mod_supported,
-+	.format_mod_supported_async = intel_plane_format_mod_supported_async,
- };
- 
- static const struct drm_plane_funcs i8xx_plane_funcs = {
-@@ -898,6 +899,7 @@ static const struct drm_plane_funcs i8xx_plane_funcs = {
- 	.atomic_duplicate_state = intel_plane_duplicate_state,
- 	.atomic_destroy_state = intel_plane_destroy_state,
- 	.format_mod_supported = i8xx_plane_format_mod_supported,
-+	.format_mod_supported_async = intel_plane_format_mod_supported_async,
- };
- 
- struct intel_plane *
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-index 7276179df878658b7053fe6d8dc37b69f19625e3..a2424f6215fe51ed3238cf2b51f11e14e8b4d211 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-@@ -174,11 +174,40 @@ bool intel_plane_needs_physical(struct intel_plane *plane)
- 		DISPLAY_INFO(display)->cursor_needs_physical;
- }
- 
--bool intel_plane_can_async_flip(struct intel_plane *plane, u64 modifier)
-+bool intel_plane_can_async_flip(struct intel_plane *plane, u32 format,
-+				u64 modifier)
- {
-+	struct intel_display *display = to_intel_display(plane);
++	if (bo->base.import_attach)
++		drm_prime_gem_destroy(&bo->base, bo->sg);
 +
-+	if (DISPLAY_VER(display) <= 14 ?
-+	    drm_format_info(format)->is_yuv :
-+	    intel_format_info_is_yuv_semiplanar(drm_format_info(format),
-+						modifier)) {
-+		drm_dbg_kms(plane->base.dev,
-+			    "[PLANE:%d:%s] Planar formats do not support async flips\n",
-+			    plane->base.base.id, plane->base.name);
-+		return false;
-+	}
-+
- 	return plane->can_async_flip && plane->can_async_flip(modifier);
- }
+ 	/*
+ 	 * If nouveau_bo_new() allocated this buffer, the GEM object was never
+ 	 * initialized, so don't attempt to release it.
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index 9ae2cee1c7c5..67e3c99de73a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -87,9 +87,6 @@ nouveau_gem_object_del(struct drm_gem_object *gem)
+ 		return;
+ 	}
  
-+bool intel_plane_format_mod_supported_async(struct drm_plane *plane,
-+					    u32 format,
-+					    u64 modifier)
-+{
-+	if (plane->funcs->format_mod_supported &&
-+	    !plane->funcs->format_mod_supported(plane, format, modifier)) {
-+		drm_dbg_kms(plane->dev,
-+			    "[PLANE:%d:%s](format %p4cc) modifier 0x%llx not in universal list\n",
-+			    plane->base.id, plane->name, &format, modifier);
-+		return false;
-+	}
-+
-+	return intel_plane_can_async_flip(to_intel_plane(plane),
-+					format, modifier);
-+}
-+
- unsigned int intel_adjusted_rate(const struct drm_rect *src,
- 				 const struct drm_rect *dst,
- 				 unsigned int rate)
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.h b/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-index 6efac923dcbc757e6f68564cbef2919c920f13cb..512c251cc153753a4808cf177c8bcce2178bb862 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-@@ -21,7 +21,8 @@ enum plane_id;
- 
- struct intel_plane *
- intel_crtc_get_plane(struct intel_crtc *crtc, enum plane_id plane_id);
--bool intel_plane_can_async_flip(struct intel_plane *plane, u64 modifier);
-+bool intel_plane_can_async_flip(struct intel_plane *plane, u32 format,
-+				u64 modifier);
- unsigned int intel_adjusted_rate(const struct drm_rect *src,
- 				 const struct drm_rect *dst,
- 				 unsigned int rate);
-@@ -87,6 +88,9 @@ void intel_plane_init_cursor_vblank_work(struct intel_plane_state *old_plane_sta
- int intel_atomic_add_affected_planes(struct intel_atomic_state *state,
- 				     struct intel_crtc *crtc);
- int intel_atomic_check_planes(struct intel_atomic_state *state);
-+bool intel_plane_format_mod_supported_async(struct drm_plane *plane,
-+					    u32 format,
-+					    u64 modifier);
- 
- u32 intel_plane_ggtt_offset(const struct intel_plane_state *plane_state);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 3afb85fe8536dfffd55dbaa07f6727112cc876b7..5d0bab1f8ff8294716ca5843c856032d2b9ccd5b 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -6005,22 +6005,16 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
- 		if (!plane->async_flip)
- 			continue;
- 
--		if (!intel_plane_can_async_flip(plane, new_plane_state->hw.fb->modifier)) {
-+		if (!intel_plane_can_async_flip(plane, new_plane_state->hw.fb->format->format,
-+						new_plane_state->hw.fb->modifier)) {
- 			drm_dbg_kms(display->drm,
--				    "[PLANE:%d:%s] Modifier 0x%llx does not support async flip\n",
-+				    "[PLANE:%d:%s] Format %p4cc Modifier 0x%llx does not support async flip\n",
- 				    plane->base.base.id, plane->base.name,
-+				    &new_plane_state->hw.fb->format->format,
- 				    new_plane_state->hw.fb->modifier);
- 			return -EINVAL;
- 		}
- 
--		if (intel_format_info_is_yuv_semiplanar(new_plane_state->hw.fb->format,
--							new_plane_state->hw.fb->modifier)) {
--			drm_dbg_kms(display->drm,
--				    "[PLANE:%d:%s] Planar formats do not support async flips\n",
--				    plane->base.base.id, plane->base.name);
--			return -EINVAL;
--		}
+-	if (gem->import_attach)
+-		drm_prime_gem_destroy(gem, nvbo->bo.sg);
 -
- 		/*
- 		 * We turn the first async flip request into a sync flip
- 		 * so that we can reconfigure the plane (eg. change modifier).
-diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index 70e550539bb21393c7173c7b3904e7790eab25f4..f61e1eff30bb4820ccb17daa5d4b2b073a5d4078 100644
---- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-+++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -601,7 +601,7 @@ static u32 tgl_plane_min_alignment(struct intel_plane *plane,
- 	 * Figure out what's going on here...
- 	 */
- 	if (display->platform.alderlake_p &&
--	    intel_plane_can_async_flip(plane, fb->modifier))
-+	    intel_plane_can_async_flip(plane, fb->format->format, fb->modifier))
- 		return mult * 16 * 1024;
+ 	ttm_bo_put(&nvbo->bo);
  
- 	switch (fb->modifier) {
-@@ -2666,6 +2666,7 @@ static const struct drm_plane_funcs skl_plane_funcs = {
- 	.atomic_duplicate_state = intel_plane_duplicate_state,
- 	.atomic_destroy_state = intel_plane_destroy_state,
- 	.format_mod_supported = skl_plane_format_mod_supported,
-+	.format_mod_supported_async = intel_plane_format_mod_supported_async,
- };
- 
- static const struct drm_plane_funcs icl_plane_funcs = {
-@@ -2675,6 +2676,7 @@ static const struct drm_plane_funcs icl_plane_funcs = {
- 	.atomic_duplicate_state = intel_plane_duplicate_state,
- 	.atomic_destroy_state = intel_plane_destroy_state,
- 	.format_mod_supported = icl_plane_format_mod_supported,
-+	.format_mod_supported_async = intel_plane_format_mod_supported_async,
- };
- 
- static const struct drm_plane_funcs tgl_plane_funcs = {
-@@ -2684,6 +2686,7 @@ static const struct drm_plane_funcs tgl_plane_funcs = {
- 	.atomic_duplicate_state = intel_plane_duplicate_state,
- 	.atomic_destroy_state = intel_plane_destroy_state,
- 	.format_mod_supported = tgl_plane_format_mod_supported,
-+	.format_mod_supported_async = intel_plane_format_mod_supported_async,
- };
- 
- static void
-
+ 	pm_runtime_mark_last_busy(dev);
 -- 
-2.25.1
+2.47.2
 
