@@ -2,153 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2444EA5D7ED
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 09:11:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E509A5D7FB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 09:17:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3517110E71F;
-	Wed, 12 Mar 2025 08:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74C2210E724;
+	Wed, 12 Mar 2025 08:17:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MS+T6aQS";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="mSdm0CDI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2lHpqyUM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2NOtoWk3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L1KBGOUI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2079.outbound.protection.outlook.com [40.107.237.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1357F10E6F0;
- Wed, 12 Mar 2025 08:11:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uR610m5UpNNjupx0h5ky7T1WCGSrVlX/LgxEBXZ94vlvUJ5BLacve0D2ysoYV5guvfFllOftdmNasKHnltG62O0FUfj8OXfCJoXhqQnvjNdZN0K0Pt4Gx8BfdKim/V7BdShNOerUZC8BRmaQMhQ0gffnWvLM38G2pYTPXGqpOWdV7aM1w1UZ3/7235CD5KDe3LKK2/p66XaM5WExTIWW6J1iSTSTvlfQKPVnqhNjb0Gg92x8GV6L0mMwkgrt4bieueGSktKAEWIVZcab/P5+12cNBxCB76o7Uo5DCzb3NpM9YW7FxeF7A11sbzQSLWJyJxzljbRzW7Exg0ns6PNVdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AY94lRvuqKpMBB+99/D8+i2taWlqz86z3DegRHiQR9c=;
- b=AuI3xs6Xvhb3s4ATqMonwS0qs9CX4aOSXnXaaWKZIrUdXTKlXOqx1KtVyB5Ra6/BustueG7sbHGaAllX+Wnf0CgvgqANOq0xHYrgIGbHIz+N7z2GyLhiXptQgDFftAMraQKShGhtPIyKym8xhXZc2dV8v9oa0TFgWhV9cROQvDHif6XOYDjeOy1uVqkKSLeOr6QdrVN77fz8iw+WLPcMasxDs/B51lf6G4ZTBmiOT7I6PMIEX/6PSB8jh4vWOxTXZI9v/1KvDyd0c2woHYZewRKC7YRizPxm4HlFgNeyE3ISGJ/caI65xeLWfhD6QY0WWFO++0a6E/8Wmu3jmH+/ag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AY94lRvuqKpMBB+99/D8+i2taWlqz86z3DegRHiQR9c=;
- b=MS+T6aQSbGjTjmWcSAs0By1Ma+wBoRuHzvqlQ6iys3Da/H04uB8V6BGjwSpzEQHwK4okFkEWPCH5Wl3e708CGH2UbtVVjSGkmhfsngr7GscrIf7MwU1gFp//yxmLoT7Ql7qe4xkps8Px2iuH+Gwh2RyqGLljpSNdLjGHjM2DyW8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB6134.namprd12.prod.outlook.com (2603:10b6:8:ad::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.28; Wed, 12 Mar
- 2025 08:11:40 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.026; Wed, 12 Mar 2025
- 08:11:40 +0000
-Message-ID: <5577b032-dae8-41d7-9e30-abba60a22c44@amd.com>
-Date: Wed, 12 Mar 2025 09:11:21 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: Remove incorrect macro guard
-To: Alex Hung <alex.hung@amd.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
- jun.lei@amd.com, aurabindo.pillai@amd.com, airlied@gmail.com,
- simona@ffwll.ch, Samson.Tam@amd.com, Navid.Assadian@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20250311171017.3053891-1-alex.hung@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250311171017.3053891-1-alex.hung@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0106.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9c::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B8210E735
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 08:17:49 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 11A7921182;
+ Wed, 12 Mar 2025 08:17:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741767468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GSOHoa1ZQ0qdVTrSgPUGYM6S96Eo1g2ZFjEamRQ2nOU=;
+ b=mSdm0CDIdvB6uLxx6zRnsG4Ecp9B8GLTTcqSpLg/hToiNhovmIQtyPjBp1PdTn48VkauY7
+ N2OX2kmuZiHIU/RyZm809t89hNCuSwcbXtoZj8lUOkKvjwMJjz339ENAAZRD/swLJ5jo1m
+ sthuFFuNF3WuHBtcPwH/dRjdrkVuifw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741767468;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GSOHoa1ZQ0qdVTrSgPUGYM6S96Eo1g2ZFjEamRQ2nOU=;
+ b=2lHpqyUMEMjBLTUq58WAtMt1kwGtVY2JDs8Oj1RToqFsbxqeLxc7c7dtIucbtAN5SmXOCB
+ qci1fxqin8+7vXCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741767467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GSOHoa1ZQ0qdVTrSgPUGYM6S96Eo1g2ZFjEamRQ2nOU=;
+ b=2NOtoWk3iQVCM2YdgmbdbohAj8C+BBSmrgVP6+qfsnNORQ7mFXkF5HOMZOxn/OcQJVBjv1
+ 56w5JL9wxTcT6S7MlMvtA7Xf7ghb9UEgCJTeQtRSsWopAqpjkeLJmPekAItvUtk55qwMOH
+ TF3lRfqVgiQUDIi2VfADxBk08VDLlY8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741767467;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GSOHoa1ZQ0qdVTrSgPUGYM6S96Eo1g2ZFjEamRQ2nOU=;
+ b=L1KBGOUIGPKFfIZN+PbNNV++j9M+DIBK6Q3B+y5QqUe9xvfVXrg5kEcC+xzl+LkBMyzHTG
+ sa1N118DhaKJr8CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 98BAF1377F;
+ Wed, 12 Mar 2025 08:17:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id vULzIypD0WcQegAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 12 Mar 2025 08:17:46 +0000
+Message-ID: <41c4b56d-0932-465c-9dc7-c3a20cb49bdb@suse.de>
+Date: Wed, 12 Mar 2025 09:17:46 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6134:EE_
-X-MS-Office365-Filtering-Correlation-Id: acc8a7b1-ab84-411e-9161-08dd613d8458
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RTBrSm5EZGVyWkJOaGdGSlJwM0JyUUl1TzNxYkMwTUhrcHYwakt2dzh1K0Fu?=
- =?utf-8?B?T1c3cWxQRHh4WVJDSEtFenNLMkNDU1JzKzhKUlJmWG54ZjVTbVF5c0c2SllW?=
- =?utf-8?B?dFVpL0Z5RGd5WGExV2tTTTdWN1FwUHVlczZOYks3SzZpS0p4NU5NZ0Z1Qm5m?=
- =?utf-8?B?cnZjeTV0RFVoYXN0STJoUTdZcXZ6VWF1b29RM0xFVVkyUTJZMnRZMndxeWc3?=
- =?utf-8?B?TVBvYnYxZ3p5ZEtrY01pcVhhU0s2ZXNsZERVVFRjQklkMjM4dmxid05UcjJy?=
- =?utf-8?B?eW9XL3VsSTY2dEVPdHNYeEdsZlY4WkZ1QVBHNVBMYmYxdk5jaDB0OE5mdFN0?=
- =?utf-8?B?UmxCV1FSS2svSlE3cDdKa0VlTWtyOWFnOFNpeVpOU28yYWZreHRMZ3B4Tm1t?=
- =?utf-8?B?NnRiak5qTy9qNGtFbm1PRWZ3NVJvcDh6Q0l6ZGNBdzQwaDZRdTlaenBET21Z?=
- =?utf-8?B?Wm5IbU5mTkZhN003VVZEMk1oNTlRMzRBMGJWc2pYNlF0a0h6ZzQrcWE5SEJw?=
- =?utf-8?B?dTZEbEthYkg0bkFDZGhTZkxobEF1TDgzVklua2thT3Q5aE5mUFlHU2dvMUFU?=
- =?utf-8?B?b2Vac0xGM1M0dDZCWFlRWXZjYllPOC9FMDAwYlYwZ0ZjdmM1eGI2UGdZWFVG?=
- =?utf-8?B?ZTIzdzE1YTBWSnMrK0JNdXU2VlNWUzZYaVh5MzlTTEZ5ZGJoN1ZIYTUzd1Fp?=
- =?utf-8?B?cHYyaTNJcGYwODFnVUVZZkZobU5RU1hsODJQbzU1Y2Q1c3pWUXRkVnVjZ3pO?=
- =?utf-8?B?aTJDbkJVTU12K0NZeVd6V2x5NjA4RW5OMlJYVk5iQkVSckh1OENzWjc5NFNx?=
- =?utf-8?B?Zno2YXJ5dG9RSG5jNEp2TWlGQjFQZWhIMGo3NVhnVmRrcDdwVjkxTDNwSG5T?=
- =?utf-8?B?WlVhc0dSd0RLbXBzZm5uV0lCTjJZaGNJNXN1eFU4eFBuK2FEdWxCQkZlcVVa?=
- =?utf-8?B?MUV3WlpXWm1PcDJaMzlWejRHbTN3dmlybzZLYzN6THhlbkVTaU1SQnY0VG1B?=
- =?utf-8?B?MmtJTWxwSjZGWGVyMXpLcnpMcjJ4L1NJeXhLRDEzRGJCazNxTVAycEszZE5D?=
- =?utf-8?B?UDJ2UGlRZmNrQjd3WEgyemtxeHBQOGZ2ZDRycmM1OTY0N1JQTVRLUnhLeXdN?=
- =?utf-8?B?ZVJXZWhjanFQdW5EUlllcmFpY01odFh0UGZseUx2M0lJbXV4RHg1amhDY3Za?=
- =?utf-8?B?KytGSEVQdkRNRlFOYnloREY0dENwSjk5R1BZWUIzdTErc1FaVkFGVmJ0T0t3?=
- =?utf-8?B?TTV6QWhlc2lTak1Fa2laVkNUVVZrcG9uY3lxVThUaE9VSVZodFFzQkFvTFU5?=
- =?utf-8?B?RjJTUFR3YTQ4Zk5tdTlWYmplNVUrSCs1d3k4cVRYY3cxSXduZExIVTYwZCtH?=
- =?utf-8?B?L3NIdXJoTmhYanMxNDRlakNaeU80NS9ZdFR6aVh1VGZKRFZxL05JUHNpbGRL?=
- =?utf-8?B?Y1F4MUR1K051ME1Nak9zQkYrcHFpcTQrWHdjRGViaDFMSUdPTGhXMHY5MDhK?=
- =?utf-8?B?UmZCdUw3L2JqLzcwdDQ3WmNhb2tIcCtpMEcvcGFGTG5sZ3E4VzNCcUdJOHIw?=
- =?utf-8?B?eTVWZjRwMWFqUEFwMkJLVHh4T2t2eUg1d0J6a0ZZT0trL2NKakRyMW1Za0RV?=
- =?utf-8?B?VkNrY0lIVjhZekhUNlhRVk5reVROOUNmYVNuOGd6VGRBVmJnZjAzOHBNZ0RH?=
- =?utf-8?B?eFNXcDkyU1JMNUlBWUxhTkIwSVlkZ0RSK3NXWGUrdENMdWpQVkZPZWhUSVM3?=
- =?utf-8?B?NVNCTUp2MWVZeWlldWU4V3MvK09NQTZjdU00R3dIZHhSTTBVbUtOb0VOOWZ6?=
- =?utf-8?B?S25keEVrSmhNckJLVTMvREZWUlpPMGRoclF2SVQ0SnI2SzlWTU8wam85R0JK?=
- =?utf-8?B?S01Pcm83eWYxcTJBWm5PODZ1S01IVllQZHlwWWtrZkJqWVBpeUpYaVFhUDFv?=
- =?utf-8?Q?YCAP8Ny+pnE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU1RUUUwSDk4NDFodWZsd3k5dWtYMk90M3pnN3BLN1d3N3lGRUVJL2NMUUlm?=
- =?utf-8?B?SUFnR1huY0tPOXphdW9Ldk8ydGtWTU9VZWcxajZDeTUva0lXYzFLQkpZcG4z?=
- =?utf-8?B?V1FXenJvVjNVdkNhbmc5T0ZpNHpWZm55Y3doYmxRVkZzVW8vTWpneE5wY2F1?=
- =?utf-8?B?UU44a0k0RXREdzIrVUllWUlpaWRSWkRHbG9SbHdJQlJhTmpFcE9La0tYMFZ3?=
- =?utf-8?B?ZnQzanJBYUpVTW1mVTlGRTYxM3hOYWJvT0R5MDBuSEtVZUlSQ3pwaSt6T0Fi?=
- =?utf-8?B?ODlMdWtNRHlxWG1MdWcxZ2RvLzF1U3FZV3hFeGpKT0YrbXRhZmNwZXhkbjRv?=
- =?utf-8?B?VTBmU1JBZnE4RnFRT2tlenFJNFc0VEVhTnAzc0k1cjZVMGJ1K1hhL3RvcjZp?=
- =?utf-8?B?ZjJQOEdkZGZWZHlDazBQb25vbjFTZnV6NmxuUXVza3BTM2hTOTBJTGkwcHdp?=
- =?utf-8?B?UEdSV2lyVEFlajVXdW90MEdJa1JhNkZDSVZ5WlpzemNNUGxqbnpmOUtSOWVM?=
- =?utf-8?B?c1BWZFlYb0VFL3UyMysxQW9uNTdDaDR2UTZLcDEwbFIvbTJjYm5XOTFjZEVR?=
- =?utf-8?B?Tk44WGhrNUsvbUVXSzV5d3RQb2hRcmIrVUsvdVhOb281R0NHbSt5WVN6eDU2?=
- =?utf-8?B?VDZDT2t2U0dYdTNvYU04WUxPYzhUNnk2bTBXNUgydDEvczZYR251Y3BsaVJm?=
- =?utf-8?B?NUR2N3VmTUJPREV2c054K1BFclN2TnQwTnJGd1ptb2pUVUZmaVdselh2OVVD?=
- =?utf-8?B?b0V2azVPRUFINGVnRFZZMmo2UUhsVnpveDZ4U1NocW1pNm5sUU1JcEx3bDUv?=
- =?utf-8?B?d3k4Q0Vua0Z5aEJMdTBjanRvd0o0U0ppRXArdHN3cHV1bHh5eHJNODJpZnFH?=
- =?utf-8?B?VjhqRjRGN2tqcXRmUFllODBKRmlFSTZsN1BnMFJYOTlXeTZlT0o0SGIwTTJX?=
- =?utf-8?B?K2xGU3gzZ2JaSUZsZjRLd0hZbEcyQTNlVVc0ZEs4NjdrbzlrL1ZrT09Vb2ph?=
- =?utf-8?B?clB4V3hnczZRcU9RWWgrRmVYQkZFditld1RVcXNKcUJ4ZDJzcEt5QUdnUDZn?=
- =?utf-8?B?TTIzMmRhMytFT1FNWFhpbTBNbWM5Y1RXd0V2ZlR4OXl6ZlJnaTcvZDY1cmpX?=
- =?utf-8?B?RGliRE5Ua2ZpYmNRYXV1dU82d0ZWYzQrSG5IRy9oSlVubUNabGZmMTF2MEFM?=
- =?utf-8?B?T1dTbUVNdVZKejdRTVRnMWNmbGI3dTkvYytLejl2WU1zZnpwWEtYN1RqaERk?=
- =?utf-8?B?M21UaUlneHdMeUdha1M5bWZaY3JQYjlPUWdiS3JuNHRxQ3A0NnRUaVFkZzd2?=
- =?utf-8?B?aDN1dGZ6TEZyVzRHVHlXczc0NG10VXNWVUtrSHRlM0FKL2JQZm8yYWV5VWFx?=
- =?utf-8?B?eTVVWkc4aStlc0JXYUJtN2xsL1ZTbDZWd2k5VFVlYzJLM0k0NnpIaC92TDh0?=
- =?utf-8?B?M2hYbEVLZDZNOTJmSXNFOUV0ZlZ5TTkvMlZqbDh5enFsUkI2T1hVMHFtN3Y5?=
- =?utf-8?B?RUZicmtiazZVeHFML0o4WWZqT2NCZUNrdDhzbFJJUlliY3VpZkNRSDJ3VjVN?=
- =?utf-8?B?VklIRmxZN0RDWVpOYjF4aGg3Yk02Zk5Bcm43VUlUYXVFaE5yRkxwOFRka3gr?=
- =?utf-8?B?bWJkN092WVp2M3VwOGNmd1ZNd0FndlFZZHowcmFjQlhSMUk1TkJwMmZQUFZG?=
- =?utf-8?B?NTc3dnorS1BZYkFVdXU4LzhMZW5WTGdvSGhwa2krbTJMZi9uQnl3MEhpT1Jn?=
- =?utf-8?B?WG03MDFneVBMbmxXd3NWN0IzZTZXRTJ5N3BFVVBpUk1nemxmdzVRVnlnSDRq?=
- =?utf-8?B?ejdnN1NBNTc0aFl5TC9wQVl3V2RGSmcvZmt6TnBxZFpGMjJadSsvakZOcEZ2?=
- =?utf-8?B?SUl5R3UwZUVHYVhLVDN0ZjJkWXM2b0xFaU9VSTFqRzJteUxKdlI4VW1nU2Zh?=
- =?utf-8?B?UHpNRHo1RjNvSXprVjRYL3hJTExQMGJqSjZKN2pFaFZvOVhLaU5MSUR1clU3?=
- =?utf-8?B?U3d6Tml3MWVlQ09jM2ZLN3Rhb0tkWXhDb1RFa1ZaUjRKazI2RlRLOEhqa1ZB?=
- =?utf-8?B?cjdiL3QrZlhWMFFUR0k4L1ZSZDIwNmd5S3ZKOXZ4a0Y3VnkySzVJTEZnVTJy?=
- =?utf-8?Q?uAdj4kZe8jNyrg+mOsDilb/rO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acc8a7b1-ab84-411e-9161-08dd613d8458
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2025 08:11:40.0564 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T0yiMTdSVJ7UE7kXImczCGogbIqHdq9e4/1XrjcmghOW2tn7mgCAqJPuoLhAVPpz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6134
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v3] drm/mxsfb: Remove generic DRM drivers in probe
+ function
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-amarula@amarulasolutions.com,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Vasut <marex@denx.de>, Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Stefan Agner <stefan@agner.ch>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20250305140929.174398-1-dario.binacchi@amarulasolutions.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250305140929.174398-1-dario.binacchi@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[17]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[amarulasolutions.com,gmail.com,linux.intel.com,denx.de,kernel.org,pengutronix.de,ffwll.ch,agner.ch,lists.freedesktop.org,lists.linux.dev,lists.infradead.org];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,34 +152,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.03.25 um 18:10 schrieb Alex Hung:
-> This macro guard "__cplusplus" is unnecessary and should not be there.
+Merged into drm-misc-next. Thanks for the patch.
+
+Am 05.03.25 um 15:09 schrieb Dario Binacchi:
+> Use aperture helpers to remove all generic graphics drivers before
+> loading mxsfb. Makes mxsfb compatible with simpledrm.
 >
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
 > ---
->  drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h | 3 ---
->  1 file changed, 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h b/drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h
-> index 145961803a92..d621c42a237e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h
-> +++ b/drivers/gpu/drm/amd/display/dc/sspl/dc_spl.h
-> @@ -17,9 +17,6 @@
->  #define SPL_EXPAND(a, b)          SPL_EXPAND2(a, b)
->  #define SPL_NAMESPACE(symbol)     SPL_EXPAND(SPL_PFX_, symbol)
->  
-> -#ifdef __cplusplus
-> -extern "C" {
-> -#endif
+> Changes in v3:
+> - Add 'Reviewed-by' of  Thomas Zimmermann
+>
+> Changes in v2:
+> - Use aperture_remove_all_conflicting_devices() instead of
+>    drm_aperture_remove_framebuffers().
+>
+>   drivers/gpu/drm/mxsfb/mxsfb_drv.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> index 59020862cf65..e5eb644b54ae 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> @@ -8,6 +8,7 @@
+>    * Copyright (C) 2008 Embedded Alley Solutions, Inc All Rights Reserved.
+>    */
+>   
+> +#include <linux/aperture.h>
+>   #include <linux/clk.h>
+>   #include <linux/dma-mapping.h>
+>   #include <linux/io.h>
+> @@ -361,6 +362,15 @@ static int mxsfb_probe(struct platform_device *pdev)
+>   	if (ret)
+>   		goto err_free;
+>   
+> +	/*
+> +	 * Remove early framebuffers (ie. simplefb). The framebuffer can be
+> +	 * located anywhere in RAM
+> +	 */
+> +	ret = aperture_remove_all_conflicting_devices(mxsfb_driver.name);
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "can't kick out existing framebuffers\n");
+> +
+>   	ret = drm_dev_register(drm, 0);
+>   	if (ret)
+>   		goto err_unload;
 
-Just double checking: Is there a closing "#ifdef.. } #endif" at the end of the file?
-
-If yes then please remove that as well, if not feel free to add Reviewed-by: Christian König <christian.koenig@amd.com>.
-
-Regards,
-Christian.
-
->  
->  /* SPL interfaces */
->  
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
