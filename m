@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C1EA5DD16
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 13:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D9DA5DDE1
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 14:24:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BACA10E700;
-	Wed, 12 Mar 2025 12:52:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD9E710E2FF;
+	Wed, 12 Mar 2025 13:24:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jwrz0mPb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RPOMpVm7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C593110E700
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 12:52:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id CA715A4714C;
- Wed, 12 Mar 2025 12:46:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E77AAC4CEE3;
- Wed, 12 Mar 2025 12:52:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741783945;
- bh=QaTNbFgJ262CA817FyLcBE3QKWWHliMzcePUpnpEzbQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jwrz0mPbD5Dlkk6Vpem8hxU/UhiShqlfxPo2YYqkGFkOaxjuuYtPvBtjkJBChgDy1
- PvL8VmK9pChvuLMDQ1dbVvUEEvvDrDkubbIoT6NyRAqoBNUI6W7asWuyJRhuB8uv0k
- L5lqle8NJtjJHWC9XaCXuyvxhdDOwf23Ghc8LtTbK9EUrVV+wIeonpNyAATQ4+jBpb
- gN9bct4HjLFwt5SB/J0aPuGdTJrSHk7SEMl+0JsiTRff+QMkE4rjoMdgRbT2+xpDeg
- TN9J36NP0zMXh1ouIfyfP8OM/ejt2nW/j+BlBB9MyNnHVCV/XpnzPvfQX667UDaBrN
- q1As4JZgVZRkw==
-Date: Wed, 12 Mar 2025 14:52:17 +0200
-From: Dmitry Baryshkov <lumag@kernel.org>
-To: Harikrishna Shenoy <a0512644@ti.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Harikrishna Shenoy <h-shenoy@ti.com>,
- andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, simona@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, jani.nikula@intel.com,
- j-choudhary@ti.com, 
- sui.jingfeng@linux.dev, viro@zeniv.linux.org.uk, r-ravikumar@ti.com, 
- sjakhade@cadence.com, yamonkar@cadence.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: drm/bridge: Add no-hpd property
-Message-ID: <vfg6hlkzmqahbswgyctzuuzcdm2aend6wmo3uci4qs74jasjtc@3hlox276hazj>
-References: <20250205115025.3133487-1-h-shenoy@ti.com>
- <20250205115025.3133487-2-h-shenoy@ti.com>
- <efd89cf8-2f83-44fd-8bdf-aa348d4d9659@kernel.org>
- <h24gpx6cxm4s6gzcunjnswubtvqask5dewi3udulmntsuieklm@w3pw4ig3t7gm>
- <de0cb22d-d251-4b0b-8fc7-e8b5a891a527@ti.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E51C910E183;
+ Wed, 12 Mar 2025 13:24:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741785886; x=1773321886;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=t2Yd/uVk/qp/2qa1DRVB4ci381wkgsgM43ImpQMa9e4=;
+ b=RPOMpVm73/+SVzxk158xJ3WNEwHP93IWqwsTFHeTzqhckO46wql7/Dhp
+ WqGPQ8eXkGwt3F+DR8860MMmUu9Sgu1tWFLfdrs8G3gzdhNoBNaumqu4P
+ 2xHhW6z/Fo9Xk2tER9lRlYyEi3bXlykfWMCTgyNeIkBLZV9wvy6R2IlQ9
+ dyjNfCgvN2/USgAMWulUMyXNEzdiQIPN8ntjT0kmEsxj7hpAaMbq8MOaq
+ MGHlDgX4ux+alEu8Du4A5NGUBMDAnkppaj7AzwzIWxCLVjiK91ya84Hlj
+ +UmCHzR9mfbaTb/e6Q+K9F8rTtAjBY3Q7yApRIWa6HmzhrOoDVsOO4rbh Q==;
+X-CSE-ConnectionGUID: P0WpZCOCQjWYbcAUXmDclA==
+X-CSE-MsgGUID: KH5co9UvS7SXyU8yvo5cJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="42028452"
+X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; d="scan'208";a="42028452"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2025 06:24:45 -0700
+X-CSE-ConnectionGUID: p3JTrPh/RUK+Pzpk2HV1SQ==
+X-CSE-MsgGUID: S42WF00oQ1y/lZ/UhHb3aQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; d="scan'208";a="125821647"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by orviesa005.jf.intel.com with ESMTP; 12 Mar 2025 06:24:42 -0700
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH v8 0/3] Expose modifiers/formats supported by async flips
+Date: Wed, 12 Mar 2025 18:39:20 +0530
+Message-Id: <20250312-asyn-v8-0-0c4cbe5a066d@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <de0cb22d-d251-4b0b-8fc7-e8b5a891a527@ti.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAICH0WcC/02OwQ6DIBAFf8VwLgQQxPbU/2g8IGIlqdAsaGqM/
+ 17UNOlxNvsms6JowdmIbsWKwM4uuuAz1JcCmUH7p8Wuy4w45ZIyyrGOi8dtrypV0nwxBuXXN9j
+ efQ7No8ncQxhxGsDq31gwxmqqZMkkEVVF6RUzrGHyBMg4QRqWu/PJvogJ424cXEwBlqNrlrv3T
+ OCsPhNmiSlW2khthG47of/2zbZtX4Eb+JTaAAAA
+X-Change-ID: 20250102-asyn-bf76730501cc
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: chaitanya.kumar.borah@intel.com, 
+ 20250219093211.4059187-1-arun.r.murthy@intel.com, 
+ 20250311085422.2573860-1-santhosh.reddy.guddati@intel.com, 
+ Arun R Murthy <arun.r.murthy@intel.com>, 
+ Naveen Kumar <naveen1.kumar@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,60 +75,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 12, 2025 at 11:56:41AM +0530, Harikrishna Shenoy wrote:
-> 
-> 
-> On 05/02/25 19:03, Dmitry Baryshkov wrote:
-> > On Wed, Feb 05, 2025 at 12:52:52PM +0100, Krzysztof Kozlowski wrote:
-> > > On 05/02/2025 12:50, Harikrishna Shenoy wrote:
-> > > > From: Rahul T R <r-ravikumar@ti.com>
-> > > > 
-> > > > The mhdp bridge can work without its HPD pin hooked up to the connector,
-> > > > but the current bridge driver throws an error when hpd line is not
-> > > > connected to the connector. For such cases, we need an indication for
-> > > > no-hpd, using which we can bypass the hpd detection and instead use the
-> > > > auxiliary channels connected to the DP connector to confirm the
-> > > > connection.
-> > > > So add no-hpd property to the bindings, to disable hpd when not
-> > > > connected or unusable due to DP0-HPD not connected to correct HPD
-> > > > pin on SOC like in case of J721S2.
-> > > > 
-> > > > Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-> > > 
-> > > Why are you sending over and over the same? You already got feedback.
-> > > Then you send v2. You got the same feedback.
-> > > 
-> > > Now you send v3?
-> > > 
-> > > So the same feedback, but this time: NAK
-> > 
-> > Krzysztof's email forced me to take a look at the actual boards that you
-> > are trying to enable. I couldn't stop by notice that the HPD signal
-> > _is_ connected to a GPIO pin. Please stop hacking the bridge driver and
-> > use the tools that are already provided to you: add the HPD pin to the
-> > dp-controller device node. And then fix any possible issues coming from
-> > the bridge driver not being able to handle HPD signals being delivered
-> > by the DRM framework via the .hpd_notify() callback.
-> > 
-> > TL;DR: also a NAK from my side, add HPD gpio to dp-controller.
-> > 
-> We tried implementing a interrupt based HPD functionality as HPD signal is
-> connected to GPIO0_18 pin, we were able to get interrupt based HPD working
-> however to route this signal to SoC we are loosing audio capability due to
-> MUX conflict. Due to board level limitations to
-> route the signal to SoC, we will not be able to support interrupt
-> based HPD and polling seems a possible way without loosing on audio
-> capability.
+All of the formats/modifiers supported by the plane during synchronous
+flips are nor supported by asynchronous flips. The formats/modifiers
+exposed to user by IN_FORMATS exposes all formats/modifiers supported by
+plane and this list varies for async flips. If the async flip supported
+formats/modifiers are exposed to the user, user based on this list can
+take decision to proceed or not and avoid flip failures during async
+flips.
+Discussion around this can be located @
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
+Mutter implementation for IN_FORMARTS_ASYNC under review @
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/4063
+Xorg/modesetting patch
+https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1816
 
-Still NAK for the no-hpd property. HPD pin is a requirement for
-DisplayPort to work, as it is used e.g. for the 'attention' IRQs being
-sent by the DP sink. I'm not sure what kind of idea you HW engineers had
-in mind.
+TODO: Upon merge of the patch related to async flip
+https://patchwork.freedesktop.org/patch/626849/?series=139807&rev=6
+the patch 5 in this series will have to make use of the new function
+pointer can_async_flip().
 
-> Link to schematics zip:
-> https://www.ti.com/tool/J721S2XSOMXEVM#design-files
-> File:sprr439b/PROC118E4_RP/PROC118E4(001)_SCH.pdf, Page 17, MUX1
+Test-with: 20250219093211.4059187-1-arun.r.murthy@intel.com
+Test-with: 20250311085422.2573860-1-santhosh.reddy.guddati@intel.com
 
+v3: Add new plane->funcs format_mod_supported_async (Ville)
+
+Arun R Murthy (3):
+  drm/plane: Add new plane property IN_FORMATS_ASYNC
+  drm/plane: Expose function to create format/modifier blob
+  drm/i915/display: Populate list of async supported formats/modifiers
+
+ drivers/gpu/drm/drm_mode_config.c             |  7 +++
+ drivers/gpu/drm/drm_plane.c                   | 50 ++++++++++++------
+ .../drm/i915/display/skl_universal_plane.c    | 51 +++++++++++++++++++
+ include/drm/drm_mode_config.h                 |  6 +++
+ include/drm/drm_plane.h                       |  4 ++
+ 5 files changed, 103 insertions(+), 15 deletions(-)
+
+--
+2.25.1
+
+---
+Arun R Murthy (5):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: Expose function to create format/modifier blob
+      drm/plane: Function to check async supported modifier/format
+      drm/i915/display: Populate list of async supported formats/modifiers
+      drm/i915/display: Add function for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |   7 ++
+ drivers/gpu/drm/drm_plane.c                        |  72 +++++++++----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 113 ++++++++++++++++++---
+ include/drm/drm_mode_config.h                      |   6 ++
+ include/drm/drm_plane.h                            |  24 +++++
+ 5 files changed, 188 insertions(+), 34 deletions(-)
+---
+base-commit: 08bd590935a5258ffd79355c59adffd72fb2c642
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Changes in v6:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v5: https://lore.kernel.org/r/20250218-asyn-v5-0-7ac5ac4abd4a@intel.com
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 +++
+ drivers/gpu/drm/drm_plane.c                        | 53 +++++++++++++++-----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 56 ++++++++++++++++------
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 +++++++
+ 5 files changed, 112 insertions(+), 27 deletions(-)
+---
+base-commit: bc7a84cbc968ce97e581e9e3c2d26fb0ac106482
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 ++++
+ drivers/gpu/drm/drm_plane.c                        | 49 ++++++++++++++++------
+ drivers/gpu/drm/i915/display/i9xx_plane.c          |  6 ++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 30 ++++++++++++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.h  |  6 ++-
+ drivers/gpu/drm/i915/display/intel_display.c       | 11 +----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |  5 ++-
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 ++++++++
+ 9 files changed, 111 insertions(+), 26 deletions(-)
+---
+base-commit: be5a404c3344b7d794766f045b8f94aa93c42069
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 +++
+ drivers/gpu/drm/drm_plane.c                        | 54 ++++++++++++++++------
+ drivers/gpu/drm/i915/display/i9xx_plane.c          |  6 ++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 31 ++++++++++++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.h  |  6 ++-
+ drivers/gpu/drm/i915/display/intel_display.c       | 14 ++----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |  5 +-
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 +++++++
+ 9 files changed, 117 insertions(+), 29 deletions(-)
+---
+base-commit: aba848f9b752cf51474c0c3b1abcf0f572f774dc
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Arun R Murthy <arun.r.murthy@intel.com>
+
