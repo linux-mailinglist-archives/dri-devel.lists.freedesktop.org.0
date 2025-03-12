@@ -2,107 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F43A5E10B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 16:51:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA74BA5E1B2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 17:23:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41D9F10E79D;
-	Wed, 12 Mar 2025 15:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B76C510E133;
+	Wed, 12 Mar 2025 16:23:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NvnDz5JN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lQhRf+/v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E941110E79D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 15:51:15 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2ff69365e1dso48040a91.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 08:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741794675; x=1742399475; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=s6kcU/jqWnvmgUYRTSnCwjipLLOVfnhjvRKH7bJe2iA=;
- b=NvnDz5JNDOTs4nWcafWkRXIhZ1/BQkOyJLLr7QqA148wTaOAZgP3jFXCIO9cA7SKc6
- Vts4ToZa4bChnd8WiQO5sGV9u/KG6lbBWWK2MFkISQmA1XsT0eNGtDdC4qK0bLsIdzmB
- hI1lOSkXix/cpga/YBR/FPc5FCO+YVWMmJYYw1fq69mnwHwH0PnYZEyIPlZgJhBhQTlL
- Xxwg5sGuluOnXvjV6iAcCICWMjAQ40v7HPrruZ1AWW1k0uonVsLG7G+2hGiiSoW/AMOe
- li5r29QYCn/VwjV5KJxeI6bng/JkkpKtC54Y0BZNpAGyOcmuT4niN0QJ/uhSa82LuhWn
- gA4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741794675; x=1742399475;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=s6kcU/jqWnvmgUYRTSnCwjipLLOVfnhjvRKH7bJe2iA=;
- b=QqpPsT0RdRZc9MNGtJDOcEaSwFpDGeVZv3eiBG7qmzwremhMlnuzMWPFFo4x7Kd0Xl
- DTDJ24KvsjclmljZyBfCXinir+ANm2vuv5qrz1YjjMxp7aNscG9qy+vCpfitz08agYN6
- Y/UJmJMcUDxLnKjIPhvdGjL6UCfP7GYLfJv7BS64AXxi9ukkDJJ149d4HK4pnOra6hE+
- e7YhEoGU4uzPtz7c0J4bJHZoGKPgstxmVUOZpSnZxC3ou5TYAHdo5bS9VQLjhKKlUPqV
- RXw93i36QvwzBfy3pKJmyBM7Vn2G+SvA9orMdL0PxsDFgy3v+qEQFu1la6yDmMgqqXZA
- +bng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEkekNgb36PqEwT+6V26nQ9+niSkzo8PKIqjkgfqbk+e7oFWdPz1ijMKrBB5cLr6/9vdeKNE6VCvc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxnn9qNF5yLBimi1oksxvBmoWdzuP+F5p1Uxpa9Le7fxofp5DVP
- 3USK67Z2p6302Gq9SpenHlnk7G3iShslbvFc7a5sfU35XF7wOylP
-X-Gm-Gg: ASbGncsAasHC+/DxpLGBqMAwMq27vGMfVFAHqd/QPoTHIUHmHkaYOCLvjso/2KmNpvy
- awqn2S+F8hInQh41sgco7ce4Dl8+Dc8wLraQw88NuIwua01KnXsEs9M/MsIq9XDRnkx63Uw3f6A
- BWcC6KdiG+BSM8vBu7SQGxTX9Ufu6IgAFnPAniHE8ptrUvnGX7xcupmLdp82O2VJu1zNZBGFqBZ
- BoPxXm9am7lWvSqLcBhOVFt4yA2Tm+3de8ZG44kZVwtLannma1bhdBEcKKv40ciSsNrR7+IUemJ
- fwzDavYMrJznZI/a3ugsS2bE6Bc+wglKtuKQ+FIigwLI
-X-Google-Smtp-Source: AGHT+IGK1wYMGzHFc5cibW/rOHObEUL/txoAjaO3YQm2mzlBBY39pOgAZq4ZVPE3dzf2E+KcMNlzyw==
-X-Received: by 2002:a17:90a:a009:b0:301:1d03:93cd with SMTP id
- 98e67ed59e1d1-3011d039a52mr3747173a91.24.1741794675252; 
- Wed, 12 Mar 2025 08:51:15 -0700 (PDT)
-Received: from localhost ([216.228.125.130]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-301182181c3sm1955502a91.5.2025.03.12.08.51.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Mar 2025 08:51:14 -0700 (PDT)
-Date: Wed, 12 Mar 2025 11:51:12 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
- David Laight <david.laight.linux@gmail.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
- akpm@linux-foundation.org, alistair@popple.id.au,
- andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
- arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
- bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
- davem@davemloft.net, dmitry.torokhov@gmail.com,
- dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
- edumazet@google.com, eleanor15x@gmail.com,
- gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
- jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
- joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
- jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux@rasmusvillemoes.dk, louis.peens@corigine.com,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
- mingo@redhat.com, miquel.raynal@bootlin.com, mripard@kernel.org,
- neil.armstrong@linaro.org, netdev@vger.kernel.org,
- oss-drivers@corigine.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, rfoss@kernel.org,
- richard@nod.at, simona@ffwll.ch, tglx@linutronix.de,
- tzimmermann@suse.de, vigneshr@ti.com, x86@kernel.org
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-Message-ID: <Z9GtcNJie8TRKywZ@thinkpad>
-References: <4732F6F6-1D41-4E3F-BE24-E54489BC699C@zytor.com>
- <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com>
- <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com>
- <20250307195310.58abff8c@pumpkin>
- <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
- <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name>
- <Z9CyuowYsZyez36c@thinkpad>
- <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C05BA10E133
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 16:23:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741796593; x=1773332593;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=39N4YWbrlRjKgyGmIu2v/Ox99/YqQuXlc6DAmIUPcaE=;
+ b=lQhRf+/vxm+rAlMhDggmPuToZMP/ykgdnVhr6pe8H+lE6eURqKF9w36e
+ sFm5Fea89rnA32JdKEbjboYcJHv3YTcGzpRnZLdg4aWJhyGdqgrkIoOsb
+ N3G1uLJeoXtLe3zATZUAuXlNuxDfar9mze3hYQsubf+z4BdCPft/Dkd0H
+ pEkoJGrcEKb9MZa+dHzFjyllMZSUdasrPwClQru7W80vNvfc/7bDi9tVO
+ mnchdtJr8VqnlvXrQwqYal9vY/fGA16RdZmlSJxEyYAyCIITT9oHDcjFr
+ 5bYj5Nqaup6j2eVTZnlsem2ehCprAcgStpkvsQWk8iJrB9BE9LLgRAi2j g==;
+X-CSE-ConnectionGUID: 8PPtLU9HTKW1ltOmIVA15w==
+X-CSE-MsgGUID: YG5Tos1PSQWoo8mSWqYDNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="68244391"
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; d="scan'208";a="68244391"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2025 09:22:51 -0700
+X-CSE-ConnectionGUID: A0Zfqf7hT6mmPygu7D05/Q==
+X-CSE-MsgGUID: 5MIj5pGkQ3y3hsnBvJ1rEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; d="scan'208";a="120376505"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+ by orviesa009.jf.intel.com with ESMTP; 12 Mar 2025 09:22:49 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tsOpQ-0008hw-1n;
+ Wed, 12 Mar 2025 16:22:03 +0000
+Date: Thu, 13 Mar 2025 00:19:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: oushixiong1025@163.com, Simona Vetter <simona@ffwll.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Zsolt Kajtar <soci@c64.rulez.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: Re: [PATCH 1/2] fbcon: Register sysfs groups through device_add_group
+Message-ID: <202503122323.h75SQfrd-lkp@intel.com>
+References: <20250311112856.1020095-1-oushixiong1025@163.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
+In-Reply-To: <20250311112856.1020095-1-oushixiong1025@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,119 +74,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 11, 2025 at 03:24:14PM -0700, H. Peter Anvin wrote:
-> On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury.norov@gmail.com> wrote:
-> >On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
-> >> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H. Peter Anvin wrote:
-> >> > On March 7, 2025 11:53:10 AM PST, David Laight <david.laight.linux@gmail.com> wrote:
-> >> > >On Fri, 07 Mar 2025 11:30:35 -0800
-> >> > >"H. Peter Anvin" <hpa@zytor.com> wrote:
-> >> > >
-> >> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew.cooper3@citrix.com> wrote:
-> >> > >> >> (int)true most definitely is guaranteed to be 1.  
-> >> > >> >
-> >> > >> >That's not technically correct any more.
-> >> > >> >
-> >> > >> >GCC has introduced hardened bools that intentionally have bit patterns
-> >> > >> >other than 0 and 1.
-> >> > >> >
-> >> > >> >https://gcc.gnu.org/gcc-14/changes.html
-> >> > >> >
-> >> > >> >~Andrew  
-> >> > >> 
-> >> > >> Bit patterns in memory maybe (not that I can see the Linux kernel using them) but
-> >> > >> for compiler-generated conversations that's still a given, or the manager isn't C
-> >> > >> or anything even remotely like it.
-> >> > >> 
-> >> > >
-> >> > >The whole idea of 'bool' is pretty much broken by design.
-> >> > >The underlying problem is that values other than 'true' and 'false' can
-> >> > >always get into 'bool' variables.
-> >> > >
-> >> > >Once that has happened it is all fubar.
-> >> > >
-> >> > >Trying to sanitise a value with (say):
-> >> > >int f(bool v)
-> >> > >{
-> >> > >	return (int)v & 1;
-> >> > >}    
-> >> > >just doesn't work (see https://www.godbolt.org/z/MEndP3q9j)
-> >> > >
-> >> > >I really don't see how using (say) 0xaa and 0x55 helps.
-> >> > >What happens if the value is wrong? a trap or exception?, good luck recovering
-> >> > >from that.
-> >> > >
-> >> > >	David
-> >> > 
-> >> > Did you just discover GIGO?
-> >> 
-> >> Thanks for all the suggestions.
-> >> 
-> >> I don't have a strong opinion on the naming or return type. I'm still a
-> >> bit confused about whether I can assume that casting bool to int always
-> >> results in 0 or 1.
-> >> 
-> >> If that's the case, since most people prefer bool over int as the
-> >> return type and some are against introducing u1, my current plan is to
-> >> use the following in the next version:
-> >> 
-> >> bool parity_odd(u64 val);
-> >> 
-> >> This keeps the bool return type, renames the function for better
-> >> clarity, and avoids extra maintenance burden by having just one
-> >> function.
-> >> 
-> >> If I can't assume that casting bool to int always results in 0 or 1,
-> >> would it be acceptable to keep the return type as int?
-> >> 
-> >> Would this work for everyone?
-> >
-> >Alright, it's clearly a split opinion. So what I would do myself in
-> >such case is to look at existing code and see what people who really
-> >need parity invent in their drivers:
-> >
-> >                                     bool      parity_odd
-> >static inline int parity8(u8 val)       -               -
-> >static u8 calc_parity(u8 val)           -               -
-> >static int odd_parity(u8 c)             -               +
-> >static int saa711x_odd_parity           -               +
-> >static int max3100_do_parity            -               -
-> >static inline int parity(unsigned x)    -               -
-> >static int bit_parity(u32 pkt)          -               -
-> >static int oa_tc6_get_parity(u32 p)     -               -
-> >static u32 parity32(__le32 data)        -               -
-> >static u32 parity(u32 sample)           -               -
-> >static int get_parity(int number,       -               -
-> >                      int size)
-> >static bool i2cr_check_parity32(u32 v,  +               -
-> >                        bool parity)
-> >static bool i2cr_check_parity64(u64 v)  +               -
-> >static int sw_parity(__u64 t)           -               -
-> >static bool parity(u64 value)           +               -
-> >
-> >Now you can refer to that table say that int parity(uXX) is what
-> >people want to see in their drivers.
-> >
-> >Whichever interface you choose, please discuss it's pros and cons.
-> >What bloat-o-meter says for each option? What's maintenance burden?
-> >Perf test? Look at generated code?
-> >
-> >I personally for a macro returning boolean, something like I
-> >proposed at the very beginning.
-> >
-> >Thanks,
-> >Yury
-> 
-> Also, please at least provide a way for an arch to opt in to using the builtins, which seem to produce as good results or better at least on some architectures like x86 and probably with CPU options that imply fast popcnt is available.
+Hi,
 
-Yeah. And because linux/bitops.h already includes asm/bitops.h
-the simplest way would be wrapping generic implementation with
-the #ifndef parity, similarly to how we handle find_next_bit case.
+kernel test robot noticed the following build errors:
 
-So:
-1. Kuan-Wei, please don't invent something like ARCH_HAS_PARITY;
-2. This may, and probably should, be a separate follow-up series,
-   likely created by corresponding arch experts.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.14-rc6 next-20250312]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
-Yury
+url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong1025-163-com/fbcon-Change-return-value-type-to-void/20250311-193230
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250311112856.1020095-1-oushixiong1025%40163.com
+patch subject: [PATCH 1/2] fbcon: Register sysfs groups through device_add_group
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250312/202503122323.h75SQfrd-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503122323.h75SQfrd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503122323.h75SQfrd-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/video/fbdev/core/fbcon.c:3390:23: error: use of undeclared identifier 'fb_info'
+    3390 |                 device_remove_group(fb_info->dev, &fbcon_device_attr_group);
+         |                                     ^
+   1 error generated.
+
+
+vim +/fb_info +3390 drivers/video/fbdev/core/fbcon.c
+
+  3388	
+  3389		if (fbcon_has_sysfs) {
+> 3390			device_remove_group(fb_info->dev, &fbcon_device_attr_group);
+  3391	
+  3392			fbcon_has_sysfs = 0;
+  3393		}
+  3394	}
+  3395	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
