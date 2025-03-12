@@ -2,98 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F24BA5E0C2
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 16:43:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63537A5E0C8
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 16:45:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86BDD10E149;
-	Wed, 12 Mar 2025 15:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 291C210E2B4;
+	Wed, 12 Mar 2025 15:45:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fSITVOTV";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="QXjklLQa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE4710E149
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 15:42:55 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5497e7bf2e0so6827666e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 08:42:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1741794172; x=1742398972;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vw0KUaZ0b+JsqMU9c0Y3CKPGy3vo4F+iJFxyks2AXEc=;
- b=fSITVOTVlqsob/HUUmhPrO+BmXtkUEItxTdHbfKgrEBZ3w7OzOfwwOf5iSR8X0Tm8O
- iiPb8Ev6zwxjIPrceO+DZrR5/GCEgli/xEn7h0yidbfWmyCXq0jju12X9qSmn7Gp42vL
- U+E0/1OmTfbM8t6lsMtbj73766+LW8DbdbHTI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741794172; x=1742398972;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vw0KUaZ0b+JsqMU9c0Y3CKPGy3vo4F+iJFxyks2AXEc=;
- b=C6iGH+llOb944pygFziIBl5WcicDvuIhnY98oVhHaqPd42pCZfSfua3AL9/Dik3sq7
- B9T21J0ice05dgwGTKMLXc1/9mvYR3x472hmpkgRE07Pedc0NmIva9apO20fGMq8VdWF
- yzVtVmzlgbGMM1ykH+vrO6TdYdjKOUDFxkxAUrXBTjy4slefp44wVRa4P6NB4hOaymHV
- HTwWcfOF6DusIsjD0YRkWOwmVzuIPneItaI3lPnaTI2BKiQY2ne0/lnKal7lXiDZt1dj
- 1MEeSu+83LZaYZGK2d5Oo3CLoKwD+3ceWfjG3fqMUbGQYNTDlZPgtmg9VrNZgYELd19z
- 6inQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHHzrBJNQIo0opGeo8+KeT4gqkOn4m7CQgAuUF5Z32FWQx19TROdpzVW2MebARd4dumdZlxDrphKU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwaZkcWM9gVqdR/UnPhDZCcdJ+9PGxIkJ5Xf8OVOuYdJiUwapaY
- NYzouEUhh/YHHtIT5+ysYX+zIpICiwrKTBci0qFWB1bD32dZKLJz4gbrEqjm+kvSRDjXUB4sVy3
- y4IlQ
-X-Gm-Gg: ASbGncv/+Rw2AIsWUOR16ml09EXpbftSXbPQdzkHI76GOj/fBoIUJ2WDg3754/AQQBE
- GRecolcESlre2IRO/NGY1mJFSUpYtBufqDJ8Q9EpeGfJkZaYw7zsaOAlVJdppdWRMKuVF05KnlW
- o54nFOHHJ35or1r7CeZS5nBE0pw4aycoQT9VHaP0x25OcaP8sFgnwAP2mwH4SChdqNtKB9olmo+
- wx/23grEIuu9dCf9pwLwcMa41XosIiM5nWg7E0fBYF1PKITMNBwCuTW2BWzOs9Bu9HmPUBtavb8
- zEOeQs20lleVoi6jqIqeml+q6Pg5xxueDnLJb0s1TECM0IqfmmhfwEVq695gUiVayLsPGobHA5s
- A5miU7hNV
-X-Google-Smtp-Source: AGHT+IEWhE6cas01dTJLs7IHPs59QY/nJDHH7jbEaNzFI+j0zUCDKDmw1/5/r7Mgl0qRhUIQxQa3+A==
-X-Received: by 2002:a05:6512:3996:b0:545:f70:8aa7 with SMTP id
- 2adb3069b0e04-549abae7c06mr3024160e87.32.1741794171506; 
- Wed, 12 Mar 2025 08:42:51 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
- [209.85.167.45]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5498ae5904esm2132776e87.76.2025.03.12.08.42.49
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Mar 2025 08:42:51 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-5497e7bf2e0so6827531e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 08:42:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUFo6yOskeXmtEAg/esNnrjkkaLMFXOYeh2J3h1BSTKnu5xLQ2EmwAQZ/u9nA9dDhnpyc8q3mvA5x0=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3d19:b0:549:4d78:2418 with SMTP id
- 2adb3069b0e04-549abacd211mr2905563e87.27.1741794168636; Wed, 12 Mar 2025
- 08:42:48 -0700 (PDT)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B3CCE10E2B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 15:45:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=S1WUJ
+ ADaCqY8wLRXgp+FLvNcgEj2zeHMScWZEdvC9P0=; b=QXjklLQaon2otUi05D3g9
+ UZJoaL1qCUYXyYsRZiLaNebwNmExI6cVarmNCUy6Hj9YmyMw3+N9HZgAK9u7R/JH
+ LNhNLZlCLAWm2bdFsNGxhwUBBqf0V6WAEkzkb7wVVG7QEwsUGkYseiBrfPmgv0F9
+ PwiVJPFfi9MrxtWUvPJcx4=
+Received: from DESKTOP-DMSSUQ5.localdomain (unknown [])
+ by gzsmtp1 (Coremail) with SMTP id PCgvCgBnGxwErNFnmqUoAw--.31028S2;
+ Wed, 12 Mar 2025 23:45:10 +0800 (CST)
+From: Shixiong Ou <oushixiong1025@163.com>
+To: Simona Vetter <simona@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH v2 1/2] fbcon: Register sysfs groups through device_add_group
+Date: Wed, 12 Mar 2025 23:45:06 +0800
+Message-ID: <20250312154507.10881-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250310-mipi-synaptic-1-v2-1-20ee4397c670@redhat.com>
- <CAD=FV=WW1ak-_MEBVks==Yr1tUdfFZ3K16_gcdJQ9rwE4ZduNg@mail.gmail.com>
- <CAN9Xe3RYgnELGymau=EoZQy54sM-WfnR-6dr-wmNaBr4ZLnROg@mail.gmail.com>
-In-Reply-To: <CAN9Xe3RYgnELGymau=EoZQy54sM-WfnR-6dr-wmNaBr4ZLnROg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 12 Mar 2025 08:42:36 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XubjtTV70MMPBm2EwoLzoQPHKv6RzHXJgf44mu-h2o=w@mail.gmail.com>
-X-Gm-Features: AQ5f1JqXMzAvNqm-GDk-AEL8mokEJ4SfWD3DkXGx_CXDjIlY6tZpWWWd-O4t1JM
-Message-ID: <CAD=FV=XubjtTV70MMPBm2EwoLzoQPHKv6RzHXJgf44mu-h2o=w@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel/synaptics-r63353: Use _multi variants
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Michael Trimarchi <michael@amarulasolutions.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Tejas Vipin <tejasvipin76@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: PCgvCgBnGxwErNFnmqUoAw--.31028S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCFy7uF4fJFykZrWfXF1UWrg_yoW5Kw18pr
+ 4DJa4YgFW5G3ZrWw43Zw4DZ3sxWwn2k34fJws5Kw1fKF97A39Iqa48JFyjya4rtas7GF1r
+ Ja4Dtry8AFWxWr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jjtC7UUUUU=
+X-Originating-IP: [222.240.40.50]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYxoOD2fRnCz55AAAsj
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,33 +59,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-On Wed, Mar 12, 2025 at 7:54=E2=80=AFAM Anusha Srivatsa <asrivats@redhat.co=
-m> wrote:
->
->> > @@ -78,7 +79,7 @@ static int r63353_panel_power_on(struct r63353_panel=
- *rpanel)
->> >                 return ret;
->> >         }
->> >
->> > -       usleep_range(15000, 25000);
->> > +       mipi_dsi_usleep_range(&dsi_ctx, 15000, 25000);
->>
->> No. None of the conversions in this function are correct.
->> mipi_dsi_usleep_range() is only for use when you're in the middle of a
->> bunch of other "multi" calls and want the sleep to be conditional upon
->> there being no error. Here there is no chance of an error because no
->> _multi() are used. Go back to the normal usleep_range().
->>
->
-> OK. Then the approach to prefer mipi_dsi_usleep_range() over the previous=
-ly used usleep_range() everywhere is out the window. Sounds good. Is replac=
-ing msleep() with mipi_dsi_msleep() preferable?
+Use device_add_group() to simplify creation and removal.
 
-Same rules there. If you're in the middle of a sequence of "multi"
-commands and only want the sleep if there is no error then use
-mipi_dsi_msleep(). If you're not then use a regular msleep().
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+v1->v2:
+	fix build error.
 
+ drivers/video/fbdev/core/fbcon.c | 49 ++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 27 deletions(-)
 
--Doug
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index e8b4e8c119b5..9ee5f8492249 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -3157,7 +3157,7 @@ static const struct consw fb_con = {
+ 	.con_debug_leave	= fbcon_debug_leave,
+ };
+ 
+-static ssize_t store_rotate(struct device *device,
++static ssize_t rotate_store(struct device *device,
+ 			    struct device_attribute *attr, const char *buf,
+ 			    size_t count)
+ {
+@@ -3179,7 +3179,7 @@ static ssize_t store_rotate(struct device *device,
+ 	return count;
+ }
+ 
+-static ssize_t store_rotate_all(struct device *device,
++static ssize_t rotate_all_store(struct device *device,
+ 				struct device_attribute *attr,const char *buf,
+ 				size_t count)
+ {
+@@ -3201,7 +3201,7 @@ static ssize_t store_rotate_all(struct device *device,
+ 	return count;
+ }
+ 
+-static ssize_t show_rotate(struct device *device,
++static ssize_t rotate_show(struct device *device,
+ 			   struct device_attribute *attr,char *buf)
+ {
+ 	struct fb_info *info;
+@@ -3220,7 +3220,7 @@ static ssize_t show_rotate(struct device *device,
+ 	return sysfs_emit(buf, "%d\n", rotate);
+ }
+ 
+-static ssize_t show_cursor_blink(struct device *device,
++static ssize_t cursor_blink_show(struct device *device,
+ 				 struct device_attribute *attr, char *buf)
+ {
+ 	struct fb_info *info;
+@@ -3245,7 +3245,7 @@ static ssize_t show_cursor_blink(struct device *device,
+ 	return sysfs_emit(buf, "%d\n", blink);
+ }
+ 
+-static ssize_t store_cursor_blink(struct device *device,
++static ssize_t cursor_blink_store(struct device *device,
+ 				  struct device_attribute *attr,
+ 				  const char *buf, size_t count)
+ {
+@@ -3279,32 +3279,30 @@ static ssize_t store_cursor_blink(struct device *device,
+ 	return count;
+ }
+ 
+-static struct device_attribute device_attrs[] = {
+-	__ATTR(rotate, S_IRUGO|S_IWUSR, show_rotate, store_rotate),
+-	__ATTR(rotate_all, S_IWUSR, NULL, store_rotate_all),
+-	__ATTR(cursor_blink, S_IRUGO|S_IWUSR, show_cursor_blink,
+-	       store_cursor_blink),
++static DEVICE_ATTR_RW(rotate);
++static DEVICE_ATTR_WO(rotate_all);
++static DEVICE_ATTR_RW(cursor_blink);
++
++static struct attribute *fbcon_device_attrs[] = {
++	&dev_attr_rotate.attr,
++	&dev_attr_rotate_all.attr,
++	&dev_attr_cursor_blink.attr,
++	NULL,
++};
++
++static const struct attribute_group fbcon_device_attr_group = {
++	.attrs		= fbcon_device_attrs,
+ };
+ 
+ static int fbcon_init_device(void)
+ {
+-	int i, error = 0;
++	int ret;
+ 
+ 	fbcon_has_sysfs = 1;
+ 
+-	for (i = 0; i < ARRAY_SIZE(device_attrs); i++) {
+-		error = device_create_file(fbcon_device, &device_attrs[i]);
+-
+-		if (error)
+-			break;
+-	}
+-
+-	if (error) {
+-		while (--i >= 0)
+-			device_remove_file(fbcon_device, &device_attrs[i]);
+-
++	ret = device_add_group(fbcon_device, &fbcon_device_attr_group);
++	if (ret)
+ 		fbcon_has_sysfs = 0;
+-	}
+ 
+ 	return 0;
+ }
+@@ -3387,11 +3385,8 @@ void __init fb_console_init(void)
+ 
+ static void __exit fbcon_deinit_device(void)
+ {
+-	int i;
+-
+ 	if (fbcon_has_sysfs) {
+-		for (i = 0; i < ARRAY_SIZE(device_attrs); i++)
+-			device_remove_file(fbcon_device, &device_attrs[i]);
++		device_remove_group(fbcon_device, &fbcon_device_attr_group);
+ 
+ 		fbcon_has_sysfs = 0;
+ 	}
+-- 
+2.43.0
+
