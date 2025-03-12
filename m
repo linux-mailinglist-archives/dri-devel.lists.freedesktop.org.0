@@ -2,98 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1826FA5E0F0
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 16:48:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F43A5E10B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 16:51:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C90F10E173;
-	Wed, 12 Mar 2025 15:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41D9F10E79D;
+	Wed, 12 Mar 2025 15:51:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="UOKnxiqV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NvnDz5JN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B652010E053
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 15:48:23 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-30bae572157so67003491fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 08:48:23 -0700 (PDT)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E941110E79D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 15:51:15 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-2ff69365e1dso48040a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 08:51:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1741794497; x=1742399297;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LdZ/KsjENSBssp+v/dxb+PBQzOCtXKmGBKQGm6xeShA=;
- b=UOKnxiqVXrJCwLgYp8I9r1kyWRirwY2B2Sq4Dn5QJbqCxrIM+3+KNOumXfyVnECaFx
- caX0SbTrJ67x4ZCwpQjIiAfqrS6EWF8ydPIYzq5hwoIGId9eY4vdsPz+4l+m7gSTHA9T
- Z+NALUL1ZL8GQZq8susYkk1FcnuWgX6QtfT+I=
+ d=gmail.com; s=20230601; t=1741794675; x=1742399475; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=s6kcU/jqWnvmgUYRTSnCwjipLLOVfnhjvRKH7bJe2iA=;
+ b=NvnDz5JNDOTs4nWcafWkRXIhZ1/BQkOyJLLr7QqA148wTaOAZgP3jFXCIO9cA7SKc6
+ Vts4ToZa4bChnd8WiQO5sGV9u/KG6lbBWWK2MFkISQmA1XsT0eNGtDdC4qK0bLsIdzmB
+ hI1lOSkXix/cpga/YBR/FPc5FCO+YVWMmJYYw1fq69mnwHwH0PnYZEyIPlZgJhBhQTlL
+ Xxwg5sGuluOnXvjV6iAcCICWMjAQ40v7HPrruZ1AWW1k0uonVsLG7G+2hGiiSoW/AMOe
+ li5r29QYCn/VwjV5KJxeI6bng/JkkpKtC54Y0BZNpAGyOcmuT4niN0QJ/uhSa82LuhWn
+ gA4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741794497; x=1742399297;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LdZ/KsjENSBssp+v/dxb+PBQzOCtXKmGBKQGm6xeShA=;
- b=W8f8ZAZZHK5KliHQj9Vyp2yacnpz968r4pMq1/xLu0bXV/sOfHlH6Am6ZKCu5KVB5Z
- i6nF2DXhdmoEI3pmkQmlU7fQ7Dy1LojqAKYpEtoMmKgOd5h+T6Zbx+wxouqQ8v1z+ID5
- 3QDWHcXyFoKeAyN2KhhCQ/11FIIj2HgO/Ef5jNks4hGmXBJHpb9rGADSjz05V7bi3SiW
- L2glZFH8c/WqnI1lKgp+kQvMMhPfwwHNyzxY1TDqK79Akr/1hEqJQPDNlmV6JA1G+ui2
- 6+/vb9Qqh+wbv5An04FpcrsN3TzM8jEaDYz/PAHOlrVk1D45DdnlciUK2imsLP/Fzp0U
- FpUA==
+ d=1e100.net; s=20230601; t=1741794675; x=1742399475;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s6kcU/jqWnvmgUYRTSnCwjipLLOVfnhjvRKH7bJe2iA=;
+ b=QqpPsT0RdRZc9MNGtJDOcEaSwFpDGeVZv3eiBG7qmzwremhMlnuzMWPFFo4x7Kd0Xl
+ DTDJ24KvsjclmljZyBfCXinir+ANm2vuv5qrz1YjjMxp7aNscG9qy+vCpfitz08agYN6
+ Y/UJmJMcUDxLnKjIPhvdGjL6UCfP7GYLfJv7BS64AXxi9ukkDJJ149d4HK4pnOra6hE+
+ e7YhEoGU4uzPtz7c0J4bJHZoGKPgstxmVUOZpSnZxC3ou5TYAHdo5bS9VQLjhKKlUPqV
+ RXw93i36QvwzBfy3pKJmyBM7Vn2G+SvA9orMdL0PxsDFgy3v+qEQFu1la6yDmMgqqXZA
+ +bng==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX0Sjumnsnv5ydFhyx2UnIc+JonK63E6oaqT61Rzi7Hk0GGRvYzdZg2EORuJvHIZ0jLFYfo/LxUr8g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCtwKSf8+EjrtYOPlK29pSj7pUKoPAe4AU5GYKc2brG9zsQ8mE
- 6S5t5JxThN/IpUsWKgBoMBqleeuyw81JZzJ0XxlKQn1MwqZV3CYUC0j056rJa133i19vQ/NSLqY
- Bmebe
-X-Gm-Gg: ASbGncvCpsqaScLrvemR4CzXQo8ib9fWCJrhBNSfO4jL3ays8iHowJnXH7qQP1V+G7K
- 1Y0oRDS8xT4pMLBEn1N9V8+MW5MaVhwmznWOSH1cbl2NRdgWYqpGGXCRqPXCGH5Q4swQ3h/bLGe
- vHJ32a3AIS4ptoUWdTvguNTcQ/fYanZcvZpLS93tLY8mVTft3pPItyTsQoo/OR9PHbmx6V5QGDu
- IzLKtBlvnb8q15tPdKbdhRYefuPugTar0KPH9Uzq/LkGg0uTk1fdjMk6KCyPWXLjpJhJI822jJe
- zUCpS1J+Er8LAjeEVTwO6bENmwCpkfBakTARVvLKGEJZPFG6dt4cgNa1pr4xVRU14DKMtpDfYas
- 5ZGobY/vX
-X-Google-Smtp-Source: AGHT+IH7fYARpzfUKwTwmMGnVg19STp58taVmEmnByGo9pNAnFgIoJa/FUkDoHTmDoxBL7GUyMD5dQ==
-X-Received: by 2002:a2e:be27:0:b0:30c:7a7:e872 with SMTP id
- 38308e7fff4ca-30c207543d8mr39930271fa.34.1741794497538; 
- Wed, 12 Mar 2025 08:48:17 -0700 (PDT)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
- [209.85.167.54]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30be98d0800sm24675881fa.5.2025.03.12.08.48.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Mar 2025 08:48:15 -0700 (PDT)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-547bcef2f96so6822492e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 08:48:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV5MJDWlCCXUXjNgLqM6YmA4nl8Kk1089qBZ99wGk19a4RRSMUu3PVMfoe0N8NZsqetdPVvvLr2HYQ=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3b25:b0:549:7394:2ce5 with SMTP id
- 2adb3069b0e04-549abae9732mr3014845e87.41.1741794492068; Wed, 12 Mar 2025
- 08:48:12 -0700 (PDT)
+ AJvYcCUEkekNgb36PqEwT+6V26nQ9+niSkzo8PKIqjkgfqbk+e7oFWdPz1ijMKrBB5cLr6/9vdeKNE6VCvc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxnn9qNF5yLBimi1oksxvBmoWdzuP+F5p1Uxpa9Le7fxofp5DVP
+ 3USK67Z2p6302Gq9SpenHlnk7G3iShslbvFc7a5sfU35XF7wOylP
+X-Gm-Gg: ASbGncsAasHC+/DxpLGBqMAwMq27vGMfVFAHqd/QPoTHIUHmHkaYOCLvjso/2KmNpvy
+ awqn2S+F8hInQh41sgco7ce4Dl8+Dc8wLraQw88NuIwua01KnXsEs9M/MsIq9XDRnkx63Uw3f6A
+ BWcC6KdiG+BSM8vBu7SQGxTX9Ufu6IgAFnPAniHE8ptrUvnGX7xcupmLdp82O2VJu1zNZBGFqBZ
+ BoPxXm9am7lWvSqLcBhOVFt4yA2Tm+3de8ZG44kZVwtLannma1bhdBEcKKv40ciSsNrR7+IUemJ
+ fwzDavYMrJznZI/a3ugsS2bE6Bc+wglKtuKQ+FIigwLI
+X-Google-Smtp-Source: AGHT+IGK1wYMGzHFc5cibW/rOHObEUL/txoAjaO3YQm2mzlBBY39pOgAZq4ZVPE3dzf2E+KcMNlzyw==
+X-Received: by 2002:a17:90a:a009:b0:301:1d03:93cd with SMTP id
+ 98e67ed59e1d1-3011d039a52mr3747173a91.24.1741794675252; 
+ Wed, 12 Mar 2025 08:51:15 -0700 (PDT)
+Received: from localhost ([216.228.125.130]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-301182181c3sm1955502a91.5.2025.03.12.08.51.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Mar 2025 08:51:14 -0700 (PDT)
+Date: Wed, 12 Mar 2025 11:51:12 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
+ David Laight <david.laight.linux@gmail.com>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ akpm@linux-foundation.org, alistair@popple.id.au,
+ andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
+ arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
+ bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+ brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
+ davem@davemloft.net, dmitry.torokhov@gmail.com,
+ dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
+ edumazet@google.com, eleanor15x@gmail.com,
+ gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
+ jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
+ jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux@rasmusvillemoes.dk, louis.peens@corigine.com,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
+ mingo@redhat.com, miquel.raynal@bootlin.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, netdev@vger.kernel.org,
+ oss-drivers@corigine.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, rfoss@kernel.org,
+ richard@nod.at, simona@ffwll.ch, tglx@linutronix.de,
+ tzimmermann@suse.de, vigneshr@ti.com, x86@kernel.org
+Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
+Message-ID: <Z9GtcNJie8TRKywZ@thinkpad>
+References: <4732F6F6-1D41-4E3F-BE24-E54489BC699C@zytor.com>
+ <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com>
+ <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com>
+ <20250307195310.58abff8c@pumpkin>
+ <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
+ <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name>
+ <Z9CyuowYsZyez36c@thinkpad>
+ <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
 MIME-Version: 1.0
-References: <20250310-mipi-synaptic-1-v2-1-20ee4397c670@redhat.com>
- <20250311-warm-icy-rottweiler-cefcdd@houat>
- <CAN9Xe3Qwu=E=VVZZ_8EHPF7Xsk6Zcbp=R_b=cRgF=9SWCkmsqA@mail.gmail.com>
-In-Reply-To: <CAN9Xe3Qwu=E=VVZZ_8EHPF7Xsk6Zcbp=R_b=cRgF=9SWCkmsqA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 12 Mar 2025 08:47:59 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XdngrNhUn8jQ3FGitkBCkiQO1dXnPhCKj+S5Jo8_WUrQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JqKOeCFnqz9t-GQAqcT1m-g7AXhkRBMViQRSMxzjFeOfKb4IuUc4Kxm3n4
-Message-ID: <CAD=FV=XdngrNhUn8jQ3FGitkBCkiQO1dXnPhCKj+S5Jo8_WUrQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel/synaptics-r63353: Use _multi variants
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Michael Trimarchi <michael@amarulasolutions.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Tejas Vipin <tejasvipin76@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,50 +118,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Mar 11, 2025 at 03:24:14PM -0700, H. Peter Anvin wrote:
+> On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury.norov@gmail.com> wrote:
+> >On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
+> >> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H. Peter Anvin wrote:
+> >> > On March 7, 2025 11:53:10 AM PST, David Laight <david.laight.linux@gmail.com> wrote:
+> >> > >On Fri, 07 Mar 2025 11:30:35 -0800
+> >> > >"H. Peter Anvin" <hpa@zytor.com> wrote:
+> >> > >
+> >> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew.cooper3@citrix.com> wrote:
+> >> > >> >> (int)true most definitely is guaranteed to be 1.  
+> >> > >> >
+> >> > >> >That's not technically correct any more.
+> >> > >> >
+> >> > >> >GCC has introduced hardened bools that intentionally have bit patterns
+> >> > >> >other than 0 and 1.
+> >> > >> >
+> >> > >> >https://gcc.gnu.org/gcc-14/changes.html
+> >> > >> >
+> >> > >> >~Andrew  
+> >> > >> 
+> >> > >> Bit patterns in memory maybe (not that I can see the Linux kernel using them) but
+> >> > >> for compiler-generated conversations that's still a given, or the manager isn't C
+> >> > >> or anything even remotely like it.
+> >> > >> 
+> >> > >
+> >> > >The whole idea of 'bool' is pretty much broken by design.
+> >> > >The underlying problem is that values other than 'true' and 'false' can
+> >> > >always get into 'bool' variables.
+> >> > >
+> >> > >Once that has happened it is all fubar.
+> >> > >
+> >> > >Trying to sanitise a value with (say):
+> >> > >int f(bool v)
+> >> > >{
+> >> > >	return (int)v & 1;
+> >> > >}    
+> >> > >just doesn't work (see https://www.godbolt.org/z/MEndP3q9j)
+> >> > >
+> >> > >I really don't see how using (say) 0xaa and 0x55 helps.
+> >> > >What happens if the value is wrong? a trap or exception?, good luck recovering
+> >> > >from that.
+> >> > >
+> >> > >	David
+> >> > 
+> >> > Did you just discover GIGO?
+> >> 
+> >> Thanks for all the suggestions.
+> >> 
+> >> I don't have a strong opinion on the naming or return type. I'm still a
+> >> bit confused about whether I can assume that casting bool to int always
+> >> results in 0 or 1.
+> >> 
+> >> If that's the case, since most people prefer bool over int as the
+> >> return type and some are against introducing u1, my current plan is to
+> >> use the following in the next version:
+> >> 
+> >> bool parity_odd(u64 val);
+> >> 
+> >> This keeps the bool return type, renames the function for better
+> >> clarity, and avoids extra maintenance burden by having just one
+> >> function.
+> >> 
+> >> If I can't assume that casting bool to int always results in 0 or 1,
+> >> would it be acceptable to keep the return type as int?
+> >> 
+> >> Would this work for everyone?
+> >
+> >Alright, it's clearly a split opinion. So what I would do myself in
+> >such case is to look at existing code and see what people who really
+> >need parity invent in their drivers:
+> >
+> >                                     bool      parity_odd
+> >static inline int parity8(u8 val)       -               -
+> >static u8 calc_parity(u8 val)           -               -
+> >static int odd_parity(u8 c)             -               +
+> >static int saa711x_odd_parity           -               +
+> >static int max3100_do_parity            -               -
+> >static inline int parity(unsigned x)    -               -
+> >static int bit_parity(u32 pkt)          -               -
+> >static int oa_tc6_get_parity(u32 p)     -               -
+> >static u32 parity32(__le32 data)        -               -
+> >static u32 parity(u32 sample)           -               -
+> >static int get_parity(int number,       -               -
+> >                      int size)
+> >static bool i2cr_check_parity32(u32 v,  +               -
+> >                        bool parity)
+> >static bool i2cr_check_parity64(u64 v)  +               -
+> >static int sw_parity(__u64 t)           -               -
+> >static bool parity(u64 value)           +               -
+> >
+> >Now you can refer to that table say that int parity(uXX) is what
+> >people want to see in their drivers.
+> >
+> >Whichever interface you choose, please discuss it's pros and cons.
+> >What bloat-o-meter says for each option? What's maintenance burden?
+> >Perf test? Look at generated code?
+> >
+> >I personally for a macro returning boolean, something like I
+> >proposed at the very beginning.
+> >
+> >Thanks,
+> >Yury
+> 
+> Also, please at least provide a way for an arch to opt in to using the builtins, which seem to produce as good results or better at least on some architectures like x86 and probably with CPU options that imply fast popcnt is available.
 
-On Wed, Mar 12, 2025 at 8:06=E2=80=AFAM Anusha Srivatsa <asrivats@redhat.co=
-m> wrote:
->
->> > @@ -106,53 +107,46 @@ static int r63353_panel_power_off(struct r63353_=
-panel *rpanel)
->> >  static int r63353_panel_activate(struct r63353_panel *rpanel)
->> >  {
->> >       struct mipi_dsi_device *dsi =3D rpanel->dsi;
->> > -     struct device *dev =3D &dsi->dev;
->> > -     int i, ret;
->> > +     struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
->> > +     int i;
->> >
->> > -     ret =3D mipi_dsi_dcs_soft_reset(dsi);
->> > -     if (ret < 0) {
->> > -             dev_err(dev, "Failed to do Software Reset (%d)\n", ret);
->> > +     mipi_dsi_dcs_soft_reset_multi(&dsi_ctx);
->> > +     if (dsi_ctx.accum_err)
->> >               goto fail;
->> > -     }
->>
->> This changes was definitely not what the script is doing.
->
->
-> It isnt. Using coccinelle for the major part of pattern matching and repl=
-acing the newer _multi variant API. Some handling (including a newline that=
- it introduces) and  the returns depend on a case by case basis, which had =
-to be done manually.
+Yeah. And because linux/bitops.h already includes asm/bitops.h
+the simplest way would be wrapping generic implementation with
+the #ifndef parity, similarly to how we handle find_next_bit case.
 
-...and now you're getting to see why I didn't think a coccinelle
-script could fully handle this task. ;-) IMO instead of trying to get
-a coccinelle script to do the full conversion, the right approach
-would be to use a coccinelle script (or equivalent) to get the basics
-done (just so you don't make any typos) and then cleanup the result
-manually. Spending more time on the coccinelle script than it would
-take to do the conversion manually is probably not the right approach.
+So:
+1. Kuan-Wei, please don't invent something like ARCH_HAS_PARITY;
+2. This may, and probably should, be a separate follow-up series,
+   likely created by corresponding arch experts.
 
-If your patch wasn't fully generated by a coccinelle script you should
-document that in the commit message. Something like "Initial patch was
-generated by a coccinelle script and the result was cleaned up
-manually." If the script is too long to fit in the commit message,
-it's fine to put it somewhere online and provide a link. "Somewhere
-online" could easily be a mailing list post.
-
--Doug
+Thanks,
+Yury
