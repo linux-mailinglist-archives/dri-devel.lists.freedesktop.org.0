@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F33A5DE33
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 14:39:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB36A5DE34
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 14:39:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7974710E249;
-	Wed, 12 Mar 2025 13:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D6D010E2BC;
+	Wed, 12 Mar 2025 13:39:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tKNIpzcO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o4iY7BvY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 862D810E249
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 13:39:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6880810E2BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 13:39:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 34BA25C5BA0;
- Wed, 12 Mar 2025 13:37:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72817C4CEEC;
- Wed, 12 Mar 2025 13:39:25 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 060915C5BB9;
+ Wed, 12 Mar 2025 13:37:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44815C4CEEE;
+ Wed, 12 Mar 2025 13:39:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741786765;
- bh=9fO76bprPjWuuL9pZdTAwx8iTUWcSZCDN3mx1NcNL5E=;
+ s=k20201202; t=1741786768;
+ bh=sZ3e4BpGXfmrcZB9nIeL901BLD7b8fOHw5W772r0HY4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=tKNIpzcOOumLoGAVuaYpPS0KEku5QgI/ZVkIL4S7B+3amOVlX3rDHK/8nReq+zsKS
- 9ZfFYt5rxbYOGHDMSjxq1SlREbasLhutSapLVAZumMcGuDrTdvhbjbfSq+1dGuh9EW
- 3QEyHT3OYXO1hQ4ENIzaWRAeMMR6sYNrm8E2Mx/xt6dXR8gy0AHjN6i1KbubqE271Y
- XEwDNggo1vCD0R6KG5TOG5REj+z6xEiQyo8K2VxztYuubXLThVaWH3yJAXy5KnYaHq
- hd9Ip8lAH2CWEeu+IqZnCdJ+Isr//GiD488udtXQZxGKdgMWSsZnZAiGgj/rY/xj7c
- +qMeMd6L3Brxg==
+ b=o4iY7BvYOdroePIgi0KHkgpQbxULx8F+YItn0ssuafHeo+Svr3YJVNOOQn7VN1CK+
+ VTyhd90J884RrMyr2ST0wqtzWYK1iwvWmQ1d++BPYgF2+FcTJ2UbOH7SFzNTmSXV4X
+ RB12zM72/L16BOAjo3K3TrHyPZuNQ1M4aBQ3EJ9A3OuasrUkCdNztcH0rhqowraykb
+ qtyrddsD1QpsBcgOoRApPLz+5EJxrNaoubDfEcIgiH55sbwzYWug7EGqZgJd2tI1sH
+ bADTfTsFurtTtj0UlMpdsxiTLOxbDrXVWCsRzUeJbWqoRFliVqhlIRPuKcfS+fULkN
+ tDCz82z02NifQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 12 Mar 2025 14:39:16 +0100
-Subject: [PATCH v2 1/2] drm/display: hdmi: Create documentation section
+Date: Wed, 12 Mar 2025 14:39:17 +0100
+Subject: [PATCH v2 2/2] drm/display: hdmi: Mention Infoframes testing with
+ edid-decode
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250312-drm-hdmi-state-docs-v2-1-6352a5d68d5b@kernel.org>
+Message-Id: <20250312-drm-hdmi-state-docs-v2-2-6352a5d68d5b@kernel.org>
 References: <20250312-drm-hdmi-state-docs-v2-0-6352a5d68d5b@kernel.org>
 In-Reply-To: <20250312-drm-hdmi-state-docs-v2-0-6352a5d68d5b@kernel.org>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2555; i=mripard@kernel.org;
- h=from:subject:message-id; bh=9fO76bprPjWuuL9pZdTAwx8iTUWcSZCDN3mx1NcNL5E=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOkX+9paZgZZlN1sMO78Yfk/cs+EjwbHChn/f/u0Ml7oR
- mSrwK+7HaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZiIfhHDX9HVnPolwizvuo9x
- 71W4H2miwn/q/rR8tyu/3Rz/TLyyXpThn0H2w8MfHhUfnq/XsqrMy8y5d6/lbyUbxxgnt2q9T1m
- TWAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12098; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=sZ3e4BpGXfmrcZB9nIeL901BLD7b8fOHw5W772r0HY4=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOkX+9rrqti+T5oaeqUwY1eN2LbdkayqDppPYzz89dccu
+ TLnltKjjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzkVygjw3Ifxqmlu/beP/jt
+ wlXRF2ackaetIm0vREz5se+hjud0RU5Ghss38/03vGismRmlulbre/rFTXUe31i3fri86ard6T+
+ z1nIAAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,83 +70,306 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have had documentation for the public functions in the HDMI helpers,
-but those were never referenced anywhere and thus not compiled as part
-of the doc.
+edid-decode gained recently support to check that infoframes are
+compliant and match the EDID the monitor exposes.
 
-Let's add a section.
+Since the HDMI helpers provide those infoframes in debugfs, it makes it
+easy to check from userspace that the drivers (and helpers) behave
+properly.
 
+Let's document it.
+
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- Documentation/gpu/drm-kms-helpers.rst           | 15 +++++++++++++++
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 21 +++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 271 ++++++++++++++++++++++++
+ 1 file changed, 271 insertions(+)
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index b4ee25af1702b0019e0de5f9ee66d2dbdac2c664..5139705089f200b189876a5a61bf2a935cec433a 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -231,10 +231,25 @@ Panel Self Refresh Helper Reference
-    :doc: overview
- 
- .. kernel-doc:: drivers/gpu/drm/drm_self_refresh_helper.c
-    :export:
- 
-+HDMI Atomic State Helpers
-+=========================
-+
-+Overview
-+--------
-+
-+.. kernel-doc:: drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+   :doc: hdmi helpers
-+
-+Functions Reference
-+-------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+   :export:
-+
- HDCP Helper Functions Reference
- ===============================
- 
- .. kernel-doc:: drivers/gpu/drm/display/drm_hdcp_helper.c
-    :export:
 diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 9b2ee2385634303ab84bdd3a457770cfe32647cf..24bfc82bf9b02bf3201d97432e3c239ccc8714b4 100644
+index 24bfc82bf9b02bf3201d97432e3c239ccc8714b4..4df3d25529071e8e822f1fe00fb22c90860ec97b 100644
 --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
 +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -7,10 +7,31 @@
- 
- #include <drm/display/drm_hdmi_audio_helper.h>
- #include <drm/display/drm_hdmi_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
- 
-+/**
-+ * DOC: hdmi helpers
+@@ -16,10 +16,281 @@
+  * in the form of KMS helpers.
+  *
+  * It contains TMDS character rate computation, automatic selection of
+  * output formats, infoframes generation, etc.
+  *
++ * Infoframes Compliance
++ * ~~~~~~~~~~~~~~~~~~~~~
 + *
-+ * These functions contain an implementation of the HDMI specification
-+ * in the form of KMS helpers.
++ * Drivers using the helpers will expose the various infoframes
++ * generated according to the HDMI specification in debugfs.
 + *
-+ * It contains TMDS character rate computation, automatic selection of
-+ * output formats, infoframes generation, etc.
-+ *
-+ * Testing
-+ * ~~~~~~~
-+ *
-+ * The helpers have unit testing and can be tested using kunit with:
++ * Compliance can then be tested using ``edid-decode`` from the ``v4l-utils`` project
++ * (https://git.linuxtv.org/v4l-utils.git/). A sample run would look like:
 + *
 + * .. code-block:: bash
 + *
-+ *	$ ./tools/testing/kunit/kunit.py run \
-+ *		--kunitconfig=drivers/gpu/drm/tests \
-+ *		drm_atomic_helper_connector_hdmi_*
-+ */
-+
- /**
-  * __drm_atomic_helper_connector_hdmi_reset() - Initializes all HDMI @drm_connector_state resources
-  * @connector: DRM connector
-  * @new_conn_state: connector state to reset
++ *	# edid-decode \
++ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/audio \
++ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/avi \
++ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/hdmi \
++ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/hdr_drm \
++ *		-I /sys/kernel/debug/dri/1/HDMI-A-1/infoframes/spd \
++ *		/sys/class/drm/card1-HDMI-A-1/edid \
++ *		-c
++ *
++ *	edid-decode (hex):
++ *
++ *	00 ff ff ff ff ff ff 00 1e 6d f4 5b 1e ef 06 00
++ *	07 20 01 03 80 2f 34 78 ea 24 05 af 4f 42 ab 25
++ *	0f 50 54 21 08 00 d1 c0 61 40 45 40 01 01 01 01
++ *	01 01 01 01 01 01 98 d0 00 40 a1 40 d4 b0 30 20
++ *	3a 00 d1 0b 12 00 00 1a 00 00 00 fd 00 3b 3d 1e
++ *	b2 31 00 0a 20 20 20 20 20 20 00 00 00 fc 00 4c
++ *	47 20 53 44 51 48 44 0a 20 20 20 20 00 00 00 ff
++ *	00 32 30 37 4e 54 52 4c 44 43 34 33 30 0a 01 46
++ *
++ *	02 03 42 72 23 09 07 07 4d 01 03 04 90 12 13 1f
++ *	22 5d 5e 5f 60 61 83 01 00 00 6d 03 0c 00 10 00
++ *	b8 3c 20 00 60 01 02 03 67 d8 5d c4 01 78 80 03
++ *	e3 0f 00 18 e2 00 6a e3 05 c0 00 e6 06 05 01 52
++ *	52 51 11 5d 00 a0 a0 40 29 b0 30 20 3a 00 d1 0b
++ *	12 00 00 1a 00 00 00 00 00 00 00 00 00 00 00 00
++ *	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++ *	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 c3
++ *
++ *	----------------
++ *
++ *	Block 0, Base EDID:
++ *	  EDID Structure Version & Revision: 1.3
++ *	  Vendor & Product Identification:
++ *	    Manufacturer: GSM
++ *	    Model: 23540
++ *	    Serial Number: 454430 (0x0006ef1e)
++ *	    Made in: week 7 of 2022
++ *	  Basic Display Parameters & Features:
++ *	    Digital display
++ *	    Maximum image size: 47 cm x 52 cm
++ *	    Gamma: 2.20
++ *	    DPMS levels: Standby Suspend Off
++ *	    RGB color display
++ *	    First detailed timing is the preferred timing
++ *	  Color Characteristics:
++ *	    Red  : 0.6835, 0.3105
++ *	    Green: 0.2587, 0.6679
++ *	    Blue : 0.1445, 0.0585
++ *	    White: 0.3134, 0.3291
++ *	  Established Timings I & II:
++ *	    DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
++ *	    DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
++ *	    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz
++ *	  Standard Timings:
++ *	    DMT 0x52:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz
++ *	    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz
++ *	    DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
++ *	  Detailed Timing Descriptors:
++ *	    DTD 1:  2560x2880   59.966580 Hz   8:9    185.417 kHz    534.000000 MHz (465 mm x 523 mm)
++ *	                 Hfront   48 Hsync  32 Hback  240 Hpol P
++ *	                 Vfront    3 Vsync  10 Vback  199 Vpol N
++ *	    Display Range Limits:
++ *	      Monitor ranges (GTF): 59-61 Hz V, 30-178 kHz H, max dotclock 490 MHz
++ *	    Display Product Name: 'LG SDQHD'
++ *	    Display Product Serial Number: '207NTRLDC430'
++ *	  Extension blocks: 1
++ *	Checksum: 0x46
++ *
++ *	----------------
++ *
++ *	Block 1, CTA-861 Extension Block:
++ *	  Revision: 3
++ *	  Basic audio support
++ *	  Supports YCbCr 4:4:4
++ *	  Supports YCbCr 4:2:2
++ *	  Native detailed modes: 2
++ *	  Audio Data Block:
++ *	    Linear PCM:
++ *	      Max channels: 2
++ *	      Supported sample rates (kHz): 48 44.1 32
++ *	      Supported sample sizes (bits): 24 20 16
++ *	  Video Data Block:
++ *	    VIC   1:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
++ *	    VIC   3:   720x480    59.940060 Hz  16:9     31.469 kHz     27.000000 MHz
++ *	    VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
++ *	    VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz (native)
++ *	    VIC  18:   720x576    50.000000 Hz  16:9     31.250 kHz     27.000000 MHz
++ *	    VIC  19:  1280x720    50.000000 Hz  16:9     37.500 kHz     74.250000 MHz
++ *	    VIC  31:  1920x1080   50.000000 Hz  16:9     56.250 kHz    148.500000 MHz
++ *	    VIC  34:  1920x1080   30.000000 Hz  16:9     33.750 kHz     74.250000 MHz
++ *	    VIC  93:  3840x2160   24.000000 Hz  16:9     54.000 kHz    297.000000 MHz
++ *	    VIC  94:  3840x2160   25.000000 Hz  16:9     56.250 kHz    297.000000 MHz
++ *	    VIC  95:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
++ *	    VIC  96:  3840x2160   50.000000 Hz  16:9    112.500 kHz    594.000000 MHz
++ *	    VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
++ *	  Speaker Allocation Data Block:
++ *	    FL/FR - Front Left/Right
++ *	  Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
++ *	    Source physical address: 1.0.0.0
++ *	    Supports_AI
++ *	    DC_36bit
++ *	    DC_30bit
++ *	    DC_Y444
++ *	    Maximum TMDS clock: 300 MHz
++ *	    Extended HDMI video details:
++ *	      HDMI VICs:
++ *	        HDMI VIC 1:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
++ *	        HDMI VIC 2:  3840x2160   25.000000 Hz  16:9     56.250 kHz    297.000000 MHz
++ *	        HDMI VIC 3:  3840x2160   24.000000 Hz  16:9     54.000 kHz    297.000000 MHz
++ *	  Vendor-Specific Data Block (HDMI Forum), OUI C4-5D-D8:
++ *	    Version: 1
++ *	    Maximum TMDS Character Rate: 600 MHz
++ *	    SCDC Present
++ *	    Supports 12-bits/component Deep Color 4:2:0 Pixel Encoding
++ *	    Supports 10-bits/component Deep Color 4:2:0 Pixel Encoding
++ *	  YCbCr 4:2:0 Capability Map Data Block:
++ *	    VIC  96:  3840x2160   50.000000 Hz  16:9    112.500 kHz    594.000000 MHz
++ *	    VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
++ *	  Video Capability Data Block:
++ *	    YCbCr quantization: No Data
++ *	    RGB quantization: Selectable (via AVI Q)
++ *	    PT scan behavior: Always Underscanned
++ *	    IT scan behavior: Always Underscanned
++ *	    CE scan behavior: Always Underscanned
++ *	  Colorimetry Data Block:
++ *	    BT2020YCC
++ *	    BT2020RGB
++ *	  HDR Static Metadata Data Block:
++ *	    Electro optical transfer functions:
++ *	      Traditional gamma - SDR luminance range
++ *	      SMPTE ST2084
++ *	    Supported static metadata descriptors:
++ *	      Static metadata type 1
++ *	    Desired content max luminance: 82 (295.365 cd/m^2)
++ *	    Desired content max frame-average luminance: 82 (295.365 cd/m^2)
++ *	    Desired content min luminance: 81 (0.298 cd/m^2)
++ *	  Detailed Timing Descriptors:
++ *	    DTD 2:  2560x2880   29.986961 Hz   8:9     87.592 kHz    238.250000 MHz (465 mm x 523 mm)
++ *	                 Hfront   48 Hsync  32 Hback   80 Hpol P
++ *	                 Vfront    3 Vsync  10 Vback   28 Vpol N
++ *	Checksum: 0xc3  Unused space in Extension Block: 43 bytes
++ *
++ *	----------------
++ *
++ *	edid-decode 1.29.0-5346
++ *	edid-decode SHA: c363e9aa6d70 2025-03-11 11:41:18
++ *
++ *	Warnings:
++ *
++ *	Block 1, CTA-861 Extension Block:
++ *	  IT Video Formats are overscanned by default, but normally this should be underscanned.
++ *	  Video Data Block: VIC 1 and the first DTD are not identical. Is this intended?
++ *	  Video Data Block: All VICs are in ascending order, and the first (preferred) VIC <= 4, is that intended?
++ *	  Video Capability Data Block: Set Selectable YCbCr Quantization to avoid interop issues.
++ *	  Video Capability Data Block: S_PT is equal to S_IT and S_CE, so should be set to 0 instead.
++ *	  Colorimetry Data Block: Set the sRGB colorimetry bit to avoid interop issues.
++ *	  Display Product Serial Number is set, so the Serial Number in the Base EDID should be 0.
++ *	EDID:
++ *	  Base EDID: Some timings are out of range of the Monitor Ranges:
++ *	    Vertical Freq: 24.000 - 60.317 Hz (Monitor: 59.000 - 61.000 Hz)
++ *	    Horizontal Freq: 31.250 - 185.416 kHz (Monitor: 30.000 - 178.000 kHz)
++ *	    Maximum Clock: 594.000 MHz (Monitor: 490.000 MHz)
++ *
++ *	Failures:
++ *
++ *	Block 1, CTA-861 Extension Block:
++ *	  Video Capability Data Block: IT video formats are always underscanned, but bit 7 of Byte 3 of the CTA-861 Extension header is set to overscanned.
++ *	EDID:
++ *	  CTA-861: Native progressive timings are a mix of several resolutions.
++ *
++ *	EDID conformity: FAIL
++ *
++ *	================
++ *
++ *	InfoFrame of '/sys/kernel/debug/dri/1/HDMI-A-1/infoframes/audio' was empty.
++ *
++ *	================
++ *
++ *	edid-decode InfoFrame (hex):
++ *
++ *	82 02 0d 31 12 28 04 00 00 00 00 00 00 00 00 00
++ *	00
++ *
++ *	----------------
++ *
++ *	HDMI InfoFrame Checksum: 0x31
++ *
++ *	AVI InfoFrame
++ *	  Version: 2
++ *	  Length: 13
++ *	  Y: Color Component Sample Format: RGB
++ *	  A: Active Format Information Present: Yes
++ *	  B: Bar Data Present: Bar Data not present
++ *	  S: Scan Information: Composed for an underscanned display
++ *	  C: Colorimetry: No Data
++ *	  M: Picture Aspect Ratio: 16:9
++ *	  R: Active Portion Aspect Ratio: 8
++ *	  ITC: IT Content: No Data
++ *	  EC: Extended Colorimetry: xvYCC601
++ *	  Q: RGB Quantization Range: Limited Range
++ *	  SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
++ *	  YQ: YCC Quantization Range: Limited Range
++ *	  CN: IT Content Type: Graphics
++ *	  PR: Pixel Data Repetition Count: 0
++ *	  Line Number of End of Top Bar: 0
++ *	  Line Number of Start of Bottom Bar: 0
++ *	  Pixel Number of End of Left Bar: 0
++ *	  Pixel Number of Start of Right Bar: 0
++ *
++ *	----------------
++ *
++ *	AVI InfoFrame conformity: PASS
++ *
++ *	================
++ *
++ *	edid-decode InfoFrame (hex):
++ *
++ *	81 01 05 49 03 0c 00 20 01
++ *
++ *	----------------
++ *
++ *	HDMI InfoFrame Checksum: 0x49
++ *
++ *	Vendor-Specific InfoFrame (HDMI), OUI 00-0C-03
++ *	  Version: 1
++ *	  Length: 5
++ *	  HDMI Video Format: HDMI_VIC is present
++ *	  HDMI VIC 1:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
++ *
++ *	----------------
++ *
++ *	Vendor-Specific InfoFrame (HDMI), OUI 00-0C-03 conformity: PASS
++ *
++ *	================
++ *
++ *	InfoFrame of '/sys/kernel/debug/dri/1/HDMI-A-1/infoframes/hdr_drm' was empty.
++ *
++ *	================
++ *
++ *	edid-decode InfoFrame (hex):
++ *
++ *	83 01 19 93 42 72 6f 61 64 63 6f 6d 56 69 64 65
++ *	6f 63 6f 72 65 00 00 00 00 00 00 00 09
++ *
++ *	----------------
++ *
++ *	HDMI InfoFrame Checksum: 0x93
++ *
++ *	Source Product Description InfoFrame
++ *	  Version: 1
++ *	  Length: 25
++ *	  Vendor Name: 'Broadcom'
++ *	  Product Description: 'Videocore'
++ *	  Source Information: PC general
++ *
++ *	----------------
++ *
++ *	Source Product Description InfoFrame conformity: PASS
++ *
+  * Testing
+  * ~~~~~~~
+  *
+  * The helpers have unit testing and can be tested using kunit with:
   *
 
 -- 
