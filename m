@@ -2,81 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DB9A5E850
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 00:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3F4A5E85C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 00:24:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47AC310E1DB;
-	Wed, 12 Mar 2025 23:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC1A510E1C7;
+	Wed, 12 Mar 2025 23:24:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hlTcurcv";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OdIDQoRS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F6E910E1DB
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 23:23:24 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5e033c2f106so432195a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 16:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741821802; x=1742426602; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6zrV7lfXICcs3l0g4L6oSOhAbz0Vn05AYlZgbp4rDoM=;
- b=hlTcurcvh8cZ8FePBDRCUvxieaAPzcaw41F90p4/X6VdFYLbo+7dSAmZU3J8HbKfIN
- XEh7fKiCalBuWth90cLFmS+Kz9XhHGenSidH9I1Z9D9k5WCsO59Aauf+Xn8XIfuvPl/r
- snKqgd9zdnpayKk9KjvX3mu1HrdLB8mj0/Mbpg/ecfj1QrTbQq2U3thhwNetdZCQoI0F
- VyViI+V03JP6lfxOy0Hdtkph8ATdLSm6AiWWdkhokYkd9IkXd/G7hQiBRCQ8ZpDETHQ3
- jHQ+PTjgzvMLTbM5CUAVAPcoJ3y4vYARx1W28TnBUjdSIFKB8erkaNYhFZPQRq2IvkYs
- rLQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741821803; x=1742426603;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6zrV7lfXICcs3l0g4L6oSOhAbz0Vn05AYlZgbp4rDoM=;
- b=drUC9ufY63EaYL4KvwIg6NU0at2u5l0TngqqzGtKMbt7xLM0aTIFceOOEdBLX2f10x
- Qwsf43/Kr7gk0LYpGGXTExiQ9EKLaAWkm843OMFjpHIEJxlfcPrXSH2+CnDIpbfC3iJh
- /NlZA2J6+EjMeoQ4QLx3Se/YlvNygOivLeYJ4IjX/LRJXbueVy7IOXIozmWFKHgjfRCQ
- hFYyQ7lKZUVcMzqi/NZzTk8vY795ma2YNG5yIkDKIqJNL+7hdEreZclbS5tLYNonXecp
- rjg5aRXQukO55c8Td0M8I9KZagalKcVNdNsXikxAKCjb0wRonaC9c0BGb5iBs8FmhBCR
- DLNA==
-X-Gm-Message-State: AOJu0Yw0yjtyiMpq2fB7v7phbcIFcFmRMxSQYHoCHP13QvCDZ4lcnGiF
- nQF6nyDGHLa/TnLMg3K72GeHgm5q4wkvzO7VNO2ZfO8WNDgtfDwQ
-X-Gm-Gg: ASbGncuJHDD22DCsfA66Asv3waGO93YRj8WnrwNTuxbiJb2kjwfnZElrJv0Y3+uwolC
- 7cL0rKqOMRQ9wUTMcykKp/9R3B88dcAakHOKEXHrO8ZOsOg/QbU6PdnKlPgj0ATOIdeQz48U9Se
- FKYpAPoqVPc1L7tXV9KE9jWBGx84Fpadec5cXdG48fwHCGzpMQ2LMR/a1iZlHJ5QKnGjoIsi6PK
- /BE/T3x4L7MB2efZuGXohLM/xoL+sc9WVmjDJ7s94HRwNfzJ3cgtgXeWkav37+qKViKV5Z9m4Uh
- ZH6ozdlAhdOR3FquaQci2fl6v6zUnEVRbtD3JQnOz0FUq1HMp2fsf+XZxPSt+G6p6UN+qvPzu98
- f5hlxM6LmwBBahmhrzXrq3KdmKOSWI7I=
-X-Google-Smtp-Source: AGHT+IE/HS7pBbJiG0dtxqr09NjUVWMflt711bAAkhk0a2Jd0FhTvLGrwUMbdOg+tiQiWKRSLoGTNQ==
-X-Received: by 2002:a05:6402:430b:b0:5df:25e8:26d2 with SMTP id
- 4fb4d7f45d1cf-5e5e22a79ccmr49699585a12.5.1741821802314; 
- Wed, 12 Mar 2025 16:23:22 -0700 (PDT)
-Received: from localhost.localdomain (146.10-240-81.adsl-dyn.isp.belgacom.be.
- [81.240.10.146]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5e816afe223sm26732a12.70.2025.03.12.16.23.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Mar 2025 16:23:21 -0700 (PDT)
-From: Philippe Simons <simons.philippe@gmail.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4B910E0F6;
+ Wed, 12 Mar 2025 23:24:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=UG0QUj+/F5+iHlDvlkjoHha5ViuzaUsXPRlMDLy6Qkw=; b=OdIDQoRSsOqSy4znaL05QmSl2O
+ QQ7KC4wBUQwDjcxCFYy21XDHI37n0mJfWY26iRAEui1v7We8u52titD8Y7Zg3H7a6Eq72UNq9iDsq
+ OfZb87WI6lbghBG+Lrqf6mN4U4G+m43Bd4C5/SNxeul/7nRGult9mGiERHl/9/gcHBlg2zAZXc70g
+ GCBnaCNVplQ4ozz700Fm6uj4P0YqnAO2Vb27K/pryqNeQTXuggd/kmotid0tvnpHYo7YKzfshRwCu
+ WqDYnyt4rKfvhD7MkW4P+9BPtdgcbLT4b3iJQPxlB857VDCxNwE1EqKZ1bWqaCOKDEJMwx1RT1sOQ
+ b+vFXNkw==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tsVR8-007plu-Po; Thu, 13 Mar 2025 00:24:36 +0100
+Date: Wed, 12 Mar 2025 23:24:35 +0000
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
- =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Subject: [PATCH 2/2] drm/panfrost: add h616 compatible string
-Date: Thu, 13 Mar 2025 00:23:19 +0100
-Message-ID: <20250312232319.25712-3-simons.philippe@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250312232319.25712-1-simons.philippe@gmail.com>
-References: <20250312232319.25712-1-simons.philippe@gmail.com>
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <Z9IXs5CzHHKScuQn@linux>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,41 +68,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tie the Allwinner compatible string to the two features bits that will
-toggle the clocks and the reset line whenever the power domain is changing
-state.
 
-Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Hi Dave, Sima,
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 0f3935556ac7..f13743fe6bad 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -776,6 +776,13 @@ static const struct panfrost_compatible default_data = {
- 	.pm_domain_names = NULL,
- };
- 
-+static const struct panfrost_compatible allwinner_h616_data = {
-+	.num_supplies = ARRAY_SIZE(default_supplies) - 1,
-+	.supply_names = default_supplies,
-+	.num_pm_domains = 1,
-+	.pm_features = BIT(GPU_PM_RT_CLK_DIS) | BIT(GPU_PM_RT_RST_ASRT),
-+};
-+
- static const struct panfrost_compatible amlogic_data = {
- 	.num_supplies = ARRAY_SIZE(default_supplies) - 1,
- 	.supply_names = default_supplies,
-@@ -859,6 +866,7 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
- 	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
- 	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
-+	{ .compatible = "allwinner,sun50i-h616-mali", .data = &allwinner_h616_data },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, dt_match);
--- 
-2.48.1
+Here comes the final pull request for 6.15.
 
+Main thing is the bump of the reported mmap ioctl feature level, which
+enables Mesa to reliably detect full partial mmap support. Then the DRM
+client implementation gains vmap support and the remaining changes are just
+some refactors and cleanups.
+
+Regards,
+
+Tvrtko
+
+drm-intel-gt-next-2025-03-12:
+UAPI Changes:
+
+- Increase I915_PARAM_MMAP_GTT_VERSION version to indicate support for partial mmaps (José Roberto de Souza)
+
+Driver Changes:
+
+Fixes/improvements/new stuff:
+
+- Implement vmap/vunmap GEM object functions (Asbjørn Sloth Tønnesen)
+
+Miscellaneous:
+
+- Various register definition cleanups (Ville Syrjälä)
+- Fix typo in a comment [gt/uc] (Yuichiro Tsuji)
+The following changes since commit 7ded94bd11d47a8ddef051aef1d1a42d8191e09f:
+
+  drm/i915/gt: add wait on depth stall done bit handling (2025-02-18 12:37:04 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2025-03-12
+
+for you to fetch changes up to bfef148f3680e6b9d28e7fca46d9520f80c5e50e:
+
+  drm/i915: Increase I915_PARAM_MMAP_GTT_VERSION version to indicate support for partial mmaps (2025-03-11 07:04:51 -0700)
+
+----------------------------------------------------------------
+UAPI Changes:
+
+- Increase I915_PARAM_MMAP_GTT_VERSION version to indicate support for partial mmaps (José Roberto de Souza)
+
+Driver Changes:
+
+Fixes/improvements/new stuff:
+
+- Implement vmap/vunmap GEM object functions (Asbjørn Sloth Tønnesen)
+
+Miscellaneous:
+
+- Various register definition cleanups (Ville Syrjälä)
+- Fix typo in a comment [gt/uc] (Yuichiro Tsuji)
+
+----------------------------------------------------------------
+Asbjørn Sloth Tønnesen (1):
+      drm/i915: implement vmap/vunmap GEM object functions
+
+José Roberto de Souza (1):
+      drm/i915: Increase I915_PARAM_MMAP_GTT_VERSION version to indicate support for partial mmaps
+
+Ville Syrjälä (12):
+      drm/i915: Bump RING_FAULT engine ID bits
+      drm/i915: Relocate RING_FAULT bits
+      drm/i915: Use REG_BIT() & co. for ring fault registers
+      drm/i915: Document which RING_FAULT bits apply to which platforms
+      drm/i915: Introduce RING_FAULT_VADDR_MASK
+      drm/i915: Extract gen8_report_fault()
+      drm/i915: Use REG_BIT() & co. for CHV EU/slice fuse bits
+      drm/i915: Reoder CHV EU/slice fuse bits
+      drm/i915: Use REG_BIT() & co. for BDW+ EU/slice fuse bits
+      drm/i915: Reoder BDW+ EU/slice fuse bits
+      drm/i915: Use REG_BIT() & co. for gen9+ timestamp freq registers
+      drm/i915: Reoder gen9+ timestamp freq register bits
+
+Yuichiro Tsuji (1):
+      drm/i915/gt/uc: Fix typo in a comment
+
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c          |   5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c        |  26 +++++
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c         |   5 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c                |  89 ++++++--------
+ drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c    |  10 +-
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c            |   5 +-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h           | 136 ++++++++++------------
+ drivers/gpu/drm/i915/gt/intel_sseu.c              |  56 +++++----
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |   9 +-
+ 9 files changed, 166 insertions(+), 175 deletions(-)
