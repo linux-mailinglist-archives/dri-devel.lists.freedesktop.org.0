@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D203A5D5FC
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 07:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4162A5D64A
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 07:31:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A451410E6D6;
-	Wed, 12 Mar 2025 06:22:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hys5tl6T";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88CCB8953E;
+	Wed, 12 Mar 2025 06:31:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5E4C10E6D6
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 06:22:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C0312A46CD1;
- Wed, 12 Mar 2025 06:16:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7C62C4CEE3;
- Wed, 12 Mar 2025 06:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1741760530;
- bh=FqdJefIg8ikvVSCYyqCjDW5HTyvdKG0E9EFlXvUwRD8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hys5tl6TcN3NXFZTd/T2qyA4+szlFs4nh+KWQwtI02j65jMQplmzT9Ej3ybQVZxjT
- Txv1gVDjBFi0Yw9OKhW/Lv4xOR2YYKlr02X0Yjdo4isAUy5yRfI3j3ncDYdKB3fClr
- ZWGbCKGO8cUHA4THmAWk1BCaBx65TMjHBiDDQSUI=
-Date: Wed, 12 Mar 2025 07:22:07 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: Jonathan.Cameron@huawei.com, airlied@gmail.com,
- aleksander.lobakin@intel.com, andriy.shevchenko@linux.intel.com,
- bhelgaas@google.com, broonie@kernel.org, dakr@kernel.org,
- dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, louis.chauvet@bootlin.com,
- lukas@wunner.de, lyude@redhat.com,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- melissa.srw@gmail.com, mripard@kernel.org, quic_zijuhu@quicinc.com,
- rafael@kernel.org, robin.murphy@arm.com,
- rust-for-linux@vger.kernel.org, simona.vetter@ffwll.ch,
- simona@ffwll.ch, tzimmermann@suse.de
-Subject: Re: [PATCH v4 9/9] drm/vkms: convert to use faux_device
-Message-ID: <2025031218-oxidize-backing-e278@gregkh>
-References: <2025022643-scouting-petticoat-492b@gregkh>
- <20250311172054.2903-1-jose.exposito89@gmail.com>
+Received: from cstnet.cn (unknown [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 925148953E;
+ Wed, 12 Mar 2025 06:31:35 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.141.245])
+ by APP-01 (Coremail) with SMTP id qwCowABXhPs6KtFneEl5FA--.37073S2;
+ Wed, 12 Mar 2025 14:31:23 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: Hawking.Zhang@amd.com, Likun.Gao@amd.com, sunil.khatri@amd.com,
+ kenneth.feng@amd.com, Jack.Xiao@amd.com, marek.olsak@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/amdgpu/gfx12: correct cleanup of 'me' field with
+ gfx_v12_0_me_fini()
+Date: Wed, 12 Mar 2025 14:31:06 +0800
+Message-ID: <20250312063106.772-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250311172054.2903-1-jose.exposito89@gmail.com>
+X-CM-TRANSID: qwCowABXhPs6KtFneEl5FA--.37073S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw17Aw17Kw4xtw4UZFyfCrg_yoWkGFX_CF
+ 4UJr93Wr4UCF1qqw1xZr1YvasFkF15ZF48Ka1aqas5GrZ8Z343Kry8Kr95WF4fuan3C3Wk
+ XFyUWF1ftasxWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbf8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r47MxAIw28IcxkI7VAKI4
+ 8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
+ wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjx
+ v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20E
+ Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
+ AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb7Ks5UUUUU==
+X-Originating-IP: [124.16.141.245]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwsTA2fQ4meNigABso
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,75 +64,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 11, 2025 at 06:20:53PM +0100, José Expósito wrote:
-> Hi everyone,
-> 
-> > On Tue, Feb 25, 2025 at 02:51:40PM +0100, Louis Chauvet wrote:
-> > > 
-> > > 
-> > > Le 25/02/2025 à 12:41, Thomas Zimmermann a écrit :
-> > > > Hi
-> > > > 
-> > > > Am 10.02.25 um 15:37 schrieb Louis Chauvet:
-> > > > > On 10/02/25 - 13:30, Greg Kroah-Hartman wrote:
-> > > > > > The vkms driver does not need to create a platform device, as there is
-> > > > > > no real platform resources associated it,  it only did so because it was
-> > > > > > simple to do that in order to get a device to use for resource
-> > > > > > management of drm resources.  Change the driver to use the faux device
-> > > > > > instead as this is NOT a real platform device.
-> > > > > > 
-> > > > > > Cc: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> > > > > > Cc: Simona Vetter <simona@ffwll.ch>
-> > > > > > Cc: Melissa Wen <melissa.srw@gmail.com>
-> > > > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > > Cc: David Airlie <airlied@gmail.com>
-> > > > > > Cc: dri-devel@lists.freedesktop.org
-> > > > > > Reviewed-by: Lyude Paul <lyude@redhat.com>
-> > > > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > 
-> > > > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > 
-> > > > > Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > 
-> > > > > Thanks for the modification, it seems to work.
-> > > > 
-> > > > Should this patch be merged through DRM trees? drm-misc-next is at
-> > > > v6.14-rc4 and has struct faux_device.
-> > > 
-> > > Hi,
-> > > 
-> > > I was not aware the faux-device was merged, as it is a new feature, I
-> > > expected it to reach drm-misc-next on 6.15-rc1.
-> > 
-> > I added it to Linus's tree just so that DRM could get these changes into
-> > their tree now :)
-> > 
-> > > I plan to merge [1] today/tomorrow (well tested with platform_device), and
-> > > then I will submit an updated version of this patch (only trivial conflicts,
-> > > but never tested with multiple VKMS devices).
-> > > 
-> > > [1]:https://lore.kernel.org/all/20250218101214.5790-1-jose.exposito89@gmail.com/
-> > 
-> > Great, thanks!
-> > 
-> > greg k-h
-> 
-> Testing this patch again as part of some IGT tests I'm working on,
-> I noticed that, applying this patch on top of the latest drm-misc-next
-> triggers a warning at drivers/gpu/drm/drm_gem.c:571, in
-> drm_gem_get_pages():
-> 
->     if (WARN_ON(!obj->filp))
->             return ERR_PTR(-EINVAL);
+In gfx_v12_0_cp_gfx_load_me_microcode_rs64(), gfx_v12_0_pfp_fini() is
+incorrectly used to free 'me' field of 'gfx', since gfx_v12_0_pfp_fini()
+can only release 'pfp' field of 'gfx'. The release function of 'me' field
+should be gfx_v12_0_me_fini().
 
-I don't see how the faux bus change would have anything to do with a
-filp as that's not related as far as I can tell.  But I don't know the
-drm layer at all, where does that filp come from?
+Fixes: 52cb80c12e8a ("drm/amdgpu: Add gfx v12_0 ip block support (v6)")
+Cc: stable@vger.kernel.org # 6.11+
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
+index da327ab48a57..02bc2eddf0c0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
+@@ -2413,7 +2413,7 @@ static int gfx_v12_0_cp_gfx_load_me_microcode_rs64(struct amdgpu_device *adev)
+ 				      (void **)&adev->gfx.me.me_fw_data_ptr);
+ 	if (r) {
+ 		dev_err(adev->dev, "(%d) failed to create me data bo\n", r);
+-		gfx_v12_0_pfp_fini(adev);
++		gfx_v12_0_me_fini(adev);
+ 		return r;
+ 	}
+ 
+-- 
+2.42.0.windows.2
 
-greg k-h
