@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18E1A5D6F2
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 08:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C79A5D6F4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 08:12:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDB0510E6E5;
-	Wed, 12 Mar 2025 07:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA0E10E6E8;
+	Wed, 12 Mar 2025 07:12:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MTqezMTU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CM2Op1Jh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4128710E6E5;
- Wed, 12 Mar 2025 07:12:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B597B10E6EF;
+ Wed, 12 Mar 2025 07:12:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741763560; x=1773299560;
+ t=1741763563; x=1773299563;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=yzgFGV7m2rd37yYbGAKXeAIYn4blY+Yp9j1lVkBr+Pg=;
- b=MTqezMTU6i/ZueD4zoMGOMJ8tLbUsyFD1rTzO5LhAjL0/5ZwY7HzbP6G
- DJNds0+OzoWab1T+qi4Jhw9xjknKP02XJAsu8/bnE0f9mxOD0LvjfA5BO
- F/HupUJLygm3p1ZfHYsLmIzzxUrRojfWu37CLV38WfmiaEzXpQLUa1t/5
- iV5oj9AEU6v4lDBVwzx0B4cwSTOzWM6Ugtq+YpD0CtwtjRRO49dIyvgZD
- 3ClIqFuesoJs87rJM3U4PN5Laofc3m47exyS45Sm5HwtV69tRR6RphyvC
- XNjyn93gbjaHVYXS4/So8/n7tV1OLOzkqULIn2d74RIktFq+l4I19KUDy A==;
-X-CSE-ConnectionGUID: +pQlg4yiQxuobK8w6IMa2Q==
-X-CSE-MsgGUID: j6v9b/XHR+qCk8prX777jA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="65288730"
-X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; d="scan'208";a="65288730"
+ bh=p7y/P/qYlxhtAJY2+tFTZ3xTIhCff5/bP4CyhkTecTE=;
+ b=CM2Op1JhkIYFbkwUn614TErhUtXy2xT8Dn/92EMOY8ZmKsJgmXU0YvsS
+ 5cnLE0udtRAQa06qpDckfi8H7Q10pcA2oxwevb09/wHXXsKe3LobCKZUq
+ Ha8dGhZ7WVK7upMWHrCC6qMU12+Clulv7ygDidYGTkYYiXK4vlPDZi7Th
+ 7ZXpd42KME/KGDwTob/0d+5hYthatDbHzJ4E5MKMXdpp6vy596E+4YUMD
+ hM7+jvApm1DbDK2pI6V0KYnJ5fp0S/n2LONMzn1/j26h8PvK0A+PwuKPC
+ S38dN0Ok6MXQ6zEj6WwBRQKPjJ5aK+PAeC8QilcUMh1gZLNMe3CvZxR4R w==;
+X-CSE-ConnectionGUID: op7bCeDtRzWX9Um+F2jUtg==
+X-CSE-MsgGUID: 6BRaj1gdR9uzwz6leJfUow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="65288741"
+X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; d="scan'208";a="65288741"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2025 00:12:40 -0700
-X-CSE-ConnectionGUID: 8W5aGeReT5mqlkVfHFPsIg==
-X-CSE-MsgGUID: bFva913zTP+/S++CrgO3XA==
+ 12 Mar 2025 00:12:43 -0700
+X-CSE-ConnectionGUID: vpl4O5dsSiqj3OG1WLh/hA==
+X-CSE-MsgGUID: XH5mahAySjuPr4aCSrq1Aw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; d="scan'208";a="120366174"
+X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; d="scan'208";a="120366186"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by fmviesa006.fm.intel.com with ESMTP; 12 Mar 2025 00:12:36 -0700
+ by fmviesa006.fm.intel.com with ESMTP; 12 Mar 2025 00:12:40 -0700
 From: Uma Shankar <uma.shankar@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org
 Cc: ville.syrjala@linux.intel.com, harry.wentland@amd.com,
  pekka.paalanen@haloniitty.fi, sebastian.wick@redhat.com, jadahl@redhat.com,
  mwen@igalia.com, contact@emersion.fr, naveen1.kumar@intel.com,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
  Uma Shankar <uma.shankar@intel.com>
-Subject: [v4 06/23] drm: Add 1D LUT multi-segmented color op
-Date: Wed, 12 Mar 2025 12:54:08 +0530
-Message-ID: <20250312072425.3099205-7-uma.shankar@intel.com>
+Subject: [v4 07/23] drm: Define helper to initialize segmented 1D LUT
+Date: Wed, 12 Mar 2025 12:54:09 +0530
+Message-ID: <20250312072425.3099205-8-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20250312072425.3099205-1-uma.shankar@intel.com>
 References: <20250312072425.3099205-1-uma.shankar@intel.com>
@@ -71,71 +70,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+This adds helper functions to create 1D multi-segmented Lut
+color block capabilities. It exposes the hardware block as segments
+which are converted to blob and passed in the property.
+This also adds helper to initialize 1D segmented LUT.
 
-Add support for color ops that can be programmed
-by 1 dimensional multi segmented Look Up Tables.
-
-v2: Fixed the documentation for Multi segmented lut (Dmitry)
+v2: Squashed the 1d lut helpers (Dmitry)
 
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/drm_atomic.c      |  4 ++++
- drivers/gpu/drm/drm_atomic_uapi.c |  3 +++
- include/uapi/drm/drm_mode.h       | 10 ++++++++++
- 3 files changed, 17 insertions(+)
+ drivers/gpu/drm/drm_colorop.c | 68 +++++++++++++++++++++++++++++++++++
+ include/drm/drm_colorop.h     |  4 +++
+ 2 files changed, 72 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index ab7d2ed9ee8c..c79ed3551abc 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -800,6 +800,10 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
- 			   drm_get_colorop_lut1d_interpolation_name(colorop->lut1d_interpolation));
- 		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
- 		break;
-+	case DRM_COLOROP_1D_LUT_MULTSEG:
-+		drm_printf(p, "\thw cap blob id=%d\n", state->hw_caps ? state->hw_caps->base.id : 0);
-+		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
-+		break;
- 	case DRM_COLOROP_CTM_3X3:
- 		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
- 		break;
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 14d7939780db..d9eee683b1f2 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -715,6 +715,9 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
- 		size = colorop->lut_size * colorop->lut_size * colorop->lut_size *
- 		       sizeof(struct drm_color_lut);
- 		break;
-+	case DRM_COLOROP_1D_LUT_MULTSEG:
-+		elem_size = sizeof(struct drm_color_lut_32);
-+		break;
- 	default:
- 		/* should never get here */
- 		return -EINVAL;
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 9ba64d5b20c8..bd58c9f5f98d 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -923,6 +923,16 @@ enum drm_colorop_type {
- 	 */
- 	DRM_COLOROP_CTM_3X4,
+diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+index 7aa572f74193..e57da344032c 100644
+--- a/drivers/gpu/drm/drm_colorop.c
++++ b/drivers/gpu/drm/drm_colorop.c
+@@ -89,6 +89,48 @@ static const struct drm_prop_enum_list drm_colorop_lut3d_interpolation_list[] =
+ };
  
-+	/**
-+	 * @DRM_COLOROP_1D_LUT_MULTSEG:
-+	 *
-+	 * A 1D LUT with multiple segments to cover the full color range with non-uniformly
-+	 * distributed &drm_color_lut entries, packed into a blob via the DATA property.
-+	 * The driver's expected LUT size and segmented capabilities are advertised via the
-+	 * HW_CAPS property.
-+	 */
-+	DRM_COLOROP_1D_LUT_MULTSEG,
+ /* Init Helpers */
++static int drm_create_colorop_capability_prop(struct drm_device *dev,
++					      struct drm_colorop *colorop,
++					      struct drm_property_blob *blob)
++{
++	struct drm_property *prop = NULL;
 +
- 	/**
- 	 * @DRM_COLOROP_CTM_3X3:
- 	 *
++	prop = drm_property_create(dev, DRM_MODE_PROP_BLOB |
++				   DRM_MODE_PROP_ATOMIC |
++				   DRM_MODE_PROP_IMMUTABLE,
++				   "HW_CAPS", 1);
++	if (!prop)
++		return -ENOMEM;
++
++	colorop->hw_caps_property = prop;
++	drm_object_attach_property(&colorop->base,
++				   colorop->hw_caps_property,
++				   blob->base.id);
++
++	return 0;
++}
++
++static int drm_colorop_lutcaps_init(struct drm_colorop *colorop,
++				    struct drm_plane *plane,
++				    const struct drm_color_lut_range *ranges,
++				    size_t length)
++{
++	struct drm_device *dev = plane->dev;
++	struct drm_property_blob *blob;
++
++	/* Create Color Caps property for multi-segmented 1D LUT */
++	if (colorop->type != DRM_COLOROP_1D_LUT_MULTSEG)
++		return -EINVAL;
++
++	if (WARN_ON(length == 0 || length % sizeof(ranges[0]) != 0))
++		return -EINVAL;
++
++	blob = drm_property_create_blob(plane->dev, length, ranges);
++	if (IS_ERR(blob))
++		return PTR_ERR(blob);
++
++	return drm_create_colorop_capability_prop(dev, colorop, blob);
++}
+ 
+ static int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
+ 			    struct drm_plane *plane, enum drm_colorop_type type,
+@@ -342,6 +384,32 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
+ }
+ EXPORT_SYMBOL(drm_colorop_curve_1d_lut_init);
+ 
++int drm_colorop_curve_1d_lut_multseg_init(struct drm_device *dev, struct drm_colorop *colorop,
++					  struct drm_plane *plane,
++					  const struct drm_color_lut_range *ranges,
++					  size_t length, bool allow_bypass)
++{
++	int ret;
++
++	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_LUT_MULTSEG, allow_bypass);
++	if (ret)
++		return ret;
++
++	ret = drm_colorop_lutcaps_init(colorop, plane, ranges, length);
++	if (ret)
++		return ret;
++
++	/* data */
++	ret = drm_colorop_create_data_prop(dev, colorop);
++	if (ret)
++		return ret;
++
++	drm_colorop_reset(colorop);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_colorop_curve_1d_lut_multseg_init);
++
+ int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+ 			     struct drm_plane *plane, bool allow_bypass)
+ {
+diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+index 731bd1484c34..4f5a6b567c2c 100644
+--- a/include/drm/drm_colorop.h
++++ b/include/drm/drm_colorop.h
+@@ -403,6 +403,10 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
+ 				  bool allow_bypass);
+ int drm_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_colorop *colorop,
+ 			     struct drm_plane *plane, bool allow_bypass);
++int drm_colorop_curve_1d_lut_multseg_init(struct drm_device *dev, struct drm_colorop *colorop,
++					  struct drm_plane *plane,
++					  const struct drm_color_lut_range *ranges,
++					  size_t length, bool allow_bypass);
+ int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+ 			     struct drm_plane *plane, bool allow_bypass);
+ int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
 -- 
 2.42.0
 
