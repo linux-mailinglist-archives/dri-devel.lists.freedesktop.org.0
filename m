@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 066ECA5E618
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 22:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4622A5E619
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Mar 2025 22:05:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 151ED10E7BB;
-	Wed, 12 Mar 2025 21:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4694510E7AE;
+	Wed, 12 Mar 2025 21:05:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TfhDQXOp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FqPaq87+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 031D610E7C3;
- Wed, 12 Mar 2025 21:05:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6656C10E7AE;
+ Wed, 12 Mar 2025 21:05:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741813528; x=1773349528;
+ t=1741813531; x=1773349531;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LRH6alolskh5ueYrVP60p72pyIHTehdVRlfCbBleTFY=;
- b=TfhDQXOpBjF9UWKSlGcRcMsSJJdKshZel768CK4ch0eDOFXrSKnMuUrh
- nmSq6AMmpJKmr+I4wgrLzRbicgHtlUIP7IyuD1VQDVSoywZ3zjrZR3cBo
- wcVQBVxq0j+uN6FUTSMIZU0QkJeTnnim3aHKcXaB9rRXlb/hWqR+HyC6M
- EzL6cSdfCAqcyCAYx25nW47yfF6N7UCfO1urEq6ZNoM8GjAlMLbWX6bYl
- 1FGT9NqRlgAdlFL2MJ034UbnKHXF4ftTBS6LCiKAj/pX+81gN9Pjd6iqW
- Gr9tolJ49BKwh22i6xwbAgO1V6iDzVK3+Yg8S0MImEmCjVwTURfxozCTi w==;
-X-CSE-ConnectionGUID: WqIkvP+6RjKttL+kfJaXlA==
-X-CSE-MsgGUID: 5HLPavBBR0qfHCNM9SYh0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="46562220"
-X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; d="scan'208";a="46562220"
+ bh=Q19zeRvTjI8WRNaqh8HKq2VUmvFQM4Qmx7ZlY+LvZqc=;
+ b=FqPaq87+rZ2X2HsoXs//smMB2wECkTA6/j6y+pa1Nj+96Yki1LxOjD/O
+ uD2EvnYgYnXpdSCPNFjTw54qXOEoaq21XkHwCO8RpTtw8DlmgiKSjIYzH
+ f1eIQwHyG8szHqOUL+/jPecjjeJqmMqT7u1PqFPAWMUgUbS8Ew0LCTOts
+ 4zFc4wYATzwY1oMz7A+k7GYQ/0ZBsyIoj+9Ns89SzAHbKxff/v+HcKHQ9
+ 9BsBrYHxECKNJLCJ/gI37F2vw+ZBmMfGdtJBhVBs4OntvApoQUXTw9e33
+ qb6qYMsJuPdDQGPDQQ8dlZWbnnFFkeIKsUjRCNgUnXft2aoLa9MRh5u03 w==;
+X-CSE-ConnectionGUID: VvmM22+0Qeqpkp38Ud0RZA==
+X-CSE-MsgGUID: GNVz+ZHXQpqq9UkwMHetnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="46562231"
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; d="scan'208";a="46562231"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2025 14:05:27 -0700
-X-CSE-ConnectionGUID: rmhKRwclQkC9kj8dUQUeAg==
-X-CSE-MsgGUID: X7bCncp0QfK7nen9Jk1oWQ==
+ 12 Mar 2025 14:05:31 -0700
+X-CSE-ConnectionGUID: S8DAZ/bQSae9sitMt1gN9A==
+X-CSE-MsgGUID: GNnj603oQCGgnG+D3snGoQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; d="scan'208";a="120791170"
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; d="scan'208";a="120791188"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO fedora..)
  ([10.245.246.73])
  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2025 14:05:24 -0700
+ 12 Mar 2025 14:05:27 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -52,10 +52,10 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [RFC PATCH 11/19] drm/xe: Use the drm_pagemap_util helper to get a
- svm pagemap owner
-Date: Wed, 12 Mar 2025 22:04:08 +0100
-Message-ID: <20250312210416.3120-12-thomas.hellstrom@linux.intel.com>
+Subject: [RFC PATCH 12/19] drm/xe: Make the PT code handle placement per PTE
+ rather than per vma / range
+Date: Wed, 12 Mar 2025 22:04:09 +0100
+Message-ID: <20250312210416.3120-13-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250312210416.3120-1-thomas.hellstrom@linux.intel.com>
 References: <20250312210416.3120-1-thomas.hellstrom@linux.intel.com>
@@ -77,156 +77,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register a driver-wide owner list, provide a callback to identify
-fast interconnects and use the drm_pagemap_util helper to allocate
-or reuse a suitable owner struct. For now we consider pagemaps on
-different tiles on the same device as having fast interconnect.
+With SVM, ranges forwarded to the PT code for binding can, mostly
+due to races when migrating, point to both VRAM and system / foreign
+device memory. Make the PT code able to handle that by checking,
+for each PTE set up, whether it points to local VRAM or to system
+memory.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c | 40 +++++++++++++++++++++++++++----------
- drivers/gpu/drm/xe/xe_svm.h |  3 +++
- 2 files changed, 32 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/xe/xe_bo.c |  12 +++--
+ drivers/gpu/drm/xe/xe_pt.c | 106 ++++++++++++++++---------------------
+ 2 files changed, 56 insertions(+), 62 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 20441da0aff7..25d49d0d7484 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -75,11 +75,6 @@ void xe_svm_range_debug(struct xe_svm_range *range, const char *operation)
- 	range_debug(range, operation);
- }
- 
--static void *xe_svm_devm_owner(struct xe_device *xe)
--{
--	return xe;
--}
--
- static struct drm_gpusvm_range *
- xe_svm_range_alloc(struct drm_gpusvm *gpusvm)
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index 390f90fbd366..bec788bce95c 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -2091,10 +2091,16 @@ uint64_t vram_region_gpu_offset(struct ttm_resource *res)
  {
-@@ -751,7 +746,7 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
- 	/* Ensure the device has a pm ref while there are device pages active. */
- 	xe_pm_runtime_get_noresume(xe);
- 	err = drm_pagemap_migrate_to_devmem(&bo->devmem_allocation, mm,
--					    start, end, xe_svm_devm_owner(xe));
-+					    start, end, xpagemap->pagemap.owner);
- 	if (err)
- 		xe_svm_devmem_release(&bo->devmem_allocation);
+ 	struct xe_device *xe = ttm_to_xe_device(res->bo->bdev);
  
-@@ -791,6 +786,7 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 		.check_pages_threshold = IS_DGFX(vm->xe) &&
- 			IS_ENABLED(CONFIG_DRM_XE_PAGEMAP) ? SZ_64K : 0,
- 	};
-+	struct drm_pagemap *dpagemap;
- 	struct xe_svm_range *range;
- 	struct drm_gpusvm_range *r;
- 	struct drm_exec exec;
-@@ -818,16 +814,14 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 		return 0;
- 
- 	range_debug(range, "PAGE FAULT");
-+	dpagemap = xe_tile_local_pagemap(tile);
- 
- 	/* XXX: Add migration policy, for now migrate range once */
- 	if (!range->skip_migrate && range->base.flags.migrate_devmem &&
- 	    xe_svm_range_size(range) >= SZ_64K) {
--		struct drm_pagemap *dpagemap;
+-	if (res->mem_type == XE_PL_STOLEN)
++	switch (res->mem_type) {
++	case XE_PL_STOLEN:
+ 		return xe_ttm_stolen_gpu_offset(xe);
 -
- 		range->skip_migrate = true;
- 
- 		range_debug(range, "ALLOCATE VRAM");
--		dpagemap = xe_tile_local_pagemap(tile);
- 		err = drm_pagemap_populate_mm(dpagemap, xe_svm_range_start(range),
- 					      xe_svm_range_end(range),
- 					      range->base.gpusvm->mm);
-@@ -841,7 +835,8 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 	}
- 
- 	range_debug(range, "GET PAGES");
--	ctx.device_private_page_owner = xe_svm_devm_owner(vm->xe);
-+	ctx.device_private_page_owner = dpagemap ?
-+		container_of(dpagemap, struct xe_pagemap, dpagemap)->pagemap.owner : NULL;
- 	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, &ctx);
- 	/* Corner where CPU mappings have changed */
- 	if (err == -EOPNOTSUPP || err == -EFAULT || err == -EPERM) {
-@@ -962,6 +957,11 @@ static void xe_pagemap_fini(struct xe_pagemap *xpagemap)
- 		xpagemap->hpa_base = 0;
- 	}
- 
-+	if (pagemap->owner) {
-+		drm_pagemap_release_owner(&xpagemap->peer);
-+		pagemap->owner = NULL;
+-	return res_to_mem_region(res)->dpa_base;
++	case XE_PL_TT:
++	case XE_PL_SYSTEM:
++		return 0;
++	default:
++		return res_to_mem_region(res)->dpa_base;
 +	}
-+
- 	if (pagemap->range.start) {
- 		devm_release_mem_region(dev, pagemap->range.start,
- 					pagemap->range.end - pagemap->range.start + 1);
-@@ -995,6 +995,19 @@ static void xe_pagemap_destroy(struct drm_pagemap *dpagemap)
- 	complete_all(&xpagemap->cache->queued);
++	return 0;
  }
  
-+static bool xe_has_interconnect(struct drm_pagemap_peer *peer1,
-+				struct drm_pagemap_peer *peer2)
+ /**
+diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+index 9e719535a3bb..d14b1a28474a 100644
+--- a/drivers/gpu/drm/xe/xe_pt.c
++++ b/drivers/gpu/drm/xe/xe_pt.c
+@@ -278,13 +278,15 @@ struct xe_pt_stage_bind_walk {
+ 	struct xe_vm *vm;
+ 	/** @tile: The tile we're building for. */
+ 	struct xe_tile *tile;
+-	/** @default_pte: PTE flag only template. No address is associated */
+-	u64 default_pte;
++	/** @default_pte: PTE flag only template for VRAM. No address is associated */
++	u64 default_vram_pte;
++	/** @default_pte: PTE flag only template for VRAM. No address is associated */
++	u64 default_system_pte;
+ 	/** @dma_offset: DMA offset to add to the PTE. */
+ 	u64 dma_offset;
+ 	/**
+ 	 * @needs_64k: This address range enforces 64K alignment and
+-	 * granularity.
++	 * granularity on VRAM.
+ 	 */
+ 	bool needs_64K;
+ 	/**
+@@ -515,13 +517,16 @@ xe_pt_stage_bind_entry(struct xe_ptw *parent, pgoff_t offset,
+ 	if (level == 0 || xe_pt_hugepte_possible(addr, next, level, xe_walk)) {
+ 		struct xe_res_cursor *curs = xe_walk->curs;
+ 		bool is_null = xe_vma_is_null(xe_walk->vma);
++		bool is_vram = xe_res_is_vram(curs);
+ 
+ 		XE_WARN_ON(xe_walk->va_curs_start != addr);
+ 
+ 		pte = vm->pt_ops->pte_encode_vma(is_null ? 0 :
+ 						 xe_res_dma(curs) + xe_walk->dma_offset,
+ 						 xe_walk->vma, pat_index, level);
+-		pte |= xe_walk->default_pte;
++		if (!is_null)
++			pte |= is_vram ? xe_walk->default_vram_pte :
++				xe_walk->default_system_pte;
+ 
+ 		/*
+ 		 * Set the XE_PTE_PS64 hint if possible, otherwise if
+@@ -531,7 +536,7 @@ xe_pt_stage_bind_entry(struct xe_ptw *parent, pgoff_t offset,
+ 			if (xe_pt_is_pte_ps64K(addr, next, xe_walk)) {
+ 				xe_walk->vma->gpuva.flags |= XE_VMA_PTE_64K;
+ 				pte |= XE_PTE_PS64;
+-			} else if (XE_WARN_ON(xe_walk->needs_64K)) {
++			} else if (XE_WARN_ON(xe_walk->needs_64K && is_vram)) {
+ 				return -EINVAL;
+ 			}
+ 		}
+@@ -603,6 +608,31 @@ static const struct xe_pt_walk_ops xe_pt_stage_bind_ops = {
+ 	.pt_entry = xe_pt_stage_bind_entry,
+ };
+ 
++/* The GPU can always to atomics in VRAM */
++static bool xe_atomic_for_vram(struct xe_vm *vm)
 +{
-+	struct xe_pagemap *xpagemap1 = container_of(peer1, typeof(*xpagemap1), peer);
-+	struct xe_pagemap *xpagemap2 = container_of(peer2, typeof(*xpagemap1), peer);
-+	struct device *dev1 = xpagemap1->dpagemap.drm->dev;
-+	struct device *dev2 = xpagemap2->dpagemap.drm->dev;
-+
-+	return dev1 == dev2;
++	return true;
 +}
 +
-+static DRM_PAGEMAP_OWNER_LIST_DEFINE(xe_owner_list);
++/*
++ * iGFX always expect to be able to do atomics in system.
++ *
++ * For DGFX, 3D clients want to do atomics in system that is
++ * not coherent with CPU atomics. Compute clients want
++ * atomics that look coherent with CPU atomics. We
++ * distinguish the two by checking for lr mode. For
++ * compute we then disallow atomics in system.
++ * Compute attempts to perform atomics in system memory would
++ * then cause an unrecoverable page-fault in preempt-fence
++ * mode, but in fault mode the data would be migrated to VRAM
++ * for GPU atomics and to system for CPU atomics.
++ */
++static bool xe_atomic_for_system(struct xe_vm *vm)
++{
++	return (!IS_DGFX(vm->xe) || !xe_vm_in_lr_mode(vm)) &&
++		!vm->xe->info.has_device_atomics_on_smem;
++}
 +
- static const struct drm_pagemap_ops xe_drm_pagemap_ops = {
- 	.device_map = xe_drm_pagemap_device_map,
- 	.populate_mm = xe_drm_pagemap_populate_mm,
-@@ -1046,11 +1059,16 @@ struct xe_pagemap *xe_pagemap_create(struct xe_device *xe, struct xe_pagemap_cac
- 		goto out_err;
+ /**
+  * xe_pt_stage_bind() - Build a disconnected page-table tree for a given address
+  * range.
+@@ -629,9 +659,8 @@ xe_pt_stage_bind(struct xe_tile *tile, struct xe_vma *vma,
+ {
+ 	struct xe_device *xe = tile_to_xe(tile);
+ 	struct xe_bo *bo = xe_vma_bo(vma);
+-	bool is_devmem = !xe_vma_is_userptr(vma) && bo &&
+-		(xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo));
+ 	struct xe_res_cursor curs;
++	struct xe_vm *vm = xe_vma_vm(vma);
+ 	struct xe_pt_stage_bind_walk xe_walk = {
+ 		.base = {
+ 			.ops = &xe_pt_stage_bind_ops,
+@@ -639,7 +668,7 @@ xe_pt_stage_bind(struct xe_tile *tile, struct xe_vma *vma,
+ 			.max_level = XE_PT_HIGHEST_LEVEL,
+ 			.staging = true,
+ 		},
+-		.vm = xe_vma_vm(vma),
++		.vm = vm,
+ 		.tile = tile,
+ 		.curs = &curs,
+ 		.va_curs_start = range ? range->base.itree.start :
+@@ -647,26 +676,22 @@ xe_pt_stage_bind(struct xe_tile *tile, struct xe_vma *vma,
+ 		.vma = vma,
+ 		.wupd.entries = entries,
+ 	};
+-	struct xe_pt *pt = xe_vma_vm(vma)->pt_root[tile->id];
++	struct xe_pt *pt = vm->pt_root[tile->id];
+ 	int ret;
+ 
+ 	if (range) {
+ 		/* Move this entire thing to xe_svm.c? */
+-		xe_svm_notifier_lock(xe_vma_vm(vma));
++		xe_svm_notifier_lock(vm);
+ 		if (!xe_svm_range_pages_valid(range)) {
+ 			xe_svm_range_debug(range, "BIND PREPARE - RETRY");
+-			xe_svm_notifier_unlock(xe_vma_vm(vma));
++			xe_svm_notifier_unlock(vm);
+ 			return -EAGAIN;
+ 		}
+ 		if (xe_svm_range_has_dma_mapping(range)) {
+ 			xe_res_first_dma(range->base.dma_addr, 0,
+ 					 range->base.itree.last + 1 - range->base.itree.start,
+ 					 &curs);
+-			is_devmem = xe_res_is_vram(&curs);
+-			if (is_devmem)
+-				xe_svm_range_debug(range, "BIND PREPARE - DMA VRAM");
+-			else
+-				xe_svm_range_debug(range, "BIND PREPARE - DMA");
++			xe_svm_range_debug(range, "BIND PREPARE - MIXED");
+ 		} else {
+ 			xe_assert(xe, false);
+ 		}
+@@ -674,54 +699,17 @@ xe_pt_stage_bind(struct xe_tile *tile, struct xe_vma *vma,
+ 		 * Note, when unlocking the resource cursor dma addresses may become
+ 		 * stale, but the bind will be aborted anyway at commit time.
+ 		 */
+-		xe_svm_notifier_unlock(xe_vma_vm(vma));
++		xe_svm_notifier_unlock(vm);
  	}
  
-+	err = drm_pagemap_acquire_owner(&xpagemap->peer, &xe_owner_list,
-+					xe_has_interconnect);
-+	if (err)
-+		goto out_err;
-+
- 	pagemap->type = MEMORY_DEVICE_PRIVATE;
- 	pagemap->range.start = res->start;
- 	pagemap->range.end = res->end;
- 	pagemap->nr_range = 1;
--	pagemap->owner = xe_svm_devm_owner(xe);
-+	pagemap->owner = xpagemap->peer.owner;
- 	pagemap->ops = drm_pagemap_pagemap_ops_get();
- 	addr = devm_memremap_pages(dev, pagemap);
- 	if (IS_ERR(addr)) {
-diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-index 19469fd91666..3fd8fc125cba 100644
---- a/drivers/gpu/drm/xe/xe_svm.h
-+++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -10,6 +10,7 @@
+-	xe_walk.needs_64K = (xe_vma_vm(vma)->flags & XE_VM_FLAG_64K) && is_devmem;
+-
+-	/**
+-	 * Default atomic expectations for different allocation scenarios are as follows:
+-	 *
+-	 * 1. Traditional API: When the VM is not in LR mode:
+-	 *    - Device atomics are expected to function with all allocations.
+-	 *
+-	 * 2. Compute/SVM API: When the VM is in LR mode:
+-	 *    - Device atomics are the default behavior when the bo is placed in a single region.
+-	 *    - In all other cases device atomics will be disabled with AE=0 until an application
+-	 *      request differently using a ioctl like madvise.
+-	 */
++	xe_walk.needs_64K = (vm->flags & XE_VM_FLAG_64K);
+ 	if (vma->gpuva.flags & XE_VMA_ATOMIC_PTE_BIT) {
+-		if (xe_vm_in_lr_mode(xe_vma_vm(vma))) {
+-			if (bo && xe_bo_has_single_placement(bo))
+-				xe_walk.default_pte |= XE_USM_PPGTT_PTE_AE;
+-			/**
+-			 * If a SMEM+LMEM allocation is backed by SMEM, a device
+-			 * atomics will cause a gpu page fault and which then
+-			 * gets migrated to LMEM, bind such allocations with
+-			 * device atomics enabled.
+-			 */
+-			else if (is_devmem)
+-				xe_walk.default_pte |= XE_USM_PPGTT_PTE_AE;
+-		} else {
+-			xe_walk.default_pte |= XE_USM_PPGTT_PTE_AE;
+-		}
+-
+-		/**
+-		 * Unset AE if the platform(PVC) doesn't support it on an
+-		 * allocation
+-		 */
+-		if (!xe->info.has_device_atomics_on_smem && !is_devmem)
+-			xe_walk.default_pte &= ~XE_USM_PPGTT_PTE_AE;
++		xe_walk.default_vram_pte = xe_atomic_for_vram(vm) ? XE_USM_PPGTT_PTE_AE : 0;
++		xe_walk.default_system_pte = xe_atomic_for_system(vm) ? XE_USM_PPGTT_PTE_AE : 0;
+ 	}
  
- #include <drm/drm_pagemap.h>
- #include <drm/drm_gpusvm.h>
-+#include <drm/drm_pagemap_util.h>
+-	if (is_devmem) {
+-		xe_walk.default_pte |= XE_PPGTT_PTE_DM;
+-		xe_walk.dma_offset = bo ? vram_region_gpu_offset(bo->ttm.resource) : 0;
+-	}
+-
+-	if (!xe_vma_has_no_bo(vma) && xe_bo_is_stolen(bo))
+-		xe_walk.dma_offset = xe_ttm_stolen_gpu_offset(xe_bo_device(bo));
+-
++	xe_walk.default_vram_pte |= XE_PPGTT_PTE_DM;
++	xe_walk.dma_offset = bo ? vram_region_gpu_offset(bo->ttm.resource) : 0;
+ 	if (!range)
+ 		xe_bo_assert_held(bo);
  
- #define XE_INTERCONNECT_VRAM DRM_INTERCONNECT_DRIVER
- 
-@@ -54,6 +55,7 @@ struct xe_svm_range {
-  * @pagemap: The struct dev_pagemap providing the struct pages.
-  * @dpagemap: The drm_pagemap managing allocation and migration.
-  * @destroy_work: Handles asnynchronous destruction and caching.
-+ * @peer: Used for pagemap owner computation.
-  * @hpa_base: The host physical address base for the managemd memory.
-  * @cache: Backpointer to the struct xe_pagemap_cache for the memory region.
-  * @vr: Backpointer to the xe_vram region.
-@@ -65,6 +67,7 @@ struct xe_pagemap {
- 	struct dev_pagemap pagemap;
- 	struct drm_pagemap dpagemap;
- 	struct delayed_work destroy_work;
-+	struct drm_pagemap_peer peer;
- 	resource_size_t hpa_base;
- 	struct xe_pagemap_cache *cache;
- 	struct xe_vram_region *vr;
 -- 
 2.48.1
 
