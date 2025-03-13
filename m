@@ -2,216 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C79FA6033A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 22:10:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C637EA60429
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 23:18:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90EE410E1BA;
-	Thu, 13 Mar 2025 21:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C9410E946;
+	Thu, 13 Mar 2025 22:18:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lGDrwVAd";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QeQq86AS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74DB210E1BA
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 21:10:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741900218; x=1773436218;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=DgrFpcxtnk79hkhZzOwuhSUsd8sSWyfhwC+GIOPZ77E=;
- b=lGDrwVAd4lhXAOLvh/gjfMmdQm5IhRYZH1RVvbK5hWXSIbfxtgE53/L3
- XOgvNuZQXxk8d41rpT0o0YnKxlMRSX1LmlqD78r2cSkTwv/9gV2s0/CdB
- f9GHSF2YlR6hJIKahTZSC4pQri6pnFlFlFA5F91t8JdA9t1D7wNd2LZJV
- Z2O8WytO16F2KyMW3ssoMFCf7AjzBegYZKsTDt8XAwHYsceiQ4TQ3EP9U
- B1/Ydl5lINji/CPof+3eGepobHcxyFFVnSImZ+xJjIXKwcNVfd3MGfI/A
- zlhESa+ypqI4HDHGxZIkNPBLsRwqpnwEQvVsn+5M15w15xXxzfXNtfSLj w==;
-X-CSE-ConnectionGUID: 970A+IuDQ6iM/H5nlq21RA==
-X-CSE-MsgGUID: Ara7nlLWRMydjzSMpO4HEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="42766423"
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; d="scan'208";a="42766423"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2025 14:10:05 -0700
-X-CSE-ConnectionGUID: 7Jk+EKlTTCud49Jq2CsC/Q==
-X-CSE-MsgGUID: lOS3jH3ORRGuIfyct6B2Ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; d="scan'208";a="120860987"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2025 14:10:03 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 13 Mar 2025 14:10:02 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 13 Mar 2025 14:10:02 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 13 Mar 2025 14:10:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C/Z1W1z8ZlHGyQDvBnb8vkT/bDs2mr20Jr4z2+zsHsR7OUVF3YHmn5rQsSqQVYml4B+dS1dealJlkTAQ649p32G3ww+hnBzHeQDuJtpF55dh1HiKfsuvt9uu8yE5+UGV+xjWH+jIpVPA7c4uhQkK4ty95RrN3TtYVrDDqiO8Qhbx0k4QhESwDtBV0PxM4x8T2N+8i3+3qfaGmWrQxt7ipbYuph67USqZJpgucUwABg9vffgNwUiGk/utaBf925sfE0Ds/OB3Xeuo6rTT3ip+yNQJP7AP39lyO8ZdsHdqBsEwo9lySlwKyZfQ9VktMyerRhBG/oF+Mf9ArYQ/PD/ZXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E45ReUDgJlcJOBMmUBMkjqsOf7Q6u6VUkzeBkCoDTsI=;
- b=YU2aqC8SEyrNocIxqrsRl6uLJKNvf5zuRGIDhW8J91qrNgHOhmV3OXVt2eqcYMv/Yde8RDfjVbHDfIwtdhzsUMMgBuY7NI7icvPvv12LDw5x00kTac6CC9s1mTRkWC98Y1ajqzEk0jAejI/EJYlCngxu6q0DOWmwvgw9xuHPTfrjqOY7s1oufzsFwGVNfUmftGjLUMZCJVfiHtMBqLPDZHDeULq8LtlDerJ52P53+M9sQQM1KZ5Ryq4HApixdJaOa0O9h/u88Qr4wCw0DslrJwXy5BNw48QLaBOpni3WOonLLTOQ7Nlm9a6nbHPCD96cyka4AzI8UJg2q4kPvkPi0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com (2603:10b6:303:9b::16)
- by SJ0PR11MB4992.namprd11.prod.outlook.com (2603:10b6:a03:2d4::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.28; Thu, 13 Mar
- 2025 21:09:26 +0000
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::7de8:e1b1:a3b:b8a8]) by CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::7de8:e1b1:a3b:b8a8%4]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
- 21:09:26 +0000
-Message-ID: <b2b632cc-ca69-497f-9cf9-782bd02cac79@intel.com>
-Date: Thu, 13 Mar 2025 14:09:24 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
-To: "H. Peter Anvin" <hpa@zytor.com>, Yury Norov <yury.norov@gmail.com>
-CC: David Laight <david.laight.linux@gmail.com>, Jiri Slaby
- <jirislaby@kernel.org>, Ingo Molnar <mingo@kernel.org>, Kuan-Wei Chiu
- <visitorckw@gmail.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
- <bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
- <jk@ozlabs.org>, <joel@jms.id.au>, <eajames@linux.ibm.com>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <dmitry.torokhov@gmail.com>, <mchehab@kernel.org>, <awalls@md.metrocast.net>, 
- <hverkuil@xs4all.nl>, <miquel.raynal@bootlin.com>, <richard@nod.at>,
- <vigneshr@ti.com>, <louis.peens@corigine.com>, <andrew+netdev@lunn.ch>,
- <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
- <parthiban.veerasooran@microchip.com>, <arend.vanspriel@broadcom.com>,
- <johannes@sipsolutions.net>, <gregkh@linuxfoundation.org>,
- <akpm@linux-foundation.org>, <alistair@popple.id.au>,
- <linux@rasmusvillemoes.dk>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>, <kuba@kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsi@lists.ozlabs.org>,
- <dri-devel@lists.freedesktop.org>, <linux-input@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
- <oss-drivers@corigine.com>, <netdev@vger.kernel.org>,
- <linux-wireless@vger.kernel.org>, <brcm80211@lists.linux.dev>,
- <brcm80211-dev-list.pdl@broadcom.com>, <linux-serial@vger.kernel.org>,
- <bpf@vger.kernel.org>, <jserv@ccns.ncku.edu.tw>, Yu-Chun Lin
- <eleanor15x@gmail.com>
-References: <20250306162541.2633025-1-visitorckw@gmail.com>
- <20250306162541.2633025-2-visitorckw@gmail.com>
- <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org>
- <Z8ra0s9uRoS35brb@gmail.com>
- <a4040c78-8765-425e-a44e-c374dfc02a9c@kernel.org>
- <20250307193643.28065d2d@pumpkin>
- <cbb26a91-807b-4227-be81-8114e9ea72cb@intel.com>
- <0F794C6F-32A9-4F34-9516-CEE24EA4BC49@zytor.com> <Z9MGxknjluvbX19w@thinkpad>
- <795281B1-9B8A-477F-8012-DECD14CB53E5@zytor.com>
-Content-Language: en-US
-From: Jacob Keller <jacob.e.keller@intel.com>
-In-Reply-To: <795281B1-9B8A-477F-8012-DECD14CB53E5@zytor.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0182.namprd04.prod.outlook.com
- (2603:10b6:303:86::7) To CO1PR11MB5089.namprd11.prod.outlook.com
- (2603:10b6:303:9b::16)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6237110E946
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 22:18:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741904295;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rylbSj7LxKwwNlFd2WfD/bX+zVn0DxywNvse8aNjhic=;
+ b=QeQq86ASs6HI8XfTqLZwwsmkxhdBz739XQxq+TbODmRFvfBhBGLzviooEx2BuZsZCILHV3
+ tcsj1EdBju4ACdtV1lFTi8UlhtwKK3GEwTxBALr8+k5INqB2+dqrKE3gA4vNlgdF4FkMU/
+ 38svUPv9YN9mHA+l0xBeHL9lXP44GuE=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-407-kutfFvMgMe2EAUqHzPXBjw-1; Thu, 13 Mar 2025 18:18:11 -0400
+X-MC-Unique: kutfFvMgMe2EAUqHzPXBjw-1
+X-Mimecast-MFC-AGG-ID: kutfFvMgMe2EAUqHzPXBjw_1741904291
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-6fef68ecc8eso22127537b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 15:18:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741904291; x=1742509091;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rylbSj7LxKwwNlFd2WfD/bX+zVn0DxywNvse8aNjhic=;
+ b=M9s2gjVtzFfe2KxsvfNoVpcTb6UcVBQkfNI17PAXW/05jf1/dNliIg48r0W6YRI3ST
+ q2xEAPmwCyuX2ohXtZgkOQl+KyAiddgITmiWKoEfSMtUSPangiyG9NobRuFUxtA0OS5D
+ mjOVOruwBw55cxSrAotSAZ3boifR8wZ19kJ4DktAQLM4j2b3BxE6z8+RGRO5bohw1eta
+ 3jZzyXCyQs7DiNpEm91WJ8Y6EPjhH3d+phTus8zG0T+dGnrpCZ/XvqgwV0koIMgyE82p
+ 61a7LAOlUy9xaftDEUjJYLXMuapKXRYyQJJi5uZtt+y18+1pz0F2YylpO/Za8MQ5Y/rB
+ LmQw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUkfNy/8Yr/8cdpCnHT4BuNPnwxKqPGGvDMwXjjIF5nd85xvm5UAcBx/vorw7KCFlOfkU3WTrj2V0g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwykOyfIi8+XOPsigDtVdlP8kVtSqi37nx2kEiOGiwzZuYB6i7G
+ YqunJVdyxEbDqn3XaHTHvFLuHDxqUsY3uulrukHuP3sSDzcJDZYHhcag/QDeM9eTiv9rblzHlEX
+ 3qT1XC800xSPGBiw5B+7DgLxhrB4CDtOtcTHMLTRzXnnQU2uvO7O7LvlvU+k14qhlT5IZwVAK4/
+ M3QiGie8oAuNdzPrpK2kfDagyxynGH8ZF7M2nSIXSn
+X-Gm-Gg: ASbGncu8LV/lkQr4IrevaEJ6jd4gY/vchLKDA2E1lldurWZo0e3U8zPCdeuY9DJjcuc
+ DEVulgRH6ioPyZb/7WAVxnVtPczyB0Xbj6yHGk//vXzEpO44BHG007h8Eg76s6lqe5rApGvI=
+X-Received: by 2002:a05:690c:f88:b0:6f9:7f1c:5390 with SMTP id
+ 00721157ae682-6ff460c16a1mr1395457b3.26.1741904291391; 
+ Thu, 13 Mar 2025 15:18:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHEu1/IWbYpigSQ0yzDRY7t2L7I9MR7haOq1Sm1DuTsw5VNZYkkA2cESu0NmyIez3SXcoAS4BZWBPqphFU/LFc=
+X-Received: by 2002:a05:690c:f88:b0:6f9:7f1c:5390 with SMTP id
+ 00721157ae682-6ff460c16a1mr1395207b3.26.1741904291125; Thu, 13 Mar 2025
+ 15:18:11 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5089:EE_|SJ0PR11MB4992:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79b10f16-aaa7-4494-8167-08dd6273564e
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?b2xMdC9xZ0lWeDl5dW5sOVZMK1ovSFRPeUpnaUZnd3g2R1c0Wkcza1RjZHQw?=
- =?utf-8?B?WCtSWnhUMldGN21SR1pmc2xDc0lidXpEZnpzRU1JYkNtbFFNYnVwM1V3R1Az?=
- =?utf-8?B?bnVzb0EwdklhaVpwd0k0OVI2MVFCQjlKdGIzbG5zeEhURGFvY2ZmQkk4L3Fu?=
- =?utf-8?B?c2Z4WEdSck4xR04veGdkVFpQNE1NVThaK0Q5WFpwRktFMVJHYmgzYWNQaGRk?=
- =?utf-8?B?akxLTXJJQmFpOEZhRTBRS3BaYnlMRE1PcExwdWwxTjFtZ1VadkZSRVZYZ0FE?=
- =?utf-8?B?NWVnakJJakoybGVJR0doQXZRT0loNnR1TG5kRHdRNGJscklwRXI1dnkrVXBk?=
- =?utf-8?B?bUIrTGFhcCtseEZzQVVtQkYrRTl2bnlqdXF6V2szMVdhQS80M09XeVhTb2Fm?=
- =?utf-8?B?QXhheVZyc1Ywd2ZqVlhKNUhFTjNpNWYwcnBUVHhibFQ2Sk00aTFmV2tRYTg0?=
- =?utf-8?B?YmM4Uk1DVFJlMkhoNm1BOHprcmNXL0FZcEtKbytDT1Bzc1JpU3ZsZGhEb1pP?=
- =?utf-8?B?TENreWpYN0Z4cjNKc2cxRFR5TzBtTHNFVENEK283NnMyMFMzZG9YaHBJL3VH?=
- =?utf-8?B?SWZseUFXZEpkV3NBOE9yV1lncDRLNHpvdE1wWHRPZmZSR25IeCs1di81S1VF?=
- =?utf-8?B?ZGIzMVErVU02TXVEVjNrelNnVnd6NTRlYzVwSU10RmVvaHV2RGlzcFFONjQz?=
- =?utf-8?B?T1EwUzRmTjVYdGdxUTBESnBEaUlzN2tldEViVnM3dW5lcXVkZFNQS3lSdzZa?=
- =?utf-8?B?ZEtUcmY0TzhOaFpmVFk2NERFQmluV1VqSUFPSktmQVc2S0lPbGxwK210Q3pG?=
- =?utf-8?B?cXozQnpacExxZ0pwSUV0SGpablJ3NitCV1Npc0gvazlIV01qSnFHbEVzTHZP?=
- =?utf-8?B?eFRsRUUvM1JJZVBTeHhJRHdiMURJL1hLTTNuVHBFZnd4NE9qWlRES2xNSHZo?=
- =?utf-8?B?UE0xaEpidXRTV0pDc09uNUk3SWxsS1kzNDRGV2h1Um92eUduSGZzbFArOVhT?=
- =?utf-8?B?NTF5emRYVStZL0xFd0JVN0ZiMkhlWEFSWHNOWG9ENmZhNTY1Zm13ZjcrMEJL?=
- =?utf-8?B?enFJNDBVNzAyUkRvTWZ2U1NXNnZWNDFZSENjYWhQZEhuazhNcVJDL2RkaC9V?=
- =?utf-8?B?V2VyNzFBQmQzVy9tUWdiSTBsc2h1M0JISTFlSTArSnFxK0VHcm81R3hNNmxK?=
- =?utf-8?B?VUc1bXlyZ2Foa2YvVlhUYTh1Y05jT01CZHdkR0plQTBHVDNGbjR2LzY1QlVm?=
- =?utf-8?B?dUgzYkYzSGRKNXJFYTRNWmE3cE9VcEFIOFZMNmpnUVhOc2Q1azR5ZlZPOWNJ?=
- =?utf-8?B?dUVuWVJqRUI0dDNOamhqcXN4T2QvMkFDNjRBSXNxbzJsK2NaSjZDVGU3ODZR?=
- =?utf-8?B?eDMxRE8zV2FrU2VqY2h1UXljeU0yUlFBSkQxZjJyNmtiODhXdkFPOGlPTGtq?=
- =?utf-8?B?RE44QTQyeWpZVDFtN3lmSjFsUHdhakxqeDlaL1V0THhmSlVBMjVNb1lIaGtM?=
- =?utf-8?B?QUIwUnFHeDIvYjlIY3V3QUVrdm1DeWloMmdhRXlCcDQxSk5OM2xzanlxWW5C?=
- =?utf-8?B?UFJVYUdrZTlmNjV6REo5ciszZTVHR1ZMc2U0MjM4d2dDWC9WUGdLR3J3Rndm?=
- =?utf-8?B?dE4rRjIzWnFNNWoyM2RCc0dvakVuN2pjQUc3dXVzSm5tOVhzQ0NlTjM1eThu?=
- =?utf-8?B?OTF1dlJ5MjFKMXpveTBvYzFRQnROd1UvZW5zZ3RqZERzU2pHSFRvT0VUT1NX?=
- =?utf-8?B?aXltcE5rWmNkZDNSQ09TT29ncHFtaEt3c1RIZ0R2dTVRc25GcEtlMEFTWWR5?=
- =?utf-8?B?akRCVlgwK1hzaktuK2d4YnJha1h4dzRLdW9JeDlqQ2RiL1hVMGNqdDQxNVZP?=
- =?utf-8?Q?6djIK3dZhi617?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO1PR11MB5089.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmdhTlR2RzdrbXhDcHArRmdPenZqeEhiV2s2YnY0Y01kS3VuRERPdkYyMzhR?=
- =?utf-8?B?dzd1VlFZYjM1TUVwRGFGcHZmTXF6UkEwWDdSQm1mSGNZQk5NZVhlQWdQRzNI?=
- =?utf-8?B?VXhPa2tQTnIyMk5EbGI4NFUyei90UzBjSVdzNW9mc0NhNU5RQ1JuREk0Zjc5?=
- =?utf-8?B?RjBMU2RNeTlVaGxQQkl2OWhNUXBwRFZ0UGYxVGovRWRyQXFaby9EazFNMFVl?=
- =?utf-8?B?TGRHUFhuUjg5MUJCalJnc2xaMXFBOVJBcGdaQWtWNFBvZGRZOWk1WHpzQWVs?=
- =?utf-8?B?eStYVmhQSDVxSnhyVCtwUXRwb05yRFJkSnNVR0JGd1ZHZTlCL0dFYUJGK3Zv?=
- =?utf-8?B?UmowUm81TVNoZFFSWnFIelRORERuWjU1VnkzL2hmeUZuSCtxYXhkNnphSW9H?=
- =?utf-8?B?VUdUMDdnVTFBeW1WajlVZ2xDR0ttK2FOU1ZQVzQraHNrMlUybHl1VnlTVlh0?=
- =?utf-8?B?cDU5ZlhiM0N0VnZwSUtRMWJJdXduVFJpQnRUa1ROU3F4YXNselIycHM0MGF1?=
- =?utf-8?B?RkNtUmx4aE5SUFNuRW9wcjhqdUdyT3g1T2tFUWhYc1JxK0tyRm5nZmJQYXVm?=
- =?utf-8?B?cEpoamRsZ1hhbCt2Z2ErbnhpdU83L0Jrb2hsMGNGL0RobGlyNzl3UktaWTJT?=
- =?utf-8?B?Wlp6SGdhWit5eW1PZnNqczlubWpVN3pORWllSDVzVDlmbVNneDd5MG9jTGVT?=
- =?utf-8?B?bndWS2NveU9FcGUzY05aNlQyV1k3U2RuQ2xETStNUmY3SnJXWEk4S3p4enhB?=
- =?utf-8?B?b1Z6d0ZLczJPN1NUVmJwZGJDV1ZFWS8xM09xSitPUTdoRklneXU0SHloSkpT?=
- =?utf-8?B?N2wrYVNaTWFSV1l5c1Y3YzVZRC9lYkJ2K0VLa0pldTRPTGgrZlBIY2laQzYr?=
- =?utf-8?B?Yno1UW1acXI5eHJLYW4wTlRsTGVBMnp2OTlOWVdBSVdKbjVvUlZ1NHRzZ0dx?=
- =?utf-8?B?aGh2VzRtY1MvNDNhclhTdXI0ZGdzTXlWbFp3THczdWg2MDl3bFZzQ1I5YkY0?=
- =?utf-8?B?L3U2ODNiYXQ5OGE3aWRhMUxBMVEwaGVXcThOS2JNeFZJTExma2NXK2lvbkQw?=
- =?utf-8?B?YzRBazljenZXdURXL2NVU3YrY3FJWWdpc2ZMNzJTSGJCSzJvOEVqbll5bWJY?=
- =?utf-8?B?WUV3NmNPVThZUWU1SUdxN3hNY01jTnhDV2dMTXoxVGwwL0FCRkk3ZlBmUUhr?=
- =?utf-8?B?QmdRT1RhaFpCa1VaZkFxbVlwbFVnRlF2Qy9pbHJiR0ZYaHVaZERhNi93Mlg1?=
- =?utf-8?B?dlJWZGJQcjY1M1AzakJWUGJrRElWamJCRVdKcyt5c0F1R2dVWGVHRlRiekNy?=
- =?utf-8?B?aXRmMlViUUNMWk4vdGtrQ203d3JaRXd5Q3lkaEI1RFI4aFJLazM5Um5XaFly?=
- =?utf-8?B?dE8xaUhmMVpoS0xIcGpQYkxOU1pjTys5TVVUNEtYRWFiNitkNDNHWkIyc0RF?=
- =?utf-8?B?SkZNakhRdU94RE5EaGp3Y3JaZWE0d29VTmUyUktFUEhHOXg1TUNuVmN4TTAv?=
- =?utf-8?B?UzJBSmY4emFrVkxQUWZpMTNmeHVDV2dWSVk5YUVMN0tENVVQL3grNndwelkr?=
- =?utf-8?B?Z1R3b0hibkJ4V0laNXlXczM5NnQyWko2bU92WkZTaGVBM25wZk9wbFNpc25R?=
- =?utf-8?B?MkZrdWpIbjFDRDNjaSt0clRtR21vSXpHdy85NnAzMUhlWWtncVJ3NjV2UGdT?=
- =?utf-8?B?enBvRnhJYW1hbTRrYUk4YVV3M3lTUmdERDZwRFFxaEg0TW5wdm15ZVIvMnIy?=
- =?utf-8?B?cU5rWDZBUnp0ZHlUcThPdFlZMlN3MWRDVmdYRy9ocVhQeVJRZXhkTFRjcjBa?=
- =?utf-8?B?UzF2TDBRUmF4bHh5Zi9ldS9HT3ZKMldBT0JOTVBKb09yYUJ2T0MrcVhxVE5C?=
- =?utf-8?B?TWp6cjNkd2FvWGVVZTNtdTF6L2tyNC9YZThjWTFQT0pMU1ZscnJCQ0tCQVhV?=
- =?utf-8?B?d2dMQW9YMVFLejBjQjZhNld0U2dlUXBId2F1dkFoTFFYMmRsdEc3M0NiZ3pj?=
- =?utf-8?B?MWh4VTRvWGFYYlg5VUZ2UnNzK29CNHBxdTRrdVN3THkyMjYwaUtPOTVVcjBC?=
- =?utf-8?B?WTdzdGhsOGlFNytwby9keE1XbUdUK2NzVlZDeTlHRGFvSnR5N0NrYk03eHl2?=
- =?utf-8?B?aHRORXpGUVN2ZzNZelA4bFNuaHJOQnYzWU5EVzNoRDRhZzNDQVRxeGpZeWls?=
- =?utf-8?B?TGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79b10f16-aaa7-4494-8167-08dd6273564e
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5089.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 21:09:26.6569 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l05o3X0cy9v7nJGc+IVjRhjuA1RbK8izJdn9E++fY2m/U5w6Dw8hyFeURYozIl3EdMxdxlYgyXDkRfNbnj4ipUCFlhAAyH/1uuo9rOvl8GA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4992
-X-OriginatorOrg: intel.com
+References: <20250310-mipi-synaptic-1-v2-1-20ee4397c670@redhat.com>
+ <20250311-warm-icy-rottweiler-cefcdd@houat>
+ <CAN9Xe3Qwu=E=VVZZ_8EHPF7Xsk6Zcbp=R_b=cRgF=9SWCkmsqA@mail.gmail.com>
+ <CAD=FV=XdngrNhUn8jQ3FGitkBCkiQO1dXnPhCKj+S5Jo8_WUrQ@mail.gmail.com>
+ <CAN9Xe3RQ_L5a+PbXCBbzpn3VxyWEL1_wqA5trY0h=Xj-YMcA1g@mail.gmail.com>
+ <CAD=FV=WJDHAdDCD=Mhffawuz8U7=MkzDueXmAvKpJ-o5eOT6DQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=WJDHAdDCD=Mhffawuz8U7=MkzDueXmAvKpJ-o5eOT6DQ@mail.gmail.com>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Thu, 13 Mar 2025 17:15:39 -0400
+X-Gm-Features: AQ5f1JrZwGw8GJsC7mStUHLXBjUK6fDoIVEQ2lWzmEBxE2gcs3XE3x9ejl5auuw
+Message-ID: <CAN9Xe3QRnNXqL+4RyZTXyiSxjVf7B3LT5KjiyUFB0xeBX2EQhQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panel/synaptics-r63353: Use _multi variants
+To: Doug Anderson <dianders@chromium.org>
+Cc: Maxime Ripard <mripard@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Tejas Vipin <tejasvipin76@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: QN4c79FKxCfhY5uDJd0awebgvKajVLXYuaW4hOppu6U_1741904291
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000817813063040b25d"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -227,40 +104,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--000000000000817813063040b25d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Mar 12, 2025 at 8:22=E2=80=AFPM Doug Anderson <dianders@chromium.or=
+g> wrote:
 
-On 3/13/2025 9:36 AM, H. Peter Anvin wrote:
-> On March 13, 2025 9:24:38 AM PDT, Yury Norov <yury.norov@gmail.com> wrote:
->> On Wed, Mar 12, 2025 at 05:09:16PM -0700, H. Peter Anvin wrote:
->>> On March 12, 2025 4:56:31 PM PDT, Jacob Keller <jacob.e.keller@intel.com> wrote:
->>
->> [...]
->>
->>>> This is really a question of whether you expect odd or even parity as
->>>> the "true" value. I think that would depend on context, and we may not
->>>> reach a good consensus.
->>>>
->>>> I do agree that my brain would jump to "true is even, false is odd".
->>>> However, I also agree returning the value as 0 for even and 1 for odd
->>>> kind of made sense before, and updating this to be a bool and then
->>>> requiring to switch all the callers is a bit obnoxious...
->>>
->>> Odd = 1 = true is the only same definition. It is a bitwise XOR, or sum mod 1.
->>
->> The x86 implementation will be "popcnt(val) & 1", right? So if we
->> choose to go with odd == false, we'll have to add an extra negation.
->> So because it's a purely conventional thing, let's just pick a simpler
->> one?
->>
->> Compiler's builtin parity() returns 1 for odd.
->>
->> Thanks,
->> Yury
-> 
-> The x86 implementation, no, but there will be plenty of others having that exact definition.
+> Hi,
+>
+> On Wed, Mar 12, 2025 at 5:00=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.=
+com>
+> wrote:
+> >
+> >
+> >
+> > On Wed, Mar 12, 2025 at 11:48=E2=80=AFAM Doug Anderson <dianders@chromi=
+um.org>
+> wrote:
+> >>
+> >> Hi,
+> >>
+> >> On Wed, Mar 12, 2025 at 8:06=E2=80=AFAM Anusha Srivatsa <asrivats@redh=
+at.com>
+> wrote:
+> >> >
+> >> >> > @@ -106,53 +107,46 @@ static int r63353_panel_power_off(struct
+> r63353_panel *rpanel)
+> >> >> >  static int r63353_panel_activate(struct r63353_panel *rpanel)
+> >> >> >  {
+> >> >> >       struct mipi_dsi_device *dsi =3D rpanel->dsi;
+> >> >> > -     struct device *dev =3D &dsi->dev;
+> >> >> > -     int i, ret;
+> >> >> > +     struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+> >> >> > +     int i;
+> >> >> >
+> >> >> > -     ret =3D mipi_dsi_dcs_soft_reset(dsi);
+> >> >> > -     if (ret < 0) {
+> >> >> > -             dev_err(dev, "Failed to do Software Reset (%d)\n",
+> ret);
+> >> >> > +     mipi_dsi_dcs_soft_reset_multi(&dsi_ctx);
+> >> >> > +     if (dsi_ctx.accum_err)
+> >> >> >               goto fail;
+> >> >> > -     }
+> >> >>
+> >> >> This changes was definitely not what the script is doing.
+> >> >
+> >> >
+> >> > It isnt. Using coccinelle for the major part of pattern matching and
+> replacing the newer _multi variant API. Some handling (including a newlin=
+e
+> that it introduces) and  the returns depend on a case by case basis, whic=
+h
+> had to be done manually.
+> >>
+> >> ...and now you're getting to see why I didn't think a coccinelle
+> >> script could fully handle this task. ;-) IMO instead of trying to get
+> >> a coccinelle script to do the full conversion, the right approach
+> >> would be to use a coccinelle script (or equivalent) to get the basics
+> >> done (just so you don't make any typos) and then cleanup the result
+> >> manually. Spending more time on the coccinelle script than it would
+> >> take to do the conversion manually is probably not the right approach.
+> >>
+> >> If your patch wasn't fully generated by a coccinelle script you should
+> >> document that in the commit message. Something like "Initial patch was
+> >> generated by a coccinelle script and the result was cleaned up
+> >> manually." If the script is too long to fit in the commit message,
+> >> it's fine to put it somewhere online and provide a link. "Somewhere
+> >> online" could easily be a mailing list post.
+> >>
+> >
+> > You know I have been thinking if it makes sense to have this script
+> merged to coccinelle project and add those details in the commit log....
+> Was having an offline discussion with  @Maxime Ripard today and he rightl=
+y
+> pointed out that since it is too specific, once all the conversions are
+> done , the script  would not be further useable....
+> > About having the script online and providing a link, something link a
+> github link?
+>
+> That feels overkill. It seems like you could just send an email to
+> LKML or dri-devel and then link it that way. It could be in reply to
+> this thread or a totally separate email. lore.kernel.org links are
+> great.
+>
+> I have been going back and forth on this for quite some time :(I have the
+latest v3 on a branch with the changes and I used coccinelle for most of
+it. I had to manually fix an extra newline that it introduced and manually
+handle the reset before returning, rest all was script. That makes me want
+to add it in the commit log unless it won't be accepted because it's too
+long....
 
-Makes sense to stick with that existing convention then. Enough to
-convince me.
+Anusha
 
-Thanks,
-Jake
+Anusha
+
+> -Doug
+>
+>
+
+--000000000000817813063040b25d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 12,=
+ 2025 at 8:22=E2=80=AFPM Doug Anderson &lt;<a href=3D"mailto:dianders@chrom=
+ium.org">dianders@chromium.org</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">Hi,<br>
+<br>
+On Wed, Mar 12, 2025 at 5:00=E2=80=AFPM Anusha Srivatsa &lt;<a href=3D"mail=
+to:asrivats@redhat.com" target=3D"_blank">asrivats@redhat.com</a>&gt; wrote=
+:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Wed, Mar 12, 2025 at 11:48=E2=80=AFAM Doug Anderson &lt;<a href=3D"=
+mailto:dianders@chromium.org" target=3D"_blank">dianders@chromium.org</a>&g=
+t; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Hi,<br>
+&gt;&gt;<br>
+&gt;&gt; On Wed, Mar 12, 2025 at 8:06=E2=80=AFAM Anusha Srivatsa &lt;<a hre=
+f=3D"mailto:asrivats@redhat.com" target=3D"_blank">asrivats@redhat.com</a>&=
+gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; @@ -106,53 +107,46 @@ static int r63353_panel_power_=
+off(struct r63353_panel *rpanel)<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 static int r63353_panel_activate(struct r63353=
+_panel *rpanel)<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 {<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct mipi_dsi_device *ds=
+i =3D rpanel-&gt;dsi;<br>
+&gt;&gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0struct device *dev =3D &amp;dsi=
+-&gt;dev;<br>
+&gt;&gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0int i, ret;<br>
+&gt;&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0struct mipi_dsi_multi_context d=
+si_ctx =3D { .dsi =3D dsi };<br>
+&gt;&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0int i;<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0ret =3D mipi_dsi_dcs_soft_reset=
+(dsi);<br>
+&gt;&gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0if (ret &lt; 0) {<br>
+&gt;&gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev=
+_err(dev, &quot;Failed to do Software Reset (%d)\n&quot;, ret);<br>
+&gt;&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0mipi_dsi_dcs_soft_reset_multi(&=
+amp;dsi_ctx);<br>
+&gt;&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0if (dsi_ctx.accum_err)<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0goto fail;<br>
+&gt;&gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; This changes was definitely not what the script is doing.=
+<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; It isnt. Using coccinelle for the major part of pattern match=
+ing and replacing the newer _multi variant API. Some handling (including a =
+newline that it introduces) and=C2=A0 the returns depend on a case by case =
+basis, which had to be done manually.<br>
+&gt;&gt;<br>
+&gt;&gt; ...and now you&#39;re getting to see why I didn&#39;t think a cocc=
+inelle<br>
+&gt;&gt; script could fully handle this task. ;-) IMO instead of trying to =
+get<br>
+&gt;&gt; a coccinelle script to do the full conversion, the right approach<=
+br>
+&gt;&gt; would be to use a coccinelle script (or equivalent) to get the bas=
+ics<br>
+&gt;&gt; done (just so you don&#39;t make any typos) and then cleanup the r=
+esult<br>
+&gt;&gt; manually. Spending more time on the coccinelle script than it woul=
+d<br>
+&gt;&gt; take to do the conversion manually is probably not the right appro=
+ach.<br>
+&gt;&gt;<br>
+&gt;&gt; If your patch wasn&#39;t fully generated by a coccinelle script yo=
+u should<br>
+&gt;&gt; document that in the commit message. Something like &quot;Initial =
+patch was<br>
+&gt;&gt; generated by a coccinelle script and the result was cleaned up<br>
+&gt;&gt; manually.&quot; If the script is too long to fit in the commit mes=
+sage,<br>
+&gt;&gt; it&#39;s fine to put it somewhere online and provide a link. &quot=
+;Somewhere<br>
+&gt;&gt; online&quot; could easily be a mailing list post.<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; You know I have been thinking if it makes sense to have this script me=
+rged to coccinelle project and add those details in the commit log.... Was =
+having an offline discussion with=C2=A0 @Maxime Ripard today and he rightly=
+ pointed out that since it is too specific, once all the conversions are do=
+ne , the script=C2=A0 would not be further useable....<br>
+&gt; About having the script online and providing a link, something link a =
+github link?<br>
+<br>
+That feels overkill. It seems like you could just send an email to<br>
+LKML or dri-devel and then link it that way. It could be in reply to<br>
+this thread or a totally separate email. <a href=3D"http://lore.kernel.org"=
+ rel=3D"noreferrer" target=3D"_blank">lore.kernel.org</a> links are<br>
+great.<br>
+<br></blockquote><div>I have been going back and forth on this for quite so=
+me time=C2=A0:(I have the latest v3 on a branch with the changes and I used=
+ coccinelle for most of it. I had to manually fix an extra newline that it =
+introduced and manually handle the reset before returning, rest all was scr=
+ipt. That makes me want to add it in the commit log unless it won&#39;t be =
+accepted because it&#39;s too long....=C2=A0</div><div><br></div><div>Anush=
+a</div><div><br></div><div>Anusha</div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">
+-Doug<br>
+<br>
+</blockquote></div></div>
+
+--000000000000817813063040b25d--
+
