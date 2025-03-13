@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADBEA6010A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 20:25:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79715A6026A
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 21:21:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 516D410E2DC;
-	Thu, 13 Mar 2025 19:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E95010E074;
+	Thu, 13 Mar 2025 20:21:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KPJgOpe9";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="o6BS8g21";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FEC510E2DC
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 19:25:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BEF45A48705;
- Thu, 13 Mar 2025 19:19:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12817C4CEDD;
- Thu, 13 Mar 2025 19:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741893929;
- bh=yxiAMWFPSVAofz831CA+K4Hh79wA9YHNplBeSyna3TM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KPJgOpe93pLPceyqMGiheFfbp+8h9RCPRT1sy0A6eTFck7MJM8YVW/dm47Vt7LJ7D
- o61fnfxLahhuA2lQ6XEn1+/j+htEcIE6ogBd+oFTra2i3a3yVMV04qU5uF0a27F+8c
- QYe0CwLtEiUzZk3CTt6GxYHpnF0x7AR0DFtyELubR45UH2l9jAStPp0gTCZYzZX9w5
- 2h8UeX2LA/gLbbw9GGqtHbp2rILwgOR6ahamIxjJC/X5j8GNJo48izljnAjRV6fVJ+
- ocxCAbtlieMNXdUGuHLawvqLOEN7Z02MYk0s06+znzM7IbdJSTpB5APzJVkiVC3KEz
- xO0hpFWh2Z0zQ==
-Date: Thu, 13 Mar 2025 20:25:23 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
-Subject: Re: [PATCH RFC 1/3] rust: core abstractions for HID drivers
-Message-ID: <Z9MxI0u2yCfSzTvD@cassiopeiae>
-References: <20250313160220.6410-2-sergeantsagara@protonmail.com>
- <20250313160220.6410-4-sergeantsagara@protonmail.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB4710E074
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 20:21:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=p3csgnhFEzwaOuJh37jg6K7sqTieaPk1JraZ2D+RP4Y=; b=o6BS8g21ylJampQeHlSm8ga+RO
+ 7J8leguurGoEFYjdWpNFpqchlWE1yX5yUzaM6hncjbrFuDwcLRLIVzZyop123QqzQULjodZJlNIPZ
+ 5DmFMkhjHqSiKKNEbd7AiVnRhDI6me46dmzNr1wzOgGTkJTMMcwa3oAH8MiOlgybju8ENfojXjKtS
+ Dmc1Pn5pgXb+dhaXQX6GbxHbvunqWhvhxp6V9pZOtnjE/Ts+Hd1uQTfTXFTvMMDfwU6n1GYPlpn/a
+ 1luwpS3vXT5vSDYKftgtVl/ovoFb70dAX1Zm73iZYXqrtUUaq97T4ltCFn2M+Vm4VFcQytguwgA0M
+ D2QqM1EA==;
+Received: from [189.7.87.170] (helo=[192.168.0.224])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tsp2u-008K8s-M5; Thu, 13 Mar 2025 21:20:54 +0100
+Message-ID: <0d0addae-c83c-408f-9094-e9c734855438@igalia.com>
+Date: Thu, 13 Mar 2025 17:20:47 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250313160220.6410-4-sergeantsagara@protonmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/7] drm/v3d: Don't run jobs that have errors flagged
+ in its fence
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, kernel-dev@igalia.com, stable@vger.kernel.org
+References: <20250313-v3d-gpu-reset-fixes-v4-0-c1e780d8e096@igalia.com>
+ <20250313-v3d-gpu-reset-fixes-v4-1-c1e780d8e096@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250313-v3d-gpu-reset-fixes-v4-1-c1e780d8e096@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,56 +65,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 13, 2025 at 04:03:35PM +0000, Rahul Rameshbabu wrote:
-> These abstractions enable the development of HID drivers in Rust by binding
-> with the HID core C API. They provide Rust types that map to the
-> equivalents in C. In this initial draft, only hid_device and hid_device_id
-> are provided direct Rust type equivalents. hid_driver is specially wrapped
-> with a custom Driver type. The module_hid_driver! macro provides analogous
-> functionality to its C equivalent.
+On 13/03/25 11:43, Maíra Canal wrote:
+> The V3D driver still relies on `drm_sched_increase_karma()` and
+> `drm_sched_resubmit_jobs()` for resubmissions when a timeout occurs.
+> The function `drm_sched_increase_karma()` marks the job as guilty, while
+> `drm_sched_resubmit_jobs()` sets an error (-ECANCELED) in the DMA fence of
+> that guilty job.
 > 
-> Future work for these abstractions would include more bindings for common
-> HID-related types, such as hid_field, hid_report_enum, and hid_report.
-> Providing Rust equivalents to useful core HID functions will also be
-> necessary for HID driver development in Rust.
+> Because of this, we must check whether the job’s DMA fence has been
+> flagged with an error before executing the job. Otherwise, the same guilty
+> job may be resubmitted indefinitely, causing repeated GPU resets.
 > 
-> Some concerns with this initial draft
->   - The need for a DeviceId and DeviceIdShallow type.
->     + DeviceIdShallow is used to guarantee the safety requirement for the
->       Sync trait.
->   - The create_hid_driver call in the module_hid_driver! macro does not use
->     Pin semantics for passing the ID_TABLE. I could not get Pin semantics
->     to work in a const fn. I get a feeling this might be safe but need help
->     reviewing this.
+> This patch adds a check for an error on the job's fence to prevent running
+> a guilty job that was previously flagged when the GPU timed out.
+> 
+> Note that the CPU and CACHE_CLEAN queues do not require this check, as
+> their jobs are executed synchronously once the DRM scheduler starts them.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: d223f98f0209 ("drm/v3d: Add support for compute shader dispatch.")
+> Fixes: 1584f16ca96e ("drm/v3d: Add support for submitting jobs to the TFU.")
+> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 
-For a lot of things in this patch we have common infrastructure, please see
-rust/kernel/{device.rs, driver.rs, device_id.rs}. I think you should make use of
-the common infrastructure that solves the corresponding problems already.
+As patches 1/7 and 2/7 prevent the same faulty job from being
+resubmitted in a loop, I just applied them to misc/kernel.git (drm-misc-
+fixes).
 
-It provides generic infrastructure for handling device IDs, a generalized
-Registration type, based on InPlaceModule with a common module_driver!
-implementation for busses to implement their corresponding module macro, etc.
+Best Regards,
+- Maíra
 
-There are two busses upstream, which are based on this infrastructure:
-rust/kernel/{pci.rs, platform.rs}.
-
-There is a patch series that improves soundness of those two bus abstractions
-[1], which should be taken into consideration too. Even though your
-implementation isn't prone to the addressed issue, it would be good to align
-things accordingly.
-
-There is a third bus abstraction (auxiliary) on the mailing list [2], which
-already implements the mentioned improvements, which you can use as canonical
-example too.
-
-[1] https://lore.kernel.org/rust-for-linux/20250313021550.133041-1-dakr@kernel.org/
-[2] https://lore.kernel.org/rust-for-linux/20250313022454.147118-1-dakr@kernel.org/
-
-> Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
 > ---
->  drivers/hid/Kconfig             |   8 ++
->  rust/bindings/bindings_helper.h |   1 +
->  rust/kernel/hid.rs              | 245 ++++++++++++++++++++++++++++++++
->  rust/kernel/lib.rs              |   2 +
->  4 files changed, 256 insertions(+)
->  create mode 100644 rust/kernel/hid.rs
+>   drivers/gpu/drm/v3d/v3d_sched.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+> index 80466ce8c7df669280e556c0793490b79e75d2c7..c2010ecdb08f4ba3b54f7783ed33901552d0eba1 100644
+> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> @@ -327,11 +327,15 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
+>   	struct drm_device *dev = &v3d->drm;
+>   	struct dma_fence *fence;
+>   
+> +	if (unlikely(job->base.base.s_fence->finished.error))
+> +		return NULL;
+> +
+> +	v3d->tfu_job = job;
+> +
+>   	fence = v3d_fence_create(v3d, V3D_TFU);
+>   	if (IS_ERR(fence))
+>   		return NULL;
+>   
+> -	v3d->tfu_job = job;
+>   	if (job->base.irq_fence)
+>   		dma_fence_put(job->base.irq_fence);
+>   	job->base.irq_fence = dma_fence_get(fence);
+> @@ -369,6 +373,9 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
+>   	struct dma_fence *fence;
+>   	int i, csd_cfg0_reg;
+>   
+> +	if (unlikely(job->base.base.s_fence->finished.error))
+> +		return NULL;
+> +
+>   	v3d->csd_job = job;
+>   
+>   	v3d_invalidate_caches(v3d);
+> 
+
