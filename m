@@ -2,85 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6544AA5F9C1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 16:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA4BA5FA1D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 16:38:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 293FA10E8E5;
-	Thu, 13 Mar 2025 15:25:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB4510E1E9;
+	Thu, 13 Mar 2025 15:38:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="iq8kjZZ8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nR2l1DJC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBAA210E1BC;
- Thu, 13 Mar 2025 15:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1741879518; x=1742484318; i=markus.elfring@web.de;
- bh=sErwnx8pcuQQ1tldCxoUyU7bZmGR2ORwpdFakspaE5k=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=iq8kjZZ8ZTlUv5GhCL+PN2vHTPl714hme9UJfTKqYPCCjJzgKKQeopr3wQPykwrf
- 0yKVj/Trzg7NevDx4VBNdF9i217UFiMBnzkR4aOeWux7Ubp5W54hGclfg8P8zA5BX
- 4ryogbU++dMHGT/KsPxWgf8w39tAR9EjD8txIUKRp3dSZKujd1CxnAJOsLlWjE4Vv
- E5I2fZ2ygoQiLwUSjh5oY+s2an+Qw9CDww2+fsyiOMSQAjNFUehwVi2VBnv4qbMU0
- Snt2Pt1t/DVo9ExgcD0KBnIyyluvLox/g8FVcks91uaTyAqQ2PcDt5jhDiIcMX0UG
- OPqXAvRLptfoYbz/Lg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.2]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N6sBv-1t97GT28Wl-015YRH; Thu, 13
- Mar 2025 16:25:18 +0100
-Message-ID: <484f85e6-4650-4301-907d-6ba08dfd4e1b@web.de>
-Date: Thu, 13 Mar 2025 16:25:13 +0100
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF64310E1DE;
+ Thu, 13 Mar 2025 15:38:25 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2ff62f9b6e4so296540a91.0; 
+ Thu, 13 Mar 2025 08:38:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741880305; x=1742485105; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2/IG2UNH9lhkw2/E8UkhZN3j0Io+vt9kP0caOhOAn4M=;
+ b=nR2l1DJCrY3bmVYUkf+Z+J0Ynnso/gUHixV6uePiEoNXe0uD93tJuVOJAIWPAXnGLN
+ PKpfei+pVh3qW89VEuVjg7pPE5FvG2jF9ApLijFdPbPoGyRtiuB8w9FZgl8+enTEBh8h
+ O/ho0U9c3cSYPvYNZOpXO21PAFzN+qkbwYDY6vs8TUnF8S14G8cWhX+d/FWcSoCVtMBN
+ wgwM0+4bLKcbU6Vz7X+ukSRg4jbI3Yefmk1n4crHf2uqjcXqXG1RjCmQGR6bNUN6jMjN
+ ZZTcO3i4aML/cgah+AlShwUuplkPJOnjhaGlJYjy1wAvFjK/2bWAN2LQtHYG8LHDPmWv
+ iccw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741880305; x=1742485105;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2/IG2UNH9lhkw2/E8UkhZN3j0Io+vt9kP0caOhOAn4M=;
+ b=gQh0SIRx2VgRvZB32SAAFrK1BBVbKugWHWivrlPpiZMV6O+4umXACA4fVhltAyPQDL
+ f68nDoYniYqBHnov1P2pV/IC0xEtKekdh2nWPoLTyq5Ocii6XkyVl8GpEoLIe952Ufzf
+ wtbVN6FsV0aqtmVPU34vBf5IyoU3hDvq0PUcN2w0T+jm59MOV9r7aOjSXjFrc4EHg70F
+ y8ivEIQBRxEZe7XwSm7B8NYuTXNz1DEVAXUCdB+JacpqxC670SD6WyjkIH4yQCvTWlKH
+ jFJ9G9mzT85j2HO2JvHSBAfWNaelm9QfEoBLFZDEjrJJLLQTr8BwQdHKgXphFI+e6qg6
+ toeQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVgBzNP5xpt4sn/OQVjWg6VDQ0feBVl24n/+djk8Y7XaH3LiUY77QGtUEzmigixDLLdCWIbcZ2C4k7q@lists.freedesktop.org,
+ AJvYcCWo8edVF6FIJf4U6vjqm3F5WX2IIF408LYjfIba+lmEzA4Ixe63nLMN3zVZuLNp4ikjMoV468PY@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTXqpFxN05ch/20flSzQoqBaHClNfkQTZqp84/FnxWYGu3aszp
+ 8K6heED5Xb/s3JmCDRLFU77wkuxy5JJVXBUGACA/f1jfSAw9etrpZ/8P+o2oUUqRQwKDCsaJdHV
+ +8nEKJZvDuhGZQWi53lx95ksL/zA=
+X-Gm-Gg: ASbGnctWRRlMkQVyFQW2UfHCW407y883CyaYs5P20JAmE5xCHSXCgt5qJxQGb7AThhY
+ gRkIQc3MFKmOxMbj7Cy+ZS48GyTCJ0isRpKuvDaV77NkDIO2kg/u5oWWILNf3o4p6o/6nZwCodi
+ /yOP+Fjg9cQ6FK98kKzbfnE6VFLg==
+X-Google-Smtp-Source: AGHT+IF6424p+zrs81oK/FMpNgLrtT9UJ2LVWKyFJVkfm6+/bB/C+cR8PsMtaS4M3CsCMWprNAn/8jFeuEpAYxVJzTI=
+X-Received: by 2002:a17:90b:3812:b0:2ff:4a6d:b359 with SMTP id
+ 98e67ed59e1d1-300ff91fb2fmr5520980a91.7.1741880305351; Thu, 13 Mar 2025
+ 08:38:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: vulab@iscas.ac.cn, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Jack Xiao <Jack.Xiao@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
- Likun Gao <Likun.Gao@amd.com>, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?=
- <marek.olsak@amd.com>, Simona Vetter <simona@ffwll.ch>,
- Sunil Khatri <sunil.khatri@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>
 References: <20250312063106.772-1-vulab@iscas.ac.cn>
+In-Reply-To: <20250312063106.772-1-vulab@iscas.ac.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 13 Mar 2025 11:38:13 -0400
+X-Gm-Features: AQ5f1JpzKR_TjlBfb7plqnz-2EyQBV5yCEiQgCqhVC2krXJgZq2oSKe1L_igh0M
+Message-ID: <CADnq5_O8s5=bOmQDU=FRLxz75LuNq5BzON_i=-KBM9o8JeSDLQ@mail.gmail.com>
 Subject: Re: [PATCH] drm/amdgpu/gfx12: correct cleanup of 'me' field with
  gfx_v12_0_me_fini()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250312063106.772-1-vulab@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, simona@ffwll.ch, Hawking.Zhang@amd.com,
+ Likun.Gao@amd.com, 
+ sunil.khatri@amd.com, kenneth.feng@amd.com, Jack.Xiao@amd.com, 
+ marek.olsak@amd.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Fwl6wYppUeZIESJ07QfG7R+RHS+ivvTGz91GRCqjvA9QR2nYSaz
- /276/2ni6oKiwwvhaJE+6C6O4AeztAJTEzhau6+vmGZW/5u6EmkjPtUkOKQTJ77xtIFU59C
- +dnOP2SEa8uRBDiqSff4vu1Psxnv4RnCcZLVR3lbD/M2epv4Ei7hgaIE+ybcXH1RjxI9wRU
- 0UlKR4agNoPVi54Os4A6A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:PqiBbeSmioQ=;QfebTrW7ygkj+TSSpvMgnbRpo6s
- 08hCEpGEBzMWciTp7Ediy/EfNxNJ+WCvi37FaDUSykSIXTBQR27ybZh8L4jCHqGQqQ/ujDGJN
- ZlUzAzb1lvlTOtQ/y/y1WwBHTSJi75jPT90oVe4YsOVGAVAmpYF8nmaBWuW7IO9q1pxQXGRCv
- 0Zszpn07z07jwePHZ66d5c9or5bz+rJKy7a0nmgREpUjNm8WT8rmi4qBvo/m33TuISwpKVYbO
- 8sj/lktMvrqVXQRJ9PD2xwmkWBWDO8Y3UYHlzw2nwCjiFo98L1K7cBxP+FutrR1yPfiNQHc4y
- Hdqf6LLmMw8hwgNl7DjIaWpZgswQnyNt6oPf9T+kJaep6PKV5/8LR6Fe0NoWP22KAlanj7XEy
- Xy7+hdelz2opzPnimSfsPikABze4Xhpk1Ind7U29tWfxSW1kMmYWANDFltq6Jn6fmHM8MY06b
- tZ5pC//nQd4i+GNvkL4KeLqvoPXVf3OJRuxMCCeD1z09oXwFOgtDbhH+8D9u3exWMqo0reGCZ
- sV+uaNTXZorUOHfkVJehtYevFyl7qTpvfnew10maKpEtDcjU5Lxmzz37OdCs4KelKQ7Yg+ARI
- /FmYcjt0rZaOLesD1uddU+Ek7xtMGXp6d+xJqBtLgMWjFCrbNNWdY8tLwU2wNW6L4anzkSzuD
- U/XXC4FUtmseFWwv/fCsgwXO/tcarZb3wznrqkvnlTV+GPDTGBZ0KkGskRI/Lwf4PwB6WepHL
- MlKcDCZ/MUuib+WgNx5WLB0eOI+euIyisJ6jXpv3awGW7QgE4Efs7s5HOJX6xOFsC+p1B7/ua
- dZs93pnG0kqsz0W5pCucPu1pfa78seRSpahs8UwUBr4+fp8qZuDuVaT+za1MJiWueOqXTYqcM
- jzxe7L1Uspyd++YzyBWzR3YV0SWVkXE3E8gvjnpaaNBMJYPo4YJxy3Ze6vd26XHEXX1k7MTrD
- Buab5bKidyDKFCqJ3WwXXPE+yoXP5Xj+3HF5PPTtFDVgOoSuFlSyw+o0Cbs+pwosqjbYyVKNe
- kxMF3O1OdNj721mKBur0+8eP8qXS33j1/4K2lcnnyV1vPgYs1T77BM65DwW+mzXIptBSLoOEh
- 8rKkbX5dPt6kqDCOSevjr1NXJqui/mRwQU87uH530Eb5gaeapFcUkhHsO0WEwoP1ZNYYtgd+o
- tLgujMk6/WMaNczDwOf6T4GEyFwNYFrBI4GIfxo6jq1Wg5PIjsnJ0HG8Z5kFlS7XD5AbfxCyW
- lYtuNSHTkNbr6SrIkRZXvsMi80IazpnzV+aoBiLKcdanuEZGJKbDr9jcGWKeOAdOCY0V+ws+z
- JykisRMjj8kY8hh/khhjRu4fONeBnJ4E9FIJf1l159wiAxVNp8yMN7EJrVBCJtabbv/wdJnbo
- a4trkTqrDf5MvhTZkih97VQFD6ZshD5S6zbcgMigJBtZVo+dAogjMIKesL4UZQCaY324qlofw
- 2FphBIrwBN46kw527VD/chFzQHw2ycSOB1iap4sw9SO1CqpBW
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,14 +90,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> can only release 'pfp' field of 'gfx'. The release function of 'me' fiel=
-d
+Applied.  Thanks!
+
+Alex
+
+On Wed, Mar 12, 2025 at 6:09=E2=80=AFAM Wentao Liang <vulab@iscas.ac.cn> wr=
+ote:
+>
+> In gfx_v12_0_cp_gfx_load_me_microcode_rs64(), gfx_v12_0_pfp_fini() is
+> incorrectly used to free 'me' field of 'gfx', since gfx_v12_0_pfp_fini()
+> can only release 'pfp' field of 'gfx'. The release function of 'me' field
 > should be gfx_v12_0_me_fini().
-
-Do you care for an imperative wording in such a change description?
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/Documentation/process/submitting-patches.rst?h=3Dv6.14-rc6#n94
-
-Regards,
-Markus
+>
+> Fixes: 52cb80c12e8a ("drm/amdgpu: Add gfx v12_0 ip block support (v6)")
+> Cc: stable@vger.kernel.org # 6.11+
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c b/drivers/gpu/drm/amd=
+/amdgpu/gfx_v12_0.c
+> index da327ab48a57..02bc2eddf0c0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
+> @@ -2413,7 +2413,7 @@ static int gfx_v12_0_cp_gfx_load_me_microcode_rs64(=
+struct amdgpu_device *adev)
+>                                       (void **)&adev->gfx.me.me_fw_data_p=
+tr);
+>         if (r) {
+>                 dev_err(adev->dev, "(%d) failed to create me data bo\n", =
+r);
+> -               gfx_v12_0_pfp_fini(adev);
+> +               gfx_v12_0_me_fini(adev);
+>                 return r;
+>         }
+>
+> --
+> 2.42.0.windows.2
+>
