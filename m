@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A5CA5F0E4
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 11:30:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F370A5F0EF
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 11:31:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4D610E818;
-	Thu, 13 Mar 2025 10:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5F1110E833;
+	Thu, 13 Mar 2025 10:31:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="hTx4/OSE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CUirAxjO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB8E010E818
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 10:30:02 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ZD3fH549bz9t6n;
- Thu, 13 Mar 2025 11:29:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1741861799; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/vGFIzfDl5kHpFR67flpbHt826ddh4nIEzCuawnlJjk=;
- b=hTx4/OSEWaOfPwMiPslQS0OShuNAnyIDZ4tAlTHrjC97pSFS8apd4AWH4z85cV9bAzgiNS
- NLpK24niLHTE4FHXk3FjTvzJXoTSTTSyCX9tQpVjiYWB/hCbXHq4mLaamYatSZtIlNhTmz
- hOCWUoQepkvd2xtdqNVc2/89hdHOmpsfj+EBxcIvBlRXpow/psDMbsHv2z9ZBxINYhPZ4d
- O4aEkAnoSrfEcl6BAhzXikzfAzStYm/118LugWrDfBXeZ/bhI/v7bPmFBgmTrgUPx0jmtk
- RGsICo/ejUoqThIt/7Eo5J+ueruXAVfvhqfHLBVl8UYSFVBLGGx5doUYo7MirA==
-Message-ID: <41e824ef9ee8cfec8aaaa3ed23b93bb42a5d2734.camel@mailbox.org>
-Subject: Re: [PATCH v7 0/7] DRM scheduler kunit tests
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, 
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>
-Date: Thu, 13 Mar 2025 11:29:57 +0100
-In-Reply-To: <1084cc97-b119-494f-96db-947e9a420556@igalia.com>
-References: <20250311092339.52199-1-tvrtko.ursulin@igalia.com>
- <d92d3b58fa34f4beb957feeb372f9e18237d1c1c.camel@mailbox.org>
- <0f0102cb-8036-4fc6-898e-cd4eab4edfe0@igalia.com>
- <3ce2bdb2cacd9d30bd5de282e227721d838822b8.camel@mailbox.org>
- <f3e52167-eab5-44a7-a769-c861c7f46a8d@igalia.com>
- <750b4501-fd2b-45e9-b563-1e6440216129@igalia.com>
- <91dd26db9b89e58c9c36272b7ac777ed9c6e3c61.camel@mailbox.org>
- <8526f1e1-07d7-4389-8655-482f3c25f641@igalia.com>
- <2b63f2889e77dc884b663dda1a52a3c8012b4e01.camel@mailbox.org>
- <1084cc97-b119-494f-96db-947e9a420556@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E67810E833
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 10:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741861902;
+ bh=APrzpYMg+KdEjqb0cZBnXIO6Frgv6XgZNdVuk7y2qgs=;
+ h=Date:To:Cc:From:Subject:From;
+ b=CUirAxjOH46kwtDn4BQSG+l9klchYnOdr1ojKEikgXWs03pvQxEIbCm6H32AfIpmh
+ P8N3QaW7pivna1OEO3XSVTZAzbw8EQqAG60S9qj/QTHaanwsXMqcwFvbAPMJ590rCN
+ HvNxGxZ3JC7T9VDJP9FwXSDuQVuTX+1XVheAMllbbz0FAwxwOTvX7LohJQmfqPDRRb
+ eqOM31pN/xeMgyzRAkqjNK6N8v9V/8alSRsSPUe4dZvztzXuFh6seWAlyySmijzLEt
+ +FhUuoXJG7zzyHkX4Ip117GgFBSfFh3WlH4lsDUvuumG2sGu2LrhWsx4p7usfqsn1w
+ d3hpu67J2RUHg==
+Received: from [192.168.50.250] (unknown [171.76.87.92])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5417717E017D;
+ Thu, 13 Mar 2025 11:31:39 +0100 (CET)
+Message-ID: <63dfd5b7-8a54-44a3-9530-f8dcd77a21d1@collabora.com>
+Date: Thu, 13 Mar 2025 16:01:36 +0530
 MIME-Version: 1.0
-X-MBO-RS-ID: f1c1537eabad7044ef3
-X-MBO-RS-META: ugba68ctiwfihst1imhtbkizh45tapyq
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-rockchip@lists.infradead.org,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, Maxime Ripard <mripard@kernel.org>,
+ tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Daniel Stone <daniels@collabora.com>,
+ Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
+ Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
+ Helen Mae Koike Fornazier <helen.fornazier@gmail.com>,
+ sebastian.reichel@collabora.com, linux-arm-kernel@lists.infradead.org
+From: Vignesh Raman <vignesh.raman@collabora.com>
+Subject: drm-ci: rockchip: kms_bw@linear-tiling-1-displays-3840x2160p flake
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,289 +63,435 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-03-13 at 10:15 +0000, Tvrtko Ursulin wrote:
->=20
-> On 13/03/2025 08:34, Philipp Stanner wrote:
-> > On Wed, 2025-03-12 at 14:33 +0000, Tvrtko Ursulin wrote:
-> > >=20
-> > > On 12/03/2025 13:49, Philipp Stanner wrote:
-> > >=20
-> > > [snip]
-> > >=20
-> > > > > > > There I see a UAF. Do you have an idea what that might
-> > > > > > > be? I
-> > > > > > > would only
-> > > > > > > expect memory leaks and the test assertions failing.
-> > > > > >=20
-> > > > > > It is expected all hell to break loose in aspirational
-> > > > > > mode.
-> > > > > > There
-> > > > > > the
-> > > > > > mock scheduler shutdown relies solely on drm_sched_fini. So
-> > > > > > all
-> > > > > > tests
-> > > > > > which do not fully idle the mock scheduler themselves,
-> > > > > > whether
-> > > > > > implicity
-> > > > > > or explicitly, will explode in various ways.
-> > > > >=20
-> > > > > To clarify I made it like that because that is what I
-> > > > > understood
-> > > > > was
-> > > > > your vision for drm_sched_fini. That it would be able to
-> > > > > clean
-> > > > > everything up etc.
-> > > > >=20
-> > > > > If you meant something different we need to adjust it.
-> > > > > Although
-> > > > > it
-> > > > > could
-> > > > > be done later as well.
-> > > >=20
-> > > > My primary intention was to use those tests to see whether my
-> > > > memory
-> > > > leak fix works or not.
-> > >=20
-> > > Okay here I don't know exactly what are you changing and how you
-> > > are
-> > > testing to comment.
-> > >=20
-> > > > Thus I'd need something like in v4, where the tests run as
-> > > > intended
-> > > > but
-> > > > leak the jobs in the pending_list. Would indeed be neat if they
-> > > > also
-> > > > check for list_len(pending_list) so that you don't have to run
-> > > > kmemleak
-> > > > manually.
-> > > >=20
-> > > > And since we shouldn't have such leaks in production tests the
-> > > > idea
-> > > > of
-> > > > optionally enabling them arose.
-> > > >=20
-> > > > More generally speaking, I think that the tests should behave
-> > > > as we
-> > > > expect drivers to behave *currently*, while we have the option
-> > > > for
-> > > > the
-> > > > tests to purposefully misbehave. In my case this means: just
-> > > > leak
-> > > > the
-> > > > jobs and optionally tell about the leaks.
-> > > >=20
-> > > > When used as intended, the scheduler currently AFAIK doesn't
-> > > > have
-> > > > UAF
-> > > > or nullptrderefs, so they shouldn't occur in tests that use it
-> > > > as
-> > > > intended. Now the leaks are special because we never intended
-> > > > them.
-> > > >=20
-> > > > So what surprised me is that, when compared to v4, this v7 here
-> > > > actually now also has UAF. Besides not cleaning up leaks, what
-> > > > are
-> > > > you
-> > > > doing in aspiritional mode?
-> > > >=20
-> > > > Let's talk it through before you invest your time into v8
-> > >=20
-> > > 1)
-> > >=20
-> > > "Normal" mode is fine, do you agree? No leaks, no UAF. Ie. it is
-> > > exercising the scheduler how drivers are supposed to use it
-> > > today.
-> >=20
-> > Yes, it is fine.
-> >=20
-> > >=20
-> > > 2)
-> > >=20
-> > > Aspirational mode I added on your request and you can define how
-> > > you
-> > > want it to work.
-> >=20
-> > My personal intention is simple: have the jobs leaked like in v4,
-> > without UAF or faults and the like.
-> >=20
-> > >=20
-> > > Lets have a look in drm_mock_sched_fini() and see that it is
-> > > pretty
-> > > straightforward. First I'll pre-process and annotate the normal
-> > > version:
-> > >=20
-> > > void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
-> > > {
-> > > 	struct drm_mock_sched_job *job, *next;
-> > > 	struct kunit=C2=A0 *test =3D sched->test;
-> > > 	unsigned long flags;
-> > > 	LIST_HEAD(signal);
-> > >=20
-> > > 	// Stop the scheduler workqueues so nothing further gets
-> > > scheduled
-> > > 	drm_sched_wqueue_stop(&sched->base);
-> > >=20
-> > > 	// Idle the mock scheduler in-flight jobs:
-> > >=20
-> > > 	// First move them to a local list so any in parallel
-> > > "hardware"
-> > > activity does not see them any more
-> > >=20
-> > > 	spin_lock_irqsave(&sched->lock, flags);
-> > > 	list_for_each_entry_safe(job, next, &sched->job_list,
-> > > link)
-> > > 		list_move_tail(&job->link, &signal);
-> > > 	spin_unlock_irqrestore(&sched->lock, flags);
-> > >=20
-> > > 	// Now for jobs which "hardware" hasn't processed yet we
-> > > do:
-> > > 	//
-> > > 	// 1. Cancel the completion timer
-> > > 	// 2. Mark the job as complete (signal the hw fence,
-> > > wake up
-> > > waiters)
-> > > 	// 3. Release the hardware fence (list had a reference)
-> > > 	// 4. Free the job itself
-> > >=20
-> > > 	list_for_each_entry(job, &signal, link) {
-> > > 		hrtimer_cancel(&job->timer);
-> > > 		drm_mock_sched_job_complete(job);
-> > > 		dma_fence_put(&job->hw_fence);
-> > > 		drm_sched_job_cleanup(&job->base);
-> > > 	}
-> > >=20
-> > > 	// Finally drm_sched_fini
-> > > 	drm_sched_fini(&sched->base);
-> > > }
-> > >=20
-> > > In aspirational mode it becomes this:
-> > >=20
-> > > void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
-> > > {
-> > > 	struct kunit=C2=A0 *test =3D sched->test;
-> > >=20
-> > > 	drm_sched_fini(&sched->base);
-> > >=20
-> > > 	KUNIT_ASSERT_TRUE(test, list_empty(&sched->job_list));
-> > > 	KUNIT_ASSERT_TRUE(test, list_empty(&sched-
-> > > > base.pending_list));
-> > > }
-> > >=20
-> > > So relies on drm_sched_fini to cleanup _everything_. Including
-> > > the
-> > > driver (mock scheduler) state. Which is what I understood you
-> > > wanted.
-> >=20
-> > Thx for the detailed explanation. _Everything_ seems a lot, though.
-> > Even in this version, you still stop submission to your entities,
-> > don't
-> > you?
-> >=20
-> > IOW: is drm_sched_fini(), in aspirational mode, responsible for
-> > more
-> > than preventing the leaks (and for what it is already doing in
-> > mainline
-> > linux)?
->=20
-> Yes it is, it would need to idle and free all driver state. Again,
-> this=20
-> is I understood you wanted to work towards, but as this thread will=20
-> conclude as dropping it for now it doesn't matter.
->=20
-> > > For example drm_sched_basic_entity_cleanup test case will exit
-> > > (kill
-> > > the
-> > > entities and tear down the scheduler) with half of the submitted
-> > > jobs
-> > > still in flight. That's one example of what will be caught here
-> > > by
-> > > the
-> > > asserts and also UAF since kunit test will just exit and free up
-> > > memory
-> > > regardless.
-> >=20
-> > Hmm. OK, so kunit does the free. But who does the access?
-> > drm_sched_fini() still stops all the work items.
->=20
-> In-flight jobs. Completion timers will fire, simulating hardware=20
-> interrupts firing with a real driver.
+Hi Maintainers,
 
-Ah well, no, that I hadn't in mind ;)
+There are some flake test reported for rockchip driver testing in drm-ci.
 
+# Board Name: rk3399-gru-kevin
+# Failure Rate: 20
+# IGT Version: 1.30-g04bedb923
+# Linux Version: 6.14.0-rc4
+kms_bw@linear-tiling-1-displays-3840x2160p
 
-I'll simply use your v4 to test my leak fixes. That'll be sufficient
-for now.
+11:38:08.782: DEBUG - Begin test kms_bw@linear-tiling-1-displays-3840x2160p
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_pipe_crc-CRITICAL: 
+Test assertion failure function igt_pipe_crc_start, file 
+../lib/igt_pipe_crc.c:387:
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_pipe_crc-CRITICAL: 
+Failed assertion: pipe_crc->crc_fd != -1
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_pipe_crc-CRITICAL: 
+Last errno: 5, Input/output error
+11:38:08.782: ERROR - Igt error: Subtest 
+linear-tiling-1-displays-3840x2160p failed.
+11:38:08.782: ERROR - Igt error: **** DEBUG ****
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) DEBUG: Test requirement 
+passed: !(pipe >= num_pipes)
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Test 
+requirement passed: plane_idx >= 0 && plane_idx < pipe->n_planes
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Test 
+requirement passed: plane_idx >= 0 && plane_idx < pipe->n_planes
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) DEBUG: Test requirement 
+passed: data->output[0]
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) DEBUG: Test requirement 
+passed: !(physical && pipe >= data->connected_outputs)
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(width=3840, height=2160, 
+format=XR24(0x34325258), modifier=0x0, size=0)
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(handle=1, pitch=15360)
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) ioctl_wrappers-DEBUG: 
+Test requirement passed: igt_has_fb_modifiers(fd)
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_fb-DEBUG: Test 
+requirement passed: cairo_surface_status(fb->cairo_surface) == 
+CAIRO_STATUS_SUCCESS
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+eDP-1: set_pipe(A)
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+eDP-1: Selecting pipe A
+11:38:08.782: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+A.0: plane_set_fb(55)
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+A.0: plane_set_size (3840x2160)
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+A.0: fb_set_position(0,0)
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+A.0: fb_set_size(3840x2160)
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) INFO: Assigning pipe A to 
+output eDP-1 with mode 3840x2160p
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+commit {
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe A: 
+Setting property "GAMMA_LUT" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe A: 
+Setting property "MODE_ID" to 0x39/57
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe A: 
+Setting property "ACTIVE" to 0x1/1
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe A: 
+Setting property "VRR_ENABLED" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: A.0, fb 55
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "SRC_W" to 0xf000000/251658240
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "SRC_H" to 0x8700000/141557760
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_W" to 0xf00/3840
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_H" to 0x870/2160
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "FB_ID" to 0x37/55
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_ID" to 0x26/38
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "rotation" to 0x1/1
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: A.1, fb 0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "rotation" to 0x1/1
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: A.2, fb 0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "rotation" to 0x1/1
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: A.3, fb 0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.783: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "rotation" to 0x1/1
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe B: 
+Setting property "GAMMA_LUT" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe B: 
+Setting property "MODE_ID" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe B: 
+Setting property "ACTIVE" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe B: 
+Setting property "VRR_ENABLED" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: B.0, fb 0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "rotation" to 0x1/1
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: B.1, fb 0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "rotation" to 0x1/1
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   eDP-1: preparing atomic, pipe: A
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: eDP-1: 
+Setting property "CRTC_ID" to 0x26/38
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: }
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) DEBUG: Test requirement 
+passed: !(ret != 0)
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+commit {
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe A: 
+Setting property "GAMMA_LUT" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe A: 
+Setting property "MODE_ID" to 0x39/57
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe A: 
+Setting property "ACTIVE" to 0x1/1
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe A: 
+Setting property "VRR_ENABLED" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: A.0, fb 55
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "SRC_W" to 0xf000000/251658240
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "SRC_H" to 0x8700000/141557760
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_W" to 0xf00/3840
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_H" to 0x870/2160
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "FB_ID" to 0x37/55
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "CRTC_ID" to 0x26/38
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.0: 
+Setting property "rotation" to 0x1/1
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: A.1, fb 0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.784: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.1: 
+Setting property "rotation" to 0x1/1
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: A.2, fb 0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.2: 
+Setting property "rotation" to 0x1/1
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: A.3, fb 0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane A.3: 
+Setting property "rotation" to 0x1/1
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe B: 
+Setting property "GAMMA_LUT" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe B: 
+Setting property "MODE_ID" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe B: 
+Setting property "ACTIVE" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: Pipe B: 
+Setting property "VRR_ENABLED" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: B.0, fb 0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.785: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.0: 
+Setting property "rotation" to 0x1/1
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   populating plane data: B.1, fb 0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "SRC_X" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "SRC_Y" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "SRC_W" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "SRC_H" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_X" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_Y" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_W" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_H" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "FB_ID" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "CRTC_ID" to 0x0/0
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: plane B.1: 
+Setting property "rotation" to 0x1/1
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: 
+   eDP-1: preparing atomic, pipe: A
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: eDP-1: 
+Setting property "CRTC_ID" to 0x26/38
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_kms-DEBUG: display: }
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_pipe_crc-CRITICAL: 
+Test assertion failure function igt_pipe_crc_start, file 
+../lib/igt_pipe_crc.c:387:
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_pipe_crc-CRITICAL: 
+Failed assertion: pipe_crc->crc_fd != -1
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_pipe_crc-CRITICAL: 
+Last errno: 5, Input/output error
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO: Stack trace:
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO:   #0 
+../lib/igt_core.c:2055 __igt_fail_assert()
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO:   #1 
+../lib/igt_pipe_crc.c:433 igt_pipe_crc_get_crcs()
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO:   #2 
+../lib/igt_pipe_crc.c:592 igt_pipe_crc_collect_crc()
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO:   #3 
+../tests/kms_bw.c:249 run_test_linear_tiling()
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO:   #4 
+../tests/kms_bw.c:287 __igt_unique____real_main264()
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO:   #5 
+../tests/kms_bw.c:264 main()
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO:   #6 
+[__libc_init_first+0x80]
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO:   #7 
+[__libc_start_main+0x98]
+11:38:08.786: ERROR - Igt error: (kms_bw:1520) igt_core-INFO:   #8 
+[_start+0x30]
+11:38:08.786: ERROR - Igt error: ****  END  ****
+11:38:08.786: ERROR - Test kms_bw@linear-tiling-1-displays-3840x2160p: 
+Fail: See "/results/igt.kms_bw@linear-tiling-1-displays-3840x2160p.log"
+11:38:08.786: DEBUG - End test kms_bw@linear-tiling-1-displays-3840x2160p
 
->=20
-> > > If this isn't what you had in mind you can either a) tell me what
-> > > you
-> > > want maybe I can tweak it*, or b) we can drop the aspirational
-> > > patch
-> > > for
-> > > now.
-> >=20
-> >=20
-> > So, here's the bad news. I had a chat with Danilo yesterday who
-> > reminded me of the fact that there are testers out there (like the
-> > Intel bots) which do random kconfigs - so avoiding that with
-> > another
-> > kconfig option does not solve the problem.
-> >=20
-> > Thus, I think the way to go is to indeed drop aspirational mode and
-> > whoever works on Schr=C3=B6dinger-Problems (like myself) has to tweak
-> > the
-> > tests locally.
-> >=20
-> > That's probably even more productive process-wise, otherwise we'd
-> > have
-> > to remove broken aspects of (or the entire) aspirational mode every
-> > time that we solved a known problem.
-> >=20
-> > Unless you have a better proposal, let's drop that mode.
-> >=20
-> >=20
-> > Sorry for the zig-zag, but that wasn't on my / our radar
->=20
-> No worries. Can you review the v7 as is or you want me to send v8? I
-> am=20
-> pretty sure aspirational mode patch is standalone and could be simply
-> dropped when merging.
+Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/72651219
 
-Send a v8 please, that's easier. Don't forget Christian's ACK for the
-appropriate ones
+Please could you have a look at these test results and let us know if 
+you need more information. Thank you.
 
-
-Thank you
-P.
-
->=20
-> Regards,
->=20
-> Tvrtko
->=20
-> > > *)
-> > > For example it would be possible to avoid UAFs by moving away
-> > > from
-> > > kunit
-> > > managed allocations and just leak memory. Plus, it would also be
-> > > required to cancel the timers or so.
-> > >=20
-> > > For running in the VM or UML cases, which I thought were typical,
-> > > it
-> > > wouldn't be a benefit, but if you are worried about running on
-> > > the
-> > > host
-> > > kernel and expect no crashes, then that aspect would need to
-> > > change.
-> > >=20
-> > > Regards,
-> > >=20
-> > > Tvrtko
-> > >=20
-> >=20
->=20
-
+Regards,
+Vignesh
