@@ -2,93 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB919A5EFC6
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 10:41:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9BAA5EFCE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 10:43:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A4010E202;
-	Thu, 13 Mar 2025 09:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3F8A10E811;
+	Thu, 13 Mar 2025 09:43:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aOpurYN4";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LXj4IkE8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EEC210E202
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 09:41:28 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF8164AD;
- Thu, 13 Mar 2025 10:39:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1741858787;
- bh=9bUUyrlL1ue21at6c7tquhKhPsepd9e7Z13RAc1hu3E=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aOpurYN4UlhWL6hR4pJd6esKr1xOkkHOk1e2kq34iBnk2Y7E5G6+zP/5cFtaG87HG
- uzZlZBItIQLtdW0r7RjDfbpMRe5QicGYZXrDIhM3jyr0GkvAVMmlybak9+bzRXpl/Q
- A1CDDuxVCWTSodZ/WpmiEaLX93FXFpIDl06aD5FE=
-Message-ID: <74ffed53-d6df-437a-b997-62fef3ee4d00@ideasonboard.com>
-Date: Thu, 13 Mar 2025 11:41:22 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 551DB10E811
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 09:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741858991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/ArwIOjx1CNRYk7k0wOi5HipQxAMjs6A01jcZDsat00=;
+ b=LXj4IkE8mAo06h5O+wwt0T07F//WShwyqIWp0+uwqPq1dy6ArMhuuolWWmB326VdFr7Xre
+ nQUYFIyLIe+EHf/cH7AZHp0juqStASl/VxfVQLFMWWnEaDQS7vhSBh54lMJOANDRxeQtA0
+ eOQ0207GLPkXqwzv2uV7z+D3YXUgruU=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-447-26bDEJ1TO6WbU2_RRSrz9w-1; Thu,
+ 13 Mar 2025 05:43:10 -0400
+X-MC-Unique: 26bDEJ1TO6WbU2_RRSrz9w-1
+X-Mimecast-MFC-AGG-ID: 26bDEJ1TO6WbU2_RRSrz9w_1741858989
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 6B1401956087; Thu, 13 Mar 2025 09:43:08 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.44.32.222])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id A543218001DE; Thu, 13 Mar 2025 09:43:04 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ryosuke Yasuoka <ryasuoka@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH] drm/panic: Add support to scanout buffer as array of pages
+Date: Thu, 13 Mar 2025 10:42:27 +0100
+Message-ID: <20250313094257.1705916-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] drm/tidss: Add support for AM62L display subsystem
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
- s-jain1@ti.com, r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com,
- jyri.sarha@iki.fi, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- simona@ffwll.ch, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-References: <20250306132914.1469387-1-devarsht@ti.com>
- <20250306132914.1469387-4-devarsht@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250306132914.1469387-4-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: YX4q2RZhkAkaOpVxv7sHfOR9GCYncTL4g1fQu8d-pcE_1741858989
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,114 +75,240 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Some drivers like virtio-gpu, don't map the scanout buffer in the
+kernel. Calling vmap() in a panic handler is not safe, and writing an
+atomic_vmap() API is more complex than expected [1].
+So instead, pass the array of pages of the scanout buffer to the
+panic handler, and map only one page at a time to draw the pixels.
+This is obviously slow, but acceptable for a panic handler.
 
-On 06/03/2025 15:29, Devarsh Thakkar wrote:
-> Enable display for AM62L DSS [1] which supports only a single display
-> pipeline using a single overlay manager, single video port and a single
-> video lite pipeline which does not support scaling.
-> 
-> The output of video port is routed to SoC boundary via DPI interface and
-> the DPI signals from the video port are also routed to DSI Tx controller
-> present within the SoC.
-> 
-> [1]: Section 11.7 (Display Subsystem and Peripherals)
-> Link : https://www.ti.com/lit/pdf/sprujb4
-> 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> V3:
-> - Rebase on top of
->    0002-drm-tidss-Update-infra-to-support-DSS7-cut-down-vers.patch
-> - Use the generic "tidss_am65x_common_regs" as common reg space
->    instead of creating a new one.
-> 
-> V2:
-> - Add separate common reg space for AM62L
-> - Add separate irq enable/disable/read/clear helpers for AM62L
-> - Use separate helper function for setting overlay attributes
-> - Drop Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->    due to additional changes made in V2.
-> 
->   drivers/gpu/drm/tidss/tidss_dispc.c | 46 +++++++++++++++++++++++++++++
->   drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
->   drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
->   3 files changed, 49 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index 9b46403dbb0c..0ca0c2106715 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -440,6 +440,47 @@ const struct dispc_features dispc_am62a7_feats = {
->   	.vid_order = {1, 0},
->   };
->   
-> +const struct dispc_features dispc_am62l_feats = {
-> +	.max_pclk_khz = {
-> +		[DISPC_VP_DPI] = 165000,
-> +	},
-> +
-> +	.subrev = DISPC_AM62L,
-> +
-> +	.common = "common",
-> +	.common_regs = tidss_am65x_common_regs,
-> +
-> +	.num_vps = 1,
-> +	.vp_name = { "vp1" },
-> +	.ovr_name = { "ovr1" },
-> +	.vpclk_name =  { "vp1" },
-> +	.vp_bus_type = { DISPC_VP_DPI },
-> +
-> +	.vp_feat = { .color = {
-> +			.has_ctm = true,
-> +			.gamma_size = 256,
-> +			.gamma_type = TIDSS_GAMMA_8BIT,
-> +		},
-> +	},
-> +
-> +	.num_planes = 2,
-> +
-> +	.vid_info = {
-> +		{
-> +			.vid_name = "vid",
-> +			.vid_lite = false,
-> +			.is_present = false,
-> +		},
-> +		{
-> +			.vid_name = "vidl1",
-> +			.vid_lite = true,
-> +			.is_present = true,
-> +		}
-> +	},
+[1] https://lore.kernel.org/dri-devel/20250305152555.318159-1-ryasuoka@redhat.com/
 
-I don't think this is a good idea. Now you have tidss->num_planes 1, and 
-feat->num_planes 2. It get's very confusing.
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/drm_panic.c | 139 ++++++++++++++++++++++++++++++++++--
+ include/drm/drm_panic.h     |  10 ++-
+ 2 files changed, 142 insertions(+), 7 deletions(-)
 
-The naming is also mixed up. You have "vid_info" field, which has 
-"plane_info" entries...
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index ab42a2b1567d..e10ab8fe847c 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include <linux/font.h>
++#include <linux/highmem.h>
+ #include <linux/init.h>
+ #include <linux/iosys-map.h>
+ #include <linux/kdebug.h>
+@@ -154,6 +155,87 @@ static void drm_panic_blit_pixel(struct drm_scanout_buffer *sb, struct drm_rect
+ 				sb->set_pixel(sb, clip->x1 + x, clip->y1 + y, fg_color);
+ }
+ 
++static void drm_panic_write_pixel16(void *vaddr, unsigned int offset, u16 color)
++{
++	u16 *p = vaddr + offset;
++
++	*p = color;
++}
++
++static void drm_panic_write_pixel24(void *vaddr, unsigned int offset, u32 color)
++{
++	u8 *p = vaddr + offset;
++
++	*p++ = color & 0xff;
++	color >>= 8;
++	*p++ = color & 0xff;
++	color >>= 8;
++	*p = color & 0xff;
++}
++
++static void drm_panic_write_pixel32(void *vaddr, unsigned int offset, u32 color)
++{
++	u32 *p = vaddr + offset;
++
++	*p = color;
++}
++
++static void drm_panic_write_pixel(void *vaddr, unsigned int offset, u32 color, unsigned int cpp)
++{
++	switch (cpp) {
++	case 2:
++		drm_panic_write_pixel16(vaddr, offset, color);
++		break;
++	case 3:
++		drm_panic_write_pixel24(vaddr, offset, color);
++		break;
++	case 4:
++		drm_panic_write_pixel32(vaddr, offset, color);
++		break;
++	default:
++		DRM_WARN_ONCE("Can't blit with pixel width %d\n", cpp);
++	}
++}
++
++/*
++ * The scanout buffer pages are not mapped, so for each pixel,
++ * use kmap_local_page() to map the page, and write the pixel.
++ * Tries to keep the map from the previous pixel, to avoid too much map/unmap.
++ */
++static void drm_panic_blit_page(struct page **pages, unsigned int dpitch,
++				unsigned int cpp, const u8 *sbuf8,
++				unsigned int spitch, struct drm_rect *clip,
++				unsigned int scale, u32 fg32)
++{
++	unsigned int y, x;
++	unsigned int page = ~0;
++	unsigned int height = drm_rect_height(clip);
++	unsigned int width = drm_rect_width(clip);
++	void *vaddr = NULL;
++
++	for (y = 0; y < height; y++) {
++		for (x = 0; x < width; x++) {
++			if (drm_draw_is_pixel_fg(sbuf8, spitch, x / scale, y / scale)) {
++				unsigned int new_page;
++				unsigned int offset;
++
++				offset = (y + clip->y1) * dpitch + (x + clip->x1) * cpp;
++				new_page = offset >> PAGE_SHIFT;
++				offset = offset % PAGE_SIZE;
++				if (new_page != page) {
++					if (vaddr)
++						kunmap_local(vaddr);
++					page = new_page;
++					vaddr = kmap_local_page(pages[page]);
++				}
++				drm_panic_write_pixel(vaddr, offset, fg32, cpp);
++			}
++		}
++	}
++	if (vaddr)
++		kunmap_local(vaddr);
++}
++
+ /*
+  * drm_panic_blit - convert a monochrome image to a linear framebuffer
+  * @sb: destination scanout buffer
+@@ -177,6 +259,10 @@ static void drm_panic_blit(struct drm_scanout_buffer *sb, struct drm_rect *clip,
+ 	if (sb->set_pixel)
+ 		return drm_panic_blit_pixel(sb, clip, sbuf8, spitch, scale, fg_color);
+ 
++	if (sb->pages)
++		return drm_panic_blit_page(sb->pages, sb->pitch[0], sb->format->cpp[0],
++					   sbuf8, spitch, clip, scale, fg_color);
++
+ 	map = sb->map[0];
+ 	iosys_map_incr(&map, clip->y1 * sb->pitch[0] + clip->x1 * sb->format->cpp[0]);
+ 
+@@ -209,6 +295,35 @@ static void drm_panic_fill_pixel(struct drm_scanout_buffer *sb,
+ 			sb->set_pixel(sb, clip->x1 + x, clip->y1 + y, color);
+ }
+ 
++static void drm_panic_fill_page(struct page **pages, unsigned int dpitch,
++				unsigned int cpp, struct drm_rect *clip,
++				u32 color)
++{
++	unsigned int y, x;
++	unsigned int page = ~0;
++	void *vaddr = NULL;
++
++	for (y = clip->y1; y < clip->y2; y++) {
++		for (x = clip->x1; x < clip->x2; x++) {
++			unsigned int new_page;
++			unsigned int offset;
++
++			offset = y * dpitch + x * cpp;
++			new_page = offset >> PAGE_SHIFT;
++			offset = offset % PAGE_SIZE;
++			if (new_page != page) {
++				if (vaddr)
++					kunmap_local(vaddr);
++				page = new_page;
++				vaddr = kmap_local_page(pages[page]);
++			}
++			drm_panic_write_pixel(vaddr, offset, color, cpp);
++		}
++	}
++	if (vaddr)
++		kunmap_local(vaddr);
++}
++
+ /*
+  * drm_panic_fill - Fill a rectangle with a color
+  * @sb: destination scanout buffer
+@@ -225,6 +340,10 @@ static void drm_panic_fill(struct drm_scanout_buffer *sb, struct drm_rect *clip,
+ 	if (sb->set_pixel)
+ 		return drm_panic_fill_pixel(sb, clip, color);
+ 
++	if (sb->pages)
++		return drm_panic_fill_page(sb->pages, sb->pitch[0], sb->format->cpp[0],
++					   clip, color);
++
+ 	map = sb->map[0];
+ 	iosys_map_incr(&map, clip->y1 * sb->pitch[0] + clip->x1 * sb->format->cpp[0]);
+ 
+@@ -714,16 +833,24 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
+ 	if (!drm_panic_trylock(plane->dev, flags))
+ 		return;
+ 
++	ret = plane->helper_private->get_scanout_buffer(plane, &sb);
++
++	if (ret || !drm_panic_is_format_supported(sb.format))
++		goto unlock;
++
++	/* One of these should be set, or it can't draw pixels */
++	if (!sb.set_pixel && !sb.pages && iosys_map_is_null(&sb.map[0]))
++		goto unlock;
++
+ 	drm_panic_set_description(description);
+ 
+-	ret = plane->helper_private->get_scanout_buffer(plane, &sb);
++	draw_panic_dispatch(&sb);
++	if (plane->helper_private->panic_flush)
++		plane->helper_private->panic_flush(plane);
+ 
+-	if (!ret && drm_panic_is_format_supported(sb.format)) {
+-		draw_panic_dispatch(&sb);
+-		if (plane->helper_private->panic_flush)
+-			plane->helper_private->panic_flush(plane);
+-	}
+ 	drm_panic_clear_description();
++
++unlock:
+ 	drm_panic_unlock(plane->dev, flags);
+ }
+ 
+diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
+index f4e1fa9ae607..8b91a13347b9 100644
+--- a/include/drm/drm_panic.h
++++ b/include/drm/drm_panic.h
+@@ -39,6 +39,14 @@ struct drm_scanout_buffer {
+ 	 */
+ 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+ 
++	/**
++	 * @pages: Optional, if the scanout buffer is not mapped, set this field
++	 * to the array of pages of the scanout buffer. The panic code will use
++	 * kmap_local_page() to map one page at a time to write all the pixels.
++	 * The scanout buffer should be in linear format.
++	 */
++	struct page **pages;
++
+ 	/**
+ 	 * @width: Width of the scanout buffer, in pixels.
+ 	 */
+@@ -57,7 +65,7 @@ struct drm_scanout_buffer {
+ 	/**
+ 	 * @set_pixel: Optional function, to set a pixel color on the
+ 	 * framebuffer. It allows to handle special tiling format inside the
+-	 * driver.
++	 * driver. It takes precedence over the @map and @pages fields.
+ 	 */
+ 	void (*set_pixel)(struct drm_scanout_buffer *sb, unsigned int x,
+ 			  unsigned int y, u32 color);
 
-My suggestion is to have entries in vid_info only for the instantiated 
-vids, like this:
-
-struct vid_info {
-	u32 hw_id;
-	const char *name; /* Should match dt reg names */
-	bool is_lite;
-};
-
-While at it, let's change the num_planes name in the feat struct too, to 
-num_vids. This will also highlight all the places in the code that use 
-the vid structs.
-
-For AM62L it would be:
-
-.num_vids = 1,
-
-{
-	.hw_id = 1,
-	.name = "vidl1",
-	.is_lite = true,
-}
-
-  Tomi
+base-commit: 9e75b6ef407fee5d4ed8021cd7ddd9d6a8f7b0e8
+-- 
+2.47.1
 
