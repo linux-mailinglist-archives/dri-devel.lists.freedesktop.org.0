@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EC0A5FF52
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 19:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04848A5FF55
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 19:34:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE22410E911;
-	Thu, 13 Mar 2025 18:34:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 606FB10E920;
+	Thu, 13 Mar 2025 18:34:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ETxOkPzk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="loosrCnJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3556B10E90B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC2E10E90B;
  Thu, 13 Mar 2025 18:34:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741890858; x=1773426858;
+ t=1741890859; x=1773426859;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oOFeBTpk3EErhmr27oaHR3HsjNEksIbd7NWrIX1Uszk=;
- b=ETxOkPzkQ8jbDY6RsCjLyT7DPHS+xMOZeg8RB3C8JSw9dGOkL2jr3+rC
- PM2AqhRuvmQ4haEDegJjQiAiferjHDGU96syVIGYZkz64lbpsnrYihOm/
- B4GNPP51/KYIjuu95tzIJUAnCJm+fG09V14iWgWGzJpzZNsmKCbuTKwwi
- wOzO2SCamyZODl1r0OgcOrukazHeBnglV6ZYEksd1gSPxP/p9Si7CUtcJ
- bKD+xKVmMmTLE8+Erko0lW4LOsh1QqY5g0Y0b96K+4/m9dPfwlHRMQQBp
- x0ht+05mr/i505B9FQR04EaOiR9/CbUb+5qSN7fIM/R3/toT9EFt1+dHp g==;
-X-CSE-ConnectionGUID: NEPV0cZ/SquRhfo26j/O5Q==
-X-CSE-MsgGUID: 1GLKl0tsSk2QGeuEE/JWlg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="65485462"
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; d="scan'208";a="65485462"
+ bh=UBa/NK3Hc+CHZCKFqa7vqXPMaY1raQMPTJhtjnQWB3Y=;
+ b=loosrCnJOK0zRLPGqJ8I6QnlKMZ/KTNgjLQSDfo7v1/pUv41uf6j57wR
+ 1Rn0yxEJpohI1JLCwo3X1LfNER5+tmouTqARLLsj+TJuV+BcE3pYVWhLd
+ kto/IKYHB+0WJ5yJXpqiSlL84E7CLzmzXWBrfTSGtlPfW8hut/TA7rxwk
+ xUr0Rv4Y1l24JnuozzW48HMGKO6sMnOiDIA/0TZoDBUSOfceLCau72mSZ
+ dUNg+XPSvShjEq2MR13VlnRt6XbQ6RCTxa2gJ3ES4nTCzSDVXL9LUQhWt
+ f8UTNprBd3NIDFOihXcQTBjMoEWjUrsYw069yxnWcqi3Xq2L451FF85sP g==;
+X-CSE-ConnectionGUID: FHVPVV+fRnOhBRDo4HkkuQ==
+X-CSE-MsgGUID: bN9V0ehsSOWd8j4NqE5i2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="65485463"
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; d="scan'208";a="65485463"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Mar 2025 11:34:18 -0700
-X-CSE-ConnectionGUID: E2Db/AffSSOms+pl21uvhg==
-X-CSE-MsgGUID: Qh7+YtX/QjeeunOZYfjlIw==
+X-CSE-ConnectionGUID: 0opF2mgMQYyW64FFd4oefQ==
+X-CSE-MsgGUID: XwAx2+OqRXqDWh1RWrl2bg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; d="scan'208";a="151900781"
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; d="scan'208";a="151900784"
 Received: from dut4440lnl.fm.intel.com ([10.105.10.40])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Mar 2025 11:34:18 -0700
@@ -48,9 +48,9 @@ Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
  jianxun.zhang@intel.com, shuicheng.lin@intel.com,
  dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
  michal.mzorek@intel.com
-Subject: [PATCH v8 5/6] drm/xe/xe_vm: Add per VM fault info
-Date: Thu, 13 Mar 2025 18:34:07 +0000
-Message-ID: <20250313183415.133863-6-jonathan.cavitt@intel.com>
+Subject: [PATCH v8 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Date: Thu, 13 Mar 2025 18:34:08 +0000
+Message-ID: <20250313183415.133863-7-jonathan.cavitt@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250313183415.133863-1-jonathan.cavitt@intel.com>
 References: <20250313183415.133863-1-jonathan.cavitt@intel.com>
@@ -71,263 +71,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add additional information to each VM so they can report up to the first
-50 seen faults.  Only pagefaults are saved this way currently, though in
-the future, all faults should be tracked by the VM for future reporting.
-
-Additionally, of the pagefaults reported, only failed pagefaults are
-saved this way, as successful pagefaults should recover silently and not
-need to be reported to userspace.
+Add support for userspace to request a list of observed faults
+from a specified VM.
 
 v2:
-- Free vm after use (Shuicheng)
-- Compress pf copy logic (Shuicheng)
-- Update fault_unsuccessful before storing (Shuicheng)
-- Fix old struct name in comments (Shuicheng)
-- Keep first 50 pagefaults instead of last 50 (Jianxun)
+- Only allow querying of failed pagefaults (Matt Brost)
 
 v3:
-- Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
-- Fix double-locking error (jcavitt)
-- Assert kmemdump is successful (Shuicheng)
+- Remove unnecessary size parameter from helper function, as it
+  is a property of the arguments. (jcavitt)
+- Remove unnecessary copy_from_user (Jainxun)
+- Set address_precision to 1 (Jainxun)
+- Report max size instead of dynamic size for memory allocation
+  purposes.  Total memory usage is reported separately.
 
 v4:
-- Rename xe_vm.pfs to xe_vm.faults (jcavitt)
-- Store fault data and not pagefault in xe_vm faults list (jcavitt)
-- Store address, address type, and address precision per fault (jcavitt)
-- Store engine class and instance data per fault (Jianxun)
-- Add and fix kernel docs (Michal W)
-- Properly handle kzalloc error (Michal W)
-- s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
-- Store fault level per fault (Micahl M)
+- Return int from xe_vm_get_property_size (Shuicheng)
+- Fix memory leak (Shuicheng)
+- Remove unnecessary size variable (jcavitt)
+
+v5:
+- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+- Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
+
+v6:
+- Repair and move fill_faults break condition (Dan Carpenter)
+- Free vm after use (jcavitt)
+- Combine assertions (jcavitt)
+- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+- Remove return mask from fill_faults, as return is already -EFAULT or 0
+  (jcavitt)
+
+v7:
+- Revert back to using xe_vm_get_property_ioctl
+- Apply better copy_to_user logic (jcavitt)
 
 Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Jainxun Zhang <jianxun.zhang@intel.com>
 Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: Jianxun Zhang <jianxun.zhang@intel.com>
-Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
-Cc: Michal Mzorek <michal.mzorek@intel.com>
 ---
- drivers/gpu/drm/xe/xe_gt_pagefault.c | 21 ++++++++++
- drivers/gpu/drm/xe/xe_vm.c           | 58 ++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h           |  9 +++++
- drivers/gpu/drm/xe/xe_vm_types.h     | 33 ++++++++++++++++
- 4 files changed, 121 insertions(+)
+ drivers/gpu/drm/xe/xe_device.c |   3 +
+ drivers/gpu/drm/xe/xe_vm.c     | 134 +++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_vm.h     |   2 +
+ 3 files changed, 139 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
-index e67ee7ac3df7..927b83f7a384 100644
---- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
-+++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
-@@ -346,6 +346,26 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *msg, u32 len)
- 	return full ? -ENOSPC : 0;
- }
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index b2f656b2a563..74e510cb0e47 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -194,6 +194,9 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(XE_WAIT_USER_FENCE, xe_wait_user_fence_ioctl,
+ 			  DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
++	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
++			  DRM_RENDER_ALLOW),
++
+ };
  
-+static void save_pagefault_to_vm(struct xe_device *xe, struct xe_gt_pagefault *pf)
-+{
-+	struct xe_vm *vm;
-+
-+	vm = asid_to_vm(xe, pf->asid);
-+	if (IS_ERR(vm))
-+		return;
-+
-+	spin_lock(&vm->faults.lock);
-+
-+	/**
-+	 * Limit the number of faults in the fault list to prevent memory overuse.
-+	 */
-+	if (vm->faults.len < MAX_FAULTS_SAVED_PER_VM)
-+		xe_vm_add_fault_entry_pf(vm, pf);
-+
-+	spin_unlock(&vm->faults.lock);
-+	xe_vm_put(vm);
-+}
-+
- #define USM_QUEUE_MAX_RUNTIME_MS	20
- 
- static void pf_queue_work_func(struct work_struct *w)
-@@ -365,6 +385,7 @@ static void pf_queue_work_func(struct work_struct *w)
- 		if (unlikely(ret)) {
- 			print_pagefault(xe, &pf);
- 			pf.fault_unsuccessful = 1;
-+			save_pagefault_to_vm(xe, &pf);
- 			drm_dbg(&xe->drm, "Fault response: Unsuccessful %d\n", ret);
- 		}
- 
+ static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 60303998bd61..067a9cedcad9 100644
+index 067a9cedcad9..521f0032d9e2 100644
 --- a/drivers/gpu/drm/xe/xe_vm.c
 +++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -778,6 +778,59 @@ int xe_vm_userptr_check_repin(struct xe_vm *vm)
- 		list_empty_careful(&vm->userptr.invalidated)) ? 0 : -EAGAIN;
- }
+@@ -42,6 +42,14 @@
+ #include "xe_wa.h"
+ #include "xe_hmm.h"
  
-+/**
-+ * xe_vm_add_fault_entry_pf() - Add pagefault to vm fault list
-+ * @vm: The VM.
-+ * @pf: The pagefault.
-+ *
-+ * This function takes the data from the pagefault @pf and saves it to @vm->faults.list.
-+ *
-+ * The function exits silently if the list is full, and reports a warning if the pagefault
-+ * could not be saved to the list.
-+ */
-+void xe_vm_add_fault_entry_pf(struct xe_vm *vm, struct xe_gt_pagefault *pf)
-+{
-+	struct xe_vm_fault_entry *e = NULL;
-+
-+	spin_lock(&vm->faults.lock);
-+
-+	if (vm->faults.len >= MAX_FAULTS_SAVED_PER_VM)
-+		goto out;
-+
-+	e = kzalloc(sizeof(*e), GFP_KERNEL);
-+	if (!e) {
-+		drm_warn(&vm->xe->drm,
-+			 "Could not allocate memory for fault %i!",
-+			 vm->faults.len);
-+		goto out;
-+	}
-+
-+	e->address = pf->page_addr;
-+	e->address_type = pf->address_type;
-+	e->address_precision = 1;
-+	e->fault_level = pf->fault_level;
-+	e->engine_class = pf->engine_class;
-+	e->engine_instance = pf->engine_instance;
-+
-+	list_add_tail(&e->list, &vm->faults.list);
-+	vm->faults.len++;
-+out:
-+	spin_unlock(&vm->faults.lock);
-+}
-+
-+static void xe_vm_clear_fault_entries(struct xe_vm *vm)
-+{
-+	struct xe_vm_fault_entry *e, *tmp;
-+
-+	spin_lock(&vm->faults.lock);
-+	list_for_each_entry_safe(e, tmp, &vm->faults.list, list) {
-+		list_del(&e->list);
-+		kfree(e);
-+	}
-+	vm->faults.len = 0;
-+	spin_unlock(&vm->faults.lock);
-+}
-+
- static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool array_of_binds)
- {
- 	int i;
-@@ -1660,6 +1713,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags)
- 	init_rwsem(&vm->userptr.notifier_lock);
- 	spin_lock_init(&vm->userptr.invalidated_lock);
- 
-+	INIT_LIST_HEAD(&vm->faults.list);
-+	spin_lock_init(&vm->faults.lock);
-+
- 	ttm_lru_bulk_move_init(&vm->lru_bulk_move);
- 
- 	INIT_WORK(&vm->destroy_work, vm_destroy_work_func);
-@@ -1930,6 +1986,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)
- 	}
- 	up_write(&xe->usm.lock);
- 
-+	xe_vm_clear_fault_entries(vm);
-+
- 	for_each_tile(tile, xe, id)
- 		xe_range_fence_tree_fini(&vm->rftree[id]);
- 
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 0ef811fc2bde..9bd7e93824da 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -12,6 +12,12 @@
- #include "xe_map.h"
- #include "xe_vm_types.h"
- 
-+/**
-+ * MAX_FAULTS_SAVED_PER_VM - Maximum number of faults each vm can store before future
-+ * faults are discarded to prevent memory overuse
-+ */
-+#define MAX_FAULTS_SAVED_PER_VM	50
-+
- struct drm_device;
- struct drm_printer;
- struct drm_file;
-@@ -22,6 +28,7 @@ struct dma_fence;
- 
- struct xe_exec_queue;
- struct xe_file;
-+struct xe_gt_pagefault;
- struct xe_sync_entry;
- struct xe_svm_range;
- struct drm_exec;
-@@ -257,6 +264,8 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma);
- 
- int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);
- 
-+void xe_vm_add_fault_entry_pf(struct xe_vm *vm, struct xe_gt_pagefault *pf);
-+
- bool xe_vm_validate_should_retry(struct drm_exec *exec, int err, ktime_t *end);
- 
- int xe_vm_lock_vma(struct drm_exec *exec, struct xe_vma *vma);
-diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
-index 84fa41b9fa20..da5beace981b 100644
---- a/drivers/gpu/drm/xe/xe_vm_types.h
-+++ b/drivers/gpu/drm/xe/xe_vm_types.h
-@@ -19,6 +19,7 @@
- #include "xe_range_fence.h"
- 
- struct xe_bo;
-+struct xe_pagefault;
- struct xe_svm_range;
- struct xe_sync_entry;
- struct xe_user_fence;
-@@ -142,6 +143,26 @@ struct xe_userptr_vma {
- 
- struct xe_device;
- 
-+/**
-+ * struct xe_vm_fault_entry - Elements of vm->faults.list
-+ * @list: link into @xe_vm.faults.list
-+ * @address: address of the fault
-+ * @address_type: type of address access that resulted in fault
-+ * @address_precision: precision of faulted address
-+ * @fault_level: fault level of the fault
-+ * @engine_class: class of engine fault was reported on
-+ * @engine_instance: instance of engine fault was reported on
-+ */
-+struct xe_vm_fault_entry {
-+	struct list_head list;
-+	u64 address;
-+	u32 address_type;
-+	u32 address_precision;
-+	u8 fault_level;
-+	u8 engine_class;
-+	u8 engine_instance;
++static const u16 xe_to_user_engine_class[] = {
++	[XE_ENGINE_CLASS_RENDER] = DRM_XE_ENGINE_CLASS_RENDER,
++	[XE_ENGINE_CLASS_COPY] = DRM_XE_ENGINE_CLASS_COPY,
++	[XE_ENGINE_CLASS_VIDEO_DECODE] = DRM_XE_ENGINE_CLASS_VIDEO_DECODE,
++	[XE_ENGINE_CLASS_VIDEO_ENHANCE] = DRM_XE_ENGINE_CLASS_VIDEO_ENHANCE,
++	[XE_ENGINE_CLASS_COMPUTE] = DRM_XE_ENGINE_CLASS_COMPUTE,
 +};
 +
- struct xe_vm {
- 	/** @gpuvm: base GPUVM used to track VMAs */
- 	struct drm_gpuvm gpuvm;
-@@ -305,6 +326,18 @@ struct xe_vm {
- 		bool capture_once;
- 	} error_capture;
+ static struct drm_gem_object *xe_vm_obj(struct xe_vm *vm)
+ {
+ 	return vm->gpuvm.r_obj;
+@@ -3551,6 +3559,132 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+ 	return err;
+ }
  
-+	/**
-+	 * @faults: List of all faults associated with this VM
-+	 */
-+	struct {
-+		/** @faults.lock: lock protecting @faults.list */
-+		spinlock_t lock;
-+		/** @faults.list: list of xe_vm_fault_entry entries */
-+		struct list_head list;
-+		/** @faults.len: length of @faults.list */
-+		unsigned int len;
-+	} faults;
++static int xe_vm_get_property_size(struct xe_vm *vm, u32 property)
++{
++	int size = -EINVAL;
 +
- 	/**
- 	 * @tlb_flush_seqno: Required TLB flush seqno for the next exec.
- 	 * protected by the vm resv.
++	switch (property) {
++	case DRM_XE_VM_GET_PROPERTY_FAULTS:
++		spin_lock(&vm->faults.lock);
++		size = vm->faults.len * sizeof(struct xe_vm_fault);
++		spin_unlock(&vm->faults.lock);
++		break;
++	default:
++		break;
++	}
++	return size;
++}
++
++static int xe_vm_get_property_verify_size(struct xe_vm *vm, u32 property,
++					  int expected, int actual)
++{
++	switch (property) {
++	case DRM_XE_VM_GET_PROPERTY_FAULTS:
++		/*
++		 * Number of faults may increase between calls to
++		 * xe_vm_get_property_ioctl, so just report the
++		 * number of faults the user requests if it's less
++		 * than or equal to the number of faults in the VM
++		 * fault array.
++		 */
++		if (actual < expected)
++			return -EINVAL;
++		break;
++	default:
++		if (actual != expected)
++			return -EINVAL;
++		break;
++	}
++	return 0;
++}
++
++static int fill_faults(struct xe_vm *vm,
++		       struct drm_xe_vm_get_property *args)
++{
++	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->data);
++	struct xe_vm_fault store = { 0 };
++	struct xe_vm_fault_entry *entry;
++	int ret = 0, i = 0, count;
++
++	count = args->size / sizeof(struct xe_vm_fault);
++
++	spin_lock(&vm->faults.lock);
++	list_for_each_entry(entry, &vm->faults.list, list) {
++		if (i++ == count)
++			break;
++
++		memset(&store, 0, sizeof(struct xe_vm_fault));
++
++		store.address = entry->address;
++		store.address_type = entry->address_type;
++		store.address_precision = entry->address_precision;
++		store.fault_level = entry->fault_level;
++		store.engine_class = xe_to_user_engine_class[entry->engine_class];
++		store.engine_instance = entry->engine_instance;
++
++		ret = copy_to_user(usr_ptr, &store, sizeof(struct xe_vm_fault));
++		if (ret)
++			break;
++
++		usr_ptr++;
++	}
++	spin_unlock(&vm->faults.lock);
++
++	return ret;
++}
++
++static int xe_vm_get_property_fill_data(struct xe_vm *vm,
++					struct drm_xe_vm_get_property *args)
++{
++	switch (args->property) {
++	case DRM_XE_VM_GET_PROPERTY_FAULTS:
++		return fill_faults(vm, args);
++	default:
++		break;
++	}
++	return -EINVAL;
++}
++
++int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
++			     struct drm_file *file)
++{
++	struct xe_device *xe = to_xe_device(drm);
++	struct xe_file *xef = to_xe_file(file);
++	struct drm_xe_vm_get_property *args = data;
++	struct xe_vm *vm;
++	int size, ret = 0;
++
++	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
++		return -EINVAL;
++
++	vm = xe_vm_lookup(xef, args->vm_id);
++	if (XE_IOCTL_DBG(xe, !vm))
++		return -ENOENT;
++
++	size = xe_vm_get_property_size(vm, args->property);
++
++	if (size < 0) {
++		ret = size;
++		goto put_vm;
++	} else if (!args->size) {
++		args->size = size;
++		goto put_vm;
++	}
++
++	ret = xe_vm_get_property_verify_size(vm, args->property,
++					     args->size, size);
++	if (XE_IOCTL_DBG(xe, ret)) {
++		ret = -EINVAL;
++		goto put_vm;
++	}
++
++	ret = xe_vm_get_property_fill_data(vm, args);
++
++put_vm:
++	xe_vm_put(vm);
++	return ret;
++}
++
+ /**
+  * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
+  * @vm: VM to bind the BO to
+diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
+index 9bd7e93824da..63ec22458e04 100644
+--- a/drivers/gpu/drm/xe/xe_vm.h
++++ b/drivers/gpu/drm/xe/xe_vm.h
+@@ -196,6 +196,8 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file);
+ int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
+ 		     struct drm_file *file);
++int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
++			     struct drm_file *file);
+ 
+ void xe_vm_close_and_put(struct xe_vm *vm);
+ 
 -- 
 2.43.0
 
