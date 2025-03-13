@@ -2,112 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94567A5F2D5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 12:45:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372D7A5F395
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 13:00:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAC5110E854;
-	Thu, 13 Mar 2025 11:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2762F10E866;
+	Thu, 13 Mar 2025 12:00:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="F/2V9pXa";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="aiCSNS6/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8430510E854
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 11:45:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741866302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BMlGspdrpbJ31u0fCjYvjyAZlqg7W4BaKawB7P7nRsE=;
- b=F/2V9pXaQDMq8XkKa7HMN1xwIDZSBBumicXTmNitD+MuqjrqPmOGEsfndB1NcwMcWfD4Oo
- eJZpkQTMJeA31r+5fXX+P4MGvg28VDi3Sxedmr0JB1PeT/jtj1O633oTOsgt5oVZA8GdL/
- CZxfUGSXRH9c4ZsssSdNu+pzI+lhLXY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-393-DQgO9fXUPF6HNAwe5k-E8g-1; Thu, 13 Mar 2025 07:45:01 -0400
-X-MC-Unique: DQgO9fXUPF6HNAwe5k-E8g-1
-X-Mimecast-MFC-AGG-ID: DQgO9fXUPF6HNAwe5k-E8g_1741866301
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43ab5baf62cso6562705e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 04:45:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741866300; x=1742471100;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BMlGspdrpbJ31u0fCjYvjyAZlqg7W4BaKawB7P7nRsE=;
- b=kmGWY0JANQ7pzKSz/ZqcNxuCYhNC6ngPDl6Vj2x8A9BwsdF63tnA45aOIHZqqhL9MK
- 4JHkMvRhWXxIRAZbyWl4vr9QW69226V8Yk7MOcn0BFk0L4oHrhfG7YD8VmBAqSF5pYC+
- FalEu6mUI/EUKbfCk6g7+VjrA/kpl+FVq2tPaKBNjhIwqHWR0qkFDixWDhHVWv881YHa
- htM6Ojx5sPwr6r0/Cu0lchQIrNV69L6qxEymMTcCLNI3ceQ3zwCj48GG5PVicQxYorCM
- E6GiC9hIKClRs3E35B9JOYX2SeaFqZoDKWxcMho3JGOQxYgjNh3hFrehfK4X/zzTkwkN
- V+FQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWiW6fIVsp5j/Nc4jDj4dwbBuhmix8vpJGLZ6DsE+y2HaNE2ng/VlfT3QRV8i41AheEm0lFs0HYH+0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwrQ3iz7ktbsxra5QQMyJXCUmoXY0B1t6MLAt6jH5ydn6PJptjo
- R7rAWphPgVgSVPqhxZUlYoEhvCVOe7aziZQdn1cAnzJp3RZyS2YdJTIl5kklkFd5i0ojRbrqzr2
- cwz0+NLyqFxBYYsU7x2vnHrMehJAMoiVnWETaAMJjZ/ZGZnvKOqQ2wbp43pVCoYqKYA==
-X-Gm-Gg: ASbGncvpul8z6UVCA7CGkJmZwgbyWzq/+QEpIwXVTF49JVTN45D73QxfQp2YUwDV8vu
- ONS0LuuKLUjGVY0QnVyY1jbRpuWKpAeW12pAemeo74V0qE6FLFeyZ0MJq8rQWZfjJlRe+OXhukp
- tcvA3ziguNxRM9eH63gtdxDmmeTYX+arC0gQW3c0vs3Dr0hltNQlvvZpQRx597/M9ZTX7Wjp0+M
- 38w8eOXyp6ohHJ0nIlqkEX6NjGCFzckc3raeChuGxdt50rmCqIzI18e4xqcACogu+uCcRbwTGpX
- XDYQkxQ+RltjJokM8UWx
-X-Received: by 2002:a05:600c:470a:b0:43c:f44c:72a6 with SMTP id
- 5b1f17b1804b1-43cf44c76ccmr144327225e9.2.1741866300532; 
- Thu, 13 Mar 2025 04:45:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IERxTxm4YW1Ezaow82Z48NXt1aSx6Vv01Gh0iy7KljuVnLSLjwCs9KSAjTKcqnBX6jh4hKEWQ==
-X-Received: by 2002:a05:600c:470a:b0:43c:f44c:72a6 with SMTP id
- 5b1f17b1804b1-43cf44c76ccmr144326735e9.2.1741866300120; 
- Thu, 13 Mar 2025 04:45:00 -0700 (PDT)
-Received: from lab.hqhome163.com ([81.57.75.210])
- by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43d188b754asm17844115e9.14.2025.03.13.04.44.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Mar 2025 04:44:59 -0700 (PDT)
-From: Alessandro Carminati <acarmina@redhat.com>
-To: linux-kselftest@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Guenter Roeck <linux@roeck-us.net>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- loongarch@lists.linux.dev, x86@kernel.org,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Alessandro Carminati <acarmina@redhat.com>
-Subject: [PATCH v4 14/14] powerpc: Add support for suppressing warning
- backtraces
-Date: Thu, 13 Mar 2025 11:43:29 +0000
-Message-Id: <20250313114329.284104-15-acarmina@redhat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250313114329.284104-1-acarmina@redhat.com>
-References: <20250313114329.284104-1-acarmina@redhat.com>
+X-Greylist: delayed 944 seconds by postgrey-1.36 at gabe;
+ Thu, 13 Mar 2025 12:00:31 UTC
+Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5828310E866
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 12:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
+ s=default;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Cc
+ :To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=8ZLxBCJU5+2bbPYm14gJ4+vJIc5p7eAYUKUUoCYfZmk=; b=aiCSNS6/xRj8pUFUH7APA+2zsO
+ D6H1lElRjtZzE6BaWoLJRv46KNDD8Z0Pf15TmkGhCPFCDwBQW94hUXZNqqkAjWvHTSVFR+OtUOndD
+ gie3wYwInOvGWN/NIYuxakRPRRFqT85bpoCtBcxxbIxhqKEE6oyl5x/KfDikjxMt5KzzT5bP5ESso
+ KN6h5nIeWZQJgDfL8YShtVfaWHCYv/p2csAKTQXBAXReCcOct3lQDYQSejdYlBp8hnM817ysb7+mI
+ qEkhOIUOUwexM5Ls+CyInts+wQHf9Hv2kkeLfhT5gSwO28CA6uRCnqfR4+P/p/KOcaCNb5El2RkkR
+ B/QGx1rg==;
+Received: from 89-212-21-243.static.t-2.net ([89.212.21.243]:35000
+ helo=[192.168.69.52]) by cpanel.siel.si with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
+ (envelope-from <andrej.picej@norik.com>) id 1tsgzM-0069qp-2C;
+ Thu, 13 Mar 2025 12:44:36 +0100
+Message-ID: <a0d83b69-c84d-4804-abcd-e546be8a2e3d@norik.com>
+Date: Thu, 13 Mar 2025 12:44:33 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: m_K9QkrajJLpSgggnvPxrQBqjsFTyLbW-IBKv9_7mlA_1741866301
-X-Mimecast-Originator: redhat.com
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Upstream] [PATCH v7 3/3] arm64: dts:
+ imx8mm-phyboard-polis-peb-av-10: Set lvds-vod-swing
+From: Andrej Picej <andrej.picej@norik.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, marex@denx.de
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
+ upstream@lists.phytec.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+References: <20241216085410.1968634-1-andrej.picej@norik.com>
+ <20241216085410.1968634-4-andrej.picej@norik.com>
+Content-Language: en-US
+Autocrypt: addr=andrej.picej@norik.com; keydata=
+ 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
+ xtT/8OxBOVSHvA==
+In-Reply-To: <20241216085410.1968634-4-andrej.picej@norik.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.siel.si
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - norik.com
+X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
+ andrej.picej@norik.com
+X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,114 +119,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+Hi,
 
-Add name of functions triggering warning backtraces to the __bug_table
-object section to enable support for suppressing WARNING backtraces.
+is there anything else I need to do, or can this patch now be applied?
 
-To limit image size impact, the pointer to the function name is only added
-to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
-CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
-parameter is replaced with a (dummy) NULL parameter to avoid an image size
-increase due to unused __func__ entries (this is necessary because __func__
-is not a define but a virtual variable).
+The initial two patches that introduce property support have already 
+been merged, and the patch series that this patch depends on [1] has 
+also been applied.
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Acked-by: Michael Ellerman <mpe@ellerman.id.au>
-Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
----
- arch/powerpc/include/asm/bug.h | 37 +++++++++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 9 deletions(-)
+[1] https://lore.kernel.org/all/Z7rZjdXwN2W+Y2Bd@dragon/
 
-diff --git a/arch/powerpc/include/asm/bug.h b/arch/powerpc/include/asm/bug.h
-index 1db485aacbd9..5b06745d20aa 100644
---- a/arch/powerpc/include/asm/bug.h
-+++ b/arch/powerpc/include/asm/bug.h
-@@ -14,6 +14,9 @@
- 	 .section __bug_table,"aw"
- 5001:	 .4byte \addr - .
- 	 .4byte 5002f - .
-+#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
-+	 .4byte 0
-+#endif
- 	 .short \line, \flags
- 	 .org 5001b+BUG_ENTRY_SIZE
- 	 .previous
-@@ -32,30 +35,46 @@
- #endif /* verbose */
- 
- #else /* !__ASSEMBLY__ */
--/* _EMIT_BUG_ENTRY expects args %0,%1,%2,%3 to be FILE, LINE, flags and
--   sizeof(struct bug_entry), respectively */
-+/* _EMIT_BUG_ENTRY expects args %0,%1,%2,%3,%4 to be FILE, __func__, LINE, flags
-+   and sizeof(struct bug_entry), respectively */
- #ifdef CONFIG_DEBUG_BUGVERBOSE
-+
-+#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
-+# define HAVE_BUG_FUNCTION
-+# define __BUG_FUNC_PTR	"	.4byte %1 - .\n"
-+#else
-+# define __BUG_FUNC_PTR
-+#endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
-+
- #define _EMIT_BUG_ENTRY				\
- 	".section __bug_table,\"aw\"\n"		\
- 	"2:	.4byte 1b - .\n"		\
- 	"	.4byte %0 - .\n"		\
--	"	.short %1, %2\n"		\
--	".org 2b+%3\n"				\
-+	__BUG_FUNC_PTR				\
-+	"	.short %2, %3\n"		\
-+	".org 2b+%4\n"				\
- 	".previous\n"
- #else
- #define _EMIT_BUG_ENTRY				\
- 	".section __bug_table,\"aw\"\n"		\
- 	"2:	.4byte 1b - .\n"		\
--	"	.short %2\n"			\
--	".org 2b+%3\n"				\
-+	"	.short %3\n"			\
-+	".org 2b+%4\n"				\
- 	".previous\n"
- #endif
- 
-+#ifdef HAVE_BUG_FUNCTION
-+# define __BUG_FUNC	__func__
-+#else
-+# define __BUG_FUNC	NULL
-+#endif
-+
- #define BUG_ENTRY(insn, flags, ...)			\
- 	__asm__ __volatile__(				\
- 		"1:	" insn "\n"			\
- 		_EMIT_BUG_ENTRY				\
--		: : "i" (__FILE__), "i" (__LINE__),	\
-+		: : "i" (__FILE__), "i" (__BUG_FUNC),	\
-+		  "i" (__LINE__),			\
- 		  "i" (flags),				\
- 		  "i" (sizeof(struct bug_entry)),	\
- 		  ##__VA_ARGS__)
-@@ -80,7 +99,7 @@
- 		if (x)						\
- 			BUG();					\
- 	} else {						\
--		BUG_ENTRY(PPC_TLNEI " %4, 0", 0, "r" ((__force long)(x)));	\
-+		BUG_ENTRY(PPC_TLNEI " %5, 0", 0, "r" ((__force long)(x)));	\
- 	}							\
- } while (0)
- 
-@@ -90,7 +109,7 @@
- 		if (__ret_warn_on)				\
- 			__WARN();				\
- 	} else {						\
--		BUG_ENTRY(PPC_TLNEI " %4, 0",			\
-+		BUG_ENTRY(PPC_TLNEI " %5, 0",			\
- 			  BUGFLAG_WARNING | BUGFLAG_TAINT(TAINT_WARN),	\
- 			  "r" (__ret_warn_on));	\
- 	}							\
--- 
-2.34.1
+Best regards,
+Andrej
 
+On 16. 12. 24 09:54, Andrej Picej wrote:
+> Set custom differential output voltage for LVDS, to fulfill requirements
+> of the connected display. LVDS differential voltage for data-lanes and
+> clock output has to be between 200 mV and 600 mV.
+> Driver sets 200 Ohm near-end termination by default.
+> 
+> Signed-off-by: Andrej Picej <andrej.picej@norik.com>
+> ---
+> Changes in v7:
+> - no change
+> Changes in v6:
+> - no change
+> Changes in v5:
+> - no change
+> Changes in v4:
+> - no change
+> Changes in v3:
+> - no change
+> Changes in v2:
+> - use new properties from previous patches
+> ---
+>   .../boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso     | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso b/arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso
+> index a9de42cf14be..8bf9cc553bea 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso
+> +++ b/arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso
+> @@ -186,6 +186,8 @@ port@2 {
+>   			reg = <2>;
+>   			bridge_out: endpoint {
+>   				remote-endpoint = <&panel_in>;
+> +				ti,lvds-vod-swing-clock-microvolt = <200000 600000>;
+> +				ti,lvds-vod-swing-data-microvolt = <200000 600000>;
+>   			};
+>   		};
+>   	};
