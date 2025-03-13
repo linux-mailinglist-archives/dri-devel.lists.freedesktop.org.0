@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CA1A5EDB3
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 09:10:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD14CA5EDB1
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 09:10:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B23310E7F8;
-	Thu, 13 Mar 2025 08:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88F7110E7FF;
+	Thu, 13 Mar 2025 08:10:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="hmI6P9ZA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BpXfG2Hh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id 774E110E804
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 08:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=bkguU/V4vCU7qkUopQGCcdg9rewrqL/s+JyADZ4sIys=; b=h
- mI6P9ZAZLERAB5f31K7XoakA2asQUTMpvL8+m+ZgWBH2zx8/8eu/3YYo6/UNRObp
- AJd8rJU+Q5dRDBd1qCwr1AaXfVjGhIzVIgwicsHEOSr9SM6YuWcUEtcg/dcw6ppi
- 4rQb4y5zRxo75TSxli7ppOtmLEt89/w48JomXIod+U=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-146 (Coremail) ; Thu, 13 Mar 2025 16:09:54 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Thu, 13 Mar 2025 16:09:54 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Maxime Ripard" <mripard@kernel.org>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Douglas Anderson" <dianders@chromium.org>,
- "Herve Codina" <herve.codina@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, lumag@kernel.org
-Subject: Re:Re:[PATCH v5 04/16] drm/atomic: Introduce helper to lookup
- connector by encoder
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
-References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
- <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
- <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
-X-NTES-SC: AL_Qu2fA/SevEsi4iibbOkfmkcVgOw9UcO5v/Qk3oZXOJF8jCzr2S86fUFMJXzT+9+ONRCrrheYbT9M6PtxWaRSfYMb9lQmH73zLkFZDqj8NGP+7w==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D86FF10E806
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 08:10:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 32C925C58ED;
+ Thu, 13 Mar 2025 08:08:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 192C1C4CEE9;
+ Thu, 13 Mar 2025 08:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741853446;
+ bh=Zp1VrZoXU/0dSvEI86TANfaHnZV5iTRbrfgotlEDFRI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BpXfG2HhBD0lvTWWhRZA+1T8htRe+xTYjak3WeCBc7WDn9XNvGVXbCye4eQHWGXQx
+ tDbB1ms2wNbC4aEE3MROlHrWhcxKkySOS7TESW0MK8akdtqAYX8xdfbUGc0S7l3Ieo
+ bvMrAGxYbhEv0F405l+dTAhBKbRrUI5WgeKlc1OYbxkQoD2AiuvrnBtsFFh7yHmSjg
+ VSIflVkoxTCLnojftgiyh96Dk22WoaGJ0B6JXAGJACTduRHPzr1c6Fqh0CS2dE28N2
+ iWOZfLVkFcRXWfUISQzeA+efY0As4cm82VNBDuhZi5FmIm7v2hrA1Qesz3PKfbSrrp
+ jw/RBgrYdOfVA==
+Date: Thu, 13 Mar 2025 10:10:40 +0200
+From: Dmitry Baryshkov <lumag@kernel.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, mripard@kernel.org, 
+ cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
+ yubing.zhang@rock-chips.com, 
+ krzk+dt@kernel.org, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, 
+ robh@kernel.org, sebastian.reichel@collabora.com, 
+ Andy Yan <andy.yan@rock-chips.com>, "stephen@radxa.com" <stephen@radxa.com>
+Subject: Re: [PATCH v2 7/7] arm64: dts: rockchip: Enable DP2HDMI for ROCK 5 ITX
+Message-ID: <y7ouhmfbls3vcumrgudcvhlahxx7iqliimeq4cljko4xfwgzcb@45iozv6spswb>
+References: <20250312104214.525242-1-andyshrk@163.com>
+ <20250312104214.525242-8-andyshrk@163.com>
+ <q3y36jgswj4xa2g3hnptc6kgzphbqfg675r5paa2lwvdseytio@jysj4f2i6osu>
+ <5858d492.44b.1958ceb23dd.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
-Message-ID: <608c01c.7716.1958e8d879f.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: kigvCgAXPS7SktJnM7N9AA--.17554W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hgPXmfSjOJdIQADs-
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5858d492.44b.1958ceb23dd.Coremail.andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,104 +66,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpIaSBNYXhpbWUsCgpBdCAyMDI1LTAzLTA1IDE5OjU1OjE5LCAiQW5keSBZYW4iIDxhbmR5c2hy
-a0AxNjMuY29tPiB3cm90ZToKPgo+Cj5IaSBNYXhpbWUsCj4KPkF0IDIwMjUtMDMtMDQgMTk6MTA6
-NDcsICJNYXhpbWUgUmlwYXJkIiA8bXJpcGFyZEBrZXJuZWwub3JnPiB3cm90ZToKPj5XaXRoIHRo
-ZSBicmlkZ2VzIHN3aXRjaGluZyBvdmVyIHRvIGRybV9icmlkZ2VfY29ubmVjdG9yLCB0aGUgZGly
-ZWN0Cj4+YXNzb2NpYXRpb24gYmV0d2VlbiBhIGJyaWRnZSBkcml2ZXIgYW5kIGl0cyBjb25uZWN0
-b3Igd2FzIGxvc3QuCj4+Cj4+VGhpcyBpcyBtaXRpZ2F0ZWQgZm9yIGF0b21pYyBicmlkZ2UgZHJp
-dmVycyBieSB0aGUgZmFjdCB5b3UgY2FuIGFjY2Vzcwo+PnRoZSBlbmNvZGVyLCBhbmQgdGhlbiBj
-YWxsIGRybV9hdG9taWNfZ2V0X29sZF9jb25uZWN0b3JfZm9yX2VuY29kZXIoKSBvcgo+PmRybV9h
-dG9taWNfZ2V0X25ld19jb25uZWN0b3JfZm9yX2VuY29kZXIoKSB3aXRoIGRybV9hdG9taWNfc3Rh
-dGUuCj4+Cj4+VGhpcyB3YXMgYWxzbyBtYWRlIGVhc2llciBieSBwcm92aWRpbmcgZHJtX2F0b21p
-Y19zdGF0ZSBkaXJlY3RseSB0byBhbGwKPj5hdG9taWMgaG9va3MgYnJpZGdlcyBjYW4gaW1wbGVt
-ZW50Lgo+Pgo+Pkhvd2V2ZXIsIGJyaWRnZSBkcml2ZXJzIGRvbid0IGhhdmUgYSB3YXkgdG8gYWNj
-ZXNzIGRybV9hdG9taWNfc3RhdGUKPj5vdXRzaWRlIG9mIHRoZSBtb2Rlc2V0IHBhdGgsIGxpa2Ug
-ZnJvbSB0aGUgaG90cGx1ZyBpbnRlcnJ1cHQgcGF0aCBvciBhbnkKPj5pbnRlcnJ1cHQgaGFuZGxl
-ci4KPj4KPj5MZXQncyBpbnRyb2R1Y2UgYSBmdW5jdGlvbiB0byByZXRyaWV2ZSB0aGUgY29ubmVj
-dG9yIGN1cnJlbnRseSBhc3NpZ25lZAo+PnRvIGFuIGVuY29kZXIsIHdpdGhvdXQgdXNpbmcgZHJt
-X2F0b21pY19zdGF0ZSwgdG8gbWFrZSB0aGVzZSBkcml2ZXJzJwo+PmxpZmUgZWFzaWVyLgo+Pgo+
-PlJldmlld2VkLWJ5OiBEbWl0cnkgQmFyeXNoa292IDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5v
-cmc+Cj4+Q28tZGV2ZWxvcGVkLWJ5OiBTaW1vbmEgVmV0dGVyIDxzaW1vbmEudmV0dGVyQGZmd2xs
-LmNoPgo+PlNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4K
-Pj4tLS0KPj4gZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMuYyB8IDQ1ICsrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4+IGluY2x1ZGUvZHJtL2RybV9hdG9taWMu
-aCAgICAgfCAgMyArKysKPj4gMiBmaWxlcyBjaGFuZ2VkLCA0OCBpbnNlcnRpb25zKCspCj4+Cj4+
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2F0b21pYy5jCj4+aW5kZXggOWVhMjYxMTc3MGY0M2NlN2NjYmE0MTA0MDZkNWYyYzUy
-OGFhYjAyMi4uYjkyNmIxMzI1OTBlNzhmOGQ0MWQ0OGViNGRhNGJjY2YxNzBlZTIzNiAxMDA2NDQK
-Pj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jCj4+KysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV9hdG9taWMuYwo+PkBAIC05ODUsMTAgKzk4NSw1NSBAQCBkcm1fYXRvbWljX2dldF9u
-ZXdfY29ubmVjdG9yX2Zvcl9lbmNvZGVyKGNvbnN0IHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpz
-dGF0ZSwKPj4gCj4+IAlyZXR1cm4gTlVMTDsKPj4gfQo+PiBFWFBPUlRfU1lNQk9MKGRybV9hdG9t
-aWNfZ2V0X25ld19jb25uZWN0b3JfZm9yX2VuY29kZXIpOwo+PiAKPj4rLyoqCj4+KyAqIGRybV9h
-dG9taWNfZ2V0X2Nvbm5lY3Rvcl9mb3JfZW5jb2RlciAtIEdldCBjb25uZWN0b3IgY3VycmVudGx5
-IGFzc2lnbmVkIHRvIGFuIGVuY29kZXIKPj4rICogQGVuY29kZXI6IFRoZSBlbmNvZGVyIHRvIGZp
-bmQgdGhlIGNvbm5lY3RvciBvZgo+PisgKiBAY3R4OiBNb2Rlc2V0IGxvY2tpbmcgY29udGV4dAo+
-PisgKgo+PisgKiBUaGlzIGZ1bmN0aW9uIGZpbmRzIGFuZCByZXR1cm5zIHRoZSBjb25uZWN0b3Ig
-Y3VycmVudGx5IGFzc2lnbmVkIHRvCj4+KyAqIGFuIEBlbmNvZGVyLgo+PisgKgo+PisgKiBSZXR1
-cm5zOgo+PisgKiBUaGUgY29ubmVjdG9yIGNvbm5lY3RlZCB0byBAZW5jb2Rlciwgb3IgYW4gZXJy
-b3IgcG9pbnRlciBvdGhlcndpc2UuCj4+KyAqIFdoZW4gdGhlIGVycm9yIGlzIEVERUFETEssIGEg
-ZGVhZGxvY2sgaGFzIGJlZW4gZGV0ZWN0ZWQgYW5kIHRoZQo+PisgKiBzZXF1ZW5jZSBtdXN0IGJl
-IHJlc3RhcnRlZC4KPj4rICovCj4+K3N0cnVjdCBkcm1fY29ubmVjdG9yICoKPj4rZHJtX2F0b21p
-Y19nZXRfY29ubmVjdG9yX2Zvcl9lbmNvZGVyKGNvbnN0IHN0cnVjdCBkcm1fZW5jb2RlciAqZW5j
-b2RlciwKPj4rCQkJCSAgICAgc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4ICpjdHgpCj4+
-K3sKPj4rCXN0cnVjdCBkcm1fY29ubmVjdG9yX2xpc3RfaXRlciBjb25uX2l0ZXI7Cj4+KwlzdHJ1
-Y3QgZHJtX2Nvbm5lY3RvciAqb3V0X2Nvbm5lY3RvciA9IEVSUl9QVFIoLUVJTlZBTCk7Cj4+Kwlz
-dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yOwo+PisJc3RydWN0IGRybV9kZXZpY2UgKmRl
-diA9IGVuY29kZXItPmRldjsKPj4rCWludCByZXQ7Cj4+Kwo+PisJcmV0ID0gZHJtX21vZGVzZXRf
-bG9jaygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9uX211dGV4LCBjdHgpOwo+PisJaWYgKHJl
-dCkKPj4rCQlyZXR1cm4gRVJSX1BUUihyZXQpOwo+Cj5JdCBzZWVtcyB0aGF0IHRoaXMgd2lsbCBj
-YXVzZSBhIGRlYWRsb2NrIHdoZW4gY2FsbGVkIGZyb20gYSAgaG90cGx1ZyBoYW5kbGluZyBwYXRo
-LAo+SSBoYXZlIGEgV0lQIERQIGRpdmVyWzBdLCAgd2hpY2ggc3VnZ2VzdGVkIGJ5IERtaXRyeSB0
-byB1c2UgdGhpcyBBUEkgZnJvbSBhIAo+JmRybV9icmlkZ2VfZnVuY3MuZGV0ZWN0IGNhbGxiYWNr
-IHRvIGdldCB0aGUgY29ubmVjdG9yLCAgYXMgZGV0ZWN0IGlzIGNhbGxlZCBieSBkcm1faGVscGVy
-X3Byb2JlX2RldGVjdCwKPndoaWNoIHdpbGwgaG9sZCBjb25uZWN0aW9uX211dGV4IGZpcnN0LCBz
-byB0aGUgZGVha2xvY2sgaGFwcGVuczoKPgo+Cj5kcm1faGVscGVyX3Byb2JlX2RldGVjdChzdHJ1
-Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+ICAgICAgICAgICAgICAgICAgICAgICAgc3Ry
-dWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4ICpjdHgsCj4gICAgICAgICAgICAgICAgICAgICAg
-ICBib29sIGZvcmNlKQo+ewo+ICAgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9oZWxw
-ZXJfZnVuY3MgKmZ1bmNzID0gY29ubmVjdG9yLT5oZWxwZXJfcHJpdmF0ZTsKPiAgICAgICAgc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiA9IGNvbm5lY3Rvci0+ZGV2Owo+ICAgICAgICBpbnQgcmV0Owo+
-Cj4gICAgICAgIGlmICghY3R4KQo+ICAgICAgICAgICAgICAgIHJldHVybiBkcm1faGVscGVyX3By
-b2JlX2RldGVjdF9jdHgoY29ubmVjdG9yLCBmb3JjZSk7Cj4KPiAgICAgICAgcmV0ID0gZHJtX21v
-ZGVzZXRfbG9jaygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9uX211dGV4LCBjdHgpOwo+ICAg
-ICAgICBpZiAocmV0KQo+ICAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4KPiAgICAgICAgaWYg
-KGZ1bmNzLT5kZXRlY3RfY3R4KQo+ICAgICAgICAgICAgICAgIHJldCA9IGZ1bmNzLT5kZXRlY3Rf
-Y3R4KGNvbm5lY3RvciwgY3R4LCBmb3JjZSk7Cj4gICAgICAgIGVsc2UgaWYgKGNvbm5lY3Rvci0+
-ZnVuY3MtPmRldGVjdCkKPiAgICAgICAgICAgICAgICByZXQgPSBjb25uZWN0b3ItPmZ1bmNzLT5k
-ZXRlY3QoY29ubmVjdG9yLCBmb3JjZSk7Cj4gICAgICAgIGVsc2UKPiAgICAgICAgICAgICAgICBy
-ZXQgPSBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3RlZDsKPgo+ICAgICAgICBpZiAocmV0ICE9IGNv
-bm5lY3Rvci0+c3RhdHVzKQo+ICAgICAgICAgICAgICAgIGNvbm5lY3Rvci0+ZXBvY2hfY291bnRl
-ciArPSAxOwo+Cj5TbyBJIHdvbmRlciBjYW4gd2UgbGV0IGRybV9icmlkZ2VfZnVuY3MuZGV0ZWN0
-IHBhc3MgYSBjb25uZWN0b3IgZm9yIHRoaXMgY2FzZSA/Cj4KPgo+Cj5bMF1odHRwczovL2xvcmUu
-a2VybmVsLm9yZy9saW51eC1yb2NrY2hpcC8wNDdFRUNGQy03RTU1LTQ0RUMtODk2Ri0xM0ZFMDQz
-MzNFNERAZ21haWwuY29tL1QvI20yNWJjNTNiNzlmNWNjN2JkZGZjYjdhYWU1NjU2ZjY4ZGYzOTZm
-MDk0Cj4+Kwo+PisJZHJtX2Nvbm5lY3Rvcl9saXN0X2l0ZXJfYmVnaW4oZGV2LCAmY29ubl9pdGVy
-KTsKPj4rCWRybV9mb3JfZWFjaF9jb25uZWN0b3JfaXRlcihjb25uZWN0b3IsICZjb25uX2l0ZXIp
-IHsKPj4rCQlpZiAoIWNvbm5lY3Rvci0+c3RhdGUpCj4+KwkJCWNvbnRpbnVlOwo+PisKPj4rCQlp
-ZiAoZW5jb2RlciA9PSBjb25uZWN0b3ItPnN0YXRlLT5iZXN0X2VuY29kZXIpIHsKPj4rCQkJb3V0
-X2Nvbm5lY3RvciA9IGNvbm5lY3RvcjsKCgpXaGVuIHRyeSB0byB1c2UgdGhpcyBwYXRjaCBpbiBt
-eSBicmlkZ2UgZHJpdmVyLCAgSSBmb3VuZCB0aGF0IHRoZSBjb25uZWN0b3ItPnN0YXRlLT5iZXN0
-X2VuY29kZXIgCiBtYXliZSBOVUxMIHdoZW4gICBkcm1fYnJpZGdlX2Z1bmNzLmRldGVjdCBvciBk
-cm1fYnJpZGdlX2Z1bmNzLmRldGVjdF9jdHggaXMgIGNhbGxlZDoKClsgICA1Mi43MTMwMzBdIElu
-dmFsaWQgcmV0dXJuIHZhbHVlIC0yMiBmb3IgY29ubmVjdG9yIGRldGVjdGlvbgpbICAgNTIuNzEz
-NTM5XSBXQVJOSU5HOiBDUFU6IDcgUElEOiAyODggYXQgZHJpdmVycy9ncHUvZHJtL2RybV9wcm9i
-ZV9oZWxwZXIuYzo2MDIgZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKzB4
-NWUwLwoweDYzYwpbICAgNTIuNzE0NTY4XSBNb2R1bGVzIGxpbmtlZCBpbjoKClsgICA1Mi43MjQ1
-NDZdIENhbGwgdHJhY2U6ClsgICA1Mi43MjQ3NjJdICBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9j
-b25uZWN0b3JfbW9kZXMrMHg1ZTAvMHg2M2MgKFApClsgICA1Mi43MjUzMTldICBkcm1fbW9kZV9n
-ZXRjb25uZWN0b3IrMHgyYTQvMHg0ODgKWyAgIDUyLjcyNTcxMV0gIGRybV9pb2N0bF9rZXJuZWwr
-MHhiNC8weDExYwpbICAgNTIuNzI2MDU3XSAgZHJtX2lvY3RsKzB4MjJjLzB4NTQ0ClsgICA1Mi43
-MjYzNThdICBfX2FybTY0X3N5c19pb2N0bCsweGFjLzB4ZTAKWyAgIDUyLjcyNjcwNl0gIGludm9r
-ZV9zeXNjYWxsKzB4NDQvMHgxMDAKWyAgIDUyLjcyNzAzOV0gIGVsMF9zdmNfY29tbW9uLmNvbnN0
-cHJvcC4wKzB4M2MvMHhkNAoKVGhpcyBpcyBiZWNhdXNlICBiZXN0X2VuY29kZXIgaXMgc2V0IGJ5
-IHNldF9iZXN0X2VuY29kZXIsIHdoaWNoIGlzIGNhbGxlZCBmcm9tCmRybV9hdG9taWNfaGVscGVy
-X2NoZWNrX21vZGVzZXQuIFdoZW4gd2UgY2FsbCBkcm1fbW9kZV9nZXRjb25uZWN0b3IgCmZvciB0
-aGUgZmlyc3QgdGltZSwgdGhlIGZ1bmN0aW9ucyBtZW50aW9uZWQgYWJvdmUgaGF2ZSBub3QgYmVl
-biBjYWxsZWQgeWV0LAp0aGVuIHdlIGNhbid0IG1hdGNoIHRoZSBlbmNvZGVyIGZyb20gY29ubmVj
-dG9yLT5zdGF0ZS0+YmVzdF9lbmNvZGVyIGZvciB0aGlzIGNhc2UuCgoKCj4+KwkJCWJyZWFrOwo+
-PisJCX0KPj4rCX0KPj4rCWRybV9jb25uZWN0b3JfbGlzdF9pdGVyX2VuZCgmY29ubl9pdGVyKTsK
-Pj4rCWRybV9tb2Rlc2V0X3VubG9jaygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9uX211dGV4
-KTsKPj4rCj4+KwlyZXR1cm4gb3V0X2Nvbm5lY3RvcjsKPj4rfQo+PitFWFBPUlRfU1lNQk9MKGRy
-bV9hdG9taWNfZ2V0X2Nvbm5lY3Rvcl9mb3JfZW5jb2Rlcik7Cj4+Kwo+PisKPj4gLyoqCg==
+On Thu, Mar 13, 2025 at 08:32:55AM +0800, Andy Yan wrote:
+> 
+> Hi Dmitry,
+> 
+> At 2025-03-12 20:39:17, "Dmitry Baryshkov" <lumag@kernel.org> wrote:
+> >On Wed, Mar 12, 2025 at 06:42:08PM +0800, Andy Yan wrote:
+> >> From: Andy Yan <andy.yan@rock-chips.com>
+> >> 
+> >> The HDMI Port next to Headphone Jack is drived by
+> >> DP1 on rk3588 via a dp2hdmi converter.
+> >> 
+> >> Add related dt nodes to enable it.
+> >> 
+> >> Note: ROCKCHIP_VOP2_EP_DP1 is defined as 11 in dt-binding header,
+> >> but it will trigger a dtc warning like "graph node unit address
+> >> error, expected "b"" if we use it directly after endpoint, so we
+> >> use "b" instead here.
+> >> 
+> >> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> >> ---
+> >> 
+> >> (no changes since v1)
+> >> 
+> >>  .../boot/dts/rockchip/rk3588-rock-5-itx.dts   | 37 +++++++++++++++++++
+> >>  1 file changed, 37 insertions(+)
+> >> 
+> >> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts
+> >> index 67b886329248..29f10ec9f0c1 100644
+> >> --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts
+> >> +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts
+> >> @@ -57,6 +57,18 @@ analog-sound {
+> >>  			  "Headphone", "Headphones";
+> >>  	};
+> >>  
+> >> +	dp-con {
+> >> +		compatible = "dp-connector";
+> >
+> >You've written that it is an HDMI connector. Could you possibly clarify,
+> >why is it being registered as a DP connector? Is there any kind of
+> >a bridge between the DP controller and the HDMI connector?
+> 
+> When I was preparing this patch at that time, I also had some doubts. 
+> Whether it should be registered as a DP connector or an HDMI connector. 
+> There is a DP2HDMI conversion chip between the DP of RK3588 and this hdmi 
+> interface, but this conversion chip does not require a software driver. 
+> If the current writing is incorrect, I will change it to hdmi-connector in the next version.
+
+Yes. Please add the RA620 chip to simple-bridge.c and simple-bridge.yaml
+and use HDMI connector here.
+
+> 
+> Thanks
+> >
+> >> +		label = "DP OUT";
+> >> +		type = "full-size";
+> >> +
+> >> +		port {
+> >> +			dp_con_in: endpoint {
+> >> +				remote-endpoint = <&dp1_out_con>;
+> >> +			};
+> >> +		};
+> >> +	};
+> >> +
+> >>  	gpio-leds {
+> >>  		compatible = "gpio-leds";
+> >>  		pinctrl-names = "default";
+> >> @@ -268,6 +280,24 @@ &cpu_l3 {
+> >>  	cpu-supply = <&vdd_cpu_lit_s0>;
+> >>  };
+> >>  
+> >> +&dp1 {
+> >> +	status = "okay";
+> >> +	pinctrl-names = "default";
+> >> +	pinctrl-0 = <&dp1m0_pins>;
+> >> +};
+> >> +
+> >> +&dp1_in {
+> >> +	dp1_in_vp2: endpoint {
+> >> +		remote-endpoint = <&vp2_out_dp1>;
+> >> +	};
+> >> +};
+> >> +
+> >> +&dp1_out {
+> >> +	dp1_out_con: endpoint {
+> >> +		remote-endpoint = <&dp_con_in>;
+> >> +	};
+> >> +};
+> >> +
+> >>  &gpu {
+> >>  	mali-supply = <&vdd_gpu_s0>;
+> >>  	status = "okay";
+> >> @@ -1262,3 +1292,10 @@ vp1_out_hdmi1: endpoint@ROCKCHIP_VOP2_EP_HDMI1 {
+> >>  		remote-endpoint = <&hdmi1_in_vp1>;
+> >>  	};
+> >>  };
+> >> +
+> >> +&vp2 {
+> >> +	vp2_out_dp1: endpoint@b {
+> >> +		reg = <ROCKCHIP_VOP2_EP_DP1>;
+> >> +		remote-endpoint = <&dp1_in_vp2>;
+> >> +	};
+> >> +};
+> >> -- 
+> >> 2.34.1
+> >> 
+> >
+> >-- 
+> >With best wishes
+> >Dmitry
+
+-- 
+With best wishes
+Dmitry
