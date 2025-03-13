@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1384A5F135
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 11:45:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D4EA5F145
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 11:48:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEE810E836;
-	Thu, 13 Mar 2025 10:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21F7210E20C;
+	Thu, 13 Mar 2025 10:48:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qN6R7G1F";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mrqol/dL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B8C610E842
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 10:45:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1741862750;
- bh=2QAhljX19/TsHGbFWMYLcAbGHsnxAfWMnvajxitXSZk=;
- h=Date:To:Cc:From:Subject:From;
- b=qN6R7G1FjD/LDJMUDXM0djo6izSebSSu6MtpTJ5swlgKmHqxX8Y6izNnUjk70Ecbk
- ZYG9jrbcRdFze7d1NdinQQJnGlVhmTxF5ttLm+NxQU1COLCJA9ecaGKLlTHWjubZ+r
- XNUitdjsf3iSCZGVeQIkuOYP56pbtmpiD9WVfEtgbZiqK2bkK4pZGyxsNB8fKyRj3f
- N1x86Po6GfL1koWAfPyLFHz08LutrVtS756k5rL4T54Ype+g8lBYTS4vbmBymgCnAc
- vh+W9GJ3IrWs16NZbew75b0TeaFGevEwMzHrmHmzXtPyLRF4RoQBlO2n8DPM73T/nf
- LTPjdBpky4QFw==
-Received: from [192.168.50.250] (unknown [171.76.87.92])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id AE34117E0E01;
- Thu, 13 Mar 2025 11:45:47 +0100 (CET)
-Message-ID: <2364a6bf-e6bc-4741-8c78-cea8bdb06e03@collabora.com>
-Date: Thu, 13 Mar 2025 16:15:46 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28B9510E20C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 10:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741862911; x=1773398911;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Jmvl8EX5DkvtuZEU3inPTKIXywN5zwJZsdjqePPph9Y=;
+ b=mrqol/dLX0qHCIQEF8tm2K8FAid4xDJbTP9XHVxfBLmUMnqjPDmJH/Qt
+ pj7xqndLXK32/h7IT2ge5VDntjhKyyBg60EsoY6ea1XG2zSfygt5O/jlp
+ XnFe0xEbIqt5fHH1eRYMNtcSjwFLoaLS/qXKTGOcv2IFSzvcAOwjnERR3
+ KsxfOXsqpRicvCpYMulqyvHTI/S9q0M1GkwAMbIM+ivpudtuUkVekjEtg
+ BssGfPFQBTKNBT4xmiHfS6VyPPJmvnVE/FqzNu7vl8D41SxsmFMrnYmR4
+ N/4jZW+8ZOb8VUdtH+oIOiL+UzSuNv6Xa+/+A/TgJ4/HGX/9y11y0oOhd w==;
+X-CSE-ConnectionGUID: TZhv1Vo3SmqQKIomMgGm+w==
+X-CSE-MsgGUID: JGBy/wR/S4W1OIQXBhQPVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="60514138"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="60514138"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2025 03:48:31 -0700
+X-CSE-ConnectionGUID: FrkTloA9TMO0Zg3K+dXd4A==
+X-CSE-MsgGUID: j7wWwXkwSX26abe4bq8WXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="126104435"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.115])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2025 03:48:27 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Yo-Jung (Leo) Lin" <leo.lin@canonical.com>
+Cc: leo.lin@canonical.com, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm: add .hdrtest to .gitignore under drm directories
+In-Reply-To: <20250313041711.872378-1-leo.lin@canonical.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250313041711.872378-1-leo.lin@canonical.com>
+Date: Thu, 13 Mar 2025 12:48:23 +0200
+Message-ID: <878qp9dx54.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>,
- "hamohammed.sa" <hamohammed.sa@gmail.com>, simona.vetter@ffwll.ch,
- "melissa.srw" <melissa.srw@gmail.com>,
- "maarten.lankhorst" <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, tzimmermann <tzimmermann@suse.de>,
- airlied <airlied@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, daniels <daniels@collabora.com>,
- sergi.blanch.torne@collabora.com,
- "guilherme.gallo" <guilherme.gallo@collabora.com>,
- Helen Mae Koike Fornazier <helen.fornazier@gmail.com>
-From: Vignesh Raman <vignesh.raman@collabora.com>
-Subject: drm-ci: vkms: kms_flip@modeset-vs-vblank-race flake
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,89 +72,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maintainers,
+On Thu, 13 Mar 2025, "Yo-Jung (Leo) Lin" <leo.lin@canonical.com> wrote:
+> The header self-contained tests in drm may leave .hdrtest files in
+> include/drm/ and drivers/gpu/drm/. Omit them by adding .gitignore
 
-There are some flake test reported for vkms driver testing in drm-ci.
+This has already been the case with usr/include for
+CONFIG_UAPI_HEADER_TEST=y but I guess nobody noticed before.
 
-# Board Name: vkms
-# Failure Rate: 20
-# IGT Version: 1.30-g04bedb923
-# Linux Version: 6.14.0-rc4
-kms_flip@modeset-vs-vblank-race
+Maybe fix that too?
 
-DEBUG - Begin test kms_flip@modeset-vs-vblank-race
-ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure 
-function run_test_step, file ../tests/kms_flip.c:979:
-ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end - 
-start > 0.9 * actual_frame_time(o) && end - start < 2.6 * 
-actual_frame_time(o)
-ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took 
-47374 usec (frame time 16665.600000 usec)
-ERROR - Igt error: Dynamic subtest A-Virtual17 failed.
-ERROR - Igt error: **** DEBUG ****
-ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(width=1024, height=768, 
-format=XR24(0x34325258), modifier=0x0, size=0)
-ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(handle=1, pitch=4096)
-ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test 
-requirement passed: igt_has_fb_modifiers(fd)
-ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(width=1024, height=768, 
-format=XR24(0x34325258), modifier=0x0, size=0)
-ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(handle=2, pitch=4096)
-ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test 
-requirement passed: igt_has_fb_modifiers(fd)
-ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement 
-passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
-ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement 
-passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
-ERROR - Igt error: (kms_flip:1250) igt_kms-INFO:   1024x768: 60 65000 
-1024 1048 1184 1344 768 771 777 806 0x48 0xa
-ERROR - Igt error: (kms_flip:1250) DEBUG: No stale events found
-ERROR - Igt error: (kms_flip:1250) INFO: Expected frametime: 16666us; 
-measured 16665.6us +- 0.500us accuracy 0.01%
-ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure 
-function run_test_step, file ../tests/kms_flip.c:979:
-ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end - 
-start > 0.9 * actual_frame_time(o) && end - start < 2.6 * 
-actual_frame_time(o)
-ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took 
-47374 usec (frame time 16665.600000 usec)
-ERROR - Igt error: (kms_flip:1250) igt_core-INFO: Stack trace:
-ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #0 
-../lib/igt_core.c:2055 __igt_fail_assert()
-ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #1 
-../tests/kms_flip.c:1023 run_test_on_crtc_set.constprop.0()
-ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #2 
-../tests/kms_flip.c:1845 run_test()
-ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #3 
-../tests/kms_flip.c:2078 __igt_unique____real_main2001()
-ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #4 
-../tests/kms_flip.c:2001 main()
-ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #5 
-[__libc_init_first+0x8a]
-ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #6 
-[__libc_start_main+0x85]
-ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #7 [_start+0x21]
-ERROR - Igt error: ****  END  ****
-ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Test assertion 
-failure function kmstest_set_connector_dpms, file ../lib/igt_kms.c:2246:
-ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Failed assertion: 
-found_it
-ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Last errno: 9, Bad 
-file descriptor
-ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: DPMS property not 
-found on 39
-ERROR - Test kms_flip@modeset-vs-vblank-race: Fail: See 
-"/builds/vigneshraman/linux/results/igt.kms_flip@modeset-vs-vblank-race.log"
-DEBUG - End test kms_flip@modeset-vs-vblank-race
+BR,
+Jani.
 
-Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/72473690
 
-Please could you have a look at these test results and let us know if 
-you need more information. Thank you.
+>
+> Signed-off-by: Yo-Jung (Leo) Lin <leo.lin@canonical.com>
+> ---
+>  drivers/gpu/drm/.gitignore | 1 +
+>  include/drm/.gitignore     | 1 +
+>  2 files changed, 2 insertions(+)
+>  create mode 100644 drivers/gpu/drm/.gitignore
+>  create mode 100644 include/drm/.gitignore
+>
+> diff --git a/drivers/gpu/drm/.gitignore b/drivers/gpu/drm/.gitignore
+> new file mode 100644
+> index 000000000000..d9a77f3b59b2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/.gitignore
+> @@ -0,0 +1 @@
+> +*.hdrtest
+> diff --git a/include/drm/.gitignore b/include/drm/.gitignore
+> new file mode 100644
+> index 000000000000..d9a77f3b59b2
+> --- /dev/null
+> +++ b/include/drm/.gitignore
+> @@ -0,0 +1 @@
+> +*.hdrtest
 
-Regards,
-Vignesh
+-- 
+Jani Nikula, Intel
