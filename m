@@ -2,54 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7F5A5FAB4
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 17:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABA9A5FB05
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 17:14:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D61CC10E23B;
-	Thu, 13 Mar 2025 16:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29C2610E33F;
+	Thu, 13 Mar 2025 16:14:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=protonmail.com header.i=@protonmail.com header.b="OdoSv+Fs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jOhDKNWX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
- [185.70.41.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8897A10E23B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 16:04:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail3; t=1741881845; x=1742141045;
- bh=zJzfYxqTGkpvxERVV5xc7MvB+YJR4f+zoVmRta1ZEMc=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=OdoSv+FsaUzHNvgKe8WkVvrVYmpgRJUbIw/9WlM2oG8d+T+VpA/us+gkkYvVptNnO
- mTJ+gkIiQ3QRtGFb1QmFTYp8i+fO1czeq8VB6YSt944F1ItXw5bvdpluoNL5ZkHB88
- /Q9AyULSgoc6oi3OH0LvxzFn8GnjYAO26b6WrRTed2iw20yIK+Be+p3XABQY3nsHjR
- 4nqzW9a2V11V+ewo5fw3Ay2tRam5qC/URzDixgkJhyxmwtiTNwxwfIquqOE8EzjWzr
- bjTYn/vPG+LZX8PP+WXYnVJcFmYyuD2t+NKHZBeluSH2rwljPBaDhmVIbXvN5rhBqO
- w6TQEEPDBvW6w==
-Date: Thu, 13 Mar 2025 16:04:00 +0000
-To: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Subject: [PATCH RFC 3/3] rust: hid: demo the core abstractions for probe and
- remove
-Message-ID: <20250313160220.6410-6-sergeantsagara@protonmail.com>
-In-Reply-To: <20250313160220.6410-2-sergeantsagara@protonmail.com>
-References: <20250313160220.6410-2-sergeantsagara@protonmail.com>
-Feedback-ID: 26003777:user:proton
-X-Pm-Message-ID: b638180c65cc3d8ba015ced71bcec205a97bd6d0
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C752310E33F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 16:14:46 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-43cf0d787eeso10722615e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 09:14:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741882485; x=1742487285; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/7iciAKS3QF0Rjid5oBOozUpBYB/1kUNlh/Uit+k5yc=;
+ b=jOhDKNWXFQl0wkwMHdQwHdM+mPscUFyFapC7dFs/BQfBiJ9gIWNcHB1z5/262/arKB
+ fqpcXFf14Gp/2I873A45Xzw4qV4IBj9vpCrvw2gZKCOkpgwTjDTigXs9LpSwqtbHQkoH
+ 2LEtE0or50EKSxja5Mg5naQD7WezCqUw5slz5Yuua0TyArACeAs24W2WrV5E5I/AbUcE
+ rw+7GoZ638R/BmGcHsPp4j1f+V488AvZPuyZWQEyTFCcCQrof21FQloWT/1dpOrIt9l0
+ UE94vXuJSluZeP95tp3QMwRf8faBCeu8Fq6lA8R1AcO1nlvLY627CwoDBqhK1ccOboyB
+ R9RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741882485; x=1742487285;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/7iciAKS3QF0Rjid5oBOozUpBYB/1kUNlh/Uit+k5yc=;
+ b=cXdfZjbI/KwqHfIEUfjH9m2QRF4SL/fEt0wmIBM8zNQn9s+aKhcrOC0inNAjKcJYVJ
+ eddKMlpnFMYzXHY1bzslPGghkOuNmTlmCCLLENN8t3eFlYbCNpkOifcdjKPSOFypJLV+
+ WMJrxlmGHEog/f35/T2Drcr+zlLuWI9H+1rZwMgxX8EFW80JC9+8L3N7SOdnSE28ipn3
+ mqVd+mLiTOfnZZ4egO9vhXsmdxRV1dJlTadrUA14XiVGb+ifzvTPU9x4/mE+iOxAL6uU
+ pdjYdh0+frwNhPbD0ccdY2xlLZ+v/uy1Vqr/B4D5LxBXx8WnJ45fvhuUm3Za9LWb23MZ
+ /Bng==
+X-Gm-Message-State: AOJu0YyXqH8QzNRrWaUvUebb3X3b9YsFquf9RoXqioKfB0HW6bk2imco
+ qUkVcNyfR+JVxQL5MLMK1d5e22J7NVwWGZv2tExW+XyZsjxOc+LFuUR1Qg==
+X-Gm-Gg: ASbGncutedhBWPTJ7VwpneylpdS71bfg6gsHE0dhkLLv4iiwAPMPBGZT4gCj5nQfzkp
+ sofiuiaLPU3KNONtdRFkwvcRkMA5/VuKXdMa8l8i82kTu4SZcLZvrMnLziyzJs3HsZLZ0Emevyq
+ ogRXG3OuimwZdrV/c1xUA9GFBy2GYqVU+k7h0hvA/vLcg/vqfxD8QshHg6pPnSVwIrwHb4miRgF
+ XA/D0SWVqC5vrx09aiMXAKkuDq2gS2in7HqEosZDJDOp4x+PxtKnRgdNkKVcstmdtguAp4GGHrF
+ HWVfs3lQP8hMFJ8I7Uzn427TwqjPeWeDkU+APekoW/W+Ow==
+X-Google-Smtp-Source: AGHT+IHXAw3BfWqOXz0Wo0hoZ6qISw2lxtxABE9KJ5Emvwop5XDdhFITpSqR7vJSKMaMzhuVEZocjg==
+X-Received: by 2002:a5d:6c63:0:b0:390:f6aa:4e7c with SMTP id
+ ffacd0b85a97d-396c210606fmr178125f8f.28.1741882485043; 
+ Thu, 13 Mar 2025 09:14:45 -0700 (PDT)
+Received: from qasdev.Home ([2a02:c7c:6696:8300:41ee:4f4e:e8e9:935f])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-395c8975b83sm2664465f8f.52.2025.03.13.09.14.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Mar 2025 09:14:44 -0700 (PDT)
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: christian.koenig@amd.com, ray.huang@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, thomas.hellstrom@linux.intel.com,
+ Arunpravin.PaneerSelvam@amd.com, karolina.stolarek@intel.com,
+ jeff.johnson@oss.qualcomm.com, bigeasy@linutronix.de
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/ttm/tests: fix incorrect assert in ttm_bo_unreserve_bulk()
+Date: Thu, 13 Mar 2025 16:14:24 +0000
+Message-Id: <20250313161424.10688-1-qasdev00@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,62 +87,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a very basic "hello, world!" implementation to illustrate that the
-probe and remove callbacks are working as expected. I chose an arbitrary
-device I had on hand for populating in the HID device id table.
+In the ttm_bo_unreserve_bulk() test function, resv is allocated using
+kunit_kzalloc(), but the subsequent assertion mistakenly verifies the
+ttm_dev pointer instead of the resv pointer.
 
-  [  +0.012968] monitor_control: Probing HID device vendor: 2389 product: 2=
-9204 using Rust!
-  [  +0.000108] monitor_control: Removing HID device vendor: 2389 product: =
-29204 using Rust!
+Fix the assertion to properly verify the resv pointer.
 
-Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
 ---
- drivers/hid/hid_monitor_control.rs | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid_monitor_control.rs b/drivers/hid/hid_monitor_c=
-ontrol.rs
-index 18afd69a56d5..aeb6e4058a6b 100644
---- a/drivers/hid/hid_monitor_control.rs
-+++ b/drivers/hid/hid_monitor_control.rs
-@@ -8,17 +8,22 @@
-     Driver,
- };
-=20
-+const USB_VENDOR_ID_NVIDIA: u32 =3D 0x0955;
-+const USB_DEVICE_ID_NVIDIA_THUNDERSTRIKE_CONTROLLER: u32 =3D 0x7214;
-+
- struct HidMonitorControl;
-=20
- #[vtable]
- impl Driver for HidMonitorControl {
-     fn probe(dev: &mut hid::Device, id: &hid::DeviceId) -> Result<()> {
-         /* TODO implement */
-+        pr_info!("Probing HID device vendor: {} product: {} using Rust!\n"=
-, id.vendor(), id.product());
-         Ok(())
-     }
-=20
-     fn remove(dev: &mut hid::Device) {
-         /* TODO implement */
-+        pr_info!("Removing HID device vendor: {} product: {} using Rust!\n=
-", dev.vendor(), dev.product());
-     }
- }
-=20
-@@ -26,8 +31,8 @@ fn remove(dev: &mut hid::Device) {
-     driver: HidMonitorControl,
-     id_table: [
-         kernel::usb_device! {
--            vendor: /* TODO fill in */,
--            product: /* TODO fill in */,
-+            vendor: USB_VENDOR_ID_NVIDIA,
-+            product: USB_DEVICE_ID_NVIDIA_THUNDERSTRIKE_CONTROLLER,
-         },
-     ],
-     name: "monitor_control",
---=20
-2.47.2
-
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+index f8f20d2f6174..e08e5a138420 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+@@ -340,7 +340,7 @@ static void ttm_bo_unreserve_bulk(struct kunit *test)
+ 	KUNIT_ASSERT_NOT_NULL(test, ttm_dev);
+ 
+ 	resv = kunit_kzalloc(test, sizeof(*resv), GFP_KERNEL);
+-	KUNIT_ASSERT_NOT_NULL(test, ttm_dev);
++	KUNIT_ASSERT_NOT_NULL(test, resv);
+ 
+ 	err = ttm_device_kunit_init(priv, ttm_dev, false, false);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+-- 
+2.39.5
 
