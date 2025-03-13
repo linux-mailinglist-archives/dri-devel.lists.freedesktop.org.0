@@ -2,54 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FABA5F258
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 12:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B37EA5F2C3
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 12:44:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62CDE10E211;
-	Thu, 13 Mar 2025 11:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4205710E855;
+	Thu, 13 Mar 2025 11:44:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="U8l72FYJ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WqugVzZ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3A9210E211;
- Thu, 13 Mar 2025 11:30:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Pm73EJRQgZ77/ckvxKpjTwQ+FlBGwLcf98qwKNe6V94=; b=U8l72FYJdvxrrI/bNfTq5ItQR4
- KKq4RgfZ17RBeMUI0YllEwMBqPOKrG4DDY7eYaUekOjC4LtFFS1MOjEJshIFCToLUqOtJLtOy3FZp
- okLNEOcETz9+Uob8y0ojphdOXxCLZLUf9cAl/kqSQqvy9PDIv2yK+q4JoM899xdtAAAeC84e0ibry
- isFYZ1sX2o/b1W3FXhWXvVXOYooB/SIPNJnTdhNNdwynB4aQoJvFs8voDI3zELohMHHuzPs90YeoF
- JWYoe5MYJVz+84QLCho5HnPqe2zi6851ZJqP3ap7QgUNNdHz7yjGEVR2MFg7ShoNneBOyoh2WUQK2
- 9MNUNE5w==;
-Received: from 179-125-64-252-dinamico.pombonet.net.br ([179.125.64.252]
- helo=quatroqueijos) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tsgl6-0084nJ-Qr; Thu, 13 Mar 2025 12:29:59 +0100
-Date: Thu, 13 Mar 2025 08:29:59 -0300
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tom Chung <chiahsuan.chung@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
- stable@vger.kernel.org, Daniel Wheeler <daniel.wheeler@amd.com>
-Subject: Re: [PATCH] drm/amd/display: avoid NPD when ASIC does not support DMUB
-Message-ID: <Z9LBt2ePtxJ0Nzz4@quatroqueijos>
-References: <20250205-amdgpu-dmub-v1-1-88151fe565d8@igalia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E404B10E856
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 11:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741866271;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Vi3vqlZEjhRyke+tn+Q3MD+zw3p/H2XxVRSJ9/S1eBk=;
+ b=WqugVzZ8f+Vx4UvGl1aA/yks2AB7/6BChGCJWwALmPCbRn0Fbewym9uuHr5Cf131YKFec+
+ QSkNzqUK5AlT8yL/BQgHiCDaiw4iFcZeq32LuUnzss/PqyCAhSAIPNuj0PxnJ+NZL6zQCE
+ rmF1KRpf/R1UxtfVqq+V+JUhqrvUA0I=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-443-exjk8KdVOVObjWHFSvL5tg-1; Thu, 13 Mar 2025 07:44:30 -0400
+X-MC-Unique: exjk8KdVOVObjWHFSvL5tg-1
+X-Mimecast-MFC-AGG-ID: exjk8KdVOVObjWHFSvL5tg_1741866269
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3912d9848a7so1017330f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 04:44:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741866269; x=1742471069;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Vi3vqlZEjhRyke+tn+Q3MD+zw3p/H2XxVRSJ9/S1eBk=;
+ b=OegvXNNoJmNvt9PErsIiln7GCqaE4sswmF9WoxV0ph6f9mGdz1LETQa2TzcNBVFk5A
+ EMNY90iLBFVOpTOXRwIpfXaMsoV8WlXoFzQiyiNyIYqkP4WdnBRWTqIMb0wl568j9lti
+ JXRbPBuhSivPDIdfzOIWQo5sv2nkwWiT+0QQAHrc5jPwrbsZGFMlA+Z3imHueH+bEF6q
+ IorPJqP2Yyr5XD/BTFdOfPY9OcXifmQaMqeigwEfK/mNUWbTreGdfHemA+Fko2WhkA+v
+ zJNZZmt4VQCuOZwY1qP6fi8VUzRLP/RU0VvuEWR4qp3jCt7tNA/S9xx7j8XWiOdMc7Fw
+ RZGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRi8WzVl/VOF/6QssqbBF3n/9Uyn8rPJCMtUTp7JrjDAlWC9eaLmjaXxPr/9u/JoGaGPNjVMsHI9c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUHwdNuJ5vAnqYZd+m7Rh0lAI+Q9svkfuTauXxoVBnnvHNWfg6
+ PpkYC5ND9TGJzToCsswO3Aj5j0J8hQDOziCpH/UgLAJ/UvEwpQMAijc2wqJiHZFMS04TLP7vP8T
+ 1iYXsf/iolbn3XC2EndhnCVdhChsTh1eiUM8Gin2mebkKob9+yuEmUdpDbT2cORKcKg==
+X-Gm-Gg: ASbGncsKWDlLmhPPZFlg18rv3ISKfRFzZ7SA63dujelVOA/jx8hcT48fu9Uv1rXzFw4
+ 66uY8jNn6Ry/tOfEZO1xmxIH3j4ae154p2Rynnn/Miu5j4Pisb2Bjdn9r5klteneN8R3T5Lf8j1
+ kfsYjO84285ixYFJmSZFVPSlUVsiyVMYlgVQkqxAdJxSvqHbN1OxgC/vvCf2QtIVqBG966zCPHO
+ SaPSQX2+Wu3vkKgv//PJcbvkPLztRDyDcR9E62zTFq0C/UYRVWufCtB4hs4wPm0sqR+KjdUfqaq
+ 97KQOLG+4AM1qCFtPXcw
+X-Received: by 2002:a5d:64cb:0:b0:38f:23c4:208c with SMTP id
+ ffacd0b85a97d-395b954ea75mr1784236f8f.18.1741866269100; 
+ Thu, 13 Mar 2025 04:44:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH5B4S8E4d5tF3TI1rIoUvKO0tSV0G2B0BPE1gxY0qJz2LBrnTYS6FEhx79I2sbOMPQrE3jHw==
+X-Received: by 2002:a5d:64cb:0:b0:38f:23c4:208c with SMTP id
+ ffacd0b85a97d-395b954ea75mr1784186f8f.18.1741866268630; 
+ Thu, 13 Mar 2025 04:44:28 -0700 (PDT)
+Received: from lab.hqhome163.com ([81.57.75.210])
+ by smtp.googlemail.com with ESMTPSA id
+ 5b1f17b1804b1-43d188b754asm17844115e9.14.2025.03.13.04.44.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Mar 2025 04:44:27 -0700 (PDT)
+From: Alessandro Carminati <acarmina@redhat.com>
+To: linux-kselftest@vger.kernel.org
+Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ loongarch@lists.linux.dev, x86@kernel.org,
+ Alessandro Carminati <acarmina@redhat.com>
+Subject: [PATCH v4 00/14] Add support for suppressing warning backtraces
+Date: Thu, 13 Mar 2025 11:43:15 +0000
+Message-Id: <20250313114329.284104-1-acarmina@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250205-amdgpu-dmub-v1-1-88151fe565d8@igalia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: HUJ8eDgilnV-XP7h4fSO0SqeVJFrjM7-4rnfJh_wJIY_1741866269
+X-Mimecast-Originator: redhat.com
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,152 +117,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 05, 2025 at 10:06:38AM -0300, Thadeu Lima de Souza Cascardo wrote:
-> ctx->dmub_srv will de NULL if the ASIC does not support DMUB, which is
-> tested in dm_dmub_sw_init.
-> 
-> However, it will be dereferenced in dmub_hw_lock_mgr_cmd if
-> should_use_dmub_lock returns true.
-> 
-> This has been the case since dmub support has been added for PSR1.
+Some unit tests intentionally trigger warning backtraces by passing bad
+parameters to kernel API functions. Such unit tests typically check the
+return value from such calls, not the existence of the warning backtrace.
 
-This bug has landed on stable trees. Any chance for a review here?
+Such intentionally generated warning backtraces are neither desirable
+nor useful for a number of reasons.
+- They can result in overlooked real problems.
+- A warning that suddenly starts to show up in unit tests needs to be
+  investigated and has to be marked to be ignored, for example by
+  adjusting filter scripts. Such filters are ad-hoc because there is
+  no real standard format for warnings. On top of that, such filter
+  scripts would require constant maintenance.
 
-Thanks.
-Cascardo.
+One option to address problem would be to add messages such as "expected
+warning backtraces start / end here" to the kernel log.  However, that
+would again require filter scripts, it might result in missing real
+problematic warning backtraces triggered while the test is running, and
+the irrelevant backtrace(s) would still clog the kernel log.
 
-> 
-> Fix this by checking for dmub_srv in should_use_dmub_lock.
-> 
-> [   37.440832] BUG: kernel NULL pointer dereference, address: 0000000000000058
-> [   37.447808] #PF: supervisor read access in kernel mode
-> [   37.452959] #PF: error_code(0x0000) - not-present page
-> [   37.458112] PGD 0 P4D 0
-> [   37.460662] Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
-> [   37.465553] CPU: 2 UID: 1000 PID: 1745 Comm: DrmThread Not tainted 6.14.0-rc1-00003-gd62e938120f0 #23 99720e1cb1e0fc4773b8513150932a07de3c6e88
-> [   37.478324] Hardware name: Google Morphius/Morphius, BIOS Google_Morphius.13434.858.0 10/26/2023
-> [   37.487103] RIP: 0010:dmub_hw_lock_mgr_cmd+0x77/0xb0
-> [   37.492074] Code: 44 24 0e 00 00 00 00 48 c7 04 24 45 00 00 0c 40 88 74 24 0d 0f b6 02 88 44 24 0c 8b 01 89 44 24 08 85 f6 75 05 c6 44 24 0e 01 <48> 8b 7f 58 48 89 e6 ba 01 00 00 00 e8 08 3c 2a 00 65 48 8b 04 5
-> [   37.510822] RSP: 0018:ffff969442853300 EFLAGS: 00010202
-> [   37.516052] RAX: 0000000000000000 RBX: ffff92db03000000 RCX: ffff969442853358
-> [   37.523185] RDX: ffff969442853368 RSI: 0000000000000001 RDI: 0000000000000000
-> [   37.530322] RBP: 0000000000000001 R08: 00000000000004a7 R09: 00000000000004a5
-> [   37.537453] R10: 0000000000000476 R11: 0000000000000062 R12: ffff92db0ade8000
-> [   37.544589] R13: ffff92da01180ae0 R14: ffff92da011802a8 R15: ffff92db03000000
-> [   37.551725] FS:  0000784a9cdfc6c0(0000) GS:ffff92db2af00000(0000) knlGS:0000000000000000
-> [   37.559814] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   37.565562] CR2: 0000000000000058 CR3: 0000000112b1c000 CR4: 00000000003506f0
-> [   37.572697] Call Trace:
-> [   37.575152]  <TASK>
-> [   37.577258]  ? __die_body+0x66/0xb0
-> [   37.580756]  ? page_fault_oops+0x3e7/0x4a0
-> [   37.584861]  ? exc_page_fault+0x3e/0xe0
-> [   37.588706]  ? exc_page_fault+0x5c/0xe0
-> [   37.592550]  ? asm_exc_page_fault+0x22/0x30
-> [   37.596742]  ? dmub_hw_lock_mgr_cmd+0x77/0xb0
-> [   37.601107]  dcn10_cursor_lock+0x1e1/0x240
-> [   37.605211]  program_cursor_attributes+0x81/0x190
-> [   37.609923]  commit_planes_for_stream+0x998/0x1ef0
-> [   37.614722]  update_planes_and_stream_v2+0x41e/0x5c0
-> [   37.619703]  dc_update_planes_and_stream+0x78/0x140
-> [   37.624588]  amdgpu_dm_atomic_commit_tail+0x4362/0x49f0
-> [   37.629832]  ? srso_return_thunk+0x5/0x5f
-> [   37.633847]  ? mark_held_locks+0x6d/0xd0
-> [   37.637774]  ? _raw_spin_unlock_irq+0x24/0x50
-> [   37.642135]  ? srso_return_thunk+0x5/0x5f
-> [   37.646148]  ? lockdep_hardirqs_on+0x95/0x150
-> [   37.650510]  ? srso_return_thunk+0x5/0x5f
-> [   37.654522]  ? _raw_spin_unlock_irq+0x2f/0x50
-> [   37.658883]  ? srso_return_thunk+0x5/0x5f
-> [   37.662897]  ? wait_for_common+0x186/0x1c0
-> [   37.666998]  ? srso_return_thunk+0x5/0x5f
-> [   37.671009]  ? drm_crtc_next_vblank_start+0xc3/0x170
-> [   37.675983]  commit_tail+0xf5/0x1c0
-> [   37.679478]  drm_atomic_helper_commit+0x2a2/0x2b0
-> [   37.684186]  drm_atomic_commit+0xd6/0x100
-> [   37.688199]  ? __cfi___drm_printfn_info+0x10/0x10
-> [   37.692911]  drm_atomic_helper_update_plane+0xe5/0x130
-> [   37.698054]  drm_mode_cursor_common+0x501/0x670
-> [   37.702600]  ? __cfi_drm_mode_cursor_ioctl+0x10/0x10
-> [   37.707572]  drm_mode_cursor_ioctl+0x48/0x70
-> [   37.711851]  drm_ioctl_kernel+0xf2/0x150
-> [   37.715781]  drm_ioctl+0x363/0x590
-> [   37.719189]  ? __cfi_drm_mode_cursor_ioctl+0x10/0x10
-> [   37.724165]  amdgpu_drm_ioctl+0x41/0x80
-> [   37.728013]  __se_sys_ioctl+0x7f/0xd0
-> [   37.731685]  do_syscall_64+0x87/0x100
-> [   37.735355]  ? vma_end_read+0x12/0xe0
-> [   37.739024]  ? srso_return_thunk+0x5/0x5f
-> [   37.743041]  ? find_held_lock+0x47/0xf0
-> [   37.746884]  ? vma_end_read+0x12/0xe0
-> [   37.750552]  ? srso_return_thunk+0x5/0x5f
-> [   37.754565]  ? lock_release+0x1c4/0x2e0
-> [   37.758406]  ? vma_end_read+0x12/0xe0
-> [   37.762079]  ? exc_page_fault+0x84/0xe0
-> [   37.765921]  ? srso_return_thunk+0x5/0x5f
-> [   37.769938]  ? lockdep_hardirqs_on+0x95/0x150
-> [   37.774303]  ? srso_return_thunk+0x5/0x5f
-> [   37.778317]  ? exc_page_fault+0x84/0xe0
-> [   37.782163]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
-> [   37.787218] RIP: 0033:0x784aa5ec3059
-> [   37.790803] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 77 1d 48 8b 45 c8 64 48 2b 04 25 28 00 0
-> [   37.809553] RSP: 002b:0000784a9cdf90e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> [   37.817121] RAX: ffffffffffffffda RBX: 0000784a9cdf917c RCX: 0000784aa5ec3059
-> [   37.824256] RDX: 0000784a9cdf917c RSI: 00000000c01c64a3 RDI: 0000000000000020
-> [   37.831391] RBP: 0000784a9cdf9130 R08: 0000000000000100 R09: 0000000000ff0000
-> [   37.838525] R10: 0000000000000000 R11: 0000000000000246 R12: 0000025c01606ed0
-> [   37.845657] R13: 0000025c00030200 R14: 00000000c01c64a3 R15: 0000000000000020
-> [   37.852799]  </TASK>
-> [   37.854992] Modules linked in:
-> [   37.864546] gsmi: Log Shutdown Reason 0x03
-> [   37.868656] CR2: 0000000000000058
-> [   37.871979] ---[ end trace 0000000000000000 ]---
-> [   37.880976] RIP: 0010:dmub_hw_lock_mgr_cmd+0x77/0xb0
-> [   37.885954] Code: 44 24 0e 00 00 00 00 48 c7 04 24 45 00 00 0c 40 88 74 24 0d 0f b6 02 88 44 24 0c 8b 01 89 44 24 08 85 f6 75 05 c6 44 24 0e 01 <48> 8b 7f 58 48 89 e6 ba 01 00 00 00 e8 08 3c 2a 00 65 48 8b 04 5
-> [   37.904703] RSP: 0018:ffff969442853300 EFLAGS: 00010202
-> [   37.909933] RAX: 0000000000000000 RBX: ffff92db03000000 RCX: ffff969442853358
-> [   37.917068] RDX: ffff969442853368 RSI: 0000000000000001 RDI: 0000000000000000
-> [   37.924201] RBP: 0000000000000001 R08: 00000000000004a7 R09: 00000000000004a5
-> [   37.931336] R10: 0000000000000476 R11: 0000000000000062 R12: ffff92db0ade8000
-> [   37.938469] R13: ffff92da01180ae0 R14: ffff92da011802a8 R15: ffff92db03000000
-> [   37.945602] FS:  0000784a9cdfc6c0(0000) GS:ffff92db2af00000(0000) knlGS:0000000000000000
-> [   37.953689] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   37.959435] CR2: 0000000000000058 CR3: 0000000112b1c000 CR4: 00000000003506f0
-> [   37.966570] Kernel panic - not syncing: Fatal exception
-> [   37.971901] Kernel Offset: 0x30200000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
-> [   37.982840] gsmi: Log Shutdown Reason 0x02
-> 
-> Fixes: b5c764d6ed55 ("drm/amd/display: Use HW lock mgr for PSR1")
-> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> Cc: stable@vger.kernel.org
-> Cc: Sun peng Li <sunpeng.li@amd.com>
-> Cc: Tom Chung <chiahsuan.chung@amd.com>
-> Cc: Daniel Wheeler <daniel.wheeler@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c
-> index 5bb8b78bf250a0e56c3e99ce7c99ed7f70c8f0f6..eef817a4c580aca2ebc7fb1b77cfc0377d477bdc 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c
-> @@ -63,6 +63,9 @@ void dmub_hw_lock_mgr_inbox0_cmd(struct dc_dmub_srv *dmub_srv,
->  
->  bool should_use_dmub_lock(struct dc_link *link)
->  {
-> +	/* ASIC doesn't support DMUB */
-> +	if (!link->ctx->dmub_srv)
-> +		return false;
->  	if (link->psr_settings.psr_version == DC_PSR_VERSION_SU_1 ||
->  	    link->psr_settings.psr_version == DC_PSR_VERSION_1)
->  		return true;
-> 
-> ---
-> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-> change-id: 20250205-amdgpu-dmub-3fc25a0bc68e
-> 
-> Best regards,
-> -- 
-> Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> 
+Solve the problem by providing a means to identify and suppress specific
+warning backtraces while executing test code. Support suppressing multiple
+backtraces while at the same time limiting changes to generic code to the
+absolute minimum. Architecture specific changes are kept at minimum by
+retaining function names only if both CONFIG_DEBUG_BUGVERBOSE and
+CONFIG_KUNIT are enabled.
+
+The first patch of the series introduces the necessary infrastructure.
+The second patch introduces support for counting suppressed backtraces.
+This capability is used in patch three to implement unit tests.
+Patch four documents the new API.
+The next two patches add support for suppressing backtraces in drm_rect
+and dev_addr_lists unit tests. These patches are intended to serve as
+examples for the use of the functionality introduced with this series.
+The remaining patches implement the necessary changes for all
+architectures with GENERIC_BUG support.
+
+With CONFIG_KUNIT enabled, image size increase with this series applied is
+approximately 1%. The image size increase (and with it the functionality
+introduced by this series) can be avoided by disabling
+CONFIG_KUNIT_SUPPRESS_BACKTRACE.
+
+This series is based on the RFC patch and subsequent discussion at
+https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
+and offers a more comprehensive solution of the problem discussed there.
+
+Design note:
+  Function pointers are only added to the __bug_table section if both
+  CONFIG_KUNIT_SUPPRESS_BACKTRACE and CONFIG_DEBUG_BUGVERBOSE are enabled
+  to avoid image size increases if CONFIG_KUNIT is disabled. There would be
+  some benefits to adding those pointers all the time (reduced complexity,
+  ability to display function names in BUG/WARNING messages). That change,
+  if desired, can be made later.
+
+Checkpatch note:
+  Remaining checkpatch errors and warnings were deliberately ignored.
+  Some are triggered by matching coding style or by comments interpreted
+  as code, others by assembler macros which are disliked by checkpatch.
+  Suggestions for improvements are welcome.
+
+Changes since RFC:
+- Introduced CONFIG_KUNIT_SUPPRESS_BACKTRACE
+- Minor cleanups and bug fixes
+- Added support for all affected architectures
+- Added support for counting suppressed warnings
+- Added unit tests using those counters
+- Added patch to suppress warning backtraces in dev_addr_lists tests
+
+Changes since v1:
+- Rebased to v6.9-rc1
+- Added Tested-by:, Acked-by:, and Reviewed-by: tags
+  [I retained those tags since there have been no functional changes]
+- Introduced KUNIT_SUPPRESS_BACKTRACE configuration option, enabled by
+  default.
+
+Changes since v2:
+- Rebased to v6.9-rc2
+- Added comments to drm warning suppression explaining why it is needed.
+- Added patch to move conditional code in arch/sh/include/asm/bug.h
+  to avoid kerneldoc warning
+- Added architecture maintainers to Cc: for architecture specific patches
+- No functional changes
+
+Changes since v3:
+- Rebased to v6.14-rc6
+- Dropped net: "kunit: Suppress lock warning noise at end of dev_addr_lists tests"
+  since 3db3b62955cd6d73afde05a17d7e8e106695c3b9
+- Added __kunit_ and KUNIT_ prefixes.
+- Tested on interessed architectures.
+
+----
+Guenter Roeck (14):
+  bug/kunit: Core support for suppressing warning backtraces
+  kunit: bug: Count suppressed warning backtraces
+  kunit: Add test cases for backtrace warning suppression
+  kunit: Add documentation for warning backtrace suppression API
+  drm: Suppress intentional warning backtraces in scaling unit tests
+  x86: Add support for suppressing warning backtraces
+  arm64: Add support for suppressing warning backtraces
+  loongarch: Add support for suppressing warning backtraces
+  parisc: Add support for suppressing warning backtraces
+  s390: Add support for suppressing warning backtraces
+  sh: Add support for suppressing warning backtraces
+  sh: Move defines needed for suppressing warning backtraces
+  riscv: Add support for suppressing warning backtraces
+  powerpc: Add support for suppressing warning backtraces
+
+ Documentation/dev-tools/kunit/usage.rst |  30 ++++++-
+ arch/arm64/include/asm/asm-bug.h        |  27 ++++--
+ arch/arm64/include/asm/bug.h            |   8 +-
+ arch/loongarch/include/asm/bug.h        |  42 +++++++---
+ arch/parisc/include/asm/bug.h           |  29 +++++--
+ arch/powerpc/include/asm/bug.h          |  37 +++++++--
+ arch/riscv/include/asm/bug.h            |  38 ++++++---
+ arch/s390/include/asm/bug.h             |  17 +++-
+ arch/sh/include/asm/bug.h               |  28 ++++++-
+ arch/x86/include/asm/bug.h              |  21 +++--
+ drivers/gpu/drm/tests/drm_rect_test.c   |  16 ++++
+ include/asm-generic/bug.h               |  16 +++-
+ include/kunit/bug.h                     |  56 +++++++++++++
+ include/kunit/test.h                    |   1 +
+ include/linux/bug.h                     |  13 +++
+ lib/bug.c                               |  51 +++++++++++-
+ lib/kunit/Kconfig                       |   9 ++
+ lib/kunit/Makefile                      |   7 +-
+ lib/kunit/backtrace-suppression-test.c  | 104 ++++++++++++++++++++++++
+ lib/kunit/bug.c                         |  42 ++++++++++
+ 20 files changed, 519 insertions(+), 73 deletions(-)
+ create mode 100644 include/kunit/bug.h
+ create mode 100644 lib/kunit/backtrace-suppression-test.c
+ create mode 100644 lib/kunit/bug.c
+
+-- 
+2.34.1
+
