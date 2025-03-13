@@ -2,63 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D642A5F3A0
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 13:01:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52152A5F3E1
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 13:10:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD49310E871;
-	Thu, 13 Mar 2025 12:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C66CF10E874;
+	Thu, 13 Mar 2025 12:10:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hjhVdRqT";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KjZHgtMQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FB3D10E878
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 12:00:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1E1715C464F;
- Thu, 13 Mar 2025 11:58:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6304C4CEE5;
- Thu, 13 Mar 2025 12:00:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741867257;
- bh=atUu69wRsiDL2eOwFYjquYlB8EAdd7+DA+qcNypDzmQ=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=hjhVdRqTAoNjv3jEALdiDSm/4qgv0m0lsEGbnCwNj74QdzzAEDAmRXQ+13isNdWVF
- 46U9zifOogxjkHrsxS75HabcC0mNumzntjRPSm/2REM7Dn7APm0rW7W6yKROZRMtCH
- d2oid4xd0WaJux8oP/O3ScA7Z8on7OfqZEkuU8rkm15IulxdMmR7cKMahfidUSuaVy
- 3pwuqSOm0gA3RCYjWyj7bMQlotkOoEP+jNlNrw8wFZO3evO54gCKwiDs9wPvzp1E7e
- bWJDVKqOnMozcr/vOoad9JDo3u9k9B8e5zxC/Iu1eG/a1Oa7m2L9gJSPNmWlEHvyJH
- 1dCYZ6sCX1qxw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 13 Mar 2025 13:00:10 +0100
-Subject: [PATCH v6 16/16] drm/bridge: ti-sn65dsi86: Remove
- drm_encoder->crtc use
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23CD910E873;
+ Thu, 13 Mar 2025 12:10:31 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52D7CAmG019811;
+ Thu, 13 Mar 2025 12:10:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ c7UkRMW05zKg8RDl3mwjjPVBN91r1eiT1QbA7lGZtpA=; b=KjZHgtMQ4FccHN6q
+ cMJ3mkAz/0+eZDAqqFbNquykWNWZuzhDQizsUJPq8sYxzG491d8EBzV0ERnLi+su
+ NZmYf7bDVGjmZGEuZJDP1zathfnmDkP8rcZKXd7Dhd2XVjf2ae2XcH6ApMpT3WG6
+ 4vsJUHnK9SKQMQM6FNFTOT3Eruu5bkZWT57lNprYHUPYKHweH5xzVrot+5ayFw6X
+ YYMpRra51u4o5iMe9hpHVPPXlCCjw9zHoKuuvuOTLXNrKYmJ8YbKD9qfqNb+nipL
+ JJ7Gno+rBp66gmXmomgyZrV9lVpo9QbWnPIIFbLi8gFLRN41gERlIsSrEPqVNQ92
+ 0wvrzg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45bts0gu45-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Mar 2025 12:10:18 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52DCAHEO015684
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Mar 2025 12:10:17 GMT
+Received: from [10.204.66.137] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 13 Mar
+ 2025 05:10:10 -0700
+Message-ID: <d64bf3b3-7c4d-490e-8bd7-1ad889aa7472@quicinc.com>
+Date: Thu, 13 Mar 2025 17:40:07 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250313-bridge-connector-v6-16-511c54a604fb@kernel.org>
-References: <20250313-bridge-connector-v6-0-511c54a604fb@kernel.org>
-In-Reply-To: <20250313-bridge-connector-v6-0-511c54a604fb@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Douglas Anderson <dianders@chromium.org>
-Cc: Herve Codina <herve.codina@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8854; i=mripard@kernel.org;
- h=from:subject:message-id; bh=atUu69wRsiDL2eOwFYjquYlB8EAdd7+DA+qcNypDzmQ=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOmXTpwIef8uUZex7PSWa51T1h5ic97TeTfog6LuxPCIW
- IlP5mUeHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZgINwvDH47MiYs9t/OFx237
- MyfrPvctxai/h2oi8u1r0x5sNpO4c5vhf4rX28DtG7RbLoSsSSsT2OPrWrQivcSW5bzDt31n1j/
- tYQAA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/10] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI
+ to DP bridge nodes
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <robdclark@gmail.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <andersson@kernel.org>,
+ <robh@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
+ <konradybcio@kernel.org>, <conor+dt@kernel.org>,
+ <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
+ <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <quic_abhinavk@quicinc.com>, <quic_rajeevny@quicinc.com>,
+ <quic_vproddut@quicinc.com>, <quic_jesszhan@quicinc.com>
+References: <20250311122445.3597100-1-quic_amakhija@quicinc.com>
+ <20250311122445.3597100-8-quic_amakhija@quicinc.com>
+ <20250312-athletic-cockle-of-happiness-e88a3a@krzk-bin>
+Content-Language: en-US
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
+In-Reply-To: <20250312-athletic-cockle-of-happiness-e88a3a@krzk-bin>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 6BtJ98pGmkmWzLj0xA-sndcThuicNPoa
+X-Authority-Analysis: v=2.4 cv=DNSP4zNb c=1 sm=1 tr=0 ts=67d2cb2a cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=UXIAUNObAAAA:8
+ a=COk6AnOGAAAA:8 a=2y1opo3hKBB_uxp-C3oA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=bFq2RbqkfqsA:10
+ a=a1s67YnXd6TbAZZNj1wK:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 6BtJ98pGmkmWzLj0xA-sndcThuicNPoa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-13_06,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ clxscore=1015 phishscore=0 malwarescore=0 mlxlogscore=999
+ priorityscore=1501 mlxscore=0 spamscore=0 bulkscore=0 impostorscore=0
+ suspectscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503130095
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,235 +109,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TI sn65dsi86 driver follows the drm_encoder->crtc pointer that is
-deprecated and shouldn't be used by atomic drivers.
+On 3/12/2025 5:18 PM, Krzysztof Kozlowski wrote:
+> On Tue, Mar 11, 2025 at 05:54:42PM +0530, Ayushi Makhija wrote:
+>> Add anx7625 DSI to DP bridge device nodes.
+>>
+>> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+>> ---
+>>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 208 ++++++++++++++++++++-
+>>  1 file changed, 207 insertions(+), 1 deletion(-)
+>>
+> 
+> So you just gave up after one comment? Context of every email should be
+> trimmed, so if it is not trimmed means something is still there. I know
+> there are reviewers who respond with huge unrelated context, but that's
+> just disrespectful to our time and don't take it as normal.
+> 
+> <form letter>
+> This is a friendly reminder during the review process.
+> 
+> It seems my or other reviewer's previous comments were not fully
+> addressed. Maybe the feedback got lost between the quotes, maybe you
+> just forgot to apply it. Please go back to the previous discussion and
+> either implement all requested changes or keep discussing them.
+> 
+> Thank you.
+> </form letter>
+> 
 
-Fortunately, the atomic hooks provide the drm_atomic_state and we can
-access our current CRTC from that, going from the bridge to its encoder,
-to its connector, and to its CRTC.
+Hi Krzysztof,
 
-This bridge driver uses the atomic hooks already, but dereferences the
-drm_encoder->crtc pointer in functions that don't have access to it.
+Thanks, for the review.
 
-Let's rework the driver to pass the state where needed, and remove the
-need for the drm_encoder->crtc dereference.
+I apologize for any confusion or oversight regarding the recent review comments.
+Thank you for your patience and understanding. I value your time and feedback and will work to improve the review process.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Tested-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 55 ++++++++++++++++++++++++-----------
- 1 file changed, 38 insertions(+), 17 deletions(-)
+Below are the comments on the patch 7 and patch 8 of the version 1 of the series, that I have addressed in version 2 of patch 7 of the series.
+Let me know, If I did some mistake or if you have any other suggestions.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 190929a41abd1d8d6619e27bb9391f75145ed64a..fd68ad2e27186c24cef20dd4ae20decdd6da4a2e 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -241,15 +241,30 @@ static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
- 	u8 buf[2] = { val & 0xff, val >> 8 };
- 
- 	regmap_bulk_write(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
- }
- 
--static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata)
-+static struct drm_display_mode *
-+get_new_adjusted_display_mode(struct drm_bridge *bridge,
-+			      struct drm_atomic_state *state)
-+{
-+	struct drm_connector *connector =
-+		drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	struct drm_crtc_state *crtc_state =
-+		drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-+
-+	return &crtc_state->adjusted_mode;
-+}
-+
-+static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata,
-+				     struct drm_atomic_state *state)
- {
- 	u32 bit_rate_khz, clk_freq_khz;
- 	struct drm_display_mode *mode =
--		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-+		get_new_adjusted_display_mode(&pdata->bridge, state);
- 
- 	bit_rate_khz = mode->clock *
- 			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
- 	clk_freq_khz = bit_rate_khz / (pdata->dsi->lanes * 2);
- 
-@@ -272,11 +287,12 @@ static const u32 ti_sn_bridge_dsiclk_lut[] = {
- 	416000000,
- 	486000000,
- 	460800000,
- };
- 
--static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
-+static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata,
-+					 struct drm_atomic_state *state)
- {
- 	int i;
- 	u32 refclk_rate;
- 	const u32 *refclk_lut;
- 	size_t refclk_lut_size;
-@@ -285,11 +301,11 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
- 		refclk_rate = clk_get_rate(pdata->refclk);
- 		refclk_lut = ti_sn_bridge_refclk_lut;
- 		refclk_lut_size = ARRAY_SIZE(ti_sn_bridge_refclk_lut);
- 		clk_prepare_enable(pdata->refclk);
- 	} else {
--		refclk_rate = ti_sn_bridge_get_dsi_freq(pdata) * 1000;
-+		refclk_rate = ti_sn_bridge_get_dsi_freq(pdata, state) * 1000;
- 		refclk_lut = ti_sn_bridge_dsiclk_lut;
- 		refclk_lut_size = ARRAY_SIZE(ti_sn_bridge_dsiclk_lut);
- 	}
- 
- 	/* for i equals to refclk_lut_size means default frequency */
-@@ -309,16 +325,17 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
- 	 * regardless of its actual sourcing.
- 	 */
- 	pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
- }
- 
--static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
-+static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata,
-+				      struct drm_atomic_state *state)
- {
- 	mutex_lock(&pdata->comms_mutex);
- 
- 	/* configure bridge ref_clk */
--	ti_sn_bridge_set_refclk_freq(pdata);
-+	ti_sn_bridge_set_refclk_freq(pdata, state);
- 
- 	/*
- 	 * HPD on this bridge chip is a bit useless.  This is an eDP bridge
- 	 * so the HPD is an internal signal that's only there to signal that
- 	 * the panel is done powering up.  ...but the bridge chip debounces
-@@ -374,11 +391,11 @@ static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
- 	 * so we can do it in resume which lets us read the EDID before
- 	 * pre_enable(). Without a reference clock we need the MIPI reference
- 	 * clock so reading early doesn't work.
- 	 */
- 	if (pdata->refclk)
--		ti_sn65dsi86_enable_comms(pdata);
-+		ti_sn65dsi86_enable_comms(pdata, NULL);
- 
- 	return ret;
- }
- 
- static int __maybe_unused ti_sn65dsi86_suspend(struct device *dev)
-@@ -820,16 +837,17 @@ static void ti_sn_bridge_atomic_disable(struct drm_bridge *bridge,
- 
- 	/* disable video stream */
- 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE, 0);
- }
- 
--static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
-+static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata,
-+				      struct drm_atomic_state *state)
- {
- 	unsigned int bit_rate_mhz, clk_freq_mhz;
- 	unsigned int val;
- 	struct drm_display_mode *mode =
--		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-+		get_new_adjusted_display_mode(&pdata->bridge, state);
- 
- 	/* set DSIA clk frequency */
- 	bit_rate_mhz = (mode->clock / 1000) *
- 			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
- 	clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
-@@ -855,16 +873,18 @@ static unsigned int ti_sn_bridge_get_bpp(struct drm_connector *connector)
-  */
- static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
- 	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
- };
- 
--static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata, unsigned int bpp)
-+static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata,
-+					     struct drm_atomic_state *state,
-+					     unsigned int bpp)
- {
- 	unsigned int bit_rate_khz, dp_rate_mhz;
- 	unsigned int i;
- 	struct drm_display_mode *mode =
--		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-+		get_new_adjusted_display_mode(&pdata->bridge, state);
- 
- 	/* Calculate minimum bit rate based on our pixel clock. */
- 	bit_rate_khz = mode->clock * bpp;
- 
- 	/* Calculate minimum DP data rate, taking 80% as per DP spec */
-@@ -959,14 +979,15 @@ static unsigned int ti_sn_bridge_read_valid_rates(struct ti_sn65dsi86 *pdata)
- 	}
- 
- 	return valid_rates;
- }
- 
--static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
-+static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata,
-+					   struct drm_atomic_state *state)
- {
- 	struct drm_display_mode *mode =
--		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-+		get_new_adjusted_display_mode(&pdata->bridge, state);
- 	u8 hsync_polarity = 0, vsync_polarity = 0;
- 
- 	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
- 		hsync_polarity = CHA_HSYNC_POLARITY;
- 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
-@@ -1104,11 +1125,11 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
- 	regmap_write(pdata->regmap, SN_LN_ASSIGN_REG, pdata->ln_assign);
- 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, LN_POLRS_MASK,
- 			   pdata->ln_polrs << LN_POLRS_OFFSET);
- 
- 	/* set dsi clk frequency value */
--	ti_sn_bridge_set_dsi_rate(pdata);
-+	ti_sn_bridge_set_dsi_rate(pdata, state);
- 
- 	/*
- 	 * The SN65DSI86 only supports ASSR Display Authentication method and
- 	 * this method is enabled for eDP panels. An eDP panel must support this
- 	 * authentication method. We need to enable this method in the eDP panel
-@@ -1139,11 +1160,11 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
- 			   val);
- 
- 	valid_rates = ti_sn_bridge_read_valid_rates(pdata);
- 
- 	/* Train until we run out of rates */
--	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata, bpp);
-+	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata, state, bpp);
- 	     dp_rate_idx < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
- 	     dp_rate_idx++) {
- 		if (!(valid_rates & BIT(dp_rate_idx)))
- 			continue;
- 
-@@ -1155,11 +1176,11 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
- 		DRM_DEV_ERROR(pdata->dev, "%s (%d)\n", last_err_str, ret);
- 		return;
- 	}
- 
- 	/* config video parameters */
--	ti_sn_bridge_set_video_timings(pdata);
-+	ti_sn_bridge_set_video_timings(pdata, state);
- 
- 	/* enable video stream */
- 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE,
- 			   VSTREAM_ENABLE);
- }
-@@ -1170,11 +1191,11 @@ static void ti_sn_bridge_atomic_pre_enable(struct drm_bridge *bridge,
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
- 
- 	pm_runtime_get_sync(pdata->dev);
- 
- 	if (!pdata->refclk)
--		ti_sn65dsi86_enable_comms(pdata);
-+		ti_sn65dsi86_enable_comms(pdata, state);
- 
- 	/* td7: min 100 us after enable before DSI data */
- 	usleep_range(100, 110);
- }
- 
+Comments from Konard:
 
--- 
-2.48.1
+comment 1
 
+> -	pinctrl-0 = <&qup_i2c18_default>;
+> +	pinctrl-0 = <&qup_i2c18_default>,
+> +			<&io_expander_intr_active>,
+> +			<&io_expander_reset_active>;
+
+Please align the '<'s
+
+comment 2
+
+> +		interrupt-parent = <&tlmm>;
+> +		interrupts = <98 IRQ_TYPE_EDGE_BOTH>;
+
+use interrupts-extended, here and below
+
+These above two comments were from the konard in patch 7 in version 1 of the series.
+I have addressed both the above comments in the version 2 of patch 7 of the series.
+
+
+
+Comments from Krzysztof:
+
+comment 1
+
+> +
+> +		dsi0_int_pin: gpio2_cfg {
+No underscores, see DTS coding style.
+
+I have corrected the above comment in the version 2 of patch 7 of the series.
+
+comment 2
+
+> +
+> +			anx_bridge_1: anx7625@58 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+In this I have changed the node name as anx_bridge1 : anx7625@58.
+Let me know, if I did some mistake or you have any other suggestion over the node name.
+
+I have took the reference from below:
+linux/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi at 629c635eafbaf18260c8083360745c71674640d2 · torvalds/linux · GitHub
+
+comment 3
+
+> +				enable-gpios = <&io_expander 1 0>;
+> +				reset-gpios = <&io_expander 0 0>;
+Use proper defines.
+
+For this above comment,  I have changed above lines into below lines in patch 7 of version 2 of the series.
+
+> +				enable-gpios = <&io_expander 1 GPIO_ACTIVE_HIGH>;
+> +				reset-gpios = <&io_expander 0 GPIO_ACTIVE_HIGH>;
+
+comment 4
+
+> +
+> +			anx_bridge_2: anx7625@58 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+In this I have changed the node name as anx_bridge2 : anx7625@58.
+Let me know, if I did some mistake or you have any other suggestion over the node name.
+
+I have took the reference from below:
+linux/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi at 629c635eafbaf18260c8083360745c71674640d2 · torvalds/linux · GitHub
+
+comment 5
+
+And as Rob's bot pointed out: insufficient testing. :(
+Please be 100% sure everything is tested before you post new version.
+You shouldn't use reviewers for the job of tools, that's quite waste of
+our time.
+
+Fixed the  above warning from DT checker against DT binding in patch 7 of version 2 of the series.
+
+
+Comments from Dmitry:
+
+comment 1
+
+Missing dp-connector devices. Please add them together with the bridges. 
+
+comment 2
+
+Please squash into the previous patch. It doesn't make a lot of sense separately.
+
+These both above commented from Dmitry I have addressed in the version 2 of patch 7 of the series.
+I have squash patch 8 into patch 7 of version 1 into patch 7 of version 2 of the series.
+
+
+Thanks,
+Ayushi
