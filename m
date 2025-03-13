@@ -2,64 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9BAA5EFCE
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 10:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CF8A5EFD4
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 10:45:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F8A10E811;
-	Thu, 13 Mar 2025 09:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD4B10E819;
+	Thu, 13 Mar 2025 09:45:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LXj4IkE8";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Rv4L4ay+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 551DB10E811
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 09:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741858991;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/ArwIOjx1CNRYk7k0wOi5HipQxAMjs6A01jcZDsat00=;
- b=LXj4IkE8mAo06h5O+wwt0T07F//WShwyqIWp0+uwqPq1dy6ArMhuuolWWmB326VdFr7Xre
- nQUYFIyLIe+EHf/cH7AZHp0juqStASl/VxfVQLFMWWnEaDQS7vhSBh54lMJOANDRxeQtA0
- eOQ0207GLPkXqwzv2uV7z+D3YXUgruU=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-447-26bDEJ1TO6WbU2_RRSrz9w-1; Thu,
- 13 Mar 2025 05:43:10 -0400
-X-MC-Unique: 26bDEJ1TO6WbU2_RRSrz9w-1
-X-Mimecast-MFC-AGG-ID: 26bDEJ1TO6WbU2_RRSrz9w_1741858989
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 6B1401956087; Thu, 13 Mar 2025 09:43:08 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.44.32.222])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A543218001DE; Thu, 13 Mar 2025 09:43:04 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ryosuke Yasuoka <ryasuoka@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH] drm/panic: Add support to scanout buffer as array of pages
-Date: Thu, 13 Mar 2025 10:42:27 +0100
-Message-ID: <20250313094257.1705916-1-jfalempe@redhat.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 832F410E818
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 09:45:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741859107;
+ bh=eeJj6LLjaF+n03RauCPhH26PXKrw1GrC28xYDvKKI9I=;
+ h=Date:To:Cc:From:Subject:From;
+ b=Rv4L4ay+GRdBKtSw+dzxAGNDoVVEQHA6igBuG6DJBNLQqHvTWTodqRTw1H5B19z+7
+ SzgoK1VM1ZHsaLq/r9ASZDtNna/9bk1z13fHvKftrNCyFgKzgoZpzdBO1foyjvwU8C
+ xQC8nLgK/baL62LturB3iV9lLa/4A5TjyL1mABUVOabO9PFcF5EQ2GjpHyjllEVt/V
+ ZdxeyXdb37Spyicko6WwRQ3pCgxbHKcdnNMRrGJzYcKPjqs1TscwzBOS/OWjddaLBG
+ ClldSxKoorSfTf+SkGoWnpeKVziHkAKeJf3PVklG6T/e0VkTqkPa2aQhF50TTjMWQg
+ xBYHRpfxLMQ+A==
+Received: from [192.168.50.250] (unknown [171.76.87.92])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E727417E0147;
+ Thu, 13 Mar 2025 10:45:04 +0100 (CET)
+Message-ID: <a520d1d6-95b3-4573-b8f2-689f05bc2230@collabora.com>
+Date: Thu, 13 Mar 2025 15:15:03 +0530
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: YX4q2RZhkAkaOpVxv7sHfOR9GCYncTL4g1fQu8d-pcE_1741858989
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ nfraprado@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ Daniel Stone <daniels@collabora.com>,
+ Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
+ Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
+ Helen Mae Koike Fornazier <helen.fornazier@gmail.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+Subject: drm-ci: mediatek: kms_flip@basic-flip-vs-modeset flake
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,240 +64,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some drivers like virtio-gpu, don't map the scanout buffer in the
-kernel. Calling vmap() in a panic handler is not safe, and writing an
-atomic_vmap() API is more complex than expected [1].
-So instead, pass the array of pages of the scanout buffer to the
-panic handler, and map only one page at a time to draw the pixels.
-This is obviously slow, but acceptable for a panic handler.
+Hi Maintainers,
 
-[1] https://lore.kernel.org/dri-devel/20250305152555.318159-1-ryasuoka@redhat.com/
+There are some flake test reported for mediatek driver testing in drm-ci.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/drm_panic.c | 139 ++++++++++++++++++++++++++++++++++--
- include/drm/drm_panic.h     |  10 ++-
- 2 files changed, 142 insertions(+), 7 deletions(-)
+# Board Name: mt8183-kukui-jacuzzi-juniper-sku16
+# Failure Rate: 20
+# IGT Version: 1.30-g04bedb923
+# Linux Version: 6.14.0-rc4
+kms_flip@basic-flip-vs-modeset
 
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index ab42a2b1567d..e10ab8fe847c 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/font.h>
-+#include <linux/highmem.h>
- #include <linux/init.h>
- #include <linux/iosys-map.h>
- #include <linux/kdebug.h>
-@@ -154,6 +155,87 @@ static void drm_panic_blit_pixel(struct drm_scanout_buffer *sb, struct drm_rect
- 				sb->set_pixel(sb, clip->x1 + x, clip->y1 + y, fg_color);
- }
- 
-+static void drm_panic_write_pixel16(void *vaddr, unsigned int offset, u16 color)
-+{
-+	u16 *p = vaddr + offset;
-+
-+	*p = color;
-+}
-+
-+static void drm_panic_write_pixel24(void *vaddr, unsigned int offset, u32 color)
-+{
-+	u8 *p = vaddr + offset;
-+
-+	*p++ = color & 0xff;
-+	color >>= 8;
-+	*p++ = color & 0xff;
-+	color >>= 8;
-+	*p = color & 0xff;
-+}
-+
-+static void drm_panic_write_pixel32(void *vaddr, unsigned int offset, u32 color)
-+{
-+	u32 *p = vaddr + offset;
-+
-+	*p = color;
-+}
-+
-+static void drm_panic_write_pixel(void *vaddr, unsigned int offset, u32 color, unsigned int cpp)
-+{
-+	switch (cpp) {
-+	case 2:
-+		drm_panic_write_pixel16(vaddr, offset, color);
-+		break;
-+	case 3:
-+		drm_panic_write_pixel24(vaddr, offset, color);
-+		break;
-+	case 4:
-+		drm_panic_write_pixel32(vaddr, offset, color);
-+		break;
-+	default:
-+		DRM_WARN_ONCE("Can't blit with pixel width %d\n", cpp);
-+	}
-+}
-+
-+/*
-+ * The scanout buffer pages are not mapped, so for each pixel,
-+ * use kmap_local_page() to map the page, and write the pixel.
-+ * Tries to keep the map from the previous pixel, to avoid too much map/unmap.
-+ */
-+static void drm_panic_blit_page(struct page **pages, unsigned int dpitch,
-+				unsigned int cpp, const u8 *sbuf8,
-+				unsigned int spitch, struct drm_rect *clip,
-+				unsigned int scale, u32 fg32)
-+{
-+	unsigned int y, x;
-+	unsigned int page = ~0;
-+	unsigned int height = drm_rect_height(clip);
-+	unsigned int width = drm_rect_width(clip);
-+	void *vaddr = NULL;
-+
-+	for (y = 0; y < height; y++) {
-+		for (x = 0; x < width; x++) {
-+			if (drm_draw_is_pixel_fg(sbuf8, spitch, x / scale, y / scale)) {
-+				unsigned int new_page;
-+				unsigned int offset;
-+
-+				offset = (y + clip->y1) * dpitch + (x + clip->x1) * cpp;
-+				new_page = offset >> PAGE_SHIFT;
-+				offset = offset % PAGE_SIZE;
-+				if (new_page != page) {
-+					if (vaddr)
-+						kunmap_local(vaddr);
-+					page = new_page;
-+					vaddr = kmap_local_page(pages[page]);
-+				}
-+				drm_panic_write_pixel(vaddr, offset, fg32, cpp);
-+			}
-+		}
-+	}
-+	if (vaddr)
-+		kunmap_local(vaddr);
-+}
-+
- /*
-  * drm_panic_blit - convert a monochrome image to a linear framebuffer
-  * @sb: destination scanout buffer
-@@ -177,6 +259,10 @@ static void drm_panic_blit(struct drm_scanout_buffer *sb, struct drm_rect *clip,
- 	if (sb->set_pixel)
- 		return drm_panic_blit_pixel(sb, clip, sbuf8, spitch, scale, fg_color);
- 
-+	if (sb->pages)
-+		return drm_panic_blit_page(sb->pages, sb->pitch[0], sb->format->cpp[0],
-+					   sbuf8, spitch, clip, scale, fg_color);
-+
- 	map = sb->map[0];
- 	iosys_map_incr(&map, clip->y1 * sb->pitch[0] + clip->x1 * sb->format->cpp[0]);
- 
-@@ -209,6 +295,35 @@ static void drm_panic_fill_pixel(struct drm_scanout_buffer *sb,
- 			sb->set_pixel(sb, clip->x1 + x, clip->y1 + y, color);
- }
- 
-+static void drm_panic_fill_page(struct page **pages, unsigned int dpitch,
-+				unsigned int cpp, struct drm_rect *clip,
-+				u32 color)
-+{
-+	unsigned int y, x;
-+	unsigned int page = ~0;
-+	void *vaddr = NULL;
-+
-+	for (y = clip->y1; y < clip->y2; y++) {
-+		for (x = clip->x1; x < clip->x2; x++) {
-+			unsigned int new_page;
-+			unsigned int offset;
-+
-+			offset = y * dpitch + x * cpp;
-+			new_page = offset >> PAGE_SHIFT;
-+			offset = offset % PAGE_SIZE;
-+			if (new_page != page) {
-+				if (vaddr)
-+					kunmap_local(vaddr);
-+				page = new_page;
-+				vaddr = kmap_local_page(pages[page]);
-+			}
-+			drm_panic_write_pixel(vaddr, offset, color, cpp);
-+		}
-+	}
-+	if (vaddr)
-+		kunmap_local(vaddr);
-+}
-+
- /*
-  * drm_panic_fill - Fill a rectangle with a color
-  * @sb: destination scanout buffer
-@@ -225,6 +340,10 @@ static void drm_panic_fill(struct drm_scanout_buffer *sb, struct drm_rect *clip,
- 	if (sb->set_pixel)
- 		return drm_panic_fill_pixel(sb, clip, color);
- 
-+	if (sb->pages)
-+		return drm_panic_fill_page(sb->pages, sb->pitch[0], sb->format->cpp[0],
-+					   clip, color);
-+
- 	map = sb->map[0];
- 	iosys_map_incr(&map, clip->y1 * sb->pitch[0] + clip->x1 * sb->format->cpp[0]);
- 
-@@ -714,16 +833,24 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
- 	if (!drm_panic_trylock(plane->dev, flags))
- 		return;
- 
-+	ret = plane->helper_private->get_scanout_buffer(plane, &sb);
-+
-+	if (ret || !drm_panic_is_format_supported(sb.format))
-+		goto unlock;
-+
-+	/* One of these should be set, or it can't draw pixels */
-+	if (!sb.set_pixel && !sb.pages && iosys_map_is_null(&sb.map[0]))
-+		goto unlock;
-+
- 	drm_panic_set_description(description);
- 
--	ret = plane->helper_private->get_scanout_buffer(plane, &sb);
-+	draw_panic_dispatch(&sb);
-+	if (plane->helper_private->panic_flush)
-+		plane->helper_private->panic_flush(plane);
- 
--	if (!ret && drm_panic_is_format_supported(sb.format)) {
--		draw_panic_dispatch(&sb);
--		if (plane->helper_private->panic_flush)
--			plane->helper_private->panic_flush(plane);
--	}
- 	drm_panic_clear_description();
-+
-+unlock:
- 	drm_panic_unlock(plane->dev, flags);
- }
- 
-diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
-index f4e1fa9ae607..8b91a13347b9 100644
---- a/include/drm/drm_panic.h
-+++ b/include/drm/drm_panic.h
-@@ -39,6 +39,14 @@ struct drm_scanout_buffer {
- 	 */
- 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
- 
-+	/**
-+	 * @pages: Optional, if the scanout buffer is not mapped, set this field
-+	 * to the array of pages of the scanout buffer. The panic code will use
-+	 * kmap_local_page() to map one page at a time to write all the pixels.
-+	 * The scanout buffer should be in linear format.
-+	 */
-+	struct page **pages;
-+
- 	/**
- 	 * @width: Width of the scanout buffer, in pixels.
- 	 */
-@@ -57,7 +65,7 @@ struct drm_scanout_buffer {
- 	/**
- 	 * @set_pixel: Optional function, to set a pixel color on the
- 	 * framebuffer. It allows to handle special tiling format inside the
--	 * driver.
-+	 * driver. It takes precedence over the @map and @pages fields.
- 	 */
- 	void (*set_pixel)(struct drm_scanout_buffer *sb, unsigned int x,
- 			  unsigned int y, u32 color);
+09:59:50.792: DEBUG - Begin test kms_flip@basic-flip-vs-modeset
+09:59:50.792: ERROR - Igt error: (kms_flip:1339) CRITICAL: Test 
+assertion failure function __run_test_on_crtc_set, file 
+../tests/kms_flip.c:1648:
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) CRITICAL: Failed 
+assertion: do_page_flip(o, o->fb_ids[1], 1) == 0
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) CRITICAL: Last errno: 
+16, Device or resource busy
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) CRITICAL: error: -16 != 0
+09:59:55.859: ERROR - Igt error: Dynamic subtest A-eDP1 failed.
+09:59:55.859: ERROR - Igt error: **** DEBUG ****
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(width=1366, height=768, 
+format=XR24(0x34325258), modifier=0x0, size=0)
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(handle=1, pitch=5464)
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) ioctl_wrappers-DEBUG: 
+Test requirement passed: igt_has_fb_modifiers(fd)
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(width=1366, height=768, 
+format=XR24(0x34325258), modifier=0x0, size=0)
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(handle=2, pitch=5464)
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) ioctl_wrappers-DEBUG: 
+Test requirement passed: igt_has_fb_modifiers(fd)
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) igt_fb-DEBUG: Test 
+requirement passed: cairo_surface_status(fb->cairo_surface) == 
+CAIRO_STATUS_SUCCESS
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) igt_fb-DEBUG: Test 
+requirement passed: cairo_surface_status(fb->cairo_surface) == 
+CAIRO_STATUS_SUCCESS
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) igt_kms-INFO: 
+1366x768: 60 76300 1366 1414 1446 1600 768 772 778 794 0x48 0xa
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) DEBUG: No stale events 
+found
+09:59:55.859: ERROR - Igt error: (kms_flip:1339) CRITICAL: Test 
+assertion failure function __run_test_on_crtc_set, file 
+../tests/kms_flip.c:1648:
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) CRITICAL: Failed 
+assertion: do_page_flip(o, o->fb_ids[1], 1) == 0
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) CRITICAL: Last errno: 
+16, Device or resource busy
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) CRITICAL: error: -16 != 0
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_core-INFO: Stack trace:
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_core-INFO:   #0 
+../lib/igt_core.c:2055 __igt_fail_assert()
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_core-INFO:   #1 
+../tests/kms_flip.c:428 run_test_on_crtc_set.constprop.0()
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_core-INFO:   #2 
+../tests/kms_flip.c:1829 run_test()
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_core-INFO:   #3 
+../tests/kms_flip.c:2078 __igt_unique____real_main2001()
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_core-INFO:   #4 
+../tests/kms_flip.c:2001 main()
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_core-INFO:   #5 
+[__libc_init_first+0x80]
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_core-INFO:   #6 
+[__libc_start_main+0x98]
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_core-INFO:   #7 
+[_start+0x30]
+09:59:55.860: ERROR - Igt error: ****  END  ****
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_kms-CRITICAL: Test 
+assertion failure function kmstest_set_connector_dpms, file 
+../lib/igt_kms.c:2246:
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_kms-CRITICAL: 
+Failed assertion: found_it
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_kms-CRITICAL: Last 
+errno: 9, Bad file descriptor
+09:59:55.860: ERROR - Igt error: (kms_flip:1339) igt_kms-CRITICAL: DPMS 
+property not found on 33
+09:59:55.860: ERROR - Test kms_flip@basic-flip-vs-modeset: Fail: See 
+"/results/igt.kms_flip@basic-flip-vs-modeset.log"
+09:59:55.860: DEBUG - End test kms_flip@basic-flip-vs-modeset
 
-base-commit: 9e75b6ef407fee5d4ed8021cd7ddd9d6a8f7b0e8
--- 
-2.47.1
+Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/72646441
 
+Please could you have a look at these test results and let us know if 
+you need more information. Thank you.
+
+Regards,
+Vignesh
