@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6235A5F7F6
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 15:25:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C097BA5F826
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 15:30:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D90710E8B0;
-	Thu, 13 Mar 2025 14:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22EA610E8B8;
+	Thu, 13 Mar 2025 14:30:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KMEKgBVl";
+	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="AfWHpHnM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7AB010E8B0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 14:25:39 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 70D27444F4;
- Thu, 13 Mar 2025 14:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741875937;
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
+ [95.215.58.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B76EA10E8BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 14:30:03 +0000 (UTC)
+Date: Thu, 13 Mar 2025 10:29:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+ s=key1; t=1741876201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vrsRvrI2fVkzeaX8UjmDzn0XjDjCg6WTOhzziOVkric=;
- b=KMEKgBVls9RbWZlGt4UHN2T0cibIhnQ4oQxSR9n5eSq2UlsemvsVLgxzZtRhUHqGlZk3PO
- pBScKqn59/3RGZdiZmr2bD857dG620+Vjqk3jrEFOoAQAvFDxjDnYF470hoQVgQCmMIwcr
- LpS3qx8TOFzc5hep5vyjXHLNtwZ4piXeh6c9q/ikQeVduy0uG560Jyyj48oTJrWlx6d6aF
- 0sj7fHbaojLRTtSdXXsJ8FhGdGTNl+LVZOROCcHV+tMTu2aXAcS8oGDcNx50ID/DFP/go2
- sUMJkoa/UayqKhELoKovvpUjNt7dWfSKOsxjNLterwauL1PrAy+5HeFlnkSWEQ==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 13 Mar 2025 15:25:17 +0100
-Subject: [PATCH] drm/mxsfb: fix missing rollback on failure in
- mxsfb_probe()
+ in-reply-to:in-reply-to:references:references;
+ bh=QO0UPfQQymXHeypC5X6LCSQpNz+vVL9uYM6sc2XnAqk=;
+ b=AfWHpHnMiCbbj/ZAw5DMFsA65UmLlBmEiN1FW5lL7XwaAsrXmjIsJejDSEnU0GmrquJ4FC
+ wYfGhpFUCFdlmP59JRXCIUFmG6CKzgM2zMmOelOSClc+TquVXAy8dh2THLxRLheAr4vYa8
+ n11f98diUkhdvseID3pZpsloOj/YiNR8S6x+bYF7gET4fpHl8DOwdBTT9XOJI4F0S71hQy
+ hVtse0BcplVegVGgj9WqWcBKPLWIoG+5A3IKElNY5Ffa0bqTXawcPEq26SbviK0WK0xITU
+ Lx1SoPKDu0J0dwRwCEGsdrtm/2JsuDE77O+GZ9m2NXVlAMbI0Y9DMN8+fTI2DQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Petr Mladek <pmladek@suse.com>,
+ "keescook@chromium.org" <keescook@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
+ "airlied@redhat.com" <airlied@redhat.com>, Simona Vetter <simona@ffwll.ch>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "apw@canonical.com" <apw@canonical.com>,
+ "joe@perches.com" <joe@perches.com>,
+ "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Hector Martin <marcan@marcan.st>,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v2 0/2] Use proper printk format in appletbdrm
+Message-ID: <Z9Lr39wuJc80Cnsb@blossom>
+References: <F61E0F31-980B-4855-9AA8-D594BEEFEC6F@live.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250313-mxsfb_probe-fix-rollback-on-error-v1-1-ad2fb79de4cb@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAMzq0mcC/x2N0QqDMAwAf0XybCBaZW6/IjKspjPMNZLCEMR/t
- /h4cNwdkNiEE7yKA4z/kkRjhqosYFrG+GGUOTPUVLfkKoe/PQX/3kw9Y5AdTdfVj9MXNSKbqaG
- jR+Of1FFwDeTOZpzF+9EP53kBBQ8OK3MAAAA=
-X-Change-ID: 20250313-mxsfb_probe-fix-rollback-on-error-3074b9080f34
-To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
- Michael Trimarchi <michael@amarulasolutions.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduvdekudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefghfffgeekhfdtveffheeuudeltefhfeduteekleffvefgfffgkeevfeejtdekkeenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudelpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepthhhohhmrghsrdhpvghtr
- giiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepfhgvshhtvghvrghmsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehimhigsehlihhsthhsrdhlihhnuhigrdguvghv
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <F61E0F31-980B-4855-9AA8-D594BEEFEC6F@live.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,47 +75,5 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When aperture_remove_all_conflicting_devices() fails, the current code
-returns without going through the rollback actions at the end of the
-function, thus the actions done by drm_dev_alloc() and mxsfb_load() are not
-undone.
-
-Fix by using a goto statament, as done for the previous and following error
-conditions.
-
-Fixes: c8e7b185d45b ("drm/mxsfb: Remove generic DRM drivers in probe function")
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
-The offending commit is not yet merged into master, and even less in a
-released kernel, so this does not need to go through stable.
----
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index c183b1112bc4e9fe4f3b048a2b6e4c98d1d47cb3..b4273e678d26dbc3dee2014266d61470da4e8010 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -365,9 +365,10 @@ static int mxsfb_probe(struct platform_device *pdev)
- 	 * located anywhere in RAM
- 	 */
- 	ret = aperture_remove_all_conflicting_devices(mxsfb_driver.name);
--	if (ret)
--		return dev_err_probe(&pdev->dev, ret,
--				     "can't kick out existing framebuffers\n");
-+	if (ret) {
-+		dev_err_probe(&pdev->dev, ret, "can't kick out existing framebuffers\n");
-+		goto err_unload;
-+	}
- 
- 	ret = drm_dev_register(drm, 0);
- 	if (ret)
-
----
-base-commit: f9f087d946266bc5da7c3a17bd8fd9d01969e3cf
-change-id: 20250313-mxsfb_probe-fix-rollback-on-error-3074b9080f34
-
-Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
-
+series looks ok to me. Who is pushing this to drm-misc-next? (I can if
+nobody else does)
