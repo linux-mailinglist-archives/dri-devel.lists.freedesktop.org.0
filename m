@@ -2,134 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E16A5F237
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 12:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FABA5F258
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 12:30:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C7110E849;
-	Thu, 13 Mar 2025 11:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62CDE10E211;
+	Thu, 13 Mar 2025 11:30:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="LVOB1pKp";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="U8l72FYJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com
- (mail-centralindiaazolkn19010003.outbound.protection.outlook.com
- [52.103.68.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9034E10E849
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 11:20:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VAFCExGC/L9pUYGqtrYrGw0senoBiT+hCBmpdYXmbWEjmzKy8oXGalDs5qE3EG06DLJqqwtKjUEdDeQjxdBj30sFRr5SaTNnQVPhzk/UZt62q4xh6eXGWQFjQsgsM3gscY5sTlaDY00vSx14XXSrTuU4ocbfECXnEhSRuFBU8qLZXrCdO7a0nVqlxhxHWH67jH9wNioNpfUPpPYZPVlgOQ/L2hnFdJP9gfI5QV6Ze4oXJv6PO23zMuY+nSI01TCMYNI+Li/JkRL74SfFML5P+exrHkYAWWwlWd2vxE/i7n7IP6vdSyE1Sz5xGPQaIeB4e3DJcZ802Tyr59OlKKbGNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PWytK++w7efVge2S3HCDfNc7xFUv7xIt7O1G0q5iL4I=;
- b=pcwbR2hNILu4dSgSvHIkTd6eDmh2umPLwl3OJpGWIH6wzmUbLOpMisrs7KGEytLwtXEKmG+xoeps4qB+0RYI7AtPNT9W+bUOULhIzMGiGhxNoQTHfjRE6NVUGZy0iP9CejmZIyK+D/tXzEPTYIA7KOv2Iwp5cCw/GCTnaqg8At8IaugKQ2HtyVI3nf2ZDgzNPOleJV9s1yAEyULz1l3blYNo/VL8kR2NBH1Is8gNRLTrmC11yLwn0TYbgeX93EufW9BRBlQb0nTMMRxnQJWEJe40Asa8y2NzkloD3qr3KvNMau6EVPKo+8Ylrze976BbD19zcLnCZP7vNoufJ0edeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PWytK++w7efVge2S3HCDfNc7xFUv7xIt7O1G0q5iL4I=;
- b=LVOB1pKpK51+nYgMCPLF/iVQ9ptQ0/3n/710E3scm1+XbX0DUbLdJ8c0oI7rYACg6IY+u/83Uj+RG1RVkYnK0s6OpG6t61nE3Kjwu5n5BQY1pscuNuijMyCGqh0ZjCWMi9ezxwHf7vk7AkGNzuMCXn4sod9kswwWHaJG9MLB8k9zzS3drJi5IEw0RKFlWopyex3XMRfoHNyxqublyFa3dapQohIs+Wxs3JBA5+hjBKpKQ8pMTGSwuGuOxAp0XcvU8Z6uir0Z6h27duwWdNisy+Anke2sA/gRvFzuVwPqnIZAkeIAKkfx98+V4D1BO8Ezqxl4WbU4PYDjcwchhyQjbg==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by MA1PPFE52A1FAE5.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a04::331)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.25; Thu, 13 Mar
- 2025 11:20:24 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8534.025; Thu, 13 Mar 2025
- 11:20:24 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Petr Mladek <pmladek@suse.com>, "keescook@chromium.org"
- <keescook@chromium.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
- Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
- "airlied@redhat.com" <airlied@redhat.com>, Simona Vetter <simona@ffwll.ch>,
- Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- "apw@canonical.com" <apw@canonical.com>, "joe@perches.com" <joe@perches.com>, 
- "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
- "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>
-CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Hector Martin
- <marcan@marcan.st>, Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: [PATCH v2 2/2] drm/appletbdrm: use %p4cl instead of %p4cc
-Thread-Topic: [PATCH v2 2/2] drm/appletbdrm: use %p4cl instead of %p4cc
-Thread-Index: AQHblAnqlC9D7gQL3UuCo+FWtohJUg==
-Date: Thu, 13 Mar 2025 11:20:24 +0000
-Message-ID: <C1C027E5-8B59-4F76-9894-98F385B16F17@live.com>
-References: <F61E0F31-980B-4855-9AA8-D594BEEFEC6F@live.com>
-In-Reply-To: <F61E0F31-980B-4855-9AA8-D594BEEFEC6F@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|MA1PPFE52A1FAE5:EE_
-x-ms-office365-filtering-correlation-id: 1aeb4397-93e0-4eeb-e6db-08dd62210c91
-x-microsoft-antispam: BCL:0;
- ARA:14566002|461199028|19110799003|8062599003|8060799006|15080799006|7092599003|440099028|3412199025|12091999003|41001999003|102099032;
-x-microsoft-antispam-message-info: =?us-ascii?Q?S+kcc90AozqBl2GOKBgtHnY8nYtP5bw3hmgIRz7RgiG2dAPROkolF9n92tK8?=
- =?us-ascii?Q?gu19mcJDsymDvWTyhRnsCLYuH6HoTUrN5QHE14Gud3sADRfqU1jF9TKf990x?=
- =?us-ascii?Q?3AT7dt63TSXyw4RMB9VxcJGHUJOkIpFHSygEGa6bjK10xsvqkXEg6xvE/g3A?=
- =?us-ascii?Q?aHTykuvjEtNxIabz62dNUaK/EZoAMV6G3zmh0upJBUUtyz9WUSJkdJRnye7t?=
- =?us-ascii?Q?2Z6IGTV0gPQZLjwQTXxrwtV8/wCQBUltdQZywcqqqtajFkQY7ruRfvcaqNkK?=
- =?us-ascii?Q?tJXhp9vwXk2FmF3fSa7mQI17z786uPTnxhsX9tW5igqq5aSuc+UF4PhBqVxQ?=
- =?us-ascii?Q?lxAaY0DHtMXNwukadJToljm2j3orl6EYMn796ZkSgfrid/uXc/gd5vEllAYW?=
- =?us-ascii?Q?jlxVNiegjXY58qr7TV3ne6DAuGupHDicJOYWvtoOob7laK4I68jFrNo79g2S?=
- =?us-ascii?Q?+wVowmKZPk5qIYXEINpYdH8nWhMJZYPmBs47VMh/0RFbg1gZfzdxXUcTbQCx?=
- =?us-ascii?Q?V5yd+azcK4xAnF5sMR7mg8MPh+BjIRZcg+1Qn9wOnsuh20WFLJ/XdKTlgGeL?=
- =?us-ascii?Q?eMOz+yBWqXRMXEFj3XLFS66HRt38TCPEKbz0Z90o/O4jT1rZtQRW4yEppJ4u?=
- =?us-ascii?Q?IA+Hgmg4HUtXY5pW85B5+60h8eHnShy9XiSviQpsberSuNRRWFDDTeWOuMhU?=
- =?us-ascii?Q?1Kby1Cr43q/HGoeLZMULYbzJfAHtpVwxUlAEBRp94uRlRmIDZSxh1dKY1qjE?=
- =?us-ascii?Q?nFn50YoLUENXCRGgZBjKCe+ilpqEBhJi83Pi+1TLi5caHZQd3hJ6/pkWtEW3?=
- =?us-ascii?Q?VTzha4ZGB5oSiKNINq89WfrEyodi2z8u9kDtdLMNbF7EBh2UaBOyqMi1JhNw?=
- =?us-ascii?Q?IV2UXQn5LhItex7POmH6pkzjEyGCtLUhn8kn4BBsvdJO9JfHivfJZebFEeKP?=
- =?us-ascii?Q?KnRA0RoI7oQjn6j9Pr6eAXWYuBXmq9cWFw7ENqkR72k/D9nK6eN2xGF7myvH?=
- =?us-ascii?Q?i6VnRVaJixo97IDniTDtSqfI+zdOd97fAPvm75KQyJvR7ci5UrBguQ0fbxrt?=
- =?us-ascii?Q?+vpsbjE/nkPehi/vc/aA680K6vqfb69xevRold9Zq/WKyWBZTRtNVPylBfye?=
- =?us-ascii?Q?syVj/2CvnGqU?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zfxSafilkAcBAjJXpsK9yAT/y5PwjRz/EeIs8rhfRyCYMvGJa1H570EHu509?=
- =?us-ascii?Q?WWhR+b/gFL7Rob8U3nE7tEIcYupV5rj3BtQ916ukmJrpJALD+LYPK2+lHu6W?=
- =?us-ascii?Q?6z+Md6UqTQHFdW45fsFUrYxwBk1vqJYRWswvvxx5c35nYcKEGpVAOHWDD0nO?=
- =?us-ascii?Q?DdrsYB6AAtW7GlchnAh0vYSVB+15y5d9VTTZbkfo9gfyx3GKGHtIoMguCKU6?=
- =?us-ascii?Q?p1IenbeX1o/FHDkLxBz2CqdkIeG6y9+sDXMUAePJMqoZBdgowNWD97qDBzbZ?=
- =?us-ascii?Q?wSkPjdpZm1GekZw4OVcqFsSUG0ViqudTBup6EFlvv+ZfQFjHdDqCXHfTow8G?=
- =?us-ascii?Q?ZfMFm361jBZsaIYe5HHAoMvvTWQL/oFtDzEtSAmXxlFWurt15YbTcNeeD8lY?=
- =?us-ascii?Q?2GY6slbkn4AN+4lIWiCEoRSLmNvRKysoCMi50W7bCusB0XvT2e1lNdSaDKkt?=
- =?us-ascii?Q?98+5Npf6ELdpt5lKCh53oc6hn7xhlhbTWGQeXYe7Nlx0+3dZO2q11MbApvmr?=
- =?us-ascii?Q?Hfa2AbfaevoT3MHO3c143GteYIth3sqPx5MQVFElB6Ovc6Gc5Wu4qWVwe96T?=
- =?us-ascii?Q?eEkfqY1NBhraNx+fMm7iE2nwG0NHOZPBtt+jEBlUGPxCmjRafVZsrzGys0zH?=
- =?us-ascii?Q?9Gnib5z5EsqWHqLA4Tyc0OcgVpAVJejdIDr2/QqKw2oxnvTOwnlBjG/Twp5/?=
- =?us-ascii?Q?Z5yW/qbUMKMFQz6D2x7gJDNVZBqXjidEgo6nX2icqpwB2YraQhRAnekL/6PI?=
- =?us-ascii?Q?TY6QZP1ha/HIoVYOkn55VEWXp8OCyHmHSGSCEtwWQqfFzXh7ME4IzL5oqIpe?=
- =?us-ascii?Q?GUa0h0egQvHAjsMIc2GIE4D86bZDGoy0xgBE7udumV2xZsHVbwzf9xecsS5Y?=
- =?us-ascii?Q?h2xEr+nTlVHdP704gQKEn5xpOouz6v+wlFQihDQ5lDb15iS/p4Is8rklrYN2?=
- =?us-ascii?Q?9Az1A2sY9fVCGQfZezHSztic/ZDjoK9UHVtODwBxvVj849y5UTwx/tw8WyFq?=
- =?us-ascii?Q?eyN2hlBi11LZadwhJCn/ehk7wXHfvLweyeDewrRnmJ0ea4KIiaMnn6GNmlg9?=
- =?us-ascii?Q?t6r3FVIfK36LiHA/9iv5Z/hSKJWz/bRmMRPeMGo1fPBm2x97mp71OMn5PxI/?=
- =?us-ascii?Q?1OxOqSUA5dF9n9SagK5d/WAFpX9yk9Yvs9/ToN05S+S+KIbpGg6iRA/G5aVk?=
- =?us-ascii?Q?qLHTUxtLS1i7dvgQH5+QPzbzuKWewuKvaqgrszrkjrsWlkAmrReLbiQSq+DQ?=
- =?us-ascii?Q?go1olEOk2ybCooxtKCxVyiIN5gxh7+3env8B/LOYOhojQUboRjh+m/Esoj3P?=
- =?us-ascii?Q?Ws3bItPrbvjs4lb4MHrCumaV?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <68094B59B1007749B5316D61992F3EB1@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3A9210E211;
+ Thu, 13 Mar 2025 11:30:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Pm73EJRQgZ77/ckvxKpjTwQ+FlBGwLcf98qwKNe6V94=; b=U8l72FYJdvxrrI/bNfTq5ItQR4
+ KKq4RgfZ17RBeMUI0YllEwMBqPOKrG4DDY7eYaUekOjC4LtFFS1MOjEJshIFCToLUqOtJLtOy3FZp
+ okLNEOcETz9+Uob8y0ojphdOXxCLZLUf9cAl/kqSQqvy9PDIv2yK+q4JoM899xdtAAAeC84e0ibry
+ isFYZ1sX2o/b1W3FXhWXvVXOYooB/SIPNJnTdhNNdwynB4aQoJvFs8voDI3zELohMHHuzPs90YeoF
+ JWYoe5MYJVz+84QLCho5HnPqe2zi6851ZJqP3ap7QgUNNdHz7yjGEVR2MFg7ShoNneBOyoh2WUQK2
+ 9MNUNE5w==;
+Received: from 179-125-64-252-dinamico.pombonet.net.br ([179.125.64.252]
+ helo=quatroqueijos) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tsgl6-0084nJ-Qr; Thu, 13 Mar 2025 12:29:59 +0100
+Date: Thu, 13 Mar 2025 08:29:59 -0300
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Tom Chung <chiahsuan.chung@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
+ stable@vger.kernel.org, Daniel Wheeler <daniel.wheeler@amd.com>
+Subject: Re: [PATCH] drm/amd/display: avoid NPD when ASIC does not support DMUB
+Message-ID: <Z9LBt2ePtxJ0Nzz4@quatroqueijos>
+References: <20250205-amdgpu-dmub-v1-1-88151fe565d8@igalia.com>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1aeb4397-93e0-4eeb-e6db-08dd62210c91
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2025 11:20:24.0603 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PPFE52A1FAE5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250205-amdgpu-dmub-v1-1-88151fe565d8@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,47 +65,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aditya Garg <gargaditya08@live.com>
+On Wed, Feb 05, 2025 at 10:06:38AM -0300, Thadeu Lima de Souza Cascardo wrote:
+> ctx->dmub_srv will de NULL if the ASIC does not support DMUB, which is
+> tested in dm_dmub_sw_init.
+> 
+> However, it will be dereferenced in dmub_hw_lock_mgr_cmd if
+> should_use_dmub_lock returns true.
+> 
+> This has been the case since dmub support has been added for PSR1.
 
-Due to lack of a proper printk format, %p4cc was being used instead of
-%p4cl for the purpose of printing FourCCs. But the disadvange was that
-they were being printed in a reverse order. %p4cl should correct this
-issue.
+This bug has landed on stable trees. Any chance for a review here?
 
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
- drivers/gpu/drm/tiny/appletbdrm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks.
+Cascardo.
 
-diff --git a/drivers/gpu/drm/tiny/appletbdrm.c b/drivers/gpu/drm/tiny/apple=
-tbdrm.c
-index 703b9a41a..751b05753 100644
---- a/drivers/gpu/drm/tiny/appletbdrm.c
-+++ b/drivers/gpu/drm/tiny/appletbdrm.c
-@@ -212,7 +212,7 @@ static int appletbdrm_read_response(struct appletbdrm_d=
-evice *adev,
- 	}
-=20
- 	if (response->msg !=3D expected_response) {
--		drm_err(drm, "Unexpected response from device (expected %p4cc found %p4c=
-c)\n",
-+		drm_err(drm, "Unexpected response from device (expected %p4cl found %p4c=
-l)\n",
- 			&expected_response, &response->msg);
- 		return -EIO;
- 	}
-@@ -286,7 +286,7 @@ static int appletbdrm_get_information(struct appletbdrm=
-_device *adev)
- 	}
-=20
- 	if (pixel_format !=3D APPLETBDRM_PIXEL_FORMAT) {
--		drm_err(drm, "Encountered unknown pixel format (%p4cc)\n", &pixel_format=
-);
-+		drm_err(drm, "Encountered unknown pixel format (%p4cl)\n", &pixel_format=
-);
- 		ret =3D -EINVAL;
- 		goto free_info;
- 	}
---=20
-2.47.1
-
+> 
+> Fix this by checking for dmub_srv in should_use_dmub_lock.
+> 
+> [   37.440832] BUG: kernel NULL pointer dereference, address: 0000000000000058
+> [   37.447808] #PF: supervisor read access in kernel mode
+> [   37.452959] #PF: error_code(0x0000) - not-present page
+> [   37.458112] PGD 0 P4D 0
+> [   37.460662] Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+> [   37.465553] CPU: 2 UID: 1000 PID: 1745 Comm: DrmThread Not tainted 6.14.0-rc1-00003-gd62e938120f0 #23 99720e1cb1e0fc4773b8513150932a07de3c6e88
+> [   37.478324] Hardware name: Google Morphius/Morphius, BIOS Google_Morphius.13434.858.0 10/26/2023
+> [   37.487103] RIP: 0010:dmub_hw_lock_mgr_cmd+0x77/0xb0
+> [   37.492074] Code: 44 24 0e 00 00 00 00 48 c7 04 24 45 00 00 0c 40 88 74 24 0d 0f b6 02 88 44 24 0c 8b 01 89 44 24 08 85 f6 75 05 c6 44 24 0e 01 <48> 8b 7f 58 48 89 e6 ba 01 00 00 00 e8 08 3c 2a 00 65 48 8b 04 5
+> [   37.510822] RSP: 0018:ffff969442853300 EFLAGS: 00010202
+> [   37.516052] RAX: 0000000000000000 RBX: ffff92db03000000 RCX: ffff969442853358
+> [   37.523185] RDX: ffff969442853368 RSI: 0000000000000001 RDI: 0000000000000000
+> [   37.530322] RBP: 0000000000000001 R08: 00000000000004a7 R09: 00000000000004a5
+> [   37.537453] R10: 0000000000000476 R11: 0000000000000062 R12: ffff92db0ade8000
+> [   37.544589] R13: ffff92da01180ae0 R14: ffff92da011802a8 R15: ffff92db03000000
+> [   37.551725] FS:  0000784a9cdfc6c0(0000) GS:ffff92db2af00000(0000) knlGS:0000000000000000
+> [   37.559814] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   37.565562] CR2: 0000000000000058 CR3: 0000000112b1c000 CR4: 00000000003506f0
+> [   37.572697] Call Trace:
+> [   37.575152]  <TASK>
+> [   37.577258]  ? __die_body+0x66/0xb0
+> [   37.580756]  ? page_fault_oops+0x3e7/0x4a0
+> [   37.584861]  ? exc_page_fault+0x3e/0xe0
+> [   37.588706]  ? exc_page_fault+0x5c/0xe0
+> [   37.592550]  ? asm_exc_page_fault+0x22/0x30
+> [   37.596742]  ? dmub_hw_lock_mgr_cmd+0x77/0xb0
+> [   37.601107]  dcn10_cursor_lock+0x1e1/0x240
+> [   37.605211]  program_cursor_attributes+0x81/0x190
+> [   37.609923]  commit_planes_for_stream+0x998/0x1ef0
+> [   37.614722]  update_planes_and_stream_v2+0x41e/0x5c0
+> [   37.619703]  dc_update_planes_and_stream+0x78/0x140
+> [   37.624588]  amdgpu_dm_atomic_commit_tail+0x4362/0x49f0
+> [   37.629832]  ? srso_return_thunk+0x5/0x5f
+> [   37.633847]  ? mark_held_locks+0x6d/0xd0
+> [   37.637774]  ? _raw_spin_unlock_irq+0x24/0x50
+> [   37.642135]  ? srso_return_thunk+0x5/0x5f
+> [   37.646148]  ? lockdep_hardirqs_on+0x95/0x150
+> [   37.650510]  ? srso_return_thunk+0x5/0x5f
+> [   37.654522]  ? _raw_spin_unlock_irq+0x2f/0x50
+> [   37.658883]  ? srso_return_thunk+0x5/0x5f
+> [   37.662897]  ? wait_for_common+0x186/0x1c0
+> [   37.666998]  ? srso_return_thunk+0x5/0x5f
+> [   37.671009]  ? drm_crtc_next_vblank_start+0xc3/0x170
+> [   37.675983]  commit_tail+0xf5/0x1c0
+> [   37.679478]  drm_atomic_helper_commit+0x2a2/0x2b0
+> [   37.684186]  drm_atomic_commit+0xd6/0x100
+> [   37.688199]  ? __cfi___drm_printfn_info+0x10/0x10
+> [   37.692911]  drm_atomic_helper_update_plane+0xe5/0x130
+> [   37.698054]  drm_mode_cursor_common+0x501/0x670
+> [   37.702600]  ? __cfi_drm_mode_cursor_ioctl+0x10/0x10
+> [   37.707572]  drm_mode_cursor_ioctl+0x48/0x70
+> [   37.711851]  drm_ioctl_kernel+0xf2/0x150
+> [   37.715781]  drm_ioctl+0x363/0x590
+> [   37.719189]  ? __cfi_drm_mode_cursor_ioctl+0x10/0x10
+> [   37.724165]  amdgpu_drm_ioctl+0x41/0x80
+> [   37.728013]  __se_sys_ioctl+0x7f/0xd0
+> [   37.731685]  do_syscall_64+0x87/0x100
+> [   37.735355]  ? vma_end_read+0x12/0xe0
+> [   37.739024]  ? srso_return_thunk+0x5/0x5f
+> [   37.743041]  ? find_held_lock+0x47/0xf0
+> [   37.746884]  ? vma_end_read+0x12/0xe0
+> [   37.750552]  ? srso_return_thunk+0x5/0x5f
+> [   37.754565]  ? lock_release+0x1c4/0x2e0
+> [   37.758406]  ? vma_end_read+0x12/0xe0
+> [   37.762079]  ? exc_page_fault+0x84/0xe0
+> [   37.765921]  ? srso_return_thunk+0x5/0x5f
+> [   37.769938]  ? lockdep_hardirqs_on+0x95/0x150
+> [   37.774303]  ? srso_return_thunk+0x5/0x5f
+> [   37.778317]  ? exc_page_fault+0x84/0xe0
+> [   37.782163]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
+> [   37.787218] RIP: 0033:0x784aa5ec3059
+> [   37.790803] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 77 1d 48 8b 45 c8 64 48 2b 04 25 28 00 0
+> [   37.809553] RSP: 002b:0000784a9cdf90e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> [   37.817121] RAX: ffffffffffffffda RBX: 0000784a9cdf917c RCX: 0000784aa5ec3059
+> [   37.824256] RDX: 0000784a9cdf917c RSI: 00000000c01c64a3 RDI: 0000000000000020
+> [   37.831391] RBP: 0000784a9cdf9130 R08: 0000000000000100 R09: 0000000000ff0000
+> [   37.838525] R10: 0000000000000000 R11: 0000000000000246 R12: 0000025c01606ed0
+> [   37.845657] R13: 0000025c00030200 R14: 00000000c01c64a3 R15: 0000000000000020
+> [   37.852799]  </TASK>
+> [   37.854992] Modules linked in:
+> [   37.864546] gsmi: Log Shutdown Reason 0x03
+> [   37.868656] CR2: 0000000000000058
+> [   37.871979] ---[ end trace 0000000000000000 ]---
+> [   37.880976] RIP: 0010:dmub_hw_lock_mgr_cmd+0x77/0xb0
+> [   37.885954] Code: 44 24 0e 00 00 00 00 48 c7 04 24 45 00 00 0c 40 88 74 24 0d 0f b6 02 88 44 24 0c 8b 01 89 44 24 08 85 f6 75 05 c6 44 24 0e 01 <48> 8b 7f 58 48 89 e6 ba 01 00 00 00 e8 08 3c 2a 00 65 48 8b 04 5
+> [   37.904703] RSP: 0018:ffff969442853300 EFLAGS: 00010202
+> [   37.909933] RAX: 0000000000000000 RBX: ffff92db03000000 RCX: ffff969442853358
+> [   37.917068] RDX: ffff969442853368 RSI: 0000000000000001 RDI: 0000000000000000
+> [   37.924201] RBP: 0000000000000001 R08: 00000000000004a7 R09: 00000000000004a5
+> [   37.931336] R10: 0000000000000476 R11: 0000000000000062 R12: ffff92db0ade8000
+> [   37.938469] R13: ffff92da01180ae0 R14: ffff92da011802a8 R15: ffff92db03000000
+> [   37.945602] FS:  0000784a9cdfc6c0(0000) GS:ffff92db2af00000(0000) knlGS:0000000000000000
+> [   37.953689] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   37.959435] CR2: 0000000000000058 CR3: 0000000112b1c000 CR4: 00000000003506f0
+> [   37.966570] Kernel panic - not syncing: Fatal exception
+> [   37.971901] Kernel Offset: 0x30200000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+> [   37.982840] gsmi: Log Shutdown Reason 0x02
+> 
+> Fixes: b5c764d6ed55 ("drm/amd/display: Use HW lock mgr for PSR1")
+> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> Cc: stable@vger.kernel.org
+> Cc: Sun peng Li <sunpeng.li@amd.com>
+> Cc: Tom Chung <chiahsuan.chung@amd.com>
+> Cc: Daniel Wheeler <daniel.wheeler@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c
+> index 5bb8b78bf250a0e56c3e99ce7c99ed7f70c8f0f6..eef817a4c580aca2ebc7fb1b77cfc0377d477bdc 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_hw_lock_mgr.c
+> @@ -63,6 +63,9 @@ void dmub_hw_lock_mgr_inbox0_cmd(struct dc_dmub_srv *dmub_srv,
+>  
+>  bool should_use_dmub_lock(struct dc_link *link)
+>  {
+> +	/* ASIC doesn't support DMUB */
+> +	if (!link->ctx->dmub_srv)
+> +		return false;
+>  	if (link->psr_settings.psr_version == DC_PSR_VERSION_SU_1 ||
+>  	    link->psr_settings.psr_version == DC_PSR_VERSION_1)
+>  		return true;
+> 
+> ---
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> change-id: 20250205-amdgpu-dmub-3fc25a0bc68e
+> 
+> Best regards,
+> -- 
+> Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> 
