@@ -2,73 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66297A5E920
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 01:55:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC8DA5E9A5
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 03:11:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C805710E7E0;
-	Thu, 13 Mar 2025 00:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1196310E10E;
+	Thu, 13 Mar 2025 02:11:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CyR5z/aJ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="K96VwPv+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44A2610E7E0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 00:55:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1741827310;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5sMj5qQZ1mcmow20dX8XpYgNx8znNE77O3nTheH5umQ=;
- b=CyR5z/aJcaWigJzVNTMejyRAJdgfMd3WL9N6UVxwQzxoKuqlu/Zv6JQr/+zx6UM4gLgieU
- MpdJa4TP9RKAxvkGjWhXhNjtwbu3aT3YDpTE1QNP/HZlOoXtd/shZKdokACASWMnVEjMbE
- 4Wg66RtFdF5zZ1Nuvdux/RCeVltfEpk=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-343-w-TV-RCeMuG1OFVDo14WUw-1; Wed,
- 12 Mar 2025 20:55:04 -0400
-X-MC-Unique: w-TV-RCeMuG1OFVDo14WUw-1
-X-Mimecast-MFC-AGG-ID: w-TV-RCeMuG1OFVDo14WUw_1741827298
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 02E7C180025C; Thu, 13 Mar 2025 00:54:58 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.186])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 93D511955BCB; Thu, 13 Mar 2025 00:54:55 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 12 Mar 2025 20:54:43 -0400
-Subject: [PATCH RFC 2/2] drm/panel/panel-simple: Use the new allocation in
- place of devm_kzalloc()
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B500010E10E;
+ Thu, 13 Mar 2025 02:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741831881;
+ bh=FpC/vTuwIK5xIUgyQayYXS0BC2eQhbdB7objGTLAYV0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=K96VwPv+aIwjbtzVY9PiUbxOZEX7YVvF3CNB/wJzqT34HrNwMBSIY6172lqADQjVk
+ xqGE8H7jqxTScepZPCRIBTlOI5eIVnZ55BOhvUHMMux8yRR2FSSlxtpg1Hnr4h1nHG
+ 7rR+Fpdjnn7k3GVKPKhZ52mYWzfQiaXAHNlMjfrDrx9Lab6deu+lD980tlczpHtm+J
+ dBhB2uksMY+FsynP2gf+lom+DEzd6bsBwHZcGP9gCUrNLgqKYV2ZUaoxCYjmDRPsyF
+ MAThuelWlIXJzj6Z3OR1ZGvcbN4pH5xamSzylh6Ca/BK7fBiF63S1OR5/Bb01Xm5oq
+ YcxJQwdEchJVg==
+Received: from [192.168.50.250] (unknown [171.76.87.92])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5D09C17E1134;
+ Thu, 13 Mar 2025 03:11:18 +0100 (CET)
+Message-ID: <cc9501d1-c779-4728-a609-ce83a73f46f6@collabora.com>
+Date: Thu, 13 Mar 2025 07:40:54 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/ci: add kms_cursor_legacy@torture-bo to apq8016
+ flakes
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ lumag@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+References: <20241204-cursor_tor_skip-v2-1-f03bcbc4b455@quicinc.com>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <20241204-cursor_tor_skip-v2-1-f03bcbc4b455@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250312-drm-panel-v1-2-e99cd69f6136@redhat.com>
-References: <20250312-drm-panel-v1-0-e99cd69f6136@redhat.com>
-In-Reply-To: <20250312-drm-panel-v1-0-e99cd69f6136@redhat.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741827289; l=1221;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=SpQpLCI9T0ZitGPUZWpwmh94k+DUnd4JAAyPF4rKF0I=;
- b=KqdpOOFh2TvvDM2X5xcUUHYAqKpCynRDbDSYyD15YnRf1z1y+1B1rBB4EUq8RHjF9PKF6TTv7
- W8+nxlmyIU3C8vaZbdqrPj8AhT6uon5pvDWyTu4hVWMGG9VXxE2IHuo
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,37 +69,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Start using the new helper that does the refcounted
-allocations.
+Hi Abhinav,
 
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On 05/12/24 01:29, Abhinav Kumar wrote:
+>  From the jobs [1] and [2] of pipeline [3], its clear that
+> kms_cursor_legacy@torture-bo is most certainly a flake and
+> not a fail for apq8016. Mark the test accordingly to match the results.
+> 
+> [1] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67676481
+> [2] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67677430
+> [3]: https://gitlab.freedesktop.org/drm/msm/-/pipelines/1322770
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+> Changes in v2:
+> - Fix the failure rate from 100 to 33 as thats the accurate one
+> - Link to v1: https://lore.kernel.org/r/20241204-cursor_tor_skip-v1-1-f5f0bba5df7b@quicinc.com
+> ---
+>   drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+> new file mode 100644
+> index 000000000000..2fb192c92559
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+> @@ -0,0 +1,5 @@
+> +# Board Name: msm-apq8016-db410c
+> +# Failure Rate: 33
+> +# IGT Version: 1.28-ga73311079
+> +# Linux Version: 6.12.0-rc2
+> +kms_cursor_legacy@torture-bo
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 232b03c1a259eb15e423b9d452d28e2ff95c70f8..d7530c3533af34f83ce8c6d6067e7f293f2d4bf1 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -579,7 +579,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 	u32 bus_flags;
- 	int err;
- 
--	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
-+	panel = devm_drm_panel_alloc(dev, struct panel_simple, base, &panel_simple_funcs);
- 	if (!panel)
- 		return -ENOMEM;
- 
-@@ -694,8 +694,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 	pm_runtime_set_autosuspend_delay(dev, 1000);
- 	pm_runtime_use_autosuspend(dev);
- 
--	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
--
- 	err = drm_panel_of_backlight(&panel->base);
- 	if (err) {
- 		dev_err_probe(dev, err, "Could not find backlight\n");
+Reviewed-by: Vignesh Raman <vignesh.raman@collabora.com>
 
--- 
-2.48.1
+Regards,
+Vignesh
+
+> 
+> ---
+> base-commit: 798bb342e0416d846cf67f4725a3428f39bfb96b
+> change-id: 20241204-cursor_tor_skip-9d128dd62c4f
+> 
+> Best regards,
 
