@@ -2,77 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F44A5E8E9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 01:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC07A5E8F7
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 01:22:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B15A410E1CB;
-	Thu, 13 Mar 2025 00:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F73C10E0E7;
+	Thu, 13 Mar 2025 00:22:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="JP9c4+NI";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Vr/5chIy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1596F10E1CB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 00:10:39 +0000 (UTC)
-Received: from [127.0.0.1] ([76.133.66.138]) (authenticated bits=0)
- by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52D09Gjf2730497
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Wed, 12 Mar 2025 17:09:16 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52D09Gjf2730497
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2025021701; t=1741824561;
- bh=pOuTjU0DLlw9muSdV/bvRsUk/zEVswSeTDmcSBtrmzk=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=JP9c4+NI9BKncKU+1PsEB9cZeQpNxCxpJ0LmRuYoHNmwWD/IZKSycv5sN9IICpIEz
- fR/hn+rQhnfZM1uUiHFsG6gUoBL9neiS+JGil7wI30UkDhHcG1QRaLCxVEOb8Avej8
- KQCseXzhw1xoqlckAoMQLS0jGXtjlqSg5eaOuTyA+VT8jx0ImUcERkYzUzACSp2jWz
- iveP8ZtK+pI4qfkTCfKTJm+BI905HMMN61AY3/MbPJkw2r62IkxWg6XH1CtdvGTrlr
- 6CALlw7rm8dk1ZxjmoEuThEn4j6+yLh7OqapigzBfq/66ixFRWdc3P5KvqHGfpwwnf
- wFX8jsnXRMF2A==
-Date: Wed, 12 Mar 2025 17:09:16 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Jacob Keller <jacob.e.keller@intel.com>,
- David Laight <david.laight.linux@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>
-CC: Ingo Molnar <mingo@kernel.org>, Kuan-Wei Chiu <visitorckw@gmail.com>,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
- joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
- hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- yury.norov@gmail.com, akpm@linux-foundation.org, alistair@popple.id.au,
- linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
-User-Agent: K-9 Mail for Android
-In-Reply-To: <cbb26a91-807b-4227-be81-8114e9ea72cb@intel.com>
-References: <20250306162541.2633025-1-visitorckw@gmail.com>
- <20250306162541.2633025-2-visitorckw@gmail.com>
- <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org>
- <Z8ra0s9uRoS35brb@gmail.com>
- <a4040c78-8765-425e-a44e-c374dfc02a9c@kernel.org>
- <20250307193643.28065d2d@pumpkin>
- <cbb26a91-807b-4227-be81-8114e9ea72cb@intel.com>
-Message-ID: <0F794C6F-32A9-4F34-9516-CEE24EA4BC49@zytor.com>
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADE8010E0E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 00:22:06 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-30bf3f3539dso4256011fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 17:22:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1741825322; x=1742430122;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ve1CmfI0K+KYT8TLuMs4lWO1u62BwBHsIfFJVhmEIVY=;
+ b=Vr/5chIyoV2Q9J34vR+A/Ab+hS4zzu/BsNPID13xXOQR4/5CnPHtQFpm84QmUhbtcG
+ JBuI8Wj+iXMqgu4n93ZExbF3ZCzJpTuKNf4ijV8+dF1zXMUvEdqDOM48DvUtwX4Q1meB
+ WuFa7k/GuRszfoIEqhyT7R1XYUcUQbPvWPekg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741825322; x=1742430122;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ve1CmfI0K+KYT8TLuMs4lWO1u62BwBHsIfFJVhmEIVY=;
+ b=AvGd1UnxuMLyRuNOML6HN258yFAerM5COrxFDWTbN4MzQvMuBNGCm8DjU60NUXCBow
+ J0AgE6a9MvgrkgAqtdw7lorL243PpFJNYXU+dTkH/aOZQM3OCD/eEnNn1BmsZMR0kk6a
+ 8ZCZz3JCggpUEpF8ISpxwRUUtWwqoCfwMPZCCeKyf5bOY37BGaIJ3c2fRInR5zONB42J
+ 3qyosmRWkWWRdTRHVrp1OA6qRhJombuhesUjhEKh+o428sHomiDkGVCaDnrWw5rHuMgL
+ JLkL7SORi9+k01DQvnObJ50OKx2hirItkAQRxDCJa3wPjD3ZVafrR6sJCwogZEUh6gPT
+ vqeQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVJedad0msGBoyC5qS7xWSk8V6JD3CmjOhVrxoB+YboJTceXWC7AMQk2+Kh8ihfYD270fpYgfTL6Is=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YysdTua13G/qU/TIhwspQwWLywPJ/H2A8av0VveMMOQoP4P8nmE
+ 0+/t5/zOqZNQK58k4yq5Pf1vAzsY/djFO2uBc0FRuzlqD3LtYI7U+SXVTqD0cOv2KPQLchAUIVx
+ /dncZ
+X-Gm-Gg: ASbGnct75gRuhv3ngsJvCGmZJgr3xrT5NHhMgGEWi78ZLZ+LBZi/1AHv4L/1gjG84/3
+ hcmztK8QEwg0rgdxPcpZdwYaCds12EOrL3MKJtA6rAmK2HAs5JChIJArJtIv1zjQScE1mP363vP
+ 9Rhyd81DnOCAWMTKfAAFOD6ejeyhH8IiBd4p9ZZeqIqpDA++2UWUfK9q5FoT6wX3q+GstfwpPi2
+ fz22WwORrnv2xSXO/Vm+wYUnIv9Mc9jwSrcbELA6mXkD3ya7PhNxuUKF6GbR8sWKJgJcBlSPKI6
+ REZFUgy9yX+HC/ngnAGiSFNE4jVQYJgjNbZCQVCTMqK8AFkuaq0Lv0hELJDVWSx8eXQA8Cq114G
+ wrluR5Zzk
+X-Google-Smtp-Source: AGHT+IGTQe3MhMFBn+oaMKIbL9Dj9qfBS5DSThoN7mK/NVsJ9f8vslzVTHiYfHSnFtDTGEYyxsmBbw==
+X-Received: by 2002:a05:651c:1199:b0:30b:ee7d:1a88 with SMTP id
+ 38308e7fff4ca-30c3dd6d50cmr1815751fa.10.1741825321668; 
+ Wed, 12 Mar 2025 17:22:01 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
+ [209.85.167.44]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30c3f1dbf8esm148431fa.102.2025.03.12.17.21.58
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Mar 2025 17:21:59 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-5499da759e8so1683346e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Mar 2025 17:21:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFgmgyx0nygOeP2lpTlMnDCHCWvQNDnKboZlwm741RHwsQ99BJnvwAi0OLt8tDuCZ676U1ZqMZ1zM=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:3c8a:b0:545:2474:2c9b with SMTP id
+ 2adb3069b0e04-549ba428698mr204467e87.22.1741825317941; Wed, 12 Mar 2025
+ 17:21:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20250310-mipi-synaptic-1-v2-1-20ee4397c670@redhat.com>
+ <20250311-warm-icy-rottweiler-cefcdd@houat>
+ <CAN9Xe3Qwu=E=VVZZ_8EHPF7Xsk6Zcbp=R_b=cRgF=9SWCkmsqA@mail.gmail.com>
+ <CAD=FV=XdngrNhUn8jQ3FGitkBCkiQO1dXnPhCKj+S5Jo8_WUrQ@mail.gmail.com>
+ <CAN9Xe3RQ_L5a+PbXCBbzpn3VxyWEL1_wqA5trY0h=Xj-YMcA1g@mail.gmail.com>
+In-Reply-To: <CAN9Xe3RQ_L5a+PbXCBbzpn3VxyWEL1_wqA5trY0h=Xj-YMcA1g@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 12 Mar 2025 17:21:46 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WJDHAdDCD=Mhffawuz8U7=MkzDueXmAvKpJ-o5eOT6DQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JqR2ONbIt8VCOUlU6wE07GPZEZIhiBEtbAX58jcej3ZuGEyEk_GhqGWc0o
+Message-ID: <CAD=FV=WJDHAdDCD=Mhffawuz8U7=MkzDueXmAvKpJ-o5eOT6DQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panel/synaptics-r63353: Use _multi variants
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Maxime Ripard <mripard@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Tejas Vipin <tejasvipin76@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,85 +111,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On March 12, 2025 4:56:31 PM PDT, Jacob Keller <jacob=2Ee=2Ekeller@intel=2E=
-com> wrote:
->
->
->On 3/7/2025 11:36 AM, David Laight wrote:
->> On Fri, 7 Mar 2025 12:42:41 +0100
->> Jiri Slaby <jirislaby@kernel=2Eorg> wrote:
->>=20
->>> On 07=2E 03=2E 25, 12:38, Ingo Molnar wrote:
->>>>
->>>> * Jiri Slaby <jirislaby@kernel=2Eorg> wrote:
->>>>  =20
->>>>> On 06=2E 03=2E 25, 17:25, Kuan-Wei Chiu wrote: =20
->>>>>> Change return type to bool for better clarity=2E Update the kernel =
-doc
->>>>>> comment accordingly, including fixing "@value" to "@val" and adjust=
-ing
->>>>>> examples=2E Also mark the function with __attribute_const__ to allo=
-w
->>>>>> potential compiler optimizations=2E
->>>>>>
->>>>>> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
->>>>>> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
->>>>>> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail=2Ecom>
->>>>>> ---
->>>>>>    include/linux/bitops=2Eh | 10 +++++-----
->>>>>>    1 file changed, 5 insertions(+), 5 deletions(-)
->>>>>>
->>>>>> diff --git a/include/linux/bitops=2Eh b/include/linux/bitops=2Eh
->>>>>> index c1cb53cf2f0f=2E=2E44e5765b8bec 100644
->>>>>> --- a/include/linux/bitops=2Eh
->>>>>> +++ b/include/linux/bitops=2Eh
->>>>>> @@ -231,26 +231,26 @@ static inline int get_count_order_long(unsign=
-ed long l)
->>>>>>    /**
->>>>>>     * parity8 - get the parity of an u8 value
->>>>>> - * @value: the value to be examined
->>>>>> + * @val: the value to be examined
->>>>>>     *
->>>>>>     * Determine the parity of the u8 argument=2E
->>>>>>     *
->>>>>>     * Returns:
->>>>>> - * 0 for even parity, 1 for odd parity
->>>>>> + * false for even parity, true for odd parity =20
->>>>>
->>>>> This occurs somehow inverted to me=2E When something is in parity me=
-ans that
->>>>> it has equal number of 1s and 0s=2E I=2Ee=2E return true for even di=
-stribution=2E
->>>>> Dunno what others think? Or perhaps this should be dubbed odd_parity=
-() when
->>>>> bool is returned? Then you'd return true for odd=2E =20
->>>>
->>>> OTOH:
->>>>
->>>>   - '0' is an even number and is returned for even parity,
->>>>   - '1' is an odd  number and is returned for odd  parity=2E =20
->>>
->>> Yes, that used to make sense for me=2E For bool/true/false, it no long=
-er=20
->>> does=2E But as I wrote, it might be only me=2E=2E=2E
->>=20
->> No me as well, I've made the same comment before=2E
->> When reading code I don't want to have to look up a function definition=
-=2E
->> There is even scope for having parity_odd() and parity_even()=2E
->> And, with the version that shifts a constant right you want to invert
->> the constant!
->>=20
->> 	David
->
->This is really a question of whether you expect odd or even parity as
->the "true" value=2E I think that would depend on context, and we may not
->reach a good consensus=2E
->
->I do agree that my brain would jump to "true is even, false is odd"=2E
->However, I also agree returning the value as 0 for even and 1 for odd
->kind of made sense before, and updating this to be a bool and then
->requiring to switch all the callers is a bit obnoxious=2E=2E=2E
+Hi,
 
-Odd =3D 1 =3D true is the only same definition=2E It is a bitwise XOR, or =
-sum mod 1=2E
+On Wed, Mar 12, 2025 at 5:00=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.co=
+m> wrote:
+>
+>
+>
+> On Wed, Mar 12, 2025 at 11:48=E2=80=AFAM Doug Anderson <dianders@chromium=
+.org> wrote:
+>>
+>> Hi,
+>>
+>> On Wed, Mar 12, 2025 at 8:06=E2=80=AFAM Anusha Srivatsa <asrivats@redhat=
+.com> wrote:
+>> >
+>> >> > @@ -106,53 +107,46 @@ static int r63353_panel_power_off(struct r633=
+53_panel *rpanel)
+>> >> >  static int r63353_panel_activate(struct r63353_panel *rpanel)
+>> >> >  {
+>> >> >       struct mipi_dsi_device *dsi =3D rpanel->dsi;
+>> >> > -     struct device *dev =3D &dsi->dev;
+>> >> > -     int i, ret;
+>> >> > +     struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+>> >> > +     int i;
+>> >> >
+>> >> > -     ret =3D mipi_dsi_dcs_soft_reset(dsi);
+>> >> > -     if (ret < 0) {
+>> >> > -             dev_err(dev, "Failed to do Software Reset (%d)\n", re=
+t);
+>> >> > +     mipi_dsi_dcs_soft_reset_multi(&dsi_ctx);
+>> >> > +     if (dsi_ctx.accum_err)
+>> >> >               goto fail;
+>> >> > -     }
+>> >>
+>> >> This changes was definitely not what the script is doing.
+>> >
+>> >
+>> > It isnt. Using coccinelle for the major part of pattern matching and r=
+eplacing the newer _multi variant API. Some handling (including a newline t=
+hat it introduces) and  the returns depend on a case by case basis, which h=
+ad to be done manually.
+>>
+>> ...and now you're getting to see why I didn't think a coccinelle
+>> script could fully handle this task. ;-) IMO instead of trying to get
+>> a coccinelle script to do the full conversion, the right approach
+>> would be to use a coccinelle script (or equivalent) to get the basics
+>> done (just so you don't make any typos) and then cleanup the result
+>> manually. Spending more time on the coccinelle script than it would
+>> take to do the conversion manually is probably not the right approach.
+>>
+>> If your patch wasn't fully generated by a coccinelle script you should
+>> document that in the commit message. Something like "Initial patch was
+>> generated by a coccinelle script and the result was cleaned up
+>> manually." If the script is too long to fit in the commit message,
+>> it's fine to put it somewhere online and provide a link. "Somewhere
+>> online" could easily be a mailing list post.
+>>
+>
+> You know I have been thinking if it makes sense to have this script merge=
+d to coccinelle project and add those details in the commit log.... Was hav=
+ing an offline discussion with  @Maxime Ripard today and he rightly pointed=
+ out that since it is too specific, once all the conversions are done , the=
+ script  would not be further useable....
+> About having the script online and providing a link, something link a git=
+hub link?
+
+That feels overkill. It seems like you could just send an email to
+LKML or dri-devel and then link it that way. It could be in reply to
+this thread or a totally separate email. lore.kernel.org links are
+great.
+
+-Doug
