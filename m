@@ -2,70 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310A0A5F000
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 10:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0014A5F01D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 10:59:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84DF110E822;
-	Thu, 13 Mar 2025 09:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4341010E0F3;
+	Thu, 13 Mar 2025 09:59:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="njsaMuuh";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Qi0hh8VK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37D6310E821;
- Thu, 13 Mar 2025 09:56:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741859778; x=1773395778;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=7A7CXQ1D8YunDLXzWL2mbCvEvN81Zg7DaI+66KINIEU=;
- b=njsaMuuhiMPDHxqe76yqHcLFhytWkt4uMFFfLNDjxkVB2ham6lJHzgg9
- 0gxkNLCsBVZG7s9zxkk7L+A73Q0j9O+nIqmuCY9c/hk8iQcK75FBO2oBy
- IeMpk/fYGVOBOKoR9+/zd3qE4VIWCFSrlbaJAiiLi9wJCNBuHNoMGLV2a
- EaEjfRvOebD7c9Kjn78qOmYruFPBTXjxlU2KBzmBhUHhFcKS1bzMAG0N4
- vM1uJgWNPAGyC38fcyOhKYfHdwjc3els44PNoLs1b937yHN1Ns4eZ6EJv
- pPlIlc1rjZ5mPxjMRYrKRzV0X5qKWTU6uND4Vbz1UP6k2dJsxzz8rU9at Q==;
-X-CSE-ConnectionGUID: ajUiqqo0T66IY1ieOj+eqQ==
-X-CSE-MsgGUID: Ldfb9IgqRH+YzR3NYvTeTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="30557606"
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="30557606"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2025 02:56:15 -0700
-X-CSE-ConnectionGUID: 7Id4GbPKR5KkNDtc+RS1dw==
-X-CSE-MsgGUID: WdRV1eWBRqCw3A/LiN2+ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="120967102"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.195])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2025 02:56:10 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 13 Mar 2025 11:56:07 +0200 (EET)
-To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
-cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v5 3/6] PCI: Allow IOV resources to be resized in
- pci_resize_resource()
-In-Reply-To: <20250312225949.969716-4-michal.winiarski@intel.com>
-Message-ID: <a4eaa28c-a080-949d-6ae3-8eae4ca24f40@linux.intel.com>
-References: <20250312225949.969716-1-michal.winiarski@intel.com>
- <20250312225949.969716-4-michal.winiarski@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACEBD10E0F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 09:59:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741859978;
+ bh=wz/SiZ9Lo8XInv5FYAo7V9xc1M+dPPiTq+WWx5XQVFM=;
+ h=Date:To:Cc:From:Subject:From;
+ b=Qi0hh8VK/KFwi1CRlmBfCI8ciE0lx5cj9Cp+sEOQjkoCKv/xvGZhPgQeRfTT3AOpO
+ ej/kX9+dkABe6q5VU60+IFqPUDWs5wAGuOsZ02Qq1ygNMXDszOcSpeVazyHyUBPazC
+ Png1ftR1aLGwFM9rkEpTPNCjZy/s+C8uw8GvXi87dYp0/3Sv12uaTpfMP3z358Ry27
+ 9mMlJhWK7Hy3uRktW7ZMdZUEa3dMPedX9/HcQg/ScqV0nbbEhUKgp3Daxe3JHfM2RD
+ mJGE0WxTyQmfUppJP4W7+eUIjKsRJ3RiNXbi/UJBs4wBo9hNeb7fyDLIqbSSRndb+f
+ vsbTTm0ngLVcg==
+Received: from [192.168.50.250] (unknown [171.76.87.92])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B5F5017E0ECA;
+ Thu, 13 Mar 2025 10:59:35 +0100 (CET)
+Message-ID: <da578eed-224f-4374-853a-1ff0aa20d03b@collabora.com>
+Date: Thu, 13 Mar 2025 15:29:29 +0530
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-2011323846-1741859767=:1742"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ nfraprado@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ Daniel Stone <daniels@collabora.com>,
+ Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
+ Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
+ Helen Mae Koike Fornazier <helen.fornazier@gmail.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+Subject: drm-ci: mediatek:
+ kms_atomic_transition@plane-toggle-modeset-transition flake
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,211 +65,475 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Maintainers,
 
---8323328-2011323846-1741859767=:1742
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+There are some flake test reported for mediatek driver testing in drm-ci.
 
-On Wed, 12 Mar 2025, Micha=C5=82 Winiarski wrote:
+# Board Name: mt8183-kukui-jacuzzi-juniper-sku16
+# Failure Rate: 20
+# IGT Version: 1.30-g04bedb923
+# Linux Version: 6.14.0-rc4
+kms_atomic_transition@plane-toggle-modeset-transition
 
-> Similar to regular resizable BAR, VF BAR can also be resized.
->=20
-> The structures are very similar, which means we can reuse most of the
-> implementation.
->=20
-> Extend the pci_resize_resource() function to accept IOV resources.
->=20
-> See PCIe r4.0, sec 9.3.7.4.
->=20
-> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
-> ---
->  drivers/pci/iov.c       | 21 +++++++++++++++++++++
->  drivers/pci/pci.c       | 10 +++++++++-
->  drivers/pci/pci.h       |  9 +++++++++
->  drivers/pci/setup-res.c | 35 ++++++++++++++++++++++++++++++-----
->  4 files changed, 69 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> index 23c741e9ede89..7cc17e898cea7 100644
-> --- a/drivers/pci/iov.c
-> +++ b/drivers/pci/iov.c
-> @@ -154,6 +154,27 @@ resource_size_t pci_iov_resource_size(struct pci_dev=
- *dev, int resno)
->  =09return dev->sriov->barsz[pci_resource_num_to_vf_bar(resno)];
->  }
-> =20
-> +void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
-> +=09=09=09       resource_size_t size)
-> +{
-> +=09if (!pci_resource_is_iov(resno)) {
-> +=09=09pci_warn(dev, "%s is not an IOV resource\n",
-> +=09=09=09 pci_resource_name(dev, resno));
-> +=09=09return;
-> +=09}
-> +
-> +=09dev->sriov->barsz[pci_resource_num_to_vf_bar(resno)] =3D size;
-> +}
-> +
-> +bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev)
-> +{
-> +=09u16 cmd;
-> +
-> +=09pci_read_config_word(dev, dev->sriov->pos + PCI_SRIOV_CTRL, &cmd);
-> +
-> +=09return cmd & PCI_SRIOV_CTRL_MSE;
-> +}
-> +
->  static void pci_read_vf_config_common(struct pci_dev *virtfn)
->  {
->  =09struct pci_dev *physfn =3D virtfn->physfn;
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 72ac91e359aaf..e6a986ad24d61 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -3731,8 +3731,16 @@ static int pci_rebar_find_pos(struct pci_dev *pdev=
-, int bar)
->  {
->  =09unsigned int pos, nbars, i;
->  =09u32 ctrl;
-> +=09int cap;
-> =20
-> -=09pos =3D pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_REBAR);
-> +=09if (pci_resource_is_iov(bar)) {
-> +=09=09cap =3D PCI_EXT_CAP_ID_VF_REBAR;
-> +=09=09bar =3D pci_resource_num_to_vf_bar(bar);
-> +=09} else {
-> +=09=09cap =3D PCI_EXT_CAP_ID_REBAR;
-> +=09}
+11:13:54.607: DEBUG - Begin test 
+kms_atomic_transition@plane-toggle-modeset-transition
+11:13:59.676: [  434.263064] Console: switching to colour dummy device 80x25
+11:13:59.676: [  434.269133] [IGT] kms_big_fb: executing
+11:13:59.676: [  434.301249] [IGT] kms_big_fb: exiting, ret=77
+11:13:59.676: [  434.306845] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.676: [  434.450106] Console: switching to colour dummy device 80x25
+11:13:59.676: [  434.456040] [IGT] kms_frontbuffer_tracking: executing
+11:13:59.676: [  434.485322] [IGT] kms_frontbuffer_tracking: exiting, ret=77
+11:13:59.676: [  434.492171] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.676: [  434.622627] Console: switching to colour dummy device 80x25
+11:13:59.676: [  434.628545] [IGT] kms_big_fb: executing
+11:13:59.676: [  434.666906] [IGT] kms_big_fb: exiting, ret=77
+11:13:59.676: [  434.672432] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.676: [  434.819136] Console: switching to colour dummy device 80x25
+11:13:59.676: [  434.825156] [IGT] fbdev: executing
+11:13:59.676: [  434.834142] [IGT] fbdev: starting subtest unaligned-read
+11:13:59.676: [  434.864894] [IGT] fbdev: finished subtest 
+unaligned-read, SUCCESS
+11:13:59.676: [  434.874183] [IGT] fbdev: exiting, ret=0
+11:13:59.676: [  434.878831] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.676: [  435.039907] Console: switching to colour dummy device 80x25
+11:13:59.676: [  435.045929] [IGT] kms_frontbuffer_tracking: executing
+11:13:59.676: [  435.083806] [IGT] kms_frontbuffer_tracking: exiting, ret=77
+11:13:59.676: [  435.090698] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.676: [  435.226992] Console: switching to colour dummy device 80x25
+11:13:59.676: [  435.233006] [IGT] kms_cursor_legacy: executing
+11:13:59.676: [  435.244988] [IGT] kms_cursor_legacy: starting subtest 
+cursor-vs-flip-legacy
+11:13:59.676: [  439.993353] [IGT] kms_cursor_legacy: finished subtest 
+cursor-vs-flip-legacy, FAIL
+11:13:59.676: [  440.051426] [IGT] kms_cursor_legacy: exiting, ret=98
+11:13:59.676: [  440.058445] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.676: [  440.291856] Console: switching to colour dummy device 80x25
+11:13:59.676: [  440.297832] [IGT] kms_psr: executing
+11:13:59.676: [  440.351576] [IGT] kms_psr: exiting, ret=77
+11:13:59.676: [  440.357061] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.676: [  440.525365] Console: switching to colour dummy device 80x25
+11:13:59.676: [  440.531341] [IGT] kms_plane_scaling: executing
+11:13:59.676: [  440.542536] [IGT] kms_plane_scaling: starting subtest 
+plane-downscale-factor-0-75-with-rotation
+11:13:59.676: [  440.551735] [IGT] kms_plane_scaling: starting dynamic 
+subtest pipe-A
+11:13:59.676: [  440.559115] [IGT] kms_plane_scaling: finished subtest 
+pipe-A, SKIP
+11:13:59.676: [  440.565635] [IGT] kms_plane_scaling: finished subtest 
+plane-downscale-factor-0-75-with-rotation, SKIP
+11:13:59.676: [  440.583083] [IGT] kms_plane_scaling: exiting, ret=77
+11:13:59.677: [  440.588992] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.677: [  440.735954] Console: switching to colour dummy device 80x25
+11:13:59.677: [  440.742070] [IGT] kms_frontbuffer_tracking: executing
+11:13:59.677: [  440.785413] [IGT] kms_frontbuffer_tracking: exiting, ret=77
+11:13:59.677: [  440.792327] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.677: [  440.956960] Console: switching to colour dummy device 80x25
+11:13:59.677: [  440.962930] [IGT] kms_bw: executing
+11:13:59.677: [  440.973201] [IGT] kms_bw: starting subtest 
+linear-tiling-15-displays-3840x2160p
+11:13:59.677: [  440.981029] [IGT] kms_bw: finished subtest 
+linear-tiling-15-displays-3840x2160p, SKIP
+11:13:59.677: [  440.989471] [IGT] kms_bw: exiting, ret=77
+11:13:59.677: [  440.994855] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.677: [  441.158662] Console: switching to colour dummy device 80x25
+11:13:59.677: [  441.164783] [IGT] syncobj_eventfd: executing
+11:13:59.677: [  441.171565] [IGT] syncobj_eventfd: exiting, ret=77
+11:13:59.677: [  441.177491] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.677: [  441.349875] Console: switching to colour dummy device 80x25
+11:13:59.677: [  441.355894] [IGT] kms_frontbuffer_tracking: executing
+11:13:59.677: [  441.417396] [IGT] kms_frontbuffer_tracking: exiting, ret=77
+11:13:59.677: [  441.424442] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.677: [  441.577403] Console: switching to colour dummy device 80x25
+11:13:59.677: [  441.583335] [IGT] kms_psr: executing
+11:13:59.677: [  441.615044] [IGT] kms_psr: exiting, ret=77
+11:13:59.677: [  441.620486] Console: switching to colour frame buffer 
+device 170x48
+11:13:59.677: [  441.769555] Console: switching to colour dummy device 80x25
+11:13:59.677: [  441.775521] [IGT] kms_big_fb: executing
+11:13:59.677: [  441.814728] [IGT] kms_big_fb: exiting, ret=77
+11:14:04.760: [  441.820589] Console: switching to colour frame buffer 
+device 170x48
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) CRITICAL: 
+Test assertion failure function wait_for_transition, file 
+../tests/kms_atomic_transition.c:540:
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) CRITICAL: 
+Failed assertion: fd_completed(data->drm_fd)
+11:14:04.763: ERROR - Igt error: Dynamic subtest pipe-A-eDP-1 failed.
+11:14:04.763: ERROR - Igt error: **** DEBUG ****
+11:14:04.763: ERROR - Igt error: A.2: fb_set_position(0,0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.2: fb_set_size(0x0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: plane_set_fb(0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: plane_set_size (0x0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: fb_set_position(0,0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: fb_set_size(0x0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: plane_set_fb(0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: plane_set_size (0x0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: fb_set_position(0,0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: fb_set_size(0x0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: plane_set_fb(0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: plane_set_size (0x0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: fb_set_position(0,0)
+11:14:04.763: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: fb_set_size(0x0)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: commit {
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: Pipe A: Setting property "MODE_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: Pipe A: Setting property "ACTIVE" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.1, fb 0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "SRC_X" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "SRC_Y" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "SRC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "SRC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "CRTC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "CRTC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "FB_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "CRTC_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.2, fb 0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "SRC_X" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "SRC_Y" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "SRC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "SRC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "CRTC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "CRTC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "FB_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "CRTC_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.3, fb 0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "SRC_X" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "SRC_Y" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "SRC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "SRC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "CRTC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "CRTC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "FB_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "CRTC_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.4, fb 0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "SRC_X" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "SRC_Y" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "SRC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "SRC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "CRTC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "CRTC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "FB_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "CRTC_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.5, fb 0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "SRC_X" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "SRC_Y" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "SRC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "SRC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "CRTC_W" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "CRTC_H" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "FB_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "CRTC_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     eDP-1: preparing atomic, pipe: None
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: eDP-1: Setting property "CRTC_ID" to 0x0/0
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: }
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) DEBUG: 
+Retrieved vblank seq: 23468 on unk
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: eDP-1: set_pipe(A)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: eDP-1: Selecting pipe A
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.0: plane_set_fb(65)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.0: plane_set_size (1366x768)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.0: fb_set_position(0,0)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.0: fb_set_size(1366x768)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.0: fb_set_size(1366x768)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.0: plane_set_size (1366x768)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.1: plane_set_fb(70)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.1: plane_set_size (1024x768)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.1: fb_set_position(0,0)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.1: fb_set_size(1024x768)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.1: fb_set_size(1024x768)
+11:14:04.764: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.1: plane_set_size (1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.2: plane_set_fb(70)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.2: plane_set_size (1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.2: fb_set_position(0,0)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.2: fb_set_size(1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.2: fb_set_size(1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.2: plane_set_size (1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: plane_set_fb(70)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: plane_set_size (1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: fb_set_position(0,0)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: fb_set_size(1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: fb_set_size(1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.3: plane_set_size (1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: plane_set_fb(70)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: plane_set_size (1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: fb_set_position(0,0)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: fb_set_size(1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: fb_set_size(1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.4: plane_set_size (1024x768)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: plane_set_fb(69)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: plane_set_size (512x512)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: fb_set_position(0,0)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: fb_set_size(512x512)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: fb_set_size(512x512)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: A.5: plane_set_size (512x512)
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: commit {
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: Pipe A: Setting property "MODE_ID" to 0x44/68
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: Pipe A: Setting property "ACTIVE" to 0x1/1
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.0, fb 65
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.0: Setting property "SRC_X" to 0x0/0
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.0: Setting property "SRC_Y" to 0x0/0
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.0: Setting property "SRC_W" to 0x5560000/89522176
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.0: Setting property "SRC_H" to 0x3000000/50331648
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.0: Setting property "CRTC_W" to 0x556/1366
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.0: Setting property "CRTC_H" to 0x300/768
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.0: Setting property "FB_ID" to 0x41/65
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.0: Setting property "CRTC_ID" to 0x40/64
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.1, fb 70
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "SRC_X" to 0x0/0
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "SRC_Y" to 0x0/0
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "SRC_W" to 0x4000000/67108864
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "SRC_H" to 0x3000000/50331648
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "CRTC_W" to 0x400/1024
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "CRTC_H" to 0x300/768
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "FB_ID" to 0x46/70
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.1: Setting property "CRTC_ID" to 0x40/64
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.2, fb 70
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "SRC_X" to 0x0/0
+11:14:04.765: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "SRC_Y" to 0x0/0
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "SRC_W" to 0x4000000/67108864
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "SRC_H" to 0x3000000/50331648
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "CRTC_W" to 0x400/1024
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "CRTC_H" to 0x300/768
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "FB_ID" to 0x46/70
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.2: Setting property "CRTC_ID" to 0x40/64
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.3, fb 70
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "SRC_X" to 0x0/0
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "SRC_Y" to 0x0/0
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "SRC_W" to 0x4000000/67108864
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "SRC_H" to 0x3000000/50331648
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "CRTC_W" to 0x400/1024
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "CRTC_H" to 0x300/768
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "FB_ID" to 0x46/70
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.3: Setting property "CRTC_ID" to 0x40/64
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.4, fb 70
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "SRC_X" to 0x0/0
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "SRC_Y" to 0x0/0
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "SRC_W" to 0x4000000/67108864
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "SRC_H" to 0x3000000/50331648
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "CRTC_W" to 0x400/1024
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "CRTC_H" to 0x300/768
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "FB_ID" to 0x46/70
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.4: Setting property "CRTC_ID" to 0x40/64
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     populating plane data: A.5, fb 69
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "SRC_X" to 0x0/0
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "SRC_Y" to 0x0/0
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "SRC_W" to 0x2000000/33554432
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "SRC_H" to 0x2000000/33554432
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "CRTC_W" to 0x200/512
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "CRTC_H" to 0x200/512
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "FB_ID" to 0x45/69
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: plane A.5: Setting property "CRTC_ID" to 0x40/64
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display:     eDP-1: preparing atomic, pipe: A
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: eDP-1: Setting property "CRTC_ID" to 0x40/64
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_kms-DEBUG: display: }
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) CRITICAL: 
+Test assertion failure function wait_for_transition, file 
+../tests/kms_atomic_transition.c:540:
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) CRITICAL: 
+Failed assertion: fd_completed(data->drm_fd)
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_core-INFO: Stack trace:
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_core-INFO:   #0 ../lib/igt_core.c:2055 __igt_fail_assert()
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_core-INFO:   #1 ../tests/kms_atomic_transition.c:537 
+wait_for_transition.constprop.0()
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_core-INFO:   #2 ../tests/kms_atomic_transition.c:687 
+__igt_unique____real_main1123()
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_core-INFO:   #3 ../tests/kms_atomic_transition.c:1123 main()
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_core-INFO:   #4 [__libc_init_first+0x80]
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_core-INFO:   #5 [__libc_start_main+0x98]
+11:14:04.766: ERROR - Igt error: (kms_atomic_transition:1462) 
+igt_core-INFO:   #6 [_start+0x30]
+11:14:04.766: ERROR - Igt error: ****  END  ****
+11:14:04.766: ERROR - Test 
+kms_atomic_transition@plane-toggle-modeset-transition: Fail: See 
+"/results/igt.kms_atomic_transition@plane-toggle-modeset-transition.log"
+11:14:04.766: DEBUG - End test 
+kms_atomic_transition@plane-toggle-modeset-transition
 
-Use the cached values here.
+Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/72735663
 
-> +
-> +=09pos =3D pci_find_ext_capability(pdev, cap);
->  =09if (!pos)
->  =09=09return -ENOTSUPP;
-> =20
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index e3cd9b8f9b734..af41f6c24451f 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -655,6 +655,9 @@ void pci_iov_update_resource(struct pci_dev *dev, int=
- resno);
->  resource_size_t pci_sriov_resource_alignment(struct pci_dev *dev, int re=
-sno);
->  void pci_restore_iov_state(struct pci_dev *dev);
->  int pci_iov_bus_range(struct pci_bus *bus);
-> +void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
-> +=09=09=09       resource_size_t size);
-> +bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev);
->  static inline bool pci_resource_is_iov(int resno)
->  {
->  =09return resno >=3D PCI_IOV_RESOURCES && resno <=3D PCI_IOV_RESOURCE_EN=
-D;
-> @@ -688,6 +691,12 @@ static inline int pci_iov_bus_range(struct pci_bus *=
-bus)
->  {
->  =09return 0;
->  }
-> +static inline void pci_iov_resource_set_size(struct pci_dev *dev, int re=
-sno,
-> +=09=09=09=09=09     resource_size_t size) { }
-> +static inline bool pci_iov_is_memory_decoding_enabled(struct pci_dev *de=
-v)
-> +{
-> +=09return false;
-> +}
->  static inline bool pci_resource_is_iov(int resno)
->  {
->  =09return false;
-> diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
-> index c6657cdd06f67..6cce3e19f22b0 100644
-> --- a/drivers/pci/setup-res.c
-> +++ b/drivers/pci/setup-res.c
-> @@ -423,13 +423,39 @@ void pci_release_resource(struct pci_dev *dev, int =
-resno)
->  }
->  EXPORT_SYMBOL(pci_release_resource);
-> =20
-> +static bool pci_resize_is_memory_decoding_enabled(struct pci_dev *dev,
-> +=09=09=09=09=09=09  int resno)
-> +{
-> +=09u16 cmd;
-> +
-> +=09if (pci_resource_is_iov(resno))
-> +=09=09return pci_iov_is_memory_decoding_enabled(dev);
-> +
-> +=09pci_read_config_word(dev, PCI_COMMAND, &cmd);
-> +
-> +=09return cmd & PCI_COMMAND_MEMORY;
-> +}
-> +
-> +static void pci_resize_resource_set_size(struct pci_dev *dev, int resno,
-> +=09=09=09=09=09 int size)
-> +{
-> +=09resource_size_t res_size =3D pci_rebar_size_to_bytes(size);
-> +=09struct resource *res =3D dev->resource + resno;
+Please could you have a look at these test results and let us know if 
+you need more information. Thank you.
 
-pci_resource_n()
-
-> +
-> +=09if (!pci_resource_is_iov(resno)) {
-> +=09=09resource_set_size(res, res_size);
-> +=09} else {
-> +=09=09resource_set_size(res, res_size * pci_sriov_get_totalvfs(dev));
-
-Should this too be done in pci_iov_resource_set_size()? Why is it being=20
-done here?
-
-> +=09=09pci_iov_resource_set_size(dev, resno, res_size);
-> +=09}
-> +}
-> +
->  int pci_resize_resource(struct pci_dev *dev, int resno, int size)
->  {
->  =09struct resource *res =3D pci_resource_n(dev, resno);
->  =09struct pci_host_bridge *host;
->  =09int old, ret;
->  =09u32 sizes;
-> -=09u16 cmd;
-> =20
->  =09/* Check if we must preserve the firmware's resource assignment */
->  =09host =3D pci_find_host_bridge(dev->bus);
-> @@ -440,8 +466,7 @@ int pci_resize_resource(struct pci_dev *dev, int resn=
-o, int size)
->  =09if (!(res->flags & IORESOURCE_UNSET))
->  =09=09return -EBUSY;
-> =20
-> -=09pci_read_config_word(dev, PCI_COMMAND, &cmd);
-> -=09if (cmd & PCI_COMMAND_MEMORY)
-> +=09if (pci_resize_is_memory_decoding_enabled(dev, resno))
->  =09=09return -EBUSY;
-> =20
->  =09sizes =3D pci_rebar_get_possible_sizes(dev, resno);
-> @@ -459,7 +484,7 @@ int pci_resize_resource(struct pci_dev *dev, int resn=
-o, int size)
->  =09if (ret)
->  =09=09return ret;
-> =20
-> -=09resource_set_size(res, pci_rebar_size_to_bytes(size));
-> +=09pci_resize_resource_set_size(dev, resno, size);
-> =20
->  =09/* Check if the new config works by trying to assign everything. */
->  =09if (dev->bus->self) {
-> @@ -471,7 +496,7 @@ int pci_resize_resource(struct pci_dev *dev, int resn=
-o, int size)
-> =20
->  error_resize:
->  =09pci_rebar_set_size(dev, resno, old);
-> -=09resource_set_size(res, pci_rebar_size_to_bytes(old));
-> +=09pci_resize_resource_set_size(dev, resno, old);
->  =09return ret;
->  }
->  EXPORT_SYMBOL(pci_resize_resource);
->=20
-
---=20
- i.
-
---8323328-2011323846-1741859767=:1742--
+Regards,
+Vignesh
