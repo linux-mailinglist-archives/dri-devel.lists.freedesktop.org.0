@@ -2,83 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F34A5F048
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 11:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0304EA5F04B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 11:09:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13C3510E072;
-	Thu, 13 Mar 2025 10:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D03B10E82C;
+	Thu, 13 Mar 2025 10:09:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="Ox0k6OUJ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ORHszdw8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C89110E839
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 10:08:32 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-3914aba1ce4so592026f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 03:08:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1741860511; x=1742465311;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7kE3JcUtYSd0GRSzqpPo//q/5qu2KjWxCoyea7D1jEY=;
- b=Ox0k6OUJOYfq8VF2p2Y+jcfDfu/tacxFtyBHD77DHS1toeA88Fp5HuvMLmE6kIh38e
- fcNWAny5Mkifyq+3wCVUqB4LZ4hAmtdiX/HN8FrDZ29PkTXY7q5R1Q5cYCzo6T4/Av8j
- 8Hsg1wKcb5qKCMXm90xB68YAbsQ0Dmyb9A3SfLXFoByHZpq5gvdRAyRU0KrfA1Wl0+MD
- yagjYTzffsV+GYxf37mCRzJiPKNrN7RvCdu8RQr3Q8Ct1oVfTuTmHetScXgUBnu8/u0/
- wq1lyPmrjilfcpCvIidWOtTgt+4gVarb70SUPPi3pCKuag4ylIm2vqD8K0zUaxwwNNAR
- e7Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741860511; x=1742465311;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7kE3JcUtYSd0GRSzqpPo//q/5qu2KjWxCoyea7D1jEY=;
- b=DtcQFccZCsGVDSKx33IBAmO3GenClkdeBD5q5JIT5pvS1O416pHTwNIzHfiYXLTRZO
- P2MiBbg+MMBhssuqu4VN/oB01oa+NWimJKIj8RY1RqhVh6DQhAY4dppTFQBAcDDZJuxr
- /xH7xGXdlRQShKzFvi0TzkQcXWaT6c+LusVYwSAasVZHvALnADVLmvZZP+Grqs3iShXA
- oY7+4joMJErbxTFv2qMX79iL2g2HLY8/pdKbuKzTCWplHmbJDecmx+J/OhX9tp2ehI6K
- XjHHQYVSzPu8+wvcCXnf5uq3HTPYBjDR3OFTKYVm5X7M4CMSr/3PYCIhz2EmGNiEyph1
- jeYQ==
-X-Gm-Message-State: AOJu0YxVIHx7y/qlbqnIuA1tYARcXYIax3ZhVF7eGl6qgBTzuHCqikB4
- TqzlwNGWPRJQ3e/Qr9GJ7PD54INWM6OQcrTg1rgkRdDAI7tECPOOrabRRLGwuuA=
-X-Gm-Gg: ASbGncsQSZuEeg9UiKLkKqdmeU+qcfqslEelyySnU7H+sz8XzknKIuS3XyRH6H9Isek
- 6JxEjlB7/nXIz19CGCngJu0iIXEwafzC0kdc6Zq0EkLUjtfCO4UpMZh0xGz1OfomVQ93u2Y3tud
- fumW1He/NoXNBGW2UOAAHMoHCXP+abzba4wawMsruofO+k+wk5nS+WquSYIvyt5IqhqP6ITsvqM
- jzDLcwymhUsfxxjo/jfcpzCdRHygxoEd71GBJh+X7bHqge9pzcv6oR3QOeRzcOw/oMNg0ltBnMz
- epj1bEi8IKEoKpqTQ8pUBb5MuUABMrjHQ2GpLqpNsQjjztHk1jGntEvY78lb
-X-Google-Smtp-Source: AGHT+IE3V8y7/n//oMXFoucT31ml+gNQcei6mxWF6KuYlGXfqkkpPJTUNhIKvZMgXcLp83kxfHPbEQ==
-X-Received: by 2002:a05:6000:402a:b0:390:e535:8758 with SMTP id
- ffacd0b85a97d-39132d2afc2mr17732820f8f.9.1741860510554; 
- Thu, 13 Mar 2025 03:08:30 -0700 (PDT)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-395c8975afesm1565975f8f.47.2025.03.13.03.08.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Mar 2025 03:08:30 -0700 (PDT)
-Message-ID: <945d134f-8790-4aa9-a33f-61aee0ed1a4a@ursulin.net>
-Date: Thu, 13 Mar 2025 10:08:29 +0000
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C94210E83E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 10:09:51 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C0D6E441FE;
+ Thu, 13 Mar 2025 10:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1741860588;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nHKf+FrIWyyMbY6E5gPIzrY6CJ467svl00OxGCD4cvw=;
+ b=ORHszdw8DzNsFfh2eJlXKvCtI12+dhaGWa4XNvq6dLo7mQjOiHSvqGry/UtTYkthCdPIkg
+ pGyCf0iExCLm7e9GZcGTzN6XC05ywIIrvTox2tC/QQ9MyF5XDBUI3UW2PbjtlqCZ8QiRuI
+ 5+rs5+KL7DqeauvxebaXmS4drTRBGnp+680onwTtS+ghg3hBJmTvfVzlOadv3hx1B50H1/
+ OEqDdBFnhhY7aR2A+0/hefGzO4PHb2vTyJkx4xQ+bb61F6sa4s2rRkIzdGWL/KIx8zTs/P
+ bnJZPqWI/iSbyH8aoCurTRNhnHua8chUV28AEJ7NO50HB3F5UiOzb6kO7rpS1g==
+Date: Thu, 13 Mar 2025 11:09:44 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/2] drm/panel: Add new helpers for refcounted panel
+ allocatons
+Message-ID: <20250313110944.1c1f7e4e@booty>
+In-Reply-To: <20250312-drm-panel-v1-1-e99cd69f6136@redhat.com>
+References: <20250312-drm-panel-v1-0-e99cd69f6136@redhat.com>
+ <20250312-drm-panel-v1-1-e99cd69f6136@redhat.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/sched: Fix outdated comments referencing thread
-To: Philipp Stanner <phasta@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250305155326.153596-2-phasta@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250305155326.153596-2-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduvdejieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdeljeejuddvudetffdtudelfedugfduledtueffuedufefgudegkeegtdeihedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopegrshhrihhvrghtshesrhgvughhrghtrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehquhhit
+ ggpjhgvshhsiihhrghnsehquhhitghinhgtrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,144 +70,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Anusha,
 
-On 05/03/2025 15:53, Philipp Stanner wrote:
-> The GPU scheduler's comments refer to a "thread" at various places.
-> Those are leftovers from commit a6149f039369 ("drm/sched: Convert drm
-> scheduler to use a work queue rather than kthread").
+On Wed, 12 Mar 2025 20:54:42 -0400
+Anusha Srivatsa <asrivats@redhat.com> wrote:
+
+> Introduce reference counted allocations for panels to avoid
+> use-after-free. The patch adds the macro devm_drm_bridge_alloc()
+> to allocate a new refcounted panel. Followed the documentation for
+> drmm_encoder_alloc() and devm_drm_dev_alloc and other similar
+> implementations for this purpose.
 > 
-> Replace all references to kthreads.
+> Also adding drm_panel_get() and drm_panel_put() to suitably
+> increment and decrement the refcount
 > 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
-> Changes in v2:
->    - Speak consistently about work items. (Danilo)
->    - Remove Fixes: tags. (Danilo)
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c |  8 ++++----
->   drivers/gpu/drm/scheduler/sched_main.c   | 24 +++++++++++++-----------
->   include/drm/gpu_scheduler.h              | 10 +++++-----
->   3 files changed, 22 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 87f88259ddf6..f9811420c787 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -538,10 +538,10 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->   		return;
->   
->   	/*
-> -	 * Only when the queue is empty are we guaranteed that the scheduler
-> -	 * thread cannot change ->last_scheduled. To enforce ordering we need
-> -	 * a read barrier here. See drm_sched_entity_pop_job() for the other
-> -	 * side.
-> +	 * Only when the queue is empty are we guaranteed that
-> +	 * drm_sched_run_job_work() cannot change entity->last_scheduled. To
-> +	 * enforce ordering we need a read barrier here. See
-> +	 * drm_sched_entity_pop_job() for the other side.
->   	 */
->   	smp_rmb();
->   
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index c634993f1346..c97655aa7ab4 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -389,7 +389,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
->    * drm_sched_job_done - complete a job
->    * @s_job: pointer to the job which is done
->    *
-> - * Finish the job's fence and wake up the worker thread.
-> + * Finish the job's fence and resubmit the work items.
->    */
->   static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
->   {
-> @@ -549,9 +549,10 @@ static void drm_sched_job_timedout(struct work_struct *work)
->   
->   	if (job) {
->   		/*
-> -		 * Remove the bad job so it cannot be freed by concurrent
-> -		 * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
-> -		 * is parked at which point it's safe.
-> +		 * Remove the bad job so it cannot be freed by a concurrent
-> +		 * &struct drm_sched_backend_ops.free_job. It will be
-> +		 * reinserted after the scheduler's work items have been
-> +		 * cancelled, at which point it's safe.
->   		 */
->   		list_del_init(&job->list);
->   		spin_unlock(&sched->job_list_lock);
-> @@ -597,10 +598,10 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
->   
->   	/*
->   	 * Reinsert back the bad job here - now it's safe as
-> -	 * drm_sched_get_finished_job cannot race against us and release the
-> +	 * drm_sched_get_finished_job() cannot race against us and release the
->   	 * bad job at this point - we parked (waited for) any in progress
-> -	 * (earlier) cleanups and drm_sched_get_finished_job will not be called
-> -	 * now until the scheduler thread is unparked.
-> +	 * (earlier) cleanups and drm_sched_get_finished_job() will not be
-> +	 * called now until the scheduler's work items are submitted again.
->   	 */
->   	if (bad && bad->sched == sched)
->   		/*
-> @@ -613,7 +614,8 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
->   	 * Iterate the job list from later to  earlier one and either deactive
->   	 * their HW callbacks or remove them from pending list if they already
->   	 * signaled.
-> -	 * This iteration is thread safe as sched thread is stopped.
-> +	 * This iteration is thread safe as the scheduler's work items have been
-> +	 * cancelled.
->   	 */
->   	list_for_each_entry_safe_reverse(s_job, tmp, &sched->pending_list,
->   					 list) {
-> @@ -678,9 +680,9 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
->   	struct drm_sched_job *s_job, *tmp;
->   
->   	/*
-> -	 * Locking the list is not required here as the sched thread is parked
-> -	 * so no new jobs are being inserted or removed. Also concurrent
-> -	 * GPU recovers can't run in parallel.
-> +	 * Locking the list is not required here as the scheduler's work items
-> +	 * are currently not running, so no new jobs are being inserted or
-> +	 * removed. Also concurrent GPU recovers can't run in parallel.
->   	 */
->   	list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
->   		struct dma_fence *fence = s_job->s_fence->parent;
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 50928a7ae98e..d8bfd46c1117 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -192,7 +192,7 @@ struct drm_sched_entity {
->   	 * @last_scheduled:
->   	 *
->   	 * Points to the finished fence of the last scheduled job. Only written
-> -	 * by the scheduler thread, can be accessed locklessly from
-> +	 * by drm_sched_entity_pop_job(). Can be accessed locklessly from
->   	 * drm_sched_job_arm() if the queue is empty.
->   	 */
->   	struct dma_fence __rcu		*last_scheduled;
-> @@ -426,14 +426,14 @@ struct drm_sched_backend_ops {
->   	 * Drivers typically issue a reset to recover from GPU hangs, and this
->   	 * procedure usually follows the following workflow:
->   	 *
-> -	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
-> -	 *    scheduler thread and cancel the timeout work, guaranteeing that
-> -	 *    nothing is queued while we reset the hardware queue
-> +	 * 1. Stop the scheduler using drm_sched_stop(). This will cancel the
-> +	 *    scheduler's work items, guaranteeing that nothing is queued while
-> +	 *    we reset the hardware queue.
->   	 * 2. Try to gracefully stop non-faulty jobs (optional)
->   	 * 3. Issue a GPU reset (driver-specific)
->   	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
->   	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
-> -	 *    jobs can be queued, and the scheduler thread is unblocked
-> +	 *    jobs can be queued, and the scheduler's work items are resubmitted.
->   	 *
->   	 * Note that some GPUs have distinct hardware queues but need to reset
->   	 * the GPU globally, which requires extra synchronization between the
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+I'm very happy to see the very first step of the panel rework mentioned
+by Maxime see the light! :-)
 
-Regards,
+This patch looks mostly good to me, and the similarity with my bridge
+refcounting work is by itself reassuring.
 
-Tvrtko
+I have a few notes, one is relevant and the others are minor details,
+see below.
 
+In the Subject line: s/allocatons/allocations/
+
+[...]
+
+> +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t offset,
+> +			     const struct drm_panel_funcs *funcs)
+> +{
+> +	void *container;
+> +	struct drm_panel *panel;
+> +	int err;
+> +
+> +	if (!funcs) {
+> +		dev_warn(dev, "Missing funcs pointer\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	container = kzalloc(size, GFP_KERNEL);
+> +	if (!container)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	panel = container + offset;
+> +	panel->container_offset = offset;
+> +	panel->funcs = funcs;
+> +	kref_init(&panel->refcount);
+> +
+> +	err = devm_add_action_or_reset(dev, drm_panel_put_void, panel);
+> +	if (err)
+> +		return ERR_PTR(err);
+> +
+> +	drm_panel_init(panel, dev, funcs, panel->connector_type);
+
+panel->connector_type here is uninitialized. You are passing
+panel->connector_type to drm_panel_init(), which will then copy it into
+panel->connector_type itself.
+
+> +
+> +	/**
+> +	 * @container_offset: Offset of this struct within the container
+> +	 * struct embedding it. Used for refcounted panels to free the
+> +	 * embeddeing struct when the refcount drops to zero.
+> +	 */
+> +	size_t container_offset;
+
+While storing the offset obviously works, and that's what I had
+implemented in my latest bridge refcounting series, after some
+discussion with Maxime we agreed storing a container pointer instead of
+the offset is cleaner. I think it would be good here as well.
+
+See: https://lore.kernel.org/lkml/20250227-macho-convivial-tody-cea7dc@houat/
+
+> +/**
+> + * drm_panel_get - Acquire a panel reference
+> + * @panel: DRM panel
+> + *
+> + * This function increments the panel's refcount.
+> + *
+> + */
+> +static inline void drm_panel_get(struct drm_panel *panel)
+> +{
+> +
+
+Remove empty line.
+
+> +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t offset,
+> +			     const struct drm_panel_funcs *funcs);
+> +
+> +/**
+> + * devm_drm_panel_alloc - Allocate and initialize an refcounted panel
+
+s/an/a/ -- same typo as in my bridge series so I'm fixing it in my
+series as well :)
+
+> + * @dev: struct device of the panel device
+> + * @type: the type of the struct which contains struct &drm_panel
+> + * @member: the name of the &drm_panel within @type
+> + * @funcs: callbacks for this panel
+> + *
+> + * The returned refcount is initialised to 1
+
+In my opinion it is important to clarify that the caller does not have
+to explicitly call drm_panel_put() on the returned pointer, because
+devm will do it. Without clarifying, a user might think they need to,
+and that would result in an extra put, which would be a bug.
+
+Adapting from [0], that would be:
+
+ * The returned refcount is initialized to 1. This reference will be
+ * automatically dropped via devm (by calling drm_panel_put()) when @dev
+ * is removed.
+
+[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com/
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
