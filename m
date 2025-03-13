@@ -2,53 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73349A5F8BD
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 15:42:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68649A5F8DA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 15:46:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C878A10E8BD;
-	Thu, 13 Mar 2025 14:42:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F8D210E21D;
+	Thu, 13 Mar 2025 14:46:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FThduapB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="A5cnM9XV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4920410E8BD
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 14:42:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EE2AAA47524;
- Thu, 13 Mar 2025 14:36:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2993FC4CEE5;
- Thu, 13 Mar 2025 14:42:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741876937;
- bh=6dpJeyLN21oQG4oE0dG/l6v4eRgwx6mxRl3Myz7KDZU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FThduapBGbRyh3/xQxSUHags2TA2PPc0P3PLGau0imU26/c60VKrAr0nooOUMTe3c
- 1QtVgKznPTvQVpPNW6MJ3rbmRY28jNNiuSPauFv4ncWMbcMjGDgI2tpqT4ymqH9gEu
- G7SzsDXuO6X8IuZ3mmnuKr3v/4UJi3hX9hHjkyGzU1ULhTiOUERzfdKasdDvS2AenS
- ql0AXncyCIZwb2AdNFTXV/NONVjjB+ot4iLnz1G9VElr8NLALLakiEdlA28qZkDxqw
- SUEttWjW311v4nvtNOM1bTNTvqs3FZtLbj3E+AJtYWqMU4oDM0Cm7vfKwvdH+4TaTQ
- QPK0d3skFI2/g==
-Date: Thu, 13 Mar 2025 15:42:15 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 1/2] drm/panel: Add new helpers for refcounted panel
- allocatons
-Message-ID: <20250313-feathered-peach-okapi-b32f9d@houat>
-References: <20250312-drm-panel-v1-0-e99cd69f6136@redhat.com>
- <20250312-drm-panel-v1-1-e99cd69f6136@redhat.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388CE10E8C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 14:46:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=P3srhLIfq8Wq4n45Wagy1GLghBDDbdc8AIcVQdkfytk=; b=A5cnM9XVhkblo5+fl9OPXY1H/R
+ X8WPUr6csTXcvhgikGs5W5sDBy7g9Ep07YAfGrooShi3hfFzHERvtOsHwkhN3dR5+nQ0VATApyDhD
+ ZQAZ7Uj8w4ico5hXCBra9jTgAppYL29rP6AR36ujbl/PigeTGfIKjfi4ld1TrjW7+dU2bOaPJB1VW
+ xO7RO4iXl4ixE1XJUCTKAcgkNBg4ghcSSO196BwfD5eFjaXAbAari/tRaG4fEZ3k03zNcqrSqB1Ht
+ rvdGRW9UeRTtFnU0ENZwuOq+kABgfFBZ4oFK88vJzqHLtJHBVyRNQcLIL6h5BANphT9MLDP3frHx+
+ ORsVpmZw==;
+Received: from [189.7.87.170] (helo=janis.local)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tsjpQ-008Cju-UH; Thu, 13 Mar 2025 15:46:39 +0100
+From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Subject: [PATCH v4 0/7] drm/v3d: Fix GPU reset issues on the Raspberry Pi 5
+Date: Thu, 13 Mar 2025 11:43:25 -0300
+Message-Id: <20250313-v3d-gpu-reset-fixes-v4-0-c1e780d8e096@igalia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4vtgk7bl5mhaj45p"
-Content-Disposition: inline
-In-Reply-To: <20250312-drm-panel-v1-1-e99cd69f6136@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAA7v0mcC/23NQQ7CIBAF0Ks0rMXAgG1x5T2MCwJDS6JtA5Vom
+ t5d2sSoscv/J//NRCIGj5Eci4kETD76vstB7gpiWt01SL3NmQCDAwOQNAlLm+FOA0YcqfMPjBQ
+ scGcqVnFuSV4OAddDHp4vObc+jn14rk8SX9q3V256iVNGa6FVqZy1yvCTb/TV673pb2QBE3wQw
+ eptBDICSigjmGPGyD9EfCGcbyMiI6V0lZYgKzTsB5nn+QUrxOXZQQEAAA==
+X-Change-ID: 20250224-v3d-gpu-reset-fixes-2d21fc70711d
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, kernel-dev@igalia.com, stable@vger.kernel.org, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Emma Anholt <emma@anholt.net>, "Rob Herring (Arm)" <robh@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3355; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=fGbjVVhtgTGnk+Pdsq2/tMP9YwJwXrXJYfwHG5ZtuOM=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBn0u/HlES3T+/8LfsRS2qERjnnzhB7NYzEoTXLB
+ sDmyEY5U3iJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCZ9LvxwAKCRA/8w6Kdoj6
+ qvg2B/44yeYdYbn7dPw5jdr2dYPPF7aGGCfhOdBTwYVqQa6VupwU+Dt/3gcTEtUxkSM++I3Cbvf
+ senMLa0t+JTpwIUI0zxewvr9nfqWgKzmNBJq9SOc4rvzSeII61Q/l0kEPLWPvQsMeobMfG6tFOI
+ FYKqZHNVkx+nFlpKc+I0ext2K17YiaVFJlvSpqKNctda2V7DDRBTVAFxx9SAuAns9Lb/mX5k4ht
+ B7H53wvLIiCP9jg06cv7oWxtDSg7qJu8FkbqhK+fNCT7WV/nQgTl/HgD0BGduDSHGX11dekY0J1
+ cZsKuSHsQxW1fpZUnqnpsj9I7rNo4yZCThFQFJ2i4QMcXaig
+X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
+ fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,148 +79,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series addresses GPU reset issues reported in [1], where running a
+long compute job would trigger repeated GPU resets, leading to a UI
+freeze.
 
---4vtgk7bl5mhaj45p
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC 1/2] drm/panel: Add new helpers for refcounted panel
- allocatons
-MIME-Version: 1.0
+Patches #1 and #2 prevent the same faulty job from being resubmitted in a
+loop, mitigating the first cause of the issue.
 
-Hi Anusha,
+However, the issue isn't entirely solved. Even with only a single GPU
+reset, the UI still freezes on the Raspberry Pi 5, indicating a GPU hang.
+Patches #3 to #6 address this by properly configuring the V3D_SMS
+registers, which are required for power management and resets in V3D 7.1.
 
-In addition to the feedback Luca already provided, I have a few comments
+Patch #7 updates the DT maintainership, replacing Emma with the current
+v3d driver maintainer.
 
-On Wed, Mar 12, 2025 at 08:54:42PM -0400, Anusha Srivatsa wrote:
-> Introduce reference counted allocations for panels to avoid
-> use-after-free. The patch adds the macro devm_drm_bridge_alloc()
-> to allocate a new refcounted panel. Followed the documentation for
-> drmm_encoder_alloc() and devm_drm_dev_alloc and other similar
-> implementations for this purpose.
->=20
-> Also adding drm_panel_get() and drm_panel_put() to suitably
-> increment and decrement the refcount
->=20
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->  drivers/gpu/drm/drm_panel.c | 50 ++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_panel.h     | 58 +++++++++++++++++++++++++++++++++++++++=
-++++++
->  2 files changed, 108 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index c627e42a7ce70459f50eb5095fffc806ca45dabf..b55e380e4a2f7ffd940c207e8=
-41c197d85113907 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -79,6 +79,7 @@ EXPORT_SYMBOL(drm_panel_init);
->   */
->  void drm_panel_add(struct drm_panel *panel)
->  {
-> +	drm_panel_get(panel);
->  	mutex_lock(&panel_lock);
->  	list_add_tail(&panel->list, &panel_list);
->  	mutex_unlock(&panel_lock);
-> @@ -96,6 +97,7 @@ void drm_panel_remove(struct drm_panel *panel)
->  	mutex_lock(&panel_lock);
->  	list_del_init(&panel->list);
->  	mutex_unlock(&panel_lock);
-> +	drm_panel_put(panel);
->  }
->  EXPORT_SYMBOL(drm_panel_remove);
+[1] https://github.com/raspberrypi/linux/issues/6660
 
-I think these two should be added as a separate patch, with some
-additional comment on why it's needed (because we store a pointer in the
-panel list).
+Best Regards,
+- Maíra
 
-> =20
-> @@ -355,6 +357,54 @@ struct drm_panel *of_drm_find_panel(const struct dev=
-ice_node *np)
->  }
->  EXPORT_SYMBOL(of_drm_find_panel);
-> =20
-> +/* Internal function (for refcounted panels) */
-> +void __drm_panel_free(struct kref *kref)
-> +{
-> +	struct drm_panel *panel =3D container_of(kref, struct drm_panel, refcou=
-nt);
-> +	void *container =3D ((void *)panel) - panel->container_offset;
-> +
-> +	kfree(container);
-> +}
-> +EXPORT_SYMBOL(__drm_panel_free);
-> +
-> +static void drm_panel_put_void(void *data)
-> +{
-> +	struct drm_panel *panel =3D (struct drm_panel *)data;
-> +
-> +	drm_panel_put(panel);
-> +}
-> +
-> +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t off=
-set,
-> +			     const struct drm_panel_funcs *funcs)
-> +{
-> +	void *container;
-> +	struct drm_panel *panel;
-> +	int err;
-> +
-> +	if (!funcs) {
-> +		dev_warn(dev, "Missing funcs pointer\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	container =3D kzalloc(size, GFP_KERNEL);
-> +	if (!container)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	panel =3D container + offset;
-> +	panel->container_offset =3D offset;
-> +	panel->funcs =3D funcs;
-> +	kref_init(&panel->refcount);
-> +
-> +	err =3D devm_add_action_or_reset(dev, drm_panel_put_void, panel);
-> +	if (err)
-> +		return ERR_PTR(err);
-> +
-> +	drm_panel_init(panel, dev, funcs, panel->connector_type);
-> +
-> +	return container;
-> +}
-> +EXPORT_SYMBOL(__devm_drm_panel_alloc);
+---
+v1 -> v2:
+- [1/6, 2/6, 5/6] Add Iago's R-b (Iago Toral)
+- [3/6] Use V3D_GEN_* macros consistently throughout the driver (Phil Elwell)
+- [3/6] Don't add Iago's R-b in 3/6 due to changes in the patch
+- [4/6] Add per-compatible restrictions to enforce per‐SoC register rules (Conor Dooley)
+- [6/6] Add Emma's A-b, collected through IRC (Emma Anholt)
+- [6/6] Add Rob's A-b (Rob Herring)
+- Link to v1: https://lore.kernel.org/r/20250226-v3d-gpu-reset-fixes-v1-0-83a969fdd9c1@igalia.com
 
-Similarly, here, I think we'd need to split that some more. Ideally, we
-should have a series of patches doing
+v2 -> v3:
+- [3/7] Add Iago's R-b (Iago Toral)
+- [4/7, 5/7] Separate the patches to ease the reviewing process -> Now,
+  PATCH 4/7 only adds the per-compatible rules and PATCH 5/7 adds the
+  SMS registers
+- [4/7] `allOf` goes above `additionalProperties` (Krzysztof Kozlowski)
+- [4/7, 5/7] Sync `reg` and `reg-names` items (Krzysztof Kozlowski)
+- Link to v2: https://lore.kernel.org/r/20250308-v3d-gpu-reset-fixes-v2-0-2939c30f0cc4@igalia.com
 
-1: Adding that allocation function you have right now, but using
-   devm_kzalloc
+v3 -> v4:
+- [4/7] BCM2712 has an external reset controller, therefore the "bridge"
+	register is not needed (Krzysztof Kozlowski)
+- [4/7] Remove the word "required" from the reg descriptions (Rob Herring)
+- [5/7] Improve commit message (Rob Herring)
+- Link to v3: https://lore.kernel.org/r/20250311-v3d-gpu-reset-fixes-v3-0-64f7a4247ec0@igalia.com
 
-2: Adding the reference counting to drm_panel, with drm_panel_get /
-   drm_panel_put and the devm_action to put the reference in
-   __devm_drm_panel_alloc()
+---
+Maíra Canal (7):
+      drm/v3d: Don't run jobs that have errors flagged in its fence
+      drm/v3d: Set job pointer to NULL when the job's fence has an error
+      drm/v3d: Associate a V3D tech revision to all supported devices
+      dt-bindings: gpu: v3d: Add per-compatible register restrictions
+      dt-bindings: gpu: v3d: Add SMS register to BCM2712 compatible
+      drm/v3d: Use V3D_SMS registers for power on/off and reset on V3D 7.x
+      dt-bindings: gpu: Add V3D driver maintainer as DT maintainer
 
-3: Adding X patches to add calls to drm_bridge_get/drm_bridge_put
-   everywhere it's needed, starting indeed by
-   drm_panel_add/drm_panel_put. We don't have to do all of them in that
-   series though. of_drm_find_panel though will probably merit a series
-   of its own, given we'd have to fix all its callers too.
+ .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      |  77 ++++++++++---
+ drivers/gpu/drm/v3d/v3d_debugfs.c                  | 126 ++++++++++-----------
+ drivers/gpu/drm/v3d/v3d_drv.c                      |  62 +++++++++-
+ drivers/gpu/drm/v3d/v3d_drv.h                      |  22 +++-
+ drivers/gpu/drm/v3d/v3d_gem.c                      |  27 ++++-
+ drivers/gpu/drm/v3d/v3d_irq.c                      |   6 +-
+ drivers/gpu/drm/v3d/v3d_perfmon.c                  |   4 +-
+ drivers/gpu/drm/v3d/v3d_regs.h                     |  26 +++++
+ drivers/gpu/drm/v3d/v3d_sched.c                    |  29 ++++-
+ 9 files changed, 279 insertions(+), 100 deletions(-)
+---
+base-commit: 10646ddac2917b31c985ceff0e4982c42a9c924b
+change-id: 20250224-v3d-gpu-reset-fixes-2d21fc70711d
 
-4: Convert some panels to the new allocation function. You already did
-   that with panel_simple so there's nothing to change yet, but once we
-   agree on the API we should mass convert all the panels.
-
-Maxime
-
---4vtgk7bl5mhaj45p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ9LuxgAKCRDj7w1vZxhR
-xSRgAQCno5eoDe+xyhVEei0/Ps82ZZhNj1CsmAZx5K/86MEOaQEAzEUc18v3gy35
-monod6iGrJugTyHpZo+jVW5lOddsRQI=
-=+pVU
------END PGP SIGNATURE-----
-
---4vtgk7bl5mhaj45p--
