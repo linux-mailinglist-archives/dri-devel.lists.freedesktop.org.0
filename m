@@ -2,156 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD69A5F50A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 13:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E533BA5F58F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 14:12:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6F610E884;
-	Thu, 13 Mar 2025 12:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7245010E88B;
+	Thu, 13 Mar 2025 13:12:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="k9NIfC8L";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eNckM7B2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D6B10E87F;
- Thu, 13 Mar 2025 12:58:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7C2F10E889;
+ Thu, 13 Mar 2025 13:12:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741871525; x=1773407525;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=jV/3+Hz0gP7BZBzbdHB5pAHSlIAoNXddHHEyTofXLxQ=;
+ b=eNckM7B2ztColTaZQGTuADja6TVNmrKr/3qRHNHeoW2seZHPp5tWfVrN
+ EFCE749gdvnV39kc2b3NvZuRsQTbXqExE2mUP+u415Ijx5KJMUOAToS2I
+ WqzPY2Ysll4dV0VRgdQs1ig76GYuLnqxlcGZz+s1GULbECSV/1CwbxRax
+ 679H/1gv4qOEFDNeEtke0dUv5NSvjAtHU1wDqdnu1QPlFBDlzm/NMnmYh
+ I/3aL2cIB1apoe8+4djGdYEcaqiCNQ3HgDewqIWYD3Ubp011bfDBDinwh
+ optFoFNbuA1GaajKiEKZoSbsh6lKrqieB3ijxw0qvrdurSIZqTdjqZ/5q g==;
+X-CSE-ConnectionGUID: JOEV9TbzRVmrb1L3wQQT3g==
+X-CSE-MsgGUID: vlvOg6BLRhSzBBei4o7g5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="46638094"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="46638094"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2025 06:12:05 -0700
+X-CSE-ConnectionGUID: tJXtb8axTWWC4E0kukovWQ==
+X-CSE-MsgGUID: n+fCf/GwQSi6CfdgZQC4lA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="158104693"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2025 06:12:04 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Thu, 13 Mar 2025 06:12:03 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Thu, 13 Mar 2025 06:12:03 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 13 Mar 2025 06:12:02 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nDa2jDZ99amrFtskZjOIAaZhse3y3y4/NNjGoS6lsVvUX02KQJ1Qq8CSzR+6kuKBYTPn+4Mi7fEQuNOXy5alvoBdDeEmW04GFssvP65PqO0sw3CiYXDPn8Yk5L1Nt6YPYVDrKhYUktImMurrNwfBsQUqqdNUEJoEZpVwcX3ppvAEqU1jiJscZ1UwrVmse9j5Eh0OtND9KMwinKhgwRFIacvuuUYu9FDtFH37bm7FJNwrCTmuo2tYKhYB/hIjcUt59sPjZM60qjFN4RqQgB1Z9Vsv9hssrBdX2g1HbLnCUyUBPlIPhIq/E1/C9SDYz+WwTlMBhdIRUpL2TjTMjwN22Q==
+ b=aMb9zmYGEZ7nxdqDgkXbr/Rl0dWQUb/6HNhYjxe+YNt4QSmvqqpPdQqGhrZvq2hkFwc0qJtZ2M56hjwpSmq4WRiKtDdmroOauALC6m0gve8v9Hvt3UM8x94q5aGFtaCCJYoSmwnhgz0b+eU/Vkgz2TmJ29YzjpImlBOlUxtO/MEaBvS7i/4QI7BjxbscE7Yv/0B2YfUizt/MST+0qZMhHDF2F8LBLKKJvzP4TLpOoa2a8OVC6V/heV+8y1R0n99dWNsBzfjh7UuZylU1JwJVNdziZXr+S3ju5GwbNtvVKSW+z2KUC0IG5q5QigM8U99kpzC7Y7vomrhrIoD8nCpLCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BuzgTh9e76d/JQzkZJXRCeyGKNCHhJT1YuB1UW/Jx4k=;
- b=u+fOZ1Y8Qas54KrzX5lI67zvweEk1BwooxCWizQ01WJZaoUoMUn3NblWDJILfNvP1Imf8rf1XexPXwrPDK9oG4HdkEsSR3NgoaBV2o2nqQ03hXU9m3mcWxzrZCfkCzlkD1J/8yLyjm7GXIO9/ykYcOmnXkTAJryTfXVQMyBUYnGBczhYHeCQod0j3KjVhalGdAGocQM8kRsp+SN7KO2w4ug73n01S64NWyeJqY7ncB3K5aISZvKkwtBymlph0r4evW3t3f0LpIIUos3LoHMJAhWzhLdiJsDozJWSzoGehZJU5ZRjUbo8fWClARCOtDFFfXdq2+B/rR2Vyn4aNtmj8A==
+ bh=Epffd/UtpAoPwdA86vkNKPgdInsiIlbvmh3BKq6UyRM=;
+ b=Z/hsQap9UXF+zFfCgxVtNIZ5STGb+mErnqKzxlT4+8iML81XUyN71HD4h1NlH8nTSr880zNlxFv/lIJF8VQ3h1MWpkEBXbhiL3rBWOTzsNC+sZwRE2lkEXaZCUvQwpZhiJokjkmYg1o/Ipnavmecm6XrabcSBWPJ5sZP190NCQfXVY3AVVTC9xeAwyo/0D0/IPzc/DaO+3/Z+Ay5cg4k2HjNVlUGUkv4cJ9NucGzvzIuvBv6Sx8g8heHYnHjemwMqT1f9B3w8+NYgsas4u0XLHUvkOShCvBujst0Ya8oTGOPis+oyq31yhT9bV7NvE2O5eVyHDStyuXR5fdBgmJPyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BuzgTh9e76d/JQzkZJXRCeyGKNCHhJT1YuB1UW/Jx4k=;
- b=k9NIfC8LDtsTuhTaLjtGzh+c8BXWC1GU/0yxMG8lsytaucCh7mCvvc5S2cKAZIDlHA3DAuhZ8AjpEXGDDLmQFN+HlHhcjxCbyeODSi3Z0wjh/nE8XbLChbb1QK9fJcRTnrT10v/LU7L6YiIBmQ9IsueSuZLDL7A5i6ZodpBMfTw=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA0PPFC855560D7.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::be4) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Thu, 13 Mar
- 2025 12:58:00 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
- 12:58:00 +0000
-Message-ID: <50a6d33b-1b8f-4a3e-8698-1e4508eb3be0@amd.com>
-Date: Thu, 13 Mar 2025 13:57:53 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/19] drm, drm/xe: Multi-device GPUSVM
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
- Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
- Matthew Brost <matthew.brost@intel.com>, dakr@kernel.org,
- "Mrozek, Michal" <michal.mrozek@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-References: <20250312210416.3120-1-thomas.hellstrom@linux.intel.com>
- <3c7950d8-75bd-48d0-9713-b76feea87a37@amd.com>
- <466cdc46b81b4e1a51fa1accee8f56487cce1268.camel@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <466cdc46b81b4e1a51fa1accee8f56487cce1268.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0433.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d1::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8019.namprd11.prod.outlook.com (2603:10b6:8:12e::18)
+ by DS0PR11MB8070.namprd11.prod.outlook.com (2603:10b6:8:12d::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.28; Thu, 13 Mar
+ 2025 13:11:46 +0000
+Received: from DS0PR11MB8019.namprd11.prod.outlook.com
+ ([fe80::d2ab:ff8b:3430:b695]) by DS0PR11MB8019.namprd11.prod.outlook.com
+ ([fe80::d2ab:ff8b:3430:b695%6]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
+ 13:11:45 +0000
+Date: Thu, 13 Mar 2025 14:11:35 +0100
+From: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chris Wilson
+ <chris.p.wilson@linux.intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Alan Previn <alan.previn.teres.alexis@intel.com>, Ashutosh Dixit
+ <ashutosh.dixit@intel.com>, Daniele Ceraolo Spurio
+ <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH v4] drm/i915: Fix harmful driver register/unregister
+ asymmetry
+Message-ID: <iij22uuf5v2qq5vss5uszwowkzqrlgqbo5vxuidocebgqu52kr@tt3hdgn2ppgq>
+References: <20250311200550.637383-2-janusz.krzysztofik@linux.intel.com>
+ <bqek2zam4zle4ilp3fcce4tnkocqdj7vfczvpswr6sswjbn3kr@a6pmh5uofyf3>
+ <3330897.aV6nBDHxoP@jkrzyszt-mobl2.ger.corp.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <3330897.aV6nBDHxoP@jkrzyszt-mobl2.ger.corp.intel.com>
+X-ClientProxiedBy: VI1PR06CA0188.eurprd06.prod.outlook.com
+ (2603:10a6:803:c8::45) To DS0PR11MB8019.namprd11.prod.outlook.com
+ (2603:10b6:8:12e::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PPFC855560D7:EE_
-X-MS-Office365-Filtering-Correlation-Id: c60db6af-b2ee-4a08-59b8-08dd622eaee0
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8019:EE_|DS0PR11MB8070:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d5e3deb-76e4-42c8-583b-08dd62309b29
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MFVvMzZJNW83VTdKT2ZxOE5CS1J3WGw4YklVV21Rdk1makxCY2VlK0g1N29E?=
- =?utf-8?B?c0pzTWY4K2kyZlZzbHFBOG9GMmgrcWwraXlvblk4L0tyVm9EcXg5WjBoL2F2?=
- =?utf-8?B?V3dqcm1YdFJSZnNUaHJaR0hJVFAyUGVxazMvZnFmQ3krcFdqSnpBaXFrQlNC?=
- =?utf-8?B?TmxuWndUTkt5UHpWOFNEQXBWT0kwSXM2OHpDbFdjOE5rSk8wMVVLMEZLNU5l?=
- =?utf-8?B?UGZNNmZ5U1hpcUlJUTYrNkxGM1V2SkJyZ0g2R3VHN3RFUE5vSjFYb3Vxemcz?=
- =?utf-8?B?QTRxNGdYUG1jL09iMEE1enBmVmFYQ3haclFwN3NJTGpPTEFsZnBhSGhEbm9M?=
- =?utf-8?B?L3hNNEQ2TmN5eFpXNVdLNXhxNzc0RjQxYldoYTFYNFBzOVhjNkJZS29NOUVD?=
- =?utf-8?B?elA4UGMvTGlqOENpRUtQK2xCcG5TMkduanY3TVFMT2FPdDRWanpMdW9wLzV0?=
- =?utf-8?B?QXdqZTRGZjI2NFBkSzRTK00vZ0UyV25jd1FUZUVjT1h3SG9rbmFLSnRLV2pp?=
- =?utf-8?B?T0F5NWJYMWVIeFM0ME1RUmdxc09GcWVwREJNVHNvT3grV05pNXBTS25sSWFQ?=
- =?utf-8?B?clFkaXpJb2lCQm9QVUh1RU0xN1h5Zk1sM2F0UWo0ankvNUZncm56NlVvbFRm?=
- =?utf-8?B?dlNMTGlKcEo0aGFjSFdScmZNU0J0bTl0ZDhtQWUrekEzTXRaY21PNGtBcjJK?=
- =?utf-8?B?WnI4S2JXWjZyMzd3OTNhT1ZCak5tK1hMeEhtNW5aR2ZBVkVhOXVpekJqYnUv?=
- =?utf-8?B?RW9NZDJxd1BoQklHMEZ0M2xETXR3OUMwVjhEbVV4b25wRHpsM2x1TWJaVlNO?=
- =?utf-8?B?dkg0Nzlsb2dvc0VJN2J6TE40VmJOQ1ErSFZiUGVmZSt2SXQyY2s0QVFPSEZF?=
- =?utf-8?B?b2RKZzRpbEtIMitjWjV1VkNFVzZNVVQ0NXF0Rkp6S2VDNm5PbWJZbWUwcDdM?=
- =?utf-8?B?KzBicnd0UjZpYVhhakh6UGZxamRrYVIrM09xQnQ3TWJGWTBIN3dsN3cvZ1J0?=
- =?utf-8?B?WmdMckJJc2MxK29wOTRRM1czQjYxZ25pV1dWMUVldkFPcm1COTRSTFVLUEs2?=
- =?utf-8?B?dDNUdzJ6WGpPbVlWS1M0YUtiVEFSNndMRm1MYlovbW41dXU4V0tSV1h2dTVJ?=
- =?utf-8?B?dmhPVVd5dlhYeHFIUVM1U3FJeTZJTVkrRVJHNVlxYUNOVFYvVnZwZTMwZFI4?=
- =?utf-8?B?Y2hJQW9DOS85b2tvOURzYjZSNVJIYXdIYnFjbTJ2QmZCZkorYXhYL1ozd2xE?=
- =?utf-8?B?QU1HTUhLLzJIRTh0UWd6NXFLdjh5eWt2WUhGbXROWERYZHhLZFljbEloUTBW?=
- =?utf-8?B?YU8xS3FVZmlXWkM5MWZSRDBkRWxlaEhxOFh6MytEQWhUdlBNTkFQTEZBbjBO?=
- =?utf-8?B?U1RiREtxcHpZUXhQWGpuN0ZxTVdwQTIzUUxFQ0dqOCt6MjFZa2JqeHhXeCsx?=
- =?utf-8?B?SjIxWTY2a0pacE00SWhlZEZvb09hNjg4amx2NnIrMHZxWEpXb3FGNzRhQTVa?=
- =?utf-8?B?WWdqYkFLYXcvdkhPRkl1ZEpWelg0dmZLOVVQZStEamR1UEJCd3BBSEFJSHB3?=
- =?utf-8?B?R2VKL1dyRzhSbTRxdTU1NWhQWUJDRVdUNVIxelNmb2pRdC9zZlh3ZWQvTGN4?=
- =?utf-8?B?Vy83UldLdnZuNzZYS0JoaUp1VStHVlRnRHljSVNWZUliejhSWnR5TGRhcnQx?=
- =?utf-8?B?eUpPTFh6SFQ5VldObjVObzcyaXN1RXVrTW5PZCs3RVhPWWQySWpmOXpkb3BW?=
- =?utf-8?B?TzVJaktDOWFZVURoRG03WGxubld3Y3F0VkpBTVA2dWhBUTUvdlozcUdtakxw?=
- =?utf-8?B?L1pwL0NSUHFpakptT3Y3MzVFUUJ2eHpnVXJ6UmwwYS9YM3lFT0JsQjltaTVs?=
- =?utf-8?Q?29kFq7qrBSUqj?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bmpQTWlNa1dSVnVWUVVjQzhYdklkWVFSR0ZlZzBzUHBIZlNyYVA1eGYwZThP?=
+ =?utf-8?B?bW93ZUgvQmMyalkzbXBIK1N5L0dreForNUJMSTc3WGk0TkF5QWd6MkNEMi9T?=
+ =?utf-8?B?eENNdFYwNElkVkU5OHBrdUthdjVXNjhXbSszcnllUnZZN3BKdkZrR0FhSFpQ?=
+ =?utf-8?B?VFM1a1dCUUtWY1VIdFY1MzNWMjA3ejlwd1hlejM4bkNIWTVGMHIyQ3ZFVi81?=
+ =?utf-8?B?THFJbjh2ZzhyRTdMYVNyUFhzZzRGQWtsTW1lRmRkaUdwRXNXWENDMUdKMGNq?=
+ =?utf-8?B?SE1BajBYV2ltaUxmVkgxTVFqUUpITkZtV3FoUzJDY3VIMEg2Vm9KRzFsSXVJ?=
+ =?utf-8?B?bmdhbFRvQkZOdGk2V0JHcERldmpGaGJldU42ZGhYTkNEKzZWaHAzRGlKTXor?=
+ =?utf-8?B?Z0svNVEzdURvWjBuRTJxWHI5WVloTEhGN1N4am1uNGFKaHJCdFBnbmRUVHdk?=
+ =?utf-8?B?MFpMWjlWdUF5bVVqNytpNGpOd1hBUWducUtuaEdoQktsR1lpeS9ZaDhQbUo4?=
+ =?utf-8?B?SEFDSGlTcStqRzZUcmU3R0Z3NXRFV1N6SzViTDZGZTRSSXpLYTdwTFdYZi96?=
+ =?utf-8?B?L1ZHcDdNQUZuZXdmVStxcWNpUFlZOEpzLzRjZk9rOVVnOTBBZG1JTWNuYm5I?=
+ =?utf-8?B?d3ZrdEVtVWlUc1FSeXdob2ozb0d3cXZkOVRCdFV2cnNIS2lWK043dVhQSDVN?=
+ =?utf-8?B?eVEyMWh0b254Y0NNOERrWkRoektPQU1nekVTNVNnQ3h2QlI2NjRuZkp1ZUIr?=
+ =?utf-8?B?YU9FWnhRUG1SbmF1WjFNMEgvbkNOalNxSEpHU1JvOW0vK3hlRGFpUUpYT2FK?=
+ =?utf-8?B?RFhydnBEUkxPejExTUNEQUdTK3lkSENrUTdaTy8wdTQ4bEdzenNVN01qd0xv?=
+ =?utf-8?B?U05mcjViTlVEWWQ1K2k5cHYwSDRFU2lYd3RXN1pleSs2RytYL1RwQi9ldGhU?=
+ =?utf-8?B?b0ZiUnpCZCtYU2JqZ2x6cVNaZ3BmVnBYRWlRcVdGMTIrNVBZUkJhR2J6Y0ll?=
+ =?utf-8?B?UzRZcGlWY1hLNmhnNUVEVFNsdWR4OXN5a3dEWVFrbjdGeVI1VXVxV3VOMnhF?=
+ =?utf-8?B?SE82dnNrYW9ZdHlZbkV4eDdxVGVhVFpWZFpIQ1JWVHJWTndmY0RVbzlOZnVN?=
+ =?utf-8?B?UVFCSVYzaFpvWlVmL2xjYWh6Uko1My9Td0hKZDlkdVZLbzdoVVZnRDIyUTR3?=
+ =?utf-8?B?QWtLalMvNHZmdTNrTHNXbTF4R1VaV041Z0tOdUtnV1NCVEpuWXJLL2RrK2ZR?=
+ =?utf-8?B?UnpMU3RueVAxVU5lVUVXMk1XajM4OVU4WFJWSDdCWXE3T0h6QkVWeE1FbU5T?=
+ =?utf-8?B?bGxUN0dWcTgzblZMN1ppQytCTVdMczZPMVdxcHM5akIxTjVVRThCV3BhY0g2?=
+ =?utf-8?B?NmdINUNQMk1aa2lTZFAydmFjeWxNZTgwRHVEVlhISmlEdG9aQkY4UC8yYkN1?=
+ =?utf-8?B?SGJsS21BWkQvL1dLK3hQMHV4bldRTXl5SlZYcTU4L3gyNUhaeUt1VDRKNGhC?=
+ =?utf-8?B?WmhKdUptdFJ3Z3VJaGR5SW5zOVZWS1pLbG9iUm9zWUFwOFZZZVJEWEVlcmdw?=
+ =?utf-8?B?V3BwZFpCL0lLeVN6d3NTNExaYUxaSUIxYXYxN3ppanJJVXNxclEvSUhEdWxP?=
+ =?utf-8?B?YVBPS3J3VitaeExZRHRhUG5SUVdrOUJHVjV2YW9SQWtaQmFhWkxtVEtRRVRz?=
+ =?utf-8?B?cG1mc0pWeUIvNXhnWEZhNktvN1pxaHN0a3lWbXNFWk1pTUxvU253dEpiSkRn?=
+ =?utf-8?B?dmFjYk1VOEdlalVQREQwZjgyZnE0c0Vna0hlbFdpMHZteCtDVjVOc05SVzVm?=
+ =?utf-8?B?dk9UM3hsaENKemVaekhQQT09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB8019.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDk4aGRNS1FscWV0OE81WnJxTVJpUFk1czhHcG03K3Nicm9jaG1QWnZZeDk4?=
- =?utf-8?B?TW93WHcrcVdhYjFUQUZJYVRpN1AyVWVBYXNrMXpSVE9MRjVZQ1Rkbm1TcjU5?=
- =?utf-8?B?VVRWRmhFcUx0UEJqM1NhQjk2TENFa0EwQXZqbkRyR1lRdEhQMjJmRDZFUExl?=
- =?utf-8?B?WTZqNzYreFFVQ1hvbERxRXo4YUZuWWMweUNna1UwMExsRFhrTEVZcHkyMXFz?=
- =?utf-8?B?MU5vMHNIU1JpRWFhSkoyQTdsVXBoVVJCdGdkc1M0YnNDUXpoQnBTUnp3QnFI?=
- =?utf-8?B?Zk13ZTNEV2lIUjhLMWVXRTB2MUdQbzRkMTNkZlB0UENsSlNNV0NkWFJua0Jo?=
- =?utf-8?B?YjVPM0g1eVdHcFVjdURBaGljZ3lEaCswWjNialkvSkI0OS9ZNTZwU0paWTZJ?=
- =?utf-8?B?N2pmb05mZWVlbXJ0M2FJZDBtVnRDWFhQcVFZd3BUUmNja2wxTUU0aU16OXVs?=
- =?utf-8?B?dUNpRmh6MDdUakYyUXNiYmJvU2VTUUpscnN2dmlybkNHWmo2ejV4Vzc2VFdm?=
- =?utf-8?B?TUlwdmNEZndWNTZ2YlJ4eHdpR3J4WmRYblV5a2kvaTd0NnEzVUUyMXF5WVhW?=
- =?utf-8?B?T1ZjaElRK1k0NEt1MmFNckpDV3JQNFYrWVRwMnNEelJsVmJHclFKR1dZUjZv?=
- =?utf-8?B?MktlNG4rL0NmQ3FucEtvQUhxK2gyMnY4UWk2ZkFmVXNNS2RwOG5VUWY1N2tl?=
- =?utf-8?B?K3E4MnRZOG5heVpvQUtTZGVKN3pxRkd5Skt0alp2WUtJNjNRZ0RhRzdOWVlO?=
- =?utf-8?B?QXZlMldta3V1VVc1K1VSdHpIajhNZ1J6UXhhSXZiOE45VGZ2ai9rcnR3eGo2?=
- =?utf-8?B?cXV4QUtCNVN6Vk5KakxGNFkyd2dGRmwvOE5RQzdUdXdiekZqVitOTFhyU29U?=
- =?utf-8?B?enhvVzd0SmRpVkVMeDVxclBpMnV1Y3ozYmRiWVhWQkpZUVpxTTZhK1k1dUxu?=
- =?utf-8?B?a3NHbXBZbUVwempFajBPcU1BOCtNQXNyb3Z0VHNHZ1FJTEFPWkU2bTgranMy?=
- =?utf-8?B?NElDOVl4TkJaRVUxZHljdDdwZ29ET3ppakZ2d0tUZ0U3NXF6VDFpNnVMTjM5?=
- =?utf-8?B?N1pVcUR6S0sycTgzZDV1MFBNa0J6Wmd1K3hBWE81cWhpVGEyalU1T0szbGtM?=
- =?utf-8?B?czFsVEFrRHZnL3lrUFlBMWVzZlBzRUwrRnJQWlJMTmE3RHJ0WHd6NUJ6Wk5M?=
- =?utf-8?B?eEtSUFlkaFB1S0xuWE5vT0xhN0J6M2tiUG1iUEs5MkZESmF1QUsrUG1FaVZE?=
- =?utf-8?B?TkJEVDA5NzE4VUtHMTE1MjNzVG9IazJGWU8yQ3R1VVBHR2I5TmdKcHFEdG1H?=
- =?utf-8?B?V1ZndFpvUDl5OEtPOVRrQ1NLUVdpMzJtWENWTk8vU0ZxSzN0UW02UUVENG1q?=
- =?utf-8?B?bnd2NGNRdm5zMmovRjZ0Q2IxQnhXZGZQK2l2dGpaWXlyWHE1clZDZG43b1ZC?=
- =?utf-8?B?b3VhOHBlZHdweEtBaDBsTXp0a0F2a1M1amk0NHRZTTZiSW15Vk56OXhRcm0y?=
- =?utf-8?B?UVBBSk5IN2RHeFFOdjZrT3VRSUQ4bDRXMTUvOUd6bDZKTnlRaGhDc01QcWNa?=
- =?utf-8?B?MUQvN3RwOFpJRm45Nkt3aU9VdTR3aEJkejJXbzA0SEk2d0RsaVEzOGhIWktp?=
- =?utf-8?B?VC9Hem14c0JJWHVONjB3TUhzZkgwOEROY29Dc1UvL1BPM3BxUHI1WkZTSVlP?=
- =?utf-8?B?bHR6QTBSQ2s1UnYwK25hVTNES1JNZnJlRmhyY25RNUxpVytQMmdZQWFaVE1T?=
- =?utf-8?B?QjlXVUVjeVdhRTFVWVl5NzJZd3dNQUdrUnpjbmo5cEYyUXFpNU94bjhZMzI3?=
- =?utf-8?B?dUhMZGY3aTlmVVpZaHdwUmpvd2REWmJQVUplNHJIREgvcU9lOHpLbnhZYkw0?=
- =?utf-8?B?UlRrdjNucmlRc2VUUWgzT3FicVhBSDFVVEYrajVpSy9WeDVrbW9HdFlhd0Qy?=
- =?utf-8?B?cTBSMGdhMmNDZDIxaE80Y1I2SlhwMHpIS0hyamRXalBLV1JWWHZuOWRjaUp5?=
- =?utf-8?B?ejhuUlppcFJuM2FjYTc1MWljMm14cWZSVlVuZUpRMWNXQ0pLSS84YXdISEU2?=
- =?utf-8?B?Qi84NDQ1bXduMWFRYzB5OUJ0ajg1Y20zZTM2OC9ma3ZQVmZldTdaeEdPOVFn?=
- =?utf-8?Q?eRsA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c60db6af-b2ee-4a08-59b8-08dd622eaee0
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TjI5a1lyeDVUR1dHSXd4UFBZbURvazhrMXdvbC9VUG41eW1rNlRJcnoyUzJp?=
+ =?utf-8?B?bDJpLzJUZG00eDZPSVVKRFYxRDAyTzZnQkZ6VDBvblpKQXVOVmNiSGRaWE02?=
+ =?utf-8?B?cTBhUENBZllrWmVIV1ZwOEE3bEsyaEYzK0ZNcTBkakRPOWovMVJFRExsSVM5?=
+ =?utf-8?B?MllXdi80bGlZZlRUV1FLTzlUNWdzMDR1SW01bkVEaUFZTzFjQ3gxVG85YldE?=
+ =?utf-8?B?M3BjWU5yMjVRbG1FbW1mZzV0OEZVVFgyT3YvOFIxQVBEdXRGaUJ0SXMzUEdr?=
+ =?utf-8?B?R1RwSmZ1UkZJekFZZDN2dWd2ZXNid3lpQTNrdTUrS00za2toR25SQ3RQL2xv?=
+ =?utf-8?B?VjFzV2M4RWRPVEZRUzAxOU5ROFQ2cUMyaHhIL3ZjVlBXYjJWSGZ1S2xaY1lG?=
+ =?utf-8?B?ajZrVUZIR1RnVUwycjdRcTdnRmRnMEdEZW9BVEl5UVFiTlBkTzFRMlUvK1BR?=
+ =?utf-8?B?Z3ZUQ1YvZzBnSDQrMDFCYVlQbUIvSmVnSi9WemhzMGN3Z2psYmlxdjV0Z2xa?=
+ =?utf-8?B?VERTVmJpcmRxeWZXN0NIb3lJaTlxOUlrdjFWV2tDRXRWTWFBOWVYcnJHQ2xI?=
+ =?utf-8?B?NW1uY29JZTFVNWxNSnFwZXpZckRaM2xLSUk3Nzl6bm1JcnZYUExZZVk0Vm41?=
+ =?utf-8?B?TTFtcGl5VjRXR1p1aStoWUYralFzcXJqWHpkcGd1VG5nRlEvYWgwWm1jTnF2?=
+ =?utf-8?B?MmIvTUR0dEgyU0pTZ2xuVEtsZDdFL1FXVU50Z2R3Vi80TFBlOWJVcTdEaGlp?=
+ =?utf-8?B?YVYvTGdpeHdSUEgvQjgvS29KbDJ0L0lYRUp3SDRBTWFGY3pTYkR4Ry9XVXQr?=
+ =?utf-8?B?MG9RcUdqZ0RBdWI5aVd4YlVFZ0doUnlUSTFiZmlpWGRpbVhSaU53RHl0V3lS?=
+ =?utf-8?B?NS9ta05aRTRlNUFsTCtpQndKNnVmSjExdVhFR2tjclErc2NaWitBd1BnbGRu?=
+ =?utf-8?B?QlFCYmVaenlBNFJNQkJicFA2OEd6UGR0K2pvNWZlVHc1djg3cDhIV3U1ME5i?=
+ =?utf-8?B?VmR6TnJVcjBaSGtwTDlORWcwNGZuZFd2VHdBU0pWOGkyN3VIaktOY1BGTEN2?=
+ =?utf-8?B?UnVYNVRRSE5xazh0bFZuVnI5ZFFkS0toejRWS01LeURGZ244OHcxVU5nWXhu?=
+ =?utf-8?B?WXo4eUp1MXdVTnZvN2pVN1RCMkRVWHpqRWhKNFFwdUc2Z3NVRWZGRC9LWE9K?=
+ =?utf-8?B?QVJLb3cyMlRRTnhLTGZPT1FRa3J3emFURjRUVk5NV3VGYXlQdHdzTENFbXFC?=
+ =?utf-8?B?OXlVOXhKb1dwYURScENLZWJ5eDByblIzUXlrcnZXS0EvYUxDeURNSlMvV3ln?=
+ =?utf-8?B?Q2UvY2dCTmM0Mk11MVc4a3RMc2FhSW9pWHU0QzZkVjhMbDZwOFdOM2p5NzVG?=
+ =?utf-8?B?Q1NabVB6Q0Judi9wQm53Szd0MDBRbC96VnNaRlpveDZwbnlQdmltUUNKa0N1?=
+ =?utf-8?B?QWF5SHdGQzVKemN4RWJsemJtZ1BZR3h4UlhDZ0E0N0t4Qk1MMjVYbTdKZDY0?=
+ =?utf-8?B?WEdHbVVFOFRPeGlGcVhzWVBUVHYwN0diMXRDcnhiZDdOcnNqYmtwQUJXREd5?=
+ =?utf-8?B?K0lXeGZUWlNwNWFha3IyMHZFWWF5SEM5bWt5aXJ2dTA5K2lENXc5R2xkNS9D?=
+ =?utf-8?B?UGJXSkVRcFdBeGk4eXNZaXp0SjB2ZFZNenhxeUNJWnBiT1MyekxOVzJpTlRP?=
+ =?utf-8?B?dnBvYklUbjYwRGhaOEpoNmlBS3dRYnBZbm9HUTZCN2QyZ3crYnc2Wjdvcmly?=
+ =?utf-8?B?aGZNQVlsVHVmdWF4cEF4T2tRcCtjZzE1N2JqZzZEaGJBcXFsYXhlTjV2enla?=
+ =?utf-8?B?UnBGNFEwbEVBcFVHLytrbllQdGZJSjhFMU5hOWY3NUtoSTkvdFNTUEZteGJ3?=
+ =?utf-8?B?UzQ2M1ZRTS9ReUt0b29zSkxCOU1iLysxS1g1N2hXWTNYUGV6V1lpU2pUY1VR?=
+ =?utf-8?B?TWo2MU1rTkt4Q05VT3NWQWFMWHVVL1pNRHl4RzJPTWlSYk9ZL3M1dGRNSHp5?=
+ =?utf-8?B?K3QwbnUwbjFhNUUxQXQ4NlpRamVZdFUzYzZzdkJ4WW55SGVwdkx0ZjVjZDNk?=
+ =?utf-8?B?Nm5oeDUzd2RTajVZQUNZL3lweHBTT3A4SnRaZ3o3MDhmQU1GczZ1dVFrSG0y?=
+ =?utf-8?B?RVhvRmo5T0RWYXE2cXlxb2dDL29aQnpFQmdNOTRiYnJPc2ljTTdWQkNTVG1V?=
+ =?utf-8?B?bnc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d5e3deb-76e4-42c8-583b-08dd62309b29
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8019.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 12:58:00.0037 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 13:11:45.8954 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MTgVvNolSwSHM7l2uZQ4YKUJhM2kHa5WWbEAMxAzv2emnmLYkAucloFffn3Blgaw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPFC855560D7
+X-MS-Exchange-CrossTenant-UserPrincipalName: jsiU56TUZ/4Scm6wSzaAQ4JRVnUHQp8ntg+Wq5r/F5jNWFKs1grAfoje8cfZtRQUYQClsvfqxhvxmikPiCLwAuJQD167ZE2+whD2zKeu5sg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8070
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,258 +202,260 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.03.25 um 13:50 schrieb Thomas Hellström:
-> Hi, Christian
->
-> On Thu, 2025-03-13 at 11:19 +0100, Christian König wrote:
->> Am 12.03.25 um 22:03 schrieb Thomas Hellström:
->>> This RFC implements and requests comments for a way to handle SVM
->>> with multi-device,
->>> typically with fast interconnects. It adds generic code and helpers
->>> in drm, and
->>> device-specific code for xe.
->>>
->>> For SVM, devices set up maps of device-private struct pages, using
->>> a struct dev_pagemap,
->>> The CPU virtual address space (mm), can then be set up using
->>> special page-table entries
->>> to point to such pages, but they can't be accessed directly by the
->>> CPU, but possibly
->>> by other devices using a fast interconnect. This series aims to
->>> provide helpers to
->>> identify pagemaps that take part in such a fast interconnect and to
->>> aid in migrating
->>> between them.
->>>
->>> This is initially done by augmenting the struct dev_pagemap with a
->>> struct drm_pagemap,
->>> and having the struct drm_pagemap implement a "populate_mm" method,
->>> where a region of
->>> the CPU virtual address space (mm) is populated with device_private
->>> pages from the
->>> dev_pagemap associated with the drm_pagemap, migrating data from
->>> system memory or other
->>> devices if necessary. The drm_pagemap_populate_mm() function is
->>> then typically called
->>> from a fault handler, using the struct drm_pagemap pointer of
->>> choice. It could be
->>> referencing a local drm_pagemap or a remote one. The migration is
->>> now completely done
->>> by drm_pagemap callbacks, (typically using a copy-engine local to
->>> the dev_pagemap local
->>> memory).
->> Up till here that makes sense. Maybe not necessary to be put into the
->> DRM layer, but that is an implementation detail.
->>
->>> In addition there are helpers to build a drm_pagemap UAPI using
->>> file-descripors
->>> representing struct drm_pagemaps, and a helper to register devices
->>> with a common
->>> fast interconnect. The UAPI is intended to be private to the
->>> device, but if drivers
->>> agree to identify struct drm_pagemaps by file descriptors one could
->>> in theory
->>> do cross-driver multi-device SVM if a use-case were found.
->> But this completely eludes me.
->>
->> Why would you want an UAPI for representing pagemaps as file
->> descriptors? Isn't it the kernel which enumerates the interconnects
->> of the devices?
->>
->> I mean we somehow need to expose those interconnects between devices
->> to userspace, e.g. like amdgpu does with it's XGMI connectors. But
->> that is static for the hardware (unless HW is hot removed/added) and
->> so I would assume exposed through sysfs.
-> Thanks for the feedback.
->
-> The idea here is not to expose the interconnects but rather have a way
-> for user-space to identify a drm_pagemap and some level of access- and
-> lifetime control.
+Hi Janusz,
 
-Well that's what I get I just don't get why?
+On 2025-03-12 at 17:58:13 GMT, Janusz Krzysztofik wrote:
+> Hi Krzysztof,
+> 
+> Thanks for looking at this.
+> 
+> On Wednesday, 12 March 2025 16:06:15 CET Krzysztof Niemiec wrote:
+> > On 2025-03-11 at 21:04:56 GMT, Janusz Krzysztofik wrote:
+> > > Starting with commit ec3e00b4ee27 ("drm/i915: stop registering if
+> > > drm_dev_register() fails"), we return from i915_driver_register()
+> > > immediately if drm_dev_register() fails, skipping remaining registration
+> > > steps, and continue only with remaining probe steps.  However, the
+> > > _unregister() counterpart called at driver remove knows nothing about that
+> > > skip and executes reverts of all those steps, with some of those reverts
+> > > possibly added or modified later.  As a consequence, a number of kernel
+> > > warnings that taint the kernel are triggered:
+> > > 
+> > > <3> [525.823143] i915 0000:00:02.0: [drm] *ERROR* Failed to register driver for
+> > > userspace access!
+> > > ...
+> > > <4> [525.831069] ------------[ cut here ]------------
+> > > <4> [525.831071] i915 0000:00:02.0: [drm] drm_WARN_ON(power_domains->init_wakere
+> > > f)
+> > > <4> [525.831095] WARNING: CPU: 6 PID: 3440 at drivers/gpu/drm/i915/display/intel
+> > > _display_power.c:2074 intel_power_domains_disable+0xc2/0xd0 [i915]
+> > > ...
+> > > <4> [525.831328] CPU: 6 UID: 0 PID: 3440 Comm: i915_module_loa Tainted: G     U
+> > >             6.14.0-rc1-CI_DRM_16076-g7a632b6798b6+ #1
+> > > ...
+> > > <4> [525.831334] RIP: 0010:intel_power_domains_disable+0xc2/0xd0 [i915]
+> > > ...
+> > > <4> [525.831483] Call Trace:
+> > > <4> [525.831484]  <TASK>
+> > > ...
+> > > <4> [525.831943]  i915_driver_remove+0x4b/0x140 [i915]
+> > > <4> [525.832028]  i915_pci_remove+0x1e/0x40 [i915]
+> > > <4> [525.832099]  pci_device_remove+0x3e/0xb0
+> > > <4> [525.832103]  device_remove+0x40/0x80
+> > > <4> [525.832107]  device_release_driver_internal+0x215/0x280
+> > > ...
+> > > <4> [525.947666] ------------[ cut here ]------------
+> > > <4> [525.947669] kobject: '(null)' (ffff88814f62a218): is not initialized, yet kobject_put() is being called.
+> > > <4> [525.947707] WARNING: CPU: 6 PID: 3440 at lib/kobject.c:734 kobject_put+0xe4/0x200
+> > > ...
+> > > <4> [525.947875] RIP: 0010:kobject_put+0xe4/0x200
+> > > ...
+> > > <4> [525.947909] Call Trace:
+> > > <4> [525.947911]  <TASK>
+> > > ...
+> > > <4> [525.947963]  intel_gt_sysfs_unregister+0x25/0x40 [i915]
+> > > <4> [525.948133]  intel_gt_driver_unregister+0x14/0x80 [i915]
+> > > <4> [525.948291]  i915_driver_remove+0x6c/0x140 [i915]
+> > > <4> [525.948411]  i915_pci_remove+0x1e/0x40 [i915]
+> > > ...
+> > > <4> [526.441186] ------------[ cut here ]------------
+> > > <4> [526.441191] kernfs: can not remove 'error', no directory
+> > > <4> [526.441211] WARNING: CPU: 1 PID: 3440 at fs/kernfs/dir.c:1684 kernfs_remove_by_name_ns+0xbc/0xc0
+> > > ...
+> > > <4> [526.441536] RIP: 0010:kernfs_remove_by_name_ns+0xbc/0xc0
+> > > ...
+> > > <4> [526.441578] Call Trace:
+> > > <4> [526.441581]  <TASK>
+> > > ...
+> > > <4> [526.441686]  sysfs_remove_bin_file+0x17/0x30
+> > > <4> [526.441691]  i915_gpu_error_sysfs_teardown+0x1d/0x30 [i915]
+> > > <4> [526.442226]  i915_teardown_sysfs+0x1c/0x60 [i915]
+> > > <4> [526.442369]  i915_driver_remove+0x9d/0x140 [i915]
+> > > <4> [526.442473]  i915_pci_remove+0x1e/0x40 [i915]
+> > > ...
+> > > <4> [526.685700] ------------[ cut here ]------------
+> > > <4> [526.685706] i915 0000:00:02.0: [drm] i915 raw-wakerefs=1 wakelocks=1 on cle
+> > > anup
+> > > <4> [526.685734] WARNING: CPU: 1 PID: 3440 at drivers/gpu/drm/i915/intel_runtime
+> > > _pm.c:443 intel_runtime_pm_driver_release+0x75/0x90 [i915]
+> > > ...
+> > > <4> [526.686090] RIP: 0010:intel_runtime_pm_driver_release+0x75/0x90 [i915]
+> > > ...
+> > > <4> [526.686294] Call Trace:
+> > > <4> [526.686296]  <TASK>
+> > > ...
+> > > <4> [526.687025]  i915_driver_release+0x7e/0xb0 [i915]
+> > > <4> [526.687243]  drm_dev_put.part.0+0x47/0x90
+> > > <4> [526.687250]  devm_drm_dev_init_release+0x13/0x30
+> > > <4> [526.687255]  devm_action_release+0x12/0x30
+> > > <4> [526.687261]  release_nodes+0x3a/0x120
+> > > <4> [526.687268]  devres_release_all+0x97/0xe0
+> > > <4> [526.687277]  device_unbind_cleanup+0x12/0x80
+> > > <4> [526.687282]  device_release_driver_internal+0x23a/0x280
+> > > ...
+> > > 
+> > > A call to intel_power_domains_disable() was already there.  It triggers
+> > > the drm_WARN_ON() when it finds a reference to a wakeref taken on device
+> > > probe and not released after device register failure.  That wakeref is
+> > > then left held forever once its handle gets lost overwritten with another
+> > > wakeref, hence the WARN() called from intel_runtime_pm_driver_release().
+> > > 
+> > > The WARN() triggered by kernfs_remove_by_name_ns() from
+> > > i915_teardown_sysfs()->i915_gpu_error_sysfs_teardown(), formerly
+> > > i915_teardown_error_capture(), was also there when the return was added.
+> > > 
+> > > A call to intel_gt_sysfs_unregister() that triggers the WARN() from
+> > > kobject_put() was added to intel_gt_driver_unregister() with commit
+> > > 69d6bf5c3754ff ("drm/i915/gt: Fix memory leaks in per-gt sysfs").
+> > > 
+> > > Fix the asymmetry by failing the driver probe on device registration
+> > > failure and going through rewind paths.
+> > > 
+> > > For that to work as expected, we apparently need to start the rewind path
+> > > of i915_driver_register() with drm_dev_unregister(), even if
+> > > drm_dev_register() returned an error.
+> > > 
+> > > Also, in rewind path of the i915_driver_probe() we need to clean up PXP
+> > > initialization before it's safe to call other hardware cleanup routines.
+> > > The intel_pxp_init() without a corresponding cleanup was added to
+> > > i915_driver_probe() with commit f67986b0119c04 ("drm/i915/pxp: Promote pxp
+> > > subsystem to top-level of i915").
+> > > 
+> > > v4: Switch to taking an error rewind path on device registration failure
+> > >     (Krzysztof, Lucas).
+> > > v3: Based on Andi's commitment on introducing a flag, try to address
+> > >     Jani's "must find another way" by finding a better place and name for
+> > >     the flag (in hope that's what Jani had on mind),
+> > >   - split into a series of patches and limit the scope of the first (this)
+> > >     one to a minimum of omitting conditionally only those unregister
+> > >     (sub)steps that trigger kernel warnings when not registered.
+> > > v2: Check in _unregister whether the drm_dev_register has succeeded and
+> > >     skip some of the _unregister() steps. (Andi)
+> > > 
+> > > Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10047
+> > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/9820
+> > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10131
+> > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10887
+> > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12817
+> > > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> > > Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> > > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > > Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> > > Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> > > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > > Cc: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+> > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/i915_driver.c | 22 +++++++++++++++-------
+> > >  1 file changed, 15 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+> > > index ce3cc93ea211b..dcf723da8d409 100644
+> > > --- a/drivers/gpu/drm/i915/i915_driver.c
+> > > +++ b/drivers/gpu/drm/i915/i915_driver.c
+> > > @@ -622,11 +622,11 @@ static void i915_driver_hw_remove(struct drm_i915_private *dev_priv)
+> > >   * Perform any steps necessary to make the driver available via kernel
+> > >   * internal or userspace interfaces.
+> > >   */
+> > > -static void i915_driver_register(struct drm_i915_private *dev_priv)
+> > > +static int i915_driver_register(struct drm_i915_private *dev_priv)
+> > >  {
+> > >  	struct intel_display *display = &dev_priv->display;
+> > >  	struct intel_gt *gt;
+> > > -	unsigned int i;
+> > > +	unsigned int i, ret;
+> > 
+> > drm_dev_register() returns int, i915_driver_probe() expects int from
+> > from the functions it calls (including this one), and this one is
+> > defined as static int, so dropping the unsigned keyword for ret feels
+> > more appropriate.
+> 
+> Right, my bad.  I'll fix it exactly as you suggest if the whole idea standing 
+> behind this patch is accepted.
+> 
+> > >  
+> > >  	i915_gem_driver_register(dev_priv);
+> > >  	i915_pmu_register(dev_priv);
+> > > @@ -634,10 +634,12 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
+> > >  	intel_vgpu_register(dev_priv);
+> > >  
+> > >  	/* Reveal our presence to userspace */
+> > > -	if (drm_dev_register(&dev_priv->drm, 0)) {
+> > > -		drm_err(&dev_priv->drm,
+> > > -			"Failed to register driver for userspace access!\n");
+> > > -		return;
+> > > +	ret = drm_dev_register(&dev_priv->drm, 0);
+> > > +	if (ret) {
+> > > +		drm_dev_unregister(&dev_priv->drm);
+> > > +		i915_pmu_unregister(dev_priv);
+> > > +		i915_gem_driver_unregister(dev_priv);
+> > > +		return ret;
+> > >  	}
+> > >  
+> > 
+> > I'd keep the "Failed to register driver for userspace access" error
+> > message.
+> 
+> OK, but would you still keep it if you knew that with this error message kept,
+> CI would still report dmesg-warn as a result of 
+> igt@i915_module_load@reload-with-fault-injection test?
+> 
 
-I mean when you want to have the pagemap as optional feature you can turn on and off I would say make that a sysfs file.
+I think the message should still be there as a clue for debugging in
+case this bug does happen on a live system (not as a result of an
+injected bug). I think the way to resolve this is to use
+i915_probe_error(), which prints the message as debug when there is an
+injection happening, but prints it as error otherwise. Maybe it's also
+worth to add the return value to that message, so something like:
 
-It's a global feature anyway and not bound in any way to the file descriptor, isn't it?
+i915_probe_error(dev_priv,
+		 "Failed to register driver for userspace access! (%d)\n", ret);
 
-> For Xe, If an application wants to use a particular drm_pagemap it
-> calls an ioctl:
->
-> pagemap_fd = drm_xe_ioctl_pagemap_open(exporting_device_fd,
-> memory_region);
+That way we still benefit from debugging information but prevent CI from
+complaining about dmesg-warn.
 
-Well should userspace deal with physical addresses here, or what exactly is memory_region here?
+Thanks
+Krzysztof
 
-Regards,
-Christian.
-
->
-> And then when it's no longer used
-> close(pagemap_fd)
->
-> To use it for a memory range, the intended idea is call gpu madvise
-> ioctl:
->  
-> err = drm_xe_ioctl_gpu_madvise(local_device_fd, range, pagemap_fd);
->
-> Now, if there is no fast interconnect between the two, the madvise call
-> could just return an error. All this ofc assumes that user-space is
-> somehow aware of the fast interconnect topology but how that is exposed
-> is beyond the scope of this first series. (Suggestions welcome).
->
-> The advantage of the above approach is
-> 1) We get some level of access control. If the user doesn't have access
-> to the exporting device, he/she can't obtain a pagemap file descriptor.
->
-> 2) Lifetime control. The pagemaps are memory hungry, but also take
-> considerable time to set up and tear down.
->
-> 3) It's a driver-independent approach.
->
-> One could ofc use a different approach by feeding the gpu_madvise()
-> ioctl with a remote device file descriptor and whatever information is
-> needed for the remote device to identify the drm_pagemap. That would
-> not be driver independent, though. Not sure how important that is.
->
-> /Thomas
->
->
->> Thanks,
->> Christian.
->>
->>> The implementation for the Xe driver uses dynamic pagemaps which
->>> are created on first
->>> use and removed 5s after the last reference is gone. Pagemaps are
->>> revoked on
->>> device unbind, and data is then migrated to system.
->>>
->>> Status:
->>> This is a POC series. It has been tested with an IGT test soon to
->>> be published, with a
->>> DG1 drm_pagemap and a BattleMage SVM client. There is separate work
->>> ongoing for the
->>> gpu_madvise functionality.
->>>
->>> The Xe implementation of the "populate_mm()" callback is
->>> still rudimentary and doesn't migrate from foreign devices. It
->>> should be tuned to do
->>> smarter choices.
->>>
->>> Any feedback appreciated.
->>>
->>> Patch overview:
->>> Patch 1:
->>> - Extends the way the Xe driver can compile out SVM support and
->>> pagemaps.
->>> Patch 2:
->>> - Fixes an existing potential UAF in the Xe SVM code.
->>> Patch 3:
->>> - Introduces the drm_pagemap.c file and moves drm_pagemap
->>> functionality to it.
->>> Patch 4:
->>> - Adds a populate_mm op to drm_pagemap.
->>> Patch 5:
->>> - Implement Xe's version of the populate_mm op.
->>> Patch 6:
->>> - Refcount struct drm_pagemap.
->>> Patch 7:
->>> - Cleanup patch.
->>> Patch 8:
->>> - Add a bo_remove callback for Xe, Used during device unbind.
->>> Patch 9:
->>> - Add a drm_pagemap utility to calculate a common owner structure
->>> Patch 10:
->>> - Adopt GPUSVM to a (sort of) dynamic owner.
->>> Patch 11:
->>> - Xe calculates the dev_private owner using the drm_pagemap
->>> utility.
->>> Patch 12:
->>> - Update the Xe page-table code to handle per range mixed system /
->>> device_private placement.
->>> Patch 13:
->>> - Modify GPUSVM to allow such placements.
->>> Patch 14:
->>> - Add a preferred pagemap to use by the Xe fault handler.
->>> Patch 15:
->>> - Add a utility that converts between drm_pagemaps and file-
->>> descriptors and back.
->>> Patch 16:
->>> - Fix Xe so that also devices without fault capability can publish
->>> drm_pagemaps.
->>> Patch 17:
->>> - Add the devmem_open UAPI, creating a drm_pagemap file descriptor
->>> from a
->>>   (device, region) pair.
->>> Patch 18:
->>> - (Only for POC) Add an GPU madvise prefer_devmem IOCTL.
->>> Patch 19:
->>> - (Only for POC) Implement pcie p2p DMA as a fast interconnect and
->>> test.
->>>
->>> Matthew Brost (1):
->>>   drm/gpusvm, drm/pagemap: Move migration functionality to
->>> drm_pagemap
->>>
->>> Thomas Hellström (18):
->>>   drm/xe: Introduce CONFIG_DRM_XE_GPUSVM
->>>   drm/xe/svm: Fix a potential bo UAF
->>>   drm/pagemap: Add a populate_mm op
->>>   drm/xe: Implement and use the drm_pagemap populate_mm op
->>>   drm/pagemap, drm/xe: Add refcounting to struct drm_pagemap and
->>> manage
->>>     lifetime
->>>   drm/pagemap: Get rid of the struct
->>>     drm_pagemap_zdd::device_private_page_owner field
->>>   drm/xe/bo: Add a bo remove callback
->>>   drm/pagemap_util: Add a utility to assign an owner to a set of
->>>     interconnected gpus
->>>   drm/gpusvm, drm/xe: Move the device private owner to the
->>>     drm_gpusvm_ctx
->>>   drm/xe: Use the drm_pagemap_util helper to get a svm pagemap
->>> owner
->>>   drm/xe: Make the PT code handle placement per PTE rather than per
->>> vma
->>>     / range
->>>   drm/gpusvm: Allow mixed mappings
->>>   drm/xe: Add a preferred dpagemap
->>>   drm/pagemap/util: Add file descriptors pointing to struct
->>> drm_pagemap
->>>   drm/xe/migrate: Allow xe_migrate_vram() also on non-pagefault
->>> capable
->>>     devices
->>>   drm/xe/uapi: Add the devmem_open ioctl
->>>   drm/xe/uapi: HAX: Add the xe_madvise_prefer_devmem IOCTL
->>>   drm/xe: HAX: Use pcie p2p dma to test fast interconnect
->>>
->>>  Documentation/gpu/rfc/gpusvm.rst     |  12 +-
->>>  drivers/gpu/drm/Makefile             |   7 +-
->>>  drivers/gpu/drm/drm_gpusvm.c         | 782 +---------------------
->>>  drivers/gpu/drm/drm_pagemap.c        | 940
->>> +++++++++++++++++++++++++++
->>>  drivers/gpu/drm/drm_pagemap_util.c   | 203 ++++++
->>>  drivers/gpu/drm/xe/Kconfig           |  24 +-
->>>  drivers/gpu/drm/xe/Makefile          |   2 +-
->>>  drivers/gpu/drm/xe/xe_bo.c           |  65 +-
->>>  drivers/gpu/drm/xe/xe_bo.h           |   2 +
->>>  drivers/gpu/drm/xe/xe_bo_types.h     |   2 +-
->>>  drivers/gpu/drm/xe/xe_device.c       |   8 +
->>>  drivers/gpu/drm/xe/xe_device_types.h |  30 +-
->>>  drivers/gpu/drm/xe/xe_migrate.c      |   8 +-
->>>  drivers/gpu/drm/xe/xe_pt.c           | 112 ++--
->>>  drivers/gpu/drm/xe/xe_query.c        |   2 +-
->>>  drivers/gpu/drm/xe/xe_svm.c          | 716 +++++++++++++++++---
->>>  drivers/gpu/drm/xe/xe_svm.h          | 158 ++++-
->>>  drivers/gpu/drm/xe/xe_tile.c         |  20 +-
->>>  drivers/gpu/drm/xe/xe_tile.h         |  33 +
->>>  drivers/gpu/drm/xe/xe_vm.c           |   6 +-
->>>  drivers/gpu/drm/xe/xe_vm_types.h     |   7 +
->>>  include/drm/drm_gpusvm.h             | 102 +--
->>>  include/drm/drm_pagemap.h            | 190 +++++-
->>>  include/drm/drm_pagemap_util.h       |  59 ++
->>>  include/uapi/drm/xe_drm.h            |  39 ++
->>>  25 files changed, 2458 insertions(+), 1071 deletions(-)
->>>  create mode 100644 drivers/gpu/drm/drm_pagemap.c
->>>  create mode 100644 drivers/gpu/drm/drm_pagemap_util.c
->>>  create mode 100644 include/drm/drm_pagemap_util.h
->>>
-
+> Thanks,
+> Janusz
+> 
+> 
+> > Thanks
+> > Krzysztof
+> > 
+> > >  	i915_debugfs_register(dev_priv);
+> > > @@ -660,6 +662,8 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
+> > >  
+> > >  	if (i915_switcheroo_register(dev_priv))
+> > >  		drm_err(&dev_priv->drm, "Failed to register vga switcheroo!\n");
+> > > +
+> > > +	return 0;
+> > >  }
+> > >  
+> > >  /**
+> > > @@ -834,7 +838,9 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+> > >  	if (ret)
+> > >  		goto out_cleanup_gem;
+> > >  
+> > > -	i915_driver_register(i915);
+> > > +	ret = i915_driver_register(i915);
+> > > +	if (ret)
+> > > +		goto out_cleanup_pxp;
+> > >  
+> > >  	enable_rpm_wakeref_asserts(&i915->runtime_pm);
+> > >  
+> > > @@ -844,6 +850,8 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+> > >  
+> > >  	return 0;
+> > >  
+> > > +out_cleanup_pxp:
+> > > +	intel_pxp_fini(i915);
+> > >  out_cleanup_gem:
+> > >  	i915_gem_suspend(i915);
+> > >  	i915_gem_driver_remove(i915);
+> > 
+> 
+> 
+> 
+> 
