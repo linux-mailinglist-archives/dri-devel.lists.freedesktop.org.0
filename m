@@ -2,70 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521F5A5F823
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 15:29:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A14D5A5F855
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 15:32:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8485E10E8B3;
-	Thu, 13 Mar 2025 14:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16F5910E8BA;
+	Thu, 13 Mar 2025 14:32:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EaE0m28X";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="OIap5nSs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE4E910E8B3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 14:29:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3D54C5C57A3;
- Thu, 13 Mar 2025 14:27:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 624F9C4CEDD;
- Thu, 13 Mar 2025 14:29:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741876194;
- bh=9U91AR0dBcU3SeJ1vVvLvI2baPAVBY+ySu4H/3uX8to=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EaE0m28XQuIa1uSp9kwRIDan2AYDcIfAYcgcgsQva5IjduMjgS1XOSQV3WfEZmMmA
- Zu3jRjqzAnvDh7WVyzRHpxCMQ946J+RaUXwKX7hZ/QqVnE2ZmLzuWlZmxT4/QOSy0d
- RlX5FmfBbN4EFFVNCeSSZUcqJvSIMRrlWNwoFnRIRaPOUAmq+OLdIrD2Zh7PuawpyD
- GFfyYbPASuPH0Cmn8p92EKE2K88qtkaCbIrB1YHAdIfyYg1SQM5J/zVieN1HBVnsss
- VVqY+fVuQKOVGP7wS86Nlbo2y+s2Vaj7GpikLkyVlz38FekHLOFSPhVBdeMOryEC0w
- HcyQkgLUVGoiQ==
-Date: Thu, 13 Mar 2025 15:29:52 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>, 
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, 
- Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, 
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, 
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <20250313-pristine-pretty-rabbit-a29030@houat>
-References: <20250121-yuv-v16-5-a61f95a99432@bootlin.com>
- <qwym5wty72f6o4dfz2iduamkpuom6jt5txskknovqxzagruusx@zuytk7awe2uw>
- <Z5dkd3npNtzPWCrP@louis-chauvet-laptop>
- <20250205-pristine-perch-of-abundance-7abac1@houat>
- <Z6OEd329pDNRrL5v@louis-chauvet-laptop>
- <20250219-inventive-micro-parrot-c24846@houat>
- <ce5fb86d-f3bc-4196-9cfd-8af41a83beb1@bootlin.com>
- <20250307-glaring-kiwi-of-teaching-d5ddd4@houat>
- <6fa7a17f-3932-4b93-a3c7-885619f8ec73@bootlin.com>
- <20250310111259.4e18d550@eldfell>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 060C510E8BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 14:32:18 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3913958ebf2so844477f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 07:32:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1741876337; x=1742481137; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qmJEZa8bhP51f5WeMX8gVU0QSf/9tpQBkqyv3+FpHNc=;
+ b=OIap5nSs0FZNdWygUw07s31eeT2pWk3mLRL758ckq/efEc6wKRYbWZXoxXgY2XfEK9
+ fPQgvBKcwJjS0e4UePstpe+iSdokzdC85qUCyu9mm/DEi5YKSZGtDPQ3m8HMTr3ETgix
+ nWUpIOc0NpsCtPg72gqeJaOL4P6LSJyD9QDj4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741876337; x=1742481137;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qmJEZa8bhP51f5WeMX8gVU0QSf/9tpQBkqyv3+FpHNc=;
+ b=N/fzLkDCVoWvVhSG6nnn9Dep9FNrfpi0dZzz8t/JURgsGLwE9M4DFHM+aUAGr8gFtu
+ IrvO7UhPT6aW6+j2SLng9npknSsYizB24JMf2WWAx1lk5Qly+v+PcyUtYBtcTnYkiASA
+ 9T7RUPF7k2gq06c+xUsLihxZiMSJt9TvsMWnKGzROKnpcNNGwFWxRPWuUFK/9OUBBvmx
+ +czt6/AXZbiF7JYAKuGwukWuDWtrd3zhoSYWMlNtOodaIKpXtg9sUlZFFuXojXCYRrhJ
+ akNwTAJegKdLzJ4kNy+5Wil12KJau4FY8vSSnddptbIKxOGQ5DiqDHEEpuDJOUZ5oBA2
+ J8sQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXUpuf1J6hY+hwBedpuZlxvQU/jL4zTV+sRkbhh2b5wsY5b+F6K7BtMbtzBegh4vX8AqenfFhE1uhA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwhT8dfsoqcp05vZjVwtrxvO5ArCNq8F4Q7M4i+Ig+e2p42cZh6
+ R9Ex8mDhyEvOhQyDK9aW0an9w/zMuUhJCiQx0577qdALmbgP22a/LZz8MCbViLE=
+X-Gm-Gg: ASbGncu0stjya4kyJPjyzoLJCq0pISZ1P3dpCI0AHp7xaaX1/6tsPV6FjxdS1Frfhzq
+ mBn7WyCKLD0CtOZRFdz3Pf3Ywwc20L83ewdqBBhrBL1ndP5K+GQLKitNjghKTbg+/943Ic9rlLi
+ Czb0+MrKyrlElZLBG/welV3qlybpZJo1RovpIu1cgxH1KGOe1a3EFb7U8Ua2SKSTtl58/zrzYzP
+ moI0YJ+hZ6aFSvSI6SrfsnXnfC1eF8U6+LSqUIk5DLKbrsXefWCahyqXs47zbWK1NqIx1U10/Au
+ OZ8WRWfVAy41oMhu1cYk2Z1iDqhBhrHe+1N2KUuhK1q1vtTzCleWklPs
+X-Google-Smtp-Source: AGHT+IHONUiodfS/fWexcjBKJ56cHcP98PgHHjaNe3WzTXhC4/in7mzoTQfPI07gJnTJ+29TnXggtg==
+X-Received: by 2002:a05:6000:2109:b0:391:2a9a:478c with SMTP id
+ ffacd0b85a97d-39264693887mr8443406f8f.23.1741876337388; 
+ Thu, 13 Mar 2025 07:32:17 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-395c83b6b70sm2338337f8f.30.2025.03.13.07.32.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Mar 2025 07:32:16 -0700 (PDT)
+Date: Thu, 13 Mar 2025 15:32:14 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
+ implementation
+Message-ID: <Z9LsbhzjI-P3-edQ@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ paulmck@kernel.org
+References: <Z8cmBWB8rl97-zSG@phenom.ffwll.local>
+ <20250304164201.GN133783@nvidia.com>
+ <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
+ <20250305151012.GW133783@nvidia.com>
+ <Z8l8HgZOV7sDWqBh@phenom.ffwll.local>
+ <20250306153236.GE354511@nvidia.com>
+ <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
+ <20250307123255.GK354511@nvidia.com>
+ <Z8rv-DQuGdxye28N@phenom.ffwll.local>
+ <20250307145557.GO354511@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="263hj7gfnktphh5g"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250310111259.4e18d550@eldfell>
+In-Reply-To: <20250307145557.GO354511@nvidia.com>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,251 +115,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Mar 07, 2025 at 10:55:57AM -0400, Jason Gunthorpe wrote:
+> On Fri, Mar 07, 2025 at 02:09:12PM +0100, Simona Vetter wrote:
+> 
+> > > A driver can do a health check immediately in remove() and make a
+> > > decision if the device is alive or not to speed up removal in the
+> > > hostile hot unplug case.
+> > 
+> > Hm ... I guess when you get an all -1 read you check with a specific
+> > register to make sure it's not a false positive? Since for some registers
+> > that's a valid value.
+> 
+> Yes. mlx5 has HW designed to support this, but I imagine on most
+> devices you could find an ID register or something that won't be -1.
+> 
+> > - The "at least we don't blow up with memory safety issues" bare minimum
+> >   that the rust abstractions should guarantee. So revocable and friends.
+> 
+> I still really dislike recovable because it imposes a cost that is
+> unnecessary.
+> 
+> > And I think the latter safety fallback does not prevent you from doing the
+> > full fancy design, e.g. for revocable resources that only happens after
+> > your explicitly-coded ->remove() callback has finished. Which means you
+> > still have full access to the hw like anywhere else.
+> 
+> Yes, if you use rust bindings with something like RDMA then I would
+> expect that by the time remove is done everything is cleaned up and
+> all the revokable stuff was useless and never used.
+> 
+> This is why I dislike revoke so much. It is adding a bunch of garbage
+> all over the place that is *never used* if the driver is working
+> correctly.
+> 
+> I believe it is much better to runtime check that the driver is
+> correct and not burden the API design with this.
 
---263hj7gfnktphh5g
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
-MIME-Version: 1.0
+You can do that with for example runtime proofs. R4l has that with
+Mutex from one structure protecting other structures (like in a tree). But
+since the compiler can't prove those you trade in the possibility that you
+will hit a runtime BUG if things don't line up.
 
-Hi,
+So subsystems that ensure that driver callbacks never run concurrently
+with a revocation could guarantee that revocable resources are always
+present.
 
-On Mon, Mar 10, 2025 at 11:12:59AM +0200, Pekka Paalanen wrote:
-> On Fri, 7 Mar 2025 15:50:41 +0100
-> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
->=20
-> > Le 07/03/2025 =E0 11:20, Maxime Ripard a =E9crit=A0:
-> > > On Wed, Feb 19, 2025 at 02:35:14PM +0100, Louis Chauvet wrote: =20
-> > >>
-> > >>
-> > >> Le 19/02/2025 =E0 11:15, Maxime Ripard a =E9crit=A0: =20
-> > >>> On Wed, Feb 05, 2025 at 04:32:07PM +0100, Louis Chauvet wrote: =20
-> > >>>> On 05/02/25 - 09:55, Maxime Ripard wrote: =20
-> > >>>>> On Mon, Jan 27, 2025 at 11:48:23AM +0100, Louis Chauvet wrote: =
-=20
-> > >>>>>> On 26/01/25 - 18:06, Maxime Ripard wrote: =20
-> > >>>>>>> On Tue, Jan 21, 2025 at 11:48:06AM +0100, Louis Chauvet wrote: =
-=20
-> > >>>>>>>> +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_case=
-s[] =3D {
-> > >>>>>>>> +	/*
-> > >>>>>>>> +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> > >>>>>>>> +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.60=
-1"],
-> > >>>>>>>> +	 *                     in_bits =3D 16,
-> > >>>>>>>> +	 *                     in_legal =3D False,
-> > >>>>>>>> +	 *                     in_int =3D True,
-> > >>>>>>>> +	 *                     out_bits =3D 8,
-> > >>>>>>>> +	 *                     out_legal =3D False,
-> > >>>>>>>> +	 *                     out_int =3D True)
-> > >>>>>>>> +	 *
-> > >>>>>>>> +	 * Test cases for conversion between YUV BT601 full range an=
-d RGB
-> > >>>>>>>> +	 * using the ITU-R BT.601 weights.
-> > >>>>>>>> +	 */ =20
-> > >>>>>>>
-> > >>>>>>> What are the input and output formats?
-> > >>>>>>>
-> > >>>>>>> Ditto for all the other tests. =20
-> > >>>>>>
-> > >>>>>> There is no really "input" and "output" format, they are referen=
-ce values
-> > >>>>>> for conversion, you should be able to use it in both direction. =
-They are
-> > >>>>>> generated by RGB_to_YCbCr (RGB input, YUV output) just because i=
-t was
-> > >>>>>> easier to create the colors from RGB values. =20
-> > >>>>>
-> > >>>>> RGB and YUV aren't formats, they are color models. XRGB8888 is a =
-format.
-> > >>>>> NV12 is a format.
-> > >>>>> =20
-> > >>>>>> If you think we should specify what is was used as input and out=
-put to
-> > >>>>>> generate those values, I can modify the comment to:
-> > >>>>>>
-> > >>>>>> 	Tests cases for color conversion generated by converting RGB
-> > >>>>>> 	values to YUV BT601 full range using the ITU-R BT.601 weights. =
-=20
-> > >>>>>
-> > >>>>> My point is that those comments should provide a way to reimpleme=
-nt the
-> > >>>>> test from scratch, and compare to the actual implementation. It's=
- useful
-> > >>>>> when you have a test failure and start to wonder if the implement=
-ation
-> > >>>>> or the test is at fault.
-> > >>>>>
-> > >>>>> By saying only RGB and YUV, you can't possibly do that. =20
-> > >>>>
-> > >>>> I understand your concern, but I believe there might be a slight
-> > >>>> misunderstanding. The table in question stores reference values for
-> > >>>> specific color models, not formats. Therefore, it doesn't specify =
-any
-> > >>>> particular format like XRGB8888 or NV12.
-> > >>>>
-> > >>>> To clarify this, I can rename the format_pair struct to value_pair=
-=2E This
-> > >>>> should make it clearer that we are dealing with color model values=
- rather
-> > >>>> than formats.
-> > >>>>
-> > >>>> If you want to test a specific format conversion, such as
-> > >>>> YUV420_to_argbu16, you would need to follow a process like this:
-> > >>>>
-> > >>>> 	// Recreate a YUV420 data
-> > >>>> 	plane_1[0] =3D test_case.yuv.y
-> > >>>> 	plane_2[0] =3D test_case.yuv.u
-> > >>>> 	plane_2[1] =3D test_case.yuv.v
-> > >>>>
-> > >>>> 	// convertion to test from YUV420 format to argb_u16
-> > >>>> 	rgb_u16 =3D convert_YUV420_to_argbu16(plane_1, plane_2)
-> > >>>>
-> > >>>> 	// ensure the conversion is valid
-> > >>>> 	assert_eq(rgb_u16, test_case.rgb)
-> > >>>>
-> > >>>> The current test is not performing this kind of format conversion.
-> > >>>> Instead, it verifies that for given (y, u, v) values, the correct =
-(r, g,
-> > >>>> b, a) values are obtained. =20
-> > >>>
-> > >>> You already stated that you check for the A, R, G, and B components=
-=2E On
-> > >>> how many bits are the values you are comparing stored? The YUV valu=
-es
-> > >>> you are comparing are stored on how many bits for each channel? With
-> > >>> subsampling?
-> > >>>
-> > >>> If you want to compare values, you need to encode a given color into
-> > >>> bits, and the way that encoding is done is what the format is about.
-> > >>>
-> > >>> You might not compare the memory layout but each component individu=
-ally,
-> > >>> but it's still a format. =20
-> > >>
-> > >> Sorry, I think I misunderstood what a format really is. =20
-> > >=20
-> > > Ultimately, a format is how a given "color value" is stored. How many
-> > > bits will you use? If you have an unaligned number of bits, how many
-> > > bits of padding you'll use, where the padding is? If there's multiple
-> > > bytes, what's the endianness?
-> > >=20
-> > > The answer to all these questions is "the format", and that's why
-> > > there's so many of them. =20
-> >=20
-> > Thanks!
-> >=20
-> > >> But even with this explanation, I don't understand well what you ask
-> > >> me to change. Is this better:
-> > >>
-> > >> The values are computed by converting RGB values, with each componen=
-t stored
-> > >> as u16, to YUV values, with each component stored as u8. The convers=
-ion is
-> > >> done from RGB full range to YUV BT601 full range using the ITU-R BT.=
-601
-> > >> weights.
-> > >>
-> > >> TBH, I do not understand what you are asking for exactly. Can you pl=
-ease
-> > >> give the sentence you expect directly? =20
-> > >=20
-> > > The fourcc[1] code for the input and output format would be nice. And=
- if
-> > > you can't, an ad-hoc definition of the format, answering the question=
-s I
-> > > mentionned earlier (and in the previous mail for YUV). =20
-> >=20
-> > I don't think any fourcc code will apply in this case, the tests use=20
-> > internal VKMS structures pixel_argb_16 and pixel_yuv_u8. How do I=20
-> > describe them better? If I add this comment for the structures, is it=
-=20
-> > enough?
-> >=20
-> > /**
-> >   * struct pixel_argb_u16 - Internal representation of a pixel color.
-> >   * @r: Red component value, stored in 16 bits, without padding, using
-> >   *     machine endianness
-> >   * @b: [...]
-> >   *
-> >   * The goal of this structure is to keep enough precision to ensure
-> >   * correct composition results in VKMS and simplifying color
-> >   * manipulation by splitting each component into its own field.
-> >   * Caution: the byte ordering of this structure is machine-dependent,
-> >   * you can't cast it directly to AR48 or xR48.
-> >   */
-> > struct pixel_argb_u16 {
-> > 	u16 a, r, g, b;
-> > };
-> >=20
-> > (ditto for pixel_yuv_u8)
-> >=20
-> > > I'm really
-> > > surprised about the RGB component values being stored on 16 bits thou=
-gh.
-> > > It's super unusual, to the point where it's almost useless for us to
-> > > test, and we should probably use 8 bits values. =20
-> >=20
-> > We need to have 16 bits because some of the writeback formats are 16 bi=
-ts.
->=20
-> Hi Maxime,
->=20
-> Louis' proposed comment is good and accurate. I can elaborate further on
-> it.
->=20
-> pixel_argb_u16 is an internal structure used only for temporary pixel
-> storage: the intermediate format. It's aim is to make computations on
-> pixel values easy: every input format is converted to it before
-> computations, and after computations it is converted to each output
-> format. This allows VKMS to implement computations, e.g. a matrix
-> operation, in simple code for only one cpu-endian "pixel format", the
-> intermediate format. (drm_fourcc.h has no cpu-endian formats at all,
-> and that is good.)
->=20
-> That VKMS never stores complete images in the intermediate format. To
-> strike a balance between temporary memory requirements and
-> computational overhead, VKMS processes images line-by-line. Only one
-> (or two) line's worth of pixels is needed to be kept in memory per
-> source or destination framebuffer at a time.
->=20
-> 16-bit precision is required not just because some writeback and
-> framebuffer formats are 16-bit. We also need extra precision due to the
-> color value encoding. Transfer functions can convert pixel data between
-> the optical and electrical domains. Framebuffers usually contain
-> electrical domain data, because it takes less bits per pixel in order
-> to achieve a specific level of visual image quality (think of color
-> gradient banding). However, some computations, like color space
-> conversion with a matrix, must be done in the optical domain, which
-> requires more bits per pixel in order to not degrade the image quality.
->=20
-> In the future I would even expect needing 32-bit or even 64-bit per
-> channel precision in the intermediate format once higher-than-16 bits
-> per channel framebuffer formats require testing.
->=20
-> YUV can work with 8 bits per pixel for now, because in practice YUV is
-> always stored in electrical domain due its definition. YUV in optical
-> domain is simply never used. However, there are framebuffer formats
-> with more than 8 bits of YUV channels, so this may need extending too.
+> Giving people these features will only encourage them to write wrong
+> drivers.
 
-Thanks for your explanations, and yes Louis, I think it's in a much
-better shape with your suggestion.
+So I think you can still achieve that building on top of revocable and a
+few more abstractions that are internally unsafe. Or are you thinking of
+different runtime checks?
 
-We'd still some additional info like whether you're testing limited vs
-full range, but it's most likely going to be on a per-test basis.
+> This is not even a new idea, devm introduces automatic lifetime into
+> the kernel and I've sat in presentations about how devm has all sorts
+> of bug classes because of misuse. :\
 
-Maxime
+Yeah automatic lifetime is great, until people mix up things with
+different lifetimes, then it all goes wrong.
 
---263hj7gfnktphh5g
-Content-Type: application/pgp-signature; name="signature.asc"
+> > Does this sounds like a possible conclusion of this thread, or do we need
+> > to keep digging?
+> 
+> IDK, I think this should be socialized more. It is important as it
+> effects all drivers here out, and it is radically different to how the
+> kernel works today.
+> 
+> > Also now that I look at this problem as a two-level issue, I think drm is
+> > actually a lot better than what I explained. If you clean up driver state
+> > properly in ->remove (or as stack automatic cleanup functions that run
+> > before all the mmio/irq/whatever stuff disappears), then we are largely
+> > there already with being able to fully quiescent driver state enough to
+> > make sure no new requests can sneak in. 
+> 
+> That is the typical subsystem design!
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ9Lr3wAKCRDj7w1vZxhR
-xbKPAP9h1I4+WMbgpFcDVDNbkIi1cwxtvUp5hqO3epBlkh9puwEAn2eIG2+dnROT
-NXKbY6a7Jy60/nsOrRAEigCwgN1ckQ4=
-=8h4B
------END PGP SIGNATURE-----
-
---263hj7gfnktphh5g--
+Yeah maybe we're not that far really. But I'm still not clear how to do
+an entirely revoke-less world.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
