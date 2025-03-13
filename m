@@ -2,49 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A47AA5EA16
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 04:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DB1A5EA26
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 04:34:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC5F10E0BE;
-	Thu, 13 Mar 2025 03:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6C0510E19C;
+	Thu, 13 Mar 2025 03:34:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="OxjSIy1M";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BPnJ1y7J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3D410E0BE
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 03:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1741835575;
- bh=umnF84Dfi3Nfa6Na8lFbRSU0J6LQFik/70/YubuMr4o=;
- h=Date:From:To:Cc:Subject:From;
- b=OxjSIy1MmXeePd5sIIGR9eQJJUTQlK/MMC5GIO6h0rJhjI70fgqpdTyrsd49sPv2T
- CP0Y0D8uyHSh9gmldX3iJ/ZLYZ83WogH2T9YW66rLHntyCFtt7lOZ/v8otlgI0ADBj
- 4UgDJC/Rj9qGvofmzdffJNFJ91CsTf9veDNH21dr9eIp0jDOJ/qtM3uvBsj5dtyjzW
- smV3RruxnjLUh/IwCE3MljFWhqn4DMc1gCnx9pi4ivYr8FwWIpRoMPGM8L3LNWrl6c
- SsFl4xfSWJ2LHMlxdHgQ0jZW2aUnB/C1SZjiu/3JJOtCTX+T30bhe6vqDLsm8Ul0gK
- gVZt2aCTGj7fA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B0210E1B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 03:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1741836868;
+ bh=TNTg47qZROW0WppXAxZZzNCelLLyziUBjKjAdeuuDYM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BPnJ1y7JxkNqwB5O9TwhT/tNs3RtxRBV0KHeFVtwlZe6+1lg0AksfSxutLRLNmv0L
+ N3d78EnC88eG/3JL4bizSLiZYlvmrLAzAZ8fOp045oSyr8ztO6Vr8pWtjlm6IYlkrO
+ TdjECDS9TGc2648yJCmokdHVF2Mbn3xW20JbtsX3Iag1vzfyjjv/RNoR8m4GVI+ol3
+ deFXdwLZEI8nSLI5yvVTMqeQkGBgT8yQATj1K+A/zvkN516n15frFK38NI8lh1SLaF
+ /P15qaRCPlW83UDp7p8ODwMKD+EfD2izKQExvFGtCMfy8c2AS0xoffxGehBk1xnpVD
+ 3DIipChxDcYRw==
+Received: from [192.168.50.250] (unknown [171.76.87.92])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4ZCsxy6lWZz4wgp;
- Thu, 13 Mar 2025 14:12:54 +1100 (AEDT)
-Date: Thu, 13 Mar 2025 14:12:53 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
- Dave Airlie <airlied@redhat.com>
-Cc: DRI <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Nam Cao <namcao@linutronix.de>
-Subject: linux-next: manual merge of the tip tree with the drm tree
-Message-ID: <20250313141253.0c5a7520@canb.auug.org.au>
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1E5B817E0B46;
+ Thu, 13 Mar 2025 04:34:25 +0100 (CET)
+Message-ID: <7c39436c-3f23-41cf-97aa-06d9f9d20e61@collabora.com>
+Date: Thu, 13 Mar 2025 09:04:18 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/pZeEYs9fPa13vl4Du59hHnf";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] arm64: defconfig: mediatek: enable PHY drivers
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, angelogioacchino.delregno@collabora.com,
+ krzk@kernel.org, daniels@collabora.com, airlied@gmail.com,
+ simona.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250312041943.25676-1-vignesh.raman@collabora.com>
+ <5706c76e-7558-4405-a4c6-cab9cb5ddf65@notapiano>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <5706c76e-7558-4405-a4c6-cab9cb5ddf65@notapiano>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,68 +65,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/pZeEYs9fPa13vl4Du59hHnf
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Nícolas,
 
-Hi all,
+On 12/03/25 19:55, Nícolas F. R. A. Prado wrote:
+> On Wed, Mar 12, 2025 at 09:49:26AM +0530, Vignesh Raman wrote:
+>> The mediatek display driver fails to probe on mt8173-elm-hana and
+>> mt8183-kukui-jacuzzi-juniper-sku16 in v6.14-rc4 due to missing PHY
+>> configurations.
+>>
+>> Enable the following PHY drivers for MediaTek platforms:
+>> - CONFIG_PHY_MTK_HDMI=m for HDMI display
+>> - CONFIG_PHY_MTK_MIPI_DSI=m for DSI display
+>> - CONFIG_PHY_MTK_XSPHY=m for USB
+>>
+>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>> ---
+>>
+>> v2:
+>>    - Include board details in the commit message.
+>>    - Sort newly added PHY configs in defconfig.
+>>
+>> ---
+>>   arch/arm64/configs/defconfig | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+>> index 1f25423de383..87e8cbd3fd26 100644
+>> --- a/arch/arm64/configs/defconfig
+>> +++ b/arch/arm64/configs/defconfig
+>> @@ -1572,7 +1572,10 @@ CONFIG_PHY_HI6220_USB=y
+>>   CONFIG_PHY_HISTB_COMBPHY=y
+>>   CONFIG_PHY_HISI_INNO_USB2=y
+>>   CONFIG_PHY_MVEBU_CP110_COMPHY=y
+>> +CONFIG_PHY_MTK_HDMI=m
+>> +CONFIG_PHY_MTK_MIPI_DSI=m
+> 
+> This isn't the expected ordering. I imagine you manually added these configs in
+> the defconfig.
 
-Today's linux-next merge of the tip tree got a conflict in:
+Yes, I added them manually.
 
-  drivers/gpu/drm/i915/i915_pmu.c
+> 
+> To get the right ordering, after you've added the configs anywhere in this
+> defconfig, do a 'make defconfig', then a 'make savedefconfig', and copy the
+> generated 'defconfig' file at the root to this location, then you can add just
+> this hunk to the commit, and it'll be in the correct order.
 
-between commit:
+Thanks for the explanation. I will follow this approach.
 
-  87b593d79864 ("drm/i915/pmu: Drop custom hotplug code")
+Regards,
+Vignesh
 
-from the drm tree and commit:
+> 
+> Thanks,
+> Nícolas
 
-  82ad584eed8b ("drm/i915/pmu: Switch to use hrtimer_setup()")
-
-from the tip tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/i915_pmu.c
-index 69a109d02116,0ce87f188d11..000000000000
---- a/drivers/gpu/drm/i915/i915_pmu.c
-+++ b/drivers/gpu/drm/i915/i915_pmu.c
-@@@ -1155,8 -1264,8 +1155,7 @@@ void i915_pmu_register(struct drm_i915_
-  	int ret =3D -ENOMEM;
- =20
-  	spin_lock_init(&pmu->lock);
-- 	hrtimer_init(&pmu->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-- 	pmu->timer.function =3D i915_sample;
-+ 	hrtimer_setup(&pmu->timer, i915_sample, CLOCK_MONOTONIC, HRTIMER_MODE_RE=
-L);
- -	pmu->cpuhp.cpu =3D -1;
-  	init_rc6(pmu);
- =20
-  	if (IS_DGFX(i915)) {
-
---Sig_/pZeEYs9fPa13vl4Du59hHnf
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmfSTTUACgkQAVBC80lX
-0GwYpQf/SKAOOH/Oph01KSqzkDqHAGb9+XkiZ+ZoEEa+RaxaUjuAfbE3V5i7e+2k
-h89+AoELiv+kwMCrx6wAMqVCyikB1578QZah4eN1BR9mZZQ7oLpywlNQ6duTH7Ad
-EdeP4E5Se/GBbgTVcDR6bfhpc94wlLtmWe2JTq03eAJpg/X7siYFyoLP9icK+xh6
-Son0p1Q7lSdZMFfqqRl0YW25QFfejrCFOM1TaBhEPQvuKEmUOV89wO4tCck9o6ai
-NQaXs6KeJYk+uUnvpk8Mbm+q98lPLR3PsXfG5uBL8aNEyS7mbQhZd/I3qub0CnYr
-+M6+juEg9pFXSPs5QH2T+uGeDPBMoQ==
-=WiEi
------END PGP SIGNATURE-----
-
---Sig_/pZeEYs9fPa13vl4Du59hHnf--
