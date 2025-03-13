@@ -2,69 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B4AA5F622
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 14:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE368A5F721
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 15:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F3C010E89E;
-	Thu, 13 Mar 2025 13:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13BE210E194;
+	Thu, 13 Mar 2025 14:00:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IygnFXR+";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="j8AfFLJz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A69610E89D;
- Thu, 13 Mar 2025 13:41:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741873292; x=1773409292;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=KDAGCgwPGDM/2y68aou0IW3mNCAlXEOOeORsDf1zrbY=;
- b=IygnFXR+hazWfClhvq6XfyJUa8c0DwAyh3Kai7qdBFV7jriPBXbxnbt4
- IVo0QcD9NdPiNkd3vx9uPfZtdVK5XjIJ7vUCCznloXch7cSFbrOgK7vxn
- Qgi3VFXPfN3UIuKY8+D9rBx68xCsES98+jOa3QfGHpf2XHynwiW8y8ni1
- pO/5GlJJguJH3lGDbm7+J5WcNr0gy3H+X5JtLnz2eL3miTFvidNNqi3g2
- 4y5Mk1Y9EmIgLDv3Z/+nVY05M0jRKuUhOxJczswtLD6ohCMqKsn3OFNWf
- GxAVGlK/8ZG4M72Skc9hpNISHWrNO+1mDodyzpNXdmBBbFBD35Sy+2zTI A==;
-X-CSE-ConnectionGUID: 1E4qr1Y5T/WPZAdQLgyiIg==
-X-CSE-MsgGUID: iXhZJVIUSaWu0GqFAW6RPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="60530852"
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="60530852"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2025 06:41:31 -0700
-X-CSE-ConnectionGUID: KpbHa0aVSbubjtreU64R7Q==
-X-CSE-MsgGUID: O3m/BJQaSUy98bE9DBFaNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="120746509"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.122])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2025 06:41:27 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [PATCH v4] drm/i915: Fix harmful driver register/unregister
- asymmetry
-Date: Thu, 13 Mar 2025 14:41:24 +0100
-Message-ID: <1991398.6tgchFWduM@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <iij22uuf5v2qq5vss5uszwowkzqrlgqbo5vxuidocebgqu52kr@tt3hdgn2ppgq>
-References: <20250311200550.637383-2-janusz.krzysztofik@linux.intel.com>
- <3330897.aV6nBDHxoP@jkrzyszt-mobl2.ger.corp.intel.com>
- <iij22uuf5v2qq5vss5uszwowkzqrlgqbo5vxuidocebgqu52kr@tt3hdgn2ppgq>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7015B10E178
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 14:00:30 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5EF6E20457;
+ Thu, 13 Mar 2025 14:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1741874427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4th1xfAhxeNnhCqVA5l5BQOQHLDtHxDxY2MkG8tNN5Y=;
+ b=j8AfFLJz2nb3KUTTbLdJN+NTaUuDMsfgXcbCbSEbY23iIuGB5TU//i4pIhQcDKthpRAtOy
+ sRRpDjBTESbiFqhiaXx8G4pu9cw1O9hm8qasD7Rxg1wMGeOePHDklOkGGR1kwfa7zi/pCv
+ Aoo+T/L/nilhgZPHmc52LGwKO6MCLohDVq5ZY0YfklXWBdn7aG3jcLQVIHqBTWuCDEEFpR
+ lOOgVVRS7eHRnBEP2T2e5HD20n5IwgyrJA6WDnuYU8pX4O4Wbyg7kH/jzZj98NGyLwJLcm
+ nlcf6KN/6ONksYgoPdCZOBWPtP8wQUTGbN6Z+rwGunq7BGh0kr4BAa7NIjT+iA==
+Message-ID: <1ebda1a2-779b-4642-9df2-d24cbf223875@bootlin.com>
+Date: Thu, 13 Mar 2025 15:00:24 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: drm-ci: vkms: kms_flip@modeset-vs-vblank-race flake
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "hamohammed.sa" <hamohammed.sa@gmail.com>, simona.vetter@ffwll.ch,
+ "melissa.srw" <melissa.srw@gmail.com>,
+ "maarten.lankhorst" <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, tzimmermann <tzimmermann@suse.de>,
+ airlied <airlied@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, daniels <daniels@collabora.com>,
+ sergi.blanch.torne@collabora.com,
+ "guilherme.gallo" <guilherme.gallo@collabora.com>,
+ Helen Mae Koike Fornazier <helen.fornazier@gmail.com>
+References: <2364a6bf-e6bc-4741-8c78-cea8bdb06e03@collabora.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <2364a6bf-e6bc-4741-8c78-cea8bdb06e03@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduvdekudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefftdduueetheejledvkeetjeekudfhffduvdeugfevfeeifeehieffjeetfefgveenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepvhhighhnvghshhdrrhgrmhgrnhestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtp
+ hhtthhopehsihhmohhnrgdrvhgvthhtvghrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggv
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,271 +126,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, 13 March 2025 14:11:35 CET Krzysztof Niemiec wrote:
-> Hi Janusz,
-> 
-> On 2025-03-12 at 17:58:13 GMT, Janusz Krzysztofik wrote:
-> > Hi Krzysztof,
-> > 
-> > Thanks for looking at this.
-> > 
-> > On Wednesday, 12 March 2025 16:06:15 CET Krzysztof Niemiec wrote:
-> > > On 2025-03-11 at 21:04:56 GMT, Janusz Krzysztofik wrote:
-> > > > Starting with commit ec3e00b4ee27 ("drm/i915: stop registering if
-> > > > drm_dev_register() fails"), we return from i915_driver_register()
-> > > > immediately if drm_dev_register() fails, skipping remaining registration
-> > > > steps, and continue only with remaining probe steps.  However, the
-> > > > _unregister() counterpart called at driver remove knows nothing about that
-> > > > skip and executes reverts of all those steps, with some of those reverts
-> > > > possibly added or modified later.  As a consequence, a number of kernel
-> > > > warnings that taint the kernel are triggered:
-> > > > 
-> > > > <3> [525.823143] i915 0000:00:02.0: [drm] *ERROR* Failed to register driver for
-> > > > userspace access!
-> > > > ...
-> > > > <4> [525.831069] ------------[ cut here ]------------
-> > > > <4> [525.831071] i915 0000:00:02.0: [drm] drm_WARN_ON(power_domains->init_wakere
-> > > > f)
-> > > > <4> [525.831095] WARNING: CPU: 6 PID: 3440 at drivers/gpu/drm/i915/display/intel
-> > > > _display_power.c:2074 intel_power_domains_disable+0xc2/0xd0 [i915]
-> > > > ...
-> > > > <4> [525.831328] CPU: 6 UID: 0 PID: 3440 Comm: i915_module_loa Tainted: G     U
-> > > >             6.14.0-rc1-CI_DRM_16076-g7a632b6798b6+ #1
-> > > > ...
-> > > > <4> [525.831334] RIP: 0010:intel_power_domains_disable+0xc2/0xd0 [i915]
-> > > > ...
-> > > > <4> [525.831483] Call Trace:
-> > > > <4> [525.831484]  <TASK>
-> > > > ...
-> > > > <4> [525.831943]  i915_driver_remove+0x4b/0x140 [i915]
-> > > > <4> [525.832028]  i915_pci_remove+0x1e/0x40 [i915]
-> > > > <4> [525.832099]  pci_device_remove+0x3e/0xb0
-> > > > <4> [525.832103]  device_remove+0x40/0x80
-> > > > <4> [525.832107]  device_release_driver_internal+0x215/0x280
-> > > > ...
-> > > > <4> [525.947666] ------------[ cut here ]------------
-> > > > <4> [525.947669] kobject: '(null)' (ffff88814f62a218): is not initialized, yet kobject_put() is being called.
-> > > > <4> [525.947707] WARNING: CPU: 6 PID: 3440 at lib/kobject.c:734 kobject_put+0xe4/0x200
-> > > > ...
-> > > > <4> [525.947875] RIP: 0010:kobject_put+0xe4/0x200
-> > > > ...
-> > > > <4> [525.947909] Call Trace:
-> > > > <4> [525.947911]  <TASK>
-> > > > ...
-> > > > <4> [525.947963]  intel_gt_sysfs_unregister+0x25/0x40 [i915]
-> > > > <4> [525.948133]  intel_gt_driver_unregister+0x14/0x80 [i915]
-> > > > <4> [525.948291]  i915_driver_remove+0x6c/0x140 [i915]
-> > > > <4> [525.948411]  i915_pci_remove+0x1e/0x40 [i915]
-> > > > ...
-> > > > <4> [526.441186] ------------[ cut here ]------------
-> > > > <4> [526.441191] kernfs: can not remove 'error', no directory
-> > > > <4> [526.441211] WARNING: CPU: 1 PID: 3440 at fs/kernfs/dir.c:1684 kernfs_remove_by_name_ns+0xbc/0xc0
-> > > > ...
-> > > > <4> [526.441536] RIP: 0010:kernfs_remove_by_name_ns+0xbc/0xc0
-> > > > ...
-> > > > <4> [526.441578] Call Trace:
-> > > > <4> [526.441581]  <TASK>
-> > > > ...
-> > > > <4> [526.441686]  sysfs_remove_bin_file+0x17/0x30
-> > > > <4> [526.441691]  i915_gpu_error_sysfs_teardown+0x1d/0x30 [i915]
-> > > > <4> [526.442226]  i915_teardown_sysfs+0x1c/0x60 [i915]
-> > > > <4> [526.442369]  i915_driver_remove+0x9d/0x140 [i915]
-> > > > <4> [526.442473]  i915_pci_remove+0x1e/0x40 [i915]
-> > > > ...
-> > > > <4> [526.685700] ------------[ cut here ]------------
-> > > > <4> [526.685706] i915 0000:00:02.0: [drm] i915 raw-wakerefs=1 wakelocks=1 on cle
-> > > > anup
-> > > > <4> [526.685734] WARNING: CPU: 1 PID: 3440 at drivers/gpu/drm/i915/intel_runtime
-> > > > _pm.c:443 intel_runtime_pm_driver_release+0x75/0x90 [i915]
-> > > > ...
-> > > > <4> [526.686090] RIP: 0010:intel_runtime_pm_driver_release+0x75/0x90 [i915]
-> > > > ...
-> > > > <4> [526.686294] Call Trace:
-> > > > <4> [526.686296]  <TASK>
-> > > > ...
-> > > > <4> [526.687025]  i915_driver_release+0x7e/0xb0 [i915]
-> > > > <4> [526.687243]  drm_dev_put.part.0+0x47/0x90
-> > > > <4> [526.687250]  devm_drm_dev_init_release+0x13/0x30
-> > > > <4> [526.687255]  devm_action_release+0x12/0x30
-> > > > <4> [526.687261]  release_nodes+0x3a/0x120
-> > > > <4> [526.687268]  devres_release_all+0x97/0xe0
-> > > > <4> [526.687277]  device_unbind_cleanup+0x12/0x80
-> > > > <4> [526.687282]  device_release_driver_internal+0x23a/0x280
-> > > > ...
-> > > > 
-> > > > A call to intel_power_domains_disable() was already there.  It triggers
-> > > > the drm_WARN_ON() when it finds a reference to a wakeref taken on device
-> > > > probe and not released after device register failure.  That wakeref is
-> > > > then left held forever once its handle gets lost overwritten with another
-> > > > wakeref, hence the WARN() called from intel_runtime_pm_driver_release().
-> > > > 
-> > > > The WARN() triggered by kernfs_remove_by_name_ns() from
-> > > > i915_teardown_sysfs()->i915_gpu_error_sysfs_teardown(), formerly
-> > > > i915_teardown_error_capture(), was also there when the return was added.
-> > > > 
-> > > > A call to intel_gt_sysfs_unregister() that triggers the WARN() from
-> > > > kobject_put() was added to intel_gt_driver_unregister() with commit
-> > > > 69d6bf5c3754ff ("drm/i915/gt: Fix memory leaks in per-gt sysfs").
-> > > > 
-> > > > Fix the asymmetry by failing the driver probe on device registration
-> > > > failure and going through rewind paths.
-> > > > 
-> > > > For that to work as expected, we apparently need to start the rewind path
-> > > > of i915_driver_register() with drm_dev_unregister(), even if
-> > > > drm_dev_register() returned an error.
-> > > > 
-> > > > Also, in rewind path of the i915_driver_probe() we need to clean up PXP
-> > > > initialization before it's safe to call other hardware cleanup routines.
-> > > > The intel_pxp_init() without a corresponding cleanup was added to
-> > > > i915_driver_probe() with commit f67986b0119c04 ("drm/i915/pxp: Promote pxp
-> > > > subsystem to top-level of i915").
-> > > > 
-> > > > v4: Switch to taking an error rewind path on device registration failure
-> > > >     (Krzysztof, Lucas).
-> > > > v3: Based on Andi's commitment on introducing a flag, try to address
-> > > >     Jani's "must find another way" by finding a better place and name for
-> > > >     the flag (in hope that's what Jani had on mind),
-> > > >   - split into a series of patches and limit the scope of the first (this)
-> > > >     one to a minimum of omitting conditionally only those unregister
-> > > >     (sub)steps that trigger kernel warnings when not registered.
-> > > > v2: Check in _unregister whether the drm_dev_register has succeeded and
-> > > >     skip some of the _unregister() steps. (Andi)
-> > > > 
-> > > > Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10047
-> > > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/9820
-> > > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10131
-> > > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10887
-> > > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12817
-> > > > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> > > > Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-> > > > Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> > > > Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> > > > Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-> > > > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > > > Cc: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-> > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > > > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/i915_driver.c | 22 +++++++++++++++-------
-> > > >  1 file changed, 15 insertions(+), 7 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> > > > index ce3cc93ea211b..dcf723da8d409 100644
-> > > > --- a/drivers/gpu/drm/i915/i915_driver.c
-> > > > +++ b/drivers/gpu/drm/i915/i915_driver.c
-> > > > @@ -622,11 +622,11 @@ static void i915_driver_hw_remove(struct drm_i915_private *dev_priv)
-> > > >   * Perform any steps necessary to make the driver available via kernel
-> > > >   * internal or userspace interfaces.
-> > > >   */
-> > > > -static void i915_driver_register(struct drm_i915_private *dev_priv)
-> > > > +static int i915_driver_register(struct drm_i915_private *dev_priv)
-> > > >  {
-> > > >  	struct intel_display *display = &dev_priv->display;
-> > > >  	struct intel_gt *gt;
-> > > > -	unsigned int i;
-> > > > +	unsigned int i, ret;
-> > > 
-> > > drm_dev_register() returns int, i915_driver_probe() expects int from
-> > > from the functions it calls (including this one), and this one is
-> > > defined as static int, so dropping the unsigned keyword for ret feels
-> > > more appropriate.
-> > 
-> > Right, my bad.  I'll fix it exactly as you suggest if the whole idea standing 
-> > behind this patch is accepted.
-> > 
-> > > >  
-> > > >  	i915_gem_driver_register(dev_priv);
-> > > >  	i915_pmu_register(dev_priv);
-> > > > @@ -634,10 +634,12 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
-> > > >  	intel_vgpu_register(dev_priv);
-> > > >  
-> > > >  	/* Reveal our presence to userspace */
-> > > > -	if (drm_dev_register(&dev_priv->drm, 0)) {
-> > > > -		drm_err(&dev_priv->drm,
-> > > > -			"Failed to register driver for userspace access!\n");
-> > > > -		return;
-> > > > +	ret = drm_dev_register(&dev_priv->drm, 0);
-> > > > +	if (ret) {
-> > > > +		drm_dev_unregister(&dev_priv->drm);
-> > > > +		i915_pmu_unregister(dev_priv);
-> > > > +		i915_gem_driver_unregister(dev_priv);
-> > > > +		return ret;
-> > > >  	}
-> > > >  
-> > > 
-> > > I'd keep the "Failed to register driver for userspace access" error
-> > > message.
-> > 
-> > OK, but would you still keep it if you knew that with this error message kept,
-> > CI would still report dmesg-warn as a result of 
-> > igt@i915_module_load@reload-with-fault-injection test?
-> > 
-> 
-> I think the message should still be there as a clue for debugging in
-> case this bug does happen on a live system (not as a result of an
-> injected bug). I think the way to resolve this is to use
-> i915_probe_error(), which prints the message as debug when there is an
-> injection happening, but prints it as error otherwise. Maybe it's also
-> worth to add the return value to that message, so something like:
-> 
-> i915_probe_error(dev_priv,
-> 		 "Failed to register driver for userspace access! (%d)\n", ret);
-> 
-> That way we still benefit from debugging information but prevent CI from
-> complaining about dmesg-warn.
-
-Oh yeah, that's what I've been missing, thank you Krzysztof!
-
-Janusz
-
-> 
-> Thanks
-> Krzysztof
-> 
-> > Thanks,
-> > Janusz
-> > 
-> > 
-> > > Thanks
-> > > Krzysztof
-> > > 
-> > > >  	i915_debugfs_register(dev_priv);
-> > > > @@ -660,6 +662,8 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
-> > > >  
-> > > >  	if (i915_switcheroo_register(dev_priv))
-> > > >  		drm_err(&dev_priv->drm, "Failed to register vga switcheroo!\n");
-> > > > +
-> > > > +	return 0;
-> > > >  }
-> > > >  
-> > > >  /**
-> > > > @@ -834,7 +838,9 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-> > > >  	if (ret)
-> > > >  		goto out_cleanup_gem;
-> > > >  
-> > > > -	i915_driver_register(i915);
-> > > > +	ret = i915_driver_register(i915);
-> > > > +	if (ret)
-> > > > +		goto out_cleanup_pxp;
-> > > >  
-> > > >  	enable_rpm_wakeref_asserts(&i915->runtime_pm);
-> > > >  
-> > > > @@ -844,6 +850,8 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-> > > >  
-> > > >  	return 0;
-> > > >  
-> > > > +out_cleanup_pxp:
-> > > > +	intel_pxp_fini(i915);
-> > > >  out_cleanup_gem:
-> > > >  	i915_gem_suspend(i915);
-> > > >  	i915_gem_driver_remove(i915);
-> > > 
-> > 
-> > 
-> > 
-> > 
-> 
 
 
+Le 13/03/2025 à 11:45, Vignesh Raman a écrit :
+> Hi Maintainers,
+> 
 
+Hi Vignesh,
+
+Thanks for the report.
+
+On my setup, this test passed, and the others are skipped.
+
+I think the issue on this specific test may be due to performance (seems 
+to be a timing issue, I will try to slow down my VM). The other tests 
+require suspend/resume, which I failed to setup on my VM.
+
+To understand what is wrong, I would like to have an environment very 
+similar to the CI, how can I reproduce this on my machine? Is there a 
+setup script somewhere I can run to create a virtual machine?
+
+Thanks,
+Louis Chauvet
+
+> There are some flake test reported for vkms driver testing in drm-ci.
+> 
+> # Board Name: vkms
+> # Failure Rate: 20
+> # IGT Version: 1.30-g04bedb923
+> # Linux Version: 6.14.0-rc4
+> kms_flip@modeset-vs-vblank-race
+> 
+> DEBUG - Begin test kms_flip@modeset-vs-vblank-race
+> ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure
+> function run_test_step, file ../tests/kms_flip.c:979:
+> ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end -
+> start > 0.9 * actual_frame_time(o) && end - start < 2.6 *
+> actual_frame_time(o)
+> ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took
+> 47374 usec (frame time 16665.600000 usec)
+> ERROR - Igt error: Dynamic subtest A-Virtual17 failed.
+> ERROR - Igt error: **** DEBUG ****
+> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+> igt_create_fb_with_bo_size(width=1024, height=768,
+> format=XR24(0x34325258), modifier=0x0, size=0)
+> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+> igt_create_fb_with_bo_size(handle=1, pitch=4096)
+> ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test
+> requirement passed: igt_has_fb_modifiers(fd)
+> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+> igt_create_fb_with_bo_size(width=1024, height=768,
+> format=XR24(0x34325258), modifier=0x0, size=0)
+> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+> igt_create_fb_with_bo_size(handle=2, pitch=4096)
+> ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test
+> requirement passed: igt_has_fb_modifiers(fd)
+> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement
+> passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement
+> passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+> ERROR - Igt error: (kms_flip:1250) igt_kms-INFO:   1024x768: 60 65000
+> 1024 1048 1184 1344 768 771 777 806 0x48 0xa
+> ERROR - Igt error: (kms_flip:1250) DEBUG: No stale events found
+> ERROR - Igt error: (kms_flip:1250) INFO: Expected frametime: 16666us;
+> measured 16665.6us +- 0.500us accuracy 0.01%
+> ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure
+> function run_test_step, file ../tests/kms_flip.c:979:
+> ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end -
+> start > 0.9 * actual_frame_time(o) && end - start < 2.6 *
+> actual_frame_time(o)
+> ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took
+> 47374 usec (frame time 16665.600000 usec)
+> ERROR - Igt error: (kms_flip:1250) igt_core-INFO: Stack trace:
+> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #0
+> ../lib/igt_core.c:2055 __igt_fail_assert()
+> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #1
+> ../tests/kms_flip.c:1023 run_test_on_crtc_set.constprop.0()
+> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #2
+> ../tests/kms_flip.c:1845 run_test()
+> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #3
+> ../tests/kms_flip.c:2078 __igt_unique____real_main2001()
+> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #4
+> ../tests/kms_flip.c:2001 main()
+> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #5
+> [__libc_init_first+0x8a]
+> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #6
+> [__libc_start_main+0x85]
+> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #7 [_start+0x21]
+> ERROR - Igt error: ****  END  ****
+> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Test assertion
+> failure function kmstest_set_connector_dpms, file ../lib/igt_kms.c:2246:
+> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Failed assertion:
+> found_it
+> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Last errno: 9, Bad
+> file descriptor
+> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: DPMS property not
+> found on 39
+> ERROR - Test kms_flip@modeset-vs-vblank-race: Fail: See
+> "/builds/vigneshraman/linux/results/igt.kms_flip@modeset-vs-vblank-race.log"
+> DEBUG - End test kms_flip@modeset-vs-vblank-race
+> 
+> Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/72473690
+> 
+> Please could you have a look at these test results and let us know if
+> you need more information. Thank you.
+> 
+> Regards,
+> Vignesh
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
