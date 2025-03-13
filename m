@@ -2,78 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C207A5FBEE
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 17:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DDBA5FC2B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 17:41:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A7910E8EB;
-	Thu, 13 Mar 2025 16:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE26310E8F1;
+	Thu, 13 Mar 2025 16:41:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="TAd1C3YU";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fJfVWeQ1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 325BE10E8EB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 16:37:19 +0000 (UTC)
-Received: from [127.0.0.1] ([76.133.66.138]) (authenticated bits=0)
- by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52DGaDdt3043136
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Thu, 13 Mar 2025 09:36:13 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52DGaDdt3043136
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2025021701; t=1741883777;
- bh=SaFIw7UgTgo6VXgT9++j90cTZypncDuuppnQ2OyQAgc=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=TAd1C3YUnz1/m04KvWprrt25c59hDoEqP/HObNA2f0Bp4rp+Nb9PEJCNVXCw14Iiu
- q9Abs6+zDLtcCpZhdLC2JCZczf1qLTKYIQIMECs16cttjTwMK/9bSrYGHwOie5HClz
- /jcP+3xeKGlwUu0aUrtIeDMZT1ZuV3Y4f2fDZOzvoKjLs6qNj/nOaMpj13f7/0wDQR
- FTgUDEoLrytWaP9YL4WrPdL93XJwGvTwIwSUgo+vtkpLhxBsY0ibsq0svVoyhEkaAa
- CHnCGjith9nzaUr6Ath+5dakagWjzMXxHAYsyl+rXq8ZXPjgmXLSW6QTYUQphTnOMM
- hLTpcEZzd0lKw==
-Date: Thu, 13 Mar 2025 09:36:11 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Yury Norov <yury.norov@gmail.com>
-CC: Jacob Keller <jacob.e.keller@intel.com>,
- David Laight <david.laight.linux@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, Ingo Molnar <mingo@kernel.org>,
- Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
- hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- akpm@linux-foundation.org, alistair@popple.id.au,
- linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Z9MGxknjluvbX19w@thinkpad>
-References: <20250306162541.2633025-1-visitorckw@gmail.com>
- <20250306162541.2633025-2-visitorckw@gmail.com>
- <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org>
- <Z8ra0s9uRoS35brb@gmail.com>
- <a4040c78-8765-425e-a44e-c374dfc02a9c@kernel.org>
- <20250307193643.28065d2d@pumpkin>
- <cbb26a91-807b-4227-be81-8114e9ea72cb@intel.com>
- <0F794C6F-32A9-4F34-9516-CEE24EA4BC49@zytor.com> <Z9MGxknjluvbX19w@thinkpad>
-Message-ID: <795281B1-9B8A-477F-8012-DECD14CB53E5@zytor.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B68E10E8F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 16:41:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741884073;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/AOuWXnGYR13C3EsQl2M3GLqAI/OrlKtR5FIj9y6Kyo=;
+ b=fJfVWeQ1keQUQRxDyCnlHca4jyFS5q5rUljHxk1NcpHmCTIMrKD/K+/7EDeod/4pPSTwP+
+ yOy99sO5zBTigfFD+PQ05bAId/EP3iBHfAHTJfegMkI+XUnVLJQIYIgBUGyttkzZPC/dUM
+ KNuprU9iT7UFa/GNmqOH784c024XQLo=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-609-13_01mn9N7WC8FJVlw0L-w-1; Thu, 13 Mar 2025 12:41:12 -0400
+X-MC-Unique: 13_01mn9N7WC8FJVlw0L-w-1
+X-Mimecast-MFC-AGG-ID: 13_01mn9N7WC8FJVlw0L-w_1741884072
+Received: by mail-pj1-f69.google.com with SMTP id
+ 98e67ed59e1d1-2ff798e8c3bso2098692a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 09:41:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741884071; x=1742488871;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/AOuWXnGYR13C3EsQl2M3GLqAI/OrlKtR5FIj9y6Kyo=;
+ b=MwsiaTDIKjyyUd6Q6KSDDWpOS0nnIu6n74sUcXOsPDURjyB4ctARAGe1MwoiDYJoCq
+ xeFQeAOFp8EmHtxHmskMgmGEoYiW8fZiRrqgBkF3uQKfWdN5pQSy8TUIfZRA5oJerSnX
+ /SsfebMGmxmozeyMwN4l5jJ5ZKZ8poYCIOpXeArZC2BF3mx1cecmB8JhUsKm37R9t+dn
+ OaJw2A1ozbMXsnMmELuOXHGgoDhOY3ZHhj1SLwnruE+BYpe4VZztW2nkhcwBwzUs69Fo
+ 7n2RPgFYFBp5nb5bCfIxMlV1/x1yb+c386Uv5BCCApnSWaQXIEBbskBTC2BCIbJOriia
+ gQCg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXcKxGEvbUUN5W3QVjadqDC94ek77jKxkiLkdCVrk0DgBWh+DY86sz1yqcS3MApTwdlkfM7IuRMMj4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHuajdDkev03NjWJ1Zkc9L9eybxklbDkVYNVmcl4kyye+kQI4h
+ BiwIn1jwyzRo3zN3ZGMx/mgGMfoZvSc5C0nDCahwfCZvBJvxcIy3RaOPLVvB1tlB1PJ/WBIaLr7
+ Y/DB6J9AdpOPEBCPivf6wiAueTuMP6nwD2WWaSaRMHqHZs+nUvRMrOJBtvOECzxc1httAD/H6xa
+ EerXuAH8cKqNT9/pm68Cv/BTON1j05+ZE/sN8ZnILi
+X-Gm-Gg: ASbGnct6JOd01jeQI3nZ2NgikX+31+Qmb0UytenYvLdouKUilNEClhkyk7KlKYZCAqz
+ tSZZNHPEn+FNiph5ZVePccyDkmAFpzF+jDuA5nR89FsQZPMxZohFoZBfKoEKmICgG5JcQnPs=
+X-Received: by 2002:a17:90b:2812:b0:2fe:6942:370e with SMTP id
+ 98e67ed59e1d1-3014e814787mr282590a91.7.1741884071599; 
+ Thu, 13 Mar 2025 09:41:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGZSR0GKOgpT9qIwRRXIxVMEVNcO4hzEa3HpTc2cVefBnUNShY5U2qKEnTkHJXaXXzQjc2Wb29JilB9GlX1pNU=
+X-Received: by 2002:a17:90b:2812:b0:2fe:6942:370e with SMTP id
+ 98e67ed59e1d1-3014e814787mr282561a91.7.1741884071208; Thu, 13 Mar 2025
+ 09:41:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20250313114329.284104-1-acarmina@redhat.com>
+ <20250313114329.284104-8-acarmina@redhat.com>
+ <20250313122503.GA7438@willie-the-truck>
+In-Reply-To: <20250313122503.GA7438@willie-the-truck>
+From: Alessandro Carminati <acarmina@redhat.com>
+Date: Thu, 13 Mar 2025 17:40:59 +0100
+X-Gm-Features: AQ5f1JoRjBn0wYL3TNCgo2Be9gEw3kQ3UV-S3_DQ-XzPf4lVXAvFHPCcZEOjQyQ
+Message-ID: <CAGegRW5r3V2-_44-X353vS-GZwDYG=SVwc6MzSGE8GdFQuFoKA@mail.gmail.com>
+Subject: Re: [PATCH v4 07/14] arm64: Add support for suppressing warning
+ backtraces
+To: Will Deacon <will@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, 
+ Arnd Bergmann <arnd@arndb.de>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Kees Cook <keescook@chromium.org>, 
+ Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>, 
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ Naresh Kamboju <naresh.kamboju@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard <mripard@kernel.org>, 
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>, 
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org, 
+ kunit-dev@googlegroups.com, linux-arch@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+ loongarch@lists.linux.dev, x86@kernel.org, 
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: mjyN-cWMpoFChAuobXrcU3bPZ_7SsWk0wBH_nCe6N8Y_1741884072
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,37 +116,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On March 13, 2025 9:24:38 AM PDT, Yury Norov <yury=2Enorov@gmail=2Ecom> wro=
-te:
->On Wed, Mar 12, 2025 at 05:09:16PM -0700, H=2E Peter Anvin wrote:
->> On March 12, 2025 4:56:31 PM PDT, Jacob Keller <jacob=2Ee=2Ekeller@inte=
-l=2Ecom> wrote:
->
->[=2E=2E=2E]
->
->> >This is really a question of whether you expect odd or even parity as
->> >the "true" value=2E I think that would depend on context, and we may n=
-ot
->> >reach a good consensus=2E
->> >
->> >I do agree that my brain would jump to "true is even, false is odd"=2E
->> >However, I also agree returning the value as 0 for even and 1 for odd
->> >kind of made sense before, and updating this to be a bool and then
->> >requiring to switch all the callers is a bit obnoxious=2E=2E=2E
->>=20
->> Odd =3D 1 =3D true is the only same definition=2E It is a bitwise XOR, =
-or sum mod 1=2E
->
->The x86 implementation will be "popcnt(val) & 1", right? So if we
->choose to go with odd =3D=3D false, we'll have to add an extra negation=
-=2E
->So because it's a purely conventional thing, let's just pick a simpler
->one?
->
->Compiler's builtin parity() returns 1 for odd=2E
->
->Thanks,
->Yury
+Hello Will,
 
-The x86 implementation, no, but there will be plenty of others having that=
- exact definition=2E
+On Thu, Mar 13, 2025 at 1:25=E2=80=AFPM Will Deacon <will@kernel.org> wrote=
+:
+>
+> On Thu, Mar 13, 2025 at 11:43:22AM +0000, Alessandro Carminati wrote:
+> > diff --git a/arch/arm64/include/asm/bug.h b/arch/arm64/include/asm/bug.=
+h
+> > index 28be048db3f6..044c5e24a17d 100644
+> > --- a/arch/arm64/include/asm/bug.h
+> > +++ b/arch/arm64/include/asm/bug.h
+> > @@ -11,8 +11,14 @@
+> >
+> >  #include <asm/asm-bug.h>
+> >
+> > +#ifdef HAVE_BUG_FUNCTION
+> > +# define __BUG_FUNC  __func__
+> > +#else
+> > +# define __BUG_FUNC  NULL
+> > +#endif
+> > +
+> >  #define __BUG_FLAGS(flags)                           \
+> > -     asm volatile (__stringify(ASM_BUG_FLAGS(flags)));
+> > +     asm volatile (__stringify(ASM_BUG_FLAGS(flags, %c0)) : : "i" (__B=
+UG_FUNC));
+>
+> Why is 'i' the right asm constraint to use here? It seems a bit odd to
+> use that for a pointer.
+
+I received this code as legacy from a previous version.
+In my review, I considered the case when HAVE_BUG_FUNCTION is defined:
+Here, __BUG_FUNC is defined as __func__, which is the name of the
+current function as a string literal.
+Using the constraint "i" seems appropriate to me in this case.
+
+However, when HAVE_BUG_FUNCTION is not defined:
+__BUG_FUNC is defined as NULL. Initially, I considered it literal 0,
+but after investigating your concern, I found:
+
+```
+$ echo -E "#include <stdio.h>\n#include <stddef.h>\nint main()
+{\nreturn 0;\n}" | aarch64-linux-gnu-gcc -E -dM - | grep NULL
+#define NULL ((void *)0)
+```
+
+I realized that NULL is actually a pointer that is not a link time
+symbol, and using the "i" constraint with NULL may result in undefined
+behavior.
+
+Would the following alternative definition for __BUG_FUNC be more convincin=
+g?
+
+```
+#ifdef HAVE_BUG_FUNCTION
+    #define __BUG_FUNC __func__
+#else
+    #define __BUG_FUNC (uintptr_t)0
+#endif
+```
+Let me know your thoughts.
+
+>
+> Will
+>
+
+
+
+--
+---
+172
+
