@@ -2,172 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E149FA5FBE0
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 17:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C207A5FBEE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 17:37:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3600310E8F0;
-	Thu, 13 Mar 2025 16:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6A7910E8EB;
+	Thu, 13 Mar 2025 16:37:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BwWg2O6J";
+	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="TAd1C3YU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E89A410E8E9;
- Thu, 13 Mar 2025 16:35:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741883749; x=1773419749;
- h=date:from:to:cc:subject:message-id:
- content-transfer-encoding:mime-version;
- bh=w+iU6yuh8nOFCfVg+v+H5LjlqLVwLA7DMWwRMVz2eiE=;
- b=BwWg2O6JYyHpI/+a5gDFlglGvS3U/UETIjsdpW+QAZQI5aYAYijxcljn
- O3bZEv+4+nBP4pZRHNH6JlbIT3C8CNN5t1NuIglKxZP6vNwU1DVp9O6gf
- U7S+yjS8BrAsQjQ61pg04UrZljl4J9TwYd2SL5H1Nbda4rf3Axv2aAIIv
- Up7jO2WzCsyYdrjqP97xxo8QNTFE1s2g+N4cXH86JNYnIjZlK1WqnOyrq
- lxm7ekgJhuiA6/sg65nSscn+jmSA76RvsRkJzW954WF1oaQLCRPFQDAmh
- kQqBa9YhzD4q1G9DTClj6uIt5AODIrTf8NRd2YBWz2Pmp5EQ6bCZEZuOU g==;
-X-CSE-ConnectionGUID: 801Q2nY4RCu483TUeOKU5w==
-X-CSE-MsgGUID: +dMR1nm7QPyigDtqoWjPqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="30604862"
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; d="scan'208";a="30604862"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2025 09:35:48 -0700
-X-CSE-ConnectionGUID: AxSACT44RliTk630MNpudg==
-X-CSE-MsgGUID: p2KrXdexTMyo+HqUqiZ1VQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; d="scan'208";a="151864985"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 13 Mar 2025 09:35:46 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 13 Mar 2025 09:35:45 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 13 Mar 2025 09:35:45 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.42) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 13 Mar 2025 09:35:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qkH5t4Xm+dhDUXJZTDZitQxtYCOZ7JZfeshlepDUMZPal/HgkzR0g5rGT0rUt7jNsufYO5cVmsOJAlSpq5S6JpDPA2iS/Vi2emBnTeIl37E31oAi/TfFxv2sxB2HRSKToeNrkglaJMtWgzA5ZzdMNYk/6+4KOK8A4MpVqcYLaYA2eRc2UuDdih8cZJdwCZWpGewGKfa49KPw0Cj9+TNcp+PsUcZET2tx0EAGIHvmzXkOwzRilivRJ5TilXG+r8LSeFqrzjXbX30MBzAHNgAqzbXARjDdblUGUKLlDhf/6hu8xDiHrHr1ygwfe69cYvvuzqxGYbZogRDaNb7cCgSE/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lqSkVw5PVGfFnTIiv+LjzfRbqyExRDSidL2FgHXKLCA=;
- b=drhjOegAZ4X+u6GY5WCa/W45PoBt++kCMOuGo2B5ougqGa4hqXBHELjNSbCU6jbfvy9sQvsx7yXIurg1qj4fV9mtgbTKlZgtW0B7J1R9Bxphuy/Z8MKsShQY8LBZjHfjFUlwntPaKXlzG0ZZquuBUixGLEN0zjm4gVR1b7zmtY+tv3eR6jiQaoigb5SLbsuv1E0PUSizBAvHZGemRmruja/orfPofN4/ewI1/0V+e1W4EIn4Ff7csAFKGCwG/IvsCzR2oYYzbnvSd1uK++iG3wEh0NRD5Uq8PQ18aSEYwrypbXr3uTt2+h4pGYGIDq4tlfEKyn0e/uN6onfRxy/X2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by PH7PR11MB7075.namprd11.prod.outlook.com (2603:10b6:510:20e::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.28; Thu, 13 Mar
- 2025 16:35:43 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563%4]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
- 16:35:43 +0000
-Date: Thu, 13 Mar 2025 12:35:37 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
- De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <dim-tools@lists.freedesktop.org>
-Subject: [PULL] drm-xe-fixes
-Message-ID: <Z9MJWeIlZPuvXZ_G@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0154.namprd03.prod.outlook.com
- (2603:10b6:303:8d::9) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 325BE10E8EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 16:37:19 +0000 (UTC)
+Received: from [127.0.0.1] ([76.133.66.138]) (authenticated bits=0)
+ by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52DGaDdt3043136
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+ Thu, 13 Mar 2025 09:36:13 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52DGaDdt3043136
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+ s=2025021701; t=1741883777;
+ bh=SaFIw7UgTgo6VXgT9++j90cTZypncDuuppnQ2OyQAgc=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=TAd1C3YUnz1/m04KvWprrt25c59hDoEqP/HObNA2f0Bp4rp+Nb9PEJCNVXCw14Iiu
+ q9Abs6+zDLtcCpZhdLC2JCZczf1qLTKYIQIMECs16cttjTwMK/9bSrYGHwOie5HClz
+ /jcP+3xeKGlwUu0aUrtIeDMZT1ZuV3Y4f2fDZOzvoKjLs6qNj/nOaMpj13f7/0wDQR
+ FTgUDEoLrytWaP9YL4WrPdL93XJwGvTwIwSUgo+vtkpLhxBsY0ibsq0svVoyhEkaAa
+ CHnCGjith9nzaUr6Ath+5dakagWjzMXxHAYsyl+rXq8ZXPjgmXLSW6QTYUQphTnOMM
+ hLTpcEZzd0lKw==
+Date: Thu, 13 Mar 2025 09:36:11 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Yury Norov <yury.norov@gmail.com>
+CC: Jacob Keller <jacob.e.keller@intel.com>,
+ David Laight <david.laight.linux@gmail.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+ Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ akpm@linux-foundation.org, alistair@popple.id.au,
+ linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
+User-Agent: K-9 Mail for Android
+In-Reply-To: <Z9MGxknjluvbX19w@thinkpad>
+References: <20250306162541.2633025-1-visitorckw@gmail.com>
+ <20250306162541.2633025-2-visitorckw@gmail.com>
+ <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org>
+ <Z8ra0s9uRoS35brb@gmail.com>
+ <a4040c78-8765-425e-a44e-c374dfc02a9c@kernel.org>
+ <20250307193643.28065d2d@pumpkin>
+ <cbb26a91-807b-4227-be81-8114e9ea72cb@intel.com>
+ <0F794C6F-32A9-4F34-9516-CEE24EA4BC49@zytor.com> <Z9MGxknjluvbX19w@thinkpad>
+Message-ID: <795281B1-9B8A-477F-8012-DECD14CB53E5@zytor.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|PH7PR11MB7075:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f20cb35-ab2e-4e4f-b567-08dd624d192e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?n96cSgpcQJmfqwyFo0WciNauaqB8G6sFnXBKe8emAGWXB7kM5ohSzmuW9Y?=
- =?iso-8859-1?Q?6aCuZbbLA5yuBzXbFSw7vLnEvSRqY2KVVkwSgZInpQ3AlkoHJv8YU8Wzc5?=
- =?iso-8859-1?Q?v5RP+I91cG7PCp8J3GuplWAbF1rJ7kcSR2oGdGd9uQ5j83MKVIlYA90/qy?=
- =?iso-8859-1?Q?kioKWr30w2o/t0o1714cpkEIH3JQkck9otZWUfRtFdhqKvgSFIS/qRBrmY?=
- =?iso-8859-1?Q?PrSRKOtu9K5NGtkjzjS/V45LeAYlebuqsl0mEWoojYv9lkAIkm2qkv2DF+?=
- =?iso-8859-1?Q?OmlFnfKAxbR4BDsF+g4A+dmObsjv4qjyvjcPAbPS/8idZoOFiufYjIdWnp?=
- =?iso-8859-1?Q?uhpwHhn82m9/5AaM+dNWJ8GEAsck/+yNPj33zaaIF4Sjlo/x7SmPMlJERb?=
- =?iso-8859-1?Q?Fi20W7ELue7xPRp4xFh4tkUmf6CKKzzCcAqJLMPmwGFCsPEHsrG3GduUya?=
- =?iso-8859-1?Q?c2jTXpfEiDQEYKlUa6D/6X7YKPUWuQO3e5Zkf1yRBn1WVOHe2rNVT1DYja?=
- =?iso-8859-1?Q?Le5BC+uPurVTjq0g5Y9MURYNsnT5ICFEPHwq7oDaGpYFOs6nODbQm3fRCG?=
- =?iso-8859-1?Q?nZGZNzy/whwblx6R/a49jW6ZlEC8DBHH6s37mxrLgbVXZ1Tf0/3j1ygRNo?=
- =?iso-8859-1?Q?ILVRlAnx+noTIo4KnQb3aPVmzqzlct21Ds/QQAYrZ6czp1wh81wLCw5lOD?=
- =?iso-8859-1?Q?kra1w9SprPcaBrmLOhkqtijUuVi+NwU04LOhSAIeYsoKLO81xLoAXGnDjr?=
- =?iso-8859-1?Q?PJiIDuw14ERI7snqBNCOrSQ/6R+9TOTnYlGPEVj/M/9OlfX0Otw+2f0a/K?=
- =?iso-8859-1?Q?bUWY6c3DakpkJ0gpiflXq3jMXkhSRgIv+TwwEpg4FwbED7xtONL8GEuNrw?=
- =?iso-8859-1?Q?pnZen96LeurGoM6eP8KZwoF7b+bdVoc9Sq21I0KR7XBGOz2A5R3LQ2cpxN?=
- =?iso-8859-1?Q?QB6UtExUSQ/oOmhbTmPZdGS7wQLd65wuhs9d1HGRCnzKK7MsxrqxsG+wqZ?=
- =?iso-8859-1?Q?CLXTO/pW6s8F6Utq8lRImlakaxaoyZ35Q1mWC4LMCoSxhq7DkdHga2a7uS?=
- =?iso-8859-1?Q?8KKQcsbHiSDUgfExaP7wkH9lBFe//7wHTbx2FspQR+EzYW+Sle0TDl+ZKF?=
- =?iso-8859-1?Q?14IjKeMfTbXl+CgguzCvwIrE1nDRxeyTDXfd0J9HelZVWFEykx9FUqV5Ao?=
- =?iso-8859-1?Q?PoR3JOGKL/xwR6BgG1ocaYNiFPblqfzWQ6joikdIkWqZh5zlSDBXRLT+9V?=
- =?iso-8859-1?Q?CJ7wiUfnABWVHqVvlM5JLpR4CnvSO8hLaki5tNxLRkSCegmE7Q441ocOa5?=
- =?iso-8859-1?Q?tAqDATGc1uslueo9qKW1yp2OlmZM4Yg7QxbWmIrM8jKkuIwo/8U5m0bhCj?=
- =?iso-8859-1?Q?vCh9hMRoo2?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?zHfXgVS4WUlokA2z0qX+mAj7e6sWF7pr9wv6kbmjJf5eEAbwoKgpJiTchF?=
- =?iso-8859-1?Q?zVauGfsKLkzf6WJU6oTMh0be8zd31AW/9gb1l8Ljm4nLIa6yjGehOFVORQ?=
- =?iso-8859-1?Q?3bP4/+Lr2b8IFGr1PsJvihP7lxFckxLCgKWRahDwwdWpnuldP3hUUJ+zJ9?=
- =?iso-8859-1?Q?N5SsdYsam8sDGGdDYNSSUWZH98kD+O1BEMhNVUSDljo+z0IXXveSlzbfKT?=
- =?iso-8859-1?Q?qFx33bikG1HNEqmTQBjngGy9Ao6ypPOtEeH/wvDjjdpWrXVns+SmhIeoFt?=
- =?iso-8859-1?Q?5bzsKgHO7w7NWQjZMB34Q+8M4Fpytk/nk9XljQ7Xj4bHwbJ3sRXwwV43ZV?=
- =?iso-8859-1?Q?QTyaLmeJ2HmUoLGzWYnyTcpd7rwr/WvtrOewgy9zHbkJ5kuze3xYzFe3AL?=
- =?iso-8859-1?Q?lFGkaTltza0w1DbCi9payYBYCLXYxJLBilBV9FJ7kDh+67tKRt2JburrpO?=
- =?iso-8859-1?Q?kzFW9MYZvXXNEP3i4zEoGx5gOVe+x8L6IZ+eT+99P9R14R9a1gtcWTBANO?=
- =?iso-8859-1?Q?eYKluzHexSAMNpRYjSeTjWJkhUCqMq8oOv1SDThhrDSJVRp80LfbL9+SuG?=
- =?iso-8859-1?Q?IgxD0UDZsydoHBaywlKN6Yp6iS3VDSFLaPjzsmhscL4t286VXbEhG98YYj?=
- =?iso-8859-1?Q?q2lGpbo+bTpBHaFWW+qm+cPJnP3Zm8mjzUpe9U2T76BjTMuKFEjx5T7Rmk?=
- =?iso-8859-1?Q?xKPhpo9wyWkM9MWIt8V3Dgy8O5MQvy+SXcFUa3pul+/NFNh88GNjSnuDNM?=
- =?iso-8859-1?Q?lyV0hnZp1nObKGx2zuH74ilNcbUJHqLrWTl/7a+3f+XPgovqF333TGpoGY?=
- =?iso-8859-1?Q?UAqzhT9Pb2p44k/5cYvmhcAySyExxc8mEtAxp7uHB2qfRJLjcfUNIUyzYI?=
- =?iso-8859-1?Q?6gAs+le0iq9ETMZj6Bdk1OLA1JJkgp6JIo07THjZD0kjWmISKQh0QjS3Fd?=
- =?iso-8859-1?Q?BhIxaUN2yBxTLVrOba5+y74Fe/TeLdY7amva36R9H7rIf3Rr17xKCmxHMc?=
- =?iso-8859-1?Q?Zj3BDp11+tpT5xAP4u37/+07TYFSXoDuixj3kqs48M6fK1NwNLwu30DKWU?=
- =?iso-8859-1?Q?X/pwNt7tAKLgCyAFrUKx5h/ZUIQqGsG4aOVklAvzG6krc9Ww1ho2iu2XYT?=
- =?iso-8859-1?Q?th4Gza2Am3dA8eN7fa60e7V4/fwZ0j/Z+yA8nAY645KNeR4uJwsnTlrK5/?=
- =?iso-8859-1?Q?uhCtaGE2LcRr362O0e+u8ttys/rc1d1hgJEm4NahyTTr5y/mEaDRAsNHxR?=
- =?iso-8859-1?Q?IkEznnWdDeB/fa88DXwWcZkW0or0wCk5cwtaogIpJ2cEchCly4ld1R6IJs?=
- =?iso-8859-1?Q?21QOF3XBno9lzcKmawGjMiI/ryhZkk9t/02Saw5z6LhIteKTFjkFRWsG4T?=
- =?iso-8859-1?Q?ReTBxVcu4ttxN85Swe73xcSN1xahzXahob+0FO3p7OfIDN2OII2m5u6kyM?=
- =?iso-8859-1?Q?aBFaOZjux7yWFm1zzQ82KoQkawb5cScUnWZyo2L0wt4cNU8yTPH0lBUMFB?=
- =?iso-8859-1?Q?gvRhzP1XSJ6DaG5CVYjUaj9Vap5TkpgkCoOpuOrlt53NNz6E0h5jOjvUeX?=
- =?iso-8859-1?Q?q8QpEjhKWRG8JHUmDhU+boiXuNwedm2rjomfN5kYrXG4LUCN6/i9OmO1dv?=
- =?iso-8859-1?Q?AKPp1h65ph8Qr8P7yYFWeeHuth4C0O3L9G0Z5Xi+zkJD9xaBsWai5T4A?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f20cb35-ab2e-4e4f-b567-08dd624d192e
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 16:35:43.3157 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rsAA2Z1RsMXoxm/ugYnz9D7jBeJnaCh9MBHFmZayEBECqfkI2fqGq/aM33mPfwgRVAPWeWGByFnOZYMVyER3+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7075
-X-OriginatorOrg: intel.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,75 +90,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Sima,
+On March 13, 2025 9:24:38 AM PDT, Yury Norov <yury=2Enorov@gmail=2Ecom> wro=
+te:
+>On Wed, Mar 12, 2025 at 05:09:16PM -0700, H=2E Peter Anvin wrote:
+>> On March 12, 2025 4:56:31 PM PDT, Jacob Keller <jacob=2Ee=2Ekeller@inte=
+l=2Ecom> wrote:
+>
+>[=2E=2E=2E]
+>
+>> >This is really a question of whether you expect odd or even parity as
+>> >the "true" value=2E I think that would depend on context, and we may n=
+ot
+>> >reach a good consensus=2E
+>> >
+>> >I do agree that my brain would jump to "true is even, false is odd"=2E
+>> >However, I also agree returning the value as 0 for even and 1 for odd
+>> >kind of made sense before, and updating this to be a bool and then
+>> >requiring to switch all the callers is a bit obnoxious=2E=2E=2E
+>>=20
+>> Odd =3D 1 =3D true is the only same definition=2E It is a bitwise XOR, =
+or sum mod 1=2E
+>
+>The x86 implementation will be "popcnt(val) & 1", right? So if we
+>choose to go with odd =3D=3D false, we'll have to add an extra negation=
+=2E
+>So because it's a purely conventional thing, let's just pick a simpler
+>one?
+>
+>Compiler's builtin parity() returns 1 for odd=2E
+>
+>Thanks,
+>Yury
 
-Here goes xe fixes for this week.
-
-It is worth mention that we are disabling D3Cold on BMG because
-we found some bugs where depending on the combination of BMG
-card and the host, the PCI upstream port link port re-training
-might fail on D3Cold -> D0 blowing things up. But while we
-work with that and propagating this protection to the end
-users, we are not disabling in our drm-tip to ensure that our
-developers and CI can continue working with D3Cold enabled.
-Everything we disable behind flags for developers will likely
-be forgotten and regressions will pile up and be harder later
-to re-enable it.
-
-So, topic/xe-for-CI re-enables D3Cold. If developers ends up
-having a bad combination they can workaround it by boot
-parameter pcie_port_pm=off or with
-echo 0 > /sys/bus/pci/devices/<bdf>/vram_d3cold_threshold
-
-Also, the topic branch solution helps us to avoid adding the
-controversial module parameters. But if there's any concern
-or issues with this approach, please let me know.
-
-Thanks,
-Rodrigo.
-
-drm-xe-fixes-2025-03-13:
-- Release guc ids before cancelling work (Tejas)
-- Fix new warnings around userptr (Thomas)
-- Temporaritly disable D3Cold on BMG (Rodrigo)
-- Retry and wait longer for GuC PC to start (Rodrigo)
-- Remove redundant check in xe_vm_create_ioctl (Xin)
-The following changes since commit 80e54e84911a923c40d7bee33a34c1b4be148d7a:
-
-  Linux 6.14-rc6 (2025-03-09 13:45:25 -1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-03-13
-
-for you to fetch changes up to f5d4e81774c42d9c2ea3980e570f3330ff2ed5d2:
-
-  drm/xe: remove redundant check in xe_vm_create_ioctl() (2025-03-10 14:01:43 -0400)
-
-----------------------------------------------------------------
-- Release guc ids before cancelling work (Tejas)
-- Fix new warnings around userptr (Thomas)
-- Temporaritly disable D3Cold on BMG (Rodrigo)
-- Retry and wait longer for GuC PC to start (Rodrigo)
-- Remove redundant check in xe_vm_create_ioctl (Xin)
-
-----------------------------------------------------------------
-Rodrigo Vivi (2):
-      drm/xe/pm: Temporarily disable D3Cold on BMG
-      drm/xe/guc_pc: Retry and wait longer for GuC PC start
-
-Tejas Upadhyay (1):
-      drm/xe: Release guc ids before cancelling work
-
-Thomas Hellström (1):
-      drm/xe/userptr: Fix an incorrect assert
-
-Xin Wang (1):
-      drm/xe: remove redundant check in xe_vm_create_ioctl()
-
- drivers/gpu/drm/xe/xe_guc_pc.c     | 53 ++++++++++++++++++++++++++++----------
- drivers/gpu/drm/xe/xe_guc_submit.c |  2 +-
- drivers/gpu/drm/xe/xe_hmm.c        |  6 ++++-
- drivers/gpu/drm/xe/xe_pm.c         | 13 +++++++++-
- drivers/gpu/drm/xe/xe_vm.c         |  3 ---
- 5 files changed, 58 insertions(+), 19 deletions(-)
+The x86 implementation, no, but there will be plenty of others having that=
+ exact definition=2E
