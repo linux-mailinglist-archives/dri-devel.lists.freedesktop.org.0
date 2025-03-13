@@ -2,71 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4207A5E9A8
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 03:16:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A47AA5EA16
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 04:13:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B12810E7BC;
-	Thu, 13 Mar 2025 02:15:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC5F10E0BE;
+	Thu, 13 Mar 2025 03:13:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lgCkbNU8";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="OxjSIy1M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7717810E7BC;
- Thu, 13 Mar 2025 02:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741832156; x=1773368156;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=96yJDyEP9BeK2cVK+9MUvmIHjdk7wR1LKgFfN3+p/fM=;
- b=lgCkbNU8xDWZ1tFWchRtnulHPQIWUlxY3OD3fD+cDL96EcvUqAPy3J06
- OKcXSPPYZHiK82sO39PZWI0YpSt8gQbOxNzdUwKC090bt11bqpfe3yVQP
- z2uk81FdQbrXjm3zofGQS9yy9kBoUtt5L1aIRugMJh7kVZxRX5vIja0k4
- 3ljTNknrgHnNS3odIlBDBop3MCwbbL3PV8W8h5NxwuYslkLryRV2M6qU/
- PcSkPHDSBt+xZmPLDZbu2nASjCOARKr+rM+ScnFTTbEAieMEQXBq5m9+L
- n0yHYRR+OnEV7+ctDhcjeZXmbefb34kc/ZW1dSJHHh7HT0CqYIZo9ji24 g==;
-X-CSE-ConnectionGUID: 0xf/esEQQaObQiEBQ9YT9w==
-X-CSE-MsgGUID: tIr2fVQISBOV6boA7HWO+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="43038851"
-X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; d="scan'208";a="43038851"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2025 19:15:56 -0700
-X-CSE-ConnectionGUID: KHahmpZOTNOqvrR+C7Song==
-X-CSE-MsgGUID: H65afRTcQ5CspG2G7V7fvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; d="scan'208";a="125887063"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
- by fmviesa004.fm.intel.com with ESMTP; 12 Mar 2025 19:15:31 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tsY6V-000936-1q;
- Thu, 13 Mar 2025 02:15:25 +0000
-Date: Thu, 13 Mar 2025 10:15:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, geert@linux-m68k.org,
- tomi.valkeinen@ideasonboard.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v4 18/25] drm/renesas/rz-du: Compute dumb-buffer sizes
- with drm_mode_size_dumb()
-Message-ID: <202503130956.VyNIuYfU-lkp@intel.com>
-References: <20250311155120.442633-19-tzimmermann@suse.de>
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3D410E0BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 03:13:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1741835575;
+ bh=umnF84Dfi3Nfa6Na8lFbRSU0J6LQFik/70/YubuMr4o=;
+ h=Date:From:To:Cc:Subject:From;
+ b=OxjSIy1MmXeePd5sIIGR9eQJJUTQlK/MMC5GIO6h0rJhjI70fgqpdTyrsd49sPv2T
+ CP0Y0D8uyHSh9gmldX3iJ/ZLYZ83WogH2T9YW66rLHntyCFtt7lOZ/v8otlgI0ADBj
+ 4UgDJC/Rj9qGvofmzdffJNFJ91CsTf9veDNH21dr9eIp0jDOJ/qtM3uvBsj5dtyjzW
+ smV3RruxnjLUh/IwCE3MljFWhqn4DMc1gCnx9pi4ivYr8FwWIpRoMPGM8L3LNWrl6c
+ SsFl4xfSWJ2LHMlxdHgQ0jZW2aUnB/C1SZjiu/3JJOtCTX+T30bhe6vqDLsm8Ul0gK
+ gVZt2aCTGj7fA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4ZCsxy6lWZz4wgp;
+ Thu, 13 Mar 2025 14:12:54 +1100 (AEDT)
+Date: Thu, 13 Mar 2025 14:12:53 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
+ Dave Airlie <airlied@redhat.com>
+Cc: DRI <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Nam Cao <namcao@linutronix.de>
+Subject: linux-next: manual merge of the tip tree with the drm tree
+Message-ID: <20250313141253.0c5a7520@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250311155120.442633-19-tzimmermann@suse.de>
+Content-Type: multipart/signed; boundary="Sig_/pZeEYs9fPa13vl4Du59hHnf";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,59 +60,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+--Sig_/pZeEYs9fPa13vl4Du59hHnf
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot noticed the following build errors:
+Hi all,
 
-[auto build test ERROR on next-20250311]
-[also build test ERROR on v6.14-rc6]
-[cannot apply to drm-exynos/exynos-drm-next rockchip/for-next tegra/for-next drm-xe/drm-xe-next linus/master v6.14-rc6 v6.14-rc5 v6.14-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Today's linux-next merge of the tip tree got a conflict in:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-dumb-buffers-Sanitize-output-on-errors/20250311-235818
-base:   next-20250311
-patch link:    https://lore.kernel.org/r/20250311155120.442633-19-tzimmermann%40suse.de
-patch subject: [PATCH v4 18/25] drm/renesas/rz-du: Compute dumb-buffer sizes with drm_mode_size_dumb()
-config: powerpc64-randconfig-003-20250313 (https://download.01.org/0day-ci/archive/20250313/202503130956.VyNIuYfU-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503130956.VyNIuYfU-lkp@intel.com/reproduce)
+  drivers/gpu/drm/i915/i915_pmu.c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503130956.VyNIuYfU-lkp@intel.com/
+between commit:
 
-All errors (new ones prefixed by >>):
+  87b593d79864 ("drm/i915/pmu: Drop custom hotplug code")
 
-   drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c: In function 'rzg2l_du_dumb_create':
->> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c:80:15: error: implicit declaration of function 'drm_mode_size_dumb'; did you mean 'drm_mode_set_name'? [-Wimplicit-function-declaration]
-      80 |         ret = drm_mode_size_dumb(dev, args, 16 * args->bpp / 8, 0);
-         |               ^~~~~~~~~~~~~~~~~~
-         |               drm_mode_set_name
+from the drm tree and commit:
 
+  82ad584eed8b ("drm/i915/pmu: Switch to use hrtimer_setup()")
 
-vim +80 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+from the tip tree.
 
-    70	
-    71	/* -----------------------------------------------------------------------------
-    72	 * Frame buffer
-    73	 */
-    74	
-    75	int rzg2l_du_dumb_create(struct drm_file *file, struct drm_device *dev,
-    76				 struct drm_mode_create_dumb *args)
-    77	{
-    78		int ret;
-    79	
-  > 80		ret = drm_mode_size_dumb(dev, args, 16 * args->bpp / 8, 0);
-    81		if (ret)
-    82			return ret;
-    83	
-    84		return drm_gem_dma_dumb_create_internal(file, dev, args);
-    85	}
-    86	
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/i915/i915_pmu.c
+index 69a109d02116,0ce87f188d11..000000000000
+--- a/drivers/gpu/drm/i915/i915_pmu.c
++++ b/drivers/gpu/drm/i915/i915_pmu.c
+@@@ -1155,8 -1264,8 +1155,7 @@@ void i915_pmu_register(struct drm_i915_
+  	int ret =3D -ENOMEM;
+ =20
+  	spin_lock_init(&pmu->lock);
+- 	hrtimer_init(&pmu->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+- 	pmu->timer.function =3D i915_sample;
++ 	hrtimer_setup(&pmu->timer, i915_sample, CLOCK_MONOTONIC, HRTIMER_MODE_RE=
+L);
+ -	pmu->cpuhp.cpu =3D -1;
+  	init_rc6(pmu);
+ =20
+  	if (IS_DGFX(i915)) {
+
+--Sig_/pZeEYs9fPa13vl4Du59hHnf
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmfSTTUACgkQAVBC80lX
+0GwYpQf/SKAOOH/Oph01KSqzkDqHAGb9+XkiZ+ZoEEa+RaxaUjuAfbE3V5i7e+2k
+h89+AoELiv+kwMCrx6wAMqVCyikB1578QZah4eN1BR9mZZQ7oLpywlNQ6duTH7Ad
+EdeP4E5Se/GBbgTVcDR6bfhpc94wlLtmWe2JTq03eAJpg/X7siYFyoLP9icK+xh6
+Son0p1Q7lSdZMFfqqRl0YW25QFfejrCFOM1TaBhEPQvuKEmUOV89wO4tCck9o6ai
+NQaXs6KeJYk+uUnvpk8Mbm+q98lPLR3PsXfG5uBL8aNEyS7mbQhZd/I3qub0CnYr
++M6+juEg9pFXSPs5QH2T+uGeDPBMoQ==
+=WiEi
+-----END PGP SIGNATURE-----
+
+--Sig_/pZeEYs9fPa13vl4Du59hHnf--
