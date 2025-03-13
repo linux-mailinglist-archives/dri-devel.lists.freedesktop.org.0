@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD12A5EE36
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 09:40:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA11A5EE39
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 09:41:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A8710E803;
-	Thu, 13 Mar 2025 08:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B82110E804;
+	Thu, 13 Mar 2025 08:41:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="OStm+eJx";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE9C10E803
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 08:40:31 +0000 (UTC)
-Received: from localhost (unknown [124.16.138.129])
- by APP-01 (Coremail) with SMTP id qwCowADHztL3mdJno3fUFA--.2900S2;
- Thu, 13 Mar 2025 16:40:24 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: tomi.valkeinen@ideasonboard.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] drm/omap: Remove unnecessary NULL check before
- clk_prepare_enable/clk_disable_unprepare
-Date: Thu, 13 Mar 2025 16:37:56 +0800
-Message-Id: <20250313083756.2481659-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B612C10E804
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 08:41:20 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ZD1Dq63N9z9tD1;
+ Thu, 13 Mar 2025 09:41:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1741855275; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m0s9BXoOXwlavaR7+igiPKZFuNZEvjYPYrMoR9PJJ9U=;
+ b=OStm+eJxJOT29Vjs9GNAVvClQl4ZrJ22/0/f3Ja9wWMbjT9yVJaJbTK6wsNYfKATILNJZZ
+ 7APXc+TcCsKMT9bwiTIbs+ChmSaHo4CXt64G7pLc4jb5qcAvc2ZO2cEH9JsCeQpuqHeFGY
+ YPJLcM51YL5PAmsaC7kmVp/eeltE8IRBr4H4rANlaV3P+SjWJlGRlcdBS0X2oCdWKKYjo0
+ 2S6XPkqX8nQnISiSVykbX0yq1Ajz7yQRTxB8AzCmC/sfUtD1rUuaESEwUPBqkRvkX/fONW
+ 6ztu+gLeXzss5rmkVTOS2+asSDtLFcfEc29Rj3spsIjBJ3bxOWi73le8l1FoHw==
+Message-ID: <91a06e390d6b526bd9e9ba37cb478d337a2294dd.camel@mailbox.org>
+Subject: Re: [PATCH V4] drm/sched: Fix fence reference count leak
+From: Philipp Stanner <phasta@mailbox.org>
+To: Qianyi Liu <liuqianyi125@gmail.com>, airlied@gmail.com, 
+ ckoenig.leichtzumerken@gmail.com, dakr@kernel.org, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, matthew.brost@intel.com,
+ mripard@kernel.org,  phasta@kernel.org, tzimmermann@suse.de
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+Date: Thu, 13 Mar 2025 09:41:11 +0100
+In-Reply-To: <20250311060251.4041101-1-liuqianyi125@gmail.com>
+References: <20250311060251.4041101-1-liuqianyi125@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowADHztL3mdJno3fUFA--.2900S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gw4kZF43WryfJr4kZFW3GFg_yoWkJFb_GF
- 4DurZxWFW5G3Z2yw15Aw1UZrZ2yFn2vFWFgr1IvayrKFW7Xws8Zry2vrWfAwsrGFWxtF1U
- A3ZrWa47Ar1xujkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbxxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
- Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AF
- wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
- xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
- MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
- 0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
- JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUrr
- WFUUUUU
-X-Originating-IP: [124.16.138.129]
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+X-MBO-RS-META: q1q4tsbu5owia83jckezz1ppzj9i6pga
+X-MBO-RS-ID: 1b049b0e8507b5db404
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,41 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clk_prepare_enable() and clk_disable_unprepare() already checked
-NULL clock parameter.Remove unneeded NULL check for clk here.
+On Tue, 2025-03-11 at 14:02 +0800, Qianyi Liu wrote:
+> From: qianyi liu <liuqianyi125@gmail.com>
+>=20
+> The last_scheduled fence leaks when an entity is being killed and
+> adding
+> the cleanup callback fails.
+>=20
+> Decrement the reference count of prev when dma_fence_add_callback()
+> fails, ensuring proper balance.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and
+> fini")
+> Signed-off-by: qianyi liu <liuqianyi125@gmail.com>
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/gpu/drm/omapdrm/dss/venc.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Applied to drm-misc-fixes, thank you.
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-index aaeef603682c..7d521840d4f6 100644
---- a/drivers/gpu/drm/omapdrm/dss/venc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-@@ -882,8 +882,7 @@ static __maybe_unused int venc_runtime_suspend(struct device *dev)
- {
- 	struct venc_device *venc = dev_get_drvdata(dev);
- 
--	if (venc->tv_dac_clk)
--		clk_disable_unprepare(venc->tv_dac_clk);
-+	clk_disable_unprepare(venc->tv_dac_clk);
- 
- 	return 0;
- }
-@@ -892,8 +891,7 @@ static __maybe_unused int venc_runtime_resume(struct device *dev)
- {
- 	struct venc_device *venc = dev_get_drvdata(dev);
- 
--	if (venc->tv_dac_clk)
--		clk_prepare_enable(venc->tv_dac_clk);
-+	clk_prepare_enable(venc->tv_dac_clk);
- 
- 	return 0;
- }
--- 
-2.25.1
+P.
+
+> ---
+> v3 -> v4: Improve commit message and add code comments (Philipp)
+> v2 -> v3: Rework commit message (Markus)
+> v1 -> v2: Added 'Fixes:' tag and clarified commit message (Philipp
+> and Matthew)
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++++--
+> =C2=A01 file changed, 9 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 69bcf0e99d57..da00572d7d42 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -259,9 +259,16 @@ static void drm_sched_entity_kill(struct
+> drm_sched_entity *entity)
+> =C2=A0		struct drm_sched_fence *s_fence =3D job->s_fence;
+> =C2=A0
+> =C2=A0		dma_fence_get(&s_fence->finished);
+> -		if (!prev || dma_fence_add_callback(prev, &job-
+> >finish_cb,
+> -					=C2=A0=C2=A0
+> drm_sched_entity_kill_jobs_cb))
+> +		if (!prev ||
+> +		=C2=A0=C2=A0=C2=A0 dma_fence_add_callback(prev, &job->finish_cb,
+> +					=C2=A0=C2=A0
+> drm_sched_entity_kill_jobs_cb)) {
+> +			/*
+> +			 * Adding callback above failed.
+> +			 * dma_fence_put() checks for NULL.
+> +			 */
+> +			dma_fence_put(prev);
+> =C2=A0			drm_sched_entity_kill_jobs_cb(NULL, &job-
+> >finish_cb);
+> +		}
+> =C2=A0
+> =C2=A0		prev =3D &s_fence->finished;
+> =C2=A0	}
 
