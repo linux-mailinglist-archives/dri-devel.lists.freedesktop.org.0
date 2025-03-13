@@ -2,104 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14D5A5F855
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 15:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B51CA5F86B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 15:34:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16F5910E8BA;
-	Thu, 13 Mar 2025 14:32:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB51310E1DD;
+	Thu, 13 Mar 2025 14:34:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="OIap5nSs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pTfRH0T6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 060C510E8BA
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 14:32:18 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-3913958ebf2so844477f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 07:32:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1741876337; x=1742481137; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qmJEZa8bhP51f5WeMX8gVU0QSf/9tpQBkqyv3+FpHNc=;
- b=OIap5nSs0FZNdWygUw07s31eeT2pWk3mLRL758ckq/efEc6wKRYbWZXoxXgY2XfEK9
- fPQgvBKcwJjS0e4UePstpe+iSdokzdC85qUCyu9mm/DEi5YKSZGtDPQ3m8HMTr3ETgix
- nWUpIOc0NpsCtPg72gqeJaOL4P6LSJyD9QDj4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741876337; x=1742481137;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qmJEZa8bhP51f5WeMX8gVU0QSf/9tpQBkqyv3+FpHNc=;
- b=N/fzLkDCVoWvVhSG6nnn9Dep9FNrfpi0dZzz8t/JURgsGLwE9M4DFHM+aUAGr8gFtu
- IrvO7UhPT6aW6+j2SLng9npknSsYizB24JMf2WWAx1lk5Qly+v+PcyUtYBtcTnYkiASA
- 9T7RUPF7k2gq06c+xUsLihxZiMSJt9TvsMWnKGzROKnpcNNGwFWxRPWuUFK/9OUBBvmx
- +czt6/AXZbiF7JYAKuGwukWuDWtrd3zhoSYWMlNtOodaIKpXtg9sUlZFFuXojXCYRrhJ
- akNwTAJegKdLzJ4kNy+5Wil12KJau4FY8vSSnddptbIKxOGQ5DiqDHEEpuDJOUZ5oBA2
- J8sQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXUpuf1J6hY+hwBedpuZlxvQU/jL4zTV+sRkbhh2b5wsY5b+F6K7BtMbtzBegh4vX8AqenfFhE1uhA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwhT8dfsoqcp05vZjVwtrxvO5ArCNq8F4Q7M4i+Ig+e2p42cZh6
- R9Ex8mDhyEvOhQyDK9aW0an9w/zMuUhJCiQx0577qdALmbgP22a/LZz8MCbViLE=
-X-Gm-Gg: ASbGncu0stjya4kyJPjyzoLJCq0pISZ1P3dpCI0AHp7xaaX1/6tsPV6FjxdS1Frfhzq
- mBn7WyCKLD0CtOZRFdz3Pf3Ywwc20L83ewdqBBhrBL1ndP5K+GQLKitNjghKTbg+/943Ic9rlLi
- Czb0+MrKyrlElZLBG/welV3qlybpZJo1RovpIu1cgxH1KGOe1a3EFb7U8Ua2SKSTtl58/zrzYzP
- moI0YJ+hZ6aFSvSI6SrfsnXnfC1eF8U6+LSqUIk5DLKbrsXefWCahyqXs47zbWK1NqIx1U10/Au
- OZ8WRWfVAy41oMhu1cYk2Z1iDqhBhrHe+1N2KUuhK1q1vtTzCleWklPs
-X-Google-Smtp-Source: AGHT+IHONUiodfS/fWexcjBKJ56cHcP98PgHHjaNe3WzTXhC4/in7mzoTQfPI07gJnTJ+29TnXggtg==
-X-Received: by 2002:a05:6000:2109:b0:391:2a9a:478c with SMTP id
- ffacd0b85a97d-39264693887mr8443406f8f.23.1741876337388; 
- Thu, 13 Mar 2025 07:32:17 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-395c83b6b70sm2338337f8f.30.2025.03.13.07.32.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Mar 2025 07:32:16 -0700 (PDT)
-Date: Thu, 13 Mar 2025 15:32:14 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z9LsbhzjI-P3-edQ@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
- John Hubbard <jhubbard@nvidia.com>,
- Greg KH <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-References: <Z8cmBWB8rl97-zSG@phenom.ffwll.local>
- <20250304164201.GN133783@nvidia.com>
- <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
- <20250305151012.GW133783@nvidia.com>
- <Z8l8HgZOV7sDWqBh@phenom.ffwll.local>
- <20250306153236.GE354511@nvidia.com>
- <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
- <20250307123255.GK354511@nvidia.com>
- <Z8rv-DQuGdxye28N@phenom.ffwll.local>
- <20250307145557.GO354511@nvidia.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 169A610E1DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 14:34:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BC5175C5E3C;
+ Thu, 13 Mar 2025 14:32:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE564C4CEEB;
+ Thu, 13 Mar 2025 14:34:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741876487;
+ bh=4K9tzoTtsP7BAI3B6cdLbG/K3RYZzOAO85EJfhQyad8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pTfRH0T6OKHomu6IanaWZ2qglSzsYxgg0HiLa/4qRR/pbRm/XaQH5zuz+HTko7gLq
+ LsKRSjwgd2cGbV35vsUNH790ot/mSKFyDw5M9oBEVX2l5AMKtBvHduvs+qg80Pu2+7
+ RPvn6e+PczMCDUTBkdC6AOmlBoiSWSkbwefhzFwG0iv27I/w5eMiU1h27RVfx6UXAJ
+ ru6b/vvdiK8Lgez9/kWStynD+bPOHbMQ4+otxApA2rsXOYmUhNXzJuK5jWFE6U2aeH
+ 3lLnwMg+c5g0Zythzmmh3zxyttYBWWhpjdCbOxe6e6LclCqfnELafCb7VWv5QfjSpp
+ 4y71Z2nLB4/lA==
+Date: Thu, 13 Mar 2025 15:34:44 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/2] drm/panel: Add new helpers for refcounted panel
+ allocatons
+Message-ID: <20250313-enlightened-shrewd-skunk-b6ed72@houat>
+References: <20250312-drm-panel-v1-0-e99cd69f6136@redhat.com>
+ <20250312-drm-panel-v1-1-e99cd69f6136@redhat.com>
+ <20250313110944.1c1f7e4e@booty>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2ate5ne4iejyiwlh"
 Content-Disposition: inline
-In-Reply-To: <20250307145557.GO354511@nvidia.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+In-Reply-To: <20250313110944.1c1f7e4e@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,85 +66,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 07, 2025 at 10:55:57AM -0400, Jason Gunthorpe wrote:
-> On Fri, Mar 07, 2025 at 02:09:12PM +0100, Simona Vetter wrote:
-> 
-> > > A driver can do a health check immediately in remove() and make a
-> > > decision if the device is alive or not to speed up removal in the
-> > > hostile hot unplug case.
-> > 
-> > Hm ... I guess when you get an all -1 read you check with a specific
-> > register to make sure it's not a false positive? Since for some registers
-> > that's a valid value.
-> 
-> Yes. mlx5 has HW designed to support this, but I imagine on most
-> devices you could find an ID register or something that won't be -1.
-> 
-> > - The "at least we don't blow up with memory safety issues" bare minimum
-> >   that the rust abstractions should guarantee. So revocable and friends.
-> 
-> I still really dislike recovable because it imposes a cost that is
-> unnecessary.
-> 
-> > And I think the latter safety fallback does not prevent you from doing the
-> > full fancy design, e.g. for revocable resources that only happens after
-> > your explicitly-coded ->remove() callback has finished. Which means you
-> > still have full access to the hw like anywhere else.
-> 
-> Yes, if you use rust bindings with something like RDMA then I would
-> expect that by the time remove is done everything is cleaned up and
-> all the revokable stuff was useless and never used.
-> 
-> This is why I dislike revoke so much. It is adding a bunch of garbage
-> all over the place that is *never used* if the driver is working
-> correctly.
-> 
-> I believe it is much better to runtime check that the driver is
-> correct and not burden the API design with this.
 
-You can do that with for example runtime proofs. R4l has that with
-Mutex from one structure protecting other structures (like in a tree). But
-since the compiler can't prove those you trade in the possibility that you
-will hit a runtime BUG if things don't line up.
+--2ate5ne4iejyiwlh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC 1/2] drm/panel: Add new helpers for refcounted panel
+ allocatons
+MIME-Version: 1.0
 
-So subsystems that ensure that driver callbacks never run concurrently
-with a revocation could guarantee that revocable resources are always
-present.
+On Thu, Mar 13, 2025 at 11:09:44AM +0100, Luca Ceresoli wrote:
+> Hello Anusha,
+>=20
+> On Wed, 12 Mar 2025 20:54:42 -0400
+> Anusha Srivatsa <asrivats@redhat.com> wrote:
+>=20
+> > Introduce reference counted allocations for panels to avoid
+> > use-after-free. The patch adds the macro devm_drm_bridge_alloc()
+> > to allocate a new refcounted panel. Followed the documentation for
+> > drmm_encoder_alloc() and devm_drm_dev_alloc and other similar
+> > implementations for this purpose.
+> >=20
+> > Also adding drm_panel_get() and drm_panel_put() to suitably
+> > increment and decrement the refcount
+> >=20
+> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+>=20
+> I'm very happy to see the very first step of the panel rework mentioned
+> by Maxime see the light! :-)
+>=20
+> This patch looks mostly good to me, and the similarity with my bridge
+> refcounting work is by itself reassuring.
+>=20
+> I have a few notes, one is relevant and the others are minor details,
+> see below.
+>=20
+> In the Subject line: s/allocatons/allocations/
+>=20
+> [...]
+>=20
+> > +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t o=
+ffset,
+> > +			     const struct drm_panel_funcs *funcs)
+> > +{
+> > +	void *container;
+> > +	struct drm_panel *panel;
+> > +	int err;
+> > +
+> > +	if (!funcs) {
+> > +		dev_warn(dev, "Missing funcs pointer\n");
+> > +		return ERR_PTR(-EINVAL);
+> > +	}
+> > +
+> > +	container =3D kzalloc(size, GFP_KERNEL);
+> > +	if (!container)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	panel =3D container + offset;
+> > +	panel->container_offset =3D offset;
+> > +	panel->funcs =3D funcs;
+> > +	kref_init(&panel->refcount);
+> > +
+> > +	err =3D devm_add_action_or_reset(dev, drm_panel_put_void, panel);
+> > +	if (err)
+> > +		return ERR_PTR(err);
+> > +
+> > +	drm_panel_init(panel, dev, funcs, panel->connector_type);
+>=20
+> panel->connector_type here is uninitialized. You are passing
+> panel->connector_type to drm_panel_init(), which will then copy it into
+> panel->connector_type itself.
 
-> Giving people these features will only encourage them to write wrong
-> drivers.
+Yeah, we need to have the connector type as a parameter.
 
-So I think you can still achieve that building on top of revocable and a
-few more abstractions that are internally unsafe. Or are you thinking of
-different runtime checks?
+Maxime
 
-> This is not even a new idea, devm introduces automatic lifetime into
-> the kernel and I've sat in presentations about how devm has all sorts
-> of bug classes because of misuse. :\
+--2ate5ne4iejyiwlh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Yeah automatic lifetime is great, until people mix up things with
-different lifetimes, then it all goes wrong.
+-----BEGIN PGP SIGNATURE-----
 
-> > Does this sounds like a possible conclusion of this thread, or do we need
-> > to keep digging?
-> 
-> IDK, I think this should be socialized more. It is important as it
-> effects all drivers here out, and it is radically different to how the
-> kernel works today.
-> 
-> > Also now that I look at this problem as a two-level issue, I think drm is
-> > actually a lot better than what I explained. If you clean up driver state
-> > properly in ->remove (or as stack automatic cleanup functions that run
-> > before all the mmio/irq/whatever stuff disappears), then we are largely
-> > there already with being able to fully quiescent driver state enough to
-> > make sure no new requests can sneak in. 
-> 
-> That is the typical subsystem design!
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ9LtBAAKCRDj7w1vZxhR
+xYMCAQCVGbMderUCo19/lZEwItzpHYd9ffnbQ7OXbu9onz68zwEAhS/0Ln7m5ePp
+bVFGwvzvZZ65R983T9RMp3zR8bo9sws=
+=nzmg
+-----END PGP SIGNATURE-----
 
-Yeah maybe we're not that far really. But I'm still not clear how to do
-an entirely revoke-less world.
--Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--2ate5ne4iejyiwlh--
