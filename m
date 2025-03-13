@@ -2,112 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748B8A5ED28
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 08:41:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83CA1A5EDB3
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 09:10:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B7210E110;
-	Thu, 13 Mar 2025 07:41:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B23310E7F8;
+	Thu, 13 Mar 2025 08:10:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nlDonYH9";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="hmI6P9ZA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D62010E110
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 07:41:50 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-2241053582dso16163065ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 00:41:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741851710; x=1742456510; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=q+GuHgctQUjPu8SmpY2/kJHnsOJEHrIhv+etu/GaNm0=;
- b=nlDonYH9LhrSkvHQ6NwEjVkmDJxaWfAAlKC7LyESYbsY/Ynr8u1QYTfwsc/IaCwlYC
- 4lds2j1dH3p8iBdHpDahtNDDDh3z0D0x/qCRLdybOiQxLQt6xYl2R9uFz7MhUN1lj7ex
- x4tAwwKv5A840WWq0G+P3W+V+r4ylZAfW3R08W1U+esdWyxUokVJjxMbCzBTkI3Ww212
- jkBFxbYADu223CnjGJXPreJNsFnpoHerkt7Lb0vU56Edu8GQgeAZIaxrY9NJHObIOmOC
- pK1jKugZeyUh/nFB80ssNZS7HwoMhrM80YHSLkgjN7U5b4s9u1GuORY5ujfaJGapymFC
- PW0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741851710; x=1742456510;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q+GuHgctQUjPu8SmpY2/kJHnsOJEHrIhv+etu/GaNm0=;
- b=m7Ri/lgYj14fhKXP6qdKZZXO+Y3ZlJpjJ8IEAIW1GqzlXC+289fdBeXOWIevgB8XDz
- 01y3AEWebu50vX9f+ClkPkXSPVaq0xswIc9x4laB6UQnQdy8/JcZTnonTEJYNchKWYg7
- 1UlqydwKgYozJGjFtNRJ5SBq8FAEH8Foh6G3dTjo2qblVGekmhR4Rp7Up7HFeBW7mzYg
- id3bgSJhQ+uxGxK6R3Eb3CpWT+2uNBqA4HJX4SFChrYUvJZkmB0tLDmd15N2oLwg4ZzS
- aphRLV5KMtis+kCjz9xF8NyBHVvAyHzPWIMJfYcIXjKBETyoAKrkj4VntB6cANgt//kl
- 2h4w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWGjTUMzwkn5o/fHG/nyIkfMurMn/17TrHSBXMdtfIEdshfjIW8cualHheWgqDMA1zGvKSP0IMlqc4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxNuyNVyyRSpkwJa/lysNtI/JXyLQprhj2e/LT0eVGNL/w9olT6
- bSEKcO288lmsjyFt59icBH9NNs0EMov4Ct16/R/C5MiNO2jGwmdu
-X-Gm-Gg: ASbGncuj/n7HMMvyXdjYSPcUm5hdRNFAGq7UYpaAnaU8/75wa0o0/b0EGvtB8C9Ptal
- gX1vo2AtqN+/S2Fs8XWed7xGTorD7Z88keVihCQGpn+KtGb8OaM5pnSOZygxwAWu3mwX5Fn5wAz
- U70srd8jaG4oK/cE6nAvxpuwfxarh7A8RoWxkL6DNcgFjW4GEtK3HHTgY1H99Ea6RQnuw0L8EpE
- QJqKD3gwvIec0BtT9bN7g53NIRxzWYAutXUiRTmjAxMAj/45n70fe2xIpE5jP4krV2ZV/D7PaF7
- 8Px4BWzto8GoLqx4O9Xw1w8uLNAOVlXEz8xtQywLaB0E84Oew9ANTP2SmBfmDW8mVYn7aSw+
-X-Google-Smtp-Source: AGHT+IEOnE1UaBfwg9ZU2VkCWkw1Gp3ScOp6qbkmR7UKjY7r7OwrFGhsef4Fbyqmd9ry/T9u8Qiz3A==
-X-Received: by 2002:a17:902:e5d2:b0:21f:859a:9eab with SMTP id
- d9443c01a7336-22428ab8647mr372797915ad.37.1741851709556; 
- Thu, 13 Mar 2025 00:41:49 -0700 (PDT)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-225c6888d9bsm7284085ad.49.2025.03.13.00.41.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Mar 2025 00:41:48 -0700 (PDT)
-Date: Thu, 13 Mar 2025 15:41:31 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>,
- David Laight <david.laight.linux@gmail.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
- akpm@linux-foundation.org, alistair@popple.id.au,
- andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
- arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
- bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
- davem@davemloft.net, dmitry.torokhov@gmail.com,
- dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
- edumazet@google.com, eleanor15x@gmail.com,
- gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
- jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
- joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
- jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux@rasmusvillemoes.dk, louis.peens@corigine.com,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
- mingo@redhat.com, miquel.raynal@bootlin.com, mripard@kernel.org,
- neil.armstrong@linaro.org, netdev@vger.kernel.org,
- oss-drivers@corigine.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, rfoss@kernel.org,
- richard@nod.at, simona@ffwll.ch, tglx@linutronix.de,
- tzimmermann@suse.de, vigneshr@ti.com, x86@kernel.org
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-Message-ID: <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name>
-References: <4732F6F6-1D41-4E3F-BE24-E54489BC699C@zytor.com>
- <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com>
- <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com>
- <20250307195310.58abff8c@pumpkin>
- <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
- <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name>
- <Z9CyuowYsZyez36c@thinkpad>
- <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
- <Z9GtcNJie8TRKywZ@thinkpad>
- <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 774E110E804
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 08:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=bkguU/V4vCU7qkUopQGCcdg9rewrqL/s+JyADZ4sIys=; b=h
+ mI6P9ZAZLERAB5f31K7XoakA2asQUTMpvL8+m+ZgWBH2zx8/8eu/3YYo6/UNRObp
+ AJd8rJU+Q5dRDBd1qCwr1AaXfVjGhIzVIgwicsHEOSr9SM6YuWcUEtcg/dcw6ppi
+ 4rQb4y5zRxo75TSxli7ppOtmLEt89/w48JomXIod+U=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-146 (Coremail) ; Thu, 13 Mar 2025 16:09:54 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Thu, 13 Mar 2025 16:09:54 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Maxime Ripard" <mripard@kernel.org>
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Douglas Anderson" <dianders@chromium.org>,
+ "Herve Codina" <herve.codina@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+ "Simona Vetter" <simona.vetter@ffwll.ch>, lumag@kernel.org
+Subject: Re:Re:[PATCH v5 04/16] drm/atomic: Introduce helper to lookup
+ connector by encoder
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
+References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
+ <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
+ <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
+X-NTES-SC: AL_Qu2fA/SevEsi4iibbOkfmkcVgOw9UcO5v/Qk3oZXOJF8jCzr2S86fUFMJXzT+9+ONRCrrheYbT9M6PtxWaRSfYMb9lQmH73zLkFZDqj8NGP+7w==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name>
+Message-ID: <608c01c.7716.1958e8d879f.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: kigvCgAXPS7SktJnM7N9AA--.17554W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hgPXmfSjOJdIQADs-
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,154 +75,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 13, 2025 at 12:29:13AM +0800, Kuan-Wei Chiu wrote:
-> On Wed, Mar 12, 2025 at 11:51:12AM -0400, Yury Norov wrote:
-> > On Tue, Mar 11, 2025 at 03:24:14PM -0700, H. Peter Anvin wrote:
-> > > On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury.norov@gmail.com> wrote:
-> > > >On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
-> > > >> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H. Peter Anvin wrote:
-> > > >> > On March 7, 2025 11:53:10 AM PST, David Laight <david.laight.linux@gmail.com> wrote:
-> > > >> > >On Fri, 07 Mar 2025 11:30:35 -0800
-> > > >> > >"H. Peter Anvin" <hpa@zytor.com> wrote:
-> > > >> > >
-> > > >> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew.cooper3@citrix.com> wrote:
-> > > >> > >> >> (int)true most definitely is guaranteed to be 1.  
-> > > >> > >> >
-> > > >> > >> >That's not technically correct any more.
-> > > >> > >> >
-> > > >> > >> >GCC has introduced hardened bools that intentionally have bit patterns
-> > > >> > >> >other than 0 and 1.
-> > > >> > >> >
-> > > >> > >> >https://gcc.gnu.org/gcc-14/changes.html
-> > > >> > >> >
-> > > >> > >> >~Andrew  
-> > > >> > >> 
-> > > >> > >> Bit patterns in memory maybe (not that I can see the Linux kernel using them) but
-> > > >> > >> for compiler-generated conversations that's still a given, or the manager isn't C
-> > > >> > >> or anything even remotely like it.
-> > > >> > >> 
-> > > >> > >
-> > > >> > >The whole idea of 'bool' is pretty much broken by design.
-> > > >> > >The underlying problem is that values other than 'true' and 'false' can
-> > > >> > >always get into 'bool' variables.
-> > > >> > >
-> > > >> > >Once that has happened it is all fubar.
-> > > >> > >
-> > > >> > >Trying to sanitise a value with (say):
-> > > >> > >int f(bool v)
-> > > >> > >{
-> > > >> > >	return (int)v & 1;
-> > > >> > >}    
-> > > >> > >just doesn't work (see https://www.godbolt.org/z/MEndP3q9j)
-> > > >> > >
-> > > >> > >I really don't see how using (say) 0xaa and 0x55 helps.
-> > > >> > >What happens if the value is wrong? a trap or exception?, good luck recovering
-> > > >> > >from that.
-> > > >> > >
-> > > >> > >	David
-> > > >> > 
-> > > >> > Did you just discover GIGO?
-> > > >> 
-> > > >> Thanks for all the suggestions.
-> > > >> 
-> > > >> I don't have a strong opinion on the naming or return type. I'm still a
-> > > >> bit confused about whether I can assume that casting bool to int always
-> > > >> results in 0 or 1.
-> > > >> 
-> > > >> If that's the case, since most people prefer bool over int as the
-> > > >> return type and some are against introducing u1, my current plan is to
-> > > >> use the following in the next version:
-> > > >> 
-> > > >> bool parity_odd(u64 val);
-> > > >> 
-> > > >> This keeps the bool return type, renames the function for better
-> > > >> clarity, and avoids extra maintenance burden by having just one
-> > > >> function.
-> > > >> 
-> > > >> If I can't assume that casting bool to int always results in 0 or 1,
-> > > >> would it be acceptable to keep the return type as int?
-> > > >> 
-> > > >> Would this work for everyone?
-> > > >
-> > > >Alright, it's clearly a split opinion. So what I would do myself in
-> > > >such case is to look at existing code and see what people who really
-> > > >need parity invent in their drivers:
-> > > >
-> > > >                                     bool      parity_odd
-> > > >static inline int parity8(u8 val)       -               -
-> > > >static u8 calc_parity(u8 val)           -               -
-> > > >static int odd_parity(u8 c)             -               +
-> > > >static int saa711x_odd_parity           -               +
-> > > >static int max3100_do_parity            -               -
-> > > >static inline int parity(unsigned x)    -               -
-> > > >static int bit_parity(u32 pkt)          -               -
-> > > >static int oa_tc6_get_parity(u32 p)     -               -
-> > > >static u32 parity32(__le32 data)        -               -
-> > > >static u32 parity(u32 sample)           -               -
-> > > >static int get_parity(int number,       -               -
-> > > >                      int size)
-> > > >static bool i2cr_check_parity32(u32 v,  +               -
-> > > >                        bool parity)
-> > > >static bool i2cr_check_parity64(u64 v)  +               -
-> > > >static int sw_parity(__u64 t)           -               -
-> > > >static bool parity(u64 value)           +               -
-> > > >
-> > > >Now you can refer to that table say that int parity(uXX) is what
-> > > >people want to see in their drivers.
-> > > >
-> > > >Whichever interface you choose, please discuss it's pros and cons.
-> > > >What bloat-o-meter says for each option? What's maintenance burden?
-> > > >Perf test? Look at generated code?
-> > > >
-> > > >I personally for a macro returning boolean, something like I
-> > > >proposed at the very beginning.
-> > > >
-> > > >Thanks,
-> > > >Yury
-> > > 
-> > > Also, please at least provide a way for an arch to opt in to using the builtins, which seem to produce as good results or better at least on some architectures like x86 and probably with CPU options that imply fast popcnt is available.
-> > 
-> > Yeah. And because linux/bitops.h already includes asm/bitops.h
-> > the simplest way would be wrapping generic implementation with
-> > the #ifndef parity, similarly to how we handle find_next_bit case.
-> > 
-> > So:
-> > 1. Kuan-Wei, please don't invent something like ARCH_HAS_PARITY;
-> > 2. This may, and probably should, be a separate follow-up series,
-> >    likely created by corresponding arch experts.
-> > 
-> I saw discussions in the previous email thread about both
-> __builtin_parity and x86-specific implementations. However, from the
-> discussion, I learned that before considering any optimization, we
-> should first ask: which driver or subsystem actually cares about parity
-> efficiency? If someone does, I can help with a micro-benchmark to
-> provide performance numbers, but I don't have enough domain knowledge
-> to identify hot paths where parity efficiency matters.
-> 
-IMHO,
-
-If parity is never used in any hot path and we don't care about parity:
-
-Then benchmarking its performance seems meaningless. In this case, a
-function with a u64 argument would suffice, and we might not even need
-a macro to optimize for different types—especially since the macro
-requires special hacks to avoid compiler warnings. Also, I don't think
-code size matters here. If it does, we should first consider making
-parity a non-inline function in a .c file rather than an inline
-function/macro in a header.
-
-If parity is used in a hot path:
-
-We need different handling for different type sizes. As previously
-discussed, x86 assembly might use different instructions for u8 and
-u16. This may sound stubborn, but I want to ask again: should we
-consider using parity8/16/32/64 interfaces? Like in the i3c driver
-example, if we only have a single parity macro that selects an
-implementation based on type size, users must explicitly cast types.
-If future users also need parity in a hot path, they might not be aware
-of this requirement and end up generating suboptimal code. Since we
-care about efficiency and generated code, why not follow hweight() and
-provide separate implementations for different sizes?
-
-Regards,
-Kuan-Wei
+CgpIaSBNYXhpbWUsCgpBdCAyMDI1LTAzLTA1IDE5OjU1OjE5LCAiQW5keSBZYW4iIDxhbmR5c2hy
+a0AxNjMuY29tPiB3cm90ZToKPgo+Cj5IaSBNYXhpbWUsCj4KPkF0IDIwMjUtMDMtMDQgMTk6MTA6
+NDcsICJNYXhpbWUgUmlwYXJkIiA8bXJpcGFyZEBrZXJuZWwub3JnPiB3cm90ZToKPj5XaXRoIHRo
+ZSBicmlkZ2VzIHN3aXRjaGluZyBvdmVyIHRvIGRybV9icmlkZ2VfY29ubmVjdG9yLCB0aGUgZGly
+ZWN0Cj4+YXNzb2NpYXRpb24gYmV0d2VlbiBhIGJyaWRnZSBkcml2ZXIgYW5kIGl0cyBjb25uZWN0
+b3Igd2FzIGxvc3QuCj4+Cj4+VGhpcyBpcyBtaXRpZ2F0ZWQgZm9yIGF0b21pYyBicmlkZ2UgZHJp
+dmVycyBieSB0aGUgZmFjdCB5b3UgY2FuIGFjY2Vzcwo+PnRoZSBlbmNvZGVyLCBhbmQgdGhlbiBj
+YWxsIGRybV9hdG9taWNfZ2V0X29sZF9jb25uZWN0b3JfZm9yX2VuY29kZXIoKSBvcgo+PmRybV9h
+dG9taWNfZ2V0X25ld19jb25uZWN0b3JfZm9yX2VuY29kZXIoKSB3aXRoIGRybV9hdG9taWNfc3Rh
+dGUuCj4+Cj4+VGhpcyB3YXMgYWxzbyBtYWRlIGVhc2llciBieSBwcm92aWRpbmcgZHJtX2F0b21p
+Y19zdGF0ZSBkaXJlY3RseSB0byBhbGwKPj5hdG9taWMgaG9va3MgYnJpZGdlcyBjYW4gaW1wbGVt
+ZW50Lgo+Pgo+Pkhvd2V2ZXIsIGJyaWRnZSBkcml2ZXJzIGRvbid0IGhhdmUgYSB3YXkgdG8gYWNj
+ZXNzIGRybV9hdG9taWNfc3RhdGUKPj5vdXRzaWRlIG9mIHRoZSBtb2Rlc2V0IHBhdGgsIGxpa2Ug
+ZnJvbSB0aGUgaG90cGx1ZyBpbnRlcnJ1cHQgcGF0aCBvciBhbnkKPj5pbnRlcnJ1cHQgaGFuZGxl
+ci4KPj4KPj5MZXQncyBpbnRyb2R1Y2UgYSBmdW5jdGlvbiB0byByZXRyaWV2ZSB0aGUgY29ubmVj
+dG9yIGN1cnJlbnRseSBhc3NpZ25lZAo+PnRvIGFuIGVuY29kZXIsIHdpdGhvdXQgdXNpbmcgZHJt
+X2F0b21pY19zdGF0ZSwgdG8gbWFrZSB0aGVzZSBkcml2ZXJzJwo+PmxpZmUgZWFzaWVyLgo+Pgo+
+PlJldmlld2VkLWJ5OiBEbWl0cnkgQmFyeXNoa292IDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5v
+cmc+Cj4+Q28tZGV2ZWxvcGVkLWJ5OiBTaW1vbmEgVmV0dGVyIDxzaW1vbmEudmV0dGVyQGZmd2xs
+LmNoPgo+PlNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4K
+Pj4tLS0KPj4gZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMuYyB8IDQ1ICsrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4+IGluY2x1ZGUvZHJtL2RybV9hdG9taWMu
+aCAgICAgfCAgMyArKysKPj4gMiBmaWxlcyBjaGFuZ2VkLCA0OCBpbnNlcnRpb25zKCspCj4+Cj4+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vZHJtX2F0b21pYy5jCj4+aW5kZXggOWVhMjYxMTc3MGY0M2NlN2NjYmE0MTA0MDZkNWYyYzUy
+OGFhYjAyMi4uYjkyNmIxMzI1OTBlNzhmOGQ0MWQ0OGViNGRhNGJjY2YxNzBlZTIzNiAxMDA2NDQK
+Pj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jCj4+KysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9hdG9taWMuYwo+PkBAIC05ODUsMTAgKzk4NSw1NSBAQCBkcm1fYXRvbWljX2dldF9u
+ZXdfY29ubmVjdG9yX2Zvcl9lbmNvZGVyKGNvbnN0IHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpz
+dGF0ZSwKPj4gCj4+IAlyZXR1cm4gTlVMTDsKPj4gfQo+PiBFWFBPUlRfU1lNQk9MKGRybV9hdG9t
+aWNfZ2V0X25ld19jb25uZWN0b3JfZm9yX2VuY29kZXIpOwo+PiAKPj4rLyoqCj4+KyAqIGRybV9h
+dG9taWNfZ2V0X2Nvbm5lY3Rvcl9mb3JfZW5jb2RlciAtIEdldCBjb25uZWN0b3IgY3VycmVudGx5
+IGFzc2lnbmVkIHRvIGFuIGVuY29kZXIKPj4rICogQGVuY29kZXI6IFRoZSBlbmNvZGVyIHRvIGZp
+bmQgdGhlIGNvbm5lY3RvciBvZgo+PisgKiBAY3R4OiBNb2Rlc2V0IGxvY2tpbmcgY29udGV4dAo+
+PisgKgo+PisgKiBUaGlzIGZ1bmN0aW9uIGZpbmRzIGFuZCByZXR1cm5zIHRoZSBjb25uZWN0b3Ig
+Y3VycmVudGx5IGFzc2lnbmVkIHRvCj4+KyAqIGFuIEBlbmNvZGVyLgo+PisgKgo+PisgKiBSZXR1
+cm5zOgo+PisgKiBUaGUgY29ubmVjdG9yIGNvbm5lY3RlZCB0byBAZW5jb2Rlciwgb3IgYW4gZXJy
+b3IgcG9pbnRlciBvdGhlcndpc2UuCj4+KyAqIFdoZW4gdGhlIGVycm9yIGlzIEVERUFETEssIGEg
+ZGVhZGxvY2sgaGFzIGJlZW4gZGV0ZWN0ZWQgYW5kIHRoZQo+PisgKiBzZXF1ZW5jZSBtdXN0IGJl
+IHJlc3RhcnRlZC4KPj4rICovCj4+K3N0cnVjdCBkcm1fY29ubmVjdG9yICoKPj4rZHJtX2F0b21p
+Y19nZXRfY29ubmVjdG9yX2Zvcl9lbmNvZGVyKGNvbnN0IHN0cnVjdCBkcm1fZW5jb2RlciAqZW5j
+b2RlciwKPj4rCQkJCSAgICAgc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4ICpjdHgpCj4+
+K3sKPj4rCXN0cnVjdCBkcm1fY29ubmVjdG9yX2xpc3RfaXRlciBjb25uX2l0ZXI7Cj4+KwlzdHJ1
+Y3QgZHJtX2Nvbm5lY3RvciAqb3V0X2Nvbm5lY3RvciA9IEVSUl9QVFIoLUVJTlZBTCk7Cj4+Kwlz
+dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yOwo+PisJc3RydWN0IGRybV9kZXZpY2UgKmRl
+diA9IGVuY29kZXItPmRldjsKPj4rCWludCByZXQ7Cj4+Kwo+PisJcmV0ID0gZHJtX21vZGVzZXRf
+bG9jaygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9uX211dGV4LCBjdHgpOwo+PisJaWYgKHJl
+dCkKPj4rCQlyZXR1cm4gRVJSX1BUUihyZXQpOwo+Cj5JdCBzZWVtcyB0aGF0IHRoaXMgd2lsbCBj
+YXVzZSBhIGRlYWRsb2NrIHdoZW4gY2FsbGVkIGZyb20gYSAgaG90cGx1ZyBoYW5kbGluZyBwYXRo
+LAo+SSBoYXZlIGEgV0lQIERQIGRpdmVyWzBdLCAgd2hpY2ggc3VnZ2VzdGVkIGJ5IERtaXRyeSB0
+byB1c2UgdGhpcyBBUEkgZnJvbSBhIAo+JmRybV9icmlkZ2VfZnVuY3MuZGV0ZWN0IGNhbGxiYWNr
+IHRvIGdldCB0aGUgY29ubmVjdG9yLCAgYXMgZGV0ZWN0IGlzIGNhbGxlZCBieSBkcm1faGVscGVy
+X3Byb2JlX2RldGVjdCwKPndoaWNoIHdpbGwgaG9sZCBjb25uZWN0aW9uX211dGV4IGZpcnN0LCBz
+byB0aGUgZGVha2xvY2sgaGFwcGVuczoKPgo+Cj5kcm1faGVscGVyX3Byb2JlX2RldGVjdChzdHJ1
+Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+ICAgICAgICAgICAgICAgICAgICAgICAgc3Ry
+dWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4ICpjdHgsCj4gICAgICAgICAgICAgICAgICAgICAg
+ICBib29sIGZvcmNlKQo+ewo+ICAgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9oZWxw
+ZXJfZnVuY3MgKmZ1bmNzID0gY29ubmVjdG9yLT5oZWxwZXJfcHJpdmF0ZTsKPiAgICAgICAgc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiA9IGNvbm5lY3Rvci0+ZGV2Owo+ICAgICAgICBpbnQgcmV0Owo+
+Cj4gICAgICAgIGlmICghY3R4KQo+ICAgICAgICAgICAgICAgIHJldHVybiBkcm1faGVscGVyX3By
+b2JlX2RldGVjdF9jdHgoY29ubmVjdG9yLCBmb3JjZSk7Cj4KPiAgICAgICAgcmV0ID0gZHJtX21v
+ZGVzZXRfbG9jaygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9uX211dGV4LCBjdHgpOwo+ICAg
+ICAgICBpZiAocmV0KQo+ICAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4KPiAgICAgICAgaWYg
+KGZ1bmNzLT5kZXRlY3RfY3R4KQo+ICAgICAgICAgICAgICAgIHJldCA9IGZ1bmNzLT5kZXRlY3Rf
+Y3R4KGNvbm5lY3RvciwgY3R4LCBmb3JjZSk7Cj4gICAgICAgIGVsc2UgaWYgKGNvbm5lY3Rvci0+
+ZnVuY3MtPmRldGVjdCkKPiAgICAgICAgICAgICAgICByZXQgPSBjb25uZWN0b3ItPmZ1bmNzLT5k
+ZXRlY3QoY29ubmVjdG9yLCBmb3JjZSk7Cj4gICAgICAgIGVsc2UKPiAgICAgICAgICAgICAgICBy
+ZXQgPSBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3RlZDsKPgo+ICAgICAgICBpZiAocmV0ICE9IGNv
+bm5lY3Rvci0+c3RhdHVzKQo+ICAgICAgICAgICAgICAgIGNvbm5lY3Rvci0+ZXBvY2hfY291bnRl
+ciArPSAxOwo+Cj5TbyBJIHdvbmRlciBjYW4gd2UgbGV0IGRybV9icmlkZ2VfZnVuY3MuZGV0ZWN0
+IHBhc3MgYSBjb25uZWN0b3IgZm9yIHRoaXMgY2FzZSA/Cj4KPgo+Cj5bMF1odHRwczovL2xvcmUu
+a2VybmVsLm9yZy9saW51eC1yb2NrY2hpcC8wNDdFRUNGQy03RTU1LTQ0RUMtODk2Ri0xM0ZFMDQz
+MzNFNERAZ21haWwuY29tL1QvI20yNWJjNTNiNzlmNWNjN2JkZGZjYjdhYWU1NjU2ZjY4ZGYzOTZm
+MDk0Cj4+Kwo+PisJZHJtX2Nvbm5lY3Rvcl9saXN0X2l0ZXJfYmVnaW4oZGV2LCAmY29ubl9pdGVy
+KTsKPj4rCWRybV9mb3JfZWFjaF9jb25uZWN0b3JfaXRlcihjb25uZWN0b3IsICZjb25uX2l0ZXIp
+IHsKPj4rCQlpZiAoIWNvbm5lY3Rvci0+c3RhdGUpCj4+KwkJCWNvbnRpbnVlOwo+PisKPj4rCQlp
+ZiAoZW5jb2RlciA9PSBjb25uZWN0b3ItPnN0YXRlLT5iZXN0X2VuY29kZXIpIHsKPj4rCQkJb3V0
+X2Nvbm5lY3RvciA9IGNvbm5lY3RvcjsKCgpXaGVuIHRyeSB0byB1c2UgdGhpcyBwYXRjaCBpbiBt
+eSBicmlkZ2UgZHJpdmVyLCAgSSBmb3VuZCB0aGF0IHRoZSBjb25uZWN0b3ItPnN0YXRlLT5iZXN0
+X2VuY29kZXIgCiBtYXliZSBOVUxMIHdoZW4gICBkcm1fYnJpZGdlX2Z1bmNzLmRldGVjdCBvciBk
+cm1fYnJpZGdlX2Z1bmNzLmRldGVjdF9jdHggaXMgIGNhbGxlZDoKClsgICA1Mi43MTMwMzBdIElu
+dmFsaWQgcmV0dXJuIHZhbHVlIC0yMiBmb3IgY29ubmVjdG9yIGRldGVjdGlvbgpbICAgNTIuNzEz
+NTM5XSBXQVJOSU5HOiBDUFU6IDcgUElEOiAyODggYXQgZHJpdmVycy9ncHUvZHJtL2RybV9wcm9i
+ZV9oZWxwZXIuYzo2MDIgZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKzB4
+NWUwLwoweDYzYwpbICAgNTIuNzE0NTY4XSBNb2R1bGVzIGxpbmtlZCBpbjoKClsgICA1Mi43MjQ1
+NDZdIENhbGwgdHJhY2U6ClsgICA1Mi43MjQ3NjJdICBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9j
+b25uZWN0b3JfbW9kZXMrMHg1ZTAvMHg2M2MgKFApClsgICA1Mi43MjUzMTldICBkcm1fbW9kZV9n
+ZXRjb25uZWN0b3IrMHgyYTQvMHg0ODgKWyAgIDUyLjcyNTcxMV0gIGRybV9pb2N0bF9rZXJuZWwr
+MHhiNC8weDExYwpbICAgNTIuNzI2MDU3XSAgZHJtX2lvY3RsKzB4MjJjLzB4NTQ0ClsgICA1Mi43
+MjYzNThdICBfX2FybTY0X3N5c19pb2N0bCsweGFjLzB4ZTAKWyAgIDUyLjcyNjcwNl0gIGludm9r
+ZV9zeXNjYWxsKzB4NDQvMHgxMDAKWyAgIDUyLjcyNzAzOV0gIGVsMF9zdmNfY29tbW9uLmNvbnN0
+cHJvcC4wKzB4M2MvMHhkNAoKVGhpcyBpcyBiZWNhdXNlICBiZXN0X2VuY29kZXIgaXMgc2V0IGJ5
+IHNldF9iZXN0X2VuY29kZXIsIHdoaWNoIGlzIGNhbGxlZCBmcm9tCmRybV9hdG9taWNfaGVscGVy
+X2NoZWNrX21vZGVzZXQuIFdoZW4gd2UgY2FsbCBkcm1fbW9kZV9nZXRjb25uZWN0b3IgCmZvciB0
+aGUgZmlyc3QgdGltZSwgdGhlIGZ1bmN0aW9ucyBtZW50aW9uZWQgYWJvdmUgaGF2ZSBub3QgYmVl
+biBjYWxsZWQgeWV0LAp0aGVuIHdlIGNhbid0IG1hdGNoIHRoZSBlbmNvZGVyIGZyb20gY29ubmVj
+dG9yLT5zdGF0ZS0+YmVzdF9lbmNvZGVyIGZvciB0aGlzIGNhc2UuCgoKCj4+KwkJCWJyZWFrOwo+
+PisJCX0KPj4rCX0KPj4rCWRybV9jb25uZWN0b3JfbGlzdF9pdGVyX2VuZCgmY29ubl9pdGVyKTsK
+Pj4rCWRybV9tb2Rlc2V0X3VubG9jaygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9uX211dGV4
+KTsKPj4rCj4+KwlyZXR1cm4gb3V0X2Nvbm5lY3RvcjsKPj4rfQo+PitFWFBPUlRfU1lNQk9MKGRy
+bV9hdG9taWNfZ2V0X2Nvbm5lY3Rvcl9mb3JfZW5jb2Rlcik7Cj4+Kwo+PisKPj4gLyoqCg==
