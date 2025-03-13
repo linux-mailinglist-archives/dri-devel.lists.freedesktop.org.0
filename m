@@ -2,69 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B02FA5EFDA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 10:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5852A5EFE4
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Mar 2025 10:48:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C53B110E81C;
-	Thu, 13 Mar 2025 09:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4C610E81D;
+	Thu, 13 Mar 2025 09:48:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DOZ7Cs0s";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Q4GgRiU+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B64110E818;
- Thu, 13 Mar 2025 09:46:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1741859165; x=1773395165;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=KnDKEsArudUs0xPOlJ+UrPFKez4u7XPSRF38hrC27AY=;
- b=DOZ7Cs0sRaTKqYvXiRIye7u2Y0gOZ6eDl+Gb1gBrJ9JRYlJC9Mwbxn9J
- 1cC+VjcR9/zhs2C0jiQE4urJKhDMNfw7fWRgN/MjoQ6P6el+SPVLGJWZR
- XLxqUMpIRTdu0qOluD4iLc222mS4NG8H4G2vHGW3s1Ny1kht5qtJjCcUl
- saRLyAGPYl0M++zTapDSKz6ULxCPSMBcmYUihJYom6IVUdx1jgAJGAumT
- ClQUOL+Zq90+YpuESiJb8XLVBqv1GUSOqGIhN3VpWIQhTv9z4bgalOvjl
- 0FMApkSP7hZNdpj4KNiA+9fYxi+R7Ia+dIXzqmigLAQs1nx3gyz+IzMq3 w==;
-X-CSE-ConnectionGUID: zO8S+IegSK+EzwQvwPBsCw==
-X-CSE-MsgGUID: HkXGWol3R86hsA0BGdujgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="42218668"
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="42218668"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2025 02:46:04 -0700
-X-CSE-ConnectionGUID: OgZTVnicSw2ndjoz67HmGA==
-X-CSE-MsgGUID: h+IV8g1JRiycZ2xpDz+NkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; d="scan'208";a="121400702"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.195])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2025 02:45:59 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 13 Mar 2025 11:45:45 +0200 (EET)
-To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
-cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v5 1/6] PCI/IOV: Restore VF resizable BAR state after reset
-In-Reply-To: <20250312225949.969716-2-michal.winiarski@intel.com>
-Message-ID: <d6e026ad-4dd4-2e03-6f8b-a10980fa0ce7@linux.intel.com>
-References: <20250312225949.969716-1-michal.winiarski@intel.com>
- <20250312225949.969716-2-michal.winiarski@intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE16610E81D;
+ Thu, 13 Mar 2025 09:48:50 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52D0m9jE003543;
+ Thu, 13 Mar 2025 09:48:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ MGP/KB4+n9JDWeVs1CYtyV9lE8klH1kKAMutxhxApOg=; b=Q4GgRiU+chBTmf4L
+ em1koVP0cFXxgZSUaqTBvyAWROIBRZ9T0ye/0jXXVL8jeLBBJP5m3+ZgusQ6v85F
+ pfr5M+nVhBQDAjGLcaNKB0S5CgbqIhZzImbVZNJgVswWA3motA40VJQ5Ml/pVoIM
+ E5VRjbw9S0YjhVs7omP5kl7e7Outm+UK1Au16O4339CpPoYItzTQUz9G3ubs63TV
+ LwGIzgaD4kbuV/4AoasliuoDdjWxQx4HDPSipErmkfgmeesZAKRuBuhD12wFw1Qz
+ dRFn/hKkOkrmtybWYt7O8jvr8fHpwzvjqedGP1nAA0fmRm6CVFfG8KflAT6i2mFc
+ 0ocoMw==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45b96yb8vr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Mar 2025 09:48:39 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52D9mcO7022527
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Mar 2025 09:48:38 GMT
+Received: from [10.204.66.137] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 13 Mar
+ 2025 02:48:31 -0700
+Message-ID: <c1e554f3-cf4f-42ba-aa75-94c8b0a13ff3@quicinc.com>
+Date: Thu, 13 Mar 2025 15:18:28 +0530
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1098235586-1741859145=:1742"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/10] dt-bindings: msm: dsi-controller-main: document
+ the SA8775P DSI CTRL
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <robdclark@gmail.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <andersson@kernel.org>,
+ <robh@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
+ <konradybcio@kernel.org>, <conor+dt@kernel.org>,
+ <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
+ <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <quic_abhinavk@quicinc.com>, <quic_rajeevny@quicinc.com>,
+ <quic_vproddut@quicinc.com>, <quic_jesszhan@quicinc.com>
+References: <20250311122445.3597100-1-quic_amakhija@quicinc.com>
+ <20250311122445.3597100-3-quic_amakhija@quicinc.com>
+ <20250312-fine-vermilion-grebe-bdd5c9@krzk-bin>
+Content-Language: en-US
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
+In-Reply-To: <20250312-fine-vermilion-grebe-bdd5c9@krzk-bin>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: QBVGklf5M8TFsG4hVHR9MLeJ8aXV5AWU
+X-Authority-Analysis: v=2.4 cv=I+llRMgg c=1 sm=1 tr=0 ts=67d2a9f7 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10
+ a=EkG_hp2kC7S3OihkgwwA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: QBVGklf5M8TFsG4hVHR9MLeJ8aXV5AWU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-13_04,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ lowpriorityscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 spamscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ phishscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503130077
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,106 +107,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-1098235586-1741859145=:1742
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Wed, 12 Mar 2025, Micha=C5=82 Winiarski wrote:
+On 3/12/2025 5:14 PM, Krzysztof Kozlowski wrote:
+> On Tue, Mar 11, 2025 at 05:54:37PM +0530, Ayushi Makhija wrote:
+>> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>> index ffbd1dc9470e..3621e3f12b65 100644
+>> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>> @@ -23,6 +23,7 @@ properties:
+>>                - qcom,msm8996-dsi-ctrl
+>>                - qcom,msm8998-dsi-ctrl
+>>                - qcom,qcm2290-dsi-ctrl
+>> +              - qcom,sa8775p-dsi-ctrl
+> 
+> That's incomplete, where is the rest of updates in the file? Not
+> needed?
+> 
+> Best regards,
+> Krzysztof
+> 
 
-> Similar to regular resizable BAR, VF BAR can also be resized, e.g. by
-> the system firmware or the PCI subsystem itself.
->=20
-> Add the capability ID and restore it as a part of IOV state.
->=20
-> See PCIe r4.0, sec 9.3.7.4.
->=20
-> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
-> Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/pci/iov.c             | 29 ++++++++++++++++++++++++++++-
->  include/uapi/linux/pci_regs.h |  1 +
->  2 files changed, 29 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> index 121540f57d4bf..eb4d33eacacb8 100644
-> --- a/drivers/pci/iov.c
-> +++ b/drivers/pci/iov.c
-> @@ -7,6 +7,7 @@
->   * Copyright (C) 2009 Intel Corporation, Yu Zhao <yu.zhao@intel.com>
->   */
-> =20
-> +#include <linux/bitfield.h>
->  #include <linux/pci.h>
->  #include <linux/slab.h>
->  #include <linux/export.h>
-> @@ -868,6 +869,30 @@ static void sriov_release(struct pci_dev *dev)
->  =09dev->sriov =3D NULL;
->  }
-> =20
-> +static void sriov_restore_vf_rebar_state(struct pci_dev *dev)
-> +{
-> +=09unsigned int pos, nbars, i;
-> +=09u32 ctrl;
-> +
-> +=09pos =3D pci_find_ext_capability(dev, PCI_EXT_CAP_ID_VF_REBAR);
-> +=09if (!pos)
-> +=09=09return;
+Hi Krzysztof,
 
-FYI, the commit f7c9bb759161 ("PCI: Cache offset of Resizable BAR=20
-capability") which is currently in pci/enumeration makes this simpler.
+Thanks, for the review.
 
-> +=09pci_read_config_dword(dev, pos + PCI_REBAR_CTRL, &ctrl);
-> +=09nbars =3D FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
-> +
-> +=09for (i =3D 0; i < nbars; i++, pos +=3D 8) {
-> +=09=09int bar_idx, size;
-> +
-> +=09=09pci_read_config_dword(dev, pos + PCI_REBAR_CTRL, &ctrl);
-> +=09=09bar_idx =3D FIELD_GET(PCI_REBAR_CTRL_BAR_IDX, ctrl);
-> +=09=09size =3D pci_rebar_bytes_to_size(dev->sriov->barsz[bar_idx]);
-> +=09=09ctrl &=3D ~PCI_REBAR_CTRL_BAR_SIZE;
-> +=09=09ctrl |=3D FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
-> +=09=09pci_write_config_dword(dev, pos + PCI_REBAR_CTRL, ctrl);
-> +=09}
-> +}
-> +
->  static void sriov_restore_state(struct pci_dev *dev)
->  {
->  =09int i;
-> @@ -1027,8 +1052,10 @@ resource_size_t pci_sriov_resource_alignment(struc=
-t pci_dev *dev, int resno)
->   */
->  void pci_restore_iov_state(struct pci_dev *dev)
->  {
-> -=09if (dev->is_physfn)
-> +=09if (dev->is_physfn) {
-> +=09=09sriov_restore_vf_rebar_state(dev);
->  =09=09sriov_restore_state(dev);
-> +=09}
->  }
-> =20
->  /**
-> diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.=
-h
-> index 3c2558b98d225..aadd483c47d6f 100644
-> --- a/include/uapi/linux/pci_regs.h
-> +++ b/include/uapi/linux/pci_regs.h
-> @@ -744,6 +744,7 @@
->  #define PCI_EXT_CAP_ID_L1SS=090x1E=09/* L1 PM Substates */
->  #define PCI_EXT_CAP_ID_PTM=090x1F=09/* Precision Time Measurement */
->  #define PCI_EXT_CAP_ID_DVSEC=090x23=09/* Designated Vendor-Specific */
-> +#define PCI_EXT_CAP_ID_VF_REBAR 0x24=09/* VF Resizable BAR */
->  #define PCI_EXT_CAP_ID_DLF=090x25=09/* Data Link Feature */
->  #define PCI_EXT_CAP_ID_PL_16GT=090x26=09/* Physical Layer 16.0 GT/s */
->  #define PCI_EXT_CAP_ID_NPEM=090x29=09/* Native PCIe Enclosure Management=
- */
->=20
+Each compatible string has a different set of clocks which are associated with it.
 
---=20
- i.
+Sorry, I forget to add qcom,sa8775p-dsi-ctrl compatible based on the set of clocks which are associated with it.
+Will add it in next patch.
 
---8323328-1098235586-1741859145=:1742--
+--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+@@ -349,6 +349,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - qcom,sa8775p-dsi-ctrl
+               - qcom,sc7180-dsi-ctrl
+               - qcom,sc7280-dsi-ctrl
+               - qcom,sm6150-dsi-ctrl
+
+The remaining content in the file will stay the same, no other changes are needed.
+
+Thanks,
+Ayushi
+
+
