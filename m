@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE3DA60EF4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 11:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D1DA60F43
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 11:45:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DCDC10E99C;
-	Fri, 14 Mar 2025 10:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C4910E30C;
+	Fri, 14 Mar 2025 10:45:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="imYmTWDR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m3QCcD2F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 585F810E9BE
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 10:32:03 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B6A1E43319;
- Fri, 14 Mar 2025 10:31:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741948322;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9Iwx6p4M4famV166YaX+k9uap2aPfGPkWwiC9dV1gl4=;
- b=imYmTWDRRIhUzZAYkTcvQhg8TrX0tR95/uZwexFiDRyobi1MbuYgAzHHu8UrE4vrOiGNSp
- fgV5k/Hvcmdeog5rwuJDO8Cxr7IxdKBworYIYdJMfSuromtX0+7UGt2SqwAqrNW6ctBZJm
- IQHWnEbAXWf3kKMdtJKfqf/AiBz2xR0SucCqwZPEstgACaqqqI8f1p4j9lX7uwpqGzPOLB
- E4Ctq+Drb4UDgJgVXoZT08m/J1DXqIzSHU/ngDTSvPLshSGWrjY2xNiM7DRhaF2U8HOW4k
- yN2GpNT2b7qEt2j5MyJhBuIlLZohvL45JmPGP1hVfbnvyYU7xCBvH7nCNw6/Qg==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 14 Mar 2025 11:31:24 +0100
-Subject: [PATCH v7 11/11] drm/bridge: samsung-dsim: use dynamic lifetime
- management
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 922FB10E30C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 10:44:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 21AC1A45234;
+ Fri, 14 Mar 2025 10:39:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FE63C4CEE3;
+ Fri, 14 Mar 2025 10:44:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741949094;
+ bh=3xXe9cL0jqciAGlNVAvM5pFZkd0H2R4t8V4HdIfECpE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=m3QCcD2FP143X+Wwipr0T0R9vkNiZ57VQOk3kn8gLTRBj3xBE8yqnncAxAeRpjUAR
+ 2jRJV5rXv6OihKzrWBWrWU505xGkQy+lnCmhXtfnRv0KvkeCSrxFBCtKjIN0Ki9lfo
+ stePMsqsZaKKJyQBZq5wEUtcVkK2hFYPTjadO8Plgdcgy3pRcrsUi+LgOVxUdNjIqf
+ SKrWZKPonjA6Po69VAP2NgkiulqrMwtFtpTB/PjFBLaSnBFrCObjKqmbbDpNJ0Oe6f
+ XdapsEuMwnOHXMnZrG4sY3dPuKhUwKa0W5QmgjlvZsLwQ6wObwBOK8QlHbMhyk8nJx
+ 4i47tZurPprxg==
+Date: Fri, 14 Mar 2025 11:44:52 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ Danilo Krummrich <dakr@kernel.org>, mcanal@igalia.com,
+ Alice Ryhl <aliceryhl@google.com>, 
+ Simona Vetter <sima@ffwll.ch>, Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC v3 03/33] rust: drm/kms: Introduce the main
+ ModeConfigObject traits
+Message-ID: <20250314-friendly-hilarious-axolotl-ccf19e@houat>
+References: <20250305230406.567126-1-lyude@redhat.com>
+ <20250305230406.567126-4-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250314-drm-bridge-refcount-v7-11-152571f8c694@bootlin.com>
-References: <20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com>
-In-Reply-To: <20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Anusha Srivatsa <asrivats@redhat.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
- =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Hui Pu <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufedtiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehnecuvehluhhsthgvrhfuihiivgepkeenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefuddprhgtphhtthhopefjuhhirdfruhesghgvhhgvrghlthhhtggrrhgvrdgtohhmpdhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepmhgrrhgvgiesuggvnhigrdguvgdprhgtphhtthhopehjvghrn
- hgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehprghulhhksehshihsqdgsrghsvgdrihhopdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgv
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="ndn5jrobqdpkuzie"
+Content-Disposition: inline
+In-Reply-To: <20250305230406.567126-4-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,45 +68,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow this bridge to be removable without dangling pointers and
-use-after-free, together with proper use of drm_bridge_get() and _put() by
-consumers.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+--ndn5jrobqdpkuzie
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC v3 03/33] rust: drm/kms: Introduce the main
+ ModeConfigObject traits
+MIME-Version: 1.0
 
----
+On Wed, Mar 05, 2025 at 05:59:19PM -0500, Lyude Paul wrote:
+> The KMS API has a very consistent idea of a "mode config object", which
+> includes any object with a drm_mode_object struct embedded in it. These
+> objects have their own object IDs which DRM exposes to userspace, and we
+> introduce the ModeConfigObject trait to represent any object matching the=
+se
+> characteristics.
+>=20
+> One slightly less consistent trait of these objects however: some mode
+> objects have a reference count, while others don't. Since rust requires
+> that we are able to define the lifetime of an object up-front, we introdu=
+ce
+> two other super-traits of ModeConfigObject for this:
 
-This patch was added in v7.
----
- drivers/gpu/drm/bridge/samsung-dsim.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+I'm not entirely sure what you mean by that, sorry. Would you have a
+small example of the challenge that forced you to split it into two
+separate traits?
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 54de6ed2fae81bc13301a6b1ee8f38183a3118b6..3d41db7a0ceeddccc1a89a2ff1f38fe10ec6acfe 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1935,9 +1935,9 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 	struct samsung_dsim *dsi;
- 	int ret, i;
- 
--	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
--	if (!dsi)
--		return -ENOMEM;
-+	dsi = devm_drm_bridge_alloc(dev, struct samsung_dsim, bridge, &samsung_dsim_bridge_funcs);
-+	if (IS_ERR(dsi))
-+		return PTR_ERR(dsi);
- 
- 	init_completion(&dsi->completed);
- 	spin_lock_init(&dsi->transfer_lock);
-@@ -2007,7 +2007,6 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 
- 	pm_runtime_enable(dev);
- 
--	dsi->bridge.funcs = &samsung_dsim_bridge_funcs;
- 	dsi->bridge.of_node = dev->of_node;
- 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 
+> * StaticModeObject - this trait represents any mode object which does not
+>   have a reference count of its own. Such objects can be considered to
+>   share the lifetime of their parent KMS device
 
--- 
-2.48.1
+I think that part is true for both cases. I'm not aware of any
+reference-counted object that might outlive the DRM device. Do you have
+an example?
 
+> * RcModeObject - this trait represents any mode object which does have its
+>   own reference count. Objects implementing this trait get a free blanket
+>   implementation of AlwaysRefCounted, and as such can be used with the AR=
+ef
+>   container without us having to implement AlwaysRefCounted for each
+>   individual mode object.
+>=20
+> This will be able to handle most lifetimes we'll need with one exception:
+> it's entirely possible a driver may want to hold a "owned" reference to a
+> static mode object.
+
+I guess it kind of derives from the conversation above, but would you
+have an example of a driver wanting to have a reference to a mode object
+that isn't on the same lifetime than the DRM device?
+
+Maxime
+
+--ndn5jrobqdpkuzie
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ9QIngAKCRAnX84Zoj2+
+dgfCAYDJpSkIJQ3BIcvY8iCyi3ZbDQocyJRHjcZWbIu4GbuAmznpS+V/4Vg3uNAj
+I5FNIC8Bf09cFAOnftFn/5P4DEJYaWozLHdDPvRj/vL7WvHwqyLfFjXW7SoF+EGL
+ZNEgAHlSHA==
+=PqlL
+-----END PGP SIGNATURE-----
+
+--ndn5jrobqdpkuzie--
