@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240D2A60D70
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 10:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A9DA60D71
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 10:37:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84EF210E378;
-	Fri, 14 Mar 2025 09:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAEE610E355;
+	Fri, 14 Mar 2025 09:37:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="l6wt+O/6";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XtEtNHWu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8FCF10E34F
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 09:37:03 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52E05nq3003727
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 09:37:03 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0359510E355
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 09:37:05 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52DLVGA3018481
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 09:37:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MfnAPAp+R1qao5Wl5xlx5FtRla2ujtMfiADZ2nfdBAQ=; b=l6wt+O/6JjKNXJv6
- qTfaNcP0eRbf10CjgKQAzzap1lDQ5nUqQBwNRIqKm0kVu/muT9H2+VhjcfXdCR3u
- Jh/IZtx91b5WbKwYAxvY9y7ctYXjsloC/wnqUd0+KtFyyI7uUp6YBKIhNE0BBIw3
- JytDXWbOshqZ+n5bxAzMJUo7Xh2G5x7cXwIJr58bv8lUPQXkRffKCoCUzuHjZMWQ
- p/EOtWmL3nN2XkQLKNWdZHofZlUz9Ly0XNh3yhyv/o/D77/jDyObxeOGV4ledJ9r
- uN1JNwdqTcTtrLoMg7bFYK4iWCBL6FzY/eJcZffc5UjQjEEcd7pDvA0WPEtsmVXi
- iGAaJg==
+ Rxg6WTy5b8i3vo4PyN3jqKTFwuTSk7Yvh0ES6fNN2UI=; b=XtEtNHWugQ3AYEg3
+ wjWzZogbkkZmwVdE2KNA20IfuAsU36tXa/1dt3lM7njr4LoO9XFYpEMz6em2M+9y
+ d5NMit+t9E+D5H4bcLE67uhsAT6fUr8QY8b/Egzo0H/sVsj152QVRbiO7OTmkYEz
+ PPD0deuf+aRf7iK/StY+w4mZUYMJ5OEgDAVahytjKQc4Yj7isdmSOy4SQi+Btu2e
+ TBrmXCmtw7hdRWEqmuQY5rNmr/we7z8RPykKeezOOI6iFxQm3pEh+6h1aOlJYlQo
+ kcVx5ei40tS36AKl6PX4BgCxmDUA/XbpwVcsjMbmdzHyzZXAYSIfKwlnHfFQrz5f
+ PFcmUQ==
 Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
  [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45b96yepvk-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2p0tym-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 09:37:03 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 09:37:05 +0000 (GMT)
 Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6e8feea216aso56323266d6.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 02:37:03 -0700 (PDT)
+ 6a1803df08f44-6e1b8065ed4so42590546d6.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 02:37:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741945022; x=1742549822;
+ d=1e100.net; s=20230601; t=1741945024; x=1742549824;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MfnAPAp+R1qao5Wl5xlx5FtRla2ujtMfiADZ2nfdBAQ=;
- b=FzWPD9FC55Sq+EY18fOMKz3sNXWLH9qipUjBNGZMPLXqucXnAnt1TKOFa1gaCf77f/
- FOlkB5DHdyQvAHdLq4BgA/I1iblW/Vs/fa9CnqJiLfG0Dyf9EE+vyFIoqzV210bYpfUS
- 1dEB3jnX4ctkqsvy7kOEt+bFki/2paFBZsjgJTH94RL4Vn0De8+Ii9Gy9lhO11A2Rk/x
- S76ONzWWv6m0F923Qoq0BvHHe5Fz+8se+XDi6YXR2NCEd/brqL0mMoQvvm0jLhmuUm7x
- uUx4OB+PlDr6+6BJSpxDO1hQ70Ci+PJz6pRJ7gqy0XZJG3qgvkL0/9ObxZMESbRg1hnc
- 1KFw==
-X-Gm-Message-State: AOJu0YxFY6wtaRtyVfE6aofjR5jtZfmBtH5PJnrsbYSepbuNuveRC8Um
- lYYXbFqYwhJjcVyfW+SR3G+sXjBIO/64rlvaDtF1GeP3AczVZnYqN9HcUyndAO48TkvqGujICYW
- inTQl0rZEpUKB82EJ0WVVguWNvcrtshHAuNHeipmy2xjeri8HVEyX+f7x4musTc71KLg=
-X-Gm-Gg: ASbGncuVyBhE5f3858xtOrI1QGQrBArx5YiG9mGSZkDTfYQtlbxffu8/USGwQlXt4f5
- PobEpLvmZRzTenj+kltxjfpOB8i4NCix+Y2UUly7UoQ9jaimESnX4+rs8+0jIigWyAh0L/cjUXg
- xr6VxXR5n1NGZuekPuu+CayIzOwvnf/TAs+DKelrkRtz2tMxiOHj4TDBfQFpcUg7USBixUxjJVi
- f0f1ONK1jcqDm/OMxNx/ChnFFzkU0+UqTmA3X1vBHZqLIMEvLr035cHMnEkO5hoBmFHcoTDErK5
- 3ovwwJE5KVCZZ/R2jwvFBtSwY2pq1GgXBxjWn0TOqb3/TT/aNi7hnPGUbXfxlIKiMZPwl1p3GTA
- LKkzKGpUWA0wu30tuwiLDM02ujwPV
-X-Received: by 2002:a05:6214:4606:b0:6e6:9b86:85d0 with SMTP id
- 6a1803df08f44-6eaddf047edmr86519026d6.8.1741945021769; 
- Fri, 14 Mar 2025 02:37:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF9R6JN0FXci6PacWxLW3IijDjh+4/mh8D4VFIDD4anPJXV7iyWYisApZ+3rhQVxcDkVem3Xg==
-X-Received: by 2002:a05:6214:4606:b0:6e6:9b86:85d0 with SMTP id
- 6a1803df08f44-6eaddf047edmr86518726d6.8.1741945021360; 
- Fri, 14 Mar 2025 02:37:01 -0700 (PDT)
+ bh=Rxg6WTy5b8i3vo4PyN3jqKTFwuTSk7Yvh0ES6fNN2UI=;
+ b=DVlzOeV2m8LIT1UtGpmQ8+rVaKBNE2R4nBVN7yUwn0GK2mYmFO7tJve2/jTrNbKyqv
+ AZoN1OQnhIicyCM7t1dtl9QiXlkA11cRbhsg10Fsg3aRUH7kEPGeXEDEY0f06+TNZbSo
+ ZF5oxHsuYwh8z5reqiKxPmNUiqIRBaggueAmUd2ZEN44NDUtG/p0P2r0LRaKCmHOHPzz
+ w+qVqr04DqzxaFMK8NK6qAwFWZPsqXtvrXoDKeZBltBUQhwSX4hE6qrkHU2QCVTZVMj1
+ G9haQOh5MFvi42drJOE6WBNsRFEwdTxt2EXLLqphVXwmi3yGGCZ2iV+FKGIkzVRQkZpp
+ YWBQ==
+X-Gm-Message-State: AOJu0YzDZMFS+cVqZEMRD5AQeGrof5UJbC6VvuqtS52mp38lGT5TRF7j
+ ENVvM65eU2L8mkWmuXgruiVRAwsWYnvwb42M1Vrq9eHAGiAaXSbp23ekv/liCR1JJbFZLudGlMh
+ T3kYHFMT8wqdxjVA5rSXeExnPp9AjLQAb1jVa3wHbuHc0MWijzHNj6aVVS63W0NckK0U=
+X-Gm-Gg: ASbGncvXgml2JRFVwXryj8uXtWSV54pqjAL/5fEPqWvRkJulLJiKIFbKcvSh+et6sAC
+ 2Uin3vIqAtxqd/7Q6iRzNS8Cr4MrG+iKsmUQr+znTYN/3HPdmL10gnnZT68HJ40Hdd4i8k1VVkj
+ 3MbxKLdR8w5e6idkERdpsz19pvbuqipa/6hErilDBGv5Eqx2XhoFhyTJYdDLNTFeTpgQpOJcvXJ
+ JkEtvAAlmNthGkxoPMKLo1XnVCtRsJfVupm8oYzpSpCso9GM1TPdrgpmBt0p7/RhhdGBx6MiRqe
+ n7C1SZ61yLP+zI1HPN0K2nB0YcmM3EWQnxz+93iNE20rtnSujqngLB1KizNOY2eEbpAuktc5aOH
+ xvFHKphHzidQ1SecJTP//DV2oJmeA
+X-Received: by 2002:ad4:51ca:0:b0:6e8:9a55:8259 with SMTP id
+ 6a1803df08f44-6eaea9961efmr20179296d6.9.1741945024321; 
+ Fri, 14 Mar 2025 02:37:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE7M0uXsq5VLmnMusm+b4PPWNokUY8N7huijszRLAgCWSqkBVnma70tsFEMI4SVLCklGwRong==
+X-Received: by 2002:ad4:51ca:0:b0:6e8:9a55:8259 with SMTP id
+ 6a1803df08f44-6eaea9961efmr20178956d6.9.1741945023978; 
+ Fri, 14 Mar 2025 02:37:03 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549ba7a8368sm478585e87.32.2025.03.14.02.36.57
+ 2adb3069b0e04-549ba7a8368sm478585e87.32.2025.03.14.02.37.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Mar 2025 02:36:59 -0700 (PDT)
+ Fri, 14 Mar 2025 02:37:03 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Fri, 14 Mar 2025 11:36:49 +0200
-Subject: [PATCH v6 2/4] drm/bridge: add function interface for DisplayPort
- audio implementation
+Date: Fri, 14 Mar 2025 11:36:50 +0200
+Subject: [PATCH v6 3/4] drm/bridge-connector: hook DisplayPort audio
+ support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250314-dp-hdmi-audio-v6-2-dbd228fa73d7@oss.qualcomm.com>
+Message-Id: <20250314-dp-hdmi-audio-v6-3-dbd228fa73d7@oss.qualcomm.com>
 References: <20250314-dp-hdmi-audio-v6-0-dbd228fa73d7@oss.qualcomm.com>
 In-Reply-To: <20250314-dp-hdmi-audio-v6-0-dbd228fa73d7@oss.qualcomm.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -97,33 +97,33 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4882;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6670;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=sPGFPs8Z9BJzKH3T0QhgjGfhe3qB0nROPdLNLb450jk=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn0/ixcF0KVuK5O3qMfR6zk8CJZvUE1rfBf7MgP
- pa+lkcaIDiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ9P4sQAKCRCLPIo+Aiko
- 1VicCACT3fkLWM99BgjcdDqMoVZ2qL5iU7A4kGDlUS1EZSsdCxqcqblOHmzmqUNwzLd9RdUp/3h
- lo59QNm+mnNht9pNC4D67dPwm/pcRPGYQhoaiT4BuXb3LYm6GcJ+hF2Zu/IopztZUn0PIVq6bDL
- wwBV4yjwOsyWjXW2eeQYBuZSckBS9VxsI8WWvo4IVE987p+00C1Rzrb5mPG/WeuXtRd+axXAt7e
- 0itOGCNXFS96Q+xXEE+7KGP+zt1swUhg9f+oj8xDv+W9MoBrtjY1vXU4ecwMxWj+ln3mUrfwwNM
- 50DU1B51imC85WLt7ZfFfpHR/Wg01cv58amOmkvZGODGisPp
+ bh=YybX5qyC/YrcFA/7ajmvv9eeRrlrBxymwT3fPWppcb8=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn0/ixi7kVXfa/jwnTZ4fv8x50RB/nD4bUrHN8i
+ hxuJjPE21eJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ9P4sQAKCRCLPIo+Aiko
+ 1cclB/wKwPk152dsnu70W8RKywmVujiApcE8B5driQB8QQcmFe/+Bc1/oyfnrs1x1z6sHZxEsEl
+ 4R2OznLQsTGfvWkudWsrQPP8crg3JP3YqLuGAd9ZXeHIxnOtqw2xwTxcZ4zLKIcRp88hEqMz/LP
+ 5QupCCL5bGEeA0pilHSpsqRr0dZXitFPux1AHI0DHL3AB7szZxKjCPHO6NGYb2koURYkUXbG7fW
+ e4qIzjIN0r/sc/iuzzPTJkflX3JD0Q3JJU8IWPI6E19/bkwryKnGC3tKdCMpahFWQq6NYlJg2Hj
+ pMXI2vgKUFGbCfIAhQHNyOIkJJ3Nqn6aJdvf2k826YbEjiQk
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-ORIG-GUID: W_fKJXBW3UFaZkCi0qqgByggytSU2rtz
-X-Authority-Analysis: v=2.4 cv=I+llRMgg c=1 sm=1 tr=0 ts=67d3f8bf cx=c_pps
+X-Proofpoint-GUID: MFa06lDNIemIr2Am6f1j3_gHDn1nbj61
+X-Authority-Analysis: v=2.4 cv=Q4XS452a c=1 sm=1 tr=0 ts=67d3f8c1 cx=c_pps
  a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=4Yht-t6EeviOxvws5vEA:9 a=QEXdDO2ut3YA:10
+ a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=ZVFr_3E1Ng6cMAc5vHkA:9 a=QEXdDO2ut3YA:10
  a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-GUID: W_fKJXBW3UFaZkCi0qqgByggytSU2rtz
+X-Proofpoint-ORIG-GUID: MFa06lDNIemIr2Am6f1j3_gHDn1nbj61
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-14_04,2025-03-13_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- lowpriorityscore=0 adultscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 spamscore=0 malwarescore=0 mlxscore=0 suspectscore=0
- phishscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ mlxlogscore=999 adultscore=0
+ lowpriorityscore=0 mlxscore=0 clxscore=1015 phishscore=0 malwarescore=0
+ spamscore=0 impostorscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2503140075
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -140,145 +140,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is common for the DisplayPort bridges to implement audio support. In
-preparation to providing a generic framework for DP audio, add
-corresponding interface to struct drm_bridge. As suggested by Maxime
-for now this is mostly c&p of the corresponding HDMI audio API.
+Reuse existing code plumbing HDMI audio support and the existing HDMI
+audio helpers that register HDMI codec device and plumb in the
+DisplayPort audio interfaces to be handled by the drm_bridge_connector.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- include/drm/drm_bridge.h | 88 ++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 82 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/display/drm_bridge_connector.c | 117 ++++++++++++++++++++-----
+ 1 file changed, 93 insertions(+), 24 deletions(-)
 
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index c6b66f733fffa77afc875e52f9d1500fcb66400f..e8d0e56bcc91c1f4c689e4e6fbd2aceaf4fc5cf1 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -737,6 +737,65 @@ struct drm_bridge_funcs {
- 				      struct drm_bridge *bridge,
- 				      bool enable, int direction);
- 
-+	/**
-+	 * @dp_audio_startup:
-+	 *
-+	 * Called when ASoC starts a DisplayPort audio stream setup.
-+	 *
-+	 * This callback is optional, it can be implemented by bridges that
-+	 * set the @DRM_BRIDGE_OP_DP_AUDIO flag in their &drm_bridge->ops.
-+	 *
-+	 * Returns:
-+	 * 0 on success, a negative error code otherwise
-+	 */
-+	int (*dp_audio_startup)(struct drm_connector *connector,
-+				  struct drm_bridge *bridge);
-+
-+	/**
-+	 * @dp_audio_prepare:
-+	 * Configures DisplayPort audio stream. Can be called multiple
-+	 * times for each setup.
-+	 *
-+	 * This callback is optional but it must be implemented by bridges that
-+	 * set the @DRM_BRIDGE_OP_DP_AUDIO flag in their &drm_bridge->ops.
-+	 *
-+	 * Returns:
-+	 * 0 on success, a negative error code otherwise
-+	 */
-+	int (*dp_audio_prepare)(struct drm_connector *connector,
-+				  struct drm_bridge *bridge,
-+				  struct hdmi_codec_daifmt *fmt,
-+				  struct hdmi_codec_params *hparms);
-+
-+	/**
-+	 * @dp_audio_shutdown:
-+	 *
-+	 * Shut down the DisplayPort audio stream.
-+	 *
-+	 * This callback is optional but it must be implemented by bridges that
-+	 * set the @DRM_BRIDGE_OP_DP_AUDIO flag in their &drm_bridge->ops.
-+	 *
-+	 * Returns:
-+	 * 0 on success, a negative error code otherwise
-+	 */
-+	void (*dp_audio_shutdown)(struct drm_connector *connector,
-+				    struct drm_bridge *bridge);
-+
-+	/**
-+	 * @dp_audio_mute_stream:
-+	 *
-+	 * Mute/unmute DisplayPort audio stream.
-+	 *
-+	 * This callback is optional, it can be implemented by bridges that
-+	 * set the @DRM_BRIDGE_OP_DP_AUDIO flag in their &drm_bridge->ops.
-+	 *
-+	 * Returns:
-+	 * 0 on success, a negative error code otherwise
-+	 */
-+	int (*dp_audio_mute_stream)(struct drm_connector *connector,
-+				      struct drm_bridge *bridge,
-+				      bool enable, int direction);
-+
- 	/**
- 	 * @debugfs_init:
- 	 *
-@@ -830,9 +889,24 @@ enum drm_bridge_ops {
- 	 *
- 	 * Note: currently there can be at most one bridge in a chain that sets
- 	 * this bit. This is to simplify corresponding glue code in connector
--	 * drivers.
-+	 * drivers. Also it is not possible to have a bridge in the chain that
-+	 * sets @DRM_BRIDGE_OP_DP_AUDIO if there is a bridge that sets this
-+	 * flag.
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index 030f98d454608a63154827c65d4822d378df3b4c..7d2e499ea5dec2f710c1c67323bf9e6b177d3c9e 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -105,6 +105,14 @@ struct drm_bridge_connector {
+ 	 * HDMI Audio infrastructure, if any (see &DRM_BRIDGE_OP_HDMI_AUDIO).
  	 */
- 	DRM_BRIDGE_OP_HDMI_AUDIO = BIT(5),
+ 	struct drm_bridge *bridge_hdmi_audio;
 +	/**
-+	 * @DRM_BRIDGE_OP_DP_AUDIO: The bridge provides DisplayPort audio operations.
-+	 * Bridges that set this flag must implement the
-+	 * &drm_bridge_funcs->dp_audio_prepare and
-+	 * &drm_bridge_funcs->dp_audio_shutdown callbacks.
++	 * @bridge_dp_audio:
 +	 *
-+	 * Note: currently there can be at most one bridge in a chain that sets
-+	 * this bit. This is to simplify corresponding glue code in connector
-+	 * drivers. Also it is not possible to have a bridge in the chain that
-+	 * sets @DRM_BRIDGE_OP_HDMI_AUDIO if there is a bridge that sets this
-+	 * flag.
++	 * The bridge in the chain that implements necessary support for the
++	 * DisplayPort Audio infrastructure, if any (see
++	 * &DRM_BRIDGE_OP_DP_AUDIO).
 +	 */
-+	DRM_BRIDGE_OP_DP_AUDIO = BIT(6),
++	struct drm_bridge *bridge_dp_audio;
  };
  
- /**
-@@ -934,25 +1008,27 @@ struct drm_bridge {
+ #define to_drm_bridge_connector(x) \
+@@ -440,14 +448,25 @@ static int drm_bridge_connector_audio_startup(struct drm_connector *connector)
+ 		to_drm_bridge_connector(connector);
+ 	struct drm_bridge *bridge;
  
- 	/**
- 	 * @hdmi_audio_dev: device to be used as a parent for the HDMI Codec if
--	 * @DRM_BRIDGE_OP_HDMI_AUDIO is set.
-+	 * either of @DRM_BRIDGE_OP_HDMI_AUDIO or @DRM_BRIDGE_OP_DP_AUDIO is set.
- 	 */
- 	struct device *hdmi_audio_dev;
+-	bridge = bridge_connector->bridge_hdmi_audio;
+-	if (!bridge)
+-		return -EINVAL;
++	if (bridge_connector->bridge_hdmi_audio) {
++		bridge = bridge_connector->bridge_hdmi_audio;
  
- 	/**
- 	 * @hdmi_audio_max_i2s_playback_channels: maximum number of playback
--	 * I2S channels for the bridge that sets @DRM_BRIDGE_OP_HDMI_AUDIO.
-+	 * I2S channels for the @DRM_BRIDGE_OP_HDMI_AUDIO or
-+	 * @DRM_BRIDGE_OP_DP_AUDIO.
- 	 */
- 	int hdmi_audio_max_i2s_playback_channels;
+-	if (!bridge->funcs->hdmi_audio_startup)
+-		return 0;
++		if (!bridge->funcs->hdmi_audio_startup)
++			return 0;
  
- 	/**
- 	 * @hdmi_audio_spdif_playback: set if this bridge has S/PDIF playback
--	 * port for @DRM_BRIDGE_OP_HDMI_AUDIO
-+	 * port for @DRM_BRIDGE_OP_HDMI_AUDIO or @DRM_BRIDGE_OP_DP_AUDIO.
- 	 */
- 	unsigned int hdmi_audio_spdif_playback : 1;
+-	return bridge->funcs->hdmi_audio_startup(connector, bridge);
++		return bridge->funcs->hdmi_audio_startup(connector, bridge);
++	}
++
++	if (bridge_connector->bridge_dp_audio) {
++		bridge = bridge_connector->bridge_dp_audio;
++
++		if (!bridge->funcs->dp_audio_startup)
++			return 0;
++
++		return bridge->funcs->dp_audio_startup(connector, bridge);
++	}
++
++	return -EINVAL;
+ }
  
- 	/**
--	 * @hdmi_audio_dai_port: sound DAI port for @DRM_BRIDGE_OP_HDMI_AUDIO,
--	 * -1 if it is not used.
-+	 * @hdmi_audio_dai_port: sound DAI port for either of
-+	 * @DRM_BRIDGE_OP_HDMI_AUDIO and @DRM_BRIDGE_OP_DP_AUDIO, -1 if it is
-+	 * not used.
- 	 */
- 	int hdmi_audio_dai_port;
- };
+ static int drm_bridge_connector_audio_prepare(struct drm_connector *connector,
+@@ -458,11 +477,19 @@ static int drm_bridge_connector_audio_prepare(struct drm_connector *connector,
+ 		to_drm_bridge_connector(connector);
+ 	struct drm_bridge *bridge;
+ 
+-	bridge = bridge_connector->bridge_hdmi_audio;
+-	if (!bridge)
+-		return -EINVAL;
++	if (bridge_connector->bridge_hdmi_audio) {
++		bridge = bridge_connector->bridge_hdmi_audio;
++
++		return bridge->funcs->hdmi_audio_prepare(connector, bridge, fmt, hparms);
++	}
++
++	if (bridge_connector->bridge_dp_audio) {
++		bridge = bridge_connector->bridge_dp_audio;
++
++		return bridge->funcs->dp_audio_prepare(connector, bridge, fmt, hparms);
++	}
+ 
+-	return bridge->funcs->hdmi_audio_prepare(connector, bridge, fmt, hparms);
++	return -EINVAL;
+ }
+ 
+ static void drm_bridge_connector_audio_shutdown(struct drm_connector *connector)
+@@ -471,11 +498,15 @@ static void drm_bridge_connector_audio_shutdown(struct drm_connector *connector)
+ 		to_drm_bridge_connector(connector);
+ 	struct drm_bridge *bridge;
+ 
+-	bridge = bridge_connector->bridge_hdmi_audio;
+-	if (!bridge)
+-		return;
++	if (bridge_connector->bridge_hdmi_audio) {
++		bridge = bridge_connector->bridge_hdmi_audio;
++		bridge->funcs->hdmi_audio_shutdown(connector, bridge);
++	}
+ 
+-	bridge->funcs->hdmi_audio_shutdown(connector, bridge);
++	if (bridge_connector->bridge_dp_audio) {
++		bridge = bridge_connector->bridge_dp_audio;
++		bridge->funcs->dp_audio_shutdown(connector, bridge);
++	}
+ }
+ 
+ static int drm_bridge_connector_audio_mute_stream(struct drm_connector *connector,
+@@ -485,15 +516,27 @@ static int drm_bridge_connector_audio_mute_stream(struct drm_connector *connecto
+ 		to_drm_bridge_connector(connector);
+ 	struct drm_bridge *bridge;
+ 
+-	bridge = bridge_connector->bridge_hdmi_audio;
+-	if (!bridge)
+-		return -EINVAL;
++	if (bridge_connector->bridge_hdmi_audio) {
++		bridge = bridge_connector->bridge_hdmi_audio;
++
++		if (!bridge->funcs->hdmi_audio_mute_stream)
++			return -ENOTSUPP;
+ 
+-	if (bridge->funcs->hdmi_audio_mute_stream)
+ 		return bridge->funcs->hdmi_audio_mute_stream(connector, bridge,
+ 							     enable, direction);
+-	else
+-		return -ENOTSUPP;
++	}
++
++	if (bridge_connector->bridge_dp_audio) {
++		bridge = bridge_connector->bridge_dp_audio;
++
++		if (!bridge->funcs->dp_audio_mute_stream)
++			return -ENOTSUPP;
++
++		return bridge->funcs->dp_audio_mute_stream(connector, bridge,
++							   enable, direction);
++	}
++
++	return -EINVAL;
+ }
+ 
+ static const struct drm_connector_hdmi_audio_funcs drm_bridge_connector_hdmi_audio_funcs = {
+@@ -587,6 +630,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 			if (bridge_connector->bridge_hdmi_audio)
+ 				return ERR_PTR(-EBUSY);
+ 
++			if (bridge_connector->bridge_dp_audio)
++				return ERR_PTR(-EBUSY);
++
+ 			if (!bridge->hdmi_audio_max_i2s_playback_channels &&
+ 			    !bridge->hdmi_audio_spdif_playback)
+ 				return ERR_PTR(-EINVAL);
+@@ -598,6 +644,24 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 			bridge_connector->bridge_hdmi_audio = bridge;
+ 		}
+ 
++		if (bridge->ops & DRM_BRIDGE_OP_DP_AUDIO) {
++			if (bridge_connector->bridge_dp_audio)
++				return ERR_PTR(-EBUSY);
++
++			if (bridge_connector->bridge_hdmi_audio)
++				return ERR_PTR(-EBUSY);
++
++			if (!bridge->hdmi_audio_max_i2s_playback_channels &&
++			    !bridge->hdmi_audio_spdif_playback)
++				return ERR_PTR(-EINVAL);
++
++			if (!bridge->funcs->dp_audio_prepare ||
++			    !bridge->funcs->dp_audio_shutdown)
++				return ERR_PTR(-EINVAL);
++
++			bridge_connector->bridge_dp_audio = bridge;
++		}
++
+ 		if (!drm_bridge_get_next_bridge(bridge))
+ 			connector_type = bridge->type;
+ 
+@@ -641,11 +705,16 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 			return ERR_PTR(ret);
+ 	}
+ 
+-	if (bridge_connector->bridge_hdmi_audio) {
+-		bridge = bridge_connector->bridge_hdmi_audio;
++	if (bridge_connector->bridge_hdmi_audio ||
++	    bridge_connector->bridge_dp_audio) {
++		struct device *dev;
++
++		if (bridge_connector->bridge_hdmi_audio)
++			dev = bridge_connector->bridge_hdmi_audio->hdmi_audio_dev;
++		else
++			dev = bridge_connector->bridge_dp_audio->hdmi_audio_dev;
+ 
+-		ret = drm_connector_hdmi_audio_init(connector,
+-						    bridge->hdmi_audio_dev,
++		ret = drm_connector_hdmi_audio_init(connector, dev,
+ 						    &drm_bridge_connector_hdmi_audio_funcs,
+ 						    bridge->hdmi_audio_max_i2s_playback_channels,
+ 						    bridge->hdmi_audio_spdif_playback,
 
 -- 
 2.39.5
