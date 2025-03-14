@@ -2,58 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB35BA61077
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 12:57:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A01A6107B
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 12:57:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D247310E9DA;
-	Fri, 14 Mar 2025 11:57:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B283910E9CA;
+	Fri, 14 Mar 2025 11:57:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rwEVISHx";
+	dkim=pass (2048-bit key; secure) header.d=braiins.cz header.i=@braiins.cz header.b="Cor+tHDA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59FDB10E9DA
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 11:57:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5F5B4A4659B;
- Fri, 14 Mar 2025 11:51:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83269C4CEE3;
- Fri, 14 Mar 2025 11:57:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741953435;
- bh=VxaxwjK+niSMzXPPlLDr7WIz4BtXQ1WcjaUYmy+sD5w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rwEVISHx65bRzneHmAZfN6WGuIIQxhyirha4to4EORUNqjZzdFBRklKT47M7XKhDl
- zAQaSt2GTDlkfZv/W5upxPZH/3aXDW248TArmO2RfdYuGaxbmzc2aPDVszF1ebrtsy
- zWhf5erSNDYhRS4AYAVadm1DdwtpPjqM/8TiwsnIJsB2ZKKfMryLztIEeY13XmBIb6
- 1oBthumGXnIbQvTvuNKiHqIxTjos2/gRn2hd4mAA54zoyU8HUzbmGNFF3pwxyv9ffe
- IIoRIhdLy16Z6gv3rO/zvGmg9H5Zd7VXxJPGVowqyim0YJ5jgEIhu9VOqg/eayxIqp
- CNrYv3/29QPcg==
-Date: Fri, 14 Mar 2025 12:57:13 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- Danilo Krummrich <dakr@kernel.org>, mcanal@igalia.com,
- Alice Ryhl <aliceryhl@google.com>, 
- Simona Vetter <sima@ffwll.ch>, Daniel Almeida <daniel.almeida@collabora.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- Asahi Lina <lina@asahilina.net>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC v3 09/33] rust: drm/kms: Add DriverConnector::get_mode
- callback
-Message-ID: <20250314-gigantic-frisky-condor-9b35c8@houat>
-References: <20250305230406.567126-1-lyude@redhat.com>
- <20250305230406.567126-10-lyude@redhat.com>
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D95310E9DF
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 11:57:39 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-22398e09e39so40923605ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 04:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braiins.cz; s=google; t=1741953459; x=1742558259; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LJeA0GHePEFuPrdY8Z4frXDRorK67oRtYbNMgmYRHTg=;
+ b=Cor+tHDAx7TVCCwexGwCjPV+Jsx8tn/nun/6a7hmcI66LSvQROaUqthyIU13LYRwgV
+ 5s0zU7BDJJKNXDA20DXgqFF8R95sCOj6jdglJdAoSWEJh1XZYpeAnxvgpRerA5JGAbD5
+ iYRj65h9vNsM6kJJ2Y+C/z/C7ZN48c9TLoz7AhmGSytNtSkdrYb94g2ONcerhXncUyjq
+ 07/MTdyARrfWwEt6bY/dltkYIzZR5S5uF6EzZYiRmP3DNWv7tLbDowS3FCImwajt/br9
+ hj7ZYiNTaY+p/zhRs88WwsqD8aJIr1De8diDIEJdhgvNvGjHEJxKFQwWuG1Le8wFbl8T
+ rSag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741953459; x=1742558259;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LJeA0GHePEFuPrdY8Z4frXDRorK67oRtYbNMgmYRHTg=;
+ b=Sxda26hlJpXmGSxX04uAriy+Ucvf2BSA/ChEUYTqFBItqhMYw8fvQ2fvKfFHAnGQ3U
+ XhDkB9amJbHD3dlpFALfWoUvSKAi2FSPoSeb8SaZn0agTxLONEb6wReTITdB/bDXPYgU
+ YgEPT9MQ7iU/htS503TCz46HdYp6MJbKE7PdPp8M4bokC0WZpRh6mQAEDL2wLDjRtODd
+ WkloGlo7gN1pP8n/eTCpJhZO0i26lYHhwoknbqgFTX+bO9FezI9Za+G2Y9r5L/SxMpyY
+ m62Jq68B5P9N6c4OylNTQc3TOwzhFIyN/j1PQu6AQsv/5wb0q7nqESwbEKeKcqB2o2b0
+ Q/Lw==
+X-Gm-Message-State: AOJu0YyqnPXwpwTkXfMWu3c5v+M03MWj3CeVczvzQ8JXyfr1xxVrD03B
+ gb1r3n53N40loOnOr3IZIfO4LoFCWRKgiopu4Pbjpxk4mBTScxoF4rmpyQABtx6GXxqQIbm4W2U
+ SuiyEL8mJQvaK/ihVOHX7svm5Yd2wwxSJ9BUK0A==
+X-Gm-Gg: ASbGncukbfH/BFDmbBx/1LMPLWRC+7P3Sbf0JknChDYUHIeSI/rP0IJl8Uhe3We/soj
+ ugHiUbYaUUky3f+/6Xh7KQlsU7ZAWs7TAuZyW8xFBVUqUASrAVzAgBDfA53G/Q0MB2vDxIMphoz
+ 3T+4tB+cCOE09Tbm8rFWiDq2v9
+X-Google-Smtp-Source: AGHT+IGUEX0VTjAYQN1Z5uuQ+upkeY7JAwV0HJT1RhJ40h9w+45EhK9Bq+WEpduHakYxptx+0yyam49ZfH1/o6LYu5c=
+X-Received: by 2002:a17:90b:180d:b0:2fe:9783:afd3 with SMTP id
+ 98e67ed59e1d1-30151c59cfbmr3204665a91.2.1741953458737; Fri, 14 Mar 2025
+ 04:57:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="36i6rvascxdsmql5"
-Content-Disposition: inline
-In-Reply-To: <20250305230406.567126-10-lyude@redhat.com>
+References: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
+ <n7qaikyyisdq3m74buqjfxzyi5lgntnsmtirrmw5vi2nkf7izl@6coklitzp3uc>
+ <fm4kqbfknroub3onbbhbzvurw7ig3fsjrxpeucdtioobssstjk@hzmdxa7uby6f>
+ <CACnTymYBYmGMk8z5Xp=OGBHvsA-hwJtGAi6MSHfpTGJBHMQqSw@mail.gmail.com>
+ <spav7ftc45ypks3no2sgaciagym2jbd2hfcyqmforvwli47ixj@6rtvedapu342>
+ <CACnTymaA5UZGRGveAOOFTtRWrWr9rnyWj8Ah6qmMOTS0dbuVNg@mail.gmail.com>
+ <6he4g5se6cqu6l3bdbfv636pm62ucvzsm5ujhi2xjig7srxxqb@gagbovuujysx>
+ <CACnTymbj8u_QchzC9CT2mcbg-0MPfVBs8ukwdWkJtjq_SpCvwQ@mail.gmail.com>
+ <p6ajylavycnvylrn7wmtsp2rqrezkkthajszuobqsm4bhymqzz@lki2bo6ybxpz>
+In-Reply-To: <p6ajylavycnvylrn7wmtsp2rqrezkkthajszuobqsm4bhymqzz@lki2bo6ybxpz>
+From: =?UTF-8?B?Sm9zZWYgTHXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
+Date: Fri, 14 Mar 2025 12:57:27 +0100
+X-Gm-Features: AQ5f1JouE7n2RAuIFHM5h7gmjzqnAbJb5XzhTSm2N-4LpMW-TUzzpovbZefl-j4
+Message-ID: <CACnTymZX7DY72Dmc0HWFvbKYzGaC3_tM-8f6EimndpPYOYf+sA@mail.gmail.com>
+Subject: Re: drm: mipi_dbi_hw_reset() keeps display in reset
+To: Alex Lanzano <lanzano.alex@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, noralf@tronnes.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,289 +88,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Mar 10, 2025 at 7:33=E2=80=AFPM Alex Lanzano <lanzano.alex@gmail.co=
+m> wrote:
+>
+> On Fri, Mar 07, 2025 at 10:25:18AM +0100, Josef Lu=C5=A1tick=C3=BD wrote:
+> > Ok, I'll implement the change and post it for a review.
+> > About the property naming, I tend to name it something like
+> > "inverted-reset-gpio-fixed" to denote that it is assumed the code
+> > using the "reset-gpios" property was fixed.
+> > What are your thoughts?
+> >
+>
+> You probably wnat something more concise and in present tense like
+> 'invert-reset-gpio'
 
---36i6rvascxdsmql5
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC v3 09/33] rust: drm/kms: Add DriverConnector::get_mode
- callback
-MIME-Version: 1.0
+OK, I understand.
+It still feels like the 'invert' would mean that the code is supposed
+to do something non-standard with the reset-gpios property
+specification.
+How about 'correct-reset-gpio' or 'proper-reset-gpio' to denote that
+the reset-gpio property describes the HW correctly.
 
-On Wed, Mar 05, 2025 at 05:59:25PM -0500, Lyude Paul wrote:
-> Next up is filling out some of the basic connector hotplugging callbacks -
-> which we'll need for setting up the fbdev helpers for KMS devices. Note
-> that connector hotplugging in DRM follows a BFL scheme: pretty much all
-> probing is protected under the mighty drm_device->mode_config.lock, which
-> of course is a bit counter-intuitive to rust's locking schemes where data
-> is always associated with its lock.
->=20
-> Since that lock is embedded in an FFI type and not a rust type, we need to
-> introduce our own wrapper type that acts as a lock acquisition for this.
-> This brings us to introducing a few new types:
->=20
-> * ModeConfigGuard - the most basic lock guard, as long as this object is
->   alive we are guaranteed to be holding drm_device->mode_config.lock. This
->   object doesn't do much else on its own currently.
-> * ConnectorGuard - an object which corresponds to a specific typed DRM
->   connector. This can only be acquired with a ModeConfigGuard, and will be
->   used to allow calling methods that are only safe to call with
->   drm_device->mode_config.lock held. Since it implements
->   Deref<Target=3DConnector<T>> as well, it can also be used for any other
->   operations that would normally be available on a DRM connector.
->=20
-> And finally, we add the DriverConnector::get_modes() trait method which
-> drivers can use to implement the drm_connector_helper_funcs.get_modes
-> callback. Note that while we make this trait method mandatory, we only do
-> so for the time being since VKMS doesn't do very much with DRM connectors=
- -
-> and as such we have no need yet to implement alternative connector probing
-> schemes outside of get_modes().
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
->=20
-> ---
-> V3:
-> * Document uses of ManuallyDrop
-> * Use addr_of_mut!() instead of &mut
-> * Add some missing invariant comments
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
->  rust/bindings/bindings_helper.h  |  1 +
->  rust/kernel/drm/kms.rs           | 90 +++++++++++++++++++++++++++++++-
->  rust/kernel/drm/kms/connector.rs | 62 ++++++++++++++++++++--
->  3 files changed, 147 insertions(+), 6 deletions(-)
->=20
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_hel=
-per.h
-> index a6735f6fba947..27828dd36d4f2 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -21,6 +21,7 @@
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_gem_shmem_helper.h>
->  #include <drm/drm_plane.h>
-> +#include <drm/drm_probe_helper.h>
->  #include <drm/drm_ioctl.h>
->  #include <kunit/test.h>
->  #include <linux/blk-mq.h>
-> diff --git a/rust/kernel/drm/kms.rs b/rust/kernel/drm/kms.rs
-> index f0044d396e1eb..7935e935f9975 100644
-> --- a/rust/kernel/drm/kms.rs
-> +++ b/rust/kernel/drm/kms.rs
-> @@ -8,15 +8,20 @@
->  pub mod plane;
-> =20
->  use crate::{
-> -    device,
-> +    container_of, device,
->      drm::{device::Device, drv::Driver},
->      error::to_result,
->      prelude::*,
->      private::Sealed,
-> +    sync::{Mutex, MutexGuard},
->      types::*,
->  };
->  use bindings;
-> -use core::{marker::PhantomData, ops::Deref, ptr::NonNull};
-> +use core::{
-> +    marker::PhantomData,
-> +    ops::Deref,
-> +    ptr::{self, addr_of_mut, NonNull},
-> +};
-> =20
->  /// The C vtable for a [`Device`].
->  ///
-> @@ -191,6 +196,23 @@ pub struct ModeConfigInfo {
->      pub preferred_fourcc: Option<u32>,
->  }
-> =20
-> +impl<T: KmsDriver> Device<T> {
-> +    /// Retrieve a pointer to the mode_config mutex
-> +    #[inline]
-> +    pub(crate) fn mode_config_mutex(&self) -> &Mutex<()> {
-> +        // SAFETY: This lock is initialized for as long as `Device<T>` i=
-s exposed to users
-> +        unsafe { Mutex::from_raw(addr_of_mut!((*self.as_raw()).mode_conf=
-ig.mutex)) }
-> +    }
-> +
-> +    /// Acquire the [`mode_config.mutex`] for this [`Device`].
-> +    #[inline]
-> +    pub fn mode_config_lock(&self) -> ModeConfigGuard<'_, T> {
-> +        // INVARIANT: We're locking mode_config.mutex, fulfilling our in=
-variant that this lock is
-> +        // held throughout ModeConfigGuard's lifetime.
-> +        ModeConfigGuard(self.mode_config_mutex().lock(), PhantomData)
-> +    }
-> +}
-> +
-
-Again, I think the introduction of ModeConfigGuard, the new API to get
-the mutex and guard from the DRM device, etc, while obviously called
-for, would be better in separate patches.
-
->  /// A modesetting object in DRM.
->  ///
->  /// This is any type of object where the underlying C object contains a =
-[`struct drm_mode_object`].
-> @@ -314,3 +336,67 @@ unsafe fn dec_ref(obj: NonNull<Self>) {
->          unsafe { bindings::drm_mode_object_put(obj.as_ref().raw_mode_obj=
-()) }
->      }
->  }
-> +
-> +/// A mode config guard.
-> +///
-> +/// This is an exclusive primitive that represents when [`drm_device.mod=
-e_config.mutex`] is held - as
-> +/// some modesetting operations (particularly ones related to [`connecto=
-rs`](connector)) are still
-> +/// protected under this single lock. The lock will be dropped once this=
- object is dropped.
-> +///
-> +/// # Invariants
-> +///
-> +/// - `self.0` is contained within a [`struct drm_mode_config`], which i=
-s contained within a
-> +///   [`struct drm_device`].
-> +/// - The [`KmsDriver`] implementation of that [`struct drm_device`] is =
-always `T`.
-> +/// - This type proves that [`drm_device.mode_config.mutex`] is acquired.
-> +///
-> +/// [`struct drm_mode_config`]: (srctree/include/drm/drm_device.h)
-> +/// [`drm_device.mode_config.mutex`]: (srctree/include/drm/drm_device.h)
-> +/// [`struct drm_device`]: (srctree/include/drm/drm_device.h)
-> +pub struct ModeConfigGuard<'a, T: KmsDriver>(MutexGuard<'a, ()>, Phantom=
-Data<T>);
-> +
-> +impl<'a, T: KmsDriver> ModeConfigGuard<'a, T> {
-> +    /// Construct a new [`ModeConfigGuard`].
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// The caller must ensure that [`drm_device.mode_config.mutex`] is =
-acquired.
-> +    ///
-> +    /// [`drm_device.mode_config.mutex`]: (srctree/include/drm/drm_devic=
-e.h)
-> +    pub(crate) unsafe fn new(drm: &'a Device<T>) -> Self {
-> +        // SAFETY: Our safety contract fulfills the requirements of `Mut=
-exGuard::new()`
-> +        // INVARIANT: And our safety contract ensures that this type pro=
-ves that
-> +        // `drm_device.mode_config.mutex` is acquired.
-> +        Self(
-> +            unsafe { MutexGuard::new(drm.mode_config_mutex(), ()) },
-> +            PhantomData,
-> +        )
-> +    }
-> +
-> +    /// Return the [`Device`] that this [`ModeConfigGuard`] belongs to.
-> +    pub fn drm_dev(&self) -> &'a Device<T> {
-> +        // SAFETY:
-> +        // - `self` is embedded within a `drm_mode_config` via our type =
-invariants
-> +        // - `self.0.lock` has an equivalent data type to `mutex` via it=
-s type invariants.
-> +        let mode_config =3D unsafe { container_of!(self.0.lock, bindings=
-::drm_mode_config, mutex) };
-> +
-> +        // SAFETY: And that `drm_mode_config` lives in a `drm_device` vi=
-a type invariants.
-> +        unsafe {
-> +            Device::borrow(container_of!(
-> +                mode_config,
-> +                bindings::drm_device,
-> +                mode_config
-> +            ))
-> +        }
-> +    }
-> +
-> +    /// Assert that the given device is the owner of this mode config gu=
-ard.
-> +    ///
-> +    /// # Panics
-> +    ///
-> +    /// Panics if `dev` is different from the owning device for this mod=
-e config guard.
-> +    #[inline]
-> +    pub(crate) fn assert_owner(&self, dev: &Device<T>) {
-> +        assert!(ptr::eq(self.drm_dev(), dev));
-> +    }
-> +}
-> diff --git a/rust/kernel/drm/kms/connector.rs b/rust/kernel/drm/kms/conne=
-ctor.rs
-> index 6fe0a7517bd55..14de3b0529f89 100644
-> --- a/rust/kernel/drm/kms/connector.rs
-> +++ b/rust/kernel/drm/kms/connector.rs
-> @@ -4,7 +4,7 @@
->  //!
->  //! C header: [`include/drm/drm_connector.h`](srctree/include/drm/drm_co=
-nnector.h)
-> =20
-> -use super::{encoder::*, KmsDriver, ModeObject, RcModeObject};
-> +use super::{encoder::*, KmsDriver, ModeConfigGuard, ModeObject, RcModeOb=
-ject};
->  use crate::{
->      alloc::KBox,
->      bindings,
-> @@ -17,7 +17,7 @@
->  };
->  use core::{
->      marker::*,
-> -    mem,
-> +    mem::{self, ManuallyDrop},
->      ops::*,
->      ptr::{addr_of_mut, null_mut},
->      stringify,
-> @@ -106,7 +106,7 @@ pub trait DriverConnector: Send + Sync + Sized {
->              destroy: Some(connector_destroy_callback::<Self>),
->              force: None,
->              detect: None,
-> -            fill_modes: None,
-> +            fill_modes: Some(bindings::drm_helper_probe_single_connector=
-_modes),
-
-It's kind of what I wanted to express in my earlier statements I guess,
-but I'm not really sure we should force down helpers on drivers. The
-larger approach KMS has taken over the years was to provide hooks and
-default implementations, with the drivers allowed to use different
-implementations if they wanted to.
-
-That approach largely worked for us I think, so I'm a bit worried about
-changing that.
-
->              debugfs_init: None,
->              oob_hotplug_event: None,
->              atomic_duplicate_state: Some(atomic_duplicate_state_callback=
-::<Self::State>),
-> @@ -114,7 +114,7 @@ pub trait DriverConnector: Send + Sync + Sized {
->          helper_funcs: bindings::drm_connector_helper_funcs {
->              mode_valid: None,
->              atomic_check: None,
-> -            get_modes: None,
-> +            get_modes: Some(get_modes_callback::<Self>),
->              detect_ctx: None,
-
-Since you pass (the equivalent of) the locking context to get_modes, I'd
-rather keep the convention you have with detect here and use the _ctx
-suffix, or drop the one from detect_ctx, and pass the context
-everywhere. But we should be consistent there at least.
-
-Maxime
-
---36i6rvascxdsmql5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ9QZmAAKCRAnX84Zoj2+
-dpVsAX4yGH76zjBhSWlLOh2qzSVSXb8yusnOsYHn31IQY5PbEvcD++uO7+wwZC9l
-FR9Xh9EBgITG1cYAzaBSEYEt71OjCp3WmdPIyrZKDDP5PT9hTEIm6Zu2n3zxW83q
-IDhuxeCOuQ==
-=jJ2K
------END PGP SIGNATURE-----
-
---36i6rvascxdsmql5--
+>
+> Best regards,
+> Alex
+>
+> > On Tue, Feb 25, 2025 at 2:46=E2=80=AFPM Alex Lanzano <lanzano.alex@gmai=
+l.com> wrote:
+> > >
+> > > On Tue, Feb 25, 2025 at 12:59:59PM +0100, Josef Lu=C5=A1tick=C3=BD wr=
+ote:
+> > > > On Mon, Feb 24, 2025 at 12:13=E2=80=AFAM Alex Lanzano <lanzano.alex=
+@gmail.com> wrote:
+> > > > >
+> > > > > On Mon, Feb 17, 2025 at 12:39:01PM +0100, Josef Lu=C5=A1tick=C3=
+=BD wrote:
+> > > > > > On Sat, Feb 15, 2025 at 8:14=E2=80=AFPM Alex Lanzano <lanzano.a=
+lex@gmail.com> wrote:
+> > > > > > >
+> > > > > > > On Fri, Feb 14, 2025 at 08:04:41PM -0500, Alex Lanzano wrote:
+> > > > > > > > On Fri, Feb 14, 2025 at 10:29:29AM +0100, Josef Lu=C5=A1tic=
+k=C3=BD wrote:
+> > > > > > > > > Hello Alex,
+> > > > > > > > > there is a bug in mipi_dbi_hw_reset() function that imple=
+ments the logic of
+> > > > > > > > > display reset contrary.
+> > > > > > > > > It keeps the reset line activated which keeps displays in=
+ reset state.
+> > > > > > > > >
+> > > > > > > > > I reported the bug to
+> > > > > > > > > https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/6=
+3
+> > > > > > > > >
+> > > > > > > > > Unfortunately, fixing the bug would mean current DTB-ABI =
+breakage and
+> > > > > > > > > device-trees modification would be needed.
+> > > > > > > > > I mainly write this email to let you and other people kno=
+w about it, so
+> > > > > > > > > hopefully it can be found easier.
+> > > > > > > > > What are your thoughts?
+> > > > > > > > Thanks for making me aware. I'll dig into over the weekend =
+and get back
+> > > > > > > > to you
+> > > > > > >
+> > > > > > > Alright so I looked into a bit more. Looks like the MIPI Spec=
+ification
+> > > > > > > says that the reset line is active low. So, if we want dt ent=
+ries to be
+> > > > > > > correct the logic for setting the reset line in mipi_dbi_hw_r=
+eset()
+> > > > > > > should be flipped. However, like you said, this is going to c=
+ause a some
+> > > > > > > confused developers to break out their oscilloscopes to figur=
+e out
+> > > > > > > why their display isn't working.
+> > > > > > >
+> > > > > > > Best regards,
+> > > > > > > Alex
+> > > > > >
+> > > > > > Thank you Alex for looking into this.
+> > > > > > I think all the supported dts can be changed together with
+> > > > > > mipi_dbi_hw_reset(), however the fix would break existing DTBs =
+and
+> > > > > > third party DTSs.
+> > > > > > So I think it shall be either noted somewhere that due to this =
+bug,
+> > > > > > the reset line needs to be "wrongly" ACTIVE_HIGH in DTS
+> > > > > > or the mipi_dbi_hw_reset() is changed and the compatibility is =
+broken,
+> > > > > > which needs to be announced.
+> > > > > >
+> > > > > > BTW Zephyr fixed the code [1], but they introduced the MIPI DBI
+> > > > > > support just a couple of weeks before the fix, so they avoided =
+the
+> > > > > > compatibility issue.
+> > > > > > I was not able to find users mentioning issues related to the d=
+isplay
+> > > > > > not functioning properly, so I had to dig into the code.
+> > > > > > But afterwards I found a thread on Raspberry PI forums, where o=
+ne of
+> > > > > > the moderators mentions it [2].
+> > > > > >
+> > > > > > [1] https://github.com/zephyrproject-rtos/zephyr/issues/68562
+> > > > > > [2] https://forums.raspberrypi.com/viewtopic.php?p=3D2165720#p2=
+165720
+> > > > >
+> > > > > So, here are my thoughts on this after pondering it over for a bi=
+t.
+> > > > > Ideally we should eventually reverse the reset logic so the DTS e=
+ntry
+> > > > > correctly specifies the hardware. However, instead of an abrupt c=
+hange
+> > > > > maybe we add an additional property to the DTS node that when pre=
+sent
+> > > > > uses the correct reset logic. If the property isn't present we us=
+e the
+> > > > > current incorrect reset logic and print out a dev_warn that it wi=
+ll soon
+> > > > > be deprecated.
+> > > > >
+> > > > > Let me know what you think.
+> > > > >
+> > > > > Best regards,
+> > > > > Alex
+> > > > >
+> > > > >
+> > > > I think it's a good idea if the current logic is about to be fixed.
+> > > > Another (probably not as good) idea is to introduce a new property
+> > > > named "nreset-gpios =3D ..." or something like that, but I realise =
+that
+> > > > "reset-gpios" is the de-facto standard naming.
+> > > >
+> > > > Best regards,
+> > > > Josef
+> > > >
+> > >
+> > > Yeah I think it may be simpler to just add a boolean property like
+> > > 'reverse-reset'. It would make the driver code simpler to implement t=
+oo.
+> > > Would you like to implement this change and submit the patch or would
+> > > you like me to?
+> > >
+> > > Best regards,
+> > > Alex
