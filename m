@@ -2,52 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192FEA60E52
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 11:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67CFA60E8F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 11:16:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CED1210E205;
-	Fri, 14 Mar 2025 10:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7B510E13E;
+	Fri, 14 Mar 2025 10:16:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DII7biZc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Oe7Mlhtp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7C910E98C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 10:11:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AC1F95C5F04;
- Fri, 14 Mar 2025 10:08:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B88BC4CEE9;
- Fri, 14 Mar 2025 10:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741947068;
- bh=U98yKqR09pci6Dos0Xkhum9zeW7dWjBPjiKDCl11NQ0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DII7biZchvhnRhdU3rKFzW0yo5dl9ZwMpZtayi1CfTmdqFN+PQIv22aSNvg7oYTgR
- lHPvJ0NBG3rgGW+XT/294GuK1Rp4csTkCJ2/ZWG+0Aan+NNYMvU1iDLBA/k4P01gQ4
- zEzhLccNyDWZijIG1GqSe5Mu+bUhBUIrTeqR//Lf0Q4FZOTFQnbWVF/Ma9L3KxI4Rz
- wGhiZGDF+jjbsfq1TSBWNRGNHJ/Gx299k4XLQLIBF7PDWp0OY9/CpLP62uScflhU45
- OYIX6wtQ0LxYR7HcZ0auXmVKqQ2i2hdH2o9BDa0QxWH9v5jlm1j5ZVauJTyaTDS7Ih
- quMNxGTIOqHYQ==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH v3 2/2] drm/sched: Remove kthread header
-Date: Fri, 14 Mar 2025 11:10:24 +0100
-Message-ID: <20250314101023.111248-3-phasta@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250314101023.111248-2-phasta@kernel.org>
-References: <20250314101023.111248-2-phasta@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D686610E13E
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 10:16:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1741947413; x=1773483413;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=iJZLoqwgJ3R/nnDkaUdLn9imVFTiXoQcyygVH87gxl0=;
+ b=Oe7MlhtpgG6xqhiPhIPfb70fpR0oArhYfj9+IHbrePLWJlo7AkwZiyhA
+ TFLGQrIZWJpUEAI67x35/YBPgrxKQFpmpRPM57VpuFkpgavRX8mATYRVA
+ cvSmLKfJC8hsX8aLEOEeRRWuCBUDYk75ZmFkG61G0yCra2Eya/TxhcdLX
+ tQchbPAxl8QiXN6ikaMtFtxgEsfLqz1PEK1j+lUVLgGGhtXeiOLtjMWT2
+ gs0eGmc3Vxpr6+jyiMSSZ9gFk6cF7GYt33xmEEJJyS/OaqPoAKTdW2ryK
+ TlI6CTlMO2eSvOmo6QkvKbI/KycIPpI95uPZZo9IXlQf1Va9nMFlDmQbS A==;
+X-CSE-ConnectionGUID: YGx1eHj4RWSbc+pGCr60PQ==
+X-CSE-MsgGUID: 9uVyzIJ1TG2UJn+PvFM3vA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="46992445"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; d="scan'208";a="46992445"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2025 03:16:52 -0700
+X-CSE-ConnectionGUID: jLwUWRBNS5+umSXPtCE4cw==
+X-CSE-MsgGUID: 1ktmi3PQQLmMkIZF50+68g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; d="scan'208";a="126429872"
+Received: from avijaya-mobl2.gar.corp.intel.com (HELO [10.245.115.15])
+ ([10.245.115.15])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2025 03:16:50 -0700
+Message-ID: <bf25d370-7658-4ad6-b568-03621d3708a8@linux.intel.com>
+Date: Fri, 14 Mar 2025 11:16:47 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: firmware requirements
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Dave Airlie <airlied@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Min Ma <min.ma@amd.com>, Lizhi Hou <lizhi.hou@amd.com>
+References: <CAPM=9tw_a+3qLjUn0=SqjVL=N6ExRbw0u9TamwGwigWwDwc23Q@mail.gmail.com>
+ <50869fd0-00df-40ab-8dfa-844670e6e850@linux.intel.com>
+ <Z8czJa7QsCBGfQRd@phenom.ffwll.local>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <Z8czJa7QsCBGfQRd@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,43 +77,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kthread header doesn't need to be included anymore. It's a relict
-from commit a6149f039369 ("drm/sched: Convert drm scheduler to use a
-work queue rather than kthread").
+Hi,
 
-Remove the unneeded includes.
+On 3/4/2025 6:06 PM, Simona Vetter wrote:
+> Hi Jacek!
+> 
+> Bit late reply, was sick last week and still recovering from missed mails.
+> 
+> On Thu, Feb 20, 2025 at 11:50:10AM +0100, Jacek Lawrynowicz wrote:
+>> On 2/19/2025 10:01 PM, Dave Airlie wrote:
+>>> I'd just like to remind everyone of the firmware requirements for
+>>> vendors that control their firmware and the driver upstreams:
+>>>
+>>> https://docs.kernel.org/driver-api/firmware/firmware-usage-guidelines.html
+>>>
+>>> Intel VPU it seems like you are not currently shipping upstream
+>>> firmware, and might have tied your fw and userspace together.
+>>
+>> Yep, this is correct :/
+>>
+>>> I'm cc'ing the AMD XDNA driver as it recently landed and I'd like them
+>>> to confirm they are following the above requirements.
+>>>
+>>> The main reason we don't allow userspace/fw direct linkage is if a
+>>> user deploys two containers with two different userspace drivers in
+>>> them on the same hardware, what is the kernel driver supposed to do?
+>>
+>> This makes sense, but I didn't see anything in the firmware usage
+> 
+> Well, when Dave wrote that documentation section and I reviewed it we
+> figured that's clear from the rules we have. There's two rules:
+> 
+> - firmware is not allowed to break the kernel. This is not limited to
+>   "does the kernel driver keep loading", but fully extends to anything the
+>   kernel driver does or needs to fullfill its job.
+> - the kernel is not allowed to break userspace. This is not limited to the
+>   uapi structures, but anything they point at or implicitly reference, any
+>   implementation details userspace relies on, any other hidden semantics
+>   that aren't entirely transparent. Everything really that can result in a
+>   bug report from users.
+> 
+> If the firmware upgrade still works with the kernel, but changes the
+> how the overall uapi works, then the firmware broke the kernel.
+> 
+> I think the two individiual steps above are very clear already, but I
+> guess that both together mean that firmware isn't allowed to break
+> userspace isn't clear. Can you please send a patch to add that as another
+> very explicit bullet to the existing list in the fw guidelines?
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 1 -
- drivers/gpu/drm/scheduler/sched_fence.c  | 1 -
- 2 files changed, 2 deletions(-)
+Sure, I've sent the patch.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 74a72c0a9c0a..8551892aca12 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -21,7 +21,6 @@
-  *
-  */
- 
--#include <linux/kthread.h>
- #include <linux/slab.h>
- #include <linux/completion.h>
- 
-diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-index e971528504a5..d6239e015b66 100644
---- a/drivers/gpu/drm/scheduler/sched_fence.c
-+++ b/drivers/gpu/drm/scheduler/sched_fence.c
-@@ -21,7 +21,6 @@
-  *
-  */
- 
--#include <linux/kthread.h>
- #include <linux/module.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
--- 
-2.48.1
+>> guidelines about needing user-space and firmware to be compatible.
+>> It is focused on making sure the kernel driver works well with the
+>> firmware.
+>> Our intel_vpu driver sticks to the basics with the firmware ABI, so
+>> we've got backward and forward compatibility covered from the initial
+>> release.
+>>
+>> Now, when it comes to user space and firmware, that's a whole other
+>> story. We've made some headway, but there's still a lot to do.
+>> Our firmware is pretty massive (like 10 times bigger than your average
+>> GPU firmware) which makes things trickier than what other drivers deal
+>> with.
+>> That's why we didn't put the firmware in linux-firmware right away, but
+>> we'll get the next release in there.
+>>
+>> We will continue working on separating user space from the firmware more
+>> to make things smoother.
+>>
+>>> Firmware should be abstracted in the kernel if it is not possible to
+>>> build proper fw APIs for userspace to use directly, by proper I mean
+>>> forward and backwards compatible.
+>>
+>> This dependents on a project. In our case only user space should provide
+>> this compatibility.
+>> We don't even parse command buffers at the moment in kernel space.
+>>
+>> For your reference, we release updates for both the user space and
+>> firmware every couple of weeks here:
+>> https://github.com/intel/linux-npu-driver/releases
+> 
+> Yeah you need to fix this. With containers and other packages runtimes
+> there's really no connection between the base os image, and the userspace
+> you're running. Which means you really cannot assume that on any given
+> system there's only one abi version across the firmware and userspace
+> libraries. So even without upstreams "no breaking uapi" guarantee this
+> does not work in production.
+
+We should be able to provide backward compatibility, so new FW will work with all past userspace versions.
+The base OS just has to use up-to-date FW. This should satisfy FW requirements, right?
+
+Regards,
+Jacek
 
