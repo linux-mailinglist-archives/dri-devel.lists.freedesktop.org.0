@@ -2,96 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE323A6138A
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 15:20:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86D4A613A6
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 15:31:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC85610E9FA;
-	Fri, 14 Mar 2025 14:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AEB510E30F;
+	Fri, 14 Mar 2025 14:31:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="JrTkPIS6";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MeMbVBUY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA8710EA12
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 14:20:16 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-30761be8fa8so23395001fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 07:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1741962014; x=1742566814;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RfJ1nD4qQC39uy7AdzGWyBQGMKQmzTpkBSOlo3nuQF4=;
- b=JrTkPIS628qorKY+9rx9xba5Wli9Y9cV/wCIf3aMiHjRlqZlS90x0yPXTL3uF56I73
- ZKs/IdJEzo3DUa+ChXCDOseqs4vKTu5TTBZpDSnAakIpIEcuPVYMZwehet+t0/CJJ7jO
- 8jZxSIbs0vUCj5IphM+qDrZlLa1Kchne0vj78=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741962014; x=1742566814;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RfJ1nD4qQC39uy7AdzGWyBQGMKQmzTpkBSOlo3nuQF4=;
- b=OuXLoCD8TWf+L6sV4MipbPBjyhRcCNsFxYfBSp2B2DY/AclyrfFUSk6bAU8f0/LahC
- pjFgu26U7xDS/rAOEoWSAL/7vxuAgiYlpuP/S+oyXzoUaRjVq7jABiMA1Qzo49InA1RW
- pI9qNmxR5Y+iNstX1ioYAcjJQAEwyYXWmv0rLkpPljiOgiIUcrs2K6BIWwisPtPpmuAr
- Nw2ukG1YyJ8vtNCemfQ8Fw2SLUKH4k6R562B3H1gG2igcYQAyVEbdJWF4MDQ0Y6crlob
- 5iaVzeEW3M1gkQAlCGSyP9HT0U6ura2qjFUm+hcbYoTm0U9kWggnvyIJQs3ZEE15AkzL
- 9+zQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVh7RgbLl+CUlB2diTyYrb4eINf1b6w3X5vo1pB0OXUx74HePdHq/gZaLH4nWCuSs2F+nujwj19lOc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywyu8m8Qq8EKQP2RbD7CgdF0iYCz+pI4pa11ouSinNwM3TrbE02
- dEOngOqCzM1AIHBH3T6X3or59GgPT3Z05dZyDhTEbMUcEccyy9l3HrR2j8FabkcyxjM9gmrFYn6
- Nq8bi
-X-Gm-Gg: ASbGncsTVF+IgURIfWp3dJQKkEi/pWHgICrtr2GoDHtjespHVUGtvWj/8h2TqJ9JL4O
- A+4bVBj7zS2+DRRI+YFZsvAvz0VTXvKWITKO1yJNjrpHuBSNXtiga87XsjWEgT5yi5UszUAko+X
- aghAE+CgHZHFyxms5g5T589ewYQNhipnOG/S8gfi4u2jrwI8bai/hd2jAOcm/C7loCi5Ve5neqY
- YoBRq/BKECW1OdURGvEzTYSubxufpF/niX+Jtbh8HWNVRJU7rra25J3mYnZCMG62qFqq129bugx
- tUA7tygEWQzw1pwIfcakUMYsRfC+MFteQEBbw96VeA7JYJby7xB45Ge+YHx1eXlOw/2YGeqjGPF
- 5Pmf7LfY5zmPg
-X-Google-Smtp-Source: AGHT+IHRbPSfqQJsJxd4eSG4XeFAhivZlSkfLdVZYZCTfgRFwLvA6asS5yITUpPCypD+rd18IU53iA==
-X-Received: by 2002:a05:6512:2245:b0:545:cc5:be90 with SMTP id
- 2adb3069b0e04-549c398cf85mr1010058e87.35.1741962014058; 
- Fri, 14 Mar 2025 07:20:14 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com.
- [209.85.208.172]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549ba7a86e4sm549248e87.2.2025.03.14.07.20.13
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Mar 2025 07:20:13 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-30bfb6ab47cso20629271fa.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 07:20:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWbt8mfFadAa39arOs092lVV4Cmw/qwSbs2X8ifH3E3m9ZcYnYLZvBxaxEmGNhdg+dh3/XhiJUEPSE=@lists.freedesktop.org
-X-Received: by 2002:a2e:b538:0:b0:30c:1079:7538 with SMTP id
- 38308e7fff4ca-30c4a877b83mr8366601fa.21.1741962012535; Fri, 14 Mar 2025
- 07:20:12 -0700 (PDT)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A0A10E30F
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 14:31:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B69CC442BB;
+ Fri, 14 Mar 2025 14:31:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1741962673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=uSKo/ulEdCjmcSwQHl9aytCx8bfh4MZiUzCWN8ywxvY=;
+ b=MeMbVBUY9EF+zCzBfr4ePnlGYq0KExislPpVRWBOF2+41+FVM+be/eqJ/J/KfubhmBWTtj
+ iRFOEfC03V02rJyAd21Ehpuq2DK31UNksLPMUI0PTIDf+6Z2mnzbSOGpiOAC9swVFjVdbi
+ 6Mcn1IFyaNxwJ1FTACbt1h6rgWUOINrVxjmlJfRy4f8oPnPr4l6SDH7VyF6Ug9RPz/HDxu
+ vGgepW8JO8pFLyQmIZK1j85VUlSug5ef902tkplbfJQNGUb/S9050s7VwUT+xJrErLvUPD
+ ygUiqeEzsFA65jZgCy73vaH4PSFJRU2c8cGrvv8/c/q0VrmFjfdyDOrkmOWQLg==
+Message-ID: <d9e322be-f97d-4c51-8809-e9634f694de0@bootlin.com>
+Date: Fri, 14 Mar 2025 15:31:05 +0100
 MIME-Version: 1.0
-References: <20250314-b4-mipi-synaptic-v1-1-a64ccb5e5c66@redhat.com>
-In-Reply-To: <20250314-b4-mipi-synaptic-v1-1-a64ccb5e5c66@redhat.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 14 Mar 2025 07:20:00 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XUN7CcnjURs6xfVAFqvZ1WR86y8nQm=OMcrV_hYjq5RQ@mail.gmail.com>
-X-Gm-Features: AQ5f1Jpd9pNZVZeD6Ojnhn1MRoN3TYYAWDeFHObuLfxuTus8fvqg1YTzmRnYBBs
-Message-ID: <CAD=FV=XUN7CcnjURs6xfVAFqvZ1WR86y8nQm=OMcrV_hYjq5RQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel/synaptics-r63353: Use _multi variants
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Michael Trimarchi <michael@amarulasolutions.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Tejas Vipin <tejasvipin76@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: drm-ci: vkms: kms_flip@modeset-vs-vblank-race flake
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "hamohammed.sa" <hamohammed.sa@gmail.com>, simona.vetter@ffwll.ch,
+ "melissa.srw" <melissa.srw@gmail.com>,
+ "maarten.lankhorst" <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, tzimmermann <tzimmermann@suse.de>,
+ airlied <airlied@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, daniels <daniels@collabora.com>,
+ sergi.blanch.torne@collabora.com,
+ "guilherme.gallo" <guilherme.gallo@collabora.com>,
+ Helen Mae Koike Fornazier <helen.fornazier@gmail.com>,
+ corentin.noel@collabora.com
+References: <2364a6bf-e6bc-4741-8c78-cea8bdb06e03@collabora.com>
+ <1ebda1a2-779b-4642-9df2-d24cbf223875@bootlin.com>
+ <aa3eead2-b416-4f33-a6a1-1af19665989c@collabora.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <aa3eead2-b416-4f33-a6a1-1af19665989c@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufedutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgvdeigeetteelheekfeegfedttefhjeeggeehvdektedujedvheefffetfeefgeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdptgholhhlrggsohhrrgdrtghomhdpuggvvhdqtghiqdgtohhnthgrihhnvghrrdhmugdptghipghruhhnpghnpghmohhnihhtohhrrdhphidpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudehpdhrtghpthhtohepvhhighhnvghshhdrrhgrmhgrnhestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehli
+ hhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgdrvhgvthhtvghrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggv
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,52 +129,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Thu, Mar 13, 2025 at 9:47=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.co=
-m> wrote:
->
-> @@ -181,24 +162,15 @@ static int r63353_panel_prepare(struct drm_panel *p=
-anel)
->  static int r63353_panel_deactivate(struct r63353_panel *rpanel)
->  {
->         struct mipi_dsi_device *dsi =3D rpanel->dsi;
-> -       struct device *dev =3D &dsi->dev;
-> -       int ret;
-> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
->
-> -       ret =3D mipi_dsi_dcs_set_display_off(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set display OFF (%d)\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
->
-> -       usleep_range(5000, 10000);
-> +       mipi_dsi_usleep_range(&dsi_ctx, 5000, 10000);
->
-> -       ret =3D mipi_dsi_dcs_enter_sleep_mode(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to enter sleep mode (%d)\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
->
-> -       return 0;
-> +       return dsi_ctx.accum_err;
-
-nit: the one caller of r63353_panel_deactivate() doesn't actually look
-at the error code, so this could be a function that returns "void".
-That was true even before your patch, though. I wouldn't mind a
-followup patch that fixed this. ;-)
-
-In any case, the patch looks reasonable to me now.
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-Happy for someone else to apply it if they want. If not, I'll snooze
-this for ~a week to give others a chance to comment and then plan to
-push to drm-misc-next.
 
 
--Doug
+Le 14/03/2025 à 13:11, Vignesh Raman a écrit :
+> Hi Louis,
+> 
+> On 13/03/25 19:30, Louis Chauvet wrote:
+>>
+>>
+>> Le 13/03/2025 à 11:45, Vignesh Raman a écrit :
+>>> Hi Maintainers,
+>>>
+>>
+>> Hi Vignesh,
+>>
+>> Thanks for the report.
+>>
+>> On my setup, this test passed, and the others are skipped.
+>>
+>> I think the issue on this specific test may be due to performance (seems
+>> to be a timing issue, I will try to slow down my VM). The other tests
+>> require suspend/resume, which I failed to setup on my VM.
+>>
+>> To understand what is wrong, I would like to have an environment very
+>> similar to the CI, how can I reproduce this on my machine? Is there a
+>> setup script somewhere I can run to create a virtual machine?
+> 
+> You can follow the instructions below to use the same container that
+> drm-ci uses from mesa (From pipeline
+> https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/72473690).
+> drm-ci uses the crosvm-runner.sh script. You can also build specific IGT
+> version and run the tests from the container. Thanks Corentin for the
+> documentation.
+> 
+> https://gitlab.collabora.com/virgl-es/documentation/-/blob/master/dev-ci-container.md
+
+Thank you so much for those information, but I think this gitlab 
+instance is private, is there a public repository somewhere?
+
+Have a nice day,
+Louis Chauvet
+
+> If you want to run only specific tests for vkms in drm-ci, you can use
+> this commit,
+> https://gitlab.freedesktop.org/vigneshraman/linux/-/commit/0773affa01a4347056c891bc58887ae1daa0161c
+> 
+> Once the pipeline is created you can use the ci_run_n_monitor.py [1]
+> from mesa project to run only vkms and its dependent jobs.
+> 
+> ../mesa/bin/ci/ci_run_n_monitor.py --pipeline-url
+> https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1384344
+> --target vkms:none
+> 
+> [1]
+> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/bin/ci/ci_run_n_monitor.py
+> 
+> Please let us know if you need more information. Thanks.
+> 
+> Regards,
+> Vignesh
+> 
+>>
+>> Thanks,
+>> Louis Chauvet
+>>
+>>> There are some flake test reported for vkms driver testing in drm-ci.
+>>>
+>>> # Board Name: vkms
+>>> # Failure Rate: 20
+>>> # IGT Version: 1.30-g04bedb923
+>>> # Linux Version: 6.14.0-rc4
+>>> kms_flip@modeset-vs-vblank-race
+>>>
+>>> DEBUG - Begin test kms_flip@modeset-vs-vblank-race
+>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure
+>>> function run_test_step, file ../tests/kms_flip.c:979:
+>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end -
+>>> start > 0.9 * actual_frame_time(o) && end - start < 2.6 *
+>>> actual_frame_time(o)
+>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took
+>>> 47374 usec (frame time 16665.600000 usec)
+>>> ERROR - Igt error: Dynamic subtest A-Virtual17 failed.
+>>> ERROR - Igt error: **** DEBUG ****
+>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+>>> igt_create_fb_with_bo_size(width=1024, height=768,
+>>> format=XR24(0x34325258), modifier=0x0, size=0)
+>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+>>> igt_create_fb_with_bo_size(handle=1, pitch=4096)
+>>> ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test
+>>> requirement passed: igt_has_fb_modifiers(fd)
+>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+>>> igt_create_fb_with_bo_size(width=1024, height=768,
+>>> format=XR24(0x34325258), modifier=0x0, size=0)
+>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+>>> igt_create_fb_with_bo_size(handle=2, pitch=4096)
+>>> ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test
+>>> requirement passed: igt_has_fb_modifiers(fd)
+>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement
+>>> passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement
+>>> passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+>>> ERROR - Igt error: (kms_flip:1250) igt_kms-INFO:   1024x768: 60 65000
+>>> 1024 1048 1184 1344 768 771 777 806 0x48 0xa
+>>> ERROR - Igt error: (kms_flip:1250) DEBUG: No stale events found
+>>> ERROR - Igt error: (kms_flip:1250) INFO: Expected frametime: 16666us;
+>>> measured 16665.6us +- 0.500us accuracy 0.01%
+>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure
+>>> function run_test_step, file ../tests/kms_flip.c:979:
+>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end -
+>>> start > 0.9 * actual_frame_time(o) && end - start < 2.6 *
+>>> actual_frame_time(o)
+>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took
+>>> 47374 usec (frame time 16665.600000 usec)
+>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO: Stack trace:
+>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #0
+>>> ../lib/igt_core.c:2055 __igt_fail_assert()
+>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #1
+>>> ../tests/kms_flip.c:1023 run_test_on_crtc_set.constprop.0()
+>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #2
+>>> ../tests/kms_flip.c:1845 run_test()
+>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #3
+>>> ../tests/kms_flip.c:2078 __igt_unique____real_main2001()
+>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #4
+>>> ../tests/kms_flip.c:2001 main()
+>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #5
+>>> [__libc_init_first+0x8a]
+>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #6
+>>> [__libc_start_main+0x85]
+>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #7 [_start+0x21]
+>>> ERROR - Igt error: ****  END  ****
+>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Test assertion
+>>> failure function kmstest_set_connector_dpms, file ../lib/igt_kms.c:2246:
+>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Failed assertion:
+>>> found_it
+>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Last errno: 9, Bad
+>>> file descriptor
+>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: DPMS property not
+>>> found on 39
+>>> ERROR - Test kms_flip@modeset-vs-vblank-race: Fail: See
+>>> "/builds/vigneshraman/linux/results/igt.kms_flip@modeset-vs-vblank-
+>>> race.log"
+>>> DEBUG - End test kms_flip@modeset-vs-vblank-race
+>>>
+>>> Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/
+>>> jobs/72473690
+>>>
+>>> Please could you have a look at these test results and let us know if
+>>> you need more information. Thank you.
+>>>
+>>> Regards,
+>>> Vignesh
+>>
+> 
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
