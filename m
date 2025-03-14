@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033A8A6191C
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 19:12:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D60A61920
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 19:13:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 563FE10EA31;
-	Fri, 14 Mar 2025 18:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A20C810EA3A;
+	Fri, 14 Mar 2025 18:13:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U6JAwhgV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p9hk6SIO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26DE410EA31
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 18:12:16 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 452A710EA3A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 18:13:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 77D25A4886D;
- Fri, 14 Mar 2025 18:06:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 978FEC4CEE3;
- Fri, 14 Mar 2025 18:12:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A78CE5C5443;
+ Fri, 14 Mar 2025 18:10:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A112C4CEE3;
+ Fri, 14 Mar 2025 18:12:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741975935;
- bh=BctqkYo2GOjqZQkTh09D8VX3tCtmfb7LPK3ctO2t+vU=;
+ s=k20201202; t=1741975979;
+ bh=j5F5voyqMDf/Acb+Qij3yNPtv2PhlZR0mqxo0ZOIE8g=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=U6JAwhgVTRgbNxmvvPxxXMYTyVP24msU5iabUCxVLo9/OF/ZFSoOHaj6KV6EiF02E
- BWVK5OWUq408QJ1AjLxi+TdJWPQ+JoDQtaHsmQ1k77Jf8Yl91QLzUIBTzqnBvh9RXU
- BTIlavnBHmiYpXu/DHZm6/0ok/6mQ6JqN5C52MePVuf4AQpoWl0kGA1a+NipR/RRHn
- 4i4vSSmAHYDjYscRv3I1Ek6mH8O+AM70+eswkGbGABh7x+nKGY3pGiu5WuxLo32HIY
- macBE23mghrdHgYo46GBrW0LslYO0WoPJosqrevcgxPKdUJ9mhNdO6/kkpM8+OPCnw
- YZ8bauKXnyHFg==
-Message-ID: <1da3c1ee7b8c39e200437ac622238221@kernel.org>
-Date: Fri, 14 Mar 2025 18:12:12 +0000
+ b=p9hk6SIOYoS2epV0wJxk40iVLBI/2s1h2Vw9v3hso51YWQnMQOVnWh8snIwvEOLeN
+ QMrxmUvXFWSNXOt4+QtFsOjAp7w6B9qrI/IA+TGqPobkBPN/+YI8K2Y3aMLudmUXpz
+ nKHB7WvV48iMPitNP6aq0BYneYwVkShT8WQmTcLAaAU37wtzDO9nwwpS/LXn44D4GY
+ bZpUNiMp/oTrZH5H7O2RMa12mZUFRKuZyNGerFmtAsQiYxx+rotnCqNSmW5G7capiI
+ GRixaeMfk64vPGV9H8O+K8WJ6abRCVb2zrXqqUO93oQEV1Or3i6EgK6CnlaUGU6khC
+ AsgBYYTQzGxWw==
+Message-ID: <0cea0c073dfc52c20f583d64b51d7951@kernel.org>
+Date: Fri, 14 Mar 2025 18:12:56 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v7 08/11] drm/atomic-helper: put the bridge returned by
+Subject: Re: [PATCH v7 09/11] drm/probe-helper: put the bridge returned by
  drm_bridge_chain_get_first_bridge()
-In-Reply-To: <20250314-drm-bridge-refcount-v7-8-152571f8c694@bootlin.com>
-References: <20250314-drm-bridge-refcount-v7-8-152571f8c694@bootlin.com>
+In-Reply-To: <20250314-drm-bridge-refcount-v7-9-152571f8c694@bootlin.com>
+References: <20250314-drm-bridge-refcount-v7-9-152571f8c694@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, "Andrzej
  Hajda" <andrzej.hajda@intel.com>, "Anusha Srivatsa" <asrivats@redhat.com>,
@@ -75,7 +75,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Mar 2025 11:31:21 +0100, Luca Ceresoli wrote:
+On Fri, 14 Mar 2025 11:31:22 +0100, Luca Ceresoli wrote:
 > The bridge returned by drm_bridge_chain_get_first_bridge() is
 > refcounted. Put it when done.
 > 
