@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10866A61D42
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 21:52:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C76A61D3F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 21:52:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 062FB10E2C0;
-	Fri, 14 Mar 2025 20:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4592C10E2F7;
+	Fri, 14 Mar 2025 20:52:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dqgRBxY0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g5k/CoF7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (unknown [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 246B110E25F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2471410E266;
  Fri, 14 Mar 2025 20:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1741985552; x=1773521552;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=AFq1w1Exj1+pZfFPDzxjLye0ovi7MBpsxASgD42gK7w=;
- b=dqgRBxY0URwLU7XqTmVaY/M3gsdRKNg83TgUldWisxoqYxpQJamJ0apy
- 56wYW901uzLQPc1N1qaOGjft9ZY8ao8/JHDpllXwjx035MeQ+aTn7mQua
- q8kMKznrV5Xvr7uARm7wnXrcK8pU4i1I07QnISg+UWJ+DJoQEGO0eHRVV
- JAuJguHMhPcISpUpqIzsZSPRHKkZNTHsxfQqFYzpW4TOD3bbgwNxUnpmK
- nQLUXN4SPNlZSpD6FXQjAzUYYlnCDdnmQE/vNEnKsK2+3Q+TbEYMCNaVz
- KLEZYnmdXQR/FDjx5r6Fyq6e0dO0VnpeugHZ5Z6ECJn9PUl/f44nnsmVO w==;
-X-CSE-ConnectionGUID: 4a/ciObiTjyV+9v1lbUW0A==
-X-CSE-MsgGUID: FkjHmMvvT8e/S1EFPVCGEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43284795"
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; d="scan'208";a="43284795"
+ bh=euQ1uz41Dg9KJ2DaehE2ohgTznSqzybbxeicRNvhh8g=;
+ b=g5k/CoF7pZS02+j4HTKNSEivpbdaAkdW4fYuEacNBadwid3DTvisJMlm
+ IlMsNcalAmGOT646w+yGzth3jiuwN0oT++WKe6kf68LcPLxu7vAGpVhOv
+ zaQExfBWpZ9lLopxLZ/16D7KDCs4KwbG4j93k3YQBauj8IS2jtgAOtGmv
+ OMv3nyddUZgTOHjIr050x/3CVanjkBhGBSPCZG9BxaOW0KgPgBNk41HY+
+ UUzaYfzHl53OTD9k9MTxtQe6lkHcrsnk22F46MnWboPPDJkR7UQ65rAkP
+ fqVzPrN1VhpmS0bbAxdGZpuFmiXaOMT9LDDK+2f80BR3jzg0/N6EFc0Ul Q==;
+X-CSE-ConnectionGUID: 5dnxziPGQ5+zz0DtNL6Iow==
+X-CSE-MsgGUID: 61JA2ClJSOGPGijSPsJDZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43284799"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; d="scan'208";a="43284799"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2025 13:52:25 -0700
-X-CSE-ConnectionGUID: x9CiEBmLS0OYPwQ+W4M8fw==
-X-CSE-MsgGUID: p3wNQUBwS3+u9jDwaELxQw==
+ 14 Mar 2025 13:52:28 -0700
+X-CSE-ConnectionGUID: NDEca4VbQ3WLcspaAXUYOw==
+X-CSE-MsgGUID: mU7d1/gBS5adoJZnQZlF/A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; d="scan'208";a="121578437"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; d="scan'208";a="121578447"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
  jkrzyszt-mobl2.intranet) ([10.245.246.206])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2025 13:52:21 -0700
+ 14 Mar 2025 13:52:25 -0700
 From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>
@@ -56,9 +56,10 @@ Cc: dri-devel@lists.freedesktop.org,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
  Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
  Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH v5 1/3] drm/i915: Downgrade device register error if injected
-Date: Fri, 14 Mar 2025 21:38:33 +0100
-Message-ID: <20250314205202.809563-6-janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH v5 2/3] drm/i915: Fix PXP cleanup missing from probe error
+ rewind
+Date: Fri, 14 Mar 2025 21:38:34 +0100
+Message-ID: <20250314205202.809563-7-janusz.krzysztofik@linux.intel.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250314205202.809563-5-janusz.krzysztofik@linux.intel.com>
 References: <20250314205202.809563-5-janusz.krzysztofik@linux.intel.com>
@@ -79,36 +80,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 8f460e2c78f2 ("drm/i915: Demidlayer driver loading") which
-introduced manual device registration also added a message that is
-submitted on device registration failure as an error.  If that failure is
-triggered by error injection test, that's an expected error, but CI still
-reports it as a bug.  Fix it.
+Commit f67986b0119c04 ("drm/i915/pxp: Promote pxp subsystem to top-level
+of i915") added PXP initialization to driver probe path, but didn't add a
+respective PXP cleanup on probe error.  That lack of cleanup seems
+harmless as long as PXP is still unused and idle when a probe failure
+occurs and error rewind path is entered, but as soon as PXP starts
+consuming device and driver resources keeping them busy, kernel warnings
+may be triggered when cleaning up resources provided by memory regions,
+GGTT, GEM and/or VMA cache from the probe error rewind and/or module
+unload paths because of missing PXP cleanup.  That scenario was observed
+on attempts to fail the probe and enter the rewind path on injection of
+now ignored error in device registration path.
 
-Suggested-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/9820
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Fix it.
+
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 ---
- drivers/gpu/drm/i915/i915_driver.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/i915_driver.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 6507dcfe4bf53..e0dde7c0fa9c5 100644
+index e0dde7c0fa9c5..10d1d4f3c11c4 100644
 --- a/drivers/gpu/drm/i915/i915_driver.c
 +++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -635,8 +635,8 @@ static void i915_driver_register(struct drm_i915_private *dev_priv)
+@@ -845,6 +845,7 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	return 0;
  
- 	/* Reveal our presence to userspace */
- 	if (drm_dev_register(&dev_priv->drm, 0)) {
--		drm_err(&dev_priv->drm,
--			"Failed to register driver for userspace access!\n");
-+		i915_probe_error(dev_priv,
-+				 "Failed to register driver for userspace access!\n");
- 		return;
- 	}
- 
+ out_cleanup_gem:
++	intel_pxp_fini(i915);
+ 	i915_gem_suspend(i915);
+ 	i915_gem_driver_remove(i915);
+ 	i915_gem_driver_release(i915);
 -- 
 2.48.1
 
