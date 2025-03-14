@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CCCA60EEB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 11:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D757A60EEE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 11:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C2710E9B0;
-	Fri, 14 Mar 2025 10:31:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 584A710E9B5;
+	Fri, 14 Mar 2025 10:31:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FwWfXmph";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jnN5REUy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A99410E98C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 10:31:45 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DB06243316;
- Fri, 14 Mar 2025 10:31:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7F1910E9AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 10:31:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5DA1244284;
+ Fri, 14 Mar 2025 10:31:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1741948304;
+ t=1741948306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IchMW5cPaVGupciOSvL/QWeDOAs3j9uz2T3WU11vBas=;
- b=FwWfXmphH0YQs4relpX07icAwCxBCsSkr6f43qURPHZIlDnKITvWbre+Gy+YLr85PUIPcG
- KFp3mgFlH8Z63SKX6ouW2Xm9icJIiCAR/be42+KfDmDyPVhP7zsiZ+nb09A11S76FcQFGZ
- TjBOn63k2hZ0aVmmu/h7UQ99fRUjVRX2deQoq3bQeqlzUykA9gd97bJwjbjaEM1S51bzOS
- fAp9qxgJzqKsxa9gfRV4wZYWKW+4drG4QB7DAtipW+LUz/gxAUIGgoZrh6XWEnJvMTsqV2
- L0/Bdicz/XyHDrYmgU8dcylxVTxWs4BUcVQnWWtlZD+kU0lHCCNx4tG9fEA6/Q==
+ bh=LlB5MQOuYaWQrpOWhB9woaeEf6g8GikGRsA35Bq/gXM=;
+ b=jnN5REUyT8QbnSBd1lYuqg7e/9eOngFqXhr8ESD7QRQvpCSeHJn/BzBaiX4OdhuLJmZ1PG
+ ZAugrkJ7tR6HCzyfRempUlSl8KyIQPKPBqZZXydJoqb17taTGsg1u5pd8LnvmQz2dnWsRL
+ sKSa1EzNWWYbli6wPq7bwhkSBdwdiqUdX0KuuOi4povOgf/37+VB/t443bpXM+uCp8VQEN
+ GVSH91QtQXeEt1zRubonQS1Ovd9WQqY5brokaIBsbRnaedVsxGzTp8WBsHbY5YAt1y3yYG
+ 8S54lgUQ0UzUlzsf+kTn4wiYdxygSRMbII/ShWtYfCkccSQSmZcKIYWIhv2UIw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 14 Mar 2025 11:31:17 +0100
-Subject: [PATCH v7 04/11] drm/bridge: get/put the bridge reference in
- drm_bridge_attach/detach()
+Date: Fri, 14 Mar 2025 11:31:18 +0100
+Subject: [PATCH v7 05/11] drm/bridge: add a cleanup action for scope-based
+ drm_bridge_put() invocation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250314-drm-bridge-refcount-v7-4-152571f8c694@bootlin.com>
+Message-Id: <20250314-drm-bridge-refcount-v7-5-152571f8c694@bootlin.com>
 References: <20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com>
 In-Reply-To: <20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -64,7 +64,7 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufedtiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefuddprhgtphhtthhopefjuhhirdfruhesghgvhhgvrghlthhhtggrrhgvrdgtohhmpdhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepmhgrrhgvgiesuggvnhigrdguvgdprhgtphhtthhopehjvghrn
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufedtiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehnecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefuddprhgtphhtthhopefjuhhirdfruhesghgvhhgvrghlthhhtggrrhgvrdgtohhmpdhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepmhgrrhgvgiesuggvnhigrdguvgdprhgtphhtthhopehjvghrn
  hgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehprghulhhksehshihsqdgsrghsvgdrihhopdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgv
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,61 +82,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_bridge_attach() adds the bridge to the encoder chain, so take a
-reference for that. Vice versa in drm_bridge_detach().
+Many functions get a drm_bridge pointer, only use it in the function body
+(or a smaller scope such as a loop body), and don't store it. In these
+cases they always need to drm_bridge_put() it before returning (or exiting
+the scope).
+
+Some of those functions have complex code paths with multiple return points
+or loop break/continue. This makes adding drm_bridge_put() in the right
+places tricky, ugly and error prone in case of future code changes.
+
+Others use the bridge pointer in the return statement and would need to
+split the return line to fit the drm_bridge_put, which is a bit annoying:
+
+  -return some_thing(bridge);
+  +ret = some_thing(bridge);
+  +drm_bridge_put(bridge);
+  +return ret;
+
+To make it easier for all of them to put the bridge reference correctly
+without complicating code, define a scope-based cleanup action to be used
+with __free().
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Changes in v7:
-- in v6 this was part of "drm/bridge: add support for refcounted DRM
-  bridges", now split to a separate patch
+This patch was added in v7.
 ---
- drivers/gpu/drm/drm_bridge.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ include/drm/drm_bridge.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 72fa51d4dd2337f97c2bd65cfabf9cee05b661b4..da85694e9310f1f910bc8a5aa5d95a91d9254888 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -370,11 +370,17 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 	if (!encoder || !bridge)
- 		return -EINVAL;
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 5c1e2b9cafb12eb429d1f5d3ef312e6cf9b54f47..a5accd64c364ebb57903ae1e7459034ad9ebf4f3 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -23,6 +23,7 @@
+ #ifndef __DRM_BRIDGE_H__
+ #define __DRM_BRIDGE_H__
  
--	if (previous && (!previous->dev || previous->encoder != encoder))
--		return -EINVAL;
-+	drm_bridge_get(bridge);
++#include <linux/cleanup.h>
+ #include <linux/ctype.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+@@ -995,6 +996,9 @@ static inline struct drm_bridge *drm_bridge_put(struct drm_bridge *bridge)
+ 	return bridge;
+ }
  
--	if (bridge->dev)
--		return -EBUSY;
-+	if (previous && (!previous->dev || previous->encoder != encoder)) {
-+		ret = -EINVAL;
-+		goto err_put_bridge;
-+	}
++/* Cleanup action for use with __free() */
++DEFINE_FREE(drm_bridge_put, struct drm_bridge *, if (_T) drm_bridge_put(_T))
 +
-+	if (bridge->dev) {
-+		ret = -EBUSY;
-+		goto err_put_bridge;
-+	}
- 
- 	bridge->dev = encoder->dev;
- 	bridge->encoder = encoder;
-@@ -423,6 +429,8 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 			      "failed to attach bridge %pOF to encoder %s\n",
- 			      bridge->of_node, encoder->name);
- 
-+err_put_bridge:
-+	drm_bridge_put(bridge);
- 	return ret;
- }
- EXPORT_SYMBOL(drm_bridge_attach);
-@@ -443,6 +451,7 @@ void drm_bridge_detach(struct drm_bridge *bridge)
- 
- 	list_del(&bridge->chain_node);
- 	bridge->dev = NULL;
-+	drm_bridge_put(bridge);
- }
+ void drm_bridge_put_void(void *data);
  
  /**
 
