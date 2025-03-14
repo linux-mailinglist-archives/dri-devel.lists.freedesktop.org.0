@@ -2,124 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47889A60AF8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 09:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF34A60B0F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 09:17:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8CDF10E2F4;
-	Fri, 14 Mar 2025 08:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA4EF10E997;
+	Fri, 14 Mar 2025 08:17:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AsUGAEfV";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kohQ+7J5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="04mBK/3L";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kohQ+7J5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="04mBK/3L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8309310E988
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 08:15:05 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52DL6lp5028128
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 08:15:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=DqtW8RDacycHfcNKMQhz83i4
- AVNKZc2D7R5sR5m0cQo=; b=AsUGAEfVK8DZgLLHcFSbaOai/W6EhKGZFkSigMui
- qfucL5pVWpH0R32u67GGwt8cJcLwCUatBbduc2asm92aVxmILritkYn2jkSxP1Vh
- s/FCAvb/MwqV6ceC7nCj3laENBwNwRwjcNi7vU9jGUpjq8c8boI4U199bZW3qkCW
- kFJ6yR/KqRZMNrjtIYn1tbOlTFpPc3xUzfKHmNeYq3Lk2fpwSbzIXLbCOjSciJjW
- GpU/gOHNvokUpIcd7bIFJrVAdYPXvpVzGBXCik6n8r1qU/l6ueGJbMfJMBmIYKSc
- EtHx//9TbL/mcAaXE0UcXaj/PEKYBz+A7NkEE9ThpdlZnQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2q0gn9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 08:15:04 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6e8fb5a7183so33652816d6.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 01:15:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741940103; x=1742544903;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DqtW8RDacycHfcNKMQhz83i4AVNKZc2D7R5sR5m0cQo=;
- b=KTJ+xnU4GuxUSmUXnPWekWzgyLnb8g0t5L7PHMNxCitqqwUaHuJdrWnKvTCJtKWZW2
- fKIiZZ9WF8SEUpJs0GQjoI1sN2JSEtcit6JMb12aah6qPNdZbEQv7loDWsr0bLdMOCnk
- cP24Ok/rqCnNsqlSNuClr9FJN7qVZ5td/RCQ1GIdJfeCr2XRfRP/I52QdOvklpe6qZk3
- zaq4pK/ekeIALJ7U+cRn2y744Y9bvr+thsGwzf0wjsHJmBcKYCPVPZZ7sFd86oFr1TJd
- FIymzR0j87Dxwfa+iJS5hCoWDnlRCv+ZRaW6BaQ2pILe5Kv2ObyQEQmMbq/ZmYj7sPva
- 6UZw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9L/9AclnnZObhjRXVAW7POtbyDorVhdtE80VMlsbBA4GE6alod77OMYIHb5RHhX9V/WxDEN0yals=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7cULP/hwW3QNZRAEYkAlaamx1/qjzoFK/SushwAhjSf3dLnzJ
- dfswlR8fr9BHCFiFhMCYG4JrSuzlHqQ2mReHj7q2CRs794lYZKcIUQlykBpEnbxLJh7x+ePABhq
- mNKGIxLW+acjbDJflW3DzaWFWcvVeUpodeQw06PSLQJVrYrpkjZ+9fRkYmWaa8dNmT/E=
-X-Gm-Gg: ASbGnct5qK/aU+IQwmn8wbEKC15u2a6R8Mb8XpffRTxbFVTW0LT7IjQsbOA69Uzni6F
- WFwHZk8itDUnRqVHCqVTjV0IuyZqOzH6mRT7U3KlG7Mu9m1CWtguhy24u/yGJdRGutFLANAvR8j
- y8llbxR3f8/RXJenpof7DaOM1r0/TBbFNf7uIFVvuiZloLp7Zs5wcsWTfMWoZaIIZS0IpfqZnNg
- Ts+D+OiQNGyaZsZPnnEX/uDShVnVyKmtWDGDEv3Q0wmzU5iibEvUP4VrU25m/ZpgaOJq5F3OIDZ
- FiKi7blt24rmYULlZAZsvUbojbvhLpem87F9z9sb6UZKCVRQKRRSG6Z/3qYUXeUdNPVEjAQ9TGL
- adJI=
-X-Received: by 2002:a05:6214:5284:b0:6d8:b115:76a6 with SMTP id
- 6a1803df08f44-6eaea8317c6mr21497056d6.0.1741940103261; 
- Fri, 14 Mar 2025 01:15:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHj2tkyIWmtscgsM2aARcZXrZpbBHB97wS763CbqtaSYqoxqbUkEYoffLd/G7bQlYwjVtR+Tw==
-X-Received: by 2002:a05:6214:5284:b0:6d8:b115:76a6 with SMTP id
- 6a1803df08f44-6eaea8317c6mr21496806d6.0.1741940102887; 
- Fri, 14 Mar 2025 01:15:02 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549ba7c301bsm445966e87.101.2025.03.14.01.14.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Mar 2025 01:15:00 -0700 (PDT)
-Date: Fri, 14 Mar 2025 10:14:57 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Dmitry Baryshkov <lumag@kernel.org>,
- Dmitry Baryshkov <dbaryshkov@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Hermes Wu <Hermes.wu@ite.com.tw>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v5 2/2] drm/msm/dp: reuse generic HDMI codec implementation
-Message-ID: <4p23zsh6456kircoprno2wsk5ggx43z4ex22fyet5npr4v6e2j@24fffzac5vbx>
-References: <20250307-dp-hdmi-audio-v5-0-f3be215fdb78@linaro.org>
- <20250307-dp-hdmi-audio-v5-2-f3be215fdb78@linaro.org>
- <20250310-daft-bittern-of-foundation-67c657@houat>
- <CALT56yMSs7K_0b5YtkCW5Ypyt9Hu_YLkitFFJwTtBkwUJk-NHA@mail.gmail.com>
- <20250311-vivid-almond-elk-83fda5@houat>
- <ecw5wdvkf2iqwxvigze374q3lb3esqbokv43mkblbnpfmudutu@e75i4lqhuux7>
- <20250314-stereotyped-cerise-hare-cafb0e@houat>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF86910E997
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 08:17:00 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9C3D02118D;
+ Fri, 14 Mar 2025 08:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741940219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jm5lLsffcQZ17Q+pZxQSahI6cj+Ai4SV4uR5ebuFUWU=;
+ b=kohQ+7J5muFu9/YSN19E6VDjab99l6NF7m15RSgi6rtKtbJah4ExCZe3JOFhwWLZrd6z/h
+ cCq/bKeBAytMBAh92Ps7ehiR7hfdKaYjcsX7Cwr8GHSvp34G35qiONtBOHrXriVWMzNW1/
+ U3c4dedBVqohtqalWw+zx94rfb8EXgc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741940219;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jm5lLsffcQZ17Q+pZxQSahI6cj+Ai4SV4uR5ebuFUWU=;
+ b=04mBK/3LIAHPZGXX4OpQ6RE0KC+fzTTlq6FzHsPTJH6mwO7DhjW4+bpGE1l9+w1+YaN9qB
+ e8sdmkpAqOcFitCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1741940219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jm5lLsffcQZ17Q+pZxQSahI6cj+Ai4SV4uR5ebuFUWU=;
+ b=kohQ+7J5muFu9/YSN19E6VDjab99l6NF7m15RSgi6rtKtbJah4ExCZe3JOFhwWLZrd6z/h
+ cCq/bKeBAytMBAh92Ps7ehiR7hfdKaYjcsX7Cwr8GHSvp34G35qiONtBOHrXriVWMzNW1/
+ U3c4dedBVqohtqalWw+zx94rfb8EXgc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1741940219;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jm5lLsffcQZ17Q+pZxQSahI6cj+Ai4SV4uR5ebuFUWU=;
+ b=04mBK/3LIAHPZGXX4OpQ6RE0KC+fzTTlq6FzHsPTJH6mwO7DhjW4+bpGE1l9+w1+YaN9qB
+ e8sdmkpAqOcFitCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59F7113A31;
+ Fri, 14 Mar 2025 08:16:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id tRmsFPvl02eWOgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 14 Mar 2025 08:16:59 +0000
+Message-ID: <9aec4ef1-7428-4630-a4af-d7448a023a60@suse.de>
+Date: Fri, 14 Mar 2025 09:16:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250314-stereotyped-cerise-hare-cafb0e@houat>
-X-Authority-Analysis: v=2.4 cv=P506hjAu c=1 sm=1 tr=0 ts=67d3e588 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=ODBsMxNuiVR1H87wWpcA:9
- a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: trQpNwNwIrG8fdQlrMNwlrY86ibGb5WP
-X-Proofpoint-ORIG-GUID: trQpNwNwIrG8fdQlrMNwlrY86ibGb5WP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-14_03,2025-03-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- mlxscore=0 spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503140064
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fbcon: Use static attribute groups for sysfs entries
+To: oushixiong1025@163.com, Simona Vetter <simona@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Zsolt Kajtar <soci@c64.rulez.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250314060941.160048-1-oushixiong1025@163.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250314060941.160048-1-oushixiong1025@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; FREEMAIL_TO(0.00)[163.com,ffwll.ch];
+ FREEMAIL_ENVRCPT(0.00)[163.com,gmx.de];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_SEVEN(0.00)[10];
+ MID_RHS_MATCH_FROM(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[gmx.de,ens-lyon.org,c64.rulez.org,linutronix.de,vger.kernel.org,lists.freedesktop.org,kylinos.cn];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,113 +145,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 14, 2025 at 08:53:34AM +0100, Maxime Ripard wrote:
-> On Tue, Mar 11, 2025 at 05:58:19PM +0200, Dmitry Baryshkov wrote:
-> > On Tue, Mar 11, 2025 at 09:41:13AM +0100, Maxime Ripard wrote:
-> > > Hi,
-> > > 
-> > > On Mon, Mar 10, 2025 at 08:53:24PM +0200, Dmitry Baryshkov wrote:
-> > > > On Mon, 10 Mar 2025 at 17:08, Maxime Ripard <mripard@kernel.org> wrote:
-> > > > >
-> > > > > On Fri, Mar 07, 2025 at 07:55:53AM +0200, Dmitry Baryshkov wrote:
-> > > > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > >
-> > > > > > The MSM DisplayPort driver implements several HDMI codec functions
-> > > > > > in the driver, e.g. it manually manages HDMI codec device registration,
-> > > > > > returning ELD and plugged_cb support. In order to reduce code
-> > > > > > duplication reuse drm_hdmi_audio_* helpers and drm_bridge_connector
-> > > > > > integration.
-> > > > > >
-> > > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/msm/Kconfig         |   1 +
-> > > > > >  drivers/gpu/drm/msm/dp/dp_audio.c   | 131 ++++--------------------------------
-> > > > > >  drivers/gpu/drm/msm/dp/dp_audio.h   |  27 ++------
-> > > > > >  drivers/gpu/drm/msm/dp/dp_display.c |  28 ++------
-> > > > > >  drivers/gpu/drm/msm/dp/dp_display.h |   6 --
-> > > > > >  drivers/gpu/drm/msm/dp/dp_drm.c     |   8 +++
-> > > > > >  6 files changed, 31 insertions(+), 170 deletions(-)
-> > > > > >
-> > 
-> > [...]
-> > 
-> > > > > >
-> > > > > >  static int msm_edp_bridge_atomic_check(struct drm_bridge *drm_bridge,
-> > > > > > @@ -320,9 +324,13 @@ int msm_dp_bridge_init(struct msm_dp *msm_dp_display, struct drm_device *dev,
-> > > > > >        */
-> > > > > >       if (!msm_dp_display->is_edp) {
-> > > > > >               bridge->ops =
-> > > > > > +                     DRM_BRIDGE_OP_HDMI_AUDIO |
-> > > > > >                       DRM_BRIDGE_OP_DETECT |
-> > > > > >                       DRM_BRIDGE_OP_HPD |
-> > > > > >                       DRM_BRIDGE_OP_MODES;
-> > > > > > +             bridge->hdmi_audio_dev = &msm_dp_display->pdev->dev;
-> > > > > > +             bridge->hdmi_audio_max_i2s_playback_channels = 8;
-> > > > > > +             bridge->hdmi_audio_dai_port = -1;
-> > > > > >       }
-> > > > >
-> > > > > I think I'd prefer the toggle to be OP_DP_AUDIO, even if the
-> > > > > implementation is exactly the same. That way, we'll be able to condition
-> > > > > it to the DP support when that arrives, and we have the latitude to
-> > > > > rework it to accomodate some DP subtleties without affecting the drivers
-> > > > > later on.
-> > > > 
-> > > > I don't think that there is a point in having OP_DP_AUDIO. There is
-> > > > not so much difference in the driver. Also currently OP_HDMI_AUDIO
-> > > > follows existing approach (which was pointed out by Laurent) - that
-> > > > OP_foo should guard a particular set of callbacks. From this
-> > > > perspective, OP_HDMI_AUDIO is fine - it guards usage of
-> > > > hdmi_audio_foo(). OP_DP_AUDIO would duplicate that.
-> > > 
-> > > HDMI and DP are two competing standards, with different governing
-> > > bodies. I don't think either have claimed that they will strictly adhere
-> > > to what the other is doing, and I don't have the will to cross-check
-> > > every given audio feature in both HDMI and DP right now.
-> > 
-> > Hmm. Currently (or before the first hdmi_audio patchset) everybody has
-> > been plumbing hdmi-codec directly from the driver (even for DP audio).
-> 
-> We also didn't have an infrastructure for that before, so it's to be
-> expected.
-> 
-> > > However, I think we should really have the flexibility to deal with that
-> > > situation if it happens, and without having to do any major refactoring.
-> > > That means providing an API that is consistent to the drivers, and
-> > > provides what the driver needs. Here, it needs DP audio support, not
-> > > HDMI's.
-> > 
-> > Would OP_HDMI_CODEC be a better name for the OP? (we can rename the
-> > existing callbacks to be hdmi_codec instead of hdmi_audio too).
-> 
-> As said on your first patch, there's more to it than just the codec, so
-> no, the current name is fine to me.
-> 
-> > > How we plumb it is an implementation detail, and I do agree we can use
-> > > the same functions under the hood right now. But the driver is a DP
-> > > driver, it wants DP infrastructure and DP audio support.
-> > 
-> > Would OP_DP_AUDIO require a different set of callbacks on the bridge
-> > level?
-> 
-> Yes.
+Hi
 
-Okay, this answers my question in the thread for the first patch. Let's
-go this way. Maybe once we have more of the infrastructure
-implementation, these two sets will separate more and more, meaning that
-you were right.
+Am 14.03.25 um 07:09 schrieb oushixiong1025@163.com:
+> From: Shixiong Ou <oushixiong@kylinos.cn>
+>
+> Using device_create_with_groups() to simplify creation and removal.
+> Same as commit 1083a7be4504 ("tty: Use static attribute groups for
+> sysfs entries").
+>
+> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 
-> 
-> > I don't want to end up with too much of duplication. Maybe we
-> > should the cdns bridges which implement both HDMI and DP functionality
-> > IIRC.
-> 
-> We can (and we should) take the same prototype for both though, so
-> drivers that have the same implementation can provide the same
-> implementation to both.
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Ack.
+with minor comments below
 
+> ---
+>   drivers/video/fbdev/core/fbcon.c | 69 +++++++++-----------------------
+>   1 file changed, 19 insertions(+), 50 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 07d127110ca4..1d792bd11063 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -160,7 +160,6 @@ static int info_idx = -1;
+>   
+>   /* console rotation */
+>   static int initial_rotation = -1;
+> -static int fbcon_has_sysfs;
+>   static int margin_color;
+>   
+>   static const struct consw fb_con;
+> @@ -3159,7 +3158,7 @@ static const struct consw fb_con = {
+>   	.con_debug_leave	= fbcon_debug_leave,
+>   };
+>   
+> -static ssize_t store_rotate(struct device *device,
+> +static ssize_t rotate_store(struct device *device,
+>   			    struct device_attribute *attr, const char *buf,
+>   			    size_t count)
+>   {
+> @@ -3181,7 +3180,7 @@ static ssize_t store_rotate(struct device *device,
+>   	return count;
+>   }
+>   
+> -static ssize_t store_rotate_all(struct device *device,
+> +static ssize_t rotate_all_store(struct device *device,
+>   				struct device_attribute *attr,const char *buf,
+>   				size_t count)
+>   {
+> @@ -3203,7 +3202,7 @@ static ssize_t store_rotate_all(struct device *device,
+>   	return count;
+>   }
+>   
+> -static ssize_t show_rotate(struct device *device,
+> +static ssize_t rotate_show(struct device *device,
+>   			   struct device_attribute *attr,char *buf)
+>   {
+>   	struct fb_info *info;
+> @@ -3222,7 +3221,7 @@ static ssize_t show_rotate(struct device *device,
+>   	return sysfs_emit(buf, "%d\n", rotate);
+>   }
+>   
+> -static ssize_t show_cursor_blink(struct device *device,
+> +static ssize_t cursor_blink_show(struct device *device,
+>   				 struct device_attribute *attr, char *buf)
+>   {
+>   	struct fb_info *info;
+> @@ -3247,7 +3246,7 @@ static ssize_t show_cursor_blink(struct device *device,
+>   	return sysfs_emit(buf, "%d\n", blink);
+>   }
+>   
+> -static ssize_t store_cursor_blink(struct device *device,
+> +static ssize_t cursor_blink_store(struct device *device,
+>   				  struct device_attribute *attr,
+>   				  const char *buf, size_t count)
+>   {
+> @@ -3281,35 +3280,18 @@ static ssize_t store_cursor_blink(struct device *device,
+>   	return count;
+>   }
+>   
+> -static struct device_attribute device_attrs[] = {
+> -	__ATTR(rotate, S_IRUGO|S_IWUSR, show_rotate, store_rotate),
+> -	__ATTR(rotate_all, S_IWUSR, NULL, store_rotate_all),
+> -	__ATTR(cursor_blink, S_IRUGO|S_IWUSR, show_cursor_blink,
+> -	       store_cursor_blink),
+> -};
+> -
+> -static int fbcon_init_device(void)
+> -{
+> -	int i, error = 0;
+> +static DEVICE_ATTR_RW(rotate);
+> +static DEVICE_ATTR_WO(rotate_all);
+> +static DEVICE_ATTR_RW(cursor_blink);
+
+Since you're changing it anyway, could you please sort these attributes 
+alphabetically. So cursor blink should go first. It's easier to read then.
+
+>   
+> -	fbcon_has_sysfs = 1;
+> -
+> -	for (i = 0; i < ARRAY_SIZE(device_attrs); i++) {
+> -		error = device_create_file(fbcon_device, &device_attrs[i]);
+> -
+> -		if (error)
+> -			break;
+> -	}
+> -
+> -	if (error) {
+> -		while (--i >= 0)
+> -			device_remove_file(fbcon_device, &device_attrs[i]);
+> -
+> -		fbcon_has_sysfs = 0;
+> -	}
+> +static struct attribute *fbcon_device_attrs[] = {
+> +	&dev_attr_rotate.attr,
+> +	&dev_attr_rotate_all.attr,
+> +	&dev_attr_cursor_blink.attr,
+> +	NULL
+
+Alphabetical sorting here as well.
+
+Best regards
+Thomas
+
+> +};
+>   
+> -	return 0;
+> -}
+> +ATTRIBUTE_GROUPS(fbcon_device);
+>   
+>   #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+>   static void fbcon_register_existing_fbs(struct work_struct *work)
+> @@ -3367,16 +3349,16 @@ void __init fb_console_init(void)
+>   	int i;
+>   
+>   	console_lock();
+> -	fbcon_device = device_create(fb_class, NULL, MKDEV(0, 0), NULL,
+> -				     "fbcon");
+> +	fbcon_device = device_create_with_groups(fb_class, NULL,
+> +						 MKDEV(0, 0), NULL,
+> +						 fbcon_device_groups, "fbcon");
+>   
+>   	if (IS_ERR(fbcon_device)) {
+>   		printk(KERN_WARNING "Unable to create device "
+>   		       "for fbcon; errno = %ld\n",
+>   		       PTR_ERR(fbcon_device));
+>   		fbcon_device = NULL;
+> -	} else
+> -		fbcon_init_device();
+> +	}
+>   
+>   	for (i = 0; i < MAX_NR_CONSOLES; i++)
+>   		con2fb_map[i] = -1;
+> @@ -3387,18 +3369,6 @@ void __init fb_console_init(void)
+>   
+>   #ifdef MODULE
+>   
+> -static void __exit fbcon_deinit_device(void)
+> -{
+> -	int i;
+> -
+> -	if (fbcon_has_sysfs) {
+> -		for (i = 0; i < ARRAY_SIZE(device_attrs); i++)
+> -			device_remove_file(fbcon_device, &device_attrs[i]);
+> -
+> -		fbcon_has_sysfs = 0;
+> -	}
+> -}
+> -
+>   void __exit fb_console_exit(void)
+>   {
+>   #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+> @@ -3411,7 +3381,6 @@ void __exit fb_console_exit(void)
+>   #endif
+>   
+>   	console_lock();
+> -	fbcon_deinit_device();
+>   	device_destroy(fb_class, MKDEV(0, 0));
+>   
+>   	do_unregister_con_driver(&fb_con);
 
 -- 
-With best wishes
-Dmitry
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
