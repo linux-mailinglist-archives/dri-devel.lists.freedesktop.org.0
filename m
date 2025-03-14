@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CD6A61836
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 18:40:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BFCA6183A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 18:40:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78D3510E164;
-	Fri, 14 Mar 2025 17:40:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A253B10E30E;
+	Fri, 14 Mar 2025 17:40:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="GwW191Fk";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="dIdUMG9c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4271E10E164
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 17:40:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1741973991; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3495610E30E
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 17:40:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741974001; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=STn2tLoFAdxKHSniACbfPt88Ezw71Kcqv5Cn28jOMxbLErTGx0ec0YFqqSZbTMiGVkV8e9qgqOY8MOF+p0lL79vBZ0+jbLFs8Q9VSthG2CjXOQeo45LfR5TyvXjaHFPRIy9f8u8ayx0xe+dOX+DNAEZOrHUXHm7ZCRso8wx1qcU=
+ b=ZCkG7Az+Ny0TDQTThm2KSY658Yw0UhGBTaHip7knOva8Lf7dJfNoepNPQtE+NZMoRG4XwU3lpsLZIuhblJ3SHzwaxttdE/qaSi8Fp2K0W8Gu/ChNEyV648raEfLGZe/9yviYWb4/VdQSfPiNDubq2UgdYZQT77qVdlBP9+X925E=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1741973991;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=sQDIjMkW0zXePkXBZSAjC5u5Y+90v6jS96tmTnVEAJ8=; 
- b=IioC4ycvst7nqIW3iD3Q8ec/vur57V8l+baRxNtoDQFVs2FRZ1QLxmd6CJcipe9pT1BrotaFVVlDt8N1sGfmzCK3+Sxioz/hCbAayMDRPUnKKmwP3rIbejysNqCUmMOBICbSLf9gQnPkD1xTXXskQVOKSQa1JbqW9ExTKAsT4F4=
+ s=zohoarc; t=1741974001;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=ghqsESCSlYDpPWVp7MysrBKDg3K0+nOb0GO49Q1Vkh8=; 
+ b=a8o2pkyrf+OOmozU3zWIN3kOGW00HreHdVHlLtuxMaLx6f+7UMQJuDladIDtMmivcCupJuW9gWdEHh2wvcE8xc5mfnHGdWErHJYpA7oiiCKZAVWixCgInpELw2pv8kslAiGAId3PCnqiFpCEMdqRJK4vmCxmEsYKVxTKGUBsXqU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
  dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741973991; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741974001; 
  s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=sQDIjMkW0zXePkXBZSAjC5u5Y+90v6jS96tmTnVEAJ8=;
- b=GwW191FkLl0RTBQBdFngMyoWExCYnpTyigYl7VPQyBSKciqWmX08BEiU4ZQ7Ggmn
- utAxfcs6UtYu64NIUS1ds7pkTZxFigl/igbWmvZ+6s+xnw+txI6+2FBzvZYtY5+WXlG
- Zkt4VhObOfq9CV/kCMZJzODwhsAk2ByCrFTITgds=
-Received: by mx.zohomail.com with SMTPS id 1741973988175634.4562131256724;
- Fri, 14 Mar 2025 10:39:48 -0700 (PDT)
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=ghqsESCSlYDpPWVp7MysrBKDg3K0+nOb0GO49Q1Vkh8=;
+ b=dIdUMG9czft3lYTgdhVH62QHefFWoI8PFRxt6BzyTd6/5J0mU775O123d/KGbsO6
+ xNWkpjFKRKftz33ip1akzwfc5GO+ivGlcQrvCZVk6Qdg1sBZxHc8htF34sxXknkMmPa
+ XfqLhPOO1JwjCQ4T4A1mDH1WSBYaBXyPEDsc9IP0=
+Received: by mx.zohomail.com with SMTPS id 1741973998131839.7415151177113;
+ Fri, 14 Mar 2025 10:39:58 -0700 (PDT)
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
@@ -46,11 +46,12 @@ Cc: boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  sjoerd@collabora.com, angelogioacchino.delregno@collabora.com,
  Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Subject: [PATCH v2 0/6] drm/panfrost: Add support for AARCH64_4K page table
- format
-Date: Fri, 14 Mar 2025 14:38:52 -0300
-Message-ID: <20250314173858.212264-1-ariel.dalessandro@collabora.com>
+Subject: [PATCH v2 1/6] drm/panfrost: Set IOMMU_CACHE flag
+Date: Fri, 14 Mar 2025 14:38:53 -0300
+Message-ID: <20250314173858.212264-2-ariel.dalessandro@collabora.com>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250314173858.212264-1-ariel.dalessandro@collabora.com>
+References: <20250314173858.212264-1-ariel.dalessandro@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
@@ -69,62 +70,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Panfrost does not support uncached mappings, so flag them properly. Also
+flag the pages that are mapped as response to a page fault as cached.
 
-This is a new iteration on Panfrost support for AARCH64_4K page table
-format. The main reason behind this patchset is that MediaTek MT8188 SoC
-(ARM Mali-G57 MC3 GPU) constantly faults due to the actual Panfrost cache
-configuration.
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Currently, Panfrost only supports MMU configuration in "LEGACY" (as Bifrost
-calls it) mode, a (modified) version of LPAE "Large Physical Address
-Extension", which in Linux we've called "mali_lpae".
-
-This patchset adds support for conditionally enabling AARCH64_4K page table
-format. To achieve that, a "GPU optional quirks" field was added to
-`struct panfrost_features` with the related flag.
-
-Note that, in order to enable AARCH64_4K mode, the GPU variant must have
-the HW_FEATURE_AARCH64_MMU feature flag present.
-
-The patchset only enables the new format on Mediatek MT8188 and MT8192,
-which have been tested on a Mediatek Genio 700 EVK (MT8390) and Mediatek
-Genio 1200 EVK (MT8395) boards respectively.
-
-Thanks!
-
-Changes in v2:
-* Dropped panfrost_mmu_enable/disable unification.
-* Rename gpu_configs as gpu_quirks.
-* Added error handling on page table not properly aligned.
-* Enabled AARCH64_4K format on MediaTek MT8192 as well.
-* Minor fixes.
-
-Changes in v1:
-* Added "Set IOMMU_CACHE flag" patch.
-* Replaced `panfrost_mmu->enable()` function pointer by `cfg` struct
-prepared during init time.
-* Made mali_lpae/aarch64_4k name more clear.
-* Added GPU_CONFIG_AARCH64_4K flag to enable AARCH64_4K page table
-  format.
-* Enabled AARCH64_4K mode only on mediatek-mt8188.
-
-Ariel D'Alessandro (6):
-  drm/panfrost: Set IOMMU_CACHE flag
-  drm/panfrost: Use GPU_MMU_FEATURES_VA_BITS/PA_BITS macros
-  drm/panfrost: Set HW_FEATURE_AARCH64_MMU feature flag on Bifrost
-    models
-  drm/panfrost: Add support for AARCH64_4K page table format
-  drm/panfrost: Force AARCH64_4K page table format on MediaTek MT8188
-  drm/panfrost: Force AARCH64_4K page table format on MediaTek MT8192
-
- drivers/gpu/drm/panfrost/panfrost_device.h   |  16 ++
- drivers/gpu/drm/panfrost/panfrost_drv.c      |   2 +
- drivers/gpu/drm/panfrost/panfrost_features.h |   3 +
- drivers/gpu/drm/panfrost/panfrost_mmu.c      | 146 +++++++++++++++++--
- drivers/gpu/drm/panfrost/panfrost_regs.h     |  36 +++++
- 5 files changed, 190 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index b91019cd5acb1..9e6f198ef5c1b 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -327,7 +327,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+ 	struct drm_gem_object *obj = &shmem->base;
+ 	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
+ 	struct sg_table *sgt;
+-	int prot = IOMMU_READ | IOMMU_WRITE;
++	int prot = IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE;
+ 
+ 	if (WARN_ON(mapping->active))
+ 		return 0;
+@@ -528,7 +528,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 		goto err_map;
+ 
+ 	mmu_map_sg(pfdev, bomapping->mmu, addr,
+-		   IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
++		   IOMMU_WRITE | IOMMU_READ | IOMMU_CACHE | IOMMU_NOEXEC, sgt);
+ 
+ 	bomapping->active = true;
+ 	bo->heap_rss_size += SZ_2M;
 -- 
 2.47.2
 
