@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C63FA6155D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 16:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB98A615DC
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 17:09:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30CE710EA0C;
-	Fri, 14 Mar 2025 15:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8523C10E1C1;
+	Fri, 14 Mar 2025 16:09:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AhM+irCx";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="c/I5hwSl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E45A010EA0C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 15:53:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 38297A47779;
- Fri, 14 Mar 2025 15:47:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EF52C4CEE9;
- Fri, 14 Mar 2025 15:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741967585;
- bh=J+7FE7jUtWw2AkNGj7vXJdveBzqHGNZ5nLZnbOlg8Bo=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=AhM+irCxXAaEjDCeEZLxG5c1Ms7aTmmFS9d+PQYBHJkboKQeHpTrEnSFYuX5xKFHT
- HVO+frw/2i/ZMZXfdKqzZvNCacLqc6RKivRZMMHX4zoMQZw1dTSmUzEqgGNIHKwBoW
- EkHAixH4eX2mizir1ao0e3xCU/b3x2t/oal8NDHo/07cnfQh8P/cZrzaf6RqMD8BPb
- HolwUOjg/7HnEu0FLCOS6K0fcioq8ad8F5in8+1Cf3G/jzACgzvRrd6DGGKnQcfmMo
- 8IWiAhMPdYjUlz5eYMttVMRpnO2gTuty6YCiCHtQCnPdZZ4RVnzqQ40D4K9m0hbj3S
- HLawMom/GDLKw==
-From: Mark Brown <broonie@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Maud Spierings <maudspierings@gocontroll.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org
-In-Reply-To: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
-References: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
-Subject: Re: (subset) [PATCH v2 00/12] arm64: dts: freescale: Add support
- for the GOcontroll Moduline Display
-Message-Id: <174196758090.19958.7850853709519472369.b4-ty@kernel.org>
-Date: Fri, 14 Mar 2025 15:53:00 +0000
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAFBC10E1C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 16:09:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1741968568; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=LMIiKlEFRL7N9+/imfQ/ARMtn9JFru4merPBSfWzCSvqgh21dPEhUykHGsEGxqLoaPEQnWgmX+iOoG4VbSBjUuR+YmRtQ5aFe+F/3EZKX+rZqFP4CH3pzdtJnDJ0+Y1FMUUpY+yFt99yXwRHxVeJbUCvFgQHdk7mW7u0xp3bK+I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1741968568;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=rsYUkunEA14LX5hAkIEL3nskHcxyQjfpTSg9UpldL1Y=; 
+ b=JO5QXbBXLKDMz+mJxUHm1HnQjcNm3DIiNTk4C2rtLXrYkvAEXu6a9fxhTKJxCFmW2hnyczWiQxE8zzBwAfSQaNakleoXRwgnXMbAuACsamFtSshk1OBYDyTcz8Hr53f6zsBQRgr6u1DlBNteFWjUSRPDNxQKPG4ABfRkHUAM2xE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741968568; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=rsYUkunEA14LX5hAkIEL3nskHcxyQjfpTSg9UpldL1Y=;
+ b=c/I5hwSlMs2R24pybQ1fYH9SEpXp07ix8hd3P/fSCBH4OZSnqcisjn4WP4DvTcTF
+ 006odrCwTyuofuinr5ZjX8JfjURc32Hs9PWHYCi29olNVWIGitlSpAeynEdpVwWC2Ya
+ ssASjlNX9w4uW5TbZwLqO02ZAj5zw/xIVw5Ld/vA=
+Received: by mx.zohomail.com with SMTPS id 1741968564767949.3760976982635;
+ Fri, 14 Mar 2025 09:09:24 -0700 (PDT)
+Message-ID: <2c82edc7-fd39-4e81-95b5-f43467fd166f@collabora.com>
+Date: Fri, 14 Mar 2025 13:09:17 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 5/6] drm/panfrost: Enable AARCH64_4K page table format
+ on mediatek_mt8188
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, kernel@collabora.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ sjoerd@collabora.com
+References: <20250310195921.157511-1-ariel.dalessandro@collabora.com>
+ <20250310195921.157511-6-ariel.dalessandro@collabora.com>
+ <55b8bc40-0a29-46c2-ba5d-c7cc7742cf5f@collabora.com>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <55b8bc40-0a29-46c2-ba5d-c7cc7742cf5f@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,44 +74,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Feb 2025 15:19:11 +0100, Maud Spierings wrote:
-> Add inital support for 2 variants of the Moduline Display controller.
-> This system is powered by the Ka-Ro Electronics tx8p-ml81 COM, which
-> features an imx8mp SoC.
-> 
-> 
+Angelo,
 
-Applied to
+On 3/11/25 6:09 AM, AngeloGioacchino Del Regno wrote:
+> Il 10/03/25 20:59, Ariel D'Alessandro ha scritto:
+>> Now that Panfrost supports AARCH64_4K page table format, let's enable it
+>> on Mediatek MT8188.
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> ---
+>>   drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/ 
+>> drm/panfrost/panfrost_drv.c
+>> index 0f3935556ac76..d7b8bded6d784 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> @@ -824,6 +824,7 @@ static const struct panfrost_compatible 
+>> mediatek_mt8188_data = {
+>>       .num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
+>>       .pm_domain_names = mediatek_mt8183_pm_domains,
+>>       .pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
+>> +    .gpu_configs = BIT(GPU_CONFIG_AARCH64_4K),
+>>   };
+>>   static const char * const mediatek_mt8192_supplies[] = { "mali", 
+>> NULL };
+> 
+> Didn't that work on MT8195/8395 as well? I also recall hearing that it 
+> was somewhat
+> giving ever-so-slightly better performance?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+Running glmark2-es2-drm [0] benchmark, reported the same performance 
+("glmark2 Score") on both configurations, before and after this 
+patchset. Tested on a Mediatek Genio 1200 EVK board.
+
+To avoid holding this longer, I'll add it to patchset v2, and let's 
+continue discussion there in any case.
+
+[0] https://github.com/glmark2/glmark2
+
+> 
+> If it does, please enable it on 8195 as well :-)
+> 
+> also s/mediatek_mt8188/MediaTek MT8188/g
+
+Ack.
+
+> 
+> ...and btw
+> Reviewed-by: AngeloGioacchino Del Regno 
+> <angelogioacchino.delregno@collabora.com>
 
 Thanks!
 
-[02/12] dt-bindings: vendor-prefixes: add GOcontroll
-        commit: 5f0d2de417166698c8eba433b696037ce04730da
-[03/12] dt-bindings: connector: Add the GOcontroll Moduline module slot bindings
-        commit: 43fd4d2f4f9df4ae1f6493d51cdd2687f325a225
-[06/12] MAINTAINERS: add maintainer for the GOcontroll Moduline module slot
-        commit: 8f1cc5242544052e4be037861abc8bc2b89cabda
-[12/12] spi: spidev: Add an entry for the gocontroll moduline module slot
-        commit: 10254a6c6073b0be171d434a3aeeff0256e59443
+-- 
+Ariel D'Alessandro
+Software Engineer
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
