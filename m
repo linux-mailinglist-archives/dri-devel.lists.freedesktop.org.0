@@ -2,115 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1055A61462
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 16:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B61A614B7
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 16:22:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B76410EA04;
-	Fri, 14 Mar 2025 15:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E05910E97A;
+	Fri, 14 Mar 2025 15:21:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Bq0JgtMY";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eN5hV6cb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80FC510EA04
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 15:00:22 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52EA3KOX023475
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 15:00:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=5Q1/t28eBE47VhslKnKzc2xe
- LvFBD34uadwrGYmHEs8=; b=Bq0JgtMYKQTYFkthrwll6D6i7x2kHLEY1SZZOluH
- Jpbxvynhgc2jljLcuBhAY2pJ28v1sMxcrSpBzPZo0DciI/4ER1SjszylH4fcFtT4
- PXOuhysQ8iauOg2KD3qJjakXZSZwltWLuriHyqSgpK8Zt2r5Hq7Kp8wMCYZ0A8er
- VrEsbkiCqk/f3Rwh4HlefbfpW0GwY7++kN2sx3QfFc5m2Lfd2W827042ws7w22j+
- zDqgb/jJIF6mGTCrI3uEHDzbVTHu6UKq8d9uQrMytyKiVIVMErJu0IXx2HRPB6qx
- Izs/yCSnpCVS6VyuNyq4fnA0bsDLuGFyOZ2R3F9N3/mAgA==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45cjc58rc9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 15:00:20 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6e916df0d5dso42138066d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 08:00:20 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC20810E97A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 15:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1741965713;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1wclPpb6TJlM90mljb9qo7qOvVYPkzUbKrUG0F/cNlo=;
+ b=eN5hV6cbHL/1Sib5zqsmqTnOg0A7hW94EX6GB1l1iZbRn8arreaBZrpczzzA2+SayLZSZL
+ wisITxnEO8oVEBLobHfBBB6zWC2QufyirlidcPsX71ZGgYnzAytuAvNFoBpANbbi+YspUo
+ 7+jgb0V26iXer6l6daXw9ieeLgFsz8A=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-556-Kduo0SvuNjK6YFaDNQFd6w-1; Fri, 14 Mar 2025 11:21:51 -0400
+X-MC-Unique: Kduo0SvuNjK6YFaDNQFd6w-1
+X-Mimecast-MFC-AGG-ID: Kduo0SvuNjK6YFaDNQFd6w_1741965711
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-6fd010df0f4so35707167b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 08:21:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741964419; x=1742569219;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5Q1/t28eBE47VhslKnKzc2xeLvFBD34uadwrGYmHEs8=;
- b=R/RjZd0/XQIo9lZKvL0gzShm0jXeyjr0uhe2PGbhx2ovrLLUFNwqpsa8fhHUae7gG5
- qOabl1BvRrDKi5V5p0mC7XhIi2RzQDvg5WBJJE0LiJ5AaCBZ13mxiRP2xVzADom/lRaI
- tL+3He8u899T35ADhdEWIzJVAze2/uOGWwlA05hvDP3VKvQwWjzT4EA/lc2W+/HM/jbV
- S/AiuXEIRKW5yJTq+E5BlSjdpMXA66siCX/Hc3leX9A60/gdD+TX+JjSR8ei+4SObi/7
- 9JPL1lH757aW7Nsmy/hy5u+hXsLizO1ZfpDRW/hxT4DXFiCHK16HmYa4ZyBjrAtdE07P
- ZO3g==
+ d=1e100.net; s=20230601; t=1741965711; x=1742570511;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1wclPpb6TJlM90mljb9qo7qOvVYPkzUbKrUG0F/cNlo=;
+ b=htNcM/Poc4zCB6HXin5XhOHYZx3uEAgcR1FXvTw0kKk1yqHgT52iY6vhQOCFPWjPcp
+ 4GLPrdY/xvhyLRyP2/RqbpIv0pNkD3hZV2HB2gVMnDaJ8qgxrOtoECmBmD/QLBmDm+4O
+ l91Y1UKgVDJ08koeO0AAsBDlmeG6cE+4nE+46NCm91Be8x/pLmSKr3AKVpugOYu4Vo//
+ JVU4cMnyFbPxelXE18rt+vLBKhONfhDllr5IUBXFQFtUSe3LugTxgO22xyKytz0Ysaya
+ ss5J2HOvDmMFki5+QQAc7+L0cCdoIQZHR5KvlaK8A0yzTrwv3qiUIATWSIeoYCNzDtJf
+ 9vvw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXr+oX5uGL51GpYYGIaoOKOllTRCWreX2nHfMreDQoE+68xsilmXGgeHgyBLoKkjwH1Xye7HxYoqS4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzbsfn1DDsGh8t311gJj0yIIIh74iR4v230I9sS/oWoQ+DsGCPH
- Q+e1t65RSfkvV15wMxGOOcw9O4zSRoEC8esOmoDJI8o0NKPjrP5W+zEA5ger1bZNWTElPS4XFKL
- nLqPnlZ796sfFuhFwnZkPxNGwOM5MNY3Clj8KhSDB9j+tVgwsTmqrICgR5pSpjK8y7n4=
-X-Gm-Gg: ASbGncuokYl799sN+BS+1ZjzASnJppvlqTZHhG/MjnCBqnA6p+2gUYhUWDNi2Z5hlVv
- Imb6mv3KsSOZ8KZRDM8QU5v+LMiJPX5yxmyMQ1HXexErIAz9Vqi4E91RIBuQ2wwMaz4ozS/SsOB
- k3e826a/8HyWzQ4v7HyNB1Qk/PdHbchT9y32QMeymC7QeBa08egEI2vum2maEfofROYGb6t/rUe
- HdtZxDfBcXmZrdMPbRcXCX0jzR4Tb9oh7ZOnSnUPcI+5IeyetvaGclEbWGsvE73htKOBSewBdn4
- wJt/1B4NUUlrKb0SlTH99Y57t8RyAS1a2P4ujrMduu4lk9kcKDZ/uTWpkIV/hRmi8Edg3RAEWV8
- iH5I=
-X-Received: by 2002:a05:6214:c47:b0:6e6:5f08:e77d with SMTP id
- 6a1803df08f44-6eaeaa64726mr38922666d6.19.1741964418931; 
- Fri, 14 Mar 2025 08:00:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IElOf5VcuP4Qfeqk7k77duSbY0HMHuiCaGOzAq7nuu0v/lm1rSxjObW30d/t+f4KOijDX3OSg==
-X-Received: by 2002:a05:6214:c47:b0:6e6:5f08:e77d with SMTP id
- 6a1803df08f44-6eaeaa64726mr38922006d6.19.1741964418512; 
- Fri, 14 Mar 2025 08:00:18 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549ba88536csm537756e87.177.2025.03.14.08.00.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Mar 2025 08:00:16 -0700 (PDT)
-Date: Fri, 14 Mar 2025 17:00:14 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Dmitry Baryshkov <lumag@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/7] drm/connector: hdmi: Use YUV420 output format as
- an RGB fallback
-Message-ID: <zfbamnotz4smuswgzhtp7maqw5o7d5boi5urvqfrqylszbbyok@jtwqtjmji4qr>
-References: <20250311-hdmi-conn-yuv-v2-0-fbdb94f02562@collabora.com>
- <20250311-hdmi-conn-yuv-v2-4-fbdb94f02562@collabora.com>
- <20250311-hypersonic-mature-leopard-d3afdc@houat>
- <g25hgb2mocl4sjny26k4nzn2hwpwhlodenqganzcqfzzg6itms@herenniualnw>
- <20250314-airborne-magenta-corgi-afd52c@houat>
+ AJvYcCVU+ySqpx5UYPMfD9IXB6wScrBXXPgu7sywcnys4EEe8fVWBaBt79Ico8tCWbXsgnOpyf1jcG+3PLM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxUGg3Vl0XDrMLL/UBYd5EEZOaFrqg/EWwZPVxWd0mtWiHBd+81
+ PlnGHCz53fJ/l0JQ0WuiMkAb2m6z35paPhCtPamadvRXbsSEo+fosLP5zv5Kkzr3jFw5yKzmBsh
+ PNMWRwCo2U8CfHE8MqYqW2D68eQNsuRRbyZLHr5uWUxiAhsYZYk1MN1UewrSlquGT98dGLrJxRb
+ XHucuwTVSDj47NVvfRxzYcHD2znHWufPhzOQiXoO82
+X-Gm-Gg: ASbGncuz3Zq01IuJ97NbzihQyMzxM6trpQ/ceL8fluaCZ6lEsBEyAY5ISHAFibdLbT3
+ 33mBQlY0i0NPtjHV3Ces/+Ta1Gdtt4YIPjMfUnUcLFiRKahqCSlww5chyQsasGWznEYMaK5E=
+X-Received: by 2002:a05:690c:3388:b0:6f9:78c0:3a5f with SMTP id
+ 00721157ae682-6ff45ef4dfdmr37799527b3.19.1741965710668; 
+ Fri, 14 Mar 2025 08:21:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxlzfmesRYpftv8/u9O5nth3/U3MSHrA2c/eNMyBqJn3t04K/2428pzfRsu62bK3mCnBn1dqKlYHZaxbllR4Y=
+X-Received: by 2002:a05:690c:3388:b0:6f9:78c0:3a5f with SMTP id
+ 00721157ae682-6ff45ef4dfdmr37798957b3.19.1741965709894; Fri, 14 Mar 2025
+ 08:21:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250314-airborne-magenta-corgi-afd52c@houat>
-X-Proofpoint-ORIG-GUID: 01eHXKKaIqz7PlGF-gKWWL65eMQB1Vfh
-X-Proofpoint-GUID: 01eHXKKaIqz7PlGF-gKWWL65eMQB1Vfh
-X-Authority-Analysis: v=2.4 cv=G/kcE8k5 c=1 sm=1 tr=0 ts=67d44484 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=QX4gbG5DAAAA:8 a=JkxHsKVaOhtT2WVG5y0A:9 a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-14_05,2025-03-14_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 bulkscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
- adultscore=0 impostorscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503140118
+References: <20250312-drm-panel-v1-0-e99cd69f6136@redhat.com>
+ <20250312-drm-panel-v1-1-e99cd69f6136@redhat.com>
+ <20250313110944.1c1f7e4e@booty>
+ <CAN9Xe3TeKTZtcMPtae7h33H=B-veGW93z8nMpHK+pEuNdh4=2A@mail.gmail.com>
+ <20250314132709.16a38692@booty>
+In-Reply-To: <20250314132709.16a38692@booty>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Fri, 14 Mar 2025 11:21:39 -0400
+X-Gm-Features: AQ5f1Jrq-rv83kRH-VzKkcqA980HkC4-8837xI-u0qLOR8Itn7DHYTdQ_fpcMJ4
+Message-ID: <CAN9Xe3QFRt3hfdNoSMwfE1w+nxhhdgUyJcfSEa0T_8sVu=z_ow@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/2] drm/panel: Add new helpers for refcounted panel
+ allocatons
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 4Ddt0KaMB2OXrNSG3fawEfEI0eXs_FRj6D1gncFaLFE_1741965711
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000597fa306304eff74"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,74 +101,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 14, 2025 at 02:47:53PM +0100, Maxime Ripard wrote:
-> On Tue, Mar 11, 2025 at 09:46:39PM +0200, Dmitry Baryshkov wrote:
-> > On Tue, Mar 11, 2025 at 04:55:17PM +0100, Maxime Ripard wrote:
-> > > Hi,
-> > > 
-> > > I think the first thing we need to address is that we will need to
-> > > differentiate between HDMI 1.4 devices and HDMI 2.0.
-> > > 
-> > > It applies to YUV420, which is HDMI 2.0-only, and I guess your patches
-> > > are good enough if you consider YUV420 support only, but scrambler setup
-> > > for example is a thing we want to support in that infrastructure
-> > > eventually, and is conditioned on HDMI 2.0 as well.
-> > > 
-> > > On Tue, Mar 11, 2025 at 12:57:36PM +0200, Cristian Ciocaltea wrote:
-> > > > Try to make use of YUV420 when computing the best output format and
-> > > > RGB cannot be supported for any of the available color depths.
-> > > > 
-> > > > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> > > > ---
-> > > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 69 +++++++++++++------------
-> > > >  1 file changed, 35 insertions(+), 34 deletions(-)
-> > > > 
-> > 
-> > [...]
-> > 
-> > > >  	return -EINVAL;
-> > > >  }
-> > > >  
-> > > > +static int
-> > > > +hdmi_compute_config(const struct drm_connector *connector,
-> > > > +		    struct drm_connector_state *conn_state,
-> > > > +		    const struct drm_display_mode *mode)
+--000000000000597fa306304eff74
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Mar 14, 2025 at 8:27=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootli=
+n.com>
+wrote:
+
+> Hello Anusha,
+>
+> On Thu, 13 Mar 2025 16:34:45 -0400
+> Anusha Srivatsa <asrivats@redhat.com> wrote:
+>
+> > > > +void *__devm_drm_panel_alloc(struct device *dev, size_t size,
+> size_t
+> > > offset,
+> > > > +                          const struct drm_panel_funcs *funcs)
 > > > > +{
-> > > > +	unsigned int max_bpc = clamp_t(unsigned int,
-> > > > +				       conn_state->max_bpc,
-> > > > +				       8, connector->max_bpc);
-> > > > +	int ret;
+> > > > +     void *container;
+> > > > +     struct drm_panel *panel;
+> > > > +     int err;
 > > > > +
-> > > > +	ret = hdmi_try_format(connector, conn_state, mode, max_bpc,
-> > > > +			      HDMI_COLORSPACE_RGB);
-> > > > +	if (!ret)
-> > > > +		return 0;
+> > > > +     if (!funcs) {
+> > > > +             dev_warn(dev, "Missing funcs pointer\n");
+> > > > +             return ERR_PTR(-EINVAL);
+> > > > +     }
 > > > > +
-> > > > +	if (connector->ycbcr_420_allowed)
-> > > > +		ret = hdmi_try_format(connector, conn_state, mode, max_bpc,
-> > > > +				      HDMI_COLORSPACE_YUV420);
-> > > 
-> > > I think that's conditioned on a few more things:
-> > >   - That the driver supports HDMI 2.0
-> > 
-> > Isn't that included into connector->ycbcr_420_allowed? I'd expect that
-> > HDMI 1.4-only drivers don't set that flag.
-> 
-> Yeah, I guess that's one way to do it, but we don't have any way to
-> express it at the moment
+> > > > +     container =3D kzalloc(size, GFP_KERNEL);
+> > > > +     if (!container)
+> > > > +             return ERR_PTR(-ENOMEM);
+> > > > +
+> > > > +     panel =3D container + offset;
+> > > > +     panel->container_offset =3D offset;
+> > > > +     panel->funcs =3D funcs;
+> > > > +     kref_init(&panel->refcount);
+> > > > +
+> > > > +     err =3D devm_add_action_or_reset(dev, drm_panel_put_void, pan=
+el);
+> > > > +     if (err)
+> > > > +             return ERR_PTR(err);
+> > > > +
+> > > > +     drm_panel_init(panel, dev, funcs, panel->connector_type);
+> > >
+> > > panel->connector_type here is uninitialized. You are passing
+> > > panel->connector_type to drm_panel_init(), which will then copy it in=
+to
+> > > panel->connector_type itself.
+> > >
+> > > So you mean I pass connector_type from the driver calling the helper,
+> so
+> > there is access to the connector type here?
+>
+> I'm not a panel expert, but I think it makes sense that to create the
+> panel you need to know the connection type, and that is what Maxime
+> suggested.
+>
+> > > > +     /**
+> > > > +      * @container_offset: Offset of this struct within the
+> container
+> > > > +      * struct embedding it. Used for refcounted panels to free th=
+e
+> > > > +      * embeddeing struct when the refcount drops to zero.
+> > > > +      */
+> > > > +     size_t container_offset;
+> > >
+> > > While storing the offset obviously works, and that's what I had
+> > > implemented in my latest bridge refcounting series, after some
+> > > discussion with Maxime we agreed storing a container pointer instead =
+of
+> > > the offset is cleaner. I think it would be good here as well.
+> > >
+> > > See:
+> > >
+> https://lore.kernel.org/lkml/20250227-macho-convivial-tody-cea7dc@houat/
+> > >
+> >
+> > so just void *container instead of size_t container_offset.
+>
+> Exactly. You can have a look at the patch I sent earlier today:
+>
+> https://lore.kernel.org/lkml/20250314-drm-bridge-refcount-v7-2-152571f8c6=
+94@bootlin.com/
+>
+>
+This helps. Thanks
 
-Yes, we do not have a way to specify that the connector is HDMI 1.x or
-2.0. However I think the code that we currently have ensures that the
-flag is set if and only if the HDMI Host and all the chain after it
-actually supports YUV 420, which would imply HDMI 2.0.
+Anusha
 
-I know that drm_bridge_connector has one deficiency wrt. YCbCr 420 flag:
-it is impossible to "inject" YUV420 in the middle of the chain (e.g. DSI
-host outputs RGB data, but then comes DSI2HDMI bridge which can convert
-RGB data to YUV). I kept that in mind, but I'd like to see an actual
-usecase first. And anyway, this currently limits YUV support rather than
-enabing it in the unwanted cases.
+> Luca
+>
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
 
--- 
-With best wishes
-Dmitry
+--000000000000597fa306304eff74
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 14,=
+ 2025 at 8:27=E2=80=AFAM Luca Ceresoli &lt;<a href=3D"mailto:luca.ceresoli@=
+bootlin.com">luca.ceresoli@bootlin.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">Hello Anusha,<br>
+<br>
+On Thu, 13 Mar 2025 16:34:45 -0400<br>
+Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.com" target=3D"_blank=
+">asrivats@redhat.com</a>&gt; wrote:<br>
+<br>
+&gt; &gt; &gt; +void *__devm_drm_panel_alloc(struct device *dev, size_t siz=
+e, size_t=C2=A0 <br>
+&gt; &gt; offset,=C2=A0 <br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const struct drm_panel_funcs *funcs)<br>
+&gt; &gt; &gt; +{<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0void *container;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0struct drm_panel *panel;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0int err;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0if (!funcs) {<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_warn(de=
+v, &quot;Missing funcs pointer\n&quot;);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ERR_=
+PTR(-EINVAL);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0container =3D kzalloc(size, GFP_KERNEL)=
+;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0if (!container)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ERR_=
+PTR(-ENOMEM);<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0panel =3D container + offset;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0panel-&gt;container_offset =3D offset;<=
+br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0panel-&gt;funcs =3D funcs;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0kref_init(&amp;panel-&gt;refcount);<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0err =3D devm_add_action_or_reset(dev, d=
+rm_panel_put_void, panel);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0if (err)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ERR_=
+PTR(err);<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0drm_panel_init(panel, dev, funcs, panel=
+-&gt;connector_type);=C2=A0 <br>
+&gt; &gt;<br>
+&gt; &gt; panel-&gt;connector_type here is uninitialized. You are passing<b=
+r>
+&gt; &gt; panel-&gt;connector_type to drm_panel_init(), which will then cop=
+y it into<br>
+&gt; &gt; panel-&gt;connector_type itself.<br>
+&gt; &gt;<br>
+&gt; &gt; So you mean I pass connector_type from the driver calling the hel=
+per, so=C2=A0 <br>
+&gt; there is access to the connector type here?<br>
+<br>
+I&#39;m not a panel expert, but I think it makes sense that to create the<b=
+r>
+panel you need to know the connection type, and that is what Maxime<br>
+suggested.<br>
+<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0/**<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 * @container_offset: Offset of this st=
+ruct within the container<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 * struct embedding it. Used for refcou=
+nted panels to free the<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 * embeddeing struct when the refcount =
+drops to zero.<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0size_t container_offset;=C2=A0 <br>
+&gt; &gt;<br>
+&gt; &gt; While storing the offset obviously works, and that&#39;s what I h=
+ad<br>
+&gt; &gt; implemented in my latest bridge refcounting series, after some<br=
+>
+&gt; &gt; discussion with Maxime we agreed storing a container pointer inst=
+ead of<br>
+&gt; &gt; the offset is cleaner. I think it would be good here as well.<br>
+&gt; &gt;<br>
+&gt; &gt; See:<br>
+&gt; &gt; <a href=3D"https://lore.kernel.org/lkml/20250227-macho-convivial-=
+tody-cea7dc@houat/" rel=3D"noreferrer" target=3D"_blank">https://lore.kerne=
+l.org/lkml/20250227-macho-convivial-tody-cea7dc@houat/</a><br>
+&gt; &gt;=C2=A0 <br>
+&gt; <br>
+&gt; so just void *container instead of size_t container_offset.<br>
+<br>
+Exactly. You can have a look at the patch I sent earlier today:<br>
+<a href=3D"https://lore.kernel.org/lkml/20250314-drm-bridge-refcount-v7-2-1=
+52571f8c694@bootlin.com/" rel=3D"noreferrer" target=3D"_blank">https://lore=
+.kernel.org/lkml/20250314-drm-bridge-refcount-v7-2-152571f8c694@bootlin.com=
+/</a><br>
+<br></blockquote><div><br></div><div>This helps. Thanks</div><div><br></div=
+><div>Anusha <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Luca<br>
+<br>
+-- <br>
+Luca Ceresoli, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+</blockquote></div></div>
+
+--000000000000597fa306304eff74--
+
