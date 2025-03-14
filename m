@@ -2,82 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EA0A613D8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 15:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F13A61452
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 15:57:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DFEE10E35C;
-	Fri, 14 Mar 2025 14:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9F2D10E9FE;
+	Fri, 14 Mar 2025 14:57:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ake2xGOz";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Omvhla0Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17DA810E35C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 14:41:16 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-2ff5544af03so470327a91.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 07:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741963275; x=1742568075; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OaPhMnnfACM75+eLsSzYFjdr6cOogzSh4Qh4Y0CvTCk=;
- b=Ake2xGOzuceL987SxHw6iMwyR8DyHVhPBRH5AiXqyVZ17/hq+1oHwQQyrRHoGwvj3s
- H1z7y+rwIL2Wa6PZInmvU+ziPZeIlxBMOSFg2vcqrrMIUqA6Kb2d2146x6NdLPLoK95G
- JE4y1QVH/f9VCeduIsN5ZsO7onHWi/DUg5NXrHvf02fAxY3wmAoB64Fiz5vQ/yTjiTAQ
- /8AeGm/LXnGBPBpKTADCmio+bZUZFe3qm6HAhEgUen61Amw3hiSuPrpiStwBONheb7/r
- A65atilhe+ctym0a2RF3XjtbUkHFYE7YIS6JCRvKolKSEaW377Iejs5Yh4Wycjnf3wpO
- sN+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741963275; x=1742568075;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OaPhMnnfACM75+eLsSzYFjdr6cOogzSh4Qh4Y0CvTCk=;
- b=o3tsIsm0FAR193kTSxkNZtrnIHiNIcHlg9aH14kvAW6u5IWDRurezCF+x4Oddv8rFc
- buSw5h+gYh7sInjDXu7PXulDQbB8H20zxDA80T/Zao8BNZmyvjn4qcILJUIcvEM3mYSF
- G19HEAfGjN5C7x0g0uHYnFltds+RuB451NVeShT0woJlihcIzENdpxOXZdPTyfl8MPj1
- 3oc/92XwODX/V61jA5T/TL1W5DBCtCkZemKe7yLByuzR2tBcNwawBzrWqXiUCirpywk6
- m4RcsBb9c37HRw10Dv2heIpZFHQNaVo1YtQo6/V4i8GNKBCyzXPlhUdb/UqtPuXz49tn
- wZaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUtsMsTyhldKuPs8rXtF3a+Dp7x2RyzV3g+u6Y0VMa5vzdAdekapS5jgZVokHXqDWXTFHQQfeByk8k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyKPTvBSbNCcp6QmRg6Ka5Y+Etmh6SLp/kCQiWnGALILXPiqZpD
- YTiCSQ8PsWIXe0LUk6zWqWqFNLsZhc97/630xPUFiQO/gME5vn0xC2S4hcObkh/XhwtSu7yeges
- XPUrqQa7pXPXjyl9v3v7oG11ZSGs=
-X-Gm-Gg: ASbGncvwgsL49x/yL2BuTzkshMCGW+5lsexYUWJtXAtzx+m9s9oeZVqbREKpjk9QKBq
- F5hBoQD2oEiQYl5mXYjE6gtEFGemdlv9lhuf/xkmF6nJlZaBJZLo/FO9gIrTQQazKkh/OlVWL4G
- zPDTqRMlKXkz/5xgQlZp7ex+LC6o33Vx6As/kj
-X-Google-Smtp-Source: AGHT+IEjFDMwRMyv/uLJXjTayuOgzA+DKylGhNzsz8bhe0w39EO/liFW6CLnkGmTy9zaRFOk71HcxmEXAJIRYYfFX38=
-X-Received: by 2002:a17:90b:1c0e:b0:2ee:6563:20b5 with SMTP id
- 98e67ed59e1d1-30151acb45amr1502585a91.0.1741963275539; Fri, 14 Mar 2025
- 07:41:15 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB19210E9FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 14:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=+2mzYkuTr6a6bXG168USJ1I052Rawu++JfD94IBX//M=; b=Omvhla0ZziR/Ghm7U3HvQkSMRV
+ 1BOJtVos64atHqCrIotX6qwSQz0XRUedhUlFq38cn53UOofFVzZozJizfFquf0dh+etHZf7Ztitei
+ 3Q638vPA6blEb8+xn6suFjr0rt0dtolVxczZMlxaRLrV5HORWO47pnBEpDRhQEtNeC+TnkVKt+CXd
+ 0IH4Vuf5YafIhhaX72EUMxkNdHNpSPZqmaE6oew5q7UzDQSiDrvbEMnJCKwBXbPgnV/iQddW0L6+Y
+ +ds0/ZWyuyJotLVao+Qmlxq6iu5r3ov6K38Z0iaX6qi7dV+IljsqaNLJcUrUxWtbjVWLzpMY0LMVD
+ bpo1B7uA==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tt6Tc-0006hl-Mq; Fri, 14 Mar 2025 15:57:32 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH] drm/ttm: Make pool shrinker more responsive
+Date: Fri, 14 Mar 2025 14:57:29 +0000
+Message-ID: <20250314145729.34344-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
-References: <20250313160220.6410-2-sergeantsagara@protonmail.com>
- <20250313160220.6410-5-sergeantsagara@protonmail.com>
- <7ajr2aukrd7bdnns34ur7d37xk4aibaqsjyuoc334uiclay3yt@qiym6ju2kn3c>
-In-Reply-To: <7ajr2aukrd7bdnns34ur7d37xk4aibaqsjyuoc334uiclay3yt@qiym6ju2kn3c>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 14 Mar 2025 15:41:02 +0100
-X-Gm-Features: AQ5f1Jo4E3at7_v_DatqGIgW2sz-ymfWGTuGgFNOqAUl5-ewt2Oo0ufesnQVSJc
-Message-ID: <CANiq72njsmokSeQG=nzRDUUmYHnpRCGNwWJ1ZXj_khxXwrZxEQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/3] rust: hid: USB Monitor Control Class driver
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Rahul Rameshbabu <sergeantsagara@protonmail.com>,
- linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-input@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Jiri Kosina <jikos@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, Julius Zint <julius@zint.sh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,21 +59,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 13, 2025 at 5:58=E2=80=AFPM Benjamin Tissoires <bentiss@kernel.=
-org> wrote:
->
-> skeletons are good for documentation, but not really for code review as
-> they can not compile.
->
-> You should make this patch part of a documentation in
-> Documentation/hid/, and squash it with the next one (having a minimal
-> full driver instead of skeleton+fill in the voids).
+Currently the TTM pool shrinker ensures it frees at least something every
+time it is invoked, but it also lies to the core a bit on how hard it
+tried.
 
-It could be part of the documentation of the `module_hid_driver!` for
-instance, like we have done for other of those macros.
+For example core will ask it to free SHRINK_BATCH pages but the shrinker
+can, due how it walks the LRU list of pools, free just a single page and
+still leave the core thinking it expended the full SHRINK_BATCH effort.
 
-(In general, we try to use `Documentation/` for things that do not fit
-as documentation for any of the code "items".)
+Apart from being inefficient in terms of number of calls to the TTM pool
+shrinker required, another consquence of this is that the core can abandon
+the shrinking attempt too early due thinking that the whole set of
+freeable pages has been scanned.
 
-Cheers,
-Miguel
+We fix this last part by correctly reporting how many out of potentially
+freeable pages have been scanned.
+
+We also do the freeing in an aggressive manner, considering the scan
+target as a free target, to ensure walks over pools with unfreeable pages
+do not cause no-op calls into our callback.
+
+And finally we customise the shrinker batch size based on the median pool
+order and the total number of pools, with the aim of searching more
+possible pools on an average invocation.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/ttm/ttm_pool.c | 39 +++++++++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index 83b10706ba89..21a58933fdb1 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -368,7 +368,7 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
+ }
+ 
+ /* Free pages using the global shrinker list */
+-static unsigned int ttm_pool_shrink(void)
++static unsigned int ttm_pool_shrink(unsigned long *nr_scanned)
+ {
+ 	struct ttm_pool_type *pt;
+ 	unsigned int num_pages;
+@@ -380,16 +380,15 @@ static unsigned int ttm_pool_shrink(void)
+ 	list_move_tail(&pt->shrinker_list, &shrinker_list);
+ 	spin_unlock(&shrinker_lock);
+ 
++	num_pages = 1 << pt->order;
++	(*nr_scanned) += num_pages;
++
+ 	p = ttm_pool_type_take(pt);
+-	if (p) {
++	if (p)
+ 		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
+-		num_pages = 1 << pt->order;
+-	} else {
+-		num_pages = 0;
+-	}
+ 	up_read(&pool_shrink_rwsem);
+ 
+-	return num_pages;
++	return p ? num_pages : 0;
+ }
+ 
+ /* Return the allocation order based for a page */
+@@ -881,10 +880,12 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+  */
+ void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
+ {
++	unsigned long nr_scanned = 0;
++
+ 	ttm_pool_free_range(pool, tt, tt->caching, 0, tt->num_pages);
+ 
+ 	while (atomic_long_read(&allocated_pages) > page_pool_size)
+-		ttm_pool_shrink();
++		ttm_pool_shrink(&nr_scanned);
+ }
+ EXPORT_SYMBOL(ttm_pool_free);
+ 
+@@ -1132,17 +1133,21 @@ void ttm_pool_fini(struct ttm_pool *pool)
+ }
+ EXPORT_SYMBOL(ttm_pool_fini);
+ 
+-/* As long as pages are available make sure to release at least one */
+ static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
+ 					    struct shrink_control *sc)
+ {
+-	unsigned long num_freed = 0;
++	unsigned long to_scan, freed = 0;
+ 
+-	do
+-		num_freed += ttm_pool_shrink();
+-	while (!num_freed && atomic_long_read(&allocated_pages));
++	sc->nr_scanned = 0;
++	to_scan = min_t(unsigned long,
++			sc->nr_to_scan, atomic_long_read(&allocated_pages));
++	while (freed < to_scan) {
++		freed += ttm_pool_shrink(&sc->nr_scanned);
++		to_scan = min_t(unsigned long,
++				to_scan, atomic_long_read(&allocated_pages));
++	}
+ 
+-	return num_freed;
++	return sc->nr_scanned ? freed : SHRINK_STOP;
+ }
+ 
+ /* Return the number of pages available or SHRINK_EMPTY if we have none */
+@@ -1266,7 +1271,10 @@ EXPORT_SYMBOL(ttm_pool_debugfs);
+ /* Test the shrinker functions and dump the result */
+ static int ttm_pool_debugfs_shrink_show(struct seq_file *m, void *data)
+ {
+-	struct shrink_control sc = { .gfp_mask = GFP_NOFS };
++	struct shrink_control sc = {
++		.gfp_mask = GFP_NOFS,
++		.nr_to_scan = 1,
++	};
+ 
+ 	fs_reclaim_acquire(GFP_KERNEL);
+ 	seq_printf(m, "%lu/%lu\n", ttm_pool_shrinker_count(mm_shrinker, &sc),
+@@ -1324,6 +1332,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+ 
+ 	mm_shrinker->count_objects = ttm_pool_shrinker_count;
+ 	mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
++	mm_shrinker->batch = (1 << (MAX_PAGE_ORDER / 2)) * NR_PAGE_ORDERS;
+ 	mm_shrinker->seeks = 1;
+ 
+ 	shrinker_register(mm_shrinker);
+-- 
+2.48.0
+
