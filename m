@@ -2,67 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040CDA61B51
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 21:01:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D444A61BBA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 21:07:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F2A10E0AA;
-	Fri, 14 Mar 2025 20:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D1910E0CE;
+	Fri, 14 Mar 2025 20:07:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P1c3GE/F";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KiTM+Tvz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B348E10E040;
- Fri, 14 Mar 2025 20:01:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D029B5C55F4;
- Fri, 14 Mar 2025 19:59:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B901C4CEE9;
- Fri, 14 Mar 2025 20:01:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741982498;
- bh=4xBcotl8pJzTMj0Jsqp+amff/4VTyaDG9wXsvY9BiZM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P1c3GE/FQ9nXFVg3ofquunNAv8v8Z1dnYhayTCgabuO1r41J4KWwMdFoA0QSYAiHK
- SX/PeItHN+7dDErarMX7psDTJiIdwS3UCKZ0/XegDlhZcvfCOkEdlooAqthnwA7aHM
- QSqwk3YeyF6zkwaxpzzhiR4bG63eMfHxilFcdL0/vu6Ze14l3FPOArkCRk+tdyvAfa
- 55ngKn3tUiFMjIqOF2REexYoP82GHKRhtwKvAYpY2qP/YkQ/7qNB7rrFPPgDKEYO7V
- anAps1UeQOIVkz/DfrP6cgTsY7aDpfCfleM+Mab4JQtYY935tNyiU1UL1+pHmAkLgy
- uzSe9zpTIk2xA==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Robert Foss <rfoss@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wesley Cheng <quic_wcheng@quicinc.com>,
- Christian Marangi <ansuelsmth@gmail.com>,
- Rohit Agarwal <quic_rohiagar@quicinc.com>,
- Kyle Deng <quic_chunkaid@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH 00/11] Various dt-bindings fixes
-Date: Fri, 14 Mar 2025 15:00:52 -0500
-Message-ID: <174198247894.1604753.10471572024781965640.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
-References: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD0DA10E0CE;
+ Fri, 14 Mar 2025 20:07:20 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52EA65VU029072;
+ Fri, 14 Mar 2025 20:07:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ j2UJCix3JztGr18PVp53iCTYdyjaY6rLNVnankBkSrI=; b=KiTM+TvzAXWFdi00
+ ucgycjwaLCXwbQzcAyR0yni7z0S7Ur+3M7zIxwr96+4UGbec73aJMDdy92bUbgj0
+ Z4Nlto0Wh/MdLEtAfT7uWWZ6nmWCOEkMXEC43pQDCjYM4tJloe20QTAmjwHg6xiC
+ FSp1uh3KeP9ChKhG983Mqb2LZKWL6pgOk8TnPattUaG5agwwVzKHgVQWGXMtPpGT
+ K0UH4mtHAo6Q8+aRfKn+XE/pec25W9XmN1rDS8sCgZRBLUzEdD6FwYZrothpMbKx
+ d3k7Hj9c/Fgk0JpQDb/u3LwhQqI773VJ2BQ9ZJS80Gpato/JdeTsCRDrPQE//a9V
+ nkQtpQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45c6733c5v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Mar 2025 20:07:14 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52EK7EsG028781
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Mar 2025 20:07:14 GMT
+Received: from [10.216.48.58] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Mar
+ 2025 13:07:08 -0700
+Message-ID: <4525d045-745a-4d8b-987e-45d3fa9917b5@quicinc.com>
+Date: Sat, 15 Mar 2025 01:37:05 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/msm/a6xx+: Don't let IB_SIZE overflow
+To: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
+CC: <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>, "Rob
+ Clark" <robdclark@chromium.org>, Connor Abbott <cwabbott0@gmail.com>, "Sean
+ Paul" <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav
+ Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ "Marijn Suijten" <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jordan Crouse
+ <jordan@cosmicpenguin.net>, Jonathan Marek <jonathan@marek.ca>, open list
+ <linux-kernel@vger.kernel.org>
+References: <20250314183455.120824-1-robdclark@gmail.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20250314183455.120824-1-robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=a5Iw9VSF c=1 sm=1 tr=0 ts=67d48c72 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=cm27Pg_UAAAA:8
+ a=pGLkceISAAAA:8 a=8h70kQ2kJuFCpcA7z_cA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 4Z5HyAAkr8OH45VbzAufHEIhCnbXlY58
+X-Proofpoint-ORIG-GUID: 4Z5HyAAkr8OH45VbzAufHEIhCnbXlY58
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-14_08,2025-03-14_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ suspectscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1011 spamscore=0 mlxscore=0 adultscore=0
+ malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503140155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,29 +101,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Thu, 06 Mar 2025 19:11:12 +0100, Konrad Dybcio wrote:
-> A set of not quite related bindings warnings fixes.
+On 3/15/2025 12:04 AM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
+> IB_SIZE is only b0..b19.  Starting with a6xx gen3, additional fields
+> were added above the IB_SIZE.  Accidentially setting them can cause
+> badness.  Fix this by properly defining the CP_INDIRECT_BUFFER packet
+> and using the generated builder macro to ensure unintended bits are not
+> set.
 > 
+> v2: add missing type attribute for IB_BASE
+> 
+> Reported-by: Connor Abbott <cwabbott0@gmail.com>
+> Fixes: a83366ef19ea ("drm/msm/a6xx: add A640/A650 to gpulist")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+> Backport notes, prior to commit ae22a94997b8 ("drm/msm: import A2xx-A4xx
+> XML display registers database"), just open code, ie:
+> 
+>    OUT_RING(ring, submit->cmd[i].size & 0xfffff);
+> 
+> Prior to commit af66706accdf ("drm/msm/a6xx: Add skeleton A7xx
+> support"), a7xx_submit() did not exist so that hunk can be dropped.
+> 
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c               | 8 ++++----
+>  drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml | 7 +++++++
+>  2 files changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index d3978cfa3f20..ea52b7d0b212 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -245,10 +245,10 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>  				break;
+>  			fallthrough;
+>  		case MSM_SUBMIT_CMD_BUF:
+> -			OUT_PKT7(ring, CP_INDIRECT_BUFFER_PFE, 3);
+> +			OUT_PKT7(ring, CP_INDIRECT_BUFFER, 3);
+>  			OUT_RING(ring, lower_32_bits(submit->cmd[i].iova));
+>  			OUT_RING(ring, upper_32_bits(submit->cmd[i].iova));
+> -			OUT_RING(ring, submit->cmd[i].size);
+> +			OUT_RING(ring, A5XX_CP_INDIRECT_BUFFER_3_IB_SIZE(submit->cmd[i].size));
+>  			ibs++;
+>  			break;
+>  		}
+> @@ -382,10 +382,10 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>  				break;
+>  			fallthrough;
+>  		case MSM_SUBMIT_CMD_BUF:
+> -			OUT_PKT7(ring, CP_INDIRECT_BUFFER_PFE, 3);
+> +			OUT_PKT7(ring, CP_INDIRECT_BUFFER, 3);
+>  			OUT_RING(ring, lower_32_bits(submit->cmd[i].iova));
+>  			OUT_RING(ring, upper_32_bits(submit->cmd[i].iova));
+> -			OUT_RING(ring, submit->cmd[i].size);
+> +			OUT_RING(ring, A5XX_CP_INDIRECT_BUFFER_3_IB_SIZE(submit->cmd[i].size));
+>  			ibs++;
+>  			break;
+>  		}
+> diff --git a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+> index 55a35182858c..a71bc6f16cbf 100644
+> --- a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+> +++ b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+> @@ -2259,5 +2259,12 @@ opcode: CP_LOAD_STATE4 (30) (4 dwords)
+>  	</reg32>
+>  </domain>
+>  
+> +<domain name="CP_INDIRECT_BUFFER" width="32" varset="chip" prefix="chip" variants="A5XX-">
+> +	<reg64 offset="0" name="IB_BASE" type="address"/>
+> +	<reg32 offset="3" name="3">
 
-Applied, thanks!
+Why is the offset 3 here? It looks to me that it doesn't match the code
+above.
 
-[05/11] arm64: dts: qcom: sdx75: Fix up the USB interrupt description
-        commit: 6810ecd57eb4ba9e09bac851d5b9d56c5e5acc1a
-[06/11] arm64: dts: qcom: sdx75: Rename AOSS_QMP to power-management
-        commit: a3715ce8650928e2da7060957a7e9b962d8bb7be
-[07/11] arm64: dts: qcom: qcs615: Rename AOSS_QMP to power-management
-        commit: bc09537f4745aae561f56daad0353d1b876bc096
-[08/11] arm64: dts: qcom: sc8180x: Rename AOSS_QMP to power-management
-        commit: 9ea77c65b7b0357c54899a24ffd37d0430c90913
-[09/11] arm64: dts: qcom: x1e80100-dell-xps13-9345: Drop clock-names from PS8830
-        commit: 6d617082867d4789ea4dcc67fc483460e2ac1d05
-[10/11] arm64: dts: qcom: x1e80100-romulus: Drop clock-names from PS8830
-        commit: 57aac7bd091cd7a1f43c852ce3703ce6c2433b21
-[11/11] arm64: dts: qcom: x1e001de-devkit: Drop clock-names from PS8830
-        commit: 8cd4b0f6bc71b2bf4f5c3fb8ec2857192182cb23
+-Akhil.
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+> +		<bitfield name="IB_SIZE" low="0" high="19"/>
+> +	</reg32>
+> +</domain>
+> +
+>  </database>
+>  
+
