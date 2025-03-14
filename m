@@ -2,61 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA95A60B0B
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 09:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E1DA60B09
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 09:16:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC1710E99B;
-	Fri, 14 Mar 2025 08:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3A710E988;
+	Fri, 14 Mar 2025 08:16:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=fujitsu.com header.i=@fujitsu.com header.b="nFWKjzl5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FMv97j/b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 432 seconds by postgrey-1.36 at gabe;
- Fri, 14 Mar 2025 01:26:06 UTC
-Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com
- [68.232.139.117])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 769C010E233;
- Fri, 14 Mar 2025 01:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
- t=1741915566; x=1773451566;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=hEW4U6cD4suRxcWupX1grIIgd9gT1ynebc3gndUAJag=;
- b=nFWKjzl5CxT1dHBiSrW9jJuP99Xzika19JY8UzQ3bewsMB+AYvKUdKxy
- w/QNi9B4vWyEaFytWWYUAQ+IHC/OKl6z3YIy9Hq6n0cscxF8redqe/MOY
- 3Lo1eA7mfDsv89INHIoRd0Rq/wR5sOtYuDQQGPA0obfQ66NLeF2v1x9C9
- w2s4UGEgCpM2G07h8xbGEAotZHV96TpZTaJcMHn+QxRom6DYlVFVb9mU3
- a8IGxmbceev+MaS0Eae/HeqAyfFA+PlAZi+kn+6U7ShgvrvzTbO0gTyuK
- l39RSgTpTZ7nMvsQ1fpMthLbZH9ywN/7CAQ+zHUkwQDtsIhzPRwTOEBTY A==;
-X-CSE-ConnectionGUID: 8jStVKQrQIWk8s8ci6C1Qw==
-X-CSE-MsgGUID: DEzvPUuAS7ygq94cId+W6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="193328420"
-X-IronPort-AV: E=Sophos;i="6.14,246,1736780400"; d="scan'208";a="193328420"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
- by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2025 10:18:40 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com
- [192.168.83.64])
- by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 3B83B96749;
- Fri, 14 Mar 2025 10:18:38 +0900 (JST)
-Received: from m3002.s.css.fujitsu.com (msm3.b.css.fujitsu.com
- [10.128.233.104])
- by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 104B4D17C5;
- Fri, 14 Mar 2025 10:18:38 +0900 (JST)
-Received: from sm-x86-stp01.ssoft.mng.com (unknown [10.124.178.20])
- by m3002.s.css.fujitsu.com (Postfix) with ESMTP id BCDE22051973;
- Fri, 14 Mar 2025 10:18:37 +0900 (JST)
-From: Daisuke Matsuda <matsuda-daisuke@fujitsu.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
-Cc: airlied@gmail.com, simona@ffwll.ch,
- Daisuke Matsuda <matsuda-daisuke@fujitsu.com>
-Subject: [PATCH] drm/amdgpu: Higher log level for missing PCIe atomics caps
-Date: Fri, 14 Mar 2025 10:18:09 +0900
-Message-Id: <20250314011809.3243791-1-matsuda-daisuke@fujitsu.com>
-X-Mailer: git-send-email 2.39.1
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB7210E233
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 01:20:35 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id
+ 6a1803df08f44-6e8fa2d467fso2416686d6.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 18:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741915234; x=1742520034; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6RyOfs+Y+zXnQN7nD15L11CcONhA3EYNbvNV/ylslsk=;
+ b=FMv97j/bs3q48BS6pRFCB/JJOwhmFl1gqCh8RJ8vKG14p3PYuxGquTrnXc2Isws9Rr
+ Em1BQ5IOT8IeqWiKBBRcUj6z2HT1wRGST/3it03hMiI/Ak98Fa/vp5PypHozF/xvt7Ky
+ D92Urt1m4uCA474+8kAEM4A+HGu1obGPxRrWjDLsoIPAtswwALU+KIvgh4HX5w0Zb92f
+ X715lYT+c8kmtzYCS2bv5cSPbL4TvC+/9mH/8RDQ4Oc3OFf8CHre5sJi4TU9JOWv97vq
+ ClK7gilAqD3H3ks2S2cKu+/e926fGjqXlrVLXwEb5BTIR2N4+g8J+2mmQQAkTIacVt/+
+ O2lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741915234; x=1742520034;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6RyOfs+Y+zXnQN7nD15L11CcONhA3EYNbvNV/ylslsk=;
+ b=E21REaPiXDbO5mJenExqU7fJRATAZ8fXoV/CfrED2F+kxfjf7klEyP5nnlx1hbU3Zs
+ MVE7ZGmqxgQlezvV869zlkuE9+jJtFMfuoRGLNJQb0lupvtjoau4bH0PFmQ/JJ7UG1NP
+ oXt/koVyE+WYyZeFpczd+XAsIVI6y69anMxBM9AB1X53conjyChrUD0Ol3hZuFc98lN0
+ X/1UOd7M88VgbgDYiqq83wpw0gmKpquzc62Nue2FPKPmjgWS58VsPVhWmFFDdRbzhCCX
+ HgEWwqp+1berpZN/hoId1LiHFNgfCfsCDYT/9Z6BErK4mJftcubUur269oXUkj40+c+7
+ 3oKQ==
+X-Gm-Message-State: AOJu0YyWKXQDyAsQ0/eayqk2lvjIba1ZTnCWoprorPj7JwToSMnE3EOZ
+ Aqr9dQp5XAj549alfZDAdNG+NdF5kjzWPcDEFh8NWf0T8Bz7m/c=
+X-Gm-Gg: ASbGncsrMFQ0PI18BJmeDU8fHwCWdyX1P112yA99QvSzuSrthXIqvWCzenxR7lxHOa/
+ EAAd1o87XTlr+lQUIb/4kVzZktcnuCXQl+FvEN4cjYKKgXPuK+BlpmlhH71wZAKzdWtC5pq7Iz7
+ UvjbX9RzOUo1Nkqwmp98YlDl/Hn8vgwmn0YGlZNB/FDWhGQno1S7h3ppguSkkYwZjQTcDQrXx2u
+ 7/fcPhOwp4Sn8rnX93b0zirnl5IoQdgblFz9kF9bKZsQejDXr92zZwEpxvx7y/7BoCL8+9EWE5n
+ sRrhYKOAX1HDkYw/kgKsLvDuUITXYZ7+12QRN90HTg==
+X-Google-Smtp-Source: AGHT+IGfhPTAxaf8B75RLgjVfZQ9MQSuBX9YLluLR5rXcZosHQPraRrM7+8ySbbt1uADkGdyWm5Dew==
+X-Received: by 2002:a05:620a:440a:b0:7c0:a898:92fd with SMTP id
+ af79cd13be357-7c57c930378mr23367385a.13.1741915233700; 
+ Thu, 13 Mar 2025 18:20:33 -0700 (PDT)
+Received: from ise-alpha.. ([2620:0:e00:550a:642:1aff:fee8:511b])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7c573c719f8sm171847485a.36.2025.03.13.18.20.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Mar 2025 18:20:32 -0700 (PDT)
+From: Chenyuan Yang <chenyuan0y@gmail.com>
+To: mripard@kernel.org, wens@csie.org, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ jernej.skrabec@gmail.com, samuel@sholland.org, neil.armstrong@linaro.org
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Chenyuan Yang <chenyuan0y@gmail.com>
+Subject: [PATCH] drm/sun4i: backend: Fix error pointers in
+ sun4i_backend_atomic_check
+Date: Thu, 13 Mar 2025 20:20:29 -0500
+Message-Id: <20250314012029.668306-1-chenyuan0y@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 14 Mar 2025 08:16:01 +0000
@@ -75,51 +88,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, ROCm requires CPUs that support PCIe atomics. The message is
-more urgent for GPGPU users, meaning basic functionalities of ROCm are not
-available on the node.
+The function sun4i_backend_atomic_check was dereferencing pointers
+returned by drm_atomic_get_plane_state without checking for errors. This
+could lead to undefined behavior if the function returns an error pointer.
 
-Signed-off-by: Daisuke Matsuda <matsuda-daisuke@fujitsu.com>
+This commit adds checks using IS_ERR to ensure that plane_state is
+valid before dereferencing them.
+
+Similar to commit da29abe71e16
+("drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_changed").
+
+Fixes: 96180dde23b7 ("drm/sun4i: backend: Add a custom atomic_check for the frontend")
+Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  | 4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_backend.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 018dfccd771b..faeef136e272 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4374,7 +4374,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 			return r;
- 	}
- 
--	/* enable PCIE atomic ops */
-+	/* enable PCIe atomic ops */
- 	if (amdgpu_sriov_vf(adev)) {
- 		if (adev->virt.fw_reserve.p_pf2vf)
- 			adev->have_atomics_support = ((struct amd_sriov_msg_pf2vf_info *)
-@@ -4395,7 +4395,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	}
- 
- 	if (!adev->have_atomics_support)
--		dev_info(adev->dev, "PCIE atomic ops is not supported\n");
-+		dev_warn(adev->dev, "PCIe atomic ops are not supported\n");
- 
- 	/* doorbell bar mapping and doorbell index init*/
- 	amdgpu_doorbell_init(adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h b/drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h
-index b4f9c2f4e92c..c52605a07597 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h
-@@ -240,7 +240,7 @@ struct amd_sriov_msg_pf2vf_info {
- 	} mm_bw_management[AMD_SRIOV_MSG_RESERVE_VCN_INST];
- 	/* UUID info */
- 	struct amd_sriov_msg_uuid_info uuid_info;
--	/* PCIE atomic ops support flag */
-+	/* PCIe atomic ops support flag */
- 	uint32_t pcie_atomic_ops_support_flags;
- 	/* Portion of GPU memory occupied by VF.  MAX value is 65535, but set to uint32_t to maintain alignment with reserved size */
- 	uint32_t gpu_capacity;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+index 2dded3b828df..a8e0e2123764 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_backend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+@@ -490,6 +490,10 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
+ 	drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+ 		struct drm_plane_state *plane_state =
+ 			drm_atomic_get_plane_state(state, plane);
++
++		if (IS_ERR(plane_state))
++			return PTR_ERR(plane_state);
++
+ 		struct sun4i_layer_state *layer_state =
+ 			state_to_sun4i_layer_state(plane_state);
+ 		struct drm_framebuffer *fb = plane_state->fb;
 -- 
-2.39.1
+2.34.1
 
