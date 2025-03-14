@@ -2,147 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814CCA609FA
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 08:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774E4A60A41
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 08:45:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6E2710E973;
-	Fri, 14 Mar 2025 07:22:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0962410E994;
+	Fri, 14 Mar 2025 07:45:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tnBSZLTR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VqlZ/yLF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAAE010E2F0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 07:22:22 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-39123d2eb7fso155196f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 00:22:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741936941; x=1742541741; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=7HUWZLB6XvkRSYV5keU5hc5SgzMl7bKgaxvzLFxeeb0=;
- b=tnBSZLTRBnDHtN2FmCOtP53zE3PQyXeXzQ5y0Tiju1M5kMeXwLNDBV2n+/U8h2mfQ0
- m4CoI2uT9Nf/Ov7KwoGt1yHCDVOScpDW6o8/Q3LeFAoxabo9QTAYzXBbRdGFE6gCVokf
- PgPV5k7hOpMo6O8KeKMgzvC+yL8HUQz0KxNYn/7ttVgsfYpxK0rmYYzm0HTuyGYAsA4E
- ggOtRoQr77TTwAn6U/HgXE/PY7JI/rkTj7YKN2cUF0P27Y/c9erefFqLVJv5gbIKio23
- t/CecpHT1INmODLfdKL2rJEL9BAm/24xq87+CddPZ5gIboLt4wpRe1dWeEANAmoOibFp
- +pKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741936941; x=1742541741;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7HUWZLB6XvkRSYV5keU5hc5SgzMl7bKgaxvzLFxeeb0=;
- b=cuNM7CWY/dR3fITWb6MNUd07QU1GhICHix0h4PUUpMSjISD/bVBxrOFG2/RF9EXbdr
- K8m6TaioB85IEYowvG+M2L7E8GCK8FiallGD+SzWM6ee3V7rVwM3KOGd+WM6foM7b5K2
- QRvGU8wgYbNlKZ+ygWw7bcHQbjfQwDXr+qxqDk9BquUza+CNszEa9uUv58pFdkWKGcsw
- LW/jXwELJWtxhotWKC7F/60WmJZqwhl14+ZQcbZEvNKEZ6JlYrZSJoLoTKk1oXD9h6TU
- LnkjZNfJcpv9BOsVwJgL+tyIDU0+ZxzbffAgVPLMsG1h3GD9Shb/lJqDxC17JtHfsQ0i
- vehg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqSCZ4D1YbIT/cDmSB6mmMrkI/QBM9mlsQ+MeNPLsw998HkfN7tWkl5iHYRk7pHUZtPfHM2HM/Lk0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6iaRFm7PiB6RTBhFelXzS8LKZo070L/EKizAWkWUn1n395pFH
- Zvl+tqT9DecsW1rwwXc/tXLnPZr/sfZ9oSdK+iYjwkyqmxHJvAAjrEMtWTVeqAY=
-X-Gm-Gg: ASbGncvDvmVB+rP3XkO70Ga7CvoRcBjkaVzxGoEK6ltSYmYYr47y9pF1V8QpK7OKzMM
- k+0hf1EbPsHBg0jEXVKutPkyIAxfm1OEJ7a2n/En7vH7xAcyCxqPXdXgmxYF2HTeKCR1d+mvwpF
- sGRU4MziG26WV0uCYxCbMY+LxCSqLWVld59uZH7AXi4E1jY/uo0oPi08tlg3phHuFFsQggQ5YOp
- sygiBstb9xcjQOMkf3EQ/LXGVQaHbMZgphc/RS7Hn0Tnoa+w6dbqO/h9UFvMSzBuuarKU2XjWY2
- cToWcWGepQpCz/C0ZojAhjicPqo3w63+5v6RzviqJZ65UGPDHIDQykpeHtJ6SmNY+wZq69YUBw=
- =
-X-Google-Smtp-Source: AGHT+IFqpUaO5BAfoMAWgpp/S+O2lpqO7jCO2UugS/12kRgniuV1f4bQhR/s6iZFyVH1bsT9wmCuew==
-X-Received: by 2002:a05:6000:186f:b0:391:2b54:5fb5 with SMTP id
- ffacd0b85a97d-3971f40fecemr667494f8f.10.1741936941192; 
- Fri, 14 Mar 2025 00:22:21 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.198.86])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-395c8975febsm4713500f8f.59.2025.03.14.00.22.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Mar 2025 00:22:20 -0700 (PDT)
-Message-ID: <6957575c-9957-48b8-b828-0a6b48d4a743@linaro.org>
-Date: Fri, 14 Mar 2025 08:22:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/11] dt-bindings: power: qcom,kpss-acc-v2: Add MSM8916
- compatible
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Konrad Dybcio <konradybcio@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A17B10E994
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 07:45:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B280D5C5859;
+ Fri, 14 Mar 2025 07:43:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2124C4CEE3;
+ Fri, 14 Mar 2025 07:45:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1741938320;
+ bh=rB/Ef3oLC3JztquXBp2C1XHzq8oE979wb4eRW4XPG/s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VqlZ/yLFIl+p9kr2RAScnZCNlqZJ3KtWeyUO2sLAO9Dn0zaRVibODadci+iX0SHQX
+ VhD15JbJh00OlLpwWSHibMFlJXxVSqXleoXgKgMXkqPAVaDtSbg5vj6o8X3P40IHLC
+ bpTr3/lqcIErKaM2QKT8FoGGditgqw+X5mHl0mHDqwxup1HKywwCfszR6UrHr+i4OQ
+ fGHgtNY5w4o3Zj61eGvC49MdLI8bLLdmDL6QsCpXoGLQM3HURvq4Hioh8/GgAs4EL3
+ sQ4bLB0OV6RgGjHKfmbPacKWghtYU9qNqGw650sdA0dPgxSEt+6/8mdO7MBKh2vZUH
+ t2y4IfmzCXyrQ==
+Date: Fri, 14 Mar 2025 08:45:17 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andy Yan <andyshrk@163.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
  Robert Foss <rfoss@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wesley Cheng <quic_wcheng@quicinc.com>,
- Christian Marangi <ansuelsmth@gmail.com>,
- Rohit Agarwal <quic_rohiagar@quicinc.com>,
- Kyle Deng <quic_chunkaid@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
- <20250306-topic-dt_bindings_fixups-v1-3-0c84aceb0ef9@oss.qualcomm.com>
- <a7d76aff-0dc2-4b0e-9ee8-f433d8e745f6@linaro.org>
- <wccjda6emgvsgn3t5qj7kfsih2stcelnvwu45qok4bbln5kk74@drqp7wrrges4>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <wccjda6emgvsgn3t5qj7kfsih2stcelnvwu45qok4bbln5kk74@drqp7wrrges4>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Herve Codina <herve.codina@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>, lumag@kernel.org
+Subject: Re: [PATCH v5 04/16] drm/atomic: Introduce helper to lookup
+ connector by encoder
+Message-ID: <20250314-courageous-bison-of-prestige-8b884b@houat>
+References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
+ <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
+ <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
+ <608c01c.7716.1958e8d879f.Coremail.andyshrk@163.com>
+ <20250313-dazzling-deer-of-ampleness-21db67@houat>
+ <6ae1c567.8c6.195922195d6.Coremail.andyshrk@163.com>
+ <k2md4q2tgwsdynaeljieqlzjdds677wqqduimfyrgmvyfi732a@vh3dbg7kdaop>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="fau2wb4ziq56b5rc"
+Content-Disposition: inline
+In-Reply-To: <k2md4q2tgwsdynaeljieqlzjdds677wqqduimfyrgmvyfi732a@vh3dbg7kdaop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,40 +77,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/03/2025 23:53, Bjorn Andersson wrote:
->>
-> 
-> Where are you carrying these? Are there any other patches on your list
-> that have fallen through the cracks?
 
+--fau2wb4ziq56b5rc
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 04/16] drm/atomic: Introduce helper to lookup
+ connector by encoder
+MIME-Version: 1.0
 
-Since 4-5 years I have a branch on top of next for pending patches for
-Samsung (initially) and Qualcomm (since ~3 years) bindings, where I
-collect all my and other people's work related to 0-dbts-check
-wanrnings. The point is to avoid duplicated work. Around 2022-2023 the
-branch grew to and kept size of around 100-120 patches. I was rebasing
-it daily.
+On Fri, Mar 14, 2025 at 07:52:35AM +0200, Dmitry Baryshkov wrote:
+> On Fri, Mar 14, 2025 at 08:50:29AM +0800, Andy Yan wrote:
+> >=20
+> > Hi Maxime and Simona,
+> >=20
+> >=20
+> > At 2025-03-13 19:55:33, "Maxime Ripard" <mripard@kernel.org> wrote:
+> > >Hi,
+> > >
+> > >On Thu, Mar 13, 2025 at 04:09:54PM +0800, Andy Yan wrote:
+> > >> At 2025-03-05 19:55:19, "Andy Yan" <andyshrk@163.com> wrote:
+> > >> >At 2025-03-04 19:10:47, "Maxime Ripard" <mripard@kernel.org> wrote:
+> > >> >>With the bridges switching over to drm_bridge_connector, the direct
+> > >> >>association between a bridge driver and its connector was lost.
+> > >> >>
+> > >> >>This is mitigated for atomic bridge drivers by the fact you can ac=
+cess
+> > >> >>the encoder, and then call drm_atomic_get_old_connector_for_encode=
+r() or
+> > >> >>drm_atomic_get_new_connector_for_encoder() with drm_atomic_state.
+> > >> >>
+> > >> >>This was also made easier by providing drm_atomic_state directly t=
+o all
+> > >> >>atomic hooks bridges can implement.
+> > >> >>
+> > >> >>However, bridge drivers don't have a way to access drm_atomic_state
+> > >> >>outside of the modeset path, like from the hotplug interrupt path =
+or any
+> > >> >>interrupt handler.
+> > >> >>
+> > >> >>Let's introduce a function to retrieve the connector currently ass=
+igned
+> > >> >>to an encoder, without using drm_atomic_state, to make these drive=
+rs'
+> > >> >>life easier.
+> > >> >>
+> > >> >>Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > >> >>Co-developed-by: Simona Vetter <simona.vetter@ffwll.ch>
+> > >> >>Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > >> >>---
+> > >> >> drivers/gpu/drm/drm_atomic.c | 45 +++++++++++++++++++++++++++++++=
++++++++++++++
+> > >> >> include/drm/drm_atomic.h     |  3 +++
+> > >> >> 2 files changed, 48 insertions(+)
+> > >> >>
+> > >> >>diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_at=
+omic.c
+> > >> >>index 9ea2611770f43ce7ccba410406d5f2c528aab022..b926b132590e78f8d4=
+1d48eb4da4bccf170ee236 100644
+> > >> >>--- a/drivers/gpu/drm/drm_atomic.c
+> > >> >>+++ b/drivers/gpu/drm/drm_atomic.c
+> > >> >>@@ -985,10 +985,55 @@ drm_atomic_get_new_connector_for_encoder(con=
+st struct drm_atomic_state *state,
+> > >> >>=20
+> > >> >> 	return NULL;
+> > >> >> }
+> > >> >> EXPORT_SYMBOL(drm_atomic_get_new_connector_for_encoder);
+> > >> >>=20
+> > >> >>+/**
+> > >> >>+ * drm_atomic_get_connector_for_encoder - Get connector currently=
+ assigned to an encoder
+> > >> >>+ * @encoder: The encoder to find the connector of
+> > >> >>+ * @ctx: Modeset locking context
+> > >> >>+ *
+> > >> >>+ * This function finds and returns the connector currently assign=
+ed to
+> > >> >>+ * an @encoder.
+> > >> >>+ *
+> > >> >>+ * Returns:
+> > >> >>+ * The connector connected to @encoder, or an error pointer other=
+wise.
+> > >> >>+ * When the error is EDEADLK, a deadlock has been detected and the
+> > >> >>+ * sequence must be restarted.
+> > >> >>+ */
+> > >> >>+struct drm_connector *
+> > >> >>+drm_atomic_get_connector_for_encoder(const struct drm_encoder *en=
+coder,
+> > >> >>+				     struct drm_modeset_acquire_ctx *ctx)
+> > >> >>+{
+> > >> >>+	struct drm_connector_list_iter conn_iter;
+> > >> >>+	struct drm_connector *out_connector =3D ERR_PTR(-EINVAL);
+> > >> >>+	struct drm_connector *connector;
+> > >> >>+	struct drm_device *dev =3D encoder->dev;
+> > >> >>+	int ret;
+> > >> >>+
+> > >> >>+	ret =3D drm_modeset_lock(&dev->mode_config.connection_mutex, ctx=
+);
+> > >> >>+	if (ret)
+> > >> >>+		return ERR_PTR(ret);
+> > >> >
+> > >> >It seems that this will cause a deadlock when called from a  hotplu=
+g handling path,
+> > >> >I have a WIP DP diver[0],  which suggested by Dmitry to use this AP=
+I from a=20
+> > >> >&drm_bridge_funcs.detect callback to get the connector,  as detect =
+is called by drm_helper_probe_detect,
+> > >> >which will hold connection_mutex first, so the deaklock happens:
+> > >> >
+> > >> >
+> > >> >drm_helper_probe_detect(struct drm_connector *connector,
+> > >> >                        struct drm_modeset_acquire_ctx *ctx,
+> > >> >                        bool force)
+> > >> >{
+> > >> >        const struct drm_connector_helper_funcs *funcs =3D connecto=
+r->helper_private;
+> > >> >        struct drm_device *dev =3D connector->dev;
+> > >> >        int ret;
+> > >> >
+> > >> >        if (!ctx)
+> > >> >                return drm_helper_probe_detect_ctx(connector, force=
+);
+> > >> >
+> > >> >        ret =3D drm_modeset_lock(&dev->mode_config.connection_mutex=
+, ctx);
+> > >> >        if (ret)
+> > >> >                return ret;
+> > >> >
+> > >> >        if (funcs->detect_ctx)
+> > >> >                ret =3D funcs->detect_ctx(connector, ctx, force);
+> > >> >        else if (connector->funcs->detect)
+> > >> >                ret =3D connector->funcs->detect(connector, force);
+> > >> >        else
+> > >> >                ret =3D connector_status_connected;
+> > >> >
+> > >> >        if (ret !=3D connector->status)
+> > >> >                connector->epoch_counter +=3D 1;
+> > >> >
+> > >> >So I wonder can we let drm_bridge_funcs.detect pass a connector for=
+ this case ?
+> > >> >
+> > >> >
+> > >> >
+> > >> >[0]https://lore.kernel.org/linux-rockchip/047EECFC-7E55-44EC-896F-1=
+3FE04333E4D@gmail.com/T/#m25bc53b79f5cc7bddfcb7aae5656f68df396f094
+> > >> >>+
+> > >> >>+	drm_connector_list_iter_begin(dev, &conn_iter);
+> > >> >>+	drm_for_each_connector_iter(connector, &conn_iter) {
+> > >> >>+		if (!connector->state)
+> > >> >>+			continue;
+> > >> >>+
+> > >> >>+		if (encoder =3D=3D connector->state->best_encoder) {
+> > >> >>+			out_connector =3D connector;
+> > >>=20
+> > >>=20
+> > >> When try to use this patch in my bridge driver,  I found that the co=
+nnector->state->best_encoder=20
+> > >>  maybe NULL when   drm_bridge_funcs.detect or drm_bridge_funcs.detec=
+t_ctx is  called:
+> > >>=20
+> > >> [   52.713030] Invalid return value -22 for connector detection
+> > >> [   52.713539] WARNING: CPU: 7 PID: 288 at drivers/gpu/drm/drm_probe=
+_helper.c:602 drm_helper_probe_single_connector_modes+0x5e0/
+> > >> 0x63c
+> > >> [   52.714568] Modules linked in:
+> > >>=20
+> > >> [   52.724546] Call trace:
+> > >> [   52.724762]  drm_helper_probe_single_connector_modes+0x5e0/0x63c =
+(P)
+> > >> [   52.725319]  drm_mode_getconnector+0x2a4/0x488
+> > >> [   52.725711]  drm_ioctl_kernel+0xb4/0x11c
+> > >> [   52.726057]  drm_ioctl+0x22c/0x544
+> > >> [   52.726358]  __arm64_sys_ioctl+0xac/0xe0
+> > >> [   52.726706]  invoke_syscall+0x44/0x100
+> > >> [   52.727039]  el0_svc_common.constprop.0+0x3c/0xd4
+> > >>=20
+> > >> This is because  best_encoder is set by set_best_encoder, which is c=
+alled from
+> > >> drm_atomic_helper_check_modeset. When we call drm_mode_getconnector=
+=20
+> > >> for the first time, the functions mentioned above have not been call=
+ed yet,
+> > >> then we can't match the encoder from connector->state->best_encoder =
+for this case.
+> > >
+> > >As far as I'm concerned, it's by design. Encoders and connectors have
+> > >1:N relationship, and only once a connector has been enabled it has an
+> > >encoder.
+> > >
+> > >If the connector is disabled, there's no associated encoder.
+> >=20
+> > Does this prove that this API is not suitable for my application scenar=
+io:=20
+> > Get the connector in the bridge's .detect callback, so this means that =
+I may
+> > still need to modify the bridge's connector callback so that it can pas=
+s the connector ?
+>=20
+> I'd say, yes, please.
 
-I don't maintain that branch anymore, so for dtbs-check it has probably
-just 10 patches in total (remaining ~30-40 patches now is some other my
-work). I also rebase it once per month or two months.
+And I'd say no :)
 
-That Rayyan's patch is there since ~July/August last year, just like few
-things for IPQ, qcom,pm8941-pon, DWC3.
-https://github.com/krzk/linux/commits/pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next/
+There's no reason to deviate from the API other entities have here. It's
+just that the switch to DRM_BRIDGE_ATTACH_NO_CONNECTOR hasn't been
+completely thought through and it's one of the part where it shows.
 
-https://github.com/krzk/linux/commit/f6761796e02330b92653b35ba4b1c20ff304dded
-https://github.com/krzk/linux/commit/fdd475359f378760085d3680423b291eca4bf808
-https://github.com/krzk/linux/commit/855535ad2c4346b49f48c3fea6adbeea2262ffd8
-https://github.com/krzk/linux/commit/f648bb95180f131241a5c7a7808c9f0865379c75
+We have two alternative solutions: Either the driver creates the
+connector itself, since it doesn't seem to use any downstream bridge
+anyway, or we need a new bridge helper to find the connector on a bridge
+chain.
 
-> 
->> https://lore.kernel.org/all/20240710155226.130086-1-rayyan.ansari@linaro.org/
->>
-> 
-> I'm picking Ryan's patch through the Qualcomm tree...
-Thanks! That was my intention. Whenever subsystem maintainer skips such
-simple driver binding, please don't hesitate to pick it up.
+We have the iterator already, we just need a new accessor to retrieve
+the (optional) connector of a bridge, and if there's none, go to the
+next bridge and try again.
 
-Best regards,
-Krzysztof
+There's a decent amount of variations that ideally call for tests too,
+but it should be pretty simple overall.
+
+Maxime
+
+--fau2wb4ziq56b5rc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ9PejAAKCRAnX84Zoj2+
+djf9AX0W1BCHeuxaCTpGaOsUgonctU0H4uXU+bNeJLXIxkM2W0kujkJxZb+yDIIl
+G2+dKPgBgMdlmHsK5JDWS5tuEJMHfq2wA1B6pjSegicOYtGabKbz3AalW2uxcXMh
+jy92DPI0Hg==
+=LmmJ
+-----END PGP SIGNATURE-----
+
+--fau2wb4ziq56b5rc--
