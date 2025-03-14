@@ -2,84 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37D2A61983
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 19:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D007A619DE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 19:55:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA28210E9DE;
-	Fri, 14 Mar 2025 18:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E1210E9EE;
+	Fri, 14 Mar 2025 18:55:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HSNZ8K31";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="j5MINVdX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 290A610E81A;
- Fri, 14 Mar 2025 18:35:07 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-225b5448519so45889625ad.0; 
- Fri, 14 Mar 2025 11:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741977306; x=1742582106; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KOGfE1bp0apHOUPvuww94GVOY0/BGeOxjq/fkDzIXwE=;
- b=HSNZ8K31Lab/oS1EaDSXb8Y6ad7Cpyxu/2FeGw3/ak1vUyXmg0l3bYzy4+UVKy4ZVP
- MaZk1YUwsjNYu14RTWgLhovreSxfraPXrMKZpY6JgLYytClvlZVBgKlCuAONxkNerNjK
- sMkz7qnx17UHSsedSq7yjiyKtzLbNb3RMAnXm79vZ2cEXAf/TJxHGtzs3xM6B4GhUlI4
- nQkkLZonsVuS3EoTFU05o7TchAE76Q3wHs4+Zt8F/4syneyfPhnKMAtcw8cYv054n1DU
- 3wqsE0/20q+up6yhx0BAcDshou/Jdskx3iUgschdNk+eAonrOsa7RidsvC1ODbBj6LkS
- QNjA==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9CF10E9EE
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 18:55:12 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52E8LPkE022536
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 18:55:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=HduUHmuvaB6gfmmV3ws7Fo/V
+ KexaEbdRlx2tI0VvLX4=; b=j5MINVdXVPvVulqxvi7a0/aWKZSLSCpMkIeWCDBr
+ PRGyNUPUaenkKpyOfkTUOIbcR71//Ktj6N++ZVDG9qAP1lVnXhf0vhl0G/S8evGi
+ IuCHK3ROPe5/gWfHHTuxd9MDGbwyt6ukzxVTSmY3Dn8Msz+aYS4xc7TSL39Oey5p
+ ZeXe6D/7rXSFxq+7DU15fbvdTHC3oXi4lK98cMtoeNvs0++3bDCQe1GdOmE/9NCW
+ Z6zPNx5p4qW9za9OC0OPb6Q+mc3l74a5cZq2ep0NBdMaIrMjL86i3R6F6ZVeJy4e
+ T52VqjDUtpx7mnf7VimKcJKDb1K5qt1LLdzeozG8ClwGnA==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45bu07n6sg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 18:55:11 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-6e8ea277063so59044096d6.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 11:55:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741977306; x=1742582106;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KOGfE1bp0apHOUPvuww94GVOY0/BGeOxjq/fkDzIXwE=;
- b=BWlzKhO+lGleS89e1WsFXuRi3UpFVUyzgRaxRlJgTrfjDDqyKRtHUNF/Z+izYspKVL
- eaxDX5r9B22rn/w0hyxJDLYEHGe0I47fuBxKPPQg1dxWAk2TV1wOGHpyAaMVFd634s5k
- XDHeRmj3PnbpkaCwbrgSUZb9Aaqo5Y22GThLGy1a8npwb3oILoVuTbvOFm2ncsyvSE9H
- u4ecLfZAU4z7vC+8Pcye2MnVhhpD5C3uZa7Z9lRqHUhDLbzurtCIHPYe4+gVl4LyntEY
- 29h9QUqqtu8gZlHUMPVK5g+7VZaDf6FbEvrXEqAwsl37i+tstPBIkXpa3b1vIn+1zY7I
- dMJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKZcspRUHofONKYGVQcUKAXMD6TnPXLpHBfQa3Cb5nZYfEHED4ZMjsUYlhJxayx+eE8OGquzHWvXY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyyC8+1PFfjuzp/DrpCZfREGNi1w9SO3/Q5071RNJJWM9b2IPtF
- v0DUF7VVcA5zArj4w3V9DgdObzSPdBKXRxVszFahbC0Uhy3QBqREwDNYmA==
-X-Gm-Gg: ASbGncvDQwun9x3vTQjwox8Z+3Zbfrvj3ZpLWKG7Exkv+8hkFEneYAzjcoh/emRF0fI
- Y7RZtwDZZiwZTy2WfZzPD4iqudAORKPK8Zwh5kpMCGIT5gtMYeeQxKFzGuLc4Y7vBM2TIioaEfI
- kWCh9DPcY1BJY/wmRJrjH6dQvP8uLCyGf8uvD6yLLQg5spuXRITYJGbeL/mgSfLobEglz7tLFyM
- 4d5EwizkaR7nnHPM/kjmxdPLXRtNrjZPj/Aqu61j2BTyQ/9yMhrUHKHyI9yq6rljUPBJkH75lbn
- EaxN48XX5fzYHROHLkLvT9pC/5s1PNHbZQjt8ciDeJNvz6fFWnMvPmOUL3z652o/nTcGsXCZp6X
- u/ltcNzi09B9k85ZnYYI=
-X-Google-Smtp-Source: AGHT+IGyHLOiEcz0CUx+B5T1oc0d5NEOsRtR01l/PJbeEXJcQ7LU9JwYgvAyRbB0tUWON/7rymzn8Q==
-X-Received: by 2002:a05:6a21:6d97:b0:1f3:37c4:5005 with SMTP id
- adf61e73a8af0-1f5c12d7458mr5644246637.33.1741977306172; 
- Fri, 14 Mar 2025 11:35:06 -0700 (PDT)
-Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+ d=1e100.net; s=20230601; t=1741978511; x=1742583311;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HduUHmuvaB6gfmmV3ws7Fo/VKexaEbdRlx2tI0VvLX4=;
+ b=V2f61AQurC59+CyP3lRZ7jLZK+wXr0HhY/7INo/wPu5HGLpCMXwWonxJG1y3D9ksV5
+ O3Ene+uJcik9kDP4ZhxyIdMOgoGvHWv7W07Hq5Iv4CLh4C+tO+CsDu5ladMFEkJrAX8k
+ I0ho+JkhMHpqTda+MOaT3h2nyzlOOO150oQaQboq6Tz8ujza6pMyTlTJDiTof4BaxtQp
+ gHHTehr59vMuSxpARnKAkxSU3+5wXurBGT0qmf1q0d7dp2DL/pdQAS4VlcIPtV287l2p
+ tPIbfndrJv4jUEvIAvnVifc1ahAKUJgJRJwTDhjRjFo0UdOj/fsl77cnBZuDjEzNhxIJ
+ tK3w==
+X-Gm-Message-State: AOJu0YwR3jmsK2dWngRuLjklTj05VmYjCrtIZP0fqKB+chsVMXNDZZNc
+ dpB6M58xz5vbgAPgx0tIq2DTgD5lo+v3YrQtjcctasuKCrdY8cFkR6wRRjSPtB+l7k1j71jhy/X
+ Jru2amvVRD9MCcMl+dXrfhJ93lnq4ZEK276GS6SZU/ao7dVssN10btcx56piMrTCTGIo=
+X-Gm-Gg: ASbGncuytfJMJsBP9Mpi2bhcqdF7tvBSvOttwxBW5Zc3fNaNdZqfkXg2hLFIqy/fwiy
+ CgYav7EPzI/V+Dqdm8FG73tIMcm5U/9hN5QKtbXvuc7+IA4d2la4MpXYdAb4kse3xDkm9Oq0pZ8
+ 7V9am/N2qm1gUO7hTX37L0C3r4xE7F0RmwQAQOOXyHjVOeiPr2qm7JIHGNdbTvkEG48qHLjpvY+
+ WBTma3ZpRVEw1w/wKlSL++LLGErSYKYjmQJpviT3OatvfhQZR9lTUk2v2XOaWIvzbFn43wM/iaf
+ Htw/bHOb6acMbyKrnz7AJgCONC2xtK5K76SOhAs5Qr+198uFDzHzX0eJ9n/Gd0STtC1WtCfPWJc
+ D1bc=
+X-Received: by 2002:a05:6214:252e:b0:6e8:ebc6:fd5f with SMTP id
+ 6a1803df08f44-6eaeaa8e3f1mr49273846d6.20.1741978510734; 
+ Fri, 14 Mar 2025 11:55:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE257MSzOWoy11FijTGYTY4RP3nDJLcq+KMpo80CBlog1fwjsIU/CJtTndItZwBaXbwOab9dQ==
+X-Received: by 2002:a05:6214:252e:b0:6e8:ebc6:fd5f with SMTP id
+ 6a1803df08f44-6eaeaa8e3f1mr49273396d6.20.1741978510399; 
+ Fri, 14 Mar 2025 11:55:10 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-af56ea9489esm3071103a12.65.2025.03.14.11.35.05
+ 2adb3069b0e04-549ba8a92f3sm586420e87.237.2025.03.14.11.55.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Mar 2025 11:35:05 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Connor Abbott <cwabbott0@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
+ Fri, 14 Mar 2025 11:55:08 -0700 (PDT)
+Date: Fri, 14 Mar 2025 20:55:05 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Hermes Wu <Hermes.wu@ite.com.tw>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Jonathan Marek <jonathan@marek.ca>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2] drm/msm/a6xx+: Don't let IB_SIZE overflow
-Date: Fri, 14 Mar 2025 11:34:54 -0700
-Message-ID: <20250314183455.120824-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.48.1
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v6 2/4] drm/bridge: add function interface for
+ DisplayPort audio implementation
+Message-ID: <otidtln4pjb47azr7zhllxkqmwocdnbdiay6xcg6psphz3436i@fn5hxgaflgv6>
+References: <20250314-dp-hdmi-audio-v6-2-dbd228fa73d7@oss.qualcomm.com>
+ <d5b8a7fa506ed3026c19b383edf160d6@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d5b8a7fa506ed3026c19b383edf160d6@kernel.org>
+X-Proofpoint-GUID: OMxYTJhCMrTrzTZdKSd1YY8lMTUjWp8k
+X-Authority-Analysis: v=2.4 cv=V+F90fni c=1 sm=1 tr=0 ts=67d47b8f cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=lSd5XUrhw2FdKyVgWKUA:9 a=CjuIK1q_8ugA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-ORIG-GUID: OMxYTJhCMrTrzTZdKSd1YY8lMTUjWp8k
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-14_07,2025-03-14_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=921
+ impostorscore=0 spamscore=0 priorityscore=1501 phishscore=0 mlxscore=0
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0 bulkscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503140147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,79 +127,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Fri, Mar 14, 2025 at 05:54:14PM +0000, Maxime Ripard wrote:
+> On Fri, 14 Mar 2025 11:36:49 +0200, Dmitry Baryshkov wrote:
+> > It is common for the DisplayPort bridges to implement audio support. In
+> > preparation to providing a generic framework for DP audio, add
+> > corresponding interface to struct drm_bridge. As suggested by Maxime
+> > for now this is mostly c&p of the corresponding HDMI audio API.
+> > 
+> > 
+> > [ ... ]
+> 
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-IB_SIZE is only b0..b19.  Starting with a6xx gen3, additional fields
-were added above the IB_SIZE.  Accidentially setting them can cause
-badness.  Fix this by properly defining the CP_INDIRECT_BUFFER packet
-and using the generated builder macro to ensure unintended bits are not
-set.
+You've sent two r-b's for patch 2. Is there a chance that one of those
+was for patch 3?
 
-v2: add missing type attribute for IB_BASE
-
-Reported-by: Connor Abbott <cwabbott0@gmail.com>
-Fixes: a83366ef19ea ("drm/msm/a6xx: add A640/A650 to gpulist")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
-Backport notes, prior to commit ae22a94997b8 ("drm/msm: import A2xx-A4xx
-XML display registers database"), just open code, ie:
-
-   OUT_RING(ring, submit->cmd[i].size & 0xfffff);
-
-Prior to commit af66706accdf ("drm/msm/a6xx: Add skeleton A7xx
-support"), a7xx_submit() did not exist so that hunk can be dropped.
-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c               | 8 ++++----
- drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml | 7 +++++++
- 2 files changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index d3978cfa3f20..ea52b7d0b212 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -245,10 +245,10 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 				break;
- 			fallthrough;
- 		case MSM_SUBMIT_CMD_BUF:
--			OUT_PKT7(ring, CP_INDIRECT_BUFFER_PFE, 3);
-+			OUT_PKT7(ring, CP_INDIRECT_BUFFER, 3);
- 			OUT_RING(ring, lower_32_bits(submit->cmd[i].iova));
- 			OUT_RING(ring, upper_32_bits(submit->cmd[i].iova));
--			OUT_RING(ring, submit->cmd[i].size);
-+			OUT_RING(ring, A5XX_CP_INDIRECT_BUFFER_3_IB_SIZE(submit->cmd[i].size));
- 			ibs++;
- 			break;
- 		}
-@@ -382,10 +382,10 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 				break;
- 			fallthrough;
- 		case MSM_SUBMIT_CMD_BUF:
--			OUT_PKT7(ring, CP_INDIRECT_BUFFER_PFE, 3);
-+			OUT_PKT7(ring, CP_INDIRECT_BUFFER, 3);
- 			OUT_RING(ring, lower_32_bits(submit->cmd[i].iova));
- 			OUT_RING(ring, upper_32_bits(submit->cmd[i].iova));
--			OUT_RING(ring, submit->cmd[i].size);
-+			OUT_RING(ring, A5XX_CP_INDIRECT_BUFFER_3_IB_SIZE(submit->cmd[i].size));
- 			ibs++;
- 			break;
- 		}
-diff --git a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
-index 55a35182858c..a71bc6f16cbf 100644
---- a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
-+++ b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
-@@ -2259,5 +2259,12 @@ opcode: CP_LOAD_STATE4 (30) (4 dwords)
- 	</reg32>
- </domain>
- 
-+<domain name="CP_INDIRECT_BUFFER" width="32" varset="chip" prefix="chip" variants="A5XX-">
-+	<reg64 offset="0" name="IB_BASE" type="address"/>
-+	<reg32 offset="3" name="3">
-+		<bitfield name="IB_SIZE" low="0" high="19"/>
-+	</reg32>
-+</domain>
-+
- </database>
- 
 -- 
-2.48.1
-
+With best wishes
+Dmitry
