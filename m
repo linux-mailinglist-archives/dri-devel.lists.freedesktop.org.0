@@ -2,109 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C646AA608F0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 07:11:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F25A60958
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 07:55:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D59010E969;
-	Fri, 14 Mar 2025 06:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2570610E971;
+	Fri, 14 Mar 2025 06:55:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iXyRTU/K";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bxC0hTFe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E2510E969
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 06:11:28 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52DKDDEB027610
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 06:11:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=IScPRMJWlAypVVGTG3eAzrrq
- ZqNhSbnrEPn3z5FtHkc=; b=iXyRTU/KjwoMm7sAi2n6/0MoFdyJBjWemiSQIiuz
- 9+4o1A0h52Vtt1uwzkVm62tTPwx1p+E6Ix1ZZdhdKzgsIf8jjUlOrUus7eqjFtHA
- LMKpgYLYM3O61kvZTgWqJNUnACPaAqn2dgqp9Hq17OkXQ7XGH0Z4qj8nhZIJ7g5i
- HU/rIBrLqPtn+w44KjNhCPsHp4TlRKHm4LiY/EXUwU25ZjU5Ti9IsUdbgdsOpGNC
- +6KVypEYLvaIH3Cf+Aj68WzdW9r3GIM3K5XPoRiPtkE8n8kEpb+ZfmzHTcCdxDgw
- Jf7TaekIC7TH0cNdEGa3clDdH3MAFJTfWtBd1qP4bvsYXA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45c6731507-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 06:11:27 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-476b2179079so34398871cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 23:11:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741932686; x=1742537486;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IScPRMJWlAypVVGTG3eAzrrqZqNhSbnrEPn3z5FtHkc=;
- b=NbgpZMFNLVrhGBeLx9TqsmuCDi0Q14eTKyLUF6H8dW61+wfTHV7FFioIMF3leATQ9q
- jRT0B9vWFqrR62ZM7vugsS/LvrWLZ5j6BFJxWwSfvEQYR5haIV7fzPmotAUkpG2XPiDP
- wbjRXxIzOQKRkhXTC/S/gQVT+L+WuKeG73bi2GbdIATlodffFPm6EB4Q6I9Nzr1mX/Ti
- sqY/60G9Fp4l6M4RI1T+MVjBlJSIsBl/h+87sAX6n9LwVOr2vIOz+nZOB8HQdJGMiTUQ
- N/ldAWTxrBan+NrqfgtvFQcbNBZSx3AaTqhrcE7Lqbd/STOJNZRp70/WkiuOskgysrvq
- CyXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVIWxt7cg9jxStF1m6ChpPiMOa181y09MQPCypwTgYwxJZXwfFudWiSvhzLXDjId3aZJ9o+6KIDpW4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxXhp5xTy7lR5SG0qw4zL5n7onSYMaJa+7VoA604WcK1OuI43s0
- p7iEJfPOaZLkXcianSktznoPliJurF+KNiksDIdaevuXr4+1CJlyKGb7HYroG05EwDPvu217ci2
- EJEKzWszDEZa+bf8r3akn0BKfc3XU9S9yXtAXUWfqmtA4hobdopQCNr4jSIKgiPpLrt0=
-X-Gm-Gg: ASbGncufAq2b2Jqmuj8T+PZsdfF7AQLMKsPbyJqDLRRaZ+zgaRT2fp3LbnRba8Rq+DW
- EccrO6EgYe4AS3YwEPuWcLDsa2qkkx0WApLXTLtycx68vSxJx8qIcpfPN/E2hzP2M+lZbZrBOqN
- ICQ7yeHh0e3kOT+xF48D0EbGkObFTTRQcitnnSCyVjANOTFrCqDn0RiIGwOvwWQcwibG9iGcvt2
- h4hAMlPHb4SHInoCHtNkRPbYHOJwU6aGJtewqxeyAWD/mADT29kXjVNIlp/eU67UsvZuFpxNdrK
- OlI2CUX4dWy/g1Sf6u9WOkPi3VYgNhh57sh1zxj+rFMn+nuuMT08j7hjpoRjKvU14txBID3nHQz
- otGM=
-X-Received: by 2002:a05:622a:438b:b0:476:b33f:6694 with SMTP id
- d75a77b69052e-476c815ef7bmr17237821cf.28.1741932686422; 
- Thu, 13 Mar 2025 23:11:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFHNONjkAR8RZmnBgw7/nNpbDzwNbQgBnWMqJdks15ZpyrrMTOeZPgm8VR3KSNnTn4CBULsAw==
-X-Received: by 2002:a05:622a:438b:b0:476:b33f:6694 with SMTP id
- d75a77b69052e-476c815ef7bmr17237651cf.28.1741932686118; 
- Thu, 13 Mar 2025 23:11:26 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549ba88577csm415667e87.205.2025.03.13.23.11.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Mar 2025 23:11:24 -0700 (PDT)
-Date: Fri, 14 Mar 2025 08:11:21 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chenyuan Yang <chenyuan0y@gmail.com>
-Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dpu: Fix error pointers in
- dpu_plane_virtual_atomic_check
-Message-ID: <5dhbi7a62mebu6trwr3umjnkiia7nnaru533653z67qmmsc2hb@krmvfeuw5xtn>
-References: <20250314011004.663804-1-chenyuan0y@gmail.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2078.outbound.protection.outlook.com [40.107.94.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8246C10E971
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 06:55:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hmm1moY1gEkt6d4Tgm1BgIQmbsJrJd+qIoDvNKi37uF9Xpu5akzeAdm3mEJaJveqxS7QTHXYJf/1ubqAXAy9nCUbOxf81GfkweyA+yr6XpIYKov5aqe2jVGht+eSmcbnz4LhXkADSM5Xa+aadwnSe9hzW3vtdvHoe1jivU9PDZVTMxYEbZwBtEGxk2Kpt4g64MihPdiOu6Cu9P31nJBdd4Vrpv/HqnFAytgXrFTukwlRy0rbqrDucBEppRRmrq6R+2ou20RuLpVTDwcrR4wkDc/aPnr3aSE7EBRRjuX5fkbNC+vOcJ5LVeVO+EAd0aChlpqNAu7Htpan93HtnYAJjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ztZ/38nIodEJCAZH1vYPdYqni2Hru7dGgnA1FSc7Iww=;
+ b=Y/juUFUkN+2NQU2+Z3C9nOWYVwG3bQGe/katfzMAhnywxn0RzCYAlRZr0UG0W+3dF24qiC/hgIuTBqWXygXJmGIto4Zrxg/yTJ4VG+N5Oy4WEpQ+SKmtDoE7F1mxcrABhmm/eTY3+mC3qzP9xNzC0nfzJr+gF933nwmn7Op4E684F/Hw2hxOzEpROE1bsf31ipB6N9KeeylQHGAcn5o3Wg11Dyg+G81ukwv6ugcrLq7+MG+LFOervI0R5Cf5HcfRYrYc/82ZsOG2XhM+OXzyLvnxgOoKZ0v6iFh00fUveDZPjyduGTNaZNlDFlZnsoa9pKZ38wF0tIJq+Id9ZcAzng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ztZ/38nIodEJCAZH1vYPdYqni2Hru7dGgnA1FSc7Iww=;
+ b=bxC0hTFeVU/dGr6I5g/WbKz0ww1e2r/4Mq6mfvsTJOMZ2StK1C414+ZZh4bZNhXDRJ9zd/48MbWlmpwAazsH0GgOY+YHPAlyhBuhav+amhBon41xTVUw+RFURZyX3PBrxwzIYTHnqOR0HFEN/o2LBpmnp4ofdRww2IlhsnwdfBU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH8PR12MB7230.namprd12.prod.outlook.com (2603:10b6:510:226::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Fri, 14 Mar
+ 2025 06:55:24 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.026; Fri, 14 Mar 2025
+ 06:55:24 +0000
+Message-ID: <738f554f-1ab3-4baa-84d1-91c76e508a53@amd.com>
+Date: Fri, 14 Mar 2025 07:55:19 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ttm/tests: fix incorrect assert in
+ ttm_bo_unreserve_bulk()
+To: Qasim Ijaz <qasdev00@gmail.com>, ray.huang@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, thomas.hellstrom@linux.intel.com,
+ Arunpravin.PaneerSelvam@amd.com, karolina.stolarek@intel.com,
+ jeff.johnson@oss.qualcomm.com, bigeasy@linutronix.de
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250313161424.10688-1-qasdev00@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250313161424.10688-1-qasdev00@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0126.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:97::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250314011004.663804-1-chenyuan0y@gmail.com>
-X-Authority-Analysis: v=2.4 cv=a5Iw9VSF c=1 sm=1 tr=0 ts=67d3c88f cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=fWY0QR86pWCIX_IcxasA:9
- a=CjuIK1q_8ugA:10 a=zgiPjhLxNE0A:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-GUID: edSbCaexoutyonsTqzQKyIaNDuq4uFbv
-X-Proofpoint-ORIG-GUID: edSbCaexoutyonsTqzQKyIaNDuq4uFbv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-14_02,2025-03-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=967
- suspectscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 clxscore=1015 spamscore=0 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503140047
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7230:EE_
+X-MS-Office365-Filtering-Correlation-Id: f4d95a22-e1fc-44b4-b72d-08dd62c531c7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|7053199007|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VXRocnRwdWdNa3hBeE85TDRoRU5ESzc5ajJWWXhVZSttUmNWMHhCUE5lbFBy?=
+ =?utf-8?B?OHNpbUV0VXJGekI4WUlGc2RHVjVOUkNGQ3JXaWxacWZ4Um9Pc2JHblUxclZ0?=
+ =?utf-8?B?Unhkd0sxUTcwV3hTR25mNGxIeTNFUDgyMGFldmhtUnpPc0VOUk80Rms5aGVQ?=
+ =?utf-8?B?RUxPaVJhZGFBOU9IejJFRXMyYmZqT1ZWbk9iREdWcEVRMkREL3MvaVpsRmFM?=
+ =?utf-8?B?THpEVVRqbHc2OHBzWEx2blJDNTh0T25QQWZQOWZrbHo5SmNjdmYrcEUraWt2?=
+ =?utf-8?B?R0Z0bXJQQUNyRDF3QkthNU9LNWh6cHdUdW5EcUZoOEIwaWhNN1QvL05nMFdP?=
+ =?utf-8?B?YUJMS0NCZGxkS045Mng2N3NSaXVSSUZnamhPNDdhUDdXcEZ6dVhkU2Z2ZTlj?=
+ =?utf-8?B?OERYTnkzV3JRK255aDA0VkcvQ2RoYlk0NXlpbmIrak9zbEtIUVNvU2hqZ2ZV?=
+ =?utf-8?B?Vk9WVVdBOFJwZ3lwd0xXaW5JNGZkTUJpamhSeWFvcEFZd3c0djNrS2sxSFVz?=
+ =?utf-8?B?RWZDVVBMOFRGWklXbE0zMjJCNlVMdHQyYUsrUGI4WXA0VFNEY2FWMDdYQUg0?=
+ =?utf-8?B?WVBydTl6emJLZlhocHNJcnVhZ0NhTE5CRGFOL0MyTTVhaldBK3h2ZU0rQkVK?=
+ =?utf-8?B?TGdabzd0THRFWjQxMEJSMEJucTNvM25SeUFLcW5YREJtM1llRmcvendReHNG?=
+ =?utf-8?B?NVliZkxLTTgzRTJRbU5IOEhLWTR4TG45RGdPU1pNaTJwRkFLWDVDNWFDdXpr?=
+ =?utf-8?B?Wm9GMEN3UmFITHhpVzlVcW9WbUswYmFad3hVUDVBOE4rUDNvdUFJZmxDQ2FV?=
+ =?utf-8?B?NytKZDl0amxEZGFzK3drVUJnRnh5bU04VzFoeUh2NUh1ZHY4cmVZOFFsOFV4?=
+ =?utf-8?B?MWJJYnpGSFdSOWRqU24zZVNSK0RzT0RTdlgxMUhUNm9wMTB3N2hLdy9NMG82?=
+ =?utf-8?B?VWdwODdGc2lBSklpMTZxV3FUOEY0cXRVVmVqOW5jKzhTQTNsRnpMTGJqcVVG?=
+ =?utf-8?B?eWNiZVFZdzBoTDZxK3ljVFdGTTJHVTRwbi82elVoR09hOTE4cURiWHhUb1dY?=
+ =?utf-8?B?aldYNGIyT3FQZ0REWUN3cFhtWnhxQStGZFlNQlBGZWxEbitnK1pIVjdobmoy?=
+ =?utf-8?B?cEN4U0FkZEprSkc1REw5YUpOVWZQdWRuWGd4eXZFRU9nM1BxOEhTajIraDM2?=
+ =?utf-8?B?bjh2eStUZW1CQ3U3dkQxd2FmOEJLdFNmeElxaFdBamsvVVQyK2NJOFVWU3BF?=
+ =?utf-8?B?RlF5S0FvRElWaWk5ZGl1MEVsS05zYnJuYjcvTS9SSFc3bjVrYWpOeUxzUkVr?=
+ =?utf-8?B?ci9SQThwUU9yczFrdFc2aFhHaTdFWjdid2pMeXdaZEhLR1NTOW1CQWluaXVT?=
+ =?utf-8?B?WXZ2aEY2M2l0c1I1MGYxaS9qQmdzMFNaYmdZQm92OUozcUh4Zkc1VjZKNUN6?=
+ =?utf-8?B?Risrc0N3VnQ2ZDdhMVNBY3RLMTBvZkJJUkEzL3JsV3p6NWhFNTZvUWlTOGpT?=
+ =?utf-8?B?Vks5VkRybXFXQWVUbjM5S2pXSWtmS1lhMEEzcXNBbW8wUlJDOUVoSlpaQWhp?=
+ =?utf-8?B?RHZSK05EV0FPWEpFZ3hVWWd2a2VYTHk3aXk0UnpjT3hGZllXMWF2ZGVMcER2?=
+ =?utf-8?B?bGN5d29YVmFFcDBhczdUcUhYWDh5cFRaclFyNlNwQnEySnNHZ0M2bVZsMEQw?=
+ =?utf-8?B?ZmtsbkJlMGV1LzVwNGk5aTZHQk5UdXo1c0tUeHFoMk5XbGNqa1ljcW9NUzRs?=
+ =?utf-8?B?KytlWjdoUHI3WFlVakZDMFhVRFAxbW04SzhiT285OTM3UFYvNzBVVHBBTTNw?=
+ =?utf-8?B?SE5WSjNtSWVtcjEvSTBUMlc0RGNmMkNadWwrYyt6NFBEL2E3d3o3emc0VEJu?=
+ =?utf-8?B?dmVVdEd4VjhwcVhNVVE4TFE3WU9JYkpValFMZ04vUC9kaTAxSGxBOEI0RTEv?=
+ =?utf-8?Q?r5ZA/y5MPLw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djdORkNsckxQd2laZC9DbzFGZ0o4c3VPeVdOc1dVdTNNcjl5MFdud2R2d2Nn?=
+ =?utf-8?B?bTBHWHZVT0UrczViSms0Tzh4dFl2dnVvRWVVdWZDcWhYV0k0dE9VMWVWOWN5?=
+ =?utf-8?B?OW9Ma3FCMHFQc09XaWFKSlY3a3FiZVNqOVd5aE1YOCtkWUozWXdyQSswN0k0?=
+ =?utf-8?B?c0ozNlBRQWJ5YUFDS2Vyc2pyNGlEV1diUllrWlJUVWtpVnhpYWxOQVlBMFNl?=
+ =?utf-8?B?MUxoOXFycHJ4YzZYN2tRYVZCMVdiQUh3ZmlqdFlxelpvYzYwcjhhWlR5SHZB?=
+ =?utf-8?B?Mlk1UC93eS9zeVJOYVE1SFJOMkFNUWxFcC9yOC8rR3luT0ZjTTk3bjg0cXNp?=
+ =?utf-8?B?SUIzU0s0ZENabU1iUENsR29ONGtOVnBQVERyNjhraFhiRk9RQ2RQL1ZMbUZX?=
+ =?utf-8?B?UitvRXJMMEhPRzFUY2dLTDk2aUlOcTdFaW5DTVJlVDg4OE44MkRRZ2hla1g0?=
+ =?utf-8?B?bzFWaGxEQ2lDK3RrTHZNa2Z2bVUxN3J3QXRGUmJ5RHJwWHk5RE1xZGFPUHpt?=
+ =?utf-8?B?T0s2VWhoYlRrNE01RDdYeDlBbU0rUjZ4UW80cGpUR0JsNTdXR3JHWlZYMmx6?=
+ =?utf-8?B?VVZtc2hRK2hBM0VaVUNXLzVpRzNZMERFNVpNOWdzejlGWnh1VHNFdjF4dHhQ?=
+ =?utf-8?B?cWhYVFRoZjZOQm5KcVUwYUltWjFMRmV1WElPNFg1ZkFyVENNZk5lVStGOC91?=
+ =?utf-8?B?M2ZQVldXWU42RFprNWVMWlQ0UjFGOXVaazFEMHVyQzN1VmRPQU5MbEgrVy9K?=
+ =?utf-8?B?YThWV2VtaDJjNDVjdUE4OGlPUklUQzg4S3VGOEc2L29JTlNPWk1hUkxlSmx3?=
+ =?utf-8?B?NWlFL2lHTnRBdllvYTVVSXRzeTVTaXBKa3FFR3Z1MHBWcXRhZUlxd3BNZzd3?=
+ =?utf-8?B?YjJrb0wzVnc0U3c4TUl3VVJQc2w2c3BUajFsS1J2am16dWN5clVQeUREQWhF?=
+ =?utf-8?B?UE5LazA0ZnFibUJubDIzZDNBSm11TUlEZUtDSDRHanYrYkczRUVKMjRzd2do?=
+ =?utf-8?B?a1pjZVMzQWgxeHkxYzlXMXM1SjY5Z01zOUltcTZLa24xWkVJWUxXNmpYbW9N?=
+ =?utf-8?B?d1FiV2FFN2picitaTExzWFNNL3RaQUhadzhHVDJydGIxTDVFZDArUk11YVNU?=
+ =?utf-8?B?STAyZ1FKdW9iN3VsZkxrdVdUZmIzbUJZV3dBOVBoWVJQVWpFMDNsSnFHZzA1?=
+ =?utf-8?B?WlZGZ0RiUFplbXgvN0JpQmhVcWw1SFhEVFFnYkF2YzB4UGhxN3ZET3pNRGQ2?=
+ =?utf-8?B?U0ZtQnZaaVdxdWdVc2NnM3VMMUNFRk9rVW02Sm40NE1aQ1lmekFCWVpJSURq?=
+ =?utf-8?B?TUZDclRKUjRlMUxCN0RhTzAyc3NYekV2cEpGS3ExcjFnaUlQd3FWMWMxeitr?=
+ =?utf-8?B?NWc1aTBWQVZ5bktNSzNGY0RNNG1JNERHQWZSZnArb2E4dDZ2MDhocnZ2REdH?=
+ =?utf-8?B?SEFDQXowdGl2YlJMUHN0MnJQTTlQaktTanYwaG5uNVRXMmgwL1dCTUx2RHFS?=
+ =?utf-8?B?cFRJem4ySHh0K2YzejN4eS9zUkpVQzBNV3FqbEdVOXhJRXZYVnRnVFp3WWpy?=
+ =?utf-8?B?QlZBWlFQZTg2QXhEeTQzZjFPYlJSVStXQ2RWWUh5Z3ZLQ1g2L1V5bWpjYnF1?=
+ =?utf-8?B?N0xHcURkdENMOTYxV05IQU9YSVNqOHVZV0V5cU9zNVBYdUs0Y0dOT20waG9E?=
+ =?utf-8?B?dzFDYUxaMThseHowTVNCWDZOdzhhSURKWDRkSzRmdlRiMXRzMzM2dUFBWjBY?=
+ =?utf-8?B?NnpJSW42SkppQlJkZUVVUy9YWVQwKzNTUENWTnRLdVFNZ2wvOWVaNC83TU81?=
+ =?utf-8?B?YmpYRWRObHUyQWhoMU1Tb08yTXhvQ1dRTDh5ZUFDK2E4NEticFFSb3lNS1Zy?=
+ =?utf-8?B?cExDc0dNNEllS0UwcUh1RTZScVZ3bnlxWWo5TUxmbnZnbkNIaGY5QVBxcDU4?=
+ =?utf-8?B?TEMrT0RDUnlRakJ0M0REMWRRRFZ1YngvckppSWpXMkEvQVY3Q1pqYlVRdUl0?=
+ =?utf-8?B?Y2tzcmVVM3ZPbW9oWlZnZFZvMU9iV2hOOU96OUtnVE9LYnVPRUpTVDJLRUsy?=
+ =?utf-8?B?aG9VRm11d045OHg2WGlpa3Q1bDFqNmV2U2NJS2NIZ202VWs2MG00aFdsQk1O?=
+ =?utf-8?Q?lWHHDzAk3luHI//RbYcD5EzsN?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4d95a22-e1fc-44b4-b72d-08dd62c531c7
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2025 06:55:24.2839 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VgRhRBZuHNLBN/ndxDT+IBoqk65rBeEPymhfh8MeA6E0kONQ422reTJvLB6rinbR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7230
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,25 +168,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 13, 2025 at 08:10:04PM -0500, Chenyuan Yang wrote:
-> The function dpu_plane_virtual_atomic_check was dereferencing pointers
-> returned by drm_atomic_get_plane_state without checking for errors. This
-> could lead to undefined behavior if the function returns an error pointer.
-> 
-> This commit adds checks using IS_ERR to ensure that plane_state is
-> valid before dereferencing them.
-> 
-> Similar to commit da29abe71e16
-> ("drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_changed").
-> 
-> Fixes: 774bcfb73176 ("drm/msm/dpu: add support for virtual planes")
-> Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+Am 13.03.25 um 17:14 schrieb Qasim Ijaz:
+> In the ttm_bo_unreserve_bulk() test function, resv is allocated using
+> kunit_kzalloc(), but the subsequent assertion mistakenly verifies the
+> ttm_dev pointer instead of the resv pointer.
+>
+> Fix the assertion to properly verify the resv pointer.
+>
+> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
--- 
-With best wishes
-Dmitry
+Reviewed and pushed.
+
+Thanks,
+Christian.
+
+> ---
+>  drivers/gpu/drm/ttm/tests/ttm_bo_test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> index f8f20d2f6174..e08e5a138420 100644
+> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> @@ -340,7 +340,7 @@ static void ttm_bo_unreserve_bulk(struct kunit *test)
+>  	KUNIT_ASSERT_NOT_NULL(test, ttm_dev);
+>  
+>  	resv = kunit_kzalloc(test, sizeof(*resv), GFP_KERNEL);
+> -	KUNIT_ASSERT_NOT_NULL(test, ttm_dev);
+> +	KUNIT_ASSERT_NOT_NULL(test, resv);
+>  
+>  	err = ttm_device_kunit_init(priv, ttm_dev, false, false);
+>  	KUNIT_ASSERT_EQ(test, err, 0);
+
