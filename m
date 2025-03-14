@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA86A610ED
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 13:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FC8A6110C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 13:27:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83DFB10E370;
-	Fri, 14 Mar 2025 12:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 622FF10E9E8;
+	Fri, 14 Mar 2025 12:27:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AHB8bRqb";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="U9zxT969";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADF8D10E370
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 12:25:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5B62B5C0666;
- Fri, 14 Mar 2025 12:23:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 781FBC4CEE3;
- Fri, 14 Mar 2025 12:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741955119;
- bh=lX6P6BkccktiL84ymCoW4M2tQiV48IROB/Z80qlWTb0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AHB8bRqbxV3rn4ycF7li6ou2UcpeF2pQbc2g0MzUXfq4orqyWk76L/ai9nLC7SKfC
- 4+8WBW1CUTVaJypQ01jEJkPdSHfcO3XjOTZUQwquT9Bqf+6887zIAkAvrLZr3iSqDc
- cDjoD/1aN4/sPFEgV3tDbdwqftXbj8Tuz3GRAvcA6eka1q0kfG+nwkT/9iEkayuNLc
- 9bogWyNJZHjYgKGVQgwp8ZT60dG2cCPbYPIm0KtHpMeTSU6K8xV9lWYzmVBLBaxTEW
- 3sn5AIlG/Y0twz9RoQ7oSYwoelGyhERqNrATpQIN8VWhdMu3cTNBayj/umC+Ws8sKn
- BN7+cBGm7pZ0w==
-Date: Fri, 14 Mar 2025 13:25:17 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- Danilo Krummrich <dakr@kernel.org>, mcanal@igalia.com,
- Alice Ryhl <aliceryhl@google.com>, 
- Simona Vetter <sima@ffwll.ch>, Daniel Almeida <daniel.almeida@collabora.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC v3 27/33] rust: drm/kms: Add DriverCrtc::atomic_begin() and
- atomic_flush()
-Message-ID: <20250314-aspiring-prehistoric-caracara-ba6435@houat>
-References: <20250305230406.567126-1-lyude@redhat.com>
- <20250305230406.567126-28-lyude@redhat.com>
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E16A10E371
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 12:27:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7E543442ED;
+ Fri, 14 Mar 2025 12:27:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1741955232;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tWos/lt+uMlzaLTSvHgq990LURjtMSjT7rOx+Xb5F2I=;
+ b=U9zxT969s4vNZP+vaN0mLnyNm5VXd5KZq658rtO0Ev9Lihaa8hN1VRPWmzZxgT9itdelyF
+ sl9VVkzd1LQFs1pQeRdrcOXwmCzdczSzGXhiNoQzHygLLM11iQAaNxIyGUoi5ayWE3hMR3
+ jq8rbExdmaNQYpfjGD8HvHtin3gmr7vUT9iPsaHjF6ATc6rMLo3OFrNchGm9Ggz7p5x36G
+ z5MeVrY2m3jKCR7BvX0mSggNa/7Pt163aEI0voJQJwv+W5qbod50h/W9Z1BrjGupXbo5AV
+ 6lkbewIQy4wY6lCuR8iU7V7pcBxUAVKM1toQodne7cGlNEU8oEugfM0FNVQyZg==
+Date: Fri, 14 Mar 2025 13:27:09 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/2] drm/panel: Add new helpers for refcounted panel
+ allocatons
+Message-ID: <20250314132709.16a38692@booty>
+In-Reply-To: <CAN9Xe3TeKTZtcMPtae7h33H=B-veGW93z8nMpHK+pEuNdh4=2A@mail.gmail.com>
+References: <20250312-drm-panel-v1-0-e99cd69f6136@redhat.com>
+ <20250312-drm-panel-v1-1-e99cd69f6136@redhat.com>
+ <20250313110944.1c1f7e4e@booty>
+ <CAN9Xe3TeKTZtcMPtae7h33H=B-veGW93z8nMpHK+pEuNdh4=2A@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="4vzvxz5ir4p5ljeq"
-Content-Disposition: inline
-In-Reply-To: <20250305230406.567126-28-lyude@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufedtkeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdeljeejuddvudetffdtudelfedugfduledtueffuedufefgudegkeegtdeihedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrtddtvdemudgsrgejmeegkehfjeemudeltgehpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopegrshhrihhvrghtshesrhgvughhrghtrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehquhhit
+ ggpjhgvshhsiihhrghnsehquhhitghinhgtrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,85 +72,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Anusha,
 
---4vzvxz5ir4p5ljeq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC v3 27/33] rust: drm/kms: Add DriverCrtc::atomic_begin() and
- atomic_flush()
-MIME-Version: 1.0
+On Thu, 13 Mar 2025 16:34:45 -0400
+Anusha Srivatsa <asrivats@redhat.com> wrote:
 
-On Wed, Mar 05, 2025 at 05:59:43PM -0500, Lyude Paul wrote:
-> Optional trait methods for implementing the atomic_begin and atomic_flush
-> callbacks for a CRTC.
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
->  rust/kernel/drm/kms/crtc.rs | 90 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 88 insertions(+), 2 deletions(-)
->=20
-> diff --git a/rust/kernel/drm/kms/crtc.rs b/rust/kernel/drm/kms/crtc.rs
-> index aaa208b35c3c1..131d10505ba07 100644
-> --- a/rust/kernel/drm/kms/crtc.rs
-> +++ b/rust/kernel/drm/kms/crtc.rs
-> @@ -90,8 +90,16 @@ pub trait DriverCrtc: Send + Sync + Sized {
->              mode_set: None,
->              mode_valid: None,
->              mode_fixup: None,
-> -            atomic_begin: None,
-> -            atomic_flush: None,
-> +            atomic_begin: if Self::HAS_ATOMIC_BEGIN {
-> +                Some(atomic_begin_callback::<Self>)
-> +            } else {
-> +                None
-> +            },
-> +            atomic_flush: if Self::HAS_ATOMIC_FLUSH {
-> +                Some(atomic_flush_callback::<Self>)
-> +            } else {
-> +                None
-> +            },
->              mode_set_nofb: None,
->              mode_set_base: None,
->              mode_set_base_atomic: None,
-> @@ -132,6 +140,36 @@ fn atomic_check(
->      ) -> Result {
->          build_error::build_error("This should not be reachable")
->      }
-> +
-> +    /// The optional [`drm_crtc_helper_funcs.atomic_begin`] hook.
-> +    ///
-> +    /// This hook will be called before a set of [`Plane`] updates are p=
-erformed for the given
-> +    /// [`Crtc`].
-> +    ///
-> +    /// [`drm_crtc_helper_funcs.atomic_begin`]: srctree/include/drm/drm_=
-modeset_helper_vtables.h
-> +    fn atomic_begin(
-> +        _crtc: &Crtc<Self>,
-> +        _old_state: &CrtcState<Self::State>,
-> +        _new_state: CrtcStateMutator<'_, CrtcState<Self::State>>,
-> +        _state: &AtomicStateMutator<Self::Driver>,
-> +    ) {
-> +        build_error::build_error("This should not be reachable")
-> +    }
+> > > +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t  
+> > offset,  
+> > > +                          const struct drm_panel_funcs *funcs)
+> > > +{
+> > > +     void *container;
+> > > +     struct drm_panel *panel;
+> > > +     int err;
+> > > +
+> > > +     if (!funcs) {
+> > > +             dev_warn(dev, "Missing funcs pointer\n");
+> > > +             return ERR_PTR(-EINVAL);
+> > > +     }
+> > > +
+> > > +     container = kzalloc(size, GFP_KERNEL);
+> > > +     if (!container)
+> > > +             return ERR_PTR(-ENOMEM);
+> > > +
+> > > +     panel = container + offset;
+> > > +     panel->container_offset = offset;
+> > > +     panel->funcs = funcs;
+> > > +     kref_init(&panel->refcount);
+> > > +
+> > > +     err = devm_add_action_or_reset(dev, drm_panel_put_void, panel);
+> > > +     if (err)
+> > > +             return ERR_PTR(err);
+> > > +
+> > > +     drm_panel_init(panel, dev, funcs, panel->connector_type);  
+> >
+> > panel->connector_type here is uninitialized. You are passing
+> > panel->connector_type to drm_panel_init(), which will then copy it into
+> > panel->connector_type itself.
+> >
+> > So you mean I pass connector_type from the driver calling the helper, so  
+> there is access to the connector type here?
 
-Another dumb question I guess. If it's optional, and the default
-implementation of a trait errors out at build time, how can it not break
-if we don't implement the method?
+I'm not a panel expert, but I think it makes sense that to create the
+panel you need to know the connection type, and that is what Maxime
+suggested.
 
-Maxime
+> > > +     /**
+> > > +      * @container_offset: Offset of this struct within the container
+> > > +      * struct embedding it. Used for refcounted panels to free the
+> > > +      * embeddeing struct when the refcount drops to zero.
+> > > +      */
+> > > +     size_t container_offset;  
+> >
+> > While storing the offset obviously works, and that's what I had
+> > implemented in my latest bridge refcounting series, after some
+> > discussion with Maxime we agreed storing a container pointer instead of
+> > the offset is cleaner. I think it would be good here as well.
+> >
+> > See:
+> > https://lore.kernel.org/lkml/20250227-macho-convivial-tody-cea7dc@houat/
+> >  
+> 
+> so just void *container instead of size_t container_offset.
 
---4vzvxz5ir4p5ljeq
-Content-Type: application/pgp-signature; name="signature.asc"
+Exactly. You can have a look at the patch I sent earlier today:
+https://lore.kernel.org/lkml/20250314-drm-bridge-refcount-v7-2-152571f8c694@bootlin.com/
 
------BEGIN PGP SIGNATURE-----
+Luca
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ9QgLAAKCRAnX84Zoj2+
-doWXAYCngdcASoukMj94aBgAFaDc5rmGDv7xFouBULgQ1a7QU4FIOv1FrDDYBjjs
-LV/iy/IBfA7HXPThFtjNWgZICI73lieLqkSKUI9FtusEAO1W/HH19SsQJ+OivEhw
-euxbbwkLPg==
-=4Day
------END PGP SIGNATURE-----
-
---4vzvxz5ir4p5ljeq--
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
