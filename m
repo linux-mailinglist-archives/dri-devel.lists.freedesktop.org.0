@@ -2,87 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2261A60B03
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 09:16:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F11A60978
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 08:11:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3992F10E996;
-	Fri, 14 Mar 2025 08:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15AD310E1A0;
+	Fri, 14 Mar 2025 07:11:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="CAqfbod0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QAR0HHPZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45B9810E2D3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 05:40:28 +0000 (UTC)
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 46D253F091
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 05:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1741930823;
- bh=KHVvEo4a2v+cW7rLYC5E5IP2TKLmXgAPS/TIAmIpZA0=;
- h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
- To:Cc:Content-Type;
- b=CAqfbod0caPEckgS9cNer6BoSFf/KO1mGs/BYj49aXoHqLwxLkPzuH2eFJZuPrFIP
- k/i7Yma5kpGdFm2XaY+yMTtOhPSmDaErnapN/zgGAxVVjrW8k1oqoQLA9E7fXnna5R
- pSmDrOt5VO3fJcu8Gha8jMBWb9h/xx3x0w5FZeJNojnOs1LZUCpOu8JqBsiJUM5+/M
- NyleL9xzJfli2yftCCuiZNHKvknXcQyHWbPT0fj4jlnFGhT8me9vNNQdYNtihb5BNF
- 8BtMSFtEJvDr5o8q8qUfDI0E3izwgObi3piN2yjOBs8ydNOSmHH50Yf7ymRtjnzgqt
- s5qF4c7ydIaGA==
-Received: by mail-vk1-f200.google.com with SMTP id
- 71dfb90a1353d-523eb742ffbso558239e0c.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 22:40:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741930822; x=1742535622;
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEF4010E1A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 07:11:29 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-aaf900cc7fbso347769766b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 00:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741936287; x=1742541087; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KHVvEo4a2v+cW7rLYC5E5IP2TKLmXgAPS/TIAmIpZA0=;
- b=dAFoMBSFFeIYHvXSGVbE0iz7wmvHSrKHYxjyoS91zowetNr2iRsu2QTvDxHruQVbcK
- vpQ/2xoY+9G3TJ9E60uQB7vGgOdo5hmasb68wNmJ92TQ61+gDXSvQlP1+WvvVge4qLNB
- tnkhf5lcqZjoNh2Uq0rjkuR0stKTfPmrK4IExvFgV81B1SOc6yMlGd/jFF2XGue9Rvmf
- nz3bbKqxHHMlHZNZDz63GKHwQ9d6seKZz4GiltA4sSF2+Ajmo5y4aS/18olBdQwrPp7M
- osqm3H7vMxsPAptHB5LxmaZL/Bafzr16NXSM6r9MhfKJWdFBJLTE2o3DXk8x7qiGOYUF
- jd3A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUNUPxSn9i4zUwrFjLzwCqrqP33UgOtAvsiyDbXyMwOi4RZt9reFQmvIG1/8enCLe531wjoo1lOyaM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyP3kdWdS5km2QE4XlRtq+VxfV+j8pinynBEOaY3rZBiuTFtKSL
- WwRQAoDrN870HVTpzaPoOg3hIxSYOTaVxJGlqBy5t3xm8BOWjHDFi5+PFN+27OjHctinY0uft29
- kUjvnXLDruVGj/wgf9JoUXfwKeXST8J4TDES8FAvVfYVs65ASGkrDaEMRKC6kxNkDGdG69rgeZV
- /t693uDsJdRT3yPErHKGTKwvWfkX6FxM/M7N1P+SUQrrYQg2PY+J+r4/Eg
-X-Gm-Gg: ASbGncuzoURkOZdSLIJnFAXTJeGTUG8YhmBrEpoijkBMk286GkQqCeJh3+bDKLqCBgM
- nJbxSRZCUmBadIBqsIu2mOlF6qnVAs8Zc5CSaXnXHlm7bKZ9jj+/uVqVDCpH9zIBevJWgoQc5OA
- ==
-X-Received: by 2002:a05:6102:3ed5:b0:4c3:52f:175c with SMTP id
- ada2fe7eead31-4c382f9c38cmr701336137.0.1741930822260; 
- Thu, 13 Mar 2025 22:40:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFkuI4xwxwmD4W5vZwFXVV+zKk/vRrjtyFmpUBFLwhuuzFgHWzblfl66y37xJJgM90/2dkfIVuz1WX3xnyepHM=
-X-Received: by 2002:a05:6102:3ed5:b0:4c3:52f:175c with SMTP id
- ada2fe7eead31-4c382f9c38cmr701328137.0.1741930821970; Thu, 13 Mar 2025
- 22:40:21 -0700 (PDT)
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FcxWgeBT29Hzcr2wTHpxcmqt2hkmYJcn5TysUSsXiZk=;
+ b=QAR0HHPZETlRHEU+dYAKxrZm/4D2IokPIneH5SOPVwEAackalrtBzxgs3Sq/WJUt10
+ AsTqcMuWexb4SXq75MLNmbbuBwHqGg0reQ7bOhK4yezF04n0Seu735/s9ngM9RCt8F9h
+ 3W9raKGByx3+3fhfrBAiJf/ww7Okx3+um4dBiVp/5syjpyxGBeK99hEF0FTqSpUeqnk4
+ mrW2hw8wMVbTYrvionecGWpjluSIUx8M1LJcpBuAPCCTf73GhmPLiWTHne6JGweJ3mxY
+ NRONSaqU2IY1Gan4SG+HyN7fvAWavXrO3RWXkLu/5vPytdJELgITil+kNGwUCnsdPsob
+ 8jXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741936287; x=1742541087;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FcxWgeBT29Hzcr2wTHpxcmqt2hkmYJcn5TysUSsXiZk=;
+ b=RM40xWfA08qYbe/b/v/7O+3uy8KWnBq7ef73pV3VyRHXCQcbtFN1FNh+EIJ1uZgUTB
+ DdpGNdvcCL0lioVmctRWmVpgeWUSBkM3x6rstn+eGmid6Im9G4JkQjI3jg6ge5tJZcdh
+ d5nbY5bsXVvMOPcv9Wb1EsOWZDYhwfLUiOBXs1nOB/dhgkoY3yZz0FIJUd2QJOLL5GxW
+ 5yGBp6AQA1Tb/ClSLkUqQVpHe0KCbdLKerWDMx+FNcKcjV7ZxD4CRDr+6nrjXaQmFDMl
+ X3AtKuKUX4qOQ/3gO+p8I1OPkZFiEyweahCq7Zb0FwHuc/Kx44E7Y/aR26EigghU49Y5
+ lpmQ==
+X-Gm-Message-State: AOJu0YwRUn6pWJxYAY95wh7EqYLtr5Vl/uRTW9Di8gWAGHXPKceRhB8u
+ a6G5bbuAW73ucQ29H29XHUwTGcg9CgaOJolEwtmfCZPz2yKXFhunr0w+jNrTNmWVFYzZgN6ZREC
+ gJq+nm8WNxNDkeRW8Gk7i7G3J25A=
+X-Gm-Gg: ASbGncthwWy5VNfQVeaemoe3k5cKNSWcX+HgTLV1FvgcDu9E1lrtlGshJDkif8n4oOk
+ VQy4tz0U0uP3gm1pG8T4qT4LL4OInnzrn0qkpCDJSzSSEP4T0TgXvlmrOnO2CNcyYuyhC2CnCRJ
+ uhkj27oI9hLCEvV+hNWQallVak
+X-Google-Smtp-Source: AGHT+IG3lY5hWLZzc16ljHigKpjOmO3jNH0WK5YKf2sclutnlRHi1cZqp5Fgy5zy7sMtopTMFUOUZNG2+8Y+cdYmPkA=
+X-Received: by 2002:a17:907:7241:b0:ac1:e332:b1f5 with SMTP id
+ a640c23a62f3a-ac330371508mr151302166b.37.1741936287039; Fri, 14 Mar 2025
+ 00:11:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250313041711.872378-1-leo.lin@canonical.com>
- <878qp9dx54.fsf@intel.com>
-In-Reply-To: <878qp9dx54.fsf@intel.com>
-From: "Yo-Jung (Leo) Lin" <leo.lin@canonical.com>
-Date: Fri, 14 Mar 2025 13:40:10 +0800
-X-Gm-Features: AQ5f1Jqt4zZ3VwSHms6FObxGsQo-FxR5l0nzNgI0L4koCsAaEmsRm1MKhPg3l5o
-Message-ID: <CABscksPic1NdfVs+_g9s_HtyDtAACKNshbMXObWApmiMMhyf_A@mail.gmail.com>
-Subject: Re: [PATCH] drm: add .hdrtest to .gitignore under drm directories
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 14 Mar 2025 17:11:16 +1000
+X-Gm-Features: AQ5f1JpfP3TmFF1lLfHcd-9pOehlmSFSUNN5ec8WIpMFS18OAW1wdWLVoWLg888
+Message-ID: <CAPM=9tynNkAv1s70kbsCVHj31sGTXL1AQ0Dv6n0kwr7kw1rhkA@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.14-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Fri, 14 Mar 2025 08:16:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,54 +82,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+Hi Linus,
 
-On Thu, Mar 13, 2025 at 6:48=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
->
-> On Thu, 13 Mar 2025, "Yo-Jung (Leo) Lin" <leo.lin@canonical.com> wrote:
-> > The header self-contained tests in drm may leave .hdrtest files in
-> > include/drm/ and drivers/gpu/drm/. Omit them by adding .gitignore
->
-> This has already been the case with usr/include for
-> CONFIG_UAPI_HEADER_TEST=3Dy but I guess nobody noticed before.
->
-> Maybe fix that too?
+Regular weekly fixes pull, the usual leaders in amdgpu/xe, a couple of
+i915, and some scattered misc fixes.
 
-I think for usr/include there's already a .gitignore for that. For
-example see commit  5134e94ac4f5 (usr/include: refactor .gitignore).
+Next week the gitlab.freedesktop.org infrastructure will be down for
+migration, so I've no idea whether I will have any fixes for final, I
+can send an MR via github if needed, but I'm not sure if the
+downstreams will have anything to get to me, but if anything urgents
+pops up we will make sure it gets there.
 
->
-> BR,
-> Jani.
->
->
-> >
-> > Signed-off-by: Yo-Jung (Leo) Lin <leo.lin@canonical.com>
-> > ---
-> >  drivers/gpu/drm/.gitignore | 1 +
-> >  include/drm/.gitignore     | 1 +
-> >  2 files changed, 2 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/.gitignore
-> >  create mode 100644 include/drm/.gitignore
-> >
-> > diff --git a/drivers/gpu/drm/.gitignore b/drivers/gpu/drm/.gitignore
-> > new file mode 100644
-> > index 000000000000..d9a77f3b59b2
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/.gitignore
-> > @@ -0,0 +1 @@
-> > +*.hdrtest
-> > diff --git a/include/drm/.gitignore b/include/drm/.gitignore
-> > new file mode 100644
-> > index 000000000000..d9a77f3b59b2
-> > --- /dev/null
-> > +++ b/include/drm/.gitignore
-> > @@ -0,0 +1 @@
-> > +*.hdrtest
->
-> --
-> Jani Nikula, Intel
+Dave.
 
-Best,
-Leo
+drm-fixes-2025-03-14:
+drm fixes for 6.14-rc7
+
+panic:
+- two clippy fixes
+
+dp_mst
+- locking fix
+
+atomic:
+- fix redundant DPMS calls
+
+i915:
+- Do cdclk post plane programming later
+- Bump MMAP_GTT_VERSION: missing indication of partial mmaps support
+
+xe:
+- Release guc ids before cancelling work
+- Fix new warnings around userptr
+- Temporaritly disable D3Cold on BMG
+- Retry and wait longer for GuC PC to start
+- Remove redundant check in xe_vm_create_ioctl
+
+amdgpu:
+- GC 12.x DCC fix
+- DC DCE 6.x fix
+- Hibernation fix
+- HPD fix
+- Backlight fixes
+- Color depth fix
+- UAF fix in hdcp_work
+- VCE 2.x fix
+- GC 12.x PTE fix
+
+amdkfd:
+- Queue eviction fix
+
+gma500:
+- fix NULL pointer check
+The following changes since commit 80e54e84911a923c40d7bee33a34c1b4be148d7a=
+:
+
+  Linux 6.14-rc6 (2025-03-09 13:45:25 -1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-03-14
+
+for you to fetch changes up to d1d77326f585ccf1fb388e1bcc18a630e044577f:
+
+  Merge tag 'drm-xe-fixes-2025-03-13' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2025-03-14 13:42:17 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.14-rc7
+
+panic:
+- two clippy fixes
+
+dp_mst
+- locking fix
+
+atomic:
+- fix redundant DPMS calls
+
+i915:
+- Do cdclk post plane programming later
+- Bump MMAP_GTT_VERSION: missing indication of partial mmaps support
+
+xe:
+- Release guc ids before cancelling work
+- Fix new warnings around userptr
+- Temporaritly disable D3Cold on BMG
+- Retry and wait longer for GuC PC to start
+- Remove redundant check in xe_vm_create_ioctl
+
+amdgpu:
+- GC 12.x DCC fix
+- DC DCE 6.x fix
+- Hibernation fix
+- HPD fix
+- Backlight fixes
+- Color depth fix
+- UAF fix in hdcp_work
+- VCE 2.x fix
+- GC 12.x PTE fix
+
+amdkfd:
+- Queue eviction fix
+
+gma500:
+- fix NULL pointer check
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu/vce2: fix ip block reference
+
+Alex Hung (1):
+      drm/amd/display: Assign normalized_pix_clk when color depth =3D 14
+
+Aliaksei Urbanski (1):
+      drm/amd/display: fix missing .is_two_pixels_per_container
+
+Dave Airlie (4):
+      Merge tag 'amd-drm-fixes-6.14-2025-03-12' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2025-03-13' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-intel-fixes-2025-03-13' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2025-03-13' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+
+David Rosca (1):
+      drm/amdgpu/display: Allow DCC for video formats on GFX12
+
+Imre Deak (1):
+      drm/dp_mst: Fix locking when skipping CSN before topology probing
+
+Ivan Abramov (1):
+      drm/gma500: Add NULL check for pci_gfx_root in mid_get_vbt_data()
+
+Jos=C3=A9 Roberto de Souza (1):
+      drm/i915: Increase I915_PARAM_MMAP_GTT_VERSION version to
+indicate support for partial mmaps
+
+Leo Li (1):
+      drm/amd/display: Disable unneeded hpd interrupts during dm_init
+
+Mario Limonciello (4):
+      drm/amd: Keep display off while going into S4
+      drm/amd/display: fix default brightness
+      drm/amd/display: Restore correct backlight brightness after a GPU res=
+et
+      drm/amd/display: Fix slab-use-after-free on hdcp_work
+
+Miguel Ojeda (2):
+      drm/panic: use `div_ceil` to clean Clippy warning
+      drm/panic: fix overindented list items in documentation
+
+Natalie Vock (1):
+      drm/amdgpu: NULL-check BO's backing store when determining GFX12 PTE =
+flags
+
+Rodrigo Vivi (2):
+      drm/xe/pm: Temporarily disable D3Cold on BMG
+      drm/xe/guc_pc: Retry and wait longer for GuC PC start
+
+Tejas Upadhyay (1):
+      drm/xe: Release guc ids before cancelling work
+
+Thomas Hellstr=C3=B6m (1):
+      drm/xe/userptr: Fix an incorrect assert
+
+Ville Syrj=C3=A4l=C3=A4 (2):
+      drm/i915/cdclk: Do cdclk post plane programming later
+      drm/atomic: Filter out redundant DPMS calls
+
+Xin Wang (1):
+      drm/xe: remove redundant check in xe_vm_create_ioctl()
+
+Yifan Zha (1):
+      drm/amd/amdkfd: Evict all queues even HWS remove queue failed
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 11 +++-
+ drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c             |  5 +-
+ drivers/gpu/drm/amd/amdgpu/vce_v2_0.c              |  2 +-
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  8 ++-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 17 +++++-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c |  1 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c  | 64 +++++++++++++++---=
+----
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |  7 ++-
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  7 ++-
+ .../amd/display/dc/dce60/dce60_timing_generator.c  |  1 +
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      | 40 ++++++++------
+ drivers/gpu/drm/drm_atomic_uapi.c                  |  4 ++
+ drivers/gpu/drm/drm_connector.c                    |  4 ++
+ drivers/gpu/drm/drm_panic_qr.rs                    | 16 +++---
+ drivers/gpu/drm/gma500/mid_bios.c                  |  5 ++
+ drivers/gpu/drm/i915/display/intel_display.c       |  5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  5 +-
+ drivers/gpu/drm/xe/xe_guc_pc.c                     | 53 +++++++++++++-----
+ drivers/gpu/drm/xe/xe_guc_submit.c                 |  2 +-
+ drivers/gpu/drm/xe/xe_hmm.c                        |  6 +-
+ drivers/gpu/drm/xe/xe_pm.c                         | 13 ++++-
+ drivers/gpu/drm/xe/xe_vm.c                         |  3 -
+ 22 files changed, 200 insertions(+), 79 deletions(-)
