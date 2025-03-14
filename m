@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98DD9A60778
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 03:28:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED409A6077A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 03:28:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 962C110E269;
-	Fri, 14 Mar 2025 02:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5174C10E275;
+	Fri, 14 Mar 2025 02:28:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="bMZSn0J1";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dA3W9pxY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94E5B10E269
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 02:28:04 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-30762598511so17023141fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 19:28:04 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48D610E275
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 02:28:14 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-549963b5551so1623251e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 19:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1741919282; x=1742524082;
+ d=chromium.org; s=google; t=1741919288; x=1742524088;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3EDLto5Fj+QyO1rc5OeVTSwga/F1rC5M7RFzWcpsACU=;
- b=bMZSn0J1lCW+kAXiEWow0VuhClFfDXajT1FbXmWUaHDbetpqlFJUz23VQ2NuRgInGT
- IWL2LgcxY+eo4UDl7kzpSieJ3H6GMfgL0PJT28srHLhPdi3osWS2Jno/hUhF7Lwt3c7g
- mKbNqWAGkOd8rTOXk2w5q6C5yTaBEk0dqn36A=
+ bh=VK4KlxY3uUa17qisCA7GoD5gggjvWR4zuA8FgG9CVRU=;
+ b=dA3W9pxYbpwbxQiQQdPBhMpF8dBjh+OF1U5cNdEsIpXU0fqnj91kl5XDtE/b1uL/CE
+ lXJ8Te6Sjpu4u7ekgTuaC5t8TeoU+rLE42OYaLs4pXnvUhHZCg+fN/dYWhs8gVeAhHHq
+ keKVxDwdvjB+k8TkNGUA9pUrKojbfhQBeUoL4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741919282; x=1742524082;
+ d=1e100.net; s=20230601; t=1741919288; x=1742524088;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3EDLto5Fj+QyO1rc5OeVTSwga/F1rC5M7RFzWcpsACU=;
- b=I5af9jkl8Da/rWb2j/61UOLF6s7Hb1baa75jozwz/JGDI7H3D2JI2Lz14AheYmYFuN
- Fagvu7TVGn0Kq6shWIwB17bdpmiqq78DwvVwHejknb9nr2iB5+pO6IxvHrDz2fN6S5HX
- pxP11rK80w5NCZsjhn5YV1t3WUOcFF12ejhHbR8JmdzbFLmmKuzeu288r/0CZ3/jJhU3
- 6OAdo59lRjglDfXaLz6yxJav7+0ko/w2Oz+aK+9zaMzqvD3WDRPmc5y9Rl59VpqAtrLT
- /M0uHF/dXiN3+W4u4ZZFKQeosRq0hANic4h82g9JQO0OZAp7fUBP1SutneazT/xzboyM
- jw7A==
+ bh=VK4KlxY3uUa17qisCA7GoD5gggjvWR4zuA8FgG9CVRU=;
+ b=tqC+fmEubq4IEdABoelP+JqzVOGsB3yMXPx3vWZxVJfERQaFTDsmnHmYN2XYWrzjB8
+ pIqqfcypfM8ybGyg1JzIuNk5doksoMWaIyTF6nFfFNodRcEIOtRN3esrn5bCfK8+uFct
+ dphPeZF+Ue+CoC2PVa9yJQt70qnMARQHr60h7QPsxwK6dwFZtXwYMgrFSJth+2UyE1RE
+ HeovvUhQToUxb/eajGlX0okYTSriSWVqDxuAIuSo+YTGK3lSm0YSnKegS8kiX2bubpnC
+ hkjkPYnwBpDvUXKaF/ja29lLbyzIppFCJl92R2Q/IUS37hS3evUiVUrP1Dmpc1HuPBwa
+ K1kQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVL21PUVbS7RY6RVc2tcyMn31Kr2NBIzRHIfkkKeWn2/sTAekVuMkS/JfrTp6AzJYyQM3T4mz1CBH8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbNRfclZskB4sT+As3WbN4hghWW3Q8zKsMrN5AKeQYDHn4uSnM
- 6L4jBfD05i64q+wN/jJmgMt88zcewFe5EnC0xDaQxwvTxlqCTWdNxQ7VQ4FeVLZMUKykNprJS3/
- iBg==
-X-Gm-Gg: ASbGncu6edrGMPek47JJ8lTYOMNtnuT2Uk0i6KAkT3WpghStrR7zQ8weOT0ifLl3cdX
- ZVER/Aqg3VvdWZmimnuENdK92zi1eJnhNyi+8Yo5+qAa66eYssonqQ2r+qzO8moGzGCtrjdHcr7
- zpUHc7ItHHis9Nk2+ik1r4Mhl3jXLUK8UVRM4mJdCu4pysqoNCkBpskDHEr0fIxwtFFbVLYNOqw
- BNWymEXmz5d6Q/PrjjsbLSSPTUeGkPtEy8D+4hjIJPvRABYdUFuNxYNIbhIblku50vin/Olv2vN
- Ai8ABNadFVYTL3PFBTnd3Cpu6HZ10D8e85Wrr0LJ/TuI8kPzxumWSB6eq2uNNFPLIPG4fZf8sQK
- I1T7PiWoRXrEd
-X-Google-Smtp-Source: AGHT+IEEeNrHmItFQeStFubdfLmBEhb3iXul3LKTZukBdpOUQui/QHgAp3Vq5pGJooGRviS+yENLOA==
-X-Received: by 2002:a05:651c:2108:b0:300:5c57:526b with SMTP id
- 38308e7fff4ca-30c4a861dc9mr2366231fa.11.1741919281752; 
- Thu, 13 Mar 2025 19:28:01 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com.
- [209.85.208.172]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30c3f1dbb12sm3961671fa.95.2025.03.13.19.28.00
+ AJvYcCW5y0kpTvj98snmeXk49HjGs7QwAPUVaJgIwMqChjlzgW6h9iSVQhfZNnWxgVOwDYj2TlO4nLx1+eo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxOBwS7+FlFhBvQFbVkFAL/U1/S+B61tLvpE0PZI+g7DWsyLjyB
+ /wTPBfOe5kBg+a63xp28xEOJ9zI6Jy3AvGCH04eBkdJqgAx0OJHPrISYrBxC3KR2vaw/1iS/Wc8
+ DnA==
+X-Gm-Gg: ASbGnctx5AJixhkIjnDhL0hbJhOiCGFf+qYDj0PoJCjYIckbMcSo4DeJB1ukPKnAmSS
+ W461OwOMivKWsRIvl3amOvsfhfs9rFR0BQtScg9UDpR+i4gvxa3xFeaszQKLeLxsXNLWlVkAtsQ
+ RhxOF/K1i80/7BmfV86TZnCYwfFVPCY6LBEUGBjbigioL3GM6w7raCY9+Z5SEEp4z92C/AmBWQj
+ Io4hEr7VRUjH1qn4IklDgqxn6u/dJ+rYfVz6if3xY8J+tP74Ld0hcv5pnpeLaayFvLhbFtNWqxg
+ 0vwPr1+6M4Oc02k7TC6VvBdeRw2kkHy/5LbTJg9ILHW+acBVbt+rUtj3177P5kQDjDBMCZDnBiL
+ ertKn3tAK8BDyn1VoOwA=
+X-Google-Smtp-Source: AGHT+IHY8dNWiW/naUtZvLNh7sKP502TyUTwlmK/u8JSSlVwz/i0qozVIZ96OAekra6E0fzC0gT1ag==
+X-Received: by 2002:a05:6512:3a8e:b0:549:4d78:2418 with SMTP id
+ 2adb3069b0e04-549c38f7d9cmr254423e87.27.1741919288384; 
+ Thu, 13 Mar 2025 19:28:08 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com.
+ [209.85.167.52]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-549ba7bee7fsm381386e87.54.2025.03.13.19.28.04
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Mar 2025 19:28:00 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-30795988ebeso17107561fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 19:28:00 -0700 (PDT)
+ Thu, 13 Mar 2025 19:28:07 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-5495078cd59so1723436e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 19:28:04 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWWX7UxbHlk9Lru1wGmtZKZXHDcdYWnFEvv2tPMWX+2nhURiY2ZbB9427HXeOCjqXFq2DFWWJ6PSG0=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3b90:b0:549:c1e6:cbb9 with SMTP id
- 2adb3069b0e04-549c38d07bemr214129e87.9.1741919280219; Thu, 13 Mar 2025
- 19:28:00 -0700 (PDT)
+ AJvYcCVWi+Ic+vIB6MpHNPg1iqZ0Imdeew1/r+vyg2C0jPjafH7hTkUQcKSfUd6q2pUnsBiuOqTijQD8Qbw=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:3a8e:b0:549:4d78:2418 with SMTP id
+ 2adb3069b0e04-549c38f7d9cmr254376e87.27.1741919283647; Thu, 13 Mar 2025
+ 19:28:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250310104114.2608063-1-damon.ding@rock-chips.com>
- <20250310104114.2608063-7-damon.ding@rock-chips.com>
-In-Reply-To: <20250310104114.2608063-7-damon.ding@rock-chips.com>
+ <20250310104114.2608063-8-damon.ding@rock-chips.com>
+In-Reply-To: <20250310104114.2608063-8-damon.ding@rock-chips.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 13 Mar 2025 19:27:46 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V0Q5v6hcEFJqMfhCSQ80ki5SQRmrXvyeGCOQiFsXc28A@mail.gmail.com>
-X-Gm-Features: AQ5f1Jpkp3eXwx7hKjmZ3N01Nrt914JFcQlKc2Ek2r-3Xhw1Wi6nZVzuUBUzhgE
-Message-ID: <CAD=FV=V0Q5v6hcEFJqMfhCSQ80ki5SQRmrXvyeGCOQiFsXc28A@mail.gmail.com>
-Subject: Re: [PATCH v8 06/13] drm/bridge: analogix_dp: Add support to get
- panel from the DP AUX bus
+Date: Thu, 13 Mar 2025 19:27:51 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XigZ7k9ZmyT8wEeJKB79ef4ut7XrKdmXGqLbwdbxwe_w@mail.gmail.com>
+X-Gm-Features: AQ5f1JqOO-vARbb-qxWvQyFu_Kv3lXKxcHR_dDdzPTPbj0JZAG253PMvReLZCQo
+Message-ID: <CAD=FV=XigZ7k9ZmyT8wEeJKB79ef4ut7XrKdmXGqLbwdbxwe_w@mail.gmail.com>
+Subject: Re: [PATCH v8 07/13] drm/bridge: analogix_dp: Add support for
+ &drm_dp_aux.wait_hpd_asserted()
 To: Damon Ding <damon.ding@rock-chips.com>
 Cc: heiko@sntech.de, andy.yan@rock-chips.com, hjc@rock-chips.com, 
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
@@ -115,40 +115,44 @@ Hi,
 On Mon, Mar 10, 2025 at 3:42=E2=80=AFAM Damon Ding <damon.ding@rock-chips.c=
 om> wrote:
 >
-> The main modification is moving the DP AUX initialization from function
-> analogix_dp_bind() to analogix_dp_probe(). In order to get the EDID of
-> eDP panel during probing, it is also needed to advance PM operations to
-> ensure that eDP controller and phy are prepared for AUX transmission.
+> Add analogix_dpaux_wait_hpd_asserted() to help confirm the HPD state
+> before doing AUX transfers.
 >
 > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
->
 > ---
+>  .../drm/bridge/analogix/analogix_dp_core.c    | 21 +++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 >
-> Changes in v4:
-> - Use done_probing() to call drm_of_find_panel_or_bridge() and
->   component_add() when getting panel from the DP AUX bus
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers=
+/gpu/drm/bridge/analogix/analogix_dp_core.c
+> index 2b76a9cf3bcb..b7e143b3ff75 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> @@ -1548,6 +1548,26 @@ static ssize_t analogix_dpaux_transfer(struct drm_=
+dp_aux *aux,
+>         return ret;
+>  }
 >
-> Changes in v5:
-> - Advance PM operations to make eDP AUX work well
->
-> Changes in v6:
-> - Use devm_pm_runtime_enable() instead of devm_add_action_or_reset()
-> - Add a new function analogix_dp_remove() to ensure symmetry for PM
->   operations
->
-> Changes in v7:
-> - Fix the misspelling of word 'operations' in commit message
-> - Remove the check related to CONFIG_PM
-> - Remove the unnecessary call to pm_runtime_dont_use_autosuspend() if
->   devm_pm_runtime_enable() fails
-> - Remove unnecessary function analogix_dp_remove()
-> - Add new function analogix_dpaux_wait_hpd_asserted()
->
-> Changes in v8:
-> - Move the addition of the analogix_dpaux_wait_hpd_asserted() to the
->   other patch
-> ---
->  .../drm/bridge/analogix/analogix_dp_core.c    | 20 ++++++++++---------
->  1 file changed, 11 insertions(+), 9 deletions(-)
+> +static int analogix_dpaux_wait_hpd_asserted(struct drm_dp_aux *aux, unsi=
+gned long wait_us)
+> +{
+> +       struct analogix_dp_device *dp =3D to_dp(aux);
+> +       int val;
+> +       int ret;
+> +
+> +       if (dp->force_hpd)
+> +               return 0;
+
+As mentioned previously [1], it's _possible_ that this should have a
+delay like we had in sn65dsi86, though maybe that was to deal with
+legacy device trees? It's been a while. Oh, I remember. It's because
+even if HPD was hooked up to the controller like it's supposed to be
+we don't actually implement HPD in the driver for the eDP controller
+(long story). ...so we worked around that with a delay.
+
+Right, so your code looks correct. :-)
+
+[1] https://lore.kernel.org/r/CAD=3DFV=3DWoigDDTG6wTK0smsxASVfK5BzzW6KNpKWq=
+97v4GAgvmw@mail.gmail.com
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
