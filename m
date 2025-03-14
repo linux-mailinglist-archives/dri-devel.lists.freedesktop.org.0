@@ -2,62 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1902FA61D95
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 22:07:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 141FFA61DA8
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 22:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34DC210E15C;
-	Fri, 14 Mar 2025 21:07:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B07F10E287;
+	Fri, 14 Mar 2025 21:09:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mllpNJ2v";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ag0u55K+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C704C10E15C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 21:06:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A85B25C0FDC;
- Fri, 14 Mar 2025 21:04:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01900C4CEE3;
- Fri, 14 Mar 2025 21:06:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741986413;
- bh=updmW668AXuEczJRzXxFtdkEvCU4OrjNSAp3qpvjLw4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mllpNJ2vShm53XePYhANE9KP2D4263ZkCTgGDLtAm7AFn21OBMlK1F/dNkxUhUoAM
- mf80c3yVKPa9GP29CvxlKBUKkSHRggb1ciT/HolwQ/a4TktfQQ2aBweYsUCF8mU7ad
- jIgbER5NtY8oSUMWQmNbDQlhKZfhjyeYxtz0VbLDHegKY7dlrWDLuAsz9CQ/kmqxPK
- lyDdyxynK7HtA/JZPnlUrCAtFmEZ/iojSonoH+9hM+IquUbweStcvNr5oR/POr7te1
- 0oj5dQidA4o4fwcw0lD6fQ/a9CtRtcH47crB4M+bXH6C6VGlUw9SpRo22zeT78Hwad
- Vpbw40GJ/8tVA==
-Date: Fri, 14 Mar 2025 16:06:52 -0500
-From: Rob Herring <robh@kernel.org>
-To: Maud Spierings <maudspierings@gocontroll.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Liu Ying <victor.liu@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH v2 03/12] dt-bindings: connector: Add the GOcontroll
- Moduline module slot bindings
-Message-ID: <20250314210652.GA2300828-robh@kernel.org>
-References: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
- <20250226-initial_display-v2-3-23fafa130817@gocontroll.com>
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+ [209.85.166.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D89E510E052;
+ Fri, 14 Mar 2025 21:08:59 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id
+ e9e14a558f8ab-3ce868498d3so10095865ab.3; 
+ Fri, 14 Mar 2025 14:08:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741986539; x=1742591339; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BkRLpqMUrdRcSP/upvwA3EN8NMAu0/tqM1GHILgEdFw=;
+ b=ag0u55K+T7JqFkkozhTtSucFNBSM12G49XH+oX8NwF64W+3aiM/FCM+1lNld5hMeFj
+ DsyP2CKVa5gaxJFoYyh6ajSbQ7W2ktM+NmC/P27UaFtPbHFyeRSs1zwFvwV+q+yULAa5
+ kQr7PInugaDvqn9fbFhvZ3kqPMj1++BH1vMz6M3Fm/kMZvD0UABkLVAG2clYVn8J80ZB
+ BTjKHeiqIyXYlPkjeFN9Qr3qbY1ELmypKdnWUgO4IL/NWzhYQSdAyNMc0Zfl8QjNidQM
+ tXMhhbO9wYfS6eA1VW7Bsp673/4wkkmr/S634YYBDBXXkKODKt6PQedCuGc4WR8SNOC8
+ E/EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741986539; x=1742591339;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BkRLpqMUrdRcSP/upvwA3EN8NMAu0/tqM1GHILgEdFw=;
+ b=l867azfPK5YKT6qQOfs95QLRpTc1S1o8jB4UX8IqqaeO1bqIoRVvY5MfyL2mRqCt7y
+ /qsWvuqzaz3ktXk9S8ivJT8eiK63ovl6hBj/L7meBdBaDqb9EL0FpdPzhkpGe8nHd7PD
+ FMwnJyCOsV7QpDD2QRrRWKiTFa7nh5rZBm6exPSXL7Fh3D74gtOYfdqDzhv9FZ906jKc
+ VaA/1fF5BVdpX+8gSS6fh+Cg/IK87YPgt1mqbasKNnycjhe4889i2ZZdWyremtj9ApHZ
+ 8TuVz05W3zGbQYc/MQ/p0I6u7g5/UgIZYjHOKZIcSQHB3UVvn7mILiKY+2XsuV1ssyD1
+ MtQQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVIhYVvsxkOkkIu+nVgSDm4flsedTS92JyfuymPkEMeRt+uKtrOm87ITUI2aHT6uZc+rwoCC0Bu1ZE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwbdOxLGq/gtgze33vHLahGs5h2cGvSkVHodX6C9Ui1wZM4uIRi
+ NFhxSLNobxSy/heR7CYP5+wXk5Ck4grgHfNC9Qi+tOE0sh1eFr8YMiU9Ae1zEmHSTv4+Xx6Yxf2
+ wrvnxfy2dp3bnKO3n35jWnBTDCyI=
+X-Gm-Gg: ASbGncu3Rb4iv7uk3Tk+gaj6cM5c7d/9lOWj2tsqXiqeX4rNYOSyjhZNzO1DS7RmYmY
+ IIEYfPntM8Jo0o5410pLmhfaQwt7CdWg9nAouMaQnHjlNrzsqeXDsieDO9EpJDYE/CqEpBGlxFH
+ +HG3rmDxsd/V3CgAXOuZE4RyE825b/1RYU3jKAy7kdr5LFHz/XFdcjZQyP
+X-Google-Smtp-Source: AGHT+IHnRUSdUAiE6xSCF7qK008yqz2CYgd4uPUsSUYmFzhuSr+lKmrz+rNzsxjiPE7EHSpTAr2kzC8PGntP7byzmIU=
+X-Received: by 2002:a05:6e02:20c8:b0:3d3:db70:b585 with SMTP id
+ e9e14a558f8ab-3d483a803femr39260345ab.21.1741986538694; Fri, 14 Mar 2025
+ 14:08:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226-initial_display-v2-3-23fafa130817@gocontroll.com>
+References: <20250314183455.120824-1-robdclark@gmail.com>
+ <4525d045-745a-4d8b-987e-45d3fa9917b5@quicinc.com>
+In-Reply-To: <4525d045-745a-4d8b-987e-45d3fa9917b5@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 14 Mar 2025 14:08:46 -0700
+X-Gm-Features: AQ5f1Joqit6DTlPsGxZi33_LsW2JIVjOxNSfy35r8VHQ4UBkw--tifeiumMS4JI
+Message-ID: <CAF6AEGuneF8Yi0ViA4ActvmGL7aOFT75jNBN=YZf37YyoBkCFA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/a6xx+: Don't let IB_SIZE overflow
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
+ Connor Abbott <cwabbott0@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jordan Crouse <jordan@cosmicpenguin.net>, Jonathan Marek <jonathan@marek.ca>, 
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,155 +92,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 26, 2025 at 03:19:14PM +0100, Maud Spierings wrote:
-> Add the bindings that describe a GOcontroll Moduline module slot. This
-> slot provides all the interfaces to interface with a Moduline compatible
-> IO module. The actual module is not reasonable to describe as it can be
-> swapped at will, with this connector the driver will be able to probe
-> for a module on boot.
-> 
-> The connector consists of 2 parts, one part for interfacing with the SoC
-> and main board, the other part has 13 IO channels for the module to
-> interact with the outside world. The functions of these IO channels are
-> determined by the type of module in the slot. The IO on the SoC side is
-> as follows:
-> 
->  - a 3v3 supply, this tends to be the logic level of the module and its
->    microcontroller
->  - a 5v0 supply, this can be used to power low power peripherals on the
->    module
->  - a 6v-8v supply, this can be used for high power peripherals on the
->    module
->  - a 6v-30v supply, this tends to be a dirty supply that comes from the
->    controller supply after some circuit protection, or is the same as
->    the 6v-8v supply.
->  - an SPI bus which carries the communication between the SoC and the
->    microcontroller on the module.
->  - an I2C bus shared between the SoC and all module slots which can
->    carry direct module-to-module communication.
->  - a reset line
->  - an interrupt line that indicates a clear to transmit signal
->  - a sync line shared between the SoC and all module slots which could
->    be used to synchronize modules for time sensitive IO spread across
->    modules.
->  - a SMBus alert line that is shared between the modules but is not
->    connected to the SoC so that is ignored.
-> 
-> A slot-number property is used to identify the physical location of a
-> module slot. Without it, it would be impossible to identify which module
-> to control if there are multiple of one type, to address the desired IO.
+On Fri, Mar 14, 2025 at 1:07=E2=80=AFPM Akhil P Oommen <quic_akhilpo@quicin=
+c.com> wrote:
+>
+> On 3/15/2025 12:04 AM, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > IB_SIZE is only b0..b19.  Starting with a6xx gen3, additional fields
+> > were added above the IB_SIZE.  Accidentially setting them can cause
+> > badness.  Fix this by properly defining the CP_INDIRECT_BUFFER packet
+> > and using the generated builder macro to ensure unintended bits are not
+> > set.
+> >
+> > v2: add missing type attribute for IB_BASE
+> >
+> > Reported-by: Connor Abbott <cwabbott0@gmail.com>
+> > Fixes: a83366ef19ea ("drm/msm/a6xx: add A640/A650 to gpulist")
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> > Backport notes, prior to commit ae22a94997b8 ("drm/msm: import A2xx-A4x=
+x
+> > XML display registers database"), just open code, ie:
+> >
+> >    OUT_RING(ring, submit->cmd[i].size & 0xfffff);
+> >
+> > Prior to commit af66706accdf ("drm/msm/a6xx: Add skeleton A7xx
+> > support"), a7xx_submit() did not exist so that hunk can be dropped.
+> >
+> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c               | 8 ++++----
+> >  drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml | 7 +++++++
+> >  2 files changed, 11 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/ms=
+m/adreno/a6xx_gpu.c
+> > index d3978cfa3f20..ea52b7d0b212 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > @@ -245,10 +245,10 @@ static void a6xx_submit(struct msm_gpu *gpu, stru=
+ct msm_gem_submit *submit)
+> >                               break;
+> >                       fallthrough;
+> >               case MSM_SUBMIT_CMD_BUF:
+> > -                     OUT_PKT7(ring, CP_INDIRECT_BUFFER_PFE, 3);
+> > +                     OUT_PKT7(ring, CP_INDIRECT_BUFFER, 3);
+> >                       OUT_RING(ring, lower_32_bits(submit->cmd[i].iova)=
+);
+> >                       OUT_RING(ring, upper_32_bits(submit->cmd[i].iova)=
+);
+> > -                     OUT_RING(ring, submit->cmd[i].size);
+> > +                     OUT_RING(ring, A5XX_CP_INDIRECT_BUFFER_3_IB_SIZE(=
+submit->cmd[i].size));
+> >                       ibs++;
+> >                       break;
+> >               }
+> > @@ -382,10 +382,10 @@ static void a7xx_submit(struct msm_gpu *gpu, stru=
+ct msm_gem_submit *submit)
+> >                               break;
+> >                       fallthrough;
+> >               case MSM_SUBMIT_CMD_BUF:
+> > -                     OUT_PKT7(ring, CP_INDIRECT_BUFFER_PFE, 3);
+> > +                     OUT_PKT7(ring, CP_INDIRECT_BUFFER, 3);
+> >                       OUT_RING(ring, lower_32_bits(submit->cmd[i].iova)=
+);
+> >                       OUT_RING(ring, upper_32_bits(submit->cmd[i].iova)=
+);
+> > -                     OUT_RING(ring, submit->cmd[i].size);
+> > +                     OUT_RING(ring, A5XX_CP_INDIRECT_BUFFER_3_IB_SIZE(=
+submit->cmd[i].size));
+> >                       ibs++;
+> >                       break;
+> >               }
+> > diff --git a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml b/driv=
+ers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+> > index 55a35182858c..a71bc6f16cbf 100644
+> > --- a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+> > +++ b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+> > @@ -2259,5 +2259,12 @@ opcode: CP_LOAD_STATE4 (30) (4 dwords)
+> >       </reg32>
+> >  </domain>
+> >
+> > +<domain name=3D"CP_INDIRECT_BUFFER" width=3D"32" varset=3D"chip" prefi=
+x=3D"chip" variants=3D"A5XX-">
+> > +     <reg64 offset=3D"0" name=3D"IB_BASE" type=3D"address"/>
+> > +     <reg32 offset=3D"3" name=3D"3">
+>
+> Why is the offset 3 here? It looks to me that it doesn't match the code
+> above.
 
-Is that for a person to identify slots or s/w? If just a person, we 
-generally use 'label' as in a sticker on the connector. If s/w, we 
-generally try to avoid made up indexing in DT though there are some 
-exceptions.
+oh, bad copy/pasta.. it should be 2 (dword offset)
 
-> 
-> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> ---
->  .../connector/gocontroll,moduline-module-slot.yaml | 88 ++++++++++++++++++++++
->  1 file changed, 88 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/connector/gocontroll,moduline-module-slot.yaml b/Documentation/devicetree/bindings/connector/gocontroll,moduline-module-slot.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..a16ae2762d160180d5b163e20f5294235e65053b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/connector/gocontroll,moduline-module-slot.yaml
-> @@ -0,0 +1,88 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/connector/gocontroll,moduline-module-slot.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: GOcontroll Moduline Module slot
-> +
-> +maintainers:
-> +  - Maud Spierings <maudspierings@gocontroll.com>
-> +
-> +description:
-> +  The GOcontroll Moduline module slot represents a connector that fullfills the
-> +  Moduline slot specification, and can thus house any IO module that is also
-> +  built to this spec.
-> +
-> +properties:
-> +  compatible:
-> +    const: gocontroll,moduline-module-slot
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description: indicates readiness, high means busy.
-> +    maxItems: 1
-> +  reset-gpios:
-> +    description: resets the module, active low.
-> +    maxItems: 1
-> +  sync-gpios:
-> +    description: sync line between all module slots.
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: low power 3v3 supply generally for the microcontroller.
-> +  vddp-supply:
-> +    description: medium power 5v0 supply for on module low power peripherals.
-> +  vddhpp-supply:
-> +    description: high power 6v-8v supply for on module high power peripherals.
-> +  power-supply:
-> +    description: high power 6v-30v supply for high power module circuits.
-> +
-> +  i2c-bus:
-> +    description: i2c bus shared between module slots and the SoC
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +
-> +  slot-number:
-> +    description:
-> +      The number of the module slot representing the location of on the pcb.
-> +      This enables access to the modules based on slot location.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  spi-max-frequency: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reset-gpios
-> +  - interrupts
-> +  - sync-gpios
-> +  - i2c-bus
-> +  - slot-number
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        connector@0 {
+BR,
+-R
 
-I find this being a SPI device a bit strange. Is there a defined SPI 
-device that every slot is going to have? Or the connector has SPI 
-interface and *anything* could be attached on it?
-
-> +            reg = <0>;
-> +            compatible = "gocontroll,moduline-module-slot";
-> +            reset-gpios = <&gpio5 10 GPIO_ACTIVE_LOW>;
-> +            sync-gpios = <&gpio4 16 GPIO_ACTIVE_HIGH>;
-> +            interrupt-parent = <&gpio4>;
-> +            interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-> +            vdd-supply = <&reg_3v3_per>;
-> +            vddp-supply = <&reg_5v0>;
-> +            vddhpp-supply = <&reg_6v4>;
-> +            i2c-bus = <&i2c2>;
-> +            slot-number = <1>;
-> +        };
-> +    };
-> 
-> -- 
-> 2.48.1
-> 
+> -Akhil.
+>
+> > +             <bitfield name=3D"IB_SIZE" low=3D"0" high=3D"19"/>
+> > +     </reg32>
+> > +</domain>
+> > +
+> >  </database>
+> >
+>
