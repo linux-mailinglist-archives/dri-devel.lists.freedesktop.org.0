@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4D6A60ED1
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 11:28:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D57FA60EE9
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 11:31:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3493810E301;
-	Fri, 14 Mar 2025 10:28:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0498710E99E;
+	Fri, 14 Mar 2025 10:31:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A+XcxhQi";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FZ1oz6ZJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F91D10E301
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 10:28:15 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5499e3ec54dso2033177e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 03:28:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1741948093; x=1742552893; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7lhUJ6eiiWP9IJ/FYhzjbXh+LAJRJWyTLSUXs2Uq9+Y=;
- b=A+XcxhQiEo1S54ZKsTQobNHL2FQUbQFd7reC9PCFyk1PNB9wRROhzDUu09NLmN61XE
- KYi6x8bUbVY6ZPe0mukgREIXGTKEFPiTkJ37k9N+NhJxi99CzAZA0LNO1+d4LzIuHIBI
- +QJIPDmpRP4YdD1SFYAeZ955TSR8lxZWs2FVE9jINFHpVLOHh8puavTlaOEZsNWwJGu7
- AdxDh1h/DQMmSOdoKidmDYzvzu6eTeN9Avd92OwgnGvdmFyn2hArLFmfxFSs6SBdYNjz
- S+rbGPRY/Ol/LKBFcyhG9ve+aSJWKBUHP/O/r9ZTZHDDgfUb/qf3etDbHr/tQwYk2Cqn
- syAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741948093; x=1742552893;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7lhUJ6eiiWP9IJ/FYhzjbXh+LAJRJWyTLSUXs2Uq9+Y=;
- b=rrripK5i6unHuqOf3t3MGii0WJTlSG2v74OcEZeAADD1doybtS7/SKuOdyDUkLnh74
- b84hVQfhIarlmalzbrpXEanDd7kbIE2pZTLQg/5kXtrtwJSCHv5xAJ7j/Nbf+BEYh5jV
- ne+g/rQZoS9le77HjQemE5mBYTkGObIdQxsMycg3YkU3OohsFPw3vljq8kMrPLIgNHEP
- 5ANTlmm/mLGmMszUNSBfB3jcnK+r2JyyuGsoQr6l0w/z/+R/0iruNLgibiTRS9MxQlRD
- BcBU7Wi4Ke4UiusbMhtE0xyIYfYoHsWXWlwJmDlGFQlr1TYwhql7ZECzHMetj4BdeSk8
- KKeA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnhh7r4Tw44wQUtRg7Sa6/KIsDKOWK1DbjNaAB4RYOP0ElkWUCY1Lxgbopczn+fJusw9KRTmFp/co=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqmNgtJ2UZjwnViTIw7CHzFzi6dHWmX6qOpKAvlyPZvAYOvsY6
- 5DYL2XSTQOL3/W/AnzcDL7N87pAsM0lBzQvU+BQLHcnSzNyRmdzvgdkYPAzv6lFygwBKNEcb54f
- JfCKgjpIdeInZX6ZE6sceAkR3tgtMsfkNJ7wTTg==
-X-Gm-Gg: ASbGncstaNdTlA9/6uII8JfKl0eU/8ggNlzcIg4bCDgmTmr2vk1QQjJ+1Rp8qPbK+La
- Po804LNbV4IjLyqHbLh+CT5P+/xIZX4vLFrIiiVldF8J6vxdl730OWP3jW5rBk/iS8zLZJB7vKh
- 9SBnMHaYFShbm1vgcAtTzebE0=
-X-Google-Smtp-Source: AGHT+IEn/Zc2evX7ABWKYXK/Rs9IfMZdPR9tSjfOKy1a8kRLZcgdXcqx09hfLow4+l9JiJIqttYJQGRGb5b/H78iKJ8=
-X-Received: by 2002:a05:6512:3087:b0:549:7330:6a5a with SMTP id
- 2adb3069b0e04-549c3913d63mr621103e87.23.1741948093287; Fri, 14 Mar 2025
- 03:28:13 -0700 (PDT)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 813A510E98C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 10:31:40 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C100143304;
+ Fri, 14 Mar 2025 10:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1741948294;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yEpZ4juRT6fBQZCKbXYpQBMIgNr/IaPoGPb+iKoyN+0=;
+ b=FZ1oz6ZJsLewFtIdk4nCngYSG2+5EYWvhjJqyQfghuW7BeHzHc8uCudW8yTbDISu0ZadgA
+ WGx8ZuM1LNfHJUODHwoqKB2jjwlpDiDzvm7aXT1vqK9Dfhq8461JWNG9+ppm8xA7yyerZ8
+ +e7Uj1i3s+LStsWWjUQbGEZ5W1Q2aFXaQdK2d56rPTwEEydTtZ90PzZayYL/Nszxp847oG
+ zqZsoL6sr/fgNa1jZIE4t1rfWg+8+DHy9QdaDp0kbulKPTnVWDqolVf/r1jSyjvgeWsV7B
+ v+lsG7N3ktEu1PI0FL07j6D343uTXU3VEOnS1Dz/X/hA6i/FfVXeTubtmybGsA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v7 00/11] drm/bridge: add devm_drm_bridge_alloc() with
+ bridge refcount
+Date: Fri, 14 Mar 2025 11:31:13 +0100
+Message-Id: <20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com>
 MIME-Version: 1.0
-References: <20250309193612.251929-1-linux@treblig.org>
- <20250309193612.251929-5-linux@treblig.org>
-In-Reply-To: <20250309193612.251929-5-linux@treblig.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 14 Mar 2025 11:28:02 +0100
-X-Gm-Features: AQ5f1Jo6nSq2AFqXUDepXvu8J8Xduf-drgRoP8FzPPUsiMaA2xVOQZlsv65trtc
-Message-ID: <CACRpkdY2oZtu4vtTwHRMFxaoYWu3B5bfPN==thz=BT2F6BHQQw@mail.gmail.com>
-Subject: Re: [PATCH 4/9] mfd: pcF50633-gpio: Remove
-To: linux@treblig.org
-Cc: arnd@arndb.de, lee@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org, 
- lgirdwood@gmail.com, broonie@kernel.org, alexandre.belloni@bootlin.com, 
- danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de, brgl@bgdev.pl, 
- tsbogend@alpha.franken.de, linux-mips@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHEF1GcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyzHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDY0MT3ZSiXN2koswUoExRalpyfmleia6pRYolUBaI0syUgDoLgDKZFWB
+ To2NrawGhZXyjZQAAAA==
+X-Change-ID: 20250314-drm-bridge-refcount-58d9503503f6
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Anusha Srivatsa <asrivats@redhat.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
+ =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufedtiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgieetkeekgfdtudevueffueffveekheeiudfhfedvhfeukeeuhffhtddtvdekfeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgdttddvmedusggrjeemgeekfhejmedulegtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgdttddvmedusggrjeemgeekfhejmedulegthedphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedupdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehinhhkihdruggrvgesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopehmrghrvgigseguv
+ ghngidruggvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepphgruhhlkhesshihshdqsggrshgvrdhiohdprhgtphhtthhopegrshhrihhvrghtshesrhgvughhrghtrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,21 +83,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 9, 2025 at 8:36=E2=80=AFPM <linux@treblig.org> wrote:
+This series improves the way DRM bridges are allocated and initialized and
+makes them reference-counted. The goal of reference counting is to avoid
+use-after-free by drivers which got a pointer to a bridge and keep it
+stored and used even after the bridge has been deallocated.
 
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> The pcf50633 was used as part of the OpenMoko devices but
-> the support for its main chip was recently removed in:
-> commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
->
-> See https://lore.kernel.org/all/Z8z236h4B5A6Ki3D@gallifrey/
->
-> Remove it.
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+The overall goal is supporting Linux devices with a DRM pipeline whose
+final components can be hot-plugged and hot-unplugged, including one or
+more bridges. For more details see the big picture [0].
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+DRM bridge drivers will have to be adapted to the new API, which is pretty
+simple for most cases. Refcounting will have to be adopted on the two
+sides: all functions returning a bridge pointer and all code obtaining such
+a pointer. This series has just an overview of some of those conversions,
+because for now the main goal is to agree on the API.
 
-Yours,
-Linus Walleij
+Series layout:
+
+ 1. Add the new API and refcounting:
+
+    drm/bridge: add devm_drm_bridge_alloc()
+    drm/bridge: add support for refcounting
+
+ 2. get/put the reference in basic operations in the bridge core:
+
+    drm/bridge: get/put the bridge reference in drm_bridge_add/remove()
+    drm/bridge: get/put the bridge reference in drm_bridge_attach/detach()
+
+ 3. as an example of changes for bridge consumers, get a reference for the
+    bridge returned by drm_bridge_chain_get_first_bridge(), have it put by
+    all callers (all users will be covered later on separately):
+
+    drm/bridge: add a cleanup action for scope-based drm_bridge_put() invocation
+    drm/bridge: get the bridge returned by drm_bridge_chain_get_first_bridge()
+    drm/mxsfb: put the bridge returned by drm_bridge_chain_get_first_bridge()
+    drm/atomic-helper: put the bridge returned by drm_bridge_chain_get_first_bridge()
+    drm/probe-helper: put the bridge returned by drm_bridge_chain_get_first_bridge()
+
+ 4. convert a few bridge drivers (bridge providers) to the new API:
+
+    drm/bridge: ti-sn65dsi83: use dynamic lifetime management
+    drm/bridge: samsung-dsim: use dynamic lifetime management
+
+This work was formerly a part of my v6 DRM bridge hotplug series[0], now
+split as a standalone series with many improvements, hence the "v7" version
+number.
+
+[0] https://lore.kernel.org/dri-devel/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Luca Ceresoli (11):
+      drm/bridge: add devm_drm_bridge_alloc()
+      drm/bridge: add support for refcounting
+      drm/bridge: get/put the bridge reference in drm_bridge_add/remove()
+      drm/bridge: get/put the bridge reference in drm_bridge_attach/detach()
+      drm/bridge: add a cleanup action for scope-based drm_bridge_put() invocation
+      drm/bridge: get the bridge returned by drm_bridge_chain_get_first_bridge()
+      drm/mxsfb: put the bridge returned by drm_bridge_chain_get_first_bridge()
+      drm/atomic-helper: put the bridge returned by drm_bridge_chain_get_first_bridge()
+      drm/probe-helper: put the bridge returned by drm_bridge_chain_get_first_bridge()
+      drm/bridge: ti-sn65dsi83: use dynamic lifetime management
+      drm/bridge: samsung-dsim: use dynamic lifetime management
+
+ drivers/gpu/drm/bridge/samsung-dsim.c |   7 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c |   7 +-
+ drivers/gpu/drm/drm_atomic_helper.c   |   5 ++
+ drivers/gpu/drm/drm_bridge.c          |  74 +++++++++++++++++++--
+ drivers/gpu/drm/drm_probe_helper.c    |   1 +
+ drivers/gpu/drm/mxsfb/lcdif_kms.c     |   3 +-
+ include/drm/drm_bridge.h              | 119 +++++++++++++++++++++++++++++++++-
+ 7 files changed, 201 insertions(+), 15 deletions(-)
+---
+base-commit: 9e6d91c60b0d64a4f945663993b3bbf4f3fb7392
+change-id: 20250314-drm-bridge-refcount-58d9503503f6
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
