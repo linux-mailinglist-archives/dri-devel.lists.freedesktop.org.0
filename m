@@ -2,99 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B456A60784
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 03:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAB7A607D5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 04:39:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33F0F10E268;
-	Fri, 14 Mar 2025 02:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B69E510E2A4;
+	Fri, 14 Mar 2025 03:39:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="GjhU5HYW";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="oIaTe26/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA4D110E268
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 02:34:13 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-ac297cbe017so502506266b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 19:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1741919652; x=1742524452;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=il06D9hr0Fc9RDaH12vgTcO4maMntEHFOsv/sipTbFw=;
- b=GjhU5HYWDs2jE7bipc+CWV3oQKibN/6AxtX+vWECM012fSnlW5J7Es7RL4XxCh6GuN
- ehB2w0KgF4dU0FqEyWiqwL8cVZ+3FlKgBQuvXV1zn086dEPD6EaCZDiyObG7QSJ4E7uF
- UE++nfr4wp938iWK2pGsCP7zDvtBeK0BxN7Do=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741919652; x=1742524452;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=il06D9hr0Fc9RDaH12vgTcO4maMntEHFOsv/sipTbFw=;
- b=ABgd/n//Rti8Xt8Vtoz/G5ocIxKFLLwVYZaPas9rxVDgNOajdoEakTo2tAIARRvQUd
- kISaTBnhI1/LZKcdxqwR2ggNdFul4PndWwUdtMHZm2JE1cJkfPdGn8ScD0Jkzcy0w0uC
- jgH6tJPzg3DVcFS2lS0tWfpSA6VPzONhRIv39pcvYpOIqxqOqhOexNVTluRPKVRfDCE8
- d6t0neOHuxBpzaQWUhK63Hd6fi91XESWvGAZpjuxtXepGrZ0fiR8+Tz/9NVx7n8er91R
- I79MDQ1mEIB93GSYeBhStLfw/c9RpKonOVtsPQHReUdtNx80LKIi0DcIkMCf5YVMAC0e
- Tm8Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVmGedSAWbXUXsX5M86QgfhaegElhIse2dRt90MsHuCWC9prqMMes9K1VHeO/uE/TGsCmdJGsrpPHo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBTKMWka8xFW00Hvx0q99hoBqsJ+Ctpka52ecIJHwbNjbpU5lK
- a7Oo09qzwnriA+jIWQF9uYVNSN0IxrDbKzqIXetkYWdGGpv2+Y4tPepIatEgVoHpR0GIRZKKyX2
- qvF+Y
-X-Gm-Gg: ASbGncvbv++tlo9ufTbojPzwAbj7COfbS2g72ra29I3KVqrNCS5Fig8Db3lpjntx4o1
- qnhoqta8Y4/vOWjTHAIPBGkOyc3PFuikoGjT2nW3SurMczq1QWFJe5pPZRjqjWZQu3F11zE5kP3
- NE7+WZZYnJQdh+zWPS1Q19aa+Phx6+XkH7erF1GPEVj9+f3IhmQszCs1+Rl+E3PpGKEXA6wJmzf
- 2Reeej+qC10S7VfDygiaiLWMv566PrdJe2ZmRkOQTo9fYikmga4Tkb/KnrqCKe1DqVOj5EAiCA+
- pVhtRBP93MX9DBDZoELjjrMVp9aoRAfG/K1tjXJ5pRqNOVvM5P0Io2GRAZ+qeYHtQ8fRTwEeYdo
- /6C3b2xXe
-X-Google-Smtp-Source: AGHT+IHXAnyqyM6Dr5hxyjjm39drHRHY8ceT3BwfCmVOcid7RHtDIdq4Ji41weIHOuJmgks9ZbmSSw==
-X-Received: by 2002:a17:907:c00b:b0:abf:48df:bf07 with SMTP id
- a640c23a62f3a-ac31233df82mr519700366b.15.1741919652005; 
- Thu, 13 Mar 2025 19:34:12 -0700 (PDT)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com.
- [209.85.218.50]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac314a4856csm155147766b.156.2025.03.13.19.34.11
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Mar 2025 19:34:11 -0700 (PDT)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-ab771575040so514573666b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 19:34:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsiGkcEIecZGaInThofHVAhMiwL9szDtvZJ93XlmLn75SC//+KEBRD3qhl0OQO2YvHTEmcjh2SQck=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:238b:b0:549:88b8:ccad with SMTP id
- 2adb3069b0e04-549c3f97e1amr221177e87.20.1741919289506; Thu, 13 Mar 2025
- 19:28:09 -0700 (PDT)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1D10910E28C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 03:39:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=gGwv+
+ eeprf4G5YLrHNJS3Mp9GgddJgkGcfVW3j5tZlA=; b=oIaTe26/ZMGzQva6ST9DH
+ XS1W+KqDbOFbYrM7gsAz/Wkd5HZKgvckiFlnBOXNUKNP5rAg+xAZ1KbxYoYEl35Q
+ LZLN5tdsAQooMcTgL0iROer/MEZSeDSti4LtCwPpymqNZN6/n5EPfVpdIvHZtsoX
+ 8QJ3l5SMLM5fIf/k6ql/24=
+Received: from ProDesk.. (unknown [])
+ by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id
+ _____wC3bE_SpNNn4bIfSw--.42501S2; 
+ Fri, 14 Mar 2025 11:39:02 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: lumag@kernel.org
+Cc: mripard@kernel.org, neil.armstrong@linaro.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
+ thierry.reding@gmail.com, victor.liu@nxp.com, rfoss@kernel.org,
+ linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH 1/5] drm/dp: Pull drm_dp_link_power_up/down from Tegra to
+ common drm_dp_helper
+Date: Fri, 14 Mar 2025 11:38:40 +0800
+Message-ID: <20250314033856.538352-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250310104114.2608063-1-damon.ding@rock-chips.com>
- <20250310104114.2608063-9-damon.ding@rock-chips.com>
-In-Reply-To: <20250310104114.2608063-9-damon.ding@rock-chips.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 13 Mar 2025 19:27:57 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XYt894pPyvRxHAe1LjCXEorzB3xBkAKZzE6Fntfac5GQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JrcEIf4cAvd2mSC-J3hgcRSHWlS6TAPo8G1EtX7yAuKQEhPcQq-mGynGdM
-Message-ID: <CAD=FV=XYt894pPyvRxHAe1LjCXEorzB3xBkAKZzE6Fntfac5GQ@mail.gmail.com>
-Subject: Re: [PATCH v8 08/13] drm/rockchip: analogix_dp: Add support to get
- panel from the DP AUX bus
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: heiko@sntech.de, andy.yan@rock-chips.com, hjc@rock-chips.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, dmitry.baryshkov@linaro.org, 
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com, 
- boris.brezillon@collabora.com, l.stach@pengutronix.de, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wC3bE_SpNNn4bIfSw--.42501S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxKFW3KF15JF4xGr18WF15urg_yoW3GF15pF
+ ZxWry8tr4vvw4UXr47tF129rW3ua17CFWkKrWxG3s3A3Wjyr98Xa45tr1UGFy3JryDCay7
+ tFnxCFW7GFWIkw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j5NVkUUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gUQXmfTn9eT4wAAsV
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,54 +61,231 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Andy Yan <andy.yan@rock-chips.com>
 
-On Mon, Mar 10, 2025 at 3:42=E2=80=AFAM Damon Ding <damon.ding@rock-chips.c=
-om> wrote:
->
-> Move drm_of_find_panel_or_bridge() a little later and combine it with
-> component_add() into a new function rockchip_dp_link_panel(). The functio=
-n
-> will serve as done_probing() callback of devm_of_dp_aux_populate_bus(),
-> aiding to support for obtaining the eDP panel via the DP AUX bus.
->
-> If failed to get the panel from the DP AUX bus, it will then try the othe=
-r
-> way to get panel information through the platform bus.
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
->
-> ---
->
-> Changes in v4:
-> - Use done_probing() to call drm_of_find_panel_or_bridge() and
->   component_add() when getting panel from the DP AUX bus
->
-> Changes in v5:
-> - Use the functions exported by the Analogix side to get the pointers of
->   struct analogix_dp_plat_data and struct drm_dp_aux.
-> - Use dev_err() instead of drm_err() in rockchip_dp_poweron().
->
-> Changes in v6:
-> - Keep drm_err() in rockchip_dp_poweron()
-> - Pass 'dp' in drm_...() rather than 'dp->drm_dev'
->
-> Changes in v7:
-> - Include the drm_dp_aux_bus.h for devm_of_dp_aux_populate_bus()
-> - Use dev_err_probe() for the return value check of
->   devm_of_dp_aux_populate_bus()
-> - Select DRM_DISPLAY_DP_AUX_BUS if ROCKCHIP_ANALOGIX_DP
-> - Restore the error check for drm_of_find_panel_or_bridge() which was
->   removed by mistake
->
-> Changes in v8:
-> - Add comments when drm_of_find_panel_or_bridge() returns -ENODEV
-> - Remove some redundant return cases
-> - Add comments when devm_of_dp_aux_populate_bus() returns -ENODEV
-> ---
->  drivers/gpu/drm/rockchip/Kconfig              |  1 +
->  .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 42 +++++++++++++++----
->  2 files changed, 34 insertions(+), 9 deletions(-)
+The helper functions drm_dp_link_power_up/down were moved to Tegra
+DRM at 2019[0].
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Now since more and more users are duplicating the same code in their
+own drivers, it's time to make them as DRM DP common helpers again.
+
+[0]https://patchwork.freedesktop.org/patch/336850/?series=68031&rev=3
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+---
+
+ drivers/gpu/drm/display/drm_dp_helper.c | 69 +++++++++++++++++++++++++
+ drivers/gpu/drm/tegra/dp.c              | 67 ------------------------
+ drivers/gpu/drm/tegra/dp.h              |  2 -
+ drivers/gpu/drm/tegra/sor.c             |  4 +-
+ include/drm/display/drm_dp_helper.h     |  2 +
+ 5 files changed, 73 insertions(+), 71 deletions(-)
+
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index dbce1c3f4969..e5dec67e5fca 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -838,6 +838,75 @@ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+ }
+ EXPORT_SYMBOL(drm_dp_dpcd_read_phy_link_status);
+ 
++/**
++ * drm_dp_link_power_up() - power up a DisplayPort link
++ * @aux: DisplayPort AUX channel
++ * @revision: DPCD revision supported on the link
++ *
++ * Returns 0 on success or a negative error code on failure.
++ */
++int drm_dp_link_power_up(struct drm_dp_aux *aux, unsigned char revision)
++{
++	u8 value;
++	int err;
++
++	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
++	if (revision < DP_DPCD_REV_11)
++		return 0;
++
++	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
++	if (err < 0)
++		return err;
++
++	value &= ~DP_SET_POWER_MASK;
++	value |= DP_SET_POWER_D0;
++
++	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
++	if (err < 0)
++		return err;
++
++	/*
++	 * According to the DP 1.1 specification, a "Sink Device must exit the
++	 * power saving state within 1 ms" (Section 2.5.3.1, Table 5-52, "Sink
++	 * Control Field" (register 0x600).
++	 */
++	usleep_range(1000, 2000);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_link_power_up);
++
++/**
++ * drm_dp_link_power_down() - power down a DisplayPort link
++ * @aux: DisplayPort AUX channel
++ * @revision: DPCD revision supported on the link
++ *
++ * Returns 0 on success or a negative error code on failure.
++ */
++int drm_dp_link_power_down(struct drm_dp_aux *aux, unsigned char revision)
++{
++	u8 value;
++	int err;
++
++	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
++	if (revision < DP_DPCD_REV_11)
++		return 0;
++
++	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
++	if (err < 0)
++		return err;
++
++	value &= ~DP_SET_POWER_MASK;
++	value |= DP_SET_POWER_D3;
++
++	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
++	if (err < 0)
++		return err;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_link_power_down);
++
+ static int read_payload_update_status(struct drm_dp_aux *aux)
+ {
+ 	int ret;
+diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
+index 08fbd8f151a1..990e744b0923 100644
+--- a/drivers/gpu/drm/tegra/dp.c
++++ b/drivers/gpu/drm/tegra/dp.c
+@@ -255,73 +255,6 @@ int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link)
+ 	return 0;
+ }
+ 
+-/**
+- * drm_dp_link_power_up() - power up a DisplayPort link
+- * @aux: DisplayPort AUX channel
+- * @link: pointer to a structure containing the link configuration
+- *
+- * Returns 0 on success or a negative error code on failure.
+- */
+-int drm_dp_link_power_up(struct drm_dp_aux *aux, struct drm_dp_link *link)
+-{
+-	u8 value;
+-	int err;
+-
+-	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+-	if (link->revision < 0x11)
+-		return 0;
+-
+-	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+-	if (err < 0)
+-		return err;
+-
+-	value &= ~DP_SET_POWER_MASK;
+-	value |= DP_SET_POWER_D0;
+-
+-	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+-	if (err < 0)
+-		return err;
+-
+-	/*
+-	 * According to the DP 1.1 specification, a "Sink Device must exit the
+-	 * power saving state within 1 ms" (Section 2.5.3.1, Table 5-52, "Sink
+-	 * Control Field" (register 0x600).
+-	 */
+-	usleep_range(1000, 2000);
+-
+-	return 0;
+-}
+-
+-/**
+- * drm_dp_link_power_down() - power down a DisplayPort link
+- * @aux: DisplayPort AUX channel
+- * @link: pointer to a structure containing the link configuration
+- *
+- * Returns 0 on success or a negative error code on failure.
+- */
+-int drm_dp_link_power_down(struct drm_dp_aux *aux, struct drm_dp_link *link)
+-{
+-	u8 value;
+-	int err;
+-
+-	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+-	if (link->revision < 0x11)
+-		return 0;
+-
+-	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+-	if (err < 0)
+-		return err;
+-
+-	value &= ~DP_SET_POWER_MASK;
+-	value |= DP_SET_POWER_D3;
+-
+-	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+-	if (err < 0)
+-		return err;
+-
+-	return 0;
+-}
+-
+ /**
+  * drm_dp_link_configure() - configure a DisplayPort link
+  * @aux: DisplayPort AUX channel
+diff --git a/drivers/gpu/drm/tegra/dp.h b/drivers/gpu/drm/tegra/dp.h
+index cb12ed0c54e7..695060cafac0 100644
+--- a/drivers/gpu/drm/tegra/dp.h
++++ b/drivers/gpu/drm/tegra/dp.h
+@@ -164,8 +164,6 @@ int drm_dp_link_remove_rate(struct drm_dp_link *link, unsigned long rate);
+ void drm_dp_link_update_rates(struct drm_dp_link *link);
+ 
+ int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link);
+-int drm_dp_link_power_up(struct drm_dp_aux *aux, struct drm_dp_link *link);
+-int drm_dp_link_power_down(struct drm_dp_aux *aux, struct drm_dp_link *link);
+ int drm_dp_link_configure(struct drm_dp_aux *aux, struct drm_dp_link *link);
+ int drm_dp_link_choose(struct drm_dp_link *link,
+ 		       const struct drm_display_mode *mode,
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index f98f70eda906..21f3dfdcc5c9 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -2666,7 +2666,7 @@ static void tegra_sor_dp_disable(struct drm_encoder *encoder)
+ 	 * the AUX transactions would just be timing out.
+ 	 */
+ 	if (output->connector.status != connector_status_disconnected) {
+-		err = drm_dp_link_power_down(sor->aux, &sor->link);
++		err = drm_dp_link_power_down(sor->aux, sor->link.revision);
+ 		if (err < 0)
+ 			dev_err(sor->dev, "failed to power down link: %d\n",
+ 				err);
+@@ -2882,7 +2882,7 @@ static void tegra_sor_dp_enable(struct drm_encoder *encoder)
+ 	else
+ 		dev_dbg(sor->dev, "link training succeeded\n");
+ 
+-	err = drm_dp_link_power_up(sor->aux, &sor->link);
++	err = drm_dp_link_power_up(sor->aux, sor->link.revision);
+ 	if (err < 0)
+ 		dev_err(sor->dev, "failed to power up DP link: %d\n", err);
+ 
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index 5ae4241959f2..f9dabce484a7 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -566,6 +566,8 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
+ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+ 				     enum drm_dp_phy dp_phy,
+ 				     u8 link_status[DP_LINK_STATUS_SIZE]);
++int drm_dp_link_power_up(struct drm_dp_aux *aux, unsigned char revision);
++int drm_dp_link_power_down(struct drm_dp_aux *aux, unsigned char revision);
+ 
+ int drm_dp_dpcd_write_payload(struct drm_dp_aux *aux,
+ 			      int vcpid, u8 start_time_slot, u8 time_slot_count);
+-- 
+2.34.1
+
