@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D60A61920
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 19:13:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE88A61935
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 19:17:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A20C810EA3A;
-	Fri, 14 Mar 2025 18:13:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C321A10E11E;
+	Fri, 14 Mar 2025 18:17:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p9hk6SIO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pUZr8M+5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 452A710EA3A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 18:13:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5558B10E11E
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 18:17:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A78CE5C5443;
- Fri, 14 Mar 2025 18:10:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A112C4CEE3;
- Fri, 14 Mar 2025 18:12:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id BF6AE5C4D3A;
+ Fri, 14 Mar 2025 18:15:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31E9C4CEE3;
+ Fri, 14 Mar 2025 18:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741975979;
- bh=j5F5voyqMDf/Acb+Qij3yNPtv2PhlZR0mqxo0ZOIE8g=;
+ s=k20201202; t=1741976240;
+ bh=1BOoTpa7j7kOWDgvxrb0tXDEr/wUI29Rp0UJrHYohJA=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=p9hk6SIOYoS2epV0wJxk40iVLBI/2s1h2Vw9v3hso51YWQnMQOVnWh8snIwvEOLeN
- QMrxmUvXFWSNXOt4+QtFsOjAp7w6B9qrI/IA+TGqPobkBPN/+YI8K2Y3aMLudmUXpz
- nKHB7WvV48iMPitNP6aq0BYneYwVkShT8WQmTcLAaAU37wtzDO9nwwpS/LXn44D4GY
- bZpUNiMp/oTrZH5H7O2RMa12mZUFRKuZyNGerFmtAsQiYxx+rotnCqNSmW5G7capiI
- GRixaeMfk64vPGV9H8O+K8WJ6abRCVb2zrXqqUO93oQEV1Or3i6EgK6CnlaUGU6khC
- AsgBYYTQzGxWw==
-Message-ID: <0cea0c073dfc52c20f583d64b51d7951@kernel.org>
-Date: Fri, 14 Mar 2025 18:12:56 +0000
+ b=pUZr8M+5YqTB0gwHjL2uSg75N4jc4CDIxlCHb7r1mXjx3YKJCmr8XK4iL2+emxFei
+ lX2P5axT3LQE0vqeQiA9N6V6JNTGttlyHixDMwDJbeY7sE6LXdmX62UZ/mLGzaF1PU
+ sjWxU+hkq4nT+hHhYo/NY/ggRFfO5MJ+KMinzqjzhJW+1fjnTsQZst58KpmkzNFSkw
+ Ncw+wZWsjOUl3j7zOLzEFpzV1gSUqyozZTFKyb/8rC28QAuuhb7M8Tn5DSPCt1Vub3
+ H6hpRu+O4ZAO2S36uWVrdlryZxxok2R3VVfiu1ZRaOl4IvEra9sYRV9cEhTxpTGVu6
+ 2Q/eSha1g30iw==
+Message-ID: <028ca14a547f52456a10529508cb0207@kernel.org>
+Date: Fri, 14 Mar 2025 18:17:17 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v7 09/11] drm/probe-helper: put the bridge returned by
- drm_bridge_chain_get_first_bridge()
-In-Reply-To: <20250314-drm-bridge-refcount-v7-9-152571f8c694@bootlin.com>
-References: <20250314-drm-bridge-refcount-v7-9-152571f8c694@bootlin.com>
+Subject: Re: [PATCH v7 10/11] drm/bridge: ti-sn65dsi83: use dynamic lifetime
+ management
+In-Reply-To: <20250314-drm-bridge-refcount-v7-10-152571f8c694@bootlin.com>
+References: <20250314-drm-bridge-refcount-v7-10-152571f8c694@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, "Andrzej
  Hajda" <andrzej.hajda@intel.com>, "Anusha Srivatsa" <asrivats@redhat.com>,
@@ -59,7 +59,7 @@ Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  Vetter" <simona@ffwll.ch>, "Stefan Agner" <stefan@agner.ch>, "Thomas
  Petazzoni" <thomas.petazzoni@bootlin.com>,
  "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,13 +75,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Mar 2025 11:31:22 +0100, Luca Ceresoli wrote:
-> The bridge returned by drm_bridge_chain_get_first_bridge() is
-> refcounted. Put it when done.
-> 
+On Fri, 14 Mar 2025 11:31:23 +0100, Luca Ceresoli wrote:
+> Allow this bridge to be removable without dangling pointers and
+> use-after-free, together with proper use of drm_bridge_get() and _put() by
+> consumers.
+>=20
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> 
+>=20
 > [ ... ]
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
