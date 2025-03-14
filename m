@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81126A618A8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 18:53:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E377CA618AE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 18:54:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF68C10E319;
-	Fri, 14 Mar 2025 17:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48B6010E361;
+	Fri, 14 Mar 2025 17:54:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AjTAUCj1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l6sK7ieG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3B010E318;
- Fri, 14 Mar 2025 17:53:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8369410E361;
+ Fri, 14 Mar 2025 17:54:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3F233A487E2;
- Fri, 14 Mar 2025 17:48:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E7CC4CEE3;
- Fri, 14 Mar 2025 17:53:46 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id AC571A4874F;
+ Fri, 14 Mar 2025 17:48:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBE4AC4CEE3;
+ Fri, 14 Mar 2025 17:54:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1741974826;
+ s=k20201202; t=1741974857;
  bh=s5sHm7/QnN7CVS7K9YFNqIidGfIhRwMnWMvEDWIzRJE=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=AjTAUCj1AqyVFILuqDf1htnLC/n62fgzlyWA5H1BD+dsyXp0Bezik4MJ2zfCreNrZ
- 7zIvkQhkDFUaZwkGqBp6VmKVjpoSZ9LAnHumSkaVJ4OTJDkvtzHqgCiI3zOUZDk0tV
- qL9kilD6gIdHzzJaOa64ZMi3yC6LLdmJWPf/sHqLUQnYqEMEtv6d62fWnlu8AFHtg5
- 5T2CXO9P3RQkQgz6k4fc87k/ByPD3g4qe4bq+1viJ4Ay72N7eqgpBIALy3hssFL+PJ
- T8UvGgGHwMdOqHpT/I9iAOwjpWMrtFfp+n8dKcdv3Jw4jRFgGGfvQDICdC7ke9ic9Q
- 3DdsLkLSb8kJA==
-Message-ID: <26194ac041ad313a9e48ec1c7ef21cfc@kernel.org>
-Date: Fri, 14 Mar 2025 17:53:44 +0000
+ b=l6sK7ieGocpcw/pza85frnO0i9kO+vU4VfI7L741J6xa2xf8hMS10QC/pwEdA/k1Z
+ JbXb4RHhXzvnoqi7m4F3t7XGKYsW6muYPPyes5EvfUozYbXtjqwDa+xqsWLtex6XXc
+ wF/iKUNERYd6/Hl5AHzWP4hooCs8f8/R7AIo756q0u1Qyf7NQAb+Cv9l8bWGLHC+MC
+ Ae/FcMfiUZBxIjU/0Q84DB0U47SsD/7ht55s4g92NAGNQh6xu+6Df95DrI6Zr1BXTd
+ FZ+5ALITjJ7h8HaB4AhD8amhsw9Oqvb0Tw1rhP6RLresD4bjrKZ+gXd6MgGHPY6dfh
+ Hq656x/xSY6Ow==
+Message-ID: <d5b8a7fa506ed3026c19b383edf160d6@kernel.org>
+Date: Fri, 14 Mar 2025 17:54:14 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
 Subject: Re: [PATCH v6 2/4] drm/bridge: add function interface for
