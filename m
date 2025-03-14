@@ -2,66 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4D3A606B4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 01:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98DD9A60778
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 03:28:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B796D10E0A0;
-	Fri, 14 Mar 2025 00:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 962C110E269;
+	Fri, 14 Mar 2025 02:28:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="hq0bD9Zp";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="bMZSn0J1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id AEC9410E0A0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 00:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=jxALLUH4lOP3HrN7kZROudEzIsqrBQNSij5Vwg6uJgM=; b=h
- q0bD9ZpxnNH1ck99Fumg6ZOoxdFuuNOqh8mIvLp90cqs9rYonGxjWPtGkvTp4PCg
- pDhQefRdem6pBSs7ZdpirZ9nlw34znLCH9KSlv38nZ7RjOpqIbngC8mm6zUBI9zA
- AjwvFGpmVnmLC93KBtxiMx+S6zm285sO/W1uzzw7jU=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-146 (Coremail) ; Fri, 14 Mar 2025 08:50:29 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Fri, 14 Mar 2025 08:50:29 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Maxime Ripard" <mripard@kernel.org>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Douglas Anderson" <dianders@chromium.org>,
- "Herve Codina" <herve.codina@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, lumag@kernel.org
-Subject: Re:Re: [PATCH v5 04/16] drm/atomic: Introduce helper to lookup
- connector by encoder
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250313-dazzling-deer-of-ampleness-21db67@houat>
-References: <20250304-bridge-connector-v5-0-aacf461d2157@kernel.org>
- <20250304-bridge-connector-v5-4-aacf461d2157@kernel.org>
- <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
- <608c01c.7716.1958e8d879f.Coremail.andyshrk@163.com>
- <20250313-dazzling-deer-of-ampleness-21db67@houat>
-X-NTES-SC: AL_Qu2fA/WavEwp7ySdY+kfmkcVgOw9UcO5v/Qk3oZXOJF8jCzr2S86fUFMJXzT+9+ONRCrrheYbT9M6PtxWaRSfYMbFP21R2Tj2ON3P88zGx8YJA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94E5B10E269
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 02:28:04 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-30762598511so17023141fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 19:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1741919282; x=1742524082;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3EDLto5Fj+QyO1rc5OeVTSwga/F1rC5M7RFzWcpsACU=;
+ b=bMZSn0J1lCW+kAXiEWow0VuhClFfDXajT1FbXmWUaHDbetpqlFJUz23VQ2NuRgInGT
+ IWL2LgcxY+eo4UDl7kzpSieJ3H6GMfgL0PJT28srHLhPdi3osWS2Jno/hUhF7Lwt3c7g
+ mKbNqWAGkOd8rTOXk2w5q6C5yTaBEk0dqn36A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741919282; x=1742524082;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3EDLto5Fj+QyO1rc5OeVTSwga/F1rC5M7RFzWcpsACU=;
+ b=I5af9jkl8Da/rWb2j/61UOLF6s7Hb1baa75jozwz/JGDI7H3D2JI2Lz14AheYmYFuN
+ Fagvu7TVGn0Kq6shWIwB17bdpmiqq78DwvVwHejknb9nr2iB5+pO6IxvHrDz2fN6S5HX
+ pxP11rK80w5NCZsjhn5YV1t3WUOcFF12ejhHbR8JmdzbFLmmKuzeu288r/0CZ3/jJhU3
+ 6OAdo59lRjglDfXaLz6yxJav7+0ko/w2Oz+aK+9zaMzqvD3WDRPmc5y9Rl59VpqAtrLT
+ /M0uHF/dXiN3+W4u4ZZFKQeosRq0hANic4h82g9JQO0OZAp7fUBP1SutneazT/xzboyM
+ jw7A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVL21PUVbS7RY6RVc2tcyMn31Kr2NBIzRHIfkkKeWn2/sTAekVuMkS/JfrTp6AzJYyQM3T4mz1CBH8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxbNRfclZskB4sT+As3WbN4hghWW3Q8zKsMrN5AKeQYDHn4uSnM
+ 6L4jBfD05i64q+wN/jJmgMt88zcewFe5EnC0xDaQxwvTxlqCTWdNxQ7VQ4FeVLZMUKykNprJS3/
+ iBg==
+X-Gm-Gg: ASbGncu6edrGMPek47JJ8lTYOMNtnuT2Uk0i6KAkT3WpghStrR7zQ8weOT0ifLl3cdX
+ ZVER/Aqg3VvdWZmimnuENdK92zi1eJnhNyi+8Yo5+qAa66eYssonqQ2r+qzO8moGzGCtrjdHcr7
+ zpUHc7ItHHis9Nk2+ik1r4Mhl3jXLUK8UVRM4mJdCu4pysqoNCkBpskDHEr0fIxwtFFbVLYNOqw
+ BNWymEXmz5d6Q/PrjjsbLSSPTUeGkPtEy8D+4hjIJPvRABYdUFuNxYNIbhIblku50vin/Olv2vN
+ Ai8ABNadFVYTL3PFBTnd3Cpu6HZ10D8e85Wrr0LJ/TuI8kPzxumWSB6eq2uNNFPLIPG4fZf8sQK
+ I1T7PiWoRXrEd
+X-Google-Smtp-Source: AGHT+IEEeNrHmItFQeStFubdfLmBEhb3iXul3LKTZukBdpOUQui/QHgAp3Vq5pGJooGRviS+yENLOA==
+X-Received: by 2002:a05:651c:2108:b0:300:5c57:526b with SMTP id
+ 38308e7fff4ca-30c4a861dc9mr2366231fa.11.1741919281752; 
+ Thu, 13 Mar 2025 19:28:01 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com.
+ [209.85.208.172]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30c3f1dbb12sm3961671fa.95.2025.03.13.19.28.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Mar 2025 19:28:00 -0700 (PDT)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-30795988ebeso17107561fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 19:28:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWWX7UxbHlk9Lru1wGmtZKZXHDcdYWnFEvv2tPMWX+2nhURiY2ZbB9427HXeOCjqXFq2DFWWJ6PSG0=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:3b90:b0:549:c1e6:cbb9 with SMTP id
+ 2adb3069b0e04-549c38d07bemr214129e87.9.1741919280219; Thu, 13 Mar 2025
+ 19:28:00 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <6ae1c567.8c6.195922195d6.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: kigvCgAnTS5VfdNn4BN+AA--.18349W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkAwQXmfTcpjerwACs-
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+References: <20250310104114.2608063-1-damon.ding@rock-chips.com>
+ <20250310104114.2608063-7-damon.ding@rock-chips.com>
+In-Reply-To: <20250310104114.2608063-7-damon.ding@rock-chips.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 13 Mar 2025 19:27:46 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V0Q5v6hcEFJqMfhCSQ80ki5SQRmrXvyeGCOQiFsXc28A@mail.gmail.com>
+X-Gm-Features: AQ5f1Jpkp3eXwx7hKjmZ3N01Nrt914JFcQlKc2Ek2r-3Xhw1Wi6nZVzuUBUzhgE
+Message-ID: <CAD=FV=V0Q5v6hcEFJqMfhCSQ80ki5SQRmrXvyeGCOQiFsXc28A@mail.gmail.com>
+Subject: Re: [PATCH v8 06/13] drm/bridge: analogix_dp: Add support to get
+ panel from the DP AUX bus
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: heiko@sntech.de, andy.yan@rock-chips.com, hjc@rock-chips.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
+ jernej.skrabec@gmail.com, dmitry.baryshkov@linaro.org, 
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com, 
+ boris.brezillon@collabora.com, l.stach@pengutronix.de, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,118 +110,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIE1heGltZSBhbmQgU2ltb25hLAoKCkF0IDIwMjUtMDMtMTMgMTk6NTU6MzMsICJNYXhpbWUg
-UmlwYXJkIiA8bXJpcGFyZEBrZXJuZWwub3JnPiB3cm90ZToKPkhpLAo+Cj5PbiBUaHUsIE1hciAx
-MywgMjAyNSBhdCAwNDowOTo1NFBNICswODAwLCBBbmR5IFlhbiB3cm90ZToKPj4gQXQgMjAyNS0w
-My0wNSAxOTo1NToxOSwgIkFuZHkgWWFuIiA8YW5keXNocmtAMTYzLmNvbT4gd3JvdGU6Cj4+ID5B
-dCAyMDI1LTAzLTA0IDE5OjEwOjQ3LCAiTWF4aW1lIFJpcGFyZCIgPG1yaXBhcmRAa2VybmVsLm9y
-Zz4gd3JvdGU6Cj4+ID4+V2l0aCB0aGUgYnJpZGdlcyBzd2l0Y2hpbmcgb3ZlciB0byBkcm1fYnJp
-ZGdlX2Nvbm5lY3RvciwgdGhlIGRpcmVjdAo+PiA+PmFzc29jaWF0aW9uIGJldHdlZW4gYSBicmlk
-Z2UgZHJpdmVyIGFuZCBpdHMgY29ubmVjdG9yIHdhcyBsb3N0Lgo+PiA+Pgo+PiA+PlRoaXMgaXMg
-bWl0aWdhdGVkIGZvciBhdG9taWMgYnJpZGdlIGRyaXZlcnMgYnkgdGhlIGZhY3QgeW91IGNhbiBh
-Y2Nlc3MKPj4gPj50aGUgZW5jb2RlciwgYW5kIHRoZW4gY2FsbCBkcm1fYXRvbWljX2dldF9vbGRf
-Y29ubmVjdG9yX2Zvcl9lbmNvZGVyKCkgb3IKPj4gPj5kcm1fYXRvbWljX2dldF9uZXdfY29ubmVj
-dG9yX2Zvcl9lbmNvZGVyKCkgd2l0aCBkcm1fYXRvbWljX3N0YXRlLgo+PiA+Pgo+PiA+PlRoaXMg
-d2FzIGFsc28gbWFkZSBlYXNpZXIgYnkgcHJvdmlkaW5nIGRybV9hdG9taWNfc3RhdGUgZGlyZWN0
-bHkgdG8gYWxsCj4+ID4+YXRvbWljIGhvb2tzIGJyaWRnZXMgY2FuIGltcGxlbWVudC4KPj4gPj4K
-Pj4gPj5Ib3dldmVyLCBicmlkZ2UgZHJpdmVycyBkb24ndCBoYXZlIGEgd2F5IHRvIGFjY2VzcyBk
-cm1fYXRvbWljX3N0YXRlCj4+ID4+b3V0c2lkZSBvZiB0aGUgbW9kZXNldCBwYXRoLCBsaWtlIGZy
-b20gdGhlIGhvdHBsdWcgaW50ZXJydXB0IHBhdGggb3IgYW55Cj4+ID4+aW50ZXJydXB0IGhhbmRs
-ZXIuCj4+ID4+Cj4+ID4+TGV0J3MgaW50cm9kdWNlIGEgZnVuY3Rpb24gdG8gcmV0cmlldmUgdGhl
-IGNvbm5lY3RvciBjdXJyZW50bHkgYXNzaWduZWQKPj4gPj50byBhbiBlbmNvZGVyLCB3aXRob3V0
-IHVzaW5nIGRybV9hdG9taWNfc3RhdGUsIHRvIG1ha2UgdGhlc2UgZHJpdmVycycKPj4gPj5saWZl
-IGVhc2llci4KPj4gPj4KPj4gPj5SZXZpZXdlZC1ieTogRG1pdHJ5IEJhcnlzaGtvdiA8ZG1pdHJ5
-LmJhcnlzaGtvdkBsaW5hcm8ub3JnPgo+PiA+PkNvLWRldmVsb3BlZC1ieTogU2ltb25hIFZldHRl
-ciA8c2ltb25hLnZldHRlckBmZndsbC5jaD4KPj4gPj5TaWduZWQtb2ZmLWJ5OiBNYXhpbWUgUmlw
-YXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+Cj4+ID4+LS0tCj4+ID4+IGRyaXZlcnMvZ3B1L2RybS9k
-cm1fYXRvbWljLmMgfCA0NSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKwo+PiA+PiBpbmNsdWRlL2RybS9kcm1fYXRvbWljLmggICAgIHwgIDMgKysrCj4+ID4+IDIg
-ZmlsZXMgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKQo+PiA+Pgo+PiA+PmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMu
-Ywo+PiA+PmluZGV4IDllYTI2MTE3NzBmNDNjZTdjY2JhNDEwNDA2ZDVmMmM1MjhhYWIwMjIuLmI5
-MjZiMTMyNTkwZTc4ZjhkNDFkNDhlYjRkYTRiY2NmMTcwZWUyMzYgMTAwNjQ0Cj4+ID4+LS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMuYwo+PiA+PisrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fYXRvbWljLmMKPj4gPj5AQCAtOTg1LDEwICs5ODUsNTUgQEAgZHJtX2F0b21pY19nZXRfbmV3
-X2Nvbm5lY3Rvcl9mb3JfZW5jb2Rlcihjb25zdCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3Rh
-dGUsCj4+ID4+IAo+PiA+PiAJcmV0dXJuIE5VTEw7Cj4+ID4+IH0KPj4gPj4gRVhQT1JUX1NZTUJP
-TChkcm1fYXRvbWljX2dldF9uZXdfY29ubmVjdG9yX2Zvcl9lbmNvZGVyKTsKPj4gPj4gCj4+ID4+
-Ky8qKgo+PiA+PisgKiBkcm1fYXRvbWljX2dldF9jb25uZWN0b3JfZm9yX2VuY29kZXIgLSBHZXQg
-Y29ubmVjdG9yIGN1cnJlbnRseSBhc3NpZ25lZCB0byBhbiBlbmNvZGVyCj4+ID4+KyAqIEBlbmNv
-ZGVyOiBUaGUgZW5jb2RlciB0byBmaW5kIHRoZSBjb25uZWN0b3Igb2YKPj4gPj4rICogQGN0eDog
-TW9kZXNldCBsb2NraW5nIGNvbnRleHQKPj4gPj4rICoKPj4gPj4rICogVGhpcyBmdW5jdGlvbiBm
-aW5kcyBhbmQgcmV0dXJucyB0aGUgY29ubmVjdG9yIGN1cnJlbnRseSBhc3NpZ25lZCB0bwo+PiA+
-PisgKiBhbiBAZW5jb2Rlci4KPj4gPj4rICoKPj4gPj4rICogUmV0dXJuczoKPj4gPj4rICogVGhl
-IGNvbm5lY3RvciBjb25uZWN0ZWQgdG8gQGVuY29kZXIsIG9yIGFuIGVycm9yIHBvaW50ZXIgb3Ro
-ZXJ3aXNlLgo+PiA+PisgKiBXaGVuIHRoZSBlcnJvciBpcyBFREVBRExLLCBhIGRlYWRsb2NrIGhh
-cyBiZWVuIGRldGVjdGVkIGFuZCB0aGUKPj4gPj4rICogc2VxdWVuY2UgbXVzdCBiZSByZXN0YXJ0
-ZWQuCj4+ID4+KyAqLwo+PiA+PitzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqCj4+ID4+K2RybV9hdG9t
-aWNfZ2V0X2Nvbm5lY3Rvcl9mb3JfZW5jb2Rlcihjb25zdCBzdHJ1Y3QgZHJtX2VuY29kZXIgKmVu
-Y29kZXIsCj4+ID4+KwkJCQkgICAgIHN0cnVjdCBkcm1fbW9kZXNldF9hY3F1aXJlX2N0eCAqY3R4
-KQo+PiA+Pit7Cj4+ID4+KwlzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9saXN0X2l0ZXIgY29ubl9pdGVy
-Owo+PiA+PisJc3RydWN0IGRybV9jb25uZWN0b3IgKm91dF9jb25uZWN0b3IgPSBFUlJfUFRSKC1F
-SU5WQUwpOwo+PiA+PisJc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcjsKPj4gPj4rCXN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBlbmNvZGVyLT5kZXY7Cj4+ID4+KwlpbnQgcmV0Owo+PiA+
-PisKPj4gPj4rCXJldCA9IGRybV9tb2Rlc2V0X2xvY2soJmRldi0+bW9kZV9jb25maWcuY29ubmVj
-dGlvbl9tdXRleCwgY3R4KTsKPj4gPj4rCWlmIChyZXQpCj4+ID4+KwkJcmV0dXJuIEVSUl9QVFIo
-cmV0KTsKPj4gPgo+PiA+SXQgc2VlbXMgdGhhdCB0aGlzIHdpbGwgY2F1c2UgYSBkZWFkbG9jayB3
-aGVuIGNhbGxlZCBmcm9tIGEgIGhvdHBsdWcgaGFuZGxpbmcgcGF0aCwKPj4gPkkgaGF2ZSBhIFdJ
-UCBEUCBkaXZlclswXSwgIHdoaWNoIHN1Z2dlc3RlZCBieSBEbWl0cnkgdG8gdXNlIHRoaXMgQVBJ
-IGZyb20gYSAKPj4gPiZkcm1fYnJpZGdlX2Z1bmNzLmRldGVjdCBjYWxsYmFjayB0byBnZXQgdGhl
-IGNvbm5lY3RvciwgIGFzIGRldGVjdCBpcyBjYWxsZWQgYnkgZHJtX2hlbHBlcl9wcm9iZV9kZXRl
-Y3QsCj4+ID53aGljaCB3aWxsIGhvbGQgY29ubmVjdGlvbl9tdXRleCBmaXJzdCwgc28gdGhlIGRl
-YWtsb2NrIGhhcHBlbnM6Cj4+ID4KPj4gPgo+PiA+ZHJtX2hlbHBlcl9wcm9iZV9kZXRlY3Qoc3Ry
-dWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKPj4gPiAgICAgICAgICAgICAgICAgICAgICAg
-IHN0cnVjdCBkcm1fbW9kZXNldF9hY3F1aXJlX2N0eCAqY3R4LAo+PiA+ICAgICAgICAgICAgICAg
-ICAgICAgICAgYm9vbCBmb3JjZSkKPj4gPnsKPj4gPiAgICAgICAgY29uc3Qgc3RydWN0IGRybV9j
-b25uZWN0b3JfaGVscGVyX2Z1bmNzICpmdW5jcyA9IGNvbm5lY3Rvci0+aGVscGVyX3ByaXZhdGU7
-Cj4+ID4gICAgICAgIHN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBjb25uZWN0b3ItPmRldjsKPj4g
-PiAgICAgICAgaW50IHJldDsKPj4gPgo+PiA+ICAgICAgICBpZiAoIWN0eCkKPj4gPiAgICAgICAg
-ICAgICAgICByZXR1cm4gZHJtX2hlbHBlcl9wcm9iZV9kZXRlY3RfY3R4KGNvbm5lY3RvciwgZm9y
-Y2UpOwo+PiA+Cj4+ID4gICAgICAgIHJldCA9IGRybV9tb2Rlc2V0X2xvY2soJmRldi0+bW9kZV9j
-b25maWcuY29ubmVjdGlvbl9tdXRleCwgY3R4KTsKPj4gPiAgICAgICAgaWYgKHJldCkKPj4gPiAg
-ICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+PiA+Cj4+ID4gICAgICAgIGlmIChmdW5jcy0+ZGV0
-ZWN0X2N0eCkKPj4gPiAgICAgICAgICAgICAgICByZXQgPSBmdW5jcy0+ZGV0ZWN0X2N0eChjb25u
-ZWN0b3IsIGN0eCwgZm9yY2UpOwo+PiA+ICAgICAgICBlbHNlIGlmIChjb25uZWN0b3ItPmZ1bmNz
-LT5kZXRlY3QpCj4+ID4gICAgICAgICAgICAgICAgcmV0ID0gY29ubmVjdG9yLT5mdW5jcy0+ZGV0
-ZWN0KGNvbm5lY3RvciwgZm9yY2UpOwo+PiA+ICAgICAgICBlbHNlCj4+ID4gICAgICAgICAgICAg
-ICAgcmV0ID0gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQ7Cj4+ID4KPj4gPiAgICAgICAgaWYg
-KHJldCAhPSBjb25uZWN0b3ItPnN0YXR1cykKPj4gPiAgICAgICAgICAgICAgICBjb25uZWN0b3It
-PmVwb2NoX2NvdW50ZXIgKz0gMTsKPj4gPgo+PiA+U28gSSB3b25kZXIgY2FuIHdlIGxldCBkcm1f
-YnJpZGdlX2Z1bmNzLmRldGVjdCBwYXNzIGEgY29ubmVjdG9yIGZvciB0aGlzIGNhc2UgPwo+PiA+
-Cj4+ID4KPj4gPgo+PiA+WzBdaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtcm9ja2NoaXAv
-MDQ3RUVDRkMtN0U1NS00NEVDLTg5NkYtMTNGRTA0MzMzRTREQGdtYWlsLmNvbS9ULyNtMjViYzUz
-Yjc5ZjVjYzdiZGRmY2I3YWFlNTY1NmY2OGRmMzk2ZjA5NAo+PiA+PisKPj4gPj4rCWRybV9jb25u
-ZWN0b3JfbGlzdF9pdGVyX2JlZ2luKGRldiwgJmNvbm5faXRlcik7Cj4+ID4+Kwlkcm1fZm9yX2Vh
-Y2hfY29ubmVjdG9yX2l0ZXIoY29ubmVjdG9yLCAmY29ubl9pdGVyKSB7Cj4+ID4+KwkJaWYgKCFj
-b25uZWN0b3ItPnN0YXRlKQo+PiA+PisJCQljb250aW51ZTsKPj4gPj4rCj4+ID4+KwkJaWYgKGVu
-Y29kZXIgPT0gY29ubmVjdG9yLT5zdGF0ZS0+YmVzdF9lbmNvZGVyKSB7Cj4+ID4+KwkJCW91dF9j
-b25uZWN0b3IgPSBjb25uZWN0b3I7Cj4+IAo+PiAKPj4gV2hlbiB0cnkgdG8gdXNlIHRoaXMgcGF0
-Y2ggaW4gbXkgYnJpZGdlIGRyaXZlciwgIEkgZm91bmQgdGhhdCB0aGUgY29ubmVjdG9yLT5zdGF0
-ZS0+YmVzdF9lbmNvZGVyIAo+PiAgbWF5YmUgTlVMTCB3aGVuICAgZHJtX2JyaWRnZV9mdW5jcy5k
-ZXRlY3Qgb3IgZHJtX2JyaWRnZV9mdW5jcy5kZXRlY3RfY3R4IGlzICBjYWxsZWQ6Cj4+IAo+PiBb
-ICAgNTIuNzEzMDMwXSBJbnZhbGlkIHJldHVybiB2YWx1ZSAtMjIgZm9yIGNvbm5lY3RvciBkZXRl
-Y3Rpb24KPj4gWyAgIDUyLjcxMzUzOV0gV0FSTklORzogQ1BVOiA3IFBJRDogMjg4IGF0IGRyaXZl
-cnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmM6NjAyIGRybV9oZWxwZXJfcHJvYmVfc2luZ2xl
-X2Nvbm5lY3Rvcl9tb2RlcysweDVlMC8KPj4gMHg2M2MKPj4gWyAgIDUyLjcxNDU2OF0gTW9kdWxl
-cyBsaW5rZWQgaW46Cj4+IAo+PiBbICAgNTIuNzI0NTQ2XSBDYWxsIHRyYWNlOgo+PiBbICAgNTIu
-NzI0NzYyXSAgZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKzB4NWUwLzB4
-NjNjIChQKQo+PiBbICAgNTIuNzI1MzE5XSAgZHJtX21vZGVfZ2V0Y29ubmVjdG9yKzB4MmE0LzB4
-NDg4Cj4+IFsgICA1Mi43MjU3MTFdICBkcm1faW9jdGxfa2VybmVsKzB4YjQvMHgxMWMKPj4gWyAg
-IDUyLjcyNjA1N10gIGRybV9pb2N0bCsweDIyYy8weDU0NAo+PiBbICAgNTIuNzI2MzU4XSAgX19h
-cm02NF9zeXNfaW9jdGwrMHhhYy8weGUwCj4+IFsgICA1Mi43MjY3MDZdICBpbnZva2Vfc3lzY2Fs
-bCsweDQ0LzB4MTAwCj4+IFsgICA1Mi43MjcwMzldICBlbDBfc3ZjX2NvbW1vbi5jb25zdHByb3Au
-MCsweDNjLzB4ZDQKPj4gCj4+IFRoaXMgaXMgYmVjYXVzZSAgYmVzdF9lbmNvZGVyIGlzIHNldCBi
-eSBzZXRfYmVzdF9lbmNvZGVyLCB3aGljaCBpcyBjYWxsZWQgZnJvbQo+PiBkcm1fYXRvbWljX2hl
-bHBlcl9jaGVja19tb2Rlc2V0LiBXaGVuIHdlIGNhbGwgZHJtX21vZGVfZ2V0Y29ubmVjdG9yIAo+
-PiBmb3IgdGhlIGZpcnN0IHRpbWUsIHRoZSBmdW5jdGlvbnMgbWVudGlvbmVkIGFib3ZlIGhhdmUg
-bm90IGJlZW4gY2FsbGVkIHlldCwKPj4gdGhlbiB3ZSBjYW4ndCBtYXRjaCB0aGUgZW5jb2RlciBm
-cm9tIGNvbm5lY3Rvci0+c3RhdGUtPmJlc3RfZW5jb2RlciBmb3IgdGhpcyBjYXNlLgo+Cj5BcyBm
-YXIgYXMgSSdtIGNvbmNlcm5lZCwgaXQncyBieSBkZXNpZ24uIEVuY29kZXJzIGFuZCBjb25uZWN0
-b3JzIGhhdmUKPjE6TiByZWxhdGlvbnNoaXAsIGFuZCBvbmx5IG9uY2UgYSBjb25uZWN0b3IgaGFz
-IGJlZW4gZW5hYmxlZCBpdCBoYXMgYW4KPmVuY29kZXIuCj4KPklmIHRoZSBjb25uZWN0b3IgaXMg
-ZGlzYWJsZWQsIHRoZXJlJ3Mgbm8gYXNzb2NpYXRlZCBlbmNvZGVyLgoKRG9lcyB0aGlzIHByb3Zl
-IHRoYXQgdGhpcyBBUEkgaXMgbm90IHN1aXRhYmxlIGZvciBteSBhcHBsaWNhdGlvbiBzY2VuYXJp
-bzogCkdldCB0aGUgY29ubmVjdG9yIGluIHRoZSBicmlkZ2UncyAuZGV0ZWN0IGNhbGxiYWNrLCBz
-byB0aGlzIG1lYW5zIHRoYXQgSSBtYXkKc3RpbGwgbmVlZCB0byBtb2RpZnkgdGhlIGJyaWRnZSdz
-IGNvbm5lY3RvciBjYWxsYmFjayBzbyB0aGF0IGl0IGNhbiBwYXNzIHRoZSBjb25uZWN0b3IgPwoK
-Pgo+TWF4aW1lCg==
+Hi,
+
+On Mon, Mar 10, 2025 at 3:42=E2=80=AFAM Damon Ding <damon.ding@rock-chips.c=
+om> wrote:
+>
+> The main modification is moving the DP AUX initialization from function
+> analogix_dp_bind() to analogix_dp_probe(). In order to get the EDID of
+> eDP panel during probing, it is also needed to advance PM operations to
+> ensure that eDP controller and phy are prepared for AUX transmission.
+>
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+>
+> ---
+>
+> Changes in v4:
+> - Use done_probing() to call drm_of_find_panel_or_bridge() and
+>   component_add() when getting panel from the DP AUX bus
+>
+> Changes in v5:
+> - Advance PM operations to make eDP AUX work well
+>
+> Changes in v6:
+> - Use devm_pm_runtime_enable() instead of devm_add_action_or_reset()
+> - Add a new function analogix_dp_remove() to ensure symmetry for PM
+>   operations
+>
+> Changes in v7:
+> - Fix the misspelling of word 'operations' in commit message
+> - Remove the check related to CONFIG_PM
+> - Remove the unnecessary call to pm_runtime_dont_use_autosuspend() if
+>   devm_pm_runtime_enable() fails
+> - Remove unnecessary function analogix_dp_remove()
+> - Add new function analogix_dpaux_wait_hpd_asserted()
+>
+> Changes in v8:
+> - Move the addition of the analogix_dpaux_wait_hpd_asserted() to the
+>   other patch
+> ---
+>  .../drm/bridge/analogix/analogix_dp_core.c    | 20 ++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
