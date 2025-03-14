@@ -2,49 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE12EA608E5
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 07:10:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C646AA608F0
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 07:11:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 343BC10E966;
-	Fri, 14 Mar 2025 06:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D59010E969;
+	Fri, 14 Mar 2025 06:11:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="TEg6QFXq";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iXyRTU/K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4512910E966
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 06:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=RRnkf
- MTBSRRXPXJIg5gqXaJXUBODgkV4NaNBWUvqcgA=; b=TEg6QFXqutLMtiLGuK7yT
- kRuhOHW6YDoVoIIBeeiTwKqwUFiZxFYV60npH6EhgjBZhKNYeQdhqroCHlDJcPhb
- VWZSACFyiyCWf2qd+PZk9yjldkf0TgnMDeACyHPr2yDD7InwHC0dXZ5Fp067auxm
- WaoaZYjl176145rK9k6kvE=
-Received: from localhost.localdomain (unknown [])
- by gzsmtp2 (Coremail) with SMTP id PSgvCgCXX9wnyNNn+8z4Kw--.41638S2;
- Fri, 14 Mar 2025 14:09:45 +0800 (CST)
-From: oushixiong1025@163.com
-To: Simona Vetter <simona@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Zsolt Kajtar <soci@c64.rulez.org>,
- =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH v2] fbcon: Use static attribute groups for sysfs entries
-Date: Fri, 14 Mar 2025 14:09:41 +0800
-Message-Id: <20250314060941.160048-1-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58E2510E969
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 06:11:28 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52DKDDEB027610
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 06:11:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=IScPRMJWlAypVVGTG3eAzrrq
+ ZqNhSbnrEPn3z5FtHkc=; b=iXyRTU/KjwoMm7sAi2n6/0MoFdyJBjWemiSQIiuz
+ 9+4o1A0h52Vtt1uwzkVm62tTPwx1p+E6Ix1ZZdhdKzgsIf8jjUlOrUus7eqjFtHA
+ LMKpgYLYM3O61kvZTgWqJNUnACPaAqn2dgqp9Hq17OkXQ7XGH0Z4qj8nhZIJ7g5i
+ HU/rIBrLqPtn+w44KjNhCPsHp4TlRKHm4LiY/EXUwU25ZjU5Ti9IsUdbgdsOpGNC
+ +6KVypEYLvaIH3Cf+Aj68WzdW9r3GIM3K5XPoRiPtkE8n8kEpb+ZfmzHTcCdxDgw
+ Jf7TaekIC7TH0cNdEGa3clDdH3MAFJTfWtBd1qP4bvsYXA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45c6731507-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 06:11:27 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-476b2179079so34398871cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 23:11:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741932686; x=1742537486;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IScPRMJWlAypVVGTG3eAzrrqZqNhSbnrEPn3z5FtHkc=;
+ b=NbgpZMFNLVrhGBeLx9TqsmuCDi0Q14eTKyLUF6H8dW61+wfTHV7FFioIMF3leATQ9q
+ jRT0B9vWFqrR62ZM7vugsS/LvrWLZ5j6BFJxWwSfvEQYR5haIV7fzPmotAUkpG2XPiDP
+ wbjRXxIzOQKRkhXTC/S/gQVT+L+WuKeG73bi2GbdIATlodffFPm6EB4Q6I9Nzr1mX/Ti
+ sqY/60G9Fp4l6M4RI1T+MVjBlJSIsBl/h+87sAX6n9LwVOr2vIOz+nZOB8HQdJGMiTUQ
+ N/ldAWTxrBan+NrqfgtvFQcbNBZSx3AaTqhrcE7Lqbd/STOJNZRp70/WkiuOskgysrvq
+ CyXQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVIWxt7cg9jxStF1m6ChpPiMOa181y09MQPCypwTgYwxJZXwfFudWiSvhzLXDjId3aZJ9o+6KIDpW4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXhp5xTy7lR5SG0qw4zL5n7onSYMaJa+7VoA604WcK1OuI43s0
+ p7iEJfPOaZLkXcianSktznoPliJurF+KNiksDIdaevuXr4+1CJlyKGb7HYroG05EwDPvu217ci2
+ EJEKzWszDEZa+bf8r3akn0BKfc3XU9S9yXtAXUWfqmtA4hobdopQCNr4jSIKgiPpLrt0=
+X-Gm-Gg: ASbGncufAq2b2Jqmuj8T+PZsdfF7AQLMKsPbyJqDLRRaZ+zgaRT2fp3LbnRba8Rq+DW
+ EccrO6EgYe4AS3YwEPuWcLDsa2qkkx0WApLXTLtycx68vSxJx8qIcpfPN/E2hzP2M+lZbZrBOqN
+ ICQ7yeHh0e3kOT+xF48D0EbGkObFTTRQcitnnSCyVjANOTFrCqDn0RiIGwOvwWQcwibG9iGcvt2
+ h4hAMlPHb4SHInoCHtNkRPbYHOJwU6aGJtewqxeyAWD/mADT29kXjVNIlp/eU67UsvZuFpxNdrK
+ OlI2CUX4dWy/g1Sf6u9WOkPi3VYgNhh57sh1zxj+rFMn+nuuMT08j7hjpoRjKvU14txBID3nHQz
+ otGM=
+X-Received: by 2002:a05:622a:438b:b0:476:b33f:6694 with SMTP id
+ d75a77b69052e-476c815ef7bmr17237821cf.28.1741932686422; 
+ Thu, 13 Mar 2025 23:11:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFHNONjkAR8RZmnBgw7/nNpbDzwNbQgBnWMqJdks15ZpyrrMTOeZPgm8VR3KSNnTn4CBULsAw==
+X-Received: by 2002:a05:622a:438b:b0:476:b33f:6694 with SMTP id
+ d75a77b69052e-476c815ef7bmr17237651cf.28.1741932686118; 
+ Thu, 13 Mar 2025 23:11:26 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-549ba88577csm415667e87.205.2025.03.13.23.11.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Mar 2025 23:11:24 -0700 (PDT)
+Date: Fri, 14 Mar 2025 08:11:21 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Chenyuan Yang <chenyuan0y@gmail.com>
+Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/dpu: Fix error pointers in
+ dpu_plane_virtual_atomic_check
+Message-ID: <5dhbi7a62mebu6trwr3umjnkiia7nnaru533653z67qmmsc2hb@krmvfeuw5xtn>
+References: <20250314011004.663804-1-chenyuan0y@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PSgvCgCXX9wnyNNn+8z4Kw--.41638S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGF1fArW7Gw43tF43Kw4rXwb_yoWrtF17pr
- 4UtayYgF45G3ZxWw45Zw4DZwnxWwn7C34fXr48Kw1SgF97ArZIqa48JFyjyayfJrZ7GF1r
- Aa4Dtry8AF4xur7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jn4SrUUUUU=
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYwEQD2fTx4YNHAAAsZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250314011004.663804-1-chenyuan0y@gmail.com>
+X-Authority-Analysis: v=2.4 cv=a5Iw9VSF c=1 sm=1 tr=0 ts=67d3c88f cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Vs1iUdzkB0EA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=fWY0QR86pWCIX_IcxasA:9
+ a=CjuIK1q_8ugA:10 a=zgiPjhLxNE0A:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: edSbCaexoutyonsTqzQKyIaNDuq4uFbv
+X-Proofpoint-ORIG-GUID: edSbCaexoutyonsTqzQKyIaNDuq4uFbv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-14_02,2025-03-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=967
+ suspectscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 spamscore=0 mlxscore=0 adultscore=0
+ malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503140047
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,168 +120,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+On Thu, Mar 13, 2025 at 08:10:04PM -0500, Chenyuan Yang wrote:
+> The function dpu_plane_virtual_atomic_check was dereferencing pointers
+> returned by drm_atomic_get_plane_state without checking for errors. This
+> could lead to undefined behavior if the function returns an error pointer.
+> 
+> This commit adds checks using IS_ERR to ensure that plane_state is
+> valid before dereferencing them.
+> 
+> Similar to commit da29abe71e16
+> ("drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_changed").
+> 
+> Fixes: 774bcfb73176 ("drm/msm/dpu: add support for virtual planes")
+> Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-Using device_create_with_groups() to simplify creation and removal.
-Same as commit 1083a7be4504 ("tty: Use static attribute groups for
-sysfs entries").
-
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/video/fbdev/core/fbcon.c | 69 +++++++++-----------------------
- 1 file changed, 19 insertions(+), 50 deletions(-)
-
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 07d127110ca4..1d792bd11063 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -160,7 +160,6 @@ static int info_idx = -1;
- 
- /* console rotation */
- static int initial_rotation = -1;
--static int fbcon_has_sysfs;
- static int margin_color;
- 
- static const struct consw fb_con;
-@@ -3159,7 +3158,7 @@ static const struct consw fb_con = {
- 	.con_debug_leave	= fbcon_debug_leave,
- };
- 
--static ssize_t store_rotate(struct device *device,
-+static ssize_t rotate_store(struct device *device,
- 			    struct device_attribute *attr, const char *buf,
- 			    size_t count)
- {
-@@ -3181,7 +3180,7 @@ static ssize_t store_rotate(struct device *device,
- 	return count;
- }
- 
--static ssize_t store_rotate_all(struct device *device,
-+static ssize_t rotate_all_store(struct device *device,
- 				struct device_attribute *attr,const char *buf,
- 				size_t count)
- {
-@@ -3203,7 +3202,7 @@ static ssize_t store_rotate_all(struct device *device,
- 	return count;
- }
- 
--static ssize_t show_rotate(struct device *device,
-+static ssize_t rotate_show(struct device *device,
- 			   struct device_attribute *attr,char *buf)
- {
- 	struct fb_info *info;
-@@ -3222,7 +3221,7 @@ static ssize_t show_rotate(struct device *device,
- 	return sysfs_emit(buf, "%d\n", rotate);
- }
- 
--static ssize_t show_cursor_blink(struct device *device,
-+static ssize_t cursor_blink_show(struct device *device,
- 				 struct device_attribute *attr, char *buf)
- {
- 	struct fb_info *info;
-@@ -3247,7 +3246,7 @@ static ssize_t show_cursor_blink(struct device *device,
- 	return sysfs_emit(buf, "%d\n", blink);
- }
- 
--static ssize_t store_cursor_blink(struct device *device,
-+static ssize_t cursor_blink_store(struct device *device,
- 				  struct device_attribute *attr,
- 				  const char *buf, size_t count)
- {
-@@ -3281,35 +3280,18 @@ static ssize_t store_cursor_blink(struct device *device,
- 	return count;
- }
- 
--static struct device_attribute device_attrs[] = {
--	__ATTR(rotate, S_IRUGO|S_IWUSR, show_rotate, store_rotate),
--	__ATTR(rotate_all, S_IWUSR, NULL, store_rotate_all),
--	__ATTR(cursor_blink, S_IRUGO|S_IWUSR, show_cursor_blink,
--	       store_cursor_blink),
--};
--
--static int fbcon_init_device(void)
--{
--	int i, error = 0;
-+static DEVICE_ATTR_RW(rotate);
-+static DEVICE_ATTR_WO(rotate_all);
-+static DEVICE_ATTR_RW(cursor_blink);
- 
--	fbcon_has_sysfs = 1;
--
--	for (i = 0; i < ARRAY_SIZE(device_attrs); i++) {
--		error = device_create_file(fbcon_device, &device_attrs[i]);
--
--		if (error)
--			break;
--	}
--
--	if (error) {
--		while (--i >= 0)
--			device_remove_file(fbcon_device, &device_attrs[i]);
--
--		fbcon_has_sysfs = 0;
--	}
-+static struct attribute *fbcon_device_attrs[] = {
-+	&dev_attr_rotate.attr,
-+	&dev_attr_rotate_all.attr,
-+	&dev_attr_cursor_blink.attr,
-+	NULL
-+};
- 
--	return 0;
--}
-+ATTRIBUTE_GROUPS(fbcon_device);
- 
- #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
- static void fbcon_register_existing_fbs(struct work_struct *work)
-@@ -3367,16 +3349,16 @@ void __init fb_console_init(void)
- 	int i;
- 
- 	console_lock();
--	fbcon_device = device_create(fb_class, NULL, MKDEV(0, 0), NULL,
--				     "fbcon");
-+	fbcon_device = device_create_with_groups(fb_class, NULL,
-+						 MKDEV(0, 0), NULL,
-+						 fbcon_device_groups, "fbcon");
- 
- 	if (IS_ERR(fbcon_device)) {
- 		printk(KERN_WARNING "Unable to create device "
- 		       "for fbcon; errno = %ld\n",
- 		       PTR_ERR(fbcon_device));
- 		fbcon_device = NULL;
--	} else
--		fbcon_init_device();
-+	}
- 
- 	for (i = 0; i < MAX_NR_CONSOLES; i++)
- 		con2fb_map[i] = -1;
-@@ -3387,18 +3369,6 @@ void __init fb_console_init(void)
- 
- #ifdef MODULE
- 
--static void __exit fbcon_deinit_device(void)
--{
--	int i;
--
--	if (fbcon_has_sysfs) {
--		for (i = 0; i < ARRAY_SIZE(device_attrs); i++)
--			device_remove_file(fbcon_device, &device_attrs[i]);
--
--		fbcon_has_sysfs = 0;
--	}
--}
--
- void __exit fb_console_exit(void)
- {
- #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
-@@ -3411,7 +3381,6 @@ void __exit fb_console_exit(void)
- #endif
- 
- 	console_lock();
--	fbcon_deinit_device();
- 	device_destroy(fb_class, MKDEV(0, 0));
- 
- 	do_unregister_con_driver(&fb_con);
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 -- 
-2.25.1
-
+With best wishes
+Dmitry
