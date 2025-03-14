@@ -2,60 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E9FA62B36
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 11:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A186A62C12
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 12:49:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 733E510E26A;
-	Sat, 15 Mar 2025 10:44:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D1510E3A1;
+	Sat, 15 Mar 2025 11:49:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=tronnes.org header.i=@tronnes.org header.b="0Rz1okwn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H7FD4cku";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70D1A10E26A
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 10:44:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202412;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Sender:Reply-To:
- Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
- References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
- List-Owner:List-Archive; bh=SUgQuiihpS5x0K+ET772Aq/8KPYtzIU6EL8azg/8FuA=; b=0
- Rz1okwnyYfHu3lrvLrVGDjc+GfaQRlBUunsd5jX4/+YwGjpOOYZihIHq2q4tgXuFwVyGLtftyUCql
- 6VQEz9Nz1KhmBDLAPLfwYFquVErN+aIMhhhKbEaiQyS3wW6DhV2eHi6jvO70BFEkBrthqR/GIifjN
- K2SVHZU7bbTYbW/Psqc+KdjTEUA1uN6dh2mQcwJqbeZYJ9LAKCWMHpmRnsKo5gZeOY/vvps63idvj
- W6P1Jr7M6G3aooEQ5XavbjYZqWemF4slpfs9sVkeqBeS3EHBwOAV7n1SyBdSvyANsV4+/zd14r/pO
- Lk5mA87toAN3eDvAEV78YbxZwzomA+cLQ==;
-Received: from smtp by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- id 1ttOzk-00Ami1-7X; Sat, 15 Mar 2025 11:43:56 +0100
-Message-ID: <727c7617-9eaf-4db9-ac43-614f11387d92@tronnes.org>
-Date: Sat, 15 Mar 2025 11:43:54 +0100
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D33C910EA10
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 16:00:38 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2ff62f9b6e4so561520a91.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 09:00:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1741968038; x=1742572838; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tIY165QBF2I7E64kxf0y7gan5+WkPY6SwpR93M25+8U=;
+ b=H7FD4ckue7nZeNyFCldp5/nRCjNbDqx7Z9dqAK9K+AgbUG/Ty4A6sK68lW/S09jS2o
+ hay8wvxe9zrPctpX2U35RTttDbWz0c7nPmcuwea2qFe76whBNWbc2EuV4JcgtV7Iw+xD
+ ygnYvVbo7Lgn0D3NpguZI1QXffyjRbPiwa4GkEZHhGwNcLB2U4mnUblU+5fZZvZEu4lN
+ 1Sx4+a2EKBkoFV6/vmRKIp9QwW81+8ZHLwM8LozU7DmlA2b9lfk0TqnemfEXZjanI2Wo
+ WUom4sAuPKPPTS1usRukHPl5d0SFXE9bz628Oa8NgpiZdrKgQo1czzTj49GkfZ91cjMS
+ waDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1741968038; x=1742572838;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tIY165QBF2I7E64kxf0y7gan5+WkPY6SwpR93M25+8U=;
+ b=X7IZsqj34F1Vq9DWh/CIwMeaKHKe3HGvwIfZ0US9I4G2cg6heED/W26Ze/DT4/IjkT
+ AmlwjjtQx6JkmS9Edy4sqSiTaf1MjsOFGVh32mcEH4y5z743cR5kHJHJocYtu7CHG5Yk
+ d6sAva6V55O2pHB6m1r/oVtIbn+oft75qm8Xb+J7iICF7/2muCIv4ngpsyqYLxtngMQv
+ Sg4SwQdRx6xFXOzzCx8gb39nUFmYeBzQSBp8sErCVojErfoma6imrKRWcDrMWZa1+jrn
+ l3WUFjjyO7FUzm0kPWMVraESX8dQV6VUWRFsVc26qrD/rvFpceU2FW38oqEvSAeoXR27
+ S2tQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWaYhvJ6E2+vUx4Luq9IYn3EIm3jk8vtZb7FDEjvpygkaKEf19kUFEAaWgXrZEs3LyVTX+jlzGBP74=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNLETQNkCW9wjuBcoYRLuQT7wO+q1/lT3bdLZPclWu8WRuVZi2
+ JjvjuZ8/AKnHabnbXoaUYtXHKSN0VU6CksAQtUlBuftrfawtL7HWHrLBscHJQw5ItPdrqZQot16
+ GwZRG7BnH1TzQjN0QJ+qN1PQW/w==
+X-Gm-Gg: ASbGncv21j8LyAqnSFwt7BStRIOxLJyf6wB3mFG+akFCSyt60gzsPhL25cjxrSPIcMF
+ hc42N/ey9rEUqgQWUiSbzHo955iA357vsTBkTGJToMhnL+i/M2zkPJiHsdKotcgyIhGbKIgvkWo
+ ZHUx3hfLSWdx0nMAj63GEB4cmt9GI=
+X-Google-Smtp-Source: AGHT+IHPg5LEX9RcXJcT7z3Dh6z47dRs4csMp548pLAhreG5srJVcZIIpfZ8T/92XQSoT8s0QhUvp3pVVX5xQ+RxwCQ=
+X-Received: by 2002:a17:90b:164f:b0:2ff:5759:549a with SMTP id
+ 98e67ed59e1d1-30151c88e12mr1556703a91.1.1741968037522; Fri, 14 Mar 2025
+ 09:00:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm: mipi_dbi_hw_reset() keeps display in reset
-To: Alex Lanzano <lanzano.alex@gmail.com>,
- =?UTF-8?Q?Josef_Lu=C5=A1tick=C3=BD?= <josef.lusticky@braiins.cz>
-Cc: dri-devel@lists.freedesktop.org
-References: <CACnTymYtkLJ=EfZK-c1nCW+bLSKAaq2sTW1x+Bj-_ve7hfAdKA@mail.gmail.com>
- <n7qaikyyisdq3m74buqjfxzyi5lgntnsmtirrmw5vi2nkf7izl@6coklitzp3uc>
- <fm4kqbfknroub3onbbhbzvurw7ig3fsjrxpeucdtioobssstjk@hzmdxa7uby6f>
- <CACnTymYBYmGMk8z5Xp=OGBHvsA-hwJtGAi6MSHfpTGJBHMQqSw@mail.gmail.com>
- <spav7ftc45ypks3no2sgaciagym2jbd2hfcyqmforvwli47ixj@6rtvedapu342>
- <CACnTymaA5UZGRGveAOOFTtRWrWr9rnyWj8Ah6qmMOTS0dbuVNg@mail.gmail.com>
- <6he4g5se6cqu6l3bdbfv636pm62ucvzsm5ujhi2xjig7srxxqb@gagbovuujysx>
- <CACnTymbj8u_QchzC9CT2mcbg-0MPfVBs8ukwdWkJtjq_SpCvwQ@mail.gmail.com>
- <p6ajylavycnvylrn7wmtsp2rqrezkkthajszuobqsm4bhymqzz@lki2bo6ybxpz>
- <CACnTymZX7DY72Dmc0HWFvbKYzGaC3_tM-8f6EimndpPYOYf+sA@mail.gmail.com>
- <t3tzwl7eytu36klzoa5n4ccx46ffha5yt66dnla25tsxqka4s2@yzmlhufhe7qq>
-Content-Language: en-US
-From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-In-Reply-To: <t3tzwl7eytu36klzoa5n4ccx46ffha5yt66dnla25tsxqka4s2@yzmlhufhe7qq>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250314012029.668306-1-chenyuan0y@gmail.com>
+ <20250314-prophetic-attentive-platypus-3ab214@houat>
+In-Reply-To: <20250314-prophetic-attentive-platypus-3ab214@houat>
+From: Chenyuan Yang <chenyuan0y@gmail.com>
+Date: Fri, 14 Mar 2025 11:00:26 -0500
+X-Gm-Features: AQ5f1JoUD0V5ZOdvR5FcIitlHbVLK_E695Xu4I0ACsV86e_NOveKe5yScUlp2jo
+Message-ID: <CALGdzurT1_fY_o8Hv92j4+XFQHu1iHRzqVtZAM8upHYBPfA1BA@mail.gmail.com>
+Subject: Re: [PATCH] drm/sun4i: backend: Fix error pointers in
+ sun4i_backend_atomic_check
+To: Maxime Ripard <mripard@kernel.org>
+Cc: wens@csie.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, jernej.skrabec@gmail.com, 
+ samuel@sholland.org, neil.armstrong@linaro.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Sat, 15 Mar 2025 11:49:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,129 +89,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+HI Maxime.
 
+Thanks so much for pointing that out!
 
-On 15.03.2025 00:50, Alex Lanzano wrote:
-> On Fri, Mar 14, 2025 at 12:57:27PM +0100, Josef Luštický wrote:
->> On Mon, Mar 10, 2025 at 7:33 PM Alex Lanzano <lanzano.alex@gmail.com> wrote:
->>>
->>> On Fri, Mar 07, 2025 at 10:25:18AM +0100, Josef Luštický wrote:
->>>> Ok, I'll implement the change and post it for a review.
->>>> About the property naming, I tend to name it something like
->>>> "inverted-reset-gpio-fixed" to denote that it is assumed the code
->>>> using the "reset-gpios" property was fixed.
->>>> What are your thoughts?
->>>>
->>>
->>> You probably wnat something more concise and in present tense like
->>> 'invert-reset-gpio'
->>
->> OK, I understand.
->> It still feels like the 'invert' would mean that the code is supposed
->> to do something non-standard with the reset-gpios property
->> specification.
->> How about 'correct-reset-gpio' or 'proper-reset-gpio' to denote that
->> the reset-gpio property describes the HW correctly.
->>
-> 
-> My main concern here is that the device tree properties are supposed to
-> be completely independent of the driver code. So, I'd be hesitant to
-> imply that a property 'fixes' a specific behavior in the driver in the
-> name of the property itself (even though it does).
-> 
+How about such a patch?
 
-I suggest you ask on the devicetree ML, they probably know how to handle
-bugs like this.
+diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c
+b/drivers/gpu/drm/sun4i/sun4i_backend.c
+index 2dded3b828df..5ad0e90d3e6b 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_backend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+@@ -490,9 +490,14 @@ static int sun4i_backend_atomic_check(struct
+sunxi_engine *engine,
+  drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+  struct drm_plane_state *plane_state =3D
+  drm_atomic_get_plane_state(state, plane);
+- struct sun4i_layer_state *layer_state =3D
+- state_to_sun4i_layer_state(plane_state);
+- struct drm_framebuffer *fb =3D plane_state->fb;
++ struct sun4i_layer_state *layer_state =3D NULL;
++ struct drm_framebuffer *fb =3D NULL;
++
++ if (IS_ERR(plane_state))
++ return PTR_ERR(plane_state);
++
++ layer_state =3D state_to_sun4i_layer_state(plane_state);
++ fb =3D plane_state->fb;
 
-Noralf.
+  if (!sun4i_backend_plane_is_supported(plane_state,
+        &layer_state->uses_frontend))
+--=20
 
-> Best regards,
-> Alex
-> 
->>>> On Tue, Feb 25, 2025 at 2:46 PM Alex Lanzano <lanzano.alex@gmail.com> wrote:
->>>>>
->>>>> On Tue, Feb 25, 2025 at 12:59:59PM +0100, Josef Luštický wrote:
->>>>>> On Mon, Feb 24, 2025 at 12:13 AM Alex Lanzano <lanzano.alex@gmail.com> wrote:
->>>>>>>
->>>>>>> On Mon, Feb 17, 2025 at 12:39:01PM +0100, Josef Luštický wrote:
->>>>>>>> On Sat, Feb 15, 2025 at 8:14 PM Alex Lanzano <lanzano.alex@gmail.com> wrote:
->>>>>>>>>
->>>>>>>>> On Fri, Feb 14, 2025 at 08:04:41PM -0500, Alex Lanzano wrote:
->>>>>>>>>> On Fri, Feb 14, 2025 at 10:29:29AM +0100, Josef Luštický wrote:
->>>>>>>>>>> Hello Alex,
->>>>>>>>>>> there is a bug in mipi_dbi_hw_reset() function that implements the logic of
->>>>>>>>>>> display reset contrary.
->>>>>>>>>>> It keeps the reset line activated which keeps displays in reset state.
->>>>>>>>>>>
->>>>>>>>>>> I reported the bug to
->>>>>>>>>>> https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/63
->>>>>>>>>>>
->>>>>>>>>>> Unfortunately, fixing the bug would mean current DTB-ABI breakage and
->>>>>>>>>>> device-trees modification would be needed.
->>>>>>>>>>> I mainly write this email to let you and other people know about it, so
->>>>>>>>>>> hopefully it can be found easier.
->>>>>>>>>>> What are your thoughts?
->>>>>>>>>> Thanks for making me aware. I'll dig into over the weekend and get back
->>>>>>>>>> to you
->>>>>>>>>
->>>>>>>>> Alright so I looked into a bit more. Looks like the MIPI Specification
->>>>>>>>> says that the reset line is active low. So, if we want dt entries to be
->>>>>>>>> correct the logic for setting the reset line in mipi_dbi_hw_reset()
->>>>>>>>> should be flipped. However, like you said, this is going to cause a some
->>>>>>>>> confused developers to break out their oscilloscopes to figure out
->>>>>>>>> why their display isn't working.
->>>>>>>>>
->>>>>>>>> Best regards,
->>>>>>>>> Alex
->>>>>>>>
->>>>>>>> Thank you Alex for looking into this.
->>>>>>>> I think all the supported dts can be changed together with
->>>>>>>> mipi_dbi_hw_reset(), however the fix would break existing DTBs and
->>>>>>>> third party DTSs.
->>>>>>>> So I think it shall be either noted somewhere that due to this bug,
->>>>>>>> the reset line needs to be "wrongly" ACTIVE_HIGH in DTS
->>>>>>>> or the mipi_dbi_hw_reset() is changed and the compatibility is broken,
->>>>>>>> which needs to be announced.
->>>>>>>>
->>>>>>>> BTW Zephyr fixed the code [1], but they introduced the MIPI DBI
->>>>>>>> support just a couple of weeks before the fix, so they avoided the
->>>>>>>> compatibility issue.
->>>>>>>> I was not able to find users mentioning issues related to the display
->>>>>>>> not functioning properly, so I had to dig into the code.
->>>>>>>> But afterwards I found a thread on Raspberry PI forums, where one of
->>>>>>>> the moderators mentions it [2].
->>>>>>>>
->>>>>>>> [1] https://github.com/zephyrproject-rtos/zephyr/issues/68562
->>>>>>>> [2] https://forums.raspberrypi.com/viewtopic.php?p=2165720#p2165720
->>>>>>>
->>>>>>> So, here are my thoughts on this after pondering it over for a bit.
->>>>>>> Ideally we should eventually reverse the reset logic so the DTS entry
->>>>>>> correctly specifies the hardware. However, instead of an abrupt change
->>>>>>> maybe we add an additional property to the DTS node that when present
->>>>>>> uses the correct reset logic. If the property isn't present we use the
->>>>>>> current incorrect reset logic and print out a dev_warn that it will soon
->>>>>>> be deprecated.
->>>>>>>
->>>>>>> Let me know what you think.
->>>>>>>
->>>>>>> Best regards,
->>>>>>> Alex
->>>>>>>
->>>>>>>
->>>>>> I think it's a good idea if the current logic is about to be fixed.
->>>>>> Another (probably not as good) idea is to introduce a new property
->>>>>> named "nreset-gpios = ..." or something like that, but I realise that
->>>>>> "reset-gpios" is the de-facto standard naming.
->>>>>>
->>>>>> Best regards,
->>>>>> Josef
->>>>>>
->>>>>
->>>>> Yeah I think it may be simpler to just add a boolean property like
->>>>> 'reverse-reset'. It would make the driver code simpler to implement too.
->>>>> Would you like to implement this change and submit the patch or would
->>>>> you like me to?
->>>>>
->>>>> Best regards,
->>>>> Alex
+-Chenyuan
 
+On Fri, Mar 14, 2025 at 2:17=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> Hi,
+>
+> On Thu, Mar 13, 2025 at 08:20:29PM -0500, Chenyuan Yang wrote:
+> > The function sun4i_backend_atomic_check was dereferencing pointers
+> > returned by drm_atomic_get_plane_state without checking for errors. Thi=
+s
+> > could lead to undefined behavior if the function returns an error point=
+er.
+> >
+> > This commit adds checks using IS_ERR to ensure that plane_state is
+> > valid before dereferencing them.
+> >
+> > Similar to commit da29abe71e16
+> > ("drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_change=
+d").
+> >
+> > Fixes: 96180dde23b7 ("drm/sun4i: backend: Add a custom atomic_check for=
+ the frontend")
+> > Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> > ---
+> >  drivers/gpu/drm/sun4i/sun4i_backend.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/su=
+n4i/sun4i_backend.c
+> > index 2dded3b828df..a8e0e2123764 100644
+> > --- a/drivers/gpu/drm/sun4i/sun4i_backend.c
+> > +++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> > @@ -490,6 +490,10 @@ static int sun4i_backend_atomic_check(struct sunxi=
+_engine *engine,
+> >       drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+> >               struct drm_plane_state *plane_state =3D
+> >                       drm_atomic_get_plane_state(state, plane);
+> > +
+> > +             if (IS_ERR(plane_state))
+> > +                     return PTR_ERR(plane_state);
+> > +
+>
+> This introduces a build warning. You shouldn't mix declarations and code.
+>
+> Maxime
