@@ -2,76 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E1DA60B09
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 09:16:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2261A60B03
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Mar 2025 09:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3A710E988;
-	Fri, 14 Mar 2025 08:16:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3992F10E996;
+	Fri, 14 Mar 2025 08:16:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FMv97j/b";
+	dkim=pass (2048-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="CAqfbod0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB7210E233
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 01:20:35 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-6e8fa2d467fso2416686d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 18:20:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1741915234; x=1742520034; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6RyOfs+Y+zXnQN7nD15L11CcONhA3EYNbvNV/ylslsk=;
- b=FMv97j/bs3q48BS6pRFCB/JJOwhmFl1gqCh8RJ8vKG14p3PYuxGquTrnXc2Isws9Rr
- Em1BQ5IOT8IeqWiKBBRcUj6z2HT1wRGST/3it03hMiI/Ak98Fa/vp5PypHozF/xvt7Ky
- D92Urt1m4uCA474+8kAEM4A+HGu1obGPxRrWjDLsoIPAtswwALU+KIvgh4HX5w0Zb92f
- X715lYT+c8kmtzYCS2bv5cSPbL4TvC+/9mH/8RDQ4Oc3OFf8CHre5sJi4TU9JOWv97vq
- ClK7gilAqD3H3ks2S2cKu+/e926fGjqXlrVLXwEb5BTIR2N4+g8J+2mmQQAkTIacVt/+
- O2lg==
+Received: from smtp-relay-internal-0.canonical.com
+ (smtp-relay-internal-0.canonical.com [185.125.188.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45B9810E2D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 05:40:28 +0000 (UTC)
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 46D253F091
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Mar 2025 05:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1741930823;
+ bh=KHVvEo4a2v+cW7rLYC5E5IP2TKLmXgAPS/TIAmIpZA0=;
+ h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+ To:Cc:Content-Type;
+ b=CAqfbod0caPEckgS9cNer6BoSFf/KO1mGs/BYj49aXoHqLwxLkPzuH2eFJZuPrFIP
+ k/i7Yma5kpGdFm2XaY+yMTtOhPSmDaErnapN/zgGAxVVjrW8k1oqoQLA9E7fXnna5R
+ pSmDrOt5VO3fJcu8Gha8jMBWb9h/xx3x0w5FZeJNojnOs1LZUCpOu8JqBsiJUM5+/M
+ NyleL9xzJfli2yftCCuiZNHKvknXcQyHWbPT0fj4jlnFGhT8me9vNNQdYNtihb5BNF
+ 8BtMSFtEJvDr5o8q8qUfDI0E3izwgObi3piN2yjOBs8ydNOSmHH50Yf7ymRtjnzgqt
+ s5qF4c7ydIaGA==
+Received: by mail-vk1-f200.google.com with SMTP id
+ 71dfb90a1353d-523eb742ffbso558239e0c.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Mar 2025 22:40:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1741915234; x=1742520034;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6RyOfs+Y+zXnQN7nD15L11CcONhA3EYNbvNV/ylslsk=;
- b=E21REaPiXDbO5mJenExqU7fJRATAZ8fXoV/CfrED2F+kxfjf7klEyP5nnlx1hbU3Zs
- MVE7ZGmqxgQlezvV869zlkuE9+jJtFMfuoRGLNJQb0lupvtjoau4bH0PFmQ/JJ7UG1NP
- oXt/koVyE+WYyZeFpczd+XAsIVI6y69anMxBM9AB1X53conjyChrUD0Ol3hZuFc98lN0
- X/1UOd7M88VgbgDYiqq83wpw0gmKpquzc62Nue2FPKPmjgWS58VsPVhWmFFDdRbzhCCX
- HgEWwqp+1berpZN/hoId1LiHFNgfCfsCDYT/9Z6BErK4mJftcubUur269oXUkj40+c+7
- 3oKQ==
-X-Gm-Message-State: AOJu0YyWKXQDyAsQ0/eayqk2lvjIba1ZTnCWoprorPj7JwToSMnE3EOZ
- Aqr9dQp5XAj549alfZDAdNG+NdF5kjzWPcDEFh8NWf0T8Bz7m/c=
-X-Gm-Gg: ASbGncsrMFQ0PI18BJmeDU8fHwCWdyX1P112yA99QvSzuSrthXIqvWCzenxR7lxHOa/
- EAAd1o87XTlr+lQUIb/4kVzZktcnuCXQl+FvEN4cjYKKgXPuK+BlpmlhH71wZAKzdWtC5pq7Iz7
- UvjbX9RzOUo1Nkqwmp98YlDl/Hn8vgwmn0YGlZNB/FDWhGQno1S7h3ppguSkkYwZjQTcDQrXx2u
- 7/fcPhOwp4Sn8rnX93b0zirnl5IoQdgblFz9kF9bKZsQejDXr92zZwEpxvx7y/7BoCL8+9EWE5n
- sRrhYKOAX1HDkYw/kgKsLvDuUITXYZ7+12QRN90HTg==
-X-Google-Smtp-Source: AGHT+IGfhPTAxaf8B75RLgjVfZQ9MQSuBX9YLluLR5rXcZosHQPraRrM7+8ySbbt1uADkGdyWm5Dew==
-X-Received: by 2002:a05:620a:440a:b0:7c0:a898:92fd with SMTP id
- af79cd13be357-7c57c930378mr23367385a.13.1741915233700; 
- Thu, 13 Mar 2025 18:20:33 -0700 (PDT)
-Received: from ise-alpha.. ([2620:0:e00:550a:642:1aff:fee8:511b])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7c573c719f8sm171847485a.36.2025.03.13.18.20.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Mar 2025 18:20:32 -0700 (PDT)
-From: Chenyuan Yang <chenyuan0y@gmail.com>
-To: mripard@kernel.org, wens@csie.org, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jernej.skrabec@gmail.com, samuel@sholland.org, neil.armstrong@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Chenyuan Yang <chenyuan0y@gmail.com>
-Subject: [PATCH] drm/sun4i: backend: Fix error pointers in
- sun4i_backend_atomic_check
-Date: Thu, 13 Mar 2025 20:20:29 -0500
-Message-Id: <20250314012029.668306-1-chenyuan0y@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20230601; t=1741930822; x=1742535622;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KHVvEo4a2v+cW7rLYC5E5IP2TKLmXgAPS/TIAmIpZA0=;
+ b=dAFoMBSFFeIYHvXSGVbE0iz7wmvHSrKHYxjyoS91zowetNr2iRsu2QTvDxHruQVbcK
+ vpQ/2xoY+9G3TJ9E60uQB7vGgOdo5hmasb68wNmJ92TQ61+gDXSvQlP1+WvvVge4qLNB
+ tnkhf5lcqZjoNh2Uq0rjkuR0stKTfPmrK4IExvFgV81B1SOc6yMlGd/jFF2XGue9Rvmf
+ nz3bbKqxHHMlHZNZDz63GKHwQ9d6seKZz4GiltA4sSF2+Ajmo5y4aS/18olBdQwrPp7M
+ osqm3H7vMxsPAptHB5LxmaZL/Bafzr16NXSM6r9MhfKJWdFBJLTE2o3DXk8x7qiGOYUF
+ jd3A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUNUPxSn9i4zUwrFjLzwCqrqP33UgOtAvsiyDbXyMwOi4RZt9reFQmvIG1/8enCLe531wjoo1lOyaM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyP3kdWdS5km2QE4XlRtq+VxfV+j8pinynBEOaY3rZBiuTFtKSL
+ WwRQAoDrN870HVTpzaPoOg3hIxSYOTaVxJGlqBy5t3xm8BOWjHDFi5+PFN+27OjHctinY0uft29
+ kUjvnXLDruVGj/wgf9JoUXfwKeXST8J4TDES8FAvVfYVs65ASGkrDaEMRKC6kxNkDGdG69rgeZV
+ /t693uDsJdRT3yPErHKGTKwvWfkX6FxM/M7N1P+SUQrrYQg2PY+J+r4/Eg
+X-Gm-Gg: ASbGncuzoURkOZdSLIJnFAXTJeGTUG8YhmBrEpoijkBMk286GkQqCeJh3+bDKLqCBgM
+ nJbxSRZCUmBadIBqsIu2mOlF6qnVAs8Zc5CSaXnXHlm7bKZ9jj+/uVqVDCpH9zIBevJWgoQc5OA
+ ==
+X-Received: by 2002:a05:6102:3ed5:b0:4c3:52f:175c with SMTP id
+ ada2fe7eead31-4c382f9c38cmr701336137.0.1741930822260; 
+ Thu, 13 Mar 2025 22:40:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFkuI4xwxwmD4W5vZwFXVV+zKk/vRrjtyFmpUBFLwhuuzFgHWzblfl66y37xJJgM90/2dkfIVuz1WX3xnyepHM=
+X-Received: by 2002:a05:6102:3ed5:b0:4c3:52f:175c with SMTP id
+ ada2fe7eead31-4c382f9c38cmr701328137.0.1741930821970; Thu, 13 Mar 2025
+ 22:40:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250313041711.872378-1-leo.lin@canonical.com>
+ <878qp9dx54.fsf@intel.com>
+In-Reply-To: <878qp9dx54.fsf@intel.com>
+From: "Yo-Jung (Leo) Lin" <leo.lin@canonical.com>
+Date: Fri, 14 Mar 2025 13:40:10 +0800
+X-Gm-Features: AQ5f1Jqt4zZ3VwSHms6FObxGsQo-FxR5l0nzNgI0L4koCsAaEmsRm1MKhPg3l5o
+Message-ID: <CABscksPic1NdfVs+_g9s_HtyDtAACKNshbMXObWApmiMMhyf_A@mail.gmail.com>
+Subject: Re: [PATCH] drm: add .hdrtest to .gitignore under drm directories
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Fri, 14 Mar 2025 08:16:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,37 +98,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function sun4i_backend_atomic_check was dereferencing pointers
-returned by drm_atomic_get_plane_state without checking for errors. This
-could lead to undefined behavior if the function returns an error pointer.
+Hi Jani,
 
-This commit adds checks using IS_ERR to ensure that plane_state is
-valid before dereferencing them.
+On Thu, Mar 13, 2025 at 6:48=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+>
+> On Thu, 13 Mar 2025, "Yo-Jung (Leo) Lin" <leo.lin@canonical.com> wrote:
+> > The header self-contained tests in drm may leave .hdrtest files in
+> > include/drm/ and drivers/gpu/drm/. Omit them by adding .gitignore
+>
+> This has already been the case with usr/include for
+> CONFIG_UAPI_HEADER_TEST=3Dy but I guess nobody noticed before.
+>
+> Maybe fix that too?
 
-Similar to commit da29abe71e16
-("drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_changed").
+I think for usr/include there's already a .gitignore for that. For
+example see commit  5134e94ac4f5 (usr/include: refactor .gitignore).
 
-Fixes: 96180dde23b7 ("drm/sun4i: backend: Add a custom atomic_check for the frontend")
-Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
----
- drivers/gpu/drm/sun4i/sun4i_backend.c | 4 ++++
- 1 file changed, 4 insertions(+)
+>
+> BR,
+> Jani.
+>
+>
+> >
+> > Signed-off-by: Yo-Jung (Leo) Lin <leo.lin@canonical.com>
+> > ---
+> >  drivers/gpu/drm/.gitignore | 1 +
+> >  include/drm/.gitignore     | 1 +
+> >  2 files changed, 2 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/.gitignore
+> >  create mode 100644 include/drm/.gitignore
+> >
+> > diff --git a/drivers/gpu/drm/.gitignore b/drivers/gpu/drm/.gitignore
+> > new file mode 100644
+> > index 000000000000..d9a77f3b59b2
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/.gitignore
+> > @@ -0,0 +1 @@
+> > +*.hdrtest
+> > diff --git a/include/drm/.gitignore b/include/drm/.gitignore
+> > new file mode 100644
+> > index 000000000000..d9a77f3b59b2
+> > --- /dev/null
+> > +++ b/include/drm/.gitignore
+> > @@ -0,0 +1 @@
+> > +*.hdrtest
+>
+> --
+> Jani Nikula, Intel
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 2dded3b828df..a8e0e2123764 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -490,6 +490,10 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
- 	drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
- 		struct drm_plane_state *plane_state =
- 			drm_atomic_get_plane_state(state, plane);
-+
-+		if (IS_ERR(plane_state))
-+			return PTR_ERR(plane_state);
-+
- 		struct sun4i_layer_state *layer_state =
- 			state_to_sun4i_layer_state(plane_state);
- 		struct drm_framebuffer *fb = plane_state->fb;
--- 
-2.34.1
-
+Best,
+Leo
