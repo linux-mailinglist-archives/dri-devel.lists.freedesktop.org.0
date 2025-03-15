@@ -2,109 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246FFA631DB
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 19:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D0BA631F0
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 19:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BECFA10E2A7;
-	Sat, 15 Mar 2025 18:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBC510E058;
+	Sat, 15 Mar 2025 18:52:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PnzTrLOQ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CFV80jZs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A3E10E2AC
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 18:46:58 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52FIkwi3011341;
- Sat, 15 Mar 2025 18:46:58 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF4A010E058
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 18:52:17 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52FINpDs015092
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 18:52:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=cW7zBq2vG9Kq4RtRp00LNhyk
- wIwKr7TZJvVXzuqO9uY=; b=PnzTrLOQ6ybulUf+7XRklfe9qzLZDrZzUe+JZ+jF
- fTubIoy87x8eImo3B6LFzcrkAalcv2y4ftTGTTa6XLQqxnAXB5EjoB6KgAjJ0so6
- 88hWJHTphJY1WrhxbJmewuYxCGotnbzwMw8UGMptz/GGnUP1OPjDPyawmOLcE3du
- yT5fXoaR8lbSoX91CjJ/OOIPGNCZh3fklGm5Y8XJzfRNDTXEwRf+OnSJMBdOF3fx
- wzjfz+FGp+xre0+stAyvRFGWA3neqgOh4L/F8z7ggVr7BqfN0zpX+36z6gop1k8I
- akOS2aNq85koyBYebCtelqAj6qEIua57YxOpjhhlHN+aVg==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1uts350-1
+ content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ bnAncL5kD4eXxNvWCFFrvQ6U6Ums7hNryPh9wSWW4XE=; b=CFV80jZsad71JrES
+ QALfxZ3hp7Jx74pc674hSKMXXhijKXN655ivoDgrPprQWbpr344KIOwkI7992CY5
+ XhYdLKuZKzxjFO+Vuh2akmwCflxOEcXr6dU2O1qDgkgdNo6OMWymtzZfrGKU0IcV
+ 4PCwH/WartZl1fCdSabMwzBClBbICAwZw6FNlQDXXIXFh39m/hGysgMbXIiWXKMA
+ AmTKtACMsqMumRZ4nXiDpFmFlL5FEoAWgIxBYszZwvPWvQKPOVn17QsPauWNyha9
+ NWHyf7wVRosvHYbOcYM9NXs2uNdQrqWirh4h3Z+vIOc685sVAhteb8Rz/2cuqIzW
+ oy9aaw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d2u9s1gg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 18:46:57 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6e8f9057432so65924636d6.1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 11:46:57 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 18:52:12 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c548e16909so318912885a.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 11:52:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742064417; x=1742669217;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cW7zBq2vG9Kq4RtRp00LNhykwIwKr7TZJvVXzuqO9uY=;
- b=jcAlNkNE2NJFkbMgA6ylsWcll2bH3HUm/3uQr640mWxzLW4AtHStO1o24zRaNN5czl
- qb+XKh1wl517Wc/8iFy4irFCR0R8lw22QrOhx3NJJoVe3B7cxPJoWZKSEVG+FlJvnJ+Y
- zUnhEoq/mLK1engBcaM2CPL0//gLIj3lSEAjBGdZ3Upe1HVkWTb0/ONWS4NQq3VFSI+A
- ez/0ZsgzUjCWviLmvfPMfidoLcM1/GRxakgsCCRTGEUDubPDYPawhPXh/XnJkrsAloHJ
- XbTZvHbSQL8k/h3CbButzeDy90YEZCtCeTGFX78/R2Y6Yse5Y0IgJTSGxHqowS9Bp9IE
- WOCQ==
+ d=1e100.net; s=20230601; t=1742064730; x=1742669530;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bnAncL5kD4eXxNvWCFFrvQ6U6Ums7hNryPh9wSWW4XE=;
+ b=kKhBTy/43FehgGR5kT4R1yPlIITyFeDsfkLmKYohh5je+8SMV6Kqoei0/IdUQrS+0G
+ lsQ3JblSguQiQj/VghJRLKRIMOW5u0SQL/VBGPEhe58ZBczWE+mSkOI4nWwIaE+G5rAL
+ yATkhJVdAj+81A3kma7GIhZ6aSSZAVGOmA3+EjHVWzsVs0rf+MlpFIth9Jl/hGnXvVu9
+ +IkuUJ/dTfTVX7KfZ/M9WCtxrugBQu7NbD26/4iEhiGpd9dD+ZMWD4tClDranmud1NEh
+ o+LfHjy1KiWm06pWazjuWwVd21y8aWVFRycdfPVYsoOSCqzV2SC17Hmq47A5jxgcO7Wb
+ FTHg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWYAmNjV6en7ozPweCGo3iAqRPuCmn18+KoE22MjzpprMQ2CuXvYjrudyUJO2bnl0se8sxmgC2HrAg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwtD0rUtjaIGAWYvA9yl038jkfgnL5tMJRpGXRLqUi09lj+UK1Z
- 3ggV8vkBNEUX6OaupVvln/Orhj5MBDCmNes1UyjU79fm2OGwN5sNuZ3Wjyc4TOee4O9TTmqKtiF
- gA2n7gqcv/Ts6xeDCgQHgAbANFG72DZG6DLCHC69ek/YZGUCFvzn/FnddKOXEkpi/7xw=
-X-Gm-Gg: ASbGncs9LcDeijqe7x6vpo3MAqAZX5FxgWoGkFsQjj12y8seNcs8fgkX0aYBFK7x4eZ
- 8DNQ34C5Y4ZfbyPCU8D5OgH9WKjDghYEHPYQIFUP2EzrhXNLaf465GwcO2MBkgUa4ZJetQyfqOX
- er3wOR9v9rk/P154h3r5EtZ7NAGmEj8ZytBJ0Q+TilcWCv5LChwTTSKWhHubiZ4V67yqnODb85b
- epME+qMVcElGq/VYCRwCDxgfgfP/J6n6X4qOqbqSosa7LkewjXCyPs/9iLpa3h+dclRN8wA1EmR
- mulxLAajItyCszEiD08vy66bFZRY5jNWllHr96fecMRcnpV44DLibOv0EWVJq02Ql+KXfJchWDk
- e4ZY=
-X-Received: by 2002:a05:6214:e46:b0:6e6:6a82:4989 with SMTP id
- 6a1803df08f44-6eaeaaf7679mr80369806d6.44.1742064417009; 
- Sat, 15 Mar 2025 11:46:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH2k3woza25edkuOd6aOfh3Rheo47eOG6FJ5IAksq5indYFamjN7H0zk6nHe/RdyRLppcJ9Og==
-X-Received: by 2002:a05:6214:e46:b0:6e6:6a82:4989 with SMTP id
- 6a1803df08f44-6eaeaaf7679mr80369596d6.44.1742064416623; 
- Sat, 15 Mar 2025 11:46:56 -0700 (PDT)
+ AJvYcCUhl795TuH8A2UCPDKL2p2+q+xbbamvntTx/z5yQParg9MmGCYfwCb/zPkpgfpNJ1yM8nBTJ8Lt9Po=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzMxQ6U9jLvH1nQbUZYtBB8K0m15SpCrikgOHuOXbOPaIefcEyT
+ YNn6GNdt8JEr37Z3RAht9YrwNDqZdWVxj26pQ6M7ghN5FRnnygetjn9YzBlLXActyYgvzCMRnZH
+ NG9u52dXx/G3mlJ0xiqy/L08a/ZuGEUhfMt5hxferCqJGeRV5GgF1iSgw7BvF+wCB0ycamZ7reP
+ k=
+X-Gm-Gg: ASbGncteryugb69MLJbhLqDtIYlCXUqwrw71nIx/Oyyw6679+Anf9TmzcoGn+Ii4ZRL
+ 6e+uXEu5doCJsSBkGOyoYIWd5Q8FDTeCqU6dyxhVvWmJdha7nb8OvG2TaerasVbWQSbJZ/yBuJU
+ DluoDXXB9jk7cb//5wBQIohxDh9Cc4mexnThk8PhRA83Xu7GYw5Kv2q5w9D7QD1WRDwUh+LCRqq
+ O8UzjH7Zq6BqCAynY32BuNveRIphB4KDG6NLyJcq8yxkxe3dVbMwDKf1I0pOvnq+EEgPlPgjRXr
+ iPxXI+pNV86kjgyPDvByk5+lZVk8WkyCpFvJxpwuf+J9fatGAy6XikhCVIL++L/vTkUbkh1HrZK
+ 55HQ=
+X-Received: by 2002:a05:620a:1b96:b0:7c3:d75c:cc45 with SMTP id
+ af79cd13be357-7c57c8ab6b3mr1110348485a.37.1742064730311; 
+ Sat, 15 Mar 2025 11:52:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGtHCMzbX0OB2KOgimxI9Ol//4ymRD6WnvXtY64Y19u+YoaCQn8CwG54zz/CRIZ3b8Uf85hxA==
+X-Received: by 2002:a05:620a:1b96:b0:7c3:d75c:cc45 with SMTP id
+ af79cd13be357-7c57c8ab6b3mr1110346185a.37.1742064729943; 
+ Sat, 15 Mar 2025 11:52:09 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30c3f1c217dsm10225061fa.65.2025.03.15.11.46.53
+ 2adb3069b0e04-549ba7c0748sm867889e87.75.2025.03.15.11.52.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Mar 2025 11:46:54 -0700 (PDT)
-Date: Sat, 15 Mar 2025 20:46:51 +0200
+ Sat, 15 Mar 2025 11:52:07 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, lujianhua000@gmail.com, quic_jesszhan@quicinc.com,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, asrivats@redhat.com
-Subject: Re: [PATCH v4] drm/panel: novatek-nt36523: transition to mipi_dsi
- wrapped functions
-Message-ID: <yxy6dfmvckthcbrnojnsvxy5g7jp274axk4eh76rdezazub5af@s7nb72ufr7io>
-References: <20250315182522.628187-1-tejasvipin76@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
+ Vicki Pfau <vi@endrift.com>
+In-Reply-To: <20250313211643.860786-2-vi@endrift.com>
+References: <20250313211643.860786-2-vi@endrift.com>
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add ZOTAC Gaming Zone
+Message-Id: <174206472636.769842.5163527184017187110.b4-ty@oss.qualcomm.com>
+Date: Sat, 15 Mar 2025 20:52:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250315182522.628187-1-tejasvipin76@gmail.com>
-X-Authority-Analysis: v=2.4 cv=H8Pbw/Yi c=1 sm=1 tr=0 ts=67d5cb21 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=cm27Pg_UAAAA:8
- a=EUspDBNiAAAA:8 a=Ajo0Ny0948vakP_J2TsA:9
- a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-GUID: 4w2d9UkzZBGl-RrYjnyt_4x2JybRYeYG
-X-Proofpoint-ORIG-GUID: 4w2d9UkzZBGl-RrYjnyt_4x2JybRYeYG
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
+X-Authority-Analysis: v=2.4 cv=JsfxrN4C c=1 sm=1 tr=0 ts=67d5cc5c cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Vs1iUdzkB0EA:10 a=f9SHwHToUG_3Y9A1ZWAA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: hGdva4YMFzXdovsvihSO4-lKX8HDeFqC
+X-Proofpoint-ORIG-GUID: hGdva4YMFzXdovsvihSO4-lKX8HDeFqC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-15_07,2025-03-14_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=646
- lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0 priorityscore=1501
- mlxscore=0 suspectscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503150135
+ mlxscore=0 adultscore=0
+ mlxlogscore=999 impostorscore=0 suspectscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 malwarescore=0 spamscore=0
+ lowpriorityscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2503150134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,38 +118,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 15, 2025 at 11:55:22PM +0530, Tejas Vipin wrote:
-> Changes the novatek-nt36523 panel to use multi style functions for
-> improved error handling.
+On Thu, 13 Mar 2025 14:16:44 -0700, Vicki Pfau wrote:
+> Add a panel orientation quirk for the ZOTAC Gaming Zone handheld gaming device.
 > 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> ---
-> Changes in v4:
->     - Cleanup nt36523_prepare
-> 
-> Link to v3: https://lore.kernel.org/all/20250309040355.381386-1-tejasvipin76@gmail.com/
-> 
-> Changes in v3:
->     - Remove mipi_dsi_dual_msleep
->     - Change mipi_dsi_dual_dcs_write_seq_multi to use the same dsi_ctx
->       by swapping the dsi accordingly.
-> 
-> Link to v2: https://lore.kernel.org/all/20250307091519.245889-1-tejasvipin76@gmail.com/
-> 
-> Changes in v2:
->     - Uses mipi_dsi_dual_msleep
->     - Changed mipi_dsi_dual_dcs_write_seq_multi to not equate accum_err
->       of either dsi_ctx.
-> 
-> Link to v1: https://lore.kernel.org/all/20250306134350.139792-1-tejasvipin76@gmail.com/
-> ---
->  drivers/gpu/drm/panel/panel-novatek-nt36523.c | 1683 ++++++++---------
->  1 file changed, 823 insertions(+), 860 deletions(-)
 > 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Applied to drm-misc-next, thanks!
 
+[1/1] drm: panel-orientation-quirks: Add ZOTAC Gaming Zone
+      commit: 96c85e428ebaeacd2c640eba075479ab92072ccd
+
+Best regards,
 -- 
 With best wishes
 Dmitry
+
+
