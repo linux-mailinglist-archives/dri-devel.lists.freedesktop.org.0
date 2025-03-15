@@ -2,120 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06448A62E53
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 15:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E25A62E5A
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 15:45:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B2810E034;
-	Sat, 15 Mar 2025 14:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8E610E09B;
+	Sat, 15 Mar 2025 14:45:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="f3tEPdAz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DJqBW1bJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6901F10E034
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 14:44:11 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- 46e09a7af769-72bc3987a05so687264a34.1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 07:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1742049851; x=1742654651;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=6T85d8d8ZYjCBGjp7D0o39PKUN1tyOYBbRPk0L4DYrU=;
- b=f3tEPdAzp1Ive7KnFnA9nuLlTIgr216PLSTSTO50tbe/8E3qJCrfN12v/EGh+KB+87
- pLcwZlhru/wZDx9iayKDH9x5yZ4BAHioEO2EUTXYetdxV5MbyBIsXBRABf2XkKfoBeu3
- cq9C9T3zSkst3Zzv3IJWBVlhfb4jDeqv1BDPo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742049851; x=1742654651;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6T85d8d8ZYjCBGjp7D0o39PKUN1tyOYBbRPk0L4DYrU=;
- b=r2OZwsoILhLfS3AYZiJa+lzR9HEu8eS5Vxu1B+oJXQ1B5uRR1pnlFlMcXqaaVG6L/P
- w16HrGD7bpBifyUJTCAuV0vyuY7wO7/P0/aWo63SHRcEdNQr5+z3b5turMXdvBViKxSd
- dqGddH/WYQ0gdqXC893wjHi7q81fpN6l7RfHWSP5uATQqHnf+v6OyBIDD5Fb0E5NQoxu
- 5pu+EFlHE2m3vZdUMjEjNdYJ7BKUo9u7LDhvfa1NgSM+teUUOazOjRddMkjLA+ZvHnOt
- lbqi4O1Fnkg9yS2wI6ir+mW0Ve6AtDuW4wysrEHd368vjWrr9JKLDHl5FWI9tsvF9y5Y
- yEHg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUDiZ6e0wkPYhdtbb0pl7ykwA+oL8F7mDBARX1qGd0UsDg9pTVJZxyvd6Y88FXlrPNvSK0KELuTWvI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSA7uZhCdhHhlZYQJwEVZP52UmeikD10ZwAT3LXBzu0AGDlKJu
- AVVPYKjfUoB1Y0rR8ED1jKoc2Ub/1LRqOApfk3S98pmvlzlRokI/cmf3C+746w==
-X-Gm-Gg: ASbGncvDjd84mTKj6NxTbHdPYSez4NUPEp5MTrrqqqPFIdM/KKZqqUOZTRPdYJrGEKH
- teOMFnCXJdubC/Am0fcJclns0be9uFo07aFHM28blPlwpEv2qKRgxid9D8LyJJI3b2ovj1dFIB+
- sXTByfxvldVzjNzgwfEGBkUAlph2IBjwdeB0udH9iuXr/Dbf+946gDz287f8B/AsRp84ylXDuCC
- TQdMRwKPqx18H8ZfoXVk4SI53osFhc6o0jaYwn462GcwPIP1YCoAMiDwUlVcISMaqjqdXPurXtg
- fU1MBspSnM3schybOlxWkY4PDKkrNmIH8dmf1s9vr7j2mWt+zhftddZ8T8Yc+oUTi70fdMTH9TP
- U7gyKVb7bs2XMF5bTKRI=
-X-Google-Smtp-Source: AGHT+IH5qYEDmreB7kt+jEHjwiSU85jBzFVSAdXS2c0XkzxLhcKRY0iFk1+jrQAKc/kSzyZoJpuw6g==
-X-Received: by 2002:a9d:5e09:0:b0:727:20db:dd5b with SMTP id
- 46e09a7af769-72bb18ae5efmr5528461a34.2.1742049850655; 
- Sat, 15 Mar 2025 07:44:10 -0700 (PDT)
-Received: from [192.168.1.3] (ip68-4-215-93.oc.oc.cox.net. [68.4.215.93])
- by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-72bb274e99csm1018613a34.42.2025.03.15.07.44.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 Mar 2025 07:44:09 -0700 (PDT)
-Message-ID: <825d1133-122c-4c39-8041-684e77e24ce0@broadcom.com>
-Date: Sat, 15 Mar 2025 07:44:07 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE74C10E09B;
+ Sat, 15 Mar 2025 14:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742049921; x=1773585921;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=L79tqI/QXYQsA98OS8kP0Mn8L9fqlq/ZjoJbkKFIwh8=;
+ b=DJqBW1bJ7T63fLQTW96sioAPllgydMVdAYC8S/j4EaNb/76gPO2GVD0J
+ y6NltVOtUbf8e/BJ0JdY4eanPHvIdW5h2x2q2Qv/p7Nv1Ya/2uodH/LjR
+ wUF7QzcBsEaruO2A4MqSngzS2p5oYoX+rsndx1g7DxRJ1R0otxXI+/fTk
+ 9OvAq7Bfdlm5kOsUa9+dzTkwEozAsjU+NWflDSdgFI9VHvw1TpqeIbd6y
+ 3Ab1iGL6nPILcewjcILGNkyZwazQ6p0cn+0B0viDKhOOqXjj+R4PthJWt
+ FYCzgFHYx4DB6ZAbgX4OyKGb6fDlyBwUR9Gqpl96xWbbwPDeu668oT25E Q==;
+X-CSE-ConnectionGUID: 1Cp49K0ASMGgieRK4H0s3w==
+X-CSE-MsgGUID: h/JNogZmTVCYqTvqbDn+IQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="65654311"
+X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; d="scan'208";a="65654311"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2025 07:45:19 -0700
+X-CSE-ConnectionGUID: CJE6OzJ1S8mNv3z8RSTu9w==
+X-CSE-MsgGUID: Bb1Ez5tKT6GK1WgLO/pr0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; d="scan'208";a="121573163"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by fmviesa007.fm.intel.com with ESMTP; 15 Mar 2025 07:45:15 -0700
+Received: from [10.246.5.201] (mwajdecz-MOBL.ger.corp.intel.com [10.246.5.201])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id 385FE34901;
+ Sat, 15 Mar 2025 14:45:14 +0000 (GMT)
+Message-ID: <3c506ee2-7a1a-46ce-b4ff-4d774c87431f@intel.com>
+Date: Sat, 15 Mar 2025 15:45:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/7] dt-bindings: gpu: v3d: Add per-compatible register
- restrictions
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Stefan Wahren <wahrenst@gmx.net>, Krzysztof Kozlowski <krzk@kernel.org>,
- Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, kernel-dev@igalia.com,
- Maxime Ripard <mripard@kernel.org>
-References: <20250313-v3d-gpu-reset-fixes-v4-0-c1e780d8e096@igalia.com>
- <20250313-v3d-gpu-reset-fixes-v4-4-c1e780d8e096@igalia.com>
- <3fbaa5ed-e70f-4293-99d0-faf22f3c4adf@kernel.org>
- <701c71cb-47a6-4970-bd21-ae61cf971f7c@igalia.com>
- <0edcd27d-64a6-494e-bc81-5a9ad89d4d90@gmx.net>
- <e3d70d16-8701-4096-ba4b-e21cb1da7905@igalia.com>
+Subject: Re: [PATCH v8 2/6] drm/xe/xe_gt_pagefault: Move pagefault struct to
+ header
+To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Cc: "Gupta, saurabhg" <saurabhg.gupta@intel.com>,
+ "Zuo, Alex" <alex.zuo@intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "Brost, Matthew" <matthew.brost@intel.com>,
+ "Zhang, Jianxun" <jianxun.zhang@intel.com>,
+ "Lin, Shuicheng" <shuicheng.lin@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "michal.mzorek@intel.com" <michal.mzorek@intel.com>
+References: <20250313183415.133863-1-jonathan.cavitt@intel.com>
+ <20250313183415.133863-3-jonathan.cavitt@intel.com>
+ <9d85d2bb-1f64-4d6c-9982-a2d23cbbac32@intel.com>
+ <CH0PR11MB5444E03A221293476A9DC295E5D22@CH0PR11MB5444.namprd11.prod.outlook.com>
 Content-Language: en-US
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <e3d70d16-8701-4096-ba4b-e21cb1da7905@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <CH0PR11MB5444E03A221293476A9DC295E5D22@CH0PR11MB5444.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -134,97 +85,174 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 3/15/2025 5:17 AM, Maíra Canal wrote:
-> Hi Stefan,
-> 
-> On 15/03/25 06:52, Stefan Wahren wrote:
->> Hello,
+On 14.03.2025 23:06, Cavitt, Jonathan wrote:
+> -----Original Message-----
+> From: Wajdeczko, Michal <Michal.Wajdeczko@intel.com> 
+> Sent: Friday, March 14, 2025 10:02 AM
+> To: Cavitt, Jonathan <jonathan.cavitt@intel.com>; intel-xe@lists.freedesktop.org
+> Cc: Gupta, saurabhg <saurabhg.gupta@intel.com>; Zuo, Alex <alex.zuo@intel.com>; joonas.lahtinen@linux.intel.com; Brost, Matthew <matthew.brost@intel.com>; Zhang, Jianxun <jianxun.zhang@intel.com>; Lin, Shuicheng <shuicheng.lin@intel.com>; dri-devel@lists.freedesktop.org; michal.mzorek@intel.com
+> Subject: Re: [PATCH v8 2/6] drm/xe/xe_gt_pagefault: Move pagefault struct to header
 >>
->> Am 13.03.25 um 20:04 schrieb Maíra Canal:
->>> +Cc Stefan
+>> On 13.03.2025 19:34, Jonathan Cavitt wrote:
+>>> Move the pagefault struct from xe_gt_pagefault.c to the
+>>> xe_gt_pagefault_types.h header file, along with the associated enum values.
 >>>
->>> Hi Krzysztof,
+>>> v2:
+>>> - Normalize names for common header (Matt Brost)
 >>>
->>> On 13/03/25 12:03, Krzysztof Kozlowski wrote:
->>>> On 13/03/2025 15:43, Maíra Canal wrote:
->>>>> In order to enforce per-SoC register rules, add per-compatible
->>>>> restrictions. V3D 3.3 (represented by brcm,7268-v3d) has a cache
->>>>> controller (GCA), which is not present in other V3D generations.
->>>>> Declaring these differences helps ensure the DTB accurately reflect
->>>>> the hardware design.
->>>>>
->>>>> While not ideal, this commit keeps the register order flexible for
->>>>> brcm,7268-v3d with the goal to keep the ABI backwards compatible.
->>>>>
->>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>>>> ---
->>>>>   .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 73
->>>>> ++++++++++++++++++----
->>>>>   1 file changed, 61 insertions(+), 12 deletions(-)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->>>>> b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->>>>> index
->>>>> dc078ceeca9ac3447ba54a7c8830821f0b2a7f9f..9867b617c60c6fe34a0f88a3ee2f581a94b69a5c
->>>>> 100644
->>>>> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->>>>> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+>>> v3:
+>>> - s/Migrate/Move (Michal W)
+>>> - s/xe_pagefault/xe_gt_pagefault (Michal W)
+>>> - Create new header file, xe_gt_pagefault_types.h (Michal W)
+>>> - Add kernel docs (Michal W)
+>>>
+>>> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+>>> Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+>>> ---
+>>
+>> ...
+>>
+>>> diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.h b/drivers/gpu/drm/xe/xe_gt_pagefault.h
+>>> index 839c065a5e4c..69b700c4915a 100644
+>>> --- a/drivers/gpu/drm/xe/xe_gt_pagefault.h
+>>> +++ b/drivers/gpu/drm/xe/xe_gt_pagefault.h
+>>> @@ -8,6 +8,8 @@
+>>>  
+>>>  #include <linux/types.h>
+>>>  
+>>> +#include "xe_gt_pagefault_types.h"
+>>
+>> it's not needed here, move it to .c
+>>
+>>> +
+>>>  struct xe_gt;
+>>>  struct xe_guc;
+>>>  
+>>> diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault_types.h b/drivers/gpu/drm/xe/xe_gt_pagefault_types.h
+>>> new file mode 100644
+>>> index 000000000000..90b7085d4b8e
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/xe/xe_gt_pagefault_types.h
+>>> @@ -0,0 +1,67 @@
+>>> +/* SPDX-License-Identifier: MIT */
+>>> +/*
+>>> + * Copyright (c) 2022-2025 Intel Corporation
+>>> + */
+>>> +
+>>> +#ifndef _XE_GT_PAGEFAULT_TYPES_H_
+>>> +#define _XE_GT_PAGEFAULT_TYPES_H_
+>>> +
+>>
+>> don't forget to
+>>
+>> #include <linux/types.h>
 > 
-> [...]
+> That explains why the kernel failed to compile on CI.  It was compiling just
+> fine locally, so that's why I missed this.
 > 
->>>>> +  - if:
->>>>> +      properties:
->>>>> +        compatible:
->>>>> +          contains:
->>>>> +            const: brcm,7268-v3d
->>>>> +    then:
->>>>> +      properties:
->>>>> +        reg:
->>>>> +          items:
->>>>> +            - description: hub register
->>>>> +            - description: core0 register
->>>>> +            - description: GCA cache controller register
->>>>> +            - description: bridge register (if no external reset
->>>>> controller)
->>>>> +          minItems: 3
->>>>> +        reg-names:
->>>>> +          items:
->>>>> +            - const: hub
->>>>> +            - const: core0
->>>>> +            - enum: [ bridge, gca ]
->>>>
->>> > So GCA is always there? Then this should be just 'gca'. Your list for
->>>
->>> GCA is always there for V3D 3.3, therefore it is always there for
->>> brcm,7268-v3d.
->>>
->>>> 'reg' already says that third item must be GCA. I understand that 
->>>> you do
->>>> not want to affect the ABI, but it already kind of is with enforcing 
->>>> GCA
->>>> in 'reg'.
->>>
->>> I'm adding Stefan to the loop as he was the one that converted this DT
->>> binding to YAML. Stefan, could you share your thoughts about breaking
->>> the ABI for BCM7268? We would enforce the following order: hub, core0,
->>> bridge, and gca.
->> Phew, that was over 4 years ago. To be honest, my only motivation back
->> then was to prepare support for the Raspberry Pi 4 (BCM2711). I did it
->> all in my spare time and never had access to any Broadcom documents. I
->> have no idea about all the other BCM chips, so a possible break of the
->> ABI for the BCM7268 was an accident. I don't know if Florian Fainelli or
->> Maxime Ripard can help here.
+>>
+>>> +/**
+>>> + * struct xe_gt_pagefault - Structure of pagefaults returned by the
+>>> + * pagefault handler
+>>> + */
+>>> +struct xe_gt_pagefault {
+>>> +	/** @page_addr: faulted address of this pagefault */
+>>> +	u64 page_addr;
+>>> +	/** @asid: ASID of this pagefault */
+>>> +	u32 asid;
+>>> +	/** @pdata: PDATA of this pagefault */
+>>> +	u16 pdata;
+>>> +	/** @vfid: VFID of this pagefault */
+>>> +	u8 vfid;
+>>
+>> btw, IIRC the VFID from the descriptor will be zero'ed
+>> does it make sense to keep it here?
 > 
-> Thanks for providing your feedback! I did my diligence and now I know
-> which SoCs have each register bank. For BCM2711, BCM2712, and BCM7278,
-> the ABI will be preserved. As for BCM7268, I plan to enforce the order
-> specified in the current DT binding example: hub, core0, bridge, and
-> gca.
+> Is the argument that every time pf->vfid is accessed, it's guaranteed to be
 
-For 7268, if we were to enforce by ascending address/offset, the order 
-ought to be hub, bridge, gca, and core0 (all are present). In practice I 
-don't think this matters at all because the upstream v3d driver is not 
-used on those STB chips at all.
--- 
-Florian
+it's FIELD_GET(PFD_VFID, desc->dw2) guaranteed to be zero
+
+> zero?  I can't counter that claim, but wouldn't it be safer to keep reporting
+> the VFID in case we ever hit a case where it's no longer zero?
+
+it can't be non-zero, look at GuC ABI spec that says:
+
+".. with the VF number being zero’d out in the descriptor."
+
+> 
+> Also, did we know it would always be zero when we were making the
+> pagefault struct originally?  If so, why did we include the vfid originally?
+
+dunno, ask authors, it was pushed part of the initial commit
+dd08ebf6c352 that was *not* going through normal review cycle
+
+> 
+>>
+>>> +	/**
+>>> +	 * @access_type: access type of this pagefault, as a value
+>>> +	 * from xe_gt_pagefault_access_type
+>>> +	 */
+>>> +	u8 access_type;
+>>> +	/**
+>>> +	 * @fault_type: fault type of this pagefault, as a value
+>>> +	 * from xe_gt_pagefault_fault_type
+>>> +	 */
+>>> +	u8 fault_type;
+>>> +	/** @fault_level: fault level of this pagefault */
+>>> +	u8 fault_level;
+>>> +	/** @engine_class: engine class this pagefault was reported on */
+>>> +	u8 engine_class;
+>>> +	/** @engine_instance: engine instance this pagefault was reported on */
+>>> +	u8 engine_instance;
+>>> +	/** @fault_unsuccessful: flag for if the pagefault recovered or not */
+>>> +	u8 fault_unsuccessful;
+>>> +	/** @prefetch: unused */
+>>> +	bool prefetch;
+>>> +	/** @trva_fault: is set if this is a TRTT fault */
+>>> +	bool trva_fault;
+>>> +};
+>>> +
+>>> +/**
+>>> + * enum xe_gt_pagefault_access_type - Access type reported to the xe_gt_pagefault
+>>> + * struct.  Saved to xe_gt_pagefault@access_type
+>>
+>> this seems to be copied from G2H descriptor as-is.
+>> so shouldn't this be part of the GuC ABI?
+>> or based on HW ABI if GuC is just a proxy
+> 
+> What information should I be including in the kernel docs for these enums?
+
+are you asking about xe enums or GuC ABI defs/enums?
+
+for the xe enums, we can say this is what HW/GuC provides
+for the HW defs, we can likely drop kernel-doc
+we can just point to the Bspec in the commit msg
+
+> -Jonathan Cavitt
+> 
+>>
+>>> + */
+>>> +enum xe_gt_pagefault_access_type {
+>>> +	XE_GT_PAGEFAULT_ACCESS_TYPE_READ = 0,
+>>> +	XE_GT_PAGEFAULT_ACCESS_TYPE_WRITE = 1,
+>>> +	XE_GT_PAGEFAULT_ACCESS_TYPE_ATOMIC = 2,
+>>> +	XE_GT_PAGEFAULT_ACCESS_TYPE_RESERVED = 3,
+>>> +};
+>>> +
+>>> +/**
+>>> + * enum xe_gt_pagefault_fault_type - Fault type reported to the xe_gt_pagefault
+>>> + * struct.  Saved to xe_gt_pagefault@fault_type
+>>
+>> ditto
+>>
+>>> + */
+>>> +enum xe_gt_pagefault_fault_type {
+>>> +	XE_GT_PAGEFAULT_TYPE_NOT_PRESENT = 0,
+>>> +	XE_GT_PAGEFAULT_TYPE_WRITE_ACCESS_VIOLATION = 1,
+>>> +	XE_GT_PAGEFAULT_TYPE_ATOMIC_ACCESS_VIOLATION = 2,
+>>> +};
+>>> +
+>>> +#endif
+>>
+>>
 
