@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FACA62F94
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 16:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1759AA6313B
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 19:04:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94A3010E0CA;
-	Sat, 15 Mar 2025 15:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EAE110E00A;
+	Sat, 15 Mar 2025 18:04:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m5ov9XE2";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="lJDu4Gvz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (unknown [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDA510E0BB;
- Sat, 15 Mar 2025 15:50:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5D18A5C3F24;
- Sat, 15 Mar 2025 15:47:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC78AC4CEE5;
- Sat, 15 Mar 2025 15:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742053793;
- bh=//VI9Ejxt3BysY3bBXysrBbAfxCY7XJI4CQgc51yUmc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m5ov9XE2YyrA++4prSzQ7wQsF4OyCJztO3HJFlvwrvgFKdEbYU+hRxDc/0gjFMi6D
- ZSsc17tBd6HhqsJQUe+ymMjrT3aAnvhuriYVNsX/0KML/TfhemJUlx/mvHKfDDAiip
- 2dGgM00BWbcYjgnbPPX1hfkU2OMh18PX+JAyxpBzplAOEP3Oja994fpUcRQ+GM38M0
- Ju38U18/eQp62jo93PzWM8TtRPAPtBx24r2UsoRZzXSAnDMmPcPZ/tMnV9lwY7fE+6
- 15ZK5b867+B/zIpyqmVUlHNPpgiUJhfqvjSoeqAIfr/y2IzqOD8Isq+SRADN2LE7ks
- 0dlyKpEl8xhWA==
-Date: Sat, 15 Mar 2025 16:49:47 +0100
-From: Danilo Krummrich <dakr@kernel.org>
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D571C10E00A;
+ Sat, 15 Mar 2025 18:04:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1742061868; x=1742321068;
+ bh=zMY+WAQc14J08GzAX+iNlnPGPVWT6EmF6qM4eIj0Zkk=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=lJDu4GvzZ4aGl5Gi3KECAOdZAhaYWikwvEsa/1w3x+kkD5sUxdgBBatmGwC0Zy8jN
+ y/pmmeai818LZuGBiJPjcUIjxbaX+g+7lY7AKCtQlU4Sqet6mLm0cv8dOjJfIYbGqy
+ M/76mNE2QIaPKKN7fQ+6Gd8uCdbMSnv99XT5MdIqOjqMIl+Pz0e8KhMSkwnX3nJ8+J
+ yF8rzrSoe5YMVDuK2JDWqsSx/ARgssu2v+wb8AG6vo57mwbupaC2y+5fVm296mguMV
+ 64dLoyl9Buu5HF8TTROOpJKwUBGLJilGagdyBF8OIp6/EO8iRL5J5PH4E0ByM8Pszh
+ RpxA7KwT1Mk4A==
+Date: Sat, 15 Mar 2025 18:04:20 +0000
 To: Andrew Ballance <andrewjballance@gmail.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- acourbot@nvidia.com, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: a.hindborg@kernel.org, acourbot@nvidia.com, airlied@gmail.com,
+ alex.gaynor@gmail.com, aliceryhl@google.com, bjorn3_gh@protonmail.com,
+ boqun.feng@gmail.com, corbet@lwn.net, dakr@kernel.org,
+ dri-devel@lists.freedesktop.org, gary@garyguo.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, nouveau@lists.freedesktop.org, ojeda@kernel.org,
+ rust-for-linux@vger.kernel.org, simona@ffwll.ch, tmgross@umich.edu,
+ tzimmermann@suse.de
 Subject: Re: [PATCH 1/3] rust: alloc: add Vec::truncate method
-Message-ID: <Z9Whm43kUWaiTETX@cassiopeiae>
-References: <20250315024235.5282-1-andrewjballance@gmail.com>
- <20250315024235.5282-2-andrewjballance@gmail.com>
+Message-ID: <D8H1DYGA2P3U.1PHDBOU2YOBS3@proton.me>
+In-Reply-To: <20250315111511.107047-1-andrewjballance@gmail.com>
+References: <D8GRAC8YQIVC.2LS1EIIIRZU3I@proton.me>
+ <20250315111511.107047-1-andrewjballance@gmail.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 2f9f513866f9fb231af860e3cf39013bf22ca7b9
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250315024235.5282-2-andrewjballance@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,61 +63,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 14, 2025 at 09:42:33PM -0500, Andrew Ballance wrote:
-> implements the equivalent to the std's Vec::truncate
-> on the kernel's Vec type.
-> 
-> Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
-> ---
->  rust/kernel/alloc/kvec.rs | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/rust/kernel/alloc/kvec.rs b/rust/kernel/alloc/kvec.rs
-> index ae9d072741ce..75e9feebb81f 100644
-> --- a/rust/kernel/alloc/kvec.rs
-> +++ b/rust/kernel/alloc/kvec.rs
-> @@ -452,6 +452,42 @@ pub fn reserve(&mut self, additional: usize, flags: Flags) -> Result<(), AllocEr
->  
->          Ok(())
->      }
-> +
-> +    /// Shortens the vector, setting the length to `len` and drops the removed values.
-> +    /// If `len` is greater than or equal to the current length, this does nothing.
-> +    ///
-> +    /// This has no effect on the capacity and will not allocate.
+On Sat Mar 15, 2025 at 12:15 PM CET, Andrew Ballance wrote:
+> On Sat, Mar 15, 2025 at 10:09:26AM +0000, Benno Lossin wrote:
+>> On Sat Mar 15, 2025 at 3:42 AM CET, Andrew Ballance wrote:
+>> > implements the equivalent to the std's Vec::truncate
+>> > on the kernel's Vec type.
+>> >
+>> > Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
+>> > ---
+>> >  rust/kernel/alloc/kvec.rs | 36 ++++++++++++++++++++++++++++++++++++
+>> >  1 file changed, 36 insertions(+)
+>> >
+>> > diff --git a/rust/kernel/alloc/kvec.rs b/rust/kernel/alloc/kvec.rs
+>> > index ae9d072741ce..75e9feebb81f 100644
+>> > --- a/rust/kernel/alloc/kvec.rs
+>> > +++ b/rust/kernel/alloc/kvec.rs
+>> > @@ -452,6 +452,42 @@ pub fn reserve(&mut self, additional: usize, flag=
+s: Flags) -> Result<(), AllocEr
+>> > =20
+>> >          Ok(())
+>> >      }
+>> > +
+>> > +    /// Shortens the vector, setting the length to `len` and drops th=
+e removed values.
+>> > +    /// If `len` is greater than or equal to the current length, this=
+ does nothing.
+>> > +    ///
+>> > +    /// This has no effect on the capacity and will not allocate.
+>> > +    /// # Examples
+>> > +    /// ```
+>> > +    /// let mut v =3D kernel::kvec![1, 2, 3]?;
+>> > +    /// v.truncate(1);
+>> > +    /// assert_eq!(v.len(), 1);
+>> > +    /// assert_eq!(&v, &[1]);
+>> > +    ///
+>> > +    /// # Ok::<(), Error>(())
+>> > +    /// ```
+>> > +    pub fn truncate(&mut self, len: usize) {
+>> > +        if len >=3D self.len() {
+>> > +            return;
+>> > +        }
+>> > +
+>> > +        // [new_len, len) is guaranteed to be valid because [0, len) =
+is guaranteed to be valid
+>> > +        let drop_range =3D len..self.len();
+>> > +
+>> > +        // SAFETY:
+>> > +        // we can safely ignore the bounds check because we already d=
+id our own check
+>> > +        let ptr: *mut [T] =3D unsafe { self.get_unchecked_mut(drop_ra=
+nge) };
+>>=20
+>> What's this `get_unchecked_mut` method, I don't see it in `rust-next` or
+>> `alloc-next`.
+>
+> Vec derefs into a slice which implements get_uncheked_mut
+> https://rust.docs.kernel.org/next/kernel/alloc/kvec/struct.Vec.html#metho=
+d.get_unchecked_mut
 
-Nit: Please also add an empty line here.
+Ah, I forgot about that... Can you change the safety comment to:
 
-> +    /// # Examples
-> +    /// ```
-> +    /// let mut v = kernel::kvec![1, 2, 3]?;
-> +    /// v.truncate(1);
-> +    /// assert_eq!(v.len(), 1);
-> +    /// assert_eq!(&v, &[1]);
-> +    ///
-> +    /// # Ok::<(), Error>(())
-> +    /// ```
-> +    pub fn truncate(&mut self, len: usize) {
-> +        if len >= self.len() {
-> +            return;
-> +        }
-> +
-> +        // [new_len, len) is guaranteed to be valid because [0, len) is guaranteed to be valid
+    // SAFETY: `drop_range` is a subrange of `[0, len)` by the bounds check=
+ above.
 
-We typically use markdown for comments.
+---
+Cheers,
+Benno
 
-> +        let drop_range = len..self.len();
-> +
-> +        // SAFETY:
-> +        // we can safely ignore the bounds check because we already did our own check
-> +        let ptr: *mut [T] = unsafe { self.get_unchecked_mut(drop_range) };
-> +
-> +        // SAFETY:
-> +        // it is safe to shrink the length because the new length is
-> +        // guaranteed to be less than the old length
-> +        unsafe { self.set_len(len) };
-
-I just sent out a fix [1] for the safety requirements of set_len() in [1], which
-I think would be good to consider.
-
-[1] https://lore.kernel.org/rust-for-linux/20250315154436.65065-1-dakr@kernel.org/
