@@ -2,86 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF17A62C14
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 12:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF47A62C11
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 12:49:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7FE010E3A3;
-	Sat, 15 Mar 2025 11:49:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="janBByr8";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A930D10E397;
+	Sat, 15 Mar 2025 11:49:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48B6C10E386;
- Sat, 15 Mar 2025 02:43:34 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- 46e09a7af769-72a145521d6so1908735a34.3; 
- Fri, 14 Mar 2025 19:43:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742006613; x=1742611413; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=MibvrQXj2P5QnlDxX5YbYon7Ne8dH6XMjJsYnk+RzkY=;
- b=janBByr8xp/2pBgGj4PUhSS65Lp21hJFCG0ZltFeserYvYRKFyc9Mf7hrB2mnZRGtE
- K08mpHkoMAmENR0pkK4g+jQJI92P4HHZpdRhdsp3fMbKMKAQ8VmC4jdcWVFOlOChqf43
- 0GI9CEzBt1makc9hqxdP5dfPUCtC3Z8DKSkc5+mWs/S9Db1tU3g69+ypdfyK/VG6JzHz
- 7wuU48ZcuWNPdbVIJAQrt3Im2Fah87BLOBQUrRZRbsDBiLaUwx68iAyDbe+uscXRg/no
- w9mxYnVTSDYLG6aCYARSt7lfW8Fu6bP4PbRdsWxnB/TtnOG3+pL3FaECPLeztVPWSfTZ
- kUFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742006613; x=1742611413;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MibvrQXj2P5QnlDxX5YbYon7Ne8dH6XMjJsYnk+RzkY=;
- b=VYpgeFqVoE6wDO8qtJ9QS+n410cIjXON6+XaW0LYnA2Xy2c6SvRJJdCOt13w8ie8sb
- pI1sTfiUtIqkbxzdKd6rzJRuwxU3M7m08ATBbMkXcxaR/8N8hRmbilpA4Alm9wAKt80D
- gR6SM29IuEH+NbYkZBDl3pM6QyRWtZNXcb1El0ndeLg9RdMbxQMrdJeafMZsIbjTTVyt
- 1Cu+89EsYdjd16aQvQqqzn5W7vdmhNX6IIlt6NudvlN0LLtjgduwSaqglbLiSl5etxnI
- 0MVWAHzo9GSFOPZ2m3AMq/O8cPp0JIAVCTvKzZEnBgB5IF4joKDQjwxzrmZa4Ir3MhRK
- qYSQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXMYMoJC25UeeVYQqchkS6LAntaUmryjNCIa/GEIdIeE2cnYQ+d6oO72rmMaiGOLNfjf8R9pXSF2A==@lists.freedesktop.org,
- AJvYcCXZX0n0SQb6xja9w4AeJDRTcnTEOVoyBghkkylPy50Nz0doDo5mfi/VsOqx1Uw5y4TKfocJN5kHil0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFbnDWZMJscQn2PI+fo2mOlyUiAsqCbrBFk5WFGkx3S5xn+yBs
- kCZ8iHsT91Kjo+JdBg20qju1bJAETJ08nvhUhrSA6QcRHCseDHWLFhkCn0Du
-X-Gm-Gg: ASbGncsNfGyeMskHP8bvevARQ1sYYVmVghds62BS1KP3Q6HwvULXY+iUJuWn5zLWj34
- EzAFDzWJM609ufdXjnm0reznCgy2AooNbPtaq8aEkz2PGSYOvpz1ec4vBT6/vNbsY/Fct/sVHJl
- BjHtiNICu90wjefqAx1okGzTdBJ+TfmMgujKYceN6qt1tVwPYoKhkcnkUZbiKFaaGPN5INaG7vA
- FGBoogFbfWZlBGIcr3Us+zdgfwPwqdttWT0/QnNI58XLuwGDBS3VtbTqVNbgKugOhxRpa2/UhNE
- t2CXHtLWNWzlWoADDMYNcuxXgbpQpZ6EyNFyGyRFII5Ac0ga+Xx+yuAtZcj1YPLJQKrGZBSc03/
- eNdSS0iumsi6qfxis
-X-Google-Smtp-Source: AGHT+IH81UySJfquqqsqib4YT+37awiURcsJmKDQnrwiT5WTPoR6EFhWOtsz2pC9Fb1W+uChntifMg==
-X-Received: by 2002:a05:6830:3c86:b0:72b:992b:e50 with SMTP id
- 46e09a7af769-72bbc4ea2a6mr3535769a34.21.1742006613460; 
- Fri, 14 Mar 2025 19:43:33 -0700 (PDT)
-Received: from my-computer.lan (c-73-76-29-249.hsd1.tx.comcast.net.
- [73.76.29.249]) by smtp.googlemail.com with ESMTPSA id
- 46e09a7af769-72bb26bb82dsm882990a34.32.2025.03.14.19.43.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Mar 2025 19:43:33 -0700 (PDT)
-From: Andrew Ballance <andrewjballance@gmail.com>
-To: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, andrewjballance@gmail.com, acourbot@nvidia.com,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-Subject: [PATCH 3/3] gpu: nova-core: remove completed Vec extentions from task
- list
-Date: Fri, 14 Mar 2025 21:42:35 -0500
-Message-ID: <20250315024235.5282-4-andrewjballance@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250315024235.5282-1-andrewjballance@gmail.com>
-References: <20250315024235.5282-1-andrewjballance@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 15 Mar 2025 11:49:29 +0000
+X-Greylist: delayed 385 seconds by postgrey-1.36 at gabe;
+ Sat, 15 Mar 2025 04:47:03 UTC
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AF1F10E03F
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 04:47:03 +0000 (UTC)
+Received: from mxde.zte.com.cn (unknown [10.35.20.165])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZF7p85NKKzW82
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 12:40:32 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.137])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxde.zte.com.cn (FangMail) with ESMTPS id 4ZF7p45PVQz5TCGB
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 12:40:28 +0800 (CST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZF7nn4yXYz8R039;
+ Sat, 15 Mar 2025 12:40:13 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+ by mse-fl1.zte.com.cn with SMTP id 52F4e95m076816;
+ Sat, 15 Mar 2025 12:40:09 +0800 (+08)
+ (envelope-from feng.wei8@zte.com.cn)
+Received: from mapi (xaxapp04[null]) by mapi (Zmail) with MAPI id mid32;
+ Sat, 15 Mar 2025 12:40:09 +0800 (CST)
+Date: Sat, 15 Mar 2025 12:40:09 +0800 (CST)
+X-Zmail-TransId: 2afb67d504a97f3-07648
+X-Mailer: Zmail v1.0
+Message-ID: <20250315124009404aGYiofkCnWFti1fQoFZ58@zte.com.cn>
+Mime-Version: 1.0
+From: <feng.wei8@zte.com.cn>
+To: <sumit.semwal@linaro.org>
+Cc: <benjamin.gaignard@collabora.com>, <brian.starkey@arm.com>,
+ <jstultz@google.com>, <tjmercier@google.com>,
+ <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBSZXBsYWNlIG5lc3RlZCBtYXgoKSB3aXRoIHNpbmdsZSBtYXgzKCk=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl1.zte.com.cn 52F4e95m076816
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67D504BF.002/4ZF7p85NKKzW82
+X-Mailman-Approved-At: Sat, 15 Mar 2025 11:49:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,35 +69,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The requested Vec methods have been implemented thus, removes
-the completed item from the nova task list
+From: FengWei <feng.wei8@zte.com.cn>
 
-Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
+Use max3() macro instead of nesting max() to simplify the return
+statement.
+
+Signed-off-by: FengWei <feng.wei8@zte.com.cn>
 ---
- Documentation/gpu/nova/core/todo.rst | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/dma-buf/dma-heap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
-index ca08377d3b73..234d753d3eac 100644
---- a/Documentation/gpu/nova/core/todo.rst
-+++ b/Documentation/gpu/nova/core/todo.rst
-@@ -190,16 +190,6 @@ Rust abstraction for debugfs APIs.
- | Reference: Export GSP log buffers
- | Complexity: Intermediate
- 
--Vec extensions
----------------
--
--Implement ``Vec::truncate`` and ``Vec::resize``.
--
--Currently this is used for some experimental code to parse the vBIOS.
--
--| Reference vBIOS support
--| Complexity: Beginner
--
- GPU (general)
- =============
- 
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 3cbe87d4a464..96cb9ab5731a 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -147,7 +147,7 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+ 		in_size = 0;
+ 	if ((ucmd & kcmd & IOC_OUT) == 0)
+ 		out_size = 0;
+-	ksize = max(max(in_size, out_size), drv_size);
++	ksize = max3(in_size, out_size, drv_size);
+
+ 	/* If necessary, allocate buffer for ioctl argument */
+ 	if (ksize > sizeof(stack_kdata)) {
 -- 
-2.48.1
-
+2.25.1
