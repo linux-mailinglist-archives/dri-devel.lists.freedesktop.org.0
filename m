@@ -2,114 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF44A632B9
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 23:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95DB4A632E7
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 00:08:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 496A710E2A6;
-	Sat, 15 Mar 2025 22:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 809D610E310;
+	Sat, 15 Mar 2025 23:08:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="W4t26SKj";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=protonmail.com header.i=@protonmail.com header.b="wQ57sbG5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3DB10E2A6
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 22:43:56 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52FKXX9A001145
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 22:43:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=3Sgyz07YUw5IhHZAiYm3pn7c
- 6RPv9zndIT5Q8z9bYZc=; b=W4t26SKj6Xd2ad8Atax36DYu+oiuCSuZOxSPptcw
- hqkk47bzIWcAb8hm7JnZK6iquycRWVLobdEG0XRi3wt30BVxbUPPs/3y4wsmW74k
- 9/9BZi8ps24aBtz+RdjyrQtOepFPtWW+bMx9O0gktX8elA+Dj9vadLylbU/dWCJj
- mCPgcfmVHln4l/7F7hf7SeAURqc5+b36zsUXOA/veX6oeUESEa/f8n8FGz4knn6A
- 9m2RKfI+vNv6KqmRUfIYinQswO3EztBQsSSfHbWeGm4CKTtRb9hSfm9qzhO1RwCO
- lxu/ovSJjC7zPBInXzs1K9rhAJ3eZPI0Sng0Ku/jveqJ9g==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d2u9s92x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 22:43:55 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c0922c5cfdso575180285a.3
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 15:43:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742078634; x=1742683434;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3Sgyz07YUw5IhHZAiYm3pn7c6RPv9zndIT5Q8z9bYZc=;
- b=WIaJWge0lkUmEbbJ0MLS4nrDjgnKSdc3J6ssJlLn0U6rsrzwd/63OesZC4fc+0lYur
- 9DDy1UTaFLxIFJ1FGcyLWA/cMpfb9SFfUOBSHQmizpbiH2LjyI/ZB7RClGo1xAoGFRfG
- Njj0CVc8XAC8kcrJgbFoHDrERVpjVFo5dkzdJfiXxGt1zTVFemuT8tDpYJELWoORAIVE
- ic0Phgty7g4+MTm5DDcc5WLsKcZAWJUnVC7hcbU++TtsrVdeyFeFpMdvJvm8QBBlLX+l
- YdkrUrKeEPdxtdMy9Dw5RwF1wwKiDEw/406ND1o8AMDUbS31bJ5jTgM2+nsTA5Nngni0
- 8Ndg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIPUW0pFt/XQQ0+251lYkWk1kDXyalU0TrPKHJwMj1AZKSryfdGMgnHGUfJNnz5/1LIW8txNQljgk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyk8a6AgTlTc5FpMCzIpGz1Orsy/8YZTcQwi8OT6Sv8/a24mDfM
- kDTzRLcBC/UImT8j858SVQRlxw8pBPxpXmqzzqaSGubkYkthCFxGp2jeoYcGQb0ueEgvdnJnGpJ
- t0+bHNCsPQoj+DsTuGJTY66VX0N+7SnJu4MsVtP32ERvVWUdhkROoHD/qwv203QMxC1k=
-X-Gm-Gg: ASbGncuYWrvkL60ZUhYyVn8tOdqZYwEoGz++sRqM5Bfa60vRYfZ8vUS03xBSEzQTpQ2
- HpU2MtAAv1mfUJOgFxcjYbe437RMaYEnK3LhJDezgfhghyB+bDQ+E1tGBHV/p8Qk9LfoC2k4IEP
- Jcb3fB6UapsrRxUl/YNdXbX6DhYYG6LgUJy+YxaUGkmu0SVcfm59GqULJebF5Q0EVwXzJGTW8lm
- tu0jIoHdJ2jeIK1XwwE2jFRyTq95Kk4gnKVuItSQs0WXn9yu3tdidq7O8iehRegxaXtUrXtTkdp
- EnQnK7ttdkgRAXC3VF3//VKUSAKfjm4Dqri8SmoSScvS2Vu05uU3D+yLRIpi4GtuMPKRNb1U3o0
- ALig=
-X-Received: by 2002:a05:620a:4004:b0:7c5:4750:92ff with SMTP id
- af79cd13be357-7c57c79b8fdmr1035978885a.7.1742078634256; 
- Sat, 15 Mar 2025 15:43:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHo3K7nMi5i8BuubjPzchuT4O6D5B6pZcY0s3dDHcojhqSo8OGwIpIFifMUSVhVfdlxr8gFlQ==
-X-Received: by 2002:a05:620a:4004:b0:7c5:4750:92ff with SMTP id
- af79cd13be357-7c57c79b8fdmr1035976685a.7.1742078633940; 
- Sat, 15 Mar 2025 15:43:53 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549ba864e9csm924638e87.121.2025.03.15.15.43.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Mar 2025 15:43:51 -0700 (PDT)
-Date: Sun, 16 Mar 2025 00:43:48 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: make use of debugfs_init
- callback
-Message-ID: <m46j43oj4twmpl7ild4ej4wjfuxjddtaqg4ilg5zi7dnnua3bo@oqd7uu5sr6lk>
-References: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A95410E2B1
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 23:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail3; t=1742080073; x=1742339273;
+ bh=TijwBr6V5VNMUYReFcqNhHWnkhDeChPquiPiCcW2nVM=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=wQ57sbG5Z87dQmhS0W/fnZVQBKGKL+4Mob7mWPOTQQFJJDOb064pBi1XFiP4C5efP
+ P2d5rbGhpHUNr/6BKL8Z1IYLqkUJItWy97K71fSQMAmDV5JXGlLG47VwKVe/+VvDsq
+ tj0fxX+MIndsM/ivJVVRgGa9DnTcn8gvhJW6iO086ZausteORit4nN5CSsEmfQHUoc
+ 04qQB6Zt8Szp5PYdQagA3T7AiKTl5f6Z435QlZ5D/xHmxfA2S4aZBp4ZGX/qlJPaJ1
+ 8C3Gtzb8eKO30yzPbX4/HsuVjnui5TAlt/xFSehWken6eXVl5WUE9CcA2DX1g9WxD6
+ iz0TWt/L2USPw==
+Date: Sat, 15 Mar 2025 23:07:50 +0000
+To: Benjamin Tissoires <bentiss@kernel.org>
+From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jiri Kosina <jikos@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH RFC 0/3] Initial work for Rust abstraction for HID device
+ driver development
+Message-ID: <87zfhlhozn.fsf@protonmail.com>
+In-Reply-To: <f6rizzlygznuebh22psrdkzfki7jfjzfaamuolobvpbgxoxjoi@gfu2eyzrm5wl>
+References: <20250313160220.6410-2-sergeantsagara@protonmail.com>
+ <f6rizzlygznuebh22psrdkzfki7jfjzfaamuolobvpbgxoxjoi@gfu2eyzrm5wl>
+Feedback-ID: 26003777:user:proton
+X-Pm-Message-ID: 704b0505bec48ce1339e1a2cf068581e382f0f79
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
-X-Authority-Analysis: v=2.4 cv=JsfxrN4C c=1 sm=1 tr=0 ts=67d602ab cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=LDBv8-xUAAAA:8 a=O1LN-3MKiCKZpL0Be2MA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=DZeXCJrVpAJBw65Qk4Ds:22
-X-Proofpoint-GUID: eGB9jmbomCp2u_hGk_DiMnL-AW7azpd9
-X-Proofpoint-ORIG-GUID: eGB9jmbomCp2u_hGk_DiMnL-AW7azpd9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-15_09,2025-03-14_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- mlxlogscore=730 impostorscore=0 suspectscore=0 phishscore=0
- priorityscore=1501 bulkscore=0 malwarescore=0 spamscore=0
- lowpriorityscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503150167
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,25 +65,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 15, 2025 at 09:15:11PM +0100, Wolfram Sang wrote:
-> Do not create a custom directory in debugfs-root, but use the
-> debugfs_init callback to create a custom directory at the given place
-> for the bridge. The new directory layout looks like this on a Renesas
-> GrayHawk-Single with a R-Car V4M SoC:
-> 
-> 	/sys/kernel/debug/dri/feb00000.display/DP-1/1-002c
+On Thu, 13 Mar, 2025 17:31:53 +0100 "Benjamin Tissoires" <bentiss@kernel.or=
+g> wrote:
+> Hi,
+>
+> [quick reply because I am completely under the water for the next 2
+> weeks]
+>
+> On Mar 13 2025, Rahul Rameshbabu wrote:
+>> Hello,
+>>
+>> I am a hobbyist developer who has been working on a project to create a =
+new Rust
+>> HID device driver and the needed core abstractions for writing more HID =
+device
+>> drivers in Rust. My goal is to support the USB Monitor Control Class nee=
+ded for
+>> functionality such as backlight control for monitors like the Apple Stud=
+io
+>> Display and Apple Pro Display XDR. A new backlight API will be required =
+to
+>> support multiple backlight instances and will be mapped per DRM connecto=
+r. The
+>> current backlight API is designed around the assumption of only a single
+>> internal panel being present. I am currently working on making this new =
+API for
+>> DRM in parallel to my work on the HID side of the stack for supporting t=
+hese
+>> displays.
+>
+> Thanks a lot for this work, though I wonder if your goal is not too big,
+> too far from the HID point of view. HID is simple, and there is only a
+> few bindings that you would need to be able to make "simple" HID
+> drivers.
+>
+> My assumption would be to introduce the binding with a functional but
+> small driver (like one that just changes the report descriptor, or does
+> a sime raw event processing). Then we can look at integrating with the
+> DRM interface.
+>
+> Though it's up to you to decide how you want to play ;)
+>
 
-Would you rather create a subdir using the bridge name (ti_sn65dsi86)
-rather than dev_name? I don't know if we have an established practice.
+Thanks for the suggestion, Benjamin! I think its a great suggestion for
+getting the Rust abstractions for HID cleaned up and integrated before
+taking on this more herculian challenge. I think it would be ideal to
+maybe do the following?
 
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> Changes since v1:
-> * switch from 'client->debugfs' to DRM 'debugfs_init' callback
-> * remove RFT because tested on hardware
-> 
--- 
-With best wishes
-Dmitry
+1. Focus on the core Rust HID abstractions first to get something merged
+   for supporting "simple" HID drivers.
+2. Build a reference driver to validate the abstrations support "simple"
+   HID devices.
+  - https://rust-for-linux.com/rust-reference-drivers
+3. After getting the first two steps worked out, continue pursuing
+   monitor control as a Rust driver and work on the needed changes for
+   DRM connector backlight control API.
+
+Luckily, it seems to me that parts of 3 can be done in parallel to 1 and
+2. However, the advantage of this is that if the Rust HID abstration can
+support "simple" HID drivers initially, it has a path to get merged and
+iterated upon for supporting more complex drivers.
+
+You mention this in the third patch in this series, but it would
+probably be good to find a simple device that requires a report fixup or
+some processing in .raw_event or .event callback.
+
+Making a reference driver for the Glorious PC Gaming Race mice seems
+like a good start. My only concern is the lack of complexity in the C
+driver not needing a .remove callback implementation. I wanted to have
+an example where architecting what device removal with Rust semantics
+would look like. I'll get into more details where you bring this up in
+third patch in this series.
+
+Thanks for the feedback,
+Rahul Rameshbabu
+
+>>
+>>   https://binary-eater.github.io/tags/usb-monitor-control/
+>>
+>> Julius Zint had attempted to do so a year ago with a C HID driver but wa=
+s gated
+>> by the lack of an appropriate backlight API for external displays. I ask=
+ed him
+>> for permission to do the work need in Rust and plan to accredit him for =
+the HID
+>> report handling for backlight in the USB Monitor Control Class standard.
+>>
+>>   https://lore.kernel.org/lkml/f95da7ff-06dd-2c0e-d563-7e5ad61c3bcc@redh=
+at.com/
+>>
+>> I was hoping to get initial feedback on this work to make sure I am on t=
+he right
+>> path for making a Rust HID abstraction that would be acceptable upstream=
+. The
+>> patches compile with WERROR being disabled. This is necessary since Rust=
+ treats
+>> missing documentation comments as warnings (which is a good thing). I al=
+so need
+>> to go in and add more SAFETY comments.
+>
+> K, I'll give you my opinion in the patches as the HID co-maintainer. I
+> do have a very little rust experience, but this is my first in kernel,
+> so I hope the more experience rust people here will chime in as well.
+>
+> Cheers,
+> Benjamin
+>
+>>
+>> Thanks,
+>> Rahul Rameshbabu
+>>
+>> Rahul Rameshbabu (3):
+>>   rust: core abstractions for HID drivers
+>>   rust: hid: USB Monitor Control Class driver
+>>   rust: hid: demo the core abstractions for probe and remove
+>>
+>>  drivers/hid/Kconfig                |  16 ++
+>>  drivers/hid/Makefile               |   1 +
+>>  drivers/hid/hid_monitor_control.rs |  42 +++++
+>>  rust/bindings/bindings_helper.h    |   1 +
+>>  rust/kernel/hid.rs                 | 245 +++++++++++++++++++++++++++++
+>>  rust/kernel/lib.rs                 |   2 +
+>>  6 files changed, 307 insertions(+)
+>>  create mode 100644 drivers/hid/hid_monitor_control.rs
+>>  create mode 100644 rust/kernel/hid.rs
+>>
+>> --
+>> 2.47.2
+>>
+>>
+
+
