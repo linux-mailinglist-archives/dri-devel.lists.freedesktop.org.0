@@ -2,80 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A27A6321B
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 20:52:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A48A6325D
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 21:17:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B281D10E29A;
-	Sat, 15 Mar 2025 19:52:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE8810E291;
+	Sat, 15 Mar 2025 20:17:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AlVRGJGg";
+	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="OGTeX5Oy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B541510E29A;
- Sat, 15 Mar 2025 19:52:41 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-30144a72db9so234505a91.1; 
- Sat, 15 Mar 2025 12:52:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742068361; x=1742673161; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RkSRY1nf3/CCgGX8CixRKz7GOQ9oD7FKwLr65/SUc7E=;
- b=AlVRGJGgCpiDRQWuGw1vP65TF7G1P0roviqsZ32a4IY2AxoT5VKz6gYAdWudVUNFd1
- pDoxxpTLAnTuu7DjbDV9bB7URKLow2CT6KdloJQA/GJcWWnSjNdMINGqW1+Dh1LsJlbO
- Vwofo7LKPu8l8ncLoxMsfYAzD25RsUzX6qRvKDtXnnEGYm5JsCSHimxaqKBtHJChnQ7+
- MBT8XbM1aZwQ5ASRifYaqw57vwcyzPYs0e4wRMwe5jryzymxEklE1a4W+1qpercubaxu
- s9GwJVBJW5fSGi6b3mX3qmqZQcQw/H1F4pcfBq4Hr0Fq6Y4wKCTil/YuKDoT7jHevcto
- DCYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742068361; x=1742673161;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RkSRY1nf3/CCgGX8CixRKz7GOQ9oD7FKwLr65/SUc7E=;
- b=l1/2AR/T+yNE2nUKYvQbBpMFDtwvcDzcFt8B6DCHppefhluG9nYBnuJTOanimt5TY2
- OFkFaqqs8xPufT61juBeaiynW1mn4Zqkvuc0h4hmnQJRyvkS+cgGbI3SQsUGrF7U8sSZ
- djmLAHpyXldHCsyQi1qhmWO6G4af8OuNNm6gzb1eRuYxK5+o/v7sOhABMCFOe9oRhpnW
- BTi1UnkNqqAcxxNrVQAaQGpkmIvcGPQ/hmd3Xad0+TEHq4YQHpuTYhixG2D0f8qjvamM
- eJ9NuH955qA2kBsS4cwFY2lev2YaTJpXAYbVjrIB4iWT0atMqzxumHMp78iYHIyRGqMA
- AJLQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCULKbThZA9MpyOKoYSCO6TF/rMWS4jt2ZY56dUSRUPL8GfnNbFcJe5Dxqcb5uTUiV8ZpFP5gsg5Wk8=@lists.freedesktop.org,
- AJvYcCWTC+r/vQYMNBFtjvViYi22UnVeOnWJDFQaJO92oM4JgT/mWvM1XatbWtp8YWxLmK7qxaYMGVcr2A==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyn4W84AYSBoC1OlPgbY6VgWhHdAgne2h1jPEbB3RxLz5q2EJwm
- sokgOAdSasHUBcGQtT7Tm3cKZPjmJZq+H0VNnFHjvjxoHc6YfP+uJfDrwSpDFXLCBtRKEtSxyER
- BdPMQi9R21c5LucMejx+Y1lmTwKc=
-X-Gm-Gg: ASbGncukvuCGUfcD9rCSHpaBrvKTiZUa2zhjA6it3bn1FVkmMM+Sv/anT66/lRC67xP
- GBowaQXbBfgFhnSgVydQhTmc05CSmuH1cpGC3QeOBVDEha/ZRCK/VHwLZcLdBgmRCpt6HeUaeNq
- wJhstw2FT3d3tG5QMddztCxA7vVg==
-X-Google-Smtp-Source: AGHT+IFxs4He+SBXrB/e8968d3Baar4MKu0CcOHNfsoZUjb9jwXqfRgnNLe0uug3mxIerqMFsB0azD9mjCBGHGObzng=
-X-Received: by 2002:a05:6a21:9189:b0:1ee:e99a:469f with SMTP id
- adf61e73a8af0-1f5c12df14amr3661527637.9.1742068361121; Sat, 15 Mar 2025
- 12:52:41 -0700 (PDT)
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80DDF10E291
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 20:17:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ sang-engineering.com; h=from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding; s=k1; bh=Us8PyY3gv4PUu0
+ pMP/QFG6QiXMK71hLOBzPUoqo8EgI=; b=OGTeX5Oya9dkp38+5ky1cKNvZPil6B
+ RYAlHYB2TevCxiKR3gl0ed+dFEgxs79Qn4Rw724lqaL4LL3EYBuMZRW2+AKKKdQp
+ hPbJ7tsOe4B2ReMqpoaXJjXYK7+3ypZT/snOf2pYxBMQ5Aw4gVQ0+xWYakkIIdon
+ v4mfOjqTgYVBNV45RQ59n0VkHWnoY3WtwQmUmfy2G98QkOqkjuQ0nV+TApBrNzzr
+ RgDI9qx5Kyjv2ycijFTNKSbs/mVMaQuVnGayu7QURO/0/LbJhOK3eEbDbXHcUgR/
+ 5RvHYV7p/XEHIVESBX1nY67+uG3N2nhbhWxJRGp/4FTmnMFht+d27d1Q==
+Received: (qmail 2477721 invoked from network); 15 Mar 2025 21:17:04 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
+ authenticated); 15 Mar 2025 21:17:04 +0100
+X-UD-Smtp-Session: l3s3148p1@xYMMPWcw8tAujnuL
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/bridge: ti-sn65dsi86: make use of debugfs_init callback
+Date: Sat, 15 Mar 2025 21:15:11 +0100
+Message-ID: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-References: <20250315024235.5282-1-andrewjballance@gmail.com>
- <20250315024235.5282-3-andrewjballance@gmail.com>
-In-Reply-To: <20250315024235.5282-3-andrewjballance@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 15 Mar 2025 20:52:27 +0100
-X-Gm-Features: AQ5f1JryREH9Epw5Czi-uWWexrRFhCZPOTW2A9z8mj-ycImcQLdxcWM1ZbztLgw
-Message-ID: <CANiq72mLX6d9wYGC_OfQ_-0SKsjM85hP=X5n9qRwx5krNw1NLA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] rust: alloc: add Vec::resize method
-To: Andrew Ballance <andrewjballance@gmail.com>
-Cc: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, 
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me, 
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
- acourbot@nvidia.com, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,14 +61,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 15, 2025 at 3:43=E2=80=AFAM Andrew Ballance
-<andrewjballance@gmail.com> wrote:
->
-> +    /// # Example
+Do not create a custom directory in debugfs-root, but use the
+debugfs_init callback to create a custom directory at the given place
+for the bridge. The new directory layout looks like this on a Renesas
+GrayHawk-Single with a R-Car V4M SoC:
 
-Nit: please use the plural for section headers.
+	/sys/kernel/debug/dri/feb00000.display/DP-1/1-002c
 
-Thanks!
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Cheers,
-Miguel
+Changes since v1:
+* switch from 'client->debugfs' to DRM 'debugfs_init' callback
+* remove RFT because tested on hardware
+
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 40 +++++++--------------------
+ 1 file changed, 10 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index e4d9006b59f1..87fffaa52bb0 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -424,36 +424,8 @@ static int status_show(struct seq_file *s, void *data)
+ 
+ 	return 0;
+ }
+-
+ DEFINE_SHOW_ATTRIBUTE(status);
+ 
+-static void ti_sn65dsi86_debugfs_remove(void *data)
+-{
+-	debugfs_remove_recursive(data);
+-}
+-
+-static void ti_sn65dsi86_debugfs_init(struct ti_sn65dsi86 *pdata)
+-{
+-	struct device *dev = pdata->dev;
+-	struct dentry *debugfs;
+-	int ret;
+-
+-	debugfs = debugfs_create_dir(dev_name(dev), NULL);
+-
+-	/*
+-	 * We might get an error back if debugfs wasn't enabled in the kernel
+-	 * so let's just silently return upon failure.
+-	 */
+-	if (IS_ERR_OR_NULL(debugfs))
+-		return;
+-
+-	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_debugfs_remove, debugfs);
+-	if (ret)
+-		return;
+-
+-	debugfs_create_file("status", 0600, debugfs, pdata, &status_fops);
+-}
+-
+ /* -----------------------------------------------------------------------------
+  * Auxiliary Devices (*not* AUX)
+  */
+@@ -1215,6 +1187,15 @@ static const struct drm_edid *ti_sn_bridge_edid_read(struct drm_bridge *bridge,
+ 	return drm_edid_read_ddc(connector, &pdata->aux.ddc);
+ }
+ 
++static void ti_sn65dsi86_debugfs_init(struct drm_bridge *bridge, struct dentry *root)
++{
++	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
++	struct dentry *debugfs;
++
++	debugfs = debugfs_create_dir(dev_name(pdata->dev), root);
++	debugfs_create_file("status", 0600, debugfs, pdata, &status_fops);
++}
++
+ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+ 	.attach = ti_sn_bridge_attach,
+ 	.detach = ti_sn_bridge_detach,
+@@ -1228,6 +1209,7 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.debugfs_init = ti_sn65dsi86_debugfs_init,
+ };
+ 
+ static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
+@@ -1936,8 +1918,6 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
+ 	if (ret)
+ 		return ret;
+ 
+-	ti_sn65dsi86_debugfs_init(pdata);
+-
+ 	/*
+ 	 * Break ourselves up into a collection of aux devices. The only real
+ 	 * motiviation here is to solve the chicken-and-egg problem of probe
+-- 
+2.47.2
+
