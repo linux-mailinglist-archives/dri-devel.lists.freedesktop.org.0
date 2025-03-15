@@ -2,76 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89ADCA62975
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 10:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BFAA62A83
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Mar 2025 10:53:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D337910E272;
-	Sat, 15 Mar 2025 09:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59F1F10E092;
+	Sat, 15 Mar 2025 09:53:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SSP9D8vc";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="EEEbAd9h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0200810E272
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 09:00:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- sang-engineering.com; h=date:from:to:cc:subject:message-id
- :references:mime-version:content-type:in-reply-to; s=k1; bh=MGev
- xMFs+AEeVD/g7S+xfiPUbsNw/tIHCnRkwS+P0V4=; b=SSP9D8vc5MsumtPvxp/d
- CVUk8n5Wde3V8zMT88IWNmIwVlaH7DQCxkDXU4uNeoTi/PNa5hjH4lUIAWxgZM33
- Q4w7+EPRwO+CSxj80Znxm0sk5tYB/rWOWFxfmarqpxm0iG+7oIvRRcjA1QTMYFX5
- YrGz5y9PXi8rg9PYKQ7b05qTm8tbBTVqIEh9YdGAwoBIfFM/Cryj3Ez6hbtfCtsM
- qju6xL3NONpDDmPaj79L1QoapOGiN7sUDs5Jli9ec+Pb2u1mllu8kSfTVGz3y6hP
- ehiV7pGqhWwNTBSWO44c7oiXaiPUY0dTS9s7r+SdCREB2nlcTnxlf5hcC+KHijqz
- WQ==
-Received: (qmail 2329603 invoked from network); 15 Mar 2025 10:00:37 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 15 Mar 2025 10:00:37 +0100
-X-UD-Smtp-Session: l3s3148p1@NA/iyV0wwKkujnuL
-Date: Sat, 15 Mar 2025 10:00:37 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: linux-renesas-soc@vger.kernel.org,
- Phong Hoang <phong.hoang.wz@renesas.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Check bridge connection
- failure
-Message-ID: <Z9VBtTzNgDh_QsxX@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Doug Anderson <dianders@chromium.org>,
- linux-renesas-soc@vger.kernel.org,
- Phong Hoang <phong.hoang.wz@renesas.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-References: <20250314224202.13128-2-wsa+renesas@sang-engineering.com>
- <CAD=FV=VBHfg+Fgp27ieYVhd0U8kDp2E0ATW+=ueM8EBNOYMoSg@mail.gmail.com>
+Received: from mout.gmx.net (unknown [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 847C510E092
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 09:52:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1742032357; x=1742637157; i=wahrenst@gmx.net;
+ bh=6+2VmikGOQHHsXb+MXyVKWf8h2U3ucrj25SSz+LHCJY=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=EEEbAd9hgFOgjuPcWYjDIvAXAUEukjmfwwqyWTorel1svTAaJkJFHejllb/0+qbE
+ vpShgbZ4eZpRYeiL6K0xn/uCgtj8aIIO900zU5W6prMOlGdgoqVoSAwTol6jgk2+E
+ Trpx+s94M8Og6kmHVdP+pIKdEJtHj684tPIxrQ0Uh7iUgPJIwb4GkIfuEx8oHlmBm
+ kZXqNNdTt4cvx7sXpB06YIIt4+GBStVbAOpNMhjikv6y1T7NfbA7l+wk9tzaksrp1
+ jH07S5AVIn5QJGYN7GzWEXIOk+RDA1NnYsp3La7fE5ktow7h5fZNlfxlxC8geqr4S
+ NgCCRzNlzK5YGUIZTQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.107] ([37.4.251.153]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mk0JW-1tVLyP0tia-00nUE8; Sat, 15
+ Mar 2025 10:52:37 +0100
+Message-ID: <0edcd27d-64a6-494e-bc81-5a9ad89d4d90@gmx.net>
+Date: Sat, 15 Mar 2025 10:52:35 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="+4ueQPdkORSXQcLW"
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=VBHfg+Fgp27ieYVhd0U8kDp2E0ATW+=ueM8EBNOYMoSg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/7] dt-bindings: gpu: v3d: Add per-compatible register
+ restrictions
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral <itoral@igalia.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, kernel-dev@igalia.com,
+ Maxime Ripard <mripard@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+References: <20250313-v3d-gpu-reset-fixes-v4-0-c1e780d8e096@igalia.com>
+ <20250313-v3d-gpu-reset-fixes-v4-4-c1e780d8e096@igalia.com>
+ <3fbaa5ed-e70f-4293-99d0-faf22f3c4adf@kernel.org>
+ <701c71cb-47a6-4970-bd21-ae61cf971f7c@igalia.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+Autocrypt: addr=wahrenst@gmx.net; keydata=
+ xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
+ IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
+ NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
+ JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
+ TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
+ f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
+ V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
+ aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
+In-Reply-To: <701c71cb-47a6-4970-bd21-ae61cf971f7c@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SiYL6tyRrImtuikRQZ0y0dIQEOMEeIxdbEaHuYVsEFRB8eEHmih
+ XNjaNShCaGkzIc2wPW0fC+laApt4+gMLBKIOBSSLcP0Ntem8btI544/9KH5KDMyd6WIr1yu
+ WXoucswc/ikZYt2QNp53ubXnFIk57jTwgwS7AlaKo5Nd00hekudoyOlE4GH/v6kFi0Fe4ZJ
+ p60Vqpyg1iF5d/urQdq2Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:fDvxEU63uG4=;Fy4dd5t9TzLN3qBCPYvx7uxTCTk
+ TM/TqkkW4Pg4nbuzvHD3grP9RFKHv9irTtf3ndAFW31axkINGLbgGkibdk3c3N4asedLzBJhy
+ 0WrWI6kUSG/t1R99c1AkTU33e/mw15mKkiqPeItc4zBE8nfpDtfwQOu5nM8ASKZ1IhxdQOtl7
+ 4P45HkwsnaUkwWdcUHu31NlB2HiOUpHZIw0tR6rCt/Psmp0iMuZ4hA+337PEx3NqQz7uZ6ODz
+ aBUO1iH7UIavHpqji3zWaXhCg6rzXfEL0zuZRCx1vCu2JwbId0DujNDpYko923OhddVqQZfvJ
+ QJa/VBxVeQUXggkn/PKcUfQq6traO9jzoGYBw/dg5ouznIeiptuXCC6/sW5kxCdHH4zLuU926
+ HqM1po++aDAGFda/YlaPQgBo04/mMpnwEKNM1srDwkKifnnjWYKemcfF+MXn4i38dsfzq9JB7
+ WdcxY2NhxN7fgrmnO9hN+qR9es4EAB83AD4kFNptp+zX7Wt2WSBD1yvZ+AvAJOQsYCuMhct1u
+ 4M0GP3ZuNuoo2VaITXsZgP/m850iXg/Rn6sKp68PR7F2s2hs2hCGJWcJbGLgslTNQhiiEPmWT
+ ihhNLzL3FOTzrhpQ+sdp8iXyXcANM0mXFFcnU1V6AdCXxu1qc4KpmpAtFyIlCp6QOEU3bL1Lc
+ SpbDlZusIbRVZwYk5lxUFBkb1nZ9lziFRLVHNuoPwOJriVVrLoTrCyEAzTsejtztEnndPDCWs
+ xzS+myWEZgat1CY2EX4xpOnC1uRRMHxxgr2XNafgwzok/Wn1hdHBKe+kbxMpNhE7tf3lf94eB
+ 0GVcJ5caIVRp7e7E/rCmLWg+Vdls752p1hCjCguFiPS8Jk1GyAYRzelZcJe1HH57U82vnxNeo
+ 0aqSf/ZcFjQobhMH28OuutblG9jgnPW2ScFkV4XyUVjJUI6KjXjeapkLdq5c9Ixv01ueel3cS
+ /bIKUh1jEnNzJ+8+jRcNbuyiy3f2l3YA9ZM8F7wE5sFfOIa5uRGotmMbXUKUBV5ie5x+PD0X6
+ PaxxSlGJm0j3BGkdSxOQ4LWW+eD2hRoErfHfU+UvHTwcBanfrEW7XgXdIzg4fFkjNtIT0yUzN
+ tlvT2PMjcx8CsfchSNpJVVlOdzXQpPpCZ/0Q2W8rNvS+yOHyTVkWPmzoTjtWWQyMxad15N9rR
+ KBo/MhiFT0ZIY8n914p7SpjPfwCwlJTeENIxE9YQuNRKSqhcWnBr1+11zAxLSQ5jcokoi+SVg
+ sZajTx+ZCoJQDe5o8iLJiRwuCsA2vTXq+T057D3QeFK+OZFVKFS8G+2Pr3rNfrB1pvcTy2Ut+
+ 3E+OcXKjXTUleXilnEqCCyw1VVMwlU9mhJukZ64QTf1pxt9eBuuIzOAWsZxWWGxgQv3XyMoDo
+ hq0M+SHJ0neyKzPdYv7P4/7En/qKXExs9juG2I5TAlD7e9a5dtq6XW5uIf4G/66WDgvLKtZiO
+ 4HoM4sx1UWSMe4Lqnmg5yuN28458=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,52 +107,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
---+4ueQPdkORSXQcLW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Am 13.03.25 um 20:04 schrieb Ma=C3=ADra Canal:
+> +Cc Stefan
+>
+> Hi Krzysztof,
+>
+> On 13/03/25 12:03, Krzysztof Kozlowski wrote:
+>> On 13/03/2025 15:43, Ma=C3=ADra Canal wrote:
+>>> In order to enforce per-SoC register rules, add per-compatible
+>>> restrictions. V3D 3.3 (represented by brcm,7268-v3d) has a cache
+>>> controller (GCA), which is not present in other V3D generations.
+>>> Declaring these differences helps ensure the DTB accurately reflect
+>>> the hardware design.
+>>>
+>>> While not ideal, this commit keeps the register order flexible for
+>>> brcm,7268-v3d with the goal to keep the ABI backwards compatible.
+>>>
+>>> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+>>> ---
+>>> =C2=A0 .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 73
+>>> ++++++++++++++++++----
+>>> =C2=A0 1 file changed, 61 insertions(+), 12 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+>>> b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+>>> index
+>>> dc078ceeca9ac3447ba54a7c8830821f0b2a7f9f..9867b617c60c6fe34a0f88a3ee2f=
+581a94b69a5c
+>>> 100644
+>>> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+>>> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+>>> @@ -22,20 +22,10 @@ properties:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - brcm,7278-v3d
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0 reg:
+>>> -=C2=A0=C2=A0=C2=A0 items:
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: hub register (required)
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: core0 register (require=
+d)
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: GCA cache controller re=
+gister (if GCA
+>>> controller present)
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - description: bridge register (if no =
+external reset controller)
+>>> -=C2=A0=C2=A0=C2=A0 minItems: 2
+>>
+>> Widest constraints always stay here, so you cannot remove minItems.
+>>
+>>> +=C2=A0=C2=A0=C2=A0 maxItems: 4
+>>
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0 reg-names:
+>>> -=C2=A0=C2=A0=C2=A0 items:
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: hub
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: core0
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum: [ bridge, gca ]
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum: [ bridge, gca ]
+>>> -=C2=A0=C2=A0=C2=A0 minItems: 2
+>>
+>> Same problem.
+>>
+>>> +=C2=A0=C2=A0=C2=A0 maxItems: 4
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0 interrupts:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
+>>> @@ -58,6 +48,65 @@ required:
+>>> =C2=A0=C2=A0=C2=A0 - reg-names
+>>> =C2=A0=C2=A0=C2=A0 - interrupts
+>>
+>> ...
+>>
+>>> +=C2=A0 - if:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 contains:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 co=
+nst: brcm,7268-v3d
+>>> +=C2=A0=C2=A0=C2=A0 then:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - =
+description: hub register
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - =
+description: core0 register
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - =
+description: GCA cache controller register
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - =
+description: bridge register (if no external reset
+>>> controller)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 minItems: 3
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg-names:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - =
+const: hub
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - =
+const: core0
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - =
+enum: [ bridge, gca ]
+>>
+> > So GCA is always there? Then this should be just 'gca'. Your list for
+>
+> GCA is always there for V3D 3.3, therefore it is always there for
+> brcm,7268-v3d.
+>
+>> 'reg' already says that third item must be GCA. I understand that you d=
+o
+>> not want to affect the ABI, but it already kind of is with enforcing GC=
+A
+>> in 'reg'.
+>
+> I'm adding Stefan to the loop as he was the one that converted this DT
+> binding to YAML. Stefan, could you share your thoughts about breaking
+> the ABI for BCM7268? We would enforce the following order: hub, core0,
+> bridge, and gca.
+Phew, that was over 4 years ago. To be honest, my only motivation back
+then was to prepare support for the Raspberry Pi 4 (BCM2711). I did it
+all in my spare time and never had access to any Broadcom documents. I
+have no idea about all the other BCM chips, so a possible break of the
+ABI for the BCM7268 was an accident. I don't know if Florian Fainelli or
+Maxime Ripard can help here.
 
-Hi Doug,
+By the way the two schema maintainers have not been active at V3D for a
+long time, so it would be good if someone could take over.
 
-> Seems reasonable to me. I would probably put an error message in this
-> case, though? I don't think regmap_read() necessarily prints an error
-> so it would just be a mysterious failure for why things didn't probe,
-> right?
+Regards
+>
+>>
+>> I anyway do not understand why 'gca' or 'bridge' are supposed to be
+>> optional. Does the given SoC differ between boards? What is the externa=
+l
+>> reset controller here? External like outside of SoC?
+>
+> TBH I never saw BCM7268 or BCM7278 in the wild, but you are correct,
+> "bridge" shouldn't change for the same SoC. I'll do my diligence and
+> research more about those SoCs.
+>
+> Best Regards,
+> - Ma=C3=ADra
+>
+>>
+>> Best regards,
+>> Krzysztof
+>
 
-OK, can do that.
-
-> This also only solves the problems for one of the 4 devices in this
-> file. I think the GPIO device, PWM device, and DP-AUX device will
-> still confusingly stick around. It's probably better to add a bogus
-> regmap read in ti_sn65dsi86_probe().
-
-Could be argued. I just wonder about all the other error cases in
-ti_sn_attach_host() plus ti_sn_bridge_probe(). They have the same
-problem with the other devices dangling?
-
-Happy hacking,
-
-   Wolfram
-
-
---+4ueQPdkORSXQcLW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfVQbEACgkQFA3kzBSg
-KbZiqg/8D10WbcbFyncxpYgi27s6gdp/L1rYAeXUQUXCWh54FbAiYMgfpTUCkdyJ
-0c/f6cWzX5d1f3hLQtZUTQ1U0cWqwzWkwi299jZbl08hUvm71nP4OCXAD6CMtjX8
-FsfApv5NuFJ22TOq7H+vXuvY9HyZNPaMneq97mVXD/WxkKg2qgHjIebM4xuziI2g
-RPsOVd9RAQtbvZgHwl9HAXYm6Np1x3mizZs3OXf+ZpoqLBDFholgCMiUIUQ0S89s
-MBIgrTDWftEHuwaGmevvYpV/hyGLiN6bMi6xPIu4mtjkRFuMeTePmWkWfZ+wh3M+
-I0sfy4x3l823KDqq0sNtdjJ6Q8fXsjVzh1hvzJWSfpX76jJ+cpnsirF4FyEimRNu
-NLG0UdP0QZhLZ1bfRwX6VyblUTyKes9QOSWLu36bzAWs7mTtYmV7G93p1t2XFAF9
-4SSxtmzn7jMFyfJXlktZb/FC307FW7mp8IS78+PXZKbYNHDY8wEx5v4nwhGE3RU2
-gtV9bimE17QE3F6gN2/1+vc2aFSipkq+DptfTnEx9kGLhZJ/37SJyZPZszMnIBKh
-CgrmSBfyAtKXSc4PSV2JF2k833wxd//VPGYfaFau+T3pPhiWSjQjjx+MI0TP7Q8l
-Sn/eoIWi/gGib1xY7pMMHHCQp7cMAzQ8iXNZgUVrCQEtupCiPNE=
-=bZOD
------END PGP SIGNATURE-----
-
---+4ueQPdkORSXQcLW--
