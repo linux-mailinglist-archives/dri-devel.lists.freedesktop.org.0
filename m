@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5763CA636D6
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 18:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD2AA636DF
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 19:01:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20BD510E1E2;
-	Sun, 16 Mar 2025 17:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE8D10E18D;
+	Sun, 16 Mar 2025 18:00:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NRizFtls";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YPGxNGKb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0655B10E1E2
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 17:42:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=5TFa0j5GoBN/ntielEWGjn4MLKP2mpIoBRC/80PT/Ns=; b=NRizFtlsdsPMmjSnei/6s0u1ZC
- eEXxZtjwaj9HuJp01gPr28qSiVn7eMPz3/nOmoW7dtr+mCtdKCOfPFY6IluQ9gJTKtqgW+xs63wNF
- i/1Xu/PAxjiuRwjXof9fs9O+ZYSAYcdX/4xVK8yS+8SEsIyEcfo6ShWJRsni4CnQAtA5JJSzyq4Fv
- GFpG3uJ/pEy3gALMokJFzScEGwlI6VzVfvMz7VPHm2mbMiD1zWejsP/K85oPkY8QTfpUDlKnuysXh
- ph7y+SFxyIyKw9+sCycxGf7hR8WXzF08ObhMYJ6ks6XKpAIKDdRdc8QlOJALzr6Xfr6UZuHLRzJZv
- suR+sC3g==;
-Received: from [189.7.87.178] (helo=[192.168.0.224])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tts0c-001BBp-50; Sun, 16 Mar 2025 18:42:46 +0100
-Message-ID: <85c9958d-0f69-4048-ab7b-ba40a0d855ca@igalia.com>
-Date: Sun, 16 Mar 2025 14:42:37 -0300
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDEF810E08D
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 18:00:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 492E4A48C34
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 17:55:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 483F8C4CEDD
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 18:00:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742148044;
+ bh=jwu2w16FHw61t8z7QWMLaLMfnksSXXcAPp8RO+gfoeg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=YPGxNGKbuVOf3pHADfHJvLmXAVJEHGSU28P2/c0rYUdXlfcotNLyWe/fy3krfEksa
+ YijdJtbQg+x0PbRY0Tc0todu48APUmi+8c3kxFNdos+H8QstIJnEpAPtu7PeJYEe94
+ 8AIq4rv0Nv6g4PwCEQlAH9EJr8qbx0xa8FYsM+3+UI/gQjZUsYTn+GlHTnyf9vnUP6
+ sX1Lm/YrRpSICqRwfHsiEgFWGMlICFZ7D35oJQoczb5UnQA85+qZB34P0IYEeG2/ly
+ 1fJtYzD8jmJ71d+D0vsNBb2/OimLtycNyvI4O3F+lTuNMup2D5/KHEJ88UV+cPKSaD
+ yCR5ccVLiPE3w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 3E316C53BC5; Sun, 16 Mar 2025 18:00:44 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 219888] amdgpu: Oops connecting HDMI/DVI/DP on HD 7850 (Pitcairn)
+Date: Sun, 16 Mar 2025 18:00:44 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: alexandre.f.demers@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-219888-2300-KtW7UuG4Wt@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-219888-2300@https.bugzilla.kernel.org/>
+References: <bug-219888-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/6] dt-bindings: gpu: v3d: Add additional examples to
- improve binding checks
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Stefan Wahren <wahrenst@gmx.net>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, kernel-dev@igalia.com
-References: <20250316-v3d-gpu-reset-fixes-v5-0-9779cdb12f06@igalia.com>
- <20250316-v3d-gpu-reset-fixes-v5-4-9779cdb12f06@igalia.com>
- <20250316-abiding-badger-of-joy-0acd4c@krzk-bin>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250316-abiding-badger-of-joy-0acd4c@krzk-bin>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,82 +74,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219888
 
-On 16/03/25 13:43, Krzysztof Kozlowski wrote:
-> On Sun, Mar 16, 2025 at 11:15:11AM -0300, Maíra Canal wrote:
->> To prevent future changes that might inadvertently break the ABI, add
->> more examples to the binding. These examples improve coverage and help
-> 
-> Examples are not related to ABI at all.
-> 
->> ensure `make dt_binding_check` produces more robust validation results.
-> 
-> No, don't add more examples differing by one property. Keep one/two
-> examples.
+Alexandre Demers (alexandre.f.demers@gmail.com) changed:
 
-I had the intention to add examples to avoid people from changing the
-reg order in the future. For example, we changed the register order when
-we converted the binding from txt to YAML. My goal was to avoid such
-thing to happen again.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Summary|amdgpu: Oops connecting     |amdgpu: Oops connecting
+                   |HDMI/DVI/DP on HD 7850      |HDMI/DVI/DP on HD 7850
+                   |(Pitcairn) when connected   |(Pitcairn)
+                   |as secondary GPU            |
 
- From the feedback, I'll drop this patch. Thanks!
+--=20
+You may reply to this email to add a comment.
 
-Best Regards,
-- Maíra
-
-> 
->>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 34 ++++++++++++++++++++--
->>   1 file changed, 32 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->> index 766a310ab653855d7cc9a80f18c2083218fe307e..39b8f0ee1f727628307d758844008ae1189902b2 100644
->> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->> @@ -123,6 +123,38 @@ allOf:
->>   additionalProperties: false
->>   
->>   examples:
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/soc/bcm2835-pm.h>
->> +
->> +    gpu@7ec00000 {
->> +      compatible= "brcm,2711-v3d";
->> +      reg = <0x7ec00000 0x4000>,
->> +            <0x7ec04000 0x4000>;
->> +      reg-names = "hub", "core0";
->> +
->> +      power-domains = <&pm BCM2835_POWER_DOMAIN_GRAFX_V3D>;
-> 
-> That's the only notable difference - one new property.
-> 
->> +      resets = <&pm BCM2835_RESET_V3D>;
->> +      interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
->> +    };
->> +
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/soc/bcm2835-pm.h>
->> +
->> +    gpu@2000000 {
->> +      compatible = "brcm,2712-v3d";
->> +      reg = <0x02000000 0x4000>,
->> +            <0x02008000 0x6000>,
->> +            <0x02030800 0x0700>;
->> +      reg-names = "hub", "core0", "sms";
->> +
->> +      power-domains = <&pm BCM2835_POWER_DOMAIN_GRAFX_V3D>;
->> +      resets = <&pm BCM2835_RESET_V3D>;
->> +      interrupts = <GIC_SPI 250 IRQ_TYPE_LEVEL_HIGH>,
->> +                   <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>;
-> 
-> No differences here at all.
-> 
-> Best regards,
-> Krzysztof
-> 
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
