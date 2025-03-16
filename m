@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF29A63545
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 12:17:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73687A63547
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 12:17:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F31D410E12A;
-	Sun, 16 Mar 2025 11:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB07E10E12F;
+	Sun, 16 Mar 2025 11:17:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y/DYCQBY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NvWncY/u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com
- [209.85.161.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF5FF10E12A;
- Sun, 16 Mar 2025 11:17:18 +0000 (UTC)
-Received: by mail-oo1-f52.google.com with SMTP id
- 006d021491bc7-5fe86c16f5dso1664412eaf.1; 
- Sun, 16 Mar 2025 04:17:18 -0700 (PDT)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
+ [209.85.167.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EEA310E12F;
+ Sun, 16 Mar 2025 11:17:25 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id
+ 5614622812f47-3fa6c54cdb2so2631453b6e.3; 
+ Sun, 16 Mar 2025 04:17:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742123838; x=1742728638; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1742123844; x=1742728644; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=rG31lQCRCRFDdqfRdvTtPaHQMIPvTMGOzZjBUIipjbU=;
- b=Y/DYCQBYN+OCWKulFrVo9OEzyD80a6CsJ7bE2eiP9WHNc+pgz3PvbYRt0XaWK5cdlc
- +aLKimQDhgJsNFGmdZXiPU4hbHf8F0Mmz4r74jgq6c5mj3sw9ZOLmOzxucXCS/G2Qk2f
- XErlama+ML7R9WMtpUweZKwTNjB/Ca9uY2szfQJjZO/fJ2HlD31nOk6+TgPk99g6JLEw
- a611zRfpB0UxaalSG8LggFu5lUDJH4VngwlG8ZqDKLFZaA6NkpWS/ngsofI84Kf5w8h6
- goocid+a0d73D0tYXpwu5EC+sqwLYktjRVjBOoaihdDC1KCI/J7d2pbmQbnoGGHeZ5X8
- wM5Q==
+ :reply-to; bh=ekjsEa3df+HXolOxxQjVErHPPoRYP8orqeSGkgsPOaQ=;
+ b=NvWncY/ulN7lK+9CNf28mzQQ+y75JgbPmt77Y5CG/Qd6Dt2PuJk9fbTvnZD+awSGx5
+ cVw9ZANnHjAR37e1BS/JQRYUmKFxwwCHnDTmTkrNiebM1qdhAHsw+SzL6PRdXa4BKENK
+ TTXkO/DQPsKKf2ZkJH0AL4o8xp71B4rz/vcLkXknKepkUZ4M+D4OHJcKdkhLxPl/IeLL
+ 2z1m30xdmAmhkhYkGmDtbQ7EArjBvgSUOVFP7abWTkewJwEJc1rJgpoXmoERzjKYiQVU
+ Xf20mENyHsl193E5aZepagz+ECrxE2r/r0TAqS+jKT5G6BGJzNT6EpD0/vJYn1zvv3An
+ S6kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742123838; x=1742728638;
+ d=1e100.net; s=20230601; t=1742123845; x=1742728645;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rG31lQCRCRFDdqfRdvTtPaHQMIPvTMGOzZjBUIipjbU=;
- b=hthB0KjWf7lW3Ca/TWUNHwyfeFSKT2MV9yrVsAvu0fPiPydhvKfirVmpLOXrHeXGCe
- 7LNCltrGfStqZMHfU5GDt9XdKaU0Hg25v/vb1z36TPb9nTYSFVxBzC2pWgL9v2j0w2yz
- qm26kiwUNvkctZ1brbOcOZk9XwXjha8A5HkAQHQSfGcjzb+n6r2wo2UiSnQKfBl6Lr5V
- sIdu9ZCkhBNuTZpA95yYFWR6RX39aYjQMNkr+LI2zyDi5s1DlH4cqwrn96G3T6YAf6Uu
- nh4dzmN5KeFUdlRvxxubMKDYNAJVg4BHNFXZNe5Yk+k3vyB0t7Q3pjBPG3IPtfOzt8JY
- UzRw==
+ bh=ekjsEa3df+HXolOxxQjVErHPPoRYP8orqeSGkgsPOaQ=;
+ b=QK5EeuwUsYZh8JOEIGxxfYtWLl6D73cC9Ddaa/RmqQhuS6JSEgVvyy1vXlVKnWrsBS
+ Awig+aYaGjB/5SIvA4w+2SRtKwEf1WWCNYLQku8KY6UHoPsQz51YTlOVR9sk5MZ5FrDq
+ Ac7wwjz51Uqoe5KfJ13BxYnBn16AfLVjjJNOASQlzOcfTwH2QIy+QTaRX9QNmzO4kbgv
+ tN/rAR834hXMFa/qOD1RtfEXFJH4Lu/AUBG9N8xiW1zjydwGBDxchRG+D2ElPHJ3zb5u
+ J9mZJxIQpx/iqF5FcXsUdpHO53svcenwAm+eDyzofrut9TWCGitPyBG51gvHg1keAn3E
+ yxOw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUmfCODyDoH/hI0pn0Knroqm97yLcptZNafE4nyj7Fn6PBCLXbK9C6SXB/fUXg00tMP+fO49yfFmwQ=@lists.freedesktop.org,
- AJvYcCWH1dGkfJ+PQ7UYhvOPcaaS4TR0SwFv1WGNgxsxzzTUSQXbFNGN8oIUWaU54wp04BZHGXf1W9KDug==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy9DOHZy0Rgg7gpXUsUbuJofCXFljJngSJxqIFNWB8/KwevemuW
- vV3NmgfI6MHoGFZSYAqWdMQJdeYVLAiWbkXfKBE7U1vc4Vxa98qB
-X-Gm-Gg: ASbGncugubPyPiIKda4Zp9SwXvx7+uqsEnKhy00ufpDYvP9goHpJbZ4oSEe09mIGrlL
- 4UmHD9ZB2WzXk19f8ByY+3qmUsXN+GsZc1jDXZpuukfnCv7YeaPheI9RdA4rL40G5WFvn5x8fA+
- OHs4ms8t5Lo4brYNPZdcvAl9lW8qyL6CiERQh4GLpTZuFBPurr07e9HEYxL+5a6pmwyrfA/39Hu
- snVuYOBdohMnrmtyG+TtH0CUBfFiVLH4wdF88nBZ6MszboELbjJQ2c5vnjMNVJJTRpFag88EGfN
- IFF/it9OByByu2uefyA7SZ2tuy446We7ATQaXhEgxOEHjPT+K+n3ANJX/J2ihM5OzJzLCpocYv8
- 0KTEcvVhGzSAkXbtHLhD/oAZ2F6A=
-X-Google-Smtp-Source: AGHT+IGXuZj7CrskJpVU66WVbrVD3w1oJfKPbLyD5/hTVj8h9n+BL/mvcQD3fQGQ0RBjIV8G4AgMVA==
-X-Received: by 2002:a05:6808:3849:b0:3f9:aeb6:8621 with SMTP id
- 5614622812f47-3fdee2791bamr4613083b6e.3.1742123838137; 
- Sun, 16 Mar 2025 04:17:18 -0700 (PDT)
+ AJvYcCUvp5eeuNf4c1RyW6LaAgKIDlaoDGWBTdLqtYKpPNxkfXF3XXUVM9o390fXVFt0RPN4PTFMZUs+Uw==@lists.freedesktop.org,
+ AJvYcCVObAjdwyu8Y4zoFYUQ99JgM3xGO4lsEyhtYWO/L6OP/MpMrrBxT2VNaaH2yuaaOOcywHTWOnupJWU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/QHRnYprNc0jaWie64ujgdJ/X/mH2KqGFF29Wzj0GzBiiU1nQ
+ UU9MLdxUz9lSw1EdREzSgegNALCIZsCvamFm/2PBEhtwCHYgPfPC
+X-Gm-Gg: ASbGncsxH6DkLJRuatFYBl2umVW2s3JDRAGAtm0d6s3uSs2hUjKnQHIHeb5OPPnHiiX
+ 2/91YREmb5xbV39ulbP/+KoSlnN2I4ZORIZZnpW9+F0+DT4BHmvo/XRfrwc1Ur1lZbT35lvig6l
+ NcImq36oCs6EsbWGTFblamvL1bM+eDVOQLiIvPbsUEbAZQdozVtY36eCf8jHomXikq0YlRAVocN
+ vFjzdyyyvNccToxMsmMNclYEOZFT38LeK68spsk/y/YYS+ARXOPTQQOp9yOvk4pNxRdasnq0UCw
+ Nt3qugkOEou0MQCbggQTK/89AS/GGVfwTHtW/kXLqE32CSShp+Wk6+lz39qFi70MR/7NCtJAbWn
+ RjBLBvKbvq4p/dL1EPwuXvm61cKU=
+X-Google-Smtp-Source: AGHT+IEjg2xfhvPfXaY/5Cp/9QgKkPC0d1FC1flzt29b+ldjcXyycYr78QYS2iUROkMc5ivHSaEeaw==
+X-Received: by 2002:a05:6808:23c3:b0:3fa:f848:8dfa with SMTP id
+ 5614622812f47-3fdf026db54mr5046847b6e.30.1742123844546; 
+ Sun, 16 Mar 2025 04:17:24 -0700 (PDT)
 Received: from my-computer.lan (c-73-76-29-249.hsd1.tx.comcast.net.
  [73.76.29.249]) by smtp.googlemail.com with ESMTPSA id
- 5614622812f47-3fe832ce015sm715978b6e.7.2025.03.16.04.17.13
+ 5614622812f47-3fe832ce015sm715978b6e.7.2025.03.16.04.17.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Mar 2025 04:17:17 -0700 (PDT)
+ Sun, 16 Mar 2025 04:17:23 -0700 (PDT)
 From: Andrew Ballance <andrewjballance@gmail.com>
 To: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -72,9 +72,9 @@ To: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
  nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  rust-for-linux@vger.kernel.org
-Subject: [PATCH v2 1/3] rust: alloc: add Vec::truncate method
-Date: Sun, 16 Mar 2025 06:16:42 -0500
-Message-ID: <20250316111644.154602-2-andrewjballance@gmail.com>
+Subject: [PATCH v2 2/3] rust: alloc: add Vec::resize method
+Date: Sun, 16 Mar 2025 06:16:43 -0500
+Message-ID: <20250316111644.154602-3-andrewjballance@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250316111644.154602-1-andrewjballance@gmail.com>
 References: <20250316111644.154602-1-andrewjballance@gmail.com>
@@ -95,61 +95,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-implement the equivalent to the std's Vec::truncate
+implement the equivalent of the rust std's Vec::resize
 on the kernel's Vec type.
 
 Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
 ---
- rust/kernel/alloc/kvec.rs | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ rust/kernel/alloc/kvec.rs | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/rust/kernel/alloc/kvec.rs b/rust/kernel/alloc/kvec.rs
-index ae9d072741ce..18bcc59f0b38 100644
+index 18bcc59f0b38..eb6d40a1bf8b 100644
 --- a/rust/kernel/alloc/kvec.rs
 +++ b/rust/kernel/alloc/kvec.rs
-@@ -452,6 +452,42 @@ pub fn reserve(&mut self, additional: usize, flags: Flags) -> Result<(), AllocEr
+@@ -554,6 +554,32 @@ pub fn from_elem(value: T, n: usize, flags: Flags) -> Result<Self, AllocError> {
  
-         Ok(())
+         Ok(v)
      }
 +
-+    /// Shortens the vector, setting the length to `len` and drops the removed values.
-+    /// If `len` is greater than or equal to the current length, this does nothing.
++    /// Resizes the [`Vec`] so that `len` is equal to `new_len`.
 +    ///
-+    /// This has no effect on the capacity and will not allocate.
++    /// If `new_len` is smaller than `len`, the `Vec` is [`Vec::truncate`]d.
++    /// If `new_len` is larger, each new slot is filled with clones of `value`.
++    ///
 +    /// # Examples
 +    ///
 +    /// ```
 +    /// let mut v = kernel::kvec![1, 2, 3]?;
-+    /// v.truncate(1);
-+    /// assert_eq!(v.len(), 1);
++    /// v.resize(1, 42, GFP_KERNEL)?;
 +    /// assert_eq!(&v, &[1]);
++    ///
++    /// v.resize(3, 42, GFP_KERNEL)?;
++    /// assert_eq!(&v, &[1, 42, 42]);
 +    ///
 +    /// # Ok::<(), Error>(())
 +    /// ```
-+    pub fn truncate(&mut self, len: usize) {
-+        if len >= self.len() {
-+            return;
++    pub fn resize(&mut self, new_len: usize, value: T, flags: Flags) -> Result<(), AllocError> {
++        if new_len > self.len() {
++            self.extend_with(new_len - self.len(), value, flags)
++        } else {
++            self.truncate(new_len);
++            Ok(())
 +        }
-+
-+        let drop_range = len..self.len();
-+
-+        // SAFETY: `drop_range` is a subrange of `[0, len)` by the bounds check above.
-+        let ptr: *mut [T] = unsafe { self.get_unchecked_mut(drop_range) };
-+
-+        // SAFETY:
-+        // - this will always shrink the vector because of the above bounds check
-+        // - [`new_len`, `self.len`) will be dropped through the call to `drop_in_place` below
-+        unsafe { self.set_len(len) };
-+
-+        // SAFETY:
-+        // - the dropped values are valid `T`s by the type invariant
-+        // - we are allowed to invalidate [`new_len`, `old_len`) because we just changed the
-+        //   len, therefore we have exclusive access to [`new_len`, `old_len`)
-+        unsafe { ptr::drop_in_place(ptr) };
 +    }
  }
  
- impl<T: Clone, A: Allocator> Vec<T, A> {
+ impl<T, A> Drop for Vec<T, A>
 -- 
 2.48.1
 
