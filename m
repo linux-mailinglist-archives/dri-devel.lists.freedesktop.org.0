@@ -2,85 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1D0A63549
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 12:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33B4A635D5
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 14:50:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDD8810E131;
-	Sun, 16 Mar 2025 11:17:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8958C10E00D;
+	Sun, 16 Mar 2025 13:50:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EASY8a2Q";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FbLBusAJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com
- [209.85.161.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73F3F10E134;
- Sun, 16 Mar 2025 11:17:32 +0000 (UTC)
-Received: by mail-oo1-f45.google.com with SMTP id
- 006d021491bc7-601c12ac8d0so1597470eaf.2; 
- Sun, 16 Mar 2025 04:17:32 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 035CA10E00D;
+ Sun, 16 Mar 2025 13:50:34 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-6f666c94285so33325147b3.3; 
+ Sun, 16 Mar 2025 06:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742123851; x=1742728651; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=MibvrQXj2P5QnlDxX5YbYon7Ne8dH6XMjJsYnk+RzkY=;
- b=EASY8a2QqL597+w10wi1uAB2XS04sx5lQY0EVnHgn8sX8D1kBDJfFpJqLJrmG1TELy
- HXYGNKElK00h9EqgpfGgS6nsmO6ZwyhXFXKKCq+VtWGXICip1kFrV0Yb4Q33tVcTgzJx
- LzJbSrQdLZkbAGKWtzunCOzbwXSwSxm/9nXmwZbReVwDPF4jNo+YIxGgvdDAbQmFG3mk
- t5751Ecpo9l7r4uSt8j91spWKc3vORvVXE0p3g3vz9lQmCW/k6jqNr2KOVUrraEkt9cA
- wspDKB7NmoS0G1oZjGjg7KeV96TJCmhK1l3rci9X1Bpnd1Ceffug1W1Woc+DJwiWkHkI
- Mo0w==
+ d=gmail.com; s=20230601; t=1742133033; x=1742737833; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rLX3l2pfBMyB+u0niGdIBmArIeV1vUvKJ+QVc4dPLqk=;
+ b=FbLBusAJ98fmLw/+Pm6w2ZOUWpYZfbhbzk59BSCAkbsNi8827DuQyVXt4qD6Q160iJ
+ /ELNU4gzJTr8oHZ2AXHH1MeLx/g4ZfuzrpDQoPTxdovTj7Q1B4bFD9Pn1Q5W5y4jNDaZ
+ PZ/R652MkKza9+tOTJ4m5v7ZdElTz5QKy305SWzKUsHCpxeArBvxLYxWZ6uzDgWeDmYw
+ OwbfC8+ehfEgtLAN4RPBKun+wpA4gxV4LGfC+ZJVmejfGrN6UsjncTTAOFPYa6rrnec/
+ lo0iK9xEJ/hsDD5RGSCFgsuDkpAlCIvbgOe320VBdXlD2IadAImNtbaCe4VHBUCAM2Db
+ oFJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742123851; x=1742728651;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1742133033; x=1742737833;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MibvrQXj2P5QnlDxX5YbYon7Ne8dH6XMjJsYnk+RzkY=;
- b=umTSpZ6X21wzrWsPuqmB7D3AGO/dwNnFyKXGOM0+dj3A5fh8II0DEfxQITa6wNYA+c
- 6NvYV7PyDFCmsMxEfgJPvMvwACAibraylwXmYUWzuC8Oxe/grWnteQiiIh+vKddxvJEs
- CN5VZvRMEISzAGOa6WfTozs9chD8eImwXXCuUDyYcbq1UCIIaMCRefBZJ/nN1mUqwhsD
- kF8Zjsopq060of8gLAjGhcRqG8oAdOu4ygbY0+KqLpGIDdx6t3nvB6D495L6ildTqWdX
- NgHQ/e/FDfM0GZmjMAv9hcTkzu3jBfxnlqzKNUMuAkLginHxaqFHhlwhXN3VOnex4qrW
- uYzw==
+ bh=rLX3l2pfBMyB+u0niGdIBmArIeV1vUvKJ+QVc4dPLqk=;
+ b=g/LjG+QoamMI/RV5ECutTmPJ7gYSaDrVjEMbSyY1OAyPrqP8bAAyAded8NF0kNJW4l
+ gabZD35KthMsn1KpSMMrVWMweTpLt/aRSbvnYNqeTSYVF0I7wiWSel3nHvxAwip4WNhp
+ FT10RmAWY7vicw1GZXoijYrYu0fn73IM595DpZcfSpEOA83/H94UFeZmoWNoJDn1hi21
+ De+iTa1DYU0S8YIKyQFuEIjAA7SDe1L1NKCn+OTUPXkh/fdsgMCmO8+HPrDB/YqT6avA
+ bheAa5o7hRi1U+0P3vuY0jt4441k2v5DtpeS7LOBN+pJXlz+dSKVOAJFikv8IBOdm90X
+ IHJA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWOjSV4bgFawrkODDfwS1MxoJlSVxdZg3+CCf2/5NNnssoRwdyWfYg67GIgFODOh55LaCRlngfKCQ==@lists.freedesktop.org,
- AJvYcCXgLroLKv3WwmrYhgK2b1VrUeR5yeeaFJwQREiL52+BEzbSpmAEkq8laOdfzcyMWHkcv+HQXwI1xjY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyiWs62Sj6ToV7cQkaEqFRCBWwesLFATyV5iuDwQcNtonGmW0vA
- fy5LSmxXWyXSxALzUnusMoy/LVOSNzGPL1T/fZk+VM8TRVUC98xk
-X-Gm-Gg: ASbGncuoXQ53cKXoER7qT5pbGPj7Q8bw63y9prBqORgCqOK5Hqd4bWhyw4aZCquqWd9
- iBzwu1AS9g7c444rYq3HqO4JfnmCS9qVdsW1sf3Uv9zr2BPbTN4EpcKgADxRtECv2WmW+lbDRj7
- PnaCjhQDR3tcomB7M8nrwBa8I+ZZFYavcGmFDDwnhdrKX0mJRXjJUzkTvOBOMNIIFohyZI+BxHc
- 7CCLvGW00ufTQd94H1dFIP3uekzDkqTOaLMl3eQ/Vxa3zNwyBKNtWBNVcAbCIiJ7g7pY2MW4E/q
- sD3dghhCu9Dg+NQCoKdPIJYTHGsrHDq1YywiAHfk9Kx2Cog+lrwYEUWh8v+4xyGMrBO+lSi4vQF
- SXnmezWwZQxVlv0Y6
-X-Google-Smtp-Source: AGHT+IG0u7JDaDNYIHwPQlqHBQlgmBC+Fo0wrepsC3YNTau6TIWAGIJlcCHjX1uHxt1F9G2iknrsEg==
-X-Received: by 2002:a05:6808:f12:b0:3f4:af3:74a5 with SMTP id
- 5614622812f47-3fdeed0d78emr5189018b6e.21.1742123851687; 
- Sun, 16 Mar 2025 04:17:31 -0700 (PDT)
-Received: from my-computer.lan (c-73-76-29-249.hsd1.tx.comcast.net.
- [73.76.29.249]) by smtp.googlemail.com with ESMTPSA id
- 5614622812f47-3fe832ce015sm715978b6e.7.2025.03.16.04.17.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Mar 2025 04:17:30 -0700 (PDT)
-From: Andrew Ballance <andrewjballance@gmail.com>
-To: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, andrewjballance@gmail.com, acourbot@nvidia.com,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-Subject: [PATCH v2 3/3] gpu: nova-core: remove completed Vec extentions from
- task list
-Date: Sun, 16 Mar 2025 06:16:44 -0500
-Message-ID: <20250316111644.154602-4-andrewjballance@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250316111644.154602-1-andrewjballance@gmail.com>
-References: <20250316111644.154602-1-andrewjballance@gmail.com>
+ AJvYcCVF4etVY3gZ45Je9D6ah2JIeKDh8QwMscMciCbRDDVeW2WvHjZFLLPKQZGhxdPtW/dIHuY/VdaVh7/n@lists.freedesktop.org,
+ AJvYcCVqo9hLmEbqExVycD6OliOfxw9UjCGrM5L3fUPCKWOW5TalH4v9Rs6OsyQf94TbsZd74y+0+Qt3e/ZJ@lists.freedesktop.org,
+ AJvYcCWmDeVBI9xIwnfmjANBka+/NodIfI28eE1EGCTNS9UK6ARKhMuZrN+MAy+wDoYFgY50sTGGg52CtbkbpVTMpg==@lists.freedesktop.org,
+ AJvYcCWoBID9+vyQNwIvED7nuQoDKJ5ekWrq0m0hCWMb2H+WImI229VpSuDyJVHxfjLalyN0btT8qyd62cOmXEpAy9xY4A==@lists.freedesktop.org,
+ AJvYcCWp02KqQtuMZK/qUGzn2l6PCVwAWkxQuZ3kdntd045/O0DSgnkYNvxhW5iQGXy+QD6MAkVtNgIy@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzrBeIF0nFwAfaZw/aog+d6ILBg6bgLLtcEB/OaTXQNsJlDhYth
+ SNr4WPmShBBVRmvmFJBes7uoY0CW69NiuehbrOGM769j6ekY7Sh1daeakmpOYNhVEjpmHHUOMHS
+ r1PIR9yTspFTH3AK3bWljgJnyz9c=
+X-Gm-Gg: ASbGncvg2e+LxWBT1cf6i8EH6gLYOEnNgUhAPWxtT039fULkFBQuGZr/giweUSD5O19
+ Hj/vajdaTmXXS3hfeXj7g674+LpHvJW2QJF/EBL11zNZkVuGXvIEHVIuYy4xOFnkSKQce6KIAK2
+ yWG+PxqOJoiEZJV0w0UgHfWYOj
+X-Google-Smtp-Source: AGHT+IFevfJ3v8Hv9LgKFZg+7cLf2qLswo+1gbITmoMoW03EnfIEs3SDlro7IWMIN2Oshbrp414T5CBo4CIGtbatwig=
+X-Received: by 2002:a05:690c:4b12:b0:6f9:b12b:8953 with SMTP id
+ 00721157ae682-6ff45fa5378mr119774397b3.20.1742133033646; Sun, 16 Mar 2025
+ 06:50:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250125064619.8305-1-jim.cromie@gmail.com>
+ <20250125064619.8305-2-jim.cromie@gmail.com>
+ <3f5d7e90-0feb-48ef-8279-1644ce5f3d5b@bootlin.com>
+In-Reply-To: <3f5d7e90-0feb-48ef-8279-1644ce5f3d5b@bootlin.com>
+From: jim.cromie@gmail.com
+Date: Sun, 16 Mar 2025 07:50:06 -0600
+X-Gm-Features: AQ5f1Jq36108HgQS4XUlPlVF14KcwsKwPglARvXoSnSsnAYbHuikctesWZqFJ2k
+Message-ID: <CAJfuBxwu6TVM-uLU0Tpp4MN-wx8M2D0CJeRT0U3rNtVMMQyi=w@mail.gmail.com>
+Subject: Re: [PATCH 01/63] docs/dyndbg: update examples \012 to \n
+To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
+ jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org, 
+ intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch, 
+ tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
+ ville.syrjala@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,35 +93,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The requested Vec methods have been implemented thus, removes
-the completed item from the nova task list
+On Tue, Feb 25, 2025 at 7:30=E2=80=AFAM Louis Chauvet <louis.chauvet@bootli=
+n.com> wrote:
+>
+>
+>
+> Le 25/01/2025 =C3=A0 07:45, Jim Cromie a =C3=A9crit :
+> > commit 47ea6f99d06e ("dyndbg: use ESCAPE_SPACE for cat control")
+> >
+> > changed the control-file to display format strings with "\n" rather
+> > than "\012".  Update the docs to match the new reality.
+> >
+> > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+>
+> Hi Jim,
+>
+> I think this patch is incomplete, I just tested and the \012 in [1]
+> needs to be replaced too.
+>
 
-Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
----
- Documentation/gpu/nova/core/todo.rst | 10 ----------
- 1 file changed, 10 deletions(-)
-
-diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
-index ca08377d3b73..234d753d3eac 100644
---- a/Documentation/gpu/nova/core/todo.rst
-+++ b/Documentation/gpu/nova/core/todo.rst
-@@ -190,16 +190,6 @@ Rust abstraction for debugfs APIs.
- | Reference: Export GSP log buffers
- | Complexity: Intermediate
- 
--Vec extensions
----------------
--
--Implement ``Vec::truncate`` and ``Vec::resize``.
--
--Currently this is used for some experimental code to parse the vBIOS.
--
--| Reference vBIOS support
--| Complexity: Beginner
--
- GPU (general)
- =============
- 
--- 
-2.48.1
-
+fixed here, thanks.
