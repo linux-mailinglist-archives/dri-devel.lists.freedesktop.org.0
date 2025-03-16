@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95DB4A632E7
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 00:08:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2782AA632FB
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 01:31:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 809D610E310;
-	Sat, 15 Mar 2025 23:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB43910E02C;
+	Sun, 16 Mar 2025 00:31:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=protonmail.com header.i=@protonmail.com header.b="wQ57sbG5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p5aqcWek";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A95410E2B1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Mar 2025 23:07:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail3; t=1742080073; x=1742339273;
- bh=TijwBr6V5VNMUYReFcqNhHWnkhDeChPquiPiCcW2nVM=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=wQ57sbG5Z87dQmhS0W/fnZVQBKGKL+4Mob7mWPOTQQFJJDOb064pBi1XFiP4C5efP
- P2d5rbGhpHUNr/6BKL8Z1IYLqkUJItWy97K71fSQMAmDV5JXGlLG47VwKVe/+VvDsq
- tj0fxX+MIndsM/ivJVVRgGa9DnTcn8gvhJW6iO086ZausteORit4nN5CSsEmfQHUoc
- 04qQB6Zt8Szp5PYdQagA3T7AiKTl5f6Z435QlZ5D/xHmxfA2S4aZBp4ZGX/qlJPaJ1
- 8C3Gtzb8eKO30yzPbX4/HsuVjnui5TAlt/xFSehWken6eXVl5WUE9CcA2DX1g9WxD6
- iz0TWt/L2USPw==
-Date: Sat, 15 Mar 2025 23:07:50 +0000
-To: Benjamin Tissoires <bentiss@kernel.org>
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jiri Kosina <jikos@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH RFC 0/3] Initial work for Rust abstraction for HID device
- driver development
-Message-ID: <87zfhlhozn.fsf@protonmail.com>
-In-Reply-To: <f6rizzlygznuebh22psrdkzfki7jfjzfaamuolobvpbgxoxjoi@gfu2eyzrm5wl>
-References: <20250313160220.6410-2-sergeantsagara@protonmail.com>
- <f6rizzlygznuebh22psrdkzfki7jfjzfaamuolobvpbgxoxjoi@gfu2eyzrm5wl>
-Feedback-ID: 26003777:user:proton
-X-Pm-Message-ID: 704b0505bec48ce1339e1a2cf068581e382f0f79
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DBB510E02C
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 00:31:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 41CF2A48B9F
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 00:25:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A96F4C4CEE5
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 00:30:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742085050;
+ bh=xl3wMhJFwowkt23FMhmqQN++9P6qG4/3PHDKH0G1rME=;
+ h=From:To:Subject:Date:From;
+ b=p5aqcWekPAHJ1qPfjDpZGKnrxUDywahxAFF2MmVB/Yf6DCK09mGrKB/wmgCcIsAhJ
+ 1O24SaeXPkbE7XNkFqYydfWey2cmtpq6NIViyCeXR2SeVUrp18/+M20JtJCvssx7AF
+ DRto1r/NJXVZob9epxl4XiMdZUvd44MJNIV5o13lqPGVpxRIZhuruI3asmedp4zI7z
+ yenl6dirEtNW3QBHkS5EsLzQRcIU80TqOFllGBVmuMp/mdUJ5ZnNxD8jdTohn6nRsa
+ JVoEAThfNtlcWa9GSlU5GbtgOAUGiG1gELBZ55c1Bd4AEHUQG9sI2IIuFM29Gl1WVR
+ J5cFYqmrD7Dzg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id A2732C53BC5; Sun, 16 Mar 2025 00:30:50 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 219888] New: amdgpu: Oops connecting HDMI/DVI/DP on HD 7850
+ (Pitcairn)
+Date: Sun, 16 Mar 2025 00:30:50 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: alexandre.f.demers@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys bug_status bug_severity priority
+ component assigned_to reporter cf_regression
+Message-ID: <bug-219888-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,134 +75,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Mar, 2025 17:31:53 +0100 "Benjamin Tissoires" <bentiss@kernel.or=
-g> wrote:
-> Hi,
->
-> [quick reply because I am completely under the water for the next 2
-> weeks]
->
-> On Mar 13 2025, Rahul Rameshbabu wrote:
->> Hello,
->>
->> I am a hobbyist developer who has been working on a project to create a =
-new Rust
->> HID device driver and the needed core abstractions for writing more HID =
-device
->> drivers in Rust. My goal is to support the USB Monitor Control Class nee=
-ded for
->> functionality such as backlight control for monitors like the Apple Stud=
-io
->> Display and Apple Pro Display XDR. A new backlight API will be required =
-to
->> support multiple backlight instances and will be mapped per DRM connecto=
-r. The
->> current backlight API is designed around the assumption of only a single
->> internal panel being present. I am currently working on making this new =
-API for
->> DRM in parallel to my work on the HID side of the stack for supporting t=
-hese
->> displays.
->
-> Thanks a lot for this work, though I wonder if your goal is not too big,
-> too far from the HID point of view. HID is simple, and there is only a
-> few bindings that you would need to be able to make "simple" HID
-> drivers.
->
-> My assumption would be to introduce the binding with a functional but
-> small driver (like one that just changes the report descriptor, or does
-> a sime raw event processing). Then we can look at integrating with the
-> DRM interface.
->
-> Though it's up to you to decide how you want to play ;)
->
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219888
 
-Thanks for the suggestion, Benjamin! I think its a great suggestion for
-getting the Rust abstractions for HID cleaned up and integrated before
-taking on this more herculian challenge. I think it would be ideal to
-maybe do the following?
+            Bug ID: 219888
+           Summary: amdgpu: Oops connecting HDMI/DVI/DP on HD 7850
+                    (Pitcairn)
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 6.13.0
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: high
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: alexandre.f.demers@gmail.com
+        Regression: No
 
-1. Focus on the core Rust HID abstractions first to get something merged
-   for supporting "simple" HID drivers.
-2. Build a reference driver to validate the abstrations support "simple"
-   HID devices.
-  - https://rust-for-linux.com/rust-reference-drivers
-3. After getting the first two steps worked out, continue pursuing
-   monitor control as a Rust driver and work on the needed changes for
-   DRM connector backlight control API.
+Using ArchLinux's kernel 6.13.7 with two Radeon GPU. Main GPU is an RX 5500=
+ XT,
+second is an HD 7850 (Pitcairn).
+Booting works fine with both cards. However, connecting a monitor on any of=
+ the
+HD 7850's port throws the following error.
 
-Luckily, it seems to me that parts of 3 can be done in parallel to 1 and
-2. However, the advantage of this is that if the Rust HID abstration can
-support "simple" HID drivers initially, it has a path to get merged and
-iterated upon for supporting more complex drivers.
+Oops: Oops: 0010 [#1] PREEMPT SMP NOPTI
+CPU: 0 UID: 0 PID: 138 Comm: kworker/0:1H Tainted: G S=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20
+6.13.7-arch1-1 #1 c1fb750cdab658a6e7961595e6231210fa8606e4
+Tainted: [S]=3DCPU_OUT_OF_SPEC
+Hardware name: To Be Filled By O.E.M. B550 Phantom Gaming 4/ac/B550 Phantom
+Gaming 4/ac, BIOS P2.40 10/19/2022
+Workqueue: events_highpri dm_irq_work_func [amdgpu]
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at 0xffffffffffffffd6.
+RSP: 0018:ffffad114066b868 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffa047552802a8
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffa04736648060
+RBP: 0000000000000780 R08: ffffa04694d10000 R09: 0000000000000000
+R10: 00000000007a1200 R11: ffffa04755280a88 R12: ffffa04736648000
+R13: 0000000000000000 R14: 0000000000000780 R15: 0000000000000780
+FS:  0000000000000000(0000) GS:ffffa049aea00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffffffffffd6 CR3: 000000010d8c8000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ ? __die_body.cold+0x19/0x27
+ ? page_fault_oops+0x15c/0x2e0
+ ? exc_page_fault+0x81/0x190
+ ? asm_exc_page_fault+0x26/0x30
+ resource_get_odm_slice_dst_width+0xc2/0x120 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ resource_get_odm_slice_dst_rect+0xba/0x140 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ resource_get_odm_slice_src_rect+0x57/0x130 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ resource_build_scaling_params+0x2b/0x940 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ resource_append_dpp_pipes_for_plane_composition+0x1dc/0x2a0 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ ? srso_return_thunk+0x5/0x5f
+ ? dce110_get_pix_clk_dividers+0x233/0x2a0 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ dc_state_add_plane+0xca/0x260 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ create_validate_stream_for_sink+0x380/0x400 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ amdgpu_dm_connector_mode_valid+0x63/0x200 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ drm_connector_mode_valid+0x3b/0x60
+ __drm_helper_update_and_validate+0x127/0x3e0
+ ? srso_return_thunk+0x5/0x5f
+ drm_helper_probe_single_connector_modes+0x332/0x630
+ drm_client_modeset_probe+0x273/0x1740
+ ? srso_return_thunk+0x5/0x5f
+ ? __wake_up+0x44/0x60
+ ? kmem_cache_free+0x3f0/0x450
+ __drm_fb_helper_initial_config_and_unlock+0x3b/0x4d0
+ ? srso_return_thunk+0x5/0x5f
+ drm_client_dev_hotplug+0xa1/0xf0
+ handle_hpd_irq_helper+0x176/0x190 [amdgpu
+63b2a590acaeeee8c3b2e1cf2368f882ac94c973]
+ process_one_work+0x17e/0x330
+ worker_thread+0x2ce/0x3f0
+ ? __pfx_worker_thread+0x10/0x10
+ kthread+0xd2/0x100
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x34/0x50
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
+Modules linked in: tls snd_seq_dummy rfcomm snd_hrtimer snd_seq
+nf_conntrack_netlink xt_nat iptable_raw xt_tcpudp veth xt_conntrack
+xt_MASQUERADE bridge stp l>
+ btmtk crypto_simd snd_pcm sp5100_tco cryptd videodev wmi_bmof snd_timer
+mdio_devres blake2b_generic rapl cfg80211 snd i2c_piix4 bluetooth xor mc pc=
+spkr
+k10te>
+CR2: 0000000000000000
+---[ end trace 0000000000000000 ]---
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at 0xffffffffffffffd6.
+RSP: 0018:ffffad114066b868 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffa047552802a8
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffa04736648060
+RBP: 0000000000000780 R08: ffffa04694d10000 R09: 0000000000000000
+R10: 00000000007a1200 R11: ffffa04755280a88 R12: ffffa04736648000
+R13: 0000000000000000 R14: 0000000000000780 R15: 0000000000000780
+FS:  0000000000000000(0000) GS:ffffa049aea00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffffffffffd6 CR3: 000000010d8c8000 CR4: 0000000000350ef0
+note: kworker/0:1H[138] exited with irqs disabled
 
-You mention this in the third patch in this series, but it would
-probably be good to find a simple device that requires a report fixup or
-some processing in .raw_event or .event callback.
+I also tested a vanilla 6.13.0, which gave me the same error. Going back
+further with the 6.10.2-rt from Arch gave me no output, but it didn't crash=
+ (no
+output in the logs).
 
-Making a reference driver for the Glorious PC Gaming Race mice seems
-like a good start. My only concern is the lack of complexity in the C
-driver not needing a .remove callback implementation. I wanted to have
-an example where architecting what device removal with Rust semantics
-would look like. I'll get into more details where you bring this up in
-third patch in this series.
+My kernel is configured with radeon.si_support=3D0 radeon.cik_support=3D0
+amdgpu.si_support=3D1 amdgpu.cik_support=3D1 amdgpu.dpm=3D1 amdgpu.dc=3D1
+amdgpu.ppfeaturemask=3D0xffffffff
 
-Thanks for the feedback,
-Rahul Rameshbabu
+--=20
+You may reply to this email to add a comment.
 
->>
->>   https://binary-eater.github.io/tags/usb-monitor-control/
->>
->> Julius Zint had attempted to do so a year ago with a C HID driver but wa=
-s gated
->> by the lack of an appropriate backlight API for external displays. I ask=
-ed him
->> for permission to do the work need in Rust and plan to accredit him for =
-the HID
->> report handling for backlight in the USB Monitor Control Class standard.
->>
->>   https://lore.kernel.org/lkml/f95da7ff-06dd-2c0e-d563-7e5ad61c3bcc@redh=
-at.com/
->>
->> I was hoping to get initial feedback on this work to make sure I am on t=
-he right
->> path for making a Rust HID abstraction that would be acceptable upstream=
-. The
->> patches compile with WERROR being disabled. This is necessary since Rust=
- treats
->> missing documentation comments as warnings (which is a good thing). I al=
-so need
->> to go in and add more SAFETY comments.
->
-> K, I'll give you my opinion in the patches as the HID co-maintainer. I
-> do have a very little rust experience, but this is my first in kernel,
-> so I hope the more experience rust people here will chime in as well.
->
-> Cheers,
-> Benjamin
->
->>
->> Thanks,
->> Rahul Rameshbabu
->>
->> Rahul Rameshbabu (3):
->>   rust: core abstractions for HID drivers
->>   rust: hid: USB Monitor Control Class driver
->>   rust: hid: demo the core abstractions for probe and remove
->>
->>  drivers/hid/Kconfig                |  16 ++
->>  drivers/hid/Makefile               |   1 +
->>  drivers/hid/hid_monitor_control.rs |  42 +++++
->>  rust/bindings/bindings_helper.h    |   1 +
->>  rust/kernel/hid.rs                 | 245 +++++++++++++++++++++++++++++
->>  rust/kernel/lib.rs                 |   2 +
->>  6 files changed, 307 insertions(+)
->>  create mode 100644 drivers/hid/hid_monitor_control.rs
->>  create mode 100644 rust/kernel/hid.rs
->>
->> --
->> 2.47.2
->>
->>
-
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
