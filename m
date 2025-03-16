@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBEBDA63622
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 15:47:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681ADA63639
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 16:26:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7416E10E16D;
-	Sun, 16 Mar 2025 14:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1386010E177;
+	Sun, 16 Mar 2025 15:26:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kZh5OJoI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rXeqAmqm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0D8810E16D
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 14:47:00 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7EB10E177
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 15:25:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5B9DA5C49A0
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 14:44:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E1B92C4CEE3
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 14:46:59 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4DED1A48BAA
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 15:20:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 49911C4CEDD
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 15:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742136419;
- bh=UYnEBeeQ74437QloQxtlXOUV9hq1aU7jdrplbvmcRy0=;
+ s=k20201202; t=1742138747;
+ bh=ERNEE8NS4+PUi5h0aNPpf8p0ixKW/tHp7gJKkRb5N5Q=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=kZh5OJoIzuAffRCIxX6vASgbY+jHGI/Gb7LSCuRJL68Eo1Wb49EVU3KRLQAdVc+Db
- 8duUmbF50LvBok3mv3DU5XJpmJF1jY42XKMfO4MqkwWZfMB/rbS5ykUUw/sG0pq46p
- KZVMDfnvN5lWqIFBIQVXtKV97K0HwfsrG+izwgKfJJi3Mya5aqyoxL6Bcv1vf2ACOY
- sFox8qnxV6cpD/8GaArfGmGthByZY3heuhnjxB/FiIDwE416Fsbrs8Eqcr1RSmeY4+
- RviAEyg6jt6W1PwF17dkMvKZqeixOFThD7Ln5eEMLDvX9f4PZw/7LtZgtFNaDIkqy4
- QFltOWGrxD+oQ==
+ b=rXeqAmqmkpR11//hXT4qP2Z+AsyoMnHhz+fNogEpEr5Eqi7FP92gQh7xB4cRdVWxv
+ tz9rt+jqaub6OSoqRiCmkXFYQdGRFFN4NCe0j86S5epB/tPoL5bbXOO2CsUdYT75ie
+ W4wPeX5KO2CmpOu6fInOgfJf2id4qdm9tcynh11H4gzC2ek8025mFIXB3tgsNbKIpW
+ n6dYtlRYB5HVgx+UjHxaEz7AEYYrFYog7w4f4qRwDy+Ybh83JXzcRcV81tgG/4c8rf
+ I5fwKkqG7AgcppFvcIgpfAllvc6gP85Vr4Py2xzTAERhbDtuMR0eia4Cbdm+VBuA03
+ coBiuBmz4cRuQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id D0A5CC41613; Sun, 16 Mar 2025 14:46:59 +0000 (UTC)
+ from userid 48) id 3B1C4C41613; Sun, 16 Mar 2025 15:25:47 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 219888] amdgpu: Oops connecting HDMI/DVI/DP on HD 7850
  (Pitcairn) when connected as secondary GPU
-Date: Sun, 16 Mar 2025 14:46:59 +0000
+Date: Sun, 16 Mar 2025 15:25:47 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +52,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219888-2300-brKESnR1BW@https.bugzilla.kernel.org/>
+Message-ID: <bug-219888-2300-UXGS027CU6@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219888-2300@https.bugzilla.kernel.org/>
 References: <bug-219888-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,23 +77,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219888
 
---- Comment #1 from Alexandre Demers (alexandre.f.demers@gmail.com) ---
-Since I had not encountered this problem until recently (the HD7850 was sit=
-ting
-as the primary GPU until my secondary GPU had to be replaced), I tried to
-inverse the primary GPU (RX 5500 XT) with the secondary GPU (HD7850).
+--- Comment #2 from Alexandre Demers (alexandre.f.demers@gmail.com) ---
+6.11.0 exhibits the same problem where there is no output. There must a sig=
+nal
+established though, since the monitor doesn't complain about "No signal".
+However, the boot process is stuck.
 
-So, when the HD7850 sits as the primary GPU, it still doesn't output any vi=
-deo
-on 6.13.7 and it freezes.=20
-
-However, it works properly on 6.10.2 when sitting as primary (the HD7850 st=
-ill
-doesn't output anything when sitting as the secondary GPU, but it doesn't
-crash. Thus, this seems be a different issue).
-
-I'll try to narrow it down a bit more to figure out if it was introduced
-between 6.10 and 6.13.
+Using the radeon driver works as expected.
 
 --=20
 You may reply to this email to add a comment.
