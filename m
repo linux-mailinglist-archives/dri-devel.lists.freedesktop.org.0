@@ -2,49 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD49FA63606
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 15:16:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E997A635FE
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Mar 2025 15:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4955D10E153;
-	Sun, 16 Mar 2025 14:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B66CE10E14B;
+	Sun, 16 Mar 2025 14:16:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Vz8xGN21";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="C/jTKiLa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7146610E14B
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 14:16:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F5710E151
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Mar 2025 14:16:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
- Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=GTWa5kwPqHBmCbBE4oXDcWTPcQ6LPEgzrAREqrPkZSU=; b=Vz8xGN21S7wsa3u9S6rt+pvI33
- XHgLWyJAFTTBjxbdFzUwmnWv+HWzivhbsdgDGKTwqGLV6gj2mwNb4KaAiOuz80dNRZanDZOhhViiN
- 8NaHZSjM6Jei76UZWhUWUDN1nqtmkAZVeiRL0Q64NrBsF6TlO5AXcs6kF+6uEhpHe/xLxSoUlEyLy
- V3l70jCuksLOsXJdoSAKWqOPfvb7ieF1KjOyX46kgFzCzL2WknH0g/ID1LH3rQEkcY1sZPQCJKRgv
- 8ALzy11g/NSeyXIVMGCSVFhVXb8BPHRpjAVmOjLDKlYETfWcuSjBfWycVLs1mTVDnccQnFdycko+h
- itT8OLvw==;
+ s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vLOmntuwTf68gLTCBcOt8BM/dH8AZnv3l8tLf9Bmh9Q=; b=C/jTKiLaBRfvT/ZHuGRWFavbG6
+ vRNiGFJ06eKGwW3cKO2kaKCsBU0nx3HM2y27je6e8eT+fTWuDjS+4cC1rVgWJeZs3LwkelALUl67V
+ Yt9Od+7QrWFY3ynjcdn/Vphyb6h/zJgZuUfwAAnmrJQ1a+LGBnSLyjEPh2lrAM4rU55fCMw1vyimb
+ WRDQJnQ0J7wjdYJoDpaQ6s4U2d3OJVr93bouSwzpzITkIDHKUOk66LDdflOTgaBMtV50LJvT8cWMq
+ jgGfJXWicrKayhFLOdz14m6VFAijYzqi1quHR/KNGWXJ6pD/XLwFmI6Wh61CcJ/V5k0zlEF0WGphH
+ FUORTUnA==;
 Received: from [189.7.87.178] (helo=janis.local)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ttomx-0016D3-3W; Sun, 16 Mar 2025 15:16:27 +0100
+ id 1tton1-0016D3-8K; Sun, 16 Mar 2025 15:16:31 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Subject: [PATCH v5 0/6] drm/v3d: Fix GPU reset issues on the Raspberry Pi 5
-Date: Sun, 16 Mar 2025 11:15:07 -0300
-Message-Id: <20250316-v3d-gpu-reset-fixes-v5-0-9779cdb12f06@igalia.com>
+Date: Sun, 16 Mar 2025 11:15:08 -0300
+Subject: [PATCH v5 1/6] drm/v3d: Associate a V3D tech revision to all
+ supported devices
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAOzc1mcC/23NQWoDMQwF0KsEr+siyc54nFXvEbowsjwxtJlgp
- yYlzN3rBEpTMsv/xX+6qiolS1W7zVUVabnm+djD9mWj+BCOk+gce1YEtAUiq5uJejp96SJVzjr
- li1RNkTCxA4cYVV+eitwPfbh/7/mQ63ku3/cnDW/trzeseg016NEEP/gUo2d8y1P4yOGV5091A
- xv9IQbGdYQ6Qt54NpCA2T4h5gFBXEdMRwabXLBknTA8IfYRMeuI7QijuBHiKOCHf8iyLD/udaW
- ChgEAAA==
-X-Change-ID: 20250224-v3d-gpu-reset-fixes-2d21fc70711d
+Message-Id: <20250316-v3d-gpu-reset-fixes-v5-1-9779cdb12f06@igalia.com>
+References: <20250316-v3d-gpu-reset-fixes-v5-0-9779cdb12f06@igalia.com>
+In-Reply-To: <20250316-v3d-gpu-reset-fixes-v5-0-9779cdb12f06@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
@@ -53,19 +49,17 @@ To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  Florian Fainelli <florian.fainelli@broadcom.com>
 Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, kernel-dev@igalia.com, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Emma Anholt <emma@anholt.net>, "Rob Herring (Arm)" <robh@kernel.org>
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4492; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=bLzJs1+KVokn9rMtVsjEvz8MaL3UKHVVfJcBPtevXkY=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBn1t0x7Hxnio4TPJofo0r5TIxHiso7MmSoxYlSO
- 7Se/BtfYfWJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCZ9bdMQAKCRA/8w6Kdoj6
- qprQCACRhgsLf1g27yDngiSnJt0LefdlfcanfpSpM0MxtG8in3RmMg6mr9v9Y7pXEhCkrSSqmOa
- BLeS6//3J3sOS6judoO+0rGbXR5TOIc/1D4noZK6AKYuEsJp4EE940QV+i1zjpaesXuyzsXr9Te
- Tc+e+079SFU14i42xivb2bYrGBB3LgezTNcQfY/CapPZ/M2bZyUToRWFgNJdagN4HYlBB6Dak+K
- NHEBkSowvNhf21YOhiN6YtE6X7t5syh37raF8ekODmw98Bb7UvSt7JF7YaI1BhT0peD5SqvR5Vj
- w9leXkgCF/8sUbUwNrOYGxMj1/5fmWcX1/x7nRbecCxE0p+P
+X-Developer-Signature: v=1; a=openpgp-sha256; l=16568; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=ncvqErpr2t8/yIh9YGl/C4PLspOLrhsU5+YILsCRRk0=;
+ b=owGbwMvMwMFo/5mvq6zj1yrG02pJDOnX7holnLrPn8zAq/jcJNlrZYRu6STnvla9WN05xyyfN
+ Ppd2nyik9GYhYGRg0FWTJHlx5PYWkaxcnbNZeUXYQaxMoFMYeDiFICJcB1g/2dYppLd2RL3alO6
+ Vu5ut4eL2eutfpz8zsIZeZJlvveumXb99jvfx17qeDfB7oeZ6eFHvFqlHSpaqvzmZvV/k7pttE4
+ Z9rHOL05kb5FY8VJJ5fuF4HZrlYRkN8c1Dfvv1+W3RmYnLUx9UdvfpMh8t0xNfO7UyUHsmxIEgq
+ dcu99yLltt2tSAPbmaRn05r7K/KtxSfLldN+KhTiJf3o+TYvZbLz7tXia1PHXXsnlnX6RrbKpdv
+ qZ3SqDjosOfA/MuyTwxfKk/08K5nmGK3DUWWT3lymN99i8YrVyuxCR6PJtTmLAl+Wio6M9995e/
+ kOty3hJX3hy+YdreS5wHtXVNorzmvvn92O6eQ1nM5BUCAA==
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,93 +77,432 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series addresses GPU reset issues reported in [1], where running a
-long compute job would trigger repeated GPU resets, leading to a UI
-freeze.
+The V3D driver currently determines the GPU tech version (33, 41...)
+by reading a register. This approach has worked so far since this
+information wasn’t needed before powering on the GPU.
 
-The patches that prevent the same faulty job from being resubmitted in a
-loop were merged in drm-misc/drm-misc-fixes in v4.
+V3D 7.1 introduces new registers that must be written to power on the
+GPU, requiring us to know the V3D version beforehand. To address this,
+associate each supported SoC with the corresponding VideoCore GPU version
+as part of the device data.
 
-However, those patches don't solve the issue entirely. Even with a single
-GPU reset, the UI still freezes on the Raspberry Pi 5, indicating a GPU
-hang. Patches #1, #3, and #6 address this by properly configuring the
-V3D_SMS registers, which are required for power management and resets
-in V3D 7.1.
+To prevent possible mistakes, add an assertion to verify that the version
+specified in the device data matches the one reported by the hardware.
+If there is a mismatch, the kernel will trigger a warning.
 
-Patches #2, #4, and #5 are associated changes related to the robustness
-of the DT bindings. Patch #3 added a new register bank to the DT binding
-and during the reviewing process, we identified points that could to be
-improved in the DT binding.
-
-Patch #2 started by adding per-compatible register restrictions to ensure
-that the DTB accurately reflects the hardware design. Patch #4 adds more
-examples to improve DT binding checks and #5 updates the DT
-maintainership, replacing Emma with the current v3d driver maintainer.
-
-[1] https://github.com/raspberrypi/linux/issues/6660
-
-Best Regards,
-- Maíra
-
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
-v1 -> v2:
-- [1/6, 2/6, 5/6] Add Iago's R-b (Iago Toral)
-- [3/6] Use V3D_GEN_* macros consistently throughout the driver (Phil Elwell)
-- [3/6] Don't add Iago's R-b in 3/6 due to changes in the patch
-- [4/6] Add per-compatible restrictions to enforce per‐SoC register rules (Conor Dooley)
-- [6/6] Add Emma's A-b, collected through IRC (Emma Anholt)
-- [6/6] Add Rob's A-b (Rob Herring)
-- Link to v1: https://lore.kernel.org/r/20250226-v3d-gpu-reset-fixes-v1-0-83a969fdd9c1@igalia.com
+ drivers/gpu/drm/v3d/v3d_debugfs.c | 126 +++++++++++++++++++-------------------
+ drivers/gpu/drm/v3d/v3d_drv.c     |  22 +++++--
+ drivers/gpu/drm/v3d/v3d_drv.h     |  11 +++-
+ drivers/gpu/drm/v3d/v3d_gem.c     |  10 +--
+ drivers/gpu/drm/v3d/v3d_irq.c     |   6 +-
+ drivers/gpu/drm/v3d/v3d_perfmon.c |   4 +-
+ drivers/gpu/drm/v3d/v3d_sched.c   |   6 +-
+ 7 files changed, 101 insertions(+), 84 deletions(-)
 
-v2 -> v3:
-- [3/7] Add Iago's R-b (Iago Toral)
-- [4/7, 5/7] Separate the patches to ease the reviewing process -> Now,
-  PATCH 4/7 only adds the per-compatible rules and PATCH 5/7 adds the
-  SMS registers
-- [4/7] `allOf` goes above `additionalProperties` (Krzysztof Kozlowski)
-- [4/7, 5/7] Sync `reg` and `reg-names` items (Krzysztof Kozlowski)
-- Link to v2: https://lore.kernel.org/r/20250308-v3d-gpu-reset-fixes-v2-0-2939c30f0cc4@igalia.com
+diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
+index 76816f2551c10026a775e4331ad7eb2f008cfb0a..7e789e181af0ac138044f194a29555c30ab01836 100644
+--- a/drivers/gpu/drm/v3d/v3d_debugfs.c
++++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
+@@ -21,74 +21,74 @@ struct v3d_reg_def {
+ };
+ 
+ static const struct v3d_reg_def v3d_hub_reg_defs[] = {
+-	REGDEF(33, 42, V3D_HUB_AXICFG),
+-	REGDEF(33, 71, V3D_HUB_UIFCFG),
+-	REGDEF(33, 71, V3D_HUB_IDENT0),
+-	REGDEF(33, 71, V3D_HUB_IDENT1),
+-	REGDEF(33, 71, V3D_HUB_IDENT2),
+-	REGDEF(33, 71, V3D_HUB_IDENT3),
+-	REGDEF(33, 71, V3D_HUB_INT_STS),
+-	REGDEF(33, 71, V3D_HUB_INT_MSK_STS),
+-
+-	REGDEF(33, 71, V3D_MMU_CTL),
+-	REGDEF(33, 71, V3D_MMU_VIO_ADDR),
+-	REGDEF(33, 71, V3D_MMU_VIO_ID),
+-	REGDEF(33, 71, V3D_MMU_DEBUG_INFO),
+-
+-	REGDEF(71, 71, V3D_GMP_STATUS(71)),
+-	REGDEF(71, 71, V3D_GMP_CFG(71)),
+-	REGDEF(71, 71, V3D_GMP_VIO_ADDR(71)),
++	REGDEF(V3D_GEN_33, V3D_GEN_42, V3D_HUB_AXICFG),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_HUB_UIFCFG),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_HUB_IDENT0),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_HUB_IDENT1),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_HUB_IDENT2),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_HUB_IDENT3),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_HUB_INT_STS),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_HUB_INT_MSK_STS),
++
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_MMU_CTL),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_MMU_VIO_ADDR),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_MMU_VIO_ID),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_MMU_DEBUG_INFO),
++
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_GMP_STATUS(71)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_GMP_CFG(71)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_GMP_VIO_ADDR(71)),
+ };
+ 
+ static const struct v3d_reg_def v3d_gca_reg_defs[] = {
+-	REGDEF(33, 33, V3D_GCA_SAFE_SHUTDOWN),
+-	REGDEF(33, 33, V3D_GCA_SAFE_SHUTDOWN_ACK),
++	REGDEF(V3D_GEN_33, V3D_GEN_33, V3D_GCA_SAFE_SHUTDOWN),
++	REGDEF(V3D_GEN_33, V3D_GEN_33, V3D_GCA_SAFE_SHUTDOWN_ACK),
+ };
+ 
+ static const struct v3d_reg_def v3d_core_reg_defs[] = {
+-	REGDEF(33, 71, V3D_CTL_IDENT0),
+-	REGDEF(33, 71, V3D_CTL_IDENT1),
+-	REGDEF(33, 71, V3D_CTL_IDENT2),
+-	REGDEF(33, 71, V3D_CTL_MISCCFG),
+-	REGDEF(33, 71, V3D_CTL_INT_STS),
+-	REGDEF(33, 71, V3D_CTL_INT_MSK_STS),
+-	REGDEF(33, 71, V3D_CLE_CT0CS),
+-	REGDEF(33, 71, V3D_CLE_CT0CA),
+-	REGDEF(33, 71, V3D_CLE_CT0EA),
+-	REGDEF(33, 71, V3D_CLE_CT1CS),
+-	REGDEF(33, 71, V3D_CLE_CT1CA),
+-	REGDEF(33, 71, V3D_CLE_CT1EA),
+-
+-	REGDEF(33, 71, V3D_PTB_BPCA),
+-	REGDEF(33, 71, V3D_PTB_BPCS),
+-
+-	REGDEF(33, 42, V3D_GMP_STATUS(33)),
+-	REGDEF(33, 42, V3D_GMP_CFG(33)),
+-	REGDEF(33, 42, V3D_GMP_VIO_ADDR(33)),
+-
+-	REGDEF(33, 71, V3D_ERR_FDBGO),
+-	REGDEF(33, 71, V3D_ERR_FDBGB),
+-	REGDEF(33, 71, V3D_ERR_FDBGS),
+-	REGDEF(33, 71, V3D_ERR_STAT),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CTL_IDENT0),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CTL_IDENT1),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CTL_IDENT2),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CTL_MISCCFG),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CTL_INT_STS),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CTL_INT_MSK_STS),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CLE_CT0CS),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CLE_CT0CA),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CLE_CT0EA),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CLE_CT1CS),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CLE_CT1CA),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_CLE_CT1EA),
++
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_PTB_BPCA),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_PTB_BPCS),
++
++	REGDEF(V3D_GEN_33, V3D_GEN_42, V3D_GMP_STATUS(33)),
++	REGDEF(V3D_GEN_33, V3D_GEN_42, V3D_GMP_CFG(33)),
++	REGDEF(V3D_GEN_33, V3D_GEN_42, V3D_GMP_VIO_ADDR(33)),
++
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_ERR_FDBGO),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_ERR_FDBGB),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_ERR_FDBGS),
++	REGDEF(V3D_GEN_33, V3D_GEN_71, V3D_ERR_STAT),
+ };
+ 
+ static const struct v3d_reg_def v3d_csd_reg_defs[] = {
+-	REGDEF(41, 71, V3D_CSD_STATUS),
+-	REGDEF(41, 42, V3D_CSD_CURRENT_CFG0(41)),
+-	REGDEF(41, 42, V3D_CSD_CURRENT_CFG1(41)),
+-	REGDEF(41, 42, V3D_CSD_CURRENT_CFG2(41)),
+-	REGDEF(41, 42, V3D_CSD_CURRENT_CFG3(41)),
+-	REGDEF(41, 42, V3D_CSD_CURRENT_CFG4(41)),
+-	REGDEF(41, 42, V3D_CSD_CURRENT_CFG5(41)),
+-	REGDEF(41, 42, V3D_CSD_CURRENT_CFG6(41)),
+-	REGDEF(71, 71, V3D_CSD_CURRENT_CFG0(71)),
+-	REGDEF(71, 71, V3D_CSD_CURRENT_CFG1(71)),
+-	REGDEF(71, 71, V3D_CSD_CURRENT_CFG2(71)),
+-	REGDEF(71, 71, V3D_CSD_CURRENT_CFG3(71)),
+-	REGDEF(71, 71, V3D_CSD_CURRENT_CFG4(71)),
+-	REGDEF(71, 71, V3D_CSD_CURRENT_CFG5(71)),
+-	REGDEF(71, 71, V3D_CSD_CURRENT_CFG6(71)),
+-	REGDEF(71, 71, V3D_V7_CSD_CURRENT_CFG7),
++	REGDEF(V3D_GEN_41, V3D_GEN_71, V3D_CSD_STATUS),
++	REGDEF(V3D_GEN_41, V3D_GEN_42, V3D_CSD_CURRENT_CFG0(41)),
++	REGDEF(V3D_GEN_41, V3D_GEN_42, V3D_CSD_CURRENT_CFG1(41)),
++	REGDEF(V3D_GEN_41, V3D_GEN_42, V3D_CSD_CURRENT_CFG2(41)),
++	REGDEF(V3D_GEN_41, V3D_GEN_42, V3D_CSD_CURRENT_CFG3(41)),
++	REGDEF(V3D_GEN_41, V3D_GEN_42, V3D_CSD_CURRENT_CFG4(41)),
++	REGDEF(V3D_GEN_41, V3D_GEN_42, V3D_CSD_CURRENT_CFG5(41)),
++	REGDEF(V3D_GEN_41, V3D_GEN_42, V3D_CSD_CURRENT_CFG6(41)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_CSD_CURRENT_CFG0(71)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_CSD_CURRENT_CFG1(71)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_CSD_CURRENT_CFG2(71)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_CSD_CURRENT_CFG3(71)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_CSD_CURRENT_CFG4(71)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_CSD_CURRENT_CFG5(71)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_CSD_CURRENT_CFG6(71)),
++	REGDEF(V3D_GEN_71, V3D_GEN_71, V3D_V7_CSD_CURRENT_CFG7),
+ };
+ 
+ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
+@@ -164,7 +164,7 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
+ 		   str_yes_no(ident2 & V3D_HUB_IDENT2_WITH_MMU));
+ 	seq_printf(m, "TFU:        %s\n",
+ 		   str_yes_no(ident1 & V3D_HUB_IDENT1_WITH_TFU));
+-	if (v3d->ver <= 42) {
++	if (v3d->ver <= V3D_GEN_42) {
+ 		seq_printf(m, "TSY:        %s\n",
+ 			   str_yes_no(ident1 & V3D_HUB_IDENT1_WITH_TSY));
+ 	}
+@@ -196,11 +196,11 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
+ 		seq_printf(m, "  QPUs:         %d\n", nslc * qups);
+ 		seq_printf(m, "  Semaphores:   %d\n",
+ 			   V3D_GET_FIELD(ident1, V3D_IDENT1_NSEM));
+-		if (v3d->ver <= 42) {
++		if (v3d->ver <= V3D_GEN_42) {
+ 			seq_printf(m, "  BCG int:      %d\n",
+ 				   (ident2 & V3D_IDENT2_BCG_INT) != 0);
+ 		}
+-		if (v3d->ver < 40) {
++		if (v3d->ver < V3D_GEN_41) {
+ 			seq_printf(m, "  Override TMU: %d\n",
+ 				   (misccfg & V3D_MISCCFG_OVRTMUOUT) != 0);
+ 		}
+@@ -234,7 +234,7 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
+ 	int core = 0;
+ 	int measure_ms = 1000;
+ 
+-	if (v3d->ver >= 40) {
++	if (v3d->ver >= V3D_GEN_41) {
+ 		int cycle_count_reg = V3D_PCTR_CYCLE_COUNT(v3d->ver);
+ 		V3D_CORE_WRITE(core, V3D_V4_PCTR_0_SRC_0_3,
+ 			       V3D_SET_FIELD_VER(cycle_count_reg,
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index 852015214e971c60f9939d34d893d8d8cb4e9b01..c63f0ed1bd8a3d5511085e76ed2fbd6ee7df6f80 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -17,6 +17,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/sched/clock.h>
+@@ -92,7 +93,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
+ 		args->value = 1;
+ 		return 0;
+ 	case DRM_V3D_PARAM_SUPPORTS_PERFMON:
+-		args->value = (v3d->ver >= 40);
++		args->value = (v3d->ver >= V3D_GEN_41);
+ 		return 0;
+ 	case DRM_V3D_PARAM_SUPPORTS_MULTISYNC_EXT:
+ 		args->value = 1;
+@@ -254,10 +255,10 @@ static const struct drm_driver v3d_drm_driver = {
+ };
+ 
+ static const struct of_device_id v3d_of_match[] = {
+-	{ .compatible = "brcm,2711-v3d" },
+-	{ .compatible = "brcm,2712-v3d" },
+-	{ .compatible = "brcm,7268-v3d" },
+-	{ .compatible = "brcm,7278-v3d" },
++	{ .compatible = "brcm,2711-v3d", .data = (void *)V3D_GEN_42 },
++	{ .compatible = "brcm,2712-v3d", .data = (void *)V3D_GEN_71 },
++	{ .compatible = "brcm,7268-v3d", .data = (void *)V3D_GEN_33 },
++	{ .compatible = "brcm,7278-v3d", .data = (void *)V3D_GEN_41 },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, v3d_of_match);
+@@ -274,6 +275,7 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct drm_device *drm;
+ 	struct v3d_dev *v3d;
++	enum v3d_gen gen;
+ 	int ret;
+ 	u32 mmu_debug;
+ 	u32 ident1, ident3;
+@@ -287,6 +289,9 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, drm);
+ 
++	gen = (enum v3d_gen)of_device_get_match_data(dev);
++	v3d->ver = gen;
++
+ 	ret = map_regs(v3d, &v3d->hub_regs, "hub");
+ 	if (ret)
+ 		return ret;
+@@ -316,6 +321,11 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 	ident1 = V3D_READ(V3D_HUB_IDENT1);
+ 	v3d->ver = (V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_TVER) * 10 +
+ 		    V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_REV));
++	/* Make sure that the V3D tech version retrieved from the HW is equal
++	 * to the one advertised by the device tree.
++	 */
++	WARN_ON(v3d->ver != gen);
++
+ 	v3d->cores = V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_NCORES);
+ 	WARN_ON(v3d->cores > 1); /* multicore not yet implemented */
+ 
+@@ -340,7 +350,7 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
+-	if (v3d->ver < 41) {
++	if (v3d->ver < V3D_GEN_41) {
+ 		ret = map_regs(v3d, &v3d->gca_regs, "gca");
+ 		if (ret)
+ 			goto clk_disable;
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index 9deaefa0f95b71b842f1c5bef2c6a8a8ffc21fe2..de4a9e18f6a9039edf57f406ab1cee9dad4c0a49 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -94,11 +94,18 @@ struct v3d_perfmon {
+ 	u64 values[] __counted_by(ncounters);
+ };
+ 
++enum v3d_gen {
++	V3D_GEN_33 = 33,
++	V3D_GEN_41 = 41,
++	V3D_GEN_42 = 42,
++	V3D_GEN_71 = 71,
++};
++
+ struct v3d_dev {
+ 	struct drm_device drm;
+ 
+ 	/* Short representation (e.g. 33, 41) of the V3D tech version */
+-	int ver;
++	enum v3d_gen ver;
+ 
+ 	/* Short representation (e.g. 5, 6) of the V3D tech revision */
+ 	int rev;
+@@ -199,7 +206,7 @@ to_v3d_dev(struct drm_device *dev)
+ static inline bool
+ v3d_has_csd(struct v3d_dev *v3d)
+ {
+-	return v3d->ver >= 41;
++	return v3d->ver >= V3D_GEN_41;
+ }
+ 
+ #define v3d_to_pdev(v3d) to_platform_device((v3d)->drm.dev)
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index b1e681630ded098de8aee691884368a959443812..1ea6d3832c2212d9cbbd90236478d18491f0ff14 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -25,7 +25,7 @@ v3d_init_core(struct v3d_dev *v3d, int core)
+ 	 * type.  If you want the default behavior, you can still put
+ 	 * "2" in the indirect texture state's output_type field.
+ 	 */
+-	if (v3d->ver < 40)
++	if (v3d->ver < V3D_GEN_41)
+ 		V3D_CORE_WRITE(core, V3D_CTL_MISCCFG, V3D_MISCCFG_OVRTMUOUT);
+ 
+ 	/* Whenever we flush the L2T cache, we always want to flush
+@@ -58,7 +58,7 @@ v3d_idle_axi(struct v3d_dev *v3d, int core)
+ static void
+ v3d_idle_gca(struct v3d_dev *v3d)
+ {
+-	if (v3d->ver >= 41)
++	if (v3d->ver >= V3D_GEN_41)
+ 		return;
+ 
+ 	V3D_GCA_WRITE(V3D_GCA_SAFE_SHUTDOWN, V3D_GCA_SAFE_SHUTDOWN_EN);
+@@ -132,13 +132,13 @@ v3d_reset(struct v3d_dev *v3d)
+ static void
+ v3d_flush_l3(struct v3d_dev *v3d)
+ {
+-	if (v3d->ver < 41) {
++	if (v3d->ver < V3D_GEN_41) {
+ 		u32 gca_ctrl = V3D_GCA_READ(V3D_GCA_CACHE_CTRL);
+ 
+ 		V3D_GCA_WRITE(V3D_GCA_CACHE_CTRL,
+ 			      gca_ctrl | V3D_GCA_CACHE_CTRL_FLUSH);
+ 
+-		if (v3d->ver < 33) {
++		if (v3d->ver < V3D_GEN_33) {
+ 			V3D_GCA_WRITE(V3D_GCA_CACHE_CTRL,
+ 				      gca_ctrl & ~V3D_GCA_CACHE_CTRL_FLUSH);
+ 		}
+@@ -151,7 +151,7 @@ v3d_flush_l3(struct v3d_dev *v3d)
+ static void
+ v3d_invalidate_l2c(struct v3d_dev *v3d, int core)
+ {
+-	if (v3d->ver > 32)
++	if (v3d->ver >= V3D_GEN_33)
+ 		return;
+ 
+ 	V3D_CORE_WRITE(core, V3D_CTL_L2CACTL,
+diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
+index 72b6a119412fa74f8771308e228305678a19ba43..29f63f572d35b7217e346f82b9afb0957a42bd39 100644
+--- a/drivers/gpu/drm/v3d/v3d_irq.c
++++ b/drivers/gpu/drm/v3d/v3d_irq.c
+@@ -143,7 +143,7 @@ v3d_irq(int irq, void *arg)
+ 	/* We shouldn't be triggering these if we have GMP in
+ 	 * always-allowed mode.
+ 	 */
+-	if (v3d->ver < 71 && (intsts & V3D_INT_GMPV))
++	if (v3d->ver < V3D_GEN_71 && (intsts & V3D_INT_GMPV))
+ 		dev_err(v3d->drm.dev, "GMP violation\n");
+ 
+ 	/* V3D 4.2 wires the hub and core IRQs together, so if we &
+@@ -200,7 +200,7 @@ v3d_hub_irq(int irq, void *arg)
+ 
+ 		V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL));
+ 
+-		if (v3d->ver >= 41) {
++		if (v3d->ver >= V3D_GEN_41) {
+ 			axi_id = axi_id >> 5;
+ 			if (axi_id < ARRAY_SIZE(v3d41_axi_ids))
+ 				client = v3d41_axi_ids[axi_id];
+@@ -217,7 +217,7 @@ v3d_hub_irq(int irq, void *arg)
+ 		status = IRQ_HANDLED;
+ 	}
+ 
+-	if (v3d->ver >= 71 && (intsts & V3D_V7_HUB_INT_GMPV)) {
++	if (v3d->ver >= V3D_GEN_71 && (intsts & V3D_V7_HUB_INT_GMPV)) {
+ 		dev_err(v3d->drm.dev, "GMP Violation\n");
+ 		status = IRQ_HANDLED;
+ 	}
+diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
+index 3ebda2fa46fc4775c67d13d8f8131160ff6ca09d..9a3fe52558746e8523d4cf4ee433a90d94bffdbf 100644
+--- a/drivers/gpu/drm/v3d/v3d_perfmon.c
++++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
+@@ -200,10 +200,10 @@ void v3d_perfmon_init(struct v3d_dev *v3d)
+ 	const struct v3d_perf_counter_desc *counters = NULL;
+ 	unsigned int max = 0;
+ 
+-	if (v3d->ver >= 71) {
++	if (v3d->ver >= V3D_GEN_71) {
+ 		counters = v3d_v71_performance_counters;
+ 		max = ARRAY_SIZE(v3d_v71_performance_counters);
+-	} else if (v3d->ver >= 42) {
++	} else if (v3d->ver >= V3D_GEN_42) {
+ 		counters = v3d_v42_performance_counters;
+ 		max = ARRAY_SIZE(v3d_v42_performance_counters);
+ 	}
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 80466ce8c7df669280e556c0793490b79e75d2c7..34bd2b14f932f3b845e3d7dd19e2a4a732a56d91 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -345,11 +345,11 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
+ 	V3D_WRITE(V3D_TFU_ICA(v3d->ver), job->args.ica);
+ 	V3D_WRITE(V3D_TFU_IUA(v3d->ver), job->args.iua);
+ 	V3D_WRITE(V3D_TFU_IOA(v3d->ver), job->args.ioa);
+-	if (v3d->ver >= 71)
++	if (v3d->ver >= V3D_GEN_71)
+ 		V3D_WRITE(V3D_V7_TFU_IOC, job->args.v71.ioc);
+ 	V3D_WRITE(V3D_TFU_IOS(v3d->ver), job->args.ios);
+ 	V3D_WRITE(V3D_TFU_COEF0(v3d->ver), job->args.coef[0]);
+-	if (v3d->ver >= 71 || (job->args.coef[0] & V3D_TFU_COEF0_USECOEF)) {
++	if (v3d->ver >= V3D_GEN_71 || (job->args.coef[0] & V3D_TFU_COEF0_USECOEF)) {
+ 		V3D_WRITE(V3D_TFU_COEF1(v3d->ver), job->args.coef[1]);
+ 		V3D_WRITE(V3D_TFU_COEF2(v3d->ver), job->args.coef[2]);
+ 		V3D_WRITE(V3D_TFU_COEF3(v3d->ver), job->args.coef[3]);
+@@ -395,7 +395,7 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
+ 	 *
+ 	 * XXX: Set the CFG7 register
+ 	 */
+-	if (v3d->ver >= 71)
++	if (v3d->ver >= V3D_GEN_71)
+ 		V3D_CORE_WRITE(0, V3D_V7_CSD_QUEUED_CFG7, 0);
+ 
+ 	/* CFG0 write kicks off the job. */
 
-v3 -> v4:
-- [4/7] BCM2712 has an external reset controller, therefore the "bridge"
-	register is not needed (Krzysztof Kozlowski)
-- [4/7] Remove the word "required" from the reg descriptions (Rob Herring)
-- [5/7] Improve commit message (Rob Herring)
-- Link to v3: https://lore.kernel.org/r/20250311-v3d-gpu-reset-fixes-v3-0-64f7a4247ec0@igalia.com
-
-v4 -> v5:
-- [1/7, 2/7] Applied to drm-misc/drm-misc-fixes
-- Changed the commit order to aggregate all DT binding related patches
-- [2/6] Add the widest constraints to `reg` and `reg-names` (Krzysztof Kozlowski)
-- [2/6] Only declare the registers that exists in a SoC, don't declare all
-  the possible registers for a V3D generation (Krzysztof Kozlowski)
-- [2/6] Enforce register order by ascending address/offset (Florian Fainelli)
-- [2/6] Fix the example to match the new stable ABI
-- [3/6] Add Krzysztof's A-b (Krzysztof Kozlowski)
-- [4/6] New PATCH: Add more examples to the DT binding
-- [5/6] Add "v3d: " to commit title
-- Link to v4: https://lore.kernel.org/r/20250313-v3d-gpu-reset-fixes-v4-0-c1e780d8e096@igalia.com
-
----
-Maíra Canal (6):
-      drm/v3d: Associate a V3D tech revision to all supported devices
-      dt-bindings: gpu: v3d: Add per-compatible register restrictions
-      dt-bindings: gpu: v3d: Add SMS register to BCM2712 compatible
-      dt-bindings: gpu: v3d: Add additional examples to improve binding checks
-      dt-bindings: gpu: v3d: Add V3D driver maintainer as DT maintainer
-      drm/v3d: Use V3D_SMS registers for power on/off and reset on V3D 7.x
-
- .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 124 +++++++++++++++++---
- drivers/gpu/drm/v3d/v3d_debugfs.c                  | 126 ++++++++++-----------
- drivers/gpu/drm/v3d/v3d_drv.c                      |  62 +++++++++-
- drivers/gpu/drm/v3d/v3d_drv.h                      |  22 +++-
- drivers/gpu/drm/v3d/v3d_gem.c                      |  27 ++++-
- drivers/gpu/drm/v3d/v3d_irq.c                      |   6 +-
- drivers/gpu/drm/v3d/v3d_perfmon.c                  |   4 +-
- drivers/gpu/drm/v3d/v3d_regs.h                     |  26 +++++
- drivers/gpu/drm/v3d/v3d_sched.c                    |   6 +-
- 9 files changed, 303 insertions(+), 100 deletions(-)
----
-base-commit: 83a0237859bc5a9e0a716e1db8e7fd3cafd63259
-change-id: 20250224-v3d-gpu-reset-fixes-2d21fc70711d
+-- 
+Git-154)
 
