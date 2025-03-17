@@ -2,45 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187BEA63BCA
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 03:37:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A679EA63C2B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 03:56:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3AB610E2A0;
-	Mon, 17 Mar 2025 02:37:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A6C10E077;
+	Mon, 17 Mar 2025 02:56:08 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u2vUp7FR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27C4910E2A0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 02:37:29 +0000 (UTC)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZGJzB1Rhyz5B1Jw;
- Mon, 17 Mar 2025 10:37:26 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
- by mse-fl2.zte.com.cn with SMTP id 52H2b1bH051787;
- Mon, 17 Mar 2025 10:37:01 +0800 (+08)
- (envelope-from feng.wei8@zte.com.cn)
-Received: from mapi (xaxapp01[null]) by mapi (Zmail) with MAPI id mid32;
- Mon, 17 Mar 2025 10:37:02 +0800 (CST)
-Date: Mon, 17 Mar 2025 10:37:02 +0800 (CST)
-X-Zmail-TransId: 2af967d78acefffffffff06-bc4ae
-X-Mailer: Zmail v1.0
-Message-ID: <20250317103702708UdayAw742BADL4gzNYcle@zte.com.cn>
-Mime-Version: 1.0
-From: <feng.wei8@zte.com.cn>
-To: <sumit.semwal@linaro.org>
-Cc: <benjamin.gaignard@collabora.com>, <brian.starkey@arm.com>,
- <jstultz@google.com>, <tjmercier@google.com>,
- <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIHY0XSBkbWEtYnVmOiBoZWFwOiBSZXBsYWNlIG5lc3RlZCBtYXgoKSB3aXRoIHNpbmdsZSBtYXgzKCk=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 52H2b1bH051787
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 67D78AE6.000/4ZGJzB1Rhyz5B1Jw
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96F1010E075;
+ Mon, 17 Mar 2025 02:56:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2C9715C4CC6;
+ Mon, 17 Mar 2025 02:53:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EC82C4CEEE;
+ Mon, 17 Mar 2025 02:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742180166;
+ bh=yFaYSWToPIOrq3oUyCJ+rb7qmaxSDreLelw+cCjbNrE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=u2vUp7FR8iNUvbFNnB+D5qW3wx64gbqbldcd7XvXeQu9rKyUpoy+ga8voex6sGSm/
+ oP9gioQHHdJE32BiMGw8USnQTogWDMGg4yUoWwWP+B6mtPx9EeYdQtza9yXbAx+1Eh
+ C12tiM31dh9n3t/St+7BcLsU4/pGnufthbrrBu1CT4lVI7Ptd+oVAh//jA97OMDgyZ
+ Sjp73NBn7bttiSvwGZ7gOqYy6Wis72KhXQ+lhxAF593DMq7emDHsE9wJD6H3mFq+4t
+ y+KGj5vZ+kc+c7BcbcxKqIwxWgk1tMLOyLZRqEHw83THmtLg33Qoi8aqHAe7VElFD/
+ PvFRlg2TV/NKg==
+From: Bjorn Andersson <andersson@kernel.org>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, konradybcio@kernel.org, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, jonathan@marek.ca, fekz115@gmail.com,
+ Danila Tikhonov <danila@jiaxyga.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux@mainlining.org,
+ ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: (subset) [PATCH v2 0/4] Add and enable the panel
+Date: Sun, 16 Mar 2025 21:55:46 -0500
+Message-ID: <174218015895.1913428.7302445471992593262.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250217222431.82522-1-danila@jiaxyga.com>
+References: <20250217222431.82522-1-danila@jiaxyga.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,30 +66,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: FengWei <feng.wei8@zte.com.cn>
 
-Use max3() macro instead of nesting max() to simplify the return
-statement.
+On Tue, 18 Feb 2025 01:24:27 +0300, Danila Tikhonov wrote:
+> This patch series adds support for the Visionox RM692E5 panel, which is
+> used on the Nothing Phone (1) and then adds it to the DTS.
+> 
+> Before integrating the panel into the DTS, we update the DSI code to
+> allow bits-per-component (bpc) values of 10 and 12, since the Visionox
+> RM692E5 panel operates at 10 bpc.
+> 
+> [...]
 
-Signed-off-by: FengWei <feng.wei8@zte.com.cn>
----
-v3 -> v4
-fix the format of this patch.
- drivers/dma-buf/dma-heap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied, thanks!
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 3cbe87d4a464..96cb9ab5731a 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -147,7 +147,7 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
- 		in_size = 0;
- 	if ((ucmd & kcmd & IOC_OUT) == 0)
- 		out_size = 0;
--	ksize = max(max(in_size, out_size), drv_size);
-+	ksize = max3(in_size, out_size, drv_size);
+[4/4] arm64: dts: qcom: sm7325-nothing-spacewar: Enable panel and GPU
+      commit: 27b85be287f96180de2499b981eec83850df0da9
 
- 	/* If necessary, allocate buffer for ioctl argument */
- 	if (ksize > sizeof(stack_kdata)) {
+Best regards,
 -- 
-2.25.1
+Bjorn Andersson <andersson@kernel.org>
