@@ -2,150 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3751A65848
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9FBA65855
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:39:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 219C610E149;
-	Mon, 17 Mar 2025 16:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631B410E312;
+	Mon, 17 Mar 2025 16:39:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="imcNWENI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uhZbzU3c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2063.outbound.protection.outlook.com [40.107.102.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A44A510E149
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 16:38:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RSs2Jmu2t6deLdxIQUaKNEAu8qMpqoO0jCwSHJHVrJ5M/ikCEAi5KfZIEdLJzXZ/CGLKExm4KjBH0AN4RyT53mQU0g7AFG4pIVjcJvwgCoIP9gyP299njdkqh5rFGsfZ+CNdR5aTahzkiky69NA1RAotwaT2Qw1YSRQ2ToimzJKnYhkmJw/+KGbF6w09JBqe5X9WkHrZCklaJERBUgOgVlJCWDR9yalWw5ONFqgMWhkdtol8yYSb2FKakF/YhuyOGcSReKJEpRhPH1hAmH7aagYoF02nWHXTvMH++2sxqMSUs4+QAiiblpEgEvGaCgGMCyesvfp19sOKTDv0BPrGeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KMR+033BL8YtE0zJD+p3KFTKRLda1626i4IzJtvXTK8=;
- b=nrCcPlsHkHui4CW/zsOLY361lVAzJH+nl6B9vQ2unYGwOAjTtIfvcF9faCtIxqxBX2iWUMFqtm69vCpUbkmirxDEMlElD930c603J1HbwYqOfeqzTdgh0z8ryMxxrTzEm3ve1KoaDhGCw1kCUEV9HNemR4AI3xCtnAkCHceIjh2Y8zPmZD0YOtyKF6msQg8oBS/p5QhFZN62TiOfq6IrpAXapkIeKdFxtBukjoqLxTzDFQBOizvtjJt1vXO0rqMEdJBYpRCCHdchQNNS1hljEKbT8NraVbomAxbTMfQCJc9iOZL/S4RlkTgCAYILGFWN3s6SF/46yMEUK0brkC23ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KMR+033BL8YtE0zJD+p3KFTKRLda1626i4IzJtvXTK8=;
- b=imcNWENITuSQfbkQhaTR3waaZH+V2DsCopTfe9k5uP2och/k1uIcITsD7q0hwRjG5jVvFJIxdRjrmezHPgzN9YhSGXS3CTBMfwPdBj4VVzmaLuwwSAqVXd6jRQpCQU3Bu9RnrFYxRpHiJrgQP2WlBo2Sy7DMOdTUWDEZxZXl1u0+KuhOHUkP1GvfFJRtpTGCdifg6ESXc75F1J72gdrf8f2j/PdjvAzFHExHbRdOEJW0omQc4+NElUXftVimokam/i3KJgtd7OfplDSsEh7JXLC2fqfZoC9RhcxQ3R1d2mGsS7Bor4vVUVJ0+tVUSFsw1X3vDHjwWUJdFvuu90lXaQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by MN0PR12MB5788.namprd12.prod.outlook.com (2603:10b6:208:377::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
- 2025 16:38:27 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
- 16:38:27 +0000
-Date: Mon, 17 Mar 2025 13:38:25 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Alexey Kardashevskiy <aik@amd.com>, Baolu Lu <baolu.lu@linux.intel.com>,
- Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <20250317163825.GL9311@nvidia.com>
-References: <20250113164935.GP5556@nvidia.com>
- <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
- <20250114133553.GB5556@nvidia.com>
- <17cd9b77-4620-4883-9a6a-8d1cab822c88@amd.com>
- <20250115130102.GM5556@nvidia.com>
- <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
- <20250117132523.GA5556@nvidia.com>
- <835c7751-d8ba-4af0-812f-2b3a9a91d0bc@amd.com>
- <20250120132843.GI5556@nvidia.com>
- <67d0e549d4d27_201f029458@dwillia2-xfh.jf.intel.com.notmuch>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67d0e549d4d27_201f029458@dwillia2-xfh.jf.intel.com.notmuch>
-X-ClientProxiedBy: MN0P221CA0001.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:208:52a::7) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60E1910E2F3;
+ Mon, 17 Mar 2025 16:39:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id DD73FA47896;
+ Mon, 17 Mar 2025 16:33:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C1AC4CEEC;
+ Mon, 17 Mar 2025 16:39:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742229563;
+ bh=zgWZaqceqFPunHhxCh9P0gIfWLby5B3NHXKqZzQouFs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=uhZbzU3c+QiVjq7w23LtruzkfzcSjDIrNKQcxsTiot5QUsvh4fJ/tXATgsNl8djtL
+ ew0vc6g6hQahj1Y5G3B+PurzKcc6D10z0VTyO7HeogP/sbkcMq21bVyzuh3UgQk9qV
+ ZGpzRNJq0mkKxTCLLf4wysZ25FnjasUCSMg9I1RBhXIapYBMg6+sMJkddMg+uvFR/b
+ zYclF47fk0PD/PVOx/zOBW6/17VNIPjv1vRWNJ3Vg2h7QTHcVJ2jw1Tblx9oJAKIfi
+ jRexlD7HPzybrIFbV4qp5Dw63ie4UWgwm8WhOCGBeov1MQoZ9VfdDZOl44SCqOvyGC
+ J5ktfCvUN5fiw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ sunpeng.li@amd.com, lijo.lazar@amd.com, tzimmermann@suse.de,
+ rajneesh.bhardwaj@amd.com, kenneth.feng@amd.com, shaoyun.liu@amd.com,
+ Ramesh.Errabolu@amd.com, Jack.Xiao@amd.com, chiahsuan.chung@amd.com,
+ siqueira@igalia.com, sunil.khatri@amd.com, alex.hung@amd.com,
+ aurabindo.pillai@amd.com, hersenxs.wu@amd.com, mwen@igalia.com,
+ hamzamahfooz@linux.microsoft.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 7/8] drm/amd: Keep display off while going into S4
+Date: Mon, 17 Mar 2025 12:39:01 -0400
+Message-Id: <20250317163902.1893378-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250317163902.1893378-1-sashal@kernel.org>
+References: <20250317163902.1893378-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MN0PR12MB5788:EE_
-X-MS-Office365-Filtering-Correlation-Id: 117cc56d-05ef-4cd1-e26d-08dd65722482
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9BO/lCk2kcMXmq49JmMSS8LGKmIFZHXGm3hXrFwima1giu1gkf9L1N5eQ47m?=
- =?us-ascii?Q?KGXIKbll9oZ5wJOgduwwjuRBhWU1lxcrULWZIshwjJRSLdy4RILEfe+5Z17r?=
- =?us-ascii?Q?UQXglsiJ+7wZZ1qOm5qaMmUKL81lREd1og3GUmKMGPoL1zMNTq6kqht8D1bO?=
- =?us-ascii?Q?Adx8zpdLomTNmr3DGqGoYEuR9X86LqKL9Xg6SgD59pHupidzx5H5vnRUzleA?=
- =?us-ascii?Q?CjtL0VNDKujHM5N/F3O7MoJdkwr42BVTe7k8ecFyN5I9qDQHxdggyBZm+kX5?=
- =?us-ascii?Q?SR51cOS1kvwDOMEkvseTcbhYFIoVQTxuA8vsMoev5LQFUaqvLIq0TO+M99qr?=
- =?us-ascii?Q?3dBlG71Ha32QOnmOfuUvLZpStrzG9+mcsAuJ/Nl0rLXEgF7aaLM+IsTlTcWq?=
- =?us-ascii?Q?U1rNWqReaW3Dj/hgfumTk371elC2/Jg4wU7kP1RjHg6ESDdak9exoI9WIloz?=
- =?us-ascii?Q?Yf4hsYm8RE5ewkG25DljAXXVFedSVu57j77eRmOca/LeOWIpVnDuNV6EuNLz?=
- =?us-ascii?Q?0rO6/TfIexqZudVghMv9JksAmv378/KrvicI+cfoniXFqpc3TipXMAOBa8xK?=
- =?us-ascii?Q?wZSLaLE6lWgkfkSVY8Es8iuQ/7g3x0VrWp8F8cqTey95HioG8rYDDuXrhkcr?=
- =?us-ascii?Q?HcZtN7HAKIFvJOg9IsFnQKoewddhxvOVTj3YZkN2g/T2/4UUZYWoNfK6UJI9?=
- =?us-ascii?Q?vgx/TNqIem4jAw1NIhbGx46pehbmsDDH7QzI5V21gUIOSZQwGv7adja3rWkl?=
- =?us-ascii?Q?UwNKsWjmmRy4QOZ5b7jVAkxIricW5tU9GXvowZBjBK/wJjzDNIVZ1wV79jME?=
- =?us-ascii?Q?hI73tXTgsMqI6AkKFrrznbdHGu7JtjzW72szGYC0DY6wlekO288+vyY7fc1W?=
- =?us-ascii?Q?szeYEwbv8/+wZ9T4xeTw7zQ2Y4INZtUQ3bEw56OTCWU+HnPUEDz9k7mKnSh4?=
- =?us-ascii?Q?LxsfZbNIIkkcZDu4k8AbCokGEmozacJxHxIHAaPYnTn+BULiHAA1zz2NH6BN?=
- =?us-ascii?Q?q9n3cVMydOvwGRhIAdcm6gMKtQII59wZFLTJXH0Ctoe3NLaeyb3UDzizebw3?=
- =?us-ascii?Q?gOP4AvtS5721V3a2sOPNGsyuSIfVQ2vUScJgiocQg4Vh2XrQ2+VWa7zAXNZq?=
- =?us-ascii?Q?oLZYPg9R/bBlzOlHRuHvCQh80nyElYuFhGiPzsuSpe4tfgpP+f+Thn/Xgweu?=
- =?us-ascii?Q?7tY1YKCDoaQ6i9GPwUt66PoIGzl1TPWOMV/CM2c2xoXbiaFMZRFwp++Lsdkt?=
- =?us-ascii?Q?7Ymuvp/Nq2cryybkT0faNLwkXKyQLCMDFNJI5wxr49FBL6TrsUJOpuOwklc2?=
- =?us-ascii?Q?T3DK3qct6wLjILz2GpSEE1Q38ANw85jcH/GXh2jxSiPMDj1AeRNrln54LbRI?=
- =?us-ascii?Q?5RpPunX2UJSmCeAwG4cfBN32/1jR?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MAq4S5LX+W1/NrBZwJoU4vC3X6IkdbIgJrsUeI1M74+LrM81YtMJxE2AOBZr?=
- =?us-ascii?Q?Vn97VhyIGSOJaivoy1EuGR4jhBFvRRqW8YzOsOgIMApVwzhEb169CLXLkHta?=
- =?us-ascii?Q?n28eHTNqmmGpg3tu80KyaCQ94qKyzjGcCW6K0io6xFUpDP8PJUuo0nuM1v6Z?=
- =?us-ascii?Q?n1SJfm3Ppilucnb6TEljLIHZWxEbo9XfwaSOLRo3GgWxvLkCy5Gzb6kGrv4a?=
- =?us-ascii?Q?7w7sprX/ncRfwHG28Eu7A3hseUBvL9be0ZRGs4uag4jZ48QaRICniIESR4qy?=
- =?us-ascii?Q?bQB7X7tw6PbARv9qoUOGYkWhRNA3Od/nLS60EIixJWfOzQMH8DHTUZ+1WgC+?=
- =?us-ascii?Q?RFI6Pb5PNtQyCr8AZQQ3xB0TFa/IksrUcBXsPgjLXcbA2sN9JfUVG+GmN4Gu?=
- =?us-ascii?Q?j360LS4OBO2OKcWQqBOPEtXTrvz6MXpl4Mb/E6SP7ar1t7dNBg2qwi0gAccL?=
- =?us-ascii?Q?oV7atC6+u7KYsvFUk4uRx/yhhLI6awWs49pB3l/tCIIyfxfiQ77aQPzQMEhN?=
- =?us-ascii?Q?4wAiaezOisYzOKNYjDmxe4KWHQPwjM+eekjHm407A+dkzxmBSNAGpxhiEYIQ?=
- =?us-ascii?Q?xusgRaitUZgkMjj19eDJxoh3W5BkBl1xn0ZONIdCBIX5u3OB8v3avWI/AsoS?=
- =?us-ascii?Q?OQRpcMZdCaJ/kQdlfvIqzEXQMcV13Gi7PqqigJiEizcpokl05fxmfxcOoJkj?=
- =?us-ascii?Q?UARMKLze4nghlqAtMgx3yC0IRS9Rs3TL+yNQKySHkbV1pmYVDQNAJa7hZG86?=
- =?us-ascii?Q?wCnPaei1WI2iQiwMYq/3rVWjUUiUObgft4IYALjThFRmxJ4MPG3Yu0XYHL3E?=
- =?us-ascii?Q?p7arDsiYExfs15on6/OcD8iSOiKIHk5pIuGwO69l15Xot+V+5VjvHJvEnURf?=
- =?us-ascii?Q?zLZCjlwB/YGfm4+iobIWxwDvgwFFyimeEWQnp6u2BbzB/9FBOccRiA0RuPVr?=
- =?us-ascii?Q?XYO5hK9/ozGie0u8YYp8YwRCtuRLlE9jA08qe5ZES7PQw6bM7PtgqEayTAgc?=
- =?us-ascii?Q?P8ij1XMre3ZnN1M+OLfk70QfKqOYI7DCK3UnZP6U/xct/cI4xm6zYLwTSttI?=
- =?us-ascii?Q?LuaFyk7xYYyMOdF7Y2CzyGOxaUloDVRT2ZBBlmm2OrZZp7qn+aKdYgQLUPEO?=
- =?us-ascii?Q?uia56jv/VH1lLZ/uYIhbcQQZAen5KuguPrak2XuYvo2ECUDpoT3szMl4gAMv?=
- =?us-ascii?Q?SoYP7kTMMSoQESUFdD67HUfg6Xwr+W3RhuBEbGd/CcC/Js4DPQS+nR9bswaA?=
- =?us-ascii?Q?jh/+BPFY2Yk9jH0iugzRDA3MRe9eDuWh76ocXZqNwPrnH67EAuJ22BxrYQ9V?=
- =?us-ascii?Q?s6MNex3OXKqZLZTKrP+CYnRiNShL7rYQh7TOIWBWHJAWVILebcxasP8KSgGV?=
- =?us-ascii?Q?AX9vZEWHJXI6AUHjH4ELTZhUQPiOiYrjMAZeLGML0808E4vEigY6KooZFzaM?=
- =?us-ascii?Q?veazZBnslP3EYDlj+DlDNR2JzdtUM0socs0L5EVf8onX6BAk8jBNeE9AVnco?=
- =?us-ascii?Q?1FTCp9nL7Gg4FJH6yUXwowHtgJY56/mW2F2Jccy0o1IDSOlxw8bELntKne7P?=
- =?us-ascii?Q?+wy5SSghn558wMY4Ct9BRevxLxns4WF6vwWC/FyK?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 117cc56d-05ef-4cd1-e26d-08dd65722482
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 16:38:27.2579 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8egIt5/ccd0soGnswQUBqEJcQfyIeidvsbw5NNZ3waTnWadJDPHfx1T9sOy80rT7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5788
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.83
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,50 +72,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 11, 2025 at 06:37:13PM -0700, Dan Williams wrote:
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-> > There is a use case for using TDISP and getting devices up into an
-> > ecrypted/attested state on pure bare metal without any KVM, VFIO
-> > should work in that use case too.
-> 
-> Are you sure you are not confusing the use case for native PCI CMA plus
-> PCIe IDE *without* PCIe TDISP?
+[ Upstream commit 4afacc9948e1f8fdbca401d259ae65ad93d298c0 ]
 
-Oh maybe, who knows with all this complexity :\
+When userspace invokes S4 the flow is:
 
-I see there is a crossover point, once you start getting T=1 traffic
-then you need a KVM handle to process it, yes, but everything prior to
-T=0, including all the use cases with T=0 IDE, attestation and so on,
-still need to be working.
+1) amdgpu_pmops_prepare()
+2) amdgpu_pmops_freeze()
+3) Create hibernation image
+4) amdgpu_pmops_thaw()
+5) Write out image to disk
+6) Turn off system
 
-> In other words validate device measurements over a secure session
-> and set up link encryption, but not enable DMA to private
-> memory. Without a cVM there is no private memory for the device to
-> talk to in the TDISP run state, but you can certainly encrypt the
-> PCIe link.
+Then on resume amdgpu_pmops_restore() is called.
 
-Right. But can you do that all without touching tdisp?
+This flow has a problem that because amdgpu_pmops_thaw() is called
+it will call amdgpu_device_resume() which will resume all of the GPU.
 
-> However that pretty much only gets you an extension of a secure session
-> to a PCIe link state. It does not enable end-to-end MMIO and DMA
-> integrity+confidentiality.
+This includes turning the display hardware back on and discovering
+connectors again.
 
-But that is the point, right? You want to bind your IDE encryption to
-the device attestation and get all of those things. I thought you
-needed some TDISP for that?
+This is an unexpected experience for the display to turn back on.
+Adjust the flow so that during the S4 sequence display hardware is
+not turned back on.
+
+Reported-by: Xaver Hugl <xaver.hugl@gmail.com>
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/2038
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Tested-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Acked-by: Harry Wentland <harry.wentland@amd.com>
+Link: https://lore.kernel.org/r/20250306185124.44780-1-mario.limonciello@amd.com
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+(cherry picked from commit 68bfdc8dc0a1a7fdd9ab61e69907ae71a6fd3d91)
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           | 11 +++++++++--
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +++++
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index f9bc38d20ce3e..a51ceebb80547 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2461,7 +2461,6 @@ static int amdgpu_pmops_freeze(struct device *dev)
  
-> Note that to my knowledge all but the Intel TEE I/O implementation
-> disallow routing T=0 traffic over IDE.
+ 	adev->in_s4 = true;
+ 	r = amdgpu_device_suspend(drm_dev, true);
+-	adev->in_s4 = false;
+ 	if (r)
+ 		return r;
+ 
+@@ -2473,8 +2472,13 @@ static int amdgpu_pmops_freeze(struct device *dev)
+ static int amdgpu_pmops_thaw(struct device *dev)
+ {
+ 	struct drm_device *drm_dev = dev_get_drvdata(dev);
++	struct amdgpu_device *adev = drm_to_adev(drm_dev);
++	int r;
+ 
+-	return amdgpu_device_resume(drm_dev, true);
++	r = amdgpu_device_resume(drm_dev, true);
++	adev->in_s4 = false;
++
++	return r;
+ }
+ 
+ static int amdgpu_pmops_poweroff(struct device *dev)
+@@ -2487,6 +2491,9 @@ static int amdgpu_pmops_poweroff(struct device *dev)
+ static int amdgpu_pmops_restore(struct device *dev)
+ {
+ 	struct drm_device *drm_dev = dev_get_drvdata(dev);
++	struct amdgpu_device *adev = drm_to_adev(drm_dev);
++
++	adev->in_s4 = false;
+ 
+ 	return amdgpu_device_resume(drm_dev, true);
+ }
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index aab99df3ba1ae..37e087e8fcb23 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2881,6 +2881,11 @@ static int dm_resume(void *handle)
+ 
+ 		return 0;
+ 	}
++
++	/* leave display off for S4 sequence */
++	if (adev->in_s4)
++		return 0;
++
+ 	/* Recreate dc_state - DC invalidates it when setting power state to S3. */
+ 	dc_release_state(dm_state->context);
+ 	dm_state->context = dc_create_state(dm->dc);
+-- 
+2.39.5
 
-I'm not sure that will hold up long term, I hear alot of people
-talking about using IDE to solve all kinds of PCI problems that have
-nothing to do with CC.
-
-> The uapi proposed in the PCI/TSM series [1] is all about the setup of PCI
-> CMA + PCIe IDE without KVM as a precuror to all the VFIO + KVM + IOMMUFD
-> work needed to get the TDI able to publish private MMIO and DMA to
-> private memory.
-
-That seems reasonable
-
-Jason
