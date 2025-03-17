@@ -2,84 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281D2A64912
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 11:12:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD5EA6491E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 11:14:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEB4F10E0C4;
-	Mon, 17 Mar 2025 10:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F07C10E3DD;
+	Mon, 17 Mar 2025 10:14:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nzvXQ//P";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZgCDtb/m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 486D210E0C4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 10:12:06 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-43d2d952eb1so7586815e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 03:12:06 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 391A710E3DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 10:14:17 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-394780e98easo2686806f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 03:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1742206325; x=1742811125; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1742206455; x=1742811255; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Unak19FFUAPatD54I/+J4+Z4vCj2oJP7uUeW6FKDhls=;
- b=nzvXQ//PcH2QA7zzYZuWEA6g1hBBXXvHfZiR4PajxjNeNtmXewAbJK7Y3erzrlH0Oz
- UkKaI/coAEl4NMKT4m35Cp/n4sbmrTRzHEetYcp0jIZTlJx4iYujIN53ieY6SN5rgdo2
- mTbNsncZPN4NNdZMx6ru0IkMxdmEUuI45cMlgMqmbHmU7aiaUsIHdOAlUayUsR3jMP69
- xouQ1vT2fRkmO5imcfQVkijgv5H2UstPvmJcsq1aA8qyFDuKpVeJUt12Ax1dz5JrXqFr
- E7LEZ/UAR6Lll6gylbdKgrU3gLXCUxieBF4V9gUgsmjv0hb98KqBOHcXA2bfLhaEUBwl
- lt8Q==
+ :reply-to; bh=MkFf4kCvzevanXv5Ra3CouyTzGW5e0hWlak1EUbm37A=;
+ b=ZgCDtb/mDIBeuCfcl/qWJmnaMotrquoIMYKRRFhJ6XPERm8M/uo6pD8axl3G9V0+TW
+ nrpcWkX6srwwWXa7k/jKFKjh/bT6bz/j/eiA2htMLuv0lMOTWTs28mHlaRVLhHqJT2e5
+ UH5ZiZ9OcQq4PnSiwYWBGak8jBgG4WzvWvpbWSsD2LREOcM1ZruS7UuodOp+I9ctKspt
+ w/ORM1tbNi1tpcjMEPmC5kIJfl5oLyh6NAyPRRMFgQkIpLF04a3rU6r4WSWaHw2t6z+A
+ GCrEIml7ucwuzWfo0YvsJckqu9+hpUiIXnvwZkRm3ijYq/1Z1CgH0Dyvl+WLhExCbCjO
+ x34Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742206325; x=1742811125;
+ d=1e100.net; s=20230601; t=1742206455; x=1742811255;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=Unak19FFUAPatD54I/+J4+Z4vCj2oJP7uUeW6FKDhls=;
- b=D7kAJpe4BlV9fyJw9WoRLyisAetRvnhOzNVTGnxjpIYs/GyAbG7g+aWzHvYLKNmvPL
- FsLE5ujkE+rH9RUw3cjU8L5gFfFJKD0gAPuElTAySW6Snkh7rXPie0nPhg2V/ATMUVpY
- vrLEWZ+FzkncI0rlDL/8yuPG3ItWr/Fy6GRb9c6utSzpw8vTvchkxFvJrm0HhzoZy56e
- hPqLCFOU8+UbYOEPoHPIIUx15brRuMiB1k7mbiPmyoOhyv9XG76nVxpNpUJ6bAv1NPgW
- Dtz5iNt9UjaHEd1O2n1Z0EVGe4o7mtqBT++YuDLXGgK/7OGsdeXD5ZJkE3SFRwc6S7l7
- d0Zw==
+ bh=MkFf4kCvzevanXv5Ra3CouyTzGW5e0hWlak1EUbm37A=;
+ b=SHiAoxF8wOSI2TyzVJLdufmBO5VL5EnrLTeiveUcc2jLFlGoY/SxxZBMSif6nWjtc7
+ /9vrHqxutF/0uWKVw03z47o6yBpZ5BqgNnUk4i5RRCEz7Scd6lqV23NzEDE+vxOZQUDH
+ /r5+lZGJ2Ug3TPshawAgaDv7vtLGnjDClrJBzUOvOE0yTspnxHNkPzefoO8mvVgM9M4F
+ fCjdHYDZOjvoo5n0LzH7rbZpBqfcav0h5za4ZbTOdfGzbXX3I34BI9N6oooTtP964okS
+ voylTcB3bXgh6shpFj6+GdN0MZvy18ADMxTMTqMMaUprcNjWiGFo+6d7BaU28f0HeyoV
+ lx4g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXlxTrCGsc4MWUY20oq5JDzVWqCpSxWyBZcEii0gus4I3w9NsTU+uV26X+ttQYZLO8w6SIcaF5eVYw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzD10dGsauGCKsqwqlmajfzeQwYF/Hl1719hv0Z+hibWs+maWRp
- 208Jh4eN1BwnhtUs7u87Cp7bchkdd/m52eYQYW4pESRl6HApYmHc6VhiaDV+EZk=
-X-Gm-Gg: ASbGncsUFYzcSZoOn8mrBLHD+pu8ltPZowDDwl8aNJYIQSoGgaSYxf7NDKRYI+EYDt1
- vDt6l7wSX+CvaOQSiOsXJ76VpcIafL3Ux2EgnRhbUCljt6Q01SxmipnraoHDwc1FtkxA04xP2KP
- JQ9FsKhAelKlH/GidCe+0qYrmUIYwewGBGJIuc+mgTlSnxCjw7YUyhAr867tMpDMkLlCxMjktoz
- ZfZ/YPk97GnEDh8kwKKYkyQK2zJhRNrDhDySps4e/QSN5pG3fpHA2YluRZSfZ7RXYlsvQ24j3fi
- MXpaJ03uTsHfbvvfc3pDtGf4c6FuCBGTIDWz9L+356j1FnkNt6cTG+DfA90RfVYvlwZZn7u140h
- JCYi94JWc32ZIPrvOFpGHIA==
-X-Google-Smtp-Source: AGHT+IF9c9Mh2aIPNg9XfrvDpqYWQukEAmGtKi2uLzyWlmrgt/ypKChDbDRK5Er/GjQEgaiU1/Yvkg==
-X-Received: by 2002:a05:600c:4e86:b0:43c:e7ae:4bcf with SMTP id
- 5b1f17b1804b1-43d1ebf9d44mr128205195e9.0.1742206324974; 
- Mon, 17 Mar 2025 03:12:04 -0700 (PDT)
+ AJvYcCVKOdpdwydx7lYmA0015eRXZ/aTTyQqW0IT5qj6f8T9+209r8dP/QUrundFXbEKjeitz5YrsPcwz4g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6mXSQP7H0/2imIgCWjb26IknA1+V8uZIpE72f2372IBUrkXG2
+ owKWSYUYbGUHkvzWxpbFP0r+75e4BQYJLXA2rEHU6ucrkpqBgON8aEwO8wqmm2U=
+X-Gm-Gg: ASbGncuGmufY10nuES3lg+VexEZ7qKt+V/5+wsyWDgY1/yIIBv8TQ9kCW0gUCTnrzrF
+ 58kfPT3JoPPL3yopHGqW/0ANPt0wmz3Oz/YuMc58/m3dGA8AT4HgGlRe5Hcwj/odQaR5CFETqnZ
+ lcQQmyC4NV6zJQoqxeuEMJAT0mdr+s5QDu+4dFIy1M62pXCIMY1uw8m/bmeERu05UnGdN7g69nq
+ 5Ho1/i9JE/ZVlOJM9oIqadGLfuoyvjT64q0Q48nkTSq7LPJTrzKBhoi8WF4F2nQcBpY45c0rd0z
+ ZZlmqt103djKK8mfZwWk1/P6IqxPhINkylmGzCQyWEn4wHjxdm0o/gnmnc10LTrI7WVOTK+bXXl
+ X6j/qG3dJ2oUqaZDSPRSCFg==
+X-Google-Smtp-Source: AGHT+IFg8DYdHdUMxV4ttCgnYaZlXCiwiHVT/Zz0plPz8BiWoKXgYkhHYAZJWNOA3PzN0BKVDvL6AQ==
+X-Received: by 2002:a5d:64c9:0:b0:391:39ea:7866 with SMTP id
+ ffacd0b85a97d-3971d8faedcmr15996408f8f.19.1742206454898; 
+ Mon, 17 Mar 2025 03:14:14 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:3d9:2080:55a6:4776:6e68:e626?
  ([2a01:e0a:3d9:2080:55a6:4776:6e68:e626])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d200faebbsm99470565e9.30.2025.03.17.03.12.04
+ 5b1f17b1804b1-43d1fe6a1c7sm100284585e9.39.2025.03.17.03.14.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Mar 2025 03:12:04 -0700 (PDT)
-Message-ID: <3c688493-02db-461d-b07c-34f2f4477f01@linaro.org>
-Date: Mon, 17 Mar 2025 11:12:03 +0100
+ Mon, 17 Mar 2025 03:14:14 -0700 (PDT)
+Message-ID: <78758343-b9f9-4920-977c-cab4b5f84679@linaro.org>
+Date: Mon, 17 Mar 2025 11:14:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH RFC 2/2] drm/panel/panel-simple: Use the new allocation in
- place of devm_kzalloc()
+Subject: Re: [PATCH] drm/panel/synaptics-r63353: Use _multi variants
 To: Anusha Srivatsa <asrivats@redhat.com>,
+ Doug Anderson <dianders@chromium.org>
+Cc: Michael Trimarchi <michael@amarulasolutions.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250312-drm-panel-v1-0-e99cd69f6136@redhat.com>
- <20250312-drm-panel-v1-2-e99cd69f6136@redhat.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Tejas Vipin <tejasvipin76@gmail.com>
+References: <20250314-b4-mipi-synaptic-v1-1-a64ccb5e5c66@redhat.com>
+ <CAD=FV=XUN7CcnjURs6xfVAFqvZ1WR86y8nQm=OMcrV_hYjq5RQ@mail.gmail.com>
+ <CAN9Xe3TpwwBtfXD7oii3VR8-ijDN_WQe9JUTC5bE_7vFQVRN3w@mail.gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,9 +109,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250312-drm-panel-v1-2-e99cd69f6136@redhat.com>
+In-Reply-To: <CAN9Xe3TpwwBtfXD7oii3VR8-ijDN_WQe9JUTC5bE_7vFQVRN3w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,41 +128,74 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/03/2025 01:54, Anusha Srivatsa wrote:
-> Start using the new helper that does the refcounted
-> allocations.
+On 16/03/2025 18:40, Anusha Srivatsa wrote:
 > 
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->   drivers/gpu/drm/panel/panel-simple.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 232b03c1a259eb15e423b9d452d28e2ff95c70f8..d7530c3533af34f83ce8c6d6067e7f293f2d4bf1 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -579,7 +579,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->   	u32 bus_flags;
->   	int err;
->   
-> -	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
-> +	panel = devm_drm_panel_alloc(dev, struct panel_simple, base, &panel_simple_funcs);
->   	if (!panel)
->   		return -ENOMEM;
->   
-> @@ -694,8 +694,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->   	pm_runtime_set_autosuspend_delay(dev, 1000);
->   	pm_runtime_use_autosuspend(dev);
->   
-> -	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
-
-As pointed by the helpers review, you're loosing the connector_type info here.
-
-> -
->   	err = drm_panel_of_backlight(&panel->base);
->   	if (err) {
->   		dev_err_probe(dev, err, "Could not find backlight\n");
+> On Fri, Mar 14, 2025 at 10:20 AM Doug Anderson <dianders@chromium.org <mailto:dianders@chromium.org>> wrote:
 > 
+>     Hi,
+> 
+>     On Thu, Mar 13, 2025 at 9:47 PM Anusha Srivatsa <asrivats@redhat.com <mailto:asrivats@redhat.com>> wrote:
+>      >
+>      > @@ -181,24 +162,15 @@ static int r63353_panel_prepare(struct drm_panel *panel)
+>      >  static int r63353_panel_deactivate(struct r63353_panel *rpanel)
+>      >  {
+>      >         struct mipi_dsi_device *dsi = rpanel->dsi;
+>      > -       struct device *dev = &dsi->dev;
+>      > -       int ret;
+>      > +       struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+>      >
+>      > -       ret = mipi_dsi_dcs_set_display_off(dsi);
+>      > -       if (ret < 0) {
+>      > -               dev_err(dev, "Failed to set display OFF (%d)\n", ret);
+>      > -               return ret;
+>      > -       }
+>      > +       mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+>      >
+>      > -       usleep_range(5000, 10000);
+>      > +       mipi_dsi_usleep_range(&dsi_ctx, 5000, 10000);
+>      >
+>      > -       ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+>      > -       if (ret < 0) {
+>      > -               dev_err(dev, "Failed to enter sleep mode (%d)\n", ret);
+>      > -               return ret;
+>      > -       }
+>      > +       mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+>      >
+>      > -       return 0;
+>      > +       return dsi_ctx.accum_err;
+> 
+>     nit: the one caller of r63353_panel_deactivate() doesn't actually look
+>     at the error code, so this could be a function that returns "void".
+>     That was true even before your patch, though. I wouldn't mind a
+>     followup patch that fixed this. ;-)
+> 
+> 
+> This is anyway not merged, Maybe better to fix right now instead of a follow up patch?
 
-Thanks !
+If you can, yeah fix it now !
+
+> 
+>     In any case, the patch looks reasonable to me now.
+> 
+>     Reviewed-by: Douglas Anderson <dianders@chromium.org <mailto:dianders@chromium.org>>
+> 
+> 
+> Thanks :)
+> 
+> Anusha
+
+
+Thanks,
 Neil
+> 
+> 
+>     Happy for someone else to apply it if they want. If not, I'll snooze
+>     this for ~a week to give others a chance to comment and then plan to
+>     push to drm-misc-next. 
+> 
+> 
+> 
+>     -Doug
+> 
+
