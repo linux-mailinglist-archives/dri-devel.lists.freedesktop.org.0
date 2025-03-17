@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93519A64012
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 06:46:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FA8A64013
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 06:46:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 535A610E08B;
-	Mon, 17 Mar 2025 05:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C07EC10E0AE;
+	Mon, 17 Mar 2025 05:46:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fGetVCIk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IRNyt/jx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F74810E08B
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:46:27 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B017210E0AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:46:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BCF47A43404
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:40:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 19DEAC4CEEF
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:46:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4BCBE5C4D66
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:44:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D3CDDC4CEEF
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:46:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742190386;
- bh=g0+J3PZtVy1FpGb2uTg6lbZJYWo3SfxP3iTM+nPOVmw=;
+ s=k20201202; t=1742190397;
+ bh=mrlzp7OctvpdK/nDRkWrkbY9cpaSrs4UN/XRChIZKqY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=fGetVCIkXPHqIrZ/mgeRL/YlDZxceBWfrzri5uod8M71rxXmCnm/jNhVFsVZaguVo
- 2ZgXyE/YiyomUjN6PJ72p4mUUHrYBawoewyASEp3zf9OIroNg8YgVAbt8Emt5vDhK9
- JiUSdkBrDEQdyJm87CScRPIj67jk5J/xfOaTN8nydDW3jujvVRJZCya+2Lal/giGoH
- 1qwhKQUfeQmmyHrk6DvWb6pdSU7enMP5zUnJf030LeUCHAFfr67Jc57bVhNmG6SYSi
- Nhe3qAeCcDgHJm894aUn4aAsfkcBYYtoCmZp3Y49d8SOPtpZBMghFN86OPMuy7C5dr
- e4EsL5dC/GgrA==
+ b=IRNyt/jxv13S2Z1VLfmftm7wXxsRl8ZYCYPPDXnxgRWyvWxVRLWWvpp+keZ0p9h1W
+ NoJ5ptgRCqtDoMNNfA3sRCzkFUy0b9kk/ayw8Bu5MCfQ3LiVcaJnl8MU0+s/JIN0OP
+ jeq8QN+4uJwsOcGY+EZRDUyXiOiMiKByNYTMpmQA4mTjkza7if5E3/Hy1ToKxibB4q
+ 1SrYO9wFMKSHvigymnvi+KuF4txjyxglPJXa9qTaxIQgy3qLRq1qRs1cl1EaApqEPV
+ pSOtb0lHT6qsJqH81OneUuc511PZ3U/eaBhxZ5hVflfzBRo1trJySVzhC9tzYR6cSM
+ F6LI7S76dz/dQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 0C2F9C4160E; Mon, 17 Mar 2025 05:46:26 +0000 (UTC)
+ from userid 48) id CA797C53BC7; Mon, 17 Mar 2025 05:46:37 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 219888] amdgpu: Oops connecting HDMI/DVI/DP on HD 7850 (Pitcairn)
-Date: Mon, 17 Mar 2025 05:46:25 +0000
+Subject: [Bug 219888] amdgpu: Oops connecting HDMI/DVI/DP on DCE6
+Date: Mon, 17 Mar 2025 05:46:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +50,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219888-2300-3NBU1AVsxv@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-219888-2300-TNpilTAkbN@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219888-2300@https.bugzilla.kernel.org/>
 References: <bug-219888-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,8 +76,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219888
 
---- Comment #8 from Alexandre Demers (alexandre.f.demers@gmail.com) ---
-For reference, commit e204aab79e01bc8ff750645666993ed8b719de57
+Alexandre Demers (alexandre.f.demers@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Summary|amdgpu: Oops connecting     |amdgpu: Oops connecting
+                   |HDMI/DVI/DP on HD 7850      |HDMI/DVI/DP on DCE6
+                   |(Pitcairn)                  |
 
 --=20
 You may reply to this email to add a comment.
