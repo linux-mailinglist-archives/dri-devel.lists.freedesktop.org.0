@@ -2,94 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A71BA646F7
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 10:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51875A646FB
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 10:21:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD9F010E3D2;
-	Mon, 17 Mar 2025 09:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9554710E3D5;
+	Mon, 17 Mar 2025 09:21:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="KRUQRBKs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="P4QnpVYh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8EC210E3D2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 09:20:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1742203251;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wQAYtZ2CgxPyvA949q/2IqdYnbjoNl4FrlqvLUk18K8=;
- b=KRUQRBKstGnFXqyZZYGqM97ciqH6ATSmCqxe54b5oNNLs0E5THfL7tXAPJ2hNAQoNVortM
- iwfEFSkwhHsyO+YOo5g4zx8M0dES0awacIAj6gj9J9eR/3qNKPDd04onsZ4ZDovGUR2LJI
- B/uIuligR6wqC3UO4iFm7UMRbxzQrhk=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-633-r67Gjp6IN7OduuAVp3N24A-1; Mon, 17 Mar 2025 05:20:50 -0400
-X-MC-Unique: r67Gjp6IN7OduuAVp3N24A-1
-X-Mimecast-MFC-AGG-ID: r67Gjp6IN7OduuAVp3N24A_1742203249
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-ab68fbe53a4so491729866b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 02:20:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742203249; x=1742808049;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wQAYtZ2CgxPyvA949q/2IqdYnbjoNl4FrlqvLUk18K8=;
- b=ASIkhbm+0lzlxgyxj3QS62FO84q6KboS8lMx2vOpZjUszzA5dmbhPE9m7zpuVrk7LU
- heTCkTkz96gUTr4hIdtz9sID3jibWNGrLLaOVfiXsMT0Ev0d1tEgfQWgLBzsW1Tbh3jS
- YWAli3x18AgZAETU95eJgJM7NURZT55JFBRopCudBKP+JS6qCsO73CeSYv1+EOJSJZTO
- rFvGJUaxfvwaG2lNOiIe+9yYnIxSHFKjTbpEUN13imjtVLbCPTY42p4PnxkTN0Ej0bxN
- 3sv5XVYA13kHDEfV7JIJ0u+zJu6HiUDKuOtSZBbdIW9vewJ5Q5I6PPe8ZNoScVL4XIQo
- zVKQ==
-X-Gm-Message-State: AOJu0YwQtleCw+CD6SiL8RUwvMgyMtqIeSS5ZifnjD76eyp7o6Akh3oz
- hvbZ854rHQJuH+LzwqzG6inmpsTDjGv769e86RVeSh9umw1gpTB9MM+pawwGSazCxZv9TuejNrS
- nwMeunyVavLczAJOkjsL3xhSQkttj9WJusJe56oXdjXGvKonXVTZIN/AVz+JSFqwjVA==
-X-Gm-Gg: ASbGncuRZVb5L4iWq4ZdVg+XzVm9gh3U9o3GbkOLe13sw5yXwPLP9dmru+w5g7zM6VN
- c+nPCt8dyXbgcM3WfYI/ldMC5iA57lRX5qElbEuqEyiwdNdhA2xTXNZPNXlF2ctfK8n5ShhU4HJ
- D8rIUyI35XCqjvCv6iDh3vpdd7OgoDubIFdnISbYeiTS/gQh68BHbpWwY62THe+nifsktPwd1Yi
- HzgA84nqiNct6rqk07VNnu8GgJxmqgD9ul7xjwCHkHAzUoOaypIokd+8e/mSSZMCnw9STTBhFBd
- D38MdEwuv8HrOPGoY20=
-X-Received: by 2002:a17:907:7d87:b0:ac1:f5a4:6da5 with SMTP id
- a640c23a62f3a-ac330398078mr1211677766b.37.1742203249015; 
- Mon, 17 Mar 2025 02:20:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFB1+oHBvs7PLecMQRxLRVqXxUJqML6+iLCfi91FLVRX4dLs4qw1VqVUoq/BmyEZsMcQH+KkA==
-X-Received: by 2002:a17:907:7d87:b0:ac1:f5a4:6da5 with SMTP id
- a640c23a62f3a-ac330398078mr1211676066b.37.1742203248622; 
- Mon, 17 Mar 2025 02:20:48 -0700 (PDT)
-Received: from [10.40.98.122] ([78.108.130.194])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac314a3e0e4sm635730966b.136.2025.03.17.02.20.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Mar 2025 02:20:48 -0700 (PDT)
-Message-ID: <65813e62-aa0f-4167-83c1-49200fc4ca20@redhat.com>
-Date: Mon, 17 Mar 2025 10:20:47 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F2C510E3D5;
+ Mon, 17 Mar 2025 09:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742203282; x=1773739282;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=EFAoYZDI7HkF3bvFfpEHnfwSP0iCC1HY5NDke9vOBR0=;
+ b=P4QnpVYh4viM6Q6ZX/txLX1QKYu92gNpFrZsIXkfYiPXd35n475fqqWM
+ TxXzoox68Th6oNtzDTQyjMGP+7pRgv2ZynelKgFEU6n8ajxkFF+BUz3FK
+ gIHMNJpKOQwICoWmgoBV+RLWuxq1XzoGolf5qv3HFHFGZvObJk9SlK1wE
+ 1sFXFtCMSGKnKWcXVdlveLPOELSsbCoWbNSOs747ja919KqNXcl6q0bg8
+ Ke4TEJVSq7t8eCm94tPeFamrJYkLIEdhv98DY7j/H5ilt4BaD/iG/sh5t
+ 4zwOlUZaeYtdwigec36oMNnGrpgZoEppJ22doy8MxzC8qWzUVOs+kB3jC g==;
+X-CSE-ConnectionGUID: 6ey5GXOFQYefnbN0gpzr/A==
+X-CSE-MsgGUID: Ea09EoovRxWInwlL6SWmyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11375"; a="43156551"
+X-IronPort-AV: E=Sophos;i="6.14,253,1736841600"; d="scan'208";a="43156551"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2025 02:21:21 -0700
+X-CSE-ConnectionGUID: /qzjQ7e+SoaesihztImbQQ==
+X-CSE-MsgGUID: XgxZrGNZTse/KYCpEhWPew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,253,1736841600"; d="scan'208";a="126741531"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO [10.245.246.44])
+ ([10.245.246.44])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2025 02:21:18 -0700
+Message-ID: <0cec6c8ad9ed854300d4533eb8659fb017e76ae6.camel@linux.intel.com>
+Subject: Re: [RFC PATCH 00/19] drm, drm/xe: Multi-device GPUSVM
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com, 
+ Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com, Matthew
+ Brost <matthew.brost@intel.com>, 	dakr@kernel.org, "Mrozek, Michal"
+ <michal.mrozek@intel.com>, Joonas Lahtinen	
+ <joonas.lahtinen@linux.intel.com>
+Date: Mon, 17 Mar 2025 10:20:48 +0100
+In-Reply-To: <50a6d33b-1b8f-4a3e-8698-1e4508eb3be0@amd.com>
+References: <20250312210416.3120-1-thomas.hellstrom@linux.intel.com>
+ <3c7950d8-75bd-48d0-9713-b76feea87a37@amd.com>
+ <466cdc46b81b4e1a51fa1accee8f56487cce1268.camel@linux.intel.com>
+ <50a6d33b-1b8f-4a3e-8698-1e4508eb3be0@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] drm: panel-orientation-quirks: Add Zotac Gaming Zone
- quirk
-To: Antheas Kapenekakis <lkml@antheas.dev>, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-References: <20250222164321.181340-1-lkml@antheas.dev>
- <20250222164321.181340-6-lkml@antheas.dev>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20250222164321.181340-6-lkml@antheas.dev>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: J9c8jaB9NYdE3i6ObYwfb89xIbQXH5XEA7WmhdLvAMw_1742203249
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,53 +78,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, 2025-03-13 at 13:57 +0100, Christian K=C3=B6nig wrote:
+> Am 13.03.25 um 13:50 schrieb Thomas Hellstr=C3=B6m:
+> > Hi, Christian
+> >=20
+> > On Thu, 2025-03-13 at 11:19 +0100, Christian K=C3=B6nig wrote:
+> > > Am 12.03.25 um 22:03 schrieb Thomas Hellstr=C3=B6m:
+> > > > This RFC implements and requests comments for a way to handle
+> > > > SVM
+> > > > with multi-device,
+> > > > typically with fast interconnects. It adds generic code and
+> > > > helpers
+> > > > in drm, and
+> > > > device-specific code for xe.
+> > > >=20
+> > > > For SVM, devices set up maps of device-private struct pages,
+> > > > using
+> > > > a struct dev_pagemap,
+> > > > The CPU virtual address space (mm), can then be set up using
+> > > > special page-table entries
+> > > > to point to such pages, but they can't be accessed directly by
+> > > > the
+> > > > CPU, but possibly
+> > > > by other devices using a fast interconnect. This series aims to
+> > > > provide helpers to
+> > > > identify pagemaps that take part in such a fast interconnect
+> > > > and to
+> > > > aid in migrating
+> > > > between them.
+> > > >=20
+> > > > This is initially done by augmenting the struct dev_pagemap
+> > > > with a
+> > > > struct drm_pagemap,
+> > > > and having the struct drm_pagemap implement a "populate_mm"
+> > > > method,
+> > > > where a region of
+> > > > the CPU virtual address space (mm) is populated with
+> > > > device_private
+> > > > pages from the
+> > > > dev_pagemap associated with the drm_pagemap, migrating data
+> > > > from
+> > > > system memory or other
+> > > > devices if necessary. The drm_pagemap_populate_mm() function is
+> > > > then typically called
+> > > > from a fault handler, using the struct drm_pagemap pointer of
+> > > > choice. It could be
+> > > > referencing a local drm_pagemap or a remote one. The migration
+> > > > is
+> > > > now completely done
+> > > > by drm_pagemap callbacks, (typically using a copy-engine local
+> > > > to
+> > > > the dev_pagemap local
+> > > > memory).
+> > > Up till here that makes sense. Maybe not necessary to be put into
+> > > the
+> > > DRM layer, but that is an implementation detail.
+> > >=20
+> > > > In addition there are helpers to build a drm_pagemap UAPI using
+> > > > file-descripors
+> > > > representing struct drm_pagemaps, and a helper to register
+> > > > devices
+> > > > with a common
+> > > > fast interconnect. The UAPI is intended to be private to the
+> > > > device, but if drivers
+> > > > agree to identify struct drm_pagemaps by file descriptors one
+> > > > could
+> > > > in theory
+> > > > do cross-driver multi-device SVM if a use-case were found.
+> > > But this completely eludes me.
+> > >=20
+> > > Why would you want an UAPI for representing pagemaps as file
+> > > descriptors? Isn't it the kernel which enumerates the
+> > > interconnects
+> > > of the devices?
+> > >=20
+> > > I mean we somehow need to expose those interconnects between
+> > > devices
+> > > to userspace, e.g. like amdgpu does with it's XGMI connectors.
+> > > But
+> > > that is static for the hardware (unless HW is hot removed/added)
+> > > and
+> > > so I would assume exposed through sysfs.
+> > Thanks for the feedback.
+> >=20
+> > The idea here is not to expose the interconnects but rather have a
+> > way
+> > for user-space to identify a drm_pagemap and some level of access-
+> > and
+> > lifetime control.
+>=20
+> Well that's what I get I just don't get why?
+>=20
+> I mean when you want to have the pagemap as optional feature you can
+> turn on and off I would say make that a sysfs file.
+>=20
+> It's a global feature anyway and not bound in any way to the file
+> descriptor, isn't it?
 
-On 22-Feb-25 17:43, Antheas Kapenekakis wrote:
-> The Zotac Gaming Zone handheld features a 1080p portrait OLED screen.
-> Add the rotation to the panel orientation quirks.
-> 
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> ---
->  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index f08cdc81dd9a..bbbe707f541d 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -479,6 +479,12 @@ static const struct dmi_system_id orientation_data[] = {
->  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1 EVA-02"),
->  		},
->  		.driver_data = (void *)&lcd1080x1920_leftside_up,
-> +	}, {	/* Zotac Gaming Zone (OLED) */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ZOTAC"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ZOTAC GAMING ZONE"),
-> +		},
-> +		.driver_data = (void *)&lcd1080x1920_leftside_up,
->  	}, {	/* OrangePi Neo */
+Getting back on this we had some discussions internally on this and the
+desired behavior is to have the device-private pages on a firstopen-
+lastclose lifetime (Or rather firstopen-(lastclose + shrinker))
+lifetime, for memory usage concerns. So I believe a file descriptor is
+a good fit for the UAPI representation.
 
-The entries in this list are alphabetically sorted. Please post
-a v2 (of just this patch) with this entry moved to the end, just
-above the special "One Mix 2S" entry which is at the very end
-because its DMI matches are all "Default string".
+Thanks,
+Thomas
 
-Note another entry for another Zotac device, with a board name of
-"G0A1W" has been added in drm-misc/next, so please base your v2
-on top of drm-misc/next.
-
-Also the freedesktop.org infra is currently being migrated to
-another data center, so the drm-misc tree currently is not
-available I think.
-
-Regards,
-
-Hans
-
-
-
-
->  		.matches = {
->  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
 
