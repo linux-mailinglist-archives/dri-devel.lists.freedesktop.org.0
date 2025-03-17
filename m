@@ -2,49 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD355A65841
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5EBA65844
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:38:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7CCF10E0F0;
-	Mon, 17 Mar 2025 16:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5BCF10E173;
+	Mon, 17 Mar 2025 16:38:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S68RN/lM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cSmCEfB2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE7F410E0F0;
- Mon, 17 Mar 2025 16:37:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5E510E173;
+ Mon, 17 Mar 2025 16:38:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5365FA488CD;
- Mon, 17 Mar 2025 16:32:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 976FBC4CEED;
- Mon, 17 Mar 2025 16:37:47 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 1700AA48767;
+ Mon, 17 Mar 2025 16:32:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ED3BC4CEE3;
+ Mon, 17 Mar 2025 16:37:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742229469;
- bh=fTI6mTD6U6HzrRMuMomzwSD7v9bc+QEXsntyHFlOg0o=;
+ s=k20201202; t=1742229482;
+ bh=id79ieMkz1pM0rJ2Gjf3/Q9lJqRt9loQtH5PMtyfNTk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=S68RN/lMhLIYyBIMxhnUlqppbUHp/zkCipphcWRHxMrrbJFGmNOtWY2JLmjfxFemL
- RdcDiawHcUThOxQpdCNrgz+H5ovVcqFOXP2jDm2fVtXhzZiVfCIpdsBV/WIZWl4TV9
- Oeb13m43qY7bg0q9ZRglCqZR4nQ+bxKqusN4vjOCoTsyS5rjVHRKmJRezH0DVDI3sX
- yGb7YAeey3a9qDmvwG6kMJmGVIi0XDhDwhDQuqM7YyW9//+em9oT69x0jH2iHvRnF5
- k6w7eEqDR0yiqfsQzzqmYRHFzT9ENRAZ6AwETgFSOpbIzujVL850JR1PVaFb/tfLE+
- vjk50d4akC3SA==
+ b=cSmCEfB2wz9aMxEDbtWs8DB2VEmnR4Q+XShGrzkBwJFxp5XB+ATb0vr7dfdh1ct8j
+ 9GQW7iFrPsdmNUBPXSXCW6AYGIbUdoXka4ZosH/sv93RM71sh4EhAqA2Y6LIcEFFwe
+ 3gPnGB68Ad9NOhkBPbBj5ZrKxCGAENyEFXkzVUbwTbLdOziTerXwpC6pDGsC9u7/XH
+ /qwFDPpt7I4ztnL204wPln+MSiYSEzacsvSvtY590p6nj8I7n9Bn3IHm/U0aS+dWuk
+ gDh1IPGu4QG7w0pfW92JAsbSKL5nyQnSMnnFedNA43hJNFbX31501yu40WCCi0w+Wz
+ Pi0fKyUn3Ut4w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, Sasha Levin <sashal@kernel.org>,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.13 10/16] drm/xe/guc_pc: Retry and wait longer for
- GuC PC start
-Date: Mon, 17 Mar 2025 12:37:19 -0400
-Message-Id: <20250317163725.1892824-10-sashal@kernel.org>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ sunpeng.li@amd.com, lijo.lazar@amd.com, tzimmermann@suse.de,
+ rajneesh.bhardwaj@amd.com, shaoyun.liu@amd.com, Ramesh.Errabolu@amd.com,
+ chiahsuan.chung@amd.com, siqueira@igalia.com, sunil.khatri@amd.com,
+ alex.hung@amd.com, aurabindo.pillai@amd.com, hersenxs.wu@amd.com,
+ mwen@igalia.com, hamzamahfooz@linux.microsoft.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.13 12/16] drm/amd: Keep display off while going into
+ S4
+Date: Mon, 17 Mar 2025 12:37:21 -0400
+Message-Id: <20250317163725.1892824-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250317163725.1892824-1-sashal@kernel.org>
 References: <20250317163725.1892824-1-sashal@kernel.org>
@@ -68,181 +72,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-[ Upstream commit c605acb53f449f6289f042790307d7dc9e62d03d ]
+[ Upstream commit 4afacc9948e1f8fdbca401d259ae65ad93d298c0 ]
 
-In a rare situation of thermal limit during resume, GuC can
-be slow and run into delays like this:
+When userspace invokes S4 the flow is:
 
-xe 0000:00:02.0: [drm] GT1: excessive init time: 667ms! \
-   		 [status = 0x8002F034, timeouts = 0]
-xe 0000:00:02.0: [drm] GT1: excessive init time: \
-   		 [freq = 100MHz (req = 800MHz), before = 100MHz, \
-   		 perf_limit_reasons = 0x1C001000]
-xe 0000:00:02.0: [drm] *ERROR* GT1: GuC PC Start failed
-------------[ cut here ]------------
-xe 0000:00:02.0: [drm] GT1: Failed to start GuC PC: -EIO
+1) amdgpu_pmops_prepare()
+2) amdgpu_pmops_freeze()
+3) Create hibernation image
+4) amdgpu_pmops_thaw()
+5) Write out image to disk
+6) Turn off system
 
-When this happens, it will block entirely the GPU to be used.
-So, let's try and with a huge timeout in the hope it comes back.
+Then on resume amdgpu_pmops_restore() is called.
 
-Also, let's collect some information on how long it is usually
-taking on situations like this, so perhaps the time can be tuned
-later.
+This flow has a problem that because amdgpu_pmops_thaw() is called
+it will call amdgpu_device_resume() which will resume all of the GPU.
 
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250307160307.1093391-1-rodrigo.vivi@intel.com
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-(cherry picked from commit b4b05e53b550a886b4754b87fd0dd2b304579e85)
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+This includes turning the display hardware back on and discovering
+connectors again.
+
+This is an unexpected experience for the display to turn back on.
+Adjust the flow so that during the S4 sequence display hardware is
+not turned back on.
+
+Reported-by: Xaver Hugl <xaver.hugl@gmail.com>
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/2038
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Tested-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Acked-by: Harry Wentland <harry.wentland@amd.com>
+Link: https://lore.kernel.org/r/20250306185124.44780-1-mario.limonciello@amd.com
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+(cherry picked from commit 68bfdc8dc0a1a7fdd9ab61e69907ae71a6fd3d91)
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_guc_pc.c | 53 +++++++++++++++++++++++++---------
- 1 file changed, 40 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           | 11 +++++++++--
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +++++
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_pc.c b/drivers/gpu/drm/xe/xe_guc_pc.c
-index e8b9faeaef645..467d8a2879ecb 100644
---- a/drivers/gpu/drm/xe/xe_guc_pc.c
-+++ b/drivers/gpu/drm/xe/xe_guc_pc.c
-@@ -6,6 +6,7 @@
- #include "xe_guc_pc.h"
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 91a874bb0e241..fc953ef4eedd0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2556,7 +2556,6 @@ static int amdgpu_pmops_freeze(struct device *dev)
  
- #include <linux/delay.h>
-+#include <linux/ktime.h>
+ 	adev->in_s4 = true;
+ 	r = amdgpu_device_suspend(drm_dev, true);
+-	adev->in_s4 = false;
+ 	if (r)
+ 		return r;
  
- #include <drm/drm_managed.h>
- #include <generated/xe_wa_oob.h>
-@@ -19,6 +20,7 @@
- #include "xe_gt.h"
- #include "xe_gt_idle.h"
- #include "xe_gt_printk.h"
-+#include "xe_gt_throttle.h"
- #include "xe_gt_types.h"
- #include "xe_guc.h"
- #include "xe_guc_ct.h"
-@@ -48,6 +50,9 @@
- #define LNL_MERT_FREQ_CAP	800
- #define BMG_MERT_FREQ_CAP	2133
- 
-+#define SLPC_RESET_TIMEOUT_MS 5 /* roughly 5ms, but no need for precision */
-+#define SLPC_RESET_EXTENDED_TIMEOUT_MS 1000 /* To be used only at pc_start */
-+
- /**
-  * DOC: GuC Power Conservation (PC)
-  *
-@@ -112,9 +117,10 @@ static struct iosys_map *pc_to_maps(struct xe_guc_pc *pc)
- 	 FIELD_PREP(HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ARGC, count))
- 
- static int wait_for_pc_state(struct xe_guc_pc *pc,
--			     enum slpc_global_state state)
-+			     enum slpc_global_state state,
-+			     int timeout_ms)
+@@ -2568,8 +2567,13 @@ static int amdgpu_pmops_freeze(struct device *dev)
+ static int amdgpu_pmops_thaw(struct device *dev)
  {
--	int timeout_us = 5000; /* rought 5ms, but no need for precision */
-+	int timeout_us = 1000 * timeout_ms;
- 	int slept, wait = 10;
+ 	struct drm_device *drm_dev = dev_get_drvdata(dev);
++	struct amdgpu_device *adev = drm_to_adev(drm_dev);
++	int r;
  
- 	xe_device_assert_mem_access(pc_to_xe(pc));
-@@ -163,7 +169,8 @@ static int pc_action_query_task_state(struct xe_guc_pc *pc)
- 	};
- 	int ret;
- 
--	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING))
-+	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
-+			      SLPC_RESET_TIMEOUT_MS))
- 		return -EAGAIN;
- 
- 	/* Blocking here to ensure the results are ready before reading them */
-@@ -186,7 +193,8 @@ static int pc_action_set_param(struct xe_guc_pc *pc, u8 id, u32 value)
- 	};
- 	int ret;
- 
--	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING))
-+	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
-+			      SLPC_RESET_TIMEOUT_MS))
- 		return -EAGAIN;
- 
- 	ret = xe_guc_ct_send(ct, action, ARRAY_SIZE(action), 0, 0);
-@@ -207,7 +215,8 @@ static int pc_action_unset_param(struct xe_guc_pc *pc, u8 id)
- 	struct xe_guc_ct *ct = &pc_to_guc(pc)->ct;
- 	int ret;
- 
--	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING))
-+	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
-+			      SLPC_RESET_TIMEOUT_MS))
- 		return -EAGAIN;
- 
- 	ret = xe_guc_ct_send(ct, action, ARRAY_SIZE(action), 0, 0);
-@@ -404,6 +413,15 @@ u32 xe_guc_pc_get_act_freq(struct xe_guc_pc *pc)
- 	return freq;
+-	return amdgpu_device_resume(drm_dev, true);
++	r = amdgpu_device_resume(drm_dev, true);
++	adev->in_s4 = false;
++
++	return r;
  }
  
-+static u32 get_cur_freq(struct xe_gt *gt)
-+{
-+	u32 freq;
+ static int amdgpu_pmops_poweroff(struct device *dev)
+@@ -2582,6 +2586,9 @@ static int amdgpu_pmops_poweroff(struct device *dev)
+ static int amdgpu_pmops_restore(struct device *dev)
+ {
+ 	struct drm_device *drm_dev = dev_get_drvdata(dev);
++	struct amdgpu_device *adev = drm_to_adev(drm_dev);
 +
-+	freq = xe_mmio_read32(&gt->mmio, RPNSWREQ);
-+	freq = REG_FIELD_GET(REQ_RATIO_MASK, freq);
-+	return decode_freq(freq);
-+}
-+
- /**
-  * xe_guc_pc_get_cur_freq - Get Current requested frequency
-  * @pc: The GuC PC
-@@ -427,10 +445,7 @@ int xe_guc_pc_get_cur_freq(struct xe_guc_pc *pc, u32 *freq)
- 		return -ETIMEDOUT;
++	adev->in_s4 = false;
+ 
+ 	return amdgpu_device_resume(drm_dev, true);
+ }
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index ca6b9a585aba9..8652433aff1c6 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3320,6 +3320,11 @@ static int dm_resume(struct amdgpu_ip_block *ip_block)
+ 
+ 		return 0;
  	}
- 
--	*freq = xe_mmio_read32(&gt->mmio, RPNSWREQ);
--
--	*freq = REG_FIELD_GET(REQ_RATIO_MASK, *freq);
--	*freq = decode_freq(*freq);
-+	*freq = get_cur_freq(gt);
- 
- 	xe_force_wake_put(gt_to_fw(gt), fw_ref);
- 	return 0;
-@@ -965,6 +980,7 @@ int xe_guc_pc_start(struct xe_guc_pc *pc)
- 	struct xe_gt *gt = pc_to_gt(pc);
- 	u32 size = PAGE_ALIGN(sizeof(struct slpc_shared_data));
- 	unsigned int fw_ref;
-+	ktime_t earlier;
- 	int ret;
- 
- 	xe_gt_assert(gt, xe_device_uc_enabled(xe));
-@@ -989,14 +1005,25 @@ int xe_guc_pc_start(struct xe_guc_pc *pc)
- 	memset(pc->bo->vmap.vaddr, 0, size);
- 	slpc_shared_data_write(pc, header.size, size);
- 
-+	earlier = ktime_get();
- 	ret = pc_action_reset(pc);
- 	if (ret)
- 		goto out;
- 
--	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING)) {
--		xe_gt_err(gt, "GuC PC Start failed\n");
--		ret = -EIO;
--		goto out;
-+	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
-+			      SLPC_RESET_TIMEOUT_MS)) {
-+		xe_gt_warn(gt, "GuC PC start taking longer than normal [freq = %dMHz (req = %dMHz), perf_limit_reasons = 0x%08X]\n",
-+			   xe_guc_pc_get_act_freq(pc), get_cur_freq(gt),
-+			   xe_gt_throttle_get_limit_reasons(gt));
 +
-+		if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
-+				      SLPC_RESET_EXTENDED_TIMEOUT_MS)) {
-+			xe_gt_err(gt, "GuC PC Start failed: Dynamic GT frequency control and GT sleep states are now disabled.\n");
-+			goto out;
-+		}
++	/* leave display off for S4 sequence */
++	if (adev->in_s4)
++		return 0;
 +
-+		xe_gt_warn(gt, "GuC PC excessive start time: %lldms",
-+			   ktime_ms_delta(ktime_get(), earlier));
- 	}
- 
- 	ret = pc_init_freqs(pc);
+ 	/* Recreate dc_state - DC invalidates it when setting power state to S3. */
+ 	dc_state_release(dm_state->context);
+ 	dm_state->context = dc_state_create(dm->dc, NULL);
 -- 
 2.39.5
 
