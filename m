@@ -2,141 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAB4A65B3F
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 18:45:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB17AA65D8F
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 20:08:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 583F310E43D;
-	Mon, 17 Mar 2025 17:45:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA4710E008;
+	Mon, 17 Mar 2025 19:08:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZgMYlpOR";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="QNP2hrK6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6603310E445
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 17:45:15 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52H9sQ6t014469
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 17:45:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- BIfQsL2iT8Vojwl752N46gCkIs1NOpwnmBShRu8QyCE=; b=ZgMYlpOR55GnVOj7
- fBBw1lk7w+B7mvp39telgV+7q2pQ2PgqVjVzXtvUHuFv2X+p/o4RZTEAKRXocECB
- ouNQo9rS21GzhPkEMNKwjVqfOfkap4OXbFtlcbHuuGwXpbff0bL8RoGIqYUWYffl
- VesEkk3UAmA6qS1hkg7D/KP3uLro1YHlVnRcBzjTUlGr36Od4/oyTrqPUTo7ybeu
- 5C8BjLXr4FAE6MEDreSJFznvHEvyZXbf2qPt3sNM01kf23hTZUJAuYhGeQyoilbq
- nptJ7e7gd05Gwk1U9dCvMPpc2+4MVfShexwxSygP58byvgNeiVs6oybcssCU50jA
- PnxU3Q==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1rdnkar-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 17:45:14 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6e8f64eb467so46067866d6.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 10:45:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742233513; x=1742838313;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BIfQsL2iT8Vojwl752N46gCkIs1NOpwnmBShRu8QyCE=;
- b=Hw2tDvW5aLxLQ2ishjZPSHjKBIdKz8TzmXMwfczu7tWZaaJkowAGlPHcVWKQeLIQnJ
- Ab11pBfMQ0mcRVpN4NCPX7U+bIrrnI6s/HXDVyBn28ym4Rq+BCKg4+btDxA2ki62rxDW
- l3fVj08LAn4XXOxC8laARM9ndgY5MWt8BZ1TFTlGYtOagTEhpH5JIk5vaWJGulZHSXb4
- PIdRTArxeE5bWd8NGnw6mjaza283mb0NDg/B2+2LRQ3EnKm5UrIguxTknnSmoJI+z6z9
- wn8Rxf2t4OhwZitJf6m5FKyi8t21rEdsPOUWnYklDwHDU4FVbRWNhYhQGRUwjb7S1p4y
- jxdw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWmVUhZSuIpu2+ri6aXHzZ/Jgz3QTFksih4vIGe53JgzVBuSlpuwJcDw39VIWuo2TqtcgTy/Z9Tmoc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzaDGHcVQ5tcSR/ZNmXn0PYh4W+2gA3so/7/XKagkg4dAqYE9sP
- Ep6/lS8caVrLEwS30SF6bNFZsP0V4daxgpq+wjE1HVDyzJeWn344hEw7+WPiITqTYFiOZqMLOGy
- 4T7PewIfcLS3+Wb8k3Mm2ZLq/DJVnJwPiO6c+oW/FRW49dKehoz5TTCiURjoj0qtLG/A=
-X-Gm-Gg: ASbGnct1TdOFJO3FEEfVbxROZWpTXrag66QINBgJpm3fN4Qe5Mm2XfJIyQyDRivoGYH
- LpiSkV4FSATNgp4+Kcy2D6XW400e2QIWP6/whGsqREDoPcwE+ZjT/4QsdfDj19Dx8EbX06PxcGV
- q8DkfIyCTsRkmq2nN/q/kl69ZZJ7T/76WT0JhSWqoj+gGuV4YlCPpoVNXgzTtZlPq7qSyhieKvi
- PI3ywnaHa4oWIaZbKbwvKwLx9dpNbJYYra8x+KcjmPtrEOWyhTefZtx87DsFzbtr1k3xM0vSa7D
- mJPH00Z7u9BLOBewstsw80y2uTlbNWYyui/ewf5JmArNaahrVAasTCP18Ag0sqMGlc5iF5ta1yB
- iybc6Bz+E+1pjomNL2lvmtEE47ZY3
-X-Received: by 2002:a05:6214:20ee:b0:6e8:f5db:d78d with SMTP id
- 6a1803df08f44-6eaeaa5a6b7mr224159386d6.23.1742233513514; 
- Mon, 17 Mar 2025 10:45:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGYgxdPJBjLMewB5Os7FteoqkvzgM2ai7zlUrwns9EoES+m5mpM+FpX3PxuwQRQFq5RiVor7g==
-X-Received: by 2002:a05:6214:20ee:b0:6e8:f5db:d78d with SMTP id
- 6a1803df08f44-6eaeaa5a6b7mr224158606d6.23.1742233513034; 
- Mon, 17 Mar 2025 10:45:13 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30c3f0e9985sm16687121fa.29.2025.03.17.10.45.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Mar 2025 10:45:11 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 17 Mar 2025 19:44:44 +0200
-Subject: [PATCH 9/9] ARM: dts: qcom: apq8064: move replicator out of soc node
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2058.outbound.protection.outlook.com [40.107.220.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A183A10E008;
+ Mon, 17 Mar 2025 19:08:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MT0xbbJERTYi2xNXn9DPcfTNclni5MKXP5dmUD2FbHRHTW0FNvo4P/cs0OAqoo4njK8kLrVvQnVGnnDDflR3L9t/Vnyia5MVh12xps5/58xYPEeqTrq8SdCozjZHM0xrvdSFQRtG7dHRfHN0O0KBB55ano7PvJ88Cl6EHbCydUfmR8dD5PBd+OAOm5HAt1KUaX6/CiuwaVWHLqfhR3hV2P8/6e4Hfb8V2AoUeP7MTrC95OmjdiuM67uv0dnJ8nKxjT4i++tWwVeHBA6KHBTJdxbcPazMjil7tRDP4wSvpyK2CYb0zpQ4pKQepNHcY9Xp2Cao96H0SwKwpXas9gWQ2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8rXzUhg/snUqYAFCBXvweazg5JDpoq0WCYPuqz/497w=;
+ b=KiE8HtHUwCf75MvIQelbsAUw5XYxnXj/9m0gM5KsGYGm1kHdozy54CEGa1aYvJz/xkT6uznXUKFGWowOAHxNpHNyQ69ROaBKrg16bhbhwM4t5UUFVoHnh6V/G7dc50K35e5K5umvAQYZwa0etR53ovGN40/K/jeJVmhyE4bRU3/+WT08YnjJVTGWVvWL0mKEZPN5IIw627fIQlA2FElS4UD0cSXkvCH+1uVhcKUhHPbKBI3kD3FXnbYrRQcq265QNeb3CD/lwntmoW0ntx6LKms+oTzWVjkZ1X5THBEFyikpVyHAjtXeNV567kNVefpBgNQkXW/OfootmSdySNj/MA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8rXzUhg/snUqYAFCBXvweazg5JDpoq0WCYPuqz/497w=;
+ b=QNP2hrK6rN8kvI0ASQSA+bQ6eyPETzSYJRicgXVF0xzynpYLn5jJVIbopz2uBh1oBUHXfW0Xnr+pwTLbr0YPz6PiaFwYdwbFqtK07SwEMHGm+Ik9GywUVq8xpR7DV99PySAuRoN6TLsEu3pmR8awSpLyn9KgBheX25Vf2Nsp8CM=
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
+ by MN6PR12MB8542.namprd12.prod.outlook.com (2603:10b6:208:477::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
+ 2025 19:07:57 +0000
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::491a:cce3:e531:3c42]) by BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::491a:cce3:e531:3c42%3]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
+ 19:07:57 +0000
+From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+To: Daisuke Matsuda <matsuda-daisuke@fujitsu.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig, 
+ Christian" <Christian.Koenig@amd.com>, "Kuehling, Felix"
+ <Felix.Kuehling@amd.com>
+CC: "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
+ <simona@ffwll.ch>
+Subject: RE: [PATCH] drm/amdgpu: Higher log level for missing PCIe atomics caps
+Thread-Topic: [PATCH] drm/amdgpu: Higher log level for missing PCIe atomics
+ caps
+Thread-Index: AQHblH8K3YfbL9tp4UWuRjXxEA635rN3tdJg
+Date: Mon, 17 Mar 2025 19:07:57 +0000
+Message-ID: <BL1PR12MB51445BCE0365432BF55DD3EDF7DF2@BL1PR12MB5144.namprd12.prod.outlook.com>
+References: <20250314011809.3243791-1-matsuda-daisuke@fujitsu.com>
+In-Reply-To: <20250314011809.3243791-1-matsuda-daisuke@fujitsu.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ActionId=8c6b5f1f-e09e-40a8-84b7-4d15a4ad721f;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ContentBits=0;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Enabled=true;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Method=Privileged;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Name=Open Source;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SetDate=2025-03-17T19:04:49Z;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Tag=10, 0, 1, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR12MB5144:EE_|MN6PR12MB8542:EE_
+x-ms-office365-filtering-correlation-id: 69a01668-a0c4-4029-a5ef-08dd65870730
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?fFpbEBuuHL3Mua+VCh03YQVUa1waWc5JhsHX3eS7LFGsXXM+QilhwmvhEycd?=
+ =?us-ascii?Q?8mXqfDLEUxUJxgLyuhTJ2L+Kbwz/Cj3kHm9S6O7hkcce0sO5swTc8au9dL2i?=
+ =?us-ascii?Q?Lo68JBAkBe5RJGOJRvNqnnq38fMbM7g4Ug4ZEGtzaA3lDWv/JKyWG9x+B9wK?=
+ =?us-ascii?Q?fr8GxcAZpWBUjRM089tGhIt7pLjapDCu/2Trr8WJC2CASlDV13eCHZ+8WcRV?=
+ =?us-ascii?Q?xGmTdn//6BMVJXM1NBDIVC0nTQdcFUIDHtysei0RtsWzu3glbI8oAsWlZd+8?=
+ =?us-ascii?Q?wtY8q+dYIow3L8vwJCaWZikHbP2jb4o0cEORms9D9LGkM/qKpBTXf+kum65b?=
+ =?us-ascii?Q?7p9OMibb07fULTQzbv0D7Aks/+mA+bZ7uuRf5b5xuv1uosGeKhtRKRTeAqbM?=
+ =?us-ascii?Q?ULPXAqxF8QYALjFF3cWSYZ4KSPHfBEsAoXTw4tgSqC3wc5/zxfn7WLgxNbd7?=
+ =?us-ascii?Q?/xrhx8OWvJCQWGZymcmCCV2sr+lu05rZmdlKxOJcI1Y58Oi6k5M2UNDrd4HQ?=
+ =?us-ascii?Q?XS85RDCkntq+tvmsDEhbG5WZ4fxLL7EujV6TWyu7SQBlRfsDLHggwcOWNDtq?=
+ =?us-ascii?Q?HGWDusTey/pDfO+INCHUQ4gnYnaXpqOAYzeRUWK3APAtQ8L0CPx7kvg8XnGX?=
+ =?us-ascii?Q?DUz2PRGS4KP8aU/+WQdqZJ1I7xwSMj08853zhWE1pWHNml5pjmvy2qGWZPIe?=
+ =?us-ascii?Q?RFGnRy/zZ18DBkwAqfLOP2fyv3q4PqZkol4lT9QhoarsZ/0bHehSjVpHqYtc?=
+ =?us-ascii?Q?U3UDasCKgRqCEc7vkouOlSjaSZQ62QsC/bw1jG4KOuxQK+ASvX2GGikNdsW3?=
+ =?us-ascii?Q?Gm7/rLXQauF+LuGrSiVe38pckzHMnLCzn5bSMzFLCsJFbGxziOxMNC2d9WeE?=
+ =?us-ascii?Q?iT7wTEFsy3K1QaCNYgGUCJ0py1UQQBj6gDK//jqEmXwtpze1xi2tKhEsvin2?=
+ =?us-ascii?Q?ffqe3CZ91hpK/roVLM/vpTL7dq7Kz/PBYJsYgW477L6k9SG2G+4qqBApgQum?=
+ =?us-ascii?Q?YevBrr4wfpVL6A98lYJ23QgiKnEUjv1DTqYwwHz8D/AQ+acvGrDTX68RRGLQ?=
+ =?us-ascii?Q?P0zK3DjEnhQRiLEEzPPQMc+pic1YJE4FTYw3JL7i8kKxZViESOhYigvhUXyg?=
+ =?us-ascii?Q?urH56yKxY4DdTGg5G8vM+GYxJ8F21l4b2XrN7SWhVjn0dwU7K4gA7dRr1GI8?=
+ =?us-ascii?Q?GlWM8/GbM7WdebzStcLrEcGuOd4dVKAPxrR/ccCzHQBom7HTCMlh6nNSOYDv?=
+ =?us-ascii?Q?LZfCI3EYoLRZKQLY4m6eE0lAzUKoDEK8tUP/GOyGidqGzdaGo/wgT+LYKwIW?=
+ =?us-ascii?Q?w3f4/d0vVmO3THBkqml3QO/u9hlqdGb5D7SynspOxenpEsttw4DSng8tc2J9?=
+ =?us-ascii?Q?XFoKlx5A/LnyHkhVvCCBW2MURH5iLFu/noubcEkR9CGoegJNbMb6XtJ7GpbV?=
+ =?us-ascii?Q?K5wY4PzVN8wd5RvBJZv55AJ7z7rkBuJR?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dWLzXb3kkJpiscawLavhtphJ7clyAVfb8gC02KZrG5gydlHITEKuX1mO9lku?=
+ =?us-ascii?Q?s0xJYL4oYdmz2YSgypcJHZPBj+obcDBDxS1ZNpK0oTz5RZ4riFYL5AVtu/Y4?=
+ =?us-ascii?Q?DvTq6BOr4t0J0ULFYLmrXeGRKhAB3L2Vw5zEuZ5QrGnGxTuiWbJuCJVSuBwF?=
+ =?us-ascii?Q?sR3M5jcr5C1Vh58N87o7CONqoBS3CdMP/idS9E4cZ2j5hLlAOTbAih+VJdak?=
+ =?us-ascii?Q?fcj162onpjttvS2cvZ7Bhrrvaht6/sZvLAQF+r9subfObsE+ZqaACrucdcd2?=
+ =?us-ascii?Q?aLD0wFGs2U2McCLSKJnHr43YPIhVK4EhA8q8Mw7rAkX6VVx65FxyiwbPsm9n?=
+ =?us-ascii?Q?aYIYI7QJBB86onBfbnzh2uyPVY+K5UyR+2fl2YpruBelFmcFIvub+yKrTFFD?=
+ =?us-ascii?Q?Wm/UvGUFm40CYiXhq99/pM132jZbwH+R1T0h9NoZwaTi55XK/2RXikMNiSuB?=
+ =?us-ascii?Q?rFDGH6pQlEmKN8rTPhgy1Upuze1fouyRdOGVVT79IGiPWotq1xuye1jGz608?=
+ =?us-ascii?Q?NOoIapE8a207tRmp74EPTxp/NhhZRVUFoGyHtXpBu7+FuZg8AqSM46PN4D5K?=
+ =?us-ascii?Q?Xc9tv99TutqtMJz1cSOCNuk+m8j9AiX9X+7jo627BKUr67vpaitGDpXavoZb?=
+ =?us-ascii?Q?/pxlhjQsq+S+3M1ktCtAyvs8RgUNcOmvktEY8mdG7y1LAKo2S9KuViahytts?=
+ =?us-ascii?Q?GIVWf2aE1jtyOgtX5Ey4JpVOmIQRDwD7OAV/oyT9x4vYAXYz5yO4mF20bYGQ?=
+ =?us-ascii?Q?YeFI0Qz9RLAc9bHZcbTLN232ySTtPLfJ95orhb8pseYGDBMzPYriGbYypsNN?=
+ =?us-ascii?Q?A0wI4zIvLPWJGCzK1mZ/3lqDgQr8rLD0adVGWFDWHqUeb9KbZm3eXREYLMjd?=
+ =?us-ascii?Q?FLgjUTL9mTXNFMX/MVyYCnZy3NGRMEo/69f0dVGjbW1eCklwiCqU9ohZCaNq?=
+ =?us-ascii?Q?XlmB6u8xzSpocPbBhYWl8Ded4ksuTb2wNoXmsElvw3d9fiu4W0grDZMZgZX+?=
+ =?us-ascii?Q?7IYDveo+gjcjqDQrSLtvSrtf6KENUwe4rw/4cXVHQ3nsWUPky6Qgkg21+6H8?=
+ =?us-ascii?Q?efvOk1joyRvlPS738D6UG9JcFvkxsoNTNf8ohZNp/4c57Z6myjCF17aZ3U3e?=
+ =?us-ascii?Q?ELhLdZeQ1li+5H2HGnbBPGOqeMvBQRUH/HUtD6Ra1LqN3F/qyx7STKk0XR/+?=
+ =?us-ascii?Q?uHRlQ/3euVWUAytCxKTbVAQuXUrK2TPoiI9hP3+cvYOGSxntaDEuAcnTVcqC?=
+ =?us-ascii?Q?IXhTLHGIx04U4Unpc4udRjDBWjCzbOm2eFrwUB60dBMaqgwlfBDwo+IgtMNs?=
+ =?us-ascii?Q?Bnd+xEux7aT0LJHRXCMXsK/+6uMLGl5y3kMuJErWvToxXt/yOA4eGq8F2qTc?=
+ =?us-ascii?Q?qh/07Jc2CiJOW2flKKpjHh+HTUxx21GKM9yj+SZFVvfG2i+Wr/nZst7ILG3c?=
+ =?us-ascii?Q?oaeQkE+BWhEUowhRmERkWLjQLNHkFtEQsFYOd4+9hH+6b6QN9Tc9WEp7aKDf?=
+ =?us-ascii?Q?x+Uk8y879ulAFTZQfXonRp+mfmLDr86XkYCA6yEJig/ExCmHV9zg5XiTWspP?=
+ =?us-ascii?Q?3L9a/M2T3y+Ue6dRNwY=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250317-fix-nexus-4-v1-9-655c52e2ad97@oss.qualcomm.com>
-References: <20250317-fix-nexus-4-v1-0-655c52e2ad97@oss.qualcomm.com>
-In-Reply-To: <20250317-fix-nexus-4-v1-0-655c52e2ad97@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Leo Yan <leo.yan@linux.dev>, Kumar Gala <galak@codeaurora.org>,
- Andy Gross <agross@codeaurora.org>,
- "Ivan T. Ivanov" <ivan.ivanov@linaro.org>,
- Andy Gross <andy.gross@linaro.org>, Georgi Djakov <djakov@kernel.org>,
- David Heidelberg <david@ixit.cz>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2293;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=cXGjXqVy8K2SBVw5sm4rAWVu9NhYJGWmhFXtjX3HVog=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBn2F+Hk+AmZlISZmVl7Lpy8dz0TRbk8xjIClt1/
- 8vj+7Cr/ZSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ9hfhwAKCRCLPIo+Aiko
- 1QEOB/9oIWXP9+8fWr3P541oQaJjWj4TBJmLvCUTleczJ/+JGOLGxqemoc3v7V0oXDhOpswBqDi
- WEt/pceqTFyCcwIhooUPzKq4CCjbj2bA710wPPkkSzjyZkxMltoHOB+Z1SDWBd9Tk0hjZX4WZC0
- YYPrAUbnKPrcDFPEKpM2Z8Xlxh4xLbwPKvRBzcrWeqCzqgszf/LSY6/OBCWBYJo++JPbPUSDDTj
- wJMCFMNLkg+MWXK0ssjlsEKwEcJ6rlAb6REz/gRwhXTv/XWHUS3F/NwyAykfJ6BPtCR6Lq42bvK
- BndmfW5J9cf4mJoWj1QPk8q9wYriamZbAm+lwV6u1T3zYgbR
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Authority-Analysis: v=2.4 cv=Fe83xI+6 c=1 sm=1 tr=0 ts=67d85faa cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=VZa1NNXYgzzwgHkDN88A:9 a=QEXdDO2ut3YA:10
- a=usmIGj8zAoogrc2OpcRK:22 a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-ORIG-GUID: sN9-WdZErU6yC6B-IyHt2r18mvEtaYF6
-X-Proofpoint-GUID: sN9-WdZErU6yC6B-IyHt2r18mvEtaYF6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-17_07,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 bulkscore=0 mlxscore=0 mlxlogscore=935 spamscore=0
- clxscore=1015 suspectscore=0 adultscore=0 phishscore=0 malwarescore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503170128
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69a01668-a0c4-4029-a5ef-08dd65870730
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2025 19:07:57.1579 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DDapmPdjPS+GRWl4iaMRV7Of2ZnC/HRfc5INMmKnEgdawjLucMarvOe9fs+qytxW2rV+wu3LrJ5Q8mLfsoLPsw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8542
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,101 +159,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CoreSight replicator device isn't a part of the system MMIO bus, as
-such it should not be a part of the soc node. Follow the example of
-other platforms and move it out of the soc bus to the top-level.
+[Public]
 
-Fixes: 7a5c275fd821 ("ARM: dts: qcom: Add apq8064 CoreSight components")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- arch/arm/boot/dts/qcom/qcom-apq8064.dtsi | 66 ++++++++++++++++----------------
- 1 file changed, 33 insertions(+), 33 deletions(-)
+> -----Original Message-----
+> From: Daisuke Matsuda <matsuda-daisuke@fujitsu.com>
+> Sent: Thursday, March 13, 2025 9:18 PM
+> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Deuch=
+er,
+> Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
+> <Christian.Koenig@amd.com>
+> Cc: airlied@gmail.com; simona@ffwll.ch; Daisuke Matsuda <matsuda-
+> daisuke@fujitsu.com>
+> Subject: [PATCH] drm/amdgpu: Higher log level for missing PCIe atomics ca=
+ps
+>
+> Currently, ROCm requires CPUs that support PCIe atomics. The message is m=
+ore
+> urgent for GPGPU users, meaning basic functionalities of ROCm are not ava=
+ilable
+> on the node.
+>
 
-diff --git a/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi b/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
-index a106f9f984fcb51dea1fff1515e6f290b36ccf99..acd94f3ba0350c5dcdd8f80885ee643d8cbddac7 100644
---- a/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
-+++ b/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
-@@ -278,6 +278,39 @@ scm {
- 		};
- 	};
- 
-+	replicator {
-+		compatible = "arm,coresight-static-replicator";
-+
-+		clocks = <&rpmcc RPM_QDSS_CLK>;
-+		clock-names = "apb_pclk";
-+
-+		out-ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				replicator_out0: endpoint {
-+					remote-endpoint = <&etb_in>;
-+				};
-+			};
-+			port@1 {
-+				reg = <1>;
-+				replicator_out1: endpoint {
-+					remote-endpoint = <&tpiu_in>;
-+				};
-+			};
-+		};
-+
-+		in-ports {
-+			port {
-+				replicator_in: endpoint {
-+					remote-endpoint = <&funnel_out>;
-+				};
-+			};
-+		};
-+	};
-+
- 	soc: soc {
- 		#address-cells = <1>;
- 		#size-cells = <1>;
-@@ -1529,39 +1562,6 @@ tpiu_in: endpoint {
- 			};
- 		};
- 
--		replicator {
--			compatible = "arm,coresight-static-replicator";
--
--			clocks = <&rpmcc RPM_QDSS_CLK>;
--			clock-names = "apb_pclk";
--
--			out-ports {
--				#address-cells = <1>;
--				#size-cells = <0>;
--
--				port@0 {
--					reg = <0>;
--					replicator_out0: endpoint {
--						remote-endpoint = <&etb_in>;
--					};
--				};
--				port@1 {
--					reg = <1>;
--					replicator_out1: endpoint {
--						remote-endpoint = <&tpiu_in>;
--					};
--				};
--			};
--
--			in-ports {
--				port {
--					replicator_in: endpoint {
--						remote-endpoint = <&funnel_out>;
--					};
--				};
--			};
--		};
--
- 		funnel@1a04000 {
- 			compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
- 			reg = <0x1a04000 0x1000>;
++ Felix
 
--- 
-2.39.5
+My understanding is that PCIe atomics are not strictly required, but there =
+are some features that are not available without them.  Warning seems a bit=
+ overkill and potentially confusing to users that have an existing system t=
+hat otherwise works fine.
+
+Alex
+
+
+> Signed-off-by: Daisuke Matsuda <matsuda-daisuke@fujitsu.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  | 4 ++--
+> drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 018dfccd771b..faeef136e272 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -4374,7 +4374,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>                       return r;
+>       }
+>
+> -     /* enable PCIE atomic ops */
+> +     /* enable PCIe atomic ops */
+>       if (amdgpu_sriov_vf(adev)) {
+>               if (adev->virt.fw_reserve.p_pf2vf)
+>                       adev->have_atomics_support =3D ((struct
+> amd_sriov_msg_pf2vf_info *) @@ -4395,7 +4395,7 @@ int
+> amdgpu_device_init(struct amdgpu_device *adev,
+>       }
+>
+>       if (!adev->have_atomics_support)
+> -             dev_info(adev->dev, "PCIE atomic ops is not supported\n");
+> +             dev_warn(adev->dev, "PCIe atomic ops are not supported\n");
+>
+>       /* doorbell bar mapping and doorbell index init*/
+>       amdgpu_doorbell_init(adev);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h
+> b/drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h
+> index b4f9c2f4e92c..c52605a07597 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h
+> @@ -240,7 +240,7 @@ struct amd_sriov_msg_pf2vf_info {
+>       } mm_bw_management[AMD_SRIOV_MSG_RESERVE_VCN_INST];
+>       /* UUID info */
+>       struct amd_sriov_msg_uuid_info uuid_info;
+> -     /* PCIE atomic ops support flag */
+> +     /* PCIe atomic ops support flag */
+>       uint32_t pcie_atomic_ops_support_flags;
+>       /* Portion of GPU memory occupied by VF.  MAX value is 65535, but s=
+et to
+> uint32_t to maintain alignment with reserved size */
+>       uint32_t gpu_capacity;
+> --
+> 2.39.1
 
