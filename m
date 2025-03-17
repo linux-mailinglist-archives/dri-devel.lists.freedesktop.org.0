@@ -2,134 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DB9A644BF
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 09:09:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0571A644EB
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 09:16:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3064891AA;
-	Mon, 17 Mar 2025 08:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C00E410E33E;
+	Mon, 17 Mar 2025 08:16:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="X+km7m3T";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qngA0eAx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X+km7m3T";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qngA0eAx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="anoOxtlR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5066210E374
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 08:09:42 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9252B10E33E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 08:16:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1742199393;
+ bh=c6EOthO2QTraqb0ciH4MDF7R5MtHBXi1rwZve1rxnSg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=anoOxtlRv96kPvm7cMHXlJSLRaJCGrJzWDgG51XQJ2G15YHvMe7QJuCaLdxTNg06L
+ a1RYuKOGR+0VvsWpfOBQkcNvOtG7PsUnoOsdjKG6UuYq3kpc63SmotSdN2/XLXgwpa
+ cEUWgHDblTCxxR+TccGTqytlGtAr328TCD068kRgd8FpnfzAWfweuigPjyrNmvxC8c
+ DyrrCkYYdSQ1ntJD2OEaNmznz4UqXCafH7Zeezftok6ziVmUhVcMzASuZr8mX9jkCK
+ /Phv3U/p82w5a7of9ELWhUJGPRwzJcBPCNo6jpPWb9PQMlnKVxcQa12iyNHv5b9bt+
+ USn4aj2ImM5HQ==
+Received: from [192.168.50.250] (unknown [171.76.87.92])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2323D22006;
- Mon, 17 Mar 2025 08:09:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742198979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rXRQ/emhIb2I9c0u7jQxhIwQqoPFpVA6Pspwj45/DTY=;
- b=X+km7m3Tmdi+bWFoIQeos+dtK3my+jWR9tBfdK/bGgBdatMefl2IflTYY1knh0RUfwcOLG
- BA80bt463TJG9nE8hS7BTASUGoM5Ox5ReMKybnccCisplEdGa95YI89QhzjUelM11pElki
- hniUern8nl7z83MzYuR9M9mIbY7oSv4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742198979;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rXRQ/emhIb2I9c0u7jQxhIwQqoPFpVA6Pspwj45/DTY=;
- b=qngA0eAxDtN1jn8JWqOGktZXAdbgc1Pk/eKyXl0clZxMFqGPGHk95gTR6dme2V01gSYpcq
- SewMUzgHWSLHq5BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742198979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rXRQ/emhIb2I9c0u7jQxhIwQqoPFpVA6Pspwj45/DTY=;
- b=X+km7m3Tmdi+bWFoIQeos+dtK3my+jWR9tBfdK/bGgBdatMefl2IflTYY1knh0RUfwcOLG
- BA80bt463TJG9nE8hS7BTASUGoM5Ox5ReMKybnccCisplEdGa95YI89QhzjUelM11pElki
- hniUern8nl7z83MzYuR9M9mIbY7oSv4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742198979;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rXRQ/emhIb2I9c0u7jQxhIwQqoPFpVA6Pspwj45/DTY=;
- b=qngA0eAxDtN1jn8JWqOGktZXAdbgc1Pk/eKyXl0clZxMFqGPGHk95gTR6dme2V01gSYpcq
- SewMUzgHWSLHq5BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AED7B132CF;
- Mon, 17 Mar 2025 08:09:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6moRKcLY12cRdQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Mar 2025 08:09:38 +0000
-Message-ID: <12145722-609e-41d0-b02b-059df5b6d17f@suse.de>
-Date: Mon, 17 Mar 2025 09:09:38 +0100
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1D75417E05C8;
+ Mon, 17 Mar 2025 09:16:30 +0100 (CET)
+Message-ID: <b6063541-bbe9-4b84-b0ad-5f911d1cd9c3@collabora.com>
+Date: Mon, 17 Mar 2025 13:46:22 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next] drm/i915/display: Fix build error without
- DRM_FBDEV_EMULATION
-To: Yue Haibing <yuehaibing@huawei.com>, jani.nikula@linux.intel.com,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, airlied@gmail.com, simona@ffwll.ch, dev@lankhorst.se
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250315120143.2344958-1-yuehaibing@huawei.com>
+Subject: Re: drm-ci: vkms: kms_flip@modeset-vs-vblank-race flake
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "hamohammed.sa" <hamohammed.sa@gmail.com>, simona.vetter@ffwll.ch,
+ "melissa.srw" <melissa.srw@gmail.com>,
+ "maarten.lankhorst" <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, tzimmermann <tzimmermann@suse.de>,
+ airlied <airlied@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, daniels <daniels@collabora.com>,
+ sergi.blanch.torne@collabora.com,
+ "guilherme.gallo" <guilherme.gallo@collabora.com>,
+ Helen Mae Koike Fornazier <helen.fornazier@gmail.com>,
+ corentin.noel@collabora.com
+References: <2364a6bf-e6bc-4741-8c78-cea8bdb06e03@collabora.com>
+ <1ebda1a2-779b-4642-9df2-d24cbf223875@bootlin.com>
+ <aa3eead2-b416-4f33-a6a1-1af19665989c@collabora.com>
+ <d9e322be-f97d-4c51-8809-e9634f694de0@bootlin.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250315120143.2344958-1-yuehaibing@huawei.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <d9e322be-f97d-4c51-8809-e9634f694de0@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.983]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[huawei.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,lankhorst.se];
- RCPT_COUNT_TWELVE(0.00)[12]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo, huawei.com:email]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,52 +73,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Louis,
 
+On 14/03/25 20:01, Louis Chauvet wrote:
+> 
+> 
+> Le 14/03/2025 à 13:11, Vignesh Raman a écrit :
+>> Hi Louis,
+>>
+>> On 13/03/25 19:30, Louis Chauvet wrote:
+>>>
+>>>
+>>> Le 13/03/2025 à 11:45, Vignesh Raman a écrit :
+>>>> Hi Maintainers,
+>>>>
+>>>
+>>> Hi Vignesh,
+>>>
+>>> Thanks for the report.
+>>>
+>>> On my setup, this test passed, and the others are skipped.
+>>>
+>>> I think the issue on this specific test may be due to performance (seems
+>>> to be a timing issue, I will try to slow down my VM). The other tests
+>>> require suspend/resume, which I failed to setup on my VM.
+>>>
+>>> To understand what is wrong, I would like to have an environment very
+>>> similar to the CI, how can I reproduce this on my machine? Is there a
+>>> setup script somewhere I can run to create a virtual machine?
+>>
+>> You can follow the instructions below to use the same container that
+>> drm-ci uses from mesa (From pipeline
+>> https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/72473690).
+>> drm-ci uses the crosvm-runner.sh script. You can also build specific IGT
+>> version and run the tests from the container. Thanks Corentin for the
+>> documentation.
+>>
+>> https://gitlab.collabora.com/virgl-es/documentation/-/blob/master/dev- 
+>> ci-container.md
+> 
+> Thank you so much for those information, but I think this gitlab 
+> instance is private, is there a public repository somewhere?
 
-Am 15.03.25 um 13:01 schrieb Yue Haibing:
-> In file included from <command-line>:
-> ./drivers/gpu/drm/i915/display/intel_fbdev.h: In function ‘intel_fbdev_framebuffer’:
-> ./drivers/gpu/drm/i915/display/intel_fbdev.h:32:16: error: ‘NULL’ undeclared (first use in this function)
->     32 |         return NULL;
->        |                ^~~~
-> ./drivers/gpu/drm/i915/display/intel_fbdev.h:1:1: note: ‘NULL’ is defined in header ‘<stddef.h>’; did you forget to ‘#include <stddef.h>’?
->    +++ |+#include <stddef.h>
->      1 | /* SPDX-License-Identifier: MIT */
-> ./drivers/gpu/drm/i915/display/intel_fbdev.h:32:16: note: each undeclared identifier is reported only once for each function it appears in
->     32 |         return NULL;
->        |                ^~~~
->
-> Build fails if CONFIG_DRM_FBDEV_EMULATION is n, add missing header file.
->
-> Fixes: 9fa154f40eb6 ("drm/{i915,xe}: Run DRM default client setup")
-> Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
+Please can you check this link,
+https://github.com/vigneshraman/dev-ci-container/blob/main/dev-ci-container.md
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Regards,
+Vignesh
 
-> ---
->   drivers/gpu/drm/i915/display/intel_fbdev.h | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.h b/drivers/gpu/drm/i915/display/intel_fbdev.h
-> index ca2c8c438f02..89bad3a2b01a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fbdev.h
-> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.h
-> @@ -6,6 +6,8 @@
->   #ifndef __INTEL_FBDEV_H__
->   #define __INTEL_FBDEV_H__
->   
-> +#include <linux/types.h>
-> +
->   struct drm_fb_helper;
->   struct drm_fb_helper_surface_size;
->   struct drm_i915_private;
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> 
+> Have a nice day,
+> Louis Chauvet
+> 
+>> If you want to run only specific tests for vkms in drm-ci, you can use
+>> this commit,
+>> https://gitlab.freedesktop.org/vigneshraman/linux/-/ 
+>> commit/0773affa01a4347056c891bc58887ae1daa0161c
+>>
+>> Once the pipeline is created you can use the ci_run_n_monitor.py [1]
+>> from mesa project to run only vkms and its dependent jobs.
+>>
+>> ../mesa/bin/ci/ci_run_n_monitor.py --pipeline-url
+>> https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1384344
+>> --target vkms:none
+>>
+>> [1]
+>> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/bin/ci/ 
+>> ci_run_n_monitor.py
+>>
+>> Please let us know if you need more information. Thanks.
+>>
+>> Regards,
+>> Vignesh
+>>
+>>>
+>>> Thanks,
+>>> Louis Chauvet
+>>>
+>>>> There are some flake test reported for vkms driver testing in drm-ci.
+>>>>
+>>>> # Board Name: vkms
+>>>> # Failure Rate: 20
+>>>> # IGT Version: 1.30-g04bedb923
+>>>> # Linux Version: 6.14.0-rc4
+>>>> kms_flip@modeset-vs-vblank-race
+>>>>
+>>>> DEBUG - Begin test kms_flip@modeset-vs-vblank-race
+>>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure
+>>>> function run_test_step, file ../tests/kms_flip.c:979:
+>>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end -
+>>>> start > 0.9 * actual_frame_time(o) && end - start < 2.6 *
+>>>> actual_frame_time(o)
+>>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took
+>>>> 47374 usec (frame time 16665.600000 usec)
+>>>> ERROR - Igt error: Dynamic subtest A-Virtual17 failed.
+>>>> ERROR - Igt error: **** DEBUG ****
+>>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+>>>> igt_create_fb_with_bo_size(width=1024, height=768,
+>>>> format=XR24(0x34325258), modifier=0x0, size=0)
+>>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+>>>> igt_create_fb_with_bo_size(handle=1, pitch=4096)
+>>>> ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test
+>>>> requirement passed: igt_has_fb_modifiers(fd)
+>>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+>>>> igt_create_fb_with_bo_size(width=1024, height=768,
+>>>> format=XR24(0x34325258), modifier=0x0, size=0)
+>>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
+>>>> igt_create_fb_with_bo_size(handle=2, pitch=4096)
+>>>> ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test
+>>>> requirement passed: igt_has_fb_modifiers(fd)
+>>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement
+>>>> passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+>>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement
+>>>> passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+>>>> ERROR - Igt error: (kms_flip:1250) igt_kms-INFO:   1024x768: 60 65000
+>>>> 1024 1048 1184 1344 768 771 777 806 0x48 0xa
+>>>> ERROR - Igt error: (kms_flip:1250) DEBUG: No stale events found
+>>>> ERROR - Igt error: (kms_flip:1250) INFO: Expected frametime: 16666us;
+>>>> measured 16665.6us +- 0.500us accuracy 0.01%
+>>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure
+>>>> function run_test_step, file ../tests/kms_flip.c:979:
+>>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end -
+>>>> start > 0.9 * actual_frame_time(o) && end - start < 2.6 *
+>>>> actual_frame_time(o)
+>>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took
+>>>> 47374 usec (frame time 16665.600000 usec)
+>>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO: Stack trace:
+>>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #0
+>>>> ../lib/igt_core.c:2055 __igt_fail_assert()
+>>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #1
+>>>> ../tests/kms_flip.c:1023 run_test_on_crtc_set.constprop.0()
+>>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #2
+>>>> ../tests/kms_flip.c:1845 run_test()
+>>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #3
+>>>> ../tests/kms_flip.c:2078 __igt_unique____real_main2001()
+>>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #4
+>>>> ../tests/kms_flip.c:2001 main()
+>>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #5
+>>>> [__libc_init_first+0x8a]
+>>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #6
+>>>> [__libc_start_main+0x85]
+>>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #7 [_start+0x21]
+>>>> ERROR - Igt error: ****  END  ****
+>>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Test assertion
+>>>> failure function kmstest_set_connector_dpms, file ../lib/ 
+>>>> igt_kms.c:2246:
+>>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Failed assertion:
+>>>> found_it
+>>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Last errno: 9, Bad
+>>>> file descriptor
+>>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: DPMS property not
+>>>> found on 39
+>>>> ERROR - Test kms_flip@modeset-vs-vblank-race: Fail: See
+>>>> "/builds/vigneshraman/linux/results/igt.kms_flip@modeset-vs-vblank-
+>>>> race.log"
+>>>> DEBUG - End test kms_flip@modeset-vs-vblank-race
+>>>>
+>>>> Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/
+>>>> jobs/72473690
+>>>>
+>>>> Please could you have a look at these test results and let us know if
+>>>> you need more information. Thank you.
+>>>>
+>>>> Regards,
+>>>> Vignesh
+>>>
+>>
+> 
 
