@@ -2,46 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCD5A65358
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 15:27:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6350A6539B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 15:31:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 098BA10E40C;
-	Mon, 17 Mar 2025 14:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B686410E40E;
+	Mon, 17 Mar 2025 14:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LezkOzDt";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="CiAXpq8N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AAFA10E40C;
- Mon, 17 Mar 2025 14:27:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3D1CF5C53B6;
- Mon, 17 Mar 2025 14:25:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E317C4CEE3;
- Mon, 17 Mar 2025 14:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742221659;
- bh=S0vgTmExSs8TP4DO0y0I4mxzu5Fz3Cx3YODvfxwaHDk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=LezkOzDt2OSliT4NtauNzcjMXFHv4rE1MShFYSlPsiyVq3kgTbVIB/ReX1WGb4IXS
- BqPMsCV1S/NKA5QH8+AwybcnNqj8mJhl2klLKBa26rA5Jy0HlD6/wyC3br0dCxMIs+
- Fh06skPiLQaYf0BaIkdHOzy4S4boiit5dZ37xaNQ3K2f/IEbbtczv73GzsHJqSkyxB
- Ouzj9U/jGWcQWWs3NjdxzuOfMnef9Jt7ejnKpqWxlJ+H0sC012PwqO1wnKy5WZ3Dyj
- EMiQcvVe4nsH1K9HSlZ+cCh6WHw/K7fc9a6u8Tap1HLEuLihL3UDIrFRtJJpf5sK9F
- zelMN2Y4Re/Jg==
-Date: Mon, 17 Mar 2025 15:27:35 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Cc: intel-xe@lists.freedesktop.org, matthew.brost@intel.com,
- thomas.hellstrom@linux.intel.com, oak.zeng@intel.com,
- dri-devel@lists.freedesktop.org, bbrezillon@kernel.org
-Subject: Re: [RFC 13/29] drm/gpuvm: Introduce MADVISE Operations
-Message-ID: <Z9gxV0RZLopxf8et@pollux>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47E0010E40E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 14:31:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1742221868; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=BJpEgdkNOnSiwPrSUBLBl5lYM+9hFEOctSz9K9PKKQtT5xnLZulbT4jKlx5w5CyrA7bRjPfUchYlYQNkDIwJ3I8ppedq7Dv1VUg5TyTlG2+HY/vwjLnveGsb3+E7+EoKkbk06OmOsrqbOGSgrmMMWNGes0MRf19ZxaeGjSmMx2U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1742221868;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=juhBGFrnJEtXmwmWUkOgurD4ow1+cM0JUbcI3gD4F48=; 
+ b=ecgMK9cayVciXKLAu5E0ZSdMZjVvZf7lm927GcnIz1VU3UBjjcCpsJr6CrO7K2f9wtg5uRocgz3DxeRYM18tgoBdiZTywAnL0hqyXDt7roYcgzXKcBYO7FVAEnXnxnPBUWt3hueS0tglURSEXOwtsGM2mod3r3cMkKSr9mVwDrU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742221868; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=juhBGFrnJEtXmwmWUkOgurD4ow1+cM0JUbcI3gD4F48=;
+ b=CiAXpq8Nrl/AHbcs52PL//215ZsdMXGiJpd1bLL0pvgHIbsjUTw4dPW6Xg9FdhHh
+ VyKaKpzY/kQP6q94ru+oCbZfFGzK9UMFu98OW0CsHa8T49RsZCBg6kxjO7W9/aGUXG1
+ zrh0Fz3mtauDQ+mUb70hAcN9IV4RZYToVMNZEumQ=
+Received: by mx.zohomail.com with SMTPS id 1742221866050461.80081265142326;
+ Mon, 17 Mar 2025 07:31:06 -0700 (PDT)
+Message-ID: <992360e3-632c-4a0e-bb84-a72be7d7cd37@collabora.com>
+Date: Mon, 17 Mar 2025 11:30:59 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250314080226.2059819-14-himal.prasad.ghimiray@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/6] drm/panfrost: Add support for AARCH64_4K page
+ table format
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robh@kernel.org, steven.price@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ kernel@collabora.com, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, sjoerd@collabora.com,
+ angelogioacchino.delregno@collabora.com
+References: <20250317124044.16257-1-ariel.dalessandro@collabora.com>
+ <20250317124044.16257-5-ariel.dalessandro@collabora.com>
+ <20250317144436.2bcc17ed@collabora.com>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250317144436.2bcc17ed@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,99 +74,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(Cc: dri-devel@lists.freedesktop.org, Boris)
+Boris,
 
-Hi Himal,
-
-Please make sure to copy in dri-devel for such patches.
-
-On Fri, Mar 14, 2025 at 01:32:10PM +0530, Himal Prasad Ghimiray wrote:
-> Introduce MADVISE operations that do not unmap the GPU VMA. These
-> operations split VMAs if the start or end addresses fall within existing
-> VMAs. The operations can create up to 2 REMAPS and 2 MAPs.
-
-Can you please add some more motivation details for this patch? What exactly is
-it used for?
-
+On 3/17/25 10:44 AM, Boris Brezillon wrote:
+> On Mon, 17 Mar 2025 09:40:42 -0300
+> Ariel D'Alessandro <ariel.dalessandro@collabora.com> wrote:
 > 
-> If the input range is within the existing range, it creates REMAP:UNMAP,
-> REMAP:PREV, REMAP:NEXT, and MAP operations for the input range.
->   Example:
->   Input Range: 0x00007f0a54000000 to 0x00007f0a54400000
->   GPU VMA: 0x0000000000000000 to 0x0000800000000000
->   Operations Result:
->   - REMAP:UNMAP: addr=0x0000000000000000, range=0x0000800000000000
->   - REMAP:PREV: addr=0x0000000000000000, range=0x00007f0a54000000
->   - REMAP:NEXT: addr=0x00007f0a54400000, range=0x000000f5abc00000
->   - MAP: addr=0x00007f0a54000000, range=0x0000000000400000
-
-This would be much easier to read if you'd pick some more human readable
-numbers.
-
+>> +static int panfrost_mmu_cfg_init(struct panfrost_mmu *mmu,
+>> +				  enum io_pgtable_fmt fmt)
+>> +{
+>> +	struct panfrost_device *pfdev = mmu->pfdev;
+>> +
+>> +	switch (fmt) {
+>> +	case ARM_64_LPAE_S1:
+>> +		return mmu_cfg_init_aarch64_4k(mmu);
+>> +	case ARM_MALI_LPAE:
+>> +		return mmu_cfg_init_mali_lpae(mmu);
+>> +	default:
+>> +		/* This should never happen */
+>> +		return drm_WARN_ON(pfdev->ddev, -EINVAL);
 > 
-> If the input range starts at the beginning of one GPU VMA and ends at
-> the end of another VMA, covering multiple VMAs, the operations do nothing.
->   Example:
->   Input Range: 0x00007fc898800000 to 0x00007fc899000000
->   GPU VMAs:
->   - 0x0000000000000000 to 0x00007fc898800000
->   - 0x00007fc898800000 to 0x00007fc898a00000
->   - 0x00007fc898a00000 to 0x00007fc898c00000
->   - 0x00007fc898c00000 to 0x00007fc899000000
->   - 0x00007fc899000000 to 0x00007fc899200000
->   Operations Result: None
-
-Same here.
-
+> This won't return -EINVAL, but !!(-EINVAL), AKA true. We should do
 > 
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> ---
->  drivers/gpu/drm/drm_gpuvm.c | 175 +++++++++++++++++++++++++++++++++++-
->  include/drm/drm_gpuvm.h     |   6 ++
->  2 files changed, 180 insertions(+), 1 deletion(-)
+> 	default:
+> 		drm_WARN(ptdev->ddev, "Invalid pgtable format");
+> 		return -EINVAL;
 > 
-> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index f9eb56f24bef..904a26641b21 100644
-> --- a/drivers/gpu/drm/drm_gpuvm.c
-> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -2230,7 +2230,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  				ret = op_remap_cb(ops, priv, NULL, &n, &u);
->  				if (ret)
->  					return ret;
-> -				break;
-> +				return 0;
->  			}
->  		}
->  	}
-> @@ -2240,6 +2240,143 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  			 req_obj, req_offset);
->  }
->  
-> +static int
-> +__drm_gpuvm_skip_split_map(struct drm_gpuvm *gpuvm,
-> +			   const struct drm_gpuvm_ops *ops, void *priv,
-> +			   u64 req_addr, u64 req_range,
-> +			   bool skip_gem_obj_va, u64 req_offset)
+> instead.
 
-This looks like a full copy of __drm_gpuvm_sm_map(). I think you should extend
-__drm_gpuvm_sm_map() instead and add an optional flags parameter, e.g.
+Ah, good catch. I missed that from the WARN_ON definition:
 
-	enum drm_gpuvm_madvise_flags {
-		DRM_GPUVM_SKIP_GEM_OBJ_VA = BIT(0),
-	}
+         int __ret_warn_on = !!(condition);
 
-Not sure whether "SKIP_GEM_OBJ_VA" is a good name, but I haven't gone through
-this to such extend that I could propose something better.
+Thanks, will fix in v4.
 
-> +struct drm_gpuva_ops *
-> +drm_gpuvm_madvise_ops_create(struct drm_gpuvm *gpuvm,
-> +			     u64 req_addr, u64 req_range,
-> +			     bool skip_gem_obj_va, u64 req_offset)
+-- 
+Ariel D'Alessandro
+Software Engineer
 
-Same here, I don't think we need a new function for this, but just the
-corresponding flags argument to the existing one.
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
-Besides that, when adding new functionality, please extend the documentation of
-drm_gpuvm accordingly. It's fine you didn't do so for the RFC of course. :)
