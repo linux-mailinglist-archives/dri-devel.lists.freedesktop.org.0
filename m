@@ -2,119 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1D6A650B9
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 14:23:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA40A650BC
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 14:23:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C43C10E403;
-	Mon, 17 Mar 2025 13:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B32910E40B;
+	Mon, 17 Mar 2025 13:23:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fJkGlJwK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R8ylreoQ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fJkGlJwK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R8ylreoQ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ns+eIo42";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RpONRmO4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ns+eIo42";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RpONRmO4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6965510E403
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 13:23:15 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12FFD10E40B
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 13:23:17 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3596E21BD0;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 807A81FFD5;
  Mon, 17 Mar 2025 13:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1742217762; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z9GY+bMqBMcy0IiCvV/hq7iM/O0+edNNwpZBaTpydMY=;
- b=fJkGlJwKQQEzmV65yT0UnVaMHyv8LeQDDSX37mVe32HksaYPCVUYsCuv0DDc1tqY1NZHif
- QqimueQ1kAzZgU3AmM9nSRvC2McsFE7iXSOhY7l+uFtNtqYJPkZxkj8SmLWrru9r763jwK
- Q3UVgeKrPVwQEaH9eKrPL+qE+DCdXYA=
+ bh=xFmtwmprKoQMelAuoF5ul/AMAQot6vpdK85cMZ1t/Wo=;
+ b=ns+eIo42c3zHoXbOBuH8iCetBa4jnkfogbQCnWC2cQAIbhVVwMLwAgn6Koyur7s7g+I9lA
+ o8AlZ8vECXBzaR/deo+hrKnO2rufAx/p45k/qq10ur7zrAkW8w6MZJ490ZeRfiEUgtiKIx
+ nwbi1VxykhcI6dbwbbMKgoTsZqFXqss=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1742217762;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z9GY+bMqBMcy0IiCvV/hq7iM/O0+edNNwpZBaTpydMY=;
- b=R8ylreoQUkDKDHuFhhPdIj79sItoD0nGKwwspRnNPk+9aG8dRzwK3+qAfMF40cyuhxz6y9
- yOeCeOEL9HteQLCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fJkGlJwK;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=R8ylreoQ
+ bh=xFmtwmprKoQMelAuoF5ul/AMAQot6vpdK85cMZ1t/Wo=;
+ b=RpONRmO4wF7OD6kFKBuxpCjLQJyeBE6R/+7n+cnZJdIV7LtuuJyi1qLDoYAZUVT2IOaIdP
+ hLxHLSZMrbHieeBQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ns+eIo42;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RpONRmO4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1742217762; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z9GY+bMqBMcy0IiCvV/hq7iM/O0+edNNwpZBaTpydMY=;
- b=fJkGlJwKQQEzmV65yT0UnVaMHyv8LeQDDSX37mVe32HksaYPCVUYsCuv0DDc1tqY1NZHif
- QqimueQ1kAzZgU3AmM9nSRvC2McsFE7iXSOhY7l+uFtNtqYJPkZxkj8SmLWrru9r763jwK
- Q3UVgeKrPVwQEaH9eKrPL+qE+DCdXYA=
+ bh=xFmtwmprKoQMelAuoF5ul/AMAQot6vpdK85cMZ1t/Wo=;
+ b=ns+eIo42c3zHoXbOBuH8iCetBa4jnkfogbQCnWC2cQAIbhVVwMLwAgn6Koyur7s7g+I9lA
+ o8AlZ8vECXBzaR/deo+hrKnO2rufAx/p45k/qq10ur7zrAkW8w6MZJ490ZeRfiEUgtiKIx
+ nwbi1VxykhcI6dbwbbMKgoTsZqFXqss=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1742217762;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z9GY+bMqBMcy0IiCvV/hq7iM/O0+edNNwpZBaTpydMY=;
- b=R8ylreoQUkDKDHuFhhPdIj79sItoD0nGKwwspRnNPk+9aG8dRzwK3+qAfMF40cyuhxz6y9
- yOeCeOEL9HteQLCw==
+ bh=xFmtwmprKoQMelAuoF5ul/AMAQot6vpdK85cMZ1t/Wo=;
+ b=RpONRmO4wF7OD6kFKBuxpCjLQJyeBE6R/+7n+cnZJdIV7LtuuJyi1qLDoYAZUVT2IOaIdP
+ hLxHLSZMrbHieeBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF12C139D2;
- Mon, 17 Mar 2025 13:22:41 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B5CF13A2C;
+ Mon, 17 Mar 2025 13:22:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id uPk7NSEi2GdFWQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Mar 2025 13:22:41 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2EBIDSIi2GdFWQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 17 Mar 2025 13:22:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, virtualization@lists.linux.dev
-Subject: [PATCH 12/15] drm/virtio: Test for imported buffers with
+ Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Subject: [PATCH 13/15] drm/vmwgfx: Test for imported buffers with
  drm_gem_is_imported()
-Date: Mon, 17 Mar 2025 14:06:50 +0100
-Message-ID: <20250317131923.238374-13-tzimmermann@suse.de>
+Date: Mon, 17 Mar 2025 14:06:51 +0100
+Message-ID: <20250317131923.238374-14-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250317131923.238374-1-tzimmermann@suse.de>
 References: <20250317131923.238374-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 3596E21BD0
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+X-Rspamd-Queue-Id: 807A81FFD5
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  R_MISSING_CHARSET(0.50)[];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[];
+ MX_GOOD(-0.01)[];
  FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,suse.de,redhat.com,chromium.org,gmail.com,lists.linux.dev];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[];
  RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[11]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,53 +135,66 @@ itself while import_attach is just an artifact of the import. Prepares
 to make import_attach optional.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: Chia-I Wu <olvaffe@gmail.com>
-Cc: virtualization@lists.linux.dev
+Cc: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_plane.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_blit.c | 4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c  | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index a6f5a78f436a..e1dd38e7efe8 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -366,13 +366,13 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
- 		return 0;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+index 64bd7d74854e..fa5841fda659 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+@@ -429,7 +429,7 @@ static void *map_external(struct vmw_bo *bo, struct iosys_map *map)
+ 	void *ptr = NULL;
+ 	int ret;
  
- 	obj = new_state->fb->obj[0];
+-	if (bo->tbo.base.import_attach) {
++	if (drm_gem_is_imported(&bo->tbo.base)) {
+ 		ret = dma_buf_vmap(bo->tbo.base.dma_buf, map);
+ 		if (ret) {
+ 			drm_dbg_driver(&vmw->drm,
+@@ -447,7 +447,7 @@ static void *map_external(struct vmw_bo *bo, struct iosys_map *map)
+ 
+ static void unmap_external(struct vmw_bo *bo, struct iosys_map *map)
+ {
+-	if (bo->tbo.base.import_attach)
++	if (drm_gem_is_imported(&bo->tbo.base))
+ 		dma_buf_vunmap(bo->tbo.base.dma_buf, map);
+ 	else
+ 		vmw_bo_unmap(bo);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+index ed5015ced392..200240fecf7d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+@@ -84,7 +84,7 @@ static int vmw_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+ 	struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(obj);
+ 	int ret;
+ 
 -	if (obj->import_attach) {
 +	if (drm_gem_is_imported(obj)) {
- 		ret = virtio_gpu_prepare_imported_obj(plane, new_state, obj);
- 		if (ret)
- 			return ret;
- 	}
+ 		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+ 		if (!ret) {
+ 			if (drm_WARN_ON(obj->dev, map->is_iomem)) {
+@@ -101,7 +101,7 @@ static int vmw_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
  
--	if (bo->dumb || obj->import_attach) {
-+	if (bo->dumb || drm_gem_is_imported(obj)) {
- 		vgplane_st->fence = virtio_gpu_fence_alloc(vgdev,
- 						     vgdev->fence_drv.context,
- 						     0);
-@@ -409,7 +409,7 @@ static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
- 	}
- 
- 	obj = state->fb->obj[0];
+ static void vmw_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
+ {
 -	if (obj->import_attach)
 +	if (drm_gem_is_imported(obj))
- 		virtio_gpu_cleanup_imported_obj(obj);
- }
+ 		dma_buf_vunmap(obj->import_attach->dmabuf, map);
+ 	else
+ 		drm_gem_ttm_vunmap(obj, map);
+@@ -111,7 +111,7 @@ static int vmw_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+ {
+ 	int ret;
  
-@@ -501,7 +501,7 @@ static int virtio_drm_get_scanout_buffer(struct drm_plane *plane,
- 	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
- 
- 	/* Only support mapped shmem bo */
--	if (virtio_gpu_is_vram(bo) || bo->base.base.import_attach || !bo->base.vaddr)
-+	if (virtio_gpu_is_vram(bo) || drm_gem_is_imported(&bo->base.base) || !bo->base.vaddr)
- 		return -ENODEV;
- 
- 	iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
+-	if (obj->import_attach) {
++	if (drm_gem_is_imported(obj)) {
+ 		/*
+ 		 * Reset both vm_ops and vm_private_data, so we don't end up with
+ 		 * vm_ops pointing to our implementation if the dma-buf backend
 -- 
 2.48.1
 
