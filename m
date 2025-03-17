@@ -2,72 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24CAA65494
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 15:57:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E7EA654B3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 16:00:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F229B10E421;
-	Mon, 17 Mar 2025 14:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C60A810E423;
+	Mon, 17 Mar 2025 15:00:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="X29XjBsF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NeCb0e8z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40C1410E421
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 14:57:37 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7619344392;
- Mon, 17 Mar 2025 14:57:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742223455;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qkuh0DXp7wkpHA4U/hr9xccHxf9FKIYItr2z+4BB6U4=;
- b=X29XjBsFlNR58JFDPaXDWBtoy2+6wpXwLjV2W3cfhdB4282VWXOG529KYxBPs5pWRmlIIW
- u/TrZ78MytSw6ORQc1VrhWz/rwOCPypN7pYhSWRQXfLcBmgdwSiaQTe82xL1ENk6vJqJR7
- xS8abVRKrgePsPb37BG29GSWoGqMwFUvCaPKoQ8OaCTAyC3aXqgElZNlyKvCr96YaLBpdN
- xf/4Rl0IBl37YG6Y1bYieiEolFgJPieiJx8Hn9rEA7m3d2XezvYu1AzLmfBJagrJUDinJ3
- uRIQQhiNfFAEZV4sKFhKazELb0EAvzIrVrlu1pJaKi30UdKV84cTb1+gwQxzBg==
-Date: Mon, 17 Mar 2025 15:57:30 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Marek Vasut <marex@denx.de>, Stefan Agner
- <stefan@agner.ch>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, Jagan
- Teki <jagan@amarulasolutions.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Anusha Srivatsa <asrivats@redhat.com>, Paul
- Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
- =?UTF-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Hui Pu
- <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v7 06/11] drm/bridge: get the bridge returned by
- drm_bridge_chain_get_first_bridge()
-Message-ID: <20250317155730.4a328641@booty>
-In-Reply-To: <20250314-aspiring-myrtle-husky-a5f4ac@houat>
-References: <20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com>
- <20250314-drm-bridge-refcount-v7-6-152571f8c694@bootlin.com>
- <20250314-aspiring-myrtle-husky-a5f4ac@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C37A910E423;
+ Mon, 17 Mar 2025 15:00:10 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-2ff615a114bso2769468a91.0; 
+ Mon, 17 Mar 2025 08:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742223610; x=1742828410; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lKg3+CntGpo2nGd/HO2S30tnDbQnjifg17kcFSnARp4=;
+ b=NeCb0e8zSNOCxd8YmJkW0CpYcyx4lMm28r0dT12xCROBPNVpR7s3I4XOuOh9hksBxL
+ RvAwISp4oiC9UOg/wlmbto4q0jmFs7uabRiKTonyjPc7g7a3R0a7XJpaPmLuwC9oXx5D
+ /gWQLa1sLvflgtq17MrBZJVH2FpjjQGh69NQC4ZuW0zMgMCqdOsI6f6rBulvqk/PCPXB
+ 4cLE3UggWJ8FUP7HtsbQniOtF+UX5IvwblSUMdYmC4BmXRrVK+BwPVvlZd23SgKa1cN6
+ k8pElTg+zwDJfZrKy04aMdGgvecsICawSXgWO/xjdJI3ujPiCN8ZW708IfR/dsLOLUIa
+ 7OZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742223610; x=1742828410;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lKg3+CntGpo2nGd/HO2S30tnDbQnjifg17kcFSnARp4=;
+ b=NeAiWq0rWEE+uxZhDHUB2GQKGmTTdFnq05m0oT2qwrX4vtSvXxNgbF58Szsp+FZukc
+ xgARVk+80wQ8XLrJpdXkqwmXQJdANYfoB8wOrIm5ZBoh3/9LaZPBUHE2G47sY26+pfot
+ zjklYag7sMqhVPXU+Xw83z4iuh1jJeF1o3Z5wmjcG8V2IwIm2U6+CIgttAPz+sQf9sgb
+ f0Y6fYdmBuNp3wbRiK1pzxJMFXas5uB72DwgnwyjiVdYOPOEIwOYuLfUIlTwPAEzPu4l
+ MITq9oYkHAfBcqLB+kY7s/oQAdlU+VijA3uKjpCJsmrJtoB/qWRvVxs1xHYHXuPIDTe4
+ EY4g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWaQG5Bm5Uh5FMTRCJzGtZDG8w3NhcwOj/VoA2uEhIOA+nPB6RuBW10SkJa2zC3Nj44d7rmJTJnQYM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlkGkDeTyKHTItSsS8jhsDUj/uh2NEShERjEmFP7/xYdFrGvmF
+ Q1gp1XzFCBpU1ng7L4RIP0f3QK/DjgJgiTLuHMCQc3wSwbTnMIF8cfkuTA==
+X-Gm-Gg: ASbGncuS5A8SOAxeOaMpOGUb92ylu7Ji/AQC4xLodepnrexAIHUDermSzlfE1R5vKUL
+ EPqQwi0opNjHuSHDgU22Hp46o4no/WbXHdSfpIvGOB4/VaOyUZKkXNz9W8sItljKA3fr6tr/rQG
+ EBeIdowYC2XGmG4TY98zBUnaHBbwa3AoAntFThjUzjcyIoNwdzPcZyUI+Wubtvv+4WwfrbYsc7j
+ f7BD6FRIXMUZLQENCjWlCYkeXqNYPI6UlxLpiawUaU36NfOi7FUB27XJrZpuR1wTL5IRsob74M5
+ g2utI3i+1VoTpArRefgZuQlDJcOsTRmqfI9UEdDZw+mDuIDvLMjut/aqCow7E4voDLfyh6oNw8t
+ MPIipTDiJZpBs/RGePLA=
+X-Google-Smtp-Source: AGHT+IHpqQOthZ629rK5OBwdGCNb3YwECxZM9wivvDLCurM5eSyLS9L2K41fuMd5nLAFoGdSrLTErQ==
+X-Received: by 2002:a05:6a20:12c8:b0:1f3:2968:5ac5 with SMTP id
+ adf61e73a8af0-1f5b095d100mr25087612637.20.1742223609746; 
+ Mon, 17 Mar 2025 08:00:09 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-af56e9cd03bsm7297043a12.8.2025.03.17.08.00.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Mar 2025 08:00:08 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>, Connor Abbott <cwabbott0@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm/a6xx+: Don't let IB_SIZE overflow
+Date: Mon, 17 Mar 2025 08:00:06 -0700
+Message-ID: <20250317150006.34084-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeelkeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedtpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrr
- hhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,36 +95,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Mar 2025 19:10:41 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+From: Rob Clark <robdclark@chromium.org>
 
-> On Fri, Mar 14, 2025 at 11:31:19AM +0100, Luca Ceresoli wrote:
-> > drm_bridge_chain_get_first_bridge() returns a bridge pointer that the
-> > caller could hold for a long time. Increment the refcount of the returned
-> > bridge and document it must be put by the caller.
-> > 
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+IB_SIZE is only b0..b19.  Starting with a6xx gen3, additional fields
+were added above the IB_SIZE.  Accidentially setting them can cause
+badness.  Fix this by properly defining the CP_INDIRECT_BUFFER packet
+and using the generated builder macro to ensure unintended bits are not
+set.
 
-...
+v2: add missing type attribute for IB_BASE
+v3: fix offset attribute in xml
 
-> > @@ -1112,8 +1115,8 @@ drm_bridge_get_prev_bridge(struct drm_bridge *bridge)
-> >  static inline struct drm_bridge *
-> >  drm_bridge_chain_get_first_bridge(struct drm_encoder *encoder)
-> >  {
-> > -	return list_first_entry_or_null(&encoder->bridge_chain,
-> > -					struct drm_bridge, chain_node);
-> > +	return drm_bridge_get(list_first_entry_or_null(&encoder->bridge_chain,
-> > +						       struct drm_bridge, chain_node));
-> >  }  
-> 
-> We'll need to modify drm_bridge_get_next_bridge, drm_bridge_get_prev_bridge, and
-> drm_for_each_bridge_in_chain in a similar manner, but for this one
+Reported-by: Connor Abbott <cwabbott0@gmail.com>
+Fixes: a83366ef19ea ("drm/msm/a6xx: add A640/A650 to gpulist")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+Backport notes, prior to commit ae22a94997b8 ("drm/msm: import A2xx-A4xx
+XML display registers database"), just open code, ie:
 
-Sure. I'm discussing this in the cover letter.
+   OUT_RING(ring, submit->cmd[i].size & 0xfffff);
 
-Luca
+Prior to commit af66706accdf ("drm/msm/a6xx: Add skeleton A7xx
+support"), a7xx_submit() did not exist so that hunk can be dropped.
 
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c               | 8 ++++----
+ drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml | 7 +++++++
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 91173bfb7e58..eeb8b5e582d5 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -244,10 +244,10 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 				break;
+ 			fallthrough;
+ 		case MSM_SUBMIT_CMD_BUF:
+-			OUT_PKT7(ring, CP_INDIRECT_BUFFER_PFE, 3);
++			OUT_PKT7(ring, CP_INDIRECT_BUFFER, 3);
+ 			OUT_RING(ring, lower_32_bits(submit->cmd[i].iova));
+ 			OUT_RING(ring, upper_32_bits(submit->cmd[i].iova));
+-			OUT_RING(ring, submit->cmd[i].size);
++			OUT_RING(ring, A5XX_CP_INDIRECT_BUFFER_2_IB_SIZE(submit->cmd[i].size));
+ 			ibs++;
+ 			break;
+ 		}
+@@ -381,10 +381,10 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 				break;
+ 			fallthrough;
+ 		case MSM_SUBMIT_CMD_BUF:
+-			OUT_PKT7(ring, CP_INDIRECT_BUFFER_PFE, 3);
++			OUT_PKT7(ring, CP_INDIRECT_BUFFER, 3);
+ 			OUT_RING(ring, lower_32_bits(submit->cmd[i].iova));
+ 			OUT_RING(ring, upper_32_bits(submit->cmd[i].iova));
+-			OUT_RING(ring, submit->cmd[i].size);
++			OUT_RING(ring, A5XX_CP_INDIRECT_BUFFER_2_IB_SIZE(submit->cmd[i].size));
+ 			ibs++;
+ 			break;
+ 		}
+diff --git a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+index 55a35182858c..5a6ae9fc3194 100644
+--- a/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
++++ b/drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+@@ -2259,5 +2259,12 @@ opcode: CP_LOAD_STATE4 (30) (4 dwords)
+ 	</reg32>
+ </domain>
+ 
++<domain name="CP_INDIRECT_BUFFER" width="32" varset="chip" prefix="chip" variants="A5XX-">
++	<reg64 offset="0" name="IB_BASE" type="address"/>
++	<reg32 offset="2" name="2">
++		<bitfield name="IB_SIZE" low="0" high="19"/>
++	</reg32>
++</domain>
++
+ </database>
+ 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.48.1
+
