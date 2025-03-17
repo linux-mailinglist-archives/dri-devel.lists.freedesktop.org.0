@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11EA4A65A01
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 18:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3D1A65A02
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 18:13:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCCE10E044;
-	Mon, 17 Mar 2025 17:13:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41BE910E18A;
+	Mon, 17 Mar 2025 17:13:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="SESqYGwp";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="V8vxytKZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B49C10E044
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 17:13:30 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-43cf05f0c3eso17393585e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 10:13:30 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8732310E18A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 17:13:32 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-43cf58eea0fso12605145e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 10:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1742231609; x=1742836409;
+ d=raspberrypi.com; s=google; t=1742231611; x=1742836411;
  darn=lists.freedesktop.org; 
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=af2T+qqFETVFhIunkgGHt3W8f1G68St4IjKGS7VLtuA=;
- b=SESqYGwpJUvSNHONWlTnV4tSNnXk6q0cYNNblZLtKQuLz74BhTiiEozo00upIOQ0EP
- o4bedjI7QPH9ZJ/MtNYZxnxF49NdKe1kfcf5+ouE1Tx8QDSfNbziyY7nu/dX3y4LFBXj
- KgvjO0VtZfovIwy1vlyZD3YrzvlrRJaECn39/iZGPNCquOyFCphX97m66XIGPsHml4A5
- cy/tziFUxI9k49KKl+caS6hq6yVgHuP2yx8FeenEYa+tPbVjW4V2dSTBu+/EOwLReFjB
- EyqNeIVkYNnHOsEdXoBpDwqdbOHpwMPSbgvDZXvvHHG6ljrosi6+2KpxcvAJ1rUAc2uO
- IZgg==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=lRDTsBjDbCS/Pgq7ZICBGwt1MaN5NlT93wkTd9DN6xA=;
+ b=V8vxytKZibtOHpM/4oXVui916lgNckZZ46YFab7s+MCOtZhGboCPVX09LxtS6g7G4Z
+ TTzAUaVJYgncIhuCR4p/YMjFeL0ow5kU1GLikP/RcA4fAVEngEf0/eXsEDx9RZjwVbxt
+ Ihg+/QKToymUqchPD5Necv5CZAAiKoJ+i/LTngirrOqiscQDfVg5hrHGdCA4ups59Rao
+ RDVoHnm0Nje3A4GQ/ruRXYUBRYXRsA52B4s0BDFiaHxKgNyafAH+utGMAjX7PKd+9YxS
+ E95yMD5CmGUZvF3k76R4Rt/IaGMjvdUUqDOGC3ryOJTTWv8bHKb0jnr6YI5kMhiPL2sn
+ 14Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742231609; x=1742836409;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=af2T+qqFETVFhIunkgGHt3W8f1G68St4IjKGS7VLtuA=;
- b=BWTt/C4hsx9GDSNqgD7eN5zLCqpfO2dNL00yz/QTrwytD6NrcOc0uqAFVb5Y7bodn0
- eHTi3L5lQqwWvylM8Vr0GeffQRNRboJOLmb4D0hiAgiB8LY1PiTHeE67y276z7PcQ0kM
- gpnKQhtjMu9fCsK9Ze1+8XrX8wb1/D56Dr1hEcQtBPp3ZfMFkQN1WgBTv0sTANoZF/dc
- Y2hnv7Xqguj9dwlXuOMWlBxqh9Q7+ROkRgSiJvjno3Mpsba/eXVtDH7kI1wUd/I5J5fx
- JP/NWxKFyiuqqB0eP98z0tgg9nmrtGkMx7M561Y5E4S06xGaf7LQGXYXao8kWk4E6PXF
- XNzw==
-X-Gm-Message-State: AOJu0Yx3a5q0v5Q/YWJt3a7TtOOZ7wKFZsu43US7jwmYyYAgG2L+fRk2
- VdBWYBbE8LnTIbSK3wHUd5h+VK675+JwwLPsYPP/Ktd4IraZEA2X2WxfpPVSfR8=
-X-Gm-Gg: ASbGncsniZpnLa2WPZUc9Vh9bUCnGARHWyx//vQQUwWXY6FVer0swx9/PBDKP3feYw7
- Dnaa0VnBAjE0bFcemc3NDRF+f0noCq0yA9KSurL0wGwmmI5E6P1TxMPhxGjRw9c5J+Vmf+JSME4
- bYdrHeR6gfJTln+ZYGpVUoabLCZdYKmt/8kdpaiXSsbC2hbFAJ7DZgFIjqhS8HNRD8BZSvGShUe
- Vu3xb31xjW+1eNHAViIoYCkfBIAIOzfAX0uaCnu2gxgAP/vY7mjc527DUDtBPom2aj4iGY9J5hK
- OdKZyRV+HDyIfHpQxnm16I5QvwvvtCZz9g==
-X-Google-Smtp-Source: AGHT+IFdezCTwV9D+zOpoxc2EiaNyS0kLnwCmYcKwtf9X+v1Hkb6NAmZ4F0XRIdGnVLakH5Iz/jHWw==
-X-Received: by 2002:a05:600c:150a:b0:43d:2313:7b4a with SMTP id
- 5b1f17b1804b1-43d23137bd4mr111445655e9.3.1742231609415; 
- Mon, 17 Mar 2025 10:13:29 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1742231611; x=1742836411;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lRDTsBjDbCS/Pgq7ZICBGwt1MaN5NlT93wkTd9DN6xA=;
+ b=u8ULtox9cZ028HKlqS7VMW/KxX3BK7bel739A092Ma3gNvb9/WfmIz7VTi7PKxPZh+
+ AvUy9K0hxByCw2sTSFuv5NjBL/h267Sp4F8cdP2r2Oq1gIQB/6oQb5buofFSbZo22wtI
+ lCglWzmAexq8lhVtRVV+EaO6/53iy5J0DGdlwW21qOq0LEgirZ+1uXwjHefY657Q/o/W
+ DvzEWdK6hXg88qELD9ePJjd8vA/783Lbu1UVv+CY7MATDpf1l6B0wYusGoU1sZ1HEg26
+ tJkLG3nwpUa4qXJSb6egKMD+kv8ve+MuqczVizwXVb2XSQrw5nTdOWM09HgUYRMdzjNj
+ 0s7w==
+X-Gm-Message-State: AOJu0Yy0iQ+3tR3MBT1eXnC+0up9l8WRAQu+aCUgB1Rygx9IvgW5BQwy
+ NOwp0yc7h8mb7AxYxlqWJhl0Pj6lLNkKzO8T++eUOQtzdbt522EZxTu4FXkcOvQ=
+X-Gm-Gg: ASbGncs9kacFk16spoKQRFlSRjeq2drSFakfPGP7wuvBGh0Rb2PMYG1Cu7vV2usLOky
+ IsWCVVBaYGzwqrBzFksypKMQKJdyslfqDsSp0Bwbj9SJ0WCVm3ZxpeJ7LnKQPsyfPxbzwhMtjjP
+ z6BjitjvioIDoq/RlOTLureEMCqoUzbOf4vYFmTInGzvhVKUI69vgpm2jOMUhloXAX+7F8CXY6n
+ mNJIi4eLG9AVIQM7fp+PbrIMzEoIYf0PpLIeZ29OJPfRPZdtHqaOI7tI59TGUm3BGcM2vUX8Emq
+ Ohu8uH92LTjmyQmOzZhDSON+Qo8uyufTFQ==
+X-Google-Smtp-Source: AGHT+IHaQFEGmNJHvYPiwKVLfVH0wjBZjXXR2bM1ay2xIHNWMsAaGkue/Sb8FK6LJoE+P8Wy8OzqnQ==
+X-Received: by 2002:a05:600c:3d0e:b0:43c:fe5e:f040 with SMTP id
+ 5b1f17b1804b1-43d2bb4d786mr47087915e9.23.1742231611236; 
+ Mon, 17 Mar 2025 10:13:31 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d1fdda15dsm112003365e9.3.2025.03.17.10.13.27
+ 5b1f17b1804b1-43d1fdda15dsm112003365e9.3.2025.03.17.10.13.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Mar 2025 10:13:27 -0700 (PDT)
+ Mon, 17 Mar 2025 10:13:29 -0700 (PDT)
 From: David Turner <david.turner@raspberrypi.com>
-Subject: [PATCH v4 0/3] drm/vc4: hdmi: Add jack detection to HDMI audio driver
-Date: Mon, 17 Mar 2025 17:12:21 +0000
-Message-Id: <20250317-vc4_hotplug-v4-0-2af625629186@raspberrypi.com>
+Date: Mon, 17 Mar 2025 17:12:22 +0000
+Subject: [PATCH v4 1/3] drm/display: Update comment on hdmi hotplug helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPVX2GcC/23MQQrCMBCF4auUWRuJTWqCq95DisR0bAe0CZMaL
- KV3N3bt8n/wvhUSMmGCS7UCY6ZEYSqhDxX40U0DCupLQy3rRqpTLbLXtzHM8fkehHKo0VilrXZ
- QHpHxQZ9du3alR0pz4GXHs/qt/52shBS9aayxZ2N6tC27FO/IvEQ6+vCCbtu2L0p89wWsAAAA
-X-Change-ID: 20250312-vc4_hotplug-3ae4e783484a
+Message-Id: <20250317-vc4_hotplug-v4-1-2af625629186@raspberrypi.com>
+References: <20250317-vc4_hotplug-v4-0-2af625629186@raspberrypi.com>
+In-Reply-To: <20250317-vc4_hotplug-v4-0-2af625629186@raspberrypi.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -78,8 +76,7 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- David Turner <david.turner@raspberrypi.com>, 
- Stefan Wahren <wahrenst@gmx.net>
+ David Turner <david.turner@raspberrypi.com>
 X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,45 +93,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series enables jack detection for HDMI audio on vc4 devices.  This
-means that userspace audio applications can detect when HDMI devices are
-connected or disconnected, for example to play/pause or switch to
-another audio device.
-
-Changes in v4:
-- Split the update of the comment on
-  drm_atomic_helper_connector_hdmi_hotplug() into a separate patch
-- Update the wording of the comment
-- Add Reviewed-by tags
-- Link to v3:
-  https://lore.kernel.org/r/20250312-vc4_hotplug-v3-0-d75878677de8@raspberrypi.com
-
-Changes in V3:
-- Update comment on drm_atomic_helper_connector_hdmi_hotplug() to
-  clarify that it must be called for disconnets too
-
-Changes in V2:
-- split initial patch into fix and jack detection feature as
-  suggested by Dmitry
+Update the comment on drm_atomic_helper_connector_hdmi_hotplug() to
+clarify that it must be called for all status updates.
 
 Signed-off-by: David Turner <david.turner@raspberrypi.com>
 ---
-David Turner (2):
-      drm/display: Update comment on hdmi hotplug helper
-      drm/vc4: hdmi: Add jack detection to HDMI audio driver
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Stefan Wahren (1):
-      drm/vc4: hdmi: Call HDMI hotplug helper on disconnect
+diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+index c205f37da1e12b11c384670db83e43613e031340..cac819ac468de020e4e75b3bcb09c31f909bd61e 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+@@ -816,7 +816,7 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
+  * @status: Connection status
+  *
+  * This function should be called as a part of the .detect() / .detect_ctx()
+- * callbacks, updating the HDMI-specific connector's data.
++ * callbacks for all status changes.
+  */
+ void drm_atomic_helper_connector_hdmi_hotplug(struct drm_connector *connector,
+ 					      enum drm_connector_status status)
 
- drivers/gpu/drm/display/drm_hdmi_state_helper.c |  2 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                  | 22 ++++++++++++++++++++--
- drivers/gpu/drm/vc4/vc4_hdmi.h                  |  7 +++++++
- 3 files changed, 28 insertions(+), 3 deletions(-)
----
-base-commit: eff0347e7c228335e9ff64aaf02c66957803af6a
-change-id: 20250312-vc4_hotplug-3ae4e783484a
-
-Best regards,
 -- 
-David Turner <david.turner@raspberrypi.com>
+2.34.1
 
