@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87134A63B39
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 03:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0698A63B47
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 03:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DE7A10E296;
-	Mon, 17 Mar 2025 02:16:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A17010E069;
+	Mon, 17 Mar 2025 02:19:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bpIFRBEw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rYVehdnI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8227310E296
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 02:16:11 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A7ED10E069
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 02:19:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4E69FA48CD5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 02:10:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9F17FC4CEEE
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 02:16:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D84865C463A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 02:16:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5E03BC4CEEF
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 02:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742177765;
- bh=CAwI6vCtXruff3qjcDseQVJno3Jcs50Mvf5DruhnOi8=;
+ s=k20201202; t=1742177939;
+ bh=KM0SW9CCMWri3PenRY9cwFkRjnJEE2JcQuvjMSB17UU=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=bpIFRBEw6O7oBC0CPfSq8y84xxbyDPZYRCeQIHeN2slMQFzggpCLnVCTW1jE4WkC1
- ZqcSZmpBSNbGFjRU4615T7DKlyWgi5vdB4jz3QdEGlrhqDha+AV4Js1uBiGJNpMu87
- K5LJ69gjL9wexvhxB31rd5ct7muwZQRtI2uKfzI9OFfaRSIv9W75lwj69ja8bhgk0+
- /HNMfv8KckBzEHEyONVUgPtHZoA7kLS7zOuCvjNBgP78kuiw7/cXY4pn710zYMDJ69
- 42kI7owAs2hjjxcsVymAQNpjeK3FQ19JK6PJDiGk5wF+Ebku63QkzXfc1NG6TMtKYT
- BKlozUD3OTlJg==
+ b=rYVehdnI99HJzk68Y7zEO0U+WmY99/0qE7bu5KQyRer5f5nqK4mYp4NnKdP80+7G8
+ RNr4A43IPkAtpFiBiRISB2LaBt3QurgWeJO9IUWKZJxjRrP91xW4aGsPfdHDvP4cb/
+ uve2q8Hj4kKbe1BYKMscXyObgsfvaW6fCEyy8Ydam+EWSHIGX0tlP/cP2zaVcuz73C
+ f6UvPJUgvrH+981hfQ4CdYnbZXyLF8LCe3yf2WxmH2iQGguddDzRCEuck3nkaKQYj8
+ rDIFeN1oIDXaYXIFylkqMzPJXlDc94nW0k/3KQoPxRarBTCVfFpLUze0VEqBw7meOS
+ OBT2O3jObhzDQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 96D10C53BC5; Mon, 17 Mar 2025 02:16:05 +0000 (UTC)
+ from userid 48) id 479A1C53BC5; Mon, 17 Mar 2025 02:18:59 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 219888] amdgpu: Oops connecting HDMI/DVI/DP on HD 7850 (Pitcairn)
-Date: Mon, 17 Mar 2025 02:16:05 +0000
+Date: Mon, 17 Mar 2025 02:18:59 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +50,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219888-2300-1w2e4jqdFN@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_bisect_commit cc cf_kernel_version cf_regression
+Message-ID: <bug-219888-2300-EEDB7Idg7W@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219888-2300@https.bugzilla.kernel.org/>
 References: <bug-219888-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,28 +76,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219888
 
---- Comment #5 from Alexandre Demers (alexandre.f.demers@gmail.com) ---
-bisecting found out the following culprit:
+Alexandre Demers (alexandre.f.demers@gmail.com) changed:
 
-e6a901a00822659181c93c86d8bbc2a17779fddc is the first bad commit
-commit e6a901a00822659181c93c86d8bbc2a17779fddc (HEAD)
-Author: Wenjing Liu <wenjing.liu@amd.com>
-Date:   Wed Apr 17 15:23:08 2024 -0400
-
-    drm/amd/display: use even ODM slice width for two pixels per container
-
-    [why]
-    When optc uses two pixel per container, each ODM slice width must be an
-    even number.
-
-    [how]
-    If ODM slice width is odd number increase it by 1.
-
-    Reviewed-by: Dillon Varone <dillon.varone@amd.com>
-    Acked-by: Wayne Lin <wayne.lin@amd.com>
-    Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
-    Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Bisected commit-id|                            |e6a901a00822659181c93c86d8b
+                   |                            |bc2a17779fddc
+                 CC|                            |alexdeucher@gmail.com
+     Kernel Version|6.13.0                      |6.11.0
+         Regression|No                          |Yes
 
 --=20
 You may reply to this email to add a comment.
