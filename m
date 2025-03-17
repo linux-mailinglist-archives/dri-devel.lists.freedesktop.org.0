@@ -2,60 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191D3A64F80
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 13:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BB5A650AB
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 14:22:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51B9A10E108;
-	Mon, 17 Mar 2025 12:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E059088784;
+	Mon, 17 Mar 2025 13:22:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="OkfHSrIs";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="pEMUmObP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fsDrjzcf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iC5HZ4Vp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QHMqEWZf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD72810E108
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 12:43:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742215393; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=W/8A6fXZMKuCo7yUW8I8FHOZojX8UAAcSDBG9imgFl5PeZ2NYsdDcluh5eHBAOULjnU8hgh0xJFyqlwtadsFDiS8PRiU9nykISmIdY/RMzjnUxbGOBRNCAm/x1D8l49E53aPOQCWWj97nOHyJnlhCg+HaOdF+K0WJ+WQ3/RVXeA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742215393;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=shM7+TC0TXgX3AuBtBbLz5FbCbczMV6yD/4P/qN2rI4=; 
- b=MwCdaGOOs9ebmu4IcYdfX22qmjpwTQa7COKws79IFpzW8VfEfzNwptQ+hP1SSGfJv4RXdx1n9ygWajUnyFnYlOrIyBl6wC2xEYaFSyut0+a80dTZWGtGIKdE3DV9Lp5EcK//yLPFCrqZwuUXHO4QkaE5WKvpTZsvTfKW/C6YVCo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
- dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742215393; 
- s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=shM7+TC0TXgX3AuBtBbLz5FbCbczMV6yD/4P/qN2rI4=;
- b=OkfHSrIsBxJzTXcPR4jVqm/6LfIZAQTv4yvcZNw/J3zSglqeeyBC2rlheQqlHOaH
- +26HPd/l9kWLb6PiB02Q62F3yd3D6LBrtde59SV53yYo6+1SXtNudesPF/Q6Dt/9GO5
- 5tOkRkxeKAwL96yOkDNE6iZyhaEjVQNdUN1euCuU=
-Received: by mx.zohomail.com with SMTPS id 1742215391542357.2105699159947;
- Mon, 17 Mar 2025 05:43:11 -0700 (PDT)
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, kernel@collabora.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- sjoerd@collabora.com, angelogioacchino.delregno@collabora.com,
- Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Subject: [PATCH v3 6/6] drm/panfrost: Force AARCH64_4K page table format on
- MediaTek MT8192
-Date: Mon, 17 Mar 2025 09:40:44 -0300
-Message-ID: <20250317124044.16257-7-ariel.dalessandro@collabora.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250317124044.16257-1-ariel.dalessandro@collabora.com>
-References: <20250317124044.16257-1-ariel.dalessandro@collabora.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 677D310E3FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 13:22:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BCEFB21187;
+ Mon, 17 Mar 2025 13:22:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1742217760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aps1HslWqK9nrHVR+oN2gyDeMf5TTlCbTpjykrvw3mQ=;
+ b=pEMUmObPZGHsvZHgPQisMFJiy37nzxwt1mHE/1JhQdDWzfvr8Jh9D+G7qYuksCRlktZ8NP
+ RZOErjaw67NIRhSfOXVBoBNIQv20LUT/lN9uz3DQ3tRnXiYbbd+c2HbVnspBR9jx/Z9B89
+ eJyJ8ehBQ1vy/w2bHTawTI6Z9f3zOXI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1742217760;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aps1HslWqK9nrHVR+oN2gyDeMf5TTlCbTpjykrvw3mQ=;
+ b=fsDrjzcfCfG1a/tcuaL4A9SRCJWdZ43oF4LSHZSIvmxAyzbrdjHjLnJofoKqccQHehw1wD
+ CDcyG+pqQHTYMNDw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iC5HZ4Vp;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QHMqEWZf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1742217758; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aps1HslWqK9nrHVR+oN2gyDeMf5TTlCbTpjykrvw3mQ=;
+ b=iC5HZ4VpWTnrBMNUaQ3G3b3o/CVKlqV5GYEbuOZckQrQHUJguHoqQZsJzhUqaJbpZgOv92
+ L4kVcdJxiWUE9GWtnFY4beqNXLEySqwiFHBFGG6DabEpAj6ja0OKuW6pC6BoiujNQ0B36u
+ q7+TMeOZCiyy+segeODBlioGOIYF31E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1742217758;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aps1HslWqK9nrHVR+oN2gyDeMf5TTlCbTpjykrvw3mQ=;
+ b=QHMqEWZf2KAmttNnOpF4YuFcQN4OjAbTzIcaQKrAI+gwvBx5MbB2yyG35JDy3QkX5oDfxi
+ 8lYhmSZI4WFwRPDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8DC7B139D2;
+ Mon, 17 Mar 2025 13:22:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id y6R4IR4i2GdFWQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 17 Mar 2025 13:22:38 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/15] drm: Do not use import_attach in drivers
+Date: Mon, 17 Mar 2025 14:06:38 +0100
+Message-ID: <20250317131923.238374-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+X-Rspamd-Queue-Id: BCEFB21187
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCPT_COUNT_FIVE(0.00)[6];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:dkim, suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +121,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MediaTek MT8192 SoC has an ARM Mali-G57 MC5 GPU (Valhall-JM). Now that
-Panfrost supports AARCH64_4K page table format, let's enable it on this
-SoC.
+Avoid struct drm_gem_object.import_attach in many DRM drivers that
+use it to get the object's dma-buf or test for an imported buffer.
 
-Running glmark2-es2-drm [0] benchmark, reported the same performance
-score on both modes Mali LPAE (LEGACY) vs. AARCH64_4K, before and after
-this commit. Tested on a Mediatek (MT8395) Genio 1200 EVK board.
+The helper drm_gem_is_imported() tests if a GEM object's buffer
+has been imported into the driver. The corresponding dma-buf is
+referenced by the object itself. Both cases avoid import_attach.
 
-[0] https://github.com/glmark2/glmark2
+The import_attach field in struct drm_gem_object is an artifact of
+the import process, but should not be used otherwise. This series
+fixes most of the drivers in the DRM misc tree. Other DRM drivers
+can be converted when drm_gem_is_imported() becomes available in
+their tree.
 
-Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+Thomas Zimmermann (15):
+  drm/armada: Test for imported buffers with drm_gem_is_imported()
+  drm/etnaviv: Test for imported buffers with drm_gem_is_imported()
+  drm/etnaviv: Use dma_buf from GEM object instance
+  drm/exynos: Test for imported buffers with drm_gem_is_imported()
+  drm/gud: Test for imported buffers with drm_gem_is_imported()
+  drm/msm: Test for imported buffers with drm_gem_is_imported()
+  drm/omapdrm: Test for imported buffers with drm_gem_is_imported()
+  drm/panfrost: Test for imported buffers with drm_gem_is_imported()
+  drm/panthor: Test for imported buffers with drm_gem_is_imported()
+  drm/rockchip: Test for imported buffers with drm_gem_is_imported()
+  drm/vc4: Test for imported buffers with drm_gem_is_imported()
+  drm/virtio: Test for imported buffers with drm_gem_is_imported()
+  drm/vmwgfx: Test for imported buffers with drm_gem_is_imported()
+  drm/vmwgfx: Use dma_buf from GEM object instance
+  drm/xen: Test for imported buffers with drm_gem_is_imported()
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index e854f290858f9..ef30d314b2281 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -836,6 +836,7 @@ static const struct panfrost_compatible mediatek_mt8192_data = {
- 	.num_pm_domains = ARRAY_SIZE(mediatek_mt8192_pm_domains),
- 	.pm_domain_names = mediatek_mt8192_pm_domains,
- 	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
-+	.gpu_quirks = BIT(GPU_QUIRK_FORCE_AARCH64_PGTABLE),
- };
- 
- static const struct of_device_id dt_match[] = {
+ drivers/gpu/drm/armada/armada_fb.c          |  2 +-
+ drivers/gpu/drm/armada/armada_gem.c         |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  8 ++++----
+ drivers/gpu/drm/exynos/exynos_drm_gem.c     |  4 ++--
+ drivers/gpu/drm/gud/gud_pipe.c              |  2 +-
+ drivers/gpu/drm/msm/msm_drv.c               |  2 +-
+ drivers/gpu/drm/msm/msm_gem.c               |  4 ++--
+ drivers/gpu/drm/msm/msm_gem.h               |  2 +-
+ drivers/gpu/drm/msm/msm_gem_prime.c         |  4 ++--
+ drivers/gpu/drm/omapdrm/omap_gem.c          |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c     |  2 +-
+ drivers/gpu/drm/panthor/panthor_gem.c       |  2 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c       | 10 +++++-----
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c |  2 +-
+ drivers/gpu/drm/vc4/vc4_bo.c                |  2 +-
+ drivers/gpu/drm/vc4/vc4_gem.c               |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_plane.c      |  8 ++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_blit.c        |  4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c         | 12 ++++++------
+ drivers/gpu/drm/xen/xen_drm_front_gem.c     |  2 +-
+ 20 files changed, 39 insertions(+), 39 deletions(-)
+
 -- 
-2.47.2
+2.48.1
 
