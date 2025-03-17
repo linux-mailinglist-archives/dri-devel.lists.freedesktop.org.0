@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF45A6400B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 06:44:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93519A64012
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 06:46:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C59B10E03B;
-	Mon, 17 Mar 2025 05:44:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 535A610E08B;
+	Mon, 17 Mar 2025 05:46:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jhtM++aQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fGetVCIk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E30B910E03B
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:44:01 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F74810E08B
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:46:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1DC7B5C4D9D
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:41:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A4E44C4CEEE
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:43:57 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id BCF47A43404
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:40:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 19DEAC4CEEF
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 05:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742190237;
- bh=UfAYoE0To7yzhaiwO6fqT0sJIQoggN/qMq651t44dZ8=;
+ s=k20201202; t=1742190386;
+ bh=g0+J3PZtVy1FpGb2uTg6lbZJYWo3SfxP3iTM+nPOVmw=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=jhtM++aQs95kMaMC/htdO1HUu0w8H0lh2QQvC58Wl08QJCaO8gJmo1FCZ4IliIfPm
- AbXftSAgMGw4fqgGcTj5JdPQS+MUCfTdWHOOzaiNmIPJUOacHNGYp5/wtIBgV7+ZkW
- aI/5u4+zqdHpVvFNFiQ6XZu266l41zF67GssyaETwzB9ID60++dD19jDU/AqNvvKtG
- YONlUCx8J9+OT+2XzcIQvsGv/VG5OlVpFopUnS+zJqBpi63DyAPKlBG2iy6hv9GDwh
- 9EN2IqpMx1G22VmS1XedNrngWtXc0D8UUScs5xru2O7G+C1yVq7lGwLOlwaJcX5pNc
- LCqo7G6B5nV7g==
+ b=fGetVCIkXPHqIrZ/mgeRL/YlDZxceBWfrzri5uod8M71rxXmCnm/jNhVFsVZaguVo
+ 2ZgXyE/YiyomUjN6PJ72p4mUUHrYBawoewyASEp3zf9OIroNg8YgVAbt8Emt5vDhK9
+ JiUSdkBrDEQdyJm87CScRPIj67jk5J/xfOaTN8nydDW3jujvVRJZCya+2Lal/giGoH
+ 1qwhKQUfeQmmyHrk6DvWb6pdSU7enMP5zUnJf030LeUCHAFfr67Jc57bVhNmG6SYSi
+ Nhe3qAeCcDgHJm894aUn4aAsfkcBYYtoCmZp3Y49d8SOPtpZBMghFN86OPMuy7C5dr
+ e4EsL5dC/GgrA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 989F3C433E1; Mon, 17 Mar 2025 05:43:57 +0000 (UTC)
+ from userid 48) id 0C2F9C4160E; Mon, 17 Mar 2025 05:46:26 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 219888] amdgpu: Oops connecting HDMI/DVI/DP on HD 7850 (Pitcairn)
-Date: Mon, 17 Mar 2025 05:43:57 +0000
+Date: Mon, 17 Mar 2025 05:46:25 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -51,7 +51,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219888-2300-Bp5i3EooUC@https.bugzilla.kernel.org/>
+Message-ID: <bug-219888-2300-3NBU1AVsxv@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-219888-2300@https.bugzilla.kernel.org/>
 References: <bug-219888-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,11 +76,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D219888
 
---- Comment #7 from Alexandre Demers (alexandre.f.demers@gmail.com) ---
-DCE6's dce60_tg_funcs structure is missing .is_two_pixels_per_container =3D
-dce110_is_two_pixels_per_container
-
-It seems the fix is already in 6.14-rc7.
+--- Comment #8 from Alexandre Demers (alexandre.f.demers@gmail.com) ---
+For reference, commit e204aab79e01bc8ff750645666993ed8b719de57
 
 --=20
 You may reply to this email to add a comment.
