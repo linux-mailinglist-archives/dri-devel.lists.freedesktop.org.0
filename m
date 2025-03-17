@@ -2,118 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF48A650BF
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 14:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A52A6518C
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 14:45:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EAF710E408;
-	Mon, 17 Mar 2025 13:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B30010E116;
+	Mon, 17 Mar 2025 13:45:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="a9UWa/7X";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QkkQoW6K";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a9UWa/7X";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QkkQoW6K";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hym0kP32";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2805D10E3FC
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 13:23:24 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E95610E116
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 13:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1742219087;
+ bh=JVmdQyfU6VNsa3dSvwc3s1VX9bvBvzsEOdDC3T1SiXg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=hym0kP32VXeZ9Y8swpAitB2ywPMwWIR5TMF0ZqbdOKyF5ZCGo/j69C8vFQo1klT9a
+ KZHEs1A4efzgf8ekooXaM3aeUER2GS/vKf1xtfCMyT8gLn2hyi1XhAi8Uysd0tUVT2
+ rVeECek1J5hB+k0sg3QHTjhhpOuuRu3bTfbVAMPPYFoPRsv9x1J37Wu9wDPQQr5Jpe
+ z+c73PZyXXL/SkZyTRx0vxSLu0QzAOt9xqM1toDpL1KMUnFhiKD4nh3QXhsSk+aFmh
+ joKJC3NpkTf0DWN0JcVyed1m9YzGiY7avd49Vu1INRQ+CtF+ZuFK/l5k+kPP83q1Us
+ enqrkhPs5W1KQ==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F421721C12;
- Mon, 17 Mar 2025 13:22:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742217763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ia/d+wONNsrX5RxRJKAMpdajfWEWw/i/nrXUtfwTSwY=;
- b=a9UWa/7X9IQ3l+6A2EVx6jADrO1Yk0EH/H0qHCuJ9epguENWC8NaNNlbZSsZHIkV1WcAO1
- D9JPM9YFIPpsHPko0f9uGNsdC01BPSSkX5/2xMbPAH4LqRsGd9bGE011ncO07zv0Xb6Nfo
- bpTwoqJwve7GL8SDPkSyrhjIetTtXnQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742217763;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ia/d+wONNsrX5RxRJKAMpdajfWEWw/i/nrXUtfwTSwY=;
- b=QkkQoW6KzIwXRuvAlKdKDmerm3ZE9O6VdFX2P4f/WL1s6bxqA+tF1ZANroCD7uHUVk1BN/
- rk+kquigUC7uEoCQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="a9UWa/7X";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QkkQoW6K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742217763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ia/d+wONNsrX5RxRJKAMpdajfWEWw/i/nrXUtfwTSwY=;
- b=a9UWa/7X9IQ3l+6A2EVx6jADrO1Yk0EH/H0qHCuJ9epguENWC8NaNNlbZSsZHIkV1WcAO1
- D9JPM9YFIPpsHPko0f9uGNsdC01BPSSkX5/2xMbPAH4LqRsGd9bGE011ncO07zv0Xb6Nfo
- bpTwoqJwve7GL8SDPkSyrhjIetTtXnQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742217763;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ia/d+wONNsrX5RxRJKAMpdajfWEWw/i/nrXUtfwTSwY=;
- b=QkkQoW6KzIwXRuvAlKdKDmerm3ZE9O6VdFX2P4f/WL1s6bxqA+tF1ZANroCD7uHUVk1BN/
- rk+kquigUC7uEoCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B83B113A2C;
- Mon, 17 Mar 2025 13:22:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id wLm5KyIi2GdFWQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Mar 2025 13:22:42 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- xen-devel@lists.xenproject.org
-Subject: [PATCH 15/15] drm/xen: Test for imported buffers with
- drm_gem_is_imported()
-Date: Mon, 17 Mar 2025 14:06:53 +0100
-Message-ID: <20250317131923.238374-16-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250317131923.238374-1-tzimmermann@suse.de>
-References: <20250317131923.238374-1-tzimmermann@suse.de>
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 91ADA17E0899;
+ Mon, 17 Mar 2025 14:44:46 +0100 (CET)
+Date: Mon, 17 Mar 2025 14:44:36 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robh@kernel.org, steven.price@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, kernel@collabora.com, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, sjoerd@collabora.com,
+ angelogioacchino.delregno@collabora.com
+Subject: Re: [PATCH v3 4/6] drm/panfrost: Add support for AARCH64_4K page
+ table format
+Message-ID: <20250317144436.2bcc17ed@collabora.com>
+In-Reply-To: <20250317124044.16257-5-ariel.dalessandro@collabora.com>
+References: <20250317124044.16257-1-ariel.dalessandro@collabora.com>
+ <20250317124044.16257-5-ariel.dalessandro@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: F421721C12
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FROM_HAS_DN(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[8];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
- FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,31 +67,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of testing import_attach for imported GEM buffers, invoke
-drm_gem_is_imported() to do the test. The helper tests the dma_buf
-itself while import_attach is just an artifact of the import. Prepares
-to make import_attach optional.
+On Mon, 17 Mar 2025 09:40:42 -0300
+Ariel D'Alessandro <ariel.dalessandro@collabora.com> wrote:
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-Cc: xen-devel@lists.xenproject.org
----
- drivers/gpu/drm/xen/xen_drm_front_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +static int panfrost_mmu_cfg_init(struct panfrost_mmu *mmu,
+> +				  enum io_pgtable_fmt fmt)
+> +{
+> +	struct panfrost_device *pfdev = mmu->pfdev;
+> +
+> +	switch (fmt) {
+> +	case ARM_64_LPAE_S1:
+> +		return mmu_cfg_init_aarch64_4k(mmu);
+> +	case ARM_MALI_LPAE:
+> +		return mmu_cfg_init_mali_lpae(mmu);
+> +	default:
+> +		/* This should never happen */
+> +		return drm_WARN_ON(pfdev->ddev, -EINVAL);
 
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/xen/xen_drm_front_gem.c
-index 63112ed975c4..62a83c36fce8 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
-@@ -203,7 +203,7 @@ void xen_drm_front_gem_free_object_unlocked(struct drm_gem_object *gem_obj)
- {
- 	struct xen_gem_object *xen_obj = to_xen_gem_obj(gem_obj);
- 
--	if (xen_obj->base.import_attach) {
-+	if (drm_gem_is_imported(&xen_obj->base)) {
- 		drm_prime_gem_destroy(&xen_obj->base, xen_obj->sgt_imported);
- 		gem_free_pages_array(xen_obj);
- 	} else {
--- 
-2.48.1
+This won't return -EINVAL, but !!(-EINVAL), AKA true. We should do
 
+	default:
+		drm_WARN(ptdev->ddev, "Invalid pgtable format");
+		return -EINVAL;
+
+instead.
+
+> +	}
+> +}
