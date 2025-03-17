@@ -2,62 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0571A644EB
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 09:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B73CA64525
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 09:21:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C00E410E33E;
-	Mon, 17 Mar 2025 08:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4872410E3AA;
+	Mon, 17 Mar 2025 08:21:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="anoOxtlR";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Mb9gDgLP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9252B10E33E
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 08:16:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1742199393;
- bh=c6EOthO2QTraqb0ciH4MDF7R5MtHBXi1rwZve1rxnSg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=anoOxtlRv96kPvm7cMHXlJSLRaJCGrJzWDgG51XQJ2G15YHvMe7QJuCaLdxTNg06L
- a1RYuKOGR+0VvsWpfOBQkcNvOtG7PsUnoOsdjKG6UuYq3kpc63SmotSdN2/XLXgwpa
- cEUWgHDblTCxxR+TccGTqytlGtAr328TCD068kRgd8FpnfzAWfweuigPjyrNmvxC8c
- DyrrCkYYdSQ1ntJD2OEaNmznz4UqXCafH7Zeezftok6ziVmUhVcMzASuZr8mX9jkCK
- /Phv3U/p82w5a7of9ELWhUJGPRwzJcBPCNo6jpPWb9PQMlnKVxcQa12iyNHv5b9bt+
- USn4aj2ImM5HQ==
-Received: from [192.168.50.250] (unknown [171.76.87.92])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1D75417E05C8;
- Mon, 17 Mar 2025 09:16:30 +0100 (CET)
-Message-ID: <b6063541-bbe9-4b84-b0ad-5f911d1cd9c3@collabora.com>
-Date: Mon, 17 Mar 2025 13:46:22 +0530
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A9B6A10E3AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 08:20:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=xuKzq
+ xXQuuudyoZS1yA8FZNGTyjI0RvfS078un9hEUk=; b=Mb9gDgLPOWJMzRTOAwR60
+ 6lhkA+PBspsGBAcme3DUKgjd5IL5CkuckuTsLw68dzW1tDa0hcT1psbYLCpWPdRp
+ Nvv6SEV7YJvoWudVX9sAM8GqU3y4LonngTRtbVrb2L0VVgDHlrhsvGIlr4HhXhkU
+ tMbIxgXOciDXAsBPcUElQo=
+Received: from ProDesk.. (unknown [])
+ by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id
+ _____wCXg9tg29dn5rCCTQ--.26560S2; 
+ Mon, 17 Mar 2025 16:20:51 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Cc: cristian.ciocaltea@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH] drm/rockchip: dw_hdmi_qp: Fix io init for
+ dw_hdmi_qp_rockchip_resume
+Date: Mon, 17 Mar 2025 16:20:39 +0800
+Message-ID: <20250317082047.564404-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm-ci: vkms: kms_flip@modeset-vs-vblank-race flake
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: "hamohammed.sa" <hamohammed.sa@gmail.com>, simona.vetter@ffwll.ch,
- "melissa.srw" <melissa.srw@gmail.com>,
- "maarten.lankhorst" <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, tzimmermann <tzimmermann@suse.de>,
- airlied <airlied@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, daniels <daniels@collabora.com>,
- sergi.blanch.torne@collabora.com,
- "guilherme.gallo" <guilherme.gallo@collabora.com>,
- Helen Mae Koike Fornazier <helen.fornazier@gmail.com>,
- corentin.noel@collabora.com
-References: <2364a6bf-e6bc-4741-8c78-cea8bdb06e03@collabora.com>
- <1ebda1a2-779b-4642-9df2-d24cbf223875@bootlin.com>
- <aa3eead2-b416-4f33-a6a1-1af19665989c@collabora.com>
- <d9e322be-f97d-4c51-8809-e9634f694de0@bootlin.com>
-Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <d9e322be-f97d-4c51-8809-e9634f694de0@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wCXg9tg29dn5rCCTQ--.26560S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Zw48Kw17JF48CFy3Xr1UWrg_yoW8CF43p3
+ y3AryjkrWkGr4UXwn5A3Z2yFW2y3ZrJw4SqFWxKas2y3W09r1fGr93ua1rXrZxXF9rZF4a
+ krZ3t34fJa1UXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jIyxiUUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hkTXmfX1jmrPQAAsP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,171 +60,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+From: Andy Yan <andy.yan@rock-chips.com>
 
-On 14/03/25 20:01, Louis Chauvet wrote:
-> 
-> 
-> Le 14/03/2025 à 13:11, Vignesh Raman a écrit :
->> Hi Louis,
->>
->> On 13/03/25 19:30, Louis Chauvet wrote:
->>>
->>>
->>> Le 13/03/2025 à 11:45, Vignesh Raman a écrit :
->>>> Hi Maintainers,
->>>>
->>>
->>> Hi Vignesh,
->>>
->>> Thanks for the report.
->>>
->>> On my setup, this test passed, and the others are skipped.
->>>
->>> I think the issue on this specific test may be due to performance (seems
->>> to be a timing issue, I will try to slow down my VM). The other tests
->>> require suspend/resume, which I failed to setup on my VM.
->>>
->>> To understand what is wrong, I would like to have an environment very
->>> similar to the CI, how can I reproduce this on my machine? Is there a
->>> setup script somewhere I can run to create a virtual machine?
->>
->> You can follow the instructions below to use the same container that
->> drm-ci uses from mesa (From pipeline
->> https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/72473690).
->> drm-ci uses the crosvm-runner.sh script. You can also build specific IGT
->> version and run the tests from the container. Thanks Corentin for the
->> documentation.
->>
->> https://gitlab.collabora.com/virgl-es/documentation/-/blob/master/dev- 
->> ci-container.md
-> 
-> Thank you so much for those information, but I think this gitlab 
-> instance is private, is there a public repository somewhere?
+Use cfg->ctrl_ops->io_init callback make it work for all platform.
 
-Please can you check this link,
-https://github.com/vigneshraman/dev-ci-container/blob/main/dev-ci-container.md
+Fixes: 3f60dbd40d3f ("drm/rockchip: dw_hdmi_qp: Add platform ctrl callback")
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+---
 
-Regards,
-Vignesh
+ .../gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    | 23 +++----------------
+ 1 file changed, 3 insertions(+), 20 deletions(-)
 
-> 
-> Have a nice day,
-> Louis Chauvet
-> 
->> If you want to run only specific tests for vkms in drm-ci, you can use
->> this commit,
->> https://gitlab.freedesktop.org/vigneshraman/linux/-/ 
->> commit/0773affa01a4347056c891bc58887ae1daa0161c
->>
->> Once the pipeline is created you can use the ci_run_n_monitor.py [1]
->> from mesa project to run only vkms and its dependent jobs.
->>
->> ../mesa/bin/ci/ci_run_n_monitor.py --pipeline-url
->> https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1384344
->> --target vkms:none
->>
->> [1]
->> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/bin/ci/ 
->> ci_run_n_monitor.py
->>
->> Please let us know if you need more information. Thanks.
->>
->> Regards,
->> Vignesh
->>
->>>
->>> Thanks,
->>> Louis Chauvet
->>>
->>>> There are some flake test reported for vkms driver testing in drm-ci.
->>>>
->>>> # Board Name: vkms
->>>> # Failure Rate: 20
->>>> # IGT Version: 1.30-g04bedb923
->>>> # Linux Version: 6.14.0-rc4
->>>> kms_flip@modeset-vs-vblank-race
->>>>
->>>> DEBUG - Begin test kms_flip@modeset-vs-vblank-race
->>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure
->>>> function run_test_step, file ../tests/kms_flip.c:979:
->>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end -
->>>> start > 0.9 * actual_frame_time(o) && end - start < 2.6 *
->>>> actual_frame_time(o)
->>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took
->>>> 47374 usec (frame time 16665.600000 usec)
->>>> ERROR - Igt error: Dynamic subtest A-Virtual17 failed.
->>>> ERROR - Igt error: **** DEBUG ****
->>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
->>>> igt_create_fb_with_bo_size(width=1024, height=768,
->>>> format=XR24(0x34325258), modifier=0x0, size=0)
->>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
->>>> igt_create_fb_with_bo_size(handle=1, pitch=4096)
->>>> ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test
->>>> requirement passed: igt_has_fb_modifiers(fd)
->>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
->>>> igt_create_fb_with_bo_size(width=1024, height=768,
->>>> format=XR24(0x34325258), modifier=0x0, size=0)
->>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG:
->>>> igt_create_fb_with_bo_size(handle=2, pitch=4096)
->>>> ERROR - Igt error: (kms_flip:1250) ioctl_wrappers-DEBUG: Test
->>>> requirement passed: igt_has_fb_modifiers(fd)
->>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement
->>>> passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
->>>> ERROR - Igt error: (kms_flip:1250) igt_fb-DEBUG: Test requirement
->>>> passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
->>>> ERROR - Igt error: (kms_flip:1250) igt_kms-INFO:   1024x768: 60 65000
->>>> 1024 1048 1184 1344 768 771 777 806 0x48 0xa
->>>> ERROR - Igt error: (kms_flip:1250) DEBUG: No stale events found
->>>> ERROR - Igt error: (kms_flip:1250) INFO: Expected frametime: 16666us;
->>>> measured 16665.6us +- 0.500us accuracy 0.01%
->>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Test assertion failure
->>>> function run_test_step, file ../tests/kms_flip.c:979:
->>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: Failed assertion: end -
->>>> start > 0.9 * actual_frame_time(o) && end - start < 2.6 *
->>>> actual_frame_time(o)
->>>> ERROR - Igt error: (kms_flip:1250) CRITICAL: wait for two vblanks took
->>>> 47374 usec (frame time 16665.600000 usec)
->>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO: Stack trace:
->>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #0
->>>> ../lib/igt_core.c:2055 __igt_fail_assert()
->>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #1
->>>> ../tests/kms_flip.c:1023 run_test_on_crtc_set.constprop.0()
->>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #2
->>>> ../tests/kms_flip.c:1845 run_test()
->>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #3
->>>> ../tests/kms_flip.c:2078 __igt_unique____real_main2001()
->>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #4
->>>> ../tests/kms_flip.c:2001 main()
->>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #5
->>>> [__libc_init_first+0x8a]
->>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #6
->>>> [__libc_start_main+0x85]
->>>> ERROR - Igt error: (kms_flip:1250) igt_core-INFO:   #7 [_start+0x21]
->>>> ERROR - Igt error: ****  END  ****
->>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Test assertion
->>>> failure function kmstest_set_connector_dpms, file ../lib/ 
->>>> igt_kms.c:2246:
->>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Failed assertion:
->>>> found_it
->>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: Last errno: 9, Bad
->>>> file descriptor
->>>> ERROR - Igt error: (kms_flip:1250) igt_kms-CRITICAL: DPMS property not
->>>> found on 39
->>>> ERROR - Test kms_flip@modeset-vs-vblank-race: Fail: See
->>>> "/builds/vigneshraman/linux/results/igt.kms_flip@modeset-vs-vblank-
->>>> race.log"
->>>> DEBUG - End test kms_flip@modeset-vs-vblank-race
->>>>
->>>> Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/
->>>> jobs/72473690
->>>>
->>>> Please could you have a look at these test results and let us know if
->>>> you need more information. Thank you.
->>>>
->>>> Regards,
->>>> Vignesh
->>>
->>
-> 
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+index 3d1dddb34603..631a7080862b 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+@@ -600,27 +600,10 @@ static void dw_hdmi_qp_rockchip_remove(struct platform_device *pdev)
+ static int __maybe_unused dw_hdmi_qp_rockchip_resume(struct device *dev)
+ {
+ 	struct rockchip_hdmi_qp *hdmi = dev_get_drvdata(dev);
+-	u32 val;
+-
+-	val = HIWORD_UPDATE(RK3588_SCLIN_MASK, RK3588_SCLIN_MASK) |
+-	      HIWORD_UPDATE(RK3588_SDAIN_MASK, RK3588_SDAIN_MASK) |
+-	      HIWORD_UPDATE(RK3588_MODE_MASK, RK3588_MODE_MASK) |
+-	      HIWORD_UPDATE(RK3588_I2S_SEL_MASK, RK3588_I2S_SEL_MASK);
+-	regmap_write(hdmi->vo_regmap,
+-		     hdmi->port_id ? RK3588_GRF_VO1_CON6 : RK3588_GRF_VO1_CON3,
+-		     val);
+-
+-	val = HIWORD_UPDATE(RK3588_SET_HPD_PATH_MASK,
+-			    RK3588_SET_HPD_PATH_MASK);
+-	regmap_write(hdmi->regmap, RK3588_GRF_SOC_CON7, val);
++	const struct rockchip_hdmi_qp_cfg *cfg;
+ 
+-	if (hdmi->port_id)
+-		val = HIWORD_UPDATE(RK3588_HDMI1_GRANT_SEL,
+-				    RK3588_HDMI1_GRANT_SEL);
+-	else
+-		val = HIWORD_UPDATE(RK3588_HDMI0_GRANT_SEL,
+-				    RK3588_HDMI0_GRANT_SEL);
+-	regmap_write(hdmi->vo_regmap, RK3588_GRF_VO1_CON9, val);
++	cfg = of_device_get_match_data(dev);
++	cfg->ctrl_ops->io_init(hdmi);
+ 
+ 	dw_hdmi_qp_resume(dev, hdmi->hdmi);
+ 
+-- 
+2.43.0
 
