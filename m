@@ -2,55 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A679EA63C2B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 03:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6066DA63C48
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 03:58:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60A6C10E077;
-	Mon, 17 Mar 2025 02:56:08 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u2vUp7FR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 593DA10E075;
+	Mon, 17 Mar 2025 02:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F1010E075;
- Mon, 17 Mar 2025 02:56:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2C9715C4CC6;
- Mon, 17 Mar 2025 02:53:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EC82C4CEEE;
- Mon, 17 Mar 2025 02:56:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742180166;
- bh=yFaYSWToPIOrq3oUyCJ+rb7qmaxSDreLelw+cCjbNrE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u2vUp7FR8iNUvbFNnB+D5qW3wx64gbqbldcd7XvXeQu9rKyUpoy+ga8voex6sGSm/
- oP9gioQHHdJE32BiMGw8USnQTogWDMGg4yUoWwWP+B6mtPx9EeYdQtza9yXbAx+1Eh
- C12tiM31dh9n3t/St+7BcLsU4/pGnufthbrrBu1CT4lVI7Ptd+oVAh//jA97OMDgyZ
- Sjp73NBn7bttiSvwGZ7gOqYy6Wis72KhXQ+lhxAF593DMq7emDHsE9wJD6H3mFq+4t
- y+KGj5vZ+kc+c7BcbcxKqIwxWgk1tMLOyLZRqEHw83THmtLg33Qoi8aqHAe7VElFD/
- PvFRlg2TV/NKg==
-From: Bjorn Andersson <andersson@kernel.org>
-To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, konradybcio@kernel.org, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, jonathan@marek.ca, fekz115@gmail.com,
- Danila Tikhonov <danila@jiaxyga.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux@mainlining.org,
- ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: (subset) [PATCH v2 0/4] Add and enable the panel
-Date: Sun, 16 Mar 2025 21:55:46 -0500
-Message-ID: <174218015895.1913428.7302445471992593262.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250217222431.82522-1-danila@jiaxyga.com>
-References: <20250217222431.82522-1-danila@jiaxyga.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 345C110E075
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 02:58:03 +0000 (UTC)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZGKQv5KDCz8R042;
+ Mon, 17 Mar 2025 10:57:59 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+ by mse-fl1.zte.com.cn with SMTP id 52H2vif5071879;
+ Mon, 17 Mar 2025 10:57:44 +0800 (+08)
+ (envelope-from feng.wei8@zte.com.cn)
+Received: from mapi (xaxapp04[null]) by mapi (Zmail) with MAPI id mid32;
+ Mon, 17 Mar 2025 10:57:45 +0800 (CST)
+Date: Mon, 17 Mar 2025 10:57:45 +0800 (CST)
+X-Zmail-TransId: 2afb67d78fa9634-63c34
+X-Mailer: Zmail v1.0
+Message-ID: <20250317105745891-NnPPMd8T0guyJikMgM6p@zte.com.cn>
+Mime-Version: 1.0
+From: <feng.wei8@zte.com.cn>
+To: <alexander.deucher@amd.com>
+Cc: <christian.koenig@amd.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm0vcmFkZW9uL3V2ZDogUmVwbGFjZSBuZXN0ZWQgbWF4KCkgd2l0aCBzaW5nbGUgbWF4Mygp?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl1.zte.com.cn 52H2vif5071879
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67D78FB7.000/4ZGKQv5KDCz8R042
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,22 +54,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: FengWei <feng.wei8@zte.com.cn>
 
-On Tue, 18 Feb 2025 01:24:27 +0300, Danila Tikhonov wrote:
-> This patch series adds support for the Visionox RM692E5 panel, which is
-> used on the Nothing Phone (1) and then adds it to the DTS.
-> 
-> Before integrating the panel into the DTS, we update the DSI code to
-> allow bits-per-component (bpc) values of 10 and 12, since the Visionox
-> RM692E5 panel operates at 10 bpc.
-> 
-> [...]
+Use max3() macro instead of nesting max() to simplify the return
+statement.
 
-Applied, thanks!
+Signed-off-by: FengWei <feng.wei8@zte.com.cn>
+---
+ drivers/gpu/drm/radeon/radeon_uvd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[4/4] arm64: dts: qcom: sm7325-nothing-spacewar: Enable panel and GPU
-      commit: 27b85be287f96180de2499b981eec83850df0da9
+diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
+index 058a1c8451b2..ded5747a58d1 100644
+--- a/drivers/gpu/drm/radeon/radeon_uvd.c
++++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+@@ -961,7 +961,7 @@ int radeon_uvd_calc_upll_dividers(struct radeon_device *rdev,
+ 	unsigned optimal_score = ~0;
 
-Best regards,
+ 	/* loop through vco from low to high */
+-	vco_min = max(max(vco_min, vclk), dclk);
++	vco_min = max3(vco_min, vclk, dclk);
+ 	for (vco_freq = vco_min; vco_freq <= vco_max; vco_freq += 100) {
+
+ 		uint64_t fb_div = (uint64_t)vco_freq * fb_factor;
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.25.1
