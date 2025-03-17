@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9FBA65855
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:39:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F65A65859
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:39:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 631B410E312;
-	Mon, 17 Mar 2025 16:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A5E10E32D;
+	Mon, 17 Mar 2025 16:39:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uhZbzU3c";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o4tKAyme";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60E1910E2F3;
- Mon, 17 Mar 2025 16:39:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F4810E31B;
+ Mon, 17 Mar 2025 16:39:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DD73FA47896;
- Mon, 17 Mar 2025 16:33:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C1AC4CEEC;
- Mon, 17 Mar 2025 16:39:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 36DC05C4D1D;
+ Mon, 17 Mar 2025 16:37:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA4D4C4CEEC;
+ Mon, 17 Mar 2025 16:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742229563;
- bh=zgWZaqceqFPunHhxCh9P0gIfWLby5B3NHXKqZzQouFs=;
+ s=k20201202; t=1742229584;
+ bh=7kWfQ8zlguWQyuWeZIGhdUr9z+FhjfCrOr/e16jJDlM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uhZbzU3c+QiVjq7w23LtruzkfzcSjDIrNKQcxsTiot5QUsvh4fJ/tXATgsNl8djtL
- ew0vc6g6hQahj1Y5G3B+PurzKcc6D10z0VTyO7HeogP/sbkcMq21bVyzuh3UgQk9qV
- ZGpzRNJq0mkKxTCLLf4wysZ25FnjasUCSMg9I1RBhXIapYBMg6+sMJkddMg+uvFR/b
- zYclF47fk0PD/PVOx/zOBW6/17VNIPjv1vRWNJ3Vg2h7QTHcVJ2jw1Tblx9oJAKIfi
- jRexlD7HPzybrIFbV4qp5Dw63ie4UWgwm8WhOCGBeov1MQoZ9VfdDZOl44SCqOvyGC
- J5ktfCvUN5fiw==
+ b=o4tKAymeska0K8Ywk/da2HVtejrhcUgbsBTPRxkVM7nHwv0VQuDoR1aYjFuhpS4pp
+ QOrokEp+vDDGfukl+XME2mYcW4unoNG9kS7tOt1u5cfRZ55FzZ0KNBbPLzrTGzqlYh
+ kXKSxNRjG1d3cYxJ2RupwBR1RO2Hzg2tWqR1hmY9e0ddgeupyLTHXb3THkp7s3L5GV
+ /j3oZvM9dWZFhDaD3B6+ILfWjiur1hvCA5qyCm+neiW8/ZkvN5UbQnSXpL3VHNxqQ9
+ c1V6h0P1jd+i+1exM8Rx9XDWMSitrghaBjLKJf4LUo5G7h5C33sCKN6pX6dg+vlfyW
+ E6JZYN4Mw0i6Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,22 +40,21 @@ Cc: Mario Limonciello <mario.limonciello@amd.com>,
  Harry Wentland <harry.wentland@amd.com>, Sasha Levin <sashal@kernel.org>,
  christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
  sunpeng.li@amd.com, lijo.lazar@amd.com, tzimmermann@suse.de,
- rajneesh.bhardwaj@amd.com, kenneth.feng@amd.com, shaoyun.liu@amd.com,
- Ramesh.Errabolu@amd.com, Jack.Xiao@amd.com, chiahsuan.chung@amd.com,
- siqueira@igalia.com, sunil.khatri@amd.com, alex.hung@amd.com,
- aurabindo.pillai@amd.com, hersenxs.wu@amd.com, mwen@igalia.com,
- hamzamahfooz@linux.microsoft.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 7/8] drm/amd: Keep display off while going into S4
-Date: Mon, 17 Mar 2025 12:39:01 -0400
-Message-Id: <20250317163902.1893378-7-sashal@kernel.org>
+ rajneesh.bhardwaj@amd.com, shaoyun.liu@amd.com, Ramesh.Errabolu@amd.com,
+ Jack.Xiao@amd.com, chiahsuan.chung@amd.com, siqueira@igalia.com,
+ sunil.khatri@amd.com, alex.hung@amd.com, aurabindo.pillai@amd.com,
+ hersenxs.wu@amd.com, mwen@igalia.com, hamzamahfooz@linux.microsoft.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 3/4] drm/amd: Keep display off while going into S4
+Date: Mon, 17 Mar 2025 12:39:26 -0400
+Message-Id: <20250317163927.1893521-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250317163902.1893378-1-sashal@kernel.org>
-References: <20250317163902.1893378-1-sashal@kernel.org>
+In-Reply-To: <20250317163927.1893521-1-sashal@kernel.org>
+References: <20250317163927.1893521-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.83
+X-stable-base: Linux 6.1.131
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -114,10 +113,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index f9bc38d20ce3e..a51ceebb80547 100644
+index 238c15c0c7e1e..48076cf8ba803 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2461,7 +2461,6 @@ static int amdgpu_pmops_freeze(struct device *dev)
+@@ -2466,7 +2466,6 @@ static int amdgpu_pmops_freeze(struct device *dev)
  
  	adev->in_s4 = true;
  	r = amdgpu_device_suspend(drm_dev, true);
@@ -125,7 +124,7 @@ index f9bc38d20ce3e..a51ceebb80547 100644
  	if (r)
  		return r;
  
-@@ -2473,8 +2472,13 @@ static int amdgpu_pmops_freeze(struct device *dev)
+@@ -2478,8 +2477,13 @@ static int amdgpu_pmops_freeze(struct device *dev)
  static int amdgpu_pmops_thaw(struct device *dev)
  {
  	struct drm_device *drm_dev = dev_get_drvdata(dev);
@@ -140,7 +139,7 @@ index f9bc38d20ce3e..a51ceebb80547 100644
  }
  
  static int amdgpu_pmops_poweroff(struct device *dev)
-@@ -2487,6 +2491,9 @@ static int amdgpu_pmops_poweroff(struct device *dev)
+@@ -2492,6 +2496,9 @@ static int amdgpu_pmops_poweroff(struct device *dev)
  static int amdgpu_pmops_restore(struct device *dev)
  {
  	struct drm_device *drm_dev = dev_get_drvdata(dev);
@@ -151,10 +150,10 @@ index f9bc38d20ce3e..a51ceebb80547 100644
  	return amdgpu_device_resume(drm_dev, true);
  }
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index aab99df3ba1ae..37e087e8fcb23 100644
+index 8dc0f70df24f8..f541ce3328f36 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2881,6 +2881,11 @@ static int dm_resume(void *handle)
+@@ -2887,6 +2887,11 @@ static int dm_resume(void *handle)
  
  		return 0;
  	}
