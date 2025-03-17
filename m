@@ -2,50 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE29A649CC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 11:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CAA9A64A1A
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 11:34:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6D610E0A6;
-	Mon, 17 Mar 2025 10:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6AB10E0EF;
+	Mon, 17 Mar 2025 10:34:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="SqekagC7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QsDWmFcu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id E3D9910E0A6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 10:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=fmWIS
- 0wLHvOfDdrgbj8ORSE1eJQwOVhMX/zX7anGKW4=; b=SqekagC72tCKT25KHSmS4
- /+b/w+C575D1N98h4BDUoxjOxnTCMxhJz4/JPOgO//WZqLyL2LezzhFK4lhH9+ng
- XzK09N4vXHxDZpHOogN3tAa/TN2/mpv3caiedJldEyp/q8pNoY4wuUXTccxfdjKu
- Ci4hDKUATluwrmqbDmq0dk=
-Received: from ProDesk.. (unknown [])
- by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id
- _____wBnuTwy+ddnhLtwTQ--.47861S2; 
- Mon, 17 Mar 2025 18:28:06 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: heiko@sntech.de
-Cc: cristian.ciocaltea@collabora.com, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Andy Yan <andy.yan@rock-chips.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [PATCH v2] drm/rockchip: dw_hdmi_qp: Fix io init for
- dw_hdmi_qp_rockchip_resume
-Date: Mon, 17 Mar 2025 18:27:53 +0800
-Message-ID: <20250317102757.565679-1-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 445D110E0EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 10:34:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A2F33A489D2;
+ Mon, 17 Mar 2025 10:29:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B0ECC4CEEE;
+ Mon, 17 Mar 2025 10:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742207693;
+ bh=OOWMoUFQ23UHSwIZ8BvygHyrXX9kthpv+6WpnSx7ZNg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QsDWmFcuxcsgFxG+2Q5SuxHmU93c+w9J/18L5YmxK5aviJm9Z4CUyWBrYiSnWqV2e
+ C7GP8NTC6GV+/vET79P68p6yY4ndZ77nM5Qidg/EocBZRxEpLykxoK52Qq3XaAkOy8
+ KTPXVZOgV5u7aBCFQwCMzMYJxlcldpTrsKgAJlR/4Ny0tx9C890MZIKAAdjizTMV9L
+ VrzNMUMRwumMFNEbDQb1XVLR029YxilgVYa3urlPcqLBoCkLCcynRiwEcK+k2UfCEX
+ T3oAWZCtEW8lZXjXHG9Md0KYqU91/xx4AAldISNUrDm8p8IZVEkSfRfduUQb3z1dPp
+ B3NA64lusvwwA==
+Date: Mon, 17 Mar 2025 11:34:48 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Maud Spierings | GOcontroll <maudspierings@gocontroll.com>
+Cc: Rob Herring <robh@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, Liu Ying <victor.liu@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>
+Subject: Re: [PATCH v2 03/12] dt-bindings: connector: Add the GOcontroll
+ Moduline module slot bindings
+Message-ID: <20250317-massive-calm-bat-43ff61@krzk-bin>
+References: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
+ <20250226-initial_display-v2-3-23fafa130817@gocontroll.com>
+ <20250314210652.GA2300828-robh@kernel.org>
+ <PA4PR04MB7630094413C8E1F3D715EE23C5DD2@PA4PR04MB7630.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBnuTwy+ddnhLtwTQ--.47861S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFWfXFWrGr45XFWxGrWUtwb_yoW8Kw45pw
- 4UAa4jkrWkGr47Xrn8ZFnrArW2k3W7Jw4SqFWxKa4vv3W0qrn3KF93Wa1rXr43ZF9xuF4a
- krWvy34fJF4UXFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j7uc_UUUUU=
-X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0h4TXmfX95EooAAAsf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <PA4PR04MB7630094413C8E1F3D715EE23C5DD2@PA4PR04MB7630.eurprd04.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,72 +76,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+On Sat, Mar 15, 2025 at 07:32:28AM +0000, Maud Spierings | GOcontroll wrote:
+> >> +required:
+> >> +  - compatible
+> >> +  - reg
+> >> +  - reset-gpios
+> >> +  - interrupts
+> >> +  - sync-gpios
+> >> +  - i2c-bus
+> >> +  - slot-number
+> >> +
+> >> +additionalProperties: false
+> >> +
+> >> +examples:
+> >> +  - |
+> >> +    #include <dt-bindings/gpio/gpio.h>
+> >> +    #include <dt-bindings/interrupt-controller/irq.h>
+> >> +
+> >> +    spi {
+> >> +        #address-cells = <1>;
+> >> +        #size-cells = <0>;
+> >> +
+> >> +        connector@0 {
+> >
+> >I find this being a SPI device a bit strange. Is there a defined SPI
+> >device that every slot is going to have? Or the connector has SPI
+> >interface and *anything* could be attached on it?
+> 
+> So a module slot is like a pcie slot, it can be occupied or not, and when
 
-Use cfg->ctrl_ops->io_init callback make it work for all platform.
-And it's also gets rid of code duplication
+But which buses...
 
-Fixes: 3f60dbd40d3f ("drm/rockchip: dw_hdmi_qp: Add platform ctrl callback")
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
----
-
-Changes in v2:
-- Store the ctrl_ops in struct rockchip_hdmi_qp
-
- .../gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    | 23 +++----------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 3d1dddb34603..7d531b6f4c09 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -94,6 +94,7 @@ struct rockchip_hdmi_qp {
- 	struct gpio_desc *enable_gpio;
- 	struct delayed_work hpd_work;
- 	int port_id;
-+	const struct rockchip_hdmi_qp_ctrl_ops *ctrl_ops;
- };
- 
- struct rockchip_hdmi_qp_ctrl_ops {
-@@ -461,6 +462,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 		return -ENODEV;
- 	}
- 
-+	hdmi->ctrl_ops = cfg->ctrl_ops;
- 	hdmi->dev = &pdev->dev;
- 	hdmi->port_id = -ENODEV;
- 
-@@ -600,27 +602,8 @@ static void dw_hdmi_qp_rockchip_remove(struct platform_device *pdev)
- static int __maybe_unused dw_hdmi_qp_rockchip_resume(struct device *dev)
- {
- 	struct rockchip_hdmi_qp *hdmi = dev_get_drvdata(dev);
--	u32 val;
- 
--	val = HIWORD_UPDATE(RK3588_SCLIN_MASK, RK3588_SCLIN_MASK) |
--	      HIWORD_UPDATE(RK3588_SDAIN_MASK, RK3588_SDAIN_MASK) |
--	      HIWORD_UPDATE(RK3588_MODE_MASK, RK3588_MODE_MASK) |
--	      HIWORD_UPDATE(RK3588_I2S_SEL_MASK, RK3588_I2S_SEL_MASK);
--	regmap_write(hdmi->vo_regmap,
--		     hdmi->port_id ? RK3588_GRF_VO1_CON6 : RK3588_GRF_VO1_CON3,
--		     val);
--
--	val = HIWORD_UPDATE(RK3588_SET_HPD_PATH_MASK,
--			    RK3588_SET_HPD_PATH_MASK);
--	regmap_write(hdmi->regmap, RK3588_GRF_SOC_CON7, val);
--
--	if (hdmi->port_id)
--		val = HIWORD_UPDATE(RK3588_HDMI1_GRANT_SEL,
--				    RK3588_HDMI1_GRANT_SEL);
--	else
--		val = HIWORD_UPDATE(RK3588_HDMI0_GRANT_SEL,
--				    RK3588_HDMI0_GRANT_SEL);
--	regmap_write(hdmi->vo_regmap, RK3588_GRF_VO1_CON9, val);
-+	hdmi->ctrl_ops->io_init(hdmi);
- 
- 	dw_hdmi_qp_resume(dev, hdmi->hdmi);
- 
--- 
-2.43.0
+Best regards,
+Krzysztof
 
