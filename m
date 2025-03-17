@@ -2,63 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6350A6539B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 15:31:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E16A653A7
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 15:33:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B686410E40E;
-	Mon, 17 Mar 2025 14:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C56E310E15F;
+	Mon, 17 Mar 2025 14:33:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="CiAXpq8N";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="S3rIuFBk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47E0010E40E
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 14:31:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742221868; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=BJpEgdkNOnSiwPrSUBLBl5lYM+9hFEOctSz9K9PKKQtT5xnLZulbT4jKlx5w5CyrA7bRjPfUchYlYQNkDIwJ3I8ppedq7Dv1VUg5TyTlG2+HY/vwjLnveGsb3+E7+EoKkbk06OmOsrqbOGSgrmMMWNGes0MRf19ZxaeGjSmMx2U=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742221868;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=juhBGFrnJEtXmwmWUkOgurD4ow1+cM0JUbcI3gD4F48=; 
- b=ecgMK9cayVciXKLAu5E0ZSdMZjVvZf7lm927GcnIz1VU3UBjjcCpsJr6CrO7K2f9wtg5uRocgz3DxeRYM18tgoBdiZTywAnL0hqyXDt7roYcgzXKcBYO7FVAEnXnxnPBUWt3hueS0tglURSEXOwtsGM2mod3r3cMkKSr9mVwDrU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
- dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742221868; 
- s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=juhBGFrnJEtXmwmWUkOgurD4ow1+cM0JUbcI3gD4F48=;
- b=CiAXpq8Nrl/AHbcs52PL//215ZsdMXGiJpd1bLL0pvgHIbsjUTw4dPW6Xg9FdhHh
- VyKaKpzY/kQP6q94ru+oCbZfFGzK9UMFu98OW0CsHa8T49RsZCBg6kxjO7W9/aGUXG1
- zrh0Fz3mtauDQ+mUb70hAcN9IV4RZYToVMNZEumQ=
-Received: by mx.zohomail.com with SMTPS id 1742221866050461.80081265142326;
- Mon, 17 Mar 2025 07:31:06 -0700 (PDT)
-Message-ID: <992360e3-632c-4a0e-bb84-a72be7d7cd37@collabora.com>
-Date: Mon, 17 Mar 2025 11:30:59 -0300
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D014810E15F
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 14:33:25 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-30bfed67e08so50279181fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 07:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1742222002; x=1742826802;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XDNe3093iFCHOB0BF0trzQBjwvxbWGfcsFI1fzTSQYc=;
+ b=S3rIuFBkZxKNvnfL4zCHKIyZqjgxGbJQzpMkoJ/aSE0PlEhNWAG4nGXjnTHL0aIeHV
+ cYv2lyMwefubS7jac0OeLvmX0jfxKWvYhSqofu6deYPMkJYbSu3Cti5Xfcag1NjWAEyi
+ 00sw7WB99Ex65xd4FlC9ES5mon0nXKLCRM9z8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742222002; x=1742826802;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XDNe3093iFCHOB0BF0trzQBjwvxbWGfcsFI1fzTSQYc=;
+ b=ITOnAV/yyLiZCMFjI27i64NNpE4Tjj02m/gAiVoNYPXXVbzJUJj+6MvWqfZE+40n0Y
+ 135wm1XbAQjlMB5y3my3Z3luF2SpTiTp41jPdGUSXrUSH0bT+UHd4j3SEWiEDnob9taP
+ GGtqg5M0ppnTBil8xRNIS2v6ei+njuBQPMmPZ9UmYs5b4vzgTaRPSZ7J11Xp0okTR7jM
+ q8vck53FvUIZQoQvZpZbAHZ4rDTOeeLqB93rRfaLB7IPzSZmxg2ibZzqhGPq/o0bMp+d
+ 9KOXMT8Q7kXW9qQ8xdKDuPwtXQAM6yCZxWwWUbtSbXiAOv4pZDseM3XfXiagmyV9wFMR
+ Qv/Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVqfMahdtrE1sKrrsiQ+1TG2xv4zz8dLfVwmNiw40QtdCkOygRlKIXYXxYjjyUCNsnEvYMP/MDU48c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsHYkOQ2f65cVvHTx2LLPhWSTl3JwY7i6csCE8lqLvu5JAsCBp
+ fLd2AfI6jULtBih6YUmqHE+Yyp2lxLTXI1rkT8H/m76NmsGlOUYpn9sEn3GnD3fsFldnk7KF0o0
+ =
+X-Gm-Gg: ASbGncuhv4Y6v0XbopIksOSKCbuj/iHxLZc5Xgi478jPC77eSLYpcsjYWSnSsa/sM+F
+ 1stnck58uT3OUxLx15WrLeA0lpO8vQt8D2BlkGN9lub0kt2ol+z4pXUx5RLlAUF+Q19jL6TD/yI
+ 5WMH/NorXlVSCHzSF2RmoOcnFYdLe9+9jB7nhQOiBVQTt8n8kLG3/7qksdmnf0gbcw0gK4M+w5L
+ kNB/Jja9WVzLSywi3M1rMMnmBiiuwKAf1SDpd/mRtw/LNB3CW++3wn0gZAJiTt7ujmMTyZoUUb5
+ bQhr2cdVNtzgVa1dB+8rYyUtQU6qpClotTyd3/yx/4oA2w3J+FDY4FlnnsWSTIPzEMXV3Q2a1WY
+ 1MaMmCMqo
+X-Google-Smtp-Source: AGHT+IF+UqaFwgx7Txs96MFjlrOREHQBWlLAq+h91nyWI6EkTP9wacYekArWkF2+2WOX1DzVCGof2A==
+X-Received: by 2002:a2e:bea2:0:b0:30b:9813:b00d with SMTP id
+ 38308e7fff4ca-30c4a8ca0e8mr83082611fa.23.1742222001853; 
+ Mon, 17 Mar 2025 07:33:21 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com.
+ [209.85.167.43]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30c3f100c39sm15980821fa.48.2025.03.17.07.33.19
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Mar 2025 07:33:21 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-5499bd3084aso4588940e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 07:33:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFHZe22IizmJPZi3sPbz24IHL0PJ50oBouYaixI7hl+nwk7wkh0PY3PXj1atn39JjU5ng6K/VXX74=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:ba9:b0:549:5b54:2c77 with SMTP id
+ 2adb3069b0e04-549c3924ecfmr8094901e87.32.1742221999211; Mon, 17 Mar 2025
+ 07:33:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] drm/panfrost: Add support for AARCH64_4K page
- table format
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robh@kernel.org, steven.price@arm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- kernel@collabora.com, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, sjoerd@collabora.com,
- angelogioacchino.delregno@collabora.com
-References: <20250317124044.16257-1-ariel.dalessandro@collabora.com>
- <20250317124044.16257-5-ariel.dalessandro@collabora.com>
- <20250317144436.2bcc17ed@collabora.com>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250317144436.2bcc17ed@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+References: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 17 Mar 2025 07:33:07 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W76iNvReU=itxjX2rW430uezJz386-1pbd_QeY-OnHPg@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp6NWZTpFKw-xlMJCY9hQkuIldAdH8N1R9LoiSLuWY4HBRzAz-oTXvTRMw
+Message-ID: <CAD=FV=W76iNvReU=itxjX2rW430uezJz386-1pbd_QeY-OnHPg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: make use of debugfs_init
+ callback
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,45 +107,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Boris,
+Hi,
 
-On 3/17/25 10:44 AM, Boris Brezillon wrote:
-> On Mon, 17 Mar 2025 09:40:42 -0300
-> Ariel D'Alessandro <ariel.dalessandro@collabora.com> wrote:
-> 
->> +static int panfrost_mmu_cfg_init(struct panfrost_mmu *mmu,
->> +				  enum io_pgtable_fmt fmt)
->> +{
->> +	struct panfrost_device *pfdev = mmu->pfdev;
->> +
->> +	switch (fmt) {
->> +	case ARM_64_LPAE_S1:
->> +		return mmu_cfg_init_aarch64_4k(mmu);
->> +	case ARM_MALI_LPAE:
->> +		return mmu_cfg_init_mali_lpae(mmu);
->> +	default:
->> +		/* This should never happen */
->> +		return drm_WARN_ON(pfdev->ddev, -EINVAL);
-> 
-> This won't return -EINVAL, but !!(-EINVAL), AKA true. We should do
-> 
-> 	default:
-> 		drm_WARN(ptdev->ddev, "Invalid pgtable format");
-> 		return -EINVAL;
-> 
-> instead.
+On Sat, Mar 15, 2025 at 1:17=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Do not create a custom directory in debugfs-root, but use the
+> debugfs_init callback to create a custom directory at the given place
+> for the bridge. The new directory layout looks like this on a Renesas
+> GrayHawk-Single with a R-Car V4M SoC:
+>
+>         /sys/kernel/debug/dri/feb00000.display/DP-1/1-002c
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>
+> Changes since v1:
+> * switch from 'client->debugfs' to DRM 'debugfs_init' callback
+> * remove RFT because tested on hardware
+>
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 40 +++++++--------------------
+>  1 file changed, 10 insertions(+), 30 deletions(-)
 
-Ah, good catch. I missed that from the WARN_ON definition:
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-         int __ret_warn_on = !!(condition);
+I'll plan to apply this next week assuming freedesktop is back up.
 
-Thanks, will fix in v4.
-
--- 
-Ariel D'Alessandro
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
-
+-Doug
