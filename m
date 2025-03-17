@@ -2,92 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A787A657FC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:27:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD355A65841
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:37:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D46CC10E2C4;
-	Mon, 17 Mar 2025 16:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CCF10E0F0;
+	Mon, 17 Mar 2025 16:37:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="OCuUrVEu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S68RN/lM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D7E10E2C4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 16:27:15 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-5439a6179a7so5153570e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 09:27:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1742228828; x=1742833628;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=s9th5vgX4dWb9XCR4ZHNIQSuw33Mm+jd8Ej6CRSdV6U=;
- b=OCuUrVEuDStp53FIu3sSYzAMjgHp85uQGBRwLZm7se/KCqtjisNFOaBfJMHN8ISgRV
- lU2UCzi3Mf++47gtfGUXmUB1R5mPgZsrACvygoeB5q62qdu9qo5ongzUEyLko4SbHbdI
- hJFCVcwhrIS564IH33M+EaYgQVtZNpfijb9TQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742228828; x=1742833628;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s9th5vgX4dWb9XCR4ZHNIQSuw33Mm+jd8Ej6CRSdV6U=;
- b=gaTCIiSx7ClRu22fG6xANgr20kPNeFp2FGM4bdXZIVKIBNtkOpdGXKdSxssB5oheHE
- HlW8AdYiIGsgOs8Cb1vx/MK1h6+4Edj6red85StHju/NvPhEnlFszIHNfs124lj1Qh+h
- TlWF3uTzONCEqAsrsZq7jnlcSROzahRwC8Rf2fMMR4/y46A+VOxZdqMsV/m979A0Hm2g
- 9A//t18hJS5YB3qdhXnJxw21GefoJOGVfozHFcLXLaXXLLj4+VIE/Vehc60GtxWiBx18
- nokHxrHUd3PlFDjfT5CW4+94S15dzguk1fUeKdLjttfyPJB0hQvibs8eTQZFFFWU9F1n
- +Ouw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXbrxi4OEv+qcqGKbGmEXdv7crLW8TeO/V7/nfJ/gbO01auhYksW+Nu/skQLmm/qDPA/bHB2F+HzKY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywnetv1qKil3saf920CjxyFUENeS4jrY2jW07lOp14vbGEDsN/3
- fyXTdqxZ5ShiGudYG+KIJMjTpjcoAChDuVUYFMnK74/Xs2UqMbrws9T0xqjpW4KGH8aYGkGMnM1
- tTQ==
-X-Gm-Gg: ASbGncvsCLdeSuKAj0SrQ6aXT3QnDvAJ8E1YcMkLujJv5RbOQIejzmcJDwTLmAKPnYy
- +Jzgxk/hOOiIobdpQ93WdG4EYrq4v8tInLzsV//BAsQLLf9879ulQ7FA91f8Qd7yLdW/aU9w6ea
- CqT3oZ/nH6JknZYS2cbrHM4aZxwzxjAOJXXBlyIxkwlIVDbhgjKUOO/IxfJmg4C1e6dU7O5xbWB
- wgyWXYtN7YQPWuHH5Vi3lQ+3QKp5gSmUiv0g67phfbfwTOQbIYvwbpAXc1ooXgKawvg1aDgnbmT
- JcOLsCjZxuYYvKE7CTPinnlg20HUIz1zysiN9ieuWDn9kSPG1fI/5vieRYEe+x48WzN5jW8NMq4
- bg6RTFSWG
-X-Google-Smtp-Source: AGHT+IFZcAXZVgXg7fnqXSkxLamZD5vdjlzySIeRnF6VW6lJqwhlnAG5y4fCxFbtD2g723kAw/uc0w==
-X-Received: by 2002:a05:6512:6c3:b0:549:94c4:9f01 with SMTP id
- 2adb3069b0e04-54a30475792mr94209e87.6.1742228828251; 
- Mon, 17 Mar 2025 09:27:08 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
- [209.85.167.47]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549ba88508asm1355445e87.186.2025.03.17.09.27.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Mar 2025 09:27:07 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-54991d85f99so5855898e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 09:27:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPpYLmipqvmsdgsJxoTqnIxvazjplWl0ANhtN68dZNkQ1JqNe2mpqlqLl+fVG3g5wvJvlgiggP01w=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:1244:b0:549:903d:b8d8 with SMTP id
- 2adb3069b0e04-54a30475b3emr112201e87.8.1742228826202; Mon, 17 Mar 2025
- 09:27:06 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE7F410E0F0;
+ Mon, 17 Mar 2025 16:37:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5365FA488CD;
+ Mon, 17 Mar 2025 16:32:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 976FBC4CEED;
+ Mon, 17 Mar 2025 16:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742229469;
+ bh=fTI6mTD6U6HzrRMuMomzwSD7v9bc+QEXsntyHFlOg0o=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=S68RN/lMhLIYyBIMxhnUlqppbUHp/zkCipphcWRHxMrrbJFGmNOtWY2JLmjfxFemL
+ RdcDiawHcUThOxQpdCNrgz+H5ovVcqFOXP2jDm2fVtXhzZiVfCIpdsBV/WIZWl4TV9
+ Oeb13m43qY7bg0q9ZRglCqZR4nQ+bxKqusN4vjOCoTsyS5rjVHRKmJRezH0DVDI3sX
+ yGb7YAeey3a9qDmvwG6kMJmGVIi0XDhDwhDQuqM7YyW9//+em9oT69x0jH2iHvRnF5
+ k6w7eEqDR0yiqfsQzzqmYRHFzT9ENRAZ6AwETgFSOpbIzujVL850JR1PVaFb/tfLE+
+ vjk50d4akC3SA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, Sasha Levin <sashal@kernel.org>,
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.13 10/16] drm/xe/guc_pc: Retry and wait longer for
+ GuC PC start
+Date: Mon, 17 Mar 2025 12:37:19 -0400
+Message-Id: <20250317163725.1892824-10-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250317163725.1892824-1-sashal@kernel.org>
+References: <20250317163725.1892824-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20250316045024.672167-1-tejasvipin76@gmail.com>
-In-Reply-To: <20250316045024.672167-1-tejasvipin76@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 17 Mar 2025 09:26:54 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xk6hYmJGLhW2ruvWwOETfmCAQX000WX4LrC3CPCZJMJQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JrBrTk4sVBXsj3dmm7M114VmKW881GUc4grvUi98QYdB5nlyFUkRHGglwY
-Message-ID: <CAD=FV=Xk6hYmJGLhW2ruvWwOETfmCAQX000WX4LrC3CPCZJMJQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: samsung-s6d7aa0: transition to mipi_dsi
- wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- aweber.kernel@gmail.com, quic_jesszhan@quicinc.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asrivats@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.13.7
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,70 +68,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-On Sat, Mar 15, 2025 at 9:50=E2=80=AFPM Tejas Vipin <tejasvipin76@gmail.com=
-> wrote:
->
-> @@ -62,93 +62,66 @@ static void s6d7aa0_reset(struct s6d7aa0 *ctx)
->         msleep(50);
->  }
->
-> -static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
-> +static void s6d7aa0_lock(struct s6d7aa0 *ctx, struct mipi_dsi_multi_cont=
-ext *dsi_ctx, bool lock)
->  {
-> -       struct mipi_dsi_device *dsi =3D ctx->dsi;
-> +       if (dsi_ctx->accum_err)
-> +               return;
+[ Upstream commit c605acb53f449f6289f042790307d7dc9e62d03d ]
 
-nit: I don't think you need this extra check, do you? The entire
-function is "multi" calls so just let them be no-ops. It may seem like
-an optimization to have the extra check at the start of the function,
-but it's better to optimize for the "no error" case and let the
-"error" case be a little slower.
+In a rare situation of thermal limit during resume, GuC can
+be slow and run into delays like this:
 
+xe 0000:00:02.0: [drm] GT1: excessive init time: 667ms! \
+   		 [status = 0x8002F034, timeouts = 0]
+xe 0000:00:02.0: [drm] GT1: excessive init time: \
+   		 [freq = 100MHz (req = 800MHz), before = 100MHz, \
+   		 perf_limit_reasons = 0x1C001000]
+xe 0000:00:02.0: [drm] *ERROR* GT1: GuC PC Start failed
+------------[ cut here ]------------
+xe 0000:00:02.0: [drm] GT1: Failed to start GuC PC: -EIO
 
->  static int s6d7aa0_on(struct s6d7aa0 *ctx)
->  {
->         struct mipi_dsi_device *dsi =3D ctx->dsi;
-> -       struct device *dev =3D &dsi->dev;
-> -       int ret;
-> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
->
-> -       ret =3D ctx->desc->init_func(ctx);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to initialize panel: %d\n", ret);
-> +       ctx->desc->init_func(ctx, &dsi_ctx);
-> +       if (dsi_ctx.accum_err < 0)
->                 gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> -               return ret;
-> -       }
->
-> -       ret =3D mipi_dsi_dcs_set_display_on(dsi);
-> -       if (ret < 0) {
-> -               dev_err(dev, "Failed to set display on: %d\n", ret);
-> -               return ret;
-> -       }
-> +       mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
->
-> -       return 0;
-> +       return dsi_ctx.accum_err;
+When this happens, it will block entirely the GPU to be used.
+So, let's try and with a huge timeout in the hope it comes back.
 
-Not something new to your patch, I wonder if the setting of the reset
-GPIO should actually be _below_ the call to turn the display on. Seems
-like if that fails you should also be setting the reset GPIO. That
-would be a change in behavior but seems more correct?
+Also, let's collect some information on how long it is usually
+taking on situations like this, so perhaps the time can be tuned
+later.
 
-Given that it's a change in behavior, I'd be OK w/ leaving it as-is or
-changing it (and mentioning it in the commit message). I'd be curious
-if anyone else has opinions here.
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250307160307.1093391-1-rodrigo.vivi@intel.com
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+(cherry picked from commit b4b05e53b550a886b4754b87fd0dd2b304579e85)
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/xe/xe_guc_pc.c | 53 +++++++++++++++++++++++++---------
+ 1 file changed, 40 insertions(+), 13 deletions(-)
 
-...oh, actually, you should just delete the reset GPIO stuff from this
-function. The one caller of this function is already setting the reset
-GPIO, right?
+diff --git a/drivers/gpu/drm/xe/xe_guc_pc.c b/drivers/gpu/drm/xe/xe_guc_pc.c
+index e8b9faeaef645..467d8a2879ecb 100644
+--- a/drivers/gpu/drm/xe/xe_guc_pc.c
++++ b/drivers/gpu/drm/xe/xe_guc_pc.c
+@@ -6,6 +6,7 @@
+ #include "xe_guc_pc.h"
+ 
+ #include <linux/delay.h>
++#include <linux/ktime.h>
+ 
+ #include <drm/drm_managed.h>
+ #include <generated/xe_wa_oob.h>
+@@ -19,6 +20,7 @@
+ #include "xe_gt.h"
+ #include "xe_gt_idle.h"
+ #include "xe_gt_printk.h"
++#include "xe_gt_throttle.h"
+ #include "xe_gt_types.h"
+ #include "xe_guc.h"
+ #include "xe_guc_ct.h"
+@@ -48,6 +50,9 @@
+ #define LNL_MERT_FREQ_CAP	800
+ #define BMG_MERT_FREQ_CAP	2133
+ 
++#define SLPC_RESET_TIMEOUT_MS 5 /* roughly 5ms, but no need for precision */
++#define SLPC_RESET_EXTENDED_TIMEOUT_MS 1000 /* To be used only at pc_start */
++
+ /**
+  * DOC: GuC Power Conservation (PC)
+  *
+@@ -112,9 +117,10 @@ static struct iosys_map *pc_to_maps(struct xe_guc_pc *pc)
+ 	 FIELD_PREP(HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ARGC, count))
+ 
+ static int wait_for_pc_state(struct xe_guc_pc *pc,
+-			     enum slpc_global_state state)
++			     enum slpc_global_state state,
++			     int timeout_ms)
+ {
+-	int timeout_us = 5000; /* rought 5ms, but no need for precision */
++	int timeout_us = 1000 * timeout_ms;
+ 	int slept, wait = 10;
+ 
+ 	xe_device_assert_mem_access(pc_to_xe(pc));
+@@ -163,7 +169,8 @@ static int pc_action_query_task_state(struct xe_guc_pc *pc)
+ 	};
+ 	int ret;
+ 
+-	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING))
++	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
++			      SLPC_RESET_TIMEOUT_MS))
+ 		return -EAGAIN;
+ 
+ 	/* Blocking here to ensure the results are ready before reading them */
+@@ -186,7 +193,8 @@ static int pc_action_set_param(struct xe_guc_pc *pc, u8 id, u32 value)
+ 	};
+ 	int ret;
+ 
+-	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING))
++	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
++			      SLPC_RESET_TIMEOUT_MS))
+ 		return -EAGAIN;
+ 
+ 	ret = xe_guc_ct_send(ct, action, ARRAY_SIZE(action), 0, 0);
+@@ -207,7 +215,8 @@ static int pc_action_unset_param(struct xe_guc_pc *pc, u8 id)
+ 	struct xe_guc_ct *ct = &pc_to_guc(pc)->ct;
+ 	int ret;
+ 
+-	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING))
++	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
++			      SLPC_RESET_TIMEOUT_MS))
+ 		return -EAGAIN;
+ 
+ 	ret = xe_guc_ct_send(ct, action, ARRAY_SIZE(action), 0, 0);
+@@ -404,6 +413,15 @@ u32 xe_guc_pc_get_act_freq(struct xe_guc_pc *pc)
+ 	return freq;
+ }
+ 
++static u32 get_cur_freq(struct xe_gt *gt)
++{
++	u32 freq;
++
++	freq = xe_mmio_read32(&gt->mmio, RPNSWREQ);
++	freq = REG_FIELD_GET(REQ_RATIO_MASK, freq);
++	return decode_freq(freq);
++}
++
+ /**
+  * xe_guc_pc_get_cur_freq - Get Current requested frequency
+  * @pc: The GuC PC
+@@ -427,10 +445,7 @@ int xe_guc_pc_get_cur_freq(struct xe_guc_pc *pc, u32 *freq)
+ 		return -ETIMEDOUT;
+ 	}
+ 
+-	*freq = xe_mmio_read32(&gt->mmio, RPNSWREQ);
+-
+-	*freq = REG_FIELD_GET(REQ_RATIO_MASK, *freq);
+-	*freq = decode_freq(*freq);
++	*freq = get_cur_freq(gt);
+ 
+ 	xe_force_wake_put(gt_to_fw(gt), fw_ref);
+ 	return 0;
+@@ -965,6 +980,7 @@ int xe_guc_pc_start(struct xe_guc_pc *pc)
+ 	struct xe_gt *gt = pc_to_gt(pc);
+ 	u32 size = PAGE_ALIGN(sizeof(struct slpc_shared_data));
+ 	unsigned int fw_ref;
++	ktime_t earlier;
+ 	int ret;
+ 
+ 	xe_gt_assert(gt, xe_device_uc_enabled(xe));
+@@ -989,14 +1005,25 @@ int xe_guc_pc_start(struct xe_guc_pc *pc)
+ 	memset(pc->bo->vmap.vaddr, 0, size);
+ 	slpc_shared_data_write(pc, header.size, size);
+ 
++	earlier = ktime_get();
+ 	ret = pc_action_reset(pc);
+ 	if (ret)
+ 		goto out;
+ 
+-	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING)) {
+-		xe_gt_err(gt, "GuC PC Start failed\n");
+-		ret = -EIO;
+-		goto out;
++	if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
++			      SLPC_RESET_TIMEOUT_MS)) {
++		xe_gt_warn(gt, "GuC PC start taking longer than normal [freq = %dMHz (req = %dMHz), perf_limit_reasons = 0x%08X]\n",
++			   xe_guc_pc_get_act_freq(pc), get_cur_freq(gt),
++			   xe_gt_throttle_get_limit_reasons(gt));
++
++		if (wait_for_pc_state(pc, SLPC_GLOBAL_STATE_RUNNING,
++				      SLPC_RESET_EXTENDED_TIMEOUT_MS)) {
++			xe_gt_err(gt, "GuC PC Start failed: Dynamic GT frequency control and GT sleep states are now disabled.\n");
++			goto out;
++		}
++
++		xe_gt_warn(gt, "GuC PC excessive start time: %lldms",
++			   ktime_ms_delta(ktime_get(), earlier));
+ 	}
+ 
+ 	ret = pc_init_freqs(pc);
+-- 
+2.39.5
 
-
-Everything else looks good to me.
-
--DOug
