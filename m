@@ -2,58 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D5DA65DD1
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 20:21:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADB0A65E4D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 20:44:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA4D10E0FF;
-	Mon, 17 Mar 2025 19:21:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81EAE10E18F;
+	Mon, 17 Mar 2025 19:44:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="l+YImy4a";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LOa737wr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91A5D10E0FF
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 19:21:48 +0000 (UTC)
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 49DA4219D8;
- Mon, 17 Mar 2025 20:21:40 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Kxohck1h9amb; Mon, 17 Mar 2025 20:21:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1742239297; bh=NgHB5DloDHIam4+aHZexc6F7ttmxCu/XVF8xokkwquA=;
- h=From:Date:Subject:To:Cc;
- b=l+YImy4aQlQv0I0Anwet+lGQrE6VSpB9qlQteehdh6qiyDn79CnMF5Ds5e72K7mPw
- UGtyf8fu0tGm6VprKTvPEkFOS9f+qePsu7X9QnkHqgIaFsmPhZOkgyF3rHbJvAYU6X
- +psKT7kDIubpNdRF73kJWfeUgB0SYTmissoO+CAINUguxqWCf3ysv5SOzs3fjjVHPC
- DQRmyHpwWaGdHLQAk5MC2UEzu1ZXfmwinornAmh+fncD9C/OUn5VMpHK4FNli+WGIT
- XZ8vGfcU7kdQ1JOfqDTsUlOPtaTWtQ5H2JYb3YqZxr+3fCVQnHdLu2qtm10XIuMyl+
- 7yIxWUnHc89Mw==
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Tue, 18 Mar 2025 00:50:51 +0530
-Subject: [PATCH RESEND] dt-bindings: gpu: arm,mali-midgard: add
- exynos7870-mali compatible
-MIME-Version: 1.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D242710E17F;
+ Mon, 17 Mar 2025 19:44:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 051235C3CE2;
+ Mon, 17 Mar 2025 19:42:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45DB4C4CEE3;
+ Mon, 17 Mar 2025 19:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742240684;
+ bh=OiQVuvTN1/XflXpR3RqcHCaJ640D1uHI1i9Ur7T7qKs=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=LOa737wrjHepnbxep326FXIDSAcB2rL++PYLUj/AszMLNZHv7tdoRhUNrX9QZrleC
+ A0dKbD1XhZRR5Kv2Fi+eBXALlamDgHb3ExZfje4E09ZLXgLCzdM/CMLltD/YSV7Pql
+ e7ZJ5fJgFeVAZJVt/ZwuHnhroS4ZRwlm5COLLNnvU8vbZJXfoyHcuiETR0b9hB60XY
+ aFKci0gMNcgOLFIieuVYhfo08wg0yLhvo7tpxm4rMSU2JW1PuIIf5br0HavPhfuvHQ
+ PCMfyIH4pXJC7Kvc1Ss6nyRrHrpCcUm6EDHLoZdJDiFJf2sqKkQp++J2gbgdnaGf5p
+ pRfeDmX1+CpwQ==
+Date: Mon, 17 Mar 2025 14:44:43 -0500
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250318-exynos7870-gpu-v1-1-084863f28b5c@disroot.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: Sergey Lisov <sleirsgoevy@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Kaustabh Chakraborty <kauschluss@disroot.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1742239290; l=1463;
- i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
- bh=NgHB5DloDHIam4+aHZexc6F7ttmxCu/XVF8xokkwquA=;
- b=5AWkfH6JBT7GtIr30t5ZeuidQwBQJjvOsSNHSN1mjAhWajpxjQo3OHQF3a7zfzfDPKi5Yb/CM
- NsBOKLPJ/OjBRklcXN8mQaUszht7FKeYS3IovG+S9fSNA6UYIhWyfFQ
-X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
- pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
+Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Georgi Djakov <djakov@kernel.org>, James Clark <james.clark@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Andy Gross <andy.gross@linaro.org>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-kernel@lists.infradead.org, 
+ Leo Yan <leo.yan@linux.dev>, Andy Gross <agross@codeaurora.org>, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Konrad Dybcio <konradybcio@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
+ coresight@lists.linaro.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ "Ivan T. Ivanov" <ivan.ivanov@linaro.org>, 
+ Mike Leach <mike.leach@linaro.org>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Rob Clark <robdclark@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Heidelberg <david@ixit.cz>, 
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>, 
+ linux-arm-msm@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Kumar Gala <galak@codeaurora.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250317-fix-nexus-4-v1-4-655c52e2ad97@oss.qualcomm.com>
+References: <20250317-fix-nexus-4-v1-0-655c52e2ad97@oss.qualcomm.com>
+ <20250317-fix-nexus-4-v1-4-655c52e2ad97@oss.qualcomm.com>
+Message-Id: <174224068328.474126.11922746474259386307.robh@kernel.org>
+Subject: Re: [PATCH 4/9] dt-bindings: arm:
+ qcom,coresight-static-replicator: add optional clocks
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +79,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Exynos7870 SoC uses the ARM Mali T830 GPU, document its compatible
-string with the appropriate fallback. The T830 compatible is already
-defined in the panfrost driver, but was commented out as it was unused.
 
-Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
----
-This patch series is a part of Exynos7870 upstreaming.
----
- Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On Mon, 17 Mar 2025 19:44:39 +0200, Dmitry Baryshkov wrote:
+> As most other CoreSight devices the replicator can use either of the
+> optional clocks (or both). Document those optional clocks in the schema.
+> 
+> Fixes: 3c15fddf3121 ("dt-bindings: arm: Convert CoreSight bindings to DT schema")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  .../bindings/arm/arm,coresight-static-replicator.yaml          | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-index 0801da33a385b42fa3a7ff367fafee54b1aae458..48daba21a890d24c02383672518bbd5cd7885d16 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-@@ -45,12 +45,15 @@ properties:
-               - samsung,exynos7-mali
-           - const: samsung,exynos5433-mali
-           - const: arm,mali-t760
-+      - items:
-+          - enum:
-+              - samsung,exynos7870-mali
-+          - const: arm,mali-t830
-       - items:
-           - enum:
-               - rockchip,rk3399-mali
-           - const: arm,mali-t860
- 
--          # "arm,mali-t830"
-           # "arm,mali-t880"
- 
-   reg:
+My bot found errors running 'make dt_binding_check' on your patch:
 
----
-base-commit: df4b2bbff898227db0c14264ac7edd634e79f755
-change-id: 20250203-exynos7870-gpu-ccb918e23b2e
+yamllint warnings/errors:
 
-Best regards,
--- 
-Kaustabh Chakraborty <kauschluss@disroot.org>
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/arm,coresight-static-replicator.yaml: properties:clock-names: 'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250317-fix-nexus-4-v1-4-655c52e2ad97@oss.qualcomm.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
