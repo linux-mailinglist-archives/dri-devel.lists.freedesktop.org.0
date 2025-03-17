@@ -2,133 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FF2A6557B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 16:24:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439BDA65599
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 16:30:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 940CA10E0F1;
-	Mon, 17 Mar 2025 15:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 653D610E163;
+	Mon, 17 Mar 2025 15:30:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bu5SGRl5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hKODKI7y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D898C10E0F1;
- Mon, 17 Mar 2025 15:24:29 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-390effd3e85so3770486f8f.0; 
- Mon, 17 Mar 2025 08:24:29 -0700 (PDT)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE1910E0E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 15:30:15 +0000 (UTC)
+Received: by mail-qv1-f52.google.com with SMTP id
+ 6a1803df08f44-6e8fca43972so42630536d6.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 08:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742225068; x=1742829868; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:content-language:references:cc:to:from
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=3o8y+sF2cJuAyU0DtcMR+QnjfvSrFztUL3Purm0rulQ=;
- b=bu5SGRl5NwL5BndsWf+RQQrKt9HxUGFWYSjjwgr+xiYxHmeTKvdNcLoDCFhu+1+OUW
- KvaqSiZt2pwZn9UgPjA5z22lfmHKwn0MClrue5Sx/LYZa44aqDqaf5o9kxMvlN5NJj68
- G/syMz+CiUBnCad7bcTeLvrt8Vh3QRBX3nMW685Gt/WgpaIOKkTtGxB3OCQ8x0aGmXf9
- D648B8pTFIa0R4ZWO/TXCxmte3zzTMrYfbX/xB5DiL1gFKXj7vCP0sOzaj5KH2iEzvUj
- 8WEhnQTs+JTbIWCeMexCjU45Y0Q4Pkyt2N44dCcCdzYrHTl1AvaJkvZHPG72ipZEeGPQ
- onTA==
+ d=gmail.com; s=20230601; t=1742225414; x=1742830214; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5VnHac+67NezyG9Z5kQPIahJscKgGgBzlwii56QtL5I=;
+ b=hKODKI7ys1wj/XUAlL3cuE96JIxDEg0EtaiBi+th6yURCpUowloUi1m3InBPB4kv97
+ xWO6Hf8WnfsEsiMxtqjYctjZZtTnpSHw5JX7dlzqpF/4yvA61M57fi+MIS21XfunhRwk
+ CLS72tOm+bqZU4h1arq6YtifxFKukeiP4oYiiNNBGTyKDcfyeqFeAn8X7SUWZeJJNP0F
+ KTbhYRIW7t5xfCvgc3wMaPraSEyg4G0FpXCB+W9+lPjkCn9umaKUkALTykmjvvTsZiN+
+ 3CFY6Tp3k+dqHno4P1nXjZBqXaQofwXZTWJpA5z4Hls9bZMs7s1hLqfzqskulVBvpL5V
+ mecQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742225068; x=1742829868;
- h=in-reply-to:autocrypt:content-language:references:cc:to:from
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3o8y+sF2cJuAyU0DtcMR+QnjfvSrFztUL3Purm0rulQ=;
- b=qoes202yRJ5YV0i57QJ/5TnXHCfj2Jdaq5/f++suNuBdVS6kL8nhxwLUoebvb6HZSz
- J1SzOLnv3I9dV6BHLtDcjH0dTmB/XUsDL5+BWRybGW/p8W0ieZsGeknm9oXmBzGpuk3Y
- r+4n7GZfW68IB1ufkTYU4peBpZ1CMFw4Ws+eXzEHIVU1FSpIV1KrrUQIY2IDgb1XKWyy
- 6wtr0p+KjaohQkANPMn2qdREY1VmoqWRMileIYbUhC3FJ5MoioGxrPe3HDIAx1orY8/l
- 2aeyvEsrx+r8l9ugkduBDDnHuJbQQhavGFxSWTtfnOqs1qLYpl12Y0oDES9UAc5j7EOT
- 82xQ==
+ d=1e100.net; s=20230601; t=1742225414; x=1742830214;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5VnHac+67NezyG9Z5kQPIahJscKgGgBzlwii56QtL5I=;
+ b=JtP8n3bLzSZxKTEO+V43K/FGDoL8rmKedHSps88Kp6laHz6G7WD5ooqBqeeSnYzi5g
+ PCQ9rj4VH1olo8I8vxyqCWcecQeqD/ipsbYVLAswaXNNVgV/GNHuOFgF0Ylcp6nQMWn0
+ q+PbVoYGPGh9U1/f0CIo8slAx477bHm5XF6R+PMA71isnKWE59HHl0BpdPjASRQqr4HN
+ x1k8t4D+iujesEaDcWQaV3yxoyEWxyn0NYqY6qq6/+UA8+T8Ay9uci+eKXyXjcS2w1ol
+ SnFnL52XkMGb9ILL8a9WbB6DwgbFjpbC3ON5MDyjUp1PgZT/lwXkoPcI5JlDcsDf0MYu
+ Hg6A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW44h6BhW/Vb83nYqgqAM1ODOG9/BuCjXvzNhmW0H0gZzDLs4hATY2eP20OUNsYtKApFV7OvjwelGs=@lists.freedesktop.org,
- AJvYcCWGKkC9H8O/5cv9rfO3pumTyLwH6m1uihPDiGeFbiNjGFMRzVghvrTLsUS3Lcb+C/gnRh+P0LEq+VMU@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YztBsFADAoD1o13312CxoHRA5bC8je5zXcBX8u8rG+8YbqgSofT
- CJgHG82ZGnvtdzM7vICYtD+Od/dVM6xRUh/fPow/lDBLJUcZ0kBl
-X-Gm-Gg: ASbGncu+D2ikGpWO29qYU+CFxsNDbidh31CtwmIvl6sGOwRsXisPhDFbtQSnKJIZdLW
- MtSCMmPbol7YQlBv72528S9gxS3tEf+7CESfDJeDYHH2x3HzA7+4MWjBWtalBiMZyvuXtFUaVRQ
- Db+C003bLO7cJyUzyb3TiDHw8BBtE7avd16BVIQcViT+kvJfSTuoPZF5p9W5txzSVvWMMBK/4Ip
- 2yocQI1NlFDBCX05KJ4eAexkQBwcE6/ZI14X5gyZZOV/wec3Ti2prREPDJGv66R+rf8DzltUTyd
- sF/OdshdkiMHos+Gm4XDn/eoW4uvQBBip/CaW+ImK18AxpxtVMPZqw==
-X-Google-Smtp-Source: AGHT+IFxNyHd2elGdsiXtlwyqIChhOaDGEmGS67uMndk6oGZj+9LX+JLakb7zcRMKYCnsvTCPBR31A==
-X-Received: by 2002:a05:6000:1562:b0:391:4bcb:828f with SMTP id
- ffacd0b85a97d-3971d6171f1mr13419839f8f.14.1742225067815; 
- Mon, 17 Mar 2025 08:24:27 -0700 (PDT)
-Received: from [192.168.1.248] ([194.120.133.58])
- by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43d1fe294b5sm108242315e9.21.2025.03.17.08.24.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Mar 2025 08:24:27 -0700 (PDT)
-Message-ID: <e179abfc-542c-417d-8012-dbaf99ee55a7@gmail.com>
-Date: Mon, 17 Mar 2025 15:23:50 +0000
+ AJvYcCXrEZ5vPj5g5zEI8Gp6Rl/LPYD4Turot6Uqv67RgRYPYciMGq4xEwXV8ColA6hALnTGGRZ+ix0RlPo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YymNCRgA+LMUNvDWnGWSBgMtozYv7ecw3/gsJP4HeJf9wSTlMNO
+ 0IdYkbD1KXsDAZ5BfMHguw0JbVytZGTu4EFoOoB2irQDgY5BoFtW
+X-Gm-Gg: ASbGncvy18AnzAvp4E3IiU4IDJ2QqXVW/Wq7wauZySKQd3z8ECt8YEu9CX9EdEvRTjh
+ VQNWsDWY/m1xZ4JINUnBmp8ycDPPEdPJm/DO6CgBDbSQNP3od0YNoH53IM9GqDprHG0Qu3fM+5V
+ oZqj4jBzCMqu2z9Y72mtekhrTjQax0Rjikiu2xSskN4u6NGChr3m27yp+h0/dLRYBpGhfEXGHKo
+ ttX4VlX3E85UaoOeQGndzxuIdfhSs0h+qZ8kiAx9nlw+TWzBRNfkOazpPtFOel9jvFYXcVhmsCb
+ tpno7l3sTL2QO5A9cRtIGtCm9hpuSSOyuwfnudTVV/ViS2AwaelwrmEeHCrhM5F5OA9gP8Z+uG/
+ 24rja6ywgFNiWx2Vy
+X-Google-Smtp-Source: AGHT+IHNmtB9c12zhL5/E0oWznPUv4bUb/VjSZ9loMwleCwsOPZRUcNYkvDBkshuzLWydzExi8biFQ==
+X-Received: by 2002:ad4:5f46:0:b0:6d4:238e:35b0 with SMTP id
+ 6a1803df08f44-6eaea9fac05mr181158406d6.17.1742225414336; 
+ Mon, 17 Mar 2025 08:30:14 -0700 (PDT)
+Received: from 1.0.0.127.in-addr.arpa
+ ([2600:4041:5be7:7c00:6895:24c6:e898:e320])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6eade34c51fsm55736766d6.109.2025.03.17.08.30.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Mar 2025 08:30:13 -0700 (PDT)
+From: Tamir Duberstein <tamird@gmail.com>
+Subject: [PATCH v9 0/4] rust: replace kernel::str::CStr w/ core::ffi::CStr
+Date: Mon, 17 Mar 2025 11:30:02 -0400
+Message-Id: <20250317-cstr-core-v9-0-51d6cc522f62@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] ice: make const read-only array dflt_rules static
-From: "Colin King (gmail)" <colin.i.king@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250317144606.478431-1-colin.i.king@gmail.com>
-Content-Language: en-US
-Autocrypt: addr=colin.i.king@gmail.com; keydata=
- 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
- FVPMkxl2UyaayDvhrO9kNXvl1SKCpdzCMQ==
-In-Reply-To: <20250317144606.478431-1-colin.i.king@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ZNFhGmX4lcFYNFRaEF7DK9gt"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPo/2GcC/3WOzWrDMBAGXyXoXAVJtternPIeJQdZP7FobYWVE
+ Q3B7x45kGIKPX7szjAPlj1Fn9np8GDkS8wxzXXojwOzo5mvnkdXN1NCdUIJyW1eiNtEnrt20AN
+ oqYQNrP7fyIf483J9XuoOlCa+jOTN29AKlFp2DXRwVIii54oX4xKlkr/u5xulJc2Tid9Hm6ZNO
+ ca8JLq/6gps4neI2oUU4IJjC9o6cEoHd77+SraQ0v9L9pV0RmI9KdE2+JfEPdnsSaykHZqgwPc
+ ICHtyXdcnyCWNaVkBAAA=
+X-Change-ID: 20250201-cstr-core-d4b9b69120cf
+To: Michal Rostecki <vadorovsky@protonmail.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@google.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, llvm@lists.linux.dev, linux-pci@vger.kernel.org, 
+ Tamir Duberstein <tamird@gmail.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,174 +124,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ZNFhGmX4lcFYNFRaEF7DK9gt
-Content-Type: multipart/mixed; boundary="------------6TQZWX0MhXTNYHQ5gq0p7cLp";
- protected-headers="v1"
-From: "Colin King (gmail)" <colin.i.king@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <e179abfc-542c-417d-8012-dbaf99ee55a7@gmail.com>
-Subject: Re: [PATCH][next] ice: make const read-only array dflt_rules static
-References: <20250317144606.478431-1-colin.i.king@gmail.com>
-In-Reply-To: <20250317144606.478431-1-colin.i.king@gmail.com>
+This picks up from Michal Rostecki's work[0]. Per Michal's guidance I
+have omitted Co-authored tags, as the end result is quite different.
 
---------------6TQZWX0MhXTNYHQ5gq0p7cLp
-Content-Type: multipart/mixed; boundary="------------hRl0h9mCajm0NSHp4B6SnQ81"
+Link: https://lore.kernel.org/rust-for-linux/20240819153656.28807-2-vadorovsky@protonmail.com/t/#u [0]
+Closes: https://github.com/Rust-for-Linux/linux/issues/1075
 
---------------hRl0h9mCajm0NSHp4B6SnQ81
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+---
+Changes in v9:
+- Rebase on rust-next.
+- Restore `impl Display for BStr` which exists upstream[1].
+- Link: https://doc.rust-lang.org/nightly/std/bstr/struct.ByteStr.html#impl-Display-for-ByteStr [1]
+- Link to v8: https://lore.kernel.org/r/20250203-cstr-core-v8-0-cb3f26e78686@gmail.com
 
-SWdub3JlLCBtYW5hZ2VkIHRvIG1hbmdsZSB0d28gY29tbWl0cyBpbnRvIG9uZS4NCg0KDQoN
-Ck9uIDE3LzAzLzIwMjUgMTQ6NDYsIENvbGluIElhbiBLaW5nIHdyb3RlOg0KPiBEb24ndCBw
-b3B1bGF0ZSB0aGUgY29uc3QgcmVhZC1vbmx5IGFycmF5IGRmbHRfcnVsZXMgb24gdGhlIHN0
-YWNrIGF0IHJ1bg0KPiB0aW1lLCBpbnN0ZWFkIG1ha2UgaXQgc3RhdGljLg0KPiANCj4gU2ln
-bmVkLW9mZi1ieTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmkua2luZ0BnbWFpbC5jb20+DQo+
-IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX21lbW9yeV9yZWdpb24uYyAg
-ICAgICAgfCAyICstDQo+ICAgZHJpdmVycy9uZXQvZXRoZXJuZXQvaW50ZWwvaWNlL2ljZV9l
-dGh0b29sX2ZkaXIuYyB8IDIgKy0NCj4gICAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9u
-cygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9pbnRlbF9tZW1vcnlfcmVnaW9uLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-bnRlbF9tZW1vcnlfcmVnaW9uLmMNCj4gaW5kZXggZDQwZWUxYjQyMTEwLi43ZjQxMDJlZGM3
-NWIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX21lbW9yeV9y
-ZWdpb24uYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9tZW1vcnlfcmVn
-aW9uLmMNCj4gQEAgLTYyLDcgKzYyLDcgQEAgc3RhdGljIGludCBpb3BhZ2V0ZXN0KHN0cnVj
-dCBpbnRlbF9tZW1vcnlfcmVnaW9uICptZW0sDQo+ICAgCQkgICAgICByZXNvdXJjZV9zaXpl
-X3Qgb2Zmc2V0LA0KPiAgIAkJICAgICAgY29uc3Qgdm9pZCAqY2FsbGVyKQ0KPiAgIHsNCj4g
-LQljb25zdCB1OCB2YWxbXSA9IHsgMHgwLCAweGE1LCAweGMzLCAweGYwIH07DQo+ICsJc3Rh
-dGljIGNvbnN0IHU4IHZhbFtdID0geyAweDAsIDB4YTUsIDB4YzMsIDB4ZjAgfTsNCj4gICAJ
-dm9pZCBfX2lvbWVtICp2YTsNCj4gICAJaW50IGVycjsNCj4gICAJaW50IGk7DQo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL25ldC9ldGhlcm5ldC9pbnRlbC9pY2UvaWNlX2V0aHRvb2xfZmRp
-ci5jIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvaW50ZWwvaWNlL2ljZV9ldGh0b29sX2ZkaXIu
-Yw0KPiBpbmRleCAxZDExODE3MWRlMzcuLmFjZWVjMTg0ZTg5YiAxMDA2NDQNCj4gLS0tIGEv
-ZHJpdmVycy9uZXQvZXRoZXJuZXQvaW50ZWwvaWNlL2ljZV9ldGh0b29sX2ZkaXIuYw0KPiAr
-KysgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9pbnRlbC9pY2UvaWNlX2V0aHRvb2xfZmRpci5j
-DQo+IEBAIC0xNjA1LDcgKzE2MDUsNyBAQCB2b2lkIGljZV9mZGlyX3JlcGxheV9mbHRycyhz
-dHJ1Y3QgaWNlX3BmICpwZikNCj4gICAgKi8NCj4gICBpbnQgaWNlX2ZkaXJfY3JlYXRlX2Rm
-bHRfcnVsZXMoc3RydWN0IGljZV9wZiAqcGYpDQo+ICAgew0KPiAtCWNvbnN0IGVudW0gaWNl
-X2ZsdHJfcHR5cGUgZGZsdF9ydWxlc1tdID0gew0KPiArCXN0YXRpYyBjb25zdCBlbnVtIGlj
-ZV9mbHRyX3B0eXBlIGRmbHRfcnVsZXNbXSA9IHsNCj4gICAJCUlDRV9GTFRSX1BUWVBFX05P
-TkZfSVBWNF9UQ1AsIElDRV9GTFRSX1BUWVBFX05PTkZfSVBWNF9VRFAsDQo+ICAgCQlJQ0Vf
-RkxUUl9QVFlQRV9OT05GX0lQVjZfVENQLCBJQ0VfRkxUUl9QVFlQRV9OT05GX0lQVjZfVURQ
-LA0KPiAgIAl9Ow0KDQo=
---------------hRl0h9mCajm0NSHp4B6SnQ81
-Content-Type: application/pgp-keys; name="OpenPGP_0x68C287DFC6A80226.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x68C287DFC6A80226.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Changes in v8:
+- Move `{from,as}_char_ptr` back to `CStrExt`. This reduces the diff
+  some.
+- Restore `from_bytes_with_nul_unchecked_mut`, `to_cstring`.
+- Link to v7: https://lore.kernel.org/r/20250202-cstr-core-v7-0-da1802520438@gmail.com
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Changes in v7:
+- Rebased on mainline.
+- Restore functionality added in commit a321f3ad0a5d ("rust: str: add
+  {make,to}_{upper,lower}case() to CString").
+- Used `diff.algorithm patience` to improve diff readability.
+- Link to v6: https://lore.kernel.org/r/20250202-cstr-core-v6-0-8469cd6d29fd@gmail.com
 
-xsFNBE6TJCgBEACo6nMNvy06zNKj5tiwDsXXS+LhT+LwtEsy9EnraKYXAf2xwazc
-ICSjX06efanlyhB0figzQO0n/tP7BcfMVNG7n1+DC71mSyRK1ZERcG1523ajvdZO
-xbBCTvTitYOy3bjs+LXKqeVMhK3mRvdTjjmVpWnWqJ1LL+Hn12ysDVVfkbtuIm2N
-oaSEC8Ae8LSSyCMecd22d9PnLR4UeFgrWEkQsqROq6ZDJT9pBLGe1ZS0pVGhkRyB
-P9GP65oPev39SmfAx9R92SYJygCy0pPvBMWKvEZS/7bpetPNx6l2xu9UvwoeEbpz
-UvH26PHO3DDAv0ynJugPCoxlGPVf3zcfGQxy3otydNTWkP6Wh3Q85m+AlifgKZud
-jZLrO6c+fAw/jFu1UMjNuyhgShtFU7NvEzL3RqzFf9O1qM2muj83IeFQ1FZ65QAi
-CdTa3npz1vHc7N4uEQBUxyXgXfCI+A5yDnjHwzU0Y3RYS52TA3nfa08yLGPLTf5w
-yAREkFYou20vh5vRvPASoXx6auVf1MuxokDShVhxLpryBnlKCobs4voxN54BUO7m
-zuERXN8kadsxGFzItAyfKYzEiJrpUB1yhm78AecDyiPlMjl99xXk0zs9lcKriaBy
-VUv/NsyJFQj/kmdxox3XHi9K29kopFszm1tFiDwCFr/xumbZcMY17Yi2bQARAQAB
-zSdDb2xpbiBJYW4gS2luZyA8Y29saW4uaS5raW5nQGdtYWlsLmNvbT7CwZEEEwEI
-ADsCGwMFCwkIBwMFFQoJCAsFFgIDAQACHgECF4AWIQRwYtqk8AG5xmFnAM9owoff
-xqgCJgUCY8GcawIZAQAKCRBowoffxqgCJtd/EACIWcaxfVt/MH4qqo5ELsjCFPVp
-+RhVpQDWy8v9Np2YbTcZ4AY2Zj4Pq/HrZ3F/Bh02v85C6mNv8BDTKev6Qcq3BYw0
-iqw6/xLNvRcSFHM81mQI9xtnAWIWfI9k5hpX19QooPIIP3GOMdMc1uRUGTxTgTFA
-AsAswRY3kMzo6k7arQnUs9zbiZ9SmS43qWOIxzGnvneekHHDAcomc/oho7kgj6rK
-p/f9qRrhForkgVQwdj6iBlW934yRXzeFVF3wr7Lk5GQNIEkJiNQPZs54ojBS/Kx6
-3UTLT1HgOp6UY9RPEi9wubmUR+J6YjLRZMr5PCcA86EYmRoysnnJ8Q/SlBVD8npp
-GVEcuvrbH3MBfhmwOPDc3RyLkEtKfSTB92k1hsmRkx9zkyuUzhcSnqQnpWGJD+xt
-KHvcHRT7Uxaa+SDwUDM36BjkyVcZQy8c+Is2jA55uwNgPpiA7n82pTeT+FRGd+7i
-CLQHaryu6FO6DNDv09RbPBjIiC/q814aeKJaSILP1ld9/PEBrLPdm+6lG6OKOt9D
-DV6jPmfR96FydjxcmI1cgZVgPomSxv2JB1erOggB8rmX4hhWYsVQl1AXZs3LdEpJ
-6clmCPspn/ufZxHslgR9/WR1EvPMQc8XtssF55p8ehRIcVSXDRcMFr3ZuqMTXcL6
-8YbDmv5OGS95O1Gs4c0iQ29saW4gS2luZyA8Y29saW4ua2luZ0B1YnVudHUuY29t
-PsLBdwQTAQgAIQUCTwq47wIbAwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgAAKCRBo
-woffxqgCJo1bD/4gPIQ0Muy5TGHqTQ/bSiQ9oWjS5rAQvsrsVwcm2Ka7Uo8LzG8e
-grZrYieJxn3Qc22b98TiT6/5+sMa3XxhxBZ9FvALve175NPOz+2pQsAV88tR5NWk
-5YSzhrpzi7+klkWEVAB71hKFZcT0qNlDSeg9NXfbXOyCVNPDJQJfrtOPEuutuRuU
-hrXziaRchqmlhmszKZGHWybmPWnDQEAJdRs2Twwsi68WgScqapqd1vq2+5vWqzUT
-JcoHrxVOnlBq0e0IlbrpkxnmxhfQ+tx/Sw9BP9RITgOEFh6tf7uwly6/aqNWMgFL
-WACArNMMkWyOsFj8ouSMjk4lglT96ksVeCUfKqvCYRhMMUuXxAe+q/lxsXC+6qok
-Jlcd25I5U+hZ52pz3A+0bDDgIDXKXn7VbKooJxTwN1x2g3nsOLffXn/sCsIoslO4
-6nbr0rfGpi1YqeXcTdU2Cqlj2riBy9xNgCiCrqrGfX7VCdzVwpQHyNxBzzGG6JOm
-9OJ2UlpgbbSh6/GJFReW+I62mzC5VaAoPgxmH38g0mA8MvRT7yVpLep331F3Inmq
-4nkpRxLd39dgj6ejjkfMhWVpSEmCnQ/Tw81z/ZCWExFp6+3Q933hGSvifTecKQlO
-x736wORwjjCYH/A3H7HK4/R9kKfL2xKzD+42ejmGqQjleTGUulue8JRtpM1AQ29s
-aW4gSWFuIEtpbmcgKEludGVsIENvbGluIElhbiBLaW5nIGtleSkgPGNvbGluLmtp
-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
-=3DQKm6
------END PGP PUBLIC KEY BLOCK-----
+Changes in v6:
+- Split the work into several commits for ease of review.
+- Restore `{from,as}_char_ptr` to allow building on ARM (see commit
+  message).
+- Add `CStrExt` to `kernel::prelude`. (Alice Ryhl)
+- Remove `CStrExt::from_bytes_with_nul_unchecked_mut` and restore
+  `DerefMut for CString`. (Alice Ryhl)
+- Rename and hide `kernel::c_str!` to encourage use of C-String
+  literals.
+- Drop implementation and invocation changes in kunit.rs. (Trevor Gross)
+- Drop docs on `Display` impl. (Trevor Gross)
+- Rewrite docs in the style of the standard library.
+- Restore the `test_cstr_debug` unit tests to demonstrate that the
+  implementation has changed.
 
---------------hRl0h9mCajm0NSHp4B6SnQ81--
+Changes in v5:
+- Keep the `test_cstr_display*` unit tests.
 
---------------6TQZWX0MhXTNYHQ5gq0p7cLp--
+Changes in v4:
+- Provide the `CStrExt` trait with `display()` method, which returns a
+   `CStrDisplay` wrapper with `Display` implementation. This addresses
+   the lack of `Display` implementation for `core::ffi::CStr`.
+- Provide `from_bytes_with_nul_unchecked_mut()` method in `CStrExt`,
+   which might be useful and is going to prevent manual, unsafe casts.
+- Fix a typo (s/preffered/prefered/).
 
---------------ZNFhGmX4lcFYNFRaEF7DK9gt
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Changes in v3:
+- Fix the commit message.
+- Remove redundant braces in `use`, when only one item is imported.
 
------BEGIN PGP SIGNATURE-----
+Changes in v2:
+- Do not remove `c_str` macro. While it's preferred to use C-string
+   literals, there are two cases where `c_str` is helpful:
+   - When working with macros, which already return a Rust string literal
+     (e.g. `stringify!`).
+   - When building macros, where we want to take a Rust string literal as an
+     argument (for caller's convenience), but still use it as a C-string
+     internally.
+- Use Rust literals as arguments in macros (`new_mutex`, `new_condvar`,
+   `new_mutex`). Use the `c_str` macro to convert these literals to C-string
+   literals.
+- Use `c_str` in kunit.rs for converting the output of `stringify!` to a
+   `CStr`.
+- Remove `DerefMut` implementation for `CString`.
 
-wsF5BAABCAAjFiEEcGLapPABucZhZwDPaMKH38aoAiYFAmfYPoYFAwAAAAAACgkQaMKH38aoAib1
-xQ/+LnlMzz/dQ0RD3lNGym8vopuswxN64QZlAmcQAi9qnw6srIpr7OALSJ37XWLXwDEQvY1uhwaj
-kB46083w2Jt2ukkPiWa4MS97qWeruuRuBZg8/kzERKovFTA8mIx86wkbxVB4RnI7uw050BoMYlRj
-cCvJJWlFmtWqHBj7WUOtSJWF17BmF5+Z7+q0y8xEbH/znnUoTJHhu/rCIkWp5JfHVLgMc6rVhOOM
-v5ebZFirJr5hYcp5hdYI3LGXQZPGz4Mc49VXTInhcTYEdY12cIDdX/O0FeWjE4xVCilvua8yqo+Y
-U6oTXXDjI1o/l1y6CE5Oe8kN3vrrOLBHXxhgArbaMrJCSfAq5IWTThV5cMoEHpdnJNm4Sj5u4EaK
-gguZNpT3u1Lz9d62GLIKTPC0Xla9uoEgLM6jwoExC2AIDxSSArsBwYoIf2/c7my8kbJaR3dWW26+
-d9XCvl3HoFJXvpr92EI6Br+Du8ObxEiMLlqALEkWs1hR01uzqKh5DZZsJCRFRZi1lFPf8F7cYIBQ
-gbm8KnS3dCeIVDdtvl51vHWoIRE0szLWwSoZNhrM6vG98txrtyIKRRIJ9d81NHD8NSZ96bkieIXl
-MFLW8Zte0PXJvzjQ+wRiFkSiXcxS7z7e6oesoUAC/1fXEP5jUjvcH/k0RQ6FG7ZHPPGGg8u/vVP6
-bcE=
-=rEOP
------END PGP SIGNATURE-----
+---
+Tamir Duberstein (4):
+      rust: move `CStr`'s `Display` to helper struct
+      rust: replace `CStr` with `core::ffi::CStr`
+      rust: replace `kernel::c_str!` with C-Strings
+      rust: remove core::ffi::CStr reexport
 
---------------ZNFhGmX4lcFYNFRaEF7DK9gt--
+ drivers/gpu/drm/drm_panic_qr.rs      |   6 +-
+ drivers/net/phy/ax88796b_rust.rs     |   8 +-
+ drivers/net/phy/qt2025.rs            |   6 +-
+ rust/kernel/device.rs                |   7 +-
+ rust/kernel/devres.rs                |   2 +-
+ rust/kernel/driver.rs                |   4 +-
+ rust/kernel/error.rs                 |  10 +-
+ rust/kernel/faux.rs                  |   5 +-
+ rust/kernel/firmware.rs              |   8 +-
+ rust/kernel/kunit.rs                 |  18 +-
+ rust/kernel/lib.rs                   |   2 +-
+ rust/kernel/miscdevice.rs            |   5 +-
+ rust/kernel/net/phy.rs               |  12 +-
+ rust/kernel/of.rs                    |   5 +-
+ rust/kernel/pci.rs                   |   3 +-
+ rust/kernel/platform.rs              |   7 +-
+ rust/kernel/prelude.rs               |   2 +-
+ rust/kernel/seq_file.rs              |   4 +-
+ rust/kernel/str.rs                   | 499 +++++++++++++----------------------
+ rust/kernel/sync.rs                  |   4 +-
+ rust/kernel/sync/condvar.rs          |   3 +-
+ rust/kernel/sync/lock.rs             |   4 +-
+ rust/kernel/sync/lock/global.rs      |   6 +-
+ rust/kernel/sync/poll.rs             |   1 +
+ rust/kernel/workqueue.rs             |   1 +
+ rust/macros/module.rs                |   2 +-
+ samples/rust/rust_driver_faux.rs     |   4 +-
+ samples/rust/rust_driver_pci.rs      |   4 +-
+ samples/rust/rust_driver_platform.rs |   4 +-
+ samples/rust/rust_misc_device.rs     |   3 +-
+ 30 files changed, 256 insertions(+), 393 deletions(-)
+---
+base-commit: 433b1bd6e0a98938105c43c0553f24e0747ef52c
+change-id: 20250201-cstr-core-d4b9b69120cf
+
+Best regards,
+-- 
+Tamir Duberstein <tamird@gmail.com>
+
