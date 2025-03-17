@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B67A657A1
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BFFA657A4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 17:13:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF5510E169;
-	Mon, 17 Mar 2025 16:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4542E10E2B4;
+	Mon, 17 Mar 2025 16:13:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="frZkwSRb";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Likn2FL0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA2AC10E169
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 16:12:42 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-e589c258663so4089588276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 09:12:42 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B25910E189
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 16:13:32 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-6efe4e3d698so41440757b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 09:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1742227962; x=1742832762;
+ d=broadcom.com; s=google; t=1742228011; x=1742832811;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dGsF0FqvQ1e/uw3wjwLh4LCFRpb1w5a0Z3iey+LHmZY=;
- b=frZkwSRb40apZVgtgH6uXm4U9dk163t4quLdfdUiN8u1+z5/eI3RgWXOldqAucXg9R
- ZokrF+jfVQ88Jvmy76t3mz6ZblTncP2PGXN+tyZcitlxB0DGPhD0m95MqsMFDWeuwD0v
- bTNVL94OgmMnoTZVZjyT8UrhOn8aW/IJ4czV8=
+ bh=6rgNmCu2yNQw5ZCRJJTH1Q6f2J8zFtt+C5J5xYvbdyU=;
+ b=Likn2FL0dEDcaBpDvn/FWfImwICXNOXAu/XaL+cf3KaOFy/cTvkcyatzFTyoAXcJNo
+ Ewx7yoxW1vDYLl4n24TvClc9Zwj2RPf7KMCakqLsf2Ovn86JNxENX+wTUypdng4R+8x2
+ ++lCJrBnQabdMGfd3RfZ2pkJm6IxSyDg3AARc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742227962; x=1742832762;
+ d=1e100.net; s=20230601; t=1742228011; x=1742832811;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=dGsF0FqvQ1e/uw3wjwLh4LCFRpb1w5a0Z3iey+LHmZY=;
- b=QqOmTAK7zG0+zT+eNia6phWb+9ZC6A87/g0K8tkSZyZCk/zW6TDOS2UHQ5xgTQoMnK
- 2hRooHsndQxOC+t1TSVRqvvwu2qghJPsAPIA1GMbSuM5cfesU34w8xtm6PCwGsGRhtMq
- XO3dTYlw70gEVxeMAj2mTtZjCMzlDOX69F1x/TkhFYdqtGLf05tOxaAMFD1hm8H0dmHR
- 4NlJE0Mi4F/OlbC4uiUBdvWRdmjGeKv1wswuAHV28AukjoBRPra+7tJvNF3DgcRFQ+XR
- SAUzJTE8Kb1xhlnlZhETWLF2nHm6yN/1z+sPnZH5ZJnF3re7QrVH2Vz8tRI40xWNBScB
- hfjg==
+ bh=6rgNmCu2yNQw5ZCRJJTH1Q6f2J8zFtt+C5J5xYvbdyU=;
+ b=YpmkcssouOyqgooWUjckil2vVSYBe6O1MZqrn3EcXVqwLsxBxwdbQsOje47pPIfpgK
+ uMKOSbPhbI6vGPOsHbNeUXXpyfEe8z4JhAe94tkmdVyspg85c41+XxfIUwZw+mP64j1Q
+ K3ND3XSYxLn81PwG0UO+/e5e1ifLQ0BQ0kLbabzgFm9mGte4tk44a2JKzWQOrvao8ngP
+ zVI8rVh/pVCUFvfjOv5rfQ4wpLGCQmECwABt8oNqYSiTtjMSSb1KMn5jI87XCjYsMnn/
+ FZOvoTMitnvSoK0hIlUh035Rs5dOtYkzjNaLPwVnORAfKdDejrbE6LCQRyc6M59qRa0z
+ 494w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWopPDh5ILVJEMj1+g/ivNXCrnzCJ5a+7Va4nn6nReGylpMZY1yAFc6kVzDu8BBEYqJyNrAUFqMFfM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWSFjLZ27DUw9ouX9Wc0o5q1zP26nqkYtWscOZoQpLIBOH+kEu
- kTJskCaawz3q5tuAalFgZPt8/iJfREJcu8dsP3UUhJyI35+y1DCc8hv2nqgKbl0goQlezmSwW4H
- 7sD72yK4GqJKkhwx6CwF7gJDRb0jiPKVBJ8x+
-X-Gm-Gg: ASbGnctveir4DzRpKIHFb5tilmqfgQaiAqWhCRuDuBgK4bB9K9OpwSdS+KN4rOXB0YJ
- hwG3A9mw+GDOMbCUplUgrRURE+Zl0dEsl89ffZFJwBA0s/RcDWFtHwK36NrXIL/ghlhhRkK1tiI
- qwkDWM/gDhqir1apn6xCgtCbk/kxk=
-X-Google-Smtp-Source: AGHT+IEkX6jY66HzmBwSERbt8Vnd4t6g5Ks6r8xsaTMFIl29B8ZGNtQ2fw8OBiaS5zcqlKShJSKyi5/yOC3MgbvoWlk=
-X-Received: by 2002:a05:690c:3388:b0:6f9:78c0:3a5f with SMTP id
- 00721157ae682-6ff45ef4dfdmr187030587b3.19.1742227962038; Mon, 17 Mar 2025
- 09:12:42 -0700 (PDT)
+ AJvYcCX5gDFhJj9k12w30+ku7gEwfNYDqyx2v0BKGL0iOGPNI8ytgnss2cm+tHwa1TgXZ50pMnfAHGkivMY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxFRKjbo8HcPUBkgEOxjOofSxNO7C4TPfkRvOipQnGloE5Umu8O
+ dB0np8IUVHm+jsCP8Ewbw7MW1vtWfaHZyTvbk8Wlj2HK7zdjfZko5zjWhYa5WfTncty8JM6wRRv
+ JrWOBYmog4u/lBMqgwVV/d1JKQKdAxaduMSPV
+X-Gm-Gg: ASbGncv21+aUiyEZDCM6310vbnG2t32NCxhFkaBIoxeXAQu7voUVLJt7A3TnQWs6GzY
+ NJu19AI2WSIGfLGebKexL88Bgpfteqdz49R7Aj84rt7DXqfusfoIu8S/e6BTdy1wNG12+C9yn4T
+ yirhseMw4Nbrqhbhdp8ZbI0NgjtFLjX8wO6KbOmg==
+X-Google-Smtp-Source: AGHT+IHL5iX/sujHz0MlRQfr25Cz7sYrefy4EwW9PnpNA//ZA/xhKPWdtUbXsHKPO7RjsQccTQRYsLihA0ZKo8w8I50=
+X-Received: by 2002:a05:690c:4882:b0:6f6:d0a8:8d65 with SMTP id
+ 00721157ae682-6ff460c1696mr162478367b3.28.1742228011623; Mon, 17 Mar 2025
+ 09:13:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250317131923.238374-1-tzimmermann@suse.de>
- <20250317131923.238374-14-tzimmermann@suse.de>
-In-Reply-To: <20250317131923.238374-14-tzimmermann@suse.de>
+ <20250317131923.238374-15-tzimmermann@suse.de>
+In-Reply-To: <20250317131923.238374-15-tzimmermann@suse.de>
 From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Mon, 17 Mar 2025 12:12:31 -0400
-X-Gm-Features: AQ5f1Jr8fyDMqMx84kEXZ1NE8Zk3hTcZy2FG6vpHF395nYr43gsGprljyPBqn8k
-Message-ID: <CABQX2QN5DCEWAUA+uCS4uZQP8G8doski0GxNAY8JvMsBD7u+wA@mail.gmail.com>
-Subject: Re: [PATCH 13/15] drm/vmwgfx: Test for imported buffers with
- drm_gem_is_imported()
+Date: Mon, 17 Mar 2025 12:13:19 -0400
+X-Gm-Features: AQ5f1Jo4GCMJQS1pX5OMU3hakZhNR0AQMriA8OyfLQsUn4DrTZRXm3R8BBcwyEY
+Message-ID: <CABQX2QPb0ZbJ71=duhK4d9NYM+adYXgn1gwx9fDKReuZEU=KTg@mail.gmail.com>
+Subject: Re: [PATCH 14/15] drm/vmwgfx: Use dma_buf from GEM object instance
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
  mripard@kernel.org, dri-devel@lists.freedesktop.org, 
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000cf74a206308c0e2e"
+ micalg=sha-256; boundary="000000000000c3925e06308c1137"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,100 +82,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000cf74a206308c0e2e
+--000000000000c3925e06308c1137
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Mon, Mar 17, 2025 at 9:22=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
 .de> wrote:
 >
-> Instead of testing import_attach for imported GEM buffers, invoke
-> drm_gem_is_imported() to do the test. The helper tests the dma_buf
-> itself while import_attach is just an artifact of the import. Prepares
-> to make import_attach optional.
+> Avoid dereferencing struct drm_gem_object.import_attach for the
+> imported dma-buf. The dma_buf field in the GEM object instance refers
+> to the same buffer. Prepares to make import_attach optional.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Zack Rusin <zack.rusin@broadcom.com>
 > Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadc=
 om.com>
 > ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c | 4 ++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c  | 6 +++---
->  2 files changed, 5 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c b/drivers/gpu/drm/vmwgf=
-x/vmwgfx_blit.c
-> index 64bd7d74854e..fa5841fda659 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-> @@ -429,7 +429,7 @@ static void *map_external(struct vmw_bo *bo, struct i=
-osys_map *map)
->         void *ptr =3D NULL;
->         int ret;
->
-> -       if (bo->tbo.base.import_attach) {
-> +       if (drm_gem_is_imported(&bo->tbo.base)) {
->                 ret =3D dma_buf_vmap(bo->tbo.base.dma_buf, map);
->                 if (ret) {
->                         drm_dbg_driver(&vmw->drm,
-> @@ -447,7 +447,7 @@ static void *map_external(struct vmw_bo *bo, struct i=
-osys_map *map)
->
->  static void unmap_external(struct vmw_bo *bo, struct iosys_map *map)
->  {
-> -       if (bo->tbo.base.import_attach)
-> +       if (drm_gem_is_imported(&bo->tbo.base))
->                 dma_buf_vunmap(bo->tbo.base.dma_buf, map);
->         else
->                 vmw_bo_unmap(bo);
 > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx=
 /vmwgfx_gem.c
-> index ed5015ced392..200240fecf7d 100644
+> index 200240fecf7d..2a252e1d5e9f 100644
 > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
 > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> @@ -84,7 +84,7 @@ static int vmw_gem_vmap(struct drm_gem_object *obj, str=
-uct iosys_map *map)
->         struct ttm_buffer_object *bo =3D drm_gem_ttm_of_gem(obj);
+> @@ -85,10 +85,10 @@ static int vmw_gem_vmap(struct drm_gem_object *obj, s=
+truct iosys_map *map)
 >         int ret;
 >
-> -       if (obj->import_attach) {
-> +       if (drm_gem_is_imported(obj)) {
->                 ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
+>         if (drm_gem_is_imported(obj)) {
+> -               ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
+> +               ret =3D dma_buf_vmap(obj->dma_buf, map);
 >                 if (!ret) {
 >                         if (drm_WARN_ON(obj->dev, map->is_iomem)) {
-> @@ -101,7 +101,7 @@ static int vmw_gem_vmap(struct drm_gem_object *obj, s=
+> -                               dma_buf_vunmap(obj->import_attach->dmabuf=
+, map);
+> +                               dma_buf_vunmap(obj->dma_buf, map);
+>                                 return -EIO;
+>                         }
+>                 }
+> @@ -102,7 +102,7 @@ static int vmw_gem_vmap(struct drm_gem_object *obj, s=
 truct iosys_map *map)
->
 >  static void vmw_gem_vunmap(struct drm_gem_object *obj, struct iosys_map =
 *map)
 >  {
-> -       if (obj->import_attach)
-> +       if (drm_gem_is_imported(obj))
->                 dma_buf_vunmap(obj->import_attach->dmabuf, map);
+>         if (drm_gem_is_imported(obj))
+> -               dma_buf_vunmap(obj->import_attach->dmabuf, map);
+> +               dma_buf_vunmap(obj->dma_buf, map);
 >         else
 >                 drm_gem_ttm_vunmap(obj, map);
-> @@ -111,7 +111,7 @@ static int vmw_gem_mmap(struct drm_gem_object *obj, s=
-truct vm_area_struct *vma)
->  {
->         int ret;
->
-> -       if (obj->import_attach) {
-> +       if (drm_gem_is_imported(obj)) {
->                 /*
->                  * Reset both vm_ops and vm_private_data, so we don't end=
- up with
->                  * vm_ops pointing to our implementation if the dma-buf b=
-ackend
+>  }
 > --
 > 2.48.1
 >
 
-Another great cleanup! Thanks.
+Looks good, thanks!
 Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
 
 z
 
---000000000000cf74a206308c0e2e
+--000000000000c3925e06308c1137
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -268,13 +233,13 @@ iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
 b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
 VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
 VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIEjT
-Ya4zN/mhhYrQtDiqxYETSr7F+lPfxsljjRp46BqjMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDMxNzE2MTI0MlowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIJnn
+fc5DyJatrBLB6nH7MFTFrqylH6VmipIYFX5oAuuLMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI1MDMxNzE2MTMzMVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
 ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAE1AlJPmPSMFBnIr6z9U4MN8H4Xeesg+DKAB+81P
-3sx4TWRvOqwIzlnmIq8plz89+CNfk3FzzGkrBh3qE7sHdXkJg5Omn2h5cjZCSqLiCrM3dRBaSXGm
-kRa7+VtBPOSTVgvp3si2lyKZKBKaob7z+BmtbICGBfIS7RUu1UhvkbPBqo2BYKjfRrwcQqYdAS6k
-ZInuDbNJLt5zljm4ZfxORHqHWBYcrerOjOI+Bwc/GM0wot74oLoMw5rakjvBOw7YvwR0AYpuAC21
-t/bLuBdE/Av/eK+HTtSlaYqWUITvObDTn7oteG7+2lOraRfHmj6L2T4a+CU6x3SUR94CZ08px4g=
---000000000000cf74a206308c0e2e--
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAAPUPVJFKvAbYah67rkEC3ZfKJkPojnRqb1pxTUI
+bNCn/BTKqI0aTMLizGaL641SVDtP5WOziJ+NhInDvCv3tO2LItvSUlaVHz+Z0hHWIOjL7UsFzI/A
+A4LzzK38ykwQ3Nkzp2WeowDZ5DV9lZd1PDchA7Xw8V8eN9CNIlyUdXeI2ZX5BaGwlltURpH7gB5H
+4Z24LDdscJR/wBxHQMGMiZKbZmWHSth7Tk8qJlhTNnYWLr2NGe8Wb8KarAVyuWEPeQPR1aSPRukv
+vygMs3bMEH/iTM3Izx5STStTqroB1zdWMnKeA94R6wB8dohCLMnruCTEDYrcF1i5KefMMSaIt88=
+--000000000000c3925e06308c1137--
