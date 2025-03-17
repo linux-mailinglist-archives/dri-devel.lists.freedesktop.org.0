@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED81EA6461D
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 09:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33677A64A9D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Mar 2025 11:45:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 417A710E3CE;
-	Mon, 17 Mar 2025 08:50:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nNi68yju";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4C610E130;
+	Mon, 17 Mar 2025 10:44:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7165910E032
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 08:50:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1742201409;
- bh=JFO3x58H2vM/4oYxfHn0uVx+Lm738F8ylj7182GHs7A=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nNi68yjucDdRGQVG4KpqLveAnQuSX00lCksWcpTuQ7DlLWlLAmKA1L23hnn6yHJMj
- nR6etxATWsofpqNMM8vgztnNIo1296SuYic2axInVC/80BoFqjEOxjiEfsNx2BPU9e
- ODKvSLJ/3F7fBo7qeufZh87aGygIvnDKYcEyE7iJ4J2E4HvU0IaFijgafYGzHBcmNe
- 4BR/QCCUBpaVuV3zRFT4QlCRx0p2IZz+5J916iA4ECg6LO3RId4XDcHpOmWRLkdpie
- GdMEDNnSxnqdtzoMXo1rU5UWtvYPIjZXCVj6tGT+MNlJxHcuFkzzgBBcTLabNezY1f
- MfEz4KwQa9XQw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 49D1817E0987;
- Mon, 17 Mar 2025 09:50:08 +0100 (CET)
-Message-ID: <d0a85b86-2876-4ab1-ba0d-92611f37b8fc@collabora.com>
-Date: Mon, 17 Mar 2025 09:50:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] drm/panfrost: Set HW_FEATURE_AARCH64_MMU feature
- flag on Bifrost models
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, kernel@collabora.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- sjoerd@collabora.com
-References: <20250314173858.212264-1-ariel.dalessandro@collabora.com>
- <20250314173858.212264-4-ariel.dalessandro@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250314173858.212264-4-ariel.dalessandro@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Greylist: delayed 398 seconds by postgrey-1.36 at gabe;
+ Mon, 17 Mar 2025 06:12:04 UTC
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F24510E26C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 06:12:04 +0000 (UTC)
+Received: from mxde.zte.com.cn (unknown [10.35.20.165])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZGPZz2Ymfz57fC
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 14:05:15 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxde.zte.com.cn (FangMail) with ESMTPS id 4ZGPZx1pTWz5TCG9
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 14:05:13 +0800 (CST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZGPZk0nj2z5B1Jb;
+ Mon, 17 Mar 2025 14:05:02 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+ by mse-fl1.zte.com.cn with SMTP id 52H64sMZ055367;
+ Mon, 17 Mar 2025 14:04:54 +0800 (+08)
+ (envelope-from zhang.enpei@zte.com.cn)
+Received: from mapi (xaxapp01[null]) by mapi (Zmail) with MAPI id mid32;
+ Mon, 17 Mar 2025 14:04:56 +0800 (CST)
+Date: Mon, 17 Mar 2025 14:04:56 +0800 (CST)
+X-Zmail-TransId: 2af967d7bb88223-d96ae
+X-Mailer: Zmail v1.0
+Message-ID: <202503171404563447jAdJlVvoFXDvBoj0sAx6@zte.com.cn>
+Mime-Version: 1.0
+From: <zhang.enpei@zte.com.cn>
+To: <neil.armstrong@linaro.org>
+Cc: <andrzej.hajda@intel.com>, <rfoss@kernel.org>,
+ <laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm0vYnJpZGdlOiBzaWwtc2lpODYyMDogVXNlIGRldl9lcnJfcHJvYmUoKQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl1.zte.com.cn 52H64sMZ055367
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67D7BB9A.000/4ZGPZz2Ymfz57fC
+X-Mailman-Approved-At: Mon, 17 Mar 2025 10:44:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,14 +70,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 14/03/25 18:38, Ariel D'Alessandro ha scritto:
-> Set this feature flag on all Mali Bifrost platforms as the MMU supports
-> AARCH64 4K page table format.
-> 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
+From: ZhangEnpei <zhang.enpei@zte.com.cn>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Replace the open-code with dev_err_probe() to simplify the code.
 
+Signed-off-by: ZhangEnpei <zhang.enpei@zte.com.cn>
+---
+ drivers/gpu/drm/bridge/sil-sii8620.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+index 28a2e1ee04b2..1d0ee9c8d5b2 100644
+--- a/drivers/gpu/drm/bridge/sil-sii8620.c
++++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+@@ -2178,12 +2178,9 @@ static int sii8620_extcon_init(struct sii8620 *ctx)
+
+ 	edev = extcon_find_edev_by_node(muic);
+ 	of_node_put(muic);
+-	if (IS_ERR(edev)) {
+-		if (PTR_ERR(edev) == -EPROBE_DEFER)
+-			return -EPROBE_DEFER;
+-		dev_err(ctx->dev, "Invalid or missing extcon\n");
+-		return PTR_ERR(edev);
+-	}
++	if (IS_ERR(edev))
++		return dev_err_probe(ctx->dev, PTR_ERR(edev),
++				     "Invalid or missing extcon\n");
+
+ 	ctx->extcon = edev;
+ 	ctx->extcon_nb.notifier_call = sii8620_extcon_notifier;
+-- 
+2.25.1
