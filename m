@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829CDA67D30
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:38:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9CDA67CFB
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:23:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D5C910E0B7;
-	Tue, 18 Mar 2025 19:38:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1642D10E4BB;
+	Tue, 18 Mar 2025 19:23:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="OPfECu2S";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="j0NKxYto";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
- Tue, 18 Mar 2025 19:38:13 UTC
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
- [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3C7810E03C
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 19:38:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742325783; cv=none; 
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81B6510E4BB
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 19:23:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1742325786; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=PTJaz09qFMbDsvagbvsS3rm9wHzpkAY9ZV5xoNNjdwYWo8dG2qShxrXnwuKXXMwLUZhI92VaqKOGglKgdC+MP3iUG/fU+QILWf+fZPQBxw2PHTvWCrYEUViuQTZ4DpKsuTpSyOBycOIlR6EmduZWQCc3f2JDeXeWWQ25QBibN6I=
+ b=fTdHk+BytT5+tAfwi7NcvHNxKZFG7p+KIUnxtgXU3T/DlcR2ZeGWPktNW5VlRhEI4Hm3lOUQ4DcyP81f+uWv0UDjsimPdAr91zt1W12fq0N3P0BzJRjMwmw7+RRcgZ3NIXY7HUMaaEwM7A3W1Ki+DG+H7TnDKaP9Ul+gUl6a20Y=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742325783;
+ s=zohoarc; t=1742325786;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=9wCuwS7UKXaDgrz4jduawpF4mCPLt9l9JKYC4KOue28=; 
- b=XdXiUDcelySLk2ckYEsf5stweq8Yz6iScMd2F9AhMIaH9gen6M5nNXtCJIDdGQ25ETUKCx5BMF/taCXKlO8I8q87IiFPJEEyD64MzJ4IgJchF0OWVK2SVzB4sQtVbJXws87cQ3jKtc2cViwV1D0rDOrot61sdCZzIM8exo3xAiM=
+ bh=MY7Cl7jgPAQV9jp81m1D78HRv5kJV8iHLNLGSHsiP00=; 
+ b=MCDYFck2oN7OEXdxsFORYj7U87GQoCGW8rjafARpC9bteeZJ8vw2hWbMqVl3TE1TcMWJ2LZVtFxu10pTw5SYLO+tXf8XUXMScuuqeCDubVDXOG2Vi7MlxRYPVlZmist+sSQq12kN1+qoyWEhq22qXzfpkhIJQwbh/Qlgciq5774=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
  dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742325783; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742325786; 
  s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=9wCuwS7UKXaDgrz4jduawpF4mCPLt9l9JKYC4KOue28=;
- b=OPfECu2SmR5CTw0zvl0legVF9p8Dj5+hol1B1Qci4h90TRDOCAGN996H/6ccAel6
- o7DkE7aBV5hvC4MOiWgwWo2UQDDXCQag/pBhYti2K0OcK99ViaAxi2Lh1MiQKSR2LNB
- Pi6pQK/KMsUuN/r75o2pZHrbaxafqJljltjdfOho=
-Received: by mx.zohomail.com with SMTPS id 1742325779988998.490270205079;
- Tue, 18 Mar 2025 12:22:59 -0700 (PDT)
+ bh=MY7Cl7jgPAQV9jp81m1D78HRv5kJV8iHLNLGSHsiP00=;
+ b=j0NKxYtoLRK6J9dsv6r263wIo/zx8c8wsaCLzwTIzs5F7SJSLBtcm8NAxekvIX6l
+ 8VeMNTGEzqU3ohwb9zUXq6Bt28ME1A94gtWyYk9mas2HBIzrK7B3ClU4sdTaJJN3lBH
+ JHAQN87PPmKvEptO8IbMmyDPaeskki/cBJN7mK98=
+Received: by mx.zohomail.com with SMTPS id 1742325785766934.6166976605112;
+ Tue, 18 Mar 2025 12:23:05 -0700 (PDT)
 From: Daniel Almeida <daniel.almeida@collabora.com>
-Date: Tue, 18 Mar 2025 16:22:35 -0300
-Subject: [PATCH 1/7] drm/shmem-helper: Add lockdep asserts to vmap/vunmap
+Date: Tue, 18 Mar 2025 16:22:36 -0300
+Subject: [PATCH 2/7] drm/gem-shmem: Export VM ops functions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250318-drm-gem-shmem-v1-1-64b96511a84f@collabora.com>
+Message-Id: <20250318-drm-gem-shmem-v1-2-64b96511a84f@collabora.com>
 References: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
 In-Reply-To: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -82,39 +80,74 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Asahi Lina <lina@asahilina.net>
 
-Since commit 21aa27ddc582 ("drm/shmem-helper: Switch to reservation
-lock"), the drm_gem_shmem_vmap and drm_gem_shmem_vunmap functions
-require that the caller holds the DMA reservation lock for the object.
-Add lockdep assertions to help validate this.
+There doesn't seem to be a way for the Rust bindings to get a
+compile-time constant reference to drm_gem_shmem_vm_ops, so we need to
+duplicate that structure in Rust... this isn't nice...
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 9 ++++++---
+ include/drm/drm_gem_shmem_helper.h     | 3 +++
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 5ab351409312b5a0de542df2b636278d6186cb7b..ec89e9499f5f02a2a35713669bf649dd2abb9938 100644
+index ec89e9499f5f02a2a35713669bf649dd2abb9938..be310db5863871604f3502ad1f419937d4c20a84 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -338,6 +338,8 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
- 	struct drm_gem_object *obj = &shmem->base;
- 	int ret = 0;
+@@ -535,7 +535,7 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
  
-+	dma_resv_assert_held(obj->resv);
-+
- 	if (obj->import_attach) {
- 		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
- 		if (!ret) {
-@@ -404,6 +406,8 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+-static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
++vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
  {
- 	struct drm_gem_object *obj = &shmem->base;
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+@@ -564,8 +564,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
  
-+	dma_resv_assert_held(obj->resv);
-+
- 	if (obj->import_attach) {
- 		dma_buf_vunmap(obj->import_attach->dmabuf, map);
- 	} else {
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(drm_gem_shmem_fault);
+ 
+-static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
++void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
+ {
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+ 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+@@ -586,8 +587,9 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
+ 
+ 	drm_gem_vm_open(vma);
+ }
++EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_open);
+ 
+-static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
++void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+ {
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+ 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+@@ -598,6 +600,7 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+ 
+ 	drm_gem_vm_close(vma);
+ }
++EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_close);
+ 
+ const struct vm_operations_struct drm_gem_shmem_vm_ops = {
+ 	.fault = drm_gem_shmem_fault,
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index d22e3fb53631ab655748d7f6c628ffdb402f6324..b70d3cc35bd194e7cd718bee220408b5dda568bf 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -132,6 +132,9 @@ void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
+ 			      struct drm_printer *p, unsigned int indent);
+ 
+ extern const struct vm_operations_struct drm_gem_shmem_vm_ops;
++vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf);
++void drm_gem_shmem_vm_open(struct vm_area_struct *vma);
++void drm_gem_shmem_vm_close(struct vm_area_struct *vma);
+ 
+ /*
+  * GEM object functions
 
 -- 
 2.48.1
