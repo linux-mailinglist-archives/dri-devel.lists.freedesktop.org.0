@@ -2,120 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438FBA671EA
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 11:59:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E193A6725E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 12:16:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 397C910E34B;
-	Tue, 18 Mar 2025 10:59:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="ABNMuS0w";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5795210E462;
+	Tue, 18 Mar 2025 11:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 554 seconds by postgrey-1.36 at gabe;
- Tue, 18 Mar 2025 10:59:13 UTC
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46EDD10E34B
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 10:59:13 +0000 (UTC)
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20250318104953epoutp03165a5eccc6b803a54ce0ec5787f25a07~t4BDVhsb41818618186epoutp03n
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 10:49:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20250318104953epoutp03165a5eccc6b803a54ce0ec5787f25a07~t4BDVhsb41818618186epoutp03n
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1742294993;
- bh=ym3JInl4vR0nG186B998FYal7OWkBgTZa/2aQcc7KTU=;
- h=From:To:In-Reply-To:Subject:Date:References:From;
- b=ABNMuS0w1oN5eCXY88m8C/24HFNrziboGlTK2I34+eG6wPxem2LIXCiChBQilMLGJ
- f6Ivcg6ydXkEjYyi/eCGXvUs234X3QMRt1aZLfxIc+NqwElTGG9JUVF22iHGg0lgtE
- BoxE97ZAYzY8JmavTeEpbmwwL7VKMp4c3tQtKLLI=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTP id
- 20250318104952epcas5p1bab98c72fe30d154e48be3ccc50988bc~t4BCd4Bn31421314213epcas5p1q;
- Tue, 18 Mar 2025 10:49:52 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.178]) by
- epsnrtp2.localdomain (Postfix) with ESMTP id 4ZH7rv40Dtz4x9Pw; Tue, 18 Mar
- 2025 10:49:51 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 60.14.19956.FCF49D76; Tue, 18 Mar 2025 19:49:51 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250318104951epcas5p1bbd5161355a2945697a30731f5c5693e~t4BA2pTUw1189511895epcas5p14;
- Tue, 18 Mar 2025 10:49:51 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20250318104951epsmtrp121ba47b1053e067737a67ac4abd40616~t4BA1X0cE1339813398epsmtrp1S;
- Tue, 18 Mar 2025 10:49:51 +0000 (GMT)
-X-AuditID: b6c32a4b-fe9f470000004df4-25-67d94fcf9868
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 7C.42.18729.ECF49D76; Tue, 18 Mar 2025 19:49:50 +0900 (KST)
-Received: from INBRO002756 (unknown [107.122.3.168]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20250318104949epsmtip2af533e8fe37fcd9e8210461e70ef00d2~t4A-Rg1DL1762917629epsmtip2u;
- Tue, 18 Mar 2025 10:49:49 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>, "'Inki Dae'"
- <inki.dae@samsung.com>, "'Seung-Woo Kim'" <sw0312.kim@samsung.com>,
- "'Kyungmin Park'" <kyungmin.park@samsung.com>, "'David Airlie'"
- <airlied@gmail.com>, "'Simona Vetter'" <simona@ffwll.ch>, "'Krzysztof
- Kozlowski'" <krzk@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-In-Reply-To: <20250318080738.29292-1-krzysztof.kozlowski@linaro.org>
-Subject: RE: [PATCH] drm/exynos: exynos7_drm_decon: Consstify struct decon_data
-Date: Tue, 18 Mar 2025 16:19:48 +0530
-Message-ID: <000c01db97f3$7976af70$6c640e50$@samsung.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A27C810E462
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 11:16:29 +0000 (UTC)
+Received: from loongson.cn (unknown [223.64.68.198])
+ by gateway (Coremail) with SMTP id _____8CxaWoKVtlnOpCbAA--.2214S3;
+ Tue, 18 Mar 2025 19:16:26 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.68.198])
+ by front1 (Coremail) with SMTP id qMiowMAxTsUCVtln96ZRAA--.22425S2;
+ Tue, 18 Mar 2025 19:16:25 +0800 (CST)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Huacai Chen <chenhuacai@kernel.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Huacai Chen <chenhuacai@loongson.cn>, stable@vger.kernel.org
+Subject: [PATCH 37/40] drm/amd/display: Protect
+ dml2_create()/dml2_copy()/dml2_create_copy()
+Date: Tue, 18 Mar 2025 19:16:10 +0800
+Message-ID: <20250318111611.2161153-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQMPSnGnw8L0peP48BxqkWeMoAcDzwE4FBB6sQeQ6cA=
-Content-Language: en-us
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDJsWRmVeSWpSXmKPExsWy7bCmuu55/5vpBkd/SFqcuL6IyeLK1/ds
- FpPuT2CxOH9+A7vF3tdb2S3ONr1ht9j0+BqrxeVdc9gsZpzfx2Qx+91+dosZk1+yOXB77P22
- gMVj56y77B6bVnWyedy5tofN4373cSaPzUvqPfq2rGL0+LxJLoAjKtsmIzUxJbVIITUvOT8l
- My/dVsk7ON453tTMwFDX0NLCXEkhLzE31VbJxSdA1y0zB+hQJYWyxJxSoFBAYnGxkr6dTVF+
- aUmqQkZ+cYmtUmpBSk6BSYFecWJucWleul5eaomVoYGBkSlQYUJ2xoQHX1kLNrBX3P5ymq2B
- cQNbFyMnh4SAicTPtSfYQWwhgd2MEtPn60PYnxgletvzuhi5gOxvjBLdu06wwDT86mljg0js
- ZZT4/OcwI4TzklFizaPnTCBVbAK6EjsWQ1SJCJxjlnjXsgUswSngIvF0/UtGEFtYIFDixucv
- YLtZBFQlZsybzAxi8wpYSvz/v48NwhaUODnzCdhqZgF5ie1v5zBDnKEg8fPpMtYuRg6gBVYS
- d2/VQJSIS7w8eoQdZK+EwB4Oiel717BD1LtI7F/yDeoFYYlXx7dAxaUkXva3QdnxEvverGCC
- sAsk1lz7B1VvL7F6wRmwXcwCmhLrd+lD7OKT6P39hAkkLCHAK9HRJgRRrSrR/O4qVKe0xMTu
- blYI20Pi855OJkhYTWeUOPL7MPMERoVZSL6cheTLWUjemYWweQEjyypGydSC4tz01GLTAuO8
- 1HJ4fCfn525iBCdjLe8djI8efNA7xMjEwXiIUYKDWUmE1/3J9XQh3pTEyqrUovz4otKc1OJD
- jKbAoJ/ILCWanA/MB3kl8YYmlgYmZmZmJpbGZoZK4rzNO1vShQTSE0tSs1NTC1KLYPqYODil
- Gpj6Jj/cziM4403KrDRr+9zfaXYTQyLET0dGzrX+mvjkv9XDwo6E3M+PPjTM4pv1WeZZ8lOL
- sMjuG66Wjb6n2OUi739ZumQyy3Qf14OZHe9NfszpEXxgkx7LXMLlEvep5r1vn+zzad5evf48
- mtLdf0vDHhuxrepq9BVIu3V+hx3f5p5Vp7ojV1qzyboJqbTrhAo1S6jtlfrr1HHwhumjVbr2
- MizLDqjO5Pz2uzD6Yvlrl5Jas++iEdW21x62Ce20MG258ezdpHuZO5c5yb4MKGe7wD/TZca+
- 4+f2NS0LkC80maW+/Gj3OtaT9Q1qpxjM/JYdZGaPuqC87+027v0Ggct3cZeYruHZfZIreofv
- diWW4oxEQy3mouJEANqX1itPBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRmVeSWpSXmKPExsWy7bCSvO45/5vpBr8e21icuL6IyeLK1/ds
- FpPuT2CxOH9+A7vF3tdb2S3ONr1ht9j0+BqrxeVdc9gsZpzfx2Qx+91+dosZk1+yOXB77P22
- gMVj56y77B6bVnWyedy5tofN4373cSaPzUvqPfq2rGL0+LxJLoAjissmJTUnsyy1SN8ugStj
- woOvrAUb2CtufznN1sC4ga2LkZNDQsBE4ldPG5DNxSEksJtRor/jPQtEQlri+sYJ7BC2sMTK
- f8/BbCGB54wSrZfrQWw2AV2JHYshmkUErjFLbP3azg4xaSqjxM4d28E6OAVcJJ6uf8kIYgsL
- +Euc6FgGFmcRUJWYMW8yM4jNK2Ap8f//PjYIW1Di5MwnQFdwcDAL6Em0bQRrZRaQl9j+dg4z
- xEEKEj+fLmMFKRERsJK4e6sGokRc4uXRI+wTGIVmIRk0C2HQLCSDZiHpWMDIsopRMrWgODc9
- t9iwwDAvtVyvODG3uDQvXS85P3cTIzjutDR3MG5f9UHvECMTB+MhRgkOZiURXvcn19OFeFMS
- K6tSi/Lji0pzUosPMUpzsCiJ84q/6E0REkhPLEnNTk0tSC2CyTJxcEo1MJVMe7TJ66y/4bVl
- nUdY12topEhzPrp5110g/8Ud/QI+lZuT9ZqrzBIfcCptCNXI4s7rZJCr3sZ6h2uKG1umksvr
- 6Kb+wOiL/ous8q2Y/zfelJLstTSbVB8R5Bmx7tWZVtc7l4rNPV9NaNvsEb120g/eYrecVOMp
- ERF3ZHtDs6eV+0yZENNrqiwZs0KysE8l5tAZB4W1DYlfly5dxPTp//lH9gFT6yfGbT9a+2vy
- 1RJb9+9X/lnnqt1M5toq23P0XN1r9fonOpujq9WWsFTX/Z5imD4p3FiJUf3Bn0zzS6wKL67K
- LbFh4Sh+cVh0UflE+8MGEb4a3LLxl+vvSi7nsY+fXtY0M0lvh2jEHnMlluKMREMt5qLiRACB
- 4ZkMKgMAAA==
-X-CMS-MailID: 20250318104951epcas5p1bbd5161355a2945697a30731f5c5693e
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250318080746epcas5p476317bb7bae69a8a85b5ad870bb3d0a5
-References: <CGME20250318080746epcas5p476317bb7bae69a8a85b5ad870bb3d0a5@epcas5p4.samsung.com>
- <20250318080738.29292-1-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qMiowMAxTsUCVtln96ZRAA--.22425S2
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3AFy5Kr1rCFWDJr4rGr4rWFX_yoWxJFyfpr
+ 98XrWrGw48Ar1xJr13AF1UKr9Yq3ZxAFy8Jry7JF1a9F15Wrn8JFykJFW8trWUtFW5JF17
+ X3srAr98tay8KwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUk2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+ 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AK
+ xVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7V
+ AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+ r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+ IIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
+ w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7
+ CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjxU7eT5DUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,29 +65,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Krzysztof
+Commit 7da55c27e76749b9 ("drm/amd/display: Remove incorrect FP context
+start") removes the FP context protection of dml2_create(), and it said
+"All the DC_FP_START/END should be used before call anything from DML2".
 
-> -----Original Message-----
-> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Sent: Tuesday, March 18, 2025 1:38 PM
-> To: Inki Dae <inki.dae@samsung.com>; Seung-Woo Kim
-> <sw0312.kim@samsung.com>; Kyungmin Park
-> <kyungmin.park@samsung.com>; David Airlie <airlied@gmail.com>; Simona
-> Vetter <simona@ffwll.ch>; Krzysztof Kozlowski <krzk@kernel.org>; Alim
-> Akhtar <alim.akhtar@samsung.com>; dri-devel@lists.freedesktop.org; linux-
-> arm-kernel@lists.infradead.org; linux-samsung-soc@vger.kernel.org; linux-
-> kernel@vger.kernel.org
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Subject: [PATCH] drm/exynos: exynos7_drm_decon: Consstify struct
-> decon_data
-> 
-> static 'struct decon_data' is only read, so it can be const for code
-safety.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+However, dml2_create()/dml2_copy()/dml2_create_copy() are not protected
+from their callers, causing such errors:
 
-Reviewed-by: Alim Akhtar <alim.akhtar@samsung.com>
+ do_fpu invoked from kernel context![#1]:
+ CPU: 0 UID: 0 PID: 239 Comm: kworker/0:5 Not tainted 6.14.0-rc6+ #1
+ Workqueue: events work_for_cpu_fn
+ pc ffff80000319de80 ra ffff80000319de5c tp 900000010575c000 sp 900000010575f840
+ a0 0000000000000000 a1 900000012f210130 a2 900000012f000000 a3 ffff80000357e268
+ a4 ffff80000357e260 a5 900000012ea52cf0 a6 0000000400000004 a7 0000012c00001388
+ t0 00001900000015e0 t1 ffff80000379d000 t2 0000000010624dd3 t3 0000006400000014
+ t4 00000000000003e8 t5 0000005000000018 t6 0000000000000020 t7 0000000f00000064
+ t8 000000000000002f u0 5f5e9200f8901912 s9 900000012d380010 s0 900000012ea51fd8
+ s1 900000012f000000 s2 9000000109296000 s3 0000000000000001 s4 0000000000001fd8
+ s5 0000000000000001 s6 ffff800003415000 s7 900000012d390000 s8 ffff800003211f80
+    ra: ffff80000319de5c dml21_apply_soc_bb_overrides+0x3c/0x960 [amdgpu]
+   ERA: ffff80000319de80 dml21_apply_soc_bb_overrides+0x60/0x960 [amdgpu]
+  CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+  PRMD: 00000004 (PPLV0 +PIE -PWE)
+  EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
+  ECFG: 00071c1d (LIE=0,2-4,10-12 VS=7)
+ ESTAT: 000f0000 [FPD] (IS= ECode=15 EsubCode=0)
+  PRID: 0014d010 (Loongson-64bit, Loongson-3C6000/S)
+ Process kworker/0:5 (pid: 239, threadinfo=00000000927eadc6, task=000000008fd31682)
+ Stack : 00040dc000003164 0000000000000001 900000012f210130 900000012eabeeb8
+         900000012f000000 ffff80000319fe48 900000012f210000 900000012f210130
+         900000012f000000 900000012eabeeb8 0000000000000001 ffff8000031a0064
+         900000010575f9f0 900000012f210130 900000012eac0000 900000012ea80000
+         900000012f000000 ffff8000031cefc4 900000010575f9f0 ffff8000035859c0
+         ffff800003414000 900000010575fa78 900000012f000000 ffff8000031b4c50
+         0000000000000000 9000000101c9d700 9000000109c40000 5f5e9200f8901912
+         900000012d3c4bd0 900000012d3c5000 ffff8000034aed18 900000012d380010
+         900000012d3c4bd0 ffff800003414000 900000012d380000 ffff800002ea49dc
+         0000000000000001 900000012d3c6000 00000000ffffe423 0000000000010000
+         ...
+ Call Trace:
+ [<ffff80000319de80>] dml21_apply_soc_bb_overrides+0x60/0x960 [amdgpu]
+ [<ffff80000319fe44>] dml21_init+0xa4/0x280 [amdgpu]
+ [<ffff8000031a0060>] dml21_create+0x40/0x80 [amdgpu]
+ [<ffff8000031cefc0>] dc_state_create+0x100/0x160 [amdgpu]
+ [<ffff8000031b4c4c>] dc_create+0x44c/0x640 [amdgpu]
+ [<ffff800002ea49d8>] amdgpu_dm_init+0x3f8/0x2060 [amdgpu]
+ [<ffff800002ea6658>] dm_hw_init+0x18/0x60 [amdgpu]
+ [<ffff800002b16738>] amdgpu_device_init+0x1938/0x27e0 [amdgpu]
+ [<ffff800002b18e80>] amdgpu_driver_load_kms+0x20/0xa0 [amdgpu]
+ [<ffff800002b0c8f0>] amdgpu_pci_probe+0x1b0/0x580 [amdgpu]
+ [<900000000448eae4>] local_pci_probe+0x44/0xc0
+ [<9000000003b02b18>] work_for_cpu_fn+0x18/0x40
+ [<9000000003b05da0>] process_one_work+0x160/0x300
+ [<9000000003b06718>] worker_thread+0x318/0x440
+ [<9000000003b11b8c>] kthread+0x12c/0x220
+ [<9000000003ac1484>] ret_from_kernel_thread+0x8/0xa4
 
+So protect dml2_create()/dml2_copy()/dml2_create_copy() with DC_FP_START
+and DC_FP_END.
 
+Cc: stable@vger.kernel.org
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_state.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_state.c b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+index 1b2cce127981..6e2cac08002d 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_state.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
+@@ -210,17 +210,23 @@ struct dc_state *dc_state_create(struct dc *dc, struct dc_state_create_params *p
+ 
+ #ifdef CONFIG_DRM_AMD_DC_FP
+ 	if (dc->debug.using_dml2) {
++		DC_FP_START();
++
+ 		dml2_opt->use_clock_dc_limits = false;
+ 		if (!dml2_create(dc, dml2_opt, &state->bw_ctx.dml2)) {
++			DC_FP_END();
+ 			dc_state_release(state);
+ 			return NULL;
+ 		}
+ 
+ 		dml2_opt->use_clock_dc_limits = true;
+ 		if (!dml2_create(dc, dml2_opt, &state->bw_ctx.dml2_dc_power_source)) {
++			DC_FP_END();
+ 			dc_state_release(state);
+ 			return NULL;
+ 		}
++
++		DC_FP_END();
+ 	}
+ #endif
+ 
+@@ -240,6 +246,8 @@ void dc_state_copy(struct dc_state *dst_state, struct dc_state *src_state)
+ 	dc_state_copy_internal(dst_state, src_state);
+ 
+ #ifdef CONFIG_DRM_AMD_DC_FP
++	DC_FP_START();
++
+ 	dst_state->bw_ctx.dml2 = dst_dml2;
+ 	if (src_state->bw_ctx.dml2)
+ 		dml2_copy(dst_state->bw_ctx.dml2, src_state->bw_ctx.dml2);
+@@ -247,6 +255,8 @@ void dc_state_copy(struct dc_state *dst_state, struct dc_state *src_state)
+ 	dst_state->bw_ctx.dml2_dc_power_source = dst_dml2_dc_power_source;
+ 	if (src_state->bw_ctx.dml2_dc_power_source)
+ 		dml2_copy(dst_state->bw_ctx.dml2_dc_power_source, src_state->bw_ctx.dml2_dc_power_source);
++
++	DC_FP_END();
+ #endif
+ 
+ 	/* context refcount should not be overridden */
+@@ -268,17 +278,23 @@ struct dc_state *dc_state_create_copy(struct dc_state *src_state)
+ 	new_state->bw_ctx.dml2 = NULL;
+ 	new_state->bw_ctx.dml2_dc_power_source = NULL;
+ 
++	DC_FP_START();
++
+ 	if (src_state->bw_ctx.dml2 &&
+ 			!dml2_create_copy(&new_state->bw_ctx.dml2, src_state->bw_ctx.dml2)) {
++		DC_FP_END();
+ 		dc_state_release(new_state);
+ 		return NULL;
+ 	}
+ 
+ 	if (src_state->bw_ctx.dml2_dc_power_source &&
+ 			!dml2_create_copy(&new_state->bw_ctx.dml2_dc_power_source, src_state->bw_ctx.dml2_dc_power_source)) {
++		DC_FP_END();
+ 		dc_state_release(new_state);
+ 		return NULL;
+ 	}
++
++	DC_FP_END();
+ #endif
+ 
+ 	kref_init(&new_state->refcount);
+-- 
+2.47.1
 
