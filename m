@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBF3A6786E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 16:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C33AA6786F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 16:54:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA5510E223;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C16310E227;
 	Tue, 18 Mar 2025 15:54:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Gydv7ZcT";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RMmVobfq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42B0910E4AD
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFD9610E4AE
  for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:54:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,24 +22,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=MPw4W1oTiy8uVtYhgs/Ie0mJvTnS8UuHz9AHoRA/Ea0=; b=Gydv7ZcTeb+mmy9IrDr5NXLfFY
- m7/nUSTQ6Rm2EanuKtnrZFJVa+lwzudP1fDOC5+us5bk4h1KbCWmn9zi5CngKINfhh9k9BQ6C5bYO
- 9Sv23i2hLECGCr7sNxosRgyePpA1ahrNfSRXYC4OoOetE2wbZYbIac3kwXqu6RFl3szFSn5HfZtkQ
- 2EDuRRfMDTvFiexSJ9Mk/vu242ZRF0UHws+O9/AfY/HGx6Id13erokzoQzcoFrmGEc4bHXx21xlkI
- Bo1yrhEegu+DcoTp6EVxixcQYVO4yA4Y0SYxKEjlJpLSrSXn/PPBLvXujsQgGtFMXWBhrVefFh7wT
- 28KRwkHQ==;
+ bh=n4nCKw6f1PS7jJvVyZUIfu1pxucK32vlNnMsPlOgGhQ=; b=RMmVobfqowPRKv1L8vWEiPJFfj
+ opc4CiKk5X6rRGLrdXqD3iDvRHcpc9TH2koXtcfZvXgpuX07EuQ9+vzHQpmO22lwMh5iawEBLkL/h
+ G88IFGIL0rDQ9T7/z1DXY/vhdKkpFWfnpHjArFa4xkCb4JVLc5kOkzf6IJPGdU/wX6+qMYEqmBFli
+ 2wO7O2/Pr66LEsoHHyTTEThq462RnrHJOYlsK+V6LPZSdVeVGIb0J0ddqjFfE60H/WVHJJl6AvQoM
+ 0byL0DKXqH8wWY6UoJyS69QbNxwg29UCUEIXGKT6Pat7L0+pbLB5JC4+wiv/bdDnd6ke+g5eXFubK
+ JgID8bNg==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tuZGw-002ngw-HZ; Tue, 18 Mar 2025 16:54:30 +0100
+ id 1tuZGx-002nh1-8G; Tue, 18 Mar 2025 16:54:31 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com,
 	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH 6/7] drm/syncobj: Add a fast path to
- drm_syncobj_array_wait_timeout
-Date: Tue, 18 Mar 2025 15:54:22 +0000
-Message-ID: <20250318155424.78552-7-tvrtko.ursulin@igalia.com>
+Subject: [PATCH 7/7] drm/syncobj: Add a fast path to drm_syncobj_array_find
+Date: Tue, 18 Mar 2025 15:54:23 +0000
+Message-ID: <20250318155424.78552-8-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
 References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
@@ -60,60 +59,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Running the Cyberpunk 2077 benchmark we can observe that waiting on DRM
-sycobjs is relatively hot, but the 96% of the calls are for a single
-object. (~4% for two points, and never more than three points. While
-a more trivial workload like vkmark under Plasma is even more skewed
-to single point waits.)
+Running the Cyberpunk 2077 benchmark we can observe that the lookup helper
+is relatively hot, but the 97% of the calls are for a single object. (~3%
+for two points, and never more than three points. While a more trivial
+workload like vkmark under Plasma is even more skewed to single point
+lookups.)
 
-Therefore lets add a fast path to bypass the kcalloc/kfree and use a pre-
-allocated stack array for those cases.
+Therefore lets add a fast path to bypass the kmalloc_array/kfree and use a
+pre-allocated stack array for those cases.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- drivers/gpu/drm/drm_syncobj.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_syncobj.c | 53 +++++++++++++++++++++++++++--------
+ 1 file changed, 41 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index b4563c696056..94932b89298f 100644
+index 94932b89298f..233bdef53c87 100644
 --- a/drivers/gpu/drm/drm_syncobj.c
 +++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -1035,6 +1035,7 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
- 						  uint32_t *idx,
- 						  ktime_t *deadline)
+@@ -1223,6 +1223,8 @@ EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
+ static int drm_syncobj_array_find(struct drm_file *file_private,
+ 				  u32 __user *handles,
+ 				  uint32_t count,
++				  struct drm_syncobj **stack_syncobjs,
++				  u32 stack_count,
+ 				  struct drm_syncobj ***syncobjs_out)
  {
-+	struct syncobj_wait_entry stack_entries[4];
- 	struct syncobj_wait_entry *entries;
- 	uint32_t signaled_count, i;
- 	struct dma_fence *fence;
-@@ -1049,9 +1050,14 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
- 	    !access_ok(user_points, count * sizeof(*user_points)))
+ 	struct drm_syncobj **syncobjs;
+@@ -1232,9 +1234,13 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
+ 	if (!access_ok(handles, count * sizeof(*handles)))
  		return -EFAULT;
  
--	entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
--	if (!entries)
+-	syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
+-	if (!syncobjs)
 -		return -ENOMEM;
-+	if (count > ARRAY_SIZE(stack_entries)) {
-+		entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
-+		if (!entries)
++	if (count > stack_count) {
++		syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
++		if (!syncobjs)
 +			return -ENOMEM;
 +	} else {
-+		memset(stack_entries, 0, sizeof(stack_entries));
-+		entries = stack_entries;
++		syncobjs = stack_syncobjs;
 +	}
  
- 	/* Walk the list of sync objects and initialize entries.  We do
- 	 * this up-front so that we can properly return -EINVAL if there is
-@@ -1174,7 +1180,9 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
- 						  &entries[i].fence_cb);
- 		dma_fence_put(entries[i].fence);
+ 	for (i = 0; i < count; i++) {
+ 		u64 handle;
+@@ -1260,25 +1266,31 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
+ 			drm_syncobj_put(syncobjs[i]);
+ 		i--;
  	}
--	kfree(entries);
+-	kfree(syncobjs);
 +
-+	if (entries != stack_entries)
-+		kfree(entries);
++	if (syncobjs != stack_syncobjs)
++		kfree(syncobjs);
  
- 	return timeout;
+ 	return ret;
+ }
+ 
+ static void drm_syncobj_array_free(struct drm_syncobj **syncobjs,
+-				   uint32_t count)
++				   uint32_t count,
++				   struct drm_syncobj **stack_syncobjs)
+ {
+ 	uint32_t i;
+ 
+ 	for (i = 0; i < count; i++)
+ 		drm_syncobj_put(syncobjs[i]);
+-	kfree(syncobjs);
++
++	if (syncobjs != stack_syncobjs)
++		kfree(syncobjs);
+ }
+ 
+ int
+ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ 		       struct drm_file *file_private)
+ {
++	struct drm_syncobj *stack_syncobjs[4];
+ 	struct drm_syncobj_wait *args = data;
+ 	ktime_t deadline, *pdeadline = NULL;
+ 	u32 count = args->count_handles;
+@@ -1304,6 +1316,8 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+ 				     count,
++				     stack_syncobjs,
++				     ARRAY_SIZE(stack_syncobjs),
+ 				     &syncobjs);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1321,7 +1335,7 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ 						 &first,
+ 						 pdeadline);
+ 
+-	drm_syncobj_array_free(syncobjs, count);
++	drm_syncobj_array_free(syncobjs, count, stack_syncobjs);
+ 
+ 	if (timeout < 0)
+ 		return timeout;
+@@ -1336,6 +1350,7 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+ 				struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_timeline_wait *args = data;
++	struct drm_syncobj *stack_syncobjs[4];
+ 	ktime_t deadline, *pdeadline = NULL;
+ 	u32 count = args->count_handles;
+ 	struct drm_syncobj **syncobjs;
+@@ -1361,6 +1376,8 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+ 				     count,
++				     stack_syncobjs,
++				     ARRAY_SIZE(stack_syncobjs),
+ 				     &syncobjs);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1378,7 +1395,7 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+ 						 &first,
+ 						 pdeadline);
+ 
+-	drm_syncobj_array_free(syncobjs, count);
++	drm_syncobj_array_free(syncobjs, count, stack_syncobjs);
+ 
+ 	if (timeout < 0)
+ 		return timeout;
+@@ -1496,6 +1513,7 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_array *args = data;
++	struct drm_syncobj *stack_syncobjs[4];
+ 	struct drm_syncobj **syncobjs;
+ 	uint32_t i;
+ 	int ret;
+@@ -1512,6 +1530,8 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+ 				     args->count_handles,
++				     stack_syncobjs,
++				     ARRAY_SIZE(stack_syncobjs),
+ 				     &syncobjs);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1519,7 +1539,7 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
+ 	for (i = 0; i < args->count_handles; i++)
+ 		drm_syncobj_replace_fence(syncobjs[i], NULL);
+ 
+-	drm_syncobj_array_free(syncobjs, args->count_handles);
++	drm_syncobj_array_free(syncobjs, args->count_handles, stack_syncobjs);
+ 
+ 	return 0;
+ }
+@@ -1529,6 +1549,7 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
+ 			 struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_array *args = data;
++	struct drm_syncobj *stack_syncobjs[4];
+ 	struct drm_syncobj **syncobjs;
+ 	uint32_t i;
+ 	int ret;
+@@ -1545,6 +1566,8 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+ 				     args->count_handles,
++				     stack_syncobjs,
++				     ARRAY_SIZE(stack_syncobjs),
+ 				     &syncobjs);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1555,7 +1578,7 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
+ 			break;
+ 	}
+ 
+-	drm_syncobj_array_free(syncobjs, args->count_handles);
++	drm_syncobj_array_free(syncobjs, args->count_handles, stack_syncobjs);
+ 
+ 	return ret;
+ }
+@@ -1567,6 +1590,7 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
+ 	struct drm_syncobj_timeline_array *args = data;
+ 	uint64_t __user *points = u64_to_user_ptr(args->points);
+ 	uint32_t i, j, count = args->count_handles;
++	struct drm_syncobj *stack_syncobjs[4];
+ 	struct drm_syncobj **syncobjs;
+ 	struct dma_fence_chain **chains;
+ 	int ret;
+@@ -1586,6 +1610,8 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+ 				     count,
++				     stack_syncobjs,
++				     ARRAY_SIZE(stack_syncobjs),
+ 				     &syncobjs);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1622,7 +1648,7 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
+ err_chains:
+ 	kfree(chains);
+ out:
+-	drm_syncobj_array_free(syncobjs, count);
++	drm_syncobj_array_free(syncobjs, count, stack_syncobjs);
+ 
+ 	return ret;
+ }
+@@ -1631,6 +1657,7 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+ 			    struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_timeline_array *args = data;
++	struct drm_syncobj *stack_syncobjs[4];
+ 	struct drm_syncobj **syncobjs;
+ 	uint64_t __user *points = u64_to_user_ptr(args->points);
+ 	uint32_t i;
+@@ -1651,6 +1678,8 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+ 				     args->count_handles,
++				     stack_syncobjs,
++				     ARRAY_SIZE(stack_syncobjs),
+ 				     &syncobjs);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1694,7 +1723,7 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+ 			break;
+ 		}
+ 	}
+-	drm_syncobj_array_free(syncobjs, args->count_handles);
++	drm_syncobj_array_free(syncobjs, args->count_handles, stack_syncobjs);
+ 
+ 	return ret;
  }
 -- 
 2.48.0
