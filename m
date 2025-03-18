@@ -2,48 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB68BA676C9
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 15:49:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4CCA676EB
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 15:53:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23E6810E4A4;
-	Tue, 18 Mar 2025 14:49:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8380410E1DD;
+	Tue, 18 Mar 2025 14:53:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CPEaa/wL";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C83F10E4A4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 14:49:37 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id
- ca18e2360f4ac-85b5875e250so674979739f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 07:49:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742309376; x=1742914176;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=owns3MQx8OMxQ042xxfJ8G7cCdorT/TwzY8tU9cVcAM=;
- b=P+EUFIJCkIl2yGXD9agfBmmw4hyKVMac08EOwv6eB3OrcFFIPAuQz1LAu9ggnGX8De
- 18NicBF83w256x6R9Egb2nigS2mCioOcIUWdLNQ85TRC0eofvGh589q/WTn+jmyGDJyK
- e02AKhJ4wIoKupw7Pc2yfR8t8MVVS+h9U1lYya+B5++XQ5PEdoeJzKI750w8ukcNXV9p
- fyuP4Lhgha0+NIDTUwbkOJfb5aPgqE0NbtYSe9ebGqb5rAsEjlRJ6C2y8bNSODpswd0G
- 01GTbX6OWo+J0TWqvTN87/w5lzpqnYDVT2xmoq4atoOIcoM5tqAfoOsoGXCxUQ7CqN5j
- KB8A==
-X-Gm-Message-State: AOJu0YzNzhxAuyRuTyORmbP84/cfyPjwK2zFF+SqUC8G63zwH54TguEp
- gqGWKWSgnLIYfWC1eLetkdDqGtqSv6bF1HBaVs5Ge3+IVt8u6IhePns5ZLfyjKJfO5deNXSPHc3
- /VEQAvXbC+Z5jLhJPANkDsMfa86eZpk5En8zyCovyY0eNVDULlY4Oh7w=
-X-Google-Smtp-Source: AGHT+IGK6QUJ36AlLNe6pV+Q9uEN6DQ3URrTDAjooDK9umxQn2Xz+fhzj3RR39gTkV4lwzHB2t9HwBr4KAfn/JJ8HqvI+A5gbwxf
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 172A610E1DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 14:53:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 693D95C56CE;
+ Tue, 18 Mar 2025 14:51:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0437BC4CEDD;
+ Tue, 18 Mar 2025 14:53:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742309604;
+ bh=XbWyEc8aFSTdcfHVMp23HWE4gemGI9Wz95sUOB11emE=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=CPEaa/wLD8sXr2iETAc/pFi3cn7npRmvZI+2za3hWuahLgpUfzNEFoqyJ2LZsuYBK
+ p7WA5JRikarv2iBN7YcfRlOMUuW+3VtwmCIeT50Soa6zYSk7r7PJ7tTnfdzIJrL617
+ z8SG4IolFx3+KN9LQyEE1RD7RWk/2gFoVyLX2myy1Y/PU6SDNbxea4Q39eqtGW7X4E
+ uVkkPfOE1kgXYovUqUyniYLm6Q81V4rA37CFE9Z8MCyoI5Sh9uxg/yGKnncpY1zXNu
+ RY/pDxHZGIRTb/eT2t3r7FzOeuoMxYQiRAfCqfaWtWJ3cBEqkocgJ2MBHbINB/axf5
+ C4ENi2mF5fPqw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id EB599C282EC;
+ Tue, 18 Mar 2025 14:53:23 +0000 (UTC)
+From: Brendan King via B4 Relay <devnull+Brendan.King.imgtec.com@kernel.org>
+Date: Tue, 18 Mar 2025 14:53:13 +0000
+Subject: [PATCH] drm/imagination: take paired job reference
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:3686:b0:3d4:3ac3:4ca2 with SMTP id
- e9e14a558f8ab-3d57ba0ed3fmr43303085ab.16.1742309376265; Tue, 18 Mar 2025
- 07:49:36 -0700 (PDT)
-Date: Tue, 18 Mar 2025 07:49:36 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67d98800.050a0220.2ca2c6.0189.GAE@google.com>
-Subject: [syzbot] Monthly dri report (Mar 2025)
-From: syzbot <syzbot+list7c58dce58b182e36cb31@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250318-ddkopsrc-1337-use-after-free-in-pvr_queue_prepare_job-v1-1-80fb30d044a6@imgtec.com>
+X-B4-Tracking: v=1; b=H4sIANiI2WcC/x2N2wrCMBAFf6Xsswu5qBV/RSTkstEoJOnGFKH03
+ w0+Dmc4s0EjTtTgOm3AtKaWSh4gDxP4p80PwhQGgxLqJLS8YAjvUht7lFrP2BuhjR9ijEzDzVh
+ XNkunTqYyVctkXsWhPEfn56MTXgkY32OL6fvv3u77/gOewIWDhwAAAA==
+X-Change-ID: 20250318-ddkopsrc-1337-use-after-free-in-pvr_queue_prepare_job-16fbc74b0c20
+To: Frank Binns <frank.binns@imgtec.com>, 
+ Matt Coster <matt.coster@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Brendan King <brendan.king@imgtec.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1742309603; l=2606;
+ i=Brendan.King@imgtec.com; s=20250203; h=from:subject:message-id;
+ bh=iRO8TwqpOWn8X5jFM/tEN7yZ9E4/c1t772uWrRZbV/s=;
+ b=6U0jpX6Ay9Wdn4uPme1Lovgv3I7RKQNnlFylAxRR64RsGqneC6U92TnG6vnE11fCuimMPMq/2
+ lGiXF8TO8xmAGhsqXIJIL204XFaee2fLAqQRPg5/R2StCJjyjKGC7v3
+X-Developer-Key: i=Brendan.King@imgtec.com; a=ed25519;
+ pk=i3JvC3unEBLW+4r5s/aEWQZFsRCWaCBrWdFbMXIXCqg=
+X-Endpoint-Received: by B4 Relay for Brendan.King@imgtec.com/20250203 with
+ auth_id=335
+X-Original-From: Brendan King <Brendan.King@imgtec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,45 +76,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Brendan.King@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello dri maintainers/developers,
+From: Brendan King <Brendan.King@imgtec.com>
 
-This is a 31-day syzbot report for the dri subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/dri
+For paired jobs, have the fragment job take a reference on the
+geometry job, so that the geometry job cannot be freed until
+the fragment job has finished with it.
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 20 issues are still open and 32 have already been fixed.
+The geometry job structure is accessed when the fragment job is being
+prepared by the GPU scheduler. Taking the reference prevents the
+geometry job being freed until the fragment job no longer requires it.
 
-Some of the still happening issues:
+Fixes a use after free bug detected by KASAN:
 
-Ref Crashes Repro Title
-<1> 383     Yes   WARNING in vkms_get_vblank_timestamp (2)
-                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
-<2> 73      Yes   WARNING in drm_wait_one_vblank (2)
-                  https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
-<3> 72      Yes   WARNING in drm_mode_create_lease_ioctl
-                  https://syzkaller.appspot.com/bug?extid=6754751ad05524dae739
-<4> 71      No    INFO: task hung in drm_atomic_get_plane_state
-                  https://syzkaller.appspot.com/bug?extid=eee643fdccb7c015b3a6
-<5> 4       Yes   WARNING in drm_gem_object_handle_put_unlocked
-                  https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
-<6> 4       Yes   WARNING in drm_prime_destroy_file_private (2)
-                  https://syzkaller.appspot.com/bug?extid=59dcc2e7283a6f5f5ba1
-<7> 3       Yes   WARNING in drm_prime_fd_to_handle_ioctl
-                  https://syzkaller.appspot.com/bug?extid=0da81ccba2345eeb7f48
+[  124.256386] BUG: KASAN: slab-use-after-free in pvr_queue_prepare_job+0x108/0x868 [powervr]
+[  124.264893] Read of size 1 at addr ffff0000084cb960 by task kworker/u16:4/63
+
+Cc: stable@vger.kernel.org
+Fixes: eaf01ee5ba28 ("drm/imagination: Implement job submission and scheduling")
+Signed-off-by: Brendan King <brendan.king@imgtec.com>
+---
+ drivers/gpu/drm/imagination/pvr_job.c   | 7 +++++++
+ drivers/gpu/drm/imagination/pvr_queue.c | 4 ++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/drivers/gpu/drm/imagination/pvr_job.c b/drivers/gpu/drm/imagination/pvr_job.c
+index 1cdb3cfd058d7db573337a2b4f6895ee4922f9a9..59b334d094fa826f26668d98561e956ec9c51428 100644
+--- a/drivers/gpu/drm/imagination/pvr_job.c
++++ b/drivers/gpu/drm/imagination/pvr_job.c
+@@ -671,6 +671,13 @@ pvr_jobs_link_geom_frag(struct pvr_job_data *job_data, u32 *job_count)
+ 		geom_job->paired_job = frag_job;
+ 		frag_job->paired_job = geom_job;
+ 
++		/* The geometry job pvr_job structure is used when the fragment
++		 * job is being prepared by the GPU scheduler. Have the fragment
++		 * job hold a reference on the geometry job to prevent it being
++		 * freed until the fragment job has finished with it.
++		 */
++		pvr_job_get(geom_job);
++
+ 		/* Skip the fragment job we just paired to the geometry job. */
+ 		i++;
+ 	}
+diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+index 21c185d18bb2e0569bd6e12832a74e38137bd48a..6431f6b654a2e60b86a46bd8571eb9f8133c4b53 100644
+--- a/drivers/gpu/drm/imagination/pvr_queue.c
++++ b/drivers/gpu/drm/imagination/pvr_queue.c
+@@ -856,6 +856,10 @@ static void pvr_queue_free_job(struct drm_sched_job *sched_job)
+ 	struct pvr_job *job = container_of(sched_job, struct pvr_job, base);
+ 
+ 	drm_sched_job_cleanup(sched_job);
++
++	if (job->type == DRM_PVR_JOB_TYPE_FRAGMENT && job->paired_job)
++		pvr_job_put(job->paired_job);
++
+ 	job->paired_job = NULL;
+ 	pvr_job_put(job);
+ }
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+base-commit: 96c85e428ebaeacd2c640eba075479ab92072ccd
+change-id: 20250318-ddkopsrc-1337-use-after-free-in-pvr_queue_prepare_job-16fbc74b0c20
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+Best regards,
+-- 
+Brendan King <Brendan.King@imgtec.com>
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
 
-You may send multiple commands in a single email message.
