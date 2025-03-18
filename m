@@ -2,80 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18DDA67365
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 13:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1E0A6737C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 13:08:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E96C989CC4;
-	Tue, 18 Mar 2025 12:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C5E710E46B;
+	Tue, 18 Mar 2025 12:08:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S/48nwbO";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="fxSqCLRp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE4510E468;
- Tue, 18 Mar 2025 12:03:20 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-5e60cfef9cfso7761323a12.2; 
- Tue, 18 Mar 2025 05:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742299399; x=1742904199; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hc6Iq+A3Wm/qdjNtJQPgjP4bsi9ps5tYeIoCkR4cUfI=;
- b=S/48nwbOJs+2iQVj7zDzTs6Xew2hnUDvTJVSwV2q7tXOZavaTGXcQ4mq8rJg+Kzec6
- R/TFbIOUulqTCebF0cNEujptLF8+u/w8jGuYidg9J01hM0FSlpf9L94WYciBhJDmveuo
- bKMHk7J9bhnbCooziCNfViH0xZ7NIf5XLS2SdYGEBbd5QlfE8tGz2liOZVtC4JbMkkdh
- noAlOrRNT4emAqYR/k1Y6J+r1R2jPXcdPjSMgIg6utIIqREFBoccajRGeACop52LqYTW
- wpvjWkBSKg0yA/ruauPBqIBHF2w7Q69J6FXlXSBXtAQDEMVrLhhDzqrXt//vuZ+W3Wpi
- mO+Q==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8475410E46B
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:08:07 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I8jKcB004544
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:08:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ FNIuGRzN7oMTa5VQLxij8hespiQpfRUjmkdfhRPhLQ0=; b=fxSqCLRpX+E1GTEf
+ niV4b1OQbrqLRqw2esrIpK/iltMMGOhRAIEMoIEYGtJFn4eO+fdZBOdSoeHmAk5H
+ p9JWEOHTO34c+R1fsVlpeeHi5CHI/GeN4Dkb/iqZZHxGj9Pq9fCzYpT9WNT4rmMk
+ x4YL0G3ri/p+lmfrrcCD894PXmhtZkglThpU6RY46o9LtSFcI2/v6/AMZEB3ZUW5
+ gl18Gr7AZvTak/USTHeaPjYuywzvgj4qsQIRGGY5Il81rnOiBABy9dIh3ZaIL+lM
+ yy5x652nENIvaiB1wUpBl0F3XFh9Ps8Xl3pTG7LuCLKdrCI5GOBn35nqyWke8Ih2
+ jD2Q6w==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45etmbt90p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:08:06 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-476783cbdb8so10307301cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 05:08:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742299399; x=1742904199;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hc6Iq+A3Wm/qdjNtJQPgjP4bsi9ps5tYeIoCkR4cUfI=;
- b=UpvSggsLH+KQ5BMe9w9lixiPYWXSZ9b9pc8n55jjaepu5I7GSxmDnJMBr5sxRglMIT
- D8gv11RWYPc+31fOSx8d0oicYVSw5Z5o+NG+GXEJH2ePWGJ63O+jNv+NjA2tUOIwwrdM
- vAmqk5T/iOupPqCROmKs55exsnaonRlCyYu0yPTxwFNdRv1K860zKLu5y3YnoRO+8hxk
- G00QJAp7hATHos0WTDmM9sA6MjjRY8wPRfusos7gk7y8H8migtU5yxyOe2bRzZ3UCsBq
- X57uVHpH4TvM1BeXRTIcM4TSKGO84sdEBVyqLl1w8bUdblbtB0UU30g+rw1OrK0FPskW
- fHrw==
+ d=1e100.net; s=20230601; t=1742299686; x=1742904486;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FNIuGRzN7oMTa5VQLxij8hespiQpfRUjmkdfhRPhLQ0=;
+ b=jc2DLh1XEKwsiTZKOAhR1+kWFz7UAfcB19w3+K1DFXc4czLYG+kAGDdaJsp0zUg01s
+ WZn9iWD0owdE7dyrm2Kx9mNoXhdzgKLLVJ8ZiosyHaffJROwxp794AISieqF/AiUlfnZ
+ qr6HPGMfEO3n4jNE5RvuqR92aS5zziYS945egMIXLkk/sL4pbRly67eqrmq2zvhAfo3m
+ TWLioy35zCsCQONNLEzbPLL3rw4oMIT2k0MhJMjsv0h2OIsMoezwTrnQ3XCMELxIX/5c
+ X+K0Bs9J0NFvDvvmT64nG4Se4bi/uQQXITjGmwBYMhtLza9xraypHK49IW2ADFFviHGJ
+ aHRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWBXRG6wZu6w+oSH0CfjaTQ/7BblBm365QwvzZEAM1OcLfOp6Eup1Gr7QQgffYKKTZRWn54AaVGjPf1@lists.freedesktop.org,
- AJvYcCXLiPfLPDUDmFmJZgJmMlvCRIREuaoyAYngKsaoC0+v2UAokb1wsgkeFMt89p9bhcSwYlAFn21P@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4C8Pjo++6y8u/Pi1dvpLL08OpBrqqhqVcitlrjJ8Ps63N+Wjn
- N9k8ptOjMeWI5Ho0JDpCy5vMibQUi29TWmpu0rFSJWfzLbaxsuc+JaPlLdgw
-X-Gm-Gg: ASbGncvURh+xykBArJvtRETMwlLK2jGRSYd3mCho5bES6JWWxf+FJMV7Szv0NJW7UVd
- CMHJkVCcIzKlvXdO+J1+V9+/DpSBmQo2aDxnxZPir2dXjQrJ0qDQC5nsv2V/0mxl6A8/cVmostu
- geSqL51l9+65MCWlmLVcbfN2EvQfSuxHsM/FaxIpQ3tRyIn5QtB1HrlYcWEJmF5VyWTK+L2/Gob
- 3WUUIRLxf21walS4ov18Kr7AMvmRki6z4Umrdf+qEdIwsrq4gcBQ2O2goFWujxKNdSyEFsU4Nkl
- RzTTodQDodxisDwr+Irn9vKO2T3Xv5vGYyBHTXmA5BXPo9lD4ed+IY2WjeHIlwk/VAAJ
-X-Google-Smtp-Source: AGHT+IEIyWYMTQovp2TdFZHhWtw0nYoLsZEJbf0BmwzLkSl/Eao1ypdRZ1TjvXYMbjCIc6to1fdLhw==
-X-Received: by 2002:a05:6402:51ca:b0:5e5:4807:5441 with SMTP id
- 4fb4d7f45d1cf-5eb1df7efe2mr3060887a12.30.1742299398257; 
- Tue, 18 Mar 2025 05:03:18 -0700 (PDT)
-Received: from able.fritz.box ([2a00:e180:1527:7100:c898:4de8:4301:2cfa])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5e816afe1f6sm7433380a12.77.2025.03.18.05.03.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Mar 2025 05:03:17 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: phasta@mailbox.org, tvrtko.ursulin@igalia.com,
- dri-devel@lists.freedesktop.org, dakr@kernel.org,
- amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/amdgpu: fix gang submission error handling
-Date: Tue, 18 Mar 2025 13:03:13 +0100
-Message-Id: <20250318120313.19099-3-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250318120313.19099-1-christian.koenig@amd.com>
-References: <20250318120313.19099-1-christian.koenig@amd.com>
+ AJvYcCXnNgXZt9euB+iRIM/h5FIEFuIYthjVCd4flccmZFy5X+LALLYZHigzHWd//v1O0DB8r/evcd3ehP8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YydMQ63kobMD7qWhuodwPRivVxuuascADptWXwdUXnoVdi9Tnwu
+ oek79UlpR8uzzRqja/LK+ono9vy7cFJa5802n5A+hfltVTUXGb0U4v0zG7Edb7+NsCI9s0rLfIx
+ f8e3ZpEY9jqHAjVWWbacjIVjp0cjIIfrwTR7RtmglHAWvCVFQQ4NU6b+EYcHKC5j2n/A=
+X-Gm-Gg: ASbGncu6xm5WlFEXsbNLx3df5+9H+Pa3xdcTdN1oSctV35AKDTjPFWHGIfylMqfDw2q
+ uGjSygFhHZnJAtSLFQD684rY8If+b+1Ui0XdlE3YIl1iK5M3inkjgnyhcewIW20uQCRW5sesiiV
+ rKqSIboXZtvV6bWYmlORYJCROW5k6dnTOQuVUJ4HDV7Pij6wiLmGusC6KKvZVOph2hXCjTLJJcj
+ 4USANp37Nata2x9EZs0HfQxeRYvnzSjAXCtcv4KEWMhpEafev4cOW6e1bMt+IYNaAAWsQoDUYzE
+ i3zDAGbxITDOORBOiB8nIDkJpmLd62elDVkNHI5IHQCXBN2WrmgjA37bkNaIQMqbOVDUfQ==
+X-Received: by 2002:a05:622a:84:b0:474:f6db:967 with SMTP id
+ d75a77b69052e-476c8143273mr91228411cf.8.1742299685606; 
+ Tue, 18 Mar 2025 05:08:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGsdWgRQeoFvvEZ9ml0+bILr2xQFZy9kdEiblsMarwSKcKomqtK3Q4ssrshicw1usxo192TDQ==
+X-Received: by 2002:a05:622a:84:b0:474:f6db:967 with SMTP id
+ d75a77b69052e-476c8143273mr91227901cf.8.1742299685124; 
+ Tue, 18 Mar 2025 05:08:05 -0700 (PDT)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5e816ad27ccsm7850681a12.62.2025.03.18.05.08.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Mar 2025 05:08:04 -0700 (PDT)
+Message-ID: <579cd909-8a0f-4998-88a6-47073ecc0eae@oss.qualcomm.com>
+Date: Tue, 18 Mar 2025 13:08:00 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] ARM: dts: qcom: apq8064 merge hw splinlock into
+ corresponding syscon device
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Leo Yan <leo.yan@linux.dev>, Kumar Gala <galak@codeaurora.org>,
+ Andy Gross <agross@codeaurora.org>,
+ "Ivan T. Ivanov" <ivan.ivanov@linaro.org>, Andy Gross
+ <andy.gross@linaro.org>, Georgi Djakov <djakov@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20250317-fix-nexus-4-v1-0-655c52e2ad97@oss.qualcomm.com>
+ <20250317-fix-nexus-4-v1-6-655c52e2ad97@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250317-fix-nexus-4-v1-6-655c52e2ad97@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: KMUA02MktEVpFtavx-pKM4kRtJFAZhH4
+X-Proofpoint-GUID: KMUA02MktEVpFtavx-pKM4kRtJFAZhH4
+X-Authority-Analysis: v=2.4 cv=aMLwqa9m c=1 sm=1 tr=0 ts=67d96226 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=N6CB5E4InGOdx4Ah7JoA:9
+ a=QEXdDO2ut3YA:10
+ a=IFyWz7IVXAM99tgoijJH:22 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-18_05,2025-03-17_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ priorityscore=1501 spamscore=0 clxscore=1015 phishscore=0 mlxscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=761 bulkscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503180090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,100 +142,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the unlikely case that we ran into an ENOMEM while fixing up the gang
-submission dependencies we can't clean up any more since the gang
-members are already armed.
+On 3/17/25 6:44 PM, Dmitry Baryshkov wrote:
+> Follow up the expected way of describing the SFPB hwspinlock and merge
+> hwspinlock node into corresponding syscon node, fixing several dt-schema
+> warnings.
+> 
+> Fixes: 24a9baf933dc ("ARM: dts: qcom: apq8064: Add hwmutex and SMEM nodes")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  arch/arm/boot/dts/qcom/qcom-apq8064.dtsi | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi b/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
+> index ba99e794dcd2236f65f2f3d8c49213cfdaee5f6e..3728875a5506397b36a4c0d6a5ad12c067bbdd8c 100644
+> --- a/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
+> +++ b/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
+> @@ -213,12 +213,6 @@ sleep_clk: sleep_clk {
+>  		};
+>  	};
+>  
+> -	sfpb_mutex: hwmutex {
+> -		compatible = "qcom,sfpb-mutex";
+> -		syscon = <&sfpb_wrapper_mutex 0x604 0x4>;
+> -		#hwlock-cells = <1>;
+> -	};
+> -
+>  	smem {
+>  		compatible = "qcom,smem";
+>  		memory-region = <&smem_region>;
+> @@ -305,9 +299,10 @@ tlmm_pinmux: pinctrl@800000 {
+>  			pinctrl-0 = <&ps_hold_default_state>;
+>  		};
+>  
+> -		sfpb_wrapper_mutex: syscon@1200000 {
+> -			compatible = "syscon";
+> +		sfpb_mutex: hwmutex@1200000 {
+> +			compatible = "qcom,sfpb-mutex";
+>  			reg = <0x01200000 0x8000>;
 
-Fix this by using pre-allocated dependency slots and re-ordering the
-code.
+The mutex is at +0x600
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 58 +++++++++++++++-----------
- 1 file changed, 34 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 5cc5f59e3018..770005c8e41f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1285,36 +1285,21 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 	uint64_t seq;
- 	int r;
- 
--	for (i = 0; i < p->gang_size; ++i)
--		drm_sched_job_arm(&p->jobs[i]->base);
--
--	for (i = 0; i < p->gang_size; ++i) {
--		struct dma_fence *fence;
--
--		if (p->jobs[i] == leader)
--			continue;
--
--		fence = &p->jobs[i]->base.s_fence->scheduled;
--		dma_fence_get(fence);
--		r = drm_sched_job_add_dependency(&leader->base, fence);
--		if (r) {
--			dma_fence_put(fence);
--			return r;
--		}
--	}
--
--	if (p->gang_size > 1) {
--		for (i = 0; i < p->gang_size; ++i)
--			amdgpu_job_set_gang_leader(p->jobs[i], leader);
--	}
-+	/* Preallocate the memory for the gang dependencies */
-+	r = drm_sched_job_prealloc_dependency_slots(&leader->base,
-+						    p->gang_size - 1);
-+	if (r)
-+		return r;
- 
--	/* No memory allocation is allowed while holding the notifier lock.
-+	/*
-+	 * No memory allocation is allowed while holding the notifier lock.
- 	 * The lock is held until amdgpu_cs_submit is finished and fence is
- 	 * added to BOs.
- 	 */
- 	mutex_lock(&p->adev->notifier_lock);
- 
--	/* If userptr are invalidated after amdgpu_cs_parser_bos(), return
-+	/*
-+	 * If userptr are invalidated after amdgpu_cs_parser_bos(), return
- 	 * -EAGAIN, drmIoctl in libdrm will restart the amdgpu_cs_ioctl.
- 	 */
- 	r = 0;
-@@ -1329,6 +1314,31 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 		return r;
- 	}
- 
-+	for (i = 0; i < p->gang_size; ++i)
-+		drm_sched_job_arm(&p->jobs[i]->base);
-+
-+	for (i = 0; i < p->gang_size; ++i) {
-+		struct dma_fence *fence;
-+
-+		if (p->jobs[i] == leader)
-+			continue;
-+
-+		fence = &p->jobs[i]->base.s_fence->scheduled;
-+		dma_fence_get(fence);
-+		r = drm_sched_job_add_dependency(&leader->base, fence);
-+		/*
-+		 * We can't abort here with an error any more, but we should
-+		 * also never run into an error since the slots for the
-+		 * dependency fences are preallocated.
-+		 */
-+		WARN_ON(r);
-+	}
-+
-+	if (p->gang_size > 1) {
-+		for (i = 0; i < p->gang_size; ++i)
-+			amdgpu_job_set_gang_leader(p->jobs[i], leader);
-+	}
-+
- 	p->fence = dma_fence_get(&leader->base.s_fence->finished);
- 	drm_exec_for_each_locked_object(&p->exec, index, gobj) {
- 
--- 
-2.34.1
-
+Konrad
