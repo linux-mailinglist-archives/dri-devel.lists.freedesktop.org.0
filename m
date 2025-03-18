@@ -2,66 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060A2A66484
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 02:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C846A66533
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 02:38:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41DEE10E2A2;
-	Tue, 18 Mar 2025 01:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C00A910E308;
+	Tue, 18 Mar 2025 01:38:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="otGbGjfs";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="hz3mxBV1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70C9910E234
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 01:03:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=DYR9CwhR1Wn8pX+zVemRbM359wsKs1LR5JXoTIamaZA=; b=otGbGjfsZAqJZQg6QGwGSdqJAD
- /SaZEc5jQSnkUqPPy7JXjzXfD1/QCBwaYpbVtAJKASdR4DpB3mVSh3ArdbP/NDzxt+V88O5rV6O0Q
- X2iO31d90iRklWqj6GgZD3QMulq0mD46Hm9SuLb541TwlY5u1on3rqOTM1R37v9rEn3iUDDXG0NvI
- Bv23vAe2AE2OUfPQGuBOqps7wW6W6AV9XBPeaeA5mbta3PRosJQM4Oq2p8Wld68r1zgyX8hrSJRLv
- +Rgsjh4F7F6y7uozepekAN7oPUf3aVVmEao8WOGkq9wztsBlFDZGmi7MrcMufXHeL0TaT7KxV5O8S
- m4Xx8dCw==;
-Received: from [189.7.87.178] (helo=janis.local)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tuLMs-002UCS-7X; Tue, 18 Mar 2025 02:03:42 +0100
-From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Mon, 17 Mar 2025 22:01:13 -0300
-Subject: [PATCH v6 5/5] drm/v3d: Use V3D_SMS registers for power on/off and
- reset on V3D 7.x
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9B210E0E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 01:38:04 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-ac2c663a3daso361407366b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 18:38:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1742261882; x=1742866682;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=K/ZV1obHJJvpOeyrWEcG+XXBltinJU3zmrRmxtgKdOs=;
+ b=hz3mxBV1Si42/m992hRXqs2ywzEQdwks5xbPKHV4iG6BIWxXf+SvgxwcMT4GPCk4gm
+ pQLJ3TMX7EplUbuUzmScRblv42K0PXKL5KoNhA1WY5gL9ybVEGgJFz41J5h2W12brWWk
+ oXQRaQE8AG53iRbvVC6M/N25UqGOXSnnLme0E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742261882; x=1742866682;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K/ZV1obHJJvpOeyrWEcG+XXBltinJU3zmrRmxtgKdOs=;
+ b=bJFbT4tdGZ0nPsx+a1aHAWWbIA8BhkRc/xvEzDrs6vWG4i5fALNM1xQLwlMupGmAwk
+ aZq5b7V+KfpnKcbFxmvRdSTUTilyMBq1/EBicOCz/ePOy6SPNz+nT3fCxYI38W6q5cpT
+ /U69SZnC0OsOmEghdeNcS33QPv6y1jF+wXF8BhNKpMZ82lKq/qCFybwzXuwsPPbqZyTC
+ y0Wxc5HG/vvnBRTMwcRlf8Gqo/llZVKkAUhSvneNx3cvQsSJ42jDoL3bElUJ8L0ESEdd
+ 3SK6E75y6p1UZpncfhuSb05Rkix5/u0EzQk4EsWGO7fm7Cop6EO5t2tGPCj9qWGRLR2Y
+ +Q0g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVGjXeteNztjel//YtvZfuOB1/igD2Gu1dDDWUdzob/erPfoneLlC46wcnHhP8LJUtUCqghjPJGn7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxkEwbWcjqJp2FydGNDaiIoVSy89QioZsgmX078oW8cAXPq9fcw
+ hd3EpifsqqMOCwzgpNMmWKb7o5mInyAsiINCfVCqBH6Jb8uxoyfGShXMs0LYcU985548YFsQfw4
+ =
+X-Gm-Gg: ASbGncuabPNLzjT7VA7acM6MjRxoKR1yrL33RwEBj15awmsLkMsvaFtQs0hPQ5gYvme
+ aJhT6UIp8sqUBtneLoF0uWFJ/RBmJ8GNH8+EKuDgGaSgXjnx1K32oV6Pvt9HW4lTTnkHmLR3sua
+ FHfEfWyjAXAl5e6rbEPx34opYXFzqBmRQP6DnzLM0yAw9nGIPm/GQ38TnuREUq7UFZwUFLg2u/T
+ tIp81Xa8BaloDJYeRQhLuGQLaCR4GtzshNB6qrQrTqFdDF2jEKhYRaHrlD2aRusf49leSBdBkVK
+ GIee15cQ+gCifZ5pDIf8qnEAhgxyqlR/S+u6/LU5tCtVO7GeYRMXShZUu5fz5DHTKrjHFPGTw8h
+ 39qgYtfSb+wAtfYHQZrl4Rv8B1fY=
+X-Google-Smtp-Source: AGHT+IG5fZDWiE6WjSa2+mW2bOIrhIrIokY7LJutGobfnG7LJvaxUIZDKPn5nJjk5ZS0GMyV/+srvQ==
+X-Received: by 2002:a17:906:c10d:b0:abf:6f87:670e with SMTP id
+ a640c23a62f3a-ac3301d8eebmr1582335466b.22.1742261882307; 
+ Mon, 17 Mar 2025 18:38:02 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com.
+ [209.85.208.41]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ac314aa6209sm747387266b.184.2025.03.17.18.37.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Mar 2025 18:37:55 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-5dbfc122b82so3917a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Mar 2025 18:37:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU8oJ3rnJC330Q9DFWx+d7aULMuyruoTb28H7m3MKGfMi3gL5wUYxme4uL6cUcBvpebsHev5dcp9Aw=@lists.freedesktop.org
+X-Received: by 2002:a50:9f8a:0:b0:5e0:8003:67a7 with SMTP id
+ 4fb4d7f45d1cf-5eb243d98a5mr29655a12.0.1742261874484; Mon, 17 Mar 2025
+ 18:37:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250317-v3d-gpu-reset-fixes-v6-5-f3ee7717ed17@igalia.com>
-References: <20250317-v3d-gpu-reset-fixes-v6-0-f3ee7717ed17@igalia.com>
-In-Reply-To: <20250317-v3d-gpu-reset-fixes-v6-0-f3ee7717ed17@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Nicolas Saenz Julienne <nsaenz@kernel.org>, 
- Stefan Wahren <wahrenst@gmx.net>, 
- Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, kernel-dev@igalia.com, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7721; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=2t7ZnqSDK8vV9zqiaXNZbEh+hE7r4f9jW0353bVwGYE=;
- b=kA0DAAgBP/MOinaI+qoByyZiAGfYxkihXt/PEQeY9kL2ZtlzGRdSE/zEyfxiEDhndh5itCixe
- 4kBMwQAAQgAHRYhBPjkXX0BFncHKaZ30T/zDop2iPqqBQJn2MZIAAoJED/zDop2iPqq1CcH/3ce
- 8QLdcXTJTH7u9FJ02sUSXu5BL1V8oNaPnFbYShumdn1TR63cPFeVLypkz14YZyeX/zlJC2AR0+8
- pzWmmbXTsmGU1GlEsVWV7iezDEUJTTGYWgNyUVkHBL04b3IWfvPWFr687FJFqxzl5r0AWd0d+iq
- OGGK38c9PLF2nOhGbBEcQrCuj887oNnWPNErMr713fn3NTkxOU4xvHDXfYY4+92/wMzvW1DzRon
- 9aaqkhdO+pZC7UDt5jZdZxsRjiF2dKs8zhLqXJPsl9tOgXo0Z7UtS433aIe53Gvk3g/79VbLFD5
- 4+JCmlcHYF7Su7JhBrbdSlIoXzZQlSOPrpEV/EQ=
-X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
- fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
+References: <20250228053650.393646-1-honglei1.huang@amd.com>
+ <20250228053650.393646-2-honglei1.huang@amd.com>
+ <cd9f85a5-0d99-4007-bba2-d792ac9d84da@gmail.com>
+ <c2d1334f-6f5a-493f-bbf0-3e92789f128a@amd.com>
+In-Reply-To: <c2d1334f-6f5a-493f-bbf0-3e92789f128a@amd.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Mon, 17 Mar 2025 18:37:42 -0700
+X-Gmail-Original-Message-ID: <CAAfnVBk-JJKxJXAstwmgL4=EM15RHfVm4NQST+p3nE4xi2220g@mail.gmail.com>
+X-Gm-Features: AQ5f1JpzVuL8DAkJ3h7mbIcow7lyWiC_9wuwpbNNFvjZi5QGZZAWjpvYu_VbRl0
+Message-ID: <CAAfnVBk-JJKxJXAstwmgL4=EM15RHfVm4NQST+p3nE4xi2220g@mail.gmail.com>
+Subject: Re: [PATCH v1 1/7] virtio-gpu api: add blob userptr resource
+To: "Huang, Honglei1" <Honglei1.Huang@amd.com>
+Cc: Demi Marie Obenour <demiobenour@gmail.com>,
+ David Airlie <airlied@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, 
+ Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org, 
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Type: multipart/alternative; boundary="00000000000022cfe2063093f460"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,205 +108,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In addition to the standard reset controller, V3D 7.x requires configuring
-the V3D_SMS registers for proper power on/off and reset. Add the new
-registers to `v3d_regs.h` and ensure they are properly configured during
-device probing, removal, and reset.
+--00000000000022cfe2063093f460
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This change fixes GPU reset issues on the Raspberry Pi 5 (BCM2712).
-Without exposing these registers, a GPU reset causes the GPU to hang,
-stopping any further job execution and freezing the desktop GUI. The same
-issue occurs when unloading and loading the v3d driver.
+On Thu, Mar 6, 2025 at 2:52=E2=80=AFAM Huang, Honglei1 <Honglei1.Huang@amd.=
+com>
+wrote:
 
-Link: https://github.com/raspberrypi/linux/issues/6660
-Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/v3d/v3d_drv.c  | 40 ++++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/v3d/v3d_drv.h  | 11 +++++++++++
- drivers/gpu/drm/v3d/v3d_gem.c  | 17 +++++++++++++++++
- drivers/gpu/drm/v3d/v3d_regs.h | 26 ++++++++++++++++++++++++++
- 4 files changed, 94 insertions(+)
+>
+> On 2025/3/1 5:21, Demi Marie Obenour wrote:
+> > On 2/28/25 12:36 AM, Honglei Huang wrote:
+> >> From: Honglei Huang <Honglei1.Huang@amd.com>
+> >>
+> >> Add a new resource for blob resource, called userptr, used for let
+> >> host access guest user space memory, to acquire buffer based userptr
+> >> feature in virtio GPU.
+> >>
+> >> - The capset VIRTIO_GPU_CAPSET_HSAKMT used for context init,
+> >> in this series patches only HSAKMT context can use the userptr
+> >> feature. HSAKMT is a GPU compute library in HSA stack, like
+> >> the role libdrm in mesa stack.
+> >
+> > Userptr should not be limited to HSMKMT contexts.  Userptr can
+> > accelerate shm buffers by avoiding a copy from guest to host, and
+> > it can be implemented using grant tables on Xen.
+>
+> Yes, I totally agree userptr can accelerate shm buffers, but I currently
+> don't know if there are any other projects working on similar features,
+> or if maintainers have any opinions or better ways to implement them, so
+> I temporarily limit this feature to HSAKMT context only.
+>
+> I am waiting for everyone's opinions, please provide your thoughts.
+>
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index c63f0ed1bd8a3d5511085e76ed2fbd6ee7df6f80..122848cdccc4a02039d9ea2e77aa2f377886b5d6 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -263,6 +263,36 @@ static const struct of_device_id v3d_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, v3d_of_match);
- 
-+static void
-+v3d_idle_sms(struct v3d_dev *v3d)
-+{
-+	if (v3d->ver < V3D_GEN_71)
-+		return;
-+
-+	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_CLEAR_POWER_OFF);
-+
-+	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-+				    V3D_SMS_STATE) == V3D_SMS_IDLE), 100)) {
-+		DRM_ERROR("Failed to power up SMS\n");
-+	}
-+
-+	v3d_reset_sms(v3d);
-+}
-+
-+static void
-+v3d_power_off_sms(struct v3d_dev *v3d)
-+{
-+	if (v3d->ver < V3D_GEN_71)
-+		return;
-+
-+	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_POWER_OFF);
-+
-+	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-+				    V3D_SMS_STATE) == V3D_SMS_POWER_OFF_STATE), 100)) {
-+		DRM_ERROR("Failed to power off SMS\n");
-+	}
-+}
-+
- static int
- map_regs(struct v3d_dev *v3d, void __iomem **regs, const char *name)
- {
-@@ -300,6 +330,12 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	if (v3d->ver >= V3D_GEN_71) {
-+		ret = map_regs(v3d, &v3d->sms_regs, "sms");
-+		if (ret)
-+			return ret;
-+	}
-+
- 	v3d->clk = devm_clk_get_optional(dev, NULL);
- 	if (IS_ERR(v3d->clk))
- 		return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n");
-@@ -310,6 +346,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	v3d_idle_sms(v3d);
-+
- 	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
- 	mask = DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
- 	ret = dma_set_mask_and_coherent(dev, mask);
-@@ -410,6 +448,8 @@ static void v3d_platform_drm_remove(struct platform_device *pdev)
- 	dma_free_wc(v3d->drm.dev, 4096, v3d->mmu_scratch,
- 		    v3d->mmu_scratch_paddr);
- 
-+	v3d_power_off_sms(v3d);
-+
- 	clk_disable_unprepare(v3d->clk);
- }
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index de4a9e18f6a9039edf57f406ab1cee9dad4c0a49..b51f0b648a08011f737317ec1841d5ab316355b2 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -118,6 +118,7 @@ struct v3d_dev {
- 	void __iomem *core_regs[3];
- 	void __iomem *bridge_regs;
- 	void __iomem *gca_regs;
-+	void __iomem *sms_regs;
- 	struct clk *clk;
- 	struct reset_control *reset;
- 
-@@ -268,6 +269,15 @@ to_v3d_fence(struct dma_fence *fence)
- #define V3D_GCA_READ(offset) readl(v3d->gca_regs + offset)
- #define V3D_GCA_WRITE(offset, val) writel(val, v3d->gca_regs + offset)
- 
-+#define V3D_SMS_IDLE				0x0
-+#define V3D_SMS_ISOLATING_FOR_RESET		0xa
-+#define V3D_SMS_RESETTING			0xb
-+#define V3D_SMS_ISOLATING_FOR_POWER_OFF	0xc
-+#define V3D_SMS_POWER_OFF_STATE		0xd
-+
-+#define V3D_SMS_READ(offset) readl(v3d->sms_regs + (offset))
-+#define V3D_SMS_WRITE(offset, val) writel(val, v3d->sms_regs + (offset))
-+
- #define V3D_CORE_READ(core, offset) readl(v3d->core_regs[core] + offset)
- #define V3D_CORE_WRITE(core, offset, val) writel(val, v3d->core_regs[core] + offset)
- 
-@@ -546,6 +556,7 @@ struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue queue);
- /* v3d_gem.c */
- int v3d_gem_init(struct drm_device *dev);
- void v3d_gem_destroy(struct drm_device *dev);
-+void v3d_reset_sms(struct v3d_dev *v3d);
- void v3d_reset(struct v3d_dev *v3d);
- void v3d_invalidate_caches(struct v3d_dev *v3d);
- void v3d_clean_caches(struct v3d_dev *v3d);
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 1ea6d3832c2212d9cbbd90236478d18491f0ff14..d7d16da78db328f004d1d702731d1a1b5437a394 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -104,6 +104,22 @@ v3d_reset_v3d(struct v3d_dev *v3d)
- 	v3d_init_hw_state(v3d);
- }
- 
-+void
-+v3d_reset_sms(struct v3d_dev *v3d)
-+{
-+	if (v3d->ver < V3D_GEN_71)
-+		return;
-+
-+	V3D_SMS_WRITE(V3D_SMS_REE_CS, V3D_SET_FIELD(0x4, V3D_SMS_STATE));
-+
-+	if (wait_for(!(V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_REE_CS),
-+				     V3D_SMS_STATE) == V3D_SMS_ISOLATING_FOR_RESET) &&
-+		     !(V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_REE_CS),
-+				     V3D_SMS_STATE) == V3D_SMS_RESETTING), 100)) {
-+		DRM_ERROR("Failed to wait for SMS reset\n");
-+	}
-+}
-+
- void
- v3d_reset(struct v3d_dev *v3d)
- {
-@@ -119,6 +135,7 @@ v3d_reset(struct v3d_dev *v3d)
- 		v3d_idle_axi(v3d, 0);
- 
- 	v3d_idle_gca(v3d);
-+	v3d_reset_sms(v3d);
- 	v3d_reset_v3d(v3d);
- 
- 	v3d_mmu_set_page_table(v3d);
-diff --git a/drivers/gpu/drm/v3d/v3d_regs.h b/drivers/gpu/drm/v3d/v3d_regs.h
-index 6da3c69082bd6d5954bf88bd9ff2543a5e4e04c4..c1870265eaeecc188afc4f09cf13a5201d3aa1c6 100644
---- a/drivers/gpu/drm/v3d/v3d_regs.h
-+++ b/drivers/gpu/drm/v3d/v3d_regs.h
-@@ -515,4 +515,30 @@
- # define V3D_ERR_VPAERGS                               BIT(1)
- # define V3D_ERR_VPAEABB                               BIT(0)
- 
-+#define V3D_SMS_REE_CS                                 0x00000
-+#define V3D_SMS_TEE_CS                                 0x00400
-+# define V3D_SMS_INTERRUPT                             BIT(31)
-+# define V3D_SMS_POWER_OFF                             BIT(30)
-+# define V3D_SMS_CLEAR_POWER_OFF                       BIT(29)
-+# define V3D_SMS_LOCK                                  BIT(28)
-+# define V3D_SMS_CLEAR_LOCK                            BIT(27)
-+# define V3D_SMS_SVP_MODE_EXIT                         BIT(26)
-+# define V3D_SMS_CLEAR_SVP_MODE_EXIT                   BIT(25)
-+# define V3D_SMS_SVP_MODE_ENTER                        BIT(24)
-+# define V3D_SMS_CLEAR_SVP_MODE_ENTER                  BIT(23)
-+# define V3D_SMS_THEIR_MODE_EXIT                       BIT(22)
-+# define V3D_SMS_THEIR_MODE_ENTER                      BIT(21)
-+# define V3D_SMS_OUR_MODE_EXIT                         BIT(20)
-+# define V3D_SMS_CLEAR_OUR_MODE_EXIT                   BIT(19)
-+# define V3D_SMS_SEQ_PC_MASK                           V3D_MASK(16, 10)
-+# define V3D_SMS_SEQ_PC_SHIFT                          10
-+# define V3D_SMS_HUBCORE_STATUS_MASK                   V3D_MASK(9, 8)
-+# define V3D_SMS_HUBCORE_STATUS_SHIFT                  8
-+# define V3D_SMS_NEW_MODE_MASK                         V3D_MASK(7, 6)
-+# define V3D_SMS_NEW_MODE_SHIFT                        6
-+# define V3D_SMS_OLD_MODE_MASK                         V3D_MASK(5, 4)
-+# define V3D_SMS_OLD_MODE_SHIFT                        4
-+# define V3D_SMS_STATE_MASK                            V3D_MASK(3, 0)
-+# define V3D_SMS_STATE_SHIFT                           0
-+
- #endif /* V3D_REGS_H */
+I wonder if you can emulate userptr using udmabuf on the host-side?
 
--- 
-2.49.0
+Essentially for the guest, it'll be a malloc'ed memory, which means a guest
+sg list.  We can convert the guest sg-list to udmabuf using well-known
+mechanisms on the host side.  I hope amdkfd can operate on dma-bufs too?
 
+I do such a feature that would have a more generic utility outside of
+HSAKMT contexts and not rely on Xen-specific grant tables  ...
+checkout VIRTIO_GPU_BLOB_FLAG_CREATE_GUEST_HANDLE in crosvm for an
+example.
+
+
+
+
+>
+> Regards,
+> Honglei
+>
+
+--00000000000022cfe2063093f460
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 6, =
+2025 at 2:52=E2=80=AFAM Huang, Honglei1 &lt;<a href=3D"mailto:Honglei1.Huan=
+g@amd.com">Honglei1.Huang@amd.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><br>
+On 2025/3/1 5:21, Demi Marie Obenour wrote:<br>
+&gt; On 2/28/25 12:36 AM, Honglei Huang wrote:<br>
+&gt;&gt; From: Honglei Huang &lt;<a href=3D"mailto:Honglei1.Huang@amd.com" =
+target=3D"_blank">Honglei1.Huang@amd.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Add a new resource for blob resource, called userptr, used for let=
+<br>
+&gt;&gt; host access guest user space memory, to acquire buffer based userp=
+tr<br>
+&gt;&gt; feature in virtio GPU.<br>
+&gt;&gt;<br>
+&gt;&gt; - The capset VIRTIO_GPU_CAPSET_HSAKMT used for context init,<br>
+&gt;&gt; in this series patches only HSAKMT context can use the userptr<br>
+&gt;&gt; feature. HSAKMT is a GPU compute library in HSA stack, like<br>
+&gt;&gt; the role libdrm in mesa stack.<br>
+&gt; <br>
+&gt; Userptr should not be limited to HSMKMT contexts.=C2=A0 Userptr can<br=
+>
+&gt; accelerate shm buffers by avoiding a copy from guest to host, and<br>
+&gt; it can be implemented using grant tables on Xen.<br>
+<br>
+Yes, I totally agree userptr can accelerate shm buffers, but I currently<br=
+>
+don&#39;t know if there are any other projects working on similar features,=
+<br>
+or if maintainers have any opinions or better ways to implement them, so<br=
+>
+I temporarily limit this feature to HSAKMT context only.<br>
+<br>
+I am waiting for everyone&#39;s opinions, please provide your thoughts.<br>=
+</blockquote><div><br></div><div>I wonder if you can emulate userptr using =
+udmabuf on the host-side?</div><div><br></div><div>Essentially for the gues=
+t, it&#39;ll be a malloc&#39;ed memory, which means a guest sg list.=C2=A0 =
+We can convert the guest sg-list to udmabuf using well-known mechanisms on =
+the host side.=C2=A0 I hope amdkfd can operate on dma-bufs too?</div><div><=
+br></div><div>I do such a feature that would have a more generic utility ou=
+tside of HSAKMT contexts and not rely on Xen-specific grant tables=C2=A0 ..=
+. checkout=C2=A0VIRTIO_GPU_BLOB_FLAG_CREATE_GUEST_HANDLE in crosvm for an e=
+xample.=C2=A0 =C2=A0</div><div><br></div><div><br></div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Regards,<br>
+Honglei<br>
+</blockquote></div></div>
+
+--00000000000022cfe2063093f460--
