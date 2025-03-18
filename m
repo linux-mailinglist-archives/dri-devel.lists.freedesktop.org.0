@@ -2,83 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2529A67807
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 16:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1214CA6784D
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 16:50:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3A9C10E062;
-	Tue, 18 Mar 2025 15:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5901010E11C;
+	Tue, 18 Mar 2025 15:50:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aot3C0I4";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uWVxSCqo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16B7810E062
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:37:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 585975C58A0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:35:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E394CC4CEDD
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742312251;
- bh=2FADrrGOuhJNxGZb/t5P0+jQhpdMvnVntdR+ZZPNqr8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=aot3C0I4ulAoFThJpUgw9CGlUg7DamiOAMz2opBd0lYxFvlPz2nvBhJIjl8ahiED0
- iMkvptmtcSQCJ+ypeS54FrMggkoHfgq7p9tCN7FiYCqcd+wabzbOn7JhMIeUH14pUD
- vsNu596aRkWfCIeoEYMuk4D0+N7u1PBTUGAjeuqBa8CrVIly4RvaK0MAcvZq/THWdI
- bhkbqZqzyj+YbD0h162GzWpyiRx5KdETmvJZXv5g97ICPgA5QefTcMAk+kfDLCCR6c
- UhuEhoA4R6CckL2vV674KmCKz5hVn8M1CPajZz1ma4UD92Fy/FLiPftaYER4pa/zsG
- mTkq3ONU1jCMQ==
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-5e5b572e45cso11005856a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 08:37:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX82b0BP+sZQj7cgAm+Jchzh28ruA0t8wkXx5wJVcIy/572g+4fp8M4Y2G2VnZI8j8k4rw2QvvoGlQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy58N55fK9nd2QRiVmDtk17RMjSaziTp03ogI3orf5Ds/FYnktu
- LzbnDYgyPAn7QWGSmxl9YaGsa4OsNkezvkWRKqcgwdZiiKKfSwsjaBIOhYYDiGBhwxxUnMWZMNy
- PW0sj+gD38plKLz/jqPEhoSOLjQ==
-X-Google-Smtp-Source: AGHT+IFxNikh/zPyi87/yPKISRD75uRN3LN7OEe83oBU+Jm0RfN/NRF8Jwu1275PkN7yYWLFFVO4RlTc7PstjVcm0CI=
-X-Received: by 2002:a05:6402:84d:b0:5e4:9348:72d4 with SMTP id
- 4fb4d7f45d1cf-5e8a09faa0bmr16499578a12.24.1742312250511; Tue, 18 Mar 2025
- 08:37:30 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE2810E11C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:50:08 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 836B0778;
+ Tue, 18 Mar 2025 16:48:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1742312896;
+ bh=jtyEGej6kJYTDd+/gvX2RbpK2QaBX5it57ks2Kwl0xU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=uWVxSCqo42vhLFr2dGSMGOg60hc5rAYv8/yfdpo0tTZks5XZS4KErutKK0xrL8LyB
+ O0IYfZrxZR9yCGWX+x2OpCmyMJfZSBCrofzH+B1fi1fpLgP1EAUpRfQLvlAh9MjJ5K
+ QOL7luNdWdCIRcS25eRqKXOXsRDgnbQRX28VhT0c=
+Message-ID: <673e79bc-53c9-4772-ad18-8c00e4036905@ideasonboard.com>
+Date: Tue, 18 Mar 2025 17:49:54 +0200
 MIME-Version: 1.0
-References: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
- <20250226-initial_display-v2-3-23fafa130817@gocontroll.com>
- <20250314210652.GA2300828-robh@kernel.org>
- <PA4PR04MB7630094413C8E1F3D715EE23C5DD2@PA4PR04MB7630.eurprd04.prod.outlook.com>
- <20250317-massive-calm-bat-43ff61@krzk-bin>
- <PA4PR04MB7630DA5DF63C18530B86AB59C5DF2@PA4PR04MB7630.eurprd04.prod.outlook.com>
-In-Reply-To: <PA4PR04MB7630DA5DF63C18530B86AB59C5DF2@PA4PR04MB7630.eurprd04.prod.outlook.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 18 Mar 2025 10:37:17 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKiWyMMqZwdvbZp8pebqDYrA7MwoD3AGAST6iixXzU0LQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JqdfYH-dOSKs1kb8D0C16udXHv06QqBb0LECvEA4U-xF3d7uL0jX9WyoUw
-Message-ID: <CAL_JsqKiWyMMqZwdvbZp8pebqDYrA7MwoD3AGAST6iixXzU0LQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/12] dt-bindings: connector: Add the GOcontroll
- Moduline module slot bindings
-To: "Maud Spierings | GOcontroll" <maudspierings@gocontroll.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Mark Brown <broonie@kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: drm/bridge: Add no-hpd property
+To: Dmitry Baryshkov <lumag@kernel.org>, Harikrishna Shenoy <a0512644@ti.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Harikrishna Shenoy <h-shenoy@ti.com>,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ jani.nikula@intel.com, j-choudhary@ti.com, sui.jingfeng@linux.dev,
+ viro@zeniv.linux.org.uk, r-ravikumar@ti.com, sjakhade@cadence.com,
+ yamonkar@cadence.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250205115025.3133487-1-h-shenoy@ti.com>
+ <20250205115025.3133487-2-h-shenoy@ti.com>
+ <efd89cf8-2f83-44fd-8bdf-aa348d4d9659@kernel.org>
+ <h24gpx6cxm4s6gzcunjnswubtvqask5dewi3udulmntsuieklm@w3pw4ig3t7gm>
+ <de0cb22d-d251-4b0b-8fc7-e8b5a891a527@ti.com>
+ <vfg6hlkzmqahbswgyctzuuzcdm2aend6wmo3uci4qs74jasjtc@3hlox276hazj>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <vfg6hlkzmqahbswgyctzuuzcdm2aend6wmo3uci4qs74jasjtc@3hlox276hazj>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,56 +113,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 17, 2025 at 5:42=E2=80=AFAM Maud Spierings | GOcontroll
-<maudspierings@gocontroll.com> wrote:
->
-> From: Krzysztof Kozlowski <krzk@kernel.org>
-> Sent: Monday, March 17, 2025 11:34 AM
->
-> >On Sat, Mar 15, 2025 at 07:32:28AM +0000, Maud Spierings | GOcontroll wr=
-ote:
-> >> >> +required:
-> >> >> +  - compatible
-> >> >> +  - reg
-> >> >> +  - reset-gpios
-> >> >> +  - interrupts
-> >> >> +  - sync-gpios
-> >> >> +  - i2c-bus
-> >> >> +  - slot-number
-> >> >> +
-> >> >> +additionalProperties: false
-> >> >> +
-> >> >> +examples:
-> >> >> +  - |
-> >> >> +    #include <dt-bindings/gpio/gpio.h>
-> >> >> +    #include <dt-bindings/interrupt-controller/irq.h>
-> >> >> +
-> >> >> +    spi {
-> >> >> +        #address-cells =3D <1>;
-> >> >> +        #size-cells =3D <0>;
-> >> >> +
-> >> >> +        connector@0 {
-> >> >
-> >> >I find this being a SPI device a bit strange. Is there a defined SPI
-> >> >device that every slot is going to have? Or the connector has SPI
-> >> >interface and *anything* could be attached on it?
-> >>
-> >> So a module slot is like a pcie slot, it can be occupied or not, and w=
-hen
-> >
-> >But which buses...
->
-> I don't think I am fully understanding what you are asking of me. The
-> module will always be an spi device, that is the main communication bus.
+Hi,
 
-Okay, that clears up whether it should be a SPI device or not, and I
-think it should as SPI is always used. The 2nd question is what does
-"gocontroll,moduline-module-slot" mean exactly. Normally, the
-compatible implies how you interact with the device (or what is the
-programming model). For SPI, that's what do the SPI transactions look
-like to begin with. Does the slot spec define that such that every
-module is the same? Then when it comes to different module types, are
-those discoverable (e.g. PCI has vendor and device ID) or will you
-need "compatible" to make that distinction?
+On 12/03/2025 14:52, Dmitry Baryshkov wrote:
+> On Wed, Mar 12, 2025 at 11:56:41AM +0530, Harikrishna Shenoy wrote:
+>>
+>>
+>> On 05/02/25 19:03, Dmitry Baryshkov wrote:
+>>> On Wed, Feb 05, 2025 at 12:52:52PM +0100, Krzysztof Kozlowski wrote:
+>>>> On 05/02/2025 12:50, Harikrishna Shenoy wrote:
+>>>>> From: Rahul T R <r-ravikumar@ti.com>
+>>>>>
+>>>>> The mhdp bridge can work without its HPD pin hooked up to the connector,
+>>>>> but the current bridge driver throws an error when hpd line is not
+>>>>> connected to the connector. For such cases, we need an indication for
+>>>>> no-hpd, using which we can bypass the hpd detection and instead use the
+>>>>> auxiliary channels connected to the DP connector to confirm the
+>>>>> connection.
+>>>>> So add no-hpd property to the bindings, to disable hpd when not
+>>>>> connected or unusable due to DP0-HPD not connected to correct HPD
+>>>>> pin on SOC like in case of J721S2.
+>>>>>
+>>>>> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+>>>>
+>>>> Why are you sending over and over the same? You already got feedback.
+>>>> Then you send v2. You got the same feedback.
+>>>>
+>>>> Now you send v3?
+>>>>
+>>>> So the same feedback, but this time: NAK
+>>>
+>>> Krzysztof's email forced me to take a look at the actual boards that you
+>>> are trying to enable. I couldn't stop by notice that the HPD signal
+>>> _is_ connected to a GPIO pin. Please stop hacking the bridge driver and
+>>> use the tools that are already provided to you: add the HPD pin to the
+>>> dp-controller device node. And then fix any possible issues coming from
+>>> the bridge driver not being able to handle HPD signals being delivered
+>>> by the DRM framework via the .hpd_notify() callback.
+>>>
+>>> TL;DR: also a NAK from my side, add HPD gpio to dp-controller.
+>>>
+>> We tried implementing a interrupt based HPD functionality as HPD signal is
+>> connected to GPIO0_18 pin, we were able to get interrupt based HPD working
+>> however to route this signal to SoC we are loosing audio capability due to
+>> MUX conflict. Due to board level limitations to
+>> route the signal to SoC, we will not be able to support interrupt
+>> based HPD and polling seems a possible way without loosing on audio
+>> capability.
+> 
+> Still NAK for the no-hpd property. HPD pin is a requirement for
+> DisplayPort to work, as it is used e.g. for the 'attention' IRQs being
+> sent by the DP sink. I'm not sure what kind of idea you HW engineers had
+> in mind.
 
-Rob
+It's true that for normal DP functionality the HPD is required, but 
+afaik DP works "fine" without HPD too. This is not the first board that 
+has DP connector, but doesn't have HPD, that I have seen or worked on. 
+Polling can be used for the IRQs too.
+
+For eDP HPD is optional, and some of the cases I've worked with involved 
+a chip intended for eDP, but used with a full DP connector, and no HPD. 
+However, in this particular case the DP chip supports full DP, so it's 
+just a board design error.
+
+My question is, is J721s2 EVM something that's used widely? Or is it a 
+rare board? If it's a rare one, maybe there's no point in solving this 
+in upstream? But if it's widely used, I don't see why we wouldn't 
+support it in upstream. The HW is broken, but we need to live with it.
+
+Another question is, if eDP support is added to the cdns-mhdp driver, 
+and used with a panel that doesn't have an HPD, how would that code look 
+like? If that would be solved with a "no-hpd" property, identical to the 
+one proposed in this series, then... There's even less reason to not 
+support this.
+
+Disclaimer: I didn't study the schematics, and I haven't thought or 
+looked at how eDP is implemented in other drm drivers.
+
+  Tomi
+
