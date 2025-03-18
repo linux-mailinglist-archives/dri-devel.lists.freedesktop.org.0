@@ -2,51 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AC0A67479
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 14:04:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E1DA674CA
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 14:18:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B65B10E048;
-	Tue, 18 Mar 2025 13:04:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 570C410E488;
+	Tue, 18 Mar 2025 13:18:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="S05Ts4i2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VkBVl1x6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65AAF10E048;
- Tue, 18 Mar 2025 13:04:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CBpBlLdqbta5dGHx8zSfoA8a9KcWNsF2KUWZpINQ6Co=; b=S05Ts4i2VD4pRPKTNfRUbh4afF
- mBP/S3okfCsIKzEBKKKSvsAB1gDOhr14rSQBo4EA55jGFooiIDgab1oCWTOk4dLjz/7wMhmt46lml
- J0/MNuM8H7KXcc0zjysqPOMWEOiSJFp7+fOJRn83Pfc6PUbPh7FUSN4OqHDVUQK7BLIVtIYvcnddt
- tUcL92i7BSHfLZGXD6++vsKUe2s7N0DerrF9zhUQJSShTEyVLbz30Xc/uIGiHn/mx/SjHN+cHhAYJ
- IMNsJce9kxgeCKPrOBkv6+6R5t4mVaUYaXBI4uo45a5EipKE3K7VfguvexlYTJxgVwqFgZsp+Ns0M
- CPv+KLMg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tuWbw-002jan-9E; Tue, 18 Mar 2025 14:04:00 +0100
-Message-ID: <c394b28e-0cb1-4e91-a6cb-e53f6f2b8cc0@igalia.com>
-Date: Tue, 18 Mar 2025 13:03:59 +0000
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E24C610E09D;
+ Tue, 18 Mar 2025 13:18:40 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-301a6347494so128515a91.3; 
+ Tue, 18 Mar 2025 06:18:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742303920; x=1742908720; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=69ljFS1rk5l/n84/nsOjrOvJVy8Zq713HHIVitktCPE=;
+ b=VkBVl1x663VT5BG5I+WMEylP1REwxqdu1YhQcNx/vDCal/z2v+/PL890Sun6x5RTEi
+ PNLOl94HNNvM01gfrXKZC7Ue7ePX6OFVbJiT2Eog47vVw0AyN058K7wiGRqsHBUjEnWF
+ VGHR9iaaK8RRdAerhzsdrHpz12EbbTnl1DnRZvoZ0JRU2UIU1ucy22Ar5wkXNW5p5Hux
+ BCQe7l4qOpwlR33RF5ohntSxM6UCz/w8yoZ19VwwYXBvJZKoFJSJjxGzXL/ZZW3HkKmH
+ tho5MQadulTo807aPuKHQKmnD2Vmzozp9uCblLqEMTJ8lZyq3NWO/FT4NNcbjQMceK5A
+ rD/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742303920; x=1742908720;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=69ljFS1rk5l/n84/nsOjrOvJVy8Zq713HHIVitktCPE=;
+ b=oKE6X3nICU977l0G5aL6LztskgBw+dNhc7lmHfTKYeZi0JeJ1n0oSXp+4jRw3kuyfM
+ +DV6McYNyo9myyRBumJe2LrPbmMpjWzmNUsL/g9mfCaoD3c+W0FbhfZ+dVY7MwH7l8zu
+ 8D/36zaP1J2RgUxBq8Yxrce/CUHtsWs2pL+fvoAG4KyEvbkPH4jxipIBAMTwJHMfSpsJ
+ paCQlusMBIDvFMZf6jRdxOlsjnx+zB51dz5tal2nesJCEj69ED+/foprJ3z2g8v8uEM9
+ nY9cjg0UStowgzvihkaB/8sha7KdgT63eGnub1NOX92LoTodD2LMih3fPV4S7VyZjIVo
+ 4lDQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU3t5m5S8T51cnr4YsT26jdYSOKXFfNGvUs1b+ASiBS/78VYNqWLmR/cI3BRUVQu+dg5LE3X2n6@lists.freedesktop.org,
+ AJvYcCVP48GMEGawUK4DqyA3EOEUe1ES6hHjAps7ebU8vJhSivs0hNJdNsZmEiUwQuZPGnwJczaGGHQQwjQX@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwAmivN35QM22g1sCF2ohr0aFDobYFHMPHQclmDMiTSOv3n67BD
+ ISpm+lp9xwk9bkU1ibS3TtKEe8oUqD5f1dEpP3+Axlrq+885DK2W2bNK2oh4mPCrxP6ef1EH483
+ mwTRuXXPSL4u57AHGMGi5iIVdPic=
+X-Gm-Gg: ASbGncuSvvbP771SExPWcsbbVi5TbRUnuifQRNhx//DtT+d0kpyo1HLvfVhDLP7uCtf
+ 0lazJr1WDGEmxaiY354yEwAAohKWvZiIHB2gJv0u2xwwEYKjOczrqntWQvcEA/NLYK27cm6vjO8
+ UsJKFZ3yrpa1hKU5Lf0Lob9jVZqw==
+X-Google-Smtp-Source: AGHT+IEEe/F89Tj59dekHZVix785LRmaFuqwTiIW6CIe3px67aEzxBeoL9MiMt8LVYSdURPPL/N3zxHZHkQKIGd63F4=
+X-Received: by 2002:a17:90b:3b52:b0:2fe:b45b:e7ec with SMTP id
+ 98e67ed59e1d1-30151db4d3emr7959340a91.8.1742303920446; Tue, 18 Mar 2025
+ 06:18:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/sched: add drm_sched_prealloc_dependency_slots
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- phasta@mailbox.org, dri-devel@lists.freedesktop.org, dakr@kernel.org,
- amd-gfx@lists.freedesktop.org
-References: <20250318120313.19099-1-christian.koenig@amd.com>
- <20250318120313.19099-2-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250318120313.19099-2-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250317105745891-NnPPMd8T0guyJikMgM6p@zte.com.cn>
+In-Reply-To: <20250317105745891-NnPPMd8T0guyJikMgM6p@zte.com.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 18 Mar 2025 09:18:28 -0400
+X-Gm-Features: AQ5f1Jp1fYgt08WGJFwuUkumJ3kySBxvtJOvetoAFqgET2sWxN2RMM0_b9DHL3E
+Message-ID: <CADnq5_MyyomPwhQ6DW0GsfS8XNogLECM-h3-8AODYr1OTrm_ug@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon/uvd: Replace nested max() with single max3()
+To: feng.wei8@zte.com.cn
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,108 +85,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied.  Thanks!
 
-On 18/03/2025 12:03, Christian König wrote:
-> The problem is that drivers sometimes need to add dependencies without
-> allocating any memory.
-> 
-> Add a function which preallocates slots by inserting signaled stub fences
-> into the dependency array.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+Alex
+
+On Tue, Mar 18, 2025 at 2:18=E2=80=AFAM <feng.wei8@zte.com.cn> wrote:
+>
+> From: FengWei <feng.wei8@zte.com.cn>
+>
+> Use max3() macro instead of nesting max() to simplify the return
+> statement.
+>
+> Signed-off-by: FengWei <feng.wei8@zte.com.cn>
 > ---
->   drivers/gpu/drm/scheduler/sched_main.c | 41 ++++++++++++++++++++++++--
->   include/drm/gpu_scheduler.h            |  2 ++
->   2 files changed, 40 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 4d4219fbe49d..2085eea89513 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -852,6 +852,38 @@ void drm_sched_job_arm(struct drm_sched_job *job)
->   }
->   EXPORT_SYMBOL(drm_sched_job_arm);
->   
-> +/**
-> + * drm_sched_job_prealloc_dependency_slots - avoid ENOMEM on adding dependencies
-> + * @job: scheduler job where dependencies will be added
-> + * @num_deps: number of dependencies to preallocate slots for
-> + *
-> + * Preallocate memory so that no ENOMEM can come later while adding
-> + * dependencies.
-> + *
-> + * Return:
-> + * 0 on success, or an error on failing to expand the array.
-> + */
-> +int drm_sched_job_prealloc_dependency_slots(struct drm_sched_job *job,
-> +					    unsigned int num_deps)
-> +{
-> +	struct dma_fence *fence;
-> +	u32 id = 0;
-> +	int ret;
-> +
-> +	while (num_deps--) {
-> +		fence = dma_fence_get_stub();
-> +		ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b,
-> +			       GFP_KERNEL);
-> +		if (ret != 0) {
-> +			dma_fence_put(fence);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_sched_job_prealloc_dependency_slots);
-> +
->   /**
->    * drm_sched_job_add_dependency - adds the fence as a job dependency
->    * @job: scheduler job to add the dependencies to
-> @@ -878,10 +910,12 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
->   	 * engines involved, rather than the number of BOs.
->   	 */
->   	xa_for_each(&job->dependencies, index, entry) {
-> -		if (entry->context != fence->context)
-> +		bool signaled = dma_fence_is_signaled(entry);
-
-I so dislike dma_fence_is_signaled() due it leaking the fence signaling 
-annotations to unsuspecting callers. I hope it doesn't mark someone's 
-lock/mutex as the critical signalling path..
-
-Regards,
-
-Tvrtko
-
-> +
-> +		if (!signaled && entry->context != fence->context)
->   			continue;
->   
-> -		if (dma_fence_is_later(fence, entry)) {
-> +		if (signaled || dma_fence_is_later(fence, entry)) {
->   			dma_fence_put(entry);
->   			xa_store(&job->dependencies, index, fence, GFP_KERNEL);
->   		} else {
-> @@ -890,7 +924,8 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
->   		return 0;
->   	}
->   
-> -	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GFP_KERNEL);
-> +	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b,
-> +		       GFP_KERNEL);
->   	if (ret != 0)
->   		dma_fence_put(fence);
->   
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 1a7e377d4cbb..916e820b27ff 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -632,6 +632,8 @@ int drm_sched_job_init(struct drm_sched_job *job,
->   		       u32 credits, void *owner);
->   void drm_sched_job_arm(struct drm_sched_job *job);
->   void drm_sched_entity_push_job(struct drm_sched_job *sched_job);
-> +int drm_sched_job_prealloc_dependency_slots(struct drm_sched_job *job,
-> +					    unsigned int num_deps);
->   int drm_sched_job_add_dependency(struct drm_sched_job *job,
->   				 struct dma_fence *fence);
->   int drm_sched_job_add_syncobj_dependency(struct drm_sched_job *job,
-
+>  drivers/gpu/drm/radeon/radeon_uvd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon=
+/radeon_uvd.c
+> index 058a1c8451b2..ded5747a58d1 100644
+> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
+> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+> @@ -961,7 +961,7 @@ int radeon_uvd_calc_upll_dividers(struct radeon_devic=
+e *rdev,
+>         unsigned optimal_score =3D ~0;
+>
+>         /* loop through vco from low to high */
+> -       vco_min =3D max(max(vco_min, vclk), dclk);
+> +       vco_min =3D max3(vco_min, vclk, dclk);
+>         for (vco_freq =3D vco_min; vco_freq <=3D vco_max; vco_freq +=3D 1=
+00) {
+>
+>                 uint64_t fb_div =3D (uint64_t)vco_freq * fb_factor;
+> --
+> 2.25.1
