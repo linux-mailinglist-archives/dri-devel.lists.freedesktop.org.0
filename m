@@ -2,130 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93FCA6713F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 11:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6A1A670CC
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 11:11:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D07C10E0F3;
-	Tue, 18 Mar 2025 10:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69F1C10E45F;
+	Tue, 18 Mar 2025 10:10:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CrzOBCL9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MMzwl/BJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51BA210E0F3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 10:28:19 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I19Mob022912
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 10:28:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- /ffeju9dab3SjXkQBFykek/FOXIdiqaUl5qwjSDR5rA=; b=CrzOBCL9BxGuCYdy
- PpGccRQNdJtgOuoSTI/Hxt7LPk/WA9gBrjFthfC2CSnlkedNUFOAIQeylhFYkELM
- qSU4ZieuRaJ0KBbwkUh9UWU7fGBLzaMciBFljU47noP9N8wlo1/Y48/AZb+UEsxa
- KH+nk9N6ls9ub7jHZ6vfeGP4lbFMfQ+lVXB+dhZLdMMfVoV2+nLclgns145fmsqD
- Vr6o+a2+X5RVhDsAshIHwQH9OO8si0E3pFSLpD5/zf7D+UtJ3cj83WdoxlrEdWpA
- nx/ZAdBVvKxM6qky/sSXxpijIGy0HjvKr+9aJX4k4bZqSDPW8Y/G/0h4PyUGJnJh
- 4gW9jw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exwx1dem-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 10:28:18 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c54734292aso79526285a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 03:28:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742293697; x=1742898497;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/ffeju9dab3SjXkQBFykek/FOXIdiqaUl5qwjSDR5rA=;
- b=YNOv21SOasJxMieUaZAt32CcjNDoM2c62uFd5RwJOoqvlQYgdsK8buektavUf0i3Qb
- VyubTte+VMcBVVu0zoFgd2w/9O4a57QZOfiOVIuy6jWttvnPqK7xrHq+BQA5QhVrOif+
- kjIF1s3lOhpO8zFsRswITLUUVxqwK0DsHPAXvi4wfeJ8H0zjzeNKF3TRIs3GugZHJWlX
- Nr0klHAHFJzxDjK2lwYBvBCrUNJF2jnQh4/Vmwf06IlRbWs455Z7jUK4++uPAUZzW5xv
- B6yLgr2cPoWgZ6brZogJlmayPzJL7HRGKiJlU6rWcUivlC39RFXTZ/BMRtzVot4gWH5O
- Lm+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXvc/Tr5aZTLt5+VeLx4gN2iDZLEFaLAgQqjYpWlWCez8/BYg5pglqFPTXDfj75S9W6A5zygtBtYN8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUEayfRFqUTskxPiikA+G+6Tk+He1TXBO/uAvqmMJNJrcnujbk
- mXdhoNqc3m/okjONZwOnjJ3d3eCt7T5impqxxZHN1nkauEAhMK6l9WJtEnhNWRD/z/z29C6w9gk
- 8H5OefHhbLIcx2IZgb/bHSJxXCAB3+fjIey6AC4+ws9Fv6b5XeLF7Xp50HkJvEX5nN/0=
-X-Gm-Gg: ASbGnct+OfABUsqXSZwT+V9PhMCq6nfLGA2gYxVUZxUWtHdjQV2s+myxQ8guVKIcpct
- LQb3lNDikDH/nKuuBo9ys8nNC4KhzxAobuRrbMfMoAjXHg5CJi4R1ZXtZ6JGkGW02Fv0oqxSA+x
- tNhEnKzMDhr8jA3+2mNPj93r+4Agm9lE3E6FcbEqcXJw1Ysuzrix56QMfgrrS5b1igu2I7qQOW9
- FWNc3nVDa1JdFBiEOC+zB+b7tmvQPZU59R88SNSxdgW8KK66lhcJD8OEZFnMKmKZwonD9byrsIx
- ep8J9NuGUyxXpxa/iWp0QFdjBXXYpdoi0dstUdtp7yW2FYUdyw4Nocn3cnKKmGsy6FX6SQ==
-X-Received: by 2002:a05:6214:252a:b0:6e4:4034:5ae8 with SMTP id
- 6a1803df08f44-6eaeaa5893emr88168166d6.5.1742293697533; 
- Tue, 18 Mar 2025 03:28:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHbWrHKNAmWpMHc+BHfClrKrXHiIT6z2F6YxU0JPnsWruAuabzkJG8LsnO7K1C+4bw9HqrCrw==
-X-Received: by 2002:a05:6214:252a:b0:6e4:4034:5ae8 with SMTP id
- 6a1803df08f44-6eaeaa5893emr88167666d6.5.1742293697087; 
- Tue, 18 Mar 2025 03:28:17 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac31485d046sm814425666b.83.2025.03.18.03.28.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Mar 2025 03:28:16 -0700 (PDT)
-Message-ID: <f1848598-c8d7-4c17-8a40-3a6828c32dbe@oss.qualcomm.com>
-Date: Tue, 18 Mar 2025 11:28:12 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADB9910E45C;
+ Tue, 18 Mar 2025 10:10:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742292649; x=1773828649;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NdOXlQY6LSxWk1LYo10E/kXzqa2q06qeotqWrI9rn+I=;
+ b=MMzwl/BJJ2D+ARZIyfyzTvVF4WLyUTfv/9KPcsPsAoAGcLBrk77IcxpX
+ UzijFJ7Zi725d7HAyBAzOpnJe2g7ZhJrVXhvyCTOM1lN92Y8gjTWj+as7
+ +s9S5bQc9JyHblgBPSQPTIqduzjfn1+lphlxVQqgCDu9sz1GgAiMwDS54
+ Du7ztQaxIWER7Wr2vZcyH++3gMwapXfLanHoSLWZ8rc8gyhLn3GkmA4A5
+ 1dKto6QnJ7kVOl3HQUQXCOGpTdArC6uIV8rXoEKpI5/LGlg9YTbcBwsON
+ RmHEQBPcVwm+TVJ3F1xxJpKnjtEHnmlC7xy2yfBJk8qkIuo3gpfC6kSnY g==;
+X-CSE-ConnectionGUID: k7eDdg2eSYOd1Ah8k58DrQ==
+X-CSE-MsgGUID: McCnwaFZR/yetmUsFy9RWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="60817152"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; d="scan'208";a="60817152"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 03:10:45 -0700
+X-CSE-ConnectionGUID: YIfUjykRS0G6i1+39LA79Q==
+X-CSE-MsgGUID: O2B6gmp6TGePTSuPEgsE+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; d="scan'208";a="122713412"
+Received: from unknown (HELO nitin-Super-Server.iind.intel.com)
+ ([10.190.238.72])
+ by fmviesa010.fm.intel.com with ESMTP; 18 Mar 2025 03:10:43 -0700
+From: Nitin Gote <nitin.r.gote@intel.com>
+To: christian.koenig@amd.com
+Cc: intel-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ chris.p.wilson@intel.com, andi.shyti@intel.com, nitin.r.gote@intel.com
+Subject: [PATCH] dma-buf: Take a breath during dma-fence-chain subtests
+Date: Tue, 18 Mar 2025 16:04:08 +0530
+Message-Id: <20250318103408.3566010-1-nitin.r.gote@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/9] dt-bindings: arm: qcom,coresight-static-replicator:
- add optional clocks
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
- <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Leo Yan <leo.yan@linux.dev>, Kumar Gala <galak@codeaurora.org>,
- Andy Gross <agross@codeaurora.org>,
- "Ivan T. Ivanov" <ivan.ivanov@linaro.org>, Andy Gross
- <andy.gross@linaro.org>, Georgi Djakov <djakov@kernel.org>,
- David Heidelberg <david@ixit.cz>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org
-References: <20250317-fix-nexus-4-v1-0-655c52e2ad97@oss.qualcomm.com>
- <20250317-fix-nexus-4-v1-4-655c52e2ad97@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250317-fix-nexus-4-v1-4-655c52e2ad97@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: Q-a1k0h19F0Oog1s3fRTca92nTlb44AD
-X-Authority-Analysis: v=2.4 cv=INICChvG c=1 sm=1 tr=0 ts=67d94ac2 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=iEn_WmSgXS-yHfNkfEQA:9
- a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: Q-a1k0h19F0Oog1s3fRTca92nTlb44AD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-18_05,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1015
- mlxlogscore=999 impostorscore=0 phishscore=0 mlxscore=0 spamscore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503180076
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,42 +67,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/17/25 6:44 PM, Dmitry Baryshkov wrote:
-> As most other CoreSight devices the replicator can use either of the
-> optional clocks (or both). Document those optional clocks in the schema.
-> 
-> Fixes: 3c15fddf3121 ("dt-bindings: arm: Convert CoreSight bindings to DT schema")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  .../bindings/arm/arm,coresight-static-replicator.yaml          | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-static-replicator.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-static-replicator.yaml
-> index a6f793ea03b6c193fc0ff72a45e0249a63a2ba3c..56e64067ed3d63c5e293a0840858f13428bacb45 100644
-> --- a/Documentation/devicetree/bindings/arm/arm,coresight-static-replicator.yaml
-> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-static-replicator.yaml
-> @@ -30,6 +30,16 @@ properties:
->    power-domains:
->      maxItems: 1
->  
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    enum:
+Give the scheduler a chance to breathe by calling cond_resched()
+as some of the loops may take some time on old machines (apl/bsw/pnv), and
+so catch the attention of the watchdogs.
 
-I believe this should either be items: if 0/1/2 is allowed, or
-minItems should be dropped if 0/1 is allowed, but the former seems
-to be the intention
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12904
+Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+---
+Cc: Christian Konig <christian.koenig@amd.com>
 
-Konrad
+Hi Konig,
 
-> +      - apb_pclk
-> +      - atclk
-> +
->    in-ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->      additionalProperties: false
-> 
+This is not a functional issue in test. We wish to prevent softlock and allow the
+dma-fence-chain test run to completion to verify it's functional correctness.
+
+The performance issue takes about 5ms for the dma-fence-chain to be signalled on
+older hardware which is an orthogonal issue and to be debugged separately for
+which the test has to run to completion.
+
+So, reverting to cond_resched() which fixes the issue instead of
+delay functions.
+
+- Nitin
+
+ drivers/dma-buf/st-dma-fence-chain.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
+index ed4b323886e4..328a66ed59e5 100644
+--- a/drivers/dma-buf/st-dma-fence-chain.c
++++ b/drivers/dma-buf/st-dma-fence-chain.c
+@@ -505,6 +505,7 @@ static int signal_forward(void *arg)
+ 
+ 	for (i = 0; i < fc.chain_length; i++) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
+ 
+ 		if (!dma_fence_is_signaled(fc.chains[i])) {
+ 			pr_err("chain[%d] not signaled!\n", i);
+@@ -537,6 +538,7 @@ static int signal_backward(void *arg)
+ 
+ 	for (i = fc.chain_length; i--; ) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
+ 
+ 		if (i > 0 && dma_fence_is_signaled(fc.chains[i])) {
+ 			pr_err("chain[%d] is signaled!\n", i);
+@@ -587,8 +589,10 @@ static int wait_forward(void *arg)
+ 	get_task_struct(tsk);
+ 	yield_to(tsk, true);
+ 
+-	for (i = 0; i < fc.chain_length; i++)
++	for (i = 0; i < fc.chain_length; i++) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
++	}
+ 
+ 	err = kthread_stop_put(tsk);
+ 
+@@ -616,8 +620,10 @@ static int wait_backward(void *arg)
+ 	get_task_struct(tsk);
+ 	yield_to(tsk, true);
+ 
+-	for (i = fc.chain_length; i--; )
++	for (i = fc.chain_length; i--; ) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
++	}
+ 
+ 	err = kthread_stop_put(tsk);
+ 
+@@ -663,8 +669,10 @@ static int wait_random(void *arg)
+ 	get_task_struct(tsk);
+ 	yield_to(tsk, true);
+ 
+-	for (i = 0; i < fc.chain_length; i++)
++	for (i = 0; i < fc.chain_length; i++) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
++	}
+ 
+ 	err = kthread_stop_put(tsk);
+ 
+-- 
+2.25.1
+
