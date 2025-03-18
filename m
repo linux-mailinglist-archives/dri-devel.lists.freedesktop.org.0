@@ -2,104 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1006A67D8F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:58:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B63A67DA5
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 21:04:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB3010E4C4;
-	Tue, 18 Mar 2025 19:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3400710E4C5;
+	Tue, 18 Mar 2025 20:04:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="e118S/KC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eC3WK8Gu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95AC210E4C4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 19:58:32 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-ab78e6edb99so932352066b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1742327910; x=1742932710;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=d8cSUoD3Gewlqbb7cpYsy12TfPHuVdAaOoyBCXacZT8=;
- b=e118S/KCFNPWz991cu628TvN+eqHqYuvnOsE0j/k37p5SCzPTss3yF//nGS0J4tn6l
- cIFZv3tgGiep9WlZqIwnDALqvX+ogIyqpYrZFaNFDHRUP6Slo9HTY6j8PiiGXKOvQzea
- UgQ9oazii2PUtvKctra8dMVgC5ElObY4LCliY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742327910; x=1742932710;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=d8cSUoD3Gewlqbb7cpYsy12TfPHuVdAaOoyBCXacZT8=;
- b=XkfDW6hsBx3swsUnzKPO8QZWS4nHnyv6Lv4cEoYzy0R1Fi9cYq/YBljslqBnyjNMzt
- SfZlpu/tAGs/1Z83+P8tNvHcXfB/J5PtCITpgSbQEMbdghahiFBXJV+k/NQ48LReNR62
- /cRrQKxmmABImY55kFG+LzGpa08KXnW7f3lb+wld3xl8foqZbLFCil3m2OkkK61aLVMg
- a3fnDQ2SjtTcM+OXXq9UXPkKm/wQIKVujozgIY+xhXP+n9ELUhxDtDCKpI9ns2ol9bg8
- KlpcRN1VuDCR4QhWxuOb3XEnXbOroYys0inBa98uIGAna+AFyDaJJ1Vw/Y7jFMh72LE1
- vGuA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVBYNVH09jHRZB17wPBxecLMlpdl80eThPWlXJ0pmN1bU2tl/TrPLj0GpshDRFxmRIDcFvqitiMhR8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxg4rOfXXE7JLBkxpiB220g+11hRJkxKuxlycO+cx0VHv+aGHwh
- 1Zh+Ju11WheL3CyxjBDVsxSYAMsATIbfE//LP/xUxAviN0qQlCh/Dl3XtlpC/WrsQ1G+SvpHDqG
- qdS7n
-X-Gm-Gg: ASbGncsLc9/hNQ5HuP5CB0hjXoejb4n0GF2979zWLPDGAIErl5nfkwEJQ2lQ4CgLAxv
- /Hn1nMwXQLEl+iVauBwYpFUAmD3DRBlYbm/+6LicyGtuapp2IbiOnU7CMMp7xYkjdcMAiXAH4SZ
- MIkQ1sPmkkQUseDl2k0NBqeE3mnC7v/2xjPijVvOJPlgMLzkhYUsXBAgkwqednu/wwutCWhTYd0
- xgz0XXdm8D6A04urMkz34CuKJZpUgVIftL/9rDq06RNUCr4zu34prwDIHyN+j9pNMD3RahowQQf
- 3YFxrFSw1SqqCQZxuwOBy1aKX50pUfQ/NSG7s3IcfrXEBw9aHkE1hwCi6OJjxW1sDoaFeb4C8pA
- +VMWEQx+s
-X-Google-Smtp-Source: AGHT+IF5OcER7rHzmd7M599p1N0g7yIOvVKfxGWqwekLAjzPxFsEB4W946XLWmQ7YoAE/p6fyKgZig==
-X-Received: by 2002:a17:906:794b:b0:ac3:4377:38e5 with SMTP id
- a640c23a62f3a-ac343773b6emr1415193566b.18.1742327909868; 
- Tue, 18 Mar 2025 12:58:29 -0700 (PDT)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com.
- [209.85.128.43]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac314a9b738sm885145266b.165.2025.03.18.12.58.29
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Mar 2025 12:58:29 -0700 (PDT)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-43948021a45so37659795e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:58:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXf/CfyhMqhmMsDjMP9ruYYwncdSsKZguUPktY0vA5xKecczw17JIy0f1UEiF96JvAYTdXolzA0kLs=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3984:b0:548:526c:fb99 with SMTP id
- 2adb3069b0e04-549c3907de0mr10794093e87.18.1742327491228; Tue, 18 Mar 2025
- 12:51:31 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9B010E4C5
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 20:04:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742328263; x=1773864263;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=37soqdNIwo61ih+i0FCX+4BP4DmoFdz2n1WQ2XOTnNQ=;
+ b=eC3WK8Gu07T2CokYXq2s4C257arXaQ/PlaeyThn+AVCMNGSXh4hQfMH3
+ fEH/479CYCfHyryZtPM/FOF/Byp+Nz8Qhvd9gpw85ITyrlcXmvTAnIVbE
+ 4maBa5gi20PCA2x4NpOgnhjFfKw+LM7ZW+byhO7BF2TRi9O70hMPbdUm5
+ dvJVRHrKKABrioV2gdNJAuM+8Bm+iFfj5mHqxU0eJu+wSQMjtWmd0Ljah
+ 1kRbyc2wJxOKPIZFHwEteX5U8ai4Kbz+uX2xixUG8W8nWnGLWoMIilabC
+ kGbnGlJGo/6cwcV4tjt1yJoTH6A+dlpHMGKDyY0vWJ7FW+u8yyHSRPNBJ A==;
+X-CSE-ConnectionGUID: 8onkQ6TjS1WID3bYob81qA==
+X-CSE-MsgGUID: nnJ9lyrIRN22jbPavhl38w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43225949"
+X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; d="scan'208";a="43225949"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 13:04:23 -0700
+X-CSE-ConnectionGUID: /+u1TsTWTwGVjxaZv23Nug==
+X-CSE-MsgGUID: wwOAZmyRSvGZrU3rWs3f+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; d="scan'208";a="159517822"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+ by orviesa001.jf.intel.com with ESMTP; 18 Mar 2025 13:04:20 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tudAf-000E90-0Q;
+ Tue, 18 Mar 2025 20:04:17 +0000
+Date: Wed, 19 Mar 2025 04:03:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Stefan Wahren <wahrenst@gmx.net>,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, kernel-dev@igalia.com,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Subject: Re: [PATCH v6 1/5] drm/v3d: Associate a V3D tech revision to all
+ supported devices
+Message-ID: <202503190317.nnVNkMGI-lkp@intel.com>
+References: <20250317-v3d-gpu-reset-fixes-v6-1-f3ee7717ed17@igalia.com>
 MIME-Version: 1.0
-References: <20250205115025.3133487-1-h-shenoy@ti.com>
- <20250205115025.3133487-2-h-shenoy@ti.com>
- <efd89cf8-2f83-44fd-8bdf-aa348d4d9659@kernel.org>
- <h24gpx6cxm4s6gzcunjnswubtvqask5dewi3udulmntsuieklm@w3pw4ig3t7gm>
- <de0cb22d-d251-4b0b-8fc7-e8b5a891a527@ti.com>
- <vfg6hlkzmqahbswgyctzuuzcdm2aend6wmo3uci4qs74jasjtc@3hlox276hazj>
- <673e79bc-53c9-4772-ad18-8c00e4036905@ideasonboard.com>
-In-Reply-To: <673e79bc-53c9-4772-ad18-8c00e4036905@ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 18 Mar 2025 12:51:19 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W45V-AZdbo4MBfZ-A9M4vf42Lda82s8iUoW5azVwM0hA@mail.gmail.com>
-X-Gm-Features: AQ5f1Jq1cec3Ts5E7j-BdKWVeJ6ZvaCtuP5LX8avGE-kg45frRP0s6LVh188_2E
-Message-ID: <CAD=FV=W45V-AZdbo4MBfZ-A9M4vf42Lda82s8iUoW5azVwM0hA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: drm/bridge: Add no-hpd property
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, Harikrishna Shenoy <a0512644@ti.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Harikrishna Shenoy <h-shenoy@ti.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, 
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, jani.nikula@intel.com, j-choudhary@ti.com, 
- sui.jingfeng@linux.dev, viro@zeniv.linux.org.uk, r-ravikumar@ti.com, 
- sjakhade@cadence.com, yamonkar@cadence.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250317-v3d-gpu-reset-fixes-v6-1-f3ee7717ed17@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,190 +79,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Maíra,
 
-On Tue, Mar 18, 2025 at 8:50=E2=80=AFAM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
->
-> Hi,
->
-> On 12/03/2025 14:52, Dmitry Baryshkov wrote:
-> > On Wed, Mar 12, 2025 at 11:56:41AM +0530, Harikrishna Shenoy wrote:
-> >>
-> >>
-> >> On 05/02/25 19:03, Dmitry Baryshkov wrote:
-> >>> On Wed, Feb 05, 2025 at 12:52:52PM +0100, Krzysztof Kozlowski wrote:
-> >>>> On 05/02/2025 12:50, Harikrishna Shenoy wrote:
-> >>>>> From: Rahul T R <r-ravikumar@ti.com>
-> >>>>>
-> >>>>> The mhdp bridge can work without its HPD pin hooked up to the conne=
-ctor,
-> >>>>> but the current bridge driver throws an error when hpd line is not
-> >>>>> connected to the connector. For such cases, we need an indication f=
-or
-> >>>>> no-hpd, using which we can bypass the hpd detection and instead use=
- the
-> >>>>> auxiliary channels connected to the DP connector to confirm the
-> >>>>> connection.
-> >>>>> So add no-hpd property to the bindings, to disable hpd when not
-> >>>>> connected or unusable due to DP0-HPD not connected to correct HPD
-> >>>>> pin on SOC like in case of J721S2.
-> >>>>>
-> >>>>> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-> >>>>
-> >>>> Why are you sending over and over the same? You already got feedback=
-.
-> >>>> Then you send v2. You got the same feedback.
-> >>>>
-> >>>> Now you send v3?
-> >>>>
-> >>>> So the same feedback, but this time: NAK
+kernel test robot noticed the following build warnings:
 
-I only spent a few minutes on it, but I couldn't find a v2. If there's
-a link I'm happy to read it, but otherwise all my comments below are
-without any context from prior verisons...
+[auto build test WARNING on 83a0237859bc5a9e0a716e1db8e7fd3cafd63259]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-v3d-Associate-a-V3D-tech-revision-to-all-supported-devices/20250318-090556
+base:   83a0237859bc5a9e0a716e1db8e7fd3cafd63259
+patch link:    https://lore.kernel.org/r/20250317-v3d-gpu-reset-fixes-v6-1-f3ee7717ed17%40igalia.com
+patch subject: [PATCH v6 1/5] drm/v3d: Associate a V3D tech revision to all supported devices
+config: x86_64-buildonly-randconfig-002-20250318 (https://download.01.org/0day-ci/archive/20250319/202503190317.nnVNkMGI-lkp@intel.com/config)
+compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503190317.nnVNkMGI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503190317.nnVNkMGI-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/v3d/v3d_drv.c:292:8: warning: cast to smaller integer type 'enum v3d_gen' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+     292 |         gen = (enum v3d_gen)of_device_get_match_data(dev);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-> >>> Krzysztof's email forced me to take a look at the actual boards that =
-you
-> >>> are trying to enable. I couldn't stop by notice that the HPD signal
-> >>> _is_ connected to a GPIO pin. Please stop hacking the bridge driver a=
-nd
-> >>> use the tools that are already provided to you: add the HPD pin to th=
-e
-> >>> dp-controller device node. And then fix any possible issues coming fr=
-om
-> >>> the bridge driver not being able to handle HPD signals being delivere=
-d
-> >>> by the DRM framework via the .hpd_notify() callback.
-> >>>
-> >>> TL;DR: also a NAK from my side, add HPD gpio to dp-controller.
-> >>>
-> >> We tried implementing a interrupt based HPD functionality as HPD signa=
-l is
-> >> connected to GPIO0_18 pin, we were able to get interrupt based HPD wor=
-king
-> >> however to route this signal to SoC we are loosing audio capability du=
-e to
-> >> MUX conflict. Due to board level limitations to
-> >> route the signal to SoC, we will not be able to support interrupt
-> >> based HPD and polling seems a possible way without loosing on audio
-> >> capability.
-> >
-> > Still NAK for the no-hpd property. HPD pin is a requirement for
-> > DisplayPort to work, as it is used e.g. for the 'attention' IRQs being
-> > sent by the DP sink. I'm not sure what kind of idea you HW engineers ha=
-d
-> > in mind.
->
-> It's true that for normal DP functionality the HPD is required, but
-> afaik DP works "fine" without HPD too. This is not the first board that
-> has DP connector, but doesn't have HPD, that I have seen or worked on.
-> Polling can be used for the IRQs too.
+vim +292 drivers/gpu/drm/v3d/v3d_drv.c
 
-I have less familiarity with DP than with eDP, but from what I know
-I'd agree with Tomi here that it would probably work "fine" by some
-definition of "fine". As Dmitry says, the "attention" IRQ wouldn't
-work, but as I understand it that's not really part of the normal flow
-of using DP. As evidence, some people have made "ti-sn65dsi86" (which
-is supposed to be for eDP only) work with DP. While the ti-sn65dsi86
-hardware _does_ support HPD, because of the forced (slow) debouncing
-it turned out not to be terribly useful for eDP and we designed our
-boards to route HPD to a GPIO. ...and because of that nobody ever
-wrote the code to handle the "attention" IRQ. Apparently people are
-still using this bridge w/ some success on DP monitors.
+   272	
+   273	static int v3d_platform_drm_probe(struct platform_device *pdev)
+   274	{
+   275		struct device *dev = &pdev->dev;
+   276		struct drm_device *drm;
+   277		struct v3d_dev *v3d;
+   278		enum v3d_gen gen;
+   279		int ret;
+   280		u32 mmu_debug;
+   281		u32 ident1, ident3;
+   282		u64 mask;
+   283	
+   284		v3d = devm_drm_dev_alloc(dev, &v3d_drm_driver, struct v3d_dev, drm);
+   285		if (IS_ERR(v3d))
+   286			return PTR_ERR(v3d);
+   287	
+   288		drm = &v3d->drm;
+   289	
+   290		platform_set_drvdata(pdev, drm);
+   291	
+ > 292		gen = (enum v3d_gen)of_device_get_match_data(dev);
+   293		v3d->ver = gen;
+   294	
+   295		ret = map_regs(v3d, &v3d->hub_regs, "hub");
+   296		if (ret)
+   297			return ret;
+   298	
+   299		ret = map_regs(v3d, &v3d->core_regs[0], "core0");
+   300		if (ret)
+   301			return ret;
+   302	
+   303		v3d->clk = devm_clk_get_optional(dev, NULL);
+   304		if (IS_ERR(v3d->clk))
+   305			return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n");
+   306	
+   307		ret = clk_prepare_enable(v3d->clk);
+   308		if (ret) {
+   309			dev_err(&pdev->dev, "Couldn't enable the V3D clock\n");
+   310			return ret;
+   311		}
+   312	
+   313		mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
+   314		mask = DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
+   315		ret = dma_set_mask_and_coherent(dev, mask);
+   316		if (ret)
+   317			goto clk_disable;
+   318	
+   319		v3d->va_width = 30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_VA_WIDTH);
+   320	
+   321		ident1 = V3D_READ(V3D_HUB_IDENT1);
+   322		v3d->ver = (V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_TVER) * 10 +
+   323			    V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_REV));
+   324		/* Make sure that the V3D tech version retrieved from the HW is equal
+   325		 * to the one advertised by the device tree.
+   326		 */
+   327		WARN_ON(v3d->ver != gen);
+   328	
+   329		v3d->cores = V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_NCORES);
+   330		WARN_ON(v3d->cores > 1); /* multicore not yet implemented */
+   331	
+   332		ident3 = V3D_READ(V3D_HUB_IDENT3);
+   333		v3d->rev = V3D_GET_FIELD(ident3, V3D_HUB_IDENT3_IPREV);
+   334	
+   335		v3d_perfmon_init(v3d);
+   336	
+   337		v3d->reset = devm_reset_control_get_exclusive(dev, NULL);
+   338		if (IS_ERR(v3d->reset)) {
+   339			ret = PTR_ERR(v3d->reset);
+   340	
+   341			if (ret == -EPROBE_DEFER)
+   342				goto clk_disable;
+   343	
+   344			v3d->reset = NULL;
+   345			ret = map_regs(v3d, &v3d->bridge_regs, "bridge");
+   346			if (ret) {
+   347				dev_err(dev,
+   348					"Failed to get reset control or bridge regs\n");
+   349				goto clk_disable;
+   350			}
+   351		}
+   352	
+   353		if (v3d->ver < V3D_GEN_41) {
+   354			ret = map_regs(v3d, &v3d->gca_regs, "gca");
+   355			if (ret)
+   356				goto clk_disable;
+   357		}
+   358	
+   359		v3d->mmu_scratch = dma_alloc_wc(dev, 4096, &v3d->mmu_scratch_paddr,
+   360						GFP_KERNEL | __GFP_NOWARN | __GFP_ZERO);
+   361		if (!v3d->mmu_scratch) {
+   362			dev_err(dev, "Failed to allocate MMU scratch page\n");
+   363			ret = -ENOMEM;
+   364			goto clk_disable;
+   365		}
+   366	
+   367		ret = v3d_gem_init(drm);
+   368		if (ret)
+   369			goto dma_free;
+   370	
+   371		ret = v3d_irq_init(v3d);
+   372		if (ret)
+   373			goto gem_destroy;
+   374	
+   375		ret = drm_dev_register(drm, 0);
+   376		if (ret)
+   377			goto irq_disable;
+   378	
+   379		ret = v3d_sysfs_init(dev);
+   380		if (ret)
+   381			goto drm_unregister;
+   382	
+   383		return 0;
+   384	
+   385	drm_unregister:
+   386		drm_dev_unregister(drm);
+   387	irq_disable:
+   388		v3d_irq_disable(v3d);
+   389	gem_destroy:
+   390		v3d_gem_destroy(drm);
+   391	dma_free:
+   392		dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
+   393	clk_disable:
+   394		clk_disable_unprepare(v3d->clk);
+   395		return ret;
+   396	}
+   397	
 
-
-> For eDP HPD is optional, and some of the cases I've worked with involved
-> a chip intended for eDP, but used with a full DP connector, and no HPD.
-
-I definitely agree. The eDP spec explicitly states that HPD is
-optional even though it's also documented to be an "attention" IRQ
-there. We've hooked up large numbers of eDP panels and the lack of the
-attention IRQ wasn't a problem.
-
-
-> However, in this particular case the DP chip supports full DP, so it's
-> just a board design error.
->
-> My question is, is J721s2 EVM something that's used widely? Or is it a
-> rare board? If it's a rare one, maybe there's no point in solving this
-> in upstream? But if it's widely used, I don't see why we wouldn't
-> support it in upstream. The HW is broken, but we need to live with it.
->
-> Another question is, if eDP support is added to the cdns-mhdp driver,
-> and used with a panel that doesn't have an HPD, how would that code look
-> like? If that would be solved with a "no-hpd" property, identical to the
-> one proposed in this series, then... There's even less reason to not
-> support this.
->
-> Disclaimer: I didn't study the schematics, and I haven't thought or
-> looked at how eDP is implemented in other drm drivers.
-
-I spent lots of time working through this on ti-sn65dsi86. How it
-works today (and how it's documented in the bindings) is that it's
-possible to specify "no-hpd" on both the eDP panel node and on the
-bridge chip. They mean different things.
-
-The HPD-related properties that can be specified on the panel are
-a) <nothing> - HPD hooked up to the bridge
-b) no-hpd - HPD isn't hooked up at all
-c) hpd-gpios - HPD is hooked up to a GPIO
-
-The HPD-related properties that can be specified on ti-sn65dsi86 are:
-a) <nothing> - HPD is hooked up to the bridge
-b) no-hpd - HPD is not hooked up to the bridge
-
-NOTE: The "ti-sn65dsi86" controller needs to be programmed to ignore
-its HPD line if HPD isn't hooked up. IIRC the hardware itself will not
-transfer things over the AUX bus unless you either tell the controller
-to ignore HPD or HPD is asserted.
-
-
-Here are the combinations:
-
-1. Panel has no HPD-related properties, ti-sn65dsi86 has no
-HPD-related properties
-
-HPD is assumed to be hooked up to the dedicated HPD pin on the bridge.
-Panel driver queries the bridge driver to know the status of HPD. In
-Linux today ti-sn65dsi86 doesn't really implement this and the bridge
-chip just has a big, fixed, non-optimized delay that tries to account
-for the max delay any panel could need.
-
-2. Panel has "hpd-gpios", ti-sn65dsi86 has no HPD-related properties
-
-In theory, I guess this would say that HPD goes _both_ to a GPIO and
-to the HPD of the bridge. Maybe handy if the bridge doesn't provide a
-"debounced" signal but still wants HPD hooked up to get the
-"attention" IRQ?
-
-3. Panel has "no-hpd", ti-sn65dsi86 has no HPD-related properties
-
-Doesn't really make sense. Says that panel should delay the max amount
-but there's no good reason to do this if HPD is hooked up on
-ti-sn65dsi86.
-
-4. Panel has no HPD-related properties, ti-sn65dsi86 has "no-hpd"
-
-Doesn't really make sense. Says that the panel should assume the
-bridge has HPD hooked up but then the bridge doesn't.
-
-5. Panel has "hpd-gpios", ti-sn65dsi86 has "no-hpd"
-
-This is the sc7180-trogdor config. Says the panel should use the GPIO
-to read HPD for power sequencing purposes. Tells us that HPD is not
-hooked up to the bridge chip so we should program the bridge chip to
-ignore HPD.
-
-6. Panel has "no-hpd", ti-sn65dsi86 has "no-hpd"
-
-Says HPD is just not hooked up at all. panel-edp will delay for
-"hpd-absent-delay-ms". Bridge chip should be programmed to tell the
-hardware to ignore the HPD signal.
-
-
-How we got there was fairly organic and quite a long time ago, but it
-all sorta makes sense even if it is a bit convoluted.
-
--Doug
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
