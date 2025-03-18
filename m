@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF477A673AB
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 13:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E975A673B3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 13:19:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3853E89131;
-	Tue, 18 Mar 2025 12:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D1710E472;
+	Tue, 18 Mar 2025 12:19:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LQW8Mgan";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OmFSr/yi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC46C89131
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:17:53 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52IB2gJZ011301
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:17:53 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B580910E472
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:19:10 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52IAepGf022120
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:19:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=FaaCN1q/n3kjQfPqICNHxVDL
- 1mCCzIPacgi5zEqisuI=; b=LQW8MganX/bSqJMTX80JL/g4gJtfrPh1JKfpjZ19
- q64aUn3bocVCCL0XROtkvcwFD2VAfY8AisoTQNcvodZh2bQOQ5RG7VQogsS45D8q
- OobdY3EFwWYqZAPv5ZD2k9IOmddEYWdsVt1EVLd2EEJHKEewEXyYNdxacuFQMH7q
- Ivq7XeWZvcAEoCxNnC5WztUEEsVrLa3lDVZ6V9FrtPdJkXKisYjTT/7F1G8PWy2v
- EXNZY6wTqohJU9Jk1UcQkRb/7aay3c30yrD3YGPlriTZwapbO+9cEvJiDevm4HoN
- IFcmG0etoCmLESBMAF475MfL2gAI1S/hBiKHdYnyEKPErg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exx31qt6-1
+ :references:subject:to; s=qcppdkim1; bh=hILqfklUi9PlGDk5cSktWHoM
+ g/OfnafokmfjRW4bYAE=; b=OmFSr/yiZh9e8LVMgaM1dN/BUH35vbio+fXb6R+W
+ d91HTV21fp44jHQ2j/zv0s5JZ7i5Y7rApUEXJFwwy5ez8nHhv01tMXVV9X7/VXq6
+ 4jpTQjaCgszRbXTaBgFcrJGpP2CS2ToxrZJsyLxaygvuCaYlfsYBwD29BW39h3TG
+ 7We9Xekrmq0UONcUsFd6IJg2X2083C8kYFelNlucCjI9zl0pcr4HwN/uj5SBCX2K
+ t6zmhwdXCjQ53SRAOWJ8JlNV1Yg2zVYhgCxgXRDAIH9V59TpWdI6kvUkYX2cHh7L
+ 6Msuh+7r+5UTonzy+UjbV3v6oivKh6ATkdj+loO6zSczvA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exwx1qjf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:17:53 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4765f7bbe1bso96270281cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 05:17:52 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:19:08 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c59ac9781fso201834885a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 05:19:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742300272; x=1742905072;
+ d=1e100.net; s=20230601; t=1742300347; x=1742905147;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FaaCN1q/n3kjQfPqICNHxVDL1mCCzIPacgi5zEqisuI=;
- b=TH4WbxhnylMNmQqYBgujsu3hXgSz5igbvZ1CY9uNtyiTQFy+KO4BujCRJsOSbiFWrA
- UalPHpcjRBFqEEJUYNrWv8jfel4O08xPZ4j1JvctCx7OOaqFPeV0WWN5tQhvH8EKdzwX
- jb8Tieah/24Fa2QKiMhpuIodIgTQZPixxk6nu8JfQCbnwUFADp1Eega6c7n4GJKotNtr
- kPdRZcKe8ruOs/MIssUyzlKjJNVD8o1N1czeEg0UaAPxhvE2Uh0bZK5NU/AngayuOWyF
- 0dP1JIDlbp7qov1lMbgqeHHXCXqbfrnEIinE7ksiCyiEmvqLRYaAlbvMk6h8ZTE+MbBm
- 6BPQ==
+ bh=hILqfklUi9PlGDk5cSktWHoMg/OfnafokmfjRW4bYAE=;
+ b=Ym5YOAYWhLNRsP1Yd0ykWG3Ub8zPFaetBCC1gBxJtu1meRXsc88jaFhit3l+ZL7UeT
+ zzlthdkP5G1OM+GfRNNCrKINjc8CrXb7j1uBskKKczu9xMXE8Iru5JeXQEEf/+FCI4rd
+ 8+IV2vWX8Wp6yFvwy+0XMrwywoqKwUGadD8IIXdxcrwzjLMOQxqps/WIB1hWpNLqHtgr
+ TlxdmoOJBhTILnLzdrBA+SCfoNx8j5dpjBCuRyS+4VlxWT1jMhqyrEzqCtY7SRwX07FW
+ 4TWFdc9zizNvlu9KODCVuw1s3GWFBq6v4V68kvnGXQn8DI8yTa9mwaLxbFtfFryKXRay
+ E4sA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVRNqQj1jFlGr8j2Kjvulcb+51ixdqhKytV7ngTtaNNpholOG7qK3i1BwiE3qibrbWLcCzZzoimbdw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YznZfwqh4bVT/tY04K46QfpExDEH719F9UHg7LDjYaYtx49df40
- nUm38yJj2UzBLMXpBrqtU66RTjmcCSFxGonTpDYhrYLVvw52pYMPD3KieTahjUPt46xLgVMbubP
- VoVbbHpHG0gwjPPMC8gReBkFjCis5JZJUUqeQnkd6ul3MhLbjGG+MZAYoggxV+TOaVP0=
-X-Gm-Gg: ASbGncuVDXEs2arOpFUcqYLzegjBBxMp8MeBJXO6Y6Pu9riglRsEqRnx4s9AwCKjle5
- pMc4dg4cEoUZr4UOYh09qTaPEPgQ5UsoTZA7Dq8AI9lQKAlSI/2PkXMyJZQqbxtwCKJAOQrqIWJ
- zekfQ5fQIZJ9S71XlXYgMt9dDBmGrqHMNNaqnh62YZQMvkbp+lthTe/drWoEr8Vgg8gBlqaO+6J
- rEuXTnAaV8FEwFaMRCv98W4v171mq30j5Pj0MySrER6kM/3jG9PtSXv0QVKp63Qmq3xonMPJ4D1
- Tap2fRdVav2RFPUBwoiIhCk4ni1FzMqW79ZI7eHtasIi8StJYGWmjmhdstap33o3NNSh2aJBFGj
- x0Lo=
-X-Received: by 2002:a05:622a:453:b0:471:cdae:ac44 with SMTP id
- d75a77b69052e-476c81dfaf8mr248672561cf.47.1742300271840; 
- Tue, 18 Mar 2025 05:17:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGPpyCMBm/+FHacTciTYh4rtRvXfyv+VeST5ueZfSRLIXQQ10PAbp2U7DCjEI40J7DQsicDmQ==
-X-Received: by 2002:a05:622a:453:b0:471:cdae:ac44 with SMTP id
- d75a77b69052e-476c81dfaf8mr248672001cf.47.1742300271483; 
- Tue, 18 Mar 2025 05:17:51 -0700 (PDT)
+ AJvYcCWUzGHZO9ucMjYF6mvh/cJjLbYKuvFcMAiQTv5FMm2PhT40IcAtGCzbBQAOG83Mv63h4LxblYab1bY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykcNizPLriEC2LTKD9vhfoVEneG2ldM4C1CTtJAMIXnjqLnJo7
+ wTMgmspfCup3fDTBPTVBjZHxyvDE8GF2JBmsLDd23oJnFd4sneYt6goWTEPSw5vlkJSGnYfXZCN
+ ts965T3lxomHmYJL7d8Yf+A2gTjMt6qZkpYAZd0UJLejJOL5lSGz7hpLdylBhDvLfo4s=
+X-Gm-Gg: ASbGncu9s208iJzaMEDyXokJQMbvhdmbdWNcOf480PpEfReB4yl/AL03bozWxw5s79U
+ 2jAlaH35nFATLhAxWePqMQVv3/1l9L5ZNHU9ex5RSxBYNDSsy7itOtIvmGAhRhwG+vjwYQdUZyg
+ 3M0M6K0bWcg1YK2Z+wisPpmwpy3zjq4wXoYAiPG0v5B2K0Zaim4XiSzSAgGP7JHsLlrkXPFV9Hl
+ 6H58d4Q5EQ8UJmeqaTmic7zbilyd9cWD+kMpxHks4cVcQnnOsZgS3g3adi4uLJKGHXRNtxavOeH
+ MKJWdssfx6LJpRYZMsWZu9ODJ5I4N2jBafVS4ER56ucBRhvTFGnc1q9AXc7yegQCuR7A88axlfI
+ 8Fww=
+X-Received: by 2002:a05:620a:288e:b0:7b6:cb3c:cb81 with SMTP id
+ af79cd13be357-7c59b8a96cfmr452958585a.18.1742300347415; 
+ Tue, 18 Mar 2025 05:19:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEJww/OeoqM71hDROPaSNOo2HPiouKcRNCZZrYVpQSl8tKKuN/JdG5hgHf15pqrGPXeGO/1Vw==
+X-Received: by 2002:a05:620a:288e:b0:7b6:cb3c:cb81 with SMTP id
+ af79cd13be357-7c59b8a96cfmr452952285a.18.1742300346954; 
+ Tue, 18 Mar 2025 05:19:06 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-549ba8a9525sm1640499e87.238.2025.03.18.05.17.47
+ 38308e7fff4ca-30c3f0d2601sm20203871fa.2.2025.03.18.05.19.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Mar 2025 05:17:49 -0700 (PDT)
-Date: Tue, 18 Mar 2025 14:17:46 +0200
+ Tue, 18 Mar 2025 05:19:06 -0700 (PDT)
+Date: Tue, 18 Mar 2025 14:19:04 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>
 Cc: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -88,7 +88,6 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
  Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
  Mathieu Poirier <mathieu.poirier@linaro.org>,
  Leo Yan <leo.yan@linux.dev>, Kumar Gala <galak@codeaurora.org>,
@@ -99,31 +98,31 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/9] dt-bindings: soc: qcom: add Smart Peripheral System
- Interrupt Controller
-Message-ID: <fr2s2ndjzyd2z7m6bsztudyb74a7rdvunehb6qfu6ar3s3i7hf@x7fap3clhlbe>
+Subject: Re: [PATCH 4/9] dt-bindings: arm: qcom,coresight-static-replicator:
+ add optional clocks
+Message-ID: <klcggfxrhjqty4rktx24xmnosqnwzsbyfzgv5ea6okqbffyswn@5yei6276hlla>
 References: <20250317-fix-nexus-4-v1-0-655c52e2ad97@oss.qualcomm.com>
- <20250317-fix-nexus-4-v1-3-655c52e2ad97@oss.qualcomm.com>
- <20250318-dandelion-aardwolf-of-radiance-695fd9@krzk-bin>
+ <20250317-fix-nexus-4-v1-4-655c52e2ad97@oss.qualcomm.com>
+ <7b0af57c-a38c-4c30-9bb7-efe511d6bd1d@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250318-dandelion-aardwolf-of-radiance-695fd9@krzk-bin>
-X-Authority-Analysis: v=2.4 cv=b+uy4sGx c=1 sm=1 tr=0 ts=67d96471 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=gEfo2CItAAAA:8 a=eq-DVYtN1lDvlgNQnWEA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-ORIG-GUID: i5B-gzgS37nIV498ZIZFmuwLtfhKtntP
-X-Proofpoint-GUID: i5B-gzgS37nIV498ZIZFmuwLtfhKtntP
+In-Reply-To: <7b0af57c-a38c-4c30-9bb7-efe511d6bd1d@arm.com>
+X-Proofpoint-ORIG-GUID: Aie63a3dcTKJcYJZOxJ2lojmnR1kI8GR
+X-Authority-Analysis: v=2.4 cv=INICChvG c=1 sm=1 tr=0 ts=67d964bc cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=thsJD53E2aUhtArdJCMA:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: Aie63a3dcTKJcYJZOxJ2lojmnR1kI8GR
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-18_06,2025-03-17_03,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0
- bulkscore=0 clxscore=1015 mlxlogscore=588 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 malwarescore=0 impostorscore=0 adultscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ suspectscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ mlxlogscore=999 impostorscore=0 phishscore=0 mlxscore=0 spamscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2503180091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -140,28 +139,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 18, 2025 at 08:56:46AM +0100, Krzysztof Kozlowski wrote:
-> On Mon, Mar 17, 2025 at 07:44:38PM +0200, Dmitry Baryshkov wrote:
-> > +++ b/Documentation/devicetree/bindings/soc/qcom/qcom,sps-sic.yaml
-> > @@ -0,0 +1,38 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/soc/qcom/qcom,sps-sic.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+On Tue, Mar 18, 2025 at 10:38:17AM +0000, Suzuki K Poulose wrote:
+> On 17/03/2025 17:44, Dmitry Baryshkov wrote:
+> 
+> nit: Subject:
+> 
+> s/qcom,coresight-static-replicator/arm,coresight-static-replicator
+> 
+> > As most other CoreSight devices the replicator can use either of the
+> > optional clocks (or both). Document those optional clocks in the schema.
+> > 
+> > Fixes: 3c15fddf3121 ("dt-bindings: arm: Convert CoreSight bindings to DT schema")
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > ---
+> >   .../bindings/arm/arm,coresight-static-replicator.yaml          | 10 ++++++++++
+> >   1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-static-replicator.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-static-replicator.yaml
+> > index a6f793ea03b6c193fc0ff72a45e0249a63a2ba3c..56e64067ed3d63c5e293a0840858f13428bacb45 100644
+> > --- a/Documentation/devicetree/bindings/arm/arm,coresight-static-replicator.yaml
+> > +++ b/Documentation/devicetree/bindings/arm/arm,coresight-static-replicator.yaml
+> > @@ -30,6 +30,16 @@ properties:
+> >     power-domains:
+> >       maxItems: 1
+> > +  clocks:
+> > +    minItems: 1
+> > +    maxItems: 2
 > > +
-> > +title: Qualcomm Smart Peripheral System Interrupt Controller
 > 
-> Interrupt controller should have interrupt-cells. Or this is not
-> interrupt controller...
+> For the static replicator, you don't have an APB clock, as they can't be
+> programmed. It may have an ATB clock. So minItems 0, maxItems: 1
 
-Well, it is an interrupt controller, per the name of the block.
+It can, see qcom-apq8064.dtsi
+
+Also minItems:0 doesn't make sense to me. I'd rather keep this as an
+optional property rather than requiring an empty set.
 
 > 
-> Anyway same comments as for previous patch.
-
-Ack
-
+> Suzuki
+> 
+> 
+> 
+> > +  clock-names:
+> > +    minItems: 1
+> > +    enum:
+> > +      - apb_pclk
+> > +      - atclk
+> > +
+> >     in-ports:
+> >       $ref: /schemas/graph.yaml#/properties/ports
+> >       additionalProperties: false
+> > 
+> 
 
 -- 
 With best wishes
