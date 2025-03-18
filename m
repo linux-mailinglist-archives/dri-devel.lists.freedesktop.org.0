@@ -2,69 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A59A66E45
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 09:31:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67440A66EB2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 09:44:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CDC610E20A;
-	Tue, 18 Mar 2025 08:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5507B10E110;
+	Tue, 18 Mar 2025 08:44:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g0aaKevn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LBHRJ8Ie";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E92510E1C4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 08:31:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 35D08A48EAC;
- Tue, 18 Mar 2025 08:26:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3D82BC4CEF1;
- Tue, 18 Mar 2025 08:31:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742286695;
- bh=4mDtKJNOvXzo04STzoLEDzk08HuB8UCxRKC60TOOa6c=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=g0aaKevndOGgmTPrOCkH6A525jePLzpUn9JUu/XrlcW6XDxWnp1uI4GYaqmJ0djh4
- D+Ct5rg1OvVNkWZ+CY9YTRJrIkd2nbhXdH/0jlnfepLyxQpPve++reY25EKcpzOb/3
- /7cTh81j0rozyFpblAjDPKW2yH9AhWopF/V14nS9CbaZOwI1ibXseewfgExyGnSTui
- 7gGDIfqYfwS9VY0mAzoVPECL5Fr2j3ruRANe5IDi22Q1Pum67IrZDqRuciBzzEwXur
- H0ITFyzIZjo0EmM8NVKjLBbp/d/FyXqP4bFXz2W30ib1KsKoDG2g2+a1915HEbC5Rq
- /7nSTT+LK7Y3g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 363A0C282EC;
- Tue, 18 Mar 2025 08:31:35 +0000 (UTC)
-From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
-Date: Tue, 18 Mar 2025 16:32:11 +0800
-Subject: [PATCH RESEND 3/3] drm/bridge: it6505: skip auto training when
- previous try fail
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B164A10E110;
+ Tue, 18 Mar 2025 08:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742287494; x=1773823494;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=LCGb8nOdCjr4hmPDVbY/evwW2QDr+05zETiYk0YnSJE=;
+ b=LBHRJ8Ievzh2RdPkJ/uqBX6T8yv/bW3zno+OZWKEuTYXw3q2dx3OCIi8
+ KlwpjUDfPEpAxNCVJLDw1Xb77sxfMhEO1sGQzbEe9ncrVqA9nXkgQJBXB
+ DDiwJKh90OtHrTqw1aeVZhgYf5u4L3WcYXHZbTjwSpK5CsyJL3Kl+Dgwm
+ T3DNhXfW7zLZ+wGo4SBC+ckU2GOdqZ16r8465rBCagBPoJIX/0yNYiSaj
+ DCBjX1+gKPbOO0nwo+uUQX1inmyEBQdbF5TKd9glIBeQ65tbJtFVyJhJP
+ JbjPcZ5q26hIJ1Y+13mP6Hjr2IGG2vDLQlmvaXxgZSjI9Uso+ntarz2nr Q==;
+X-CSE-ConnectionGUID: C595ElzVS4qPgju2WWA/6Q==
+X-CSE-MsgGUID: E8NfXOTjSL2rLnkbbswT2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43151296"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; d="scan'208";a="43151296"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 01:44:54 -0700
+X-CSE-ConnectionGUID: deyJWIYbTEGFyt6P35MiIg==
+X-CSE-MsgGUID: KpnCYxbwSGmo5gIwkKKbkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; d="scan'208";a="127038201"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by orviesa003.jf.intel.com with ESMTP; 18 Mar 2025 01:44:51 -0700
+Received: from [10.245.252.130] (unknown [10.245.252.130])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id 4E75133BE9;
+ Tue, 18 Mar 2025 08:44:50 +0000 (GMT)
+Message-ID: <06a037a2-c75f-4e87-8bfc-589c7b2b919b@intel.com>
+Date: Tue, 18 Mar 2025 09:44:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250318-fix-link-training-v1-3-19266711142c@ite.com.tw>
-References: <20250318-fix-link-training-v1-0-19266711142c@ite.com.tw>
-In-Reply-To: <20250318-fix-link-training-v1-0-19266711142c@ite.com.tw>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Hermes Wu <Hermes.wu@ite.com.tw>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1742286741; l=2801;
- i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
- bh=JH5TB+6KMos7mGcxiEmqDSjWU1p596CHLwJaILJm+RQ=;
- b=S+EhrMyfHzLB4Mdct6UqU7bM+Y2qISVqUnQwr80nBAMU4i/KCs+97Mi6zRZOUYC2PykGospSR
- d5a4ditZcaCCeIxWaHLnKpvwn7E4Vl3741Wcbed/9EEBtb/QeWh2ph9
-X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
- pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
-X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
- auth_id=310
-X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/6] drm/xe/xe_gt_pagefault: Move pagefault struct to
+ header
+To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Cc: "Gupta, saurabhg" <saurabhg.gupta@intel.com>,
+ "Zuo, Alex" <alex.zuo@intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "Brost, Matthew" <matthew.brost@intel.com>,
+ "Zhang, Jianxun" <jianxun.zhang@intel.com>,
+ "Lin, Shuicheng" <shuicheng.lin@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20250313183415.133863-1-jonathan.cavitt@intel.com>
+ <20250313183415.133863-3-jonathan.cavitt@intel.com>
+ <9d85d2bb-1f64-4d6c-9982-a2d23cbbac32@intel.com>
+ <CH0PR11MB5444E03A221293476A9DC295E5D22@CH0PR11MB5444.namprd11.prod.outlook.com>
+ <3c506ee2-7a1a-46ce-b4ff-4d774c87431f@intel.com>
+ <CH0PR11MB54449FFE4835496CC59D62B4E5DF2@CH0PR11MB5444.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <CH0PR11MB54449FFE4835496CC59D62B4E5DF2@CH0PR11MB5444.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,96 +81,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-When connect to device which can only training done by
-step training, skip auto training when link training restart,
-usually happen when display resolution is changed.
 
-Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 36 +++++++++++++++++++++---------------
- 1 file changed, 21 insertions(+), 15 deletions(-)
+On 17.03.2025 21:55, Cavitt, Jonathan wrote:
+> -----Original Message-----
+> From: Wajdeczko, Michal <Michal.Wajdeczko@intel.com> 
+> Sent: Saturday, March 15, 2025 7:45 AM
+> To: Cavitt, Jonathan <jonathan.cavitt@intel.com>; intel-xe@lists.freedesktop.org
+> Cc: Gupta, saurabhg <saurabhg.gupta@intel.com>; Zuo, Alex <alex.zuo@intel.com>; joonas.lahtinen@linux.intel.com; Brost, Matthew <matthew.brost@intel.com>; Zhang, Jianxun <jianxun.zhang@intel.com>; Lin, Shuicheng <shuicheng.lin@intel.com>; dri-devel@lists.freedesktop.org; michal.mzorek@intel.com
+> Subject: Re: [PATCH v8 2/6] drm/xe/xe_gt_pagefault: Move pagefault struct to header
+>>
+>> On 14.03.2025 23:06, Cavitt, Jonathan wrote:
+>>> -----Original Message-----
+>>> From: Wajdeczko, Michal <Michal.Wajdeczko@intel.com> 
+>>> Sent: Friday, March 14, 2025 10:02 AM
+>>> To: Cavitt, Jonathan <jonathan.cavitt@intel.com>; intel-xe@lists.freedesktop.org
+>>> Cc: Gupta, saurabhg <saurabhg.gupta@intel.com>; Zuo, Alex <alex.zuo@intel.com>; joonas.lahtinen@linux.intel.com; Brost, Matthew <matthew.brost@intel.com>; Zhang, Jianxun <jianxun.zhang@intel.com>; Lin, Shuicheng <shuicheng.lin@intel.com>; dri-devel@lists.freedesktop.org; michal.mzorek@intel.com
+>>> Subject: Re: [PATCH v8 2/6] drm/xe/xe_gt_pagefault: Move pagefault struct to header
+>>>>
+>>>> On 13.03.2025 19:34, Jonathan Cavitt wrote:
+>>>>> Move the pagefault struct from xe_gt_pagefault.c to the
+>>>>> xe_gt_pagefault_types.h header file, along with the associated enum values.
+>>>>>
+>>>>> v2:
+>>>>> - Normalize names for common header (Matt Brost)
+>>>>>
+>>>>> v3:
+>>>>> - s/Migrate/Move (Michal W)
+>>>>> - s/xe_pagefault/xe_gt_pagefault (Michal W)
+>>>>> - Create new header file, xe_gt_pagefault_types.h (Michal W)
+>>>>> - Add kernel docs (Michal W)
+>>>>>
+>>>>> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+>>>>> Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+>>>>> ---
+>>>>
+>>>> ...
+>>>>
+>>>>> diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.h b/drivers/gpu/drm/xe/xe_gt_pagefault.h
+>>>>> index 839c065a5e4c..69b700c4915a 100644
+>>>>> --- a/drivers/gpu/drm/xe/xe_gt_pagefault.h
+>>>>> +++ b/drivers/gpu/drm/xe/xe_gt_pagefault.h
+>>>>> @@ -8,6 +8,8 @@
+>>>>>  
+>>>>>  #include <linux/types.h>
+>>>>>  
+>>>>> +#include "xe_gt_pagefault_types.h"
+>>>>
+>>>> it's not needed here, move it to .c
+>>>>
+>>>>> +
+>>>>>  struct xe_gt;
+>>>>>  struct xe_guc;
+>>>>>  
+>>>>> diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault_types.h b/drivers/gpu/drm/xe/xe_gt_pagefault_types.h
+>>>>> new file mode 100644
+>>>>> index 000000000000..90b7085d4b8e
+>>>>> --- /dev/null
+>>>>> +++ b/drivers/gpu/drm/xe/xe_gt_pagefault_types.h
+>>>>> @@ -0,0 +1,67 @@
+>>>>> +/* SPDX-License-Identifier: MIT */
+>>>>> +/*
+>>>>> + * Copyright (c) 2022-2025 Intel Corporation
+>>>>> + */
+>>>>> +
+>>>>> +#ifndef _XE_GT_PAGEFAULT_TYPES_H_
+>>>>> +#define _XE_GT_PAGEFAULT_TYPES_H_
+>>>>> +
+>>>>
+>>>> don't forget to
+>>>>
+>>>> #include <linux/types.h>
+>>>
+>>> That explains why the kernel failed to compile on CI.  It was compiling just
+>>> fine locally, so that's why I missed this.
+>>>
+>>>>
+>>>>> +/**
+>>>>> + * struct xe_gt_pagefault - Structure of pagefaults returned by the
+>>>>> + * pagefault handler
+>>>>> + */
+>>>>> +struct xe_gt_pagefault {
+>>>>> +	/** @page_addr: faulted address of this pagefault */
+>>>>> +	u64 page_addr;
+>>>>> +	/** @asid: ASID of this pagefault */
+>>>>> +	u32 asid;
+>>>>> +	/** @pdata: PDATA of this pagefault */
+>>>>> +	u16 pdata;
+>>>>> +	/** @vfid: VFID of this pagefault */
+>>>>> +	u8 vfid;
+>>>>
+>>>> btw, IIRC the VFID from the descriptor will be zero'ed
+>>>> does it make sense to keep it here?
+>>>
+>>> Is the argument that every time pf->vfid is accessed, it's guaranteed to be
+>>
+>> it's FIELD_GET(PFD_VFID, desc->dw2) guaranteed to be zero
+>>
+>>> zero?  I can't counter that claim, but wouldn't it be safer to keep reporting
+>>> the VFID in case we ever hit a case where it's no longer zero?
+>>
+>> it can't be non-zero, look at GuC ABI spec that says:
+>>
+>> ".. with the VF number being zero’d out in the descriptor."
+>>
+>>>
+>>> Also, did we know it would always be zero when we were making the
+>>> pagefault struct originally?  If so, why did we include the vfid originally?
+>>
+>> dunno, ask authors, it was pushed part of the initial commit
+>> dd08ebf6c352 that was *not* going through normal review cycle
+>>
+>>>
+>>>>
+>>>>> +	/**
+>>>>> +	 * @access_type: access type of this pagefault, as a value
+>>>>> +	 * from xe_gt_pagefault_access_type
+>>>>> +	 */
+>>>>> +	u8 access_type;
+>>>>> +	/**
+>>>>> +	 * @fault_type: fault type of this pagefault, as a value
+>>>>> +	 * from xe_gt_pagefault_fault_type
+>>>>> +	 */
+>>>>> +	u8 fault_type;
+>>>>> +	/** @fault_level: fault level of this pagefault */
+>>>>> +	u8 fault_level;
+>>>>> +	/** @engine_class: engine class this pagefault was reported on */
+>>>>> +	u8 engine_class;
+>>>>> +	/** @engine_instance: engine instance this pagefault was reported on */
+>>>>> +	u8 engine_instance;
+>>>>> +	/** @fault_unsuccessful: flag for if the pagefault recovered or not */
+>>>>> +	u8 fault_unsuccessful;
+>>>>> +	/** @prefetch: unused */
+>>>>> +	bool prefetch;
+>>>>> +	/** @trva_fault: is set if this is a TRTT fault */
+>>>>> +	bool trva_fault;
+>>>>> +};
+>>>>> +
+>>>>> +/**
+>>>>> + * enum xe_gt_pagefault_access_type - Access type reported to the xe_gt_pagefault
+>>>>> + * struct.  Saved to xe_gt_pagefault@access_type
+>>>>
+>>>> this seems to be copied from G2H descriptor as-is.
+>>>> so shouldn't this be part of the GuC ABI?
+>>>> or based on HW ABI if GuC is just a proxy
+>>>
+>>> What information should I be including in the kernel docs for these enums?
+>>
+>> are you asking about xe enums or GuC ABI defs/enums?
+>>
+>> for the xe enums, we can say this is what HW/GuC provides
+>> for the HW defs, we can likely drop kernel-doc
+>> we can just point to the Bspec in the commit msg
+> 
+> Could you please provide the bspec number for the pagefault
+> access and fault types?  I tried searching for them on my end but
+> wasn't able to find them.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 11231a642bbe185c4f36bf5f2a0b115fa056213b..730481a9446ff00a54ef70e86b4c28ff0a3f417e 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -468,6 +468,7 @@ struct it6505 {
- 	struct work_struct hdcp_wait_ksv_list;
- 	struct completion extcon_completion;
- 	u8 auto_train_retry;
-+	u8 step_train_only;
- 	bool hdcp_desired;
- 	bool is_repeater;
- 	u8 hdcp_down_stream_count;
-@@ -2459,11 +2460,13 @@ static void it6505_link_step_train_process(struct it6505 *it6505)
- 				     ret ? "pass" : "failed", i + 1);
- 		if (ret) {
- 			it6505_link_train_ok(it6505);
-+			it6505->step_train_only = true;
- 			return;
- 		}
- 	}
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "training fail");
-+	it6505->step_train_only = false;
- 	it6505->link_state = LINK_IDLE;
- 	it6505_video_reset(it6505);
- }
-@@ -2479,21 +2482,23 @@ static void it6505_link_training_work(struct work_struct *work)
- 
- 	if (!it6505_get_sink_hpd_status(it6505))
- 		return;
--
--	retry = it6505->auto_train_retry;
--	do {
--		it6505_link_training_setup(it6505);
--		it6505_reset_hdcp(it6505);
--		it6505_aux_reset(it6505);
--
--		ret = it6505_link_start_auto_train(it6505);
--		DRM_DEV_DEBUG_DRIVER(dev, "auto train %s, auto_train_retry: %d",
--			     ret ? "pass" : "failed", it6505->auto_train_retry);
--		if (ret) {
--			it6505_link_train_ok(it6505);
--			return;
--		}
--	} while (retry--);
-+	/* skip auto training if previous auto train is fail*/
-+	if (!it6505->step_train_only) {
-+		retry = it6505->auto_train_retry;
-+		do {
-+			it6505_link_training_setup(it6505);
-+			it6505_reset_hdcp(it6505);
-+			it6505_aux_reset(it6505);
-+
-+			ret = it6505_link_start_auto_train(it6505);
-+			DRM_DEV_DEBUG_DRIVER(dev, "auto train %s, auto_train_retry: %d",
-+				ret ? "pass" : "failed", it6505->auto_train_retry);
-+			if (ret) {
-+				it6505_link_train_ok(it6505);
-+				return;
-+			}
-+		} while (retry--);
-+	}
- 
- 	/*After HW auto training fail, try link training step by step*/
- 	it6505_link_step_train_process(it6505);
-@@ -2605,6 +2610,7 @@ static void it6505_irq_hpd(struct it6505 *it6505)
- 			it6505_parse_link_capabilities(it6505);
- 		}
- 		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-+		it6505->step_train_only = false;
- 
- 		it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
- 					     DP_SET_POWER_D0);
+try this one
 
--- 
-2.34.1
+Bspec: 77412
 
+> -Jonathan Cavitt
+> 
+>>
+>>> -Jonathan Cavitt
+>>>
+>>>>
+>>>>> + */
+>>>>> +enum xe_gt_pagefault_access_type {
+>>>>> +	XE_GT_PAGEFAULT_ACCESS_TYPE_READ = 0,
+>>>>> +	XE_GT_PAGEFAULT_ACCESS_TYPE_WRITE = 1,
+>>>>> +	XE_GT_PAGEFAULT_ACCESS_TYPE_ATOMIC = 2,
+>>>>> +	XE_GT_PAGEFAULT_ACCESS_TYPE_RESERVED = 3,
+>>>>> +};
+>>>>> +
+>>>>> +/**
+>>>>> + * enum xe_gt_pagefault_fault_type - Fault type reported to the xe_gt_pagefault
+>>>>> + * struct.  Saved to xe_gt_pagefault@fault_type
+>>>>
+>>>> ditto
+>>>>
+>>>>> + */
+>>>>> +enum xe_gt_pagefault_fault_type {
+>>>>> +	XE_GT_PAGEFAULT_TYPE_NOT_PRESENT = 0,
+>>>>> +	XE_GT_PAGEFAULT_TYPE_WRITE_ACCESS_VIOLATION = 1,
+>>>>> +	XE_GT_PAGEFAULT_TYPE_ATOMIC_ACCESS_VIOLATION = 2,
+>>>>> +};
+>>>>> +
+>>>>> +#endif
+>>>>
+>>>>
+>>
+>>
 
