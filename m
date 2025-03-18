@@ -2,70 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61513A67E6F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 22:00:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B35A67D64
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:55:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9949410E4C9;
-	Tue, 18 Mar 2025 21:00:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 423D110E4C3;
+	Tue, 18 Mar 2025 19:55:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="S0XxPKkh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gkK2P1G1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77E2A10E4C9
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 21:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- sang-engineering.com; h=date:from:to:cc:subject:message-id
- :references:mime-version:content-type:in-reply-to; s=k1; bh=Alm3
- x2zwURgvPY8POW7lo0RkXBypewzaF7jaX9WC4CM=; b=S0XxPKkhONCFqnZSTTaL
- X9zmPmBUQ//QQdqFKPQxtBjW/jkRQUUkjNHHB2W8CAVnnakMNZq9aoud7S8jVG6O
- 0GWrMIzQfUqmE9ptUl6YpkwMK4iOMA6ed5J+RSfWMB34pKoX8E0lKEskvG2Tt46E
- zMUZQR4O9heU9K5yftfcrvBbqfr5JSCOF1dM+CTDPi86U+AF+7xy+CEcFy81fZwk
- 6+4uqF1UFBeogKmAkqJgD5yduG2aeDr/Ih5CAXx5euIDKIxez6TBjg0bIvVBVIlI
- 9XF7PS5L/3i3EK+I1iqqCNPU0+8YTfwICcqMj9pyBfewu/qQxlXqYEhqu7NS7tYL
- JQ==
-Received: (qmail 3995406 invoked from network); 18 Mar 2025 22:00:31 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 18 Mar 2025 22:00:31 +0100
-X-UD-Smtp-Session: l3s3148p1@t5D0MaQwsrgujnsn
-Date: Tue, 18 Mar 2025 22:00:31 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-renesas-soc@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection
- failure
-Message-ID: <Z9ne78KhxfKYgnh_@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-References: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
- <20250318204133.GC22890@pendragon.ideasonboard.com>
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3CD010E257
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 18:20:27 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5499c5d9691so6356994e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 11:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742322021; x=1742926821; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=P7OecC4DAg+MsM1VQ20M8byz+5h2pRm2mp88QPs7J7o=;
+ b=gkK2P1G18/vmcwCFfmx0Zsh0FrBBs25XMjsD4f0Xu+ayonWlU9KnQA0+2w8vklebPq
+ 8DNDZwU1esdVwRiQbTCE507MhpmudK31VSJqLiHlBbgWWyUcvwYwRamV3QaP1DzwwDKV
+ cbc1bxmilGKkYBMceKSMHuTon+tdp9EtixK6dulBtzS3vXAOD6zCx7qchWNG0aEbTAc5
+ 9TtiCoub3ePBS5CnnNRutyDRK76L0+YgIjQk/iJE0850GbcZwmChsFuxNc5H8N7Mnonv
+ VHYZnKI5yDJaC+ZVLdDnwuFnIiunNfCDZEovp3+qaX2D1kJpjzlpxjN2Jf7DFpHndYzM
+ /GfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742322021; x=1742926821;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=P7OecC4DAg+MsM1VQ20M8byz+5h2pRm2mp88QPs7J7o=;
+ b=u5mJKq0gYdGwPKUgD0ODtEp8XBcKEdSZD0oxDK6wc+cPJn84iXD2CGYHiPEF0eB3MV
+ /02ZiIzdes/ZZ4P1hRQkm6/H8JX/TrcvLERLmbp3olCC+CTG1CpyIR+2aT51s13mCi8H
+ JiLUTyn9Q0PQoc7JEWwT5EP307wM4ny1J2/vJfmd/wdKkwkE1eVdITBIzh27VvbeHTXh
+ kyQqGS5MER13QIKdUECXtVFFlBOQONmFgpbCiOT4pFUF//xaKfftJiDqFHgscOoaGZ0X
+ PZGKo3SBWFysTTa0hkC+Nph/M1g29l4zHQTeC1qPtT63zZ+7Fzb53uk7Fyr8UA1q6RLc
+ sBYA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWBuKCrhwmssGWmzDRp0uS9WhUH01hPSXnFNlaEJLOKB7uHZvaNJl5VW7I6ZgX81fvrd6UmHJ/6dTY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJ6Om6Zm9KVoM36ekL9O8LJeqUQq/CN11FJCp49NV1ZpKG2gVU
+ JklbTwqgAnqibmqKBJVTDT6F+XBV+3QxNZKbsQxOgQFwwQK4Cael
+X-Gm-Gg: ASbGncvY+szb8bAj4DEmZTUlizJ6W16MoqEbcnBEjPZ2l1oND7lYTLwcnha0szyvMiT
+ ww9MiNosS/WZf273MR4m4AZA1ZWEmE2wVoHKzxE/egOFZSq6RU85MzZVB0PIRirnE1+H7vD0YJk
+ EwGfQVR5aYJ4QdVse+D/+ulR70YRBoDRhFsz+88KC4jT9vIMJbjlEE++ZDkHOCj+wmJwoBh/LGa
+ eXEEzP5a3tSqnHUYq1fMewVDCIUHee9Cz5zYYzmTcDvJN7rf0+QUqFqLf02/sV6isBptOS0WCZe
+ u+f2g56uBahARDA96ttPQ5vwfH9TqHnegac3+C+wp4ns6g==
+X-Google-Smtp-Source: AGHT+IHPX6HT7hSFxyVpA0b9mgdNwPC79Sanp/rYFaB6q9h9RNj2SkgKzH41KR42nto49Hx5XubV4A==
+X-Received: by 2002:a05:6512:e97:b0:549:8fc0:bc1c with SMTP id
+ 2adb3069b0e04-54ac9cc3733mr33583e87.53.1742322020710; 
+ Tue, 18 Mar 2025 11:20:20 -0700 (PDT)
+Received: from leo-laptop.. ([85.89.126.105]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-549ba7a84desm1780577e87.46.2025.03.18.11.20.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Mar 2025 11:20:19 -0700 (PDT)
+From: Leonid Arapov <arapovl839@gmail.com>
+To: Helge Deller <deller@gmx.de>
+Cc: Leonid Arapov <arapovl839@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org
+Subject: [PATCH 1/2] fbdev: omapfb: Remove writeback deadcode
+Date: Tue, 18 Mar 2025 21:19:51 +0000
+Message-ID: <20250318211959.8557-1-arapovl839@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="V93gJJxLrjmSUwfG"
-Content-Disposition: inline
-In-Reply-To: <20250318204133.GC22890@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 18 Mar 2025 19:55:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,51 +90,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Value of enum parameter 'plane' is initialized in dss_init_overlays and
+cannot take the value OMAP_DSS_WB. Function dispc_ovl_setup_common could
+be called with this value of parameter only from dispc_wb_setup, which has
+never been used and has been removed in commit 4f55bb03801a
+("omapfb: Remove unused writeback code"). The code in the if-branch is
+unreachable.
 
---V93gJJxLrjmSUwfG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Remove unreachable branch.
 
-Hi Laurent,
+Found by Linux Verification Center (linuxtesting.org) with SVACE static
+analysis tool.
 
-> > Read out and check the ID registers, so we can bail out if I2C
-> > communication does not work or if the device is unknown.
->=20
-> What's the advantage of that, what are you trying to guard against ?
+Signed-off-by: Leonid Arapov <arapovl839@gmail.com>
+---
+ drivers/video/fbdev/omap2/omapfb/dss/dispc.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-That a random chip at address 0x2c will be used.
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
+index ccb96a5be07e..8db074862824 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
+@@ -2659,13 +2659,8 @@ static int dispc_ovl_setup_common(enum omap_plane plane,
+ 	row_inc = 0;
+ 	pix_inc = 0;
+ 
+-	if (plane == OMAP_DSS_WB) {
+-		frame_width = out_width;
+-		frame_height = out_height;
+-	} else {
+-		frame_width = in_width;
+-		frame_height = height;
+-	}
++	frame_width = in_width;
++	frame_height = height;
+ 
+ 	if (rotation_type == OMAP_DSS_ROT_TILER)
+ 		calc_tiler_rotation_offset(screen_width, frame_width,
+-- 
+2.45.2
 
-> > Tested on a
-> > Renesas GrayHawk board (R-Car V4M) by using a wrong I2C address and by
-> > not enabling RuntimePM for the device.
->=20
-> What do you mean by not enabling runtime PM for the device ?
-
-I left out pm_runtime_get() before regmap_read_bulk().
-
-Happy hacking,
-
-   Wolfram
-
---V93gJJxLrjmSUwfG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfZ3usACgkQFA3kzBSg
-KbY+DQ/8Dn0anJh88GbCa2wy1JyR1GyUnytfETCtm9KO3YrpEWmLUwnHANZz/rVP
-HRz8Gf6QY80ebWW7ZaclpPwet21iVYc+Vi4vJCOx0pNS5HTOKs1z8pSL+B8dof7w
-5tH01QCTPNV4s88+0w3fH4rUaxzvmQKS6Uo+u9E8C+XTlofPORxl18ydImOkQ+cz
-0x+g344T54BmbRt6tcFfEniueHGeBb6BOMa949eTXYwMx9sleqmVrljuiP+VJO5x
-Y2t3aKFZjlaFlnE2eNmRyLk+Uct11/dx5Ezdh5FpuobP9CfrXLvAHJQKPAMzAmNw
-v726M3M+ket5xFc14rGk7FRUIgRdKhs2PaZlIJxuNwiYqDrBZs9cVcpoXYd8FPih
-GCA6rdJlR+b3Sm9vEB6J8eV+ON40tP8GTSPkKdjgwDX/vSargDC5yPFLkwN2Xgd0
-jzOi8M6eMow3tcyqWkedGwRvYTK9k+VA/ow0RVPWKpM2jzGk9xEjHyrrk+U1TE7T
-X2bcMZO0Z7X/Y4iIujFgSXlfjUZ/4A4v3myhjwqn3kQs5CqRlQbRDfxydfR0b3mS
-atN4MCGtIqQzwrq/9a2O2UunsI64bk59GQF5sYDMcQKYiyV3RYHfpjapg/X1a3vS
-IHF41DiZ2pS7BDcms/SsRVkrkQKQSZITsA09n0ltvbzUYHJQFXg=
-=kgfC
------END PGP SIGNATURE-----
-
---V93gJJxLrjmSUwfG--
