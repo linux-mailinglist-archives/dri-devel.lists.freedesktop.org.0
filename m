@@ -2,51 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F16BA676B2
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 15:43:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB68BA676C9
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 15:49:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E7C10E4A0;
-	Tue, 18 Mar 2025 14:43:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=lwn.net header.i=@lwn.net header.b="Gokot2pn";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23E6810E4A4;
+	Tue, 18 Mar 2025 14:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B99C210E4A0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 14:43:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2BF724107B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1742309012; bh=+EhGNEpSFKvod8JfD5aHgJIBk5oICr0X9rPl5M67D/4=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=Gokot2pnDJ3QNNtVXcwq1iNq9GhQQiqc3WDlJ7WLjF/INXzD0t8QM7ZMdrgXsCmgs
- /lX9TIKOSMZJ1XUWHHZ+Gwi7WVoTtN3sZXtpFaU1g/NT3EhVUfXNQSeNcZnxe3N5rv
- gZAyNge2EKyIZU4RBsD9X+nP1srKlKjDaaU/ubbb5CqFEHWjH5N1+JYv3e7o5y1xz9
- ysEtO3yNETqHqmAzU0TXDuZG/n7nyvbdKs6xH8Y2efUxorYL1Y15BKRTRaMW4wZM3E
- aOmbVpqO8Fsp/xqghVQa9y5TlK6Sbpho6YklTjhmbd84Ku87AqHJbzkG2dC+Pw03n4
- m2JuWsQDsMQEQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 2BF724107B;
- Tue, 18 Mar 2025 14:43:32 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux DRI Development
- <dri-devel@lists.freedesktop.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: Re: [PATCH] Documentation: vgaarbiter: Fix grammar
-In-Reply-To: <20250318041249.20786-2-bagasdotme@gmail.com>
-References: <20250318041249.20786-2-bagasdotme@gmail.com>
-Date: Tue, 18 Mar 2025 08:43:31 -0600
-Message-ID: <87a59icsbw.fsf@trenco.lwn.net>
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C83F10E4A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 14:49:37 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id
+ ca18e2360f4ac-85b5875e250so674979739f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 07:49:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742309376; x=1742914176;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=owns3MQx8OMxQ042xxfJ8G7cCdorT/TwzY8tU9cVcAM=;
+ b=P+EUFIJCkIl2yGXD9agfBmmw4hyKVMac08EOwv6eB3OrcFFIPAuQz1LAu9ggnGX8De
+ 18NicBF83w256x6R9Egb2nigS2mCioOcIUWdLNQ85TRC0eofvGh589q/WTn+jmyGDJyK
+ e02AKhJ4wIoKupw7Pc2yfR8t8MVVS+h9U1lYya+B5++XQ5PEdoeJzKI750w8ukcNXV9p
+ fyuP4Lhgha0+NIDTUwbkOJfb5aPgqE0NbtYSe9ebGqb5rAsEjlRJ6C2y8bNSODpswd0G
+ 01GTbX6OWo+J0TWqvTN87/w5lzpqnYDVT2xmoq4atoOIcoM5tqAfoOsoGXCxUQ7CqN5j
+ KB8A==
+X-Gm-Message-State: AOJu0YzNzhxAuyRuTyORmbP84/cfyPjwK2zFF+SqUC8G63zwH54TguEp
+ gqGWKWSgnLIYfWC1eLetkdDqGtqSv6bF1HBaVs5Ge3+IVt8u6IhePns5ZLfyjKJfO5deNXSPHc3
+ /VEQAvXbC+Z5jLhJPANkDsMfa86eZpk5En8zyCovyY0eNVDULlY4Oh7w=
+X-Google-Smtp-Source: AGHT+IGK6QUJ36AlLNe6pV+Q9uEN6DQ3URrTDAjooDK9umxQn2Xz+fhzj3RR39gTkV4lwzHB2t9HwBr4KAfn/JJ8HqvI+A5gbwxf
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Received: by 2002:a05:6e02:3686:b0:3d4:3ac3:4ca2 with SMTP id
+ e9e14a558f8ab-3d57ba0ed3fmr43303085ab.16.1742309376265; Tue, 18 Mar 2025
+ 07:49:36 -0700 (PDT)
+Date: Tue, 18 Mar 2025 07:49:36 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67d98800.050a0220.2ca2c6.0189.GAE@google.com>
+Subject: [syzbot] Monthly dri report (Mar 2025)
+From: syzbot <syzbot+list7c58dce58b182e36cb31@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,29 +59,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Hello dri maintainers/developers,
 
-> From: Pranav Tyagi <pranav.tyagi03@gmail.com>
->
-> Correct grammar issues:
->
-> - Fix "co-exist" subject-verb agreement
-> - Correct plural form of "server" in context of more than one legacy
->   devices
-> - Use passive mood for intro sentence of libpciaccess section
->
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Link: https://lore.kernel.org/r/20250220164946.18007-1-pranav.tyagi03@gmail.com
-> [Bagas: massage commit message]
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->
-> I have to carry the original patch [1] because DRM maintainers doesn't seem
-> to apply that AFAIK. Jon, would you like to apply this patch before the
-> merge window in case DRM people don't apply this either?
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
 
-The DRM folks manage their own docs.  I'm certainly not going to
-circumvent them during -rc7 for a patch like this.
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 20 issues are still open and 32 have already been fixed.
 
-jon
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 383     Yes   WARNING in vkms_get_vblank_timestamp (2)
+                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
+<2> 73      Yes   WARNING in drm_wait_one_vblank (2)
+                  https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+<3> 72      Yes   WARNING in drm_mode_create_lease_ioctl
+                  https://syzkaller.appspot.com/bug?extid=6754751ad05524dae739
+<4> 71      No    INFO: task hung in drm_atomic_get_plane_state
+                  https://syzkaller.appspot.com/bug?extid=eee643fdccb7c015b3a6
+<5> 4       Yes   WARNING in drm_gem_object_handle_put_unlocked
+                  https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
+<6> 4       Yes   WARNING in drm_prime_destroy_file_private (2)
+                  https://syzkaller.appspot.com/bug?extid=59dcc2e7283a6f5f5ba1
+<7> 3       Yes   WARNING in drm_prime_fd_to_handle_ioctl
+                  https://syzkaller.appspot.com/bug?extid=0da81ccba2345eeb7f48
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
