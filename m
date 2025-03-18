@@ -2,51 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C98A6754D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 14:38:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E72A675DA
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 15:04:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2311C10E498;
-	Tue, 18 Mar 2025 13:38:31 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="B1+jPYtr";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A83410E495;
+	Tue, 18 Mar 2025 14:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB09610E48E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 13:38:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=GeUvgP/bgNI70g+uhEl10zoQuie6jg7fFXXRasTDeH4=; b=B1+jPYtrQOEH1k6Lf1yOVgTPc4
- EAVGbjoP2BNfEyshVgY9z5MNNvB0YK/GZHOGx+5wult0SRM8w2x/xFfLVU9XkxzM+bn305mEuuUhn
- 7dOB+9dZCUmPnBGTQbLyRcMK83FPuR5upYkJxoHm7mBE0eoba8yX6UWX6x5DtKYg+r63jJ67yTtWe
- yrxQG0ws1MI05aeE4AK0U9WleaDENzvobIE47Uqt1AXU9GS6unOqs5Qve81mZCXkA821Ejd8w1Uy2
- K3e5sMaUBO/5pHPxVk1yvfj+/BjQcSraI7FC1CjbP9U6PT531ujjueNvOLuViWpOcSiuBNMvDjd6X
- Nu4I4zOw==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tuX99-002kH5-VI; Tue, 18 Mar 2025 14:38:20 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v9 6/6] drm/sched: Add a basic test for checking credit limit
-Date: Tue, 18 Mar 2025 13:38:02 +0000
-Message-ID: <20250318133802.77316-7-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250318133802.77316-1-tvrtko.ursulin@igalia.com>
-References: <20250318133802.77316-1-tvrtko.ursulin@igalia.com>
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Tue, 18 Mar 2025 14:04:04 UTC
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90F9B10E497
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 14:04:04 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:2568:e3d1:1e11:17f3])
+ by laurent.telenet-ops.be with cmsmtp
+ id SDyj2E0091Mz0fJ01Dyj30; Tue, 18 Mar 2025 14:58:43 +0100
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.97)
+ (envelope-from <geert@linux-m68k.org>) id 1tuXSS-0000000EecJ-1JM6;
+ Tue, 18 Mar 2025 14:58:43 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+ (envelope-from <geert@linux-m68k.org>) id 1tuXSt-0000000AJqr-1H6O;
+ Tue, 18 Mar 2025 14:58:43 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Pratap Nirujogi <pratap.nirujogi@amd.com>,
+ Benjamin Chan <benjamin.chan@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-gpio@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] pinctrl: PINCTRL_AMDISP should depend on DRM_AMD_ISP
+Date: Tue, 18 Mar 2025 14:58:40 +0100
+Message-ID: <3685561e8e3cd1d94bce220eeb6001d659da615c.1742306024.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,90 +54,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic test for checking whether scheduler respects the configured
-credit limit.
+The AMD Image Signal Processor GPIO pin control functionality is only
+present on AMD platforms with ISP support, and its platform device is
+instantiated by the AMD ISP driver.  Hence add a dependency on
+DRM_AMD_ISP, to prevent asking the user about this driver when
+configuring a kernel that does not support the AMD ISP.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
-Acked-by: Christian König <christian.koenig@amd.com>
+Fixes: e97435ab09f3ad7b ("pinctrl: amd: isp411: Add amdisp GPIO pinctrl")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpu/drm/scheduler/tests/tests_basic.c | 60 ++++++++++++++++++-
- 1 file changed, 59 insertions(+), 1 deletion(-)
+ drivers/pinctrl/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-index 996cac00bb52..7230057e0594 100644
---- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-@@ -412,7 +412,65 @@ static struct kunit_suite drm_sched_modify_sched = {
- 	.test_cases = drm_sched_modify_sched_tests,
- };
+diff --git a/drivers/pinctrl/Kconfig b/drivers/pinctrl/Kconfig
+index cbb81f65c6eb22f0..0b355a7e7eeec412 100644
+--- a/drivers/pinctrl/Kconfig
++++ b/drivers/pinctrl/Kconfig
+@@ -51,6 +51,7 @@ config PINCTRL_AMD
  
-+static void drm_sched_test_credits(struct kunit *test)
-+{
-+	struct drm_mock_sched_entity *entity;
-+	struct drm_mock_scheduler *sched;
-+	struct drm_mock_sched_job *job[2];
-+	bool done;
-+	int i;
-+
-+	/*
-+	 * Check that the configured credit limit is respected.
-+	 */
-+
-+	sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-+	sched->base.credit_limit = 1;
-+
-+	entity = drm_mock_sched_entity_new(test,
-+					   DRM_SCHED_PRIORITY_NORMAL,
-+					   sched);
-+
-+	job[0] = drm_mock_sched_job_new(test, entity);
-+	job[1] = drm_mock_sched_job_new(test, entity);
-+
-+	drm_mock_sched_job_submit(job[0]);
-+	drm_mock_sched_job_submit(job[1]);
-+
-+	done = drm_mock_sched_job_wait_scheduled(job[0], HZ);
-+	KUNIT_ASSERT_TRUE(test, done);
-+
-+	done = drm_mock_sched_job_wait_scheduled(job[1], HZ);
-+	KUNIT_ASSERT_FALSE(test, done);
-+
-+	i = drm_mock_sched_advance(sched, 1);
-+	KUNIT_ASSERT_EQ(test, i, 1);
-+
-+	done = drm_mock_sched_job_wait_scheduled(job[1], HZ);
-+	KUNIT_ASSERT_TRUE(test, done);
-+
-+	i = drm_mock_sched_advance(sched, 1);
-+	KUNIT_ASSERT_EQ(test, i, 1);
-+
-+	done = drm_mock_sched_job_wait_finished(job[1], HZ);
-+	KUNIT_ASSERT_TRUE(test, done);
-+
-+	drm_mock_sched_entity_free(entity);
-+	drm_mock_sched_fini(sched);
-+}
-+
-+static struct kunit_case drm_sched_credits_tests[] = {
-+	KUNIT_CASE(drm_sched_test_credits),
-+	{}
-+};
-+
-+static struct kunit_suite drm_sched_credits = {
-+	.name = "drm_sched_basic_credits_tests",
-+	.test_cases = drm_sched_credits_tests,
-+};
-+
- kunit_test_suites(&drm_sched_basic,
- 		  &drm_sched_timeout,
- 		  &drm_sched_priority,
--		  &drm_sched_modify_sched);
-+		  &drm_sched_modify_sched,
-+		  &drm_sched_credits);
+ config PINCTRL_AMDISP
+ 	tristate "AMDISP GPIO pin control"
++	depends on DRM_AMD_ISP || COMPILE_TEST
+ 	depends on HAS_IOMEM
+ 	select GPIOLIB
+ 	select PINCONF
 -- 
-2.48.0
+2.43.0
 
