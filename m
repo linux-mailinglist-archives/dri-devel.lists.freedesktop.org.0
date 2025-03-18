@@ -2,64 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A823DA67D6B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:55:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59541A67D62
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:55:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF7C210E4CA;
-	Tue, 18 Mar 2025 19:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C924D10E4BE;
+	Tue, 18 Mar 2025 19:55:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UwX9sVdW";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IgArnUKZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
- [209.85.210.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7451910E208
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 09:10:30 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id
- 46e09a7af769-72bbd3a3928so2057829a34.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 02:10:30 -0700 (PDT)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
+ [209.85.167.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6B910E466
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 11:22:47 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id
+ 5614622812f47-3fa6c54cdb2so3865716b6e.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 04:22:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742289029; x=1742893829; darn=lists.freedesktop.org;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Wvo8oB8Ndh1Xj7F1C7YdJOYREyujGEpQNRGw9SjaBJY=;
- b=UwX9sVdWwV0aYHrmglPv2hchRsDB2oAauSCV6L81HsNSJNCAM95uIGi3qsnwpLzx8K
- e5mh/1ziaWWJgGhDQ61MyEecJy4ySxoby8DcxJCEa1oMLb+zPcPuxjurwWFBH47EcOTf
- l8UuxAEg3dLCFHZ+IBh81bQBuZyZ53mcmMGRPxBiW6VDUg1kstmw8E31yOKbLHVix2Zq
- RBWyt4qb0M12GlH3cTqKc8P6vbYvamnuRhdHBTXFd+dGXe/Ms3XaEhn24hHmPCQj49tG
- /XjL2z7QoxTjgCFHHIa1S7xpUdIxsye3E/nUZPbb1x+o6NGqMRr6n1p/s4itCPCYyrhw
- Tsrg==
+ d=gmail.com; s=20230601; t=1742296967; x=1742901767; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xk3jenNUzHnRejlFl0nT6m/1LWGInukJfJQCyh+Hsfc=;
+ b=IgArnUKZa1bt5VeQYyY9+s5rHLO7RhCNifvLU9yxesFd/aBro9BrshewGnSnsjvFsv
+ SpDjHSRHo7r1C7wm1yAD2dcxqAqzLIdNbGVoVSlAef2Mm03TZLu4yq2tLfokeL1n70l9
+ HNU0MYpwQ+YqJJJlxDMcOUosC2kMHPNb/X44jY9zLywsOHPjtujVY8omdSBjUeFZn9D2
+ qTpZDBweflF4qiAXqhEVq4ZlsNFlhDU/WGBaO6Pw+YHJE6WAr4OD7Fi3c+uZ5DpiIAi2
+ zD/IK2QeT0MlXz/HmRwvz+gclHp2G3D+huBsxFYWwsSt1/vmmKQgTQgR0k6uUpT62PPo
+ mlRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742289029; x=1742893829;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Wvo8oB8Ndh1Xj7F1C7YdJOYREyujGEpQNRGw9SjaBJY=;
- b=h0/PGMjP948QPvN/ZAx6Y2K8GQ3tWxdnaPGEbrAY1/D+1rO0CY48j2KX6QQzAyVs63
- 1VkrFX2Woahwn6IP41bn1LfCdubfA9Bx9cxDII2XCHHoLQZaObGwZTsVbolckgyhiuC0
- uj4zWHFQLhEmRMBxCBFDnZOgcZOqjlxH4Bc9HcvHI+ey6mN0LDGpYfk8Y0JSPhOJx+2l
- 6S6l6OyA/yLBQrCiuwiR/+OcdRaO+IzrZBEZyAAkJ6p/LFiPyNxUE6BI6Tsuz10ihpVG
- Utg4TuNNZz4Ortg+Tig+x0TktsIMULjY5tODA0zrNCErVJ3WDsIdQmfkX8SjLtovaq1j
- nGDg==
-X-Gm-Message-State: AOJu0YxSrEHq7U9yfTkL0XQE+YZ2e61F1f55DEGQJjfEM/93jYx2KvES
- ZSw1nvBcH9i5+nxC6/v826y1wBuiUlFIK0inQpLsRXcuBarqX122YdZHml2Oc9Pt2FieLXL0Aot
- 0QysfT8AipvRfovi2LY0/d7q/XvDwg0Pt0mU=
-X-Gm-Gg: ASbGncsh8cJDNTrcEEAzutadg8FbRJF8KwlzPC8DlupgLR6/K0QElL8xlL/XG9BdqRg
- EGDHrmIEl9QfVqHv1WZSca1UzMjCTs0szt3RU/+0PIqZIfuozdzSrc9mTdEdKigrCLXwnf+0TTi
- Yc5i0+UTG1C4PCfNyrggQ/eI3Baw==
-X-Google-Smtp-Source: AGHT+IFCfmQl439h6Z71FrMq4AZLZ8bJvvWCwIARhvBoKP06btfvnYxnNBjEMxT8veGBxy5Co5nr2/MoZgR4OIs3QTw=
-X-Received: by 2002:a05:6808:180a:b0:3fb:2e8f:4dd8 with SMTP id
- 5614622812f47-3fdeeb1df89mr7219990b6e.15.1742289029139; Tue, 18 Mar 2025
- 02:10:29 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1742296967; x=1742901767;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Xk3jenNUzHnRejlFl0nT6m/1LWGInukJfJQCyh+Hsfc=;
+ b=vzStec/hjRcu2JThSA2BlhKhDdMf6TNmHrvrrBvwFrBRpTtHLRzsguY0gMymIejXkv
+ RToHTzWmFCywq2xrMyeprejmBJ4ZglSYYowdmnMFSNUkCUB5xqbyKz91oJYZWYU25+P8
+ bQNz54aA8X1ij2OD2Cb2RfvRkBfBwDmiNrsuOZx0SMfsMr1NYU5ggzzWwh3wJ7LaU+si
+ gO9kiZN2YWUa2m7gqMmmKyfSVOEDbDpmwbnmw2Kgi10Lq48imCkIb6xIpFr4IotxJfZr
+ LRNJRUoD3Xy67n7cgbDoUZHzS5B7IKGKhr7MzhDW8pd7Y0zeL+VRh69lRZpcIo3RpMtk
+ aejQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXWLEVC8CBEEH3gcfvHHdxB9Y97RnOjX11NQIoqey1wP4Q0aOe0aW9L+7h7IGMkDpcO2INw0gdGN00=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz15c/RPMqMpjth7gt/Cp+8FkByi3UQiFT6NiVsv5GPI0PRA+dt
+ 90Tf3+i2Z7F7Wahf+oypuQn3fybtQAxzgR8ag4ccIgLMgNrn+0lNEGQgX0sbY2SBNItjqeTvkOL
+ bDOpi8Njp5E8J/SS1/OAMgiD8aCU=
+X-Gm-Gg: ASbGncujLKjIQ3GHm3Uddl6M3PpfdgBQIq6lqCsgzSHj1MuIcMU9X126k26FUHWZ2I7
+ x0NUmEA7BS+WfXcW2q1c6cQFLI193cggVVX3YbbGBzrVP4JLsPbnXrCRKRffZ20vKT2kt/Nci12
+ myqZ8+z05K+B2+vt3rFBUgGNt2+g==
+X-Google-Smtp-Source: AGHT+IHHDOECyb+mDf/Ymn/i4o9gzt6j3VqLRaNFvZDnX39lEhCijw2FKYP/Bx4mHGkh1JgNUGNyLUrvepsQVomHONk=
+X-Received: by 2002:a05:6808:1a10:b0:3f6:ab22:4d37 with SMTP id
+ 5614622812f47-3fdf073d6femr7906233b6e.32.1742296966922; Tue, 18 Mar 2025
+ 04:22:46 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAGJbQdfMnEJ=qtrOu05XQYqGrEDeksNdWBraqCMrmjy+k+MP0A@mail.gmail.com>
+In-Reply-To: <CAGJbQdfMnEJ=qtrOu05XQYqGrEDeksNdWBraqCMrmjy+k+MP0A@mail.gmail.com>
 From: nelakurthi koteswararao <koteswararao18@gmail.com>
-Date: Tue, 18 Mar 2025 09:10:16 +0000
-X-Gm-Features: AQ5f1Jrgx4WZ64WHLgccLU7mtwA2XYBcXYeBN5AcEHbbg6j7ZfCQpgHkoRbcNqM
-Message-ID: <CAGJbQdfMnEJ=qtrOu05XQYqGrEDeksNdWBraqCMrmjy+k+MP0A@mail.gmail.com>
-Subject: Failure in triggering jd9365da MIPI DSI Display drm_panel functions
- prepare/enable()
-To: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="000000000000ae95e306309a4695"
+Date: Tue, 18 Mar 2025 11:22:35 +0000
+X-Gm-Features: AQ5f1JrITVBJEL51pgCj5CDSdS51rcf7Hj4KyyijoDL7tJFRxHsIyRcwncTTTck
+Message-ID: <CAGJbQdeBsjQbWVjonPWH55+JKqfg9pnamcXH=uNecJ=Er73BHw@mail.gmail.com>
+Subject: Fwd: Failure in triggering jd9365da MIPI DSI Display drm_panel
+ functions prepare/enable()
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Douglas Anderson <dianders@chromium.org>
+Cc: Herve Codina <herve.codina@bootlin.com>, dri-devel@lists.freedesktop.org, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: multipart/mixed; boundary="000000000000cf512006309c1f42"
 X-Mailman-Approved-At: Tue, 18 Mar 2025 19:55:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,15 +92,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000ae95e306309a4695
-Content-Type: multipart/alternative; boundary="000000000000ae95e206309a4693"
+--000000000000cf512006309c1f42
+Content-Type: multipart/alternative; boundary="000000000000cf511e06309c1f40"
 
---000000000000ae95e206309a4693
+--000000000000cf511e06309c1f40
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Dear Team,
-
+Hi,
 Requesting to please go through below mail that deals with MIPI DSI display
 panel bringup activity.
 
@@ -127,49 +142,46 @@ Kind Regards
 
 Kote
 
---000000000000ae95e206309a4693
+--000000000000cf511e06309c1f40
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Dear Team,<div><br></div><div><p class=3D"gmail-MsoPlainTe=
-xt" style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,san=
-s-serif">Requesting to please go through below mail that deals with MIPI DS=
-I display panel bringup activity.</p>
+<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr">Hi,<br><div><span style=3D"font-family:Calibri,sans-serif;font-siz=
+e:11pt">Requesting to please go through below mail that deals with MIPI DSI=
+ display panel bringup activity.</span></div><div>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif">Jd9365da=C2=A0 is=C2=A0 a MIPI dsi pan=
-el is connected to nxp based imx8mm
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif">Jd9365da=C2=A0 is=C2=A0 a MIPI dsi panel is connected to nxp based =
+imx8mm
 core board directly without any bridge and it=E2=80=99s connected through M=
 IPI DSIM
 (SAMSUNG) =C2=A0(linux-6.6/drivers/gpu/drm/<span style=3D"font-size:11pt">B=
 ridge/Samsung-dsim.c) software interface.</span></p>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif">Prepared Scarthgap yocto BSP images fo=
-r imx8mm core based
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif">Prepared Scarthgap yocto BSP images for imx8mm core based
 NXP =C2=A0board =C2=A0running with linux-6.6 kernel version and booted the =
 board.</p>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif">The below log in boot sequence =C2=A0c=
-onfirm panel is
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif">The below log in boot sequence =C2=A0confirm panel is
 attached with dsim host controller.=C2=A0=C2=A0</p>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif">{{</p>
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif">{{</p>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif"><span style=3D"background:yellow">[=C2=
-=A0=C2=A0=C2=A0
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif"><span style=3D"background:yellow">[=C2=A0=C2=A0=C2=A0
 2.568380] samsung-dsim 32e10000.dsi: [drm:samsung_dsim_host_attach] Attache=
 d
 display-8hd-a device // printed from samsung_dsim_host_attach()=C2=A0 in dr=
 ivers/gpu/drm/bridge/samsung-dsim.c</span></p>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif">}}</p><p class=3D"gmail-MsoPlainText" =
-style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans-se=
-rif">But=C2=A0<span style=3D"background-color:yellow;font-size:11pt">The
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif">}}</p><p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-famil=
+y:Calibri,sans-serif">But=C2=A0<span style=3D"background-color:yellow;font-=
+size:11pt">The
 issue I am facing currently is DRM pipeline is failing to trigger struct
 drm_bridge_funcs attach() definition i.e Samsung_dsim_attach() that in turn=
  invokes
@@ -177,35 +189,31 @@ drm_bridge_attach() and it helps in triggering=C2=A0</span><span style=3D"b=
 ackground-color:yellow;font-size:11pt">Jd9365da drm_panel specific prepare/=
 enable functions subsequently.</span></p>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif">I attached a debug log added =C2=A0to =
-Samsung-dsim.c file
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif">I attached a debug log added =C2=A0to Samsung-dsim.c file
 along with a jd9365da panel file (with debug logs) and boot log for referen=
 ce. I
 attached jd9365da dts file too for reference </p>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif">I request=C2=A0to please go through at=
-tached
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif">I request=C2=A0to please go through attached
 files and boot logs and please provide input for further debugging.=C2=A0</=
 p>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif">I attached an arch/arm64/boot/dts/free=
-scale/imx8mm.dtsi file
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif">I attached an arch/arm64/boot/dts/freescale/imx8mm.dtsi file
 (that contains mipi-dsi entries for Samsung-dsim.c) .</p>
 
-<p class=3D"gmail-MsoPlainText" style=3D"margin:0cm 0cm 0.0001pt;font-size:=
-11pt;font-family:Calibri,sans-serif"><br></p><p class=3D"gmail-MsoPlainText=
-" style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans-=
-serif">Kind Regards</p><p class=3D"gmail-MsoPlainText" style=3D"margin:0cm =
-0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans-serif">Kote</p></div><=
-/div>
+<p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-family:Calibri,sans=
+-serif"><br></p><p style=3D"margin:0cm 0cm 0.0001pt;font-size:11pt;font-fam=
+ily:Calibri,sans-serif">Kind Regards</p><p style=3D"margin:0cm 0cm 0.0001pt=
+;font-size:11pt;font-family:Calibri,sans-serif">Kote</p></div></div>
+</div></div>
 
---000000000000ae95e206309a4693--
+--000000000000cf511e06309c1f40--
 
---000000000000ae95e306309a4695
-Content-Type: text/plain; charset="UTF-8"; name="samsung-dsim-jd9365da-bootlog.txt"
+--000000000000cf512006309c1f42
+Content-Type: text/plain; charset="US-ASCII"; name="samsung-dsim-jd9365da-bootlog.txt"
 Content-Disposition: attachment; 
 	filename="samsung-dsim-jd9365da-bootlog.txt"
 Content-Transfer-Encoding: base64
@@ -688,7 +696,7 @@ U1REIC1CUEZfRlJBTUVXT1JLICtYS0JDT01NT04gK1VUTVAgK1NZU1ZJTklUIGRlZmF1bHQtaGll
 cmFyY2h5PXVuaWZpZWQpDQpbICAgIDMuNjY0NjYwXSBzeXN0ZW1kWzFdOiBEZXRlY3RlZCBhcmNo
 aXRlY3R1cmUgYXJtNjQuDQoNCldlbGNvbWUgdG8gTlhQIGkuTVggUmVsZWFzZSBEaXN0cm8gNi42
 LXNjYXJ0aGdhcCAoc2NhcnRoZ2FwKSENCg==
---000000000000ae95e306309a4695
+--000000000000cf512006309c1f42
 Content-Type: application/octet-stream; name="imx8mm-jd9365da-mipi-dsi.dts"
 Content-Disposition: attachment; filename="imx8mm-jd9365da-mipi-dsi.dts"
 Content-Transfer-Encoding: base64
@@ -740,8 +748,8 @@ LjN2CgkJdmNjaW8tc3VwcGx5ID0gPCZidWNrNV9yZWc+OyAvLyAxLjh2CgkJYmFja2xpZ2h0ID0g
 PCZwd21fYmw+OwogICAgICAgIHN0YXR1cyA9ICJva2F5IjsKCiAgICAgICBwb3J0IHsKICAgICAg
 ICAgICBwYW5lbF9pbl9kc2k6IGVuZHBvaW50IHsKICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBv
 aW50ID0gPCZtaXBpX2RzaV9vdXQ+OwogICAgICAgICAgIH07CiAgICAgIH07CiAgfTsKfTsK
---000000000000ae95e306309a4695
-Content-Type: application/octet-stream; name="panel-jadard-jd9365da-h3.c"
+--000000000000cf512006309c1f42
+Content-Type: text/x-c-code; charset="US-ASCII"; name="panel-jadard-jd9365da-h3.c"
 Content-Disposition: attachment; filename="panel-jadard-jd9365da-h3.c"
 Content-Transfer-Encoding: base64
 Content-ID: <f_m8e9qxjw2>
@@ -1198,7 +1206,7 @@ ZGFyZF9kcml2ZXIpOwoKTU9EVUxFX0FVVEhPUigiSmFnYW4gVGVraSA8amFnYW5AZWRnZWJsZS5h
 aT4iKTsKTU9EVUxFX0FVVEhPUigiU3RlcGhlbiBDaGVuIDxzdGVwaGVuQHJhZHhhLmNvbT4iKTsK
 TU9EVUxFX0RFU0NSSVBUSU9OKCJKYWRhcmQgSkQ5MzY1REEtSDMgV1hHQSBEU0kgcGFuZWwiKTsK
 TU9EVUxFX0xJQ0VOU0UoIkdQTCIpOwo=
---000000000000ae95e306309a4695
+--000000000000cf512006309c1f42
 Content-Type: application/octet-stream; name="imx8mm.dtsi"
 Content-Disposition: attachment; filename="imx8mm.dtsi"
 Content-Transfer-Encoding: base64
@@ -2040,8 +2048,8 @@ bGsgSU1YOE1NX1NZU19QTEwxXzgwME0+OwoJCWFzc2lnbmVkLWNsb2NrLXJhdGVzID0gPDA+LCA8
 MD4sIDwwPiw8NDAwMDAwMDAwPiw8MTAwMDAwMDAwMD47CgoJCXBvd2VyLWRvbWFpbnMgPSA8JnBn
 Y19ncHU+OwoKCQlzdGF0dXMgPSAiZGlzYWJsZWQiOwoKCQl0aHJvdHRsZSxtYXhfc3RhdGUgPSA8
 MT47CgkJI2Nvb2xpbmctY2VsbHMgPSA8Mj47Cgl9Owp9Owo=
---000000000000ae95e306309a4695
-Content-Type: application/octet-stream; name="samsung-dsim.c"
+--000000000000cf512006309c1f42
+Content-Type: text/x-c-code; charset="US-ASCII"; name="samsung-dsim.c"
 Content-Disposition: attachment; filename="samsung-dsim.c"
 Content-Transfer-Encoding: base64
 Content-ID: <f_m8e9qxk03>
@@ -3083,4 +3091,4 @@ ZSA9IHNhbXN1bmdfZHNpbV9vZl9tYXRjaCwKCX0sCn07Cgptb2R1bGVfcGxhdGZvcm1fZHJpdmVy
 KHNhbXN1bmdfZHNpbV9kcml2ZXIpOwoKTU9EVUxFX0FVVEhPUigiSmFnYW4gVGVraSA8amFnYW5A
 YW1hcnVsYXNvbHV0aW9ucy5jb20+Iik7Ck1PRFVMRV9ERVNDUklQVElPTigiU2Ftc3VuZyBNSVBJ
 IERTSU0gY29udHJvbGxlciBicmlkZ2UiKTsKTU9EVUxFX0xJQ0VOU0UoIkdQTCIpOwo=
---000000000000ae95e306309a4695--
+--000000000000cf512006309c1f42--
