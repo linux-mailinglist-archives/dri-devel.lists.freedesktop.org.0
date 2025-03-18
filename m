@@ -2,65 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E559A6726E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 12:18:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72D9A67298
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 12:26:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9569210E464;
-	Tue, 18 Mar 2025 11:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9868F10E466;
+	Tue, 18 Mar 2025 11:26:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I1NySPlW";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Q0hjCxh4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9FF10E20E;
- Tue, 18 Mar 2025 11:18:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C98C45C58A2;
- Tue, 18 Mar 2025 11:16:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6958EC4CEDD;
- Tue, 18 Mar 2025 11:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742296724;
- bh=ecUjoZ++I58Bl6ZVANbY1i64A6BV21RqFFGqC3bd7wI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=I1NySPlWHKehRUzDSIjsIoUkePG31FfeVqVBGHnsgAhf9tqqeKs7w+YTm8yX8Ht7v
- XAmZgvC8GfSKzcyqHhBdrrzRLuNH9055qQ77jd8oCyaYWHZUgehO7qiSIdd/EGV8Nw
- WBJHODyK41XxRmf+i/FtBtJ04mRyEROc96ewem1kfRh8F6K1nANy2BZSHmjbnAzwYi
- zzIXpbcTrhBGJxL47Af7xMga9h2N9IT4dsQGdfyYbFzpZ1DpSQQvegWanB73nfwM6B
- qjZ4X9adwp2A6jkjbiwKpf7zsHrx7jCZShnOE9lZeQIkHBtODwZHSTeTnN59iSPHLF
- fjq9GMKIFeBWQ==
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-ac2a089fbbdso964230366b.1; 
- Tue, 18 Mar 2025 04:18:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVEMRji9Fb1qv4GzNQQ/YhAB+Ku8lcrrTJa8EMVtrfu0f44n/gbhq+msRIi/wSQKNpEZxZyrXOS2xin@lists.freedesktop.org,
- AJvYcCWTfCCoXyAggnDnLdzJcY9B8WLru1IwePhErmY4MElo1LVHVX+HYH57C8Yl96whvoNrAsH0ErCC@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJezBmK5mMOpU19bxI3P7ku+r4FI6XSu7e4NBWnqhOO0VNEIig
- 2q6utlae28JSQ1Ply7pODS8pHN89zpkvEkNdr83IZJc8X97OU7TlYzsKe0cJeRC3V60KWwXE20V
- zT3sm9QlXzbntd2cQ4s39DNEt7Rc=
-X-Google-Smtp-Source: AGHT+IHQyWsVDyV7GPIT8mU9qxkU0lWWDxBKairMq2R0LaSoEUAawFYv4bDvE7FKSNEGQdRZ2ZySowa7fV8ZqtWgaT0=
-X-Received: by 2002:a17:906:dc8d:b0:ac3:8aa6:c7da with SMTP id
- a640c23a62f3a-ac38f7776abmr302969766b.7.1742296722921; Tue, 18 Mar 2025
- 04:18:42 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C060210E466
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 11:25:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mJeuUwxaQTLEHQJ2YtG04YB9RfYGCtAI/fCBgw82eZ2hzFuXjoWlooB9MdYraqnKcWkCEUptN5pO3Vf9oDsr6eSQ4ik1mCUE2HwZGZgkwc6LE9wGE4sEuLSPzEJ4T6+QE3yA0Idv+JNNiDAO9avhp4tond7q9rNH/HtuWXqqNbks/fYv3Ww+4XCBplF2KWMH/+6hneqJGa8LJY9YXE3oRkVNPYcFYrc94yHMipYUwJYIwaKJSYKozCZ4otRESTRYaME3Q8lM0WwmiM0xTru8hJxM25DLoc/9tpCmGXWJmuAfE0kdlZS65vOUohMA61V6yKhlCgKMV545qxXLxGmNCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uUnQSru0XsLXzsMeozq0OPgVh8ujRfgKt2tLEjYLXDw=;
+ b=OQbVuJTNxwUI3JfS3ChA50IAe0jH0bXPF7BRk2VrST1IvUap8DmYVg806rDGyuLa9jfaz+YbniS0WPIK0df0G+bxN2SOKI8mRYD3GugV0D99wr/sNV/7ykSc2MwrZGwR/Gl937YzSiEsDqksq2EyTdoweL5McXsGaVklH69CK+u+y4QQHR8MOP8Sf26RI6KSJcD5gh3nY7nqJjEV3tSq53XEk95NeKIXFRbvR9TP7i9h1lEEUSX0PZRLKpOJgk2ZIgtwbgz6aYr4po/5uX5EyAtwU5WoG01n6Tn56qcYICujv7lTZlyL8WQAj9NPF8zVvuOsftQBcXymEyCY8GZp8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uUnQSru0XsLXzsMeozq0OPgVh8ujRfgKt2tLEjYLXDw=;
+ b=Q0hjCxh4AF8/gehB65A+pmRmj6aZV3+w3tijla6ci219vCcS3wXQmkwsa+g6Mx2TzpxMAnya61Uc6kDOn93kt3JP1evrYDjUU2NFc/6xLCWblu5IhQfXW11J9QCBP6HO9+qvOeN78Er5olNwsMWcTyyhGU9wZovhraTXr/OV8m4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA1PR12MB6435.namprd12.prod.outlook.com (2603:10b6:208:3ad::10)
+ by DS0PR12MB8320.namprd12.prod.outlook.com (2603:10b6:8:f8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Tue, 18 Mar
+ 2025 11:25:54 +0000
+Received: from IA1PR12MB6435.namprd12.prod.outlook.com
+ ([fe80::273a:80c9:35fc:6941]) by IA1PR12MB6435.namprd12.prod.outlook.com
+ ([fe80::273a:80c9:35fc:6941%4]) with mapi id 15.20.8534.031; Tue, 18 Mar 2025
+ 11:25:53 +0000
+Message-ID: <e7614b27-e9b4-49a8-831b-0acd33911336@amd.com>
+Date: Tue, 18 Mar 2025 19:25:42 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/7] virtio-gpu api: add blob userptr resource
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Demi Marie Obenour <demiobenour@gmail.com>,
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>
+References: <20250228053650.393646-1-honglei1.huang@amd.com>
+ <20250228053650.393646-2-honglei1.huang@amd.com>
+ <cd9f85a5-0d99-4007-bba2-d792ac9d84da@gmail.com>
+ <c2d1334f-6f5a-493f-bbf0-3e92789f128a@amd.com>
+ <CAAfnVBk-JJKxJXAstwmgL4=EM15RHfVm4NQST+p3nE4xi2220g@mail.gmail.com>
+Content-Language: en-US
+From: "Huang, Honglei1" <Honglei1.Huang@amd.com>
+In-Reply-To: <CAAfnVBk-JJKxJXAstwmgL4=EM15RHfVm4NQST+p3nE4xi2220g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG2PR01CA0185.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:189::19) To IA1PR12MB6435.namprd12.prod.outlook.com
+ (2603:10b6:208:3ad::10)
 MIME-Version: 1.0
-References: <20250318111611.2161153-1-chenhuacai@loongson.cn>
-In-Reply-To: <20250318111611.2161153-1-chenhuacai@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 18 Mar 2025 19:18:31 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6vXc-QkBtbuLN4s8bpHzb6tOHWPdh-6s0xEqTLoNAxjw@mail.gmail.com>
-X-Gm-Features: AQ5f1JokISMsMI-FbQL-Nwx2-z750GxhY5y5mhcCTqtJjIYMFlfkoonv8QAEW_E
-Message-ID: <CAAhV-H6vXc-QkBtbuLN4s8bpHzb6tOHWPdh-6s0xEqTLoNAxjw@mail.gmail.com>
-Subject: Re: [PATCH 37/40] drm/amd/display: Protect
- dml2_create()/dml2_copy()/dml2_create_copy()
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6435:EE_|DS0PR12MB8320:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3aec28c7-88d6-4770-e322-08dd660fa4ca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?KzgzUjVBTWVWazdnU2VnR3NEaVZoeVRaQzEwUGRhdHg3ZWdTaHZRYXhRQkZE?=
+ =?utf-8?B?c0FJSno5UE9vc1REdVFpZEtjWkI5T3ovd25RRmpPbW1RMWdoYnN4QWxpM0RG?=
+ =?utf-8?B?SEZNS3BlNUZjb3RReUdLakJLb05OWDZ6OE00Rno0SHBQNThHTzVrMUZQQkRs?=
+ =?utf-8?B?RzhGMmI4V2JzZmtWdS9qUzhzMjAvTkQrbWVzK0RTdkhoa0J0eXd1QTZ3OHAv?=
+ =?utf-8?B?UHlQWnhtcitmTzd0UXhBYTZHZWVaVmltTTV0cVNIWU1CSGE3L0R4Y0ovZTRk?=
+ =?utf-8?B?U0EvNS9yQlJXRHZRdVRoMVh2bHJOUVJ4Ylg5c2RTank5YTllbXNaSnc5c0ZV?=
+ =?utf-8?B?V25waWxzQkhHdU5kdGxQK0RIdnhEVWk3NEwzdnBvdTJmLzkyWHIzQTluU3Y1?=
+ =?utf-8?B?a1EyQjFQd2psQUc5K055NUNzSE42em1SejNqZUplOGlnRGlDK0ZOWHY0aTBs?=
+ =?utf-8?B?cU4xVFA2blFrZTlMMzBrSng4UHc2NmJlSDNadUtUM2NiV3BPR3VvV3RFTDdB?=
+ =?utf-8?B?ZXlZOG9Edk1PLzBzVEszdUdnNmV5dTBQZFFIUE9xQlkzSUx0c3h0YmFiV1dE?=
+ =?utf-8?B?c09xS3kxbHIwUFdwbEFDNkdaSmU3NTNmT1J3MTM3SVM4b2crUlJoNTdLNVFz?=
+ =?utf-8?B?eHhCVlZTaG1IVGhxdjZEZHhJQWdFVTdvREg4QXlPMUhXL1AwcnFDOHZqOTlL?=
+ =?utf-8?B?OVJYUGhSVXlNWHVqa3l3SnFZVm1lSTVvV2wybEFJNHpRVVJGc01va2FzaWpr?=
+ =?utf-8?B?L2Y3cldaY2NuNnNGM2VUSk1udG4zSDNOc3pROXBucm5YVGhQTE9zclFxMWI5?=
+ =?utf-8?B?MllyQytCcnZCNFMrcG54T0JyZGt1Y29kVTFqMkhqOGVoWFFSc2tHaTNxOWtw?=
+ =?utf-8?B?d1FOS0JuM1ZMckNOYnNKTnBmVklOVFowblNWdnJ1bE1PTFlEWGx3ZUcwQUFB?=
+ =?utf-8?B?QWltNG9QNGMwM3g5WmhpWjVIbnVpYVNNamQ2aFltMmhwV2dMczhjK0IxbTll?=
+ =?utf-8?B?VjREUHFBbEpQTkVGTk5kS2FsS2hNdEZXNDZTV3dQeUw2QWpjbFEzWE53UHFG?=
+ =?utf-8?B?UDRNTGhXRjFwZ0tFa0kwSUVEazJNQUlhQWlYTjBLZTBXOS9TTDJndkpYTmFn?=
+ =?utf-8?B?WUFicTlRLzFZaE9QTkRUdVpGcW8zV2VRSTVqdGM1emloNjdhMERHN0RFYysw?=
+ =?utf-8?B?eXVyYitIdlBJOC81dUxBNUlhUWx5YlYxdkllc2JLK2FNOTZZa0k5TndQczYy?=
+ =?utf-8?B?aEpyZ2FlZmJzNnoyQUc2TllCRlEvU3QzT0tvRXNrMkRwdEUwQVZWRHpWUXRl?=
+ =?utf-8?B?QVNra3hxRFJ1RmxtY1ROOEhOOHlHRjRya0V4a0d6RmNPZmR0SDRSZHdjNFZQ?=
+ =?utf-8?B?eitvc01ac1dRbDlldG9xa29BYVJhU1lBUy8rd3Rld3hPblQwczBnQXpDUGly?=
+ =?utf-8?B?L1hVQW1sTmxSRy9hYS9odmhBRlgyYVA4dTFWNktRTWtZOXY1RitKYk9yWXhB?=
+ =?utf-8?B?bnF1d09DRU5ob3JqeWpxS1BwZ3BLbEEvR2paYmZrVVJKUjI1NmUzMFA5c3ZI?=
+ =?utf-8?B?UmVObkJNeThBSUVudEJtaFV1ZGFnaDlzS252L3dnNm9aTlNEdUxQMkszUllD?=
+ =?utf-8?B?ekpZNzVOYzRQY2g5SXYzVmVYQ2ZBR1BiVW05eE9KWlZ3Z0p4cHpubFZTZFZw?=
+ =?utf-8?B?YUdzTjZabEtCMmZsdHRVUkxWd3VRak5sWTZ2L0h2eGRlOERNa0lNcFJqWnY3?=
+ =?utf-8?B?K1F6SFJtZ0x6QW5xazNLUFB3QXRvaUpPQ3pELzFBbVkwK2prNWp6cURUUWRn?=
+ =?utf-8?B?YVY4K3hCTEYveWZKWkFnN01zWWlhT0NUa2FLYnFuVHVlay9BM21ueStOaGVz?=
+ =?utf-8?Q?D/x3OwEK/4Yhs?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA1PR12MB6435.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHZOdm1UdFRSaFJIM2cwSno5N3ZlN3QzRDJGOFpLUjJBOVVyYStjenhKQ1dC?=
+ =?utf-8?B?RmxFcTNWLytReG9kR0JPcjRHVk9yRFRKVlpFbjd0OGRIRDdRNkNiRGNBTkFw?=
+ =?utf-8?B?aEtOMHk5WVJPRFRROG1sZTNpMkx6RGl3bUFZckk3T3VRNkhrTVNONmM4dS9u?=
+ =?utf-8?B?Skxla3VGakU5VXc1UGZpVWc4NmxvcTJ1WTlzRUdzUXVabHpvTDllYU9lckNj?=
+ =?utf-8?B?YmFtZXNFZFIrSnlIUmswWmRvTEZ4b1MrZzcyMlJnWDFldDdhOEI0V05qRW1s?=
+ =?utf-8?B?eFR5WDNqMlhYQytidHQwVWk4aVRoSldKclM0Q2RLc1Rja1ZPK2dTSG84alA3?=
+ =?utf-8?B?UEM0RkRLd2x3L0U5RjRNYnVZbk1ZQW5VWlFFZjZUNkx2VzhtN090dXdsUkNw?=
+ =?utf-8?B?MG9jTWMvYkQzNFlkTlNUOEppSXkwcFBZOFk4N0F0U1l3a1JjbWppK09EN1lF?=
+ =?utf-8?B?TTNmNXliaE9PTkZtZWx0OWlRVm9vQmJlNU05cGFHQkxSNkUyWi9pYW04anhS?=
+ =?utf-8?B?UXNhTU5qSDQ0akRJMU0yVzdETFlQQ2YzeWZkSCtCOC91NWp4M3h4SW8vSm9m?=
+ =?utf-8?B?dmdrdWh6Z0FIYXo3WkhvK1A1UzRzU1RET08wWDlaQmlZREJNc3pVSTNXVnlI?=
+ =?utf-8?B?dWNoYlpEQ25YUjBnN0tMbEwwMW96LzhMbHZ5Sm5ObnNoOEppYWtkNm1Lc2xF?=
+ =?utf-8?B?cnkyR1U2M29XSC9Lb1dodVA5bnREOERCdXE4UTNsQ1JRaUZUUHIrdVhJTCtL?=
+ =?utf-8?B?OWYvWGhmb2xwZUhPNXRYdDltbnJ4Y3ZjSzE0KzE5dEwyYW11R0dWa2x2ajZC?=
+ =?utf-8?B?VDNpMEd5YUR4MzkzbmNHS2o5bnY1ZFdFSXFtd3FSdzQ5WWFpaSsxOHJnempm?=
+ =?utf-8?B?TWpoL20yNHdTdGljT0Zvc0FPN0prT0kzKzR2REM4Y1MzTkpucThvS2M3dDNj?=
+ =?utf-8?B?dk03TWQ3OEMvb3REODZBZTFOKzZsVWFLdFJrWGFkMHhRTHd1SXdjZDJFdndN?=
+ =?utf-8?B?ZWFIZzVSdEZOQmthRjZ3dUlHTFFmem4xdHRJYSt6S3ZWVklmV3RoNFdMSUdN?=
+ =?utf-8?B?c1ZJZy9YYStWT3EwdXFYY0NLOWxnTUlaalU4bUpoUlhhWmVpb1lCeDg2dGhj?=
+ =?utf-8?B?b0ZYNzlRS1NHNHZrL1FFQzBHd1hUUU1NUHZ0bHMxODBobEczd2tWL1FPcEZn?=
+ =?utf-8?B?bDlQZzkxZm50VUtiRVhDZFVmd25NdzBOa2lLenZqOU1wTW8vR1hFY0lFK2Vs?=
+ =?utf-8?B?QlFCV1NQYm50TzY4MG1VQWR5UzV4T3VXRTA1MGtxNUFtWkVLeExjKy8wa1hS?=
+ =?utf-8?B?NmlTeDZJanM1VFJhUkIrZWFYM3k0MU93QWlQT1dSQlg4WE42a2cxL25SYXpP?=
+ =?utf-8?B?dk9SKzV1Q054VEVDNUNlK0VldkI2dTMwaXF2Mk52Mzh2d3VGRjZrd1JRSFBG?=
+ =?utf-8?B?SlZyQnJ4UTlQRVFuSkJrYWxEQ21QUWhRbXUwZllNSTl0STRPK29VNDJaWHBJ?=
+ =?utf-8?B?dVRaaERreHJmNVozNkVWSlpwdXN5U3NpQk1VaWtLNFg0Z2h6TXdpTzEwRmhm?=
+ =?utf-8?B?M0hYS3lTbTI3cytlYUhrMHk3RkVVbUlEbFVrOHJCN0U2d2xPZ09jdkV0aXFh?=
+ =?utf-8?B?YUdzZmZ5OXBPWUMvTXNQMktMZ0ZiNDNkWHpzYkNIb0p0SnVHMVovOHpUQXJa?=
+ =?utf-8?B?cmxKV3JPemhXQ1p0QmE5eHpnR29lOW1SSmZJbmc0VEhMd0kvREJBRXJFQloz?=
+ =?utf-8?B?SmVRR3dURWpxRm5xUFNLTTRhenNlOXBMTVlkd2t2OUNlSkMwZW5NZ2FmVUQr?=
+ =?utf-8?B?QllDMTBiWExtcnZpR2JsVjNPLzNkYzFnczFhVTBsUUFyUEhVU2krcCtsOE03?=
+ =?utf-8?B?VytYOGUyNkNVajRtcTVvY0I4VTFhWmR5cElDaWc5MWttMCtLNUFraC9USG1x?=
+ =?utf-8?B?azRQRFFkc1ZkNmxrZU40OG5oS2lWZDlHT2NoM25sdkdnSHpBSkZvc0hiSTg0?=
+ =?utf-8?B?VTgvTTRTbVU4SGFuQ2x1UGZFN1BQbkFWQm5uS3VXTDdOcVBQMWw1VzJMQmYz?=
+ =?utf-8?B?cE1RMHRSTkxISkVMbUUzdnZtY0o5N2dqTlptdkl5N2l1WFZrSERIOTVlTHB1?=
+ =?utf-8?Q?z8mlyaT7kfPO/pMkQL5ESi7b3?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3aec28c7-88d6-4770-e322-08dd660fa4ca
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6435.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2025 11:25:53.5234 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JzHB0O1XcaZkO0aVdDIBMqFb+hpdssAB9vNiLunW4ALEO0hYas9fbiMj14n0M946/U8b8E4v1wCZS2pYINZ0zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8320
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,178 +172,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Wrong patch number, please ignore this one.
 
-Huacai
 
-On Tue, Mar 18, 2025 at 7:16=E2=80=AFPM Huacai Chen <chenhuacai@loongson.cn=
-> wrote:
->
-> Commit 7da55c27e76749b9 ("drm/amd/display: Remove incorrect FP context
-> start") removes the FP context protection of dml2_create(), and it said
-> "All the DC_FP_START/END should be used before call anything from DML2".
->
-> However, dml2_create()/dml2_copy()/dml2_create_copy() are not protected
-> from their callers, causing such errors:
->
->  do_fpu invoked from kernel context![#1]:
->  CPU: 0 UID: 0 PID: 239 Comm: kworker/0:5 Not tainted 6.14.0-rc6+ #1
->  Workqueue: events work_for_cpu_fn
->  pc ffff80000319de80 ra ffff80000319de5c tp 900000010575c000 sp 900000010=
-575f840
->  a0 0000000000000000 a1 900000012f210130 a2 900000012f000000 a3 ffff80000=
-357e268
->  a4 ffff80000357e260 a5 900000012ea52cf0 a6 0000000400000004 a7 0000012c0=
-0001388
->  t0 00001900000015e0 t1 ffff80000379d000 t2 0000000010624dd3 t3 000000640=
-0000014
->  t4 00000000000003e8 t5 0000005000000018 t6 0000000000000020 t7 0000000f0=
-0000064
->  t8 000000000000002f u0 5f5e9200f8901912 s9 900000012d380010 s0 900000012=
-ea51fd8
->  s1 900000012f000000 s2 9000000109296000 s3 0000000000000001 s4 000000000=
-0001fd8
->  s5 0000000000000001 s6 ffff800003415000 s7 900000012d390000 s8 ffff80000=
-3211f80
->     ra: ffff80000319de5c dml21_apply_soc_bb_overrides+0x3c/0x960 [amdgpu]
->    ERA: ffff80000319de80 dml21_apply_soc_bb_overrides+0x60/0x960 [amdgpu]
->   CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=3DCC DACM=3DCC -WE)
->   PRMD: 00000004 (PPLV0 +PIE -PWE)
->   EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
->   ECFG: 00071c1d (LIE=3D0,2-4,10-12 VS=3D7)
->  ESTAT: 000f0000 [FPD] (IS=3D ECode=3D15 EsubCode=3D0)
->   PRID: 0014d010 (Loongson-64bit, Loongson-3C6000/S)
->  Process kworker/0:5 (pid: 239, threadinfo=3D00000000927eadc6, task=3D000=
-000008fd31682)
->  Stack : 00040dc000003164 0000000000000001 900000012f210130 900000012eabe=
-eb8
->          900000012f000000 ffff80000319fe48 900000012f210000 900000012f210=
-130
->          900000012f000000 900000012eabeeb8 0000000000000001 ffff8000031a0=
-064
->          900000010575f9f0 900000012f210130 900000012eac0000 900000012ea80=
-000
->          900000012f000000 ffff8000031cefc4 900000010575f9f0 ffff800003585=
-9c0
->          ffff800003414000 900000010575fa78 900000012f000000 ffff8000031b4=
-c50
->          0000000000000000 9000000101c9d700 9000000109c40000 5f5e9200f8901=
-912
->          900000012d3c4bd0 900000012d3c5000 ffff8000034aed18 900000012d380=
-010
->          900000012d3c4bd0 ffff800003414000 900000012d380000 ffff800002ea4=
-9dc
->          0000000000000001 900000012d3c6000 00000000ffffe423 0000000000010=
-000
->          ...
->  Call Trace:
->  [<ffff80000319de80>] dml21_apply_soc_bb_overrides+0x60/0x960 [amdgpu]
->  [<ffff80000319fe44>] dml21_init+0xa4/0x280 [amdgpu]
->  [<ffff8000031a0060>] dml21_create+0x40/0x80 [amdgpu]
->  [<ffff8000031cefc0>] dc_state_create+0x100/0x160 [amdgpu]
->  [<ffff8000031b4c4c>] dc_create+0x44c/0x640 [amdgpu]
->  [<ffff800002ea49d8>] amdgpu_dm_init+0x3f8/0x2060 [amdgpu]
->  [<ffff800002ea6658>] dm_hw_init+0x18/0x60 [amdgpu]
->  [<ffff800002b16738>] amdgpu_device_init+0x1938/0x27e0 [amdgpu]
->  [<ffff800002b18e80>] amdgpu_driver_load_kms+0x20/0xa0 [amdgpu]
->  [<ffff800002b0c8f0>] amdgpu_pci_probe+0x1b0/0x580 [amdgpu]
->  [<900000000448eae4>] local_pci_probe+0x44/0xc0
->  [<9000000003b02b18>] work_for_cpu_fn+0x18/0x40
->  [<9000000003b05da0>] process_one_work+0x160/0x300
->  [<9000000003b06718>] worker_thread+0x318/0x440
->  [<9000000003b11b8c>] kthread+0x12c/0x220
->  [<9000000003ac1484>] ret_from_kernel_thread+0x8/0xa4
->
-> So protect dml2_create()/dml2_copy()/dml2_create_copy() with DC_FP_START
-> and DC_FP_END.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_state.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_state.c b/drivers/gpu=
-/drm/amd/display/dc/core/dc_state.c
-> index 1b2cce127981..6e2cac08002d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_state.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_state.c
-> @@ -210,17 +210,23 @@ struct dc_state *dc_state_create(struct dc *dc, str=
-uct dc_state_create_params *p
->
->  #ifdef CONFIG_DRM_AMD_DC_FP
->         if (dc->debug.using_dml2) {
-> +               DC_FP_START();
-> +
->                 dml2_opt->use_clock_dc_limits =3D false;
->                 if (!dml2_create(dc, dml2_opt, &state->bw_ctx.dml2)) {
-> +                       DC_FP_END();
->                         dc_state_release(state);
->                         return NULL;
->                 }
->
->                 dml2_opt->use_clock_dc_limits =3D true;
->                 if (!dml2_create(dc, dml2_opt, &state->bw_ctx.dml2_dc_pow=
-er_source)) {
-> +                       DC_FP_END();
->                         dc_state_release(state);
->                         return NULL;
->                 }
-> +
-> +               DC_FP_END();
->         }
->  #endif
->
-> @@ -240,6 +246,8 @@ void dc_state_copy(struct dc_state *dst_state, struct=
- dc_state *src_state)
->         dc_state_copy_internal(dst_state, src_state);
->
->  #ifdef CONFIG_DRM_AMD_DC_FP
-> +       DC_FP_START();
-> +
->         dst_state->bw_ctx.dml2 =3D dst_dml2;
->         if (src_state->bw_ctx.dml2)
->                 dml2_copy(dst_state->bw_ctx.dml2, src_state->bw_ctx.dml2)=
-;
-> @@ -247,6 +255,8 @@ void dc_state_copy(struct dc_state *dst_state, struct=
- dc_state *src_state)
->         dst_state->bw_ctx.dml2_dc_power_source =3D dst_dml2_dc_power_sour=
-ce;
->         if (src_state->bw_ctx.dml2_dc_power_source)
->                 dml2_copy(dst_state->bw_ctx.dml2_dc_power_source, src_sta=
-te->bw_ctx.dml2_dc_power_source);
-> +
-> +       DC_FP_END();
->  #endif
->
->         /* context refcount should not be overridden */
-> @@ -268,17 +278,23 @@ struct dc_state *dc_state_create_copy(struct dc_sta=
-te *src_state)
->         new_state->bw_ctx.dml2 =3D NULL;
->         new_state->bw_ctx.dml2_dc_power_source =3D NULL;
->
-> +       DC_FP_START();
-> +
->         if (src_state->bw_ctx.dml2 &&
->                         !dml2_create_copy(&new_state->bw_ctx.dml2, src_st=
-ate->bw_ctx.dml2)) {
-> +               DC_FP_END();
->                 dc_state_release(new_state);
->                 return NULL;
->         }
->
->         if (src_state->bw_ctx.dml2_dc_power_source &&
->                         !dml2_create_copy(&new_state->bw_ctx.dml2_dc_powe=
-r_source, src_state->bw_ctx.dml2_dc_power_source)) {
-> +               DC_FP_END();
->                 dc_state_release(new_state);
->                 return NULL;
->         }
-> +
-> +       DC_FP_END();
->  #endif
->
->         kref_init(&new_state->refcount);
-> --
-> 2.47.1
->
+On 2025/3/18 9:37, Gurchetan Singh wrote:
+> 
+> 
+> On Thu, Mar 6, 2025 at 2:52 AM Huang, Honglei1 <Honglei1.Huang@amd.com 
+> <mailto:Honglei1.Huang@amd.com>> wrote:
+> 
+> 
+>     On 2025/3/1 5:21, Demi Marie Obenour wrote:
+>      > On 2/28/25 12:36 AM, Honglei Huang wrote:
+>      >> From: Honglei Huang <Honglei1.Huang@amd.com
+>     <mailto:Honglei1.Huang@amd.com>>
+>      >>
+>      >> Add a new resource for blob resource, called userptr, used for let
+>      >> host access guest user space memory, to acquire buffer based userptr
+>      >> feature in virtio GPU.
+>      >>
+>      >> - The capset VIRTIO_GPU_CAPSET_HSAKMT used for context init,
+>      >> in this series patches only HSAKMT context can use the userptr
+>      >> feature. HSAKMT is a GPU compute library in HSA stack, like
+>      >> the role libdrm in mesa stack.
+>      >
+>      > Userptr should not be limited to HSMKMT contexts.  Userptr can
+>      > accelerate shm buffers by avoiding a copy from guest to host, and
+>      > it can be implemented using grant tables on Xen.
+> 
+>     Yes, I totally agree userptr can accelerate shm buffers, but I currently
+>     don't know if there are any other projects working on similar features,
+>     or if maintainers have any opinions or better ways to implement them, so
+>     I temporarily limit this feature to HSAKMT context only.
+> 
+>     I am waiting for everyone's opinions, please provide your thoughts.
+> 
+> 
+> I wonder if you can emulate userptr using udmabuf on the host-side?
+> 
+> Essentially for the guest, it'll be a malloc'ed memory, which means a 
+> guest sg list.  We can convert the guest sg-list to udmabuf using well- 
+> known mechanisms on the host side.  I hope amdkfd can operate on dma- 
+> bufs too?
+> 
+> I do such a feature that would have a more generic utility outside of 
+> HSAKMT contexts and not rely on Xen-specific grant tables  ... 
+> checkout VIRTIO_GPU_BLOB_FLAG_CREATE_GUEST_HANDLE in crosvm for an example.
+
+I think userptr can be emulated by udmabuf if the sg list is from guest 
+user sapce and not moveable, amdkfd can operate dma-buf, and the userptr 
+feature can be achieved by partial functions of dma-buf as far as I can see.
+
+But the udmabuf need managed by UMD, this will result in some 
+performance loss, and we are planning to implement virtio GPU userptr 
+using hmm_rang_fault, udmabuf solution may be completely different from 
+this one.
+
+I saw the feature VIRTIO_GPU_BLOB_FLAG_CREATE_GUEST_HANDLE is used by 
+the crosvm in beta branch, but I can not find the kernel virtio gpu 
+part, how to access it? Maybe I can try or help.
+
+> 
+> 
+> 
+>     Regards,
+>     Honglei
+> 
+
