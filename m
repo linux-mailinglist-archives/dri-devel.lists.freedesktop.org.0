@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B0DA673FB
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 13:37:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7CDA67408
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 13:39:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97B7310E46D;
-	Tue, 18 Mar 2025 12:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B156410E47B;
+	Tue, 18 Mar 2025 12:39:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HHJO87pV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EGEgJUrH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7CA10E46D;
- Tue, 18 Mar 2025 12:36:59 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA5810E22C;
+ Tue, 18 Mar 2025 12:39:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 336F0A44B68;
- Tue, 18 Mar 2025 12:31:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378ADC4CEDD;
- Tue, 18 Mar 2025 12:36:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B0BE25C58DA;
+ Tue, 18 Mar 2025 12:36:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18A47C4CEDD;
+ Tue, 18 Mar 2025 12:39:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742301418;
- bh=SJfjF8VJl5ngT74kMsrcr6AJgeo76waz96E0SWlabtQ=;
+ s=k20201202; t=1742301546;
+ bh=2e+zFKLmefoVlJH+QXgvwXNeq0lONZMsK48SZIa4bsA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HHJO87pVbzmheUZYIr7thy63UrkYX2x72fwQfRmRLnlMsHopMNgRZAlqJfUO1wkMs
- 4TILcZZE6kizvmyJQdADSn4FdVUdAgX0Ogd5xPE2bBMwShEK6yX90vc+5+LJ6PlupO
- nIFSEX1edXh4ZPxSIX9xs3KE1ZT952Hod/rwlXbYLxolF+YPTro9HMYccTqsjQfrUp
- K/I6bF4KdLq7tHJTHOx5EKhrA08baROk1fV3jJ+t504pvXKzAT3/sZ750z7E6jUiXe
- uleKiGGpnJFN0fO1k8oyazAnHc/29Dntu3PSDWikPRj210cTRxzEyEZF9Rwblm4Y4t
- +5likWZSaF5mg==
-Date: Tue, 18 Mar 2025 13:36:54 +0100
+ b=EGEgJUrHvIog7ah9s1MlhtLGT/L3OvBdp82nbtWpoE02MqcLuxq2JpIIS5j4wBjAd
+ wxOTpFxlT2gm/oihmsYD1xmAdibBqNRwYT2WdqkBemo2sLkVUB+kWeZxNyWhnLrh4l
+ SznFOynVuUF2sfvrwpK01PHjtp82Qd+dSwwp/CctluYiarlTAo60o8Nf3y2goe9RXm
+ 7hYblY8n+fec+AhySBwdHhh5QHjU3n/oBHCeoopA2j/T6ZbCfuu3MOSoz8n1AXCE5W
+ MbUxqGR7T5cuJlq3mJldKhzuxxffvWq0+cpsVW6tZYTnA3YNvjJNGDA5GEEpqEorK5
+ vPY3yzgpCIrUQ==
+Date: Tue, 18 Mar 2025 13:39:02 +0100
 From: Danilo Krummrich <dakr@kernel.org>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
 Cc: phasta@mailbox.org, tvrtko.ursulin@igalia.com,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: Re: Try to fix amdgpu's error handling
-Message-ID: <Z9lo5tUhBgRqHk4n@pollux>
+Subject: Re: [PATCH 1/2] drm/sched: add drm_sched_prealloc_dependency_slots
+Message-ID: <Z9lpZiRaq0B80XoL@pollux>
 References: <20250318120313.19099-1-christian.koenig@amd.com>
+ <20250318120313.19099-2-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250318120313.19099-1-christian.koenig@amd.com>
+In-Reply-To: <20250318120313.19099-2-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,28 +59,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 18, 2025 at 01:03:11PM +0100, Christian König wrote:
-> Hi guys,
-> 
-> as partially discussed on the list already amdgpu has a bug in it's gang
-> submission code.
-> 
-> Basic problem is to add the correct dependency to the gang leader we
-> need to arm the other gang members first, but that is a point of no
-> return and it is possible that adding the dependencies fails with
-> ENOMEM.
-> 
-> Try to fix that by allowing drivers to preallocate dependency slots. Not
-> sure if that is a good approach, but of hand I don't see much
-> alternative.
+On Tue, Mar 18, 2025 at 01:03:12PM +0100, Christian König wrote:
+>  /**
+>   * drm_sched_job_add_dependency - adds the fence as a job dependency
+>   * @job: scheduler job to add the dependencies to
+> @@ -878,10 +910,12 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>  	 * engines involved, rather than the number of BOs.
+>  	 */
+>  	xa_for_each(&job->dependencies, index, entry) {
+> -		if (entry->context != fence->context)
+> +		bool signaled = dma_fence_is_signaled(entry);
+> +
+> +		if (!signaled && entry->context != fence->context)
+>  			continue;
+>  
+> -		if (dma_fence_is_later(fence, entry)) {
+> +		if (signaled || dma_fence_is_later(fence, entry)) {
+>  			dma_fence_put(entry);
+>  			xa_store(&job->dependencies, index, fence, GFP_KERNEL);
+>  		} else {
+> @@ -890,7 +924,8 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>  		return 0;
+>  	}
+>  
+> -	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GFP_KERNEL);
+> +	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b,
+> +		       GFP_KERNEL);
+>  	if (ret != 0)
+>  		dma_fence_put(fence);
 
-I think that's reasonable, in GPUVM we have a similar problem where we have to
-preallocate in order to avoid allocations under a mutex used in the fence
-signalling critical path.
-
-Unfortunately, this even prevented us from using the maple tree, since it can't
-preallocate for multiple entries ahead of time.
-
-From my side,
-
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+Those changes seem unrelated, aren't they?
