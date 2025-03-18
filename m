@@ -2,161 +2,184 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72D9A67298
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 12:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01D1A67344
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 12:58:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9868F10E466;
-	Tue, 18 Mar 2025 11:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B0610E467;
+	Tue, 18 Mar 2025 11:58:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Q0hjCxh4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SiBYYc0d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C060210E466
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 11:25:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED84B10E211;
+ Tue, 18 Mar 2025 11:58:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742299095; x=1773835095;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=NVvFQmrayYwK1mFgJ6EYqQx0k4f0i7blM7sCQStdrcM=;
+ b=SiBYYc0djXntZVZANXt/TfmUvPYa/KldksEUuf+PAthrtpTU/JlvDTKz
+ i30U8Q1tuS6Fuz3pNWWOA3PyJLiUJId8KHCfxhoBn/oEcymD/3sP+Wn7Y
+ zQnqiPTqs9mcrxE3/K0Z3Mq8T/k6twYOcILtI8jXF7+EFze9Iqkqnj+jD
+ 2uH1FkO46Q8rIEx8MNlyVktpon00rE3AVo7uNgkBX64QJduoFy/OaDlSV
+ zzynILfMvSTlWgRwghNpCBjNNwS49pTzcx3fcGm7yXqNs29DhXRKpXKJ8
+ kw+OJDPtX17/jR+RTd4e/8Zl8I1kHJe1LJl8ByDZU6Cz1NDaBJnLkkL49 Q==;
+X-CSE-ConnectionGUID: Sc66D3dpQP2yKj46r6/DFg==
+X-CSE-MsgGUID: ds/f+EgTQd22VOlJddvyhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="42684200"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; d="scan'208";a="42684200"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 04:58:13 -0700
+X-CSE-ConnectionGUID: U/eURhcdSw6TcKqUT2SPZQ==
+X-CSE-MsgGUID: bXsJoaRUQfei0niWZ7sxpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; d="scan'208";a="122066540"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 18 Mar 2025 04:58:13 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Tue, 18 Mar 2025 04:58:12 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Tue, 18 Mar 2025 04:58:12 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.46) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 18 Mar 2025 04:58:12 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mJeuUwxaQTLEHQJ2YtG04YB9RfYGCtAI/fCBgw82eZ2hzFuXjoWlooB9MdYraqnKcWkCEUptN5pO3Vf9oDsr6eSQ4ik1mCUE2HwZGZgkwc6LE9wGE4sEuLSPzEJ4T6+QE3yA0Idv+JNNiDAO9avhp4tond7q9rNH/HtuWXqqNbks/fYv3Ww+4XCBplF2KWMH/+6hneqJGa8LJY9YXE3oRkVNPYcFYrc94yHMipYUwJYIwaKJSYKozCZ4otRESTRYaME3Q8lM0WwmiM0xTru8hJxM25DLoc/9tpCmGXWJmuAfE0kdlZS65vOUohMA61V6yKhlCgKMV545qxXLxGmNCA==
+ b=ub2qDBI4ygrsBdabDjZ5BmDddpMmcpWSgAcjkYspjkffcphx8Ose4aaLOAFThgqSAzpVgD6ENH5TUm0k+ujMTH1vndcwALdOgObZ9Z7x9o8fZEJQIofykr5MXEjs8DK9lVLYgWXIRInozfZyKEMFBvpJ/c9f2J64H6PYrawyAv/JLld29LGp9oGa+gp0QOtZJjnqraTEKoFg6c/zUHxEIkSCHDrLim5J59BHsch11oyn6PoPkScdXg5IJHgE5sgY8jPe5OYNi/ovhzECEOZSe8PKT7PJcI5RrmIl4McV4pfHABgMbncU/Lr5DANriggbb6UGswdAJOfwRRsAb1tQ8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uUnQSru0XsLXzsMeozq0OPgVh8ujRfgKt2tLEjYLXDw=;
- b=OQbVuJTNxwUI3JfS3ChA50IAe0jH0bXPF7BRk2VrST1IvUap8DmYVg806rDGyuLa9jfaz+YbniS0WPIK0df0G+bxN2SOKI8mRYD3GugV0D99wr/sNV/7ykSc2MwrZGwR/Gl937YzSiEsDqksq2EyTdoweL5McXsGaVklH69CK+u+y4QQHR8MOP8Sf26RI6KSJcD5gh3nY7nqJjEV3tSq53XEk95NeKIXFRbvR9TP7i9h1lEEUSX0PZRLKpOJgk2ZIgtwbgz6aYr4po/5uX5EyAtwU5WoG01n6Tn56qcYICujv7lTZlyL8WQAj9NPF8zVvuOsftQBcXymEyCY8GZp8g==
+ bh=MJAvLEx9f8vANetb8wWGENsSS995T8dpoQCz0SMPsAQ=;
+ b=cay2xQTReykH5DMwe2w0brk8FHRYwJN0yd+YQTXg0ErRcNNvdJyKAdn/caAxjv0qX4xMFiibbaRjmMDT9NN8pxTcS1EGjfjAMaDDicsfElfXOu9/6tIUGqjnuNbRG8IUDB54D5SeOVXhiOf5H6jwmlq/cikDSWNxEiV7FZMjZCI9vfVJrX4f1LM6UR7HLfPdjLpvUd4vqVmvFDEQ9WQLmnpCoy2AeinLi+udFNV6eeIB3Q+TVmc62Zlgdk5LtJVHdJGX32AN+H1U6RkbanjA/2sOvBbiWAA2uui/q+N8IRgZwMYNO10jEhGfmoeFBRgJlBH6impKM/tDqNh+aKHCuA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uUnQSru0XsLXzsMeozq0OPgVh8ujRfgKt2tLEjYLXDw=;
- b=Q0hjCxh4AF8/gehB65A+pmRmj6aZV3+w3tijla6ci219vCcS3wXQmkwsa+g6Mx2TzpxMAnya61Uc6kDOn93kt3JP1evrYDjUU2NFc/6xLCWblu5IhQfXW11J9QCBP6HO9+qvOeN78Er5olNwsMWcTyyhGU9wZovhraTXr/OV8m4=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA1PR12MB6435.namprd12.prod.outlook.com (2603:10b6:208:3ad::10)
- by DS0PR12MB8320.namprd12.prod.outlook.com (2603:10b6:8:f8::14) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MW4PR11MB7056.namprd11.prod.outlook.com (2603:10b6:303:21a::12)
+ by DS7PR11MB8826.namprd11.prod.outlook.com (2603:10b6:8:256::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Tue, 18 Mar
- 2025 11:25:54 +0000
-Received: from IA1PR12MB6435.namprd12.prod.outlook.com
- ([fe80::273a:80c9:35fc:6941]) by IA1PR12MB6435.namprd12.prod.outlook.com
- ([fe80::273a:80c9:35fc:6941%4]) with mapi id 15.20.8534.031; Tue, 18 Mar 2025
- 11:25:53 +0000
-Message-ID: <e7614b27-e9b4-49a8-831b-0acd33911336@amd.com>
-Date: Tue, 18 Mar 2025 19:25:42 +0800
+ 2025 11:58:09 +0000
+Received: from MW4PR11MB7056.namprd11.prod.outlook.com
+ ([fe80::c4d8:5a0b:cf67:99c5]) by MW4PR11MB7056.namprd11.prod.outlook.com
+ ([fe80::c4d8:5a0b:cf67:99c5%4]) with mapi id 15.20.8534.031; Tue, 18 Mar 2025
+ 11:58:09 +0000
+Message-ID: <4203f450-4b49-401d-81a8-cdcca02035f9@intel.com>
+Date: Tue, 18 Mar 2025 17:28:02 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/7] virtio-gpu api: add blob userptr resource
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: Demi Marie Obenour <demiobenour@gmail.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-References: <20250228053650.393646-1-honglei1.huang@amd.com>
- <20250228053650.393646-2-honglei1.huang@amd.com>
- <cd9f85a5-0d99-4007-bba2-d792ac9d84da@gmail.com>
- <c2d1334f-6f5a-493f-bbf0-3e92789f128a@amd.com>
- <CAAfnVBk-JJKxJXAstwmgL4=EM15RHfVm4NQST+p3nE4xi2220g@mail.gmail.com>
+Subject: Re: [RFC 13/29] drm/gpuvm: Introduce MADVISE Operations
+To: Danilo Krummrich <dakr@kernel.org>
+CC: <intel-xe@lists.freedesktop.org>, <matthew.brost@intel.com>,
+ <thomas.hellstrom@linux.intel.com>, <oak.zeng@intel.com>,
+ <dri-devel@lists.freedesktop.org>, <bbrezillon@kernel.org>
+References: <Z9gxV0RZLopxf8et@pollux>
 Content-Language: en-US
-From: "Huang, Honglei1" <Honglei1.Huang@amd.com>
-In-Reply-To: <CAAfnVBk-JJKxJXAstwmgL4=EM15RHfVm4NQST+p3nE4xi2220g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR01CA0185.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::19) To IA1PR12MB6435.namprd12.prod.outlook.com
- (2603:10b6:208:3ad::10)
+From: "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>
+In-Reply-To: <Z9gxV0RZLopxf8et@pollux>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA1PR01CA0169.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:d::21) To MW4PR11MB7056.namprd11.prod.outlook.com
+ (2603:10b6:303:21a::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6435:EE_|DS0PR12MB8320:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3aec28c7-88d6-4770-e322-08dd660fa4ca
+X-MS-TrafficTypeDiagnostic: MW4PR11MB7056:EE_|DS7PR11MB8826:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7a5bb92-6e0c-41cd-92d8-08dd661426a8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?KzgzUjVBTWVWazdnU2VnR3NEaVZoeVRaQzEwUGRhdHg3ZWdTaHZRYXhRQkZE?=
- =?utf-8?B?c0FJSno5UE9vc1REdVFpZEtjWkI5T3ovd25RRmpPbW1RMWdoYnN4QWxpM0RG?=
- =?utf-8?B?SEZNS3BlNUZjb3RReUdLakJLb05OWDZ6OE00Rno0SHBQNThHTzVrMUZQQkRs?=
- =?utf-8?B?RzhGMmI4V2JzZmtWdS9qUzhzMjAvTkQrbWVzK0RTdkhoa0J0eXd1QTZ3OHAv?=
- =?utf-8?B?UHlQWnhtcitmTzd0UXhBYTZHZWVaVmltTTV0cVNIWU1CSGE3L0R4Y0ovZTRk?=
- =?utf-8?B?U0EvNS9yQlJXRHZRdVRoMVh2bHJOUVJ4Ylg5c2RTank5YTllbXNaSnc5c0ZV?=
- =?utf-8?B?V25waWxzQkhHdU5kdGxQK0RIdnhEVWk3NEwzdnBvdTJmLzkyWHIzQTluU3Y1?=
- =?utf-8?B?a1EyQjFQd2psQUc5K055NUNzSE42em1SejNqZUplOGlnRGlDK0ZOWHY0aTBs?=
- =?utf-8?B?cU4xVFA2blFrZTlMMzBrSng4UHc2NmJlSDNadUtUM2NiV3BPR3VvV3RFTDdB?=
- =?utf-8?B?ZXlZOG9Edk1PLzBzVEszdUdnNmV5dTBQZFFIUE9xQlkzSUx0c3h0YmFiV1dE?=
- =?utf-8?B?c09xS3kxbHIwUFdwbEFDNkdaSmU3NTNmT1J3MTM3SVM4b2crUlJoNTdLNVFz?=
- =?utf-8?B?eHhCVlZTaG1IVGhxdjZEZHhJQWdFVTdvREg4QXlPMUhXL1AwcnFDOHZqOTlL?=
- =?utf-8?B?OVJYUGhSVXlNWHVqa3l3SnFZVm1lSTVvV2wybEFJNHpRVVJGc01va2FzaWpr?=
- =?utf-8?B?L2Y3cldaY2NuNnNGM2VUSk1udG4zSDNOc3pROXBucm5YVGhQTE9zclFxMWI5?=
- =?utf-8?B?MllyQytCcnZCNFMrcG54T0JyZGt1Y29kVTFqMkhqOGVoWFFSc2tHaTNxOWtw?=
- =?utf-8?B?d1FOS0JuM1ZMckNOYnNKTnBmVklOVFowblNWdnJ1bE1PTFlEWGx3ZUcwQUFB?=
- =?utf-8?B?QWltNG9QNGMwM3g5WmhpWjVIbnVpYVNNamQ2aFltMmhwV2dMczhjK0IxbTll?=
- =?utf-8?B?VjREUHFBbEpQTkVGTk5kS2FsS2hNdEZXNDZTV3dQeUw2QWpjbFEzWE53UHFG?=
- =?utf-8?B?UDRNTGhXRjFwZ0tFa0kwSUVEazJNQUlhQWlYTjBLZTBXOS9TTDJndkpYTmFn?=
- =?utf-8?B?WUFicTlRLzFZaE9QTkRUdVpGcW8zV2VRSTVqdGM1emloNjdhMERHN0RFYysw?=
- =?utf-8?B?eXVyYitIdlBJOC81dUxBNUlhUWx5YlYxdkllc2JLK2FNOTZZa0k5TndQczYy?=
- =?utf-8?B?aEpyZ2FlZmJzNnoyQUc2TllCRlEvU3QzT0tvRXNrMkRwdEUwQVZWRHpWUXRl?=
- =?utf-8?B?QVNra3hxRFJ1RmxtY1ROOEhOOHlHRjRya0V4a0d6RmNPZmR0SDRSZHdjNFZQ?=
- =?utf-8?B?eitvc01ac1dRbDlldG9xa29BYVJhU1lBUy8rd3Rld3hPblQwczBnQXpDUGly?=
- =?utf-8?B?L1hVQW1sTmxSRy9hYS9odmhBRlgyYVA4dTFWNktRTWtZOXY1RitKYk9yWXhB?=
- =?utf-8?B?bnF1d09DRU5ob3JqeWpxS1BwZ3BLbEEvR2paYmZrVVJKUjI1NmUzMFA5c3ZI?=
- =?utf-8?B?UmVObkJNeThBSUVudEJtaFV1ZGFnaDlzS252L3dnNm9aTlNEdUxQMkszUllD?=
- =?utf-8?B?ekpZNzVOYzRQY2g5SXYzVmVYQ2ZBR1BiVW05eE9KWlZ3Z0p4cHpubFZTZFZw?=
- =?utf-8?B?YUdzTjZabEtCMmZsdHRVUkxWd3VRak5sWTZ2L0h2eGRlOERNa0lNcFJqWnY3?=
- =?utf-8?B?K1F6SFJtZ0x6QW5xazNLUFB3QXRvaUpPQ3pELzFBbVkwK2prNWp6cURUUWRn?=
- =?utf-8?B?YVY4K3hCTEYveWZKWkFnN01zWWlhT0NUa2FLYnFuVHVlay9BM21ueStOaGVz?=
- =?utf-8?Q?D/x3OwEK/4Yhs?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c0tZUHUzT1h0QWpZZlM0QmZ1L1RYZENuRUttRk95ZHlWcWVPOXFxYWhWbko0?=
+ =?utf-8?B?b0sxSnU3SG53VGZyUmtpSGIvaDNRUkxuSitNcHR2cjhubzUzNi9CMVUxemNQ?=
+ =?utf-8?B?WDlJcGxjMGk4YnJuaXdIZVp0YzB5WG43bHJrNFNuZkdsZ0s0aVlkWEVXNzNi?=
+ =?utf-8?B?djNmbHk2d3BFN0FVd04razBLU21Za2tQTXNWend3YXF0RGwrWDZIRjdvSmdv?=
+ =?utf-8?B?VWwySkpWdTErcklSRzRNVCswaldKOW0wNE9nV3JCTm5oNU1zL1NncVhwSUIz?=
+ =?utf-8?B?aWtFcWwybWprS2tudERyaGxuL3BqcWJhQXFaVS9qM21ISUxFR3loZXBZZXRV?=
+ =?utf-8?B?ZWZVd2laTGhoem56RkNRWm10c0Jtb1JoSTNxWXlEYU1MTzZKeXpIU2R4ZXlq?=
+ =?utf-8?B?SU5OWUhjVk5RRzk2clZVTDAzWGo4KzR6UmkwdE9SZkVyQXVaQmhaK2JJQ1RZ?=
+ =?utf-8?B?Rk9JdnpBb242cDRHTTFYWlJWNlQxUDNQb05iREhhU1dBT2FVblZoc0tmdjVr?=
+ =?utf-8?B?SzZMUnlvbG9UNmhCWVFxaSs4S3RCQXo0SGU2TUhrdUJsRW9XMUhoNW1ZSWhU?=
+ =?utf-8?B?bVZFWW41RCtoNlN3cEp4SFQ0SXFJbXg2cjFqRjB3eUkyZ3RxcmIzYVpGdzQy?=
+ =?utf-8?B?MCtiSzJITXRHeU40bEp6WHZPRTdZaWxsb0ZzMk1sQjlmK0R0VDZVZHhMdWZ4?=
+ =?utf-8?B?YUM5MnlGU3F2cWFnRGdnVXYvdmJpN2krSkJHNjdyTW5VbE5Da2loOVl0TjFZ?=
+ =?utf-8?B?VlRQcy9xamh5QlZMK3ZqTURkMDZDczRJeWZvRlVvRXpNallNcDZ5d3lHQVJz?=
+ =?utf-8?B?OFFGZzhBOVIxaDBpTmk4eDNtemVoU3VMaElMOHhjUlhHR2pFWFFPcXhoRHEz?=
+ =?utf-8?B?QnFPeU9aUlV3eXZTWVBEQU1DNWVNSUZ2aU5zU0h0Vit6Um52RTl1ZUQ2TlJi?=
+ =?utf-8?B?aEV6aVZGbzJGUExjY2VuUnp0SHNHeTE0aUVBVzloMEwyU3pOYlBNcE5uMW13?=
+ =?utf-8?B?T25rWDlET0NVazd4MUR6dGplekxiOFV1eDZXcEd4dHRPQnM2U3NsQTRqVEh3?=
+ =?utf-8?B?amVDNVJ6NUVxOEhkaStQMWgxNHplUitsWnJkM3o3MmJGblRHaFVGczMyMURm?=
+ =?utf-8?B?SXpvWE9ySXhwY3NGYzVoUmJaME5NV1RSa08xclBoMkJ0b2FZVDliQlZEdGdk?=
+ =?utf-8?B?bm5YV3JVTW5tZCtCWGpQRFpsamdtOXpRZzNlWS81Zy9qeUQrQ210cGJrSjN0?=
+ =?utf-8?B?bG9kREFla2ZRYzMxSEtsQi9udCtaQUkyOVIzUmFKU0djUlhuUGlqVmdpWnho?=
+ =?utf-8?B?S1FtU1JkRjVVYnlrbHJ3MGxwSnE3SXYvdXl4MlNINUtvcncwR1J3eHBBVVpV?=
+ =?utf-8?B?VjdnQW4xVHQvQWFMRTBFUUhuUSs4Z3VvUXhRRjdYdlRMbHBzS0Z4cCtFd2Mx?=
+ =?utf-8?B?dFg5cDF2WWJwVWY0Zm9Bdk5pN0ROM3hyQTNFZlBkK3luNWUwQjdYNkl2YlA2?=
+ =?utf-8?B?dnZSV3ZtVVpGeW5DTTk0WHZGN2pYS0Y0d1p0amtocFFGQlN1eER5bmFNUzNY?=
+ =?utf-8?B?czE4cG80OUQ4bVFTMWt2T3IyR3pPaHJ3dFVvZ2ZFdW1zTXJZekFSakxzbjhm?=
+ =?utf-8?B?YU5tTlltcVp4Q1NHR2w0Q3Zhd1JGS25kbHZrREFzRkhQeWlhc2R4YkoyZFhF?=
+ =?utf-8?B?VWV3cHpTMUtqL3FVdDNNUUcwWTkyY1BIbjhFL05sOVJKS0Y0WVBDU2hhdU1S?=
+ =?utf-8?B?TEU5N3U4bmlLZk5HOEp0YUlSQ1RzOElpOFdVUUp6RnBRZEJUeXlmanhIeWg0?=
+ =?utf-8?B?YndXczBHbmFYUE14VE92QT09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA1PR12MB6435.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:MW4PR11MB7056.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHZOdm1UdFRSaFJIM2cwSno5N3ZlN3QzRDJGOFpLUjJBOVVyYStjenhKQ1dC?=
- =?utf-8?B?RmxFcTNWLytReG9kR0JPcjRHVk9yRFRKVlpFbjd0OGRIRDdRNkNiRGNBTkFw?=
- =?utf-8?B?aEtOMHk5WVJPRFRROG1sZTNpMkx6RGl3bUFZckk3T3VRNkhrTVNONmM4dS9u?=
- =?utf-8?B?Skxla3VGakU5VXc1UGZpVWc4NmxvcTJ1WTlzRUdzUXVabHpvTDllYU9lckNj?=
- =?utf-8?B?YmFtZXNFZFIrSnlIUmswWmRvTEZ4b1MrZzcyMlJnWDFldDdhOEI0V05qRW1s?=
- =?utf-8?B?eFR5WDNqMlhYQytidHQwVWk4aVRoSldKclM0Q2RLc1Rja1ZPK2dTSG84alA3?=
- =?utf-8?B?UEM0RkRLd2x3L0U5RjRNYnVZbk1ZQW5VWlFFZjZUNkx2VzhtN090dXdsUkNw?=
- =?utf-8?B?MG9jTWMvYkQzNFlkTlNUOEppSXkwcFBZOFk4N0F0U1l3a1JjbWppK09EN1lF?=
- =?utf-8?B?TTNmNXliaE9PTkZtZWx0OWlRVm9vQmJlNU05cGFHQkxSNkUyWi9pYW04anhS?=
- =?utf-8?B?UXNhTU5qSDQ0akRJMU0yVzdETFlQQ2YzeWZkSCtCOC91NWp4M3h4SW8vSm9m?=
- =?utf-8?B?dmdrdWh6Z0FIYXo3WkhvK1A1UzRzU1RET08wWDlaQmlZREJNc3pVSTNXVnlI?=
- =?utf-8?B?dWNoYlpEQ25YUjBnN0tMbEwwMW96LzhMbHZ5Sm5ObnNoOEppYWtkNm1Lc2xF?=
- =?utf-8?B?cnkyR1U2M29XSC9Lb1dodVA5bnREOERCdXE4UTNsQ1JRaUZUUHIrdVhJTCtL?=
- =?utf-8?B?OWYvWGhmb2xwZUhPNXRYdDltbnJ4Y3ZjSzE0KzE5dEwyYW11R0dWa2x2ajZC?=
- =?utf-8?B?VDNpMEd5YUR4MzkzbmNHS2o5bnY1ZFdFSXFtd3FSdzQ5WWFpaSsxOHJnempm?=
- =?utf-8?B?TWpoL20yNHdTdGljT0Zvc0FPN0prT0kzKzR2REM4Y1MzTkpucThvS2M3dDNj?=
- =?utf-8?B?dk03TWQ3OEMvb3REODZBZTFOKzZsVWFLdFJrWGFkMHhRTHd1SXdjZDJFdndN?=
- =?utf-8?B?ZWFIZzVSdEZOQmthRjZ3dUlHTFFmem4xdHRJYSt6S3ZWVklmV3RoNFdMSUdN?=
- =?utf-8?B?c1ZJZy9YYStWT3EwdXFYY0NLOWxnTUlaalU4bUpoUlhhWmVpb1lCeDg2dGhj?=
- =?utf-8?B?b0ZYNzlRS1NHNHZrL1FFQzBHd1hUUU1NUHZ0bHMxODBobEczd2tWL1FPcEZn?=
- =?utf-8?B?bDlQZzkxZm50VUtiRVhDZFVmd25NdzBOa2lLenZqOU1wTW8vR1hFY0lFK2Vs?=
- =?utf-8?B?QlFCV1NQYm50TzY4MG1VQWR5UzV4T3VXRTA1MGtxNUFtWkVLeExjKy8wa1hS?=
- =?utf-8?B?NmlTeDZJanM1VFJhUkIrZWFYM3k0MU93QWlQT1dSQlg4WE42a2cxL25SYXpP?=
- =?utf-8?B?dk9SKzV1Q054VEVDNUNlK0VldkI2dTMwaXF2Mk52Mzh2d3VGRjZrd1JRSFBG?=
- =?utf-8?B?SlZyQnJ4UTlQRVFuSkJrYWxEQ21QUWhRbXUwZllNSTl0STRPK29VNDJaWHBJ?=
- =?utf-8?B?dVRaaERreHJmNVozNkVWSlpwdXN5U3NpQk1VaWtLNFg0Z2h6TXdpTzEwRmhm?=
- =?utf-8?B?M0hYS3lTbTI3cytlYUhrMHk3RkVVbUlEbFVrOHJCN0U2d2xPZ09jdkV0aXFh?=
- =?utf-8?B?YUdzZmZ5OXBPWUMvTXNQMktMZ0ZiNDNkWHpzYkNIb0p0SnVHMVovOHpUQXJa?=
- =?utf-8?B?cmxKV3JPemhXQ1p0QmE5eHpnR29lOW1SSmZJbmc0VEhMd0kvREJBRXJFQloz?=
- =?utf-8?B?SmVRR3dURWpxRm5xUFNLTTRhenNlOXBMTVlkd2t2OUNlSkMwZW5NZ2FmVUQr?=
- =?utf-8?B?QllDMTBiWExtcnZpR2JsVjNPLzNkYzFnczFhVTBsUUFyUEhVU2krcCtsOE03?=
- =?utf-8?B?VytYOGUyNkNVajRtcTVvY0I4VTFhWmR5cElDaWc5MWttMCtLNUFraC9USG1x?=
- =?utf-8?B?azRQRFFkc1ZkNmxrZU40OG5oS2lWZDlHT2NoM25sdkdnSHpBSkZvc0hiSTg0?=
- =?utf-8?B?VTgvTTRTbVU4SGFuQ2x1UGZFN1BQbkFWQm5uS3VXTDdOcVBQMWw1VzJMQmYz?=
- =?utf-8?B?cE1RMHRSTkxISkVMbUUzdnZtY0o5N2dqTlptdkl5N2l1WFZrSERIOTVlTHB1?=
- =?utf-8?Q?z8mlyaT7kfPO/pMkQL5ESi7b3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3aec28c7-88d6-4770-e322-08dd660fa4ca
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6435.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZEZPQlRadVpGcW5zK2dVNkgxRE1oNVdhS1M1R1hMTlJqTFYwYmZ3MDNadDlD?=
+ =?utf-8?B?Q3I2TlBrMlhpZDJGcStMWE5sQWRRc2orWnBEbS94V0FwRm1WODZWUkJrd3BO?=
+ =?utf-8?B?ZzdKRVhYL2dOVmwvS05iVnlLYTZqcURKWUZTTVI4dHZMcm85bytoV3FXRWY0?=
+ =?utf-8?B?OEVvK25meUdreWRLbFgveDZvSitTK2NKME5WUFM2THBwbmdHSnJON29IVVND?=
+ =?utf-8?B?VjhPM0N6V2lxNVRQVVJ6UzV3Zno4bUZQbk5KOGpqcGc0QlJwb2tSdjQ5WDRt?=
+ =?utf-8?B?UkVmQWFJaDNITDJORVhKMGRqQ3h3V1JkNDRWK3ZQSFBwRVU3Yzdvb3Q2bEtL?=
+ =?utf-8?B?ZlZjNTNBMVR3cHhRbGhIdWR6UlRtVTZaemlsaE41aWdDajMyRXQ2UEhILzRZ?=
+ =?utf-8?B?eHFzemROUW1YbTFOZjE4OVQ0ZjJaOUlkVlg5dTh3NHh3M3Y0TS9QUk5BVGND?=
+ =?utf-8?B?UTA4WC9CRG5GblcwcTB5OGlocW1HSDhEYVVJZERZT0lwQlJIL2FvSlVRRmZv?=
+ =?utf-8?B?QTZIamExdkZ1bTMyWTlYK2hISnRxOXJEdUwxYnFFdXRDSVZEamErR2FIS01v?=
+ =?utf-8?B?bzZlQzIxb0p6Ym42M3V5eGk2NDdQMm9JMGJWM0tjOXpKZGF4bXJhY2xNdWxH?=
+ =?utf-8?B?ejVLeTdWejloSUZlTHdkUTY3ZHRVRytnaWl3bnBueU9MNHE4dU96Tkp2S2Rn?=
+ =?utf-8?B?eVpNYmhBWVBZL1hwaWtoYThqWEZhM29QQlRiU2hGTmxQL1EyVzVaZkN5b05P?=
+ =?utf-8?B?WGtGVUZ4MmQzYmZtTFc4RHZGRFZIc2JXME81U1hFUlN6YjdXdFVjQk4yQkFw?=
+ =?utf-8?B?Mkh5d0RTYjhvOVpsRVNXZm4wWDAzbU9OUzhKQU9tcFQyNmljTHVoWVpqc0Fk?=
+ =?utf-8?B?d1FrcEJsc0xyVHhuazVzKzBvNHFzdkwwUlMzOEJ1bmY3b3N5MmJDa2FiU0Ju?=
+ =?utf-8?B?MllUamxpS01lbmxHK3FheWkrUjc1ZFhvZmkxeFBpMTIwVDJEdFJPSUJjekIx?=
+ =?utf-8?B?SHoySS9mS29YQnNPZ1UzaXhRd1cxbjA1bU4zZHhjMU9UVm9lU24xcjZQWTI3?=
+ =?utf-8?B?U0gwUzJLVHhRbDlZV0lEYVdqOUtJVmV6Y3hrT1ovVmZXWGFvVXBRTzBtenk5?=
+ =?utf-8?B?TWhRUnJRUzVEbkhMRGJMNEdvVHllMGRqNEc1YU56eW5RRUpIRUFOakw4TG9x?=
+ =?utf-8?B?ejNaYml3UEN2NDh6eUZzSFJheCtwR0M1eVdyeVgrMG1WaDdjR3pFcmJ3MHdR?=
+ =?utf-8?B?aGYzWWJVYzZnRHo4VGtCMXp6MnVDU2ZNckxkeHhPdkkxUUVpeGNTNGYrUnl6?=
+ =?utf-8?B?bHNUcjE3c3lMTGU5bjFZeFZWRU1yWGZxeUI1dlJTajRIQm5MTVpLT1JrS2Qr?=
+ =?utf-8?B?ekJrWnJpRm50NCtvRDIyQmVlbzdQTjFmMks0aFR0cXlxTlBRM09CZk1aVVRV?=
+ =?utf-8?B?aTBnNGpvK1M3dEFUdTIreU5WYlkvNml6Mkw4bTFJeENLUHBpUVV2eTQ4d0gw?=
+ =?utf-8?B?OU9OUUdvdFZ0UmptTGpkMFRkZkJuY3NIYjhydXpKNmFtVlNxSk4zSi9wekJq?=
+ =?utf-8?B?MUtPbGNHcyttVUtsaHMvcHRWcEVxQnIxWXVubHlhL08za2J5bnBzUEk3am1L?=
+ =?utf-8?B?QVhZd2Z3TzRNMFNSa3FjVUMzV2ZJQlV4SXIzM2F5Y1lKeUhRd2hPbFhsYVIr?=
+ =?utf-8?B?OUpKd2RXY0czSlNyNVVjQXRuR0FyQ1hoN0JCd2I2dzUyRVNHTEZNU1FaSHZL?=
+ =?utf-8?B?RE1RTW41VlBkcWhjTmU4S3hUTi9YMVZyeXAyTmVvbUZOSnVXM2tQY0lKL0Ri?=
+ =?utf-8?B?VnpqR3ZNdHduQTZWYXp0TjJLQzhqZG1FaFdqMXlWbnQrVVJoeEpwQ1N1VjdX?=
+ =?utf-8?B?VnpwUVpoTEJROEdrNU9CaTZvNDBIQ3dvS2UvSEZ1NUkvSmZUTG85UzgxU0hs?=
+ =?utf-8?B?SUdndmRHY3ZCZSsrRlExYmhoQ1Y1dXF0OEMxTmVnWkptMk1EdU5Nb1JjTjJQ?=
+ =?utf-8?B?eG9neVQ4QkNkbzVhNERrZGd0Vit3UzZ0TFVkK21yaXQ3Q3pDR2xRQWJ4eXI4?=
+ =?utf-8?B?YWRqZERBQ2JmMTRtczA0SzhkZGVCaXFLMlo3NE1MOS9JUEovSUhkTVlDVmRj?=
+ =?utf-8?B?VFlhM2tEQi9VNU00dGJKYjVkS1ZZRHNKTlZlczRCWWRiWFBXY2lzaVdVcU9j?=
+ =?utf-8?Q?IoUostTtcz5wrsHElHoBo70=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7a5bb92-6e0c-41cd-92d8-08dd661426a8
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB7056.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2025 11:25:53.5234 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2025 11:58:09.3750 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JzHB0O1XcaZkO0aVdDIBMqFb+hpdssAB9vNiLunW4ALEO0hYas9fbiMj14n0M946/U8b8E4v1wCZS2pYINZ0zg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8320
+X-MS-Exchange-CrossTenant-UserPrincipalName: hCdg3Dz/jWvZGbXwHPA3HdLK4m5HQ9UL/NUxLfC3vX77JTuXwFPJA/ea9K3OcPJWQLFIOQyS63sXddoVzVxWF4IWoIF4Z7NmwTU8wAMd38k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB8826
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,69 +195,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Danilo,
 
+On 17-03-2025 19:57, Danilo Krummrich wrote:
+> (Cc: dri-devel@lists.freedesktop.org, Boris)
+> 
+> Hi Himal,
+> 
+> Please make sure to copy in dri-devel for such patches.
 
-On 2025/3/18 9:37, Gurchetan Singh wrote:
-> 
-> 
-> On Thu, Mar 6, 2025 at 2:52 AM Huang, Honglei1 <Honglei1.Huang@amd.com 
-> <mailto:Honglei1.Huang@amd.com>> wrote:
-> 
-> 
->     On 2025/3/1 5:21, Demi Marie Obenour wrote:
->      > On 2/28/25 12:36 AM, Honglei Huang wrote:
->      >> From: Honglei Huang <Honglei1.Huang@amd.com
->     <mailto:Honglei1.Huang@amd.com>>
->      >>
->      >> Add a new resource for blob resource, called userptr, used for let
->      >> host access guest user space memory, to acquire buffer based userptr
->      >> feature in virtio GPU.
->      >>
->      >> - The capset VIRTIO_GPU_CAPSET_HSAKMT used for context init,
->      >> in this series patches only HSAKMT context can use the userptr
->      >> feature. HSAKMT is a GPU compute library in HSA stack, like
->      >> the role libdrm in mesa stack.
->      >
->      > Userptr should not be limited to HSMKMT contexts.  Userptr can
->      > accelerate shm buffers by avoiding a copy from guest to host, and
->      > it can be implemented using grant tables on Xen.
-> 
->     Yes, I totally agree userptr can accelerate shm buffers, but I currently
->     don't know if there are any other projects working on similar features,
->     or if maintainers have any opinions or better ways to implement them, so
->     I temporarily limit this feature to HSAKMT context only.
-> 
->     I am waiting for everyone's opinions, please provide your thoughts.
-> 
-> 
-> I wonder if you can emulate userptr using udmabuf on the host-side?
-> 
-> Essentially for the guest, it'll be a malloc'ed memory, which means a 
-> guest sg list.  We can convert the guest sg-list to udmabuf using well- 
-> known mechanisms on the host side.  I hope amdkfd can operate on dma- 
-> bufs too?
-> 
-> I do such a feature that would have a more generic utility outside of 
-> HSAKMT contexts and not rely on Xen-specific grant tables  ... 
-> checkout VIRTIO_GPU_BLOB_FLAG_CREATE_GUEST_HANDLE in crosvm for an example.
-
-I think userptr can be emulated by udmabuf if the sg list is from guest 
-user sapce and not moveable, amdkfd can operate dma-buf, and the userptr 
-feature can be achieved by partial functions of dma-buf as far as I can see.
-
-But the udmabuf need managed by UMD, this will result in some 
-performance loss, and we are planning to implement virtio GPU userptr 
-using hmm_rang_fault, udmabuf solution may be completely different from 
-this one.
-
-I saw the feature VIRTIO_GPU_BLOB_FLAG_CREATE_GUEST_HANDLE is used by 
-the crosvm in beta branch, but I can not find the kernel virtio gpu 
-part, how to access it? Maybe I can try or help.
+Thanks for taking time for this. Will make sure to do same in future.
 
 > 
+> On Fri, Mar 14, 2025 at 01:32:10PM +0530, Himal Prasad Ghimiray wrote:
+>> Introduce MADVISE operations that do not unmap the GPU VMA. These
+>> operations split VMAs if the start or end addresses fall within existing
+>> VMAs. The operations can create up to 2 REMAPS and 2 MAPs.
 > 
+> Can you please add some more motivation details for this patch? What exactly is
+> it used for?
+
+We are working on defining the madvise ioctl within the Xe driver,
+which sets or unsets attributes to control page placement and PTE
+(Page Table Entry) encoding for GPUVMA's within a user-provided
+range.
+
+The goal of this patch is to introduce drm_gpuva_ops, which will
+create a drm_gpuva_op to cover the user-defined input range.
+
+Let's assume there are multiple gpuvma's within a to d:
+
+         drm_gpuva1                        drm_gpuva2
+         attr_1 = x                        attr_1 = x1
+         attr_2 = y                        attr_2 = y1
+         attr_3 = z                        attr_3 = z1
+[a----------------------------b-1][b-------------------c-1]
+
+         drm_gpuva3
+         attr_1 = x2
+         attr_2 = y2
+         attr_3 = z2
+[c-------------------d-1]
+
+Case 1)
+In this case, the start and end of the user-provided range
+lie within drm_gpuva1 a and b-1. We need to update attr_1 to x'.
+
+drm_gpuva1:pre      drm_gpuva:New map         drm_gpuva1:next
+  attr_1 = x         attr_1 = x'               attr_1 = x
+  attr_2 = y         attr_2 = y                attr_2 = y
+  attr_3 = z         attr_3 = z                attr_3 = z
+[a---------start-1][start------- end-1][end---------------b-1]
+
+In this scenario, behavior for ops_create is same as
+drm_gpuvm_sm_map_ops_create
+  REMAP:UNMAP drm_gpuva1 a to b
+  REMAP:PREV a to start -1
+  REMAP:NEXT end to b-1
+  MAP: start to end
+
+Case 2)
+User provided input range covers multiple drm_gpuva's.
+
+Start is in between a and b (drm_gpuva1). End is in between c and
+d-1 (drm_gpuva2). We need to update attr_2 to y'.
+
+drm_gpuva1:pre         drm_gpuva:Map1          drm_gpuva2
+attr_1 = x             attr_1 = x             attr_1 = x1
+attr_2 = y             attr_2 = y'            attr_2 = y'
+attr_3 = z             attr_3 = z             attr_3 = z1
+[a----------start-1][start-------------b-1][b-------------c - 1]
+
+drm_gpuva:Map2  drm_gpuva3:Next
+attr_1 = x2     attr_1 = x2
+attr_2 = y'     attr_2 = y2
+attr_3 = z2     attr_3 = z2
+[c------ end-1][end------------d-1]
+
+In this scenario:
+REMAP:UNMAP drm_gpuva1 a to b
+REMAP:PREV a to start -1
+MAP: start to b
+
+REMAP:UNMAP drm_gpuva3 a to b
+REMAP:NEXT end+1 to e
+MAP: d+1 to end
+
+Behavior is entirely different than drm_gpuvm_sm_map_ops_create.
+
+Case 3) Either of start or end lies within gpuvma and will have one
+REMAP and one MAP.
+
+Case 4) Both start and end are lying on existing drm_gpuva's
+start/end. No OPS.
+
+The behavior is not same as drm_gpuvm_sm_map_ops_create. Here we
+don't merge the drm_gpuva's and there are no unmaps.
+
+Currently, we don't want split to happen on bo backed vma's,
+therefore skip_gem_obj_va is added.
+[1] and [2] are the patches within driver using the ops and defining the 
+ioctl
+
+[1] 
+https://lore.kernel.org/intel-xe/20250314080226.2059819-1-himal.prasad.ghimiray@intel.com/T/#m77dd9ea3507ed15bfcd2a1c410f9df17f79c69e1
+
+[2] 
+https://lore.kernel.org/intel-xe/20250314080226.2059819-1-himal.prasad.ghimiray@intel.com/T/#m2c49bf11661dec9d52edb8bf1bf9a553a709682e
+
+
 > 
->     Regards,
->     Honglei
+>>
+>> If the input range is within the existing range, it creates REMAP:UNMAP,
+>> REMAP:PREV, REMAP:NEXT, and MAP operations for the input range.
+>>    Example:
+>>    Input Range: 0x00007f0a54000000 to 0x00007f0a54400000
+>>    GPU VMA: 0x0000000000000000 to 0x0000800000000000
+>>    Operations Result:
+>>    - REMAP:UNMAP: addr=0x0000000000000000, range=0x0000800000000000
+>>    - REMAP:PREV: addr=0x0000000000000000, range=0x00007f0a54000000
+>>    - REMAP:NEXT: addr=0x00007f0a54400000, range=0x000000f5abc00000
+>>    - MAP: addr=0x00007f0a54000000, range=0x0000000000400000
 > 
+> This would be much easier to read if you'd pick some more human readable
+> numbers.
+
+This was the output which I printed from within the driver. Should have 
+ensured it to be more explanatory. Can you provide some input on how can 
+I make it more readable ?
+
+> 
+>>
+>> If the input range starts at the beginning of one GPU VMA and ends at
+>> the end of another VMA, covering multiple VMAs, the operations do nothing.
+>>    Example:
+>>    Input Range: 0x00007fc898800000 to 0x00007fc899000000
+>>    GPU VMAs:
+>>    - 0x0000000000000000 to 0x00007fc898800000
+>>    - 0x00007fc898800000 to 0x00007fc898a00000
+>>    - 0x00007fc898a00000 to 0x00007fc898c00000
+>>    - 0x00007fc898c00000 to 0x00007fc899000000
+>>    - 0x00007fc899000000 to 0x00007fc899200000
+>>    Operations Result: None
+> 
+> Same here.
+> 
+>>
+>> Cc: Danilo Krummrich <dakr@redhat.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+>> ---
+>>   drivers/gpu/drm/drm_gpuvm.c | 175 +++++++++++++++++++++++++++++++++++-
+>>   include/drm/drm_gpuvm.h     |   6 ++
+>>   2 files changed, 180 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+>> index f9eb56f24bef..904a26641b21 100644
+>> --- a/drivers/gpu/drm/drm_gpuvm.c
+>> +++ b/drivers/gpu/drm/drm_gpuvm.c
+>> @@ -2230,7 +2230,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>>   				ret = op_remap_cb(ops, priv, NULL, &n, &u);
+>>   				if (ret)
+>>   					return ret;
+>> -				break;
+>> +				return 0;
+>>   			}
+>>   		}
+>>   	}
+>> @@ -2240,6 +2240,143 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>>   			 req_obj, req_offset);
+>>   }
+>>   
+>> +static int
+>> +__drm_gpuvm_skip_split_map(struct drm_gpuvm *gpuvm,
+>> +			   const struct drm_gpuvm_ops *ops, void *priv,
+>> +			   u64 req_addr, u64 req_range,
+>> +			   bool skip_gem_obj_va, u64 req_offset)
+> 
+> This looks like a full copy of __drm_gpuvm_sm_map(). I think you should extend
+> __drm_gpuvm_sm_map() instead and add an optional flags parameter, e.g.
+
+Unlike __drm_gpuvm_sm_map() this wont have any unmaps and merging of 
+drm_gpuva's, hence I thought keeping it as separate ops is better. If 
+you are of the opinion modifying __drm_gpuvm_sm_map on the basis of flag 
+is more cleaner and maintainable, will change to it.
+
+
+> 
+> 	enum drm_gpuvm_madvise_flags {
+> 		DRM_GPUVM_SKIP_GEM_OBJ_VA = BIT(0),
+> 	}
+> 
+> Not sure whether "SKIP_GEM_OBJ_VA" is a good name, but I haven't gone through
+> this to such extend that I could propose something better.
+> 
+>> +struct drm_gpuva_ops *
+>> +drm_gpuvm_madvise_ops_create(struct drm_gpuvm *gpuvm,
+>> +			     u64 req_addr, u64 req_range,
+>> +			     bool skip_gem_obj_va, u64 req_offset)
+> 
+> Same here, I don't think we need a new function for this, but just the
+> corresponding flags argument to the existing one.
+
+Same as above
+
+> 
+> Besides that, when adding new functionality, please extend the documentation of
+> drm_gpuvm accordingly. It's fine you didn't do so for the RFC of course. :)
+
+Thanks for reminding. I Will definitely add proper documentation with 
+conclusion on further design, just wanted to have opinions on this with 
+RFC.
+
+- Himal
 
