@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D7BA67D2F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829CDA67D30
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:38:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D5110E03C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D5C910E0B7;
 	Tue, 18 Mar 2025 19:38:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="ISq/xUWV";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="OPfECu2S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
+ Tue, 18 Mar 2025 19:38:13 UTC
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
  [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8F7110E0B7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3C7810E03C
  for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 19:38:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742325776; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1742325783; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=YN3yBo7fSY6NtgndMEoltJs5TFH03pgIF/PKO1UCJqseBIzZE/CIaPrQKLxSTFLA0x/hIcAsZmHuyoKYSd4yhJYu9DsbHoG0wYA/ERz4RFJwJVeIqBSLmfAU1BxTzsVgRn7pJ3zXdIZ8WutcpFLIBgm4cuYkx7tqY2mQODkN+ZY=
+ b=PTJaz09qFMbDsvagbvsS3rm9wHzpkAY9ZV5xoNNjdwYWo8dG2qShxrXnwuKXXMwLUZhI92VaqKOGglKgdC+MP3iUG/fU+QILWf+fZPQBxw2PHTvWCrYEUViuQTZ4DpKsuTpSyOBycOIlR6EmduZWQCc3f2JDeXeWWQ25QBibN6I=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742325776;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=rz6R4RVDyxCD4ijy0dJnSvOrF4NkRk+ghOw9yCNP7Hg=; 
- b=CbT7wfUmf5zuX6X7gMqj9ZTv65dSM3aFyxkp5P1jjfC1g1kVVPkgjbqZn5cN9jHIYGRyJVtYEgstwSCtzkXn9LFShMhqJdxvkqbuXKxRPh7uiTcFVstMFlD9KT+IsJUfuxpbrKZjz0YWjaNF53pFZOmb4VMSsfQuBbsPtlOEClY=
+ s=zohoarc; t=1742325783;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=9wCuwS7UKXaDgrz4jduawpF4mCPLt9l9JKYC4KOue28=; 
+ b=XdXiUDcelySLk2ckYEsf5stweq8Yz6iScMd2F9AhMIaH9gen6M5nNXtCJIDdGQ25ETUKCx5BMF/taCXKlO8I8q87IiFPJEEyD64MzJ4IgJchF0OWVK2SVzB4sQtVbJXws87cQ3jKtc2cViwV1D0rDOrot61sdCZzIM8exo3xAiM=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
  dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742325776; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742325783; 
  s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
- bh=rz6R4RVDyxCD4ijy0dJnSvOrF4NkRk+ghOw9yCNP7Hg=;
- b=ISq/xUWVsYkrLhJ7g4KMNX6TvL5jONcig7h+YUaygwRPZPjSMlEzT8NfFGaiOnk6
- +hL+BDFdfvsX7O6cvfe8WtBMu4Y3SES5tsC6BNKmT/1Sjb4OtNA5fDZ+Y6bmWGJLhJa
- xrAWlRFBeVNfxzu+t3p80FPJXPh7WsWYXlaigOk0=
-Received: by mx.zohomail.com with SMTPS id 174232577443424.905915853504553;
- Tue, 18 Mar 2025 12:22:54 -0700 (PDT)
+ h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+ bh=9wCuwS7UKXaDgrz4jduawpF4mCPLt9l9JKYC4KOue28=;
+ b=OPfECu2SmR5CTw0zvl0legVF9p8Dj5+hol1B1Qci4h90TRDOCAGN996H/6ccAel6
+ o7DkE7aBV5hvC4MOiWgwWo2UQDDXCQag/pBhYti2K0OcK99ViaAxi2Lh1MiQKSR2LNB
+ Pi6pQK/KMsUuN/r75o2pZHrbaxafqJljltjdfOho=
+Received: by mx.zohomail.com with SMTPS id 1742325779988998.490270205079;
+ Tue, 18 Mar 2025 12:22:59 -0700 (PDT)
 From: Daniel Almeida <daniel.almeida@collabora.com>
-Subject: [PATCH 0/7] Rust abstractions for shmem-backed GEM objects
-Date: Tue, 18 Mar 2025 16:22:34 -0300
-Message-Id: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
+Date: Tue, 18 Mar 2025 16:22:35 -0300
+Subject: [PATCH 1/7] drm/shmem-helper: Add lockdep asserts to vmap/vunmap
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPrH2WcC/yWMQQqDMBBFryKzbsCMmai9SnEx0YlmEW0TWwri3
- Rvq5sP78N4BWVKQDPfqgCSfkMO2FtC3CsaF11lUmAoD1kh1ozs1pahmiSovsWznnDWts9bpEYr
- zTOLD9997DBcneb1Ldr9OcJxFjVuMYb9XdYvIjTdeExliw0h+0mic7YmYSrvvBBuG4Tx/+sGlE
- KsAAAA=
-X-Change-ID: 20250318-drm-gem-shmem-8bb647b66b1c
+Message-Id: <20250318-drm-gem-shmem-v1-1-64b96511a84f@collabora.com>
+References: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
+In-Reply-To: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -81,55 +80,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+From: Asahi Lina <lina@asahilina.net>
 
-This series picks up the work carried out by the Asahi project for
-shmem-backed GEM objects. This initial version is meant to kickstart the
-discussion on this topic, as the bindings will be clearly needed by Tyr
-and other drivers.
+Since commit 21aa27ddc582 ("drm/shmem-helper: Switch to reservation
+lock"), the drm_gem_shmem_vmap and drm_gem_shmem_vunmap functions
+require that the caller holds the DMA reservation lock for the object.
+Add lockdep assertions to help validate this.
 
-It has been tested on both AGX and Tyr successfully.
-
-I did provide a minor fix for a missing #include, but I did not touch
-this code otherwise so far. Even the rebase was done by Janne Grunnau.
-
-Applies on top of
-
-commit 0722a3f4f15545a4a25fd124b6955a5b6498e23a
-Author: Danilo Krummrich <dakr@kernel.org>
-Date:   Tue Oct 15 17:19:27 2024 +0200
-
-    nova: add initial driver stub
-    
-
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
 ---
-Asahi Lina (7):
-      drm/shmem-helper: Add lockdep asserts to vmap/vunmap
-      drm/gem-shmem: Export VM ops functions
-      rust: helpers: Add bindings/wrappers for dma_resv_lock
-      rust: drm: gem: shmem: Add DRM shmem helper abstraction
-      drm/gem: Add a flag to control whether objects can be exported
-      rust: drm: gem: Add set_exportable() method
-      rust: drm: gem: shmem: Add share_dma_resv() function
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- drivers/gpu/drm/drm_gem.c              |   1 +
- drivers/gpu/drm/drm_gem_shmem_helper.c |  13 +-
- drivers/gpu/drm/drm_prime.c            |   5 +
- include/drm/drm_gem.h                  |   8 +
- include/drm/drm_gem_shmem_helper.h     |   3 +
- rust/bindings/bindings_helper.h        |   4 +
- rust/helpers/dma-resv.c                |  13 +
- rust/helpers/drm.c                     |  46 ++++
- rust/helpers/helpers.c                 |   2 +
- rust/helpers/scatterlist.c             |  13 +
- rust/kernel/drm/gem/mod.rs             |  15 ++
- rust/kernel/drm/gem/shmem.rs           | 457 +++++++++++++++++++++++++++++++++
- 12 files changed, 577 insertions(+), 3 deletions(-)
----
-base-commit: 0722a3f4f15545a4a25fd124b6955a5b6498e23a
-change-id: 20250318-drm-gem-shmem-8bb647b66b1c
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 5ab351409312b5a0de542df2b636278d6186cb7b..ec89e9499f5f02a2a35713669bf649dd2abb9938 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -338,6 +338,8 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+ 	struct drm_gem_object *obj = &shmem->base;
+ 	int ret = 0;
+ 
++	dma_resv_assert_held(obj->resv);
++
+ 	if (obj->import_attach) {
+ 		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+ 		if (!ret) {
+@@ -404,6 +406,8 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 
++	dma_resv_assert_held(obj->resv);
++
+ 	if (obj->import_attach) {
+ 		dma_buf_vunmap(obj->import_attach->dmabuf, map);
+ 	} else {
 
-Best regards,
 -- 
-Daniel Almeida <daniel.almeida@collabora.com>
+2.48.1
 
