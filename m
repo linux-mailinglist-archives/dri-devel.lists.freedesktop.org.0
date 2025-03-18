@@ -2,43 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E72A675DA
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 15:04:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14098A675D2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 15:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A83410E495;
-	Tue, 18 Mar 2025 14:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56B7E10E493;
+	Tue, 18 Mar 2025 14:03:03 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="VlsfvZpm";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Tue, 18 Mar 2025 14:04:04 UTC
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90F9B10E497
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 14:04:04 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:2568:e3d1:1e11:17f3])
- by laurent.telenet-ops.be with cmsmtp
- id SDyj2E0091Mz0fJ01Dyj30; Tue, 18 Mar 2025 14:58:43 +0100
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.97)
- (envelope-from <geert@linux-m68k.org>) id 1tuXSS-0000000EecJ-1JM6;
- Tue, 18 Mar 2025 14:58:43 +0100
-Received: from geert by rox.of.borg with local (Exim 4.97)
- (envelope-from <geert@linux-m68k.org>) id 1tuXSt-0000000AJqr-1H6O;
- Tue, 18 Mar 2025 14:58:43 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Pratap Nirujogi <pratap.nirujogi@amd.com>,
- Benjamin Chan <benjamin.chan@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-gpio@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pinctrl: PINCTRL_AMDISP should depend on DRM_AMD_ISP
-Date: Tue, 18 Mar 2025 14:58:40 +0100
-Message-ID: <3685561e8e3cd1d94bce220eeb6001d659da615c.1742306024.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 291C710E493
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 14:03:01 +0000 (UTC)
+X-UUID: ae148c50040111f08eb9c36241bbb6fb-20250318
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=9L3QuRg7qq4jIR4VvfIWIj1a6A5KXUIfQeOYZvj+5jY=; 
+ b=VlsfvZpmzdg7JIMW2j+qA9NAlvKdVqzdR8asSOFcONlRLDJzuXabeqENeJXfLAOGWNa9jkps76r7FE/2nCijAVN/FKMeaJmPgIW0VSNZvCB75T19noa6nWUYJDF8NqRXbT8LjG76ketNwMT5ktuvZNgJt2BLBf9fC4FS80yXuvE=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.2.1, REQID:180a371a-3f60-4070-a275-7aadcc0a94b3, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:0ef645f, CLOUDID:b7d3878c-f5b8-47d5-8cf3-b68fe7530c9a,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
+ l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+ :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: ae148c50040111f08eb9c36241bbb6fb-20250318
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
+ mailgw02.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 974564621; Tue, 18 Mar 2025 22:02:51 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Tue, 18 Mar 2025 22:02:49 +0800
+Received: from mszsdclx1211.gcn.mediatek.inc (10.16.7.31) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Tue, 18 Mar 2025 22:02:49 +0800
+From: Liankun Yang <liankun.yang@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
+ <mac.shen@mediatek.com>, <peng.liu@mediatek.com>,
+ <liankun.yang@mediatek.com>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 0/1] *** SUBJECT HERE ***
+Date: Tue, 18 Mar 2025 22:02:20 +0800
+Message-ID: <20250318140236.13650-1-liankun.yang@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,30 +78,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AMD Image Signal Processor GPIO pin control functionality is only
-present on AMD platforms with ISP support, and its platform device is
-instantiated by the AMD ISP driver.  Hence add a dependency on
-DRM_AMD_ISP, to prevent asking the user about this driver when
-configuring a kernel that does not support the AMD ISP.
+*** BLURB HERE ***
 
-Fixes: e97435ab09f3ad7b ("pinctrl: amd: isp411: Add amdisp GPIO pinctrl")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/pinctrl/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Liankun Yang (1):
+  drm/mediatek: Adjust bandwidth limit for DP
 
-diff --git a/drivers/pinctrl/Kconfig b/drivers/pinctrl/Kconfig
-index cbb81f65c6eb22f0..0b355a7e7eeec412 100644
---- a/drivers/pinctrl/Kconfig
-+++ b/drivers/pinctrl/Kconfig
-@@ -51,6 +51,7 @@ config PINCTRL_AMD
- 
- config PINCTRL_AMDISP
- 	tristate "AMDISP GPIO pin control"
-+	depends on DRM_AMD_ISP || COMPILE_TEST
- 	depends on HAS_IOMEM
- 	select GPIOLIB
- 	select PINCONF
+Applied to mediatek-drm-fixes [1]
+  drm/mediatek: Fix mode valid issue for dp.
+  drm/mediatek: Fix YCbCr422 color format issue for DP.
+
+ drivers/gpu/drm/mediatek/mtk_dp.c | 39 ++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
+
 -- 
-2.43.0
+2.45.2
 
