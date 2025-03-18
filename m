@@ -2,81 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6B3A677BE
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 16:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2529A67807
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 16:37:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E5E10E4AA;
-	Tue, 18 Mar 2025 15:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A9C10E062;
+	Tue, 18 Mar 2025 15:37:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bG9qHL2a";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aot3C0I4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B72110E4AA
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:28:59 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-2232aead377so131571875ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 08:28:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742311739; x=1742916539; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3GIoY6hZd8z2MO+gbh2+3E+yi4866iekF90s7ppxoV8=;
- b=bG9qHL2aw2EtBCDxkSqEL2ytQ2+vTXo6ju8fOlMxBQ7A5Sgwy09DTUVGbwsPJPcGQ8
- np6PEvDTmbhSAYxd6HzVXWvi/nb76VM671FuWco8rH327sOcBL/Y3KUizMyZDmt9+s48
- 8N2grWk4fTbPLILBNu0gex8b6L+Jiws8h19tThcFX3EYGUfPg8Y00SUKMN5ZXVO3LznT
- YGPU4g6Yqv6S4LnLP4jkFnoxk/l/s7Q98Wal3rQIkmNwktdpq1Xy+N3A0zfnFnT3yZsH
- +o7mXnywOEMBtH3zDnsUHribA80r8VPHmwSytcQz+Sm6yj6sWvP/WMfMm0AHn5b/W+TP
- jFsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742311739; x=1742916539;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3GIoY6hZd8z2MO+gbh2+3E+yi4866iekF90s7ppxoV8=;
- b=Kvo91BJcT7kTFEsVJHlI6Rc2WP670/SAPkDQcF4mu6PBuIa2PZZOwEqdjJqmaUN9Zu
- LN7XPR6nkDD/WsoWaGsmCF5Y8L66GLSgwBkD/P4ueaA5lhdgY2+PdLBpXoszssJH1r+K
- wvhvracVnjoi61gCj1Q4RpzQ5CAkd2z1lG3HmD0nEp4h+3clEdSncf78JqaTJAJ4iWRs
- dWMi1hraVyXHfTv8o0luKNqYPQoFOHxQNITI3ghhKNaNxUuHmzU+kKmXvxh29xDiz3KM
- gL15YVv0ueKHeyeSCuwsmuiAk5QfZ6MqDlXmMRIFLLnZmO+20RNlHG34QCRGC09eUpVk
- BKaQ==
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B7810E062
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:37:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 585975C58A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:35:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E394CC4CEDD
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742312251;
+ bh=2FADrrGOuhJNxGZb/t5P0+jQhpdMvnVntdR+ZZPNqr8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=aot3C0I4ulAoFThJpUgw9CGlUg7DamiOAMz2opBd0lYxFvlPz2nvBhJIjl8ahiED0
+ iMkvptmtcSQCJ+ypeS54FrMggkoHfgq7p9tCN7FiYCqcd+wabzbOn7JhMIeUH14pUD
+ vsNu596aRkWfCIeoEYMuk4D0+N7u1PBTUGAjeuqBa8CrVIly4RvaK0MAcvZq/THWdI
+ bhkbqZqzyj+YbD0h162GzWpyiRx5KdETmvJZXv5g97ICPgA5QefTcMAk+kfDLCCR6c
+ UhuEhoA4R6CckL2vV674KmCKz5hVn8M1CPajZz1ma4UD92Fy/FLiPftaYER4pa/zsG
+ mTkq3ONU1jCMQ==
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-5e5b572e45cso11005856a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 08:37:31 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVUeenP53Z4tvhTOxLr3TG6iWhcBtMY9fL+5KTGdiW0kZYhaUsEkyX0GQLVkKBHkgxUjwh8agC06fw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz8LyQ0A2sHXn07JmDxgV7FC8GJXUEs8Ef0LQuVb8VKdVgleSYK
- JYU3yvVd4FB/XVf9kFr1C1jtLGnGkf1ZW83Eu9qtTnFpqaa8p7gh
-X-Gm-Gg: ASbGnctL1QXRpJM0FbM+7Y95L9dQ31YXBpk2jFCq2b22AyYFrRtXCCmDaQjJ4CXoVtV
- EtHCqNw3YBW98e4ZGbTfml5QOGEfv0q8DkvaUHnhCl27c0dF6HjylH+4kTkTHKYzmFWPkZaIfmp
- 8s/i4VW6nAE5eOpezoTB6ms/Cyo0lG1ECdLAl9xna8SCTUk/nrLchPRiYH2wb8naFhxs5oaip/i
- QM2Rrwdlx2HzVFl5LU5cC8I1N1gxPp0MApmELk30m1S+otKUR/H35aywozYmQAbc0QTbpe2xoj+
- n/WAyGOcxF5YKS9JP4VZwv3iHnlLNqcl9qmT9fPV67h+GEWcLnoCsG6py7duANOElZYo
-X-Google-Smtp-Source: AGHT+IGm8xA0NnVzynAsWM0O5Q7/Bnh0NImG4nypFjz6JgDaGn4zEGVo6frikkIaETlzSTvVl0nHzQ==
-X-Received: by 2002:a17:903:19ed:b0:223:2aab:4626 with SMTP id
- d9443c01a7336-225e0a15b42mr242532475ad.11.1742311738697; 
- Tue, 18 Mar 2025 08:28:58 -0700 (PDT)
-Received: from localhost.localdomain ([183.242.254.176])
- by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-225c6bbfdb2sm95680465ad.168.2025.03.18.08.28.54
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 18 Mar 2025 08:28:58 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@chromium.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Cc: linmq006@gmail.com
-Subject: [PATCH] dma-buf/sw_sync: Fix refcount leak in
- sw_sync_ioctl_get_deadline
-Date: Tue, 18 Mar 2025 23:28:47 +0800
-Message-Id: <20250318152847.30380-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+ AJvYcCX82b0BP+sZQj7cgAm+Jchzh28ruA0t8wkXx5wJVcIy/572g+4fp8M4Y2G2VnZI8j8k4rw2QvvoGlQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy58N55fK9nd2QRiVmDtk17RMjSaziTp03ogI3orf5Ds/FYnktu
+ LzbnDYgyPAn7QWGSmxl9YaGsa4OsNkezvkWRKqcgwdZiiKKfSwsjaBIOhYYDiGBhwxxUnMWZMNy
+ PW0sj+gD38plKLz/jqPEhoSOLjQ==
+X-Google-Smtp-Source: AGHT+IFxNikh/zPyi87/yPKISRD75uRN3LN7OEe83oBU+Jm0RfN/NRF8Jwu1275PkN7yYWLFFVO4RlTc7PstjVcm0CI=
+X-Received: by 2002:a05:6402:84d:b0:5e4:9348:72d4 with SMTP id
+ 4fb4d7f45d1cf-5e8a09faa0bmr16499578a12.24.1742312250511; Tue, 18 Mar 2025
+ 08:37:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250226-initial_display-v2-0-23fafa130817@gocontroll.com>
+ <20250226-initial_display-v2-3-23fafa130817@gocontroll.com>
+ <20250314210652.GA2300828-robh@kernel.org>
+ <PA4PR04MB7630094413C8E1F3D715EE23C5DD2@PA4PR04MB7630.eurprd04.prod.outlook.com>
+ <20250317-massive-calm-bat-43ff61@krzk-bin>
+ <PA4PR04MB7630DA5DF63C18530B86AB59C5DF2@PA4PR04MB7630.eurprd04.prod.outlook.com>
+In-Reply-To: <PA4PR04MB7630DA5DF63C18530B86AB59C5DF2@PA4PR04MB7630.eurprd04.prod.outlook.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 18 Mar 2025 10:37:17 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKiWyMMqZwdvbZp8pebqDYrA7MwoD3AGAST6iixXzU0LQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JqdfYH-dOSKs1kb8D0C16udXHv06QqBb0LECvEA4U-xF3d7uL0jX9WyoUw
+Message-ID: <CAL_JsqKiWyMMqZwdvbZp8pebqDYrA7MwoD3AGAST6iixXzU0LQ@mail.gmail.com>
+Subject: Re: [PATCH v2 03/12] dt-bindings: connector: Add the GOcontroll
+ Moduline module slot bindings
+To: "Maud Spierings | GOcontroll" <maudspierings@gocontroll.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,31 +94,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix reference count leak in by adding dma_fence_put() when
-dma_fence_to_sync_pt() fails after the call to sync_file_get_fence().
+On Mon, Mar 17, 2025 at 5:42=E2=80=AFAM Maud Spierings | GOcontroll
+<maudspierings@gocontroll.com> wrote:
+>
+> From: Krzysztof Kozlowski <krzk@kernel.org>
+> Sent: Monday, March 17, 2025 11:34 AM
+>
+> >On Sat, Mar 15, 2025 at 07:32:28AM +0000, Maud Spierings | GOcontroll wr=
+ote:
+> >> >> +required:
+> >> >> +  - compatible
+> >> >> +  - reg
+> >> >> +  - reset-gpios
+> >> >> +  - interrupts
+> >> >> +  - sync-gpios
+> >> >> +  - i2c-bus
+> >> >> +  - slot-number
+> >> >> +
+> >> >> +additionalProperties: false
+> >> >> +
+> >> >> +examples:
+> >> >> +  - |
+> >> >> +    #include <dt-bindings/gpio/gpio.h>
+> >> >> +    #include <dt-bindings/interrupt-controller/irq.h>
+> >> >> +
+> >> >> +    spi {
+> >> >> +        #address-cells =3D <1>;
+> >> >> +        #size-cells =3D <0>;
+> >> >> +
+> >> >> +        connector@0 {
+> >> >
+> >> >I find this being a SPI device a bit strange. Is there a defined SPI
+> >> >device that every slot is going to have? Or the connector has SPI
+> >> >interface and *anything* could be attached on it?
+> >>
+> >> So a module slot is like a pcie slot, it can be occupied or not, and w=
+hen
+> >
+> >But which buses...
+>
+> I don't think I am fully understanding what you are asking of me. The
+> module will always be an spi device, that is the main communication bus.
 
-Fixes: 70e67aaec2f4 ("dma-buf/sw_sync: Add fence deadline support")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/dma-buf/sw_sync.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Okay, that clears up whether it should be a SPI device or not, and I
+think it should as SPI is always used. The 2nd question is what does
+"gocontroll,moduline-module-slot" mean exactly. Normally, the
+compatible implies how you interact with the device (or what is the
+programming model). For SPI, that's what do the SPI transactions look
+like to begin with. Does the slot spec define that such that every
+module is the same? Then when it comes to different module types, are
+those discoverable (e.g. PCI has vendor and device ID) or will you
+need "compatible" to make that distinction?
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index f5905d67dedb..b7615c5c6cac 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -438,8 +438,10 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
- 		return -EINVAL;
- 
- 	pt = dma_fence_to_sync_pt(fence);
--	if (!pt)
-+	if (!pt) {
-+		dma_fence_put(fence);
- 		return -EINVAL;
-+	}
- 
- 	spin_lock_irqsave(fence->lock, flags);
- 	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
--- 
-2.39.5 (Apple Git-154)
-
+Rob
