@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439F5A678A4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 17:02:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B4BA67870
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 16:54:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C62A310E14C;
-	Tue, 18 Mar 2025 15:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1634D10E4AE;
+	Tue, 18 Mar 2025 15:54:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Kj1eGtGU";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Cn68p0+f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83DBD10E4AF
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- sang-engineering.com; h=from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding; s=k1; bh=vJDRpGEiTOtz69
- WUHIA8BQfC3IImuDjtEqTj5d38lPs=; b=Kj1eGtGU3rDgGt4QHLc5y16Skkh6Vs
- +xDZASJtnUsBzlDo/vexwiHXeM7VP2P2OPmH7hqSXaej1v/AIELONd41H9ZNp4Jk
- e+kIZINUPzXrJxJPxwSjrnPRXUlLYA3kKi2a+wKkAvwPljYbiLsJQT76T+9t2b8p
- KCiwxZFpbqYIbVSw1wmEayu7jDPtdaUcl/NMNfROpG56kREtkZ+bOn82QMqa24jl
- P3Pt4aLCOCW1iGA7FW5OmY/IuGgWC/zozPYzpN1932cWs/XoAYlIKSeQhbmN1uja
- w3PE5lHAhWf5UbT9leooirk5fCGN3vf54gkSBHXtQxHZwobRg5h/82TA==
-Received: (qmail 3860209 invoked from network); 18 Mar 2025 16:56:00 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 18 Mar 2025 16:56:00 +0100
-X-UD-Smtp-Session: l3s3148p1@eebk8J8wZpsgAwDPXyTHAJp038nK7dx+
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection failure
-Date: Tue, 18 Mar 2025 16:52:56 +0100
-Message-ID: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B253710E1D4
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:54:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Az51bzdTOWuH1co+0k7wIPf2e1cgPXZHlJirg9ce5rI=; b=Cn68p0+frzWQ43DW5gcbb99/9A
+ HywLCK4xKQawu/tClfNVex/byIjHcmq2QRwk3kDOytbLkjsy4O5b2kxHOuDbmuUQTBGbTOQtaEqD7
+ o/pBs67jyD/4ZBJb7is6RrhX3ykt+RCEOOQSGW7Gh4ArEWtntNqFGDlZffzaJ6DSeYXQMyiyTb0No
+ bJJdhosbkxXfaC1Jbhf0iuTk7pBTILBLPpboEqqcZeciJo3AkNseCzJARdunrrGMHraCu4FfUooUy
+ tt7dzuBiJWz63eVWTunuYLsk3uO/c8r9/OSk3WCB4HS7IZlVlpq2CQqm9yYvuv4uwRSAKwczuEf3C
+ y2iOWhJw==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tuZGs-002ngQ-7i; Tue, 18 Mar 2025 16:54:26 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com,
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: [PATCH 0/7] A few drm_syncobj optimisations
+Date: Tue, 18 Mar 2025 15:54:16 +0000
+Message-ID: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,60 +58,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Read out and check the ID registers, so we can bail out if I2C
-communication does not work or if the device is unknown. Tested on a
-Renesas GrayHawk board (R-Car V4M) by using a wrong I2C address and by
-not enabling RuntimePM for the device.
+A small set of drm_syncobj optimisations which should make things a tiny bit
+more efficient on the CPU side of things.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Improvement seems to be around 1.5%* more FPS if observed with "vkgears
+-present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant to make a
+definitive claim on the numbers since there is some run to run variance. But, as
+suggested by Michel Dänzer, I did do a five ~100 second runs on the each kernel
+to be able to show the ministat analysis.
 
-Changes since v2:
-* switched to a new approach suggested by Doug (Thanks!). We add a
-  dedicated read instead of using the first read. This prevents creating
-  the aux devices. As a side-gain, we check now if the chip at the address
-  is really the one we want to support.
+x before
++ after
++------------------------------------------------------------+
+|                          x         +                       |
+|                   x      x         +                       |
+|                   x      xx      ++++                      |
+|                 x x      xx x    ++++                      |
+|                 x xx   x xx x+   ++++                      |
+|                xxxxx   xxxxxx+   ++++ + +                  |
+|                xxxxxxx xxxxxx+x  ++++ +++                  |
+|              x xxxxxxxxxxx*xx+* x++++++++   ++             |
+|        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
+|       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
+|x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
+|               |_______A______|                             |
+|                             |______A_______|               |
++------------------------------------------------------------+
+    N           Min           Max        Median           Avg        Stddev
+x 135      21697.58     22809.467     22321.396     22307.707     198.75011
++ 118     22200.746      23277.09       22661.4     22671.442     192.10609
+Difference at 95.0% confidence
+    363.735 +/- 48.3345
+    1.63054% +/- 0.216672%
+    (Student's t, pooled s = 195.681)
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Tvrtko Ursulin (7):
+  drm/syncobj: Remove unhelpful helper
+  drm/syncobj: Do not allocate an array to store zeros when waiting
+  drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
+  drm/syncobj: Use put_user in drm_syncobj_query_ioctl
+  drm/syncobj: Avoid temporary allocation in
+    drm_syncobj_timeline_signal_ioctl
+  drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
+  drm/syncobj: Add a fast path to drm_syncobj_array_find
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 87fffaa52bb0..8caa7918933d 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -36,6 +36,7 @@
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
-+#define SN_DEVICE_ID_REGS			0x00	/* up to 0x07 */
- #define SN_DEVICE_REV_REG			0x08
- #define SN_DPPLL_SRC_REG			0x0A
- #define  DPPLL_CLK_SRC_DSICLK			BIT(0)
-@@ -1875,6 +1876,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
- 	struct ti_sn65dsi86 *pdata;
-+	u8 id_buf[8];
- 	int ret;
- 
- 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-@@ -1918,6 +1920,16 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
- 	if (ret)
- 		return ret;
- 
-+	pm_runtime_get_sync(dev);
-+	ret = regmap_bulk_read(pdata->regmap, SN_DEVICE_ID_REGS, id_buf, ARRAY_SIZE(id_buf));
-+	pm_runtime_put_autosuspend(dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to read device id\n");
-+
-+	/* The ID string is stored backwards */
-+	if (strncmp(id_buf, "68ISD   ", ARRAY_SIZE(id_buf)))
-+		return dev_err_probe(dev, -EOPNOTSUPP, "unsupported device id\n");
-+
- 	/*
- 	 * Break ourselves up into a collection of aux devices. The only real
- 	 * motiviation here is to solve the chicken-and-egg problem of probe
+ drivers/gpu/drm/drm_syncobj.c | 281 ++++++++++++++++++----------------
+ 1 file changed, 147 insertions(+), 134 deletions(-)
+
 -- 
-2.47.2
-
+2.48.0
