@@ -2,52 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6901A67F70
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 23:12:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CF5A67FD2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 23:32:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E8C110E4D3;
-	Tue, 18 Mar 2025 22:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3908825E;
+	Tue, 18 Mar 2025 22:32:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lPujRcx7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ijDZHJQM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFFF110E4D3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 22:12:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 134E45C5634;
- Tue, 18 Mar 2025 22:10:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 763E5C4CEDD;
- Tue, 18 Mar 2025 22:12:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742335950;
- bh=Szgn5zvrgXbGVWttIa/7SboYv0mHq0U18NfPj4QaSyw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lPujRcx7wt+IOsqcSHSwagpWIian9rJ43UJJMFZXlMDF3zerLYtehCwAxSu53aQyr
- tP+IVVbcHdoqKk/kDdjmWQ7Y9YolyKSUT5syDI+MryESl1F7wSJtbB/Sm9bfhqWd1F
- AXyoEnarwk9GpgiDbN5MKhpYmC4cm0sZhjCamLoXHcZInzzxCs/w6aw54MSCz3V2sE
- eEYHtGjpOOiZ19GLhTVckQbQRofazOXL+uSuUW7dcPwdrpJbgmNa8d2BJURBzV5mjH
- rJbIXNGErxDY8qGd43RLg8KSL/LO3TxzBUpL9pdDzDCQmcL9fFNfer27aOmKIw8/0C
- g+47m4eJSqMDQ==
-Date: Tue, 18 Mar 2025 17:12:27 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: devicetree@vger.kernel.org, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: gpu: arm,mali-midgard: add
- exynos7870-mali compatible
-Message-ID: <174233594629.4044838.965706425062686695.robh@kernel.org>
-References: <20250318-exynos7870-gpu-v2-1-58dc2094dc7f@disroot.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B485210E4D4;
+ Tue, 18 Mar 2025 22:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742337170; x=1773873170;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Zz2IldKLM9Obe+OrFKf035q1HtZbGiurWxoXFchIsvM=;
+ b=ijDZHJQMhUsfLTg5NKOrqsbsB0HcScsfnFNdfBzSpQDJlLoGE6uh2K7v
+ N4GXFrNN0fSs5Hd8ElXO07kAmhUQKoz1zOLWAr+cAOlz6Qc/79kGpZuG5
+ ++ZPRCKrhkCG352k7PkSepMF5ybdI7enBCIjS7QX+ZwwhuGzPF0oIq/vg
+ 0zYFS6u1U5mBacKMzvDrM8npCxAVoBroD2/SUGzu+fxixwL0svYaHj4Qr
+ dDI0MZnrOhhQglKKtqg9AWf/q29lpHa3DviIVa1PFm9jXQDQqoCRAUyn7
+ CM3UwOkf0mHg4wfhN0Ri7vuBdfjf8nQ/AmIkTNMCBIrTEtOhVkxEZ2I+B w==;
+X-CSE-ConnectionGUID: hdhzzDKhQ2mic6Caeo3y4g==
+X-CSE-MsgGUID: 2UAWkcTRQEyRjhcq34H1hQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="53718131"
+X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; d="scan'208";a="53718131"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 15:32:50 -0700
+X-CSE-ConnectionGUID: 3VarUKRaQL2DxkW/3ySj3Q==
+X-CSE-MsgGUID: ugltZV4CQ/GrJMXqsIfxXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; d="scan'208";a="123324307"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.228])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 15:32:43 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Yury Norov <yury.norov@gmail.com>, mailhol.vincent@wanadoo.fr
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton
+ <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Andi
+ Shyti <andi.shyti@linux.intel.com>, David Laight
+ <David.Laight@aculab.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v6 4/7] drm/i915: Convert REG_GENMASK*() to fixed-width
+ GENMASK_U*()
+In-Reply-To: <Z9mqUZX4H-CzqbW4@thinkpad>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
+ <20250308-fixed-type-genmasks-v6-4-f59315e73c29@wanadoo.fr>
+ <Z9mqUZX4H-CzqbW4@thinkpad>
+Date: Wed, 19 Mar 2025 00:32:40 +0200
+Message-ID: <87ldt2c6lz.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250318-exynos7870-gpu-v2-1-58dc2094dc7f@disroot.org>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,24 +80,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 18 Mar 2025, Yury Norov <yury.norov@gmail.com> wrote:
+> On Sat, Mar 08, 2025 at 01:48:51AM +0900, Vincent Mailhol via B4 Relay wrote:
+>> From: Lucas De Marchi <lucas.demarchi@intel.com>
+>> 
+>> Now that include/linux/bits.h implements fixed-width GENMASK_U*(), use
+>> them to implement the i915/xe specific macros. Converting each driver
+>> to use the generic macros are left for later, when/if other
+>> driver-specific macros are also generalized.
+>> 
+>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>> Acked-by: Jani Nikula <jani.nikula@intel.com>
+>> Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+>> ---
+>> Changelog:
+>> 
+>>   v5 -> v6:
+>> 
+>>     - No changes.
+>> 
+>>   v4 -> v5:
+>> 
+>>     - Add braket to macro names in patch description,
+>>       e.g. 'REG_GENMASK*' -> 'REG_GENMASK*()'
+>> 
+>>   v3 -> v4:
+>> 
+>>     - Remove the prefixes in macro parameters,
+>>       e.g. 'REG_GENMASK(__high, __low)' -> 'REG_GENMASK(high, low)'
+>> ---
+>>  drivers/gpu/drm/i915/i915_reg_defs.h | 108 ++++-------------------------------
+>>  1 file changed, 11 insertions(+), 97 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
+>> index e251bcc0c89f5710125bc70f07851b2cb978c89c..39e5ed9511174b8757b9201bff735fa362651b34 100644
+>> --- a/drivers/gpu/drm/i915/i915_reg_defs.h
+>> +++ b/drivers/gpu/drm/i915/i915_reg_defs.h
+>> @@ -9,76 +9,19 @@
+>>  #include <linux/bitfield.h>
+>>  #include <linux/bits.h>
+>>  
+>> -/**
+>> - * REG_BIT() - Prepare a u32 bit value
+>> - * @__n: 0-based bit number
+>> - *
+>> - * Local wrapper for BIT() to force u32, with compile time checks.
+>> - *
+>> - * @return: Value with bit @__n set.
+>> +/*
+>> + * Wrappers over the generic BIT_* and GENMASK_* implementations,
+>> + * for compatibility reasons with previous implementation
+>>   */
+>> -#define REG_BIT(__n)							\
+>> -	((u32)(BIT(__n) +						\
+>> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__n) &&		\
+>> -				 ((__n) < 0 || (__n) > 31))))
+>> +#define REG_GENMASK(high, low)		GENMASK_U32(high, low)
+>> +#define REG_GENMASK64(high, low)	GENMASK_U64(high, low)
+>> +#define REG_GENMASK16(high, low)	GENMASK_U16(high, low)
+>> +#define REG_GENMASK8(high, low)		GENMASK_U8(high, low)
+>
+> Nit. Maybe just
+>
+>  #define REG_GENMASK		GENMASK_U32
 
-On Tue, 18 Mar 2025 23:01:09 +0530, Kaustabh Chakraborty wrote:
-> Exynos7870 SoC uses the ARM Mali T830 GPU, document its compatible
-> string with the appropriate fallback. The T830 compatible is already
-> defined in the panfrost driver, but was commented out as it was unused.
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
-> This patch series is a part of Exynos7870 upstreaming.
-> ---
-> Changes in v2:
-> - Reviewed-by krzk.
-> - Link to v1: https://lore.kernel.org/r/20250204-exynos7870-gpu-v1-1-0db4c163a030@disroot.org
-> ---
->  Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
+Please just keep it as it is for clarity.
 
-Applied, thanks!
+BR,
+Jani.
 
+
+-- 
+Jani Nikula, Intel
