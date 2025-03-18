@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002CAA67D00
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24FEA67D01
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 20:23:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFA710E4C0;
-	Tue, 18 Mar 2025 19:23:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F400E10E4C1;
+	Tue, 18 Mar 2025 19:23:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="e/dtP8i1";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="WmQWxGoW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 646DB10E4C0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 19:23:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742325805; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7CAA10E4C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 19:23:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1742325811; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=di1SLICXMcjbv6bpYa9ur8m9vf/eh33VZFBtG6XUIOdEzdI0seMZd6pdCjTct6k5U6DRJvrVUec0Sjn1xnfVJ7kOo7zYctYDmVLkYE9uOfz7jjk0/j7VBxJusovKyu3FFY3bWzfcQvO0ADHco/9BCxTTjSTdSDPE5rKE4yE9IWo=
+ b=Vx5MJl4hUvJH91lbjym/2lADGGJD2jYtwKDZ465CsMw4d9Bxta67gNDnAweZ8s4j8CA8ZBDc4/uTYKfSXl8BazdZhC0nNHufnloDsIKzlexo9VeJAIuPVxHgqYDmw4lxqJRQyD5EoNyAFgo4EnRCp56QzyI6wS1b/LS9w8OCuis=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742325805;
+ s=zohoarc; t=1742325811;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=aYKKVCgMd0f1tZMRhBSTqkRoCk3V9ylJbwXrGvsyQWU=; 
- b=nFV4f0HHcNGJv78PRAq+53duXkKWUGcAgEwAIbRHj7zyllTFwBRiZOR6Jmg1rkj50Dw7tmZQTwjFHBAEMDH7hdaHLZqMj6K6WncXVuvKVUGE7Db534fSioyXwSohmC/dltkZPodA3REQIrj1rTCOnMTzFuUXkD6aXwO9JjdSYa4=
+ bh=HfYRoG5Q5EHI6+e63eFq0AZL9BjmOXOU/I+lIAD4KZI=; 
+ b=nq9N0vAqTtfkDrzV+6WGQaaHsBrl4g3L66VfEnT+PAK+FvuZTASNVfOnrc3OTh88zsD+d+Jg5nPetTdbktHJVjY8GTHfZK9fb7mXxCDVqXN6Q4Rg7SGsvdfVYMUVAUtLwc4QEkO7t/Cwf/RgA9iDh/mgkrWWcWuGMW65uSN80iY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
  dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742325805; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742325811; 
  s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=aYKKVCgMd0f1tZMRhBSTqkRoCk3V9ylJbwXrGvsyQWU=;
- b=e/dtP8i1TAHSu/wXcgL6Dk0auU/RZCt9a381Bw4fmDPo8z+TbKEM+X71BaUcFPTG
- qhZn5sN3ZKKM2aAJlD2yxnZnuLsSYhvxNWCadzmK2dS0G0sGKPpuPFFqK8NW9B33wwx
- mCYZwPDp68YkvbdcHWykTkmbs7VTNAB4A26bzNKA=
-Received: by mx.zohomail.com with SMTPS id 1742325802898502.1528549925166;
- Tue, 18 Mar 2025 12:23:22 -0700 (PDT)
+ bh=HfYRoG5Q5EHI6+e63eFq0AZL9BjmOXOU/I+lIAD4KZI=;
+ b=WmQWxGoWdDH2xYTAw/hy191MJRCZTKLTqESfnsjq1GDTHjBy9A8eVICg5pqw4qTZ
+ NA3e5R3AyJXgz/0yOPaWsdrJeHUi0i3UR3tOLj5Q1v2rfyNVQbfXwizUdp3YM+8eqeS
+ PBT6Vy/O2ss0FNSAJTMBNqvogl+22h0q581cxjhs=
+Received: by mx.zohomail.com with SMTPS id 1742325808686508.48664192225283;
+ Tue, 18 Mar 2025 12:23:28 -0700 (PDT)
 From: Daniel Almeida <daniel.almeida@collabora.com>
-Date: Tue, 18 Mar 2025 16:22:39 -0300
-Subject: [PATCH 5/7] drm/gem: Add a flag to control whether objects can be
- exported
+Date: Tue, 18 Mar 2025 16:22:40 -0300
+Subject: [PATCH 6/7] rust: drm: gem: Add set_exportable() method
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250318-drm-gem-shmem-v1-5-64b96511a84f@collabora.com>
+Message-Id: <20250318-drm-gem-shmem-v1-6-64b96511a84f@collabora.com>
 References: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
 In-Reply-To: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -81,69 +80,69 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Asahi Lina <lina@asahilina.net>
 
-Drivers may want to support driver-private objects, which cannot be
-shared. This allows them to share a single lock and enables other
-optimizations.
-
-Add an `exportable` field to drm_gem_object, which blocks PRIME export
-if set to false. It is initialized to true in
-drm_gem_private_object_init.
+This allows drivers to control whether a given GEM object is allowed to
+be exported via PRIME to other drivers.
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
 ---
- drivers/gpu/drm/drm_gem.c   | 1 +
- drivers/gpu/drm/drm_prime.c | 5 +++++
- include/drm/drm_gem.h       | 8 ++++++++
- 3 files changed, 14 insertions(+)
+ rust/kernel/drm/gem/mod.rs   | 13 +++++++++++++
+ rust/kernel/drm/gem/shmem.rs |  4 ++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index ee811764c3df4b4e9c377a66afd4967512ba2001..8f998fe6beecd285ce3e2d5badfa95eb7d7bd548 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -195,6 +195,7 @@ void drm_gem_private_object_init(struct drm_device *dev,
+diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+index 083faac8602885aee5ef213bb3302b79dfac4a95..3a7e9f80b414bf39301e342938ba33877bfac2cb 100644
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@ -45,6 +45,10 @@ pub trait IntoGEMObject: Sized + crate::private::Sealed {
+     /// this owning object is valid.
+     fn gem_obj(&self) -> &bindings::drm_gem_object;
  
- 	drm_vma_node_reset(&obj->vma_node);
- 	INIT_LIST_HEAD(&obj->lru_node);
-+	obj->exportable = true;
++    /// Returns a reference to the raw `drm_gem_object` structure, which must be valid as long as
++    /// this owning object is valid.
++    fn mut_gem_obj(&mut self) -> &mut bindings::drm_gem_object;
++
+     /// Converts a pointer to a `drm_gem_object` into a pointer to this type.
+     fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Self;
  }
- EXPORT_SYMBOL(drm_gem_private_object_init);
+@@ -119,6 +123,10 @@ fn gem_obj(&self) -> &bindings::drm_gem_object {
+         &self.obj
+     }
  
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 32a8781cfd67b82ece7b7b94625715171bb41917..20aa350280abe9a6ed6742e131ff50c65bc9dfa9 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -387,6 +387,11 @@ static struct dma_buf *export_and_register_object(struct drm_device *dev,
- 		return dmabuf;
- 	}
- 
-+	if (!obj->exportable) {
-+		dmabuf = ERR_PTR(-EINVAL);
-+		return dmabuf;
-+	}
++    fn mut_gem_obj(&mut self) -> &mut bindings::drm_gem_object {
++        &mut self.obj
++    }
 +
- 	if (obj->funcs && obj->funcs->export)
- 		dmabuf = obj->funcs->export(obj, flags);
- 	else
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index fdae947682cd0b7b06db5e35e120f049a0f30179..f700e4996eccb92597cca6b8c3df8e35b864c1e1 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -432,6 +432,14 @@ struct drm_gem_object {
- 	 * The current LRU list that the GEM object is on.
- 	 */
- 	struct drm_gem_lru *lru;
-+
-+	/**
-+	 * @exportable:
-+	 *
-+	 * Whether this GEM object can be exported via the drm_gem_object_funcs->export
-+	 * callback. Defaults to true.
-+	 */
-+	bool exportable;
- };
+     fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Object<T> {
+         // SAFETY: All of our objects are Object<T>.
+         unsafe { crate::container_of!(obj, Object<T>, obj) as *mut Object<T> }
+@@ -132,6 +140,11 @@ fn size(&self) -> usize {
+         self.gem_obj().size
+     }
  
- /**
++    /// Sets the exportable flag, which controls whether the object can be exported via PRIME.
++    fn set_exportable(&mut self, exportable: bool) {
++        self.mut_gem_obj().exportable = exportable;
++    }
++
+     /// Creates a new reference to the object.
+     fn reference(&self) -> ObjectRef<Self> {
+         // SAFETY: Having a reference to an Object implies holding a GEM reference
+diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+index cd080d820727fb39cb91cb0617df39310b5b68c8..fdf7dd7f2408bd2857f5b72027ef48e29c9dd9e3 100644
+--- a/rust/kernel/drm/gem/shmem.rs
++++ b/rust/kernel/drm/gem/shmem.rs
+@@ -261,6 +261,10 @@ fn gem_obj(&self) -> &bindings::drm_gem_object {
+         &self.obj.base
+     }
+ 
++    fn mut_gem_obj(&mut self) -> &mut bindings::drm_gem_object {
++        &mut self.obj.base
++    }
++
+     fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Object<T> {
+         // SAFETY: The invariant guarantees this is correct.
+         unsafe {
 
 -- 
 2.48.1
