@@ -2,86 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435A3A67396
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 13:15:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3CAA673A4
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 13:16:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 286BD10E470;
-	Tue, 18 Mar 2025 12:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0FA510E471;
+	Tue, 18 Mar 2025 12:16:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="fZBJi8cT";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gKwHangu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11E1710E470
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:15:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C61FA10E471
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:16:52 +0000 (UTC)
 Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I9XMao006427
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:15:24 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I9Ismp007838
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:16:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- kBlzBdfbGBXQZj0t5rIkzUhCArX3NpjNQoG/8nV0x44=; b=fZBJi8cTewc/hnHh
- XlCpzNGxV2zM+UyAEaj1hwbgD0b6O0kw9E0ymVXaPwJ2qYYjwabCx6svQ3eytUjW
- 2zAqHgRbx5DQu7cd1sBM+maB8OwWD86BI9DxQA3Z8gefFhMsJbiiSODv5fhEiUtx
- WbSN4ZzyNfndiEatnAWVG3rJbJU5k4oR7R13W/NrLZcH2UeKFAcQSgLzoW5n+YpS
- vvKNViR6JLGyGNsi6VN+RMPt+RGzShbvZdBDBNbe5dDDid8AY08JfimOYtoE4DaP
- GFDmqw1hQo9jjdHr9pCQPxvKMTHRG3Wh2vn4jt2MjbazsD10FdKo8XvpqirrI6qb
- bkl1mg==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1rdr5kq-1
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=dgvU8svwebeSekgWfG8Ih62E
+ R31eTU16D7J6+KvsOhU=; b=gKwHanguLb3HGoK43kNjG4r5T7qWdF1y0X2DCVhs
+ rZn0l/6NI4NnwmCaPtQ2gchz/47PiAJ58GHQtgiKKI9JPEFOuw6Gc9BSpXVkvySU
+ RJQO0XhMmzVs98l1MDe5j+yT2r6tnrHRAwAZcFzIrtbIe3UGTkhV1l9DL32CcukW
+ swG0WUvF5QJZLHG+uN+WNyo+QTGxc0m141HOOZaQIO3MPE7LOzVHatCZ/Dhm+Uti
+ OTW7TiPYbHtWn91dHFgnXEQs69tCCB+rw3jmwKQu0NUH/U+/3tGLFDPb0v7ET2BA
+ rQZSZNk7qEn0NllFMaznEc3K5mNI01XY/7o+pRFkBozSfw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1rdr5qt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:15:24 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6e8fec7ab4dso12585136d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 05:15:24 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 12:16:52 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c0b3cd4cbcso565541185a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 05:16:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742300123; x=1742904923;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kBlzBdfbGBXQZj0t5rIkzUhCArX3NpjNQoG/8nV0x44=;
- b=kQMrvElaTJ4UosWJp40gY9TTb/kWzm4pw7wdfPdEL+hMcRVPONMh65R+cXpmlUNE2d
- a8xOgH3hHqti8zqAaB3j4MtIKL35sT5VCkBMKE0NBFb+bMWikHf5O5ckK5GnLJmdfhqE
- nNdzcbHaE6GFJFJrBIdgtn/D8pE3cnIMjHs6k8f98RxgDYsHRU4ALb7AQD6zjmHHEFtd
- 3qci7vNfAxs8mckdxC7psF6K8vfgvJWA4+uJLQcQo1/f2DUxaVlzF8Faj+h8xDu+SV3W
- 2HUVqlO34GzsEVmR0PGlLU5FhfJA5/NiuxIToaAsI00WnXgTwq/zBAVCk49BUgEOA7E6
- pcXQ==
+ d=1e100.net; s=20230601; t=1742300211; x=1742905011;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dgvU8svwebeSekgWfG8Ih62ER31eTU16D7J6+KvsOhU=;
+ b=SgSHuU8Md6FRsOeQXmZSGLBIoUmxLzWOyZNDXq+viMcWGsKFe5jm2oBDy5qUu3Hgzi
+ hSf8MY0BrGNuepOhQBZZoX1bnqCSOReSUXSIPXLPPtoR1nSWKmFaYJX+yRTSFn3lmhjG
+ hNI72uiqmQ6K/dTQgIDZ4cVIWTLjx5uD0Rf0UQ65nQpefkqBTvrbTur0ntIvidrCwwsO
+ qt98tnofyQCGAZ0j+geQzTCIqucT8pKg0M4aelot9aKqVokUK8xDGOGfcKSYtl70MT5o
+ WfjxaZM7k266fFylMnhC+cos11C1OcfkAPTlzT0/Epe/aJa+OqcyDR+1XuaR580gvlL2
+ t+Gw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUCMe++UgZoflzia8dEUIjM1G8X4mWosBzZwIniaNpB6tPUszjfXh0nznU399KQoFIEBeAsnuYlZI4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDhK6ZId+L4GQ6qDvIzWT7nl986LZPT+kOhpHkMtA4Jnrq1b1W
- ImodPdZNiZcHE7/559aDUy8/0YkJZY/GGHrcHCJlCfpUaoGhaD/R8fupGrUF3EwA/iRb9yTJ37k
- z75iUpfNaq6XanzC/msDzgSmcyZYqyMn077R9jOkB90jNF4PZrE8wCPU00qn/jzRCrOs=
-X-Gm-Gg: ASbGnctlfFx4LA6m/SUjv4aKHdzKFqqhUyvXh4oIBixWYb+QN40+aZGM3L/CHsxjecr
- rYpvuHp//YYw0e9dsTsfQ8/+f8qLDCa4EXQzXusjfvMOKGndUSQJqQ0zXpf3ewrMsP7j8rikdIM
- WYkD98giJCpLGHztf90WBgqX7Zg9jYSR1jCQpfai5ZSzX4yfpq+5QottjeTCprrHrMvv/vgz+EG
- egstZS7zcUREsB2tGTUWyYvjSOLsux0TUPmZRoDYP4G//vqJUxeCSxatYCpNKY4m5+N2qCgX4qj
- 95/QRzKZ3vTtKYpARUqePGKehjOlxRHNaR0rQEyz4BaRy1OQK1TrjU2d6yc6SeOhx4ldEQ==
-X-Received: by 2002:a05:622a:5b8a:b0:474:e4bd:834 with SMTP id
- d75a77b69052e-476c812bcc7mr89745051cf.2.1742300123015; 
- Tue, 18 Mar 2025 05:15:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFY6u8VngElRtMZG5ciHl9cEYAqvDvzQnu/JRBYF2zIHLFOqy1SOhpbhhUVqwSAHmZkXc07xw==
-X-Received: by 2002:a05:622a:5b8a:b0:474:e4bd:834 with SMTP id
- d75a77b69052e-476c812bcc7mr89744801cf.2.1742300122546; 
- Tue, 18 Mar 2025 05:15:22 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac3149cf133sm843129366b.106.2025.03.18.05.15.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Mar 2025 05:15:22 -0700 (PDT)
-Message-ID: <d0c03e76-8b61-4cc6-8839-448fbb64d4e9@oss.qualcomm.com>
-Date: Tue, 18 Mar 2025 13:15:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] ARM: dts: qcom: apq8064: move replicator out of soc
- node
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
+ AJvYcCUfth998jkQ7BoS6bVtum+UQp4a1KnKxaciCB6tnke/L1jqNnJqS7ySeeTioIF5KYXeslfjh6NfP3s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwfpdjZ4zBGTXDGUOA9AbU+xtvIQGSBxgnScmXi2hxFn6K+EfJT
+ lmDQwk8rCJjNuCb2QRgHsCZKrOQngeIjgHWo9YzfnqTYxg+dWnBfSf51l/cn3Fxpxh95+bSGVmE
+ yTldPtUldOw/EPuexz+6OQkObP5R7hpI+eFe7/yWNgu2Lj7X+JLYgFmcmDQs/ufULh0Q=
+X-Gm-Gg: ASbGnctvGDAoGGk90BYV8Q6Qz2vWK2a6Hum7lLn62ewQoU3zhrUqlnZmPMWScS13pMY
+ DbXtViMhnu+3n+X0qYz05c41SqLb3I/PqvU1Ztq5Y50MSR5/NkayycqBGyRIZeAt6UV6Koy11Iq
+ qxRetMtuRrWfLKYM0jnKMq23QmUkSjkHM83WlRttNBQolmRUCzNJpLx15K5d2quUdCvajVmHHFI
+ Tqx04QIuwDtlLYmekZzQnuoAnjo3qaKYd+wm7RjQ3n4eINhTbBGmD5jzPEG3CA/rqroSonDJDDE
+ xfA4JMXHuetRNhLbGKATLUG2bq0EX2kfmu4w3thfYQ/LsC2U1O1OtaLy+fszepYkmel5kUBGUHo
+ Eshc=
+X-Received: by 2002:a05:6214:ca3:b0:6ea:d604:9e49 with SMTP id
+ 6a1803df08f44-6eaeaaaa3d0mr230068406d6.34.1742300210847; 
+ Tue, 18 Mar 2025 05:16:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH/QbW51i2QEA7DNMKYUIPNpOuBwru1TWa+7+ZdqHkmL4IbrVh78rOti4S492Vx7r0OVx87UQ==
+X-Received: by 2002:a05:6214:ca3:b0:6ea:d604:9e49 with SMTP id
+ 6a1803df08f44-6eaeaaaa3d0mr230067926d6.34.1742300210482; 
+ Tue, 18 Mar 2025 05:16:50 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30c3f117b8fsm19530991fa.63.2025.03.18.05.16.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Mar 2025 05:16:48 -0700 (PDT)
+Date: Tue, 18 Mar 2025 14:16:46 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -91,31 +88,33 @@ To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
- <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
  Mathieu Poirier <mathieu.poirier@linaro.org>,
  Leo Yan <leo.yan@linux.dev>, Kumar Gala <galak@codeaurora.org>,
  Andy Gross <agross@codeaurora.org>,
- "Ivan T. Ivanov" <ivan.ivanov@linaro.org>, Andy Gross
- <andy.gross@linaro.org>, Georgi Djakov <djakov@kernel.org>,
- David Heidelberg <david@ixit.cz>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org
+ "Ivan T. Ivanov" <ivan.ivanov@linaro.org>,
+ Andy Gross <andy.gross@linaro.org>, Georgi Djakov <djakov@kernel.org>,
+ David Heidelberg <david@ixit.cz>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/9] dt-bindings: display/msm: describe SFPB device
+Message-ID: <t37wdbwkbuyb5xn2lsdynp7on2oujvojmjkba24t4lqxuu64vl@htfidrpftxx7>
 References: <20250317-fix-nexus-4-v1-0-655c52e2ad97@oss.qualcomm.com>
- <20250317-fix-nexus-4-v1-9-655c52e2ad97@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250317-fix-nexus-4-v1-9-655c52e2ad97@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Fe83xI+6 c=1 sm=1 tr=0 ts=67d963dc cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=DN3WPcqzEyWCdw6-I6oA:9
- a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-ORIG-GUID: Qf4u-avxjUYDOXzw9Rc4MpcCFrsy5lzX
-X-Proofpoint-GUID: Qf4u-avxjUYDOXzw9Rc4MpcCFrsy5lzX
+ <20250317-fix-nexus-4-v1-2-655c52e2ad97@oss.qualcomm.com>
+ <20250318-adventurous-cherubic-coua-eecbbc@krzk-bin>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250318-adventurous-cherubic-coua-eecbbc@krzk-bin>
+X-Authority-Analysis: v=2.4 cv=Fe83xI+6 c=1 sm=1 tr=0 ts=67d96434 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Vs1iUdzkB0EA:10 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8
+ a=JDiau87qNJ9ckCeAMI0A:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-ORIG-GUID: _6HFYiv39HupOwM8tVcPpFN8DUvdTLQg
+X-Proofpoint-GUID: _6HFYiv39HupOwM8tVcPpFN8DUvdTLQg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-18_06,2025-03-17_03,2024-11-22_01
@@ -141,43 +140,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/17/25 6:44 PM, Dmitry Baryshkov wrote:
-> The CoreSight replicator device isn't a part of the system MMIO bus, as
-
-the static kind, anyway - the dynamic ones are
-
-> such it should not be a part of the soc node. Follow the example of
-> other platforms and move it out of the soc bus to the top-level.
+On Tue, Mar 18, 2025 at 08:55:59AM +0100, Krzysztof Kozlowski wrote:
+> On Mon, Mar 17, 2025 at 07:44:37PM +0200, Dmitry Baryshkov wrote:
+> > Add DT schema for the MultiMedia SubSystem System FPB device, which
+> > provides several registers to control interface between multimedia
+> > devices (primarily display) and system busses.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > ---
+> >  .../devicetree/bindings/display/msm/qcom,sfpb.yaml | 39 ++++++++++++++++++++++
 > 
-> Fixes: 7a5c275fd821 ("ARM: dts: qcom: Add apq8064 CoreSight components")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  arch/arm/boot/dts/qcom/qcom-apq8064.dtsi | 66 ++++++++++++++++----------------
->  1 file changed, 33 insertions(+), 33 deletions(-)
+> Filename: qcom,apq8064-mmss-sfpb.yaml
 > 
-> diff --git a/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi b/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
-> index a106f9f984fcb51dea1fff1515e6f290b36ccf99..acd94f3ba0350c5dcdd8f80885ee643d8cbddac7 100644
-> --- a/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
-> +++ b/arch/arm/boot/dts/qcom/qcom-apq8064.dtsi
-> @@ -278,6 +278,39 @@ scm {
->  		};
->  	};
->  
-> +	replicator {
-> +		compatible = "arm,coresight-static-replicator";
-> +
-> +		clocks = <&rpmcc RPM_QDSS_CLK>;
-> +		clock-names = "apb_pclk";
-> +
-> +		out-ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +				replicator_out0: endpoint {
+> >  1 file changed, 39 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sfpb.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sfpb.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..7ca105c97edd2f305527c58ae89b9b0cf22d3c8c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/msm/qcom,sfpb.yaml
+> > @@ -0,0 +1,39 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/msm/qcom,sfpb.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Qualcomm MultiMedia SubSystem System FPB
+> > +
+> > +maintainers:
+> > +  - Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > +  - Rob Clark <robdclark@gmail.com>
+> > +
+> > +description:
+> > +  The SFPB provides several registers controlling the multimedia attachment to
+> > +  the system busses.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - const: qcom,apq8064-mmss-sfpb
+> > +      - const: syscon
+> 
+> Why this cannot be part of standard syscon bindings file? Looks simple
+> enough.
 
-Please take the artistic liberty to add a newline before subnodes and re-sort
-the in/out-ports to make them alphabetical
+Ack
 
-Konrad
+-- 
+With best wishes
+Dmitry
