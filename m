@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E193A6725E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 12:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519E0A67264
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 12:17:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5795210E462;
-	Tue, 18 Mar 2025 11:16:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D2E410E463;
+	Tue, 18 Mar 2025 11:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id A27C810E462
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 11:16:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 83F3D10E463
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 11:17:33 +0000 (UTC)
 Received: from loongson.cn (unknown [223.64.68.198])
- by gateway (Coremail) with SMTP id _____8CxaWoKVtlnOpCbAA--.2214S3;
- Tue, 18 Mar 2025 19:16:26 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8AxTWtLVtlna5CbAA--.681S3;
+ Tue, 18 Mar 2025 19:17:31 +0800 (CST)
 Received: from localhost.localdomain (unknown [223.64.68.198])
- by front1 (Coremail) with SMTP id qMiowMAxTsUCVtln96ZRAA--.22425S2;
- Tue, 18 Mar 2025 19:16:25 +0800 (CST)
+ by front1 (Coremail) with SMTP id qMiowMCxasRFVtlnRadRAA--.20746S2;
+ Tue, 18 Mar 2025 19:17:29 +0800 (CST)
 From: Huacai Chen <chenhuacai@loongson.cn>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Alex Deucher <alexander.deucher@amd.com>,
@@ -25,31 +25,32 @@ To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Huacai Chen <chenhuacai@kernel.org>
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Huacai Chen <chenhuacai@loongson.cn>, stable@vger.kernel.org
-Subject: [PATCH 37/40] drm/amd/display: Protect
+Subject: [PATCH 1/2] drm/amd/display: Protect
  dml2_create()/dml2_copy()/dml2_create_copy()
-Date: Tue, 18 Mar 2025 19:16:10 +0800
-Message-ID: <20250318111611.2161153-1-chenhuacai@loongson.cn>
+Date: Tue, 18 Mar 2025 19:17:16 +0800
+Message-ID: <20250318111717.2161235-1-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qMiowMAxTsUCVtln96ZRAA--.22425S2
+X-CM-TRANSID: qMiowMCxasRFVtlnRadRAA--.20746S2
 X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
 X-Coremail-Antispam: 1Uk129KBj93XoW3AFy5Kr1rCFWDJr4rGr4rWFX_yoWxJFyfpr
  98XrWrGw48Ar1xJr13AF1UKr9Yq3ZxAFy8Jry7JF1a9F15Wrn8JFykJFW8trWUtFW5JF17
- X3srAr98tay8KwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ X3srAr98tay8KwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUk529EdanIXcx71UUUUU7KY7ZEXa
  sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUk2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ 0xBIdaVrnRJUUUB2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
  IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AK
- xVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7V
- AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
- r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
- IIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
- w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7
- CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjxU7eT5DUUUU
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ GcCE3s1ln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+ x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5
+ McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+ 8JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
+ 6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+ AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+ 0xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
+ v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7CjxVAF
+ wI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjxUxOzsDUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
