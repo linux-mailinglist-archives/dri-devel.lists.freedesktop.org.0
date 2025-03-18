@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7A4A66CE1
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 08:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88528A66CEB
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 08:56:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A81AE10E34E;
-	Tue, 18 Mar 2025 07:55:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B652910E44E;
+	Tue, 18 Mar 2025 07:56:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ay0EVHEd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Sr1P8L7s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 991F310E34E;
- Tue, 18 Mar 2025 07:55:11 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79CA410E44B;
+ Tue, 18 Mar 2025 07:56:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1D134A476B3;
- Tue, 18 Mar 2025 07:49:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EA15C4CEDD;
- Tue, 18 Mar 2025 07:55:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 85E055C5734;
+ Tue, 18 Mar 2025 07:53:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21198C4CEDD;
+ Tue, 18 Mar 2025 07:56:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742284505;
- bh=D4iMGhhuzept8ULjmWzbTssS4mIzRCuc7D7FjZeefVM=;
+ s=k20201202; t=1742284563;
+ bh=LtjsmPhSNisv7I5z84pcT0c3tUyrHI8gEhlKPZozsJA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ay0EVHEdmwjg6EwY1oj4Rnz6tLXQXjlk5J28ENJcy0uroi2w7MMralceARzOD+9ie
- xELU4DOwu2ExqI/2U4vXcsaQgBiSjKxOetS2X8o7V2f49Smx23WhjQb+YzgYGBjgy1
- G7DmhvM+EbYb9NlLn2DKMozCCHkUsShuszHZ15i+RZGXVlkoZ6MuFIKRmoj8jMPxna
- 7MPHOFk4r60Y6S5GQpYLWlx4fQ7JzD7+bGbh39ICLYM7WcEpr0diy2sXCgI7Yjx57A
- XMUnbEHzl+84wc92pB0fltjf93E/buBI+6AxyJ+YqrUWg4KMkDmrq9V1HfJMhlZDbz
- amry7CiVquiIg==
-Date: Tue, 18 Mar 2025 08:55:01 +0100
+ b=Sr1P8L7sxm7dCokDBaNlASRuyiiwrimV8VPr8U/+wda6RR6MQ4kdCL44tBGs2L8FV
+ ESAmxY+3mx5DXMXWwTWE4gOaAC8xN4Lnjp49rXvl3zyVpPafGNV5ZcKHoDmQqNRXYc
+ DXqN5528GxdBI5rB1cZmg3c7gWpW/vi8HV/m0qK1vTwO0pRGCn+4Lgz3RKGH5CqeVe
+ WBS1TbqAmwYozArJWE+f0ZtGrrdTZkPXPkFDXe+/AKOqYn16LD08EXeRg0wYe+5DU7
+ BagVlaCmP5ntnHCx+NcBJBrQ8SZer/LT+M/xafox9ODbTLTjTje0kjwrHZT9MPxI2h
+ DtX4hHEtyxoSQ==
+Date: Tue, 18 Mar 2025 08:55:59 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Bjorn Andersson <andersson@kernel.org>, 
@@ -56,15 +56,14 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, 
  coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/9] dt-bindings: soc: qcom,rpm: add missing
- clock-controller node
-Message-ID: <20250318-hungry-nimble-marten-dfb4db@krzk-bin>
+Subject: Re: [PATCH 2/9] dt-bindings: display/msm: describe SFPB device
+Message-ID: <20250318-adventurous-cherubic-coua-eecbbc@krzk-bin>
 References: <20250317-fix-nexus-4-v1-0-655c52e2ad97@oss.qualcomm.com>
- <20250317-fix-nexus-4-v1-1-655c52e2ad97@oss.qualcomm.com>
+ <20250317-fix-nexus-4-v1-2-655c52e2ad97@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250317-fix-nexus-4-v1-1-655c52e2ad97@oss.qualcomm.com>
+In-Reply-To: <20250317-fix-nexus-4-v1-2-655c52e2ad97@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,25 +79,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 17, 2025 at 07:44:36PM +0200, Dmitry Baryshkov wrote:
-> On Qualcomm platforms in addition to regulators the RPM also provides
-> clocks via the child clock-controller node. Describe it properly in the
-> schema.
+On Mon, Mar 17, 2025 at 07:44:37PM +0200, Dmitry Baryshkov wrote:
+> Add DT schema for the MultiMedia SubSystem System FPB device, which
+> provides several registers to control interface between multimedia
+> devices (primarily display) and system busses.
 > 
-> Fixes: 6b42133d2189 ("dt-bindings: soc: qcom: convert non-smd RPM bindings to dt-schema")
-
-Fixes should rather point to original binding, because the conversion
-did not miss them. They were not there in the first place. Coversion
-should add them, to match existing DTS, but still the mistake is in the
-TXT binding.
-
-
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  Documentation/devicetree/bindings/soc/qcom/qcom,rpm.yaml | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  .../devicetree/bindings/display/msm/qcom,sfpb.yaml | 39 ++++++++++++++++++++++
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Filename: qcom,apq8064-mmss-sfpb.yaml
+
+>  1 file changed, 39 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sfpb.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sfpb.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..7ca105c97edd2f305527c58ae89b9b0cf22d3c8c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sfpb.yaml
+> @@ -0,0 +1,39 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/msm/qcom,sfpb.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm MultiMedia SubSystem System FPB
+> +
+> +maintainers:
+> +  - Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> +  - Rob Clark <robdclark@gmail.com>
+> +
+> +description:
+> +  The SFPB provides several registers controlling the multimedia attachment to
+> +  the system busses.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: qcom,apq8064-mmss-sfpb
+> +      - const: syscon
+
+Why this cannot be part of standard syscon bindings file? Looks simple
+enough.
 
 Best regards,
 Krzysztof
