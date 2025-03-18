@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3380A66F44
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 10:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892CCA66F4B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 10:07:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E9F410E372;
-	Tue, 18 Mar 2025 09:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C262110E43B;
+	Tue, 18 Mar 2025 09:07:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UhtjsBNy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZjhFxyND";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D73610E372
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 09:06:19 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33E9810E43B
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 09:07:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C74C65C572B;
- Tue, 18 Mar 2025 09:04:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 194C1C4CEDD;
- Tue, 18 Mar 2025 09:06:16 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D8DCBA48EC0;
+ Tue, 18 Mar 2025 09:02:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F5D0C4CEDD;
+ Tue, 18 Mar 2025 09:07:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742288777;
- bh=MEbMt30gtbDW29ZsyHH0TxtnC6VxqGi8GZrrw0ikjR0=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=UhtjsBNy+l6eFX+9Xjkck/otCYCinjjW4SYdOdH9fdpA2q9LcxlQsqYNsC/u00YIR
- zeWMPJmv5rUdmK/A6xncB4DEqgVlh5qnYlipkEFO5/9Rqss5FB/daspzL093bgTteG
- AAyoHnwo781YS0O1CUjQzRXU+FcwwSELsqI4pg9LJUbX9yjxs/nBzdzaxXGN4L9WDp
- mtJFYZglA00043Q3rM83Jv4jVo4gfGaC1N8zBe96X1FY8968tcmx42Xf2iCrf+2FFk
- o0TpP+CEYmatqERQkvtLkc60t1NUuYJ7SwQBldHzlTYew7rZ0rV5RabF4HHjhl+/Lt
- rr3xlZNrOhvlw==
-Message-ID: <231da63e5d9b570aad31e524ee22784c@kernel.org>
-Date: Tue, 18 Mar 2025 09:06:14 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "David Turner" <david.turner@raspberrypi.com>
-Subject: Re: [PATCH v4 1/3] drm/display: Update comment on hdmi hotplug helper
-In-Reply-To: <20250317-vc4_hotplug-v4-1-2af625629186@raspberrypi.com>
-References: <20250317-vc4_hotplug-v4-1-2af625629186@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, "Dave
- Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
- Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
- "Raspberry Pi Kernel Maintenance" <kernel-list@raspberrypi.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+ s=k20201202; t=1742288861;
+ bh=IHci5lRxtBx9YJ3KtlM88aIeZwODGFyVgGYkUDGWHEA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZjhFxyNDerX+cAU//b+bfZ46cBK2tc7+1OBVTHv2aVNbqukpkAbTUsGTgHNKIU6g9
+ ZVb2Ugzk+s2RNW7Md/prcMBthdBTVzTMBppRZ9DIKt5bfWBRb2KF+dhe8cJQXoQ1Ef
+ LBU6AqVSb+QCffsHpMCPL3qIACIVlkc/2MH7yMrsfFKbIeyOIlTtCSVoI4YriVtgl1
+ qXFksAbfhmf1y5k7Ct9kTlGQ2Wlci8WQMC8S1nRflfoTA7Z/EMSRq9YCBc9tFr4Qr+
+ A40+p6aLQQVbyns4Mpq6bayabZjbIuwa/yBpxR2PLUmazLlQMk/7wfH7Ut45FuqBPL
+ L8O4Q+YMuKvCA==
+Date: Tue, 18 Mar 2025 09:07:36 +0000
+From: Daniel Thompson <danielt@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, pavel@ucw.cz, jingoohan1@gmail.com, deller@gmx.de,
+ simona@ffwll.ch, linux-leds@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 05/11] backlight: Move blank-state handling into helper
+Message-ID: <Z9k32GMvv4KSu_Sl@aspen.lan>
+References: <20250306140947.580324-1-tzimmermann@suse.de>
+ <20250306140947.580324-6-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250306140947.580324-6-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,13 +59,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Mar 2025 17:12:22 +0000, David Turner wrote:
-> Update the comment on drm_atomic_helper_connector_hdmi_hotplug() to
-> clarify that it must be called for all status updates.
-> 
-> Signed-off-by: David Turner <david.turner@raspberrypi.com>
+On Thu, Mar 06, 2025 at 03:05:47PM +0100, Thomas Zimmermann wrote:
+> Move the handling of blank-state updates into a separate helper,
+> so that is can be called without the fbdev event. No functional
+> changes.
+>
+> As a minor improvement over the original code, the update replaces
+> manual locking with a guard.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 
-Thanks!
-Maxime
+
+Daniel.
