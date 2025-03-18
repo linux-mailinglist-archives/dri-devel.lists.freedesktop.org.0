@@ -2,107 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D17A67A2C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 18:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BBAA67A7B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 18:12:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F4A110E23E;
-	Tue, 18 Mar 2025 17:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87C5D10E225;
+	Tue, 18 Mar 2025 17:11:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="n7vyPiqP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="miKEAbrk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9C7D10E23E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 17:00:17 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I9kYdS021228
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 17:00:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- y2+oGra/6n3RT/E0bgcmLmlGUUYmT3cDQKHxKgoP1X4=; b=n7vyPiqPP60GKUYv
- KyfgoZ2dbZ8ANP+gZK1C5EO2s4O3Yh1c902e3ABut/HPE7R29LgTax5h9SKuP8nj
- WHCDUFa3HlT4bX1Ok3fkcUZitncfT0p484zTSnXk07mp3l1Mxqf5K97bOJbaC6Dm
- 5nRzlqwt81lP8NW6ygPfLFn4p9+nrTMOCX1kCf+uj3VihIyuIu2tQlv7droXxU1O
- If3hNaaOqB5KcDzloZmRTI5+N0JHsplNzq7RhCpJ4mbkP0BKWjYR8XGBuASNvZLn
- fpBtMephPn0qMURAvldMQ6I5ll8xGatjVzlcAPscTmJAFnMxCmlaVKfg3ECGJeXb
- WJ6vTw==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1x812hc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 17:00:16 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-2ff6af1e264so9681084a91.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 10:00:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742317215; x=1742922015;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=y2+oGra/6n3RT/E0bgcmLmlGUUYmT3cDQKHxKgoP1X4=;
- b=silQX4i8yAhYlfbWR3/zq/XoIXoO/93vj/f2SW0IcS/xDQt60bvCspXT97BcJ+2tWN
- yNYcbYeq8A2YDE8bN+mqZVmhdmjEFo0B/tdU+IiN2zzu6pkxWJiDEvYZKUcnVH2Cv4jC
- 8IjlZSdlvkgbzgSugSqaCxY8AVfRjHrL5aZzb6Lqej9hHPVZqyuR1rbTPxZ/qgYBI9Sq
- wd83b1wf3apbwCXyTFY5ZBGvRv6TRbVelcW7u0ubhiM1yqW6FIJkvonEVz5lLvoZ0ULB
- PTcy/nw3O3yBUrGKSsGBdnSITV7BLaccDZAsrRc8C5DA3LwmhLLRYvLG7ZM64dgCOacQ
- TGEA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUT0gZ6y3Eqjor9PEARZp9ElVwyw0C2avXPhLjPWw3NSdopxva/CBy9d8OhWVf/QzM+OPJJU1Ml8cY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSDVrUbLyFxs4Ijbe2Q65Yrfps2roW6kNHEyB88ylZPtXJCCP+
- +ES6RQ2u6zWApffY5wGUg45HIUPcyqpagaQZIlUomQ2LogQD2+n90+aSQdnpV0fzPfCxYgPWSaP
- LKylJvYCdwAnpl8Ui+FFzvK98UKHfmokWo+iExTBWOibeRfvDv4fZ5gkk9HsoiufjNOJY1rA56G
- 3C1MZRTlfrmMps2SapROOO3b0ELGd+eBu3gkATKOKzpJgDY6RPKJbv1fmKGw==
-X-Gm-Gg: ASbGncuKo0nXcevsEAbj71tfZ+m+/vxATwyyMdteOrKayoDReQ3evWhWAvf4+19AvvC
- gPn9GdDQF+QUyS9669v/XA7rKjrQ4dSAAke1JBRwUr/qi28swydxCIfX97EgfrxRP5qAnhIedM1
- WHAPKrGaAGHsnF6hIRLJjwWOrKLvw=
-X-Received: by 2002:a17:90b:4c:b0:2ff:64c3:3bd4 with SMTP id
- 98e67ed59e1d1-301a5bff158mr4199733a91.31.1742317215069; 
- Tue, 18 Mar 2025 10:00:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7orlCcOTzKv9495d2zLbaIYhSzdkmmHIEtE7pvmf6UIGCyN7EII36oOZjnWb5Dtj/qMO2TMbq6kymi9NSXHQ=
-X-Received: by 2002:a17:90b:4c:b0:2ff:64c3:3bd4 with SMTP id
- 98e67ed59e1d1-301a5bff158mr4199631a91.31.1742317214205; Tue, 18 Mar 2025
- 10:00:14 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83FE610E225;
+ Tue, 18 Mar 2025 17:11:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742317909; x=1773853909;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=8X4UWqZndn5AlDIuDoAMFO5dRhvysQknlfJjQdQg0iU=;
+ b=miKEAbrkKeFi3jg/d3zJnNOhhXXK+PgzSlC/lyZAm/wheWD7m10AqmDf
+ DDLW/HUXPeMZug7LrM+2Mkdgp/6tu2Ju/kBlThsYGlhOg05XIe/8y8Gqg
+ 3204SEgL4dSSF3oyoxC6am2OhECXBIvSafl4gIywjdiUGI58q0rVtQZzF
+ q2AagQ5Z4qWS5wKVJG8ZpYyxrXTPh2Mxuah49hN41hetu0r7H+FvMY/gh
+ wUAFVmz5YKABOfDEI1zUnjhLDSi/B5gFIp07nZ/OSwBb16fZCSRD00AvU
+ SWTylGCoW4OPdnGV58oLZePQaYniaZM7SucfE75Grug6jvQioedRqFy1R A==;
+X-CSE-ConnectionGUID: m43wynBnS/mIwhHz0VEXHA==
+X-CSE-MsgGUID: GG7cHqPqScCzOSbb7CPppw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="54854827"
+X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; d="scan'208";a="54854827"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 10:11:47 -0700
+X-CSE-ConnectionGUID: Cj8Q3/C4RmClig+soaQVcQ==
+X-CSE-MsgGUID: a8aaYSr8SPusYVquCQFBnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; d="scan'208";a="122805725"
+Received: from dut4419lnl.fm.intel.com ([10.105.10.214])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 10:11:48 -0700
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
+ joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
+ jianxun.zhang@intel.com, shuicheng.lin@intel.com,
+ dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
+ michal.mrozek@intel.com
+Subject: [PATCH v9 0/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Date: Tue, 18 Mar 2025 17:11:27 +0000
+Message-ID: <20250318171146.78571-1-jonathan.cavitt@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250316-b4-panel-ls043t1le01-v1-1-ee38371b0ba0@redhat.com>
- <zs4tt57ur6hbesipab3kuiost4gokfu6tmfsicfwtdwri2wwli@fylnnpu3xoen>
- <CAN9Xe3SkXCK3FJx6c=EDigBxdXeGh9NYEf-wcR0_jFwraFGeDg@mail.gmail.com>
-In-Reply-To: <CAN9Xe3SkXCK3FJx6c=EDigBxdXeGh9NYEf-wcR0_jFwraFGeDg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Tue, 18 Mar 2025 19:00:02 +0200
-X-Gm-Features: AQ5f1JozRfWE2AvU7W4G4CRnLtgMIlzRwdXAGIgnHgomtxzwNu4xMver5VaZXj4
-Message-ID: <CAO9ioeXyJKGxXXanFHraspvquwWmMEKUdw_eN=wjV81VeMo43w@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel/sharp-ls043t1le01: Use _multi variants
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Tejas Vipin <tejasvipin76@gmail.com>, Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: 25vRmT_xnxAhvyrnf0n2GlMCuZ27oNrC
-X-Proofpoint-ORIG-GUID: 25vRmT_xnxAhvyrnf0n2GlMCuZ27oNrC
-X-Authority-Analysis: v=2.4 cv=Jem8rVKV c=1 sm=1 tr=0 ts=67d9a6a0 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10
- a=20KFwNOVAAAA:8 a=EUspDBNiAAAA:8 a=68VyVwYxJFAdjPYCXN8A:9 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-18_08,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 malwarescore=0 adultscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
- bulkscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503180125
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,62 +69,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Mar 2025 at 18:55, Anusha Srivatsa <asrivats@redhat.com> wrote:
->
-> On Sun, Mar 16, 2025 at 7:32=E2=80=AFPM Dmitry Baryshkov <dmitry.baryshko=
-v@oss.qualcomm.com> wrote:
->>
->> On Sun, Mar 16, 2025 at 02:58:22PM -0400, Anusha Srivatsa wrote:
+Add additional information to each VM so they can report up to the first
+50 seen faults.  Only pagefaults are saved this way currently, though in
+the future, all faults should be tracked by the VM for future reporting.
 
->> > ---
->> >  drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c | 36 ++++++++++------=
----------
->> >  1 file changed, 14 insertions(+), 22 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers=
-/gpu/drm/panel/panel-sharp-ls043t1le01.c
->> > index 729cbb0d8403ff7c0c4b9d21774909cc298904a2..9803eaf18e95d70742ece8=
-8e82932751476fdda8 100644
->> > --- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
->> > +++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
->> > @@ -36,15 +36,14 @@ static inline struct sharp_nt_panel *to_sharp_nt_p=
-anel(struct drm_panel *panel)
->> >  static int sharp_nt_panel_init(struct sharp_nt_panel *sharp_nt)
->> >  {
->> >       struct mipi_dsi_device *dsi =3D sharp_nt->dsi;
->> > +     struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
->> >       int ret;
->> >
->> >       dsi->mode_flags |=3D MIPI_DSI_MODE_LPM;
->> >
->> > -     ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
->> > -     if (ret < 0)
->> > -             return ret;
->> > +     mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
->> >
->> > -     msleep(120);
->> > +     mipi_dsi_msleep(&dsi_ctx, 120);
->> >
->> >       /* Novatek two-lane operation */
->> >       ret =3D mipi_dsi_dcs_write(dsi, 0xae, (u8[]){ 0x03 }, 1);
->>
->> Anusha. Please. Start reviewing your patches before you send them. This
->> is a MIPI DSI call. And it wasn't switched to _multi / context. You
->> should have cought this. I don't know why you didn't. Please review and
->> check your code before sending it upstream.
->
->
-> Actually , mipi_dsi_dcs_write() doesnt have a _multi() variant. There are=
- _multi() variants for other writes: mipi_dsi_dcs_write_buffer() has mipi_d=
-si_dcs_write_buffer_multi(), mipi_dsi_generic_write() has mipi_dsi_generic_=
-write_multi() but not the one used above.
+Additionally, of the pagefaults reported, only failed pagefaults are
+saved this way, as successful pagefaults should recover silently and not
+need to be reported to userspace.
 
-That doesn't mean that it can be left unconverted. You can use
-mipi_dsi_dcs_write_buffer_multi().
+To allow userspace to access these faults, a new ioctl -
+xe_vm_get_property_ioct - was created.
 
-P.S. Please wrap your replies ont some useful boundary (72-75 chars is
-the recommended value).
+v2: (Matt Brost)
+- Break full ban list request into a separate property.
+- Reformat drm_xe_vm_get_property struct.
+- Remove need for drm_xe_faults helper struct.
+- Separate data pointer and scalar return value in ioctl.
+- Get address type on pagefault report and save it to the pagefault.
+- Correctly reject writes to read-only VMAs.
+- Miscellaneous formatting fixes.
 
---=20
-With best wishes
-Dmitry
+v3: (Matt Brost)
+- Only allow querying of failed pagefaults
+
+v4:
+- Remove unnecessary size parameter from helper function, as it
+  is a property of the arguments. (jcavitt)
+- Remove unnecessary copy_from_user (Jainxun)
+- Set address_precision to 1 (Jainxun)
+- Report max size instead of dynamic size for memory allocation
+  purposes.  Total memory usage is reported separately.
+
+v5:
+- Return int from xe_vm_get_property_size (Shuicheng)
+- Fix memory leak (Shuicheng)
+- Remove unnecessary size variable (jcavitt)
+
+v6:
+- Free vm after use (Shuicheng)
+- Compress pf copy logic (Shuicheng)
+- Update fault_unsuccessful before storing (Shuicheng)
+- Fix old struct name in comments (Shuicheng)
+- Keep first 50 pagefaults instead of last 50 (Jianxun)
+- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+
+v7:
+- Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
+- Fix double-locking error (jcavitt)
+- Assert kmemdump is successful (Shuicheng)
+- Repair and move fill_faults break condition (Dan Carpenter)
+- Free vm after use (jcavitt)
+- Combine assertions (jcavitt)
+- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+- Remove return mask from fill_faults, as return is already -EFAULT or 0
+  (jcavitt)
+
+v8:
+- Revert back to using drm_xe_vm_get_property_ioctl
+- s/Migrate/Move (Michal)
+- s/xe_pagefault/xe_gt_pagefault (Michal)
+- Create new header file, xe_gt_pagefault_types.h (Michal)
+- Add and fix kernel docs (Michal)
+- Rename xe_vm.pfs to xe_vm.faults (jcavitt)
+- Store fault data and not pagefault in xe_vm faults list (jcavitt)
+- Store address, address type, and address precision per fault (jcavitt)
+- Store engine class and instance data per fault (Jianxun)
+- Properly handle kzalloc error (Michal W)
+- s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
+- Store fault level per fault (Micahl M)
+- Apply better copy_to_user logic (jcavitt)
+
+v9:
+- Fix includes usage (Michal W)
+- More kernel doc fixes (Michal W, Jianxun)
+- Better error handling (jcavitt)
+
+Signed-off-by: Jonathan Cavitt <joanthan.cavitt@intel.com>
+Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Zhang Jianxun <jianxun.zhang@intel.com>
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+
+Jonathan Cavitt (6):
+  drm/xe/xe_gt_pagefault: Disallow writes to read-only VMAs
+  drm/xe/xe_gt_pagefault: Move pagefault struct to header
+  drm/xe/uapi: Define drm_xe_vm_get_property
+  drm/xe/xe_gt_pagefault: Add address_type field to pagefaults
+  drm/xe/xe_vm: Add per VM fault info
+  drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+
+ drivers/gpu/drm/xe/xe_device.c             |   3 +
+ drivers/gpu/drm/xe/xe_gt_pagefault.c       |  69 ++++----
+ drivers/gpu/drm/xe/xe_gt_pagefault_types.h |  63 +++++++
+ drivers/gpu/drm/xe/xe_vm.c                 | 192 +++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_vm.h                 |  11 ++
+ drivers/gpu/drm/xe/xe_vm_types.h           |  33 ++++
+ include/uapi/drm/xe_drm.h                  |  80 +++++++++
+ 7 files changed, 418 insertions(+), 33 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_gt_pagefault_types.h
+
+-- 
+2.43.0
+
