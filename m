@@ -2,48 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C33AA6786F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 16:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A979FA6788D
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 16:59:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C16310E227;
-	Tue, 18 Mar 2025 15:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C386810E15A;
+	Tue, 18 Mar 2025 15:59:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RMmVobfq";
+	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="OAJPjh+B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFD9610E4AE
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=n4nCKw6f1PS7jJvVyZUIfu1pxucK32vlNnMsPlOgGhQ=; b=RMmVobfqowPRKv1L8vWEiPJFfj
- opc4CiKk5X6rRGLrdXqD3iDvRHcpc9TH2koXtcfZvXgpuX07EuQ9+vzHQpmO22lwMh5iawEBLkL/h
- G88IFGIL0rDQ9T7/z1DXY/vhdKkpFWfnpHjArFa4xkCb4JVLc5kOkzf6IJPGdU/wX6+qMYEqmBFli
- 2wO7O2/Pr66LEsoHHyTTEThq462RnrHJOYlsK+V6LPZSdVeVGIb0J0ddqjFfE60H/WVHJJl6AvQoM
- 0byL0DKXqH8wWY6UoJyS69QbNxwg29UCUEIXGKT6Pat7L0+pbLB5JC4+wiv/bdDnd6ke+g5eXFubK
- JgID8bNg==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tuZGx-002nh1-8G; Tue, 18 Mar 2025 16:54:31 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH 7/7] drm/syncobj: Add a fast path to drm_syncobj_array_find
-Date: Tue, 18 Mar 2025 15:54:23 +0000
-Message-ID: <20250318155424.78552-8-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
-References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC5610E15A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 15:59:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ sang-engineering.com; h=date:from:to:cc:subject:message-id
+ :references:mime-version:content-type:in-reply-to; s=k1; bh=EI8C
+ AoWPtyTWq68d7WhbQtJER/tz43L9sj9Vhci1h4g=; b=OAJPjh+BMDX4oJNdPKUC
+ g1/ux/xj10WBwMEQ1iNo1oKHWFwSj7Hx99CvosqSeE3GZo7MqBAfdQFLWKE6DRY4
+ dFmCPPvdDhlGp7lI1R3R5/ojhnUnbOfPsxX9nYO9Je5jINkTnsEBFWoHVflFO7Sj
+ tdtUyt4b/KK9ez9rShQ8N07yxbdlPmq5C8nUtRAw6XXgIbNN02tIqPNoFmn8g8eA
+ sEcilnTiIu2cdXb/zmUyAQYiX/KuNKGhQwCu3BIHXhW92Dy6wQiSqhzsDyrLZJ4/
+ 3Gtel8ul6sfdy3WEhqJ1Oxs56FgkHhgbX+J2LtUWTMksKZjKwgxJOLVrz+SF4AWy
+ jA==
+Received: (qmail 3861648 invoked from network); 18 Mar 2025 16:59:11 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
+ authenticated); 18 Mar 2025 16:59:11 +0100
+X-UD-Smtp-Session: l3s3148p1@kb1S/J8wCqcgAwDPXyTHAJp038nK7dx+
+Date: Tue, 18 Mar 2025 16:59:04 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection
+ failure
+Message-ID: <Z9mYSDQ5JastkBLy@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+References: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="QzI0E3h2wX4y6YOt"
+Content-Disposition: inline
+In-Reply-To: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,233 +80,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Running the Cyberpunk 2077 benchmark we can observe that the lookup helper
-is relatively hot, but the 97% of the calls are for a single object. (~3%
-for two points, and never more than three points. While a more trivial
-workload like vkmark under Plasma is even more skewed to single point
-lookups.)
 
-Therefore lets add a fast path to bypass the kmalloc_array/kfree and use a
-pre-allocated stack array for those cases.
+--QzI0E3h2wX4y6YOt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
----
- drivers/gpu/drm/drm_syncobj.c | 53 +++++++++++++++++++++++++++--------
- 1 file changed, 41 insertions(+), 12 deletions(-)
+On Tue, Mar 18, 2025 at 04:52:56PM +0100, Wolfram Sang wrote:
+> Read out and check the ID registers, so we can bail out if I2C
+> communication does not work or if the device is unknown. Tested on a
+> Renesas GrayHawk board (R-Car V4M) by using a wrong I2C address and by
+> not enabling RuntimePM for the device.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>=20
+> Changes since v2:
+> * switched to a new approach suggested by Doug (Thanks!). We add a
+>   dedicated read instead of using the first read. This prevents creating
+>   the aux devices. As a side-gain, we check now if the chip at the address
+>   is really the one we want to support.
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 94932b89298f..233bdef53c87 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -1223,6 +1223,8 @@ EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
- static int drm_syncobj_array_find(struct drm_file *file_private,
- 				  u32 __user *handles,
- 				  uint32_t count,
-+				  struct drm_syncobj **stack_syncobjs,
-+				  u32 stack_count,
- 				  struct drm_syncobj ***syncobjs_out)
- {
- 	struct drm_syncobj **syncobjs;
-@@ -1232,9 +1234,13 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
- 	if (!access_ok(handles, count * sizeof(*handles)))
- 		return -EFAULT;
- 
--	syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
--	if (!syncobjs)
--		return -ENOMEM;
-+	if (count > stack_count) {
-+		syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
-+		if (!syncobjs)
-+			return -ENOMEM;
-+	} else {
-+		syncobjs = stack_syncobjs;
-+	}
- 
- 	for (i = 0; i < count; i++) {
- 		u64 handle;
-@@ -1260,25 +1266,31 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
- 			drm_syncobj_put(syncobjs[i]);
- 		i--;
- 	}
--	kfree(syncobjs);
-+
-+	if (syncobjs != stack_syncobjs)
-+		kfree(syncobjs);
- 
- 	return ret;
- }
- 
- static void drm_syncobj_array_free(struct drm_syncobj **syncobjs,
--				   uint32_t count)
-+				   uint32_t count,
-+				   struct drm_syncobj **stack_syncobjs)
- {
- 	uint32_t i;
- 
- 	for (i = 0; i < count; i++)
- 		drm_syncobj_put(syncobjs[i]);
--	kfree(syncobjs);
-+
-+	if (syncobjs != stack_syncobjs)
-+		kfree(syncobjs);
- }
- 
- int
- drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
- 		       struct drm_file *file_private)
- {
-+	struct drm_syncobj *stack_syncobjs[4];
- 	struct drm_syncobj_wait *args = data;
- 	ktime_t deadline, *pdeadline = NULL;
- 	u32 count = args->count_handles;
-@@ -1304,6 +1316,8 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     count,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1321,7 +1335,7 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
- 						 &first,
- 						 pdeadline);
- 
--	drm_syncobj_array_free(syncobjs, count);
-+	drm_syncobj_array_free(syncobjs, count, stack_syncobjs);
- 
- 	if (timeout < 0)
- 		return timeout;
-@@ -1336,6 +1350,7 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
- 				struct drm_file *file_private)
- {
- 	struct drm_syncobj_timeline_wait *args = data;
-+	struct drm_syncobj *stack_syncobjs[4];
- 	ktime_t deadline, *pdeadline = NULL;
- 	u32 count = args->count_handles;
- 	struct drm_syncobj **syncobjs;
-@@ -1361,6 +1376,8 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     count,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1378,7 +1395,7 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
- 						 &first,
- 						 pdeadline);
- 
--	drm_syncobj_array_free(syncobjs, count);
-+	drm_syncobj_array_free(syncobjs, count, stack_syncobjs);
- 
- 	if (timeout < 0)
- 		return timeout;
-@@ -1496,6 +1513,7 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file_private)
- {
- 	struct drm_syncobj_array *args = data;
-+	struct drm_syncobj *stack_syncobjs[4];
- 	struct drm_syncobj **syncobjs;
- 	uint32_t i;
- 	int ret;
-@@ -1512,6 +1530,8 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     args->count_handles,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1519,7 +1539,7 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
- 	for (i = 0; i < args->count_handles; i++)
- 		drm_syncobj_replace_fence(syncobjs[i], NULL);
- 
--	drm_syncobj_array_free(syncobjs, args->count_handles);
-+	drm_syncobj_array_free(syncobjs, args->count_handles, stack_syncobjs);
- 
- 	return 0;
- }
-@@ -1529,6 +1549,7 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
- 			 struct drm_file *file_private)
- {
- 	struct drm_syncobj_array *args = data;
-+	struct drm_syncobj *stack_syncobjs[4];
- 	struct drm_syncobj **syncobjs;
- 	uint32_t i;
- 	int ret;
-@@ -1545,6 +1566,8 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     args->count_handles,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1555,7 +1578,7 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
- 			break;
- 	}
- 
--	drm_syncobj_array_free(syncobjs, args->count_handles);
-+	drm_syncobj_array_free(syncobjs, args->count_handles, stack_syncobjs);
- 
- 	return ret;
- }
-@@ -1567,6 +1590,7 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- 	struct drm_syncobj_timeline_array *args = data;
- 	uint64_t __user *points = u64_to_user_ptr(args->points);
- 	uint32_t i, j, count = args->count_handles;
-+	struct drm_syncobj *stack_syncobjs[4];
- 	struct drm_syncobj **syncobjs;
- 	struct dma_fence_chain **chains;
- 	int ret;
-@@ -1586,6 +1610,8 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     count,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1622,7 +1648,7 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- err_chains:
- 	kfree(chains);
- out:
--	drm_syncobj_array_free(syncobjs, count);
-+	drm_syncobj_array_free(syncobjs, count, stack_syncobjs);
- 
- 	return ret;
- }
-@@ -1631,6 +1657,7 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
- 			    struct drm_file *file_private)
- {
- 	struct drm_syncobj_timeline_array *args = data;
-+	struct drm_syncobj *stack_syncobjs[4];
- 	struct drm_syncobj **syncobjs;
- 	uint64_t __user *points = u64_to_user_ptr(args->points);
- 	uint32_t i;
-@@ -1651,6 +1678,8 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
- 				     args->count_handles,
-+				     stack_syncobjs,
-+				     ARRAY_SIZE(stack_syncobjs),
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
-@@ -1694,7 +1723,7 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
- 			break;
- 		}
- 	}
--	drm_syncobj_array_free(syncobjs, args->count_handles);
-+	drm_syncobj_array_free(syncobjs, args->count_handles, stack_syncobjs);
- 
- 	return ret;
- }
--- 
-2.48.0
+Forgot to mention that it depends on my previous patch "[PATCH v2]
+drm/bridge: ti-sn65dsi86: make use of debugfs_init callback"
 
+
+--QzI0E3h2wX4y6YOt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfZmEMACgkQFA3kzBSg
+KbZMjRAAhiAgDtqYF+9mFQI48CwjmLxNofeRHvo5qQRsxJa3moZU8msl1qpCN4us
+OujgsaAIgjNXWUEvw1s9Ov+jI8XOsuylVeCx8+i7e2FMFt65XcIeMhta7APjKE31
+L7DCFYw24SWjs3MDh9e7wKtS8tsSY2THATtwBaK4DdyHzzN29fdQI/XzLErB5Jwe
+Y/YgKSYtuvj34uHBjJQGZKP8fitbBceu8qkXiO/G/pidR1wJJwQ88zGgAVw1+TZb
+0HYZLunzsDY1+8MHbwHe1SKfP9vSJm/V2/4nOK+fEG6DdEhrL6GrT+nO1elMXc67
+WeyBLDbmoEvtYf+FzQsGhu8k66hzh4BxGcasE8g9c+RMXUfFcrgdqihsmH1MIR65
+ctRtGA8Z6ddT+oDoy2yJgQd/22HqI2EOc5k0+E1lPM9iMVG4ZhgeCWJJOcqfk0o+
+8V6AtEm70xzQuocumnS/0c4F/jCKREQbOsxyHTMH10M+dCSiQJ49ZWU39axgUKiU
+/bW2tf+QcRHT44iKb3jewr/g3rpMnUKwT6hB59kjXv+3PsKxHj0W3EwopOiG7+gk
+Cqq9waNjlCf2iJoilYyFej9hOfaqvx6HiyiYMsWl+2IQCst7phelrNuejfR29mxM
+lrd5sKyOfpWfmHanyYu/jxwAJwl0a9tYoO/G8mPkx/Kk+D0Lp74=
+=PgR3
+-----END PGP SIGNATURE-----
+
+--QzI0E3h2wX4y6YOt--
