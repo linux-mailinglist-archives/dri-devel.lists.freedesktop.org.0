@@ -2,92 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C2FA678B2
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 17:06:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5426AA678CD
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Mar 2025 17:14:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7C010E4AC;
-	Tue, 18 Mar 2025 16:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7378010E226;
+	Tue, 18 Mar 2025 16:14:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HZzYOqSi";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="hjiaAVI3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2417A10E4B0;
- Tue, 18 Mar 2025 16:06:27 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-2255003f4c6so104785235ad.0; 
- Tue, 18 Mar 2025 09:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742313986; x=1742918786; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=z6e2c0Qk/BdFEUgDNlLPZ7gWsKGT2P7lxLRmr+kXCn0=;
- b=HZzYOqSiglw4m6J3srkCqHDGTH7Np6ydI9VbwR4QXmjcFDrzR4Qfps+2UMT3ZRKlNq
- U8BkbI7uGHrqUVtZqklU3HSF/rJiLmwxemqWD9UPz3xmV5ZqmmUHu2BOAxgQt5/MBDPJ
- umTgAu73XgX/BcRKmPnYVF5fcOigzMVb7ni71qlmVAkwRzQNJhzhTgiGbWZlx6ZGEDCs
- Qfta+Dj4TbLy1AI3AEEX718NI219HYuipi9eiG4l0lehwmT/pZ7qH9MPSACsx1MuPgGN
- ee1BuK5s6jKNvDV/RlxkqDcrS5TSE0GUBTmi2LHT6MgrNB/H9oszIuse/Zdkb1fxkNzA
- Vh5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742313986; x=1742918786;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z6e2c0Qk/BdFEUgDNlLPZ7gWsKGT2P7lxLRmr+kXCn0=;
- b=nZ34FpAy4CvatwTX1A6I1x89LFfDtmMoGXxqVmo/eYRkpCR5gg2XBpD6rMPKVgQ0Ac
- YBuZjKcL891wobObJgtl80cKeBtnZvH7cqQLM5HmTsHQoQnbtfE0ZYIYLszg1qUFItxo
- EuAw/fVh2JsfuomTl7mO6rM0kFZxQhx1S86GlE1nScTRroC4ZamLOS1QHji5PyAlt7sN
- hKJaYIhe57igfVVrDuClazKxWFK4ry8uWChLcYxVcHR9iGmSTEHep86uTlGI/8esqfyc
- CFAMSeQp5ggmqsSPBf5sTJXviqOygxpsRDY6I0/ITQXwM128DnRDyDBCnqjGPe+DcmtG
- NIcQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV38R1Ld5zk1h3P+j4x1iABKksZOUJVivzVtwRL1VPeuPqrFpRzmUnBssYUYOqJ7Sa7avt4mzfCyAAs@lists.freedesktop.org,
- AJvYcCVbycmKmxICj6JAx1wjygxiDcNpioj4xboEiMtQQU3yx8OiEUOzvPbn0PgjP7+YRV5Tl37qG0bI4JM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzRJI0jmfkSiBiZzaXFKDtKgYgxxcsMJsPvbYl0yzS8K/bPuBdY
- WoIR90t3ulbkGTtzYHQ4bWCpARrKC6ly3LEd9Dyw4qoERaLLGOy3
-X-Gm-Gg: ASbGnctIMU+qpelU/LANlXS7nQlMOL0lMSV3W/LmAuwOAMNTiOOwCGIapKEgG7TYe/A
- lPN5gp49qnOOOLds/QWCDDOFAXOMggHRBy2ZGDx6MMorh9l4qtJu3LJTWuB/aLI0OTioWVZIgOx
- L9ScxXlDxsrg/1m8FjCHzmKqvyO5Muvr8RFHkPACwe7xWUw1dxDFvzUaYgWuxbSE1ZkAM01tf4+
- qGc67FKTf/tSoCRtnpl7TlPLij76Cj0R+MT+cI6orm8Ro3lzRPCeNT09OrNYO4KZkgLLXwZy9Va
- F5eHiRXYbdzXp1f3ToAThw+AVdxuz7+qOi4mMGxEbawKobIDR48NZms/kPQWgWfrOXMc
-X-Google-Smtp-Source: AGHT+IGW5/tNqjQ0xTitfPIj7GeM/eN4Wy3Jsl0PgukZG9i0xnTDK3BvONiq3fuytb5V/HKrSq4TFQ==
-X-Received: by 2002:a05:6a21:9006:b0:1f3:40a9:2c36 with SMTP id
- adf61e73a8af0-1f5c118107emr24562658637.10.1742313986538; 
- Tue, 18 Mar 2025 09:06:26 -0700 (PDT)
-Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-737116b102fsm9758563b3a.166.2025.03.18.09.06.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Mar 2025 09:06:25 -0700 (PDT)
-Date: Tue, 18 Mar 2025 12:06:23 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Received: from out.smtpout.orange.fr (out-15.smtpout.orange.fr [193.252.22.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70CAA10E226;
+ Tue, 18 Mar 2025 16:14:41 +0000 (UTC)
+Received: from [172.16.82.72] ([124.33.176.97]) by smtp.orange.fr with ESMTPA
+ id uZaCtsCZ5cQ3puZaGty0Fx; Tue, 18 Mar 2025 17:14:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1742314476;
+ bh=7FaZTzWl9hPdOG/swTxDXj/Z7pW7yP6LIqKHWQbWy/U=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=hjiaAVI30AQKt5rYRiLX5PRST7+vBOlO5QxvRrodjzFYPMwJVZJIXYX2jfE5xQrvZ
+ rh3fOmmt4JhFEEN1u1Qz8T/8i/B0KnNGakVxrSUqc9H20R/iecQh0dCgY+9jFV4kmS
+ pA6pwP4DcQ78ziSo9qKTTnjKNowcSXJoZTPQQTqMoaZS7qVXdLSyMF69PX+CneKso1
+ 6APW9cxtyBkW6ry0GkUPzutWcEjZcOPD4ved5526vTI8qzugyNX2oIid8wqy8a2Fps
+ uvVMKCzkTzhci0EW9Z6RoYnMOvJ34LB+N3CwMpw034GmoD5zwSqtLf5OfDHX4kRBje
+ EKlMI2x3hAZ/g==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 18 Mar 2025 17:14:36 +0100
+X-ME-IP: 124.33.176.97
+Message-ID: <8e11c217-67a7-4633-849d-7b2918337284@wanadoo.fr>
+Date: Wed, 19 Mar 2025 01:14:23 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/7] bits: split the definition of the asm and non-asm
+ GENMASK()
+To: Yury Norov <yury.norov@gmail.com>
 Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
  linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
  David Laight <David.Laight@aculab.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v6 1/7] bits: split the definition of the asm and non-asm
- GENMASK()
-Message-ID: <Z9mZ_xIMyqUg2Vs9@thinkpad>
 References: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
  <20250308-fixed-type-genmasks-v6-1-f59315e73c29@wanadoo.fr>
  <Z8swIt7fqpVAp2P8@smile.fi.intel.com>
- <85639227-68ed-4a8a-8084-1ae0ffcaa638@wanadoo.fr>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <85639227-68ed-4a8a-8084-1ae0ffcaa638@wanadoo.fr>
+ <85639227-68ed-4a8a-8084-1ae0ffcaa638@wanadoo.fr> <Z9mZ_xIMyqUg2Vs9@thinkpad>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <Z9mZ_xIMyqUg2Vs9@thinkpad>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,43 +84,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 08, 2025 at 06:10:25PM +0900, Vincent Mailhol wrote:
-> On 08/03/2025 at 02:42, Andy Shevchenko wrote:
-> > On Sat, Mar 08, 2025 at 01:48:48AM +0900, Vincent Mailhol via B4 Relay wrote:
-> >> From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-> >>
-> >> In an upcoming change, GENMASK() and its friends will indirectly
-> >> depend on sizeof() which is not available in asm.
-> >>
-> >> Instead of adding further complexity to __GENMASK() to make it work
-> >> for both asm and non asm, just split the definition of the two
-> >> variants.
-> > 
-> > ...
-> > 
-> >> -/*
-> >> - * BUILD_BUG_ON_ZERO is not available in h files included from asm files,
-> >> - * disable the input check if that is the case.
-> >> - */
-> > 
-> >> +/*
-> >> + * BUILD_BUG_ON_ZERO() is not available in h files included from asm files, so
-> >> + * no input checks in assembly.
-> >> + */
-> > 
-> > In case of a new version I would reformat this as
-> > 
-> > /*
-> >  * BUILD_BUG_ON_ZERO() is not available in h files included from asm files,
-> >  * so no input checks in assembly.
-> >  */
-> > 
-> > It makes easier to review the changes and see that the first line is kept
-> > the same.
+On 19/03/2025 at 01:06, Yury Norov wrote:
+> On Sat, Mar 08, 2025 at 06:10:25PM +0900, Vincent Mailhol wrote:
+>> On 08/03/2025 at 02:42, Andy Shevchenko wrote:
+>>> On Sat, Mar 08, 2025 at 01:48:48AM +0900, Vincent Mailhol via B4 Relay wrote:
+>>>> From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+>>>>
+>>>> In an upcoming change, GENMASK() and its friends will indirectly
+>>>> depend on sizeof() which is not available in asm.
+>>>>
+>>>> Instead of adding further complexity to __GENMASK() to make it work
+>>>> for both asm and non asm, just split the definition of the two
+>>>> variants.
+>>>
+>>> ...
+>>>
+>>>> -/*
+>>>> - * BUILD_BUG_ON_ZERO is not available in h files included from asm files,
+>>>> - * disable the input check if that is the case.
+>>>> - */
+>>>
+>>>> +/*
+>>>> + * BUILD_BUG_ON_ZERO() is not available in h files included from asm files, so
+>>>> + * no input checks in assembly.
+>>>> + */
+>>>
+>>> In case of a new version I would reformat this as
+>>>
+>>> /*
+>>>  * BUILD_BUG_ON_ZERO() is not available in h files included from asm files,
+>>>  * so no input checks in assembly.
+>>>  */
+>>>
+>>> It makes easier to review the changes and see that the first line is kept
+>>> the same.
+>>
+>> Not fully convinced, but why not. I staged this change locally, it will
+>> be in v7.
 > 
-> Not fully convinced, but why not. I staged this change locally, it will
-> be in v7.
+> I don't understand why this change is needed at all. The comment
+> states the same thing before and after, but the history gets wiped.
+> Maybe just don't touch it?
 
-I don't understand why this change is needed at all. The comment
-states the same thing before and after, but the history gets wiped.
-Maybe just don't touch it?
+Ack. I will just move the text down and not rephrase.
+
+
+Yours sincerely,
+Vincent Mailhol
+
