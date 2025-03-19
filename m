@@ -2,46 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBDFA69B02
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 22:38:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE984A69B34
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 22:50:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B809010E040;
-	Wed, 19 Mar 2025 21:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4264010E15C;
+	Wed, 19 Mar 2025 21:50:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="ICf9NO8p";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="U9PU6wt0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF94010E040
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 21:38:27 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D71210E15C
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 21:50:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1742420300; x=1743025100; i=deller@gmx.de;
- bh=bcY81RHegsA5K9Dklh7OtrTkviHnthyGD71ZJUFNBYs=;
+ s=s31663417; t=1742420987; x=1743025787; i=deller@gmx.de;
+ bh=P/5gFm2nZS74xsQp9W8UL6w9yAUFFB/yRfc2k0cdhpc=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=ICf9NO8ptVocpB+EPmfHtHfH6rKsssPtM7oSc0nywrNLmO3UoGv+SuKTABaGuwBs
- f+0BJulfrt0coZbom2K13WLSq+LXDPSx2rJFRY41IodqaNfYnbT/AIkfXldXtbYmc
- zYslZuGuiJN7cS6gyf+M+qdEuA7OgVPqYrrdZMgzuIVFrWZbQAvMV6xk7ds+0M7QQ
- B1o1KrocJKaYDFZc2SR7C1y9fvtxTvmy2tQxf+Dnq75LlRkhVSh5ckESKSv7izHEb
- StJ2ZQ3ekGqo3ftVJIrGpVv3g+9Jlktc4rSiVjE32VyFMPqmLJsqY6J5bVCJLv7eM
- I2li27ShcyRLIqEDGQ==
+ b=U9PU6wt0YZhlgJvAJwEODDDpNez+ME/ZgumYD9wVUEz5tsRAQa8Euj391jlHtFch
+ ai2wP4ajXS/81EBtwe1SL8crwYkFv4mE2VC0emBkw5oVlK4SMEMYg+Cz+kKWGJrhy
+ xVwyT1+WW+60OrHlyztupUUFl833FoLqm0y9rh8WtJdBPmWEjTt1ev8XAMmVyByST
+ Xa1tSoJyAoOl2TaJ6uPkhAuQQuVGT6fuQNumWaeN4X+igbb3EtgaclRl3abkDzj8Y
+ OF9K0rTyOUNoqbuM/3qNxAB/6trdp7TXmyQUvuwrl+btONezdqQ6Th7R8J31L/FBU
+ A52ZNjw/hxSxqOL3CA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.173] ([109.250.63.121]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N5G9n-1tE1Jh0Q69-016SOm; Wed, 19
- Mar 2025 22:38:20 +0100
-Message-ID: <5b53866f-32c2-4c19-a4bf-61038efde91f@gmx.de>
-Date: Wed, 19 Mar 2025 22:38:17 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MEm2D-1twKau1RWN-00AUaq; Wed, 19
+ Mar 2025 22:49:47 +0100
+Message-ID: <2f6deb85-dcb7-40d8-b80f-3ca6e798a91c@gmx.de>
+Date: Wed, 19 Mar 2025 22:49:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] video: fbdev: sm501fb: Add some geometry checks.
-To: Danila Chernetsov <listdansp@mail.ru>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-References: <20250319013011.467530-1-listdansp@mail.ru>
+Subject: Re: [PATCH v2] fbcon: Use static attribute groups for sysfs entries
+To: Thomas Zimmermann <tzimmermann@suse.de>, oushixiong1025@163.com,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Zsolt Kajtar <soci@c64.rulez.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250314060941.160048-1-oushixiong1025@163.com>
+ <9aec4ef1-7428-4630-a4af-d7448a023a60@suse.de>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -87,36 +92,36 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20250319013011.467530-1-listdansp@mail.ru>
+In-Reply-To: <9aec4ef1-7428-4630-a4af-d7448a023a60@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:n7U7GnXQpP2Oa1OZbFNAR6Wwrbb4U/9ODQd848hHz964oJK3pcW
- v/MrY1o5w9e/jY0qC6r36OjuyPetxt5hmSLRj+97rBpjHmV8znTsAlDh7eZrNNunvFe5uw0
- yJ5q53Gr0QLrzkpVDCZ5O/ipEiiw4vaa/KgsNOdzU1EElLd0vOyxzw1oyqJFah9sxOJzm/u
- eUA6S1Bsi7OPd6HwZuoNw==
+X-Provags-ID: V03:K1:6gEIMBFrsWI4q0ElzKmsWhl2tLyS3U2j2PmJLKL5SUg+B56zloA
+ oyS8VdpOBdoHM2xTOJDfiwLtdN0ujOtZM9YRac9BAVRyb+ceGnJJuxLzpf3SRshNpKtzcQd
+ 0a7VATHSobLcj+QxrfCR0CoHfIiMDnR6Oa52Li6uIckYkwEULwFZxa7bK5QrRPmLSQnRG0I
+ KpFAPKzprMisThYJXjGnA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Hpgw2wiPSuw=;aJ6hoHMNaJaUqa2piWrWG+OA3mC
- V9WPYWco0J4UB5Zb0cAMbu2Fv1D+Y1mtZ8X8edV0KgO/WG6xqP2XAoRpCSHE56GCVHE2HQdmO
- s4jnbX6bSl7wrNbkbHGblK+UzjxDQaKqtlUFab45lPMWaxgOvMV6vegUGw5Tc2sEMmt+KSqF2
- k/jfwuHPRbaZAFig/wKejktTdDHAR5PPsDi6+nsJsNKqceAi3upRJv4N8mmnFW1NPlDwC4tP0
- u4FqAFbojw3tBvubVjmQMsfkqxmspHGVuHnO6K3soHA871olU4ANvaQ6Mynxj9/f81sVWhhy9
- AtGobtrz9VdjL1mkqpCzlWVSlphJ7/Iv/FK7nrO/CUQ2/8hhfdejI3E4x43EpReTfh31XKJzE
- Rgz3oDAFqOBGSGE09a5VgFpTt7CdPOtgWcpW1RZ8yAZmNzG6e8bvmnU/PkJybhAUi3Jo5ZvNj
- XZN8rb1H3P7inmZNvLq/TjqM2DOFo2HdMg1vFjidegtG+wv3nS655tLfebUh4HdS+sBUOP5IZ
- TtNpaOkWSrXd5ElA8GWoRP/R4g9Y0fha/e+ZwZfpWn+2PZ0LkG2EFO1barSMp3mJqw5QM3DQq
- ptEYdLTplb6igdric5VtzQupVUtjXvEd1v64K54jNQPfHkN9EPfrhFc45TDnB/WepCd7LJcKl
- QBdmd9rD99uosEeJCH8uHtclL6/tgYsePUPAyiSL741cvBAja5Ab/tLLyN/1GRXz9RYJeS3QP
- LptghZ8nrUswSKQpNr4gL+tr4hSfMwJ7XKB4W4SO/Mqz1bFUghNM1Olk42L56NoQkgYWCN1mt
- jS/9JdOviYJbUhU7iHfuVLu6sPYt5PADTCIjTWY22a3IrQ4N0ZfzhnRgxh5Dl+jIP1vsThKY2
- XcEOjpJ6R0BX/6hxYnjW7qMQ//v8jttFIXCpgV7IIE1LI16YIetCuRdNQ9q6Jv6asXPLUQLiq
- x7ScFp/70thbwtf+LcLiujd+46aDBR9jPh7hKum3f5j5bgOH9ggbozBTXiDekFCaYZMZ4RwDq
- Iouq1q/s0WkzdOLSfuGFUIAEMqqL8wDvMe58HNgRfRqS9OiEvfHuzJgmS3MlaxqrPZh31DvxM
- 9WMo855imdQRapjzkTIChDzaYDFK3lqd7Z3YLepai0izmE2fI5W11wYmy4fWbqRvAc7TR4LWk
- zKFEkBxbCRe6WwOR7AxYdD1R8kPXhASjyEiSYRG8A/4FGmVNUfwK69/2un/4dV7dYOZrVB1J6
- afPwka5HRZZbYb2+CUfEizDarmfnrDMqxiCc09rbe74iWYmsAR4zHhHR0FETTnAqEIapo2o8y
- OPTf8r+YRXFwi6avUFTECTSfIOEkSdEsGJS6oJquvjgZMuSZYsvEJC0oRhZyXdxCShbofoEdH
- wyNqbpXgQjqdylq0aQLXh2WLOOh0VgYePpLxvqWIi0/Piqx7PcFB/sMUiluHpPztkxye9AJmK
- DNMZOKpz3+JKEWsK6s6SY/1waEZw=
+UI-OutboundReport: notjunk:1;M01:P0:zGFvay1LiG0=;lfxBsntI4qks7FzZ7VIJCsDDTTI
+ Nf5fnVSpsg9K27A3s2vHdL87kfUK3WCXEuimEg9UIetPv6exhny9m+d32TyXOAwhv3dOgSudb
+ x494cYPoIUhUsmSVfjbrZOP2XKaar3iwn7DNTGTiPEnD3ifPWkDD13qT7MG+AkqBJZWKfTxYg
+ sOHgwZokEtfQqJSqboAqSxDaNJW+2CEuel6RVUWrGXoAs6F/koTXxDzghZzclihWwx43Fztjp
+ TmdesOQOwBn5vQEZuu4A6BI+jdFxv8rFkLaT+CeehzVhQX93/pxzAKXO0W+FTGdunaz/yAfkI
+ RLgl0i2JsUShD6kDF+FMI/v3zhx1BqBAutVx1eCWr6R6vZZKhYd9tXrb0G2N6KV1MZWlXe4Rv
+ GkWmmAMNnxKbjMzZBg/jVZ/Bx+t3JRWBABKVRyNwVrG+9ORsIGxxWXRI3gtTzbmaazEU6f506
+ VUDQSl0OJ5ZZUs8uIoP7869lu8Gsea0LpkupNAWwv3dk77J2HANmUOJqXLohkWMQj1xOw8V/O
+ FtMXfNJcri7R1Ce3t02Zc513X/g2HIz+2N6jjiSJQf+tkhETjIdLpNlWr+IArJ0MDtodElQZB
+ xh+0NBEAQuRM8D2SouGrBjRkw7XIlHZ48h8jALGxtLyZnZxtJdXjXBsu6s4Rp9b0F6SVdBhgg
+ Ej1dGK4bQ3pVmJ+xX0FBc20mTFJcFehHeABxRXWoEnfIp+GR/q5bgBPf0m4CdyHbu0QKQ3n1m
+ Rt9jEk0sNtiqptM1EhN7i8b0lNat9/G8WP0/JCEcavqnjEIkqYYd4R5fQr+WC1A0KOO64isqr
+ q2cne1PJcIQh8zseSfS9od22Gx0lCA34xDU8dh86gFZJty+5N2iKlAZX07gmyiJKHIfBpXdY5
+ NEUrbCVWP9u+TvZMwzd6E0zgaXHHchCSS3XNWuVNp+JIkemVwjhB4uuX+nvv0pDZW8TnsmP8m
+ niD3OU9iYlvJ6elat60lcqQgqBBiy+/+rZRXc0Ba39UehQ01Qn+y3HjJDW/4Qn71koC4x+4Cz
+ MUOo97b47wuTtbUM94AjzChUQvqIJPwCpdQpS/NRNh8rda6Rw7WdcS0Ji0I1j659hA0p4x9/S
+ NByRNfH0cSmnShWkjL0X5DT+3Gd4O7gnwaNjAwJFPSYcQDrqr4pF+NQEZzWClsrdyc/8WtA6X
+ D1yOVnVCs2YxlKY9KjPxBUB8FVbyxidOkkWBFsYE/ZIXZl7OniCyTsh9Mk+mi7WPvWMiodlCp
+ 5uG9W8b4UqWUMoaOgb35sYIEmQUtWnLpElgrFMnydlKg5wyZNy0/2+dmbLtuK7FsRl0XrXkGg
+ bf07tn7TdkpZji1OdWgaE+eduNVZMIvhTy9O5GLWKX2s5YTX6+oaGlR86oCvXnFpoA4Clar46
+ NQxkDtLf5NBgjpUhSyn1nzIEB5D/6DKS3qjPj2xJKF16alg0h4gQC1shxTSM39SQV2hs3CRjV
+ 9IsqGQ2cxS3US2+ejLzRDcZ9+kEk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,20 +137,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/19/25 02:30, Danila Chernetsov wrote:
-> Added checks for xoffset, yoffset settings.
-> Incorrect settings of these parameters can lead to errors
-> in sm501fb_pan_ functions.
+On 3/14/25 09:16, Thomas Zimmermann wrote:
+> Am 14.03.25 um 07:09 schrieb oushixiong1025@163.com:
+>> From: Shixiong Ou <oushixiong@kylinos.cn>
+>>
+>> Using device_create_with_groups() to simplify creation and removal.
+>> Same as commit 1083a7be4504 ("tty: Use static attribute groups for
+>> sysfs entries").
+>>
+>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 >
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 >
-> Fixes: 5fc404e47bdf ("[PATCH] fb: SM501 framebuffer driver")
-> Signed-off-by: Danila Chernetsov <listdansp@mail.ru>
-> ---
->   drivers/video/fbdev/sm501fb.c | 7 +++++++
->   1 file changed, 7 insertions(+)
+> with minor comments below
+>
+>> ---
+>> =C2=A0 drivers/video/fbdev/core/fbcon.c | 69 +++++++++-----------------=
+------
+>> =C2=A0 1 file changed, 19 insertions(+), 50 deletions(-)
 
-applied.
+series applied with changes as suggested by Thomas.
 
 Thanks!
 Helge
