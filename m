@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B2AA68DB9
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 14:25:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28A5A68DBD
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 14:26:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A93E810E261;
-	Wed, 19 Mar 2025 13:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29BA910E309;
+	Wed, 19 Mar 2025 13:26:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BCT4meaz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iYreXMEF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3688010E2FD;
- Wed, 19 Mar 2025 13:24:59 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-22359001f1aso21307715ad.3; 
- Wed, 19 Mar 2025 06:24:59 -0700 (PDT)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3256310E356;
+ Wed, 19 Mar 2025 13:25:59 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-22401f4d35aso128342395ad.2; 
+ Wed, 19 Mar 2025 06:25:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742390699; x=1742995499; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1742390759; x=1742995559; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xZFRLY0XAdp76L6s++8PUE6jOftbFDqTl8mKmLB0uG4=;
- b=BCT4meazTCEzAOv45EavyGKJA+eBjrbRJeufC9TygFuxejPf+G+oAUep/MtHEaeLHL
- 1SUwInUUiEEwwvnNUsf32I70FF6/q31epr0C01R3+ET0Hv/qSnooGp8r38hUUKovdMb6
- jn2mxu+SOqlp+9+Mzu+e16NPQ8vkjsK6AIDgKPpSIC0TuQQ8GPhg5z7bHR0c2guu1adl
- D5wa/yrT99kSved4YRnQQOM7Y4OaxKGPNjhMpf4ER0ST718hkwmblWsMvT1dS4FigdCR
- aw1h0yvIdHNqGUYl+Oboha/WjsJZdygSK0Pw2jxamGkKuz3Re1nE7qPHOQhPspMLmwwy
- mxoA==
+ bh=8nV8V6naseGogksjahvS3uLXhTv8c4v5cDCu9vdP9cg=;
+ b=iYreXMEFd2vb+T2nT/EYaW+ST25LxNRzoIhBlbnmqewdDLollJ461vQV4PzNeIS9SF
+ p1SdyoLKXFLTOwqEsFNKnP3mPKujT/tlfbRbdTidknKIyJQOqvYY6QkSVciTWQob+T67
+ AoWLlG9SRjccJcgEdHhRy1tBLjzQIa+uz3e7KDTC2NWGxJs06ALDRZJAaEYktkPD4kxK
+ R5ULpsPJIBBhzQblKEew7xHZrcqtAYliD6CUiiE1SzARnQe27kvU0LFMSJvdb1WyVCbB
+ NoOusgZ7tk0tKu7U9vZzT1tAy8aNCUKncZ9g6QFNJuCalYYP++X8VvjqBhFsBhK3P1bp
+ /X1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742390699; x=1742995499;
+ d=1e100.net; s=20230601; t=1742390759; x=1742995559;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xZFRLY0XAdp76L6s++8PUE6jOftbFDqTl8mKmLB0uG4=;
- b=mSj6DHJJeSK3INhNNCsk/zMZApF3M6BywmPauGgJN0TyWK7EuYNaAMYNQ9gUtlViby
- 4nruy8z9UoiCASGLDbovooh1PoyNCsAvsEu+sRLQpynDKCRC+ouPVPPyjaD6LZCqyhRp
- wR1m/srQcJZEd19xqMIwNJHdb8DGpHSxO3PDiZ16zl+yEbzk01OnpFJJBf4RjTcjlzat
- N7O4GLB4rAgfl09uOLJnlWqpO55ybAUlOQVeXtx8PeWwTPvmDmZOZAXtHDZJgfgVBPTl
- 96YcI2XFTnShp4KSU2nylLMSVNLrE/P7IRbOzWfRSNwtRmp+nUAE40hGu2IAlXWF7m1D
- bQZg==
+ bh=8nV8V6naseGogksjahvS3uLXhTv8c4v5cDCu9vdP9cg=;
+ b=t6NOdKOiN/bK1IUxoVm/h2MNXLtUoo1X3ctSWtUl9RyBY0UcYF+3250pIuP3znKBAj
+ pxkx7iJj/cD3Nj0q/BLKVV2qkzbckPzc1R7Kbq5au7HjY46ZxEyKclXBCgD7abwWuVYR
+ Slx8cM6j5rbRCl3cFTL7axSWYpdmpN0p15Z8dmZTDaGqxT2CAOd9DYcoDh5STUoJpLD8
+ nXTQ4B8cxbi+WHXmcRx5T/giWv7IibEyFGwB9dUFWiKJUhSXvakUyQjYNP2ps/2YHnGu
+ pvDVF9zRJBbCEC8O4upl433LgSdCUzcKjEcVVheWO4NesPix8zrElKt9kASwhig4Y91w
+ xr+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2YxoXcPuOI7e4iQQxor0H0lOo9Y3WmQTXvPXA2INDHOCCs9D35Sos5i883Oft9Yo2zbggEdVVzSq1@lists.freedesktop.org,
- AJvYcCWgE/815ut8m5PcTLVMcjUKzWhTHuO0q9xG+HhDE2tpj8rMHrBg8ilxYUXggcrjVJtUwPVVCQ1Fkv0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPK/73MLuY9/VcUaJPohLtrNmh7uE6md9ifXGsmsbxsJM0+8Wb
- ktqUBmAcl2dkegyRmCLgR25E9L9LVn9PJoPf38xnGxYm+t3RwByv
-X-Gm-Gg: ASbGncu8ckpPH9YznlqiwaT10sO5N6Z9MCzCVkOj3Gb4vZwN96lq5gkoljRHp8rosYA
- HnnMp9U7cqj4LotVcHHtgokhp/ly9wA2xfVfKqww/ACelz2oKYCTCv4IEmhXlu8P7HyeiCBYQVF
- GqfaHX2NhG27bZ3fnGYFnqUveTIrNfLokge75Wl94HkCBEfkIN1fzqltHnbpA1KTKm/UUA5tmln
- kouZdwpcBNTugRYc1O0TRwN1qR3mNORlckbNs3n5Dmsr1MRHQvT9zhY4bmqE21lW/lP65WKOGPk
- kioZt2r5T01AN/emxWlvFRGFsQQYO7fcL/JvN+7802YGQ2UKDqQcKc8zuRl9bX/B5upM
-X-Google-Smtp-Source: AGHT+IGIFYmDi/KkGln7MKeowoPAzVmI+wsa7nArP8Kx5Xywx6QFPsEGFX/fF3zen40trjIEXgl4DQ==
-X-Received: by 2002:a17:902:f548:b0:21f:b483:2ad5 with SMTP id
- d9443c01a7336-2264993273bmr33537815ad.20.1742390698627; 
- Wed, 19 Mar 2025 06:24:58 -0700 (PDT)
+ AJvYcCVcR75a/H3UM15P5K+HS/zZmojaMqgmsEmoMDvBwnjY3x45uYGpYIO/BJKG2hntI2/1MKzQ7Pd1XoE=@lists.freedesktop.org,
+ AJvYcCW/RC2lIgsazd/tFNpnyFjS/5Hc95fdohC2Tldq0o1Ybe6Vm/EGhMKU+Qx3uqB4GHDos0jm4AmQPf7J@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyQSYx7phT2UhXNNbrjK2WX7XR849W28nGe1WKoId4uV3RfjXdw
+ LjsQM3VDfCSaXuXx0UFqT5K7VeELBZxGkDkMgSA1bR9ICdKnVzQj
+X-Gm-Gg: ASbGnctRSL12DZ1qq12h9NXizGlDj4MJv5pEsXeSqOAokaGTmhtvtwe0VJQfayTZ3tL
+ Dcmh+eFk8PbPG5HnMVR3c5rP0G04i90gVYnOHyQUkzPLFzVAbw4rhHBnht/i+E5ywbYyBW7/S70
+ 4UZGpw7D+OPIzxIsMdgeL36JwH5XC4yVEf8ezIpg4rXK95s6V+dIklokagyqFK9iXHlDV0nr9Cs
+ uSkgfg7VgE/T1KrrY9QdRK9sm+DqsQpdh5H11IvjM5zvI3XRM8jNbe8JneR32GIB8m6INbZ79xK
+ kjBiLxUpQwwMl2i3IEDYJxm5VhSDjUQmQan0KHIhd0nsCkj1u/rRimkVrnDr4wYVe3WB
+X-Google-Smtp-Source: AGHT+IFV2ihVKDX+XILsEqqrYfSi5Q031FRnJSnqfNW/LjeoWGfZnrGB6aQNMBwZdy8dsB7j8Hx6PQ==
+X-Received: by 2002:a05:6a20:2d0c:b0:1f0:e706:1370 with SMTP id
+ adf61e73a8af0-1fbed7f0e92mr5249359637.35.1742390758515; 
+ Wed, 19 Mar 2025 06:25:58 -0700 (PDT)
 Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-737115292cbsm11533634b3a.1.2025.03.19.06.24.57
+ d2e1a72fcca58-737115293f6sm11928000b3a.14.2025.03.19.06.25.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Mar 2025 06:24:57 -0700 (PDT)
-Date: Wed, 19 Mar 2025 09:24:56 -0400
+ Wed, 19 Mar 2025 06:25:57 -0700 (PDT)
+Date: Wed, 19 Mar 2025 09:25:56 -0400
 From: Yury Norov <yury.norov@gmail.com>
 To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>,
@@ -76,18 +76,18 @@ Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
  dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
  David Laight <David.Laight@aculab.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v6 2/7] bits: introduce fixed-type genmasks
-Message-ID: <Z9rFqBIWgF1FuM98@thinkpad>
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v6 4/7] drm/i915: Convert REG_GENMASK*() to fixed-width
+ GENMASK_U*()
+Message-ID: <Z9rF5JFcEW2DOtcr@thinkpad>
 References: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
- <20250308-fixed-type-genmasks-v6-2-f59315e73c29@wanadoo.fr>
- <Z9mjJ3gJoqLwjIFX@thinkpad>
- <443027f0-08c9-449a-8ee0-db9b234483f4@wanadoo.fr>
+ <20250308-fixed-type-genmasks-v6-4-f59315e73c29@wanadoo.fr>
+ <Z9mqUZX4H-CzqbW4@thinkpad> <87ldt2c6lz.fsf@intel.com>
+ <f6885fdb-4361-428c-b6dd-54cd2ac7904d@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <443027f0-08c9-449a-8ee0-db9b234483f4@wanadoo.fr>
+In-Reply-To: <f6885fdb-4361-428c-b6dd-54cd2ac7904d@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,61 +103,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 19, 2025 at 02:39:03PM +0900, Vincent Mailhol wrote:
-> On 19/03/2025 at 01:45, Yury Norov wrote:
-> > On Sat, Mar 08, 2025 at 01:48:49AM +0900, Vincent Mailhol via B4 Relay wrote:
-> >> From: Yury Norov <yury.norov@gmail.com>
-> 
-> (...)
-> 
-> >> +#define GENMASK(h, l)		GENMASK_TYPE(unsigned long,  h, l)
-> >> +#define GENMASK_ULL(h, l)	GENMASK_TYPE(unsigned long long, h, l)
+On Wed, Mar 19, 2025 at 01:37:32PM +0900, Vincent Mailhol wrote:
+> On 19/03/2025 at 07:32, Jani Nikula wrote:
+> > On Tue, 18 Mar 2025, Yury Norov <yury.norov@gmail.com> wrote:
+> >> On Sat, Mar 08, 2025 at 01:48:51AM +0900, Vincent Mailhol via B4 Relay wrote:
+> >>> From: Lucas De Marchi <lucas.demarchi@intel.com>
+> >>>
+> >>> Now that include/linux/bits.h implements fixed-width GENMASK_U*(), use
+> >>> them to implement the i915/xe specific macros. Converting each driver
+> >>> to use the generic macros are left for later, when/if other
+> >>> driver-specific macros are also generalized.
+> >>>
+> >>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> >>> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> >>> Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> >>> ---
+> >>> Changelog:
+> >>>
+> >>>   v5 -> v6:
+> >>>
+> >>>     - No changes.
+> >>>
+> >>>   v4 -> v5:
+> >>>
+> >>>     - Add braket to macro names in patch description,
+> >>>       e.g. 'REG_GENMASK*' -> 'REG_GENMASK*()'
+> >>>
+> >>>   v3 -> v4:
+> >>>
+> >>>     - Remove the prefixes in macro parameters,
+> >>>       e.g. 'REG_GENMASK(__high, __low)' -> 'REG_GENMASK(high, low)'
+> >>> ---
+> >>>  drivers/gpu/drm/i915/i915_reg_defs.h | 108 ++++-------------------------------
+> >>>  1 file changed, 11 insertions(+), 97 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
+> >>> index e251bcc0c89f5710125bc70f07851b2cb978c89c..39e5ed9511174b8757b9201bff735fa362651b34 100644
+> >>> --- a/drivers/gpu/drm/i915/i915_reg_defs.h
+> >>> +++ b/drivers/gpu/drm/i915/i915_reg_defs.h
+> >>> @@ -9,76 +9,19 @@
+> >>>  #include <linux/bitfield.h>
+> >>>  #include <linux/bits.h>
+> >>>  
+> >>> -/**
+> >>> - * REG_BIT() - Prepare a u32 bit value
+> >>> - * @__n: 0-based bit number
+> >>> - *
+> >>> - * Local wrapper for BIT() to force u32, with compile time checks.
+> >>> - *
+> >>> - * @return: Value with bit @__n set.
+> >>> +/*
+> >>> + * Wrappers over the generic BIT_* and GENMASK_* implementations,
+> >>> + * for compatibility reasons with previous implementation
+> >>>   */
+> >>> -#define REG_BIT(__n)							\
+> >>> -	((u32)(BIT(__n) +						\
+> >>> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__n) &&		\
+> >>> -				 ((__n) < 0 || (__n) > 31))))
+> >>> +#define REG_GENMASK(high, low)		GENMASK_U32(high, low)
+> >>> +#define REG_GENMASK64(high, low)	GENMASK_U64(high, low)
+> >>> +#define REG_GENMASK16(high, low)	GENMASK_U16(high, low)
+> >>> +#define REG_GENMASK8(high, low)		GENMASK_U8(high, low)
+> >>
+> >> Nit. Maybe just
+> >>
+> >>  #define REG_GENMASK		GENMASK_U32
 > > 
-> > I like everything except this part. We switch GENMASK() from a well
-> > tested implementation, including an asm code, and we split uapi and
-> > non-uapi users, with no functionality changes.
-> > 
-> > Unification is a solid point, however.
-> > 
-> > Let's make it a 2-step procedure? Adding fixed-width GENMASKs is a
-> > non-questionable improvement. Switching an existing API from one
-> > implementation to another should be a separate patch, and probably
-> > even a separate series. And we should be very clear that __GENMASK()
-> > is uapi-only thing from now.
-> > 
-> > If we decide to switch GENMASK() in a separate series, we'll have some
-> > extra time to think about unification...
+> > Please just keep it as it is for clarity.
 > 
-> Ack. I started drafting the split. The two series would look like:
+> I also prefer when the argument is clearly displayed. It shows at first
+> glance that this is a function-like macro and reminds of the correct
+> order of the argument without having to look at the definitions in
+> bits.h. It also allows for people to grep "#define REG_GENMASK(" in
+> order to find the macro definition.
 > 
-> [Series #1] bits: Fixed-type GENMASK_U*() and BIT_U*()
->     - bits: introduce fixed-type GENMASK_U*()
->     - bits: introduce fixed-type BIT_U*()
->     - drm/i915: Convert REG_GENMASK*() to fixed-width GENMASK_U*()
->     - test_bits: add tests for GENMASK_U*()
->     - test_bits: add tests for BIT_U*()
-> 
-> [Series #2] bits: Split asm and non-asm GENMASK*() and unify definitions
->     - bits: split the definition of the asm and non-asm GENMASK*()
->     - bits: unify the non-asm GENMASK*()
->     - test_bits: add tests for __GENMASK() and __GENMASK_ULL()
-> 
-> 
-> Series #1 will leave GENMASK(), GENMASK_ULL() and GENMASK_128()
-> untouched. The final result after the Series #2 will be the exact same
-> code as of now.
-> 
-> I am thinking of sending the two series at the same time, and then, you
-> can decide what is the good timing to merge these (and eventually, start
-> a separate discussion on the second series).
-> 
-> Does this work for you?
+> To be honest, I don't have a strong opinion either, but because Jani
+> also prefers it this way, I will keep as-is.
 
-Yes.
-
-> On a side note, it did a lot of modifications to your original patch
-> which introduced the GENMASK_U*(). It is OK to tag myself as author and
-> you as co-author or do you still prefer to stay as the main author? Let
-> me know!
-
-Yes, I'm OK.
+Please go with the original version. It was just a minor nitpick.
