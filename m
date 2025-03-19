@@ -2,79 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1766A69AE0
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 22:32:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CE0A69AEB
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 22:33:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E81A10E052;
-	Wed, 19 Mar 2025 21:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDD1510E00B;
+	Wed, 19 Mar 2025 21:33:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I9UuLrf9";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="g6ZzSdPN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
- [209.85.166.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC3610E00B;
- Wed, 19 Mar 2025 21:31:56 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id
- ca18e2360f4ac-85517db52a2so2450939f.3; 
- Wed, 19 Mar 2025 14:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742419915; x=1743024715; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eGXYnVlo4fA0RFIIo/kNFkQOG0FR1x2vD9pp9kcKWLQ=;
- b=I9UuLrf9DfcQUoFG9+Bgp42ijMIOPSSNTpsiY0zrooNrFDKdGjH1f1nqf4zs8Bng2K
- i/eLFK+TNwA4DnCt3rkSRFHkKKYyosIMgjmDAI3VwLPC00WMPSXfzoVWk/VeQMb7C6bO
- 1oans9TEBN1jkfeb3CQUUf+Q5IhbuwszOKEDOVtqsJARfuDAWE1d4mHE7xz9S6ocxUzp
- TiG7olXKvdu23NvYZnpQnCfxr1lGC24teODpLoivxynyyq+4lo5j5dxcCZ+IEoiqZIXS
- zMRdTeGOVpKkR0FFNB1zeRl4KnrOjj3Tz325O+6B51wpm0XNmmqOJomih/F18O39WSht
- HhaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742419915; x=1743024715;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eGXYnVlo4fA0RFIIo/kNFkQOG0FR1x2vD9pp9kcKWLQ=;
- b=G6TJoVp+7GuinmXwcwS51PusgsTWQ6vgSmb6A5E0LuHtHYhIKjTvhj4MVGv8/zEN6x
- OlLiqOpGEz6QSxG/jShp0VECNFA3+mVlAGQYdZbLzK4SoVgNHZbtRYCp8344p+EIJ+JC
- I3c4bQcdln3fA9XnaX3UnFjWCqocNNN0Gmo9Tj5kr7sCTLAtVyYnH+MFp1XAQe0t2XRM
- 0UqIW4/4CjtbfPWW/UoFKrIHuRfv6ug6uYLO1lis1BFPjMKN7acmD3a2T7JdP7OAjZXN
- CmY9oLFbXLORBvC9Uin0VKHhHmK4mCDTST625QWr4YqANVXj1T2V27tSkLzPvIen27rZ
- X0wQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWCmw+6o1YyyvyfcAo8CkUqlvbY+fmM0UgnfUQQATJ1Wj4ohjjqb5SixznicrKU+FW6x37fhFo8rYk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwuE8Xnf7CSspWcfHx7KdzPX9ATs5h36QYs6CHXVAqGWwii8jYU
- esiS1QVjAuANvFI42MVjOW570/UBgXLt6zsnKmdWyVUjAQ3pfzZeIyOJh8Va6C0FKbkgpbmiLAa
- 5eHYB4C7ZM63aPQDRVvXzYJ2d30VWjQ==
-X-Gm-Gg: ASbGncvXKF2V29ragv/T40mSvAUjd9Zak3EtSnEYAU5bxam2gXXMXpXfLxB3u33ziVT
- QnknBZEpsWODU0zJQ7wVRa8o/3p/LmSxNrMi++EF0NftuRC8ktTklWd4TLvYmU+u1XrMVLPc1Lo
- xC0zguBOPx179EfeKXmHbyzCPsSy8UktS9VIh9uWwMfYZROP9sRKhHAqLkbdguWN9dxKULjBs=
-X-Google-Smtp-Source: AGHT+IG6eJdQijicuz0JhXeewGnZhBud8RVqN+j9v9xBQdOBT2axAWMn8vRd7OQcpT6RTCan1DoKTU3vvrEEu2tAwIQ=
-X-Received: by 2002:a05:6e02:1a47:b0:3d3:ff09:432c with SMTP id
- e9e14a558f8ab-3d586b24451mr38482965ab.4.1742419915226; Wed, 19 Mar 2025
- 14:31:55 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E768310E00B
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 21:33:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1742420028;
+ bh=2Vw/dCdupFj8vJ98A7FJ5i8gEPgNi//i8ehf6zqvxAE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=g6ZzSdPNa2KeodHxGaPIikikd7NPmc0lXwzDDcxWwv9UVcZZUBknt+GDgF2cYRkx5
+ T/CDSc+6XD+aL/9aqaWVEWbUnFNDIyMEwZfwpiVYcFh47UcqMbVsSztluAiOGFPqEG
+ JrQ/h1i9a/18IDf+8biyYKaVA5ujS7DQ8+o/n7RmqRWqC5xjUJGNcPCLJVYd+QNEmm
+ UUW/Vadkz1wBlv+XG+TgIxz+h6UD3HoQhiLIja2e2wfpemKRf/oqa1JmfKB0M3iKvo
+ yIsqxlG384Ltcp7qatXk2Re1PsE0Nk/eCiIuydG78VOcycOta/XzWtI+2t+Q6HDmQB
+ jxBkAH0auVwUg==
+Received: from [192.168.1.90] (unknown [84.232.140.93])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id D286117E0E93;
+ Wed, 19 Mar 2025 22:33:47 +0100 (CET)
+Message-ID: <36705dea-038b-40b7-8fca-506b76397e42@collabora.com>
+Date: Wed, 19 Mar 2025 23:33:45 +0200
 MIME-Version: 1.0
-References: <20250319145425.51935-1-robdclark@gmail.com>
- <20250319145425.51935-17-robdclark@gmail.com>
- <CACu1E7FduhsXY22BKpjt5WcnAcVtGu01eUiLc9T47OUR+yp_0Q@mail.gmail.com>
-In-Reply-To: <CACu1E7FduhsXY22BKpjt5WcnAcVtGu01eUiLc9T47OUR+yp_0Q@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 19 Mar 2025 14:31:43 -0700
-X-Gm-Features: AQ5f1JoLQDinqTeGHJh8TxkwUkgoOW697Nl89kftPZ83P_IL6WWPoVNwetQQV1s
-Message-ID: <CAF6AEGvkKhx2JLpNsDgYigX41QhbhXt4VvSP9n-QmO=cAvTxHw@mail.gmail.com>
-Subject: Re: [PATCH v2 16/34] drm/msm: Mark VM as unusable on faults
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@chromium.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/7] drm/tests: hdmi: Add macros to simplify EDID setup
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250311-hdmi-conn-yuv-v2-0-fbdb94f02562@collabora.com>
+ <20250311-hdmi-conn-yuv-v2-5-fbdb94f02562@collabora.com>
+ <20250311-spiritual-hornet-of-prestige-ef4132@houat>
+ <a91cabd5-f0af-42a3-95b5-de68e30f7f23@collabora.com>
+ <20250319-organic-skink-of-judgment-ab4ffd@houat>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250319-organic-skink-of-judgment-ab4ffd@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,123 +69,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 19, 2025 at 9:15=E2=80=AFAM Connor Abbott <cwabbott0@gmail.com>=
- wrote:
->
-> On Wed, Mar 19, 2025 at 10:55=E2=80=AFAM Rob Clark <robdclark@gmail.com> =
-wrote:
-> >
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > If userspace has opted-in to VM_BIND, then GPU faults and VM_BIND error=
-s
-> > will mark the VM as unusable.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/gpu/drm/msm/msm_gem.h        | 17 +++++++++++++++++
-> >  drivers/gpu/drm/msm/msm_gem_submit.c |  3 +++
-> >  drivers/gpu/drm/msm/msm_gpu.c        | 16 ++++++++++++++--
-> >  3 files changed, 34 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_ge=
-m.h
-> > index acb976722580..7cb720137548 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem.h
-> > +++ b/drivers/gpu/drm/msm/msm_gem.h
-> > @@ -82,6 +82,23 @@ struct msm_gem_vm {
-> >
-> >         /** @managed: is this a kernel managed VM? */
-> >         bool managed;
-> > +
-> > +       /**
-> > +        * @unusable: True if the VM has turned unusable because someth=
-ing
-> > +        * bad happened during an asynchronous request.
-> > +        *
-> > +        * We don't try to recover from such failures, because this imp=
-lies
-> > +        * informing userspace about the specific operation that failed=
-, and
-> > +        * hoping the userspace driver can replay things from there. Th=
-is all
-> > +        * sounds very complicated for little gain.
-> > +        *
-> > +        * Instead, we should just flag the VM as unusable, and fail an=
-y
-> > +        * further request targeting this VM.
-> > +        *
-> > +        * As an analogy, this would be mapped to a VK_ERROR_DEVICE_LOS=
-T
-> > +        * situation, where the logical device needs to be re-created.
-> > +        */
-> > +       bool unusable;
-> >  };
-> >  #define to_msm_vm(x) container_of(x, struct msm_gem_vm, base)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm=
-/msm_gem_submit.c
-> > index 9731ad7993cf..9cef308a0ad1 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> > @@ -668,6 +668,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, vo=
-id *data,
-> >         if (args->pad)
-> >                 return -EINVAL;
-> >
-> > +       if (to_msm_vm(ctx->vm)->unusable)
-> > +               return UERR(EPIPE, dev, "context is unusable");
-> > +
-> >         /* for now, we just have 3d pipe.. eventually this would need t=
-o
-> >          * be more clever to dispatch to appropriate gpu module:
-> >          */
-> > diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gp=
-u.c
-> > index 503e4dcc5a6f..4831f4e42fd9 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpu.c
-> > +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> > @@ -386,8 +386,20 @@ static void recover_worker(struct kthread_work *wo=
-rk)
-> >
-> >         /* Increment the fault counts */
-> >         submit->queue->faults++;
-> > -       if (submit->vm)
-> > -               to_msm_vm(submit->vm)->faults++;
-> > +       if (submit->vm) {
-> > +               struct msm_gem_vm *vm =3D to_msm_vm(submit->vm);
-> > +
-> > +               vm->faults++;
-> > +
-> > +               /*
-> > +                * If userspace has opted-in to VM_BIND (and therefore =
-userspace
-> > +                * management of the VM), faults mark the VM as unusuab=
-le.  This
-> > +                * matches vulkan expectations (vulkan is the main targ=
-et for
-> > +                * VM_BIND)
->
-> The bit about this matching Vulkan expectations isn't exactly true.
-> Some Vulkan implementations do do this, but many will also just ignore
-> the fault and try to continue going, and the spec allows either. It's
-> a choice that we're making.
+On 3/19/25 5:32 PM, Maxime Ripard wrote:
+> On Wed, Mar 12, 2025 at 12:44:26AM +0200, Cristian Ciocaltea wrote:
+>> On 3/11/25 6:12 PM, Maxime Ripard wrote:
+>>> On Tue, Mar 11, 2025 at 12:57:37PM +0200, Cristian Ciocaltea wrote:
+>>>> Introduce a few macros to facilitate setting custom (i.e. non-default)
+>>>> EDID data during connector initialization.
+>>>>
+>>>> This helps reducing boilerplate code while also drops some redundant
+>>>> calls to set_connector_edid().
+>>>>
+>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>>> ---
+>>>>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 245 ++++++++-------------
+>>>>  1 file changed, 93 insertions(+), 152 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>>>> index e97efd3af9ed18e6cf8ee66b4923dfc805b34e19..a3f7f3ce31c73335c2c2643bdc5395b6ceb6f071 100644
+>>>> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>>>> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>>>> @@ -183,10 +183,12 @@ static const struct drm_connector_funcs dummy_connector_funcs = {
+>>>>  
+>>>>  static
+>>>>  struct drm_atomic_helper_connector_hdmi_priv *
+>>>> -drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
+>>>> -					   unsigned int formats,
+>>>> -					   unsigned int max_bpc,
+>>>> -					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
+>>>> +connector_hdmi_init_funcs_set_edid(struct kunit *test,
+>>>> +				   unsigned int formats,
+>>>> +				   unsigned int max_bpc,
+>>>> +				   const struct drm_connector_hdmi_funcs *hdmi_funcs,
+>>>> +				   const char *edid_data,
+>>>> +				   size_t edid_len)
+>>>>  {
+>>>>  	struct drm_atomic_helper_connector_hdmi_priv *priv;
+>>>>  	struct drm_connector *conn;
+>>>> @@ -240,30 +242,27 @@ drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
+>>>>  
+>>>>  	drm_mode_config_reset(drm);
+>>>>  
+>>>> +	if (edid_data && edid_len) {
+>>>> +		ret = set_connector_edid(test, &priv->connector, edid_data, edid_len);
+>>>> +		KUNIT_ASSERT_GT(test, ret, 0);
+>>>> +	}
+>>>> +
+>>>>  	return priv;
+>>>>  }
+>>>>  
+>>>> -static
+>>>> -struct drm_atomic_helper_connector_hdmi_priv *
+>>>> -drm_kunit_helper_connector_hdmi_init(struct kunit *test,
+>>>> -				     unsigned int formats,
+>>>> -				     unsigned int max_bpc)
+>>>> -{
+>>>> -	struct drm_atomic_helper_connector_hdmi_priv *priv;
+>>>> -	int ret;
+>>>> +#define drm_kunit_helper_connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, edid) \
+>>>> +	connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, edid, ARRAY_SIZE(edid))
+>>>>  
+>>>> -	priv = drm_kunit_helper_connector_hdmi_init_funcs(test,
+>>>> -							  formats, max_bpc,
+>>>> -							  &dummy_connector_hdmi_funcs);
+>>>> -	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
+>>>> +#define drm_kunit_helper_connector_hdmi_init_funcs(test, formats, max_bpc, funcs)		\
+>>>> +	connector_hdmi_init_funcs_set_edid(test, formats, max_bpc, funcs, NULL, 0)
+>>>>  
+>>>> -	ret = set_connector_edid(test, &priv->connector,
+>>>> -				 test_edid_hdmi_1080p_rgb_max_200mhz,
+>>>> -				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+>>>> -	KUNIT_ASSERT_GT(test, ret, 0);
+>>>> +#define drm_kunit_helper_connector_hdmi_init_set_edid(test, formats, max_bpc, edid)		\
+>>>> +	drm_kunit_helper_connector_hdmi_init_funcs_set_edid(test, formats, max_bpc,		\
+>>>> +							    &dummy_connector_hdmi_funcs, edid)
+>>>>  
+>>>> -	return priv;
+>>>> -}
+>>>> +#define drm_kunit_helper_connector_hdmi_init(test, formats, max_bpc)				\
+>>>> +	drm_kunit_helper_connector_hdmi_init_set_edid(test, formats, max_bpc,			\
+>>>> +						      test_edid_hdmi_1080p_rgb_max_200mhz)
+>>>
+>>> I'd really prefer to have functions to macros here. They are easier to
+>>> read, extend, and don't have any particular drawbacks.
+>>
+>> Yeah, the main reason I opted for macros was to allow dropping
+>> ARRAY_SIZE(edid) from the caller side, hence making the API as simple as
+>> possible.
+>>
+>>> I also don't think we need that many, looking at the tests:
+>>>
+>>>   - We need drm_kunit_helper_connector_hdmi_init() to setup a connector
+>>>     with test_edid_hdmi_1080p_rgb_max_200mhz and
+>>>     dummy_connector_hdmi_funcs()
+>>
+>> Correct.
+>>
+>>>   - We need to create a
+>>>     drm_kunit_helper_connector_hdmi_init_with_edid_funcs() to pass both
+>>>     the funcs and edid pointers
+>>
+>> That's drm_kunit_helper_connector_hdmi_init_funcs_set_edid(), but I can
+>> rename it if you prefer - I've just tried to keep the name length under
+>> control, as there are already some indentation challenges when calling
+>> the helpers.
+>>
+>> Currently it's only used to implement
+>> drm_kunit_helper_connector_hdmi_init_set_edid() by passing
+>> &dummy_connector_hdmi_funcs, but there are a few test cases that can
+>> benefit of it and help extend the cleanup - will do for v3.
+>>
+>> drm_kunit_helper_connector_hdmi_init_set_edid() should also stay as it's
+>> already being used to drop boilerplate code from a lot of places.
+>>
+>>> And that's it, right?
+>>
+>> There's also drm_kunit_helper_connector_hdmi_init_funcs() which has been
+>> used for a few times, but it can be further optimized out via
+>> drm_kunit_helper_connector_hdmi_init_funcs_set_edid(), so I'll drop it.
+>>
+>> That means we could end up with just the following:
+>>
+>> - drm_kunit_helper_connector_hdmi_init()
+>> - drm_kunit_helper_connector_hdmi_init_set_edid()
+>> - drm_kunit_helper_connector_hdmi_init_funcs_set_edid()
+> 
+> I'm not even sure we need init_set_edid. We just have to provide the
+> dummy_connector_hdmi_funcs pointer to
+> drm_kunit_helper_connector_hdmi_init_funcs_set_edid and that's it.
 
-As mentioned on IRC, this is actually about GPU hangs rather then smmu
-faults.   I guess the $subject is a bit misleading.
+Right, it can be done, but my point is that there are currently ~20 test
+cases that benefit from this simplification, and the number is likely to
+grow while extending the test suite.
 
-BR,
--R
+I would rename it to drm_kunit_helper_connector_hdmi_init_with_edid(),
+to be consistent with your preference below, but yeah, if you're still
+not convinced we should keep the helper, pls let me know and I'll drop it.
 
-> Connor
->
-> > +                */
-> > +               if (!vm->managed)
-> > +                       vm->unusable =3D true;
-> > +       }
-> >
-> >         get_comm_cmdline(submit, &comm, &cmd);
-> >
-> > --
-> > 2.48.1
-> >
+> And yeah, I'd really prefer to use
+> drm_kunit_helper_connector_hdmi_init_with_edid_funcs() to remain
+> consistent with the rest of KMS.
+
+Sure, will do.
+
+Thanks,
+Cristian
