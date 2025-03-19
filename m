@@ -2,75 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939D9A683FF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 04:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD67A6843A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 05:38:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56B910E0E9;
-	Wed, 19 Mar 2025 03:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D90910E193;
+	Wed, 19 Mar 2025 04:37:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BZcyf38X";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Sud1uwMU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com
- [209.85.222.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B49310E0E9
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 03:54:49 +0000 (UTC)
-Received: by mail-ua1-f44.google.com with SMTP id
- a1e0cc1a2514c-86ba07fe7a4so5526672241.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 20:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742356488; x=1742961288; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dFWVWI+PpPHLAY/181byB09plfh1Tntlt/fFkm++uLE=;
- b=BZcyf38X36+rJnoSzbUwrU7ThqBrWCcjcNBXV6Td+GYFwQRuXzdK106gt2hpDG3VJ4
- lPijGcvvFupLrEq2Axf/fNN/Tr8CUr8fhSCgpChi6Dk2HMjjrS1iSzR/u+fULdpLNODW
- 5T55NtkUVPrCMBOsvMy7c98SLQYd5+KoimqM5Ri00UaPiIECvnALtmOYPaQF3RdNmts5
- YDqMQZQW/bk/sD8RFReTNF5d0ZPYLqTMIgawn2N0cOCe4Ls6Wpmx16arbNkhsoGkwU5+
- qmfeQDziIbb9wyKsObuo3/dE1J+6fO6yM2X4aVbsbtsXQySRCqonV80C08caFlCrklEC
- eEXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742356488; x=1742961288;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dFWVWI+PpPHLAY/181byB09plfh1Tntlt/fFkm++uLE=;
- b=mHFwOKZBsPHFHxNxcLvY63ggxLUw5NwMvc89BgzQm9fJMcInukPasV3iW1sSB9a+Lo
- X1NBtYRYLaTvdcKcy+LcpePjo4D1Q3x5BhWC0BB9fTeOQ/BKBe8ImlrimookXg5L7IO5
- FJ+/OAya+v3/NapJNaGYRxlWOyLryouy4qzTi537txptWw/21gND+7V8bBMi/aZJrBdy
- uhsr2N5zAYrowiLfi4HFutpUouBFutEVebTQWLJtpF3skfCQxRBumw1iPXrLUZa7+RDC
- PQXrhPfsSN2LMgHQjJjB6nAN0OHuDCs5ZlVLKsQGs6wS+6jUabkf5WLvOtTlhIEXD/wo
- 3clA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDJKv5j+0S0eHwIt4PafQiRMcYRGaHNZ2oePUkcW3OuhcNdNG3Ky7V0tvNaaYXmcoOpOkRQsjg5C0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJzoX/uT6EzQrU5uvUQRBTyRptJAfx2ku5k4m+2PhvpguJhn0G
- fud7VVHwkR2d1Pr6gtCquJtGq8hvD6cS6yf7E392Zs0yU0Chy+RGHcUE2yylSD89TEKx3Isf9Zh
- esCD0vQu3cjpp1K6VMw+85+s1Dns=
-X-Gm-Gg: ASbGncu4w8hqRf+zrDA4UmTv9zihqGuc+PaZwq8J6f+yEMoumI0GZ2Ttw3Y66uPsmSP
- XyoKiRafssVDqn16gshrYuvF7q+r8fecEHP08j0TALJOVc8sF0ZtBzwc0WP49e1Xj4L6c2Zyn3o
- bUySdAawZVAllImyQkl5KRSdz6QfBHuZ+FFyVYzsx0BmPJqFyur8gUN1/1ug==
-X-Google-Smtp-Source: AGHT+IEqv3kQJ6Pv+jUD/aIdBwf8rIlXorR/MdjQVCohA4Hqv+zI7ioRlnfkexCPs1hThHfGycIxsg2ejvSJwK4+dMI=
-X-Received: by 2002:a05:6102:e11:b0:4c1:9288:906c with SMTP id
- ada2fe7eead31-4c4ec6725e3mr802044137.9.1742356488628; Tue, 18 Mar 2025
- 20:54:48 -0700 (PDT)
+Received: from out.smtpout.orange.fr (out-18.smtpout.orange.fr [193.252.22.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB3410E0D4;
+ Wed, 19 Mar 2025 04:37:50 +0000 (UTC)
+Received: from [172.16.82.72] ([124.33.176.97]) by smtp.orange.fr with ESMTPA
+ id ulBNtfpwMfuZZulBRtao7X; Wed, 19 Mar 2025 05:37:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1742359066;
+ bh=0VV/UtG/UDZ3bpNTeojrDmrZMrZ+qC1u4f7r2O6sak4=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=Sud1uwMUrmb/VgDg9o8K3hj8UGSE3pe+iPsWUs08o9YX88klI8CBGYgbivzcw+x9G
+ Gcso0XQnN56aGTJ4NPH2/9ZUv9Rgl1U1Yc7U93dRZRIECq8u0OZme2yqPgV1Jc7mYO
+ Ma6d5dm1AgEfE4i2/8hsrfzN3vGseKJgn6niyTMcuay96GuUyhWUYAcjVkVtf9usc4
+ +4y5P+9/s6wfFBZR1UbW0VHV7fwBQLuFxLs6d1Nsl2kRChFQ7k8tyJES6OXWNGD45K
+ 6jTpRZn/qzK/wFJScoI+qPr04sdJMEmAZlAeVgVYExy71tr8PBXZfInQcfQHr9x+gN
+ 6ShqyktgoutLw==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 19 Mar 2025 05:37:46 +0100
+X-ME-IP: 124.33.176.97
+Message-ID: <f6885fdb-4361-428c-b6dd-54cd2ac7904d@wanadoo.fr>
+Date: Wed, 19 Mar 2025 13:37:32 +0900
 MIME-Version: 1.0
-References: <CGME20250228144531epcas5p217fab73da682601a89e208fff5a3775e@epcas5p2.samsung.com>
- <20250228140257.75045-1-anindya.sg@samsung.com>
-In-Reply-To: <20250228140257.75045-1-anindya.sg@samsung.com>
-From: Inki Dae <daeinki@gmail.com>
-Date: Wed, 19 Mar 2025 12:54:37 +0900
-X-Gm-Features: AQ5f1JqEqLZIcxY8_7ZoD8rrNjASTanZyk3nVh9C9jMdKFDiJELGTcF_x0O4DlY
-Message-ID: <CAAQKjZMH=hJ5V6s7jPSju61jRM6mXZvu8qJYoG9HFZv-DFPh=g@mail.gmail.com>
-Subject: Re: [PATCH] drm/exynos: fixed a spelling error
-To: Anindya Sundar Gayen <anindya.sg@samsung.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- aswani.reddy@samsung.com
-Content-Type: multipart/alternative; boundary="00000000000093b3bf0630a9fb4d"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/7] drm/i915: Convert REG_GENMASK*() to fixed-width
+ GENMASK_U*()
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Yury Norov <yury.norov@gmail.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
+ <20250308-fixed-type-genmasks-v6-4-f59315e73c29@wanadoo.fr>
+ <Z9mqUZX4H-CzqbW4@thinkpad> <87ldt2c6lz.fsf@intel.com>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <87ldt2c6lz.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,105 +83,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000093b3bf0630a9fb4d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 19/03/2025 at 07:32, Jani Nikula wrote:
+> On Tue, 18 Mar 2025, Yury Norov <yury.norov@gmail.com> wrote:
+>> On Sat, Mar 08, 2025 at 01:48:51AM +0900, Vincent Mailhol via B4 Relay wrote:
+>>> From: Lucas De Marchi <lucas.demarchi@intel.com>
+>>>
+>>> Now that include/linux/bits.h implements fixed-width GENMASK_U*(), use
+>>> them to implement the i915/xe specific macros. Converting each driver
+>>> to use the generic macros are left for later, when/if other
+>>> driver-specific macros are also generalized.
+>>>
+>>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>>> Acked-by: Jani Nikula <jani.nikula@intel.com>
+>>> Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+>>> ---
+>>> Changelog:
+>>>
+>>>   v5 -> v6:
+>>>
+>>>     - No changes.
+>>>
+>>>   v4 -> v5:
+>>>
+>>>     - Add braket to macro names in patch description,
+>>>       e.g. 'REG_GENMASK*' -> 'REG_GENMASK*()'
+>>>
+>>>   v3 -> v4:
+>>>
+>>>     - Remove the prefixes in macro parameters,
+>>>       e.g. 'REG_GENMASK(__high, __low)' -> 'REG_GENMASK(high, low)'
+>>> ---
+>>>  drivers/gpu/drm/i915/i915_reg_defs.h | 108 ++++-------------------------------
+>>>  1 file changed, 11 insertions(+), 97 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
+>>> index e251bcc0c89f5710125bc70f07851b2cb978c89c..39e5ed9511174b8757b9201bff735fa362651b34 100644
+>>> --- a/drivers/gpu/drm/i915/i915_reg_defs.h
+>>> +++ b/drivers/gpu/drm/i915/i915_reg_defs.h
+>>> @@ -9,76 +9,19 @@
+>>>  #include <linux/bitfield.h>
+>>>  #include <linux/bits.h>
+>>>  
+>>> -/**
+>>> - * REG_BIT() - Prepare a u32 bit value
+>>> - * @__n: 0-based bit number
+>>> - *
+>>> - * Local wrapper for BIT() to force u32, with compile time checks.
+>>> - *
+>>> - * @return: Value with bit @__n set.
+>>> +/*
+>>> + * Wrappers over the generic BIT_* and GENMASK_* implementations,
+>>> + * for compatibility reasons with previous implementation
+>>>   */
+>>> -#define REG_BIT(__n)							\
+>>> -	((u32)(BIT(__n) +						\
+>>> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__n) &&		\
+>>> -				 ((__n) < 0 || (__n) > 31))))
+>>> +#define REG_GENMASK(high, low)		GENMASK_U32(high, low)
+>>> +#define REG_GENMASK64(high, low)	GENMASK_U64(high, low)
+>>> +#define REG_GENMASK16(high, low)	GENMASK_U16(high, low)
+>>> +#define REG_GENMASK8(high, low)		GENMASK_U8(high, low)
+>>
+>> Nit. Maybe just
+>>
+>>  #define REG_GENMASK		GENMASK_U32
+> 
+> Please just keep it as it is for clarity.
 
-Hi,
+I also prefer when the argument is clearly displayed. It shows at first
+glance that this is a function-like macro and reminds of the correct
+order of the argument without having to look at the definitions in
+bits.h. It also allows for people to grep "#define REG_GENMASK(" in
+order to find the macro definition.
 
-Merged.
+To be honest, I don't have a strong opinion either, but because Jani
+also prefers it this way, I will keep as-is.
 
-Thanks,
-Inki Dae
 
-2025=EB=85=84 2=EC=9B=94 28=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 11:45, =
-Anindya Sundar Gayen <anindya.sg@samsung.com>=EB=8B=98=EC=9D=B4
-=EC=9E=91=EC=84=B1:
+Yours sincerely,
+Vincent Mailhol
 
-> Corrected a spelling mistake in the exynos_drm_fimd driver to improve cod=
-e
-> readability. No functional changes were made.
->
-> Signed-off-by: Anindya Sundar Gayen <anindya.sg@samsung.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_fimd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> index 1ad87584b1c2..c394cc702d7d 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> @@ -731,7 +731,7 @@ static void fimd_win_set_pixfmt(struct fimd_context
-> *ctx, unsigned int win,
->         /*
->          * Setting dma-burst to 16Word causes permanent tearing for very
-> small
->          * buffers, e.g. cursor buffer. Burst Mode switching which based =
-on
-> -        * plane size is not recommended as plane size varies alot toward=
-s
-> the
-> +        * plane size is not recommended as plane size varies a lot
-> towards the
->          * end of the screen and rapid movement causes unstable DMA, but
-> it is
->          * still better to change dma-burst than displaying garbage.
->          */
-> --
-> 2.17.1
->
->
->
-
---00000000000093b3bf0630a9fb4d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hi,<div dir=3D"auto"><br></div><div dir=3D"auto">Merged.<=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</div><div dir=3D=
-"auto">Inki Dae</div></div><br><div class=3D"gmail_quote gmail_quote_contai=
-ner"><div dir=3D"ltr" class=3D"gmail_attr">2025=EB=85=84 2=EC=9B=94 28=EC=
-=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 11:45, Anindya Sundar Gayen &lt;<a hr=
-ef=3D"mailto:anindya.sg@samsung.com">anindya.sg@samsung.com</a>&gt;=EB=8B=
-=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Co=
-rrected a spelling mistake in the exynos_drm_fimd driver to improve code<br=
->
-readability. No functional changes were made.<br>
-<br>
-Signed-off-by: Anindya Sundar Gayen &lt;<a href=3D"mailto:anindya.sg@samsun=
-g.com" target=3D"_blank" rel=3D"noreferrer">anindya.sg@samsung.com</a>&gt;<=
-br>
----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_fimd.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exy=
-nos/exynos_drm_fimd.c<br>
-index 1ad87584b1c2..c394cc702d7d 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c<br>
-@@ -731,7 +731,7 @@ static void fimd_win_set_pixfmt(struct fimd_context *ct=
-x, unsigned int win,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Setting dma-burst to 16Word causes perm=
-anent tearing for very small<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* buffers, e.g. cursor buffer. Burst Mode=
- switching which based on<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 * plane size is not recommended as plane size =
-varies alot towards the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 * plane size is not recommended as plane size =
-varies a lot towards the<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* end of the screen and rapid movement ca=
-uses unstable DMA, but it is<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* still better to change dma-burst than d=
-isplaying garbage.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000093b3bf0630a9fb4d--
