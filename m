@@ -2,94 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91C2A68AB1
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 12:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6BEA68AF7
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 12:14:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B68D010E073;
-	Wed, 19 Mar 2025 11:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1397910E2CC;
+	Wed, 19 Mar 2025 11:14:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="gB6sIZ8W";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UjvFSQfH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2847C10E073
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 11:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1742382461; x=1742987261; i=wahrenst@gmx.net;
- bh=DRPgxLsN3BwNnKI2+/LAbfjX6Py8734M+P/lTgZt4i4=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=gB6sIZ8WqJJGtYYRWOtcdV1CxyPT6QgUR+1WLlcDMFeZkNNHm+tiV6CZsgbJGUcl
- g9KwPniZwcp5aVvkHMIs+XShiw/cyMUJloIMN+D48LewZwYXbglw4My7S9sU2Unye
- RwPboyfJcr+578k6SbnfpZUIRfK9GvYFJweGDRcO81+qptJeJKjGQn5KCYR/v7FUl
- c1Dz4NEtUaQYmWf9CqCFecWXeGduURR66qAymEsFl0DLzn5obvLDEYXGkuKeFBIp8
- PaiTPy/q0RHrDvpuVVxfvKr5IpKrxdBf9aNXxc5IGqv4ZW6O7gVtYB8MI9A9BR46s
- royQ48zKAnI04Ur+hA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.107] ([37.4.251.153]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1My36N-1syF073sCt-014i6p; Wed, 19
- Mar 2025 12:07:41 +0100
-Message-ID: <1e0442e3-923c-453e-9d99-1aebc481c17e@gmx.net>
-Date: Wed, 19 Mar 2025 12:07:39 +0100
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72DEE10E2CC;
+ Wed, 19 Mar 2025 11:14:34 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-43ce71582e9so30008865e9.1; 
+ Wed, 19 Mar 2025 04:14:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742382873; x=1742987673; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wFCN5PXntQYjGappLTD03Z+OTDDIQrakXEXEfFrYiao=;
+ b=UjvFSQfH0cdJEr3Hqil2uMRfx7KtfxVIZSTB51GUMa4oMO0zWO4/FTTgYox4+GzuhS
+ cvhTGj4cwGItSg4ft+pQX9d6KS3F6PRaN0o2qc9zsaF6W8kU99wC66QGIg1Ow4s1VMCu
+ xYTbd1OZirzrzcU4k+sh5CUBT0ujD0IsTRrB9PyaLO30P5ZIL9t/7kPdeYWKwQYcf+AM
+ VWRjCbe+ouh0NfcnU0qr0o/OnZrqu0DuCjcs2b+JHYVCBNjB2l5P9pxZ096voUMhRaVA
+ is0AQVZ7rFdUvWrXpOUO6qMFA4xCOiMPSBlyp+Ykp5ZEgnpI6+NbYTyA8646S+WU+9j0
+ I4zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742382873; x=1742987673;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wFCN5PXntQYjGappLTD03Z+OTDDIQrakXEXEfFrYiao=;
+ b=ORfG/9hWXNpdU+/rXqNP+CK1Vpv7DFyI3U9nVGty+6FQ9kScrlqfqtcn0ndypepbH2
+ sXVDhsgcUpWd+VEshCKk5ew+B78KLfhphY083F33eRN2QLzujE3UNB16cgGRRqVPw1L3
+ Ncn5vV76/qn0XuzJtaQogTYSkJDqxipTqz88/Jz0waNHrvROVjyuB6Mk3D6peN/M/lNV
+ N4o7F5TH/f1EcbDKw50Tal3Qp96ajl86E0SjRI2ENyxC1bWvpPRjs4/3LsEl6rkXi66P
+ X9W9R0Jmr1WCQawN6m3Ytdq4yqkiOAM0zX/AMPIxNx3RdBKVGjSq/PJYpJTwXBeEegPI
+ IPdA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEBiFBHDvpKCVHNpnuf5oxzKRzri0bXlCHTIkPHby815sXee+DTYOhO6y1rPMuwlEpBnVvtpZo@lists.freedesktop.org,
+ AJvYcCXVf3wr4p3x7VcrwLJZkRfHgLFDCWrIOLzzUSDwjpH5GcsPr37+w3xuXot4NyU7RzVT/Th4GpiLHFdf@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwwdJ6HLR6G+n6yO56HSjZeNfAB94q3BUQbeLdbwkzc8q1fMK07
+ wdGmMKeuoCblYSly8/eBuMM06BCMc07gbIBZldL6jaushGSCdPCE
+X-Gm-Gg: ASbGncuGolZWwpHpnzT4c5Hl75wAOMqkrb1Xw9IlfWJ/sjZQ2V4RcqydJKjjUqz9NmJ
+ iwZ3vcjqwCHP33esRJMNMUF8FhZAgHhlRJgrajC69Vz8ek+UAwPYPBwQcuxR22L66Lx4xUzXR3c
+ PYV1Q3C+eRrD9dIp1YqPaszuKC40uDKgXopW0v/rsCgB1PgRWpAVB91/waHHBnISrt0DGqiC6HI
+ +Idsqb5+zJVEp6waQkgSU53ZkNtbyXONimZWvaKAFBG4JvsEip0nAZ8tnygJdv9IipkSvIPbfZE
+ TA9BBZr01bpQ+yNKEAdQ/W7bLiF5JONwpIKA6g/HLkbDCQLJWtbH0VzNlZAERg3tHDi2lnwGkA=
+ =
+X-Google-Smtp-Source: AGHT+IFLs3sQ0GabpKeyWE1AMOX6iIh6HbY5ZommtiWkT5RRXuEP+ePKWR+Gwdh0E2hzUef3STraaQ==
+X-Received: by 2002:a05:600c:3482:b0:43c:f8fc:f697 with SMTP id
+ 5b1f17b1804b1-43d4378d04bmr21540625e9.9.1742382872492; 
+ Wed, 19 Mar 2025 04:14:32 -0700 (PDT)
+Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43d43f4542dsm15731075e9.15.2025.03.19.04.14.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Mar 2025 04:14:32 -0700 (PDT)
+Message-ID: <b405637a-2f21-4561-97f3-3b0a3c0deabf@gmail.com>
+Date: Wed, 19 Mar 2025 12:14:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/5] dt-bindings: gpu: v3d: Add SMS register to BCM2712
- compatible
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, kernel-dev@igalia.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250317-v3d-gpu-reset-fixes-v6-0-f3ee7717ed17@igalia.com>
- <20250317-v3d-gpu-reset-fixes-v6-3-f3ee7717ed17@igalia.com>
+Subject: Re: [PATCH 1/2] drm/sched: add drm_sched_prealloc_dependency_slots
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: phasta@mailbox.org, tvrtko.ursulin@igalia.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20250318120313.19099-1-christian.koenig@amd.com>
+ <20250318120313.19099-2-christian.koenig@amd.com> <Z9lpZiRaq0B80XoL@pollux>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <20250317-v3d-gpu-reset-fixes-v6-3-f3ee7717ed17@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:BRJ1wjbn8dyUxPJ4q/Z757kcS83F+heYC9JwuAlv+E6c1jEEerV
- tMFNkU/eqwYXdW8B6lZBBGxKolYNvUVdGSCJ3UAJ9y3FI29LIyRAVvwdq1y129SRZ3E7q9s
- 8O0pIrRcawc+rrlVagG9RT1un0Paqt2nBbJeKA/MvbUZbE6h7TPUi6MPFz9Ck14yS5NpwBy
- f6icR2toTyzdOU7zZlkxw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:TYqbePkDekc=;U3Mpr5sHJC/SKJl5H86mEGTUQna
- iQdLI7tiGFuGs7K8M9lCdMtfWzTfXXC9Ybv5AubwFa22Ouhn5mv6Psd8ppTp5vXOc7CgyKqby
- aE1tg0OXdcGI9vJM5HDdZhLoaQhV4qO5Lz2TgTXVwRbgnAjvA/gKabsLCyj7eq7imADiJL7B6
- fFcCX+4qXM8omnJRMiv73m5QguT4bCvK5/uDoyQ0J3FjUTCROYbJIwQerfse13Twr19Xf+fD9
- Y7QGjgD/Ddb9/nVVDtiRCtZl7M6ZSN+hsOxVbpqykmySGG+qQv80J48oUyFdqbPbFwIx5Ar/h
- lUOp55CMCBuplzdxCkq4254E/zfTXQ72Jyc/PNfp2OeA16Ux4ntpKxmEhBmojQ0c5OYHJWmOo
- x7vFei4YrxBO8Ge5HtoJhAQLCAgZJ+34M0bzw1Gz3gmD1cWydf3dRR90ArVKmlpkjL0UjVUJc
- 0SsiXZa+EcQwADkDJMYh17z3hJ/znUwmK/joSCmrJhWAGqM9hSJBaOs01j4vw6Z1j6KGSBDFm
- ismxdNBSr8WuYp7jq+LDBb+4pnAZlGcFDOJIQOLakYiWYLdUElEB8ChYVP/xB+U+M8a+XJk9F
- FH9wIPq4fX+g2yFnY7M6I3O9KJO1Sq1wK4VN/ULqKrE99BL/+ojIjKGMnF+YMjWZUhSZOE0+2
- QUIBNyy8IZNbPt6prQZdo0aOTWNIairLv0M3BJq2LsAiBCLPT+Cf4NGEs8LTsojFxxuaAxPGZ
- 8wlz8MqNqA9PHNUFRWVcjEDrQaxREey9R8Yq6LJik/wxLw+lrmCKPp8TUHtc80DGqquSCk7wK
- X5KdPjLdxjEmfYxoW8lriyyaLKXMIArs8p+xxDThP7sQW1M9WBlGiChMZU/KSe3ZmtgvfvXVK
- PKrfRm/vrWEngRIFpDQoFqoUwCe6mrqgoZHm8nwmqO+HCgTi+cxqHi6+dQQzRZ0islv8K6Yr1
- 8JIS/J0NeBD2nxhQfHwcpk2NULmgwMTvNBqlSkW2vbMd5WCCD8mgT51cj1SSZIzXCkjzy30Fw
- 7aQkDSmES2Ivcq2XRneh5FJCAKgFjr890EGJ/LXUhFvrVXUiwfA4Zg3OxmerpmbsED62oPMFb
- rL7HK/bJqQksuCEXefSnrlFIKsbK1GUvJDoeoGZrXDykXq4nfcYkBBaq5dwuWsOaQcz0kV/TW
- O3LC8TdLuOAn4C7ipKrj5sziueMOdqMGonAWLgAVT4ac6LABRcdnVU/aQ5WyFu63gzh1290yD
- 9Mqh9CMvpk+2phDYdfNOyZ1xHxanW9hYQpkyPoyoyZ4ztAj7bvnZ5/bG6jOrZxPPhdnMGHBLi
- DaSqCeqnjnUcf9syzQs/fLUx0iaqdSBb7/MzlUsec2SJO7VRI7KdJz50LUnC5hEvpwWgM7XgX
- bNFqI6nOYpLEMAJK9KfbhLTHHM9sUH2+B5pPvKEl2Tmsze32UxBMeeKmy8wUDLtzngTCFgRB0
- XrcYqz3wG/xNGmhxe5S5b/jBsoN4=
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <Z9lpZiRaq0B80XoL@pollux>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,41 +93,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ma=C3=ADra,
+Am 18.03.25 um 13:39 schrieb Danilo Krummrich:
+> On Tue, Mar 18, 2025 at 01:03:12PM +0100, Christian König wrote:
+>>  /**
+>>   * drm_sched_job_add_dependency - adds the fence as a job dependency
+>>   * @job: scheduler job to add the dependencies to
+>> @@ -878,10 +910,12 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>>  	 * engines involved, rather than the number of BOs.
+>>  	 */
+>>  	xa_for_each(&job->dependencies, index, entry) {
+>> -		if (entry->context != fence->context)
+>> +		bool signaled = dma_fence_is_signaled(entry);
+>> +
+>> +		if (!signaled && entry->context != fence->context)
+>>  			continue;
+>>  
+>> -		if (dma_fence_is_later(fence, entry)) {
+>> +		if (signaled || dma_fence_is_later(fence, entry)) {
+>>  			dma_fence_put(entry);
+>>  			xa_store(&job->dependencies, index, fence, GFP_KERNEL);
+>>  		} else {
+>> @@ -890,7 +924,8 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>>  		return 0;
+>>  	}
+>>  
+>> -	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GFP_KERNEL);
+>> +	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b,
+>> +		       GFP_KERNEL);
+>>  	if (ret != 0)
+>>  		dma_fence_put(fence);
+> Those changes seem unrelated, aren't they?
 
-Am 18.03.25 um 02:01 schrieb Ma=C3=ADra Canal:
-> V3D 7.1 exposes a new register block, called V3D_SMS. As BCM2712 has a
-> V3D 7.1 core, add a new register item to its compatible. Similar to the
-> GCA, which is specific for V3D 3.3, SMS should only be added for V3D 7.1
-> variants (such as brcm,2712-v3d).
->
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
->   Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/D=
-ocumentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-> index 6a1a09031983eda4691a939329ed159b32f77669..dd2cc63c9a51da11691e4e81=
-b225b74fbe86d709 100644
-> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-> @@ -77,10 +77,12 @@ allOf:
->             items:
->               - description: hub register
->               - description: core0 register
-> +            - description: SMS state manager register
-sorry, i still don't get what SMS means. What does the second S stand for?
+Ah, yes that was just a leftover from a previous try to fix this.
 
-Regards
->           reg-names:
->             items:
->               - const: hub
->               - const: core0
-> +            - const: sms
->     - if:
->         properties:
->           compatible:
->
-
+Thanks,
+Christian.
