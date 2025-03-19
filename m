@@ -2,150 +2,213 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30DA7A687E3
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 10:28:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1734A688C2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 10:53:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E001B10E4E5;
-	Wed, 19 Mar 2025 09:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 162E410E142;
+	Wed, 19 Mar 2025 09:53:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="X4GNTC6B";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JHFpFquv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2050.outbound.protection.outlook.com [40.107.92.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D451F10E36D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 09:28:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rz2xwjlfd5+wwU9vyIIZ756L7Lu0mmdPXnoZWbJm/lXRXuKIs8bPku0eerTvMlG4ut9H3VzO6PChJWocuQDWh0Q8Iq7gfS0pRKu3L5DrA2b1x6z8TS75NNPZTrvm/IcYVu+rCyR1qklUNtn9xmBxiMfG23mpSIlJ5cI50SLGECiBLtT0PuMH2pIs/APvnFyfIxN2oqflvTHipj/O1pMD5JpBiy0+bGTpbt7keJ8VU98ELeKjxH9+9epgnfPO5KY9iO6LNZoZtd8Ug2BmP44HltpknLNdcNXP8U/Wr/t4I4V5Znf5WkuqYsnyV+sJZWNMYoOKeVI3xszOKoVeYK8HPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UD9TA+1/iCbIEnR8+hht3QfGDIlvHCj3jik0Zs94xfs=;
- b=CD0CQp+ttL8p9hln+sj/ce/uEg19XelhVhCvCCjhYmrlJxv0atcaDEWFVbe7Pz76QkT4oCP0yqS85fqDIe71HhpXE+fFtT1gGNZBA/b+97VpGaiKrvCrThburvjjzMYLoSk/Jg71Y8Gdek47FmnQdckR7Gj5iCQCa+2Kl2k0vzBJUUQUDFIEF1cO2Hhz2VHN0EW9s57tm1rZqjViPbELRXRgt4zNjS+S9ENC/zNaYRv10UPHrnPkVNvmd9jfkPCawuS9DoSPjPuN7gvDjAMTgldXef0LYT6NrGsjbUSgVN/mRRMUJG/SH/OC1GhdP77ntUjlGhEFAjqZZ9XycK7JZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UD9TA+1/iCbIEnR8+hht3QfGDIlvHCj3jik0Zs94xfs=;
- b=X4GNTC6B8artRJj4APL7aWryAXEdD8nZBFllRF/+PBjZal+P+IXwNwZEdN/wQdz38fu8qnGyaOXhDD2gIf4x3C9gIB9alkcpWvFheOIVxDLDi5K/rVCtMtV73sxbbTtegf5BDRpY/CsNBYBUG6YLKnUqzPVIzkRWJ17AAnPDBgA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM3PR12MB9350.namprd12.prod.outlook.com (2603:10b6:8:1ae::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Wed, 19 Mar
- 2025 09:28:31 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.026; Wed, 19 Mar 2025
- 09:28:31 +0000
-Message-ID: <da34ab6b-71e7-48a3-98ed-c0ccab8a9e4f@amd.com>
-Date: Wed, 19 Mar 2025 10:28:27 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vmwgfx: Switch to exclusively using GEM references
-To: Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
-References: <20250131200321.193939-1-ian.forbes@broadcom.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250131200321.193939-1-ian.forbes@broadcom.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26CC410E36D;
+ Wed, 19 Mar 2025 09:30:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 1CC2461601;
+ Wed, 19 Mar 2025 09:30:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC5BC4CEE9;
+ Wed, 19 Mar 2025 09:29:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742376638;
+ bh=kIAOhvTDwNJUqqsksoBZcEdbt37vq7mpC+KqsAhXVn4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=JHFpFquv/U6v4vkowPwaMXcGCfItYIAsWV00Ih7EbBLTrDnNHDkqgRUa5ZcdR6PPT
+ GE73t7IHMHaA5apvRNwpbDEvupLn5GEAROfwG8bfOC3cWm4r+wAQpSmx/nSdIOfft3
+ g6zWFgTwbkIm1pTwp9PFGCWv+F/37wpisUTihZ018rrKSrTzndRRSods8QhjPWc0h0
+ Dz0blnLWWjitFHWBcwSlPWcVj9l1cqhOjMZjmHLHersV3cpNGEMv4hjcn3IBGUGMpD
+ Uwpffo6LtYQoMnAAzDkwZWIhy/r5yBypbyXxtoG2EVI7F+M9Ak3ZkA195gONZahMqe
+ 3dXetUJTXAo6w==
+From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: tglx@linutronix.de
+Cc: maz@kernel.org, linux-kernel@vger.kernel.org,
+ "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Ghiti <alex@ghiti.fr>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Alex Shi <alexs@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, amd-gfx@lists.freedesktop.org,
+ Amit Kucheria <amitk@kernel.org>, Anatolij Gustschin <agust@denx.de>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+ Andreas Kemnade <andreas@kemnade.info>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Andrew Lunn <andrew@lunn.ch>,
+ Andy Shevchenko <andy@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Antoine Tenart <atenart@kernel.org>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Anup Patel <anup@brainfault.org>, Arnd Bergmann <arnd@arndb.de>,
+ asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Baruch Siach <baruch@tkos.co.il>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Borislav Petkov <bp@alien8.de>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Corentin Chary <corentin.chary@gmail.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ Daniel Golle <daniel@makrotopia.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Daniel Mack <daniel@zonque.org>, Daniel Palmer <daniel@thingy.jp>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+ DENG Qingfang <dqfext@gmail.com>, Dinh Nguyen <dinguyen@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Dongliang Mu <dzm91@hust.edu.cn>, Doug Berger <opendmb@gmail.com>,
+ dri-devel@lists.freedesktop.org, Eddie James <eajames@linux.ibm.com>,
+ Eric Dumazet <edumazet@google.com>, Fabio Estevam <festevam@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Geoff Levand <geoff@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gregory Clement <gregory.clement@bootlin.com>, Guo Ren <guoren@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Haojian Zhuang <haojian.zhuang@linaro.org>,
+ Heiko Stuebner <heiko@sntech.de>, Herve Codina <herve.codina@bootlin.com>,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Chen-Yu Tsai <wens@csie.org>,
+ "Chester A. Unal" <chester.a.unal@arinc9.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Chris Zankel <chris@zankel.net>,
+ =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Imre Kaloz <kaloz@openwrt.org>, Ingo Molnar <mingo@redhat.com>,
+ Jakub Kicinski <kuba@kernel.org>, James Morse <james.morse@arm.com>,
+ Janne Grunau <j@jannau.net>, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Jianjun Wang <jianjun.wang@mediatek.com>,
+ Jiawen Wu <jiawenwu@trustnetic.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Jim Quinlan <jim2101024@gmail.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Joel Stanley <joel@jms.id.au>, Johannes Berg <johannes@sipsolutions.net>,
+ John Crispin <john@phrozen.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Jonas Bonn <jonas@southpole.se>, Jonathan Cameron <jic23@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Jonathan Hunter <jonathanh@nvidia.com>,
+ =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Joyce Ooi <joyce.ooi@intel.com>,
+ Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+ Keerthy <j-keerthy@ti.com>, Kevin Hilman <khilman@baylibre.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Linus Walleij <linusw@kernel.org>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-edac@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-remoteproc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-sh@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-um@lists.infradead.org,
+ linux-wireless@vger.kernel.org, loongarch@lists.linux.dev,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, "Luke D. Jones" <luke@ljones.dev>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Mark Brown <broonie@kernel.org>, Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Mengyuan Lou <mengyuanlou@net-swift.com>, Michael Buesch <m@bues.ch>,
+ Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <michal.simek@amd.com>,
+ Miodrag Dinic <miodrag.dinic@mips.com>, Naveen N Rao <naveen@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, netdev@vger.kernel.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun Gupta <nipun.gupta@amd.com>,
+ Nishanth Menon <nm@ti.com>,
+ =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Abeni <pabeni@redhat.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Peter Rosin <peda@axentia.se>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+ platform-driver-x86@vger.kernel.org,
+ Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+ Qiang Zhao <qiang.zhao@nxp.com>, Qin Jian <qinjian@cqplus1.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Ray Jui <rjui@broadcom.com>,
+ Rengarajan Sundararajan <Rengarajan.S@microchip.com>,
+ Richard Cochran <richardcochran@gmail.com>,
+ Richard Weinberger <richard@nod.at>, Rich Felker <dalias@libc.org>,
+ Rob Clark <robdclark@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Robert Richter <rric@kernel.org>, Rob Herring <robh@kernel.org>,
+ Roger Quadros <rogerq@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Ryan Chen <ryan_chen@aspeedtech.com>, Ryder Lee <ryder.lee@mediatek.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Santosh Shilimkar <ssantosh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Scott Branden <sbranden@broadcom.com>, Scott Wood <oss@buserror.net>,
+ Sean Paul <sean@poorly.run>, Sean Wang <sean.wang@kernel.org>,
+ Sean Wang <sean.wang@mediatek.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Shawn Lin <shawn.lin@rock-chips.com>,
+ Siddharth Vadapalli <s-vadapalli@ti.com>, Simona Vetter <simona@ffwll.ch>,
+ Stafford Horne <shorne@gmail.com>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Stephen Boyd <sboyd@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+ Takashi Iwai <tiwai@suse.com>, Talel Shenhar <talel@amazon.com>,
+ Tero Kristo <kristo@kernel.org>,
+ Thangaraj Samynathan <Thangaraj.S@microchip.com>,
+ Thara Gopinath <thara.gopinath@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Toan Le <toan@os.amperecomputing.com>, Tony Lindgren <tony@atomide.com>,
+ Tony Luck <tony.luck@intel.com>, UNGLinuxDriver@microchip.com,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Vineet Gupta <vgupta@kernel.org>,
+ Vladimir Oltean <olteanv@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
+ WANG Xuerui <kernel@xen0n.name>, Woojung Huh <woojung.huh@microchip.com>,
+ x86@kernel.org, Yanteng Si <si.yanteng@linux.dev>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Zhang Rui <rui.zhang@intel.com>
+Subject: [PATCH v2 00/57] irqdomain: Cleanups and Documentation
+Date: Wed, 19 Mar 2025 10:28:53 +0100
+Message-ID: <20250319092951.37667-1-jirislaby@kernel.org>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0262.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e8::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM3PR12MB9350:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b6827a4-b583-48ce-b205-08dd66c869e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZGhId3hDOE5TTGpOdnlHUytQcUVoc3l4eEhqdk5OTEFjeGJpbDdhUkU3aFZr?=
- =?utf-8?B?RWxLVXRaK3BuRTJ3d0N4bTV1UU82bE1xZHpObXdJUUdFSm9oNmtZS3JBZnF1?=
- =?utf-8?B?bGh3cFpvR2ZvRWN1K1haTjZUcVRRMmJVcGRrZXpnaW1aRmZ5cVc2QnVkK1hm?=
- =?utf-8?B?akVqQm8vUGNjSU03Z3c3NVd5cHRQMTUrNnVxNGtnaGdWK2dBZEtRVE9MbkQr?=
- =?utf-8?B?QUlTMnVZZnZlaWcwdmVjY0FKK1hCOEgrMCtuRXFMVHplbEZlVFlwM2gvT2ps?=
- =?utf-8?B?cXRUc2Yyb25rMmFIRjhVMDg2ZWhTWWhEeWgxMXYxVDBuZjIycEcxMmVSSW9n?=
- =?utf-8?B?bUJBM3Rsb3RjczR4cUZ6OFJTN3J0SFhhUFZ0S05jbDlNeGs3dXd4Y1hLQjEy?=
- =?utf-8?B?cHNydWVNSkRXd3hha2ZQalA4Tk9CcXJKZ1J0eU5jajQ3a2ZIRnFhYnhLMmRI?=
- =?utf-8?B?UXR1TFNXa3B0dCt0NlpQc095c0x0ZTJNeG5pajlMTFlQdmQzNm5VSWljRG9m?=
- =?utf-8?B?QjlwZEJ1dnVFVlRWcjZLcFNESDdwcHVnK0JQcDFycE5rdzBYNXVFaWFGRE84?=
- =?utf-8?B?TTh6RTR0T3RXRHRlVTdJSUNrclhXOENodFQxN0xFYzA4dkxUUUtSZDZIcHkx?=
- =?utf-8?B?b2FTd0o2RG05d3d3OWZsVmZ0SlZRUjVpdTZvU05ieFpiSDA3b21Xb2kyZmpT?=
- =?utf-8?B?YWs2RW8wMUtiVmMrNjZjaEZqSVJCVXFteHhnQ0JSMjh6REVqSER6OXJ1QUVm?=
- =?utf-8?B?ZkxjSDdaUUhQN2dMZ0ZLKzVkaGNXUE13VzhCMGRzb1dDYmpFSFltbjNMajNs?=
- =?utf-8?B?SzBJcmV2blp1TDlIb1c4SFJFWWVPZGFob293dDRvTUQ5cisrWDJES0ltaHNw?=
- =?utf-8?B?QW84bEZSOVNrbWNvVmVuZnZENys1Vld0QjlxRGtlUnZWb0d3cmtXSks5QlBI?=
- =?utf-8?B?RG0ybHdwdENqa09FTjhKWTBOKzQzQUVtR0dQVGtiUmZOeTNXRm1GbXlNNExa?=
- =?utf-8?B?YjhQUTVDRlFJcC9xOXlQbUdOYU5sUFJlWHpOVjQ2U1pFSTF5V0VuQzl4b1Zx?=
- =?utf-8?B?ekt2RkFqTnJTellEd0RyaXYzL0xKR2JQL2JYc2wxUUdKQXlOa1MxTmJmS2Fr?=
- =?utf-8?B?OUtCbkpscDhiVjJnNUxxTkdXc09FeFM1a1RxZnM1MVcxd2tWL082S0dVYi9U?=
- =?utf-8?B?WGZmUkZCWldyeW9UTzI1ZEM0VUVoazBCS1pWVDZ5S1Yrc2VxUjhKZHZudHJ3?=
- =?utf-8?B?UTlQWmV0Z2dLQXJhWXgwdEIraDZUcU1xMFNDajYrOEg1ME9DL3NoTnlnYlhu?=
- =?utf-8?B?QnFFbjdPOVdwaUxTOFdnalVNR2tlazdIRFlBMndVc1F5ZHhIbmRrYlQvcWps?=
- =?utf-8?B?WUpmZFozY05zSkQ0dThmUTZiUWJqM2hTS0c0ZmlKd2ZjQ3c4d3RpRUI0NzJR?=
- =?utf-8?B?Mkl3QnBlN1NPemNvWVNBN1dPNThZdC9zTG9qT3JVVHZzdDRzTThaTG9WUmtX?=
- =?utf-8?B?Y3ViUTdlZzdZdjFpWjQrb1ozWlBCSnlQQTFSOCtDZmVtSlh4cW0yTEMvT0hu?=
- =?utf-8?B?Ty9DSThwK2dpRDlMSVk0c2hIN2VSNzUxeStaTFZkbzJibllGK1NXb0NJM1Q5?=
- =?utf-8?B?SzlMYWJDbVJYTi8wUlRMRHpreXVCbWNhSFYyTXkxUStUelExM0hNd2c2azMy?=
- =?utf-8?B?Um1kZDMwVjhXQVRNRVdlbUpCZUh5WG52dVExS3JybGFuUGRtQjFvRVlqSWdj?=
- =?utf-8?B?MDlRZjNiZXlEalBjRGQwSklEWm5FNW5QMUM0bjdVWFViNjNydHJQNkZDSHpz?=
- =?utf-8?B?aTN6R2hFcXFBc3B6aXVrV3l1R3VwVUN4bHlhREx5a3RJWEM2TGg1Si9WQ2lF?=
- =?utf-8?Q?d+gywuQoTgSqi?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2U1TUx0TWVGSTRtRDQ3YXlNVDdBdVJ5MThzWnBZalRNYnViVmpscVRuK0Y5?=
- =?utf-8?B?akttZm5MaXdrWnBVMUNqdEdySFphYXVGZGtaOXFscEpXRjNObVcyNjVYYXhU?=
- =?utf-8?B?a3oyR1lsTEFkek0zUVlyemxRL2JFd2FvT0JNNHMrdVVybVZ4VkRyS1Vhencv?=
- =?utf-8?B?RnFTTUNUZVBESU9DMVg3dWV0d1ZQeXk2K1FSSm5tdHNPRjFMMUU1aGdMelk2?=
- =?utf-8?B?MjhFcGlyZ3hhZkRkOG9BbW5HMXJrZnZaL09IRFJlWTFkdHIrMlFVT09rTHY3?=
- =?utf-8?B?dGhzbHRDSTJpMGRVUUNmUzN4eTZFWk12Rm9wTEVaWlJHT3Zkd1Q2cUlxZGIw?=
- =?utf-8?B?aGI0Y2tUQ2U0cGM1czBwUCtKNVZiUjBsRmgzdGJ2UzZjRjdWbDVXanovR2Zk?=
- =?utf-8?B?djZFUlZUOEFYY2lQS05BSTFXZmlUK2gwSXJaVmJUMkUwM0J0cUthUS9CQU5V?=
- =?utf-8?B?TGRyVWtFQjdKekplN0hYZU1VQnZkczU3d1R0RXRtV0ZxdDRSYnZwdUE0dzBh?=
- =?utf-8?B?T3hScXF3T2xCSldKa1BhdXl0UFVxYmRjTjNsYm0xSDZQRkFKOEwwaTlpOHFi?=
- =?utf-8?B?ZXQ2UXNvS1hzYzl3YXhlcVRzT3R0OElBOStsUWk1cUJMenVySjgydGk3NkM4?=
- =?utf-8?B?THlHU1NiQXBXWmJmZzlaUGdiVlNwdG1kbndHUVNCL3B6YkFsN0srVWtmMzhz?=
- =?utf-8?B?NFcyNzAybzlqeUs5YldVUHlUZE1ic0ozbHhOTytXczhURmRkRU8xVEJOUHJU?=
- =?utf-8?B?ODc3S2FPTng2RDlhdWdraEF1b25LVkJCczlrVFhBdkp6VGhMeThiUXp2MG51?=
- =?utf-8?B?ejdDc3BuZDlvd0VNTEw4VExreGtZWUZIaXZOSEptNzJJeWRtb3FWVXdKRm50?=
- =?utf-8?B?eHR4OWtYbHowNUxrNzhyek9qWkwyZVZyZ1NsTU5zR2pDRlk5aFEvejBzY213?=
- =?utf-8?B?WDZadjJxdm9qYjJEOE9RT2VxNG9EcG54cm16M1RnR2RuQ3MxTEd2ZEFHMVl5?=
- =?utf-8?B?WkdQaUNpN0c2UUFQUDhaRnFkRTRPWTVsUTNLbjk3aXRaTDdyNGJ2TktadmpJ?=
- =?utf-8?B?Ym9IVGhsVmF5YVc5N2RicitFdnhWYktadW15ZDJPK0FXdUNqNUliZ0Jld3dU?=
- =?utf-8?B?c0RjcGdCQ0VHeVZNcFFkUEtIcStNY2VOcFZLZ01YYVZnUFQ5VzU1NlRGZ3VU?=
- =?utf-8?B?RUxsTDdGMm9QQW8yZkN4TjJxdmNpVkF1dzVmRGVtYll5bnRqYUJodjN4MzZV?=
- =?utf-8?B?UzZlVzVJc3JuZDJvNW91ekk1dUJmZktZMXVHaWZRWnViTFNUZWgzMHZGQVk3?=
- =?utf-8?B?ZnVGOW9NUnYvb29ONEpQK1BVWWtzV3gyWktNb3RGNmZkeG1QcFlQS1pXVlNK?=
- =?utf-8?B?NHlHNmUxU00rbFBCRGp6M1F5TSs0ZTBnd2dNakt2WkF0MkpkWmFVT05KdVhV?=
- =?utf-8?B?c0tnUDN3VU1SUml6Q0ZsY0YvckFZd0NBT2pvRGRSYzRFVXExc0k4SURrYWwr?=
- =?utf-8?B?cDMramhMZHRYdEtUTjBCNWhGVFRiUThrTXM2WWY4ZEREcUkyUHM4SFJ2SnNO?=
- =?utf-8?B?TTQ2bDRnT0JSc0VmbXpkQ3Q3VlIzWjg0aDdONnkxSVhwcGZiR0FJYUR6L2dV?=
- =?utf-8?B?VU04a2RCblp1bys1dEU2emYxUXNrTnRDc3J5bzNsU0FkNytCRDM0WFVWMU1t?=
- =?utf-8?B?bE1Ec216VzNEd0pvUHZjd2xCMCt3Q3l3YW1YMlY0WjRoaEU4NkJRWVpFcVB6?=
- =?utf-8?B?RUxoalZnb2F4bmNaYjF0U2picHcrWGpxNXNMajZIVmNRcVBtU3phYWdEVnpa?=
- =?utf-8?B?N1pHR1dBWmN0dUR4d3RNV2FNL2p3V3VrR25IdHBJbm9iVm0xZDNrRjRKQXlu?=
- =?utf-8?B?RzR3VWs0NzBKSWQ1c0sxT1hyeUhWSEd4dW1RTTYvMnI0eDcvMVVoM1dEeVFV?=
- =?utf-8?B?QnJIcGVXSDAwamNnZXFiV0Nlby94dlhCWWpIaXZMYXB6UmtCcnY3WjdueEd5?=
- =?utf-8?B?TE1VQStkK1kzd0QxT0E0S3Nua2kycHFsK0czZmFnRGZQOFU1QllGSys5Z1px?=
- =?utf-8?B?cjBaelB3MExiR3R6K0txMXBKRzVIOTBwbHBYMUZlQkkvLzM1Uy9NQWg1cldR?=
- =?utf-8?Q?RFNvLHy0d1oyxfxxNEDju9Zv0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b6827a4-b583-48ce-b205-08dd66c869e9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 09:28:31.5513 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: el7sgzH7gd9LNoBoVij/CZHZLoIMMZspfJJtYzM4x0wrBaYW/3Cq7q3xcvgwGVGY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9350
+X-Mailman-Approved-At: Wed, 19 Mar 2025 09:53:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,252 +224,605 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 31.01.25 um 21:03 schrieb Ian Forbes:
-> Currently we use a combination of TTM and GEM reference counting which is
-> cumbersome. TTM references are used for kernel internal BOs and operations
-> like validation. Simply switching the ttm_bo_(get|put) calls to their
-> GEM equivalents is insufficient as not all BOs are GEM BOs so we must set
-> the GEM vtable for all BOs even if they are not exposed to userspace.
->
-> Suggested-by: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+Hi,
 
-Oh, yes please! Sorry for not responding earlier, this mail somehow got lost in my inbox.
+tl;dr if patches are agreed upon, I ask subsys maintainers to take the
+respective ones via their trees (as they are split per subsys), so that
+the IRQ tree can take only the rest. That would minimize churn/conflicts
+during merges.
 
-Feel free to add an Acked-by: Christian König <christian.koenig@amd.com> to it.
+===
 
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         |  4 ++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h         |  4 ++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c    |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  4 +---
->  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c        | 18 ++----------------
->  drivers/gpu/drm/vmwgfx/vmwgfx_mob.c        |  3 +--
->  drivers/gpu/drm/vmwgfx/vmwgfx_resource.c   |  8 ++++----
->  drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c    |  4 +---
->  drivers/gpu/drm/vmwgfx/vmwgfx_validation.c |  7 +++----
->  10 files changed, 18 insertions(+), 38 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> index 676fd84f35cc..609bf4067b07 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> @@ -36,8 +36,7 @@ static void vmw_bo_release(struct vmw_bo *vbo)
->  {
->  	struct vmw_resource *res;
->  
-> -	WARN_ON(vbo->tbo.base.funcs &&
-> -		kref_read(&vbo->tbo.base.refcount) != 0);
-> +	WARN_ON(kref_read(&vbo->tbo.base.refcount) != 0);
->  	vmw_bo_unmap(vbo);
->  
->  	xa_destroy(&vbo->detached_resources);
-> @@ -469,6 +468,7 @@ int vmw_bo_create(struct vmw_private *vmw,
->  	if (unlikely(ret != 0))
->  		goto out_error;
->  
-> +	(*p_bo)->tbo.base.funcs = &vmw_gem_object_funcs;
->  	return ret;
->  out_error:
->  	*p_bo = NULL;
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> index e97cae2365c8..791951fe019c 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> @@ -204,12 +204,12 @@ static inline void vmw_bo_unreference(struct vmw_bo **buf)
->  
->  	*buf = NULL;
->  	if (tmp_buf)
-> -		ttm_bo_put(&tmp_buf->tbo);
-> +		drm_gem_object_put(&tmp_buf->tbo.base);
->  }
->  
->  static inline struct vmw_bo *vmw_bo_reference(struct vmw_bo *buf)
->  {
-> -	ttm_bo_get(&buf->tbo);
-> +	drm_gem_object_get(&buf->tbo.base);
->  	return buf;
->  }
->  
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-> index a7c07692262b..98331c4c0335 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-> @@ -432,7 +432,7 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
->  	 * for the new COTable. Initially pin the buffer object to make sure
->  	 * we can use tryreserve without failure.
->  	 */
-> -	ret = vmw_gem_object_create(dev_priv, &bo_params, &buf);
-> +	ret = vmw_bo_create(dev_priv, &bo_params, &buf);
->  	if (ret) {
->  		DRM_ERROR("Failed initializing new cotable MOB.\n");
->  		goto out_done;
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> index 5c1d82a73c32..81382cd58ba2 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> @@ -843,9 +843,7 @@ static inline bool vmw_resource_mob_attached(const struct vmw_resource *res)
->   * GEM related functionality - vmwgfx_gem.c
->   */
->  struct vmw_bo_params;
-> -int vmw_gem_object_create(struct vmw_private *vmw,
-> -			  struct vmw_bo_params *params,
-> -			  struct vmw_bo **p_vbo);
-> +extern const struct drm_gem_object_funcs vmw_gem_object_funcs;
->  extern int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
->  					     struct drm_file *filp,
->  					     uint32_t size,
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> index ed5015ced392..026c9b699604 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> @@ -140,7 +140,7 @@ static const struct vm_operations_struct vmw_vm_ops = {
->  	.close = ttm_bo_vm_close,
->  };
->  
-> -static const struct drm_gem_object_funcs vmw_gem_object_funcs = {
-> +const struct drm_gem_object_funcs vmw_gem_object_funcs = {
->  	.free = vmw_gem_object_free,
->  	.open = vmw_gem_object_open,
->  	.close = vmw_gem_object_close,
-> @@ -154,20 +154,6 @@ static const struct drm_gem_object_funcs vmw_gem_object_funcs = {
->  	.vm_ops = &vmw_vm_ops,
->  };
->  
-> -int vmw_gem_object_create(struct vmw_private *vmw,
-> -			  struct vmw_bo_params *params,
-> -			  struct vmw_bo **p_vbo)
-> -{
-> -	int ret = vmw_bo_create(vmw, params, p_vbo);
-> -
-> -	if (ret != 0)
-> -		goto out_no_bo;
-> -
-> -	(*p_vbo)->tbo.base.funcs = &vmw_gem_object_funcs;
-> -out_no_bo:
-> -	return ret;
-> -}
-> -
->  int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
->  				      struct drm_file *filp,
->  				      uint32_t size,
-> @@ -183,7 +169,7 @@ int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
->  		.pin = false
->  	};
->  
-> -	ret = vmw_gem_object_create(dev_priv, &params, p_vbo);
-> +	ret = vmw_bo_create(dev_priv, &params, p_vbo);
->  	if (ret != 0)
->  		goto out_no_bo;
->  
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c b/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c
-> index 7055cbefc768..d8204d4265d3 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_mob.c
-> @@ -282,8 +282,7 @@ static int vmw_otable_batch_setup(struct vmw_private *dev_priv,
->  	}
->  
->  	vmw_bo_unpin_unlocked(&batch->otable_bo->tbo);
-> -	ttm_bo_put(&batch->otable_bo->tbo);
-> -	batch->otable_bo = NULL;
-> +	vmw_bo_unreference(&batch->otable_bo);
->  	return ret;
->  }
->  
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-> index c4d5fe5f330f..388011696941 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-> @@ -347,7 +347,7 @@ static int vmw_resource_buf_alloc(struct vmw_resource *res,
->  		return 0;
->  	}
->  
-> -	ret = vmw_gem_object_create(res->dev_priv, &bo_params, &gbo);
-> +	ret = vmw_bo_create(res->dev_priv, &bo_params, &gbo);
->  	if (unlikely(ret != 0))
->  		goto out_no_bo;
->  
-> @@ -531,9 +531,9 @@ vmw_resource_check_buffer(struct ww_acquire_ctx *ticket,
->  	}
->  
->  	INIT_LIST_HEAD(&val_list);
-> -	ttm_bo_get(&res->guest_memory_bo->tbo);
->  	val_buf->bo = &res->guest_memory_bo->tbo;
->  	val_buf->num_shared = 0;
-> +	drm_gem_object_get(&val_buf->bo->base);
->  	list_add_tail(&val_buf->head, &val_list);
->  	ret = ttm_eu_reserve_buffers(ticket, &val_list, interruptible, NULL);
->  	if (unlikely(ret != 0))
-> @@ -557,7 +557,7 @@ vmw_resource_check_buffer(struct ww_acquire_ctx *ticket,
->  out_no_validate:
->  	ttm_eu_backoff_reservation(ticket, &val_list);
->  out_no_reserve:
-> -	ttm_bo_put(val_buf->bo);
-> +	drm_gem_object_put(&val_buf->bo->base);
->  	val_buf->bo = NULL;
->  	if (guest_memory_dirty)
->  		vmw_user_bo_unref(&res->guest_memory_bo);
-> @@ -619,7 +619,7 @@ vmw_resource_backoff_reservation(struct ww_acquire_ctx *ticket,
->  	INIT_LIST_HEAD(&val_list);
->  	list_add_tail(&val_buf->head, &val_list);
->  	ttm_eu_backoff_reservation(ticket, &val_list);
-> -	ttm_bo_put(val_buf->bo);
-> +	drm_gem_object_put(&val_buf->bo->base);
->  	val_buf->bo = NULL;
->  }
->  
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-> index cee2dc70cf8c..23dc404ad623 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-> @@ -445,7 +445,7 @@ vmw_sou_primary_plane_prepare_fb(struct drm_plane *plane,
->  	 * resume the overlays, this is preferred to failing to alloc.
->  	 */
->  	vmw_overlay_pause_all(dev_priv);
-> -	ret = vmw_gem_object_create(dev_priv, &bo_params, &vps->uo.buffer);
-> +	ret = vmw_bo_create(dev_priv, &bo_params, &vps->uo.buffer);
->  	vmw_overlay_resume_all(dev_priv);
->  	if (ret)
->  		return ret;
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-> index 896f171f8093..bc7e522d336e 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-> @@ -850,9 +850,7 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
->  			.pin = false
->  		};
->  
-> -		ret = vmw_gem_object_create(dev_priv,
-> -					    &params,
-> -					    &res->guest_memory_bo);
-> +		ret = vmw_bo_create(dev_priv, &params, &res->guest_memory_bo);
->  		if (unlikely(ret != 0)) {
->  			vmw_resource_unreference(&res);
->  			goto out_unlock;
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-> index e7625b3f71e0..7ee93e7191c7 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-> @@ -262,9 +262,8 @@ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
->  				bo_node->hash.key);
->  		}
->  		val_buf = &bo_node->base;
-> -		val_buf->bo = ttm_bo_get_unless_zero(&vbo->tbo);
-> -		if (!val_buf->bo)
-> -			return -ESRCH;
-> +		vmw_bo_reference(vbo);
-> +		val_buf->bo = &vbo->tbo;
->  		val_buf->num_shared = 0;
->  		list_add_tail(&val_buf->head, &ctx->bo_list);
->  	}
-> @@ -656,7 +655,7 @@ void vmw_validation_unref_lists(struct vmw_validation_context *ctx)
->  	struct vmw_validation_res_node *val;
->  
->  	list_for_each_entry(entry, &ctx->bo_list, base.head) {
-> -		ttm_bo_put(entry->base.bo);
-> +		drm_gem_object_put(&entry->base.bo->base);
->  		entry->base.bo = NULL;
->  	}
->  
+While I was reading through the irqdomain code and headers, I found some
+naming and documentation hard to follow or incomplete. Especially the
+naming of _add/_create/_instantiate functions.
+
+I tried to come up with a better state with this patchset:
+* only irq _domain_ (not host),
+* only irq_domain_create*() functions, all taking fwnode uniformly,
+
+Finally, all the irqdomain stuff is now plugged (and generated) into
+Documentation. So that everyone can walk through it at
+https://www.kernel.org/doc/ (once applied, of course).
+
+Changelog
+---------
+[v2]
+- 'extern' removal patch dropped (already merged into tip),
+- some new patches added,
+- only _create*() functions preserved, all _add*() are removed,
+  as per <87wme3m4a9.ffs@tglx>.
+
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Alex Shi <alexs@kernel.org>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: "Alvin Šipraga" <alsi@bang-olufsen.dk>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: Amit Kucheria <amitk@kernel.org>
+Cc: Anatolij Gustschin <agust@denx.de>
+Cc: Andi Shyti <andi.shyti@kernel.org>
+Cc: "Andreas Färber" <afaerber@suse.de>
+Cc: Andreas Kemnade <andreas@kemnade.info>
+Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Andy Shevchenko <andy@kernel.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Antoine Tenart <atenart@kernel.org>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: Anup Patel <anup@brainfault.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: asahi@lists.linux.dev
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Baruch Siach <baruch@tkos.co.il>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>
+Cc: Bjorn Andersson <andersson@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: Corentin Chary <corentin.chary@gmail.com>
+Cc: Daire McNamara <daire.mcnamara@microchip.com>
+Cc: Daniel Golle <daniel@makrotopia.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Daniel Mack <daniel@zonque.org>
+Cc: Daniel Palmer <daniel@thingy.jp>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: DENG Qingfang <dqfext@gmail.com>
+Cc: Dinh Nguyen <dinguyen@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Doug Berger <opendmb@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Eddie James <eajames@linux.ibm.com>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Geoff Levand <geoff@infradead.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Gregory Clement <gregory.clement@bootlin.com>
+Cc: Guo Ren <guoren@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
+Cc: Haojian Zhuang <haojian.zhuang@linaro.org>
+Cc: Heiko Stuebner <heiko@sntech.de>
+Cc: Herve Codina <herve.codina@bootlin.com>
+Cc: Hou Zhiqiang <Zhiqiang.Hou@nxp.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: "Chester A. Unal" <chester.a.unal@arinc9.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Chris Zankel <chris@zankel.net>
+Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+Cc: Imre Kaloz <kaloz@openwrt.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: James Morse <james.morse@arm.com>
+Cc: Janne Grunau <j@jannau.net>
+Cc: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Jassi Brar <jassisinghbrar@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Jianjun Wang <jianjun.wang@mediatek.com>
+Cc: Jiawen Wu <jiawenwu@trustnetic.com>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Jim Quinlan <jim2101024@gmail.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: John Crispin <john@phrozen.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Jonas Bonn <jonas@southpole.se>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: "Jonathan Neuschäfer" <j.neuschaefer@gmx.net>
+Cc: Joyce Ooi <joyce.ooi@intel.com>
+Cc: Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>
+Cc: Keerthy <j-keerthy@ti.com>
+Cc: Kevin Hilman <khilman@baylibre.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: "Krzysztof Wilczyński" <kw@linux.com>
+Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+Cc: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Lee Jones <lee@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Linus Walleij <linusw@kernel.org>
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-edac@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org
+Cc: linux-iio@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-omap@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-remoteproc@vger.kernel.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-rpi-kernel@lists.infradead.org
+Cc: linux-sh@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-sound@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-um@lists.infradead.org
+Cc: linux-wireless@vger.kernel.org
+Cc: loongarch@lists.linux.dev
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+Cc: Lukasz Luba <lukasz.luba@arm.com>
+Cc: "Luke D. Jones" <luke@ljones.dev>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: "Marek Behún" <kabel@kernel.org>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Mengyuan Lou <mengyuanlou@net-swift.com>
+Cc: Michael Buesch <m@bues.ch>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Michal Simek <michal.simek@amd.com>
+Cc: Miodrag Dinic <miodrag.dinic@mips.com>
+Cc: Naveen N Rao <naveen@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: netdev@vger.kernel.org
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Nikhil Agarwal <nikhil.agarwal@amd.com>
+Cc: Nipun Gupta <nipun.gupta@amd.com>
+Cc: Nishanth Menon <nm@ti.com>
+Cc: "Pali Rohár" <pali@kernel.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Paul Cercueil <paul@crapouillou.net>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Peter Rosin <peda@axentia.se>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+Cc: platform-driver-x86@vger.kernel.org
+Cc: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+Cc: Qiang Zhao <qiang.zhao@nxp.com>
+Cc: Qin Jian <qinjian@cqplus1.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Ray Jui <rjui@broadcom.com>
+Cc: Rengarajan Sundararajan <Rengarajan.S@microchip.com>
+Cc: Richard Cochran <richardcochran@gmail.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Rich Felker <dalias@libc.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Robert Richter <rric@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Roger Quadros <rogerq@kernel.org>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Ryder Lee <ryder.lee@mediatek.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Santosh Shilimkar <ssantosh@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Scott Branden <sbranden@broadcom.com>
+Cc: Scott Wood <oss@buserror.net>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Sean Wang <sean.wang@kernel.org>
+Cc: Sean Wang <sean.wang@mediatek.com>
+Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Shawn Lin <shawn.lin@rock-chips.com>
+Cc: Siddharth Vadapalli <s-vadapalli@ti.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Stafford Horne <shorne@gmail.com>
+Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Sven Peter <sven@svenpeter.dev>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Talel Shenhar <talel@amazon.com>
+Cc: Tero Kristo <kristo@kernel.org>
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>
+Cc: Thara Gopinath <thara.gopinath@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: Toan Le <toan@os.amperecomputing.com>
+Cc: Tony Lindgren <tony@atomide.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: UNGLinuxDriver@microchip.com
+Cc: "Uwe Kleine-König" <ukleinek@kernel.org>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: Vladimir Oltean <olteanv@gmail.com>
+Cc: Vladimir Zapolskiy <vz@mleia.com>
+Cc: WANG Xuerui <kernel@xen0n.name>
+Cc: Woojung Huh <woojung.huh@microchip.com>
+Cc: x86@kernel.org
+Cc: Yanteng Si <si.yanteng@linux.dev>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Zhang Rui <rui.zhang@intel.com>
+
+Jiri Slaby (SUSE) (57):
+  irqdomain: um: use irq_domain_create_linear() helper
+  irqdomain: Rename irq_set_default_host() to irq_set_default_domain()
+  irqdomain: Rename irq_get_default_host() to irq_get_default_domain()
+  irqdomain.h: Stop using 'host' for domain
+  irqdomain: cdx: Switch to of_fwnode_handle()
+  irqdomain: irqchip: Switch to of_fwnode_handle()
+  irqdomain: pci: Switch to of_fwnode_handle()
+  irqdomain: ppc: Switch to of_fwnode_handle()
+  irqdomain: remoteproc: Switch to of_fwnode_handle()
+  irqdomain: x86: Switch to of_fwnode_handle()
+  irqdomain: Drop of_node_to_fwnode()
+  irqdomain: Make irq_domain_create_hierarchy() an inline
+  irqdomain: arc: Switch to irq_domain_create_linear()
+  irqdomain: arm: Switch to irq_domain_create_*()
+  irqdomain: bus: Switch to irq_domain_create_simple()
+  irqdomain: edac: Switch to irq_domain_create_linear()
+  irqdomain: gpio: Switch to irq_domain_create_*()
+  irqdomain: gpu: Switch to irq_domain_create_linear()
+  irqdomain: i2c: Switch to irq_domain_create_linear()
+  irqdomain: iio: Switch to irq_domain_create_simple()
+  irqdomain: irqchip: Switch to irq_domain_create_*()
+  irqdomain: mailbox: Switch to irq_domain_create_tree()
+  irqdomain: memory: Switch to irq_domain_create_linear()
+  irqdomain: mfd: Switch to irq_domain_create_*()
+  irqdomain: mips: Switch to irq_domain_create_*()
+  irqdomain: misc: Switch to irq_domain_create_simple()
+  irqdomain: net: Switch to irq_domain_create_*()
+  irqdomain: nios2: Switch to irq_domain_create_linear()
+  irqdomain: pci: Switch to irq_domain_create_linear()
+  irqdomain: pinctrl: Switch to irq_domain_create_*()
+  irqdomain: platform/x86: Switch to irq_domain_create_linear()
+  irqdomain: ppc: Switch to irq_domain_create_*()
+  irqdomain: sh: Switch to irq_domain_create_*()
+  irqdomain: soc: Switch to irq_domain_create_*()
+  irqdomain: sound: Switch to irq_domain_create_linear()
+  irqdomain: spmi: Switch to irq_domain_create_tree()
+  irqdomain: ssb: Switch to irq_domain_create_linear()
+  irqdomain: thermal: Switch to irq_domain_create_linear()
+  irqdomain: ppc: Switch irq_domain_add_nomap() to use fwnode
+  irqdomain: Drop irq_domain_add_*() functions
+  irqdomain: ppc: Switch to irq_find_mapping()
+  irqdomain: sh: Switch to irq_find_mapping()
+  irqdomain: gpio: Switch to irq_find_mapping()
+  irqdomain: gpu: Switch to irq_find_mapping()
+  irqdomain: i2c: Switch to irq_find_mapping()
+  irqdomain: irqchip: Switch to irq_find_mapping()
+  irqdomain: pinctrl: Switch to irq_find_mapping()
+  irqdomain: soc: Switch to irq_find_mapping()
+  irqdomain: Drop irq_linear_revmap()
+  irqdomain: Use irq_domain_instantiate() retvals as initializers
+  irqdomain: Make struct irq_domain_info variables const
+  irqdomain.h: Improve kernel-docs of functions
+  docs: irq/concepts: Add commas and reflow
+  docs: irq/concepts: Minor improvements
+  docs: irq-domain.rst: Simple improvements
+  docs: irqdomain: Update
+  irqdomain.c: Fix kernel-doc and add it to Documentation
+
+ Documentation/core-api/genericirq.rst         |   2 -
+ Documentation/core-api/irq/concepts.rst       |  27 +--
+ Documentation/core-api/irq/irq-domain.rst     | 202 +++++++++--------
+ .../zh_CN/core-api/irq/irq-domain.rst         |   8 +-
+ arch/arc/kernel/intc-arcv2.c                  |   4 +-
+ arch/arc/kernel/intc-compact.c                |   7 +-
+ arch/arc/kernel/mcip.c                        |   3 +-
+ arch/arm/common/sa1111.c                      |   6 +-
+ arch/arm/mach-exynos/suspend.c                |   5 +-
+ arch/arm/mach-imx/avic.c                      |   4 +-
+ arch/arm/mach-imx/gpc.c                       |   5 +-
+ arch/arm/mach-imx/tzic.c                      |   4 +-
+ arch/arm/mach-omap1/irq.c                     |   3 +-
+ arch/arm/mach-omap2/omap-wakeupgen.c          |   5 +-
+ arch/arm/mach-pxa/irq.c                       |   7 +-
+ arch/arm/plat-orion/gpio.c                    |  12 +-
+ arch/mips/ath25/ar2315.c                      |   4 +-
+ arch/mips/ath25/ar5312.c                      |   4 +-
+ arch/mips/cavium-octeon/octeon-irq.c          |  31 +--
+ arch/mips/lantiq/irq.c                        |   2 +-
+ arch/mips/pci/pci-ar2315.c                    |   4 +-
+ arch/mips/pci/pci-rt3883.c                    |   7 +-
+ arch/mips/pci/pci-xtalk-bridge.c              |   2 +-
+ arch/mips/ralink/irq.c                        |   2 +-
+ arch/mips/sgi-ip27/ip27-irq.c                 |   2 +-
+ arch/mips/sgi-ip30/ip30-irq.c                 |   2 +-
+ arch/nios2/kernel/irq.c                       |   5 +-
+ arch/powerpc/kvm/book3s_hv.c                  |   2 +-
+ arch/powerpc/kvm/book3s_xive.c                |   2 +-
+ arch/powerpc/platforms/44x/uic.c              |   9 +-
+ .../powerpc/platforms/512x/mpc5121_ads_cpld.c |   3 +-
+ arch/powerpc/platforms/52xx/media5200.c       |   2 +-
+ arch/powerpc/platforms/52xx/mpc52xx_gpt.c     |   6 +-
+ arch/powerpc/platforms/52xx/mpc52xx_pic.c     |   6 +-
+ .../platforms/85xx/socrates_fpga_pic.c        |   4 +-
+ arch/powerpc/platforms/8xx/cpm1-ic.c          |   5 +-
+ arch/powerpc/platforms/8xx/pic.c              |   5 +-
+ arch/powerpc/platforms/amigaone/setup.c       |   2 +-
+ arch/powerpc/platforms/chrp/setup.c           |   2 +-
+ .../platforms/embedded6xx/flipper-pic.c       |   9 +-
+ arch/powerpc/platforms/embedded6xx/hlwd-pic.c |   7 +-
+ arch/powerpc/platforms/pasemi/setup.c         |   2 +-
+ arch/powerpc/platforms/powermac/pic.c         |   9 +-
+ arch/powerpc/platforms/powermac/smp.c         |   2 +-
+ arch/powerpc/platforms/powernv/opal-irqchip.c |   3 +-
+ arch/powerpc/platforms/powernv/pci-ioda.c     |   4 +-
+ arch/powerpc/platforms/ps3/interrupt.c        |   4 +-
+ arch/powerpc/platforms/pseries/msi.c          |   4 +-
+ arch/powerpc/sysdev/cpm2_pic.c                |   5 +-
+ arch/powerpc/sysdev/ehv_pic.c                 |   9 +-
+ arch/powerpc/sysdev/fsl_msi.c                 |   2 +-
+ arch/powerpc/sysdev/ge/ge_pic.c               |   7 +-
+ arch/powerpc/sysdev/i8259.c                   |   4 +-
+ arch/powerpc/sysdev/ipic.c                    |   9 +-
+ arch/powerpc/sysdev/mpic.c                    |  12 +-
+ arch/powerpc/sysdev/tsi108_pci.c              |   4 +-
+ arch/powerpc/sysdev/xics/xics-common.c        |   2 +-
+ arch/powerpc/sysdev/xive/common.c             |   4 +-
+ arch/sh/boards/mach-se/7343/irq.c             |   7 +-
+ arch/sh/boards/mach-se/7722/irq.c             |   4 +-
+ arch/sh/boards/mach-x3proto/gpio.c            |   2 +-
+ arch/um/drivers/virt-pci.c                    |  15 +-
+ arch/x86/kernel/apic/io_apic.c                |   2 +-
+ arch/x86/kernel/apic/vector.c                 |   2 +-
+ drivers/bus/moxtet.c                          |   6 +-
+ drivers/cdx/cdx_msi.c                         |   4 +-
+ drivers/edac/altera_edac.c                    |   4 +-
+ drivers/gpio/gpio-brcmstb.c                   |   2 +-
+ drivers/gpio/gpio-davinci.c                   |   5 +-
+ drivers/gpio/gpio-em.c                        |   5 +-
+ drivers/gpio/gpio-grgpio.c                    |   2 +-
+ drivers/gpio/gpio-idt3243x.c                  |   2 +-
+ drivers/gpio/gpio-lpc18xx.c                   |   8 +-
+ drivers/gpio/gpio-mvebu.c                     |   2 +-
+ drivers/gpio/gpio-mxc.c                       |   2 +-
+ drivers/gpio/gpio-mxs.c                       |   4 +-
+ drivers/gpio/gpio-pxa.c                       |   6 +-
+ drivers/gpio/gpio-rockchip.c                  |   2 +-
+ drivers/gpio/gpio-sa1100.c                    |   2 +-
+ drivers/gpio/gpio-sodaville.c                 |   2 +-
+ drivers/gpio/gpio-tb10x.c                     |   2 +-
+ drivers/gpio/gpio-twl4030.c                   |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c       |   4 +-
+ drivers/gpu/drm/msm/msm_mdss.c                |   2 +-
+ drivers/gpu/ipu-v3/ipu-common.c               |   8 +-
+ drivers/i2c/busses/i2c-cht-wc.c               |   2 +-
+ drivers/i2c/muxes/i2c-mux-pca954x.c           |   8 +-
+ drivers/iio/adc/stm32-adc-core.c              |   7 +-
+ drivers/irqchip/exynos-combiner.c             |   2 +-
+ drivers/irqchip/irq-al-fic.c                  |   2 +-
+ drivers/irqchip/irq-alpine-msi.c              |   7 +-
+ drivers/irqchip/irq-apple-aic.c               |   4 +-
+ drivers/irqchip/irq-armada-370-xp.c           |  18 +-
+ drivers/irqchip/irq-aspeed-i2c-ic.c           |   2 +-
+ drivers/irqchip/irq-aspeed-intc.c             |   2 +-
+ drivers/irqchip/irq-aspeed-scu-ic.c           |   2 +-
+ drivers/irqchip/irq-aspeed-vic.c              |   4 +-
+ drivers/irqchip/irq-ath79-misc.c              |   4 +-
+ drivers/irqchip/irq-atmel-aic-common.c        |   2 +-
+ drivers/irqchip/irq-bcm2712-mip.c             |   4 +-
+ drivers/irqchip/irq-bcm2835.c                 |   2 +-
+ drivers/irqchip/irq-bcm2836.c                 |   2 +-
+ drivers/irqchip/irq-bcm6345-l1.c              |   2 +-
+ drivers/irqchip/irq-bcm7038-l1.c              |   2 +-
+ drivers/irqchip/irq-bcm7120-l2.c              |   2 +-
+ drivers/irqchip/irq-brcmstb-l2.c              |   2 +-
+ drivers/irqchip/irq-clps711x.c                |   6 +-
+ drivers/irqchip/irq-crossbar.c                |   6 +-
+ drivers/irqchip/irq-csky-apb-intc.c           |   2 +-
+ drivers/irqchip/irq-csky-mpintc.c             |   2 +-
+ drivers/irqchip/irq-davinci-cp-intc.c         |   6 +-
+ drivers/irqchip/irq-digicolor.c               |   2 +-
+ drivers/irqchip/irq-dw-apb-ictl.c             |   2 +-
+ drivers/irqchip/irq-ftintc010.c               |   5 +-
+ drivers/irqchip/irq-gic-v3-its-fsl-mc-msi.c   |   2 +-
+ drivers/irqchip/irq-gic-v3.c                  |   4 +-
+ drivers/irqchip/irq-goldfish-pic.c            |   7 +-
+ drivers/irqchip/irq-hip04.c                   |   6 +-
+ drivers/irqchip/irq-i8259.c                   |   4 +-
+ drivers/irqchip/irq-idt3243x.c                |   2 +-
+ drivers/irqchip/irq-imgpdc.c                  |   2 +-
+ drivers/irqchip/irq-imx-gpcv2.c               |   6 +-
+ drivers/irqchip/irq-imx-intmux.c              |   2 +-
+ drivers/irqchip/irq-imx-irqsteer.c            |   2 +-
+ drivers/irqchip/irq-ingenic-tcu.c             |   4 +-
+ drivers/irqchip/irq-ingenic.c                 |   4 +-
+ drivers/irqchip/irq-ixp4xx.c                  |   2 +-
+ drivers/irqchip/irq-jcore-aic.c               |   5 +-
+ drivers/irqchip/irq-keystone.c                |   4 +-
+ drivers/irqchip/irq-lan966x-oic.c             |   2 +-
+ drivers/irqchip/irq-loongarch-cpu.c           |   2 +-
+ drivers/irqchip/irq-loongson-eiointc.c        |   2 +-
+ drivers/irqchip/irq-loongson-htvec.c          |   2 +-
+ drivers/irqchip/irq-loongson-liointc.c        |   2 +-
+ drivers/irqchip/irq-loongson-pch-msi.c        |   2 +-
+ drivers/irqchip/irq-loongson-pch-pic.c        |   2 +-
+ drivers/irqchip/irq-lpc32xx.c                 |   4 +-
+ drivers/irqchip/irq-ls-extirq.c               |   4 +-
+ drivers/irqchip/irq-ls-scfg-msi.c             |  10 +-
+ drivers/irqchip/irq-ls1x.c                    |   4 +-
+ drivers/irqchip/irq-mchp-eic.c                |   5 +-
+ drivers/irqchip/irq-meson-gpio.c              |   2 +-
+ drivers/irqchip/irq-mips-cpu.c                |  13 +-
+ drivers/irqchip/irq-mips-gic.c                |  15 +-
+ drivers/irqchip/irq-mmp.c                     |  12 +-
+ drivers/irqchip/irq-mscc-ocelot.c             |   4 +-
+ drivers/irqchip/irq-mst-intc.c                |   4 +-
+ drivers/irqchip/irq-mtk-cirq.c                |   5 +-
+ drivers/irqchip/irq-mtk-sysirq.c              |   4 +-
+ drivers/irqchip/irq-mvebu-gicp.c              |   2 +-
+ drivers/irqchip/irq-mvebu-odmi.c              |   2 +-
+ drivers/irqchip/irq-mvebu-pic.c               |   4 +-
+ drivers/irqchip/irq-mvebu-sei.c               |   6 +-
+ drivers/irqchip/irq-mxs.c                     |   4 +-
+ drivers/irqchip/irq-nvic.c                    |   2 +-
+ drivers/irqchip/irq-omap-intc.c               |   4 +-
+ drivers/irqchip/irq-or1k-pic.c                |   4 +-
+ drivers/irqchip/irq-orion.c                   |   6 +-
+ drivers/irqchip/irq-owl-sirq.c                |   4 +-
+ drivers/irqchip/irq-pic32-evic.c              |   8 +-
+ drivers/irqchip/irq-pruss-intc.c              |   4 +-
+ drivers/irqchip/irq-qcom-mpm.c                |   2 +-
+ drivers/irqchip/irq-realtek-rtl.c             |   2 +-
+ drivers/irqchip/irq-renesas-intc-irqpin.c     |   6 +-
+ drivers/irqchip/irq-renesas-irqc.c            |   4 +-
+ drivers/irqchip/irq-renesas-rza1.c            |   6 +-
+ drivers/irqchip/irq-renesas-rzg2l.c           |   6 +-
+ drivers/irqchip/irq-renesas-rzv2h.c           |   5 +-
+ drivers/irqchip/irq-riscv-intc.c              |   2 +-
+ drivers/irqchip/irq-sa11x0.c                  |   2 +-
+ drivers/irqchip/irq-sni-exiu.c                |   6 +-
+ drivers/irqchip/irq-sp7021-intc.c             |   4 +-
+ drivers/irqchip/irq-starfive-jh8100-intc.c    |   4 +-
+ drivers/irqchip/irq-stm32-exti.c              |   4 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |   9 +-
+ drivers/irqchip/irq-sun4i.c                   |   2 +-
+ drivers/irqchip/irq-sun6i-r.c                 |   4 +-
+ drivers/irqchip/irq-sunxi-nmi.c               |   2 +-
+ drivers/irqchip/irq-tb10x.c                   |   8 +-
+ drivers/irqchip/irq-tegra.c                   |   5 +-
+ drivers/irqchip/irq-ti-sci-inta.c             |  10 +-
+ drivers/irqchip/irq-ti-sci-intr.c             |   7 +-
+ drivers/irqchip/irq-ts4800.c                  |   2 +-
+ drivers/irqchip/irq-uniphier-aidet.c          |   2 +-
+ drivers/irqchip/irq-versatile-fpga.c          |   4 +-
+ drivers/irqchip/irq-vf610-mscm-ir.c           |   6 +-
+ drivers/irqchip/irq-vic.c                     |   5 +-
+ drivers/irqchip/irq-vt8500.c                  |   2 +-
+ drivers/irqchip/irq-wpcm450-aic.c             |   2 +-
+ drivers/irqchip/irq-xilinx-intc.c             |   6 +-
+ drivers/irqchip/irq-xtensa-mx.c               |   7 +-
+ drivers/irqchip/irq-xtensa-pic.c              |   8 +-
+ drivers/irqchip/irq-zevio.c                   |   4 +-
+ drivers/irqchip/spear-shirq.c                 |   2 +-
+ drivers/mailbox/qcom-ipcc.c                   |   4 +-
+ drivers/memory/omap-gpmc.c                    |   6 +-
+ drivers/mfd/88pm860x-core.c                   |   4 +-
+ drivers/mfd/ab8500-core.c                     |   6 +-
+ drivers/mfd/arizona-irq.c                     |   3 +-
+ drivers/mfd/db8500-prcmu.c                    |   6 +-
+ drivers/mfd/fsl-imx25-tsadc.c                 |   5 +-
+ drivers/mfd/lp8788-irq.c                      |   2 +-
+ drivers/mfd/max8925-core.c                    |   4 +-
+ drivers/mfd/max8997-irq.c                     |   4 +-
+ drivers/mfd/max8998-irq.c                     |   2 +-
+ drivers/mfd/mt6358-irq.c                      |   6 +-
+ drivers/mfd/mt6397-irq.c                      |   6 +-
+ drivers/mfd/qcom-pm8xxx.c                     |   6 +-
+ drivers/mfd/stmfx.c                           |   2 +-
+ drivers/mfd/stmpe.c                           |   4 +-
+ drivers/mfd/tc3589x.c                         |   6 +-
+ drivers/mfd/tps65217.c                        |   2 +-
+ drivers/mfd/tps6586x.c                        |   2 +-
+ drivers/mfd/twl4030-irq.c                     |   4 +-
+ drivers/mfd/twl6030-irq.c                     |   5 +-
+ drivers/mfd/wm831x-irq.c                      |  15 +-
+ drivers/mfd/wm8994-irq.c                      |   4 +-
+ drivers/misc/hi6421v600-irq.c                 |   5 +-
+ drivers/net/dsa/microchip/ksz_common.c        |   5 +-
+ drivers/net/dsa/microchip/ksz_ptp.c           |   4 +-
+ drivers/net/dsa/mv88e6xxx/chip.c              |   2 +-
+ drivers/net/dsa/mv88e6xxx/global2.c           |   6 +-
+ drivers/net/dsa/qca/ar9331.c                  |   4 +-
+ drivers/net/dsa/realtek/rtl8365mb.c           |   4 +-
+ drivers/net/dsa/realtek/rtl8366rb.c           |   6 +-
+ .../net/ethernet/wangxun/txgbe/txgbe_irq.c    |   6 +-
+ drivers/net/usb/lan78xx.c                     |   9 +-
+ drivers/pci/controller/dwc/pci-dra7xx.c       |   4 +-
+ drivers/pci/controller/dwc/pci-keystone.c     |   2 +-
+ .../pci/controller/dwc/pcie-designware-host.c |   2 +-
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c |   4 +-
+ drivers/pci/controller/dwc/pcie-uniphier.c    |   2 +-
+ .../controller/mobiveil/pcie-mobiveil-host.c  |  11 +-
+ drivers/pci/controller/pci-aardvark.c         |  14 +-
+ drivers/pci/controller/pci-ftpci100.c         |   4 +-
+ drivers/pci/controller/pci-mvebu.c            |   6 +-
+ drivers/pci/controller/pci-xgene-msi.c        |   5 +-
+ drivers/pci/controller/pcie-altera-msi.c      |   4 +-
+ drivers/pci/controller/pcie-altera.c          |   2 +-
+ drivers/pci/controller/pcie-brcmstb.c         |   4 +-
+ drivers/pci/controller/pcie-iproc-msi.c       |   6 +-
+ drivers/pci/controller/pcie-mediatek-gen3.c   |   9 +-
+ drivers/pci/controller/pcie-mediatek.c        |   6 +-
+ drivers/pci/controller/pcie-rockchip-host.c   |   4 +-
+ drivers/pci/controller/pcie-xilinx-cpm.c      |  10 +-
+ drivers/pci/controller/pcie-xilinx-dma-pl.c   |  14 +-
+ drivers/pci/controller/pcie-xilinx-nwl.c      |  11 +-
+ drivers/pci/controller/pcie-xilinx.c          |   5 +-
+ drivers/pci/controller/plda/pcie-plda-host.c  |  16 +-
+ drivers/pinctrl/mediatek/mtk-eint.c           |   5 +-
+ drivers/pinctrl/pinctrl-at91-pio4.c           |   2 +-
+ drivers/pinctrl/pinctrl-keembay.c             |   2 +-
+ drivers/pinctrl/pinctrl-single.c              |   9 +-
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c         |   7 +-
+ drivers/platform/x86/asus-tf103c-dock.c       |   2 +-
+ drivers/remoteproc/pru_rproc.c                |   2 +-
+ drivers/sh/intc/irqdomain.c                   |   5 +-
+ drivers/soc/dove/pmu.c                        |   4 +-
+ drivers/soc/fsl/qe/qe_ic.c                    |   8 +-
+ drivers/soc/qcom/smp2p.c                      |   2 +-
+ drivers/soc/qcom/smsm.c                       |   2 +-
+ drivers/soc/tegra/pmc.c                       |   5 +-
+ drivers/spmi/spmi-pmic-arb.c                  |   2 +-
+ drivers/ssb/driver_gpio.c                     |   8 +-
+ drivers/thermal/qcom/lmh.c                    |   3 +-
+ drivers/thermal/tegra/soctherm.c              |   2 +-
+ include/linux/gpio/driver.h                   |   5 +-
+ include/linux/irqdomain.h                     | 211 ++++++++----------
+ kernel/irq/irqdomain.c                        |  88 +-------
+ sound/soc/codecs/wcd937x.c                    |   2 +-
+ sound/soc/codecs/wcd938x.c                    |   2 +-
+ sound/soc/codecs/wcd939x.c                    |   2 +-
+ 272 files changed, 838 insertions(+), 945 deletions(-)
+
+-- 
+2.49.0
 
