@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0462A683FE
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 04:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939D9A683FF
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 04:54:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC36B10E260;
-	Wed, 19 Mar 2025 03:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56B910E0E9;
+	Wed, 19 Mar 2025 03:54:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hd5HUH2n";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BZcyf38X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
- [209.85.222.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A45F810E260
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 03:53:51 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id
- a1e0cc1a2514c-868ddc4c6b6so2889215241.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 20:53:50 -0700 (PDT)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com
+ [209.85.222.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B49310E0E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 03:54:49 +0000 (UTC)
+Received: by mail-ua1-f44.google.com with SMTP id
+ a1e0cc1a2514c-86ba07fe7a4so5526672241.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Mar 2025 20:54:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742356430; x=1742961230; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1742356488; x=1742961288; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Sy6Vl9e/rxmWtHZrHsorf5l24nIqRSzNAnN7RgqPBC0=;
- b=hd5HUH2n4KNeZg2fGgtoeS1/1RhC1Ja/RMDMAsRlrZiqadY52SiHH7kec1ylYFO6iW
- YJY3vZ1FZmkau/GXAvxcTyzReJEWSv3v+AS8PkxeS3Qa77gobxWLUM3eMOHzdCOXRZvH
- 8/fnM5UWhM75GvednIIoYipyF+/pqPzj++hkiHEsXPTnBFQCab2Lq9OSlWbzCv9g6e/A
- Yrtjf2UnNKryPrhaU3RzL9r7r/Qw6MPuHF0xYJ6ZS0bqG+T5YVRT52ts4TCBL5Bv9s/3
- zN9ICm/OqjCykfuvvsyzpDIfn35aQH1KerPkG+IIOjZV8p8qwBSa/+V/2QlF9QIXUCvB
- F5DQ==
+ bh=dFWVWI+PpPHLAY/181byB09plfh1Tntlt/fFkm++uLE=;
+ b=BZcyf38X36+rJnoSzbUwrU7ThqBrWCcjcNBXV6Td+GYFwQRuXzdK106gt2hpDG3VJ4
+ lPijGcvvFupLrEq2Axf/fNN/Tr8CUr8fhSCgpChi6Dk2HMjjrS1iSzR/u+fULdpLNODW
+ 5T55NtkUVPrCMBOsvMy7c98SLQYd5+KoimqM5Ri00UaPiIECvnALtmOYPaQF3RdNmts5
+ YDqMQZQW/bk/sD8RFReTNF5d0ZPYLqTMIgawn2N0cOCe4Ls6Wpmx16arbNkhsoGkwU5+
+ qmfeQDziIbb9wyKsObuo3/dE1J+6fO6yM2X4aVbsbtsXQySRCqonV80C08caFlCrklEC
+ eEXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742356430; x=1742961230;
+ d=1e100.net; s=20230601; t=1742356488; x=1742961288;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Sy6Vl9e/rxmWtHZrHsorf5l24nIqRSzNAnN7RgqPBC0=;
- b=X4Kc2tzco9x+5Fso8AAAWdqNd7zzeOFYGjLL8JReA6XeTPn1FjlFTqxOGycXhuat87
- S/L0Agfovj4jmpS9nWYM6SeKgxHsf6uJ0s2T9lcJai9VjpLeGwdi9y8B6TH7TPMw+/sn
- MXXLblVX2BqV3s0rrMRkhUAHABgc9eI7+b8rApFipmezb0l5oFTMvaa6iPYQYtsl9cPw
- mHe0L9kz4ysAOW3c2QSNl1UQ8ilsmVu2+ZA+5xuH+IbRDOvG/kCV34glOfx/nwWP5k2+
- J1hrKI10MLK0kJVPAyqIgW1szgw1S7lmH+lGWqmE8+VP6peFkZ0nKFmGyrA8PyRzXVxm
- fXjQ==
+ bh=dFWVWI+PpPHLAY/181byB09plfh1Tntlt/fFkm++uLE=;
+ b=mHFwOKZBsPHFHxNxcLvY63ggxLUw5NwMvc89BgzQm9fJMcInukPasV3iW1sSB9a+Lo
+ X1NBtYRYLaTvdcKcy+LcpePjo4D1Q3x5BhWC0BB9fTeOQ/BKBe8ImlrimookXg5L7IO5
+ FJ+/OAya+v3/NapJNaGYRxlWOyLryouy4qzTi537txptWw/21gND+7V8bBMi/aZJrBdy
+ uhsr2N5zAYrowiLfi4HFutpUouBFutEVebTQWLJtpF3skfCQxRBumw1iPXrLUZa7+RDC
+ PQXrhPfsSN2LMgHQjJjB6nAN0OHuDCs5ZlVLKsQGs6wS+6jUabkf5WLvOtTlhIEXD/wo
+ 3clA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVsQuCvylEHYSi3Eo5PmpQa/83jjlye9Yjut4j4lbk3upiYp7J7Yxjz2NsEIq2/s+CDtV/gneUjqic=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzE1Fn1XuTtIxfDWkTDCPNLF+ReF2mBcTLuO4GZBXwEB7b83YuW
- adbZ+bFpA13pKMQu2MPhNipU16HMC5VYDq7Pq2Efnfd8SVYgncuCzSlPmsTcR0bMqEmtDv/C5Io
- XipTJ2x5A69tT58ZSvOI4+XIOYfU=
-X-Gm-Gg: ASbGncsdl4L99WFXaesiQwxMYjycmULBv3b5f9gOFAU7MX8lQ1uekvVJRFq/fG8cT5i
- m60Cdoli2LVvmMTlgUXnT4zv1djdTFHCb5d/evYfFWSEoFvD7/ZpuC3bQdPTXPKJc5zw3FmENnp
- kKONCgtAcCz9ORFiF8nSp0PgJL/E4Y0x9LW87VT6luwW50sBGo4ejXLqtMmwhrkSqYm40S
-X-Google-Smtp-Source: AGHT+IEf2IsyDIhx7A5HPfbVBbRUoVPhZjystc/aO6f/9OBa57Hc0/BRU447v5KvHQviG/q/4HAlXArIEoQ3ZYwEZFs=
-X-Received: by 2002:a05:6102:2ac8:b0:4c3:6a7e:c9f3 with SMTP id
- ada2fe7eead31-4c4ec5fff96mr796406137.3.1742356429851; Tue, 18 Mar 2025
- 20:53:49 -0700 (PDT)
+ AJvYcCWDJKv5j+0S0eHwIt4PafQiRMcYRGaHNZ2oePUkcW3OuhcNdNG3Ky7V0tvNaaYXmcoOpOkRQsjg5C0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJzoX/uT6EzQrU5uvUQRBTyRptJAfx2ku5k4m+2PhvpguJhn0G
+ fud7VVHwkR2d1Pr6gtCquJtGq8hvD6cS6yf7E392Zs0yU0Chy+RGHcUE2yylSD89TEKx3Isf9Zh
+ esCD0vQu3cjpp1K6VMw+85+s1Dns=
+X-Gm-Gg: ASbGncu4w8hqRf+zrDA4UmTv9zihqGuc+PaZwq8J6f+yEMoumI0GZ2Ttw3Y66uPsmSP
+ XyoKiRafssVDqn16gshrYuvF7q+r8fecEHP08j0TALJOVc8sF0ZtBzwc0WP49e1Xj4L6c2Zyn3o
+ bUySdAawZVAllImyQkl5KRSdz6QfBHuZ+FFyVYzsx0BmPJqFyur8gUN1/1ug==
+X-Google-Smtp-Source: AGHT+IEqv3kQJ6Pv+jUD/aIdBwf8rIlXorR/MdjQVCohA4Hqv+zI7ioRlnfkexCPs1hThHfGycIxsg2ejvSJwK4+dMI=
+X-Received: by 2002:a05:6102:e11:b0:4c1:9288:906c with SMTP id
+ ada2fe7eead31-4c4ec6725e3mr802044137.9.1742356488628; Tue, 18 Mar 2025
+ 20:54:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250318080738.29292-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250318080738.29292-1-krzysztof.kozlowski@linaro.org>
+References: <CGME20250228144531epcas5p217fab73da682601a89e208fff5a3775e@epcas5p2.samsung.com>
+ <20250228140257.75045-1-anindya.sg@samsung.com>
+In-Reply-To: <20250228140257.75045-1-anindya.sg@samsung.com>
 From: Inki Dae <daeinki@gmail.com>
-Date: Wed, 19 Mar 2025 12:53:38 +0900
-X-Gm-Features: AQ5f1Jo3Egh7dG7fcGfSF4ABESyAOzZSXSVedX1K1X4OVSCELDuZvTe39Y8-04o
-Message-ID: <CAAQKjZP8DDQtKEtc7qFgO18w_EeNgSXYFOX=_tc7xHGKvsCnqw@mail.gmail.com>
-Subject: Re: [PATCH] drm/exynos: exynos7_drm_decon: Consstify struct decon_data
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+Date: Wed, 19 Mar 2025 12:54:37 +0900
+X-Gm-Features: AQ5f1JqEqLZIcxY8_7ZoD8rrNjASTanZyk3nVh9C9jMdKFDiJELGTcF_x0O4DlY
+Message-ID: <CAAQKjZMH=hJ5V6s7jPSju61jRM6mXZvu8qJYoG9HFZv-DFPh=g@mail.gmail.com>
+Subject: Re: [PATCH] drm/exynos: fixed a spelling error
+To: Anindya Sundar Gayen <anindya.sg@samsung.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, 
  DRI mailing list <dri-devel@lists.freedesktop.org>,
  linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/alternative; boundary="00000000000012d8d50630a9f85a"
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ aswani.reddy@samsung.com
+Content-Type: multipart/alternative; boundary="00000000000093b3bf0630a9fb4d"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,104 +86,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000012d8d50630a9f85a
+--00000000000093b3bf0630a9fb4d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Krzysztof,
+Hi,
 
 Merged.
 
 Thanks,
 Inki Dae
 
-2025=EB=85=84 3=EC=9B=94 18=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 5:19, K=
-rzysztof Kozlowski <
-krzysztof.kozlowski@linaro.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+2025=EB=85=84 2=EC=9B=94 28=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 11:45, =
+Anindya Sundar Gayen <anindya.sg@samsung.com>=EB=8B=98=EC=9D=B4
+=EC=9E=91=EC=84=B1:
 
-> static 'struct decon_data' is only read, so it can be const for code
-> safety.
+> Corrected a spelling mistake in the exynos_drm_fimd driver to improve cod=
+e
+> readability. No functional changes were made.
 >
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Anindya Sundar Gayen <anindya.sg@samsung.com>
 > ---
->  drivers/gpu/drm/exynos/exynos7_drm_decon.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/exynos/exynos_drm_fimd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> index 5170f72b0830..f91daefa9d2b 100644
-> --- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> +++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> @@ -43,13 +43,13 @@ struct decon_data {
->         unsigned int wincon_burstlen_shift;
->  };
->
-> -static struct decon_data exynos7_decon_data =3D {
-> +static const struct decon_data exynos7_decon_data =3D {
->         .vidw_buf_start_base =3D 0x80,
->         .shadowcon_win_protect_shift =3D 10,
->         .wincon_burstlen_shift =3D 11,
->  };
->
-> -static struct decon_data exynos7870_decon_data =3D {
-> +static const struct decon_data exynos7870_decon_data =3D {
->         .vidw_buf_start_base =3D 0x880,
->         .shadowcon_win_protect_shift =3D 8,
->         .wincon_burstlen_shift =3D 10,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> index 1ad87584b1c2..c394cc702d7d 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> @@ -731,7 +731,7 @@ static void fimd_win_set_pixfmt(struct fimd_context
+> *ctx, unsigned int win,
+>         /*
+>          * Setting dma-burst to 16Word causes permanent tearing for very
+> small
+>          * buffers, e.g. cursor buffer. Burst Mode switching which based =
+on
+> -        * plane size is not recommended as plane size varies alot toward=
+s
+> the
+> +        * plane size is not recommended as plane size varies a lot
+> towards the
+>          * end of the screen and rapid movement causes unstable DMA, but
+> it is
+>          * still better to change dma-burst than displaying garbage.
+>          */
 > --
-> 2.43.0
+> 2.17.1
 >
 >
 >
 
---00000000000012d8d50630a9f85a
+--00000000000093b3bf0630a9fb4d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div>Hi Krzysztof,</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">Merged.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Tha=
-nks,</div><div dir=3D"auto">Inki Dae<br><br><div class=3D"gmail_quote gmail=
-_quote_container" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">2025=
-=EB=85=84 3=EC=9B=94 18=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 5:19, Krzys=
-ztof Kozlowski &lt;<a href=3D"mailto:krzysztof.kozlowski@linaro.org">krzysz=
-tof.kozlowski@linaro.org</a>&gt;=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">static &#39;struct decon_data&#39; is o=
-nly read, so it can be const for code<br>
-safety.<br>
+<div dir=3D"auto">Hi,<div dir=3D"auto"><br></div><div dir=3D"auto">Merged.<=
+/div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</div><div dir=3D=
+"auto">Inki Dae</div></div><br><div class=3D"gmail_quote gmail_quote_contai=
+ner"><div dir=3D"ltr" class=3D"gmail_attr">2025=EB=85=84 2=EC=9B=94 28=EC=
+=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 11:45, Anindya Sundar Gayen &lt;<a hr=
+ef=3D"mailto:anindya.sg@samsung.com">anindya.sg@samsung.com</a>&gt;=EB=8B=
+=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Co=
+rrected a spelling mistake in the exynos_drm_fimd driver to improve code<br=
+>
+readability. No functional changes were made.<br>
 <br>
-Signed-off-by: Krzysztof Kozlowski &lt;<a href=3D"mailto:krzysztof.kozlowsk=
-i@linaro.org" target=3D"_blank" rel=3D"noreferrer">krzysztof.kozlowski@lina=
-ro.org</a>&gt;<br>
+Signed-off-by: Anindya Sundar Gayen &lt;<a href=3D"mailto:anindya.sg@samsun=
+g.com" target=3D"_blank" rel=3D"noreferrer">anindya.sg@samsung.com</a>&gt;<=
+br>
 ---<br>
-=C2=A0drivers/gpu/drm/exynos/exynos7_drm_decon.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_fimd.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
-diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/e=
-xynos/exynos7_drm_decon.c<br>
-index 5170f72b0830..f91daefa9d2b 100644<br>
---- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c<br>
-@@ -43,13 +43,13 @@ struct decon_data {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int wincon_burstlen_shift;<br>
-=C2=A0};<br>
-<br>
--static struct decon_data exynos7_decon_data =3D {<br>
-+static const struct decon_data exynos7_decon_data =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .vidw_buf_start_base =3D 0x80,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .shadowcon_win_protect_shift =3D 10,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .wincon_burstlen_shift =3D 11,<br>
-=C2=A0};<br>
-<br>
--static struct decon_data exynos7870_decon_data =3D {<br>
-+static const struct decon_data exynos7870_decon_data =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .vidw_buf_start_base =3D 0x880,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .shadowcon_win_protect_shift =3D 8,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .wincon_burstlen_shift =3D 10,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exy=
+nos/exynos_drm_fimd.c<br>
+index 1ad87584b1c2..c394cc702d7d 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c<br>
+@@ -731,7 +731,7 @@ static void fimd_win_set_pixfmt(struct fimd_context *ct=
+x, unsigned int win,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Setting dma-burst to 16Word causes perm=
+anent tearing for very small<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* buffers, e.g. cursor buffer. Burst Mode=
+ switching which based on<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 * plane size is not recommended as plane size =
+varies alot towards the<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 * plane size is not recommended as plane size =
+varies a lot towards the<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* end of the screen and rapid movement ca=
+uses unstable DMA, but it is<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* still better to change dma-burst than d=
+isplaying garbage.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
 -- <br>
-2.43.0<br>
+2.17.1<br>
 <br>
 <br>
-</blockquote></div></div></div>
+</blockquote></div>
 
---00000000000012d8d50630a9f85a--
+--00000000000093b3bf0630a9fb4d--
