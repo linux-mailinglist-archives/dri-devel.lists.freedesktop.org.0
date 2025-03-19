@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA62FA68283
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 02:00:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8508A6828B
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 02:00:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8CC910E4DB;
-	Wed, 19 Mar 2025 01:00:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A1A10E4DC;
+	Wed, 19 Mar 2025 01:00:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O4vsE5om";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gNTuvzfk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A0810E4D8;
- Wed, 19 Mar 2025 00:59:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A967710E4DD;
+ Wed, 19 Mar 2025 01:00:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742345999; x=1773881999;
+ t=1742346048; x=1773882048;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=gj0ziHYZy0X/oi1qLBX+sStExx10C+kk7gLlCtwei6s=;
- b=O4vsE5om6ZqwkNMBsKWmHMdKmedIbILn1ZyeiaeADYkJkIAy2KDjkP81
- 4BWcVFKbHje3uHvmC4wvRumDdXNcZK1jmLJ+w4od378K+Dgcvfvc/rrKr
- Ef1ou0VskQDMw30eXjm9oq47XDjFlXtY+gupCFNRInBDagnEiLuDB0XbX
- Xoanjkj6p2TWfiSdgp1W+gnnmXcsja3Z97ZK0PujsDBakSrEGqGhmwAnD
- DmGFrrdrGqsFpW7NYd3UznMw3e8JO6/iRmTnkI1xpiVj3TuLDH7E5SMMs
- CDPWOg308rkoXhLQNe/kze7J+eETk6DKfC3Itamygx8MqYYzn0nIJ+ZEW w==;
-X-CSE-ConnectionGUID: sFct1VI7R+a4y8fpvZzvlw==
-X-CSE-MsgGUID: KI/jJBBDSYuK0ucNPmqKzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43530346"
-X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; d="scan'208";a="43530346"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2025 17:59:56 -0700
-X-CSE-ConnectionGUID: OsvNgHJQQE6uXuS57fUmDQ==
-X-CSE-MsgGUID: fDlAG8EwQRiHhCl9+3dTDA==
+ bh=jIN2GDksBVIf2OBYv8lG1GlMzeYDLDT4nsVXncumAx8=;
+ b=gNTuvzfkI4a3tzy0znWTt8/ZI8lgwMXWQ7KWQ9i/5vTfpvbi2YFmTLgE
+ MdmNJIb0e19r2gQkEvi2KINaHxayGwiSODLb518P+nr6eh9pTVrpGQsZw
+ CYgpRQVzR+CTipodMq99aTYdSKh8jqL9rBmvJTOX/HvxYcVABWRQLlGIM
+ paaUYEwwOVb5eD1lcNZgRvX8veJqGoA0mV6SX7Lq6bS9lAv7SITseZHPK
+ VgFsKSCj6mS0HPaqmecAyTNllhIA4WhDO41T08WXBmExGbgJjQO7r/QGs
+ McLImJ50BWhHUS2IBkUxeGzRv7/iwP1jwvHzH2m7Mc/Ia0LZ9wp7IZuxH g==;
+X-CSE-ConnectionGUID: lEdoNfKfTTuoZNWlzPqkGQ==
+X-CSE-MsgGUID: GUqZ+XFtRpmpc6phGa8Sww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43434659"
+X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; d="scan'208";a="43434659"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 18:00:47 -0700
+X-CSE-ConnectionGUID: Rt/7RbBjTNi/dWIxmZDkyQ==
+X-CSE-MsgGUID: tyu4oaM7QpW0PqpRWkhGNA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; d="scan'208";a="153274493"
+X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; d="scan'208";a="122350420"
 Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.185])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2025 17:59:52 -0700
-Date: Wed, 19 Mar 2025 01:59:49 +0100
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2025 18:00:42 -0700
+Date: Wed, 19 Mar 2025 02:00:39 +0100
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 Cc: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
@@ -56,15 +56,15 @@ Cc: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  Ashutosh Dixit <ashutosh.dixit@intel.com>,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
  Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Subject: Re: [PATCH v5 1/3] drm/i915: Downgrade device register error if
- injected
-Message-ID: <Z9oXBeZZ7IHwX1Pw@ashyti-mobl2.lan>
+Subject: Re: [PATCH v5 2/3] drm/i915: Fix PXP cleanup missing from probe
+ error rewind
+Message-ID: <Z9oXN4M_pKbEFbgE@ashyti-mobl2.lan>
 References: <20250314205202.809563-5-janusz.krzysztofik@linux.intel.com>
- <20250314205202.809563-6-janusz.krzysztofik@linux.intel.com>
+ <20250314205202.809563-7-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250314205202.809563-6-janusz.krzysztofik@linux.intel.com>
+In-Reply-To: <20250314205202.809563-7-janusz.krzysztofik@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,17 +82,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Janusz,
 
-On Fri, Mar 14, 2025 at 09:38:33PM +0100, Janusz Krzysztofik wrote:
-> Commit 8f460e2c78f2 ("drm/i915: Demidlayer driver loading") which
-> introduced manual device registration also added a message that is
-> submitted on device registration failure as an error.  If that failure is
-> triggered by error injection test, that's an expected error, but CI still
-> reports it as a bug.  Fix it.
+On Fri, Mar 14, 2025 at 09:38:34PM +0100, Janusz Krzysztofik wrote:
+> Commit f67986b0119c04 ("drm/i915/pxp: Promote pxp subsystem to top-level
+> of i915") added PXP initialization to driver probe path, but didn't add a
+> respective PXP cleanup on probe error.  That lack of cleanup seems
+> harmless as long as PXP is still unused and idle when a probe failure
+> occurs and error rewind path is entered, but as soon as PXP starts
+> consuming device and driver resources keeping them busy, kernel warnings
+> may be triggered when cleaning up resources provided by memory regions,
+> GGTT, GEM and/or VMA cache from the probe error rewind and/or module
+> unload paths because of missing PXP cleanup.  That scenario was observed
+> on attempts to fail the probe and enter the rewind path on injection of
+> now ignored error in device registration path.
 > 
-> Suggested-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/9820
-> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Fix it.
+> 
+> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 
 Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
