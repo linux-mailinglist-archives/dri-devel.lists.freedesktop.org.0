@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BC3A69192
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 15:56:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4D6A69183
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 15:56:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69A1810E53F;
-	Wed, 19 Mar 2025 14:56:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9D6B10E53B;
+	Wed, 19 Mar 2025 14:56:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="csdZWEwW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L4lHAbzj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8954610E51E;
- Wed, 19 Mar 2025 14:55:59 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-2240b4de12bso46467545ad.2; 
- Wed, 19 Mar 2025 07:55:59 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1893510E534;
+ Wed, 19 Mar 2025 14:56:01 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-223a7065ff8so52518965ad.0; 
+ Wed, 19 Mar 2025 07:56:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742396159; x=1743000959; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1742396160; x=1743000960; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jyO6kdDDIQqJK9TGT4jcPv5A3omBF22Bq6SHdz7luwA=;
- b=csdZWEwW6YRLwoUtEIOI+GvVjR18JRw8BarQCO/OZA/i4kuegQLEMxjoG8AXrfgt7H
- W4nMYY3DyJeaDinEqfvkahAfEOvJ9EMoLueBrraP2Wb3gB6ZfI2EOSFU5SuAzDCmFLO9
- gkfC4YIKU5y+NH+609ICc7QI3GC5q5zCVzts1JPpBOgc5mJv51pemEZP+VW/j1/lN8iR
- SDGkU1I10ul9v8F6JAwNbaTPpCzaA9HHlNGT5iqUoev60A5rnMYr0XPsS51LEZ7n6LgY
- D8FRHc7I4mkYvtlMj430aYsV3EUFRSC1QQA/8xnnXG2zKEZOhtDkqGjiOPOFDli99R2g
- wrDg==
+ bh=lzrclKqnSLuC6igPSGd4oKUZVxjgZgQQ21kYeu+qNAw=;
+ b=L4lHAbzjpONTPmqczTEfqIsm3MCl0NCwftrKExBWHpn5geuqDjKHc0uXv9uMMF9WpI
+ zmJiSvCUvNYovg6nzHE2ue+Wi0w0tjlqaSPQM260ZXz/NKHEieLe2OwbMrT+1xXtEf+B
+ mpPHX0miNpzd6MEm4SvDN7PEMldTcoP30083UWj8UoALSoFJB+xJhD0Ajrd8xMZ0fe12
+ KCx0HLKChm7IxXVqzHd2zDPSdibcpyBgPMp0NIAvyDRptPQux8sFL2pN5jSjV1rPJBxi
+ H3y8D7lhnzzV0w1/vkiAYb6fXoJ90cYwg8l0yVV59mDkPkPA53eCpwT1AhodBpHog2Y/
+ tYWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742396159; x=1743000959;
+ d=1e100.net; s=20230601; t=1742396160; x=1743000960;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jyO6kdDDIQqJK9TGT4jcPv5A3omBF22Bq6SHdz7luwA=;
- b=RSss+DMViXDml1/7KwGNt51b+B3zKm4DegbIReFu1wkvyT26LwN6CGECBJtqFV+YXf
- PreNNNcB6eALBdiz2NJ/RBjwDMj01apYapMGowgsIQVlGNPwzlkmJkfE1W9kRQaXcrZp
- KAA58ZUNoKIqoDwCTKT0cwOAzUwYsnKhCx0WbxWztlapuG/US5hyTGdWzNjHOogjEz9/
- kO9C42zkEu4B3IObWrROBliuepTx8VaBjq1ICN9188ZdEqnCf6xXmLDLz8FdQQtUAHWQ
- he/rx7axlcYd5tjC/M/66gq3Ps6ej0hngwYGcLHg5AcmRlTMM9+ClWQ7YX+1KadMU5qA
- wPdg==
-X-Gm-Message-State: AOJu0YwwJaL9irx13W+7QznQIWJd1bmbH3tnG54aBdsPSSzlHK5renw3
- sKAbCh57dP5oMIypjCd9qz8XSQlWQ+0zGIHUp1pJFUZAbGIyeTGJ4yUIGA==
-X-Gm-Gg: ASbGncsaB9hBr4OeJeBbsSl7yJEDVsrCcloWaSQvim3ywCuLvtxe9UvCKtsvsZRs6qC
- OAlWykUo/V1amgNFlkuf7F10kY7i4rqYAlduClvVMGbsTxLPzVN0T5SAM5M2qagixnK7FoG93+Z
- +R5oxeJ2PeEX1H9PfyZoFXb/541hNbYhoN9Ju1jbNkr2cPx5cNS+lsQ0//McpN3ItusUoCyFejT
- EYRXRSHgTHLvzvOUPu8YkdGaJ4iN2586JD62mvOyiha97cd/HjCIaWLc6r6D2CnfcPkCM0KPPMa
- q9agE/EtNyH/IcE5BTdSeKhDTc0qm3getFTpRT1engJWwtSRTc7JfwqsXkKUgNsMi8Q3V98mVOS
- PbCdqrLQGRrK4D6f0sEU=
-X-Google-Smtp-Source: AGHT+IH6q5hAIc9t3N2nh4KbWjpJ3bsjbKbZog07bzbek/wCl7nglfjUn21b9XL9FzZ3ul4wkgb/gw==
-X-Received: by 2002:a17:902:c40a:b0:21f:7a8b:d675 with SMTP id
- d9443c01a7336-2264981d956mr47600395ad.4.1742396158377; 
- Wed, 19 Mar 2025 07:55:58 -0700 (PDT)
+ bh=lzrclKqnSLuC6igPSGd4oKUZVxjgZgQQ21kYeu+qNAw=;
+ b=PRRa7tUIeVX1Rp86lGQ6uEXW09UzjjVEmZagCujL/kFgQBn4juro9S/NrLBzxN7k3k
+ I8LDpnkJidCSpmQtNOpuYo0Z/yLYMoB8g+lxRJt2EEaqizNf27tB5pYQE70ZqTjT94EU
+ 6BBiNDZY0AmRzzzCuxd06yhCIwql3saf4Vl5+7eOrFw5IjGl1DoJUwhpyXt0QhOeLZ1C
+ PxLOIbPDhxsF/pz9joMNimLzeNscA66yb8kffszeb/Tddjg5AdErAeKg6DLVEIFDDzbJ
+ qzRxhLeSi9/dsIpMjraJQZBaKIXZU2RwORrUvZHCsBErpVmIVIusTAz+Fyjd7zfQhs9+
+ k5jA==
+X-Gm-Message-State: AOJu0Yxo476wqg5NvE+2XI+yl5NP8o75Ygk3/Togiq5NgHNkmie6bqwV
+ LstpnJtzyUINFhz0ghvyzivFF2YgE26N1mAUs4mcj/Czi4jM+U3v/R8AZA==
+X-Gm-Gg: ASbGnctUgTFh2rqUek6VmiKDE3vTrstny5CyRMEYkWWto8gSjN7hSKv4dUbS/OarSb8
+ +uCuKAJSnKtR4cf4oQAIRHFYTdchm+XrNxqNUoNq33W3kh4GwCU7fFYs19au36i8I+t8GSmzk4K
+ aIBEX59v49B/KQwDGg1TB2WlUj2Tfg+WLh5dd37QL0zLHES+mPR4mkeVbwhMr9fhY+w9diw9Ov1
+ b7RIUdf7EOXZII6HLugC1bR9KDbM3d4mbbPELEIccAf/Z3RGSyndVjsOP3osgRbIAOrE8mfP6hb
+ oXQXXMQsTP/z557t1ELhbydv4AgAWZTHn6cX1SCIeffUayovixQc1Mvscz34MQMHXk9GiUlMiva
+ Zxp4bxCfJxSK/s868SX9bgerQ/niMlA==
+X-Google-Smtp-Source: AGHT+IHdDL0qktvi0766ilD4DZ91nDGI11VuBNzb7WvAPu6gZEBkKU3yNLQGg0sf610Nty8FPhSWEQ==
+X-Received: by 2002:a17:902:e952:b0:223:5379:5e4e with SMTP id
+ d9443c01a7336-2264981dc4dmr63164075ad.10.1742396160120; 
+ Wed, 19 Mar 2025 07:56:00 -0700 (PDT)
 Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-225c6bd4e8dsm114677535ad.228.2025.03.19.07.55.57
+ d9443c01a7336-225c6ba6a13sm115019115ad.118.2025.03.19.07.55.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Mar 2025 07:55:57 -0700 (PDT)
+ Wed, 19 Mar 2025 07:55:59 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 27/34] drm/msm: Pre-allocate pages for pgtable entries
-Date: Wed, 19 Mar 2025 07:52:39 -0700
-Message-ID: <20250319145425.51935-28-robdclark@gmail.com>
+Subject: [PATCH v2 28/34] drm/msm: Wire up gpuvm ops
+Date: Wed, 19 Mar 2025 07:52:40 -0700
+Message-ID: <20250319145425.51935-29-robdclark@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250319145425.51935-1-robdclark@gmail.com>
 References: <20250319145425.51935-1-robdclark@gmail.com>
@@ -95,481 +94,506 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Introduce a mechanism to count the worst case # of pages required in a
-VM_BIND op.
-
-Note that previously we would have had to somehow account for
-allocations in unmap, when splitting a block.  This behavior was removed
-in commit 33729a5fc0ca ("iommu/io-pgtable-arm: Remove split on unmap
-behavior)"
+Hook up the map/remap/unmap ops to apply MAP/UNMAP operations.  The
+MAP/UNMAP operations are split up by drm_gpuvm into a series of map/
+remap/unmap ops, for example an UNMAP operation which spans multiple
+vmas will get split up into a sequence of unmap (and possibly remap)
+ops which each apply to a single vma.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c |   2 +-
- drivers/gpu/drm/msm/msm_gem.h         |   7 +-
- drivers/gpu/drm/msm/msm_gem_submit.c  |   5 +-
- drivers/gpu/drm/msm/msm_gem_vma.c     |  18 ++-
- drivers/gpu/drm/msm/msm_iommu.c       | 201 +++++++++++++++++++++++++-
- drivers/gpu/drm/msm/msm_mmu.h         |  36 ++++-
- 6 files changed, 260 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.h     |  12 ++
+ drivers/gpu/drm/msm/msm_gem_vma.c | 329 ++++++++++++++++++++++++++++--
+ 2 files changed, 320 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index ca3247f845b5..9f66ad5bf0dc 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -2267,7 +2267,7 @@ a6xx_create_private_vm(struct msm_gpu *gpu, bool kernel_managed)
- {
- 	struct msm_mmu *mmu;
- 
--	mmu = msm_iommu_pagetable_create(to_msm_vm(gpu->vm)->mmu);
-+	mmu = msm_iommu_pagetable_create(to_msm_vm(gpu->vm)->mmu, kernel_managed);
- 
- 	if (IS_ERR(mmu))
- 		return ERR_CAST(mmu);
 diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index d2ffaa11ec1a..117f0e35e628 100644
+index 117f0e35e628..7f6315a66751 100644
 --- a/drivers/gpu/drm/msm/msm_gem.h
 +++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -7,6 +7,7 @@
- #ifndef __MSM_GEM_H__
- #define __MSM_GEM_H__
+@@ -76,6 +76,16 @@ struct msm_gem_vm {
+ 	/** @vm_lock: protects gpuvm insert/remove/traverse */
+ 	struct mutex vm_lock;
  
-+#include "msm_mmu.h"
- #include <linux/kref.h>
- #include <linux/dma-resv.h>
- #include "drm/drm_exec.h"
-@@ -115,7 +116,7 @@ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
++	/**
++	 * @op_lock:
++	 *
++	 * Serializes VM operations.  Typically operations are serialized
++	 * by virtue of running on the VM_BIND queue, but in the cleanup
++	 * path (or if multiple VM_BIND queues) the @op_lock provides the
++	 * needed serialization.
++	 */
++	struct mutex op_lock;
++
+ 	/** @mmu: The mmu object which manages the pgtables */
+ 	struct msm_mmu *mmu;
  
- void msm_gem_vm_close(struct drm_gpuvm *gpuvm);
- 
--void msm_vma_job_prepare(struct msm_gem_submit *submit);
-+int msm_vma_job_prepare(struct msm_gem_submit *submit);
- void msm_vma_job_cleanup(struct msm_gem_submit *submit);
+@@ -121,6 +131,8 @@ void msm_vma_job_cleanup(struct msm_gem_submit *submit);
  
  struct msm_fence_context;
-@@ -348,6 +349,10 @@ struct msm_gem_submit {
- 	 */
- 	struct list_head preallocated_vmas;
  
-+	/* Tracking for pre-allocated pgtable pages.
-+	 */
-+	struct msm_mmu_prealloc prealloc;
++#define MSM_VMA_DUMP (DRM_GPUVA_USERBITS << 0)
 +
- 	struct pid *pid;    /* submitting process */
- 	bool bos_pinned : 1;
- 	bool fault_dumped:1;/* Limit devcoredump dumping to one per submit */
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index a9b3e6692db3..ed0265ac4e1d 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -916,8 +916,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	}
- 
- 	if (submit_is_vmbind(submit)) {
--		msm_vma_job_prepare(submit);
--		ret = submit_get_pages(submit);
-+		ret = msm_vma_job_prepare(submit);
-+		if (!ret)
-+			ret = submit_get_pages(submit);
- 	} else {
- 		ret = submit_pin_vmas(submit);
- 	}
+ /**
+  * struct msm_gem_vma - a VMA mapping
+  *
 diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index b1808d95002f..554ec93456a0 100644
+index 554ec93456a0..09d4746248c2 100644
 --- a/drivers/gpu/drm/msm/msm_gem_vma.c
 +++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -270,9 +270,10 @@ static const struct drm_sched_backend_ops msm_vm_bind_ops = {
-  *
-  * Called after BOs are locked.
-  */
--void
-+int
- msm_vma_job_prepare(struct msm_gem_submit *submit)
- {
-+	struct msm_mmu *mmu = to_msm_vm(submit->vm)->mmu;
- 	unsigned num_prealloc_vmas = 0;
- 
- 	for (int i = 0; i < submit->nr_bos; i++) {
-@@ -299,13 +300,23 @@ msm_vma_job_prepare(struct msm_gem_submit *submit)
- 		 * OP_UNMAP could trigger a remap with either a prev or
- 		 * next VMA, but not both.
- 		 */
--		num_prealloc_vmas += (op == MSM_SUBMIT_BO_OP_UNMAP) ? 1 : 3;
-+		if (op != MSM_SUBMIT_BO_OP_UNMAP) {
-+			num_prealloc_vmas += 3;
-+
-+			mmu->funcs->prealloc_count(mmu, &submit->prealloc,
-+				submit->bos[i].iova,
-+				submit->bos[i].range);
-+		} else {
-+			num_prealloc_vmas += 1;
-+		}
- 	}
- 
- 	while (num_prealloc_vmas-- > 0) {
- 		struct msm_gem_vma *vma = kzalloc(sizeof(*vma), GFP_KERNEL);
- 		list_add_tail(&vma->base.rb.entry, &submit->preallocated_vmas);
- 	}
-+
-+	return mmu->funcs->prealloc_allocate(mmu, &submit->prealloc);
- }
- 
- /**
-@@ -317,6 +328,7 @@ msm_vma_job_prepare(struct msm_gem_submit *submit)
- void
- msm_vma_job_cleanup(struct msm_gem_submit *submit)
- {
-+	struct msm_mmu *mmu = to_msm_vm(submit->vm)->mmu;
- 	struct drm_gpuva *vma;
- 
- 	for (int i = 0; i < submit->nr_bos; i++) {
-@@ -331,6 +343,8 @@ msm_vma_job_cleanup(struct msm_gem_submit *submit)
- 		list_del(&vma->rb.entry);
- 		kfree(to_msm_vma(vma));
- 	}
-+
-+	mmu->funcs->prealloc_cleanup(mmu, &submit->prealloc);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index 756bd55ee94f..ff04f2451d1d 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -6,6 +6,7 @@
- 
- #include <linux/adreno-smmu-priv.h>
- #include <linux/io-pgtable.h>
-+#include <linux/kmemleak.h>
- #include "msm_drv.h"
+@@ -8,6 +8,8 @@
+ #include "msm_gem.h"
  #include "msm_mmu.h"
  
-@@ -14,6 +15,8 @@ struct msm_iommu {
- 	struct iommu_domain *domain;
- 	atomic_t pagetables;
- 	struct page *prr_page;
++#define vm_dbg(fmt, ...) pr_debug("%s:%d: "fmt"\n", __func__, __LINE__, ##__VA_ARGS__)
 +
-+	struct kmem_cache *pt_cache;
- };
- 
- #define to_msm_iommu(x) container_of(x, struct msm_iommu, base)
-@@ -27,6 +30,12 @@ struct msm_iommu_pagetable {
- 	unsigned long pgsize_bitmap;	/* Bitmap of page sizes in use */
- 	phys_addr_t ttbr;
- 	u32 asid;
-+
-+	/** @root_page_table: Stores the root page table pointer. */
-+	void *root_page_table;
-+
-+	/** @tblsz: pt table entry size */
-+	size_t tblsz;
- };
- static struct msm_iommu_pagetable *to_pagetable(struct msm_mmu *mmu)
+ static void
+ msm_gem_vm_free(struct drm_gpuvm *gpuvm)
  {
-@@ -273,7 +282,145 @@ msm_iommu_pagetable_walk(struct msm_mmu *mmu, unsigned long iova, uint64_t ptes[
- 	return 0;
+@@ -20,18 +22,29 @@ msm_gem_vm_free(struct drm_gpuvm *gpuvm)
+ 	kfree(vm);
  }
  
 +static void
-+msm_iommu_pagetable_prealloc_count(struct msm_mmu *mmu, struct msm_mmu_prealloc *p,
-+				   uint64_t iova, size_t len)
++msm_gem_vma_unmap_range(struct drm_gpuva *vma, uint64_t unmap_start, uint64_t unmap_range)
 +{
-+	u64 pt_count;
++	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
 +
-+	/*
-+	 * L1, L2 and L3 page tables.
-+	 *
-+	 * We could optimize L3 allocation by iterating over the sgt and merging
-+	 * 2M contiguous blocks, but it's simpler to over-provision and return
-+	 * the pages if they're not used.
-+	 *
-+	 * The first level descriptor (v8 / v7-lpae page table format) encodes
-+	 * 30 bits of address.  The second level encodes 29.  For the 3rd it is
-+	 * 39.
-+	 *
-+	 * https://developer.arm.com/documentation/ddi0406/c/System-Level-Architecture/Virtual-Memory-System-Architecture--VMSA-/Long-descriptor-translation-table-format/Long-descriptor-translation-table-format-descriptors?lang=en#BEIHEFFB
-+	 */
-+	pt_count = ((ALIGN(iova + len, 1ull << 39) - ALIGN_DOWN(iova, 1ull << 39)) >> 39) +
-+		   ((ALIGN(iova + len, 1ull << 30) - ALIGN_DOWN(iova, 1ull << 30)) >> 30) +
-+		   ((ALIGN(iova + len, 1ull << 21) - ALIGN_DOWN(iova, 1ull << 21)) >> 21);
++	vm_dbg("%p:%p: %016llx %016llx", vma->vm, vma, unmap_start, unmap_start + unmap_range);
 +
-+	p->count += pt_count;
++	if (vma->gem.obj)
++		msm_gem_assert_locked(vma->gem.obj);
++
++	vm->mmu->funcs->unmap(vm->mmu, unmap_start, unmap_range);
 +}
 +
-+static struct kmem_cache *
-+get_pt_cache(struct msm_mmu *mmu)
-+{
-+	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-+	return to_msm_iommu(pagetable->parent)->pt_cache;
-+}
+ /* Actually unmap memory for the vma */
+ void msm_gem_vma_unmap(struct drm_gpuva *vma)
+ {
+ 	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
+-	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
+-	unsigned size = vma->va.range;
+ 
+ 	/* Don't do anything if the memory isn't mapped */
+ 	if (!msm_vma->mapped)
+ 		return;
+ 
+-	vm->mmu->funcs->unmap(vm->mmu, vma->va.addr, size);
++	msm_gem_vma_unmap_range(vma, vma->va.addr, vma->va.range);
+ 
+ 	msm_vma->mapped = false;
+ }
+@@ -52,6 +65,11 @@ msm_gem_vma_map(struct drm_gpuva *vma, int prot, struct sg_table *sgt)
+ 
+ 	msm_vma->mapped = true;
+ 
++	vm_dbg("%p: %016llx %016llx", vma, vma->va.addr, vma->va.range);
 +
++	if (vma->gem.obj)
++		msm_gem_assert_locked(vma->gem.obj);
++
+ 	/*
+ 	 * NOTE: iommu/io-pgtable can allocate pages, so we cannot hold
+ 	 * a lock across map/unmap which is also used in the job_run()
+@@ -79,10 +97,11 @@ static void __vma_close(struct drm_gpuva *vma)
+ 	GEM_WARN_ON(msm_vma->mapped);
+ 	GEM_WARN_ON(!mutex_is_locked(&vm->vm_lock));
+ 
+-	spin_lock(&vm->mm_lock);
+-	if (vma->va.addr && vm->managed)
++	if (vma->va.addr && vm->managed) {
++		spin_lock(&vm->mm_lock);
+ 		drm_mm_remove_node(&msm_vma->node);
+-	spin_unlock(&vm->mm_lock);
++		spin_unlock(&vm->mm_lock);
++	}
+ 
+ 	drm_gpuva_remove(vma);
+ 	drm_gpuva_unlink(vma);
+@@ -101,11 +120,9 @@ void msm_gem_vma_close(struct drm_gpuva *vma)
+ 	 */
+ 	GEM_WARN_ON(!vm->managed);
+ 
+-	dma_resv_lock(drm_gpuvm_resv(vma->vm), NULL);
+ 	mutex_lock(&vm->vm_lock);
+ 	__vma_close(vma);
+ 	mutex_unlock(&vm->vm_lock);
+-	dma_resv_unlock(drm_gpuvm_resv(vma->vm));
+ }
+ 
+ static struct drm_gpuva *
+@@ -124,6 +141,7 @@ __vma_init(struct msm_gem_vma *vma, struct drm_gpuvm *_vm,
+ 
+ 	if (vm->managed) {
+ 		BUG_ON(offset != 0);
++		BUG_ON(!obj);  /* NULL mappings not valid for kernel managed VM */
+ 		spin_lock(&vm->mm_lock);
+ 		ret = drm_mm_insert_node_in_range(&vm->mm, &vma->node,
+ 						obj->size, PAGE_SIZE, 0,
+@@ -137,7 +155,8 @@ __vma_init(struct msm_gem_vma *vma, struct drm_gpuvm *_vm,
+ 		range_end   = range_start + obj->size;
+ 	}
+ 
+-	GEM_WARN_ON((range_end - range_start) > obj->size);
++	if (obj)
++		GEM_WARN_ON((range_end - range_start) > obj->size);
+ 
+ 	drm_gpuva_init(&vma->base, range_start, range_end - range_start, obj, offset);
+ 	vma->mapped = false;
+@@ -146,6 +165,9 @@ __vma_init(struct msm_gem_vma *vma, struct drm_gpuvm *_vm,
+ 	if (ret)
+ 		goto err_free_range;
+ 
++	if (!obj)
++		return &vma->base;
++
+ 	vm_bo = drm_gpuvm_bo_obtain(&vm->base, obj);
+ 	if (IS_ERR(vm_bo)) {
+ 		ret = PTR_ERR(vm_bo);
+@@ -190,39 +212,289 @@ msm_gem_vma_new(struct drm_gpuvm *_vm, struct drm_gem_object *obj,
+ 	return &vma->base;
+ }
+ 
 +static int
-+msm_iommu_pagetable_prealloc_allocate(struct msm_mmu *mmu, struct msm_mmu_prealloc *p)
++msm_gem_vm_bo_validate(struct drm_gpuvm_bo *vm_bo, struct drm_exec *exec)
 +{
-+	struct kmem_cache *pt_cache = get_pt_cache(mmu);
++	struct drm_gem_object *obj = vm_bo->obj;
++	struct drm_gpuva *vma;
 +	int ret;
 +
-+	p->pages = kcalloc(p->count, sizeof(p->pages), GFP_KERNEL);
-+	if (!p->pages)
-+		return -ENOMEM;
++	msm_gem_assert_locked(obj);
 +
-+	ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, p->count, p->pages);
-+	if (ret != p->count) {
-+		p->count = ret;
-+		return -ENOMEM;
++	drm_gpuvm_bo_for_each_va (vma, vm_bo) {
++		ret = msm_gem_pin_vma_locked(obj, vma);
++		if (ret)
++			return ret;
 +	}
 +
 +	return 0;
 +}
 +
-+static void
-+msm_iommu_pagetable_prealloc_cleanup(struct msm_mmu *mmu, struct msm_mmu_prealloc *p)
-+{
-+	struct kmem_cache *pt_cache = get_pt_cache(mmu);
-+	uint32_t remaining_pt_count = p->count - p->ptr;
-+
-+	kmem_cache_free_bulk(pt_cache, remaining_pt_count, &p->pages[p->ptr]);
-+	kfree(p->pages);
-+}
-+
-+/**
-+ * alloc_pt() - Custom page table allocator
-+ * @cookie: Cookie passed at page table allocation time.
-+ * @size: Size of the page table. This size should be fixed,
-+ * and determined at creation time based on the granule size.
-+ * @gfp: GFP flags.
-+ *
-+ * We want a custom allocator so we can use a cache for page table
-+ * allocations and amortize the cost of the over-reservation that's
-+ * done to allow asynchronous VM operations.
-+ *
-+ * Return: non-NULL on success, NULL if the allocation failed for any
-+ * reason.
-+ */
-+static void *
-+msm_iommu_pagetable_alloc_pt(void *cookie, size_t size, gfp_t gfp)
-+{
-+	struct msm_iommu_pagetable *pagetable = cookie;
-+	struct msm_mmu_prealloc *p = pagetable->base.prealloc;
-+	void *page;
-+
-+	/* Allocation of the root page table happening during init. */
-+	if (unlikely(!pagetable->root_page_table)) {
-+		struct page *p;
-+
-+		p = alloc_pages_node(dev_to_node(pagetable->iommu_dev),
-+				     gfp | __GFP_ZERO, get_order(size));
-+		page = p ? page_address(p) : NULL;
-+		pagetable->root_page_table = page;
-+		return page;
-+	}
-+
-+	if (WARN_ON(!p) || WARN_ON(p->ptr >= p->count))
-+		return NULL;
-+
-+	page = p->pages[p->ptr++];
-+	memset(page, 0, size);
-+
-+	/*
-+	 * Page table entries don't use virtual addresses, which trips out
-+	 * kmemleak. kmemleak_alloc_phys() might work, but physical addresses
-+	 * are mixed with other fields, and I fear kmemleak won't detect that
-+	 * either.
-+	 *
-+	 * Let's just ignore memory passed to the page-table driver for now.
-+	 */
-+	kmemleak_ignore(page);
-+
-+	return page;
-+}
-+
-+
-+/**
-+ * free_pt() - Custom page table free function
-+ * @cookie: Cookie passed at page table allocation time.
-+ * @data: Page table to free.
-+ * @size: Size of the page table. This size should be fixed,
-+ * and determined at creation time based on the granule size.
-+ */
-+static void
-+msm_iommu_pagetable_free_pt(void *cookie, void *data, size_t size)
-+{
-+	struct msm_iommu_pagetable *pagetable = cookie;
-+
-+	if (unlikely(pagetable->root_page_table == data)) {
-+		free_pages((unsigned long)data, get_order(size));
-+		pagetable->root_page_table = NULL;
-+		return;
-+	}
-+
-+	kmem_cache_free(get_pt_cache(&pagetable->base), data);
-+}
-+
- static const struct msm_mmu_funcs pagetable_funcs = {
-+		.prealloc_count = msm_iommu_pagetable_prealloc_count,
-+		.prealloc_allocate = msm_iommu_pagetable_prealloc_allocate,
-+		.prealloc_cleanup = msm_iommu_pagetable_prealloc_cleanup,
- 		.map = msm_iommu_pagetable_map,
- 		.unmap = msm_iommu_pagetable_unmap,
- 		.destroy = msm_iommu_pagetable_destroy,
-@@ -324,7 +471,19 @@ static const struct iommu_flush_ops tlb_ops = {
- static int msm_gpu_fault_handler(struct iommu_domain *domain, struct device *dev,
- 		unsigned long iova, int flags, void *arg);
- 
--struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
-+
-+static size_t get_tblsz(const struct io_pgtable_cfg *cfg)
-+{
-+	int pg_shift, bits_per_level;
-+
-+	pg_shift = __ffs(cfg->pgsize_bitmap);
-+	/* arm_lpae_iopte is u64: */
-+	bits_per_level = pg_shift - ilog2(sizeof(u64));
-+
-+	return sizeof(u64) << bits_per_level;
-+}
-+
-+struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent, bool kernel_managed)
- {
- 	struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(parent->dev);
- 	struct msm_iommu *iommu = to_msm_iommu(parent);
-@@ -358,6 +517,36 @@ struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
- 	ttbr0_cfg.quirks &= ~IO_PGTABLE_QUIRK_ARM_TTBR1;
- 	ttbr0_cfg.tlb = &tlb_ops;
- 
-+	if (!kernel_managed) {
-+		/*
-+		 * With userspace managed VM (aka VM_BIND), we need to pre-
-+		 * allocate pages ahead of time for map/unmap operations,
-+		 * handing them to io-pgtable via custom alloc/free ops as
-+		 * needed:
-+		 */
-+		ttbr0_cfg.alloc = msm_iommu_pagetable_alloc_pt;
-+		ttbr0_cfg.free  = msm_iommu_pagetable_free_pt;
-+
-+		pagetable->tblsz = get_tblsz(&ttbr0_cfg);
-+
-+		/*
-+		 * Restrict to single page granules.  Otherwise we may run
-+		 * into a situation where userspace wants to unmap/remap
-+		 * only a part of a larger block mapping, which is not
-+		 * possible without unmapping the entire block.  Which in
-+		 * turn could cause faults if the GPU is accessing other
-+		 * parts of the block mapping.
-+		 *
-+		 * Note that prior to commit 33729a5fc0ca ("iommu/io-pgtable-arm:
-+		 * Remove split on unmap behavior)" this was handled in
-+		 * io-pgtable-arm.  But this apparently does not work
-+		 * correctly on SMMUv3.
-+		 */
-+		WARN_ON(!(ttbr0_cfg.pgsize_bitmap & PAGE_SIZE));
-+		ttbr0_cfg.pgsize_bitmap = PAGE_SIZE;
-+	}
-+
-+	pagetable->iommu_dev = ttbr1_cfg->iommu_dev;
- 	pagetable->pgtbl_ops = alloc_io_pgtable_ops(ARM_64_LPAE_S1,
- 		&ttbr0_cfg, pagetable);
- 
-@@ -401,7 +590,6 @@ struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
- 	/* Needed later for TLB flush */
- 	pagetable->parent = parent;
- 	pagetable->tlb = ttbr1_cfg->tlb;
--	pagetable->iommu_dev = ttbr1_cfg->iommu_dev;
- 	pagetable->pgsize_bitmap = ttbr0_cfg.pgsize_bitmap;
- 	pagetable->ttbr = ttbr0_cfg.arm_lpae_s1_cfg.ttbr;
- 
-@@ -509,6 +697,7 @@ static void msm_iommu_destroy(struct msm_mmu *mmu)
- {
- 	struct msm_iommu *iommu = to_msm_iommu(mmu);
- 	iommu_domain_free(iommu->domain);
-+	kmem_cache_destroy(iommu->pt_cache);
- 	kfree(iommu);
- }
- 
-@@ -583,6 +772,14 @@ struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gpu, unsig
- 		return mmu;
- 
- 	iommu = to_msm_iommu(mmu);
-+	if (adreno_smmu && adreno_smmu->cookie) {
-+		const struct io_pgtable_cfg *cfg =
-+			adreno_smmu->get_ttbr1_cfg(adreno_smmu->cookie);
-+		size_t tblsz = get_tblsz(cfg);
-+
-+		iommu->pt_cache =
-+			kmem_cache_create("msm-mmu-pt", tblsz, tblsz, 0, NULL);
-+	}
- 	iommu_set_fault_handler(iommu->domain, msm_gpu_fault_handler, iommu);
- 
- 	/* Enable stall on iommu fault: */
-diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-index c874852b7331..24ef04d267a6 100644
---- a/drivers/gpu/drm/msm/msm_mmu.h
-+++ b/drivers/gpu/drm/msm/msm_mmu.h
-@@ -9,8 +9,16 @@
- 
- #include <linux/iommu.h>
- 
-+struct msm_mmu_prealloc;
-+struct msm_mmu;
-+struct msm_gpu;
-+
- struct msm_mmu_funcs {
- 	void (*detach)(struct msm_mmu *mmu);
-+	void (*prealloc_count)(struct msm_mmu *mmu, struct msm_mmu_prealloc *p,
-+			       uint64_t iova, size_t len);
-+	int (*prealloc_allocate)(struct msm_mmu *mmu, struct msm_mmu_prealloc *p);
-+	void (*prealloc_cleanup)(struct msm_mmu *mmu, struct msm_mmu_prealloc *p);
- 	int (*map)(struct msm_mmu *mmu, uint64_t iova, struct sg_table *sgt,
- 			size_t off, size_t len, int prot);
- 	int (*unmap)(struct msm_mmu *mmu, uint64_t iova, size_t len);
-@@ -25,12 +33,38 @@ enum msm_mmu_type {
- 	MSM_MMU_IOMMU_PAGETABLE,
- };
- 
-+/**
-+ * struct msm_mmu_prealloc - Tracking for pre-allocated pages for MMU updates.
-+ */
-+struct msm_mmu_prealloc {
-+	/** @count: Number of pages reserved. */
-+	uint32_t count;
-+	/** @ptr: Index of first unused page in @pages */
-+	uint32_t ptr;
-+	/**
-+	 * @pages: Array of pages preallocated for MMU table updates.
-+	 *
-+	 * After a VM operation, there might be free pages remaining in this
-+	 * array (since the amount allocated is a worst-case).  These are
-+	 * returned to the pt_cache at mmu->prealloc_cleanup().
-+	 */
-+	void **pages;
++struct op_arg {
++	unsigned flags;
++	struct drm_gpuvm *vm;
++	struct msm_gem_submit *submit;
 +};
 +
- struct msm_mmu {
- 	const struct msm_mmu_funcs *funcs;
- 	struct device *dev;
- 	int (*handler)(void *arg, unsigned long iova, int flags, void *data);
- 	void *arg;
- 	enum msm_mmu_type type;
++static struct drm_gpuva *
++vma_from_op(struct op_arg *arg, struct drm_gpuva_op_map *op)
++{
++	struct msm_gem_vma *vma;
 +
-+	/**
-+	 * @prealloc: pre-allocated pages for pgtable
-+	 *
-+	 * Set while a VM_BIND job is running, serialized under
-+	 * msm_gem_vm::op_lock.
++	if (WARN_ON(list_empty(&arg->submit->preallocated_vmas)))
++		return NULL;
++
++	vma = list_first_entry(&arg->submit->preallocated_vmas,
++			       struct msm_gem_vma, base.rb.entry);
++
++	list_del(&vma->base.rb.entry);
++
++	return __vma_init(vma, arg->vm, op->gem.obj, op->gem.offset,
++			  op->va.addr, op->va.addr + op->va.range);
++}
++
++static int
++msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *arg)
++{
++	struct drm_gem_object *obj = op->map.gem.obj;
++	struct drm_gpuva *vma;
++	struct sg_table *sgt;
++	unsigned prot;
++
++	vma = vma_from_op(arg, &op->map);
++
++	vm_dbg("%p:%p: %016llx %016llx", vma->vm, vma, vma->va.addr, vma->va.range);
++
++	if (obj) {
++		sgt = to_msm_bo(obj)->sgt;
++		prot = msm_gem_prot(obj);
++	} else {
++		sgt = NULL;
++		prot = IOMMU_READ | IOMMU_WRITE;
++	}
++
++	if (WARN_ON(IS_ERR(vma)))
++		return PTR_ERR(vma);
++
++	vma->flags = ((struct op_arg *)arg)->flags;
++
++	return msm_gem_vma_map(vma, prot, sgt);
++}
++
++static int
++msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
++{
++	struct drm_gpuvm *vm = ((struct op_arg *)arg)->vm;
++	struct drm_gpuva *orig_vma = op->remap.unmap->va;
++	struct drm_gpuva *prev_vma = NULL, *next_vma = NULL;
++	uint64_t unmap_start, unmap_range;
++	unsigned flags;
++
++	vm_dbg("orig_vma: %p:%p: %016llx %016llx", vm, orig_vma, orig_vma->va.addr, orig_vma->va.range);
++
++	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
++
++	msm_gem_vma_unmap_range(op->remap.unmap->va, unmap_start, unmap_range);
++
++	/*
++	 * Part of this GEM obj is still mapped, but we're going to kill the
++	 * existing VMA and replace it with one or two new ones (ie. two if)
++	 * the unmapped range is in the middle of the existing (unmap) VMA.
++	 * So just set the state to unmapped:
 +	 */
-+	struct msm_mmu_prealloc *prealloc;
++	to_msm_vma(orig_vma)->mapped = false;
++
++	/*
++	 * The prev_vma and/or next_vma are replacing the unmapped vma, and
++	 * therefore should preserve it's flags:
++	 */
++	flags = orig_vma->flags;
++
++	__vma_close(orig_vma);
++
++	if (op->remap.prev) {
++		prev_vma = vma_from_op(arg, op->remap.prev);
++		if (WARN_ON(IS_ERR(prev_vma)))
++			return PTR_ERR(prev_vma);
++
++		vm_dbg("prev_vma: %p:%p: %016llx %016llx", vm, prev_vma, prev_vma->va.addr, prev_vma->va.range);
++		to_msm_vma(prev_vma)->mapped = true;
++		prev_vma->flags = flags;
++	}
++
++	if (op->remap.next) {
++		next_vma = vma_from_op(arg, op->remap.next);
++		if (WARN_ON(IS_ERR(next_vma)))
++			return PTR_ERR(next_vma);
++
++		vm_dbg("next_vma: %p:%p: %016llx %016llx", vm, next_vma, next_vma->va.addr, next_vma->va.range);
++		to_msm_vma(next_vma)->mapped = true;
++		next_vma->flags = flags;
++	}
++
++	return 0;
++}
++
++static int
++msm_gem_vm_sm_step_unmap(struct drm_gpuva_op *op, void *priv)
++{
++	struct drm_gpuva *vma = op->unmap.va;
++
++	vm_dbg("%p:%p: %016llx %016llx", vma->vm, vma, vma->va.addr, vma->va.range);
++
++	msm_gem_vma_unmap(vma);
++	__vma_close(vma);
++
++	return 0;
++}
++
+ static const struct drm_gpuvm_ops msm_gpuvm_ops = {
+ 	.vm_free = msm_gem_vm_free,
++	.vm_bo_validate = msm_gem_vm_bo_validate,
++	.sm_step_map = msm_gem_vm_sm_step_map,
++	.sm_step_remap = msm_gem_vm_sm_step_remap,
++	.sm_step_unmap = msm_gem_vm_sm_step_unmap,
  };
  
- static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
-@@ -52,7 +86,7 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
- 	mmu->handler = handler;
++static void
++cond_lock(struct drm_gem_object *obj)
++{
++	if (!obj)
++		return;
++
++	/*
++	 * Hold a ref while we have the obj locked, so drm_gpuvm doesn't
++	 * manage to drop the last ref to the obj while it is locked:
++	 */
++	drm_gem_object_get(obj);
++	msm_gem_lock(obj);
++}
++
++static void
++cond_unlock(struct drm_gem_object *obj)
++{
++	if (!obj)
++		return;
++
++	msm_gem_unlock(obj);
++	/* Drop the ref obtained in cond_lock(): */
++	drm_gem_object_put(obj);
++}
++
++static int
++run_bo_unmap(struct op_arg *arg, u64 req_addr, u64 req_range)
++{
++	struct drm_gpuva *vma, *next;
++	struct drm_gpuvm *vm = arg->vm;
++	int ret;
++	u64 req_end = req_addr + req_range;
++
++	GEM_WARN_ON(!mutex_is_locked(&to_msm_vm(vm)->op_lock));
++
++	/*
++	 * There are two locks at play when it comes to inserting/
++	 * removing objs into a VM.  There is vm->vm_lock and the
++	 * obj resv lock.  Because there are N objs and M VMs, and
++	 * an obj can be attached to an arbitrary # of VMs, the only
++	 * alternative is a single global lock.
++	 *
++	 * With two locks at play, there are two possible orderings
++	 * of locking:
++	 *
++	 * 1) locking obj first, and then vm_lock.  The problem with
++	 *    this ordering is that OP_UNMAP can be touching an
++	 *    arbitrary # of VMAs, with their own objs.  So we have
++	 *    no way to know which objs to lock without traversing
++	 *    the VM.  Which requires vm_lock!
++	 *
++	 * 2) vm_lock first, and then obj lock.  The problem with this
++	 *    ordering is that non-VM_BIND (ie. kernel managed VM)
++	 *    userspace relies on implicit VMA teardown when a BO is
++	 *    freed.  Which means there are paths where we need to
++	 *    traverse the obj's gpuva list to find the VM(s).  Which
++	 *    requires the obj lock!
++	 *
++	 * To resolve this we rely on the fact that, with a VM_BIND
++	 * userspace the legacy paths are disallowed.  And all paths
++	 * which modify the VM also hold op_lock.  So we can savely
++	 * reach into the VM to find the first object to lock.  But
++	 * it means having to bypass drm_gpuvm_sm_unmap(), and pull
++	 * out the impacted VMAs ourself.
++	 *
++	 * (The other option would be to use drm_gpuvm_sm_unmap_ops_create(),
++	 * but that requires memory allocation.. which we can't do
++	 * here.)
++	 */
++	drm_gpuvm_for_each_va_range_safe(vma, next, vm, req_addr, req_end) {
++		struct drm_gem_object *obj = vma->gem.obj;
++
++		cond_lock(obj);
++		mutex_lock(&to_msm_vm(vm)->vm_lock);
++
++		ret = drm_gpuvm_sm_unmap_va(vma, arg,
++					    vma->va.addr,
++					    vma->va.range);
++
++		mutex_unlock(&to_msm_vm(vm)->vm_lock);
++		cond_unlock(obj);
++
++		if (ret)
++			break;
++	}
++
++	return ret;
++}
++
+ static int
+ run_bo_op(struct msm_gem_submit *submit, const struct msm_gem_submit_bo *bo)
+ {
++	struct msm_gem_vm *vm = to_msm_vm(submit->vm);
++	struct op_arg arg = {
++		.vm = submit->vm,
++		.submit = submit,
++	};
+ 	unsigned op = bo->flags & MSM_SUBMIT_BO_OP_MASK;
++	int ret;
+ 
+-	switch (op) {
+-	case MSM_SUBMIT_BO_OP_MAP:
+-	case MSM_SUBMIT_BO_OP_MAP_NULL:
+-		return drm_gpuvm_sm_map(submit->vm, submit->vm, bo->iova,
+-					bo->range, bo->obj, bo->bo_offset);
+-		break;
+-	case MSM_SUBMIT_BO_OP_UNMAP:
+-		return drm_gpuvm_sm_unmap(submit->vm, submit->vm, bo->iova,
+-					  bo->bo_offset);
++	if (op == MSM_SUBMIT_BO_OP_UNMAP) {
++		vm_dbg("UNMAP: %p: %016llx %016llx", vm, bo->iova, bo->range);
++		ret = run_bo_unmap(&arg, bo->iova, bo->range);
++	} else {
++		if ((op == MSM_SUBMIT_BO_OP_MAP) &&
++		    (bo->flags & MSM_SUBMIT_BO_DUMP))
++			arg.flags |= MSM_VMA_DUMP;
++
++		cond_lock(bo->obj);
++		mutex_lock(&vm->vm_lock);
++
++		vm_dbg("MAP: %p: %016llx %016llx", vm, bo->iova, bo->range);
++		ret = drm_gpuvm_sm_map(submit->vm, &arg,
++				       bo->iova, bo->range,
++				       bo->obj, bo->bo_offset);
++
++		mutex_unlock(&vm->vm_lock);
++		cond_unlock(bo->obj);
+ 	}
+ 
+-	return -EINVAL;
++	return ret;
  }
  
--struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent);
-+struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent, bool kernel_managed);
+ static struct dma_fence *
+ msm_vma_job_run(struct drm_sched_job *job)
+ {
+ 	struct msm_gem_submit *submit = to_msm_submit(job);
++	struct msm_gem_vm *vm = to_msm_vm(submit->vm);
++	int ret = 0;
++
++	vm_dbg("");
++
++	mutex_lock(&vm->op_lock);
++	vm->mmu->prealloc = &submit->prealloc;
  
- int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
- 			       int *asid);
+ 	for (unsigned i = 0; i < submit->nr_bos; i++) {
+ 		int ret = run_bo_op(submit, &submit->bos[i]);
+ 		if (ret) {
+ 			to_msm_vm(submit->vm)->unusable = true;
+-			return ERR_PTR(ret);
+ 		}
+ 	}
+ 
+@@ -240,8 +512,11 @@ msm_vma_job_run(struct drm_sched_job *job)
+ 		msm_gem_unlock(obj);
+ 	}
+ 
++	vm->mmu->prealloc = NULL;
++	mutex_unlock(&vm->op_lock);
++
+ 	/* VM_BIND ops are synchronous, so no fence to wait on: */
+-	return NULL;
++	return ERR_PTR(ret);
+ }
+ 
+ static void
+@@ -404,6 +679,7 @@ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
+ 
+ 	spin_lock_init(&vm->mm_lock);
+ 	mutex_init(&vm->vm_lock);
++	mutex_init(&vm->op_lock);
+ 
+ 	vm->mmu = mmu;
+ 	vm->managed = managed;
+@@ -433,6 +709,9 @@ void
+ msm_gem_vm_close(struct drm_gpuvm *gpuvm)
+ {
+ 	struct msm_gem_vm *vm = to_msm_vm(gpuvm);
++	struct op_arg arg = {
++		.vm = gpuvm,
++	};
+ 
+ 	/*
+ 	 * For kernel managed VMs, the VMAs are torn down when the handle is
+@@ -444,4 +723,12 @@ msm_gem_vm_close(struct drm_gpuvm *gpuvm)
+ 	/* Kill the scheduler now, so we aren't racing with it for cleanup: */
+ 	drm_sched_stop(&vm->sched, NULL);
+ 	drm_sched_fini(&vm->sched);
++
++	/* Serialize against vm scheduler thread: */
++	mutex_lock(&vm->op_lock);
++
++	/* Tear down any remaining mappings: */
++	run_bo_unmap(&arg, gpuvm->mm_start, gpuvm->mm_range);
++
++	mutex_unlock(&vm->op_lock);
+ }
 -- 
 2.48.1
 
