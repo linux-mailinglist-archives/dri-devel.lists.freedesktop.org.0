@@ -2,87 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27122A6953B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 17:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BFFA69555
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 17:49:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E34E010E148;
-	Wed, 19 Mar 2025 16:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7E310E0FA;
+	Wed, 19 Mar 2025 16:49:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E/DGZCMj";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="T9JsZip/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD9110E148;
- Wed, 19 Mar 2025 16:43:56 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-2ff73032ac0so1094589a91.3; 
- Wed, 19 Mar 2025 09:43:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742402634; x=1743007434; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G5BNJ4m+r3o40jW+KqQYzYpok7VJ6qTlzwR/jvK1izM=;
- b=E/DGZCMjG7nXcnDqaiCaWX3YTpdRN0Q1wBGJxgYL83Xuw3KyjS7Am333AuSBmdHr7Y
- m8aikXZpE76aaGRqYQLggbZgqNLluKIklPdRugcUAY5hNmtOzRnzuJJu95jI0+JEYAre
- vy09aGteMIyxrmnZc/Ra5wB/CGwyonptESsiz/l01lkndStnCPe967d9EIvRvN7Xcvhj
- 9COeD0rMJCJHppm21NVtYIHcWil0j9rzjuWoGb1Jc/Sek24hdM8sdad7eeS0e+NndlYW
- LufCiraqaJPYY7f6SDZM9vobR8+oRLRHZR64lQAdznKnXTArtXP5KbrhMl2qgTupYWc/
- ur7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742402634; x=1743007434;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=G5BNJ4m+r3o40jW+KqQYzYpok7VJ6qTlzwR/jvK1izM=;
- b=GIO7UhBttzYkY/F9c5kESv7o30/yra89RzZ839o2T2253+s5qTMP7trv7LsAkhbO17
- E8uRFfC61+mpqrj5W4G+pOMwpkiwljVYuGSyeHEOaax2MHkQwBAcP62nK7wTNO2fP0hf
- AsNGXgE5DsR7iRG9oHt78S8Y2J16cz9MJ7vRR04bwi1GTrQ7TbhBoEyw0IxjqatmaFom
- 7ClsDXGYNEyp4Ns2x6tJ5x2mJ8S9DJoInoJNcPNdFhMdeQjTES5Q1mniUkLwjOFQHnUe
- A6Ss1XPAkRd38jnkcN1xer8GjYvsL1bmP2JPDxH6nOKYyi1yafIgmycSdZ5Q0pDKApQI
- cOFQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUysfNY5iDEwzPEBlaz9Z7JPVPdnLS9+UPC1Rvdf55WpT50bNk3XDDfr4RuwGNB9lh4FD4o6Ye0BG0=@lists.freedesktop.org,
- AJvYcCWxH0qpBm3Acv7CEQQRY7P33k05CRS3yNygpDbysuGBjBtz7ahpeDtBOYJDzXw2W9Vv34EU1hTQBQ==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy0yBPnlgpfq2xYs3C9Cuq7zSttaqjpRn5o+2jzbbjwDihEFMLw
- RcxF+zwJJWT30pKsUS+k5ODJWPewJ1UL28gcaXZzVQz1XRsMDao63Inwow0fqz47TwZ8RfT6eeO
- ZLtfKMPJLbCxLpx6HjEmR7coVAXo=
-X-Gm-Gg: ASbGncvX9VF2lAWC28QMLVOTHBgw9E0eTQGxT1Iqp4Vr92A7xoI+9934vHu85t3ZFsG
- 6wCnfRZmt1OTFNFHaqssUUCj0Qm/gNhyfNOgBrNsQvsJWdLgThTF6OuM+TeYlnSnGvOaDGDvATu
- YEMSk84RhSbe0+oicuKdcfGf/5oA==
-X-Google-Smtp-Source: AGHT+IE6prSwtYU8jejOPsFrwL3RDnyz90ZHDcNbMw1dnn0qFUyiFfKtLcqRpq6p+gU5DbquskqSKPCLBmcBo6KTjo0=
-X-Received: by 2002:a17:90b:1c08:b0:2fe:b972:a2c3 with SMTP id
- 98e67ed59e1d1-301bfb7e9demr1882412a91.0.1742402633787; Wed, 19 Mar 2025
- 09:43:53 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C380910E0FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 16:49:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1742402978;
+ bh=LPfVfrg8hx/lh7QEE3SxWHepoEcZXFl7iXM7aaRLY/w=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=T9JsZip/+afFVovfMmo8vVTqxiOCARtWRKETM/26vqVlrqfcj0HpdMbogVO8bX6o3
+ RUuctXwDD4COnelrpskMueE7VGwC9FuBgS5YsklRbGlWABTybzM9llfUccU7n1Cm2z
+ Dw4AVmZ3AASBLo3P0WAE3EU/MYbmjhcxjDZHPnmfak51x7pPW4np2rCh1hCTEPY0kZ
+ qnnkk7aD1aFKbsjT58/6S5+hMcmVB78sFr1SR/DPZR1bg/XvqePMd64DWPZYjQ5Vk1
+ 3bi/nVfdZRgZWxNXNbLyDHna6kadSEiJvpDjBwTaE5cpdEjFaV5DpO+G1nT308FocQ
+ mCdAOuGlbc6oA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0DE9F17E086B;
+ Wed, 19 Mar 2025 17:49:38 +0100 (CET)
+Date: Wed, 19 Mar 2025 17:49:34 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] drm/panthor: Introduce BO labeling
+Message-ID: <20250319174934.3efce6e5@collabora.com>
+In-Reply-To: <20250319150953.1634322-2-adrian.larumbe@collabora.com>
+References: <20250319150953.1634322-1-adrian.larumbe@collabora.com>
+ <20250319150953.1634322-2-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20250316111644.154602-1-andrewjballance@gmail.com>
- <20250316111644.154602-3-andrewjballance@gmail.com>
- <CAJ-ks9kAROOfyPtxMe6LE4-UPsvXca2sQ2VDjhRchZp3HLddGg@mail.gmail.com>
- <D8JTWL8JY7DM.3IVH6FZ4M49CB@proton.me>
- <CAJ-ks9k+A1+0CWXZmD2m0+jRqTRTNFn-=d9VXqytiOqvn4BR0w@mail.gmail.com>
- <D8KBFC9M74H5.4ZJ2SJK06SGR@proton.me>
- <CAJ-ks9=NQrz3ySacKt+XXm2vS+Fn9gjmtqAaaoz1k=iTG_1HXw@mail.gmail.com>
- <CANiq72mnT73Mb7RJhZjf4de=_Orv4pipunMhOersOj_aqrFA-g@mail.gmail.com>
- <CAJ-ks9=23qEqxT5rivsbfNYC6iUP4RXsKbcDU9XDx32ERnKbYg@mail.gmail.com>
-In-Reply-To: <CAJ-ks9=23qEqxT5rivsbfNYC6iUP4RXsKbcDU9XDx32ERnKbYg@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 19 Mar 2025 17:43:40 +0100
-X-Gm-Features: AQ5f1JoD8JRbysUimai1WtvAXi34kvhXnv2WVJ5eMVKyON4mEJVuBdVGab5J3Xw
-Message-ID: <CANiq72kfgDVkKAeX1SiahEoo13+kHrcvVY3hMAfRPGjwErCt6A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] rust: alloc: add Vec::resize method
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Benno Lossin <benno.lossin@proton.me>,
- Andrew Ballance <andrewjballance@gmail.com>, dakr@kernel.org, 
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, ojeda@kernel.org, 
- alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
- bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com, 
- tmgross@umich.edu, acourbot@nvidia.com, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,27 +65,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 19, 2025 at 5:13=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
- wrote:
->
-> No, I meant avoiding the check. The existing code already explicitly
-> checks `new_len > self.len()` before evaluating `new_len -
-> self.len()`. This means the check occurs twice. `checked_sub` reduces
-> the number of checks by 1. Perhaps my wording could have been clearer
-> ("avoid *an* underflow check").
+On Wed, 19 Mar 2025 15:03:16 +0000
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Ah, you mean in the function you suggested, I see.
+> Add a new character string Panthor BO field, and a function that allows
+> setting it from within the driver.
+>=20
+> Driver takes care of freeing the string when it's replaced or no longer
+> needed at object destruction time, but allocating it is the responsibility
+> of callers.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_gem.c | 24 ++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h | 17 +++++++++++++++++
+>  2 files changed, 41 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
+hor/panthor_gem.c
+> index 8244a4e6c2a2..165c7f4eb920 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -18,6 +18,9 @@ static void panthor_gem_free_object(struct drm_gem_obje=
+ct *obj)
+>  	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
+>  	struct drm_gem_object *vm_root_gem =3D bo->exclusive_vm_root_gem;
+> =20
+> +	kfree(bo->label.str);
 
-I think it they all may compile down to the same thing, whether
-overflows checks are enabled or not, and whether the version in the
-patch or `checked_sub` is used or not. At least in a quick Compiler
-Explorer test it seems so, but I didn't check in an actual kernel
-build.
+	/* Label might have been allocated with kstrdup_const(),
+	 * we need to take that into account when freeing the memory.
+	 */
+	kfree_const(bo->label.str);
 
-The implicit check is gated behind the other one, so that one can be
-removed, even if values are unknown -- we always have optimizations
-enabled, even under "debug" builds (assuming "debug" means overflow
-checking enabled).
+> +	mutex_destroy(&bo->label.lock);
+> +
+>  	drm_gem_free_mmap_offset(&bo->base.base);
+>  	mutex_destroy(&bo->gpuva_list_lock);
+>  	drm_gem_shmem_free(&bo->base);
+> @@ -196,6 +199,7 @@ struct drm_gem_object *panthor_gem_create_object(stru=
+ct drm_device *ddev, size_t
+>  	obj->base.map_wc =3D !ptdev->coherent;
+>  	mutex_init(&obj->gpuva_list_lock);
+>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+> +	mutex_init(&obj->label.lock);
+> =20
+>  	return &obj->base.base;
+>  }
+> @@ -247,3 +251,23 @@ panthor_gem_create_with_handle(struct drm_file *file,
+> =20
+>  	return ret;
+>  }
+> +
+> +void
+> +panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
+> +{
+> +	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
+> +	const char *old_label;
+> +
+> +	mutex_lock(&bo->label.lock);
+> +	old_label =3D bo->label.str;
+> +	bo->label.str =3D label;
+> +	mutex_unlock(&bo->label.lock);
+> +
+> +	kfree(old_label);
+> +}
+> +
+> +void
+> +panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char=
+ *label)
+> +{
+> +	panthor_gem_bo_set_label(bo->obj, kstrdup_const(label, GFP_KERNEL));
 
-Cheers,
-Miguel
+You ignore the OOM case. Not sure it can happen in practice, and it's
+probably okay if we keep going in that case, because this is just debug
+information, but maybe this should be documented here.
+
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
+hor/panthor_gem.h
+> index 5749ef2ebe03..0582826b341a 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -46,6 +46,20 @@ struct panthor_gem_object {
+> =20
+>  	/** @flags: Combination of drm_panthor_bo_flags flags. */
+>  	u32 flags;
+> +
+> +	/**
+> +	 * @label: BO tagging fields. The label can be assigned within the
+> +	 * driver itself or through a specific IOCTL.
+> +	 */
+> +	struct {
+> +		/**
+> +		 * @label.str: Pointer to NULL-terminated string,
+> +		 */
+> +		const char *str;
+> +
+> +		/** @lock.str: Protects access to the @label.str field. */
+> +		struct mutex lock;
+> +	} label;
+>  };
+> =20
+>  /**
+> @@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  			       struct panthor_vm *exclusive_vm,
+>  			       u64 *size, u32 flags, uint32_t *handle);
+> =20
+> +void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *la=
+bel);
+> +void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const=
+ char *label);
+> +
+>  static inline u64
+>  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
+>  {
+
