@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3ADA681A3
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 01:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B31A681AD
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 01:50:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ACBF10E241;
-	Wed, 19 Mar 2025 00:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1479010E284;
+	Wed, 19 Mar 2025 00:50:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rYYzbKDe";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="OuvlnTKG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E03E10E241
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 00:41:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BB4525C5848
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 00:38:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 44AC3C4CEDD
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 00:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742344873;
- bh=3r4mn+8KZeBQAoyBUs5TwovvAVXXMVlg9S6b1DQU/QA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=rYYzbKDedC1RxWd8zUFAGjrXzjouVHsjmI6ROIEXrHxqAhvtSQTYMWWmXNrHvXB1L
- vEXTRKCgKxCiYhKRNmsAPF4s6GDLODZfy4wZFEBM9MCcgs0AvDjv0RRWInFO+ZPxwj
- cLAdjq2g1wQidL1Bx6LYE27gJeceoPpDGY/T3f2hmOCfj6j2wi+lUtu75P3/XQQesE
- t5c5LkQyIhlq7B94oTPEmY48WSCyY05+SmKNKyytjuZbsLecjg4tYlOt9ho8e0zmJi
- ST3agpLiWC6StCQ+aXOAGuAkM9wflvr3dww5AsfGBDJZdVXLovzU+kQ4Rnzozplv2b
- ybSc0R6pLTvDA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3D73FC3279F; Wed, 19 Mar 2025 00:41:13 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 219895] amdgpu spamming log [drm] scheduler comp_1.0.1 is not
- ready, skipping and becoming slow
-Date: Wed, 19 Mar 2025 00:41:13 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kontakt@sandberg-consult.dk
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219895-2300-sna5i9njlR@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219895-2300@https.bugzilla.kernel.org/>
-References: <bug-219895-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch
+ [79.135.106.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B755010E4D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 00:50:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=6jba5to2fzf2tmn4smqyqpdmoq.protonmail; t=1742345439; x=1742604639;
+ bh=VkL2Mxif+LYFPEMvRY4YuHUJQ31AetP3+c0xD9LJp+0=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=OuvlnTKGDYLlG88upDBw7wr7g3AGCYM0aTNk3kRAoVprUuW+CF/kqquXw1cSicdLT
+ uVn/H329nesx/xyayy2Fazl1UVyHZV/K9jTFAG2dKFAG0dRAq2X9EKmPTvy44/LhqH
+ UHiRD60+7g1KXwgS4aJRWHPWE1eO7El1z6MIJnTGMDd/5NPPy77oQsWCNSa40MHR0S
+ +WoI4I0EQk/x2iIHvxkVkXQ4zY4IbT36G7wYMVsFjOsIpmc8INPwpP/zzcrIZZVBJD
+ ylra/qToQwv/F1EBGmh2weZubQEmvOe9vyQrqoJEt34Dm4R4WYR1Ork8tDUjgM+Fbl
+ mmXzZ4qWCyItw==
+Date: Wed, 19 Mar 2025 00:50:29 +0000
+To: Tamir Duberstein <tamird@gmail.com>,
+ Andrew Ballance <andrewjballance@gmail.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org,
+ aliceryhl@google.com, tmgross@umich.edu, acourbot@nvidia.com,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] rust: alloc: add Vec::resize method
+Message-ID: <D8JTWL8JY7DM.3IVH6FZ4M49CB@proton.me>
+In-Reply-To: <CAJ-ks9kAROOfyPtxMe6LE4-UPsvXca2sQ2VDjhRchZp3HLddGg@mail.gmail.com>
+References: <20250316111644.154602-1-andrewjballance@gmail.com>
+ <20250316111644.154602-3-andrewjballance@gmail.com>
+ <CAJ-ks9kAROOfyPtxMe6LE4-UPsvXca2sQ2VDjhRchZp3HLddGg@mail.gmail.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 124220e04b60981fd23d64c8176e2b18357079aa
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,27 +66,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219895
+On Tue Mar 18, 2025 at 9:12 PM CET, Tamir Duberstein wrote:
+> On Sun, Mar 16, 2025 at 7:17=E2=80=AFAM Andrew Ballance
+> <andrewjballance@gmail.com> wrote:
+>> +    pub fn resize(&mut self, new_len: usize, value: T, flags: Flags) ->=
+ Result<(), AllocError> {
+>> +        if new_len > self.len() {
+>> +            self.extend_with(new_len - self.len(), value, flags)
+>> +        } else {
+>> +            self.truncate(new_len);
+>> +            Ok(())
+>> +        }
+>> +    }
+>
+> You can avoid underflow checking in debug builds by using `checked_sub`:
 
---- Comment #1 from Kasper Sandberg (kontakt@sandberg-consult.dk) ---
-I should note that when its in this state, its also slow to read the sensor
-readings using lmsensors, the following block:
+`checked_sub` doesn't only avoid underflow in debug builds, but rather
+in all builds. But the code below is a good suggestion.
 
-amdgpu-pci-0700
-Adapter: PCI adapter
-vddgfx:        1.10 V=20=20
-fan1:             N/A  (min =3D    0 RPM, max =3D 3500 RPM)
-edge:         +27.0=C2=B0C  (crit =3D +94.0=C2=B0C, hyst =3D -273.1=C2=B0C)
-PPT:           9.23 W  (cap =3D  48.00 W)
-pwm1:            128%
-sclk:         562 MHz=20
-mclk:         300 MHz=20
+---
+Cheers,
+Benno
 
-usually goes so fast that it returns instantly, but when its throwing these
-errors, it takes ~1sec
+>         match new_len.checked_sub(self.len()) {
+>             Some(n) =3D> self.extend_with(n, value, flags),
+>             None =3D> {
+>                 self.truncate(new_len);
+>                 Ok(())
+>             }
+>         }
+>
+>>  }
+>>
+>>  impl<T, A> Drop for Vec<T, A>
+>> --
+>> 2.48.1
+>>
+>>
+>
+> Either way:
+>
+> Reviewed-by: Tamir Duberstein <tamird@gmail.com>
 
---=20
-You may reply to this email to add a comment.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
