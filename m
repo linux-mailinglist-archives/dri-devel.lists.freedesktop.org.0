@@ -2,73 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27252A685BC
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 08:22:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD11DA685DB
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 08:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D550A10E2D9;
-	Wed, 19 Mar 2025 07:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3D4210E1A0;
+	Wed, 19 Mar 2025 07:37:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Um5DAWrM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Cmzv5gwp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id F1DD210E2D9
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 07:22:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=HupDjwzKGp64bUFzDt519cTKqfLw6iMqZS1XLR0pl80=; b=U
- m5DAWrMQg0RA/bGxKlI13RZCDzMLOAJd7uZQmDn1GGBwcbhpLfO9DqoN5I2DTWqk
- Usk9GW8SqPxoa1NOEddbuQSNcS4Ewa04tQUm7M9lJQjbXOFioTfxPuVIjSFE/di7
- 39FJXwdXBBWcuw7n9+kBM16N2haGnrxja9wUZfWGNg=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-119 (Coremail) ; Wed, 19 Mar 2025 15:21:35 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Wed, 19 Mar 2025 15:21:35 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Cc: "Maxime Ripard" <mripard@kernel.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Douglas Anderson" <dianders@chromium.org>,
- "Herve Codina" <herve.codina@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, lumag@kernel.org
-Subject: Re:Re: [PATCH v5 04/16] drm/atomic: Introduce helper to lookup
- connector by encoder
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <lsbzit4765y6jrw7jmbpfb6rixidenpndjwgw2yx57rz2espux@hbfco2ht6vwi>
-References: <5180089f.a640.19566290538.Coremail.andyshrk@163.com>
- <608c01c.7716.1958e8d879f.Coremail.andyshrk@163.com>
- <20250313-dazzling-deer-of-ampleness-21db67@houat>
- <6ae1c567.8c6.195922195d6.Coremail.andyshrk@163.com>
- <k2md4q2tgwsdynaeljieqlzjdds677wqqduimfyrgmvyfi732a@vh3dbg7kdaop>
- <20250314-courageous-bison-of-prestige-8b884b@houat>
- <lf4wu5v3wym3foqgimuulyzz2dmd2jezkj3otn7xm7xp77nast@azqmajrn45lw>
- <20250314-hissing-spirited-armadillo-dc9d3a@houat>
- <2tfryn5plcqysdobavbjljnd3rq5ar2n2qmeyyryk6wqbx2zpk@qvqpkxe5ffjl>
- <20250318-active-giraffe-of-memory-e0c66d@houat>
- <lsbzit4765y6jrw7jmbpfb6rixidenpndjwgw2yx57rz2espux@hbfco2ht6vwi>
-X-NTES-SC: AL_Qu2fAP+dt0Ai4yObZOkfmkcVgOw9UcO5v/Qk3oZXOJF8jD7p5j8LWEJSJUn20uO0DAKTmgmGUTZlxdZdZI19Z4MNtXsw6zWW9kEJMMebg48ObA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
+ [209.85.160.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBAFA10E1A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 07:37:50 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id
+ 586e51a60fabf-2c11ddc865eso2187541fac.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 00:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1742369870; x=1742974670; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=owwDzzKUpGneXk0r6P0900oOLRuhEZkHOZ3jJ6/2920=;
+ b=Cmzv5gwpfm408wo6D6yQiYztEQzCk2XmjZBY5NPZ/irLCF1WRNVix8wziREGsSxxZy
+ TleiYqllHdKBCWnXIMLz4WnuJHOHC8JSn6bGNGoWifF+ucsyaw5MP3JLpSk7gObInliP
+ g7DqHS5Bk44Cx4udY3G5jpoJja3PTkNibbATV9oBsqTUlCFZgjCTGsoOvlKvkBtu4i7z
+ sdmBqNI2VljV6i9D/R0Bx08fkgmYAAQidsm8V87RG8bir6sIyfkj1sbrmVNzRU9s0pq3
+ 3360IG67VoYZbELexY+68TdZCrBipcJDlXLvzliJML9qvvN3GL71QgS0uJ+yL5W8mTGI
+ PhXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742369870; x=1742974670;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=owwDzzKUpGneXk0r6P0900oOLRuhEZkHOZ3jJ6/2920=;
+ b=rEx3Nbr09ZdyRfme4uiciel/hKJkrlenIrPedXAu9ygUnpCkamTfjxRgD/3oP6yE7H
+ v6agFrwIxEyGTOUuJoWJ7YwXO/QqSdf83I3PeIUMYt+Z1lnbblZMWmLqZCap6ZVRiWrQ
+ kGtKC6slT/E/pnIZSG+ivXvSkoGHwV6oGTEvok3viEiILGBMdO3Rms7Vb8XGc9XAzK13
+ XWTbwmkg7AYbQ5sCNBv8ieMs1a3J1XwaKVCUVRYz6SoHLvfwOGBxiLAsb4Y2GsZJg4pj
+ YJkNgsd1KmhQal4HqNRUeVZedKj90dERWbJ6jmyexlj+cwaVrY5jxcXY1sxk+5G50ZRK
+ 4tLg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWERPo9YHZ31apgGacA5vb24Er0FqDn3qOUQFcHr1+gKXOIlv88X+V6VeKFk3/gAdMcIgnQHJuUxlw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw3vGlqcOLqCEjpHvpD++1cnBT+lpF5VyPblpBktSll/NjFWtYe
+ +t/soWt5jGS1BH4euRP7mG9mxfT5VFtDrR+Xwke4yjRqjRkaiIOxqeZ/DyipV2eGHekyvkyt67q
+ tujGGpBRMwnKEBt7q5ZfVNnMEiiW7jjOh75livQ==
+X-Gm-Gg: ASbGnct6BS3Wj5I/OyE6UDftUeuGDKKY3+WWVe6z0LQhk+Xd0vTYA6ucV57YBQWv1lk
+ Eib5zPRT1yKPJwyEqq6442ljT6f41Mi93fu6HYqYh7IpHlIewM7Lfs6U3RSUZizcdGE1PeX9QKe
+ WxEU9g60X+jI8vJ0kjreOT735pOBI=
+X-Google-Smtp-Source: AGHT+IHhlr0ebpnI7ur3lSLDToxyweC0Ao9NnSXnP3sZR4rKFcxyBq8t5/yasVPUDL7hE6LOxReMuAl1+DoeTa0xu40=
+X-Received: by 2002:a05:6871:710:b0:29e:290f:7aea with SMTP id
+ 586e51a60fabf-2c745785fb8mr1233815fac.34.1742369869734; Wed, 19 Mar 2025
+ 00:37:49 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <21f10f97.6729.195ad477167.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: dygvCgDXX5B_cNpnCeOCAA--.3968W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqAgVXmfabLF-LwABsa
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+References: <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
+ <CAPj87rPHnME5Osgnf5-FSAu22mDpLj=dzvhi_NqEcOwr1ThgGw@mail.gmail.com>
+ <CAHUa44Gs0D1fBD0=+EDgcQUMeDv4knci9trUkYEc1J98qFV7HQ@mail.gmail.com>
+ <CAFA6WYOuTwRPEh3L7+hMyARB_E73xmp+OwhKyS-r4+ryS7=9sw@mail.gmail.com>
+ <20250214164856.0d2ead8a@collabora.com>
+ <CAFA6WYPc6EHQwcPuMZRm4C1P6SoDrCzEPUmju_meupB6NXQ1sg@mail.gmail.com>
+ <CAPj87rN-OYTzh5=Gdv619UQD5=x=U6Yt=uV4N1kCs4Zao4RVAg@mail.gmail.com>
+ <CAFA6WYMLLLSuz3y5J+DuRFAGrmwpZoWax5sasfAUhXoQXmrNNA@mail.gmail.com>
+ <CAPj87rN7J6u9NsviAdw8=OenEYc8t719Lds6u6-BhFKrtkLZ-A@mail.gmail.com>
+ <CAHUa44FkG1NAWpoW8UVBywv44XW_mjAJa32PcC9mcmiOLdiRqw@mail.gmail.com>
+ <Z8avsigZJ4vqmiA4@sumit-X1>
+ <32c29526416c07c37819aedabcbf1e562ee98bf2.camel@ndufresne.ca>
+In-Reply-To: <32c29526416c07c37819aedabcbf1e562ee98bf2.camel@ndufresne.ca>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Wed, 19 Mar 2025 08:37:38 +0100
+X-Gm-Features: AQ5f1JoBpDEcbO9dlVRTjtWYtOyjNLGsFkNPj_PW0jLG2Dag8-4LN8wDdyWmUJE
+Message-ID: <CAHUa44E11jYFrAFrZmNVTpLJ-XDs45QyTr-_DbeWBOQ0DjHPkQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Sumit Garg <sumit.garg@kernel.org>, Daniel Stone <daniel@fooishbar.org>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, Florent Tomasin <florent.tomasin@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,230 +110,240 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG/vvIwKCkF0IDIwMjUtMDMtMTkgMDM6MDA6MjksICJEbWl0cnkgQmFyeXNoa292IiA8ZG1p
-dHJ5LmJhcnlzaGtvdkBvc3MucXVhbGNvbW0uY29tPiB3cm90ZToKPk9uIFR1ZSwgTWFyIDE4LCAy
-MDI1IGF0IDA0OjUxOjE5UE0gKzAxMDAsIE1heGltZSBSaXBhcmQgd3JvdGU6Cj4+IE9uIEZyaSwg
-TWFyIDE0LCAyMDI1IGF0IDA4OjI4OjIyUE0gKzAyMDAsIERtaXRyeSBCYXJ5c2hrb3Ygd3JvdGU6
-Cj4+ID4gT24gRnJpLCBNYXIgMTQsIDIwMjUgYXQgMDY6NDA6MjRQTSArMDEwMCwgTWF4aW1lIFJp
-cGFyZCB3cm90ZToKPj4gPiA+IE9uIEZyaSwgTWFyIDE0LCAyMDI1IGF0IDA5OjU5OjM2QU0gKzAy
-MDAsIERtaXRyeSBCYXJ5c2hrb3Ygd3JvdGU6Cj4+ID4gPiA+IE9uIEZyaSwgTWFyIDE0LCAyMDI1
-IGF0IDA4OjQ1OjE3QU0gKzAxMDAsIE1heGltZSBSaXBhcmQgd3JvdGU6Cj4+ID4gPiA+ID4gT24g
-RnJpLCBNYXIgMTQsIDIwMjUgYXQgMDc6NTI6MzVBTSArMDIwMCwgRG1pdHJ5IEJhcnlzaGtvdiB3
-cm90ZToKPj4gPiA+ID4gPiA+IE9uIEZyaSwgTWFyIDE0LCAyMDI1IGF0IDA4OjUwOjI5QU0gKzA4
-MDAsIEFuZHkgWWFuIHdyb3RlOgo+PiA+ID4gPiA+ID4gPiBBdCAyMDI1LTAzLTEzIDE5OjU1OjMz
-LCAiTWF4aW1lIFJpcGFyZCIgPG1yaXBhcmRAa2VybmVsLm9yZz4gd3JvdGU6Cj4+ID4gPiA+ID4g
-PiA+ID5IaSwKPj4gPiA+ID4gPiA+ID4gPgo+PiA+ID4gPiA+ID4gPiA+T24gVGh1LCBNYXIgMTMs
-IDIwMjUgYXQgMDQ6MDk6NTRQTSArMDgwMCwgQW5keSBZYW4gd3JvdGU6Cj4+ID4gPiA+ID4gPiA+
-ID4+IEF0IDIwMjUtMDMtMDUgMTk6NTU6MTksICJBbmR5IFlhbiIgPGFuZHlzaHJrQDE2My5jb20+
-IHdyb3RlOgo+PiA+ID4gPiA+ID4gPiA+PiA+QXQgMjAyNS0wMy0wNCAxOToxMDo0NywgIk1heGlt
-ZSBSaXBhcmQiIDxtcmlwYXJkQGtlcm5lbC5vcmc+IHdyb3RlOgo+PiA+ID4gPiA+ID4gPiA+PiA+
-PldpdGggdGhlIGJyaWRnZXMgc3dpdGNoaW5nIG92ZXIgdG8gZHJtX2JyaWRnZV9jb25uZWN0b3Is
-IHRoZSBkaXJlY3QKPj4gPiA+ID4gPiA+ID4gPj4gPj5hc3NvY2lhdGlvbiBiZXR3ZWVuIGEgYnJp
-ZGdlIGRyaXZlciBhbmQgaXRzIGNvbm5lY3RvciB3YXMgbG9zdC4KPj4gPiA+ID4gPiA+ID4gPj4g
-Pj4KPj4gPiA+ID4gPiA+ID4gPj4gPj5UaGlzIGlzIG1pdGlnYXRlZCBmb3IgYXRvbWljIGJyaWRn
-ZSBkcml2ZXJzIGJ5IHRoZSBmYWN0IHlvdSBjYW4gYWNjZXNzCj4+ID4gPiA+ID4gPiA+ID4+ID4+
-dGhlIGVuY29kZXIsIGFuZCB0aGVuIGNhbGwgZHJtX2F0b21pY19nZXRfb2xkX2Nvbm5lY3Rvcl9m
-b3JfZW5jb2RlcigpIG9yCj4+ID4gPiA+ID4gPiA+ID4+ID4+ZHJtX2F0b21pY19nZXRfbmV3X2Nv
-bm5lY3Rvcl9mb3JfZW5jb2RlcigpIHdpdGggZHJtX2F0b21pY19zdGF0ZS4KPj4gPiA+ID4gPiA+
-ID4gPj4gPj4KPj4gPiA+ID4gPiA+ID4gPj4gPj5UaGlzIHdhcyBhbHNvIG1hZGUgZWFzaWVyIGJ5
-IHByb3ZpZGluZyBkcm1fYXRvbWljX3N0YXRlIGRpcmVjdGx5IHRvIGFsbAo+PiA+ID4gPiA+ID4g
-PiA+PiA+PmF0b21pYyBob29rcyBicmlkZ2VzIGNhbiBpbXBsZW1lbnQuCj4+ID4gPiA+ID4gPiA+
-ID4+ID4+Cj4+ID4gPiA+ID4gPiA+ID4+ID4+SG93ZXZlciwgYnJpZGdlIGRyaXZlcnMgZG9uJ3Qg
-aGF2ZSBhIHdheSB0byBhY2Nlc3MgZHJtX2F0b21pY19zdGF0ZQo+PiA+ID4gPiA+ID4gPiA+PiA+
-Pm91dHNpZGUgb2YgdGhlIG1vZGVzZXQgcGF0aCwgbGlrZSBmcm9tIHRoZSBob3RwbHVnIGludGVy
-cnVwdCBwYXRoIG9yIGFueQo+PiA+ID4gPiA+ID4gPiA+PiA+PmludGVycnVwdCBoYW5kbGVyLgo+
-PiA+ID4gPiA+ID4gPiA+PiA+Pgo+PiA+ID4gPiA+ID4gPiA+PiA+PkxldCdzIGludHJvZHVjZSBh
-IGZ1bmN0aW9uIHRvIHJldHJpZXZlIHRoZSBjb25uZWN0b3IgY3VycmVudGx5IGFzc2lnbmVkCj4+
-ID4gPiA+ID4gPiA+ID4+ID4+dG8gYW4gZW5jb2Rlciwgd2l0aG91dCB1c2luZyBkcm1fYXRvbWlj
-X3N0YXRlLCB0byBtYWtlIHRoZXNlIGRyaXZlcnMnCj4+ID4gPiA+ID4gPiA+ID4+ID4+bGlmZSBl
-YXNpZXIuCj4+ID4gPiA+ID4gPiA+ID4+ID4+Cj4+ID4gPiA+ID4gPiA+ID4+ID4+UmV2aWV3ZWQt
-Ynk6IERtaXRyeSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9yZz4KPj4gPiA+
-ID4gPiA+ID4gPj4gPj5Dby1kZXZlbG9wZWQtYnk6IFNpbW9uYSBWZXR0ZXIgPHNpbW9uYS52ZXR0
-ZXJAZmZ3bGwuY2g+Cj4+ID4gPiA+ID4gPiA+ID4+ID4+U2lnbmVkLW9mZi1ieTogTWF4aW1lIFJp
-cGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgo+PiA+ID4gPiA+ID4gPiA+PiA+Pi0tLQo+PiA+ID4g
-PiA+ID4gPiA+PiA+PiBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jIHwgNDUgKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPj4gPiA+ID4gPiA+ID4gPj4gPj4g
-aW5jbHVkZS9kcm0vZHJtX2F0b21pYy5oICAgICB8ICAzICsrKwo+PiA+ID4gPiA+ID4gPiA+PiA+
-PiAyIGZpbGVzIGNoYW5nZWQsIDQ4IGluc2VydGlvbnMoKykKPj4gPiA+ID4gPiA+ID4gPj4gPj4K
-Pj4gPiA+ID4gPiA+ID4gPj4gPj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9t
-aWMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMKPj4gPiA+ID4gPiA+ID4gPj4gPj5p
-bmRleCA5ZWEyNjExNzcwZjQzY2U3Y2NiYTQxMDQwNmQ1ZjJjNTI4YWFiMDIyLi5iOTI2YjEzMjU5
-MGU3OGY4ZDQxZDQ4ZWI0ZGE0YmNjZjE3MGVlMjM2IDEwMDY0NAo+PiA+ID4gPiA+ID4gPiA+PiA+
-Pi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMKPj4gPiA+ID4gPiA+ID4gPj4gPj4r
-KysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jCj4+ID4gPiA+ID4gPiA+ID4+ID4+QEAg
-LTk4NSwxMCArOTg1LDU1IEBAIGRybV9hdG9taWNfZ2V0X25ld19jb25uZWN0b3JfZm9yX2VuY29k
-ZXIoY29uc3Qgc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlLAo+PiA+ID4gPiA+ID4gPiA+
-PiA+PiAKPj4gPiA+ID4gPiA+ID4gPj4gPj4gCXJldHVybiBOVUxMOwo+PiA+ID4gPiA+ID4gPiA+
-PiA+PiB9Cj4+ID4gPiA+ID4gPiA+ID4+ID4+IEVYUE9SVF9TWU1CT0woZHJtX2F0b21pY19nZXRf
-bmV3X2Nvbm5lY3Rvcl9mb3JfZW5jb2Rlcik7Cj4+ID4gPiA+ID4gPiA+ID4+ID4+IAo+PiA+ID4g
-PiA+ID4gPiA+PiA+PisvKioKPj4gPiA+ID4gPiA+ID4gPj4gPj4rICogZHJtX2F0b21pY19nZXRf
-Y29ubmVjdG9yX2Zvcl9lbmNvZGVyIC0gR2V0IGNvbm5lY3RvciBjdXJyZW50bHkgYXNzaWduZWQg
-dG8gYW4gZW5jb2Rlcgo+PiA+ID4gPiA+ID4gPiA+PiA+PisgKiBAZW5jb2RlcjogVGhlIGVuY29k
-ZXIgdG8gZmluZCB0aGUgY29ubmVjdG9yIG9mCj4+ID4gPiA+ID4gPiA+ID4+ID4+KyAqIEBjdHg6
-IE1vZGVzZXQgbG9ja2luZyBjb250ZXh0Cj4+ID4gPiA+ID4gPiA+ID4+ID4+KyAqCj4+ID4gPiA+
-ID4gPiA+ID4+ID4+KyAqIFRoaXMgZnVuY3Rpb24gZmluZHMgYW5kIHJldHVybnMgdGhlIGNvbm5l
-Y3RvciBjdXJyZW50bHkgYXNzaWduZWQgdG8KPj4gPiA+ID4gPiA+ID4gPj4gPj4rICogYW4gQGVu
-Y29kZXIuCj4+ID4gPiA+ID4gPiA+ID4+ID4+KyAqCj4+ID4gPiA+ID4gPiA+ID4+ID4+KyAqIFJl
-dHVybnM6Cj4+ID4gPiA+ID4gPiA+ID4+ID4+KyAqIFRoZSBjb25uZWN0b3IgY29ubmVjdGVkIHRv
-IEBlbmNvZGVyLCBvciBhbiBlcnJvciBwb2ludGVyIG90aGVyd2lzZS4KPj4gPiA+ID4gPiA+ID4g
-Pj4gPj4rICogV2hlbiB0aGUgZXJyb3IgaXMgRURFQURMSywgYSBkZWFkbG9jayBoYXMgYmVlbiBk
-ZXRlY3RlZCBhbmQgdGhlCj4+ID4gPiA+ID4gPiA+ID4+ID4+KyAqIHNlcXVlbmNlIG11c3QgYmUg
-cmVzdGFydGVkLgo+PiA+ID4gPiA+ID4gPiA+PiA+PisgKi8KPj4gPiA+ID4gPiA+ID4gPj4gPj4r
-c3RydWN0IGRybV9jb25uZWN0b3IgKgo+PiA+ID4gPiA+ID4gPiA+PiA+Pitkcm1fYXRvbWljX2dl
-dF9jb25uZWN0b3JfZm9yX2VuY29kZXIoY29uc3Qgc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVy
-LAo+PiA+ID4gPiA+ID4gPiA+PiA+PisJCQkJICAgICBzdHJ1Y3QgZHJtX21vZGVzZXRfYWNxdWly
-ZV9jdHggKmN0eCkKPj4gPiA+ID4gPiA+ID4gPj4gPj4rewo+PiA+ID4gPiA+ID4gPiA+PiA+PisJ
-c3RydWN0IGRybV9jb25uZWN0b3JfbGlzdF9pdGVyIGNvbm5faXRlcjsKPj4gPiA+ID4gPiA+ID4g
-Pj4gPj4rCXN0cnVjdCBkcm1fY29ubmVjdG9yICpvdXRfY29ubmVjdG9yID0gRVJSX1BUUigtRUlO
-VkFMKTsKPj4gPiA+ID4gPiA+ID4gPj4gPj4rCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0
-b3I7Cj4+ID4gPiA+ID4gPiA+ID4+ID4+KwlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gZW5jb2Rl
-ci0+ZGV2Owo+PiA+ID4gPiA+ID4gPiA+PiA+PisJaW50IHJldDsKPj4gPiA+ID4gPiA+ID4gPj4g
-Pj4rCj4+ID4gPiA+ID4gPiA+ID4+ID4+KwlyZXQgPSBkcm1fbW9kZXNldF9sb2NrKCZkZXYtPm1v
-ZGVfY29uZmlnLmNvbm5lY3Rpb25fbXV0ZXgsIGN0eCk7Cj4+ID4gPiA+ID4gPiA+ID4+ID4+Kwlp
-ZiAocmV0KQo+PiA+ID4gPiA+ID4gPiA+PiA+PisJCXJldHVybiBFUlJfUFRSKHJldCk7Cj4+ID4g
-PiA+ID4gPiA+ID4+ID4KPj4gPiA+ID4gPiA+ID4gPj4gPkl0IHNlZW1zIHRoYXQgdGhpcyB3aWxs
-IGNhdXNlIGEgZGVhZGxvY2sgd2hlbiBjYWxsZWQgZnJvbSBhICBob3RwbHVnIGhhbmRsaW5nIHBh
-dGgsCj4+ID4gPiA+ID4gPiA+ID4+ID5JIGhhdmUgYSBXSVAgRFAgZGl2ZXJbMF0sICB3aGljaCBz
-dWdnZXN0ZWQgYnkgRG1pdHJ5IHRvIHVzZSB0aGlzIEFQSSBmcm9tIGEgCj4+ID4gPiA+ID4gPiA+
-ID4+ID4mZHJtX2JyaWRnZV9mdW5jcy5kZXRlY3QgY2FsbGJhY2sgdG8gZ2V0IHRoZSBjb25uZWN0
-b3IsICBhcyBkZXRlY3QgaXMgY2FsbGVkIGJ5IGRybV9oZWxwZXJfcHJvYmVfZGV0ZWN0LAo+PiA+
-ID4gPiA+ID4gPiA+PiA+d2hpY2ggd2lsbCBob2xkIGNvbm5lY3Rpb25fbXV0ZXggZmlyc3QsIHNv
-IHRoZSBkZWFrbG9jayBoYXBwZW5zOgo+PiA+ID4gPiA+ID4gPiA+PiA+Cj4+ID4gPiA+ID4gPiA+
-ID4+ID4KPj4gPiA+ID4gPiA+ID4gPj4gPmRybV9oZWxwZXJfcHJvYmVfZGV0ZWN0KHN0cnVjdCBk
-cm1fY29ubmVjdG9yICpjb25uZWN0b3IsCj4+ID4gPiA+ID4gPiA+ID4+ID4gICAgICAgICAgICAg
-ICAgICAgICAgICBzdHJ1Y3QgZHJtX21vZGVzZXRfYWNxdWlyZV9jdHggKmN0eCwKPj4gPiA+ID4g
-PiA+ID4gPj4gPiAgICAgICAgICAgICAgICAgICAgICAgIGJvb2wgZm9yY2UpCj4+ID4gPiA+ID4g
-PiA+ID4+ID57Cj4+ID4gPiA+ID4gPiA+ID4+ID4gICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fY29u
-bmVjdG9yX2hlbHBlcl9mdW5jcyAqZnVuY3MgPSBjb25uZWN0b3ItPmhlbHBlcl9wcml2YXRlOwo+
-PiA+ID4gPiA+ID4gPiA+PiA+ICAgICAgICBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gY29ubmVj
-dG9yLT5kZXY7Cj4+ID4gPiA+ID4gPiA+ID4+ID4gICAgICAgIGludCByZXQ7Cj4+ID4gPiA+ID4g
-PiA+ID4+ID4KPj4gPiA+ID4gPiA+ID4gPj4gPiAgICAgICAgaWYgKCFjdHgpCj4+ID4gPiA+ID4g
-PiA+ID4+ID4gICAgICAgICAgICAgICAgcmV0dXJuIGRybV9oZWxwZXJfcHJvYmVfZGV0ZWN0X2N0
-eChjb25uZWN0b3IsIGZvcmNlKTsKPj4gPiA+ID4gPiA+ID4gPj4gPgo+PiA+ID4gPiA+ID4gPiA+
-PiA+ICAgICAgICByZXQgPSBkcm1fbW9kZXNldF9sb2NrKCZkZXYtPm1vZGVfY29uZmlnLmNvbm5l
-Y3Rpb25fbXV0ZXgsIGN0eCk7Cj4+ID4gPiA+ID4gPiA+ID4+ID4gICAgICAgIGlmIChyZXQpCj4+
-ID4gPiA+ID4gPiA+ID4+ID4gICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPj4gPiA+ID4gPiA+
-ID4gPj4gPgo+PiA+ID4gPiA+ID4gPiA+PiA+ICAgICAgICBpZiAoZnVuY3MtPmRldGVjdF9jdHgp
-Cj4+ID4gPiA+ID4gPiA+ID4+ID4gICAgICAgICAgICAgICAgcmV0ID0gZnVuY3MtPmRldGVjdF9j
-dHgoY29ubmVjdG9yLCBjdHgsIGZvcmNlKTsKPj4gPiA+ID4gPiA+ID4gPj4gPiAgICAgICAgZWxz
-ZSBpZiAoY29ubmVjdG9yLT5mdW5jcy0+ZGV0ZWN0KQo+PiA+ID4gPiA+ID4gPiA+PiA+ICAgICAg
-ICAgICAgICAgIHJldCA9IGNvbm5lY3Rvci0+ZnVuY3MtPmRldGVjdChjb25uZWN0b3IsIGZvcmNl
-KTsKPj4gPiA+ID4gPiA+ID4gPj4gPiAgICAgICAgZWxzZQo+PiA+ID4gPiA+ID4gPiA+PiA+ICAg
-ICAgICAgICAgICAgIHJldCA9IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkOwo+PiA+ID4gPiA+
-ID4gPiA+PiA+Cj4+ID4gPiA+ID4gPiA+ID4+ID4gICAgICAgIGlmIChyZXQgIT0gY29ubmVjdG9y
-LT5zdGF0dXMpCj4+ID4gPiA+ID4gPiA+ID4+ID4gICAgICAgICAgICAgICAgY29ubmVjdG9yLT5l
-cG9jaF9jb3VudGVyICs9IDE7Cj4+ID4gPiA+ID4gPiA+ID4+ID4KPj4gPiA+ID4gPiA+ID4gPj4g
-PlNvIEkgd29uZGVyIGNhbiB3ZSBsZXQgZHJtX2JyaWRnZV9mdW5jcy5kZXRlY3QgcGFzcyBhIGNv
-bm5lY3RvciBmb3IgdGhpcyBjYXNlID8KPj4gPiA+ID4gPiA+ID4gPj4gPgo+PiA+ID4gPiA+ID4g
-PiA+PiA+Cj4+ID4gPiA+ID4gPiA+ID4+ID4KPj4gPiA+ID4gPiA+ID4gPj4gPlswXWh0dHBzOi8v
-bG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzA0N0VFQ0ZDLTdFNTUtNDRFQy04OTZGLTEz
-RkUwNDMzM0U0REBnbWFpbC5jb20vVC8jbTI1YmM1M2I3OWY1Y2M3YmRkZmNiN2FhZTU2NTZmNjhk
-ZjM5NmYwOTQKPj4gPiA+ID4gPiA+ID4gPj4gPj4rCj4+ID4gPiA+ID4gPiA+ID4+ID4+Kwlkcm1f
-Y29ubmVjdG9yX2xpc3RfaXRlcl9iZWdpbihkZXYsICZjb25uX2l0ZXIpOwo+PiA+ID4gPiA+ID4g
-PiA+PiA+PisJZHJtX2Zvcl9lYWNoX2Nvbm5lY3Rvcl9pdGVyKGNvbm5lY3RvciwgJmNvbm5faXRl
-cikgewo+PiA+ID4gPiA+ID4gPiA+PiA+PisJCWlmICghY29ubmVjdG9yLT5zdGF0ZSkKPj4gPiA+
-ID4gPiA+ID4gPj4gPj4rCQkJY29udGludWU7Cj4+ID4gPiA+ID4gPiA+ID4+ID4+Kwo+PiA+ID4g
-PiA+ID4gPiA+PiA+PisJCWlmIChlbmNvZGVyID09IGNvbm5lY3Rvci0+c3RhdGUtPmJlc3RfZW5j
-b2Rlcikgewo+PiA+ID4gPiA+ID4gPiA+PiA+PisJCQlvdXRfY29ubmVjdG9yID0gY29ubmVjdG9y
-Owo+PiA+ID4gPiA+ID4gPiA+PiAKPj4gPiA+ID4gPiA+ID4gPj4gCj4+ID4gPiA+ID4gPiA+ID4+
-IFdoZW4gdHJ5IHRvIHVzZSB0aGlzIHBhdGNoIGluIG15IGJyaWRnZSBkcml2ZXIsICBJIGZvdW5k
-IHRoYXQgdGhlIGNvbm5lY3Rvci0+c3RhdGUtPmJlc3RfZW5jb2RlciAKPj4gPiA+ID4gPiA+ID4g
-Pj4gIG1heWJlIE5VTEwgd2hlbiAgIGRybV9icmlkZ2VfZnVuY3MuZGV0ZWN0IG9yIGRybV9icmlk
-Z2VfZnVuY3MuZGV0ZWN0X2N0eCBpcyAgY2FsbGVkOgo+PiA+ID4gPiA+ID4gPiA+PiAKPj4gPiA+
-ID4gPiA+ID4gPj4gWyAgIDUyLjcxMzAzMF0gSW52YWxpZCByZXR1cm4gdmFsdWUgLTIyIGZvciBj
-b25uZWN0b3IgZGV0ZWN0aW9uCj4+ID4gPiA+ID4gPiA+ID4+IFsgICA1Mi43MTM1MzldIFdBUk5J
-Tkc6IENQVTogNyBQSUQ6IDI4OCBhdCBkcml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5j
-OjYwMiBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMrMHg1ZTAvCj4+ID4g
-PiA+ID4gPiA+ID4+IDB4NjNjCj4+ID4gPiA+ID4gPiA+ID4+IFsgICA1Mi43MTQ1NjhdIE1vZHVs
-ZXMgbGlua2VkIGluOgo+PiA+ID4gPiA+ID4gPiA+PiAKPj4gPiA+ID4gPiA+ID4gPj4gWyAgIDUy
-LjcyNDU0Nl0gQ2FsbCB0cmFjZToKPj4gPiA+ID4gPiA+ID4gPj4gWyAgIDUyLjcyNDc2Ml0gIGRy
-bV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2RlcysweDVlMC8weDYzYyAoUCkKPj4g
-PiA+ID4gPiA+ID4gPj4gWyAgIDUyLjcyNTMxOV0gIGRybV9tb2RlX2dldGNvbm5lY3RvcisweDJh
-NC8weDQ4OAo+PiA+ID4gPiA+ID4gPiA+PiBbICAgNTIuNzI1NzExXSAgZHJtX2lvY3RsX2tlcm5l
-bCsweGI0LzB4MTFjCj4+ID4gPiA+ID4gPiA+ID4+IFsgICA1Mi43MjYwNTddICBkcm1faW9jdGwr
-MHgyMmMvMHg1NDQKPj4gPiA+ID4gPiA+ID4gPj4gWyAgIDUyLjcyNjM1OF0gIF9fYXJtNjRfc3lz
-X2lvY3RsKzB4YWMvMHhlMAo+PiA+ID4gPiA+ID4gPiA+PiBbICAgNTIuNzI2NzA2XSAgaW52b2tl
-X3N5c2NhbGwrMHg0NC8weDEwMAo+PiA+ID4gPiA+ID4gPiA+PiBbICAgNTIuNzI3MDM5XSAgZWww
-X3N2Y19jb21tb24uY29uc3Rwcm9wLjArMHgzYy8weGQ0Cj4+ID4gPiA+ID4gPiA+ID4+IAo+PiA+
-ID4gPiA+ID4gPiA+PiBUaGlzIGlzIGJlY2F1c2UgIGJlc3RfZW5jb2RlciBpcyBzZXQgYnkgc2V0
-X2Jlc3RfZW5jb2Rlciwgd2hpY2ggaXMgY2FsbGVkIGZyb20KPj4gPiA+ID4gPiA+ID4gPj4gZHJt
-X2F0b21pY19oZWxwZXJfY2hlY2tfbW9kZXNldC4gV2hlbiB3ZSBjYWxsIGRybV9tb2RlX2dldGNv
-bm5lY3RvciAKPj4gPiA+ID4gPiA+ID4gPj4gZm9yIHRoZSBmaXJzdCB0aW1lLCB0aGUgZnVuY3Rp
-b25zIG1lbnRpb25lZCBhYm92ZSBoYXZlIG5vdCBiZWVuIGNhbGxlZCB5ZXQsCj4+ID4gPiA+ID4g
-PiA+ID4+IHRoZW4gd2UgY2FuJ3QgbWF0Y2ggdGhlIGVuY29kZXIgZnJvbSBjb25uZWN0b3ItPnN0
-YXRlLT5iZXN0X2VuY29kZXIgZm9yIHRoaXMgY2FzZS4KPj4gPiA+ID4gPiA+ID4gPgo+PiA+ID4g
-PiA+ID4gPiA+QXMgZmFyIGFzIEknbSBjb25jZXJuZWQsIGl0J3MgYnkgZGVzaWduLiBFbmNvZGVy
-cyBhbmQgY29ubmVjdG9ycyBoYXZlCj4+ID4gPiA+ID4gPiA+ID4xOk4gcmVsYXRpb25zaGlwLCBh
-bmQgb25seSBvbmNlIGEgY29ubmVjdG9yIGhhcyBiZWVuIGVuYWJsZWQgaXQgaGFzIGFuCj4+ID4g
-PiA+ID4gPiA+ID5lbmNvZGVyLgo+PiA+ID4gPiA+ID4gPiA+Cj4+ID4gPiA+ID4gPiA+ID5JZiB0
-aGUgY29ubmVjdG9yIGlzIGRpc2FibGVkLCB0aGVyZSdzIG5vIGFzc29jaWF0ZWQgZW5jb2Rlci4K
-Pj4gPiA+ID4gPiA+ID4gCj4+ID4gPiA+ID4gPiA+IERvZXMgdGhpcyBwcm92ZSB0aGF0IHRoaXMg
-QVBJIGlzIG5vdCBzdWl0YWJsZSBmb3IgbXkgYXBwbGljYXRpb24gc2NlbmFyaW86IAo+PiA+ID4g
-PiA+ID4gPiBHZXQgdGhlIGNvbm5lY3RvciBpbiB0aGUgYnJpZGdlJ3MgLmRldGVjdCBjYWxsYmFj
-aywgc28gdGhpcyBtZWFucyB0aGF0IEkgbWF5Cj4+ID4gPiA+ID4gPiA+IHN0aWxsIG5lZWQgdG8g
-bW9kaWZ5IHRoZSBicmlkZ2UncyBjb25uZWN0b3IgY2FsbGJhY2sgc28gdGhhdCBpdCBjYW4gcGFz
-cyB0aGUgY29ubmVjdG9yID8KPj4gPiA+ID4gPiA+IAo+PiA+ID4gPiA+ID4gSSdkIHNheSwgeWVz
-LCBwbGVhc2UuCj4+ID4gPiA+ID4gCj4+ID4gPiA+ID4gQW5kIEknZCBzYXkgbm8gOikKPj4gPiA+
-ID4gCj4+ID4gPiA+IEZhaXIgZW5vdWdoIDotKQo+PiA+ID4gPiAKPj4gPiA+ID4gPiBUaGVyZSdz
-IG5vIHJlYXNvbiB0byBkZXZpYXRlIGZyb20gdGhlIEFQSSBvdGhlciBlbnRpdGllcyBoYXZlIGhl
-cmUuIEl0J3MKPj4gPiA+ID4gPiBqdXN0IHRoYXQgdGhlIHN3aXRjaCB0byBEUk1fQlJJREdFX0FU
-VEFDSF9OT19DT05ORUNUT1IgaGFzbid0IGJlZW4KPj4gPiA+ID4gPiBjb21wbGV0ZWx5IHRob3Vn
-aHQgdGhyb3VnaCBhbmQgaXQncyBvbmUgb2YgdGhlIHBhcnQgd2hlcmUgaXQgc2hvd3MuCj4+ID4g
-PiA+ID4gCj4+ID4gPiA+ID4gV2UgaGF2ZSB0d28gYWx0ZXJuYXRpdmUgc29sdXRpb25zOiBFaXRo
-ZXIgdGhlIGRyaXZlciBjcmVhdGVzIHRoZQo+PiA+ID4gPiA+IGNvbm5lY3RvciBpdHNlbGYsIHNp
-bmNlIGl0IGRvZXNuJ3Qgc2VlbSB0byB1c2UgYW55IGRvd25zdHJlYW0gYnJpZGdlCj4+ID4gPiA+
-ID4gYW55d2F5LCBvciB3ZSBuZWVkIGEgbmV3IGJyaWRnZSBoZWxwZXIgdG8gZmluZCB0aGUgY29u
-bmVjdG9yIG9uIGEgYnJpZGdlCj4+ID4gPiA+ID4gY2hhaW4uCj4+ID4gPiA+ID4gCj4+ID4gPiA+
-ID4gV2UgaGF2ZSB0aGUgaXRlcmF0b3IgYWxyZWFkeSwgd2UganVzdCBuZWVkIGEgbmV3IGFjY2Vz
-c29yIHRvIHJldHJpZXZlCj4+ID4gPiA+ID4gdGhlIChvcHRpb25hbCkgY29ubmVjdG9yIG9mIGEg
-YnJpZGdlLCBhbmQgaWYgdGhlcmUncyBub25lLCBnbyB0byB0aGUKPj4gPiA+ID4gPiBuZXh0IGJy
-aWRnZSBhbmQgdHJ5IGFnYWluLgo+PiA+ID4gPiAKPj4gPiA+ID4gVGhlIHByb2JsZW0gaXMgdGhh
-dCB0aGVyZSBpcyBubyBndWFyYW50ZWUgdGhhdCB0aGUgdGhlIGNyZWF0ZWQgY29ubmVjdG9yCj4+
-ID4gPiA+IGlzIGNyZWF0ZWQgZm9yIG9yIGxpbmtlZCB0byBhbnkgYnJpZGdlLiBGb3IgZXhhbXBs
-ZSwgZm9yIG1zbSBkcml2ZXIgSSdtCj4+ID4gPiA+IHdhaXRpbmcgZm9yIHNldmVyYWwgc2VyaWVz
-IHRvIGdvIGluLCBidXQgYWZ0ZXIgdGhhdCBJIHBsYW4gdG8gd29yayBvbgo+PiA+ID4gPiBtb3Zp
-bmcgY29ubmVjdG9yIGNyZWF0aW9uIHRvIHRoZSBnZW5lcmljIGNvZGUgd2l0aGluIHRoZSBtc20g
-ZHJpdmVyLgo+PiA+ID4gPiAKPj4gPiA+ID4gSW4gb3RoZXIgd29yZHMsIHdpdGggRFJNX0JSSURH
-RV9BVFRBQ0hfTk9fQ09OTkVDVE9SIGluIHBsYWNlIGl0IGlzCj4+ID4gPiA+IHBlcmZlY3RseSBs
-ZWdpdCBub3QgdG8gaGF2ZSBhIGJyaWRnZSB3aGljaCBoYXMgImNvbm5lY3RvciBvZiBhIGJyaWRn
-ZSIuCj4+ID4gPiA+IEl0IGlzIHBvc3NpYmxlIHRvIGNyZWF0ZSBkcm1fYnJpZGdlX2Nvbm5lY3Rv
-ciBvbiB0aGUgZHJtX2VuY29kZXIncyBzaWRlCj4+ID4gPiA+IGFmdGVyIHRoZSBkcm1fYnJpZGdl
-X2F0dGFjaCgpIHN1Y2NlZWRzLgo+PiA+ID4gCj4+ID4gPiBTdXJlLCBidXQgdGhlbiBJJ2QgZXhw
-ZWN0IGRldGVjdCBhbmQgZ2V0X21vZGVzIHRvIG9ubHkgYmUgY2FsbGVkICphZnRlcioKPj4gPiA+
-IHRoYXQgY29ubmVjdG9yIGhhcyBiZWVuIGNyZWF0ZWQsIHJpZ2h0Pwo+PiA+IAo+PiA+IFllcy4g
-QnV0IHlvdSBjYW4gbm90IGdldCB0aGUgY29ubmVjdG9yIGJ5IGZvbGxvd2luZyBicmlkZ2UgY2hh
-aW4uIFdlbGwsCj4+ID4gdW5sZXNzIHlvdSBpbmNsdWRlIGVuY29kZXIgaW50byB0aGUgY2hhaW4u
-IElmIHRoYXQncyB3aGF0IHlvdSBoYXZlIGhhZAo+PiA+IGluIG1pbmQsIHRoZW4gcGxlYXNlIGV4
-Y3VzZSBtZSwgSSBkaWRuJ3QgdW5kZXJzdGFuZCB0aGF0IGZyb20gdGhlCj4+ID4gYmVnaW5uaW5n
-Lgo+PiAKPj4gWW91IGNhbid0IGluY2x1ZGUgdGhlIGVuY29kZXIgZWl0aGVyLCBiZWNhdXNlIHRo
-ZSBlbmNvZGVyIGRvZXNuJ3QgaGF2ZSBhCj4+IGNvbm5lY3RvciBhc3NpZ25lZCB5ZXQgYXQgdGhh
-dCB0aW1lLgo+PiAKPj4gSG93ZXZlciwgeW91IGNhbjoKPj4gCj4+ICAgLSBTdG9yZSB0aGUgYnJp
-ZGdlIGF0dGFjaCBmbGFncyBpbiBkcm1fYnJpZGdlCj4+IAo+PiAgIC0gQ3JlYXRlIGEgaG9vayB0
-aGF0IHJldHVybnMgdGhlIGNvbm5lY3RvciBhIGJyaWRnZSBjcmVhdGVzLCBkZXBlbmRpbmcKPj4g
-ICAgIG9uIHRoZSBhdHRhY2ggZmxhZ3MuCj4+IAo+PiAgIC0gQ3JlYXRlIGEgaGVscGVyIHRoYXQg
-aXRlcmF0ZXMgb3ZlciB0aGUgbmV4dCBicmlkZ2VzIHVudGlsIHRoZQo+PiAgICAgcHJldmlvdXMg
-aG9vayByZXR1cm5zICFOVUxMLiBJZiBpdCBkb2Vzbid0IGZpbmQgYW55dGhpbmcsIHJldHVybgo+
-PiAgICAgTlVMTC4KPj4gCj4+IEFGQUlLLCBpdCBzb2x2ZXMgYWxsIHRoZSBwcm9ibGVtcyBiZWlu
-ZyBkaXNjdXNzZWQgaGVyZSwgd2hpbGUgZGVhbGluZwo+PiB3aXRoIGxlZ2FjeSBhbmQgbmV3LXN0
-eWxlIGJyaWRnZSBkcml2ZXJzLgo+Cj5JJ20gc3RpbGwgZmFpbCB0byB1bmRlcnN0YW5kIGhvdyBk
-b2VzIHRoYXQgc29sdmUgdGhlIGlzc3VlIGZvciBuZXctc3R5bGUKPmJyaWRnZXMuIEhvdyBkbyB3
-ZSBmaW5kIHRoZSBjcmVhdGVkIGRybV9icmlkZ2VfY29ubmVjdG9yIGZvciB0aGVtPwo+Cj4+IAo+
-PiA+IEJ1dCBmcmFua2x5IHNwZWFraW5nLCBJIHRoaW5rIGl0IG1pZ2h0IGJlIGVhc2llciB0byBw
-YXNzIGRvd24gdGhlCj4+ID4gY29ubmVjdG9yIHRvIHRoZSBkZXRlY3QgY2FsbGJhY2sgKGFzIGRy
-bV9jb25uZWN0b3JfZnVuY3MuZGV0ZWN0IGFscmVhZHkKPj4gPiBnZXRzIHRoZSBjb25uZWNvcikg
-cmF0aGVyIHRoYW4gbWFraW5nIGJyaWRnZSBkcml2ZXJzIGdvIHRocm91Z2ggdGhlCj4+ID4gY2hh
-aW4gdG8gZ2V0IHRoZSB2YWx1ZSB0aGF0IGlzIGFscmVhZHkgcHJlc2VudCBpbiB0aGUgY2FsbGVy
-IGZ1bmN0aW9uLgo+PiA+IAo+PiA+IChGb3Igc29tZSBvdGhlciB1c2VjYXNlcyBJJ2QgdG90YWxs
-eSBhZ3JlZSB3aXRoIHlvdSwgZXNwZWNpYWxseSBpZiB0aGUKPj4gPiBjb25uZWN0b3IgaXNuJ3Qg
-YWxyZWFkeSBhdmFpbGFibGUgb24gdGhlIGNhbGxlciBzaWRlKS4KPj4gCj4+IFN0aWxsLCB3ZSd2
-ZSB0cmllZCB0byBjb252ZXJnZSB0byB0aGUgc2FtZSBBUEkgZm9yIGFsbCBlbnRpdGllcywgaXQK
-Pj4gZmVlbHMgbGlrZSBhIHN0ZXAgYmFja3dhcmQgdG8gbWUuCj4KPkknZCBhcmd1ZSBoZXJlIGEg
-Yml0LiBUaGUgZHJtX2Nvbm5lY3RvciBpbnRlcmZhY2UgaGFzIGNvbm5lY3RvciBoZXJlLgo+ZHJt
-X2JyaWRnZSBpcyBhbiBleHRlbnNpb24vc3VicGFydCBvZiB0aGUgZHJtX2Nvbm5lY3Rvciwgc28g
-aXQgd291bGQgYmUKPmxvZ2ljYWwgdG8gZXh0ZW5kIHRoYXQgaW50ZXJmYWNlLgoKWWVzLCBzaW5j
-ZSBhbGwgdGhlIGNhbGxzIHRvIGRybV9icmlkZ2VfZnVuY3MuZGV0ZWN0IGFyZSBpbml0aWF0ZWQg
-YnkgdGhlIGNvbm5lY3RlciwgCkkgdGhpbmsgaXQgaXMgcmVhc29uYWJsZSB0byBwYXNzIHRoaXMg
-Y29ubmVjdGVyIHRvIHRoZSBjb3JyZXNwb25kaW5nIGJyaWRnZS4KQW5kIHRoaXMgY2FuIHByZXZl
-bnQgaXRlcmF0ZXMgZmFpbHVyZXMgY2F1c2VkIGJ5IHZhcmlvdXMgY29tcGxleCAgYnJpZGdlIGNv
-bm5lY3Rpb24gbG9naWMgY2hhbmdlcy4KCj4KPgo+LS0gCj5XaXRoIGJlc3Qgd2lzaGVzCj5EbWl0
-cnkK
+Hi,
+
+On Tue, Mar 18, 2025 at 7:38=E2=80=AFPM Nicolas Dufresne <nicolas@ndufresne=
+.ca> wrote:
+>
+> Le mardi 04 mars 2025 =C3=A0 13:15 +0530, Sumit Garg a =C3=A9crit :
+> > On Tue, Mar 04, 2025 at 08:17:23AM +0100, Jens Wiklander wrote:
+> > > Hi Daniel,
+> > >
+> > > On Fri, Feb 21, 2025 at 3:12=E2=80=AFPM Daniel Stone <daniel@fooishba=
+r.org> wrote:
+> > > >
+> > > > Hi Sumit,
+> > > >
+> > > > On Fri, 21 Feb 2025 at 11:24, Sumit Garg <sumit.garg@linaro.org> wr=
+ote:
+> > > > > On Tue, 18 Feb 2025 at 21:52, Daniel Stone <daniel@fooishbar.org>=
+ wrote:
+> > > > > > dma-heaps was created to solve the problem of having too many
+> > > > > > 'allocate $n bytes from $specialplace' uAPIs. The proliferation=
+ was
+> > > > > > painful and making it difficult for userspace to do what it nee=
+ded to
+> > > > > > do. Userspace doesn't _yet_ make full use of it, but the soluti=
+on is
+> > > > > > to make userspace make full use of it, not to go create entirel=
+y
+> > > > > > separate allocation paths for unclear reasons.
+> > > > > >
+> > > > > > Besides, I'm writing this from a platform that implements SVP n=
+ot via
+> > > > > > TEE. I've worked on platforms which implement SVP without any T=
+EE,
+> > > > > > where the TEE implementation would be at best a no-op stub, and=
+ at
+> > > > > > worst flat-out impossible.
+> > > > >
+> > > > > Can you elaborate the non-TEE use-case for Secure Video Path (SVP=
+) a
+> > > > > bit more? As to how the protected/encrypted media content pipelin=
+e
+> > > > > works? Which architecture support does your use-case require? Is =
+there
+> > > > > any higher privileged level firmware interaction required to perf=
+orm
+> > > > > media content decryption into restricted memory? Do you plan to
+> > > > > upstream corresponding support in near future?
+> > > >
+> > > > You can see the MTK SVP patches on list which use the MTK SMC to me=
+diate it.
+> > > >
+> > > > There are TI Jacinto platforms which implement a 'secure' area
+> > > > configured statically by (IIRC) BL2, with static permissions define=
+d
+> > > > for each AXI endpoint, e.g. CPU write + codec RW + dispc read. I've
+> > > > heard of another SoC vendor doing the same, but I don't think I can
+> > > > share those details. There is no TEE interaction.
+> > > >
+> > > > I'm writing this message from an AMD laptop which implements
+> > > > restricted content paths outside of TEE. I don't have the full pict=
+ure
+> > > > of how SVP is implemented on AMD systems, but I do know that I don'=
+t
+> > > > have any TEE devices exposed.
+> > > >
+> > > > > Let me try to elaborate on the Secure Video Path (SVP) flow requi=
+ring
+> > > > > a TEE implementation (in general terms a higher privileged firmwa=
+re
+> > > > > managing the pipeline as the kernel/user-space has no access
+> > > > > permissions to the plain text media content):
+> > > > >
+> > > > > - [...]
+> > > >
+> > > > Yeah, I totally understand the TEE usecase. I think that TEE is a g=
+ood
+> > > > design to implement this. I think that TEE should be used for SVP
+> > > > where it makes sense.
+> > > >
+> > > > Please understand that I am _not_ arguing that no-one should use TE=
+E for SVP!
+> > > >
+> > > > > > So, again, let's
+> > > > > > please turn this around: _why_ TEE? Who benefits from exposing =
+this as
+> > > > > > completely separate to the more generic uAPI that we specifical=
+ly
+> > > > > > designed to handle things like this?
+> > > > >
+> > > > > The bridging between DMA heaps and TEE would still require user-s=
+pace
+> > > > > to perform an IOCTL into TEE to register the DMA-bufs as you can =
+see
+> > > > > here [1]. Then it will rather be two handles for user-space to ma=
+nage.
+> > > >
+> > > > Yes, the decoder would need to do this. That's common though: if yo=
+u
+> > > > want to share a buffer between V4L2 and DRM, you have three handles=
+:
+> > > > the V4L2 buffer handle, the DRM GEM handle, and the dmabuf you use =
+to
+> > > > bridge the two.
+> > > >
+> > > > > Similarly during restricted memory allocation/free we need anothe=
+r
+> > > > > glue layer under DMA heaps to TEE subsystem.
+> > > >
+> > > > Yep.
+> > > >
+> > > > > The reason is simply which has been iterated over many times in t=
+he
+> > > > > past threads that:
+> > > > >
+> > > > >     "If user-space has to interact with a TEE device for SVP use-=
+case
+> > > > > then why it's not better to ask TEE to allocate restricted DMA-bu=
+fs
+> > > > > too"
+> > > >
+> > > > The first word in your proposition is load-bearing.
+> > > >
+> > > > Build out the usecase a little more here. You have a DRMed video
+> > > > stream coming in, which you need to decode (involving TEE for this
+> > > > usecase). You get a dmabuf handle to the decoded frame. You need to
+> > > > pass the dmabuf across to the Wayland compositor. The compositor ne=
+eds
+> > > > to pass it to EGL/Vulkan to import and do composition, which in tur=
+n
+> > > > passes it to the GPU DRM driver. The output of the composition is i=
+n
+> > > > turn shared between the GPU DRM driver and the separate KMS DRM
+> > > > driver, with the involvement of GBM.
+> > > >
+> > > > For the platforms I'm interested in, the GPU DRM driver needs to
+> > > > switch into protected mode, which has no involvement at all with TE=
+E -
+> > > > it's architecturally impossible to have TEE involved without moving
+> > > > most of the GPU driver into TEE and destroying performance. The
+> > > > display hardware also needs to engage protected mode, which again h=
+as
+> > > > no involvement with TEE and again would need to have half the drive=
+r
+> > > > moved into TEE for no benefit in order to do so. The Wayland
+> > > > compositor also has no interest in TEE: it tells the GPU DRM driver
+> > > > about the protected status of its buffers, and that's it.
+> > > >
+> > > > What these components _are_ opinionated about, is the way buffers a=
+re
+> > > > allocated and managed. We built out dmabuf modifiers for this useca=
+se,
+> > > > and we have a good negotiation protocol around that. We also really
+> > > > care about buffer placement in some usecases - e.g. some display/co=
+dec
+> > > > hardware requires buffers to be sourced from contiguous memory, oth=
+er
+> > > > hardware needs to know that when it shares buffers with another
+> > > > device, it needs to place the buffers outside of inaccessible/slow
+> > > > local RAM. So we built out dma-heaps, so every part of the componen=
+t
+> > > > in the stack can communicate their buffer-placement needs in the sa=
+me
+> > > > way as we do modifiers, and negotiate an acceptable allocation.
+> > > >
+> > > > That's my starting point for this discussion. We have a mechanism t=
+o
+> > > > deal with the fact that buffers need to be shared between different=
+ IP
+> > > > blocks which have their own constraints on buffer placement, avoidi=
+ng
+> > > > the current problem of having every subsystem reinvent their own
+> > > > allocation uAPI which was burying us in impedance mismatch and
+> > > > confusion. That mechanism is dma-heaps. It seems like your starting
+> > > > point from this discussion is that you've implemented a TEE-centric
+> > > > design for SVP, and so all of userspace should bypass our existing
+> > > > cross-subsystem special-purpose allocation mechanism, and write
+> > > > specifically to one implementation. I believe that is a massive ste=
+p
+> > > > backwards and an immediate introduction of technical debt.
+> > > >
+> > > > Again, having an implementation of SVP via TEE makes a huge amount =
+of
+> > > > sense. Having _most_ SVP implementations via TEE still makes a lot =
+of
+> > > > sense. Having _all_ SVP implementations eventually be via TEE would
+> > > > still make sense. But even if we were at that point - which we aren=
+'t
+> > > > - it still doesn't justify telling userspace 'use the generic dma-h=
+eap
+> > > > uAPI for every device-specific allocation constraint, apart from SV=
+P
+> > > > which has a completely different way to allocate some bytes'.
+> > >
+> > > I must admit that I don't see how this makes a significant difference=
+,
+> > > but then I haven't hacked much in the stacks you're talking about, so
+> > > I'm going to take your word for it.
+> > >
+> > > I've experimented with providing a dma-heap replacing the TEE API. Th=
+e
+> > > implementation is more complex than I first anticipated, adding about
+> > > 400 lines to the patch set.
+> >
+> > I did anticipated this but let's give it a try and see if DMA heaps
+> > really adds any value from user-space point of view. If it does then it
+> > will be worth the maintenence overhead.
+> >
+> > > From user space, it looks like another
+> > > dma-heap. I'm using the names you gave earlier,
+> > > protected,secure-video, protected,trusted-ui, and
+> > > protected,secure-video-record. However, I wonder if we shouldn't use
+> > > "restricted" instead of "protected" since we had agreed to call it
+> > > restricted memory earlier.
+> >
+> > Let's stick with "restricted" memory buffer references only.
+>
+> Until now, we didn't have a standard to balance our naming choice, we
+> simply wanted to move away from "secure" which didn't mean much, and
+> restricted met our needs. I think the discussion is worth having again,
+> now that there is a standard that decided toward "protected". Matchcing
+> the Khronos standard means reducing a lot of confusion.
+>
+> https://docs.vulkan.org/guide/latest/protected.html
+
+Yeah, that's fine with me. I don't mind changing the name again as
+long as we progress. The latest version of the patchset is here [1].
+I've published a demo and changed the patchset to provide a heap
+interface instead of a special interface in the TEE subsystem for
+memory allocations as requested. I'm interested in feedback on the
+patches in general, but in particular, on how the heap interface is
+provided.
+
+[1] https://lore.kernel.org/lkml/20250305130634.1850178-1-jens.wiklander@li=
+naro.org/
+
+Cheers,
+Jens
