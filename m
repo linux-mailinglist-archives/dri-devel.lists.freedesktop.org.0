@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92817A686F1
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 09:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAFA4A686F0
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 09:34:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F1FC10E4E2;
-	Wed, 19 Mar 2025 08:34:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1FE910E4E0;
+	Wed, 19 Mar 2025 08:34:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="keDS1Qcg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Dd5Uw5xH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="keDS1Qcg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Dd5Uw5xH";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="h6/E2gMP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qL0VGCON";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h6/E2gMP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qL0VGCON";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37FB010E2F5
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 08:34:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D6C110E339
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 08:34:32 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CE5DD1F88F;
- Wed, 19 Mar 2025 08:33:58 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1354A1FCDC;
+ Wed, 19 Mar 2025 08:33:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742373238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1742373239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fAlaE0PEV7Hu75ljL6R6z8v08CTcFS6Pb1QiMgHdY4A=;
- b=keDS1QcgKbKerRoK6f8a2l8Up53h8WDJ7KckhNE9U56WlAPdSayO6kDtznYtSTNJdgZ9wO
- VrF98N+IUS1EE86ZvblQt/8wnU/fy2/hPNWx1Nc/ionYLYpOF1YUbT0SoiQFj7mWSbjLjI
- wIDGcm+ODNnCbkBUHrZFymWLQ4FoBR8=
+ bh=RcoFtmey0c26apNeYgkKkBk9cztAeza+Khya+LQNogI=;
+ b=h6/E2gMPRB8cjb8Z+aogXdKiYzVfpmyChbg2ebrJO5LOfUx+sJasCLhbkO5Nje9oG9sLKx
+ LKbqIVMvVVY6f1epAm9OXc51p4ndssxgWOSPq7IdmFxBNdRhIV78VP7JDbkLocn/KKL346
+ 9JCjyB5ITPGBgaG9QxzZirA8xZhin98=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742373238;
+ s=susede2_ed25519; t=1742373239;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fAlaE0PEV7Hu75ljL6R6z8v08CTcFS6Pb1QiMgHdY4A=;
- b=Dd5Uw5xHw0FD+7fwAgMO9MfL3RICpEeifu8AOag0pc7fNWtF3YxL1TXLQBrICpiIhBt6bH
- S1Ad2GliOi3154BQ==
+ bh=RcoFtmey0c26apNeYgkKkBk9cztAeza+Khya+LQNogI=;
+ b=qL0VGCONf+JKgUjTDJ/9Vt0ajxwb9Q8k64TExlZqyQxsV0KH0XNFBilrLeBd56pxzfnsQ1
+ XQs2aXNez9Ph8QAQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742373238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1742373239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fAlaE0PEV7Hu75ljL6R6z8v08CTcFS6Pb1QiMgHdY4A=;
- b=keDS1QcgKbKerRoK6f8a2l8Up53h8WDJ7KckhNE9U56WlAPdSayO6kDtznYtSTNJdgZ9wO
- VrF98N+IUS1EE86ZvblQt/8wnU/fy2/hPNWx1Nc/ionYLYpOF1YUbT0SoiQFj7mWSbjLjI
- wIDGcm+ODNnCbkBUHrZFymWLQ4FoBR8=
+ bh=RcoFtmey0c26apNeYgkKkBk9cztAeza+Khya+LQNogI=;
+ b=h6/E2gMPRB8cjb8Z+aogXdKiYzVfpmyChbg2ebrJO5LOfUx+sJasCLhbkO5Nje9oG9sLKx
+ LKbqIVMvVVY6f1epAm9OXc51p4ndssxgWOSPq7IdmFxBNdRhIV78VP7JDbkLocn/KKL346
+ 9JCjyB5ITPGBgaG9QxzZirA8xZhin98=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742373238;
+ s=susede2_ed25519; t=1742373239;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fAlaE0PEV7Hu75ljL6R6z8v08CTcFS6Pb1QiMgHdY4A=;
- b=Dd5Uw5xHw0FD+7fwAgMO9MfL3RICpEeifu8AOag0pc7fNWtF3YxL1TXLQBrICpiIhBt6bH
- S1Ad2GliOi3154BQ==
+ bh=RcoFtmey0c26apNeYgkKkBk9cztAeza+Khya+LQNogI=;
+ b=qL0VGCONf+JKgUjTDJ/9Vt0ajxwb9Q8k64TExlZqyQxsV0KH0XNFBilrLeBd56pxzfnsQ1
+ XQs2aXNez9Ph8QAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7EFAD13A38;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D493913A2C;
  Wed, 19 Mar 2025 08:33:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id oJ3bHXaB2mc+OQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2L+3MnaB2mc+OQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Wed, 19 Mar 2025 08:33:58 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, simona@ffwll.ch, airlied@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 15/18] drm/sysfb: efidrm: Add EDID support
-Date: Wed, 19 Mar 2025 08:45:14 +0100
-Message-ID: <20250319083021.6472-16-tzimmermann@suse.de>
+Subject: [PATCH 16/18] drm/sysfb: Add vesadrm for VESA displays
+Date: Wed, 19 Mar 2025 08:45:15 +0100
+Message-ID: <20250319083021.6472-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250319083021.6472-1-tzimmermann@suse.de>
 References: <20250319083021.6472-1-tzimmermann@suse.de>
@@ -117,62 +117,511 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the connector's EDID property if edid_info contains valid
-data. Exports the EDID via sysfs for user-space compositors.
+Add support for screen_info setups with VIDEO_TYPE_VLFB. Provide the
+minimum functionality of reading modes, updating and clearing the display.
 
-EDID information is not always available. Depending on the system
-and kernel configuration, it is either provided by the boot loader
-or read by the kernel during early boot stages.
-
-As of now, there's only one EFI display, so that EDID data always
-belongs to this output. This might change if there's ever more than
-one EFI display in the system.
+There is existing support for these displays provided by simpledrm with
+CONFIG_SYSFB_SIMPLEFB=y. Using vesadrm over simpledrm will allow for the
+use of additional functionality provided by VESA, such as EDID information,
+gamma correction and palette modes. This enhances the user experience and
+adds support for more display configuratons.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/sysfb/efidrm.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/sysfb/Kconfig   |  16 ++
+ drivers/gpu/drm/sysfb/Makefile  |   1 +
+ drivers/gpu/drm/sysfb/vesadrm.c | 448 ++++++++++++++++++++++++++++++++
+ 3 files changed, 465 insertions(+)
+ create mode 100644 drivers/gpu/drm/sysfb/vesadrm.c
 
-diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-index 5c1876e34a04..af90064a4c04 100644
---- a/drivers/gpu/drm/sysfb/efidrm.c
-+++ b/drivers/gpu/drm/sysfb/efidrm.c
-@@ -13,6 +13,7 @@
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_edid.h>
- #include <drm/drm_fbdev_shmem.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
-@@ -22,6 +23,7 @@
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/sysfb/Kconfig b/drivers/gpu/drm/sysfb/Kconfig
+index 3ffd8da1224c..008c33eab99a 100644
+--- a/drivers/gpu/drm/sysfb/Kconfig
++++ b/drivers/gpu/drm/sysfb/Kconfig
+@@ -57,4 +57,20 @@ config DRM_SIMPLEDRM
+ 	  On x86 BIOS or UEFI systems, you should also select SYSFB_SIMPLEFB
+ 	  to use UEFI and VESA framebuffers.
  
-+#include <video/edid.h>
- #include <video/pixel_format.h>
- 
- #include "drm_sysfb_helper.h"
-@@ -308,6 +310,10 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 	drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, stride=%d bytes\n",
- 		&format->format, width, height, stride);
- 
-+#ifdef CONFIG_X86
-+	if (drm_edid_header_is_valid(edid_info.dummy) == 8)
-+		sysfb->edid = edid_info.dummy;
-+#endif
- 	sysfb->fb_mode = drm_sysfb_mode(width, height, 0, 0);
- 	sysfb->fb_format = format;
- 	sysfb->fb_pitch = stride;
-@@ -413,6 +419,8 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 	drm_connector_set_panel_orientation_with_quirk(connector,
- 						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
- 						       width, height);
-+	if (sysfb->edid)
-+		drm_connector_attach_edid_property(connector);
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret)
++config DRM_VESADRM
++	tristate "VESA framebuffer driver"
++	depends on DRM && MMU
++	select APERTURE_HELPERS
++	select DRM_CLIENT_SELECTION
++	select DRM_GEM_SHMEM_HELPER
++	select DRM_KMS_HELPER
++	select DRM_SYSFB_HELPER
++	select SYSFB
++	help
++	  DRM driver for VESA framebuffers.
++
++	  This driver assumes that the display hardware has been initialized
++	  by the firmware or bootloader before the kernel boots. Scanout
++	  buffer, size, and display format must be provided via VBE interfaces.
++
+ endmenu
+diff --git a/drivers/gpu/drm/sysfb/Makefile b/drivers/gpu/drm/sysfb/Makefile
+index 2f96f52842e6..0d2518c97163 100644
+--- a/drivers/gpu/drm/sysfb/Makefile
++++ b/drivers/gpu/drm/sysfb/Makefile
+@@ -5,3 +5,4 @@ obj-$(CONFIG_DRM_SYSFB_HELPER)	+= drm_sysfb_helper.o
+ obj-$(CONFIG_DRM_EFIDRM)	+= efidrm.o
+ obj-$(CONFIG_DRM_OFDRM)		+= ofdrm.o
+ obj-$(CONFIG_DRM_SIMPLEDRM)	+= simpledrm.o
++obj-$(CONFIG_DRM_VESADRM)	+= vesadrm.o
+diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
+new file mode 100644
+index 000000000000..8a963057ffec
+--- /dev/null
++++ b/drivers/gpu/drm/sysfb/vesadrm.c
+@@ -0,0 +1,448 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/aperture.h>
++#include <linux/ioport.h>
++#include <linux/limits.h>
++#include <linux/platform_device.h>
++#include <linux/screen_info.h>
++
++#include <drm/clients/drm_client_setup.h>
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_damage_helper.h>
++#include <drm/drm_device.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_fbdev_shmem.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_probe_helper.h>
++
++#include <video/pixel_format.h>
++
++#include "drm_sysfb_helper.h"
++
++#define DRIVER_NAME	"vesadrm"
++#define DRIVER_DESC	"DRM driver for VESA platform devices"
++#define DRIVER_MAJOR	1
++#define DRIVER_MINOR	0
++
++static int vesadrm_get_validated_int(struct drm_device *dev, const char *name,
++				     u64 value, u32 max)
++{
++	if (max > INT_MAX)
++		max = INT_MAX;
++	if (value > max) {
++		drm_err(dev, "%s of %llu exceeds maximum of %u\n", name, value, max);
++		return -EINVAL;
++	}
++	return value;
++}
++
++static int vesadrm_get_validated_int0(struct drm_device *dev, const char *name,
++				      u64 value, u32 max)
++{
++	if (!value) {
++		drm_err(dev, "%s of 0 not allowed\n", name);
++		return -EINVAL;
++	}
++	return vesadrm_get_validated_int(dev, name, value, max);
++}
++
++static s64 vesadrm_get_validated_size0(struct drm_device *dev, const char *name,
++				       u64 value, u64 max)
++{
++	if (!value) {
++		drm_err(dev, "vesadrm: %s of 0 not allowed\n", name);
++		return -EINVAL;
++	} else if (value > max) {
++		drm_err(dev, "vesadrm: %s of %llu exceeds maximum of %llu\n", name, value, max);
++		return -EINVAL;
++	}
++	return value;
++}
++
++static int vesadrm_get_width_si(struct drm_device *dev, const struct screen_info *si)
++{
++	return vesadrm_get_validated_int0(dev, "width", si->lfb_width, U16_MAX);
++}
++
++static int vesadrm_get_height_si(struct drm_device *dev, const struct screen_info *si)
++{
++	return vesadrm_get_validated_int0(dev, "height", si->lfb_height, U16_MAX);
++}
++
++static struct resource *vesadrm_get_memory_si(struct drm_device *dev,
++					      const struct screen_info *si,
++					      struct resource *res)
++{
++	ssize_t	num;
++
++	num = screen_info_resources(si, res, 1);
++	if (!num) {
++		drm_err(dev, "vesadrm: memory resource not found\n");
++		return NULL;
++	}
++
++	return res;
++}
++
++static int vesadrm_get_stride_si(struct drm_device *dev, const struct screen_info *si,
++				 const struct drm_format_info *format,
++				 unsigned int width, unsigned int height, u64 size)
++{
++	u64 lfb_linelength = si->lfb_linelength;
++
++	if (!lfb_linelength)
++		lfb_linelength = drm_format_info_min_pitch(format, 0, width);
++
++	return vesadrm_get_validated_int0(dev, "stride", lfb_linelength, div64_u64(size, height));
++}
++
++static u64 vesadrm_get_visible_size_si(struct drm_device *dev, const struct screen_info *si,
++				       unsigned int height, unsigned int stride, u64 size)
++{
++	u64 vsize = PAGE_ALIGN(height * stride);
++
++	return vesadrm_get_validated_size0(dev, "visible size", vsize, size);
++}
++
++static const struct drm_format_info *vesadrm_get_format_si(struct drm_device *dev,
++							   const struct screen_info *si)
++{
++	static const struct {
++		struct pixel_format pixel;
++		u32 fourcc;
++	} vesa_formats[] = {
++		{ PIXEL_FORMAT_XRGB1555, DRM_FORMAT_XRGB1555, },
++		{ PIXEL_FORMAT_RGB565, DRM_FORMAT_RGB565, },
++		{ PIXEL_FORMAT_RGB888, DRM_FORMAT_RGB888, },
++		{ PIXEL_FORMAT_XRGB8888, DRM_FORMAT_XRGB8888, },
++		{ PIXEL_FORMAT_XBGR8888, DRM_FORMAT_XBGR8888, },
++	};
++	const struct drm_format_info *format = NULL;
++	u32 bits_per_pixel;
++	size_t i;
++
++	bits_per_pixel = __screen_info_lfb_bits_per_pixel(si);
++
++	for (i = 0; i < ARRAY_SIZE(vesa_formats); ++i) {
++		const struct pixel_format *f = &vesa_formats[i].pixel;
++
++		if (bits_per_pixel == f->bits_per_pixel &&
++		    si->red_size == f->red.length &&
++		    si->red_pos == f->red.offset &&
++		    si->green_size == f->green.length &&
++		    si->green_pos == f->green.offset &&
++		    si->blue_size == f->blue.length &&
++		    si->blue_pos == f->blue.offset) {
++			format = drm_format_info(vesa_formats[i].fourcc);
++			break;
++		}
++	}
++
++	if (!format)
++		return ERR_PTR(-EINVAL);
++	if (format->is_color_indexed)
++		return ERR_PTR(-EINVAL);
++
++	return format;
++}
++
++/*
++ * VESA device
++ */
++
++struct vesadrm_device {
++	struct drm_sysfb_device sysfb;
++
++	/* modesetting */
++	u32 formats[DRM_SYSFB_PLANE_NFORMATS(1)];
++	struct drm_plane primary_plane;
++	struct drm_crtc crtc;
++	struct drm_encoder encoder;
++	struct drm_connector connector;
++};
++
++/*
++ * Modesetting
++ */
++
++static const u64 vesadrm_primary_plane_format_modifiers[] = {
++	DRM_SYSFB_PLANE_FORMAT_MODIFIERS,
++};
++
++static const struct drm_plane_helper_funcs vesadrm_primary_plane_helper_funcs = {
++	DRM_SYSFB_PLANE_HELPER_FUNCS,
++};
++
++static const struct drm_plane_funcs vesadrm_primary_plane_funcs = {
++	DRM_SYSFB_PLANE_FUNCS,
++	.destroy = drm_plane_cleanup,
++};
++
++static const struct drm_crtc_helper_funcs vesadrm_crtc_helper_funcs = {
++	DRM_SYSFB_CRTC_HELPER_FUNCS,
++};
++
++static const struct drm_crtc_funcs vesadrm_crtc_funcs = {
++	DRM_SYSFB_CRTC_FUNCS,
++	.destroy = drm_crtc_cleanup,
++};
++
++static const struct drm_encoder_funcs vesadrm_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
++static const struct drm_connector_helper_funcs vesadrm_connector_helper_funcs = {
++	DRM_SYSFB_CONNECTOR_HELPER_FUNCS,
++};
++
++static const struct drm_connector_funcs vesadrm_connector_funcs = {
++	DRM_SYSFB_CONNECTOR_FUNCS,
++	.destroy = drm_connector_cleanup,
++};
++
++static const struct drm_mode_config_funcs vesadrm_mode_config_funcs = {
++	DRM_SYSFB_MODE_CONFIG_FUNCS,
++};
++
++/*
++ * Init / Cleanup
++ */
++
++static struct vesadrm_device *vesadrm_device_create(struct drm_driver *drv,
++						    struct platform_device *pdev)
++{
++	const struct screen_info *si;
++	const struct drm_format_info *format;
++	int width, height, stride;
++	u64 vsize;
++	struct resource resbuf;
++	struct resource *res;
++	struct vesadrm_device *vesa;
++	struct drm_sysfb_device *sysfb;
++	struct drm_device *dev;
++	struct resource *mem = NULL;
++	void __iomem *screen_base;
++	struct drm_plane *primary_plane;
++	struct drm_crtc *crtc;
++	struct drm_encoder *encoder;
++	struct drm_connector *connector;
++	unsigned long max_width, max_height;
++	size_t nformats;
++	int ret;
++
++	si = dev_get_platdata(&pdev->dev);
++	if (!si)
++		return ERR_PTR(-ENODEV);
++	if (screen_info_video_type(si) != VIDEO_TYPE_VLFB)
++		return ERR_PTR(-ENODEV);
++
++	/*
++	 * VESA DRM driver
++	 */
++
++	vesa = devm_drm_dev_alloc(&pdev->dev, drv, struct vesadrm_device, sysfb.dev);
++	if (IS_ERR(vesa))
++		return ERR_CAST(vesa);
++	sysfb = &vesa->sysfb;
++	dev = &sysfb->dev;
++	platform_set_drvdata(pdev, dev);
++
++	/*
++	 * Hardware settings
++	 */
++
++	format = vesadrm_get_format_si(dev, si);
++	if (IS_ERR(format))
++		return ERR_CAST(format);
++	width = vesadrm_get_width_si(dev, si);
++	if (width < 0)
++		return ERR_PTR(width);
++	height = vesadrm_get_height_si(dev, si);
++	if (height < 0)
++		return ERR_PTR(height);
++	res = vesadrm_get_memory_si(dev, si, &resbuf);
++	if (!res)
++		return ERR_PTR(-EINVAL);
++	stride = vesadrm_get_stride_si(dev, si, format, width, height, resource_size(res));
++	if (stride < 0)
++		return ERR_PTR(stride);
++	vsize = vesadrm_get_visible_size_si(dev, si, height, stride, resource_size(res));
++	if (!vsize)
++		return ERR_PTR(-EINVAL);
++
++	drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, stride=%d bytes\n",
++		&format->format, width, height, stride);
++
++	sysfb->fb_mode = drm_sysfb_mode(width, height, 0, 0);
++	sysfb->fb_format = format;
++	sysfb->fb_pitch = stride;
++
++	/*
++	 * Memory management
++	 */
++
++	ret = devm_aperture_acquire_for_platform_device(pdev, res->start, vsize);
++	if (ret) {
++		drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
++		return ERR_PTR(ret);
++	}
++
++	drm_dbg(dev, "using I/O memory framebuffer at %pr\n", res);
++
++	mem = devm_request_mem_region(&pdev->dev, res->start, vsize, drv->name);
++	if (!mem) {
++		/*
++		 * We cannot make this fatal. Sometimes this comes from magic
++		 * spaces our resource handlers simply don't know about. Use
++		 * the I/O-memory resource as-is and try to map that instead.
++		 */
++		drm_warn(dev, "could not acquire memory region %pr\n", res);
++		mem = res;
++	}
++
++	screen_base = devm_ioremap_wc(&pdev->dev, mem->start, resource_size(mem));
++	if (!screen_base)
++		return ERR_PTR(-ENOMEM);
++	iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
++
++	/*
++	 * Modesetting
++	 */
++
++	ret = drmm_mode_config_init(dev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	max_width = max_t(unsigned long, width, DRM_SHADOW_PLANE_MAX_WIDTH);
++	max_height = max_t(unsigned long, height, DRM_SHADOW_PLANE_MAX_HEIGHT);
++
++	dev->mode_config.min_width = width;
++	dev->mode_config.max_width = max_width;
++	dev->mode_config.min_height = height;
++	dev->mode_config.max_height = max_height;
++	dev->mode_config.preferred_depth = format->depth;
++	dev->mode_config.funcs = &vesadrm_mode_config_funcs;
++
++	/* Primary plane */
++
++	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
++					    vesa->formats, ARRAY_SIZE(vesa->formats));
++
++	primary_plane = &vesa->primary_plane;
++	ret = drm_universal_plane_init(dev, primary_plane, 0, &vesadrm_primary_plane_funcs,
++				       vesa->formats, nformats,
++				       vesadrm_primary_plane_format_modifiers,
++				       DRM_PLANE_TYPE_PRIMARY, NULL);
++	if (ret)
++		return ERR_PTR(ret);
++	drm_plane_helper_add(primary_plane, &vesadrm_primary_plane_helper_funcs);
++	drm_plane_enable_fb_damage_clips(primary_plane);
++
++	/* CRTC */
++
++	crtc = &vesa->crtc;
++	ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
++					&vesadrm_crtc_funcs, NULL);
++	if (ret)
++		return ERR_PTR(ret);
++	drm_crtc_helper_add(crtc, &vesadrm_crtc_helper_funcs);
++
++	/* Encoder */
++
++	encoder = &vesa->encoder;
++	ret = drm_encoder_init(dev, encoder, &vesadrm_encoder_funcs,
++			       DRM_MODE_ENCODER_NONE, NULL);
++	if (ret)
++		return ERR_PTR(ret);
++	encoder->possible_crtcs = drm_crtc_mask(crtc);
++
++	/* Connector */
++
++	connector = &vesa->connector;
++	ret = drm_connector_init(dev, connector, &vesadrm_connector_funcs,
++				 DRM_MODE_CONNECTOR_Unknown);
++	if (ret)
++		return ERR_PTR(ret);
++	drm_connector_helper_add(connector, &vesadrm_connector_helper_funcs);
++	drm_connector_set_panel_orientation_with_quirk(connector,
++						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
++						       width, height);
++
++	ret = drm_connector_attach_encoder(connector, encoder);
++	if (ret)
++		return ERR_PTR(ret);
++
++	drm_mode_config_reset(dev);
++
++	return vesa;
++}
++
++/*
++ * DRM driver
++ */
++
++DEFINE_DRM_GEM_FOPS(vesadrm_fops);
++
++static struct drm_driver vesadrm_driver = {
++	DRM_GEM_SHMEM_DRIVER_OPS,
++	DRM_FBDEV_SHMEM_DRIVER_OPS,
++	.name			= DRIVER_NAME,
++	.desc			= DRIVER_DESC,
++	.major			= DRIVER_MAJOR,
++	.minor			= DRIVER_MINOR,
++	.driver_features	= DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
++	.fops			= &vesadrm_fops,
++};
++
++/*
++ * Platform driver
++ */
++
++static int vesadrm_probe(struct platform_device *pdev)
++{
++	struct vesadrm_device *vesa;
++	struct drm_sysfb_device *sysfb;
++	struct drm_device *dev;
++	int ret;
++
++	vesa = vesadrm_device_create(&vesadrm_driver, pdev);
++	if (IS_ERR(vesa))
++		return PTR_ERR(vesa);
++	sysfb = &vesa->sysfb;
++	dev = &sysfb->dev;
++
++	ret = drm_dev_register(dev, 0);
++	if (ret)
++		return ret;
++
++	drm_client_setup(dev, sysfb->fb_format);
++
++	return 0;
++}
++
++static void vesadrm_remove(struct platform_device *pdev)
++{
++	struct drm_device *dev = platform_get_drvdata(pdev);
++
++	drm_dev_unplug(dev);
++}
++
++static struct platform_driver vesadrm_platform_driver = {
++	.driver = {
++		.name = "vesa-framebuffer",
++	},
++	.probe = vesadrm_probe,
++	.remove = vesadrm_remove,
++};
++
++module_platform_driver(vesadrm_platform_driver);
++
++MODULE_DESCRIPTION(DRIVER_DESC);
++MODULE_LICENSE("GPL");
 -- 
 2.48.1
 
