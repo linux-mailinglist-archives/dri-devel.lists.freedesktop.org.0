@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BFFA69555
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 17:49:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6460CA6957E
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 17:53:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7E310E0FA;
-	Wed, 19 Mar 2025 16:49:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56CDB10E1E0;
+	Wed, 19 Mar 2025 16:53:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="T9JsZip/";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YYpmMW2A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C380910E0FA
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 16:49:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0516110E1E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Mar 2025 16:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1742402978;
- bh=LPfVfrg8hx/lh7QEE3SxWHepoEcZXFl7iXM7aaRLY/w=;
+ s=mail; t=1742403196;
+ bh=lc83H2jIAcbgyTcXAGN7LemSssSPoEikt5FruQeTedo=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=T9JsZip/+afFVovfMmo8vVTqxiOCARtWRKETM/26vqVlrqfcj0HpdMbogVO8bX6o3
- RUuctXwDD4COnelrpskMueE7VGwC9FuBgS5YsklRbGlWABTybzM9llfUccU7n1Cm2z
- Dw4AVmZ3AASBLo3P0WAE3EU/MYbmjhcxjDZHPnmfak51x7pPW4np2rCh1hCTEPY0kZ
- qnnkk7aD1aFKbsjT58/6S5+hMcmVB78sFr1SR/DPZR1bg/XvqePMd64DWPZYjQ5Vk1
- 3bi/nVfdZRgZWxNXNbLyDHna6kadSEiJvpDjBwTaE5cpdEjFaV5DpO+G1nT308FocQ
- mCdAOuGlbc6oA==
+ b=YYpmMW2AMpR1CCk3Wd6S2kFNW7eO1c4hNGtNVHmqPUHU8dLM1tfqHPSC+90YHpzke
+ 3vtRtX8NOYakvxGV/W91FUR8YwiB38J1/U7LfWE+yDweJDDmrSuGJpnBljHP+DR3MT
+ RT32ACMu1Mknt00sWAYcKnwLAiFwLNlB8kebNhX3yJqrnuOlG6BlAbZPOf8U2MqveB
+ IQBxPqTKFTWBQqhfTRpyVMoztlelxcBRpLu7LI/ytsYHFTkU5KFWvzSt09XMhQN/fz
+ T8Ow+HRkrrnPG4e8zDxxbKZHhyDEEUS5k1vxSB9ET9BhpQKasyZ4fg18IuZEQta7wo
+ 1rM09o/FoCzcg==
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0DE9F17E086B;
- Wed, 19 Mar 2025 17:49:38 +0100 (CET)
-Date: Wed, 19 Mar 2025 17:49:34 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 09A3F17E0848;
+ Wed, 19 Mar 2025 17:53:16 +0100 (CET)
+Date: Wed, 19 Mar 2025 17:53:12 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
 Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -40,11 +40,11 @@ Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
  <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] drm/panthor: Introduce BO labeling
-Message-ID: <20250319174934.3efce6e5@collabora.com>
-In-Reply-To: <20250319150953.1634322-2-adrian.larumbe@collabora.com>
+Subject: Re: [PATCH v2 2/4] drm/panthor: Add driver IOCTL for setting BO labels
+Message-ID: <20250319175312.5498b83f@collabora.com>
+In-Reply-To: <20250319150953.1634322-3-adrian.larumbe@collabora.com>
 References: <20250319150953.1634322-1-adrian.larumbe@collabora.com>
- <20250319150953.1634322-2-adrian.larumbe@collabora.com>
+ <20250319150953.1634322-3-adrian.larumbe@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -65,119 +65,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Mar 2025 15:03:16 +0000
+On Wed, 19 Mar 2025 15:03:17 +0000
 Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-> Add a new character string Panthor BO field, and a function that allows
-> setting it from within the driver.
->=20
-> Driver takes care of freeing the string when it's replaced or no longer
-> needed at object destruction time, but allocating it is the responsibility
-> of callers.
+> Allow UM to label a BO for which it possesses a DRM handle.
 >=20
 > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 24 ++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_gem.h | 17 +++++++++++++++++
->  2 files changed, 41 insertions(+)
+>  drivers/gpu/drm/panthor/panthor_drv.c | 37 +++++++++++++++++++++++++++
+>  include/uapi/drm/panthor_drm.h        | 19 ++++++++++++++
+>  2 files changed, 56 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
-hor/panthor_gem.c
-> index 8244a4e6c2a2..165c7f4eb920 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -18,6 +18,9 @@ static void panthor_gem_free_object(struct drm_gem_obje=
-ct *obj)
->  	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
->  	struct drm_gem_object *vm_root_gem =3D bo->exclusive_vm_root_gem;
-> =20
-> +	kfree(bo->label.str);
-
-	/* Label might have been allocated with kstrdup_const(),
-	 * we need to take that into account when freeing the memory.
-	 */
-	kfree_const(bo->label.str);
-
-> +	mutex_destroy(&bo->label.lock);
-> +
->  	drm_gem_free_mmap_offset(&bo->base.base);
->  	mutex_destroy(&bo->gpuva_list_lock);
->  	drm_gem_shmem_free(&bo->base);
-> @@ -196,6 +199,7 @@ struct drm_gem_object *panthor_gem_create_object(stru=
-ct drm_device *ddev, size_t
->  	obj->base.map_wc =3D !ptdev->coherent;
->  	mutex_init(&obj->gpuva_list_lock);
->  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
-> +	mutex_init(&obj->label.lock);
-> =20
->  	return &obj->base.base;
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
+hor/panthor_drv.c
+> index 310bb44abe1a..e91acf132e06 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1330,6 +1330,41 @@ static int panthor_ioctl_vm_get_state(struct drm_d=
+evice *ddev, void *data,
+>  	return 0;
 >  }
-> @@ -247,3 +251,23 @@ panthor_gem_create_with_handle(struct drm_file *file,
 > =20
->  	return ret;
->  }
-> +
-> +void
-> +panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
+> +static int panthor_ioctl_bo_set_label(struct drm_device *ddev, void *dat=
+a,
+> +				  struct drm_file *file)
 > +{
-> +	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
-> +	const char *old_label;
+> +	struct drm_panthor_bo_set_label *args =3D data;
+> +	struct drm_gem_object *obj;
+> +	const char *label;
+> +	unsigned long len;
+> +	int ret =3D 0;
 > +
-> +	mutex_lock(&bo->label.lock);
-> +	old_label =3D bo->label.str;
-> +	bo->label.str =3D label;
-> +	mutex_unlock(&bo->label.lock);
+> +	obj =3D drm_gem_object_lookup(file, args->handle);
+> +	if (!obj)
+> +		return -ENOENT;
 > +
-> +	kfree(old_label);
+> +	if (args->size && args->label) {
+> +		len =3D (args->size < PAGE_SIZE) ? args->size : PAGE_SIZE;
+
+Let's return -E2BIG or -EINVAL if args->size is bigger exceeds our limit
+instead of pretending the label was stored.
+
+> +		label =3D strndup_user(u64_to_user_ptr(args->label), len);
+> +		if (IS_ERR(label)) {
+> +			ret =3D PTR_ERR(label);
+> +			goto err_label;
+> +		}
+> +	} else if (args->size && !args->label) {
+> +		ret =3D -EINVAL;
+> +		goto err_label;
+> +	} else {
+> +		label =3D NULL;
+> +	}
+> +
+> +	panthor_gem_bo_set_label(obj, label);
+> +
+> +err_label:
+> +	drm_gem_object_put(obj);
+> +
+> +	return ret;
 > +}
 > +
-> +void
-> +panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char=
- *label)
-> +{
-> +	panthor_gem_bo_set_label(bo->obj, kstrdup_const(label, GFP_KERNEL));
-
-You ignore the OOM case. Not sure it can happen in practice, and it's
-probably okay if we keep going in that case, because this is just debug
-information, but maybe this should be documented here.
-
-> +}
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
-hor/panthor_gem.h
-> index 5749ef2ebe03..0582826b341a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -46,6 +46,20 @@ struct panthor_gem_object {
+>  static int
+>  panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  {
+> @@ -1399,6 +1434,7 @@ static const struct drm_ioctl_desc panthor_drm_driv=
+er_ioctls[] =3D {
+>  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+> +	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
+>  };
 > =20
->  	/** @flags: Combination of drm_panthor_bo_flags flags. */
->  	u32 flags;
+>  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> @@ -1508,6 +1544,7 @@ static void panthor_debugfs_init(struct drm_minor *=
+minor)
+>   * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
+>   *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
+>   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+> + * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
+>   */
+>  static const struct drm_driver panthor_drm_driver =3D {
+>  	.driver_features =3D DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_dr=
+m.h
+> index 97e2c4510e69..26b52f147360 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -127,6 +127,9 @@ enum drm_panthor_ioctl_id {
+> =20
+>  	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
+>  	DRM_PANTHOR_TILER_HEAP_DESTROY,
 > +
-> +	/**
-> +	 * @label: BO tagging fields. The label can be assigned within the
-> +	 * driver itself or through a specific IOCTL.
-> +	 */
-> +	struct {
-> +		/**
-> +		 * @label.str: Pointer to NULL-terminated string,
-> +		 */
-> +		const char *str;
-> +
-> +		/** @lock.str: Protects access to the @label.str field. */
-> +		struct mutex lock;
-> +	} label;
+> +	/** @DRM_PANTHOR_BO_SET_LABEL: Label a BO. */
+> +	DRM_PANTHOR_BO_SET_LABEL,
 >  };
 > =20
 >  /**
-> @@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  			       struct panthor_vm *exclusive_vm,
->  			       u64 *size, u32 flags, uint32_t *handle);
+> @@ -977,6 +980,20 @@ struct drm_panthor_tiler_heap_destroy {
+>  	__u32 pad;
+>  };
 > =20
-> +void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *la=
-bel);
-> +void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const=
- char *label);
+> +/**
+> + * struct drm_panthor_bo_set_label - Arguments passed to DRM_IOCTL_PANTH=
+OR_BO_SET_LABEL
+> + */
+> +struct drm_panthor_bo_set_label {
+> +	/** @handle: Handle of the buffer object to label. */
+> +	__u32 handle;
 > +
->  static inline u64
->  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
->  {
+> +	/** @size: Length of the label, including the NULL terminator. */
+> +	__u32 size;
+> +
+> +	/** @label: User pointer to a NULL-terminated string */
+> +	__u64 label;
+> +};
+> +
+>  /**
+>   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
+>   * @__access: Access type. Must be R, W or RW.
+> @@ -1019,6 +1036,8 @@ enum {
+>  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create),
+>  	DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY =3D
+>  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy),
+> +	DRM_IOCTL_PANTHOR_BO_SET_LABEL =3D
+> +		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
+>  };
+> =20
+>  #if defined(__cplusplus)
 
