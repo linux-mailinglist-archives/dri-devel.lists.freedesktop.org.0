@@ -2,59 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5DCA68DB1
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 14:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B2AA68DB9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Mar 2025 14:25:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46CAD10E26E;
-	Wed, 19 Mar 2025 13:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A93E810E261;
+	Wed, 19 Mar 2025 13:25:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mHoJNP10";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BCT4meaz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CEE810E26D;
- Wed, 19 Mar 2025 13:24:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1742390643;
- bh=/q0O6SoH0MFOJQ+VtkIjMVBenhQqH+wVMIprdvwEass=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mHoJNP10AgtwqBskl0LN65UQ0xnHsutVsDDfy3bwvrJ7UMm0M6ZZyp3T9eeeuQDcT
- U61MCWmaVD+lTq5t62sP9iLIzxwjt/cc+hjtYS6eKJ8KYtsh+QMCGOR3UGE/GWNUTw
- 91IymJmdEAz6lfDjUMieJohzuYGUe/PmuGdzYghW6JGDEnldNOzO5HrWPtTYnliwpm
- k+WLD3O+8jTVhdlIaN5Vd4gyDB2qb7GHcsh5RKnWrDj351H2uIHanGyZ0WtDwSyFzW
- W7m+B0KocDHuZRCzJa//B4LrvJIssR98yp96Um/C4FYjd5K/wYYfZiRzuFleORMB4E
- 04I7dujFHkJPQ==
-Received: from [192.168.50.250] (unknown [171.76.87.92])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2570F17E0C37;
- Wed, 19 Mar 2025 14:23:58 +0100 (CET)
-Message-ID: <38315386-9975-4bbb-91e8-34b872487c26@collabora.com>
-Date: Wed, 19 Mar 2025 18:53:46 +0530
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3688010E2FD;
+ Wed, 19 Mar 2025 13:24:59 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-22359001f1aso21307715ad.3; 
+ Wed, 19 Mar 2025 06:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742390699; x=1742995499; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=xZFRLY0XAdp76L6s++8PUE6jOftbFDqTl8mKmLB0uG4=;
+ b=BCT4meazTCEzAOv45EavyGKJA+eBjrbRJeufC9TygFuxejPf+G+oAUep/MtHEaeLHL
+ 1SUwInUUiEEwwvnNUsf32I70FF6/q31epr0C01R3+ET0Hv/qSnooGp8r38hUUKovdMb6
+ jn2mxu+SOqlp+9+Mzu+e16NPQ8vkjsK6AIDgKPpSIC0TuQQ8GPhg5z7bHR0c2guu1adl
+ D5wa/yrT99kSved4YRnQQOM7Y4OaxKGPNjhMpf4ER0ST718hkwmblWsMvT1dS4FigdCR
+ aw1h0yvIdHNqGUYl+Oboha/WjsJZdygSK0Pw2jxamGkKuz3Re1nE7qPHOQhPspMLmwwy
+ mxoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742390699; x=1742995499;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xZFRLY0XAdp76L6s++8PUE6jOftbFDqTl8mKmLB0uG4=;
+ b=mSj6DHJJeSK3INhNNCsk/zMZApF3M6BywmPauGgJN0TyWK7EuYNaAMYNQ9gUtlViby
+ 4nruy8z9UoiCASGLDbovooh1PoyNCsAvsEu+sRLQpynDKCRC+ouPVPPyjaD6LZCqyhRp
+ wR1m/srQcJZEd19xqMIwNJHdb8DGpHSxO3PDiZ16zl+yEbzk01OnpFJJBf4RjTcjlzat
+ N7O4GLB4rAgfl09uOLJnlWqpO55ybAUlOQVeXtx8PeWwTPvmDmZOZAXtHDZJgfgVBPTl
+ 96YcI2XFTnShp4KSU2nylLMSVNLrE/P7IRbOzWfRSNwtRmp+nUAE40hGu2IAlXWF7m1D
+ bQZg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2YxoXcPuOI7e4iQQxor0H0lOo9Y3WmQTXvPXA2INDHOCCs9D35Sos5i883Oft9Yo2zbggEdVVzSq1@lists.freedesktop.org,
+ AJvYcCWgE/815ut8m5PcTLVMcjUKzWhTHuO0q9xG+HhDE2tpj8rMHrBg8ilxYUXggcrjVJtUwPVVCQ1Fkv0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwPK/73MLuY9/VcUaJPohLtrNmh7uE6md9ifXGsmsbxsJM0+8Wb
+ ktqUBmAcl2dkegyRmCLgR25E9L9LVn9PJoPf38xnGxYm+t3RwByv
+X-Gm-Gg: ASbGncu8ckpPH9YznlqiwaT10sO5N6Z9MCzCVkOj3Gb4vZwN96lq5gkoljRHp8rosYA
+ HnnMp9U7cqj4LotVcHHtgokhp/ly9wA2xfVfKqww/ACelz2oKYCTCv4IEmhXlu8P7HyeiCBYQVF
+ GqfaHX2NhG27bZ3fnGYFnqUveTIrNfLokge75Wl94HkCBEfkIN1fzqltHnbpA1KTKm/UUA5tmln
+ kouZdwpcBNTugRYc1O0TRwN1qR3mNORlckbNs3n5Dmsr1MRHQvT9zhY4bmqE21lW/lP65WKOGPk
+ kioZt2r5T01AN/emxWlvFRGFsQQYO7fcL/JvN+7802YGQ2UKDqQcKc8zuRl9bX/B5upM
+X-Google-Smtp-Source: AGHT+IGIFYmDi/KkGln7MKeowoPAzVmI+wsa7nArP8Kx5Xywx6QFPsEGFX/fF3zen40trjIEXgl4DQ==
+X-Received: by 2002:a17:902:f548:b0:21f:b483:2ad5 with SMTP id
+ d9443c01a7336-2264993273bmr33537815ad.20.1742390698627; 
+ Wed, 19 Mar 2025 06:24:58 -0700 (PDT)
+Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-737115292cbsm11533634b3a.1.2025.03.19.06.24.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Mar 2025 06:24:57 -0700 (PDT)
+Date: Wed, 19 Mar 2025 09:24:56 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v6 2/7] bits: introduce fixed-type genmasks
+Message-ID: <Z9rFqBIWgF1FuM98@thinkpad>
+References: <20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr>
+ <20250308-fixed-type-genmasks-v6-2-f59315e73c29@wanadoo.fr>
+ <Z9mjJ3gJoqLwjIFX@thinkpad>
+ <443027f0-08c9-449a-8ee0-db9b234483f4@wanadoo.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/3] drm/ci: uprev mesa
-To: Helen Mae Koike Fornazier <helen.fornazier@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
- airlied@gmail.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- valentine.burley@collabora.com, lumag@kernel.org, quic_abhinavk@quicinc.com,
- mripard@kernel.org, jani.nikula@linux.intel.com,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20250314085858.39328-1-vignesh.raman@collabora.com>
- <20250314085858.39328-2-vignesh.raman@collabora.com>
- <CAPW4XYZ6+kc+Pj61_Kz8-CEy0Aed92XeXDnUiDAEGNBU+SPxAg@mail.gmail.com>
-Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <CAPW4XYZ6+kc+Pj61_Kz8-CEy0Aed92XeXDnUiDAEGNBU+SPxAg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <443027f0-08c9-449a-8ee0-db9b234483f4@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,291 +103,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Helen,
-
-On 19/03/25 00:22, Helen Mae Koike Fornazier wrote:
-> Em sex., 14 de mar. de 2025 às 05:59, Vignesh Raman
-> <vignesh.raman@collabora.com> escreveu:
->>
->> LAVA was recently patched [1] with a fix on how parameters are parsed in
->> `lava-test-case`, so we don't need to repeat quotes to send the
->> arguments properly to it. Uprev mesa to fix this issue.
->>
->> [1] https://gitlab.com/lava/lava/-/commit/18c9cf79
->>
->> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
->> ---
->>   drivers/gpu/drm/ci/build.sh       | 16 ++++++++--------
->>   drivers/gpu/drm/ci/build.yml      |  8 ++++++++
->>   drivers/gpu/drm/ci/container.yml  | 24 +++++++++++++++++++++++
->>   drivers/gpu/drm/ci/gitlab-ci.yml  | 32 ++++++++++++++++++++++++++++++-
->>   drivers/gpu/drm/ci/image-tags.yml |  4 +++-
->>   drivers/gpu/drm/ci/lava-submit.sh |  3 ++-
->>   drivers/gpu/drm/ci/test.yml       |  2 +-
->>   7 files changed, 77 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
->> index 19fe01257ab9..284873e94d8d 100644
->> --- a/drivers/gpu/drm/ci/build.sh
->> +++ b/drivers/gpu/drm/ci/build.sh
->> @@ -98,14 +98,14 @@ done
->>
->>   make ${KERNEL_IMAGE_NAME}
->>
->> -mkdir -p /lava-files/
->> +mkdir -p /kernel/
+On Wed, Mar 19, 2025 at 02:39:03PM +0900, Vincent Mailhol wrote:
+> On 19/03/2025 at 01:45, Yury Norov wrote:
+> > On Sat, Mar 08, 2025 at 01:48:49AM +0900, Vincent Mailhol via B4 Relay wrote:
+> >> From: Yury Norov <yury.norov@gmail.com>
 > 
-> the folder is not lava specific, correct?
-
-It is not lava specific. Only the directory name where the kernel image 
-is copied is changed and the kernel image is uploaded to S3 for lava.
-
-This is based on,
-https://gitlab.freedesktop.org/mesa/mesa/-/commit/5b65bbf72ce7024c5df2100ce4b12d59e8f3dd26
-
+> (...)
 > 
->>   for image in ${KERNEL_IMAGE_NAME}; do
->> -    cp arch/${KERNEL_ARCH}/boot/${image} /lava-files/.
->> +    cp arch/${KERNEL_ARCH}/boot/${image} /kernel/.
->>   done
->>
->>   if [[ -n ${DEVICE_TREES} ]]; then
->>       make dtbs
->> -    cp ${DEVICE_TREES} /lava-files/.
->> +    cp ${DEVICE_TREES} /kernel/.
->>   fi
->>
->>   make modules
->> @@ -121,11 +121,11 @@ if [[ ${DEBIAN_ARCH} = "arm64" ]]; then
->>           -d arch/arm64/boot/Image.lzma \
->>           -C lzma\
->>           -b arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb \
->> -        /lava-files/cheza-kernel
->> +        /kernel/cheza-kernel
->>       KERNEL_IMAGE_NAME+=" cheza-kernel"
->>
->>       # Make a gzipped copy of the Image for db410c.
->> -    gzip -k /lava-files/Image
->> +    gzip -k /kernel/Image
->>       KERNEL_IMAGE_NAME+=" Image.gz"
->>   fi
->>
->> @@ -139,7 +139,7 @@ cp -rfv drivers/gpu/drm/ci/* install/.
->>   . .gitlab-ci/container/container_post_build.sh
->>
->>   if [[ "$UPLOAD_TO_MINIO" = "1" ]]; then
->> -    xz -7 -c -T${FDO_CI_CONCURRENT:-4} vmlinux > /lava-files/vmlinux.xz
->> +    xz -7 -c -T${FDO_CI_CONCURRENT:-4} vmlinux > /kernel/vmlinux.xz
->>       FILES_TO_UPLOAD="$KERNEL_IMAGE_NAME vmlinux.xz"
->>
->>       if [[ -n $DEVICE_TREES ]]; then
->> @@ -148,7 +148,7 @@ if [[ "$UPLOAD_TO_MINIO" = "1" ]]; then
->>
->>       ls -l "${S3_JWT_FILE}"
->>       for f in $FILES_TO_UPLOAD; do
->> -        ci-fairy s3cp --token-file "${S3_JWT_FILE}" /lava-files/$f \
->> +        ci-fairy s3cp --token-file "${S3_JWT_FILE}" /kernel/$f \
->>                   https://${PIPELINE_ARTIFACTS_BASE}/${DEBIAN_ARCH}/$f
->>       done
->>
->> @@ -165,7 +165,7 @@ ln -s common artifacts/install/ci-common
->>   cp .config artifacts/${CI_JOB_NAME}_config
->>
->>   for image in ${KERNEL_IMAGE_NAME}; do
->> -    cp /lava-files/$image artifacts/install/.
->> +    cp /kernel/$image artifacts/install/.
->>   done
->>
->>   tar -C artifacts -cf artifacts/install.tar install
->> diff --git a/drivers/gpu/drm/ci/build.yml b/drivers/gpu/drm/ci/build.yml
->> index 6c0dc10b547c..8eb56ebcf4aa 100644
->> --- a/drivers/gpu/drm/ci/build.yml
->> +++ b/drivers/gpu/drm/ci/build.yml
->> @@ -143,6 +143,10 @@ debian-arm64-release:
->>     rules:
->>       - when: never
->>
->> +debian-arm64-ubsan:
->> +  rules:
->> +    - when: never
->> +
->>   debian-build-testing:
->>     rules:
->>       - when: never
->> @@ -183,6 +187,10 @@ debian-testing-msan:
->>     rules:
->>       - when: never
->>
->> +debian-testing-ubsan:
->> +  rules:
->> +    - when: never
->> +
->>   debian-vulkan:
->>     rules:
->>       - when: never
->> diff --git a/drivers/gpu/drm/ci/container.yml b/drivers/gpu/drm/ci/container.yml
->> index 07dc13ff865d..56c95c2f91ae 100644
->> --- a/drivers/gpu/drm/ci/container.yml
->> +++ b/drivers/gpu/drm/ci/container.yml
->> @@ -24,6 +24,18 @@ alpine/x86_64_build:
->>     rules:
->>       - when: never
->>
->> +debian/arm32_test-base:
->> +  rules:
->> +    - when: never
->> +
->> +debian/arm32_test-gl:
->> +  rules:
->> +    - when: never
->> +
->> +debian/arm32_test-vk:
->> +  rules:
->> +    - when: never
->> +
->>   debian/arm64_test-gl:
->>     rules:
->>       - when: never
->> @@ -32,6 +44,10 @@ debian/arm64_test-vk:
->>     rules:
->>       - when: never
->>
->> +debian/baremetal_arm32_test:
->> +  rules:
->> +    - when: never
->> +
->>   debian/ppc64el_build:
->>     rules:
->>       - when: never
->> @@ -40,6 +56,14 @@ debian/s390x_build:
->>     rules:
->>       - when: never
->>
->> +debian/x86_32_build:
->> +  rules:
->> +    - when: never
->> +
->> +debian/x86_64_test-android:
->> +  rules:
->> +    - when: never
->> +
->>   debian/x86_64_test-vk:
->>     rules:
->>       - when: never
->> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
->> index b06b9e7d3d09..55b540c4cf92 100644
->> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
->> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
->> @@ -1,6 +1,6 @@
->>   variables:
->>     DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
->> -  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 7d3062470f3ccc6cb40540e772e902c7e2248024
->> +  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 82ab58f6c6f94fa80ca7e1615146f08356e3ba69
->>
->>     UPSTREAM_REPO: https://gitlab.freedesktop.org/drm/kernel.git
->>     TARGET_BRANCH: drm-next
->> @@ -187,6 +187,36 @@ stages:
->>       - when: manual
->>
->>
->> +# Repeat of the above but with `when: on_success` replaced with
->> +# `when: delayed` + `start_in:`, for build-only jobs.
->> +# Note: make sure the branches in this list are the same as in
->> +# `.container+build-rules` above.
->> +.build-only-delayed-rules:
->> +  rules:
->> +    - !reference [.common-rules, rules]
->> +    # Run when re-enabling a disabled farm, but not when disabling it
->> +    - !reference [.disable-farm-mr-rules, rules]
->> +    # Never run immediately after merging, as we just ran everything
->> +    - !reference [.never-post-merge-rules, rules]
->> +    # Build everything in merge pipelines
->> +    - if: *is-merge-attempt
->> +      when: delayed
->> +      start_in: &build-delay 5 minutes
->> +    # Same as above, but for pre-merge pipelines
->> +    - if: *is-pre-merge
->> +      when: manual
->> +    # Build everything after someone bypassed the CI
->> +    - if: *is-direct-push
->> +      when: manual
->> +    # Build everything in scheduled pipelines
->> +    - if: *is-scheduled-pipeline
->> +      when: delayed
->> +      start_in: *build-delay
->> +    # Allow building everything in fork pipelines, but build nothing unless
->> +    # manually triggered
->> +    - when: manual
->> +
+> >> +#define GENMASK(h, l)		GENMASK_TYPE(unsigned long,  h, l)
+> >> +#define GENMASK_ULL(h, l)	GENMASK_TYPE(unsigned long long, h, l)
+> > 
+> > I like everything except this part. We switch GENMASK() from a well
+> > tested implementation, including an asm code, and we split uapi and
+> > non-uapi users, with no functionality changes.
+> > 
+> > Unification is a solid point, however.
+> > 
+> > Let's make it a 2-step procedure? Adding fixed-width GENMASKs is a
+> > non-questionable improvement. Switching an existing API from one
+> > implementation to another should be a separate patch, and probably
+> > even a separate series. And we should be very clear that __GENMASK()
+> > is uapi-only thing from now.
+> > 
+> > If we decide to switch GENMASK() in a separate series, we'll have some
+> > extra time to think about unification...
 > 
-> Do you think we could avoid repeating code by using anchor (&) and
-> reference (*) ?
+> Ack. I started drafting the split. The two series would look like:
 > 
-> https://docs.gitlab.com/ci/yaml/yaml_optimization/#yaml-anchors-for-scripts
-
-We could create anchors for the repeated rules in .container+build-rules 
-and .build-only-delayed-rules, but I would prefer to first do this in 
-mesa and then adapt the same in drm-ci. Right now it is the same as 
-mesa, so maybe fix this in the next mesa uprev. What do you suggest?
-
-Regards,
-Vignesh
-
+> [Series #1] bits: Fixed-type GENMASK_U*() and BIT_U*()
+>     - bits: introduce fixed-type GENMASK_U*()
+>     - bits: introduce fixed-type BIT_U*()
+>     - drm/i915: Convert REG_GENMASK*() to fixed-width GENMASK_U*()
+>     - test_bits: add tests for GENMASK_U*()
+>     - test_bits: add tests for BIT_U*()
 > 
-> Regards,
-> Helen
-> 
->> +
->>   .ci-deqp-artifacts:
->>     artifacts:
->>       name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}"
->> diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
->> index 20049f3626b2..c04ba0e69935 100644
->> --- a/drivers/gpu/drm/ci/image-tags.yml
->> +++ b/drivers/gpu/drm/ci/image-tags.yml
->> @@ -1,5 +1,5 @@
->>   variables:
->> -   CONTAINER_TAG: "20250204-mesa-uprev"
->> +   CONTAINER_TAG: "20250307-mesa-uprev"
->>      DEBIAN_X86_64_BUILD_BASE_IMAGE: "debian/x86_64_build-base"
->>      DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
->>
->> @@ -20,3 +20,5 @@ variables:
->>      DEBIAN_PYUTILS_TAG: "${CONTAINER_TAG}"
->>
->>      ALPINE_X86_64_LAVA_SSH_TAG: "${CONTAINER_TAG}"
->> +
->> +   CONDITIONAL_BUILD_ANGLE_TAG: fec96cc945650c5fe9f7188cabe80d8a
->> diff --git a/drivers/gpu/drm/ci/lava-submit.sh b/drivers/gpu/drm/ci/lava-submit.sh
->> index 6e5ac51e8c0a..f22720359b33 100755
->> --- a/drivers/gpu/drm/ci/lava-submit.sh
->> +++ b/drivers/gpu/drm/ci/lava-submit.sh
->> @@ -48,7 +48,8 @@ ROOTFS_URL="$(get_path_to_artifact lava-rootfs.tar.zst)"
->>   rm -rf results
->>   mkdir -p results/job-rootfs-overlay/
->>
->> -artifacts/ci-common/generate-env.sh > results/job-rootfs-overlay/set-job-env-vars.sh
->> +artifacts/ci-common/export-gitlab-job-env-for-dut.sh \
->> +    > results/job-rootfs-overlay/set-job-env-vars.sh
->>   cp artifacts/ci-common/init-*.sh results/job-rootfs-overlay/
->>   cp "$SCRIPTS_DIR"/setup-test-env.sh results/job-rootfs-overlay/
->>
->> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
->> index dbc4ff50d8ff..84a25f0e783b 100644
->> --- a/drivers/gpu/drm/ci/test.yml
->> +++ b/drivers/gpu/drm/ci/test.yml
->> @@ -112,7 +112,7 @@
->>       - kvm
->>     script:
->>       - ln -sf $CI_PROJECT_DIR/install /install
->> -    - mv install/bzImage /lava-files/bzImage
->> +    - mv install/bzImage /kernel/bzImage
->>       - mkdir -p /lib/modules
->>       - install/crosvm-runner.sh install/igt_runner.sh
->>     needs:
->> --
->> 2.47.2
->>
+> [Series #2] bits: Split asm and non-asm GENMASK*() and unify definitions
+>     - bits: split the definition of the asm and non-asm GENMASK*()
+>     - bits: unify the non-asm GENMASK*()
+>     - test_bits: add tests for __GENMASK() and __GENMASK_ULL()
 > 
 > 
+> Series #1 will leave GENMASK(), GENMASK_ULL() and GENMASK_128()
+> untouched. The final result after the Series #2 will be the exact same
+> code as of now.
+> 
+> I am thinking of sending the two series at the same time, and then, you
+> can decide what is the good timing to merge these (and eventually, start
+> a separate discussion on the second series).
+> 
+> Does this work for you?
 
+Yes.
+
+> On a side note, it did a lot of modifications to your original patch
+> which introduced the GENMASK_U*(). It is OK to tag myself as author and
+> you as co-author or do you still prefer to stay as the main author? Let
+> me know!
+
+Yes, I'm OK.
