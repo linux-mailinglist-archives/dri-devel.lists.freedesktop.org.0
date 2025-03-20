@@ -2,110 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8DFA6A3A0
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 11:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9EDDA6A3B0
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 11:31:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB40410E1DF;
-	Thu, 20 Mar 2025 10:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 367F310E5D6;
+	Thu, 20 Mar 2025 10:31:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="h4cj1sGn";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="L6P5GH3q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 629E310E1DF
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 10:28:44 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52K6Z7GO025403
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 10:28:43 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F17B310E5CE
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 10:31:17 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52K6Z72O014612
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 10:31:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- t7JCFxJENGct7M1n7Kf+6tvuHHB4HK4sMdAZpytvjcM=; b=h4cj1sGnX3jHFcpd
- Y/V7raEGTWPOS9mM35u/HRsKdiQTSCVklabyqD8TAGASorLC+Dg1/kC44VeoObuQ
- vDLZBz20Ebgb3lwitOAHGVcYqT88UgSNgqw8eZarU4esArZwCnGaDKzo7CZA5hRt
- GQRjwY4CulEsIhndQBRBwQlRUS1ImEgfHZ+YOgInELBwT7jU68wChIwYqHbHXQKH
- Do/nW565edG7cVdUXf0KdnxebtOsFkoVNQTmy1Hnq78DOVMX7SPuLg6i8CQS/5n3
- OsDhKN2gGzMW0351kW1ex3uvoxkNkhg0Z3RWvKfJ1Q1o+so5hrQdv0Qoxi2WuZTY
- Tc76Aw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45g15y2h7d-1
+ 36UzwJlY8WygcJ7OC9rF2JL2H8lu5cJBcRlW3DTYlSk=; b=L6P5GH3qx3tT+NHD
+ TiiNMbptXd57D0t0G3YIsUuDIonwQJmJCwX0aNydR8tE4PWbCwlcoBrkfozHHCk4
+ dYb2ZMwkyq+SSSNYhV443jbyavl1C7XV7eiyXxPCq1TSQj4w4A6SSdvIz3g8sQX+
+ D2wTR0YMVhkkU5Y6G/aZhT3IdY92iyFXGxsn2wTAtULWC/aTkP7RQ6iZbfgZx5x6
+ tt7AvDOt7BtfWYKR71Lw0lVF4L42nFhfywWuZdgiE1YIE5CiLFwroj47Y9t7C+0A
+ r7jUZNqqP7yLmZlJexJO24nL8GoLwD5IbX7C3TfdIww9saMdEs9NB1jXiEpEFrQT
+ P7MLeQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exwtrr6e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 10:28:43 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6e19bfc2025so1300906d6.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 03:28:43 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 10:31:17 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-476786e50d9so1892331cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 03:31:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742466522; x=1743071322;
+ d=1e100.net; s=20230601; t=1742466676; x=1743071476;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t7JCFxJENGct7M1n7Kf+6tvuHHB4HK4sMdAZpytvjcM=;
- b=G6ob5N3T8NrPa9BBn8znRxfblPJb1Jli9N8IO3VSWvI4HbZHfcPJgcZ0d/gLGWOJqy
- StR+of8gExYvleEmGByYapD5ITHJJQ0cnGHScn7a3lM31x/RRwe4xu4tx2IXWp/wBg2U
- na1uL4E1GIyOvHmQ59aGbBq7sNrE2qce1mB6Cbj9Fv6AwsyyQYhFyvtfSyc62JWQizGp
- Ff6LnwCt612dBDF+DZiWAlYTXl+WkdmmFPt0kMt4bRjFp6JeRT9q1N6EY/aioYpNFRzo
- 3Ls5yZe5EjTEMBVflqE4Z/t/AawLdAuScfiF6lf7WDfQ/W+3h/s+tCONQ+NPN9zu/ktG
- Pn3w==
+ bh=36UzwJlY8WygcJ7OC9rF2JL2H8lu5cJBcRlW3DTYlSk=;
+ b=wky5g1G47VJVwD0+3iAvrL+S2QntNP1Gg3RQExKruWEtTVi1hscQtBmj6k/gsc5efa
+ P2qrdNWepHbz8TPBdpQTFD+Fv87dLajJrdg0KXrxCeS4YffQO0Z2gba7Au5NJyMcf8EL
+ lIy/67inxYCt5Po3e7SkFDh/gA6+wY44CopD22UjIlZEGvaI3yjjRiRveh1sitjedcrx
+ mTBAbtd8qwahxFCjwwLPHvoBToEMOsIrd5xpbofP9Il78Jzu/7pSNwUBdPwNc/mcVRyc
+ 84s8xyM6wXsWTjOpJrDVGneipiMixZju5kDATasIdRFXYoJCI0DUxHNU52OAitkcwtdu
+ c4cw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUZ+cVMPWL76Ny4vQVZFmGZ0hKeSpjcPItE11M6zAB9zz1cDNOZ2wiJgzRzX7ubqfz5mGTctBlmekY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzmet1pt8i57mjY/EPq7pZxXaoGcS9PY552htNcn62Kta/wXEws
- ySUNWsfDZT76t/gJMWU/BwjRi2hEAmxOFwiqmVdBmpz2AtJF/ZHZ0Kn7ckv7NVMaHV6bbSsCfsw
- 4rCugA1JTl8j9zCMpT01YrEKwzUxnL5JN/C4vuVK06j3nheY3kZWthSywLR5lTQcqbKk=
-X-Gm-Gg: ASbGncsjndb1W61JNYdfAQYXhUWRlAS9w5pVqvOtf9bbNL/y4JUu8BsXHiOIQMP7Zwe
- cclFFBhnKmDM9aOzZfLQjnQtWcPDqCCUhfSSWDekoMXMCnIOWcWC+nsBG8RkHpTWhhbCbMzPLAn
- xrNZkHxKbY5d2eO8KolTsvuhfNQ5i5Izgsk5A3EHpDJ8J40WwMd4cBd6IxN9QLiYTUepaorpvpr
- PSf8mtvoxpJamTmOUeprSBN1uE8HS3P3pAYojyXOFqJe30VpCgzsxjmxOUD2Ys8B6z2J0MxNlpt
- 3mklv2vHwDAmhnOBJsrEIYnD6PZxAgT5oagnEE54g38e+s576sKvVyjWfqdRTWA9t+MkbQ==
-X-Received: by 2002:a05:6214:23cd:b0:6e6:62fb:3504 with SMTP id
- 6a1803df08f44-6eb2ba0c59cmr29712106d6.8.1742466522646; 
- Thu, 20 Mar 2025 03:28:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IENDiGX/C/TqtQC7A30JrTt6Srt5dzpSfvmRqIWtJNoV+GAAS2k4SYx2YUt3qrXWOs29AJnUw==
-X-Received: by 2002:a05:6214:23cd:b0:6e6:62fb:3504 with SMTP id
- 6a1803df08f44-6eb2ba0c59cmr29711986d6.8.1742466522225; 
- Thu, 20 Mar 2025 03:28:42 -0700 (PDT)
+ AJvYcCWOwCw5OKc9MYOS6XPa0+Y15vHncUXq4kvDvnfntdAcNG91vSjiYf/MnniXkm6HJlJjcnlC/jwoj1w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx18QUIHqxQ/OGPS7sRwK5tfMvBhfKtyFGwLjaRSr9HKLVDRrwo
+ vs05CXzIi71K2kWXOPKhGK0K+Hj2dinYWD3SCNQBn6OrbVYcKOEMR8kCyJdwgiln7Mmsv6XWw8p
+ kMCUiy0pSV3BpSMXMBSrRavkwxYUbH/Cpb9erB4sYhjQrRrjTmHXO7WcYYI11cOLGjQI=
+X-Gm-Gg: ASbGnct/YVti+tGuDtSvAiycc8vMywXtpzkJfj0hk60D/xkIMEvTDHBvho6kRUgTtCg
+ wBaUkDje15JQxqQhD3PKPlTI9tyHt8w1Bmixzgh+hKKmxMvJrZAhmIlhMP5oPycDwUZANBBNYnm
+ FX22RaPXYVP2PHuX7OOu3nEk3lgBgFNIMYTPH7L3xQ0zR2tDf3p8dkgbB7o2c29uBng0K3nxsMb
+ XSeEtKwPcOGBFP86dYpls6INABOeJlb/oTa/PIOVqJ9T2xf09BsIul1/22y/6rLi4U/HfJlGFEL
+ UeaCwfL4PK6f1TPwOKQZ1rhlOXlUjtn7jxnZT+OZ+UTa9zo41yFkJgQBOuXRQQNgwWof8Q==
+X-Received: by 2002:a05:622a:609:b0:473:88e7:e434 with SMTP id
+ d75a77b69052e-47708385019mr33204131cf.14.1742466676086; 
+ Thu, 20 Mar 2025 03:31:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFIovFeuj/9Kdw2uplzLYek5LaMRqzFe5uQVLzBQNPcEO5ZEu7AMi81ywbHwodwhn2RNco2Ew==
+X-Received: by 2002:a05:622a:609:b0:473:88e7:e434 with SMTP id
+ d75a77b69052e-47708385019mr33204031cf.14.1742466675771; 
+ Thu, 20 Mar 2025 03:31:15 -0700 (PDT)
 Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac3149ce9a9sm1138534066b.110.2025.03.20.03.28.33
+ 4fb4d7f45d1cf-5e8169b1602sm10459819a12.42.2025.03.20.03.31.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Mar 2025 03:28:41 -0700 (PDT)
-Message-ID: <3b4c816d-d7e7-4029-917d-f519a75149d6@oss.qualcomm.com>
-Date: Thu, 20 Mar 2025 11:28:14 +0100
+ Thu, 20 Mar 2025 03:31:15 -0700 (PDT)
+Message-ID: <f8d12312-dfb7-481c-a025-dd4c6d3aa268@oss.qualcomm.com>
+Date: Thu, 20 Mar 2025 11:30:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] misc: fastrpc: add support for gpdsp remoteproc
+Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
 To: Ling Xu <quic_lxu5@quicinc.com>, andersson@kernel.org,
  konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, srinivas.kandagatla@linaro.org,
  amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org
 Cc: quic_kuiw@quicinc.com, quic_ekangupt@quicinc.com,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250320051645.2254904-1-quic_lxu5@quicinc.com>
- <20250320051645.2254904-3-quic_lxu5@quicinc.com>
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
+ <20250320091446.3647918-3-quic_lxu5@quicinc.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250320051645.2254904-3-quic_lxu5@quicinc.com>
+In-Reply-To: <20250320091446.3647918-3-quic_lxu5@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: zE1OL6xh0MsZzHjJ_PC2ZKiw_sXzt0dY
-X-Proofpoint-ORIG-GUID: zE1OL6xh0MsZzHjJ_PC2ZKiw_sXzt0dY
-X-Authority-Analysis: v=2.4 cv=VaD3PEp9 c=1 sm=1 tr=0 ts=67dbeddb cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=0IcnB8eo5JocWn4U3IUA:9
- a=QEXdDO2ut3YA:10
- a=1HOtulTD9v-eNWfpl4qZ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 4a-gTqhB7vBbfxNS2ormXYIX-mxeCU5b
+X-Proofpoint-ORIG-GUID: 4a-gTqhB7vBbfxNS2ormXYIX-mxeCU5b
+X-Authority-Analysis: v=2.4 cv=UoJjN/wB c=1 sm=1 tr=0 ts=67dbee75 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=98RdHtkJ8WjIMYe7nFEA:9
+ a=0bXxn9q0MV6snEgNplNhOjQmxlI=:19 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+ a=TjNXssC_j7lpFel5tvFf:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-20_03,2025-03-19_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- bulkscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999 phishscore=0
- spamscore=0 priorityscore=1501 suspectscore=0 mlxscore=0 malwarescore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
+ mlxscore=0 malwarescore=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999
+ phishscore=0 adultscore=0 clxscore=1015 spamscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2503200064
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -122,11 +124,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/20/25 6:16 AM, Ling Xu wrote:
+On 3/20/25 10:14 AM, Ling Xu wrote:
 > The fastrpc driver has support for 5 types of remoteprocs. There are
 > some products which support GPDSP remoteprocs. Add changes to support
 > GPDSP remoteprocs.
 > 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
 > ---
 >  drivers/misc/fastrpc.c | 10 ++++++++--
@@ -144,9 +147,6 @@ On 3/20/25 6:16 AM, Ling Xu wrote:
 > +#define GDSP0_DOMAIN_ID (5)
 > +#define GDSP1_DOMAIN_ID (6)
 > +#define FASTRPC_DEV_MAX		7 /* adsp, mdsp, slpi, cdsp, cdsp1, gdsp0, gdsp1 */
-
-This sounds like a good enum candidate
-
 >  #define FASTRPC_MAX_SESSIONS	14
 >  #define FASTRPC_MAX_VMIDS	16
 >  #define FASTRPC_ALIGN		128
@@ -158,15 +158,24 @@ This sounds like a good enum candidate
 > +						"sdsp", "cdsp",
 > +						"cdsp1", "gdsp0",
 > +						"gdsp1" };
+>  struct fastrpc_phy_page {
+>  	u64 addr;		/* physical address */
+>  	u64 size;		/* size of contiguous region */
+> @@ -2338,6 +2342,8 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  		break;
+>  	case CDSP_DOMAIN_ID:
+>  	case CDSP1_DOMAIN_ID:
+> +	case GDSP0_DOMAIN_ID:
+> +	case GDSP1_DOMAIN_ID:
+>  		data->unsigned_support = true;
 
-And this could become
+There's a comment above this hunk that is no longer valid:
 
-*domains[FASTRPC_DEV_MAX] = {
-	...
-	[CDSP_DOMAIN_ID] = "cdsp"
-	...
-};
+'/* Unsigned PD offloading is only supported on CDSP and CDSP1 */'
 
-etc.
+I would say it can be removed altogether
+
+I would also support renaming "unsigned_support" which is very generic to
+something like allow_unsigned_pds
 
 Konrad
