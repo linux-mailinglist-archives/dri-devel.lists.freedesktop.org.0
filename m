@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D91DA6A3FD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 11:46:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C71A6A407
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 11:47:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D17610E5CE;
-	Thu, 20 Mar 2025 10:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 835C910E5D7;
+	Thu, 20 Mar 2025 10:47:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="wj6wcG2d";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="Nti2l/RC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5419010E5CE
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 10:46:23 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-43cfebc343dso4126975e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 03:46:23 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23C0410E5D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 10:47:31 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-43cf848528aso5145445e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 03:47:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1742467582; x=1743072382;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1742467650; x=1743072450;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=e3cXA/fw5AX+Yiya/bhG01AqbPdp8l/PoT8LT6FJXhM=;
- b=wj6wcG2d77zffpyZQ3LHFi7HCSnpcPIIj0WdRAeLfPjEnas9kEYugct8SjAh8uqnUA
- EKs1JDEmm3fPDerCEEowdJrzhIao2a0itH/O4xXrhriq7PFCmI/bHi2naQagFSMTKGtd
- 5YviU1iddXY1/SZAPh9QVBxKp/58XDbSVLClEaNBx20i+c/MVECyll0MfAi9fjf8gHcd
- 2Ole1qoBAnK7bfz55n51sgEcRlHfkXvnfrTGGd4lyhqCehv6RkDdrhP4vNxhzt+vagEg
- 9VPbhtktuKJEmC9sK/KOURKVKhGxSUWYVZzHq3HzSeyRJY9yqDTGHWSp/lElc6STHow0
- crTA==
+ bh=foGgFo33VLzIkzjoUbfwPOydEMR+xeWsTRE1WEHeQbI=;
+ b=Nti2l/RCvqopMl8cwJOxCvXD2celskBlIWrEjJTWdyrdac/ho7z4xhKXiMriSFCmQm
+ ZK8iccYxjIXhl5SaA3KlFz+tG1hUwcI2qWOIM12nNMCn9WK8SicT831Rve7WFNo99+km
+ y1amCwUQ1YS4rU6R/9/QZEwfrlSQyu9GfON3roMFMSEPglXd2Gl13SpCoUoHjhvVXc58
+ oNtZ30WF4eC3YyWuc3Jk4N9tT+GZgEAzCwushk+3YNiUpSEoKSd8QXAcbxToXnUOjc8v
+ nl0WMOOZIH0IMe5wADr2ZYLEw5rw2BNJdMp2l7nuGnRKEy6Q45NI3dvKyKNGqz0/S5TH
+ zIag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742467582; x=1743072382;
+ d=1e100.net; s=20230601; t=1742467650; x=1743072450;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e3cXA/fw5AX+Yiya/bhG01AqbPdp8l/PoT8LT6FJXhM=;
- b=H/hjqMZNvNQchY6z2lJJjrICodLLjEiBTh2xmjQ/E4EKU4KDXFoCz0oVTkQdO6V1Lo
- RVZ2Lo+B6uo9shfL30C/tmHUhnbWKc3v/CKZO8vknEHTSywCtNUYgW6GRfjid2x2Cfc1
- y/ZataEw6NcQJnZhd7GBkyFEYzvRXL0ZBJF5fyr0FIFh8/gSgnq+HIdFPLyboHRQJ3cT
- y+Xym0Sug4lFkzvt5lFIEWeDqgb1l4lwBYVKZyuCEiyRbZXmC/HVT8kBSc5q4NqcoosP
- suopIXm9PJgY5TzOJ79nlrI9y+fGVC8+qZNLRwMNrflMmEWR2TCn9h7/BRnhjAuLdeaq
- ppyQ==
-X-Gm-Message-State: AOJu0YxOnarrg5XyzQqqFpLeOSrWZ/UbVMpOELoW0WNytqHTC7SyPHsD
- I1il6oVZhncjCi9UK/NDPujT9spJYnOav9p6Ovvg155/zxuVWx/l8F7qX/Xm6uQ=
-X-Gm-Gg: ASbGncvkn/KruQO6Fsv9pTAjZfZzPaDSkyl5Jb7TSeBWiygrm45p4FStPCiw7uK1/z0
- E6E02zPlEfsnrcQik1napjtGqnlsRui9Mgg5u1RjBFE4hs827oOQ4Y+MFthv4nlLfQCkVCORuit
- hLghzRR7bMjK4g4cv97UV9gPJljumeYCtFRgp7Yp775TyDRxoBIincRF3DHRgysinzfHxzVeuuN
- iD8iZxMyZcBYLwX1L4/k+9Srn1lL1+7tTbblS2c/1mLBp0Y/OOeRhyOdA3eJnLmK8RuIJCiIkG6
- PLQQSGteYmF0eiI534eccTFTCZyzLujX84mx/Www1cG3sT/AgE45eohckuQ1sHMSzL6TJA4=
-X-Google-Smtp-Source: AGHT+IFzjv7gOhxIlYKzki//MDgxLr1bbaSAQ8+4rCN5g/EX04DUqqsl6qwUqnLiDJXhDadlRoad7Q==
-X-Received: by 2002:a05:600c:4f86:b0:43c:f616:f08 with SMTP id
- 5b1f17b1804b1-43d4378b1bbmr53529905e9.8.1742467581376; 
- Thu, 20 Mar 2025 03:46:21 -0700 (PDT)
+ bh=foGgFo33VLzIkzjoUbfwPOydEMR+xeWsTRE1WEHeQbI=;
+ b=CsfdoQdMs6qDhU4x2Fbay5W299swJpNL7PRMsdmFik6XmSwggZRlapGTOzi696Xgi0
+ uHEvFdsew38UOaTj3xLwxkFj8sF91d/JNVlhbtiDlrPY9uthu9fX5HZQpjnuUz5UXv+r
+ 3gFj1xFUDGGhFgJZ7GwtCRtWOKdsg7iZwr/PHIuAosR6LxcPR3g6vsnCRdOKzXnuGvDG
+ 5F1KgvHD+4Rg2y/SaJ4xHDQywAyF0ob33/OuDXK7MsRXxpMW+eEdmeExYzuy+UlqM/Eq
+ ZZIoWrjfSfQaFzTY+eng55ctOwPvIsCnhjcCAgk3PxLVmAIMdBtuWGBcBjkS52toSLTs
+ KAqw==
+X-Gm-Message-State: AOJu0YxPawHaJmH0CNycn4imN2Gm7UFLybFeUD94QoWxwCSFNJBoSSGK
+ II7FZFZ9HvjU9eOXClTV7Fd6xHGtm0x/SD67Bb+Y3FEDYGeMsTdPuamwrMqT598=
+X-Gm-Gg: ASbGncvHNY/jRufbX5mVNlDC/D5IXcv/3wIzUXkqZy4WOpRz5bDrprToxUMkIG8RIhV
+ o8/s4Fax2U0bkSJk3cFIBv7yM/dBAqmbi7k6Op/nyeGbswqyh4HuufZTGzJFYBmnnLs0A3t3J0z
+ ZyhiLilSOSXOVjbYGV0T5JeBsqa9nUWjjV6+BdrORLbXXBYiS5llcI2nksxK07tI20/TYyMlW69
+ GQTSsjb4AV5qLcryi8A4vktgHvjR/iCwEs77xSwiQhgH6S4TI9cwc7qTeBdERsxmk9VG6W1wGQr
+ S9V13MOQAwDcWk//XOrhwancSuIAJS1GzBSx4RTriTS97GL/HpccZZ5V72hy
+X-Google-Smtp-Source: AGHT+IEvHPoPXyg7rfkgM3Y97xOpECmfVdCIe7gAm9tgP99dIaDKMLf19aoDb9oOuJzL8kX1SocWRw==
+X-Received: by 2002:a05:600c:5008:b0:43c:f87c:24d3 with SMTP id
+ 5b1f17b1804b1-43d4381b4b9mr64371575e9.20.1742467649457; 
+ Thu, 20 Mar 2025 03:47:29 -0700 (PDT)
 Received: from [192.168.0.101] ([90.241.98.187])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d43f47c60sm44302855e9.13.2025.03.20.03.46.20
+ ffacd0b85a97d-395c7df35f7sm23678038f8f.13.2025.03.20.03.47.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Mar 2025 03:46:20 -0700 (PDT)
-Message-ID: <f3670689-8b10-4665-aa1a-e54e1503b54e@ursulin.net>
-Date: Thu, 20 Mar 2025 10:46:20 +0000
+ Thu, 20 Mar 2025 03:47:29 -0700 (PDT)
+Message-ID: <d4ef3a3b-eed1-4c15-827b-4a34a8a47dc1@ursulin.net>
+Date: Thu, 20 Mar 2025 10:47:28 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 04/10] drm/sched: cleanup gpu_scheduler trace events
+Subject: Re: [PATCH v8 05/10] drm/sched: trace dependencies for gpu jobs
 To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
  Philipp Stanner <phasta@kernel.org>,
@@ -76,10 +76,10 @@ To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 References: <20250320095818.40622-1-pierre-eric.pelloux-prayer@amd.com>
- <20250320095818.40622-5-pierre-eric.pelloux-prayer@amd.com>
+ <20250320095818.40622-6-pierre-eric.pelloux-prayer@amd.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250320095818.40622-5-pierre-eric.pelloux-prayer@amd.com>
+In-Reply-To: <20250320095818.40622-6-pierre-eric.pelloux-prayer@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,120 +99,87 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 20/03/2025 09:58, Pierre-Eric Pelloux-Prayer wrote:
-> A fence uniquely identify a job, so this commits updates the places
-> where a kernel pointer was used as an identifier by:
+> We can't trace dependencies from drm_sched_job_add_dependency
+> because when it's called the job's fence is not available yet.
 > 
->     "fence=%llu:%llu"
+> So instead each dependency is traced individually when
+> drm_sched_entity_push_job is used.
+> 
+> Tracing the dependencies allows tools to analyze the dependencies
+> between the jobs (previously it was only possible for fences
+> traced by drm_sched_job_wait_dep).
 > 
 > Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 > ---
->   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 45 ++++++++++---------
->   1 file changed, 24 insertions(+), 21 deletions(-)
+>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 24 ++++++++++++++++++-
+>   drivers/gpu/drm/scheduler/sched_entity.c      |  8 +++++++
+>   2 files changed, 31 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> index 713df3516a17..21a85ee59066 100644
+> index 21a85ee59066..5d9992ad47d3 100644
 > --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
 > +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> @@ -36,28 +36,29 @@ DECLARE_EVENT_CLASS(drm_sched_job,
->   	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
->   	    TP_ARGS(sched_job, entity),
->   	    TP_STRUCT__entry(
-> -			     __field(struct drm_sched_entity *, entity)
-> -			     __field(struct dma_fence *, fence)
-> -			     __string(name, sched_job->sched->name)
->   			     __field(uint64_t, id)
-> +			     __string(name, sched_job->sched->name)
->   			     __field(u32, job_count)
->   			     __field(int, hw_job_count)
->   			     __string(dev, dev_name(sched_job->sched->dev))
-> +			     __field(u64, fence_context)
-> +			     __field(u64, fence_seqno)
->   			     ),
->   
->   	    TP_fast_assign(
-> -			   __entry->entity = entity;
->   			   __entry->id = sched_job->id;
-> -			   __entry->fence = &sched_job->s_fence->finished;
->   			   __assign_str(name);
->   			   __entry->job_count = spsc_queue_count(&entity->job_queue);
->   			   __entry->hw_job_count = atomic_read(
->   				   &sched_job->sched->credit_count);
+> @@ -54,7 +54,6 @@ DECLARE_EVENT_CLASS(drm_sched_job,
 >   			   __assign_str(dev);
-> +			   __entry->fence_context = sched_job->s_fence->finished.context;
-> +			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
+>   			   __entry->fence_context = sched_job->s_fence->finished.context;
+>   			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
+> -
+>   			   ),
+>   	    TP_printk("dev=%s, id=%llu, fence=%llu:%llu, ring=%s, job count:%u, hw job count:%d",
+>   		      __get_str(dev), __entry->id,
+> @@ -88,6 +87,29 @@ TRACE_EVENT(drm_sched_process_job,
+>   		      __entry->fence_context, __entry->fence_seqno)
+>   );
+>   
+> +TRACE_EVENT(drm_sched_job_add_dep,
+> +	TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence *fence),
+> +	TP_ARGS(sched_job, fence),
+> +	TP_STRUCT__entry(
+> +		    __field(u64, fence_context)
+> +		    __field(u64, fence_seqno)
+> +		    __field(u64, id)
+> +		    __field(u64, ctx)
+> +		    __field(u64, seqno)
+> +		    ),
 > +
-
-You add this blank line only to remove in the following patch.
-
-Otherwise LGTM.
+> +	TP_fast_assign(
+> +		    __entry->fence_context = sched_job->s_fence->finished.context;
+> +		    __entry->fence_seqno = sched_job->s_fence->finished.seqno;
+> +		    __entry->id = sched_job->id;
+> +		    __entry->ctx = fence->context;
+> +		    __entry->seqno = fence->seqno;
+> +		    ),
+> +	TP_printk("fence=%llu:%llu, id=%llu depends on fence=%llu:%llu",
+> +		  __entry->fence_context, __entry->fence_seqno, __entry->id,
+> +		  __entry->ctx, __entry->seqno)
+> +);
+> +
+>   TRACE_EVENT(drm_sched_job_wait_dep,
+>   	    TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence *fence),
+>   	    TP_ARGS(sched_job, fence),
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index a6d2a4722d82..047e42cfb129 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -580,6 +580,14 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+>   	ktime_t submit_ts;
+>   
+>   	trace_drm_sched_job(sched_job, entity);
+> +
+> +	if (trace_drm_sched_job_add_dep_enabled()) {
+> +		struct dma_fence *entry;
+> +		unsigned long index;
+> +
+> +		xa_for_each(&sched_job->dependencies, index, entry)
+> +			trace_drm_sched_job_add_dep(sched_job, entry);
+> +	}
+>   	atomic_inc(entity->rq->sched->score);
+>   	WRITE_ONCE(entity->last_user, current->group_leader);
+>   
 
 Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
 Regards,
 
 Tvrtko
-
->   			   ),
-> -	    TP_printk("dev=%s, entity=%p, id=%llu, fence=%p, ring=%s, job count:%u, hw job count:%d",
-> -		      __get_str(dev), __entry->entity, __entry->id,
-> -		      __entry->fence, __get_str(name),
-> +	    TP_printk("dev=%s, id=%llu, fence=%llu:%llu, ring=%s, job count:%u, hw job count:%d",
-> +		      __get_str(dev), __entry->id,
-> +		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
->   		      __entry->job_count, __entry->hw_job_count)
->   );
->   
-> @@ -75,37 +76,39 @@ TRACE_EVENT(drm_sched_process_job,
->   	    TP_PROTO(struct drm_sched_fence *fence),
->   	    TP_ARGS(fence),
->   	    TP_STRUCT__entry(
-> -		    __field(struct dma_fence *, fence)
-> +		    __field(u64, fence_context)
-> +		    __field(u64, fence_seqno)
->   		    ),
->   
->   	    TP_fast_assign(
-> -		    __entry->fence = &fence->finished;
-> +		    __entry->fence_context = fence->finished.context;
-> +		    __entry->fence_seqno = fence->finished.seqno;
->   		    ),
-> -	    TP_printk("fence=%p signaled", __entry->fence)
-> +	    TP_printk("fence=%llu:%llu signaled",
-> +		      __entry->fence_context, __entry->fence_seqno)
->   );
->   
->   TRACE_EVENT(drm_sched_job_wait_dep,
->   	    TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence *fence),
->   	    TP_ARGS(sched_job, fence),
->   	    TP_STRUCT__entry(
-> -			     __string(name, sched_job->sched->name)
-> +			     __field(u64, fence_context)
-> +			     __field(u64, fence_seqno)
->   			     __field(uint64_t, id)
-> -			     __field(struct dma_fence *, fence)
-> -			     __field(uint64_t, ctx)
-> -			     __field(unsigned, seqno)
-> +			     __field(u64, ctx)
-> +			     __field(u64, seqno)
->   			     ),
->   
->   	    TP_fast_assign(
-> -			   __assign_str(name);
-> +			   __entry->fence_context = sched_job->s_fence->finished.context;
-> +			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
->   			   __entry->id = sched_job->id;
-> -			   __entry->fence = fence;
->   			   __entry->ctx = fence->context;
->   			   __entry->seqno = fence->seqno;
->   			   ),
-> -	    TP_printk("job ring=%s, id=%llu, depends fence=%p, context=%llu, seq=%u",
-> -		      __get_str(name), __entry->id,
-> -		      __entry->fence, __entry->ctx,
-> -		      __entry->seqno)
-> +	    TP_printk("fence=%llu:%llu, id=%llu depends on unsignalled fence=%llu:%llu",
-> +		      __entry->fence_context, __entry->fence_seqno, __entry->id,
-> +		      __entry->ctx, __entry->seqno)
->   );
->   
->   #endif /* _GPU_SCHED_TRACE_H_ */
 
