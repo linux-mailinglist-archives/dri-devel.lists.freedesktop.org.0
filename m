@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB101A6AA9E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB90A6AAF9
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:22:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2B710E665;
-	Thu, 20 Mar 2025 16:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3494B10E66B;
+	Thu, 20 Mar 2025 16:00:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l4q+8nmi";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KHS/h/2K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D03210E65F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6438110E65F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:45 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA3BC1AA2;
- Thu, 20 Mar 2025 16:58:58 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1E0B836;
+ Thu, 20 Mar 2025 16:58:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1742486339;
- bh=2qJfC7oDxsjuiQHnkQy9vy3BrMM57VcAHQdpuKoTbDE=;
+ s=mail; t=1742486340;
+ bh=yg2ZEQSdiQylg810dHQuElWWoHgC3iltx0QPHEXmIO4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=l4q+8nmiKdZvGDdc4OF/N3AdHW/hYrdnKPDiPj/sJk6FfqycU2hhQ93rZv1efxbaB
- LznJj8ygVtS9xZVB4yYIVCvdSGhF1pTPNhcCL6vShI5sUrfl+uXqES+ESVhoYkc2ap
- LrbFF6/MzrQxRW0ZjQPL7ANVXp9KZr1qtnsK9hts=
+ b=KHS/h/2KVruGDJXCBF7rM16LKwIG40LahulNfoPOx2tltCJbjLhMEarJSrgFxQt/m
+ EIglisci0EWFCUniOaMj/aqeCqYONd6ju3L50qWH7gVwNMz7pUZADkDzt5sw0BXTMB
+ 6QKmFtsAjidi2P0L/JOu602ok+zt5gyMWUEoiVDM=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 20 Mar 2025 18:00:06 +0200
-Subject: [PATCH 11/18] drm/bridge: cdns-dsi: Remove broken fifo emptying check
+Date: Thu, 20 Mar 2025 18:00:07 +0200
+Subject: [PATCH 12/18] drm/bridge: cdns-dsi: Drop checks that shouldn't be
+ in .mode_valid()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250320-cdns-dsi-impro-v1-11-725277c5f43b@ideasonboard.com>
+Message-Id: <20250320-cdns-dsi-impro-v1-12-725277c5f43b@ideasonboard.com>
 References: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 In-Reply-To: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -51,21 +52,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Devarsh Thakkar <devarsht@ti.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2637;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5390;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=2qJfC7oDxsjuiQHnkQy9vy3BrMM57VcAHQdpuKoTbDE=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3DuaQq9hV+Av0sNdDt5WPw0dUmqMOoU6xMT7X
- vNEd8uoI8aJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7mgAKCRD6PaqMvJYe
- 9VwuD/wOzrCBJ07hi2Fzd8rgAuPYU4vIAjyi0cYLPgPPSuo5f9GUyA5kIfobRS3C8XQuvfoPqXx
- WJi4nr8P0/3yU+1+KjRO8GS7hMRwNuRoYH1b7SpQaF0UFViTd1YLlv7HBaoxe/A5IHiKRxuxsEa
- s/F3TeTfmTpo6v8g5nRJCORUsKfAWzbEuiqnMVG+hHVd1O9wZ2tT1QHkZFgKEd8xu1QMhXrQar/
- VXJLYi0XAGqeWgdrnZlgxVODy7Em6JTK96/LOcF5S9pkV6R49Ceq7R+08R70N1bVpvzf9vKk6RO
- ufH0ndj5MHWMP6ocByN/vZm+57FacEACdaUXRJ3od2f78jqk/Qfrc5w9fu+adN1OLNaQOMdf2Iv
- gW3tk/LRQ0Rh1aziNOghLhUpJI1VmYVDHCOXpkZ5IZaTWjlImcw2/F8NEAgDqH5Ygm8sTnm7kRr
- +cqsmF2xeAwW1H6YnSi3hjaUlXPTqUlJ6GZTtcA0/hE6O2Tv7GdwzP/yRlhEkjrIN7mCHaGvaAl
- KkyBnR1c0+bR1rCPGalh6i/Ze1PLT3JlPpIr8uaIXVw8vsFoS/gEgKTwMOn0n8EZuwxwo5NI9L7
- 6T9DCNBtAniF7T5W9n/wVtxSM8vwALecjTYgik2u8v/36cLBf2Oz68Cg25NNrSwq+PeZ3usOEts
- 41ThLQtzdq22QqQ==
+ bh=yg2ZEQSdiQylg810dHQuElWWoHgC3iltx0QPHEXmIO4=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3Dua0EwNSD2oiucuSY05peszdbkGeyXUidhXF
+ pKZKnNiicyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7mgAKCRD6PaqMvJYe
+ 9QLGEACE61QaniGMe2V3HoBhAty8dGaNXTIkEZBlfr5Avk5piW0VhVaC77eKw1+xKKOrqMiWjIq
+ zQPs2Hgewpy6xpEowa+baIDGUy1OqP9GheUFDyC/WRay64HDlN6pLQiYdXpjIqkW8Ar49KKt6Sn
+ WZ5DxpzcqtZjY/3hMHAocpo7lF4/UjuSequFAOwb00H0E8QGpndzaJqAVEBNQMwuRrFb8gvWmze
+ YdvpGA0nS+m/XwL+pdRewOqZRpy7VkrY7oDEvtZ2u/1miIadFcsEMrvvpKYd3EnXJK7SlLDcSl8
+ BzTGQ/NUD993v0ZMbdUNYUdyEIjW1KZnViqM9shk4B5soPK1JRszdvBXuC2xvcxsbqx8uYEEXiX
+ US1dXUpX5S7Mcn+SVZQGW++QgRoQfIwDCWH8o6F9rZ06ZOeeDL42OUluxLu6ptv7Z+yNw3sbLdG
+ 1WWiuEu+vZDbqgt4Ba3RBloK34SV0OH4h8gca1gF0pS89+3oVsHAW1XRXvJwSzh0icd2DEQgAU1
+ K8A86iLgNY03RG49961vgWpGdp1dUj3mhaAwED/n2K31Q3O2fgE9Ulm2b6XbEzMzZA+ycO6as+I
+ 8+7vLdXRbEMqDR5LVgiCGQbv3O8w3eIlvHVYa/mJyTxgWQ/QDApnLos5w0InHBr9mSU0gv3HH07
+ re1ppcJzFsBBoAg==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,75 +84,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver check if "DPI(HFP) > DSI(HSS+HSA+HSE+HBP)", and rejects the
-mode if not.
+The docs say about mode_valid():
 
-However, testing shows that this doesn't hold at all. I can set the hfp
-to very small values, with no errors. The feedback from the HW team also
-was that the check is not right, although it's not clear if there's a
-way to validate the FIFO emptying.
+"it is not allowed to look at anything else but the passed-in mode, and
+validate it against configuration-invariant hardware constraints"
 
-The check rejects quite a lot of modes, apparently for no good reason,
-so drop the check.
+We're doing a lot more than just looking at the mode. The main issue
+here is that we're doing checks based on the pixel clock, before we know
+what the pixel clock from the crtc actually is.
+
+So, drop the checks from .mode_valid(). This also allows us to remove
+the 'mode_valid_check' parameter from internal functions, and the
+related code.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 28 --------------------------
- 1 file changed, 28 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 44 ++++++++------------------
+ 1 file changed, 14 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 9797e6faa29d..e85c8652c96e 100644
+index e85c8652c96e..cf783680b1b4 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -453,15 +453,6 @@ bridge_to_cdns_dsi_input(struct drm_bridge *bridge)
- 	return container_of(bridge, struct cdns_dsi_input, bridge);
- }
+@@ -469,25 +469,17 @@ static unsigned int dpi_to_dsi_timing(unsigned int dpi_timing,
  
--static unsigned int mode_to_dpi_hfp(const struct drm_display_mode *mode,
--				    bool mode_valid_check)
--{
--	if (mode_valid_check)
--		return mode->hsync_start - mode->hdisplay;
--
--	return mode->crtc_hsync_start - mode->crtc_hdisplay;
--}
--
- static unsigned int dpi_to_dsi_timing(unsigned int dpi_timing,
- 				      unsigned int dpi_bpp,
- 				      unsigned int dsi_pkt_overhead)
-@@ -583,7 +574,6 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+ static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
+ 			     const struct drm_display_mode *mode,
+-			     struct cdns_dsi_cfg *dsi_cfg,
+-			     bool mode_valid_check)
++			     struct cdns_dsi_cfg *dsi_cfg)
+ {
+ 	struct cdns_dsi_output *output = &dsi->output;
+ 	u32 dpi_hsa, dpi_hbp, dpi_hfp, dpi_hact;
+ 	bool sync_pulse;
+ 	int bpp;
+ 
+-	if (mode_valid_check) {
+-		dpi_hsa = mode->hsync_end - mode->hsync_start;
+-		dpi_hbp = mode->htotal - mode->hsync_end;
+-		dpi_hfp = mode->hsync_start - mode->hdisplay;
+-		dpi_hact = mode->hdisplay;
+-	} else {
+-		dpi_hsa = mode->crtc_hsync_end - mode->crtc_hsync_start;
+-		dpi_hbp = mode->crtc_htotal - mode->crtc_hsync_end;
+-		dpi_hfp =  mode->crtc_hsync_start - mode->crtc_hdisplay;
+-		dpi_hact = mode->crtc_hdisplay;
+-	}
++	dpi_hsa = mode->crtc_hsync_end - mode->crtc_hsync_start;
++	dpi_hbp = mode->crtc_htotal - mode->crtc_hsync_end;
++	dpi_hfp =  mode->crtc_hsync_start - mode->crtc_hdisplay;
++	dpi_hact = mode->crtc_hdisplay;
+ 
+ 	memset(dsi_cfg, 0, sizeof(*dsi_cfg));
+ 
+@@ -518,8 +510,7 @@ static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
+ static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
+ 			      struct cdns_dsi_cfg *dsi_cfg,
+ 			      struct phy_configure_opts_mipi_dphy *phy_cfg,
+-			      const struct drm_display_mode *mode,
+-			      bool mode_valid_check)
++			      const struct drm_display_mode *mode)
+ {
+ 	struct cdns_dsi_output *output = &dsi->output;
+ 	unsigned long long dlane_bps;
+@@ -549,11 +540,11 @@ static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
+ 	if (dsi_htotal % lanes)
+ 		adj_dsi_htotal += lanes - (dsi_htotal % lanes);
+ 
+-	dpi_hz = (mode_valid_check ? mode->clock : mode->crtc_clock) * 1000;
++	dpi_hz = mode->crtc_clock * 1000;
+ 	dlane_bps = (unsigned long long)dpi_hz * adj_dsi_htotal;
+ 
+ 	/* data rate in bytes/sec is not an integer, refuse the mode. */
+-	dpi_htotal = mode_valid_check ? mode->htotal : mode->crtc_htotal;
++	dpi_htotal = mode->crtc_htotal;
+ 	if (do_div(dlane_bps, lanes * dpi_htotal))
+ 		return -EINVAL;
+ 
+@@ -569,27 +560,25 @@ static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
+ 
+ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+ 			       const struct drm_display_mode *mode,
+-			       struct cdns_dsi_cfg *dsi_cfg,
+-			       bool mode_valid_check)
++			       struct cdns_dsi_cfg *dsi_cfg)
  {
  	struct cdns_dsi_output *output = &dsi->output;
  	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
--	unsigned long dsi_hss_hsa_hse_hbp;
  	unsigned int nlanes = output->dev->lanes;
- 	int mode_clock = (mode_valid_check ? mode->clock : mode->crtc_clock);
+-	int mode_clock = (mode_valid_check ? mode->clock : mode->crtc_clock);
  	unsigned long req_hs_clk_rate;
-@@ -617,24 +607,6 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
- 		return -EINVAL;
- 	}
+ 	int ret;
  
--	if (output->dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
--		dsi_hss_hsa_hse_hbp = dsi_cfg->hbp + DSI_HBP_FRAME_PULSE_OVERHEAD;
--		dsi_hss_hsa_hse_hbp += dsi_cfg->hsa + DSI_HSA_FRAME_OVERHEAD;
--	} else {
--		dsi_hss_hsa_hse_hbp = dsi_cfg->hbp + DSI_HBP_FRAME_EVENT_OVERHEAD;
--	}
+-	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg, mode_valid_check);
++	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = phy_mipi_dphy_get_default_config(mode_clock * 1000,
++	ret = phy_mipi_dphy_get_default_config(mode->crtc_clock * 1000,
+ 					       mipi_dsi_pixel_format_to_bpp(output->dev->format),
+ 					       nlanes, phy_cfg);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, mode, mode_valid_check);
++	ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, mode);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -635,8 +624,7 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+ 	struct cdns_dsi_output *output = &dsi->output;
+-	struct cdns_dsi_cfg dsi_cfg;
+-	int bpp, ret;
++	int bpp;
+ 
+ 	/*
+ 	 * VFP_DSI should be less than VFP_DPI and VFP_DSI should be at
+@@ -654,10 +642,6 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+ 	if ((mode->hdisplay * bpp) % 32)
+ 		return MODE_H_ILLEGAL;
+ 
+-	ret = cdns_dsi_check_conf(dsi, mode, &dsi_cfg, true);
+-	if (ret)
+-		return MODE_BAD;
 -
--	/*
--	 * Make sure DPI(HFP) > DSI(HSS+HSA+HSE+HBP) to guarantee that the FIFO
--	 * is empty before we start a receiving a new line on the DPI
--	 * interface.
--	 */
--	if ((u64)phy_cfg->hs_clk_rate *
--	    mode_to_dpi_hfp(mode, mode_valid_check) * nlanes <
--	    (u64)dsi_hss_hsa_hse_hbp *
--	    (mode_valid_check ? mode->clock : mode->crtc_clock) * 1000)
--		return -EINVAL;
--
- 	return 0;
+ 	return MODE_OK;
  }
  
+@@ -996,7 +980,7 @@ static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
+ 	adjusted_crtc_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+ 	adjusted_crtc_mode->flags |= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC;
+ 
+-	return cdns_dsi_check_conf(dsi, mode, dsi_cfg, false);
++	return cdns_dsi_check_conf(dsi, mode, dsi_cfg);
+ }
+ 
+ static struct drm_bridge_state *
 
 -- 
 2.43.0
