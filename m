@@ -2,43 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD517A6AABD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF1BA6AA9B
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:07:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F76410E65D;
-	Thu, 20 Mar 2025 16:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E748B10E3B2;
+	Thu, 20 Mar 2025 16:00:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AI38E/Cj";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Jo6hJDzx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D5A10E65D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 805CF10E3B2
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:35 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B916743;
- Thu, 20 Mar 2025 16:58:45 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 333C6836;
+ Thu, 20 Mar 2025 16:58:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1742486327;
- bh=lSyopKruZvmWIQmZ7p24moYnW97sugfhmwKElLeEU/Q=;
- h=From:Subject:Date:To:Cc:From;
- b=AI38E/CjQ6vKKm0uRFJnelHpS++zAm9FBjwkLQm067nMlBN8BbbohkFj1JdzU8kw8
- d+KvTK1Std1ZcOj2rqw73Z6YQuu796YNCm+qaFiPZPLV+RP2GAFXXV+Ka9rS3SvDoe
- Sr1SW2zqTsXr+1PLFmd3VE2a0iu7UFWVzYnWjfM8=
+ s=mail; t=1742486328;
+ bh=tWpzu7ba133Zdaj4dIf8mfTY5P/FzEw3AwQGlLkB6nY=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=Jo6hJDzx4MMVutviFoW6uze0v/t/ZUm3X99o4o+jspdo0aHxYvjZr5GZqfyHXe72l
+ cVOWAeLOIYol7UZjpp2ic1QNh6dyw0QY5HSFa/V1rBRn+Dmt0oLVbMTdU9nPjjWvRp
+ f5azgycs2yk3KZQDl9kPW2S6tLE5LGaoHomhfRJc=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 00/18] drm/bridge: cdns-dsi: Make it work a bit better
-Date: Thu, 20 Mar 2025 17:59:55 +0200
-Message-Id: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
+Date: Thu, 20 Mar 2025 17:59:56 +0200
+Subject: [PATCH 01/18] drm/tidss: Fix missing includes and struct decls
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAH073GcC/yWOwW7CMBBEfyXyuY7ijR1sTv2PisPau2lWahKwA
- wIh/h03HN9I82aeqnAWLurYPFXmmxRZlwrmq1FpwuWXtVBlBR24rodOJ1qKpiJa5nNedU9+jHT
- w1pNRtXTOPMp9F/6cPpz5cq3e7ROqmUvB3XtsdivAYJwD8K0bLPigjcaMND2wjRNugt9/slzvL
- fHtfyFiYZ3WeZat/uwGOxBhgmAOsTcpeJd4HDu2wUOygCEFsFGdXq83VsiLNewAAAA=
-X-Change-ID: 20250320-cdns-dsi-impro-3d8fbd7848d1
+Message-Id: <20250320-cdns-dsi-impro-v1-1-725277c5f43b@ideasonboard.com>
+References: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
+In-Reply-To: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -54,21 +51,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Devarsh Thakkar <devarsht@ti.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3532;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2118;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=lSyopKruZvmWIQmZ7p24moYnW97sugfhmwKElLeEU/Q=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3DuQitCmeAn1z5CKfMvn9KlKyHrqUimYENrj9
- FzRaAvEFdGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7kAAKCRD6PaqMvJYe
- 9Y56D/0Z+Q6zQ7cSoyEqQcuuqAgQ308kt5ZtP2h0r9qur2lkI9ipQMvoyYMbIsIFYvWGS9ZQGUA
- 7O0zLFBoJLmMa14GF9xLR6FFQdgRsXTqRLUNJQ30O9NUyk0EmujbQtsB1EvfaJvrLwNUaQ1bIgY
- d6u5hlf7HdSAIxx8EHyyRFCYo8bDto92xtwD0xw6keeJ71nZdPnUjxdI9SVk6U6LVZGo71fgp5e
- lexn1GbPu7uqYiV+YzG+for7LCxi9nmZAbSQ+OjRoJa88Xc9ovIqEpiM8O6YUjavDRCl0sCDgMu
- fugFiTuB3Xdx8LeHhXza1wmzMr6ltDXjHyXeJ5xyG1+dctXk5/O6t8PkUE3W+iCEtSwSgdPGWrj
- AnzR5FL6O3jLtqjl0gxh6s4ME+APRzi3r8/Ko1TejoWgLJbs/I3zJWCD+DlxV1ExNW2wqmKd0K6
- 07ivamlcP3D74qc+4MCHmxX2jaSTUx9Q1+77bhkJnvZiBnXhKLRCrKV7AmSZ7u4En1mkLi4Tem/
- rfI/KO1z3u31iOBQDC+ch/LRbfMGTtoJ+raTNLr62FZnDwAPhY9tLlnmQB/U3UsugW16/UX2cL8
- yS/iSw22o9WXwarlPxeQtbW4JjuVxEZw4sx6+rUL71MklZxXYVF8Xko9n/rHBlXpib234DMDPlS
- ovszSeior+ZZiHw==
+ bh=tWpzu7ba133Zdaj4dIf8mfTY5P/FzEw3AwQGlLkB6nY=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3DuW0VeV/16xby0waSsVTa5y/p9LuoqqSPndU
+ 5qCby6XyN6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7lgAKCRD6PaqMvJYe
+ 9dQ0D/9sDS7OWljZibT3MD38u4WdeOEtCPLTN1jQCfDoLLOLHAfQUc+o+a4qSO7UTE/cwMA6PPL
+ /vB4NvQh55DDELk66YfnQh7/FtRB5yDEIrP1RLuZWYY5Cz6TAmoB76WsjRqP+9axnYTYy5GFiP6
+ 5gDJKn3Vmdh+xCqc21B65a6f23OGqzwDvkedeFjBuMp5H2pKJFoU+33s0t7SLbeT6XiumAqkQzu
+ 8k4W82fykMZZnoZQDWCNDVOX6hkJCWUJucgV3ImF3UmPqy6uDo0XVs6TXDaDGjC3yvYMrBtWl5Q
+ /pnXmA93cICYvkxW0jRsP7DXw/VpWddrvuF9OSioi1cfNxvucKp6brh75Ox1d0Uma52+aVOCYsk
+ Fws048xy7UkFtnDRuMTH0172iX5a3uwxVSxT0Jq3nZjPsO2jsTNLUsnlKo5TaObi0KLTlwjP13H
+ ggG04o92RTjt93ztMubmHVmpjVmm/3QoEOypvKycMyLQ9H3+r+idMSZrmGaAZZNqm0oEIO4CLzb
+ YAlRi70GtFcrO9uN3dZGgTL8vjJkKppyAnmxX9V4ChjuqZYnoYKaiMSsUYGNUt+P7mk1Oq9Zj7P
+ GQvFstwP99RXtjk0naJTT9N3/3vhbCo34aBtQ2IDx+I8StOcRzUTzfe1+I9cYd/w6YeoJWsAXRl
+ 6MXwh1eLPU6BTpA==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,74 +83,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While trying to get the cdns-dsi to work on Toradex's AM69 Aquila
-platform, I hit multiple issues in the driver. Basicaly nothing worked
-for with the board.
-
-This series fixes those issues. While I itch to make much larger changes
-to the cdns-dsi driver, I opted to keep this series relatively simple to
-make the fixes more clear and possibly help with backporting.
-
-The series also touches tidss, but those changes are not strictly
-needed, and can be merged separately. And the series also touches
-cdns-dphy, and those changes are needed.
-
-This has been tested on Toradex AM69 Aquila, with:
-- HDMI output using lontium lt8912b
-- LVDS panel (sn65dsi84 + panel-lvds)
-
- Tomi
+Fix missing includes and struct declarations. Even if these don't cause
+any compile issues at the moment, it's good to have them correct.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
-Tomi Valkeinen (18):
-      drm/tidss: Fix missing includes and struct decls
-      drm/tidss: Use the crtc_* timings when programming the HW
-      drm/tidss: Add mode_fixup to adjust the clock based on HW
-      phy: cdns-dphy: Store hs_clk_rate and return it
-      phy: cdns-dphy: Remove leftover code
-      drm/bridge: cdns-dsi: Adjust mode to negative syncs
-      drm/bridge: cdns-dsi: Fail if HS rate changed when validating PHY config
-      drm/bridge: cdns-dsi: Clean up cdns_dsi_mode2cfg()
-      drm/bridge: cdns-dsi: Fix REG_WAKEUP_TIME value
-      drm/bridge: cdns-dsi: Fix event mode
-      drm/bridge: cdns-dsi: Remove broken fifo emptying check
-      drm/bridge: cdns-dsi: Drop checks that shouldn't be in .mode_valid()
-      drm/bridge: cdns-dsi: Do not use crtc_* values
-      drm/bridge: cdns-dsi: Use videomode internally
-      drm/bridge: cdns-dsi: Tune adjusted_mode->clock according to dsi needs
-      drm/bridge: cdns-dsi: Update htotal in cdns_dsi_mode2cfg()
-      drm/bridge: cdns-dsi: Drop cdns_dsi_adjust_phy_config()
-      drm/bridge: cdns-dsi: Don't fail on MIPI_DSI_MODE_VIDEO_BURST
+ drivers/gpu/drm/tidss/tidss_dispc.h       | 3 +++
+ drivers/gpu/drm/tidss/tidss_drv.h         | 2 ++
+ drivers/gpu/drm/tidss/tidss_plane.h       | 2 ++
+ drivers/gpu/drm/tidss/tidss_scale_coefs.h | 2 ++
+ 4 files changed, 9 insertions(+)
 
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 224 +++++++++++--------------
- drivers/gpu/drm/tidss/tidss_crtc.c             |  24 ++-
- drivers/gpu/drm/tidss/tidss_dispc.c            |  22 ++-
- drivers/gpu/drm/tidss/tidss_dispc.h            |   5 +
- drivers/gpu/drm/tidss/tidss_drv.h              |   2 +
- drivers/gpu/drm/tidss/tidss_plane.h            |   2 +
- drivers/gpu/drm/tidss/tidss_scale_coefs.h      |   2 +
- drivers/phy/cadence/cdns-dphy.c                |  24 +--
- 8 files changed, 158 insertions(+), 147 deletions(-)
----
-base-commit: 10646ddac2917b31c985ceff0e4982c42a9c924b
-change-id: 20250320-cdns-dsi-impro-3d8fbd7848d1
-prerequisite-message-id: 20250226155228.564289-1-aradhya.bhatia@linux.dev
-prerequisite-patch-id: 46845a8d15042dd343a29a17fc0b9d0eec2605f5
-prerequisite-patch-id: 7ce82c26cb9e18884492d2282a72ff2a760aefda
-prerequisite-patch-id: ec2071425cab81da72e0805ad92fc52731d7a24d
-prerequisite-patch-id: 32cde02288e0c36ed687f67778937a61f78b2d90
-prerequisite-patch-id: 5f302e2bead8994763699a909ad0b5501f09ed9f
-prerequisite-patch-id: 30611df6ef38c7872107d6bf6dde4504d46ab224
-prerequisite-patch-id: 99831bcaa13e25b957d83a6320f34bcec223b939
-prerequisite-patch-id: b0ad38bc6b323ceea7a1d2266b0fab8deaa6b05e
-prerequisite-patch-id: 38dbce2b9302a764be9dbdc551578f02d797dfcc
-prerequisite-patch-id: 133f8b1dab4f47d429b1924df981564ce3736233
-prerequisite-patch-id: 879c546693a53e4b72c1ee25954c894ae57a441f
-prerequisite-patch-id: 3e7edc818ac078a138f0e42e3f47fd685fffb84f
-prerequisite-patch-id: 673b9f0b1936b5a49973b71cab5d13774583de38
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+index 086327d51a90..c31b477a18b0 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.h
++++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+@@ -7,11 +7,14 @@
+ #ifndef __TIDSS_DISPC_H__
+ #define __TIDSS_DISPC_H__
+ 
++#include <drm/drm_color_mgmt.h>
++
+ #include "tidss_drv.h"
+ 
+ struct dispc_device;
+ 
+ struct drm_crtc_state;
++struct drm_plane_state;
+ 
+ enum tidss_gamma_type { TIDSS_GAMMA_8BIT, TIDSS_GAMMA_10BIT };
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+index 7f4f4282bc04..56a2020e20d0 100644
+--- a/drivers/gpu/drm/tidss/tidss_drv.h
++++ b/drivers/gpu/drm/tidss/tidss_drv.h
+@@ -9,6 +9,8 @@
+ 
+ #include <linux/spinlock.h>
+ 
++#include <drm/drm_device.h>
++
+ #define TIDSS_MAX_PORTS 4
+ #define TIDSS_MAX_PLANES 4
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_plane.h b/drivers/gpu/drm/tidss/tidss_plane.h
+index aecaf2728406..92c560c3a621 100644
+--- a/drivers/gpu/drm/tidss/tidss_plane.h
++++ b/drivers/gpu/drm/tidss/tidss_plane.h
+@@ -7,6 +7,8 @@
+ #ifndef __TIDSS_PLANE_H__
+ #define __TIDSS_PLANE_H__
+ 
++#include <drm/drm_plane.h>
++
+ #define to_tidss_plane(p) container_of((p), struct tidss_plane, plane)
+ 
+ struct tidss_device;
+diff --git a/drivers/gpu/drm/tidss/tidss_scale_coefs.h b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
+index 9c560d0fdac0..9824d02d9d1f 100644
+--- a/drivers/gpu/drm/tidss/tidss_scale_coefs.h
++++ b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
+@@ -9,6 +9,8 @@
+ 
+ #include <linux/types.h>
+ 
++struct device;
++
+ struct tidss_scale_coefs {
+ 	s16 c2[16];
+ 	s16 c1[16];
 
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+2.43.0
 
