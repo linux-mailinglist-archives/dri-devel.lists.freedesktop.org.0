@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBD0A6A500
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 12:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D9AA6A4F7
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 12:32:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B4210E5FB;
-	Thu, 20 Mar 2025 11:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7514310E206;
+	Thu, 20 Mar 2025 11:32:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="C7RSS99m";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="NDeKYbTa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
  [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40F9110E206
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4499D10E5F6
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 11:32:47 +0000 (UTC)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52K7I9lP006831;
+ by mx07-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52K7I9lQ006831;
  Thu, 20 Mar 2025 11:32:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
  :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=j
- v3AXwrPAhPiEIwnHYZ/9pyvsna15qUiV2D8MOfGMEc=; b=C7RSS99mBPi7c/bwI
- DwR+VswB6wHXNoXOcEG7KwE0dS0V5SqjbTxtKSNqAdPg6aGYEQF1KsyqbEMHX9sV
- O2LZV0V2HvGB1AOLVBFxpeEGsnSdTVS7LUAdphjqX1IYMEH17i0rtQKeLXX8iG6m
- JMcPAckQTXFtpjRPxAvi4zwcaiq+JzaTPC0tMx0ScJtI8+5QmQDHxEPRHmUETQNX
- dHjDr8QCOJZVC+K23PfeyGi6T8ZdbJ9CU90922CT757/V6IUXMrzU/k0ONpXfwHd
- fHzIbvJn4kVJZkN3pC33PSAFmQjeBbFZ6b5wA/Bo67dhESMLgkBr/CCOfWRh96v2
- 3IBOg==
+ :message-id:mime-version:references:subject:to; s=dk201812; bh=l
+ r5SMVo6ot4cized530mm/a6X85tNB6jtCSyH+fzzrg=; b=NDeKYbTaiFjYW9XHm
+ K281VDwv65xd0jrvpEcGpjQ0zOPEmEr2/c6dJMAqrieKV0P2ZfXdxb1DzN78kFy3
+ HPfaeLXAAN+9qfVlAmxoTVKcGmP2EJK/cHUf/kFjiQkOdzoFlT5OLZhP+EYQBlCy
+ SOBJwqk33JntastXqBDcNlKjQSDGttG0JmCYMMADPf3y00yaOiSrHf6hUCtFjQqA
+ 6hKmrqC070AiQRiNFtxsTct7KO2XfJFa7P/dVe7SbkIeYpy9S4cCit/ZNrTQ3ShF
+ sSri1qdI2vRcVEfBr6n/uMJfGEFFw2xM7jaT/woSdoU9xJmJGlUIwX4buc6FPrlW
+ WcDOg==
 Received: from hhmail05.hh.imgtec.org
  (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 45d2h1kwg1-2
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 45d2h1kwg1-3
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 20 Mar 2025 11:32:24 +0000 (GMT)
+ Thu, 20 Mar 2025 11:32:25 +0000 (GMT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  (172.25.0.133) by HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 20 Mar 2025 11:32:23 +0000
+ 15.1.2507.44; Thu, 20 Mar 2025 11:32:24 +0000
 From: Matt Coster <matt.coster@imgtec.com>
-Date: Thu, 20 Mar 2025 11:32:11 +0000
-Subject: [PATCH v4 01/18] dt-bindings: gpu: img: Future-proofing enhancements
+Date: Thu, 20 Mar 2025 11:32:12 +0000
+Subject: [PATCH v4 02/18] dt-bindings: gpu: img: Add BXS-4-64 devicetree
+ bindings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250320-sets-bxs-4-64-patch-v1-v4-1-d987cf4ca439@imgtec.com>
+Message-ID: <20250320-sets-bxs-4-64-patch-v1-v4-2-d987cf4ca439@imgtec.com>
 References: <20250320-sets-bxs-4-64-patch-v1-v4-0-d987cf4ca439@imgtec.com>
 In-Reply-To: <20250320-sets-bxs-4-64-patch-v1-v4-0-d987cf4ca439@imgtec.com>
 To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
@@ -62,23 +63,23 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  Wilczynski" <m.wilczynski@samsung.com>, Alessio Belle
  <alessio.belle@imgtec.com>, Alexandru Dadu <alexandru.dadu@imgtec.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5722;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2831;
  i=matt.coster@imgtec.com; h=from:subject:message-id;
- bh=ZvnylilIXl7N5Ug0fe/WkMAsXcZNw9YcKN2DmQBkIQA=;
- b=owGbwMvMwCFWuUfy8817WRsYT6slMaTf/nM4vdh2IUNa2fdNx1ZdX8u/qI6rVkCe8+uLgPYDI
- SW1/N3TO0pZGMQ4GGTFFFl2rLBcofZHTUvixq9imDmsTCBDGLg4BWAiES6MDLvnpS02jX179N7m
- CWdKWjdwKFkWRMYELtm3tXSLwWF5V2VGhg/WPjPcuHf4RWYzal1c2nhxs7a9e6XlwVWbfl/fdfx
- DPzMA
+ bh=oco6EOI0oRzuxssXPEMpwZfSQ4MFd+tIvIEa69emjI4=;
+ b=owGbwMvMwCFWuUfy8817WRsYT6slMaTf/nNk37SVAvcXnNzQvG6y3uk1v3csXrjRx3EZM2/Yz
+ G/ZBvf1tneUsjCIcTDIiimy7FhhuULtj5qWxI1fxTBzWJlAhjBwcQrARLLnMjI8nLvim6aYdPHS
+ 38XHn2550Pxtxy3LblFRr/n/c/7qvxFdy8hwYsYDFs7nq5RZtm00mjat1vHXjMh5kW4Jj2LnMK9
+ XDUvjAwA=
 X-Developer-Key: i=matt.coster@imgtec.com; a=openpgp;
  fpr=05A40CFCE7269D61D97100A1747F0A9036F90DFA
 X-Originating-IP: [172.25.0.133]
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: kT4vZzrsmsjO6JE9438jZYFI_pXvwA2Q
-X-Proofpoint-ORIG-GUID: kT4vZzrsmsjO6JE9438jZYFI_pXvwA2Q
-X-Authority-Analysis: v=2.4 cv=V8Z90fni c=1 sm=1 tr=0 ts=67dbfcc8 cx=c_pps
+X-Proofpoint-GUID: Ggy77VPNKh9aNxMtqWe8QxSJrY5hHW_W
+X-Proofpoint-ORIG-GUID: Ggy77VPNKh9aNxMtqWe8QxSJrY5hHW_W
+X-Authority-Analysis: v=2.4 cv=V8Z90fni c=1 sm=1 tr=0 ts=67dbfcc9 cx=c_pps
  a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
  a=ETbM1kImDFEA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8
- a=r_1tXGB3AAAA:8 a=w15EKZF3e2A1P0N44N0A:9
+ a=r_1tXGB3AAAA:8 a=Jpv7S-64fNqZkc0ws1sA:9
  a=QEXdDO2ut3YA:10 a=t8nPyN_e6usw4ciXM-Pk:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,151 +96,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The first compatible strings added for the AXE-1-16M are not sufficient to
-accurately describe all the IMG Rogue GPUs. The current "img,img-axe"
-string refers to the entire family of Series AXE GPUs, but this is
-primarily a marketing term and does not denote a level of hardware
-similarity any greater than just "Rogue".
+Unlike AXE-1-16M, BXS-4-64 uses two power domains.
 
-The more specific "img,img-axe-1-16m" string refers to individual AXE-1-16M
-GPU. For example, unlike the rest of the Series AXE GPUs, the AXE-1-16M
-only uses a single power domain.
-
-The situation is actually slightly worse than described in the first
-paragraph, since many "series" (such as Series BXS found in the TI AM68
-among others and added later in this series) contain cores with both Rogue
-and Volcanic architectures.
-
-Besides attempting to move away from vague groupings defined only
-by marketing terms, we want to draw a line between properties inherent to
-the IP core and choices made by the silicon vendor at integration time.
-For instance, the number of power domains is a property of the IP core,
-whereas the decision to use one or multiple clocks is a vendor one.
-
-In the original compatible strings, we must use "ti,am62-gpu" to constrain
-both of these properties since the number of power domains cannot be fixed
-for "img,img-axe".
-
-Work is currently underway to add support for volcanic-based Imagination
-GPUs, for which bindings will be added in "img,powervr-volcanic.yaml".
-As alluded to previously, the split between rogue and volcanic cores is
-non-obvious at times, so add a generic top-level "img,img-rogue" compatible
-string here to allow for simpler differentiation in devicetrees without
-referring back to the bindings.
-
-The currently supported GPU (AXE-1-16M) only requires a single power
-domain. Subsequent patches will add support for BXS-4-64 MC1, which has
-two power domains. Add infrastructure now to allow for this.
-
-Also allow the dma-coherent property to be added to IMG Rogue GPUs, which
-are DMA devices. The decision for coherency is made at integration time and
-this property should be applied wherever it accurately describes the
-vendor integration.
-
-Note that the new required properties for power domains are conditional on
-the new base compatible string to avoid an ABI break.
+Like the existing AXE-1-16M integration, BXS-4-64 uses the single clock
+integration in the TI k3-j721s2.
 
 Signed-off-by: Matt Coster <matt.coster@imgtec.com>
 ---
 Changes in v4:
-- Add img,img-rogue back to ti,am62-gpu compatible strings to allow
-  compatibility with older kernels
-- Revert change to power-domains property and add proper constraint
-- Link to v3: https://lore.kernel.org/r/20250310-sets-bxs-4-64-patch-v1-v3-1-143b3dbef02f@imgtec.com
+- Add minItems: 1 to power-domain-names so we don't break single domain
+  bindings
+- Add back power-domains to conditional constraints to match
+  power-domain-names
+- Link to v3: https://lore.kernel.org/r/20250310-sets-bxs-4-64-patch-v1-v3-2-143b3dbef02f@imgtec.com
 Changes in v3:
+- Include adding the second power domain so it's in context
 - Remove unnecessary example
-- Remove second power domain details, add these where they're used instead
-- Avoid ABI breaks by limiting new required properties to new compatible
-  strings and making all binding changes in a single patch.
-- Links to v2:
-  https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-1-3fd45d9fb0cf@imgtec.com
-  https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-3-3fd45d9fb0cf@imgtec.com
-  https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-4-3fd45d9fb0cf@imgtec.com
+- Link to v2: https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-8-3fd45d9fb0cf@imgtec.com
+Changes in v2:
+- Use normal reg syntax for 64-bit values
+- Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-8-4ed30e865892@imgtec.com
 ---
- .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 44 +++++++++++++++++++---
- 1 file changed, 39 insertions(+), 5 deletions(-)
+ .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 37 ++++++++++++++++++++--
+ 1 file changed, 35 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index 256e252f8087fa0d6081f771a01601d34b66fe19..2a692feb5bcd526788117fce7934eef9521b364d 100644
+index 2a692feb5bcd526788117fce7934eef9521b364d..f82139f3b2c897bafd36e794cb7466941cc14e65 100644
 --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
 +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -12,10 +12,23 @@ maintainers:
- 
- properties:
-   compatible:
--    items:
--      - enum:
--          - ti,am62-gpu
--      - const: img,img-axe # IMG AXE GPU model/revision is fully discoverable
-+    oneOf:
+@@ -21,6 +21,11 @@ properties:
+           # work with newer dts.
+           - const: img,img-axe
+           - const: img,img-rogue
 +      - items:
 +          - enum:
-+              - ti,am62-gpu
-+          - const: img,img-axe-1-16m
-+          # This deprecated element must be kept around to allow old kernels to
-+          # work with newer dts.
-+          - const: img,img-axe
++              - ti,j721s2-gpu
++          - const: img,img-bxs-4-64
 +          - const: img,img-rogue
-+
-+      # This legacy combination of compatible strings was introduced early on
-+      # before the more specific GPU identifiers were used.
-+      - items:
-+          - enum:
-+              - ti,am62-gpu
-+          - const: img,img-axe
-+        deprecated: true
  
-   reg:
-     maxItems: 1
-@@ -35,8 +48,15 @@ properties:
-     maxItems: 1
+       # This legacy combination of compatible strings was introduced early on
+       # before the more specific GPU identifiers were used.
+@@ -49,11 +54,13 @@ properties:
  
    power-domains:
+     minItems: 1
+-    maxItems: 1
++    maxItems: 2
+ 
+   power-domain-names:
+     items:
+       - const: a
++      - const: b
 +    minItems: 1
-     maxItems: 1
  
-+  power-domain-names:
-+    items:
-+      - const: a
-+
-+  dma-coherent: true
-+
- required:
-   - compatible
-   - reg
-@@ -47,6 +67,18 @@ required:
- additionalProperties: false
+   dma-coherent: true
  
- allOf:
-+  # Constraints added alongside the new compatible strings that would otherwise
-+  # create an ABI break.
+@@ -83,7 +90,33 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: ti,am62-gpu
++            const: img,img-axe-1-16m
++    then:
++      properties:
++        power-domains:
++          maxItems: 1
++        power-domain-names:
++          maxItems: 1
++
 +  - if:
 +      properties:
 +        compatible:
 +          contains:
-+            const: img,img-rogue
++            const: img,img-bxs-4-64
 +    then:
-+      required:
-+        - power-domains
-+        - power-domain-names
++      properties:
++        power-domains:
++          minItems: 2
++        power-domain-names:
++          minItems: 2
 +
-   - if:
++  - if:
++      properties:
++        compatible:
++          contains:
++            anyOf:
++              - const: ti,am62-gpu
++              - const: ti,j721s2-gpu
+     then:
        properties:
-         compatible:
-@@ -64,10 +96,12 @@ examples:
-     #include <dt-bindings/soc/ti,sci_pm_domain.h>
- 
-     gpu@fd00000 {
--        compatible = "ti,am62-gpu", "img,img-axe";
-+        compatible = "ti,am62-gpu", "img,img-axe-1-16m", "img,img-axe",
-+                     "img,img-rogue";
-         reg = <0x0fd00000 0x20000>;
-         clocks = <&k3_clks 187 0>;
-         clock-names = "core";
-         interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
-         power-domains = <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
-+        power-domain-names = "a";
-     };
+         clocks:
 
 -- 
 2.49.0
