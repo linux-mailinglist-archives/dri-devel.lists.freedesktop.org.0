@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E1FA6AABE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCC6A6AA9C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:07:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E09D10E663;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD2810E667;
 	Thu, 20 Mar 2025 16:00:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RKH8u5aS";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Vblrh3lv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71C7110E65F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97F9910E65F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:39 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE90D146B;
- Thu, 20 Mar 2025 16:58:52 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 219DA16B0;
+ Thu, 20 Mar 2025 16:58:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1742486333;
- bh=3CN4uj1iCwxXdJquhx40R2NHzb/pS+FOmacXJwz76L8=;
+ s=mail; t=1742486335;
+ bh=S8uUUDEaNeicbiSY8YvRq9DMlAGVbKYKCtdKJ0sZaN8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=RKH8u5aSXVWsTLqp/iq+B2eLlGuIKtp8yp6U8d9FdFOWASpbjUHjrHLqHbSitf13P
- ACOJSC1bGA2okVuZQOt/zqy6jTFhkE4W35LsmBV2w0t6dz/pGrYD4C0/iaB0eCAU96
- Li151bvaXHLJIBmy2f8ssdfo5zyXtTmXO9MD2vgQ=
+ b=Vblrh3lv/gvKlFX8Tj1anOjHa7GGzN8wgMpOUTM6KzVpqkDhYwJITQJ2vBBfVEX+T
+ 6AzEO+pbdCwvqViN/QPePI5ovUhqDA0hAucKgTVGzspMOmZV17J16VUy4vqjOXGJVc
+ KeTYHXZi9AgS/5jqKVuURE0tkCjc9MuZm0ikLLB4=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 20 Mar 2025 18:00:01 +0200
-Subject: [PATCH 06/18] drm/bridge: cdns-dsi: Adjust mode to negative syncs
+Date: Thu, 20 Mar 2025 18:00:02 +0200
+Subject: [PATCH 07/18] drm/bridge: cdns-dsi: Fail if HS rate changed when
+ validating PHY config
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250320-cdns-dsi-impro-v1-6-725277c5f43b@ideasonboard.com>
+Message-Id: <20250320-cdns-dsi-impro-v1-7-725277c5f43b@ideasonboard.com>
 References: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 In-Reply-To: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -51,21 +52,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Devarsh Thakkar <devarsht@ti.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1357;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2073;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=3CN4uj1iCwxXdJquhx40R2NHzb/pS+FOmacXJwz76L8=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3DuYyWm6CSFiIS3732epB8+j6o1f/O1a2vr9q
- I8LpGvZRp6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7mAAKCRD6PaqMvJYe
- 9RGwD/9Qoue7FFcb2i00+wCg7odetrkFYOyeaQHLPdbNDLKZk/WvAoAgmExwsuKA75iHSToZIHT
- wtbt+HK1lSzRyzJiiHD53qzqdmcEilVvroRWPXszOSiqNkGZX+vgK1IW2OR2wuPYWuVelmYP7Q9
- E2NUB+Iv1l/0jFV5nxRrxxadhwxPCwlAvV3VLuKPdIbPfQGi5pQXuDlRTRrRFpJ9cxqDLS6P8Dg
- jrn0DbByZPGh78x4i8DAIHhoHr//yxkL58FM/GPHB8ZiZ8QHZrwYLkB0pTZ5jdNoYS1Lo60Qtg/
- pjY4/sih/rgu36wcpTWvQjsiU0n0TkIbCfnvON1eK+DtMX+E79X2D5ipqg3RYbPPIWyuqMIJNmA
- kwgJcV+EAaHEaXMSTa38ZeZuf8PglWSOXzjQZhQojFR3qTJsukMCHJI8lqTLuFpOMUvLropA2p6
- k89FXwEg5BuWw9Am4QJt3Xc7F0A9NvFX+wqWMf5d9L5IW9CkoCuRvRYlu1MI4TBBy8oGDPvXMwN
- 84GFr6sJQ4EQqpXlGU1/9NVZ0J5IjCGn6PbWMJls1Z3sUzoMDTvOXVnaLY3IoVvD95HMRJvleBF
- P08a+5NTQtp6a346g1+szlRa8czlRaiL9D83lxz79+qM7gHGNog5bpC3fUCFjccrpp8PBE54nJ3
- HzU7PtRpKTK8gbA==
+ bh=S8uUUDEaNeicbiSY8YvRq9DMlAGVbKYKCtdKJ0sZaN8=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3DuYTGxHpRYvxdJmIKBq59EYfeyz8armZDSFi
+ WgtOKxa5tGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7mAAKCRD6PaqMvJYe
+ 9cAbD/0XJR/OzJMyCY80P6J7hAe42b9HW4uuiKI7qYtZ9Maz55A44nYyMnkfX/NuoauiFXg6DVw
+ fFZCvsiaGt7pGWu1JP5nvWExjakOXoAbLY+HW5Jyfo6IAnUtsCmu5noBhbTwXA43kSDjJqS/tkc
+ kjL5Osb8zO8vdUmXRs6jboqkXPVk4syhubYG/kjT+cPckA7LdWmdqeA1ilIwSq6OLTFHA8oJ2Zq
+ LTM5wyvCBkRBLr2HiW4/cCDqy12klZebxH/9H6VZtv2fxeTDX8Zvnbym8DbdpdiYAIIUv0aqWF2
+ Z2MrISss38HMR8Jk0Z8k5ZpOcudEYJlLpNWnhWz8Zz/xTyCt55MdwcXB0KJG0HxZpcYfwJ6spSD
+ IognHnqdJz7vxjT0Dfpt99TbLICda4kGCGjoW4Yy7dw4lMvQuaYVeq8n21TiI8lrLAVJgilL65O
+ o7R3XgQ1suo7xiVUR+QGEy4jLPhg0Iq7IAuOzjwFcZ0/ExfthPvdITtlhjPeJLPD6bgzuQjx9+s
+ gvwzjRxXyxqVCChJDB8JpoYK51axDXMqR0eXgi2K056tqn+Ly47RPo9GVbMAXmlTEpKB0n+S1nH
+ fx5cjldz4+JiKCsdjOKm4G8+w9w4WXVMSNiZ4436X0ZYUjQ5c9K6OKUIWx5DsRXyWXp0HjhMNH1
+ uMgWWs/aiwRzywQ==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,34 +84,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Cadence DSI requires negative syncs from the incoming video signal,
-but at the moment that requirement is not expressed in any way. If the
-crtc decides to use positive syncs, things break down.
+The phy_validate() can change the HS clock rate we passed to it in the
+PHY config, depending on what the HW can actually do. The driver just
+ignores this at the moment, but if the actual HS clock rate is different
+than the requested one, the pipeline will fail as all the DSI timing
+calculations will be incorrect.
 
-Use the adjusted_mode in atomic_check to set the sync flags to negative
-ones.
+There are ways to improve DSI operation for various clock rates, but for
+now, just add a check to see if the rate changed, and return an error if
+that happens.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 8a320bd4d34d..53322407c1b0 100644
+index 53322407c1b0..9238acf69823 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -992,6 +992,11 @@ static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
- 	struct cdns_dsi_bridge_state *dsi_state = to_cdns_dsi_bridge_state(bridge_state);
- 	const struct drm_display_mode *mode = &crtc_state->mode;
- 	struct cdns_dsi_cfg *dsi_cfg = &dsi_state->dsi_cfg;
-+	struct drm_display_mode *adjusted_crtc_mode = &crtc_state->adjusted_mode;
-+
-+	/* cdns-dsi requires negative syncs */
-+	adjusted_crtc_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-+	adjusted_crtc_mode->flags |= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC;
+@@ -580,6 +580,7 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+ 	unsigned long dsi_hss_hsa_hse_hbp;
+ 	unsigned int nlanes = output->dev->lanes;
+ 	int mode_clock = (mode_valid_check ? mode->clock : mode->crtc_clock);
++	unsigned long req_hs_clk_rate;
+ 	int ret;
  
- 	return cdns_dsi_check_conf(dsi, mode, dsi_cfg, false);
- }
+ 	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg, mode_valid_check);
+@@ -596,10 +597,20 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+ 	if (ret)
+ 		return ret;
+ 
++	req_hs_clk_rate = output->phy_opts.mipi_dphy.hs_clk_rate;
+ 	ret = phy_validate(dsi->dphy, PHY_MODE_MIPI_DPHY, 0, &output->phy_opts);
+ 	if (ret)
+ 		return ret;
+ 
++	if (req_hs_clk_rate != output->phy_opts.mipi_dphy.hs_clk_rate) {
++		dev_err(&dsi->dphy->dev,
++			"validation changed hs_clk_rate from %lu to %lu, diff %lu\n",
++			req_hs_clk_rate, output->phy_opts.mipi_dphy.hs_clk_rate,
++			output->phy_opts.mipi_dphy.hs_clk_rate -
++				req_hs_clk_rate);
++		return -EINVAL;
++	}
++
+ 	dsi_hss_hsa_hse_hbp = dsi_cfg->hbp + DSI_HBP_FRAME_OVERHEAD;
+ 	if (output->dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
+ 		dsi_hss_hsa_hse_hbp += dsi_cfg->hsa + DSI_HSA_FRAME_OVERHEAD;
 
 -- 
 2.43.0
