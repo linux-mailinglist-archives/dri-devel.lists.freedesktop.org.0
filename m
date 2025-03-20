@@ -2,72 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6050A6A1C6
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 09:49:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34885A6A1C8
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 09:49:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873EE10E5A7;
-	Thu, 20 Mar 2025 08:49:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A991310E5AA;
+	Thu, 20 Mar 2025 08:49:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="XGFI52a9";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="M3PPe3J6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E88BB10E5A8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 08:49:16 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-43d0359b1fcso2961405e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 01:49:16 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0ABC10E2CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 08:49:17 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-43d0618746bso3009395e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 01:49:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1742460555; x=1743065355;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1742460556; x=1743065356;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=YJV9USVZmsP9ZdAAuuoldoMM46JkHDHsnIzVnX7GtUI=;
- b=XGFI52a9c3S7dEHazeZOQtzczFy+P3Nn/fpwTj5W7R30dnK6o6fsEbvzD1RONcQoGj
- tKkeQ2us79rSxO+qL/xrgB/DIHhF3aqXhRx2920jypiuh0YQN4JGW69XpQhPjhVKLa7Z
- MDE4JmDN2gmrVUz3ivWpS1j5SvLctP141TY+NmkrCK4a0mBz14BGmQTWM42knA6wgeu/
- O16uyZVvoopTf2c8QEUywQBwaR3IhdDgWYryxhYRMT4mhnWrd077cZsrXmVNwgfYbFr+
- uiaVxNEFTBiUEcULke2OuOcp1IC5+xY6cug7i7g7p1LNb2zTULiHEWKJJ2WBuCgodraF
- fCZg==
+ :reply-to; bh=zZKjyFb8BZx79o9w3IcZRsKDUkbzPE3rt8zz+Ry3hx0=;
+ b=M3PPe3J6Xvt6VAStF9L9+JS6tiUwgpgdVwuk4SuOGMi0hN77qYPzncAnX3zkfNE6B5
+ iTxC9V4mOKDFDztwLm2u/zII6pm3+pazCZbQE51tTwBIHybrbmqcMfE3wvw0dWnU5xts
+ qRk7cFr0/bbPWbhplp7XWWpf1CbYIWQA4c5o9qbvPP2IDbpaHuW6z9pwSL1L1uLjmOoS
+ ijhBEVy+thgf9yn7R80xzDH7IE6Y8PQ6PO0hm1imIxsux53jwSqd1OZjuLq+wcQQQpbH
+ YJz8q+NkcAZQnBtl3nno2jitmqC8az7f9wMWVYQfkU6NUiZgWsGgqubJvPGlOMm9n2ws
+ dhkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742460555; x=1743065355;
+ d=1e100.net; s=20230601; t=1742460556; x=1743065356;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YJV9USVZmsP9ZdAAuuoldoMM46JkHDHsnIzVnX7GtUI=;
- b=XcTXmFT9rUvGCJgVbiC99CC9CKzr7fMcJnE1l2NDcpNnD5Xx2lkfeHseoUxkfuwK+S
- y0/uynhcTkVFYddqWBuuBfNszLQGplA+nAyw49y0gos05XsQqI772zabX0vtR7JjdE8D
- gu+aOxA0ZymFwWLJen2u9pg+01gngUPWQMiMadMsE0nZXJiHuETRbt2RWN62Sj2cQ2bk
- YDrclh6zK9xoXviw6dE0IqBLmu6BLvd8l4mNA8fNmIEdWAVlkI8BO54BOkRzUggfzKmN
- HAmWbdvd6HkdaNTcaBQzsmVZZLO/ZJXP1zqpy/q7MO/ht67KeVGkhknylQgGcYxjVcup
- WFmw==
+ bh=zZKjyFb8BZx79o9w3IcZRsKDUkbzPE3rt8zz+Ry3hx0=;
+ b=VfTA1nm5oMUkREpasLWv5PDGA5jKaImZFCw4P0tg2w4K/IvPqeKvRRg2sIUY7yCOWL
+ 0XfKEgvQY3j8qEwTM4Sz+1zET4L5YJRR1GHYoEZU6ASH1h1/08+DQgGtDirwtW/qn9av
+ j7oLC9DPpAYZUcPb64aFjyzb1lRFVLPc9SrkGFPH7nsD+DEAYaTYkfVWWALeZ6pf5891
+ eZDvkFoR194rp5ey6/tPlHAgEcf58a978h6gbUDKb0zD6YA95/JgKgNVmW6JX84EsMTd
+ vbiWd+wscj45d5KhFEGlhqHl/THNeVjwEvdcQ3U6RgqbZdvoRbHGOUb/t7NGW5sjhQIY
+ BLAg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWiNqgWqVP/hQP9+nA+5uuBmfn7ut4WzJI+WvFuQUXlUz8PPPHbtHbxxtjrK8iELXqRDwVke2YtGjs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1g+ijq2Zz2qtNL6mSSKoBKQvczKEKq7vGMNiJsnesCN6HVUIA
- tLU5NKzYMeqbaNj0JKdY5XjPvdS74Nm7Kshj9glv5zlwuto1lcFULycuy2LvjHQ=
-X-Gm-Gg: ASbGnctn9P+kYaTgnLtC59BcoipAbEMxSOqyzMJsvvecX/Gys2Qg7EM+l8FwvBjNIEe
- cT1Uv5sI/F22OlS9oyLfAH4Rux+OI6dXDGcSOLRsMszo796eiQvdPNhyrQZ5euSxF/3nn6zZNFt
- tOJFOwEp8QHwoR6fDP9b8i/AbMvdSw/xwDXCe14Avf3utNwVHFornknaxQtDSNFavTzDubexvCT
- Eb8+rLwxI87Odey2cM05c/z12Ka1z6ttd7qKdCt198q1IZ8b4tKry6nx76Zd30YLZlVhAH45NdG
- EDzvZNkva5N2vIPlCMqt7G0fn2K0Z7OYkPvsou+mDsFqVdcbnnmWQxY02iY=
-X-Google-Smtp-Source: AGHT+IGvyzObe3HUgUPIOkcUmHLI+6xANcIGJKxeOg9jouXNulvNZlxlIH6nFdT6PpdEkn3OcgskSQ==
-X-Received: by 2002:a05:600c:138d:b0:43b:4829:8067 with SMTP id
- 5b1f17b1804b1-43d4ac2b356mr13977715e9.6.1742460555324; 
- Thu, 20 Mar 2025 01:49:15 -0700 (PDT)
+ AJvYcCUeXOoi3iRaLqFcX6i8gNB8feiBPSV860YjPvV2saskZ3CTEc7+LdMcF+//QOlqVny8M/hDHqPuTo8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxoPVdF3hRRrFf7q6TXvxPX0iEqBHqiNN0B7hRcTkzTWUD8gDGm
+ bshfBsqeyfZlbwIBJSKreiIBWXae7oHMpfyPyrDbWUAb8t8bfr22494BsLjKwZX8VCDN6Hmf7q4
+ Dv/I=
+X-Gm-Gg: ASbGncvMfTgP1VdXrF9eJSsK8DzQkgK+ovL6eNlVMBJ3jz+V0QfRldSsFTJ7ziBTWhn
+ 4wW1bGBG1SPNuXgFzQpVghRYPQTI004rc99GB5n60y1JYKNELjkW6eEoVd8wUrzcKZ8g5lkuy80
+ YcAWml3fz+4TvqWzCtwhIpCTO8lVl0WsvFl3HBqzu+ELIo7phCi9ENfZrti8hAWK25OcA833EO5
+ CJ6NnmYlpEl1hj1MADPrLDVbgo17bR5j0QBuwWv0B4dZx6iG6GxVT55IvVLrEh0xzEui8IP7KvY
+ 7ebNrbDCXm2cBfodqLVsi6jtUcq+I70354KAk5HiZ63bOOW7
+X-Google-Smtp-Source: AGHT+IF1ShRsZAhXeGcFF/eH1QOBy38lGwVALG8wcA9aWqeTkHgVv4Ae8bUcyD5nie1uQZaBU4zsBA==
+X-Received: by 2002:a5d:64c4:0:b0:391:2d97:7d0e with SMTP id
+ ffacd0b85a97d-39973af6beamr5443274f8f.42.1742460556286; 
+ Thu, 20 Mar 2025 01:49:16 -0700 (PDT)
 Received: from [127.0.1.1] ([2a01:e0a:5ee:79d0:c11c:487d:c821:54a0])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43d43fdac9dsm41381655e9.30.2025.03.20.01.49.14
+ 5b1f17b1804b1-43d43fdac9dsm41381655e9.30.2025.03.20.01.49.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Mar 2025 01:49:14 -0700 (PDT)
+ Thu, 20 Mar 2025 01:49:15 -0700 (PDT)
 From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Thu, 20 Mar 2025 09:48:46 +0100
-Subject: [PATCH v8 2/3] drm/panel: startek-kd070fhfid015: add another init step
+Date: Thu, 20 Mar 2025 09:48:47 +0100
+Subject: [PATCH v8 3/3] drm/mediatek: dsi: remove custom init part
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231023-display-support-v8-2-c2dd7b0fb2bd@baylibre.com>
+Message-Id: <20231023-display-support-v8-3-c2dd7b0fb2bd@baylibre.com>
 References: <20231023-display-support-v8-0-c2dd7b0fb2bd@baylibre.com>
 In-Reply-To: <20231023-display-support-v8-0-c2dd7b0fb2bd@baylibre.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, 
@@ -84,20 +85,20 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
  Alexandre Mergnat <amergnat@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2311; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2647; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=gHl0LdUTqSzXFqfH/bwqt0Qp3EzE+6UWudOR8k0D9wo=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBn29aHBpzXiGFeZYZjQ2WV79w2etmusdRumeCDA2/j
- En4xIveJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ9vWhwAKCRArRkmdfjHURUS3D/
- 9vN0KMVYZZKmprhPA5LN7rawwuTGP/uyEhk9jFV0/j6JL6U4PVd0nArK1OQLjxBSyc8nUS1QhpHFhL
- GNVR07l6xuu0efimjhIgzKpfapyc0xJDcsSLokHgtrFYnnFsxhYNegLt2qFhQnAzfhs6CkD8JQRe7j
- K5ZiuZbQaE9rSuPU9dMg9/Nc9+eO8HpPVfckzLWretHlNh7yz42U0FAUp9KvfnDilzIcxzydGuuNzy
- Jd/N0DstuCiy80SPtbL4cE8FVcQZpZe5jPrx+mMVIUtyaVPTkJwyP++ureQvWDzAQ334cDPfrwy2Ei
- Oeh0VnncqzOktXqxToMmHFzuFwKfoDr0/6LV+dlVtsI2RP/3/bW67t8xKV0I6eMGMGESBck72W9vwD
- ca1+TzhnFFesumJlEkaj/XnlS6mvr4PPLAaqauBwaKTiAXgZT/btqNWTVJBx+sYj3/dyd+1Sy0NtJ2
- lpmstf0PEKIOMLotSfh7vkJ/+71UqXjgjVbmV6k0f1lgMLHIpGEEqNz/Us0zURzuYQEVwsj6cFRsyw
- W6Lz1Pgec4nQ9wjY5aeCuLQPAkLl9D87UWlEs4SeCgePB7fs9v/PogO0y5kTxHItyjqRqV2XGGIAxe
- Lu9b+dTaPTCrjNEDXVF5nGl/HyIMiJ8yrA1aWPFooOUtSOMg18/vt4NOuirQ==
+ bh=TX7OcGVRtr1P2pPXrsvbTSXIwOoVwPaz45DKWAiAmLc=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBn29aHumqlEtPmW0ArR5jYJL5IvH5lLNSxMmfrFswE
+ D6QNUKyJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ9vWhwAKCRArRkmdfjHURTTUD/
+ 9/d7eGtM1x5wW0jXmYe6IW8fwisk78gewlZv0z4juc7RAlpd2GbJSBerX6VBJY/DL8d0V7/u5WVa90
+ P1bZxxvdxm79wEjWsSyJYbCwQWH/Wmn8zyZQvwZXUaOjh1uuoiKmuhNi3oP7o8ikoo/7Yerpza6BoU
+ +gKMkpOuW0YAy/jdv8/xCqXCcMGD9z7lU7wbKFgnDi1QD1X0aTCoXoxb4rKmZSJxJ1A7tvGKWA1R8y
+ D0MqNsi/HjfA/hNYullag24K50oJOlOCoT9fCeQ0yLvALuNPn6K9jIXfGgHO45KgYsShibM1bRt83M
+ UxZrEncVEifz0mKSROkc1yiKmHlushJSeifzd3fe09pGcBc0lTubg4AQ/ysBmKzDuOuqNTOP9tOIMq
+ iyNSOj1tdoWtwP0BOSlY+ElUwUdM5mdhUzZRHIDLkHDybrZP9YSCEmb+joNt4IhE8rvoDc+B3q4PpJ
+ l88Ls1+kFFuSSpOjoMgvg276mnZ1igr7TmVTxl3n5f/WVT3XKpUDhopnmpc7DroirFG5Bc0xJVSYT1
+ x93zcH7j9Yu+1KuQpRU9VBR7lne920Op7uje9MJSB5eFZlRdbHGOlqiXFUB5/jnQqbtO6DUZOTIiKV
+ Ry4pSE6S5lwJfZrZoSCAgSky6flyYM5QMBBHyvf2yuZqxL6xz9WxweVYp5JQ==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,77 +116,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the panel set power, set gpio and enable the display link
-in stk_panel_prepare, pointed by drm_panel_funcs.prepare, called by
-panel_bridge_atomic_pre_enable, pointed by
-drm_bridge_funcs.atomic_pre_enable. According to the drm_bridge.h,
-atomic_pre_enable must not enable the display link
-
-Since the DSI driver is properly inited by the DRM, the panel try to
-communicate with the panel before DSI is powered on.
-
-To solve that, use stk_panel_enable to enable the display link because
-it's called after the mtk_dsi_bridge_atomic_pre_enable which is power
-on the DSI.
+To be aligned with the DRM framework and avoid DSI power being driven
+by two different entities, remove the custom function and keep the DRM
+API to initialize the DSI.
 
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- .../gpu/drm/panel/panel-startek-kd070fhfid015.c    | 25 +++++++++++++---------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c |  2 --
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h |  2 --
+ drivers/gpu/drm/mediatek/mtk_dsi.c      | 16 ----------------
+ 3 files changed, 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c b/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
-index c0c95355b7435..bc3c4038bf4f5 100644
---- a/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
-+++ b/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
-@@ -135,19 +135,9 @@ static int stk_panel_prepare(struct drm_panel *panel)
- 	gpiod_set_value(stk->enable_gpio, 1);
- 	mdelay(20);
- 	gpiod_set_value(stk->reset_gpio, 1);
--	mdelay(10);
--	ret = stk_panel_init(stk);
--	if (ret < 0)
--		goto poweroff;
+diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+index edc6417639e64..d86eed0d279d3 100644
+--- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+@@ -317,8 +317,6 @@ static const struct mtk_ddp_comp_funcs ddp_dsc = {
+ };
+ 
+ static const struct mtk_ddp_comp_funcs ddp_dsi = {
+-	.start = mtk_dsi_ddp_start,
+-	.stop = mtk_dsi_ddp_stop,
+ 	.encoder_index = mtk_dsi_encoder_index,
+ };
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+index 04217a36939cd..5657854fa2f9e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
++++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+@@ -47,8 +47,6 @@ void mtk_dpi_start(struct device *dev);
+ void mtk_dpi_stop(struct device *dev);
+ unsigned int mtk_dpi_encoder_index(struct device *dev);
+ 
+-void mtk_dsi_ddp_start(struct device *dev);
+-void mtk_dsi_ddp_stop(struct device *dev);
+ unsigned int mtk_dsi_encoder_index(struct device *dev);
+ 
+ int mtk_gamma_clk_enable(struct device *dev);
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index e61b9bc68e9a3..b813b49340420 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -787,7 +787,6 @@ static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+ {
+ 	if (dsi->enabled)
+ 		return;
 -
--	ret = stk_panel_on(stk);
--	if (ret < 0)
--		goto poweroff;
+ 	mtk_dsi_lane_ready(dsi);
+ 	mtk_dsi_set_mode(dsi);
+ 	mtk_dsi_clk_hs_mode(dsi, 1);
+@@ -893,20 +892,6 @@ static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+ 	.mode_set = mtk_dsi_bridge_mode_set,
+ };
  
- 	return 0;
+-void mtk_dsi_ddp_start(struct device *dev)
+-{
+-	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+-
+-	mtk_dsi_poweron(dsi);
+-}
+-
+-void mtk_dsi_ddp_stop(struct device *dev)
+-{
+-	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+-
+-	mtk_dsi_poweroff(dsi);
+-}
+-
+ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+ {
+ 	int ret;
+@@ -1243,7 +1228,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 	}
  
--poweroff:
--	regulator_disable(stk->supplies[POWER].consumer);
- iovccoff:
- 	regulator_disable(stk->supplies[IOVCC].consumer);
- 	gpiod_set_value(stk->reset_gpio, 0);
-@@ -156,6 +146,20 @@ static int stk_panel_prepare(struct drm_panel *panel)
- 	return ret;
- }
+ 	init_waitqueue_head(&dsi->irq_wait_queue);
+-
+ 	platform_set_drvdata(pdev, dsi);
  
-+static int stk_panel_enable(struct drm_panel *panel)
-+{
-+	struct stk_panel *stk = to_stk_panel(panel);
-+	int ret;
-+
-+	ret = stk_panel_init(stk);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = stk_panel_on(stk);
-+
-+	return ret;
-+}
-+
- static const struct drm_display_mode default_mode = {
- 		.clock = 163204,
- 		.hdisplay = 1200,
-@@ -239,6 +243,7 @@ drm_panel_create_dsi_backlight(struct mipi_dsi_device *dsi)
- }
- 
- static const struct drm_panel_funcs stk_panel_funcs = {
-+	.enable = stk_panel_enable,
- 	.unprepare = stk_panel_unprepare,
- 	.prepare = stk_panel_prepare,
- 	.get_modes = stk_panel_get_modes,
+ 	dsi->bridge.funcs = &mtk_dsi_bridge_funcs;
 
 -- 
 2.25.1
