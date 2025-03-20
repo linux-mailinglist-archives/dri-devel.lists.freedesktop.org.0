@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC757A6AA9A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E83CA6AA9F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:08:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 907B110E66E;
-	Thu, 20 Mar 2025 16:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB2010E66F;
+	Thu, 20 Mar 2025 16:01:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ESQpRfnT";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="br5rpF0I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEE2710E66D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13CE910E66E
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:50 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 64C80A98;
- Thu, 20 Mar 2025 16:59:03 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D5E319EA;
+ Thu, 20 Mar 2025 16:59:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1742486344;
- bh=zjC+aAWjyFx4oAnilSfbgcfpfJMsawdKHCZ+xTpDXuM=;
+ s=mail; t=1742486345;
+ bh=+KTrHkkHrlimkcuE/FGh2M7ak/aUnyOtjsNsvIRCm1s=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ESQpRfnT59Kswtwb0IuLmQ04Hi0+GW4OcRVLyKpN/ULtYv+yIVVfCi771Byozb/hO
- P14rC4TPtx9xl5y2fEbb37a3HFX/MIFCcH9mOzd/n7Keuz0pLbpihpM2IJrLPJEics
- uXpyo+C0ww7MT8Tz6IWJH+q9SsWBeqK3ZrkWDCYY=
+ b=br5rpF0I4QfIqE1Q1ze9G9TqZzChKg0Ef7BWYPWBSwBNue5i1Ig2dw6gdqmMVQ+Ol
+ AsSLlv9Neoui85vV11qtCpB6+nM1fhswE+eXZvZ3UByp5xE5og//Afth7CKNZM94AO
+ 850ljiUL1Nr8eAMq3l7QiRO11uyeEKjueUJ3uhpo=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 20 Mar 2025 18:00:10 +0200
-Subject: [PATCH 15/18] drm/bridge: cdns-dsi: Tune adjusted_mode->clock
- according to dsi needs
+Date: Thu, 20 Mar 2025 18:00:11 +0200
+Subject: [PATCH 16/18] drm/bridge: cdns-dsi: Update htotal in
+ cdns_dsi_mode2cfg()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250320-cdns-dsi-impro-v1-15-725277c5f43b@ideasonboard.com>
+Message-Id: <20250320-cdns-dsi-impro-v1-16-725277c5f43b@ideasonboard.com>
 References: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 In-Reply-To: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -52,21 +52,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Devarsh Thakkar <devarsht@ti.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3451;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1931;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=zjC+aAWjyFx4oAnilSfbgcfpfJMsawdKHCZ+xTpDXuM=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3Dub/VOn2xuEvX3gjVlZjlOP8jSPzMzFt2Cx7
- WE0tuq/LQqJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7mwAKCRD6PaqMvJYe
- 9cO3EACvoBH5BYZbDFYfQIvGMpq1QaA/UGRN6s7SNwsk+sxNH/Rap7UpdQ1nlK4p41bNdba/69q
- +2iXNEhPwpzXp2znOPcT2WTxYj6X6sHicDEsoyhP2vx89crBibks2EfBzuM/Sr7tN9eYFlbv3wO
- PmU4qjFqdhH25NIgynudSBz3qftv+P5UZBK79JKljkCcMoBPSe2SMzO5RO/NcB6mG7hraG2rxWn
- KD9RRhY7T3fCrBewWdkjobJ1HpEM71F+1tRxeHnKQ7ObTKpAHScKqdCj6Cps7T8BYR4n4M2Sp8H
- cXrmZKtdicR2NPhN5FYTdlbHIWH8KYv7AJfh2OgIkXbAjoiTxZ3vuYmWpMIMV8IZOulo/pK+/3X
- 63W5O57ndWBUkfN66IQHncsB7m2ELrFyFtsbO15iYnNkUmjPCzuEWW4/ejE43oTFM7NXOvvzs0o
- vifoDZKm/TMLPsLQDBCAcmZrFT5mMXqKl7Nb4Q+mf+sQMrvWlPH3nzjrvBNSKprVdiVzatqW5Z2
- WYSA92xnATH5fTEHC7Y7SG2gSKZDrMxQXUkx9mFkrXBzTa0SgmRRxhQ90GqqW4q0U5GI85s7m/6
- WDu+neOMbjiJf/yQ13u7ZtD2k305pwisMsTFryKWg9xlhfEtHNTETKpC47lcrSCDTlV10LZ73SM
- oWtYgFOJq0M8vDQ==
+ bh=+KTrHkkHrlimkcuE/FGh2M7ak/aUnyOtjsNsvIRCm1s=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3Duc29yGssBNwc7Nzzd6cuHFVTJyPm/qWnwlK
+ YcoBeVrlHmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7nAAKCRD6PaqMvJYe
+ 9RwdEACMNuzhwhzLBQGjW9qUMDxk2p8+9CyvB9HAavK1KC31lXMNfelL6GkkyT1qLOn2ZCD8jHo
+ Ja4FoEQRXBoLeyS6KMSQkw2Su86zTpOKY4vi8N22lKTHeirIA00Xm+JTwj5Y7ayZbt+AUh3jZko
+ Vs095FpyRdH6jukjY8m1WpQECqdtHjsS+UdnlwjHZoRMc3hkErzi/RN1KF6PKt+uIrV/Euec6D6
+ dFgPforoIuqCc2b+a0tFf47OrP9jJSvwz46aKg9rmAS276I2rgP5kQ67G68MkEo5JE5wkKh6z9A
+ l0Wd09IgwJSwMQlgBqLL2S7X45gfs1r+dd9IeLEV5rZZN9595cyeYe1zeSPyzV+oUbwrGcbU97d
+ yd2G74O1NUWdx/UdsM+/MDM+t4N8EFYc4+07CtH2E+8jLKBHGDi8NEzuJVtrqMCTcsQiFqJyv77
+ zVVSFBI0jPtNBkr4ZlAuqp5T7CTCVqm1xKaVqDHmZqRruADEyLBtcKiCsaXEH+MW8GCZQoQH6hb
+ +nqEiTY0VFnkPC0JmNt4UDnKazBRana9vO7GUntIvPTg5vU2Y4qM2WLIH+sAOpR219Md7xWC+6z
+ B7+wG+R1/+JOuNsEeQ5NgFLB2zpCiBaiZECOr6pLTvcKzgdtpWbEanzdh/nwfODegV8+ozD6w22
+ F1Xp9WtAazigPyg==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,91 +84,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver currently expects the pixel clock and the HS clock to be
-compatible, but the DPHY PLL doesn't give very finely grained rates.
-This often leads to the situation where the pipeline just fails, as the
-resulting HS clock is just too off.
+cdns_dsi_mode2cfg() calculates the dsi timings, but for some reason
+doesn't set the htotal based on those timings. It is set only later, in
+cdns_dsi_adjust_phy_config().
 
-We could change the driver to do a better job on adjusting the DSI
-blanking values, hopefully getting a working pipeline even if the pclk
-and HS clocks are not exactly compatible. But that is a bigger work.
-
-What we can do easily is to see in .atomic_check() what HS clock rate we
-can get, based on the pixel clock rate, and then convert the HS clock
-rate back to pixel clock rate and ask that rate from the crtc. If the
-crtc has a good PLL (which is the case for TI K3 SoCs), this will fix
-any issues wrt. the clock rates.
-
-If the crtc cannot provide the requested clock, well, we're no worse off
-with this patch than what we have at the moment.
+As cdns_dsi_mode2cfg() is the logical place to calculate it, let's move
+it there. Especially as the following patch will remove
+cdns_dsi_adjust_phy_config().
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 39 +++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 1a30e2f7d402..9f4f7b6c8330 100644
+index 9f4f7b6c8330..2a272fd8ea3e 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -966,6 +966,28 @@ static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
- 	return input_fmts;
+@@ -505,6 +505,15 @@ static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
+ 
+ 	dsi_cfg->hfp = dpi_to_dsi_timing(dpi_hfp, bpp, DSI_HFP_FRAME_OVERHEAD);
+ 
++	dsi_cfg->htotal = dsi_cfg->hact + dsi_cfg->hfp + DSI_HFP_FRAME_OVERHEAD;
++
++	if (sync_pulse) {
++		dsi_cfg->htotal += dsi_cfg->hbp + DSI_HBP_FRAME_PULSE_OVERHEAD;
++		dsi_cfg->htotal += dsi_cfg->hsa + DSI_HSA_FRAME_OVERHEAD;
++	} else {
++		dsi_cfg->htotal += dsi_cfg->hbp + DSI_HBP_FRAME_EVENT_OVERHEAD;
++	}
++
+ 	return 0;
  }
  
-+static long cdns_dsi_round_pclk(struct cdns_dsi *dsi, unsigned long pclk)
-+{
-+	struct cdns_dsi_output *output = &dsi->output;
-+	unsigned int nlanes = output->dev->lanes;
-+	union phy_configure_opts phy_opts = { 0 };
-+	u32 bitspp;
-+	int ret;
-+
-+	bitspp = mipi_dsi_pixel_format_to_bpp(output->dev->format);
-+
-+	ret = phy_mipi_dphy_get_default_config(pclk, bitspp, nlanes,
-+					       &phy_opts.mipi_dphy);
-+	if (ret)
-+		return ret;
-+
-+	ret = phy_validate(dsi->dphy, PHY_MODE_MIPI_DPHY, 0, &phy_opts);
-+	if (ret)
-+		return ret;
-+
-+	return div64_u64((u64)phy_opts.mipi_dphy.hs_clk_rate * nlanes, bitspp);
-+}
-+
- static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
- 					struct drm_bridge_state *bridge_state,
- 					struct drm_crtc_state *crtc_state,
-@@ -978,12 +1000,27 @@ static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
- 	struct cdns_dsi_cfg *dsi_cfg = &dsi_state->dsi_cfg;
- 	struct drm_display_mode *adjusted_crtc_mode = &crtc_state->adjusted_mode;
- 	struct videomode vm;
-+	long pclk;
+@@ -522,15 +531,7 @@ static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
+ 	unsigned int dsi_hfp_ext;
+ 	unsigned int lanes = output->dev->lanes;
  
- 	/* cdns-dsi requires negative syncs */
- 	adjusted_crtc_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
- 	adjusted_crtc_mode->flags |= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC;
+-	if (output->dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
+-		dsi_htotal = dsi_cfg->hbp + DSI_HBP_FRAME_PULSE_OVERHEAD;
+-		dsi_htotal += dsi_cfg->hsa + DSI_HSA_FRAME_OVERHEAD;
+-	} else {
+-		dsi_htotal = dsi_cfg->hbp + DSI_HBP_FRAME_EVENT_OVERHEAD;
+-	}
+-
+-	dsi_htotal += dsi_cfg->hact;
+-	dsi_htotal += dsi_cfg->hfp + DSI_HFP_FRAME_OVERHEAD;
++	dsi_htotal = dsi_cfg->htotal;
  
--	drm_display_mode_to_videomode(mode, &vm);
-+	/*
-+	 * The DPHY PLL has quite a coarsely grained clock rate options. See
-+	 * what hsclk rate we can achieve based on the pixel clock, convert it
-+	 * back to pixel clock, set that to the adjusted_mode->clock. This is
-+	 * all in hopes that the CRTC will be able to provide us the requested
-+	 * clock, as otherwise the DPI and DSI clocks will be out of sync.
-+	 */
-+
-+	pclk = cdns_dsi_round_pclk(dsi, mode->clock * 1000);
-+	if (pclk < 0)
-+		return (int)pclk;
-+
-+	adjusted_crtc_mode->clock = pclk / 1000;
-+
-+	drm_display_mode_to_videomode(adjusted_crtc_mode, &vm);
- 
- 	return cdns_dsi_check_conf(dsi, &vm, dsi_cfg);
- }
+ 	/*
+ 	 * Make sure DSI htotal is aligned on a lane boundary when calculating
 
 -- 
 2.43.0
