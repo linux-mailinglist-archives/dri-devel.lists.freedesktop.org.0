@@ -2,89 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1BDA6A18E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 09:38:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3512AA6A1C9
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 09:49:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC5C410E5A6;
-	Thu, 20 Mar 2025 08:38:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA2710E5A9;
+	Thu, 20 Mar 2025 08:49:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ItUG6bBP";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="IK9wCQ3z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E118F10E5A5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 08:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1742459912;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=eVSYC2akOgiwP6yKLJOSHan3aNOI03QHvfAehHGVWcE=;
- b=ItUG6bBPn8/WcTIZjgeLY46VM0bQqpmhMHAoK33vfKr98vhP5BjgA62bmpJk8J5Mad9Ypm
- CUcq3lkOxRi5Fy0HjkcB2I9xewunZ3EFgfGRWRY7OgHk5wurtfI7JeCYeK8+rWoNmMNmjn
- I0tPaVfGoydX17cL1+bE8XFkkt7LEYA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-310-93ruNsQGPzmt6gcXVX8Cgg-1; Thu, 20 Mar 2025 04:38:30 -0400
-X-MC-Unique: 93ruNsQGPzmt6gcXVX8Cgg-1
-X-Mimecast-MFC-AGG-ID: 93ruNsQGPzmt6gcXVX8Cgg_1742459909
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4394c489babso1898535e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 01:38:29 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D672910E2CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 08:49:14 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-3912d2c89ecso394737f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 01:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1742460553; x=1743065353;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3dSSUDp0kq8Zg5C9MUmkhdPhVDOdSmRPSZzAk4mUfCY=;
+ b=IK9wCQ3zlLxAnn3SGOgAA8qywsWggQN78TdBathMooFHPVhE/TS9HLzk9/1A4FAgLz
+ 2Rdv8OIViiZ7euF9Fj++cRSrrODi3PoUquxuZ6VGOPPhJWv10R90vhJKT3Ic3Y7GPUm3
+ 2ggrF4mjIS8mgtlN5HLVKiVc1w2urihsV5jJOezW5888pmCory0tI7ysovc7k15ixHzy
+ Fbr9zR/9AeNkY4/JFro9EkypjgVjMM7BbiPiDOrwkdakual9H0BsSy1Gr6ssxmyr8huO
+ hPvuSYBB7P0IAYRvLYcEOXheqXKIvhAPe7FwGdXy9AjsMB30rDjWpm+8oxzlo6KJzOae
+ XN8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742459909; x=1743064709;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eVSYC2akOgiwP6yKLJOSHan3aNOI03QHvfAehHGVWcE=;
- b=tpbCW4L+7yautY8NB0fha6XsLEA/ECpFMoYOOQEzFFsNCP8bgZrF8YTP1DgDM9LG0h
- akSGXZAJaYayimKAsKunjTpVFft2H6/Hb3iR61QIBb1siD2FoygXbICtXcgDZAONXrqS
- iWyEYwtkrW7+08vBr9hpgO5FEdLOFBoHfHQo9wM0SOM9WZ+547LT/CASYzPm3DVImP2Q
- iuSWqt2ri6dG36dDB53tTBvT2OuvnWA2xj2dwxOA3wgKwW1aelHeeY//vC0kEmmmGkjY
- X6ydBtpwduruEhJ27XiZG6eOjq0sWt2jH8VVahaftVCO9SaVam866HVEBl8HB5xCpSFs
- evGw==
+ d=1e100.net; s=20230601; t=1742460553; x=1743065353;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3dSSUDp0kq8Zg5C9MUmkhdPhVDOdSmRPSZzAk4mUfCY=;
+ b=R/frn2rzbPUdJ5oOQ9Tkyk1z9XRHcX4unfFFqkJHafoDUz/p3Vr5thKt+Oa981xxAS
+ lIgH5Zo9+MhCTEroAoI70geIcwHa/VAgyuayUn8BertX2KJunINbvO/ZZUi7C/5A/JBn
+ z9hi2K4jUyqpY4w7mlhX0BnhMj9A8V2gfGji3EYQxjna8aDIct7YswQapQETEDqWGZlM
+ 82Q1CCjcWvc528GxDw6fQ5WJqnp6xEDFjKG1oAfQtVNHNuirysygit5eR94lmKB1zjLp
+ 64P71B/UaV5Pikg93NX0LVQ9TjybR5m3VhKOWfHDb8RsO/xBLTwE8IgNxAa8J9eJSYiD
+ wijg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXzxo5hOQzjFg6tdJXqqFu33qUqJoBPqeZGI2nKqmbG4rAafIoxmNVQkJZuYHywMDUZsePMx3u/Wmk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHdUO3e26Yz1M6MJ9dQbwuRpD3yXsm62SkutuKaD84MXBa4e1r
- 74zM/uI7Py1QErAkb3ms+fNSDpSryv7AgktwDlRT5u5wva9oUof2hytGHx43pYsw3KRP51MhI0N
- 7B1EqqDCIqS0qhyFoULJjgsbopktHNQWFT2BSKVe3ml9t3KZEn4fK1yaMBnTwucN30w==
-X-Gm-Gg: ASbGnctdgIyW4H03h2TgPhpK3QUVAg5A2Po6tYnalj/w4wCzBvar6M2LuYQr/0AyOyc
- C5sBt2C32Kq+a/sxUF5TTSs9Lur1JeFZVgtvOkh/SVZgQ+zg60cm1FhW+3Y9Y/MysrXh8sfXZWG
- /75rRSQXhSOTpDpuanNcRLMCH3UqKq745/ACnpEY3V1krw3C2Bov3oHlPFE87+4jPZyWQIxupel
- TK7LpHtJMwmW064/5cBNdjL9J8wSfdcaPO3Yfh90ziebFDk8OWIWa29C7zaXdYAY0Q=
-X-Received: by 2002:a05:600c:3d88:b0:43d:db5:7b1a with SMTP id
- 5b1f17b1804b1-43d4379b544mr46799275e9.12.1742459908613; 
- Thu, 20 Mar 2025 01:38:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH2ABTv2JwL/AM+EzDkblJ4THEXWcPirEf3A6Ijee80hlkhSxHLu9VwR1gZbn6IcOhuJRlh2A==
-X-Received: by 2002:a05:600c:3d88:b0:43d:db5:7b1a with SMTP id
- 5b1f17b1804b1-43d4379b544mr46798935e9.12.1742459908115; 
- Thu, 20 Mar 2025 01:38:28 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d46edba08sm32428835e9.18.2025.03.20.01.38.27
+ AJvYcCWe1xyAqT34k+4arYEbg+hMRse1e7iDYrO+n5Tep+Pf+i80U+JTf5nvxV+eJJvKd3hyEK7pGIRM62s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7JK3hh3gGCc5WDw7KNvaDEw/ejpsH8CwqIUEc74z4zh1eE6DP
+ lg6P/XS4771K/mXEK6QjYcxT/apxjRze7tkNHnC39Z4a2CDqi4lwqUmSIMx6yQQ=
+X-Gm-Gg: ASbGncs5x8X0IHQi44lPI3Bf1UtjqmKxAZCyRqHsTc0vYWueIfKjLKOHMtXUEXtxRIF
+ OG3Dg+DMCrxotuNP7f1YHMI9WFoPgf2eZ2KqkI6wSaqTv+NxmI3kKS/2BwvCkJeUfOvauWEbJEX
+ VOonG/aq2MXNIswCI5o9Jz0lzrfCAhBTLB0WdX0SE5BdO+sOtOCoQGwg/F47qnfvwCADK06cg1T
+ Vy7dgomTkfm2E/9sIeJw46E9/r7hVKTTkABXquPub2sScUDYzQ/cOOAcGuZ9F+PTwqkp1tWKZ7k
+ 2u35+NfPYlzd4STM+K44Mh//gVXg0ls3YzqcjO4HbxEkrRBQ
+X-Google-Smtp-Source: AGHT+IESyPaiI1V9B3T+xCXcpOdHP115r4JOZkpshAPm0pBqPbQrvCBH6xJxDvOxDEUrw+x64IGdGA==
+X-Received: by 2002:a5d:584c:0:b0:391:12a5:3c95 with SMTP id
+ ffacd0b85a97d-399795adb01mr1697690f8f.22.1742460553152; 
+ Thu, 20 Mar 2025 01:49:13 -0700 (PDT)
+Received: from [127.0.1.1] ([2a01:e0a:5ee:79d0:c11c:487d:c821:54a0])
+ by smtp.googlemail.com with ESMTPSA id
+ 5b1f17b1804b1-43d43fdac9dsm41381655e9.30.2025.03.20.01.49.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Mar 2025 01:38:27 -0700 (PDT)
-Date: Thu, 20 Mar 2025 09:38:27 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20250320-valiant-outstanding-nightingale-e9acae@houat>
+ Thu, 20 Mar 2025 01:49:12 -0700 (PDT)
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: [PATCH v8 0/3] Add display support for the MT8365-EVK board
+Date: Thu, 20 Mar 2025 09:48:44 +0100
+Message-Id: <20231023-display-support-v8-0-c2dd7b0fb2bd@baylibre.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="47mp7vgniqed6naw"
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGzW22cC/4XQS27EIAwG4KuMWJcKMBBmVr1H1QUP0yBNkwjSq
+ NEody/MskrFgsVvyZ9tHqRgTljI7fIgGbdU0jzVYF4uxI92+kSaQs1EMAG8PhpSWe52p+V7Wea
+ 8Uq8lNw4YSn4ltcvZgtRlO/mx9a1YVt7qS8aYfp6T3j9qHlNZ57w/B2+8Vf+fsXHKqPJGMwzKA
+ 7g3Z/d7chlf/fxFGreJDiEqAeDRGC2dEMMJAR0C2hYAxkTAAPJsC9khZCUwGIGOaxMdPyFUh1D
+ tkCtTkaN0BtQJoTuEroTXNsoIMspgToihQwyV0AOD+hVCG/h7yHEcv+U7Pw1bAgAA
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5549; i=amergnat@baylibre.com; 
+ h=from:subject:message-id;
+ bh=dFWBZa11361gL22ddaMWSIWli3shFJKSBcr7kHO8OAs=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBn29aHbKmfCxg9p7exTe9tO4ahnJps7WII3FBjPnb4
+ 3eBbyQaJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ9vWhwAKCRArRkmdfjHURXGrEA
+ Cmq6GfCcjI8Ht1UNcjWmd4WfAieGbhW5mYUQQVUZyrkkVUl2sEDA94dd7L1HlTzNmiO9qXciEj+GZ4
+ CD5NhyDyHrTXp8bkL0bgGIjHZXf8QqT3ae/1WYtL0HUH4c8sTjcWF8p8fIDmRzE3ql2nSKmTB5w9fb
+ 6T+oJLElauBuc6eWCq6nJjF4PfdmotiB/2RyRmo+9FNm8jp9PSYjniUQo61mmbssD0zx1fGiDMJcNE
+ dfXFLBOhju/EEHdvcAqBD/sHMu+4//dxQ2ZPmJ4CV6lTFeJpJDNX98Vy7tgehwEAs5QfLzqawHpgh4
+ tN/2XWMzX1S/pNqcr2DMw2UJwMGHuD+/yr9bmsbSwtadQCWflHc8HNCRiT3qGvXBYdQ2nX1D34SHGS
+ yhOSRFKlIKQTcIhsOLJMx+go6P/BiffF3PsPFlnClkdu9Rp8MaohY8YKRNnpPAdQnly1FYZ8OKNJ7L
+ XJRh3+RoEC/eZNgm/As3WaJjJYoRU9d3Io5XvOqis3TFJwUMZNhzsyHNlmILLFiPdT3sKqYt/1+UFK
+ MrKj41Oe6yoMBlQupg9mQc34O8Wiq5ap7bI/5sfAwwqV8YNojrqnlh71tf7QGQdFBrLoCTonkx6gR3
+ tGEGOZO1VwKbIUnxiKIvX8I1iBHJejB8KysIYz8BVCnhPK9vSuOv71qUJbdQ==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,73 +119,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The purpose of this series is to add the display support for the mt8365-evk.
 
---47mp7vgniqed6naw
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: [PULL] drm-misc-fixes
-MIME-Version: 1.0
+This is the list of HWs / IPs support added:
+- Connectors (HW):
+  - HDMI
+  - MIPI DSI (Mobile Industry Processor Interface Display Serial Interface)
+- HDMI bridge (it66121)
+- DSI pannel (startek,kd070fhfid015)
+- SoC display blocks (IP):
+  - OVL0 (Overlay)
+  - RDMA0 (Data Path Read DMA)
+  - Color0
+  - CCorr0 (Color Correction)
+  - AAL0 (Adaptive Ambient Light)
+  - GAMMA0
+  - Dither0
+  - DSI0 (Display Serial Interface)
+  - RDMA1 (Data Path Read DMA)
+  - DPI0 (Display Parallel Interface)
 
-Hi,
+The Mediatek DSI, DPI and DRM drivers are also improved.
 
-Here's this week drm-misc-fixes PR.
+The series is rebased on top of Angelo's series [1] to
+use the OF graphs support.
 
-Maxime
+Update 03/20/25:
+According to Angelo's comment, the DSI fix in the previous version
+doesn't fix the root issue.
+Then, the "drm/mediatek: dsi: Improves the DSI lane setup robustness"
+as been replaced by two other patch to fix the DSI power on sequence
+and remove custom power function.
 
-The following changes since commit 12d8f318347b1d4feac48e8ac351d3786af39599:
+Regards,
+Alex
 
-  drm/dp_mst: Fix locking when skipping CSN before topology probing (2025-0=
-3-11 11:29:18 +0200)
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+---
+Changes in v8:
+- Patch merged, then removed from the series:
+  - dt-bindings: display: mediatek: dpi: add power-domains example
+  - drm/mediatek: add MT8365 SoC support
+  - arm64: dts: mediatek: add display blocks support for the MT8365 SoC
+  - arm64: dts: mediatek: add display support for mt8365-evk
+- Patch removed:
+  - drm/mediatek: dsi: Improves the DSI lane setup robustness
+- Patch added:
+  - drm/panel: startek-kd070fhfid015: add another init step
+  - drm/mediatek: dsi: remove custom init part
+- Remove MTK custom init function for the DSI driver to avoid conflict
+  with what the DRM APIs provide.
+- Link to v7: https://lore.kernel.org/r/20231023-display-support-v7-0-6703f3e26831@baylibre.com
 
-are available in the Git repository at:
+Changes in v7:
+- Improve defconfig commit description
+- Add comment in the DTS about pins clash with ethernet and HDMI (DPI0)
+- Link to v6: https://lore.kernel.org/r/20231023-display-support-v6-0-c6af4f34f4d8@baylibre.com
 
-  ssh://git@gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-=
-2025-03-20
+Changes in v6:
+- Fix DPI binding: remove the duplicated property (power-domains).
+- Squash defconfig commit.
+- Fix the property order in the DTS.
+- Link to v5: https://lore.kernel.org/r/20231023-display-support-v5-0-3905f1e4b835@baylibre.com
 
-for you to fetch changes up to cb83f4b965a66d85e9a03621ef3b22c044f4a033:
+Changes in v5:
+- Patch merged, then removed from the series:
+  - dt-bindings: display: mediatek: rdma: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: ovl: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: gamma: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: dpi: add compatible for MT8365
+  - dt-bindings: display: mediatek: dsi: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: dither: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: color: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: ccorr: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: aal: add compatible for MT8365 SoC
+- Enable STARTEK KD070FHFID015 panel in the defconfig.
+- Rebase on top of 6.13-rc6.
+- Link to v4: https://lore.kernel.org/all/20231023-display-support-v4-0-ed82eb168fb1@baylibre.com
 
-  gpu: host1x: Do not assume that a NULL domain means no DMA IOMMU (2025-03=
--19 19:05:40 +0100)
+Changes in v4:
+- Patch merged, then removed from the series:
+  - dt-bindings: display: mediatek: dpi: add power-domains property
+  - dt-bindings: pwm: mediatek,pwm-disp: add compatible for mt8365 SoC
+  - clk: mediatek: mt8365-mm: fix DPI0 parent
+- Remove mediatek,mt8365-dpi compatible from mtk_drm_drv.c because it
+  use the mt8192's data. It's a miss.
+- Add MT8365 OF graphs support, remove the hardcoded display path and
+  rebase on top of Angelo's series [1].
+- Link to v3: https://lore.kernel.org/r/20231023-display-support-v3-0-53388f3ed34b@baylibre.com
 
-----------------------------------------------------------------
-A sched fence reference leak fix, two fence fixes for v3d, two overflow
-fixes for quaic, and a iommu handling fix for host1x.
+Changes in v3:
+- Drop "drm/mediatek: add mt8365 dpi support" because it's the same
+  config as mt8192 SoC
+- Drop "dt-bindings: pwm: mediatek,pwm-disp: add power-domains property"
+  because an equivalent patch has been merge already.
+- Add DPI clock fix in a separate commit.
+- Improve DTS(I) readability.
+- Link to v2: https://lore.kernel.org/r/20231023-display-support-v2-0-33ce8864b227@baylibre.com
 
-----------------------------------------------------------------
-Dan Carpenter (1):
-      accel/qaic: Fix integer overflow in qaic_validate_req()
+Changes in v2:
+- s/binding/compatible/ in commit messages/titles.
+- Improve commit messages as Conor suggest.
+- pwm-disp: Set power domain property for MT8365. This one is optionnal
+  and can be used for other SoC.
+- Fix mediatek,dsi.yaml issue.
+- Remove the extra clock in the DPI node/driver and fix the dpi clock
+  parenting to be consistent with the DPI clock assignement.
+- Link to v1: https://lore.kernel.org/r/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com
 
-Jason Gunthorpe (1):
-      gpu: host1x: Do not assume that a NULL domain means no DMA IOMMU
+[1] https://lore.kernel.org/lkml/20240516081104.83458-1-angelogioacchino.delregno@collabora.com/
 
-Jeffrey Hugo (1):
-      accel/qaic: Fix possible data corruption in BOs > 2G
+---
+Alexandre Mergnat (3):
+      arm64: defconfig: enable display support for mt8365-evk
+      drm/panel: startek-kd070fhfid015: add another init step
+      drm/mediatek: dsi: remove custom init part
 
-Ma=EDra Canal (2):
-      drm/v3d: Don't run jobs that have errors flagged in its fence
-      drm/v3d: Set job pointer to NULL when the job's fence has an error
+ arch/arm64/configs/defconfig                       |  2 ++
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c            |  2 --
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h            |  2 --
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 | 16 --------------
+ .../gpu/drm/panel/panel-startek-kd070fhfid015.c    | 25 +++++++++++++---------
+ 5 files changed, 17 insertions(+), 30 deletions(-)
+---
+base-commit: 72e8ab284ff34785ec292f79610de5fcf3825b32
+change-id: 20231023-display-support-c6418b30e419
 
-qianyi liu (1):
-      drm/sched: Fix fence reference count leak
-
- drivers/accel/qaic/qaic_data.c           |  9 +++++++--
- drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++++--
- drivers/gpu/drm/v3d/v3d_sched.c          | 23 ++++++++++++++++++++---
- drivers/gpu/host1x/dev.c                 |  6 ++++++
- 4 files changed, 42 insertions(+), 7 deletions(-)
-
---47mp7vgniqed6naw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ9vUAgAKCRAnX84Zoj2+
-dlATAYCtuSibllvUw0LRAksLq+2dw95GaaHpe/yqHUhj4mnrYaVwskUMuN05Z3Je
-g1M6vV8Bf1WI7AiXgRyaUghC6Ne0vSW5D7eStRbqifJMMydRqkEMPaCELL+X5Fpk
-f0edh7S3FQ==
-=2eWI
------END PGP SIGNATURE-----
-
---47mp7vgniqed6naw--
+Best regards,
+-- 
+Alexandre Mergnat <amergnat@baylibre.com>
 
