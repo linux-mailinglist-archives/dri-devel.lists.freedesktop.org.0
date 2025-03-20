@@ -2,64 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49225A6A2F9
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 10:51:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194C3A6A316
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 10:59:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4BA10E39D;
-	Thu, 20 Mar 2025 09:51:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3F9010E5B6;
+	Thu, 20 Mar 2025 09:59:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QMZGwQii";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="I0xkYI16";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0F3A10E39D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 09:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742464259; x=1774000259;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=SUbKgdkL2Mb2Hbq5e4gWMXH2nDgt4rA8cTNG5BlBSOs=;
- b=QMZGwQiiTCLLzvOkMd0wJk6NRhJltdLbJ8wT9p27coYZKjqtZ5KypQLv
- vyWiUU2NqVu77OnwlxuMq6y1R4e9fhJ39vmUCJcKb5c9ohgjaXAAw39rU
- qOdwnFktG/W33pJte21z+qwcX9xSEw3QpzBArNI2EO2iOhArM/u7hPx4L
- LPwLzQ1gn2pOXEHts8Y0poUqkMsPljQSuf3FqS5/WLdkt7LohBWO0YopX
- 9ulUyNCAh9K07epA1ZAz7WQSqi9C6ZKLSZDMjEcJAQOVsSlmMHwWS8uT+
- llsi8Hci/8WQG5yU0b//T/hPl+KTwAdrXGZX0n27+iUiXgvDe7o/irgAe A==;
-X-CSE-ConnectionGUID: obmJ2ElkTaapjA/b+hvRLQ==
-X-CSE-MsgGUID: G2a2cMpYTxCKDWkKfFHPCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43798139"
-X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; d="scan'208";a="43798139"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2025 02:50:58 -0700
-X-CSE-ConnectionGUID: fNUzFREwRK+zuaEIzMKS5Q==
-X-CSE-MsgGUID: pj0nKPdrTuKBbdyhKZrgOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; d="scan'208";a="127736351"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2025 02:50:53 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
- tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
-Cc: liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com,
- shiyongbang@huawei.com, libaihan@huawei.com, shenjian15@huawei.com,
- shaojijie@huawei.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 drm-dp 5/9] drm/hisilicon/hibmc: Getting connector
- info and EDID by using AUX channel
-In-Reply-To: <20250319032435.1119469-6-shiyongbang@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250319032435.1119469-1-shiyongbang@huawei.com>
- <20250319032435.1119469-6-shiyongbang@huawei.com>
-Date: Thu, 20 Mar 2025 11:50:50 +0200
-Message-ID: <87frj8c9ol.fsf@intel.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2049.outbound.protection.outlook.com [40.107.220.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B77C10E5AC;
+ Thu, 20 Mar 2025 09:59:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=u45a4wujZF00zz+XE6sUV8Zt/W9HQIF/V5D1Xoaq350CdYu0+Iy6J8Uz5jJvqBEoR9DX0OIUM1haqc3PidPeq2doMy0sMM0cGjOHGbOLUUafpMBQIf/uwoyD0hZCv9PZVXFdtkuzOy7bz+uMXELhStwVV+GNxATCPiG/77vAmtvP9OaVRVXNb1xeEh+Sj03AP2wiBK3UD4xrAHZf9tkzu87z2KJodzDwKYosRg2gqeHB/0R2LTcQ0xRabAjPjSOG/v48aa+k7I4Ka/tIwkKCaAgKy5MyihjlwQ7CO3Xymeb32DTYlt5YqL4/CcGLVVDIKB5WeUKmdjbXrqoD2EBJMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uySjzVi0W3/hhvNq8nPGaasAt9phfmlmdxD4j+aHs/0=;
+ b=WjSQ7BMdUMonauBGdqRM+CvP24fImXwyu6bmzruonnEpVpXkFkYtcpFLhnLWssYJlhMuxLtS/1cGsaoJwlVeE7raeMTWABzYzJxJX3CgYI+kAUe1/vQPjh65/5SJ+IGGiJTPPPZ3L/bZjFaTjKMgg2DkMwnSPt9qppQE5DrazCYrsa2bDpnI1ckB1XXaidDGZRinPPfxq1sapIyNrePoxnLpbxW1DRm6mMHzNTRXvswlC6u7NJU1Ps5PQDl0HmhPFfKv/+01A5jBlCsDTPDuNcSSEqi24XTvtXhH3Wn/Y2CeHj2y2bsEFCkDiXftqitL3zibdjl7f9jIoZ5ioUoW7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uySjzVi0W3/hhvNq8nPGaasAt9phfmlmdxD4j+aHs/0=;
+ b=I0xkYI16vsUSsw0HD8Qd8f3Y5fOwAfBZRVGzPMUDACF6BWrW9oUlUZ3DK5yIZs6WOFBkDAnExqj4BOHPlxLYU47Qtd+G6GRRtH7hJuaEyXTkKMjLXI+WXHfsgQxgbZNmGvipz1jDzzuLaitqs57fqqIQ0V9Re58zUVP2AZoNHgg=
+Received: from BL0PR0102CA0054.prod.exchangelabs.com (2603:10b6:208:25::31) by
+ DS0PR12MB7535.namprd12.prod.outlook.com (2603:10b6:8:13a::20) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8534.34; Thu, 20 Mar 2025 09:59:21 +0000
+Received: from BL02EPF0001A0F9.namprd03.prod.outlook.com
+ (2603:10b6:208:25:cafe::31) by BL0PR0102CA0054.outlook.office365.com
+ (2603:10b6:208:25::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.36 via Frontend Transport; Thu,
+ 20 Mar 2025 09:59:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0001A0F9.mail.protection.outlook.com (10.167.242.100) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8534.20 via Frontend Transport; Thu, 20 Mar 2025 09:59:20 +0000
+Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 20 Mar
+ 2025 04:59:18 -0500
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: 
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <etnaviv@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <lima@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <nouveau@lists.freedesktop.org>
+Subject: [PATCH v8 00/10] Improve gpu_scheduler trace events + UAPI
+Date: Thu, 20 Mar 2025 10:57:56 +0100
+Message-ID: <20250320095818.40622-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0F9:EE_|DS0PR12MB7535:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91573c50-aabf-4281-e7f7-08dd6795e297
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|82310400026|36860700013|376014|7416014|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U0R3VFN5QzF3RXNFQWJxZ3RzK2VlN3NRQUltb1hzVFh0SGl2VmExVjdxK2J4?=
+ =?utf-8?B?dldPQkc4Q1p3TlZQcE1WOFJFTWFyZDFoZWxLYm1UekZ5OFY0SE9WdkV3S3Y3?=
+ =?utf-8?B?UHhwVUtLVEFkRnYyUWJOVWZoVzB2bG8rZFRENmF4Z2Z0Rjh0ZlUwcWpobEtr?=
+ =?utf-8?B?MVZEQytMMjNSc3BmR3RuSlc5cnNreXhERnNOYzViMHAveURmamcvL1ZJSHBP?=
+ =?utf-8?B?TllZTXozOWRDK1BXZ3MxYWZVUi9OSlFZMFh1cDhvbGFkVVZsclQvcHdxRUhp?=
+ =?utf-8?B?QmttcDYzbmhwS2hNLzQwL2gyZEo3V3V5OHN2RXV2cnJWbjBHTnZac3RkNDdJ?=
+ =?utf-8?B?V01DREJrZXpxME8wWWI5NDBROGswRlhQRU84RnBDa3VubE9ySHN6SU9nbjE2?=
+ =?utf-8?B?T2RDTG9HeW01RngvSUhFMkMzL1hQOUZQd3BHQjJHTkt6amVTN0Z4RDJLQUhz?=
+ =?utf-8?B?L1FLc3B4K2UySnpIWGsxS0pKdmxsN3RzcG5BR1VZeXFoR0hSN1ZESXRHRkpm?=
+ =?utf-8?B?eXNTTGpma013alJkbnAwMmxueHFBL2RneXQyZjVxajl1S0JmYnVDVG9sZUdR?=
+ =?utf-8?B?Y0RRVk5pUFBhTXVDOTdPR05rVjZEV2c2ZzRNbERHRStRQ3JIbnVQT3paczll?=
+ =?utf-8?B?blN0M3laeFptVzVSbnNUanpyUXpnazFpc0V0RXoyZnUwUW5TbllJUER0ZzBW?=
+ =?utf-8?B?TWJUMFh1M29rUjZtenlzUGU5YTNBUzdGR3hYeUx1SnZzOG52NkZhSWpRVVh3?=
+ =?utf-8?B?T21icHAzMXpnMFlkdDN2K0VUWUlGR1laYVJmZDNLdEk0V1RwdGdaOGxvYUpk?=
+ =?utf-8?B?WW9lZ2dGTVNnMjdWbE9uN281eHV2QkJ0cVBrQTJEZ1Y4dXZIZ1FUL1FKd29L?=
+ =?utf-8?B?MHN0QWk2RUhCQ0lJNGp5aC9nVWFoc1kzdVhDcTJ2NndFa0MwU2VMd1FGamN1?=
+ =?utf-8?B?dG1QUWNaR0dUTTlBYS9hdm5oTGZxMlNsZTIwVHhKOTgvY3l2WHlpRm5hSTEw?=
+ =?utf-8?B?UGlESktTczlqQlU3VG9uQTV2a1Avb21UNXd2K0t6ZjQrWTlpeW1xZ2FDZ1JI?=
+ =?utf-8?B?QTlIQTZqR24rVlJyMERtSzIrTmhHN3UyRGszclhPc0xzd1BLUHNsVUlGbFl6?=
+ =?utf-8?B?VkdQOS9Cb04yY2k1Nm8xOXJWd0ZXbnZUYWloKzlhMFBGbG1qeDRXKzd1VkpK?=
+ =?utf-8?B?bGJUNkhZd0doK2ZSLzhiT0dtTkg5Wk5MNEtvUzdHZlU4b0hoT3dKZ2U5U3Zl?=
+ =?utf-8?B?VE9tZkJnR2REUjZ6NVkvd0ZxeFJVUkQ5eFZlNUtkZlFDaVpWOEJ4VnE2L3p1?=
+ =?utf-8?B?QWQyaWczOEpvaU13N0hmZFZsaTk3dnF2Y2pZVGl6NGd0WXh4WEtrSk1LK1VO?=
+ =?utf-8?B?U1V0RXoyM0IzeExhL1FGQ2NzZm1lTmRtRTFBcTVDbmpvRStBVnFoOFRNS0RC?=
+ =?utf-8?B?M0cyRnBhbjZDVXBDWEpEc2UxdUM1aEt2TktwR1JzMEN2ekoxOFhlbWhoeVBZ?=
+ =?utf-8?B?UVYwMUNxaE4yeTRwUmZ6K2R1cVpUaEpBa08xRjNPTWNOQ3VtTTFzSldEMEFa?=
+ =?utf-8?B?UGcrYkJKYTlqRHJBbHEzR0pUZjE1QmdzbFdiZmRMd2JQMFMyVmQ2cC9Pc3Nr?=
+ =?utf-8?B?TW04MFhqbGxmSWtld0JSbWdnQWQzWmJnYWRNdytGOWxOQm85dkoxSVVJSVpU?=
+ =?utf-8?B?V2NoTGpPRXhUY3hhVzh6WndDbG1ieHNUSXhWSndZOE5hMDl4TEdmcDUwQ1l6?=
+ =?utf-8?B?WDl4eDAxTVI2QnRiZHdYaDE2QUF5aUgzSzIxM2NmdUQzeXZGc0M1WUZIcVdG?=
+ =?utf-8?B?cWV0VGp2Y0ZGMUsxLzA4RHFjRHRpREFLR0MwYlNZYkt5K2MybERqVEh0S3lY?=
+ =?utf-8?B?M3ZETWpWQlFXcWYyUmRYVE5LcW1MUlJQN1dnSThrTUpMQ245Y1czNlUwRU5Q?=
+ =?utf-8?Q?HxAh+1GFWA0=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(7416014)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2025 09:59:20.5403 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91573c50-aabf-4281-e7f7-08dd6795e297
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0F9.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7535
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,138 +144,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
-> From: Baihan Li <libaihan@huawei.com>
->
-> Add registering drm_aux and use it to get connector edid with drm
-> functions. Add ddc channel in connector initialization to put drm_aux
-> in drm_connector.
->
-> Signed-off-by: Baihan Li <libaihan@huawei.com>
-> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> ChangeLog:
-> v6 -> v7:
->   - add if statement about drm aux in hibmc_dp_connector_get_modes(), suggested by Jani Nikula
+Hi,
 
-I don't understand this, and I did not suggest such a thing.
+The initial goal of this series was to improve the drm and amdgpu
+trace events to be able to expose more of the inner workings of
+the scheduler and drivers to developers via tools.
 
-BR,
-Jani.
+Then, the series evolved to become focused only on gpu_scheduler.
+The changes around vblank events will be part of a different
+series, as well as the amdgpu ones.
 
+Moreover Sima suggested to make some trace events stable uAPI,
+so tools can rely on them long term.
 
-> v5 -> v6:
->   - move the detect_ctx() to the patch 7/9.
-> v2 -> v3:
->   - Capitalized EDID and AUX, suggested by Dmitry Baryshkov.
-> v1 -> v2:
->   - deleting type conversion, suggested by Dmitry Baryshkov.
->   - deleting hibmc_dp_connector_get_modes() and using drm_connector_helper_get_modes(), suggested by Dmitry Baryshkov.
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   |  3 +-
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 35 ++++++++++++++++---
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  5 +++
->  3 files changed, 37 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
-> index ded9e7ce887a..e0bb9b14d9d8 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
-> @@ -161,7 +161,8 @@ void hibmc_dp_aux_init(struct hibmc_dp *dp)
->  				 HIBMC_DP_MIN_PULSE_NUM);
->  
->  	dp->aux.transfer = hibmc_dp_aux_xfer;
-> -	dp->aux.is_remote = 0;
-> +	dp->aux.name = kasprintf(GFP_KERNEL, "HIBMC DRM dp aux");
-> +	dp->aux.drm_dev = dp->drm_dev;
->  	drm_dp_aux_init(&dp->aux);
->  	dp->dp_dev->aux = &dp->aux;
->  }
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> index 603d6b198a54..0256724d8b9b 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> @@ -15,11 +15,20 @@
->  
->  static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
->  {
-> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
-> +	const struct drm_edid *drm_edid;
->  	int count;
->  
-> -	count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
-> -				     connector->dev->mode_config.max_height);
-> -	drm_set_preferred_mode(connector, 1024, 768); // temporary implementation
-> +	if (!dp->aux.name)
-> +		return 0;
-> +
-> +	drm_edid = drm_edid_read_ddc(connector, &dp->aux.ddc);
-> +
-> +	drm_edid_connector_update(connector, drm_edid);
-> +
-> +	count = drm_edid_connector_add_modes(connector);
-> +
-> +	drm_edid_free(drm_edid);
->  
->  	return count;
->  }
-> @@ -28,12 +37,28 @@ static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
->  	.get_modes = hibmc_dp_connector_get_modes,
->  };
->  
-> +static int hibmc_dp_late_register(struct drm_connector *connector)
-> +{
-> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
-> +
-> +	return drm_dp_aux_register(&dp->aux);
-> +}
-> +
-> +static void hibmc_dp_early_unregister(struct drm_connector *connector)
-> +{
-> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
-> +
-> +	drm_dp_aux_unregister(&dp->aux);
-> +}
-> +
->  static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
->  	.reset = drm_atomic_helper_connector_reset,
->  	.fill_modes = drm_helper_probe_single_connector_modes,
->  	.destroy = drm_connector_cleanup,
->  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +	.late_register = hibmc_dp_late_register,
-> +	.early_unregister = hibmc_dp_early_unregister,
->  };
->  
->  static inline int hibmc_dp_prepare(struct hibmc_dp *dp, struct drm_display_mode *mode)
-> @@ -103,8 +128,8 @@ int hibmc_dp_init(struct hibmc_drm_private *priv)
->  
->  	drm_encoder_helper_add(encoder, &hibmc_dp_encoder_helper_funcs);
->  
-> -	ret = drm_connector_init(dev, connector, &hibmc_dp_conn_funcs,
-> -				 DRM_MODE_CONNECTOR_DisplayPort);
-> +	ret = drm_connector_init_with_ddc(dev, connector, &hibmc_dp_conn_funcs,
-> +					  DRM_MODE_CONNECTOR_DisplayPort, &dp->aux.ddc);
->  	if (ret) {
->  		drm_err(dev, "init dp connector failed: %d\n", ret);
->  		return ret;
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> index d982f1e4b958..3ddd71aada66 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> @@ -47,6 +47,11 @@ static inline struct hibmc_vdac *to_hibmc_vdac(struct drm_connector *connector)
->  	return container_of(connector, struct hibmc_vdac, connector);
->  }
->  
-> +static inline struct hibmc_dp *to_hibmc_dp(struct drm_connector *connector)
-> +{
-> +	return container_of(connector, struct hibmc_dp, connector);
-> +}
-> +
->  static inline struct hibmc_drm_private *to_hibmc_drm_private(struct drm_device *dev)
->  {
->  	return container_of(dev, struct hibmc_drm_private, dev);
+The first patches extend and cleanup the gpu scheduler events,
+then add a documentation entry in drm-uapi.rst.
+
+The last 2 patches are new in v8. One is based on a suggestion
+from Tvrtko and gets rid of drm_sched_job::id. The other is a
+cleanup of amdgpu trace events to use the fence=%llu:%llu format.
+
+The drm_sched_job patches don't affect gpuvis which has code to parse
+the gpu_scheduler events but these events are not enabled.
+
+Changes since v7:
+* uint64_t -> u64
+* reworked dependencies tracing (Tvrtko)
+* use common name prefix for all events (Tvrtko)
+* dropped drm_sched_job::id (Tvrtko)
+
+Useful links:
+- userspace tool using the updated events:
+https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
+- v7:
+https://lists.freedesktop.org/archives/dri-devel/2025-January/488117.html
+
+Pierre-Eric Pelloux-Prayer (10):
+  drm/debugfs: output client_id in in drm_clients_info
+  drm/sched: store the drm client_id in drm_sched_fence
+  drm/sched: add device name to the drm_sched_process_job event
+  drm/sched: cleanup gpu_scheduler trace events
+  drm/sched: trace dependencies for gpu jobs
+  drm/sched: add the drm_client_id to the drm_sched_run/exec_job events
+  drm/sched: cleanup event names
+  drm/doc: document some tracepoints as uAPI
+  drm: get rid of drm_sched_job::id
+  drm/amdgpu: update trace format to match gpu_scheduler_trace
+
+ Documentation/gpu/drm-uapi.rst                |  19 ++++
+ drivers/accel/amdxdna/aie2_ctx.c              |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  32 ++----
+ drivers/gpu/drm/drm_debugfs.c                 |  10 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
+ drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
+ drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
+ drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
+ drivers/gpu/drm/lima/lima_gem.c               |   2 +-
+ drivers/gpu/drm/lima/lima_sched.c             |   6 +-
+ drivers/gpu/drm/lima/lima_sched.h             |   3 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
+ drivers/gpu/drm/panthor/panthor_drv.c         |   3 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c         |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c       |   5 +-
+ drivers/gpu/drm/panthor/panthor_sched.h       |   3 +-
+ .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 103 +++++++++++++-----
+ drivers/gpu/drm/scheduler/sched_entity.c      |  16 ++-
+ drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
+ drivers/gpu/drm/scheduler/sched_internal.h    |   2 +-
+ drivers/gpu/drm/scheduler/sched_main.c        |  11 +-
+ drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
+ drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
+ include/drm/gpu_scheduler.h                   |  13 ++-
+ 30 files changed, 186 insertions(+), 96 deletions(-)
 
 -- 
-Jani Nikula, Intel
+2.43.0
+
