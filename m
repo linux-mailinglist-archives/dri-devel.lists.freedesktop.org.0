@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E92A6A64B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 13:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390F5A6A659
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 13:38:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADD1A8951B;
-	Thu, 20 Mar 2025 12:33:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09A3210E03A;
+	Thu, 20 Mar 2025 12:37:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Hup592GA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jtWiv98f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0F148951B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 12:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=W1zaLpd2shXaNgc1+Am8Z9S48EfoHj3ziX49YShlC30=; b=Hup592GANx8Lbp2WlFPK2LOGbn
- poJkHFk/vLA0lHZNCffVv2Gp5hY8Eg7o6QkJDh59x4E5FVWojxY1QKBjfP7C2uT5m/6AZQmdOlMwo
- 9XfNX51yTiGiHxdHXXTaNP5SMg693rljKMbn72Zntr4dcjcBUskd9jI1ydYILY8dg48Plbiuh7F63
- ceA4oCM0I49UQmroJeQy9+jCKNp4/mhkkrOO+5iJhgejnvcVxhrDObASAobk9Llc4IPbu/qvVwcBs
- YLDe2rN3ug/rfYfcJ+Z4LqyywFVRTEJisT8Sy0kGVk3dKR4QHIiKEZtq1l0EmgLYuZgWrcru1y3Zj
- fMYEfa/Q==;
-Received: from [191.33.112.135] (helo=[192.168.68.130])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tvF4k-003itx-VH; Thu, 20 Mar 2025 13:32:43 +0100
-Message-ID: <5db038f9-b353-494a-aa11-9e6a95932537@igalia.com>
-Date: Thu, 20 Mar 2025 09:32:36 -0300
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 880F610E03A
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 12:37:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1742474270;
+ bh=2v6ILyqttbXUiv4liYlyocig8g6a+R2OPkWZP9wB3lI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jtWiv98fy9Al8vyV+M3JtrUh8RqEfqnXvhgoQmp8Prasqxqk4yqLbL1+t/HhBCNBT
+ mMuwSiumysP9A9M0EdPDnKyJ4x3/BS++C5CD+35NvDyJc/iCeHg5dvaUuuOvYF2MFu
+ 8LLI5LdW6Jp12cSTwjwUmWCIUrIZor0i/KzZRPXtLAzfv2X3O4v2MJXhDMeGuHe47I
+ DjJmyPmSqGRN1FchXbNK/kaQo21EC6EQlYS6U3/p7XAcEpeRN6IswL8Wmb+xItvsi8
+ Wx+IoPNfaF7jNdTUkoegxHKdHO+qQifLIkRfiiC5KnsmHfjFhSfgj6Cm7JU8HXHen8
+ gJ4MNiTOhPkDw==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E874F17E02AF;
+ Thu, 20 Mar 2025 13:37:49 +0100 (CET)
+Message-ID: <d70b62f8-e24e-4a10-8c6b-18d2e19f1337@collabora.com>
+Date: Thu, 20 Mar 2025 13:37:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: DRM CI
-To: Maxime Ripard <mripard@redhat.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+Subject: Re: [PATCH v8 2/3] drm/panel: startek-kd070fhfid015: add another init
+ step
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Vignesh Raman <vignesh.raman@collabora.com>, helen.fornazier@gmail.com,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-References: <20250319-greedy-sturgeon-from-avalon-ac758f@houat>
- <ab1d875c-7a1e-47a3-b786-85fb46c42bb2@igalia.com>
- <20250320-benevolent-quokka-of-cubism-c1c0ce@houat>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+References: <20231023-display-support-v8-0-c2dd7b0fb2bd@baylibre.com>
+ <20231023-display-support-v8-2-c2dd7b0fb2bd@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-From: Helen Koike <koike@igalia.com>
-In-Reply-To: <20250320-benevolent-quokka-of-cubism-c1c0ce@houat>
+In-Reply-To: <20231023-display-support-v8-2-c2dd7b0fb2bd@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,91 +73,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-Thanks for your reply.
-
-On 20/03/2025 06:33, Maxime Ripard wrote:
-> Hi,
+Il 20/03/25 09:48, Alexandre Mergnat ha scritto:
+> Currently, the panel set power, set gpio and enable the display link
+> in stk_panel_prepare, pointed by drm_panel_funcs.prepare, called by
+> panel_bridge_atomic_pre_enable, pointed by
+> drm_bridge_funcs.atomic_pre_enable. According to the drm_bridge.h,
+> atomic_pre_enable must not enable the display link
 > 
-> On Wed, Mar 19, 2025 at 02:39:59PM -0300, Helen Koike wrote:
->> Hi Maxime,
->>
->> On 19/03/2025 11:11, Maxime Ripard wrote:
->>> Hi,
->>>
->>> At last Plumbers, we agreed with Dave that a good first step to ramp up
->>> CI for DRM trees would be to enable build and kunit testing in the main
->>> DRM tree.
->>>
->>> I played around with it last week and wrote a good first iteration of
->>> the gitlab-ci file.
->>>
->>> https://gitlab.freedesktop.org/mripard/gitlab/-/blob/main/.gitlab-ci.yml?ref_type=heads
->>
->> How about improving and using the current DRM-CI instead of creating a
->> new one?
-> 
-> Thanks for the suggestion, and I did try. I don't think it's a good
-> option though, at first at least.
-> 
-> There's several layers to it:
-> 
->    - The most important one is I don't really see much to share at this
->      point, really. The containers creation is a good example of
->      something useful, reusable, and that I did use. However, drm-ci uses
->      different defconfigs, its own set of hardcoded compilers, etc.
+> Since the DSI driver is properly inited by the DRM, the panel try to
+> communicate with the panel before DSI is powered on.
 > 
 
-This is the effort kci-gitlab is doing (see last patch with a drm-ci 
-proposal), to simplify things and remove the dependency of mesa-ci.
+The panel driver shall still be able to send commands in the .prepare() callback
+and if this is not happening anymore... well, there's a problem!
 
->      I guess we could try to improve and consolidate it, but for a script
->      that simple, I don't think it's worth it.
-
-Well, we are splitting our community in some way...
-
+> To solve that, use stk_panel_enable to enable the display link because
+> it's called after the mtk_dsi_bridge_atomic_pre_enable which is power
+> on the DSI.
 > 
->      Similarly, I don't think it makes sense to try to come up with a
->      super generic implementation of kunit, when there's only one user.
-
-No need to a super generic implementation. At least in kci-gitlab, there 
-is room to very specific implementations.
-
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+>   .../gpu/drm/panel/panel-startek-kd070fhfid015.c    | 25 +++++++++++++---------
+>   1 file changed, 15 insertions(+), 10 deletions(-)
 > 
->      That, of course, can and should be reevaluated as we test more
->      features and the script does indeed become more complicated.
+> diff --git a/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c b/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
+> index c0c95355b7435..bc3c4038bf4f5 100644
+> --- a/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
+> +++ b/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
+> @@ -135,19 +135,9 @@ static int stk_panel_prepare(struct drm_panel *panel)
+>   	gpiod_set_value(stk->enable_gpio, 1);
+>   	mdelay(20);
+>   	gpiod_set_value(stk->reset_gpio, 1);
+> -	mdelay(10);
+> -	ret = stk_panel_init(stk);
+> -	if (ret < 0)
+> -		goto poweroff;
+
+Also, you're moving both init and set_display_on to the enable callback...
+this is suboptimal.
+
+You should do the DrIC setup in .prepare() (can include SLEEP OUT), and then you
+should have a .enable() callback that calls DISP ON, a .disable() callback that
+calls DISP OFF, and .unprepare() that turns everything off.
+
+Cheers,
+Angelo
+
+> -
+> -	ret = stk_panel_on(stk);
+> -	if (ret < 0)
+> -		goto poweroff;
+>   
+>   	return 0;
+>   
+> -poweroff:
+> -	regulator_disable(stk->supplies[POWER].consumer);
+>   iovccoff:
+>   	regulator_disable(stk->supplies[IOVCC].consumer);
+>   	gpiod_set_value(stk->reset_gpio, 0);
+> @@ -156,6 +146,20 @@ static int stk_panel_prepare(struct drm_panel *panel)
+>   	return ret;
+>   }
+>   
+> +static int stk_panel_enable(struct drm_panel *panel)
+> +{
+> +	struct stk_panel *stk = to_stk_panel(panel);
+> +	int ret;
+> +
+> +	ret = stk_panel_init(stk);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = stk_panel_on(stk);
+> +
+> +	return ret;
+> +}
+> +
+>   static const struct drm_display_mode default_mode = {
+>   		.clock = 163204,
+>   		.hdisplay = 1200,
+> @@ -239,6 +243,7 @@ drm_panel_create_dsi_backlight(struct mipi_dsi_device *dsi)
+>   }
+>   
+>   static const struct drm_panel_funcs stk_panel_funcs = {
+> +	.enable = stk_panel_enable,
+>   	.unprepare = stk_panel_unprepare,
+>   	.prepare = stk_panel_prepare,
+>   	.get_modes = stk_panel_get_modes,
 > 
->    - We discussed it during the thread with Linus, but I also don't think
->      a one-size-fits-all approach is going to work. drm-ci at the moment
->      has plenty of reasonable policies, but which people are still going
->      to have different opinions on. Like, whether you want to
->      aggressively update IGT or mesa. Or whether or not you are willing
->      to disable KASAN to accomodate db410c and db820c. The choices made
->      in drm-ci so far are reasonable, but choosing something else is just
->      as reasonable. That's why I thought at the time that providing
->      common scripts to include is a better way forward than a gitlab-ci
->      file everybody is supposed to use.
-> 
->    - To some extent, the complaints Rob had last week about drm-ci
->      expectations not being updated fast enough in drm-misc are related
->      as well. It could also easily be solved by drm/msm having the
->      gitlab-ci script and its expectations in a separate repo, under the
->      msm maintainers control. And then it could go as fast as they want,
->      under their terms, without creating any impedance mismatch with the
->      rest of DRM.
 
-(I confess I'm not following that thread, I'm guilty on that)
 
-If we are going this way, maybe it is better to remove DRM-CI completely 
-from the kernel code?
-
-Just to be clear, I'm not opposing anything, I just want to understand 
-how everything would fit together.
-
-Regards,
-Helen
-
-> 
-> Maxime
 
