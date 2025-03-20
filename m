@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F7BA6AD7F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 19:53:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869CEA6AD70
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 19:53:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C74210E695;
-	Thu, 20 Mar 2025 18:53:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B373710E6BC;
+	Thu, 20 Mar 2025 18:53:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dl74LGsG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qwz9dQLF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84F4110E6AE;
- Thu, 20 Mar 2025 18:53:17 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id
- ca18e2360f4ac-85b41281b50so31019739f.3; 
- Thu, 20 Mar 2025 11:53:17 -0700 (PDT)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
+ [209.85.166.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8464110E6B4;
+ Thu, 20 Mar 2025 18:53:18 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id
+ ca18e2360f4ac-85db7a3da71so81499939f.1; 
+ Thu, 20 Mar 2025 11:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742496797; x=1743101597; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1742496798; x=1743101598; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pMU0x5TrIGi1TlXMZD5rXGa9j1LnP0o62QpnxxI3Tyc=;
- b=dl74LGsGfU/Pk+4z65r7vkTJ8wQps3pmzm8Va+kNbR5GOFwSHwJGHLGizpyAxKYYuf
- uuMMdLVCmOhzc4zZydzT1HDkdEX/LBU2PJe80BHUgm8P7lzNiyIxHyRrhwad18lS8DJi
- eLz7+iCScjp4Bs1sfGKh9Vkjwuc6NA0D//zu3ZDv83+pA7CxwjaRYCqN5GpdO3IKBDGK
- 2zz+EkR5NwJNLfZ3dgk4QZYgsC2GvHOYXMJY8E8agPCs5O+tvJ/a3Y/wosXpLc42Ttt5
- pgw5suznyZV1zJI56gU7DfmEFtwcpg+YwkOCZ0xiUaoLvWmLQRFd5sZAH43FsJxGLd2E
- z07w==
+ bh=I11xVBXKQ+hF/QWDzrpW4DMDNxkmWPkILnOV6Dv+FVE=;
+ b=Qwz9dQLFaN2KKWM3oOtj/LTtD/+54QFZR8YtGRQsVxi6ebCZZEtw95eM7c5BT9pThj
+ hjWZ07d48yypctNnS7O0UMD1ggTrOcHKuE+hXI/VM5LBeEESEipm5BlscESI/xSCDNoj
+ 9eZk0tcrER3BwDsHH5yxiGqO6eMlMC8ODT2bTWIPJ5RUCPSI3Kk9toe+/cxlVuJRn2OW
+ R9f4oCMJ4MXGX1M3cl035lBbaSAPbzHFP4tCQ26sm7iGLaPigOCkFQdIrd7FuSS+ZJAj
+ 7DHbwNubBRLa0LXqVfBxr6JktUZ2Q3a64dD9sAsuLQK8we2OaNVSfuKVAAOA1M5CNSHx
+ PbWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742496797; x=1743101597;
+ d=1e100.net; s=20230601; t=1742496798; x=1743101598;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pMU0x5TrIGi1TlXMZD5rXGa9j1LnP0o62QpnxxI3Tyc=;
- b=FpLnUF1qZeexiXVC0PLiCk936sO8Po33bRIyy87fzdnN0uOXexX/9gGW0P81KODKcB
- JmydRSYYi6oJdexC8/607sU4HFxdqpMHXTq6TIDTU2ZJ4XN1+Q5JY7DTS9Gm71b3z6fs
- kimawcEsZggRtGWSrGHb6740IyDp2Vgidhnu7bv41ABvWHPQSmJ4zP7wkaLS/zigZX1m
- gxb5KWI/n3SpYTeK8QyU4rvSZjiWjmdILXGjmT3gp/LMQanFHvYkL/tn2hZlBJJrfKo+
- tfP1yySz7B0CPZiBnN0hkfRAJXxuN3wkXuuO930YikT7xLGkHXkdg8QVEbYCTCfyYZoO
- hzSA==
+ bh=I11xVBXKQ+hF/QWDzrpW4DMDNxkmWPkILnOV6Dv+FVE=;
+ b=YB9I0a/MmyADuuH73472BRROpA93WiYrkf6nwUS7Pmp3V4IMoi2rOgst798CQ6Kwdy
+ fI0Fuq11k43kMo5gNiJSJvmMg4fCwGp38HGE27zO4zTGW6Cn2pAc3a2N6+K6hxBvAyB3
+ DXv6LM0i8Sd1r8Uwbs9/kkJEg269Y2gf3+cK4gZoelqv27AW46+ztxGdmKvGfEgOKR0d
+ ++ETHh4WcnJ9uR532h7lbeWbptrVZy+VR9+/W/VoWngtKA6PvK9UZRWNTsIlv0OFDi2p
+ LfbO5+ThWCykDUYsULOVv6avBEuw7lIVo8uqN3ZDPP3M7mBtD/+X7/VhU76G1AnLCm5G
+ C3Bg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUbFnRCyWxq+1I58qFtPSlzF61UMOp37ljRq2XvGRwTf18NIxcBopw5lObNOBaIU0vMEv6aiqbRj9OpbssenO5bkw==@lists.freedesktop.org,
- AJvYcCUg1J2gPDc88gyestXoLcI99mmM366cqnbx5/7p3jm0EG+Q1c3RTe0Cq5G6Y40xWis0vGvtapzt@lists.freedesktop.org,
- AJvYcCVjGr95SSJSjbMSsdxPJqIEgVPp2+x5z5297msKQXO1CWmip9QYqGcBFCqYfZmFtfMkIJ1UeG1iGrNRB3cNmg==@lists.freedesktop.org,
- AJvYcCW0A3GrSQbhd/n89VjXKuCV90Eq5MjbTE7osLH+ylVjTNUCvzQDw5tN1bMAUljCmo18W+kOPn6IXjZn@lists.freedesktop.org,
- AJvYcCXZq3lq7nSF+tXsK5SdNWP+Xy5Y8Mqmpzs3iIXfwo7XCFUwfwvXSI451ErHUX2kEhVLJJWYYzXfLU/e@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyUh/cutyp/KVpSMwPONygjL5IB0d+Hbkm3Q2xsxdsNCvoiatQE
- lGaP/YjAKurUhfJOGgyuYe+w0mcH/m0aCJTD7IzKDURrUiOCUKFQ
-X-Gm-Gg: ASbGncsTxO1To56+idPIMf/KyZF1o6Z+MdvvEFqtvQa7xGYGnu0wLwJBclP1Pb+VaX/
- WLAXgJ+l8kploVw540J2KHZ00rDAJMFmWqj49dTXDUuTRbhqo/yT61LP6Ag6sQtYATX9JryR3ed
- oulahhkpSJWueR8N+rHzb1FUkwIRKUGDyUqAo1zUzkerDMPQM+a7cjt1ZbXP87X6D9mT0CyvvLX
- nFzVHCS/QqsFFDVOw40ALlNs9PTw39dT7Helct0Vd+L+fX8FcsaZOev0WS93LP/v2kzss93AbWt
- eqKAvIHjFCuHpZzTlsa3mjBY/q3hHAlZwTlUYAi9DmwJtYD28VYryqXsaa8AxR7lNhSr7QX3pOB
- BBnjPVmfwtZwC
-X-Google-Smtp-Source: AGHT+IE5FnFrhXl2OsaLefG5e0LQc4fASL3FmWcjz9fvpoJJMFl+j0awErZ0XrOva1EzRD5jexTdnQ==
-X-Received: by 2002:a05:6602:c89:b0:85d:aba6:4f4b with SMTP id
- ca18e2360f4ac-85e2ca388afmr47078939f.2.1742496796745; 
- Thu, 20 Mar 2025 11:53:16 -0700 (PDT)
+ AJvYcCUkTfRg+0BnCR05qrwTxeeF4H+VKVEHmOCWYMNtZCvNnPLhImD7gU7TUgECdiA0S1s3dj6ITfCXOgbK@lists.freedesktop.org,
+ AJvYcCVLT4+5ow47AIIxYeXsdhcxuQzvWNMCsDTMUZ+35P5rSs7K063eVlqSr+Frnzo5pSAERYEGAEeOAKQdHr7v89BLYQ==@lists.freedesktop.org,
+ AJvYcCWn9cpXiFhjP63q9EolBPPwBIpB6+N8NwO07T/EyWJcNea96GHTlpB2U9Uw316c/n4+MvWkUOw+lYoFwOTY/g==@lists.freedesktop.org,
+ AJvYcCWuFRSxTBDf/OcEPOoLVC45KZPcXNcd5vtQeL3rowJuhiaiCTHNZW2mzgIEU0p+PjD692WhPGRX8Vyq@lists.freedesktop.org,
+ AJvYcCXfWSb/K4sBQOcX/8tva3jJPvNnRAXVjgLJSKFnBg9kBSLyXXdLswTlv9KtwkHGccp8BVAwiOJP@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzNkYftmIUNc7eqy8PCu7SSMYG6XxY433v5y3r6adE0FoR4lTPm
+ F91UdpY4ynDi3WLsqsfWJZNiZgSqZ8ILO8AQg+JDFOiXyNkTyZeY
+X-Gm-Gg: ASbGncvgkf92gh2cwdRCrtAwV5vQrp8FkuVshYZfeKpIzuqJbIwLxNSz9+bBgFT+5AS
+ q+/yIahSuz22gbtOe45o5VqqzkP0xGuFCTlikW1tgbxHAH2AmOa9Jf6aMAQ1wvoEWUmZb04eD3F
+ 5BkFq3WYDWoR1FAfD7Jk8ibIMCncsfzvVyISpn/X282uHkEFo40tNnST9o89wNKUft+9+CBr8Ek
+ ig6SXvinEDyi2qMZOOYxObOQsUKdcKVgUpdXqIRv3Qx1t+sApiznTrnIZqIG7zoEVQRxLp8xNTj
+ 1IWZ35bDX+aAD682chBQHFx68pb+ReGI+yI5qTFK5sFBejEpNFZR9zLfQyUXKsjcpFL+qIZET7l
+ qBw==
+X-Google-Smtp-Source: AGHT+IEtCf2Gpyn2UFZqee/mhr53XbcO/kcuDLQe2NGqup147/L1yuCpY56bd5EokVyHN82kmeirhA==
+X-Received: by 2002:a05:6602:2988:b0:85d:9f44:4421 with SMTP id
+ ca18e2360f4ac-85e2cabfc2emr39548439f.8.1742496797837; 
+ Thu, 20 Mar 2025 11:53:17 -0700 (PDT)
 Received: from gandalf.. (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
  by smtp.googlemail.com with ESMTPSA id
- ca18e2360f4ac-85e2bc273e7sm7078039f.17.2025.03.20.11.53.15
+ ca18e2360f4ac-85e2bc273e7sm7078039f.17.2025.03.20.11.53.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Mar 2025 11:53:16 -0700 (PDT)
+ Thu, 20 Mar 2025 11:53:17 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
@@ -74,10 +74,10 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  louis.chauvet@bootlin.com, daniel.vetter@ffwll.ch,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
  ville.syrjala@linux.intel.com, Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v2 13/59] dyndbg: add 2 new _DPRINTK_FLAGS_: INCL_LOOKUP,
- PREFIX_CACHED
-Date: Thu, 20 Mar 2025 12:51:51 -0600
-Message-ID: <20250320185238.447458-14-jim.cromie@gmail.com>
+Subject: [PATCH v2 14/59] dyndbg: split _emit_lookup() out of
+ dynamic_emit_prefix()
+Date: Thu, 20 Mar 2025 12:51:52 -0600
+Message-ID: <20250320185238.447458-15-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250320185238.447458-1-jim.cromie@gmail.com>
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
@@ -98,73 +98,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add _INCL_LOOKUP condition to separate +mfsl flags from +t, allowing
-(after refactoring) to avoid a needless call-return.
+Split dynamic_emit_prefix() to separate out _INCL_LOOKUPs:
 
-Add a PREFIX_CACHED bit to remember that a pr-debug callsite is:
+1. keep dynamic_emit_prefix() static inline
+   check _INCL_ANY flags before calling 2
 
-- enabled, with +p
-- wants a dynamic-prefix, with _INCL_LOOKUP
-- was previously called
-- was thus saved in the prefix cache. NOT YET.
+2. __dynamic_emit_prefix()
+   prints [TID] or <intr> and trailing space if +t flag
+   check _INCL_LOOKUP flags before calling 3
 
-This allows (later) to cache part/all of the dynamic-prefix for each
-pr_debug that gets called.
+3. __dynamic_emit_lookup()
+   prints ONLY module, function, src, line, and trailing space
+   TID isn't "callsite" specific info.
+   result is "cacheable"
 
-NOTES:
+Notes:
 
-dyndbg's dynamic prefixing can get expensive; each enabled callsite's
-prefix is sprintf'd into stack-mem, every time a pr_debug is called.
+2,3 are gated, only called when theyve something to emit, so they just
+add trailing space.  This obsoletes the pos_after_tid var and logic.
 
-A cache would help, if callsites mark _DPRINTK_FLAGS_PREFIX_CACHED
-after saving the prefix string.  But not yet.
+__dynamic_emit_lookup() adds line too, so the result is "whole".
+While this would enlarge a naive cache vs add-line-after-caching, we
+dont even have a naive one yet.
 
--t  thread-id. not part of the "callsite" info, derived from current.
-    doesn't belong in the cache. it would be wrong.
-    can be done in outer: dynamic_emit_prefix()
-
--mfsl  module, function, source-file, line
-    we cache these, composed into a sub-string.
-    they are "lookups", currently to descriptor fields,.
-    could be accessor macros to "compressed" tables.
-
-All enabled together, they compose a prefix string like:
-
-  # outer   -----inner-------------------
-  "[tid] module:function:sourcfile:line: "
-
-So this patch extracts _DPRINTK_FLAGS_INCL_LOOKUP macro out of
-_DPRINTK_FLAGS_INCL_ANY macro, then redefs latter.
-
-Next re-refactor dynamic_emit_prefix inner/outer fns accordingly.
+And some clever indexing on store() might be able to fold the flags
+setting in, such that the prefix stored with +mf flags only (-l),
+could be returned for all pr_debugs in that function which also had
++mf flags. While still supporting +mfsl prefixes (with cache
+expansion) as they're used.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/linux/dynamic_debug.h | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ lib/dynamic_debug.c | 40 +++++++++++++++++++++++++---------------
+ 1 file changed, 25 insertions(+), 15 deletions(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index c388ab05a6e1..82eabaa6e827 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -38,11 +38,13 @@ struct _ddebug {
- #define _DPRINTK_FLAGS_INCL_LINENO	(1<<3)
- #define _DPRINTK_FLAGS_INCL_TID		(1<<4)
- #define _DPRINTK_FLAGS_INCL_SOURCENAME	(1<<5)
-+#define _DPRINTK_FLAGS_PREFIX_CACHED	(1<<7)
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 663c125006d0..f7ec2365ab40 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -850,19 +850,8 @@ static int remaining(int wrote)
+ 	return 0;
+ }
  
--#define _DPRINTK_FLAGS_INCL_ANY		\
--	(_DPRINTK_FLAGS_INCL_MODNAME | _DPRINTK_FLAGS_INCL_FUNCNAME |\
--	 _DPRINTK_FLAGS_INCL_LINENO  | _DPRINTK_FLAGS_INCL_TID |\
--	 _DPRINTK_FLAGS_INCL_SOURCENAME)
-+#define _DPRINTK_FLAGS_INCL_LOOKUP					\
-+	(_DPRINTK_FLAGS_INCL_MODNAME | _DPRINTK_FLAGS_INCL_FUNCNAME |	\
-+	 _DPRINTK_FLAGS_INCL_SOURCENAME | _DPRINTK_FLAGS_INCL_LINENO)
-+#define _DPRINTK_FLAGS_INCL_ANY						\
-+	(_DPRINTK_FLAGS_INCL_TID | _DPRINTK_FLAGS_INCL_LOOKUP)
+-static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
++static int __dynamic_emit_lookup(const struct _ddebug *desc, char *buf, int pos)
+ {
+-	int pos_after_tid;
+-	int pos = 0;
+-
+-	if (desc->flags & _DPRINTK_FLAGS_INCL_TID) {
+-		if (in_interrupt())
+-			pos += snprintf(buf + pos, remaining(pos), "<intr> ");
+-		else
+-			pos += snprintf(buf + pos, remaining(pos), "[%d] ",
+-					task_pid_vnr(current));
+-	}
+-	pos_after_tid = pos;
+ 	if (desc->flags & _DPRINTK_FLAGS_INCL_MODNAME)
+ 		pos += snprintf(buf + pos, remaining(pos), "%s:",
+ 				desc->modname);
+@@ -875,8 +864,29 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
+ 	if (desc->flags & _DPRINTK_FLAGS_INCL_LINENO)
+ 		pos += snprintf(buf + pos, remaining(pos), "%d:",
+ 				desc->lineno);
+-	if (pos - pos_after_tid)
+-		pos += snprintf(buf + pos, remaining(pos), " ");
++
++	/* cuz LOOKUP, we've emitted, so add trailing space if room */
++	if (remaining(pos))
++		buf[pos++] = ' ';
++
++	return pos;
++}
++
++static char *__dynamic_emit_prefix(struct _ddebug *desc, char *buf)
++{
++	int pos = 0;
++
++	if (desc->flags & _DPRINTK_FLAGS_INCL_TID) {
++		if (in_interrupt())
++			pos += snprintf(buf + pos, remaining(pos), "<intr> ");
++		else
++			pos += snprintf(buf + pos, remaining(pos), "[%d] ",
++					task_pid_vnr(current));
++	}
++
++	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_LOOKUP))
++		pos += __dynamic_emit_lookup(desc, buf, pos);
++
+ 	if (pos >= PREFIX_SIZE)
+ 		buf[PREFIX_SIZE - 1] = '\0';
  
- #if defined DEBUG
- #define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINT
+@@ -885,7 +895,7 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
+ 
+ static inline char *dynamic_emit_prefix(struct _ddebug *desc, char *buf)
+ {
+-	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_ANY))
++	if (desc->flags & _DPRINTK_FLAGS_INCL_ANY)
+ 		return __dynamic_emit_prefix(desc, buf);
+ 	return buf;
+ }
 -- 
 2.49.0
 
