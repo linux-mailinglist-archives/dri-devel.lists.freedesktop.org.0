@@ -2,134 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E575A6A6E0
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 14:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE77A6A716
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 14:25:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B0B10E39F;
-	Thu, 20 Mar 2025 13:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52C5A10E3A4;
+	Thu, 20 Mar 2025 13:25:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="HyU1GVqm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+OiMCGon";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HyU1GVqm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+OiMCGon";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="upRkIDwp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B21C10E39F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 13:08:58 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1D5BB1F388;
- Thu, 20 Mar 2025 13:08:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742476137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
+ [95.215.58.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D6A10E39C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 13:24:53 +0000 (UTC)
+Message-ID: <2c0b49a2-7cf3-4432-bab0-1eb110e8e8c2@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1742477087;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AA3fSZzTMyClFf196LP7i5hu2aMtdsRCXs1lMOOLSw8=;
- b=HyU1GVqmyxuiXmMpcCYdf9G0FnGJQHxY4FWMRC+LlYHvhWf8nzAWaE9IvE6nrfGT5UFOQ5
- rI1kLSS58faeuddOOQj5lMJ4tu9SGfSzpejsiUP4IJxCAQfsg+nFiKRZP6opNmIheT8gkT
- 9oODmhOFXctd6550vo+XFgHpB0sF3ZA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742476137;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AA3fSZzTMyClFf196LP7i5hu2aMtdsRCXs1lMOOLSw8=;
- b=+OiMCGon+ZM6z9UhfFSKAe3K76Mg5xpLEd4RlgUX1+Vdrr6FXfQNX52YPJlqf/PN4qjFQL
- 4BGzSIWXPfU7qIAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742476137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AA3fSZzTMyClFf196LP7i5hu2aMtdsRCXs1lMOOLSw8=;
- b=HyU1GVqmyxuiXmMpcCYdf9G0FnGJQHxY4FWMRC+LlYHvhWf8nzAWaE9IvE6nrfGT5UFOQ5
- rI1kLSS58faeuddOOQj5lMJ4tu9SGfSzpejsiUP4IJxCAQfsg+nFiKRZP6opNmIheT8gkT
- 9oODmhOFXctd6550vo+XFgHpB0sF3ZA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742476137;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AA3fSZzTMyClFf196LP7i5hu2aMtdsRCXs1lMOOLSw8=;
- b=+OiMCGon+ZM6z9UhfFSKAe3K76Mg5xpLEd4RlgUX1+Vdrr6FXfQNX52YPJlqf/PN4qjFQL
- 4BGzSIWXPfU7qIAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D687B139D2;
- Thu, 20 Mar 2025 13:08:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 9PLwMmgT3Gc7QwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 20 Mar 2025 13:08:56 +0000
-Message-ID: <52c88e06-9a13-4784-89b1-3d0037872054@suse.de>
-Date: Thu, 20 Mar 2025 14:08:56 +0100
+ in-reply-to:in-reply-to:references:references;
+ bh=k5XdiQFl3wHL7QNP07tkObb+sgwtdF2xYbguKHVcnVo=;
+ b=upRkIDwpO4rHzaEi+hcMbgEBwiKyQQUVhZmYdXrv2e0R6BCFT8FGTje640+mtfOqQRdlvS
+ iK44EU2bNCkwdtSqPCWXPaULCS3mMHs3DMorrOhoZT4xUOZPpD4Zg+bXbwnIzjPOTu0OhR
+ YEVqZOamntJd13i7nLKonrbFytyAqeA=
+Date: Thu, 20 Mar 2025 18:54:05 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/18] drm/sysfb: ofdrm: Add EDID support
-To: Jani Nikula <jani.nikula@linux.intel.com>, javierm@redhat.com,
- simona@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20250319083021.6472-1-tzimmermann@suse.de>
- <20250319083021.6472-13-tzimmermann@suse.de> <87a59fdfx5.fsf@intel.com>
+Subject: Re: [PATCH v4 0/3] drm/tidss: Add OLDI bridge support
+To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
+Cc: "j-choudhary@ti.com" <j-choudhary@ti.com>,
+ "u-kumar1@ti.com" <u-kumar1@ti.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "devarsht@ti.com" <devarsht@ti.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nm@ti.com" <nm@ti.com>, "vigneshr@ti.com" <vigneshr@ti.com>,
+ "praneeth@ti.com" <praneeth@ti.com>
+References: <20241124143649.686995-1-aradhya.bhatia@linux.dev>
+ <8366a3d736f9937667aab024895a59e5947dd4a5.camel@siemens.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87a59fdfx5.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
- ARC_NA(0.00)[];
- FREEMAIL_TO(0.00)[linux.intel.com,redhat.com,ffwll.ch,gmail.com,kernel.org];
- MID_RHS_MATCH_FROM(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- URIBL_BLOCKED(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+In-Reply-To: <8366a3d736f9937667aab024895a59e5947dd4a5.camel@siemens.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,209 +64,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Alexander,
 
-Am 20.03.25 um 13:50 schrieb Jani Nikula:
-> On Wed, 19 Mar 2025, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Add EDID support to sysfb connector helpers. Read the EDID property
->> from the OF node in ofdrm. Without EDID, this does nothing.
->>
->> Some systems with OF display, such as 32-bit PPC Macintoshs, provide
->> the system display's EDID data as node property in their DT. Exporting
->> this information allows compositors to implement correct DPI and
->> meaningful color management.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/sysfb/drm_sysfb_helper.c | 29 ++++++++++++++++++++++++
->>   drivers/gpu/drm/sysfb/drm_sysfb_helper.h |  2 ++
->>   drivers/gpu/drm/sysfb/ofdrm.c            | 20 ++++++++++++++++
->>   3 files changed, 51 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_helper.c b/drivers/gpu/drm/sysfb/drm_sysfb_helper.c
->> index b48e06b25305..cb65c618f8d3 100644
->> --- a/drivers/gpu/drm/sysfb/drm_sysfb_helper.c
->> +++ b/drivers/gpu/drm/sysfb/drm_sysfb_helper.c
->> @@ -9,6 +9,7 @@
->>   #include <drm/drm_atomic_state_helper.h>
->>   #include <drm/drm_damage_helper.h>
->>   #include <drm/drm_drv.h>
->> +#include <drm/drm_edid.h>
->>   #include <drm/drm_fourcc.h>
->>   #include <drm/drm_framebuffer.h>
->>   #include <drm/drm_gem_atomic_helper.h>
->> @@ -281,10 +282,38 @@ EXPORT_SYMBOL(drm_sysfb_crtc_atomic_destroy_state);
->>    * Connector
->>    */
->>   
->> +static int drm_sysfb_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
->> +{
->> +	const u8 *edid = data;
->> +	size_t off = block * EDID_LENGTH;
->> +	size_t end = off + len;
->> +
->> +	if (!edid)
->> +		return -1;
->> +	if (end > EDID_LENGTH)
->> +		return -1;
-> Nitpick, I guess -1 is used elsewhere, but I think I'd prefer actual
-> error codes even if they're not currently propagated. It's just cleaner.
+Thank you for testing and reviewing the patches!
 
-Sure. Somehow I was under the impression that errno codes wouldn't be 
-welcome here.
+On 19/03/25 23:30, Sverdlin, Alexander wrote:
+> Thank you for the patches, Aradhya!
+> 
+> On Sun, 2024-11-24 at 20:06 +0530, Aradhya Bhatia wrote:
+>> Regardless, I'd appreciate it if somebody can test it, and report back if they
+>> observe any issues.
+> 
+> I've tried to test the patchset with necessary pre-requisites and DT additions
+> with a single channel LVDS pannel and while I'm not successful yet, I've also noticed
+> the following warning:
+> 
+> tidss 30200000.dss: vp0: Clock rate 24285714 differs over 5% from requested 37000000
+> 
+> even though later the clock seems to be correctly set up:
+> 
+> $ cat /sys/kernel/debug/clk/clk_summary 
+> 
+>                                  enable  prepare  protect                                duty  hardware                            connection
+>    clock                          count    count    count        rate   accuracy phase  cycle    enable   consumer                         id
+> ---------------------------------------------------------------------------------------------------------------------------------------------
+>  clk:186:6                           1       1        0        250000000   0          0     50000      Y   30200000.dss                    fck                      
+>                                                                                                            deviceless                      no_connection_id         
+>  clk:186:4                           0       0        0        0           0          0     50000      Y   deviceless                      no_connection_id         
+>  clk:186:3                           0       0        0        170000000   0          0     50000      Y   deviceless                      no_connection_id         
+>     clk:186:2                        0       0        0        170000000   0          0     50000      Y      30200000.dss                    vp2                      
+>                                                                                                               deviceless                      no_connection_id         
+>  clk:186:0                           1       1        0        259090909   0          0     50000      Y   oldi@0                          serial                   
+>                                                                                                            deviceless                      no_connection_id         
+>     clock-divider-oldi               1       1        0        37012987    0          0     50000      Y      30200000.dss                    vp1                      
+> 
+> Looks like "clock-divider-oldi" doesn't propagate clk_set_rate() to the parent,
+> but the parent is being set later independently?
+> 
 
->
->> +	memcpy(buf, &edid[off], len);
->> +
->> +	return 0;
->> +}
->> +
->>   int drm_sysfb_connector_helper_get_modes(struct drm_connector *connector)
->>   {
->>   	struct drm_sysfb_device *sysfb = to_drm_sysfb_device(connector->dev);
->> +	const struct drm_edid *drm_edid;
->> +
->> +	if (sysfb->edid) {
->> +		drm_edid = drm_edid_read_custom(connector, drm_sysfb_get_edid_block,
->> +						(void *)sysfb->edid);
-> Nitpick, the (void *) cast is superfluous.
+Yes, you are right. The "clock-divider-oldi" does not propagate the
+clk_set_rate() to the parent.
 
-This is a const cast.
+The actual parent clock is now owned by the oldi bridge driver, and that
+is what sets the clock rate (7 * pixel freq). The equivalent action from
+tidss vp (DRM crtc) is a no op in cases of OLDI display pipeline.
 
->
->> +		if (drm_edid) {
->> +			drm_edid_connector_update(connector, drm_edid);
->> +			drm_edid_free(drm_edid);
->> +		} else {
->> +			drm_edid_connector_update(connector, NULL);
->> +		}
-> Nitpick, the above could just be
->
-> 		drm_edid_connector_update(connector, drm_edid);
-> 		drm_edid_free(drm_edid);
->
-> without the if.
+Usually, the DRM crtc is enabled first, before _any_ of the DRM bridges
+get pre_enabled or enabled.
 
-Make sense.
+Since, OLDI is a DRM bridge, the OLDI enable (and by extension the
+actual clk_set_rate()) takes place _after_ the DRM crtc has been
+enabled (which is why you see the parent being set later on).
 
->
->
-> Despite the nitpicks, overall LGTM.
+DRM crtc enable is where tidss vp attempts (and fails) to set the clock
+rate, causing the warning you see initially.
 
-Thanks for reviewing.
 
-Since I have your attention and you're knowledgeable wrt EDID: byte 20 
-of the EDID header indicates the type of output (analog, HDMI, DP, etc). 
-I intent to use this for setting the connector type to something better 
-then UNKNOWN. Does that make sense?
+I have attempted to re-order the bridge pre_enable and crtc enable calls
+in these patches[0], separately.
 
-Best regards
-Thomas
+While you have mentioned that you did add the prerequisites, could you
+confirm that you applied the (now older) dependency patch mentioned in
+the v4 cover-letter[1]?
+Ideally, you should not observe these concerns if [1] were successfully
+applied.
 
->
-> BR,
-> Jani.
->
->
->> +	}
->>   
->> +	/* Return the fixed mode even with EDID */
->>   	return drm_connector_helper_get_modes_fixed(connector, &sysfb->fb_mode);
->>   }
->>   EXPORT_SYMBOL(drm_sysfb_connector_helper_get_modes);
->> diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
->> index 45e396bf74b7..3684bd0ef085 100644
->> --- a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
->> +++ b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
->> @@ -24,6 +24,8 @@ struct drm_display_mode drm_sysfb_mode(unsigned int width,
->>   struct drm_sysfb_device {
->>   	struct drm_device dev;
->>   
->> +	const u8 *edid; /* can be NULL */
->> +
->>   	/* hardware settings */
->>   	struct drm_display_mode fb_mode;
->>   	const struct drm_format_info *fb_format;
->> diff --git a/drivers/gpu/drm/sysfb/ofdrm.c b/drivers/gpu/drm/sysfb/ofdrm.c
->> index 71e661ba9329..86c1a0c80ceb 100644
->> --- a/drivers/gpu/drm/sysfb/ofdrm.c
->> +++ b/drivers/gpu/drm/sysfb/ofdrm.c
->> @@ -12,6 +12,7 @@
->>   #include <drm/drm_damage_helper.h>
->>   #include <drm/drm_device.h>
->>   #include <drm/drm_drv.h>
->> +#include <drm/drm_edid.h>
->>   #include <drm/drm_fbdev_shmem.h>
->>   #include <drm/drm_format_helper.h>
->>   #include <drm/drm_framebuffer.h>
->> @@ -227,6 +228,16 @@ static u64 display_get_address_of(struct drm_device *dev, struct device_node *of
->>   	return address;
->>   }
->>   
->> +static const u8 *display_get_edid_of(struct drm_device *dev, struct device_node *of_node,
->> +				     u8 buf[EDID_LENGTH])
->> +{
->> +	int ret = of_property_read_u8_array(of_node, "EDID", buf, EDID_LENGTH);
->> +
->> +	if (ret)
->> +		return NULL;
->> +	return buf;
->> +}
->> +
->>   static bool is_avivo(u32 vendor, u32 device)
->>   {
->>   	/* This will match most R5xx */
->> @@ -298,6 +309,8 @@ struct ofdrm_device {
->>   	/* colormap */
->>   	void __iomem *cmap_base;
->>   
->> +	u8 edid[EDID_LENGTH];
->> +
->>   	/* modesetting */
->>   	u32 formats[DRM_SYSFB_PLANE_NFORMATS(1)];
->>   	struct drm_plane primary_plane;
->> @@ -840,6 +853,7 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
->>   	int width, height, depth, linebytes;
->>   	const struct drm_format_info *format;
->>   	u64 address;
->> +	const u8 *edid;
->>   	resource_size_t fb_size, fb_base, fb_pgbase, fb_pgsize;
->>   	struct resource *res, *mem;
->>   	void __iomem *screen_base;
->> @@ -989,6 +1003,9 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
->>   		}
->>   	}
->>   
->> +	/* EDID is optional */
->> +	edid = display_get_edid_of(dev, of_node, odev->edid);
->> +
->>   	/*
->>   	 * Firmware framebuffer
->>   	 */
->> @@ -999,6 +1016,7 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
->>   	sysfb->fb_pitch = linebytes;
->>   	if (odev->cmap_base)
->>   		sysfb->fb_gamma_lut_size = OFDRM_GAMMA_LUT_SIZE;
->> +	sysfb->edid = edid;
->>   
->>   	drm_dbg(dev, "display mode={" DRM_MODE_FMT "}\n", DRM_MODE_ARG(&sysfb->fb_mode));
->>   	drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, linebytes=%d byte\n",
->> @@ -1072,6 +1090,8 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
->>   	drm_connector_set_panel_orientation_with_quirk(connector,
->>   						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
->>   						       width, height);
->> +	if (edid)
->> +		drm_connector_attach_edid_property(connector);
->>   
->>   	ret = drm_connector_attach_encoder(connector, encoder);
->>   	if (ret)
+More importantly, if you are already on latest linux-next, I would
+request you to use v6 of this OLDI series[2], along with the latest
+dependency patches[0], as the older dependency patch is simply not
+applicable on latest kernel anymore! =)
+
+I'd appreciate it if you are able to test the latest revisions on your
+single-link setup, and report back any issue you see! Thank you! =)
+
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Regards
+Aradhya
+
+
+
+[0]: Pre Requisite patches that re-order crtc/encoder/bridge sequences
+(latest revision).
+
+a. ("drm/atomic-helper: Refactor crtc & encoder-bridge op loops into
+separate functions")
+https://lore.kernel.org/all/20250226155737.565931-3-aradhya.bhatia@linux.dev/
+
+b. ("drm/atomic-helper: Separate out bridge pre_enable/post_disable from
+enable/disable")
+https://lore.kernel.org/all/20250226155737.565931-4-aradhya.bhatia@linux.dev/
+
+c. ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+https://lore.kernel.org/all/20250226155737.565931-5-aradhya.bhatia@linux.dev/
+
+
+[1]: Dependency patch mentioned in v4 OLDI series.
+("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+https://lore.kernel.org/all/20240622110929.3115714-11-a-bhatia1@ti.com/
+
+
+[2]: Latest OLDI series (v6)
+https://lore.kernel.org/all/20250226181300.756610-1-aradhya.bhatia@linux.dev/
 
