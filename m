@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEBFA6A9CE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 16:26:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 546DDA6A9CB
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 16:26:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC49D10E64A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF5810E0E5;
 	Thu, 20 Mar 2025 15:26:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ptui3J86";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I9jfQe+3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95CD210E637;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7232310E0E5;
  Thu, 20 Mar 2025 15:26:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1742484377; x=1774020377;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=12wY4Qe06Juk4iZgshrc8xbX3HvvGqWQMdjtWaAGNoA=;
- b=Ptui3J86E7sRvzijidPLgCYzoDc1GSk94lapgeL8DY8aEqxP+gq0kp6V
- BxEcwv8Iibb34eXO58KV199EEiimDkjwaI2dLQhFx7+6AFTAPUrRvYDIC
- lMBarYKx/KdH/Tq9iz7YV6Hrl/ZSI/ep138p7r1728j17C1IrJYhLXGjV
- YcJGT68Y9X38ANZ0nQkaPZAlDc6RO7vkd3Xr0e/aynAOnk1cMv49pCUcw
- CllrChWBQqwD4Zc2flNopn/y6Dt1uBv+sBGymWz9uR1ZPHGcNUkv/APdE
- Uubjdhrl+YnS04R8oh+UUtlTqPBHHMPc0mhY0cSN1O7Q95MWm7JaF0HQ/ Q==;
-X-CSE-ConnectionGUID: vd+T6gcdQQe9CH+lJXc45Q==
-X-CSE-MsgGUID: enysUmI3RfaHhrvTCioCOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43913041"
-X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; d="scan'208";a="43913041"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=hl8+lM11PRLmxBjMwYzmp398zmvgVeUwbwpOM7K9t/8=;
+ b=I9jfQe+3GyIlGqT+u7pLyqh399GbUX2yuBQz2YELx1t/vSg06NvbakVd
+ uWoIcKbByuotT230zjboIjoWpAgg9oF7LGEHf93cHkbR0YtdL7zMW/XHH
+ ewhJFJ1QaLB7I1T5JxQDvhq7BEtGlhOT9XJKHYKaMdLSytlkbZQkAgAtc
+ qOj71Hrt6ZSqkfq9OiF3x+bRfPKTTkUf0nP9+0gUvDvJNwDRJPnBuSXx4
+ xdrf5w6arAZXUnLSVrWKxvocNt81PujjGCc6FfSgRgwwzqA/3CVn55Fb3
+ 0Yo4UqH8bkYuGkW+1wTiEvKU14yzQQRu2Q3uYKGql4RqkqzD7DDeXLXwa g==;
+X-CSE-ConnectionGUID: BQ0w10X3SOWfKZzGn4g7WQ==
+X-CSE-MsgGUID: Xu/7n8eqR3iwvjF11+WasQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43913042"
+X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; d="scan'208";a="43913042"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Mar 2025 08:26:17 -0700
-X-CSE-ConnectionGUID: nrC61fouQwCOUI1mAUSY2Q==
-X-CSE-MsgGUID: Ro4faNrnRMyX8+ZKbpn/nA==
+X-CSE-ConnectionGUID: pOeKlc6wQmabW7ybPFOmTQ==
+X-CSE-MsgGUID: l/DH0gXZQZa1lacJKyRwng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; d="scan'208";a="123134257"
+X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; d="scan'208";a="123134260"
 Received: from dut4419lnl.fm.intel.com ([10.105.10.61])
  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Mar 2025 08:26:17 -0700
@@ -48,10 +48,13 @@ Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
  jianxun.zhang@intel.com, shuicheng.lin@intel.com,
  dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
  michal.mrozek@intel.com
-Subject: [PATCH v10 0/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Date: Thu, 20 Mar 2025 15:26:10 +0000
-Message-ID: <20250320152616.74587-1-jonathan.cavitt@intel.com>
+Subject: [PATCH v10 1/5] drm/xe/xe_gt_pagefault: Disallow writes to read-only
+ VMAs
+Date: Thu, 20 Mar 2025 15:26:11 +0000
+Message-ID: <20250320152616.74587-2-jonathan.cavitt@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250320152616.74587-1-jonathan.cavitt@intel.com>
+References: <20250320152616.74587-1-jonathan.cavitt@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,115 +72,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add additional information to each VM so they can report up to the first
-50 seen faults.  Only pagefaults are saved this way currently, though in
-the future, all faults should be tracked by the VM for future reporting.
+The page fault handler should reject write/atomic access to read only
+VMAs.  Add code to handle this in handle_pagefault after the VMA lookup.
 
-Additionally, of the pagefaults reported, only failed pagefaults are
-saved this way, as successful pagefaults should recover silently and not
-need to be reported to userspace.
-
-To allow userspace to access these faults, a new ioctl -
-xe_vm_get_property_ioct - was created.
-
-v2: (Matt Brost)
-- Break full ban list request into a separate property.
-- Reformat drm_xe_vm_get_property struct.
-- Remove need for drm_xe_faults helper struct.
-- Separate data pointer and scalar return value in ioctl.
-- Get address type on pagefault report and save it to the pagefault.
-- Correctly reject writes to read-only VMAs.
-- Miscellaneous formatting fixes.
-
-v3: (Matt Brost)
-- Only allow querying of failed pagefaults
-
-v4:
-- Remove unnecessary size parameter from helper function, as it
-  is a property of the arguments. (jcavitt)
-- Remove unnecessary copy_from_user (Jainxun)
-- Set address_precision to 1 (Jainxun)
-- Report max size instead of dynamic size for memory allocation
-  purposes.  Total memory usage is reported separately.
-
-v5:
-- Return int from xe_vm_get_property_size (Shuicheng)
-- Fix memory leak (Shuicheng)
-- Remove unnecessary size variable (jcavitt)
-
-v6:
-- Free vm after use (Shuicheng)
-- Compress pf copy logic (Shuicheng)
-- Update fault_unsuccessful before storing (Shuicheng)
-- Fix old struct name in comments (Shuicheng)
-- Keep first 50 pagefaults instead of last 50 (Jianxun)
-- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
-
-v7:
-- Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
-- Fix double-locking error (jcavitt)
-- Assert kmemdump is successful (Shuicheng)
-- Repair and move fill_faults break condition (Dan Carpenter)
-- Free vm after use (jcavitt)
-- Combine assertions (jcavitt)
-- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
-- Remove return mask from fill_faults, as return is already -EFAULT or 0
-  (jcavitt)
-
-v8:
-- Revert back to using drm_xe_vm_get_property_ioctl
-- s/Migrate/Move (Michal)
-- s/xe_pagefault/xe_gt_pagefault (Michal)
-- Create new header file, xe_gt_pagefault_types.h (Michal)
-- Add and fix kernel docs (Michal)
-- Rename xe_vm.pfs to xe_vm.faults (jcavitt)
-- Store fault data and not pagefault in xe_vm faults list (jcavitt)
-- Store address, address type, and address precision per fault (jcavitt)
-- Store engine class and instance data per fault (Jianxun)
-- Properly handle kzalloc error (Michal W)
-- s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
-- Store fault level per fault (Micahl M)
-- Apply better copy_to_user logic (jcavitt)
-
-v9:
-- More kernel doc fixes (Michal W, Jianxun)
-- Better error handling (jcavitt)
-
-v10:
-- Convert enums to defines in regs folder (Michal W)
-- Move xe_guc_pagefault_desc to regs folder (Michal W)
-- Future-proof size logic for zero-size properties (jcavitt)
-- Replace address type extern with access type (Jianxun)
-- Add fault type to xe_drm_fault (Jianxun)
-
-Signed-off-by: Jonathan Cavitt <joanthan.cavitt@intel.com>
-Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Fixes: 3d420e9fa848 ("drm/xe: Rework GPU page fault handling")
+Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Zhang Jianxun <jianxun.zhang@intel.com>
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
-Cc: Michal Mrozek <michal.mrozek@intel.com>
+---
+ drivers/gpu/drm/xe/xe_gt_pagefault.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Jonathan Cavitt (5):
-  drm/xe/xe_gt_pagefault: Disallow writes to read-only VMAs
-  drm/xe/xe_gt_pagefault: Move pagefault struct to header
-  drm/xe/uapi: Define drm_xe_vm_get_property
-  drm/xe/xe_vm: Add per VM fault info
-  drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-
- drivers/gpu/drm/xe/regs/xe_pagefault_desc.h |  50 +++++
- drivers/gpu/drm/xe/xe_device.c              |   3 +
- drivers/gpu/drm/xe/xe_gt_pagefault.c        |  67 +++----
- drivers/gpu/drm/xe/xe_gt_pagefault_types.h  |  42 +++++
- drivers/gpu/drm/xe/xe_guc_fwif.h            |  28 ---
- drivers/gpu/drm/xe/xe_vm.c                  | 194 ++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h                  |  11 ++
- drivers/gpu/drm/xe/xe_vm_types.h            |  34 ++++
- include/uapi/drm/xe_drm.h                   |  79 ++++++++
- 9 files changed, 447 insertions(+), 61 deletions(-)
- create mode 100644 drivers/gpu/drm/xe/regs/xe_pagefault_desc.h
- create mode 100644 drivers/gpu/drm/xe/xe_gt_pagefault_types.h
-
+diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+index 9fa11e837dd1..3240890aac07 100644
+--- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
++++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+@@ -237,6 +237,11 @@ static int handle_pagefault(struct xe_gt *gt, struct pagefault *pf)
+ 		goto unlock_vm;
+ 	}
+ 
++	if (xe_vma_read_only(vma) && pf->access_type != ACCESS_TYPE_READ) {
++		err = -EPERM;
++		goto unlock_vm;
++	}
++
+ 	atomic = access_is_atomic(pf->access_type);
+ 
+ 	if (xe_vma_is_cpu_addr_mirror(vma))
 -- 
 2.43.0
 
