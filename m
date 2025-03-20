@@ -2,211 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F120CA6ABBC
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 18:13:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E62A6ABB7
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 18:11:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8C7610E28B;
-	Thu, 20 Mar 2025 17:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C77F10E1F1;
+	Thu, 20 Mar 2025 17:11:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jtAZa04N";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j+jSSGLX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A82B910E64F;
- Thu, 20 Mar 2025 15:27:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 77FA76115E;
- Thu, 20 Mar 2025 15:18:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A232C4CEDD;
- Thu, 20 Mar 2025 15:18:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742483936;
- bh=1Z6H2iLvH3rXMt19HL+9taZFJeo/GqQ1pEgfLHm/VO8=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=jtAZa04NkVALEmArILtqhgvGWzNrqybg3hrSGdZZ2VVAFhkXh1nT4jpUcZ4Kc2DDn
- 0A6i4ERYcuiCeprXqYIMy4u4kiFrkwJYEeYsWv+53EA4mBSJ6BqBYD7yzk5jl0BW7F
- 3K+uSeS65G8FFh9VmSyWsSaODa9u59R3cNyzrD/bWKcMoby2y3/LjyBnzNkYD+iJSL
- 9QHQkLG/EQ0PXCuzUmTG72RV9mKDT4ZRjt1NiAC6yuM4pg17khef1prwdyUg+6q41R
- XwbECsZNkZ4re5+LVruYEIZ107+IH+Jq6zDSLtPqFFjlA4zbkDNY4cbCQwK98Zoq0c
- 4mfWfzYas3b3w==
-From: Mark Brown <broonie@kernel.org>
-To: tglx@linutronix.de, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: maz@kernel.org, linux-kernel@vger.kernel.org, 
- Aaro Koskinen <aaro.koskinen@iki.fi>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Alexandre Ghiti <alex@ghiti.fr>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Alex Deucher <alexander.deucher@amd.com>, Alex Shi <alexs@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- =?utf-8?q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, amd-gfx@lists.freedesktop.org, 
- Amit Kucheria <amitk@kernel.org>, Anatolij Gustschin <agust@denx.de>, 
- Andi Shyti <andi.shyti@kernel.org>, 
- =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
- Andreas Kemnade <andreas@kemnade.info>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, Andrew Lunn <andrew@lunn.ch>, 
- Andy Shevchenko <andy@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Antoine Tenart <atenart@kernel.org>, 
- Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
- Anup Patel <anup@brainfault.org>, Arnd Bergmann <arnd@arndb.de>, 
- asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>, 
- Baruch Siach <baruch@tkos.co.il>, 
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
- Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, 
- Bjorn Andersson <andersson@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- Borislav Petkov <bp@alien8.de>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Corentin Chary <corentin.chary@gmail.com>, 
- Daire McNamara <daire.mcnamara@microchip.com>, 
- Daniel Golle <daniel@makrotopia.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Daniel Mack <daniel@zonque.org>, 
- Daniel Palmer <daniel@thingy.jp>, Dave Hansen <dave.hansen@linux.intel.com>, 
- David Airlie <airlied@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
- DENG Qingfang <dqfext@gmail.com>, Dinh Nguyen <dinguyen@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Dongliang Mu <dzm91@hust.edu.cn>, Doug Berger <opendmb@gmail.com>, 
- dri-devel@lists.freedesktop.org, Eddie James <eajames@linux.ibm.com>, 
- Eric Dumazet <edumazet@google.com>, Fabio Estevam <festevam@gmail.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Geoff Levand <geoff@infradead.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Gregory Clement <gregory.clement@bootlin.com>, Guo Ren <guoren@kernel.org>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Haojian Zhuang <haojian.zhuang@linaro.org>, 
- Heiko Stuebner <heiko@sntech.de>, Herve Codina <herve.codina@bootlin.com>, 
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, "H. Peter Anvin" <hpa@zytor.com>, 
- Huacai Chen <chenhuacai@kernel.org>, 
- Changhuang Liang <changhuang.liang@starfivetech.com>, 
- Chen-Yu Tsai <wens@csie.org>, "Chester A. Unal" <chester.a.unal@arinc9.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Chris Zankel <chris@zankel.net>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Imre Kaloz <kaloz@openwrt.org>, Ingo Molnar <mingo@redhat.com>, 
- Jakub Kicinski <kuba@kernel.org>, James Morse <james.morse@arm.com>, 
- Janne Grunau <j@jannau.net>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Jianjun Wang <jianjun.wang@mediatek.com>, 
- Jiawen Wu <jiawenwu@trustnetic.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Jim Quinlan <jim2101024@gmail.com>, Jingoo Han <jingoohan1@gmail.com>, 
- Joel Stanley <joel@jms.id.au>, Johannes Berg <johannes@sipsolutions.net>, 
- John Crispin <john@phrozen.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Jonas Bonn <jonas@southpole.se>, Jonathan Cameron <jic23@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Jonathan Hunter <jonathanh@nvidia.com>, 
- =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
- Joyce Ooi <joyce.ooi@intel.com>, 
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>, 
- Keerthy <j-keerthy@ti.com>, Kevin Hilman <khilman@baylibre.com>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Linus Walleij <linus.walleij@linaro.org>, Linus Walleij <linusw@kernel.org>, 
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-iio@vger.kernel.org, linux-i2c@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, 
- linux-omap@vger.kernel.org, linux-pci@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-remoteproc@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
- linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
- loongarch@lists.linux.dev, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- Ludovic Desroches <ludovic.desroches@microchip.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, "Luke D. Jones" <luke@ljones.dev>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Mark-PK Tsai <mark-pk.tsai@mediatek.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Max Filippov <jcmvbkbc@gmail.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Mengyuan Lou <mengyuanlou@net-swift.com>, Michael Buesch <m@bues.ch>, 
- Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <michal.simek@amd.com>, 
- Miodrag Dinic <miodrag.dinic@mips.com>, Naveen N Rao <naveen@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, netdev@vger.kernel.org, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Nicolas Saenz Julienne <nsaenz@kernel.org>, 
- Nicholas Piggin <npiggin@gmail.com>, 
- Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun Gupta <nipun.gupta@amd.com>, 
- Nishanth Menon <nm@ti.com>, =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Abeni <pabeni@redhat.com>, 
- Paul Cercueil <paul@crapouillou.net>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Peter Rosin <peda@axentia.se>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
- platform-driver-x86@vger.kernel.org, 
- Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
- Qiang Zhao <qiang.zhao@nxp.com>, Qin Jian <qinjian@cqplus1.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Ray Jui <rjui@broadcom.com>, 
- Rengarajan Sundararajan <Rengarajan.S@microchip.com>, 
- Richard Cochran <richardcochran@gmail.com>, 
- Richard Weinberger <richard@nod.at>, Rich Felker <dalias@libc.org>, 
- Rob Clark <robdclark@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
- Robert Richter <rric@kernel.org>, Rob Herring <robh@kernel.org>, 
- Roger Quadros <rogerq@kernel.org>, Russell King <linux@armlinux.org.uk>, 
- Ryan Chen <ryan_chen@aspeedtech.com>, Ryder Lee <ryder.lee@mediatek.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Santosh Shilimkar <ssantosh@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Scott Branden <sbranden@broadcom.com>, Scott Wood <oss@buserror.net>, 
- Sean Paul <sean@poorly.run>, Sean Wang <sean.wang@kernel.org>, 
- Sean Wang <sean.wang@mediatek.com>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
- Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
- Shawn Guo <shawnguo@kernel.org>, Shawn Lin <shawn.lin@rock-chips.com>, 
- Siddharth Vadapalli <s-vadapalli@ti.com>, Simona Vetter <simona@ffwll.ch>, 
- Stafford Horne <shorne@gmail.com>, 
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, 
- Stephen Boyd <sboyd@kernel.org>, Sven Peter <sven@svenpeter.dev>, 
- Takashi Iwai <tiwai@suse.com>, Talel Shenhar <talel@amazon.com>, 
- Tero Kristo <kristo@kernel.org>, 
- Thangaraj Samynathan <Thangaraj.S@microchip.com>, 
- Thara Gopinath <thara.gopinath@gmail.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Toan Le <toan@os.amperecomputing.com>, Tony Lindgren <tony@atomide.com>, 
- Tony Luck <tony.luck@intel.com>, UNGLinuxDriver@microchip.com, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Vineet Gupta <vgupta@kernel.org>, 
- Vladimir Oltean <olteanv@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
- WANG Xuerui <kernel@xen0n.name>, Woojung Huh <woojung.huh@microchip.com>, 
- x86@kernel.org, Yanteng Si <si.yanteng@linux.dev>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, 
- Zhang Rui <rui.zhang@intel.com>
-In-Reply-To: <20250319092951.37667-1-jirislaby@kernel.org>
-References: <20250319092951.37667-1-jirislaby@kernel.org>
-Subject: Re: (subset) [PATCH v2 00/57] irqdomain: Cleanups and
- Documentation
-Message-Id: <174248389026.68765.4225899402848645156.b4-ty@kernel.org>
-Date: Thu, 20 Mar 2025 15:18:10 +0000
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66F8910E28B
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 17:11:23 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-3995ff6b066so641674f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 10:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1742490682; x=1743095482; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LszHKVAAmbCzrn3xqUVYloX7G0EimqlzgJrGy2gnmsI=;
+ b=j+jSSGLXQdU0HGs84VUJKVvaWLL/gbZO4PF8SGOFLNMnB/iibY/xqbUu4wwl9EovYr
+ SxYuG2d/9M6K7V68KfOeGYAblIjs9fq7yVYeaDoPwR3kVAIjXU+v0JGRZKANPmrwfSdJ
+ eDZn7zLvjxxZw8YjSZZ4ENeSUrunCkqIMLD6y5Gmp0KE/mcoHEKy/jbsbRGtny9bo/kL
+ o07zNrRobadRUmzJAFEUaF3zrs6AJLt+jEtvlBHHkUxR627m4LcJmJswWQhsS8F6jKSv
+ qBpAzMRXc4V0PN9LlkeR+K6Ns5U7zaKREzFwaqHxCc7xfYOzott+Jl5b01sVvpQcgdr1
+ 8SFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742490682; x=1743095482;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LszHKVAAmbCzrn3xqUVYloX7G0EimqlzgJrGy2gnmsI=;
+ b=t/dhCf2ozT6ihKQwsi5tM4W+q9IYnFYl86fziAWMlFl9LTQnIbn8mi+Jp9lHpMfeBK
+ srEW79wPrNQzwbJJ9XRVCUJMBtzqbBMii/N34VkmQW3iDzQ80db6SCpgM0COgw6TCpMn
+ J1L/t8xNAGubRXh4c3QRieHPr6x1qEuv0mqYn5se4hNAmjpONd534UXih1fTuU6c+EHc
+ 3sBT7ZXfAVqTZ3MJxLMx56eETl891RADh2A8R5Mf/sMlF3X/w1fxWanvgCAlLzoSbC4k
+ Mi78vVa8T+tH1r/R+d0YJ9ZSbaXxdsdJbipf7KPoAO4gGZ2G+SMQCAgKfXE+WNHlNJal
+ Wc7g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWx8fjsWxnrLa2VpInOoJtfdO9aLrNhbMXPOd/7Duouea4Y8E34qQKpfQL64Xo7tH5T0IYShAQgcuk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLNhDzJJtNYeMw8x+1w9iilMTT0MqO2PoAePBU/byLqYJeRl2T
+ /zk836aJi4/Cgglzw3kvvWgBIh+VA1vjoRZ+iE3QueYK2cR35QOhJ3908Z4cN3M=
+X-Gm-Gg: ASbGncuXf7dZXQ1n0PTvEfCRxrrRjiSNm8GJV+zVFEx8hk5Ew+5IfzRHHC1r5QuXhGy
+ mCpyUsFkUdpf09p3bFtCPUEYncQ1dnbtMLMfzPMHYi8S8F3w/HekhgxobELB4/Vhu6epRiq+i5s
+ ei+Ud5LXg4KboJ49vz6i8XsSBgoMBHhXE3m8+bf2OkseQjPqlF1FgB9qs6q6kSJ6cu/WJg5Q/js
+ uX+YSsq+0vkK+atPFMAJR1NHHrFPqQE2FmK32Zyf1pJMZsds0j8g+CPqTsC0rDbY8KNsFEH7JZQ
+ XpHUZANN2JCZ4IE8VQs5kGOm7PPhkqkJBOn31zveYZtDpby97RvZVkdkMqdLqh0=
+X-Google-Smtp-Source: AGHT+IEEqmDyc13593/QHHJ/rxN/j2FUptO7R/XTlEXHlWVEHh3gZS6BqeAIdYMHPC2w1m3aWmzwvQ==
+X-Received: by 2002:a5d:6c67:0:b0:391:30f0:1704 with SMTP id
+ ffacd0b85a97d-3997f9008d9mr339289f8f.4.1742490682128; 
+ Thu, 20 Mar 2025 10:11:22 -0700 (PDT)
+Received: from [192.168.68.117] ([5.133.47.210])
+ by smtp.googlemail.com with ESMTPSA id
+ ffacd0b85a97d-3997f9a3f6bsm141041f8f.39.2025.03.20.10.11.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Mar 2025 10:11:21 -0700 (PDT)
+Message-ID: <30bba296-8e6f-41ee-880e-2d5ecc8fe5a4@linaro.org>
+Date: Thu, 20 Mar 2025 17:11:20 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
+To: Ling Xu <quic_lxu5@quicinc.com>, andersson@kernel.org,
+ konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ gregkh@linuxfoundation.org
+Cc: quic_kuiw@quicinc.com, quic_ekangupt@quicinc.com,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
+ <20250320091446.3647918-3-quic_lxu5@quicinc.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20250320091446.3647918-3-quic_lxu5@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
-X-Mailman-Approved-At: Thu, 20 Mar 2025 17:13:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -222,41 +96,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Mar 2025 10:28:53 +0100, Jiri Slaby (SUSE) wrote:
-> tl;dr if patches are agreed upon, I ask subsys maintainers to take the
-> respective ones via their trees (as they are split per subsys), so that
-> the IRQ tree can take only the rest. That would minimize churn/conflicts
-> during merges.
+
+
+On 20/03/2025 09:14, Ling Xu wrote:
+> The fastrpc driver has support for 5 types of remoteprocs. There are
+> some products which support GPDSP remoteprocs. Add changes to support
+> GPDSP remoteprocs.
 > 
-> ===
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
+> ---
+>   drivers/misc/fastrpc.c | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> [...]
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 7b7a22c91fe4..80aa554b3042 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -28,7 +28,9 @@
+>   #define SDSP_DOMAIN_ID (2)
+>   #define CDSP_DOMAIN_ID (3)
+>   #define CDSP1_DOMAIN_ID (4)
+> -#define FASTRPC_DEV_MAX		5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
+> +#define GDSP0_DOMAIN_ID (5)
+> +#define GDSP1_DOMAIN_ID (6)
 
-Applied to
+We have already made the driver look silly here, Lets not add domain ids 
+for each instance, which is not a scalable.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Domain ids are strictly for a domain not each instance.
 
-Thanks!
 
-[35/57] irqdomain: sound: Switch to irq_domain_create_linear()
-        commit: 83eddf0116b09186f909bc643f2093f266f204ea
+> +#define FASTRPC_DEV_MAX		7 /* adsp, mdsp, slpi, cdsp, cdsp1, gdsp0, gdsp1 */
+>   #define FASTRPC_MAX_SESSIONS	14
+>   #define FASTRPC_MAX_VMIDS	16
+>   #define FASTRPC_ALIGN		128
+> @@ -107,7 +109,9 @@
+>   #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+>   
+>   static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
+> -						"sdsp", "cdsp", "cdsp1" };
+> +						"sdsp", "cdsp",
+> +						"cdsp1", "gdsp0",
+> +						"gdsp1" };
+>   struct fastrpc_phy_page {
+>   	u64 addr;		/* physical address */
+>   	u64 size;		/* size of contiguous region */
+> @@ -2338,6 +2342,8 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>   		break;
+>   	case CDSP_DOMAIN_ID:
+>   	case CDSP1_DOMAIN_ID:
+> +	case GDSP0_DOMAIN_ID:
+> +	case GDSP1_DOMAIN_ID:
+>   		data->unsigned_support = true;
+>   		/* Create both device nodes so that we can allow both Signed and Unsigned PD */
+>   		err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Can you try this patch: only compile tested.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+---------------------------------->cut<---------------------------------------
+ From 3f8607557162e16673b26fa253d11cafdc4444cf Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Thu, 20 Mar 2025 17:07:05 +0000
+Subject: [PATCH] misc: fastrpc: cleanup the domain names
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Currently the domain ids are added for each instance of domain, this is
+totally not scalable approch.
 
-Thanks,
-Mark
+Clean this mess and create domain ids for only domains not its
+instances.
+This patch also moves the domain ids to uapi header as this is required
+for FASTRPC_IOCTL_GET_DSP_INFO ioctl.
 
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+  drivers/misc/fastrpc.c      | 45 ++++++++++++++++++++-----------------
+  include/uapi/misc/fastrpc.h |  7 ++++++
+  2 files changed, 32 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index 7b7a22c91fe4..b3932897a437 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -23,12 +23,6 @@
+  #include <uapi/misc/fastrpc.h>
+  #include <linux/of_reserved_mem.h>
+
+-#define ADSP_DOMAIN_ID (0)
+-#define MDSP_DOMAIN_ID (1)
+-#define SDSP_DOMAIN_ID (2)
+-#define CDSP_DOMAIN_ID (3)
+-#define CDSP1_DOMAIN_ID (4)
+-#define FASTRPC_DEV_MAX		5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
+  #define FASTRPC_MAX_SESSIONS	14
+  #define FASTRPC_MAX_VMIDS	16
+  #define FASTRPC_ALIGN		128
+@@ -106,8 +100,6 @@
+
+  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, 
+miscdev)
+
+-static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
+-						"sdsp", "cdsp", "cdsp1" };
+  struct fastrpc_phy_page {
+  	u64 addr;		/* physical address */
+  	u64 size;		/* size of contiguous region */
+@@ -1769,7 +1761,7 @@ static int fastrpc_get_dsp_info(struct 
+fastrpc_user *fl, char __user *argp)
+  		return  -EFAULT;
+
+  	cap.capability = 0;
+-	if (cap.domain >= FASTRPC_DEV_MAX) {
++	if (cap.domain >= FASTRPC_DOMAIN_MAX) {
+  		dev_err(&fl->cctx->rpdev->dev, "Error: Invalid domain id:%d, err:%d\n",
+  			cap.domain, err);
+  		return -ECHRNG;
+@@ -2255,6 +2247,24 @@ static int fastrpc_device_register(struct device 
+*dev, struct fastrpc_channel_ct
+  	return err;
+  }
+
++static int fastrpc_get_domain_id(const char *domain)
++{
++	if (strncmp(domain, "adsp", 4) == 0) {
++		return ADSP_DOMAIN_ID;
++	} else	if (strncmp(domain, "cdsp", 4) == 0) {
++		return CDSP_DOMAIN_ID;
++	} else if (strncmp(domain, "mdsp", 4) ==0) {
++		return MDSP_DOMAIN_ID;
++	} else if (strncmp(domain, "sdsp", 4) ==0) {
++		return SDSP_DOMAIN_ID;
++	} else if (strncmp(domain, "gdsp", 4) ==0) {
++		return GDSP_DOMAIN_ID;
++	}
++
++	return -EINVAL;
++
++}
++
+  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+  {
+  	struct device *rdev = &rpdev->dev;
+@@ -2272,15 +2282,10 @@ static int fastrpc_rpmsg_probe(struct 
+rpmsg_device *rpdev)
+  		return err;
+  	}
+
+-	for (i = 0; i < FASTRPC_DEV_MAX; i++) {
+-		if (!strcmp(domains[i], domain)) {
+-			domain_id = i;
+-			break;
+-		}
+-	}
++	domain_id = fastrpc_get_domain_id(domain);
+
+  	if (domain_id < 0) {
+-		dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
++		dev_info(rdev, "FastRPC Domain %s not supported\n", domain);
+  		return -EINVAL;
+  	}
+
+@@ -2332,19 +2337,19 @@ static int fastrpc_rpmsg_probe(struct 
+rpmsg_device *rpdev)
+  	case SDSP_DOMAIN_ID:
+  		/* Unsigned PD offloading is only supported on CDSP and CDSP1 */
+  		data->unsigned_support = false;
+-		err = fastrpc_device_register(rdev, data, secure_dsp, 
+domains[domain_id]);
++		err = fastrpc_device_register(rdev, data, secure_dsp, domain);
+  		if (err)
+  			goto fdev_error;
+  		break;
+  	case CDSP_DOMAIN_ID:
+-	case CDSP1_DOMAIN_ID:
++	case GDSP_DOMAIN_ID:
+  		data->unsigned_support = true;
+  		/* Create both device nodes so that we can allow both Signed and 
+Unsigned PD */
+-		err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
++		err = fastrpc_device_register(rdev, data, true, domain);
+  		if (err)
+  			goto fdev_error;
+
+-		err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
++		err = fastrpc_device_register(rdev, data, false, domain);
+  		if (err)
+  			goto populate_error;
+  		break;
+diff --git a/include/uapi/misc/fastrpc.h b/include/uapi/misc/fastrpc.h
+index f33d914d8f46..89516abd258f 100644
+--- a/include/uapi/misc/fastrpc.h
++++ b/include/uapi/misc/fastrpc.h
+@@ -133,6 +133,13 @@ struct fastrpc_mem_unmap {
+  	__s32 reserved[5];
+  };
+
++#define ADSP_DOMAIN_ID (0)
++#define MDSP_DOMAIN_ID (1)
++#define SDSP_DOMAIN_ID (2)
++#define CDSP_DOMAIN_ID (3)
++#define GDSP_DOMAIN_ID (4)
++
++#define FASTRPC_DOMAIN_MAX	4
+  struct fastrpc_ioctl_capability {
+  	__u32 domain;
+  	__u32 attribute_id;
+-- 
+2.25.1
+
+
+---------------------------------->cut<---------------------------------------
