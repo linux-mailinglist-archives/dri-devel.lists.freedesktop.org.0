@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4295A6ADB2
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 19:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F78A6AD8E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 19:53:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15EEE10E6CC;
-	Thu, 20 Mar 2025 18:53:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED92A10E68C;
+	Thu, 20 Mar 2025 18:53:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f2PKK+6g";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y4+3BvpA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
- [209.85.166.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB4A10E687;
- Thu, 20 Mar 2025 18:53:39 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id
- ca18e2360f4ac-85b515e4521so36864639f.1; 
- Thu, 20 Mar 2025 11:53:39 -0700 (PDT)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+ [209.85.166.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCDB910E68A;
+ Thu, 20 Mar 2025 18:53:40 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id
+ ca18e2360f4ac-85da5a3667bso37831939f.1; 
+ Thu, 20 Mar 2025 11:53:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742496819; x=1743101619; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1742496820; x=1743101620; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xYthOB5BI90Xc0sNqdHCeRWErBOeeonKxchWCKHo1mE=;
- b=f2PKK+6geYXUjcpAKg2c/6SuRyIWQL0IjBmhRsNCcHiWkd39i8PiPkLotSdtgNPhVV
- jdD083uAvlHqP0djt6B5Dquq72Wg1PglOMtKLyWhmHpGS/F46OgE/Qu+5ReyD7BMVky5
- Fc8zZVzrE8gKsTQ0Z3HqZCVogMBdNN2NMhQW8mZIiY219G5mgph1UrXH9jxCEQPwNGpO
- m2gxmzUA0CPVY827bRbu7SvWX2l0kjijJyfBbkCg8uD9ENJwm2+m1WOoPmHsLMq/IPlR
- sBdETZ1sC8pr07jPmYdFvQOYKbfO7wMe7fwqc+/4EALc4jDqCNJuPSHnOSmYiOvIWNp9
- 4jGg==
+ bh=+JojmC+9FxP2Ro0EyDJ7vhOxZoHEZd1XTtPdoBZyU2s=;
+ b=Y4+3BvpA8UADqsgKrDpdgEiDq3Dz91jdI/9DZKdmFOL6V3IQfuo+KG7NKH1thoqM81
+ h2lK3pFmbKI54iA5CbeiPnIhcA42/uDa5JwyYEpka3trvgoKdDd7Fca+meiKSx+INtGf
+ 6Yd2jVNCyQ6y5Wht/w/LLJHmMboktUUvPBgsKB0OjhvLtGcgDBmeDrSqSx+Oa+ZoHqVe
+ mDuWzrxjkRhtpVsar8kGT5jG723d0WHtfdEkFU+AWrVoxcdQeL8TSw71j5lObvbw5UMJ
+ BDf/VLeONoBQqKPfj08WWGXcfNYLGZZkD42Cx5PDOEFgOgJTAurel1SIWx8PW9TTL+OJ
+ 5sjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742496819; x=1743101619;
+ d=1e100.net; s=20230601; t=1742496820; x=1743101620;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xYthOB5BI90Xc0sNqdHCeRWErBOeeonKxchWCKHo1mE=;
- b=kurVxJ2xkDAzsvl/VevJYS+exTCTPWfOO54f70v0Ucug11CdwiY6HYdwEPJMzXZimx
- mSuT/VPyn/7P5e2u5X+7BFKRJhkyxZO6mi4i+dPTYVWncaFN+yEc+P8KitTg6D59Kv4A
- VUiPW2mxlzcCtHukgoNyiM+W0m6K/LiKAzGq3vopnOcZy34kGGbJYUL+uEkXhoGpamlX
- MGdA/McTztzz7KitbJ+xffSsxkokXZaYnI3Ivy9q9P502f8vDQmrFE8KZl+vqiSPWPxs
- Vf4oGjUmKSmKiPmbOlxV6Izxdj3XdAirVhlgCSFCkAM0XJ1wzGmRcUsO3jkLBtTqbRUq
- H2Zw==
+ bh=+JojmC+9FxP2Ro0EyDJ7vhOxZoHEZd1XTtPdoBZyU2s=;
+ b=egmJL6PKvtErXYHGeA6mgz+h4LcOyLPkl0oevCrxN0XANdYsayJwC+oGHB1X6o5dmc
+ DwEOGne+dRwg6fT3IfZIJXbFAnyLuR1zkrFJSaLBuaa/oKSEgTWy68q+e7g67QNaIxIe
+ Uq0CCZB+mUdEC/Vslq38ggs5xeQVzdLK26+n8+bICxCZP5pZzHpOsBSyh/vPiEj9UMq9
+ WEO7pwa90mfLNAyD78O3acAy+d385h0QKxYdvqREWdZtWyvd36jpVByFctNlx6dO85oJ
+ OEr1ESTgij/w1o9c/EGFIAXqFoYws9Ydr3ESoB+JB/Tiqkz/iul9Ln9x4x0g7sxYvwsy
+ tePw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUaBRVajBaup5KxHQyUhSgOzyBmuVUJMXdFMUeCmJ/Wh5ZO/gLXHt6ZfPYjDvG42JTWoeDfVPx+1dTw@lists.freedesktop.org,
- AJvYcCUiVnLo50/5ZYeXrnpJx6iSo5++iT6QS02gEIBXE8B+4Hi6nasCgdYjOvJU/tUJUU4iIgIShIse/VtFieKBxw==@lists.freedesktop.org,
- AJvYcCVhOpOoZy1N6LoOxkt+824d7+CTNVy36EglVppxm7V5DCdHKIVB9CBZW5VeK6eV+KpOwBlc/Omnzkbt@lists.freedesktop.org,
- AJvYcCXUxvRuUCTekIEUxUZ6eMDcy7d4SckMyO7ylLQtE//VPTZtOz+yi5j45MhL+RZvo43d/blElJYsBRzCdIIw6EJlOg==@lists.freedesktop.org,
- AJvYcCXlWXVYtWr2+fKYx5NWr8ZgaXD6hY+xOFTIR8liTb0Rg8vLPieXvBHBadWvnnFqNG+XhkGiCPU0@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyv+FLwwVLZ/t5XpU0vx4wHbXVSobmCbKlW6CrfjdgFiNv7+J0a
- 9r3/z+tgcnfBvE9lSQ/q6jLOyyAIQ9v/Mxg3dKBvJBs2CamAMxS4
-X-Gm-Gg: ASbGnct3doq6y2cUzgiDPamXEbDv2KWAJpCjff2Sy1XPt+GXB8SNvkIvL2SQ76YKgSU
- NVadoC0IivVEzlI/fYyYc92CDRy1QfyQd++AcFnz7W0KT5ZrG7mG0V0CfTbuVshyUkI2N9sjtFB
- fr+HT8kCp3VTkMFme67My02BV9syyJRNktClStZuoldb4N0gc/5RFjI72yqHhh98lRkE7RG2VKg
- cXlyNcZCsy38aXWtUN7sZcbSuNPpv1gqhdI+3KcAWYD3ZXnXXT/aYtjAT2QFAkOVs5Ils2Q08Ry
- 6Jenr0V14vDUqn6DWxjE5cGFHZ0uFfOFJTHgXp49f+ad0L7pMkeG62mjqtPUK9MfiDRUw9KYshe
- M4Q==
-X-Google-Smtp-Source: AGHT+IG1ZN1PdCnSE/0Y/ZVD9TfRAzj/99OndZsm+wv+t2UNLScww8gqg4Ce5ePaZukZWiLiOE/e0A==
-X-Received: by 2002:a05:6602:720f:b0:85e:1860:4757 with SMTP id
- ca18e2360f4ac-85e2c909634mr64857939f.0.1742496818693; 
- Thu, 20 Mar 2025 11:53:38 -0700 (PDT)
+ AJvYcCU2/89fDPttbr3hn46BA4Qd9d8oCAKa2xkT52LtVcRqgui7GAinTxVJiOjRLWDlfhWIAmstdeHtMoz4@lists.freedesktop.org,
+ AJvYcCWEglOVD57KYEh/Nx92ZN1krug8MEIMvlyr2yvtdermOTTd0y8J5WVqLMf7tomGrOcDtMiEjRPhgsko@lists.freedesktop.org,
+ AJvYcCWzJh9xIzkh0gi/TW2cUrZvJsDd7a/ori6ODtFifntq9LEy8ffJbUaq7oKEQ0uBR3Mvr8cShU3c@lists.freedesktop.org,
+ AJvYcCX3dzlh2Z3eEBavMHrdFfU6LwtRmhzHTPX1+maWM5FRdD1feLBA+Odo5V04/b9rY8UTFJAAkFLPOKOeM+okoA==@lists.freedesktop.org,
+ AJvYcCXQtksER0qC52ZUs2g9ACt+YCmn0QqreddmLZzoI/JFZunh/9k9/CFvoZ7iukHgdMvvsbYOK0CdPgS/fcA8EKv8kg==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwD9AV6Ff//PpPXnDFDflb7nksKyLCCYArbAxh3WV0D3ctCRYm1
+ MGesgZXlcCAPij3AViFqABgPX7cTd+B0jAMxeZh1IB7VuOpT+iSb
+X-Gm-Gg: ASbGncsj1lV/OQ8uAeB+gvdFvUvGiUT268lVJazobMWVx9q9t2KNKbKBlIdxIVmTUvN
+ S6AvA1ElxD1aAA+VkjcF691lNNfOKnJpdstIMruEuM/fY+M9NjzCDmOp2uYlClV8mEiPY3BRR2c
+ 8nVxgpL9ON/HkZsETfCRAIRLV8AE8qnIU29n/gx9EOpoqTFur4uPlE9zHPpKdDL0ZM5HH2tKvgQ
+ FNTquH95QmMIhsZYL4upXDs7E5dlPDPFYLJiWL7Jt/oHwJwWV6iZh+IGoqnUgzsoAEGXM1O2KEN
+ oJYtHoNnUKoIGj6Xzg+hyHXNPrJ1YsJgdggxuq9VrBKuoz7ghotnCpUckUvkaNHTkcH/Wj2oHy1
+ 9WI7MXIyypBYP
+X-Google-Smtp-Source: AGHT+IG04lf95fJO+S+3AZcgEaNcIF03DKuyxl+Fgiex9RLp35StpaNvWFb8uwJT3IqqzXUNqAF8Fw==
+X-Received: by 2002:a05:6602:398c:b0:85b:4ad1:70e with SMTP id
+ ca18e2360f4ac-85e2ca8a7acmr52986639f.6.1742496820040; 
+ Thu, 20 Mar 2025 11:53:40 -0700 (PDT)
 Received: from gandalf.. (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
  by smtp.googlemail.com with ESMTPSA id
- ca18e2360f4ac-85e2bc273e7sm7078039f.17.2025.03.20.11.53.37
+ ca18e2360f4ac-85e2bc273e7sm7078039f.17.2025.03.20.11.53.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Mar 2025 11:53:38 -0700 (PDT)
+ Thu, 20 Mar 2025 11:53:39 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
@@ -75,9 +75,9 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
  ville.syrjala@linux.intel.com, Jim Cromie <jim.cromie@gmail.com>,
  linux-doc@vger.kernel.org
-Subject: [PATCH v2 31/59] docs/dyndbg: explain new delimiters: comma, percent
-Date: Thu, 20 Mar 2025 12:52:09 -0600
-Message-ID: <20250320185238.447458-32-jim.cromie@gmail.com>
+Subject: [PATCH v2 32/59] docs/dyndbg: explain flags parse 1st
+Date: Thu, 20 Mar 2025 12:52:10 -0600
+Message-ID: <20250320185238.447458-33-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250320185238.447458-1-jim.cromie@gmail.com>
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
@@ -98,73 +98,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add mention of comma and percent delimiters into the respective
-paragraphs describing their equivalents: space and newline.
+When writing queries to >control, flags are parsed 1st, since they are
+the only required field, and they require specific compositions.  So
+if the flags draw an error (on those specifics), then keyword errors
+aren't reported.  This can be mildly confusing/annoying, so explain it
+instead.
 
 cc: linux-doc@vger.kernel.org
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 4ac18c0a1d95..8e2083605bd7 100644
+index 8e2083605bd7..d2928884c92b 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -78,16 +78,19 @@ Command Language Reference
- ==========================
- 
- At the basic lexical level, a command is a sequence of words separated
--by spaces or tabs.  So these are all equivalent::
-+by spaces, tabs, or commas.  So these are all equivalent::
- 
-   :#> ddcmd file svcsock.c line 1603 +p
-   :#> ddcmd "file svcsock.c line 1603 +p"
-   :#> ddcmd '  file   svcsock.c     line  1603 +p  '
-+  :#> ddcmd file,svcsock.c,line,1603,+p
- 
--Command submissions are bounded by a write() system call.
--Multiple commands can be written together, separated by ``;`` or ``\n``::
-+Command submissions are bounded by a write() system call.  Multiple
-+commands can be written together, separated by ``%``, ``;`` or ``\n``::
- 
--  :#> ddcmd "func pnpacpi_get_resources +p; func pnp_assign_mem +p"
-+  :#> ddcmd func foo +p % func bar +p
-+  :#> ddcmd func foo +p \; func bar +p
-+  :#> ddcmd "func foo +p ; func bar +p"
-   :#> ddcmd <<"EOC"
-   func pnpacpi_get_resources +p
-   func pnp_assign_mem +p
-@@ -109,7 +112,6 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
+@@ -112,6 +112,16 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
  the flags-spec, all constraints are ANDed together.  An absent keyword
  is the same as keyword "*".
  
--
++Note: because the match-spec can be empty, the flags are checked 1st,
++then the pairs of keyword values.  Flag errs will hide keyword errs:
++
++  bash-5.2# ddcmd mod bar +foo
++  dyndbg: read 13 bytes from userspace
++  dyndbg: query 0: "mod bar +foo" mod:*
++  dyndbg: unknown flag 'o'
++  dyndbg: flags parse failed
++  dyndbg: processed 1 queries, with 0 matches, 1 errs
++
  A match specification is a keyword, which selects the attribute of
  the callsite to be compared, and a value to compare against.  Possible
  keywords are:::
-@@ -133,7 +135,6 @@ keywords are:::
-   ``line-range`` cannot contain space, e.g.
-   "1-30" is valid range but "1 - 30" is not.
- 
--
- The meanings of each keyword are:
- 
- func
-@@ -158,9 +159,11 @@ module
-     The given string is compared against the module name
-     of each callsite.  The module name is the string as
-     seen in ``lsmod``, i.e. without the directory or the ``.ko``
--    suffix and with ``-`` changed to ``_``.  Examples::
-+    suffix and with ``-`` changed to ``_``.
-+
-+    Examples::
- 
--	module sunrpc
-+	module,sunrpc	# with ',' as token separator
- 	module nfsd
- 	module drm*	# both drm, drm_kms_helper
- 
 -- 
 2.49.0
 
