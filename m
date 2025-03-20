@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E83CA6AA9F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4008CA6AAC4
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:12:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB2010E66F;
-	Thu, 20 Mar 2025 16:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0DB510E668;
+	Thu, 20 Mar 2025 16:01:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="br5rpF0I";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nkbTwJ+b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13CE910E66E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4139810E66F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:51 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D5E319EA;
- Thu, 20 Mar 2025 16:59:04 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B655B1D4F;
+ Thu, 20 Mar 2025 16:59:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1742486345;
- bh=+KTrHkkHrlimkcuE/FGh2M7ak/aUnyOtjsNsvIRCm1s=;
+ s=mail; t=1742486346;
+ bh=0UMDOMabLZ6w671e9DBv9w+zXTuDsT+vgr965ZIFrf0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=br5rpF0I4QfIqE1Q1ze9G9TqZzChKg0Ef7BWYPWBSwBNue5i1Ig2dw6gdqmMVQ+Ol
- AsSLlv9Neoui85vV11qtCpB6+nM1fhswE+eXZvZ3UByp5xE5og//Afth7CKNZM94AO
- 850ljiUL1Nr8eAMq3l7QiRO11uyeEKjueUJ3uhpo=
+ b=nkbTwJ+b6fMn1dt1bgbHotFGHrmuDe0A3uJfNqMJd4f/H41TiR1WDVV+OEsWxJ4E+
+ H4YtKCJAbvCPuDxCipMKtP0gTlIG8ye78DrEUivycCLSiUTmkXxBaZmsoOzaolL8aP
+ bnExdrfVWw3/7NWLzflM2gK0lMO1fgFqb3Hj3xno=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 20 Mar 2025 18:00:11 +0200
-Subject: [PATCH 16/18] drm/bridge: cdns-dsi: Update htotal in
- cdns_dsi_mode2cfg()
+Date: Thu, 20 Mar 2025 18:00:12 +0200
+Subject: [PATCH 17/18] drm/bridge: cdns-dsi: Drop cdns_dsi_adjust_phy_config()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250320-cdns-dsi-impro-v1-16-725277c5f43b@ideasonboard.com>
+Message-Id: <20250320-cdns-dsi-impro-v1-17-725277c5f43b@ideasonboard.com>
 References: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 In-Reply-To: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -52,21 +51,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Devarsh Thakkar <devarsht@ti.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1931;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4069;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=+KTrHkkHrlimkcuE/FGh2M7ak/aUnyOtjsNsvIRCm1s=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3Duc29yGssBNwc7Nzzd6cuHFVTJyPm/qWnwlK
- YcoBeVrlHmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7nAAKCRD6PaqMvJYe
- 9RwdEACMNuzhwhzLBQGjW9qUMDxk2p8+9CyvB9HAavK1KC31lXMNfelL6GkkyT1qLOn2ZCD8jHo
- Ja4FoEQRXBoLeyS6KMSQkw2Su86zTpOKY4vi8N22lKTHeirIA00Xm+JTwj5Y7ayZbt+AUh3jZko
- Vs095FpyRdH6jukjY8m1WpQECqdtHjsS+UdnlwjHZoRMc3hkErzi/RN1KF6PKt+uIrV/Euec6D6
- dFgPforoIuqCc2b+a0tFf47OrP9jJSvwz46aKg9rmAS276I2rgP5kQ67G68MkEo5JE5wkKh6z9A
- l0Wd09IgwJSwMQlgBqLL2S7X45gfs1r+dd9IeLEV5rZZN9595cyeYe1zeSPyzV+oUbwrGcbU97d
- yd2G74O1NUWdx/UdsM+/MDM+t4N8EFYc4+07CtH2E+8jLKBHGDi8NEzuJVtrqMCTcsQiFqJyv77
- zVVSFBI0jPtNBkr4ZlAuqp5T7CTCVqm1xKaVqDHmZqRruADEyLBtcKiCsaXEH+MW8GCZQoQH6hb
- +nqEiTY0VFnkPC0JmNt4UDnKazBRana9vO7GUntIvPTg5vU2Y4qM2WLIH+sAOpR219Md7xWC+6z
- B7+wG+R1/+JOuNsEeQ5NgFLB2zpCiBaiZECOr6pLTvcKzgdtpWbEanzdh/nwfODegV8+ozD6w22
- F1Xp9WtAazigPyg==
+ bh=0UMDOMabLZ6w671e9DBv9w+zXTuDsT+vgr965ZIFrf0=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3DucyiYCunaMHkYZkOsUbBr33TNxokGQwFmLG
+ XrME8B6hKOJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7nAAKCRD6PaqMvJYe
+ 9auiEACs13tj8wCr1mA8KSZCTPlaKJDMjz/Z5gzTVKEMiTgmbK6/7FVpneNGemYUbeECPZl5FGi
+ 5vaqWxwnQmcaCQcFQlozn8lVUDOzQwUaaU0JQMVj++T5VaO7Ag72UK77t6lcqxj7YmpSe8w8rI0
+ gpwohmP4cxRFDvlXr/END82vNze9O1AG+1dQNaT2YpSo9DR4kIR3kXla5l7fmPrLZ9UZMDXoFZG
+ jSvg3wUkyt12FjDnnyE/u6Cho1fILi69LRV8FgpVyMa9NPTBetq+j729cNuii14Xc41IQ6gv/q6
+ MAp9JMrQ+LgkZAPDj1tkoF2pZx0fFlVCllwQICAeYRjLjvxKFYiPR5DDQl1HnBL0SjWVwrMlsNc
+ C7j5mpQN8SAso738VtWgOsYTQISzk7aKsBkIkRnwm0Kq4QhZQqx3BncoCV1QAWcuOSoMVcRyk1L
+ FDnoAIxo3r6yQtKGAOyqWhFY2cwJMtaH3LfHhT8ZYCl/99Se8yLrzRE4GEzM/Xg0HWGAqLaIT2f
+ lTqWgUpn2LuWjRRhPUYpwpxiqjUXa+RZjI1ANj+DZh0Pabk1zLO0yXcsxLLmRdflrsuaP/lVVQg
+ S/l5YdkNzdvqi0VTX1l3XPnMi//wEwmLcD2fXQnHFbtCIn5Gy/79SjwDZP96kglJeNYXlVcDGjz
+ +93rFU+g3CsNdWg==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,56 +83,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cdns_dsi_mode2cfg() calculates the dsi timings, but for some reason
-doesn't set the htotal based on those timings. It is set only later, in
-cdns_dsi_adjust_phy_config().
+cdns_dsi_adjust_phy_config() is called from
+cdns_dsi_adjust_phy_config(), which is called from .atomic_check(). It
+checks the DSI htotal and adjusts it to align on the DSI lane boundary
+by changing hfp and then recalculating htotal and HS clock rate.
 
-As cdns_dsi_mode2cfg() is the logical place to calculate it, let's move
-it there. Especially as the following patch will remove
-cdns_dsi_adjust_phy_config().
+This has a few problems.
+
+First is the fact that the whole thing is not needed: we do not need to
+align on the lane boundary. The whole frame is sent in HS mode, and it
+is fine if the line's last byte clock tick fills, say, only 2 of the 4
+lanes. The next line will just continue from there. Assuming the
+DSI timing values have been calculated to match the incoming DPI stream,
+and the HS clock is compatible with the DPI pixel clock, the "uneven"
+DSI lines will even out when multiple lines are being sent.
+
+But we could do the align, aligning is not a problem as such. However,
+adding more bytes to the hfp, as the function currently does, makes the
+DSI line time longer, so the function then adjusts the HS clock rate.
+This is where things fail: we don't know what rates we can get from the
+HS clock, and at least in TI K3 SoC case the rates are quite coarsely
+grained. Thus small adjustment to hfp will lead to a big change in HS
+clock rate, and things break down.
+
+We could do a loop here, adjusting hfp, adjusting clock, checking clock
+rate, adjusting hfp again, etc., but considering that the whole
+adjustment shouldn't be needed at all, it's easier to just remove the
+function.
+
+Something like this function should be added back later, when adding
+burst mode support, but that's a bigger change and I don't think this
+function would help that work in any way.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 48 --------------------------
+ 1 file changed, 48 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 9f4f7b6c8330..2a272fd8ea3e 100644
+index 2a272fd8ea3e..0bb55584cb44 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -505,6 +505,15 @@ static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
- 
- 	dsi_cfg->hfp = dpi_to_dsi_timing(dpi_hfp, bpp, DSI_HFP_FRAME_OVERHEAD);
- 
-+	dsi_cfg->htotal = dsi_cfg->hact + dsi_cfg->hfp + DSI_HFP_FRAME_OVERHEAD;
-+
-+	if (sync_pulse) {
-+		dsi_cfg->htotal += dsi_cfg->hbp + DSI_HBP_FRAME_PULSE_OVERHEAD;
-+		dsi_cfg->htotal += dsi_cfg->hsa + DSI_HSA_FRAME_OVERHEAD;
-+	} else {
-+		dsi_cfg->htotal += dsi_cfg->hbp + DSI_HBP_FRAME_EVENT_OVERHEAD;
-+	}
-+
+@@ -517,50 +517,6 @@ static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
  	return 0;
  }
  
-@@ -522,15 +531,7 @@ static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
- 	unsigned int dsi_hfp_ext;
- 	unsigned int lanes = output->dev->lanes;
- 
--	if (output->dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
--		dsi_htotal = dsi_cfg->hbp + DSI_HBP_FRAME_PULSE_OVERHEAD;
--		dsi_htotal += dsi_cfg->hsa + DSI_HSA_FRAME_OVERHEAD;
--	} else {
--		dsi_htotal = dsi_cfg->hbp + DSI_HBP_FRAME_EVENT_OVERHEAD;
--	}
+-static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
+-			      struct cdns_dsi_cfg *dsi_cfg,
+-			      struct phy_configure_opts_mipi_dphy *phy_cfg,
+-			      const struct videomode *vm)
+-{
+-	struct cdns_dsi_output *output = &dsi->output;
+-	unsigned long long dlane_bps;
+-	unsigned long adj_dsi_htotal;
+-	unsigned long dsi_htotal;
+-	unsigned long dpi_htotal;
+-	unsigned long dpi_hz;
+-	unsigned int dsi_hfp_ext;
+-	unsigned int lanes = output->dev->lanes;
 -
--	dsi_htotal += dsi_cfg->hact;
--	dsi_htotal += dsi_cfg->hfp + DSI_HFP_FRAME_OVERHEAD;
-+	dsi_htotal = dsi_cfg->htotal;
+-	dsi_htotal = dsi_cfg->htotal;
+-
+-	/*
+-	 * Make sure DSI htotal is aligned on a lane boundary when calculating
+-	 * the expected data rate. This is done by extending HFP in case of
+-	 * misalignment.
+-	 */
+-	adj_dsi_htotal = dsi_htotal;
+-	if (dsi_htotal % lanes)
+-		adj_dsi_htotal += lanes - (dsi_htotal % lanes);
+-
+-	dpi_hz = vm->pixelclock;
+-	dlane_bps = (unsigned long long)dpi_hz * adj_dsi_htotal;
+-
+-	/* data rate in bytes/sec is not an integer, refuse the mode. */
+-	dpi_htotal = vm->hactive + vm->hfront_porch + vm->hback_porch +
+-		     vm->hsync_len;
+-	if (do_div(dlane_bps, lanes * dpi_htotal))
+-		return -EINVAL;
+-
+-	/* data rate was in bytes/sec, convert to bits/sec. */
+-	phy_cfg->hs_clk_rate = dlane_bps * 8;
+-
+-	dsi_hfp_ext = adj_dsi_htotal - dsi_htotal;
+-	dsi_cfg->hfp += dsi_hfp_ext;
+-	dsi_cfg->htotal = dsi_htotal + dsi_hfp_ext;
+-
+-	return 0;
+-}
+-
+ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+ 			       const struct videomode *vm,
+ 			       struct cdns_dsi_cfg *dsi_cfg)
+@@ -581,10 +537,6 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+ 	if (ret)
+ 		return ret;
  
- 	/*
- 	 * Make sure DSI htotal is aligned on a lane boundary when calculating
+-	ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, vm);
+-	if (ret)
+-		return ret;
+-
+ 	req_hs_clk_rate = output->phy_opts.mipi_dphy.hs_clk_rate;
+ 	ret = phy_validate(dsi->dphy, PHY_MODE_MIPI_DPHY, 0, &output->phy_opts);
+ 	if (ret)
 
 -- 
 2.43.0
