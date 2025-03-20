@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF1BA6AA9B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3231A6AABF
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 17:12:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E748B10E3B2;
-	Thu, 20 Mar 2025 16:00:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D9E710E65E;
+	Thu, 20 Mar 2025 16:00:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Jo6hJDzx";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T5Vls0GF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 805CF10E3B2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80DB510E65E
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 16:00:35 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 333C6836;
- Thu, 20 Mar 2025 16:58:47 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5633BA98;
+ Thu, 20 Mar 2025 16:58:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1742486328;
- bh=tWpzu7ba133Zdaj4dIf8mfTY5P/FzEw3AwQGlLkB6nY=;
+ s=mail; t=1742486329;
+ bh=lEa3BxN/6LhqthWXir58vTyZRT4d8BUmsi3iv05b4SI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Jo6hJDzx4MMVutviFoW6uze0v/t/ZUm3X99o4o+jspdo0aHxYvjZr5GZqfyHXe72l
- cVOWAeLOIYol7UZjpp2ic1QNh6dyw0QY5HSFa/V1rBRn+Dmt0oLVbMTdU9nPjjWvRp
- f5azgycs2yk3KZQDl9kPW2S6tLE5LGaoHomhfRJc=
+ b=T5Vls0GFxnPD5hn1unW34oSBxrMO4OhNp9j7+A6Cd/7trv98Dlxt18y3spIQ/h0i7
+ OrNwM13+SUvs/qwg4Bu91rsBZ6ltlm6QJ3rLP7Q8en7StCMqAq22FDMzAExbVc4o/6
+ RfqhiV1GJzDDtv4TQHxhYOohXdZeXjMira+mO67c=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 20 Mar 2025 17:59:56 +0200
-Subject: [PATCH 01/18] drm/tidss: Fix missing includes and struct decls
+Date: Thu, 20 Mar 2025 17:59:57 +0200
+Subject: [PATCH 02/18] drm/tidss: Use the crtc_* timings when programming
+ the HW
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250320-cdns-dsi-impro-v1-1-725277c5f43b@ideasonboard.com>
+Message-Id: <20250320-cdns-dsi-impro-v1-2-725277c5f43b@ideasonboard.com>
 References: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 In-Reply-To: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -51,21 +52,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Devarsh Thakkar <devarsht@ti.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2118;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2447;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=tWpzu7ba133Zdaj4dIf8mfTY5P/FzEw3AwQGlLkB6nY=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3DuW0VeV/16xby0waSsVTa5y/p9LuoqqSPndU
- 5qCby6XyN6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7lgAKCRD6PaqMvJYe
- 9dQ0D/9sDS7OWljZibT3MD38u4WdeOEtCPLTN1jQCfDoLLOLHAfQUc+o+a4qSO7UTE/cwMA6PPL
- /vB4NvQh55DDELk66YfnQh7/FtRB5yDEIrP1RLuZWYY5Cz6TAmoB76WsjRqP+9axnYTYy5GFiP6
- 5gDJKn3Vmdh+xCqc21B65a6f23OGqzwDvkedeFjBuMp5H2pKJFoU+33s0t7SLbeT6XiumAqkQzu
- 8k4W82fykMZZnoZQDWCNDVOX6hkJCWUJucgV3ImF3UmPqy6uDo0XVs6TXDaDGjC3yvYMrBtWl5Q
- /pnXmA93cICYvkxW0jRsP7DXw/VpWddrvuF9OSioi1cfNxvucKp6brh75Ox1d0Uma52+aVOCYsk
- Fws048xy7UkFtnDRuMTH0172iX5a3uwxVSxT0Jq3nZjPsO2jsTNLUsnlKo5TaObi0KLTlwjP13H
- ggG04o92RTjt93ztMubmHVmpjVmm/3QoEOypvKycMyLQ9H3+r+idMSZrmGaAZZNqm0oEIO4CLzb
- YAlRi70GtFcrO9uN3dZGgTL8vjJkKppyAnmxX9V4ChjuqZYnoYKaiMSsUYGNUt+P7mk1Oq9Zj7P
- GQvFstwP99RXtjk0naJTT9N3/3vhbCo34aBtQ2IDx+I8StOcRzUTzfe1+I9cYd/w6YeoJWsAXRl
- 6MXwh1eLPU6BTpA==
+ bh=lEa3BxN/6LhqthWXir58vTyZRT4d8BUmsi3iv05b4SI=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn3DuWAhb6U3BLt5lLhsPChcq8E4oZSETUJXSx5
+ z12mq0p56KJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ9w7lgAKCRD6PaqMvJYe
+ 9Th3EACjcrw6JZ9VPnH9olNkIpUQhmsh0DkbdGgOZ2y8ivDMJb390ebjUjcycXeJzVAwa11yzjv
+ ARnz9GkQYtX1PSm6EMaxo6GvwryU4NcgJYUbeQvL8ZIRcYhggMFmIFOih5Xwor3BjRPg5tn2oMG
+ 67zYVSK9YdQ3JnTmEWXyzSo164E8/nhJRoWz4/28U8ywqbeAWrBImTxgsPcP4D95I74h+bmdMe3
+ qov6INwon7Bgg85T+1DEyXjcjZWjGenn7gXSJIqgjr6x8KX2KIC3ObutCIMuKXq4KuZdBvB4KFn
+ tBlgqVWeJYXXaxTfRLgKvYVF5QE8HcOA3QJO1IdjNVAkJ7kdpWOxt0G6w/JdI5XFP5gLusf4eA4
+ fP6bDH7iGRh4FLnzzYBC2CN6hVo1I2SQeygB8ZXJiTCa1ULxtJMwUpan/MlqfnmBaSZeRFqsjtU
+ 1X1C+hZE/HKKon9Mx/GXPb64iHJfvAc1Nc+bX/9+baLDDjdAtOGoyXBcDRwBseUV8e+v1+0cmjw
+ E6Et+9k44cpM9Dj9G2ppuF3lNjMtyYhCuceqzmu2DUrCF51U1ZPMdhz3YX6LG0bUlsiHwC6UfFc
+ 8uIdeiCbMnT6+m/B8SdTag2o0UoMxWtT7+7MSTLAH0DAZv/0L9/plFbDBbXQ+om+MdZNwy4lD+f
+ DhEeFcQOT4L1Jkw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,75 +84,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix missing includes and struct declarations. Even if these don't cause
-any compile issues at the moment, it's good to have them correct.
+Use the crtc_* fields from drm_display_mode, instead of the "logical"
+fields. This shouldn't change anything in practice, but afaiu the crtc_*
+fields are the correct ones to use here.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/tidss/tidss_dispc.h       | 3 +++
- drivers/gpu/drm/tidss/tidss_drv.h         | 2 ++
- drivers/gpu/drm/tidss/tidss_plane.h       | 2 ++
- drivers/gpu/drm/tidss/tidss_scale_coefs.h | 2 ++
- 4 files changed, 9 insertions(+)
+ drivers/gpu/drm/tidss/tidss_crtc.c  |  2 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c | 16 ++++++++--------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-index 086327d51a90..c31b477a18b0 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.h
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-@@ -7,11 +7,14 @@
- #ifndef __TIDSS_DISPC_H__
- #define __TIDSS_DISPC_H__
+diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+index 94f8e3178df5..1604eca265ef 100644
+--- a/drivers/gpu/drm/tidss/tidss_crtc.c
++++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+@@ -225,7 +225,7 @@ static void tidss_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	tidss_runtime_get(tidss);
  
-+#include <drm/drm_color_mgmt.h>
-+
- #include "tidss_drv.h"
+ 	r = dispc_vp_set_clk_rate(tidss->dispc, tcrtc->hw_videoport,
+-				  mode->clock * 1000);
++				  mode->crtc_clock * 1000);
+ 	if (r != 0)
+ 		return;
  
- struct dispc_device;
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index cacb5f3d8085..a5107f2732b1 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -1084,13 +1084,13 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
  
- struct drm_crtc_state;
-+struct drm_plane_state;
+ 	dispc_set_num_datalines(dispc, hw_videoport, fmt->data_width);
  
- enum tidss_gamma_type { TIDSS_GAMMA_8BIT, TIDSS_GAMMA_10BIT };
+-	hfp = mode->hsync_start - mode->hdisplay;
+-	hsw = mode->hsync_end - mode->hsync_start;
+-	hbp = mode->htotal - mode->hsync_end;
++	hfp = mode->crtc_hsync_start - mode->crtc_hdisplay;
++	hsw = mode->crtc_hsync_end - mode->crtc_hsync_start;
++	hbp = mode->crtc_htotal - mode->crtc_hsync_end;
  
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-index 7f4f4282bc04..56a2020e20d0 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.h
-+++ b/drivers/gpu/drm/tidss/tidss_drv.h
-@@ -9,6 +9,8 @@
+-	vfp = mode->vsync_start - mode->vdisplay;
+-	vsw = mode->vsync_end - mode->vsync_start;
+-	vbp = mode->vtotal - mode->vsync_end;
++	vfp = mode->crtc_vsync_start - mode->crtc_vdisplay;
++	vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
++	vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
  
- #include <linux/spinlock.h>
+ 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_TIMING_H,
+ 		       FLD_VAL(hsw - 1, 7, 0) |
+@@ -1132,8 +1132,8 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
+ 		       FLD_VAL(ivs, 12, 12));
  
-+#include <drm/drm_device.h>
-+
- #define TIDSS_MAX_PORTS 4
- #define TIDSS_MAX_PLANES 4
+ 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_SIZE_SCREEN,
+-		       FLD_VAL(mode->hdisplay - 1, 11, 0) |
+-		       FLD_VAL(mode->vdisplay - 1, 27, 16));
++		       FLD_VAL(mode->crtc_hdisplay - 1, 11, 0) |
++		       FLD_VAL(mode->crtc_vdisplay - 1, 27, 16));
  
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.h b/drivers/gpu/drm/tidss/tidss_plane.h
-index aecaf2728406..92c560c3a621 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.h
-+++ b/drivers/gpu/drm/tidss/tidss_plane.h
-@@ -7,6 +7,8 @@
- #ifndef __TIDSS_PLANE_H__
- #define __TIDSS_PLANE_H__
- 
-+#include <drm/drm_plane.h>
-+
- #define to_tidss_plane(p) container_of((p), struct tidss_plane, plane)
- 
- struct tidss_device;
-diff --git a/drivers/gpu/drm/tidss/tidss_scale_coefs.h b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
-index 9c560d0fdac0..9824d02d9d1f 100644
---- a/drivers/gpu/drm/tidss/tidss_scale_coefs.h
-+++ b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
-@@ -9,6 +9,8 @@
- 
- #include <linux/types.h>
- 
-+struct device;
-+
- struct tidss_scale_coefs {
- 	s16 c2[16];
- 	s16 c1[16];
+ 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1, 0, 0);
+ }
 
 -- 
 2.43.0
