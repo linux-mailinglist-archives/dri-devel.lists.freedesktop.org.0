@@ -2,73 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A84A6A276
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 10:23:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51145A6A27E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 10:25:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE93510E392;
-	Thu, 20 Mar 2025 09:23:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA0E410E394;
+	Thu, 20 Mar 2025 09:25:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="ueEAV4VV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H2COShwX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D46310E21F;
- Thu, 20 Mar 2025 09:23:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KN0E1CtHzZMDFASPHUIAGSz4ovHioQCvP87HdG+MCYk=; b=ueEAV4VVIDrxUOgYxofthsesUC
- l2ob61vxkQJDXF1zT5nvHlTTL66ZNsQH6GN/ADFmLJVVVlh6pT0E6dR5+sbqLuJxhVtGcBZIb3OnM
- NtCHo2w1LoVzO+DP5BqOgWAGrmLtBeENYpJfDWTrKeshRXYSA6uuyCNR17y42qMoQI1Wn5MJhoLZo
- VDfa3h7iC6HiUlOCIsRmwX5wI8CxdeqjjoULqO48qW3YYeIUhNcP3GAhSjY09C6nIvf7spPMz4eU3
- EKYn18ddrQul+wIurFmtwxfMumolSLGf3smtM+0Jkt5cZAtDCcjVjMXoSY+rJ8Vi2AhQNm5HRcGb3
- s6WT6PKg==;
-Received: from [194.136.85.206] (port=56058 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.98.1)
- (envelope-from <pekka.paalanen@haloniitty.fi>)
- id 1tvC7S-000000002s9-2d18; Thu, 20 Mar 2025 11:23:18 +0200
-Date: Thu, 20 Mar 2025 11:23:09 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>
-Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Kandpal, Suraj" <suraj.kandpal@intel.com>, harry.wentland@amd.com,
- alex.hung@amd.com
-Subject: Re: [PATCH v8 01/14] drm: Define histogram structures exposed to user
-Message-ID: <20250320112309.1d9c3e09@eldfell>
-In-Reply-To: <IA0PR11MB7307CCBB82AF958121A6B3A9BAD92@IA0PR11MB7307.namprd11.prod.outlook.com>
-References: <20250128-dpst-v8-0-871b94d777f8@intel.com>
- <20250128-dpst-v8-1-871b94d777f8@intel.com>
- <20250217120808.708b9b4d@eldfell>
- <c423efcb-5ab8-41c2-af0a-621007c6175d@intel.com>
- <20250218181819.11ca41ab@eldfell>
- <cd095fd7-3043-402a-9e21-c0c85c53f8e3@intel.com>
- <20250220175047.412ee8d4@eldfell>
- <95a3e35d-2c5e-4861-b7bf-f38815a44e14@intel.com>
- <20250303112010.469b9685@eldfell>
- <IA0PR11MB7307CCBB82AF958121A6B3A9BAD92@IA0PR11MB7307.namprd11.prod.outlook.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 334F410E38A
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 09:25:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C1CA25C67BA;
+ Thu, 20 Mar 2025 09:23:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FE60C4CEDD;
+ Thu, 20 Mar 2025 09:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742462744;
+ bh=ka5I9+DH/KH7qnUYQBc5BsFzu7ZUacgslYAyJ2oFovM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=H2COShwXIEBvemupMgwn2yPIGOH7svF/CtUyKlgMhEzjE1HIzM1OrmlP/VvihYgGl
+ lXTgfZobbSVF8FtL+PCnm+i3KVKtGJsOnwQ7ATnroImvKVPa+LNcCIheByLLEbUNTa
+ C+3oCt2JSXTQ/TKyXaWd+qrkdOjgtsDUFlwdnYV1kMspfRBSVJpYisbqkJOzVteLDV
+ DRZdaJw3cZlnV1X0QBu1X98zOruIcTOtHWMLXiY43FICqGE6U4vSomoAeCaRH4YKw6
+ GWnZyWDQ2PGIYKAu3L1DH19GgXTcr/6/2t+4T/YcXbDHPzFI70975O4spMKWCYC6ab
+ ofc84GJuH5EOw==
+Date: Thu, 20 Mar 2025 14:55:35 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+ Daniel Stone <daniel@fooishbar.org>
+Subject: Re: [PATCH v6 03/10] optee: account for direction while converting
+ parameters
+Message-ID: <Z9vfD4UWSrqSTPnP@sumit-X1>
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-4-jens.wiklander@linaro.org>
+ <Z9K2RQYuXSJc8Y1E@sumit-X1>
+ <CAHUa44H5Zc_POJ_RWaVd4iFVagRkFaN+8Ajs=19FKboZapbQHw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/3GKph_Dx//rGj.d.uPd=lXT";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHUa44H5Zc_POJ_RWaVd4iFVagRkFaN+8Ajs=19FKboZapbQHw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,111 +74,282 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/3GKph_Dx//rGj.d.uPd=lXT
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Jens,
 
-On Wed, 19 Mar 2025 12:08:15 +0000
-"Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
+On Mon, Mar 17, 2025 at 08:42:01AM +0100, Jens Wiklander wrote:
+> Hi Sumit,
+> 
+> On Thu, Mar 13, 2025 at 11:41 AM Sumit Garg <sumit.garg@kernel.org> wrote:
+> >
+> > Hi Jens,
+> >
+> > On Wed, Mar 05, 2025 at 02:04:09PM +0100, Jens Wiklander wrote:
+> > > The OP-TEE backend driver has two internal function pointers to convert
+> > > between the subsystem type struct tee_param and the OP-TEE type struct
+> > > optee_msg_param.
+> > >
+> > > The conversion is done from one of the types to the other, which is then
+> > > involved in some operation and finally converted back to the original
+> > > type. When converting to prepare the parameters for the operation, all
+> > > fields must be taken into account, but then converting back, it's enough
+> > > to update only out-values and out-sizes. So, an update_out parameter is
+> > > added to the conversion functions to tell if all or only some fields
+> > > must be copied.
+> > >
+> > > This is needed in a later patch where it might get confusing when
+> > > converting back in from_msg_param() callback since an allocated
+> > > restricted SHM can be using the sec_world_id of the used restricted
+> > > memory pool and that doesn't translate back well.
+> > >
+> > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > ---
+> > >  drivers/tee/optee/call.c          | 10 ++--
+> > >  drivers/tee/optee/ffa_abi.c       | 43 +++++++++++++----
+> > >  drivers/tee/optee/optee_private.h | 42 +++++++++++------
+> > >  drivers/tee/optee/rpc.c           | 31 +++++++++----
+> > >  drivers/tee/optee/smc_abi.c       | 76 +++++++++++++++++++++++--------
+> > >  5 files changed, 144 insertions(+), 58 deletions(-)
+> > >
+> > > diff --git a/drivers/tee/optee/call.c b/drivers/tee/optee/call.c
+> > > index 16eb953e14bb..f1533b894726 100644
+> > > --- a/drivers/tee/optee/call.c
+> > > +++ b/drivers/tee/optee/call.c
+> > > @@ -400,7 +400,8 @@ int optee_open_session(struct tee_context *ctx,
+> > >       export_uuid(msg_arg->params[1].u.octets, &client_uuid);
+> > >
+> > >       rc = optee->ops->to_msg_param(optee, msg_arg->params + 2,
+> > > -                                   arg->num_params, param);
+> > > +                                   arg->num_params, param,
+> > > +                                   false /*!update_out*/);
+> > >       if (rc)
+> > >               goto out;
+> > >
+> > > @@ -427,7 +428,8 @@ int optee_open_session(struct tee_context *ctx,
+> > >       }
+> > >
+> > >       if (optee->ops->from_msg_param(optee, param, arg->num_params,
+> > > -                                    msg_arg->params + 2)) {
+> > > +                                    msg_arg->params + 2,
+> > > +                                    true /*update_out*/)) {
+> > >               arg->ret = TEEC_ERROR_COMMUNICATION;
+> > >               arg->ret_origin = TEEC_ORIGIN_COMMS;
+> > >               /* Close session again to avoid leakage */
+> > > @@ -541,7 +543,7 @@ int optee_invoke_func(struct tee_context *ctx, struct tee_ioctl_invoke_arg *arg,
+> > >       msg_arg->cancel_id = arg->cancel_id;
+> > >
+> > >       rc = optee->ops->to_msg_param(optee, msg_arg->params, arg->num_params,
+> > > -                                   param);
+> > > +                                   param, false /*!update_out*/);
+> > >       if (rc)
+> > >               goto out;
+> > >
+> > > @@ -551,7 +553,7 @@ int optee_invoke_func(struct tee_context *ctx, struct tee_ioctl_invoke_arg *arg,
+> > >       }
+> > >
+> > >       if (optee->ops->from_msg_param(optee, param, arg->num_params,
+> > > -                                    msg_arg->params)) {
+> > > +                                    msg_arg->params, true /*update_out*/)) {
+> > >               msg_arg->ret = TEEC_ERROR_COMMUNICATION;
+> > >               msg_arg->ret_origin = TEEC_ORIGIN_COMMS;
+> > >       }
+> > > diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c
+> > > index 4ca1d5161b82..e4b08cd195f3 100644
+> > > --- a/drivers/tee/optee/ffa_abi.c
+> > > +++ b/drivers/tee/optee/ffa_abi.c
+> > > @@ -122,15 +122,21 @@ static int optee_shm_rem_ffa_handle(struct optee *optee, u64 global_id)
+> > >   */
+> > >
+> > >  static void from_msg_param_ffa_mem(struct optee *optee, struct tee_param *p,
+> > > -                                u32 attr, const struct optee_msg_param *mp)
+> > > +                                u32 attr, const struct optee_msg_param *mp,
+> > > +                                bool update_out)
+> > >  {
+> > >       struct tee_shm *shm = NULL;
+> > >       u64 offs_high = 0;
+> > >       u64 offs_low = 0;
+> > >
+> > > +     if (update_out) {
+> > > +             if (attr == OPTEE_MSG_ATTR_TYPE_FMEM_INPUT)
+> > > +                     return;
+> > > +             goto out;
+> > > +     }
+> > > +
+> > >       p->attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT +
+> > >                 attr - OPTEE_MSG_ATTR_TYPE_FMEM_INPUT;
+> > > -     p->u.memref.size = mp->u.fmem.size;
+> > >
+> > >       if (mp->u.fmem.global_id != OPTEE_MSG_FMEM_INVALID_GLOBAL_ID)
+> > >               shm = optee_shm_from_ffa_handle(optee, mp->u.fmem.global_id);
+> > > @@ -141,6 +147,8 @@ static void from_msg_param_ffa_mem(struct optee *optee, struct tee_param *p,
+> > >               offs_high = mp->u.fmem.offs_high;
+> > >       }
+> > >       p->u.memref.shm_offs = offs_low | offs_high << 32;
+> > > +out:
+> > > +     p->u.memref.size = mp->u.fmem.size;
+> > >  }
+> > >
+> > >  /**
+> > > @@ -150,12 +158,14 @@ static void from_msg_param_ffa_mem(struct optee *optee, struct tee_param *p,
+> > >   * @params:  subsystem internal parameter representation
+> > >   * @num_params:      number of elements in the parameter arrays
+> > >   * @msg_params:      OPTEE_MSG parameters
+> > > + * @update_out: update parameter for output only
+> > >   *
+> > >   * Returns 0 on success or <0 on failure
+> > >   */
+> > >  static int optee_ffa_from_msg_param(struct optee *optee,
+> > >                                   struct tee_param *params, size_t num_params,
+> > > -                                 const struct optee_msg_param *msg_params)
+> > > +                                 const struct optee_msg_param *msg_params,
+> > > +                                 bool update_out)
+> > >  {
+> > >       size_t n;
+> > >
+> > > @@ -166,18 +176,20 @@ static int optee_ffa_from_msg_param(struct optee *optee,
+> > >
+> > >               switch (attr) {
+> > >               case OPTEE_MSG_ATTR_TYPE_NONE:
+> > > +                     if (update_out)
+> > > +                             break;
+> > >                       p->attr = TEE_IOCTL_PARAM_ATTR_TYPE_NONE;
+> > >                       memset(&p->u, 0, sizeof(p->u));
+> > >                       break;
+> > >               case OPTEE_MSG_ATTR_TYPE_VALUE_INPUT:
+> > >               case OPTEE_MSG_ATTR_TYPE_VALUE_OUTPUT:
+> > >               case OPTEE_MSG_ATTR_TYPE_VALUE_INOUT:
+> > > -                     optee_from_msg_param_value(p, attr, mp);
+> > > +                     optee_from_msg_param_value(p, attr, mp, update_out);
+> > >                       break;
+> > >               case OPTEE_MSG_ATTR_TYPE_FMEM_INPUT:
+> > >               case OPTEE_MSG_ATTR_TYPE_FMEM_OUTPUT:
+> > >               case OPTEE_MSG_ATTR_TYPE_FMEM_INOUT:
+> > > -                     from_msg_param_ffa_mem(optee, p, attr, mp);
+> > > +                     from_msg_param_ffa_mem(optee, p, attr, mp, update_out);
+> > >                       break;
+> > >               default:
+> > >                       return -EINVAL;
+> > > @@ -188,10 +200,16 @@ static int optee_ffa_from_msg_param(struct optee *optee,
+> > >  }
+> > >
+> > >  static int to_msg_param_ffa_mem(struct optee_msg_param *mp,
+> > > -                             const struct tee_param *p)
+> > > +                             const struct tee_param *p, bool update_out)
+> > >  {
+> > >       struct tee_shm *shm = p->u.memref.shm;
+> > >
+> > > +     if (update_out) {
+> > > +             if (p->attr == TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT)
+> > > +                     return 0;
+> > > +             goto out;
+> > > +     }
+> > > +
+> > >       mp->attr = OPTEE_MSG_ATTR_TYPE_FMEM_INPUT + p->attr -
+> > >                  TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
+> > >
+> > > @@ -211,6 +229,7 @@ static int to_msg_param_ffa_mem(struct optee_msg_param *mp,
+> > >               memset(&mp->u, 0, sizeof(mp->u));
+> > >               mp->u.fmem.global_id = OPTEE_MSG_FMEM_INVALID_GLOBAL_ID;
+> > >       }
+> > > +out:
+> > >       mp->u.fmem.size = p->u.memref.size;
+> > >
+> > >       return 0;
+> > > @@ -222,13 +241,15 @@ static int to_msg_param_ffa_mem(struct optee_msg_param *mp,
+> > >   * @optee:   main service struct
+> > >   * @msg_params:      OPTEE_MSG parameters
+> > >   * @num_params:      number of elements in the parameter arrays
+> > > - * @params:  subsystem itnernal parameter representation
+> > > + * @params:  subsystem internal parameter representation
+> > > + * @update_out: update parameter for output only
+> > >   * Returns 0 on success or <0 on failure
+> > >   */
+> > >  static int optee_ffa_to_msg_param(struct optee *optee,
+> > >                                 struct optee_msg_param *msg_params,
+> > >                                 size_t num_params,
+> > > -                               const struct tee_param *params)
+> > > +                               const struct tee_param *params,
+> > > +                               bool update_out)
+> > >  {
+> > >       size_t n;
+> > >
+> > > @@ -238,18 +259,20 @@ static int optee_ffa_to_msg_param(struct optee *optee,
+> > >
+> > >               switch (p->attr) {
+> > >               case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
+> > > +                     if (update_out)
+> > > +                             break;
+> > >                       mp->attr = TEE_IOCTL_PARAM_ATTR_TYPE_NONE;
+> > >                       memset(&mp->u, 0, sizeof(mp->u));
+> > >                       break;
+> > >               case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+> > >               case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
+> > >               case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+> > > -                     optee_to_msg_param_value(mp, p);
+> > > +                     optee_to_msg_param_value(mp, p, update_out);
+> > >                       break;
+> > >               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+> > >               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+> > >               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> > > -                     if (to_msg_param_ffa_mem(mp, p))
+> > > +                     if (to_msg_param_ffa_mem(mp, p, update_out))
+> > >                               return -EINVAL;
+> > >                       break;
+> > >               default:
+> >
+> > Can we rather handle it as follows to improve code readability and
+> > maintainence long term? Ditto for all other places.
+> >
+> > static int optee_ffa_to_msg_param(struct optee *optee,
+> >                                   struct optee_msg_param *msg_params,
+> >                                   size_t num_params,
+> >                                   const struct tee_param *params,
+> >                                   bool update_out)
+> > {
+> >         size_t n;
+> >
+> >         for (n = 0; n < num_params; n++) {
+> >                 const struct tee_param *p = params + n;
+> >                 struct optee_msg_param *mp = msg_params + n;
+> >
+> >                 if (update_out && (p->attr == TEE_IOCTL_PARAM_ATTR_TYPE_NONE ||
+> >                      p->attr == TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT ||
+> >                      p->attr == TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT))
+> >                     continue;
+> 
+> You're missing updating the length field for memrefs.
+>
 
-> > On Mon, 3 Mar 2025 13:23:42 +0530
-> > "Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
-> >  =20
-> > > On 20-02-2025 21:20, Pekka Paalanen wrote: =20
-> > > > On Wed, 19 Feb 2025 09:28:51 +0530
-> > > > "Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
+Do we need to update length field for input memrefs when update_out is
+set? I don't see that happening in your existing patch too.
 
-...
+-Sumit
 
-> > > Hi Pekka,
-> > > Sorry got getting back late on this.
-> > > I totally agree that the UAPI should not be any hardware specific and
-> > > have taken care to get rid of such if any.
-> > > Here we are just exposing the histogram data and what point is the
-> > > histogram generated is out of the scope. =20
-> >=20
-> > It's not out of scope. Understanding exactly at what point the histogra=
-m is
-> > generated in the KMS pixel pipeline is paramount to being able to use t=
-he
-> > results correctly - how it relates to the framebuffers'
-> > contents and KMS pixel pipeline configuration.
-> >  =20
->=20
-> While working around this comment, it looks to be quite challenging to
-> address this comment and agree that this will have to be addressed and is=
-=20
-> important for the user to know at which point in the pixel pipeline confi=
-guration
-> the histogram is generated.
-> I can think of 2 options on addressing this.
->=20
-> 1.  Have this documented in the driver. Since this can vary on each vendor
-> hardware, can have this documented in the drivers or ReST document.
->=20
-
-Hi Arun,
-
-this is not acceptable in KMS, because it requires userspace to have
-code that depends on the hardware revision or identity. When new
-hardware appears, it will not be enough to update the drivers, one will
-also need to update userspace. There currently is no userspace
-"standard KMS library" to abstract all drivers further, like there is
-libcamera and Mesa.
-
-> 2. Maybe have a bitmapping like we have it for histogram_mode. Define=20
-> user readable macros for that.
-> Ex: CC1_DEGAMMA_HIST_CC2
-> In this case histogram is between the two color conversion hardware block
-> in the pixel pipeline.
-> This macro will have to be defined on need basis and define a u32 variable
-> for this bit manipulation.
-
-This one still has problems in that some hardware may not have all the
-non-HIST elements or not in the same order. It's a better abstraction
-than option 1, but it's still weak.
-
-I can see one solid solution, but it won't be usable for quite some
-time I suppose:
-
-https://lore.kernel.org/dri-devel/20241220043410.416867-5-alex.hung@amd.com/
-
-The current work on the color pipelines UAPI is concentrated on the
-per-plane operations. The idea is that once those are hashed out, the
-same design is applied to CRTCs as well, deprecating all existing CRTC
-color processing properties. A histogram processing element could be
-exposed as a colorop object, and its position in a CRTC color pipeline
-represents the point where the histogram is collected.
-
-That would be the best possible UAPI design on current knowledge in my
-opinion.
-
-Btw. this applies also to the image enhancement processing element you
-are proposing.
-
-
-Thanks,
-pq
-
---Sig_/3GKph_Dx//rGj.d.uPd=lXT
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmfb3n0ACgkQI1/ltBGq
-qqcwpxAAtATk5CekEZ5Yqh8jCQRRt6av6rARAR0oPrjtNT3ePc6bpSDMjxeFylqF
-oMNF2TCiw+v3eX6L6pp9MA71+BAJzY5NQBSi7Tc0aW6a5JneKUvQZ7OuVMtRdlLa
-BmVpsBcS7Kdi7jjkQK+gVXIn/0H8UuyGyCWC+57fT34Ad246nvOyLcWlNBRlm4NR
-bgWkzbKFXXiCv43eI9xpx5wodewOclNdZl/REHo+aHT+vKbcQc7DuuKNQe4efJ25
-vV0WkTyzuJPeqBDd8XbSx5NDqk+41WNNluPyU7nqP9W2Ap2Qh6Zh5FzrUU9K06e+
-g0D4KPMO5hxIOjxbhV4U8T4hLsm3BEdL1YO3s/a9l1Qa71spel41/gbs4z1PIasv
-JUbe0JMf8bl6rSKeQCl+xDiIhYyYg2+BQADjaYL8C87tq8yOJ3KdV1oltEgPp39c
-itHwnWg8dFlyi4hfvnn3xgJBh8paBLoHXtHyFfTOCWc1LbAvgIwiMuKksu8EQdPo
-QfA14Utiml2Y+v+eBrFVi/nhspLIV9dlOyUYLamjwSbNpsnhfRx1/n6RyAw84Q+G
-LDJAEcL58DbqBhask0UXARSqWaDJXtxuhGMNq/LSwgoW8ZfSagp/VDln/e2YToR5
-vXv0rDOIlSxrtz9wAEzC7Crhm72ImK3ORs45MTHe2BV6wYkNdvc=
-=G0D+
------END PGP SIGNATURE-----
-
---Sig_/3GKph_Dx//rGj.d.uPd=lXT--
+> Cheers,
+> Jens
+> 
+> >
+> >                 switch (p->attr) {
+> >                 case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
+> >                         mp->attr = TEE_IOCTL_PARAM_ATTR_TYPE_NONE;
+> >                         memset(&mp->u, 0, sizeof(mp->u));
+> >                         break;
+> >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+> >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
+> >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+> >                         optee_to_msg_param_value(mp, p);
+> >                         break;
+> >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+> >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+> >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> >                         if (to_msg_param_ffa_mem(mp, p))
+> >                                 return -EINVAL;
+> >                         break;
+> >                 default:
+> >                         return -EINVAL;
+> >                 }
+> >         }
+> >
+> >         return 0;
+> > }
+> >
+> > -Sumit
