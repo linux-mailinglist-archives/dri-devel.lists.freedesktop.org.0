@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A399FA6AD94
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 19:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09755A6ADA6
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 19:53:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC0210E68A;
-	Thu, 20 Mar 2025 18:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C155110E6B6;
+	Thu, 20 Mar 2025 18:53:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GhjePZ0b";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gV46RaXS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
- [209.85.166.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32B5E10E690;
- Thu, 20 Mar 2025 18:53:37 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id
- ca18e2360f4ac-85b43b60b6bso41405539f.0; 
- Thu, 20 Mar 2025 11:53:37 -0700 (PDT)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
+ [209.85.166.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 632F210E687;
+ Thu, 20 Mar 2025 18:53:38 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id
+ ca18e2360f4ac-85b3f92c866so15956439f.3; 
+ Thu, 20 Mar 2025 11:53:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742496816; x=1743101616; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1742496817; x=1743101617; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=A97O7SqLaZSxvMXU0joWzVIjgf8LaQ5hosLUzwNwu64=;
- b=GhjePZ0bbISTTGwiI9UEiASdJw/LqmJOGAZyADCWAbZU4E7OQ/NsKzhEeTp4JaDonS
- 2/KFuXLkvTjRKRZr6mKBcspX87tNDaPmP8fCeplt01Uf+6VZuh/RDSUTiA6dF86guQu4
- OaLcRKoCcp5UowTj/29zG3wISopy10UDzf7TOtFOlyvwUq3fWS9PfrEBpv7FluI08NBC
- m4X/nyIHTKLlw8JR7dog3sdCqNn9g9WMxfI0f5avBTz5MNTp+CNRORKmVFmPgiDOWjaz
- /liYXG28NDIEeHV/HFt/sL5gTWr0ZYaf8EWPwAwmmczzJz93dCxgW48L0EkWDx00hRW+
- dlGg==
+ bh=HpbhRZZt9AFd87SNc1x+tRriKokTIY/B2ItoxXJziSE=;
+ b=gV46RaXSNIo9kz7kQeC25upgSrBydJmn/hxmgAKyLbrcLokXEygNxWTjkUo/EB7ihX
+ nreDNVkiIVBPy8S0/w+Xa7avZ8/S7xen4G3I5dYxIwcYWNLAbdq/k26DlIG2NxmNWq+y
+ J9yCeWz5a6xb4RgdFzJoiW8NAcnbhauvKOxJ50/rdUXLStXV1KStO55VRDxYSYnG+jZo
+ cLwauand2+MO1/p+3A157mJ3HTCTynGfqguY0LdQDX6HYjh2b2xn3LnWNK1AKGwQqyu1
+ KdqBx955e38gu7+7rJKBHmMEeyR6dpr3fUmOky/Dm0TOVEI72cVByf90ZMHvT3cuTkIt
+ 9yYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742496816; x=1743101616;
+ d=1e100.net; s=20230601; t=1742496817; x=1743101617;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=A97O7SqLaZSxvMXU0joWzVIjgf8LaQ5hosLUzwNwu64=;
- b=JlecnCLQS3Qkog8ksNNUenT1f1SnUehDrivtTy6SIdHkPCWUz9zYvcLBm3bz1Ot65L
- 3EAwxXSQ529cxG9pPIGk5De4l8G0h9BO+es0N5rXOiS5ysbitOPH7nT+lFYeJz4JQSWP
- lOjsEr02evQO41EW7ng+MoDF0KwxJ/wCC+HYLJhhsfXTFULQa9p5BSVeI/4Os1lM9a4p
- 2IBpaM6lfgcG1G6iT99e5gI8NeU2IPcRChIIOfjQtrNpOSctUjLLDGnbfhiQHv+L6Jjj
- X6bkzSeGj7h21LHxQRRwYRyN9nezdYaVvNT0/umuWTMDQ8iiP/FvR3TnD8ZQBTt5sMPl
- aTog==
+ bh=HpbhRZZt9AFd87SNc1x+tRriKokTIY/B2ItoxXJziSE=;
+ b=azkvelthhxfj5dMtpZ6qkDECxVGVQfVcJuMaGC98zsbnKP1EZNhed/nSnspaxaEPVF
+ A13w1+KPpuNHYTjlmtZLPi1ubiL7fJWDaFS3ibhPSwlmYEJne8gM8s5UB5jUZXl95m4X
+ iQVHuFdNZT/JeL+IW6+Df6ldLoVqfCYblOAB1O8Re8QEFff36Z/N8QhuBJFyqXsdKVyH
+ v6URhpald+KD1J/5STkvPoJP/ji2DIBeGSDDtKQijc05fM084OC9foxMlBfxbZW92Hzw
+ WWstc6Gf9mjlaWVDkuNvXvmDxCumtnlKZDrVIiT1tESe5fyBkhxv3RqT+QKXQGhNYh1o
+ 30ig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUW3H3xjELLcIyynWUH4HvCv/T2J2oiNJisYThyNIN/FoJcN6fAL/1jlZHxklXwZZzRmFR2iWEeFkiWbe3orA==@lists.freedesktop.org,
- AJvYcCVJs9FPDqBg5But+mAXIvaMKF5bmS3nIS7z3Q7Urn1w6k6PYONTXkGlQevZeUIkDzyNoGCWUznJPY+GOOcL0FSQ2w==@lists.freedesktop.org,
- AJvYcCVPr5BUJk3ZyW2/vP7w+kAW+sU/69xgCGroEPLedSW8GogLPE7G3hPjL0XjKf1JDDQiFsvj6oTRnomE@lists.freedesktop.org,
- AJvYcCVWs060R8N7lgs0AlA60N+UCyVY5RN2sV/ij3AwS0MPI/UM1lelqCjmor8VyfRz09Ea6O6zNJEl@lists.freedesktop.org,
- AJvYcCVoFxANyOXbmCgiNDFcyeadnug8/cN+ZjFpim7F15VosM0Bghu0+VcFQrIZVnlZSkfGQY1rbWpEF8Cf@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyusieAaHo6nEHGYTIqDDA2H3n9o8kXyAWljoXZKicFcpAVkSyu
- v0LpbXsp8th+yjzVBDm3uduYSZtqbm+AOWKBUEagTzntzM2dMEW/
-X-Gm-Gg: ASbGncuvfnWhfg1kl0TDP0Wktr6SVilCY+qDFVqLjvjzy1S7GpLJLwub/mgtXK7VZsY
- KzbNGG1cgtu9r+1qkpaIiHXRnTVmOhUoWtmrMVRWDQxuTvY9w8oc3xeHCAFmyc9/8e4y1YoBVdI
- 5GXkAdPcEobH9zRDJc+aqq50IG+EvccJMmb4G3Aae7E9sLDeLdYUMXlznOtJfYLGVyqjHvlPhJm
- nUx1q+fp6CsDmuZv595N7t4hqx/dlSMXOpnmxzsqYGU0clanqIzTZW0bE/gx8V+sx+0Pmz7Gwr5
- wHbCovJJM5lUYEDVjMHE6SOZlWoWErDSPE1whuHnRa8AzBnr8jo73zZ9XAWKDlLla8fdnvSkVAD
- 32Q==
-X-Google-Smtp-Source: AGHT+IEBYa+5JQp3odGDvBn5sd+cspLcMtd4IINkheV1kDJq50GiYDaoG3E/JZw5HEYKr6Z/40xHfw==
-X-Received: by 2002:a05:6602:6a89:b0:85b:4cb9:5cf6 with SMTP id
- ca18e2360f4ac-85e2bc71838mr79684139f.0.1742496816493; 
- Thu, 20 Mar 2025 11:53:36 -0700 (PDT)
+ AJvYcCUCviAI6eS4/lo7dxIkTwnikascxbMRpIgQJ27YqC/M8IgPVLdAr8Xv55io3H3ofEdasqAfDwfj@lists.freedesktop.org,
+ AJvYcCUc2KHUnZmVW22XBaLVv47tTGKk45S/mHNiwsD9kpdw3z0XcpGcq7O32vJp/zbq21Oetp3BR+fygpU0@lists.freedesktop.org,
+ AJvYcCViu9JklVl4qp2J3WLk1meOkoWmDdAF0iCoWQzum4DAEXHlBoiQ9gdlViKuL47NY0d+OP85UJ/lJd3KfyHSl83B9A==@lists.freedesktop.org,
+ AJvYcCVoDcxLqJTWbuK1kqVWyX/B4l4py618zsN2cz3u9M6u2tOPuXILzy8108aCTSBxg7xV/dsF52Vt3znS@lists.freedesktop.org,
+ AJvYcCWibK9qR0X/+XEFSz5cSC/rdAWna4xJfZ8QiaMY6zk7SAP6+JUEIY9W8eGNYB8bnkmI/259U9jmWE6oN0boLQ==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzrRDg7U/laEl3NUG66FHssQjaxfWFjRgEEOjPRqreEEybxdsua
+ KwhFI0ndzAcduS1yMMdjF7TYwqYx52tLBWttplvul4j+q0M4RWeD
+X-Gm-Gg: ASbGncv6/df9NZzCD479FiOyz5ITabfZ7e5TOwfpYTaodjKkrSiWrhag7HBJ++k21Tx
+ qcuDBuvdR/wjOXjT/OjFlgTn9ly/FWtr2Ly6y9LlDAMlumCMnHjCuIQkr2OdZnPGvOz10mJnPOy
+ FebjS7bM6RvlHZU0Yvhqfwxlh0+0oLr6XBCNzxVr9RRJdIJonV59OiuaHx3vTlc3Ded33Zfbwp6
+ EQoAEn/oftFnxuW609JuA1TLAv+KNLB7fb59immspEWFZh8JQ9IObd2ESrnH2BMp2pFHsJs8G7E
+ jFBsuJ/AoANgQMi1co34tVBlrsZMa3ffz/ojIGprkGNdqjsEmJ/zeB+4KGYDCyavbV0TByIOfBo
+ z4Q==
+X-Google-Smtp-Source: AGHT+IFuMQEbeQUc6coivxGrnHYjElXfmW7jKz6VfBVmZjpWHuswcV+q2LjK12WbmEyPhHwatFPU1g==
+X-Received: by 2002:a05:6602:c8b:b0:85b:4ad2:16ef with SMTP id
+ ca18e2360f4ac-85e2cb0e8d8mr39024439f.9.1742496817484; 
+ Thu, 20 Mar 2025 11:53:37 -0700 (PDT)
 Received: from gandalf.. (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
  by smtp.googlemail.com with ESMTPSA id
- ca18e2360f4ac-85e2bc273e7sm7078039f.17.2025.03.20.11.53.35
+ ca18e2360f4ac-85e2bc273e7sm7078039f.17.2025.03.20.11.53.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Mar 2025 11:53:36 -0700 (PDT)
+ Thu, 20 Mar 2025 11:53:37 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
@@ -74,10 +74,10 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  louis.chauvet@bootlin.com, daniel.vetter@ffwll.ch,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
  ville.syrjala@linux.intel.com, Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v2 29/59] dyndbg: change __dynamic_func_call_cls* macros into
- expressions
-Date: Thu, 20 Mar 2025 12:52:07 -0600
-Message-ID: <20250320185238.447458-30-jim.cromie@gmail.com>
+Subject: [PATCH v2 30/59] dyndbg: drop "protection" of class'd pr_debugs from
+ legacy queries
+Date: Thu, 20 Mar 2025 12:52:08 -0600
+Message-ID: <20250320185238.447458-31-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250320185238.447458-1-jim.cromie@gmail.com>
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
@@ -98,58 +98,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Xe driver's XE_IOCTL_DBG macro calls drm_dbg() from inside an if
-(expression).  This breaks when CONFIG_DRM_USE_DYNAMIC_DEBUG=y because
-the invoked macro has a do-while-0 wrapper.
+Current classmap code protects class'd pr_debugs from unintended
+changes by "legacy" unclassed queries:
 
-   if (cond && (drm_dbg("expr-form"),1)) {
-      ... do some more stuff
-   }
+  # this doesn't disable all of DRM_UT_* categories
+  echo "-p" > /proc/dynamic_debug/control
 
-Fix for this usage by changing __dynamic_func_call_cls{,_no_desc}
-macros into expressions, by replacing the do-while-0s with a ({ })
-wrapper.  In the common usage, the trailing ';' converts the
-expression into a statement.
+  # name the class to change it - protective but tedious
+  echo "class DRM_UT_CORE +p" > /proc/dynamic_debug/control
 
-   drm_dbg("statement form");
+  # or do it the subsystem way
+  echo 1 > /sys/module/drm/parameters/debug
 
+This "name the class to change it" behavior gave a modicum of
+protection to classmap users (ie DRM) so their debug settings aren't
+trivially and unintentionally altered underneath them.
+
+But this made the class keyword special in some sense; the other
+keywords skip only on explicit mismatch, otherwize the code falls thru
+to adjust the pr-debug site.
+
+So Jason Baron didn't like this special case when I 1st proposed it;
+I argued 2 points:
+- "protection gives stable-debug, improving utility"
+- __drm_debug is authoritative w/o dyndbg under it.
+
+I thought I'd convinced him back then, (and the patchset got merged),
+but he noted it again when he reviewed this series.  So this commit
+names the "special case": ddebug_client_module_protects_classes(), and
+reverts it to Jason's preference.
+
+If a class mismatch is seen, code distinguishes whether the class was
+explicitly given (and always skips/continue), or the DFLT was assumed
+because no class was given.  Here we test
+ddebug_client_module_protects_classes(), skip if so.
+
+Later, if any user/module wants to protect its classes, we could add a
+flag to ddebug_table, a means to set it from CLASSMAP_DEFINE, and
+check it when applying a classless query/cmd.
+
+CC: jbaron@akamai.com
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
----
- include/linux/dynamic_debug.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ lib/dynamic_debug.c | 34 +++++++++++++++++++++++++---------
+ 1 file changed, 25 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index 8043966a0fd6..80bcaad03400 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -339,20 +339,20 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
-  * (|_cls):	adds in _DPRINT_CLASS_DFLT as needed
-  * (|_no_desc):	former gets callsite descriptor as 1st arg (for prdbgs)
-  */
--#define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {	\
--	DEFINE_DYNAMIC_DEBUG_METADATA_CLS((id), cls, fmt);	\
-+#define __dynamic_func_call_cls(id, cls, fmt, func, ...) ({	\
-+	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);	\
- 	if (DYNAMIC_DEBUG_BRANCH(id))				\
--		func(&id, ##__VA_ARGS__);			\
--} while (0)
-+		func(&(id), ##__VA_ARGS__);			\
-+})
- #define __dynamic_func_call(id, fmt, func, ...)				\
- 	__dynamic_func_call_cls(id, _DPRINTK_CLASS_DFLT, fmt,		\
- 				func, ##__VA_ARGS__)
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index c44502787c2b..13de0dd3a4ad 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -193,6 +193,17 @@ static int ddebug_find_valid_class(struct ddebug_table const *dt, const char *cl
+ 	return -ENOENT;
+ }
  
--#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) do {	\
-+#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) ({	\
- 	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);		\
- 	if (DYNAMIC_DEBUG_BRANCH(id))					\
- 		func(__VA_ARGS__);					\
--} while (0)
-+})
- #define __dynamic_func_call_no_desc(id, fmt, func, ...)			\
- 	__dynamic_func_call_cls_no_desc(id, _DPRINTK_CLASS_DFLT,	\
- 					fmt, func, ##__VA_ARGS__)
++/*
++ * classmaps-v1 protected classes from changes by legacy commands
++ * (those selecting _DPRINTK_CLASS_DFLT by omission), v2 undoes that
++ * special treatment.  State so explicitly.  Later we could give
++ * modules the choice to protect their classes or to keep v2 behavior.
++ */
++static inline bool ddebug_client_module_protects_classes(const struct ddebug_table *dt)
++{
++	return false;
++}
++
+ /*
+  * Search the tables for _ddebug's which match the given `query' and
+  * apply the `flags' and `mask' to them.  Returns number of matching
+@@ -206,7 +217,7 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
+ 	unsigned int newflags;
+ 	unsigned int nfound = 0;
+ 	struct flagsbuf fbuf, nbuf;
+-	int valid_class;
++	int slctd_class;
+ 
+ 	/* search for matching ddebugs */
+ 	mutex_lock(&ddebug_lock);
+@@ -218,21 +229,26 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
+ 			continue;
+ 
+ 		if (query->class_string) {
+-			valid_class = ddebug_find_valid_class(dt, query->class_string);
+-			if (valid_class < 0)
++			slctd_class = ddebug_find_valid_class(dt, query->class_string);
++			if (slctd_class < 0)
++				/* skip/reject classes unknown by module */
+ 				continue;
+ 		} else {
+-			/* constrain query, do not touch class'd callsites */
+-			valid_class = _DPRINTK_CLASS_DFLT;
++			slctd_class = _DPRINTK_CLASS_DFLT;
+ 		}
+ 
+ 		for (i = 0; i < dt->info.descs.len; i++) {
+ 			struct _ddebug *dp = &dt->info.descs.start[i];
+ 
+-			/* match site against query-class */
+-			if (dp->class_id != valid_class)
+-				continue;
+-
++			if (dp->class_id != slctd_class) {
++				if (query->class_string)
++					/* site.class != given class */
++					continue;
++				/* legacy query, class'd site */
++				else if (ddebug_client_module_protects_classes(dt))
++					continue;
++				/* allow change on class'd pr_debug */
++			}
+ 			/* match against the source filename */
+ 			if (query->filename &&
+ 			    !match_wildcard(query->filename, dp->filename) &&
 -- 
 2.49.0
 
