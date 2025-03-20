@@ -2,113 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC78A6A28A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 10:27:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3DD9A6A2B8
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 10:34:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE4F10E38A;
-	Thu, 20 Mar 2025 09:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21B2E10E158;
+	Thu, 20 Mar 2025 09:34:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="h5x807F8";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aAVWEd7t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C80710E38A
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 09:27:05 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52K6Z3RR016424
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 09:27:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- KeHYHgSRoKLBQR4ChNEg2+DinjKOYoT9p2BUm9bLAEs=; b=h5x807F85KZGcI2T
- FEZ0TjAXf69j6bFfIU6NNTZUjv21ZQ2L/T9prIY//EHR/rvtCYhqjhTuX5n37bfE
- DMZn/HQach8XeyUvDVvF/kkF2igdsUw91pRZ5P13PAdoVCj3zZZmec/Tp5AgWVLr
- hmTOXVx/aH5wUokc5RPVWgflIJMmARFFIvxYrGkKqrs4p31gGfcnKkQyH/zRxRbk
- 2G/uey3LIwRgVlt001dOnDPUCYx51MaI1fx/KZFp0vhYFY3Ina8O1K/qhCBX08xI
- +nuV/uTQbyZS865BPWfdf+5Ea6X2PCHs8ENUf6uA1HQZmgeIz21yttvBKnKirLO3
- EPKywg==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45g4t41qq6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 09:27:04 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-2ff8119b436so961202a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 02:27:04 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3EAF10E158
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 09:34:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1742463239;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5Xnc4UUNyeBQpV5hSNxcMbVbiGERYrZYYe0TGe1JdNE=;
+ b=aAVWEd7tfKI9ERf8J7SpHl5gOE0j+pz1oUNQFFQ+psLntlIFzjZuhf6kyWUz2Ycns2+Ene
+ M20jKImnEsZYU0mNi+UqDBSJRJyNGiGxaG5D8IUbIFn5WfEL165U4GhGYORx8LGb2odEBV
+ 8a3AwFzjc1BuWzkyMa2fpAtTwKwgfuA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-665-fYo_QmO2MRuWR7LbGX4n_A-1; Thu, 20 Mar 2025 05:33:58 -0400
+X-MC-Unique: fYo_QmO2MRuWR7LbGX4n_A-1
+X-Mimecast-MFC-AGG-ID: fYo_QmO2MRuWR7LbGX4n_A_1742463237
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-43cf172ff63so2673625e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 02:33:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742462824; x=1743067624;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KeHYHgSRoKLBQR4ChNEg2+DinjKOYoT9p2BUm9bLAEs=;
- b=E23/wj3b8BdjjVWAe73gMviD/d8KNmkCPgwk/fsW+Z1/NU9wzpUhyHmqiNpIwmikfd
- OCFmZm9bLGu9zXWdc6Y5/i39fCtFBpdMbRRkhxa6VtXPW6VuAA3LQ9xZ8j0xUMlKcEhZ
- cA745yJ8NJ5mxWGRRdFWsPQb2sE/rnyZq3Pc1vXoOH4Grsve5mqR0SL+PHouMxInQ8eQ
- aKNRAS1Kd/TTyFRho+Mr4J7RUnHgTQn0UEYDM7kJqugqDPfCU2rAzsknnDVvQf/xMWc4
- 49PvVfrZQrP1ff3hVM8he2FHDyAc22vYsT3E/x7+Ol0cN1VYbwlNjONGTHnbeBfjN8Yy
- hwvQ==
+ d=1e100.net; s=20230601; t=1742463237; x=1743068037;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5Xnc4UUNyeBQpV5hSNxcMbVbiGERYrZYYe0TGe1JdNE=;
+ b=T2Pujc8cBzFjHHcN1uTLpLzfaW9ZORz/P3eo+PCheHz/zg+EC0YM+9FgwRyQ5bj4pT
+ MJ5PaH2TLranDpE6kjsViZK3h/L6ViyGMoRL5vIk1dhSp1GyucEIcmSTo8dG86GfcXm1
+ 2A7M//k6YKQx01zHZzg+WlYyr6OaxJmg516PQHckkv4xSPS/n6tTLSDl1A45306hsbac
+ qGxzBHe7Ts7teBK1lxKBi5K49y8Ns69kWwD94RkWpMh4QGfbyaQDzmN0o8ttyMts7laS
+ VBTt9oVLynE5YbxF0+8MqYgMT+48NfhQZ/nWDfa98gSzxcNdxWhApFaZoKvFffS23KC+
+ u1Tw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUMdeuq2bZOEc21HF3Y1RylzfxzOtpO1LFnjR8ko0i+U9zIbPUymeYzAMQmqARomz95km72KEAe1eA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyveB++VU9KOr3imgDcoJg4AGqgtX1jgOxMzB5yOVQLJfRxKNro
- jMURfub1YeNnmG2YOE4gtkLgiz/T5Uu+142ybx/H6Zi1RlD0vzQExovV70kmIL8pEKEku6JAX+I
- q7e4rl8vWWyYsXvsbaxGed632QnzOvLgth22aovMf6SmjJZqSdZYQUnUN7u6UKoXw2YY=
-X-Gm-Gg: ASbGnctHTT7veYjZTAehcOqXGGXreP7SXOXLdeoVIGd2o/j3p1jTeYzOLgOd0ohNneR
- 9uVflZaZpNPR+6d7OyaadfR9tyrV3oXIHBTzNeaqg77zPxc+9Bfi5eFObw5HOqNANaMmJi4LpGv
- 8sUmS2RSMhGSHWPLR+ulbcWhy+6f9O5TwTUPCTVWRh6N2eSFcCP5gBNe6RhvS0XI7ZvB8d5PDQ9
- ECZFB3B5jNp9JXHvm3E9SwmLPTyQD0FoMvDmuKz3acSZeQVW1gx7QJNrHk3uuItd0oXYBVNUjvo
- OyYb4oPeYagRgjpKOJO7IXO2yYA/QKmnTieHgvhl
-X-Received: by 2002:a17:90b:35c3:b0:2ee:863e:9ffc with SMTP id
- 98e67ed59e1d1-301d52c9d71mr3683779a91.21.1742462823706; 
- Thu, 20 Mar 2025 02:27:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFpGvrH1EWOiqoFrxiYDGBjxuwdnasSg3FLzSkenBU4hTM8xFgoe/Rl+VzdbYGqcHraNoYMgw==
-X-Received: by 2002:a17:90b:35c3:b0:2ee:863e:9ffc with SMTP id
- 98e67ed59e1d1-301d52c9d71mr3683748a91.21.1742462823281; 
- Thu, 20 Mar 2025 02:27:03 -0700 (PDT)
-Received: from [10.204.65.49] ([202.46.23.25])
+ AJvYcCWjg9Z40/LCH3F+9Ol3EUpNN9aW3eFfG5Zt2z84rrf257ukvmT+SgQeorZKMrBk3CQ/6A+kNgXRCNM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXZp2WkgDItJA9TxQbdDL71w+d7C6az8NZ7fjJvUrzWZFgJlIt
+ jrDJcw1PJpT5w6ZHkyxg6jH68WqrByOQPdxOy6Pa8HogurHVL3pWE7ip6jIPZMU+bK2etffbwD6
+ iTAeiHblPrOlQ2+2JuUmv82iI86vJL9g3ammlLPU8bSqtN44FpodMT6CAAZaaWKpqQg==
+X-Gm-Gg: ASbGnct3BeBLvArkMC0eaCchWR/y5J6Gbonmj4wmJpP14nRv+6iRRJx8HbJtm/6WqU8
+ cWQO2VO3IKY5ZSOzoXs8RubFcld2UZh8ETvd1ANl57l23cVBz7J8mixJUmUfFO05T5A6ndj8uVH
+ X2SBHfnrxPs38jVb+vBcDNyVJLulY1JT+BadKrUX8MEmSKlaM2EP+eifVEu7YdfufeF+3sOiyGx
+ RwtqAGUwcZxwYJ+LiWkoLA65UgcMgzlpITp5FVb0V96SjEcaacT/+dPVNt4rnBgoJk=
+X-Received: by 2002:a05:6000:1885:b0:391:4743:6db1 with SMTP id
+ ffacd0b85a97d-399739bf10fmr6651481f8f.20.1742463236891; 
+ Thu, 20 Mar 2025 02:33:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGPpSkFOxbE+tXOvReWNS5OBVcYoKWflVXQ10gRz+qPFJPFGFwqlvluV+HuBcPhSJpAfd+0TQ==
+X-Received: by 2002:a05:6000:1885:b0:391:4743:6db1 with SMTP id
+ ffacd0b85a97d-399739bf10fmr6651449f8f.20.1742463236433; 
+ Thu, 20 Mar 2025 02:33:56 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-301bf575936sm3312292a91.4.2025.03.20.02.26.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Mar 2025 02:27:02 -0700 (PDT)
-Message-ID: <09a4e15b-d951-48c9-9aeb-103b6b293a97@oss.qualcomm.com>
-Date: Thu, 20 Mar 2025 14:56:57 +0530
+ ffacd0b85a97d-395c8975bdfsm22915181f8f.49.2025.03.20.02.33.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Mar 2025 02:33:55 -0700 (PDT)
+Date: Thu, 20 Mar 2025 10:33:55 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: Helen Koike <koike@igalia.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Vignesh Raman <vignesh.raman@collabora.com>, 
+ helen.fornazier@gmail.com, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: DRM CI
+Message-ID: <20250320-benevolent-quokka-of-cubism-c1c0ce@houat>
+References: <20250319-greedy-sturgeon-from-avalon-ac758f@houat>
+ <ab1d875c-7a1e-47a3-b786-85fb46c42bb2@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
-To: Ling Xu <quic_lxu5@quicinc.com>, andersson@kernel.org,
- konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, srinivas.kandagatla@linaro.org,
- amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org
-Cc: quic_kuiw@quicinc.com, quic_ekangupt@quicinc.com,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
- <20250320091446.3647918-3-quic_lxu5@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <20250320091446.3647918-3-quic_lxu5@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=HMPDFptv c=1 sm=1 tr=0 ts=67dbdf68 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
- a=98RdHtkJ8WjIMYe7nFEA:9
- a=0bXxn9q0MV6snEgNplNhOjQmxlI=:19 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: 7EpHeFhzGQDqEOg9r_oCQyOfOcmrGtX4
-X-Proofpoint-ORIG-GUID: 7EpHeFhzGQDqEOg9r_oCQyOfOcmrGtX4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-20_03,2025-03-19_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 mlxscore=0 clxscore=1011 bulkscore=0 impostorscore=0
- mlxlogscore=999 malwarescore=0 adultscore=0 suspectscore=0
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503200056
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="jrcipsmej7nqsnv2"
+Content-Disposition: inline
+In-Reply-To: <ab1d875c-7a1e-47a3-b786-85fb46c42bb2@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,57 +101,85 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--jrcipsmej7nqsnv2
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: DRM CI
+MIME-Version: 1.0
 
-On 3/20/2025 2:44 PM, Ling Xu wrote:
-> The fastrpc driver has support for 5 types of remoteprocs. There are
-> some products which support GPDSP remoteprocs. Add changes to support
-> GPDSP remoteprocs.
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
-> ---
->  drivers/misc/fastrpc.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 7b7a22c91fe4..80aa554b3042 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -28,7 +28,9 @@
->  #define SDSP_DOMAIN_ID (2)
->  #define CDSP_DOMAIN_ID (3)
->  #define CDSP1_DOMAIN_ID (4)
-> -#define FASTRPC_DEV_MAX		5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
-> +#define GDSP0_DOMAIN_ID (5)
-> +#define GDSP1_DOMAIN_ID (6)
-> +#define FASTRPC_DEV_MAX		7 /* adsp, mdsp, slpi, cdsp, cdsp1, gdsp0, gdsp1 */
->  #define FASTRPC_MAX_SESSIONS	14
->  #define FASTRPC_MAX_VMIDS	16
->  #define FASTRPC_ALIGN		128
-> @@ -107,7 +109,9 @@
->  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->  
->  static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
-> -						"sdsp", "cdsp", "cdsp1" };
-> +						"sdsp", "cdsp",
-> +						"cdsp1", "gdsp0",
-> +						"gdsp1" };
->  struct fastrpc_phy_page {
->  	u64 addr;		/* physical address */
->  	u64 size;		/* size of contiguous region */
-> @@ -2338,6 +2342,8 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  		break;
->  	case CDSP_DOMAIN_ID:
->  	case CDSP1_DOMAIN_ID:
-> +	case GDSP0_DOMAIN_ID:
-> +	case GDSP1_DOMAIN_ID:
+Hi,
 
-Reviewed-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+On Wed, Mar 19, 2025 at 02:39:59PM -0300, Helen Koike wrote:
+> Hi Maxime,
+>=20
+> On 19/03/2025 11:11, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > At last Plumbers, we agreed with Dave that a good first step to ramp up
+> > CI for DRM trees would be to enable build and kunit testing in the main
+> > DRM tree.
+> >=20
+> > I played around with it last week and wrote a good first iteration of
+> > the gitlab-ci file.
+> >=20
+> > https://gitlab.freedesktop.org/mripard/gitlab/-/blob/main/.gitlab-ci.ym=
+l?ref_type=3Dheads
+>=20
+> How about improving and using the current DRM-CI instead of creating a
+> new one?
 
-Thanks,
-Ekansh
+Thanks for the suggestion, and I did try. I don't think it's a good
+option though, at first at least.
 
->  		data->unsigned_support = true;
->  		/* Create both device nodes so that we can allow both Signed and Unsigned PD */
->  		err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
+There's several layers to it:
+
+  - The most important one is I don't really see much to share at this
+    point, really. The containers creation is a good example of
+    something useful, reusable, and that I did use. However, drm-ci uses
+    different defconfigs, its own set of hardcoded compilers, etc.
+
+    I guess we could try to improve and consolidate it, but for a script
+    that simple, I don't think it's worth it.
+
+    Similarly, I don't think it makes sense to try to come up with a
+    super generic implementation of kunit, when there's only one user.
+
+    That, of course, can and should be reevaluated as we test more
+    features and the script does indeed become more complicated.
+
+  - We discussed it during the thread with Linus, but I also don't think
+    a one-size-fits-all approach is going to work. drm-ci at the moment
+    has plenty of reasonable policies, but which people are still going
+    to have different opinions on. Like, whether you want to
+    aggressively update IGT or mesa. Or whether or not you are willing
+    to disable KASAN to accomodate db410c and db820c. The choices made
+    in drm-ci so far are reasonable, but choosing something else is just
+    as reasonable. That's why I thought at the time that providing
+    common scripts to include is a better way forward than a gitlab-ci
+    file everybody is supposed to use.
+
+  - To some extent, the complaints Rob had last week about drm-ci
+    expectations not being updated fast enough in drm-misc are related
+    as well. It could also easily be solved by drm/msm having the
+    gitlab-ci script and its expectations in a separate repo, under the
+    msm maintainers control. And then it could go as fast as they want,
+    under their terms, without creating any impedance mismatch with the
+    rest of DRM.
+
+Maxime
+
+--jrcipsmej7nqsnv2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ9vg/QAKCRAnX84Zoj2+
+diZEAX9J0Om/EvqWgcbrBd4fHvaJ3nbdhOXPhvX25pmhAy9CiOm8K7HiMmCq3vok
+eX0blZgBfRLG158y8p81GEauPfgwH2Rf/HPlD5De6duI4xZkFMiu8NODA924PxPF
+63odaN+FlQ==
+=gSjs
+-----END PGP SIGNATURE-----
+
+--jrcipsmej7nqsnv2--
 
