@@ -2,100 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98797A69FBE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 07:19:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB5BA6A09C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 08:41:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C62410E592;
-	Thu, 20 Mar 2025 06:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC2D810E59C;
+	Thu, 20 Mar 2025 07:41:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K5Sf+VMi";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Fajab6of";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E057110E58D;
- Thu, 20 Mar 2025 06:18:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 26C9461134;
- Thu, 20 Mar 2025 06:18:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C62CC4CEDD;
- Thu, 20 Mar 2025 06:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742451528;
- bh=1c1kmAm5YHZdLxKDuxCEkhZ5UwWDwR30i3EUmSHagHk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=K5Sf+VMiYkmW7L9Dqo2TWju9l5rxAyKbT21Iw3oGv4DUX3E+tjLawwADCBI39KqEk
- qZazDy62blKEfxfS6bU/v0YYiY9WDWIk9Lx9DIz9dBNzxCHi6L5fqPjhxSDCicRLFf
- w8mCzDfuqzmM/WYrYTmQdyoH+xDcEmAeZjZm0KMsMW5R6y521QRNsdXOx2rqsggNxo
- 48zU0WJbnZGa0RXqqjscMIQAPzzpaffmcGEYTTVMrEqREyt4R/S25z1yCMb0ZI4ZzK
- C17u9Q+WVMUNb2Rl6nuMvk3Jk5MZ6sF2a+SdYzfjnD63OALkHLNyrJ/ryaDHavgWV9
- qisKohnH2qW+A==
-Message-ID: <9c63ccf8-92ee-42f5-b08c-80622d181838@kernel.org>
-Date: Thu, 20 Mar 2025 07:18:43 +0100
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 939CD10E59C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 07:41:29 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2E3C84436F;
+ Thu, 20 Mar 2025 07:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1742456486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fmPdfR67O2wcc6/RI+Tc9AyY4rjn6JD2dOIfEvFlJnQ=;
+ b=Fajab6ofQy9GQKOL1lDcWQfm/0zyroqQRlF4ltPWxT9DK3Kz2DXP4fiTBAuRaWBovUj2Cq
+ 7Xs65a44MCIogTqhY9yE+Pbjp+uATyM3uGz8ZXBovdasbw4nY74FcibRBPw15cVC5B//HL
+ HoE79L729ZJJC2p0S2zTI6MKh5g6VFJAR5pV3gUeTNOpVL9Bk7zrb72rG67qGTRwhtUEmP
+ doGblm+y8jR0MsywXUhEFuv1zt7JHUkmCFEJPi/JlSYAhD2EBPzsvfS9haVYm4wtkorHyP
+ nZ64j9pnqZIyUM2/BSBuYi5mvWIKq1K7tmjyz/E7reZ1jTkV0dPNeOZ858B90w==
+Date: Thu, 20 Mar 2025 08:41:18 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Marek Vasut <marex@denx.de>, Stefan Agner
+ <stefan@agner.ch>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Anusha Srivatsa <asrivats@redhat.com>, Paul
+ Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
+ =?UTF-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Hui Pu
+ <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v7 00/11] drm/bridge: add devm_drm_bridge_alloc() with
+ bridge refcount
+Message-ID: <20250320084118.347bafc9@booty>
+In-Reply-To: <20250319-stylish-lime-mongoose-0a18ad@houat>
+References: <20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com>
+ <20250314-daft-woodoo-cheetah-e029c5@houat>
+ <20250317155607.68cff522@booty>
+ <20250319-stylish-lime-mongoose-0a18ad@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 18/57] irqdomain: gpu: Switch to
- irq_domain_create_linear()
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: tglx@linutronix.de, maz@kernel.org, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20250319092951.37667-1-jirislaby@kernel.org>
- <20250319092951.37667-19-jirislaby@kernel.org>
- <CADnq5_P93d5TTPA36JB_RSGE8uRwoQQ5to7Wp9STD6xJrrMqdg@mail.gmail.com>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <CADnq5_P93d5TTPA36JB_RSGE8uRwoQQ5to7Wp9STD6xJrrMqdg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeejieegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedtpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrr
+ hhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,43 +84,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19. 03. 25, 14:31, Alex Deucher wrote:
-> On Wed, Mar 19, 2025 at 5:44 AM Jiri Slaby (SUSE) <jirislaby@kernel.org> wrote:
->>
->> irq_domain_add_linear() is going away as being obsolete now. Switch to
->> the preferred irq_domain_create_linear(). That differs in the first
->> parameter: It takes more generic struct fwnode_handle instead of struct
->> device_node. Therefore, of_fwnode_handle() is added around the
->> parameter.
->>
->> Note some of the users can likely use dev->fwnode directly instead of
->> indirect of_fwnode_handle(dev->of_node). But dev->fwnode is not
->> guaranteed to be set for all, so this has to be investigated on case to
->> case basis (by people who can actually test with the HW).
->>
->> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: "Christian König" <christian.koenig@amd.com>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Simona Vetter <simona@ffwll.ch>
->> Cc: Rob Clark <robdclark@gmail.com>
->> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Cc: Sean Paul <sean@poorly.run>
->> Cc: Marijn Suijten <marijn.suijten@somainline.org>
->> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->> Cc: amd-gfx@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 4 ++--
->>   drivers/gpu/drm/msm/msm_mdss.c          | 2 +-
->>   drivers/gpu/ipu-v3/ipu-common.c         | 4 ++--
+Hello Mazime,
+
+On Wed, 19 Mar 2025 17:16:53 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
+
+> On Mon, Mar 17, 2025 at 03:56:07PM +0100, Luca Ceresoli wrote:
+> > Hello Maxime,
+> > 
+> > On Fri, 14 Mar 2025 19:21:01 +0100
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> >   
+> > > Hi,
+> > > 
+> > > On Fri, Mar 14, 2025 at 11:31:13AM +0100, Luca Ceresoli wrote:  
+> > > > This series improves the way DRM bridges are allocated and
+> > > > initialized and makes them reference-counted. The goal of reference
+> > > > counting is to avoid use-after-free by drivers which got a pointer
+> > > > to a bridge and keep it stored and used even after the bridge has
+> > > > been deallocated.
+> > > > 
+> > > > The overall goal is supporting Linux devices with a DRM pipeline
+> > > > whose final components can be hot-plugged and hot-unplugged,
+> > > > including one or more bridges. For more details see the big picture
+> > > > [0].
+> > > > 
+> > > > DRM bridge drivers will have to be adapted to the new API, which is
+> > > > pretty simple for most cases. Refcounting will have to be adopted
+> > > > on the two sides: all functions returning a bridge pointer and all
+> > > > code obtaining such a pointer. This series has just an overview of
+> > > > some of those conversions, because for now the main goal is to
+> > > > agree on the API.
+> > > > 
+> > > > Series layout:
+> > > > 
+> > > >  1. Add the new API and refcounting:
+> > > > 
+> > > >     drm/bridge: add devm_drm_bridge_alloc()
+> > > >     drm/bridge: add support for refcounting
+> > > > 
+> > > >  2. get/put the reference in basic operations in the bridge core:
+> > > > 
+> > > >     drm/bridge: get/put the bridge reference in
+> > > > drm_bridge_add/remove() drm/bridge: get/put the bridge reference in
+> > > > drm_bridge_attach/detach()
+> > > > 
+> > > >  3. as an example of changes for bridge consumers, get a reference
+> > > > for the bridge returned by drm_bridge_chain_get_first_bridge(),
+> > > > have it put by all callers (all users will be covered later on
+> > > > separately):
+> > > > 
+> > > >     drm/bridge: add a cleanup action for scope-based
+> > > > drm_bridge_put() invocation drm/bridge: get the bridge returned by
+> > > > drm_bridge_chain_get_first_bridge() drm/mxsfb: put the bridge
+> > > > returned by drm_bridge_chain_get_first_bridge() drm/atomic-helper:
+> > > > put the bridge returned by drm_bridge_chain_get_first_bridge()
+> > > > drm/probe-helper: put the bridge returned by
+> > > > drm_bridge_chain_get_first_bridge()
+> > > > 
+> > > >  4. convert a few bridge drivers (bridge providers) to the new API:
+> > > > 
+> > > >     drm/bridge: ti-sn65dsi83: use dynamic lifetime management
+> > > >     drm/bridge: samsung-dsim: use dynamic lifetime management
+> > > > 
+> > > > This work was formerly a part of my v6 DRM bridge hotplug
+> > > > series[0], now split as a standalone series with many improvements,
+> > > > hence the "v7" version number.    
+> > > 
+> > > Except for one patch where I had comments, I think the series is in
+> > > excellent shape. We're still missing a couple of things to close this
+> > > topic though:
+> > > 
+> > >   - Converting the other bridge iterators/accessors to take / put the
+> > > references  
+> > 
+> > I sent a couple in this series as you had asked, to show how conversion
+> > looks like. But I have a large part of this conversion partially done
+> > already, and it is the largest part of the refcounting work in terms of
+> > touched files due to the large number of drivers using the iterators
+> > and accessors. Here are the functions to convert:
+> > 
+> >  A) drm_bridge_chain_get_first_bridge
+> >  B) drm_bridge_get_prev_bridge
+> >  C) drm_bridge_get_next_bridge
+> >  D) drm_for_each_bridge_in_chain
+> >  E) drm_bridge_connector_init
+> >  F) of_drm_find_bridge
+> > 
+> > A) is present in this series as an example but I don't think it should
+> > be applied until all bridge drivers are converted to
+> > drm_bridge_alloc(). Otherwise for not-yet-converted bridge drivers we'd
+> > have drm_bridge_get/put() operating on an uninitialized kref, and
+> > __drm_bridge_free() called on non-refcounted bridges, so I think we'd
+> > see fireworks.
+> > 
+> > In the previous iteration I used drm_bridge_is_refcounted() in
+> > drm_bridge_get/put() to allow a progressive migration, but if we want
+> > to convert everything in a single run we need to first convert all
+> > bridges to drm_bridge_alloc() and then convert all accessors.
+> > 
+> > The same reasoning applies to patches 3-4 which add get/put to
+> > drm_bridge_add/remove() and _attach/detach().  
 > 
-> I would suggest splitting this by driver.
+> Agreed.
+> 
+> > B) to E) are ready in my work branch, about 20 patches in total.
+> > Indeed item E) is a special case but it is handled there too.
+> > 
+> > Item F) is the beast, because of the reverse call graph of
+> > of_drm_find_bridge() which includes drm_of_find_panel_or_bridge() and
+> > then *_of_get_bridge(), each having a few dozen callers, and leading
+> > to the panel_bridge topic. I have converted maybe half of the users of
+> > accessors in F), it's 35 patches but it's the easy half and I still need
+> > to tackle to hardest ones.  
+> 
+> One thing to keep in mind is that, while it's not correct, if the bridge
+> has been allocated with devm_drm_bridge_alloc, it's not worse either. If
+> you're not getting a reference to your pointer, the point is buggy,
+> sure, but it's just as buggy as before, and in the same situations.
+> 
+> So we can make that gradually if it's more convenient.
 
-Done for v3.
+I see your point, right. And definitely doing it in gradually will help.
 
-thanks,
+> One way to solve it would be that, for example, of_drm_find_bridge is
+> oddly named according to our convention and it would make more sense to
+> be called drm_of_find_bridge().
+> 
+> So maybe we can just create drm_of_find_bridge() that takes a reference,
+> make of_drm_find_bridge() deprecated in favour of drm_of_find_bridge(),
+> add a TODO, and call it a day. People will gradually switch to the new
+> API over time.
+
+Thanks for the suggestion, I will certainly try this way when I get
+back to the accessor conversion work. While increasing the number of
+deprecated functions is not great, I'm starting to suspect a conversion
+of _all_ the of_drm_find_bridge() users at once is not realistic.
+
+> > >   - Documenting somewhere (possibly in drm_bridge_init?) that it
+> > > really shouldn't be used anymore  
+> > 
+> > I'm afraid there is no drm_bridge_init(), bridge drivers just do
+> > [devm_]kzalloc and set fields explicitly. So I don't think there is a
+> > place to document this.  
+> 
+> Oh, right.
+> 
+> Then, drm_bridge_add() would be a good candidate too to mention that
+> bridges must be allocated using devm_drm_bridge_alloc().
+
+Sure. I'll add such a comment.
+
+> > Overall, I think this could be the path forward, let me know if
+> > youthink it should be done differently:
+> > 
+> >  A. have patches 1 and 2 of this series applied
+> >     (why not, even patches 10-11)  
+> 
+> I had some comments on patch 2, but it's ok for me on principle.
+
+Sorry, my wording was not clear. I really meant "have patches 1 and 2 of
+this series applied after the improvements proposed". So hopefully the
+v8 I'm sending today-ish. I'm going to send only patches 1, 2, 10 and
+11. The other patches are not meant to be merged now, so I'm resending
+them when appropriate.
+
+Luca
+
 -- 
-js
-suse labs
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
