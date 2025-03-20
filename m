@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DDFA6AA1C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 16:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A55A6AA21
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 16:42:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 467BA10E652;
-	Thu, 20 Mar 2025 15:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 233FF10E65B;
+	Thu, 20 Mar 2025 15:42:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="l8hW87W1";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HvEc1FLO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1075E10E653
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 15:42:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B5BD144422;
- Thu, 20 Mar 2025 15:42:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ECD610E657
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 15:42:45 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EEE8444408;
+ Thu, 20 Mar 2025 15:42:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742485361;
+ t=1742485364;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xu+uoSfSOhkoTShUNDlJziaFGObfGRc5heue1JT/SkA=;
- b=l8hW87W1U80LDg6/V28vPyf0zY+gWD7Ef2JWgTmvbX9ueX4P/4BKn3ggyru4OjfnXHUyk1
- nxJIu05MFBofXfTFVi3dedj6ZMrwdqfe5H5H5nx3CQWsrnotsRZvHoMsQhmABKxgrdRc2H
- LcK59kJpDObXEvaiH/b4bchbxy/oa3ECxPkf0reTMaXJaAg83YK7iyGzm723aTGo/Gg311
- LKqi70Km3XZlmLvym5YZ7DuY0c/JWfPapGh5SvUo9J+BbFx5eBxqibs8/OxulD/U/VJyIJ
- YqTuyx9VS/+qjTx8IofKcgf5zWVqVVnMYfVL3t8FQvYFWZ8Wb8CkR0s7xQYPhw==
+ bh=XgB3E9/XVLuIu4T8MuTOjtqbhqCUgDiA94vVvHuz8zk=;
+ b=HvEc1FLOCYSH103JmeD8Ac+x9C0qJ0Yb8aCnQUAeURjilBPqBtie+pEAoS3bBCZ1mMTRzO
+ w+13OS9sCiWwoSsG4oQyPRAWozN+S0y5TTrnLN483RDVVK3dg4ttRLLEGBGH2Qa/11fzP0
+ 8zipHiAyUGjNh3G9uDEHZJqYx6tcS4+Zk0ymioLVp0h2VmI0td4ocYdnre332hfOQznbj4
+ yWaX5AYsC4VtWUiTeSeSQZAYSMN+5KzjBk0lg3nvvUiRRXgYdx0gIRF3NUupoEESpC9jjO
+ gYD7P8qZob3Tf2zlkopohKCm/FfM4FQ5CyDpfb2F/DPOvaKovj04kko/z3htHw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 20 Mar 2025 16:42:13 +0100
-Subject: [PATCH v8 4/5] drm/bridge: ti-sn65dsi83: use dynamic lifetime
+Date: Thu, 20 Mar 2025 16:42:14 +0100
+Subject: [PATCH v8 5/5] drm/bridge: samsung-dsim: use dynamic lifetime
  management
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250320-drm-bridge-refcount-v8-4-b3ddaa9f1368@bootlin.com>
+Message-Id: <20250320-drm-bridge-refcount-v8-5-b3ddaa9f1368@bootlin.com>
 References: <20250320-drm-bridge-refcount-v8-0-b3ddaa9f1368@bootlin.com>
 In-Reply-To: <20250320-drm-bridge-refcount-v8-0-b3ddaa9f1368@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -91,41 +91,37 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
 
 Changes in v8: none
-Changes in v7: none
 
-Changed in v6:
- - Update to use devm_drm_bridge_alloc(), remove .destroy
-
-This patch was added in v5.
+This patch was added in v7.
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 7 +++----
+ drivers/gpu/drm/bridge/samsung-dsim.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 6e0ba427c2582c33f7b95634a18dcda9ac28267f..4efb62376e196d8bb5e9f58867e5c0e1624391db 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -947,9 +947,9 @@ static int sn65dsi83_probe(struct i2c_client *client)
- 	struct sn65dsi83 *ctx;
- 	int ret;
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 55ac6bd5da08c037aa7974df679d51e72bc54faf..0014c497e3fe7d8349a119dbdda30d65d816cccf 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1936,9 +1936,9 @@ int samsung_dsim_probe(struct platform_device *pdev)
+ 	struct samsung_dsim *dsi;
+ 	int ret, i;
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+-	if (!dsi)
 -		return -ENOMEM;
-+	ctx = devm_drm_bridge_alloc(dev, struct sn65dsi83, bridge, &sn65dsi83_funcs);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
++	dsi = devm_drm_bridge_alloc(dev, struct samsung_dsim, bridge, &samsung_dsim_bridge_funcs);
++	if (IS_ERR(dsi))
++		return PTR_ERR(dsi);
  
- 	ctx->dev = dev;
- 	INIT_WORK(&ctx->reset_work, sn65dsi83_reset_work);
-@@ -989,7 +989,6 @@ static int sn65dsi83_probe(struct i2c_client *client)
- 	dev_set_drvdata(dev, ctx);
- 	i2c_set_clientdata(client, ctx);
+ 	init_completion(&dsi->completed);
+ 	spin_lock_init(&dsi->transfer_lock);
+@@ -2008,7 +2008,6 @@ int samsung_dsim_probe(struct platform_device *pdev)
  
--	ctx->bridge.funcs = &sn65dsi83_funcs;
- 	ctx->bridge.of_node = dev->of_node;
- 	ctx->bridge.pre_enable_prev_first = true;
- 	ctx->bridge.type = DRM_MODE_CONNECTOR_LVDS;
+ 	pm_runtime_enable(dev);
+ 
+-	dsi->bridge.funcs = &samsung_dsim_bridge_funcs;
+ 	dsi->bridge.of_node = dev->of_node;
+ 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+ 
 
 -- 
 2.48.1
