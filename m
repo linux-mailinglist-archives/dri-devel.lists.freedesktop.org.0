@@ -2,79 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64858A6A79A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 14:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B74A6A7FF
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Mar 2025 15:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF7E110E3A7;
-	Thu, 20 Mar 2025 13:51:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95FDF10E60D;
+	Thu, 20 Mar 2025 14:10:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fW/lA2jO";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="WqHQWYcj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB19B10E0B6;
- Thu, 20 Mar 2025 13:51:45 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-2ff5f2c5924so173830a91.2; 
- Thu, 20 Mar 2025 06:51:45 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E22010E60F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 14:10:18 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-549b12ad16eso951400e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 07:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742478704; x=1743083504; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1742479815; x=1743084615;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=b7erTFxl9qbF0cki4kWlzFBXfpGMesZ1fGg6yms+cYk=;
- b=fW/lA2jOX/8maO9PcGKDx+9kBSELmKH1Bn0jwJYwsbgmaYXWNCVLYoBEZdIe+VFien
- sfEa3D/9gVpEAVSp3tD32Vu4nQPp4cGNc3QKApQ/bODJVELDcXZx8GrB1xTKe+asCASm
- blrh7wOf8sWONql5PuRBaldJNQ3JaIEaH0VioubTuD9D/kLyMJPQS+m+/oe1fjXrgKC7
- 3DsMFx8pNSWSaK9ebIzjfb6dd18usJobI+dVgggLc62ISP4W7r33fgQBFzoNVlaZMr/o
- hPekz3V0xbLm2Q+PgR29cD/1DjjMkGVQex+Jc6I92nRIFHMRWuodCLNyumPFFxqBIkgK
- jzEQ==
+ bh=s9l2NK29FWKMvXALTznvduzAySe6UJPpHquolLsiQd4=;
+ b=WqHQWYcjlMrGx7bg4UaKabkDbJCdgBEe8VeFoQB37KMegsL/T7kk0Y/sEej8YBB7z5
+ 5q0OEuGKed2t3thqhKaWW1C7yvPwnSBFNKMhyLw6LhOikdsTVK5BqHKMPvBEsgrr9YPP
+ kSgpDWY/ThbuqRmorintJ5Po5OUTrupJVRySA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742478704; x=1743083504;
+ d=1e100.net; s=20230601; t=1742479815; x=1743084615;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=b7erTFxl9qbF0cki4kWlzFBXfpGMesZ1fGg6yms+cYk=;
- b=FCwSmq9ZjrXQFdJJBzWa8dEQBNSYCYhONVAcspN8NpExLCLMBj8sq/H9YFx8lcvTeh
- Wz4kkq+iDdthPexxwvG4ABV5AF0y/styy3XbTUkpLYUDcrZEjbE+K5OF6hwJgdMSw78J
- HLXKHjU0LgF90dXDLZvsZvS5DmwjtOO3vu1Q8qAsSouVaL0rBBgxr863QS4WyXKSQ+eb
- E4O9Dl+L8d8WW6mVCJZpAxkoClOejK/EnyYj8o6OE/cTseciWI+x+3OqYbayRRSDMRFa
- 6Af7bR9Qobw+E09c3vOiNjeZP/bn6scXA3rY+NUUXuudujmkVpMdz/mUAZzxCJxF1nqw
- VdbQ==
+ bh=s9l2NK29FWKMvXALTznvduzAySe6UJPpHquolLsiQd4=;
+ b=YUfLOFQsX/UZsYCpUKeUtQV+xRURxalDgPf5VIGSBIZq3YtV5l1+4V58sqqVSFNa5M
+ 62mPLI2QdcyuI/9A/7o2qh8HsrFXWstAK3PhEUZFqM59Sftc6bOaZL0czJ32s7Kr5nfk
+ SVFmNztLXi4G6LqJi9XxIySl2fYgS2Ho/C2Oib/0j9YNMZ8dC74rnkWG7zn/PX4upgEN
+ VxT0NmjSZ+HQhwnc/Y5BboQWlMHVL63LyZcYNHxDHpmgveeJplaV/zkhvdmU+V0pTNlF
+ rLPHlyAVHZV2MF0yRt2FbX9EaeAAzXhTYU09D5pgcCfTrlV6IE4lx3sKhSCzDCwWXnDm
+ ee7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVY9t9U6NDQVNifyUsRDeiE0tmbfu1pvpAdE5aWZHQcbWPznGlZqXrTEVWFpsNgiRyebdzs4bNzwB3K@lists.freedesktop.org,
- AJvYcCWStkZIRhNLnNmEa+7Bt2n1HavP0eLZmDMfJDsmavcA2QnDyVkIRus103VpoIBWp6iUe+qg6KHn@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzuGSJouLI+VHjqyOzIWui3dM+3QOhCArlZkmzhVORICPpszDgP
- B17xqXc0AcDBp34GO/oYoBSMdESbMuovgLxgj22BeSEZijcrQiSG9pn2mE6F1XQ7pG6r5ke2yoK
- hCN/1kGD8UXT7Ad5mktKYsgb59rDCS1zp
-X-Gm-Gg: ASbGncvuc/8PbN5dZWOhEIhv6yiWIBBL8R+HLTRawCAZ2vkpDWlWuASmlrolS9LoHX9
- lmKMUc7WDuNSLgtk/R0+1XU4OkJSKXDggMpLCPJN2xHNTFiketYyBHlXt7mRvvWPb46EuRtZ6aC
- R6kh2YIQbh/9kASiryZpNe+sF7Yg==
-X-Google-Smtp-Source: AGHT+IGZ29ppi8Q/aHl9D3R4X6WxrguirTGL8EmINroDy/P9gN71N9O3DW5RQlxvvWM4c3ickYedZNAqyE1REFlIFYk=
-X-Received: by 2002:a17:90b:3e84:b0:2ff:7970:d2bd with SMTP id
- 98e67ed59e1d1-301bfc8e80cmr3858419a91.5.1742478704558; Thu, 20 Mar 2025
- 06:51:44 -0700 (PDT)
+ AJvYcCWFrHmv14N8t5jIpM6SarobaZjaAlmqhlULhUOkR3ipqIBN6r5uRsJGsgt1BnSecKFDaqwpL+wQfho=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxRx29DOVPQT8I98OapkneX9iaaZ/MaJ92Nlsh5a4vC9cE8TiaQ
+ I7TseTPAQp7gk6dgNpwhe7pczF8JLMMrnXUqNWjCNRwZY0w5HQLI9KKSV3dM89Dr/2a+Ny9tNiA
+ 8qw==
+X-Gm-Gg: ASbGnctrQxett92mZZCnz03FxbyyO+vl8YSW0vh/Nqbvburgyv2jzm1IjKE5vZPENX3
+ eHxuACJ7724KorqzIcP+YrYNrTkVnW0hCsgSs3E4vbq/7IJkH6V1PnVEYQe5uN+YZ+q2jPYmDh7
+ x/Inxbv/PnhOmkf6dlyb6WWoTAA+uyUYq85Acki5o7YDxG34s4qwcKW5mpehMQA6PbPaRCLRjOX
+ ixkOLIoJdVuzQ6uBqmEcgPDxHT9m9nPb+PIXazCA+pg5OMyhJh+fmDXYWvCbjBkGiu3gGSxQXDQ
+ CU3fOP6rxLJsNVe8dZHkiOlnF4swEUEfzelXD+eVlnbyV5juCg/PYoDmeUgpZZ1eWVU5a1rv+e/
+ VNz4UJSNsywhXR2x2fGQQO9k=
+X-Google-Smtp-Source: AGHT+IGu5fdFGvasBJqUwpv7JY13OA7hGoZaUYcyR0bvlYcGPTj6kRqIK8/BT8ThFNttJx5sDdh7sg==
+X-Received: by 2002:a05:6512:238f:b0:549:b0f3:439b with SMTP id
+ 2adb3069b0e04-54ad062afbbmr1443133e87.16.1742479814510; 
+ Thu, 20 Mar 2025 07:10:14 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com.
+ [209.85.208.169]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-549ba7a830dsm2274488e87.37.2025.03.20.07.10.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Mar 2025 07:10:13 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-307325f2436so8938701fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Mar 2025 07:10:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV8IfJhtR617BwcoWhXsHVO1g8JS1zS7nTFgw/jx42E+T196hzCFfNqXnecOHrZy4LYyEherAVZ52o=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:1312:b0:549:4f0e:8e28 with SMTP id
+ 2adb3069b0e04-54ad062b20dmr1419150e87.15.1742479811664; Thu, 20 Mar 2025
+ 07:10:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250320093517.5247-1-arefev@swemel.ru>
-In-Reply-To: <20250320093517.5247-1-arefev@swemel.ru>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 20 Mar 2025 09:51:32 -0400
-X-Gm-Features: AQ5f1Jqe4I4M1h-_f5WGteQV-BugVutwvAg74TEnxpanzpsPBBbz6fU0OuNFIlY
-Message-ID: <CADnq5_O+TMVD0B28Q6CgzhAi1aDR5ofjogE18HDXrJOJ1XwbDQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm/smu11: Prevent division by zero
-To: Denis Arefev <arefev@swemel.ru>
-Cc: Kenneth Feng <kenneth.feng@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lijo Lazar <lijo.lazar@amd.com>, 
- Ma Jun <Jun.Ma2@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Yang Wang <kevinyang.wang@amd.com>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+References: <20250320-wip-obbardc-qcom-t14s-oled-panel-v1-1-05bc4bdcd82a@linaro.org>
+ <zgzivcjcygbi272q3dmkff767cb45uoffwtx37ij23pi2g5ubi@j5bxjdbgqaqz>
+In-Reply-To: <zgzivcjcygbi272q3dmkff767cb45uoffwtx37ij23pi2g5ubi@j5bxjdbgqaqz>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 20 Mar 2025 07:10:00 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xn2cEKQ+Uj5Okemo4_RJ-1uJ_SQ5X5TycJs5bYdNpcBQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JqCwIwBUwu1Y1sQAJLBekmg4FIUOmSSxOrj8jLfvkFWDtf9gs7NC20D47E
+Message-ID: <CAD=FV=Xn2cEKQ+Uj5Okemo4_RJ-1uJ_SQ5X5TycJs5bYdNpcBQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add panel used by T14s Gen6 Snapdragon
+ (OLED)
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Christopher Obbard <christopher.obbard@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,58 +108,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 20, 2025 at 9:11=E2=80=AFAM Denis Arefev <arefev@swemel.ru> wro=
-te:
->
-> The user can set any speed value.
-> If speed is greater than UINT_MAX/8, division by zero is possible.
->
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->
-> Fixes: 1e866f1fe528 ("drm/amd/pm: Prevent divide by zero")
-> Signed-off-by: Denis Arefev <arefev@swemel.ru>
+Hi,
 
-Thanks.  While you are at it, can you fix up all of the other fan
-speed cases?  I quick grep shows:
-drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c:    tach_period =3D 60 * xclk
-* 10000 / (8 * speed);
-drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_thermal.c:    tach_period
-=3D 60 * crystal_clock_freq * 10000 / (8 * speed);
-drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_thermal.c:
-tach_period =3D 60 * crystal_clock_freq * 10000 / (8 * speed);
-drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c:
-tach_period =3D 60 * crystal_clock_freq * 10000 / (8 * speed);
-drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c:    tach_period =3D 60
-* crystal_clock_freq * 10000 / (8 * speed);
-drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c:    tach_period =3D 60 *
-crystal_clock_freq * 10000 / (8 * speed);
-drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c:    tach_period =3D 60 *
-crystal_clock_freq * 10000 / (8 * speed);
-
-Thanks,
-
-Alex
-
-> ---
->  drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Mar 20, 2025 at 6:47=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
 >
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c b/drivers/gpu=
-/drm/amd/pm/swsmu/smu11/smu_v11_0.c
-> index 189c6a32b6bd..54229b991858 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c
-> @@ -1200,7 +1200,7 @@ int smu_v11_0_set_fan_speed_rpm(struct smu_context =
-*smu,
->         uint32_t crystal_clock_freq =3D 2500;
->         uint32_t tach_period;
+> On Thu, Mar 20, 2025 at 12:47:09PM +0000, Christopher Obbard wrote:
+> > The Lenovo Thinkpad T14s Gen6 Snapdragon OLED model has a Samsung
+> > panel. The kernel currently prints a warning due to not having the
+> > correct timings.
+> >
+> > This panel appears to work with the default conservative timings,
+> > so add the OLED panel to the list of supported panels with default
+> > timings.
 >
-> -       if (speed =3D=3D 0)
-> +       if (!speed || speed > UINT_MAX/8)
->                 return -EINVAL;
->         /*
->          * To prevent from possible overheat, some ASICs may have require=
-ment
-> --
-> 2.43.0
->
+> Are you sure that this panel can be handled by panel-edp.c correctly and
+> it doesn't require a workaround implemented in
+> panel-samsung-atna33xc20.c?
+
+Yeah, I'd agree with Dmitry here. To the last person who wanted to add
+a Samsung OLED panel, I replied [1]
+
+It's much more likely that this should use the
+`panel-samsung-atna33xc20.c` driver, which gets the timings more
+correct for Samsung OLED panels (there's an extra GPIO it needs to
+manage). To use that driver, you'll actually just need to need to add
+a new compatible and use the existing one as a fallback. See recent
+changes to:
+
+Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
+
+[1] https://lore.kernel.org/r/CAD=3DFV=3DX+WnSKZTFhzdXEFfpKCEqfPDc77h7oG=3D=
+ZU6Nqq6XHOmA@mail.gmail.com
