@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B417DA6C3DC
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 21:07:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C3DA6C3D9
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 21:07:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B095B10E09A;
-	Fri, 21 Mar 2025 20:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD1910E1FD;
+	Fri, 21 Mar 2025 20:07:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="DfXAd422";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="HPjNgGMI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 312F010E056
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 20:07:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C735410E09A
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 20:07:09 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id EEFDE101E90A8; Fri, 21 Mar 2025 21:07:04 +0100 (CET)
+ with ESMTPSA id A9E98101E8FE7; Fri, 21 Mar 2025 21:07:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1742587626; h=from:subject:date:message-id:to:cc:mime-version:
+ t=1742587628; h=from:subject:date:message-id:to:cc:mime-version:
  content-transfer-encoding:in-reply-to:references;
- bh=+sSLDnAdQaaRh1ug3/9steXZw1JYzt1ToQ27dvMkXSk=;
- b=DfXAd422TEJJklzGEddbwWU/OeKgZww3A3cYngRWzDYNyrTTbHl7JC5IXsa9Qkq9vmb8Q4
- kP0GxhPzzlaj+gYSu4507wgC/zWzgL5WeKWdSQTNcmQG5yJkhTBuZw2GneDpLImkWcNHz3
- wylB1+zTksd57JqSTE/wgS5MnmSH3cCPwAn/Lg11muqeiIjyvv1Dm7uZMe6QsmFi5t+92G
- D7AvpAlbnKxL+EzT8wDYQdlgwJANhnY5TVaNLeDs9RrsT0GWnWFtjqle9ajLuieDrlJmz+
- x3bsE+yL1Fwl49kFeUBHt+OZ5G2aM0aVZwMrcZRswxvwmwjja51uKhnIt6ubvw==
+ bh=T+aW3YqrWtyb+HJrv0NdBuH13F+b2T4tSgjYxeo3bk0=;
+ b=HPjNgGMIOobFRLkbtZOxz8dZlyaVxNxU64iSONjzGGOv7RG5JKJnnmnov6KAqY69h9uPII
+ M23mjnU2HDHEQRcchu/mGaePSbsLWE31IykDvLPiW4v2UrRdL40KVLDSqPWl2vev9IwruW
+ 5qR0dIDDjk9NYET/N9rMl/YeoVmuKZqc/+RZGvrOpZabzECShlg/fTL2Yp/eVdxG26rB99
+ 3gHUPXDBygq08VWoOmoSnKuDoFpAJT+QFvRGIWgDeymj5WvN3jov+3IgUqZOupfSYxRx6z
+ OsV9AY94J053dyoBoEm9c0gtozsCtTrcOWSyMSlm7Ylr1L1eAWLY/AnaAS7Ojw==
 From: Marek Vasut <marex@denx.de>
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marex@denx.de>,
@@ -43,10 +43,10 @@ Cc: Marek Vasut <marex@denx.de>,
  Steven Price <steven.price@arm.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev
-Subject: [PATCH v2 1/9] dt-bindings: reset: imx95-gpu-blk-ctrl: Document
- Freescale i.MX95 GPU reset
-Date: Fri, 21 Mar 2025 21:05:51 +0100
-Message-ID: <20250321200625.132494-2-marex@denx.de>
+Subject: [PATCH v2 2/9] reset: simple: Add support for Freescale i.MX95 GPU
+ reset
+Date: Fri, 21 Mar 2025 21:05:52 +0100
+Message-ID: <20250321200625.132494-3-marex@denx.de>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250321200625.132494-1-marex@denx.de>
 References: <20250321200625.132494-1-marex@denx.de>
@@ -70,7 +70,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The instance of the GPU populated in Freescale i.MX95 does require
 release from reset by writing into a single GPUMIX block controller
-GPURESET register bit 0. Document support for this reset register.
+GPURESET register bit 0. Implement support for this reset register.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -96,72 +96,63 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: imx@lists.linux.dev
 Cc: linux-arm-kernel@lists.infradead.org
 ---
-V2: - Fix dt_binding_check errors in example, temporarily use fixed
-      numbers to refer to IMX95_CLK_GPUAPB clock and IMX95_PD_GPU
-      power-domain
-    - Drop trailing pipe after description:
-    - Drop leading dash before const in compatible:
+V2: - Set nr_resets=1 to limit the amount of resets to single bit
     - Switch from fsl, to nxp, vendor prefix
+    - Add RESET_IMX95_GPU Kconfig symbol to select this reset driver
+      on MX9
 ---
- .../reset/nxp,imx95-gpu-blk-ctrl.yaml         | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/reset/nxp,imx95-gpu-blk-ctrl.yaml
+ drivers/reset/Kconfig        | 8 ++++++++
+ drivers/reset/reset-simple.c | 9 +++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/reset/nxp,imx95-gpu-blk-ctrl.yaml b/Documentation/devicetree/bindings/reset/nxp,imx95-gpu-blk-ctrl.yaml
-new file mode 100644
-index 0000000000000..ca841db20d35b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/reset/nxp,imx95-gpu-blk-ctrl.yaml
-@@ -0,0 +1,49 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/reset/nxp,imx95-gpu-blk-ctrl.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
+index 99f6f9784e686..0b48e76fd0aab 100644
+--- a/drivers/reset/Kconfig
++++ b/drivers/reset/Kconfig
+@@ -249,12 +249,20 @@ config RESET_SIMPLE
+ 	   - Altera SoCFPGAs
+ 	   - ASPEED BMC SoCs
+ 	   - Bitmain BM1880 SoC
++	   - NXP i.MX95 GPU
+ 	   - Realtek SoCs
+ 	   - RCC reset controller in STM32 MCUs
+ 	   - Allwinner SoCs
+ 	   - SiFive FU740 SoCs
+ 	   - Sophgo SoCs
+ 
++config RESET_IMX95_GPU
++	bool "NXP i.MX95 GPU Reset Driver" if COMPILE_TEST && !SOC_IMX9
++	default SOC_IMX9
++	select RESET_SIMPLE
++	help
++	  This enables the reset driver for i.MX95 GPU.
 +
-+title: Freescale i.MX95 GPU Block Controller
+ config RESET_SOCFPGA
+ 	bool "SoCFPGA Reset Driver" if COMPILE_TEST && (!ARM || !ARCH_INTEL_SOCFPGA)
+ 	default ARM && ARCH_INTEL_SOCFPGA
+diff --git a/drivers/reset/reset-simple.c b/drivers/reset/reset-simple.c
+index 2760678398308..64aeda8f76b75 100644
+--- a/drivers/reset/reset-simple.c
++++ b/drivers/reset/reset-simple.c
+@@ -133,9 +133,18 @@ static const struct reset_simple_devdata reset_simple_active_low = {
+ 	.status_active_low = true,
+ };
+ 
++static const struct reset_simple_devdata reset_simple_fsl_imx95_gpu_blk_ctrl = {
++	.reg_offset = 0x8,
++	.active_low = true,
++	.nr_resets = 1,
++	.status_active_low = true,
++};
 +
-+maintainers:
-+  - Marek Vasut <marex@denx.de>
-+
-+description:
-+  This reset controller is a block of ad-hoc debug registers, one of
-+  which is a single-bit GPU reset.
-+
-+properties:
-+  compatible:
-+    const: nxp,imx95-gpu-blk-ctrl
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  '#reset-cells':
-+    const: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - power-domains
-+  - '#reset-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    reset-controller@4d810000 {
-+        compatible = "nxp,imx95-gpu-blk-ctrl";
-+        reg = <0x4d810000 0xc>;
-+        clocks = <&clk 83>;
-+        power-domains = <&scmi_devpd 14>;
-+        #reset-cells = <1>;
-+    };
+ static const struct of_device_id reset_simple_dt_ids[] = {
+ 	{ .compatible = "altr,stratix10-rst-mgr",
+ 		.data = &reset_simple_socfpga },
++	{ .compatible = "nxp,imx95-gpu-blk-ctrl",
++		.data = &reset_simple_fsl_imx95_gpu_blk_ctrl },
+ 	{ .compatible = "st,stm32-rcc", },
+ 	{ .compatible = "allwinner,sun6i-a31-clock-reset",
+ 		.data = &reset_simple_active_low },
 -- 
 2.47.2
 
