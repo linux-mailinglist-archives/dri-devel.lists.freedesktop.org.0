@@ -2,93 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2500EA6BF10
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 17:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9393BA6BF0E
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 17:06:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 630FD10E7EA;
-	Fri, 21 Mar 2025 16:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E55410E153;
+	Fri, 21 Mar 2025 16:06:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NvGalA/i";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="YsJMU4ag";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9BC610E7E8
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 16:06:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742573184; x=1774109184;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=WgBVYTr0URRl3zJspKTAryBSC/YiYErKzgv7WS4Rg/s=;
- b=NvGalA/ikOrL5oPJYs+QnTxjGygBeYWWOIvfFHc3OkbJX2AwHpopTwqS
- OrJ7JGqvsLvcwKeP1prZM7mVJTOfER54Pu75l/Fxr9j8e/jK3wFjwN7qC
- SK/5ji+VMYsX0/5AhSQhmE9n8DiGMEF7b+LjyblXx5blGM0B6v0DiKpB9
- 7qQZ9t3oQhCYinN742ZwcgN+X4JUGCey/94l/s0aWmz+DeK3rMLdvIdAr
- VOz0V9xhnp8gPVoJI15e8EZBeavaDkLOepeFPGKjHBbFPdNQ3UOf5upEx
- k4Kt0Ju3dJwZMJUlGC8aC6kaTxjBeWUEXBcxhuhtx35JSY0kXfzmt0vxz A==;
-X-CSE-ConnectionGUID: gad2AK8aQ96DiPk4u1lL8w==
-X-CSE-MsgGUID: AwuPW7zZQlKfR+r7Pr785g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="43726598"
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; d="scan'208";a="43726598"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2025 09:06:23 -0700
-X-CSE-ConnectionGUID: g7UgcbV4QTih6n+cWYD8tQ==
-X-CSE-MsgGUID: 1EcrVXRMQNGo+fC3Vk/4zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; d="scan'208";a="123417648"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.112])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2025 09:06:06 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 21 Mar 2025 18:06:02 +0200 (EET)
-To: Easwar Hariharan <eahariha@linux.microsoft.com>, 
- Andrew Morton <akpm@linux-foundation.org>
-cc: Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
- Julia Lawall <Julia.Lawall@inria.fr>, 
- Nicolas Palix <nicolas.palix@imag.fr>, 
- James Smart <james.smart@broadcom.com>, 
- Dick Kennedy <dick.kennedy@broadcom.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
- David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
- Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>, 
- Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
- "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>, 
- Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
- Selvin Xavier <selvin.xavier@broadcom.com>, 
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>, 
- linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
- ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-spi@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v3 15/16] platform/x86: thinkpad_acpi: convert timeouts
- to secs_to_jiffies()
-In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-15-a43967e36c88@linux.microsoft.com>
-Message-ID: <9e761e10-eb4d-0a34-79b5-ef4507f002c5@linux.intel.com>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
- <20250225-converge-secs-to-jiffies-part-two-v3-15-a43967e36c88@linux.microsoft.com>
+Received: from TYVP286CU001.outbound.protection.outlook.com
+ (mail-japaneastazon11011031.outbound.protection.outlook.com [52.101.125.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 300C410E153
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 16:06:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kcUsLonTol5FqApPa/pSBQjRwe0PEM+B059BB/AZzG2avcAtwp1kI2dDlzkkdR/00DbjBWJPrMzsPGSFlkQeL/fOllpzFl8jPJ7zI3FGpdyXg+yQehPOHf5P78HlSq3DElF3+yL7ZNXd8FfDjXVDm8g7saXawd+zY6e3HXwFK0Z+VdH12BS53354ZgaQ0YySwcy4Gajm4OVveqOJxsz2yFlcGJYMdwir0eNNu++j4NngKnF664uodBYXz400IdbGOIRzNyaf+q2TGoOCaZfjgLGdNSvkWKLGyaEMBo1NTLkSfQCn58aAGBpA4dW5h5a95UUQO1y3qYbgT2Sd2ygxww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E87dMDPTJM1xEsSiizBEgHczuH+q4CP/Botm79NgREI=;
+ b=suZA8AN/VQpUf3Zw+s+gsjKTu3qis+3A1c7WZr+CaY8oaPyo5raNxBNWPmHam7csLP+hMbylabTTAIfixLclDrv/X05Gvd3MZkwAermIQ9NE/h9bBDV2AC0ZOAxNt1s6GR6WYrycDOwsjXSj7RWlghnrgfEaZpdWrAEpsh4yO0zmdrI7uWF87v/s5XG5EROCblzFPH1Wadma+gBqxke/h8p+A8tgHksrYFlifh7yfaBXD26nQAH8sRzNgw+Zue3MdIDauyfMRimCTSynzWCyktLrSZBvnHqt4I+z37BM/ksS2MOWXKd+AR9q15igitvlpmO2ucaAPdE2rEyhL7CAIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E87dMDPTJM1xEsSiizBEgHczuH+q4CP/Botm79NgREI=;
+ b=YsJMU4agbDExAwUpZe4Qr/b5T+e6B39oqaVmo4pzhfhY4WTFs+mHUaIK7qG8wU+dfZ4wqM/p5GR9iXj8YY0mhJ1iqbKLM+Xj5zSd9gGkT2sY+4RXTjQmgKhaAUgY1w64VGyvjgCEykphjcr6c8KOVQAfHKnZBE4R1ujS93t5PwY=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYCPR01MB8626.jpnprd01.prod.outlook.com (2603:1096:400:15c::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.37; Fri, 21 Mar
+ 2025 16:06:13 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8534.036; Fri, 21 Mar 2025
+ 16:06:13 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ kieran.bingham <kieran.bingham@ideasonboard.com>
+Subject: RE: [PATCH] drm: renesas: rz-du: Support dmabuf import
+Thread-Topic: [PATCH] drm: renesas: rz-du: Support dmabuf import
+Thread-Index: AQHbmk6KbQ6Mnf1g1kyOw6Nq2xd8m7N9wRyQ
+Date: Fri, 21 Mar 2025 16:06:13 +0000
+Message-ID: <TY3PR01MB11346ADFF19D773D4EA9274DC86DB2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250321104615.31809-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20250321104615.31809-1-laurent.pinchart+renesas@ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB8626:EE_
+x-ms-office365-filtering-correlation-id: 25f3c43e-1dad-45d4-0736-08dd68924da1
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?vqn4rcM4ERdA0D+qg2nPW/NcmmykKbxIlKcviU41jbBbU0qEDGdcoIrUIE1A?=
+ =?us-ascii?Q?B+T+/o3xJKndmqXXjXqXXCxFu66FO7jGLLOuTN5eAwB/FhU61ThtsiqHzbL6?=
+ =?us-ascii?Q?R/eLrEJoh4BXJsF8EM+JFcJ1B6TaCl6CUt/v6bBoipes5sq4U/TzGcMg0yzc?=
+ =?us-ascii?Q?iiW41w8LOida5DKa/s9/fAiwQiO6zx3YLIc0yZFlR5nY9yubLWc0JnVVYjk/?=
+ =?us-ascii?Q?74D6HqGFlNgJ/p5ZseNXrX+jont4+iVcmmQFrD0FPYoM4c+xpWbpIanN0+TL?=
+ =?us-ascii?Q?JP0hKXKwyAjsz5HwSG1J8pTQ3lmkZ1d5s7oEcFJRdnWxxiMn1tYFUZymtmjk?=
+ =?us-ascii?Q?63YQpzAF/GmDQbotj/FL2afZ9Yo/O21V3bpuGi73ZuZpEgrC6D7mmcN9lMVG?=
+ =?us-ascii?Q?fksXBNVuJvffuL5vmIwOoaHehaouF4wtMh8E37zThlSqcytZf4iNRbajxz3M?=
+ =?us-ascii?Q?6kQDko0UlcHibqNOP0+tAtgvL2Mx5xWxx3SmDEj4iwlcaWgUI3hCLE9AWmYX?=
+ =?us-ascii?Q?PHhMqdDJ/WpkKmIbBNk4k/xLFC1yJmuUsLsH6HLpCDwq8vTVIkOGdMvdqPnc?=
+ =?us-ascii?Q?a2mYhPMSN17vvhLM/rPBTMUZFHUjBsbaiIBHHkvhSwLo8zQJ9aRcq02Lzy4i?=
+ =?us-ascii?Q?9bGCD1Wwc6ZseY8hCtFTJVf9zIibqJs+hsb78UAk52NORRsoeUPgnWHEVZW+?=
+ =?us-ascii?Q?wJNKlOviSSWCU985eLr7j/NQhhebrEdO9Dpi7+BMk8Ho2hHTQNRDtri7jxON?=
+ =?us-ascii?Q?gsf1Qj7mbFtFe/cg4PMhEgKM/EZu2OkIopbvyWv0kTrCSRRSKNoZySJ0J9i5?=
+ =?us-ascii?Q?McH3W0Z20JFtpjckd3SaasXuTmt0GYY+g6uERFC74/462l/rXPjNX3EYQK5T?=
+ =?us-ascii?Q?uHHPQZhbsNR1CgYtn4kMtRKejaxtT8fBLU/JYhxd9wiugHezr1CPIiwr8dSs?=
+ =?us-ascii?Q?CNRm1nGiLny2Hpje4FbeIIlnwHXM3XmdpvI0Mdi9XEB9izi79bk4UzcSmgMJ?=
+ =?us-ascii?Q?P9Z6I7BUDLPdxQ/zKaBMEmMgd890IQuqiHb0R+YJbruQHgeROIP+3+/I6w+N?=
+ =?us-ascii?Q?NseVPXEQxF7ZA7VuQT09c5iqHwM5StIndiG+IH9yZct1C7y8PNx3lK6r+XYY?=
+ =?us-ascii?Q?J8uj2GAO6outLQ0P9HzDWNl2imeIXa+Sbir6kmJgAcljiUjHftB1o3fx9tdy?=
+ =?us-ascii?Q?orT/YWisryoPcMbJXpxHSVzeUYGmBLzhtSx+GUqMtvyADSy5WPdQyHxiwFwt?=
+ =?us-ascii?Q?PedqTkKC2hM2fdTJYjfaOz2KxEkAFb9G9iFgmsBJb8Ggzn2IA4W3UpfusFWi?=
+ =?us-ascii?Q?qR/kmyeYgtEFAWGgVOXHH6t1neTbLRzyV6xAwQ+Dtll/F7jtqO37XlPUmNLt?=
+ =?us-ascii?Q?vpk+oarDRlyXGlW5aQfDh1AniwakFmWlltDLLlv16cF6/uqUgErPgVwfOlpH?=
+ =?us-ascii?Q?qh6SreaPGukKr3+s+2+W88aWoobnMeqX?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rC7N1iuKo68zWuiD8+VCtqq9YciJz/oewX0MQTkcBRa2ArJtW+I5ge9Jv/Ht?=
+ =?us-ascii?Q?ZvjWZMFkR9xrMNmmp8c/CnidkT/RAoaz1Xz7IblMFvq5A5tmuxLyQJEADhQF?=
+ =?us-ascii?Q?F20UkN9YW7kBeRW7Af/4wrcMiWrZqVM+XuU/n/7Moxd8LynilMGa/mK98jWd?=
+ =?us-ascii?Q?jTp7LoKETZmc8uHCtl429WkEXLZq2csyKDfHuy1xDUzv4A7sAVr56fw4WuGz?=
+ =?us-ascii?Q?jOMY5jfvdg+JoXGcszjzffrckf8tkuwb5BieJfRXffYD2NLa4a53aanC3jXZ?=
+ =?us-ascii?Q?x3wLb+TqJdDVxFZ2f9TgviKm/pSCMlKDb7qY/UKhKMN0HE16M2YOckjLanp/?=
+ =?us-ascii?Q?1EYq3tuGlhCiFsObtrzxH+FPDrLQTmgfZx7we6bypgRjgKm9cd3aZNoaRyiR?=
+ =?us-ascii?Q?y0AdtpPyYLsSCOkGahuE4kendLdcSetDbTqNAIa19akBLqV1POCEmiK7KG9i?=
+ =?us-ascii?Q?SJxTdJniIHdY+9kE1gVz3SjebGmdDAjK3E2f3P6SesHU7sEXBuQOVcbsc/D6?=
+ =?us-ascii?Q?S4P1IMeXUWBiZo4tk0OePAiUlxlDYNOlGZimqaXVY85QGzwP95YYt4WOwxvC?=
+ =?us-ascii?Q?l84itkOPDdwtRLSixXdB51irY1llodMJavp+zm0twQvBj8FW/SymbeJO2jBx?=
+ =?us-ascii?Q?O55Oww7Eb7fbou5e4NDNTIPpYv30ll/Y1fra4VjX4mSfQrAqScBSOkGrpQ8l?=
+ =?us-ascii?Q?EsX0nxxn0od/tSm4/x8mu1weHMYPQDnxyoNhdiZE3+86qzXvm6b6BBco4zYb?=
+ =?us-ascii?Q?98qiLL9HOZNvVSK+PmmeAGTKItBkQQgXnGzMj/W/m6GVldPHTAuGlhlwL2p3?=
+ =?us-ascii?Q?7cCn0+f9huhBOVAbuBxlvOh2Su4AIfX9dCZghOvPbTENhatQa9Zc4FwE0ccX?=
+ =?us-ascii?Q?0wUQeqYfNntnYY5AskPF7BbVshWKWIIYNrSJzdfUO1BrCRuqLXpcOYCKfXl9?=
+ =?us-ascii?Q?Nimaf5YVy0OrLW9RPgFTF7WHew8/kOKaBBu9t6GtTrNf8Ao+L8AZqzs3PIlX?=
+ =?us-ascii?Q?mUTpchOecllsna045LUI5FbP3GRdgVhj8wXg6MpdWCems787w1faizAVN9c1?=
+ =?us-ascii?Q?f3I5yXCAQIClTEgo/wz5njy+P1dMPjFwPeYc0RT275anv19a1t2dgUTrJATj?=
+ =?us-ascii?Q?cI3zM30oFzdnWjzvHltElXSY91Ql7fomu5eFbUfgaT0dRHmZnQAECq9kqcJa?=
+ =?us-ascii?Q?dCLkrebCPbuGdg2JAHVMSxiWoaADR4u63r2FynwN4QDIxwlhoULy0k3PqtoS?=
+ =?us-ascii?Q?OSFR77dOJrfBIeLrjUV6gvxmxZNef0BNci4CQl10o/Pnawl4FIwPvCrwcvgq?=
+ =?us-ascii?Q?e3M5cdadh5QLrZZ8jI+SdSOE/k7YOCTaphjK1NsxSfgYax2cKAFOk6GV/v7p?=
+ =?us-ascii?Q?NMnEtMgqz9ov6zWfdO9lL1tq4vWrshouDM0KsoDUVZNOajCN2O7hrU5cESY7?=
+ =?us-ascii?Q?cnihfMh0J/c4ixwMpjILfr7ih+D8XghVr/EGL/0LcWbHE41irU5PPa/Yk4EW?=
+ =?us-ascii?Q?T6C/D/Ya4aO7qTH313XqVbr/VTMxxBKEvP+v2MUNKZYgLhf3n3Tg1GQy9s5g?=
+ =?us-ascii?Q?0Cxb+iN93I7vkZfzQbG0WzWBSCeNj2O4peA8YwiOr5vuKAhqWELgvb9bqtei?=
+ =?us-ascii?Q?Kg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25f3c43e-1dad-45d4-0736-08dd68924da1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2025 16:06:13.2890 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mE+d049+V6T0v/yczFv0oGJgVU3pI8v/M8XZiovLPDSH+b3MQ/VPACMLg35QHQoO2fISDvLEqdN/eb+WbM+jzlUn6Ac3cFfaFYXLbeok3ck=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8626
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,47 +150,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Feb 2025, Easwar Hariharan wrote:
+Hi Laurent,
 
-> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
-> secs_to_jiffies().  As the value here is a multiple of 1000, use
-> secs_to_jiffies() instead of msecs_to_jiffies() to avoid the multiplication
-> 
-> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
-> the following Coccinelle rules:
-> 
-> @depends on patch@
-> expression E;
-> @@
-> 
-> -msecs_to_jiffies
-> +secs_to_jiffies
-> (E
-> - * \( 1000 \| MSEC_PER_SEC \)
-> )
-> 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 
-Applied to the review-ilpo-next branch.
+> -----Original Message-----
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Sent: 21 March 2025 10:46
+> Subject: [PATCH] drm: renesas: rz-du: Support dmabuf import
+>=20
+> The rz-du driver uses GEM DMA helpers, but does not implement the
+> drm_driver .gem_prime_import_sg_table operation. This  prevents importing=
+ dmabufs. Fix it by
+> implementing the missing operation using the DRM_GEM_DMA_DRIVER_OPS_WITH_=
+DUMB_CREATE() helper macro.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Cheers,
+Biju
+
+
 
 > ---
->  drivers/platform/x86/thinkpad_acpi.c | 2 +-
+> Kieran, would you be able to test this ?
+> ---
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> index ab1cade5ef231e9a9a520bc0cca82384c911a331..d269e791f7fbc2a8ccf96f28cb476beccb57c9a7 100644
-> --- a/drivers/platform/x86/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/thinkpad_acpi.c
-> @@ -8512,7 +8512,7 @@ static void fan_watchdog_reset(void)
->  	if (fan_watchdog_maxinterval > 0 &&
->  	    tpacpi_lifecycle != TPACPI_LIFE_EXITING)
->  		mod_delayed_work(tpacpi_wq, &fan_watchdog_task,
-> -			msecs_to_jiffies(fan_watchdog_maxinterval * 1000));
-> +			secs_to_jiffies(fan_watchdog_maxinterval));
->  	else
->  		cancel_delayed_work(&fan_watchdog_task);
->  }
-
--- 
- i.
+>=20
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/d=
+rm/renesas/rz-
+> du/rzg2l_du_drv.c
+> index cbd9b9841267..5e40f0c1e7b0 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> @@ -79,7 +79,7 @@ DEFINE_DRM_GEM_DMA_FOPS(rzg2l_du_fops);
+>=20
+>  static const struct drm_driver rzg2l_du_driver =3D {
+>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> -	.dumb_create		=3D rzg2l_du_dumb_create,
+> +	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(rzg2l_du_dumb_create),
+>  	DRM_FBDEV_DMA_DRIVER_OPS,
+>  	.fops			=3D &rzg2l_du_fops,
+>  	.name			=3D "rzg2l-du",
+>=20
+> base-commit: 9e75b6ef407fee5d4ed8021cd7ddd9d6a8f7b0e8
+> --
+> Regards,
+>=20
+> Laurent Pinchart
 
