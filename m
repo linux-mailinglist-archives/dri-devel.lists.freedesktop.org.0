@@ -2,38 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199A7A6B903
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 11:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14047A6B915
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 11:52:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A23910E036;
-	Fri, 21 Mar 2025 10:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A05710E787;
+	Fri, 21 Mar 2025 10:52:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MjoP/Xji";
+	dkim=pass (1024-bit key; unprotected) header.d=swemel.ru header.i=@swemel.ru header.b="rSjeqTRt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B93FB10E036
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 10:46:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (unknown [157.231.223.213])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DAB37F6;
- Fri, 21 Mar 2025 11:44:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1742553895;
- bh=zgkx+mvkOnrCh2pBOwwEUvScJTGSdLxt/O+zjzEmDi0=;
- h=From:To:Cc:Subject:Date:From;
- b=MjoP/XjihxRO1BSEk4Me9n1B1T6TiQ+e76KkqhTsiOQCNUs6TvQFgbH7Tiqi/OmmO
- IkJAw0UUCISQ0SpmURwV4q1BRApix4mERyddqmJUehpVDAU7d2w7wJdOPfMRyLbaGl
- NDMABlx1PKKVKuoe4ayacehrX213yuJS1xpnekZI=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH] drm: renesas: rz-du: Support dmabuf import
-Date: Fri, 21 Mar 2025 12:46:15 +0200
-Message-ID: <20250321104615.31809-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.48.1
+Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBC010E787;
+ Fri, 21 Mar 2025 10:52:41 +0000 (UTC)
+From: Denis Arefev <arefev@swemel.ru>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
+ t=1742554359;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MYBXdsWrAF4XCKt8xl9DU8RcwjIds3O8UdltDFshuKk=;
+ b=rSjeqTRt0mTYpqOTR0+1Vu5QEr94xolka6rqV4VbnE5GmqKCydNSZgOZS+tlC1ZC3qtjZR
+ FmeonyU2Fx/nw/BBvRPXc4c/wxvU2PnYW00x7Qjf58khxdbvqp3Qjxg9u50FIP1tqpuf7D
+ 7flH1Ehi9gu375DpWFNwHMpzHekQu9M=
+To: Kenneth Feng <kenneth.feng@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lijo Lazar <lijo.lazar@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Yang Wang <kevinyang.wang@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org
+Subject: [PATCH 0/5] drm/amd/pm: Prevent division by zero
+Date: Fri, 21 Mar 2025 13:52:30 +0300
+Message-ID: <20250321105239.10096-1-arefev@swemel.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,35 +55,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The rz-du driver uses GEM DMA helpers, but does not implement the
-drm_driver .gem_prime_import_sg_table operation. This  prevents
-importing dmabufs. Fix it by implementing the missing operation using
-the DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE() helper macro.
+This series of patches prevents possible division by zero.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-Kieran, would you be able to test this ?
----
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The user can set any speed value.
+If speed is greater than UINT_MAX/8, division by zero is possible.
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-index cbd9b9841267..5e40f0c1e7b0 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-@@ -79,7 +79,7 @@ DEFINE_DRM_GEM_DMA_FOPS(rzg2l_du_fops);
- 
- static const struct drm_driver rzg2l_du_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	.dumb_create		= rzg2l_du_dumb_create,
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(rzg2l_du_dumb_create),
- 	DRM_FBDEV_DMA_DRIVER_OPS,
- 	.fops			= &rzg2l_du_fops,
- 	.name			= "rzg2l-du",
+Found by Linux Verification Center (linuxtesting.org) with SVACE. 
 
-base-commit: 9e75b6ef407fee5d4ed8021cd7ddd9d6a8f7b0e8
+Denis Arefev (5):
+  drm/amd/pm: Prevent division by zero
+  drm/amd/pm: Prevent division by zero
+  drm/amd/pm: Prevent division by zero
+  drm/amd/pm: Prevent division by zero
+  drm/amd/pm: Prevent division by zero
+
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_thermal.c   | 6 +++---
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c | 4 ++--
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_thermal.c | 2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c       | 3 +++
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c          | 2 +-
+ 5 files changed, 10 insertions(+), 7 deletions(-)
+
+I did not change these files, because the functions you are 
+interested in are not used there for a long time.
+drivers/gpu/drm/radeon/si_dpm.c
+drivers/gpu/drm/radeon/ci_dpm.c
+
 -- 
-Regards,
-
-Laurent Pinchart
+2.43.0
 
