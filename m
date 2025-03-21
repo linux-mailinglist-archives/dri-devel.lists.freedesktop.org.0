@@ -2,60 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CD6A6BCC7
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 15:18:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0596A6BCD8
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 15:22:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5079F10E00D;
-	Fri, 21 Mar 2025 14:18:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7DC10E13D;
+	Fri, 21 Mar 2025 14:22:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h28JaQj+";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="GeeKdI3J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67A0610E00D
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 14:18:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id F28D4A468B3;
- Fri, 21 Mar 2025 14:12:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77ACFC4CEEC;
- Fri, 21 Mar 2025 14:17:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742566680;
- bh=0amfkrO3B1zq5t8fnOfrUB4M+QOIpfFLARmwtZZfJw4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h28JaQj+Cuj1LkqH51sg7oXGnIp4dVVxPZLz+0RAoJ/cvMEaPF8oIsuaNLxg6oydV
- r1yJNsBhghnpG5hehz+YWKOib6wlXmRNYJP7ecTb3km28qnRD6pBOoGxDewxc4Udqp
- M3VCQqx7xzCwXw05YFYf0I++tTrBW3LCeKuiIctyDlwgH9flhmRhKbywagZErNUwkl
- z+mg2s7FssEr24uOfvVkTLbAuEnEKhf3y/Qzh1gNfpYQYjqJpFejFsahS/CASq8/IB
- ZlJyi2L7eqISoLmTCRdL3u9zf1QNz6RraU3518vXPG/QTtwiQLFWd2PA6UUZZMcqLT
- qZ8Zkfy0Bycew==
-Date: Fri, 21 Mar 2025 15:17:57 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>, 
- Aradhya Bhatia <aradhya.bhatia@linux.dev>, Devarsh Thakkar <devarsht@ti.com>
-Subject: Re: [PATCH 03/18] drm/tidss: Add mode_fixup to adjust the clock
- based on HW
-Message-ID: <20250321-adaptable-astonishing-adder-ceeb6f@houat>
-References: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
- <20250320-cdns-dsi-impro-v1-3-725277c5f43b@ideasonboard.com>
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
+ [209.85.161.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2F5B10E13D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 14:22:00 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id
+ 006d021491bc7-601c12ac8d0so981675eaf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 07:22:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1742566920; x=1743171720; darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mcVxA1VHtyBYF8KJXePYHpM4uFmJ330ExNm6gOhpsyQ=;
+ b=GeeKdI3Ja7b5wP3JazXvVtKUG6ozRZsNehQYstTxtXstVHRPxr6cuxkmYncVnwX6hq
+ bfNd4LWd8BB1n1vcBmxYPlKr3rtKGW5NXt8jrxuLo3u22APRsQ6d2X5UPG8ta+Xskcsf
+ 4Oju9A+q4tb9lq/fIVdQW0fUOIixhpjs8cCRY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742566920; x=1743171720;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mcVxA1VHtyBYF8KJXePYHpM4uFmJ330ExNm6gOhpsyQ=;
+ b=AMSm5wYR/RRhR34BG1c8g2E1IIfGKS0Ki9KIZeUhecR+iUGpAFRvWjYcf3EGk7z7N6
+ gaKZaA4lVgMQA5MMnpg8b8SJzyFUoXWHqwnNZhHdvoYPGDaD1GRCr7IIkvch3ozy86o+
+ wsSjsTUiacCJYwyj6L8F+NxUFt0O6knFuvCoZrxICjpVk6tikFt8fNeKU3tCtei4fJL7
+ hb5pXgRwLz+MGdrRTo6ciIyYpVP6g4bif6ULlDXschG5vR0ip1NEOEsyRXBXhKJ1OQL5
+ dnn/6Z9F4FAJo2p0a4zxrl8S9q0snA9S3sYYGzykXojMDFKbznnHHg7C6pabS5LdeMk+
+ LvPQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVAOYJw8o8swfRG46cYwXLCc9vI6lAGJfnowh1uHT67cEvRvLyFGzrz4Qs/ouZ0JN/EkjuDPmqmb/w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz4mVoad/EjiCGVGdts424pl6O/VYbfxkeRVXM1OS9dXhxYvXmq
+ sRvphiSzLyM0qyETdlKYoFZ+xyDPzJHDfcjudokX9XO26zzQl2rtMAmddU/fq+wQvpnvHqChmOO
+ ymU9/+txHfNtxD9Dk54HXMSoKH++F/R4c4eorbA==
+X-Gm-Gg: ASbGnctFErce9yvM6n76mJeJ0ndSVUCU3j+3qexDdt5zIvK8liNRTe91kGY6jueCV17
+ h1Tt5iIKC+eSV2ij7wfkYziedU/j+ssxMjC8Keb1925idXxzcE4A0Z4WdjexcgDktEiGygQfIgG
+ JnMjWCnOygSivyRW4+CzQAC4rCOSKdBlG6KolXpOXFJYdfQ0pET7OEEMk=
+X-Google-Smtp-Source: AGHT+IGw8AOt7k2t4Ww0oY4fJ7gcpGfr9mRnJgiDVtkIF2nXX99Czb+MT4u5qWmKayx8l471LS8pBDWf7ox+VQev7/k=
+X-Received: by 2002:a05:6820:2508:b0:601:3b6a:7634 with SMTP id
+ 006d021491bc7-602345846c8mr1548282eaf.4.1742566919869; Fri, 21 Mar 2025
+ 07:21:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="bchtvmz6w2bii2si"
-Content-Disposition: inline
-In-Reply-To: <20250320-cdns-dsi-impro-v1-3-725277c5f43b@ideasonboard.com>
+References: <CAPM=9tw_a+3qLjUn0=SqjVL=N6ExRbw0u9TamwGwigWwDwc23Q@mail.gmail.com>
+ <50869fd0-00df-40ab-8dfa-844670e6e850@linux.intel.com>
+ <Z8czJa7QsCBGfQRd@phenom.ffwll.local>
+ <bf25d370-7658-4ad6-b568-03621d3708a8@linux.intel.com>
+In-Reply-To: <bf25d370-7658-4ad6-b568-03621d3708a8@linux.intel.com>
+From: Simona Vetter <simona.vetter@ffwll.ch>
+Date: Fri, 21 Mar 2025 15:21:48 +0100
+X-Gm-Features: AQ5f1Jo_nGi3uF0koXz3FnAxLb-KyxGwrkRXBY2Mq_ihPWRSpHiezUgD1a8kQqo
+Message-ID: <CAKMK7uGnmt7JTcBVFCbdSswFnZ2og-cmdHO_rsAEBv0_GFq4XQ@mail.gmail.com>
+Subject: Re: firmware requirements
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Dave Airlie <airlied@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Min Ma <min.ma@amd.com>,
+ Lizhi Hou <lizhi.hou@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,80 +83,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 14 Mar 2025 at 11:16, Jacek Lawrynowicz
+<jacek.lawrynowicz@linux.intel.com> wrote:
+>
+> Hi,
+>
+> On 3/4/2025 6:06 PM, Simona Vetter wrote:
+> > Hi Jacek!
+> >
+> > Bit late reply, was sick last week and still recovering from missed mails.
+> >
+> > On Thu, Feb 20, 2025 at 11:50:10AM +0100, Jacek Lawrynowicz wrote:
+> >> On 2/19/2025 10:01 PM, Dave Airlie wrote:
+> >>> I'd just like to remind everyone of the firmware requirements for
+> >>> vendors that control their firmware and the driver upstreams:
+> >>>
+> >>> https://docs.kernel.org/driver-api/firmware/firmware-usage-guidelines.html
+> >>>
+> >>> Intel VPU it seems like you are not currently shipping upstream
+> >>> firmware, and might have tied your fw and userspace together.
+> >>
+> >> Yep, this is correct :/
+> >>
+> >>> I'm cc'ing the AMD XDNA driver as it recently landed and I'd like them
+> >>> to confirm they are following the above requirements.
+> >>>
+> >>> The main reason we don't allow userspace/fw direct linkage is if a
+> >>> user deploys two containers with two different userspace drivers in
+> >>> them on the same hardware, what is the kernel driver supposed to do?
+> >>
+> >> This makes sense, but I didn't see anything in the firmware usage
+> >
+> > Well, when Dave wrote that documentation section and I reviewed it we
+> > figured that's clear from the rules we have. There's two rules:
+> >
+> > - firmware is not allowed to break the kernel. This is not limited to
+> >   "does the kernel driver keep loading", but fully extends to anything the
+> >   kernel driver does or needs to fullfill its job.
+> > - the kernel is not allowed to break userspace. This is not limited to the
+> >   uapi structures, but anything they point at or implicitly reference, any
+> >   implementation details userspace relies on, any other hidden semantics
+> >   that aren't entirely transparent. Everything really that can result in a
+> >   bug report from users.
+> >
+> > If the firmware upgrade still works with the kernel, but changes the
+> > how the overall uapi works, then the firmware broke the kernel.
+> >
+> > I think the two individiual steps above are very clear already, but I
+> > guess that both together mean that firmware isn't allowed to break
+> > userspace isn't clear. Can you please send a patch to add that as another
+> > very explicit bullet to the existing list in the fw guidelines?
+>
+> Sure, I've sent the patch.
 
---bchtvmz6w2bii2si
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 03/18] drm/tidss: Add mode_fixup to adjust the clock
- based on HW
-MIME-Version: 1.0
+Thanks a lot!
 
-On Thu, Mar 20, 2025 at 05:59:58PM +0200, Tomi Valkeinen wrote:
-> At the moment the driver just sets the clock rate with clk_set_rate(),
-> and if the resulting rate is not the same as requested, prints a debug
-> print, but nothing else.
->=20
-> Add mode_fixup(), in which the clk_round_rate() is used to get the
-> "rounded" rate, and set that to the adjusted_mode.
->=20
-> In practice, with the current K3 SoCs, the display PLL is capable of
-> producing very exact clocks, so most likely the rounded rate is the same
-> as the original one.
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/gpu/drm/tidss/tidss_crtc.c  | 22 ++++++++++++++++++++++
->  drivers/gpu/drm/tidss/tidss_dispc.c |  6 ++++++
->  drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
->  3 files changed, 30 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/t=
-idss_crtc.c
-> index 1604eca265ef..b3338dac25bc 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> @@ -309,7 +309,29 @@ enum drm_mode_status tidss_crtc_mode_valid(struct dr=
-m_crtc *crtc,
->  	return dispc_vp_mode_valid(tidss->dispc, tcrtc->hw_videoport, mode);
->  }
-> =20
-> +static bool tidss_crtc_mode_fixup(struct drm_crtc *crtc,
-> +				  const struct drm_display_mode *mode,
-> +				  struct drm_display_mode *adjusted_mode)
-> +{
-> +	struct tidss_crtc *tcrtc =3D to_tidss_crtc(crtc);
-> +	struct drm_device *ddev =3D crtc->dev;
-> +	struct tidss_device *tidss =3D to_tidss(ddev);
-> +	long rate;
-> +
-> +	rate =3D dispc_vp_round_clk_rate(tidss->dispc, tcrtc->hw_videoport,
-> +				       adjusted_mode->clock * 1000);
-> +	if (rate < 0)
-> +		return false;
-> +
-> +	adjusted_mode->clock =3D rate / 1000;
-> +
-> +	drm_mode_set_crtcinfo(adjusted_mode, 0);
-> +
-> +	return true;
-> +}
+> >> guidelines about needing user-space and firmware to be compatible.
+> >> It is focused on making sure the kernel driver works well with the
+> >> firmware.
+> >> Our intel_vpu driver sticks to the basics with the firmware ABI, so
+> >> we've got backward and forward compatibility covered from the initial
+> >> release.
+> >>
+> >> Now, when it comes to user space and firmware, that's a whole other
+> >> story. We've made some headway, but there's still a lot to do.
+> >> Our firmware is pretty massive (like 10 times bigger than your average
+> >> GPU firmware) which makes things trickier than what other drivers deal
+> >> with.
+> >> That's why we didn't put the firmware in linux-firmware right away, but
+> >> we'll get the next release in there.
+> >>
+> >> We will continue working on separating user space from the firmware more
+> >> to make things smoother.
+> >>
+> >>> Firmware should be abstracted in the kernel if it is not possible to
+> >>> build proper fw APIs for userspace to use directly, by proper I mean
+> >>> forward and backwards compatible.
+> >>
+> >> This dependents on a project. In our case only user space should provide
+> >> this compatibility.
+> >> We don't even parse command buffers at the moment in kernel space.
+> >>
+> >> For your reference, we release updates for both the user space and
+> >> firmware every couple of weeks here:
+> >> https://github.com/intel/linux-npu-driver/releases
+> >
+> > Yeah you need to fix this. With containers and other packages runtimes
+> > there's really no connection between the base os image, and the userspace
+> > you're running. Which means you really cannot assume that on any given
+> > system there's only one abi version across the firmware and userspace
+> > libraries. So even without upstreams "no breaking uapi" guarantee this
+> > does not work in production.
+>
+> We should be able to provide backward compatibility, so new FW will work with all past userspace versions.
+> The base OS just has to use up-to-date FW. This should satisfy FW requirements, right?
 
-mode_fixup is deprecated in favor of atomic_check. If you can't use it
-for some reason, it should be documented one way or another.
+Yeah new userspace not working without newer firmware is ok. It's not
+great for userspace and ideally you limit this to exceptional cases
+only or make those additional features an optional requirement, but
+it's not a concern for upstream. It's old userspace breaking on newer
+firmware that would not be ok. So I think you're good. Would be good
+to update the wording on the website to reflect that too.
 
-Maxime
-
---bchtvmz6w2bii2si
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ911EQAKCRAnX84Zoj2+
-dgndAYCh/YgKmD2eT0IGBSW4oFScUbO0JiE0c6rJgT/fOlLd8ZyEQUmNR3/ihtKv
-L3mLPUwBgN2SlLXG4F2ri8LKeYXjbpOagi9fMufwxwGrEzWDluOQ6RSb6Ak7/Y/H
-uemPVUoFyg==
-=QyZO
------END PGP SIGNATURE-----
-
---bchtvmz6w2bii2si--
+Cheers, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
