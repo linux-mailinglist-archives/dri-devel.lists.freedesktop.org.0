@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72203A6C678
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 00:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30CBA6C67E
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 00:47:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B890610E847;
-	Fri, 21 Mar 2025 23:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8558F10E848;
+	Fri, 21 Mar 2025 23:47:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="h01lP/v6";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EyGMX5bX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1625410E847
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 23:42:25 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C47E10E848
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 23:47:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1742600544;
+ s=mimecast20190719; t=1742600874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zZpNf7khH2Js4tOY3mnDKV33a/y91jvPlLT+xZiqQak=;
- b=h01lP/v6U/LIn7a8hom1Llra5JAH+GooV4Fh7qeFkpQMVWhBn6CBGt+n4UjiJG7CfikCPg
- F79HRUzpbNe0DQihGBYkrty/o2dtSp2nrvHdvS+c70aP0awNK5Nbc0V9xteFeXq226qfuN
- 0xwYmcii5YrzMlmATEj2RuJsBzPuhv4=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=07bV6wCmABRVlSLA8nvswhWQuiWLf7chTLpHYhipRxY=;
+ b=EyGMX5bX3yGTf4RkGaFgiclr1w+vn1ExhIYtDQGvy0YXEeohIukwhjU9kXrvu4G+anxQsZ
+ I+EakMTae7eRrH4Ay03gafm7eHp4sv/Bb/ijuHY857v2V5KKAt2VX5jTpJCsPz4GmMbkrH
+ D+URUiBnqZIkXP/ZZf9fn4i1QDkbjlo=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-74-84UrdNx8M2-qnm-OzmLIfg-1; Fri, 21 Mar 2025 19:42:23 -0400
-X-MC-Unique: 84UrdNx8M2-qnm-OzmLIfg-1
-X-Mimecast-MFC-AGG-ID: 84UrdNx8M2-qnm-OzmLIfg_1742600543
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6eb2e88d7dfso35217286d6.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 16:42:23 -0700 (PDT)
+ us-mta-327-gJBuxQ7cOIuI3uD4Xd0RKA-1; Fri, 21 Mar 2025 19:47:50 -0400
+X-MC-Unique: gJBuxQ7cOIuI3uD4Xd0RKA-1
+X-Mimecast-MFC-AGG-ID: gJBuxQ7cOIuI3uD4Xd0RKA_1742600869
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4768488f4d7so44713421cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 16:47:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742600542; x=1743205342;
+ d=1e100.net; s=20230601; t=1742600869; x=1743205669;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zZpNf7khH2Js4tOY3mnDKV33a/y91jvPlLT+xZiqQak=;
- b=twr+Ris2sgJbHXcQ5K/hmwGmpQWDglbspjC8nDjDe90SUS/yxSzPegFXgslxwWAk9d
- ZAijZMhb31E8UmRXK0+5xstdbNXT++gIxIlv4fG6LYFf0v9NDx2E6vbwrM8lgzWo+d2X
- Cl50JPG3pdDGu/nmg88GWjkmqKqlSEWyu1XBuHxDoYUStme2nv6+wGxcb9uhQXzmWksW
- 5G0NUIV83dixOcQz4SFehCVt9QueDN946tNMGzjI6ym7UUXx6+gIBBrorjydSOovqeiN
- 2qnvyWMJVHyO7kKQ5hHVke08Tk6os3dRnE7lr43Sn5GOXx0+fBzp6V8rVCI+p+hQsPWU
- BNQA==
-X-Gm-Message-State: AOJu0YziirNjfqEoLGkiOHPrnGP5To17Dyfri0Ej1eruFhMhTUPGn4xV
- fpxySEZ28Rsg/bGfzzYVPX69dm2LmBIl3odp8xQIodOmCSo3KC3aGwzNAgrAHD1S5xVwFKrAcGE
- KWfkQDOzGIIhxGyuCU2RMMvhXZOOVMDJdc1xMucv5zlZDhQEa+jzcx7aqxYf1nsc79Q==
-X-Gm-Gg: ASbGncuHqF4G2XGZco8530bWdH6wZTzGreliKiSg2MFj40lBf8xRrn6ArsBj1mzee2L
- TboVn5il9sc6E7DFqCR1GWzId8OUeyNX6oEGa90ZmjchnZRHU1NAx8m2blclaih1uS2zcPAtXd2
- 6tARwwxfZ8eusaFzyi8bEFrd+DZuF0z4qPfuSJQM2JL71c8VrWgwiKIKzAMDAKySfYoGOfXv5+J
- mkDnB5MlinFdMn2ZitWGxaq5QVix3MzIl+WGMMkd1gDpM9L4uYLqcxvh12tK7LGOlgc+HoAYOZ8
- K8conXzAQpK/BbGhtMSsXg==
-X-Received: by 2002:a05:6214:1c0e:b0:6ea:d393:962a with SMTP id
- 6a1803df08f44-6eb3f27d77dmr72162866d6.1.1742600542739; 
- Fri, 21 Mar 2025 16:42:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEgUe/0T/fsNk+5sy7Ip3+VWlwBBC8GZ6FTkBhcxDw1iLXCqbNgdmxsyxXrvEPQgtYKN1zdag==
-X-Received: by 2002:a05:6214:1c0e:b0:6ea:d393:962a with SMTP id
- 6a1803df08f44-6eb3f27d77dmr72162596d6.1.1742600542458; 
- Fri, 21 Mar 2025 16:42:22 -0700 (PDT)
+ bh=07bV6wCmABRVlSLA8nvswhWQuiWLf7chTLpHYhipRxY=;
+ b=AxqLRIBL4cmpDnQJB8Qtay1Ra+ve1t1E38D8ZpnUSQljxO6a7Mw7t7DAn4XbhKNj/J
+ A3kFYkUDBD9cnOCNay+3A3lZG1Iw2Tog1KHmh6cPuuZJoK6lw5ALiXECaEJIAF/nL1dy
+ J6b9yRaNyaEqcWbJL7KjrZZKlUnusnt3YSiMH2B691FyOZn9J0Mlmrbhq7Yd6gxuljCm
+ pkZud1qp2CB5WXCoh769O0GsiHpNSbQ0JdAVve8zMIbBmy0VVO4SC7Xo0RRlVUmHlkcD
+ YO6IkN+FSSz5QaSZU5AZQI8d1gcqq2Ow4WAS1Jp1eVlGey41JBYaEG672WjBYmqI4SCV
+ V6MQ==
+X-Gm-Message-State: AOJu0YyCDExEWzgPF7ZoS99Et0O68JOeUdoPR8SexEqNOwWHFinKmYUT
+ mJNvuj44+8w/JEdpM5OyF4sTJ0TwV79SGosPZTkWNFNKIlT8TPU0RFnfsti1/OVc9n99gWcLOhG
+ HAAb9YmlcFHMRjcXdtaPV4Y78yi3vj0arTTqIutUsyxxBuPT+mh2gw38XFp04vGLHdg==
+X-Gm-Gg: ASbGnct04GhpuHI42Muqsx0ag8apdV22mkeaqTy3ULmJnPuEakaaidm4T4q5gljfop6
+ NPU6wsvtceG/5q+tAMGh0rdyFhEX0mbv1WfJEr3Vl/jexwDo+o/7Bjwu36SoQC3PrH8n4i7busJ
+ IVsP/A1eOsnwDvWFAi2kTzmOBlTEmZxYOs+sC6jqpM0T2f/uPaVS2z0UzBqKvbxBmBlKV/M5eGA
+ ij/LtF4KSR8TEIrxBXRlirxCtS7LQ71W7uHJAm6L15MZ33u4zoDwoCicc/c47rwldY32ZaL/EHK
+ Lbm/LTqlsqqdeYTHPY/bYg==
+X-Received: by 2002:a05:622a:17c5:b0:476:80ce:a614 with SMTP id
+ d75a77b69052e-4771dd92415mr80106301cf.19.1742600869493; 
+ Fri, 21 Mar 2025 16:47:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEyKv8SSrBWWw7daDLJFvc54fXLHOhK0DQ8PDkDuUVdJ3V8Cl8E2pWGzTi9qgoa1eCAvEPCxw==
+X-Received: by 2002:a05:622a:17c5:b0:476:80ce:a614 with SMTP id
+ d75a77b69052e-4771dd92415mr80106141cf.19.1742600869248; 
+ Fri, 21 Mar 2025 16:47:49 -0700 (PDT)
 Received: from ?IPv6:2600:4040:5c4c:a000::bb3? ([2600:4040:5c4c:a000::bb3])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6eb3efc5bf5sm16263896d6.70.2025.03.21.16.42.20
+ d75a77b69052e-4771d635b94sm17366501cf.76.2025.03.21.16.47.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Mar 2025 16:42:21 -0700 (PDT)
-Message-ID: <514f42ce85cbb9867109e9e69d02818953315aec.camel@redhat.com>
-Subject: Re: [RFC v3 07/33] rust: drm/kms: Add drm_encoder bindings
+ Fri, 21 Mar 2025 16:47:48 -0700 (PDT)
+Message-ID: <330309618d5139e360bef4b62ea9fc6368d0077a.camel@redhat.com>
+Subject: Re: [RFC v3 09/33] rust: drm/kms: Add DriverConnector::get_mode
+ callback
 From: Lyude Paul <lyude@redhat.com>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, Danilo
@@ -81,16 +82,16 @@ Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, Danilo
  Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, Asahi
  Lina <lina@asahilina.net>,  Wedson Almeida Filho	 <wedsonaf@gmail.com>,
  open list <linux-kernel@vger.kernel.org>
-Date: Fri, 21 Mar 2025 19:42:19 -0400
-In-Reply-To: <20250314-manipulative-important-mackerel-7a25ba@houat>
+Date: Fri, 21 Mar 2025 19:47:46 -0400
+In-Reply-To: <20250314-gigantic-frisky-condor-9b35c8@houat>
 References: <20250305230406.567126-1-lyude@redhat.com>
- <20250305230406.567126-8-lyude@redhat.com>
- <20250314-manipulative-important-mackerel-7a25ba@houat>
+ <20250305230406.567126-10-lyude@redhat.com>
+ <20250314-gigantic-frisky-condor-9b35c8@houat>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.54.3 (3.54.3-1.fc41)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2pHiA-HMrBxqEcVKdRyiMJj6QnfT3C-Ha2AHySQ1Pjg_1742600543
+X-Mimecast-MFC-PROC-ID: 7XEZSTHup9cPhglJU6tJX5Z7L-LLNP0HIqaVslzgZH0_1742600869
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,39 +110,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-03-14 at 12:48 +0100, Maxime Ripard wrote:
-> On Wed, Mar 05, 2025 at 05:59:23PM -0500, Lyude Paul wrote:
-> > +unsafe extern "C" fn encoder_destroy_callback<T: DriverEncoder>(
-> > +    encoder: *mut bindings::drm_encoder,
-> > +) {
-> > +    // SAFETY: DRM guarantees that `encoder` points to a valid initial=
-ized `drm_encoder`.
-> > +    unsafe { bindings::drm_encoder_cleanup(encoder) };
-> > +
-> > +    // SAFETY:
-> > +    // - DRM guarantees we are now the only one with access to this [`=
-drm_encoder`].
-> > +    // - This cast is safe via `DriverEncoder`s type invariants.
-> > +    unsafe { drop(KBox::from_raw(encoder as *mut Encoder<T>)) };
-> > +}
+On Fri, 2025-03-14 at 12:57 +0100, Maxime Ripard wrote:
+> It's kind of what I wanted to express in my earlier statements I guess,
+> but I'm not really sure we should force down helpers on drivers. The
+> larger approach KMS has taken over the years was to provide hooks and
+> default implementations, with the drivers allowed to use different
+> implementations if they wanted to.
 >=20
-> I'm not sure we should expose drm_encoder_cleanup() there, if only
-> because it's not really up to the driver to deal with it anymore. We're
-> switching to drmm_encoder_alloc/init where having a destroy hook is
-> explicitly rejected.
+> That approach largely worked for us I think, so I'm a bit worried about
+> changing that.
 
-so - I'm totally for doing this on the C side of things, but unless I'm
-misunderstanding something I don't think we can use managed resources like
-this in rust. Mainly because dropping objects in rust is very often more
-complicated then just dropping an allocation due to RAII. So we need -
-somewhere- to hook in additional behavior when a subclassed structure is
-destroyed.
-
-...unless you're saying we could have ->destroy without drm_encoder_cleanup=
-()?
+This is mainly just another case of "this is the only way of probing we
+support right now". In the future when we add more fine-grained behavior he=
+re,
+we can stop passing helpers explicitly and only pass them when the appropri=
+ate
+trait methods are defined.
 
 >=20
-> Maxime
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 debugfs_init: None,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 oob_hotplug_event: None,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 atomic_duplicate_state: Some(atomic_duplicate_state_callback::<Se=
+lf::State>),
+> > @@ -114,7 +114,7 @@ pub trait DriverConnector: Send + Sync + Sized {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 helper_funcs: bi=
+ndings::drm_connector_helper_funcs {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 mode_valid: None,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 atomic_check: None,
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 get=
+_modes: None,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 get=
+_modes: Some(get_modes_callback::<Self>),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 detect_ctx: None,
+>=20
+> Since you pass (the equivalent of) the locking context to get_modes, I'd
+> rather keep the convention you have with detect here and use the _ctx
+> suffix, or drop the one from detect_ctx, and pass the context
+> everywhere. But we should be consistent there at least.
+
+Not totally sure what you mean by this? get_modes_callback() is just the
+automatically generated vtable function, which gets generated based off the
+rust trait implementation. but I can rename it if you think we should.
 
 --=20
 Cheers,
