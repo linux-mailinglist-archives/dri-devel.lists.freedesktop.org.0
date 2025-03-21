@@ -2,119 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FFBA6BB82
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 14:13:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45739A6BBB0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 14:25:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94DB410E12B;
-	Fri, 21 Mar 2025 13:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3090910E7CC;
+	Fri, 21 Mar 2025 13:25:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CFRo22zD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UHXPyuSh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13E7810E12B
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 13:13:34 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LCSqKg010784
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 13:13:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 5FNgG9pUF2rJQNgqGFpV33u2ZlZozrMUqHxMPhufv/c=; b=CFRo22zDxJPNuFsE
- AmLTIno0sld9+P6caj4dpyJxJjQoB9JP1YDj/fKGkmG4UcipQLEXlJpeMI9aRirJ
- Ic7COt118HNKBRoM23FjZp4IqABVQe85c26hBm/MejQ7SJFJ/JnXis7J9jfB0Gs6
- sdhw6Cy61xBhfQAnX+9ASSPmcXSdUiJtg+JRcoYePSGq9uZjpZPs+bPfN14Ze9Tn
- 0pnWShHYYELBRnPXhEJIwr6ds0BXpS1yFDGNwm5f88yaiEAWaW5UQcreTlkVQLJp
- rAIsUlyeqsKtZ8ILVoW6fU1WCwK3W4t7s3RbdXtrA1PQYGTespq/V9j4mrj1Pbnj
- wYrfIA==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45h85e03vt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 13:13:33 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-2240a7aceeaso31101345ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 06:13:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742562812; x=1743167612;
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30FA710E7C9;
+ Fri, 21 Mar 2025 13:25:08 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-43cfdc2c8c9so11742745e9.2; 
+ Fri, 21 Mar 2025 06:25:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742563507; x=1743168307; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=iRoO2HIVhJx7KXEKNQR5uppWvhdr6UHy9j0aDQciE08=;
+ b=UHXPyuShPxkuJfzd8VqcWy/RGPIT6rsQNIovb//ULyUaO8s93J9tbWpJ5yTGu/zn94
+ 8YMKosuPxN4LNA00zDjFuTqJ9de6dMjfDTV4CPJCwXAKxPDxhyhk2pDAx5DZbJn7S1Ye
+ bjw5jiYZIFRfhiVcGRy2mTWfm7aPQBRHicJnWXHyR/8MeIHvJnYSDB6NWxiTLI4tIMYZ
+ QlOwW/5SGjIXrjWlrZaCYGDPIE0LcMjqD1DbmgiF/Nt/JKoc75HlLyPD8Yy4KofgprVf
+ OrMMA3/2emYYN92ZH5MP+aShOXgY2c9kK3vUaPwMTnXTMEQ5yXwm6cf2hC1BT/jRWAun
+ N8RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742563507; x=1743168307;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5FNgG9pUF2rJQNgqGFpV33u2ZlZozrMUqHxMPhufv/c=;
- b=ZklawQHO6giKmkIco7lDmFN9LMTmZfjeaMSlKI8rceA7JcTFsiP0sZ92AwozADIi6a
- 9KJkqLvR9k/HTwlBocAszgCCawcg902+Ls9XekaUu7cFE4dNWhEcH6sSktxCU8dX8D9k
- a6Tk3f4CLfkRyVIH2Kc1uEcGLAz+GIUxRF4RCa5ltO6V0mRRFRKtRB1qfeY7byqtjTZP
- N0hMpuaR4pGyJR9l2kuboDkelZg+KM4HXJMJBfUe3JX/MLCWlftcGGHcsscffHQUNMVr
- qTjXfAzTxK/iZSt4GnSSrcWHmDpTWc3a4Z8LkRo2XXTff5fETGZrLbn5+ybNsk7NnGvE
- kS1A==
+ bh=iRoO2HIVhJx7KXEKNQR5uppWvhdr6UHy9j0aDQciE08=;
+ b=Kanf8j8iLe19dk0bhTsXXCWjr6y27tps0w9erYv/pgQ1xIvszFvc+GcUwKXh8qDe2L
+ ITQ/OMO77hUujGau5i69CwF+HXc6SH6ekjJkF8Hbl6sfIOhS1JLI2949wjIG7q7ga0yo
+ KGVGwdorJOnj8tVuaVKha1+AbBIAak8ytJ+Lqo8dlfXAEa8WCsdq76ePq2G6OjhCfP76
+ LsxdDmVBfoNBKialINMaxo5BLYY2Y1uZHKvaHdeyvE9T1+UkmdCMpW3vp4wVb6KZJB0A
+ sbrEVYm2JhOq7SZg+2oouGVEaSa7ociR//0xl725GDeSjFjynN9oKroGdSyVJc9ooHsx
+ bb6A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWEpDe0J76hU8Awb/idww9Hq56KiSiB9W66eItx7W9nIC5h1E3W6FXAhTJgtuU2rUjuN3KtPeA1RLY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzRWA7YjoUvFxp0nye227dNyVqNkqm5t445EFGSiRcrCJz1kBih
- WeGn85rx4mBQv8fAtGKm89oOjTUqsbB6CXVq4SnL7GkVd90c02zDC/gQHMnbq+thxKk2bFtDQ3f
- uJZznn+7RLfsVuQXWRRjREpNFpKrh216y7T0ANeKMHM1bq89W8E0KRyG13IzXordxJnI=
-X-Gm-Gg: ASbGncvgND1ZFk4KnTECCODV5Cyg3I54b4XyC/veAI/2iPg7+ipB9L7hU/APIV1b6nf
- cal7q/Twkvb4JIGcvF6TRDIFSGlFoRAA3YUmR7vU6n5KOvAvD3QgAHwOU0srEqXDFmvAmONyG18
- XAtPD8yWZ5O54T7Du2/UmgllWTFBoAAEez2MiKKfHyO8pcxLD6LnwsRuXRui9omNmmxKJ51ki6c
- cwcRmpb1VRmcRYsKrFoEFvjWCPJQ6xf+1MhqUr26xlinwhlQAiuqLeGtKo6jebNN4BMLc5BaOf8
- z28UcG+BHovPVI+6UlDtcpKf7KwebiEF/neipb8+7w==
-X-Received: by 2002:a17:903:8cc:b0:224:2384:5b40 with SMTP id
- d9443c01a7336-22780db251amr63016065ad.24.1742562812357; 
- Fri, 21 Mar 2025 06:13:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHHoY9UCBt3xwqWxZ22HCF7nakuoPvQXo25F3KT5VaQ4ldYgmaRIf/nOVCn8I6txfPvw5K4/Q==
-X-Received: by 2002:a17:903:8cc:b0:224:2384:5b40 with SMTP id
- d9443c01a7336-22780db251amr63015405ad.24.1742562811803; 
- Fri, 21 Mar 2025 06:13:31 -0700 (PDT)
-Received: from [192.168.1.5] ([122.164.167.76])
+ AJvYcCUk/2mGsIjniK8qUUvxU8hRkkSerOnxSKQwEP4H3gKJ2Vs/q5afyIjqI/bM7EtmMvuqNimsAwIv@lists.freedesktop.org,
+ AJvYcCWmgpMB9CoD2s2SlNxYKh4Xb6dmEOlXaAVJ7yocsaXh8WAT/bX9UVT5cvmbEHD4yWec+czLdsJyzZh6@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzWva3xAryQYU59TkXhath+Cm9hrSqWGaxSkjVoEGL3+QNtldDa
+ tFxA3H+sbYkO0dILd2Oifw3S0X3CygSu45eYvq6Il+U/vh8DmDNP
+X-Gm-Gg: ASbGncuBXycQgU3BVPu+NXUoAMiG1QBXjqz0wAVaCi3dcP9h2twQnDRgd7WCqalkY6G
+ /M2YKWwkuWlXnHRHg3fPTtZaev1mcFD4FiwNyWTc/EPjW7SkEBR8yHWaWjsMQtjiJ/ZA9A4BLEv
+ xa4/QMLqFkRP+KS7khMmI701u8OXKgTQwmusxMP8ibKDTu0SD2pXqI/w43kdg5tzUFL8AXnTfWD
+ 8nTeXRLE8V9+2NeDif7exUmFDoJvbCNkxA/T1KW+45GG2dCw8s/pwHzS+CGTOjfUd2aE/r/3ehz
+ OW860cSMOylRYSyE1uA3LydM2ALSxAC730v9GggWrro2YQ/mIRwiV5Nzxmmomza7eRFXfCqMAw=
+ =
+X-Google-Smtp-Source: AGHT+IHtSfmXpUCU8d8KsXFKjS4cAhiQAbBnffdMuWJVTAXrNcdouH8lvBfz0eYaeyMAApUAeHdY8g==
+X-Received: by 2002:a05:600c:3584:b0:43c:e2dd:98ea with SMTP id
+ 5b1f17b1804b1-43d50a211f5mr24054765e9.22.1742563506232; 
+ Fri, 21 Mar 2025 06:25:06 -0700 (PDT)
+Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-227811da3f2sm15736625ad.187.2025.03.21.06.13.28
+ 5b1f17b1804b1-43d4fceafacsm27426145e9.6.2025.03.21.06.25.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Mar 2025 06:13:31 -0700 (PDT)
-Message-ID: <cdafb2b7-8492-44e6-b934-d211cb1139ec@oss.qualcomm.com>
-Date: Fri, 21 Mar 2025 18:43:26 +0530
+ Fri, 21 Mar 2025 06:25:05 -0700 (PDT)
+Message-ID: <09e28c34-657d-43c1-9f2e-e1870425b450@gmail.com>
+Date: Fri, 21 Mar 2025 14:25:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] misc: fastrpc: Add polling mode support for
- fastRPC driver
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org,
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, arnd@arndb.de
-References: <20250127044239.578540-1-quic_ekangupt@quicinc.com>
- <20250127044239.578540-5-quic_ekangupt@quicinc.com>
- <hgox77a7e6zzriltwhzzciau6u2pmil4y3rl5o2l6zkp4fmlmp@q2dai5fxcvtq>
- <49295da9-82d4-45a0-a2a4-fdaa6600c70d@quicinc.com>
- <an4cvztdkqmrt7w2iaziihlxf4tbox65ze362v2lmycjnqg26y@jizjmh2ki34z>
- <939fcff6-fb93-487b-995b-88e3ff020784@oss.qualcomm.com>
- <2k6573yrw3dyn3rpwqz4asdpx3nlmj4ornm7kmxv3f4jlc6hzg@qkwn7gqduwri>
- <e46be95c-ca8d-48ce-a616-5f068bd28ebc@oss.qualcomm.com>
- <4ca8776c-3cc7-4266-8248-4a595fa19e7f@oss.qualcomm.com>
- <CAO9ioeXVyN+gn=tHP4HsRTs=4AFrrqiyRJw3byxhrcgu4+Quqw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/sched: add drm_sched_prealloc_dependency_slots
+To: phasta@kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org, dakr@kernel.org,
+ amd-gfx@lists.freedesktop.org
+References: <20250318120313.19099-1-christian.koenig@amd.com>
+ <20250318120313.19099-2-christian.koenig@amd.com>
+ <769f6c5788eff9459414b8ce0b056989e29773af.camel@mailbox.org>
+ <48f07793-0fd4-4cdd-8568-3bd2ff63bb6a@gmail.com>
+ <860fb3b6-0f18-49c4-b464-5c8c8995e6bd@igalia.com>
+ <773a6105e1b448ecb2be8b2c80bb63c0e08f52d2.camel@mailbox.org>
 Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <CAO9ioeXVyN+gn=tHP4HsRTs=4AFrrqiyRJw3byxhrcgu4+Quqw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <773a6105e1b448ecb2be8b2c80bb63c0e08f52d2.camel@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: cwM9cS7li30ESMn2XvHI9AZG2kPvip3I
-X-Proofpoint-ORIG-GUID: cwM9cS7li30ESMn2XvHI9AZG2kPvip3I
-X-Authority-Analysis: v=2.4 cv=LKpmQIW9 c=1 sm=1 tr=0 ts=67dd65fd cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=rQ4PyoImJZNyGwpw8nHSHQ==:17
- a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8
- a=LhSCYqp89ykGWDZeNPQA:9 a=QEXdDO2ut3YA:10
- a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-21_05,2025-03-20_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- phishscore=0 malwarescore=0 suspectscore=0 mlxscore=0 priorityscore=1501
- spamscore=0 mlxlogscore=999 lowpriorityscore=0 clxscore=1015 bulkscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503210098
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,108 +97,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/21/2025 4:47 PM, Dmitry Baryshkov wrote:
-> On Fri, 21 Mar 2025 at 12:18, Ekansh Gupta
-> <ekansh.gupta@oss.qualcomm.com> wrote:
->>
->>
->> On 3/20/2025 9:27 PM, Ekansh Gupta wrote:
->>> On 3/20/2025 7:45 PM, Dmitry Baryshkov wrote:
->>>> On Thu, Mar 20, 2025 at 07:19:31PM +0530, Ekansh Gupta wrote:
->>>>> On 1/29/2025 4:10 PM, Dmitry Baryshkov wrote:
->>>>>> On Wed, Jan 29, 2025 at 11:12:16AM +0530, Ekansh Gupta wrote:
->>>>>>> On 1/29/2025 4:59 AM, Dmitry Baryshkov wrote:
->>>>>>>> On Mon, Jan 27, 2025 at 10:12:38AM +0530, Ekansh Gupta wrote:
->>>>>>>>> For any remote call to DSP, after sending an invocation message,
->>>>>>>>> fastRPC driver waits for glink response and during this time the
->>>>>>>>> CPU can go into low power modes. Adding a polling mode support
->>>>>>>>> with which fastRPC driver will poll continuously on a memory
->>>>>>>>> after sending a message to remote subsystem which will eliminate
->>>>>>>>> CPU wakeup and scheduling latencies and reduce fastRPC overhead.
->>>>>>>>> With this change, DSP always sends a glink response which will
->>>>>>>>> get ignored if polling mode didn't time out.
->>>>>>>> Is there a chance to implement actual async I/O protocol with the help
->>>>>>>> of the poll() call instead of hiding the polling / wait inside the
->>>>>>>> invoke2?
->>>>>>> This design is based on the implementation on DSP firmware as of today:
->>>>>>> Call flow: https://github.com/quic-ekangupt/fastrpc/blob/invokev2/Docs/invoke_v2.md#5-polling-mode
->>>>>>>
->>>>>>> Can you please give some reference to the async I/O protocol that you've
->>>>>>> suggested? I can check if it can be implemented here.
->>>>>> As with the typical poll() call implementation:
->>>>>> - write some data using ioctl
->>>>>> - call poll() / select() to wait for the data to be processed
->>>>>> - read data using another ioctl
->>>>>>
->>>>>> Getting back to your patch. from you commit message it is not clear,
->>>>>> which SoCs support this feature. Reminding you that we are supporting
->>>>>> all kinds of platforms, including the ones that are EoLed by Qualcomm.
->>>>>>
->>>>>> Next, you wrote that in-driver polling eliminates CPU wakeup and
->>>>>> scheduling. However this should also increase power consumption. Is
->>>>>> there any measurable difference in the latencies, granted that you
->>>>>> already use ioctl() syscall, as such there will be two context switches.
->>>>>> What is the actual impact?
->>>>> Hi Dmitry,
->>>>>
->>>>> Thank you for your feedback.
->>>>>
->>>>> I'm currently reworking this change and adding testing details. Regarding the SoC
->>>>> support, I'll add all the necessary information.
->>>> Please make sure that both the kernel and the userspace can handle the
->>>> 'non-supported' case properly.
->>> Yes, I will include changes to handle in both userspace and kernel.
->> I am seeking additional suggestions on handling "non-supported" cases before making the
->> changes.
->>
->> Userspace: To enable DSP side polling, a remote call is made as defined in the DSP image.
->> If this call fails, polling mode will not be enabled from userspace.
-> No. Instead userspace should check with the kernel, which capabilities
-> are supported. Don't perform API calls which knowingly can fail.
->
->> Kernel: Since this is a DSP-specific feature, I plan to add a devicetree property, such
->> as "qcom,polling-supported," under the fastrpc node if the DSP supports polling mode.
-> This doesn't sound like a logical solution. The kernel already knows
-> the hardware that it is running on. As such, there should be no need
-> to further describe the hardware in DT. If the DSP firmware can report
-> its capabilities, use that. If not, extend the schema to add an
-> SoC-specific compatibility string. As a last resort we can use
-> of_machine_is_compatible().
-
-Thanks for your suggestions. I'll try these out.
-
---Ekansh
-
->
->> Does this approach seem appropriate, or is there a better way to handle this?
->>
->> Thanks,
->> Ekansh
->>
->>>>> For now, with in-driver
->>>>> polling, we are seeing significant performance improvements for calls
->>>>> with different sized buffers. On polling supporting platform, I've observed an
->>>>> ~80us improvement in latency. You can find more details in the test
->>>>> results here:
->>>>> https://github.com/quic/fastrpc/pull/134/files#diff-7dbc6537cd3ade7fea5766229cf585db585704e02730efd72e7afc9b148e28ed
->>>> Does the improvement come from the CPU not goint to idle or from the
->>>> glink response processing?
->>> Although both are contributing to performance improvement, the major
->>> improvement is coming from CPU not going to idle state.
+Am 21.03.25 um 09:20 schrieb Philipp Stanner:
+> On Thu, 2025-03-20 at 11:49 +0000, Tvrtko Ursulin wrote:
+>> On 19/03/2025 11:23, Christian König wrote:
+>>>>> + *
+>>>>> + * Return:
+>>>>> + * 0 on success, or an error on failing to expand the array.
+>>>>> + */
+>>>>> +int drm_sched_job_prealloc_dependency_slots(struct
+>>>>> drm_sched_job
+>>>>> *job,
+>>>>> +					    unsigned int
+>>>>> num_deps)
+>>>>> +{
+>>>>> +	struct dma_fence *fence;
+>>>>> +	u32 id = 0;
+>>>>> +	int ret;
+>>>>> +
+>>>>> +	while (num_deps--) {
+>>>>> +		fence = dma_fence_get_stub();
+>>>>> +		ret = xa_alloc(&job->dependencies, &id, fence,
+>>>>> xa_limit_32b,
+>>>>> +			       GFP_KERNEL);
+>>>> So this would fill the xarr with already signaled fences which
+>>>> then
+>>>> later will be replaced with unsignaled fences?
+>>> Yes, exactly that's the idea.
 >>>
->>> Thanks,
->>> Ekansh
+>>>> Help me out here: would it also work to add NULL instead of that
+>>>> stub-
+>>>> fence?
+>>> Good question, idk. That's an implementation detail of the xarray.
 >>>
->>>>> Regarding your concerns about power consumption, while in-driver polling
->>>>> eliminates CPU wakeup and scheduling, it does increase power consumption.
->>>>> However, the performance gains seem to outweigh this increase.
->>>>>
->>>>> Do you think the poll implementation that you suggested above could provide similar
->>>>> improvements?
->>>> No, I agree here. I was more concentrated on userspace polling rather
->>>> than hw polling.
->>>>
+>>> Tvrtko also correctly pointed out that it is most likely a bad idea
+>>> to 
+>>> use dma_fence_is_signaled() in the critical code path.
+>>>
+>>> I will try to dig through the xarray behavior up and update the
+>>> patch if 
+>>> possible.
+>> I think NULL on its own is not possible, but the two low bits are 
+>> available for pointer tagging, or designating pointers vs integers, 
+>> which looks like it could work. Something like storing 
+>> xa_tag_pointer(NULL, 1) to reserved slots and at lookup time they
+>> would 
+>> be detected with "xa_pointer_tag(fence) & 1".
+> Almost!
 >
+> they would be detected with a super-readable
+>
+> #define DRM_SCHED_XARR_TAG_RESERVED_ENTRY 1
+>
+> or maybe …UNUSED_ENTRY?
+
+NULL doesn't work because xa_for_each() skips NULL entries, but it looks like somebody else stumbled over the same problem we have here as well.
+
+So there is already the solution to use XA_ZERO_ENTRY! That special value can then either be used with xa_alloc() or through xa_reserve().
+
+It's just that the xarray documentation is not explicitly pointing that out, so I had to dig around in the code a bit to figure out how everything works.
+
+Regards,
+Christian.
+
+>
+> ^_^
+>
+> P.
+>
+>
+>> Regards,
+>>
+>> Tvrtko
+>>
 
