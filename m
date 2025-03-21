@@ -2,120 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF828A6C198
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 18:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE5BA6C1AB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 18:37:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E90710E19A;
-	Fri, 21 Mar 2025 17:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2403510E7F1;
+	Fri, 21 Mar 2025 17:37:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="DLLkrbjx";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ui4Dx6rw";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Vp4vO6c7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from flow-a4-smtp.messagingengine.com
- (flow-a4-smtp.messagingengine.com [103.168.172.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 708A610E19A
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 17:33:43 +0000 (UTC)
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal
- [10.202.2.47])
- by mailflow.phl.internal (Postfix) with ESMTP id F0255202146;
- Fri, 21 Mar 2025 13:33:42 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-07.internal (MEProxy); Fri, 21 Mar 2025 13:33:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm1; t=1742578422;
- x=1742585622; bh=jcHwQGpQOx6GZtNDddAxOwDOWSoyBujaJTuqoyGqXDA=; b=
- DLLkrbjxdeZ5VZIGvPAZd4NM/kpOB5yjaRA2bvhlRZZqiAajItla9WOumvbn54t1
- awAa2WdDiftQwM9VUrrdOy2B8L6rbJZP1L2CHyFMjUo2bYV5jiVdUCBJ+txYzcyX
- YfNdALHqJ8vA1g0fKqj/rYooeIPG8pW0+DKZ5pjBDdQ/ov2TUOQvQoS7XX0pmiXf
- E0jtTwHqb2w3VcZDUJJbENArof3r2e/WJIEaKvPw8kCHgD/xH5vt/Oaa41CisOOt
- aLby2QkmaE23J33Sau22v+uw207knEJBvxfygvvXmXMkokkBEsxQ+juulQzszHxF
- prI/sAddxyIp9Iv/S2/Rhw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742578422; x=
- 1742585622; bh=jcHwQGpQOx6GZtNDddAxOwDOWSoyBujaJTuqoyGqXDA=; b=U
- i4Dx6rw8n6KelCD0qaTj5zmZdQsre1O+uqLIzcbok/RNBBKaWZy4PEX4GXch+Jbj
- lGeF4rm/KmmivV4flBuVWpy9M3ugVKbWVfcXdHTDAu4/CJgKdGaPnkWToVcfc1Hw
- pGV6HAeXLkOX5OanKtfkRnUF8XHkfi0qbIavNs+iHqhH4TTY1MrqulMRfI/e6DwS
- PJXbL6UQXAhfw+r1cX0pjR9yekCg707nyiuGR2GY3F0MLay1n+DxG8jMS6OyEQen
- 5c7eHiflpY3UpwHTif8k8jnnl5jgO/iJjoATUB+TYxcGJdukz4ej7g5g44pnW5D5
- wL+dD+0XGM01ti8O6vuyQ==
-X-ME-Sender: <xms:9aLdZ1FWQqOziPqqoohR2Ek7ZIBNYbxHCOcRkjf-xbQHxvCD9abBXw>
- <xme:9aLdZ6WibTWFxk_WdQPYzwJQ8ENd3FCvBOXO81gFbAz0-NmJ4fiVzoewL77Jow-f_
- b8Bs0S4SK0muK6g9C8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedujedtucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
- gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
- tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
- gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
- fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
- hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
- feejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehkvggvshgtohhokhestghhrh
- homhhiuhhmrdhorhhgpdhrtghpthhtohepuggrnhhivghlsehffhiflhhlrdgthhdprhgt
- phhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghlvghssh
- grnhgurhhordgtrghrmhhinhgrthhisehgmhgrihhlrdgtohhmpdhrtghpthhtohepuggr
- vhhiughgohifsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkuhhnihhtqdguvghvse
- hgohhoghhlvghgrhhouhhpshdrtghomhdprhgtphhtthhopehmtggrnhgrlhesihhgrghl
- ihgrrdgtohhmpdhrtghpthhtohepjhgrnhhirdhnihhkuhhlrgesihhnthgvlhdrtghomh
- dprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:9aLdZ3LWSj3ee0DpgDBVQgR9N6em0f5-W_bT607OLi8J56P-PHjwdg>
- <xmx:9aLdZ7EmgyfsMK79595Ji4fqyaEgzpUx28qERgbScF30VauOkMTTZA>
- <xmx:9aLdZ7VDCg0me11XgjTCMnOtsbEkwp9VdJtw9WRuZpovB9sSdPMWvQ>
- <xmx:9aLdZ2MO9qdvK_ExIyuwHK5jCpMbl8MVknK5QRVW7ddiQcxb6VhGrQ>
- <xmx:9qLdZ7URYi_A7oI0zqTv7Ebk9x9UFrrUdpb50OelwEli-e3q19QxBoz_>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 1F6E52220072; Fri, 21 Mar 2025 13:33:41 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD72A10E7F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 17:37:38 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LATAUl022087
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 17:37:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=5EPzIyilGqOZI5ta3x+QlI0t
+ ANS6zHW/9qVjSLgS1/A=; b=Vp4vO6c73kU5bmNKyEmP09Krk5Pv61VWGOqeDNFb
+ LmYIks7+mB2u+gNWcH1kBFBVPXA0Fl1JXqsM2ObXX3DLjh0BllYGJMr8TsD+IL8V
+ RWHGJlARaIlCdwP1BicyOWvsLRnbpcFuginyUV1V+GYSr6K9AdpuqHqcu9+IjGsq
+ 9ZcNOFiG9L2lbdrojt0CH7ldJtdiIKRPn/98WNA6k3+KZffaQId3OgzEyky5ELnO
+ uSjqdWQfC+IEgUNK1tQZCBLpz5VLzAPw4IOWQLs3+qne7KJH5h/IeDI1G4AxCRJ/
+ M9e2oMooTPTRR0holz5WdSOormxc3Y2PZ35WNrHVLyzwig==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45h4wphf2j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 17:37:37 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-6e8f9057432so42384466d6.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 10:37:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742578657; x=1743183457;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5EPzIyilGqOZI5ta3x+QlI0tANS6zHW/9qVjSLgS1/A=;
+ b=m3CwnqJqhdwSkT++ntd8ZUB4FiSIuexaBqLP3PBlm3yZbQNfIswL4hJhamPyXJ+VX5
+ +v8D86c85sC6pQOqF45WuTLVkz58tuVY8rsIqZD+JctxFe/TAr3u+chyR7oGWYbsgOa+
+ lPZcWykTb9nAHyJHFx7sN3WYd+/izDBQTbqg4jXeHtkjSHIzu6QQl2hfEzJ04ZzCdaJl
+ bMwplqge7YfVHV6g0OCR+RcaUzYOkxuUiaXc+H3HNJlgTA85JW7t7bZtZRd4tX69uES3
+ 20djMH3rlYFnVCB7Wak/WzKvDyZn/SaOf98f6qYE0vJFS7zm0FMcYpvNV7q0itaQ4Vpz
+ t6eQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWWTahpTeQIIxWutor/yuVo0cmBU4VHPomaB8k0xKt9U7JKpLN6tsQMjUmJg1mYgm6dReo0bUt+QCI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzinR6gSAO6HA1s3cx9cCKSIBqXG52TYwWzD5cbx3CxFIed+vXA
+ DlqQ2tPa1ZfP78M7GwEJUC2tRNpjnsddij1OCWofvgmuSv3zfryadGZnVPY1AYF5PyClt2xjhT7
+ HtG6+N1oYq6owZIbhmT+hOVSuYpWL+uMhVjQgiN1X3RcnUCTByjirU552f2CJ2n2o758=
+X-Gm-Gg: ASbGnctLmXGp4if1UyGUxmR/oQr17ydJ7OGnJi17mw/J+EfCzo4V/4pguP+jYgaJ+HI
+ wIJw93Aen9/1NBYQ9wU2tyFQ2hEqf4bUZQMs3k0eWJU0UwF6FMBDDmZp+ZgJ8xqCNK2/rjKRBxg
+ 8/9uKdKIB/rXEzsbCvcPRr0QajLdmh7V8Vi6cRlV4ZsmEyJIEamYJl4YAX57aL+q+yOFa6/KWtP
+ iep9bBkSJNGbFOh8WVbr4Kt/eIguOJTnz6+R2UetQuIRevpn1bjGsm+ZknONo+WddZi+Mwi0SYX
+ DaNeu1Am8M88MZvKCwAV076VVMlBnFXXzRvQPJlmpEkh+WMt8v3Ku6EEGKb3ut/7f8CRczKepeY
+ 5wg4=
+X-Received: by 2002:a05:6214:cc8:b0:6e4:9b59:d9ce with SMTP id
+ 6a1803df08f44-6eb3f2858e2mr61754966d6.5.1742578656891; 
+ Fri, 21 Mar 2025 10:37:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGADBjRs3rs94/YLnkpOq24pSnDwxMlG2hCY2p4qMNbSXk/dzNtWVVKJ5jRUhsoAdgTEJUHRQ==
+X-Received: by 2002:a05:6214:cc8:b0:6e4:9b59:d9ce with SMTP id
+ 6a1803df08f44-6eb3f2858e2mr61754516d6.5.1742578656395; 
+ Fri, 21 Mar 2025 10:37:36 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54ad6469104sm226950e87.20.2025.03.21.10.37.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Mar 2025 10:37:34 -0700 (PDT)
+Date: Fri, 21 Mar 2025 19:37:31 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ayushi Makhija <quic_amakhija@quicinc.com>
+Cc: Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ robdclark@gmail.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
+ robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_jesszhan@quicinc.com
+Subject: Re: [PATCH v2 08/10] drm/bridge: anx7625: enable HPD interrupts
+Message-ID: <lkeezxmjs6qn36qzhmvmtngvrxuwng53rgcb75centx6ds5h4d@dx2iz4aqrcho>
+References: <20250311122445.3597100-1-quic_amakhija@quicinc.com>
+ <20250311122445.3597100-9-quic_amakhija@quicinc.com>
+ <5hvpacx3qeqhjqemhqizws4esdhwg7reli77qey2nin2fggljp@ykgyayj2v3e6>
+ <3abefb09-c1b6-4339-8cd9-cd86652c35d6@quicinc.com>
 MIME-Version: 1.0
-X-ThreadId: T46bf3c12e1d9de2d
-Date: Fri, 21 Mar 2025 18:33:19 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Guenter Roeck" <linux@roeck-us.net>,
- "Alessandro Carminati" <acarmina@redhat.com>, linux-kselftest@vger.kernel.org
-Cc: "Dave Airlie" <airlied@gmail.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- "Dan Carpenter" <dan.carpenter@linaro.org>,
- "Kees Cook" <keescook@chromium.org>,
- =?UTF-8?Q?Daniel_D=C3=ADaz?= <daniel.diaz@linaro.org>,
- "David Gow" <davidgow@google.com>,
- "Arthur Grillo" <arthurgrillo@riseup.net>,
- "Brendan Higgins" <brendan.higgins@linux.dev>,
- "Naresh Kamboju" <naresh.kamboju@linaro.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Maxime Ripard" <mripard@kernel.org>,
- =?UTF-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- "Daniel Vetter" <daniel@ffwll.ch>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Alessandro Carminati" <alessandro.carminati@gmail.com>,
- "Jani Nikula" <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, Linux-Arch <linux-arch@vger.kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- loongarch@lists.linux.dev, x86@kernel.org,
- "Linaro Kernel Functional Testing" <lkft@linaro.org>,
- "Heiko Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>
-Message-Id: <a6f90bdb-8459-4d33-8874-7e724bd22d9f@app.fastmail.com>
-In-Reply-To: <b6bb68f0-7e93-4db2-9fe6-f615f06ddeb1@roeck-us.net>
-References: <20250313114329.284104-1-acarmina@redhat.com>
- <20250313114329.284104-11-acarmina@redhat.com>
- <b6bb68f0-7e93-4db2-9fe6-f615f06ddeb1@roeck-us.net>
-Subject: Re: [PATCH v4 10/14] s390: Add support for suppressing warning
- backtraces
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3abefb09-c1b6-4339-8cd9-cd86652c35d6@quicinc.com>
+X-Proofpoint-ORIG-GUID: Nk6hlap4-A_IRCrQW3pn45akRBn4e26I
+X-Proofpoint-GUID: Nk6hlap4-A_IRCrQW3pn45akRBn4e26I
+X-Authority-Analysis: v=2.4 cv=ZN3XmW7b c=1 sm=1 tr=0 ts=67dda3e1 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Vs1iUdzkB0EA:10 a=R25bk4NhV3WDM544LqcA:9 a=CjuIK1q_8ugA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-21_05,2025-03-21_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ mlxlogscore=835 clxscore=1015 phishscore=0 adultscore=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 spamscore=0 mlxscore=0 priorityscore=1501
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503210129
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,25 +128,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 21, 2025, at 18:05, Guenter Roeck wrote:
-> On 3/13/25 04:43, Alessandro Carminati wrote:
->
-> gcc 10.3.0 and later do not have this problem. I also tried s390 builds 
-> with gcc 9.4
-> and 9.5 but they both crash for unrelated reasons.
->
-> If this is a concern, the best idea I have is to make KUNIT_SUPPRESS_BACKTRACE
-> depend on, say,
-> 	depends on CC_IS_CLANG || (CC_IS_GCC && GCC_VERSION >= 100300)
->
-> A more complex solution might be to define an architecture flag such
-> as HAVE_SUPPRESS_BACKTRACE, make that conditional on the gcc version
-> for s390 only, and make KUNIT_SUPPRESS_BACKTRACE depend on it.
+On Fri, Mar 21, 2025 at 02:36:21AM +0530, Ayushi Makhija wrote:
+> On 3/11/2025 9:09 PM, Dmitry Baryshkov wrote:
+> > On Tue, Mar 11, 2025 at 05:54:43PM +0530, Ayushi Makhija wrote:
+> >> When device enters the suspend state, it prevents
+> >> HPD interrupts from occurring. To address this,
+> >> add an additional PM runtime vote in hpd_enable().
+> >> This vote is removed in hpd_disable().
+> > 
+> > Is it really enough to toggle the HPD interrupts? Is there any kind of
+> > programming that should be moved to .hpd_enable() too (so that by
+> > default the bridge doesn't generate HPD interrupts)?
+> > 
+> 
+> Hi Dmirty,
+> 
+> I couldn't find the ANX7625 bridge driver datasheet, where all the registers information are present.
+> 
+> As per my understanding, we have anx7625_hpd_timer_config(), where debounce timer registers are getting set, which help to manage the detection and stability of the HPD signal.
+> 
+> anx7625_hpd_timer_config() is getting called from anx7625_runtime_pm_resume().
+> 
+> anx7625_runtime_pm_resume
+>    anx7625_power_on_init
+>        anx7625_ocm_loading_check
+>            anx7625_disable_pd_protocol
+>               anx7625_hpd_timer_config
+> 
+> So, I think HPD programming is already taken care in anx7625_hpd_timer_config(). anx7625_runtime_pm_resume() is getting called for both eDP and DP configuration. 
+> 
+> If you suggest then, I can move the anx7625_hpd_timer_config() from anx7625_disable_pd_protocol() to anx7625_bridge_hpd_enable().
 
-That is probably fine, there are very few users on s390 that build
-their own kernels, and they likely all have modern compilers anyway.
+This might result in HPD signal being generated after invalid or
+improper timings. If we can't get a feedback from Analogix on how to
+control HPD generation, then it's better to leave it as is.
 
-I should still send a patch to raise the minimum compiler version to
-gcc-8.1, but unfortunately that is not enough here.
-
-     Arnd
+-- 
+With best wishes
+Dmitry
