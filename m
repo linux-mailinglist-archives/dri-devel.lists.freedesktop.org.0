@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C205FA6B822
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 10:55:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D08A6B879
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 11:06:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F084610E764;
-	Fri, 21 Mar 2025 09:54:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B8610E778;
+	Fri, 21 Mar 2025 10:06:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G92hIB2X";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="jw03Jjnd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC11F10E764
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 09:54:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 626BD5C6D92;
- Fri, 21 Mar 2025 09:52:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92F7FC4CEE3;
- Fri, 21 Mar 2025 09:54:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742550898;
- bh=TC3r2kF6h1DguPsHjjEeqn2dDugjdFWL1T8eZNZFK7U=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=G92hIB2X8Wwiys82uVSEu8Uj+jPevWW5gsMb3/Ub2Aj+nRnnmXcl2CCx9MQi6BPJj
- mVImTQqhYbsPkD8BIiI647oQtRIjVeHMufD3xer3lpfyCgJvyOyvoA/LP1Z8Gc/730
- abkxD1wnAEeW/wtqcCXh6SBggwAU2VRmsIZnWlbDrR3IeIyg6H887iljJ0ETRiHCpq
- 0b7ce4aBeogQ+Qu1l+s9eel6AM6qEmh+MiJdXqDZEkYNfBhHZXy+ePNgEogfq8WGUQ
- SAAXeQIazO4EvxYj7Ac0E9uVNt8MSooPVFDswe5s8iP+dyQ3zVCYVUAUfxqscGyowc
- 1HawfIyP4nC1Q==
-Message-ID: <400466cd3c229ea6c6cb25e2a58cee27@kernel.org>
-Date: Fri, 21 Mar 2025 09:54:55 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v8 2/5] drm/bridge: add support for refcounting
-In-Reply-To: <20250320-drm-bridge-refcount-v8-2-b3ddaa9f1368@bootlin.com>
-References: <20250320-drm-bridge-refcount-v8-2-b3ddaa9f1368@bootlin.com>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, "Andrzej
- Hajda" <andrzej.hajda@intel.com>, "Anusha Srivatsa" <asrivats@redhat.com>,
- "David
- Airlie" <airlied@gmail.com>, "Dmitry Baryshkov" <lumag@kernel.org>, "Fabio
- Estevam" <festevam@gmail.com>,
- =?utf-8?b?SGVydsOpIENvZGluYQ==?= <herve.codina@bootlin.com>, "Hui
- Pu" <Hui.Pu@gehealthcare.com>, "Inki Dae" <inki.dae@samsung.com>, "Jagan
- Teki" <jagan@amarulasolutions.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Jonas Karlman" <jonas@kwiboo.se>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Marek Szyprowski" <m.szyprowski@samsung.com>, "Marek
- Vasut" <marex@denx.de>, "Maxime Ripard" <mripard@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Paul Kocialkowski" <paulk@sys-base.io>,
- "Pengutronix
- Kernel Team" <kernel@pengutronix.de>, "Robert Foss" <rfoss@kernel.org>, "Sascha
- Hauer" <s.hauer@pengutronix.de>, "Shawn Guo" <shawnguo@kernel.org>, "Simona
- Vetter" <simona@ffwll.ch>, "Stefan Agner" <stefan@agner.ch>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: quoted-printable
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A27D110E76F;
+ Fri, 21 Mar 2025 10:06:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=taNGpSsT9yLqZwW/7TUK635vZZQRd6sl6eS/ZIQodwA=; b=j
+ w03JjndOyDU0V9XCF5Ag4w3qmFyQkKqaU3kNqxmn/cFJi4OFpH51NkPQnYRIqHqa
+ CxmaXjUO3jSwlm3LGwfN9yOltaMRuOSK9NjDjSCH1k5ikhaKyfcNICpKydysyEgE
+ vSjXCLy0yB+QX4ztKnRbPouB5dVR6pkXfe0Jrttrqo=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-111 (Coremail) ; Fri, 21 Mar 2025 18:05:33 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Fri, 21 Mar 2025 18:05:33 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Maxime Ripard" <mripard@kernel.org>
+Cc: lumag@kernel.org, neil.armstrong@linaro.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
+ p.zabel@pengutronix.de, simona@ffwll.ch, victor.liu@nxp.com,
+ rfoss@kernel.org, chunkuang.hu@kernel.org,
+ cristian.ciocaltea@collabora.com, Laurent.pinchart@ideasonboard.com,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ "Andy Yan" <andy.yan@rock-chips.com>
+Subject: Re:Re: [PATCH 1/1] drm/bridge: Pass down connector to drm bridge
+ detect hook
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <20250321-optimistic-prompt-civet-bdcdba@houat>
+References: <20250321085345.136380-1-andyshrk@163.com>
+ <20250321085345.136380-2-andyshrk@163.com>
+ <20250321-optimistic-prompt-civet-bdcdba@houat>
+X-NTES-SC: AL_Qu2fAPmevk0o5SWebOkfmkcVgOw9UcO5v/Qk3oZXOJF8jDjp4xEhV2B6MH/20uOCARCyuyGufh9t7txYW6d3eJ0gIXOvsAZyJ0cP6n6VjAxo3w==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Message-ID: <5a6bffa.a00e.195b82a4808.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: bygvCgD3T37tOd1nOPOCAA--.44580W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqAMXXmfdMFz-jgABsE
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,16 +70,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Mar 2025 16:42:11 +0100, Luca Ceresoli wrote:
-> DRM bridges are currently considered as a fixed element of a DRM card, and
-> thus their lifetime is assumed to extend for as long as the card
-> exists. New use cases, such as hot-pluggable hardware with video bridges,
-> require DRM bridges to be added to and removed from a DRM card without
-> tearing the card down. This is possible for connectors already (used by DP
->=20
-> [ ... ]
-
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-
-Thanks!
-Maxime
+CkhpIE1heGltZe+8jAoKQXQgMjAyNS0wMy0yMSAxNzo0ODowNCwgIk1heGltZSBSaXBhcmQiIDxt
+cmlwYXJkQGtlcm5lbC5vcmc+IHdyb3RlOgo+T24gRnJpLCBNYXIgMjEsIDIwMjUgYXQgMDQ6NTM6
+MzhQTSArMDgwMCwgQW5keSBZYW4gd3JvdGU6Cj4+IEZyb206IEFuZHkgWWFuIDxhbmR5LnlhbkBy
+b2NrLWNoaXBzLmNvbT4KPj4gCj4+IEluIHNvbWUgYXBwbGljYXRpb24gc2NlbmFyaW9zLCB3ZSBo
+b3BlIHRvIGdldCB0aGUgY29ycmVzcG9uZGluZwo+PiBjb25uZWN0b3Igd2hlbiB0aGUgYnJpZGdl
+J3MgZGV0ZWN0IGhvb2sgaXMgaW52b2tlZC4KPj4gCj4+IEluIG1vc3QgY2FzZXMsIHdlIGNhbiBn
+ZXQgdGhlIGNvbm5lY3RvciBieSBkcm1fYXRvbWljX2dldF9jb25uZWN0b3JfZm9yX2VuY29kZXIK
+Pj4gaWYgdGhlIGVuY29kZXIgYXR0YWNoZWQgdG8gdGhlIGJyaWRnZSBpcyBlbmFibGVkLCBob3dl
+dmVyIHRoZXJlIHdpbGwKPj4gc3RpbGwgYmUgc29tZSBzY2VuYXJpb3Mgd2hlcmUgdGhlIGRldGVj
+dCBob29rIG9mIHRoZSBicmlkZ2UgaXMgY2FsbGVkCj4+IGJ1dCB0aGUgY29ycmVzcG9uZGluZyBl
+bmNvZGVyIGhhcyBub3QgYmVlbiBlbmFibGVkIHlldC4gRm9yIGluc3RhbmNlLAo+PiB0aGlzIG9j
+Y3VycyB3aGVuIHRoZSBkZXZpY2UgaXMgaG90IHBsdWcgaW4gZm9yIHRoZSBmaXJzdCB0aW1lLgo+
+PiAKPj4gU2luY2UgdGhlIGNhbGwgdG8gYnJpZGdlJ3MgZGV0ZWN0IGlzIGluaXRpYXRlZCBieSB0
+aGUgY29ubmVjdG9yLCBwYXNzaW5nCj4+IGRvd24gdGhlIGNvcnJlc3BvbmRpbmcgY29ubmVjdG9y
+IGRpcmVjdGx5IHdpbGwgbWFrZSB0aGluZ3Mgc2ltcGxlci4KPj4gCj4+IFNpZ25lZC1vZmYtYnk6
+IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPgo+RlRSLCBJJ20gYWdhaW5zdCBp
+dCBhbmQgd291bGQgaGF2ZSBhcHByZWNpYXRlZCB0aGF0IHlvdSB3YWl0IGZvciBhCj5tZWFuaW5n
+ZnVsIGNsb3N1cmUgdG8gdGhlIGRpc2N1c3Npb24gd2UndmUgaGFkIG9uIHRoaXMuCgpObyBwcm9i
+bGVtLiBJIGp1c3Qgd2FudCB0byBrbm93IGhvdyB0byBwcm9jZWVkIHdpdGggdGhpcy4KCgo+Cj5N
+YXhpbWUK
