@@ -2,55 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781A7A6B586
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 08:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66320A6B59F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 09:01:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9735310E0FD;
-	Fri, 21 Mar 2025 07:53:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 596F610E6F1;
+	Fri, 21 Mar 2025 08:01:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DdEAIF07";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TQt5jcGi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27C5E10E0FD
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 07:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1742543591;
- bh=enCbel2iRJcTPHtXReynf9C3YSEj7sSO1j/UpMt0lY4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=DdEAIF07vhWzK5D1yxlN38RFbvZGKx8GRut/0eJ9kr0Rz9aVfacdAa5g+sUHTEzDM
- PKLkPp8xuBjOOdEnlZ0yIx0PpM2GtBU4JE/RI5vRvqAmObadnsr7RUf6g5fX8Z8MoT
- 3UUdBDi8zDUUjeH/OH929J+zOAFUo/1Wu9Bb+7Ax/2o0/s/lAh7yHpM7pQQ/C6UBl/
- 1TLbkJKfIiehn+hZxzRK9jG4BCFnzeIiW7u7DG+EqgwyIErfAlLI9pjokAsKyWTqd3
- gq6PHjMXtcOQ5Lm3XItOaskFCDeP7jp55tBncrWGA/RnuICsrJi8INbt+hlefxGUKo
- EQfY5DK2kCJAQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 447FA17E0C38;
- Fri, 21 Mar 2025 08:53:11 +0100 (CET)
-Date: Fri, 21 Mar 2025 08:53:06 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/9] drm/panthor: Use 64-bit and poll register accessors
-Message-ID: <20250321085306.0d79ec5d@collabora.com>
-In-Reply-To: <20250320111741.1937892-3-karunika.choo@arm.com>
-References: <20250320111741.1937892-1-karunika.choo@arm.com>
- <20250320111741.1937892-3-karunika.choo@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2074.outbound.protection.outlook.com [40.107.94.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C14E10E6F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 08:01:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cMrhfIRXwM8k4V/tEHN0jwxqghy7O00YSu0soNUXszkIdy8MDvrwWa87b/eNS0zlvOf54v4PozMWt0/NI25VJrNhjQBaIBwEiVq4DtfGoBCCPc3PGSXfdG3QtMPLDkScKH2IrYuu3e/Mo0/jxSA8yc9Hcl0zAEFBiw4uEK9AN0F6BoDTC8fXoUDgBR9efA8yf2LaibHBn2FtC3cWUMbsxNCzSG3pNNwMzaxlkM1/B846cP1bnjzn7UDjyY3FnKxiLqcokR9gs7Cg5Ye0Vi4rfNKxYK3BrD5nI7JZNxD451yjXG7J8SUNcWz/LuRf1puJIzp6ZmF8WlCbXdbsRUVgNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V7KU4m1vzDsrak9K7Kb5zJidiDTzfM0WnlwapG1RB7E=;
+ b=Z16i6pHdfkIemDVMvSoSL5J1lg33zNqzF6uGllPPgAVcNDl3H7GU5LEhauXcwbYXy18wbqOoDpwpZaP44ML+RNabObYdk0OTqTi9sfk7YlaE6RnDWQwhsXfVAXNJCmqfVHBXrPnkgHRPbbRhKmFufh0yp52KILIwzWB2dtlTmDn/oxuQqQ0Qvy6fj5w9mNeatt62ZX8SogIP0UQt8nkabe2AVL4YBAH9qM+XvJkoUrkPMRqID7XLyMhbH3hj6VLDW4uxENxNOU5fSgrYRHHUOxoZQOTucEqTraNofdoqNdVYYxZrHJdIST4g4LIBn6PFdKoJqWdkCSNvOM0HKXYfEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V7KU4m1vzDsrak9K7Kb5zJidiDTzfM0WnlwapG1RB7E=;
+ b=TQt5jcGicm8LiSt5nUnWVFdFT2goBY+MPZuE2uZODEHe+pyg7CMS+AXLx7vfRaczLTgCtG3aR+eDJP7zZy9hGroKk13j3oy0MPknQgMkescMKEyZPEoINzTXMUc0DziXOkT9siKqotDGoXsL12b0MD4rS//hCC84+c+LmbCileM=
+Received: from CH0PR04CA0024.namprd04.prod.outlook.com (2603:10b6:610:76::29)
+ by CY1PR12MB9626.namprd12.prod.outlook.com (2603:10b6:930:106::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Fri, 21 Mar
+ 2025 08:00:57 +0000
+Received: from DS3PEPF000099DB.namprd04.prod.outlook.com
+ (2603:10b6:610:76:cafe::8d) by CH0PR04CA0024.outlook.office365.com
+ (2603:10b6:610:76::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.36 via Frontend Transport; Fri,
+ 21 Mar 2025 08:00:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF000099DB.mail.protection.outlook.com (10.167.17.197) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8534.20 via Frontend Transport; Fri, 21 Mar 2025 08:00:57 +0000
+Received: from jenkins-honglei.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 21 Mar
+ 2025 03:00:52 -0500
+From: Honglei Huang <honglei1.huang@amd.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter
+ <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>, Huang Rui
+ <ray.huang@amd.com>
+CC: <dri-devel@lists.freedesktop.org>, <virtualization@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, Demi Marie Obenour <demiobenour@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, Honglei Huang
+ <Honglei1.Huang@amd.com>
+Subject: [PATCH v2 0/7] *** Add virtio gpu userptr support ***
+Date: Fri, 21 Mar 2025 16:00:22 +0800
+Message-ID: <20250321080029.1715078-1-honglei1.huang@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099DB:EE_|CY1PR12MB9626:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd1e08d8-c749-4314-96d5-08dd684e8312
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|82310400026|376014|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fn91e4is5a6Pc6ez6g4EL3U1G9qEPr1UDTf4HlMGsQq7AvaVUKgQcKAd65jL?=
+ =?us-ascii?Q?cXf7R55qNjSUFohgzMKB7PGu9npP1Y+dFw50oOFUK97qNyx730L89HE1Uw0B?=
+ =?us-ascii?Q?K6TZ73zqnx3cPu+9s9iHyHmSj/hM8CKyED5TXXoDCMIQct6N89mcB2nQuUj6?=
+ =?us-ascii?Q?ByRHD8IoUsPPQWRqDpm3VAWn/8gItU0LXDO5hrvVP0QhbOmFMA5p57abiLVl?=
+ =?us-ascii?Q?D5oDO5LDzIizxP7FuK8ce63a7+EMqEm8HgJYRKtIf/pWnAFfcPtrNoWOdEg2?=
+ =?us-ascii?Q?IrJeQDiP+ZZcfgguOb1hDp6CKFwvi0qjwv7znQg4lOw5pwKILSsWRnmVVZMQ?=
+ =?us-ascii?Q?+IUo5gc/1UaUaBfh+CDaBq7g7g8qJII4mbqidKSc5HsOKok3OoI8KaxJhu6V?=
+ =?us-ascii?Q?wXyoKDBRcWbxUQDGbWN8zT/MTxqaXLbGwIP6ukkhCLNd1To/Dezcps2WR7Xq?=
+ =?us-ascii?Q?ifCNttxADGWvklQjkU83RzP4xtctncqaJdn+RyWGwrBukCgyGFg99mM4DeaW?=
+ =?us-ascii?Q?oiklQkqwf4x3h3REQEWCaKd0mk5u4FRTKPKBzzT3wiW+SxQMV4zhCyNwFCt2?=
+ =?us-ascii?Q?8qL7zWUr3mZLhLnRpDvzfuHPef7qoz+V8SRJTKPUH8UxnLG3YUFDOwgrd8mb?=
+ =?us-ascii?Q?x9zWUdJjwVxgdZ6NYt8aMIvRZkTiJOfR6TF1ZnkCqPcQY8QQoQnrYZTbKDuO?=
+ =?us-ascii?Q?IH1siPsT7qNUo5cLl9uK0Ernr5SFeCMNjynUek3EGhZIhtHYEcor8fIsZbwx?=
+ =?us-ascii?Q?siGuZ4YVhM3yYAuyoftpUG2SQv2GVyCLUpFzkA7Du9ZKr94Uh5ppm4pLgACA?=
+ =?us-ascii?Q?5tsDDz5zJOi0xObrsYR6MdBRYNC2itZkTM3Z1ZYoBmDFKi3BFEzBg7v97Gib?=
+ =?us-ascii?Q?6AhKZRHVbprAyrM5sbCmYynIndjZmzti3FbsXQ5aAwTFhdHfs2eCDMQjW2/P?=
+ =?us-ascii?Q?4U2/RydN1tK3kGqtKYJbGCULv1yM3Vni4CMvEPWkptsgNR3s3e9otDBWZrfi?=
+ =?us-ascii?Q?kWfwrA/lYt60mk+cqjKGRudk2UeQtXogl98HAEIKXM6NlUQ9liCUXt8dnYmK?=
+ =?us-ascii?Q?wJGOAd3YV6ztjXIuBQtZU8QYatR98D0qV/GGHWNJGJxRvMSJYnmz4TkyviUW?=
+ =?us-ascii?Q?/mlsmjGivGSRC0lxJ+Dsc4im0oXUf1Kkb7pFm+AwI2XG2vgM4/PCqj0oy1Lp?=
+ =?us-ascii?Q?6RVjm8iVV/xKLz0xQFmFTGkvOj0b88+CJ9xD9wxCijSRPjHZpfZo79Kpn2M6?=
+ =?us-ascii?Q?U9HpWN0METLeyhTitl/QfMj8nyla3S3bqige5QPZBuKxICx98X8WzVuj7enb?=
+ =?us-ascii?Q?nKiy/Zr7O0ipXwgZKUSDMLFSfvPAl9ZYOd6s/ptn2VUtK84xDunQarbl4kEb?=
+ =?us-ascii?Q?PYAazgG+YIig1WS+p1+IYYKc/UxZIvkmU83Ld0K9+vnvHbSaVBY3Op3/qubX?=
+ =?us-ascii?Q?JqUCzmrGi69b1qQgirf/dRLX1dkdlEJDDXbGF7VAUbGkve7I03HHthwMIi+n?=
+ =?us-ascii?Q?MUxjFY5DAFJi5iK50elWmncvyP6baRnJWf93?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014)(7416014)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 08:00:57.1468 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd1e08d8-c749-4314-96d5-08dd684e8312
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099DB.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9626
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,325 +139,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Mar 2025 11:17:34 +0000
-Karunika Choo <karunika.choo@arm.com> wrote:
+From: Honglei Huang <Honglei1.Huang@amd.com>
 
-> This patch updates Panthor to use the new 64-bit accessors and poll
-> functions.
+Hello,
 
-nit: I don't think it makes sense to dissociate the introduction of the
-new helpers and their use. Could we squash this patch into the previous
-one?
+This series add virtio gpu userptr support and add libhsakmt capset.
+The userptr feature is used for let host access guest user space memory,
+this feature is used for GPU compute use case, to enable ROCm/OpenCL native
+context. It should be pointed out that we are not to implement SVM here, 
+this is just a buffer based userptr implementation.
+The libhsakmt capset is used for ROCm context, libhsakmt is like the role 
+of libdrm in Mesa.
 
-> 
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.c  |   9 +-
->  drivers/gpu/drm/panthor/panthor_gpu.c | 142 +++++++-------------------
->  drivers/gpu/drm/panthor/panthor_mmu.c |  34 ++----
->  3 files changed, 53 insertions(+), 132 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 0f52766a3120..ecfbe0456f89 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -1059,8 +1059,8 @@ static void panthor_fw_stop(struct panthor_device *ptdev)
->  	u32 status;
->  
->  	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_DISABLE);
-> -	if (readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
-> -			       status == MCU_STATUS_DISABLED, 10, 100000))
-> +	if (gpu_read_poll_timeout(ptdev, MCU_STATUS, status,
-> +				  status == MCU_STATUS_DISABLED, 10, 100000))
->  		drm_err(&ptdev->base, "Failed to stop MCU");
->  }
->  
-> @@ -1085,8 +1085,9 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
->  
->  		panthor_fw_update_reqs(glb_iface, req, GLB_HALT, GLB_HALT);
->  		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
-> -		if (!readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
-> -					status == MCU_STATUS_HALT, 10, 100000)) {
-> +		if (!gpu_read_poll_timeout(ptdev, MCU_STATUS, status,
-> +					   status == MCU_STATUS_HALT, 10,
-> +					   100000)) {
->  			ptdev->reset.fast = true;
->  		} else {
->  			drm_warn(&ptdev->base, "Failed to cleanly suspend MCU");
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 671049020afa..0dee011fe2e9 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -108,14 +108,9 @@ static void panthor_gpu_init_info(struct panthor_device *ptdev)
->  
->  	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
->  
-> -	ptdev->gpu_info.shader_present = gpu_read(ptdev, GPU_SHADER_PRESENT_LO);
-> -	ptdev->gpu_info.shader_present |= (u64)gpu_read(ptdev, GPU_SHADER_PRESENT_HI) << 32;
-> -
-> -	ptdev->gpu_info.tiler_present = gpu_read(ptdev, GPU_TILER_PRESENT_LO);
-> -	ptdev->gpu_info.tiler_present |= (u64)gpu_read(ptdev, GPU_TILER_PRESENT_HI) << 32;
-> -
-> -	ptdev->gpu_info.l2_present = gpu_read(ptdev, GPU_L2_PRESENT_LO);
-> -	ptdev->gpu_info.l2_present |= (u64)gpu_read(ptdev, GPU_L2_PRESENT_HI) << 32;
-> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
-> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
-> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
->  
->  	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
->  	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
-> @@ -152,8 +147,7 @@ static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
->  	if (status & GPU_IRQ_FAULT) {
->  		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
-> -		u64 address = ((u64)gpu_read(ptdev, GPU_FAULT_ADDR_HI) << 32) |
-> -			      gpu_read(ptdev, GPU_FAULT_ADDR_LO);
-> +		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR_LO);
->  
->  		drm_warn(&ptdev->base, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
->  			 fault_status, panthor_exception_name(ptdev, fault_status & 0xFF),
-> @@ -244,45 +238,27 @@ int panthor_gpu_block_power_off(struct panthor_device *ptdev,
->  				u32 pwroff_reg, u32 pwrtrans_reg,
->  				u64 mask, u32 timeout_us)
->  {
-> -	u32 val, i;
-> +	u32 val;
->  	int ret;
->  
-> -	for (i = 0; i < 2; i++) {
-> -		u32 mask32 = mask >> (i * 32);
-> -
-> -		if (!mask32)
-> -			continue;
-> -
-> -		ret = readl_relaxed_poll_timeout(ptdev->iomem + pwrtrans_reg + (i * 4),
-> -						 val, !(mask32 & val),
-> -						 100, timeout_us);
-> -		if (ret) {
-> -			drm_err(&ptdev->base, "timeout waiting on %s:%llx power transition",
-> -				blk_name, mask);
-> -			return ret;
-> -		}
-> +	ret = gpu_read64_relaxed_poll_timeout(ptdev, pwrtrans_reg, val, !val,
-> +					      100, timeout_us);
-> +	if (ret) {
-> +		drm_err(&ptdev->base,
-> +			"timeout waiting on %s:%llx power transition", blk_name,
-> +			mask);
-> +		return ret;
->  	}
->  
-> -	if (mask & GENMASK(31, 0))
-> -		gpu_write(ptdev, pwroff_reg, mask);
-> -
-> -	if (mask >> 32)
-> -		gpu_write(ptdev, pwroff_reg + 4, mask >> 32);
-> -
-> -	for (i = 0; i < 2; i++) {
-> -		u32 mask32 = mask >> (i * 32);
-> +	gpu_write64(ptdev, pwroff_reg, mask);
->  
-> -		if (!mask32)
-> -			continue;
-> -
-> -		ret = readl_relaxed_poll_timeout(ptdev->iomem + pwrtrans_reg + (i * 4),
-> -						 val, !(mask32 & val),
-> -						 100, timeout_us);
-> -		if (ret) {
-> -			drm_err(&ptdev->base, "timeout waiting on %s:%llx power transition",
-> -				blk_name, mask);
-> -			return ret;
-> -		}
-> +	ret = gpu_read64_relaxed_poll_timeout(ptdev, pwrtrans_reg, val, !val,
-> +					      100, timeout_us);
-> +	if (ret) {
-> +		drm_err(&ptdev->base,
-> +			"timeout waiting on %s:%llx power transition", blk_name,
-> +			mask);
-> +		return ret;
->  	}
->  
->  	return 0;
-> @@ -305,45 +281,26 @@ int panthor_gpu_block_power_on(struct panthor_device *ptdev,
->  			       u32 pwron_reg, u32 pwrtrans_reg,
->  			       u32 rdy_reg, u64 mask, u32 timeout_us)
->  {
-> -	u32 val, i;
-> +	u32 val;
->  	int ret;
->  
-> -	for (i = 0; i < 2; i++) {
-> -		u32 mask32 = mask >> (i * 32);
-> -
-> -		if (!mask32)
-> -			continue;
-> -
-> -		ret = readl_relaxed_poll_timeout(ptdev->iomem + pwrtrans_reg + (i * 4),
-> -						 val, !(mask32 & val),
-> -						 100, timeout_us);
-> -		if (ret) {
-> -			drm_err(&ptdev->base, "timeout waiting on %s:%llx power transition",
-> -				blk_name, mask);
-> -			return ret;
-> -		}
-> +	ret = gpu_read64_relaxed_poll_timeout(ptdev, pwrtrans_reg, val, !val,
-> +					      100, timeout_us);
-> +	if (ret) {
-> +		drm_err(&ptdev->base,
-> +			"timeout waiting on %s:%llx power transition", blk_name,
-> +			mask);
-> +		return ret;
->  	}
->  
-> -	if (mask & GENMASK(31, 0))
-> -		gpu_write(ptdev, pwron_reg, mask);
-> -
-> -	if (mask >> 32)
-> -		gpu_write(ptdev, pwron_reg + 4, mask >> 32);
-> -
-> -	for (i = 0; i < 2; i++) {
-> -		u32 mask32 = mask >> (i * 32);
-> +	gpu_write64(ptdev, pwron_reg, mask);
->  
-> -		if (!mask32)
-> -			continue;
-> -
-> -		ret = readl_relaxed_poll_timeout(ptdev->iomem + rdy_reg + (i * 4),
-> -						 val, (mask32 & val) == mask32,
-> -						 100, timeout_us);
-> -		if (ret) {
-> -			drm_err(&ptdev->base, "timeout waiting on %s:%llx readiness",
-> -				blk_name, mask);
-> -			return ret;
-> -		}
-> +	ret = gpu_read64_relaxed_poll_timeout(ptdev, pwrtrans_reg, val, !val,
-> +					      100, timeout_us);
-> +	if (ret) {
-> +		drm_err(&ptdev->base, "timeout waiting on %s:%llx readiness",
-> +			blk_name, mask);
-> +		return ret;
->  	}
->  
->  	return 0;
-> @@ -492,26 +449,6 @@ void panthor_gpu_resume(struct panthor_device *ptdev)
->  	panthor_gpu_l2_power_on(ptdev);
->  }
->  
-> -/**
-> - * panthor_gpu_read_64bit_counter() - Read a 64-bit counter at a given offset.
-> - * @ptdev: Device.
-> - * @reg: The offset of the register to read.
-> - *
-> - * Return: The counter value.
-> - */
-> -static u64
-> -panthor_gpu_read_64bit_counter(struct panthor_device *ptdev, u32 reg)
-> -{
-> -	u32 hi, lo;
-> -
-> -	do {
-> -		hi = gpu_read(ptdev, reg + 0x4);
-> -		lo = gpu_read(ptdev, reg);
-> -	} while (hi != gpu_read(ptdev, reg + 0x4));
-> -
-> -	return ((u64)hi << 32) | lo;
-> -}
-> -
->  /**
->   * panthor_gpu_read_timestamp() - Read the timestamp register.
->   * @ptdev: Device.
-> @@ -520,7 +457,7 @@ panthor_gpu_read_64bit_counter(struct panthor_device *ptdev, u32 reg)
->   */
->  u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
->  {
-> -	return panthor_gpu_read_64bit_counter(ptdev, GPU_TIMESTAMP_LO);
-> +	return gpu_read64_sync(ptdev, GPU_TIMESTAMP_LO);
->  }
->  
->  /**
-> @@ -531,10 +468,5 @@ u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
->   */
->  u64 panthor_gpu_read_timestamp_offset(struct panthor_device *ptdev)
->  {
-> -	u32 hi, lo;
-> -
-> -	hi = gpu_read(ptdev, GPU_TIMESTAMP_OFFSET_HI);
-> -	lo = gpu_read(ptdev, GPU_TIMESTAMP_OFFSET_LO);
-> -
-> -	return ((u64)hi << 32) | lo;
-> +	return gpu_read64(ptdev, GPU_TIMESTAMP_OFFSET_LO);
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 12a02e28f50f..a0a79f19bdea 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -510,9 +510,9 @@ static int wait_ready(struct panthor_device *ptdev, u32 as_nr)
->  	/* Wait for the MMU status to indicate there is no active command, in
->  	 * case one is pending.
->  	 */
-> -	ret = readl_relaxed_poll_timeout_atomic(ptdev->iomem + AS_STATUS(as_nr),
-> -						val, !(val & AS_STATUS_AS_ACTIVE),
-> -						10, 100000);
-> +	ret = gpu_read_relaxed_poll_timeout_atomic(ptdev, AS_STATUS(as_nr), val,
-> +						   !(val & AS_STATUS_AS_ACTIVE),
-> +						   10, 100000);
->  
->  	if (ret) {
->  		panthor_device_schedule_reset(ptdev);
-> @@ -564,8 +564,7 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
->  	region = region_width | region_start;
->  
->  	/* Lock the region that needs to be updated */
-> -	gpu_write(ptdev, AS_LOCKADDR_LO(as_nr), lower_32_bits(region));
-> -	gpu_write(ptdev, AS_LOCKADDR_HI(as_nr), upper_32_bits(region));
-> +	gpu_write64(ptdev, AS_LOCKADDR_LO(as_nr), region);
->  	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
->  }
->  
-> @@ -615,14 +614,9 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
->  	if (ret)
->  		return ret;
->  
-> -	gpu_write(ptdev, AS_TRANSTAB_LO(as_nr), lower_32_bits(transtab));
-> -	gpu_write(ptdev, AS_TRANSTAB_HI(as_nr), upper_32_bits(transtab));
-> -
-> -	gpu_write(ptdev, AS_MEMATTR_LO(as_nr), lower_32_bits(memattr));
-> -	gpu_write(ptdev, AS_MEMATTR_HI(as_nr), upper_32_bits(memattr));
-> -
-> -	gpu_write(ptdev, AS_TRANSCFG_LO(as_nr), lower_32_bits(transcfg));
-> -	gpu_write(ptdev, AS_TRANSCFG_HI(as_nr), upper_32_bits(transcfg));
-> +	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), transtab);
-> +	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), memattr);
-> +	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), transcfg);
->  
->  	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
->  }
-> @@ -635,14 +629,9 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
->  	if (ret)
->  		return ret;
->  
-> -	gpu_write(ptdev, AS_TRANSTAB_LO(as_nr), 0);
-> -	gpu_write(ptdev, AS_TRANSTAB_HI(as_nr), 0);
-> -
-> -	gpu_write(ptdev, AS_MEMATTR_LO(as_nr), 0);
-> -	gpu_write(ptdev, AS_MEMATTR_HI(as_nr), 0);
-> -
-> -	gpu_write(ptdev, AS_TRANSCFG_LO(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
-> -	gpu_write(ptdev, AS_TRANSCFG_HI(as_nr), 0);
-> +	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), 0);
-> +	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), 0);
-> +	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
->  
->  	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
->  }
-> @@ -1680,8 +1669,7 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->  		u32 source_id;
->  
->  		fault_status = gpu_read(ptdev, AS_FAULTSTATUS(as));
-> -		addr = gpu_read(ptdev, AS_FAULTADDRESS_LO(as));
-> -		addr |= (u64)gpu_read(ptdev, AS_FAULTADDRESS_HI(as)) << 32;
-> +		addr = gpu_read64(ptdev, AS_FAULTADDRESS_LO(as));
->  
->  		/* decode the fault status */
->  		exception_type = fault_status & 0xFF;
+Patches 1-2 add libhsakmt capset and userptr blob resource flag.
+Patches 3-5 implement basic userptr feature, in some popular bench marks,
+it has an efficiency of about 70% compared to bare metal in OpenCL API.
+Patch 6 adds interval tree to manage userptrs and prevent duplicate creation.
+
+V2: - Split add HSAKMT context and blob userptr resource to two patches.
+    - Remove MMU notifier related patches, cause use not moveable user space
+      memory with MMU notifier is not a good idea.
+    - Remove HSAKMT context check when create context, let all the context
+      support the userptr feature.
+    - Remove MMU notifier related content in cover letter.
+    - Add more comments  for patch 6 in cover letter.
+
+Honglei Huang (7):
+  virtio-gpu api: add HSAKMT context
+  virtio-gpu api: add blob userptr resource
+  drm/virtgpu api: add blob userptr resource
+  drm/virtio: implement userptr: probe for the feature
+  drm/virtio: implement userptr: add userptr obj
+  drm/virtio: advertise base userptr feature to userspace
+  drm/virtio: implement userptr: add interval tree
+
+ drivers/gpu/drm/virtio/Makefile          |   3 +-
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c |   1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.c     |   1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h     |  48 ++++
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c   |  20 +-
+ drivers/gpu/drm/virtio/virtgpu_kms.c     |   8 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c  |   5 +
+ drivers/gpu/drm/virtio/virtgpu_userptr.c | 351 +++++++++++++++++++++++
+ include/uapi/drm/virtgpu_drm.h           |   5 +-
+ include/uapi/linux/virtio_gpu.h          |   7 +
+ 10 files changed, 443 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/gpu/drm/virtio/virtgpu_userptr.c
+
+-- 
+2.34.1
 
