@@ -2,146 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E803A6C2A8
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 19:41:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CD8A6C2CC
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 19:54:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80DB810E80B;
-	Fri, 21 Mar 2025 18:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ABAC10E03D;
+	Fri, 21 Mar 2025 18:54:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="qVaaG2Qc";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kGcJqPcP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TY3P286CU002.outbound.protection.outlook.com
- (mail-japaneastazon11010060.outbound.protection.outlook.com [52.101.229.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 379F110E80B
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 18:41:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jiyaIm2KWx9Mus5okg8AGXfaQ/mgDqaiGDxNVMb8KQ5ot70pu05hwkmMYjvhhULvFaBdCxFTwE1cRlb/lDkGxeo2uJJ5qQgBbDX7jFvmA3Jk3kFq6zmxyxUVJJZUyMFmAGWwJabrSDjDl9/v7KZLPKUEOBCuqLgscWnAB0rfLiwPFQBMB7YMiEmgLHPtx1kEMx2pcDjbGR8oL9TreISn+T1y2HqIwx7R05TKAyrPywRYty3d7H/Yj2p82jQ62pzjSsf2DWdSmGVriG7t7VaoxOzGUZfzhYNY3AfyHcc0aNG7fbWMO6p7mkuol4y5LC2cwuabXJEongOXokBHKPhNUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w6o6PfMvG+yJNlM54Tk7630FkVNGQayZh+MzwU8nnCc=;
- b=c8MS5uIwHfJJBT65DM5u7nKB6TNNBi2WdU/JlT4mgMIWlcBUSGkCl3Knq/z7Et97NsaQWz8RkphLN4NwpE+UULwQ6YtSuQK7aqaWTLV8Tf73WwjaV86gUR2htO/Jhx0vDTUX1jfuIzHaJnB0uTSvsqU8rLIOht8tIy29xSPGRh0N+WoIuC1exjHUqaLVzx+M0enfBr4G7tqknSnzGzSgPf5rzPU+uAVpAfkUVceu+VVOXse+bGxXOrOB6rggzhVEW613RaXM171Zkh58jy2b4X3gA4HA7xI842UYem9C2hVTNwExzQpsaBKP0KYF0/YqbEdjglLw2YtFM46OQuMR7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w6o6PfMvG+yJNlM54Tk7630FkVNGQayZh+MzwU8nnCc=;
- b=qVaaG2QcVWyABgLki226K2zmuPgTg+3MP4ML78CGY9mYr6lz/oZyHN8Byv9j/bUWyW38XH8QETjw2B2ve1E55zbLoJGzqmZKZXcdng974y/NGiLDjkdt8bwDgYpEJ5f5yEUlF2RBXeZD0cEF3L4c4S4bSpnWfG3bPpfP29ve8IE=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS3PR01MB8320.jpnprd01.prod.outlook.com (2603:1096:604:1a3::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.35; Fri, 21 Mar
- 2025 18:40:58 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8534.036; Fri, 21 Mar 2025
- 18:40:50 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: kieran.bingham <kieran.bingham@ideasonboard.com>, laurent.pinchart
- <laurent.pinchart@ideasonboard.com>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: RE: [PATCH] drm: renesas: Extend RZ/G2L supported KMS formats
-Thread-Topic: [PATCH] drm: renesas: Extend RZ/G2L supported KMS formats
-Thread-Index: AQHbmoXW/Qd0guXlTECRlfOEZqHWarN96oxg
-Date: Fri, 21 Mar 2025 18:40:50 +0000
-Message-ID: <TY3PR01MB11346C6C1EBF9896A47E9807086DB2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250321172220.867165-1-kieran.bingham@ideasonboard.com>
-In-Reply-To: <20250321172220.867165-1-kieran.bingham@ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB8320:EE_
-x-ms-office365-filtering-correlation-id: 471e927c-567b-4700-e9dc-08dd68a7e748
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|38070700018; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?4uYI8pttMHTpdsZ38DWzdlpKnwFSud0t++cKx/4MBM9cLKNm0Pm37CJJz0vU?=
- =?us-ascii?Q?+bo85acyKBDCwt5Gl6E9XHryzMSfubWlyQAS3TrviRoVuU6odtfEzqGLc576?=
- =?us-ascii?Q?H3dCRJmKT7W9uAWKfJos9rFRAwOBXD2tLx0MPz0ckxFSaFYrRYSWwonXQzH3?=
- =?us-ascii?Q?2j5mn+fORELdd06+U2Vsb6uUh9Lx/WoNZxUHvPCVpWXqXQiHDUlhfirinRN/?=
- =?us-ascii?Q?godaCV1fxPFuE2zH+ueICwkugR9r4d3GQQcjvNpU9RPOuC1ilLmz2hStZz1q?=
- =?us-ascii?Q?p+2qG+Bc775MdM4/75HD37i66Y4Eo+O5+LAveBc6UOMU0DZbAW+AzZxdz4LH?=
- =?us-ascii?Q?PBfHLpeQEb65iftglqELjN6j+UsLa+7Dvd/Q3DoVZcHPBAXOdzsSggcuFrFA?=
- =?us-ascii?Q?JISIDQygHbXvyw6oDmLAQcqmcVrnQj8HU0NbEvtMdmFA8Cyh5Y0CVa/F2RzF?=
- =?us-ascii?Q?267X6K01oMfbyf3D/lQBcRZybhs6hgGctpI//hLIoo432Blnct/SchWY5LZz?=
- =?us-ascii?Q?ylHij8DZd8O6Wwb0o2XiT4z4YL++eIvHft+F6m+yZqDgthLX/ut6UI4AwAXF?=
- =?us-ascii?Q?1GRz5RG2shOCt+w9GBa2QKXS+5jI+QBrJCizVluguwotC7NnQARZ4RKyIgEp?=
- =?us-ascii?Q?sUKjeBRvEaprSpRU0O2uUnIAS4FzCJpGvaOyetLo2yUUVhTE6cohMVpRfjsy?=
- =?us-ascii?Q?f0U1id1xZOUEv7OsPkB3uCUh+akFshxXxwOmJGgiwSl+vblRUV1ItdT9HBg5?=
- =?us-ascii?Q?5xo7QL1MgMg3ZBi2GKhYYSIhn4FOdYtD3FAPczphGe+T1JmqERHzDfAsDwZT?=
- =?us-ascii?Q?QbdfPVCsJb2c7IYse3QxBFiy1+/vMGZbwtcYllgTz8De2ttdEVVqh2GGjwsI?=
- =?us-ascii?Q?hMGTUxg/O5xii3vXODoHBe9MbIs+lkX/4vdRIHh8kk0zJ2GXDP0NiM2YEzN8?=
- =?us-ascii?Q?xkaHeefidv3W6oAv/Am3kFKdoVklz/3gkSOx5gx2X9YRutpqbPgzM0IJJ9vv?=
- =?us-ascii?Q?h16L19BiMcR6oOa/wyv+hGC2unjIvMAwHEbiy3sTkxNsPssC0MY6fGmyltT5?=
- =?us-ascii?Q?/CcZgjdXm8obLPBWIEn+CPdLW7Xe3zVVp8zm0xobc/gi7iPCIhb+1mBTR+x3?=
- =?us-ascii?Q?chE1pBms2/6qcV9pMByODG6m/6HKEK2xVQKX9TnIlpDMSoJ/vQ0epl45BFTE?=
- =?us-ascii?Q?n1pS38/6BDo6V9ii86dxJQNKPP7VyjRriOfKxXdKpIpWD65JHLs0m3ul0e3l?=
- =?us-ascii?Q?DsDXDhTrL141INIWVXN4vkBPOB0I/abRq0vtE/jszt/DPzRNmxq2kh+Gxlq5?=
- =?us-ascii?Q?duE0yQXF3/izvmHHX6oRwuxvpyTig3VzzVCOE/QbwCIqM6KcMTm/MJiZ8Rvc?=
- =?us-ascii?Q?zFHYT/kq7hihv0MuEPkuHAmZx4U94QaoGVeSTWqSgaO2gPjGXOp/aqn3mbVn?=
- =?us-ascii?Q?RutpE1oTvqi9jz9iktAp3GVpXPcAgAb3?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?gHs1txDQrnOie/WZuCDm+tEPdmLSzVGDzYM1v/PLgTLW/ljsxAlOrF7cr1wh?=
- =?us-ascii?Q?loR9elcdEeP6lTeQXksBzmFiJWrG1R+fJGiXnR3CUv/zQL7m8fWHkP5m9wre?=
- =?us-ascii?Q?fSeL4PsDaSptCcoVH4+1VV44YGIFuqQ3SYU8p2r/vb1ZHsu6HKhsR+HpTKiG?=
- =?us-ascii?Q?ugXX4Eskgm5h+4FKbK3e6R9iVgBxb332uyj49lh+Iq9nmJTMDZieMGOCeGWW?=
- =?us-ascii?Q?VsXdbMbxEfmRICWoRCCQ03EhQ34vIdtNmvbhLqs6jPt+FgdmuEmmDHJJWneh?=
- =?us-ascii?Q?VulOS8njit8xogOisrazGDsyiXKYmCy8jYlKOYhb2J1fe7GmOdCRP0T/jDt/?=
- =?us-ascii?Q?cHRQPOpeZHaCoFA/+py8HBOq8OLVswesrNMyTOsImT0LC11XzpfMhAoH3Hct?=
- =?us-ascii?Q?LKjSRqv+QHP/r3nY9aelgA9MWQf3EoR0Hb+n6uSGMX1u0bivGCredTlh85UO?=
- =?us-ascii?Q?MF8BoUk2zQ70Fqi3k5dGHQI3cARQTfGGEGlsK7kmndnP0WENZMGGJ2aSt0VZ?=
- =?us-ascii?Q?zweGjxRXC7Ht94J8Pd3dKos1OL/q4VxCbF2hYsZOaQFh8PzDNUe9Tdd+VKNz?=
- =?us-ascii?Q?isr3pn1JQiE27j0af/mpkBlcwwEQ3qqC4I9knJ2Ti4SR50/xRqqAl8pCkPZX?=
- =?us-ascii?Q?vSrgjlF8O0xvDuwkXaAUpmuOdYr1AVUU07w4UCu2g70i9YA/Z9lH0VGVv9jH?=
- =?us-ascii?Q?DhiUMDJonirn90ogSuRDaF8yBzuycrqZoeGUDOIOWpbksA4QwtzhEvw6QTFf?=
- =?us-ascii?Q?bXJ+9OfG+LKYTZwaLhc3q1jowhtXcsve2WwZgRpCUiS40+IuSTrNxKoRiDmm?=
- =?us-ascii?Q?nOdNybIqV9sv+QQ4WET3rl7sOu9uN6VGVul0J8MXx1SMP1lvZucQcxB2XYl0?=
- =?us-ascii?Q?6HLEAboGuRp9OcpWKwvR6esjHyUDZULENZNJUZ6mWlgkZVvaERafRq/FD9wx?=
- =?us-ascii?Q?jqznH5Pew7ZQZJ7fLPBTy5Ih5dTbAk+8qyrXf8TV7JyRoWiY8tk0uywWiaAj?=
- =?us-ascii?Q?E4fgPHiwZNGYwm9oJVyHu8g/gfbOosl6hUxuvLrP0AenCAk9HN+PWsP458Kl?=
- =?us-ascii?Q?m77E6JbosaZ/oADKQQA5ASmKP3FC1uWMlWaoBNLWZ+AmUbEfZ6OCqxYqAHig?=
- =?us-ascii?Q?SMj8VSdJPUOpgExNET6/SJJudo1zq5CaT2Knt+7irTn0Op2GAfJEMAQhAbKK?=
- =?us-ascii?Q?1CLEQYAT3/Ny98KdgRC8hQypUXbhyLeVxQCcgAC6kjQCZJh1YFVbcf5hqqxc?=
- =?us-ascii?Q?sti1wyNmndQ1EGR/oacyl+ueL26NyDKaRbXH25EQ0h6r3nxqCfw3TrrgfleO?=
- =?us-ascii?Q?KcdlcoufoLzi6/NBZHmAqMSeVBTbsWOIq6UAEGQdkj3QRCi0LVU4DAdEhFqg?=
- =?us-ascii?Q?Jr2F2JuD5hjIOjce5DKpnqhVdRLd8pAj+FmW5h2kKrZuNLysEVo/vEwB1Llm?=
- =?us-ascii?Q?3cktxK5B5egK61/Y0MY5XTbnqKpdHQJrn9gu8qMMgCsX7HAzfiKET210Kryj?=
- =?us-ascii?Q?k8mGKMoOQMr3voacQFQwsFJ8EQBUWdD1h9YTWJSkWjmz6eOh9bb2vk3AeszC?=
- =?us-ascii?Q?Z8lhYMuGItd4YvePs6tsahYXbZFqbA/PGoGdjGEfKLwDTwMsUibUWQUxxDsb?=
- =?us-ascii?Q?BQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B01410E03D;
+ Fri, 21 Mar 2025 18:54:50 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-224019ad9edso58946605ad.1; 
+ Fri, 21 Mar 2025 11:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742583289; x=1743188089; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kuWrbcuvodyfwyDX9ovNtAfDuo8x7JtH0NBDGtHQx3E=;
+ b=kGcJqPcPBdDNTclZggcnvys7wRZBVg5Ag+vmbpumY1uZxW5Ba6dbtgEN41YxoLMVIG
+ yHe5u0Zpv1EYnjrYbI+WZfivWJRTrUANcXxJIUrrZ5Z7rNBljq2bottiZ+9nct9Xmz/V
+ OmI7OsGjZuOXdOCClZkoMNeEq00adWJcIItDG1LAh/no8IJgsxf1X4YqPh51vajTvQd2
+ pQGY0wwmlvxCARwcovpuu73KmmiSqO3Q6Bev2JnUrJ8ytLoSZ+FrFo3VHI+sFcjsV9T1
+ UbTr5B8FfDJMhHYWFf+A8nHpeLcLqbIB/efKh1fAfVUz+wG816uXQSBr0NnqBIaUzbm2
+ XV1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742583289; x=1743188089;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kuWrbcuvodyfwyDX9ovNtAfDuo8x7JtH0NBDGtHQx3E=;
+ b=daYadIlxt9DQN3tbb8j3D4vPNGnJIcHl9yAbkWqpU45z7sjF91eH/0FPi4uuhIsNIy
+ 5BWWebF+0fVe0ZCx6/R7kM6zhSPlgAkA452q54UsWmpQ6vA8i7i9KZsTLo4TH4ntFSuL
+ fJK4QPMkVOKP367CtynjDyoH4TxiAPG76ceApTAv8mJOL2EfdrACWbnKe1BFq8icI240
+ Ef67nELmuzfSjOv2ao6B1C/zM4WWTIecw8hRLLehMwTAYdqkRpl61yu45lAgdXQGeB7/
+ YWUY1heBY1yIkHhdyb/HAbXp3D48MnzMltUXYMa+6Qeo6ha6Gi/vhbbXZaq4Hh0me2ji
+ nJTg==
+X-Gm-Message-State: AOJu0YyGH4Lg9u+M2vQiTPv0L254jUC7gJNp/6NujrzEWVkTo4bdoIqU
+ Mk7zL/+uxm+UiKXIPjCB4MVMqjuwjYXFONHqZDgZixi71e9KK3KYKBaSWg==
+X-Gm-Gg: ASbGncuwHje0IO2DovQ5sUbH+JTxmnKMr4N5LVJumX92SR+BoO+vTZR2awFRGUNXZvK
+ TSVzORd1mop8pSqm5Q1F4Qfpy0p5ghCApuSU1fkT+Jm9W1vMnAYM+6dLbuFneax5ObejZ0bm/6o
+ QDOtkXS3na5NdHLV1W8QqySWbWMCoqOnCmZGB6rYxiPGHZslwBm68wGbrB2IPABFFsK4n0mdj7j
+ rTz0icuMSl01jDuQ80NAEwYbdIcl1M7/XkuHnz7vr7zM2bSyoOOAEUXVq0hO05zgqj/JzOkFJDh
+ g2xI6SpUgc0yeHbQ3rbiVVkMaqdwOWl8UgeboKS6RSnApuxu1Rn4zHhe5zSQTcMqRvgpT9kP5Ix
+ ZAWI/zRQ3kB9HEeWi3aA=
+X-Google-Smtp-Source: AGHT+IENwJPy3NZ2JgeNry3ajUMcfwlItfAMwMe80EXJa+Ja58OE0NniLaywafeM20eG0xAejI6Hpg==
+X-Received: by 2002:a17:902:ce05:b0:223:fd7f:2752 with SMTP id
+ d9443c01a7336-22780d9325amr73936175ad.29.1742583289057; 
+ Fri, 21 Mar 2025 11:54:49 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-22780f4c4easm20943485ad.84.2025.03.21.11.54.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Mar 2025 11:54:48 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm/adreno: Drop fictional address_space_size
+Date: Fri, 21 Mar 2025 11:54:37 -0700
+Message-ID: <20250321185437.5890-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 471e927c-567b-4700-e9dc-08dd68a7e748
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2025 18:40:50.5246 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LcpU4XYcFPMsUvA+NPWwVir31v+0N1991aMz9BVgaGoG4GQWzLLIhUSPp+bDtm/CD5wWqws6gAxhg5G3cKa3Q3s8RDZGgVYjghUeaIR8z7k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8320
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,264 +91,264 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
+From: Rob Clark <robdclark@chromium.org>
 
-Thanks for the patch.
+Really the only purpose of this was to limit the address space size to
+4GB to avoid 32b rollover problems in 64b pointer math in older sqe fw.
+So replace the address_space_size with a quirk limiting the address
+space to 4GB.  In all other cases, use the SMMU input address size (IAS)
+to determine the address space size.
 
-> -----Original Message-----
-> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Sent: 21 March 2025 17:22
-> Subject: [PATCH] drm: renesas: Extend RZ/G2L supported KMS formats
->=20
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->=20
-> The RZ/G2L driver utilises the VSPD to read data from input sources.
->=20
-> The rzg2l_du_kms component lists a restricted subset of the capabilities =
-of the VSPd which prevents
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 33 +++++++++++------------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c   | 19 ++++++++++---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  2 +-
+ 3 files changed, 33 insertions(+), 21 deletions(-)
 
-VSPD
-
-> additional formats from being used for display planes.
->=20
-> The supported display plane formats are mapped in rzg2l_du_vsp_formats[].
->=20
-> Extend the rzg2l_du_format_infos[] table with the corresponding mappings =
-between the supported DRM
-> formats and the formats exposed by the VSP in rzg2l_du_vsp_formats, maint=
-aining the same ordering in
-> both tables.
->=20
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c | 141 ++++++++++++++++++-
->  1 file changed, 136 insertions(+), 5 deletions(-)
->=20
-> Prior to this patch, kmstest reports all of these formats as supported by=
- the Planes, but using them
-> fails during rzg2l_du_fb_create() as the corresponding format isn't found=
- in rzg2l_du_format_info.
->=20
-> This patch now lets me capture and render pixelformats from the Mali-C55 =
-direct to an attached DSI
-> panel on the Kakip board.
-
-Previously I got a comment to remove all the formats from this table as DSI=
- supports only 3 formats.
-
-I agree VSPD has two planes(2 rpf-instances) which supports all these forma=
-ts.
-
-Mali-C55(n formats)-->LCDC(VSPD n formats)->DSI(3 formats)-->Panel
-
-Am I missing anything w.r.to the comment that I received previously.
-Otherwise patch LGTM.
-
-Cheers,
-Biju
-
->=20
-> Patch tested with kms-tests:
->=20
-> PYTHONPATH=3D/usr/lib/aarch64-linux-gnu/python3.11/site-packages ./tests/=
-kms-test-formats.py Testing
-> plane formats: SUCCESS
->=20
-> admin@kakip:~/kms-tests$ cat FormatsTest.log U [66.967523] Testing plane =
-formats U [66.975763] Testing
-> connector DSI-1, CRTC 36, mode 720x1280 U [66.978480] Testing format Pixe=
-lFormat.RGB332 U [70.143998]
-> Testing format PixelFormat.ARGB4444 U [73.357056] Testing format PixelFor=
-mat.XRGB4444 U [76.574944]
-> Testing format PixelFormat.ARGB1555 U [79.805636] Testing format PixelFor=
-mat.XRGB1555 U [83.016599]
-> Testing format PixelFormat.RGB565 U [86.230362] Testing format PixelForma=
-t.BGR888 U [89.444673]
-> Testing format PixelFormat.RGB888 U [92.677093] Testing format PixelForma=
-t.BGRA8888 U [95.904745]
-> Testing format PixelFormat.BGRX8888 U [99.119926] Testing format PixelFor=
-mat.ARGB8888 U [102.350298]
-> Testing format PixelFormat.XRGB8888 U [105.579499] Testing format PixelFo=
-rmat.UYVY U [108.878654]
-> Testing format PixelFormat.YUYV U [112.176515] Testing format PixelFormat=
-.YVYU U [115.470090] Testing
-> format PixelFormat.NV12 U [118.767513] Testing format PixelFormat.NV21 U =
-[122.065851] Testing format
-> PixelFormat.NV16 U [125.364001] Testing format PixelFormat.NV61 U [128.66=
-2145] Testing format
-> PixelFormat.YUV420 U [131.978102] Testing format PixelFormat.YVU420 U [13=
-5.292284] Testing format
-> PixelFormat.YUV422 U [138.623485] Testing format PixelFormat.YVU422 U [14=
-1.955083] Testing format
-> PixelFormat.YUV444 U [145.336759] Testing format PixelFormat.YVU444 U [14=
-8.761832] Test completed
-> successfully
->=20
->=20
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c b/drivers/gpu/d=
-rm/renesas/rz-
-> du/rzg2l_du_kms.c
-> index b1266fbd9598..a5e96f863172 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> @@ -36,8 +36,61 @@
->=20
->  static const struct rzg2l_du_format_info rzg2l_du_format_infos[] =3D {
->  	{
-> -		.fourcc =3D DRM_FORMAT_XRGB8888,
-> -		.v4l2 =3D V4L2_PIX_FMT_XBGR32,
-> +		.fourcc =3D DRM_FORMAT_RGB332,
-> +		.v4l2 =3D V4L2_PIX_FMT_RGB332,
-> +		.bpp =3D 8,
-> +		.planes =3D 1,
-> +		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_ARGB4444,
-> +		.v4l2 =3D V4L2_PIX_FMT_ARGB444,
-> +		.bpp =3D 16,
-> +		.planes =3D 1,
-> +		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_XRGB4444,
-> +		.v4l2 =3D V4L2_PIX_FMT_XRGB444,
-> +		.bpp =3D 16,
-> +		.planes =3D 1,
-> +		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_ARGB1555,
-> +		.v4l2 =3D V4L2_PIX_FMT_ARGB555,
-> +		.bpp =3D 16,
-> +		.planes =3D 1,
-> +		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_XRGB1555,
-> +		.v4l2 =3D V4L2_PIX_FMT_XRGB555,
-> +		.bpp =3D 16,
-> +		.planes =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_RGB565,
-> +		.v4l2 =3D V4L2_PIX_FMT_RGB565,
-> +		.bpp =3D 16,
-> +		.planes =3D 1,
-> +		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_BGR888,
-> +		.v4l2 =3D V4L2_PIX_FMT_RGB24,
-> +		.bpp =3D 24,
-> +		.planes =3D 1,
-> +		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_RGB888,
-> +		.v4l2 =3D V4L2_PIX_FMT_BGR24,
-> +		.bpp =3D 24,
-> +		.planes =3D 1,
-> +		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_BGRA8888,
-> +		.v4l2 =3D V4L2_PIX_FMT_ARGB32,
-> +		.bpp =3D 32,
-> +		.planes =3D 1,
-> +		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_BGRX8888,
-> +		.v4l2 =3D V4L2_PIX_FMT_XRGB32,
->  		.bpp =3D 32,
->  		.planes =3D 1,
->  		.hsub =3D 1,
-> @@ -48,11 +101,89 @@ static const struct rzg2l_du_format_info rzg2l_du_fo=
-rmat_infos[] =3D {
->  		.planes =3D 1,
->  		.hsub =3D 1,
->  	}, {
-> -		.fourcc =3D DRM_FORMAT_RGB888,
-> -		.v4l2 =3D V4L2_PIX_FMT_BGR24,
-> -		.bpp =3D 24,
-> +		.fourcc =3D DRM_FORMAT_XRGB8888,
-> +		.v4l2 =3D V4L2_PIX_FMT_XBGR32,
-> +		.bpp =3D 32,
->  		.planes =3D 1,
->  		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_UYVY,
-> +		.v4l2 =3D V4L2_PIX_FMT_UYVY,
-> +		.bpp =3D 16,
-> +		.planes =3D 1,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_YUYV,
-> +		.v4l2 =3D V4L2_PIX_FMT_YUYV,
-> +		.bpp =3D 16,
-> +		.planes =3D 1,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_YVYU,
-> +		.v4l2 =3D V4L2_PIX_FMT_YVYU,
-> +		.bpp =3D 16,
-> +		.planes =3D 1,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_NV12,
-> +		.v4l2 =3D V4L2_PIX_FMT_NV12M,
-> +		.bpp =3D 12,
-> +		.planes =3D 2,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_NV21,
-> +		.v4l2 =3D V4L2_PIX_FMT_NV21M,
-> +		.bpp =3D 12,
-> +		.planes =3D 2,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_NV16,
-> +		.v4l2 =3D V4L2_PIX_FMT_NV16M,
-> +		.bpp =3D 16,
-> +		.planes =3D 2,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_NV61,
-> +		.v4l2 =3D V4L2_PIX_FMT_NV61M,
-> +		.bpp =3D 16,
-> +		.planes =3D 2,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_YUV420,
-> +		.v4l2 =3D V4L2_PIX_FMT_YUV420M,
-> +		.bpp =3D 12,
-> +		.planes =3D 3,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_YVU420,
-> +		.v4l2 =3D V4L2_PIX_FMT_YVU420M,
-> +		.bpp =3D 12,
-> +		.planes =3D 3,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_YUV422,
-> +		.v4l2 =3D V4L2_PIX_FMT_YUV422M,
-> +		.bpp =3D 16,
-> +		.planes =3D 3,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_YVU422,
-> +		.v4l2 =3D V4L2_PIX_FMT_YVU422M,
-> +		.bpp =3D 16,
-> +		.planes =3D 3,
-> +		.hsub =3D 2,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_YUV444,
-> +		.v4l2 =3D V4L2_PIX_FMT_YUV444M,
-> +		.bpp =3D 24,
-> +		.planes =3D 3,
-> +		.hsub =3D 1,
-> +	}, {
-> +		.fourcc =3D DRM_FORMAT_YVU444,
-> +		.v4l2 =3D V4L2_PIX_FMT_YVU444M,
-> +		.bpp =3D 24,
-> +		.planes =3D 3,
-> +		.hsub =3D 1,
->  	}
->  };
->=20
-> --
-> 2.48.1
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+index 53e2ff4406d8..f85b7e89bafb 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+@@ -681,6 +681,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			[ADRENO_FW_SQE] = "a630_sqe.fw",
+ 		},
+ 		.gmem = (SZ_128K + SZ_4K),
++		.quirks = ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "a610_zap.mdt",
+@@ -713,6 +714,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			[ADRENO_FW_GMU] = "a630_gmu.bin",
+ 		},
+ 		.gmem = SZ_512K,
++		.quirks = ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "a615_zap.mdt",
+@@ -743,7 +745,8 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		},
+ 		.gmem = SZ_512K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
++		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
++			  ADRENO_QUIRK_4GB_VA,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "a615_zap.mbn",
+ 		.a6xx = &(const struct a6xx_info) {
+@@ -769,7 +772,8 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		},
+ 		.gmem = SZ_512K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
++		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
++			  ADRENO_QUIRK_4GB_VA,
+ 		.init = a6xx_gpu_init,
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.protect = &a630_protect,
+@@ -791,6 +795,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			[ADRENO_FW_GMU] = "a619_gmu.bin",
+ 		},
+ 		.gmem = SZ_512K,
++		.quirks = ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "a615_zap.mdt",
+@@ -815,6 +820,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			[ADRENO_FW_GMU] = "a619_gmu.bin",
+ 		},
+ 		.gmem = SZ_512K,
++		.quirks = ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "a615_zap.mdt",
+@@ -838,8 +844,9 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			[ADRENO_FW_GMU] = "a619_gmu.bin",
+ 		},
+ 		.gmem = SZ_512K,
++		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
++			  ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "a615_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+@@ -874,7 +881,6 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			.gmu_cgc_mode = 0x00020200,
+ 			.prim_fifo_threshold = 0x00010000,
+ 		},
+-		.address_space_size = SZ_16G,
+ 		.speedbins = ADRENO_SPEEDBINS(
+ 			{ 0, 0 },
+ 			{ 137, 1 },
+@@ -907,7 +913,6 @@ static const struct adreno_info a6xx_gpus[] = {
+ 				{ /* sentinel */ },
+ 			},
+ 		},
+-		.address_space_size = SZ_16G,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(
+ 			0x06030001,
+@@ -920,8 +925,9 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			[ADRENO_FW_GMU] = "a630_gmu.bin",
+ 		},
+ 		.gmem = SZ_1M,
++		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
++			  ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "a630_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+@@ -939,8 +945,9 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			[ADRENO_FW_GMU] = "a640_gmu.bin",
+ 		},
+ 		.gmem = SZ_1M,
++		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
++			  ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "a640_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+@@ -973,7 +980,6 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			.gmu_cgc_mode = 0x00020202,
+ 			.prim_fifo_threshold = 0x00300200,
+ 		},
+-		.address_space_size = SZ_16G,
+ 		.speedbins = ADRENO_SPEEDBINS(
+ 			{ 0, 0 },
+ 			{ 1, 1 },
+@@ -1000,7 +1006,6 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			.gmu_cgc_mode = 0x00020000,
+ 			.prim_fifo_threshold = 0x00300200,
+ 		},
+-		.address_space_size = SZ_16G,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x06060300),
+ 		.family = ADRENO_6XX_GEN4,
+@@ -1019,7 +1024,6 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			.gmu_cgc_mode = 0x00020200,
+ 			.prim_fifo_threshold = 0x00300200,
+ 		},
+-		.address_space_size = SZ_16G,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x06030500),
+ 		.family = ADRENO_6XX_GEN4,
+@@ -1039,7 +1043,6 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			.gmu_cgc_mode = 0x00020202,
+ 			.prim_fifo_threshold = 0x00200200,
+ 		},
+-		.address_space_size = SZ_16G,
+ 		.speedbins = ADRENO_SPEEDBINS(
+ 			{ 0,   0 },
+ 			{ 117, 0 },
+@@ -1056,8 +1059,9 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			[ADRENO_FW_GMU] = "a640_gmu.bin",
+ 		},
+ 		.gmem = SZ_2M,
++		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
++			  ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "a640_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+@@ -1085,7 +1089,6 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			.gmu_cgc_mode = 0x00020200,
+ 			.prim_fifo_threshold = 0x00800200,
+ 		},
+-		.address_space_size = SZ_16G,
+ 	}
+ };
+ DECLARE_ADRENO_GPULIST(a6xx);
+@@ -1395,7 +1398,6 @@ static const struct adreno_info a7xx_gpus[] = {
+ 			.pwrup_reglist = &a7xx_pwrup_reglist,
+ 			.gmu_cgc_mode = 0x00020000,
+ 		},
+-		.address_space_size = SZ_16G,
+ 		.preempt_record_size = 2860 * SZ_1K,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x43050a01), /* "C510v2" */
+@@ -1429,7 +1431,6 @@ static const struct adreno_info a7xx_gpus[] = {
+ 				{ /* sentinel */ },
+ 			},
+ 		},
+-		.address_space_size = SZ_16G,
+ 		.preempt_record_size = 4192 * SZ_1K,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x43050c01), /* "C512v2" */
+@@ -1451,7 +1452,6 @@ static const struct adreno_info a7xx_gpus[] = {
+ 			.gmu_chipid = 0x7050001,
+ 			.gmu_cgc_mode = 0x00020202,
+ 		},
+-		.address_space_size = SZ_256G,
+ 		.preempt_record_size = 4192 * SZ_1K,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x43051401), /* "C520v2" */
+@@ -1484,7 +1484,6 @@ static const struct adreno_info a7xx_gpus[] = {
+ 				{ /* sentinel */ },
+ 			},
+ 		},
+-		.address_space_size = SZ_16G,
+ 		.preempt_record_size = 3572 * SZ_1K,
+ 	}
+ };
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index bac6cd3afe37..b07c785d3aee 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -236,14 +236,27 @@ adreno_iommu_create_vm(struct msm_gpu *gpu,
+ u64 adreno_private_vm_size(struct msm_gpu *gpu)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
++	struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(&gpu->pdev->dev);
++	const struct io_pgtable_cfg *ttbr1_cfg;
+ 
+ 	if (address_space_size)
+ 		return address_space_size;
+ 
+-	if (adreno_gpu->info->address_space_size)
+-		return adreno_gpu->info->address_space_size;
++	if (adreno_gpu->info->quirks & ADRENO_QUIRK_4GB_VA)
++		return SZ_4G;
++
++	if (!adreno_smmu || !adreno_smmu->get_ttbr1_cfg)
++		return SZ_4G;
++
++	ttbr1_cfg = adreno_smmu->get_ttbr1_cfg(adreno_smmu->cookie);
+ 
+-	return SZ_4G;
++	/*
++	 * Userspace VM is actually using TTBR0, but both are the same size,
++	 * with b48 (sign bit) selecting which TTBRn to use.  So if IAS is
++	 * 48, the total (kernel+user) address space size is effectively
++	 * 49 bits.  But what userspace is control of is the lower 48.
++	 */
++	return BIT(ttbr1_cfg->ias);
+ }
+ 
+ void adreno_check_and_reenable_stall(struct adreno_gpu *adreno_gpu)
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index a76f4c62deee..ec58dd2ff208 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -56,6 +56,7 @@ enum adreno_family {
+ #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
+ #define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
+ #define ADRENO_QUIRK_PREEMPTION			BIT(5)
++#define ADRENO_QUIRK_4GB_VA			BIT(6)
+ 
+ /* Helper for formating the chip_id in the way that userspace tools like
+  * crashdec expect.
+@@ -103,7 +104,6 @@ struct adreno_info {
+ 	union {
+ 		const struct a6xx_info *a6xx;
+ 	};
+-	u64 address_space_size;
+ 	/**
+ 	 * @speedbins: Optional table of fuse to speedbin mappings
+ 	 *
+-- 
+2.49.0
 
