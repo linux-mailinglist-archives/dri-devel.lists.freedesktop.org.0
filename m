@@ -2,114 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1189AA6BC8E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 15:07:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CD6A6BCC7
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 15:18:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA9810E7DD;
-	Fri, 21 Mar 2025 14:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5079F10E00D;
+	Fri, 21 Mar 2025 14:18:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Z//dnnHj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h28JaQj+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5034110E7DC
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 14:07:42 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LCS52X025347
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 14:07:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=6Lj3Z0nr75RSpAKjWGnP9fZL
- 3PNA1cnRFr4d9rHGNsk=; b=Z//dnnHjV1USlmiQGf37yOyUhg4DIQvaFXtWQLtN
- cE4i/0Pb+XDOU34kh0XgAUjpTq0GIJWtaWay1mOMl/ylIa68msrs31se6HztnLPg
- qlcm1TxEMgth9pWvv54Sq4WpVwDB3LN5lS0zgIBpWNxR5JMZf3aB77JGErg4331z
- 3Bc+OXn5U75ajxjSiiPcsCamTNbguOU2DVrFuLdNaqMmHljWoFAaF3EOzG2g8z3m
- 4nv9AZED2dGPI9Syh6XvOom+HXqERexyuSp4HXtc5ShHx091J1B/LYlsNFgghlnd
- ZeUvRMVhqXpF+7aBnXlvQ82+7o5g3ztbC0C7H/UPinNENw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45h854g974-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 14:07:41 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7c54767e507so349592185a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 07:07:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742566060; x=1743170860;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6Lj3Z0nr75RSpAKjWGnP9fZL3PNA1cnRFr4d9rHGNsk=;
- b=gcQZqLzBGe8LtAxbe6oBiYAocxXxcSxNNdGOtYhwNglMTNdXcA1SLovPqqOXHsb70K
- Ey+CEquLNnA7ljKdow/hO0Yja6INNb1lSlXp2YXcz3hTgvo6tsgdvX0+PrFF1AAjX4zE
- W7Gg3L1Q+en7HGvQE/2XiQ6XxfWY8iNLjs+doq0dAX25ASuOG6WyT0PoQKvDFNN8FS5Y
- 3nyHaTD0lBcpoqZPC3Ds+dqoi/2MNI87uZ7YuBY2ehS9ulHMVQKg6EZIOoqg7+oW2FCr
- uS30LDWZY595P3xwarnKfhh8puP2NRWB7X9A+scxMKCsKuTdoCahiHjTIiyLfOpxc19D
- yN0Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUT4G7nAv6Hj+TdGtdgPbRC+04li+jHuXYIQmJTbd6ydwqbdqE8SQxXaid9DszmnW/JzXRv0MHS80A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YycWbYE8bTvQIpZKrq/Tb8+DHHyBp96XHf+WZj9vEakfUuKc7mJ
- QNU5LGCMic4Y4BJh6degnLTjs/jtZxcNaUlRwKUUERxBrFbwSLi6sEFqQMY0rsxZBdqgaPFvryD
- hbq2Vnoc0b6B0Ssitaml3ffxFkeztTXm+2QtLvqvNhkWdBc4tGgYIlvh0RyHP5Jabhes=
-X-Gm-Gg: ASbGncvdDOxfk/7FK9HH75X5Tzg+mgcAH0c2IqtkgyXJt1Q2F4d1/MB1regLyacgqvX
- j71BfS+X/VUUlzDJIz84Wp7bI4wmMLQqElrnD4EMWvv1rkGQEV9Uxy0XYogSBC0YraQeqol2sON
- StbiXhkynHD7eLIxme06+RO6s9K/s2738UAkDCWbNE8rYv/vsNV+RxaSYtTtIUZ+G+YTcyOUI/v
- tLpndvQFKd1GhDXqawxUmwc+wYq8wPZG3L6dc7K10zyrQ16Plj53KnJtpUSttfk27aHl+F2bTry
- IL7tQPR8n1+kDJNPpkzYFWumgV59cyGeyzdJ6FM3Jn1JkyozC60pSBZFOD+YMQURUmy27PpaZ2B
- XeGA=
-X-Received: by 2002:a05:620a:4051:b0:7c5:9a4f:adf0 with SMTP id
- af79cd13be357-7c5ba1846e8mr427732485a.33.1742566060338; 
- Fri, 21 Mar 2025 07:07:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEN2Hi2Iq/wisLHL4FDbRqBoRtFKfhIdoGegXlkIOLj6uMrHc7E55BfjIOutxbvmBBa/wCXtQ==
-X-Received: by 2002:a05:620a:4051:b0:7c5:9a4f:adf0 with SMTP id
- af79cd13be357-7c5ba1846e8mr427724885a.33.1742566059734; 
- Fri, 21 Mar 2025 07:07:39 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ad647b8dbsm188937e87.61.2025.03.21.07.07.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Mar 2025 07:07:39 -0700 (PDT)
-Date: Fri, 21 Mar 2025 16:07:37 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Ling Xu <quic_lxu5@quicinc.com>, andersson@kernel.org,
- konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- gregkh@linuxfoundation.org, quic_kuiw@quicinc.com,
- quic_ekangupt@quicinc.com, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
-Message-ID: <rjfccsym3sziidac5l4ecxsjy3rdulbf5ewhfksdqp35oxcimi@brvgpgme5wpf>
-References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
- <20250320091446.3647918-3-quic_lxu5@quicinc.com>
- <30bba296-8e6f-41ee-880e-2d5ecc8fe5a4@linaro.org>
- <qhriqbm6fcy5vcclfounaaepxcvnck2lb7k2gcpbtrojqzehua@khv5lwdgbysc>
- <9962c517-5c0e-4d46-ac0c-2a7bab550156@linaro.org>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67A0610E00D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 14:18:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id F28D4A468B3;
+ Fri, 21 Mar 2025 14:12:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77ACFC4CEEC;
+ Fri, 21 Mar 2025 14:17:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742566680;
+ bh=0amfkrO3B1zq5t8fnOfrUB4M+QOIpfFLARmwtZZfJw4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=h28JaQj+Cuj1LkqH51sg7oXGnIp4dVVxPZLz+0RAoJ/cvMEaPF8oIsuaNLxg6oydV
+ r1yJNsBhghnpG5hehz+YWKOib6wlXmRNYJP7ecTb3km28qnRD6pBOoGxDewxc4Udqp
+ M3VCQqx7xzCwXw05YFYf0I++tTrBW3LCeKuiIctyDlwgH9flhmRhKbywagZErNUwkl
+ z+mg2s7FssEr24uOfvVkTLbAuEnEKhf3y/Qzh1gNfpYQYjqJpFejFsahS/CASq8/IB
+ ZlJyi2L7eqISoLmTCRdL3u9zf1QNz6RraU3518vXPG/QTtwiQLFWd2PA6UUZZMcqLT
+ qZ8Zkfy0Bycew==
+Date: Fri, 21 Mar 2025 15:17:57 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>, Devarsh Thakkar <devarsht@ti.com>
+Subject: Re: [PATCH 03/18] drm/tidss: Add mode_fixup to adjust the clock
+ based on HW
+Message-ID: <20250321-adaptable-astonishing-adder-ceeb6f@houat>
+References: <20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com>
+ <20250320-cdns-dsi-impro-v1-3-725277c5f43b@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="bchtvmz6w2bii2si"
 Content-Disposition: inline
-In-Reply-To: <9962c517-5c0e-4d46-ac0c-2a7bab550156@linaro.org>
-X-Proofpoint-ORIG-GUID: DEH5z4a14R8QYLWc1ZAJ1_0pckF2vM7Q
-X-Authority-Analysis: v=2.4 cv=ZtHtK87G c=1 sm=1 tr=0 ts=67dd72ad cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=d_F73D8V8anS-nGMN7cA:9
- a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: DEH5z4a14R8QYLWc1ZAJ1_0pckF2vM7Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-21_05,2025-03-20_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 spamscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- phishscore=0 priorityscore=1501 impostorscore=0 adultscore=0 bulkscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503210103
+In-Reply-To: <20250320-cdns-dsi-impro-v1-3-725277c5f43b@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,49 +71,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 21, 2025 at 12:23:15PM +0000, Srinivas Kandagatla wrote:
-> 
-> 
-> On 20/03/2025 18:43, Dmitry Baryshkov wrote:
-> > On Thu, Mar 20, 2025 at 05:11:20PM +0000, Srinivas Kandagatla wrote:
-> > > 
-> > > 
-> > > On 20/03/2025 09:14, Ling Xu wrote:
-> > > > The fastrpc driver has support for 5 types of remoteprocs. There are
-> > > > some products which support GPDSP remoteprocs. Add changes to support
-> > > > GPDSP remoteprocs.
-> > > > 
-> > > > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > > > Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
-> > > > ---
-> > > >    drivers/misc/fastrpc.c | 10 ++++++++--
-> > > >    1 file changed, 8 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> > > > index 7b7a22c91fe4..80aa554b3042 100644
-> > > > --- a/drivers/misc/fastrpc.c
-> > > > +++ b/drivers/misc/fastrpc.c
-> > > > @@ -28,7 +28,9 @@
-> > > >    #define SDSP_DOMAIN_ID (2)
-> > > >    #define CDSP_DOMAIN_ID (3)
-> > > >    #define CDSP1_DOMAIN_ID (4)
-> > > > -#define FASTRPC_DEV_MAX		5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
-> > > > +#define GDSP0_DOMAIN_ID (5)
-> > > > +#define GDSP1_DOMAIN_ID (6)
-> > > 
-> > > We have already made the driver look silly here, Lets not add domain ids for
-> > > each instance, which is not a scalable.
-> > > 
-> > > Domain ids are strictly for a domain not each instance.
-> > 
-> > Then CDSP1 should also be gone, correct?
-> Its already gone as part of the patch that I shared in this discussion.
-> 
-> I will send a proper patch to list once Ling/Ekansh has agree with it.
 
-I see. For some reason mobile gmail decided that your patch is a quoted
-message and ignored it.
+--bchtvmz6w2bii2si
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 03/18] drm/tidss: Add mode_fixup to adjust the clock
+ based on HW
+MIME-Version: 1.0
 
--- 
-With best wishes
-Dmitry
+On Thu, Mar 20, 2025 at 05:59:58PM +0200, Tomi Valkeinen wrote:
+> At the moment the driver just sets the clock rate with clk_set_rate(),
+> and if the resulting rate is not the same as requested, prints a debug
+> print, but nothing else.
+>=20
+> Add mode_fixup(), in which the clk_round_rate() is used to get the
+> "rounded" rate, and set that to the adjusted_mode.
+>=20
+> In practice, with the current K3 SoCs, the display PLL is capable of
+> producing very exact clocks, so most likely the rounded rate is the same
+> as the original one.
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/tidss/tidss_crtc.c  | 22 ++++++++++++++++++++++
+>  drivers/gpu/drm/tidss/tidss_dispc.c |  6 ++++++
+>  drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
+>  3 files changed, 30 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/t=
+idss_crtc.c
+> index 1604eca265ef..b3338dac25bc 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -309,7 +309,29 @@ enum drm_mode_status tidss_crtc_mode_valid(struct dr=
+m_crtc *crtc,
+>  	return dispc_vp_mode_valid(tidss->dispc, tcrtc->hw_videoport, mode);
+>  }
+> =20
+> +static bool tidss_crtc_mode_fixup(struct drm_crtc *crtc,
+> +				  const struct drm_display_mode *mode,
+> +				  struct drm_display_mode *adjusted_mode)
+> +{
+> +	struct tidss_crtc *tcrtc =3D to_tidss_crtc(crtc);
+> +	struct drm_device *ddev =3D crtc->dev;
+> +	struct tidss_device *tidss =3D to_tidss(ddev);
+> +	long rate;
+> +
+> +	rate =3D dispc_vp_round_clk_rate(tidss->dispc, tcrtc->hw_videoport,
+> +				       adjusted_mode->clock * 1000);
+> +	if (rate < 0)
+> +		return false;
+> +
+> +	adjusted_mode->clock =3D rate / 1000;
+> +
+> +	drm_mode_set_crtcinfo(adjusted_mode, 0);
+> +
+> +	return true;
+> +}
+
+mode_fixup is deprecated in favor of atomic_check. If you can't use it
+for some reason, it should be documented one way or another.
+
+Maxime
+
+--bchtvmz6w2bii2si
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ911EQAKCRAnX84Zoj2+
+dgndAYCh/YgKmD2eT0IGBSW4oFScUbO0JiE0c6rJgT/fOlLd8ZyEQUmNR3/ihtKv
+L3mLPUwBgN2SlLXG4F2ri8LKeYXjbpOagi9fMufwxwGrEzWDluOQ6RSb6Ak7/Y/H
+uemPVUoFyg==
+=QyZO
+-----END PGP SIGNATURE-----
+
+--bchtvmz6w2bii2si--
