@@ -2,56 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19414A6BF5B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 17:12:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB04A6BF20
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 17:07:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E82D10E81B;
-	Fri, 21 Mar 2025 16:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBFEF10E7E8;
+	Fri, 21 Mar 2025 16:07:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aiAiwW2m";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EWfjmuv0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E594C10E7FD;
- Fri, 21 Mar 2025 16:12:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742573522; x=1774109522;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=XZzRi4uJoUFRluEoAhrCARQoCo14NpBDThLOthq9bkA=;
- b=aiAiwW2mfAB4HueMPTI74VgH9gY7c6TACucbNffrt1x57TxYJPN8OnVQ
- QOjpQ3SUpHtpea5MsCYWS4KWneYK78PCdkUoBW/fZdByYlVn2gdMFwoRY
- MBO3X6s8eg4gjlF3BpUaW/zJaNx7YFecl+RXETPX6rM1A9uF3rW0mUEoD
- 7JSHIuq8A+iJlhCRwGs1UAJ9jKBDYEhfGK5EvUvXc6ibMHrqdTB/XM27J
- K+b/bjJQsG3rbpahTEL+qI1ec9IgxJ4pS9En/u9hvBtrnq2c/O5elC4yS
- KynQc9x9XPWrjnLau9JWw+W4UsmiZu5+4Rhd7kpJKjSm8zLIinyD4JLZm Q==;
-X-CSE-ConnectionGUID: bsJXlmUKSCufPIAUHodTPA==
-X-CSE-MsgGUID: jbhTwVeDTxabgAy1ixOWew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="66308488"
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; d="scan'208";a="66308488"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2025 09:12:01 -0700
-X-CSE-ConnectionGUID: jwAZ164ZTXyn3BvfDLgc/w==
-X-CSE-MsgGUID: GrPEv/pGQ+mSlk8/DV2uHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; d="scan'208";a="128555064"
-Received: from nemesa.iind.intel.com ([10.190.239.22])
- by fmviesa004.fm.intel.com with ESMTP; 21 Mar 2025 09:12:00 -0700
-From: Nemesa Garg <nemesa.garg@intel.com>
-To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9385510E7E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 16:07:17 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id
+ af79cd13be357-7be8f28172dso150371085a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 09:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742573236; x=1743178036; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=cXTmQzSNArG0LUnqvWiAWAFfFrIQ2vrTyW8gsvrq5lE=;
+ b=EWfjmuv07OuhUX4XFNxR+cD4KB9v6U+yBSE6H8tnWJiRSlvAWkxVkKeKwaCyLMETAq
+ vp87a79PKu759TBjK6Pk/MTAzzHbukxpMI8p4AXHLhbAz3ezMho5KoD+yDS1CVk0Gpmg
+ ODXekLiYt64h6+TefvDxw+Cndgacf4J+O9DlZrykDrw/9HGYJ/vkpekS+x97kp5z1h5F
+ 3l4p7u01Tq37PJduHgeWS0ElteSsjkTa/kalkVXatTf8PhGOY/qJeMsCYjY69q7iXhMt
+ xm8AgkEaJvW09w9iXRDN+AYDmf8jdDVMwVvyV+Onc2NOkOzh/saQTstVKdQwSyz9lSNo
+ uXPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742573236; x=1743178036;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cXTmQzSNArG0LUnqvWiAWAFfFrIQ2vrTyW8gsvrq5lE=;
+ b=MvZPg0pvdXSu2G3o0fRpjzBsjRpZYCjltrq4BZZrk34dHb7TPKHeMLKmkHHimFD7V6
+ xZjCSp/bh2ZXqPhoqvM+PEhEHxs+4SuOzq0cyV8RMHUxuJ0YQUiLaVNvnAXCsIRrwucz
+ pmH3Goz0yOgbRUQfHLzclR3GgjIWCEbWMMzu+n9gzKcNlyBZv/SE9ujQ8atm9DsOKRSX
+ ghlqba0l29bhYswD7nm7wAs9L5cns306z6Fq//Cm87ABjaDNKrhjXlGN8PsdguD7xRTo
+ kgEMTewIB7MHqsef52xOXYrf3gemSScsrRvfSCpy7KBRCFHuE9c+RHS8dFceeN5tiveO
+ Yp/w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXD3T1aiTmjYB9bhYA1GVcaS1GIXoQNntsgZjIDrplzHam6grxz/FPCteIL08M+yWqtXZoLO8m9sTo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyV1XnqZb1NImaMw/cyKdQOJKnVZ9ZjsaYrBMJGYXqfXsQNN4hZ
+ aRsvRnjz/HGmkzsNXS683OwosGlgS8WT7o2yZfS1X8tZHmeQHXM/
+X-Gm-Gg: ASbGncswXrK07Hhes7FbkkBILDJvEeoMr5rErALdPGRrnIaf62j/CWaggVUKe58ivvX
+ S8qg+ZRq492X/jOvEtDufmyFMOevITlZ/4csAhfHGtC/Jq7evcaYEMlXiW+mkhdVHMf1Wq7zYwy
+ ikQyNsOruuW4yc3fFoB0vyt+hFKrwz6myTskNqdy52RZNv02M2WYw03Y0TDFagrFcnT7KbWWvJR
+ mOgnqNzcRMPMzvKLjpqHNss38wpQc6WqPg42vt/TrsEBCWCjnn3d5OlDuuhgCLHoo+a3KDeTQo7
+ CimxyXSkUQtmslQSFV0obdr1eCCvP47Fa4+SxD2NGYUcpf3nJvPBQ1NshII68wIA+cmyDJh+AOD
+ eQKq6Lg==
+X-Google-Smtp-Source: AGHT+IE6wBkSae8r7jDv077Rr9iye2+iQLB7YCA3JeuoVSlKHZ/rpng//xmWpjmG3Q8Z0Byq3nUFNg==
+X-Received: by 2002:ad4:5ca5:0:b0:6e6:684f:7f78 with SMTP id
+ 6a1803df08f44-6eb3f275bd6mr53792736d6.3.1742573236245; 
+ Fri, 21 Mar 2025 09:07:16 -0700 (PDT)
+Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6eb3ef0f214sm12600176d6.7.2025.03.21.09.07.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Mar 2025 09:07:15 -0700 (PDT)
+Date: Fri, 21 Mar 2025 12:07:13 -0400
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Josef =?utf-8?B?THXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org
-Cc: Nemesa Garg <nemesa.garg@intel.com>
-Subject: [PATCH 12/12] drm/i915/display: Expose sharpness strength property
-Date: Fri, 21 Mar 2025 21:36:28 +0530
-Message-Id: <20250321160628.2663912-13-nemesa.garg@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250321160628.2663912-1-nemesa.garg@intel.com>
-References: <20250321160628.2663912-1-nemesa.garg@intel.com>
+Subject: Re: Bug in mipi_dbi_hw_reset() causes incorrect DT entries
+Message-ID: <dycrognvv7mlxdqmgkqx3bc2377zvrezvpj33pegqk5nhlayqr@5e2zckplhmof>
+References: <v7krb2k3aybcpbzyx4ysjxpdpljpadk6xugpdsehzc6wp6aejw@53flicuphar4>
+ <ebfdad9d-fe4b-41ac-b7df-eb7354dd9052@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ebfdad9d-fe4b-41ac-b7df-eb7354dd9052@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,31 +94,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose the drm crtc sharpness strength property which will enable
-or disable the sharpness/casf based on user input. With this user
-can set/update the strength of the sharpness or casf filter.
+On Sun, Mar 16, 2025 at 12:51:29PM +0100, Krzysztof Kozlowski wrote:
+> On 15/03/2025 16:20, Alex Lanzano wrote:
+> > Hi all,
+> > 
+> > There is a bug in the mipi_dbi_hw_reset() function that handles the
+> > reset logic of the controller. Currently, it will set the reset gpio
+> > value to 0, wait a specified time, then set the reset gpio value to 1.
+> > 
+> > The issue with this implementation is that the MIPI DBI spec states that
+> > the reset signal is active low. So, in order to correct for this logic,
+> > the developer needs to incorrectly define the reset gpio as active high
+> > in the DT.
+> 
+> You should address it to driver and subsystem maintainers. Instead you
+> skipped all maintainers but Cc-ed people who have nothing to do with
+> MIPI DBI drivers in the kernel.
+> 
 
-v2: Update subject[Ankit]
+My apologies. I wanted to get the advice from you and the other device
+tree maintainers since I was proposing a new device property to address
+this issue. CC'ing them on the thread now.
 
-Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
----
- drivers/gpu/drm/i915/display/intel_crtc.c | 3 +++
- 1 file changed, 3 insertions(+)
+> > 
+> > Fixing the logic in the driver would cause all the displays using this
+> > driver downstream to stop working. To mitigate this, Josef and I were
+> > thinking about adding an additional boolean property to the DT that when
+> > present would use the correct reset logic in the driver. And if it's not
+> > present use the current reset logic and print out a warning that this
+> > reset logic is deprecated.
+> > 
+> > The overall plan would be to have this temporary fix for a few release
+> > cycles so downstream has time to be aware of the issue and update their
+> > DT. Eventually, we would remove the incorrect reset logic in the driver
+> > and this addtional boolean property.
+> 
+> That's an ABI now, so you cannot change it without affecting users. Code
+> is from 2018 so you have plenty of users now.
+> 
+> I did some workaround for wsa88xx speakers but that's an exception and
+> it should not necessarily be a pattern to follow.
+> 
+> Not sure if it the issue is worth changing considering the impact.
+> 
 
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-index 5b2603ef2ff7..b8bd255e9555 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc.c
-+++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-@@ -391,6 +391,9 @@ int intel_crtc_init(struct intel_display *display, enum pipe pipe)
- 
- 	drm_WARN_ON(display->drm, drm_crtc_index(&crtc->base) != crtc->pipe);
- 
-+	if (HAS_CASF(dev_priv))
-+		drm_crtc_create_sharpness_strength_property(&crtc->base);
-+
- 	return 0;
- 
- fail:
--- 
-2.25.1
+Makes sense, I'm just a bit concerned about the device tree definitions
+not being compatible across different platforms.
 
+Best regards,
+Alex
