@@ -2,87 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621FBA6BA99
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 13:23:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA40A6BADF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 13:41:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B029E10E131;
-	Fri, 21 Mar 2025 12:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC1EA10E7BF;
+	Fri, 21 Mar 2025 12:41:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Rj41HK/e";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ec7ew6+t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9506510E131
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 12:23:18 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-4394a823036so18910675e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 05:23:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1742559796; x=1743164596; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bCHRcsxe/+pskodsN56Dy1BONWoeHJ0Tuu1dcJXeMMo=;
- b=Rj41HK/eWrI7ZSIzGLFVDLrzxvHzF7qQZ3HLlng1XqosJ76EDfgqHxsQNm2g5Gja9H
- rgSvO7yC8b9xfeZ7E2aZBMsbDlgU2kR3jDRjyeMJYVboLeUF19jRSfHYoH+l09sl4tuK
- ChVCy7Zp+/8zHwL0Yfk1NrVziYymp5pnPEvF913vtVdHyD5hY9MptmCRQEx1RheQOaak
- MoNjq6EP8Ge4dXJVXE3+9Cp4k8/rp7CQa1VQLGk3iqP9+43sg7EfuFJANm1KNDUDSfqg
- sUGXQ3y1xnOXEusYSi+jgkqap0ZJMw1waYZc/csmI9WvyuC0iNd5q0H29Bd+q+kNRBbT
- lqQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742559796; x=1743164596;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bCHRcsxe/+pskodsN56Dy1BONWoeHJ0Tuu1dcJXeMMo=;
- b=hv3J/y7AgQJhsv6Af8hdKzTm7rM9IUhxR/yu8pQyqmam4woeMRiuBCOp2gXkOq69DA
- J5VVzteHYWkPbmkbwh3ogv7nDRTuZX/YJ7lT+bktzgPJaOpS86DsHwHJgLWo4s00KmkB
- aIFByf9gOJGYu8nvUuHPpdomBQ2Kma3Og8RHIDjBUov+xk7Jfko8kfezqdilU43dQdf+
- gwrh0JUcKEyZMCT3HGB/vaxFpd7cp+lcJTEPE48ja8wsYoxutYFdMzRhPug4b1WOjD1L
- 6ppMG+wq94mDXa5cQWiXBCVVa4AoJvsy2PDthQq+cPDpNWSn7opQwzNmykj/56zxF76R
- wDaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW44hvjp51LUKcLo/nUs1JL8kt2xgtm5OSMlSmuBBQHMdyNleJQm03YZTYof9feZaUQNIDVizv57KQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxasgxwKyfq7YGtPcNyBKE0K2rXpwYtZ6bP9YjhwBzyvS0BjzJ8
- u7of7PD1XThfIC64sANVKu52IPQpDLPqi+JeECCdABxt7bcw7rSlQE4VLaFGE4E=
-X-Gm-Gg: ASbGncv91362OHf1A8K1ox7uITOINwjgyJcBdg/sotmUqmPsIWwJ41NhSA5QeASOCSs
- D2gL6BXCO+REH8yNuITzavkee/nObxpoMIdJ05jPu/aGJaXDBagC7QvSLkmBw3V4j6GoW6LsuR2
- 6UAocpAVvRYOei28LpwBHufikx6umG76OCn9cDfJh90dq0dEDoHdGmaCxJZH632Ic6Fwwy773XM
- 2yFMv95tLMHR+AAlWXpW7Nf42aDKibAGIlfSua2nAzFmy4UQBIiOzNaTGl4YyPDyZ8Yek9Mu+gA
- M1P5WMEidbWLYKuPr/KtdV0d6Y+KnwaHrgEyANNQ6NyuO9m0zXU1BsBM0DkA3IQ=
-X-Google-Smtp-Source: AGHT+IGyhd0C3UJpzvPZ0bVWbsnLobFeYW2i8lgDV+9JLWekTtRmEt7WWLRk7j4RRBw0Gi70mwVr5A==
-X-Received: by 2002:a5d:5f96:0:b0:38f:4d20:4a17 with SMTP id
- ffacd0b85a97d-3997f8fb0f7mr4046481f8f.13.1742559796246; 
- Fri, 21 Mar 2025 05:23:16 -0700 (PDT)
-Received: from [192.168.68.117] ([5.133.47.210])
- by smtp.googlemail.com with ESMTPSA id
- ffacd0b85a97d-3997f995766sm2221656f8f.1.2025.03.21.05.23.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Mar 2025 05:23:15 -0700 (PDT)
-Message-ID: <9962c517-5c0e-4d46-ac0c-2a7bab550156@linaro.org>
-Date: Fri, 21 Mar 2025 12:23:15 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6F5410E7BC;
+ Fri, 21 Mar 2025 12:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742560869; x=1774096869;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=Y2846tBuL2mWBVQlc560xA5UiYRZ8PX5caGQUYX3m5o=;
+ b=Ec7ew6+tIevrsYQPXqDnjx+zMHZXHqiLEmkUXpqb0KvfwqCdRgUuFIkX
+ lUJCiuKCbt0grkxgyzjVHCFppxvffECa2U5Oiy7CruyzEPPo9WLu8L4xu
+ JSa8JjyADZiT8f6HXetnssd6Go7pYBN5IRvIaT2dos0V/kyj0JwdDNnQl
+ jIwSn8FZJU9psg3sHxpjjcxta1zzxzqv4SVv9hKN/teQtr6vziQESY93x
+ ocVCjjdBnXe/2wAc5ZH/A3d6NL7NMfvomMNxKBTDQRsxuo2Rmcoo+FQEb
+ +LvfWvRAQEpJx06dtd6Ybja0MHxya11qMgJVWYCrAKGCFCwt7Wjj621Q6 A==;
+X-CSE-ConnectionGUID: 1aHRvC9sRsaaGAFR51pZBg==
+X-CSE-MsgGUID: gHlbvb50StWyxP9SXYmS5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="31416198"
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; d="scan'208";a="31416198"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2025 05:41:08 -0700
+X-CSE-ConnectionGUID: xnWMy0feS82fNJIl+FCjBw==
+X-CSE-MsgGUID: OaH24dpNSFmCPYM51NjsrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; d="scan'208";a="128502379"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.201])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2025 05:41:05 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Yue Haibing
+ <yuehaibing@huawei.com>, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ simona@ffwll.ch, dev@lankhorst.se
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] drm/i915/display: Fix build error without
+ DRM_FBDEV_EMULATION
+In-Reply-To: <12145722-609e-41d0-b02b-059df5b6d17f@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250315120143.2344958-1-yuehaibing@huawei.com>
+ <12145722-609e-41d0-b02b-059df5b6d17f@suse.de>
+Date: Fri, 21 Mar 2025 14:41:02 +0200
+Message-ID: <87y0wyblpd.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Ling Xu <quic_lxu5@quicinc.com>, andersson@kernel.org,
- konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- gregkh@linuxfoundation.org, quic_kuiw@quicinc.com,
- quic_ekangupt@quicinc.com, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
- <20250320091446.3647918-3-quic_lxu5@quicinc.com>
- <30bba296-8e6f-41ee-880e-2d5ecc8fe5a4@linaro.org>
- <qhriqbm6fcy5vcclfounaaepxcvnck2lb7k2gcpbtrojqzehua@khv5lwdgbysc>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <qhriqbm6fcy5vcclfounaaepxcvnck2lb7k2gcpbtrojqzehua@khv5lwdgbysc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,44 +75,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 20/03/2025 18:43, Dmitry Baryshkov wrote:
-> On Thu, Mar 20, 2025 at 05:11:20PM +0000, Srinivas Kandagatla wrote:
+On Mon, 17 Mar 2025, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Am 15.03.25 um 13:01 schrieb Yue Haibing:
+>> In file included from <command-line>:
+>> ./drivers/gpu/drm/i915/display/intel_fbdev.h: In function =E2=80=98intel=
+_fbdev_framebuffer=E2=80=99:
+>> ./drivers/gpu/drm/i915/display/intel_fbdev.h:32:16: error: =E2=80=98NULL=
+=E2=80=99 undeclared (first use in this function)
+>>     32 |         return NULL;
+>>        |                ^~~~
+>> ./drivers/gpu/drm/i915/display/intel_fbdev.h:1:1: note: =E2=80=98NULL=E2=
+=80=99 is defined in header =E2=80=98<stddef.h>=E2=80=99; did you forget to=
+ =E2=80=98#include <stddef.h>=E2=80=99?
+>>    +++ |+#include <stddef.h>
+>>      1 | /* SPDX-License-Identifier: MIT */
+>> ./drivers/gpu/drm/i915/display/intel_fbdev.h:32:16: note: each undeclare=
+d identifier is reported only once for each function it appears in
+>>     32 |         return NULL;
+>>        |                ^~~~
 >>
+>> Build fails if CONFIG_DRM_FBDEV_EMULATION is n, add missing header file.
 >>
->> On 20/03/2025 09:14, Ling Xu wrote:
->>> The fastrpc driver has support for 5 types of remoteprocs. There are
->>> some products which support GPDSP remoteprocs. Add changes to support
->>> GPDSP remoteprocs.
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
->>> ---
->>>    drivers/misc/fastrpc.c | 10 ++++++++--
->>>    1 file changed, 8 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>> index 7b7a22c91fe4..80aa554b3042 100644
->>> --- a/drivers/misc/fastrpc.c
->>> +++ b/drivers/misc/fastrpc.c
->>> @@ -28,7 +28,9 @@
->>>    #define SDSP_DOMAIN_ID (2)
->>>    #define CDSP_DOMAIN_ID (3)
->>>    #define CDSP1_DOMAIN_ID (4)
->>> -#define FASTRPC_DEV_MAX		5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
->>> +#define GDSP0_DOMAIN_ID (5)
->>> +#define GDSP1_DOMAIN_ID (6)
->>
->> We have already made the driver look silly here, Lets not add domain ids for
->> each instance, which is not a scalable.
->>
->> Domain ids are strictly for a domain not each instance.
-> 
-> Then CDSP1 should also be gone, correct?
-Its already gone as part of the patch that I shared in this discussion.
+>> Fixes: 9fa154f40eb6 ("drm/{i915,xe}: Run DRM default client setup")
+>> Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
+>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-I will send a proper patch to list once Ling/Ekansh has agree with it.
+Merged to drm-intel-next, thanks for the patch and ack.
 
---srini
-> 
+BR,
+Jani.
+
+>
+>> ---
+>>   drivers/gpu/drm/i915/display/intel_fbdev.h | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.h b/drivers/gpu/dr=
+m/i915/display/intel_fbdev.h
+>> index ca2c8c438f02..89bad3a2b01a 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_fbdev.h
+>> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.h
+>> @@ -6,6 +6,8 @@
+>>   #ifndef __INTEL_FBDEV_H__
+>>   #define __INTEL_FBDEV_H__
+>>=20=20=20
+>> +#include <linux/types.h>
+>> +
+>>   struct drm_fb_helper;
+>>   struct drm_fb_helper_surface_size;
+>>   struct drm_i915_private;
+
+--=20
+Jani Nikula, Intel
