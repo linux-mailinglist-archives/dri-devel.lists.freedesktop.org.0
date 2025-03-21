@@ -2,134 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1E9A6B5E3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 09:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5AFEA6B5E8
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 09:16:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE60F10E70F;
-	Fri, 21 Mar 2025 08:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08A0E10E70C;
+	Fri, 21 Mar 2025 08:16:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="jRParab+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0cJe17yE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jRParab+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0cJe17yE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WdvJiPOc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFEA110E70C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 08:16:20 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF4010E70C
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 08:16:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1742545011;
+ bh=cCE5oOPiACIOd4uyLLq5AwJQYfAxX91rUeu/sbR50mI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=WdvJiPOcMKWXXqNxivV8Fo//+MIYyfu8uWRP0t3QVrRUDUMwn2iQ1SZvTJoEQPjl6
+ k6UdKAHrRPwYlzBjOvPxK301ztdqakYNcheoeai+mKHsitnbb6KDNd7D11UFxuOgsZ
+ VpJwdzv7qXv8byKArYT23XPquWzItCqIW8TucJTVNSnGMksE1gq6iSG1WxkbsKqlBI
+ vCJhmwti4oDUbDzrh679lW4U+ue/ChT2Guu1Ev0CD8P3fVjl4ozuwJdq72fLroPT8j
+ rLMOeZRQPQzjvCgiYnQelp1CilWerFuPAQqKeQN+Z3QlSEHhdj6EH6vTnhV8sz64PG
+ fgmR45wV7Gk/A==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 11D001F894;
- Fri, 21 Mar 2025 08:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742544979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OKsfgMuHErOU5DWDWuizqL9rmprZzY2Eg8bxeCWY2as=;
- b=jRParab+DlgWXxP4YmSeueG1ZiCp4/QEIqh2A+QNLGSbsVCNnsHSgs0bUW21wDQFsj5a0S
- EYLayseKGIyeAYeveOnzpUIkcM31fk5Rmf5etUnOyKqRG205xOY2zTXzVfRqxuqTk0m/1J
- ADOD1u0mW2cVH4hI2XoDvYJ5G9jDnFg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742544979;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OKsfgMuHErOU5DWDWuizqL9rmprZzY2Eg8bxeCWY2as=;
- b=0cJe17yEPkrsA69t7F6CyzmSjVSAzUlbi4c4zGs5B0hFmTacZPAzrlpw0bAvJsJQzvBJSy
- kqL+1yHt0ZwhUtDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742544979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OKsfgMuHErOU5DWDWuizqL9rmprZzY2Eg8bxeCWY2as=;
- b=jRParab+DlgWXxP4YmSeueG1ZiCp4/QEIqh2A+QNLGSbsVCNnsHSgs0bUW21wDQFsj5a0S
- EYLayseKGIyeAYeveOnzpUIkcM31fk5Rmf5etUnOyKqRG205xOY2zTXzVfRqxuqTk0m/1J
- ADOD1u0mW2cVH4hI2XoDvYJ5G9jDnFg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742544979;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OKsfgMuHErOU5DWDWuizqL9rmprZzY2Eg8bxeCWY2as=;
- b=0cJe17yEPkrsA69t7F6CyzmSjVSAzUlbi4c4zGs5B0hFmTacZPAzrlpw0bAvJsJQzvBJSy
- kqL+1yHt0ZwhUtDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C714C13A2C;
- Fri, 21 Mar 2025 08:16:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id GW/hLlIg3WfjAQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 21 Mar 2025 08:16:18 +0000
-Message-ID: <25453126-43ba-4d60-8c6c-1216532af073@suse.de>
-Date: Fri, 21 Mar 2025 09:16:18 +0100
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 8237F17E0C38;
+ Fri, 21 Mar 2025 09:16:50 +0100 (CET)
+Date: Fri, 21 Mar 2025 09:16:45 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Karunika Choo <karunika.choo@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/9] drm/panthor: Move GPU info initialization into
+ panthor_hw.c
+Message-ID: <20250321091645.0edec07a@collabora.com>
+In-Reply-To: <20250320111741.1937892-5-karunika.choo@arm.com>
+References: <20250320111741.1937892-1-karunika.choo@arm.com>
+ <20250320111741.1937892-5-karunika.choo@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/11] backlight: lcd: Replace fb events with a
- dedicated function call
-To: Daniel Thompson <danielt@kernel.org>
-Cc: lee@kernel.org, pavel@ucw.cz, jingoohan1@gmail.com, deller@gmx.de,
- simona@ffwll.ch, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20250306140947.580324-1-tzimmermann@suse.de>
- <20250306140947.580324-9-tzimmermann@suse.de> <Z9k_qy-Kh3-v5tKg@aspen.lan>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Z9k_qy-Kh3-v5tKg@aspen.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[9];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[kernel.org,ucw.cz,gmail.com,gmx.de,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,50 +67,308 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Thu, 20 Mar 2025 11:17:36 +0000
+Karunika Choo <karunika.choo@arm.com> wrote:
 
-Am 18.03.25 um 10:40 schrieb Daniel Thompson:
-> On Thu, Mar 06, 2025 at 03:05:50PM +0100, Thomas Zimmermann wrote:
->> Remove support for fb events from the lcd subsystem. Provide the
->> helper lcd_notify_blank_all() instead. In fbdev, call
->> lcd_notify_blank_all() to inform the lcd subsystem of changes
->> to a display's blank state.
->>
->> Fbdev maintains a list of all installed notifiers. Instead of fbdev
->> notifiers, maintain an internal list of lcd devices.
-> I don't love the LCD devices list, however I can see the list of notifiers
-> had the same semantic effect (only less explicit) so I can live with
-> it ;-).
->
->> v3:
->> - export lcd_notify_mode_change_all() (kernel test robot)
->> v2:
->> - maintain global list of lcd devices
->> - avoid IS_REACHABLE() in source file
->> - use lock guards
->> - initialize lcd list and list mutex
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Happy with these changes, but have the same EXPORT_SYMBOL_GPL()
-> questions I did with the backlight code.
+> This patch moves GPU info initialization into panthor_hw.c in
+> preparation of handling GPU register changes. The GPU register reading
+> operations to populate gpu_info are separated into an architecture
+> specific arch_*_gpu_info_init() function and is called via the new
+> function pointer abstraction under hw.ops.gpu_info_init().
+> 
+> Future GPU support will be performed by implementing a *_gpu_info_init()
+> function specific to that architecture version. It can call any existing
+> *_gpu_info_init() and extend it with additional register reads or
+> provide an entirely different implementation.
 
-As in backlight.c, all existing symbols are exported with 
-EXPORT_SYMBOL(). I simply used what was already there.
+Could you give us an insight into what the reg layout changes are? So
+far, they were mostly unchanged between GPU gens, and I'd really
+prefer we could keep the majority of them unchanged part of the commo 
+discovery, and only add the missing reads in the ->gpu_info_init()
+callback.
 
-Best regards
-Thomas
+Note that I'm also working on abstracting mali device operations to add
+JM support to panthor, and the only things I had to specialize are:
 
->
->
-> Daniel.
->
+- CSF ID for CSF
+- JS features/present masks for JM
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+The rest is just common. So what I have is a common gpu_init_info()
+helper that reads all the regs excepts those two, and after that, I
+have a device ops selection based on the arch major of the GPU ID [1].
+The device-specific GPU info are then read as part of the
+panthor_device_ops::init().
+
+> 
+> This patch will enable Panthor to support GPUs with changes to register
+> offsets, size and fields.
+> 
+> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_gpu.c |  95 -----------------------
+>  drivers/gpu/drm/panthor/panthor_hw.c  | 105 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_hw.h  |   3 +-
+>  3 files changed, 107 insertions(+), 96 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 0dee011fe2e9..fcdee8901482 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -37,40 +37,6 @@ struct panthor_gpu {
+>  	wait_queue_head_t reqs_acked;
+>  };
+>  
+> -/**
+> - * struct panthor_model - GPU model description
+> - */
+> -struct panthor_model {
+> -	/** @name: Model name. */
+> -	const char *name;
+> -
+> -	/** @arch_major: Major version number of architecture. */
+> -	u8 arch_major;
+> -
+> -	/** @product_major: Major version number of product. */
+> -	u8 product_major;
+> -};
+> -
+> -/**
+> - * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
+> - * by a combination of the major architecture version and the major product
+> - * version.
+> - * @_name: Name for the GPU model.
+> - * @_arch_major: Architecture major.
+> - * @_product_major: Product major.
+> - */
+> -#define GPU_MODEL(_name, _arch_major, _product_major) \
+> -{\
+> -	.name = __stringify(_name),				\
+> -	.arch_major = _arch_major,				\
+> -	.product_major = _product_major,			\
+> -}
+> -
+> -static const struct panthor_model gpu_models[] = {
+> -	GPU_MODEL(g610, 10, 7),
+> -	{},
+> -};
+> -
+>  #define GPU_INTERRUPTS_MASK	\
+>  	(GPU_IRQ_FAULT | \
+>  	 GPU_IRQ_PROTM_FAULT | \
+> @@ -83,66 +49,6 @@ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+>  		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
+>  }
+>  
+> -static void panthor_gpu_init_info(struct panthor_device *ptdev)
+> -{
+> -	const struct panthor_model *model;
+> -	u32 arch_major, product_major;
+> -	u32 major, minor, status;
+> -	unsigned int i;
+> -
+> -	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
+> -	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
+> -	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
+> -	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
+> -	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
+> -	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
+> -	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
+> -	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
+> -	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
+> -	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
+> -	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+> -	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
+> -	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
+> -	for (i = 0; i < 4; i++)
+> -		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
+> -
+> -	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
+> -
+> -	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
+> -	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
+> -	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
+> -
+> -	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
+> -	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
+> -	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
+> -	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
+> -	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
+> -
+> -	for (model = gpu_models; model->name; model++) {
+> -		if (model->arch_major == arch_major &&
+> -		    model->product_major == product_major)
+> -			break;
+> -	}
+> -
+> -	drm_info(&ptdev->base,
+> -		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
+> -		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
+> -		 major, minor, status);
+> -
+> -	drm_info(&ptdev->base,
+> -		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
+> -		 ptdev->gpu_info.l2_features,
+> -		 ptdev->gpu_info.tiler_features,
+> -		 ptdev->gpu_info.mem_features,
+> -		 ptdev->gpu_info.mmu_features,
+> -		 ptdev->gpu_info.as_present);
+> -
+> -	drm_info(&ptdev->base,
+> -		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
+> -		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
+> -		 ptdev->gpu_info.tiler_present);
+> -}
+> -
+>  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  {
+>  	if (status & GPU_IRQ_FAULT) {
+> @@ -203,7 +109,6 @@ int panthor_gpu_init(struct panthor_device *ptdev)
+>  	spin_lock_init(&gpu->reqs_lock);
+>  	init_waitqueue_head(&gpu->reqs_acked);
+>  	ptdev->gpu = gpu;
+> -	panthor_gpu_init_info(ptdev);
+>  
+>  	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
+>  	pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
+> index 234bfd50cf0d..4cc4b0d5382c 100644
+> --- a/drivers/gpu/drm/panthor/panthor_hw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+> @@ -5,10 +5,113 @@
+>  #include "panthor_hw.h"
+>  #include "panthor_regs.h"
+>  
+> +/**
+> + * struct panthor_model - GPU model description
+> + */
+> +struct panthor_model {
+> +	/** @name: Model name. */
+> +	const char *name;
+> +
+> +	/** @arch_major: Major version number of architecture. */
+> +	u8 arch_major;
+> +
+> +	/** @product_major: Major version number of product. */
+> +	u8 product_major;
+> +};
+> +
+> +/**
+> + * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
+> + * by a combination of the major architecture version and the major product
+> + * version.
+> + * @_name: Name for the GPU model.
+> + * @_arch_major: Architecture major.
+> + * @_product_major: Product major.
+> + */
+> +#define GPU_MODEL(_name, _arch_major, _product_major) \
+> +{\
+> +	.name = __stringify(_name),				\
+> +	.arch_major = _arch_major,				\
+> +	.product_major = _product_major,			\
+> +}
+> +
+> +static const struct panthor_model gpu_models[] = {
+> +	GPU_MODEL(g610, 10, 7),
+> +	{},
+> +};
+> +
+> +static void arch_10_8_gpu_info_init(struct panthor_device *ptdev)
+> +{
+> +	unsigned int i;
+> +
+> +	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
+> +	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
+> +	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
+> +	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
+> +	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
+> +	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
+> +	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
+> +	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
+> +	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
+> +	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
+> +	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+> +	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
+> +	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
+> +	for (i = 0; i < 4; i++)
+> +		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
+> +
+> +	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
+> +
+> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
+> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
+> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
+> +}
+> +
+> +static void panthor_gpu_init_info(struct panthor_device *ptdev)
+> +{
+> +	const struct panthor_model *model;
+> +	u32 arch_major, product_major;
+> +	u32 major, minor, status;
+> +
+> +	ptdev->hw->ops.gpu_info_init(ptdev);
+> +
+> +	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
+> +	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
+> +	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
+> +	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
+> +	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
+> +
+> +	for (model = gpu_models; model->name; model++) {
+> +		if (model->arch_major == arch_major &&
+> +		    model->product_major == product_major)
+> +			break;
+> +	}
+> +
+> +	drm_info(&ptdev->base,
+> +		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
+> +		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
+> +		 major, minor, status);
+> +
+> +	drm_info(&ptdev->base,
+> +		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
+> +		 ptdev->gpu_info.l2_features,
+> +		 ptdev->gpu_info.tiler_features,
+> +		 ptdev->gpu_info.mem_features,
+> +		 ptdev->gpu_info.mmu_features,
+> +		 ptdev->gpu_info.as_present);
+> +
+> +	drm_info(&ptdev->base,
+> +		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
+> +		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
+> +		 ptdev->gpu_info.tiler_present);
+> +}
+> +
+>  static struct panthor_hw panthor_hw_devices[] = {
+>  	{
+>  		.arch_id = GPU_ARCH_ID_MAKE(10, 0, 0),
+>  		.arch_mask = GPU_ARCH_ID_MAKE(0xFF, 0, 0),
+> +		.ops = {
+> +			.gpu_info_init = arch_10_8_gpu_info_init,
+> +		},
+>  	},
+>  };
+>  
+> @@ -59,6 +162,8 @@ int panthor_hw_init(struct panthor_device *ptdev)
+>  
+>  	ptdev->hw = hdev;
+>  
+> +	panthor_gpu_init_info(ptdev);
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
+> index 5eb0549ad333..dfe0f86c5d76 100644
+> --- a/drivers/gpu/drm/panthor/panthor_hw.h
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
+> @@ -31,7 +31,8 @@ struct panthor_hw_regmap {
+>   * struct panthor_hw_ops - HW operations that are specific to a GPU
+>   */
+>  struct panthor_hw_ops {
+> -
+> +	/** @gpu_info_init: Function pointer to initialize GPU info. */
+> +	void (*gpu_info_init)(struct panthor_device *ptdev);
+>  };
+>  
+>  /**
 
