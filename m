@@ -2,104 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DBDA6B8D4
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 11:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199A7A6B903
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 11:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E923710E786;
-	Fri, 21 Mar 2025 10:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A23910E036;
+	Fri, 21 Mar 2025 10:46:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ismHwEHF";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MjoP/Xji";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E0C210E785
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 10:35:48 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4394a823036so17832065e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 03:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1742553344; x=1743158144; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=e3Kfp6sALNxTTtUe+bIHaZwZakvZcPmpmO3uXVTBrCw=;
- b=ismHwEHFwTdbutHQ9lDDbIVfq+qpjHi5onBTIZjyZKTawsE0kIZwkT4lbP8nJMf2n5
- vZw/lK9cQ3Qmsq1SEcNGF9ADhyJ2QBu3q8rJ9cNmMpGZrvm9x0HOV1EbzkhYo9DRXmnO
- 1IIitFvMbRTH+0MNfJuYWhKNee1Eu1sU6RN0o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742553344; x=1743158144;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e3Kfp6sALNxTTtUe+bIHaZwZakvZcPmpmO3uXVTBrCw=;
- b=rd8ciVBDE6I65EZVgdkKzuTUlhDAcQsNUX8kiA1WS52iA6/dmbXESE+ZCm8ncMXYun
- ASV9GdxR+EutATLROZPCnDzWswN40X+NUPSY8r/sv5BorxhPpQS1N44sn5lut2B7wT6a
- 69kMbcfwN6mkIhJ2JbXXM8u50rhyUSCRTrKUry5rK89jofov0XkhBmPvEJiV7LkR9UgO
- ZT4FzkX9rlOW30y9TPYvxn6To/ImnjgbPaTPFwnY8sozbxBkHj+LtEwp05EBDSM2tGjK
- pYMTSuRPbsfXNuKxj7Nfb8z2Y5YLmWJfF4OWrf7fJL7mq28f9XSSW0e6Hfg+Vh3rEqAO
- pnZw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/VcCnAUmuEVyvCNxDlmywIqzsBnNm2UjCnpkTLAJk4QEfNVVcfaGsvEke1BTtT7ZFUrQrvSCIdEo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz18xopXUx237NRMps2REa4diDrj05ceabqSj5qW7P0jDa9pxw1
- 5zqBjbt23XvXhDgmXRK/qqH51sWb6MYj/zW0/26OdBo2SpZ1ZDoIMVjTaLXDp4E=
-X-Gm-Gg: ASbGncsB+LKZMarRAAv35mJvNrscfh/vmHuVz5ljKQhKqRkKaoUedx4f0cahsDOTba+
- YclN5Tqvm0XMd0YrAmIPRrfTDNkvPZi0T0zFnGCDSUexdfFgABSX+xrgqw6mbj5KrCXNz3LQGa/
- cSKXh157uijWDsm5kb4Xlz9d+c0nw4e5Yulv/I3NJBVeRhO59B5FGlAC73IvoHrSqkD3ABj6whS
- bIQZr20BG6REBnf1/TmOVyB2RmYdsCUzOzoYjAHR64aOXGDMbzSt6iPkwqcRVOfWWFsNGW0ryAV
- L3BCxP0WeZ5tdRFln89H6v+32GljVefShaFpo5kfnoIkddNbj0Z07GjS
-X-Google-Smtp-Source: AGHT+IGdgqrnktS88HQx0VeXm5vsHxDPIPUGT/Sqr6rq09y+ynhAfmQF/0b/+MUc3ZwiGzOBD/Pjgw==
-X-Received: by 2002:a05:600c:3c9b:b0:43d:4686:5cfb with SMTP id
- 5b1f17b1804b1-43d50a361f8mr15516775e9.27.1742553343656; 
- Fri, 21 Mar 2025 03:35:43 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3997f9eff79sm2000820f8f.95.2025.03.21.03.35.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Mar 2025 03:35:42 -0700 (PDT)
-Date: Fri, 21 Mar 2025 11:35:40 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-Subject: Re: [RFC PATCH 0/3] gpu: nova-core: add basic timer subdevice
- implementation
-Message-ID: <Z91A_Dz-nY2iFqYb@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
- John Hubbard <jhubbard@nvidia.com>,
- Greg KH <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@gmail.com>, Gary Guo <gary@garyguo.net>,
- Joel Fernandes <joel@joelfernandes.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ben Skeggs <bskeggs@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- paulmck@kernel.org
-References: <Z8f9mgD4LUJN_dWw@phenom.ffwll.local>
- <20250305151012.GW133783@nvidia.com>
- <Z8l8HgZOV7sDWqBh@phenom.ffwll.local>
- <20250306153236.GE354511@nvidia.com>
- <Z8rKVZolu8n6lB1P@phenom.ffwll.local>
- <20250307123255.GK354511@nvidia.com>
- <Z8rv-DQuGdxye28N@phenom.ffwll.local>
- <20250307145557.GO354511@nvidia.com>
- <Z9LsbhzjI-P3-edQ@phenom.ffwll.local>
- <20250319172132.GL9311@nvidia.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B93FB10E036
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 10:46:42 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (unknown [157.231.223.213])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DAB37F6;
+ Fri, 21 Mar 2025 11:44:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1742553895;
+ bh=zgkx+mvkOnrCh2pBOwwEUvScJTGSdLxt/O+zjzEmDi0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=MjoP/XjihxRO1BSEk4Me9n1B1T6TiQ+e76KkqhTsiOQCNUs6TvQFgbH7Tiqi/OmmO
+ IkJAw0UUCISQ0SpmURwV4q1BRApix4mERyddqmJUehpVDAU7d2w7wJdOPfMRyLbaGl
+ NDMABlx1PKKVKuoe4ayacehrX213yuJS1xpnekZI=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH] drm: renesas: rz-du: Support dmabuf import
+Date: Fri, 21 Mar 2025 12:46:15 +0200
+Message-ID: <20250321104615.31809-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250319172132.GL9311@nvidia.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,51 +51,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 19, 2025 at 02:21:32PM -0300, Jason Gunthorpe wrote:
-> On Thu, Mar 13, 2025 at 03:32:14PM +0100, Simona Vetter wrote:
-> 
-> > So I think you can still achieve that building on top of revocable and a
-> > few more abstractions that are internally unsafe. Or are you thinking of
-> > different runtime checks?
-> 
-> I'm thinking on the access side of the revocable you don't have a
-> failure path. Instead you get the access or runtime violation if the
-> driver is buggy. This eliminates all the objectionable failure paths
-> and costs on the performance paths of the driver.
-> 
-> And perhaps also on the remove path you have runtime checking if
-> "driver lifetime bound" objects have all been cleaned up.
-> 
-> The point is to try to behave more like the standard fence pattern and
-> get some level of checking that can make r4l comfortable without
-> inventing new kernel lifecycle models.
-> 
-> > Yeah maybe we're not that far really. But I'm still not clear how to do
-> > an entirely revoke-less world.
-> 
-> Not entirely, you end up revoking big things. Like RDMA revokes the
-> driver ops callbacks using SRCU. It doesn't revoke individual
-> resources or DMA maps.
-> 
-> I have the same feeling about this micro-revoke direction, I don't
-> know how to implement this. The DMA API is very challenging,
-> especially the performance use of DMA API.
+The rz-du driver uses GEM DMA helpers, but does not implement the
+drm_driver .gem_prime_import_sg_table operation. This  prevents
+importing dmabufs. Fix it by implementing the missing operation using
+the DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE() helper macro.
 
-Ah I think we're in agreement, I think once we get to big subsystems we
-really want subsystem-level revokes like you describe here. And rust
-already has this concept of a "having one thing guarantess you access to
-another". For example an overall lock to a big datastructure gives you
-access to all the invidiual nodes, see LockedBy. So I think we're covered
-here.
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+Kieran, would you be able to test this ?
+---
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For me the basic Revocable really is more for all the odd-ball
-random pieces that aren't covered by subsystem constructs already. And
-maybe drm needs to rethink a bunch of things in this area in general, not
-just for rust. So maybe we should extend the rustdoc to explain that bare
-Revocable isn't how entire subsystems rust abstractions should be built?
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+index cbd9b9841267..5e40f0c1e7b0 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+@@ -79,7 +79,7 @@ DEFINE_DRM_GEM_DMA_FOPS(rzg2l_du_fops);
+ 
+ static const struct drm_driver rzg2l_du_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+-	.dumb_create		= rzg2l_du_dumb_create,
++	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(rzg2l_du_dumb_create),
+ 	DRM_FBDEV_DMA_DRIVER_OPS,
+ 	.fops			= &rzg2l_du_fops,
+ 	.name			= "rzg2l-du",
 
-Cheers, Aima
+base-commit: 9e75b6ef407fee5d4ed8021cd7ddd9d6a8f7b0e8
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+
+Laurent Pinchart
+
