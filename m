@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5AFEA6B5E8
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 09:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D2CA6B5FE
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 09:20:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08A0E10E70C;
-	Fri, 21 Mar 2025 08:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCFD10E129;
+	Fri, 21 Mar 2025 08:20:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WdvJiPOc";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="lglERMLY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF4010E70C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 08:16:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1742545011;
- bh=cCE5oOPiACIOd4uyLLq5AwJQYfAxX91rUeu/sbR50mI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=WdvJiPOcMKWXXqNxivV8Fo//+MIYyfu8uWRP0t3QVrRUDUMwn2iQ1SZvTJoEQPjl6
- k6UdKAHrRPwYlzBjOvPxK301ztdqakYNcheoeai+mKHsitnbb6KDNd7D11UFxuOgsZ
- VpJwdzv7qXv8byKArYT23XPquWzItCqIW8TucJTVNSnGMksE1gq6iSG1WxkbsKqlBI
- vCJhmwti4oDUbDzrh679lW4U+ue/ChT2Guu1Ev0CD8P3fVjl4ozuwJdq72fLroPT8j
- rLMOeZRQPQzjvCgiYnQelp1CilWerFuPAQqKeQN+Z3QlSEHhdj6EH6vTnhV8sz64PG
- fgmR45wV7Gk/A==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2C710E129;
+ Fri, 21 Mar 2025 08:20:12 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8237F17E0C38;
- Fri, 21 Mar 2025 09:16:50 +0100 (CET)
-Date: Fri, 21 Mar 2025 09:16:45 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/9] drm/panthor: Move GPU info initialization into
- panthor_hw.c
-Message-ID: <20250321091645.0edec07a@collabora.com>
-In-Reply-To: <20250320111741.1937892-5-karunika.choo@arm.com>
-References: <20250320111741.1937892-1-karunika.choo@arm.com>
- <20250320111741.1937892-5-karunika.choo@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ZJwNl6NsPz9s01;
+ Fri, 21 Mar 2025 09:20:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1742545207; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oyYjdGGRzlCcQkWUZiH4uZGdGt1yFcspRATdfLaayM8=;
+ b=lglERMLYka0HtJ01JR3ErNWMeqe9J8V484eBch6W/Z6Emdw0FCxhOSBlQCStb5jmW1Cb4P
+ 9YL38hNzEzCS7eYSqiD28pm/bdYfsU6wa7W4Jx6rg2y7gLwMaoHMrfOPkX+t+rEmfyuD7W
+ s1Mvouk1jCBbPbtmvF2J1oPSWldJ3u7E6YwwWyt0BDSmJpEX4BAyeoZ+S1gl8ZcBTsbKyD
+ H0HGk341WdY+W/RXx62ejcOkD6VGOU3BPLkrYDx5aZ7OXl5jAs7+q9OZ1vLla06JWRlgA3
+ I06m1y7+S+KAHs9iPOwET1xGyMvUEsIRyfuixAA6NVztMEmhNlCAQkuhqP2sww==
+Message-ID: <773a6105e1b448ecb2be8b2c80bb63c0e08f52d2.camel@mailbox.org>
+Subject: Re: [PATCH 1/2] drm/sched: add drm_sched_prealloc_dependency_slots
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@kernel.org, dri-devel@lists.freedesktop.org, dakr@kernel.org, 
+ amd-gfx@lists.freedesktop.org
+Date: Fri, 21 Mar 2025 09:20:04 +0100
+In-Reply-To: <860fb3b6-0f18-49c4-b464-5c8c8995e6bd@igalia.com>
+References: <20250318120313.19099-1-christian.koenig@amd.com>
+ <20250318120313.19099-2-christian.koenig@amd.com>
+ <769f6c5788eff9459414b8ce0b056989e29773af.camel@mailbox.org>
+ <48f07793-0fd4-4cdd-8568-3bd2ff63bb6a@gmail.com>
+ <860fb3b6-0f18-49c4-b464-5c8c8995e6bd@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: qy7cap3s8zg1d9g8qy4kir1jf5gkubjs
+X-MBO-RS-ID: 5a39719af3035e82328
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,311 +65,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Mar 2025 11:17:36 +0000
-Karunika Choo <karunika.choo@arm.com> wrote:
+On Thu, 2025-03-20 at 11:49 +0000, Tvrtko Ursulin wrote:
+>=20
+> On 19/03/2025 11:23, Christian K=C3=B6nig wrote:
+> > > > + *
+> > > > + * Return:
+> > > > + * 0 on success, or an error on failing to expand the array.
+> > > > + */
+> > > > +int drm_sched_job_prealloc_dependency_slots(struct
+> > > > drm_sched_job
+> > > > *job,
+> > > > +					=C2=A0=C2=A0=C2=A0 unsigned int
+> > > > num_deps)
+> > > > +{
+> > > > +	struct dma_fence *fence;
+> > > > +	u32 id =3D 0;
+> > > > +	int ret;
+> > > > +
+> > > > +	while (num_deps--) {
+> > > > +		fence =3D dma_fence_get_stub();
+> > > > +		ret =3D xa_alloc(&job->dependencies, &id, fence,
+> > > > xa_limit_32b,
+> > > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GFP_KERNEL);
+> > > So this would fill the xarr with already signaled fences which
+> > > then
+> > > later will be replaced with unsignaled fences?
+> >=20
+> > Yes, exactly that's the idea.
+> >=20
+> > > Help me out here: would it also work to add NULL instead of that
+> > > stub-
+> > > fence?
+> >=20
+> > Good question, idk. That's an implementation detail of the xarray.
+> >=20
+> > Tvrtko also correctly pointed out that it is most likely a bad idea
+> > to=20
+> > use dma_fence_is_signaled() in the critical code path.
+> >=20
+> > I will try to dig through the xarray behavior up and update the
+> > patch if=20
+> > possible.
+>=20
+> I think NULL on its own is not possible, but the two low bits are=20
+> available for pointer tagging, or designating pointers vs integers,=20
+> which looks like it could work. Something like storing=20
+> xa_tag_pointer(NULL, 1) to reserved slots and at lookup time they
+> would=20
+> be detected with "xa_pointer_tag(fence) & 1".
 
-> This patch moves GPU info initialization into panthor_hw.c in
-> preparation of handling GPU register changes. The GPU register reading
-> operations to populate gpu_info are separated into an architecture
-> specific arch_*_gpu_info_init() function and is called via the new
-> function pointer abstraction under hw.ops.gpu_info_init().
-> 
-> Future GPU support will be performed by implementing a *_gpu_info_init()
-> function specific to that architecture version. It can call any existing
-> *_gpu_info_init() and extend it with additional register reads or
-> provide an entirely different implementation.
+Almost!
 
-Could you give us an insight into what the reg layout changes are? So
-far, they were mostly unchanged between GPU gens, and I'd really
-prefer we could keep the majority of them unchanged part of the commo 
-discovery, and only add the missing reads in the ->gpu_info_init()
-callback.
+they would be detected with a super-readable
 
-Note that I'm also working on abstracting mali device operations to add
-JM support to panthor, and the only things I had to specialize are:
+#define DRM_SCHED_XARR_TAG_RESERVED_ENTRY 1
 
-- CSF ID for CSF
-- JS features/present masks for JM
+or maybe =E2=80=A6UNUSED_ENTRY?
 
-The rest is just common. So what I have is a common gpu_init_info()
-helper that reads all the regs excepts those two, and after that, I
-have a device ops selection based on the arch major of the GPU ID [1].
-The device-specific GPU info are then read as part of the
-panthor_device_ops::init().
+^_^
 
-> 
-> This patch will enable Panthor to support GPUs with changes to register
-> offsets, size and fields.
-> 
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_gpu.c |  95 -----------------------
->  drivers/gpu/drm/panthor/panthor_hw.c  | 105 ++++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_hw.h  |   3 +-
->  3 files changed, 107 insertions(+), 96 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 0dee011fe2e9..fcdee8901482 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -37,40 +37,6 @@ struct panthor_gpu {
->  	wait_queue_head_t reqs_acked;
->  };
->  
-> -/**
-> - * struct panthor_model - GPU model description
-> - */
-> -struct panthor_model {
-> -	/** @name: Model name. */
-> -	const char *name;
-> -
-> -	/** @arch_major: Major version number of architecture. */
-> -	u8 arch_major;
-> -
-> -	/** @product_major: Major version number of product. */
-> -	u8 product_major;
-> -};
-> -
-> -/**
-> - * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
-> - * by a combination of the major architecture version and the major product
-> - * version.
-> - * @_name: Name for the GPU model.
-> - * @_arch_major: Architecture major.
-> - * @_product_major: Product major.
-> - */
-> -#define GPU_MODEL(_name, _arch_major, _product_major) \
-> -{\
-> -	.name = __stringify(_name),				\
-> -	.arch_major = _arch_major,				\
-> -	.product_major = _product_major,			\
-> -}
-> -
-> -static const struct panthor_model gpu_models[] = {
-> -	GPU_MODEL(g610, 10, 7),
-> -	{},
-> -};
-> -
->  #define GPU_INTERRUPTS_MASK	\
->  	(GPU_IRQ_FAULT | \
->  	 GPU_IRQ_PROTM_FAULT | \
-> @@ -83,66 +49,6 @@ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
->  		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
->  }
->  
-> -static void panthor_gpu_init_info(struct panthor_device *ptdev)
-> -{
-> -	const struct panthor_model *model;
-> -	u32 arch_major, product_major;
-> -	u32 major, minor, status;
-> -	unsigned int i;
-> -
-> -	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
-> -	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
-> -	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
-> -	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
-> -	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
-> -	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
-> -	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
-> -	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
-> -	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
-> -	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
-> -	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
-> -	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
-> -	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
-> -	for (i = 0; i < 4; i++)
-> -		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
-> -
-> -	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
-> -
-> -	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
-> -	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
-> -	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
-> -
-> -	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
-> -	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
-> -	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
-> -	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
-> -	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
-> -
-> -	for (model = gpu_models; model->name; model++) {
-> -		if (model->arch_major == arch_major &&
-> -		    model->product_major == product_major)
-> -			break;
-> -	}
-> -
-> -	drm_info(&ptdev->base,
-> -		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
-> -		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
-> -		 major, minor, status);
-> -
-> -	drm_info(&ptdev->base,
-> -		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
-> -		 ptdev->gpu_info.l2_features,
-> -		 ptdev->gpu_info.tiler_features,
-> -		 ptdev->gpu_info.mem_features,
-> -		 ptdev->gpu_info.mmu_features,
-> -		 ptdev->gpu_info.as_present);
-> -
-> -	drm_info(&ptdev->base,
-> -		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
-> -		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
-> -		 ptdev->gpu_info.tiler_present);
-> -}
-> -
->  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
->  	if (status & GPU_IRQ_FAULT) {
-> @@ -203,7 +109,6 @@ int panthor_gpu_init(struct panthor_device *ptdev)
->  	spin_lock_init(&gpu->reqs_lock);
->  	init_waitqueue_head(&gpu->reqs_acked);
->  	ptdev->gpu = gpu;
-> -	panthor_gpu_init_info(ptdev);
->  
->  	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
->  	pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-> index 234bfd50cf0d..4cc4b0d5382c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_hw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
-> @@ -5,10 +5,113 @@
->  #include "panthor_hw.h"
->  #include "panthor_regs.h"
->  
-> +/**
-> + * struct panthor_model - GPU model description
-> + */
-> +struct panthor_model {
-> +	/** @name: Model name. */
-> +	const char *name;
-> +
-> +	/** @arch_major: Major version number of architecture. */
-> +	u8 arch_major;
-> +
-> +	/** @product_major: Major version number of product. */
-> +	u8 product_major;
-> +};
-> +
-> +/**
-> + * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
-> + * by a combination of the major architecture version and the major product
-> + * version.
-> + * @_name: Name for the GPU model.
-> + * @_arch_major: Architecture major.
-> + * @_product_major: Product major.
-> + */
-> +#define GPU_MODEL(_name, _arch_major, _product_major) \
-> +{\
-> +	.name = __stringify(_name),				\
-> +	.arch_major = _arch_major,				\
-> +	.product_major = _product_major,			\
-> +}
-> +
-> +static const struct panthor_model gpu_models[] = {
-> +	GPU_MODEL(g610, 10, 7),
-> +	{},
-> +};
-> +
-> +static void arch_10_8_gpu_info_init(struct panthor_device *ptdev)
-> +{
-> +	unsigned int i;
-> +
-> +	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
-> +	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
-> +	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
-> +	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
-> +	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
-> +	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
-> +	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
-> +	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
-> +	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
-> +	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
-> +	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
-> +	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
-> +	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
-> +	for (i = 0; i < 4; i++)
-> +		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
-> +
-> +	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
-> +
-> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
-> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
-> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
-> +}
-> +
-> +static void panthor_gpu_init_info(struct panthor_device *ptdev)
-> +{
-> +	const struct panthor_model *model;
-> +	u32 arch_major, product_major;
-> +	u32 major, minor, status;
-> +
-> +	ptdev->hw->ops.gpu_info_init(ptdev);
-> +
-> +	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
-> +	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
-> +	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
-> +	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
-> +	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
-> +
-> +	for (model = gpu_models; model->name; model++) {
-> +		if (model->arch_major == arch_major &&
-> +		    model->product_major == product_major)
-> +			break;
-> +	}
-> +
-> +	drm_info(&ptdev->base,
-> +		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
-> +		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
-> +		 major, minor, status);
-> +
-> +	drm_info(&ptdev->base,
-> +		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
-> +		 ptdev->gpu_info.l2_features,
-> +		 ptdev->gpu_info.tiler_features,
-> +		 ptdev->gpu_info.mem_features,
-> +		 ptdev->gpu_info.mmu_features,
-> +		 ptdev->gpu_info.as_present);
-> +
-> +	drm_info(&ptdev->base,
-> +		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
-> +		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
-> +		 ptdev->gpu_info.tiler_present);
-> +}
-> +
->  static struct panthor_hw panthor_hw_devices[] = {
->  	{
->  		.arch_id = GPU_ARCH_ID_MAKE(10, 0, 0),
->  		.arch_mask = GPU_ARCH_ID_MAKE(0xFF, 0, 0),
-> +		.ops = {
-> +			.gpu_info_init = arch_10_8_gpu_info_init,
-> +		},
->  	},
->  };
->  
-> @@ -59,6 +162,8 @@ int panthor_hw_init(struct panthor_device *ptdev)
->  
->  	ptdev->hw = hdev;
->  
-> +	panthor_gpu_init_info(ptdev);
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
-> index 5eb0549ad333..dfe0f86c5d76 100644
-> --- a/drivers/gpu/drm/panthor/panthor_hw.h
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
-> @@ -31,7 +31,8 @@ struct panthor_hw_regmap {
->   * struct panthor_hw_ops - HW operations that are specific to a GPU
->   */
->  struct panthor_hw_ops {
-> -
-> +	/** @gpu_info_init: Function pointer to initialize GPU info. */
-> +	void (*gpu_info_init)(struct panthor_device *ptdev);
->  };
->  
->  /**
+P.
+
+
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
 
