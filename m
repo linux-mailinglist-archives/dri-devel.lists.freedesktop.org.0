@@ -2,69 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12BCDA6B9CF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 12:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D4FA6B9B6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 12:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB45810E7AB;
-	Fri, 21 Mar 2025 11:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 946FB10E791;
+	Fri, 21 Mar 2025 11:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ak78XAAo";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="P8YlAQG1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC37610E7AB
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 11:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1742556318;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0yUNpi4b7ZWdWO/bV5OTMGm6CGQRq8VicNn8NgDNq0I=;
- b=ak78XAAo1n6QSVRg/bPa92D8M12LKj3i8dfD92fhMTr2AC/DaYEmtXBgkBxDUTzc730h3I
- qdbxOwR4SrZ6zVEm0kYAVK0T0N8prvuqnKAbcU99uPZDJ3V/URlJtHJ5gKeroik3XGUOlv
- bUntOkTMS5sOiK+Nlb7rr40gFd6Vdts=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-695-EEhYhU6hOJqu7cGncA5SAg-1; Fri,
- 21 Mar 2025 07:25:15 -0400
-X-MC-Unique: EEhYhU6hOJqu7cGncA5SAg-1
-X-Mimecast-MFC-AGG-ID: EEhYhU6hOJqu7cGncA5SAg_1742556313
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 124B319560B1; Fri, 21 Mar 2025 11:25:13 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.44.34.21])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id E4B9D180175A; Fri, 21 Mar 2025 11:25:07 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ryosuke Yasuoka <ryasuoka@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Wei Yang <richard.weiyang@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>,
- John Ogness <john.ogness@linutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>, linux-mm@kvack.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v2 2/2] drm/panic: Add support to scanout buffer as array of
- pages
-Date: Fri, 21 Mar 2025 12:16:56 +0100
-Message-ID: <20250321112436.1739876-3-jfalempe@redhat.com>
-In-Reply-To: <20250321112436.1739876-1-jfalempe@redhat.com>
-References: <20250321112436.1739876-1-jfalempe@redhat.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9A010E791
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 11:18:05 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LATBHH016545
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 11:18:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=DKUSYoHR6fJ9Gx9eEsTaF2oL
+ MprzdUw0AcuNtKcNv44=; b=P8YlAQG1SDRbzIqC2q4Nfz0GyHgq+0u+Rc0ZNDHJ
+ 1ICrxaboFhd5fjVpf9lZzZ6WTjuELXkaX/JUhMlMEAq4+gWgJ61Rrb+GN92V2MRu
+ g9DJ1rDQFs4UmkS8mcpS5ZzZJrUMtNqQH2R2tzs0uAF2gvhSpMPidNRKKINUsObh
+ tM1v+JOAwJp4pn8lNWXwF0PTJoYDxD62nOyQt3ZtVyDMN87OZ7PCyQAEn8GMHZc6
+ su66goVlKESiOHIzaX6T5yyMK0R55ijnjRm/Cux2EzAe6VhKSuodhhT+uKnFibPE
+ wxUZFTSndipA94ZqJVY0WIxJTNMB6yOa8waVxqORqC8tag==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45gcd1cm5r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 11:18:03 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id
+ 98e67ed59e1d1-2ff854a2541so3031391a91.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 04:18:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742555881; x=1743160681;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DKUSYoHR6fJ9Gx9eEsTaF2oLMprzdUw0AcuNtKcNv44=;
+ b=o/B9FM/hB6MnNVQ8t/mroeSjJ3SGQmQxcgEmxmCGyPFu2YMMr8IAHgIzO1iNZsxGVP
+ Pe8+wBqcoaKQmvA8OQh2cW/CAK3OuhgGMgPzLf+oTMY09xk+i6GJ2Ll7MaDpKwrrzVoh
+ cYGVjs88FWh4QZE9qjFdZ1uTVwFcePzgwE4MK+7Rcx3cL4voCgZNdIxbBbzY0sbN7Rjj
+ yidLEEfkGo2x3ocN1hxZIhzrC47cfML+glblrBBFJNy9sGmGnaunQ0cEf68fIZHFP1NB
+ ir3FqADc+zfIwU/W2CSAj5bXLlbY2a4Q6yekLV41BZE/bC1fFeGZjrv7Oi/Itmo5LEgv
+ v3og==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX7CkjG+eL3dgZRLjRJjwW6YcbCk3VUkeD6ySwHwhb2q+5m3Y2Y8dVWhtL24Xk71g3XkcDTqjA0Qk0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXZqfQdrKeGnq46E4mxkQ96PBoINr5pWN6C+Szk0jgBzfaWyX3
+ gAWl5FRg4TcheFon3UUg+2E+wQJfBAwz5/Iik9pBniFr8b4qzavelFAlar+VE8WW7/6F1p/W8tM
+ u4/giM2W5WUx4y/esFzwJ+ShZg9NfWLotkIjMTS88MMFFwaCF7UHe22kQcls19xk6LFIeR2Pzh6
+ NyVIsGwcP3vqXif/y06Q39NoyULpFUje/PwOQ3EUZV0Xxs3BcB3u/5
+X-Gm-Gg: ASbGncsSaVMzq1+I0btxmyL91NGhq6KVLw+zflGRFCJO1bxvwcybmWX1xrjuoCizgUl
+ Hb/w0TRMnrPXATFf+aGml06TJfjj5LXBxZjd9xomrZJp2tjwulaqaM+pEcndsRaQRkNInylrB7e
+ 17XX8/9mlhOVMvreymsv0tPcofKtr0
+X-Received: by 2002:a17:90b:53c3:b0:2fe:afbc:cd53 with SMTP id
+ 98e67ed59e1d1-3030ff108camr4495962a91.28.1742555881127; 
+ Fri, 21 Mar 2025 04:18:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFYUrRBiFxt4TF2dj2f7+rt3svO89e0vefSuFBivuUS0vkcM09QvsSAFZQaqgBo6AsU157kO11HvgGAwjzYsvk=
+X-Received: by 2002:a17:90b:53c3:b0:2fe:afbc:cd53 with SMTP id
+ 98e67ed59e1d1-3030ff108camr4495906a91.28.1742555880604; Fri, 21 Mar 2025
+ 04:18:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+References: <20250127044239.578540-1-quic_ekangupt@quicinc.com>
+ <20250127044239.578540-5-quic_ekangupt@quicinc.com>
+ <hgox77a7e6zzriltwhzzciau6u2pmil4y3rl5o2l6zkp4fmlmp@q2dai5fxcvtq>
+ <49295da9-82d4-45a0-a2a4-fdaa6600c70d@quicinc.com>
+ <an4cvztdkqmrt7w2iaziihlxf4tbox65ze362v2lmycjnqg26y@jizjmh2ki34z>
+ <939fcff6-fb93-487b-995b-88e3ff020784@oss.qualcomm.com>
+ <2k6573yrw3dyn3rpwqz4asdpx3nlmj4ornm7kmxv3f4jlc6hzg@qkwn7gqduwri>
+ <e46be95c-ca8d-48ce-a616-5f068bd28ebc@oss.qualcomm.com>
+ <4ca8776c-3cc7-4266-8248-4a595fa19e7f@oss.qualcomm.com>
+In-Reply-To: <4ca8776c-3cc7-4266-8248-4a595fa19e7f@oss.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Fri, 21 Mar 2025 13:17:49 +0200
+X-Gm-Features: AQ5f1Jqtw8pLC3Jce_RInf4WAkyM5BsJM6J6o4bkxV8dEDbjppN-Wyx9DCzNbwI
+Message-ID: <CAO9ioeXVyN+gn=tHP4HsRTs=4AFrrqiyRJw3byxhrcgu4+Quqw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] misc: fastrpc: Add polling mode support for
+ fastRPC driver
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org,
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de
+Content-Type: text/plain; charset="UTF-8"
+X-Authority-Analysis: v=2.4 cv=bfFrUPPB c=1 sm=1 tr=0 ts=67dd4aeb cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10
+ a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=EdpeIRtKRTEnfPEYN64A:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-GUID: peFtpKaKpCh3anhAQVBrU-kze9t6HX74
+X-Proofpoint-ORIG-GUID: peFtpKaKpCh3anhAQVBrU-kze9t6HX74
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-21_04,2025-03-20_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ clxscore=1015 suspectscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 adultscore=0 phishscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503210083
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,244 +119,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some drivers like virtio-gpu, don't map the scanout buffer in the
-kernel. Calling vmap() in a panic handler is not safe, and writing an
-atomic_vmap() API is more complex than expected [1].
-So instead, pass the array of pages of the scanout buffer to the
-panic handler, and map only one page at a time to draw the pixels.
-This is obviously slow, but acceptable for a panic handler.
+On Fri, 21 Mar 2025 at 12:18, Ekansh Gupta
+<ekansh.gupta@oss.qualcomm.com> wrote:
+>
+>
+>
+> On 3/20/2025 9:27 PM, Ekansh Gupta wrote:
+> >
+> > On 3/20/2025 7:45 PM, Dmitry Baryshkov wrote:
+> >> On Thu, Mar 20, 2025 at 07:19:31PM +0530, Ekansh Gupta wrote:
+> >>> On 1/29/2025 4:10 PM, Dmitry Baryshkov wrote:
+> >>>> On Wed, Jan 29, 2025 at 11:12:16AM +0530, Ekansh Gupta wrote:
+> >>>>> On 1/29/2025 4:59 AM, Dmitry Baryshkov wrote:
+> >>>>>> On Mon, Jan 27, 2025 at 10:12:38AM +0530, Ekansh Gupta wrote:
+> >>>>>>> For any remote call to DSP, after sending an invocation message,
+> >>>>>>> fastRPC driver waits for glink response and during this time the
+> >>>>>>> CPU can go into low power modes. Adding a polling mode support
+> >>>>>>> with which fastRPC driver will poll continuously on a memory
+> >>>>>>> after sending a message to remote subsystem which will eliminate
+> >>>>>>> CPU wakeup and scheduling latencies and reduce fastRPC overhead.
+> >>>>>>> With this change, DSP always sends a glink response which will
+> >>>>>>> get ignored if polling mode didn't time out.
+> >>>>>> Is there a chance to implement actual async I/O protocol with the help
+> >>>>>> of the poll() call instead of hiding the polling / wait inside the
+> >>>>>> invoke2?
+> >>>>> This design is based on the implementation on DSP firmware as of today:
+> >>>>> Call flow: https://github.com/quic-ekangupt/fastrpc/blob/invokev2/Docs/invoke_v2.md#5-polling-mode
+> >>>>>
+> >>>>> Can you please give some reference to the async I/O protocol that you've
+> >>>>> suggested? I can check if it can be implemented here.
+> >>>> As with the typical poll() call implementation:
+> >>>> - write some data using ioctl
+> >>>> - call poll() / select() to wait for the data to be processed
+> >>>> - read data using another ioctl
+> >>>>
+> >>>> Getting back to your patch. from you commit message it is not clear,
+> >>>> which SoCs support this feature. Reminding you that we are supporting
+> >>>> all kinds of platforms, including the ones that are EoLed by Qualcomm.
+> >>>>
+> >>>> Next, you wrote that in-driver polling eliminates CPU wakeup and
+> >>>> scheduling. However this should also increase power consumption. Is
+> >>>> there any measurable difference in the latencies, granted that you
+> >>>> already use ioctl() syscall, as such there will be two context switches.
+> >>>> What is the actual impact?
+> >>> Hi Dmitry,
+> >>>
+> >>> Thank you for your feedback.
+> >>>
+> >>> I'm currently reworking this change and adding testing details. Regarding the SoC
+> >>> support, I'll add all the necessary information.
+> >> Please make sure that both the kernel and the userspace can handle the
+> >> 'non-supported' case properly.
+> > Yes, I will include changes to handle in both userspace and kernel.
+>
+> I am seeking additional suggestions on handling "non-supported" cases before making the
+> changes.
+>
+> Userspace: To enable DSP side polling, a remote call is made as defined in the DSP image.
+> If this call fails, polling mode will not be enabled from userspace.
 
-[1] https://lore.kernel.org/dri-devel/20250305152555.318159-1-ryasuoka@redhat.com/
+No. Instead userspace should check with the kernel, which capabilities
+are supported. Don't perform API calls which knowingly can fail.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_panic.c | 142 ++++++++++++++++++++++++++++++++++--
- include/drm/drm_panic.h     |  12 ++-
- 2 files changed, 147 insertions(+), 7 deletions(-)
+>
+> Kernel: Since this is a DSP-specific feature, I plan to add a devicetree property, such
+> as "qcom,polling-supported," under the fastrpc node if the DSP supports polling mode.
 
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index ab42a2b1567d0..3f22ea2f61c73 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/font.h>
-+#include <linux/highmem.h>
- #include <linux/init.h>
- #include <linux/iosys-map.h>
- #include <linux/kdebug.h>
-@@ -154,6 +155,90 @@ static void drm_panic_blit_pixel(struct drm_scanout_buffer *sb, struct drm_rect
- 				sb->set_pixel(sb, clip->x1 + x, clip->y1 + y, fg_color);
- }
- 
-+static void drm_panic_write_pixel16(void *vaddr, unsigned int offset, u16 color)
-+{
-+	u16 *p = vaddr + offset;
-+
-+	*p = color;
-+}
-+
-+static void drm_panic_write_pixel24(void *vaddr, unsigned int offset, u32 color)
-+{
-+	u8 *p = vaddr + offset;
-+
-+	*p++ = color & 0xff;
-+	color >>= 8;
-+	*p++ = color & 0xff;
-+	color >>= 8;
-+	*p = color & 0xff;
-+}
-+
-+static void drm_panic_write_pixel32(void *vaddr, unsigned int offset, u32 color)
-+{
-+	u32 *p = vaddr + offset;
-+
-+	*p = color;
-+}
-+
-+static void drm_panic_write_pixel(void *vaddr, unsigned int offset, u32 color, unsigned int cpp)
-+{
-+	switch (cpp) {
-+	case 2:
-+		drm_panic_write_pixel16(vaddr, offset, color);
-+		break;
-+	case 3:
-+		drm_panic_write_pixel24(vaddr, offset, color);
-+		break;
-+	case 4:
-+		drm_panic_write_pixel32(vaddr, offset, color);
-+		break;
-+	default:
-+		DRM_WARN_ONCE("Can't blit with pixel width %d\n", cpp);
-+	}
-+}
-+
-+/*
-+ * The scanout buffer pages are not mapped, so for each pixel,
-+ * use kmap_local_page_try_from_panic() to map the page, and write the pixel.
-+ * Try to keep the map from the previous pixel, to avoid too much map/unmap.
-+ */
-+static void drm_panic_blit_page(struct page **pages, unsigned int dpitch,
-+				unsigned int cpp, const u8 *sbuf8,
-+				unsigned int spitch, struct drm_rect *clip,
-+				unsigned int scale, u32 fg32)
-+{
-+	unsigned int y, x;
-+	unsigned int page = ~0;
-+	unsigned int height = drm_rect_height(clip);
-+	unsigned int width = drm_rect_width(clip);
-+	void *vaddr = NULL;
-+
-+	for (y = 0; y < height; y++) {
-+		for (x = 0; x < width; x++) {
-+			if (drm_draw_is_pixel_fg(sbuf8, spitch, x / scale, y / scale)) {
-+				unsigned int new_page;
-+				unsigned int offset;
-+
-+				offset = (y + clip->y1) * dpitch + (x + clip->x1) * cpp;
-+				new_page = offset >> PAGE_SHIFT;
-+				offset = offset % PAGE_SIZE;
-+				if (new_page != page) {
-+					if (!pages[new_page])
-+						continue;
-+					if (vaddr)
-+						kunmap_local(vaddr);
-+					page = new_page;
-+					vaddr = kmap_local_page_try_from_panic(pages[page]);
-+				}
-+				if (vaddr)
-+					drm_panic_write_pixel(vaddr, offset, fg32, cpp);
-+			}
-+		}
-+	}
-+	if (vaddr)
-+		kunmap_local(vaddr);
-+}
-+
- /*
-  * drm_panic_blit - convert a monochrome image to a linear framebuffer
-  * @sb: destination scanout buffer
-@@ -177,6 +262,10 @@ static void drm_panic_blit(struct drm_scanout_buffer *sb, struct drm_rect *clip,
- 	if (sb->set_pixel)
- 		return drm_panic_blit_pixel(sb, clip, sbuf8, spitch, scale, fg_color);
- 
-+	if (sb->pages)
-+		return drm_panic_blit_page(sb->pages, sb->pitch[0], sb->format->cpp[0],
-+					   sbuf8, spitch, clip, scale, fg_color);
-+
- 	map = sb->map[0];
- 	iosys_map_incr(&map, clip->y1 * sb->pitch[0] + clip->x1 * sb->format->cpp[0]);
- 
-@@ -209,6 +298,35 @@ static void drm_panic_fill_pixel(struct drm_scanout_buffer *sb,
- 			sb->set_pixel(sb, clip->x1 + x, clip->y1 + y, color);
- }
- 
-+static void drm_panic_fill_page(struct page **pages, unsigned int dpitch,
-+				unsigned int cpp, struct drm_rect *clip,
-+				u32 color)
-+{
-+	unsigned int y, x;
-+	unsigned int page = ~0;
-+	void *vaddr = NULL;
-+
-+	for (y = clip->y1; y < clip->y2; y++) {
-+		for (x = clip->x1; x < clip->x2; x++) {
-+			unsigned int new_page;
-+			unsigned int offset;
-+
-+			offset = y * dpitch + x * cpp;
-+			new_page = offset >> PAGE_SHIFT;
-+			offset = offset % PAGE_SIZE;
-+			if (new_page != page) {
-+				if (vaddr)
-+					kunmap_local(vaddr);
-+				page = new_page;
-+				vaddr = kmap_local_page_try_from_panic(pages[page]);
-+			}
-+			drm_panic_write_pixel(vaddr, offset, color, cpp);
-+		}
-+	}
-+	if (vaddr)
-+		kunmap_local(vaddr);
-+}
-+
- /*
-  * drm_panic_fill - Fill a rectangle with a color
-  * @sb: destination scanout buffer
-@@ -225,6 +343,10 @@ static void drm_panic_fill(struct drm_scanout_buffer *sb, struct drm_rect *clip,
- 	if (sb->set_pixel)
- 		return drm_panic_fill_pixel(sb, clip, color);
- 
-+	if (sb->pages)
-+		return drm_panic_fill_page(sb->pages, sb->pitch[0], sb->format->cpp[0],
-+					   clip, color);
-+
- 	map = sb->map[0];
- 	iosys_map_incr(&map, clip->y1 * sb->pitch[0] + clip->x1 * sb->format->cpp[0]);
- 
-@@ -714,16 +836,24 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
- 	if (!drm_panic_trylock(plane->dev, flags))
- 		return;
- 
-+	ret = plane->helper_private->get_scanout_buffer(plane, &sb);
-+
-+	if (ret || !drm_panic_is_format_supported(sb.format))
-+		goto unlock;
-+
-+	/* One of these should be set, or it can't draw pixels */
-+	if (!sb.set_pixel && !sb.pages && iosys_map_is_null(&sb.map[0]))
-+		goto unlock;
-+
- 	drm_panic_set_description(description);
- 
--	ret = plane->helper_private->get_scanout_buffer(plane, &sb);
-+	draw_panic_dispatch(&sb);
-+	if (plane->helper_private->panic_flush)
-+		plane->helper_private->panic_flush(plane);
- 
--	if (!ret && drm_panic_is_format_supported(sb.format)) {
--		draw_panic_dispatch(&sb);
--		if (plane->helper_private->panic_flush)
--			plane->helper_private->panic_flush(plane);
--	}
- 	drm_panic_clear_description();
-+
-+unlock:
- 	drm_panic_unlock(plane->dev, flags);
- }
- 
-diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
-index f4e1fa9ae607a..a00bf3cbf62f1 100644
---- a/include/drm/drm_panic.h
-+++ b/include/drm/drm_panic.h
-@@ -39,6 +39,16 @@ struct drm_scanout_buffer {
- 	 */
- 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
- 
-+	/**
-+	 * @pages: Optional, if the scanout buffer is not mapped, set this field
-+	 * to the array of pages of the scanout buffer. The panic code will use
-+	 * kmap_local_page_try_from_panic() to map one page at a time to write
-+	 * all the pixels. This array shouldn't be allocated from the
-+	 * get_scanoutbuffer() callback.
-+	 * The scanout buffer should be in linear format.
-+	 */
-+	struct page **pages;
-+
- 	/**
- 	 * @width: Width of the scanout buffer, in pixels.
- 	 */
-@@ -57,7 +67,7 @@ struct drm_scanout_buffer {
- 	/**
- 	 * @set_pixel: Optional function, to set a pixel color on the
- 	 * framebuffer. It allows to handle special tiling format inside the
--	 * driver.
-+	 * driver. It takes precedence over the @map and @pages fields.
- 	 */
- 	void (*set_pixel)(struct drm_scanout_buffer *sb, unsigned int x,
- 			  unsigned int y, u32 color);
+This doesn't sound like a logical solution. The kernel already knows
+the hardware that it is running on. As such, there should be no need
+to further describe the hardware in DT. If the DSP firmware can report
+its capabilities, use that. If not, extend the schema to add an
+SoC-specific compatibility string. As a last resort we can use
+of_machine_is_compatible().
+
+>
+> Does this approach seem appropriate, or is there a better way to handle this?
+>
+> Thanks,
+> Ekansh
+>
+> >
+> >>> For now, with in-driver
+> >>> polling, we are seeing significant performance improvements for calls
+> >>> with different sized buffers. On polling supporting platform, I've observed an
+> >>> ~80us improvement in latency. You can find more details in the test
+> >>> results here:
+> >>> https://github.com/quic/fastrpc/pull/134/files#diff-7dbc6537cd3ade7fea5766229cf585db585704e02730efd72e7afc9b148e28ed
+> >> Does the improvement come from the CPU not goint to idle or from the
+> >> glink response processing?
+> > Although both are contributing to performance improvement, the major
+> > improvement is coming from CPU not going to idle state.
+> >
+> > Thanks,
+> > Ekansh
+> >
+> >>> Regarding your concerns about power consumption, while in-driver polling
+> >>> eliminates CPU wakeup and scheduling, it does increase power consumption.
+> >>> However, the performance gains seem to outweigh this increase.
+> >>>
+> >>> Do you think the poll implementation that you suggested above could provide similar
+> >>> improvements?
+> >> No, I agree here. I was more concentrated on userspace polling rather
+> >> than hw polling.
+> >>
+>
+
+
 -- 
-2.47.1
-
+With best wishes
+Dmitry
