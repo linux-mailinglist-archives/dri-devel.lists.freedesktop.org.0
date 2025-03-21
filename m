@@ -2,71 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF179A6B795
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 10:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 441DDA6B7CF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 10:42:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D44210E769;
-	Fri, 21 Mar 2025 09:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAB3A10E714;
+	Fri, 21 Mar 2025 09:42:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="iEB9WbCe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y6uW0czV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C88210E764
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 09:35:51 +0000 (UTC)
-X-UUID: dd04c0ec063711f08eb9c36241bbb6fb-20250321
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=nTSF2h1OnKkWH6HxXI+MAWBmqT+Sba+o9eR7NLazAxQ=; 
- b=iEB9WbCeYL6P1EJc5g2hv7I81QWbv7jW5Dkkp3N32cFa9GDMIvUTGFavsru9MydlntnH0bLYyR7lAx6F0B+5uJEPXfTT+EcwXrMfox0eNKpsRnip+BuGytUOPqnm/jF250F0Nl5O+ffl67WeEYGEMZvxbOtz1JfRw8q40HJei7U=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1, REQID:097bb579-5626-4aae-9d76-b7fe0355ff90, IP:0,
- UR
- L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-25
-X-CID-META: VersionHash:0ef645f, CLOUDID:9113aa8c-f5b8-47d5-8cf3-b68fe7530c9a,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
- ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
- :0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: dd04c0ec063711f08eb9c36241bbb6fb-20250321
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
- mailgw02.mediatek.com (envelope-from <paul-pl.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 143833965; Fri, 21 Mar 2025 17:35:44 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Fri, 21 Mar 2025 17:35:43 +0800
-Received: from mtksitap99.mediatek.inc (10.233.130.16) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Fri, 21 Mar 2025 17:35:43 +0800
-From: paul-pl.chen <paul-pl.chen@mediatek.com>
-To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <chunkuang.hu@kernel.org>, <angelogioacchino.delregno@collabora.com>
-CC: <matthias.bgg@gmail.com>, <p.zabel@pengutronix.de>,
- <jason-jh.lin@mediatek.com>, <nancy.lin@mediatek.com>,
- <singo.chang@mediatek.com>, <xiandong.wang@mediatek.com>,
- <sirius.wang@mediatek.com>, <paul-pl.chen@mediatek.com>,
- <sunny.shen@mediatek.com>, <fshao@chromium.org>, <treapking@chromium.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2 15/15] drm/mediatek: Add support for MT8196 multiple mmsys
-Date: Fri, 21 Mar 2025 17:33:44 +0800
-Message-ID: <20250321093435.94835-16-paul-pl.chen@mediatek.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250321093435.94835-1-paul-pl.chen@mediatek.com>
-References: <20250321093435.94835-1-paul-pl.chen@mediatek.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B639D10E714
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 09:42:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id B5C07615CD;
+ Fri, 21 Mar 2025 09:42:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3E4FC4CEE3;
+ Fri, 21 Mar 2025 09:42:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742550138;
+ bh=LsGqQfLW4xmvHqOWZQoTZqI23HLjYTqmgqYypkSYSEE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Y6uW0czVMc8Z64eLHZNEzJPzGZMlVTv7d/9qCs5ibzDcRxSCAJ6KlwPyCprIRYwUJ
+ eXHqUWYoWtT7Y7Ba/9pUHoC/T7r/i/kJPSyYVbGK+zjOs4UEWcXDgH746/o+VlNzsW
+ k1jO9zPzgohzGzD8V9XG09LiGSXJrSYsuRvpR0Sj3OeZd3Bt8Mzs9SI8IDECa+kY93
+ PhtJfEFiJHCMyOLIPzTHfohXAtd1YWsIehQ7Mf10nm9+PT+e0rJDZFyc6/Iymhd6dj
+ fUQdw0zdM+yB+zEC+6Q5vR/EsFuaRKQjuM+qVA5AzoNGxVAm3axRMYgZfk8FMpVldn
+ FOTynhNcsJ3rw==
+Date: Fri, 21 Mar 2025 10:42:15 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ling Xu <quic_lxu5@quicinc.com>
+Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, srinivas.kandagatla@linaro.org, 
+ amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org,
+ quic_kuiw@quicinc.com, 
+ quic_ekangupt@quicinc.com, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 3/3] dt-bindings: misc: qcom,fastrpc: Add GPDSPs label
+Message-ID: <20250321-anteater-of-immense-flowers-53b2c2@krzk-bin>
+References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
+ <20250320091446.3647918-4-quic_lxu5@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250320091446.3647918-4-quic_lxu5@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,167 +63,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nancy Lin <nancy.lin@mediatek.com>
+On Thu, Mar 20, 2025 at 02:44:46PM +0530, Ling Xu wrote:
+> Add "gdsp0" and "gdsp1" as the new supported labels for GPDSPs fastrpc
+> domains.
 
-Add code to support MT8196 SOC Multi MMSYS Driver
+Why? What problem is this solving? What is GPDSP and GDSP? Why they
+differ? So many questions, so little explained in commit msg.
 
-Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
-Signed-off-by: Paul-pl Chen <paul-pl.chen@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 119 ++++++++++++++++++++++++-
- 1 file changed, 115 insertions(+), 4 deletions(-)
+Also, bindings are before users.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index b9c6a2a657ea..70a7e6d06d4f 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -193,6 +193,10 @@ static const struct mtk_drm_route mt8188_mtk_ddp_main_routes[] = {
- 	{0, DDP_COMPONENT_DSI0},
- };
- 
-+static const struct mtk_drm_route mt8196_mtk_ddp_routes[] = {
-+	{2, DDP_COMPONENT_DSI0},
-+};
-+
- static const unsigned int mt8192_mtk_ddp_main[] = {
- 	DDP_COMPONENT_OVL0,
- 	DDP_COMPONENT_OVL_2L0,
-@@ -231,6 +235,50 @@ static const unsigned int mt8195_mtk_ddp_ext[] = {
- 	DDP_COMPONENT_DP_INTF1,
- };
- 
-+static const unsigned int mt8196_mtk_ddp_ovl0_main[] = {
-+	DDP_COMPONENT_DRM_OVLSYS_ADAPTOR0,
-+	DDP_COMPONENT_OVL0_DLO_ASYNC5,
-+};
-+
-+static const unsigned int mt8196_mtk_ddp_disp0_main[] = {
-+	DDP_COMPONENT_DLI_ASYNC0,
-+	DDP_COMPONENT_DLO_ASYNC1,
-+};
-+
-+static const unsigned int mt8196_mtk_ddp_disp1_main[] = {
-+	DDP_COMPONENT_DLI_ASYNC21,
-+	DDP_COMPONENT_DVO0,
-+};
-+
-+static const unsigned int mt8196_mtk_ddp_ovl0_ext[] = {
-+	DDP_COMPONENT_DRM_OVLSYS_ADAPTOR1,
-+	DDP_COMPONENT_OVL0_DLO_ASYNC6,
-+};
-+
-+static const unsigned int mt8196_mtk_ddp_disp0_ext[] = {
-+	DDP_COMPONENT_DLI_ASYNC1,
-+	DDP_COMPONENT_DLO_ASYNC2,
-+};
-+
-+static const unsigned int mt8196_mtk_ddp_disp1_ext[] = {
-+	DDP_COMPONENT_DLI_ASYNC22,
-+	DDP_COMPONENT_DP_INTF0,
-+};
-+
-+static const unsigned int mt8196_mtk_ddp_ovl1_third[] = {
-+	DDP_COMPONENT_DRM_OVLSYS_ADAPTOR2,
-+	DDP_COMPONENT_OVL1_DLO_ASYNC5,
-+};
-+
-+static const unsigned int mt8196_mtk_ddp_disp0_third[] = {
-+	DDP_COMPONENT_DLI_ASYNC8,
-+	DDP_COMPONENT_DLO_ASYNC3,
-+};
-+
-+static const unsigned int mt8196_mtk_ddp_disp1_third[] = {
-+	DDP_COMPONENT_DLI_ASYNC23,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -327,8 +375,65 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
- 	.min_height = 1,
- };
- 
--static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data = {
--	.mmsys_dev_num = 1,
-+static const struct mtk_mmsys_driver_data mt8196_dispsys0_driver_data = {
-+	.main_path = mt8196_mtk_ddp_disp0_main,
-+	.main_len = ARRAY_SIZE(mt8196_mtk_ddp_disp0_main),
-+	.main_order = 1,
-+	.ext_path = mt8196_mtk_ddp_disp0_ext,
-+	.ext_len = ARRAY_SIZE(mt8196_mtk_ddp_disp0_ext),
-+	.ext_order = 1,
-+	.third_path = mt8196_mtk_ddp_disp0_third,
-+	.third_len = ARRAY_SIZE(mt8196_mtk_ddp_disp0_third),
-+	.third_order = 1,
-+	.mmsys_id = DISPSYS0,
-+	.mmsys_dev_num = 4,
-+	.max_width = 8191,
-+	.min_width = 2, /* 2-pixel align when ethdr is bypassed */
-+	.min_height = 1,
-+};
-+
-+static const struct mtk_mmsys_driver_data mt8196_dispsys1_driver_data = {
-+	.main_path = mt8196_mtk_ddp_disp1_main,
-+	.main_len = ARRAY_SIZE(mt8196_mtk_ddp_disp1_main),
-+	.main_order = 2,
-+	.ext_path = mt8196_mtk_ddp_disp1_ext,
-+	.ext_len = ARRAY_SIZE(mt8196_mtk_ddp_disp1_ext),
-+	.ext_order = 2,
-+	.third_path = mt8196_mtk_ddp_disp1_third,
-+	.third_len = ARRAY_SIZE(mt8196_mtk_ddp_disp1_third),
-+	.conn_routes = mt8196_mtk_ddp_routes,
-+	.num_conn_routes = ARRAY_SIZE(mt8196_mtk_ddp_routes),
-+	.third_order = 2,
-+	.mmsys_id = DISPSYS1,
-+	.mmsys_dev_num = 4,
-+	.max_width = 8191,
-+	.min_width = 2, /* 2-pixel align when ethdr is bypassed */
-+	.min_height = 1,
-+};
-+
-+static const struct mtk_mmsys_driver_data mt8196_ovlsys0_driver_data = {
-+	.main_path = mt8196_mtk_ddp_ovl0_main,
-+	.main_len = ARRAY_SIZE(mt8196_mtk_ddp_ovl0_main),
-+	.main_order = 0,
-+	.ext_path = mt8196_mtk_ddp_ovl0_ext,
-+	.ext_len = ARRAY_SIZE(mt8196_mtk_ddp_ovl0_ext),
-+	.ext_order = 0,
-+	.mmsys_id = OVLSYS0,
-+	.mmsys_dev_num = 4,
-+	.max_width = 8191,
-+	.min_width = 2, /* 2-pixel align when ethdr is bypassed */
-+	.min_height = 1,
-+};
-+
-+static const struct mtk_mmsys_driver_data mt8196_ovlsys1_driver_data = {
-+	.third_path = mt8196_mtk_ddp_ovl1_third,
-+	.third_len = ARRAY_SIZE(mt8196_mtk_ddp_ovl1_third),
-+	.third_order = 0,
-+	.mmsys_id = OVLSYS1,
-+	.mmsys_dev_num = 4,
-+	.max_width = 8191,
-+	.min_width = 2, /* 2-pixel align when ethdr is bypassed */
-+	.min_height = 1,
- };
- 
- static const struct of_device_id mtk_drm_of_ids[] = {
-@@ -358,8 +463,14 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8195_vdosys0_driver_data},
- 	{ .compatible = "mediatek,mt8195-vdosys1",
- 	  .data = &mt8195_vdosys1_driver_data},
--	{ .compatible = "mediatek,mt8365-mmsys",
--	  .data = &mt8365_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8196-dispsys0",
-+	  .data = &mt8196_dispsys0_driver_data},
-+	{ .compatible = "mediatek,mt8196-dispsys1",
-+	  .data = &mt8196_dispsys1_driver_data},
-+	{ .compatible = "mediatek,mt8196-ovlsys0",
-+	  .data = &mt8196_ovlsys0_driver_data},
-+	{ .compatible = "mediatek,mt8196-ovlsys1",
-+	  .data = &mt8196_ovlsys1_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
--- 
-2.45.2
+Best regards,
+Krzysztof
 
