@@ -2,48 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBF0A6C601
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 23:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5642A6C643
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 00:01:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C422D10E14A;
-	Fri, 21 Mar 2025 22:33:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458FB10E845;
+	Fri, 21 Mar 2025 23:01:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iIDbYpwP";
+	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="0Wp+c2aR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE3E10E14A
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 22:33:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (unknown [194.75.195.10])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC550220;
- Fri, 21 Mar 2025 23:31:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1742596319;
- bh=1QP3m2vfNW8WjNMDF8OqYegzPYF7ftevMUsOjQz758o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iIDbYpwPfIUBR3x4H2j2WWiPRQN7o3bI9vTtj+L20o8DKl38RXIhKVvpBUDS2U3ZD
- YQkTDpGiT1w/PJf5gseO3Xgj3dsnLVBt8TVQJkRE/tc2Ib6c3AI5nlYT3u8URO77Yg
- LzqHzsduFnDzbA7uZ8hclHX+dszXQwSoFQEmvYoI=
-Date: Sat, 22 Mar 2025 00:33:20 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH] drm: renesas: Extend RZ/G2L supported KMS formats
-Message-ID: <20250321223320.GC11255@pendragon.ideasonboard.com>
-References: <20250321172220.867165-1-kieran.bingham@ideasonboard.com>
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BFB710E845
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 23:01:25 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-5dccaaca646so4651470a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 16:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1742598084;
+ x=1743202884; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sH2W37gz5JSCUCdBWPzPlpXu5pNqBdrWWXPAz4A12i0=;
+ b=0Wp+c2aRLv5n87PBt4J2JatHgmKnxbzghZm5LKfOBVoAOc7THD3opjH56IWaCfGzai
+ RXt+Weq5zuM+grcrWpBGa3XJg+7V5srxy4QXKU8VWpjbLbk81G5TnjEzTQ1xfLBVxMp8
+ n19fUOaluuJjV35PceXzUbZgT6fgeeoeRApIwY22ZqDJxkQumrWjMb5UWVCgmhwqv5vx
+ Us9R09BjXTXnMVbtKzN6N6JEVk4MJnL4kCgJslBQNqg62x6wfhqh+x1W6N3KhZZIXKCm
+ KX3VNZhGbKEUzqUUmsj/B9zooQ1dlstwGYxTMcB78Yc37Gq5wBwNmzDXTQ5P3nw2dtZS
+ X6vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742598084; x=1743202884;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sH2W37gz5JSCUCdBWPzPlpXu5pNqBdrWWXPAz4A12i0=;
+ b=hVlW9Zonc9kWNJMrASm+GtViKPdiohiiovpZ0QnHsXfp9M+jQWaReTsQHgGaLBbCHP
+ y5o0b0igcWmH2NYOWcRI2mE0O7Ujy4rpSS8U5biIHeJ2vKNeiJpJ4lpMWPtgfkMwO4mQ
+ 628lYCrm9CjuZfRwx7Sqd4ro2WmYa/c2s0y7isJn0494FjKl4SHqNgwNjROHyygcttIB
+ fgmSwwvmNsPeAI+zYZccEpA6+0YRZtZMbxEPo8q9V+yu07+XlidiWbszqHozhbD+xeKV
+ 6yJwBRuyOmTES1S+Knwj+xCwV1SHH936yN8ZnKM8U3tS11LYTbR1rO9BLMdaXDG5P060
+ DV/Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWC6kxufhdcMuymEDPzo6cozrfNUPVuOUwftvAYNvmgVAKoZkN58DtBuMglAWt7EFlXRnOoF9VcI7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7eBqkcLGkEyTVy/Y99kwWsRhRPCaXjZ/hrkpEy+no0GR2CZDJ
+ ojQ1gZVvRFJZZXh/8Nj5APas1P7RyN7C4ETJXJlSLL0HXNOftlExeLf6KH07aGNRmcrEquSM27E
+ oeN3o1WrVFF4tfyydgxJiMMkIWruvNtm1P02+FA==
+X-Gm-Gg: ASbGncsvJsIawz9hSUYqEl5LL+2I8U0KL1RK9W4i29xCve5xxJuO6AI5J+vioXnI9OS
+ hKnaSmcpEVhi6LHZoLpH6n20SROulBU07qsNzK2NL/0Gm/ZlSU5dALBUEeezAYyhY5rPq3JLgAM
+ xQ/XISIwMiBss7EnROliqJN4Gs7MlIVmM579qj3wkA/g0nsCfJ4i53oIvUce8QcbANg3Q8
+X-Google-Smtp-Source: AGHT+IEgVTLqq03sZoIlc85e4pxje4Yd7ymNujGbmj6hYsnYZz+ZaZPnJdi1WIE/4jpnjz3bPQx/EbgEmWcNWmSiHfs=
+X-Received: by 2002:a50:d586:0:b0:5e4:d52b:78a2 with SMTP id
+ 4fb4d7f45d1cf-5eb9a310491mr6431605a12.15.1742598083450; Fri, 21 Mar 2025
+ 16:01:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250321172220.867165-1-kieran.bingham@ideasonboard.com>
+References: <20250312213746.228042-1-mhenning@darkrefraction.com>
+ <20250312213746.228042-3-mhenning@darkrefraction.com>
+ <Z9xfoS89yimS1Sb3@pollux>
+In-Reply-To: <Z9xfoS89yimS1Sb3@pollux>
+From: M Henning <mhenning@darkrefraction.com>
+Date: Fri, 21 Mar 2025 19:00:57 -0400
+X-Gm-Features: AQ5f1JosjHpUxkL36DODONjh8EuMIFPu3fhSSXFGrywJK3z2Ey2y3VvLkXNpaUQ
+Message-ID: <CAAgWFh2RtCwaKNinX9X4BjwNiaBj5BF_ypzbqoqV4LJgN4cPvg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/nouveau: DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,257 +87,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
+This is a pointer in the gpu's virtual address space. It must be
+aligned according to ctxsw_align and be at least ctxsw_size bytes
+(where those values come from the nouveau_abi16_ioctl_get_zcull_info
+structure). I'll change the description to say that much.
 
-Thank you for the patch.
+Yes, this is GEM-backed. I'm actually not entirely sure what the
+requirements are here, since this part is reverse-engineered. I think
+NOUVEAU_GEM_DOMAIN_VRAM and NOUVEAU_GEM_DOMAIN_GART are both okay. The
+proprietary driver allocates this buffer using
+NV_ESC_RM_VID_HEAP_CONTROL and sets attr =3D NVOS32_ATTR_LOCATION_ANY |
+NVOS32_ATTR_PAGE_SIZE_BIG | NVOS32_ATTR_PHYSICALITY_CONTIGUOUS, attr2
+=3D NVOS32_ATTR2_GPU_CACHEABLE_YES | NVOS32_ATTR2_ZBC_PREFER_NO_ZBC.
 
-On Fri, Mar 21, 2025 at 05:22:19PM +0000, Kieran Bingham wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> The RZ/G2L driver utilises the VSPD to read data from input sources.
-> 
-> The rzg2l_du_kms component lists a restricted subset of the capabilities
-> of the VSPd which prevents additional formats from being used for
-
-s/VSPd/VSPD/
-
-> display planes.
-> 
-> The supported display plane formats are mapped in rzg2l_du_vsp_formats[].
-> 
-> Extend the rzg2l_du_format_infos[] table with the corresponding mappings
-> between the supported DRM formats and the formats exposed by the VSP in
-> rzg2l_du_vsp_formats, maintaining the same ordering in both tables.
-
-Given the other replies to this patch, you may want to extend the commit
-message to explain why this is fine, and how the VSPD will convert YUV
-formats to RGB.
-
-Now this makes realize we should implement support for colorspace in the
-VSPD driver... It's a separate issue.
-
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c | 141 ++++++++++++++++++-
->  1 file changed, 136 insertions(+), 5 deletions(-)
-> 
-> Prior to this patch, kmstest reports all of these formats as supported
-> by the Planes, but using them fails during rzg2l_du_fb_create() as the
-> corresponding format isn't found in rzg2l_du_format_info.
-> 
-> This patch now lets me capture and render pixelformats from the Mali-C55
-> direct to an attached DSI panel on the Kakip board.
-> 
-> Patch tested with kms-tests:
-> 
-> PYTHONPATH=/usr/lib/aarch64-linux-gnu/python3.11/site-packages ./tests/kms-test-formats.py 
-> Testing plane formats: SUCCESS
-> 
-> admin@kakip:~/kms-tests$ cat FormatsTest.log 
-> U [66.967523] Testing plane formats
-> U [66.975763] Testing connector DSI-1, CRTC 36, mode 720x1280
-> U [66.978480] Testing format PixelFormat.RGB332
-> U [70.143998] Testing format PixelFormat.ARGB4444
-> U [73.357056] Testing format PixelFormat.XRGB4444
-> U [76.574944] Testing format PixelFormat.ARGB1555
-> U [79.805636] Testing format PixelFormat.XRGB1555
-> U [83.016599] Testing format PixelFormat.RGB565
-> U [86.230362] Testing format PixelFormat.BGR888
-> U [89.444673] Testing format PixelFormat.RGB888
-> U [92.677093] Testing format PixelFormat.BGRA8888
-> U [95.904745] Testing format PixelFormat.BGRX8888
-> U [99.119926] Testing format PixelFormat.ARGB8888
-> U [102.350298] Testing format PixelFormat.XRGB8888
-> U [105.579499] Testing format PixelFormat.UYVY
-> U [108.878654] Testing format PixelFormat.YUYV
-> U [112.176515] Testing format PixelFormat.YVYU
-> U [115.470090] Testing format PixelFormat.NV12
-> U [118.767513] Testing format PixelFormat.NV21
-> U [122.065851] Testing format PixelFormat.NV16
-> U [125.364001] Testing format PixelFormat.NV61
-> U [128.662145] Testing format PixelFormat.YUV420
-> U [131.978102] Testing format PixelFormat.YVU420
-> U [135.292284] Testing format PixelFormat.YUV422
-> U [138.623485] Testing format PixelFormat.YVU422
-> U [141.955083] Testing format PixelFormat.YUV444
-> U [145.336759] Testing format PixelFormat.YVU444
-> U [148.761832] Test completed successfully
-> 
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> index b1266fbd9598..a5e96f863172 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> @@ -36,8 +36,61 @@
->  
->  static const struct rzg2l_du_format_info rzg2l_du_format_infos[] = {
->  	{
-> -		.fourcc = DRM_FORMAT_XRGB8888,
-> -		.v4l2 = V4L2_PIX_FMT_XBGR32,
-> +		.fourcc = DRM_FORMAT_RGB332,
-> +		.v4l2 = V4L2_PIX_FMT_RGB332,
-> +		.bpp = 8,
-> +		.planes = 1,
-> +		.hsub = 1,
-
-hsub isn't used in the driver, should it be removed (in a separate patch
-of course) ? Or is that a sign there's a bug somewhere ?
-
-Actually, bpp isn't used either. Biju, could you look into this, and
-check if we should remove the fields or use them ?
-
-Regardless, with the commit message expanded,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> +	}, {
-> +		.fourcc = DRM_FORMAT_ARGB4444,
-> +		.v4l2 = V4L2_PIX_FMT_ARGB444,
-> +		.bpp = 16,
-> +		.planes = 1,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_XRGB4444,
-> +		.v4l2 = V4L2_PIX_FMT_XRGB444,
-> +		.bpp = 16,
-> +		.planes = 1,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_ARGB1555,
-> +		.v4l2 = V4L2_PIX_FMT_ARGB555,
-> +		.bpp = 16,
-> +		.planes = 1,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_XRGB1555,
-> +		.v4l2 = V4L2_PIX_FMT_XRGB555,
-> +		.bpp = 16,
-> +		.planes = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_RGB565,
-> +		.v4l2 = V4L2_PIX_FMT_RGB565,
-> +		.bpp = 16,
-> +		.planes = 1,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_BGR888,
-> +		.v4l2 = V4L2_PIX_FMT_RGB24,
-> +		.bpp = 24,
-> +		.planes = 1,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_RGB888,
-> +		.v4l2 = V4L2_PIX_FMT_BGR24,
-> +		.bpp = 24,
-> +		.planes = 1,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_BGRA8888,
-> +		.v4l2 = V4L2_PIX_FMT_ARGB32,
-> +		.bpp = 32,
-> +		.planes = 1,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_BGRX8888,
-> +		.v4l2 = V4L2_PIX_FMT_XRGB32,
->  		.bpp = 32,
->  		.planes = 1,
->  		.hsub = 1,
-> @@ -48,11 +101,89 @@ static const struct rzg2l_du_format_info rzg2l_du_format_infos[] = {
->  		.planes = 1,
->  		.hsub = 1,
->  	}, {
-> -		.fourcc = DRM_FORMAT_RGB888,
-> -		.v4l2 = V4L2_PIX_FMT_BGR24,
-> -		.bpp = 24,
-> +		.fourcc = DRM_FORMAT_XRGB8888,
-> +		.v4l2 = V4L2_PIX_FMT_XBGR32,
-> +		.bpp = 32,
->  		.planes = 1,
->  		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_UYVY,
-> +		.v4l2 = V4L2_PIX_FMT_UYVY,
-> +		.bpp = 16,
-> +		.planes = 1,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_YUYV,
-> +		.v4l2 = V4L2_PIX_FMT_YUYV,
-> +		.bpp = 16,
-> +		.planes = 1,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_YVYU,
-> +		.v4l2 = V4L2_PIX_FMT_YVYU,
-> +		.bpp = 16,
-> +		.planes = 1,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_NV12,
-> +		.v4l2 = V4L2_PIX_FMT_NV12M,
-> +		.bpp = 12,
-> +		.planes = 2,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_NV21,
-> +		.v4l2 = V4L2_PIX_FMT_NV21M,
-> +		.bpp = 12,
-> +		.planes = 2,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_NV16,
-> +		.v4l2 = V4L2_PIX_FMT_NV16M,
-> +		.bpp = 16,
-> +		.planes = 2,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_NV61,
-> +		.v4l2 = V4L2_PIX_FMT_NV61M,
-> +		.bpp = 16,
-> +		.planes = 2,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_YUV420,
-> +		.v4l2 = V4L2_PIX_FMT_YUV420M,
-> +		.bpp = 12,
-> +		.planes = 3,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_YVU420,
-> +		.v4l2 = V4L2_PIX_FMT_YVU420M,
-> +		.bpp = 12,
-> +		.planes = 3,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_YUV422,
-> +		.v4l2 = V4L2_PIX_FMT_YUV422M,
-> +		.bpp = 16,
-> +		.planes = 3,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_YVU422,
-> +		.v4l2 = V4L2_PIX_FMT_YVU422M,
-> +		.bpp = 16,
-> +		.planes = 3,
-> +		.hsub = 2,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_YUV444,
-> +		.v4l2 = V4L2_PIX_FMT_YUV444M,
-> +		.bpp = 24,
-> +		.planes = 3,
-> +		.hsub = 1,
-> +	}, {
-> +		.fourcc = DRM_FORMAT_YVU444,
-> +		.v4l2 = V4L2_PIX_FMT_YVU444M,
-> +		.bpp = 24,
-> +		.planes = 3,
-> +		.hsub = 1,
->  	}
->  };
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+On Thu, Mar 20, 2025 at 2:34=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Wed, Mar 12, 2025 at 05:36:15PM -0400, Mel Henning wrote:
+> > diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_=
+drm.h
+>
+> Same here, please split the uAPI change in a separate commit.
+>
+> > index 33361784eb4e..e9638f4dd7e6 100644
+> > --- a/include/uapi/drm/nouveau_drm.h
+> > +++ b/include/uapi/drm/nouveau_drm.h
+> > @@ -448,6 +448,20 @@ struct drm_nouveau_get_zcull_info {
+> >       __u32 ctxsw_align;
+> >  };
+> >
+> > +struct drm_nouveau_set_zcull_ctxsw_buffer {
+> > +     /**
+> > +      * @ptr: The virtual address for the buffer, or null to bind noth=
+ing
+> > +      */
+> > +     __u64 addr;
+>
+> What is this buffer? Is this a GEM object backed buffer? How is it mapped=
+?
+>
+> > +
+> > +     /**
+> > +      * @channel: the channel to set the buffer on
+> > +      */
+> > +     __u32 channel;
+> > +
+> > +     __u32 pad;
+> > +};
+> > +
+> >  #define DRM_NOUVEAU_GETPARAM           0x00
+> >  #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
+> >  #define DRM_NOUVEAU_CHANNEL_ALLOC      0x02
+> > @@ -462,6 +476,7 @@ struct drm_nouveau_get_zcull_info {
+> >  #define DRM_NOUVEAU_VM_BIND            0x11
+> >  #define DRM_NOUVEAU_EXEC               0x12
+> >  #define DRM_NOUVEAU_GET_ZCULL_INFO     0x13
+> > +#define DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER 0x14
+> >  #define DRM_NOUVEAU_GEM_NEW            0x40
+> >  #define DRM_NOUVEAU_GEM_PUSHBUF        0x41
+> >  #define DRM_NOUVEAU_GEM_CPU_PREP       0x42
+> > @@ -532,6 +547,7 @@ struct drm_nouveau_svm_bind {
+> >  #define DRM_IOCTL_NOUVEAU_EXEC               DRM_IOWR(DRM_COMMAND_BASE=
+ + DRM_NOUVEAU_EXEC, struct drm_nouveau_exec)
+> >
+> >  #define DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO     DRM_IOR (DRM_COMMAND_BASE=
+ + DRM_NOUVEAU_GET_ZCULL_INFO, struct drm_nouveau_get_zcull_info)
+> > +#define DRM_IOCTL_NOUVEAU_SET_ZCULL_CTXSW_BUFFER  DRM_IOW (DRM_COMMAND=
+_BASE + DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER, struct drm_nouveau_set_zcull_ct=
+xsw_buffer)
+> >  #if defined(__cplusplus)
+> >  }
+> >  #endif
+> > --
+> > 2.48.1
+> >
