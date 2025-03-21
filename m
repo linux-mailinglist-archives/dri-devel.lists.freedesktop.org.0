@@ -2,79 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBD1A6BEED
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 16:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2500EA6BF10
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Mar 2025 17:06:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6AF10E175;
-	Fri, 21 Mar 2025 15:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 630FD10E7EA;
+	Fri, 21 Mar 2025 16:06:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Em7qdRRR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NvGalA/i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F380210E167;
- Fri, 21 Mar 2025 15:58:55 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-43ce71582e9so15180865e9.1; 
- Fri, 21 Mar 2025 08:58:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742572734; x=1743177534; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ohjLwz2VtVwW7SgtAsY8+2FRQft/YrmjDOANU4d+HBg=;
- b=Em7qdRRRgBRBGs9A1+SKu1jY8Rc3uAiN+vtmB4QV4msL2v3wuB/B5F4iPyf9IVX5jQ
- 8bqYjZVpSQ2s63SNWtBLfDql5aM8bIBsbC2yE/ZXHHZBgQYYv4jpHmm682gWepYlcm92
- KyysPCKStHBqRe6LCefojzZQa0tAMthVvX7F68EdBnbU4HrQRL8xOgQlIeWPslFrDfFz
- fhT1bLkeDT810pYiJRszHz3Y6rz2ABTwUBYtrAz6fHpi5ZCTYzLNBqAQTc39ljv4WE7g
- hQL7H7IDctUwhtaqtMmA1lYGzBclfCDcHan4mK3JBIZ3eBhyKO1SrLaZdr/CyQl1lpiT
- KoKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742572734; x=1743177534;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ohjLwz2VtVwW7SgtAsY8+2FRQft/YrmjDOANU4d+HBg=;
- b=tgLjhBDG1QoKMvz29PAteXPOcUMr54CpE2UQ44x6HQWTB2s9Y6fla+dUI/TjojOqxx
- aMHAtajHMpwA0OEWKVEbT7FIqA6YPjpQEVJeWlbEXHBCRYCdjw/0kVomVTk7N61+5YM2
- 1vv96UPWT+gaocw43YGGvZQLZ0xCvWVZHU+2nwkavrxiWs/x7X6vxU8zlPQnobgRse00
- +sgOoUk5ajwmxb0N078CtuOrdN+D0mIxlC476Be//LSCuMZqLTksMA8uq7YckkmJR3or
- NVJ5wxNv0FJcjUGYj08aCZ5uBsck9a1yUgTBrmSbKqEGPMB1erIn+4uWuy/1C1u0prpB
- Hw6g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsCPudTd7JJzwhjAvuqS3ADYB6Z1M1i/1Sms/8sMMKpCQysZrDMdu/idhkhL114q0iql3nu5l/MCeh@lists.freedesktop.org,
- AJvYcCXrafLNnQVwFftnNplmAB+WOVXvOCCtDsmhNlQrGw10NqtBupCLpt8t+oTLQCqYsTwMCFwm+3Lu@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzyS6HzVkyqdTvXm5wNnQpcTi5l2PNthCcSAZrVYgFjy7nwE+dF
- 9SZK/b94+QtM5Boru5CPD9+YNcTXzqv7ltWV4OGNgZPE8uHzX8HB
-X-Gm-Gg: ASbGncuL58YOWXuX7LzXZLcE17IveQO6PhEGKKxMt8qyEFCxnRZA3aDVIzGQQm7dkyt
- 2TrLT+03qYi+tF8v3W6xJK6nzKeVstz71qGKJiXFF2FYpRt3iRVI7aTbCsPSAczaVbdI+WbSl7z
- lzRwx1YtB48LBLJ6xPCcKVr8RGh7k2DGRC1K0oXaOGh/QL1RzXASapia5tr/yMqpfoerIOLZh0U
- jPzuCxCR4+HT+EwhIV4CMF0eySmE6DEF9s7hMCloK+1UcySrMmyzrP9FQt518kRztAXUS9GuwF3
- 338bR1pyIAfdZqzKc6Fnwe+DbVoIci6jQBFjolu7lXC4Uomdb6EB/Q0RAQ==
-X-Google-Smtp-Source: AGHT+IFJCkDaj4L2xb4v2xWoxrMllnjhC7bgMZO7C3zsf/IienkojuXXZ0t2nCUEoxgAHYw647yktA==
-X-Received: by 2002:a05:600c:3c9b:b0:43c:fffc:786c with SMTP id
- 5b1f17b1804b1-43d50a319a3mr35862285e9.19.1742572734203; 
- Fri, 21 Mar 2025 08:58:54 -0700 (PDT)
-Received: from able.fritz.box ([2a00:e180:1568:fb00:3bfa:434a:5c33:8520])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d3bb2b2ffsm84053855e9.1.2025.03.21.08.58.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Mar 2025 08:58:53 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: phasta@mailbox.org, tvrtko.ursulin@igalia.com, dakr@kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/amdgpu: fix gang submission error handling
-Date: Fri, 21 Mar 2025 16:58:52 +0100
-Message-Id: <20250321155852.15162-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250321155852.15162-1-christian.koenig@amd.com>
-References: <20250321155852.15162-1-christian.koenig@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9BC610E7E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Mar 2025 16:06:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742573184; x=1774109184;
+ h=from:date:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=WgBVYTr0URRl3zJspKTAryBSC/YiYErKzgv7WS4Rg/s=;
+ b=NvGalA/ikOrL5oPJYs+QnTxjGygBeYWWOIvfFHc3OkbJX2AwHpopTwqS
+ OrJ7JGqvsLvcwKeP1prZM7mVJTOfER54Pu75l/Fxr9j8e/jK3wFjwN7qC
+ SK/5ji+VMYsX0/5AhSQhmE9n8DiGMEF7b+LjyblXx5blGM0B6v0DiKpB9
+ 7qQZ9t3oQhCYinN742ZwcgN+X4JUGCey/94l/s0aWmz+DeK3rMLdvIdAr
+ VOz0V9xhnp8gPVoJI15e8EZBeavaDkLOepeFPGKjHBbFPdNQ3UOf5upEx
+ k4Kt0Ju3dJwZMJUlGC8aC6kaTxjBeWUEXBcxhuhtx35JSY0kXfzmt0vxz A==;
+X-CSE-ConnectionGUID: gad2AK8aQ96DiPk4u1lL8w==
+X-CSE-MsgGUID: AwuPW7zZQlKfR+r7Pr785g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="43726598"
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; d="scan'208";a="43726598"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2025 09:06:23 -0700
+X-CSE-ConnectionGUID: g7UgcbV4QTih6n+cWYD8tQ==
+X-CSE-MsgGUID: 1EcrVXRMQNGo+fC3Vk/4zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; d="scan'208";a="123417648"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.112])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2025 09:06:06 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 21 Mar 2025 18:06:02 +0200 (EET)
+To: Easwar Hariharan <eahariha@linux.microsoft.com>, 
+ Andrew Morton <akpm@linux-foundation.org>
+cc: Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+ Julia Lawall <Julia.Lawall@inria.fr>, 
+ Nicolas Palix <nicolas.palix@imag.fr>, 
+ James Smart <james.smart@broadcom.com>, 
+ Dick Kennedy <dick.kennedy@broadcom.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
+ David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
+ Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>, 
+ Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>, 
+ Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
+ Selvin Xavier <selvin.xavier@broadcom.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+ cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>, 
+ linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-spi@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v3 15/16] platform/x86: thinkpad_acpi: convert timeouts
+ to secs_to_jiffies()
+In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-15-a43967e36c88@linux.microsoft.com>
+Message-ID: <9e761e10-eb4d-0a34-79b5-ef4507f002c5@linux.intel.com>
+References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+ <20250225-converge-secs-to-jiffies-part-two-v3-15-a43967e36c88@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,100 +104,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the unlikely case that we ran into an ENOMEM while fixing up the gang
-submission dependencies we can't clean up any more since the gang
-members are already armed.
+On Tue, 25 Feb 2025, Easwar Hariharan wrote:
 
-Fix this by using pre-allocated dependency slots and re-ordering the
-code, also fix a double unref since the fence reference is also dropped
-on error.
+> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
+> secs_to_jiffies().  As the value here is a multiple of 1000, use
+> secs_to_jiffies() instead of msecs_to_jiffies() to avoid the multiplication
+> 
+> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
+> the following Coccinelle rules:
+> 
+> @depends on patch@
+> expression E;
+> @@
+> 
+> -msecs_to_jiffies
+> +secs_to_jiffies
+> (E
+> - * \( 1000 \| MSEC_PER_SEC \)
+> )
+> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 57 +++++++++++++++-----------
- 1 file changed, 33 insertions(+), 24 deletions(-)
+Applied to the review-ilpo-next branch.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 5cc5f59e3018..25e7f7d356d7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1285,36 +1285,21 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 	uint64_t seq;
- 	int r;
- 
--	for (i = 0; i < p->gang_size; ++i)
--		drm_sched_job_arm(&p->jobs[i]->base);
--
--	for (i = 0; i < p->gang_size; ++i) {
--		struct dma_fence *fence;
--
--		if (p->jobs[i] == leader)
--			continue;
--
--		fence = &p->jobs[i]->base.s_fence->scheduled;
--		dma_fence_get(fence);
--		r = drm_sched_job_add_dependency(&leader->base, fence);
--		if (r) {
--			dma_fence_put(fence);
--			return r;
--		}
--	}
--
--	if (p->gang_size > 1) {
--		for (i = 0; i < p->gang_size; ++i)
--			amdgpu_job_set_gang_leader(p->jobs[i], leader);
--	}
-+	/* Preallocate the memory for the gang dependencies */
-+	r = drm_sched_job_prealloc_dependency_slots(&leader->base,
-+						    p->gang_size - 1);
-+	if (r)
-+		return r;
- 
--	/* No memory allocation is allowed while holding the notifier lock.
-+	/*
-+	 * No memory allocation is allowed while holding the notifier lock.
- 	 * The lock is held until amdgpu_cs_submit is finished and fence is
- 	 * added to BOs.
- 	 */
- 	mutex_lock(&p->adev->notifier_lock);
- 
--	/* If userptr are invalidated after amdgpu_cs_parser_bos(), return
-+	/*
-+	 * If userptr are invalidated after amdgpu_cs_parser_bos(), return
- 	 * -EAGAIN, drmIoctl in libdrm will restart the amdgpu_cs_ioctl.
- 	 */
- 	r = 0;
-@@ -1329,6 +1314,30 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 		return r;
- 	}
- 
-+	for (i = 0; i < p->gang_size; ++i)
-+		drm_sched_job_arm(&p->jobs[i]->base);
-+
-+	for (i = 0; i < p->gang_size; ++i) {
-+		struct dma_fence *fence;
-+
-+		if (p->jobs[i] == leader)
-+			continue;
-+
-+		fence = dma_fence_get(&p->jobs[i]->base.s_fence->scheduled);
-+		r = drm_sched_job_add_dependency(&leader->base, fence);
-+		/*
-+		 * We can't abort here with an error any more, but we should
-+		 * also never run into an error since the slots for the
-+		 * dependency fences are preallocated.
-+		 */
-+		WARN_ON(r);
-+	}
-+
-+	if (p->gang_size > 1) {
-+		for (i = 0; i < p->gang_size; ++i)
-+			amdgpu_job_set_gang_leader(p->jobs[i], leader);
-+	}
-+
- 	p->fence = dma_fence_get(&leader->base.s_fence->finished);
- 	drm_exec_for_each_locked_object(&p->exec, index, gobj) {
- 
+> ---
+>  drivers/platform/x86/thinkpad_acpi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index ab1cade5ef231e9a9a520bc0cca82384c911a331..d269e791f7fbc2a8ccf96f28cb476beccb57c9a7 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -8512,7 +8512,7 @@ static void fan_watchdog_reset(void)
+>  	if (fan_watchdog_maxinterval > 0 &&
+>  	    tpacpi_lifecycle != TPACPI_LIFE_EXITING)
+>  		mod_delayed_work(tpacpi_wq, &fan_watchdog_task,
+> -			msecs_to_jiffies(fan_watchdog_maxinterval * 1000));
+> +			secs_to_jiffies(fan_watchdog_maxinterval));
+>  	else
+>  		cancel_delayed_work(&fan_watchdog_task);
+>  }
+
 -- 
-2.34.1
+ i.
 
