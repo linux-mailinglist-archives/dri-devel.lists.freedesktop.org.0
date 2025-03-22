@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC731A6C9AD
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 11:42:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415DBA6C9B5
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 11:42:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 546EF10E0ED;
-	Sat, 22 Mar 2025 10:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77D2D10E328;
+	Sat, 22 Mar 2025 10:42:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MXPE9JFd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p8Ef38CD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9C110E31A;
- Sat, 22 Mar 2025 10:41:57 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED31310E366;
+ Sat, 22 Mar 2025 10:41:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9B546436F9;
- Sat, 22 Mar 2025 10:41:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C1DE1C4CEDD;
+ by tor.source.kernel.org (Postfix) with ESMTP id A53AD615F3;
+ Sat, 22 Mar 2025 10:41:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D245DC4CEEC;
  Sat, 22 Mar 2025 10:41:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1742640107;
- bh=Qc+4m200O/1jv4vK7vlDM7vK6mXjDW3zZ+mFfnBDgOA=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=MXPE9JFda0er3HrfL5WgPbGZPrDicPrgbFfzAt7b/K8gUFpPyDX1x78Ma4v0sHzNE
- 4VcB7WSbptDkJA+gnI/LzUVMO8sUniY9DJ2SNZszAe2lxWziczGs1g4zTTaEJP4pSK
- IXqDYePZoaueTbWvzMCT0IWcItEIBjMXhnS7KnCPZ/hIbPj/h8lW1M294qzyNA0+05
- mJwsnJh89d2fGS8jmb82Elj6jGvzX7NfXqnwjBXSaHXNvj3MGQmagIWTDPtocRMzvm
- nSm4fpWSSJpaJYlB/fTcmULJmWgGdRt0lx04Al8NurtmPPHs0ri1kybtuHi6LEsClz
- a3uvnUYgQE3jg==
+ bh=uH/uSKbQo5Ulfbukq6OwZ7LUE3RydYgx6jERrQzGCPI=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=p8Ef38CDIdE+MPcTBcTq/zSMiUA1+au+sZeRqrzrJ+IQGAVSdyabptJx+ED6BHu9p
+ GfqoTRXiqiuLRUL0z32YohtKPhlmlo7a3YVBo8B2q2MeiE+vrDD1AS4GY3Xd/XUNjS
+ lwEzmG2bChkiKrxvqO79yUOfzymncJW5T7vys05NXsLRxPJNlcZBMWbQ2z8a2BBj6l
+ bBtf1DPyO7ENNgavvU41NpfS7GFAya66LaqJ2mSWnIB8J6LD/uEJWWKz8SpqIquQqO
+ 72DXFSJEMN2rdiWY+FFzkftqBRep+AXj5HAeg6FEp8Ar9eRclEcjznPKJwbBl9zZIf
+ JTgcA6X8jdWew==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 95E92C35FFC;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id B495BC36002;
  Sat, 22 Mar 2025 10:41:47 +0000 (UTC)
 From: Vincent Mailhol via B4 Relay
  <devnull+mailhol.vincent.wanadoo.fr@kernel.org>
-Subject: [PATCH 0/3] bits: Split asm and non-asm GENMASK*() and unify
- definitions
-Date: Sat, 22 Mar 2025 19:39:35 +0900
-Message-Id: <20250322-consolidate-genmask-v1-0-54bfd36c5643@wanadoo.fr>
+Date: Sat, 22 Mar 2025 19:39:36 +0900
+Subject: [PATCH 1/3] bits: split the definition of the asm and non-asm
+ GENMASK*()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGeT3mcC/0XOQQ7CIBAF0KsQ1k5EKkq4iumClmklClTApqbp3
- aVtoqvJ/8l/mZkmjBYTVWSmEUebbPAlnA6EtnftewRrSqacccEqzqANPoWnNToj9OidTg+4tIZ
- x3WjTSU7LcojY2WlTb/WeI77eBc97+bcV2WTOJawTA/kz/OAE0py0EKKrzijVeF3xRicsXzhns
- yKNzU4Px/1AFyJ4nDKtl+ULmmqpsdoAAAA=
-X-Change-ID: 20250320-consolidate-genmask-6cd02abadf82
+Message-Id: <20250322-consolidate-genmask-v1-1-54bfd36c5643@wanadoo.fr>
+References: <20250322-consolidate-genmask-v1-0-54bfd36c5643@wanadoo.fr>
+In-Reply-To: <20250322-consolidate-genmask-v1-0-54bfd36c5643@wanadoo.fr>
 To: Yury Norov <yury.norov@gmail.com>, 
  Lucas De Marchi <lucas.demarchi@intel.com>, 
  Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
@@ -62,13 +59,13 @@ Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
  Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3685;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2469;
  i=mailhol.vincent@wanadoo.fr; h=from:subject:message-id;
- bh=Qc+4m200O/1jv4vK7vlDM7vK6mXjDW3zZ+mFfnBDgOA=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDOn3Jl9NXKdnEdn4vPH96b4HmUwbLyhumuzT6cbicqHT9
- 9cCjturOkpZGMS4GGTFFFmWlXNyK3QUeocd+msJM4eVCWQIAxenAExk4SxGhtkP9oepFfnmeph0
- b2CPf/87Z7VT1OJJ6TV5n6rl+tNjTBn+cHV8EcsTP2737cupKVah/tLnfdzNf2y/dfnn1WtOBe3
- HmQE=
+ bh=PiGTrL0JYiV7znHV7ko5sq4U1vR9pY0pmQ4QX0K2Tvw=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDOn3Jt/conAk8iNv4onX2b6BbG57S8yLlx6/6D3r815jw
+ dc5u1+GdJSyMIhxMciKKbIsK+fkVugo9A479NcSZg4rE8gQBi5OAZiIwjNGhn9chpPuGJWUl1iu
+ r3h3+1z0UlGJjy1N73ZNUDuzbrfhYUmG/4EZUsc2nFI3ZL54Lbxjn/HJxOLAzJ8ia6IbBV7rf/7
+ 9mwMA
 X-Developer-Key: i=mailhol.vincent@wanadoo.fr; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 X-Endpoint-Received: by B4 Relay for mailhol.vincent@wanadoo.fr/default
@@ -90,97 +87,87 @@ Reply-To: mailhol.vincent@wanadoo.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a subset of below series:
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+
+In an upcoming change, the non-asm GENMASK*() will all be unified to
+depend on GENMASK_TYPE() which indirectly depend on sizeof(), something
+not available in asm.
+
+Instead of adding further complexity to GENMASK_TYPE() to make it work
+for both asm and non asm, just split the definition of the two variants.
+
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+This patch previously belonged to this series:
 
   bits: Fixed-type GENMASK_U*() and BIT_U*()
   Link: https://lore.kernel.org/r/20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr
 
-Yury suggested to split the above series in two steps:
+Below changelog also contains the history from the previous series.
 
-  #1 Introduce the new fixed type GENMASK_U*()
-  #2 Consolidate the existing GENMASK*()
+Changelog:
 
-This new series is the resulting step #2 following the split.
+  v6 (previous series) -> v1 (new series):
 
-And thus, this series consolidate all the non-asm GENMASK*() so that
-they now all depend on GENMASK_TYPE() which was introduced in step #1.
+    - Do not rephrase the comment saying that BUILD_BUG_ON() is not
+      available in asm code. Leave it as it is.
 
-To do so, I had to split the definition of the asm and non-asm
-GENMASK(). I think this is controversial. So I initially implemented a
-first draft in which both the asm and non-asm version would rely on
-the same helper macro, i.e. adding this:
+    - Add Lucas reviewed-by tag.
 
-  #define __GENMASK_TYPE(t, w, h, l)		\
-  	(((t)~_ULL(0) << (l)) &			\
-  	 ((t)~_ULL(0) >> (w - 1 - (h))))
+  v5 -> v6:
 
-to uapi/bits.h. And then, the different GENMASK()s would look like
-this:
+    - Restore the comment saying that BUILD_BUG_ON() is not available in asm
+      code.
 
-  #define __GENMASK(h, l) __GENMASK_TYPE(unsigned long, __BITS_PER_LONG, h, l)
+  v4 -> v5:
 
-and so on.
+    - Use tab indentations instead of single space to separate the
+      macro name from its body.
 
-I implemented it, and the final result looked quite ugly. Not only do
-we need to manually provide the width each time, the biggest concern
-is that adding this to the uapi is asking for trouble. Who knows how
-people are going to use this? And once it is in the uapi, there is
-virtually no way back.
+  v3 -> v4:
 
-Adding to this, that macro can not even be generalized to u128
-integers, whereas after the split, it can.
-
-And so, after implementing both, the asm and non-asm split seems way
-more clean and I think this is the best compromise.
-
-Aside from the split, the asm's GENMASK() and GENMASK_ULL() are left
-untouched. While there are some strong incentives to also simplify
-these as pointed by David Laight in this thread:
-
-  https://lore.kernel.org/all/20250309102312.4ff08576@pumpkin/
-
-this series deliberately limit its scope to the non-asm variants.
-
-Here are the bloat-o-meter stats:
-
-  $ ./scripts/bloat-o-meter vmlinux_before.o vmlinux_after.o 
-  add/remove: 0/0 grow/shrink: 4/2 up/down: 5/-4 (1)
-  Function                                     old     new   delta
-  intel_psr_invalidate                         666     668      +2
-  mst_stream_compute_config                   1652    1653      +1
-  intel_psr_flush                              977     978      +1
-  intel_dp_compute_link_config                1327    1328      +1
-  cfg80211_inform_bss_data                    5109    5108      -1
-  intel_drrs_activate                          379     376      -3
-  Total: Before=22723481, After=22723482, chg +0.00%
-
-(done with GCC 12.4.1 on an x86_64 defconfig)
-
---
-2.43.0
-
-Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+    - New patch in the series
 ---
-Vincent Mailhol (3):
-      bits: split the definition of the asm and non-asm GENMASK*()
-      bits: unify the non-asm GENMASK*()
-      test_bits: add tests for __GENMASK() and __GENMASK_ULL()
+ include/linux/bits.h | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
- include/linux/bits.h | 29 ++++++-----------------------
- lib/test_bits.c      | 19 +++++++++++++++++++
- 2 files changed, 25 insertions(+), 23 deletions(-)
----
-base-commit: e3f42c436d7e0cb432935fe3ae275dd8d9b60f71
-change-id: 20250320-consolidate-genmask-6cd02abadf82
-prerequisite-change-id: 20250228-fixed-type-genmasks-8d1a555f34e8:v7
-prerequisite-patch-id: 572c05165229640db7dd8fe4d53e1a33ee5dd586
-prerequisite-patch-id: c16d122a487f83e2866a9a669259db097ef46a70
-prerequisite-patch-id: 35f115c0f1b327f1516cfc38b3076e07713df6cd
-prerequisite-patch-id: 5fe7058f6ea73b37df75d5c39ad69a4da928058d
-prerequisite-patch-id: 82fb628d052ce9f1efac7f3b61eafb2749f95847
+diff --git a/include/linux/bits.h b/include/linux/bits.h
+index 6a942ea9ab380d3bd0e521916caa1d59db8031c0..9dd2d244c1f37fde995ed65c1eed879bb2a994a8 100644
+--- a/include/linux/bits.h
++++ b/include/linux/bits.h
+@@ -35,6 +35,11 @@
+ 
+ #define GENMASK_INPUT_CHECK(h, l) BUILD_BUG_ON_ZERO(const_true((l) > (h)))
+ 
++#define GENMASK(h, l) \
++	(GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
++#define GENMASK_ULL(h, l) \
++	(GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
++
+ /*
+  * Generate a mask for the specified type @t. Additional checks are made to
+  * guarantee the value returned fits in that type, relying on
+@@ -79,15 +84,11 @@
+  * BUILD_BUG_ON_ZERO is not available in h files included from asm files,
+  * disable the input check if that is the case.
+  */
+-#define GENMASK_INPUT_CHECK(h, l) 0
++#define GENMASK(h, l)		__GENMASK(h, l)
++#define GENMASK_ULL(h, l)	__GENMASK_ULL(h, l)
+ 
+ #endif /* !defined(__ASSEMBLY__) */
+ 
+-#define GENMASK(h, l) \
+-	(GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+-#define GENMASK_ULL(h, l) \
+-	(GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
+-
+ #if !defined(__ASSEMBLY__)
+ /*
+  * Missing asm support
 
-Best regards,
 -- 
-Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+2.48.1
 
 
