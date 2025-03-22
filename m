@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63EBA6CCAA
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 22:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285F2A6CCAC
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 22:29:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E11D10E181;
-	Sat, 22 Mar 2025 21:29:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7424A10E161;
+	Sat, 22 Mar 2025 21:29:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Z3LtJmV1";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="cJX8QWM2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27DC110E181
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Mar 2025 21:29:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742678955; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC6F010E188
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Mar 2025 21:29:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1742678957; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=juaxAJCrvrgSeb48itlacxngBqXwLrekvexnPpvTbbu7R8QTqwhtr5zawhmjfbKxWTyykbx6oKcHxDuHdjWE+04cg5krCppUy1RHUM7Htf4C9gm8SRn+8ATNq2Zk+VGnKRfE3snUVU/M9sVVxP4Sa8Er0ijoHSiGbMK9nBa8NmM=
+ b=PxmBOtoUQ1rdT24uVCjGSSfEHPsdKqi2aGZFFk1fnQgmup2R5/mxjL6vNn7+k76Jbt8pp8o9FfTIaNnzRYWDQ4I+Wbavqy89VryRuy7Nn9d+yD32ovpQ4rOtBzJO6jf4oYMvH/BfKzUpLVTIwBILrnmdTeOcuJHF7WoivAlgmOE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742678955;
+ s=zohoarc; t=1742678957;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=D8skzeqwalBI3wYRwszZe+VNe6TDcBK3mAxl50TBKew=; 
- b=grsGYVO2TEDWJLi+expl4QKgARf+MdWS5heR+R8nnvPo6Pe/NOaQ42E/ey4eRWMnChVQ4OuF+ap4hLGMJsfSGLri6CDdKgg5oODmhmna/+FO8ZB6r9TpmIdAS7lbSXadSWKJH/uiL7OcTEyjMgZ81ozF/uRgRHLbrqxput21j64=
+ bh=fdyz8/DZzJvpb8TDk4Fb/UsrzBg8Xohwoz871V+3KR4=; 
+ b=Kk5f9XbQFmuC3CW3fnM9xE0uUf5+J6hG8u3S7S+8PzLxKvWmxpQQJ5/VUDn2e5orJmz1sLYkSoDDxlg2DBLxbsX+jmVe+drLWSp0F2KocFPPIwdP8hIDzKJvWAx7OC5BsbeedEW/gmC0RJEEaXEzP2/nPOqbwkF/rPZEt85vc9E=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742678955; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742678957; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=D8skzeqwalBI3wYRwszZe+VNe6TDcBK3mAxl50TBKew=;
- b=Z3LtJmV1Duqg51kpfxHWZuqIMGJnLXbhss9hp6cHm7HfwA1OC/JJ0kagavWCG97g
- oe0LY9LxI9fnBL4EURSRotfVdVeE077avC2FGSrjzZYjkGv44xj+Z+D7GSRToTPWmLV
- unPbTZwBzR5Atrb6z1FkAjs8foxjWcDSRMzEPeHA=
-Received: by mx.zohomail.com with SMTPS id 1742678953019135.32721424030217;
- Sat, 22 Mar 2025 14:29:13 -0700 (PDT)
+ bh=fdyz8/DZzJvpb8TDk4Fb/UsrzBg8Xohwoz871V+3KR4=;
+ b=cJX8QWM2khneIW0/ZGr/a4js75Fvi903tqM5LrGDKlxr+MEiVS3y11bGLoBJu6JQ
+ O6PsfQnHges5OnWNeuCpoUwoBu2lUyVYFzjzRgxXBRczC8+MPcXUbE9S45nmpnHhL82
+ DKN1pIORw7EXgp1hFlYVAqKnsMutSwRUM8gvW558=
+Received: by mx.zohomail.com with SMTPS id 1742678957017363.1392509416396;
+ Sat, 22 Mar 2025 14:29:17 -0700 (PDT)
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -49,10 +49,10 @@ To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel@collabora.com
-Subject: [PATCH v20 02/10] drm/gem: Add _locked postfix to functions that have
- unlocked counterpart
-Date: Sun, 23 Mar 2025 00:26:00 +0300
-Message-ID: <20250322212608.40511-3-dmitry.osipenko@collabora.com>
+Subject: [PATCH v20 03/10] drm/gem: Document locking rule of vmap and evict
+ callbacks
+Date: Sun, 23 Mar 2025 00:26:01 +0300
+Message-ID: <20250322212608.40511-4-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250322212608.40511-1-dmitry.osipenko@collabora.com>
 References: <20250322212608.40511-1-dmitry.osipenko@collabora.com>
@@ -74,55 +74,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add _locked postfix to drm_gem functions that have unlocked counterpart
-functions to make GEM functions naming more consistent and intuitive in
-regards to the locking requirements.
+The vmap/vunmap/evict GEM callbacks are always invoked with a held GEM's
+reservation lock. Document this locking rule for clarity.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem.c | 6 +++---
- include/drm/drm_gem.h     | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ include/drm/drm_gem.h | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 27778e5ce0c0..1e659d2660f7 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1543,10 +1543,10 @@ drm_gem_lru_scan(struct drm_gem_lru *lru,
- EXPORT_SYMBOL(drm_gem_lru_scan);
- 
- /**
-- * drm_gem_evict - helper to evict backing pages for a GEM object
-+ * drm_gem_evict_locked - helper to evict backing pages for a GEM object
-  * @obj: obj in question
-  */
--int drm_gem_evict(struct drm_gem_object *obj)
-+int drm_gem_evict_locked(struct drm_gem_object *obj)
- {
- 	dma_resv_assert_held(obj->resv);
- 
-@@ -1558,4 +1558,4 @@ int drm_gem_evict(struct drm_gem_object *obj)
- 
- 	return 0;
- }
--EXPORT_SYMBOL(drm_gem_evict);
-+EXPORT_SYMBOL(drm_gem_evict_locked);
 diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 13c312ca07ae..43cf3c2c7ca0 100644
+index 43cf3c2c7ca0..9b71f7a9f3f8 100644
 --- a/include/drm/drm_gem.h
 +++ b/include/drm/drm_gem.h
-@@ -561,7 +561,7 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
- 			       unsigned long *remaining,
- 			       bool (*shrink)(struct drm_gem_object *obj));
- 
--int drm_gem_evict(struct drm_gem_object *obj);
-+int drm_gem_evict_locked(struct drm_gem_object *obj);
- 
- /**
-  * drm_gem_object_is_shared_for_memory_stats - helper for shared memory stats
+@@ -159,7 +159,8 @@ struct drm_gem_object_funcs {
+ 	 * @vmap:
+ 	 *
+ 	 * Returns a virtual address for the buffer. Used by the
+-	 * drm_gem_dmabuf_vmap() helper.
++	 * drm_gem_dmabuf_vmap() helper. Called with a held GEM reservation
++	 * lock.
+ 	 *
+ 	 * This callback is optional.
+ 	 */
+@@ -169,7 +170,8 @@ struct drm_gem_object_funcs {
+ 	 * @vunmap:
+ 	 *
+ 	 * Releases the address previously returned by @vmap. Used by the
+-	 * drm_gem_dmabuf_vunmap() helper.
++	 * drm_gem_dmabuf_vunmap() helper. Called with a held GEM reservation
++	 * lock.
+ 	 *
+ 	 * This callback is optional.
+ 	 */
+@@ -192,7 +194,8 @@ struct drm_gem_object_funcs {
+ 	 * @evict:
+ 	 *
+ 	 * Evicts gem object out from memory. Used by the drm_gem_object_evict()
+-	 * helper. Returns 0 on success, -errno otherwise.
++	 * helper. Returns 0 on success, -errno otherwise. Called with a held
++	 * GEM reservation lock.
+ 	 *
+ 	 * This callback is optional.
+ 	 */
 -- 
 2.49.0
 
