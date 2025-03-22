@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A31A6CBCF
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 19:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90493A6CBD1
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 19:37:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1CF10E0F4;
-	Sat, 22 Mar 2025 18:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DEB510E145;
+	Sat, 22 Mar 2025 18:37:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="VnU7vVG8";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="P78cOOK3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B32610E0F4
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Mar 2025 18:31:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742668274; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBC810E145
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Mar 2025 18:37:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1742668645; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=NG1yQk9rEzgilleO/l9rGC5Fjw8Q18sBHiq5GuGnfDdXn3fWb5AMGvipLYXmUcmgiQKRb4wTWf4YBZAL0abLpP6Uu8kguDQ9uOwauqKbf69CYV5n4/6r5w2G+CKk7N0NSx1XfYRopQ8yL2vwJp+kakOLFGIYu/VXpwtfowt9sts=
+ b=XyWN7OBjTEt5Kf6pHc3iqCwNHigU0MHqrbUxGIAfWBdarqVjgx8Xrg62yWTAJMvX2fy2PlKU1bqQMaGdR2PzEQZv1OFcPl2ZulEJ4rR/BmukUvxBI3oYOSef+F12hrl/KG7yS7fhZCpcrWOdYLSEkALO2UEym9+e4dMFAsEX9Qg=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742668274;
+ s=zohoarc; t=1742668645;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=VplHcLOIy2d7XjXbeKaOE5oRAedseybBbUhrpgGYDxQ=; 
- b=PNQm6WHsVvSnL2lI/I56scUzsRjLWx+XoTh9/wFSBy1B3Tf2cWgi78rER4JGHoVjG+ZZ77t5BKgG78yjXnmgWHRK64xyiy5EGDX3w6aFhGRQ2RlhdlV3o9wVabtbOwv7hkJzEO5ab5iiNwwWj4L5uiNIQ02mSSWGP3e6HxWwdgw=
+ bh=WTVoLyGgbdmzjrUE8T6GsZDPitalOn1Yi5lAm2rNLKM=; 
+ b=NGiLLNnXBjvzD/5K9hpWWxGHtM+95jCExdGFmPPZyJUbKLbo67ffGf0M6HfoepEwPHjWcBbBugemU0llRaGEq7+JC2IlwwKNBghor3Tyalav98CoNYuzt5Bwd5fYYArMOufBvZ656cfp+yQ3AEUbCO8ZAxAhzuQ+Nvws4hVnrDo=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742668274; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742668645; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=VplHcLOIy2d7XjXbeKaOE5oRAedseybBbUhrpgGYDxQ=;
- b=VnU7vVG8kMkdNNg/C7pSVIwlCGi9OWMGP1xrSKv/4eU1bC0sEaa3/93LhsS6o3Xm
- SD+IOCfkxcI3dBK9Iy+YFATYb2Gexvbe6MPYZOS0d0OlHy8BY21f4w/rLM2ty1i+p0x
- w3qII0xrhcpPIaUkTKFV/EzD6khTLvgbW7dSBM14=
-Received: by mx.zohomail.com with SMTPS id 1742668273032573.7649825558158;
- Sat, 22 Mar 2025 11:31:13 -0700 (PDT)
-Date: Sat, 22 Mar 2025 18:31:03 +0000
+ bh=WTVoLyGgbdmzjrUE8T6GsZDPitalOn1Yi5lAm2rNLKM=;
+ b=P78cOOK3yLrTakfL9AysUuqlYQIRr71SKVn8pAn/olUWqqBmU/Q7hC8WdsF3SPHk
+ QdF230ZqN6rHDjktqqbWFM4+75eyj5Vfq3uQ+SW/h/OjrdwoOesZ8ZHNEMFnCu7uU5u
+ 15he9RGEwc1srHlluJffNiOWjoK360kz4VghNPOU=
+Received: by mx.zohomail.com with SMTPS id 1742668644881646.2713412624316;
+ Sat, 22 Mar 2025 11:37:24 -0700 (PDT)
+Date: Sat, 22 Mar 2025 18:37:15 +0000
 From: Adrian Larumbe <adrian.larumbe@collabora.com>
 To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
@@ -47,16 +47,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  simona@ffwll.ch, kernel@collabora.com, linux-mediatek@lists.infradead.org, 
  linux-arm-kernel@lists.infradead.org, sjoerd@collabora.com,
  angelogioacchino.delregno@collabora.com
-Subject: Re: [PATCH v4 2/6] drm/panfrost: Use
- GPU_MMU_FEATURES_VA_BITS/PA_BITS macros
-Message-ID: <ebm6kwkhyiql2kh3ekyfpyvchs3mbnbq26ssvpkttxjuw5meo2@gqggqnosvou6>
+Subject: Re: [PATCH v4 3/6] drm/panfrost: Set HW_FEATURE_AARCH64_MMU feature
+ flag on Bifrost models
+Message-ID: <rocdajh3msvq2mesaftg4garbdxl4qn77kxpqhwn4pv2wncc45@x7iejre6y3kb>
 References: <20250317145245.910566-1-ariel.dalessandro@collabora.com>
- <20250317145245.910566-3-ariel.dalessandro@collabora.com>
+ <20250317145245.910566-4-ariel.dalessandro@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250317145245.910566-3-ariel.dalessandro@collabora.com>
+In-Reply-To: <20250317145245.910566-4-ariel.dalessandro@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,8 +73,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 17.03.2025 11:52, Ariel D'Alessandro wrote:
-> As done in panthor, define and use these GPU_MMU_FEATURES_* macros,
-> which makes code easier to read and reuse.
+> Set this feature flag on all Mali Bifrost platforms as the MMU supports
+> AARCH64 4K page table format.
 >
 > Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
@@ -84,47 +84,37 @@ On 17.03.2025 11:52, Ariel D'Alessandro wrote:
 Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
 > ---
->  drivers/gpu/drm/panfrost/panfrost_mmu.c  | 6 ++++--
->  drivers/gpu/drm/panfrost/panfrost_regs.h | 2 ++
->  2 files changed, 6 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panfrost/panfrost_features.h | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index 9e6f198ef5c1b..294f86b3c25e7 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -615,6 +615,8 @@ static void panfrost_drm_mm_color_adjust(const struct drm_mm_node *node,
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_features.h b/drivers/gpu/drm/panfrost/panfrost_features.h
+> index 7ed0cd3ea2d4c..52f9d69f6db9d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_features.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_features.h
+> @@ -54,6 +54,7 @@ enum panfrost_hw_feature {
+>  	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+>  	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+>  	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+> +	BIT_ULL(HW_FEATURE_AARCH64_MMU) | \
+>  	BIT_ULL(HW_FEATURE_COHERENCY_REG))
 >
->  struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
->  {
-> +	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(pfdev->features.mmu_features);
-> +	u32 pa_bits = GPU_MMU_FEATURES_PA_BITS(pfdev->features.mmu_features);
->  	struct panfrost_mmu *mmu;
+>  #define hw_features_g72 (\
+> @@ -64,6 +65,7 @@ enum panfrost_hw_feature {
+>  	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+>  	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+>  	BIT_ULL(HW_FEATURE_PROTECTED_DEBUG_MODE) | \
+> +	BIT_ULL(HW_FEATURE_AARCH64_MMU) | \
+>  	BIT_ULL(HW_FEATURE_COHERENCY_REG))
 >
->  	mmu = kzalloc(sizeof(*mmu), GFP_KERNEL);
-> @@ -633,8 +635,8 @@ struct panfrost_mmu *panfrost_mmu_ctx_create(struct panfrost_device *pfdev)
+>  #define hw_features_g51 hw_features_g72
+> @@ -77,6 +79,7 @@ enum panfrost_hw_feature {
+>  	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+>  	BIT_ULL(HW_FEATURE_PROTECTED_DEBUG_MODE) | \
+>  	BIT_ULL(HW_FEATURE_IDVS_GROUP_SIZE) | \
+> +	BIT_ULL(HW_FEATURE_AARCH64_MMU) | \
+>  	BIT_ULL(HW_FEATURE_COHERENCY_REG))
 >
->  	mmu->pgtbl_cfg = (struct io_pgtable_cfg) {
->  		.pgsize_bitmap	= SZ_4K | SZ_2M,
-> -		.ias		= FIELD_GET(0xff, pfdev->features.mmu_features),
-> -		.oas		= FIELD_GET(0xff00, pfdev->features.mmu_features),
-> +		.ias		= va_bits,
-> +		.oas		= pa_bits,
->  		.coherent_walk	= pfdev->coherent,
->  		.tlb		= &mmu_tlb_ops,
->  		.iommu_dev	= pfdev->dev,
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index c7bba476ab3f3..b5f279a19a084 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -16,6 +16,8 @@
->  #define   GROUPS_L2_COHERENT		BIT(0)	/* Cores groups are l2 coherent */
->
->  #define GPU_MMU_FEATURES		0x014	/* (RO) MMU features */
-> +#define  GPU_MMU_FEATURES_VA_BITS(x)	((x) & GENMASK(7, 0))
-> +#define  GPU_MMU_FEATURES_PA_BITS(x)	(((x) >> 8) & GENMASK(7, 0))
->  #define GPU_AS_PRESENT			0x018	/* (RO) Address space slots present */
->  #define GPU_JS_PRESENT			0x01C	/* (RO) Job slots present */
->
+>  #define hw_features_g76 (\
 > --
 > 2.47.2
 
