@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16F1A6D07A
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 19:01:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE9CA6D082
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 19:08:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF7810E132;
-	Sun, 23 Mar 2025 18:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C98B510E0BA;
+	Sun, 23 Mar 2025 18:08:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="OelJyDht";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kmnVozqf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr
- [80.12.242.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D44BA10E132
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 18:01:41 +0000 (UTC)
-Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
- id wPdZtqcs4vQV0wPdctbi88; Sun, 23 Mar 2025 19:01:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1742752895;
- bh=zp3UcKJhUjE7ySXeU2dEz0mIKPMzZc8r54esOzKpgeQ=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=OelJyDhtUiXn/3ZG0LOI5TjhwxvoaXoK9D1LUxe7j9eMo7tyWD+Si2DSO2zHRbynE
- 8E18tkmJ1GiiQuKPDzLThmDhtE6TTjrdNI1edhccNt6tPcfIN9Xmwr3O3UMyflNSYP
- mlxRUzsl5jps9W+KhAyT6AiVmkDkPH7fmeEE3mv/L5EtmPq7C1q84INnpvO6//bpdm
- cWI4ORMUWlw2FcMDY9foxevsA6WfP7rCkr7ChmR8+CyaSlqmip9jZr+SLNQTbUc9JN
- Pn6urrO6ViumWpAlyYxfRPfY7FIqe+/Kpu9jElZ/ItY2E3MRkICnAK4CjqYJ1h0euN
- 1y//Erg9ytZVA==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sun, 23 Mar 2025 19:01:35 +0100
-X-ME-IP: 90.11.132.44
-Message-ID: <b212955e-eac6-4eff-b666-5a830e9d1537@wanadoo.fr>
-Date: Sun, 23 Mar 2025 19:01:29 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 624D110E0BA
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 18:08:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=D77nPsmMV0/TxqLnhHvNQ9fX2PYMvK9BF/KPlrJlvuM=; b=kmnVozqfsnzzzJnDGNN7L7dXUw
+ tOkdCO7OjaTQsYv35ngVffKY6u08v/vfqhSoVBci/QuGs2X5A0z/yxElqHhtVvc9XtuWWRXihM82f
+ +T9GoJscUeQJhZzi7ctoxfI28+/KSuRcOS+1QY+YV+0SgLv+xR4p5ygWA1ayIUXSH1t6kV8NreBft
+ qpt/SM4aaLK9La/xo9mEGDUDHmtOAb/nfx7Rtg/Gb17fBW2nFJaRrM2q33FcQaB+YLnmHI4p0J2O3
+ EntZigfC+cnKOIlG615hRLbAR1CSsmUkG4sIce5kmPmzeloFGAaADJCYj7JRKf2Crzh53fkjLS12p
+ 13OoREkA==;
+Received: from [189.7.87.178] (helo=[192.168.0.224])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1twPjx-005MlC-V0; Sun, 23 Mar 2025 19:08:06 +0100
+Message-ID: <e3517bd6-a9c2-4193-92d8-b6510b967d0a@igalia.com>
+Date: Sun, 23 Mar 2025 15:07:59 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/xe/svm: fix dereferencing error pointer in
- drm_gpusvm_range_alloc()
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
- error27@gmail.com
-References: <20250323124907.3946370-1-harshit.m.mogalapalli@oracle.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20250323124907.3946370-1-harshit.m.mogalapalli@oracle.com>
+Subject: Re: [PATCH 4/4] drm/vc4: tests: Retry pv-muxing tests when EDEADLK
+To: Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250318-drm-vc4-kunit-failures-v1-0-779864d9ab37@kernel.org>
+ <20250318-drm-vc4-kunit-failures-v1-4-779864d9ab37@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250318-drm-vc4-kunit-failures-v1-4-779864d9ab37@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,37 +66,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 23/03/2025 à 13:49, Harshit Mogalapalli a écrit :
-> xe_svm_range_alloc() returns ERR_PTR(-ENOMEM) on failure and there is a
-> dereference of "range" after that:
-> 
-> 	-->     range->gpusvm = gpusvm;
-> 
-> In xe_svm_range_alloc(), when memory allocation fails return NULL
-> instead to handle this situation.
-> 
-> Fixes: 99624bdff867 ("drm/gpusvm: Add support for GPU Shared Virtual Memory")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/all/adaef4dd-5866-48ca-bc22-4a1ddef20381@stanley.mountain/
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
-> This is based on static analysis and only compile tested.
-> ---
->   drivers/gpu/drm/xe/xe_svm.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-> index 52e04e7e343f..a79df8cf1f36 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.c
-> +++ b/drivers/gpu/drm/xe/xe_svm.c
-> @@ -80,7 +80,7 @@ xe_svm_range_alloc(struct drm_gpusvm *gpusvm)
->   
->   	range = kzalloc(sizeof(*range), GFP_KERNEL);
->   	if (!range)
-> -		return ERR_PTR(-ENOMEM);
-> +		return NULL;
->   
->   	INIT_LIST_HEAD(&range->garbage_collector_link);
->   	xe_vm_get(gpusvm_to_vm(gpusvm));
+Hi Maxime,
 
-Reviewed-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+On 18/03/25 11:17, Maxime Ripard wrote:
+> Some functions used by the HVS->PV muxing tests can return with EDEADLK,
+> meaning the entire sequence should be restarted. It's not a fatal error
+> and we should treat it as a recoverable error, and recover, instead of
+> failing the test like we currently do.
+> 
+> Fixes: 76ec18dc5afa ("drm/vc4: tests: Add unit test suite for the PV muxing")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c | 44 ++++++++++++++++++++++++++
+>   1 file changed, 44 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
+> index 52c04ef33206bf4f9e21e3c8b7cea932824a67fa..94e05bddb630a79aab189d9bc16f09a9d84ce396 100644
+> --- a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
+> +++ b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
+> @@ -685,20 +685,26 @@ static void drm_vc4_test_pv_muxing(struct kunit *test)
+>   
+>   	drm_modeset_acquire_init(&ctx, 0);
+>   
+>   	vc4 = priv->vc4;
+>   	drm = &vc4->base;
+> +
+> +retry:
+>   	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>   	for (i = 0; i < params->nencoders; i++) {
+>   		enum vc4_encoder_type enc_type = params->encoders[i];
+>   
+>   		ret = vc4_mock_atomic_add_output(test, state, enc_type);
+> +		if (ret == -EDEADLK)
+> +			goto retry;
+>   		KUNIT_ASSERT_EQ(test, ret, 0);
+>   	}
+>   
+>   	ret = drm_atomic_check_only(state);
+> +	if (ret == -EDEADLK)
+> +		goto retry;
+
+Shouldn't we call `drm_modeset_backoff()` before retrying (maybe
+`drm_atomic_state_clear()` as well)?
+
+Best Regards,
+- Maíra
+
+>   	KUNIT_EXPECT_EQ(test, ret, 0);
+>   
+>   	KUNIT_EXPECT_TRUE(test,
+>   			  check_fifo_conflict(test, state));
+>   
