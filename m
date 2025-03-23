@@ -2,81 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE7AA6CF54
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 13:49:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F4CA6CFC9
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 15:45:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30C5410E1C4;
-	Sun, 23 Mar 2025 12:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEBB010E048;
+	Sun, 23 Mar 2025 14:45:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="aWL/Mcsn";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dlH2wyFN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0112310E1C4;
- Sun, 23 Mar 2025 12:49:15 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52N6wa7x025718;
- Sun, 23 Mar 2025 12:49:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=corp-2023-11-20; bh=y1p8efBTlVkGZuPqovRJRIEED8k9c
- 61FVODzJx6N494=; b=aWL/McsnxrCM9uobUxcWd1nwQJUWHW9CSwuMnZnjj0X3d
- 7JOMuVzDQTzRBPvSIMSvQPN+ly0NNddmuCtqN13fePOO+2Awk+hD42cEDfS6/O+E
- ISyYgtjL5jzq3ERb6V4aj24yX+IagtugI7VSRodQXY6403kfh5R6kKPtCH/gdFXs
- pEItFa4MPgqkS+btX6n88PSXCyt0d2i7o4ycTcb2o20cP+FnZZIk5fjwqigHtV0o
- nYfQQ9QVfNdv8JTxRiVWNOudgyXT//EXgJzD0sWxiIDB2xCWV/nIr1JU2nLoAjOS
- uld6c9CPpasWb7AP5yLWIg60cYP00qmhYXUMW5+tA==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45hn7dj3rm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 23 Mar 2025 12:49:11 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 52NCU31q029893; Sun, 23 Mar 2025 12:49:10 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 45jjbx89d1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 23 Mar 2025 12:49:10 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 52NCnAqp026147;
- Sun, 23 Mar 2025 12:49:10 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
- [10.129.136.47])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 45jjbx89cu-1; Sun, 23 Mar 2025 12:49:10 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
- error27@gmail.com, harshit.m.mogalapalli@oracle.com
-Subject: [PATCH] drm/xe/svm: fix dereferencing error pointer in
- drm_gpusvm_range_alloc()
-Date: Sun, 23 Mar 2025 05:49:06 -0700
-Message-ID: <20250323124907.3946370-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.46.0
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60AB910E048
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 14:45:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4c/0JfJqZsDrgnrmW86o9lGfPb20uB1PxBnL2vaKse4=; b=dlH2wyFNWO0t9GmXrHGcyS5cVG
+ 96of4WZicc97HnBBG2VY3oDe1/xWUXa0YDYdqhcG0gwc7LsgBRYdjTrMxXE3EZn8G+v21lPRsP/6k
+ l8MAXeW99JdPWKI8WSlDpCJBE2WviR428ZAG0e2mS+zbYFC+CtR2Gql19AnGUd7IjNigDViD/119o
+ 6MgG3QYyVdAXVAUDmQDCzjg43TfyUgjPwhNIV8xFuiP1djFMrhmzS/miXPs6QvEzufWwb+6uNWoMH
+ /Z/Iw9AVTkH9Gowt1W/gNLjLon9cu5BeuVoLfjxd4G4wtcQ93hu+7GGX0Yq8KBuUn+gvBTQX3k2o2
+ +jFqCTLQ==;
+Received: from [189.7.87.178] (helo=[192.168.0.224])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1twMZk-005Gyo-F1; Sun, 23 Mar 2025 15:45:20 +0100
+Message-ID: <f66fe250-8452-423f-aa0f-6f589e566e16@igalia.com>
+Date: Sun, 23 Mar 2025 11:45:12 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/5] drm/v3d: Fix GPU reset issues on the Raspberry Pi 5
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Stefan Wahren <wahrenst@gmx.net>,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, kernel-dev@igalia.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Emma Anholt <emma@anholt.net>, "Rob Herring (Arm)" <robh@kernel.org>
+References: <20250317-v3d-gpu-reset-fixes-v6-0-f3ee7717ed17@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250317-v3d-gpu-reset-fixes-v6-0-f3ee7717ed17@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-23_06,2025-03-21_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 bulkscore=0
- suspectscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
- definitions=main-2503230093
-X-Proofpoint-GUID: cvCcg96ARbVDUoAZZm1Bw8SDjUXEjOoc
-X-Proofpoint-ORIG-GUID: cvCcg96ARbVDUoAZZm1Bw8SDjUXEjOoc
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,37 +67,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-xe_svm_range_alloc() returns ERR_PTR(-ENOMEM) on failure and there is a
-dereference of "range" after that:
+On 17/03/25 22:01, Maíra Canal wrote:
+> This series addresses GPU reset issues reported in [1], where running a
+> long compute job would trigger repeated GPU resets, leading to a UI
+> freeze.
+> 
+> The patches that prevent the same faulty job from being resubmitted in a
+> loop were merged in drm-misc/drm-misc-fixes in v4.
+> 
+> However, those patches don't solve the issue entirely. Even with a single
+> GPU reset, the UI still freezes on the Raspberry Pi 5, indicating a GPU
+> hang. Patches #1, #3, and #5 address this by properly configuring the
+> V3D_SMS registers, which are required for power management and resets
+> in V3D 7.1.
+> 
+> Patches #2 and #4 are associated changes related to the robustness
+> of the DT bindings. Patch #3 added a new register bank to the DT binding
+> and during the reviewing process, we identified points that could to be
+> improved in the DT binding.
+> 
+> Patch #2 started by adding per-compatible register restrictions to ensure
+> that the DTB accurately reflects the hardware design and #5 updates the DT
+> maintainership, replacing Emma with the current v3d driver maintainer.
+> 
+> [1] https://github.com/raspberrypi/linux/issues/6660
+> 
+> Best Regards,
+> - Maíra
+> 
 
-	-->     range->gpusvm = gpusvm;
+[...]
 
-In xe_svm_range_alloc(), when memory allocation fails return NULL
-instead to handle this situation.
+Applied to misc/kernel.git (drm-misc-next). Before applying PATCH 1/5, I
+fixed the W=1 warning reported by the kernel test robot with the
+following diff:
 
-Fixes: 99624bdff867 ("drm/gpusvm: Add support for GPU Shared Virtual Memory")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/all/adaef4dd-5866-48ca-bc22-4a1ddef20381@stanley.mountain/
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-This is based on static analysis and only compile tested.
----
- drivers/gpu/drm/xe/xe_svm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-       gen = (enum v3d_gen)of_device_get_match_data(dev);
++       gen = (uintptr_t)of_device_get_match_data(dev);
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 52e04e7e343f..a79df8cf1f36 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -80,7 +80,7 @@ xe_svm_range_alloc(struct drm_gpusvm *gpusvm)
- 
- 	range = kzalloc(sizeof(*range), GFP_KERNEL);
- 	if (!range)
--		return ERR_PTR(-ENOMEM);
-+		return NULL;
- 
- 	INIT_LIST_HEAD(&range->garbage_collector_link);
- 	xe_vm_get(gpusvm_to_vm(gpusvm));
--- 
-2.39.3
+Thanks for all involved in the reviewing process!
+
+Best Regards,
+- Maíra
+
+> ---
+> Maíra Canal (5):
+>        drm/v3d: Associate a V3D tech revision to all supported devices
+>        dt-bindings: gpu: v3d: Add per-compatible register restrictions
+>        dt-bindings: gpu: v3d: Add SMS register to BCM2712 compatible
+>        dt-bindings: gpu: v3d: Add V3D driver maintainer as DT maintainer
+>        drm/v3d: Use V3D_SMS registers for power on/off and reset on V3D 7.x
+> 
+>   .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      |  90 ++++++++++++---
+>   drivers/gpu/drm/v3d/v3d_debugfs.c                  | 126 ++++++++++-----------
+>   drivers/gpu/drm/v3d/v3d_drv.c                      |  62 +++++++++-
+>   drivers/gpu/drm/v3d/v3d_drv.h                      |  22 +++-
+>   drivers/gpu/drm/v3d/v3d_gem.c                      |  27 ++++-
+>   drivers/gpu/drm/v3d/v3d_irq.c                      |   6 +-
+>   drivers/gpu/drm/v3d/v3d_perfmon.c                  |   4 +-
+>   drivers/gpu/drm/v3d/v3d_regs.h                     |  26 +++++
+>   drivers/gpu/drm/v3d/v3d_sched.c                    |   6 +-
+>   9 files changed, 271 insertions(+), 98 deletions(-)
+> ---
+> base-commit: 83a0237859bc5a9e0a716e1db8e7fd3cafd63259
+> change-id: 20250224-v3d-gpu-reset-fixes-2d21fc70711d
+> 
 
