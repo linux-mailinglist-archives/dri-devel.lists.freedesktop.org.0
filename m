@@ -2,114 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5152A6CF1D
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 13:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04ABCA6CF5F
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 14:03:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14F3910E1B8;
-	Sun, 23 Mar 2025 12:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6A5210E16A;
+	Sun, 23 Mar 2025 13:03:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mhSAlpxg";
+	dkim=pass (2048-bit key; unprotected) header.d=riscv-rocks.de header.i=@riscv-rocks.de header.b="DMfq/V9f";
+	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="HEiP/ePy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F00610E1B8
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 12:06:11 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52NAn2Uw019829
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 12:06:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=MV32qCiB38FYLSVABwWjrG0V
- 5R2pP5jz+dWOa/JclsU=; b=mhSAlpxgAt7A7bAdKGZ2oIrYq/sM9Xu6hMy5chAa
- DRrmZrhYINDUQuziAlJynO6xUl+l4IMQARyRnDuJf1IQibZePQg1Yo5cBwvSj9Mp
- MNaIlP+52uuyu5OOX8N+FUCbBoj9V9QWLNH7TQh7IAtBddZcKnaxuHxb6HsXRAGw
- uqyHrKqnwKPmMFRJSgI9nWOBkhyIwbee/KmNDky5iWHKZ527+9mcqO1k/7EvvrAb
- Q1KJ+joEUHwutL2xitTajlDPRdLUgghcSFms1jtkCdurAGgL0+K7DWez8iRvIfqp
- yiRMS47bawCRI+8GZlDCjyacd+uP3VIQ1NFCwxe/m+QMrQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45hn9w9ysp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 12:06:10 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c3b6450ed8so609887885a.3
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 05:06:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742731569; x=1743336369;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MV32qCiB38FYLSVABwWjrG0V5R2pP5jz+dWOa/JclsU=;
- b=ZIJi+YJt5HjfzNpYfVV1uBlY4smhu78mkIcIQHPYScOdB9LqrJYHotorfZ4ScL6jig
- MldY1Jgw7AzeGK2Wo4VX1+ON35k1maqUmXga2ae6vSu7Q2cZTfnPCQZ1lO/cVspAhevo
- ajRSZy6GqNYPM5c1K28KMrYi8i5ChQ7FSPD5C+VWShIcxFpA3JHRkHPvwHkTzpI12uh+
- OGA9KAO8YYWdWxBnsFSl/n09hhI1Q0Buw4kCIqJCwp6omerzQMXmYApYVOKB3tf/BEIZ
- P3KeTT9a/W3GiJ4svg7sRStHBG4vDVuvhSMX/CvcF+/hPSFbMYQPyfDjdj7l1PtfCHm/
- nLGQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV2vm5EQS4jq1ZGuXLJD3TTpCYZY8CnDr8zv9OGte3DfwI30/EIQBLq1xQcragQt0G98I2EbjXLCnQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyscNQWXLWScCxto91I6PUno0xIb82PWXV54YI1BW2J3mGUiSrW
- sCEVLzaWNvfAetiV5/nE8ygcz7VPisvRSSMjQQuzISXFxz/5fvtpIO5hTLhbeRx2qdQxdjMqSh+
- 8FGn8J3J+Hf5oRC9eMxQKqD+3IObAHf7n94zkkkak4eRqwoLK+vpZ9DGqQ7N94KfSvkk=
-X-Gm-Gg: ASbGnctujd0SqKi5x+gn4ddrE4g+PrOHO+Kglya9bl8n/zZg1WMe4CZ393ZZ/OeHrVc
- 2nJIwbha/s12YjWeld1l/BUWe3byBl1wFZfuPX3S043yaxmHbX/8l+pna5OBmVaHa0Z9wY0Mdyt
- hWvhN6aYuLlAPYKW2ohOHdGS+KKmEgzXBxJCfNg5vlMEc00dX+vsktBonYp2YjV7IzJ/SkfYEDi
- EQZ+L6QYkkK7YuIh13otHpVbScfg/nTK2PndTz6odaumSTXwk8gjGEejl7/jCEmQsLzHK2oRx8P
- pNeQfmNleN0BviEG0XmC1DdMlipSGt/s2kbcO2ORUffQfGoMZvU+NYUqWMv5AkRTZmnhdwZTx+M
- 70fg=
-X-Received: by 2002:a05:620a:191e:b0:7c5:5d83:2ea8 with SMTP id
- af79cd13be357-7c5ba191d17mr1282044585a.34.1742731569445; 
- Sun, 23 Mar 2025 05:06:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFSk5U6ZXm8gW7Il/iWs/ZGcfd2ZuajH0qgw8cFlxalF2lUpkYJJ58AqSDCJy+z1woszsYucQ==
-X-Received: by 2002:a05:620a:191e:b0:7c5:5d83:2ea8 with SMTP id
- af79cd13be357-7c5ba191d17mr1282040785a.34.1742731568968; 
- Sun, 23 Mar 2025 05:06:08 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ad64fbb1asm764400e87.120.2025.03.23.05.06.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Mar 2025 05:06:06 -0700 (PDT)
-Date: Sun, 23 Mar 2025 14:06:05 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Hermes Wu <Hermes.wu@ite.com.tw>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+X-Greylist: delayed 408 seconds by postgrey-1.36 at gabe;
+ Sun, 23 Mar 2025 12:49:48 UTC
+Received: from b224-13.smtp-out.eu-central-1.amazonses.com
+ (b224-13.smtp-out.eu-central-1.amazonses.com [69.169.224.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69F2F10E1CC;
+ Sun, 23 Mar 2025 12:49:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=2kaovp6zxy5nzp5wqunvdq5vkiqbeqln; d=riscv-rocks.de; t=1742733761;
+ h=Date:From:To:Cc:Subject:Message-ID:Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
+ bh=LrAaxJ3uGP1EpZGbKJtAW4zP/hxp5wOoExzud2mX2Xo=;
+ b=DMfq/V9fggKoRozqNK4DYV7YAuDOyzhhtFwgJcX9uCO2VCPwJuWRjq6liTzJBym6
+ o0LQ72CVC06C8Eeog6UBTtC6B7LrQzrg5ODK/57A6blK9PPw0N598FM0xPUynMM30Xp
+ /j//X+/fDYtyvCMKRFRhzNNhBDVEMWY/Gy6kFqiBeLMHQL44QtSecXR5spxN0PqJ5Zn
+ AbC9FmUMsAw0yN6X4gJXv0/hPHuTh362F41bypRM+lSOalyRI3jPIP6eDGUlyMnIZXI
+ MgxJBpQ1jlc8zVvKhezGdC9VUBFCg5SnI5/ls9VHD4/XXtvESNJ4pBHsxcuy7lZXZCA
+ gBoQ8LikmA==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=54ecsf3zk7z4mwxwwox7z7bg6e5gwjsz; d=amazonses.com; t=1742733761;
+ h=Date:From:To:Cc:Subject:Message-ID:Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Feedback-ID;
+ bh=LrAaxJ3uGP1EpZGbKJtAW4zP/hxp5wOoExzud2mX2Xo=;
+ b=HEiP/ePyv/5qHXZiNwlxklL8mfQ5s8IY29RDfjipiHPgYTUJMLJh8BhI5EwcD4nf
+ V/qiL4r2Ab4pNWZ8VeNq9DDLZaI8L4UHpFCoWFFnw5RAvWAwwjFo6yXPiI4eH2Vwut7
+ N8CHcUTn55CWd+ENrEg3OIGoTFIay+AMHGP0X0Xs=
+Date: Sun, 23 Mar 2025 12:42:41 +0000
+From: Damian Tometzki <damian@riscv-rocks.de>
+To: Kees Cook <kees@kernel.org>
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>, 
+ Zhi Wang <zhi.wang.linux@gmail.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] drm/i915/gvt: Add __nonstring annotations for
+ unterminated strings
+Message-ID: <01070195c306db7f-9f28efdd-9456-4db3-b6c6-343298bd571b-000000@eu-central-1.amazonses.com>
+Mail-Followup-To: Kees Cook <kees@kernel.org>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.wang.linux@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND 3/3] drm/bridge: it6505: skip auto training when
- previous try fail
-Message-ID: <ygndq6rndwduzxi77clpofvck4px5ohsnifpug6nupjzt4cs7g@npjx2othedpp>
-References: <20250318-fix-link-training-v1-0-19266711142c@ite.com.tw>
- <20250318-fix-link-training-v1-3-19266711142c@ite.com.tw>
+ intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20250310222355.work.417-kees@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250318-fix-link-training-v1-3-19266711142c@ite.com.tw>
-X-Proofpoint-GUID: 4NqjSDTrEyE3Wlze9S3Mvn85I2dBh4M9
-X-Proofpoint-ORIG-GUID: 4NqjSDTrEyE3Wlze9S3Mvn85I2dBh4M9
-X-Authority-Analysis: v=2.4 cv=CPoqXQrD c=1 sm=1 tr=0 ts=67dff932 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=Ns9eNvu6AAAA:8 a=CAG1TeXkPrI7es7L6SQA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=LZLx1i01EnjtqRv10NxV:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-23_05,2025-03-21_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=999
- spamscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 malwarescore=0 adultscore=0 phishscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503230090
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250310222355.work.417-kees@kernel.org>
+User-Agent: Mutt
+X-Operating-System: Linux Fedora release 42 (Adams) (Kernel 6.14.0-rc7)
+Organization: Linux hacker
+Feedback-ID: ::1.eu-central-1.yMcBPu/jK26Vj3HVmCFyFk75QMsS8V3QY5HbXP/Qrys=:AmazonSES
+X-SES-Outgoing: 2025.03.23-69.169.224.13
+X-Mailman-Approved-At: Sun, 23 Mar 2025 13:03:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,106 +87,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Damian Tometzki <damian@riscv-rocks.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 18, 2025 at 04:32:11PM +0800, Hermes Wu wrote:
-> When connect to device which can only training done by
-> step training, skip auto training when link training restart,
-> usually happen when display resolution is changed.
+On Mon, 10. Mar 15:23, Kees Cook wrote:
+> When a character array without a terminating NUL character has a static
+> initializer, GCC 15's -Wunterminated-string-initialization will only
+> warn if the array lacks the "nonstring" attribute[1]. Mark the arrays
+> with __nonstring to and correctly identify the char array as "not a C
+> string" and thereby eliminate the warning.
 > 
-> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=117178 [1]
+> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+> Cc: Zhi Wang <zhi.wang.linux@gmail.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: intel-gvt-dev@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Kees Cook <kees@kernel.org>
 > ---
->  drivers/gpu/drm/bridge/ite-it6505.c | 36 +++++++++++++++++++++---------------
->  1 file changed, 21 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/i915/gvt/opregion.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index 11231a642bbe185c4f36bf5f2a0b115fa056213b..730481a9446ff00a54ef70e86b4c28ff0a3f417e 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -468,6 +468,7 @@ struct it6505 {
->  	struct work_struct hdcp_wait_ksv_list;
->  	struct completion extcon_completion;
->  	u8 auto_train_retry;
-> +	u8 step_train_only;
->  	bool hdcp_desired;
->  	bool is_repeater;
->  	u8 hdcp_down_stream_count;
-> @@ -2459,11 +2460,13 @@ static void it6505_link_step_train_process(struct it6505 *it6505)
->  				     ret ? "pass" : "failed", i + 1);
->  		if (ret) {
->  			it6505_link_train_ok(it6505);
-> +			it6505->step_train_only = true;
->  			return;
->  		}
->  	}
+> diff --git a/drivers/gpu/drm/i915/gvt/opregion.c b/drivers/gpu/drm/i915/gvt/opregion.c
+> index 509f9ccae3a9..f701638d3145 100644
+> --- a/drivers/gpu/drm/i915/gvt/opregion.c
+> +++ b/drivers/gpu/drm/i915/gvt/opregion.c
+> @@ -43,7 +43,7 @@
+>  #define DEVICE_TYPE_EFP4   0x10
 >  
->  	DRM_DEV_DEBUG_DRIVER(dev, "training fail");
-> +	it6505->step_train_only = false;
->  	it6505->link_state = LINK_IDLE;
->  	it6505_video_reset(it6505);
->  }
-> @@ -2479,21 +2482,23 @@ static void it6505_link_training_work(struct work_struct *work)
+>  struct opregion_header {
+> -	u8 signature[16];
+> +	u8 signature[16] __nonstring;
+>  	u32 size;
+>  	u32 opregion_ver;
+>  	u8 bios_ver[32];
+> @@ -222,7 +222,7 @@ int intel_vgpu_init_opregion(struct intel_vgpu *vgpu)
+>  	u8 *buf;
+>  	struct opregion_header *header;
+>  	struct vbt v;
+> -	const char opregion_signature[16] = OPREGION_SIGNATURE;
+> +	const char opregion_signature[16] __nonstring = OPREGION_SIGNATURE;
 >  
->  	if (!it6505_get_sink_hpd_status(it6505))
->  		return;
-> -
-> -	retry = it6505->auto_train_retry;
-> -	do {
-> -		it6505_link_training_setup(it6505);
-> -		it6505_reset_hdcp(it6505);
-> -		it6505_aux_reset(it6505);
-> -
-> -		ret = it6505_link_start_auto_train(it6505);
-> -		DRM_DEV_DEBUG_DRIVER(dev, "auto train %s, auto_train_retry: %d",
-> -			     ret ? "pass" : "failed", it6505->auto_train_retry);
-> -		if (ret) {
-> -			it6505_link_train_ok(it6505);
-> -			return;
-> -		}
-> -	} while (retry--);
-> +	/* skip auto training if previous auto train is fail*/
-> +	if (!it6505->step_train_only) {
-> +		retry = it6505->auto_train_retry;
-> +		do {
-> +			it6505_link_training_setup(it6505);
-> +			it6505_reset_hdcp(it6505);
-> +			it6505_aux_reset(it6505);
-> +
-> +			ret = it6505_link_start_auto_train(it6505);
-> +			DRM_DEV_DEBUG_DRIVER(dev, "auto train %s, auto_train_retry: %d",
-> +				ret ? "pass" : "failed", it6505->auto_train_retry);
-> +			if (ret) {
-> +				it6505_link_train_ok(it6505);
-> +				return;
-> +			}
-> +		} while (retry--);
-
-This really looks like
-
-	for (retry = 0;
-	     retry < AUTO_TRAIN_RETRY && !it6505->step_train_only ;
-	     retry++)
-
-Please consider changing the previous patch and this patch accordingly.
-
-> +	}
->  
->  	/*After HW auto training fail, try link training step by step*/
->  	it6505_link_step_train_process(it6505);
-> @@ -2605,6 +2610,7 @@ static void it6505_irq_hpd(struct it6505 *it6505)
->  			it6505_parse_link_capabilities(it6505);
->  		}
->  		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-> +		it6505->step_train_only = false;
->  
->  		it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
->  					     DP_SET_POWER_D0);
-> 
+>  	gvt_dbg_core("init vgpu%d opregion\n", vgpu->id);
+>  	vgpu_opregion(vgpu)->va = (void *)__get_free_pages(GFP_KERNEL |
 > -- 
 > 2.34.1
 > 
+Hello together,
+
+it doesnt resolve the build issue with gcc15 gcc (GCC) 15.0.1 20250228
+
+CC [M]  drivers/gpu/drm/i915/gvt/scheduler.o
+/home/damian/kernel/linux/drivers/gpu/drm/i915/gvt/opregion.c: In function ‘intel_vgpu_init_opregion’:
+/home/damian/kernel/linux/drivers/gpu/drm/i915/gvt/opregion.c:35:28: error: initializer-string for array of ‘char’ is too long [-Werror=unterminated-string-initialization]
+   35 | #define OPREGION_SIGNATURE "IntelGraphicsMem"
+      |                            ^~~~~~~~~~~~~~~~~~
+/home/damian/kernel/linux/drivers/gpu/drm/i915/gvt/opregion.c:225:57: note: in expansion of macro ‘OPREGION_SIGNATURE’
+  225 |         const char opregion_signature[16] __nonstring = OPREGION_SIGNATURE;
+      |                                                         ^~~~~~~~~~~~~~~~~~
+  CC [M]  drivers/gpu/drm/i915/gvt/trace_points.o
+cc1: all warnings being treated as errors
+make[7]: *** [/home/damian/kernel/linux/scripts/Makefile.build:207: drivers/gpu/drm/i915/gvt/opregion.o] Error 1
+make[7]: *** Waiting for unfinished jobs....
+  CC [M]  drivers/gpu/drm/i915/gvt/vgpu.o
+make[6]: *** [/home/damian/kernel/linux/scripts/Makefile.build:465: drivers/gpu/drm/i915] Error 2
+make[5]: *** [/home/damian/kernel/linux/s
+
 
 -- 
-With best wishes
-Dmitry
+VG
+Damian Tometzki
