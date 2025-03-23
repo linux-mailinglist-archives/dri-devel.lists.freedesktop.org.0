@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DCA3A6D148
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 22:44:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD15A6D168
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 23:22:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A49D310E074;
-	Sun, 23 Mar 2025 21:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5AA10E0D1;
+	Sun, 23 Mar 2025 22:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
- [95.215.58.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2924F10E074
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 21:44:35 +0000 (UTC)
-Date: Sun, 23 Mar 2025 17:44:23 -0400
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
+ [91.218.175.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96A3F10E194
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 22:22:34 +0000 (UTC)
+Date: Sun, 23 Mar 2025 18:22:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1742766271;
+ s=key1; t=1742768548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QjI5CAIKnyK0cdKaefRJI+q3uIG7lhr68HrdHr6otHQ=;
- b=nZ9Le3K9grAmT8NSqrDY7VgqawNr/XTrJxRvN1cnBj5rG5ctGZFQCbYbmgaahOqfE4y8X6
- 9KiTK78LgpYvRwVN+5zFnyPVfkywDFasGxtxhKNwLwWoFJmI3aEZJwku1/EAvQL4segCBL
- GKMhFQ9tW6Sie6nKkCQzSyxkQg/G91JQl5JBVLihPfSOBgK0Rw9zfLdsp5oL61XNAM2K4y
- EOadBxaZValTGWpyOOX2ozW/iNrMvBnfzLdCp+xW/A4nUucYKeDqrqta/rfKTlhwkGNgDe
- CZGYYmPXcuH8jntdQWJIvZ7MVHpgdSGE0X7sP901OWfGmctB8KHsZb9uFe7BFA==
+ bh=jBdt6K+1FRRtxV1RM4zhQcREKVKV+utbOhrg0IIMgak=;
+ b=JDUR9PGOmfNe81ydDTGeaPgibvwP+SUVdVLswyyJwxIz2iVH8XXxHPVGYF2LC/pY45mjzF
+ PRpvDOQUvJ92PMV32TRGuW9xbOELBG6MGwDpMNq5uyxAUgAP2TEoh0sSBPRgbve6ImHre1
+ 1eKqPR/gkbftnMQ+vixiX7QzCCfCkypI88USsZ/2351OLZSNat8cu+/I5oqvl0Bo3JStWn
+ +RmDK83Pu2Qywy+7pzss7KwJVDVBWdLCYI4/pmycEN5RzH6/An/O/LdaxhxQtoxDWyJqDo
+ bixjdLUYkrjfUCbZdyfX4h/WASPJHOMW6d1s20h5dyAxhZpnpenFdoweKMBh0Q==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
@@ -50,7 +50,7 @@ Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
  linux-doc <linux-doc@vger.kernel.org>, Asahi Lina <lina@asahilina.net>
 Subject: Re: [PATCH v3] drm: Add UAPI for the Asahi driver
-Message-ID: <Z-CAtz-D-CslvABE@blossom>
+Message-ID: <Z-CJmw9BKteSj1Qx@blossom>
 References: <20250314-agx-uapi-v3-1-3abf7e74ea2f@rosenzweig.io>
  <195b507d4b3.b25d0dad175771.7566427576910952468@collabora.com>
  <195b582682b.121ba4d5e219032.3109114844776468245@collabora.com>
@@ -75,22 +75,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->  >  > +struct drm_asahi_queue_create { 
->  >  > +    /** @flags: MBZ */ 
->  >  > +    __u32 flags; 
->  >  > + 
->  >  > +    /** @vm_id: The ID of the VM this queue is bound to */ 
->  >  > +    __u32 vm_id; 
->  >  > + 
->  >  > +    /** @queue_caps: Bitmask of DRM_ASAHI_QUEUE_CAP_* */ 
->  >  > +    __u32 queue_caps; 
->  >  > + 
->  >  > +    /** @priority: Queue priority, 0-3 */ 
->  >  > +    __u32 priority; 
-> 
-> Is one of these priorities REALTIME and only usable by privileged apps? If so, maybe document that and/or have an enum?
+>  >  > +    /** 
+>  >  > +     * @user_timestamp_frequency_hz: Timebase frequency for user timestamps 
+>  >  > +     */ 
+>  >  > +    __u64 user_timestamp_frequency_hz; 
+>  >  
+>  > Why is this different? What are user timestamps and how are they different from GPU timestamps? 
 
-Actually, I've reserved realtime&high but always deny right now to make
-sure Mesa doesn't assume it can use them, then we can relax in the
-future once the kernel permission gating is there. (Needs rust
-bindings.)
+In v4, I've made get_time return nanos which should clarify things.
+(Since it hides the SoC clock rate from userspace, leaving only the GPU
+firmware clock rate and nanoseconds as the two time rates to worry
+about.)
