@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9304A6CED7
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 11:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E448A6CEDE
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 11:47:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B848A10E0F3;
-	Sun, 23 Mar 2025 10:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0338610E0A4;
+	Sun, 23 Mar 2025 10:47:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Pvy/wPDP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bYbQsyuT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43D3310E0F3
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 10:41:17 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0BC10E0A4
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 10:47:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1742726476;
+ s=mimecast20190719; t=1742726869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ElouIigd8DpMf0Ug455kJL3XWa3qW5DGg6ijQRuqB8A=;
- b=Pvy/wPDPvfInCXrupqHKcYCd8HsQ2E8HXg2o/csYlc5h9suSaU0NoTXMmpEMXIGc7BpGU1
- rT/Edejxvzx5/sMxRbPYq1VaSQorkwZ2ArZC0ySDIkR4HA3SYyGOgs+/pguhQCLdfBNEOU
- VS2rUPV7PQFZSQP9F8VJ0NzTOcpzyLk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UIgEYgxSYsjgdXRrFtC9BdjCRFvcEtF6KCw7k9R1lLQ=;
+ b=bYbQsyuTyTWuq7XZ64XuOHBLd7KAvYSZsoTWjR754AQHrFRPhqVuh/Dv0OlpmueXEfCKpg
+ qHs8lFSbLjQbwouUz/46E9UwZOc1HTurSAt52s/mYyWxhFgMevzRaPYIbtsRAoZC4Malj7
+ wFaSFn9ZgUmK7Zz9IvKiahzI1/JtEYU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-176-AdGtUjk_MH-K3M51G1BNQA-1; Sun, 23 Mar 2025 06:41:15 -0400
-X-MC-Unique: AdGtUjk_MH-K3M51G1BNQA-1
-X-Mimecast-MFC-AGG-ID: AdGtUjk_MH-K3M51G1BNQA_1742726474
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43d0a037f97so18091325e9.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 03:41:14 -0700 (PDT)
+ us-mta-461-TYvdapcWMOqTSKIx-S7IFw-1; Sun, 23 Mar 2025 06:47:45 -0400
+X-MC-Unique: TYvdapcWMOqTSKIx-S7IFw-1
+X-Mimecast-MFC-AGG-ID: TYvdapcWMOqTSKIx-S7IFw_1742726865
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3912fe32b08so1791960f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 03:47:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742726474; x=1743331274;
+ d=1e100.net; s=20230601; t=1742726864; x=1743331664;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ElouIigd8DpMf0Ug455kJL3XWa3qW5DGg6ijQRuqB8A=;
- b=Rz8gL/XmQPmZID1RHr37zL9SIhvW9Md7LAAmUZibNU4C0Vz1ci8kiC5RhJZw6GxYW9
- zKN9ITjmN3v5WuBWi33B/Y9YOxLSV/sMDMNt85LGlPiRNQtIwdXkUbx4gEhcVNNvF0ow
- hPr3afNSzIt0Yd88mW47581Cg74kHI4s0QKMvErbiTEX66QJkgVcqqdpyYajHRznyxgD
- st1UuJivcrNS8RIwCRoCegKcpIqmXAd9ArXWTuo7uC4232f7uvW9DQAcj0mGDAKAmXaS
- Lfhhj9Ea4b5E9yYkZYeov6HDFKcKM+RTBAYsr5S3fkrD0F12j7Vcw/zKS2XUWfY/vc/u
- k5dg==
-X-Gm-Message-State: AOJu0YzRPKD23aTcwtUC4OiYg2omi5K+P3e39hNLAgpiGDR6s7sW8/iJ
- 3yitgETObJE3Fy0HV6PDPndK9c3IIUw0yXcuVYfCI/Ff8/xC1yadNviBdVndT+LKRjKgpybO4Rk
- 0x6xpDrwOjPiNd/wZA0xS4FlsiNW9XX9Y3sDWMfvUT9mFJt833Ig1Ni5E/zxhstGMyQ==
-X-Gm-Gg: ASbGncup8apnF/Va0x7Dhrl9t9FfdP0Ou/QpWX+UshjIILK75tU7wU7YlkydxY3Paf4
- xH3SwqXwBHNQkhXC8TwicxuK2ZOcuVHpSBIRQN/xlIxjVzHIw3IULl3wE2kROs1zn7eg8RSotf7
- m0T9P3rQpx1vljtaEKzYoAo6r44ROOzgoC94kTW8AWKAupcYxCyRvFqFU08Od0zHJf+NqTfoWzj
- JZDAfbvacYjEYnhKlzVYGizt4tgqQgcXjNP4q0Yt2nIPUEs5M4DVasWEVDLqkDlb0whjtsDyNOw
- 5Y10YI1BqIWf6g+QFk4ZtQ/5q30IiAB4EyUtx1SAvAZ3Lz0SMXp/yGzWkVHA821XUorcwox+Vw=
+ bh=UIgEYgxSYsjgdXRrFtC9BdjCRFvcEtF6KCw7k9R1lLQ=;
+ b=tOnBf6X/wgVr84QiQ0FQLLW6gwolqaSjNLZgQBXzm9xacKZkHmCJPtUQqFV8Xah3wS
+ jjT03pQsFMVdYkwnV/VPLymlaYGQQ5A/uQyJJMqvYSQ5eMopsCYHisq6G1L9tTNu5m9g
+ b7iQBYRn00XHjucjFvMmET73MSXtICLNowbunnSFW3DIVBt1jXZ83otrbZPje/BbMVWs
+ Wqu5Jj5vmtDq6tQLnV38ssm+aMYC54Tt59ns7xwUyb52XorTDTblWZnt2YriC0YJY2Sf
+ Q8J11KRmsu3l1an32qtQySN/VcLcRkQchvw+s2yhjnpWCmYt1g+NzpmWjRqQYSQ0n5Wx
+ eijw==
+X-Gm-Message-State: AOJu0YwCdBQu9qwpcfvd+QBKE1OnMyiiMunlKWkxOYgRwTNEaVIilfHi
+ 3wwjfsesAK4G+uI8ALwgQ/sUIarVpz4o4fqh2q02FHLIV0zDr8xm7K+daU8P6dOPLQmEyYbeXAM
+ VQdBQPG/+ajwVivbdaXSq6BRtDb9VwMVjIj3I2VQUHzemo1lqBmH/UoewD4hk3POu1Q==
+X-Gm-Gg: ASbGncsNRYTpxnjEdCKvYFd2hfr7U5W1/CcVKj54TsDy4vszRrZGspobVb7F7n6WMiR
+ CMl9uLQOEltipqkZ8IAD8Kp1HXLtFhPdycj56zjVKwZxecXCwGxN+AwD8GtwixuuQ1nhiVAfKtn
+ Y8K9WXvuhdKiIqc3U54knoGkVXK31bsVDp5RMH8uEOC5KezEVphbpUnkaO5ZOdnW+l0ZQjIMf+8
+ KpyeOmiIbO+YTPkdNnLr+nQ3eFmltmVfCM7F5HZeAip8KUgfoSeRjOD/x5fl/++dLHT+g0F6tLR
+ JjAGGfZ9ak6ftpUNZq03UA2YWMsj/FjGv6qaAkvVoOtJAilJBkRMB5bokge+HIA1coi1wRP9Yg=
  =
-X-Received: by 2002:a05:600c:1e8d:b0:43d:a90:9f1 with SMTP id
- 5b1f17b1804b1-43d509e64ccmr96716915e9.6.1742726473824; 
- Sun, 23 Mar 2025 03:41:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHkSNZSdq7eArqnlBENDvBsxVqNEh4KX4wpddMe2kFZUwaycW+S86D9B0UfsZcQxjTVw+lSEg==
-X-Received: by 2002:a05:600c:1e8d:b0:43d:a90:9f1 with SMTP id
- 5b1f17b1804b1-43d509e64ccmr96716815e9.6.1742726473484; 
- Sun, 23 Mar 2025 03:41:13 -0700 (PDT)
+X-Received: by 2002:a05:6000:42c2:b0:391:4052:a232 with SMTP id
+ ffacd0b85a97d-3997f9424ffmr5731305f8f.55.1742726864661; 
+ Sun, 23 Mar 2025 03:47:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEeoZ8QbQkQLnWDUg9boviI45/3kkumvRKCjsZpFkprJzVOGTDKPELKDzAKOs1EmGSUeq1oZQ==
+X-Received: by 2002:a05:6000:42c2:b0:391:4052:a232 with SMTP id
+ ffacd0b85a97d-3997f9424ffmr5731295f8f.55.1742726864239; 
+ Sun, 23 Mar 2025 03:47:44 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d4fd9e960sm81939475e9.29.2025.03.23.03.41.12
+ ffacd0b85a97d-3997f9efcb1sm7577673f8f.94.2025.03.23.03.47.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Mar 2025 03:41:12 -0700 (PDT)
+ Sun, 23 Mar 2025 03:47:43 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
  airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 06/18] drm/sysfb: Provide single mode-init helper
-In-Reply-To: <20250319083021.6472-7-tzimmermann@suse.de>
+Subject: Re: [PATCH 07/18] drm/sysfb: Merge mode-config functions
+In-Reply-To: <20250319083021.6472-8-tzimmermann@suse.de>
 References: <20250319083021.6472-1-tzimmermann@suse.de>
- <20250319083021.6472-7-tzimmermann@suse.de>
-Date: Sun, 23 Mar 2025 11:41:11 +0100
-Message-ID: <87r02odo6w.fsf@minerva.mail-host-address-is-not-set>
+ <20250319083021.6472-8-tzimmermann@suse.de>
+Date: Sun, 23 Mar 2025 11:47:42 +0100
+Message-ID: <87o6xsdnw1.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: obISCmAswYYSTeWSD4cUSOKIuFZc4bO0-4HeaRhLFuc_1742726474
+X-Mimecast-MFC-PROC-ID: 70vjECWGX4Uv1QIA1jLDRAS-aVWezGe9p9oE4nVat8U_1742726865
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,9 +98,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Merge the mode-init functions of ofdrm and simpledrm to the new helper
-> drm_sysfb_mode(). Also implement the DPI defaults there. Replace the
-> code in each driver with the shared helper.
+> Provide initializer to set struct drm_mode_config_funcs. Convert
+> ofdrm and simpledrm.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
