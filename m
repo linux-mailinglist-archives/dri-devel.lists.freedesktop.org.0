@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E9DA6CE9F
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 11:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FDEA6CEA2
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 11:12:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11B0910E0D0;
-	Sun, 23 Mar 2025 10:11:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A28E410E0F5;
+	Sun, 23 Mar 2025 10:12:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GFgpFip7";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X6gt7RgB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 580A110E0D0
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 10:11:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC6E10E0F5
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 10:12:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1742724656;
+ s=mimecast20190719; t=1742724747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BXl9GyVQdwlLt4k+hPv0mN15UAa6kqV0yN4st0Eg92g=;
- b=GFgpFip7n6l7yPaf4kbKMRbOosUrp/c8Hm+m3I9kka5v64x8qw4MaWYfOE5o+7IIC0EXG0
- EPPWO9eM4WWEr/0tH2/AC6KrIvng+VT5E4FmuW17DbwBU7S19V2Gv+2HL5YXZuUVMnmPmo
- DI4rGNpEDmC66PC2vJwp3Myn/7qz/sk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+RGeNZlfLgFA71NvaffV9ABNJvL+OrnuqdVLC6vsOeg=;
+ b=X6gt7RgB0O+WCGJxfWPwOWeAnxL1mHTkyMME16ol+36T5D8KnA6rNQf3Ypek9TcE7RY8Yy
+ hs7xy29re5rDj5PPFM8bprClzRyMZc8ZSZfOXvsBDdSf+Zrxt7CF2UKYQ7YzG81G0TIPnW
+ cOWDDVuDDs4k29tFmeEBTpGZoBu1hXA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-646-54RDT5mnP4SARUxbVLfyIw-1; Sun, 23 Mar 2025 06:10:54 -0400
-X-MC-Unique: 54RDT5mnP4SARUxbVLfyIw-1
-X-Mimecast-MFC-AGG-ID: 54RDT5mnP4SARUxbVLfyIw_1742724654
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-43d51bd9b41so18314945e9.3
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 03:10:54 -0700 (PDT)
+ us-mta-260-cXMu6IV3OpuYBxJuQMioVw-1; Sun, 23 Mar 2025 06:12:26 -0400
+X-MC-Unique: cXMu6IV3OpuYBxJuQMioVw-1
+X-Mimecast-MFC-AGG-ID: cXMu6IV3OpuYBxJuQMioVw_1742724745
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-43cf172ffe1so25449465e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 03:12:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742724653; x=1743329453;
+ d=1e100.net; s=20230601; t=1742724745; x=1743329545;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BXl9GyVQdwlLt4k+hPv0mN15UAa6kqV0yN4st0Eg92g=;
- b=NJnXgxCLNrKRpIvbIIHkWqMNeGE3ixXHl6YOZZ4/SWPNmzgXmiDqE8C5BueIMW/yzi
- DrBEnU+uZ/gCAT1Fy61OKVNxGKTMrYNrvci35phGHR6FntEx5yi7jmTvai+Us6CYkdM5
- Au0Pj9ElJqqXSHUuiUOEyA2vrF/8rpuD5yvVO9dsIheFQ8Zk47A8oFghPHW/SAvhgiUd
- zigId2sNNfACuvzD+Y03wEmycFqRQ6wG0XS4W7u2LZG4I8CKsBKHq18lN7q5xxW1kHHi
- kdkg2TnYCuGX6VaLaVSnmZnmCcc9y23tXPULFQ9RVZ1vQ7AeWRO5xjej1uLQXiyIjHMx
- vicA==
-X-Gm-Message-State: AOJu0Yyd3YNqdHWAW22U4tq/hpCXG2B2dPxXCndNWUdLiB6g623AMXDk
- ROvrrTAxi2tRi5kvcp0oH4earcwxlUdPBhnMqCZVYHYRkeTE9UkywSp1Deo3DiVIwmNzilThXbA
- umI6bo67K+5rHeJkBkEsD7GK8ZLuIzu0BM2kFUYL2J6jjX23NeycW6wzOKKUJvzczrw==
-X-Gm-Gg: ASbGnct7bmVgTt6t3/13ces8uROVitDQArfdQKbtKbcz6J+/modW1zI46cDWL29dBd3
- /5+SDuMZ9DvbOP4Ee1zjGbbf6lTAyhqXoX+tWUtblSpmP+o0bY23MQQcwbC3yIWgLLldyv+I2OP
- RdoNIPLtiTLgcgBySgDeUkAwmCT5s5kRzjacuutfE/6whMB0dMkUP+k8qtUKdsD/7iENBxxCw9i
- 6gcrubL4exZqkwBzRsfkTepFzaJmZH0w+dtlW9UG3xsQtArkLCYaussuKNvqpf8yZ+bzAAwXszr
- ySLXVYhWD3MSQNClB2VU7NWy0fwwNAsuVRwlSPqZtYqt3oXK/8CCm2iwA/lZehfnWUJN0y6s5A=
+ bh=+RGeNZlfLgFA71NvaffV9ABNJvL+OrnuqdVLC6vsOeg=;
+ b=SIqR+8lu8jwVfjeCRsIAkZec7I+luA6wQlwh1ZIvK6eBLAB3qyK5JAtzQF+6fqymFA
+ uQ0sej6LS/R0X5eSkQOeK1dfDhjTSwIvYdkJ3nsQyraYJQGlhxwmnjMi3gdsrtLvivlI
+ IthvTKK8eNUChc1JxJ+zcOEgsT/rTs04EDXB4hmep7uWm2zgZ93maQ0aagBWCCXZYvW0
+ 9F6rKjI0QYsKNHfvPjdwpvPbZzzW6b963zCYruzSIOT8jF+r0EtlKdol/h58/wxufjyg
+ kBFwO0SojvGjQtadBbtPuhL+1HV+CPyleDyVICgv6YuPxPp1evJ206ki05FgQF8aCXdr
+ hLfg==
+X-Gm-Message-State: AOJu0YzinaKjBvJlEc3QfG3oOsZ9ZRcfYFxXOPpluoESCw3IT1T+HynC
+ 7wAoVlCjIu+z8sNoT6wvwM2OAZSaHY3enOU+lKggtz4iLs18P7mB4FJvnGphTJT/tvJcYf/a46b
+ eTwVz5THVmRkV9YP3AHRzgXOa4Mh6sRcQtPkdqQTQZEo6CoI5AMpRnYM1ngbBLFWNsw==
+X-Gm-Gg: ASbGncs7wz0HxtOGVhVFsSSn8E4KXAeI69IzI72spLNS7k6xQWTlCh+Ed8cuDkvPTGX
+ z8H1bQC6CEh7/2P+AR/7Be5mc0rtXNrMGiphCLdJBquKkD6AyLy9yIAr1XyMsDkHrsAYmyU8SZr
+ 8mrV9U5W7jKfqY+6rtP8hVQInFon6a3UVB0kYmwYe05Y+KrrjLOZSp82RGJsnr3p9ThgKGW/k/8
+ D1ywolx/AsBNxSApEeYvzRu+ox54WCbOxqJuZz+WUPWoS/Oh0BIqunV08TjDON7f3krQ9oqzxIV
+ 9/G4g6R8H9zaHEOkTIe2vGVMig1LTwB0DkvK7xkptYBJ9bEmJqE7Az+duiqHSOGlhoEsK+zlag=
  =
-X-Received: by 2002:a05:600c:468a:b0:43c:ef55:f1e8 with SMTP id
- 5b1f17b1804b1-43d509f4983mr82422625e9.13.1742724653561; 
- Sun, 23 Mar 2025 03:10:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnBgkawsccilJ6gtflli6TsgapqgogfWNhrjS1wx4oCyIoYzyNtrgztL2PYxPDN/9C2T5PFA==
-X-Received: by 2002:a05:600c:468a:b0:43c:ef55:f1e8 with SMTP id
- 5b1f17b1804b1-43d509f4983mr82422425e9.13.1742724653132; 
- Sun, 23 Mar 2025 03:10:53 -0700 (PDT)
+X-Received: by 2002:a05:6000:1842:b0:392:bf8:fc96 with SMTP id
+ ffacd0b85a97d-3997f8f8be6mr8428010f8f.4.1742724744717; 
+ Sun, 23 Mar 2025 03:12:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFHBFeswIUyvPmRrR6vtrxMneWaFJ4vtS4RkXXBdMHCac7kWr1durqSJC/pjffgXqD4+yeGBw==
+X-Received: by 2002:a05:6000:1842:b0:392:bf8:fc96 with SMTP id
+ ffacd0b85a97d-3997f8f8be6mr8427992f8f.4.1742724744289; 
+ Sun, 23 Mar 2025 03:12:24 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d4fd27b59sm81446925e9.23.2025.03.23.03.10.51
+ 5b1f17b1804b1-43d4fd18505sm80953535e9.11.2025.03.23.03.12.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Mar 2025 03:10:52 -0700 (PDT)
+ Sun, 23 Mar 2025 03:12:23 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
  airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 01/18] drm/ofdrm: Remove struct ofdrm_device.pdev
-In-Reply-To: <20250319083021.6472-2-tzimmermann@suse.de>
+Subject: Re: [PATCH 02/18] drm/ofdrm: Open-code drm_simple_encoder_init()
+In-Reply-To: <20250319083021.6472-3-tzimmermann@suse.de>
 References: <20250319083021.6472-1-tzimmermann@suse.de>
- <20250319083021.6472-2-tzimmermann@suse.de>
-Date: Sun, 23 Mar 2025 11:10:50 +0100
-Message-ID: <875xk0f45x.fsf@minerva.mail-host-address-is-not-set>
+ <20250319083021.6472-3-tzimmermann@suse.de>
+Date: Sun, 23 Mar 2025 11:12:21 +0100
+Message-ID: <8734f4f43e.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2y-kqox68I-ISTINzB58ZCVje_Zy1RqZEUSnCb-SYWY_1742724654
+X-Mimecast-MFC-PROC-ID: FFKAplqq5veFom0Yih8KUPqwWJc32DGUKCUSbqlYgWg_1742724745
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,28 +98,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> The field pdev is unused. Remove it.
+> The helper drm_simple_encoder_init() is a trivial helper around
+> drm_encoder_init() and therefore deprecated. Open-code the function
+> and remove the dependency.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/tiny/ofdrm.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
-> index 13491c0e704a..7469dd281083 100644
-> --- a/drivers/gpu/drm/tiny/ofdrm.c
-> +++ b/drivers/gpu/drm/tiny/ofdrm.c
-> @@ -291,7 +291,6 @@ struct ofdrm_device_funcs {
->  
->  struct ofdrm_device {
->  	struct drm_device dev;
-> -	struct platform_device *pdev;
->  
->  	const struct ofdrm_device_funcs *funcs;
->  
-> -- 
-> 2.48.1
->
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
