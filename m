@@ -2,62 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09855A6CCB3
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Mar 2025 22:30:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 376D9A6CDA1
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 02:18:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F421010E22E;
-	Sat, 22 Mar 2025 21:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16FB510E1AD;
+	Sun, 23 Mar 2025 01:18:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="cKpXo8eB";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="fuJBJc/p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 360FA10E18F
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Mar 2025 21:29:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742678986; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WaJyEL9xZeU5zR4pgHILJlFQFZmUTtzc4hg6lx/PXbWT4I9jrv7pM40vpdVr+pZgLAeUb/nB62lQLYFm06BYCzmulIxWoEsITQ9BXeRLHrmjN62d9KhroTI6K5WGtANV8rjdxJLd3gSyarEUprS8jJvzOIXmIRtGjoT+sEyC0pU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742678986;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=jI2A6McB5nUab55GDN4/MJXKSOUMSiNkiu8ByBqPMPM=; 
- b=eGtiThTAXaS4Rt47A4xIkV/+OVQYNyNC1cPlUQXjV5rsweVi4unRJrNTs4M6jHhTVawtNVJZyxHAVudC4kFFs4ENk29Imx6SqzfeY8byrhCY2yG1X34Y40jLqVl3C1w+tnMV1HvdUc+7oz1EWKC/ufjvo+iEm2IQeAWFhJVYMW8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742678986; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=jI2A6McB5nUab55GDN4/MJXKSOUMSiNkiu8ByBqPMPM=;
- b=cKpXo8eBxoYzi7gEo4QhSot4SporbIAkd8H4e2AB5UtPtPnHLRFt11XciaDf12DI
- qdT0AZl9NSF1oM+KQutMmO/4V/DptjOAsYd9Nbk8r6SpucaDhT41BO7ylAIVRm8K7Li
- I7181BxmAsVXSBo/4VeWRjFbKunvKd2E/7znELSU=
-Received: by mx.zohomail.com with SMTPS id 1742678984353357.2761177607125;
- Sat, 22 Mar 2025 14:29:44 -0700 (PDT)
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Qiang Yu <yuq825@gmail.com>,
- Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com
-Subject: [PATCH v20 10/10] drm/shmem-helper: Use refcount_t for vmap_use_count
-Date: Sun, 23 Mar 2025 00:26:08 +0300
-Message-ID: <20250322212608.40511-11-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250322212608.40511-1-dmitry.osipenko@collabora.com>
-References: <20250322212608.40511-1-dmitry.osipenko@collabora.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2B0710E176
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 01:18:47 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52N0SJrk026553
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 01:18:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=2R9ezOTp2OXuwq2T5MuT2vKZ
+ RZJiv8BpmQQIAHvkRRo=; b=fuJBJc/p1pME36ADkN25DN8/FvUuW4LGyR0BJfGw
+ LkfBleFjuQmWhD3r/zLQxhZevo4KIET1dD+C2qwlXWstLq60ZJZe1UcKDJIq43L3
+ CbzhVWK8TZ8GFc0blvX23vdn1TKDHrcS7vkFjFiw5H8mO7VlstReT98uuc+nBpJi
+ xjoytF7/xSAbzpfbBlsjpvvIrZoK6zyJYbZivwCcOmxoSPCIXag7aj3djHnuS6IA
+ GNHuEJ7oZVXqxDF68QuzHldLNY8Tx7cWhb4EjGuO2lbqa+xbjdioZdfGU/bvRc6U
+ BgdttTafXS3rzpFRgTL+wxNRTAok9q0/ier+QJvHf1GFiQ==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45hpgb99jk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 01:18:37 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4767e6b4596so54835911cf.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Mar 2025 18:18:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742692716; x=1743297516;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2R9ezOTp2OXuwq2T5MuT2vKZRZJiv8BpmQQIAHvkRRo=;
+ b=tiZSi19R+8yWo7Q0EX/FQKI0jpDRTSN0F4q4nGOvvMzWpag51HE3DRFAuZryZbb2IY
+ Sj+25Eu5l2pCqrVAWjBbsO7mkKy1oVgG/Ch0EQl6zQwT5reuP4f1RzoJ8bUlpLlOak0V
+ se4tH8QWmUm4t4/+/t73XRrnGAxQD6yIY2l2KpNMm88wltzW1zlDDIWTWvVbuFRUHtEm
+ EZ3aOBtkYawY3GRj2154th1W4NERkhFg7We6wkXPtyvvNbtf+IeWhsw0j9VBdZ5wrwI8
+ VKyz9OarVJGytAtMo0x5/kCBEO84Fg8XwVZ9r4sg9Jf/YGzej5f1QhrUnvVGCbs0NxeN
+ wFfg==
+X-Gm-Message-State: AOJu0YxHpNV9rr4DABNi2SQ8/LAPMP/vB1Jh9Xyvc5YGCu/TcLSD+FEh
+ rhUyqSrVYUGkzq7uRZjFRZUKGivKNgiFPstuUtWVhUMHg1ecwHKYGEQEQC8H+t8q8UIBP44Z94d
+ KjExSW5YaKd2Yk0+fQ3nvKyjYIBM1DXkE4TDUeatN58Q8G9im8bw4aiRRn6KBeKQXfsw=
+X-Gm-Gg: ASbGncsvWGmf4WYV+4cVY6uZSPJRGEUM7+q95mG9rTU4fI8xW7R1bwUSrpPTUROjNCz
+ j24cBrjfpBhnFYz+gsoOvpnt12NrYEVh+/sh7ecNs7B/yyTheX+MEeUyeQQD8AoyeDGga6Snf9/
+ LDeJI+BenfqIw4C2mbnad9xJKfnhqijP5/SncA4Cwi9dWyc2xx9RpRnmThHC9GpX79NkWPXA0Tx
+ 3WVDl6sTaoGMRerwF5mPswKkLunlBly/O+1EkDzClUSUx86uj5wZga+5ZkdoEIE4QpjxvibOxc4
+ I3uHmhXJvTjtaITLfdvAb5ZSX9u1c7BbDyLZ0mFQT0bSwgVxViG2JWoCePH53VeUHcfhoKYI4wf
+ QHKo=
+X-Received: by 2002:a05:622a:906:b0:476:a655:c4a2 with SMTP id
+ d75a77b69052e-4771dd922e7mr125176661cf.22.1742692716019; 
+ Sat, 22 Mar 2025 18:18:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF0/WAUbrypxHSD2MRLn7a/ohpYmGZD79AJWPxjbyAjULl0qmwkDIxxDUHGu7wO7VnkZgiMmw==
+X-Received: by 2002:a05:622a:906:b0:476:a655:c4a2 with SMTP id
+ d75a77b69052e-4771dd922e7mr125176401cf.22.1742692715594; 
+ Sat, 22 Mar 2025 18:18:35 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54ad64685besm635531e87.33.2025.03.22.18.18.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 22 Mar 2025 18:18:34 -0700 (PDT)
+Date: Sun, 23 Mar 2025 03:18:31 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+ Will Deacon <will@kernel.org>, Rob Clark <robdclark@chromium.org>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/msm/adreno: Drop fictional address_space_size
+Message-ID: <tih7arhudjn2sotdvjddzncqi7nyx3xgsvnfi472ve7xcwhhqd@2nlrtoyymkfj>
+References: <20250321185437.5890-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250321185437.5890-1-robdclark@gmail.com>
+X-Authority-Analysis: v=2.4 cv=BoydwZX5 c=1 sm=1 tr=0 ts=67df616d cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Vs1iUdzkB0EA:10 a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=qQjcqu3RhaNh0RZ1ZdMA:9
+ a=CjuIK1q_8ugA:10 a=zZCYzV9kfG8A:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-GUID: qwS2Ihkgw9CRCs0NW8gEuSeuaIbGIDhl
+X-Proofpoint-ORIG-GUID: qwS2Ihkgw9CRCs0NW8gEuSeuaIbGIDhl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-22_10,2025-03-21_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ spamscore=0 adultscore=0 bulkscore=0 clxscore=1015 malwarescore=0
+ impostorscore=0 priorityscore=1501 mlxlogscore=877 lowpriorityscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503230009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,144 +121,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use refcount_t helper for vmap_use_count to make refcounting consistent
-with pages_use_count and pages_pin_count that use refcount_t. This also
-makes vmapping to benefit from the refcount_t's overflow checks.
+On Fri, Mar 21, 2025 at 11:54:37AM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Really the only purpose of this was to limit the address space size to
+> 4GB to avoid 32b rollover problems in 64b pointer math in older sqe fw.
+> So replace the address_space_size with a quirk limiting the address
+> space to 4GB.  In all other cases, use the SMMU input address size (IAS)
+> to determine the address space size.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 33 +++++++++++------------
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c   | 19 ++++++++++---
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  2 +-
+>  3 files changed, 33 insertions(+), 21 deletions(-)
+> 
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c     | 28 ++++++++++------------
- drivers/gpu/drm/tests/drm_gem_shmem_test.c |  6 ++---
- include/drm/drm_gem_shmem_helper.h         |  2 +-
- 3 files changed, 16 insertions(+), 20 deletions(-)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 84a196bbe44f..2d924d547a51 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -165,7 +165,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- 	} else {
- 		dma_resv_lock(shmem->base.resv, NULL);
- 
--		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
-+		drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
- 
- 		if (shmem->sgt) {
- 			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
-@@ -355,23 +355,25 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
- 
- 		dma_resv_assert_held(shmem->base.resv);
- 
--		if (shmem->vmap_use_count++ > 0) {
-+		if (refcount_inc_not_zero(&shmem->vmap_use_count)) {
- 			iosys_map_set_vaddr(map, shmem->vaddr);
- 			return 0;
- 		}
- 
- 		ret = drm_gem_shmem_pin_locked(shmem);
- 		if (ret)
--			goto err_zero_use;
-+			return ret;
- 
- 		if (shmem->map_wc)
- 			prot = pgprot_writecombine(prot);
- 		shmem->vaddr = vmap(shmem->pages, obj->size >> PAGE_SHIFT,
- 				    VM_MAP, prot);
--		if (!shmem->vaddr)
-+		if (!shmem->vaddr) {
- 			ret = -ENOMEM;
--		else
-+		} else {
- 			iosys_map_set_vaddr(map, shmem->vaddr);
-+			refcount_set(&shmem->vmap_use_count, 1);
-+		}
- 	}
- 
- 	if (ret) {
-@@ -384,8 +386,6 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
- err_put_pages:
- 	if (!drm_gem_is_imported(obj))
- 		drm_gem_shmem_unpin_locked(shmem);
--err_zero_use:
--	shmem->vmap_use_count = 0;
- 
- 	return ret;
- }
-@@ -413,14 +413,10 @@ void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
- 	} else {
- 		dma_resv_assert_held(shmem->base.resv);
- 
--		if (drm_WARN_ON_ONCE(obj->dev, !shmem->vmap_use_count))
--			return;
--
--		if (--shmem->vmap_use_count > 0)
--			return;
--
--		vunmap(shmem->vaddr);
--		drm_gem_shmem_unpin_locked(shmem);
-+		if (refcount_dec_and_test(&shmem->vmap_use_count)) {
-+			vunmap(shmem->vaddr);
-+			drm_gem_shmem_unpin_locked(shmem);
-+		}
- 	}
- 
- 	shmem->vaddr = NULL;
-@@ -672,7 +668,7 @@ void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
- 
- 	drm_printf_indent(p, indent, "pages_pin_count=%u\n", refcount_read(&shmem->pages_pin_count));
- 	drm_printf_indent(p, indent, "pages_use_count=%u\n", refcount_read(&shmem->pages_use_count));
--	drm_printf_indent(p, indent, "vmap_use_count=%u\n", shmem->vmap_use_count);
-+	drm_printf_indent(p, indent, "vmap_use_count=%u\n", refcount_read(&shmem->vmap_use_count));
- 	drm_printf_indent(p, indent, "vaddr=%p\n", shmem->vaddr);
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_print_info);
-diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-index 1459cdb0c413..81cadaecdd4f 100644
---- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-+++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -168,7 +168,7 @@ static void drm_gem_shmem_test_vmap(struct kunit *test)
- 	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
- 	KUNIT_EXPECT_NULL(test, shmem->vaddr);
--	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 0);
-+	KUNIT_EXPECT_EQ(test, refcount_read(&shmem->vmap_use_count), 0);
- 
- 	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
-@@ -177,7 +177,7 @@ static void drm_gem_shmem_test_vmap(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 	KUNIT_ASSERT_NOT_NULL(test, shmem->vaddr);
- 	KUNIT_ASSERT_FALSE(test, iosys_map_is_null(&map));
--	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 1);
-+	KUNIT_EXPECT_EQ(test, refcount_read(&shmem->vmap_use_count), 1);
- 
- 	iosys_map_memset(&map, 0, TEST_BYTE, TEST_SIZE);
- 	for (i = 0; i < TEST_SIZE; i++)
-@@ -185,7 +185,7 @@ static void drm_gem_shmem_test_vmap(struct kunit *test)
- 
- 	drm_gem_shmem_vunmap_locked(shmem, &map);
- 	KUNIT_EXPECT_NULL(test, shmem->vaddr);
--	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 0);
-+	KUNIT_EXPECT_EQ(test, refcount_read(&shmem->vmap_use_count), 0);
- }
- 
- /*
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 8b9bba87ae63..b4f993da3cae 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -82,7 +82,7 @@ struct drm_gem_shmem_object {
- 	 * Reference count on the virtual address.
- 	 * The address are un-mapped when the count reaches zero.
- 	 */
--	unsigned int vmap_use_count;
-+	refcount_t vmap_use_count;
- 
- 	/**
- 	 * @pages_mark_dirty_on_put:
 -- 
-2.49.0
-
+With best wishes
+Dmitry
