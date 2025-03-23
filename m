@@ -2,33 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15A7A6D0DD
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 20:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60282A6D135
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Mar 2025 22:19:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C99AD10E1D1;
-	Sun, 23 Mar 2025 19:43:17 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="COGGpNiS";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C576B10E03C;
+	Sun, 23 Mar 2025 21:19:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com
- [95.215.58.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482AB10E1D1
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 19:43:08 +0000 (UTC)
-Date: Sun, 23 Mar 2025 15:42:55 -0400
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
+ [95.215.58.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C396910E03C
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Mar 2025 21:19:01 +0000 (UTC)
+Date: Sun, 23 Mar 2025 17:18:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1742758983;
+ s=key1; t=1742764739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yiTcoVcywtNu482adnyxpvL2GYMUY5vhWbT9wgfALrY=;
- b=COGGpNiSGwbjGd/AFOZzHBsAlaw2UAU/u4y/l9RNv3VbOsqVe1K2zD3A2HqP32mjxPPVs/
- tVnou30Pv6VXc02us/pQxO0+AWLmmEetYwLpCpTtA4p5Cz8t2Nx3XJqRRA0j1H4MUj7+H6
- tIvDA8peCoY79bfy1DhaMh904W6JA4MjJzipMyut5BClhw8L6AedGlcRNWMCvzVKCjXxug
- xMGrwvTDy3cuvF97G1+bktPo1BkT96THLSFD/dSPTk03CdI6P30IILtiesfEcrNpUlZ0HO
- zUkxPJcadOGGDj9OikYXA67HnbuwW97YI17akVSYF6qM2Rdv0cwKOe1Nu+3vAw==
+ bh=wPlC94AM010WZW8moD0YzW91Vm5e7DR3TS+SPuJHxV0=;
+ b=b3eLBULz46IcHBiPzzA6apX7WoWCRsF73fSS+jtN1xfxJzeNP5ZAmZR9OzYdhFT3OyJHE2
+ dKosWAHDrjSstQLNbOdbHT73E9IQTixfNVQ2JGOn+BtMQMq8HVdvdOEih7MVC/Uq2r5psE
+ at17txaMiEIxdkeGFId0K3JCqb5QykTPE89o5O4LKZASRa1uWEac8jRAqmpsC5jps7hs6l
+ AOC2Gxe3NETgytlAOKNRdhlPe8+BjuWw7AMPxJOufWVrl7qR45PPy6ZlPhJn7UwQj+AU7y
+ Y801thcyZQHvcKyEOfVdh7Bmjb83QVZ/s2+8lzpLhpkMQXolwVBsFL90zh043g==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
@@ -53,14 +50,15 @@ Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
  linux-doc <linux-doc@vger.kernel.org>, Asahi Lina <lina@asahilina.net>
 Subject: Re: [PATCH v3] drm: Add UAPI for the Asahi driver
-Message-ID: <Z-BkP2Kt0NYKJwfC@blossom>
+Message-ID: <Z-B6uc7EEAdBPXmt@blossom>
 References: <20250314-agx-uapi-v3-1-3abf7e74ea2f@rosenzweig.io>
  <195b507d4b3.b25d0dad175771.7566427576910952468@collabora.com>
+ <195b582682b.121ba4d5e219032.3109114844776468245@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <195b507d4b3.b25d0dad175771.7566427576910952468@collabora.com>
+In-Reply-To: <195b582682b.121ba4d5e219032.3109114844776468245@collabora.com>
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,124 +75,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> I'm good with this. There's a slim possibility that upstream may
-> evolve in ways that make the current UAPI tricky to implement.
-> However, given that it's based on prior art from the nouveau, Intel,
-> and panfrost teams and that you've been shipping it in production for
-> a while, I think that possibility is pretty remote.
-
-Yeah, I'm not too worried about that... the uAPI isn't being designed
-around the kernel driver, so unless we're deprecating GEM or something
-we should be good!
-
->  > +    /** @DRM_ASAHI_GEM_BIND: Bind/unbind memory to a VM. */ 
->  > +    DRM_ASAHI_GEM_BIND, 
+>  >  > +/** 
+>  >  > + * enum drm_asahi_bind_op - Bind operation 
+>  >  > + */ 
+>  >  > +enum drm_asahi_bind_op { 
+>  >  > +    /** @DRM_ASAHI_BIND_OP_BIND: Bind a BO to a GPU VMA range */ 
+>  >  > +    DRM_ASAHI_BIND_OP_BIND = 0, 
+>  >  > + 
+>  >  > +    /** @DRM_ASAHI_BIND_OP_UNBIND: Unbind a GPU VMA range */ 
+>  >  > +    DRM_ASAHI_BIND_OP_UNBIND = 1, 
+>  >  > + 
+>  >  > +    /** @DRM_ASAHI_BIND_OP_UNBIND_ALL: Unbind all mappings of a given BO */ 
+>  >  > +    DRM_ASAHI_BIND_OP_UNBIND_ALL = 2, 
 > 
-> I was about to complain about the GEM_BIND name but I actually prefer
-> it. Given that it binds a single GEM object to a given range in a
-> given VM, I think it makes sense to have it be an option on the GEM
-> object. If and when you implement a bind queue, you can use VM_BIND
-> for the new multi-bind ioctl and that will be an operation on the VM
-> that says "bind all this stuff, here's some fences to know when."
+> Do you use this? We don't have it in nouveau and NVK gets by fine. Or does the asahi kernel do something where it expects you to unbind everything before the buffer is really destroyed? I think I remember talking to Lina about this a while ago but I don't remember the details.
 
-Sounds good.
+We do not use it and I don't know why it's here either. In fact,
+drm/asahi does an unbind_all equivalently when closing a GEM
+handle, so should be definitely ok without.
 
->  > +    /** @vm_user_start: VM user range start VMA */ 
->  > +    __u64 vm_user_start; 
->  > + 
->  > +    /** @vm_user_end: VM user range end VMA */ 
->  > +    __u64 vm_user_end; 
+Dropped in v4, thanks.
+
+>  >  > +    /** 
+>  >  > +     * @DRM_ASAHI_BIND_SINGLE_PAGE: Map a single page of the BO repeatedly 
+>  >  > +     * across the VA range. 
+>  >  > +     * 
+>  >  > +     * This is useful to fill a VA range with scratch pages or zero pages. 
+>  >  > +     * It is intended as a mechanism to accelerate sparse. 
+>  >  > +     */ 
+>  >  > +    DRM_ASAHI_BIND_SINGLE_PAGE = (1L << 2), 
 > 
-> Does this have to be chosen by the kernel? Are there fixed addresses chosen by the firmware which need to be respected? Or is this just the range of valid GPU addresses? I also see kernel start/end being passed in at VM creation. I'm confused. At the very least, this needs a much better comment than the one above.
+> Does this require the BO to be a single page? If so, does it require offset==0? Or does it just take whatever page is at the specified offset?
 
-Added a bunch of comments in v4.
+I believe the intention is that it takes whatever page is at the
+specified offset and just maps that a bunch of times. HK doesn't use
+this yet though it probably should (this was added to help reduce
+overhead when emulating sparse with scratch/zero pages, which is still
+very new functionality in hk).
 
->  > +    /** 
->  > +     * @vm_kernel_min_size: Minimum kernel VMA window size within user 
->  > +     * range 
->  > +     */ 
->  > +    __u64 vm_kernel_min_size; 
+Accelerating this properly involves GPUVM patches - although even without
+that, moving the loop into the kernel so it's only a single ioctl
+(user-kernel roundtrip) seems worth keeping the flag for.
 
->  > +    /** 
->  > +     * @max_commands_per_submission: Maximum number of supported commands 
->  > +     * per submission 
->  > +     */ 
->  > +    __u32 max_commands_per_submission; 
+Added comments in v4.
+
+>  >  > +    /** @object_handle: Object handle (out for BIND, in for UNBIND) */ 
+>  >  > +    __u32 object_handle; 
 > 
-> Pain. But we have this in nouveau as well, so...
+> How is this different from the GEM handle? I mean, I know it's different, but What is this handle for? Just a thing we can pass in later?
 
-This mirrors firmware limits. Either we have to split in userspace or
-kernelspace. And at least if we split in userspace, there are no
-surprises about where oversynchronization happens.
+Yes, this is just a handle that's passed with the submit, see the
+comment in drm_asahi_timestamp.
 
->  > +    /** 
->  > +     * @firmware_version: GPU firmware version, as 4 integers 
->  > +     */ 
->  > +    __u32 firmware_version[4]; 
+>  >  > +    /** @priority: Queue priority, 0-3 */ 
+>  >  > +    __u32 priority; 
 > 
-> There's a part of me that's like "This should never matter. You shouldn't expose that detail to userspace!" but let's be real...
+> Is one of these priorities REALTIME and only usable by privileged apps? If so, maybe document that and/or have an enum?
 
-TBH, I agree. If we need it for something later we can revisit but by
-design this should never matter and current Mesa doesn't do anything
-with it anyway.
+Added an enum, thanks.
 
-Dropped in v4.
+I haven't actually implemented the priority check because that means
+even more rust bindings, and I don't think it's actually a uAPI
+regression to tighten the permissions later now that I've documented
+that we may do so.
 
->  > + 
->  > +    /** 
->  > +     * @user_timestamp_frequency_hz: Timebase frequency for user timestamps 
->  > +     */ 
->  > +    __u64 user_timestamp_frequency_hz; 
+>  >  > +    /** 
+>  >  > +     * @usc_exec_base: GPU base address for all USC binaries (shaders) on 
+>  >  > +     * this queue. USC addresses are 32-bit relative to this 64-bit base. 
+>  >  > +     * 
+>  >  > +     * This sets the following registers on all queue commands: 
+>  >  > +     * 
+>  >  > +     *    USC_EXEC_BASE_TA  (vertex) 
+>  >  > +     *    USC_EXEC_BASE_ISP (fragment) 
+>  >  > +     *    USC_EXEC_BASE_CP  (compute) 
+>  >  > +     * 
+>  >  > +     * While the hardware lets us configure these independently per command, 
+>  >  > +     * we do not have a use case for this. Instead, we expect userspace to 
+>  >  > +     * fix a 4GiB VA carveout for USC memory and pass its base address here. 
+>  >  > +     */ 
+>  >  > +    __u64 usc_exec_base; 
 > 
-> Why is this different? What are user timestamps and how are they different from GPU timestamps?
+> I mean, you could have a command for this or or something but meh. That can be an extension on top of the current UAPI later if it's ever needed.
 
-I've added comments in v4 to clarify.
+Yep, and I really cannot fathom a use case for doing this at
+finer-than-queue granularity.
 
-This does raise the question of, maybe drm_asahi_get_time should be
-returning time in nanoseconds instead? I'm tempted to make that change
-in v4. That would let us get rid of one of the parameters.
-
-In practice the firmware-written "user" timestamps are themselves in
-nanoseconds but we don't want to make that uAPI. We can't scale those in
-the kernel (what if we write timestamps and then immediately
-vkCmdCopyQuery them? We don't want to force a CPU roundtrip/stall just
-for that.)
-
-The kernel-read timestamps on current systems are from a 24MHz SoC-wide
-reference clock, which both the GPU and CPU share. We can scale these in
-the kernel to nanos, which is what userspace does itself currently.
-Kind of bikeshed territory but meh?
-
->  > +    /** 
->  > +     * @DRM_ASAHI_FEATURE_SOFT_FAULTS: GPU has "soft fault" enabled. Shader 
->  > +     * loads of unmapped memory will return zero. Shader stores to unmapped 
->  > +     * memory will be silently discarded. Note that only shader load/store 
->  > +     * is affected. Other hardware units are not affected, notably including 
->  > +     * texture sampling. 
->  > +     */ 
->  > +    DRM_ASAHI_FEATURE_SOFT_FAULTS = (1UL) << 0, 
->  > +}; 
+>  >  > +    /** 
+>  >  > +     * @barriers: Array of command indices per subqueue to wait on. 
+>  >  > +     * 
+>  >  > +     * Barriers are indices relative to the beginning of a given submit. A 
+>  >  > +     * barrier of 0 waits on commands submitted to the subqueue in previous 
+>  >  > +     * submit ioctls. A barrier of N waits on N previous commands on the 
+>  >  > +     * subqueue within the current submit ioctl. As a special case, passing 
+>  >  > +     * @DRM_ASAHI_BARRIER_NONE avoids waiting on any commands in the 
+>  >  > +     * subqueue. 
+>  >  > +     * 
+>  >  > +     * Examples: 
+>  >  > +     * 
+>  >  > +     *   (0, 0): This waits on all previous work. 
+>  >  > +     * 
+>  >  > +     *   (NONE, 0): This waits on previously submitted compute commands but 
+>  >  > +     *   does not wait on any render commands. 
+>  >  > +     * 
+>  >  > +     *   (1, NONE): This waits on the first render command in the submit. 
+>  >  > +     *   This only makes sense if there are multiple render commands in the 
+>  >  > +     *   same submit. 
+>  >  > +     * 
+>  >  > +     * Barriers only make sense for hardware commands. Synthetic software 
+>  >  > +     * commands to set attachments must pass (NONE, NONE) here. 
+>  >  > +     */ 
+>  >  > +    __u16 barriers[DRM_ASAHI_SUBQUEUE_COUNT]; 
 > 
-> This makes me a little nervous. Why isn't this a bit you can set on VM creation? If it's something that's chosen by the kernel and which userspace can query but not change, that seems problematic from a backwards compatiblity PoV.
+> I'm not sure how good of an idea this is. You said in the comment above that SUBQUEUE_COUNT must be a power of 2. However, once you use it to size an array in the command header, it can never change ever. I'm not sure what to do about that. The command header being 8B is kinda nice... But also, will we ever need more than 2? I'd hate to have to change the size of the header.
+> 
+> Another option would be to potentially have a barrier command which would then be extensible but that sounds kinda annoying.
 
-As far as we know, the fault control register must be set during GPU
-initialization and cannot be changed once we're booted. So, we can
-override it only via a kernel command line parameter.
+I think the mistake here is making this an array instead of just
+`vdm_barrier`, `cdm_barrier` fields. It will never be not-2, at least
+not without such large hardware changes that we'd be due for a refresh
+of this uAPI anyway.
 
-macOS enables soft fault in all production builds. We do too these days,
-but we have a kernel cmdline flag to disable soft fault / enable hard
-faults to aid debugging.
+I don't love the idea of the extra command, adds a lot more
+complexity/overhead for a hard-to-fathom theoretical future hw issue
+(that we could address with a drm_asahi_cmd_header_m7 if we
+need that.)
 
-Mesa queries this parameter to determine whether it can speculate
-aggressively loads out of control (CAN_SPECULATE) -- it can with
-production Asahi systems but not when I'm running CTS on my dev box.
+Addressed in v4.
 
-Maybe more problematically, Mesa also currently gates sparseBuffer on
-this flag, although I'm probably going to rewrite the sparse buffer
-implementation in the coming months to avoid that dependence for various
-reasons.
+>  >  > +/** 
+>  >  > + * struct drm_asahi_timestamp - Describe a timestamp write. 
+>  >  > + * 
+>  >  > + * The firmware can optionally write the GPU timestamp at render pass 
+>  >  > + * granularities, but it needs to be mapped specially via 
+>  >  > + * DRM_IOCTL_ASAHI_GEM_BIND_OBJECT. This structure therefore describes where to 
+>  >  > + * write as a handle-offset pair, rather than a GPU address like normal. 
+> 
+> Given that this struct is embedded in other structs, it might be worth a comment saying it can never be extended without breaking those structs.
 
-Should I avoid releasing an upstream Mesa with sparseBuffer advertised
-until the dependence is dropped, to avoid a theoretical uAPI break if we
-wanted to change this policy later? (where the regression is "old Mesas
-in containers lose sparseBuffer/FL12").
+Done (for each of the places mentioned).
+
+>  >  > +struct drm_asahi_helper_program { 
+>  >  > +    /** 
+>  >  > +     * @binary: USC address to the helper program binary. This is a tagged 
+>  >  > +     * pointer with configuration in the bottom bits. 
+>  >  > +     */ 
+>  >  > +    __u32 binary; 
+>  >  > + 
+>  >  > +    /** @cfg: Configuration bits for the helper program. */ 
+>  >  > +    __u32 cfg; 
+> 
+> There's configuratin bits here and in the binary pointer abov?
+
+Yes. Not sure what the different bits mean exactly. My guess is that the
+binary pointer is tagged as "enable the helper prog?".
+
+The one known @cfg bit is when the helper program is needed within a
+preamble shader, i.e. if the preamble spills.
+
+> Woo! I made it to the end. I think that's all for now. I mostly asked a lot of questions.
+
+Hooray! Thank you so much for reviewing!
