@@ -2,210 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA3EA6D6CC
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 10:00:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10810A6D6DC
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 10:04:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4389310E004;
-	Mon, 24 Mar 2025 09:00:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B146F10E037;
+	Mon, 24 Mar 2025 09:03:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="Dd1cXIr0";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="agmH2Jsh";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="H3FQL8ij";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38DA310E004
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 09:00:12 +0000 (UTC)
-X-UUID: 62dbf35e088e11f0aae1fd9735fae912-20250324
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=HsYeZYgMehfTcE5AERcXF/dbBIc+yZqeNCvq/gH1iRg=; 
- b=Dd1cXIr0dEUzC7LsgE7GoaUecsY44NNVbdCMR++mLD8i3WAAPP5E5geWf1sIEdUMZvCOS4F7SjgEVP5H4QxPhJH8yDRi/edvcfyel8Ye8uuFvJkKP14Mggm5ryaXnnLWGQWrLgBNXuC15aUAKKX+fjlYL17yO0+DAJb4oIJkmXc=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1, REQID:d80a3ae8-7d51-4eba-b33f-e7417fc7763c, IP:0,
- UR
- L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:0
-X-CID-META: VersionHash:0ef645f, CLOUDID:d4a57d4a-a527-43d8-8af6-bc8b32d9f5e9,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|50,
- EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
- A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 62dbf35e088e11f0aae1fd9735fae912-20250324
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 760332443; Mon, 24 Mar 2025 17:00:08 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Mon, 24 Mar 2025 17:00:05 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1258.39 via Frontend Transport; Mon, 24 Mar 2025 17:00:05 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JQfhUeRQ7iiNqkEVFKTBYaB8FSloQPujntx5F+GFi1VLwO8u3syUTjstTjDyEWwbp5W6SdeS2s53wje2J9p61tJ0K9dwhRxlThekMYi//txIR20wUYjfBAqCTqqKZxJ5unkAxNTaHRs+UeIJD6cNG8fb1HYklyURV+3YZ8Y5szN6AD+AQ1IqNbuNPArZIYNQRTXNcuPvv9J/uyPwqLGAJYYnRMhFVJZ4FbnXD3Z7DJqbqBoDiFkWAOqJevQlVfA71ogfgvlOVcy3IxEyWkZOGUCHfdDcHOudhKyn1lN1smEV4MXx3u4/mko63Y0Q6XdhJe+a4gOQp/y0C3xBYdl/zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6U4qP+xdATYnlbpo4pQ+Vu2xa7Oq1T+ZPIXIiseZoT8=;
- b=LgqhF9PZz8o5urKi9cslvSGTGtM8it/KHZjx3WBqf95jkj10Cp2Qt5DXEpywpv5/w3k/EKrg3HS/O1hcbPHuCk2WNGlUMZ6h52qnX1yTQa/tF9Op6l0Se9R4Ydm5eP5iCn1Edea2xiAX/WM0AzwFsFUMUp95mlKntp74EecNaAVLYUlU4Q3Zx4TtP/dCtUXYlLT9Fi81FdPeDqENca+m8kv+VVnRHC3rlrZkM0wpwIfiGRLmEBxvfDaXBQOeU3bDDr7nC06iz+9/sLtoBncHxL35LBsWYvb4lHZIz+WAhdbZvIyrtbFP1l7zV/sDIYqQUbfXYgD+Tu2Kn2NR8DLBLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6U4qP+xdATYnlbpo4pQ+Vu2xa7Oq1T+ZPIXIiseZoT8=;
- b=agmH2JshsKMJu836tyZgoUxiZ8MzZoSFsdGlUwclWH4CJyEJ43rnh2yjvukHwAEgM+iTOKbfnnCqXuv6TEONQ3J0b6GPQCi6dD/SDchAedhxmOQf/usY7rgdtWk7Jdcf5AVJ+fe+9AJyPZJUq90AbX/RwfdugGeURLwdpA2WytI=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SEYPR03MB7477.apcprd03.prod.outlook.com (2603:1096:101:147::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Mon, 24 Mar
- 2025 09:00:01 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54%2]) with mapi id 15.20.8534.040; Mon, 24 Mar 2025
- 09:00:01 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, =?utf-8?B?UGF1bC1wbCBDaGVuICjpmbPmn4/pnJYp?=
- <Paul-pl.Chen@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-CC: =?utf-8?B?U3VubnkgU2hlbiAo5rKI5aeN5aeNKQ==?= <Sunny.Shen@mediatek.com>,
- =?utf-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
- =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- =?utf-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
- <Xiandong.Wang@mediatek.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "fshao@chromium.org" <fshao@chromium.org>, "p.zabel@pengutronix.de"
- <p.zabel@pengutronix.de>, =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?=
- <Singo.Chang@mediatek.com>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
- <matthias.bgg@gmail.com>, "treapking@chromium.org" <treapking@chromium.org>
-Subject: Re: [PATCH v2 12/15] drm/mediatek: add OUTPROC support for MT8196
-Thread-Topic: [PATCH v2 12/15] drm/mediatek: add OUTPROC support for MT8196
-Thread-Index: AQHbmkTVS4+Pf0PfkE6E/5ZPeX/AiLOCAbUA
-Date: Mon, 24 Mar 2025 09:00:01 +0000
-Message-ID: <297be0e3f2b5b9cb4d051cfae6e5f5868c3cb7b8.camel@mediatek.com>
-References: <20250321093435.94835-1-paul-pl.chen@mediatek.com>
- <20250321093435.94835-13-paul-pl.chen@mediatek.com>
-In-Reply-To: <20250321093435.94835-13-paul-pl.chen@mediatek.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEYPR03MB7477:EE_
-x-ms-office365-filtering-correlation-id: 1486b509-af7f-4828-b0e5-08dd6ab242bf
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?TlJtVDV2Q0tPN1Awc20wbC92UmJyYjk2aFlXc2gzK0xxdWVpNy94K3lEL3dj?=
- =?utf-8?B?S1dWV0E2S1Q0RWxadkJRV3AycGp2MERka1JscElKa2FtYTBpSkNFZ2twUlV6?=
- =?utf-8?B?dEY3YWdFWVlXazgrdFRqUVBjL3hOa2ZITU54MGd3ejBXVG4vbUdyRmUra3l3?=
- =?utf-8?B?ell1QU5EWnRUQWNYWWxpRTFJRUZHTkNBd01FaUlpOFJMS1dVWHlyRXp1Uis2?=
- =?utf-8?B?QWtKWjEvQ3BONXhSUW9rbHF3YTF3cXM2bEo5QWcyWTQwZkNXTFlFeHVCc3h0?=
- =?utf-8?B?VFlOaGJqRGRNM0pKUlZMcFc0SVgrbFZ5UVIrTWpocjd6Y1h1Ym1VeFZIelJx?=
- =?utf-8?B?TXBscXEyMXAyV3YzYm1HUnhiNS9kWmttcTNtMStEVlljOGVTOTZZMElMems2?=
- =?utf-8?B?Sko5UFdmNE41TThHMDdmMWl3cDEzenh5VHd2ZnNUMFpiRVphRVNxNUhjRVR4?=
- =?utf-8?B?QXJPaUdqcC82YjBHRDJ5a09TK1Z6Y3MyVldleXczQ3ZJZHg5UXdNRkJ1YU5J?=
- =?utf-8?B?MUdwcis5TU8wU3J3R1dlSStJTW5pcXBFL0EwbVJZWVNpQzdFTjY1WE9FcGpX?=
- =?utf-8?B?dHdMSUlJenRVQ2pBUytvVjlPaG1QMVVINWlqamhKWkJIOGpQRU10MmxhYkdN?=
- =?utf-8?B?TWRPUmpzRG5QNTB2NFRHQ1oxYU5TQ0Z4Q3AycFJ4WUczeU03NDdmVHhxTjd0?=
- =?utf-8?B?TWxvaE5pZDVlaW5kaTBiOGJEQlE4WUk3MStYeWhUcHdQdm56WDFlcXZoeTZp?=
- =?utf-8?B?QlhwbmplbCswRk9NSGkzTEt1bWt2RjJWL1ViZk1qOFJSUVltVS92Qzl5cDJ6?=
- =?utf-8?B?OW03bjZIRnhTby9wT1lWODhkb0dtTkdjdTNib1JmTnRkZGNGYkhuRC9PRTVs?=
- =?utf-8?B?ZmdNekZzelRHaXkxM1JvUHRjUlVsWC92djE1UVZidkh1TG84MTFPa2JrbEI4?=
- =?utf-8?B?M1JGK2JOUnBneWdzQjIxVG9lWWppcUxaRi8xaUVFQ2o0RmF2bTgwNElYcUY4?=
- =?utf-8?B?MExvNkpqZ3BvNyt2alAzVXpRdjZHQXhENTBsRllIdjJBRjA2NnZYRDV3dGZQ?=
- =?utf-8?B?RGJhdVlqdmlGMVlkR1lnVzFuaVJNdHJqMFZxY0NRK0YvcmNoYnM1VWxOY2pX?=
- =?utf-8?B?TTVQNFhmR216N043cU4xVi9na0RTUEUwcCtTUUlHSFI2TGw3bUVSaTBsRTBp?=
- =?utf-8?B?NG9uR0xleXVPaU9DNWw1TkM4cll0WFNZZzJQVFpxemdGdnBUQnVQSnU4MVNV?=
- =?utf-8?B?SXNRd3pLSnNlSlR5ZWNadWl0cU5HZlB2VG9hUG4xaytWVHZkZ2RieEI3M1Zy?=
- =?utf-8?B?ZXF1Z3lheGQ4L0RMbXhLaTdoMXlQNlJzNjdYS2hjV2FqT2c5bWNXakJhQnVh?=
- =?utf-8?B?bFU2cEtmdVBBaldYWG0wZE9nTHd3OHY1QXJLU0VXaVBib1pMaEFKZ2VxWW1r?=
- =?utf-8?B?QnZxWlYwcEF3SjBhblB1MUlRSHNlRVZzZWlZKzVwR1ZBbjB4MzY5aGJLbXpI?=
- =?utf-8?B?Q1AvbG1md3EzVTVJVW1JZFNPTlBGMHdkMkhJRDZ3Tjh4M3ErZUZKVGNLWExX?=
- =?utf-8?B?dm5XQVF0d0QrbkpzNUZBTnRZRnFUaXYrUHErYWdvS0FVWjU5TWpFQnp3NkdL?=
- =?utf-8?B?SFBLendBQ1FXQVl0aGxnQWNSQ3g3TlNEelJCc1RFajNTbTJlNkRxYldwS0gr?=
- =?utf-8?B?UStJUStWNWFteXBTT2w0SjRDbmlEM0RVdWVqTDZBWGtBMEVxc29SRzhMZkp2?=
- =?utf-8?B?RWxhRE5mQlhXeFRUeE1tcDVJa2tJb0dqcXN1NUU0N0dTUXdCUXdOU2Rna1ho?=
- =?utf-8?B?WU0yb1NObkJoVFNXOHNjTERIQXc1MGZtcWNRUzVwUk5yOG0zbHpuN0FIdzg5?=
- =?utf-8?B?UmZBY01KYVBwNENmdXk1eUduRmx3cGJYckcyOTVGVllKbm9zRE42bjNmeUFv?=
- =?utf-8?B?eTh2T1JVd2x0NmdSKysvVVhrTzNnYXU1bWpZTm9FMDlwNTBmdDhZVmZGRHE5?=
- =?utf-8?B?aEx2ZlRneFd3PT0=?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MHBwbFdvQ3hUWStUNVhJQkluZ1pHUG9TQzltZGNpSlNTZzNVeUQ2R1BWZHRk?=
- =?utf-8?B?N2x5YS9UWnp0aE1FcWlmN3ZVdDhvWk0zdG5HQk56OTFvQWlUMS81bGxQNjRN?=
- =?utf-8?B?eG5TSDBOV3RzWHBqUEI5Rld5ZzZmSUlsRmJjbVpyaXRmQ2Zyb01hY3JyTCt4?=
- =?utf-8?B?eFF1L1M3U1NSQ2x6SnV6SUIzd1g1VTB0WUJQc3FGSm9HRHFhaTZSRUUxK1pK?=
- =?utf-8?B?VVRtbDJibyt2RHpUTmFaTXZUMW5lYTd4R2VkZ2RTYjhETytRWktTL09PQkU4?=
- =?utf-8?B?N3lMdy9oTUZWalR5Z0s2cXlqT3JrUnJTUVVVQWlLOGcxcGV1MDNXV1VYbGc4?=
- =?utf-8?B?QjRERERtTHdPVnZPOFVEZGFqeTdKaUZJaVV2S2ZPRE1KWTB0Z3JDZHN3SmVT?=
- =?utf-8?B?ZW11SmZCWWFYSGNFeGhJMk5zWFI4aXR3Vlp2QXM4MDVET3RQeFBYdEZhL0l1?=
- =?utf-8?B?aENaRXg2REpxemI2TXRCT0xZazZDay84TWZERmlZdHBTWkQ5YWtJaDhSVDV2?=
- =?utf-8?B?Z1VYOW0xMEVlMkFsb2V5dmdwN1h3QXFVMENPb0FqV3QyZG5xMlBhMFZuc3Fl?=
- =?utf-8?B?aTMvbjUvaVR6R1dWOEY2MGVnVUR1QlRqMnMxTmxYdm5MMU01a2FiV090dmxC?=
- =?utf-8?B?VEhxTGJEdjFpWjlJaVJwWlovdUZKTWlja3NUeUdpQjNrNjJNYzBRdkRzZVlv?=
- =?utf-8?B?UDNtSHVoc3hEWjRpMG0yRHFRS0NHMGZFVHc3NHExM2I3azhLQll6TEtiK0dC?=
- =?utf-8?B?SkdlYzdodHpEVGlQV2tZclNvYW9XUStRcWF2Ly9LOWN5WStMV0d2QVRjcGNG?=
- =?utf-8?B?YW9tdVBJNDBMaUNOdGVoWWFQZ09zc0NsRlJyUk9aTnpMMEhYeWRvTU5SMVFD?=
- =?utf-8?B?dDVJVDhSb3RrQkZ4d2RQdGRuMTdsWGtCWk5xZmVEc2hwNU00R1hoL2s0OEJR?=
- =?utf-8?B?eEx5WWRyZStBY3pWYjZFS0xnb3hvUVlwcWxoeFVDNk5NazhSNThTOWNTaUJH?=
- =?utf-8?B?NlJUYUNHVDV4N2t5bHcrMGh4bURnK3JRYlZybmJzQm1haGdpWUdyaE9zQ3k1?=
- =?utf-8?B?MkJLR2FzS2JmaEEwOTRIQlNJWWd6Q1NuNitZVXlPMTFIeVZkUnVqb2xUam1y?=
- =?utf-8?B?WU02RDIvTkhvVStBelI3UWlQTkV6am5VazAvenhqbTVJd0FBTGJVblYwYk5U?=
- =?utf-8?B?SDhoMWlFa3JqOUZWYjNUajZCWjFybWFSc1hJQUNoK05WL3V3cVRncXlBY3dE?=
- =?utf-8?B?aHNyZXhDak5ncDVEZVk0WStsVk43MTB1RitqK3dZSnorSXBOaVVvNFVIYyta?=
- =?utf-8?B?NFRIQmNaMk1MSUJiajN3cGFjM1JNS3pPdUt4MWE1MkFNLzlkWG1OMjQrc1Nr?=
- =?utf-8?B?V2FKVzdRaW02R3lSS3pINVpiVGZPYWNmVGJkcVRhYzVGVmJzN3R1ZWs4TTMz?=
- =?utf-8?B?bjlrakVMUFhyeWMrUytaSWNFTk9FbXU1TmgwbUJVS0ZlODROUXQ0eGlJRXh5?=
- =?utf-8?B?YnNuSENRZnhYQzZLRmhDYUpJNlgxaHJFSkIrTi9ZVWFiOUp2N1pEMlRBZVFG?=
- =?utf-8?B?STJTc3p0b3JyNG15dGJNWHRhWGdmYStZMktralNweUpiN2p0REd2Q1dWckNH?=
- =?utf-8?B?MXlZSHRSOG01V0tIWU9vckhlYUZ3cHQ1TG9JNTRnN0hvL3F4THhtVzV6OS9Y?=
- =?utf-8?B?UVIrNU5GMFdGZnFwWG4yTzYxc09SVDdzejd4dDlSTnBpbmtERFVwWTdJMVd2?=
- =?utf-8?B?R2FJblJnM1VoN014aFhyN0NEaUpzc1pDT2VOQW41RnlKc0NudVlMakltUWJV?=
- =?utf-8?B?eTNNUGVuak5tOUdvaStET1VTSUZEU1JrYWQ5RU1oZU85MFRBbENBQVd2d3Fz?=
- =?utf-8?B?L2RrcnJ0QWI4SWhSaHM3a1BuOVQxazliNnI2eFl6dTZDd2ZlYTRTZVpiWGJ1?=
- =?utf-8?B?UTNJQkNhZnVwbTBUdlZid3o4MlZ3WE9XRW02c0ZnNzhnd3VjYXNENm5RdHJE?=
- =?utf-8?B?bGtDOHhBdzFqa3RIVTYxbkJXNzVmQ013MFhGNXFwRWkyOWVDR014SVpjajlU?=
- =?utf-8?B?bUlpemdmajZ1NUFGdGFkb0daMEVnaFpBQ0draFlRZ3pmWjdMVzc2MHlHcWJC?=
- =?utf-8?Q?v3xrTnPlesh+RarpbQIcwrqW1?=
-Content-ID: <F79CC5A3A074ED438AB336287AADF85B@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F79210E095
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 09:03:54 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ZLnCm3qndz9sln;
+ Mon, 24 Mar 2025 10:03:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1742807028; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qgEqI2vuHkDfbQtyNeoTNIXR3jK3x72fNT3BvpuadkM=;
+ b=H3FQL8ij2t7H8c2et93ojphDqv2GABV61FTclO9RIXFO/VYrvOJVjny5fJcgZWt5U+ot/G
+ DMLuIO2xuLT9MdOaqt29gahZFrvWMvuYEj1bHzAzO93UW6kvlYxK9UqvaembuMQO7l/zaD
+ 6CFMjQkkw4/WWqPbGkXCvjDR+2MT/wCC4R8YTkP93EESz0HcCPZdD8mZYXx6tksPGMiph9
+ Rugxm6fou90z1tXUzI5zBu4t729UXj0eGLy6FSPdfrI75ZhFPZTiO6v7iLbVQvdv0JJzxb
+ 6tKjrjUdaZqyN19IW4dXQavESYbDGr+h0mxroo1b3CaD3Eb0pWVx4fGoSEu5Lg==
+Message-ID: <b2351360a4fa5f8af2b0fda3932ea0d79e46259d.camel@mailbox.org>
+Subject: Re: [PATCH v9 1/6] drm: Move some options to separate new Kconfig
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
+ Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+Date: Mon, 24 Mar 2025 10:03:45 +0100
+In-Reply-To: <20250318133802.77316-2-tvrtko.ursulin@igalia.com>
+References: <20250318133802.77316-1-tvrtko.ursulin@igalia.com>
+ <20250318133802.77316-2-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1486b509-af7f-4828-b0e5-08dd6ab242bf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2025 09:00:01.2977 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZHhTbiZV4zf7NFyHRY6ns9gQpMIWRxKxJQ5fEfdmaMCA/rL8y+/IFuaSiMebkkT4G8gqh5j5m2lTB/95zKUWBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7477
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_005_770266191.1656776724"
+X-MBO-RS-META: paxgjhbmfzm8ow1msbgmw8ru4wuo966u
+X-MBO-RS-ID: b8060e56d80c825ac4f
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -218,268 +63,338 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_005_770266191.1656776724
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+On Tue, 2025-03-18 at 13:37 +0000, Tvrtko Ursulin wrote:
+> Move some options out into a new debug specific kconfig file in order
+> to
+> make things a bit cleaner.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+> =C2=A0drivers/gpu/drm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 109 +=
++------------------------------
+> --
+> =C2=A0drivers/gpu/drm/Kconfig.debug | 103 +++++++++++++++++++++++++++++++=
++
+> =C2=A02 files changed, 108 insertions(+), 104 deletions(-)
+> =C2=A0create mode 100644 drivers/gpu/drm/Kconfig.debug
+>=20
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 1be14d8634f4..d32d70c3ddf1 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
 
-T24gRnJpLCAyMDI1LTAzLTIxIGF0IDE3OjMzICswODAwLCBwYXVsLXBsLmNoZW4gd3JvdGU6DQo+
-IEZyb206IE5hbmN5IExpbiA8bmFuY3kubGluQG1lZGlhdGVrLmNvbT4NCj4gDQo+IE9VVFBST0Mg
-aGFuZGxlcyB0aGUgcG9zdC1zdGFnZSBvZiBwaXhlbCBwcm9jZXNzaW5nIGluDQo+IHRoZSBvdmVy
-bGFwcGluZyBwcm9jZWR1cmUuT1VUUFJPQyBtYW5hZ2VzIHBpeGVscyBmb3INCj4gZ2FtbWEgY29y
-cmVjdGlvbiBhbmQgZW5zdXJlcyB0aGF0IHBpeGVsIHZhbHVlcyBhcmUNCj4gd2l0aGluIHRoZSBj
-b3JyZWN0IHJhbmdlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTmFuY3kgTGluIDxuYW5jeS5saW5A
-bWVkaWF0ZWsuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBQYXVsLXBsIENoZW4gPHBhdWwtcGwuY2hl
-bkBtZWRpYXRlay5jb20+DQo+IC0tLQ0KDQpbc25pcF0NCg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX291dHByb2MuYyBiL2RyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZGlzcF9vdXRwcm9jLmMNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5k
-ZXggMDAwMDAwMDAwMDAwLi5hN2M2ZDE5ODJiY2ENCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3V0cHJvYy5jDQo+IEBAIC0wLDAgKzEs
-MjQyIEBADQo+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vbmx5DQo+ICsv
-Kg0KPiArICogQ29weXJpZ2h0IChjKSAyMDI1IE1lZGlhVGVrIEluYy4NCj4gKyAqLw0KPiArDQo+
-ICsjaW5jbHVkZSA8ZHJtL2RybV9mb3VyY2MuaD4NCj4gKyNpbmNsdWRlIDxkcm0vZHJtX2ZyYW1l
-YnVmZmVyLmg+DQo+ICsjaW5jbHVkZSA8bGludXgvY2xrLmg+DQo+ICsjaW5jbHVkZSA8bGludXgv
-Y29tcG9uZW50Lmg+DQo+ICsjaW5jbHVkZSA8bGludXgvb2YuaD4NCj4gKyNpbmNsdWRlIDxsaW51
-eC9vZl9kZXZpY2UuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9vZl9hZGRyZXNzLmg+DQo+ICsjaW5j
-bHVkZSA8bGludXgvcGxhdGZvcm1fZGV2aWNlLmg+DQo+ICsjaW5jbHVkZSA8bGludXgvcmVzZXQu
-aD4NCj4gKyNpbmNsdWRlIDxsaW51eC9zb2MvbWVkaWF0ZWsvbXRrLWNtZHEuaD4NCj4gKyNpbmNs
-dWRlIDxsaW51eC9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmg+DQo+ICsNCj4gKyNpbmNsdWRlICJt
-dGtfY3J0Yy5oIg0KPiArI2luY2x1ZGUgIm10a19kZHBfY29tcC5oIg0KPiArI2luY2x1ZGUgIm10
-a19kcm1fZHJ2LmgiDQoNCkFscGhhYmV0aWMgb3JkZXIuDQoNCj4gKyNpbmNsdWRlICJtdGtfZGlz
-cF9vdXRwcm9jLmgiDQo+ICsNCj4gKyNkZWZpbmUgRElTUF9SRUdfT1ZMX09VVFBST0NfSU5URU4J
-CQkJMHgwMDQNCj4gKyNkZWZpbmUgT1ZMX09VVFBST0NfRk1FX0NQTF9JTlRFTgkJCQkJQklUKDEp
-DQo+ICsjZGVmaW5lIERJU1BfUkVHX09WTF9PVVRQUk9DX0lOVFNUQQkJCQkweDAwOA0KPiArI2Rl
-ZmluZSBESVNQX1JFR19PVkxfT1VUUFJPQ19EQVRBUEFUSF9DT04JCQkweDAxMA0KPiArI2RlZmlu
-ZSBPVkxfT1VUUFJPQ19EQVRBUEFUSF9DT05fT1VUUFVUX0NMQU1QCQkJCUJJVCgyNikNCj4gKw0K
-PiArI2RlZmluZSBESVNQX1JFR19PVkxfT1VUUFJPQ19FTgkJCQkJMHgwMjANCj4gKyNkZWZpbmUg
-T1ZMX09VVFBST0NfT1ZMX0VOCQkJCQkJQklUKDApDQo+ICsjZGVmaW5lIERJU1BfUkVHX09WTF9P
-VVRQUk9DX1JTVAkJCQkweDAyNA0KPiArI2RlZmluZSBPVkxfT1VUUFJPQ19SU1QJCQkJCQkJQklU
-KDApDQo+ICsjZGVmaW5lIERJU1BfUkVHX09WTF9PVVRQUk9DX1NIQURPV19DVFJMCQkJMHgwMjgN
-Cj4gKyNkZWZpbmUgT1ZMX09VVFBST0NfQllQQVNTX1NIQURPVwkJCQkJQklUKDIpDQo+ICsjZGVm
-aW5lIERJU1BfUkVHX09WTF9PVVRQUk9DX1JPSV9TSVpFCQkJCTB4MDMwDQo+ICsNCj4gK3N0cnVj
-dCBtdGtfZGlzcF9vdXRwcm9jIHsNCj4gKwl2b2lkIF9faW9tZW0JCSpyZWdzOw0KPiArCXN0cnVj
-dCBjbGsJCSpjbGs7DQo+ICsJdm9pZAkJCSgqdmJsYW5rX2NiKSh2b2lkICpkYXRhKTsNCj4gKwl2
-b2lkCQkJKnZibGFua19jYl9kYXRhOw0KPiArCWludAkJCWlycTsNCj4gKwlzdHJ1Y3QgY21kcV9j
-bGllbnRfcmVnCWNtZHFfcmVnOw0KPiArfTsNCj4gKw0KPiArdm9pZCBtdGtfZGlzcF9vdXRwcm9j
-X3JlZ2lzdGVyX3ZibGFua19jYihzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+ICsJCQkJCSB2b2lkICgq
-dmJsYW5rX2NiKSh2b2lkICopLA0KPiArCQkJCQkgdm9pZCAqdmJsYW5rX2NiX2RhdGEpDQo+ICt7
-DQo+ICsJc3RydWN0IG10a19kaXNwX291dHByb2MgKnByaXYgPSBkZXZfZ2V0X2RydmRhdGEoZGV2
-KTsNCj4gKw0KPiArCXByaXYtPnZibGFua19jYiA9IHZibGFua19jYjsNCj4gKwlwcml2LT52Ymxh
-bmtfY2JfZGF0YSA9IHZibGFua19jYl9kYXRhOw0KPiArfQ0KPiArDQo+ICt2b2lkIG10a19kaXNw
-X291dHByb2NfdW5yZWdpc3Rlcl92YmxhbmtfY2Ioc3RydWN0IGRldmljZSAqZGV2KQ0KPiArew0K
-PiArCXN0cnVjdCBtdGtfZGlzcF9vdXRwcm9jICpwcml2ID0gZGV2X2dldF9kcnZkYXRhKGRldik7
-DQo+ICsNCj4gKwlwcml2LT52YmxhbmtfY2IgPSBOVUxMOw0KPiArCXByaXYtPnZibGFua19jYl9k
-YXRhID0gTlVMTDsNCj4gK30NCj4gKw0KPiArdm9pZCBtdGtfZGlzcF9vdXRwcm9jX2VuYWJsZV92
-Ymxhbmsoc3RydWN0IGRldmljZSAqZGV2KQ0KPiArew0KPiArCXN0cnVjdCBtdGtfZGlzcF9vdXRw
-cm9jICpwcml2ID0gZGV2X2dldF9kcnZkYXRhKGRldik7DQo+ICsNCj4gKwl3cml0ZWwoT1ZMX09V
-VFBST0NfRk1FX0NQTF9JTlRFTiwgcHJpdi0+cmVncyArIERJU1BfUkVHX09WTF9PVVRQUk9DX0lO
-VEVOKTsNCj4gK30NCj4gKw0KPiArdm9pZCBtdGtfZGlzcF9vdXRwcm9jX2Rpc2FibGVfdmJsYW5r
-KHN0cnVjdCBkZXZpY2UgKmRldikNCj4gK3sNCj4gKwlzdHJ1Y3QgbXRrX2Rpc3Bfb3V0cHJvYyAq
-cHJpdiA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOw0KPiArDQo+ICsJd3JpdGVsKDB4MCwgcHJpdi0+
-cmVncyArIERJU1BfUkVHX09WTF9PVVRQUk9DX0lOVEVOKTsNCj4gK30NCj4gKw0KPiArc3RhdGlj
-IGlycXJldHVybl90IG10a19kaXNwX291dHByb2NfaXJxX2hhbmRsZXIoaW50IGlycSwgdm9pZCAq
-ZGV2X2lkKQ0KPiArew0KPiArCXN0cnVjdCBtdGtfZGlzcF9vdXRwcm9jICpwcml2ID0gZGV2X2lk
-Ow0KPiArCXUzMiB2YWw7DQo+ICsNCj4gKwl2YWwgPSByZWFkbChwcml2LT5yZWdzICsgRElTUF9S
-RUdfT1ZMX09VVFBST0NfSU5UU1RBKTsNCj4gKwlpZiAoIXZhbCkNCj4gKwkJcmV0dXJuIElSUV9O
-T05FOw0KPiArDQo+ICsJd3JpdGVsKDB4MCwgcHJpdi0+cmVncyArIERJU1BfUkVHX09WTF9PVVRQ
-Uk9DX0lOVFNUQSk7DQo+ICsNCj4gKwlpZiAocHJpdi0+dmJsYW5rX2NiKQ0KPiArCQlwcml2LT52
-YmxhbmtfY2IocHJpdi0+dmJsYW5rX2NiX2RhdGEpOw0KPiArDQo+ICsJcmV0dXJuIElSUV9IQU5E
-TEVEOw0KPiArfQ0KPiArDQo+ICt2b2lkIG10a19kaXNwX291dHByb2NfY29uZmlnKHN0cnVjdCBk
-ZXZpY2UgKmRldiwgdW5zaWduZWQgaW50IHcsDQo+ICsJCQkgICAgIHVuc2lnbmVkIGludCBoLCB1
-bnNpZ25lZCBpbnQgdnJlZnJlc2gsDQo+ICsJCQkgICAgIHVuc2lnbmVkIGludCBicGMsIHN0cnVj
-dCBjbWRxX3BrdCAqY21kcV9wa3QpDQo+ICt7DQo+ICsJc3RydWN0IG10a19kaXNwX291dHByb2Mg
-KnByaXYgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gKw0KPiArCWRldl9kYmcoZGV2LCAiJXMt
-dzolZCwgaDolZFxuIiwgX19mdW5jX18sIHcsIGgpOw0KPiArDQo+ICsJLy9tb3ZlIG10a19kZHBf
-d3JpdGVfbWFzayB0byBtdGtfZGRwX3dyaXRlDQoNCkkgdGhpbmsgdGhpcyBjb21tZW50IGlzIHJl
-ZHVuZGFudC4NCg0KPiArCW10a19kZHBfd3JpdGUoY21kcV9wa3QsIGggPDwgMTYgfCB3LCAmcHJp
-di0+Y21kcV9yZWcsIHByaXYtPnJlZ3MsDQo+ICsJCSAgICAgIERJU1BfUkVHX09WTF9PVVRQUk9D
-X1JPSV9TSVpFKTsNCj4gKwltdGtfZGRwX3dyaXRlX21hc2soY21kcV9wa3QsIE9WTF9PVVRQUk9D
-X0RBVEFQQVRIX0NPTl9PVVRQVVRfQ0xBTVAsDQo+ICsJCQkgICAmcHJpdi0+Y21kcV9yZWcsIHBy
-aXYtPnJlZ3MsDQo+ICsJCQkgICBESVNQX1JFR19PVkxfT1VUUFJPQ19EQVRBUEFUSF9DT04sDQo+
-ICsJCQkgICBPVkxfT1VUUFJPQ19EQVRBUEFUSF9DT05fT1VUUFVUX0NMQU1QKTsNCj4gK30NCj4g
-Kw0KPiArdm9pZCBtdGtfZGlzcF9vdXRwcm9jX3N0YXJ0KHN0cnVjdCBkZXZpY2UgKmRldikNCj4g
-K3sNCj4gKwlzdHJ1Y3QgbXRrX2Rpc3Bfb3V0cHJvYyAqcHJpdiA9IGRldl9nZXRfZHJ2ZGF0YShk
-ZXYpOw0KPiArCXVuc2lnbmVkIGludCB0bXA7DQo+ICsNCj4gKwl0bXAgPSByZWFkbChwcml2LT5y
-ZWdzICsgRElTUF9SRUdfT1ZMX09VVFBST0NfU0hBRE9XX0NUUkwpOw0KPiArCXRtcCA9IHRtcCB8
-IE9WTF9PVVRQUk9DX0JZUEFTU19TSEFET1c7DQo+ICsJd3JpdGVsKHRtcCwgcHJpdi0+cmVncyAr
-IERJU1BfUkVHX09WTF9PVVRQUk9DX1NIQURPV19DVFJMKTsNCj4gKw0KPiArCW10a19kZHBfd3Jp
-dGUoTlVMTCwgMCwgJnByaXYtPmNtZHFfcmVnLCBwcml2LT5yZWdzLA0KPiArCQkgICAgICBESVNQ
-X1JFR19PVkxfT1VUUFJPQ19JTlRTVEEpOw0KPiArCW10a19kZHBfd3JpdGVfbWFzayhOVUxMLCBP
-VkxfT1VUUFJPQ19PVkxfRU4sICZwcml2LT5jbWRxX3JlZywgcHJpdi0+cmVncywNCj4gKwkJCSAg
-IERJU1BfUkVHX09WTF9PVVRQUk9DX0VOLCBPVkxfT1VUUFJPQ19PVkxfRU4pOw0KDQpVc2UgcmVh
-ZGwoKSBhbmQgd3JpdGVsKCkuDQoNCj4gK30NCj4gKw0KPiArdm9pZCBtdGtfZGlzcF9vdXRwcm9j
-X3N0b3Aoc3RydWN0IGRldmljZSAqZGV2KQ0KPiArew0KPiArCXN0cnVjdCBtdGtfZGlzcF9vdXRw
-cm9jICpwcml2ID0gZGV2X2dldF9kcnZkYXRhKGRldik7DQo+ICsNCj4gKwltdGtfZGRwX3dyaXRl
-X21hc2soTlVMTCwgMCwgJnByaXYtPmNtZHFfcmVnLCBwcml2LT5yZWdzLA0KPiArCQkJICAgRElT
-UF9SRUdfT1ZMX09VVFBST0NfRU4sIE9WTF9PVVRQUk9DX09WTF9FTik7DQo+ICsJbXRrX2RkcF93
-cml0ZV9tYXNrKE5VTEwsIE9WTF9PVVRQUk9DX1JTVCwgJnByaXYtPmNtZHFfcmVnLCBwcml2LT5y
-ZWdzLA0KPiArCQkJICAgRElTUF9SRUdfT1ZMX09VVFBST0NfUlNULCBPVkxfT1VUUFJPQ19SU1Qp
-Ow0KPiArCW10a19kZHBfd3JpdGVfbWFzayhOVUxMLCAwLCAmcHJpdi0+Y21kcV9yZWcsIHByaXYt
-PnJlZ3MsDQo+ICsJCQkgICBESVNQX1JFR19PVkxfT1VUUFJPQ19SU1QsIE9WTF9PVVRQUk9DX1JT
-VCk7DQoNClVzZSByZWFkbCgpIGFuZCB3cml0ZWwoKS4NCg0KPiArfQ0KPiArDQo+ICsNCg0KDQoN
-Cg==
+I've tested the series on Friday. Looks good. Can go into drm-misc-next
+from my POV.
 
---__=_Part_Boundary_005_770266191.1656776724
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Unfortunately doesn't apply yet due to a merge conflict in Kconfig. If
+you could be so kind and rebase to drm-misc-next we could then quickly
+pull the series in, avoiding further collisions
 
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO0ZyaSwmIzMyOzIwMjUtMDMtMjEmIzMyO2F0
-JiMzMjsxNzozMyYjMzI7KzA4MDAsJiMzMjtwYXVsLXBsLmNoZW4mIzMyO3dyb3RlOg0KJmd0OyYj
-MzI7RnJvbTomIzMyO05hbmN5JiMzMjtMaW4mIzMyOyZsdDtuYW5jeS5saW5AbWVkaWF0ZWsuY29t
-Jmd0Ow0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtPVVRQUk9DJiMzMjtoYW5kbGVzJiMzMjt0aGUmIzMy
-O3Bvc3Qtc3RhZ2UmIzMyO29mJiMzMjtwaXhlbCYjMzI7cHJvY2Vzc2luZyYjMzI7aW4NCiZndDsm
-IzMyO3RoZSYjMzI7b3ZlcmxhcHBpbmcmIzMyO3Byb2NlZHVyZS5PVVRQUk9DJiMzMjttYW5hZ2Vz
-JiMzMjtwaXhlbHMmIzMyO2Zvcg0KJmd0OyYjMzI7Z2FtbWEmIzMyO2NvcnJlY3Rpb24mIzMyO2Fu
-ZCYjMzI7ZW5zdXJlcyYjMzI7dGhhdCYjMzI7cGl4ZWwmIzMyO3ZhbHVlcyYjMzI7YXJlDQomZ3Q7
-JiMzMjt3aXRoaW4mIzMyO3RoZSYjMzI7Y29ycmVjdCYjMzI7cmFuZ2UuDQomZ3Q7JiMzMjsNCiZn
-dDsmIzMyO1NpZ25lZC1vZmYtYnk6JiMzMjtOYW5jeSYjMzI7TGluJiMzMjsmbHQ7bmFuY3kubGlu
-QG1lZGlhdGVrLmNvbSZndDsNCiZndDsmIzMyO1NpZ25lZC1vZmYtYnk6JiMzMjtQYXVsLXBsJiMz
-MjtDaGVuJiMzMjsmbHQ7cGF1bC1wbC5jaGVuQG1lZGlhdGVrLmNvbSZndDsNCiZndDsmIzMyOy0t
-LQ0KDQpbc25pcF0NCg0KJmd0OyYjMzI7ZGlmZiYjMzI7LS1naXQmIzMyO2EvZHJpdmVycy9ncHUv
-ZHJtL21lZGlhdGVrL210a19kaXNwX291dHByb2MuYyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2Rpc3Bfb3V0cHJvYy5jDQomZ3Q7JiMzMjtuZXcmIzMyO2ZpbGUmIzMyO21vZGUm
-IzMyOzEwMDY0NA0KJmd0OyYjMzI7aW5kZXgmIzMyOzAwMDAwMDAwMDAwMC4uYTdjNmQxOTgyYmNh
-DQomZ3Q7JiMzMjstLS0mIzMyOy9kZXYvbnVsbA0KJmd0OyYjMzI7KysrJiMzMjtiL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdXRwcm9jLmMNCiZndDsmIzMyO0BAJiMzMjstMCww
-JiMzMjsrMSwyNDImIzMyO0BADQomZ3Q7JiMzMjsrLy8mIzMyO1NQRFgtTGljZW5zZS1JZGVudGlm
-aWVyOiYjMzI7R1BMLTIuMC1vbmx5DQomZ3Q7JiMzMjsrLyoNCiZndDsmIzMyOysmIzMyOyomIzMy
-O0NvcHlyaWdodCYjMzI7KGMpJiMzMjsyMDI1JiMzMjtNZWRpYVRlayYjMzI7SW5jLg0KJmd0OyYj
-MzI7KyYjMzI7Ki8NCiZndDsmIzMyOysNCiZndDsmIzMyOysjaW5jbHVkZSYjMzI7Jmx0O2RybS9k
-cm1fZm91cmNjLmgmZ3Q7DQomZ3Q7JiMzMjsrI2luY2x1ZGUmIzMyOyZsdDtkcm0vZHJtX2ZyYW1l
-YnVmZmVyLmgmZ3Q7DQomZ3Q7JiMzMjsrI2luY2x1ZGUmIzMyOyZsdDtsaW51eC9jbGsuaCZndDsN
-CiZndDsmIzMyOysjaW5jbHVkZSYjMzI7Jmx0O2xpbnV4L2NvbXBvbmVudC5oJmd0Ow0KJmd0OyYj
-MzI7KyNpbmNsdWRlJiMzMjsmbHQ7bGludXgvb2YuaCZndDsNCiZndDsmIzMyOysjaW5jbHVkZSYj
-MzI7Jmx0O2xpbnV4L29mX2RldmljZS5oJmd0Ow0KJmd0OyYjMzI7KyNpbmNsdWRlJiMzMjsmbHQ7
-bGludXgvb2ZfYWRkcmVzcy5oJmd0Ow0KJmd0OyYjMzI7KyNpbmNsdWRlJiMzMjsmbHQ7bGludXgv
-cGxhdGZvcm1fZGV2aWNlLmgmZ3Q7DQomZ3Q7JiMzMjsrI2luY2x1ZGUmIzMyOyZsdDtsaW51eC9y
-ZXNldC5oJmd0Ow0KJmd0OyYjMzI7KyNpbmNsdWRlJiMzMjsmbHQ7bGludXgvc29jL21lZGlhdGVr
-L210ay1jbWRxLmgmZ3Q7DQomZ3Q7JiMzMjsrI2luY2x1ZGUmIzMyOyZsdDtsaW51eC9zb2MvbWVk
-aWF0ZWsvbXRrLW1tc3lzLmgmZ3Q7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrI2luY2x1ZGUmIzMy
-OyZxdW90O210a19jcnRjLmgmcXVvdDsNCiZndDsmIzMyOysjaW5jbHVkZSYjMzI7JnF1b3Q7bXRr
-X2RkcF9jb21wLmgmcXVvdDsNCiZndDsmIzMyOysjaW5jbHVkZSYjMzI7JnF1b3Q7bXRrX2RybV9k
-cnYuaCZxdW90Ow0KDQpBbHBoYWJldGljJiMzMjtvcmRlci4NCg0KJmd0OyYjMzI7KyNpbmNsdWRl
-JiMzMjsmcXVvdDttdGtfZGlzcF9vdXRwcm9jLmgmcXVvdDsNCiZndDsmIzMyOysNCiZndDsmIzMy
-OysjZGVmaW5lJiMzMjtESVNQX1JFR19PVkxfT1VUUFJPQ19JTlRFTjB4MDA0DQomZ3Q7JiMzMjsr
-I2RlZmluZSYjMzI7T1ZMX09VVFBST0NfRk1FX0NQTF9JTlRFTkJJVCgxKQ0KJmd0OyYjMzI7KyNk
-ZWZpbmUmIzMyO0RJU1BfUkVHX09WTF9PVVRQUk9DX0lOVFNUQTB4MDA4DQomZ3Q7JiMzMjsrI2Rl
-ZmluZSYjMzI7RElTUF9SRUdfT1ZMX09VVFBST0NfREFUQVBBVEhfQ09OMHgwMTANCiZndDsmIzMy
-OysjZGVmaW5lJiMzMjtPVkxfT1VUUFJPQ19EQVRBUEFUSF9DT05fT1VUUFVUX0NMQU1QQklUKDI2
-KQ0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyNkZWZpbmUmIzMyO0RJU1BfUkVHX09WTF9PVVRQUk9D
-X0VOMHgwMjANCiZndDsmIzMyOysjZGVmaW5lJiMzMjtPVkxfT1VUUFJPQ19PVkxfRU5CSVQoMCkN
-CiZndDsmIzMyOysjZGVmaW5lJiMzMjtESVNQX1JFR19PVkxfT1VUUFJPQ19SU1QweDAyNA0KJmd0
-OyYjMzI7KyNkZWZpbmUmIzMyO09WTF9PVVRQUk9DX1JTVEJJVCgwKQ0KJmd0OyYjMzI7KyNkZWZp
-bmUmIzMyO0RJU1BfUkVHX09WTF9PVVRQUk9DX1NIQURPV19DVFJMMHgwMjgNCiZndDsmIzMyOysj
-ZGVmaW5lJiMzMjtPVkxfT1VUUFJPQ19CWVBBU1NfU0hBRE9XQklUKDIpDQomZ3Q7JiMzMjsrI2Rl
-ZmluZSYjMzI7RElTUF9SRUdfT1ZMX09VVFBST0NfUk9JX1NJWkUweDAzMA0KJmd0OyYjMzI7Kw0K
-Jmd0OyYjMzI7K3N0cnVjdCYjMzI7bXRrX2Rpc3Bfb3V0cHJvYyYjMzI7ew0KJmd0OyYjMzI7K3Zv
-aWQmIzMyO19faW9tZW0qcmVnczsNCiZndDsmIzMyOytzdHJ1Y3QmIzMyO2NsaypjbGs7DQomZ3Q7
-JiMzMjsrdm9pZCgqdmJsYW5rX2NiKSh2b2lkJiMzMjsqZGF0YSk7DQomZ3Q7JiMzMjsrdm9pZCp2
-YmxhbmtfY2JfZGF0YTsNCiZndDsmIzMyOytpbnRpcnE7DQomZ3Q7JiMzMjsrc3RydWN0JiMzMjtj
-bWRxX2NsaWVudF9yZWdjbWRxX3JlZzsNCiZndDsmIzMyOyt9Ow0KJmd0OyYjMzI7Kw0KJmd0OyYj
-MzI7K3ZvaWQmIzMyO210a19kaXNwX291dHByb2NfcmVnaXN0ZXJfdmJsYW5rX2NiKHN0cnVjdCYj
-MzI7ZGV2aWNlJiMzMjsqZGV2LA0KJmd0OyYjMzI7KyYjMzI7dm9pZCYjMzI7KCp2YmxhbmtfY2Ip
-KHZvaWQmIzMyOyopLA0KJmd0OyYjMzI7KyYjMzI7dm9pZCYjMzI7KnZibGFua19jYl9kYXRhKQ0K
-Jmd0OyYjMzI7K3sNCiZndDsmIzMyOytzdHJ1Y3QmIzMyO210a19kaXNwX291dHByb2MmIzMyOypw
-cml2JiMzMjs9JiMzMjtkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCiZndDsmIzMyOysNCiZndDsmIzMy
-Oytwcml2LSZndDt2YmxhbmtfY2ImIzMyOz0mIzMyO3ZibGFua19jYjsNCiZndDsmIzMyOytwcml2
-LSZndDt2YmxhbmtfY2JfZGF0YSYjMzI7PSYjMzI7dmJsYW5rX2NiX2RhdGE7DQomZ3Q7JiMzMjsr
-fQ0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K3ZvaWQmIzMyO210a19kaXNwX291dHByb2NfdW5yZWdp
-c3Rlcl92YmxhbmtfY2Ioc3RydWN0JiMzMjtkZXZpY2UmIzMyOypkZXYpDQomZ3Q7JiMzMjsrew0K
-Jmd0OyYjMzI7K3N0cnVjdCYjMzI7bXRrX2Rpc3Bfb3V0cHJvYyYjMzI7KnByaXYmIzMyOz0mIzMy
-O2Rldl9nZXRfZHJ2ZGF0YShkZXYpOw0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K3ByaXYtJmd0O3Zi
-bGFua19jYiYjMzI7PSYjMzI7TlVMTDsNCiZndDsmIzMyOytwcml2LSZndDt2YmxhbmtfY2JfZGF0
-YSYjMzI7PSYjMzI7TlVMTDsNCiZndDsmIzMyOyt9DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrdm9p
-ZCYjMzI7bXRrX2Rpc3Bfb3V0cHJvY19lbmFibGVfdmJsYW5rKHN0cnVjdCYjMzI7ZGV2aWNlJiMz
-MjsqZGV2KQ0KJmd0OyYjMzI7K3sNCiZndDsmIzMyOytzdHJ1Y3QmIzMyO210a19kaXNwX291dHBy
-b2MmIzMyOypwcml2JiMzMjs9JiMzMjtkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCiZndDsmIzMyOysN
-CiZndDsmIzMyOyt3cml0ZWwoT1ZMX09VVFBST0NfRk1FX0NQTF9JTlRFTiwmIzMyO3ByaXYtJmd0
-O3JlZ3MmIzMyOysmIzMyO0RJU1BfUkVHX09WTF9PVVRQUk9DX0lOVEVOKTsNCiZndDsmIzMyOyt9
-DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrdm9pZCYjMzI7bXRrX2Rpc3Bfb3V0cHJvY19kaXNhYmxl
-X3ZibGFuayhzdHJ1Y3QmIzMyO2RldmljZSYjMzI7KmRldikNCiZndDsmIzMyOyt7DQomZ3Q7JiMz
-Mjsrc3RydWN0JiMzMjttdGtfZGlzcF9vdXRwcm9jJiMzMjsqcHJpdiYjMzI7PSYjMzI7ZGV2X2dl
-dF9kcnZkYXRhKGRldik7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrd3JpdGVsKDB4MCwmIzMyO3By
-aXYtJmd0O3JlZ3MmIzMyOysmIzMyO0RJU1BfUkVHX09WTF9PVVRQUk9DX0lOVEVOKTsNCiZndDsm
-IzMyOyt9DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrc3RhdGljJiMzMjtpcnFyZXR1cm5fdCYjMzI7
-bXRrX2Rpc3Bfb3V0cHJvY19pcnFfaGFuZGxlcihpbnQmIzMyO2lycSwmIzMyO3ZvaWQmIzMyOypk
-ZXZfaWQpDQomZ3Q7JiMzMjsrew0KJmd0OyYjMzI7K3N0cnVjdCYjMzI7bXRrX2Rpc3Bfb3V0cHJv
-YyYjMzI7KnByaXYmIzMyOz0mIzMyO2Rldl9pZDsNCiZndDsmIzMyOyt1MzImIzMyO3ZhbDsNCiZn
-dDsmIzMyOysNCiZndDsmIzMyOyt2YWwmIzMyOz0mIzMyO3JlYWRsKHByaXYtJmd0O3JlZ3MmIzMy
-OysmIzMyO0RJU1BfUkVHX09WTF9PVVRQUk9DX0lOVFNUQSk7DQomZ3Q7JiMzMjsraWYmIzMyOygh
-dmFsKQ0KJmd0OyYjMzI7K3JldHVybiYjMzI7SVJRX05PTkU7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMz
-Mjsrd3JpdGVsKDB4MCwmIzMyO3ByaXYtJmd0O3JlZ3MmIzMyOysmIzMyO0RJU1BfUkVHX09WTF9P
-VVRQUk9DX0lOVFNUQSk7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsraWYmIzMyOyhwcml2LSZndDt2
-YmxhbmtfY2IpDQomZ3Q7JiMzMjsrcHJpdi0mZ3Q7dmJsYW5rX2NiKHByaXYtJmd0O3ZibGFua19j
-Yl9kYXRhKTsNCiZndDsmIzMyOysNCiZndDsmIzMyOytyZXR1cm4mIzMyO0lSUV9IQU5ETEVEOw0K
-Jmd0OyYjMzI7K30NCiZndDsmIzMyOysNCiZndDsmIzMyOyt2b2lkJiMzMjttdGtfZGlzcF9vdXRw
-cm9jX2NvbmZpZyhzdHJ1Y3QmIzMyO2RldmljZSYjMzI7KmRldiwmIzMyO3Vuc2lnbmVkJiMzMjtp
-bnQmIzMyO3csDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3Vuc2lnbmVkJiMz
-MjtpbnQmIzMyO2gsJiMzMjt1bnNpZ25lZCYjMzI7aW50JiMzMjt2cmVmcmVzaCwNCiZndDsmIzMy
-OysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7dW5zaWduZWQmIzMyO2ludCYjMzI7YnBjLCYjMzI7
-c3RydWN0JiMzMjtjbWRxX3BrdCYjMzI7KmNtZHFfcGt0KQ0KJmd0OyYjMzI7K3sNCiZndDsmIzMy
-OytzdHJ1Y3QmIzMyO210a19kaXNwX291dHByb2MmIzMyOypwcml2JiMzMjs9JiMzMjtkZXZfZ2V0
-X2RydmRhdGEoZGV2KTsNCiZndDsmIzMyOysNCiZndDsmIzMyOytkZXZfZGJnKGRldiwmIzMyOyZx
-dW90OyVzLXc6JWQsJiMzMjtoOiVkJiM5MjtuJnF1b3Q7LCYjMzI7X19mdW5jX18sJiMzMjt3LCYj
-MzI7aCk7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrLy9tb3ZlJiMzMjttdGtfZGRwX3dyaXRlX21h
-c2smIzMyO3RvJiMzMjttdGtfZGRwX3dyaXRlDQoNCkkmIzMyO3RoaW5rJiMzMjt0aGlzJiMzMjtj
-b21tZW50JiMzMjtpcyYjMzI7cmVkdW5kYW50Lg0KDQomZ3Q7JiMzMjsrbXRrX2RkcF93cml0ZShj
-bWRxX3BrdCwmIzMyO2gmIzMyOyZsdDsmbHQ7JiMzMjsxNiYjMzI7fCYjMzI7dywmIzMyOyZhbXA7
-cHJpdi0mZ3Q7Y21kcV9yZWcsJiMzMjtwcml2LSZndDtyZWdzLA0KJmd0OyYjMzI7KyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyO0RJU1BfUkVHX09WTF9PVVRQUk9DX1JPSV9TSVpFKTsNCiZn
-dDsmIzMyOyttdGtfZGRwX3dyaXRlX21hc2soY21kcV9wa3QsJiMzMjtPVkxfT1VUUFJPQ19EQVRB
-UEFUSF9DT05fT1VUUFVUX0NMQU1QLA0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyZhbXA7cHJp
-di0mZ3Q7Y21kcV9yZWcsJiMzMjtwcml2LSZndDtyZWdzLA0KJmd0OyYjMzI7KyYjMzI7JiMzMjsm
-IzMyO0RJU1BfUkVHX09WTF9PVVRQUk9DX0RBVEFQQVRIX0NPTiwNCiZndDsmIzMyOysmIzMyOyYj
-MzI7JiMzMjtPVkxfT1VUUFJPQ19EQVRBUEFUSF9DT05fT1VUUFVUX0NMQU1QKTsNCiZndDsmIzMy
-Oyt9DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrdm9pZCYjMzI7bXRrX2Rpc3Bfb3V0cHJvY19zdGFy
-dChzdHJ1Y3QmIzMyO2RldmljZSYjMzI7KmRldikNCiZndDsmIzMyOyt7DQomZ3Q7JiMzMjsrc3Ry
-dWN0JiMzMjttdGtfZGlzcF9vdXRwcm9jJiMzMjsqcHJpdiYjMzI7PSYjMzI7ZGV2X2dldF9kcnZk
-YXRhKGRldik7DQomZ3Q7JiMzMjsrdW5zaWduZWQmIzMyO2ludCYjMzI7dG1wOw0KJmd0OyYjMzI7
-Kw0KJmd0OyYjMzI7K3RtcCYjMzI7PSYjMzI7cmVhZGwocHJpdi0mZ3Q7cmVncyYjMzI7KyYjMzI7
-RElTUF9SRUdfT1ZMX09VVFBST0NfU0hBRE9XX0NUUkwpOw0KJmd0OyYjMzI7K3RtcCYjMzI7PSYj
-MzI7dG1wJiMzMjt8JiMzMjtPVkxfT1VUUFJPQ19CWVBBU1NfU0hBRE9XOw0KJmd0OyYjMzI7K3dy
-aXRlbCh0bXAsJiMzMjtwcml2LSZndDtyZWdzJiMzMjsrJiMzMjtESVNQX1JFR19PVkxfT1VUUFJP
-Q19TSEFET1dfQ1RSTCk7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrbXRrX2RkcF93cml0ZShOVUxM
-LCYjMzI7MCwmIzMyOyZhbXA7cHJpdi0mZ3Q7Y21kcV9yZWcsJiMzMjtwcml2LSZndDtyZWdzLA0K
-Jmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO0RJU1BfUkVHX09WTF9PVVRQ
-Uk9DX0lOVFNUQSk7DQomZ3Q7JiMzMjsrbXRrX2RkcF93cml0ZV9tYXNrKE5VTEwsJiMzMjtPVkxf
-T1VUUFJPQ19PVkxfRU4sJiMzMjsmYW1wO3ByaXYtJmd0O2NtZHFfcmVnLCYjMzI7cHJpdi0mZ3Q7
-cmVncywNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjtESVNQX1JFR19PVkxfT1VUUFJPQ19FTiwm
-IzMyO09WTF9PVVRQUk9DX09WTF9FTik7DQoNClVzZSYjMzI7cmVhZGwoKSYjMzI7YW5kJiMzMjt3
-cml0ZWwoKS4NCg0KJmd0OyYjMzI7K30NCiZndDsmIzMyOysNCiZndDsmIzMyOyt2b2lkJiMzMjtt
-dGtfZGlzcF9vdXRwcm9jX3N0b3Aoc3RydWN0JiMzMjtkZXZpY2UmIzMyOypkZXYpDQomZ3Q7JiMz
-Mjsrew0KJmd0OyYjMzI7K3N0cnVjdCYjMzI7bXRrX2Rpc3Bfb3V0cHJvYyYjMzI7KnByaXYmIzMy
-Oz0mIzMyO2Rldl9nZXRfZHJ2ZGF0YShkZXYpOw0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K210a19k
-ZHBfd3JpdGVfbWFzayhOVUxMLCYjMzI7MCwmIzMyOyZhbXA7cHJpdi0mZ3Q7Y21kcV9yZWcsJiMz
-Mjtwcml2LSZndDtyZWdzLA0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyO0RJU1BfUkVHX09WTF9P
-VVRQUk9DX0VOLCYjMzI7T1ZMX09VVFBST0NfT1ZMX0VOKTsNCiZndDsmIzMyOyttdGtfZGRwX3dy
-aXRlX21hc2soTlVMTCwmIzMyO09WTF9PVVRQUk9DX1JTVCwmIzMyOyZhbXA7cHJpdi0mZ3Q7Y21k
-cV9yZWcsJiMzMjtwcml2LSZndDtyZWdzLA0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyO0RJU1Bf
-UkVHX09WTF9PVVRQUk9DX1JTVCwmIzMyO09WTF9PVVRQUk9DX1JTVCk7DQomZ3Q7JiMzMjsrbXRr
-X2RkcF93cml0ZV9tYXNrKE5VTEwsJiMzMjswLCYjMzI7JmFtcDtwcml2LSZndDtjbWRxX3JlZywm
-IzMyO3ByaXYtJmd0O3JlZ3MsDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7RElTUF9SRUdfT1ZM
-X09VVFBST0NfUlNULCYjMzI7T1ZMX09VVFBST0NfUlNUKTsNCg0KVXNlJiMzMjtyZWFkbCgpJiMz
-MjthbmQmIzMyO3dyaXRlbCgpLg0KDQomZ3Q7JiMzMjsrfQ0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7
-Kw0KDQoNCg0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwhLS10eXBlOnRleHQtLT48IS0t
-ey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlDQog
-KioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBl
-LW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlk
-ZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJv
-bSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUg
-DQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwg
-ZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29w
-eWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmlu
-dGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1
-bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1t
-YWlsLCBvciBiZWxpZXZlDQogDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGlu
-IGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlp
-bmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBl
-LW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBk
-byBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBw
-ZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
+Thx
+P.
 
---__=_Part_Boundary_005_770266191.1656776724--
+
+> @@ -26,6 +26,11 @@ menuconfig DRM
+> =C2=A0	=C2=A0 details.=C2=A0 You should also select and configure AGP
+> =C2=A0	=C2=A0 (/dev/agpgart) support if it is available for your
+> platform.
+> =C2=A0
+> +menu "DRM debugging options"
+> +depends on DRM
+> +source "drivers/gpu/drm/Kconfig.debug"
+> +endmenu
+> +
+> =C2=A0if DRM
+> =C2=A0
+> =C2=A0config DRM_MIPI_DBI
+> @@ -37,65 +42,6 @@ config DRM_MIPI_DSI
+> =C2=A0	bool
+> =C2=A0	depends on DRM
+> =C2=A0
+> -config DRM_DEBUG_MM
+> -	bool "Insert extra checks and debug info into the DRM range
+> managers"
+> -	default n
+> -	depends on DRM
+> -	depends on STACKTRACE_SUPPORT
+> -	select STACKDEPOT
+> -	help
+> -	=C2=A0 Enable allocation tracking of memory manager and leak
+> detection on
+> -	=C2=A0 shutdown.
+> -
+> -	=C2=A0 Recommended for driver developers only.
+> -
+> -	=C2=A0 If in doubt, say "N".
+> -
+> -config DRM_USE_DYNAMIC_DEBUG
+> -	bool "use dynamic debug to implement drm.debug"
+> -	default n
+> -	depends on BROKEN
+> -	depends on DRM
+> -	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+> -	depends on JUMP_LABEL
+> -	help
+> -	=C2=A0 Use dynamic-debug to avoid drm_debug_enabled() runtime
+> overheads.
+> -	=C2=A0 Due to callsite counts in DRM drivers (~4k in amdgpu) and
+> 56
+> -	=C2=A0 bytes per callsite, the .data costs can be substantial,
+> and
+> -	=C2=A0 are therefore configurable.
+> -
+> -config DRM_KUNIT_TEST_HELPERS
+> -	tristate
+> -	depends on DRM && KUNIT
+> -	select DRM_KMS_HELPER
+> -	help
+> -	=C2=A0 KUnit Helpers for KMS drivers.
+> -
+> -config DRM_KUNIT_TEST
+> -	tristate "KUnit tests for DRM" if !KUNIT_ALL_TESTS
+> -	depends on DRM && KUNIT && MMU
+> -	select DRM_BUDDY
+> -	select DRM_DISPLAY_DP_HELPER
+> -	select DRM_DISPLAY_HDMI_STATE_HELPER
+> -	select DRM_DISPLAY_HELPER
+> -	select DRM_EXEC
+> -	select DRM_EXPORT_FOR_TESTS if m
+> -	select DRM_GEM_SHMEM_HELPER
+> -	select DRM_KUNIT_TEST_HELPERS
+> -	select DRM_LIB_RANDOM
+> -	select PRIME_NUMBERS
+> -	default KUNIT_ALL_TESTS
+> -	help
+> -	=C2=A0 This builds unit tests for DRM. This option is not useful
+> for
+> -	=C2=A0 distributions or general kernels, but only for kernel
+> -	=C2=A0 developers working on DRM and associated drivers.
+> -
+> -	=C2=A0 For more information on KUnit and unit tests in general,
+> -	=C2=A0 please refer to the KUnit documentation in
+> -	=C2=A0 Documentation/dev-tools/kunit/.
+> -
+> -	=C2=A0 If in doubt, say "N".
+> -
+> =C2=A0config DRM_KMS_HELPER
+> =C2=A0	tristate
+> =C2=A0	depends on DRM
+> @@ -247,23 +193,6 @@ config DRM_TTM
+> =C2=A0	=C2=A0 GPU memory types. Will be enabled automatically if a
+> device driver
+> =C2=A0	=C2=A0 uses it.
+> =C2=A0
+> -config DRM_TTM_KUNIT_TEST
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tristate "KUnit tests for TTM=
+" if !KUNIT_ALL_TESTS
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default n
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on DRM && KUNIT && MM=
+U && (UML || COMPILE_TEST)
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_TTM
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_BUDDY
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_EXPORT_FOR_TESTS i=
+f m
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select DRM_KUNIT_TEST_HELPERS
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default KUNIT_ALL_TESTS
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 help
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Enables unit test=
+s for TTM, a GPU memory manager subsystem
+> used
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to manage memory =
+buffers. This option is mostly useful for
+> kernel
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 developers. It de=
+pends on (UML || COMPILE_TEST) since no
+> other driver
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 which uses TTM ca=
+n be loaded while running the tests.
+> -
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If in doubt, say =
+"N".
+> -
+> =C2=A0config DRM_EXEC
+> =C2=A0	tristate
+> =C2=A0	depends on DRM
+> @@ -474,9 +403,6 @@ config DRM_HYPERV
+> =C2=A0
+> =C2=A0	 If M is selected the module will be called hyperv_drm.
+> =C2=A0
+> -config DRM_EXPORT_FOR_TESTS
+> -	bool
+> -
+> =C2=A0# Separate option as not all DRM drivers use it
+> =C2=A0config DRM_PANEL_BACKLIGHT_QUIRKS
+> =C2=A0	tristate
+> @@ -489,31 +415,6 @@ config DRM_PRIVACY_SCREEN
+> =C2=A0	bool
+> =C2=A0	default n
+> =C2=A0
+> -config DRM_WERROR
+> -	bool "Compile the drm subsystem with warnings as errors"
+> -	depends on DRM && EXPERT
+> -	depends on !WERROR
+> -	default n
+> -	help
+> -	=C2=A0 A kernel build should not cause any compiler warnings, and
+> this
+> -	=C2=A0 enables the '-Werror' flag to enforce that rule in the drm
+> subsystem.
+> -
+> -	=C2=A0 The drm subsystem enables more warnings than the kernel
+> default, so
+> -	=C2=A0 this config option is disabled by default.
+> -
+> -	=C2=A0 If in doubt, say N.
+> -
+> -config DRM_HEADER_TEST
+> -	bool "Ensure DRM headers are self-contained and pass kernel-
+> doc"
+> -	depends on DRM && EXPERT
+> -	default n
+> -	help
+> -	=C2=A0 Ensure the DRM subsystem headers both under
+> drivers/gpu/drm and
+> -	=C2=A0 include/drm compile, are self-contained, have header
+> guards, and have
+> -	=C2=A0 no kernel-doc warnings.
+> -
+> -	=C2=A0 If in doubt, say N.
+> -
+> =C2=A0endif
+> =C2=A0
+> =C2=A0# Separate option because drm_panel_orientation_quirks.c is shared
+> with fbdev
+> diff --git a/drivers/gpu/drm/Kconfig.debug
+> b/drivers/gpu/drm/Kconfig.debug
+> new file mode 100644
+> index 000000000000..601d7e07d421
+> --- /dev/null
+> +++ b/drivers/gpu/drm/Kconfig.debug
+> @@ -0,0 +1,103 @@
+> +config DRM_USE_DYNAMIC_DEBUG
+> +	bool "use dynamic debug to implement drm.debug"
+> +	default n
+> +	depends on BROKEN
+> +	depends on DRM
+> +	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+> +	depends on JUMP_LABEL
+> +	help
+> +	 Use dynamic-debug to avoid drm_debug_enabled() runtime
+> overheads.
+> +	 Due to callsite counts in DRM drivers (~4k in amdgpu) and
+> 56
+> +	 bytes per callsite, the .data costs can be substantial, and
+> +	 are therefore configurable.
+> +
+> +config DRM_WERROR
+> +	bool "Compile the drm subsystem with warnings as errors"
+> +	depends on DRM && EXPERT
+> +	depends on !WERROR
+> +	default n
+> +	help
+> +	=C2=A0 A kernel build should not cause any compiler warnings, and
+> this
+> +	=C2=A0 enables the '-Werror' flag to enforce that rule in the drm
+> subsystem.
+> +
+> +	=C2=A0 The drm subsystem enables more warnings than the kernel
+> default, so
+> +	=C2=A0 this config option is disabled by default.
+> +
+> +	=C2=A0 If in doubt, say N.
+> +
+> +config DRM_HEADER_TEST
+> +	bool "Ensure DRM headers are self-contained and pass kernel-
+> doc"
+> +	depends on DRM && EXPERT
+> +	default n
+> +	help
+> +	=C2=A0 Ensure the DRM subsystem headers both under
+> drivers/gpu/drm and
+> +	=C2=A0 include/drm compile, are self-contained, have header
+> guards, and have
+> +	=C2=A0 no kernel-doc warnings.
+> +
+> +	=C2=A0 If in doubt, say N.
+> +
+> +config DRM_DEBUG_MM
+> +	bool "Insert extra checks and debug info into the DRM range
+> managers"
+> +	default n
+> +	depends on DRM
+> +	depends on STACKTRACE_SUPPORT
+> +	select STACKDEPOT
+> +	help
+> +	=C2=A0 Enable allocation tracking of memory manager and leak
+> detection on
+> +	=C2=A0 shutdown.
+> +
+> +	=C2=A0 Recommended for driver developers only.
+> +
+> +	=C2=A0 If in doubt, say "N".
+> +
+> +config DRM_KUNIT_TEST_HELPERS
+> +	tristate
+> +	depends on DRM && KUNIT
+> +	select DRM_KMS_HELPER
+> +	help
+> +	=C2=A0 KUnit Helpers for KMS drivers.
+> +
+> +config DRM_KUNIT_TEST
+> +	tristate "KUnit tests for DRM" if !KUNIT_ALL_TESTS
+> +	depends on DRM && KUNIT && MMU
+> +	select DRM_BUDDY
+> +	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_HDMI_STATE_HELPER
+> +	select DRM_DISPLAY_HELPER
+> +	select DRM_EXEC
+> +	select DRM_EXPORT_FOR_TESTS if m
+> +	select DRM_GEM_SHMEM_HELPER
+> +	select DRM_KUNIT_TEST_HELPERS
+> +	select DRM_LIB_RANDOM
+> +	select PRIME_NUMBERS
+> +	default KUNIT_ALL_TESTS
+> +	help
+> +	=C2=A0 This builds unit tests for DRM. This option is not useful
+> for
+> +	=C2=A0 distributions or general kernels, but only for kernel
+> +	=C2=A0 developers working on DRM and associated drivers.
+> +
+> +	=C2=A0 For more information on KUnit and unit tests in general,
+> +	=C2=A0 please refer to the KUnit documentation in
+> +	=C2=A0 Documentation/dev-tools/kunit/.
+> +
+> +	=C2=A0 If in doubt, say "N".
+> +
+> +config DRM_TTM_KUNIT_TEST
+> +	tristate "KUnit tests for TTM" if !KUNIT_ALL_TESTS
+> +	default n
+> +	depends on DRM && KUNIT && MMU && (UML || COMPILE_TEST)
+> +	select DRM_TTM
+> +	select DRM_BUDDY
+> +	select DRM_EXPORT_FOR_TESTS if m
+> +	select DRM_KUNIT_TEST_HELPERS
+> +	default KUNIT_ALL_TESTS
+> +	help
+> +	=C2=A0 Enables unit tests for TTM, a GPU memory manager subsystem
+> used
+> +	=C2=A0 to manage memory buffers. This option is mostly useful for
+> kernel
+> +	=C2=A0 developers. It depends on (UML || COMPILE_TEST) since no
+> other driver
+> +	=C2=A0 which uses TTM can be loaded while running the tests.
+> +
+> +	=C2=A0 If in doubt, say "N".
+> +
+> +config DRM_EXPORT_FOR_TESTS
+> +	bool
 
