@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1076EA6E72E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 00:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D19A6E74C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 00:42:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB0310E4E7;
-	Mon, 24 Mar 2025 23:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28AAE10E4EA;
+	Mon, 24 Mar 2025 23:42:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="EyhccGqz";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="X7Id/hJw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 039EA10E4E7
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 23:17:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZjyeFBW/BEW5pN4dW9cgRvuMp9wBCeIqE18dk2lK7nA=; b=EyhccGqzuPeA1+73N6heXRrhqY
- B2wCu84RyrCOJFt/ooMoqs20Ogp523ONUCpi+oucHSnqyqH1VrsoD4hTTJxzohG6CSxDlrc6TKX2e
- l3WP/DtYKQHxTPBp373Jiiox2zz2hAjDMMlbU8U8QANQT16Bw3/RnuW1BYyIOWxhRK7t8kjlY/Y8M
- Zs+1AY3zz16PGxg6MTc57Sg3kJ1A0QnSEbxJsHfSncXNWjWfs0vRYa5dRFzLNTAmBBWQIbQ3mkQMg
- otIQBtzrQAukJRk9dp/KUfPYWhO0dJNGJ8Xnd0xA9Ho64CU0TRguly2wZ9eUfcUgfRuLaCkmWkXJV
- FPlVkNWg==;
-Received: from [189.7.87.178] (helo=[192.168.0.224])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1twr2c-005vRC-Tx; Tue, 25 Mar 2025 00:17:11 +0100
-Message-ID: <977cb1c8-7f55-4e3e-bac3-30cb29dec4b3@igalia.com>
-Date: Mon, 24 Mar 2025 20:17:07 -0300
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0472910E090
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 23:42:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 96D02102E64C5; Tue, 25 Mar 2025 00:42:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1742859744; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references;
+ bh=DCG3+53Ac+NbhT3mtgTYia80x2WwrmGFmlhhWvxOySk=;
+ b=X7Id/hJwMMfgB0C9wYwS8eoklxUO3Gfdi/tiA2c4XrPzD81QJrVgmAuSnh35YOjmvepPgN
+ T0Dr8g6R4rFRyJPtqTb6ptknSSJ/tHWWkMMnSc2izK7WCmXjNMEBFKaF0LS5v3O5qyjQ4v
+ pPfkSx62Fb/OU+WenL5P2cxpq8ju+WOtTCrOtrCtA71aylkAR5MQ5e1ilJNOWvto+CTRdO
+ Mj8bys3aLbFmmUpZZ8hBFZAucM7mnNdxXvRPjUvKINzY/dCjJBzaZu04zIfy6QeU3v5fd/
+ Mv9J6pb3EMAJs9L/a17/boCilMZWftlQxjJABjlASwS6dNXtbU1LJtgGgGsYYA==
+Message-ID: <e8e9f36a-6d05-425e-a0e5-89689424336d@denx.de>
+Date: Tue, 25 Mar 2025 00:35:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] A few drm_syncobj optimisations
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com
-References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
+Subject: Re: [PATCH v2 9/9] arm64: dts: imx95: Describe Mali G310 GPU
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Steven Price <steven.price@arm.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, devicetree@vger.kernel.org, imx@lists.linux.dev
+References: <20250321200625.132494-1-marex@denx.de>
+ <20250321200625.132494-10-marex@denx.de> <6144881.lOV4Wx5bFT@steina-w>
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <6144881.lOV4Wx5bFT@steina-w>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,90 +68,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+On 3/24/25 8:02 AM, Alexander Stein wrote:
 
-Thanks for this patchset! I applied this patchset to the RPi downstream
-kernel 6.13.7 [1] and saw an FPS improvement of approximately 5.85%
-with "vkgears -present-mailbox" on the RPi 5.
+Hi,
 
-I did five 100 seconds runs on each kernel and here are my results:
-
-### 6.13.7
-
-|   Run    |   Min FPS   |   Max FPS   |   Avg FPS   |
-|----------|-------------|-------------|-------------|
-| Run #1   | 6646.52     | 6874.77     | 6739.313    |
-| Run #2   | 5387.04     | 6723.274    | 6046.773    |
-| Run #3   | 6230.49     | 6823.47     | 6423.923    |
-| Run #4   | 5269.678    | 5870.59     | 5501.858    |
-| Run #5   | 5504.54     | 6285.91     | 5859.724    |
-
-* Overall Avg FPS: 6114.318 FPS
-
-
-### 6.13.7 + DRM Syncobj optimisations
-
-|   Run    |   Min FPS   |   Max FPS   |   Avg FPS   |
-|----------|-------------|-------------|-------------|
-| Run #1   | 6089.05     | 7296.27     | 6859.724    |
-| Run #2   | 6022.48     | 7264        | 6818.518    |
-| Run #3   | 5987.68     | 6188.77     | 6041.365    |
-| Run #4   | 5699.27     | 6448.99     | 6190.374    |
-| Run #5   | 6199.27     | 6791.15     | 6450.900    |
-
-* Overall Avg FPS: 6472.176 FPS
-
-[1] https://github.com/raspberrypi/linux/tree/rpi-6.13.y
-
-Best Regards,
-- Maíra
-
-On 18/03/25 12:54, Tvrtko Ursulin wrote:
-> A small set of drm_syncobj optimisations which should make things a tiny bit
-> more efficient on the CPU side of things.
+>> @@ -1890,6 +1919,35 @@ netc_emdio: mdio@0,0 {
+>>   			};
+>>   		};
+>>   
+>> +		gpu_blk_ctrl: reset-controller@4d810000 {
+>> +			compatible = "nxp,imx95-gpu-blk-ctrl";
+>> +			reg = <0x0 0x4d810000 0x0 0xc>;
+>> +			#reset-cells = <1>;
+>> +			clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
+>> +			assigned-clocks = <&scmi_clk IMX95_CLK_GPUAPB>;
+>> +			assigned-clock-parents = <&scmi_clk IMX95_CLK_SYSPLL1_PFD1_DIV2>;
+>> +			assigned-clock-rates = <133333333>;
+>> +			power-domains = <&scmi_devpd IMX95_PD_GPU>;
+>> +		};
 > 
-> Improvement seems to be around 1.5%* more FPS if observed with "vkgears
-> -present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant to make a
-> definitive claim on the numbers since there is some run to run variance. But, as
-> suggested by Michel Dänzer, I did do a five ~100 second runs on the each kernel
-> to be able to show the ministat analysis.
-> 
-> x before
-> + after
-> +------------------------------------------------------------+
-> |                          x         +                       |
-> |                   x      x         +                       |
-> |                   x      xx      ++++                      |
-> |                 x x      xx x    ++++                      |
-> |                 x xx   x xx x+   ++++                      |
-> |                xxxxx   xxxxxx+   ++++ + +                  |
-> |                xxxxxxx xxxxxx+x  ++++ +++                  |
-> |              x xxxxxxxxxxx*xx+* x++++++++   ++             |
-> |        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
-> |       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
-> |x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
-> |               |_______A______|                             |
-> |                             |______A_______|               |
-> +------------------------------------------------------------+
->      N           Min           Max        Median           Avg        Stddev
-> x 135      21697.58     22809.467     22321.396     22307.707     198.75011
-> + 118     22200.746      23277.09       22661.4     22671.442     192.10609
-> Difference at 95.0% confidence
->      363.735 +/- 48.3345
->      1.63054% +/- 0.216672%
->      (Student's t, pooled s = 195.681)
-> 
-> Tvrtko Ursulin (7):
->    drm/syncobj: Remove unhelpful helper
->    drm/syncobj: Do not allocate an array to store zeros when waiting
->    drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
->    drm/syncobj: Use put_user in drm_syncobj_query_ioctl
->    drm/syncobj: Avoid temporary allocation in
->      drm_syncobj_timeline_signal_ioctl
->    drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
->    drm/syncobj: Add a fast path to drm_syncobj_array_find
-> 
->   drivers/gpu/drm/drm_syncobj.c | 281 ++++++++++++++++++----------------
->   1 file changed, 147 insertions(+), 134 deletions(-)
-> 
-
+> With the SM release lf-6.12.3-1.0.0 AP does not have any access to
+> this BLK_CTRL anymore. See [1]
+I just built SM 6.12 and it still requires the reset, without reset I 
+cannot use the GPU ... or ... which BLK CTRL do you refer to ?
