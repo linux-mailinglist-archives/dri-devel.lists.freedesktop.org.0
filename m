@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AD8A6DD91
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99110A6DD98
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:00:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAB2710E23D;
-	Mon, 24 Mar 2025 15:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCA9C10E26D;
+	Mon, 24 Mar 2025 15:00:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IMmtkL8C";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FnYT/XF6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 507B110E23D;
- Mon, 24 Mar 2025 15:00:20 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 37A4A44529;
- Mon, 24 Mar 2025 15:00:12 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECE5010E26D;
+ Mon, 24 Mar 2025 15:00:31 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D69B020580;
+ Mon, 24 Mar 2025 15:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742828417;
+ t=1742828430;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=EnFMPLx7M/kZHQAxYRBwHRfuXIf9zIzQgVdOcnEKHIc=;
- b=IMmtkL8CSFNu64h/YsLX8xGaUa62RQGndUQc7BsSEq8BHik7+/3rDEPhtNykJFMF0FBCjf
- LiJQYer/VLGPI2pDBk6k9fke81WvHLmhAQbboBcmJ5RMxQ5TRPzpzf/mietognrYFlQ6MV
- /kVziJ8V4U2QlrzmjduKAGeWpuAJqeeZ2gH3ao5ggufqcaKzu4wT4FPxA+ZpQNPyAwHAPj
- YnYz5Tqp+2fpQ5oNSjjIowwiVH9fEJCrOY75GJnJnMPNdlDDU3XqF9m/O9XQ1tag2gU4Wo
- aEpeo74KrnuyMTqK6D13PeIa+ZRSqocAj1q0UppPirB46aFFqjokNPUEbvyr6A==
-Message-ID: <76b58aa3-0401-41a3-930f-c49880fefbfd@bootlin.com>
-Date: Mon, 24 Mar 2025 16:00:11 +0100
+ bh=VoNeECd8AGacQG8fn0ps6uJcfV86SWBRLS3mJuoFWG8=;
+ b=FnYT/XF6bSw+EhT0CAtHoiZyBRtaZfhbXuBMgp6YVr5x54JW7sXucT4h2F6AEr2taenaPU
+ OzuV//KqjviI60Mdm8P3SsBaVSWFNP00WI2r3CUU/yWWh4NCpmacGhSFxKHO53yNEp+SCC
+ 3PDwpUhgcgao6DFqSe7j7smgk0FgSbpXlk9KEPJevl+JYSGad/Bz0vGKVjb7+EYWNondk3
+ Sug1hlU3t5TPPdzNN64JBcmuz1V4Cmgtce9xcHEpKmNzmaPUopveeP7M7DnWAwCQmxl6fG
+ p8uDX2KhVBNmmY48hkeKP2CV4g1qkLqeGwf6I9SeB62ziy4nC03l9A4rmeb/Dw==
+Message-ID: <783e4ea5-9adb-450e-b292-c52292714ded@bootlin.com>
+Date: Mon, 24 Mar 2025 16:00:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 59/59] drm: RFC - make drm_dyndbg_user.o for
- drm-*_helpers, drivers
+Subject: Re: [PATCH v2 53/59] drm-dyndbg: add DRM_CLASSMAP_USE to udl driver
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -45,7 +44,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-60-jim.cromie@gmail.com>
+ <20250320185238.447458-54-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -101,12 +100,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-60-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-54-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedttdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedttdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,129 +126,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> Add new drm_dyndbg_user.c with a single call to
-> DYNDBG_CLASSMAP_USE(drm_debug_classes).  This creates a _class_user
-> record (and a linkage dependency).
-
-I agree, this could be a very nice thing to automagically have the _USE 
-call included. But if this remains a per-module work, I think it is 
-better in the C code, it is less error-prone.
-
-Maybe to clarify this is a per-module call, you can move it near the 
-MODULE_* macros.
-
-> If a driver adds this object to its Makefile target, it gets the
-> record, which authorizes dyndbg to enable the module's class'd
-> pr_debugs, such as DRMs <category>_dbg() macros.
-> 
-> So Id like to automatically inject this object into drivers.  I tried
-> subdir-objs-y, but thats not a thing.
-> 
-> In drm/Makefile:
-> 
-> Add object dependency to drm_*_helper-y targets:
-> 
->    $targ-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
-> 
-> Attempt a foreach:
-> 
->    to add $driver-y += ../drm_dyndbg_user.o
-> 
-> this appears to be a train-wreck for impl reasons, but it describes a
-> want/need reasonably well.  It might not be a good maintainble idea.
-> 
-> Explicitly adding to radeon/Makefile worked:
-> 
->    $radeon-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += ../drm_dyndbg_user.o
-> 
-> But doing this is just as per-module as just adding the _USE()
-> explicitly to the main .c file, which is less magical than make-fu.
-> 
-> Also, it appears to cause make && make rebuilds.
-> 
-> and try to link it to helpers and everything
+> The udl driver has a number of DRM_UT_* debugs, make them
+> controllable when CONFIG_DRM_USE_DYNAMIC_DEBUG=y by telling dyndbg
+> that the module uses them.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 > ---
->   drivers/gpu/drm/Makefile          |  9 +++++++++
->   drivers/gpu/drm/drm_dyndbg_user.c | 11 +++++++++++
->   2 files changed, 20 insertions(+)
->   create mode 100644 drivers/gpu/drm/drm_dyndbg_user.c
+>   drivers/gpu/drm/udl/udl_main.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 704f94efc804..1adb5a262180 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -74,10 +74,12 @@ drm-y := \
->   	drm_vblank_work.o \
->   	drm_vma_manager.o \
->   	drm_writeback.o
-> +
->   drm-$(CONFIG_DRM_CLIENT) += \
->   	drm_client.o \
->   	drm_client_event.o \
->   	drm_client_modeset.o
-> +
->   drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
->   drm-$(CONFIG_COMPAT) += drm_ioc32.o
->   drm-$(CONFIG_DRM_PANEL) += drm_panel.o
-> @@ -111,20 +113,25 @@ obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
->   drm_dma_helper-y := drm_gem_dma_helper.o
->   drm_dma_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_dma.o
->   drm_dma_helper-$(CONFIG_DRM_KMS_HELPER) += drm_fb_dma_helper.o
-> +drm_dma_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
->   obj-$(CONFIG_DRM_GEM_DMA_HELPER) += drm_dma_helper.o
+> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+> index 3ebe2ce55dfd..ba57c14454e5 100644
+> --- a/drivers/gpu/drm/udl/udl_main.c
+> +++ b/drivers/gpu/drm/udl/udl_main.c
+> @@ -19,6 +19,8 @@
 >   
->   drm_shmem_helper-y := drm_gem_shmem_helper.o
->   drm_shmem_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_shmem.o
-> +drm_shmem_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
->   obj-$(CONFIG_DRM_GEM_SHMEM_HELPER) += drm_shmem_helper.o
+>   #define NR_USB_REQUEST_CHANNEL 0x12
 >   
->   drm_suballoc_helper-y := drm_suballoc.o
-> +drm_suballoc_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
->   obj-$(CONFIG_DRM_SUBALLOC_HELPER) += drm_suballoc_helper.o
->   
->   drm_vram_helper-y := drm_gem_vram_helper.o
-> +drm_vram_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
->   obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
->   
->   drm_ttm_helper-y := drm_gem_ttm_helper.o
->   drm_ttm_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_ttm.o
-> +drm_ttm_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
->   obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
->   
->   #
-> @@ -149,11 +156,13 @@ drm_kms_helper-y := \
->   	drm_simple_kms_helper.o
->   drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
->   drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
-> +drm_kms_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
->   obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
->   
->   #
->   # Drivers and the rest
->   #
-> +subdir-obj-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
->   
->   obj-y			+= tests/
->   
-> diff --git a/drivers/gpu/drm/drm_dyndbg_user.c b/drivers/gpu/drm/drm_dyndbg_user.c
-> new file mode 100644
-> index 000000000000..9e4aa87d4b58
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_dyndbg_user.c
-> @@ -0,0 +1,11 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#include "drm/drm_print.h"
-> +/*
-> + * if DRM_USE_DYNAMIC_DEBBUG:
-> + *    DYNDBG_CLASSMAP_USE(drm_debug_classes);
-> + *
-> + * dyndbg classmaps are opt-in, so modules which call drm:_*_dbg must
-> + * link this to authorize dyndbg to change the static-keys underneath.
-> + */
 > +DRM_CLASSMAP_USE(drm_debug_classes);
+
+ditto, is it better to put it near the module entry point [1]?
+
+[1]:https://elixir.bootlin.com/linux/v6.13.7/source/drivers/gpu/drm/udl/udl_drv.c
+
+> +
+>   #define MAX_TRANSFER (PAGE_SIZE*16 - BULK_SIZE)
+>   #define WRITES_IN_FLIGHT (20)
+>   #define MAX_VENDOR_DESCRIPTOR_SIZE 256
 
 -- 
 Louis Chauvet, Bootlin
