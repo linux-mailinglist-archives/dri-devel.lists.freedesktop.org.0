@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CD2A6DE71
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:24:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE18A6DE75
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:24:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1580710E485;
-	Mon, 24 Mar 2025 15:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 346AA10E48B;
+	Mon, 24 Mar 2025 15:24:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gUUA9EIM";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="igY6St4i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED2D10E485;
- Mon, 24 Mar 2025 15:24:03 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0935D444FF;
- Mon, 24 Mar 2025 15:23:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4299510E486;
+ Mon, 24 Mar 2025 15:24:09 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 34B21444FA;
+ Mon, 24 Mar 2025 15:24:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829842;
+ t=1742829848;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5nLJC1piQdi1Calma3c8W3bfkGH0ET0U/93f09eBubs=;
- b=gUUA9EIM6HAgdDJTKZ3cQOicAh7gGm4VQaOEgw4nIpMlHeIdXsUr7JRkIrf2nZ69Iwprse
- uC/sXSaVm67NwiOAdBh+q2sPubturBefHGYFghVACO3/LUEg3UgvlndhIWF0/bRHtbETmb
- vPvxnO82O2JwoMBCtm8+WOsM+Oq39somk2Osk+dSn8Rt59z+3Zp9kF3wrHtqhVifpxc+rx
- /ravKp8td9vIVBN27dOYH0QHMaLtSlmyQp0c/+dkVGzj/ytLwXgiwlpU6pbOtzdOfxe5oA
- DIkNCvItKd/R6cHcEI2HEzpe1Le9/66JUi5v988haDxBkr4iP7+CzuQBLiqurw==
-Message-ID: <a9ce372c-2a6b-406e-a14c-00b7e9655980@bootlin.com>
-Date: Mon, 24 Mar 2025 16:23:56 +0100
+ bh=znQ6C3HekGECmSVuDKXSu1PS/if+KGW5y1bOHwpc0Cg=;
+ b=igY6St4i/ls+yELFg/X6dCG4hA734vxkTv5zkFWdMtQn9UF/DzI4Ft479mjj3iSrfpjz/K
+ dLJyVkbu9UQb9n5xBu1ncIGezg4eTAcs5UG8O13GCY+m/uMpdYPvyAqKm3d9Kmpwr3hSXw
+ 3tp2zguwGFASo99DNSl+MJGbMoYX1GNy/NniV9HrKSbIa5aHYcO4yX2Kq+hdamd653D1SX
+ eY3ATEi9a4nkFHkzr2Dnw5IULaiW2qGofzJybBhR8OOhQC/Su3wZQ5smy2gBFWThc3l5gU
+ eD5Kz4jYMHOrA+cUxKk7+BrV0mTlFnq9oJXQwdyj5fMI2SQi625dMbkodcgkWw==
+Message-ID: <440c70ac-1d0f-4ad3-86dc-5c81893467a8@bootlin.com>
+Date: Mon, 24 Mar 2025 16:24:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 41/59] drm-dyndbg: DRM_CLASSMAP_USE in drm_crtc_helper
+Subject: Re: [PATCH v2 42/59] drm-dyndbg: DRM_CLASSMAP_USE in drm_dp_helper
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +44,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-42-jim.cromie@gmail.com>
+ <20250320185238.447458-43-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +100,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-42-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-43-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -140,16 +140,16 @@ Le 20/03/2025 à 19:52, Jim Cromie a écrit :
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   drivers/gpu/drm/drm_crtc_helper.c | 12 +-----------
+>   drivers/gpu/drm/display/drm_dp_helper.c | 12 +-----------
 >   1 file changed, 1 insertion(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
-> index 0955f1c385dd..1d08d759f238 100644
-> --- a/drivers/gpu/drm/drm_crtc_helper.c
-> +++ b/drivers/gpu/drm/drm_crtc_helper.c
-> @@ -50,17 +50,7 @@
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 61c7c2c588c6..68ba17eb2541 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -43,17 +43,7 @@
 >   
->   #include "drm_crtc_helper_internal.h"
+>   #include "drm_dp_helper_internal.h"
 >   
 > -DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
 > -			"DRM_UT_CORE",
@@ -164,8 +164,8 @@ Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > -			"DRM_UT_DRMRES");
 > +DRM_CLASSMAP_USE(drm_debug_classes);
 >   
->   /**
->    * DOC: overview
+>   struct dp_aux_backlight {
+>   	struct backlight_device *base;
 
 -- 
 Louis Chauvet, Bootlin
