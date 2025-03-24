@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A45A6DE38
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE60A6DE3C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:20:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6502A10E465;
-	Mon, 24 Mar 2025 15:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E63C10E464;
+	Mon, 24 Mar 2025 15:20:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mWFfVv7D";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="aeIllzXY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C80B10E452;
- Mon, 24 Mar 2025 15:19:47 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C5F404438F;
- Mon, 24 Mar 2025 15:19:45 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF7410E461;
+ Mon, 24 Mar 2025 15:20:00 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6178F44507;
+ Mon, 24 Mar 2025 15:19:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829586;
+ t=1742829599;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=iSeLWfn2zTzm2+I9AbU856yampOl2CZ4qu9B36HB8qc=;
- b=mWFfVv7Dl2JG9UmLkvK7OvQGYWzT8yb5ndjIEtMfU9RpfOgioEX/crNyxeU0uBeAsOvD5a
- kO0kpoyCsM3+iTLHDzrjrL3hjZwjuNNgMaw0lMDhzkGdP7Zjtcs9lKrnBaW3eHSgJznqwj
- Ka+WtiJfJiJraWCEdgBGV5P28rMpksLWHjPXOvQAZPrSl1RNnq9dPdF5y2iX11su6//UlS
- RmYquMs7jGPAgilRNSEL/YCfCHv/JiURd4BTxDnsGphUOU/UMchlXlNakT8adGazp8Dqnb
- bg35w0ynGBc2yY8/xnPcr4CR9mudbTYKIFVyjprHy4UduIHCQHMq3N/BN2PGqQ==
-Message-ID: <614fc6aa-dfa9-4a5b-bc93-1374fa460b98@bootlin.com>
-Date: Mon, 24 Mar 2025 16:19:45 +0100
+ bh=a/nFxbsHm5XYyqmKk/YxRlm8ZDusAoe6/HOCMxllS5I=;
+ b=aeIllzXYPGKp/TnyRzfIe3UhVz2jEi2WFSDpMTgmuY+3qdFNHX0GIDfWw48sfpwMCWBtIj
+ /Cc+hB6pLabpPd0v8BVnT4JMqoriRxhDqbTknkjtVE7MxSj0AcfoIq/08ez8IRVz4IgsjW
+ 5YlkHg+oDw9EfEFhbbgP4efGxPyEZNyfPN9dhjq/L6vBZkig7FHFE1HM7h+6E9LcPp28ie
+ Ei0RPX4BR1T3RGrAnT0k41Q9SJKGVfPSudiUOmYpF9Q8Qhxu4ovjOe8ln95tchbHj7aaGu
+ k14ZGXq1rOaSCYAT5qtThv4/CgGDdJswOWDTxxFHlmDfUknkAMQEJlSlOJntkA==
+Message-ID: <05dff3c7-91e8-4d42-b75a-90c410d6470d@bootlin.com>
+Date: Mon, 24 Mar 2025 16:19:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 27/59] selftests-dyndbg: test_percent_splitting
+Subject: Re: [PATCH v2 29/59] dyndbg: change __dynamic_func_call_cls* macros
+ into expressions
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +45,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-28-jim.cromie@gmail.com>
+ <20250320185238.447458-30-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +101,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-28-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-30-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,53 +127,66 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> This does basic testing of classmaps using '%' separated
-> multi-queries.  It modprobes test_dynamic_debug with several classes
-> enabled, and counts to verify that the expected sites show the
-> enablement in the control file.
+> The Xe driver's XE_IOCTL_DBG macro calls drm_dbg() from inside an if
+> (expression).  This breaks when CONFIG_DRM_USE_DYNAMIC_DEBUG=y because
+> the invoked macro has a do-while-0 wrapper.
+> 
+>     if (cond && (drm_dbg("expr-form"),1)) {
+>        ... do some more stuff
+>     }
+> 
+> Fix for this usage by changing __dynamic_func_call_cls{,_no_desc}
+> macros into expressions, by replacing the do-while-0s with a ({ })
+> wrapper.  In the common usage, the trailing ';' converts the
+> expression into a statement.
+> 
+>     drm_dbg("statement form");
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
 > ---
->   .../dynamic_debug/dyndbg_selftest.sh          | 20 +++++++++++++++++++
->   1 file changed, 20 insertions(+)
+> ---
+>   include/linux/dynamic_debug.h | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> index 368d10a691a0..c97c9391d0f4 100755
-> --- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> +++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> @@ -256,9 +256,29 @@ function comma_terminator_tests {
->       ddcmd =_
->   }
+> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+> index 8043966a0fd6..80bcaad03400 100644
+> --- a/include/linux/dynamic_debug.h
+> +++ b/include/linux/dynamic_debug.h
+> @@ -339,20 +339,20 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+>    * (|_cls):	adds in _DPRINT_CLASS_DFLT as needed
+>    * (|_no_desc):	former gets callsite descriptor as 1st arg (for prdbgs)
+>    */
+> -#define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {	\
+> -	DEFINE_DYNAMIC_DEBUG_METADATA_CLS((id), cls, fmt);	\
+> +#define __dynamic_func_call_cls(id, cls, fmt, func, ...) ({	\
+> +	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);	\
+
+Is it normal to remove the parenthesis around id? Or the other way 
+around, why did you add parenthesis in PATCH 17?
+
+>   	if (DYNAMIC_DEBUG_BRANCH(id))				\
+> -		func(&id, ##__VA_ARGS__);			\
+> -} while (0)
+> +		func(&(id), ##__VA_ARGS__);			\
+> +})
+>   #define __dynamic_func_call(id, fmt, func, ...)				\
+>   	__dynamic_func_call_cls(id, _DPRINTK_CLASS_DFLT, fmt,		\
+>   				func, ##__VA_ARGS__)
 >   
-> +function test_percent_splitting {
-> +    echo -e "${GREEN}# TEST_PERCENT_SPLITTING - multi-command splitting on % ${NC}"
-> +    ifrmmod test_dynamic_debug_submod
-> +    ifrmmod test_dynamic_debug
-> +    ddcmd =_
-> +    modprobe test_dynamic_debug dyndbg=class,D2_CORE,+pf%class,D2_KMS,+pt%class,D2_ATOMIC,+pm
-> +    check_match_ct =pf 1
-> +    check_match_ct =pt 1
-> +    check_match_ct =pm 1
-> +    check_match_ct test_dynamic_debug 23 -r
-> +    # add flags to those callsites
-> +    ddcmd class,D2_CORE,+mf%class,D2_KMS,+lt%class,D2_ATOMIC,+ml
-> +    check_match_ct =pmf 1
-> +    check_match_ct =plt 1
-> +    check_match_ct =pml 1
-> +    check_match_ct test_dynamic_debug 23 -r
-> +    ifrmmod test_dynamic_debug
-> +}
-> +
->   tests_list=(
->       basic_tests
->       comma_terminator_tests
-> +    test_percent_splitting
->   )
->   
->   # Run tests
+> -#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) do {	\
+> +#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) ({	\
+>   	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);		\
+
+I expect the same constraints around id here, both with parenthesis, or 
+no parenthesis at all.
+
+>   	if (DYNAMIC_DEBUG_BRANCH(id))					\
+>   		func(__VA_ARGS__);					\
+> -} while (0)
+> +})
+>   #define __dynamic_func_call_no_desc(id, fmt, func, ...)			\
+>   	__dynamic_func_call_cls_no_desc(id, _DPRINTK_CLASS_DFLT,	\
+>   					fmt, func, ##__VA_ARGS__)
 
 -- 
 Louis Chauvet, Bootlin
