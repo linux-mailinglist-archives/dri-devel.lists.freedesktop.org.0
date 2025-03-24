@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3772BA6DB80
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 14:30:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB976A6DB82
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 14:30:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74CF010E3F4;
-	Mon, 24 Mar 2025 13:30:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2153610E3FA;
+	Mon, 24 Mar 2025 13:30:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cAN2QcAH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="P2kBSQmq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31DB710E3F3;
- Mon, 24 Mar 2025 13:30:35 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCBE510E3FA;
+ Mon, 24 Mar 2025 13:30:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742823035; x=1774359035;
+ t=1742823042; x=1774359042;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6p4CMRy1NHVUMv8FMMCIzMThsBHsmA9L3MRtNO76Q/k=;
- b=cAN2QcAH/VWwRrl2cJbMeMcasxhLmUg1rzJs3ZYoxDJQ2u/STYTYr3tE
- 9HCWDITTS3XeoSUm4KWICBJf4wg2++12tyLRNWDJhMIwVf+sbS/uteSxU
- MOyURVrMK4i5HngW/kHB2KVsWs/JJb20A7sCnXo5S40VLLJGDeYWYF4n/
- hgrflTjxVzU3MtTYMGBo7Py+Yk9BQkXdT5Mwt8ruVkdbcgOOvNHgA4uZP
- bTKIrp/3X1jFCQfXUi7m0Eud0hj6tvPwOj0LQr2aYVS81lJR5Wdw6sXdg
- SarVNB6+6i84BNyv4E5Npwu8udpgl8OCqyZJv5k8p9jktYu2P9ODROECM w==;
-X-CSE-ConnectionGUID: sPSXU8G6Sn+abRM6pHwKkQ==
-X-CSE-MsgGUID: HaqcZC0iQlmeLaivNT/oTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="47683011"
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="47683011"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 06:30:35 -0700
-X-CSE-ConnectionGUID: vceYKWPhTyKVp5fGv7M8CA==
-X-CSE-MsgGUID: pMAie4wqSwyoCA7TMUWstQ==
+ bh=hSIAYqsJrH/ialZ89ugO5jmuLNQyH1/tyx8P5WFoZIw=;
+ b=P2kBSQmqoZPbcHJDMJ4jEUnqTJQfSPxyn8iGWjMmpuXAshxOeh+WU9Ym
+ C7Py+aaEClw5sl3e5zos3A6hg57XiJTfkFSOrGw4FyRPjFaJPLpWZIWTK
+ VcOlUtseNTTutn6KuKklriPmIY6CvWh6vkIho8n4vYnYd5ZBsq7Zqyu/M
+ tQqTUqYOuXroRvgjliQazSXIYga+FzQkcnfSwyQjiyHskOb1bHsBR5fQa
+ Q4BzedW70UswqiytiM0cv6d3eX8ZZ414xy7fXBnUMRE8kFRVcsKLurf/k
+ ETKhKKgy7ezFXYMgbaka96HmnbLpo/mIIiyrHjDmKjJZEWuiydn8/+vYh g==;
+X-CSE-ConnectionGUID: xFR4HF2TRPmk4+poSSKNLw==
+X-CSE-MsgGUID: FhOhQiqgQdyV6sjNHlzIkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="44133967"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="44133967"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2025 06:30:41 -0700
+X-CSE-ConnectionGUID: qBEBqokTST+lGiBCYyDEdg==
+X-CSE-MsgGUID: qLozwjL7Q2Sg9VVg/ymCUQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="124061727"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="124209210"
 Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.252])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 06:30:31 -0700
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2025 06:30:38 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
@@ -52,10 +52,10 @@ Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
  Arshad Mehmood <arshad.mehmood@intel.com>,
  Michal Mrozek <michal.mrozek@intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: [PATCH v4 02/15] drm/i915/gt: Move the CCS mode variable to a global
- position
-Date: Mon, 24 Mar 2025 14:29:38 +0100
-Message-ID: <20250324132952.1075209-3-andi.shyti@linux.intel.com>
+Subject: [PATCH v4 03/15] drm/i915/gt: Allow the creation of multi-mode CCS
+ masks
+Date: Mon, 24 Mar 2025 14:29:39 +0100
+Message-ID: <20250324132952.1075209-4-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250324132952.1075209-1-andi.shyti@linux.intel.com>
 References: <20250324132952.1075209-1-andi.shyti@linux.intel.com>
@@ -76,147 +76,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Store the CCS mode value in the intel_gt->ccs structure to make
-it available for future instances that may need to change its
-value.
+Until now, we have only set CCS mode balancing to 1, which means
+that only one compute engine is exposed to the user. The stream
+of compute commands submitted to that engine is then shared among
+all the dedicated execution units.
 
-Name it mode_reg_val because it holds the value that will
-be written into the CCS_MODE register, determining the CCS
-balancing and, consequently, the number of engines generated.
+This is done by calling the 'intel_gt_apply_ccs_mode(); function.
 
-No functional changes intended.
+With this change, the aforementioned function takes an additional
+parameter called 'mode' that specifies the desired mode to be set
+for the CCS engines balancing. The mode parameter can have the
+following values:
+
+ - mode = 0: CCS load balancing mode 1 (1 CCS engine exposed)
+ - mode = 1: CCS load balancing mode 2 (2 CCS engines exposed)
+ - mode = 3: CCS load balancing mode 4 (4 CCS engines exposed)
+
+This allows us to generate the appropriate register value to be
+written to CCS_MODE, configuring how the exposed engine streams
+will be submitted to the execution units.
+
+No functional changes are intended yet, as no mode higher than
+'0' is currently being set.
 
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt.c          |  3 +++
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 16 +++++++++++-----
+ drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 85 +++++++++++++++++----
  drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h |  2 +-
- drivers/gpu/drm/i915/gt/intel_gt_types.h    | 11 +++++++++++
- drivers/gpu/drm/i915/gt/intel_workarounds.c |  6 ++++--
- 5 files changed, 30 insertions(+), 8 deletions(-)
+ 2 files changed, 72 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 3d3b1ba76e2b..bf09297f92c1 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -18,6 +18,7 @@
- #include "intel_ggtt_gmch.h"
- #include "intel_gt.h"
- #include "intel_gt_buffer_pool.h"
-+#include "intel_gt_ccs_mode.h"
- #include "intel_gt_clock_utils.h"
- #include "intel_gt_debugfs.h"
- #include "intel_gt_mcr.h"
-@@ -136,6 +137,8 @@ int intel_gt_init_mmio(struct intel_gt *gt)
- 	intel_sseu_info_init(gt);
- 	intel_gt_mcr_init(gt);
- 
-+	intel_gt_ccs_mode_init(gt);
-+
- 	return intel_engines_init_mmio(gt);
- }
- 
 diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-index 3c62a44e9106..fcd07eb4728b 100644
+index fcd07eb4728b..a6c33b471567 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
 +++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-@@ -8,15 +8,12 @@
+@@ -4,35 +4,92 @@
+  */
+ 
+ #include "i915_drv.h"
+-#include "intel_gt.h"
  #include "intel_gt_ccs_mode.h"
  #include "intel_gt_regs.h"
  
--unsigned int intel_gt_apply_ccs_mode(struct intel_gt *gt)
-+static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
+ static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
  {
++	unsigned long cslices_mask = gt->ccs.cslices;
++	u32 mode_val = 0;
++	/* CCS engine id, i.e. the engines position in the engine's bitmask */
++	int engine;
  	int cslice;
- 	u32 mode = 0;
- 	int first_ccs = __ffs(CCS_MASK(gt));
+-	u32 mode = 0;
+-	int first_ccs = __ffs(CCS_MASK(gt));
  
--	if (!IS_DG2(gt->i915))
--		return 0;
--
- 	/* Build the value for the fixed CCS load balancing */
+-	/* Build the value for the fixed CCS load balancing */
++	/*
++	 * The mode has two bit dedicated for each engine
++	 * that will be used for the CCS balancing algorithm:
++	 *
++	 *    BIT | CCS slice
++	 *   ------------------
++	 *     0  | CCS slice
++	 *     1  |     0
++	 *   ------------------
++	 *     2  | CCS slice
++	 *     3  |     1
++	 *   ------------------
++	 *     4  | CCS slice
++	 *     5  |     2
++	 *   ------------------
++	 *     6  | CCS slice
++	 *     7  |     3
++	 *   ------------------
++	 *
++	 * When a CCS slice is not available, then we will write 0x7,
++	 * oterwise we will write the user engine id which load will
++	 * be forwarded to that slice.
++	 *
++	 * The possible configurations are:
++	 *
++	 * 1 engine (ccs0):
++	 *   slice 0, 1, 2, 3: ccs0
++	 *
++	 * 2 engines (ccs0, ccs1):
++	 *   slice 0, 2: ccs0
++	 *   slice 1, 3: ccs1
++	 *
++	 * 4 engines (ccs0, ccs1, ccs2, ccs3):
++	 *   slice 0: ccs0
++	 *   slice 1: ccs1
++	 *   slice 2: ccs2
++	 *   slice 3: ccs3
++	 */
++	engine = __ffs(cslices_mask);
++
  	for (cslice = 0; cslice < I915_MAX_CCS; cslice++) {
- 		if (gt->ccs.cslices & BIT(cslice))
-@@ -35,5 +32,14 @@ unsigned int intel_gt_apply_ccs_mode(struct intel_gt *gt)
- 						     XEHP_CCS_MODE_CSLICE_MASK);
+-		if (gt->ccs.cslices & BIT(cslice))
++		if (!(cslices_mask & BIT(cslice))) {
+ 			/*
+-			 * If available, assign the cslice
+-			 * to the first available engine...
++			 * If not available, mark the slice as unavailable
++			 * and no task will be dispatched here.
+ 			 */
+-			mode |= XEHP_CCS_MODE_CSLICE(cslice, first_ccs);
++			mode_val |= XEHP_CCS_MODE_CSLICE(cslice,
++						     XEHP_CCS_MODE_CSLICE_MASK);
++			continue;
++		}
+ 
+-		else
++		mode_val |= XEHP_CCS_MODE_CSLICE(cslice, engine);
++
++		engine = find_next_bit(&cslices_mask, I915_MAX_CCS, engine + 1);
++		/*
++		 * If "engine" has reached the I915_MAX_CCS value it means that
++		 * we have gone through all the unfused engines and now we need
++		 * to reset its value to the first engine.
++		 *
++		 * From the find_next_bit() description:
++		 *
++		 * "Returns the bit number for the next set bit
++		 * If no bits are set, returns @size."
++		 */
++		if (engine == I915_MAX_CCS) {
+ 			/*
+-			 * ... otherwise, mark the cslice as
+-			 * unavailable if no CCS dispatches here
++			 * CCS mode, will be used later to
++			 * reset to a flexible value
+ 			 */
+-			mode |= XEHP_CCS_MODE_CSLICE(cslice,
+-						     XEHP_CCS_MODE_CSLICE_MASK);
++			engine = __ffs(cslices_mask);
++			continue;
++		}
  	}
  
--	return mode;
-+	gt->ccs.mode_reg_val = mode;
-+}
-+
-+void intel_gt_ccs_mode_init(struct intel_gt *gt)
-+{
-+	if (!IS_DG2(gt->i915))
-+		return;
-+
-+	/* Initialize the CCS mode setting */
-+	intel_gt_apply_ccs_mode(gt);
+-	gt->ccs.mode_reg_val = mode;
++	gt->ccs.mode_reg_val = mode_val;
  }
+ 
+ void intel_gt_ccs_mode_init(struct intel_gt *gt)
 diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
-index 55547f2ff426..0f2506586a41 100644
+index 0f2506586a41..4a6763b95a78 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
 +++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.h
-@@ -8,6 +8,6 @@
+@@ -6,7 +6,7 @@
+ #ifndef __INTEL_GT_CCS_MODE_H__
+ #define __INTEL_GT_CCS_MODE_H__
  
- struct intel_gt;
+-struct intel_gt;
++#include "intel_gt.h"
  
--unsigned int intel_gt_apply_ccs_mode(struct intel_gt *gt);
-+void intel_gt_ccs_mode_init(struct intel_gt *gt);
- 
- #endif /* __INTEL_GT_CCS_MODE_H__ */
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-index bcee084b1f27..9e257f34d05b 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-@@ -207,12 +207,23 @@ struct intel_gt {
- 					    [MAX_ENGINE_INSTANCE + 1];
- 	enum intel_submission_method submission_method;
- 
-+	/*
-+	 * Track fixed mapping between CCS engines and compute slices.
-+	 *
-+	 * In order to w/a HW that has the inability to dynamically load
-+	 * balance between CCS engines and EU in the compute slices, we have to
-+	 * reconfigure a static mapping on the fly.
-+	 *
-+	 * The mode variable is set by the user and sets the balancing mode,
-+	 * i.e. how the CCS streams are distributed amongs the slices.
-+	 */
- 	struct {
- 		/*
- 		 * Mask of the non fused CCS slices
- 		 * to be used for the load balancing
- 		 */
- 		intel_engine_mask_t cslices;
-+		u32 mode_reg_val;
- 	} ccs;
- 
- 	/*
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index b3dd8a077660..bec70294fc5c 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -2742,7 +2742,7 @@ add_render_compute_tuning_settings(struct intel_gt *gt,
- static void ccs_engine_wa_mode(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- {
- 	struct intel_gt *gt = engine->gt;
--	u32 mode;
-+	u32 mode = gt->ccs.mode_reg_val;
- 
- 	if (!IS_DG2(gt->i915))
- 		return;
-@@ -2758,8 +2758,10 @@ static void ccs_engine_wa_mode(struct intel_engine_cs *engine, struct i915_wa_li
- 	/*
- 	 * After having disabled automatic load balancing we need to
- 	 * assign all slices to a single CCS. We will call it CCS mode 1
-+	 *
-+	 * The gt->ccs.mode_reg_val has already been set previously during
-+	 * initialization.
- 	 */
--	mode = intel_gt_apply_ccs_mode(gt);
- 	wa_add(wal, XEHP_CCS_MODE, 0, mode, mode, false);
- }
+ void intel_gt_ccs_mode_init(struct intel_gt *gt);
  
 -- 
 2.47.2
