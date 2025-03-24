@@ -2,86 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BF4A6D52A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 08:37:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4CA3A6D553
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 08:43:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3188972C;
-	Mon, 24 Mar 2025 07:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC6DA10E13C;
+	Mon, 24 Mar 2025 07:43:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DlHAtxOD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="35pW69J0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ANdQaDPP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dDh8IyQC";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="TTVhwUAx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i4mSqylD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TTVhwUAx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i4mSqylD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E824A8972C
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 07:37:26 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B158810E13C
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 07:43:28 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E9F97211B4;
- Mon, 24 Mar 2025 07:37:24 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 192591F788;
+ Mon, 24 Mar 2025 07:43:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742801845; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1742802207; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UPtA0OO59rhMCePxlV5sKuEF7225mEnpq3K0OEEowTs=;
- b=DlHAtxOD/ghGVCFgXyl90icjnQI2pcxoqgY+WT/hkcIWLGU2O2n+qOXCTZ0eqi4074actf
- 5sIeGidhLy+SATuYMMsvz26gH0vwETFkHtQPUV41VHjj26LubN1SvjwRJOeSPkkiT7VerK
- nZ+MB/gLDjBX7IGcMdT4Ux/Iwj7R0OI=
+ bh=3cHSh3OJgCCHL2Lc/c+zsJTlX+2v7fbJA4aX368ZXks=;
+ b=TTVhwUAxzeki8CTvpVI4qCBzZc+bYF51vwxQD6JpFM1hT/5T5WAcwDrkJeW6xDZ1nWFBA1
+ ZiqsWNWoec6QBqUL6EA8QssC+lfs0NSkkAxUH59NleQUSPni+1KkM79Gwi3/yfRQ2kFtm3
+ q19RexMyKluK2WYv7sSo8IpNXeQ8js4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742801845;
+ s=susede2_ed25519; t=1742802207;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UPtA0OO59rhMCePxlV5sKuEF7225mEnpq3K0OEEowTs=;
- b=35pW69J0yqGA/JrJhGi8/1ZAkIZUfm9ChDNH8vM45QmC+pxC3G1GnmlPhsLjQzlqFpAzgO
- h8bvar9j7FH+DICQ==
-Authentication-Results: smtp-out1.suse.de;
+ bh=3cHSh3OJgCCHL2Lc/c+zsJTlX+2v7fbJA4aX368ZXks=;
+ b=i4mSqylDRpIrf1Ei1usgJXamOr+H/ebYUddKSnqlxLyxxCJVFoOgEXWPwf5VDWRcHJVUeQ
+ hHjJahBtk3kekjDg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742801844; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1742802207; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UPtA0OO59rhMCePxlV5sKuEF7225mEnpq3K0OEEowTs=;
- b=ANdQaDPPzQKu9ZDLzQl+w8CFqk8cSK+2bGG1piKhradGYBdH166CHMZjR4KmuJixqHb7A1
- h+b0AsoPMuC7yKmOjyhN6O23n0zbrAJZKJTLzs0ieUrUpn6o4IRqTKxJswyv9jAhChMElh
- Dxs+dgtfXfwrBqVs0JytJWNrVXa8gR8=
+ bh=3cHSh3OJgCCHL2Lc/c+zsJTlX+2v7fbJA4aX368ZXks=;
+ b=TTVhwUAxzeki8CTvpVI4qCBzZc+bYF51vwxQD6JpFM1hT/5T5WAcwDrkJeW6xDZ1nWFBA1
+ ZiqsWNWoec6QBqUL6EA8QssC+lfs0NSkkAxUH59NleQUSPni+1KkM79Gwi3/yfRQ2kFtm3
+ q19RexMyKluK2WYv7sSo8IpNXeQ8js4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742801844;
+ s=susede2_ed25519; t=1742802207;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UPtA0OO59rhMCePxlV5sKuEF7225mEnpq3K0OEEowTs=;
- b=dDh8IyQCn3xGboOAabRYneEOG4ZwPYFnjO0sFGNAr2ohwu0PlKE7CPrakrIl1pfg78lc58
- lm7ANsyM9uTbNVDA==
+ bh=3cHSh3OJgCCHL2Lc/c+zsJTlX+2v7fbJA4aX368ZXks=;
+ b=i4mSqylDRpIrf1Ei1usgJXamOr+H/ebYUddKSnqlxLyxxCJVFoOgEXWPwf5VDWRcHJVUeQ
+ hHjJahBtk3kekjDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BE78813874;
- Mon, 24 Mar 2025 07:37:24 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BB31213874;
+ Mon, 24 Mar 2025 07:43:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id tRBJLbQL4WftPQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 24 Mar 2025 07:37:24 +0000
-Message-ID: <c25ba88e-1ef9-4d7e-a055-5f7302610179@suse.de>
-Date: Mon, 24 Mar 2025 08:37:24 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id vs1jLB4N4WdOPwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 24 Mar 2025 07:43:26 +0000
+Message-ID: <fd216fbf-ff4b-4d33-a8be-b1b7fe525a35@suse.de>
+Date: Mon, 24 Mar 2025 08:43:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/18] drm/sysfb: Merge connector functions
-To: Javier Martinez Canillas <javierm@redhat.com>, simona@ffwll.ch,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20250319083021.6472-1-tzimmermann@suse.de>
- <20250319083021.6472-9-tzimmermann@suse.de>
- <87ldswdnf6.fsf@minerva.mail-host-address-is-not-set>
+Subject: Re: [PATCH v4 08/11] backlight: lcd: Replace fb events with a
+ dedicated function call
+To: Daniel Thompson <danielt@kernel.org>
+Cc: lee@kernel.org, pavel@ucw.cz, jingoohan1@gmail.com, deller@gmx.de,
+ simona@ffwll.ch, linux-leds@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Simona Vetter <simona.vetter@ffwll.ch>
+References: <20250321095517.313713-1-tzimmermann@suse.de>
+ <20250321095517.313713-9-tzimmermann@suse.de> <Z91NHP65X9GFIYOe@aspen.lan>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -108,26 +110,26 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87ldswdnf6.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <Z91NHP65X9GFIYOe@aspen.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
+X-Spam-Level: 
 X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,linux.intel.com,kernel.org];
- TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[10];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[6]; RCVD_TLS_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[kernel.org,ucw.cz,gmail.com,gmx.de,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
  TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
  FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
+X-Spam-Score: -4.30
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,51 +145,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier
+Hi
 
-Am 23.03.25 um 11:57 schrieb Javier Martinez Canillas:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
->
->> Merge the connector functions of ofdrm and simpledrm. Replace the
->> code in each driver with the shared helpers. Set up callbacks with
->> initializer macros.
+Am 21.03.25 um 12:27 schrieb Daniel Thompson:
+> On Fri, Mar 21, 2025 at 10:54:01AM +0100, Thomas Zimmermann wrote:
+>> Remove support for fb events from the lcd subsystem. Provide the
+>> helper lcd_notify_blank_all() instead. In fbdev, call
+>> lcd_notify_blank_all() to inform the lcd subsystem of changes
+>> to a display's blank state.
 >>
->> No effective code changes. The sysfb connector only returns the
->> preconfigured display mode.
+>> Fbdev maintains a list of all installed notifiers. Instead of fbdev
+>> notifiers, maintain an internal list of lcd devices.
+>>
+>> v3:
+>> - export lcd_notify_mode_change_all() (kernel test robot)
+>> v2:
+>> - maintain global list of lcd devices
+>> - avoid IS_REACHABLE() in source file
+>> - use lock guards
+>> - initialize lcd list and list mutex
 >>
 >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
-> ...
->
->> +#define DRM_SYSFB_CONNECTOR_FUNCS \
->> +	.reset = drm_atomic_helper_connector_reset, \
->> +	.fill_modes = drm_helper_probe_single_connector_modes, \
->> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state, \
->> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state
->> +
->>   /*
-> ...
->
->>   static const struct drm_connector_funcs ofdrm_connector_funcs = {
->> -	.reset = drm_atomic_helper_connector_reset,
->> -	.fill_modes = drm_helper_probe_single_connector_modes,
->> +	DRM_SYSFB_CONNECTOR_FUNCS,
->>   	.destroy = drm_connector_cleanup,
-> Why not include the .destroy callback in DRM_SYSFB_CONNECTOR_FUNCS ?
+>> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+> Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 
-These sysfb helpers provide functionality to operate on the output 
-(damage handling, etc).
-
-The destroy callback depends on the way the mode-setting pipeline is 
-organized. The driver controls this. It might wants to allocated the 
-connector separately or use a container structure (e.g., struct 
-ofdrm_connector) that needs separate cleanup. Hence the driver has to 
-control the  destroy callback. That argument goes for all the other 
-elements of the pipeline.
+Thanks for reviewing.  There are reviews of all patches. If nothing else 
+comes in, feel free to merge it via the backlight tree.  I can also take 
+the series into dri-devel.
 
 Best regards
 Thomas
 
+>
+>
+> Daniel.
 >
 
 -- 
