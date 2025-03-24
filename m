@@ -2,81 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A73A6E297
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 19:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00633A6E298
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 19:44:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DEF210E439;
-	Mon, 24 Mar 2025 18:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4962110E442;
+	Mon, 24 Mar 2025 18:44:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QBRaFFQc";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="CYhCmkbn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CDD010E439
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 18:43:56 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-2ff6b9a7f91so1463391a91.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 11:43:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742841835; x=1743446635; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IDhZCTYQpfVjqWAeaYWpsSp1wpfRNQxkv4etm8lhI/M=;
- b=QBRaFFQcdm01+QnJ6NLzUH38VBf94T/kdH0kLNFfIq9wRsxKch1Xn7zTYQOXJw3H4h
- w80cvhy2rICAUkSi5oA6MO02IrtBf8vdBpUtonaiegYKFlBDlzFX9eUsHZi13vlxmcVh
- q+AwGe345VZ71hiNUTgGAI27MB3JlgNDiPi4WAQEr//ZF/2CGLD69iDXJHdFtk29s2+w
- Z577bz4GWI0+M0WmDXBCxguvJTsaFT9/Vcwbx1gMAlD4zn2uUuW/qSrC0Uj3jZ81FnvI
- MmrfyUSFY1i2RxdCSYZNeYlKxzwkBvZ+VU5QzswYtm9Ylb9UeB64oPIfEU4vH47R+5zH
- 9Yww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742841836; x=1743446636;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IDhZCTYQpfVjqWAeaYWpsSp1wpfRNQxkv4etm8lhI/M=;
- b=J/q7F5F5lCHmH7+J+anJ+pm6C1A6d55lh4D9zUQDT3zChXxhxGGe7Q39rl+H91tFA0
- CezjkvJ9Lij7S5v6rlck016M7rVvLHWRQVhxROOXmPLJA814XmmiDlcvQU0N8GroyNHC
- GgV7OdkEy26eXFZJTq4bj1g9mEnkS8kODdW64MJTA9JP1osfS8PtaAFnS4qPHeYDm2N9
- qbKWCBo/iPMphvwMmqmSBNHBr1baTsnMDp3s98XmoCc8lZqeEfSOeoRDiHxLRvYDvJDw
- DGM4UykqdPtIs8xbDp6itCeFkJ6vTPIifKKEuaHDC3RQiD5NJQFEFIRLe2VImieXe3CY
- +iqg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVzU/UUTa7xyNmAfUt9iK9DVrjxoUXH043EuRpXRitXQEu/t0mlSY1aYlLpfXCuHOkIvUrAySkeXfg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmD0BKd5VkVSw3syUlbq2P60P1zoImjLqqGm5WNIBOPLQHAj6Z
- PUjogGFimT5jytesFsTbt0+bN045e34v1pEP8ONevtdnCyE563urxR2zK6NdFpa6TElbdwRJNjr
- Y3xMDY3xvkYZuAMQxZD2+TGUwhD0=
-X-Gm-Gg: ASbGncsGBrULzxAV4wFspp9pdvvq621U/9ddinjFuwmS4Uzhtdoqu9h/NbxNrUHwuKT
- 47wLtajwq53VnHep5jNbn5/VGUvymAD4zsspmez35CoSukOLYJ1ZC/bcVPjIUTJsCSuzLrV6Tlh
- 6RkT6ZJJeLhh3oMuQwZAp+AFSsWAqYyACOCgU8
-X-Google-Smtp-Source: AGHT+IGyNAuquWNXQ8BnCGJq15TIHzIgTVg6j416k3z+H33/HqAmOnr+27+fP2eK6DCAaVfDoLUn/2gDZU94hXSuIYU=
-X-Received: by 2002:a17:90b:380d:b0:2ff:6bcf:540a with SMTP id
- 98e67ed59e1d1-3036b4b348amr9879a91.6.1742841835419; Mon, 24 Mar 2025 11:43:55
- -0700 (PDT)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F288F10E442
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 18:44:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1742841851; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=jV18Lr3WTYIwr0VI2NcmhfG0ucWBw3XpA4ZLsKhvb5kvwFLQXK20hR6HZNmlLmjDlQT7cI1bkqRhOLrjpslLrBFI6AJ58Q/5IcbEB8AmzdXVEA4Dq13mvbGJMKeqiyZ8mjF5hcsUueSPwRv6tqwRsEtxUe0H9Esn8cdUi+o/IIQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1742841851;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=3i45atEj/Em1zgDsdIfHqKPyZD2/NFVdU7m9egEFrkg=; 
+ b=cDn1geDA7XOV87TV37z9IW2J87l1HmdTS78uig6xXK/sM5sK1IXGQNWmLRz3bvKtotjKfKQnWNTu+1cvRwEJKE8R7AH4QsOXA9pDXO2E2YgD/OdX6Qe52bwVB6uaIDmLhu/+Eej4s0Z4xdCSb1Eb0DXkFCWyfonJ7RzTWAPBITA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742841851; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=3i45atEj/Em1zgDsdIfHqKPyZD2/NFVdU7m9egEFrkg=;
+ b=CYhCmkbnpAtqmznlseu04bydQY+U12ExisubT8wS/U7AiTY1OXhIXVdf/nic22dS
+ jCGNhkINUOfj6Xpr9MEqXYLqAb1yOggK9z+xMauUpXP0WRy+Ae6uBY7zTkSQFPLS36q
+ istxulDhzmrK4P/W/AVPcv18FjZtDX6xCsEaaa7Y=
+Received: by mx.zohomail.com with SMTPS id 1742841849727969.7923025073931;
+ Mon, 24 Mar 2025 11:44:09 -0700 (PDT)
+Message-ID: <69da05c4-7471-47aa-a72d-b08d9b97e8dc@collabora.com>
+Date: Mon, 24 Mar 2025 15:44:03 -0300
 MIME-Version: 1.0
-References: <20250324-gpuvm-v1-0-7f8213eebb56@collabora.com>
- <20250324-gpuvm-v1-1-7f8213eebb56@collabora.com>
-In-Reply-To: <20250324-gpuvm-v1-1-7f8213eebb56@collabora.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 24 Mar 2025 19:43:42 +0100
-X-Gm-Features: AQ5f1Jo5s1OdGZqVubb6Tq-h2U2YrkskT9NsblmlA-2DdQThwVXaEW7IQM4bz4E
-Message-ID: <CANiq72nLRe1TXqj5fjgknatwgR=RqUA9WmmwY9fs44fYS9yu5w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] rust: helpers: Add bindings/wrappers for dma_resv
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Asahi Lina <lina@asahilina.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] drm/panfrost: Add support for AARCH64_4K page
+ table format
+To: Adrian Larumbe <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, kernel@collabora.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ sjoerd@collabora.com, angelogioacchino.delregno@collabora.com
+References: <20250317145245.910566-1-ariel.dalessandro@collabora.com>
+ <20250317145245.910566-5-ariel.dalessandro@collabora.com>
+ <5hl2ahnxeunqebenguxjwwie6ura3lxknu766xthov2m4qvsot@imrrfqftlmv4>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <5hl2ahnxeunqebenguxjwwie6ura3lxknu766xthov2m4qvsot@imrrfqftlmv4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,18 +74,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 24, 2025 at 4:14=E2=80=AFPM Daniel Almeida
-<daniel.almeida@collabora.com> wrote:
->
-> -const blk_features_t RUST_CONST_HELPER_BLK_FEAT_ROTATIONAL =3D BLK_FEAT_=
-ROTATIONAL;
-> +const blk_features_t RUST_CONST_HELPER_BLK_FEAT_ROTATIONAL =3D
-> +       BLK_FEAT_ROTATIONAL;
+Adrian,
 
-Spurious change?
+On 3/22/25 3:48 PM, Adrian Larumbe wrote:
+> On 17.03.2025 11:52, Ariel D'Alessandro wrote:
+>> Currently, Panfrost only supports MMU configuration in "LEGACY" (as
+>> Bifrost calls it) mode, a (modified) version of LPAE "Large Physical
+>> Address Extension", which in Linux we've called "mali_lpae".
+>>
+>> This commit adds support for conditionally enabling AARCH64_4K page
+>> table format. To achieve that, a "GPU optional quirks" field was added
+>> to `struct panfrost_features` with the related flag.
+>>
+>> Note that, in order to enable AARCH64_4K mode, the GPU variant must have
+>> the HW_FEATURE_AARCH64_MMU feature flag present.
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> ---
+>>   drivers/gpu/drm/panfrost/panfrost_device.h |  16 +++
+>>   drivers/gpu/drm/panfrost/panfrost_mmu.c    | 140 +++++++++++++++++++--
+>>   drivers/gpu/drm/panfrost/panfrost_regs.h   |  34 +++++
+>>   3 files changed, 183 insertions(+), 7 deletions(-)
 
-Ah, this is probably the result of applying `clang-format`, which is
-something that perhaps we should consider, but separately... :)
+[snip]
 
-Cheers,
-Miguel
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>> index 294f86b3c25e7..506f42ccfd5fc 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+
+[snip]
+
+>> +static int panfrost_mmu_cfg_init(struct panfrost_mmu *mmu,
+>> +				  enum io_pgtable_fmt fmt)
+>> +{
+>> +	struct panfrost_device *pfdev = mmu->pfdev;
+>> +
+>> +	switch (fmt) {
+>> +	case ARM_64_LPAE_S1:
+>> +		return mmu_cfg_init_aarch64_4k(mmu);
+>> +	case ARM_MALI_LPAE:
+>> +		return mmu_cfg_init_mali_lpae(mmu);
+>> +	default:
+>> +		/* This should never happen */
+>> +		drm_WARN(pfdev->ddev, "Invalid pgtable format");
+> 
+> I think there's a '1' missing here before the string literal.
+> Other than that,
+> 
+> Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+
+Fixed, thanks!
+
+Will send v5 right away.
+
+-- 
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
+
