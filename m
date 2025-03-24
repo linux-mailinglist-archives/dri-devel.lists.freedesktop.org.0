@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C33A6DE58
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380E3A6DE5D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:23:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8936B10E47E;
-	Mon, 24 Mar 2025 15:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7725010E484;
+	Mon, 24 Mar 2025 15:23:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pBpxv0/y";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ln7CtI1e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2AE310E47A;
- Mon, 24 Mar 2025 15:23:07 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 432974438E;
- Mon, 24 Mar 2025 15:23:05 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF2A10E471;
+ Mon, 24 Mar 2025 15:23:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CFE462047D;
+ Mon, 24 Mar 2025 15:23:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829786;
+ t=1742829799;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pJFgNFBVo9Y/fYi2mFx/DtELvv7oTepOjCaghcZkMmw=;
- b=pBpxv0/yyajnKwZeTTLYnbedugi+AFIp4kjIQKICZrDEJu8ehusqntNjpk4SgRRvQfdNJG
- L8qktlYalwxbabmfjyxjY9OKNF33Crdjz6pUPICe+r9IpX2HwbFa8wO/hZBgYiRogKylSM
- DYyJAEnlhqjfhKmPsToR522t7Q7vMvAL4MYVfKN/22rYtMVsL52TgEhHANMQ3B7bMEQxZn
- 89BbRWBiLbVNpYIJCtKBMa8Rj7K2aTxF04q0m2QTFwuMqF1sExK5S+eoR8+NA45rSu8Pkp
- K+LApDXQqjueZGOGgEV4YzsmigUlQcfn46Ya1/SvDYSpu/Zkd+h0qYzKz1cqGw==
-Message-ID: <aa2dbe5e-7e0d-49be-a1ee-80320576d807@bootlin.com>
-Date: Mon, 24 Mar 2025 16:23:04 +0100
+ bh=D3gWML1DZeb3CvxHzBB9x65brvewkABGhRCqq6B0PnY=;
+ b=ln7CtI1exG6vcOi0D8LQkBDUTSSa8PJ7+0lhOJGeevy+OtbIOiF++zo28Dalg4zNfchTS2
+ fEK2Xm+S/Iij0lnfgdSAcfhOaREq8aC3uJEWbQBLHqASVS0ws+0SR7c2+0Z9144a4HrpFe
+ mPENoLrYqCGxIFEvYaAYFjH4/ABYrK9SI/0tORCa6LrfZeteeUDgGqAapMYQUBiWnEGnU1
+ udD4qZKeqAk1N6NXZQ4qejE/2QXWYQdbnXU4aI5g+KH7AYcElSqQDzEuWgVoEnMhFfl4ek
+ VmCBB0im2AYYF1DvEJCo3cct4rlja9dnpvHFUpPaLCP/AEAtnrPNDdqkXZRvww==
+Message-ID: <79cd2985-bcdc-4dc1-8aa3-b19d7fd595f9@bootlin.com>
+Date: Mon, 24 Mar 2025 16:23:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 32/59] docs/dyndbg: explain flags parse 1st
+Subject: Re: [PATCH v2 34/59] checkpatch: dont warn about unused macro arg on
+ empty body
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -43,9 +44,11 @@ To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
 Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com,
- linux-doc@vger.kernel.org
+ Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+ Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-33-jim.cromie@gmail.com>
+ <20250320185238.447458-35-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -101,12 +104,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-33-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-35-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudehpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudekpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,44 +130,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> When writing queries to >control, flags are parsed 1st, since they are
-> the only required field, and they require specific compositions.  So
-> if the flags draw an error (on those specifics), then keyword errors
-> aren't reported.  This can be mildly confusing/annoying, so explain it
-> instead.
+> we currently get:
+>    WARNING: Argument 'name' is not used in function-like macro
+> on:
+>    #define DRM_CLASSMAP_USE(name)  /* nothing here */
 > 
-> cc: linux-doc@vger.kernel.org
+> Following this advice is wrong here, and shouldn't be fixed by
+> ignoring args altogether; the macro should properly fail if invoked
+> with 0 or 2+ args.
+> 
+> cc: Andy Whitcroft <apw@canonical.com>
+> cc: Joe Perches <joe@perches.com>
+> cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-I think this could be merged outside this series.
-
 > ---
->   Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+>   scripts/checkpatch.pl | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index 8e2083605bd7..d2928884c92b 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -112,6 +112,16 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
->   the flags-spec, all constraints are ANDed together.  An absent keyword
->   is the same as keyword "*".
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 7b28ad331742..0c4f578ea6e7 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -6037,7 +6037,7 @@ sub process {
+>   				}
 >   
-> +Note: because the match-spec can be empty, the flags are checked 1st,
-> +then the pairs of keyword values.  Flag errs will hide keyword errs:
-> +
-> +  bash-5.2# ddcmd mod bar +foo
-> +  dyndbg: read 13 bytes from userspace
-> +  dyndbg: query 0: "mod bar +foo" mod:*
-> +  dyndbg: unknown flag 'o'
-> +  dyndbg: flags parse failed
-> +  dyndbg: processed 1 queries, with 0 matches, 1 errs
-> +
->   A match specification is a keyword, which selects the attribute of
->   the callsite to be compared, and a value to compare against.  Possible
->   keywords are:::
+>   # check if this is an unused argument
+> -				if ($define_stmt !~ /\b$arg\b/) {
+> +				if ($define_stmt !~ /\b$arg\b/ && $define_stmt) {
+>   					WARN("MACRO_ARG_UNUSED",
+>   					     "Argument '$arg' is not used in function-like macro\n" . "$herectx");
+>   				}
 
 -- 
 Louis Chauvet, Bootlin
