@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398DDA6DE3D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:20:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B245A6DE47
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:21:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 700B510E467;
-	Mon, 24 Mar 2025 15:20:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DCF310E46E;
+	Mon, 24 Mar 2025 15:20:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XBUSDQA1";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="L6cAO2ED";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0CDE10E46A;
- Mon, 24 Mar 2025 15:20:09 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 94BA144521;
- Mon, 24 Mar 2025 15:20:04 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33EAD10E46B;
+ Mon, 24 Mar 2025 15:20:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 748C32047D;
+ Mon, 24 Mar 2025 15:20:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829608;
+ t=1742829655;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=64cGfJX2CUfwKXlibv/gVIOSuJtuUlaHPjewtQM7FkA=;
- b=XBUSDQA1p6h43VO1cpZVHe7SdMc0N2tw5im0y5oSOqjX4uPR68MDOJL6T8TqR7VmCh6iWM
- SJQZjJPl6U7QduJdtlQdnpnWv18rJpxKbtUqfoJhezcX84FbdsqmT8TbNPBHtJDE/NyaFA
- dZZodrI6FtULgstofnlcRhWw2643/dGr+R1YvvqeF5qVrAFPhC+xE+yAy+pwektrnON/uf
- Dt44JQNpOZdCnYSPxaf7vRB2Y3Gs9Ve9VIEXrFuHUBjv2H+4AZNDBkGxvgGQY58WJLEZkU
- 2K3NLQIJAtORAqLzZYB5Tf8KY/JU39i2uvWwkrnxvqVpkfiQWd8CGghOGpZJKw==
-Message-ID: <80e58693-8ca0-4bce-b7b3-bf0302d0825c@bootlin.com>
-Date: Mon, 24 Mar 2025 16:20:04 +0100
+ bh=RvILZxrp8pvFIByOZLy7p8omSOBu/+zcN1EsYqvLh/w=;
+ b=L6cAO2EDDHaB/JvgVrxZRQBH3obmlZdrFFJSzET/EhnRAXUlJ4lUBaMcqo3mm/F/qnyEKt
+ 8ahU5p1snZy+pkBGPH8RfQrJBMqrPf/xsF8BZBYxWfMcmetJNDzGAGNUqd6uKtWrHqdwBY
+ o4Hs3s6OicZ3/P7jRJt+WrI0jf1xCuwIMKsZUt0mHjTmYz2rPQNRK4eqVb+tLPL5bGHDSr
+ WZ0guMKtbjUWlPEQ6vAxJn9hig5xoUEoEsLSmVRiLHSkP6iTHKaEgIOziI3mce8avQF1bL
+ 6NXn/uduLYjV48Fe/ShFAiWnFtuZYDoAmdfX/MGfQlVBLOxsha/wwgV94/4rgA==
+Message-ID: <0828cfdb-abf3-42c5-8500-70f36affd0a8@bootlin.com>
+Date: Mon, 24 Mar 2025 16:20:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 28/59] selftests-dyndbg: add test_mod_submod
+Subject: Re: [PATCH v2 30/59] dyndbg: drop "protection" of class'd pr_debugs
+ from legacy queries
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +45,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-29-jim.cromie@gmail.com>
+ <20250320185238.447458-31-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +101,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-29-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-31-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,127 +127,152 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> This new test-fn runs 3 module/submodule modprobe scenarios, variously
-> using both the generic dyndbg=<queries> modprobe arg, and the
-> test-module's classmap-params to manipulate the test-mod*'s pr_debugs.
-> In all cases, the current flag-settings are counted and tested vs
-> expectations.
+> Current classmap code protects class'd pr_debugs from unintended
+> changes by "legacy" unclassed queries:
 > 
-> The 3rd scenario recapitulates the DRM_USE_DYNAMIC_DEBUG=y failure.
+>    # this doesn't disable all of DRM_UT_* categories
+>    echo "-p" > /proc/dynamic_debug/control
 > 
-> 1. 2 modprobes (super then sub), with separate dyndbg=class-settings
->     check module specific flag settings
+>    # name the class to change it - protective but tedious
+>    echo "class DRM_UT_CORE +p" > /proc/dynamic_debug/control
 > 
-> 2. modprobe submod, supermod is auto-loaded
->     set supermod class-params
->     check expected enablements in super & submod
+>    # or do it the subsystem way
+>    echo 1 > /sys/module/drm/parameters/debug
 > 
-> 3. modprobe super, with param=setting (like drm.debug=0x1ef)
->     modprobe submod
->     validate submod's class'd pr_debugs get properly enabled
+> This "name the class to change it" behavior gave a modicum of
+> protection to classmap users (ie DRM) so their debug settings aren't
+> trivially and unintentionally altered underneath them.
 > 
-> The test uses multi-queries, with both commas and percents (to avoid
-> spaces and quoting).  This is the main reason the test wasn't earlier
-> in the patchset, closer to the classmap patches its validating.
+> But this made the class keyword special in some sense; the other
+> keywords skip only on explicit mismatch, otherwize the code falls thru
+
+s/otherwize/otherwise/
+
+> to adjust the pr-debug site.
 > 
-> With some tedium, the tests could be refactored to split out early
-> tests which avoid multi-cmds, and test only the class-params.
+> So Jason Baron didn't like this special case when I 1st proposed it;
+> I argued 2 points:
+> - "protection gives stable-debug, improving utility"
+> - __drm_debug is authoritative w/o dyndbg under it.
 > 
+> I thought I'd convinced him back then, (and the patchset got merged),
+> but he noted it again when he reviewed this series.  So this commit
+> names the "special case": ddebug_client_module_protects_classes(), and
+> reverts it to Jason's preference.
+  >
+> If a class mismatch is seen, code distinguishes whether the class was
+> explicitly given (and always skips/continue), or the DFLT was assumed
+> because no class was given.  Here we test
+> ddebug_client_module_protects_classes(), skip if so.
+> 
+> Later, if any user/module wants to protect its classes, we could add a
+> flag to ddebug_table, a means to set it from CLASSMAP_DEFINE, and
+> check it when applying a classless query/cmd.
+
+I don't really understand the goal of the protection, do you have the 
+discussion between you and Jason so I can have some context and some 
+answer to my questions?
+
+With the example you gave above, I think this could lead to a very odd 
+behavior: if I enable dyndbg, I expect any pr_dbg to be managed by 
+dyndbg settings.
+
+If a user writes stuff on dyndbg control, he clearly knows what he is 
+doing, and he wants to control what logs he wants.
+
+And if you allow multiple "protected" users, the normal way to disable 
+all dyndbg logs will be:
+
+	ddcmd -p
+	ddcmd class DRM_UT_CORE -p
+	ddcmd class DRM_... -p # all drm classes
+	ddcmd class SPI_... -p # all spi classes
+	ddcmd class WHATEVER_... -p # all other subsystem
+
+	# And only now you can enable only what you want
+	ddcmd module my_mod +p
+
+This is clearly annoying to write.
+
+If DRM (or whatever subsystem) wants to add a debug parameter and use it 
+to control their logs without being impacted by dyndbg, I believe it 
+should not use dyndbg classes to do it.
+
+> CC: jbaron@akamai.com
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
 > ---
-> - drop -v used in test_mod_submod(). V=1 does it for whole test
-> - ifrmmod at test end (Lukasz)
-> ---
->   .../dynamic_debug/dyndbg_selftest.sh          | 69 +++++++++++++++++++
->   1 file changed, 69 insertions(+)
+>   lib/dynamic_debug.c | 34 +++++++++++++++++++++++++---------
+>   1 file changed, 25 insertions(+), 9 deletions(-)
 > 
-> diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> index c97c9391d0f4..cfed79b34996 100755
-> --- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> +++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> @@ -275,10 +275,79 @@ function test_percent_splitting {
->       ifrmmod test_dynamic_debug
+> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> index c44502787c2b..13de0dd3a4ad 100644
+> --- a/lib/dynamic_debug.c
+> +++ b/lib/dynamic_debug.c
+> @@ -193,6 +193,17 @@ static int ddebug_find_valid_class(struct ddebug_table const *dt, const char *cl
+>   	return -ENOENT;
 >   }
 >   
-> +function test_mod_submod {
-> +    echo -e "${GREEN}# TEST_MOD_SUBMOD ${NC}"
-> +    ifrmmod test_dynamic_debug_submod
-> +    ifrmmod test_dynamic_debug
-> +    ddcmd =_
-> +
-> +    # modprobe with class enablements
-> +    modprobe test_dynamic_debug \
-> +	dyndbg=class,D2_CORE,+pf%class,D2_KMS,+pt%class,D2_ATOMIC,+pm
-> +
-> +    check_match_ct '\[test_dynamic_debug\]' 23 -r
-> +    check_match_ct =pf 1
-> +    check_match_ct =pt 1
-> +    check_match_ct =pm 1
-> +
-> +    modprobe test_dynamic_debug_submod
-> +    check_match_ct test_dynamic_debug_submod 23 -r
-> +    check_match_ct '\[test_dynamic_debug\]' 23 -r
-> +    check_match_ct test_dynamic_debug 46 -r
-> +
-> +    # no enablements propagate here
-> +    check_match_ct =pf 1
-> +    check_match_ct =pt 1
-> +    check_match_ct =pm 1
-> +
-> +    # change classes again, this time submod too
-> +    ddcmd class,D2_CORE,+mf%class,D2_KMS,+lt%class,D2_ATOMIC,+ml "# add some prefixes"
-> +    check_match_ct =pmf 1
-> +    check_match_ct =plt 1
-> +    check_match_ct =pml 1
-> +    #  submod changed too
-> +    check_match_ct =mf 1
-> +    check_match_ct =lt 1
-> +    check_match_ct =ml 1
-> +
-> +    # now work the classmap-params
-> +    # fresh start, to clear all above flags (test-fn limits)
-> +    ifrmmod test_dynamic_debug_submod
-> +    ifrmmod test_dynamic_debug
-> +    modprobe test_dynamic_debug_submod # get supermod too
-> +
-> +    echo 1 > /sys/module/test_dynamic_debug/parameters/p_disjoint_bits
-> +    echo 4 > /sys/module/test_dynamic_debug/parameters/p_level_num
-> +    # 2 mods * ( V1-3 + D2_CORE )
-> +    check_match_ct =p 8
-> +    echo 3 > /sys/module/test_dynamic_debug/parameters/p_disjoint_bits
-> +    echo 0 > /sys/module/test_dynamic_debug/parameters/p_level_num
-> +    # 2 mods * ( D2_CORE, D2_DRIVER )
-> +    check_match_ct =p 4
-> +    echo 0x16 > /sys/module/test_dynamic_debug/parameters/p_disjoint_bits
-> +    echo 0 > /sys/module/test_dynamic_debug/parameters/p_level_num
-> +    # 2 mods * ( D2_DRIVER, D2_KMS, D2_ATOMIC )
-> +    check_match_ct =p 6
-> +
-> +    # recap DRM_USE_DYNAMIC_DEBUG regression
-> +    ifrmmod test_dynamic_debug_submod
-> +    ifrmmod test_dynamic_debug
-> +    # set super-mod params
-> +    modprobe test_dynamic_debug p_disjoint_bits=0x16 p_level_num=5
-> +    check_match_ct =p 7
-> +    modprobe test_dynamic_debug_submod
-> +    # see them picked up by submod
-> +    check_match_ct =p 14
-> +    ifrmmod test_dynamic_debug_submod
-> +    ifrmmod test_dynamic_debug
+> +/*
+> + * classmaps-v1 protected classes from changes by legacy commands
+> + * (those selecting _DPRINTK_CLASS_DFLT by omission), v2 undoes that
+> + * special treatment.  State so explicitly.  Later we could give
+> + * modules the choice to protect their classes or to keep v2 behavior.
+> + */
+> +static inline bool ddebug_client_module_protects_classes(const struct ddebug_table *dt)
+> +{
+> +	return false;
 > +}
 > +
->   tests_list=(
->       basic_tests
-> +    # these require test_dynamic_debug*.ko
->       comma_terminator_tests
->       test_percent_splitting
-> +    test_mod_submod
->   )
+>   /*
+>    * Search the tables for _ddebug's which match the given `query' and
+>    * apply the `flags' and `mask' to them.  Returns number of matching
+> @@ -206,7 +217,7 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
+>   	unsigned int newflags;
+>   	unsigned int nfound = 0;
+>   	struct flagsbuf fbuf, nbuf;
+> -	int valid_class;
+> +	int slctd_class;
+
+Nitpick: can you use full words? slctd is difficult to read.
+
 >   
->   # Run tests
+>   	/* search for matching ddebugs */
+>   	mutex_lock(&ddebug_lock);
+> @@ -218,21 +229,26 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
+>   			continue;
+>   
+>   		if (query->class_string) {
+> -			valid_class = ddebug_find_valid_class(dt, query->class_string);
+> -			if (valid_class < 0)
+> +			slctd_class = ddebug_find_valid_class(dt, query->class_string);
+> +			if (slctd_class < 0)
+> +				/* skip/reject classes unknown by module */
+>   				continue;
+>   		} else {
+> -			/* constrain query, do not touch class'd callsites */
+> -			valid_class = _DPRINTK_CLASS_DFLT;
+> +			slctd_class = _DPRINTK_CLASS_DFLT;
+>   		}
+>   
+>   		for (i = 0; i < dt->info.descs.len; i++) {
+>   			struct _ddebug *dp = &dt->info.descs.start[i];
+>   
+> -			/* match site against query-class */
+> -			if (dp->class_id != valid_class)
+> -				continue;
+> -
+> +			if (dp->class_id != slctd_class) {
+> +				if (query->class_string)
+> +					/* site.class != given class */
+> +					continue;
+> +				/* legacy query, class'd site */
+> +				else if (ddebug_client_module_protects_classes(dt))
+> +					continue;
+> +				/* allow change on class'd pr_debug */
+> +			}
+>   			/* match against the source filename */
+>   			if (query->filename &&
+>   			    !match_wildcard(query->filename, dp->filename) &&
 
 -- 
 Louis Chauvet, Bootlin
