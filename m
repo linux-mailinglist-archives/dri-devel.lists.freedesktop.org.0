@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C47A6E4F0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 22:04:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C6AA6E4F2
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 22:04:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5788C10E046;
-	Mon, 24 Mar 2025 21:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64BB610E0AA;
+	Mon, 24 Mar 2025 21:04:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fEBpWuZM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h4+igZhq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7221810E0AA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71F0110E046
  for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 21:04:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B91A2A4A51E;
- Mon, 24 Mar 2025 20:58:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DCE8C4CEDD;
- Mon, 24 Mar 2025 21:04:10 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D5D3EA4A1BE;
+ Mon, 24 Mar 2025 20:58:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A75EC4CEDD;
+ Mon, 24 Mar 2025 21:04:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742850255;
- bh=tUz2qusKTvBmkeN4ksXUVEfMZCjH960Ip+LLkF/SukA=;
+ s=k20201202; t=1742850260;
+ bh=UzO1Is65wUucYlG6zCoHXjenv9hb72i1myTEfKlskho=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fEBpWuZMI5f1ITtXzDBgzx5iItfrlmMCtExT7IrgeGZeKJIZyePfm6qWjI9vODnna
- UWyFDDhVZabVaJ9bZY8BT0s64Y7rCxpsNWxYcb5A2KejRjp43IsfjO91mSNhdRRaOj
- xBMmeZG3sohkGZp3h7kYw+qOQh6qnI/S6THpHSGmwjTFU5pIaJ7IbMurNnCqS8Xo9S
- V/p4gNbFJWjKfbRQcJRH6sKrGBG0fxhdsxNnO0JYkh+O2khYqH8K/KJZTgxBWBec1A
- hu0HXWHfsJi2jkRxrUDaWw4omFyewPLLz92rqmt0jSFEXaA0FEdL0ZAc61FAxmCWnB
- FP2PccIYo8EzA==
+ b=h4+igZhqO54dAYRBs+zJfRMVWtgbX3T5GhiNbnXs2j0tPYqLG+wQIPB9QEOQscOkY
+ iU75GRTGoSJyxe3cTemmAeZOtKzoMCIVC4aOmjxLWSU04vEtHfSQnXcb/QNiNqjoDm
+ Fkocgl/3sf3EPnzVQXBLCfXlHMPEKCRkQSK7hKlNkN+/3ZdFlOhNWusk+0eoxsE6gD
+ Zif5P5Gl2WADshm8ZKGHe3NA7VECgcRFjzfkjrfLEDlij2jTbPWlCCA0Y0TeiJabnc
+ v2pAe+R+VGMYXGHjq0D/UMsugsk5DfPldgs6BFVSBYZnhKR1Vi1NlAH3M8MkA6T5ki
+ za/U0OzTFmC3A==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>
@@ -45,9 +45,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/10] drm/panic: add missing space
-Date: Mon, 24 Mar 2025 22:03:48 +0100
-Message-ID: <20250324210359.1199574-2-ojeda@kernel.org>
+Subject: [PATCH 02/10] drm/panic: add missing Markdown code span
+Date: Mon, 24 Mar 2025 22:03:49 +0100
+Message-ID: <20250324210359.1199574-3-ojeda@kernel.org>
 In-Reply-To: <20250324210359.1199574-1-ojeda@kernel.org>
 References: <20250324210359.1199574-1-ojeda@kernel.org>
 MIME-Version: 1.0
@@ -67,7 +67,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing space in sentence.
+Add missing Markdown code span.
 
 This was found using the Clippy `doc_markdown` lint, which we may want
 to enable.
@@ -79,18 +79,18 @@ Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-index ecd87e8ffe05..9bd4d131f033 100644
+index 9bd4d131f033..a8f832598c70 100644
 --- a/drivers/gpu/drm/drm_panic_qr.rs
 +++ b/drivers/gpu/drm/drm_panic_qr.rs
-@@ -5,7 +5,7 @@
- //! It is called from a panic handler, so it should't allocate memory and
- //! does all the work on the stack or on the provided buffers. For
- //! simplification, it only supports low error correction, and applies the
--//! first mask (checkerboard). It will draw the smallest QRcode that can
-+//! first mask (checkerboard). It will draw the smallest QR code that can
- //! contain the string passed as parameter. To get the most compact
- //! QR code, the start of the URL is encoded as binary, and the
- //! compressed kmsg is encoded as numeric.
+@@ -914,7 +914,7 @@ fn draw_all(&mut self, data: impl Iterator<Item = u8>) {
+ ///    will be encoded as binary segment, otherwise it will be encoded
+ ///    efficiently as a numeric segment, and appended to the URL.
+ /// * `data_len`: Length of the data, that needs to be encoded, must be less
+-///    than data_size.
++///    than `data_size`.
+ /// * `data_size`: Size of data buffer, it should be at least 4071 bytes to hold
+ ///    a V40 QR code. It will then be overwritten with the QR code image.
+ /// * `tmp`: A temporary buffer that the QR code encoder will use, to write the
 -- 
 2.49.0
 
