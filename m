@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B245A6DE47
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2968EA6DE52
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:23:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DCF310E46E;
-	Mon, 24 Mar 2025 15:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92D3D10E474;
+	Mon, 24 Mar 2025 15:22:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="L6cAO2ED";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fIaRrdzn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33EAD10E46B;
- Mon, 24 Mar 2025 15:20:56 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 748C32047D;
- Mon, 24 Mar 2025 15:20:51 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3B010E470;
+ Mon, 24 Mar 2025 15:22:57 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 174164421C;
+ Mon, 24 Mar 2025 15:22:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829655;
+ t=1742829776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RvILZxrp8pvFIByOZLy7p8omSOBu/+zcN1EsYqvLh/w=;
- b=L6cAO2EDDHaB/JvgVrxZRQBH3obmlZdrFFJSzET/EhnRAXUlJ4lUBaMcqo3mm/F/qnyEKt
- 8ahU5p1snZy+pkBGPH8RfQrJBMqrPf/xsF8BZBYxWfMcmetJNDzGAGNUqd6uKtWrHqdwBY
- o4Hs3s6OicZ3/P7jRJt+WrI0jf1xCuwIMKsZUt0mHjTmYz2rPQNRK4eqVb+tLPL5bGHDSr
- WZ0guMKtbjUWlPEQ6vAxJn9hig5xoUEoEsLSmVRiLHSkP6iTHKaEgIOziI3mce8avQF1bL
- 6NXn/uduLYjV48Fe/ShFAiWnFtuZYDoAmdfX/MGfQlVBLOxsha/wwgV94/4rgA==
-Message-ID: <0828cfdb-abf3-42c5-8500-70f36affd0a8@bootlin.com>
-Date: Mon, 24 Mar 2025 16:20:50 +0100
+ bh=4pq1TYIqUeEtsKcgJ5VtX3wpPW/5kXdMCiHVbPXiKj8=;
+ b=fIaRrdznCEAwNszABnbggUyhbT6ljy/wHYrg+gVSbS5Z6G5XvGB4DBBTJlLZzbN0Yto+Oq
+ pdKeNpJLX/mkYYe6p/ao5Kkz3U9rUNqM/wW0SLZW22pOCKFFO01IfkgwCcqQFh9fryQT6H
+ ibq5noB7NzHFCjX5grMeKpap8kmbRJqcoTKAUa1DtCMA48ZohmJ1mmSTaO8ufCwb6xM8H2
+ rgUuxImg8m2GrdZQRT1zKt/z1Gxf04nmJdHT43SE6OHj936qOK3PWh5BYWdfcQcYr59LaF
+ TTN+tFagfuLZEQyhq+nHutKKxpU1PKMraHTaYJkrAX96/mR93S5Z3JcakDgysQ==
+Message-ID: <d160e1ab-7cb1-47d7-9ab0-138190d3045f@bootlin.com>
+Date: Mon, 24 Mar 2025 16:22:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 30/59] dyndbg: drop "protection" of class'd pr_debugs
- from legacy queries
+Subject: Re: [PATCH v2 31/59] docs/dyndbg: explain new delimiters: comma,
+ percent
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-gfx-trybot@lists.freedesktop.org
 Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com
+ jani.nikula@intel.com, ville.syrjala@linux.intel.com,
+ linux-doc@vger.kernel.org
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-31-jim.cromie@gmail.com>
+ <20250320185238.447458-32-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -101,12 +102,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-31-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-32-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudehpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,152 +128,81 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> Current classmap code protects class'd pr_debugs from unintended
-> changes by "legacy" unclassed queries:
+> Add mention of comma and percent delimiters into the respective
+> paragraphs describing their equivalents: space and newline.
 > 
->    # this doesn't disable all of DRM_UT_* categories
->    echo "-p" > /proc/dynamic_debug/control
-> 
->    # name the class to change it - protective but tedious
->    echo "class DRM_UT_CORE +p" > /proc/dynamic_debug/control
-> 
->    # or do it the subsystem way
->    echo 1 > /sys/module/drm/parameters/debug
-> 
-> This "name the class to change it" behavior gave a modicum of
-> protection to classmap users (ie DRM) so their debug settings aren't
-> trivially and unintentionally altered underneath them.
-> 
-> But this made the class keyword special in some sense; the other
-> keywords skip only on explicit mismatch, otherwize the code falls thru
-
-s/otherwize/otherwise/
-
-> to adjust the pr-debug site.
-> 
-> So Jason Baron didn't like this special case when I 1st proposed it;
-> I argued 2 points:
-> - "protection gives stable-debug, improving utility"
-> - __drm_debug is authoritative w/o dyndbg under it.
-> 
-> I thought I'd convinced him back then, (and the patchset got merged),
-> but he noted it again when he reviewed this series.  So this commit
-> names the "special case": ddebug_client_module_protects_classes(), and
-> reverts it to Jason's preference.
-  >
-> If a class mismatch is seen, code distinguishes whether the class was
-> explicitly given (and always skips/continue), or the DFLT was assumed
-> because no class was given.  Here we test
-> ddebug_client_module_protects_classes(), skip if so.
-> 
-> Later, if any user/module wants to protect its classes, we could add a
-> flag to ddebug_table, a means to set it from CLASSMAP_DEFINE, and
-> check it when applying a classless query/cmd.
-
-I don't really understand the goal of the protection, do you have the 
-discussion between you and Jason so I can have some context and some 
-answer to my questions?
-
-With the example you gave above, I think this could lead to a very odd 
-behavior: if I enable dyndbg, I expect any pr_dbg to be managed by 
-dyndbg settings.
-
-If a user writes stuff on dyndbg control, he clearly knows what he is 
-doing, and he wants to control what logs he wants.
-
-And if you allow multiple "protected" users, the normal way to disable 
-all dyndbg logs will be:
-
-	ddcmd -p
-	ddcmd class DRM_UT_CORE -p
-	ddcmd class DRM_... -p # all drm classes
-	ddcmd class SPI_... -p # all spi classes
-	ddcmd class WHATEVER_... -p # all other subsystem
-
-	# And only now you can enable only what you want
-	ddcmd module my_mod +p
-
-This is clearly annoying to write.
-
-If DRM (or whatever subsystem) wants to add a debug parameter and use it 
-to control their logs without being impacted by dyndbg, I believe it 
-should not use dyndbg classes to do it.
-
-> CC: jbaron@akamai.com
+> cc: linux-doc@vger.kernel.org
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+
+I think this should go with the previous patches introducing the 
+feature. (I don't know if doc should be in a separate patch, but I think 
+you can at least split this patch and put them just after the feature 
+itself)
+
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
 > ---
->   lib/dynamic_debug.c | 34 +++++++++++++++++++++++++---------
->   1 file changed, 25 insertions(+), 9 deletions(-)
+>   .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++++--------
+>   1 file changed, 11 insertions(+), 8 deletions(-)
 > 
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index c44502787c2b..13de0dd3a4ad 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -193,6 +193,17 @@ static int ddebug_find_valid_class(struct ddebug_table const *dt, const char *cl
->   	return -ENOENT;
->   }
+> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+> index 4ac18c0a1d95..8e2083605bd7 100644
+> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> @@ -78,16 +78,19 @@ Command Language Reference
+>   ==========================
 >   
-> +/*
-> + * classmaps-v1 protected classes from changes by legacy commands
-> + * (those selecting _DPRINTK_CLASS_DFLT by omission), v2 undoes that
-> + * special treatment.  State so explicitly.  Later we could give
-> + * modules the choice to protect their classes or to keep v2 behavior.
-> + */
-> +static inline bool ddebug_client_module_protects_classes(const struct ddebug_table *dt)
-> +{
-> +	return false;
-> +}
-> +
->   /*
->    * Search the tables for _ddebug's which match the given `query' and
->    * apply the `flags' and `mask' to them.  Returns number of matching
-> @@ -206,7 +217,7 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
->   	unsigned int newflags;
->   	unsigned int nfound = 0;
->   	struct flagsbuf fbuf, nbuf;
-> -	int valid_class;
-> +	int slctd_class;
-
-Nitpick: can you use full words? slctd is difficult to read.
-
+>   At the basic lexical level, a command is a sequence of words separated
+> -by spaces or tabs.  So these are all equivalent::
+> +by spaces, tabs, or commas.  So these are all equivalent::
 >   
->   	/* search for matching ddebugs */
->   	mutex_lock(&ddebug_lock);
-> @@ -218,21 +229,26 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
->   			continue;
+>     :#> ddcmd file svcsock.c line 1603 +p
+>     :#> ddcmd "file svcsock.c line 1603 +p"
+>     :#> ddcmd '  file   svcsock.c     line  1603 +p  '
+> +  :#> ddcmd file,svcsock.c,line,1603,+p
 >   
->   		if (query->class_string) {
-> -			valid_class = ddebug_find_valid_class(dt, query->class_string);
-> -			if (valid_class < 0)
-> +			slctd_class = ddebug_find_valid_class(dt, query->class_string);
-> +			if (slctd_class < 0)
-> +				/* skip/reject classes unknown by module */
->   				continue;
->   		} else {
-> -			/* constrain query, do not touch class'd callsites */
-> -			valid_class = _DPRINTK_CLASS_DFLT;
-> +			slctd_class = _DPRINTK_CLASS_DFLT;
->   		}
+> -Command submissions are bounded by a write() system call.
+> -Multiple commands can be written together, separated by ``;`` or ``\n``::
+> +Command submissions are bounded by a write() system call.  Multiple
+> +commands can be written together, separated by ``%``, ``;`` or ``\n``::
 >   
->   		for (i = 0; i < dt->info.descs.len; i++) {
->   			struct _ddebug *dp = &dt->info.descs.start[i];
+> -  :#> ddcmd "func pnpacpi_get_resources +p; func pnp_assign_mem +p"
+> +  :#> ddcmd func foo +p % func bar +p
+> +  :#> ddcmd func foo +p \; func bar +p
+> +  :#> ddcmd "func foo +p ; func bar +p"
+>     :#> ddcmd <<"EOC"
+>     func pnpacpi_get_resources +p
+>     func pnp_assign_mem +p
+> @@ -109,7 +112,6 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
+>   the flags-spec, all constraints are ANDed together.  An absent keyword
+>   is the same as keyword "*".
 >   
-> -			/* match site against query-class */
-> -			if (dp->class_id != valid_class)
-> -				continue;
 > -
-> +			if (dp->class_id != slctd_class) {
-> +				if (query->class_string)
-> +					/* site.class != given class */
-> +					continue;
-> +				/* legacy query, class'd site */
-> +				else if (ddebug_client_module_protects_classes(dt))
-> +					continue;
-> +				/* allow change on class'd pr_debug */
-> +			}
->   			/* match against the source filename */
->   			if (query->filename &&
->   			    !match_wildcard(query->filename, dp->filename) &&
+>   A match specification is a keyword, which selects the attribute of
+>   the callsite to be compared, and a value to compare against.  Possible
+>   keywords are:::
+> @@ -133,7 +135,6 @@ keywords are:::
+>     ``line-range`` cannot contain space, e.g.
+>     "1-30" is valid range but "1 - 30" is not.
+>   
+> -
+>   The meanings of each keyword are:
+>   
+>   func
+> @@ -158,9 +159,11 @@ module
+>       The given string is compared against the module name
+>       of each callsite.  The module name is the string as
+>       seen in ``lsmod``, i.e. without the directory or the ``.ko``
+> -    suffix and with ``-`` changed to ``_``.  Examples::
+> +    suffix and with ``-`` changed to ``_``.
+> +
+> +    Examples::
+>   
+> -	module sunrpc
+> +	module,sunrpc	# with ',' as token separator
+>   	module nfsd
+>   	module drm*	# both drm, drm_kms_helper
+>   
 
 -- 
 Louis Chauvet, Bootlin
