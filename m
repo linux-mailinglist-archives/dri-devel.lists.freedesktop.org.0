@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2968EA6DE52
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C33A6DE58
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:23:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D3D10E474;
-	Mon, 24 Mar 2025 15:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8936B10E47E;
+	Mon, 24 Mar 2025 15:23:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fIaRrdzn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pBpxv0/y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3B010E470;
- Mon, 24 Mar 2025 15:22:57 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 174164421C;
- Mon, 24 Mar 2025 15:22:53 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2AE310E47A;
+ Mon, 24 Mar 2025 15:23:07 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 432974438E;
+ Mon, 24 Mar 2025 15:23:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829776;
+ t=1742829786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4pq1TYIqUeEtsKcgJ5VtX3wpPW/5kXdMCiHVbPXiKj8=;
- b=fIaRrdznCEAwNszABnbggUyhbT6ljy/wHYrg+gVSbS5Z6G5XvGB4DBBTJlLZzbN0Yto+Oq
- pdKeNpJLX/mkYYe6p/ao5Kkz3U9rUNqM/wW0SLZW22pOCKFFO01IfkgwCcqQFh9fryQT6H
- ibq5noB7NzHFCjX5grMeKpap8kmbRJqcoTKAUa1DtCMA48ZohmJ1mmSTaO8ufCwb6xM8H2
- rgUuxImg8m2GrdZQRT1zKt/z1Gxf04nmJdHT43SE6OHj936qOK3PWh5BYWdfcQcYr59LaF
- TTN+tFagfuLZEQyhq+nHutKKxpU1PKMraHTaYJkrAX96/mR93S5Z3JcakDgysQ==
-Message-ID: <d160e1ab-7cb1-47d7-9ab0-138190d3045f@bootlin.com>
-Date: Mon, 24 Mar 2025 16:22:53 +0100
+ bh=pJFgNFBVo9Y/fYi2mFx/DtELvv7oTepOjCaghcZkMmw=;
+ b=pBpxv0/yyajnKwZeTTLYnbedugi+AFIp4kjIQKICZrDEJu8ehusqntNjpk4SgRRvQfdNJG
+ L8qktlYalwxbabmfjyxjY9OKNF33Crdjz6pUPICe+r9IpX2HwbFa8wO/hZBgYiRogKylSM
+ DYyJAEnlhqjfhKmPsToR522t7Q7vMvAL4MYVfKN/22rYtMVsL52TgEhHANMQ3B7bMEQxZn
+ 89BbRWBiLbVNpYIJCtKBMa8Rj7K2aTxF04q0m2QTFwuMqF1sExK5S+eoR8+NA45rSu8Pkp
+ K+LApDXQqjueZGOGgEV4YzsmigUlQcfn46Ya1/SvDYSpu/Zkd+h0qYzKz1cqGw==
+Message-ID: <aa2dbe5e-7e0d-49be-a1ee-80320576d807@bootlin.com>
+Date: Mon, 24 Mar 2025 16:23:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 31/59] docs/dyndbg: explain new delimiters: comma,
- percent
+Subject: Re: [PATCH v2 32/59] docs/dyndbg: explain flags parse 1st
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -46,7 +45,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com,
  linux-doc@vger.kernel.org
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-32-jim.cromie@gmail.com>
+ <20250320185238.447458-33-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -102,7 +101,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-32-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-33-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
@@ -128,81 +127,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> Add mention of comma and percent delimiters into the respective
-> paragraphs describing their equivalents: space and newline.
+> When writing queries to >control, flags are parsed 1st, since they are
+> the only required field, and they require specific compositions.  So
+> if the flags draw an error (on those specifics), then keyword errors
+> aren't reported.  This can be mildly confusing/annoying, so explain it
+> instead.
 > 
 > cc: linux-doc@vger.kernel.org
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 
-I think this should go with the previous patches introducing the 
-feature. (I don't know if doc should be in a separate patch, but I think 
-you can at least split this patch and put them just after the feature 
-itself)
-
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
+I think this could be merged outside this series.
+
 > ---
->   .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++++--------
->   1 file changed, 11 insertions(+), 8 deletions(-)
+>   Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 > 
 > diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index 4ac18c0a1d95..8e2083605bd7 100644
+> index 8e2083605bd7..d2928884c92b 100644
 > --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 > +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -78,16 +78,19 @@ Command Language Reference
->   ==========================
->   
->   At the basic lexical level, a command is a sequence of words separated
-> -by spaces or tabs.  So these are all equivalent::
-> +by spaces, tabs, or commas.  So these are all equivalent::
->   
->     :#> ddcmd file svcsock.c line 1603 +p
->     :#> ddcmd "file svcsock.c line 1603 +p"
->     :#> ddcmd '  file   svcsock.c     line  1603 +p  '
-> +  :#> ddcmd file,svcsock.c,line,1603,+p
->   
-> -Command submissions are bounded by a write() system call.
-> -Multiple commands can be written together, separated by ``;`` or ``\n``::
-> +Command submissions are bounded by a write() system call.  Multiple
-> +commands can be written together, separated by ``%``, ``;`` or ``\n``::
->   
-> -  :#> ddcmd "func pnpacpi_get_resources +p; func pnp_assign_mem +p"
-> +  :#> ddcmd func foo +p % func bar +p
-> +  :#> ddcmd func foo +p \; func bar +p
-> +  :#> ddcmd "func foo +p ; func bar +p"
->     :#> ddcmd <<"EOC"
->     func pnpacpi_get_resources +p
->     func pnp_assign_mem +p
-> @@ -109,7 +112,6 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
+> @@ -112,6 +112,16 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
 >   the flags-spec, all constraints are ANDed together.  An absent keyword
 >   is the same as keyword "*".
 >   
-> -
+> +Note: because the match-spec can be empty, the flags are checked 1st,
+> +then the pairs of keyword values.  Flag errs will hide keyword errs:
+> +
+> +  bash-5.2# ddcmd mod bar +foo
+> +  dyndbg: read 13 bytes from userspace
+> +  dyndbg: query 0: "mod bar +foo" mod:*
+> +  dyndbg: unknown flag 'o'
+> +  dyndbg: flags parse failed
+> +  dyndbg: processed 1 queries, with 0 matches, 1 errs
+> +
 >   A match specification is a keyword, which selects the attribute of
 >   the callsite to be compared, and a value to compare against.  Possible
 >   keywords are:::
-> @@ -133,7 +135,6 @@ keywords are:::
->     ``line-range`` cannot contain space, e.g.
->     "1-30" is valid range but "1 - 30" is not.
->   
-> -
->   The meanings of each keyword are:
->   
->   func
-> @@ -158,9 +159,11 @@ module
->       The given string is compared against the module name
->       of each callsite.  The module name is the string as
->       seen in ``lsmod``, i.e. without the directory or the ``.ko``
-> -    suffix and with ``-`` changed to ``_``.  Examples::
-> +    suffix and with ``-`` changed to ``_``.
-> +
-> +    Examples::
->   
-> -	module sunrpc
-> +	module,sunrpc	# with ',' as token separator
->   	module nfsd
->   	module drm*	# both drm, drm_kms_helper
->   
 
 -- 
 Louis Chauvet, Bootlin
