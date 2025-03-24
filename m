@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF8FA6E723
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 00:09:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1076EA6E72E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 00:17:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7286F10E4F8;
-	Mon, 24 Mar 2025 23:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB0310E4E7;
+	Mon, 24 Mar 2025 23:17:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hLgbXU29";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="EyhccGqz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F72810E4E7;
- Mon, 24 Mar 2025 23:09:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742857773; x=1774393773;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4ST+fXaFNVFtISSKmkgUZGqYzvgNA/nDB3B5h6VS3d4=;
- b=hLgbXU29EaPFoHyV/zX8k5W22chPTArr+ZwlJgGNDlRyYi55KgxAPdBb
- MhMLpPbvh2bihKJPy0OEC3IBYhIed8BCgzx4DjIgaPyqS4d24mEHVjEot
- M8eLvmBXx4UOlKCRWp4VZwubvUitQIvz88LJJhGZpL8G3ruTY4jxIIevs
- usJEEfQl+Sm1RDRUKoDfMoCE1K+4dVqPNiHTqSOWVVkoB+trHt646rv7F
- UqhtsSqw2bTe/KR9ruPy6ElNVwIQzKeXed3yBTWy9vcZcCM6tWVez/Oqj
- yL55X3pRIRzHiaHe0Ys4K2BrGkoBd420kmsNyO7tlO9lQ/9PM065ai7XN Q==;
-X-CSE-ConnectionGUID: z1pu9kFeQYWidAEBbFm3yg==
-X-CSE-MsgGUID: cpGr2132RgONSV7mocSz3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="44104319"
-X-IronPort-AV: E=Sophos;i="6.14,273,1736841600"; d="scan'208";a="44104319"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 16:09:33 -0700
-X-CSE-ConnectionGUID: zJicTbxhTnWt2Ek2IJ/xZQ==
-X-CSE-MsgGUID: x/+Iewv0RnuWCtqurgLNnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,273,1736841600"; d="scan'208";a="124220347"
-Received: from dut4086lnl.fm.intel.com ([10.105.10.68])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 16:09:34 -0700
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
- michal.mrozek@intel.com, raag.jadav@intel.com
-Subject: [PATCH v12 5/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Date: Mon, 24 Mar 2025 23:09:28 +0000
-Message-ID: <20250324230931.63840-6-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250324230931.63840-1-jonathan.cavitt@intel.com>
-References: <20250324230931.63840-1-jonathan.cavitt@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 039EA10E4E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 23:17:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ZjyeFBW/BEW5pN4dW9cgRvuMp9wBCeIqE18dk2lK7nA=; b=EyhccGqzuPeA1+73N6heXRrhqY
+ B2wCu84RyrCOJFt/ooMoqs20Ogp523ONUCpi+oucHSnqyqH1VrsoD4hTTJxzohG6CSxDlrc6TKX2e
+ l3WP/DtYKQHxTPBp373Jiiox2zz2hAjDMMlbU8U8QANQT16Bw3/RnuW1BYyIOWxhRK7t8kjlY/Y8M
+ Zs+1AY3zz16PGxg6MTc57Sg3kJ1A0QnSEbxJsHfSncXNWjWfs0vRYa5dRFzLNTAmBBWQIbQ3mkQMg
+ otIQBtzrQAukJRk9dp/KUfPYWhO0dJNGJ8Xnd0xA9Ho64CU0TRguly2wZ9eUfcUgfRuLaCkmWkXJV
+ FPlVkNWg==;
+Received: from [189.7.87.178] (helo=[192.168.0.224])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1twr2c-005vRC-Tx; Tue, 25 Mar 2025 00:17:11 +0100
+Message-ID: <977cb1c8-7f55-4e3e-bac3-30cb29dec4b3@igalia.com>
+Date: Mon, 24 Mar 2025 20:17:07 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] A few drm_syncobj optimisations
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com
+References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,212 +60,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to request a list of observed faults
-from a specified VM.
+Hi Tvrtko,
 
-v2:
-- Only allow querying of failed pagefaults (Matt Brost)
+Thanks for this patchset! I applied this patchset to the RPi downstream
+kernel 6.13.7 [1] and saw an FPS improvement of approximately 5.85%
+with "vkgears -present-mailbox" on the RPi 5.
 
-v3:
-- Remove unnecessary size parameter from helper function, as it
-  is a property of the arguments. (jcavitt)
-- Remove unnecessary copy_from_user (Jainxun)
-- Set address_precision to 1 (Jainxun)
-- Report max size instead of dynamic size for memory allocation
-  purposes.  Total memory usage is reported separately.
+I did five 100 seconds runs on each kernel and here are my results:
 
-v4:
-- Return int from xe_vm_get_property_size (Shuicheng)
-- Fix memory leak (Shuicheng)
-- Remove unnecessary size variable (jcavitt)
+### 6.13.7
 
-v5:
-- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
-- Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
+|   Run    |   Min FPS   |   Max FPS   |   Avg FPS   |
+|----------|-------------|-------------|-------------|
+| Run #1   | 6646.52     | 6874.77     | 6739.313    |
+| Run #2   | 5387.04     | 6723.274    | 6046.773    |
+| Run #3   | 6230.49     | 6823.47     | 6423.923    |
+| Run #4   | 5269.678    | 5870.59     | 5501.858    |
+| Run #5   | 5504.54     | 6285.91     | 5859.724    |
 
-v6:
-- Repair and move fill_faults break condition (Dan Carpenter)
-- Free vm after use (jcavitt)
-- Combine assertions (jcavitt)
-- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
-- Remove return mask from fill_faults, as return is already -EFAULT or 0
-  (jcavitt)
+* Overall Avg FPS: 6114.318 FPS
 
-v7:
-- Revert back to using xe_vm_get_property_ioctl
-- Apply better copy_to_user logic (jcavitt)
 
-v8:
-- Fix and clean up error value handling in ioctl (jcavitt)
-- Reapply return mask for fill_faults (jcavitt)
+### 6.13.7 + DRM Syncobj optimisations
 
-v9:
-- Future-proof size logic for zero-size properties (jcavitt)
-- Add access and fault types (Jianxun)
-- Remove address type (Jianxun)
+|   Run    |   Min FPS   |   Max FPS   |   Avg FPS   |
+|----------|-------------|-------------|-------------|
+| Run #1   | 6089.05     | 7296.27     | 6859.724    |
+| Run #2   | 6022.48     | 7264        | 6818.518    |
+| Run #3   | 5987.68     | 6188.77     | 6041.365    |
+| Run #4   | 5699.27     | 6448.99     | 6190.374    |
+| Run #5   | 6199.27     | 6791.15     | 6450.900    |
 
-v10:
-- Remove unnecessary switch case logic (Raag)
-- Compress size get, size validation, and property fill functions into a
-  single helper function (jcavitt)
-- Assert valid size (jcavitt)
+* Overall Avg FPS: 6472.176 FPS
 
-v11:
-- Remove unnecessary else condition
-- Correct backwards helper function size logic (jcavitt)
+[1] https://github.com/raspberrypi/linux/tree/rpi-6.13.y
 
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Jainxun Zhang <jianxun.zhang@intel.com>
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>
----
- drivers/gpu/drm/xe/xe_device.c |  3 ++
- drivers/gpu/drm/xe/xe_vm.c     | 96 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h     |  2 +
- 3 files changed, 101 insertions(+)
+Best Regards,
+- Maíra
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 1ffb7d1f6be6..02f84a855502 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -195,6 +195,9 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(XE_WAIT_USER_FENCE, xe_wait_user_fence_ioctl,
- 			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-+			  DRM_RENDER_ALLOW),
-+
- };
- 
- static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 9a627ba17f55..3ed50d6f1f42 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -43,6 +43,14 @@
- #include "xe_wa.h"
- #include "xe_hmm.h"
- 
-+static const u16 xe_to_user_engine_class[] = {
-+	[XE_ENGINE_CLASS_RENDER] = DRM_XE_ENGINE_CLASS_RENDER,
-+	[XE_ENGINE_CLASS_COPY] = DRM_XE_ENGINE_CLASS_COPY,
-+	[XE_ENGINE_CLASS_VIDEO_DECODE] = DRM_XE_ENGINE_CLASS_VIDEO_DECODE,
-+	[XE_ENGINE_CLASS_VIDEO_ENHANCE] = DRM_XE_ENGINE_CLASS_VIDEO_ENHANCE,
-+	[XE_ENGINE_CLASS_COMPUTE] = DRM_XE_ENGINE_CLASS_COMPUTE,
-+};
-+
- static struct drm_gem_object *xe_vm_obj(struct xe_vm *vm)
- {
- 	return vm->gpuvm.r_obj;
-@@ -3553,6 +3561,94 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	return err;
- }
- 
-+static int fill_faults(struct xe_vm *vm,
-+		       struct drm_xe_vm_get_property *args)
-+{
-+	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->data);
-+	struct xe_vm_fault store = { 0 };
-+	struct xe_vm_fault_entry *entry;
-+	int ret = 0, i = 0, count, entry_size;
-+
-+	entry_size = sizeof(struct xe_vm_fault);
-+	count = args->size / entry_size;
-+
-+	spin_lock(&vm->faults.lock);
-+	list_for_each_entry(entry, &vm->faults.list, list) {
-+		if (i++ == count)
-+			break;
-+
-+		memset(&store, 0, entry_size);
-+
-+		store.address = entry->address;
-+		store.address_precision = entry->address_precision;
-+		store.access_type = entry->access_type;
-+		store.fault_type = entry->fault_type;
-+		store.fault_level = entry->fault_level;
-+		store.engine_class = xe_to_user_engine_class[entry->engine_class];
-+		store.engine_instance = entry->engine_instance;
-+
-+		ret = copy_to_user(usr_ptr, &store, entry_size);
-+		if (ret)
-+			break;
-+
-+		usr_ptr++;
-+	}
-+	spin_unlock(&vm->faults.lock);
-+
-+	return ret ? -EFAULT : 0;
-+}
-+
-+static int xe_vm_get_property_helper(struct xe_vm *vm,
-+				     struct drm_xe_vm_get_property *args)
-+{
-+	int size;
-+
-+	switch (args->property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		spin_lock(&vm->faults.lock);
-+		size = size_mul(sizeof(struct xe_vm_fault), vm->faults.len);
-+		spin_unlock(&vm->faults.lock);
-+
-+		if (args->size)
-+			/*
-+			 * Number of faults may increase between calls to
-+			 * xe_vm_get_property_ioctl, so just report the
-+			 * number of faults the user requests if it's less
-+			 * than or equal to the number of faults in the VM
-+			 * fault array.
-+			 */
-+			return args->size <= size ? fill_faults(vm, args) : -EINVAL;
-+
-+		args->size = size;
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+
-+int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-+			     struct drm_file *file)
-+{
-+	struct xe_device *xe = to_xe_device(drm);
-+	struct xe_file *xef = to_xe_file(file);
-+	struct drm_xe_vm_get_property *args = data;
-+	struct xe_vm *vm;
-+	int ret = 0;
-+
-+	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
-+		return -EINVAL;
-+	if (XE_IOCTL_DBG(xe, args->size < 0))
-+		return -EINVAL;
-+
-+	vm = xe_vm_lookup(xef, args->vm_id);
-+	if (XE_IOCTL_DBG(xe, !vm))
-+		return -ENOENT;
-+
-+	ret = xe_vm_get_property_helper(vm, args);
-+
-+	xe_vm_put(vm);
-+	return ret;
-+}
-+
- /**
-  * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
-  * @vm: VM to bind the BO to
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 9bd7e93824da..63ec22458e04 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -196,6 +196,8 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file);
- int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file);
-+int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-+			     struct drm_file *file);
- 
- void xe_vm_close_and_put(struct xe_vm *vm);
- 
--- 
-2.43.0
+On 18/03/25 12:54, Tvrtko Ursulin wrote:
+> A small set of drm_syncobj optimisations which should make things a tiny bit
+> more efficient on the CPU side of things.
+> 
+> Improvement seems to be around 1.5%* more FPS if observed with "vkgears
+> -present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant to make a
+> definitive claim on the numbers since there is some run to run variance. But, as
+> suggested by Michel Dänzer, I did do a five ~100 second runs on the each kernel
+> to be able to show the ministat analysis.
+> 
+> x before
+> + after
+> +------------------------------------------------------------+
+> |                          x         +                       |
+> |                   x      x         +                       |
+> |                   x      xx      ++++                      |
+> |                 x x      xx x    ++++                      |
+> |                 x xx   x xx x+   ++++                      |
+> |                xxxxx   xxxxxx+   ++++ + +                  |
+> |                xxxxxxx xxxxxx+x  ++++ +++                  |
+> |              x xxxxxxxxxxx*xx+* x++++++++   ++             |
+> |        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
+> |       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
+> |x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
+> |               |_______A______|                             |
+> |                             |______A_______|               |
+> +------------------------------------------------------------+
+>      N           Min           Max        Median           Avg        Stddev
+> x 135      21697.58     22809.467     22321.396     22307.707     198.75011
+> + 118     22200.746      23277.09       22661.4     22671.442     192.10609
+> Difference at 95.0% confidence
+>      363.735 +/- 48.3345
+>      1.63054% +/- 0.216672%
+>      (Student's t, pooled s = 195.681)
+> 
+> Tvrtko Ursulin (7):
+>    drm/syncobj: Remove unhelpful helper
+>    drm/syncobj: Do not allocate an array to store zeros when waiting
+>    drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
+>    drm/syncobj: Use put_user in drm_syncobj_query_ioctl
+>    drm/syncobj: Avoid temporary allocation in
+>      drm_syncobj_timeline_signal_ioctl
+>    drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
+>    drm/syncobj: Add a fast path to drm_syncobj_array_find
+> 
+>   drivers/gpu/drm/drm_syncobj.c | 281 ++++++++++++++++++----------------
+>   1 file changed, 147 insertions(+), 134 deletions(-)
+> 
 
