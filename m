@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA7DA6DDF2
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:14:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50A8A6DDF7
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:14:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26EB710E306;
-	Mon, 24 Mar 2025 15:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD9C10E426;
+	Mon, 24 Mar 2025 15:14:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="BFersAPP";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="g0daaQYd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 346E910E26F;
- Mon, 24 Mar 2025 15:14:36 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 835754438E;
- Mon, 24 Mar 2025 15:14:31 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA06210E2D8;
+ Mon, 24 Mar 2025 15:14:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 79AA641C84;
+ Mon, 24 Mar 2025 15:14:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829273;
+ t=1742829286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=X+xRWMfgpazi5bz6X/63u3KzL97Pz3WCruxBOwSplIk=;
- b=BFersAPPRIenTcZ6S+cXm+yKxMyBJrCNX+eEa738UcDkHCKRbBJStvAFnbg7835ficsuRw
- mN+1CRSkWq+6HvJZxM2h74XoMvxj84igcyjCpwh4Qyk3h8sl4r+6znCyPfS26opzEpPlJC
- /bS67m3yGCG2Ej3/cGV8y+ZAyWg35b42bBwE+t3G4pzKrAsnfU7vFLG0+4XaMOhNto2nPj
- URrY3IiwuSq2/hTTbQbzF4DNlP9+L0hQ2Czphzr6CD9R6s/iSPq/0O2d3TIPXG490dkglc
- ErS7LpqkVexs4XHnDJz4OA0wFVzD/2vRhVGiZVhYfHTzLWqcPy5rkGiRt8AA4Q==
-Message-ID: <04d92399-72bc-45f6-870c-1dc5c758686f@bootlin.com>
-Date: Mon, 24 Mar 2025 16:14:31 +0100
+ bh=6zaM60hzrVOKBGboadVOUeo4rs8w8+hN/T1bSMjRwtE=;
+ b=g0daaQYdVhvmoMMrjPKZ1/Q9ju1cE/JJDEDFLw0qmpYF0fJc00DnUt8SekLIDr7/wH/DTq
+ JFxyXMW8Y0GNG90HmLgL/HKlWm55A1eHzCWVoffgwvyPrdWeyyi6k5LP4InGZjfm/Zq0NR
+ B+GBGJ2MraV1PVTuX+O+0Uv/7Bfd5RG+OMmC7s/P782vB/eQ5F80Y7us06L9bmYw/5l3zc
+ brrMuXt0DzqdtJ7TUIrjnGA73DZEnZE6CP9ZpduVrUbwjA6vzIByIRgcmCvzf5H+c9XSof
+ BJON5CpkLtMja8VBK1MxH1WyNJnExhudF3UUB9Q0dDHUthYD4sPGp4GfVumKBA==
+Message-ID: <bffd185c-6d27-47b8-8388-936da0c0e67f@bootlin.com>
+Date: Mon, 24 Mar 2025 16:14:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 14/59] dyndbg: split _emit_lookup() out of
- dynamic_emit_prefix()
+Subject: Re: [PATCH v2 15/59] dyndbg: hoist classmap-filter-by-modname up to
+ ddebug_add_module
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -45,7 +45,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-15-jim.cromie@gmail.com>
+ <20250320185238.447458-16-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -101,12 +101,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-15-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-16-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtuddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,114 +127,116 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:51, Jim Cromie a écrit :
-> Split dynamic_emit_prefix() to separate out _INCL_LOOKUPs:
+> The body of ddebug_attach_module_classes() is dominated by a
+> code-block that finds the contiguous subrange of classmaps matching on
+> modname, and saves it into the ddebug_table's info record.
 > 
-> 1. keep dynamic_emit_prefix() static inline
->     check _INCL_ANY flags before calling 2
+> Implement this block in a macro to accommodate different component
+> vectors in the "box" (as named in the for_subvec macro).
 > 
-> 2. __dynamic_emit_prefix()
->     prints [TID] or <intr> and trailing space if +t flag
->     check _INCL_LOOKUP flags before calling 3
+> And hoist its invocation out of ddebug_attach_module_classes() up into
+> ddebug_add_module().  This moves the filtering step up closer to
+> dynamic_debug_init(), which effectively does the same for builtin
+> pr_debug descriptors; segmenting them into subranges by modname.
 > 
-> 3. __dynamic_emit_lookup()
->     prints ONLY module, function, src, line, and trailing space
->     TID isn't "callsite" specific info.
->     result is "cacheable"
-> 
-> Notes:
-> 
-> 2,3 are gated, only called when theyve something to emit, so they just
-> add trailing space.  This obsoletes the pos_after_tid var and logic.
-> 
-> __dynamic_emit_lookup() adds line too, so the result is "whole".
-> While this would enlarge a naive cache vs add-line-after-caching, we
-> dont even have a naive one yet.
-> 
-> And some clever indexing on store() might be able to fold the flags
-> setting in, such that the prefix stored with +mf flags only (-l),
-> could be returned for all pr_debugs in that function which also had
-> +mf flags. While still supporting +mfsl prefixes (with cache
-> expansion) as they're used.
-
-Like the previous patch: I think this should be a separate series.
-
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+  >
 > ---
->   lib/dynamic_debug.c | 40 +++++++++++++++++++++++++---------------
->   1 file changed, 25 insertions(+), 15 deletions(-)
+>   lib/dynamic_debug.c | 57 ++++++++++++++++++++++++++++-----------------
+>   1 file changed, 35 insertions(+), 22 deletions(-)
 > 
 > diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 663c125006d0..f7ec2365ab40 100644
+> index f7ec2365ab40..192783ff7b98 100644
 > --- a/lib/dynamic_debug.c
 > +++ b/lib/dynamic_debug.c
-> @@ -850,19 +850,8 @@ static int remaining(int wrote)
->   	return 0;
->   }
+> @@ -1242,30 +1242,34 @@ static const struct proc_ops proc_fops = {
 >   
-> -static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
-> +static int __dynamic_emit_lookup(const struct _ddebug *desc, char *buf, int pos)
+>   static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug_info *di)
 >   {
-> -	int pos_after_tid;
-> -	int pos = 0;
+> -	struct ddebug_class_map *cm;
+> -	int i, nc = 0;
 > -
-> -	if (desc->flags & _DPRINTK_FLAGS_INCL_TID) {
-> -		if (in_interrupt())
-> -			pos += snprintf(buf + pos, remaining(pos), "<intr> ");
-> -		else
-> -			pos += snprintf(buf + pos, remaining(pos), "[%d] ",
-> -					task_pid_vnr(current));
+> -	/*
+> -	 * Find this module's classmaps in a subrange/wholerange of
+> -	 * the builtin/modular classmap vector/section.  Save the start
+> -	 * and length of the subrange at its edges.
+> -	 */
+> -	for_subvec(i, cm, di, maps) {
+> -		if (!strcmp(cm->mod_name, dt->mod_name)) {
+> -			if (!nc) {
+> -				v2pr_info("start subrange, class[%d]: module:%s base:%d len:%d ty:%d\n",
+> -					  i, cm->mod_name, cm->base, cm->length, cm->map_type);
+> -				dt->info.maps.start = cm;
+> -			}
+> -			nc++;
+> -		}
 > -	}
-> -	pos_after_tid = pos;
->   	if (desc->flags & _DPRINTK_FLAGS_INCL_MODNAME)
->   		pos += snprintf(buf + pos, remaining(pos), "%s:",
->   				desc->modname);
-> @@ -875,8 +864,29 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
->   	if (desc->flags & _DPRINTK_FLAGS_INCL_LINENO)
->   		pos += snprintf(buf + pos, remaining(pos), "%d:",
->   				desc->lineno);
-> -	if (pos - pos_after_tid)
-> -		pos += snprintf(buf + pos, remaining(pos), " ");
-> +
-> +	/* cuz LOOKUP, we've emitted, so add trailing space if room */
-
-s/cuz/because/
-
-> +	if (remaining(pos))
-> +		buf[pos++] = ' ';
-> +
-> +	return pos;
-> +}
-> +
-> +static char *__dynamic_emit_prefix(struct _ddebug *desc, char *buf)
-> +{
-> +	int pos = 0;
-> +
-> +	if (desc->flags & _DPRINTK_FLAGS_INCL_TID) {
-> +		if (in_interrupt())
-> +			pos += snprintf(buf + pos, remaining(pos), "<intr> ");
-> +		else
-> +			pos += snprintf(buf + pos, remaining(pos), "[%d] ",
-> +					task_pid_vnr(current));
-> +	}
-> +
-> +	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_LOOKUP))
-> +		pos += __dynamic_emit_lookup(desc, buf, pos);
-> +
->   	if (pos >= PREFIX_SIZE)
->   		buf[PREFIX_SIZE - 1] = '\0';
->   
-> @@ -885,7 +895,7 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
->   
->   static inline char *dynamic_emit_prefix(struct _ddebug *desc, char *buf)
->   {
-> -	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_ANY))
-> +	if (desc->flags & _DPRINTK_FLAGS_INCL_ANY)
-
-Why do you remove the unlikely here?
-
->   		return __dynamic_emit_prefix(desc, buf);
->   	return buf;
+> -	if (nc) {
+> -		dt->info.maps.len = nc;
+> -		vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
+> -	}
+> +	vpr_info("module:%s attached %d classes\n", dt->mod_name, dt->info.maps.len);
 >   }
+>   
+> +/*
+> + * scan the named array: @_vec, ref'd from inside @_box, for the
+> + * start,len of the sub-array of elements matching on ->mod_name;
+> + * remember them in _dst.  Macro depends upon the fields being in both
+> + * _box and _dst.
+> + * @_i:   caller provided counter var, init'd by macro
+> + * @_sp:  cursor into @_vec.
+> + * @_box: ptr to a struct with @_vec, num__##@_vec, mod_name fields.
+> + * @_vec: name of ref into array[T] of builtin/modular __section data.
+> + * @_dst: ptr to struct with @_vec and num__##@_vec fields, both updated.
+
+I think you forgot to update this documentation with the new vector 
+structure (num__##@_vec does not exists anymore)
+
+> + */
+> +#define dd_mark_vector_subrange(_i, _dst, _sp, _box, _vec) ({	\
+> +	int nc = 0;							\
+> +	for_subvec(_i, _sp, _box, _vec) {				\
+> +		if (!strcmp((_sp)->mod_name, (_dst)->mod_name)) {	\
+> +			if (!nc++)					\
+> +				(_dst)->info._vec.start = (_sp);	\
+> +		} else {						\
+> +			if (nc)						\
+> +				break; /* end of consecutive matches */ \
+> +		}							\
+> +	}								\
+> +	(_dst)->info._vec.len = nc;					\
+> +})
+> +
+>   /*
+>    * Allocate a new ddebug_table for the given module
+>    * and add it to the global list.
+> @@ -1273,6 +1277,8 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug
+>   static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+>   {
+>   	struct ddebug_table *dt;
+> +	struct ddebug_class_map *cm;
+> +	int i;
+>   
+>   	if (!di->descs.len)
+>   		return 0;
+> @@ -1294,6 +1300,13 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+>   	dt->info = *di;
+>   
+>   	INIT_LIST_HEAD(&dt->link);
+> +	/*
+> +	 * for builtin modules, ddebug_init() insures that the di
+> +	 * cursor marks just the module's descriptors, but it doesn't
+> +	 * do so for the builtin class _maps & _users.  find the
+
+Nitpick, the _users builtin class is only introduced in patch 19/56, 
+maybe update the documentation there.
+
+> +	 * start,len of the vectors by mod_name, save to dt.
+> +	 */
+> +	dd_mark_vector_subrange(i, dt, cm, di, maps);
+>   
+>   	if (di->maps.len)
+>   		ddebug_attach_module_classes(dt, di);
 
 -- 
 Louis Chauvet, Bootlin
