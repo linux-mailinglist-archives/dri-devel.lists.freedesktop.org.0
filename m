@@ -2,60 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AF9BA6E600
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 22:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24E3A6E611
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 23:01:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5D5710E4E1;
-	Mon, 24 Mar 2025 21:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CCE510E4DC;
+	Mon, 24 Mar 2025 22:01:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OB1UuaDE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ng3ZxsAI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F54410E4DB;
- Mon, 24 Mar 2025 21:57:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742853476; x=1774389476;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=XtcGNQ8/miOWQ6hHAPAyTsZfVPBvOKqwNX6p9MwG9W0=;
- b=OB1UuaDEXEvwQnE9I7ET3Q91rvuDLCV+xzY8wja/3SqfO+DilZfYk5uY
- X3Sp3qWZAMulIGAHvzrywOaw8iaGx6xefBUtWl8MuK5BsGvDds2KtD3wD
- YQI8ZvqucLwhz22HJm7Dz0UWx2O8lHV67ql6RY6RNAsJlv4cVCFiFSNRW
- 9Y6zED9737Y7IJZCVQdNBgjgyOiViULfrFWAShkgACiv8CQ0PiQXockcN
- 8PfFIz5UJ2mkSwzlZklA7VIhWVpfklN/Tv419m+Vd/V+S4iPlKZzJgeuO
- 5PbCgXTJc5v2gVzr8hkM7YKNoY0aivuKM0Oz9qStjl7wICw0QfX6IPlyy A==;
-X-CSE-ConnectionGUID: XNKlDKAoQBm5XWoGwJsOFQ==
-X-CSE-MsgGUID: Uc32bIOYTLi9Bs5n4HLckQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="54723284"
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="54723284"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 14:57:56 -0700
-X-CSE-ConnectionGUID: e0zUPSTrRg+Dm/SJrz7SKQ==
-X-CSE-MsgGUID: niI4HxoNTUqC1YS/QXG/Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="129236855"
-Received: from dut4419lnl.fm.intel.com ([10.105.10.61])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 14:57:55 -0700
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
- michal.mrozek@intel.com, raag.jadav@intel.com
-Subject: [PATCH v11 5/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Date: Mon, 24 Mar 2025 21:57:52 +0000
-Message-ID: <20250324215753.70768-6-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250324215753.70768-1-jonathan.cavitt@intel.com>
-References: <20250324215753.70768-1-jonathan.cavitt@intel.com>
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D34C510E4DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 22:01:45 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id
+ d75a77b69052e-4774ce422easo7809551cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 15:01:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742853704; x=1743458504; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=48vsJ6v/nLu6gQ6p2zqKRIpvk+YPWE9bmceJQmo3Vqk=;
+ b=ng3ZxsAIKJpWYnhTJ6x1/BkiUW83NGv4Pejq4ACc6hF5cCtVTZz1ValK1SPg8hfqEL
+ i04yyDJIWX9GFbdUTc4ICJqMsnVtvIJ/YJChVAN3Nz7J2TskMvnOSPizO0cwGxn7zZR3
+ sT6H32cEQKMN1qyz1AZi6bTmGA2pCXyyQCKcacnGWmvlxdtKsMyq4dfcuu9+lQvNqIvM
+ PMDF3RPqlit7uJCX9UEgjv0cl8M6+35bOMONyD8jhNPtpzTQczrMLDeEUYXS6I3s4roY
+ O1e5cCURcC0Ovy2HGkue3CQGTTdihoGbNest9xyhMfyWHndPVd1kFpwLCU+cLjp8VrGs
+ Eotw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742853704; x=1743458504;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=48vsJ6v/nLu6gQ6p2zqKRIpvk+YPWE9bmceJQmo3Vqk=;
+ b=AXp9TN7zdkwC9cdxfdjPzYyyKyeclqp3Uk2btaN0z7zhqOa+LWlOCywJ63feesOCxI
+ L6sgQNsq5zW/7+icDYWqyB5aC+dtt954+zD3dOlk2D4ZqdLfRLmU3VjYLFS7f031+rLi
+ 8T1O56b01Epf/7aQhm0kN0q8vfi7QFYQU/yL7pbFqfpf0d33fkW9VEmg8+vYiKwyKClc
+ jm1hhnWoiIMqq898vRqNwffDrJdD2AgIF2kIcfiT3QHfFR+725in1POwBtLZtHRYcC+1
+ VhBFfIQGrxSVAICdAbQO76ETYhIToN7sXHhBlEpPxriuXzZF2P2VwDyV9wSGg3WG9KV8
+ LnTQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXwAWuLLNA5EvO+gmbQMAyG4amacP5TwEk6mFQlImVlzZh3OnpKQ59aGJOMgBE/9cLeC4lsP0qZFzs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxhtx2jxFHqDOmTCpIXaWG/o3rq51qYWzoyWQl1/micQFe51UEH
+ 5usq2D6UGfJBVQqFDH3mjqBytXaroZtIt2x/PjA32M9unfIfTSHPn6woVA3/BLI=
+X-Gm-Gg: ASbGncuzz1NHzV4pA2sTOat4UzvQFG+G4wWrsBlgL0Gy5wBVo4uBv9Y3O0/liGt/zv6
+ vc+OoSsOZ6fSifMYXlEss2Ys1yiPYjwI1SlUEWkrrGyO5veo32xpA1DEbKRVJI/HkJtr6w7eAQw
+ Ttb/XKvBPmNnlr5AFif6pMHhT1UvX1IIgvunadIHt5cwoosUdgsIcx1IEtHCsWInffWExFM/cdP
+ s+72fAO3FGVGbNYzwMHC+Qt0MzNaV+/5eGB7+oPPl7yMB54EnwGf+lzkq720pVBE7t/dE63cCAv
+ O0A/0I768AAcULPrDOeG+XSqme9u7VR3++fPaLNErhJQpXJRDCRSj05KECdEDbW1AuAFJ00mA9g
+ GwJ0KE/0nRSDwKuVCMzhVy66/ftmGC0RkawXg3B8hqGNtouYmRcs6qw==
+X-Google-Smtp-Source: AGHT+IGjaSVyROaXvVWRD/dB2tcIqIsWK/CblsLlsWJJlKtg+yAXt0fZphnVNo27G4vykALG3lbVSw==
+X-Received: by 2002:a05:622a:17cd:b0:476:b33f:6694 with SMTP id
+ d75a77b69052e-4771dda5445mr262657161cf.28.1742853703515; 
+ Mon, 24 Mar 2025 15:01:43 -0700 (PDT)
+Received: from
+ 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+ ([2620:10d:c091:600::1:43c7]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4771d0ad87esm52129541cf.0.2025.03.24.15.01.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Mar 2025 15:01:43 -0700 (PDT)
+From: Tamir Duberstein <tamird@gmail.com>
+Subject: [PATCH v6 0/6] rust: reduce `as` casts, enable related lints
+Date: Mon, 24 Mar 2025 18:01:29 -0400
+Message-Id: <20250324-ptr-as-ptr-v6-0-49d1b7fd4290@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADrW4WcC/23PzarCMBAF4FeRrM0lM80krSvfQ+4ivxpQK4kUR
+ fruN3bVlLsazsB3hvmwEnIKhR12H5bDlEoa7zWo/Y65i7mfA0++ZoYCSXRC88czc1OWgWChVzo
+ 66SWr4JFDTK+l7PRb8yWV55jfS/cE3+2/NRNw4NSjF4pAuqE/nm8mXX/ceGPfmgnXdGgocsGRv
+ BLGD4hWb2m3oiAb2lUatDUKhOyjNFsq15QaKiu16DU6kN6h2lJa0/ZXqpQsRYRosBPN1Xme/wB
+ iH9NskAEAAA==
+X-Change-ID: 20250307-ptr-as-ptr-21b1867fc4d4
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@google.com>, 
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, linux-pci@vger.kernel.org, 
+ linux-block@vger.kernel.org, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
+ Tamir Duberstein <tamird@gmail.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,209 +119,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to request a list of observed faults
-from a specified VM.
+This started with a patch that enabled `clippy::ptr_as_ptr`. Benno
+Lossin suggested I also look into `clippy::ptr_cast_constness` and I
+discovered `clippy::as_ptr_cast_mut`. This series now enables all 3
+lints. It also enables `clippy::as_underscore` which ensures other
+pointer casts weren't missed. The first commit reduces the need for
+pointer casts and is shared with another series[1].
 
-v2:
-- Only allow querying of failed pagefaults (Matt Brost)
+As a late addition, `clippy::cast_lossless` is also enabled.
 
-v3:
-- Remove unnecessary size parameter from helper function, as it
-  is a property of the arguments. (jcavitt)
-- Remove unnecessary copy_from_user (Jainxun)
-- Set address_precision to 1 (Jainxun)
-- Report max size instead of dynamic size for memory allocation
-  purposes.  Total memory usage is reported separately.
+Link: https://lore.kernel.org/all/20250307-no-offset-v1-0-0c728f63b69c@gmail.com/ [1]
 
-v4:
-- Return int from xe_vm_get_property_size (Shuicheng)
-- Fix memory leak (Shuicheng)
-- Remove unnecessary size variable (jcavitt)
-
-v5:
-- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
-- Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
-
-v6:
-- Repair and move fill_faults break condition (Dan Carpenter)
-- Free vm after use (jcavitt)
-- Combine assertions (jcavitt)
-- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
-- Remove return mask from fill_faults, as return is already -EFAULT or 0
-  (jcavitt)
-
-v7:
-- Revert back to using xe_vm_get_property_ioctl
-- Apply better copy_to_user logic (jcavitt)
-
-v8:
-- Fix and clean up error value handling in ioctl (jcavitt)
-- Reapply return mask for fill_faults (jcavitt)
-
-v9:
-- Future-proof size logic for zero-size properties (jcavitt)
-- Add access and fault types (Jianxun)
-- Remove address type (Jianxun)
-
-v10:
-- Remove unnecessary switch case logic (Raag)
-- Compress size get, size validation, and property fill functions into a
-  single helper function (jcavitt)
-- Assert valid size (jcavitt)
-
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Jainxun Zhang <jianxun.zhang@intel.com>
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>
+Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- drivers/gpu/drm/xe/xe_device.c |  3 ++
- drivers/gpu/drm/xe/xe_vm.c     | 97 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h     |  2 +
- 3 files changed, 102 insertions(+)
+Changes in v6:
+- Drop strict provenance patch.
+- Fix URLs in doc comments.
+- Add patch to enable `clippy::cast_lossless`.
+- Rebase on rust-next.
+- Link to v5: https://lore.kernel.org/r/20250317-ptr-as-ptr-v5-0-5b5f21fa230a@gmail.com
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 1ffb7d1f6be6..02f84a855502 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -195,6 +195,9 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(XE_WAIT_USER_FENCE, xe_wait_user_fence_ioctl,
- 			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-+			  DRM_RENDER_ALLOW),
-+
- };
- 
- static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 9a627ba17f55..384595cd0589 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -43,6 +43,14 @@
- #include "xe_wa.h"
- #include "xe_hmm.h"
- 
-+static const u16 xe_to_user_engine_class[] = {
-+	[XE_ENGINE_CLASS_RENDER] = DRM_XE_ENGINE_CLASS_RENDER,
-+	[XE_ENGINE_CLASS_COPY] = DRM_XE_ENGINE_CLASS_COPY,
-+	[XE_ENGINE_CLASS_VIDEO_DECODE] = DRM_XE_ENGINE_CLASS_VIDEO_DECODE,
-+	[XE_ENGINE_CLASS_VIDEO_ENHANCE] = DRM_XE_ENGINE_CLASS_VIDEO_ENHANCE,
-+	[XE_ENGINE_CLASS_COMPUTE] = DRM_XE_ENGINE_CLASS_COMPUTE,
-+};
-+
- static struct drm_gem_object *xe_vm_obj(struct xe_vm *vm)
- {
- 	return vm->gpuvm.r_obj;
-@@ -3553,6 +3561,95 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	return err;
- }
- 
-+static int fill_faults(struct xe_vm *vm,
-+		       struct drm_xe_vm_get_property *args)
-+{
-+	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->data);
-+	struct xe_vm_fault store = { 0 };
-+	struct xe_vm_fault_entry *entry;
-+	int ret = 0, i = 0, count, entry_size;
-+
-+	entry_size = sizeof(struct xe_vm_fault);
-+	count = args->size / entry_size;
-+
-+	spin_lock(&vm->faults.lock);
-+	list_for_each_entry(entry, &vm->faults.list, list) {
-+		if (i++ == count)
-+			break;
-+
-+		memset(&store, 0, entry_size);
-+
-+		store.address = entry->address;
-+		store.address_precision = entry->address_precision;
-+		store.access_type = entry->access_type;
-+		store.fault_type = entry->fault_type;
-+		store.fault_level = entry->fault_level;
-+		store.engine_class = xe_to_user_engine_class[entry->engine_class];
-+		store.engine_instance = entry->engine_instance;
-+
-+		ret = copy_to_user(usr_ptr, &store, entry_size);
-+		if (ret)
-+			break;
-+
-+		usr_ptr++;
-+	}
-+	spin_unlock(&vm->faults.lock);
-+
-+	return ret ? -EFAULT : 0;
-+}
-+
-+static int xe_vm_get_property_helper(struct xe_vm *vm,
-+				     struct drm_xe_vm_get_property *args)
-+{
-+	int size;
-+
-+	switch (args->property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		spin_lock(&vm->faults.lock);
-+		size = size_mul(sizeof(struct xe_vm_fault), vm->faults.len);
-+		spin_unlock(&vm->faults.lock);
-+
-+		if (args->size)
-+			/*
-+			 * Number of faults may increase between calls to
-+			 * xe_vm_get_property_ioctl, so just report the
-+			 * number of faults the user requests if it's less
-+			 * than or equal to the number of faults in the VM
-+			 * fault array.
-+			 */
-+			return args->size <= size ? -EINVAL : fill_faults(vm, args);
-+		else
-+			args->size = size;
-+
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+
-+int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-+			     struct drm_file *file)
-+{
-+	struct xe_device *xe = to_xe_device(drm);
-+	struct xe_file *xef = to_xe_file(file);
-+	struct drm_xe_vm_get_property *args = data;
-+	struct xe_vm *vm;
-+	int ret = 0;
-+
-+	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
-+		return -EINVAL;
-+	if (XE_IOCTL_DBG(xe, args->size < 0))
-+		return -EINVAL;
-+
-+	vm = xe_vm_lookup(xef, args->vm_id);
-+	if (XE_IOCTL_DBG(xe, !vm))
-+		return -ENOENT;
-+
-+	ret = xe_vm_get_property_helper(vm, args);
-+
-+	xe_vm_put(vm);
-+	return ret;
-+}
-+
- /**
-  * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
-  * @vm: VM to bind the BO to
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 9bd7e93824da..63ec22458e04 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -196,6 +196,8 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file);
- int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file);
-+int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-+			     struct drm_file *file);
- 
- void xe_vm_close_and_put(struct xe_vm *vm);
- 
+Changes in v5:
+- Use `pointer::addr` in OF. (Boqun Feng)
+- Add documentation on stubs. (Benno Lossin)
+- Mark stubs `#[inline]`.
+- Pick up Alice's RB on a shared commit from
+  https://lore.kernel.org/all/Z9f-3Aj3_FWBZRrm@google.com/.
+- Link to v4: https://lore.kernel.org/r/20250315-ptr-as-ptr-v4-0-b2d72c14dc26@gmail.com
+
+Changes in v4:
+- Add missing SoB. (Benno Lossin)
+- Use `without_provenance_mut` in alloc. (Boqun Feng)
+- Limit strict provenance lints to the `kernel` crate to avoid complex
+  logic in the build system. This can be revisited on MSRV >= 1.84.0.
+- Rebase on rust-next.
+- Link to v3: https://lore.kernel.org/r/20250314-ptr-as-ptr-v3-0-e7ba61048f4a@gmail.com
+
+Changes in v3:
+- Fixed clippy warning in rust/kernel/firmware.rs. (kernel test robot)
+  Link: https://lore.kernel.org/all/202503120332.YTCpFEvv-lkp@intel.com/
+- s/as u64/as bindings::phys_addr_t/g. (Benno Lossin)
+- Use strict provenance APIs and enable lints. (Benno Lossin)
+- Link to v2: https://lore.kernel.org/r/20250309-ptr-as-ptr-v2-0-25d60ad922b7@gmail.com
+
+Changes in v2:
+- Fixed typo in first commit message.
+- Added additional patches, converted to series.
+- Link to v1: https://lore.kernel.org/r/20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com
+
+---
+Tamir Duberstein (6):
+      rust: retain pointer mut-ness in `container_of!`
+      rust: enable `clippy::ptr_as_ptr` lint
+      rust: enable `clippy::ptr_cast_constness` lint
+      rust: enable `clippy::as_ptr_cast_mut` lint
+      rust: enable `clippy::as_underscore` lint
+      rust: enable `clippy::cast_lossless` lint
+
+ Makefile                               |  5 +++++
+ drivers/gpu/drm/drm_panic_qr.rs        | 10 +++++-----
+ rust/bindings/lib.rs                   |  1 +
+ rust/kernel/alloc/allocator_test.rs    |  2 +-
+ rust/kernel/alloc/kvec.rs              |  4 ++--
+ rust/kernel/block/mq/operations.rs     |  2 +-
+ rust/kernel/block/mq/request.rs        |  7 ++++---
+ rust/kernel/device.rs                  |  5 +++--
+ rust/kernel/device_id.rs               |  2 +-
+ rust/kernel/devres.rs                  | 19 ++++++++++---------
+ rust/kernel/dma.rs                     |  6 +++---
+ rust/kernel/error.rs                   |  2 +-
+ rust/kernel/firmware.rs                |  3 ++-
+ rust/kernel/fs/file.rs                 |  2 +-
+ rust/kernel/io.rs                      | 18 +++++++++---------
+ rust/kernel/kunit.rs                   | 15 +++++++--------
+ rust/kernel/lib.rs                     |  5 ++---
+ rust/kernel/list/impl_list_item_mod.rs |  2 +-
+ rust/kernel/miscdevice.rs              |  2 +-
+ rust/kernel/net/phy.rs                 |  4 ++--
+ rust/kernel/of.rs                      |  6 +++---
+ rust/kernel/pci.rs                     | 13 ++++++++-----
+ rust/kernel/platform.rs                |  6 ++++--
+ rust/kernel/print.rs                   | 11 +++++------
+ rust/kernel/rbtree.rs                  | 23 ++++++++++-------------
+ rust/kernel/seq_file.rs                |  3 ++-
+ rust/kernel/str.rs                     | 10 +++++-----
+ rust/kernel/sync/poll.rs               |  2 +-
+ rust/kernel/workqueue.rs               | 12 ++++++------
+ rust/uapi/lib.rs                       |  1 +
+ 30 files changed, 107 insertions(+), 96 deletions(-)
+---
+base-commit: 28bb48c4cb34f65a9aa602142e76e1426da31293
+change-id: 20250307-ptr-as-ptr-21b1867fc4d4
+
+Best regards,
 -- 
-2.43.0
+Tamir Duberstein <tamird@gmail.com>
 
