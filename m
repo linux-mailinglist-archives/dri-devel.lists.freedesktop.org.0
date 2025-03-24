@@ -2,73 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEA6A6DFF3
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 17:39:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7325AA6E000
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 17:40:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D322110E49B;
-	Mon, 24 Mar 2025 16:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C408B10E49F;
+	Mon, 24 Mar 2025 16:40:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="plw1bbqE";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D9C5BF6x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out.smtpout.orange.fr (out-69.smtpout.orange.fr [193.252.22.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15C8A10E49B;
- Mon, 24 Mar 2025 16:39:44 +0000 (UTC)
-Received: from [172.16.82.72] ([124.33.176.97]) by smtp.orange.fr with ESMTPA
- id wkphtqyvuqGhjwkpntp5DD; Mon, 24 Mar 2025 17:39:42 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1742834382;
- bh=fWDg5sAJRa5yGnJsUjCGug0MakuT+w++shbZerB1ON4=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=plw1bbqE0z5rfrjQQw+4DOFlYoe4aXV3HOaYnSLm4RqTOwzMgwQKESyqhPy7pOEzI
- RzgjMUqxC8ZfAHGz5LF9ADf/97gKqsFaQHLOpeDQdBoj4wEjt64flQbW5nouKULz4h
- 93zAhY4igdCOqZ4ALMnPyRm7wTEm2NxGiFBIckIwP30Sw8w6NISDz4h2kjuJfSikGp
- jxqoEh4a/Cd8GSM30qRtkSdvYka3Cbow7j8N4sYl43NVW1kqgfg5H+HN8Fna2ogrA1
- KA7ghA72CgLM2GpLM8NRIsgQ88QLvJBI8rk4/9xmMj4RW6KI9x4skpd9321SXaLNBp
- ozWdbaJ0vBkRQ==
-X-ME-Helo: [172.16.82.72]
-X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 24 Mar 2025 17:39:42 +0100
-X-ME-IP: 124.33.176.97
-Message-ID: <1f9ea3e3-e348-46d7-9b15-8c017762b12f@wanadoo.fr>
-Date: Tue, 25 Mar 2025 01:39:25 +0900
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DD310E49D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 16:40:51 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA20763F;
+ Mon, 24 Mar 2025 17:39:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1742834341;
+ bh=C4qCR5IiDNqllMSB5IXrinpWcZEJSikRxGwqsymPnqE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=D9C5BF6x32gIC0BH3a7FyjNcvNNWaxWaHdq9h6zM/K2pDHxTSBQlPYJZ+2uCV6LyZ
+ iXiSRyd7/4n17shRFmevu6xQErMWCZJVYJE0q3JlVMdf0VTt8UlnjUZNY+ycJrcW8e
+ Dd3MDKPVPoHCiBWrH2lV6Su8f1Uop5WY3u0ArfxE=
+Date: Mon, 24 Mar 2025 18:40:25 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection
+ failure
+Message-ID: <20250324164025.GK5113@pendragon.ideasonboard.com>
+References: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
+ <20250318204133.GC22890@pendragon.ideasonboard.com>
+ <Z9ne78KhxfKYgnh_@ninjato>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] bits: Split asm and non-asm GENMASK*() and unify
- definitions
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- David Laight <David.Laight@aculab.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- linux-arm-kernel@lists.infradead.org,
- Catalin Marinas <catalin.marinas@arm.com>
-References: <20250322-consolidate-genmask-v1-0-54bfd36c5643@wanadoo.fr>
- <Z-GEFcciqCwxL88W@thinkpad>
-Content-Language: en-US
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
- GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
- bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
- BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
- 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
- yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
- CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
- ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <Z-GEFcciqCwxL88W@thinkpad>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z9ne78KhxfKYgnh_@ninjato>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,21 +66,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/03/2025 at 01:11, Yury Norov wrote:
-> + Anshuman Khandual, Catalin Marinas, linux-arm-kernel@lists.infradead.org
+On Tue, Mar 18, 2025 at 10:00:31PM +0100, Wolfram Sang wrote:
+> Hi Laurent,
 > 
-> This series moves GENMASK_U128 out of uapi. ARM is the only proposed
-> user. Add ARM people for visibility.
+> > > Read out and check the ID registers, so we can bail out if I2C
+> > > communication does not work or if the device is unknown.
+> > 
+> > What's the advantage of that, what are you trying to guard against ?
+> 
+> That a random chip at address 0x2c will be used.
 
-Actually, not yet. Here, I am decoupling GENMASK_U128() from
-__GENMASK_U128(), but I did not touch the uapi.
+Is that really a problem ? That would only occur with a broken DT, is it
+worth guarding against a development-time issue with a runtime check
+that will increase boot time for every user ?
 
-After this series, __GENMASK_U128() is not used anymore in the kernel,
-but I am not brave enough to remove it myself because there is always a
-risk that some userland code somewhere is relying on it…
+> > > Tested on a
+> > > Renesas GrayHawk board (R-Car V4M) by using a wrong I2C address and by
+> > > not enabling RuntimePM for the device.
+> > 
+> > What do you mean by not enabling runtime PM for the device ?
+> 
+> I left out pm_runtime_get() before regmap_read_bulk().
 
-(...)
+-- 
+Regards,
 
-Yours sincerely,
-Vincent Mailhol
-
+Laurent Pinchart
