@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0024A6DDCC
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:08:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88B8A6DDDA
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:10:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11E6110E423;
-	Mon, 24 Mar 2025 15:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6ABB10E417;
+	Mon, 24 Mar 2025 15:10:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="BgW/Llt4";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XT625T4x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F3310E423;
- Mon, 24 Mar 2025 15:08:20 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0F1A84425B;
- Mon, 24 Mar 2025 15:08:13 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67DB810E3C4;
+ Mon, 24 Mar 2025 15:10:34 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 459914438E;
+ Mon, 24 Mar 2025 15:10:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742828899;
+ t=1742829032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=B8WCvbcBG/swgTDjytmb4iTiToSMWuDyajHh9/+5uRA=;
- b=BgW/Llt4dzW79LVS2TbrGvbmEp76JjglpnGYmzXu0z9lS0b/E/Pq8X8g6k8v3BYtnOO4R0
- prmr+XRgMaL9fu8Ev5QR9NmGk/9s0sAHY5yCCziAGD7nq8K9frYeA0JWMwyeWZEWXRUwXr
- k1y3erl8PZNK53nsFIEagvQVK2lnMRhASprcyfAIyXt/SwtWE+yJYdsvn8dHuZsLJAuaBT
- CbWv0cUXszGqboeDfGWNAoU47aSzfRvgLv9gPaLATY9vf8D8wePDL32cjuXc+WbPS8IxVb
- vm/9VBFsohnAGaDNzbfyqNn0ePTXqUOTh173nnPnva8CZyLLuz/feuWRMLx+GQ==
-Message-ID: <b1615fb9-4689-4121-a7d1-7e9c5d10282b@bootlin.com>
-Date: Mon, 24 Mar 2025 16:08:13 +0100
+ bh=ymxOGVKKP6tHT25NA5aYFP9BSXgTjzIC5jPqWQl7U6U=;
+ b=XT625T4xCTnYAWN2jH6rXqWVXtg1Ik8xpZg8ZF1jYGCi8HfW0qaOoIOlk3RBFcpKNiC3WK
+ KCBI7Vn8q7eD1OAIT/5g7nd8IQGW01QCNANcyVe3Iyw6MZ7/3HKhfUGztTE4egiu3lkGRk
+ 84Z6KkgeqUL0CCc8VPlMhnvhhGckL4hu//5hMB2yzCGpPHTWKBST4sCPnj9S4exAqhECjB
+ meZOIspk/ovwOxuMkUd8+cbmXx6sqB6AlWfvq7xAs0bqVqe5Wp9Bnc3tI025clPd44+6qi
+ Z55PZsOUgxzll7gTq7mGLEuEE1uuNzqfpVYEVsQKWpdB51DA/f9W/uRjJvcg/Q==
+Message-ID: <b5799fe4-9191-4ad3-9aa1-db7e2d57db99@bootlin.com>
+Date: Mon, 24 Mar 2025 16:10:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 10/59] dyndbg: replace classmap list with a vector
+Subject: Re: [PATCH v2 11/59] dyndbg: macrofy a 2-index for-loop pattern
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +44,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-11-jim.cromie@gmail.com>
+ <20250320185238.447458-12-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,7 +100,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-11-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-12-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
@@ -126,208 +126,69 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:51, Jim Cromie a écrit :
-> Classmaps are stored in an elf section/array, but currently are
-> individually list-linked onto dyndbg's per-module ddebug_table for
-> operation. This is unnecessary.
+> dynamic-debug has several __sections, each with <vecname>,
+> num_<vecname>, and it iterates over these with a 2-index for-loop.
+> These loops are fiddly with the 2 names.
 > 
-> Just like dyndbg's descriptors, classes are packed in compile order;
-> so even with many builtin modules employing multiple classmaps, each
-> modules' maps are packed contiguously, and can be treated as a
-> array-start-address & array-length.
-> 
-> So this drops the whole list building operation done in
-> ddebug_attach_module_classes(), and removes the list-head members.
-> The "select-by-modname" condition is reused to find the start,end of
-> the subrange.
-> 
-> NOTE: This "filter-by-modname" on classmaps should really be done in
-> ddebug_add_module(1); ie at least one step closer to ddebug_init(2),
-> which already splits up pr-debug descriptors into subranges by
-> modname, then calls (1) on each.  (2) knows nothing of classmaps
-> currently, and doesn't need to.  For now, just add comment.
+> We have only 2 such loops now, but are getting more soon; lets
+> embed/abstract the fiddlyness in the for_subvec() macro, and avoid
+> repeating it going forward.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 > ---
->   include/linux/dynamic_debug.h |  1 -
->   lib/dynamic_debug.c           | 61 ++++++++++++++++++-----------------
->   2 files changed, 32 insertions(+), 30 deletions(-)
+>   lib/dynamic_debug.c | 20 +++++++++++++++++---
+>   1 file changed, 17 insertions(+), 3 deletions(-)
 > 
-> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-> index ac199293d203..e458d4b838ac 100644
-> --- a/include/linux/dynamic_debug.h
-> +++ b/include/linux/dynamic_debug.h
-> @@ -83,7 +83,6 @@ enum class_map_type {
->   };
->   
->   struct ddebug_class_map {
-> -	struct list_head link;
->   	struct module *mod;
->   	const char *mod_name;	/* needed for builtins */
->   	const char **class_names;
 > diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index dd7320b9616d..d5572712ce55 100644
+> index d5572712ce55..94f6c8fd787b 100644
 > --- a/lib/dynamic_debug.c
 > +++ b/lib/dynamic_debug.c
-> @@ -45,10 +45,11 @@ extern struct ddebug_class_map __start___dyndbg_classes[];
->   extern struct ddebug_class_map __stop___dyndbg_classes[];
+> @@ -128,6 +128,21 @@ do {								\
+>   #define v3pr_info(fmt, ...)	vnpr_info(3, fmt, ##__VA_ARGS__)
+>   #define v4pr_info(fmt, ...)	vnpr_info(4, fmt, ##__VA_ARGS__)
 >   
->   struct ddebug_table {
-> -	struct list_head link, maps;
-> +	struct list_head link;
->   	const char *mod_name;
-> -	unsigned int num_ddebugs;
->   	struct _ddebug *ddebugs;
-> +	struct ddebug_class_map *classes;
-> +	unsigned int num_ddebugs, num_classes;
->   };
->   
->   struct ddebug_query {
-> @@ -147,13 +148,15 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
->   		  query->first_lineno, query->last_lineno, query->class_string);
->   }
->   
-> +#define __outvar /* filled by callee */
->   static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table const *dt,
-> -							  const char *class_string, int *class_id)
-> +							const char *class_string,
-> +							__outvar int *class_id)
+> +
+> +/*
+> + * simplify a repeated for-loop pattern walking N steps in a T _vec
+> + * member inside a struct _box.  It expects int i and T *_sp to be
+> + * declared in the caller.
+> + * @_i:  caller provided counter.
+> + * @_sp: cursor into _vec, to examine each item.
+> + * @_box: ptr to a struct containing @_vec member
+> + * @_vec: name of a sub-struct member in _box, with array-ref and length
+> + */
 
-Thanks for your explanation of __outvar! It makes sense. I never seen 
-this pattern anywhere in the kernel, maybe a simple doc comment is 
-enough to carry the information:
-
-	/**
-	 * ddebug_find_valid_class - Find a valid class for a
-	 * given string
-	 * @dt: debug table to inspect
-	 * @class_string: string to match on
-	 * @class_id: output pointer for the class_id value
-	 *
-	 * Returns: Pointer to the ddebug_class_map instance, if found.
-	 * @class_id will be set to the id of this class. If no class
-	 * matching @class_string is found, returns NULL and class_id is
-	 * set to -ENOENT.
-	 */
-
-Or at maybe change the documentation of __outvar to be a bit more 
-explicit about how it works (I had difficulties to understand because a 
-lot of "magic macro" exist in the kernel and sometimes carry information 
-to the compiler, but this one is always empty):
-
-	/**
-	 * __outvar - Denotes that an argument is used as an output
-	 * value
-	 * This macro does nothing apart clarify  for the reader that
-	 * the parameter will be filled by the callee
-	 */
-
-With any of the modifications (feel free to reword them as you want):
+Nice macro to make the code easier to read!
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
+> +#define for_subvec(_i, _sp, _box, _vec)				       \
+> +	for ((_i) = 0, (_sp) = (_box)->_vec;			       \
+> +	     (_i) < (_box)->num_##_vec;				       \
+> +	     (_i)++, (_sp)++)
+> +
+>   static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
 >   {
+>   	/* trim any trailing newlines */
+> @@ -156,7 +171,7 @@ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table cons
 >   	struct ddebug_class_map *map;
-> -	int idx;
-> +	int i, idx;
+>   	int i, idx;
 >   
-> -	list_for_each_entry(map, &dt->maps, link) {
-> +	for (map = dt->classes, i = 0; i < dt->num_classes; i++, map++) {
+> -	for (map = dt->classes, i = 0; i < dt->num_classes; i++, map++) {
+> +	for_subvec(i, map, dt, classes) {
 >   		idx = match_string(map->class_names, map->length, class_string);
 >   		if (idx >= 0) {
 >   			*class_id = idx + map->base;
-> @@ -164,7 +167,6 @@ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table cons
->   	return NULL;
->   }
->   
-> -#define __outvar /* filled by callee */
->   /*
->    * Search the tables for _ddebug's which match the given `query' and
->    * apply the `flags' and `mask' to them.  Returns number of matching
-> @@ -1122,9 +1124,10 @@ static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
->   
->   static const char *ddebug_class_name(struct ddebug_iter *iter, struct _ddebug *dp)
->   {
-> -	struct ddebug_class_map *map;
-> +	struct ddebug_class_map *map = iter->table->classes;
-> +	int i, nc = iter->table->num_classes;
->   
-> -	list_for_each_entry(map, &iter->table->maps, link)
-> +	for (i = 0; i < nc; i++, map++)
->   		if (class_in_range(dp->class_id, map))
->   			return map->class_names[dp->class_id - map->base];
->   
-> @@ -1208,30 +1211,31 @@ static const struct proc_ops proc_fops = {
->   	.proc_write = ddebug_proc_write
->   };
->   
-> -static void ddebug_attach_module_classes(struct ddebug_table *dt,
-> -					 struct ddebug_class_map *classes,
-> -					 int num_classes)
-> +static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug_info *di)
->   {
->   	struct ddebug_class_map *cm;
-> -	int i, j, ct = 0;
-> +	int i, nc = 0;
->   
-> -	for (cm = classes, i = 0; i < num_classes; i++, cm++) {
-> +	/*
-> +	 * Find this module's classmaps in a subrange/wholerange of
-> +	 * the builtin/modular classmap vector/section.  Save the start
-> +	 * and length of the subrange at its edges.
-> +	 */
-> +	for (cm = di->classes, i = 0; i < di->num_classes; i++, cm++) {
->   
+> @@ -1221,8 +1236,7 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug
+>   	 * the builtin/modular classmap vector/section.  Save the start
+>   	 * and length of the subrange at its edges.
+>   	 */
+> -	for (cm = di->classes, i = 0; i < di->num_classes; i++, cm++) {
+> -
+> +	for_subvec(i, cm, di, classes) {
 >   		if (!strcmp(cm->mod_name, dt->mod_name)) {
-> -
-> -			v2pr_info("class[%d]: module:%s base:%d len:%d ty:%d\n", i,
-> -				  cm->mod_name, cm->base, cm->length, cm->map_type);
-> -
-> -			for (j = 0; j < cm->length; j++)
-> -				v3pr_info(" %d: %d %s\n", j + cm->base, j,
-> -					  cm->class_names[j]);
-> -
-> -			list_add(&cm->link, &dt->maps);
-> -			ct++;
-> +			if (!nc) {
-> +				v2pr_info("start subrange, class[%d]: module:%s base:%d len:%d ty:%d\n",
-> +					  i, cm->mod_name, cm->base, cm->length, cm->map_type);
-> +				dt->classes = cm;
-> +			}
-> +			nc++;
->   		}
->   	}
-> -	if (ct)
-> -		vpr_info("module:%s attached %d classes\n", dt->mod_name, ct);
-> +	if (nc) {
-> +		dt->num_classes = nc;
-> +		vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
-> +	}
->   }
->   
->   /*
-> @@ -1263,10 +1267,9 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
->   	dt->num_ddebugs = di->num_descs;
->   
->   	INIT_LIST_HEAD(&dt->link);
-> -	INIT_LIST_HEAD(&dt->maps);
->   
->   	if (di->classes && di->num_classes)
-> -		ddebug_attach_module_classes(dt, di->classes, di->num_classes);
-> +		ddebug_attach_module_classes(dt, di);
->   
->   	mutex_lock(&ddebug_lock);
->   	list_add_tail(&dt->link, &ddebug_tables);
-> @@ -1379,8 +1382,8 @@ static void ddebug_remove_all_tables(void)
->   	mutex_lock(&ddebug_lock);
->   	while (!list_empty(&ddebug_tables)) {
->   		struct ddebug_table *dt = list_entry(ddebug_tables.next,
-> -						      struct ddebug_table,
-> -						      link);
-> +						     struct ddebug_table,
-> +						     link);
->   		ddebug_table_free(dt);
->   	}
->   	mutex_unlock(&ddebug_lock);
+>   			if (!nc) {
+>   				v2pr_info("start subrange, class[%d]: module:%s base:%d len:%d ty:%d\n",
 
 -- 
 Louis Chauvet, Bootlin
