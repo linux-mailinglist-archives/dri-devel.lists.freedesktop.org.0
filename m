@@ -2,52 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF87A6D741
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 10:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F430A6D780
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 10:33:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 564B910E257;
-	Mon, 24 Mar 2025 09:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5AA10E279;
+	Mon, 24 Mar 2025 09:33:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mk38F5Gn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U8EPnFty";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C394710E095
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 09:26:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=GeUvgP/bgNI70g+uhEl10zoQuie6jg7fFXXRasTDeH4=; b=mk38F5GnItw7Q8SIyV3Yf6RJ3O
- c2qxZlBUjKUgaBqrBLEBUAITBGgo2lYFqxqdYnMeOxf3LkcLw1rzScAIlBLiUukcoBg05KLpSK4Ix
- f9Q7NLt8jADCpK/9aDIPW5+mv0lNe6J71XJy72J/nQV9WtgtIsn+KdyR6OW6VQye0sOMUzRfSpvSy
- A8P5lWYtEbMrUyctXH9xT6YmpTFpy4zzH6b3ExYDn5U1YUrsSe6/xlfetMi/ol8A8XWDWb7ngRLvy
- hnEbqG8hzxih9TK7Dd04tXxr/KgVv54yf8N5G6n6btBYt9I7CQbMk5kDimgrGnHgBeGiLt/TFnF5J
- 0BvfCMsQ==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1twe4t-005dvb-WB; Mon, 24 Mar 2025 10:26:40 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v10 6/6] drm/sched: Add a basic test for checking credit limit
-Date: Mon, 24 Mar 2025 09:26:33 +0000
-Message-ID: <20250324092633.49746-7-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250324092633.49746-1-tvrtko.ursulin@igalia.com>
-References: <20250324092633.49746-1-tvrtko.ursulin@igalia.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E20C10E279
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 09:33:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 25E7343628;
+ Mon, 24 Mar 2025 09:33:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6242C4CEDD;
+ Mon, 24 Mar 2025 09:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742808809;
+ bh=H4hSWm3+0vSdTwfpHEZaWWMhrb8/UitvhMtuYnogIRQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=U8EPnFtyK2P9GsInw4s3FVly8Fms0US3jqsf2gRY/Z/Wk8PbkmG7g8Uzfb9QBCCuE
+ KziHU9pbxhjntelVwlitNL2K5XK62VT2toTES+Z5h8XOL+XJH9vUDH93EVMR50FLri
+ xgTAb8YZRzE7F3pAxcEuQxbU/bUOHWmDaNIQvZI+epgIJ6xVXfLgIyHsPIhuxz8yrN
+ lacqD+perTWUK2daQxQy7NGIITCSDXIBSKAuUrWRDs8UQt4J0ruTG6X1iY8nNt5ITO
+ iMBlzV/56m1RS8DVx9BqhREVyqqGMmRsmrNrig6wUika/30+9iBJI29iMIU+fzO3OI
+ /3dMGXkZW/vsA==
+Date: Mon, 24 Mar 2025 10:33:26 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: "paul-pl.chen" <paul-pl.chen@mediatek.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ chunkuang.hu@kernel.org, angelogioacchino.delregno@collabora.com,
+ matthias.bgg@gmail.com, 
+ p.zabel@pengutronix.de, jason-jh.lin@mediatek.com, nancy.lin@mediatek.com, 
+ singo.chang@mediatek.com, xiandong.wang@mediatek.com, sirius.wang@mediatek.com,
+ sunny.shen@mediatek.com, fshao@chromium.org, treapking@chromium.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v2 01/15] dt-bindings: arm: mediatek: mmsys: add
+ compatible for MT8196
+Message-ID: <20250324-bipedal-berserk-carp-6eeb5f@krzk-bin>
+References: <20250321093435.94835-1-paul-pl.chen@mediatek.com>
+ <20250321093435.94835-2-paul-pl.chen@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250321093435.94835-2-paul-pl.chen@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,90 +67,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic test for checking whether scheduler respects the configured
-credit limit.
+On Fri, Mar 21, 2025 at 05:33:30PM +0800, paul-pl.chen wrote:
+> From: Paul-pl Chen <paul-pl.chen@mediatek.com>
+> 
+> In previous SoCs, a single HW pipeline was an independent mmsys,
+> which included the OVL module, PQ module, and display interface
+> module.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
-Acked-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/scheduler/tests/tests_basic.c | 60 ++++++++++++++++++-
- 1 file changed, 59 insertions(+), 1 deletion(-)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-index 996cac00bb52..7230057e0594 100644
---- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-@@ -412,7 +412,65 @@ static struct kunit_suite drm_sched_modify_sched = {
- 	.test_cases = drm_sched_modify_sched_tests,
- };
- 
-+static void drm_sched_test_credits(struct kunit *test)
-+{
-+	struct drm_mock_sched_entity *entity;
-+	struct drm_mock_scheduler *sched;
-+	struct drm_mock_sched_job *job[2];
-+	bool done;
-+	int i;
-+
-+	/*
-+	 * Check that the configured credit limit is respected.
-+	 */
-+
-+	sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-+	sched->base.credit_limit = 1;
-+
-+	entity = drm_mock_sched_entity_new(test,
-+					   DRM_SCHED_PRIORITY_NORMAL,
-+					   sched);
-+
-+	job[0] = drm_mock_sched_job_new(test, entity);
-+	job[1] = drm_mock_sched_job_new(test, entity);
-+
-+	drm_mock_sched_job_submit(job[0]);
-+	drm_mock_sched_job_submit(job[1]);
-+
-+	done = drm_mock_sched_job_wait_scheduled(job[0], HZ);
-+	KUNIT_ASSERT_TRUE(test, done);
-+
-+	done = drm_mock_sched_job_wait_scheduled(job[1], HZ);
-+	KUNIT_ASSERT_FALSE(test, done);
-+
-+	i = drm_mock_sched_advance(sched, 1);
-+	KUNIT_ASSERT_EQ(test, i, 1);
-+
-+	done = drm_mock_sched_job_wait_scheduled(job[1], HZ);
-+	KUNIT_ASSERT_TRUE(test, done);
-+
-+	i = drm_mock_sched_advance(sched, 1);
-+	KUNIT_ASSERT_EQ(test, i, 1);
-+
-+	done = drm_mock_sched_job_wait_finished(job[1], HZ);
-+	KUNIT_ASSERT_TRUE(test, done);
-+
-+	drm_mock_sched_entity_free(entity);
-+	drm_mock_sched_fini(sched);
-+}
-+
-+static struct kunit_case drm_sched_credits_tests[] = {
-+	KUNIT_CASE(drm_sched_test_credits),
-+	{}
-+};
-+
-+static struct kunit_suite drm_sched_credits = {
-+	.name = "drm_sched_basic_credits_tests",
-+	.test_cases = drm_sched_credits_tests,
-+};
-+
- kunit_test_suites(&drm_sched_basic,
- 		  &drm_sched_timeout,
- 		  &drm_sched_priority,
--		  &drm_sched_modify_sched);
-+		  &drm_sched_modify_sched,
-+		  &drm_sched_credits);
--- 
-2.48.0
+Best regards,
+Krzysztof
 
