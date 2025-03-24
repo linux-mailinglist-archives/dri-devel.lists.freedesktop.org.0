@@ -2,117 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A132A6D88F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 11:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10CDA6D91F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 12:26:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F153210E041;
-	Mon, 24 Mar 2025 10:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7113A10E115;
+	Mon, 24 Mar 2025 11:25:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="DqSoWvn2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QAE+GPKM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC52910E297
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 10:47:42 +0000 (UTC)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52O9ptko016767;
- Mon, 24 Mar 2025 10:47:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=pp1; bh=VIga+xvQk4RxwLl37s8roD8US+RxZH
- 6wgAnN7cz6dUM=; b=DqSoWvn2hNYTALQxMlD7ZFoi+4zq0N1yWuxe53qPbwlofS
- 11EDXetv8BM4utLmdlLw0MYgxwUAi5gSGHNoREjNHy90tDmAWBicdY3u5OsLqFNm
- FswP8lh4U8KL0Z+kmbDMnrfazqs0pMLjoe8sYQPDDhg+bESIKfnjQkeT2J5kZ8gZ
- uTpBQo4JY573uCvrEvB6/7EY+71e5v7MwS2GmtATqmPLrQY+OFUtee+p4N29MFed
- yMLrXbyFZsn7mGVDVNB3gW9NBCAPa3n7ktStYlAB993VUD+ET9ZqifqLhNy/ADTm
- 3QJgYd+LcjsIPnDPueY9NsSPBS5ASB0qja99r70Q==
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45jkqp44qf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Mar 2025 10:47:11 +0000 (GMT)
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
- by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52OAlA92022659;
- Mon, 24 Mar 2025 10:47:10 GMT
-Received: from ppma22.wdc07v.mail.ibm.com
- (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45jkqp44qc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Mar 2025 10:47:10 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
- by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52O77iAg025489;
- Mon, 24 Mar 2025 10:47:09 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 45j7wywy1a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Mar 2025 10:47:09 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 52OAl5LT16187800
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Mar 2025 10:47:05 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 694862004B;
- Mon, 24 Mar 2025 10:47:05 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD8DB20040;
- Mon, 24 Mar 2025 10:47:03 +0000 (GMT)
-Received: from osiris (unknown [9.179.14.66])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Mon, 24 Mar 2025 10:47:03 +0000 (GMT)
-Date: Mon, 24 Mar 2025 11:47:02 +0100
-From: Heiko Carstens <hca@linux.ibm.com>
-To: Alessandro Carminati <acarmina@redhat.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, linux-kselftest@vger.kernel.org,
- David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>,
- Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- loongarch@lists.linux.dev, x86@kernel.org,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>
-Subject: Re: [PATCH v4 10/14] s390: Add support for suppressing warning
- backtraces
-Message-ID: <20250324104702.12139E73-hca@linux.ibm.com>
-References: <20250313114329.284104-1-acarmina@redhat.com>
- <20250313114329.284104-11-acarmina@redhat.com>
- <b6bb68f0-7e93-4db2-9fe6-f615f06ddeb1@roeck-us.net>
- <CAGegRW4GinPmsav5=VBfjXBKy4cUEs5FWv-ixXODk7ajZ69vYg@mail.gmail.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B74DF10E115
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 11:25:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=hUNb4KEBb50GmkJOGh1tUNTJKntqnQuVQYRld867Ec8=; b=QAE+GPKM65thiHb6KC8vtxUMyF
+ rBtiCGX6Dglflsvxg0McjukEb+pOuNFZcpbKZQ4Mgy/gavnrPXIeo4Zlu0/kyDqVnVC0PYL1KIkyG
+ Oatyu4gTLyQQyXyQObeRqCaPZogKQmMG9tGrBQIb8YIZ+beIMj/kxQuuL7/HeFCxus7hvzH7RUpeF
+ rAU7yA2/xSE8V+n5PEwhoIAWXKZdOSAp7Xc69LemIQbhhWZZzHPdEcZA9noUKvS5LWcPBi49zQ9xo
+ R3qYtLodXU1oMAouCPSjopB2QggLavive6G6kKcFwsj/EUzH6+aBfJdC/uGMBTZQo17a8gyW9krEs
+ XdXm6vpA==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1twfwG-005gUS-F5; Mon, 24 Mar 2025 12:25:52 +0100
+Message-ID: <ec2f347a-8633-4287-9b81-68ee9e291dfd@igalia.com>
+Date: Mon, 24 Mar 2025 11:25:51 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGegRW4GinPmsav5=VBfjXBKy4cUEs5FWv-ixXODk7ajZ69vYg@mail.gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -BXK6qMXWLef6jiJ2R9hHCsaI_IjDOmx
-X-Proofpoint-ORIG-GUID: 40o9NRITvQhnDK-iPsw_sUFfSwFPyp4T
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-24_04,2025-03-21_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- suspectscore=0 priorityscore=1501 impostorscore=0 spamscore=0 adultscore=0
- mlxscore=0 mlxlogscore=810 clxscore=1011 malwarescore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503240076
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 0/6] DRM scheduler kunit tests
+To: phasta@kernel.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20250324092633.49746-1-tvrtko.ursulin@igalia.com>
+ <e27314e492f0e264e19b3cd008b4f941db13d005.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <e27314e492f0e264e19b3cd008b4f941db13d005.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,33 +63,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 21, 2025 at 10:05:42PM +0100, Alessandro Carminati wrote:
-> > > +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
-> > > +# define HAVE_BUG_FUNCTION
-> > > +# define __BUG_FUNC_PTR      "       .long   %0-.\n"
-> > > +# define __BUG_FUNC  __func__
-> >
-> > gcc 7.5.0 on s390 barfs; it doesn't like the use of "__func__" with "%0-."
 
-...
-
-> GCC makes significant efforts to handle this, and for several
-> architectures, it manages to solve the problem.
-> However, this is not universally the case.
-> Additionally, -fPIC is not widely used in kernel code... I have only
-> seen it used for VDSO, the x86 boot piggyback decompressor, PowerPC
-> boot, and the s390x architecture.
+On 24/03/2025 09:44, Philipp Stanner wrote:
+> On Mon, 2025-03-24 at 09:26 +0000, Tvrtko Ursulin wrote:
+>> There has repeatedly been quite a bit of apprehension when any change
+>> to the DRM
+>> scheduler is proposed, with two main reasons being code base is
+>> considered
+>> fragile, not well understood and not very well documented, and
+>> secondly the lack
+>> of systematic testing outside the vendor specific tests suites and/or
+>> test
+>> farms.
+>>
+>> This series is an attempt to dislodge this status quo by adding some
+>> unit tests
+>> using the kunit framework.
+>>
+>> General approach is that there is a mock "hardware" backend which can
+>> be
+>> controlled from tests, which in turn allows exercising various
+>> scheduler code
+>> paths.
+>>
+>> Only some simple basic tests get added in the series and hopefully it
+>> is easy to
+>> understand what tests are doing.
+>>
+>> An obligatory "screenshot" for reference:
+>>
+>> [14:09:05] ============ drm_sched_basic_tests (3 subtests)
+>> ============
+>> [14:09:06] [PASSED] drm_sched_basic_submit
+>> [14:09:06] ================== drm_sched_basic_test
+>> ===================
+>> [14:09:06] [PASSED] A queue of jobs in a single entity
+>> [14:09:06] [PASSED] A chain of dependent jobs across multiple
+>> entities
+>> [14:09:06] [PASSED] Multiple independent job queues
+>> [14:09:06] [PASSED] Multiple inter-dependent job queues
+>> [14:09:07] ============== [PASSED] drm_sched_basic_test
+>> ===============
+>> [14:09:07] [PASSED] drm_sched_basic_entity_cleanup
+>> [14:09:07] ============== [PASSED] drm_sched_basic_tests
+>> ==============
+>> [14:09:07] ======== drm_sched_basic_timeout_tests (1 subtest)
+>> =========
+>> [14:09:08] [PASSED] drm_sched_basic_timeout
+>> [14:09:08] ========== [PASSED] drm_sched_basic_timeout_tests
+>> ==========
+>> [14:09:08] ======= drm_sched_basic_priority_tests (2 subtests)
+>> ========
+>> [14:09:10] [PASSED] drm_sched_priorities
+>> [14:09:10] [PASSED] drm_sched_change_priority
+>> [14:09:10] ========= [PASSED] drm_sched_basic_priority_tests
+>> ==========
+>> [14:09:10] ====== drm_sched_basic_modify_sched_tests (1 subtest)
+>> ======
+>> [14:09:11] [PASSED] drm_sched_test_modify_sched
+>> [14:09:11] ======= [PASSED] drm_sched_basic_modify_sched_tests
+>> ========
+>> [14:09:11] ======== drm_sched_basic_credits_tests (1 subtest)
+>> =========
+>> [14:09:12] [PASSED] drm_sched_test_credits
+>> [14:09:12] ========== [PASSED] drm_sched_basic_credits_tests
+>> ==========
+>> [14:09:12]
+>> ============================================================
+>> [14:09:12] Testing complete. Ran 11 tests: passed: 11
+>> [14:09:13] Elapsed time: 13.539s total, 0.001s configuring, 3.004s
+>> building, 10.462s running
+>>
+>> v2:
+>>   * Parameterize a bunch of similar tests.
+>>   * Improve test commentary.
+>>   * Rename TDR test to timeout. (Christian)
+>>   * Improve quality and consistency of naming. (Philipp)
+>>
+>> RFC v2 -> series v1:
+>>   * Rebased for drm_sched_init changes.
+>>   * Fixed modular build.
+>>   * Added some comments.
+>>   * Filename renames. (Philipp)
+>>
+>> v2:
+>>   * Dealt with a bunch of checkpatch warnings.
+>>
+>> v3:
+>>   * Some mock API renames, kerneldoc grammar fixes and indentation
+>> fixes.
+>>
+>> v4:
+>>   * Fix use after free caused by relying on scheduler fence for
+>> querying status.
+>>   * Kerneldoc fixes.
+>>
+>> v5:
+>>   * Cleanup in-flight jobs on scheduler shutdown.
+>>   * Change hang_limit to 1.
+>>
+>> v6:
+>>   * Use KUNIT_ASSERT_TRUE/FALSE.
+>>   * Fixed patch titles.
+>>   * Added credit_limit test.
+>>   * Added CONFIG_DRM_SCHED_KUNIT_TEST_ASPIRATIONAL.
+>>
+>> v7:
+>>   * v6 omitted to send the first patch by mistake.
+>>
+>> v8:
+>>   * Removed CONFIG_DRM_SCHED_KUNIT_TEST_ASPIRATIONAL for now.
+>>   * Added Christian's acks.
+>>
+>> v9:
+>>   * Fixed a potential memory leak caused by a race condition on mock
+>> scheduler
+>>     shutdown. In order to reliably clean up everything, we have keep
+>> track of
+>>     jobs even past the signalling stage, all until either DRM sched
+>> core managed
+>>     to run the ->free_job() callback, or until mock scheduler teardown
+>> from the
+>>     test.
+>>
+>> v10:
+>>   * Rebase for a merge conflict in Kconfig.
+>>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>>
+>> Tvrtko Ursulin (6):
+>>    drm: Move some options to separate new Kconfig
+>>    drm/sched: Add scheduler unit testing infrastructure and some basic
+>>      tests
+>>    drm/sched: Add a simple timeout test
+>>    drm/sched: Add basic priority tests
+>>    drm/sched: Add a basic test for modifying entities scheduler list
+>>    drm/sched: Add a basic test for checking credit limit
+>>
+>>   drivers/gpu/drm/Kconfig                       | 110 +---
+>>   drivers/gpu/drm/Kconfig.debug                 | 116 +++++
+>>   drivers/gpu/drm/scheduler/.kunitconfig        |  12 +
+>>   drivers/gpu/drm/scheduler/Makefile            |   2 +
+>>   drivers/gpu/drm/scheduler/tests/Makefile      |   7 +
+>>   .../gpu/drm/scheduler/tests/mock_scheduler.c  | 359 +++++++++++++
+>>   drivers/gpu/drm/scheduler/tests/sched_tests.h | 226 +++++++++
+>>   drivers/gpu/drm/scheduler/tests/tests_basic.c | 476
+>> ++++++++++++++++++
+>>   8 files changed, 1203 insertions(+), 105 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/Kconfig.debug
+>>   create mode 100644 drivers/gpu/drm/scheduler/.kunitconfig
+>>   create mode 100644 drivers/gpu/drm/scheduler/tests/Makefile
+>>   create mode 100644 drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>   create mode 100644 drivers/gpu/drm/scheduler/tests/sched_tests.h
+>>   create mode 100644 drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>
 > 
-> That said, GCC has been mitigating this issue, allowing us to treat a
-> non-compile-time constant as if it were one.
-> A proof of this is that, at least since GCC 11, the s390x version of
-> GCC is able to build this code.
-> Before that... certainly in GCC 7.5 it couldn't.
 > 
-> A simple fix would be to restrict usage to GCC versions greater than
-> 11 for s390.
+> Applied to drm-misc-next
+> 
+> Thanks for your endurance!
 
-But please add that dependency only for this new feature for the time
-being. Right now I would not like to see that s390 is the only architecture
-(besides parisc) which requires a much higher minimum gcc level than every
-other architecture. Unless there are specific reasons.
+Thank you for the much needed scrutiny and testing!
+
+Regards,
+
+Tvrtko
+
