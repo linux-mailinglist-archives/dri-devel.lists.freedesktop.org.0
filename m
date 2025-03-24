@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA408A6DE62
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC24A6DE66
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:23:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F7E110E472;
-	Mon, 24 Mar 2025 15:23:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6B4B10E47B;
+	Mon, 24 Mar 2025 15:23:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nha9iTbP";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HxEm+23y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7762510E486;
- Mon, 24 Mar 2025 15:23:23 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3036420577;
- Mon, 24 Mar 2025 15:23:21 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F57010E47C;
+ Mon, 24 Mar 2025 15:23:32 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DC0A04441A;
+ Mon, 24 Mar 2025 15:23:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829802;
+ t=1742829811;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JwuW83OwbehfUQ0b6+agTugM6hRqyHyoBrJtyNV0PR8=;
- b=nha9iTbPOTGXk7vnAYcvtxfeysInYpzSHd4B2KH1ACm6z9TOgwI+3rBp6CvrNjyJYgNrsq
- aJXVrzyol+B9LcvkXL++meTsgHNSZf3X1mrzEC0HF4ut36datmQ4bDs0KtgKv9hzIFx98A
- gHVVgsq9XpvJNI5QDIwcmoERRLUQdoQ2qzeTT1/jrDvQa35yCczV8FGj1V8NYak8WtQUMD
- T/kJvGU3jqSjPP2ijXaBUCjqqUOv3A0AxY9rZMLLxX54WCZJGOC/1L98qO/yYYxzs0FClQ
- 9wU/FS1je6gjVon727tjoY9VZy6lO5tUs8z9WVBT0uSFtDo5TamKY74dTS6Cyg==
-Message-ID: <2dffcb05-1c31-4704-9081-91107b3ce165@bootlin.com>
-Date: Mon, 24 Mar 2025 16:23:21 +0100
+ bh=Sfhjzf8WQqsEexhtSG8Mnb2j5UTla8RiHjEDRoYc8TM=;
+ b=HxEm+23y3efkfVKyw5Huj7fEOjI2TeHPL81n/NmKSZgQlyHiLuWvKE0CxvP6FoP9PkpCMA
+ zOAmC/DmA7+ky5oi8pVFCjZlx+GL8jBEzrgyJAEa2yDCg+m6SK6YY147I7SWoCLUNcIAnz
+ 1ey6K3TyxMWswHulEhhHVUUY72wRboDZV5d/i5+EjvDV17YpKoaSEdu6Mbg+cDMJIyhcO0
+ XNojeS2eg7qToWq9Cz+Tu5ihcv+Uus6+RcudCi+zaDJL3MzgvtUU4x1Tzwjmt1f/g/l/VF
+ O/zKoBBXSqSbIxekHEv4oSeBx7kZO0pFv1PfSgZFQ2w1uVsR5EenEYF8M0p0EA==
+Message-ID: <04b28c61-6930-48aa-8775-471311e57486@bootlin.com>
+Date: Mon, 24 Mar 2025 16:23:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 33/59] docs/dyndbg: add classmap info to howto (TBD)
+Subject: Re: [PATCH v2 38/59] drm-print: fix config-dependent unused variable
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-gfx-trybot@lists.freedesktop.org
 Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com,
- linux-doc@vger.kernel.org
+ jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-34-jim.cromie@gmail.com>
+ <20250320185238.447458-39-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -101,12 +100,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-34-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-39-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudehpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,129 +126,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> Describe the 3 API macros providing dynamic_debug's classmaps
+> With CONFIG_DRM_USE_DYNAMIC_DEBUG=y, __drm_printfn_dbg() gets an
+> unused variable warning/error on 'category', even though the usage
+> follows immediately, in drm_debug_enabled(category).
 > 
-> DYNDBG_CLASSMAP_DEFINE - create & export a classmap
-> DYNDBG_CLASSMAP_USE    - refer to exported map
-> DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-> DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+> For static-key optimized dyndbg, the macro doesn't actually check the
+> category var, since the static-key patches in the proper state.  The
+> compiler evidently sees this lack of reference and complains.
 > 
-> TBD: some of this might be over-specification, or just over-talked.
+> So this drops the local var and refs the field directly in the
+> macro-call, which avoids the warning/error.
 > 
-> NB: The _DEFINE & _USE model makes the user dependent on the definer,
-> just like EXPORT_SYMBOL(__drm_debug) already does.
-> 
-> cc: linux-doc@vger.kernel.org
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+I believe I can merge it before the entire series. Does anyone have any 
+objections?
+
 > ---
-> v5 adjustments per Randy Dunlap
-> v7 checkpatch fixes
-> v8 more
-> v9 rewords
-> ---
->   .../admin-guide/dynamic-debug-howto.rst       | 80 ++++++++++++++++++-
->   1 file changed, 79 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/drm_print.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index d2928884c92b..9422dc4917d0 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -243,7 +243,6 @@ the ``p`` flag has meaning, other flags are ignored.
->   Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
->   To clear all flags at once, use ``=_`` or ``-fslmpt``.
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index 46d53fe30204..41ad11247b48 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -212,9 +212,8 @@ void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf)
+>   {
+>   	const struct drm_device *drm = p->arg;
+>   	const struct device *dev = drm ? drm->dev : NULL;
+> -	enum drm_debug_category category = p->category;
 >   
-> -
->   Debug messages during Boot Process
->   ==================================
+> -	if (!__drm_debug_enabled(category))
+> +	if (!__drm_debug_enabled(p->category))
+>   		return;
 >   
-> @@ -393,3 +392,82 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
->   For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
->   its ``prefix_str`` argument, if it is constant string; or ``hexdump``
->   in case ``prefix_str`` is built dynamically.
-> +
-> +Dynamic Debug classmaps
-> +=======================
-> +
-> +The "class" keyword selects prdbgs based on author supplied,
-> +domain-oriented names.  This complements the nested-scope keywords:
-> +module, file, function, line.
-> +
-> +The main difference from the others: class'd prdbgs must be named to
-> +be changed.  This protects them from generic overwrite:
-> +
-> +  # IOW this cannot undo any DRM.debug settings
-> +  :#> ddcmd -p
-
-Patch 30/59 just dropped this behavior no?
-
-> +So each class must be enabled individually (no wildcards):
-> +
-> +  :#> ddcmd class DRM_UT_CORE +p
-> +  :#> ddcmd class DRM_UT_KMS +p
-> +  # or more selectively
-> +  :#> ddcmd class DRM_UT_CORE module drm +p
-> +
-> +Or the legacy/normal (more convenient) way:
-> +
-> +  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-> +
-> +Dynamic Debug Classmap API
-> +==========================
-> +
-> +DRM.debug is built upon:
-> +  ~23 macros, all passing a DRM_UT_* constant as arg-1.
-> +  ~5000 calls to them, across drivers/gpu/drm/*
-> +  bits in /sys/module/drm/parameters/debug control all DRM_UT_* together
-> +
-> +The const short ints are good for optimizing compilers; a classmaps
-> +design goal was to keep that.  So basically .classid === category.
-> +
-> +And since prdbgs are cataloged with just a DRM_UT_* to identify them,
-> +the "class" keyword maps known classnames to those reserved IDs, and
-> +by explicitly requiring "class FOO" in queries, we protect FOO class'd
-> +debugs from overwrite by generic queries.
-> +
-> +Its expected that other classmap users will also provide debug-macros
-> +using an enum-defined categorization scheme like DRM's, and dyndbg can
-> +be adapted under them similarly.
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_DEFINE(var,type,_base,classnames) - this maps
-> +classnames onto class-ids consecutively, starting at _base, it also
-> +maps the names onto CLASSMAP_PARAM bits 0..N.
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_USE(var) - modules call this to refer to the
-> +var _DEFINEd elsewhere (and exported).
-> +
-> +Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-> +dyndbg to update those classes.  "class FOO" queries are validated
-> +against the classes, this finds the classid to alter; classes are not
-> +directly selectable by their classid.
-> +
-> +There are 2 types of classmaps:
-> +
-> + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-> + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-> +refers to a DEFINEd classmap, and associates it to the param's
-> +data-store.  This state is then applied to DEFINEr and USEr modules
-> +when they're modprobed.
-> +
-> +The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-> +amongst the contained classnames; all classes are independent in the
-> +control parser itself; there is no implied meaning in names like "V4".
-> +
-> +Modules or module-groups (drm & drivers) can define multiple
-> +classmaps, as long as they share the limited 0..62 per-module-group
-> +_class_id range, without overlap.
-
-Maybe clarify that a driver using _USE macro should take care that he 
-only use distinct non-overlaping classmaps?
-
-> +``#define DEBUG`` will enable all pr_debugs in scope, including any
-> +class'd ones.  This won't be reflected in the PARAM readback value,
-> +but the class'd pr_debug callsites can be forced off by toggling the
-> +classmap-kparam all-on then all-off.
+>   	__drm_dev_vprintk(dev, KERN_DEBUG, p->origin, p->prefix, vaf);
 
 -- 
 Louis Chauvet, Bootlin
