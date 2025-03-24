@@ -2,82 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B10A6EA00
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 08:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D74CA6EB32
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 09:12:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD3510E38D;
-	Tue, 25 Mar 2025 07:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A3E910E4FF;
+	Tue, 25 Mar 2025 08:12:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="qF+AUfWD";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="g+LXzTJV";
+	dkim=pass (2048-bit key; secure) header.d=posteo.net header.i=@posteo.net header.b="Jio6aTEk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF7F410E383
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 07:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1742886017; x=1774422017;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=IY1LRasI1a4gFwiAowe/BlaLi9qjAct5Q0v/7Pv3fzc=;
- b=qF+AUfWDQwGqSUKUUX/FnClRrclHGdZKZXEXA5gC3GxmabBRmSS42+RB
- G5toQmacIbY5wCQC8bPW8Alo/skCXE6fA8SMtfplMHSoFJ5/B1tpw28lh
- +xKgt1ZlwzLWsZStNKoZr5wIKyuT6FmFZCXkpSxrBbF/usknQSXLiUDqx
- AOHXpxopl5nXrirHvS3pwpmMqK3KxrEa1UBnM56BfzyOLSid6Ku1q6N+J
- ZrAlGihZERI7uFf+RtdnMS/QBoBFY57Zy1N/50dagyYMKmWjrqA44s98F
- vEz3QJzkteJyYDp8Qfc6tqlhmRGCZogB6tun6Z9mBlpgRSuTGguK7i3HA A==;
-X-CSE-ConnectionGUID: wLTuKKJvS5uEe8ivLhc3ew==
-X-CSE-MsgGUID: Yk3E/ZCrRXKmkvWbyVJD1w==
-X-IronPort-AV: E=Sophos;i="6.14,274,1736809200"; d="scan'208";a="43135474"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 25 Mar 2025 08:00:11 +0100
-X-CheckPoint: {67E2547B-36-903EAEAC-E04C76C8}
-X-MAIL-CPID: 5ED2254210CBCBBAE887422E760A4071_5
-X-Control-Analysis: str=0001.0A006372.67E25477.00AF, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id C2D251632F7; Tue, 25 Mar 2025 08:00:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1742886006;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IY1LRasI1a4gFwiAowe/BlaLi9qjAct5Q0v/7Pv3fzc=;
- b=g+LXzTJVJqyoxffvyz8jSMsqghsG9czM4ntoP70bldxrkl6PwZuP0nAC/iIQ1doTUeZu5e
- 2GK1wKUKixhDvNAFOvNRLAtM2ilE/aXqZLe5TXIzXg+Ss4hb+hDfCzHJR8GvbroSDCXlz8
- 3HH/9ZEi3aJ07NCXqcZ7vYT0UQ5zX4NmtP5cMZAk+J8JwuqguqjBu+/39+cdzcQk+NE0s0
- +1cMiMmP2hiMeVFM0czr5iYVDb8/Szl/WpA5aEabwAQ9v+52eJDJ4qkchtBrDsaw3zRIvG
- ezps5JR5w/9paFGiHgw7unrftOPv6PqhrNMd6r0fxfmYfGArFAApZbWnFutKAA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Marek Vasut <marex@denx.de>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Steven Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- devicetree@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: [PATCH v2 9/9] arm64: dts: imx95: Describe Mali G310 GPU
-Date: Tue, 25 Mar 2025 08:00:00 +0100
-Message-ID: <4643598.LvFx2qVVIh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <e8e9f36a-6d05-425e-a0e5-89689424336d@denx.de>
-References: <20250321200625.132494-1-marex@denx.de>
- <6144881.lOV4Wx5bFT@steina-w>
- <e8e9f36a-6d05-425e-a0e5-89689424336d@denx.de>
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7C6D10E4AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 18:29:35 +0000 (UTC)
+Received: from submission (posteo.de [185.67.36.169]) 
+ by mout02.posteo.de (Postfix) with ESMTPS id 4444F240103
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 19:29:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+ t=1742840967; bh=ET4b3AaYE8Ghc/W+tl4x1TdMZ5xfmseummAar90bY94=;
+ h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:From;
+ b=Jio6aTEk1qtcDU+YObeSnJg6KCEhBPxz2pICHEscwOIp03oSyJB78N1vlPJwxOrom
+ 9UkLBsdgYQkH+znfnLmUg3gl8O6iiZDmtl6IJU9U1DERwR43h3G9U0tRqfBZ/xZpnj
+ zk4ji2MHtSZ336EINFjTCxcpJoD3WZsUVOtPf8g9xocIw8o+vBQGMfLcwtN8Avw6sc
+ yf5xCCoIbKHpYKWG+Z78P3Ejyg5+xITnqkUXIJSv/xAJ2siUUZoHEhTUP1JAaLhybJ
+ /XqHmasKzt3AoAHFJdHY+bMfuLeVrZUo1G8K7u7vVb3X+8de6eBuEzHvKt6REZL9Zv
+ t53xoK8UviKjw==
+Received: from customer (localhost [127.0.0.1])
+ by submission (posteo.de) with ESMTPSA id 4ZM1mM3SgSz9rxG;
+ Mon, 24 Mar 2025 19:29:23 +0100 (CET)
+From: Charalampos Mitrodimas <charmitro@posteo.net>
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,  Benno Lossin
+ <benno.lossin@proton.me>,  Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>,  Trevor Gross <tmgross@umich.edu>,
+ Sumit Semwal <sumit.semwal@linaro.org>,  Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,  Boris Brezillon
+ <boris.brezillon@collabora.com>,  linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org,  dri-devel@lists.freedesktop.org,  Asahi
+ Lina <lina@asahilina.net>
+Subject: Re: [PATCH 2/2] rust: drm: Add GPUVM abstraction
+In-Reply-To: <20250324-gpuvm-v1-2-7f8213eebb56@collabora.com> (Daniel
+ Almeida's message of "Mon, 24 Mar 2025 12:13:55 -0300")
+References: <20250324-gpuvm-v1-0-7f8213eebb56@collabora.com>
+ <20250324-gpuvm-v1-2-7f8213eebb56@collabora.com>
+Date: Mon, 24 Mar 2025 18:29:22 +0000
+Message-ID: <m2pli62sfx.fsf@posteo.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+X-Mailman-Approved-At: Tue, 25 Mar 2025 08:12:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,45 +69,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Daniel Almeida <daniel.almeida@collabora.com> writes:
 
-Am Dienstag, 25. M=E4rz 2025, 00:35:41 CET schrieb Marek Vasut:
-> On 3/24/25 8:02 AM, Alexander Stein wrote:
->=20
-> Hi,
->=20
-> >> @@ -1890,6 +1919,35 @@ netc_emdio: mdio@0,0 {
-> >>   			};
-> >>   		};
-> >>  =20
-> >> +		gpu_blk_ctrl: reset-controller@4d810000 {
-> >> +			compatible =3D "nxp,imx95-gpu-blk-ctrl";
-> >> +			reg =3D <0x0 0x4d810000 0x0 0xc>;
-> >> +			#reset-cells =3D <1>;
-> >> +			clocks =3D <&scmi_clk IMX95_CLK_GPUAPB>;
-> >> +			assigned-clocks =3D <&scmi_clk IMX95_CLK_GPUAPB>;
-> >> +			assigned-clock-parents =3D <&scmi_clk IMX95_CLK_SYSPLL1_PFD1_DIV2>;
-> >> +			assigned-clock-rates =3D <133333333>;
-> >> +			power-domains =3D <&scmi_devpd IMX95_PD_GPU>;
-> >> +		};
-> >=20
-> > With the SM release lf-6.12.3-1.0.0 AP does not have any access to
-> > this BLK_CTRL anymore. See [1]
-> I just built SM 6.12 and it still requires the reset, without reset I=20
-> cannot use the GPU ... or ... which BLK CTRL do you refer to ?
+> +/// The object returned after a call to [`GpuVm::lock`].
+> +///
+> +/// This object has access to operations that modify the VM's interval t=
+ree.
+> +pub struct LockedGpuVm<'a, T: DriverGpuVm> {
+> +    gpuvm: &'a GpuVm<T>,
+> +}
+> +
+> +impl<T: DriverGpuVm> LockedGpuVm<'_, T> {
+> +    /// Finds the [`GpuVmBo`] object that connects `obj` to this VM.
+> +    ///
+> +    /// If found, increases the reference count of the GpuVmBo object
+> +    /// accordingly.
+> +    pub fn find_bo(&mut self, obj: &DriverObject<T>) -> Option<ARef<GpuV=
+mBo<T>>> {
+> +        // SAFETY: LockedGpuVm implies the right locks are held.
+> +        let p =3D unsafe {
+> +            bindings::drm_gpuvm_bo_find(
+> +                self.gpuvm.gpuvm() as *mut _,
+> +                obj.gem_obj() as *const _ as *mut _,
+> +            )
+> +        };
+> +        if p.is_null() {
+> +            None
+> +        } else {
+> +            // SAFETY: All the drm_gpuvm_bo objects in this GpuVm are al=
+ways allocated by us as GpuVmBo<T>.
+> +            let p =3D unsafe { crate::container_of!(p, GpuVmBo<T>, bo) a=
+s *mut GpuVmBo<T> };
+> +            // SAFETY: We checked for NULL above, and the types ensure t=
+hat
+> +            // this object was created by vm_bo_alloc_callback<T>.
+> +            Some(unsafe { ARef::from_raw(NonNull::new_unchecked(p)) })
+> +        }
 
-I'm specifically looking at [1]. AFAIU after that change AP has no access
-to BLK_CTRL_GPUMIX. But this is just from looking at the changes.
+Hi Daniel,
 
-Best regards
-Alexander
+This is mostly eye candy=E2=80=94maybe we can simplify it to just:
+    if p.is_null() {
+       return None;
+    }
 
-[1] https://github.com/nxp-imx/imx-sm/commit/a3e5da9ea51144f513ac3909fa151f=
-a7df394100
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+    // SAFETY: All the drm_gpuvm_bo objects in this GpuVm are always alloca=
+ted by us as GpuVmBo<T>.
+    let p =3D unsafe { crate::container_of!(p, GpuVmBo<T>, bo) as *mut GpuV=
+mBo<T> };
+    // SAFETY: We checked for NULL above, and the types ensure that
+    // this object was created by vm_bo_alloc_callback<T>.
+    Some(unsafe { ARef::from_raw(NonNull::new_unchecked(p)) })
 
 
+Same with `fn obtain_bo`?
+
+--
+C. Mitrodimas
+
+> +    }
+> +
+> +    /// Obtains the [`GpuVmBo`] object that connects `obj` to this VM.
+> +    ///
+> +    /// This connection is unique, so an instane of [`GpuVmBo`] will be
+> +    /// allocated for `obj` once, and that instance will be returned fro=
+m that
+> +    /// point forward.
+> +    pub fn obtain_bo(&mut self, obj: &DriverObject<T>) -> Result<ARef<Gp=
+uVmBo<T>>> {
+> +        // SAFETY: LockedGpuVm implies the right locks are held.
+> +        let p =3D unsafe {
+> +            bindings::drm_gpuvm_bo_obtain(
+> +                self.gpuvm.gpuvm() as *mut _,
+> +                obj.gem_obj() as *const _ as *mut _,
+> +            )
+> +        };
+> +        if p.is_null() {
+> +            Err(ENOMEM)
+> +        } else {
+> +            // SAFETY: Container invariant is guaranteed for GpuVmBo obj=
+ects for this GpuVm.
+> +            let p =3D unsafe { crate::container_of!(p, GpuVmBo<T>, bo) a=
+s *mut GpuVmBo<T> };
+> +            // SAFETY: We checked for NULL above, and the types ensure t=
+hat
+> +            // this object was created by vm_bo_alloc_callback<T>.
+> +            Ok(unsafe { ARef::from_raw(NonNull::new_unchecked(p)) })
+> +        }
+> +    }
