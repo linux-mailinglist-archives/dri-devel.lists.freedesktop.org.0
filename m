@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECB2A6DD9C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E36A6DDB5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:03:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59B9C10E3E2;
-	Mon, 24 Mar 2025 15:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDFC10E3D2;
+	Mon, 24 Mar 2025 15:03:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Og/tRQHK";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KOpADIZR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24BB410E413;
- Mon, 24 Mar 2025 15:00:38 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id ED5DC204D0;
- Mon, 24 Mar 2025 15:00:34 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41B4C10E3C4;
+ Mon, 24 Mar 2025 15:03:34 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 34C42442FC;
+ Mon, 24 Mar 2025 15:03:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742828436;
+ t=1742828611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=a49Yb5fkYlB2+kLcSjQdS74pwZfwIgOiMdkF7VmdL5k=;
- b=Og/tRQHK9X8X1sE4GkAqB58qHWSsQK2lDzYzac0wgDp8Gb2lSlDuj9sD8ckx6vV+VlnozD
- 9hZ8lqRenZJmfxy1X4veIOA5ucMa3x+eVgVPBaxHwFS61UORg5j1v1i6iKz+D9FQTTU4fz
- 7LUIOZpj7Po7uLGJfkXsXbhREQIfvZBMCDCCQnBySwpBdu7NGj1fcIPOCeC5qCUGjuPvA5
- JONY7IlAoQ964bgaQk3uJFzXhn1N3HixyiFbGqGQlJVUNGqIuPlx78yB96qUMy2idxPtz5
- QrPP7ka+q/BuxYAcbwEX8kFR6XIF5zBBvVrOusAsu/zjBimufx/o+6mdIqDt8w==
-Message-ID: <2310238a-adb9-4189-b848-6f3df5ddd152@bootlin.com>
-Date: Mon, 24 Mar 2025 16:00:34 +0100
+ bh=1dav6Pu9P3vomGYGhQq1BqXkKruomp0uJztHGL2ouzI=;
+ b=KOpADIZRVeB88eTNB/WsI1Y+8gP/W7B/7IW5/Vqc4gOd7qfCoT25ZCZCK/6Ck4nLZOmKC8
+ RNaL8jmQfUwnx4biCUrPfQtbD7mwnNAe7MO7Wlp81f0hudXWfFgzC+PCrFpWHCWDPQOPv9
+ yhx3lyfngLpKeX5ABDIUyr5UIVcT1xJkakDnT++sR6hn3nLdkcFu6bs2tIcl5/BvBwAJaV
+ OvJMSa4BhE49JDCpesFNc6PA445Ja0mXviz81tLpjLpGC+EHXh0JualByVZTiBwDHZgbu/
+ erPNSw7YbKeImnvebgvWmqbXppIdfyNckS3wa1haqSCrQUBsPTCKAHeEuXObyA==
+Message-ID: <bec1c938-aafa-49cb-b173-5b876f77779f@bootlin.com>
+Date: Mon, 24 Mar 2025 16:03:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 52/59] drm-dyndbg: add DRM_CLASSMAP_USE to vkms driver
+Subject: Re: [PATCH v2 47/59] drm-dyndbg: add DRM_CLASSMAP_USE to bochs
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +44,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-53-jim.cromie@gmail.com>
+ <20250320185238.447458-48-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +100,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-53-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-48-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedttdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedttdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,31 +126,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> The vkms driver has a number of DRM_UT_* debugs, make them
-> controllable when CONFIG_DRM_USE_DYNAMIC_DEBUG=y by telling dyndbg
-> that the module uses them.
+> tiny/bochs has 5 DRM_UT_* debugs, make them controllable when
+> CONFIG_DRM_USE_DYNAMIC_DEBUG=y by telling dyndbg that the module has
+> class'd debugs.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
+>   drivers/gpu/drm/tiny/bochs.c | 2 ++
 >   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index e0409aba9349..4b9da64661fb 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -39,6 +39,8 @@
->   
->   static struct vkms_config *default_config;
+> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+> index 8706763af8fb..dbcc8ba70dfa 100644
+> --- a/drivers/gpu/drm/tiny/bochs.c
+> +++ b/drivers/gpu/drm/tiny/bochs.c
+> @@ -59,6 +59,8 @@ static int bochs_modeset = -1;
+>   static int defx = 1024;
+>   static int defy = 768;
 >   
 > +DRM_CLASSMAP_USE(drm_debug_classes);
-> +
->   static bool enable_cursor = true;
->   module_param_named(enable_cursor, enable_cursor, bool, 0444);
->   MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+
+Do we need to add it for each driver that use drm_* print macros? Is it 
+reasonable to add this directly in drm_print.h, so there is no way to 
+miss this call if you use drm_* macros.
+
+>   module_param_named(modeset, bochs_modeset, int, 0444);
+>   MODULE_PARM_DESC(modeset, "enable/disable kernel modesetting");
+>   
 
 -- 
 Louis Chauvet, Bootlin
