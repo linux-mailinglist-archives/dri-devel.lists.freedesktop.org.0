@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80F3A6DE27
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:19:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156BFA6DE2E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:19:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D97B510E458;
-	Mon, 24 Mar 2025 15:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40E8810E463;
+	Mon, 24 Mar 2025 15:19:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="iLfmUMBJ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JSkzLqy5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C49DA10E455;
- Mon, 24 Mar 2025 15:19:08 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 555E74450B;
- Mon, 24 Mar 2025 15:19:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727DF10E45C;
+ Mon, 24 Mar 2025 15:19:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9B812433D6;
+ Mon, 24 Mar 2025 15:19:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829547;
+ t=1742829559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Rc5mLfKZBfxRtHLDXL2OHzop4B3pGHpVYxAXnNdgIss=;
- b=iLfmUMBJ9cdaIKK94mN7aUenng7OXokuV0toKj8I5DALxmm26RgxonFzfRN0ApbpCXjd0L
- mMDnxx8KOC/g/4b6WDsMznODu9wNmyHT/WEDgX8c5omLjiztvUPJzmZd5eoPNJG/dV+sMs
- Qq7UB3LBYieYpbxgkH0zg/pOA0qp6jmX2QAy24uBzEJ8tUoypXknC5/ZoG00//fzjxu0Ep
- SVnN9fh7dALrONJvGcppqI2t+ao3LrPlcpyuTAyRatAKU7QpCgU+b25f0U3ZJ1/C1Yhk0X
- lo3vgNLKX7V2GJ6E6++7hilpu2hFEijkBh4CD5HtHLD2eNPnwg3bZvhg3/wF8A==
-Message-ID: <b6f497da-146d-4080-a987-b3f701bb0175@bootlin.com>
-Date: Mon, 24 Mar 2025 16:19:05 +0100
+ bh=cEu1XYuEmBNKmsANd2tXhv0BoNUFd3t88gi63JerZLY=;
+ b=JSkzLqy542GEF/91VV5HKjQD7RKhOpeF5clW4Dv5hN/+ZLJkojq5Yu+cjZkArwOSBYYXyb
+ ZmBhqNgqjsJ6GhzVdOtr5vv51H2MTeflOOrjkFUCWJlT4ZiFCB1vkZy/voBsMRVkHf0Che
+ 2z38w/9JongU7oQ08jVCS1SJbSMY/y6PAtgmDz8QNDoyV0oR0XTpUAE7HFmD3Gccobjqbj
+ O+IITZwkFpanrW8ls4XtYgt1bPeq3ocRujhC8jv1zZC/eSsECR7FIj5MGVrd6aEHnRD2lR
+ AE1BnOL1Wezny5X0rdY9+ZjUgZ9s6jI1iDosiQNrXY7sEPo8suwtehJ8yhPc0g==
+Message-ID: <f75db8f8-09cd-4032-b3a6-a92b41250855@bootlin.com>
+Date: Mon, 24 Mar 2025 16:19:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 25/59] selftests-dyndbg: add comma_terminator_tests
+Subject: Re: [PATCH v2 26/59] dyndbg: split multi-query strings with %
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +44,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-26-jim.cromie@gmail.com>
+ <20250320185238.447458-27-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +100,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-26-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-27-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,67 +126,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> New fn validates parsing and effect of queries using combinations of
-> commas and spaces to delimit the tokens.
+> Since commit
+> 85f7f6c0edb8 ("dynamic_debug: process multiple debug-queries on a line")
 > 
-> It manipulates pr-debugs in builtin module/params, so might have deps
-> I havent foreseen on odd configurations.
+> Multi-query commands have been allowed:
+> 
+>    modprobe drm dyndbg="class DRM_UT_CORE +p; class DRM_UT_KMS +p"
+>    modprobe drm dyndbg=<<EOX
+>       class DRM_UT_CORE +p
+>       class DRM_UT_KMS +p
+>    EOX
+> 
+> More recently, the need for quoting was avoided by treating a comma
+> like a space/token-terminator:
+> 
+>    modprobe drm dyndbg=class,DRM_UT_CORE,+p\;class,DRM_UT_KMS,+p
+> 
+> That works, but it needs the escaped semicolon, which is a shell
+> special-char (one of the bash control operators), so it is brittle
+> when passed in/down/around scripts.  In particular, it fails when
+> passed to vng (virtme-ng).
+> 
+> So this patch adds '%' to the existing ';' and '\n' multi-command
+> separators, which is more shell-friendly, so you can more fully avoid
+> quoting and escaping hassles.
+> 
+> NOTE: it does break format matching on '%' patterns:
+> 
+> bash-5.2# ddcmd 'format "find-me: %foo" +p'
+> [  203.900581] dyndbg: read 26 bytes from userspace
+> [  203.900883] dyndbg: query 0: "format "find-me: " mod:*
+> [  203.901118] dyndbg: unclosed quote: find-me:
+> [  203.901355] dyndbg: tokenize failed
+> [  203.901529] dyndbg: query 1: "foo" +p" mod:*
+> [  203.901957] dyndbg: split into words: "foo"" "+p"
+> [  203.902243] dyndbg: op='+' flags=0x1 maskp=0xffffffff
+> [  203.902458] dyndbg: expecting pairs of match-spec <value>
+> [  203.902703] dyndbg: query parse failed
+> [  203.902871] dyndbg: processed 2 queries, with 0 matches, 2 errs
+> bash: echo: write error: Invalid argument
+> 
+> The '%' splits the input into 2 queries, and both fail.  Given the
+> limited utility of matching against the working parts of a format
+> string "foo: %d bar %s", nothing is actually lost here.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
-> - skip comma tests if no builtins
-> ---
->   .../dynamic_debug/dyndbg_selftest.sh          | 21 ++++++++++++++++++-
->   1 file changed, 20 insertions(+), 1 deletion(-)
+>   lib/dynamic_debug.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> index 68a9046405f2..368d10a691a0 100755
-> --- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> +++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> @@ -216,7 +216,7 @@ function check_err_msg() {
->   function basic_tests {
->       echo -e "${GREEN}# BASIC_TESTS ${NC}"
->       if [ $LACK_DD_BUILTIN -eq 1 ]; then
-> -	echo "SKIP"
-> +	echo "SKIP - test requires params, which is a builtin module"
->   	return
->       fi
->       ddcmd =_ # zero everything
-> @@ -238,8 +238,27 @@ EOF
->       ddcmd =_
->   }
+> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> index 168663629ef2..c44502787c2b 100644
+> --- a/lib/dynamic_debug.c
+> +++ b/lib/dynamic_debug.c
+> @@ -599,7 +599,7 @@ static int ddebug_exec_queries(char *query, const char *modname)
+>   	int i, errs = 0, exitcode = 0, rc, nfound = 0;
 >   
-> +function comma_terminator_tests {
-> +    echo -e "${GREEN}# COMMA_TERMINATOR_TESTS ${NC}"
-> +    if [ $LACK_DD_BUILTIN -eq 1 ]; then
-> +	echo "SKIP - test requires params, which is a builtin module"
-> +	return
-> +    fi
-> +    # try combos of spaces & commas
-> +    check_match_ct '\[params\]' 4 -r
-> +    ddcmd module,params,=_		# commas as spaces
-> +    ddcmd module,params,+mpf		# turn on module's pr-debugs
-> +    check_match_ct =pmf 4
-> +    ddcmd ,module ,, ,  params, -p
-> +    check_match_ct =mf 4
-> +    ddcmd " , module ,,, ,  params, -m"	#
-> +    check_match_ct =f 4
-> +    ddcmd =_
-> +}
-> +
->   tests_list=(
->       basic_tests
-> +    comma_terminator_tests
->   )
+>   	for (i = 0; query; query = split) {
+> -		split = strpbrk(query, ";\n");
+> +		split = strpbrk(query, "%;\n");
+>   		if (split)
+>   			*split++ = '\0';
 >   
->   # Run tests
 
 -- 
 Louis Chauvet, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
+
 
 
