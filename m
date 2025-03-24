@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43134A6DE1F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:18:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80F3A6DE27
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:19:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7558C10E45F;
-	Mon, 24 Mar 2025 15:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D97B510E458;
+	Mon, 24 Mar 2025 15:19:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RnbC5SOQ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="iLfmUMBJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 368FA10E44D;
- Mon, 24 Mar 2025 15:18:23 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 108104441C;
- Mon, 24 Mar 2025 15:18:20 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C49DA10E455;
+ Mon, 24 Mar 2025 15:19:08 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 555E74450B;
+ Mon, 24 Mar 2025 15:19:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829501;
+ t=1742829547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HUBHQg0Daa6K6GLuXE7TSPlGQ+M3NRSkAcMJIBLX3xk=;
- b=RnbC5SOQ6wJ0LIUNE/kO7MP90UcWHYVDFTE9QBwms0dAguPzj0IUwRFZc6XxyrOyji6oqL
- OVeDB9e/4eE4qrwX+FQljKbkaijlCyHisoZXRbUiQmVYdvSWcsC2v9NFmLZKPjQyP+YMMI
- eZ55JBRi6X5BYCRRhDmpkAdiRDq5Cwx+UB4bQQbATkJABkQmopjiI4chs8cz5oTRhlLwva
- W6aMM0MAxRiIPOLqR7AqzVLKCSjYq1eM+MWLGAmlVC4v/Q/HLxrywhdnVSrX27WmaQZRSp
- 5yQHDPHCotoPl6xR8mPnSddnP1U/3mWWdmDWvUyxMXTOTO5qp7hHnlepf8Gt/A==
-Message-ID: <1bc8fe84-fc67-4348-b916-05174e07c884@bootlin.com>
-Date: Mon, 24 Mar 2025 16:18:20 +0100
+ bh=Rc5mLfKZBfxRtHLDXL2OHzop4B3pGHpVYxAXnNdgIss=;
+ b=iLfmUMBJ9cdaIKK94mN7aUenng7OXokuV0toKj8I5DALxmm26RgxonFzfRN0ApbpCXjd0L
+ mMDnxx8KOC/g/4b6WDsMznODu9wNmyHT/WEDgX8c5omLjiztvUPJzmZd5eoPNJG/dV+sMs
+ Qq7UB3LBYieYpbxgkH0zg/pOA0qp6jmX2QAy24uBzEJ8tUoypXknC5/ZoG00//fzjxu0Ep
+ SVnN9fh7dALrONJvGcppqI2t+ao3LrPlcpyuTAyRatAKU7QpCgU+b25f0U3ZJ1/C1Yhk0X
+ lo3vgNLKX7V2GJ6E6++7hilpu2hFEijkBh4CD5HtHLD2eNPnwg3bZvhg3/wF8A==
+Message-ID: <b6f497da-146d-4080-a987-b3f701bb0175@bootlin.com>
+Date: Mon, 24 Mar 2025 16:19:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 24/59] dyndbg: treat comma as a token separator
+Subject: Re: [PATCH v2 25/59] selftests-dyndbg: add comma_terminator_tests
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +44,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-25-jim.cromie@gmail.com>
+ <20250320185238.447458-26-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,7 +100,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-25-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-26-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
@@ -126,114 +126,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> Treat comma as a token terminator, just like a space.  This allows a
-> user to avoid quoting hassles when spaces are otherwise needed:
+> New fn validates parsing and effect of queries using combinations of
+> commas and spaces to delimit the tokens.
 > 
->   :#> modprobe drm dyndbg=class,DRM_UT_CORE,+p\;class,DRM_UT_KMS,+p
-> 
-> or as a boot arg:
-> 
->   drm.dyndbg=class,DRM_UT_CORE,+p  # todo: support multi-query here
-> 
-> Given the many ways a boot-line +args can be assembled and then passed
-> in/down/around shell based tools, this may allow side-stepping all
-> sorts of quoting hassles thru those layers.
-> 
-> existing query format:
-> 
->   modprobe test_dynamic_debug dyndbg="class D2_CORE +p"
-> 
-> new format:
-> 
->   modprobe test_dynamic_debug dyndbg=class,D2_CORE,+p
+> It manipulates pr-debugs in builtin module/params, so might have deps
+> I havent foreseen on odd configurations.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> Co-developed-by: Łukasz Bartosik <ukaszb@chromium.org>
-> Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
 
-This patch seems to be unrelated to the whole series, and can be applied 
-on the current rc. What do you think about extracting the patches 24, 
-25, 26, 27? I understand 28 depends on it, but I believe 24..27 can be 
-merged before as they are simple.
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   lib/dynamic_debug.c | 17 +++++++++++++----
->   1 file changed, 13 insertions(+), 4 deletions(-)
+> - skip comma tests if no builtins
+> ---
+>   .../dynamic_debug/dyndbg_selftest.sh          | 21 ++++++++++++++++++-
+>   1 file changed, 20 insertions(+), 1 deletion(-)
 > 
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index cd3eec5bb81c..168663629ef2 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -293,6 +293,14 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
->   	return nfound;
+> diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+> index 68a9046405f2..368d10a691a0 100755
+> --- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+> +++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+> @@ -216,7 +216,7 @@ function check_err_msg() {
+>   function basic_tests {
+>       echo -e "${GREEN}# BASIC_TESTS ${NC}"
+>       if [ $LACK_DD_BUILTIN -eq 1 ]; then
+> -	echo "SKIP"
+> +	echo "SKIP - test requires params, which is a builtin module"
+>   	return
+>       fi
+>       ddcmd =_ # zero everything
+> @@ -238,8 +238,27 @@ EOF
+>       ddcmd =_
 >   }
 >   
-> +static char *skip_spaces_and_commas(const char *str)
-> +{
-> +	str = skip_spaces(str);
-> +	while (*str == ',')
-> +		str = skip_spaces(++str);
-> +	return (char *)str;
+> +function comma_terminator_tests {
+> +    echo -e "${GREEN}# COMMA_TERMINATOR_TESTS ${NC}"
+> +    if [ $LACK_DD_BUILTIN -eq 1 ]; then
+> +	echo "SKIP - test requires params, which is a builtin module"
+> +	return
+> +    fi
+> +    # try combos of spaces & commas
+> +    check_match_ct '\[params\]' 4 -r
+> +    ddcmd module,params,=_		# commas as spaces
+> +    ddcmd module,params,+mpf		# turn on module's pr-debugs
+> +    check_match_ct =pmf 4
+> +    ddcmd ,module ,, ,  params, -p
+> +    check_match_ct =mf 4
+> +    ddcmd " , module ,,, ,  params, -m"	#
+> +    check_match_ct =f 4
+> +    ddcmd =_
 > +}
 > +
-
-This is a bit complex to read, maybe you can simply re-write skip_space 
-completely to avoid the explicit check against is_skip below
-
-bool is_skip(char c) {
-	return isspace(c) || c == ',';
-}
-char *skip(char *s) {
-	while (is_skip(*s))
-		s++;
-	return s;
-}
-
-With or without this:
-
-Reviewed-by: Louis Chauvet <louis.chauvet@booltin.com>
-
->   /*
->    * Split the buffer `buf' into space-separated words.
->    * Handles simple " and ' quoting, i.e. without nested,
-> @@ -306,8 +314,8 @@ static int ddebug_tokenize(char *buf, char *words[], int maxwords)
->   	while (*buf) {
->   		char *end;
+>   tests_list=(
+>       basic_tests
+> +    comma_terminator_tests
+>   )
 >   
-> -		/* Skip leading whitespace */
-> -		buf = skip_spaces(buf);
-> +		/* Skip leading whitespace and comma */
-> +		buf = skip_spaces_and_commas(buf);
->   		if (!*buf)
->   			break;	/* oh, it was trailing whitespace */
->   		if (*buf == '#')
-> @@ -323,7 +331,7 @@ static int ddebug_tokenize(char *buf, char *words[], int maxwords)
->   				return -EINVAL;	/* unclosed quote */
->   			}
->   		} else {
-> -			for (end = buf; *end && !isspace(*end); end++)
-> +			for (end = buf; *end && !isspace(*end) && *end != ','; end++)
-
-                                                    ^ here use is_skip
-
->   				;
->   			if (end == buf) {
->   				pr_err("parse err after word:%d=%s\n", nwords,
-> @@ -595,7 +603,8 @@ static int ddebug_exec_queries(char *query, const char *modname)
->   		if (split)
->   			*split++ = '\0';
->   
-> -		query = skip_spaces(query);
-> +		query = skip_spaces_and_commas(query);
-> +
->   		if (!query || !*query || *query == '#')
->   			continue;
->   
+>   # Run tests
 
 -- 
 Louis Chauvet, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
-
 
 
