@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F57A6DE80
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE42A6DE81
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:24:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A7310E493;
-	Mon, 24 Mar 2025 15:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9A8510E490;
+	Mon, 24 Mar 2025 15:24:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mVaWY4Nz";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HzRntRTI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
  [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C8310E48D;
- Mon, 24 Mar 2025 15:24:26 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 10978442A2;
- Mon, 24 Mar 2025 15:24:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7377F10E495;
+ Mon, 24 Mar 2025 15:24:31 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7F580431EA;
+ Mon, 24 Mar 2025 15:24:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829865;
+ t=1742829870;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MN2goKeoGuvQfVEcs16DdowyfuUf4fhiY6wQYYUdHD0=;
- b=mVaWY4NzsQu8H3UewIVVJ2dHMuyEwe1yH44jNKm1gW+fS9KM8kcx9K4r2YOj8aB/UzrFG9
- P3lUMqKnjQY/9oayiOlPgRSusO2u20Xp4ujHZ05PBliCHxCf0uvTF5cjJYXcce/ozg2QOL
- kEuomD6jyvuO52LuWs3QRZHFsNhd8aj4ISBcsDK37ca5z1sNlrEKFH2Skdj9HTE3hye78A
- +VyAZgfOX81uHvujjO9dsHiU3zPmXKa3rbJpSpccVlj8tVotwUtBLIGUP2kyfGHYWW6g2s
- Kb4l/1TZ4ygwNcjtQ5yVh62Cv0AmLczyfh2K6idPoIPMN7hvsJDqC6M3+icnHQ==
-Message-ID: <d6918ca0-f661-4b1c-af61-cc863a794a66@bootlin.com>
-Date: Mon, 24 Mar 2025 16:24:21 +0100
+ bh=qq8EpEiG1aC5Z/IjfsMqD91CxuYdkrpsKElewh0trrc=;
+ b=HzRntRTIKg4fLJyjgfZTixNKmLhq822wf0K5foYb4X2cRUgxn0PLQUU4hPLxst0D35OdE+
+ CqYuSaBhmof4OO/roafXPdPVcIT9ZV2Oj7iaNssm3lWouInC/EOod+m3KzDFW7XhOerlXW
+ tCIGRxXb98yNFm6L7LidILYeKfWeuT0ZVcCljYOBnxe+rxYtQQKVaNhi7LS2QuolizWOES
+ vbmDUtul2gNsSmnHZfaJIZSoCTH3bjGrUi3+WSceOJw/M7KjJir/tNXBAdRbs6U64pgQ0N
+ 7cW7xziJHn7jY13PAUOIkrPnY0z3mJZDglSyV0v013GZvm8lkj/eKGCsm0mZQg==
+Message-ID: <d8af7ba3-d7c9-4ed9-b3ed-118ea189ea49@bootlin.com>
+Date: Mon, 24 Mar 2025 16:24:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 39/59] drm-dyndbg: DRM_CLASSMAP_USE in amdgpu driver
+Subject: Re: [PATCH v2 40/59] drm-dyndbg: DRM_CLASSMAP_USE in i915 driver
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +44,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-40-jim.cromie@gmail.com>
+ <20250320185238.447458-41-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +100,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-40-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-41-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -140,16 +140,16 @@ Le 20/03/2025 à 19:52, Jim Cromie a écrit :
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 12 +-----------
+>   drivers/gpu/drm/i915/i915_params.c | 12 +-----------
 >   1 file changed, 1 insertion(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index c0ddbe7d6f0b..e1367f66c4d2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -234,17 +234,7 @@ int amdgpu_wbrf = -1;
->   int amdgpu_damage_clips = -1; /* auto */
->   int amdgpu_umsch_mm_fwlog;
+> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+> index 37746dd619fd..2dc0e2c06e09 100644
+> --- a/drivers/gpu/drm/i915/i915_params.c
+> +++ b/drivers/gpu/drm/i915/i915_params.c
+> @@ -29,17 +29,7 @@
+>   #include "i915_params.h"
+>   #include "i915_drv.h"
 >   
 > -DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
 > -			"DRM_UT_CORE",
@@ -164,8 +164,8 @@ Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > -			"DRM_UT_DRMRES");
 > +DRM_CLASSMAP_USE(drm_debug_classes);
 >   
->   struct amdgpu_mgpu_info mgpu_info = {
->   	.mutex = __MUTEX_INITIALIZER(mgpu_info.mutex),
+>   #define i915_param_named(name, T, perm, desc) \
+>   	module_param_named(name, i915_modparams.name, T, perm); \
 
 -- 
 Louis Chauvet, Bootlin
