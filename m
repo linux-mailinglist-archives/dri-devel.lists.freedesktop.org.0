@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A82A6DB8C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 14:31:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9206EA6DB8E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 14:31:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4643C10E407;
-	Mon, 24 Mar 2025 13:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC91E10E405;
+	Mon, 24 Mar 2025 13:31:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EqelBRNy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SVX+3UkJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A46310E401;
- Mon, 24 Mar 2025 13:31:08 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38EB910E405;
+ Mon, 24 Mar 2025 13:31:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742823068; x=1774359068;
+ t=1742823075; x=1774359075;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JQLpubuA/Xc4YFAb6kRQlIkOagPzvUMOtL3/QfRI6YU=;
- b=EqelBRNyXEXyL5KeUmITmsoM40O79PGtbIPkQ+4Z0Cw/Fd+FyUq0qYLD
- CNE4p2aCP/YuxEHzRXSN0keyycP12xECXpQ7IZOppNO3BfTnrgwPsP8oi
- mFHWszMhqbHFpFYA62w4HYTgbltun89AU0ZoJzJtFsoUtWA4KvXttPIdo
- Uw6JKyLkpSNDZ/lchQIFCD5dBNxeUriyidsgfLDASQNdPaAH46Zu1ZEL+
- +pHZFD3szYpEHpCvOVf4itnvqWFxKy3QV6KZl1fUJoOOxXz9RG79n6sPx
- lLGUYpS2Ysw3AMEimguw71Khshbo56uD6XrVvk8ifAtQWuhScxB6s5yPk A==;
-X-CSE-ConnectionGUID: lqVj20yjTkaZqBLlZTM2yw==
-X-CSE-MsgGUID: v27H2rkeQAuxeMxDLR8CwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="44134028"
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="44134028"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 06:31:08 -0700
-X-CSE-ConnectionGUID: mUM/HjmjTQyXFsvBs7ksZA==
-X-CSE-MsgGUID: +451tkBFTXyAKJ3KlTXLCQ==
+ bh=Ec4keQkax8q652yYyRWcqB084B5FwldDIKKQW0gvYXc=;
+ b=SVX+3UkJHlrsptGyFCv+FR61vXypnb0ZNhI+e0Fq9AfdjCjZpFxg4jYa
+ w4DdZYylE5rwB333BnvlWCFtslha2CVfYOTmjPhTJeSAjPEcnzHdSmaTV
+ TpXLsjlH0k7v+oBpXK+DSvg71guuncRWwQXrJ9Siv0nN9AkFpGmGqIwh7
+ toy0Ai7dSi5WYmMHDXk4MyG2hqe1Ye3Qt6tCGN61hKcDGfhMGzdGY58+P
+ NjvnZEDTzOnrtfqvwNFeg83cULcBPLvtkuF8Nh0MYqEFFC00DiQZPiggh
+ 2g5P4JsAATiOaNuhPSw6+W9c/5Op5Jve430HJhv/Tas5AH97VzuMwVKSo w==;
+X-CSE-ConnectionGUID: TVseiJblTHmR/nNZ+aTv7w==
+X-CSE-MsgGUID: Su1w+tIoQ8GUtZcyt0HuDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="55024697"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="55024697"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2025 06:31:15 -0700
+X-CSE-ConnectionGUID: n9X/B3GjRBqflKxyrwws2A==
+X-CSE-MsgGUID: L+Orx1lzTcmxFa/AK+6V2A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="124209282"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="155060061"
 Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.252])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 06:31:03 -0700
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2025 06:31:11 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
@@ -52,10 +52,10 @@ Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
  Arshad Mehmood <arshad.mehmood@intel.com>,
  Michal Mrozek <michal.mrozek@intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: [PATCH v4 07/15] drm/i915/gt: Manage CCS engine creation within UABI
- exposure
-Date: Mon, 24 Mar 2025 14:29:43 +0100
-Message-ID: <20250324132952.1075209-8-andi.shyti@linux.intel.com>
+Subject: [PATCH v4 08/15] drm/i915/gt: Remove cslices mask value from the CCS
+ structure
+Date: Mon, 24 Mar 2025 14:29:44 +0100
+Message-ID: <20250324132952.1075209-9-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250324132952.1075209-1-andi.shyti@linux.intel.com>
 References: <20250324132952.1075209-1-andi.shyti@linux.intel.com>
@@ -76,94 +76,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In commit ea315f98e5d6 ("drm/i915/gt: Do not generate the command
-streamer for all the CCS"), we restricted the creation of
-physical CCS engines to only one stream. This allowed the user to
-submit a single compute workload, with all CCS slices sharing the
-workload from that stream.
-
-This patch removes that limitation but still exposes only one
-stream to the user. The physical memory for each engine remains
-allocated but unused, however the user will only see one engine
-exposed.
-
-Do this by adding only one engine to the UABI list, ensuring that
-only one engine is visible to the user.
+Following the decision to manage CCS engine creation within UABI
+engines, the "cslices" variable in the "ccs" structure in the
+"gt" is no longer needed. Remove it is now redundant.
 
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 23 ---------------------
- drivers/gpu/drm/i915/gt/intel_engine_user.c | 17 ++++++++++++---
- 2 files changed, 14 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h    | 5 -----
+ 2 files changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index b721bbd23356..d2e2461e09d1 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -875,29 +875,6 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
- 		info->engine_mask &= ~BIT(GSC0);
- 	}
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
+index a6c33b471567..fc8a23fc28b6 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
+@@ -9,7 +9,7 @@
  
--	/*
--	 * Do not create the command streamer for CCS slices beyond the first.
--	 * All the workload submitted to the first engine will be shared among
--	 * all the slices.
--	 *
--	 * Once the user will be allowed to customize the CCS mode, then this
--	 * check needs to be removed.
--	 */
--	if (IS_DG2(gt->i915)) {
--		u8 first_ccs = __ffs(CCS_MASK(gt));
--
+ static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
+ {
+-	unsigned long cslices_mask = gt->ccs.cslices;
++	unsigned long cslices_mask = CCS_MASK(gt);
+ 	u32 mode_val = 0;
+ 	/* CCS engine id, i.e. the engines position in the engine's bitmask */
+ 	int engine;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+index 9e257f34d05b..71e43071da0b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+@@ -218,11 +218,6 @@ struct intel_gt {
+ 	 * i.e. how the CCS streams are distributed amongs the slices.
+ 	 */
+ 	struct {
 -		/*
--		 * Store the number of active cslices before
--		 * changing the CCS engine configuration
+-		 * Mask of the non fused CCS slices
+-		 * to be used for the load balancing
 -		 */
--		gt->ccs.cslices = CCS_MASK(gt);
--
--		/* Mask off all the CCS engine */
--		info->engine_mask &= ~GENMASK(CCS3, CCS0);
--		/* Put back in the first CCS engine */
--		info->engine_mask |= BIT(_CCS(first_ccs));
--	}
--
- 	return info->engine_mask;
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-index cd7662b1ad59..8e5284af8335 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-@@ -246,6 +246,20 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
- 
- 		GEM_BUG_ON(uabi_class >=
- 			   ARRAY_SIZE(i915->engine_uabi_class_count));
-+
-+		/* Fix up the mapping to match default execbuf::user_map[] */
-+		add_legacy_ring(&ring, engine);
-+
-+		/*
-+		 * Do not create the command streamer for CCS slices beyond the
-+		 * first. All the workload submitted to the first engine will be
-+		 * shared among all the slices.
-+		 */
-+		if (IS_DG2(i915) &&
-+		    uabi_class == I915_ENGINE_CLASS_COMPUTE &&
-+		    engine->uabi_instance)
-+			goto clear_node_continue;
-+
- 		i915->engine_uabi_class_count[uabi_class]++;
- 
- 		rb_link_node(&engine->uabi_node, prev, p);
-@@ -255,9 +269,6 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
- 						    engine->uabi_class,
- 						    engine->uabi_instance) != engine);
- 
--		/* Fix up the mapping to match default execbuf::user_map[] */
--		add_legacy_ring(&ring, engine);
--
- 		prev = &engine->uabi_node;
- 		p = &prev->rb_right;
+-		intel_engine_mask_t cslices;
+ 		u32 mode_reg_val;
+ 	} ccs;
  
 -- 
 2.47.2
