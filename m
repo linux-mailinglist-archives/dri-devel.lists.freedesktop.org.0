@@ -2,99 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DCAA6E0F5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 18:36:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B60A6E0FE
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 18:37:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9522310E4A4;
-	Mon, 24 Mar 2025 17:36:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CECFF10E4A8;
+	Mon, 24 Mar 2025 17:37:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="bohYlGM6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="is2qQqpu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEBA710E4A4
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 17:36:11 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-549b159c84cso5247034e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 10:36:11 -0700 (PDT)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA73410E4A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 17:37:02 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id
+ 98e67ed59e1d1-301a6347494so1199530a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 10:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1742837765; x=1743442565;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1742837822; x=1743442622; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xp/mYAZ5gqhGD9OWZTBxPKEU2bLqN7FiRjLIC0aFwts=;
- b=bohYlGM6VvaMub1YTekmpOSkFmFCpq9IQkbRbVjHOzr0O1qfMPm3VwAiTLQs7KOq5h
- v84psOFf/RR3jaepjN5fRzfyw5WyDGsKsgfMZcLWAj0a/iSsGOaP/4P3tBHNRaN7z+Q9
- dMaJKsv1ylGsoF8tuEMVOPusCY3Zherfjjr+g=
+ bh=69JJjcOX5eDVKLskijk4B2SQOSJ22teSjVBu6vFOVp8=;
+ b=is2qQqpuMFCjlu/5HcxPpyGq5YQoSQv3cxcG+/pTyjMQTDSTYtjpTMWJ2/1V4AJPF6
+ PBQRBZ23QJddMlLSPc9UPxstJ45Uk6JAZ+WP61cCkrIcGVW7h0oVpgtdmBEBcxO/55JI
+ kPQuPZEC2Ui4DbFaCy/ItymUozqMMasjeVN/aDYyFjp05x2UJuRarcAmezWboXlJcD7S
+ Z8+EZHOeYADAI0Db3jFBTyeeZyIi4G1bdGUc9sDRVHWWfaMORO52B037ovFqLK/8LQJL
+ E8otvQx+YA0HwsJf9kcFgXcyWn37mCd01asVZslJpmcl2pHW4Vepw+sapfCO9Jxdjwdv
+ kd1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742837765; x=1743442565;
+ d=1e100.net; s=20230601; t=1742837822; x=1743442622;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xp/mYAZ5gqhGD9OWZTBxPKEU2bLqN7FiRjLIC0aFwts=;
- b=V9atcm1F8iNVMGEW7L9UZIQThHsjJjWSc/7vx4Mb1B+g9+vNMTUsWop69xSqKcuB/p
- GFnFJ1bV8v0OvvbhVE06/JgDKNn1G1y8lORJ8Wi3g1i8S0iT1Zgho04ppzHj+RwdG4cw
- v+pj0F04GZrF53u0X29R7+bCD5Rogm9+5KMgpdXClwduV9HB4u/ER+6x0OkDdTlxuTiX
- b+7gPiDFGc+dDm9oiyRffuD5bluNl/IR89zJLxrEqf4J9FCJeUt9ee6BO0DEUEVgknat
- 6XlQPwiMDL1U0hScqSxpfAxRwI/ekhbZHCa4s1cxV+GDVg11Mx/nwBUuz+j2THdF7QHU
- rRJw==
+ bh=69JJjcOX5eDVKLskijk4B2SQOSJ22teSjVBu6vFOVp8=;
+ b=fMyYuXZegEyGLvU04BYPv/Ztv2nofep9qtNjiAgevWfS48F3RDw2fd40OuchqhIIKj
+ stajFT0nOBJvPs1cS0dsJSChx7OYcgch3MsxEdpBiRvKBQz+qTq6LGDYYcSrKpBpL4kE
+ 4NmxLoJsvA1m1o+xSfgEgwcWboIL58zRzAMlHrd9htbhs3PeupUvcnN3VjoBXzLbSP+F
+ QU/zzzgTmnQQ/OePcxYHaE9FhkdGMyMxyAUzne/eAVn5t0Y8+QSGAO307ZXjOvfT3taw
+ 37e0KDr0Qvkxxuc1MedMOODlHvC72Vs0M3G9N+RNQournt/J18PTvb5MK2ZhoCSdTz/L
+ 2IaQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWa1zD9chJ3bIGyE/ULQYBlmCCy7PkdSqVlWxdCVhFuL1NtqIdgHTQy4g6ocUjNTBCKpTVJPhibvMA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyyiKsSZZ/vs3c4eN2J8CKYifGsmh6c5TM4IaSBxSHMZikR73Qa
- UHKtBMivQRss6rOi4tHaPp8C/SrWGQGpXWWuF+epxEKRQDiAvqDI9TJqRE40iecEgNCSeqE3Zm4
- Sxh9n
-X-Gm-Gg: ASbGncut10cdUgHrzvVCy0MeW3r7iZb6dS5mvOuvOa3vu+azhfV3GE78yRzz1/qeVqh
- qER6TQAH9jJ462tvoEm/jbdhpQJH7vp1QAhiKPe7VKsQCx15Z3jcSeYJBq6cfdKpPtxDzgn5n77
- ifkksZulvAXLV0i35w0x5cZ7sAAxThOq/qShSxwd1WJDzbGM+tedrOzNViozGfdU+OsrPhwLVwc
- q18W/6cVa2GbV67U2QOKPlFvIwRHNUALod1wyAkyGAXvOW/m2rxQ5aVn+V/piRvhts8+YliQQfr
- XhfWt9S1WPSvSuLDZ4dH8tEPOIHAm14C4o/6NnB392ZkS9J00QIFB2rIjXnCnrftDUVXRroBdy+
- AOl78ykVpEy/876ZmSUM0giw=
-X-Google-Smtp-Source: AGHT+IELURrX/NDp77tSgqXrY6ONT1gtafGgP9rBofa+O7AhT5dp1QhIUgyjWC67t3pW7KidH8cDyg==
-X-Received: by 2002:a05:6512:b22:b0:549:8d16:7267 with SMTP id
- 2adb3069b0e04-54ad647995cmr4224262e87.10.1742837765207; 
- Mon, 24 Mar 2025 10:36:05 -0700 (PDT)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com.
- [209.85.208.177]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ad651211csm1241528e87.227.2025.03.24.10.35.59
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Mar 2025 10:36:03 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-30bfc8faef9so48174501fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 10:35:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUeZQJ5G62Newrl0I0BU/pLd0jSDDoFHbCjPl8m9EzXR0OBe8aD6lbMHICx09P7qc9GeLq0k+faAk4=@lists.freedesktop.org
-X-Received: by 2002:a05:651c:231d:b0:309:1fee:378d with SMTP id
- 38308e7fff4ca-30d7e2398admr41507831fa.19.1742837759121; Mon, 24 Mar 2025
- 10:35:59 -0700 (PDT)
+ AJvYcCWgDkWZ7u4NPw2GOkEXj47CYJzryyQJg85lJNyfyiomSTzMZvQzviMPnJBcZA1fCaeH9q2ZmaHYcSk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzNW0fxxHPgqx0tM6+HM/30MrUYQ6cwmBby2KB8zU/wu4D32Pbj
+ APgyjTuV7CWNd11k1YWu1/U5AtRZxSohWQdNEPW7DQL+uycvFQ2cnFUIYA17micLVtl6qabmbLQ
+ U4vwmmRUUjVt6W0HWNTGgZBgnR4k=
+X-Gm-Gg: ASbGncu96xgU3O+v2mwQ3oaiOqkXZ/BV/d0s70vAF9tLwzUT3g5o5m6QuqjYX9iHy2x
+ g80V2KzzraYIA+r5ml6sFXzaZmPpVRhxnHz8iMzqkMMkbWPpFTiaroA8qwatuBDxK9r0srhlTse
+ 38S/fqgmhYq59EoejQ8CPT9MYSDg==
+X-Google-Smtp-Source: AGHT+IFUfJRzqAlcwqRGIR42C+MQ4CQtkFiLwS/ECZRB5538auZlyErsfsZGQdT1VlP88qOFuiR1vK3EzFkLShjtobw=
+X-Received: by 2002:a17:90b:1d91:b0:2ff:78dd:2875 with SMTP id
+ 98e67ed59e1d1-3030fefb123mr8424394a91.5.1742837822154; Mon, 24 Mar 2025
+ 10:37:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
- <20250318204133.GC22890@pendragon.ideasonboard.com> <Z9ne78KhxfKYgnh_@ninjato>
- <20250324164025.GK5113@pendragon.ideasonboard.com>
- <CAD=FV=Umc0aAvDrQhoZoaaOHjn8B2u0BTtgqeS3oEcH+mtAgwA@mail.gmail.com>
- <20250324173055.GA18359@pendragon.ideasonboard.com>
-In-Reply-To: <20250324173055.GA18359@pendragon.ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 24 Mar 2025 10:35:47 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X=P76a8VbncXjELERSDmRgGJfNR8y0wU-9cPRSDt+rFA@mail.gmail.com>
-X-Gm-Features: AQ5f1JqxLmxOXE4XNtbYSEesCJwFtkmCixq6z4UHEEUD3xY2NjRuZrRvnk3IDZA
-Message-ID: <CAD=FV=X=P76a8VbncXjELERSDmRgGJfNR8y0wU-9cPRSDt+rFA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection
- failure
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+References: <20250324-gpuvm-v1-0-7f8213eebb56@collabora.com>
+ <20250324-gpuvm-v1-2-7f8213eebb56@collabora.com>
+In-Reply-To: <20250324-gpuvm-v1-2-7f8213eebb56@collabora.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 24 Mar 2025 18:36:49 +0100
+X-Gm-Features: AQ5f1JqKEQjEOH0hQER9UoxLXyyw9kL-VoZN7He3uxMUqnP5eeVyZ20eChjJehw
+Message-ID: <CANiq72mQ3zuYmsq1PD-49kKLNji8OJwuvxK5QWkNaBMuC-PHQg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: drm: Add GPUVM abstraction
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Asahi Lina <lina@asahilina.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,49 +92,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Daniel,
 
-On Mon, Mar 24, 2025 at 10:31=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+A few quick notes for future versions on style/docs to try to keep
+things consistent upstream -- not an actual review.
+
+On Mon, Mar 24, 2025 at 4:14=E2=80=AFPM Daniel Almeida
+<daniel.almeida@collabora.com> wrote:
 >
-> On Mon, Mar 24, 2025 at 10:17:05AM -0700, Doug Anderson wrote:
-> > On Mon, Mar 24, 2025 at 9:40=E2=80=AFAM Laurent Pinchart wrote:
-> > > On Tue, Mar 18, 2025 at 10:00:31PM +0100, Wolfram Sang wrote:
-> > > > Hi Laurent,
-> > > >
-> > > > > > Read out and check the ID registers, so we can bail out if I2C
-> > > > > > communication does not work or if the device is unknown.
-> > > > >
-> > > > > What's the advantage of that, what are you trying to guard agains=
-t ?
-> > > >
-> > > > That a random chip at address 0x2c will be used.
-> > >
-> > > Is that really a problem ? That would only occur with a broken DT, is=
- it
-> > > worth guarding against a development-time issue with a runtime check
-> > > that will increase boot time for every user ?
-> >
-> > FWIW, this can also happen simply due to broken / damaged hardware. If
-> > a board gets stressed and causes a pin to become disconnected or if a
-> > regulator ages and stops providing power then we can also end up in
-> > this state. Getting a nice obvious error at probe when the device
-> > isn't responding at all can make problems like this much easier to
-> > debug.
->
-> I'm not fully convinced it's worth it, compared to an error at runtime,
-> and especially given that there are way more pins than supplies or
-> SCL/SDA that could suffer from a similar issue. I won't block the patch,
-> but I think it's overkill.
+> +#[allow(type_alias_bounds)]
 
-FWIW, Wolfram's previous patch [1] did check it at runtime without a
-dedicated i2c transfer. The problem was that it only handled one of
-the sub-AUX-devices and left the other sub-AUX-devices dangling. Many
-of the sub-AUX-devices didn't need to talk to the chip at probe time
-so there wasn't a good way to make the "probe" fail for them. ...so in
-this situation you'd end up with every GPIO operation or PWM operation
-failing and the device would still exist. It didn't seem ideal to
-me...
+The documentation says this is highly discouraged -- it may be good to
+mention why it is OK in this instance in a comment or similar.
 
-[1] http://lore.kernel.org/r/20250314224202.13128-2-wsa+renesas@sang-engine=
-ering.com
+Also, could this be `expect`? (e.g. if it triggers in all compiler
+versions we support)
+
+> +// A convenience type for the driver's GEM object.
+
+Should this be a `///` comment, i.e. docs?
+
+> +/// Trait that must be implemented by DRM drivers to represent a DRM Gpu=
+Vm (a GPU address space).
+
+(Throughout the file) Markdown in documentation, e.g. `GpuVm`.
+
+(Throughout the file) Intra-doc links where they work, e.g. [`GpuVm`]
+(assuming it works this one).
+
+> +        // - Ok(()) is always returned.
+
+(Throughout the file) Markdown in normal comments too.
+
+> +/// A transparent wrapper over `drm_gpuva_op_map`.
+
+(Throughout the file) A link to C definitions is always nice if there
+is a good one, e.g.
+
+    [`drm_gpuva_op_map`]:
+https://docs.kernel.org/gpu/drm-mm.html#c.drm_gpuva_op_map
+
+Ideally we will eventually have a better way to link these
+automatically, but for the time being, this helps (and later we can do
+a replace easier).
+
+> +/// `None`.
+> +
+> +/// Note: the reason for a dedicated remap operation, rather than arbitr=
+ary
+
+Missing `///` (?).
+
+> +#[repr(C)]
+> +#[pin_data]
+> +/// A GPU VA range.
+> +///
+> +/// Drivers can use `inner` to store additional data.
+
+(Throughout the file) We typically place attributes go below the
+documentation -- or is there a reason to do it like this?
+
+We had cases with e.g. Clippy bugs regarding safety comments that
+could be workarounded with "attribute movement", but it does not seem
+to be the case here.
+
+> +        if p.is_null() {
+> +            Err(ENOMEM)
+
+For error cases, we typically try to do early returns instead.
+
+> +    /// Iterates the given range of the GPU VA space. It utilizes
+> +    /// [`DriverGpuVm`] to call back into the driver providing the split=
+ and
+> +    /// merge steps.
+
+This title (and the next one) may be a bit too long (or not -- please
+check in the rendered docs), i.e. the first paragraph is the "title",
+which is used differently in the rendered docs. If there is a way to
+have a shorter title that still differentiates between the two
+methods, that would be nice.
+
+> +    /// # Arguments
+> +    ///
+> +    /// - `ctx`: A driver-specific context.
+> +    /// - `req_obj`: The GEM object to map.
+> +    /// - `req_addr`: The start address of the new mapping.
+> +    /// - `req_range`: The range of the mapping.
+> +    /// - `req_offset`: The offset into the GEM object.
+
+Normally we try to avoid this kind of sections and instead reference
+the arguments from the text (e.g. "...the range of the mapping
+(`req_range`)...") -- but if there is no good way to do it, then it is
+OK.
+
+> +// SAFETY: All our trait methods take locks
+
+(Throughout the file) Period at the end.
+
+Thanks!
+
+Cheers,
+Miguel
