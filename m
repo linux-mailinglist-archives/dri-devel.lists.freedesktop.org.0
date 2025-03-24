@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFEDA6DB9D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 14:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C86A6DB9E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 14:32:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97BA110E3FC;
-	Mon, 24 Mar 2025 13:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F2210E40E;
+	Mon, 24 Mar 2025 13:32:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bbJxo6HZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lLpDr9p6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ADCF10E3FC;
- Mon, 24 Mar 2025 13:31:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD8D10E40E;
+ Mon, 24 Mar 2025 13:32:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742823115; x=1774359115;
+ t=1742823122; x=1774359122;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/HZ8eHUvNEiY8vUppqka4NSpBBozp2cWl54+iDYTNw8=;
- b=bbJxo6HZHoTFiVWZS6z8CqzYXQhow+M55yc2Z3k6Yz5tqyKZYux6BTFp
- UbiHMpG+u3UD9KVjJXEfHKVum59BDQGRz7klfJRIzP38/NcDd5x7BCIBA
- WAVOnJDc1aZwuTrVkg25OI12GSw7UHfSD2jieo8O9A9WVL+qXoyD1WWM0
- 7wmMrR8DLResxR9AVL4TOGDVAX5A0I2WOZEXc2L7Qh5gbIltW+h/y3435
- hYAbHBX0ixjsgrMgFJSxFJNs9NN6wNQ8ECiLgcqiPChGvFdoBzuufWRim
- Ky0CKv1x5h+MBdxPcGPE2OIwtaCd3ITCCH+DG8LaWeu5qN40Uk6BOAnX6 g==;
-X-CSE-ConnectionGUID: hE9Odj/rS0ettiwZr/7LIQ==
-X-CSE-MsgGUID: paGDQAnyS+2g8tktazNX8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="66493462"
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="66493462"
+ bh=92l6FArlYG7KWJ7HEUNaMMrZ2E5B106tBpHBnZs79uU=;
+ b=lLpDr9p6FNHczF1v0BlGzW9DlbTPYwGuo5oR2C5gaEFyt5CXXV0kEs3o
+ E/MQuCXEkJnEC2X8f1N2V6kbiHgb84MfupKPypIDDGJS/QWu+On04uSJR
+ bkUxN+cmWHpA2GDjHOFGEZyJEE//IIyisXSLHA5sgijunDfkYf1zMUaLc
+ uEHP9v6Hzzwr1eOpnFD3RqFkV8FEiwamQgsEE3z4rjnZ6TBntKagaCg5E
+ DNmUwnLk+x24V3GJcMS8rQsSecokIQHcViEPLS+fx77W6EGuwZyijr4en
+ gCnrL6Hj3Fypx6so08IrXf74o9GdVv6svifizyrP0Svk654BGwTMCMR3E w==;
+X-CSE-ConnectionGUID: 93+RGvJKSiin4YeDmLn+Hg==
+X-CSE-MsgGUID: MXog9HOARhqghltVHZG6hQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="66493475"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="66493475"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 06:31:55 -0700
-X-CSE-ConnectionGUID: 1nz1nQRHTmWTlS3+N1fi4Q==
-X-CSE-MsgGUID: rtbJkxTZTg6yOmAF3/aTgw==
+ 24 Mar 2025 06:32:01 -0700
+X-CSE-ConnectionGUID: D0UQ/YLqSCuLac1K6jBGEQ==
+X-CSE-MsgGUID: Jfb1NZdxRvWy1VN2i7580A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="123847272"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="123847292"
 Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.252])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 06:31:51 -0700
+ 24 Mar 2025 06:31:57 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
@@ -52,10 +52,10 @@ Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
  Arshad Mehmood <arshad.mehmood@intel.com>,
  Michal Mrozek <michal.mrozek@intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: [PATCH v4 14/15] drm/i915/gt: Implement creation and removal routines
- for CCS engines
-Date: Mon, 24 Mar 2025 14:29:50 +0100
-Message-ID: <20250324132952.1075209-15-andi.shyti@linux.intel.com>
+Subject: [PATCH v4 15/15] drm/i915/gt: Allow the user to change the CCS mode
+ through sysfs
+Date: Mon, 24 Mar 2025 14:29:51 +0100
+Message-ID: <20250324132952.1075209-16-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250324132952.1075209-1-andi.shyti@linux.intel.com>
 References: <20250324132952.1075209-1-andi.shyti@linux.intel.com>
@@ -76,185 +76,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for upcoming patches, we need routines to
-dynamically create and destroy CCS engines based on the CCS mode
-that the user wants to set.
+Create the 'ccs_mode' file under
 
-The process begins by calculating the engine mask for the engines
-that need to be added or removed. We then update the UABI list of
-exposed engines and create or destroy the corresponding sysfs
-interfaces accordingly.
+/sys/class/drm/cardX/gt/gt0/ccs_mode
 
-These functions are not yet in use, so no functional changes are
-intended at this stage.
+This file allows the user to read and set the current CCS mode.
 
-Mark the functions 'add_uabi_ccs_engines()' and
-'remove_uabi_ccs_engines()' as '__maybe_unused' to ensure
-successful compilation and maintain bisectability. This
-annotation will be removed in subsequent commits.
+ - Reading: The user can read the current CCS mode, which can be
+   1, 2, or 4. This value is derived from the current engine
+   mask.
+
+ - Writing: The user can set the CCS mode to 1, 2, or 4,
+   depending on the desired number of exposed engines and the
+   required load balancing.
+
+The interface will return -EBUSY if other clients are connected
+to i915, or -EINVAL if an invalid value is set.
 
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 128 ++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 82 ++++++++++++++++++++-
+ 1 file changed, 80 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-index 5eead7b18f57..cbabeb503d3b 100644
+index cbabeb503d3b..8364523f2730 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
 +++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-@@ -4,10 +4,12 @@
-  */
- 
+@@ -6,6 +6,7 @@
  #include "i915_drv.h"
-+#include "intel_engine_user.h"
+ #include "intel_engine_user.h"
  #include "intel_gt_ccs_mode.h"
++#include "intel_gt_pm.h"
  #include "intel_gt_print.h"
  #include "intel_gt_regs.h"
  #include "intel_gt_sysfs.h"
-+#include "sysfs_engines.h"
- 
- static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
- {
-@@ -123,6 +125,29 @@ static void __update_ccs_mask(struct intel_gt *gt, u32 ccs_mode)
- 	intel_gt_apply_ccs_mode(gt);
+@@ -172,7 +173,7 @@ static int rb_engine_cmp(struct rb_node *rb_new, const struct rb_node *rb_old)
+ 	return new->uabi_class - old->uabi_class;
  }
  
-+static void update_ccs_mask(struct intel_gt *gt, u32 ccs_mode)
-+{
-+	struct intel_engine_cs *engine;
-+	intel_engine_mask_t tmp;
-+
-+	__update_ccs_mask(gt, ccs_mode);
-+
-+	/* Update workaround values */
-+	for_each_engine_masked(engine, gt, gt->ccs.id_mask, tmp) {
-+		struct i915_wa_list *wal = &engine->wa_list;
-+		struct i915_wa *wa;
-+		int i;
-+
-+		for (i = 0, wa = wal->list; i < wal->count; i++, wa++) {
-+			if (!i915_mmio_reg_equal(wa->reg, XEHP_CCS_MODE))
-+				continue;
-+
-+			wa->set = gt->ccs.mode_reg_val;
-+			wa->read = gt->ccs.mode_reg_val;
-+		}
-+	}
-+}
-+
- void intel_gt_ccs_mode_init(struct intel_gt *gt)
+-static void __maybe_unused add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mode)
++static void add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mode)
  {
- 	if (!IS_DG2(gt->i915))
-@@ -136,6 +161,109 @@ void intel_gt_ccs_mode_init(struct intel_gt *gt)
- 	__update_ccs_mask(gt, 1);
+ 	struct drm_i915_private *i915 = gt->i915;
+ 	intel_engine_mask_t new_ccs_mask, tmp;
+@@ -234,7 +235,7 @@ static void __maybe_unused add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mod
+ 	mutex_unlock(&i915->uabi_engines_mutex);
  }
  
-+static int rb_engine_cmp(struct rb_node *rb_new, const struct rb_node *rb_old)
+-static void __maybe_unused remove_uabi_ccs_engines(struct intel_gt *gt, u8 ccs_mode)
++static void remove_uabi_ccs_engines(struct intel_gt *gt, u8 ccs_mode)
+ {
+ 	struct drm_i915_private *i915 = gt->i915;
+ 	intel_engine_mask_t new_ccs_mask, tmp;
+@@ -277,8 +278,85 @@ static ssize_t num_cslices_show(struct device *dev,
+ }
+ static DEVICE_ATTR_RO(num_cslices);
+ 
++static ssize_t ccs_mode_show(struct device *dev,
++			     struct device_attribute *attr, char *buff)
 +{
-+	struct intel_engine_cs *new = rb_to_uabi_engine(rb_new);
-+	struct intel_engine_cs *old = rb_to_uabi_engine(rb_old);
++	struct intel_gt *gt = kobj_to_gt(&dev->kobj);
++	u32 ccs_mode;
 +
-+	if (new->uabi_class - old->uabi_class == 0)
-+		return new->uabi_instance - old->uabi_instance;
++	ccs_mode = hweight32(gt->ccs.id_mask);
 +
-+	return new->uabi_class - old->uabi_class;
++	return sysfs_emit(buff, "%u\n", ccs_mode);
 +}
 +
-+static void __maybe_unused add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mode)
++static ssize_t ccs_mode_store(struct device *dev,
++			      struct device_attribute *attr,
++			      const char *buff, size_t count)
 +{
-+	struct drm_i915_private *i915 = gt->i915;
-+	intel_engine_mask_t new_ccs_mask, tmp;
-+	struct intel_engine_cs *e;
++	struct intel_gt *gt = kobj_to_gt(&dev->kobj);
++	int num_cslices = hweight32(CCS_MASK(gt));
++	int ccs_mode = hweight32(gt->ccs.id_mask);
++	ssize_t ret;
++	u32 val;
 +
-+	/* Store the current ccs mask */
-+	new_ccs_mask = gt->ccs.id_mask;
-+	update_ccs_mask(gt, ccs_mode);
++	ret = kstrtou32(buff, 0, &val);
++	if (ret)
++		return ret;
 +
 +	/*
-+	 * Store only the mask of the CCS engines that need to be added by
-+	 * removing from the new mask the engines that are already active
++	 * As of now possible values to be set are 1, 2, 4,
++	 * up to the maximum number of available slices
 +	 */
-+	new_ccs_mask = gt->ccs.id_mask & ~new_ccs_mask;
-+	new_ccs_mask <<= CCS0;
++	if (!val || val > num_cslices || (num_cslices % val))
++		return -EINVAL;
 +
-+	mutex_lock(&i915->uabi_engines_mutex);
-+	for_each_engine_masked(e, gt, new_ccs_mask, tmp) {
-+		int err;
-+		struct rb_node *n;
-+		struct intel_engine_cs *__e;
++	/* Let's wait until the GT is no longer in use */
++	ret = intel_gt_pm_wait_for_idle(gt);
++	if (ret)
++		return ret;
 +
-+		i915->engine_uabi_class_count[I915_ENGINE_CLASS_COMPUTE]++;
-+
-+		/*
-+		 * The engine is now inserted and marked as valid.
-+		 *
-+		 * rb_find_add() should always return NULL. If it returns a
-+		 * pointer to an rb_node it means that it found the engine we
-+		 * are trying to insert which means that something is really
-+		 * wrong.
-+		 */
-+		n = rb_find_add(&e->uabi_node,
-+				&i915->uabi_engines, rb_engine_cmp);
-+		GEM_BUG_ON(n);
-+
-+		/* We inserted the engine, let's check if now we can find it */
-+		__e = intel_engine_lookup_user(i915, e->uabi_class,
-+					       e->uabi_instance) != e;
-+		GEM_BUG_ON(__e != e);
-+
-+		/*
-+		 * If the engine has never been used before (e.g. we are moving
-+		 * for the first time from CCS mode 1 to CCS mode 2 or 4), then
-+		 * also its sysfs entry has never been created. In this case its
-+		 * value will be null and we need to allocate it.
-+		 */
-+		if (!e->kobj)
-+			err = intel_engine_add_single_sysfs(e);
-+		else
-+			err = kobject_add(e->kobj,
-+					  i915->sysfs_engine, "%s", e->name);
-+
-+		if (err)
-+			gt_warn(gt,
-+				"Unable to create sysfs entries for %s engine",
-+				e->name);
-+	}
-+	mutex_unlock(&i915->uabi_engines_mutex);
-+}
-+
-+static void __maybe_unused remove_uabi_ccs_engines(struct intel_gt *gt, u8 ccs_mode)
-+{
-+	struct drm_i915_private *i915 = gt->i915;
-+	intel_engine_mask_t new_ccs_mask, tmp;
-+	struct intel_engine_cs *e;
-+
-+	/* Store the current ccs mask */
-+	new_ccs_mask = gt->ccs.id_mask;
-+	update_ccs_mask(gt, ccs_mode);
++	mutex_lock(&gt->wakeref.mutex);
 +
 +	/*
-+	 * Store only the mask of the CCS engines that need to be removed by
-+	 * unmasking them from the new mask the engines that are already active
++	 * Let's check again that the GT is idle,
++	 * we don't want to change the CCS mode
++	 * while someone is using the GT
 +	 */
-+	new_ccs_mask = new_ccs_mask & ~gt->ccs.id_mask;
-+	new_ccs_mask <<= CCS0;
-+
-+	mutex_lock(&i915->uabi_engines_mutex);
-+	for_each_engine_masked(e, gt, new_ccs_mask, tmp) {
-+		i915->engine_uabi_class_count[I915_ENGINE_CLASS_COMPUTE]--;
-+
-+		rb_erase(&e->uabi_node, &i915->uabi_engines);
-+		RB_CLEAR_NODE(&e->uabi_node);
-+
-+		/* Remove sysfs entries */
-+		kobject_del(e->kobj);
++	if (intel_gt_pm_is_awake(gt)) {
++		ret = -EBUSY;
++		goto out;
 +	}
-+	mutex_unlock(&i915->uabi_engines_mutex);
-+}
 +
- static ssize_t num_cslices_show(struct device *dev,
- 				struct device_attribute *attr,
- 				char *buff)
++	/*
++	 * Nothing to do if the requested setting
++	 * is the same as the current one
++	 */
++	if (val == ccs_mode)
++		goto out;
++	else if (val > ccs_mode)
++		add_uabi_ccs_engines(gt, val);
++	else
++		remove_uabi_ccs_engines(gt, val);
++
++out:
++	mutex_unlock(&gt->wakeref.mutex);
++
++	return ret ?: count;
++}
++static DEVICE_ATTR_RW(ccs_mode);
++
+ void intel_gt_sysfs_ccs_init(struct intel_gt *gt)
+ {
+ 	if (sysfs_create_file(&gt->sysfs_gt, &dev_attr_num_cslices.attr))
+ 		gt_warn(gt, "Failed to create sysfs num_cslices files\n");
++
++	/*
++	 * Do not create the ccs_mode file for non DG2 platforms
++	 * because they don't need it as they have only one CCS engine
++	 */
++	if (!IS_DG2(gt->i915))
++		return;
++
++	if (sysfs_create_file(&gt->sysfs_gt, &dev_attr_ccs_mode.attr))
++		gt_warn(gt, "Failed to create sysfs ccs_mode files\n");
+ }
 -- 
 2.47.2
 
