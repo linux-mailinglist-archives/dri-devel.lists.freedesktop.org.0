@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D73CA6DA38
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 13:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15828A6DA70
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 13:54:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B56D10E247;
-	Mon, 24 Mar 2025 12:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 780DC10E2F8;
+	Mon, 24 Mar 2025 12:54:46 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cjqGr3+m";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F24310E247
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 12:41:12 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.194])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4ZLsyh2dVWzHrGM;
- Mon, 24 Mar 2025 20:37:48 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id B8C0A140123;
- Mon, 24 Mar 2025 20:41:04 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 24 Mar 2025 20:41:03 +0800
-Message-ID: <ff11c8ac-7eb4-42cb-86d3-ad9924c9374b@huawei.com>
-Date: Mon, 24 Mar 2025 20:41:02 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4B7310E2EC;
+ Mon, 24 Mar 2025 12:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742820885; x=1774356885;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=5Yofkm1dNa6vGniR8xlKP/z1QwhPxmHysFr4OgO1Qtk=;
+ b=cjqGr3+m94657UAMQLtc5dieGJiIS9TGNrVmcPeWCHxonAzFoWvgzKC7
+ oSA1NoGK3s4tb8MfTVtFk7tnFn91Ehd/+tfihgLuk/NEspALOADXCQHQO
+ iw5rUlIOMX7wfIs9SXxcrKpteJNuibdYOFTjK4s0f/oTpB4Oz6/b6rkUf
+ KWNHXCqv4hbDYd9hBe6QkpnT+5sJSVC47yvgsgeJl9tOdPglfBN+gKtjM
+ 36IFyU9Pv3BBednbov7TmpTHc5vXm2Yj7HUvbMWa0A6s8yViGHrkMWQ7H
+ UqMzx3qGzM1tv9OjAaJHp2W/i18PkAtxRp+OUPyMyR2/jp7P9TY/kadl5 Q==;
+X-CSE-ConnectionGUID: wYQAu+gSQsCeUqJXvGHcIw==
+X-CSE-MsgGUID: ZkhTfKS/Q8ewIJdbZQRriw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="43178732"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="43178732"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2025 05:54:44 -0700
+X-CSE-ConnectionGUID: YsdPNGcISjGrFVNme+iMeg==
+X-CSE-MsgGUID: IBn7zjQUQz60GGLw/GwisQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="147243419"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.30])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2025 05:54:39 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Damian Tometzki <damian@riscv-rocks.de>, Kees Cook <kees@kernel.org>
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang
+ <zhi.wang.linux@gmail.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] drm/i915/gvt: Add __nonstring annotations for
+ unterminated strings
+In-Reply-To: <01070195c306db7f-9f28efdd-9456-4db3-b6c6-343298bd571b-000000@eu-central-1.amazonses.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250310222355.work.417-kees@kernel.org>
+ <01070195c306db7f-9f28efdd-9456-4db3-b6c6-343298bd571b-000000@eu-central-1.amazonses.com>
+Date: Mon, 24 Mar 2025 14:54:36 +0200
+Message-ID: <87r02ma8s3.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 drm-dp 5/9] drm/hisilicon/hibmc: Getting connector info
- and EDID by using AUX channel
-To: Jani Nikula <jani.nikula@linux.intel.com>, <xinliang.liu@linaro.org>,
- <tiantao6@hisilicon.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <kong.kongxinwei@hisilicon.com>
-CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
- <lidongming5@huawei.com>, <libaihan@huawei.com>, <shenjian15@huawei.com>,
- <shaojijie@huawei.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <shiyongbang@huawei.com>
-References: <20250319032435.1119469-1-shiyongbang@huawei.com>
- <20250319032435.1119469-6-shiyongbang@huawei.com> <87frj8c9ol.fsf@intel.com>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <87frj8c9ol.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,139 +77,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> On Wed, 19 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
->> From: Baihan Li <libaihan@huawei.com>
->>
->> Add registering drm_aux and use it to get connector edid with drm
->> functions. Add ddc channel in connector initialization to put drm_aux
->> in drm_connector.
->>
->> Signed-off-by: Baihan Li <libaihan@huawei.com>
->> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Sun, 23 Mar 2025, Damian Tometzki <damian@riscv-rocks.de> wrote:
+> On Mon, 10. Mar 15:23, Kees Cook wrote:
+>> When a character array without a terminating NUL character has a static
+>> initializer, GCC 15's -Wunterminated-string-initialization will only
+>> warn if the array lacks the "nonstring" attribute[1]. Mark the arrays
+>> with __nonstring to and correctly identify the char array as "not a C
+>> string" and thereby eliminate the warning.
+>>=20
+>> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D117178 [1]
+>> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+>> Cc: Zhi Wang <zhi.wang.linux@gmail.com>
+>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: intel-gvt-dev@lists.freedesktop.org
+>> Cc: intel-gfx@lists.freedesktop.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Signed-off-by: Kees Cook <kees@kernel.org>
 >> ---
->> ChangeLog:
->> v6 -> v7:
->>    - add if statement about drm aux in hibmc_dp_connector_get_modes(), suggested by Jani Nikula
-> I don't understand this, and I did not suggest such a thing.
+>>  drivers/gpu/drm/i915/gvt/opregion.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/i915/gvt/opregion.c b/drivers/gpu/drm/i915/=
+gvt/opregion.c
+>> index 509f9ccae3a9..f701638d3145 100644
+>> --- a/drivers/gpu/drm/i915/gvt/opregion.c
+>> +++ b/drivers/gpu/drm/i915/gvt/opregion.c
+>> @@ -43,7 +43,7 @@
+>>  #define DEVICE_TYPE_EFP4   0x10
+>>=20=20
+>>  struct opregion_header {
+>> -	u8 signature[16];
+>> +	u8 signature[16] __nonstring;
+
+Why would this annotation be needed? It's not treated as a string
+anywhere, and it's u8 not char.
+
+>>  	u32 size;
+>>  	u32 opregion_ver;
+>>  	u8 bios_ver[32];
+>> @@ -222,7 +222,7 @@ int intel_vgpu_init_opregion(struct intel_vgpu *vgpu)
+>>  	u8 *buf;
+>>  	struct opregion_header *header;
+>>  	struct vbt v;
+>> -	const char opregion_signature[16] =3D OPREGION_SIGNATURE;
+>> +	const char opregion_signature[16] __nonstring =3D OPREGION_SIGNATURE;
+>>=20=20
+>>  	gvt_dbg_core("init vgpu%d opregion\n", vgpu->id);
+>>  	vgpu_opregion(vgpu)->va =3D (void *)__get_free_pages(GFP_KERNEL |
+>> --=20
+>> 2.34.1
+>>=20
+> Hello together,
 >
-> BR,
-> Jani.
+> it doesnt resolve the build issue with gcc15 gcc (GCC) 15.0.1 20250228
 >
-Hi Jani,
+> CC [M]  drivers/gpu/drm/i915/gvt/scheduler.o
+> /home/damian/kernel/linux/drivers/gpu/drm/i915/gvt/opregion.c: In functio=
+n =E2=80=98intel_vgpu_init_opregion=E2=80=99:
+> /home/damian/kernel/linux/drivers/gpu/drm/i915/gvt/opregion.c:35:28: erro=
+r: initializer-string for array of =E2=80=98char=E2=80=99 is too long [-Wer=
+ror=3Dunterminated-string-initialization]
+>    35 | #define OPREGION_SIGNATURE "IntelGraphicsMem"
+>       |                            ^~~~~~~~~~~~~~~~~~
+> /home/damian/kernel/linux/drivers/gpu/drm/i915/gvt/opregion.c:225:57: not=
+e: in expansion of macro =E2=80=98OPREGION_SIGNATURE=E2=80=99
+>   225 |         const char opregion_signature[16] __nonstring =3D OPREGIO=
+N_SIGNATURE;
+>       |                                                         ^~~~~~~~~=
+~~~~~~~~~
+>   CC [M]  drivers/gpu/drm/i915/gvt/trace_points.o
+> cc1: all warnings being treated as errors
+> make[7]: *** [/home/damian/kernel/linux/scripts/Makefile.build:207: drive=
+rs/gpu/drm/i915/gvt/opregion.o] Error 1
+> make[7]: *** Waiting for unfinished jobs....
+>   CC [M]  drivers/gpu/drm/i915/gvt/vgpu.o
+> make[6]: *** [/home/damian/kernel/linux/scripts/Makefile.build:465: drive=
+rs/gpu/drm/i915] Error 2
+> make[5]: *** [/home/damian/kernel/linux/s
 
-Is the modification of v8 correct?
+What about this?
+
+IMO it's anyway good practice to use sizeof(dest) rather than
+sizeof(src) for memcpy.
 
 
->> v5 -> v6:
->>    - move the detect_ctx() to the patch 7/9.
->> v2 -> v3:
->>    - Capitalized EDID and AUX, suggested by Dmitry Baryshkov.
->> v1 -> v2:
->>    - deleting type conversion, suggested by Dmitry Baryshkov.
->>    - deleting hibmc_dp_connector_get_modes() and using drm_connector_helper_get_modes(), suggested by Dmitry Baryshkov.
->> ---
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   |  3 +-
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 35 ++++++++++++++++---
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  5 +++
->>   3 files changed, 37 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
->> index ded9e7ce887a..e0bb9b14d9d8 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
->> @@ -161,7 +161,8 @@ void hibmc_dp_aux_init(struct hibmc_dp *dp)
->>   				 HIBMC_DP_MIN_PULSE_NUM);
->>   
->>   	dp->aux.transfer = hibmc_dp_aux_xfer;
->> -	dp->aux.is_remote = 0;
->> +	dp->aux.name = kasprintf(GFP_KERNEL, "HIBMC DRM dp aux");
->> +	dp->aux.drm_dev = dp->drm_dev;
->>   	drm_dp_aux_init(&dp->aux);
->>   	dp->dp_dev->aux = &dp->aux;
->>   }
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> index 603d6b198a54..0256724d8b9b 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> @@ -15,11 +15,20 @@
->>   
->>   static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
->>   {
->> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
->> +	const struct drm_edid *drm_edid;
->>   	int count;
->>   
->> -	count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
->> -				     connector->dev->mode_config.max_height);
->> -	drm_set_preferred_mode(connector, 1024, 768); // temporary implementation
->> +	if (!dp->aux.name)
->> +		return 0;
->> +
->> +	drm_edid = drm_edid_read_ddc(connector, &dp->aux.ddc);
->> +
->> +	drm_edid_connector_update(connector, drm_edid);
->> +
->> +	count = drm_edid_connector_add_modes(connector);
->> +
->> +	drm_edid_free(drm_edid);
->>   
->>   	return count;
->>   }
->> @@ -28,12 +37,28 @@ static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
->>   	.get_modes = hibmc_dp_connector_get_modes,
->>   };
->>   
->> +static int hibmc_dp_late_register(struct drm_connector *connector)
->> +{
->> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
->> +
->> +	return drm_dp_aux_register(&dp->aux);
->> +}
->> +
->> +static void hibmc_dp_early_unregister(struct drm_connector *connector)
->> +{
->> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
->> +
->> +	drm_dp_aux_unregister(&dp->aux);
->> +}
->> +
->>   static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
->>   	.reset = drm_atomic_helper_connector_reset,
->>   	.fill_modes = drm_helper_probe_single_connector_modes,
->>   	.destroy = drm_connector_cleanup,
->>   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->>   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->> +	.late_register = hibmc_dp_late_register,
->> +	.early_unregister = hibmc_dp_early_unregister,
->>   };
->>   
->>   static inline int hibmc_dp_prepare(struct hibmc_dp *dp, struct drm_display_mode *mode)
->> @@ -103,8 +128,8 @@ int hibmc_dp_init(struct hibmc_drm_private *priv)
->>   
->>   	drm_encoder_helper_add(encoder, &hibmc_dp_encoder_helper_funcs);
->>   
->> -	ret = drm_connector_init(dev, connector, &hibmc_dp_conn_funcs,
->> -				 DRM_MODE_CONNECTOR_DisplayPort);
->> +	ret = drm_connector_init_with_ddc(dev, connector, &hibmc_dp_conn_funcs,
->> +					  DRM_MODE_CONNECTOR_DisplayPort, &dp->aux.ddc);
->>   	if (ret) {
->>   		drm_err(dev, "init dp connector failed: %d\n", ret);
->>   		return ret;
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> index d982f1e4b958..3ddd71aada66 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> @@ -47,6 +47,11 @@ static inline struct hibmc_vdac *to_hibmc_vdac(struct drm_connector *connector)
->>   	return container_of(connector, struct hibmc_vdac, connector);
->>   }
->>   
->> +static inline struct hibmc_dp *to_hibmc_dp(struct drm_connector *connector)
->> +{
->> +	return container_of(connector, struct hibmc_dp, connector);
->> +}
->> +
->>   static inline struct hibmc_drm_private *to_hibmc_drm_private(struct drm_device *dev)
->>   {
->>   	return container_of(dev, struct hibmc_drm_private, dev);
+diff --git a/drivers/gpu/drm/i915/gvt/opregion.c b/drivers/gpu/drm/i915/gvt=
+/opregion.c
+index 509f9ccae3a9..dbad4d853d3a 100644
+--- a/drivers/gpu/drm/i915/gvt/opregion.c
++++ b/drivers/gpu/drm/i915/gvt/opregion.c
+@@ -222,7 +222,6 @@ int intel_vgpu_init_opregion(struct intel_vgpu *vgpu)
+ 	u8 *buf;
+ 	struct opregion_header *header;
+ 	struct vbt v;
+-	const char opregion_signature[16] =3D OPREGION_SIGNATURE;
+=20
+ 	gvt_dbg_core("init vgpu%d opregion\n", vgpu->id);
+ 	vgpu_opregion(vgpu)->va =3D (void *)__get_free_pages(GFP_KERNEL |
+@@ -236,8 +235,10 @@ int intel_vgpu_init_opregion(struct intel_vgpu *vgpu)
+ 	/* emulated opregion with VBT mailbox only */
+ 	buf =3D (u8 *)vgpu_opregion(vgpu)->va;
+ 	header =3D (struct opregion_header *)buf;
+-	memcpy(header->signature, opregion_signature,
+-	       sizeof(opregion_signature));
++
++	static_assert(sizeof(header->signature) =3D=3D sizeof(OPREGION_SIGNATURE)=
+ - 1);
++	memcpy(header->signature, OPREGION_SIGNATURE, sizeof(header->signature));
++
+ 	header->size =3D 0x8;
+ 	header->opregion_ver =3D 0x02000000;
+ 	header->mboxes =3D MBOX_VBT;
+
+
+
+--=20
+Jani Nikula, Intel
