@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C86A6DB9E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 14:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61945A6DBA5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 14:33:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71F2210E40E;
-	Mon, 24 Mar 2025 13:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF2310E311;
+	Mon, 24 Mar 2025 13:33:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lLpDr9p6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aMnAvObn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD8D10E40E;
- Mon, 24 Mar 2025 13:32:01 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB5B310E3E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 13:33:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742823122; x=1774359122;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=92l6FArlYG7KWJ7HEUNaMMrZ2E5B106tBpHBnZs79uU=;
- b=lLpDr9p6FNHczF1v0BlGzW9DlbTPYwGuo5oR2C5gaEFyt5CXXV0kEs3o
- E/MQuCXEkJnEC2X8f1N2V6kbiHgb84MfupKPypIDDGJS/QWu+On04uSJR
- bkUxN+cmWHpA2GDjHOFGEZyJEE//IIyisXSLHA5sgijunDfkYf1zMUaLc
- uEHP9v6Hzzwr1eOpnFD3RqFkV8FEiwamQgsEE3z4rjnZ6TBntKagaCg5E
- DNmUwnLk+x24V3GJcMS8rQsSecokIQHcViEPLS+fx77W6EGuwZyijr4en
- gCnrL6Hj3Fypx6so08IrXf74o9GdVv6svifizyrP0Svk654BGwTMCMR3E w==;
-X-CSE-ConnectionGUID: 93+RGvJKSiin4YeDmLn+Hg==
-X-CSE-MsgGUID: MXog9HOARhqghltVHZG6hQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="66493475"
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="66493475"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 06:32:01 -0700
-X-CSE-ConnectionGUID: D0UQ/YLqSCuLac1K6jBGEQ==
-X-CSE-MsgGUID: Jfb1NZdxRvWy1VN2i7580A==
+ t=1742823202; x=1774359202;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=672I3/+hGrCRodDTgPKh2B6jZ5R+Fb8/Nlctlz3nabc=;
+ b=aMnAvObnZWFqJnmDiCpvSmacsHJnoi6x0p8RKGsBQLPqZd4DNYE97g5s
+ huoYtEtCr8Gm/0JDP9Q8+WHlNc6jk0nJPvFkFRvv4/zvpCbiEwjXw0o0y
+ T/802yTn+biL/ps/HlEpGit7N+hAp1h3/nz4zv974PnAk82Y9jQpPwT6x
+ DpVS51iRCil4+tIUPSnTJmPN/lF55z8+jkikwJ5QYPyorHDiVd1tFdM0A
+ pKdh+DpWTE8ZmUEw5pu/kiwheIVG1X2dOlJpffenDdQ3kaz9ZCT/rNvNS
+ owBAQUtH4Pk7OEExpRuqbtJ45aBjp95ynUizxQC6B916LyYkAyP/u+Hho A==;
+X-CSE-ConnectionGUID: 2r8WGBb+R3uw8zUfqZBIZw==
+X-CSE-MsgGUID: 537p9tO9S5eTZLK6c3t4YA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="44191549"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="44191549"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2025 06:33:22 -0700
+X-CSE-ConnectionGUID: HUyPZEDVRdmRhrgXUv8/oA==
+X-CSE-MsgGUID: f0vnuuvITZ6BvwyGfdDnVw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="123847292"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.252])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2025 06:31:57 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Arshad Mehmood <arshad.mehmood@intel.com>,
- Michal Mrozek <michal.mrozek@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: [PATCH v4 15/15] drm/i915/gt: Allow the user to change the CCS mode
- through sysfs
-Date: Mon, 24 Mar 2025 14:29:51 +0100
-Message-ID: <20250324132952.1075209-16-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250324132952.1075209-1-andi.shyti@linux.intel.com>
-References: <20250324132952.1075209-1-andi.shyti@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; d="scan'208";a="128227255"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.30])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2025 06:33:16 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
+ tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
+Cc: liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com,
+ libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ shiyongbang@huawei.com
+Subject: Re: [PATCH v7 drm-dp 5/9] drm/hisilicon/hibmc: Getting connector
+ info and EDID by using AUX channel
+In-Reply-To: <ff11c8ac-7eb4-42cb-86d3-ad9924c9374b@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250319032435.1119469-1-shiyongbang@huawei.com>
+ <20250319032435.1119469-6-shiyongbang@huawei.com>
+ <87frj8c9ol.fsf@intel.com>
+ <ff11c8ac-7eb4-42cb-86d3-ad9924c9374b@huawei.com>
+Date: Mon, 24 Mar 2025 15:33:13 +0200
+Message-ID: <87jz8ea6zq.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,144 +78,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create the 'ccs_mode' file under
+On Mon, 24 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>> On Wed, 19 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>>> From: Baihan Li <libaihan@huawei.com>
+>>>
+>>> Add registering drm_aux and use it to get connector edid with drm
+>>> functions. Add ddc channel in connector initialization to put drm_aux
+>>> in drm_connector.
+>>>
+>>> Signed-off-by: Baihan Li <libaihan@huawei.com>
+>>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>> ChangeLog:
+>>> v6 -> v7:
+>>>    - add if statement about drm aux in hibmc_dp_connector_get_modes(), suggested by Jani Nikula
+>> I don't understand this, and I did not suggest such a thing.
+>>
+>> BR,
+>> Jani.
+>>
+> Hi Jani,
+>
+> Is the modification of v8 correct?
 
-/sys/class/drm/cardX/gt/gt0/ccs_mode
+I never received that for whatever reason.
 
-This file allows the user to read and set the current CCS mode.
+>
+>
+>>> v5 -> v6:
+>>>    - move the detect_ctx() to the patch 7/9.
+>>> v2 -> v3:
+>>>    - Capitalized EDID and AUX, suggested by Dmitry Baryshkov.
+>>> v1 -> v2:
+>>>    - deleting type conversion, suggested by Dmitry Baryshkov.
+>>>    - deleting hibmc_dp_connector_get_modes() and using drm_connector_helper_get_modes(), suggested by Dmitry Baryshkov.
+>>> ---
+>>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   |  3 +-
+>>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 35 ++++++++++++++++---
+>>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  5 +++
+>>>   3 files changed, 37 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+>>> index ded9e7ce887a..e0bb9b14d9d8 100644
+>>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+>>> @@ -161,7 +161,8 @@ void hibmc_dp_aux_init(struct hibmc_dp *dp)
+>>>   				 HIBMC_DP_MIN_PULSE_NUM);
+>>>   
+>>>   	dp->aux.transfer = hibmc_dp_aux_xfer;
+>>> -	dp->aux.is_remote = 0;
+>>> +	dp->aux.name = kasprintf(GFP_KERNEL, "HIBMC DRM dp aux");
+>>> +	dp->aux.drm_dev = dp->drm_dev;
+>>>   	drm_dp_aux_init(&dp->aux);
+>>>   	dp->dp_dev->aux = &dp->aux;
+>>>   }
+>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>> index 603d6b198a54..0256724d8b9b 100644
+>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>> @@ -15,11 +15,20 @@
+>>>   
+>>>   static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
+>>>   {
+>>> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
+>>> +	const struct drm_edid *drm_edid;
+>>>   	int count;
+>>>   
+>>> -	count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
+>>> -				     connector->dev->mode_config.max_height);
+>>> -	drm_set_preferred_mode(connector, 1024, 768); // temporary implementation
+>>> +	if (!dp->aux.name)
+>>> +		return 0;
+>>> +
+>>> +	drm_edid = drm_edid_read_ddc(connector, &dp->aux.ddc);
+>>> +
+>>> +	drm_edid_connector_update(connector, drm_edid);
+>>> +
+>>> +	count = drm_edid_connector_add_modes(connector);
+>>> +
+>>> +	drm_edid_free(drm_edid);
+>>>   
+>>>   	return count;
+>>>   }
+>>> @@ -28,12 +37,28 @@ static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
+>>>   	.get_modes = hibmc_dp_connector_get_modes,
+>>>   };
+>>>   
+>>> +static int hibmc_dp_late_register(struct drm_connector *connector)
+>>> +{
+>>> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
+>>> +
+>>> +	return drm_dp_aux_register(&dp->aux);
+>>> +}
+>>> +
+>>> +static void hibmc_dp_early_unregister(struct drm_connector *connector)
+>>> +{
+>>> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
+>>> +
+>>> +	drm_dp_aux_unregister(&dp->aux);
+>>> +}
+>>> +
+>>>   static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
+>>>   	.reset = drm_atomic_helper_connector_reset,
+>>>   	.fill_modes = drm_helper_probe_single_connector_modes,
+>>>   	.destroy = drm_connector_cleanup,
+>>>   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>>>   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>>> +	.late_register = hibmc_dp_late_register,
+>>> +	.early_unregister = hibmc_dp_early_unregister,
+>>>   };
+>>>   
+>>>   static inline int hibmc_dp_prepare(struct hibmc_dp *dp, struct drm_display_mode *mode)
+>>> @@ -103,8 +128,8 @@ int hibmc_dp_init(struct hibmc_drm_private *priv)
+>>>   
+>>>   	drm_encoder_helper_add(encoder, &hibmc_dp_encoder_helper_funcs);
+>>>   
+>>> -	ret = drm_connector_init(dev, connector, &hibmc_dp_conn_funcs,
+>>> -				 DRM_MODE_CONNECTOR_DisplayPort);
+>>> +	ret = drm_connector_init_with_ddc(dev, connector, &hibmc_dp_conn_funcs,
+>>> +					  DRM_MODE_CONNECTOR_DisplayPort, &dp->aux.ddc);
+>>>   	if (ret) {
+>>>   		drm_err(dev, "init dp connector failed: %d\n", ret);
+>>>   		return ret;
+>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+>>> index d982f1e4b958..3ddd71aada66 100644
+>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+>>> @@ -47,6 +47,11 @@ static inline struct hibmc_vdac *to_hibmc_vdac(struct drm_connector *connector)
+>>>   	return container_of(connector, struct hibmc_vdac, connector);
+>>>   }
+>>>   
+>>> +static inline struct hibmc_dp *to_hibmc_dp(struct drm_connector *connector)
+>>> +{
+>>> +	return container_of(connector, struct hibmc_dp, connector);
+>>> +}
+>>> +
+>>>   static inline struct hibmc_drm_private *to_hibmc_drm_private(struct drm_device *dev)
+>>>   {
+>>>   	return container_of(dev, struct hibmc_drm_private, dev);
 
- - Reading: The user can read the current CCS mode, which can be
-   1, 2, or 4. This value is derived from the current engine
-   mask.
-
- - Writing: The user can set the CCS mode to 1, 2, or 4,
-   depending on the desired number of exposed engines and the
-   required load balancing.
-
-The interface will return -EBUSY if other clients are connected
-to i915, or -EINVAL if an invalid value is set.
-
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 82 ++++++++++++++++++++-
- 1 file changed, 80 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-index cbabeb503d3b..8364523f2730 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-@@ -6,6 +6,7 @@
- #include "i915_drv.h"
- #include "intel_engine_user.h"
- #include "intel_gt_ccs_mode.h"
-+#include "intel_gt_pm.h"
- #include "intel_gt_print.h"
- #include "intel_gt_regs.h"
- #include "intel_gt_sysfs.h"
-@@ -172,7 +173,7 @@ static int rb_engine_cmp(struct rb_node *rb_new, const struct rb_node *rb_old)
- 	return new->uabi_class - old->uabi_class;
- }
- 
--static void __maybe_unused add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mode)
-+static void add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mode)
- {
- 	struct drm_i915_private *i915 = gt->i915;
- 	intel_engine_mask_t new_ccs_mask, tmp;
-@@ -234,7 +235,7 @@ static void __maybe_unused add_uabi_ccs_engines(struct intel_gt *gt, u32 ccs_mod
- 	mutex_unlock(&i915->uabi_engines_mutex);
- }
- 
--static void __maybe_unused remove_uabi_ccs_engines(struct intel_gt *gt, u8 ccs_mode)
-+static void remove_uabi_ccs_engines(struct intel_gt *gt, u8 ccs_mode)
- {
- 	struct drm_i915_private *i915 = gt->i915;
- 	intel_engine_mask_t new_ccs_mask, tmp;
-@@ -277,8 +278,85 @@ static ssize_t num_cslices_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(num_cslices);
- 
-+static ssize_t ccs_mode_show(struct device *dev,
-+			     struct device_attribute *attr, char *buff)
-+{
-+	struct intel_gt *gt = kobj_to_gt(&dev->kobj);
-+	u32 ccs_mode;
-+
-+	ccs_mode = hweight32(gt->ccs.id_mask);
-+
-+	return sysfs_emit(buff, "%u\n", ccs_mode);
-+}
-+
-+static ssize_t ccs_mode_store(struct device *dev,
-+			      struct device_attribute *attr,
-+			      const char *buff, size_t count)
-+{
-+	struct intel_gt *gt = kobj_to_gt(&dev->kobj);
-+	int num_cslices = hweight32(CCS_MASK(gt));
-+	int ccs_mode = hweight32(gt->ccs.id_mask);
-+	ssize_t ret;
-+	u32 val;
-+
-+	ret = kstrtou32(buff, 0, &val);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * As of now possible values to be set are 1, 2, 4,
-+	 * up to the maximum number of available slices
-+	 */
-+	if (!val || val > num_cslices || (num_cslices % val))
-+		return -EINVAL;
-+
-+	/* Let's wait until the GT is no longer in use */
-+	ret = intel_gt_pm_wait_for_idle(gt);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&gt->wakeref.mutex);
-+
-+	/*
-+	 * Let's check again that the GT is idle,
-+	 * we don't want to change the CCS mode
-+	 * while someone is using the GT
-+	 */
-+	if (intel_gt_pm_is_awake(gt)) {
-+		ret = -EBUSY;
-+		goto out;
-+	}
-+
-+	/*
-+	 * Nothing to do if the requested setting
-+	 * is the same as the current one
-+	 */
-+	if (val == ccs_mode)
-+		goto out;
-+	else if (val > ccs_mode)
-+		add_uabi_ccs_engines(gt, val);
-+	else
-+		remove_uabi_ccs_engines(gt, val);
-+
-+out:
-+	mutex_unlock(&gt->wakeref.mutex);
-+
-+	return ret ?: count;
-+}
-+static DEVICE_ATTR_RW(ccs_mode);
-+
- void intel_gt_sysfs_ccs_init(struct intel_gt *gt)
- {
- 	if (sysfs_create_file(&gt->sysfs_gt, &dev_attr_num_cslices.attr))
- 		gt_warn(gt, "Failed to create sysfs num_cslices files\n");
-+
-+	/*
-+	 * Do not create the ccs_mode file for non DG2 platforms
-+	 * because they don't need it as they have only one CCS engine
-+	 */
-+	if (!IS_DG2(gt->i915))
-+		return;
-+
-+	if (sysfs_create_file(&gt->sysfs_gt, &dev_attr_ccs_mode.attr))
-+		gt_warn(gt, "Failed to create sysfs ccs_mode files\n");
- }
 -- 
-2.47.2
-
+Jani Nikula, Intel
