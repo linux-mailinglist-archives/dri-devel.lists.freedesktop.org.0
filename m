@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00633A6E298
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 19:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7655A6E2DA
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 19:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4962110E442;
-	Mon, 24 Mar 2025 18:44:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08DE610E1C6;
+	Mon, 24 Mar 2025 18:59:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="CYhCmkbn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YOKptb8n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F288F10E442
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 18:44:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742841851; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jV18Lr3WTYIwr0VI2NcmhfG0ucWBw3XpA4ZLsKhvb5kvwFLQXK20hR6HZNmlLmjDlQT7cI1bkqRhOLrjpslLrBFI6AJ58Q/5IcbEB8AmzdXVEA4Dq13mvbGJMKeqiyZ8mjF5hcsUueSPwRv6tqwRsEtxUe0H9Esn8cdUi+o/IIQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742841851;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=3i45atEj/Em1zgDsdIfHqKPyZD2/NFVdU7m9egEFrkg=; 
- b=cDn1geDA7XOV87TV37z9IW2J87l1HmdTS78uig6xXK/sM5sK1IXGQNWmLRz3bvKtotjKfKQnWNTu+1cvRwEJKE8R7AH4QsOXA9pDXO2E2YgD/OdX6Qe52bwVB6uaIDmLhu/+Eej4s0Z4xdCSb1Eb0DXkFCWyfonJ7RzTWAPBITA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
- dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742841851; 
- s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=3i45atEj/Em1zgDsdIfHqKPyZD2/NFVdU7m9egEFrkg=;
- b=CYhCmkbnpAtqmznlseu04bydQY+U12ExisubT8wS/U7AiTY1OXhIXVdf/nic22dS
- jCGNhkINUOfj6Xpr9MEqXYLqAb1yOggK9z+xMauUpXP0WRy+Ae6uBY7zTkSQFPLS36q
- istxulDhzmrK4P/W/AVPcv18FjZtDX6xCsEaaa7Y=
-Received: by mx.zohomail.com with SMTPS id 1742841849727969.7923025073931;
- Mon, 24 Mar 2025 11:44:09 -0700 (PDT)
-Message-ID: <69da05c4-7471-47aa-a72d-b08d9b97e8dc@collabora.com>
-Date: Mon, 24 Mar 2025 15:44:03 -0300
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C6A10E1C6;
+ Mon, 24 Mar 2025 18:59:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 7FDB3439E5;
+ Mon, 24 Mar 2025 18:59:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58649C4CEDD;
+ Mon, 24 Mar 2025 18:59:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742842765;
+ bh=6sAQm5qcCZYs9E3LMzVkzNwdWz+k1KTOgQGt962iKO0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=YOKptb8nWWUrLqoYrmsY7yZf+CHFtixXr6uXDXO7V36Dp5JyJRF7YFv0lPT4DH/YH
+ T59jGelH4U1mE2FVw3cNT+yla77H0H5w3bjxe1wFfuxw00HLIW6XIcEur3cNU3JZ3S
+ T4Gdy5dqDVzw1bNeDdc75lKtT+wiQPtJC2S8zUrx73JxRGkDgaL5ZN2T2cZeSCFUeC
+ xPB+UYaZlXIctA6HApeSFhLNGN3n3GiwUyXCBsmsoLIVw5SSfUQkvrAqvYT8f16ZqH
+ vPHA1GaLr05Z8zZSpvxthj531rvTR0eZUdW/clQ4LAUSwWg6Nrw7hssBaShfEJjeFD
+ zTbRIEGnn5MEQ==
+From: Philipp Stanner <phasta@kernel.org>
+To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/5] drm/sched: Fix memory leaks in drm_sched_fini()
+Date: Mon, 24 Mar 2025 19:57:24 +0100
+Message-ID: <20250324185728.45857-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/6] drm/panfrost: Add support for AARCH64_4K page
- table format
-To: Adrian Larumbe <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- boris.brezillon@collabora.com, robh@kernel.org, steven.price@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, kernel@collabora.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- sjoerd@collabora.com, angelogioacchino.delregno@collabora.com
-References: <20250317145245.910566-1-ariel.dalessandro@collabora.com>
- <20250317145245.910566-5-ariel.dalessandro@collabora.com>
- <5hl2ahnxeunqebenguxjwwie6ura3lxknu766xthov2m4qvsot@imrrfqftlmv4>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <5hl2ahnxeunqebenguxjwwie6ura3lxknu766xthov2m4qvsot@imrrfqftlmv4>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,67 +63,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adrian,
+Howdy,
 
-On 3/22/25 3:48 PM, Adrian Larumbe wrote:
-> On 17.03.2025 11:52, Ariel D'Alessandro wrote:
->> Currently, Panfrost only supports MMU configuration in "LEGACY" (as
->> Bifrost calls it) mode, a (modified) version of LPAE "Large Physical
->> Address Extension", which in Linux we've called "mali_lpae".
->>
->> This commit adds support for conditionally enabling AARCH64_4K page
->> table format. To achieve that, a "GPU optional quirks" field was added
->> to `struct panfrost_features` with the related flag.
->>
->> Note that, in order to enable AARCH64_4K mode, the GPU variant must have
->> the HW_FEATURE_AARCH64_MMU feature flag present.
->>
->> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->> ---
->>   drivers/gpu/drm/panfrost/panfrost_device.h |  16 +++
->>   drivers/gpu/drm/panfrost/panfrost_mmu.c    | 140 +++++++++++++++++++--
->>   drivers/gpu/drm/panfrost/panfrost_regs.h   |  34 +++++
->>   3 files changed, 183 insertions(+), 7 deletions(-)
+as many of you know, we have potential memory leaks in drm_sched_fini()
+which have been tried to be solved by various parties with various
+methods in the past.
 
-[snip]
+In our past discussions, we came to the conclusion, that the simplest
+solution, blocking in drm_sched_fini(), is not possible because it could
+cause processes ignoring SIGKILL and blocking for too long (which could
+turn out to be an effective way to generate a funny email from Linus,
+though :) )
 
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
->> index 294f86b3c25e7..506f42ccfd5fc 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+Another idea was to have submitted jobs refcount the scheduler. I
+investigated this and we found that this then *additionally* would
+require us to have *the scheduler* refcount everything *in the driver*
+that is accessed through the still running callbacks; since the driver
+would want to unload possibly after a non-blocking drm_sched_fini()
+call. So that's also no solution.
 
-[snip]
+This RFC here is a new approach, somewhat based on the original
+waitque-idea. It looks as follows:
 
->> +static int panfrost_mmu_cfg_init(struct panfrost_mmu *mmu,
->> +				  enum io_pgtable_fmt fmt)
->> +{
->> +	struct panfrost_device *pfdev = mmu->pfdev;
->> +
->> +	switch (fmt) {
->> +	case ARM_64_LPAE_S1:
->> +		return mmu_cfg_init_aarch64_4k(mmu);
->> +	case ARM_MALI_LPAE:
->> +		return mmu_cfg_init_mali_lpae(mmu);
->> +	default:
->> +		/* This should never happen */
->> +		drm_WARN(pfdev->ddev, "Invalid pgtable format");
-> 
-> I think there's a '1' missing here before the string literal.
-> Other than that,
-> 
-> Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+1. Have drm_sched_fini() block until the pending_list becomes empty with
+   a waitque, as a first step.
+2. Provide the scheduler with a callback with which it can instruct the
+   driver to kill the associated fence context. This will cause all
+   pending hardware fences to get signalled. (Credit to Danilo, whose
+   idea this was)
+3. In drm_sched_fini(), first switch off submission of new jobs and
+   timeouts (the latter might not be strictly necessary, but is probably
+   cleaner).
+4. Then, call the aformentioned callback, ensuring that free_job() will
+   be called for all remaining jobs relatively quickly. This has the
+   great advantage that the jobs get cleaned up through the standard
+   mechanism.
+5. Once all jobs are gone, also switch off the free_job() work item and
+   then proceed as usual.
 
-Fixed, thanks!
+Furthermore, since there is now such a callback, we can provide an
+if-branch checking for its existence. If the driver doesn't provide it,
+drm_sched_fini() operates in "legacy mode". So none of the existing
+drivers should notice a difference and we remain fully backwards
+compatible.
 
-Will send v5 right away.
+Our glorious beta-tester is Nouveau, which so far had its own waitque
+solution, which is now obsolete. The last two patches port Nouveau and
+remove that waitque.
+
+I've tested this on a desktop environment with Nouveau. Works fine and
+solves the problem (though we did discover an unrelated problem inside
+Nouveau in the process).
+
+Tvrtko's unit tests also run as expected (except for the new warning
+print in patch 3), which is not surprising since they don't provide the
+callback.
+
+I'm looking forward to your input and feedback. I really hope we can
+work this RFC into something that can provide users with a more
+reliable, clean scheduler API.
+
+Philipp
+
+
+Philipp Stanner (5):
+  drm/sched: Fix teardown leaks with waitqueue
+  drm/sched: Prevent teardown waitque from blocking too long
+  drm/sched: Warn if pending list is not empty
+  drm/nouveau: Add new callback for scheduler teardown
+  drm/nouveau: Remove waitque for sched teardown
+
+ drivers/gpu/drm/nouveau/nouveau_abi16.c |   4 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c   |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c |  39 +++++----
+ drivers/gpu/drm/nouveau/nouveau_sched.h |  12 +--
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c  |   8 +-
+ drivers/gpu/drm/scheduler/sched_main.c  | 111 +++++++++++++++++++-----
+ include/drm/gpu_scheduler.h             |  19 ++++
+ 7 files changed, 146 insertions(+), 49 deletions(-)
 
 -- 
-Ariel D'Alessandro
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+2.48.1
 
