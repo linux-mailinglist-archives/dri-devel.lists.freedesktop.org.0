@@ -2,91 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D2BA6DFE4
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 17:37:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652B7A6DFE6
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 17:37:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AABE610E496;
-	Mon, 24 Mar 2025 16:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A982A10E498;
+	Mon, 24 Mar 2025 16:37:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="LMJRfGLZ";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="IDaIOSAh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F50D10E496
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 16:37:18 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-30613802a6bso48584231fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 09:37:18 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A647E10E498
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 16:37:37 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-54ac9b3ddf6so4645170e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 09:37:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1742834233; x=1743439033;
+ d=chromium.org; s=google; t=1742834252; x=1743439052;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fDN1DigddMVH2DZcXLwHcLv3wl4mw8L1y1VFkP+R480=;
- b=LMJRfGLZWldXLgIfEirmp5XUS4Z5btU7GDrcdS9Kg/YTg3LSsGzlz5QXkT3lKY+Vap
- YA4FbRmsllgZp/KwCINODoqMBWnuvKLJnmJHeoi3f/pSBM8nIFPObqou+z52LVS2rRtp
- udqCo0VlaYpMMBGkz8X8XcEwpLK+pP0uivEDM=
+ bh=gRKqfgDsRXrCJD50JjVrfzsEqczQFA94Egvgh0Ek2Oo=;
+ b=IDaIOSAhqXXifyFioSDTdSdwl26nFaIN2PPni7rmuNvGhBjMz+d6a4YpQUqn3UbT6t
+ LBJDw/tXO/cGvsMDRL1LdrtFagYJ0fS36PfUlU1bWg9y13qUwh4K1MXqzEL2WS6aHxsc
+ DaMfQFdGIm82dTdeK0pT91si0xFIvABr8x83I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742834233; x=1743439033;
+ d=1e100.net; s=20230601; t=1742834252; x=1743439052;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fDN1DigddMVH2DZcXLwHcLv3wl4mw8L1y1VFkP+R480=;
- b=F2/finaFf0Tk4TW3pck02cXc30/8POK34i1RGjLFjeRyPOgF2DVttWdR27dM5r1+2n
- ihOpR1S44mgIfBPsaxr78YjMCGCv60fWNz5nr+seEuaTdYe0SHgTM8lCveUK4lp2YUpc
- /Pg1VrfZ289oyC5NVQkL97AiVdo5Ee6eMi4GMCxdJ1GISAVEDkmGTA4RUudBf/pUfHHH
- ucpOQhUK0Cba7CXL6AYlDGfZKXaQfU36ggqwqkQtXZlg0IKJIIwPoZWhHOlAXWmcbKhe
- 3fzZ9Jk/rplE+ECIOmqC7msGeHozTACqxeOi7vTsZHSj7I26hA6IwkaK0IUnOnirdEZl
- NTxg==
+ bh=gRKqfgDsRXrCJD50JjVrfzsEqczQFA94Egvgh0Ek2Oo=;
+ b=GLWqXdB/leOu79pxfyyGpAnFoiI453GVLsWSxlFkqQ5JBpMeE/ngdHS0BZ3CNF0mVn
+ pF43XCuH43QDEL5bLajMhv6Q72f/VuMSeCKevwlriIwGoggjUwra6YiWNc4gqyT7g6Qj
+ 5xizatOww2G4pNyAFsnltAILsLEoVRxM1IyWosdjW5H4XYNtoIr+2eWvQqKL+oa3bqk2
+ Xr1bjYQ2AyStng1/T/KRSTkPZIQO+1kwtGH1ze3C9b8vkQ0kr6pG9mOnGj1qefupebBD
+ RIes1X2IlD+850kdUfsMdPywDKTBJDDvtp7v7rcFyviwNDheEx7fh2CqhRJ+PfdlQWg8
+ JqHA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXYuK5m4QLiPLb7bEpctO11Nu+SpBdthjk5P/2Bdo72DoWU/tCNbHhc5eJLfJ0qeArJOfh1gC8wIJk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSSI3EIHckMs0g6LqSW/1S324cLwJDaICDHPafCjcEpRe1rKLe
- deEhZ65f7lTLlnVNogWKixPCmhTeGfUObkhjXVE10VUmExoxAPlWkSRU/KmCR276sItXp0N9ePn
- pIg==
-X-Gm-Gg: ASbGncs3npZQi18DuKGoZQhTiBS+uk4JLqGgcDDneCRlziIbiMr5fu7P0M7EHK6YPdb
- dWT2gML4m9yvzrHRKpI45CuXgdxGT0QldxvUO3Km/t9eKTNwfckV6jS6TD/hkwdIRPIE8PXBk/R
- cRrBFQzPyo25Zr4uIO2MAilinNrPZsG6VPJ3Drpq0FIWcByAsXKyDVNeqkoY41b4wIsoKJ32Kmh
- vS4/6AXMpNBHRR2oSHvgJ5wRo8bUBG8qg2X41rO2kkzBKAmizNNxRKeMFJ/yjW08VecODyjE0ew
- m91VgPjNwdImOGI0PPfLuBKAi5+5Ep4vDiEHzlPoRfK3rgTPfblCnFurit4cjtUxOZ1LkDohO32
- Kx2UtUoj5
-X-Google-Smtp-Source: AGHT+IE1qPK6wWEi9IRcBobWB7SLlR/1kPiN+tSYuNeciXnUYtQD8UswEZbaI+WqaQ8FpMH2biC3bw==
-X-Received: by 2002:a05:6512:3e14:b0:546:2f7a:38c4 with SMTP id
- 2adb3069b0e04-54ad647e8f9mr4329106e87.13.1742834232564; 
- Mon, 24 Mar 2025 09:37:12 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
- [209.85.167.50]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ad65009b5sm1195550e87.128.2025.03.24.09.37.07
+ AJvYcCW59TZlDzu8qgWgXcDP3KWUzGEFEEcRAWWDQUPZRVMNlbZL9T9oFJzEVxZ0XW0OYeU6OdmzBR+Lk4c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx577Uct+U9gBHn4uWHcoY7KBtK6cIA97hJx0tAHB5trolceQu+
+ WY7MptZRg6gv6ajCDB4ofcIp+dyq+IZEgaLqd2rFzVKe4kT310iWUIY8DMr9oQ1f4XTNFxkNVhQ
+ 19Q==
+X-Gm-Gg: ASbGnctM/a24DsT5g23MXnoPWaf4GmLJJRkxSPW4Xmp5q6/jU43XGiqQVivYMM2YCl7
+ ClCnCJ6aVpaSRB+ImZRx7mV/OpowGnVNnEHp4OMs3ld48cm3kI2RcaMxnoSSzy10y+ooWeAQ5Bj
+ vUQ6y6Lqww6XE4JoCT2L9nf5Cw9mng6yGBAhjiqn19wRVNceO4MlnUxGkZ/eFfefKq6IfLjP7q8
+ TNOYnSoXV5u2up/2RESkztq3puszogUa2/415YNflvGFheA9L+R0mzuc0CBHzwN7daQsNu/djHI
+ DrWLZFORW1P+hLkkjouJaLxfhPIo+R9KaBLI/ECKRGSqHddTt+BGyiFYf8aJcMo4+nd1Ylt8qmk
+ F63JTw6vf
+X-Google-Smtp-Source: AGHT+IF28ndI/AnJLpRvAsZjHlLznoxjeyH9cj8s5ULVCwat1wF9yeNlBwurMzgGO9Kd5wwb/3BqAQ==
+X-Received: by 2002:ac2:4e07:0:b0:548:e44d:f3ee with SMTP id
+ 2adb3069b0e04-54ad646cdf7mr4793818e87.10.1742834252100; 
+ Mon, 24 Mar 2025 09:37:32 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com.
+ [209.85.167.42]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54ad650374dsm1186717e87.161.2025.03.24.09.37.26
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Mar 2025 09:37:10 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-54954fa61c8so4801604e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 09:37:07 -0700 (PDT)
+ Mon, 24 Mar 2025 09:37:26 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5497e7bf2e0so5389043e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 09:37:26 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXpqzqR4StF89MSk+ZA2YfimZNr5mvcW/XKJg7DBrdat/H+cDxgZL2SyPt34K6oN4cxZ/nEmH5E1Fw=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3d11:b0:549:8cc8:efed with SMTP id
- 2adb3069b0e04-54ad650a07dmr5306442e87.48.1742834226392; Mon, 24 Mar 2025
- 09:37:06 -0700 (PDT)
+ AJvYcCX0wDDK4SxrYRcDNr28akdf6srNxC0nlFsj4YAtRBikt9yoY4Lp5QJ6w6VsnkYeAd7t5WPQe8Df0/I=@lists.freedesktop.org
+X-Received: by 2002:ac2:4e0a:0:b0:549:8d60:ca76 with SMTP id
+ 2adb3069b0e04-54ad64f08f2mr4073123e87.38.1742834245765; Mon, 24 Mar 2025
+ 09:37:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250319183106.12613-1-tejasvipin76@gmail.com>
- <CAD=FV=WZxF4CGSAAqSvs8XnLEvkXNEEv87V3ffE_uBfj-qWN=A@mail.gmail.com>
-In-Reply-To: <CAD=FV=WZxF4CGSAAqSvs8XnLEvkXNEEv87V3ffE_uBfj-qWN=A@mail.gmail.com>
+References: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
+ <CAD=FV=UNHE=T0nOAcAskJy2L=ZUsRVvdKdcSi+3TEGqgSnjr_w@mail.gmail.com>
+In-Reply-To: <CAD=FV=UNHE=T0nOAcAskJy2L=ZUsRVvdKdcSi+3TEGqgSnjr_w@mail.gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 24 Mar 2025 09:36:54 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VWj03LmA-LfSDSkrg0m53AuYPg8YQLK0m_BKT6xBEBEQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JrW47wJ32hbO7SbwG8ki058S8keXJviwMHqGv6pjeXdowOMFlpfudBmNlc
-Message-ID: <CAD=FV=VWj03LmA-LfSDSkrg0m53AuYPg8YQLK0m_BKT6xBEBEQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: samsung-s6d7aa0: transition to mipi_dsi
- wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- aweber.kernel@gmail.com, quic_jesszhan@quicinc.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asrivats@redhat.com
+Date: Mon, 24 Mar 2025 09:37:13 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UQDVbaa5rJUHCBmh0p3R++h8e4V_QYwroTQ88FeCW+OQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JoJDHVF_bUBKmfdPGcifzpI7iveAYPcSyjRJ3YSy2-xkWhgB0J_M-mQ6vw
+Message-ID: <CAD=FV=UQDVbaa5rJUHCBmh0p3R++h8e4V_QYwroTQ88FeCW+OQ@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection
+ failure
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,33 +110,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Wed, Mar 19, 2025 at 1:05=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
+On Tue, Mar 18, 2025 at 10:56=E2=80=AFAM Doug Anderson <dianders@chromium.o=
+rg> wrote:
 >
 > Hi,
 >
-> On Wed, Mar 19, 2025 at 11:31=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.=
-com> wrote:
+> On Tue, Mar 18, 2025 at 8:56=E2=80=AFAM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
 > >
-> > Changes the samsung-s6d7aa0 panel to use multi style functions for
-> > improved error handling.
+> > Read out and check the ID registers, so we can bail out if I2C
+> > communication does not work or if the device is unknown. Tested on a
+> > Renesas GrayHawk board (R-Car V4M) by using a wrong I2C address and by
+> > not enabling RuntimePM for the device.
 > >
-> > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > > ---
-> > Changes in v2:
-> >     - Remove unnecessary early return in s6d7aa0_lock
-> >     - Remove redundant GPIO reset setting in s6d7aa0_on.
 > >
-> > Link to v1: https://lore.kernel.org/all/20250316045024.672167-1-tejasvi=
-pin76@gmail.com/
-> > ---
-> >  drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 222 +++++-------------
-> >  1 file changed, 65 insertions(+), 157 deletions(-)
+> > Changes since v2:
+> > * switched to a new approach suggested by Doug (Thanks!). We add a
+> >   dedicated read instead of using the first read. This prevents creatin=
+g
+> >   the aux devices. As a side-gain, we check now if the chip at the addr=
+ess
+> >   is really the one we want to support.
+> >
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+>
+> Looks good to me.
 >
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-When I applied I got a few whitespace errors that checkpatch yelled
-about. I fixed them for you while applying. Pushed to drm-misc-next:
+Pushed to drm-misc-next:
 
-[1/1] drm/panel: samsung-s6d7aa0: transition to mipi_dsi wrapped functions
-      commit: 837f9b917c47b4d35f0ee571a736de2895e2dd54
+[1/1] drm/bridge: ti-sn65dsi86: Check bridge connection failure
+      commit: d69362f55fba92eb4cac10fe8da618de52b49bfc
