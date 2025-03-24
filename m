@@ -2,112 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE42A6DE81
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386F4A6DF0E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:53:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9A8510E490;
-	Mon, 24 Mar 2025 15:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F44A89264;
+	Mon, 24 Mar 2025 15:53:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HzRntRTI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SmOUcIPT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7377F10E495;
- Mon, 24 Mar 2025 15:24:31 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7F580431EA;
- Mon, 24 Mar 2025 15:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829870;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=qq8EpEiG1aC5Z/IjfsMqD91CxuYdkrpsKElewh0trrc=;
- b=HzRntRTIKg4fLJyjgfZTixNKmLhq822wf0K5foYb4X2cRUgxn0PLQUU4hPLxst0D35OdE+
- CqYuSaBhmof4OO/roafXPdPVcIT9ZV2Oj7iaNssm3lWouInC/EOod+m3KzDFW7XhOerlXW
- tCIGRxXb98yNFm6L7LidILYeKfWeuT0ZVcCljYOBnxe+rxYtQQKVaNhi7LS2QuolizWOES
- vbmDUtul2gNsSmnHZfaJIZSoCTH3bjGrUi3+WSceOJw/M7KjJir/tNXBAdRbs6U64pgQ0N
- 7cW7xziJHn7jY13PAUOIkrPnY0z3mJZDglSyV0v013GZvm8lkj/eKGCsm0mZQg==
-Message-ID: <d8af7ba3-d7c9-4ed9-b3ed-118ea189ea49@bootlin.com>
-Date: Mon, 24 Mar 2025 16:24:29 +0100
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3DD789264
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 15:53:38 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-223fd89d036so88602435ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 08:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742831618; x=1743436418; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=lnK90d9tJkBMNCcbTrjmAdHYPBfyopuTDuiHWu7djtw=;
+ b=SmOUcIPTLxrWt5SSn6LQBWgwSnirl3k2LH2jpoUVFnYn0XG2ABLmo8YuPWY10vqHle
+ ely749DK7JpS0jbddvwUXtN5DQKVsl98G8fp9PNYAgDftFuxUMJp7T90A7Lxv8rHfOyQ
+ +VhdezphEb8a8Ssq0RC9w4McNIdEO8yNz1tL7ZxaJgTIAUixszKlPd0zvJns9w2f/43k
+ 9ms0LnR6rgZM3ptj7rmLBxGIDU0Ctxs7r5GJLXz7p7wPM4hhNUnB83xQKzAJyiD3orfK
+ /m8BaNC+lSnAsiVhtZNjcphu9dJ6N6pbui8BWyGrs+rdQsC3RwzrmzEgRpfWA2wlm5cq
+ J2PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742831618; x=1743436418;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lnK90d9tJkBMNCcbTrjmAdHYPBfyopuTDuiHWu7djtw=;
+ b=jhRpjCqQJ/da0Rc1APAfKRWNVpcUUQi2q0qW6q6o0ckQMisTf0J/4VV2/daxdMroko
+ XN4fuGB4YRNLlylA8B3ZC0TPQlUh9OAj1tOidgWf1hjzpcGUFx0pdLmqXn38nLd1UHuk
+ ze0bs010vsX/07wrYRStwLZdegWZUipRrPq4GmpSHFgyg9qtgQsMx/9jvVUuTclvFKxa
+ jdulxfEAvzTrh41aL95rIrP8C2M/kXAltg6zimKts32ixnUvxoX8AEDk3lPdBMZzcoG6
+ XbdQh6drdTuqiVu1O/mUncdeHT9VwtEz+ZuXuO6ffBn0voEMBmn4vI3SSMMz8JIZYT4H
+ eVPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXb4o1xracd45nakBAejHzeUhx9VGzKEb/xDk1FEV2GFYr8pL9TsQngAIzWoGzLFF7nQ6huPB/uuNA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YytizPI/HkHGyUj4yL6VzFA+SNRdgOrjRKwQmLzadjzxIRW3O75
+ UQrK8P9kZ/a27fqyFzJcE2fapkE0hnTGb5YXL5tyFQY+8JepeZmD
+X-Gm-Gg: ASbGnctA5ErIsOSzPfz6SF9oy46YWgvmyEpZDrBtHHNuGZmeU3XQJ30HmFbAWwtQcyJ
+ CQSRuTRUFw3QtRIfnTfUYrtCCbhw+CCU5uQ33xys2A5MbqbaUT06XaQsvARqZ6NK4y6Juj+p7Y+
+ jJao1JD0hMbLFoMJDffixg0h3gu7eIRdcmDoihNmeKd2y0Wi69uG1psbaFSFNeJi0brYdwN9Qgd
+ b43N6ta3bXRyt6/tUj+Txf/Dx0l1AalyAPHfcSNC/b1UVozuev1NmXLoSwws8Jzx0p5gsLQfFAg
+ x53cqHRrJTmXcYI9i7gP1Jtj59U87Wi2s1FQauQ7uBxcdaghLnG/nK7lN7PFIeV8Ul4dhNIpmGp
+ 5lR4=
+X-Google-Smtp-Source: AGHT+IF0G/P2idoIFxvn1IOSBSyy+/lpGPgy71fA+n6lIv43FiatMDA7/IWCIIb00BiyzdXZ3fQN0Q==
+X-Received: by 2002:aa7:9317:0:b0:736:a682:deb8 with SMTP id
+ d2e1a72fcca58-7390596685bmr25612682b3a.8.1742831617683; 
+ Mon, 24 Mar 2025 08:53:37 -0700 (PDT)
+Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7390600a5f6sm8119083b3a.82.2025.03.24.08.53.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Mar 2025 08:53:36 -0700 (PDT)
+Date: Mon, 24 Mar 2025 11:53:35 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
+ David Laight <david.laight.linux@gmail.com>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ akpm@linux-foundation.org, alistair@popple.id.au,
+ andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
+ arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
+ bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+ brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
+ davem@davemloft.net, dmitry.torokhov@gmail.com,
+ dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
+ edumazet@google.com, eleanor15x@gmail.com,
+ gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
+ jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
+ jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux@rasmusvillemoes.dk, louis.peens@corigine.com,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
+ mingo@redhat.com, miquel.raynal@bootlin.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, netdev@vger.kernel.org,
+ oss-drivers@corigine.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, rfoss@kernel.org,
+ richard@nod.at, simona@ffwll.ch, tglx@linutronix.de,
+ tzimmermann@suse.de, vigneshr@ti.com, x86@kernel.org
+Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
+Message-ID: <Z-F_96AECHpsCXsL@thinkpad>
+References: <20250307195310.58abff8c@pumpkin>
+ <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
+ <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name>
+ <Z9CyuowYsZyez36c@thinkpad>
+ <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
+ <Z9GtcNJie8TRKywZ@thinkpad>
+ <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name>
+ <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name>
+ <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
+ <05F7AC70-E8E7-4D14-A4EB-880D92A96534@zytor.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 40/59] drm-dyndbg: DRM_CLASSMAP_USE in i915 driver
-To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-gfx-trybot@lists.freedesktop.org
-Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
- daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com
-References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-41-jim.cromie@gmail.com>
-Content-Language: en-US
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
- 5K81kIWbtQX91pD/wH5UapRF4kwMXTAqof8+m3XfYcEDVG31Kf8QkJTG/gLBi1UfJgGBahbY
- hjP40kuUR/mr7M7bKoBP9Uh0uaEM+DuKl6bSXMSrJ6fOtEPOtnfBY0xVPmqIKfLFEkjh800v
- jD1fdwWKtAIXf+cQtC9QWvcdzAmQIwmyFBmbg+ccqao1OIXTgu+qMAHfgKDjYctESvo+Szmb
- DFBZudPbyTAlf2mVKpoHKMGy3ndPZ19RboKUP0wjrF+Snif6zRFisHK7D/mqpgUftoV4HjEH
- bQO9bTJZXIoPJMSb+Lyds0m83/LYfjcWP8w889bNyD4Lzzzu+hWIu/OObJeGEQqY01etOLMh
- deuSuCG9tFr0DY6l37d4VK4dqq4Snmm87IRCb3AHAEMJ5SsO8WmRYF8ReLIk0tJJPrALv8DD
- lnLnwadBJ9H8djZMj24+GC6MJjN8dDNWctpBXgGZKuCM7Ggaex+RLHP/+14Vl+lSLdFiUb3U
- ljBXuc9v5/9+D8fWlH03q+NCa1dVgUtsP2lpolOV3EE85q1HdMyt5K91oB0hLNFdTFYwn1bW
- WJ2FaRhiC1yV4kn/z8g7fAp57VyIb6lQfS1Wwuj5/53XYjdipQARAQABzSlMb3VpcyBDaGF1
- dmV0IDxsb3Vpcy5jaGF1dmV0QGJvb3RsaW4uY29tPsLBlAQTAQgAPgIbAwULCQgHAgYVCgkI
- CwIEFgIDAQIeAQIXgBYhBItxBK6aJy1mk/Un8uwYg/VeC0ClBQJmlnw+BQkH8MsdAAoJEOwY
- g/VeC0ClyhwP/Ra6H+5F2NEW6/IMVHeXmhuly8CcZ3kyoKeGNowghIcTBo59dFh0atGCvr+y
- K9YD5Pyg9aX4Ropw1R1RVIMrWoUNZUKebRTu6iNHkE6tmURJaKLzR+9la+789jznQvbV+9gM
- YTBppX4/0cWY58jiDiDV4aJ77JDo7aWNK4hz8mZsB+Y7ezMuS4jy2r4b7dZ+YL/T9/k3/emO
- PkAuFkVhkNhytMEyOBsT7SjL4IUBeYWvOw9MIaXEl4qW/5HLGtMuNhS94NsviDXZquoOHOby
- 2uuRAI0bLz1qcsnY90yyPlDJ0pMuJHbi0DBzPTIYkyuwoyplfWxnUPp1wfsjiy/B6mRKTbdE
- a/K6jNzdVC1LLjTD4EjwnCE8IZBRWH1NVC1suOkw3Sr1FYcHFSYqNDrrzO+RKtR1JMrIe8/3
- Xhe2/UNUhppsK3SaFaIsu98mVQY3bA/Xn9wYcuAAzRzhEHgrbp8LPzYdi6Qtlqpt4HcPV3Ya
- H9BkCacgyLHcdeQbBXaup9JbF5oqbdtwev3waAmNfhWhrQeqQ0tkrpJ46l9slEGEdao5Dcct
- QDRjmJz7Gx/rKJngQrbboOQz+rhiHPoJc/n75lgOqtHRePNEf9xmtteHYpiAXh/YNooXJvdA
- tgR1jAsCsxuXZnW2DpVClm1WSHNfLSWona8cTkcoSTeYCrnXzsFNBGCG6KUBEADZhvm9TZ25
- JZa7wbKMOpvSH36K8wl74FhuVuv7ykeFPKH2oC7zmP1oqs1IF1UXQQzNkCHsBpIZq+TSE74a
- mG4sEhZP0irrG/w3JQ9Vbxds7PzlQzDarJ1WJvS2KZ4AVnwc/ucirNuxinAuAmmNBUNF8w6o
- Y97sdgFuIZUP6h972Tby5bu7wmy1hWL3+2QV+LEKmRpr0D9jDtJrKfm25sLwoHIojdQtGv2g
- JbQ9Oh9+k3QG9Kh6tiQoOrzgJ9pNjamYsnti9M2XHhlX489eXq/E6bWOBRa0UmD0tuQKNgK1
- n8EDmFPW3L0vEnytAl4QyZEzPhO30GEcgtNkaJVQwiXtn4FMw4R5ncqXVvzR7rnEuXwyO9RF
- tjqhwxsfRlORo6vMKqvDxFfgIkVnlc2KBa563qDNARB6caG6kRaLVcy0pGVlCiHLjl6ygP+G
- GCNfoh/PADQz7gaobN2WZzXbsVS5LDb9w/TqskSRhkgXpxt6k2rqNgdfeyomlkQnruvkIIjs
- Sk2X68nwHJlCjze3IgSngS2Gc0NC/DDoUBMblP6a2LJwuF/nvaW+QzPquy5KjKUO2UqIO9y+
- movZqE777uayqmMeIy4cd/gg/yTBBcGvWVm0Dh7dE6G6WXJUhWIUtXCzxKMmkvSmZy+gt1rN
- OyCd65HgUXPBf+hioCzGVFSoqQARAQABwsOyBBgBCAAmAhsuFiEEi3EErponLWaT9Sfy7BiD
- 9V4LQKUFAmaWfGYFCQfwx0ECQAkQ7BiD9V4LQKXBdCAEGQEIAB0WIQRPj7g/vng8MQxQWQQg
- rS7GWxAs4gUCYIbopQAKCRAgrS7GWxAs4gfGEACcA0XVNesbVIyvs5SJpJy+6csrH4yy233o
- GclX2P7pcCls55wiV6ywCtRaXWFjztYmklQieaZ/zq+pUuUDtBZo95rUP20E56gYV2XFB18W
- YeekTwH5d2d/j++60iHExWTB+sgMEv3CEGikUBj7iaMX2KtaB1k9K+3K6dx/s1KWxOClFkbJ
- EV/tmeq7Ta8LiytQM9b4yY550tzC0pEEeFcLFXo1m5KcJauYnAqrlOVY48NFpFUd9oAZf/Pz
- p3oEs+zn/8zK2PBrZZCD6AhrbotRy7irE5eimhxcsFm1+MG5ufnaQUWHrRYXVuFhvkSoqZ8j
- GPgPEpFor4NjRyX/PMLglQ7S5snkvKcr3Lun44aybXEHq/1FTzW2kOh6kFHFFOPbMv1voJKM
- IzrmDoDS+xANt/La7OwpCylCgF6t9oHHTTGfAfwtfYZbiepC66FDe/Jt/QLwkIXeIoeSS1O4
- 6rJdGWG2kHthUM+uIbUbaRJW8AkJpzP1Mz7TieR/9jO4YPeUm9tGL5kP2yyNtzFilcoOeox1
- NSFNAPz+zPcovVmxAaSDGcSzhQVJVlk8xPib8g4fnI8qJ3Gj7xyw8D9dzxhCR2DIFmZL84En
- N7Rj+k4VIGY7M/cVvxL81jlbMGMERMmb96Cua9z1ROviGA1He2gbHOcp6qmLNu3nprleG8PL
- ZRNdEAC0iZapoyiXlVCKLFIwUPnxUz5iarqIfQU8sa1VXYYd/AAAFI6Wv3zfNtGicjgHP8rN
- CIegqm2Av1939XXGZJVI9f3hEoUn04rvxCgcDcUvn7I0WTZ4JB9G5qAGvQLXeXK6Byu77qTx
- eC7PUIIEKN3X47e8xTSj2reVTlanDr8yeqZhxpKHaS0laF8RbD85geZtAK67qEByX2KC9DUo
- eHBFuXpYMzGQnf2SG105ePI2f4h5iAfbTW9VWH989fx4f2hVlDwTe08/NhPdwq/Houov9f/+
- uPpYEMlHCNwE8GRV7aEjd/dvu87PQPm4zFtC3jgQaUKCbYYlHmYYRlrLQenX3QSorrQNPbfz
- uQkNLDVcjgD2fxBpemT7EhHYBz+ugsfbtdsH+4jVCo5WLb/HxE6o5zvSIkXknWh1DhFj/qe9
- Zb9PGmfp8T8Ty+c/hjE5x6SrkRCX8qPXIvfSWLlb8M0lpcpFK+tB+kZlu5I3ycQDNLTk3qmf
- PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
- ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
- qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-41-jim.cromie@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
- dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <05F7AC70-E8E7-4D14-A4EB-880D92A96534@zytor.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,53 +124,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Mar 23, 2025 at 03:40:20PM -0700, H. Peter Anvin wrote:
+> On March 23, 2025 8:16:24 AM PDT, Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
+> >On Thu, Mar 13, 2025 at 03:41:49PM +0800, Kuan-Wei Chiu wrote:
+> >> On Thu, Mar 13, 2025 at 12:29:13AM +0800, Kuan-Wei Chiu wrote:
+> >> > On Wed, Mar 12, 2025 at 11:51:12AM -0400, Yury Norov wrote:
+> >> > > On Tue, Mar 11, 2025 at 03:24:14PM -0700, H. Peter Anvin wrote:
+> >> > > > On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury.norov@gmail.com> wrote:
+> >> > > > >On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
+> >> > > > >> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H. Peter Anvin wrote:
+> >> > > > >> > On March 7, 2025 11:53:10 AM PST, David Laight <david.laight.linux@gmail.com> wrote:
+> >> > > > >> > >On Fri, 07 Mar 2025 11:30:35 -0800
+> >> > > > >> > >"H. Peter Anvin" <hpa@zytor.com> wrote:
+> >> > > > >> > >
+> >> > > > >> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew.cooper3@citrix.com> wrote:
+> >> > > > >> > >> >> (int)true most definitely is guaranteed to be 1.  
+> >> > > > >> > >> >
+> >> > > > >> > >> >That's not technically correct any more.
+> >> > > > >> > >> >
+> >> > > > >> > >> >GCC has introduced hardened bools that intentionally have bit patterns
+> >> > > > >> > >> >other than 0 and 1.
+> >> > > > >> > >> >
+> >> > > > >> > >> >https://gcc.gnu.org/gcc-14/changes.html
+> >> > > > >> > >> >
+> >> > > > >> > >> >~Andrew  
+> >> > > > >> > >> 
+> >> > > > >> > >> Bit patterns in memory maybe (not that I can see the Linux kernel using them) but
+> >> > > > >> > >> for compiler-generated conversations that's still a given, or the manager isn't C
+> >> > > > >> > >> or anything even remotely like it.
+> >> > > > >> > >> 
+> >> > > > >> > >
+> >> > > > >> > >The whole idea of 'bool' is pretty much broken by design.
+> >> > > > >> > >The underlying problem is that values other than 'true' and 'false' can
+> >> > > > >> > >always get into 'bool' variables.
+> >> > > > >> > >
+> >> > > > >> > >Once that has happened it is all fubar.
+> >> > > > >> > >
+> >> > > > >> > >Trying to sanitise a value with (say):
+> >> > > > >> > >int f(bool v)
+> >> > > > >> > >{
+> >> > > > >> > >	return (int)v & 1;
+> >> > > > >> > >}    
+> >> > > > >> > >just doesn't work (see https://www.godbolt.org/z/MEndP3q9j)
+> >> > > > >> > >
+> >> > > > >> > >I really don't see how using (say) 0xaa and 0x55 helps.
+> >> > > > >> > >What happens if the value is wrong? a trap or exception?, good luck recovering
+> >> > > > >> > >from that.
+> >> > > > >> > >
+> >> > > > >> > >	David
+> >> > > > >> > 
+> >> > > > >> > Did you just discover GIGO?
+> >> > > > >> 
+> >> > > > >> Thanks for all the suggestions.
+> >> > > > >> 
+> >> > > > >> I don't have a strong opinion on the naming or return type. I'm still a
+> >> > > > >> bit confused about whether I can assume that casting bool to int always
+> >> > > > >> results in 0 or 1.
+> >> > > > >> 
+> >> > > > >> If that's the case, since most people prefer bool over int as the
+> >> > > > >> return type and some are against introducing u1, my current plan is to
+> >> > > > >> use the following in the next version:
+> >> > > > >> 
+> >> > > > >> bool parity_odd(u64 val);
+> >> > > > >> 
+> >> > > > >> This keeps the bool return type, renames the function for better
+> >> > > > >> clarity, and avoids extra maintenance burden by having just one
+> >> > > > >> function.
+> >> > > > >> 
+> >> > > > >> If I can't assume that casting bool to int always results in 0 or 1,
+> >> > > > >> would it be acceptable to keep the return type as int?
+> >> > > > >> 
+> >> > > > >> Would this work for everyone?
+> >> > > > >
+> >> > > > >Alright, it's clearly a split opinion. So what I would do myself in
+> >> > > > >such case is to look at existing code and see what people who really
+> >> > > > >need parity invent in their drivers:
+> >> > > > >
+> >> > > > >                                     bool      parity_odd
+> >> > > > >static inline int parity8(u8 val)       -               -
+> >> > > > >static u8 calc_parity(u8 val)           -               -
+> >> > > > >static int odd_parity(u8 c)             -               +
+> >> > > > >static int saa711x_odd_parity           -               +
+> >> > > > >static int max3100_do_parity            -               -
+> >> > > > >static inline int parity(unsigned x)    -               -
+> >> > > > >static int bit_parity(u32 pkt)          -               -
+> >> > > > >static int oa_tc6_get_parity(u32 p)     -               -
+> >> > > > >static u32 parity32(__le32 data)        -               -
+> >> > > > >static u32 parity(u32 sample)           -               -
+> >> > > > >static int get_parity(int number,       -               -
+> >> > > > >                      int size)
+> >> > > > >static bool i2cr_check_parity32(u32 v,  +               -
+> >> > > > >                        bool parity)
+> >> > > > >static bool i2cr_check_parity64(u64 v)  +               -
+> >> > > > >static int sw_parity(__u64 t)           -               -
+> >> > > > >static bool parity(u64 value)           +               -
+> >> > > > >
+> >> > > > >Now you can refer to that table say that int parity(uXX) is what
+> >> > > > >people want to see in their drivers.
+> >> > > > >
+> >> > > > >Whichever interface you choose, please discuss it's pros and cons.
+> >> > > > >What bloat-o-meter says for each option? What's maintenance burden?
+> >> > > > >Perf test? Look at generated code?
+> >> > > > >
+> >> > > > >I personally for a macro returning boolean, something like I
+> >> > > > >proposed at the very beginning.
+> >> > > > >
+> >> > > > >Thanks,
+> >> > > > >Yury
+> >> > > > 
+> >> > > > Also, please at least provide a way for an arch to opt in to using the builtins, which seem to produce as good results or better at least on some architectures like x86 and probably with CPU options that imply fast popcnt is available.
+> >> > > 
+> >> > > Yeah. And because linux/bitops.h already includes asm/bitops.h
+> >> > > the simplest way would be wrapping generic implementation with
+> >> > > the #ifndef parity, similarly to how we handle find_next_bit case.
+> >> > > 
+> >> > > So:
+> >> > > 1. Kuan-Wei, please don't invent something like ARCH_HAS_PARITY;
+> >> > > 2. This may, and probably should, be a separate follow-up series,
+> >> > >    likely created by corresponding arch experts.
+> >> > > 
+> >> > I saw discussions in the previous email thread about both
+> >> > __builtin_parity and x86-specific implementations. However, from the
+> >> > discussion, I learned that before considering any optimization, we
+> >> > should first ask: which driver or subsystem actually cares about parity
+> >> > efficiency? If someone does, I can help with a micro-benchmark to
+> >> > provide performance numbers, but I don't have enough domain knowledge
+> >> > to identify hot paths where parity efficiency matters.
+> >> > 
+> >> IMHO,
+> >> 
+> >> If parity is never used in any hot path and we don't care about parity:
+> >> 
+> >> Then benchmarking its performance seems meaningless. In this case, a
+> >> function with a u64 argument would suffice, and we might not even need
+> >> a macro to optimize for different types—especially since the macro
+> >> requires special hacks to avoid compiler warnings. Also, I don't think
+> >> code size matters here. If it does, we should first consider making
+> >> parity a non-inline function in a .c file rather than an inline
+> >> function/macro in a header.
+> >> 
+> >> If parity is used in a hot path:
+> >> 
+> >> We need different handling for different type sizes. As previously
+> >> discussed, x86 assembly might use different instructions for u8 and
+> >> u16. This may sound stubborn, but I want to ask again: should we
+> >> consider using parity8/16/32/64 interfaces? Like in the i3c driver
+> >> example, if we only have a single parity macro that selects an
+> >> implementation based on type size, users must explicitly cast types.
+> >> If future users also need parity in a hot path, they might not be aware
+> >> of this requirement and end up generating suboptimal code. Since we
+> >> care about efficiency and generated code, why not follow hweight() and
+> >> provide separate implementations for different sizes?
+> >> 
+> >It seems no one will reply to my two emails. So, I have summarized
+> >different interface approaches. If there is a next version, I will send
+> >it after the merge window closes.
+> >
+> >Interface 1: Single Function
+> >Description: bool parity_odd(u64)
+> >Pros: Minimal maintenance cost
+> >Cons: Difficult to integrate with architecture-specific implementations
+> >      due to the inability to optimize for different argument sizes
 
+How difficult? It's just as simple as find_next_bit(). I already
+pointed that.
 
-Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> Following the dyndbg-api-fix, replace DECLARE_DYNDBG_CLASSMAP with
-> DRM_CLASSMAP_USE.  This refs the defined & exported classmap, rather
-> than re-declaring it redundantly, and error-prone-ly.
+> >Opinions: Jiri supports this approach
+> >
+> >Interface 2: Single Macro
+> >Description: parity_odd() macro
+> >Pros: Allows type-specific implementation
+> >Cons: Requires hacks to avoid warnings; users may need explicit
+
+So if the hack is documented, it's OK. I don't know the other way to
+motivate compilers to get better other than pointing them to their
+bugs.
+
+> >      casting; potential sub-optimal code on 32-bit x86
+
+Any asm listings? Any real impact?
+
+> >Opinions: Yury supports this approach
+> >
+> >Interface 3: Multiple Functions
+> >Description: bool parity_odd8/16/32/64()
+> >Pros: No need for explicit casting; easy to integrate
+
+Explicit castings are sometimes better than implicit ones.
+
+> >      architecture-specific optimizations; except for parity8(), all
+> >      functions are one-liners with no significant code duplication
+> >Cons: More functions may increase maintenance burden
+
+s/may/will/
+
+> >Opinions: Only I support this approach
+> >
+> >Regards,
+> >Kuan-Wei
 > 
-> This resolves the appearance of "class:_UNKNOWN_" in the control file
-> for the driver's drm_dbg()s.
-> 
-> Fixes: f158936b60a7 ("drm: POC drm on dyndbg - use in core, 2 helpers, 3 drivers.")
-> 
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> You can add me to the final option. I think it makes most sense
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+This is not a democracy, and we are not voting here. We are engineers.
+We share our expert opinions and choose the best one. I'll be happy to
+go with any solution, if we all make sure it's the best.
 
-> ---
->   drivers/gpu/drm/i915/i915_params.c | 12 +-----------
->   1 file changed, 1 insertion(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-> index 37746dd619fd..2dc0e2c06e09 100644
-> --- a/drivers/gpu/drm/i915/i915_params.c
-> +++ b/drivers/gpu/drm/i915/i915_params.c
-> @@ -29,17 +29,7 @@
->   #include "i915_params.h"
->   #include "i915_drv.h"
->   
-> -DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
-> -			"DRM_UT_CORE",
-> -			"DRM_UT_DRIVER",
-> -			"DRM_UT_KMS",
-> -			"DRM_UT_PRIME",
-> -			"DRM_UT_ATOMIC",
-> -			"DRM_UT_VBL",
-> -			"DRM_UT_STATE",
-> -			"DRM_UT_LEASE",
-> -			"DRM_UT_DP",
-> -			"DRM_UT_DRMRES");
-> +DRM_CLASSMAP_USE(drm_debug_classes);
->   
->   #define i915_param_named(name, T, perm, desc) \
->   	module_param_named(name, i915_modparams.name, T, perm); \
+I'm for #2 because it 
+ - generates better code than #1;
+ - easier to use than #3; and
+ - has less maintenance burden than #3.
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Why exactly #3 makes the most sense to you? Most variables are ints
+and longs. How are you going to handle those with fixed-types parity()s?
 
-
+Thanks,
+Yury
