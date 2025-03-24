@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC24A6DE66
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:23:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56200A6DE6A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:23:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6B4B10E47B;
-	Mon, 24 Mar 2025 15:23:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A46FF10E47F;
+	Mon, 24 Mar 2025 15:23:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HxEm+23y";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lLnpiOs9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F57010E47C;
- Mon, 24 Mar 2025 15:23:32 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DC0A04441A;
- Mon, 24 Mar 2025 15:23:29 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC93210E470;
+ Mon, 24 Mar 2025 15:23:40 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E2FCB2047D;
+ Mon, 24 Mar 2025 15:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829811;
+ t=1742829819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Sfhjzf8WQqsEexhtSG8Mnb2j5UTla8RiHjEDRoYc8TM=;
- b=HxEm+23y3efkfVKyw5Huj7fEOjI2TeHPL81n/NmKSZgQlyHiLuWvKE0CxvP6FoP9PkpCMA
- zOAmC/DmA7+ky5oi8pVFCjZlx+GL8jBEzrgyJAEa2yDCg+m6SK6YY147I7SWoCLUNcIAnz
- 1ey6K3TyxMWswHulEhhHVUUY72wRboDZV5d/i5+EjvDV17YpKoaSEdu6Mbg+cDMJIyhcO0
- XNojeS2eg7qToWq9Cz+Tu5ihcv+Uus6+RcudCi+zaDJL3MzgvtUU4x1Tzwjmt1f/g/l/VF
- O/zKoBBXSqSbIxekHEv4oSeBx7kZO0pFv1PfSgZFQ2w1uVsR5EenEYF8M0p0EA==
-Message-ID: <04b28c61-6930-48aa-8775-471311e57486@bootlin.com>
-Date: Mon, 24 Mar 2025 16:23:29 +0100
+ bh=gwRDAlMrRSsbk7Dtkg+geNWaGO0P2ULA+XK/aIHHTyw=;
+ b=lLnpiOs9Z+PoVRIFeSggD1/b1Z2/2EOZ/trBGd2HySvyy1THMeGuY3TW+jDEvsJNqjlaGw
+ 4hZXxNZtOnsKLyzS/4qsKXN91xWSHSaJZpKSOG0ypvmID3ewiObiXdoG2DTufRMjD/9fwv
+ bU/iPvNvDrCqzHuoIIzrQR1imRJxWPZPt6CpP0JwqX0b6wClwaMtGRgnJsvTWkEIua5/T9
+ NYGD2HbVZxZnDI7NtiR2ayxMyctorC7914JDXuj7KG1Zfh904MUcE1nHJAlZfdPJItxL6l
+ cNRVdr2sDQrhbqx5ssShegUxzuU8/G+uF0Bvvxb2WXhjUTtECLDj5Nrh+NEWaA==
+Message-ID: <77cb7a9f-490e-4ab8-b934-da4cb5e49c37@bootlin.com>
+Date: Mon, 24 Mar 2025 16:23:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 38/59] drm-print: fix config-dependent unused variable
+Subject: Re: [PATCH v2 37/59] drm-dyndbg: adapt DRM to invoke
+ DYNAMIC_DEBUG_CLASSMAP_PARAM
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +45,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-39-jim.cromie@gmail.com>
+ <20250320185238.447458-38-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +101,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-39-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-38-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,43 +127,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> With CONFIG_DRM_USE_DYNAMIC_DEBUG=y, __drm_printfn_dbg() gets an
-> unused variable warning/error on 'category', even though the usage
-> follows immediately, in drm_debug_enabled(category).
+> Invoke DYNAMIC_DEBUG_CLASSMAP_PARAM to hook drm.debug (__drm_debug) to the
+> DRM_UT_* classmap, replacing the ad-hoc wiring previously doing it.
 > 
-> For static-key optimized dyndbg, the macro doesn't actually check the
-> category var, since the static-key patches in the proper state.  The
-> compiler evidently sees this lack of reference and complains.
-> 
-> So this drops the local var and refs the field directly in the
-> macro-call, which avoids the warning/error.
+> Add DRM_CLASSMAP_* adapter macros to selectively use
+> DYNAMIC_DEBUG_CLASSMAP_* when DRM_USE_DYNAMIC_DEBUG=y is configured.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-I believe I can merge it before the entire series. Does anyone have any 
-objections?
-
 > ---
->   drivers/gpu/drm/drm_print.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   drivers/gpu/drm/drm_print.c | 8 ++------
+>   include/drm/drm_print.h     | 4 ++++
+>   2 files changed, 6 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> index 46d53fe30204..41ad11247b48 100644
+> index a3b70d104afa..46d53fe30204 100644
 > --- a/drivers/gpu/drm/drm_print.c
 > +++ b/drivers/gpu/drm/drm_print.c
-> @@ -212,9 +212,8 @@ void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf)
->   {
->   	const struct drm_device *drm = p->arg;
->   	const struct device *dev = drm ? drm->dev : NULL;
-> -	enum drm_debug_category category = p->category;
+> @@ -69,12 +69,8 @@ DRM_CLASSMAP_DEFINE(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS,
+>   		    "DRM_UT_DP",
+>   		    "DRM_UT_DRMRES");
 >   
-> -	if (!__drm_debug_enabled(category))
-> +	if (!__drm_debug_enabled(p->category))
->   		return;
+> -static struct ddebug_class_param drm_debug_bitmap = {
+> -	.bits = &__drm_debug,
+> -	.flags = "p",
+> -	.map = &drm_debug_classes,
+> -};
+> -module_param_cb(debug, &param_ops_dyndbg_classes, &drm_debug_bitmap, 0600);
+> +DRM_CLASSMAP_PARAM_REF(debug, __drm_debug, drm_debug_classes, p);
+> +
+>   #endif
 >   
->   	__drm_dev_vprintk(dev, KERN_DEBUG, p->origin, p->prefix, vaf);
+>   void __drm_puts_coredump(struct drm_printer *p, const char *str)
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index e86ebb716b4c..8758449491b8 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -144,9 +144,13 @@ enum drm_debug_category {
+>   #ifdef CONFIG_DRM_USE_DYNAMIC_DEBUG
+>   #define DRM_CLASSMAP_DEFINE(...)    DYNAMIC_DEBUG_CLASSMAP_DEFINE(__VA_ARGS__)
+>   #define DRM_CLASSMAP_USE(name)      DYNAMIC_DEBUG_CLASSMAP_USE(name)
+> +#define DRM_CLASSMAP_PARAM_REF(...) DYNAMIC_DEBUG_CLASSMAP_PARAM_REF(__VA_ARGS__)
+> +#define DRM_CLASSMAP_PARAM(...)     DYNAMIC_DEBUG_CLASSMAP_PARAM(__VA_ARGS__)
+>   #else
+>   #define DRM_CLASSMAP_DEFINE(...)
+>   #define DRM_CLASSMAP_USE(name)
+> +#define DRM_CLASSMAP_PARAM_REF(...)
+> +#define DRM_CLASSMAP_PARAM(...)
+>   #endif
+>   
+>   static inline bool drm_debug_enabled_raw(enum drm_debug_category category)
 
 -- 
 Louis Chauvet, Bootlin
