@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE18A6DE75
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9089DA6DE7C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Mar 2025 16:24:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 346AA10E48B;
-	Mon, 24 Mar 2025 15:24:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA80510E48F;
+	Mon, 24 Mar 2025 15:24:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="igY6St4i";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="j6L9ZM5U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4299510E486;
- Mon, 24 Mar 2025 15:24:09 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 34B21444FA;
- Mon, 24 Mar 2025 15:24:07 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98D2710E48A;
+ Mon, 24 Mar 2025 15:24:18 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E687D442AE;
+ Mon, 24 Mar 2025 15:24:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1742829848;
+ t=1742829857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=znQ6C3HekGECmSVuDKXSu1PS/if+KGW5y1bOHwpc0Cg=;
- b=igY6St4i/ls+yELFg/X6dCG4hA734vxkTv5zkFWdMtQn9UF/DzI4Ft479mjj3iSrfpjz/K
- dLJyVkbu9UQb9n5xBu1ncIGezg4eTAcs5UG8O13GCY+m/uMpdYPvyAqKm3d9Kmpwr3hSXw
- 3tp2zguwGFASo99DNSl+MJGbMoYX1GNy/NniV9HrKSbIa5aHYcO4yX2Kq+hdamd653D1SX
- eY3ATEi9a4nkFHkzr2Dnw5IULaiW2qGofzJybBhR8OOhQC/Su3wZQ5smy2gBFWThc3l5gU
- eD5Kz4jYMHOrA+cUxKk7+BrV0mTlFnq9oJXQwdyj5fMI2SQi625dMbkodcgkWw==
-Message-ID: <440c70ac-1d0f-4ad3-86dc-5c81893467a8@bootlin.com>
-Date: Mon, 24 Mar 2025 16:24:07 +0100
+ bh=OUCMsogd2JcHOhURuNcJUY62vXvySlkpC1K+uVHERsM=;
+ b=j6L9ZM5U8Iyo+X4cAL4w4IvBuFHywSLeytp8bpI5OU+JuTMgUZ6TxCmo9FavcHtCJC/VJB
+ PZRcEl2jHoOhd+0VD68yR5CYkANyZWVe+2B0FhMKyfxJ7gnVTrDwzz0+8owBGRvJEMVkUz
+ JL9v3ToEdo2P6qfApkXsk3/JgPakCNcpmsPxx/pMox+E9xho4bVSTERI/J8zsCtc5GBOVj
+ RIoFGESPLNfklqoWKzBvQBBwZ8eFKe6+ds7pe+/HgZMgRn9jlqDM24F6yCcM/c3s47qu+C
+ PiLBrtiIpVhtn15I5qaQxojhELq7a85bbrn4BXi7rUMEOUucBuycZ9pbA7Z2wg==
+Message-ID: <c3514758-5a22-4acb-8ff0-1f4ddade02f4@bootlin.com>
+Date: Mon, 24 Mar 2025 16:24:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 42/59] drm-dyndbg: DRM_CLASSMAP_USE in drm_dp_helper
+Subject: Re: [PATCH v2 44/59] drm-dyndbg: add DRM_CLASSMAP_USE to Xe driver
 To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -44,7 +44,7 @@ Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-43-jim.cromie@gmail.com>
+ <20250320185238.447458-45-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +100,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250320185238.447458-43-jim.cromie@gmail.com>
+In-Reply-To: <20250320185238.447458-45-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
  dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,46 +126,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> Following the dyndbg-api-fix, replace DECLARE_DYNDBG_CLASSMAP with
-> DRM_CLASSMAP_USE.  This refs the defined & exported classmap, rather
-> than re-declaring it redundantly, and error-prone-ly.
-> 
-> This resolves the appearance of "class:_UNKNOWN_" in the control file
-> for the driver's drm_dbg()s.
-> 
-> Fixes: f158936b60a7 ("drm: POC drm on dyndbg - use in core, 2 helpers, 3 drivers.")
+> Invoke DRM_CLASSMAP_USE from xe_drm_client.c.  When built with
+> CONFIG_DRM_USE_DYNAMIC_DEBUG=y, this tells dydnbg that Xe uses
+> has drm.debug calls.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
 > ---
->   drivers/gpu/drm/display/drm_dp_helper.c | 12 +-----------
->   1 file changed, 1 insertion(+), 11 deletions(-)
+>   drivers/gpu/drm/xe/xe_drm_client.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 61c7c2c588c6..68ba17eb2541 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -43,17 +43,7 @@
+> diff --git a/drivers/gpu/drm/xe/xe_drm_client.c b/drivers/gpu/drm/xe/xe_drm_client.c
+> index 2d4874d2b922..756dba5c88f8 100644
+> --- a/drivers/gpu/drm/xe/xe_drm_client.c
+> +++ b/drivers/gpu/drm/xe/xe_drm_client.c
+> @@ -21,6 +21,8 @@
+>   #include "xe_pm.h"
+>   #include "xe_trace.h"
 >   
->   #include "drm_dp_helper_internal.h"
->   
-> -DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
-> -			"DRM_UT_CORE",
-> -			"DRM_UT_DRIVER",
-> -			"DRM_UT_KMS",
-> -			"DRM_UT_PRIME",
-> -			"DRM_UT_ATOMIC",
-> -			"DRM_UT_VBL",
-> -			"DRM_UT_STATE",
-> -			"DRM_UT_LEASE",
-> -			"DRM_UT_DP",
-> -			"DRM_UT_DRMRES");
 > +DRM_CLASSMAP_USE(drm_debug_classes);
->   
->   struct dp_aux_backlight {
->   	struct backlight_device *base;
+> +
+
+Is xe_drm_client.c the best place to do it? I think the module entry 
+point is a bit better [1].
+
+[1]:https://elixir.bootlin.com/linux/v6.13.7/source/drivers/gpu/drm/xe/xe_module.c
+
+>   /**
+>    * DOC: DRM Client usage stats
+>    *
 
 -- 
 Louis Chauvet, Bootlin
