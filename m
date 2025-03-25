@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CC0A6EC7D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:33:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27071A6ECDD
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:43:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EFD310E274;
-	Tue, 25 Mar 2025 09:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8366A10E394;
+	Tue, 25 Mar 2025 09:43:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PMrf6cTH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c7EGESl2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83BC010E274
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=T0nYQx42N266JQrASnmElfR1fKh4t5cpVOgZ5ffnaaU=; b=PMrf6cTH1U2Ar1g8GzV1JhQgqE
- rgm3gUHN3fq+A3hG3oU3MBYBUs9dqkOrCMvCAMkKXydigtpj58cKqSmqWLBW/pRSqfsRpeMNFiPBu
- puV+3EEV2xh0mcSMkOpz9yg8zNXqGswYbUSufBaSL//uraxlLh2chcA9cHNPu+NaSCv3qI0pdrj7Y
- MmIq4Fn0f7OjHXY5AQxSoEjcETokT0ciRt+/ci7KdIaf6Nkiz6G6GTO4W+OHwZXl0rDqxyMBFM+sw
- WCO8Fj8IQE1oXO0V9IemgHtv+10szWnWwPS04P7dHctdNaSHGsb906K6sFiIid9NHFJvm2E+huiwv
- ztXCaY1Q==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tx0er-0065bK-TG; Tue, 25 Mar 2025 10:33:17 +0100
-Message-ID: <41deeab2-2943-499f-9a3e-19ff7ef08787@igalia.com>
-Date: Tue, 25 Mar 2025 09:33:17 +0000
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3EE610E521
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:43:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A56A9A4A63B;
+ Tue, 25 Mar 2025 09:38:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13445C4CEE4;
+ Tue, 25 Mar 2025 09:43:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742895828;
+ bh=npI0ndsczys6+b4roCsPnmGmK3zIFp25GSsVytASrkc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c7EGESl22gT6F6f7NGR0wf2KlQOYKzG6WRbZRCS1YzkvF+SUgAyo4F352/hr817pc
+ oLvuLYnm6wyKpkZAuPvQB//CW5ljDyGI713pAEODubEvqutRs+TFSJa0JM00aymOGH
+ qhvrNgSW5UX85pac+6Fg0XmcSFpZYzkFee/PVWvRb8asYzwCi2V6xJDk+lGu/oWsEU
+ BhWKYdophdPgOF9cF38/Xm7lHHc7W4cCy8257dY97W9q/SYK+FuR96VjEtJk2lTYJF
+ 0ws+0fGJO4J1kDuAsmuAr5MqDyPpkUw9bZYX0eHP+gcc2IpYpf5BL2jZIGwBCW+45K
+ XBBAYtjlrr0lQ==
+Date: Tue, 25 Mar 2025 10:43:45 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ Danilo Krummrich <dakr@kernel.org>, mcanal@igalia.com,
+ Alice Ryhl <aliceryhl@google.com>, 
+ Simona Vetter <sima@ffwll.ch>, Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Asahi Lina <lina@asahilina.net>, 
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC v3 10/33] rust: drm/kms: Add
+ ConnectorGuard::add_modes_noedid()
+Message-ID: <20250325-sage-catfish-of-art-5eede3@houat>
+References: <20250305230406.567126-1-lyude@redhat.com>
+ <20250305230406.567126-11-lyude@redhat.com>
+ <20250314-observant-cyber-chowchow-bfe5f9@houat>
+ <dea3218eb31f3e91d2a10f93a7bc6cfa674546e6.camel@redhat.com>
+ <2d39187892737438c35791aa59681b1af7e62de7.camel@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] drm/syncobj: Add a fast path to
- drm_syncobj_array_wait_timeout
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com
-References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
- <20250318155424.78552-7-tvrtko.ursulin@igalia.com>
- <da00cb1d-ea1d-4a42-bd07-c769d2283e7a@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <da00cb1d-ea1d-4a42-bd07-c769d2283e7a@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="oxntiycjdkz5tlww"
+Content-Disposition: inline
+In-Reply-To: <2d39187892737438c35791aa59681b1af7e62de7.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,101 +75,93 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 24/03/2025 23:00, Maíra Canal wrote:
-> Hi Tvrtko,
-> 
-> On 18/03/25 12:54, Tvrtko Ursulin wrote:
->> Running the Cyberpunk 2077 benchmark we can observe that waiting on DRM
->> sycobjs is relatively hot, but the 96% of the calls are for a single
->> object. (~4% for two points, and never more than three points. While
->> a more trivial workload like vkmark under Plasma is even more skewed
->> to single point waits.)
->>
->> Therefore lets add a fast path to bypass the kcalloc/kfree and use a pre-
->> allocated stack array for those cases.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> ---
->>   drivers/gpu/drm/drm_syncobj.c | 16 ++++++++++++----
->>   1 file changed, 12 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/ 
->> drm_syncobj.c
->> index b4563c696056..94932b89298f 100644
->> --- a/drivers/gpu/drm/drm_syncobj.c
->> +++ b/drivers/gpu/drm/drm_syncobj.c
->> @@ -1035,6 +1035,7 @@ static signed long 
->> drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->>                             uint32_t *idx,
->>                             ktime_t *deadline)
->>   {
->> +    struct syncobj_wait_entry stack_entries[4];
-> 
-> Can't you initialize as
-> 
-> struct syncobj_wait_entry stack_entries[4] = {0};
-> 
-> ?
+--oxntiycjdkz5tlww
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC v3 10/33] rust: drm/kms: Add
+ ConnectorGuard::add_modes_noedid()
+MIME-Version: 1.0
 
-Could do but I preferred to only do it when it is used.
+On Fri, Mar 21, 2025 at 07:52:23PM -0400, Lyude Paul wrote:
+> On Fri, 2025-03-21 at 19:50 -0400, Lyude Paul wrote:
+> > On Fri, 2025-03-14 at 13:02 +0100, Maxime Ripard wrote:
+> > > On Wed, Mar 05, 2025 at 05:59:26PM -0500, Lyude Paul wrote:
+> > > > A simple binding for drm_add_modes_noedid() using the ConnectorGuar=
+d type
+> > > > we just added.
+> > > >=20
+> > > > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > > > ---
+> > > >  rust/bindings/bindings_helper.h  |  1 +
+> > > >  rust/kernel/drm/kms/connector.rs | 11 +++++++++++
+> > > >  2 files changed, 12 insertions(+)
+> > > >=20
+> > > > diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindin=
+gs_helper.h
+> > > > index 27828dd36d4f2..846eb6eb8fc4c 100644
+> > > > --- a/rust/bindings/bindings_helper.h
+> > > > +++ b/rust/bindings/bindings_helper.h
+> > > > @@ -13,6 +13,7 @@
+> > > >  #include <drm/drm_crtc.h>
+> > > >  #include <drm/drm_device.h>
+> > > >  #include <drm/drm_drv.h>
+> > > > +#include <drm/drm_edid.h>
+> > > >  #include <drm/drm_encoder.h>
+> > > >  #include <drm/drm_file.h>
+> > > >  #include <drm/drm_fbdev_dma.h>
+> > > > diff --git a/rust/kernel/drm/kms/connector.rs b/rust/kernel/drm/kms=
+/connector.rs
+> > > > index 14de3b0529f89..855a47b189a91 100644
+> > > > --- a/rust/kernel/drm/kms/connector.rs
+> > > > +++ b/rust/kernel/drm/kms/connector.rs
+> > > > @@ -446,6 +446,17 @@ fn deref(&self) -> &Self::Target {
+> > > >      }
+> > > >  }
+> > > > =20
+> > > > +impl<'a, T: DriverConnector> ConnectorGuard<'a, T> {
+> > > > +    /// Add modes for a [`ConnectorGuard`] without an EDID.
+> > > > +    ///
+> > > > +    /// Add the specified modes to the connector's mode list up to=
+ the given maximum resultion.
+> > > > +    /// Returns how many modes were added.
+> > > > +    pub fn add_modes_noedid(&self, (max_h, max_v): (i32, i32)) -> =
+i32 {
+> > >=20
+> > > Why do we need a tuple of i32 there instead of two u32/usize paramete=
+r?
+> > >=20
+> > > And the return type should be unsigned as well.
+> >=20
+> > I think I was just copying C (or whatever the bindings here translate t=
+he C
+> > type to), but I don't see any issue with changing this to u32.
+>=20
+> ...wait. Now I remember why I did this: it's not that we expect it to be
+> unsigned, it's that the largest possible u32 value cannot be expressed in=
+ a
+> i32, and I think the C side of things uses i32. Days like this I really w=
+ish
+> we had a u31...
+>=20
+> think it would be OK for us to convert this to unsigned on the C side of
+> things?
 
-> 
->>       struct syncobj_wait_entry *entries;
->>       uint32_t signaled_count, i;
->>       struct dma_fence *fence;
->> @@ -1049,9 +1050,14 @@ static signed long 
->> drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->>           !access_ok(user_points, count * sizeof(*user_points)))
->>           return -EFAULT;
->> -    entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
->> -    if (!entries)
->> -        return -ENOMEM;
->> +    if (count > ARRAY_SIZE(stack_entries)) {
->> +        entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
->> +        if (!entries)
->> +            return -ENOMEM;
->> +    } else {
->> +        memset(stack_entries, 0, sizeof(stack_entries));
-> 
-> Then, you can avoid this step.
-> 
->> +        entries = stack_entries;
->> +    }
->>       /* Walk the list of sync objects and initialize entries.  We do
->>        * this up-front so that we can properly return -EINVAL if there is
->> @@ -1174,7 +1180,9 @@ static signed long 
->> drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->>                             &entries[i].fence_cb);
->>           dma_fence_put(entries[i].fence);
->>       }
->> -    kfree(entries);
->> +
->> +    if (entries != stack_entries)
-> 
-> You can initialize `entries = NULL` and avoid this step.
+Yeah, I can't think of a valid reason to use a signed integer for a
+maximum size.
 
-Hmm where? You mean like:
+Maxime
 
-if (entries == stack_entries)
-	entries = NULL;
-kfree(entries);
+--oxntiycjdkz5tlww
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Or something different?
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ+J6zQAKCRAnX84Zoj2+
+dpXTAYDGVzbqu/X+saivvhCPH2YLWD6MWARZYKBOIeGahaH7hJR2bFSLODMnxhn/
+CZFm0CgBgJCwgds5uW6jOhXIdiWbMZ+/Fp/7ySr9uAG4GFSgohPdfPD17FvpAqoR
+Uz+a+/6NCQ==
+=eYMF
+-----END PGP SIGNATURE-----
 
-Tvrtko
-
-> 
-> Anyway,
-> 
-> Reviewed-by: Maíra Canal <mcanal@igalia.com>
-> 
-> Best Regards,
-> - Maíra
-> 
->> +        kfree(entries);
->>       return timeout;
->>   }
-> 
-
+--oxntiycjdkz5tlww--
