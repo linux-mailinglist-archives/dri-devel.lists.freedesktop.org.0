@@ -2,57 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D74CA6EB32
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 09:12:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50124A6EB31
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 09:12:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A3E910E4FF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A66A10E500;
 	Tue, 25 Mar 2025 08:12:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=posteo.net header.i=@posteo.net header.b="Jio6aTEk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UzanieoL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7C6D10E4AC
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 18:29:35 +0000 (UTC)
-Received: from submission (posteo.de [185.67.36.169]) 
- by mout02.posteo.de (Postfix) with ESMTPS id 4444F240103
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Mar 2025 19:29:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
- t=1742840967; bh=ET4b3AaYE8Ghc/W+tl4x1TdMZ5xfmseummAar90bY94=;
- h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
- Content-Transfer-Encoding:From;
- b=Jio6aTEk1qtcDU+YObeSnJg6KCEhBPxz2pICHEscwOIp03oSyJB78N1vlPJwxOrom
- 9UkLBsdgYQkH+znfnLmUg3gl8O6iiZDmtl6IJU9U1DERwR43h3G9U0tRqfBZ/xZpnj
- zk4ji2MHtSZ336EINFjTCxcpJoD3WZsUVOtPf8g9xocIw8o+vBQGMfLcwtN8Avw6sc
- yf5xCCoIbKHpYKWG+Z78P3Ejyg5+xITnqkUXIJSv/xAJ2siUUZoHEhTUP1JAaLhybJ
- /XqHmasKzt3AoAHFJdHY+bMfuLeVrZUo1G8K7u7vVb3X+8de6eBuEzHvKt6REZL9Zv
- t53xoK8UviKjw==
-Received: from customer (localhost [127.0.0.1])
- by submission (posteo.de) with ESMTPSA id 4ZM1mM3SgSz9rxG;
- Mon, 24 Mar 2025 19:29:23 +0100 (CET)
-From: Charalampos Mitrodimas <charmitro@posteo.net>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,  Benno Lossin
- <benno.lossin@proton.me>,  Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,  Trevor Gross <tmgross@umich.edu>,
- Sumit Semwal <sumit.semwal@linaro.org>,  Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,  Boris Brezillon
- <boris.brezillon@collabora.com>,  linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org,  dri-devel@lists.freedesktop.org,  Asahi
- Lina <lina@asahilina.net>
-Subject: Re: [PATCH 2/2] rust: drm: Add GPUVM abstraction
-In-Reply-To: <20250324-gpuvm-v1-2-7f8213eebb56@collabora.com> (Daniel
- Almeida's message of "Mon, 24 Mar 2025 12:13:55 -0300")
-References: <20250324-gpuvm-v1-0-7f8213eebb56@collabora.com>
- <20250324-gpuvm-v1-2-7f8213eebb56@collabora.com>
-Date: Mon, 24 Mar 2025 18:29:22 +0000
-Message-ID: <m2pli62sfx.fsf@posteo.net>
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6AEF10E009;
+ Tue, 25 Mar 2025 01:49:22 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id
+ af79cd13be357-7c54b651310so774729285a.0; 
+ Mon, 24 Mar 2025 18:49:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1742867361; x=1743472161; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LZary7lJCr9leLHUqm0+3bcbUqSzuAUJ+0Co/QGHNJw=;
+ b=UzanieoLxBASiXtweFL62CwlGURJ9bvp0cI/4gyFwtLru8WYSKJtsEskoEh27r0MIj
+ a5PaKQJXM+LweRpbOosllAk2KBdHHcm6TS584k2ULNU5v//Vn5SVY9NMXlxtV/Hv13Vh
+ uuGvhjzQxwjzAfg2Gva8/1bfhc+etsyEcD87akArtsDUbJl6vHidnZCnFNjizcP49nKW
+ x51J3GfjSdyDfJc32Id7TLxdGlCoyY7pID1toDX8EKpri83y+AddMoe9gYxUX8legKT2
+ i77kw6GcpHwNn413xvUxOePX0fvqINRI0Vd9JesBywciIbd+ivvGsi2bjH+hFfYGLf4Z
+ 0j2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742867361; x=1743472161;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LZary7lJCr9leLHUqm0+3bcbUqSzuAUJ+0Co/QGHNJw=;
+ b=btEVasJYtgh+H8i5MYHpcrE8C/1BLGt646j5cJUNRD62Eo4X4T/1gxAkrIpOaxfExl
+ eDOlRDnrpEF9eRe6VE0JQCArCSAN61KLOYnNLJiWKmFrAubqfEacOQhjyJuN4XurzVeu
+ 12sLsDzlLzzTfmM4PILfx5QxfKNGJhKT/Ula/aihFYo0gtysKKa7wSClRooh4edOll8G
+ Z2/+yaRnYI2oBP28p9GQLmoKrDzTpEje7e8NDwd8N09E7lnpWEd3W66uR9vYPFY53Wjb
+ Y5xwT734HynRqPZQlbuRFY99srcofQyrk5G9ljPOp/WWFOhvsQP8OAjYuSrnGdxhXNPn
+ oXLA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUmIErvD2U/+w7pXxAJ1kNutnNQ+bDZ7NyHFv4XnPkNOi44SQddQVUIuDF02693VTbORVfDkzAVNZmF@lists.freedesktop.org,
+ AJvYcCUsEAf5AbVtbTgD5l4U0NI0S7/Lj0Fn5LBYTKTM9An31fzrELGU+KAeOImRRbFtDYINMG5syMP2@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz41LzafporAWni/1QYLcMgMcgCqSkN/PgA3GnFoyGhpt4j1NRd
+ Ebr1DQGwo34QrsMgAwFuVSKQHqr5zAw0TjkG0l1ORZ+unv8evw0F
+X-Gm-Gg: ASbGncuRY5AD5rMugn9e31IgaCkx6vcnNMk85EVZl4ATDJ+oKqmGHs/gC5X1oHlRXXr
+ WvXiAvmuzC/ZDBwez2MkgjusFHydWHMYfGhaHREudzntsTRqXtymSHRXCK8v/LGaBLyDM53Vc6/
+ WYVE0MbGi2+5ZapPXhI3ANjYnlpYjgeQ7HH4BC3YCaK04VfL5DISLoIEFi2zkx15ascE57ZUUSA
+ 1iXabhGZSblZGSsvwVMgL/R/giQ5oo7cKj4xVmvEvEin7PWrDq4NxiJShxg4Azfg/etovmaSXDC
+ AqRt3UHFoHsDMeyrxvbUotnl8C1AIqkpMThhfP389mYSTQsYL2LipyNP
+X-Google-Smtp-Source: AGHT+IHbDJw6pwBUtJBgbGPD+yF8WaYHrUpLpKHYBRK8TacmFZ8qNmPR4PIiaqNqGMSQA2IUpO0BYg==
+X-Received: by 2002:a05:620a:2a11:b0:7c5:55f9:4bc8 with SMTP id
+ af79cd13be357-7c5ba139e5amr2310475585a.8.1742867361400; 
+ Mon, 24 Mar 2025 18:49:21 -0700 (PDT)
+Received: from zerochan.hsd1.va.comcast.net ([2601:5cf:4180:270::68c4])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7c5b92d4e27sm581171985a.33.2025.03.24.18.49.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Mar 2025 18:49:20 -0700 (PDT)
+From: AnantaSrikar <srikarananta01@gmail.com>
+To: alexander.deucher@amd.com
+Cc: christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ Jack.Xiao@amd.com, sunil.khatri@amd.com, Hawking.Zhang@amd.com,
+ shaoyun.liu@amd.com, Jiadong.Zhu@amd.com, chongli2@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Ananta Srikar <srikarananta01@gmail.com>
+Subject: [PATCH] drm/amd/amdgpu: Fix typo
+Date: Mon, 24 Mar 2025 21:49:12 -0400
+Message-ID: <20250325014912.23911-1-srikarananta01@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 25 Mar 2025 08:12:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,91 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel Almeida <daniel.almeida@collabora.com> writes:
+From: Ananta Srikar <srikarananta01@gmail.com>
 
-> +/// The object returned after a call to [`GpuVm::lock`].
-> +///
-> +/// This object has access to operations that modify the VM's interval t=
-ree.
-> +pub struct LockedGpuVm<'a, T: DriverGpuVm> {
-> +    gpuvm: &'a GpuVm<T>,
-> +}
-> +
-> +impl<T: DriverGpuVm> LockedGpuVm<'_, T> {
-> +    /// Finds the [`GpuVmBo`] object that connects `obj` to this VM.
-> +    ///
-> +    /// If found, increases the reference count of the GpuVmBo object
-> +    /// accordingly.
-> +    pub fn find_bo(&mut self, obj: &DriverObject<T>) -> Option<ARef<GpuV=
-mBo<T>>> {
-> +        // SAFETY: LockedGpuVm implies the right locks are held.
-> +        let p =3D unsafe {
-> +            bindings::drm_gpuvm_bo_find(
-> +                self.gpuvm.gpuvm() as *mut _,
-> +                obj.gem_obj() as *const _ as *mut _,
-> +            )
-> +        };
-> +        if p.is_null() {
-> +            None
-> +        } else {
-> +            // SAFETY: All the drm_gpuvm_bo objects in this GpuVm are al=
-ways allocated by us as GpuVmBo<T>.
-> +            let p =3D unsafe { crate::container_of!(p, GpuVmBo<T>, bo) a=
-s *mut GpuVmBo<T> };
-> +            // SAFETY: We checked for NULL above, and the types ensure t=
-hat
-> +            // this object was created by vm_bo_alloc_callback<T>.
-> +            Some(unsafe { ARef::from_raw(NonNull::new_unchecked(p)) })
-> +        }
+Fixes a typo in the word "version" in an error message.
 
-Hi Daniel,
+Signed-off-by: Ananta Srikar <srikarananta01@gmail.com>
 
-This is mostly eye candy=E2=80=94maybe we can simplify it to just:
-    if p.is_null() {
-       return None;
-    }
+---
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    // SAFETY: All the drm_gpuvm_bo objects in this GpuVm are always alloca=
-ted by us as GpuVmBo<T>.
-    let p =3D unsafe { crate::container_of!(p, GpuVmBo<T>, bo) as *mut GpuV=
-mBo<T> };
-    // SAFETY: We checked for NULL above, and the types ensure that
-    // this object was created by vm_bo_alloc_callback<T>.
-    Some(unsafe { ARef::from_raw(NonNull::new_unchecked(p)) })
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+index f9a4d08eef92..fccf6e255b82 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+@@ -646,7 +646,7 @@ static int mes_v11_0_misc_op(struct amdgpu_mes *mes,
+ 		break;
+ 	case MES_MISC_OP_CHANGE_CONFIG:
+ 		if ((mes->adev->mes.sched_version & AMDGPU_MES_VERSION_MASK) < 0x63) {
+-			dev_err(mes->adev->dev, "MES FW versoin must be larger than 0x63 to support limit single process feature.\n");
++			dev_err(mes->adev->dev, "MES FW version must be larger than 0x63 to support limit single process feature.\n");
+ 			return -EINVAL;
+ 		}
+ 		misc_pkt.opcode = MESAPI_MISC__CHANGE_CONFIG;
+-- 
+2.49.0
 
-
-Same with `fn obtain_bo`?
-
---
-C. Mitrodimas
-
-> +    }
-> +
-> +    /// Obtains the [`GpuVmBo`] object that connects `obj` to this VM.
-> +    ///
-> +    /// This connection is unique, so an instane of [`GpuVmBo`] will be
-> +    /// allocated for `obj` once, and that instance will be returned fro=
-m that
-> +    /// point forward.
-> +    pub fn obtain_bo(&mut self, obj: &DriverObject<T>) -> Result<ARef<Gp=
-uVmBo<T>>> {
-> +        // SAFETY: LockedGpuVm implies the right locks are held.
-> +        let p =3D unsafe {
-> +            bindings::drm_gpuvm_bo_obtain(
-> +                self.gpuvm.gpuvm() as *mut _,
-> +                obj.gem_obj() as *const _ as *mut _,
-> +            )
-> +        };
-> +        if p.is_null() {
-> +            Err(ENOMEM)
-> +        } else {
-> +            // SAFETY: Container invariant is guaranteed for GpuVmBo obj=
-ects for this GpuVm.
-> +            let p =3D unsafe { crate::container_of!(p, GpuVmBo<T>, bo) a=
-s *mut GpuVmBo<T> };
-> +            // SAFETY: We checked for NULL above, and the types ensure t=
-hat
-> +            // this object was created by vm_bo_alloc_callback<T>.
-> +            Ok(unsafe { ARef::from_raw(NonNull::new_unchecked(p)) })
-> +        }
-> +    }
