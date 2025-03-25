@@ -2,92 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199EAA704EF
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 16:24:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E338A7051B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 16:33:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7342010E550;
-	Tue, 25 Mar 2025 15:24:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E0B310E08F;
+	Tue, 25 Mar 2025 15:33:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="I/S8hXcj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VrPHHdOI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2FCD10E550
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 15:24:12 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-54af20849bbso1778747e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 08:24:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1742916250; x=1743521050;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q3+8bsc2QVqd8YR+1dNBTuUVkIye6hV+ORmbDcd3a38=;
- b=I/S8hXcjgoa2eKUjok2S6W5vDs+CY4fFbmMKLUb9Svr1iin5w+Kt9YIXU+s9A+EQi/
- tqcYy7OWEcgG16+C+6RuF/6c9wJLmpeaQxlCf2m23tYVbQm0OICiyj5kEumzDXw+GTiz
- 4rdqAuNVZ30/9bPIqADK2y5Nsr4505XiIf4eI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742916250; x=1743521050;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Q3+8bsc2QVqd8YR+1dNBTuUVkIye6hV+ORmbDcd3a38=;
- b=E5fbhPXMufRtJYo/5G+1oFK7suTFka/ooHlBut9HUDfJjDrgz7H39fr36Onmg3Nnyp
- uqSHxLnSnDtDp/H3g9Wz7f3OQXr3J8wUZ2X2SD4S/DYyP8Jih4S/m2uWo+3XrKHBjjFp
- bjupUsgWeSEJbewno7R0lGMvbM4z2XuNEfdoZjTgJo8BG/+nJyTntzXaQeCFF5Oe3Jg0
- KCp5OOF82wNK+W3g7Tn3GA5YTodXO4gZjK3Ag+/ZhRHcO8SMnpXm5Wd9iqQNPX9GuAtp
- m32z8F2pM6RHTxxtcbWhUmPWo/qBvHw9hd/vwrKJIL6V8FnVAHGfea30egrq+/TMbdNi
- 1pAw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXyd+2YJR/i+wtg3724nTsMKga8PuxZhM7X7+du50kNdCR5xzzDyu9s7qf0qzBt5buuWKaURTkD2vE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZaI6OOvMMk3eEkykn2Hrz/BpTwdgty693Q5xuc1dyi2IBFFKW
- fegD9sHUarKH8D0rDn0PQhlMkn6hGXt7gOblyl5+k8mr6k1Rr+qxPsiZv9nqATkJ+1RCgtD4cRJ
- pOdDd
-X-Gm-Gg: ASbGncuGmfmzuF2A7D/WoXWHYUD5s+EfYE/01JdPZyEwiEO7kmj6yqxSjHata/ypdu2
- xs2IzAsVrwHL+m4+kfyqJ1nt3aQ9ZFpKWCOUE3UCxhXCqjLfLwdg9hXC3lVyXHzbakHQ45Ge4u8
- 4PLvQ5re2VXoKM4yEhvDxqTq/vuzlE72B/8TTGK/0shwLPTlBDE61MNNM5Ag4ZBezn4HrW5UjqZ
- asFxRQ/WhllQCfhl1lJ8VZjCSA07E8JZ6uw/evF6hNEDVLtkO92axbqk9rnKqSveCc66rkKkrt7
- RXKlPP59IzNu3yuV85xHjaYdKz8PqqtaTsq8PxWESsOS2uWFQ7esnL7CjiAtgd7A6VJldXvln01
- zFEClphi5iyDj
-X-Google-Smtp-Source: AGHT+IHrTxznkXuW0vjv60xv5OtAAVZfvweRbsiRYjLzYF99RZl+cfRBPyZ4M1xDqNFyfv4Xs9A9tg==
-X-Received: by 2002:a05:6512:108d:b0:545:10eb:1ab2 with SMTP id
- 2adb3069b0e04-54ad64f611cmr7025670e87.33.1742916249904; 
- Tue, 25 Mar 2025 08:24:09 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com.
- [209.85.208.169]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ad647c79dsm1512068e87.70.2025.03.25.08.24.07
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Mar 2025 08:24:09 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-30bfb6ab47cso55821171fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 08:24:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVslPLETQamle8ssegEcBAYIh8tYDKIOdkpxhQ5hR2xvU27ddl8lWbZT7PtQev8JChjHnXmpW79jfU=@lists.freedesktop.org
-X-Received: by 2002:a2e:be0a:0:b0:30d:62c1:3bdd with SMTP id
- 38308e7fff4ca-30d7e2ba26emr74845121fa.23.1742916247223; Tue, 25 Mar 2025
- 08:24:07 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E40AE10E08F
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 15:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742916823; x=1774452823;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=VO/FeC/YUvCqnZVmykJy2Si80FcogB4gfXD7EsauNVY=;
+ b=VrPHHdOIytOkxCIkmI+G6uFuw339SXgj9P+D2cwZzzyBjaNWcPWGinHW
+ tTKVlGpgZE+NbOyHfdsQTKkTuxHhIBEzALmXeJQmIaEsAXNZpwxhuwyU2
+ yLTX05csXi4a+cOF2WLJKaa7gz6c+2Lw5GF2lnK3vETKrGShvGoBRHZuq
+ fCC4uPcnvf3oRE9icPgtgIR4gpfmxRiC2IeEQQbGMqL5Q8kfrofEFt3+8
+ EcoWKzPyo+TdE7/RRT3cwMRodSvSt48U+vqCuuLsFIaXUO1stJOGphGRS
+ 4KPn014QYmuG8JDjhgL3jOr+Kz0zKb1B9GLw9O+VRmrE8vDETzHHIBfOp A==;
+X-CSE-ConnectionGUID: OWKDPz8oQB2q9uclxwM/dg==
+X-CSE-MsgGUID: wpIsbUhhTfKM3d1AFVqHXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="48046656"
+X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; d="scan'208";a="48046656"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 08:33:42 -0700
+X-CSE-ConnectionGUID: U63iFCtQS5C8lRpMQ5hNoA==
+X-CSE-MsgGUID: 1hSIu9tKRamsF6YgAi+tDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; d="scan'208";a="124364100"
+Received: from mturek.ger.corp.intel.com (HELO [10.245.253.104])
+ ([10.245.253.104])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 08:33:40 -0700
+Message-ID: <47542c02-4c83-435e-811a-904e202d3dfa@linux.intel.com>
+Date: Tue, 25 Mar 2025 16:33:28 +0100
 MIME-Version: 1.0
-References: <20250325094707.961349-1-tejasvipin76@gmail.com>
-In-Reply-To: <20250325094707.961349-1-tejasvipin76@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 25 Mar 2025 08:23:55 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WhVYBjGYJFn7Ooszx5Wgk47vLPj_59MWU6t=LQ-iJbTQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JrWE2x9JIn0TPRim15TMFG4kF_9Ffm6HQx-1emxlt_BczIgP8cT-z7urPc
-Message-ID: <CAD=FV=WhVYBjGYJFn7Ooszx5Wgk47vLPj_59MWU6t=LQ-iJbTQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: himax-hx8394: transition to mipi_dsi
- wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- megi@xff.cz, javierm@redhat.com, quic_jesszhan@quicinc.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asrivats@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/gem-shmem: Optimize DMA mapping for exported buffers
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: sumit.semwal@linaro.org, simona@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de
+References: <20250325133744.23805-1-jacek.lawrynowicz@linux.intel.com>
+ <92f87a44-931a-44af-9acc-65f0d062b611@amd.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <92f87a44-931a-44af-9acc-65f0d062b611@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,23 +77,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Mar 25, 2025 at 2:47=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com=
-> wrote:
->
-> Changes the himax-hx8394 panel to use multi style functions for
-> improved error handling.
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> ---
-> Changes in v2:
->     - Revert behavior change in hx8394_enable
->     - Move variable declaration to top of function
->
-> Link to v1: https://lore.kernel.org/all/20250323053007.681346-1-tejasvipi=
-n76@gmail.com/
-> ---
->  drivers/gpu/drm/panel/panel-himax-hx8394.c | 441 ++++++++++-----------
->  1 file changed, 210 insertions(+), 231 deletions(-)
+On 3/25/2025 2:53 PM, Christian König wrote:
+> Am 25.03.25 um 14:37 schrieb Jacek Lawrynowicz:
+>> Use DMA_ATTR_SKIP_CPU_SYNC flag for exported buffers during DMA mapping.
+>> The same flag is already used by drm_gem_map_dma_buf() for imported
+>> buffers.
+>>
+>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c |  8 ++++++--
+>>  include/drm/drm_gem.h                  | 12 ++++++++++++
+>>  2 files changed, 18 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> index d99dee67353a1..8938d8e3de52f 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -699,7 +699,7 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
+>>  static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_object *shmem)
+>>  {
+>>  	struct drm_gem_object *obj = &shmem->base;
+>> -	int ret;
+>> +	int ret, flags = 0;
+>>  	struct sg_table *sgt;
+>>  
+>>  	if (shmem->sgt)
+>> @@ -716,8 +716,12 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
+>>  		ret = PTR_ERR(sgt);
+>>  		goto err_put_pages;
+>>  	}
+>> +
+>> +	if (drm_gem_is_exported())
+>> +		flags |= DMA_ATTR_SKIP_CPU_SYNC;
+> 
+> We should probably just unconditionally set this flag or not at all.
+> 
+> Otherwise we could run into quite some surprises.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+I see that this flag is usually set in drm_gem_map_dma_buf() and similar callbacks across drm drivers.
+Shouldn't it be the default on x86?
+
+Regards,
+Jacek
