@@ -2,91 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2191DA6EBF3
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 09:51:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD309A6EBF9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 09:54:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A5E10E0BF;
-	Tue, 25 Mar 2025 08:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECD3610E128;
+	Tue, 25 Mar 2025 08:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Bae3CfkH";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="a8AXfXwq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 338A010E128
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 08:50:53 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-2a01bcd0143so7098806fac.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 01:50:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1742892647; x=1743497447; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5eOMTRp7OLNI3VGicdgRH0lRnyRYz67Gt/EAnTu6nbQ=;
- b=Bae3CfkHo0LeCT0CGLyMNupiranA4wbi/A9RKuc2TJSFUGZEsZncW96iSQ31a8e+E9
- HHbVxUnBctgBwm05gV07TBLF4np/a76X3hSjXri5PTN5YX5Kmtb1jFrDNioLnNWsFwlO
- v6WfHkJsM3ZAnn1L1BeM51nYMl8oGgXYH8ABoOdtydEs329/N0K0+lV1xK4Uqkd8ISaS
- J61ob1wATCuMrUY3czYo4qj8J8jBQ2ygmsJFCQ0PKTjOaaNeBNdbyUGRc3gLfIy9xeco
- YRxd1Hubzd6Idk9R4mod+MDZPyPs8HpOcLWY8RVfPHer1RwZ3ZqMMXhNQhzFRUpAi48r
- hSpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742892647; x=1743497447;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5eOMTRp7OLNI3VGicdgRH0lRnyRYz67Gt/EAnTu6nbQ=;
- b=IcGOCV3+3VHmTX5rnY29thrVLTzf4XrE/eJt8ebbBm5s+41HaKpo4bzqTJO+gexSEz
- NJ/IZvDziHq1uo4aI+xC4OOiUF2WQR/qYeNw+RyREhkt7DNTLyUkHYVpANMRnRIoBrao
- +5ziY8cjkZbA8uHn9vw+TXRbT833L6s5gHJnuH75tMo9e5zGvareKlRWkeFNU6KDFIC/
- NJ+JwKnh0+cFsd+xyxIXhe8qOjDy8WlxaZEgiqF0Oh9IgLmC/IxRwn42PGfVHGi3ZGBb
- Yvan5jbqk/oYBr34h5lLbAA6PzOIbLjQ/D8dglSN5RwTxH3zU4uuzJWVSSmeu7mGYC6u
- btZA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUciFoHhfnSTxB6vu3M3z8aPa5Dhy/uFRz9MDj5cwN0d1dubxz15v65Z3q+UXztYz0G2itmRe5VWdo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnPU6j2oYK252dW1faHj6c17HE9DFeyb377g3VZ9GVickpdpuI
- WRczZw7BDVvPW7P0Gpgt8D++t8MyOl5GJ0oE9KLsd9/4Syux9MoY0q3HgmYtZRcDr7H0oOeQacA
- 81TvaocYBOhcl/Mi5MB783+vfSAuQKzYCC7cntPuU+hXrZzlnK5Y=
-X-Gm-Gg: ASbGncsvyEuRN8BYeBzhB5hZ094liUQoQpurWaKVkqB26+8KMF6r2/sYmNECpMi/hLe
- F/W1AbK83mRuB/l6lErWDpxn3K7M+B+uzU8oM935jbz2ZV2nd7DO9SMHIa7VPlYcz5G6CenEs1Q
- ggH47MBi5jNQ0R/+4OcC4oySQcZ8M=
-X-Google-Smtp-Source: AGHT+IE1lc0Le+Xn4IPuxfRnWH1Z92SoqlO8A5APVOUx7ahbqOTcRxJtSaNA/0G1hYCe0KPtkwaeflutY9Bv2ysJ0iU=
-X-Received: by 2002:a05:6871:c714:b0:2b8:84d7:ddd5 with SMTP id
- 586e51a60fabf-2c78054a998mr9647125fac.39.1742892647207; Tue, 25 Mar 2025
- 01:50:47 -0700 (PDT)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4F5D10E128
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 08:53:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FkklFw8kNVrJdasNCZsQ2n/fNHKDD2EyRd7cpaKpD61Kr/gLgKzgxcTf7M7qvEhQ6kg6e8NQn5YwrYCvw9+geHuJAHPtqmwsfDl/+XRGXfrPWwaqlYQFNk6V9lSelaaEoatd5xWXFKptoyhLXg/RKFyMQMfRLGNMfnrMc+Y7CZkFADtVd5ZFHNK0z8pIac01k0xTTcTmogBrldfefhJ/rQlbefoZF7m4RwNDayTl542w3sqOSOrZPD7VTUmo1uJDZWk0uY/qlONgtux3JiqgF2zcHeVQlXiR4sx3jK3kaI1pdZxfJThEpRyr/x47vjNOGS0tabh7KqVayUjWUiPPrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aVGhXo/B9a/d4bF9177Xo6kxwPvCE+f160IrQJPXnV0=;
+ b=hOT/z07p2iXcuL/tY/NBEyRIgExI4yzgLwng0+Rg77w2WButvIfR9fBZQ6Za0jWekBbakQOkkgNjUjTC7nMOJ7mfSdw+zAnota8OCYCzTfC9Nv/YZE+bGMJsq3VQfm8Y95/Q7/+DsvZKl7d/PnHlnO3zQQW0YwGPv2Njue3L2Rjfn/nOvy9/74xMm6l7N0AoRM00rpO4rvOl4egmY5JOYBHlwHfcfKR01Hzi1dMgfKNAwCC43Vny2nSQRhD3X56etcSVe1YG9CvyPTjJsH+NxeYpxvds9zRiTPYlueqwRjaOAripIK+hsrmnR96Vh3EsowePCwcWDaq8u7nSDJtKaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aVGhXo/B9a/d4bF9177Xo6kxwPvCE+f160IrQJPXnV0=;
+ b=a8AXfXwqrv0rsI9uvkRNhSpL9eCL+uc3BITVYY39niWslEVBXyfm531hTpL5WFb7XlXNuf3G6r62cQsBdDHblV6ERSUqNy7mhEaSyQa8iNPtUjPwmjuXzJupIhMeSy+rNk9oFzNB0mirkV9Zc4eZ74YU0jU8Qgx0tLhNIw3OjF0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS7PR12MB5840.namprd12.prod.outlook.com (2603:10b6:8:7b::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Tue, 25 Mar
+ 2025 08:53:47 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.026; Tue, 25 Mar 2025
+ 08:53:46 +0000
+Message-ID: <099dbff3-42fb-4445-b5a0-1c4031bb9e7c@amd.com>
+Date: Tue, 25 Mar 2025 09:53:41 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] udmabuf: fix a buf size overflow issue during udmabuf
+ creation
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "Xiaogang.Chen" <xiaogang.chen@amd.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
+References: <20250321164126.329638-1-xiaogang.chen@amd.com>
+ <555feb70-5d80-4a36-818f-f00fbc3dff23@amd.com>
+ <IA0PR11MB718563F5C571E07F1314F152F8A72@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <IA0PR11MB718563F5C571E07F1314F152F8A72@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR5P281CA0054.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f0::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
- <20250305130634.1850178-4-jens.wiklander@linaro.org>
- <Z9K2RQYuXSJc8Y1E@sumit-X1>
- <CAHUa44H5Zc_POJ_RWaVd4iFVagRkFaN+8Ajs=19FKboZapbQHw@mail.gmail.com>
- <Z9vfD4UWSrqSTPnP@sumit-X1>
- <CAHUa44HY-jZCoDXKnx-f4gBoABRVdh1+6PA1AYHSva9aL=rDAA@mail.gmail.com>
- <Z-JFagmbZBQd0hoM@sumit-X1>
-In-Reply-To: <Z-JFagmbZBQd0hoM@sumit-X1>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 25 Mar 2025 09:50:35 +0100
-X-Gm-Features: AQ5f1JqCL9i7_V-pA06IP3-j62y0ZfeHI3kPwPORgKYNirOFYekFlp01JSrl9PM
-Message-ID: <CAHUa44HXHwR1_LbjG6T5OqnafXiS4-kHeKjV9TurGORx3SsprQ@mail.gmail.com>
-Subject: Re: [PATCH v6 03/10] optee: account for direction while converting
- parameters
-To: Sumit Garg <sumit.garg@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, 
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS7PR12MB5840:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7d5acd7-6a02-4843-0422-08dd6b7a8db0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MzdqTXFaQ2lZUnhzTnFaM0wyeERnbytKSVdJNGpEVkJ2TjFrTWdaYjQ4ZWFl?=
+ =?utf-8?B?WmJyMkZhZFlkcysxbHd3bW9NSkNURTZMZFlTc0pqVE1LOU9CSVZrbldYTVBL?=
+ =?utf-8?B?dERONDlQejNZbEhpbERzZGRjN3hFR2d5c3BTUGJlcG5JbjJWK3RzcXFrS2lN?=
+ =?utf-8?B?dU40M1ZCL1VBSVBsdkJqZEpCRjJMaW9EbHBzbStaOC8waWpZZE5YaWZMZlpS?=
+ =?utf-8?B?OGw4RVk2WkoyREtDa25UOG8wZjUrM2c2UU1mRUp4Tmx4ODVsMXM1bmhVTHkr?=
+ =?utf-8?B?THk4Tm5yQWptYU5vZGVudTU3OC9xSFhjbklJWGJzbkNYMUsvcmZBc3ErUXFW?=
+ =?utf-8?B?OXo3bk1SaFVtQmtKcEFleU91YXl2cmhFdlhYaHo5WVRPSVpJV2h5S1FlWVc0?=
+ =?utf-8?B?aWJDRGRPVUJveExvazZRa3I5Z3d4YzVTUDFZYXA5T3huMFZzUWdKU0trNjB5?=
+ =?utf-8?B?N0Z1OENueXl3U1hocGorY21WdXIyd0wxa2NlNTdSakZ2SWZ0cGVJNmFHeFg2?=
+ =?utf-8?B?emFFTEdFVXY2dFRTUXcvZGUxNkQ3bm1MV3FNUTFtcUpERHdLemZWSjVwL3Fu?=
+ =?utf-8?B?UGMrdDFmYlp0N1g3ajR5TkJndDJmWDd2OTNBeEJNMzQ0TWRMcDNIRjBxb2Zq?=
+ =?utf-8?B?Z201ZXJGZHBXaHhTYWsvV0JFSlpKbkozTWRTZFpmVmovczd2cGdtQm90TjZT?=
+ =?utf-8?B?UE9CS3dtYU5GS2F1a2ZCaWlDbEpuekVGZktLeFpSUlgzRnpPQXlPYU4rdFRH?=
+ =?utf-8?B?V3d5MHMzakZ1cENhQXJSZ0t6L2RZR3lqTFNBNTUyaC8zaUJFT2I0OG1ka3dK?=
+ =?utf-8?B?QXpjL1RlMkxTaGo4eUgxaTI4V0ZGQnRzQkJ1Z0tpeHB1bUNOd3VtcHRhV0w3?=
+ =?utf-8?B?TlBCRWF0NHBVSmplazlsYjFGZElXUjNKc3FXamtQd1pEY2p5b3didUdiSXRY?=
+ =?utf-8?B?R091UHdsZnNBUDBWRkVwUFU3QlVDeFc0OGJLR3ZZS0NiZFVkdnNWZzBrcmE1?=
+ =?utf-8?B?eFBsMlVUejR4NzdKSnMwTlhheEh2clRDcGRyaElXNkJQblhEMGRnRTBlTmJ3?=
+ =?utf-8?B?b2tJQWFqcGVicEMxbm1KbXZWTnJQMDBLZ0J5dWFBUUhuYnRWQ1pwdHJkOXVi?=
+ =?utf-8?B?WHNnT2gvbmw4QkNValFtbG1JVmt3MGdaSXBQaW1YYU5qYVJjdlJiS1RjMURx?=
+ =?utf-8?B?NXlWZXdoZGgxWU9ra3hQd0FVeXJhSE5jTUUxc3RHdkJCdGNmaGFQbDkvSFAx?=
+ =?utf-8?B?b2g1VHNzK1ZoSGk2SWhNRHpMRUREcUlvNktzTkQwU0p2SmFJRGZhdXU2TFJk?=
+ =?utf-8?B?VUxvOWFBOUNyb0FOaFhGcmhFWG1uVkRPNGxQbS9GZFp1NzhOalhFRElrQ3F1?=
+ =?utf-8?B?V0YyZnQ5TTlxb0h4TWpsbHp3UGZoZStxbFh0cTNta0NLd0VLazB4NWhYd0U1?=
+ =?utf-8?B?WjZ2eG5wK090UnkzaGJvVlZYUU03dkJQSTE5TWZMbitrZnV4Wi9hcURZQ3hG?=
+ =?utf-8?B?UndYUzhBNktaMmpQdW81c2ZvUjJUZmhreUVtYkt2UWRsak00Z1dXaWZsb1Fv?=
+ =?utf-8?B?dlNLTUM0M2xqUkFsUjRDelV4NnNCWlF2QUovWFpwSXFIeTJnQVZ5eTQ2c0Fa?=
+ =?utf-8?B?SUJQVE9Kc2hOQW81YkdMbWNmcjF2QlMwaW1iZUoxdTYwTGRJZ3Q1WmpPK3RI?=
+ =?utf-8?B?NGRGdFNXMURHSUszY2pWdzVRNTZ2WjBDVTR6UUZ5aXRzUllEYlVETXFrQXRP?=
+ =?utf-8?B?dVoyTXRBQXQ2TXpETzBZSmp3Nnd4ZHZqbUNuY1BxYUZ4QlF6Sm5VMHpTMkNl?=
+ =?utf-8?B?b1pVVTBlaitEbTE2MnI1Q1V0aDhIYWlCQ1NFNTI3V2tFcEx0MlFwM0lJRFhZ?=
+ =?utf-8?Q?KXXMQDq/Hc2Gn?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TllUaDN2Z0VNYUd6dW5KVE9lTWg3NTA5YVRKbjRXbnU3NWVTc2J4bkVPd2h5?=
+ =?utf-8?B?NUt6amY3aEM4b2tQaFZLMHY5aE9MdW1ZN2VsdU5PTUl4ZWl5YVQzV0M1bEVz?=
+ =?utf-8?B?K3NzS0twTzgvYmtUVG0zNmZ4TlgxRlBoTlh5N0ZHalpZRURCZHh4a29BOWt1?=
+ =?utf-8?B?VVRDUWRaZy82UzZZckZwY2RZNFErbnV0VEFOTndjT2xUaHM1NUkrZzRsZnhN?=
+ =?utf-8?B?M3N6ZVRadlZ4Wnc4T2pFbDZaUzkxam9Za0s4cmNRbmg1enBSOXl2enVLenhZ?=
+ =?utf-8?B?V1pJeWVnbXd5ZWZqMTV1a3JQblNmQUxObi9BUWlrYWNONGdQQU83dDlkbFF4?=
+ =?utf-8?B?SzFNMC96U2Q0NklsdmdQemlwVjRJU3JUM1ZOekgwcy9VWXU2ZXFObWhrYStn?=
+ =?utf-8?B?SlVCaFRGM1F2aHlEa1MveUpOQzJtenczZTdsQUZhZGF5ZlJ2WWxTeXdXYXh1?=
+ =?utf-8?B?VFJUaUpSTUZtekp2VytONEhXL0Y1RFpSTVlRT0dNNXhhaTdPajhpSzhBM1lh?=
+ =?utf-8?B?OUZFZE1xMkNnZi9JZ09KR3VEUjQ4SXkvWDNSN05sb0RpRkVsaURVanB5QTNh?=
+ =?utf-8?B?Y2FMMmZxaDl4NkpkTzhXd2kzdS9MdWtBemhEZ29UOStiUTVjY3RBeWphOXIv?=
+ =?utf-8?B?LzZEakU1UnMwK1l4WHEwR1g0STduazBoNEw2M0luTUxmTkpUNlBteHRpbVZ1?=
+ =?utf-8?B?QU9MTkhxVy9ZN2x2YkhXaEpwN0V4Ukp0emtvU3RQSUx2K1VuQXA0dTVXR2lk?=
+ =?utf-8?B?b0NPSGJGMjVoUER6ejR5YzZmQWlTZDRkUnFIUFlPMjQ3VW1TcE8wWU5xdEZO?=
+ =?utf-8?B?RjZ4a3RaUTEzWnlXZ3FLbXJUQjczUXFtczF4OVF6MkpLNHd6S1k2cTVsTktx?=
+ =?utf-8?B?NXQwVElzRll0dXZncXFYSGRkRXJlZDlOTVk1M0ZUcmxzSHUrcTR3WTFTejJp?=
+ =?utf-8?B?NmdYQ0hFOUFZTnQ2YlExTnFHc2NQeTRrdS9MbmswZWVkbnEzazdUVW5EYjdP?=
+ =?utf-8?B?WUx5R0x3eVZKTnhYd254TE16cHphOFFyNUlJYlBmaUdVbk9kaUI3Tk8zUVdB?=
+ =?utf-8?B?OTlUaytMV3c4YUM1R0pZSlZiYzVzQnQ2TWkxTlQ5SVl0eXZENjJHTVNSUzVX?=
+ =?utf-8?B?eXllbWE1REYyZlk0dkd4b0lpMHBJVkhTYUEzWFJBZEFSQUhlcmV0NS9Ra0wx?=
+ =?utf-8?B?SmVmVnlUWDRHcE1PWU9ET3hGOUdCaUVDU3I0ekwvdHF6d1F1WVVUVnM1Y0w4?=
+ =?utf-8?B?VklSLy9NcExqWnNQSm9iK0RhSGw5bVRaRFlBbWF0UTYwZGtxaVR3OXVhMDRH?=
+ =?utf-8?B?Z1FXYlhOZzhHWEZaSlRQYnNOQjBsT1VrMlZNWmYxNGFhQjRFN3lPUEgzZENI?=
+ =?utf-8?B?YXppRTVqazJCWXVEbThXZk5NMGlkNHoxU2JBblg1anE1ZTFQcWZPbjZXK0NV?=
+ =?utf-8?B?WkgxdjI2ZnlCWFQxdkxNblFrYUd2a0dWYkdEc0d3QnB3ZC9ISzFHMndXNFhn?=
+ =?utf-8?B?WTEvUzNXRlRDelY5QXI3TTYwTC9VYS9BT1JBbmIvVG1BRGxWV2RINlJ0SzlN?=
+ =?utf-8?B?WFRxeFNVZUp3NDNIaFFrWHh3dXl3OUpFcjNvRDUzN01KR25FR2Vsdi9welV5?=
+ =?utf-8?B?cE0ra1BEU2w5ZEc3UXJ5ZmYweks0WWw5dHFGeXEvRFRWeXdkdmlWalNYQzBk?=
+ =?utf-8?B?MEZBbDV1UzFNM09oUEt1YWZxcXRkWktOWVcybjlXY0h5WDRmS1BJZlBSbytP?=
+ =?utf-8?B?TTAyRGh2R25JV1hnME9yaUJxNm8vcTZQMEU0b2tpaFY5Mi90b0JhVXMxUUs0?=
+ =?utf-8?B?eXZxRFRNZTh6RmdsemprTUwrZjl0Q2R3NUhsN040UnQ2RDBJM29sbHp3Y096?=
+ =?utf-8?B?aDZ3M21UYkNQb0pwT3lVWHZEVjF5dVFYNG9iQ0taeE5jVmh0TVNTMTlwVWhN?=
+ =?utf-8?B?Q0k1ZUpnU3hLa2Z6K1l1dkp5RlBTcTRYTEtyRzY0dm5pYlZjcXNmU2RUQ3Jp?=
+ =?utf-8?B?TjlJSnRrMjdNdUxrMWVoc3BZS3FySmNlZStkTVI3SEVFN3lCWXYzUU9kbkMv?=
+ =?utf-8?B?eGlHNTBNTlozdnkrU3JsY2VPTkl1U0xHcHo4S1lOOTVjTWNhRzRRb1pmY0xH?=
+ =?utf-8?Q?eLCXSr4sdMQrUr9CTKDO3DiHa?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7d5acd7-6a02-4843-0422-08dd6b7a8db0
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2025 08:53:46.5107 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YbvpojbtNmDUuQVTMBwVoPtZ7XjEtAPXOAHz9V3Cdt9APPKUdN0JEYdH7v3iQ3Z7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5840
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,383 +168,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 25, 2025 at 6:56=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> =
-wrote:
+Am 25.03.25 um 07:23 schrieb Kasireddy, Vivek:
+> Hi Christian,
 >
-> On Thu, Mar 20, 2025 at 02:00:57PM +0100, Jens Wiklander wrote:
-> > Hi Sumit,
-> >
-> > On Thu, Mar 20, 2025 at 10:25=E2=80=AFAM Sumit Garg <sumit.garg@kernel.=
-org> wrote:
-> > >
-> > > Hi Jens,
-> > >
-> > > On Mon, Mar 17, 2025 at 08:42:01AM +0100, Jens Wiklander wrote:
-> > > > Hi Sumit,
-> > > >
-> > > > On Thu, Mar 13, 2025 at 11:41=E2=80=AFAM Sumit Garg <sumit.garg@ker=
-nel.org> wrote:
-> > > > >
-> > > > > Hi Jens,
-> > > > >
-> > > > > On Wed, Mar 05, 2025 at 02:04:09PM +0100, Jens Wiklander wrote:
-> > > > > > The OP-TEE backend driver has two internal function pointers to=
- convert
-> > > > > > between the subsystem type struct tee_param and the OP-TEE type=
- struct
-> > > > > > optee_msg_param.
-> > > > > >
-> > > > > > The conversion is done from one of the types to the other, whic=
-h is then
-> > > > > > involved in some operation and finally converted back to the or=
-iginal
-> > > > > > type. When converting to prepare the parameters for the operati=
-on, all
-> > > > > > fields must be taken into account, but then converting back, it=
-'s enough
-> > > > > > to update only out-values and out-sizes. So, an update_out para=
-meter is
-> > > > > > added to the conversion functions to tell if all or only some f=
-ields
-> > > > > > must be copied.
-> > > > > >
-> > > > > > This is needed in a later patch where it might get confusing wh=
-en
-> > > > > > converting back in from_msg_param() callback since an allocated
-> > > > > > restricted SHM can be using the sec_world_id of the used restri=
-cted
-> > > > > > memory pool and that doesn't translate back well.
-> > > > > >
-> > > > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > > > > > ---
-> > > > > >  drivers/tee/optee/call.c          | 10 ++--
-> > > > > >  drivers/tee/optee/ffa_abi.c       | 43 +++++++++++++----
-> > > > > >  drivers/tee/optee/optee_private.h | 42 +++++++++++------
-> > > > > >  drivers/tee/optee/rpc.c           | 31 +++++++++----
-> > > > > >  drivers/tee/optee/smc_abi.c       | 76 +++++++++++++++++++++++=
---------
-> > > > > >  5 files changed, 144 insertions(+), 58 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/tee/optee/call.c b/drivers/tee/optee/call.=
-c
-> > > > > > index 16eb953e14bb..f1533b894726 100644
-> > > > > > --- a/drivers/tee/optee/call.c
-> > > > > > +++ b/drivers/tee/optee/call.c
-> > > > > > @@ -400,7 +400,8 @@ int optee_open_session(struct tee_context *=
-ctx,
-> > > > > >       export_uuid(msg_arg->params[1].u.octets, &client_uuid);
-> > > > > >
-> > > > > >       rc =3D optee->ops->to_msg_param(optee, msg_arg->params + =
-2,
-> > > > > > -                                   arg->num_params, param);
-> > > > > > +                                   arg->num_params, param,
-> > > > > > +                                   false /*!update_out*/);
-> > > > > >       if (rc)
-> > > > > >               goto out;
-> > > > > >
-> > > > > > @@ -427,7 +428,8 @@ int optee_open_session(struct tee_context *=
-ctx,
-> > > > > >       }
-> > > > > >
-> > > > > >       if (optee->ops->from_msg_param(optee, param, arg->num_par=
-ams,
-> > > > > > -                                    msg_arg->params + 2)) {
-> > > > > > +                                    msg_arg->params + 2,
-> > > > > > +                                    true /*update_out*/)) {
-> > > > > >               arg->ret =3D TEEC_ERROR_COMMUNICATION;
-> > > > > >               arg->ret_origin =3D TEEC_ORIGIN_COMMS;
-> > > > > >               /* Close session again to avoid leakage */
-> > > > > > @@ -541,7 +543,7 @@ int optee_invoke_func(struct tee_context *c=
-tx, struct tee_ioctl_invoke_arg *arg,
-> > > > > >       msg_arg->cancel_id =3D arg->cancel_id;
-> > > > > >
-> > > > > >       rc =3D optee->ops->to_msg_param(optee, msg_arg->params, a=
-rg->num_params,
-> > > > > > -                                   param);
-> > > > > > +                                   param, false /*!update_out*=
-/);
-> > > > > >       if (rc)
-> > > > > >               goto out;
-> > > > > >
-> > > > > > @@ -551,7 +553,7 @@ int optee_invoke_func(struct tee_context *c=
-tx, struct tee_ioctl_invoke_arg *arg,
-> > > > > >       }
-> > > > > >
-> > > > > >       if (optee->ops->from_msg_param(optee, param, arg->num_par=
-ams,
-> > > > > > -                                    msg_arg->params)) {
-> > > > > > +                                    msg_arg->params, true /*up=
-date_out*/)) {
-> > > > > >               msg_arg->ret =3D TEEC_ERROR_COMMUNICATION;
-> > > > > >               msg_arg->ret_origin =3D TEEC_ORIGIN_COMMS;
-> > > > > >       }
-> > > > > > diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ff=
-a_abi.c
-> > > > > > index 4ca1d5161b82..e4b08cd195f3 100644
-> > > > > > --- a/drivers/tee/optee/ffa_abi.c
-> > > > > > +++ b/drivers/tee/optee/ffa_abi.c
-> > > > > > @@ -122,15 +122,21 @@ static int optee_shm_rem_ffa_handle(struc=
-t optee *optee, u64 global_id)
-> > > > > >   */
-> > > > > >
-> > > > > >  static void from_msg_param_ffa_mem(struct optee *optee, struct=
- tee_param *p,
-> > > > > > -                                u32 attr, const struct optee_m=
-sg_param *mp)
-> > > > > > +                                u32 attr, const struct optee_m=
-sg_param *mp,
-> > > > > > +                                bool update_out)
-> > > > > >  {
-> > > > > >       struct tee_shm *shm =3D NULL;
-> > > > > >       u64 offs_high =3D 0;
-> > > > > >       u64 offs_low =3D 0;
-> > > > > >
-> > > > > > +     if (update_out) {
-> > > > > > +             if (attr =3D=3D OPTEE_MSG_ATTR_TYPE_FMEM_INPUT)
-> > > > > > +                     return;
-> > > > > > +             goto out;
-> > > > > > +     }
-> > > > > > +
-> > > > > >       p->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT +
-> > > > > >                 attr - OPTEE_MSG_ATTR_TYPE_FMEM_INPUT;
-> > > > > > -     p->u.memref.size =3D mp->u.fmem.size;
-> > > > > >
-> > > > > >       if (mp->u.fmem.global_id !=3D OPTEE_MSG_FMEM_INVALID_GLOB=
-AL_ID)
-> > > > > >               shm =3D optee_shm_from_ffa_handle(optee, mp->u.fm=
-em.global_id);
-> > > > > > @@ -141,6 +147,8 @@ static void from_msg_param_ffa_mem(struct o=
-ptee *optee, struct tee_param *p,
-> > > > > >               offs_high =3D mp->u.fmem.offs_high;
-> > > > > >       }
-> > > > > >       p->u.memref.shm_offs =3D offs_low | offs_high << 32;
-> > > > > > +out:
-> > > > > > +     p->u.memref.size =3D mp->u.fmem.size;
-> > > > > >  }
-> > > > > >
-> > > > > >  /**
-> > > > > > @@ -150,12 +158,14 @@ static void from_msg_param_ffa_mem(struct=
- optee *optee, struct tee_param *p,
-> > > > > >   * @params:  subsystem internal parameter representation
-> > > > > >   * @num_params:      number of elements in the parameter array=
-s
-> > > > > >   * @msg_params:      OPTEE_MSG parameters
-> > > > > > + * @update_out: update parameter for output only
-> > > > > >   *
-> > > > > >   * Returns 0 on success or <0 on failure
-> > > > > >   */
-> > > > > >  static int optee_ffa_from_msg_param(struct optee *optee,
-> > > > > >                                   struct tee_param *params, siz=
-e_t num_params,
-> > > > > > -                                 const struct optee_msg_param =
-*msg_params)
-> > > > > > +                                 const struct optee_msg_param =
-*msg_params,
-> > > > > > +                                 bool update_out)
-> > > > > >  {
-> > > > > >       size_t n;
-> > > > > >
-> > > > > > @@ -166,18 +176,20 @@ static int optee_ffa_from_msg_param(struc=
-t optee *optee,
-> > > > > >
-> > > > > >               switch (attr) {
-> > > > > >               case OPTEE_MSG_ATTR_TYPE_NONE:
-> > > > > > +                     if (update_out)
-> > > > > > +                             break;
-> > > > > >                       p->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_NON=
-E;
-> > > > > >                       memset(&p->u, 0, sizeof(p->u));
-> > > > > >                       break;
-> > > > > >               case OPTEE_MSG_ATTR_TYPE_VALUE_INPUT:
-> > > > > >               case OPTEE_MSG_ATTR_TYPE_VALUE_OUTPUT:
-> > > > > >               case OPTEE_MSG_ATTR_TYPE_VALUE_INOUT:
-> > > > > > -                     optee_from_msg_param_value(p, attr, mp);
-> > > > > > +                     optee_from_msg_param_value(p, attr, mp, u=
-pdate_out);
-> > > > > >                       break;
-> > > > > >               case OPTEE_MSG_ATTR_TYPE_FMEM_INPUT:
-> > > > > >               case OPTEE_MSG_ATTR_TYPE_FMEM_OUTPUT:
-> > > > > >               case OPTEE_MSG_ATTR_TYPE_FMEM_INOUT:
-> > > > > > -                     from_msg_param_ffa_mem(optee, p, attr, mp=
-);
-> > > > > > +                     from_msg_param_ffa_mem(optee, p, attr, mp=
-, update_out);
-> > > > > >                       break;
-> > > > > >               default:
-> > > > > >                       return -EINVAL;
-> > > > > > @@ -188,10 +200,16 @@ static int optee_ffa_from_msg_param(struc=
-t optee *optee,
-> > > > > >  }
-> > > > > >
-> > > > > >  static int to_msg_param_ffa_mem(struct optee_msg_param *mp,
-> > > > > > -                             const struct tee_param *p)
-> > > > > > +                             const struct tee_param *p, bool u=
-pdate_out)
-> > > > > >  {
-> > > > > >       struct tee_shm *shm =3D p->u.memref.shm;
-> > > > > >
-> > > > > > +     if (update_out) {
-> > > > > > +             if (p->attr =3D=3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMR=
-EF_INPUT)
-> > > > > > +                     return 0;
-> > > > > > +             goto out;
-> > > > > > +     }
-> > > > > > +
-> > > > > >       mp->attr =3D OPTEE_MSG_ATTR_TYPE_FMEM_INPUT + p->attr -
-> > > > > >                  TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
-> > > > > >
-> > > > > > @@ -211,6 +229,7 @@ static int to_msg_param_ffa_mem(struct opte=
-e_msg_param *mp,
-> > > > > >               memset(&mp->u, 0, sizeof(mp->u));
-> > > > > >               mp->u.fmem.global_id =3D OPTEE_MSG_FMEM_INVALID_G=
-LOBAL_ID;
-> > > > > >       }
-> > > > > > +out:
-> > > > > >       mp->u.fmem.size =3D p->u.memref.size;
-> > > > > >
-> > > > > >       return 0;
-> > > > > > @@ -222,13 +241,15 @@ static int to_msg_param_ffa_mem(struct op=
-tee_msg_param *mp,
-> > > > > >   * @optee:   main service struct
-> > > > > >   * @msg_params:      OPTEE_MSG parameters
-> > > > > >   * @num_params:      number of elements in the parameter array=
-s
-> > > > > > - * @params:  subsystem itnernal parameter representation
-> > > > > > + * @params:  subsystem internal parameter representation
-> > > > > > + * @update_out: update parameter for output only
-> > > > > >   * Returns 0 on success or <0 on failure
-> > > > > >   */
-> > > > > >  static int optee_ffa_to_msg_param(struct optee *optee,
-> > > > > >                                 struct optee_msg_param *msg_par=
-ams,
-> > > > > >                                 size_t num_params,
-> > > > > > -                               const struct tee_param *params)
-> > > > > > +                               const struct tee_param *params,
-> > > > > > +                               bool update_out)
-> > > > > >  {
-> > > > > >       size_t n;
-> > > > > >
-> > > > > > @@ -238,18 +259,20 @@ static int optee_ffa_to_msg_param(struct =
-optee *optee,
-> > > > > >
-> > > > > >               switch (p->attr) {
-> > > > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
-> > > > > > +                     if (update_out)
-> > > > > > +                             break;
-> > > > > >                       mp->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_NO=
-NE;
-> > > > > >                       memset(&mp->u, 0, sizeof(mp->u));
-> > > > > >                       break;
-> > > > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
-> > > > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
-> > > > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
-> > > > > > -                     optee_to_msg_param_value(mp, p);
-> > > > > > +                     optee_to_msg_param_value(mp, p, update_ou=
-t);
-> > > > > >                       break;
-> > > > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
-> > > > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
-> > > > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> > > > > > -                     if (to_msg_param_ffa_mem(mp, p))
-> > > > > > +                     if (to_msg_param_ffa_mem(mp, p, update_ou=
-t))
-> > > > > >                               return -EINVAL;
-> > > > > >                       break;
-> > > > > >               default:
-> > > > >
-> > > > > Can we rather handle it as follows to improve code readability an=
-d
-> > > > > maintainence long term? Ditto for all other places.
-> > > > >
-> > > > > static int optee_ffa_to_msg_param(struct optee *optee,
-> > > > >                                   struct optee_msg_param *msg_par=
-ams,
-> > > > >                                   size_t num_params,
-> > > > >                                   const struct tee_param *params,
-> > > > >                                   bool update_out)
-> > > > > {
-> > > > >         size_t n;
-> > > > >
-> > > > >         for (n =3D 0; n < num_params; n++) {
-> > > > >                 const struct tee_param *p =3D params + n;
-> > > > >                 struct optee_msg_param *mp =3D msg_params + n;
-> > > > >
-> > > > >                 if (update_out && (p->attr =3D=3D TEE_IOCTL_PARAM=
-_ATTR_TYPE_NONE ||
-> > > > >                      p->attr =3D=3D TEE_IOCTL_PARAM_ATTR_TYPE_VAL=
-UE_INPUT ||
-> > > > >                      p->attr =3D=3D TEE_IOCTL_PARAM_ATTR_TYPE_MEM=
-REF_INPUT))
-> > > > >                     continue;
-> > > >
-> > > > You're missing updating the length field for memrefs.
-> > > >
-> > >
-> > > Do we need to update length field for input memrefs when update_out i=
-s
-> > > set? I don't see that happening in your existing patch too.
-> >
-> > I'm sorry, I was unclear. The update_out parameter means only the
-> > output fields should be updated, not the attribute, offsets, ids, etc.
-> > That is, the length field for memrefs, and the value fields a, b, c
-> > for value params. Some of the memrefs aren't translated one-to-one
-> > with SDP, but the length field can and must be updated.
->
-> Isn't it rather better to add another attribute type to handled SDP
-> special handling?
+>> Am 21.03.25 um 17:41 schrieb Xiaogang.Chen:
+>>> From: Xiaogang Chen <xiaogang.chen@amd.com>
+>>>
+>>> by casting size_limit_mb to u64  when calculate pglimit.
+>>>
+>>> Signed-off-by: Xiaogang Chen<Xiaogang.Chen@amd.com>
+>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>
+>> If nobody objects I'm going to push that to drm-misc-fixes.
+> No objection but I wish the author would have added more details in the commit
+> message particularly the value they have used to trigger the overflow. I guess
+> Xiaogang can still comment here and briefly describe the exact use-case/test-case
+> they are running where they encountered this issue.
 
-This isn't special handling, all parameters get the same treatment.
-When updating a parameter after it has been used, this is all that
-needs to be done, regardless of whether it's an SDP buffer. The
-updates we did before this patch were redundant.
+Isn't that obvious? At least it was for me.
 
-This patch was introduced in the v3 of this patch set, but I don't
-think it's strictly needed any longer since SDP buffers are allocated
-differently now. I think it's nice to only update what's needed when
-translating back a parameter (just as in params_to_user() in
-drivers/tee/tee_core.c), but if you don't like it, we can drop this
-patch.
+As soon as you have a value larger than 4095 the 32bit multiplication overflows, resulting in incorrectly limiting the buffer size.
 
-Cheers,
-Jens
+Regards,
+Christian.
 
 >
-> -Sumit
+> Thanks,
+> Vivek
 >
-> >
-> > Cheers,
-> > Jens
-> >
-> > >
-> > > -Sumit
-> > >
-> > > > Cheers,
-> > > > Jens
-> > > >
-> > > > >
-> > > > >                 switch (p->attr) {
-> > > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
-> > > > >                         mp->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_NO=
-NE;
-> > > > >                         memset(&mp->u, 0, sizeof(mp->u));
-> > > > >                         break;
-> > > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
-> > > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
-> > > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
-> > > > >                         optee_to_msg_param_value(mp, p);
-> > > > >                         break;
-> > > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
-> > > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
-> > > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> > > > >                         if (to_msg_param_ffa_mem(mp, p))
-> > > > >                                 return -EINVAL;
-> > > > >                         break;
-> > > > >                 default:
-> > > > >                         return -EINVAL;
-> > > > >                 }
-> > > > >         }
-> > > > >
-> > > > >         return 0;
-> > > > > }
-> > > > >
-> > > > > -Sumit
+>> Regards,
+>> Christian.
+>>
+>>> ---
+>>>  drivers/dma-buf/udmabuf.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+>>> index 8ce1f074c2d3..e99e3a65a470 100644
+>>> --- a/drivers/dma-buf/udmabuf.c
+>>> +++ b/drivers/dma-buf/udmabuf.c
+>>> @@ -398,7 +398,7 @@ static long udmabuf_create(struct miscdevice
+>> *device,
+>>>  	if (!ubuf)
+>>>  		return -ENOMEM;
+>>>
+>>> -	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
+>>> +	pglimit = ((u64)size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
+>>>  	for (i = 0; i < head->count; i++) {
+>>>  		pgoff_t subpgcnt;
+>>>
+
