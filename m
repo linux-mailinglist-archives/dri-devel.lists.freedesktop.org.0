@@ -2,89 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67551A704E8
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 16:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199EAA704EF
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 16:24:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E83810E3A6;
-	Tue, 25 Mar 2025 15:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7342010E550;
+	Tue, 25 Mar 2025 15:24:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KSi6Farj";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="I/S8hXcj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8F3810E093;
- Tue, 25 Mar 2025 15:23:25 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-22622ddcc35so3822425ad.2; 
- Tue, 25 Mar 2025 08:23:25 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2FCD10E550
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 15:24:12 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-54af20849bbso1778747e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 08:24:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742916205; x=1743521005; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NDEUa/8k11B8sf0KeIB05SHGhO3FNf6wOS/GzrTKGyA=;
- b=KSi6FarjDpRxnL1MsxKbEQnkAp8OM2GDaJibVYigmjWSeQo3BJHLKxQ+YAZeWyTLsb
- MS4CXDPjFquD/vqh6mkMirIaqC32/7c8PkYdfio8LJUdyrnn9VxyGXRcvQugixOwTSYR
- VINO9A7IsIalQZpWcjNlI9c3LK17hoMNiFx/lENr5C5tColCpKyUUAIoh4m3emc14G0g
- XMqumMPaNb+sFnkde59rzh52hlyLm+Csb+hDGNhcm+te1/0kmZRmdkLHypyFKYBjYBgp
- OyuW12JWOJuhh/7LzBeBqgtirLVgvJlqfmTMg/FsPDgDpwnYdh97ppnyFJm0OWppTGUx
- sjOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742916205; x=1743521005;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1742916250; x=1743521050;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NDEUa/8k11B8sf0KeIB05SHGhO3FNf6wOS/GzrTKGyA=;
- b=FZMa1MPjsY3uNUhqPpnhZw8RNtaxg948JomQYNS0QtjRwegj6+wuhOtEvunJspqaWn
- JiEF0THZTBHv6l6Ka0DWC+W7JLufQk3exrAlNv5sdY42wzS7120A+Ph8rDsfgZroxESa
- 9bNA2gtde2XntvMCwc6q1m1PN5KUqQWLPXxMv+mZQfMyw9qAgFuW5fbfAUFPxHEG34EM
- 5Brz4Ss1H+rwEIfZP4fctPWtfUofpF5xJTg/1nrZLnB2HNi56YPwgu/ll9rdocGFnLeM
- L3GD5R8etlfpfefcCHCMxpPtszF1WGGAuQfiuSATw+rkPVeo17p9sjpHWqKlkS8xbSt2
- 8Ldg==
+ bh=Q3+8bsc2QVqd8YR+1dNBTuUVkIye6hV+ORmbDcd3a38=;
+ b=I/S8hXcjgoa2eKUjok2S6W5vDs+CY4fFbmMKLUb9Svr1iin5w+Kt9YIXU+s9A+EQi/
+ tqcYy7OWEcgG16+C+6RuF/6c9wJLmpeaQxlCf2m23tYVbQm0OICiyj5kEumzDXw+GTiz
+ 4rdqAuNVZ30/9bPIqADK2y5Nsr4505XiIf4eI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742916250; x=1743521050;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Q3+8bsc2QVqd8YR+1dNBTuUVkIye6hV+ORmbDcd3a38=;
+ b=E5fbhPXMufRtJYo/5G+1oFK7suTFka/ooHlBut9HUDfJjDrgz7H39fr36Onmg3Nnyp
+ uqSHxLnSnDtDp/H3g9Wz7f3OQXr3J8wUZ2X2SD4S/DYyP8Jih4S/m2uWo+3XrKHBjjFp
+ bjupUsgWeSEJbewno7R0lGMvbM4z2XuNEfdoZjTgJo8BG/+nJyTntzXaQeCFF5Oe3Jg0
+ KCp5OOF82wNK+W3g7Tn3GA5YTodXO4gZjK3Ag+/ZhRHcO8SMnpXm5Wd9iqQNPX9GuAtp
+ m32z8F2pM6RHTxxtcbWhUmPWo/qBvHw9hd/vwrKJIL6V8FnVAHGfea30egrq+/TMbdNi
+ 1pAw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWddP9StEIjt+7s5hl+fPaw/E5NvA8xul6kiH4X3x/UrwIQo5d9WZzzkNVxQNutxVWQcubOdetB5jQ=@lists.freedesktop.org,
- AJvYcCX1CsgDGJ9h6AUUZBcXZhfCTp16PMkpOJcw0n0iwpOjwN26MwIUVRjsTUCzr+ABBMxt+bcrRhp3/C77@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzcVeShGv7WGFomqYsS1vxREUndlCcaEPJquQxi7XG6LFh+wk+Q
- SSAicLxW1r78dUB/GPZO6jxbjlJ4ZOg4QyRpS1I4vxyKm3wZcvpg2n3Vf7Df
-X-Gm-Gg: ASbGncumEus1Fwd0mTGDB3XdAIHaF+BbTdmEXAEWgiyAX9b9HiyTAu3mDUWzniGixj4
- JIwnZoyxThqk/VuoKXoluMxhGs8yu03+zlpDRfOwJTsccYMnrDaIOslsZkQGoINqYfhJOhqt1aA
- C/74ID5NB7hH0ZX9pCHqXqOzQRSk/29AxyIwc+4avYD5m48e53zfM2uuOz52UndZmBl57Gzw9SE
- lmb6Nodf1W63PSgyewuyKYSiuwLx5/sKB8ym/mzpyXTpxWHXuw6Kftft3ZwbhuKUyG6kD+PV7WA
- eKYVzjJUHIdigIgIu9scEbnQPTuf+8MK6FGapQMhjfPfF+4kUGnZD9c=
-X-Google-Smtp-Source: AGHT+IERqjQ8v4TPmvjqLe2ZRM0h9caz3DbZCtwwWbViglyqvjOgOKurUBCP/tbe3Wa31BZwvLBCcg==
-X-Received: by 2002:a17:903:183:b0:227:e74a:a057 with SMTP id
- d9443c01a7336-227e74aa5demr23766335ad.44.1742916205178; 
- Tue, 25 Mar 2025 08:23:25 -0700 (PDT)
-Received: from localhost ([216.228.125.131]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22780f396fasm91417135ad.27.2025.03.25.08.23.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Mar 2025 08:23:24 -0700 (PDT)
-Date: Tue, 25 Mar 2025 11:23:22 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- David Laight <David.Laight@aculab.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v7 0/5] bits: Fixed-type GENMASK_U*() and BIT_U*()
-Message-ID: <Z-LKapMBpMfJwcL7@thinkpad>
-References: <20250322-fixed-type-genmasks-v7-0-da380ff1c5b9@wanadoo.fr>
- <Z-FsJPA1aq7KyTlm@thinkpad>
- <7e114fdb-0340-4a3c-956f-b26c9373041d@wanadoo.fr>
+ AJvYcCXyd+2YJR/i+wtg3724nTsMKga8PuxZhM7X7+du50kNdCR5xzzDyu9s7qf0qzBt5buuWKaURTkD2vE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyZaI6OOvMMk3eEkykn2Hrz/BpTwdgty693Q5xuc1dyi2IBFFKW
+ fegD9sHUarKH8D0rDn0PQhlMkn6hGXt7gOblyl5+k8mr6k1Rr+qxPsiZv9nqATkJ+1RCgtD4cRJ
+ pOdDd
+X-Gm-Gg: ASbGncuGmfmzuF2A7D/WoXWHYUD5s+EfYE/01JdPZyEwiEO7kmj6yqxSjHata/ypdu2
+ xs2IzAsVrwHL+m4+kfyqJ1nt3aQ9ZFpKWCOUE3UCxhXCqjLfLwdg9hXC3lVyXHzbakHQ45Ge4u8
+ 4PLvQ5re2VXoKM4yEhvDxqTq/vuzlE72B/8TTGK/0shwLPTlBDE61MNNM5Ag4ZBezn4HrW5UjqZ
+ asFxRQ/WhllQCfhl1lJ8VZjCSA07E8JZ6uw/evF6hNEDVLtkO92axbqk9rnKqSveCc66rkKkrt7
+ RXKlPP59IzNu3yuV85xHjaYdKz8PqqtaTsq8PxWESsOS2uWFQ7esnL7CjiAtgd7A6VJldXvln01
+ zFEClphi5iyDj
+X-Google-Smtp-Source: AGHT+IHrTxznkXuW0vjv60xv5OtAAVZfvweRbsiRYjLzYF99RZl+cfRBPyZ4M1xDqNFyfv4Xs9A9tg==
+X-Received: by 2002:a05:6512:108d:b0:545:10eb:1ab2 with SMTP id
+ 2adb3069b0e04-54ad64f611cmr7025670e87.33.1742916249904; 
+ Tue, 25 Mar 2025 08:24:09 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com.
+ [209.85.208.169]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54ad647c79dsm1512068e87.70.2025.03.25.08.24.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Mar 2025 08:24:09 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-30bfb6ab47cso55821171fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 08:24:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVslPLETQamle8ssegEcBAYIh8tYDKIOdkpxhQ5hR2xvU27ddl8lWbZT7PtQev8JChjHnXmpW79jfU=@lists.freedesktop.org
+X-Received: by 2002:a2e:be0a:0:b0:30d:62c1:3bdd with SMTP id
+ 38308e7fff4ca-30d7e2ba26emr74845121fa.23.1742916247223; Tue, 25 Mar 2025
+ 08:24:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7e114fdb-0340-4a3c-956f-b26c9373041d@wanadoo.fr>
+References: <20250325094707.961349-1-tejasvipin76@gmail.com>
+In-Reply-To: <20250325094707.961349-1-tejasvipin76@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 25 Mar 2025 08:23:55 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WhVYBjGYJFn7Ooszx5Wgk47vLPj_59MWU6t=LQ-iJbTQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JrWE2x9JIn0TPRim15TMFG4kF_9Ffm6HQx-1emxlt_BczIgP8cT-z7urPc
+Message-ID: <CAD=FV=WhVYBjGYJFn7Ooszx5Wgk47vLPj_59MWU6t=LQ-iJbTQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panel: himax-hx8394: transition to mipi_dsi
+ wrapped functions
+To: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ megi@xff.cz, javierm@redhat.com, quic_jesszhan@quicinc.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ asrivats@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,37 +103,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 25, 2025 at 01:23:22AM +0900, Vincent Mailhol wrote:
-> On 24/03/2025 at 23:28, Yury Norov wrote:
-> > On Sat, Mar 22, 2025 at 06:23:11PM +0900, Vincent Mailhol via B4 Relay wrote:
-> >> Introduce some fixed width variant of the GENMASK() and the BIT()
-> >> macros in bits.h. Note that the main goal is not to get the correct
-> >> type, but rather to enforce more checks at compile time. For example:
-> > 
-> > You say this, and then typecast both BIT and GENMASK. This may confuse
-> > readers. Maybe add few words about promotion rules in C standard, or
-> > just drop this note entirely? Doesn't require new submission, of
-> > course.
-> 
-> I do not want to into this level of details in the cover letter, so I
-> will remove. Instead, I can add below paragraph to the "bits: introduce
-> fixed-type GENMASK_U*()" patch:
-> 
->   The result is casted to the corresponding fixed width type. For
->   example, GENMASK_U8() returns an u8. Note that because of the C
->   promotion rules, GENMASK_U8() and GENMASK_U16() will immediately be
->   promoted to int if used in an expression. Regardless, the main goal is
->   not to get the correct type, but rather to enforce more checks at
->   compile time.
-> 
-> I staged this change in the v8 together with the other nitpicks from
-> Andy. If you want that v8, let me know, it is ready. If you are happy
-> enough with the v7 (and if it doesn't receive more comments), then go
-> with it!
+Hi,
 
-This series doesn't apply on 6.15-rc1 because test_bits.c has moved to
-lib/tests. Can you please rebase your v8 and submit? I see no other
-issues to merge it in bitmap-for-next.
+On Tue, Mar 25, 2025 at 2:47=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.com=
+> wrote:
+>
+> Changes the himax-hx8394 panel to use multi style functions for
+> improved error handling.
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> ---
+> Changes in v2:
+>     - Revert behavior change in hx8394_enable
+>     - Move variable declaration to top of function
+>
+> Link to v1: https://lore.kernel.org/all/20250323053007.681346-1-tejasvipi=
+n76@gmail.com/
+> ---
+>  drivers/gpu/drm/panel/panel-himax-hx8394.c | 441 ++++++++++-----------
+>  1 file changed, 210 insertions(+), 231 deletions(-)
 
-Thanks,
-Yury
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
