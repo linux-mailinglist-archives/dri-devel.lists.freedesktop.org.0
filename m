@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9650FA6EC76
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:29:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47CC0A6EC7D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:33:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBA3110E039;
-	Tue, 25 Mar 2025 09:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EFD310E274;
+	Tue, 25 Mar 2025 09:33:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ivr42c1q";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PMrf6cTH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B008210E039
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:29:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 99DB3439AC;
- Tue, 25 Mar 2025 09:29:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 766B2C4CEE4;
- Tue, 25 Mar 2025 09:29:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742894964;
- bh=pQJrDsIRCGcaaAOV8R2YCpZCdN6goihWB6J8Dl3Ulgg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ivr42c1q3TF/Ref7GLfnx6ku/lWFi6YTjMADcS4+j5HlJRoR6WlK1Si9vGi8spEWc
- 3tj+modCybXkdT89qZc3LEaNcZkQrKt1xmIny27eGo61yrPMqzbJMKxRBLMHTlAA+T
- Fbeernee2cE/MUkgn7sSo3/u/FZsoowco6IoN5FVQHEo/ZKI5SA47HVNISlQyEzjdR
- Pi/805PKncGuqPVgihrGWqyifkfiDxQ5u+QFFo4ZdUJbtnnNFOHTfHhgIys6TCnLYU
- HnqfNm+RH4MwcL1cxrPE21JtX2su2QMZ6sZcVOKW2NZqdq3LattlqdGhoQ7X9UqL7g
- U23wM7Rh5EUEg==
-Date: Tue, 25 Mar 2025 10:29:22 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: devbrones <jonas.cronholm@protonmail.com>, 
- maarten.lankhorst@linux.intel.com, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/edid: Add non-desktop quirk for Playstation VR
- Headsets with Product ID 0xB403
-Message-ID: <20250325-inquisitive-ebony-mouse-bdf185@houat>
-References: <20250322122048.28677-1-jonas.cronholm@protonmail.com>
- <875xjxa2rk.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83BC010E274
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=T0nYQx42N266JQrASnmElfR1fKh4t5cpVOgZ5ffnaaU=; b=PMrf6cTH1U2Ar1g8GzV1JhQgqE
+ rgm3gUHN3fq+A3hG3oU3MBYBUs9dqkOrCMvCAMkKXydigtpj58cKqSmqWLBW/pRSqfsRpeMNFiPBu
+ puV+3EEV2xh0mcSMkOpz9yg8zNXqGswYbUSufBaSL//uraxlLh2chcA9cHNPu+NaSCv3qI0pdrj7Y
+ MmIq4Fn0f7OjHXY5AQxSoEjcETokT0ciRt+/ci7KdIaf6Nkiz6G6GTO4W+OHwZXl0rDqxyMBFM+sw
+ WCO8Fj8IQE1oXO0V9IemgHtv+10szWnWwPS04P7dHctdNaSHGsb906K6sFiIid9NHFJvm2E+huiwv
+ ztXCaY1Q==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tx0er-0065bK-TG; Tue, 25 Mar 2025 10:33:17 +0100
+Message-ID: <41deeab2-2943-499f-9a3e-19ff7ef08787@igalia.com>
+Date: Tue, 25 Mar 2025 09:33:17 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="7qo75eqjhxv6bcp6"
-Content-Disposition: inline
-In-Reply-To: <875xjxa2rk.fsf@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] drm/syncobj: Add a fast path to
+ drm_syncobj_array_wait_timeout
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com
+References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
+ <20250318155424.78552-7-tvrtko.ursulin@igalia.com>
+ <da00cb1d-ea1d-4a42-bd07-c769d2283e7a@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <da00cb1d-ea1d-4a42-bd07-c769d2283e7a@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,41 +65,101 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---7qo75eqjhxv6bcp6
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/edid: Add non-desktop quirk for Playstation VR
- Headsets with Product ID 0xB403
-MIME-Version: 1.0
+On 24/03/2025 23:00, Maíra Canal wrote:
+> Hi Tvrtko,
+> 
+> On 18/03/25 12:54, Tvrtko Ursulin wrote:
+>> Running the Cyberpunk 2077 benchmark we can observe that waiting on DRM
+>> sycobjs is relatively hot, but the 96% of the calls are for a single
+>> object. (~4% for two points, and never more than three points. While
+>> a more trivial workload like vkmark under Plasma is even more skewed
+>> to single point waits.)
+>>
+>> Therefore lets add a fast path to bypass the kcalloc/kfree and use a pre-
+>> allocated stack array for those cases.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> ---
+>>   drivers/gpu/drm/drm_syncobj.c | 16 ++++++++++++----
+>>   1 file changed, 12 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/ 
+>> drm_syncobj.c
+>> index b4563c696056..94932b89298f 100644
+>> --- a/drivers/gpu/drm/drm_syncobj.c
+>> +++ b/drivers/gpu/drm/drm_syncobj.c
+>> @@ -1035,6 +1035,7 @@ static signed long 
+>> drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+>>                             uint32_t *idx,
+>>                             ktime_t *deadline)
+>>   {
+>> +    struct syncobj_wait_entry stack_entries[4];
+> 
+> Can't you initialize as
+> 
+> struct syncobj_wait_entry stack_entries[4] = {0};
+> 
+> ?
 
-On Tue, Mar 25, 2025 at 11:16:47AM +0200, Jani Nikula wrote:
-> On Sat, 22 Mar 2025, devbrones <jonas.cronholm@protonmail.com> wrote:
-> > This fixes a bug where some Playstation VR Headsets would not be assign=
-ed
-> > the EDID_QUIRK_NON_DESKTOP quirk, causing them to be inaccessible by
-> > certain software under Wayland.
->=20
-> Please file a bug over at [1], and attach the EDID on that bug, so we
-> have some clue what's going on.
->
-> [1] https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/new
+Could do but I preferred to only do it when it is used.
 
-I'd rather have them in the commit log. Nobody uses gitlab issues for
-drm-misc, and those kind of issues are just lingering around and
-becoming stale.
+> 
+>>       struct syncobj_wait_entry *entries;
+>>       uint32_t signaled_count, i;
+>>       struct dma_fence *fence;
+>> @@ -1049,9 +1050,14 @@ static signed long 
+>> drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+>>           !access_ok(user_points, count * sizeof(*user_points)))
+>>           return -EFAULT;
+>> -    entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
+>> -    if (!entries)
+>> -        return -ENOMEM;
+>> +    if (count > ARRAY_SIZE(stack_entries)) {
+>> +        entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
+>> +        if (!entries)
+>> +            return -ENOMEM;
+>> +    } else {
+>> +        memset(stack_entries, 0, sizeof(stack_entries));
+> 
+> Then, you can avoid this step.
+> 
+>> +        entries = stack_entries;
+>> +    }
+>>       /* Walk the list of sync objects and initialize entries.  We do
+>>        * this up-front so that we can properly return -EINVAL if there is
+>> @@ -1174,7 +1180,9 @@ static signed long 
+>> drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+>>                             &entries[i].fence_cb);
+>>           dma_fence_put(entries[i].fence);
+>>       }
+>> -    kfree(entries);
+>> +
+>> +    if (entries != stack_entries)
+> 
+> You can initialize `entries = NULL` and avoid this step.
 
-Maxime
+Hmm where? You mean like:
 
---7qo75eqjhxv6bcp6
-Content-Type: application/pgp-signature; name="signature.asc"
+if (entries == stack_entries)
+	entries = NULL;
+kfree(entries);
 
------BEGIN PGP SIGNATURE-----
+Or something different?
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+J3cQAKCRDj7w1vZxhR
-xVu5AQCE0X6uHOBYnSGbZVafc3oq1zchZWFptDTLm8soyrkaTwEA871ESHNjC/Rb
-Liqf9nI8u9d/aG0iVns6ui7AspsgQgs=
-=ijSu
------END PGP SIGNATURE-----
+Regards,
 
---7qo75eqjhxv6bcp6--
+Tvrtko
+
+> 
+> Anyway,
+> 
+> Reviewed-by: Maíra Canal <mcanal@igalia.com>
+> 
+> Best Regards,
+> - Maíra
+> 
+>> +        kfree(entries);
+>>       return timeout;
+>>   }
+> 
+
