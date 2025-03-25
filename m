@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940ACA6EC10
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A11A6EC1B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E632310E517;
-	Tue, 25 Mar 2025 09:02:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D64410E51F;
+	Tue, 25 Mar 2025 09:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hJKOv3x9";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="KcxwqmKB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 771CC10E517
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:02:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 629EE10E51F
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:05:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1742893346;
+ s=mimecast20190719; t=1742893519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wj1IChreYTEW7S1AiPXdgyUmHcauFp5NeY4Eqtc9FGw=;
- b=hJKOv3x9LSrXF23YoQlw2ngGe9MmiGZu3lzlPMCmDQtt4SEmI2bqnr7KK84hA+g2WhFlY6
- nNT7pKOAQiDO8jmglkRG5o2w1gdLRCtPP1nhqk+mksE3LIE1cGWWfECUSSFRIhF4wiElMf
- CpZNR1eSdCQEyi8IhG0EvOLeDpRzzAk=
+ bh=PrC6whXEB8tIJZm3Od4OEZVDDngb94gqrtSVDSXgtaI=;
+ b=KcxwqmKBavatPD1sMsk30qZBb+d/+bkdCl9uXpc4dDOqzwIuvyls17bVVSqA+mvq0fjp8W
+ gjdWLJikCR+eSkK0tV48+Gu4wsnCUdtn3+wCX/CqGiAuk/FxJmo2+AhQdc5htEPlyEu9By
+ piaUc0XveDP3+GyeWVqks52T5eFKBd8=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-617-vqPCxHfuNOS-mOkLopWEXg-1; Tue, 25 Mar 2025 05:02:24 -0400
-X-MC-Unique: vqPCxHfuNOS-mOkLopWEXg-1
-X-Mimecast-MFC-AGG-ID: vqPCxHfuNOS-mOkLopWEXg_1742893343
+ us-mta-313-95hI5cqxMnGa6BbZTAoMuw-1; Tue, 25 Mar 2025 05:05:18 -0400
+X-MC-Unique: 95hI5cqxMnGa6BbZTAoMuw-1
+X-Mimecast-MFC-AGG-ID: 95hI5cqxMnGa6BbZTAoMuw_1742893517
 Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-39123912ff0so2333967f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 02:02:24 -0700 (PDT)
+ ffacd0b85a97d-39123912ff0so2335790f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 02:05:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742893343; x=1743498143;
+ d=1e100.net; s=20230601; t=1742893517; x=1743498317;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Wj1IChreYTEW7S1AiPXdgyUmHcauFp5NeY4Eqtc9FGw=;
- b=krl8t/dMadO+xI95uxTYUU5QpwfLgkkUkPgFzKIUaWTfXawb6uXC9BU277zHkBD2qX
- MYcOxapITLwhV18I10yNVQ3qhJ7lOGb9fdIZ8q5d2uyuczkcEj/lVScuMeApMv/R2QIe
- bB19i5KIdRHlOs++u99UlDvkc2rmyREW6vl7LGb9uUPwrvyjMV9LwVQItYS5cTs+aFzQ
- ZebCXVABusndFLX1czdPz7OqG9irZkXHR9zsZ1bulL7a6sluTpiPFejOpmWISkIaEOg1
- E0ThW7Tg6C67I4N9oKEn0TRBG41+AO7iaYnfnd0rJvjX7LMv3YQf0JoEXzUmOkz9Su1F
- iVDw==
+ bh=PrC6whXEB8tIJZm3Od4OEZVDDngb94gqrtSVDSXgtaI=;
+ b=oVd4Bq7yQ2Vt/sQJSGLLSBrSKA9yWxGLSACpPEYiLa52CRW0vzLM1B0TLZE8nbWv0+
+ fjEInhirrtk37RsyGQAYI3x/L+h9Vz/sUYlyRjazgD33iIOfqlw/QnmLnZ1SfxelFtJ9
+ Xm1QxsGXrYM/uPLe1aSN/CizP6SBDQiKNyzQMJ3Ay4ln7wCsora+p2R/sfPS+azJiI6R
+ fGoVhGsSu28ByprIeKzf/3dwCAiO51vDpp2qJyTMElGyh33cAdoIT5h7PSkOs/y++1bz
+ I9pvjco7N3yOGxnfo0t0TkYI/lm/fuoSKyM6jC6isPexf1EsPgMjFbmodTs2r67HquAh
+ t+8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX7vCRZ+QV4X/5lVF7TKBrhsbig/F9PSk4IN5R/eKV0a36BcUshMLRiuPbzRXz2PKO8NJH5fSeQATY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxezWm9iWY67c1WwGiKOz4BTEoTNWcs2aGS3GqeOMO6vEWPYHEi
- 23dlOlq1riLTNePjthShFWQZb1nmMt080QDnar0klqGfES2E97LMHqDSZkMA67jL1zwvT4rxvi6
- vAPYqIGnywKQlxLYNhn1g1irwC0EizP3JRCi91Protelosevi7EsfdzWWyCZgmuJkEw==
-X-Gm-Gg: ASbGncuJ1oPqPtrbs4MN3tTLt5PvRy89bumNPtTgGjEoo0un8sviUIehmGVpbwRiujq
- /CKIZzGhtNt/u7lyGEOs6F6ZJ76305cV7HAXVzEa3qBNGZgXbUiAagFt2dS0iEgDNoJV0oWTuTm
- ocDhAn5lhbomaDHqdMUXrIV3wMmxFe/4iiZwAC0zvOIbRfCmZW29yvAQKRVIi5hnlTDiVR8yIG/
- mjgwummQ65m3cT7zsX9gBTMFPijF6rEo6Flie3H2GMFY0K2IpBlrZiafkbdzLTBtsQ5sDWVfo/B
- 9VJ5eKQVl3mCv9qNJS/tqr7OpMChxTClPm4gxX7AEww5T4FePshynqk=
-X-Received: by 2002:a05:6000:410a:b0:390:e8d4:6517 with SMTP id
- ffacd0b85a97d-3997f8ff121mr13032931f8f.21.1742893343064; 
- Tue, 25 Mar 2025 02:02:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEmIfLZm7khPWjwEcKM+sZzsNS9/OV7LqARaa/EFUtim00jKs/LTQtUTCr53eUD4BnsaUPNvA==
-X-Received: by 2002:a05:6000:410a:b0:390:e8d4:6517 with SMTP id
- ffacd0b85a97d-3997f8ff121mr13032888f8f.21.1742893342596; 
- Tue, 25 Mar 2025 02:02:22 -0700 (PDT)
+ AJvYcCVFrDMsryv6W3vZ2n9bRsY3rLr83k3trnxiCPNHVvyjUTKbvOqzGOzaPiNeJmflsidrEOxmMeExcNo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyi0xDNHdSRYNBNfT+nwSI1+nEwKqYD8PT7udmOKCC+ddUgo4lO
+ 0Fm4P0oMs5PeZJyU4cWOZTIIOmn0ezY+dH0TRSwmaz+gk2IWUDj9xDmlXqcVDptVdoSyafbxktS
+ I4XuKe7EjHBu0nrn4ensz43gs7V9InuN7bEahNlhv+6R075iwoUfg/7Wmjs2zaK01rQ==
+X-Gm-Gg: ASbGncurqp4EFoBVTVGYoVchkNOtFrc92iIKSOFUSlfHSbdeDtmprAea0iLsEjaATES
+ IGyjpImw0oprNjy9W4BjCDpKG7/iEqBjIwSWNLMJxacZUSY8xIyKr6FxdOb9hwfNgllmWCuzSWK
+ D2cQiYACmlNP771S+aKzL822nADRkKXQc7GaPZSfWdiMq/WHzr7nRT5VmLDsu0lvz1Rj8K5g7lK
+ JfLP2/Fjt4gNc56nGkqlGIQlC5HLmKcdVDypyhcYyabsR9SIfU2OMuxRRasF0Z0wdX187lqLe/q
+ NlQzMQE1j1ehxnNITW1Ar0s0I5RRhfYk79IA5exDPFWxDJM6gBibt44=
+X-Received: by 2002:a05:6000:2a4:b0:391:ba6:c066 with SMTP id
+ ffacd0b85a97d-3997f932dc7mr15340754f8f.35.1742893516838; 
+ Tue, 25 Mar 2025 02:05:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGTBT9UgEXQQoZOQCZf+geD9eCV4pZV+LkpuIAC9M/oAzFE2WYScIhUIhi8NX1J2SaBNujAOg==
+X-Received: by 2002:a05:6000:2a4:b0:391:ba6:c066 with SMTP id
+ ffacd0b85a97d-3997f932dc7mr15340713f8f.35.1742893516379; 
+ Tue, 25 Mar 2025 02:05:16 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3997f9b409fsm13375318f8f.50.2025.03.25.02.02.21
+ 5b1f17b1804b1-43d4fcea6ecsm145624925e9.5.2025.03.25.02.05.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Mar 2025 02:02:22 -0700 (PDT)
-Message-ID: <2628502d-5b43-41da-978f-66a68623889d@redhat.com>
-Date: Tue, 25 Mar 2025 10:02:19 +0100
+ Tue, 25 Mar 2025 02:05:14 -0700 (PDT)
+Message-ID: <dd1616d5-4808-46be-9167-6fbfe76e0c73@redhat.com>
+Date: Tue, 25 Mar 2025 10:05:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/10] drm/panic: add missing space
+Subject: Re: [PATCH 02/10] drm/panic: add missing Markdown code span
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>
 Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
@@ -88,11 +88,11 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org
 References: <20250324210359.1199574-1-ojeda@kernel.org>
- <20250324210359.1199574-2-ojeda@kernel.org>
+ <20250324210359.1199574-3-ojeda@kernel.org>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250324210359.1199574-2-ojeda@kernel.org>
+In-Reply-To: <20250324210359.1199574-3-ojeda@kernel.org>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: A_SgI18QkhazYCnniBeJNPDJkRdUlwH45VdE9L_RPRE_1742893343
+X-Mimecast-MFC-PROC-ID: cbmriN2e4T2FmyDcKAqj-Za-VNIAuTMGip0PbYDm2Gs_1742893517
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -113,7 +113,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 24/03/2025 22:03, Miguel Ojeda wrote:
-> Add missing space in sentence.
+> Add missing Markdown code span.
 > 
 > This was found using the Clippy `doc_markdown` lint, which we may want
 > to enable.
@@ -121,6 +121,14 @@ On 24/03/2025 22:03, Miguel Ojeda wrote:
 Thanks, it looks good to me.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+You want to take the whole series in the rust tree?
+
+Otherwise I can push the patch 1-2 to drm-misc-next if needed.
+
+-- 
+
+Jocelyn
 
 > 
 > Fixes: cb5164ac43d0 ("drm/panic: Add a QR code panic screen")
@@ -130,16 +138,16 @@ Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-> index ecd87e8ffe05..9bd4d131f033 100644
+> index 9bd4d131f033..a8f832598c70 100644
 > --- a/drivers/gpu/drm/drm_panic_qr.rs
 > +++ b/drivers/gpu/drm/drm_panic_qr.rs
-> @@ -5,7 +5,7 @@
->   //! It is called from a panic handler, so it should't allocate memory and
->   //! does all the work on the stack or on the provided buffers. For
->   //! simplification, it only supports low error correction, and applies the
-> -//! first mask (checkerboard). It will draw the smallest QRcode that can
-> +//! first mask (checkerboard). It will draw the smallest QR code that can
->   //! contain the string passed as parameter. To get the most compact
->   //! QR code, the start of the URL is encoded as binary, and the
->   //! compressed kmsg is encoded as numeric.
+> @@ -914,7 +914,7 @@ fn draw_all(&mut self, data: impl Iterator<Item = u8>) {
+>   ///    will be encoded as binary segment, otherwise it will be encoded
+>   ///    efficiently as a numeric segment, and appended to the URL.
+>   /// * `data_len`: Length of the data, that needs to be encoded, must be less
+> -///    than data_size.
+> +///    than `data_size`.
+>   /// * `data_size`: Size of data buffer, it should be at least 4071 bytes to hold
+>   ///    a V40 QR code. It will then be overwritten with the QR code image.
+>   /// * `tmp`: A temporary buffer that the QR code encoder will use, to write the
 
