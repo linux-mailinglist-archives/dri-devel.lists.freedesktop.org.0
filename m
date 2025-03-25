@@ -2,101 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125DBA70DC6
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 00:54:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B08A70DD0
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 00:56:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72F6810E628;
-	Tue, 25 Mar 2025 23:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8659D10E62E;
+	Tue, 25 Mar 2025 23:56:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d00qIP12";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="n4lrI9xS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E626410E628
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 23:54:52 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-30db3f3c907so11538441fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 16:54:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742946890; x=1743551690; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pB7DLVd4H6QiUxYIjx/2k/QTp6fyJCUONMOEFYG9jGU=;
- b=d00qIP12anQWqFUPu6a819Z2449HtSiOR6fQqwv+fHnBBJJPy6b4s+D9hbeJRgKF9e
- njVKp8upD8MbX36B6RRaY/Y7GsK1K8HqLuHW/N7GaBNWlUhpjvkWApC0woXBKw//Q73J
- vWIT9+Wlo/V3VFf7PzhI1HLWzoLwaJ9/B0JzsaH7egZdPEhkZKTxDoesT//itjOyR9a4
- LIasPPq7ZcVBAwnUp2LkFS5hA2ibzi16cs9LI7WJT8wkTruZnwpUUkXtH5woIKKKyWka
- 5FldviMgoD6ZOYUe2rHLVilsNiaovrDz2bcPg0HZ/512fLDZWkjijj1Ycbq1DYw0mUEQ
- adWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742946890; x=1743551690;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pB7DLVd4H6QiUxYIjx/2k/QTp6fyJCUONMOEFYG9jGU=;
- b=KOd0fT2F9psQecho02HhLGOrL24HKncYMtsZO7NH03T8/R7GrRDcLcyE4SLRct9mSE
- 5Kb4cgQsOJnsanaoj/WZ8HG2tBdwkEsieD69/obwIqSouSOkbXLZL6YD7mLEKpYt4ITF
- rP7shaUi5aWBTGDtwLmj4usqH38CxpXHJsZpDqkSFEVsv4+dRe3E0g68v2oQ11y+mmHh
- rEtSb07md9t+K9o1XKlogM3kOkOFcizoJUuH3Xm064NDrkrDVUbaLlj/Nih2bsCcaQxc
- bR8ADtbmrUmlwzhLT8+IzZZh84FE1/T29IqXGKsFfQcbBc+eLD6OgK+lVNuJzFiVuTod
- ffWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUfStcubG7b49EAUXm6xBUkiJxuOk7YHlRAEJG7XqDqTrkqSTjWFOv8OmF9yJKlyQk9aa5c72z++8Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzw5wuwX3Vo6LRl0ck2Di/YG8e2eTKBaMYwCR2c+vE2A5sG2nw+
- YgL7wnREoK7a+mFXYK7LaMHnNaMw3wzporWIIAeeo1hbEpstBxWpmG1Zpet5o0bOM6VTZ3R5lFK
- kUUJNQlEzlLLq22oIXDwuqhFNZ7w=
-X-Gm-Gg: ASbGncv3SvBzSEnWEniuace7JmguBrUoYTWkPkIZFzIXX/5idw2h7QXAGrd2l4+LWdo
- WFmIgigsKTTwxsGLzwthzNW1Bae8EXvpnVoYIHmpsAQuJzlelGtdMC2I2nzW8Qh7M8qRy4zk6GP
- I9DaRWGFr08kgLTLAEPojQJFuu0bBgZn+HLLh4eYUri8Yx48bGN/1JhLlijTGp
-X-Google-Smtp-Source: AGHT+IEg1mlV1KCvvMCOJZ2ohnF8J2y7cC9+rBdT4VizZQCJYeiV1bsXLR4jAOajsN9bSIhV3DiNsWgYsqG+SYPmsOQ=
-X-Received: by 2002:a2e:be1f:0:b0:30d:b216:ef0e with SMTP id
- 38308e7fff4ca-30db216f00cmr15397781fa.17.1742946890132; Tue, 25 Mar 2025
- 16:54:50 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3C3C10E62E
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 23:56:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 208715C5D3F;
+ Tue, 25 Mar 2025 23:53:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 516E3C4CEE4;
+ Tue, 25 Mar 2025 23:55:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742946956;
+ bh=wHi7SCmtPH7BG/xAKxNRXbpGfNZECeqRL1JQGN1ovng=;
+ h=From:To:Cc:Subject:Date:From;
+ b=n4lrI9xSqetPPY37bE7q/8e8cgZl+FZy2LEvD3RLuCi3szuRcWkJkAs7g9JdZ46+W
+ FIUaTIPgcMiSH6UlG+kiC5g68eZhHHf+xxvMoDrBT6vP/EqEHDpdwKC5A0O0zMUtzT
+ FUSi0zlt4ZG/5Q8NwG3xFSXT62ZJVpVGM6Rxm65jL31ovSQMRa3aIha2nSsD4xunMz
+ EsGdRLOPGqPR/gtYVexJ9EPz44FxFX6ujmVwbIIMerH/0VQ3m6D2/TY9HhU/1wb+bS
+ z7mu062Jy83xybdxmGDW1dvZ5vIspSaBCU2hvl5p2FcXtKqi8/k3T7hZhYASo2GIoP
+ +7gw1oTb58j6w==
+From: Danilo Krummrich <dakr@kernel.org>
+To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, lyude@redhat.com,
+ acurrid@nvidia.com, lina@asahilina.net, daniel.almeida@collabora.com,
+ j@jannau.net
+Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 0/8] DRM Rust abstractions
+Date: Wed, 26 Mar 2025 00:54:27 +0100
+Message-ID: <20250325235522.3992-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
- <20250325-ptr-as-ptr-v7-7-87ab452147b9@gmail.com>
- <D8POWLFKWABG.37BVXN2QCL8MP@proton.me>
- <CAJ-ks9mUYw4FEJQfmDrHHt0oMy256jhp7qZ-CHp6R5c_sOCD4w@mail.gmail.com>
- <D8PPIYIJCNX8.13VPQULEI0ALN@proton.me>
-In-Reply-To: <D8PPIYIJCNX8.13VPQULEI0ALN@proton.me>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Tue, 25 Mar 2025 19:54:14 -0400
-X-Gm-Features: AQ5f1JrqN1yE_LZiN0APCcG96GfKe6UILX465X2ULhw-kc5Avbv5dHlRP2RM1po
-Message-ID: <CAJ-ks9k6220j6CQSOF4TDrgY9qq4PfV9uaMXz1Qk4m=eeSr5Ag@mail.gmail.com>
-Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
- Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,50 +61,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 25, 2025 at 6:40=E2=80=AFPM Benno Lossin <benno.lossin@proton.m=
-e> wrote:
->
-> On Tue Mar 25, 2025 at 11:33 PM CET, Tamir Duberstein wrote:
-> > On Tue, Mar 25, 2025 at 6:11=E2=80=AFPM Benno Lossin <benno.lossin@prot=
-on.me> wrote:
-> >>
-> >> On Tue Mar 25, 2025 at 9:07 PM CET, Tamir Duberstein wrote:
-> >> > diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-> >> > index 40034f77fc2f..6233af50bab7 100644
-> >> > --- a/rust/kernel/str.rs
-> >> > +++ b/rust/kernel/str.rs
-> >> > @@ -29,7 +29,7 @@ pub const fn is_empty(&self) -> bool {
-> >> >      #[inline]
-> >> >      pub const fn from_bytes(bytes: &[u8]) -> &Self {
-> >> >          // SAFETY: `BStr` is transparent to `[u8]`.
-> >> > -        unsafe { &*(bytes as *const [u8] as *const BStr) }
-> >> > +        unsafe { &*(core::mem::transmute::<*const [u8], *const Self=
->(bytes)) }
-> >>
-> >> Hmm I'm not sure about using `transmute` here. Yes the types are
-> >> transparent, but I don't think that we should use it here.
-> >
-> > What's your suggestion? I initially tried
-> >
-> > let bytes: *const [u8] =3D bytes;
-> > unsafe { &*bytes.cast() }
-> >
-> > but that doesn't compile because of the implicit Sized bound on pointer=
-::cast.
->
-> This is AFAIK one of the only places where we cannot get rid of the `as`
-> cast. So:
->
->     let bytes: *const [u8] =3D bytes;
->     // CAST: `BStr` transparently wraps `[u8]`.
->     let bytes =3D bytes as *const BStr;
->     // SAFETY: `bytes` is derived from a reference.
->     unsafe { &*bytes }
->
-> IMO a `transmute` is worse than an `as` cast :)
+This is the series for the initial DRM Rust abstractions, including DRM device /
+driver, IOCTL, File and GEM object abstractions.
 
-Hmm, looking at this again we can just transmute ref-to-ref and avoid
-pointers entirely. We're already doing that in
-`CStr::from_bytes_with_nul_unchecked`
+This series has been posted previously, however this is a long time ago and I
+reworked a lot of things quite heavily. Hence, I decided to post this as a whole
+new series.
 
-Why is transmute worse than an `as` cast?
+Besides the rework, I want to credit Lina for her initial work, which this
+series is based on.
+
+In a private mail Lina told me to "feel free to take anything that's useful
+from my past patch submissions or the downstream branches and use it/submit it
+in any way".
+
+@Lina: If you, however, feel uncomfortable with any of the Co-developed-by:
+tags, due to the major changes, please let me know.
+
+Those changes include:
+  - switch to the subclassing pattern for DRM device
+  - rework of the GEM object abstraction; dropping the custom reference types in
+    favor of AlwaysRefCounted
+  - rework of the File abstractions
+  - rework of the driver registration
+  - lots of minor changes (e.g. to better align with existing abstractions)
+
+This patch series is also available in [1]; an example usage from nova-drm can
+be found in [2] and [3].
+
+[1] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/topic/rust-drm
+[2] https://lore.kernel.org/nouveau/20250325232222.5326-1-dakr@kernel.org/
+[3] https://gitlab.freedesktop.org/drm/nova/-/tree/staging/nova-drm
+
+Asahi Lina (1):
+  rust: drm: ioctl: Add DRM ioctl abstraction
+
+Danilo Krummrich (7):
+  drm: drv: implement __drm_dev_alloc()
+  rust: drm: add driver abstractions
+  rust: drm: add device abstraction
+  rust: drm: add DRM driver registration
+  rust: drm: file: Add File abstraction
+  rust: drm: gem: Add GEM object abstraction
+  MAINTAINERS: add DRM Rust source files to DRM DRIVERS
+
+ MAINTAINERS                     |   1 +
+ drivers/gpu/drm/drm_drv.c       |  58 ++++--
+ include/drm/drm_drv.h           |   5 +
+ rust/bindings/bindings_helper.h |   6 +
+ rust/helpers/drm.c              |  19 ++
+ rust/helpers/helpers.c          |   1 +
+ rust/kernel/drm/device.rs       | 195 +++++++++++++++++++
+ rust/kernel/drm/driver.rs       | 194 +++++++++++++++++++
+ rust/kernel/drm/file.rs         |  99 ++++++++++
+ rust/kernel/drm/gem/mod.rs      | 321 ++++++++++++++++++++++++++++++++
+ rust/kernel/drm/ioctl.rs        | 159 ++++++++++++++++
+ rust/kernel/drm/mod.rs          |  19 ++
+ rust/kernel/lib.rs              |   2 +
+ rust/uapi/uapi_helper.h         |   1 +
+ 14 files changed, 1064 insertions(+), 16 deletions(-)
+ create mode 100644 rust/helpers/drm.c
+ create mode 100644 rust/kernel/drm/device.rs
+ create mode 100644 rust/kernel/drm/driver.rs
+ create mode 100644 rust/kernel/drm/file.rs
+ create mode 100644 rust/kernel/drm/gem/mod.rs
+ create mode 100644 rust/kernel/drm/ioctl.rs
+ create mode 100644 rust/kernel/drm/mod.rs
+
+-- 
+2.49.0
+
