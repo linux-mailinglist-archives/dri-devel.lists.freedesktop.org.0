@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7E3A6EC57
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC907A6EC72
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:26:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00BC710E522;
-	Tue, 25 Mar 2025 09:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87A9010E52B;
+	Tue, 25 Mar 2025 09:26:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H2MghPZ/";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="awme9pn/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD9F10E2CD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742894214; x=1774430214;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Q04Pa5WfYlc8uaPeRNABjNQkU6MR7ctfOjPyC9TC5S4=;
- b=H2MghPZ/284E+XMVvTiwY1CU1aW332xvn3RFbGq051g6C9+fmxFJhRQs
- JN11RCDn9SsuC29urwqRw7LY0WGhACwYZvN9snSHwK6dqWTlSB5IWZXcb
- RvPNznmXUcKqlqY+Y5VCuU1o/nQkhiPJ4WlakZkdbqRYxfPwkFinwtrQT
- miPuIq/33teKsKaViGcnVlxc6FBupEE63KtoW+8LIE7vevdmvMTXzhx3K
- WNNzRcczfDejM2c9NZOXNW1O4/a2pyGYiOvvRo0KyYwz9i7ILbyBzz7UT
- PAk6y6IlBgOdjb6zjzoReVl7PfHqqcrxAY1MQtPYJJaz6odZSqx600wJQ Q==;
-X-CSE-ConnectionGUID: KFwIFjCRSMyFVUlnl5N5fQ==
-X-CSE-MsgGUID: YHvtdkhiQ+WrAppa/bhcoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="43854371"
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="43854371"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 02:16:53 -0700
-X-CSE-ConnectionGUID: eRAHrhygS7imR+lj1/z6rQ==
-X-CSE-MsgGUID: OccYvP0eT/CB4Q6qCYJJXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="129002396"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.134])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 02:16:50 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: devbrones <jonas.cronholm@protonmail.com>
-Cc: maarten.lankhorst@linux.intel.com, devbrones
- <jonas.cronholm@protonmail.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/edid: Add non-desktop quirk for Playstation VR
- Headsets with Product ID 0xB403
-In-Reply-To: <20250322122048.28677-1-jonas.cronholm@protonmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250322122048.28677-1-jonas.cronholm@protonmail.com>
-Date: Tue, 25 Mar 2025 11:16:47 +0200
-Message-ID: <875xjxa2rk.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FB6E10E52B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zBlDaVrUm5qcIf645NNPJGyPU9bGfzK6Iy4s/ZFUwPg=; b=awme9pn/l9tQu5MKgsop4UpuQE
+ +O+cQeXz5STXkZGlpOGR62ObzhWmhow4xk1oRwDaWSQ2sPa0veAXFuMebOeOLww5fGnoNRR1ji5eY
+ NM2MtUKiOFaMMT+e4va4QSJR1+eQ2bY1st11q9Wc350foQvzMwv+YxA/Q3sUPRe55KhzUEWNGrT00
+ ytRozmcbc5tNUGsdDuCWQtaPKve1o2fvZVCzmBY8CObzo/XMTdT4m5qBlk0bhVKJ6Lf2p/jKYHioc
+ 1Q+DXWnHeYTcWyTBCwqxmJTsg1hd0SoAzX5cp2D+R1AZ3x0TClBDSnYDDkJGhUQ3n2EIBPoyHob7Z
+ /oWFQ27w==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tx0YO-0065Tv-O6; Tue, 25 Mar 2025 10:26:36 +0100
+Message-ID: <d581805f-2351-481f-a479-826a55e2b56b@igalia.com>
+Date: Tue, 25 Mar 2025 09:26:36 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/7] drm/syncobj: Avoid one temporary allocation in
+ drm_syncobj_array_find
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com
+References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
+ <20250318155424.78552-4-tvrtko.ursulin@igalia.com>
+ <191425c4-e408-4cd7-8ca1-ad9fa9ee0d0e@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <191425c4-e408-4cd7-8ca1-ad9fa9ee0d0e@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,39 +64,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 22 Mar 2025, devbrones <jonas.cronholm@protonmail.com> wrote:
-> This fixes a bug where some Playstation VR Headsets would not be assigned
-> the EDID_QUIRK_NON_DESKTOP quirk, causing them to be inaccessible by
-> certain software under Wayland.
 
-Please file a bug over at [1], and attach the EDID on that bug, so we
-have some clue what's going on.
+On 24/03/2025 22:29, Maíra Canal wrote:
+> Hi Tvrtko,
+> 
+> On 18/03/25 12:54, Tvrtko Ursulin wrote:
+>> Drm_syncobj_array_find() helper is used from many userspace ioctl entry
+>> points with the task of looking up userspace handles to internal objects.
+>>
+>> We can easily avoid one temporary allocation by making it read the 
+>> handles
+>> as it is looking them up.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> ---
+>>   drivers/gpu/drm/drm_syncobj.c | 44 +++++++++++++++++------------------
+>>   1 file changed, 21 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/ 
+>> drm_syncobj.c
+>> index fd5ba6c89666..cdda2df06bec 100644
+>> --- a/drivers/gpu/drm/drm_syncobj.c
+>> +++ b/drivers/gpu/drm/drm_syncobj.c
+>> @@ -1213,48 +1213,46 @@ signed long drm_timeout_abs_to_jiffies(int64_t 
+>> timeout_nsec)
+>>   EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
+>>   static int drm_syncobj_array_find(struct drm_file *file_private,
+>> -                  void __user *user_handles,
+>> -                  uint32_t count_handles,
+>> +                  u32 __user *handles,
+>> +                  uint32_t count,
+>>                     struct drm_syncobj ***syncobjs_out)
+>>   {
+>> -    uint32_t i, *handles;
+>>       struct drm_syncobj **syncobjs;
+>> +    uint32_t i;
+>>       int ret;
+>> -    handles = kmalloc_array(count_handles, sizeof(*handles), 
+>> GFP_KERNEL);
+>> -    if (handles == NULL)
+>> +    if (!access_ok(handles, count * sizeof(*handles)))
+>> +        return -EFAULT;
+>> +
+>> +    syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
+>> +    if (!syncobjs)
+>>           return -ENOMEM;
+>> -    if (copy_from_user(handles, user_handles,
+>> -               sizeof(uint32_t) * count_handles)) {
+>> -        ret = -EFAULT;
+>> -        goto err_free_handles;
+>> -    }
+>> +    for (i = 0; i < count; i++) {
+>> +        u64 handle;
+> 
+> I believe this is a u32.
 
-Thanks,
-Jani.
+Well spotted.
 
+>> -    syncobjs = kmalloc_array(count_handles, sizeof(*syncobjs), 
+>> GFP_KERNEL);
+>> -    if (syncobjs == NULL) {
+>> -        ret = -ENOMEM;
+>> -        goto err_free_handles;
+>> -    }
+>> -
+>> -    for (i = 0; i < count_handles; i++) {
+>> -        syncobjs[i] = drm_syncobj_find(file_private, handles[i]);
+>> +        if (__get_user(handle, handles++)) {
+>> +            ret = -EFAULT;
+>> +            syncobjs[i] = NULL;
+> 
+> Do we need to assign syncobjs[i] to NULL? Can we just go to
+> err_put_syncobjs?
+> 
+>> +            goto err_put_syncobjs;
+>> +        }
+>> +        syncobjs[i] = drm_syncobj_find(file_private, handle);
+>>           if (!syncobjs[i]) {
+>>               ret = -ENOENT;
+>>               goto err_put_syncobjs;
+>>           }
+>>       }
+>> -    kfree(handles);
+>>       *syncobjs_out = syncobjs;
+>>       return 0;
+>>   err_put_syncobjs:
+>> -    while (i-- > 0)
+>> -        drm_syncobj_put(syncobjs[i]);
+>> +    while (i > 0) {
+>> +        if (syncobjs[i])
+> 
+> I'm not sure if I understand which scenario this would be needed. For
+> the first syncobj that we don't find, we go to err_free_handles and
+> AFAIU all previous syncobjs exist, so there wouldn't be a need to check
+> if the syncobj != NULL.
 
-[1] https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/new
+Well spotted again. I don't remember why I thought I needed to change 
+this since it looks the old unwind works fine with added __get_user 
+failure path.
 
+Regards,
 
->
-> Signed-off-by: devbrones <jonas.cronholm@protonmail.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 13bc4c290b17..51b4d7a02c02 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -239,6 +239,7 @@ static const struct edid_quirk {
->  
->  	/* Sony PlayStation VR Headset */
->  	EDID_QUIRK('S', 'N', 'Y', 0x0704, EDID_QUIRK_NON_DESKTOP),
-> +	EDID_QUIRK('S', 'N', 'Y', 0xB403, EDID_QUIRK_NON_DESKTOP),
->  
->  	/* Sensics VR Headsets */
->  	EDID_QUIRK('S', 'E', 'N', 0x1019, EDID_QUIRK_NON_DESKTOP),
+Tvrtko
 
--- 
-Jani Nikula, Intel
+>> +            drm_syncobj_put(syncobjs[i]);
+>> +        i--;
+>> +    }
+>>       kfree(syncobjs);
+>> -err_free_handles:
+>> -    kfree(handles);
+>>       return ret;
+>>   }
+> 
+
