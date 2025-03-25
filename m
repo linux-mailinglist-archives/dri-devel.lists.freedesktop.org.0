@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11A5A6ED15
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA287A6ED1D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:57:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF0F710E158;
-	Tue, 25 Mar 2025 09:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D86110E52C;
+	Tue, 25 Mar 2025 09:57:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ljO/SSG0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GjjdVxHA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B2710E158
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:54:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17D3810E52C
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:57:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,30 +22,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=+ziQzEB+BTMyOhA9heHH5fDn0IddG1UYxcWLBFORsZ8=; b=ljO/SSG0etzT542B1OzhpNinGD
- rebuQAucGghbDim+NFgkL6/XR04m+D4et+xb7uIiZyE9hgT5CSMhFN9NiaD5N+eRX5n8Urgb6QdbW
- agAMd1M++ZpTsPJEpShZ1BIlOvesm0PUvHfHZYhvdsT7Ac6CB5MigMJJmr+8gqYhp35hwa0CUkyxQ
- tM9e30Ch7LEJyTH3G49nqbYGYC+JWcvLbqOu5zLt/a4qesVtiHdoGhDx1Queqvi+qDsc3GVQMEoFw
- zX0ItqeRKeq9pC5gQfAOeHpr6XEYfy++pEPi0ZbO/kOyRTNxBXtcH+OCqQst6K2nO/hFksF818yD9
- Ws6iwaFg==;
+ bh=Yu2gJvS+tX5YNNKaHPVs+yfH40PotHSpZKGp6bdkPAY=; b=GjjdVxHAEIHQGMt8SxSIUxC/fk
+ R6UtxLM7UeFydLBWa6wBi+G64aTvoTIzsJc4x2dyl5TiQpGe2P/rHvkJCnGFFnmX3Yg+wSC3r6tcE
+ PgzlWjYC+IERMBBhA+Ba83alyFkO67YUKCL8GEyv0iB1HKZ8r4doVLk0sOc71QBCqg/AmG4xxu3kg
+ Tvritf7CHYS/N+MkiV11NmatpYbsOSDN7Yr24cQ6pZrB8RHQb4qAjSIGF55B9pCpL5772ze6WEiIM
+ s+FLjxykcrmOlLiThzQWKwKoFv7iGBbC3NsnCVGQIhp0SJJ3dmI8tLNiqJ7rcEMd8TKL8wMQRATBj
+ Y9jRF+8w==;
 Received: from [90.241.98.187] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tx0zb-0065zD-MP; Tue, 25 Mar 2025 10:54:43 +0100
-Message-ID: <dfe43355-6b4e-432e-858b-8b6324310ef9@igalia.com>
-Date: Tue, 25 Mar 2025 09:54:43 +0000
+ id 1tx12J-006621-EB; Tue, 25 Mar 2025 10:57:31 +0100
+Message-ID: <9248901e-5eb2-4a3a-9db8-9dfeecc946de@igalia.com>
+Date: Tue, 25 Mar 2025 09:57:30 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] drm/syncobj: Add a fast path to drm_syncobj_array_find
+Subject: Re: [PATCH 0/7] A few drm_syncobj optimisations
 To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
  dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com
 References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
- <20250318155424.78552-8-tvrtko.ursulin@igalia.com>
- <ccd36973-8310-4dd7-855f-e09de3aecd54@igalia.com>
+ <977cb1c8-7f55-4e3e-bac3-30cb29dec4b3@igalia.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <ccd36973-8310-4dd7-855f-e09de3aecd54@igalia.com>
+In-Reply-To: <977cb1c8-7f55-4e3e-bac3-30cb29dec4b3@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,292 +63,107 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 24/03/2025 23:06, Maíra Canal wrote:
+On 24/03/2025 23:17, Maíra Canal wrote:
 > Hi Tvrtko,
 > 
-> Some nits inline, mostly personal comments. In any case,
+> Thanks for this patchset! I applied this patchset to the RPi downstream
+> kernel 6.13.7 [1] and saw an FPS improvement of approximately 5.85%
+> with "vkgears -present-mailbox" on the RPi 5.
 > 
-> Reviewed-by: Maíra Canal <mcanal@igalia.com>
+> I did five 100 seconds runs on each kernel and here are my results:
+> 
+> ### 6.13.7
+> 
+> |   Run    |   Min FPS   |   Max FPS   |   Avg FPS   |
+> |----------|-------------|-------------|-------------|
+> | Run #1   | 6646.52     | 6874.77     | 6739.313    |
+> | Run #2   | 5387.04     | 6723.274    | 6046.773    |
+> | Run #3   | 6230.49     | 6823.47     | 6423.923    |
+> | Run #4   | 5269.678    | 5870.59     | 5501.858    |
+> | Run #5   | 5504.54     | 6285.91     | 5859.724    |
+> 
+> * Overall Avg FPS: 6114.318 FPS
 > 
 > 
-> On 18/03/25 12:54, Tvrtko Ursulin wrote:
->> Running the Cyberpunk 2077 benchmark we can observe that the lookup 
->> helper
->> is relatively hot, but the 97% of the calls are for a single object. (~3%
->> for two points, and never more than three points. While a more trivial
->> workload like vkmark under Plasma is even more skewed to single point
->> lookups.)
->>
->> Therefore lets add a fast path to bypass the kmalloc_array/kfree and 
->> use a
->> pre-allocated stack array for those cases.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> ---
->>   drivers/gpu/drm/drm_syncobj.c | 53 +++++++++++++++++++++++++++--------
->>   1 file changed, 41 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/ 
->> drm_syncobj.c
->> index 94932b89298f..233bdef53c87 100644
->> --- a/drivers/gpu/drm/drm_syncobj.c
->> +++ b/drivers/gpu/drm/drm_syncobj.c
->> @@ -1223,6 +1223,8 @@ EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
->>   static int drm_syncobj_array_find(struct drm_file *file_private,
->>                     u32 __user *handles,
->>                     uint32_t count,
->> +                  struct drm_syncobj **stack_syncobjs,
->> +                  u32 stack_count,
->>                     struct drm_syncobj ***syncobjs_out)
->>   {
->>       struct drm_syncobj **syncobjs;
->> @@ -1232,9 +1234,13 @@ static int drm_syncobj_array_find(struct 
->> drm_file *file_private,
->>       if (!access_ok(handles, count * sizeof(*handles)))
->>           return -EFAULT;
->> -    syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
->> -    if (!syncobjs)
->> -        return -ENOMEM;
->> +    if (count > stack_count) {
+> ### 6.13.7 + DRM Syncobj optimisations
 > 
-> I believe it's worth adding a comment mentioning that using the stack
-> syncobj is a fast-path that covers most cases.
-
-Yep. But it didn't feel like here is the place so I added comments to 
-where callers size the arrays. That however means there are two 
-duplicated comments. Okay with you?
-
->> +        syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
->> +        if (!syncobjs)
->> +            return -ENOMEM;
->> +    } else {
->> +        syncobjs = stack_syncobjs;
->> +    }
->>       for (i = 0; i < count; i++) {
->>           u64 handle;
->> @@ -1260,25 +1266,31 @@ static int drm_syncobj_array_find(struct 
->> drm_file *file_private,
->>               drm_syncobj_put(syncobjs[i]);
->>           i--;
->>       }
->> -    kfree(syncobjs);
->> +
->> +    if (syncobjs != stack_syncobjs)
+> |   Run    |   Min FPS   |   Max FPS   |   Avg FPS   |
+> |----------|-------------|-------------|-------------|
+> | Run #1   | 6089.05     | 7296.27     | 6859.724    |
+> | Run #2   | 6022.48     | 7264        | 6818.518    |
+> | Run #3   | 5987.68     | 6188.77     | 6041.365    |
+> | Run #4   | 5699.27     | 6448.99     | 6190.374    |
+> | Run #5   | 6199.27     | 6791.15     | 6450.900    |
 > 
-> Again, I have a slight preference to make `syncobjs = NULL` and avoid
-> this if condition. But it's just a personal preference.
+> * Overall Avg FPS: 6472.176 FPS
 
-Pending clarifications from the other patch.
+Neat, thanks for testing! I am not surprised a slower CPU benefits more.
 
-> 
->> +        kfree(syncobjs);
->>       return ret;
->>   }
->>   static void drm_syncobj_array_free(struct drm_syncobj **syncobjs,
->> -                   uint32_t count)
->> +                   uint32_t count,
->> +                   struct drm_syncobj **stack_syncobjs)
-> 
-> IMO, I think the order `syncobjs, stack_syncobjs, count` is a bit more
-> intuitive.
-
-But count is not directly related to the size of the stack array in this 
-function. I could make it a boolean perhaps like this:
-
-static void drm_syncobj_array_free(struct drm_syncobj **syncobjs,
-				   uint32_t count,
-				   bool free_array)
-
-And then in the callers:
-
-drm_syncobj_array_free(syncobjs, count, syncobjs != stack_syncobjs);
-
-Would that be clearer?
-
-> 
->>   {
->>       uint32_t i;
->>       for (i = 0; i < count; i++)
->>           drm_syncobj_put(syncobjs[i]);
->> -    kfree(syncobjs);
->> +
->> +    if (syncobjs != stack_syncobjs)
->> +        kfree(syncobjs);
->>   }
->>   int
->>   drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
->>                  struct drm_file *file_private)
->>   {
->> +    struct drm_syncobj *stack_syncobjs[4];
->>       struct drm_syncobj_wait *args = data;
->>       ktime_t deadline, *pdeadline = NULL;
->>       u32 count = args->count_handles;
->> @@ -1304,6 +1316,8 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, 
->> void *data,
->>       ret = drm_syncobj_array_find(file_private,
->>                        u64_to_user_ptr(args->handles),
->>                        count,
->> +                     stack_syncobjs,
->> +                     ARRAY_SIZE(stack_syncobjs),
->>                        &syncobjs);
->>       if (ret < 0)
->>           return ret;
->> @@ -1321,7 +1335,7 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, 
->> void *data,
->>                            &first,
->>                            pdeadline);
->> -    drm_syncobj_array_free(syncobjs, count);
->> +    drm_syncobj_array_free(syncobjs, count, stack_syncobjs);
->>       if (timeout < 0)
->>           return timeout;
->> @@ -1336,6 +1350,7 @@ drm_syncobj_timeline_wait_ioctl(struct 
->> drm_device *dev, void *data,
->>                   struct drm_file *file_private)
->>   {
->>       struct drm_syncobj_timeline_wait *args = data;
->> +    struct drm_syncobj *stack_syncobjs[4];
-> 
-> Zero initialize it?
-
-Do you see it is required?
+Btw if you have the raw data it would be nice to feed it to ministat too.
 
 Regards,
 
 Tvrtko
 
->>       ktime_t deadline, *pdeadline = NULL;
->>       u32 count = args->count_handles;
->>       struct drm_syncobj **syncobjs;
->> @@ -1361,6 +1376,8 @@ drm_syncobj_timeline_wait_ioctl(struct 
->> drm_device *dev, void *data,
->>       ret = drm_syncobj_array_find(file_private,
->>                        u64_to_user_ptr(args->handles),
->>                        count,
->> +                     stack_syncobjs,
->> +                     ARRAY_SIZE(stack_syncobjs),
->>                        &syncobjs);
->>       if (ret < 0)
->>           return ret;
->> @@ -1378,7 +1395,7 @@ drm_syncobj_timeline_wait_ioctl(struct 
->> drm_device *dev, void *data,
->>                            &first,
->>                            pdeadline);
->> -    drm_syncobj_array_free(syncobjs, count);
->> +    drm_syncobj_array_free(syncobjs, count, stack_syncobjs);
->>       if (timeout < 0)
->>           return timeout;
->> @@ -1496,6 +1513,7 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, 
->> void *data,
->>               struct drm_file *file_private)
->>   {
->>       struct drm_syncobj_array *args = data;
->> +    struct drm_syncobj *stack_syncobjs[4];
->>       struct drm_syncobj **syncobjs;
->>       uint32_t i;
->>       int ret;
->> @@ -1512,6 +1530,8 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, 
->> void *data,
->>       ret = drm_syncobj_array_find(file_private,
->>                        u64_to_user_ptr(args->handles),
->>                        args->count_handles,
->> +                     stack_syncobjs,
->> +                     ARRAY_SIZE(stack_syncobjs),
->>                        &syncobjs);
->>       if (ret < 0)
->>           return ret;
->> @@ -1519,7 +1539,7 @@ drm_syncobj_reset_ioctl(struct drm_device *dev, 
->> void *data,
->>       for (i = 0; i < args->count_handles; i++)
->>           drm_syncobj_replace_fence(syncobjs[i], NULL);
->> -    drm_syncobj_array_free(syncobjs, args->count_handles);
->> +    drm_syncobj_array_free(syncobjs, args->count_handles, 
->> stack_syncobjs);
->>       return 0;
->>   }
->> @@ -1529,6 +1549,7 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, 
->> void *data,
->>                struct drm_file *file_private)
->>   {
->>       struct drm_syncobj_array *args = data;
->> +    struct drm_syncobj *stack_syncobjs[4];
->>       struct drm_syncobj **syncobjs;
->>       uint32_t i;
->>       int ret;
->> @@ -1545,6 +1566,8 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, 
->> void *data,
->>       ret = drm_syncobj_array_find(file_private,
->>                        u64_to_user_ptr(args->handles),
->>                        args->count_handles,
->> +                     stack_syncobjs,
->> +                     ARRAY_SIZE(stack_syncobjs),
->>                        &syncobjs);
->>       if (ret < 0)
->>           return ret;
->> @@ -1555,7 +1578,7 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, 
->> void *data,
->>               break;
->>       }
->> -    drm_syncobj_array_free(syncobjs, args->count_handles);
->> +    drm_syncobj_array_free(syncobjs, args->count_handles, 
->> stack_syncobjs);
->>       return ret;
->>   }
->> @@ -1567,6 +1590,7 @@ drm_syncobj_timeline_signal_ioctl(struct 
->> drm_device *dev, void *data,
->>       struct drm_syncobj_timeline_array *args = data;
->>       uint64_t __user *points = u64_to_user_ptr(args->points);
->>       uint32_t i, j, count = args->count_handles;
->> +    struct drm_syncobj *stack_syncobjs[4];
->>       struct drm_syncobj **syncobjs;
->>       struct dma_fence_chain **chains;
->>       int ret;
->> @@ -1586,6 +1610,8 @@ drm_syncobj_timeline_signal_ioctl(struct 
->> drm_device *dev, void *data,
->>       ret = drm_syncobj_array_find(file_private,
->>                        u64_to_user_ptr(args->handles),
->>                        count,
->> +                     stack_syncobjs,
->> +                     ARRAY_SIZE(stack_syncobjs),
->>                        &syncobjs);
->>       if (ret < 0)
->>           return ret;
->> @@ -1622,7 +1648,7 @@ drm_syncobj_timeline_signal_ioctl(struct 
->> drm_device *dev, void *data,
->>   err_chains:
->>       kfree(chains);
->>   out:
->> -    drm_syncobj_array_free(syncobjs, count);
->> +    drm_syncobj_array_free(syncobjs, count, stack_syncobjs);
->>       return ret;
->>   }
->> @@ -1631,6 +1657,7 @@ int drm_syncobj_query_ioctl(struct drm_device 
->> *dev, void *data,
->>                   struct drm_file *file_private)
->>   {
->>       struct drm_syncobj_timeline_array *args = data;
->> +    struct drm_syncobj *stack_syncobjs[4];
->>       struct drm_syncobj **syncobjs;
->>       uint64_t __user *points = u64_to_user_ptr(args->points);
->>       uint32_t i;
->> @@ -1651,6 +1678,8 @@ int drm_syncobj_query_ioctl(struct drm_device 
->> *dev, void *data,
->>       ret = drm_syncobj_array_find(file_private,
->>                        u64_to_user_ptr(args->handles),
->>                        args->count_handles,
->> +                     stack_syncobjs,
->> +                     ARRAY_SIZE(stack_syncobjs),
->>                        &syncobjs);
->>       if (ret < 0)
->>           return ret;
->> @@ -1694,7 +1723,7 @@ int drm_syncobj_query_ioctl(struct drm_device 
->> *dev, void *data,
->>               break;
->>           }
->>       }
->> -    drm_syncobj_array_free(syncobjs, args->count_handles);
->> +    drm_syncobj_array_free(syncobjs, args->count_handles, 
->> stack_syncobjs);
->>       return ret;
->>   }
+> [1] https://github.com/raspberrypi/linux/tree/rpi-6.13.y
+> 
+> Best Regards,
+> - Maíra
+> 
+> On 18/03/25 12:54, Tvrtko Ursulin wrote:
+>> A small set of drm_syncobj optimisations which should make things a 
+>> tiny bit
+>> more efficient on the CPU side of things.
+>>
+>> Improvement seems to be around 1.5%* more FPS if observed with "vkgears
+>> -present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant 
+>> to make a
+>> definitive claim on the numbers since there is some run to run 
+>> variance. But, as
+>> suggested by Michel Dänzer, I did do a five ~100 second runs on the 
+>> each kernel
+>> to be able to show the ministat analysis.
+>>
+>> x before
+>> + after
+>> +------------------------------------------------------------+
+>> |                          x         +                       |
+>> |                   x      x         +                       |
+>> |                   x      xx      ++++                      |
+>> |                 x x      xx x    ++++                      |
+>> |                 x xx   x xx x+   ++++                      |
+>> |                xxxxx   xxxxxx+   ++++ + +                  |
+>> |                xxxxxxx xxxxxx+x  ++++ +++                  |
+>> |              x xxxxxxxxxxx*xx+* x++++++++   ++             |
+>> |        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
+>> |       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
+>> |x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
+>> |               |_______A______|                             |
+>> |                             |______A_______|               |
+>> +------------------------------------------------------------+
+>>      N           Min           Max        Median           Avg        
+>> Stddev
+>> x 135      21697.58     22809.467     22321.396     22307.707     
+>> 198.75011
+>> + 118     22200.746      23277.09       22661.4     22671.442     
+>> 192.10609
+>> Difference at 95.0% confidence
+>>      363.735 +/- 48.3345
+>>      1.63054% +/- 0.216672%
+>>      (Student's t, pooled s = 195.681)
+>>
+>> Tvrtko Ursulin (7):
+>>    drm/syncobj: Remove unhelpful helper
+>>    drm/syncobj: Do not allocate an array to store zeros when waiting
+>>    drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
+>>    drm/syncobj: Use put_user in drm_syncobj_query_ioctl
+>>    drm/syncobj: Avoid temporary allocation in
+>>      drm_syncobj_timeline_signal_ioctl
+>>    drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
+>>    drm/syncobj: Add a fast path to drm_syncobj_array_find
+>>
+>>   drivers/gpu/drm/drm_syncobj.c | 281 ++++++++++++++++++----------------
+>>   1 file changed, 147 insertions(+), 134 deletions(-)
+>>
 > 
 
