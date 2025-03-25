@@ -2,81 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789BEA70AAC
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 20:44:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB09CA70AD6
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 20:56:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B003210E294;
-	Tue, 25 Mar 2025 19:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EEB210E5E9;
+	Tue, 25 Mar 2025 19:56:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="kdM3Nj1M";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Aw3HfRFo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E53910E5F2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 19:44:42 +0000 (UTC)
-Received: from [IPV6:2601:646:8083:1982:248d:9102:5b8a:6e6c]
- ([IPv6:2601:646:8083:1982:248d:9102:5b8a:6e6c])
- (authenticated bits=0)
- by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52PJhUIl603946
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Tue, 25 Mar 2025 12:43:32 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52PJhUIl603946
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2025032001; t=1742931824;
- bh=UJj21FC15p3nVLzkicX5dgxkBEi54nR03XqBTpnd5V4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kdM3Nj1MybR90X09rU1nRONRJ2jg1AtjqKoXLnxsg2cojdKgyvQq1sB0dmO1P9B7e
- Oh0GOCPxLEaRXZFe7o1Sfjp8n54w75H5iN/HAzeysNqCT9wYOr7jEP2Dae4W47cuTE
- IJENwVV1LUrY+RUTP8SIu8IuTBsqVtESVxKjQe2igsVqYUE9/vC+W48eqqzXH+7yPQ
- lLYCfriDAqV0glFFkq5y8djhKy78jC5zQ7rOCh2GQVPUddqvu2o3Kp1cuthMCi7rCc
- T1rY4JTt0lRSRGlEjcanOa/VKXXmOhoSIUQpV16G1iV32q6fHAz8KlUXWCNdcW9vny
- jM4Umn7OoVMWA==
-Message-ID: <eec0dfd7-5e4f-4a08-928c-b7714dbc4a17@zytor.com>
-Date: Tue, 25 Mar 2025 12:43:25 -0700
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 780CC10E5E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 19:56:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=HH/svGC6iM01VZDae16LA0tDq/qycK956gxcHniOgF8=; b=Aw3HfRFo/cvNYImws7+2f23Pc5
+ 1t/lqC3+o3FhZ/GrdgP52Ev4bG6kfuAIZ46TnfxgodypoSqJyUeK1/nP7bpcPSg3NbCcdFVy8PW00
+ f2bRkOkh7IQ01UkcBbOrSg2fEqTDwilQVHBfl2LGxzAlyOVqK83GBBDknwUIinXMQr6dShibrp2Wg
+ EYrAS22ortejN4FX0sLR1NYQFCFrNUkiXWrtxx3vEEY7fj8Tc/4xlu7k715BGgDVGA3+6lh6wMimz
+ wwg7cVHBr1laGaZbHnbSC9wvGAmhHkOmDGjsHJdA0KQl2rk0h1rkXTx4T2Pncfxwzi1d7G1NBzmpc
+ pDK16c0A==;
+Received: from [189.7.87.178] (helo=[192.168.0.224])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1txANz-006IYv-KG; Tue, 25 Mar 2025 20:56:31 +0100
+Message-ID: <58587b53-54c5-4759-a39e-f6706a3a97d0@igalia.com>
+Date: Tue, 25 Mar 2025 16:56:29 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, Yury Norov <yury.norov@gmail.com>
-Cc: David Laight <david.laight.linux@gmail.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
- akpm@linux-foundation.org, alistair@popple.id.au,
- andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
- arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
- bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
- davem@davemloft.net, dmitry.torokhov@gmail.com,
- dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
- edumazet@google.com, eleanor15x@gmail.com, gregkh@linuxfoundation.org,
- hverkuil@xs4all.nl, jernej.skrabec@gmail.com, jirislaby@kernel.org,
- jk@ozlabs.org, joel@jms.id.au, johannes@sipsolutions.net,
- jonas@kwiboo.se, jserv@ccns.ncku.edu.tw, kuba@kernel.org,
- linux-fsi@lists.ozlabs.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-serial@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux@rasmusvillemoes.dk,
- louis.peens@corigine.com, maarten.lankhorst@linux.intel.com,
- mchehab@kernel.org, mingo@redhat.com, miquel.raynal@bootlin.com,
- mripard@kernel.org, neil.armstrong@linaro.org, netdev@vger.kernel.org,
- oss-drivers@corigine.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
- simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de,
- vigneshr@ti.com, x86@kernel.org
-References: <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com>
- <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com>
- <20250307195310.58abff8c@pumpkin>
- <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
- <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name> <Z9CyuowYsZyez36c@thinkpad>
- <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com> <Z9GtcNJie8TRKywZ@thinkpad>
- <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name>
- <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name>
- <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
+Subject: Re: [PATCH 6/7] drm/syncobj: Add a fast path to
+ drm_syncobj_array_wait_timeout
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com
+References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
+ <20250318155424.78552-7-tvrtko.ursulin@igalia.com>
+ <da00cb1d-ea1d-4a42-bd07-c769d2283e7a@igalia.com>
+ <41deeab2-2943-499f-9a3e-19ff7ef08787@igalia.com>
 Content-Language: en-US
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <41deeab2-2943-499f-9a3e-19ff7ef08787@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,63 +64,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/23/25 08:16, Kuan-Wei Chiu wrote:
+Hi Tvrtko,
+
+On 25/03/25 06:33, Tvrtko Ursulin wrote:
 > 
-> Interface 3: Multiple Functions
-> Description: bool parity_odd8/16/32/64()
-> Pros: No need for explicit casting; easy to integrate
->        architecture-specific optimizations; except for parity8(), all
->        functions are one-liners with no significant code duplication
-> Cons: More functions may increase maintenance burden
-> Opinions: Only I support this approach
+> On 24/03/2025 23:00, Maíra Canal wrote:
+>> Hi Tvrtko,
+>>
+>> On 18/03/25 12:54, Tvrtko Ursulin wrote:
+>>> Running the Cyberpunk 2077 benchmark we can observe that waiting on DRM
+>>> sycobjs is relatively hot, but the 96% of the calls are for a single
+>>> object. (~4% for two points, and never more than three points. While
+>>> a more trivial workload like vkmark under Plasma is even more skewed
+>>> to single point waits.)
+>>>
+>>> Therefore lets add a fast path to bypass the kcalloc/kfree and use a 
+>>> pre-
+>>> allocated stack array for those cases.
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_syncobj.c | 16 ++++++++++++----
+>>>   1 file changed, 12 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/ 
+>>> drm_syncobj.c
+>>> index b4563c696056..94932b89298f 100644
+>>> --- a/drivers/gpu/drm/drm_syncobj.c
+>>> +++ b/drivers/gpu/drm/drm_syncobj.c
+>>> @@ -1035,6 +1035,7 @@ static signed long 
+>>> drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+>>>                             uint32_t *idx,
+>>>                             ktime_t *deadline)
+>>>   {
+>>> +    struct syncobj_wait_entry stack_entries[4];
+>>
+>> Can't you initialize as
+>>
+>> struct syncobj_wait_entry stack_entries[4] = {0};
+>>
+>> ?
+> 
+> Could do but I preferred to only do it when it is used.
+
+Np.
+
+> 
+>>
+>>>       struct syncobj_wait_entry *entries;
+ >>>       uint32_t signaled_count, i;>>>       struct dma_fence *fence;
+>>> @@ -1049,9 +1050,14 @@ static signed long 
+>>> drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+>>>           !access_ok(user_points, count * sizeof(*user_points)))
+>>>           return -EFAULT;
+>>> -    entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
+>>> -    if (!entries)
+>>> -        return -ENOMEM;
+>>> +    if (count > ARRAY_SIZE(stack_entries)) {
+>>> +        entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
+>>> +        if (!entries)
+>>> +            return -ENOMEM;
+>>> +    } else {
+>>> +        memset(stack_entries, 0, sizeof(stack_entries));
+>>
+>> Then, you can avoid this step.
+>>
+>>> +        entries = stack_entries;
+>>> +    }
+>>>       /* Walk the list of sync objects and initialize entries.  We do
+>>>        * this up-front so that we can properly return -EINVAL if 
+>>> there is
+>>> @@ -1174,7 +1180,9 @@ static signed long 
+>>> drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+>>>                             &entries[i].fence_cb);
+>>>           dma_fence_put(entries[i].fence);
+>>>       }
+>>> -    kfree(entries);
+>>> +
+>>> +    if (entries != stack_entries)
+>>
+>> You can initialize `entries = NULL` and avoid this step.
+> 
+> Hmm where? You mean like:
+> 
+> if (entries == stack_entries)
+>      entries = NULL;
+> kfree(entries);
+> 
+> Or something different?
+
+Nvm, what I had thought initially was wrong. Sorry for the noise! Again,
+feel free to you add my R-b.
+
+Best Regards,
+- Maíra
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>
+>> Anyway,
+>>
+>> Reviewed-by: Maíra Canal <mcanal@igalia.com>
+>>
+>> Best Regards,
+>> - Maíra
+>>
+>>> +        kfree(entries);
+>>>       return timeout;
+>>>   }
+>>
 > 
 
-OK, so I responded to this but I can't find my reply or any of the 
-followups, so let me go again:
-
-I prefer this option, because:
-
-a. Virtually all uses of parity is done in contexts where the sizes of 
-the items for which parity is to be taken are well-defined, but it is 
-*really* easy for integer promotion to cause a value to be extended to 
-32 bits unnecessarily (sign or zero extend, although for parity it 
-doesn't make any difference -- if the compiler realizes it.)
-
-b. It makes it easier to add arch-specific implementations, notably 
-using __builtin_parity on architectures where that is known to generate 
-good code.
-
-c. For architectures where only *some* parity implementations are 
-fast/practical, the generic fallbacks will either naturally synthesize 
-them from components via shift-xor, or they can be defined to use a 
-larger version; the function prototype acts like a cast.
-
-d. If there is a reason in the future to add a generic version, it is 
-really easy to do using the size-specific functions as components; this 
-is something we do literally all over the place, using a pattern so 
-common that it, itself, probably should be macroized:
-
-#define parity(x) 				\
-({						\
-	typeof(x) __x = (x);			\
-	bool __y;				\
-	switch (sizeof(__x)) {			\
-		case 1:				\
-			__y = parity8(__x);	\
-			break;			\
-		case 2:				\
-			__y = parity16(__x);	\
-			break;			\
-		case 4:				\
-			__y = parity32(__x);	\
-			break;			\
-		case 8:				\
-			__y = parity64(__x);	\
-			break;			\
-		default:			\
-			BUILD_BUG();		\
-			break;			\
-	}					\
-	__y;					\
-})
-				
