@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223B7A70A97
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 20:35:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 789BEA70AAC
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 20:44:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6FA10E5E8;
-	Tue, 25 Mar 2025 19:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B003210E294;
+	Tue, 25 Mar 2025 19:44:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Pn5Calw9";
+	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="kdM3Nj1M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98F0810E294;
- Tue, 25 Mar 2025 19:35:16 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-6f666c94285so57855247b3.3; 
- Tue, 25 Mar 2025 12:35:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742931316; x=1743536116; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=42aHX7MDOHSOMSp6xeS+nFUOuh+iMMc1q+a6ux7j3PQ=;
- b=Pn5Calw9gwbUVjjcfGzkdUwTxsmcBhY6XG8btdxLz2GlwW/7jP88MbuxRtSf2/qJyK
- p5xoEs1E76nZ2DaU7/4O1OJH8BIyyvxFWL3RcvmWrns1xFIIgaJAJI31ScsmErHx3+in
- m1OZeqcjPNl8QHIQxd8+CX8QGIa6eB7ejhDlLxdyxppf4R050h8A/Kc6VlXHSZQUXpF3
- DF5nBSeaj4QRkTbQyU4SV+aRniGNxPsgmg0H2B7ohjhbLpLP03zBZ81XCLdOd9YK+J3/
- 9YjuN8WCZPhS08d87TsCGt4IYzHNez70t9PV6qX5c6dkrN0d4o/CiSo5GTWaj0UmFvxb
- Yf6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742931316; x=1743536116;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=42aHX7MDOHSOMSp6xeS+nFUOuh+iMMc1q+a6ux7j3PQ=;
- b=QQ5f7M/Q/0ABW9UFVcDFliyihTajBfrfGWq6T5vSbRIpjc9h8P4nMAMdOSWzh8WXqQ
- e8+6n9faVZ+Yhza91hOQCoOCKy+bZ+djFOIGp1f290fFJX6Jhhzj8Nuh5LPC+jvrrYFw
- +mXBLilF9SniTXGyuKtk+Acr3CUM1UjN2qSjQJUw4bFXMRH5fFWThhdSnTLmsSSVJqec
- l1S9yvXZXWgAekYihU2Tfpq8wx/vLt5YsJexqJJo58lYz0ExQGpL66Z/t6LSyUV2QD9j
- dGvO54hgRzKcU2kdQS/o+k2ZV19li7JjGTxEDC1ASqYHjL3vYV2ZcavB055PNhtG/TQh
- jYLA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQtFiJaGStI03w3MbUatAXq9BNlddO1MgSm44M7VC1kuhnFnAUaNsLUpF+zE/pZYmpNoedCyjUvPyqekBzHgmOjw==@lists.freedesktop.org,
- AJvYcCV720I7nelzU0qh6Ibvg0DXKH6QgHm/ENDoX29guQxRT4HvF8ZMhrEkkFxIwI2uysLzUESb8eFnk8WsVUw4oQ==@lists.freedesktop.org,
- AJvYcCW9SBzmoZZqATHuzT6KRA2ceyx6ohFXR0uAblaEcGytbnsuhbxVlu6mnvfpQ+YUIfCCEpo1MX4B@lists.freedesktop.org,
- AJvYcCXkF6TsDbQn8ISGV/fuVW6QU2gYd0kIJ8yDJdMdO/+8UaoOiEnzGBgsED+ep1pDVb8gdwt5WOhYkb7z@lists.freedesktop.org,
- AJvYcCXtV9Y96QZsdz8c6QTBvNvvFWbtPXmF62QhiYMP7BKiqS5i6opWPTE7vIebtIasJXoyfjgEA5x13GwL@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8pWkVIGqXztPc85jec7eY5V04v0A7BcVGdYDlOgJU/i7MG96n
- oExUF1Kv/DisMfFYHX3/YPf2z+FVKguVNGHWFugnpClPXP6feL1uWqjFprKMxbGaa4Y1Fb6UiYE
- oyPRX59RoHEJ/U1DeoHi+u6ezixI=
-X-Gm-Gg: ASbGncsl1e6MrNJt3zUaeoHM49N27/yoX2wp476OKKVbn16yvsRtqutHQcoV6g7Xo3g
- d9I0GRndvPtbwYsVjdfHSEAW2tu/YQAorjaptK/pjDhg/mesyLRYWZIuSox+zYcH5jcc2OtP8VW
- s+QvAODIir/NF022/5iGBQnXan
-X-Google-Smtp-Source: AGHT+IHATNylw+gsEglZW+PXGiyYbRxUfbKIQGJtdl+fH3JTfXNCfGYjHvngrOpvTsOSzlZ94tSCZQ+ubU8QCVnzCek=
-X-Received: by 2002:a05:690c:7512:b0:6fd:4473:5184 with SMTP id
- 00721157ae682-700bad025bcmr232347107b3.35.1742931315686; Tue, 25 Mar 2025
- 12:35:15 -0700 (PDT)
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E53910E5F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 19:44:42 +0000 (UTC)
+Received: from [IPV6:2601:646:8083:1982:248d:9102:5b8a:6e6c]
+ ([IPv6:2601:646:8083:1982:248d:9102:5b8a:6e6c])
+ (authenticated bits=0)
+ by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52PJhUIl603946
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+ Tue, 25 Mar 2025 12:43:32 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52PJhUIl603946
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+ s=2025032001; t=1742931824;
+ bh=UJj21FC15p3nVLzkicX5dgxkBEi54nR03XqBTpnd5V4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kdM3Nj1MybR90X09rU1nRONRJ2jg1AtjqKoXLnxsg2cojdKgyvQq1sB0dmO1P9B7e
+ Oh0GOCPxLEaRXZFe7o1Sfjp8n54w75H5iN/HAzeysNqCT9wYOr7jEP2Dae4W47cuTE
+ IJENwVV1LUrY+RUTP8SIu8IuTBsqVtESVxKjQe2igsVqYUE9/vC+W48eqqzXH+7yPQ
+ lLYCfriDAqV0glFFkq5y8djhKy78jC5zQ7rOCh2GQVPUddqvu2o3Kp1cuthMCi7rCc
+ T1rY4JTt0lRSRGlEjcanOa/VKXXmOhoSIUQpV16G1iV32q6fHAz8KlUXWCNdcW9vny
+ jM4Umn7OoVMWA==
+Message-ID: <eec0dfd7-5e4f-4a08-928c-b7714dbc4a17@zytor.com>
+Date: Tue, 25 Mar 2025 12:43:25 -0700
 MIME-Version: 1.0
-References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-48-jim.cromie@gmail.com>
- <bec1c938-aafa-49cb-b173-5b876f77779f@bootlin.com>
-In-Reply-To: <bec1c938-aafa-49cb-b173-5b876f77779f@bootlin.com>
-From: jim.cromie@gmail.com
-Date: Tue, 25 Mar 2025 13:34:49 -0600
-X-Gm-Features: AQ5f1Jqa1QuPUv1TyJbyyX5GCLsktpgCTY8YYNpeF7kzWCBGQI4AZHsFZX61b_g
-Message-ID: <CAJfuBxyR_x7tKUFZppXFA_dKFaXb9gTkGnZYfP5GGA7SnorScA@mail.gmail.com>
-Subject: Re: [PATCH v2 47/59] drm-dyndbg: add DRM_CLASSMAP_USE to bochs
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, intel-gfx-trybot@lists.freedesktop.org, 
- jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org, 
- daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
- ville.syrjala@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, Yury Norov <yury.norov@gmail.com>
+Cc: David Laight <david.laight.linux@gmail.com>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ akpm@linux-foundation.org, alistair@popple.id.au,
+ andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
+ arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
+ bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+ brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
+ davem@davemloft.net, dmitry.torokhov@gmail.com,
+ dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
+ edumazet@google.com, eleanor15x@gmail.com, gregkh@linuxfoundation.org,
+ hverkuil@xs4all.nl, jernej.skrabec@gmail.com, jirislaby@kernel.org,
+ jk@ozlabs.org, joel@jms.id.au, johannes@sipsolutions.net,
+ jonas@kwiboo.se, jserv@ccns.ncku.edu.tw, kuba@kernel.org,
+ linux-fsi@lists.ozlabs.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-serial@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux@rasmusvillemoes.dk,
+ louis.peens@corigine.com, maarten.lankhorst@linux.intel.com,
+ mchehab@kernel.org, mingo@redhat.com, miquel.raynal@bootlin.com,
+ mripard@kernel.org, neil.armstrong@linaro.org, netdev@vger.kernel.org,
+ oss-drivers@corigine.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
+ simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de,
+ vigneshr@ti.com, x86@kernel.org
+References: <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com>
+ <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com>
+ <20250307195310.58abff8c@pumpkin>
+ <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com>
+ <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name> <Z9CyuowYsZyez36c@thinkpad>
+ <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com> <Z9GtcNJie8TRKywZ@thinkpad>
+ <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name>
+ <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name>
+ <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
+Content-Language: en-US
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,53 +92,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 24, 2025 at 9:03=E2=80=AFAM Louis Chauvet <louis.chauvet@bootli=
-n.com> wrote:
->
->
->
-> Le 20/03/2025 =C3=A0 19:52, Jim Cromie a =C3=A9crit :
-> > tiny/bochs has 5 DRM_UT_* debugs, make them controllable when
-> > CONFIG_DRM_USE_DYNAMIC_DEBUG=3Dy by telling dyndbg that the module has
-> > class'd debugs.
-> >
-> > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
->
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
->
-> > ---
-> >   drivers/gpu/drm/tiny/bochs.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.=
-c
-> > index 8706763af8fb..dbcc8ba70dfa 100644
-> > --- a/drivers/gpu/drm/tiny/bochs.c
-> > +++ b/drivers/gpu/drm/tiny/bochs.c
-> > @@ -59,6 +59,8 @@ static int bochs_modeset =3D -1;
-> >   static int defx =3D 1024;
-> >   static int defy =3D 768;
-> >
-> > +DRM_CLASSMAP_USE(drm_debug_classes);
->
-> Do we need to add it for each driver that use drm_* print macros? Is it
-> reasonable to add this directly in drm_print.h, so there is no way to
-> miss this call if you use drm_* macros.
->
+On 3/23/25 08:16, Kuan-Wei Chiu wrote:
+> 
+> Interface 3: Multiple Functions
+> Description: bool parity_odd8/16/32/64()
+> Pros: No need for explicit casting; easy to integrate
+>        architecture-specific optimizations; except for parity8(), all
+>        functions are one-liners with no significant code duplication
+> Cons: More functions may increase maintenance burden
+> Opinions: Only I support this approach
+> 
 
-Yes, AFAIK.
-Ive tried to invoke declarators from a header,
-It never works out.
+OK, so I responded to this but I can't find my reply or any of the 
+followups, so let me go again:
 
-59/59 was an attempt to do it for everyone, but it falls down...
+I prefer this option, because:
 
-> >   module_param_named(modeset, bochs_modeset, int, 0444);
-> >   MODULE_PARM_DESC(modeset, "enable/disable kernel modesetting");
-> >
->
-> --
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
+a. Virtually all uses of parity is done in contexts where the sizes of 
+the items for which parity is to be taken are well-defined, but it is 
+*really* easy for integer promotion to cause a value to be extended to 
+32 bits unnecessarily (sign or zero extend, although for parity it 
+doesn't make any difference -- if the compiler realizes it.)
+
+b. It makes it easier to add arch-specific implementations, notably 
+using __builtin_parity on architectures where that is known to generate 
+good code.
+
+c. For architectures where only *some* parity implementations are 
+fast/practical, the generic fallbacks will either naturally synthesize 
+them from components via shift-xor, or they can be defined to use a 
+larger version; the function prototype acts like a cast.
+
+d. If there is a reason in the future to add a generic version, it is 
+really easy to do using the size-specific functions as components; this 
+is something we do literally all over the place, using a pattern so 
+common that it, itself, probably should be macroized:
+
+#define parity(x) 				\
+({						\
+	typeof(x) __x = (x);			\
+	bool __y;				\
+	switch (sizeof(__x)) {			\
+		case 1:				\
+			__y = parity8(__x);	\
+			break;			\
+		case 2:				\
+			__y = parity16(__x);	\
+			break;			\
+		case 4:				\
+			__y = parity32(__x);	\
+			break;			\
+		case 8:				\
+			__y = parity64(__x);	\
+			break;			\
+		default:			\
+			BUILD_BUG();		\
+			break;			\
+	}					\
+	__y;					\
+})
+				
