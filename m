@@ -2,139 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340C7A708E0
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 19:14:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BAFA708F3
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 19:21:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B3710E28B;
-	Tue, 25 Mar 2025 18:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A41D10E3AD;
+	Tue, 25 Mar 2025 18:21:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zJwtbt8x";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hEnhZwo1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2077.outbound.protection.outlook.com [40.107.93.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B71C210E28B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 18:14:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a9i09883rbc/lNJguehCedqfeZ6B0vdnc/nZnSIY6nb+TMedeWmqn0j9lvhv4qeDLuPrygk+VyXZaEXBos9ndKK+rTSqpiopohS8YPdwX2N3+rSuuqbET8cjH8E6hyY/hJNt9l92tfsGCsEE62xA6r25WFXkJf3VkAweIdqGNsrDSplq5mhOdiwENEvOsdy9io27wyOwlQmPzLECT1oWrHMxNK57XdB+vTTf/YhGi4HTSeNnSn9F9KMlt4c1fuzKFh2ByB3o2T+IEJCqVpStAYrtA4j4Aq6b4Tq9V/SRcn0ENSFdBJrbXKhidht451DPNCQ/oQ+/Ymz4fYk7phUsSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8O4KklsvbrgZciJrAuHmdZK8TtM2eCEQ04LXZrf5MFI=;
- b=k1AhzUKf9Toy9xnY0RLimC/cIWV3ssGcKifnSYcKISuonLte6WiMdDKmiA8mdr4zboE8VWDimz7NiDunn98072yO4CLnjbKqTqSZvpGpuwqobwZNSeziizwRPPfiZHAeUfGOQVBYhGRDUPpybxusYXXRFqO4UQPBMKMj8yZjzuMOLb6jqlYb0+Y8JANNmdjUMYEfakwigJvRjYripwDnLF9f8FAhS666u382mvOEX821Di7QTgMvjWv2czA7Fws8aY23r4YWcsep4R+/c4m5PnlBeEFESIVFocN6rgVMDVfIXMPdEcMCYN8HD0fMfEYeAVnIDdX2qq0n0YVNzniywQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=oss.qualcomm.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8O4KklsvbrgZciJrAuHmdZK8TtM2eCEQ04LXZrf5MFI=;
- b=zJwtbt8xD0RnuCYAom1mKUaq5rynV34bseMnLNB8VFXId4498eC8KWROltQBlSDeHKYsTzGqjNgRybK93AmA06K3bq5oXCVIoqIYFRTP31Q+0l2xDgjlJKudExrLy1gRIvMXFctC3jir/7AiaSE+UcYRjUXjNM7Bifoh3qyr9cg=
-Received: from SJ0PR03CA0360.namprd03.prod.outlook.com (2603:10b6:a03:39c::35)
- by SJ1PR12MB6340.namprd12.prod.outlook.com (2603:10b6:a03:453::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Tue, 25 Mar
- 2025 18:14:39 +0000
-Received: from SJ5PEPF00000203.namprd05.prod.outlook.com
- (2603:10b6:a03:39c:cafe::3b) by SJ0PR03CA0360.outlook.office365.com
- (2603:10b6:a03:39c::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.42 via Frontend Transport; Tue,
- 25 Mar 2025 18:14:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF00000203.mail.protection.outlook.com (10.167.244.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8534.20 via Frontend Transport; Tue, 25 Mar 2025 18:14:39 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 25 Mar
- 2025 13:14:38 -0500
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Tue, 25 Mar 2025 13:14:35 -0500
-Message-ID: <925fda15-fb21-f42f-f3e4-9284959696be@amd.com>
-Date: Tue, 25 Mar 2025 11:14:34 -0700
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7984210E3AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 18:21:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 0780B43F25;
+ Tue, 25 Mar 2025 18:21:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F313C4CEE4;
+ Tue, 25 Mar 2025 18:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742926879;
+ bh=mrqiPuMeH3Bzk+l9brzohImr4AuP1M10UqnJWbfgMbo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hEnhZwo17O2rCjOGq7cAs0weKt+0+OAWjyguivCnV4oXdyrebrxDGKvzy1dgv3qOS
+ Dx9KLhi1tB9N1B9/50yBtc5AEYJ1vKD8RFKcLmtc+dydh/L0rod+8L8I/nvlmY4hBs
+ XDoNUbKJYwbHSvkOnRkzjidHey7wmdRfYzw17PRganh5wLQlG7puqvvq+E5lDkM1x1
+ 5eQ35IJv4+T9xL3UxG0nAAlwnk5W4kidPbIXqoWt05XDk7M850PTUI544z/laAwnp4
+ aF5DgxkGx/AD0CnnaQo3oWUdqX+Q0momeoEcgAnmuY0llHI3I8j5eJAERKmAsOw7u3
+ LWTWPpZUx20Wg==
+Message-ID: <7f13200d-9310-46a2-8424-51dcb0f2dbb7@kernel.org>
+Date: Tue, 25 Mar 2025 19:21:09 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V1] accel/amdxdna: Add BO import and export
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add Visionox G2647FB105
+To: Danila Tikhonov <danila@jiaxyga.com>
+Cc: Alexander Baransky <sanyapilot496@gmail.com>, neil.armstrong@linaro.org,
+ quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ robh@kernel.org, dri-devel@lists.freedesktop.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250325155756.703907-1-sanyapilot496@gmail.com>
+ <20250325155756.703907-2-sanyapilot496@gmail.com>
+ <ed62d5f3-a728-4d11-9b59-28496ed267db@kernel.org>
+ <190ba70d-89bd-4e46-b7e5-7b93d706d84f@jiaxyga.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, <ogabbay@kernel.org>,
- <jacek.lawrynowicz@linux.intel.com>, <mario.limonciello@amd.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
- <sonal.santan@amd.com>, <king.tam@amd.com>
-References: <20250306180334.3843850-1-lizhi.hou@amd.com>
- <d2d6b84b-7463-483a-a634-396b5099ef56@oss.qualcomm.com>
- <e7358027-6a8b-85b0-3ccd-cb09b3a9ce7d@amd.com>
-In-Reply-To: <e7358027-6a8b-85b0-3ccd-cb09b3a9ce7d@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <190ba70d-89bd-4e46-b7e5-7b93d706d84f@jiaxyga.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000203:EE_|SJ1PR12MB6340:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4e63f1a-2bc7-4b75-6b65-08dd6bc8e873
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|376014|1800799024|13003099007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?V1RKM2VmMWttajJuOFpKbjgzM0JKVVBsWmRRMFRUWTFJMXNzSkRXVGtIVXNQ?=
- =?utf-8?B?QVpjZ2NFSERSd2kyV3JUWFhJQkRveldsUDBiVHhLUWlzNG51MUpBbzdBYVdF?=
- =?utf-8?B?UXpDMEJJWWVma3BGRTBGZlAyRnlKRWJZZitjMHk2clpINGRyUUtZT2VOL1JO?=
- =?utf-8?B?aUJVME1iOCtaUGhFUFNXZjdZOXk1OTlEY0h6WEhZL3d0ZHpZZTFZNTlmYUE5?=
- =?utf-8?B?b3ZpTWNaampRb2M1a1pqNUc5R3pkQUlUWHFiZXpFMGd3QjhvN3VtYjRqYnRH?=
- =?utf-8?B?VURxNTVlMW5udS9uSWpiMzVZVzgyRTU4dUNXVUgwNGpmYTZRTFVaUFhQQldl?=
- =?utf-8?B?V2M1SjZyeXZBWnBpSXpLTFFCZHc4TkFyb3BYOGRyei9mK3prRTdYNmVha3lK?=
- =?utf-8?B?OCtnVmY1NGV4ZU9OTWV4Z1Y1ZzI4YTR2KytSd0RpWE9hUm1TVkVUOFZJUGJk?=
- =?utf-8?B?dCtUalUyWndSNkJGT1o3TXZOS1Y2Yjc0YTdIQTk5NXJ0SW9NVnhPS3ZpVXNT?=
- =?utf-8?B?VVk3SVNaR1I0NXJkeHQyUkFHY0VpWlFKQzRyc3R0VGs3WENTMUJmSnBWbzdB?=
- =?utf-8?B?SHpyZ3pmcFNrWmppcldpdFZ4OUpuYnNkYnZiTXBUdkpFU2lmQXhFaXFiQUc3?=
- =?utf-8?B?VGJ5Y3VXZ3ZXbmF5b0l1MmlFMktSazdkTjYxbVAwUDlSVnZuc29DQ2phRzJq?=
- =?utf-8?B?dERiK0hBN2p5cWFhR0dza3duV0dWbWEvQ210NlM1QjEvWk9GTGNpV1VEeXFy?=
- =?utf-8?B?STU4Z1FhbWZTUkZvVmtxdStwQUM5TTVwSzBUbzRwVkxoQ3BzMlBFTXFWQlF1?=
- =?utf-8?B?a2JlaHp2clJMTmNQa0FNOUJJenV3VlMyNUd1WjhUaVAwRFBsaVdKZUpYTExu?=
- =?utf-8?B?dS9sOEptUTZkemQrM01TV010YmN1OXJrakIyTnlZcEJMSXFLS1pYZUtFOGx4?=
- =?utf-8?B?dTV4UTZGVFlPd3pMSExhQkY2UFRPQlB4ZlZTdnArRlpUbVJIZ3VQU25RK0FY?=
- =?utf-8?B?YVVONW84RWJ3ZnEyQnRqdGZlWlhsSWZoeWZDWDlFS09GdWJRd2JjSHJjVWZI?=
- =?utf-8?B?eVV0YzkvL3dvbU9ZN2FZL25pb29YbllxSmptL3hDbjFwZjc2K3kvVFM2ZEcx?=
- =?utf-8?B?TDlPTEhkMDhUelZicGJHdUE4WXdsT0JLNk91SjhXeUdBRTBvbUZheC9FUjFR?=
- =?utf-8?B?cXUxUHpxTGhSSVkyM1k2enh1ZTY2ajFKK1VCWnhIcGxNOStCS3Y5anhWeGky?=
- =?utf-8?B?UmQyUjhTYkl4eHdIcFdJRXloQzdSSi9yd0N4RlBXa2RiN0I2VWZtUFdOQkxt?=
- =?utf-8?B?SEluMEhhazN1Z2JPMlNKUXpHMkRVNnkwNit4UkdqK2kxTmdsWWhwOHc0TnhB?=
- =?utf-8?B?VUlTem9PK05IUXJHWEFqTWVMZDNvV3dBY0hSaStQMG12cjlOT21WQVdKTzVS?=
- =?utf-8?B?cjBrQmVHdzNEU3J2T3dOSS9YeXo0dm80Vi96cDIzcHVZeThUR1QzMHdUam1N?=
- =?utf-8?B?ejJ1NXg5cGszZFpIRGdxK2RzZGdqZFF1clR3Y2JJMXBqcWpKWnZmeDE5UHU5?=
- =?utf-8?B?eXNuUUpLUzZjQSsxNHZPTXdlYTg1aG5lYzdzdkVsOXNWcVFncnk1SWVuR2JZ?=
- =?utf-8?B?UjhJeHVyem5uaVliRE9PRmhXS3VhMWlqMkpDTWlNMFpQRGtwY3RNcFd1Tmg3?=
- =?utf-8?B?ZTU5eHhZeGRNTmI1SzRaMWUxNkVzSUc1MFRuSk0xNFFjdGN3V0hKOUIxcWx2?=
- =?utf-8?B?MVFabGJwV0JWZW5jWmJRenBPRmhpbGpWU08vSm8zOFhrVFlTUW56Z0lLQVBP?=
- =?utf-8?B?QnkreVdjeXU4azUveWtabXZrRkVGRVh3MEJ1Q0ZGNXNXU0RUU3R3U1k3Yy82?=
- =?utf-8?B?U2ZLZktMTGZweENVejBDWVAzUkpoUUNXaDZnZkdiay8xWW8wOVAwZnNuKzRq?=
- =?utf-8?B?a2dxSXdvaGNKbDNNNmQ0enlJRVFiamNQMGRJdXlkemdMdll3bmlOL3hhYm51?=
- =?utf-8?Q?DhfrXa+rIGggZwFc8XjA9UIVTpFd1s=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024)(13003099007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2025 18:14:39.2581 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4e63f1a-2bc7-4b75-6b65-08dd6bc8e873
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF00000203.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6340
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,73 +108,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jeff,
+On 25/03/2025 19:16, Danila Tikhonov wrote:
+>>> +  vsp-supply:
+>>> +    description: Positive source voltage rail
+>> Are you sure these are real voltage rails on the device? Weirdly similar
+>> to some old Samsung AMOLED panels...
+> Hello Krzysztof,
+> 
+> I was somewhat intrigued by your observation, especially since I have
+> some schematics for this device. The patch correctly adds four
+> regulators – ibb, lab, vdd (3p0), and vio (1p8).
+> 
+> This situation arises from Xiaomi’s tendency to use different panels in
+> various revisions of the same device. Although, AFAIK, the
+> sm7150-xiaomi-toco/tucana was released with only one possible variation
+> (which this series adds), the sm7150-xiaomi-davinci offers a different
+> perspective. The latter was initially produced with a samsung,ams639rq08
+> panel (which I had added previously), yet official service centers have
+> replaced the factory panel with the visionox,g1639fp106 during repairs.
+> This suggests that, in terms of power configuration, the
+> samsung,ams639rq08 and the visionox,g1639fp106 panels are effectively
+> identical.
+> 
+> It is therefore likely that the visionox,g2647fb105 from this series
+> follows the same way.
+> 
+> Nevertheless, it is reassuring that I can confirm these findings with
+> the schematics rather than relying on mere guesswork xD
 
+Great, appreciated, thanks for checking. Some parts of above -
+similarities including replacement of factory panel - might be good for
+commit msg. Please add them. With that and simplifying the commit
+sentence style:
 
-Just noticed that the driver should not use import_attach. 
-https://lore.kernel.org/all/20250317131923.238374-1-tzimmermann@suse.de/
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I will remove the import_attach usage and send V3 patch.
-
-
-Thanks
-
-Lizhi
-
-On 3/21/25 12:52, Lizhi Hou wrote:
->
-> On 3/21/25 08:15, Jeff Hugo wrote:
->> On 3/6/2025 11:03 AM, Lizhi Hou wrote:
->>> +struct drm_gem_object *
->>> +amdxdna_gem_prime_import(struct drm_device *dev, struct dma_buf 
->>> *dma_buf)
->>> +{
->>> +    struct dma_buf_attachment *attach;
->>> +    struct drm_gem_object *gobj;
->>> +    struct sg_table *sgt;
->>> +    int ret;
->>> +
->>> +    attach = dma_buf_attach(dma_buf, dev->dev);
->>> +    if (IS_ERR(attach))
->>> +        return ERR_CAST(attach);
->>> +
->>> +    get_dma_buf(dma_buf);
->>> +
->>> +    sgt = dma_buf_map_attachment_unlocked(attach, DMA_BIDIRECTIONAL);
->>> +    if (IS_ERR(sgt)) {
->>> +        ret = PTR_ERR(sgt);
->>> +        goto fail_detach;
->>> +    }
->>> +
->>> +    gobj = drm_gem_shmem_prime_import_sg_table(dev, attach, sgt);
->>> +    if (IS_ERR(gobj)) {
->>> +        ret = PTR_ERR(gobj);
->>> +        goto fail_unmap;
->>> +    }
->>> +
->>> +    gobj->import_attach = attach;
->>> +    gobj->resv = dma_buf->resv;
->>> +
->>> +    return gobj;
->>> +
->>> +fail_unmap:
->>> +    dma_buf_unmap_attachment_unlocked(attach, sgt, DMA_BIDIRECTIONAL);
->>> +fail_detach:
->>> +    dma_buf_detach(dma_buf, attach);
->>> +    dma_buf_put(dma_buf);
->>
->> You attach() and then get(), so normal "reverse order" cleanup would 
->> be put(), then detach(). That is not what you do here. Should this be 
->> reordered, or should you get() then attach() first?
->
-> I referred drm_gem_prime_import_dev(). And I agree with you. It looks 
-> better to get() before attach(). I will respin V2 which will also 
-> contain another small update for this patch.
->
->
-> Thanks,
->
-> Lizhi
->
->>
->>
+Best regards,
+Krzysztof
