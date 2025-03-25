@@ -2,171 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12182A70589
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 16:50:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1882EA705DF
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 17:01:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA09A10E59B;
-	Tue, 25 Mar 2025 15:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E10510E5A6;
+	Tue, 25 Mar 2025 16:00:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XY0oEOS1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZLFFnVFu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42C7310E599;
- Tue, 25 Mar 2025 15:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742917841; x=1774453841;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=S5sH3CQE3jPCGACfAI735HRjUio1ugiJccA5m5Q4Iy4=;
- b=XY0oEOS1slOURi3zfHTHro75zWbBuGRSgH4pGdDjGL7QQkxKI9qgQpkC
- vuNbEfKphOCuwdh8fZZUcC6h6+TYIMRl44erz3vpi6o/svHIGUYBbcrYu
- FUR5fzRUysa1fyNsC9E9FgTYYrn6eNdwPV1IqKe3idXgtC59hbmzfdpI3
- SK1YyyS1zWQrvqomDYmJ8QDHPliNCajNuwDWXKl6aTCXWgRWsgGCJ67Xa
- q3Nr3L+BHcHlrtXlkcAIp3E4zkxFhOIx1x36g8GZmj2y8rwE+MmYE9fj9
- 0F/1rGBYvqzOI1YKRQo+nT5WaITyUdi878eqE8XLzZTCjWfYEsJw9xMPw A==;
-X-CSE-ConnectionGUID: 18UdntPgSZeTtjRWyjLacw==
-X-CSE-MsgGUID: XtCwTFQxQVWDAQ31kIKwKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="69532487"
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; d="scan'208";a="69532487"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 08:50:30 -0700
-X-CSE-ConnectionGUID: ORneGE8hQ8S85dvoLlAFiA==
-X-CSE-MsgGUID: dfeVjcgXRASssd+J9u2N6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; d="scan'208";a="161633766"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 25 Mar 2025 08:50:31 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Tue, 25 Mar 2025 08:50:30 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 25 Mar 2025 08:50:30 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 25 Mar 2025 08:50:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lH7sfUPJ+bJflVz5W57/9kmdCWtwnuGELAESwwVkP3MqEpwMAsK/hhpviOslhcUiBh6SsjjhNNytvxWvR96De+rnip9Wn3DYLYkt50wnjArmnAYyAEgCPUTtcja9v5y8wvI7dRB1EwAEe3/IKu4Z74A2KS/KyaptJu0mhsMbhb5YEFgM0pT3QJOhQGlLtzsGsB5zcV+AAJnV/Rdtd9OSJvyubIpNt8Xveco4dvpzzpHe8qz+i+MIonqgCPh++U07NfBX6Wx96SXEgE2BxbgP5tC8y5mPF7Ka4c/eynx1vnbh1hKzqY+TPPF0dHrtCY4EJtmoZuXykEYKORztVJPrIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hOI1BvIH9Othdci+oX1qGZplLByK+PdD81il+N6hJb4=;
- b=jAY4PjjyPi4+TsxQGnedXW/ImlSgDdExOndjKAXv0D5m29ynDKQ8S+xcSXeXm/I3/quhCX+w+u3pFIXx7Q7+eWQlxhT9CLFG5kRFttbeisyVigLHRThPp3aYt+VnVEORR5loFLxUgqxH4DTzSVeqAzO119udgw9VpzWrI7dVO71ND9d3+/fDzF80DzHlwC+x9kXhf5o5kkqA+iV4W7GJkTIG9Eg8FAxJsvDkwLHy00ysqh61mRa+HElvTlF8r6XF17JnjdqXha0SepigUx7kDd+8kneyRX8t69tdG5PLrOXG6u09GG3609hvJTq1n5oScPS0ls2K+LGjXwYyuD1/PA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by MN0PR11MB6181.namprd11.prod.outlook.com (2603:10b6:208:3c7::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Tue, 25 Mar
- 2025 15:50:26 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%3]) with mapi id 15.20.8534.040; Tue, 25 Mar 2025
- 15:50:26 +0000
-Date: Tue, 25 Mar 2025 10:50:23 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-CC: Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel
- <dri-devel@lists.freedesktop.org>, intel-gfx
- <intel-gfx@lists.freedesktop.org>, Arshad Mehmood <arshad.mehmood@intel.com>
-Subject: Re: [PATCH] drm/i915/gt: Avoid duplicating CCS mode workaround
-Message-ID: <6yb4pwizyh4x4yemxukznkeugau4x4ukor56rqesdabb2cyvd4@vntkfiq7u2lr>
-References: <20250325120137.1302748-1-andi.shyti@linux.intel.com>
- <174290746252.1245393.5239853097693701739@DEV-409>
- <Z-K9EKc3v3rYdZhK@ashyti-mobl2.lan>
- <67d46monf24hohzznjfzlbuwslcd2b6b3kce6gn55co5izpave@q3ae33cawecp>
- <Z-LOTSaCEItvtSq1@ashyti-mobl2.lan>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <Z-LOTSaCEItvtSq1@ashyti-mobl2.lan>
-X-ClientProxiedBy: MW4PR03CA0212.namprd03.prod.outlook.com
- (2603:10b6:303:b9::7) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CCDA10E59F;
+ Tue, 25 Mar 2025 16:00:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id EEF60A4AB36;
+ Tue, 25 Mar 2025 15:55:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A3F66C4CEE4;
+ Tue, 25 Mar 2025 16:00:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742918448;
+ bh=Qyqawt3yEY8kEjetVfNw5tS/eDbvtY8p88+b2hatK2U=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=ZLFFnVFuaqhxd5I0DmFhj7b427aVOF0/wmgCHjV4XLV4NL4Jp+m390mh2sFz/F9HE
+ YldIk4doKEVLu1Rgnc0mS7GVz2OSUBUSQDjbkPiCiyH/MYdy2fpiPhQxf8CzwqD+3d
+ b8juY4IM25Evt79eVpuYL8sXT5Zpg1PbWdZt2wfCKPzM+G1/S5v6YDC6ZbknddAnT7
+ MLjqgQstl+99wl3+hhw6+kTk4tp9pja5mZ0GBdfQrAt8+qYQDGaGpCgqgCVFhQqt2A
+ 3ceRUbBzko5ayMyUySWzsxJL+UFdtctVHErwuvCM0gqGEUjQ4kYl7clal28wNVg3E6
+ 4zFvw1McrgryA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 959EAC3600B;
+ Tue, 25 Mar 2025 16:00:48 +0000 (UTC)
+From: Vincent Mailhol via B4 Relay
+ <devnull+mailhol.vincent.wanadoo.fr@kernel.org>
+Subject: [PATCH v8 0/6] bits: Fixed-type GENMASK_U*() and BIT_U*()
+Date: Wed, 26 Mar 2025 00:59:55 +0900
+Message-Id: <20250326-fixed-type-genmasks-v8-0-24afed16ca00@wanadoo.fr>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|MN0PR11MB6181:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47ea20e9-4f89-4e65-5ada-08dd6bb4c2a8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NLQ4zxJtoa7bc8w+FP6joZKAYdx9zECgQNUY4QIggqEeYdUYL8up9yZPtJa4?=
- =?us-ascii?Q?AYHSLMtq4Ag2L81lxbzJISagbwRfj8dpSeMNu/6hy5H61wexUQvv8Y84lThY?=
- =?us-ascii?Q?LuH4EkFdk9eHEMEfZGSsK45r6utOXdz43R8lzZaSfgexlZWZ8fwySKS4meZg?=
- =?us-ascii?Q?TObVY0+pzBN9iqEoG1iKcClVdd1ieGXEDEYVPu1CI5R8GVfcTpdyV5MHuDR5?=
- =?us-ascii?Q?MfwiVUXkcHrjLBUqRbvikeyOb7z6C17NgfedlxyNbfUY9I6kkHtAQibBcQtU?=
- =?us-ascii?Q?pDxituDfQt3TnSeimoH6OlY1Rl4TO/7TyOdhv4Pfypvpzhzr8GluHl8RsFdn?=
- =?us-ascii?Q?Z0O0uzd4weULsoDQ/MeEPgDhZafksVa6CFz3521bsoNfWwb7psqBpn/+BXHi?=
- =?us-ascii?Q?xFy/no00riKwJ/n8VFiuRDRoRORjIErgLzgvyRscpyw8G/jWT7++9c6DoBu0?=
- =?us-ascii?Q?L4kO6QtS5ziOhXWFk5pR1TGBCzRQXFWTGKzzvasg604jB2Ud6g6XsmMMPL+p?=
- =?us-ascii?Q?oA0eSc7x8se0Kmkh5xnRK+BLt+h8j6lZo6Bv7iTmWkdh2WDRfXeA8/3K/3CS?=
- =?us-ascii?Q?cJtL+VliqTJXOie7alucq8mqiOw8r/YFv3PKJ1pSP350L2/9BVLewN18Nyv/?=
- =?us-ascii?Q?cIVh9rSQjFeecNvB7NUWYfX9jm4aBu5GFsR300keNXOks8pdG06SPkGVNB0S?=
- =?us-ascii?Q?vGnPR6O0rQ8xOmJAckvvoDkm6O4UaGsmcJPq5/XvcqAS2zIzQmSDQDHEG9OS?=
- =?us-ascii?Q?rEeFq+oFn/6otmZ1Fb5OcrvfdZM2/jV/hUt3+wlMDwxWX5eIju8FjN/0q5iI?=
- =?us-ascii?Q?5inazOEaJ/CzbFUpbPGUINMEZHMP39c8ymWUbcXYDpcEiLFFgibQEvybXAed?=
- =?us-ascii?Q?EHmTOxUqm/d+Cl7Fid5wQUntnFnODv8CM072MZ+wOujpo3JdBJ1j6dLs/Svy?=
- =?us-ascii?Q?Eu9WrwsFUSaNtzrBYUOhoTYeSrsfBpTSVwHc6QMqsJbZJ0EQ2Sjwi8OZTawQ?=
- =?us-ascii?Q?FJvGSFE+gTDfPMh7jZh4+A2+r1n9+WF0ndEURk4aF4i89vI6D63YNYzGuqq/?=
- =?us-ascii?Q?JpXH5MZrS9vTa+/0xdxFjI0L5hskPeIAga+EoFDYNtZp6gLVg3E9rvFH60hI?=
- =?us-ascii?Q?4YXAFf/reJhiVcOfdmtJndBfEWOgDEDvOfkFNVX9iTnFgrckFKgUDeeX+BPF?=
- =?us-ascii?Q?pXgfNlB0v/+6ulHLpgdqWOONTFp9bxZmcxMVSjCO08AS617TCFmKr4ksaeyZ?=
- =?us-ascii?Q?LPN5oeWb48ivix06uuLLG+QVpSjlFUXR7kdJg9E71fWgixlmaWBtV+QFeN11?=
- =?us-ascii?Q?4ugcFGLLla31DETM0dXyIhC9MLhPA3tSPdUqIFeHgYanGsbAiKLGYadMbowk?=
- =?us-ascii?Q?SVMhFc3Wkp32TLC9ig4T+becZ5YEgXA/5F8ByCnkj16+2/L6cM6MYhdUeUUR?=
- =?us-ascii?Q?VmarkWk1qbA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZX0/bD6R7E0L6azyqMHjSECV6GfadrPozrAjX291XbAO21dAg4Qghoj7oKBk?=
- =?us-ascii?Q?88NnfY29U5U6ZQ7+v1JO5R/B6jX3eZhLnPWb2HmUA9XeppM+1HhNttU2RlBQ?=
- =?us-ascii?Q?9ahUF0UfjhqT4TutbAVMcE1YXR7TRGmqtIBIMNDkKTnCSYj0Tfaw2sXNGvZ0?=
- =?us-ascii?Q?CW0QaneEsHzK0MN1iHm3CKw9MzNDKDjyjT0Wr1krIMT6TeUqXFCcmcQlfkLr?=
- =?us-ascii?Q?j1q/XEZ4+/1slnH2JU2bjmO41qnYSvuu88WHDqArvUQpgckIvVZc4bBhwH3i?=
- =?us-ascii?Q?fSrGDxNnhtdArFG6ZjxQA+2xLLEtCpNPLutstlua6BqUkqD/2L6ZAHJlz3ap?=
- =?us-ascii?Q?6Vm5BkyKNnd+Akr38PlieDS7cMuPf5wD0StunbF8or55j/j9f5Ry1CcesJV7?=
- =?us-ascii?Q?2uwIcIzDN+di3gKtEaxSK58sF/cGAEFB/yyUqGxHRGTNJ0eK/UgBYVe8VirP?=
- =?us-ascii?Q?zCKtq8RaeASFevQeTnkvfAG69M4zByrdJpNWkHrtd7EIEwqFNlIihB6Jpmj1?=
- =?us-ascii?Q?vhOjs6Imm4WkOQ88PaBzG6rIliEMiHmU5KVRmUzpHsaGHXsAfMRuaesNeogo?=
- =?us-ascii?Q?C8tZuJ6HF3mmDaFLAV8754MM+JO5YBZsFlOCGi7v+6IXhfX90wLvEVljgqMj?=
- =?us-ascii?Q?5OYBrlshJJdIIBOixWD6r6FBn317Lt5J2Wy6WfmOG4LXYH8UCoBDRIUlDvyt?=
- =?us-ascii?Q?uIJZ2ltZjiMNkIZZF1N1t1oGH9G9aOha3UoII3x0RW4XQ/4kRezwyHJqw7xT?=
- =?us-ascii?Q?7kL+Xbhl78YRshn7V2EtPLuOyqi1cj9UNr4iGrmpWBp/7eXKfdfTufJWyt0U?=
- =?us-ascii?Q?P52ko3Kd4ocxEFfM/7SFI2q6kZDS2G6wb542DsNhUytebEp4qnp6xlHx5vq9?=
- =?us-ascii?Q?4KgSGr3VNW72qbjNL1bk1twplHOEHSq7/4RrFDezTx+SbR1QRlYHCNW8Fctu?=
- =?us-ascii?Q?tJRwbGvX25ucnVwnrACLXDSl7uXrwwjTgy+tq9+CSq5+Oi518DW4onDAogvU?=
- =?us-ascii?Q?gsNsVAYy/k4V54trdFgzZLV5JY7alhvruXvjbAHP619BP0sHvjI+AZjdXuLC?=
- =?us-ascii?Q?xXiEVYafntzzh1+2ij09Zp6mTNONnQJuGv4Aa/Lqu9Zt1fEo3xoCxgTeImWN?=
- =?us-ascii?Q?P739wqEZIjg8mgwKvW3lXShhrQ63gz/q9bK5JELAIr8RJVZqdyNpVfAVto5W?=
- =?us-ascii?Q?JpbRGMCtE3A7ljSL0slVXV0O/0lmUum5DZoOHngK+QDAJufwY3a1R3rrxCRH?=
- =?us-ascii?Q?YPRqS/CluGHEvy0oOiEkiptrLJuu4cpRdLTxK40IJBh+NUr3Pag7pWkKxxrI?=
- =?us-ascii?Q?Ae5EiBHYIOHYB1oE364qs6r40otUwN3JvKxxIOw844rVoUIohaI158PP6G6Z?=
- =?us-ascii?Q?yKYqbZX73ZikwoaAD9X2SqMvtdNlGBaW/1o1orwUAkR075lU8En2X3DnjgcV?=
- =?us-ascii?Q?Sg+LUaDZLEmzbPyqS5wN95iS+g81Vsr6WqM1TnAdCS4NCu1Y5ETi/dq3jBJs?=
- =?us-ascii?Q?+PJgJOkg5mCLRM0xuKgl32qiKq9czHpBVphTfWhmflTJaGjykQJkKJYXuhxX?=
- =?us-ascii?Q?X8OtbKXYEw/iZ1qFcUjAlI6T2j9RFDk2kNDRQGrKtEmol+1tJl2nrN4mX4BK?=
- =?us-ascii?Q?Kg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47ea20e9-4f89-4e65-5ada-08dd6bb4c2a8
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2025 15:50:26.3314 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xJp8WdXwawmDArppIcRhY9rkAKjxlY8ij4+h7gs4p/UcQDANBHxMpn8XF+asER7n04pRSV6z5uOj8rPBQBCfQfksmFiX8asRkLvMAJltpDE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6181
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPvS4mcC/23RTW7DIBQE4KtYrIuL+TE4q9yj6gLDI0aNTQrEb
+ RTl7sW1KrmKlyPxPo2GO0oQPSR0qO4owuyTD1MJ6qVCZtDTCbC3JSNKqCCUKuz8N1icbxfAJ5h
+ GnT4SVrbRQgjHOChULi8RlmeL+vZesothxHmIoP8sTihRRHJBm1pISWSLG3y+Gp1qC6OOZvBHP
+ 2U41yaMCzn4lEO8/fac+QKvlRgRu5VmjglulGTWWNdKyo5fetI2hNpFtHSaxRZp9xFRkJ5zBp0
+ 1vW6fkXaL7I8ztwVxomONAMkM7Z4QuUEo3UdkQaxmijjXGNH/Rx7r5hE+r+UD8zo86nUCXOYbf
+ T5UIfqTn16LlmG5ePwA1/rO9foBAAA=
+X-Change-ID: 20250228-fixed-type-genmasks-8d1a555f34e8
+To: Yury Norov <yury.norov@gmail.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>, 
+ David Laight <David.Laight@ACULAB.COM>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Anshuman Khandual <anshuman.khandual@arm.com>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+ Jani Nikula <jani.nikula@intel.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5325;
+ i=mailhol.vincent@wanadoo.fr; h=from:subject:message-id;
+ bh=Qyqawt3yEY8kEjetVfNw5tS/eDbvtY8p88+b2hatK2U=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDOmPLkt1sV17eDToX5FbpYcyg85HyzccM3pONpx1W9JQn
+ elso9XTUcrCIMbFICumyLKsnJNboaPQO+zQX0uYOaxMIEMYuDgFYCLKLYwMX0JYr1z34WlecTP4
+ t4yZSky58f6kmTz1h7WnG3uXRyspMTJcX9rwf5aEnMCJmEcucVVe83xmzl2oM1VWyuYhy7xXrP8
+ 5AQ==
+X-Developer-Key: i=mailhol.vincent@wanadoo.fr; a=openpgp;
+ fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
+X-Endpoint-Received: by B4 Relay for mailhol.vincent@wanadoo.fr/default
+ with auth_id=291
+X-Original-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,99 +91,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: mailhol.vincent@wanadoo.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 25, 2025 at 04:39:57PM +0100, Andi Shyti wrote:
->Hi Lucas,
->
->> > > > @@ -2897,7 +2897,9 @@ engine_init_workarounds(struct intel_engine_cs *engine, struct i915_wa_list *wal
->> > > >          */
->> > > >         if (engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE) {
->> > > >                 general_render_compute_wa_init(engine, wal);
->> > > > -               ccs_engine_wa_mode(engine, wal);
->> > > > +
->> > > > +               if (engine->class == COMPUTE_CLASS)
->> > > > +                       ccs_engine_wa_mode(engine, wal);
->> > >
->> > > FIRST_RENDER_COMPUTE is meant to only be on the first engine of either
->> > > rcs or ccs (which share certain register domains), one engine.
->> > >
->> > > It looks like that was broken by
->> > >
->> > > 	commit 1bfc03b1375244f9029bb448ee8224b3b6dae99f
->> > > 	Author: Lucas De Marchi <lucas.demarchi@intel.com>
->>
->> yep, my bad.
->>
->> > > 	Date:   Tue Mar 19 23:03:03 2024 -0700
->> > >
->> > > 	    drm/i915: Remove special handling for !RCS_MASK()
->> >
->> > Aha! So the logic here[*] breaks the meaning of
->> > I915_ENGINE_FIRST_RENDER_COMPUTE, becasue, other than PVC, we
->> > forgot that we have DG2 that needs the special check that uses
->> > !RCS_MASK().
->>
->> no, that would mean a DG2 without render engine.
->
->OK, I don't know the history, I thought that the idea was to
->remove support for PVC, the only multi-CCS machine that once i915
->supported other than DG2.
+Introduce some fixed width variant of the GENMASK() and the BIT()
+macros in bits.h. For example:
 
-the problem is not about having multiple compute engines. The removal of
-PVC meant we don't have any platform left without render engine.
+  GENMASK_U16(16, 0)
 
->
->> The previous check to enable I915_ENGINE_FIRST_RENDER_COMPUTE was:
->>
->> 	if ((engine->class == COMPUTE_CLASS && !RCS_MASK(engine->gt) &&
->> 	     __ffs(CCS_MASK(engine->gt)) == engine->instance) ||
->> 	     engine->class == RENDER_CLASS)
->>
->> i.e. if render is fused off, it enables it in the first compute engine.
->> Otherwise it enables it in the render.
->>
->> And assuming we don't have platforms with render fused off (which still
->> holds true as far as I'm aware), that became:
->>
->> 	if ((engine->class == COMPUTE_CLASS || engine->class == RENDER_CLASS) &&
->> 	    __ffs(CCS_MASK(engine->gt) | RCS_MASK(engine->gt)) == engine->instance)
->
->The difference is that this applies in two cases: it's true for
->the first CCS we encounter and also for the only RCS. Arshad
+will raise a build bug.
 
-yes, this is the same thing I said in my reply:
+This series is a continuation of:
 
-	It was supposed to mean the same thing... but doesn't as engine->instance
-	starts from 0 for each class.
+  https://lore.kernel.org/intel-xe/20240208074521.577076-1-lucas.demarchi@intel.com
 
->noticed that we end up applying the workaround twice.
->
->So the !RCS_MASK(gt) check is still needed.
+from Lucas De Marchi. Above series is one year old. I really think
+that this was a good idea and I do not want this series to die. So I
+am volunteering to revive it.
 
-I don't think the !RCS_MASK() makes sense - you are checking for "do we
-have any render engine?" when we always do and it's always 1.
-All platforms supported by i915 have 1 render engine.
+Meanwhile, many changes occurred in bits.h. The most significant
+change is that __GENMASK() was moved to the uapi headers. For this
+reason, a new GENMASK_TYPE() is introduced instead and the uapi
+__GENMASK() is left untouched.
 
->
->Alternatively, as Matt suggested, we could assign
->I915_ENGINE_FIRST_RENDER_COMPUTE only to the RCS.
+Finally, I do not think it makes sense to expose the fixed width
+variants to the asm. The fixed width integers type are a C concept. So
+the GENMASK_U*() are only visible to the non-asm code. For asm, the
+long and long long variants seem sufficient.
 
-yes, that's what I said, but the reply here was cut short:
+This series does not modify the actual GENMASK(), GENMASK_ULL() and
+GENMASK_U128(). A consolidation of the existing genmasks will be
+proposed later on in a separate series.
 
-	Just checking for RENDER_CLASS and eventually even removing the
-	I915_ENGINE_FIRST_RENDER_COMPUTE flag would be better. See
-	https://lore.kernel.org/all/20240314205746.GG2837363@mdroper-desk1.amr.corp.intel.com/#t
+As requested, here are the bloat-o-meter stats:
 
-Lucas De Marchi
+  $ ./scripts/bloat-o-meter vmlinux_before.o vmlinux_after.o 
+  add/remove: 0/0 grow/shrink: 0/0 up/down: 0/0 (0)
+  Function                                     old     new   delta
+  Total: Before=22781662, After=22781662, chg +0.00%
 
->
->I have a slight preference for the way it was done before because
->it make the logic clearer.
->
->Thanks,
->Andi
->
->> It was supposed to mean the same thing... but doesn't as engine->instance
->> starts from 0 for each class.
+(done with GCC 12.4.1 on an x86_64_defconfig)
+
+--
+2.43.0
+
+---
+Changes from v7:
+
+  - Meanwhile, in commit db6fe4d61ece ("lib: Move KUnit tests into
+    tests/ subdirectory"), lib/test_bits.c was moved to
+    lib/tests/test_bits.c. Rebase onto Linus's master branch so that
+    this change is reflected.
+
+  - Remove the note in the cover letter on the return type, instead
+    add an explanation in patch "bits: introduce fixed-type
+    GENMASK_U*()".
+
+  - s/shift-count-overflow/-Wshift-count-overflow/g
+
+  - Link to v7: https://lore.kernel.org/r/20250322-fixed-type-genmasks-v7-0-da380ff1c5b9@wanadoo.fr
+
+Changes from v6:
+
+  - Split the series in two: this series leave any existing GENMASK*()
+    unmodified. The consolidation will be done in a separate series.
+
+  - Collect some Reviewed-by tag.
+
+  - Address miscellaneous nitpick on the code comments and the line
+    wrapping (details in each patch).
+
+  - Link to v6: https://lore.kernel.org/r/20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr
+
+Changes from v5:
+
+  - Update the cover letter message. I was still refering to
+    GENMASK_t() instead of GENMASK_TYPE().
+
+  - Add a comment in the cover letter to explain that a common
+    GENMASK_TYPE() for C and asm wouldn't allow to generate the u128
+    variant.
+
+  - Restore the comment saying that BUILD_BUG_ON() is not available in
+    asm code.
+
+  - Add a FIXME message to highlight the absence of the asm GENMASK*()
+    unit tests.
+
+  - Use git's histogram diff algorithm
+
+  - Link to v5: https://lore.kernel.org/r/20250306-fixed-type-genmasks-v5-0-b443e9dcba63@wanadoo.fr
+
+Changes from v4:
+
+  - Rebase on https://github.com/norov/linux/tree/bitmap-for-next
+
+  - Rename GENMASK_t() to GENMASK_TYPE()
+
+  - First patch of v4 (the typo fix 'init128' -> 'int128') is removed
+    because it was resent separately in:
+    https://lore.kernel.org/all/20250305-fix_init128_typo-v1-1-cbe5b8e54e7d@wanadoo.fr
+
+  - Replace the (t)~ULL(0) by type_max(t). This way, GENMASK_TYPE()
+    can now be used to generate GENMASK_U128().
+
+  - Get rid of the unsigned int cast for the U8 and U16 variants.
+
+  - Add the BIT_TYPE() helper macro.
+
+  - Link to v4: https://lore.kernel.org/r/20250305-fixed-type-genmasks-v4-0-1873dcdf6723@wanadoo.fr
+
+Changes from v3:
+
+  - Rebase on v6.14-rc5
+
+  - Fix a typo in GENMASK_U128() comment.
+
+  - Split the asm and non-asm definition of 
+
+  - Replace ~0ULL by ~ULL(0)
+
+  - Since v3, __GENMASK() was moved to the uapi and people started
+    using directly. Introduce GENMASK_t() instead.
+
+  - Link to v3: https://lore.kernel.org/intel-xe/20240208074521.577076-1-lucas.demarchi@intel.com
+
+Changes from v2:
+
+  - Document both in commit message and code about the strict type
+    checking and give examples how it´d break with invalid params.
+
+  - Link to v2: https://lore.kernel.org/intel-xe/20240124050205.3646390-1-lucas.demarchi@intel.com
+
+Link to v1: https://lore.kernel.org/intel-xe/20230509051403.2748545-1-lucas.demarchi@intel.com
+
+---
+Lucas De Marchi (3):
+      bits: introduce fixed-type BIT_U*()
+      drm/i915: Convert REG_GENMASK*() to fixed-width GENMASK_U*()
+      test_bits: add tests for GENMASK_U*()
+
+Vincent Mailhol (3):
+      bits: add comments and newlines to #if, #else and #endif directives
+      bits: introduce fixed-type GENMASK_U*()
+      test_bits: add tests for BIT_U*()
+
+ drivers/gpu/drm/i915/i915_reg_defs.h | 108 ++++-------------------------------
+ include/linux/bitops.h               |   1 -
+ include/linux/bits.h                 |  57 +++++++++++++++++-
+ lib/tests/test_bits.c                |  30 ++++++++++
+ 4 files changed, 96 insertions(+), 100 deletions(-)
+---
+base-commit: 2df0c02dab829dd89360d98a8a1abaa026ef5798
+change-id: 20250228-fixed-type-genmasks-8d1a555f34e8
+
+Best regards,
+-- 
+Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+
+
