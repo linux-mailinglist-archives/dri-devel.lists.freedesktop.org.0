@@ -2,51 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA287A6ED1D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 10:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA58A6ED51
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 11:09:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D86110E52C;
-	Tue, 25 Mar 2025 09:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1902810E0A5;
+	Tue, 25 Mar 2025 10:09:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GjjdVxHA";
+	dkim=pass (2048-bit key; unprotected) header.d=crpt.ru header.i=@crpt.ru header.b="RjGeU7e1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D3810E52C
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 09:57:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Yu2gJvS+tX5YNNKaHPVs+yfH40PotHSpZKGp6bdkPAY=; b=GjjdVxHAEIHQGMt8SxSIUxC/fk
- R6UtxLM7UeFydLBWa6wBi+G64aTvoTIzsJc4x2dyl5TiQpGe2P/rHvkJCnGFFnmX3Yg+wSC3r6tcE
- PgzlWjYC+IERMBBhA+Ba83alyFkO67YUKCL8GEyv0iB1HKZ8r4doVLk0sOc71QBCqg/AmG4xxu3kg
- Tvritf7CHYS/N+MkiV11NmatpYbsOSDN7Yr24cQ6pZrB8RHQb4qAjSIGF55B9pCpL5772ze6WEiIM
- s+FLjxykcrmOlLiThzQWKwKoFv7iGBbC3NsnCVGQIhp0SJJ3dmI8tLNiqJ7rcEMd8TKL8wMQRATBj
- Y9jRF+8w==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tx12J-006621-EB; Tue, 25 Mar 2025 10:57:31 +0100
-Message-ID: <9248901e-5eb2-4a3a-9db8-9dfeecc946de@igalia.com>
-Date: Tue, 25 Mar 2025 09:57:30 +0000
+Received: from mail.crpt.ru (mail.crpt.ru [91.236.205.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1195A10E0A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 10:09:26 +0000 (UTC)
+Received: from mail.crpt.ru ([192.168.60.4])
+ by mail.crpt.ru  with ESMTP id 52PA9FXR017359-52PA9FXT017359
+ (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=OK);
+ Tue, 25 Mar 2025 13:09:15 +0300
+Received: from EX2.crpt.local (192.168.60.4) by ex2.crpt.local (192.168.60.4)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 25 Mar
+ 2025 13:09:16 +0300
+Received: from EX2.crpt.local ([192.168.60.4]) by EX2.crpt.local
+ ([192.168.60.4]) with mapi id 15.01.2507.044; Tue, 25 Mar 2025 13:09:16 +0300
+From: =?utf-8?B?0JLQsNGC0L7RgNC+0L/QuNC9INCQ0L3QtNGA0LXQuQ==?=
+ <a.vatoropin@crpt.ru>
+To: Felix Kuehling <Felix.Kuehling@amd.com>
+CC: =?utf-8?B?0JLQsNGC0L7RgNC+0L/QuNC9INCQ0L3QtNGA0LXQuQ==?=
+ <a.vatoropin@crpt.ru>, Alex Deucher <alexander.deucher@amd.com>,
+ =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>
+Subject: [PATCH] drm/amdkfd: Remove the redundant NULL check for the 'svms'
+ object
+Thread-Topic: [PATCH] drm/amdkfd: Remove the redundant NULL check for the
+ 'svms' object
+Thread-Index: AQHbnW33CeLhAJikwUeO11Tuz1gnSA==
+Date: Tue, 25 Mar 2025 10:09:15 +0000
+Message-ID: <20250325100908.68325-1-a.vatoropin@crpt.ru>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.200.60.21]
+x-kse-serverinfo: EX2.crpt.local, 9
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean, bases: 3/24/2025 10:00:00 PM
+x-kse-attachment-filter-triggered-rules: Clean
+x-kse-attachment-filter-triggered-filters: Clean
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] A few drm_syncobj optimisations
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com
-References: <20250318155424.78552-1-tvrtko.ursulin@igalia.com>
- <977cb1c8-7f55-4e3e-bac3-30cb29dec4b3@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <977cb1c8-7f55-4e3e-bac3-30cb29dec4b3@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-FEAS-Client-IP: 192.168.60.4
+X-FE-Policy-ID: 2:4:0:SYSTEM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=crpt.ru; s=crpt.ru;
+ c=relaxed/relaxed; 
+ h=from:to:cc:subject:date:message-id:content-type:mime-version;
+ bh=S8ZTcQtvS2V8JjQOpgLS5GBUFk1XIB89xcUDwVmVR60=;
+ b=RjGeU7e15VmA3QoUPYBidpFwzm6fOZoMgccWwzeAXxPH+LRrdeMZmoIRzoGbqCZI7KIsAeuw7UqK
+ R6c42I69wLyOZzeSXFiJuiYZRaIHcr+DiO0mxHVZnpzS0mMAf30T0C2MqjxFJ+4/HwQEc0HLJpKb
+ OLBoPjiXkNy0zd4Wr5XuKGupkg3gpy1Tk5rvADmy3iuMmYLr08c2NoRiqossJLU2uEeHQ/n9qFfk
+ WRn7hhzvisIvj/499sk8H2vSbh1friBeesyI3ubP+3DW0pJdqGnFKSebR4xHemCyaZguosOnstPi
+ JKZN0yD1Btp5ReqwuQSquTWOdJSPBd0uOpiaqg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,108 +83,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 24/03/2025 23:17, Maíra Canal wrote:
-> Hi Tvrtko,
-> 
-> Thanks for this patchset! I applied this patchset to the RPi downstream
-> kernel 6.13.7 [1] and saw an FPS improvement of approximately 5.85%
-> with "vkgears -present-mailbox" on the RPi 5.
-> 
-> I did five 100 seconds runs on each kernel and here are my results:
-> 
-> ### 6.13.7
-> 
-> |   Run    |   Min FPS   |   Max FPS   |   Avg FPS   |
-> |----------|-------------|-------------|-------------|
-> | Run #1   | 6646.52     | 6874.77     | 6739.313    |
-> | Run #2   | 5387.04     | 6723.274    | 6046.773    |
-> | Run #3   | 6230.49     | 6823.47     | 6423.923    |
-> | Run #4   | 5269.678    | 5870.59     | 5501.858    |
-> | Run #5   | 5504.54     | 6285.91     | 5859.724    |
-> 
-> * Overall Avg FPS: 6114.318 FPS
-> 
-> 
-> ### 6.13.7 + DRM Syncobj optimisations
-> 
-> |   Run    |   Min FPS   |   Max FPS   |   Avg FPS   |
-> |----------|-------------|-------------|-------------|
-> | Run #1   | 6089.05     | 7296.27     | 6859.724    |
-> | Run #2   | 6022.48     | 7264        | 6818.518    |
-> | Run #3   | 5987.68     | 6188.77     | 6041.365    |
-> | Run #4   | 5699.27     | 6448.99     | 6190.374    |
-> | Run #5   | 6199.27     | 6791.15     | 6450.900    |
-> 
-> * Overall Avg FPS: 6472.176 FPS
-
-Neat, thanks for testing! I am not surprised a slower CPU benefits more.
-
-Btw if you have the raw data it would be nice to feed it to ministat too.
-
-Regards,
-
-Tvrtko
-
-> [1] https://github.com/raspberrypi/linux/tree/rpi-6.13.y
-> 
-> Best Regards,
-> - Maíra
-> 
-> On 18/03/25 12:54, Tvrtko Ursulin wrote:
->> A small set of drm_syncobj optimisations which should make things a 
->> tiny bit
->> more efficient on the CPU side of things.
->>
->> Improvement seems to be around 1.5%* more FPS if observed with "vkgears
->> -present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant 
->> to make a
->> definitive claim on the numbers since there is some run to run 
->> variance. But, as
->> suggested by Michel Dänzer, I did do a five ~100 second runs on the 
->> each kernel
->> to be able to show the ministat analysis.
->>
->> x before
->> + after
->> +------------------------------------------------------------+
->> |                          x         +                       |
->> |                   x      x         +                       |
->> |                   x      xx      ++++                      |
->> |                 x x      xx x    ++++                      |
->> |                 x xx   x xx x+   ++++                      |
->> |                xxxxx   xxxxxx+   ++++ + +                  |
->> |                xxxxxxx xxxxxx+x  ++++ +++                  |
->> |              x xxxxxxxxxxx*xx+* x++++++++   ++             |
->> |        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
->> |       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
->> |x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
->> |               |_______A______|                             |
->> |                             |______A_______|               |
->> +------------------------------------------------------------+
->>      N           Min           Max        Median           Avg        
->> Stddev
->> x 135      21697.58     22809.467     22321.396     22307.707     
->> 198.75011
->> + 118     22200.746      23277.09       22661.4     22671.442     
->> 192.10609
->> Difference at 95.0% confidence
->>      363.735 +/- 48.3345
->>      1.63054% +/- 0.216672%
->>      (Student's t, pooled s = 195.681)
->>
->> Tvrtko Ursulin (7):
->>    drm/syncobj: Remove unhelpful helper
->>    drm/syncobj: Do not allocate an array to store zeros when waiting
->>    drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
->>    drm/syncobj: Use put_user in drm_syncobj_query_ioctl
->>    drm/syncobj: Avoid temporary allocation in
->>      drm_syncobj_timeline_signal_ioctl
->>    drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
->>    drm/syncobj: Add a fast path to drm_syncobj_array_find
->>
->>   drivers/gpu/drm/drm_syncobj.c | 281 ++++++++++++++++++----------------
->>   1 file changed, 147 insertions(+), 134 deletions(-)
->>
-> 
-
+RnJvbTogQW5kcmV5IFZhdG9yb3BpbiA8YS52YXRvcm9waW5AY3JwdC5ydT4NCg0KU3RhdGljIGFu
+YWx5c2lzIHNob3dzIHRoYXQgcG9pbnRlciAic3ZtcyIgY2Fubm90IGJlIE5VTEwgYmVjYXVzZSBp
+dCBwb2ludHMNCnRvIHRoZSBvYmplY3QgInN0cnVjdCBzdm1fcmFuZ2VfbGlzdCIuDQoNClJlbW92
+ZSB0aGUgZXh0cmEgTlVMTCBjaGVjay4gSXQgaXMgbWVhbmluZ2xlc3MgYW5kIGhhcm1zIHRoZSBy
+ZWFkYWJpbGl0eQ0Kb2YgdGhlIGNvZGUuDQoNCkZvdW5kIGJ5IExpbnV4IFZlcmlmaWNhdGlvbiBD
+ZW50ZXIgKGxpbnV4dGVzdGluZy5vcmcpIHdpdGggU1ZBQ0UuDQpTaWduZWQtb2ZmLWJ5OiBBbmRy
+ZXkgVmF0b3JvcGluIDxhLnZhdG9yb3BpbkBjcnB0LnJ1Pg0KLS0tDQogZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRrZmQva2ZkX3N2bS5jIHwgNCAtLS0tDQogMSBmaWxlIGNoYW5nZWQsIDQgZGVsZXRp
+b25zKC0pDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfc3Zt
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfc3ZtLmMNCmluZGV4IGJkM2UyMGQ5
+ODFlMC4uOWYwYzZiNjIzMTc2IDEwMDY0NA0KLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRr
+ZmQva2ZkX3N2bS5jDQorKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfc3ZtLmMN
+CkBAIC00MDg5LDggKzQwODksNiBAQCBpbnQgc3ZtX3JhbmdlX2dldF9pbmZvKHN0cnVjdCBrZmRf
+cHJvY2VzcyAqcCwgdWludDMyX3QgKm51bV9zdm1fcmFuZ2VzLA0KIAkqc3ZtX3ByaXZfZGF0YV9z
+aXplID0gMDsNCiANCiAJc3ZtcyA9ICZwLT5zdm1zOw0KLQlpZiAoIXN2bXMpDQotCQlyZXR1cm4g
+LUVJTlZBTDsNCiANCiAJbXV0ZXhfbG9jaygmc3Ztcy0+bG9jayk7DQogCWxpc3RfZm9yX2VhY2hf
+ZW50cnkocHJhbmdlLCAmc3Ztcy0+bGlzdCwgbGlzdCkgew0KQEAgLTQxNDksOCArNDE0Nyw2IEBA
+IGludCBrZmRfY3JpdV9jaGVja3BvaW50X3N2bShzdHJ1Y3Qga2ZkX3Byb2Nlc3MgKnAsDQogCXN0
+cnVjdCBtbV9zdHJ1Y3QgKm1tOw0KIA0KIAlzdm1zID0gJnAtPnN2bXM7DQotCWlmICghc3ZtcykN
+Ci0JCXJldHVybiAtRUlOVkFMOw0KIA0KIAltbSA9IGdldF90YXNrX21tKHAtPmxlYWRfdGhyZWFk
+KTsNCiAJaWYgKCFtbSkgew0KLS0gDQoyLjQzLjANCg==
