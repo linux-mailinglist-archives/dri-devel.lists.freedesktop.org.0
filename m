@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDBEA6F714
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 12:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7415BA6F76B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 12:47:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B66B10E537;
-	Tue, 25 Mar 2025 11:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692CA10E54D;
+	Tue, 25 Mar 2025 11:47:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YokEgEfA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XDggD5Zd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC44510E562
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 11:46:34 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8430910E54D
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 11:47:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742903195; x=1774439195;
+ t=1742903226; x=1774439226;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=1x79yEYreSGkC6yiWobsNWC0aoxRJJN2bDrRks2sCYs=;
- b=YokEgEfAsSmLU4Csi4JOf7k066gSa+aanTILb7+7L+eGoUQU2DrFEQ1/
- mm8gLDOALan3XwXR+CDwxqTIA7ic7MKMgqcYqIO4wFQG5CqyyOHu7oWMu
- 0x5CVcv0k2re8sWwGfqxrOosOKMSyq4wAcWmK62Yn62/02NJLWSq0TYOQ
- gHsMm85Ojyr+IsPOTab/PfB2KlUXrMq3q2eke4Erx/Y4BaD5qIgApKeif
- ChLPFvvGcGQi6PwbXkwWbxtrxqhdMySrsgC5WaqN7mNzssnQcy7JZbAhw
- ItUBQvVIECZm8OKTzCBk04NtJguauNjwHdWlJ6ZvE+65PRihFn4r+M8zB A==;
-X-CSE-ConnectionGUID: aUl52hjjQHiXJAXAsRaDgA==
-X-CSE-MsgGUID: QjwSf6gESgKKuTOdyl1S6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="44032638"
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="44032638"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 04:46:33 -0700
-X-CSE-ConnectionGUID: RhJWMDMJSdGyIUGNHYtE8A==
-X-CSE-MsgGUID: RaxQvUIDTTK+1v9j7sYoMg==
+ bh=pMoi+O4a1SL0cyUrTBYszfKLOyXWP7g+9pYEEyl2+IU=;
+ b=XDggD5ZdID6I9KFeqHKpx4GR4VLmtpg3bLBzp5ELCzDkfqpIHqLszEku
+ EdI3R+Mf+x+vJRj6f1UO9+go3pa3r4W3u2nTP7heV7NkREKbYWDLUA6sH
+ KTgpBYhFyh0fLUCgC8yIjngZrKNMMpnKVQkqJHfL0Vp6HQ8minC7L+gG8
+ ADkOccfVPDJ8LzgdMe2oPcIDdC8t9CcEXP9e+AOfagd5ccjMAF4erMS81
+ qBOWAr8PnJAFojrafjP+qsA1oYSXxqNWVmWbF/ovoqbM3x5dG+gN9Cnqe
+ kIUfhkRePUjSU7Cqy7njVVBPNBc7aIvdep37f6FIDrTS0U6ipb73t2uxc Q==;
+X-CSE-ConnectionGUID: /Zd0RPlMS96js4IwhLHZzw==
+X-CSE-MsgGUID: Eo9weCn3T16cHmCQpRv0/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="47927672"
+X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="47927672"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 04:47:05 -0700
+X-CSE-ConnectionGUID: 1QVnnAavQiSunQOJ96Y1Dw==
+X-CSE-MsgGUID: hVbnsyRYT7+UyHtS9N2SIQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="124529977"
+X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="124162134"
 Received: from try2-8594.igk.intel.com ([10.91.220.58])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 04:46:21 -0700
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 04:47:03 -0700
 From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  jacek.lawrynowicz@linux.intel.com, lizhi.hou@amd.com,
- stable@vger.kernel.org, Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Subject: [PATCH] accel/ivpu: Fix warning in ivpu_ipc_send_receive_internal()
-Date: Tue, 25 Mar 2025 12:42:19 +0100
-Message-ID: <20250325114219.3739951-1-maciej.falkowski@linux.intel.com>
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Subject: [PATCH 0/2] PM fixes in Metric Steamer code
+Date: Tue, 25 Mar 2025 12:43:04 +0100
+Message-ID: <20250325114306.3740022-1-maciej.falkowski@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,34 +67,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+This patches contains two fixes for Metric Stream:
+  - Fix deadlock that may occur when
+    executing runtime resume during cold boot where
+    ms_lock will be already held there,
+  - Fix warning to warn for suspend status only if
+    the runtime PM is enabled.
 
-Warn if device is suspended only when runtime PM is enabled.
-Runtime PM is disabled during reset/recovery and it is not an error
-to use ivpu_ipc_send_receive_internal() in such cases.
+Jacek Lawrynowicz (2):
+  accel/ivpu: Fix deadlock in ivpu_ms_cleanup()
+  accel/ivpu: Fix PM related deadlocks in MS IOCTLs
 
-Fixes: 5eaa49741119 ("accel/ivpu: Prevent recovery invocation during probe and resume")
-Cc: <stable@vger.kernel.org> # v6.13+
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_ipc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/accel/ivpu/ivpu_debugfs.c |  4 ++--
+ drivers/accel/ivpu/ivpu_ms.c      | 24 ++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-index 0e096fd9b95d..39f83225c181 100644
---- a/drivers/accel/ivpu/ivpu_ipc.c
-+++ b/drivers/accel/ivpu/ivpu_ipc.c
-@@ -302,7 +302,8 @@ ivpu_ipc_send_receive_internal(struct ivpu_device *vdev, struct vpu_jsm_msg *req
- 	struct ivpu_ipc_consumer cons;
- 	int ret;
- 
--	drm_WARN_ON(&vdev->drm, pm_runtime_status_suspended(vdev->drm.dev));
-+	drm_WARN_ON(&vdev->drm, pm_runtime_status_suspended(vdev->drm.dev) &&
-+		    pm_runtime_enabled(vdev->drm.dev));
- 
- 	ivpu_ipc_consumer_add(vdev, &cons, channel, NULL);
- 
 -- 
 2.43.0
 
