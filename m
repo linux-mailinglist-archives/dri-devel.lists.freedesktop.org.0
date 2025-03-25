@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4BCA70478
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 16:01:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8BCA70483
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 16:03:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CFE510E598;
-	Tue, 25 Mar 2025 15:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B90A89221;
+	Tue, 25 Mar 2025 15:03:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N4JMw98n";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE77D10E58D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 15:01:13 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1tx5lo-00069R-Rt; Tue, 25 Mar 2025 16:00:48 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
- helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1tx5ln-001b4w-1A;
- Tue, 25 Mar 2025 16:00:47 +0100
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1tx5li-0009py-2A;
- Tue, 25 Mar 2025 16:00:42 +0100
-Message-ID: <7cb810a0f80d61fea294b93ace2e2fb7515c077c.camel@pengutronix.de>
-Subject: Re: [PATCH v2 4/9] drm/panthor: Implement optional reset
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, Boris Brezillon
- <boris.brezillon@collabora.com>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley
- <conor+dt@kernel.org>,  David Airlie <airlied@gmail.com>, Fabio Estevam
- <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Liviu
- Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring
- <robh@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel
- <sre@kernel.org>,  Shawn Guo <shawnguo@kernel.org>, Simona Vetter
- <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,  Thomas Zimmermann
- <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  imx@lists.linux.dev
-Date: Tue, 25 Mar 2025 16:00:42 +0100
-In-Reply-To: <7233d56f-d07d-46c3-9954-57eb583a36ac@denx.de>
-References: <20250321200625.132494-1-marex@denx.de>
- <20250321200625.132494-5-marex@denx.de>
- <20250324094333.7afb17a1@collabora.com>
- <22187ae5-7486-416b-b612-53021bfca11e@denx.de>
- <13376dff8d861389464b7ecdb2f82fe211638500.camel@pengutronix.de>
- <7233d56f-d07d-46c3-9954-57eb583a36ac@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AAA310E591
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 15:03:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742915033; x=1774451033;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=kFbh0LlV4qyD9Zc+BpYtdVXJlfeuU7uh04pxDYsqlmE=;
+ b=N4JMw98nB3fcnBpkfVbmGDwMXHbIvvvtPbste3tpF5D1nTy+kWZGa6TQ
+ 1apWDsigxTbKUOZWMCAQRCroYV0qO4PwCGlHSuIW1fMu9uqqdHgT9HDcr
+ dwvpknBqQ0u/K4uJBDVth1mgXxzVcz+0Vvo+4nzVcpU1OSKo/9Opthoo5
+ B4SbD1h68v3AD3fdHHcLg+Gu4q7fL2veGoBbPMkB3Lyw85JkQtjWflB5W
+ lTixzk4Ts/ulkJk/2IAERNPaYNxkuDn+x4JbzucKFKHLGNdn9AFpSf1H2
+ FOzO54k4Ac6JDRk6DODb7jNYNGNfqga/7fLaEgW+xa9zGRqTJ1uUWhB6M A==;
+X-CSE-ConnectionGUID: 3iK1rr8kRpqja6bBbXLhAg==
+X-CSE-MsgGUID: JwPQvqYiRIitsvXaFQZhxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="31769686"
+X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; d="scan'208";a="31769686"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 08:03:53 -0700
+X-CSE-ConnectionGUID: DMDtKWK4Rae/QIGFg7jTfg==
+X-CSE-MsgGUID: tg4WBIDZRqSUcwN/2lvOmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; d="scan'208";a="124374348"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.134])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 08:03:50 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: devbrones <jonas.cronholm@protonmail.com>,
+ maarten.lankhorst@linux.intel.com, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/edid: Add non-desktop quirk for Playstation VR
+ Headsets with Product ID 0xB403
+In-Reply-To: <20250325-annoying-precise-uakari-6b6438@houat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250322122048.28677-1-jonas.cronholm@protonmail.com>
+ <875xjxa2rk.fsf@intel.com> <20250325-inquisitive-ebony-mouse-bdf185@houat>
+ <87pli58jze.fsf@intel.com> <20250325-annoying-precise-uakari-6b6438@houat>
+Date: Tue, 25 Mar 2025 17:03:46 +0200
+Message-ID: <87h63h884t.fsf@intel.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,50 +75,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Di, 2025-03-25 at 15:27 +0100, Marek Vasut wrote:
-> On 3/25/25 3:12 PM, Philipp Zabel wrote:
-> > On Mo, 2025-03-24 at 20:05 +0100, Marek Vasut wrote:
-> > > On 3/24/25 9:43 AM, Boris Brezillon wrote:
-> > >=20
-> > > [...]
-> > >=20
-> > > > > @@ -563,6 +585,7 @@ int panthor_device_suspend(struct device *dev=
-)
-> > > > >   =20
-> > > > >    	panthor_devfreq_suspend(ptdev);
-> > > > >   =20
-> > > > > +	reset_control_assert(ptdev->resets);
-> > > >=20
-> > > > Hm, that might be the cause of the fast reset issue (which is a fas=
-t
-> > > > resume more than a fast reset BTW): if you re-assert the reset line=
- on
-> > > > runtime suspend, I guess this causes a full GPU reset, and the MCU =
-ends
-> > > > up in a state where it needs a slow reset (all data sections reset =
-to
-> > > > their initial state). Can you try to move the reset_control_[de]ass=
-ert
-> > > > to the unplug/init functions?
-> > > The reset on the MX95 is not really a reset, it is clear-only
-> > > set-never-again bit which goes only one way, the "unreset" way, so I
-> > > don't think this has any impact.
-> >=20
-> > This sounds like the bit is initially set to 1 (reset asserted) and can
-> > be cleared by writing 0 (once, to deassert the reset). But in the
-> > reset-simple patch it looks to be the other way around (active_low =3D
-> > true)?
-> >=20
-> > If the reset control can't be asserted again on this hardware, it would
-> > be better to have custom driver that doesn't implement the .assert()
-> > callback at all.
-> Maybe the reset-simple driver can be extended with some mode of=20
-> operation like this instead , to make it skip assert once deasserted ,=
-=20
-> for specific reset controllers ?
+On Tue, 25 Mar 2025, Maxime Ripard <mripard@kernel.org> wrote:
+> On Tue, Mar 25, 2025 at 12:47:49PM +0200, Jani Nikula wrote:
+>> On Tue, 25 Mar 2025, Maxime Ripard <mripard@kernel.org> wrote:
+>> > On Tue, Mar 25, 2025 at 11:16:47AM +0200, Jani Nikula wrote:
+>> >> On Sat, 22 Mar 2025, devbrones <jonas.cronholm@protonmail.com> wrote:
+>> >> > This fixes a bug where some Playstation VR Headsets would not be assigned
+>> >> > the EDID_QUIRK_NON_DESKTOP quirk, causing them to be inaccessible by
+>> >> > certain software under Wayland.
+>> >> 
+>> >> Please file a bug over at [1], and attach the EDID on that bug, so we
+>> >> have some clue what's going on.
+>> >>
+>> >> [1] https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/new
+>> >
+>> > I'd rather have them in the commit log. Nobody uses gitlab issues for
+>> > drm-misc, and those kind of issues are just lingering around and
+>> > becoming stale.
+>> 
+>> For this one, it's fine as long as we preserve the raw EDID for
+>> posterity. Unless the EDID does indicate VR and we need to dig deeper,
+>> that is.
+>
+> What I was trying to say is if "posterity" means "a forever open issue
+> in drm-misc", then no, sorry, that doesn't work for me.
 
-How about a second reset_control_ops struct without .assert, selected
-in reset_simple_probe() by a new flag in reset_simple_devdata.
+I want to check the EDID before we merge the quirk.
 
-regards
-Philipp
+If the EDID does not indicate VR, we can merge. I want the EDID
+preserved so we can track them down later if we need to drop or modify
+the quirks.
+
+If the EDID does indicate VR, either the quirk is unnecessary or there's
+a bug somewhere. This requires further debugging, and we must not merge
+the quirk.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
