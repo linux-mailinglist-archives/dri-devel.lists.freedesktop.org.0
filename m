@@ -2,70 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7ADA6EA48
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 08:19:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EB9A6EA93
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 08:35:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7C6510E105;
-	Tue, 25 Mar 2025 07:19:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B9410E02E;
+	Tue, 25 Mar 2025 07:35:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ioWZUlfF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cHPQU1oi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C5A10E02E;
- Tue, 25 Mar 2025 07:19:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742887172; x=1774423172;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=fmAmuTHq8vU0T8QHc+oXeSQFjrfslVBl8fxxg0Yci0Q=;
- b=ioWZUlfFBDs2uR9POxn2rhnMD2PDvSbB+k99QKKoTW/AJZUIqIg6QHpo
- Re9k1GpDhGpVwi1/vbsobKYB5X464PHdCNaRau4MonqviGOhT1yysiRUs
- favvU+YxVjmiR420Ux3US6PpubggjCr+kVkqNwJN6jOF9iYsMTlLhaQao
- wh1qPUwnqc/O/G8JN+xIZVpwWxPw5cwbBQxqK76U6iWYyda/hDlFaddiv
- EO6bR6CqbFfQ9WOv3TpyP3PgA95e/8XUKXe3QLOZlk0/h/LVSdvbX9UXV
- zg9KvbHaTN0G2Rb5oVnWjAfg2zXHSCllZCA3bK0MYn5ImC5ExKxx0ND7B Q==;
-X-CSE-ConnectionGUID: s4Vc4ssiQga2LHL/DhoQUQ==
-X-CSE-MsgGUID: 332ktq2dSyqdPncEjSUmGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="47993227"
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="47993227"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 00:19:32 -0700
-X-CSE-ConnectionGUID: AeBtrb5bT7eGmg3sPqN8jw==
-X-CSE-MsgGUID: pzp5HpOdSY6xljS5fgBE9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="124460689"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 00:19:30 -0700
-Date: Tue, 25 Mar 2025 09:19:26 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
-Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "Gupta, saurabhg" <saurabhg.gupta@intel.com>,
- "Zuo, Alex" <alex.zuo@intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "Brost, Matthew" <matthew.brost@intel.com>,
- "Zhang, Jianxun" <jianxun.zhang@intel.com>,
- "Lin, Shuicheng" <shuicheng.lin@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Wajdeczko, Michal" <Michal.Wajdeczko@intel.com>,
- "Mrozek, Michal" <michal.mrozek@intel.com>
-Subject: Re: [PATCH v10 5/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Message-ID: <Z-JY_kzjHq5fSRBg@black.fi.intel.com>
-References: <20250320152616.74587-1-jonathan.cavitt@intel.com>
- <20250320152616.74587-6-jonathan.cavitt@intel.com>
- <Z934F9fz_-d1oGiC@black.fi.intel.com>
- <CH0PR11MB5444C9D9B706616AFC314810E5A42@CH0PR11MB5444.namprd11.prod.outlook.com>
- <Z-HN3Yvci8x7JwWc@black.fi.intel.com>
- <CH0PR11MB544414B6A0B6FBD0B790CFD4E5A42@CH0PR11MB5444.namprd11.prod.outlook.com>
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9722C10E02E
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 07:35:05 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3914a5def6bso3115447f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 00:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1742888101; x=1743492901; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=nsBuAVY5kbLtGjR0cZnVpfbHFHF4MARurAEfy4F4g/0=;
+ b=cHPQU1oiYpumiZy5FOWni3A/dEmRFxLOKKDdsb05HHDJ+xNgil3WJ/LHmyMwjrACmU
+ g20QXVRGZ8F0JzbyYp0RX/XMgmFfUlvUtWrAo8Yyo4eXJTB4FdsZFX8zB7WF5hgLSwZD
+ CIuKwDEDssOSna0g2otRri3ZdMxDtAlqqOjRQ6sjZydQ72YKxV/lyQSCK49dkGp3yHTj
+ BsiG9IVkzUDic2FIkkAF9qvmejfXBdsnAe0z8xkBMBA3Ik7cFj58MELUcjdJSf+vLsEq
+ Ae88GjKn/TQ+PFR5ukxn3CYvFMd0CVs5CoQVlCuBImhrYAqVi1LP89Hi8DVk20eruVGc
+ tC+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1742888101; x=1743492901;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=nsBuAVY5kbLtGjR0cZnVpfbHFHF4MARurAEfy4F4g/0=;
+ b=q3v1DnnaxQuiTLYFcaeJGRNWVZ2ZvR0tpZJVRBvY602zBn7Hv3znlbUbMs2hQbKFph
+ blYhspMGbq5mR/Mv08W7YfWwxbdqSKc0wdrVM7tGphnr9YTYpNlMX/P1Z3ErvZ9vPodm
+ ZUEUu88pKi2/RXD8SZyQKACddh3hsffoqHOEGoK8V75CleVUl+HhKVu/YYppt9KNGAng
+ 5qHrLakB2zHLynahMPjtknpZNyKKf+dJ021/Lm2CoMdMgElKi3C9B+FA5oIwANc0h415
+ NaHTvVKBj5/+9+xtKNGVOFMvLJ76Sn0Yc7wh/oGelpwdjgOmwCpJ4LOsNJ5gheQyKnwl
+ 9KvA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUazo2gPTgy6hvwDkPFFkw0U0EcHEDSZ7+bRqF5U2r9rBRsIkL2ZPMimPMTFDIqACa0YsEvftT/Fts=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwP3ntP/vKrfYflzCFQEKVKskONJiIM66+WyxqqeZLN+E7FddyI
+ HDKp+oorQmKnZ3EbTeOSMgVlfNwO+5KXIBDkx27HfZF3NB/if5VMAviV1inUrwo=
+X-Gm-Gg: ASbGnctZU5bXgfU1LiRskaItYL7G2uuC9kjb0xahXjSqdcfWiPWMShdfRDWJGVZwwOT
+ Dp0UlmAd/pG1N9n+KxuyW2tTn6rajdnCB+wZLvEf4GTEYnxSJxxP4mwQRPB+EG2l0iPhk7Vk1E/
+ 0VnBigCgNCN6nCpHIxnvkBzRGPiFFMtp4X++miHdLqVkhZurd0CK+GXqAV+PmOCc+6Au0h6ZyNW
+ rljYvawK7I+kGRrbk7B4rlvsaWllf1CsaGpMIQ+vcWcZo8ZELeVhu0CjzQeDE6XergdPbzZOg9V
+ GvRMqZMnVrFR390z8P6zmsaXYB8n+jbhcsCm/WJCefyjt/9DsClyQKGiOGzE6/GtLCbx001bRir
+ 9mK1QiZ5KoCR7IeqI
+X-Google-Smtp-Source: AGHT+IHF2PL5nlHRaAy+vlhbkBYtTF0T7s6ZOWU4rgBP6VnqeSKDJmq+WAiMwII0SgzDwtXmOQ9xNg==
+X-Received: by 2002:a05:6000:2808:b0:39a:ca0c:fb0c with SMTP id
+ ffacd0b85a97d-39aca0cfb21mr350868f8f.28.1742888100838; 
+ Tue, 25 Mar 2025 00:35:00 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:7a:6952:5850:1802?
+ ([2a01:e0a:3d9:2080:7a:6952:5850:1802])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43d4fd18365sm142411785e9.13.2025.03.25.00.35.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Mar 2025 00:35:00 -0700 (PDT)
+Message-ID: <0ca61f1e-ec51-4335-a74e-7337aad5219c@linaro.org>
+Date: Tue, 25 Mar 2025 08:35:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CH0PR11MB544414B6A0B6FBD0B790CFD4E5A42@CH0PR11MB5444.namprd11.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/i2c: tda998x: select CONFIG_DRM_KMS_HELPER
+To: Arnd Bergmann <arnd@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250324210824.3094660-1-arnd@kernel.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250324210824.3094660-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,53 +125,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 25, 2025 at 03:01:27AM +0530, Cavitt, Jonathan wrote:
-> From: Jadav, Raag <raag.jadav@intel.com> 
-> > On Mon, Mar 24, 2025 at 10:27:08PM +0530, Cavitt, Jonathan wrote:
-> > > From: Jadav, Raag <raag.jadav@intel.com> 
-> > > > On Thu, Mar 20, 2025 at 03:26:15PM +0000, Jonathan Cavitt wrote:
-> > > > > Add support for userspace to request a list of observed faults
-> > > > > from a specified VM.
-> > > > 
-> > > > ...
-> > > > 
-> > > > > +static int xe_vm_get_property_size(struct xe_vm *vm, u32 property)
-> > > > > +{
-> > > > > +	int size = -EINVAL;
-> > > > 
-> > > > Mixing size and error codes is usually received with mixed feelings.
-> > > > 
-> > > > > +
-> > > > > +	switch (property) {
-> > > > > +	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-> > > > > +		spin_lock(&vm->faults.lock);
-> > > > > +		size = vm->faults.len * sizeof(struct xe_vm_fault);
-> > > > 
-> > > > size_mul() and,
-> > > > [1] perhaps fill it up into the pointer passed by the caller here?
-> > > 
-> > > "The pointer passed by the caller".  You mean the args pointer?
-> > > 
-> > > We'd still need to check that the args->size value is empty here before overwriting
-> > > it, and we'd also still need to return the size to the ioctl so we can verify it's
-> > > acceptable later in xe_vm_get_property_verify_size.
-> > > 
-> > > Unless you want to merge those two processes together into here?
-> > 
-> > The semantics are a bit fuzzy to me. Why do we have a single ioctl for
-> > two different processes? Shouldn't they be handled separately?
+On 24/03/2025 22:08, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> No.  Sorry.  Let me clarify.
-> "two different processes" = getting the size + verifying the size.
+> This fails to build without the KMS helper functions:
+> 
+> x86_64-linux-ld: drivers/gpu/drm/bridge/tda998x_drv.o: in function `tda998x_detect_work':
+> tda998x_drv.c:(.text+0x4e6): undefined reference to `drm_kms_helper_hotplug_event'
+> x86_64-linux-ld: drivers/gpu/drm/bridge/tda998x_drv.o: in function `tda998x_bind':
+> tda998x_drv.c:(.text.unlikely+0x33): undefined reference to `drm_simple_encoder_init'
+> x86_64-linux-ld: drivers/gpu/drm/bridge/tda998x_drv.o:(.rodata+0x584): undefined reference to `drm_atomic_helper_connector_reset'
+> x86_64-linux-ld: drivers/gpu/drm/bridge/tda998x_drv.o:(.rodata+0x590): undefined reference to `drm_helper_probe_single_connector_modes'
+> x86_64-linux-ld: drivers/gpu/drm/bridge/tda998x_drv.o:(.rodata+0x5a4): undefined reference to `drm_atomic_helper_connector_duplicate_state'
+> x86_64-linux-ld: drivers/gpu/drm/bridge/tda998x_drv.o:(.rodata+0x5a8): undefined reference to `drm_atomic_helper_connector_destroy_state'
+> 
+> Select the missing symbol and fix up the broken whitespace.
+> 
+> Fixes: 325ba852d148 ("drm/i2c: move TDA998x driver under drivers/gpu/drm/bridge")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   drivers/gpu/drm/bridge/Kconfig | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index d20f1646dac2..09a1be234f71 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -91,12 +91,13 @@ config DRM_FSL_LDB
+>   	  Support for i.MX8MP DPI-to-LVDS on-SoC encoder.
+>   
+>   config DRM_I2C_NXP_TDA998X
+> -       tristate "NXP Semiconductors TDA998X HDMI encoder"
+> -       default m if DRM_TILCDC
+> -       select CEC_CORE if CEC_NOTIFIER
+> -       select SND_SOC_HDMI_CODEC if SND_SOC
+> -       help
+> -         Support for NXP Semiconductors TDA998X HDMI encoders.
+> +	tristate "NXP Semiconductors TDA998X HDMI encoder"
+> +	default m if DRM_TILCDC
+> +	select CEC_CORE if CEC_NOTIFIER
+> +	select DRM_KMS_HELPER
+> +	select SND_SOC_HDMI_CODEC if SND_SOC
+> +	help
+> +	  Support for NXP Semiconductors TDA998X HDMI encoders.
+>   
+>   config DRM_ITE_IT6263
+>   	tristate "ITE IT6263 LVDS/HDMI bridge"
 
-Yes, which seems like they should be handlded with _FAULT_NUM and
-_FAULT_DATA ioctls but I guess we're way past it now.
-
-I'm also not much informed about the history here. Is there a real
-usecase behind exposing them? What is the user expected to do with
-this information?
-
-Raag
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
