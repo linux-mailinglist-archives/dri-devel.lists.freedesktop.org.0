@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A066A6F777
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 12:47:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B97A6FA98
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 13:01:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4A7610E562;
-	Tue, 25 Mar 2025 11:47:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F75E10E544;
+	Tue, 25 Mar 2025 12:01:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aE1WwiUk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LPY+6Bhu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA07D10E554
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 11:47:08 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCC3210E206;
+ Tue, 25 Mar 2025 12:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742903229; x=1774439229;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=b7bFA/uLKAvdPMG5WhIPWidg2cv+LiaOcHiUyxMcn2I=;
- b=aE1WwiUkdToFw/AWz+EjS8e9sg2VGM78PP1bUFHzFiG1x7Cxdd6zcd0y
- yPui4IHaVue4s/JBF3cs7Ts2+B5cD2feeJ9NOdycMCOYSNegQzwOo1pS6
- ErBLslvVh6UUuY8Ezu0TcIZA0eo7ikSDSPZ8INEotNZi0eaMCehyKBB8b
- 8M8gb6MBDuVYXWC0Qs17+9Xhg62eGgO5BUCh5LIsqde0wCkoEM3+qtkCr
- rE+s7QKiPdgneBsE1Jb079jILS55uD3wGvY31pNs+sJLgv0bCqYlKzjAr
- RG8DdWj8eXtSgP7Q5gXh7rbc3g/QEJlSxJD67sDu9byFv1oxwSq7JkwOB g==;
-X-CSE-ConnectionGUID: qCQxcAc5RqOzvKjL+Y7yzA==
-X-CSE-MsgGUID: soQcBqTySo6uNxJImiyjRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="47927684"
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="47927684"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 04:47:09 -0700
-X-CSE-ConnectionGUID: aCu11OelSUeCAPeEuRzxog==
-X-CSE-MsgGUID: s6nJVX4dR0CVjLlxwtR0uw==
+ t=1742904108; x=1774440108;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=urBxdLCO9dgOqWgWTaVsenH58Dakyaq8qm220jHHPeQ=;
+ b=LPY+6BhuQL7O93ySfa1HmLCBdvzas7LqQLgizyCYQdXVUB3Hemuub8JA
+ ON+UlWHzb0M445GGvjcrigO3rojQRiAhQ8iQWeGawRwLSn+Wg4nzn3Ait
+ BCm4/BHhVXmFO1K0gqiD1S2UPYakbu5G3RuNcxWqloY4qpwaDWAzqX7Ll
+ 6DHjlM6gt+zxLnVKGXWX6bGHwE+SC/7gXRskoBBmUOLTnArbljRuYwzRk
+ SDZIJw2xVnTgFMiqMbBCsFs7+FL4eCvTbCAIuRFIlLjls2FsCUkcCZKj9
+ wehTyiYr8ens6Pdk6YEl3Goaxt+EXenGWDempdclR2Zul+OhX96jDkIAF g==;
+X-CSE-ConnectionGUID: XtZyMjziQoeTWMvMKXUELg==
+X-CSE-MsgGUID: ZBfYvswOTBW1b3Xkhl67gw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="61537566"
+X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="61537566"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 05:01:47 -0700
+X-CSE-ConnectionGUID: 46zTmrDBRL+AQX9cTz53jQ==
+X-CSE-MsgGUID: SeZUqG10RaqiqnmxCRv3yw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="124162152"
-Received: from try2-8594.igk.intel.com ([10.91.220.58])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 04:47:07 -0700
-From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- jacek.lawrynowicz@linux.intel.com, lizhi.hou@amd.com,
- stable@vger.kernel.org, Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Subject: [PATCH 2/2] accel/ivpu: Fix PM related deadlocks in MS IOCTLs
-Date: Tue, 25 Mar 2025 12:43:06 +0100
-Message-ID: <20250325114306.3740022-3-maciej.falkowski@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250325114306.3740022-1-maciej.falkowski@linux.intel.com>
-References: <20250325114306.3740022-1-maciej.falkowski@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="129033562"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.149])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 05:01:45 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Arshad Mehmood <arshad.mehmood@intel.com>
+Subject: [PATCH] drm/i915/gt: Avoid duplicating CCS mode workaround
+Date: Tue, 25 Mar 2025 13:01:37 +0100
+Message-ID: <20250325120137.1302748-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,112 +68,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+When generating workarounds for the CCS engine, specifically for
+setting the CCS mode related to compute load balancing, the
+function 'ccs_engine_wa_mode()' is called twice: once for the
+render engine and once for the compute engine.
 
-Prevent runtime resume/suspend while MS IOCTLs are in progress.
-Failed suspend will call ivpu_ms_cleanup() that would try to acquire
-file_priv->ms_lock, which is already held by the IOCTLs.
+Add a check to ensure the engine class is compute before applying
+the workaround to avoid redundant programming.
 
-Fixes: cdfad4db7756 ("accel/ivpu: Add NPU profiling support")
-Cc: <stable@vger.kernel.org> # v6.11+
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Suggested-by: Arshad Mehmood <arshad.mehmood@intel.com>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_debugfs.c |  4 ++--
- drivers/accel/ivpu/ivpu_ms.c      | 18 ++++++++++++++++++
- 2 files changed, 20 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-index 0825851656a2..f0dad0c9ce33 100644
---- a/drivers/accel/ivpu/ivpu_debugfs.c
-+++ b/drivers/accel/ivpu/ivpu_debugfs.c
-@@ -332,7 +332,7 @@ ivpu_force_recovery_fn(struct file *file, const char __user *user_buf, size_t si
- 		return -EINVAL;
- 
- 	ret = ivpu_rpm_get(vdev);
--	if (ret)
-+	if (ret < 0)
- 		return ret;
- 
- 	ivpu_pm_trigger_recovery(vdev, "debugfs");
-@@ -383,7 +383,7 @@ static int dct_active_set(void *data, u64 active_percent)
- 		return -EINVAL;
- 
- 	ret = ivpu_rpm_get(vdev);
--	if (ret)
-+	if (ret < 0)
- 		return ret;
- 
- 	if (active_percent)
-diff --git a/drivers/accel/ivpu/ivpu_ms.c b/drivers/accel/ivpu/ivpu_ms.c
-index eb485cf15ad6..2a043baf10ca 100644
---- a/drivers/accel/ivpu/ivpu_ms.c
-+++ b/drivers/accel/ivpu/ivpu_ms.c
-@@ -45,6 +45,10 @@ int ivpu_ms_start_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
- 	    args->sampling_period_ns < MS_MIN_SAMPLE_PERIOD_NS)
- 		return -EINVAL;
- 
-+	ret = ivpu_rpm_get(vdev);
-+	if (ret < 0)
-+		return ret;
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 116683ebe074..37251546b755 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -2897,7 +2897,9 @@ engine_init_workarounds(struct intel_engine_cs *engine, struct i915_wa_list *wal
+ 	 */
+ 	if (engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE) {
+ 		general_render_compute_wa_init(engine, wal);
+-		ccs_engine_wa_mode(engine, wal);
 +
- 	mutex_lock(&file_priv->ms_lock);
++		if (engine->class == COMPUTE_CLASS)
++			ccs_engine_wa_mode(engine, wal);
+ 	}
  
- 	if (get_instance_by_mask(file_priv, args->metric_group_mask)) {
-@@ -97,6 +101,8 @@ int ivpu_ms_start_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
- 	kfree(ms);
- unlock:
- 	mutex_unlock(&file_priv->ms_lock);
-+
-+	ivpu_rpm_put(vdev);
- 	return ret;
- }
- 
-@@ -161,6 +167,10 @@ int ivpu_ms_get_data_ioctl(struct drm_device *dev, void *data, struct drm_file *
- 	if (!args->metric_group_mask)
- 		return -EINVAL;
- 
-+	ret = ivpu_rpm_get(vdev);
-+	if (ret < 0)
-+		return ret;
-+
- 	mutex_lock(&file_priv->ms_lock);
- 
- 	ms = get_instance_by_mask(file_priv, args->metric_group_mask);
-@@ -188,6 +198,7 @@ int ivpu_ms_get_data_ioctl(struct drm_device *dev, void *data, struct drm_file *
- unlock:
- 	mutex_unlock(&file_priv->ms_lock);
- 
-+	ivpu_rpm_put(vdev);
- 	return ret;
- }
- 
-@@ -205,11 +216,17 @@ int ivpu_ms_stop_ioctl(struct drm_device *dev, void *data, struct drm_file *file
- {
- 	struct ivpu_file_priv *file_priv = file->driver_priv;
- 	struct drm_ivpu_metric_streamer_stop *args = data;
-+	struct ivpu_device *vdev = file_priv->vdev;
- 	struct ivpu_ms_instance *ms;
-+	int ret;
- 
- 	if (!args->metric_group_mask)
- 		return -EINVAL;
- 
-+	ret = ivpu_rpm_get(vdev);
-+	if (ret < 0)
-+		return ret;
-+
- 	mutex_lock(&file_priv->ms_lock);
- 
- 	ms = get_instance_by_mask(file_priv, args->metric_group_mask);
-@@ -218,6 +235,7 @@ int ivpu_ms_stop_ioctl(struct drm_device *dev, void *data, struct drm_file *file
- 
- 	mutex_unlock(&file_priv->ms_lock);
- 
-+	ivpu_rpm_put(vdev);
- 	return ms ? 0 : -EINVAL;
- }
- 
+ 	if (engine->class == COMPUTE_CLASS)
 -- 
-2.43.0
+2.47.2
 
