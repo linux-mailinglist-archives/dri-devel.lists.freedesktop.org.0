@@ -2,104 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BFEA70A2E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 20:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5EDA70A63
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 20:27:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E0C10E5E5;
-	Tue, 25 Mar 2025 19:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61EB110E5E1;
+	Tue, 25 Mar 2025 19:27:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mM19fhk4";
+	dkim=pass (2048-bit key; unprotected) header.d=riscv-rocks.de header.i=@riscv-rocks.de header.b="hKmcSJA1";
+	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="AVAiw6cD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 100CC10E5DC
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 19:21:47 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-43bb6b0b898so58196225e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 12:21:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1742930505; x=1743535305; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=GfMUnRKa6FZTnWMdT4iRvYn+H2j4PDg2i8e1Rmjpi6Q=;
- b=mM19fhk49zn0oANY5wc96eG39BTuLPQ+tf/otio2rzkY7O2M1p8amIdfUbJhtSUcDZ
- fQ72nKq3Q/3vE92LEzaj7hLU9NeXxmbbCqOf5WOyekuE7XBKpp08kN+KiDlFv139w5h4
- 62BTwVsQ3IA5DLUP+PSB+baQJcajgn0NgnQv/yLcxIN+7v2Fljl3oB8sCvjb6wSY61gQ
- 6q59xrvIj9VIAq0MWIgWX8uE0E1uvitADJGspHUm/+Rc2DBNHqrL6GQvtF68Y3dSWkgr
- jwtWkRBkUL9Rioab4IPhJ5ERVDao6CkY83ykI99DEJ8rG0t4ruY1n6DhEXDEXzv/FaAI
- iAZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742930505; x=1743535305;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GfMUnRKa6FZTnWMdT4iRvYn+H2j4PDg2i8e1Rmjpi6Q=;
- b=RFyWrPyo+KBjp4oCO30WnBj3X6pqjjfAXjlPDwxjtc0W5vOXR2MyapxPNQEj/MFoPh
- peGC0UbbcJ1c9LtOVfWfEKYeirKu/hBhTqRYUrRsQeS1wQ04C3wL4piZCRWcls2USQVn
- iiAwBHqMGzMyArbY746eR3gJJCxVLYlehhCyX59Jz6LyGh+BnEbo3XsM94+u5BEDWUm4
- /fR0uH4i6O+65ZPYEHnpseqZR+Rk39NzCrINf/eCtX056cZxd00leHFPyVabFBSBYh+9
- TAOvhGCbNiYpOeoLK1trsdcFFMOxLTN6hXdsWXZp2uOYlleH888C0aQE9GRK21wrf2LM
- GhRw==
-X-Gm-Message-State: AOJu0Yz/50LNZfBG9Be2P52o0w1CbuBEH2afi48Vmaw4/MF5PAjIxGc4
- EOM6koSVNcxIveShCR5z4bk+6YisTEq5LnynnWPF6jKSHvwJyq7RsQVWX0hSqwo=
-X-Gm-Gg: ASbGncvUUcHG4ZDZWJOqjQzxQdGgxPr4bq/Laxj8MaAUraXjn+GAB59NSLNJUSh+cTr
- KWGFYkcRkkkXwKwumSHB8+qcmVGsVORLoc+uY69QBhEe3pjFwvIMgbsn87CKl44uzNMwPa+ID6c
- ILrSZNhRXucDxiND9JF7sJfq1sKDle/gekP4l1M6d58BsqCGkP417vJ7voJaGUTQqBq8b0MOAFJ
- JIN7ZSmtDWBNG8Y3tJScGrbFhjbTZIsps3Q+IWqymAijx/v+cUjoC1eZEcaGGkbM3iKK66SpvFc
- Wni73m/8M4UDQ0V8NDD0o8sYwHwz12VmMZdkFqOR/0KKv4qkqG7uhHuR
-X-Google-Smtp-Source: AGHT+IFSJk7sX8ah/jLfo3djxid/LJPIi8rrO/WV4KITHQ/DIuSczuOmd//GwyvtrJBHrFrWDtgXQw==
-X-Received: by 2002:a05:600c:138a:b0:43c:f184:2e16 with SMTP id
- 5b1f17b1804b1-43d509e3fcdmr171193605e9.5.1742930505522; 
- Tue, 25 Mar 2025 12:21:45 -0700 (PDT)
-Received: from localhost ([2a00:23c8:b70a:ae01:9cf7:b69:fc50:980f])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3997f995a05sm14372870f8f.8.2025.03.25.12.21.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Mar 2025 12:21:45 -0700 (PDT)
-From: Christopher Obbard <christopher.obbard@linaro.org>
-Date: Tue, 25 Mar 2025 19:21:29 +0000
-Subject: [PATCH v2 4/4] drm/dp: fallback to maximum when PWM bit count is zero
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-4-e9bc7c9d30cc@linaro.org>
-References: <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-0-e9bc7c9d30cc@linaro.org>
-In-Reply-To: <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-0-e9bc7c9d30cc@linaro.org>
-To: Douglas Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+X-Greylist: delayed 312 seconds by postgrey-1.36 at gabe;
+ Tue, 25 Mar 2025 19:27:22 UTC
+Received: from b224-14.smtp-out.eu-central-1.amazonses.com
+ (b224-14.smtp-out.eu-central-1.amazonses.com [69.169.224.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FEB510E5E1;
+ Tue, 25 Mar 2025 19:27:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=2kaovp6zxy5nzp5wqunvdq5vkiqbeqln; d=riscv-rocks.de; t=1742930520;
+ h=Date:From:To:Cc:Subject:Message-ID:Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
+ bh=FdCrWB/PGMqRl9E6yvI0q12+/fCRDq9CWfKgDzpVcYs=;
+ b=hKmcSJA1MuhxsIZPZfj7XEvEo2N6UH79MdWW9aunUqen4zNxJjW5wra5v/QO8qRT
+ yHSCH0G142gjUOtflLMR95TxxWgE6GQhr555Ds6o8gCRnj3sIKuQWRbIKKCAqaW1dwk
+ JjzNQYfx+6fZdXjpwp/nm5g0gr7aRGe4oHB2Tgo4drsF9dKykpVmbFwmBELXa+TxA0I
+ 70COdN52Q+P45OpdGYqpthsQMXJb0zymfGlfgRwmltdIUJGkCcygt9fVSXg8gL4NRVk
+ Mj3BL5cdFR3KWewke+oo2W62KFEfOHSSHXalPODMl0EZCgkbdPeIqsHSjgbGOCYa2dF
+ 09Z1/KaK9Q==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=54ecsf3zk7z4mwxwwox7z7bg6e5gwjsz; d=amazonses.com; t=1742930520;
+ h=Date:From:To:Cc:Subject:Message-ID:Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Feedback-ID;
+ bh=FdCrWB/PGMqRl9E6yvI0q12+/fCRDq9CWfKgDzpVcYs=;
+ b=AVAiw6cD+raTgnEdmxwoAMbu6Kb/WbReAY5v8LAYSDk6+Exstz74K8Fs12KL9V2M
+ 8Os6Q8Yg3H4up1nbWyLjFsciZPWu046fbGEcRjOOoi8dVACNUBFvEWeVDNUCKAXgIzy
+ kMfXfH4L1wztt45u6aiYNQyPuSn8BmIXXrUNZlFo=
+Date: Tue, 25 Mar 2025 19:22:00 +0000
+From: Damian Tometzki <damian@riscv-rocks.de>
+To: Nicolas Chauvet <kwizart@gmail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Kees Cook <kees@kernel.org>, 
+ Zhenyu Wang <zhenyuw@linux.intel.com>, 
+ Zhi Wang <zhi.wang.linux@gmail.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
- Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>, 
- devicetree@vger.kernel.org, 
- Christopher Obbard <christopher.obbard@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3611;
- i=christopher.obbard@linaro.org; h=from:subject:message-id;
- bh=mLHtZJFLMF48TiDY/Fyy9ntYtplBGAFzZq4lKzgNgsc=;
- b=owEBbQKS/ZANAwAKAWNNxPBocEb4AcsmYgBn4wJFBoQIZRwm4MEfRBT/amOrrbqvY6meAJUGs
- Zzs1ajSUdGJAjMEAAEKAB0WIQTxi9yLbCX5CqI9UXRjTcTwaHBG+AUCZ+MCRQAKCRBjTcTwaHBG
- +NBjEACj/fERHN6R6wNa/Q6CY47brEh3D2ieKKqZBxc1NEsvAR37Zc3L7OdNhHDhO0qX76l2bVz
- 0grE7BB4wuc7NzXZ5+fxfu5eq25/rHeM2FyHFx3XDB5Vs6s+FXp4BVh017F7kJEzfZ/lucDeVa6
- +1odcCZkLKkGoV6bNBU1L3xCweb0uF2N4y5P07QWF8fJMPXz6kVXHHTi4STVlWOkua2P3GjQAPz
- CUshB4Vl56YUudtq8tSN694HVj78hy9vtjI9NEPsbVQcYUmETh+lBRT1wotQuj677Snt4faSTye
- 10veysIYlYdAe2YbXTsvNQkU7rh5HR9QSP9WCDTKuXBa1dPSVnvr3Q/csL8WrWld3tYod+XTm8W
- ZQINeb2U1/CnzLnpIJmaJBQuUrk5t/avx0W2AfF+HQi3YHjHz0qFfu+DCtOldywK8gQNC4aq3sP
- kSZ9jDk9s4CG4w92Ch6C0YSgXFBbzueiIcz/AgRDFUB4u5H9ov5vK5/Ip4CgY7AYz6VfKwflZs0
- 3pS3ZJH32J0AWxp3q3AHo+YM5WWrNgwz2omWAVVhNqEtOHzPACWCLtS42J+JwQF4ipqnLJVooKL
- T2vclFbbcxl0MU+8q8N9KaohCHZm7s6cxFPtBlWrAFirGE77N7HLFAs/1KUgOqxFtq+PXR0wsO0
- vWpEvDkVpx9PB6Q==
-X-Developer-Key: i=christopher.obbard@linaro.org; a=openpgp;
- fpr=F18BDC8B6C25F90AA23D5174634DC4F0687046F8
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] drm/i915/gvt: Add __nonstring annotations for
+ unterminated strings
+Message-ID: <01070195cec129de-3a185083-9c9f-451c-a7f9-3798f9eb5954-000000@eu-central-1.amazonses.com>
+Mail-Followup-To: Nicolas Chauvet <kwizart@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Kees Cook <kees@kernel.org>, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.wang.linux@gmail.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20250310222355.work.417-kees@kernel.org>
+ <01070195c306db7f-9f28efdd-9456-4db3-b6c6-343298bd571b-000000@eu-central-1.amazonses.com>
+ <87r02ma8s3.fsf@intel.com>
+ <CABr+WTkggOTDDzgPFmnJo3Dab4QYxLRt=_g7in3bgr0z6jXf+g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABr+WTkggOTDDzgPFmnJo3Dab4QYxLRt=_g7in3bgr0z6jXf+g@mail.gmail.com>
+User-Agent: Mutt
+X-Operating-System: Linux Fedora release 42 (Adams) (Kernel 6.14.0)
+Organization: Linux hacker
+Feedback-ID: ::1.eu-central-1.yMcBPu/jK26Vj3HVmCFyFk75QMsS8V3QY5HbXP/Qrys=:AmazonSES
+X-SES-Outgoing: 2025.03.25-69.169.224.14
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,104 +89,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Damian Tometzki <damian@riscv-rocks.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some eDP devices report DP_EDP_PWMGEN_BIT_COUNT as 0, but still provide
-valid non-zero MIN and MAX values. This patch reworks the logic to
-fallback to the max value in such cases, ensuring correct backlight PWM
-configuration even when the bit count value is not explicitly set.
+On Mon, 24. Mar 22:19, Nicolas Chauvet wrote:
+> Le lun. 24 mars 2025 à 13:54, Jani Nikula
+> <jani.nikula@linux.intel.com> a écrit :
+> >
+> > On Sun, 23 Mar 2025, Damian Tometzki <damian@riscv-rocks.de> wrote:
+> > > On Mon, 10. Mar 15:23, Kees Cook wrote:
+> > >> When a character array without a terminating NUL character has a static
+> > >> initializer, GCC 15's -Wunterminated-string-initialization will only
+> > >> warn if the array lacks the "nonstring" attribute[1]. Mark the arrays
+> > >> with __nonstring to and correctly identify the char array as "not a C
+> > >> string" and thereby eliminate the warning.
+> > >>
+> > >> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=117178 [1]
+> > >> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+> > >> Cc: Zhi Wang <zhi.wang.linux@gmail.com>
+> > >> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > >> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > >> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > >> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> > >> Cc: David Airlie <airlied@gmail.com>
+> > >> Cc: Simona Vetter <simona@ffwll.ch>
+> > >> Cc: intel-gvt-dev@lists.freedesktop.org
+> > >> Cc: intel-gfx@lists.freedesktop.org
+> > >> Cc: dri-devel@lists.freedesktop.org
+> > >> Signed-off-by: Kees Cook <kees@kernel.org>
+> > >> ---
+> > >>  drivers/gpu/drm/i915/gvt/opregion.c | 4 ++--
+> > >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/i915/gvt/opregion.c b/drivers/gpu/drm/i915/gvt/opregion.c
+> > >> index 509f9ccae3a9..f701638d3145 100644
+> > >> --- a/drivers/gpu/drm/i915/gvt/opregion.c
+> > >> +++ b/drivers/gpu/drm/i915/gvt/opregion.c
+> > >> @@ -43,7 +43,7 @@
+> > >>  #define DEVICE_TYPE_EFP4   0x10
+> > >>
+> > >>  struct opregion_header {
+> > >> -    u8 signature[16];
+> > >> +    u8 signature[16] __nonstring;
+> >
+> > Why would this annotation be needed? It's not treated as a string
+> > anywhere, and it's u8 not char.
+> >
+> > >>      u32 size;
+> > >>      u32 opregion_ver;
+> > >>      u8 bios_ver[32];
+> > >> @@ -222,7 +222,7 @@ int intel_vgpu_init_opregion(struct intel_vgpu *vgpu)
+> > >>      u8 *buf;
+> > >>      struct opregion_header *header;
+> > >>      struct vbt v;
+> > >> -    const char opregion_signature[16] = OPREGION_SIGNATURE;
+> > >> +    const char opregion_signature[16] __nonstring = OPREGION_SIGNATURE;
+> > >>
+> > >>      gvt_dbg_core("init vgpu%d opregion\n", vgpu->id);
+> > >>      vgpu_opregion(vgpu)->va = (void *)__get_free_pages(GFP_KERNEL |
+> > >> --
+> > >> 2.34.1
+> > >>
+> > > Hello together,
+> > >
+> > > it doesnt resolve the build issue with gcc15 gcc (GCC) 15.0.1 20250228
+> > >
+> > > CC [M]  drivers/gpu/drm/i915/gvt/scheduler.o
+> > > /home/damian/kernel/linux/drivers/gpu/drm/i915/gvt/opregion.c: In function ‘intel_vgpu_init_opregion’:
+> > > /home/damian/kernel/linux/drivers/gpu/drm/i915/gvt/opregion.c:35:28: error: initializer-string for array of ‘char’ is too long [-Werror=unterminated-string-initialization]
+> > >    35 | #define OPREGION_SIGNATURE "IntelGraphicsMem"
+> > >       |                            ^~~~~~~~~~~~~~~~~~
+> > > /home/damian/kernel/linux/drivers/gpu/drm/i915/gvt/opregion.c:225:57: note: in expansion of macro ‘OPREGION_SIGNATURE’
+> > >   225 |         const char opregion_signature[16] __nonstring = OPREGION_SIGNATURE;
+> > >       |                                                         ^~~~~~~~~~~~~~~~~~
+> > >   CC [M]  drivers/gpu/drm/i915/gvt/trace_points.o
+> > > cc1: all warnings being treated as errors
+> > > make[7]: *** [/home/damian/kernel/linux/scripts/Makefile.build:207: drivers/gpu/drm/i915/gvt/opregion.o] Error 1
+> > > make[7]: *** Waiting for unfinished jobs....
+> > >   CC [M]  drivers/gpu/drm/i915/gvt/vgpu.o
+> > > make[6]: *** [/home/damian/kernel/linux/scripts/Makefile.build:465: drivers/gpu/drm/i915] Error 2
+> > > make[5]: *** [/home/damian/kernel/linux/s
+> >
+> > What about this?
+> >
+> > IMO it's anyway good practice to use sizeof(dest) rather than
+> > sizeof(src) for memcpy.
+> >
+> >
+> > diff --git a/drivers/gpu/drm/i915/gvt/opregion.c b/drivers/gpu/drm/i915/gvt/opregion.c
+> > index 509f9ccae3a9..dbad4d853d3a 100644
+> > --- a/drivers/gpu/drm/i915/gvt/opregion.c
+> > +++ b/drivers/gpu/drm/i915/gvt/opregion.c
+> > @@ -222,7 +222,6 @@ int intel_vgpu_init_opregion(struct intel_vgpu *vgpu)
+> >         u8 *buf;
+> >         struct opregion_header *header;
+> >         struct vbt v;
+> > -       const char opregion_signature[16] = OPREGION_SIGNATURE;
+> >
+> >         gvt_dbg_core("init vgpu%d opregion\n", vgpu->id);
+> >         vgpu_opregion(vgpu)->va = (void *)__get_free_pages(GFP_KERNEL |
+> > @@ -236,8 +235,10 @@ int intel_vgpu_init_opregion(struct intel_vgpu *vgpu)
+> >         /* emulated opregion with VBT mailbox only */
+> >         buf = (u8 *)vgpu_opregion(vgpu)->va;
+> >         header = (struct opregion_header *)buf;
+> > -       memcpy(header->signature, opregion_signature,
+> > -              sizeof(opregion_signature));
+> > +
+> > +       static_assert(sizeof(header->signature) == sizeof(OPREGION_SIGNATURE) - 1);
+> > +       memcpy(header->signature, OPREGION_SIGNATURE, sizeof(header->signature));
+> > +
+> >         header->size = 0x8;
+> >         header->opregion_ver = 0x02000000;
+> >         header->mboxes = MBOX_VBT;
+> >
+> >
+> >
+> > --
+> > Jani Nikula, Intel
+> 
+> This patch does solve the build issue with gcc-15 on Fedora-42
+> (gcc-15.0.1-0.9.fc42.x86_64).
+> https://copr.fedorainfracloud.org/coprs/kwizart/kernel-longterm-6.12/build/8812754/
+testet-by Damian Tometzki
+Thanks
+Damian
 
-This improves compatibility with eDP panels (e.g. Samsung ATNA40YK20
-used on the Lenovo T14s Gen6 Snapdragon with OLED panel) which reports
-DP_EDP_PWMGEN_BIT_COUNT as 0 but still provides valid non-zero MIN/MAX
-values.
-
-Co-developed-by: Rui Miguel Silva <rui.silva@linaro.org>
-Signed-off-by: Rui Miguel Silva <rui.silva@linaro.org>
-Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
----
- drivers/gpu/drm/display/drm_dp_helper.c | 51 ++++++++++++++++++++++-----------
- 1 file changed, 34 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index da3c8521a7fa7d3c9761377363cdd4b44ab1106e..734b7b8e46394de21837cda6ca1b189413b25cd8 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -3964,7 +3964,7 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
- {
- 	int fxp, fxp_min, fxp_max, fxp_actual, f = 1;
- 	int ret;
--	u8 pn, pn_min, pn_max;
-+	u8 pn, pn_min, pn_max, bl_caps;
- 
- 	if (!bl->aux_set)
- 		return 0;
-@@ -3975,8 +3975,40 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
- 			    aux->name, ret);
- 		return -ENODEV;
- 	}
--
- 	pn &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
-+	if (ret != 1) {
-+		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap min: %d\n",
-+			    aux->name, ret);
-+		return 0;
-+	}
-+	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
-+	if (ret != 1) {
-+		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap max: %d\n",
-+			    aux->name, ret);
-+		return 0;
-+	}
-+	pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_BACKLIGHT_ADJUSTMENT_CAP, &bl_caps);
-+	if (ret != 1) {
-+		bl_caps = 0;
-+		drm_dbg_kms(aux->drm_dev, "%s: Failed to read backlight adjustment cap: %d\n",
-+			aux->name, ret);
-+	}
-+
-+	/*
-+	 * Some eDP panels report brightness byte count support, but the byte count
-+	 * reading is 0 (e.g. Samsung ATNA40YK20) so in these cases use pn_max
-+	 * for pn.
-+	 */
-+	if (!pn && (bl_caps & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT)
-+	    && pn_max)
-+		pn = pn_max;
-+
- 	bl->max = (1 << pn) - 1;
- 	if (!driver_pwm_freq_hz)
- 		return 0;
-@@ -4003,21 +4035,6 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
- 	 * - FxP is within 25% of desired value.
- 	 *   Note: 25% is arbitrary value and may need some tweak.
- 	 */
--	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
--	if (ret != 1) {
--		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap min: %d\n",
--			    aux->name, ret);
--		return 0;
--	}
--	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
--	if (ret != 1) {
--		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap max: %d\n",
--			    aux->name, ret);
--		return 0;
--	}
--	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
--	pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
--
- 	/* Ensure frequency is within 25% of desired value */
- 	fxp_min = DIV_ROUND_CLOSEST(fxp * 3, 4);
- 	fxp_max = DIV_ROUND_CLOSEST(fxp * 5, 4);
+> 
+> Thanks.
 
 -- 
-2.49.0
-
+VG
+Damian Tometzki
