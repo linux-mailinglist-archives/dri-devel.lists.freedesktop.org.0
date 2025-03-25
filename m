@@ -2,117 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBAE4A6EE74
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 12:04:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D834A6EE75
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 12:04:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18DA310E396;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAB2E10E521;
 	Tue, 25 Mar 2025 11:04:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="P8lhq1Ax";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qu4yxj8J";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P8lhq1Ax";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qu4yxj8J";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="wNcBJFMN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fWjDWV0Y";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wNcBJFMN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fWjDWV0Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B08410E536
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 11:04:23 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADE3510E536
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 11:04:22 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7521E2116C;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B00E71F395;
  Tue, 25 Mar 2025 11:04:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1742900655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A2u0N00MbDVNYPaxa25FsxWkrY39Y6RNz7lugCp+Uls=;
- b=P8lhq1AxagTUo+ZFTPS7dQb+vAG8NwUpKiSgQ1pzwy0pvrC2QX75Z5YBOU7kh/U4JsMKkG
- IdaQzXjSbfDMoJFBVTi/gjfd4vzXR+1ZoLkDsH8O/h+1i1zMdnI0LyVmlyWluc+LmyyRpL
- r+LTpvmckuB3CMb9g8m1NYN+E+xG1qs=
+ bh=WtYQZpcuUlf5Axf6eSYQOuZudVxGNlC/TJvWQFRbBSs=;
+ b=wNcBJFMN7dFhDM3rrW7Jht8rnFEUjWQLbCgrLNqtWtVl9/+ofQunrVrmvkWe0zZ56od/Pq
+ SEuTkE5kastWNCeZPrDGVCdlrTq8yxfts9m0+L2Tw1BPBmP/1cQkxIth31jBqui/Rf7mAX
+ RUaX3LFlFcrFefWcvmUwmfMmoYia0w8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1742900655;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A2u0N00MbDVNYPaxa25FsxWkrY39Y6RNz7lugCp+Uls=;
- b=Qu4yxj8JOY8eLz1isaC17VD8lRX3vIRdp3vL2r+kB1QXWoJwdzKOHNOyIb8gNImLsxovH6
- k8K0UzUH36CAEwDQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=P8lhq1Ax;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Qu4yxj8J
+ bh=WtYQZpcuUlf5Axf6eSYQOuZudVxGNlC/TJvWQFRbBSs=;
+ b=fWjDWV0YAzMbvATMFfnpVI6OOjS6w/pKqploN5hBElbYfy2D2y30hPXUSckTRn3Zj/o1ba
+ SFiJi3mTCped7vDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1742900655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A2u0N00MbDVNYPaxa25FsxWkrY39Y6RNz7lugCp+Uls=;
- b=P8lhq1AxagTUo+ZFTPS7dQb+vAG8NwUpKiSgQ1pzwy0pvrC2QX75Z5YBOU7kh/U4JsMKkG
- IdaQzXjSbfDMoJFBVTi/gjfd4vzXR+1ZoLkDsH8O/h+1i1zMdnI0LyVmlyWluc+LmyyRpL
- r+LTpvmckuB3CMb9g8m1NYN+E+xG1qs=
+ bh=WtYQZpcuUlf5Axf6eSYQOuZudVxGNlC/TJvWQFRbBSs=;
+ b=wNcBJFMN7dFhDM3rrW7Jht8rnFEUjWQLbCgrLNqtWtVl9/+ofQunrVrmvkWe0zZ56od/Pq
+ SEuTkE5kastWNCeZPrDGVCdlrTq8yxfts9m0+L2Tw1BPBmP/1cQkxIth31jBqui/Rf7mAX
+ RUaX3LFlFcrFefWcvmUwmfMmoYia0w8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1742900655;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A2u0N00MbDVNYPaxa25FsxWkrY39Y6RNz7lugCp+Uls=;
- b=Qu4yxj8JOY8eLz1isaC17VD8lRX3vIRdp3vL2r+kB1QXWoJwdzKOHNOyIb8gNImLsxovH6
- k8K0UzUH36CAEwDQ==
+ bh=WtYQZpcuUlf5Axf6eSYQOuZudVxGNlC/TJvWQFRbBSs=;
+ b=fWjDWV0YAzMbvATMFfnpVI6OOjS6w/pKqploN5hBElbYfy2D2y30hPXUSckTRn3Zj/o1ba
+ SFiJi3mTCped7vDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32FA613957;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 70E4613A41;
  Tue, 25 Mar 2025 11:04:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id YGgnC6+N4meFVQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id EP5PGq+N4meFVQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 25 Mar 2025 11:04:15 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, simona@ffwll.ch, airlied@gmail.com,
  mripard@kernel.org, maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 2/8] drm/format-helper: Add generic conversion to 32-bit
+Subject: [PATCH 3/8] drm/format-helper: Add generic conversion to 24-bit
  formats
-Date: Tue, 25 Mar 2025 11:31:07 +0100
-Message-ID: <20250325110407.81107-3-tzimmermann@suse.de>
+Date: Tue, 25 Mar 2025 11:31:08 +0100
+Message-ID: <20250325110407.81107-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250325110407.81107-1-tzimmermann@suse.de>
 References: <20250325110407.81107-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 7521E2116C
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-0.999];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
  FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[7]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FROM_HAS_DN(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[7];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
- FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
  FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
 X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,8 +116,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_fb_xfrm_line_32to32() to implement conversion from 32-bit
-pixels to 32-bit pixels. The pixel-conversion is specified by the
+Add drm_fb_xfrm_line_32to24() to implement conversion from 32-bit
+pixels to 24-bit pixels. The pixel-conversion is specified by the
 given callback parameter. Mark the helper as always_inline to avoid
 overhead from function calls.
 
@@ -138,146 +126,101 @@ generic call and the respective pixel-conversion helper.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_format_helper.c | 84 +++++++----------------------
- 1 file changed, 19 insertions(+), 65 deletions(-)
+ drivers/gpu/drm/drm_format_helper.c   | 43 ++++++++++++---------------
+ drivers/gpu/drm/drm_format_internal.h | 12 ++++++++
+ 2 files changed, 31 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 01d3ab307ac3..abd18c23cfbb 100644
+index abd18c23cfbb..5a2fe3d685a2 100644
 --- a/drivers/gpu/drm/drm_format_helper.c
 +++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -20,6 +20,8 @@
- #include <drm/drm_print.h>
- #include <drm/drm_rect.h>
- 
-+#include "drm_format_internal.h"
-+
- /**
-  * drm_format_conv_state_init - Initialize format-conversion state
-  * @state: The state to initialize
-@@ -244,6 +246,18 @@ static int drm_fb_xfrm(struct iosys_map *dst,
+@@ -246,6 +246,23 @@ static int drm_fb_xfrm(struct iosys_map *dst,
  				     xfrm_line);
  }
  
-+static __always_inline void drm_fb_xfrm_line_32to32(void *dbuf, const void *sbuf,
++static __always_inline void drm_fb_xfrm_line_32to24(void *dbuf, const void *sbuf,
 +						    unsigned int pixels,
 +						    u32 (*xfrm_pixel)(u32))
 +{
-+	__le32 *dbuf32 = dbuf;
++	u8 *dbuf8 = dbuf;
 +	const __le32 *sbuf32 = sbuf;
 +	const __le32 *send32 = sbuf32 + pixels;
 +
-+	while (sbuf32 < send32)
-+		*dbuf32++ = cpu_to_le32(xfrm_pixel(le32_to_cpup(sbuf32++)));
++	while (sbuf32 < send32) {
++		u32 val24 = xfrm_pixel(le32_to_cpup(sbuf32++));
++		/* write output in reverse order for little endianness */
++		*dbuf8++ = (val24 & 0x000000ff);
++		*dbuf8++ = (val24 & 0x0000ff00) >>  8;
++		*dbuf8++ = (val24 & 0x00ff0000) >> 16;
++	}
 +}
 +
- /**
-  * drm_fb_memcpy - Copy clip buffer
-  * @dst: Array of destination buffers
-@@ -755,16 +769,7 @@ EXPORT_SYMBOL(drm_fb_xrgb8888_to_bgr888);
+ static __always_inline void drm_fb_xfrm_line_32to32(void *dbuf, const void *sbuf,
+ 						    unsigned int pixels,
+ 						    u32 (*xfrm_pixel)(u32))
+@@ -667,18 +684,7 @@ EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgba5551);
  
- static void drm_fb_xrgb8888_to_argb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
+ static void drm_fb_xrgb8888_to_rgb888_line(void *dbuf, const void *sbuf, unsigned int pixels)
  {
--	__le32 *dbuf32 = dbuf;
+-	u8 *dbuf8 = dbuf;
 -	const __le32 *sbuf32 = sbuf;
 -	unsigned int x;
 -	u32 pix;
 -
 -	for (x = 0; x < pixels; x++) {
 -		pix = le32_to_cpu(sbuf32[x]);
--		pix |= GENMASK(31, 24); /* fill alpha bits */
--		dbuf32[x] = cpu_to_le32(pix);
+-		/* write blue-green-red to output in little endianness */
+-		*dbuf8++ = (pix & 0x000000FF) >>  0;
+-		*dbuf8++ = (pix & 0x0000FF00) >>  8;
+-		*dbuf8++ = (pix & 0x00FF0000) >> 16;
 -	}
-+	drm_fb_xfrm_line_32to32(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_argb8888);
++	drm_fb_xfrm_line_32to24(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_rgb888);
  }
  
  /**
-@@ -804,19 +809,7 @@ EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb8888);
+@@ -718,18 +724,7 @@ EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888);
  
- static void drm_fb_xrgb8888_to_abgr8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
+ static void drm_fb_xrgb8888_to_bgr888_line(void *dbuf, const void *sbuf, unsigned int pixels)
  {
--	__le32 *dbuf32 = dbuf;
+-	u8 *dbuf8 = dbuf;
 -	const __le32 *sbuf32 = sbuf;
 -	unsigned int x;
 -	u32 pix;
 -
 -	for (x = 0; x < pixels; x++) {
 -		pix = le32_to_cpu(sbuf32[x]);
--		pix = ((pix & 0x00ff0000) >> 16) <<  0 |
--		      ((pix & 0x0000ff00) >>  8) <<  8 |
--		      ((pix & 0x000000ff) >>  0) << 16 |
--		      GENMASK(31, 24); /* fill alpha bits */
--		*dbuf32++ = cpu_to_le32(pix);
+-		/* write red-green-blue to output in little endianness */
+-		*dbuf8++ = (pix & 0x00ff0000) >> 16;
+-		*dbuf8++ = (pix & 0x0000ff00) >> 8;
+-		*dbuf8++ = (pix & 0x000000ff) >> 0;
 -	}
-+	drm_fb_xfrm_line_32to32(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_abgr8888);
- }
- 
- static void drm_fb_xrgb8888_to_abgr8888(struct iosys_map *dst, const unsigned int *dst_pitch,
-@@ -835,19 +828,7 @@ static void drm_fb_xrgb8888_to_abgr8888(struct iosys_map *dst, const unsigned in
- 
- static void drm_fb_xrgb8888_to_xbgr8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
- {
--	__le32 *dbuf32 = dbuf;
--	const __le32 *sbuf32 = sbuf;
--	unsigned int x;
--	u32 pix;
--
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		pix = ((pix & 0x00ff0000) >> 16) <<  0 |
--		      ((pix & 0x0000ff00) >>  8) <<  8 |
--		      ((pix & 0x000000ff) >>  0) << 16 |
--		      ((pix & 0xff000000) >> 24) << 24;
--		*dbuf32++ = cpu_to_le32(pix);
--	}
-+	drm_fb_xfrm_line_32to32(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_xbgr8888);
- }
- 
- static void drm_fb_xrgb8888_to_xbgr8888(struct iosys_map *dst, const unsigned int *dst_pitch,
-@@ -866,20 +847,7 @@ static void drm_fb_xrgb8888_to_xbgr8888(struct iosys_map *dst, const unsigned in
- 
- static void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void *sbuf, unsigned int pixels)
- {
--	__le32 *dbuf32 = dbuf;
--	const __le32 *sbuf32 = sbuf;
--	unsigned int x;
--	u32 val32;
--	u32 pix;
--
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		val32 = ((pix & 0x000000FF) << 2) |
--			((pix & 0x0000FF00) << 4) |
--			((pix & 0x00FF0000) << 6);
--		pix = val32 | ((val32 >> 8) & 0x00300C03);
--		*dbuf32++ = cpu_to_le32(pix);
--	}
-+	drm_fb_xfrm_line_32to32(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_xrgb2101010);
++	drm_fb_xfrm_line_32to24(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_bgr888);
  }
  
  /**
-@@ -920,21 +888,7 @@ EXPORT_SYMBOL(drm_fb_xrgb8888_to_xrgb2101010);
- 
- static void drm_fb_xrgb8888_to_argb2101010_line(void *dbuf, const void *sbuf, unsigned int pixels)
- {
--	__le32 *dbuf32 = dbuf;
--	const __le32 *sbuf32 = sbuf;
--	unsigned int x;
--	u32 val32;
--	u32 pix;
--
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		val32 = ((pix & 0x000000ff) << 2) |
--			((pix & 0x0000ff00) << 4) |
--			((pix & 0x00ff0000) << 6);
--		pix = GENMASK(31, 30) | /* set alpha bits */
--		      val32 | ((val32 >> 8) & 0x00300c03);
--		*dbuf32++ = cpu_to_le32(pix);
--	}
-+	drm_fb_xfrm_line_32to32(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_argb2101010);
+diff --git a/drivers/gpu/drm/drm_format_internal.h b/drivers/gpu/drm/drm_format_internal.h
+index 5f82f0b9c8e8..e7fcf260a914 100644
+--- a/drivers/gpu/drm/drm_format_internal.h
++++ b/drivers/gpu/drm/drm_format_internal.h
+@@ -68,6 +68,18 @@ static inline u32 drm_pixel_xrgb8888_to_argb1555(u32 pix)
+ 	       drm_pixel_xrgb8888_to_xrgb1555(pix);
  }
  
- /**
++static inline u32 drm_pixel_xrgb8888_to_rgb888(u32 pix)
++{
++	return pix & GENMASK(23, 0);
++}
++
++static inline u32 drm_pixel_xrgb8888_to_bgr888(u32 pix)
++{
++	return ((pix & 0x00ff0000) >> 16) |
++	       ((pix & 0x0000ff00)) |
++	       ((pix & 0x000000ff) << 16);
++}
++
+ static inline u32 drm_pixel_xrgb8888_to_argb8888(u32 pix)
+ {
+ 	return GENMASK(31, 24) | /* fill alpha bits */
 -- 
 2.48.1
 
