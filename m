@@ -2,59 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B087A6E9D3
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 07:53:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B10A6EA00
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 08:00:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75FD8890C7;
-	Tue, 25 Mar 2025 06:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD3510E38D;
+	Tue, 25 Mar 2025 07:00:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TSf3uNv5";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="qF+AUfWD";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="g+LXzTJV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DDBD89263
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 06:53:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2938A6111E;
- Tue, 25 Mar 2025 06:53:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9D66C4CEE8;
- Tue, 25 Mar 2025 06:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742885634;
- bh=kjvYmCQ8Y/WN+yHilTtN81fEcJrveiY+q5nnPqA3msc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TSf3uNv5Rw+J8RXCaL/dj8yWijjd1ot7Zs1EcpoC0IFPkR0SszCUJUn/LyPwsG/NY
- Q7N0ASaAzMMo61I4JF94CkeEkO7tKjp+pIIaXrbSAg8fdozuKrnv0FXlsAIaJCUagF
- vuR2DSvIk3a2B4+fu9j51sU+JLb092Sh5rJOmNFMO2679kZQuaYVHt/BdCbbJRcrp/
- mY30UVqS/EvUNmK4VB5FLb1a7mzRopHztnsbyYItn8vrGPPtc4cpbflHFXaJH1Crb5
- 9Jbgs2og3TemIMLi4V77jyNixRxRd4xOQhHCWhPfO0kEsynuJVS87gWnHChOBi7U/F
- bsa/GP8WvQd3A==
-Date: Tue, 25 Mar 2025 12:23:45 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>
-Subject: Re: [PATCH v6 07/10] tee: add tee_shm_alloc_cma_phys_mem()
-Message-ID: <Z-JS-Tq_lxGAZfiP@sumit-X1>
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
- <20250305130634.1850178-8-jens.wiklander@linaro.org>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF7F410E383
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 07:00:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1742886017; x=1774422017;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=IY1LRasI1a4gFwiAowe/BlaLi9qjAct5Q0v/7Pv3fzc=;
+ b=qF+AUfWDQwGqSUKUUX/FnClRrclHGdZKZXEXA5gC3GxmabBRmSS42+RB
+ G5toQmacIbY5wCQC8bPW8Alo/skCXE6fA8SMtfplMHSoFJ5/B1tpw28lh
+ +xKgt1ZlwzLWsZStNKoZr5wIKyuT6FmFZCXkpSxrBbF/usknQSXLiUDqx
+ AOHXpxopl5nXrirHvS3pwpmMqK3KxrEa1UBnM56BfzyOLSid6Ku1q6N+J
+ ZrAlGihZERI7uFf+RtdnMS/QBoBFY57Zy1N/50dagyYMKmWjrqA44s98F
+ vEz3QJzkteJyYDp8Qfc6tqlhmRGCZogB6tun6Z9mBlpgRSuTGguK7i3HA A==;
+X-CSE-ConnectionGUID: wLTuKKJvS5uEe8ivLhc3ew==
+X-CSE-MsgGUID: Yk3E/ZCrRXKmkvWbyVJD1w==
+X-IronPort-AV: E=Sophos;i="6.14,274,1736809200"; d="scan'208";a="43135474"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 25 Mar 2025 08:00:11 +0100
+X-CheckPoint: {67E2547B-36-903EAEAC-E04C76C8}
+X-MAIL-CPID: 5ED2254210CBCBBAE887422E760A4071_5
+X-Control-Analysis: str=0001.0A006372.67E25477.00AF, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id C2D251632F7; Tue, 25 Mar 2025 08:00:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1742886006;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IY1LRasI1a4gFwiAowe/BlaLi9qjAct5Q0v/7Pv3fzc=;
+ b=g+LXzTJVJqyoxffvyz8jSMsqghsG9czM4ntoP70bldxrkl6PwZuP0nAC/iIQ1doTUeZu5e
+ 2GK1wKUKixhDvNAFOvNRLAtM2ilE/aXqZLe5TXIzXg+Ss4hb+hDfCzHJR8GvbroSDCXlz8
+ 3HH/9ZEi3aJ07NCXqcZ7vYT0UQ5zX4NmtP5cMZAk+J8JwuqguqjBu+/39+cdzcQk+NE0s0
+ +1cMiMmP2hiMeVFM0czr5iYVDb8/Szl/WpA5aEabwAQ9v+52eJDJ4qkchtBrDsaw3zRIvG
+ ezps5JR5w/9paFGiHgw7unrftOPv6PqhrNMd6r0fxfmYfGArFAApZbWnFutKAA==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Marek Vasut <marex@denx.de>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Steven Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ devicetree@vger.kernel.org, imx@lists.linux.dev
+Subject: Re: [PATCH v2 9/9] arm64: dts: imx95: Describe Mali G310 GPU
+Date: Tue, 25 Mar 2025 08:00:00 +0100
+Message-ID: <4643598.LvFx2qVVIh@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <e8e9f36a-6d05-425e-a0e5-89689424336d@denx.de>
+References: <20250321200625.132494-1-marex@denx.de>
+ <6144881.lOV4Wx5bFT@steina-w>
+ <e8e9f36a-6d05-425e-a0e5-89689424336d@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250305130634.1850178-8-jens.wiklander@linaro.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,139 +93,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jens,
+Hi Marek,
 
-On Wed, Mar 05, 2025 at 02:04:13PM +0100, Jens Wiklander wrote:
-> Add tee_shm_alloc_cma_phys_mem() to allocate a physical memory using
-> from the default CMA pool. The memory is represented by a tee_shm object
-> using the new flag TEE_SHM_CMA_BUF to identify it as physical memory
-> from CMA.
-> 
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  drivers/tee/tee_shm.c    | 55 ++++++++++++++++++++++++++++++++++++++--
->  include/linux/tee_core.h |  4 +++
->  2 files changed, 57 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-> index 8b79918468b5..8d8341f8ebd7 100644
-> --- a/drivers/tee/tee_shm.c
-> +++ b/drivers/tee/tee_shm.c
-> @@ -3,8 +3,11 @@
->   * Copyright (c) 2015-2017, 2019-2021 Linaro Limited
->   */
->  #include <linux/anon_inodes.h>
-> +#include <linux/cma.h>
->  #include <linux/device.h>
->  #include <linux/dma-buf.h>
-> +#include <linux/dma-map-ops.h>
-> +#include <linux/highmem.h>
->  #include <linux/idr.h>
->  #include <linux/io.h>
->  #include <linux/mm.h>
-> @@ -13,7 +16,6 @@
->  #include <linux/tee_core.h>
->  #include <linux/uaccess.h>
->  #include <linux/uio.h>
-> -#include <linux/highmem.h>
->  #include "tee_private.h"
->  
->  /* extra references appended to shm object for registered shared memory */
-> @@ -59,7 +61,14 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
->  	struct tee_shm *parent_shm = NULL;
->  	void *p = shm;
->  
-> -	if (shm->flags & TEE_SHM_DMA_BUF) {
-> +	if (shm->flags & TEE_SHM_CMA_BUF) {
-> +#if !IS_MODULE(CONFIG_TEE) && IS_ENABLED(CONFIG_CMA)
+Am Dienstag, 25. M=E4rz 2025, 00:35:41 CET schrieb Marek Vasut:
+> On 3/24/25 8:02 AM, Alexander Stein wrote:
+>=20
+> Hi,
+>=20
+> >> @@ -1890,6 +1919,35 @@ netc_emdio: mdio@0,0 {
+> >>   			};
+> >>   		};
+> >>  =20
+> >> +		gpu_blk_ctrl: reset-controller@4d810000 {
+> >> +			compatible =3D "nxp,imx95-gpu-blk-ctrl";
+> >> +			reg =3D <0x0 0x4d810000 0x0 0xc>;
+> >> +			#reset-cells =3D <1>;
+> >> +			clocks =3D <&scmi_clk IMX95_CLK_GPUAPB>;
+> >> +			assigned-clocks =3D <&scmi_clk IMX95_CLK_GPUAPB>;
+> >> +			assigned-clock-parents =3D <&scmi_clk IMX95_CLK_SYSPLL1_PFD1_DIV2>;
+> >> +			assigned-clock-rates =3D <133333333>;
+> >> +			power-domains =3D <&scmi_devpd IMX95_PD_GPU>;
+> >> +		};
+> >=20
+> > With the SM release lf-6.12.3-1.0.0 AP does not have any access to
+> > this BLK_CTRL anymore. See [1]
+> I just built SM 6.12 and it still requires the reset, without reset I=20
+> cannot use the GPU ... or ... which BLK CTRL do you refer to ?
 
-Can we rather manage this dependency via Kconfig?
+I'm specifically looking at [1]. AFAIU after that change AP has no access
+to BLK_CTRL_GPUMIX. But this is just from looking at the changes.
 
-> +		struct page *page = phys_to_page(shm->paddr);
-> +		struct cma *cma = dev_get_cma_area(&shm->ctx->teedev->dev);
-> +
-> +		cma_release(cma, page, shm->size / PAGE_SIZE);
-> +#endif
-> +	} else if (shm->flags & TEE_SHM_DMA_BUF) {
->  		struct tee_shm_dmabuf_ref *ref;
->  
->  		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
-> @@ -341,6 +350,48 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size)
->  }
->  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
->  
-> +struct tee_shm *tee_shm_alloc_cma_phys_mem(struct tee_context *ctx,
-> +					   size_t page_count, size_t align)
-> +{
-> +#if !IS_MODULE(CONFIG_TEE) && IS_ENABLED(CONFIG_CMA)
+Best regards
+Alexander
 
-Ditto here.
+[1] https://github.com/nxp-imx/imx-sm/commit/a3e5da9ea51144f513ac3909fa151f=
+a7df394100
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
--Sumit
 
-> +	struct tee_device *teedev = ctx->teedev;
-> +	struct cma *cma = dev_get_cma_area(&teedev->dev);
-> +	struct tee_shm *shm;
-> +	struct page *page;
-> +
-> +	if (!tee_device_get(teedev))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	page = cma_alloc(cma, page_count, align, true/*no_warn*/);
-> +	if (!page)
-> +		goto err_put_teedev;
-> +
-> +	shm = kzalloc(sizeof(*shm), GFP_KERNEL);
-> +	if (!shm)
-> +		goto err_cma_crelease;
-> +
-> +	refcount_set(&shm->refcount, 1);
-> +	shm->ctx = ctx;
-> +	shm->paddr = page_to_phys(page);
-> +	shm->size = page_count * PAGE_SIZE;
-> +	shm->flags = TEE_SHM_CMA_BUF;
-> +
-> +	teedev_ctx_get(ctx);
-> +
-> +	return shm;
-> +
-> +err_cma_crelease:
-> +	cma_release(cma, page, page_count);
-> +err_put_teedev:
-> +	tee_device_put(teedev);
-> +
-> +	return ERR_PTR(-ENOMEM);
-> +#else
-> +	return ERR_PTR(-EINVAL);
-> +#endif
-> +}
-> +EXPORT_SYMBOL_GPL(tee_shm_alloc_cma_phys_mem);
-> +
->  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
->  			     int (*shm_register)(struct tee_context *ctx,
->  						 struct tee_shm *shm,
-> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> index 6bd833b6d0e1..b6727d9a3556 100644
-> --- a/include/linux/tee_core.h
-> +++ b/include/linux/tee_core.h
-> @@ -29,6 +29,7 @@
->  #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
->  #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
->  #define TEE_SHM_DMA_BUF		BIT(4)	/* Memory with dma-buf handle */
-> +#define TEE_SHM_CMA_BUF		BIT(5)	/* CMA allocated memory */
->  
->  #define TEE_DEVICE_FLAG_REGISTERED	0x1
->  #define TEE_MAX_DEV_NAME_LEN		32
-> @@ -307,6 +308,9 @@ void *tee_get_drvdata(struct tee_device *teedev);
->   */
->  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size);
->  
-> +struct tee_shm *tee_shm_alloc_cma_phys_mem(struct tee_context *ctx,
-> +					   size_t page_count, size_t align);
-> +
->  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
->  			     int (*shm_register)(struct tee_context *ctx,
->  						 struct tee_shm *shm,
-> -- 
-> 2.43.0
-> 
