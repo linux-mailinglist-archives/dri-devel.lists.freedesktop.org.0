@@ -2,59 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8492A6EA30
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 08:07:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7ADA6EA48
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 08:19:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E04D910E383;
-	Tue, 25 Mar 2025 07:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7C6510E105;
+	Tue, 25 Mar 2025 07:19:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uGuI/gEN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ioWZUlfF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 978E610E383
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 07:07:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BD430A4A254;
- Tue, 25 Mar 2025 07:01:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7D46C4CEE8;
- Tue, 25 Mar 2025 07:07:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742886445;
- bh=tg+CzT94V2KHL7cvcsv3BOAj9cqZ8YzAUgJ5W4z5H4c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uGuI/gENsIOfo9g5ssUpgXDjOcPi/XDvQ0rYWtHHZe1uUQrrQ8ebTZWvoWVg+18B+
- CFGPkLQOw+VRAO30/5q9eIme3Vkr4yH8NLyfqw1F6AFisurhS0oNLivQo9O3w5Uotr
- 6GSqx3JjQ9kNBfeeJpGcV9Lw+w/WKlkf5+zKDRf5zOKgy2ST8honmAVIHVsoECIyrC
- SyjaBIh8m9eQQHuu1KsbRnzeG8y7nv4gh8X4RsMufU1N0p9Gd34AFsR8ZJpckY4+nb
- RRsOPpkVUIbVu1UswcBf11rCBapP0682sP1oFXtCXmeZFKj4CnGAlPxZblMVTRTLp6
- kwoVO1kXmRLyg==
-Date: Tue, 25 Mar 2025 12:37:15 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>
-Subject: Re: [PATCH v6 08/10] optee: support restricted memory allocation
-Message-ID: <Z-JWIyd8cKyXQR0H@sumit-X1>
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
- <20250305130634.1850178-9-jens.wiklander@linaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7C5A10E02E;
+ Tue, 25 Mar 2025 07:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742887172; x=1774423172;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fmAmuTHq8vU0T8QHc+oXeSQFjrfslVBl8fxxg0Yci0Q=;
+ b=ioWZUlfFBDs2uR9POxn2rhnMD2PDvSbB+k99QKKoTW/AJZUIqIg6QHpo
+ Re9k1GpDhGpVwi1/vbsobKYB5X464PHdCNaRau4MonqviGOhT1yysiRUs
+ favvU+YxVjmiR420Ux3US6PpubggjCr+kVkqNwJN6jOF9iYsMTlLhaQao
+ wh1qPUwnqc/O/G8JN+xIZVpwWxPw5cwbBQxqK76U6iWYyda/hDlFaddiv
+ EO6bR6CqbFfQ9WOv3TpyP3PgA95e/8XUKXe3QLOZlk0/h/LVSdvbX9UXV
+ zg9KvbHaTN0G2Rb5oVnWjAfg2zXHSCllZCA3bK0MYn5ImC5ExKxx0ND7B Q==;
+X-CSE-ConnectionGUID: s4Vc4ssiQga2LHL/DhoQUQ==
+X-CSE-MsgGUID: 332ktq2dSyqdPncEjSUmGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="47993227"
+X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="47993227"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 00:19:32 -0700
+X-CSE-ConnectionGUID: AeBtrb5bT7eGmg3sPqN8jw==
+X-CSE-MsgGUID: pzp5HpOdSY6xljS5fgBE9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; d="scan'208";a="124460689"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2025 00:19:30 -0700
+Date: Tue, 25 Mar 2025 09:19:26 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
+Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "Gupta, saurabhg" <saurabhg.gupta@intel.com>,
+ "Zuo, Alex" <alex.zuo@intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "Brost, Matthew" <matthew.brost@intel.com>,
+ "Zhang, Jianxun" <jianxun.zhang@intel.com>,
+ "Lin, Shuicheng" <shuicheng.lin@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Wajdeczko, Michal" <Michal.Wajdeczko@intel.com>,
+ "Mrozek, Michal" <michal.mrozek@intel.com>
+Subject: Re: [PATCH v10 5/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Message-ID: <Z-JY_kzjHq5fSRBg@black.fi.intel.com>
+References: <20250320152616.74587-1-jonathan.cavitt@intel.com>
+ <20250320152616.74587-6-jonathan.cavitt@intel.com>
+ <Z934F9fz_-d1oGiC@black.fi.intel.com>
+ <CH0PR11MB5444C9D9B706616AFC314810E5A42@CH0PR11MB5444.namprd11.prod.outlook.com>
+ <Z-HN3Yvci8x7JwWc@black.fi.intel.com>
+ <CH0PR11MB544414B6A0B6FBD0B790CFD4E5A42@CH0PR11MB5444.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305130634.1850178-9-jens.wiklander@linaro.org>
+In-Reply-To: <CH0PR11MB544414B6A0B6FBD0B790CFD4E5A42@CH0PR11MB5444.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,126 +81,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 05, 2025 at 02:04:14PM +0100, Jens Wiklander wrote:
-> Add support in the OP-TEE backend driver for restricted memory
-> allocation. The support is limited to only the SMC ABI and for secure
-> video buffers.
+On Tue, Mar 25, 2025 at 03:01:27AM +0530, Cavitt, Jonathan wrote:
+> From: Jadav, Raag <raag.jadav@intel.com> 
+> > On Mon, Mar 24, 2025 at 10:27:08PM +0530, Cavitt, Jonathan wrote:
+> > > From: Jadav, Raag <raag.jadav@intel.com> 
+> > > > On Thu, Mar 20, 2025 at 03:26:15PM +0000, Jonathan Cavitt wrote:
+> > > > > Add support for userspace to request a list of observed faults
+> > > > > from a specified VM.
+> > > > 
+> > > > ...
+> > > > 
+> > > > > +static int xe_vm_get_property_size(struct xe_vm *vm, u32 property)
+> > > > > +{
+> > > > > +	int size = -EINVAL;
+> > > > 
+> > > > Mixing size and error codes is usually received with mixed feelings.
+> > > > 
+> > > > > +
+> > > > > +	switch (property) {
+> > > > > +	case DRM_XE_VM_GET_PROPERTY_FAULTS:
+> > > > > +		spin_lock(&vm->faults.lock);
+> > > > > +		size = vm->faults.len * sizeof(struct xe_vm_fault);
+> > > > 
+> > > > size_mul() and,
+> > > > [1] perhaps fill it up into the pointer passed by the caller here?
+> > > 
+> > > "The pointer passed by the caller".  You mean the args pointer?
+> > > 
+> > > We'd still need to check that the args->size value is empty here before overwriting
+> > > it, and we'd also still need to return the size to the ioctl so we can verify it's
+> > > acceptable later in xe_vm_get_property_verify_size.
+> > > 
+> > > Unless you want to merge those two processes together into here?
+> > 
+> > The semantics are a bit fuzzy to me. Why do we have a single ioctl for
+> > two different processes? Shouldn't they be handled separately?
 > 
-> OP-TEE is probed for the range of restricted physical memory and a
-> memory pool allocator is initialized if OP-TEE have support for such
-> memory.
-> 
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  drivers/tee/optee/core.c    |  1 +
->  drivers/tee/optee/smc_abi.c | 44 +++++++++++++++++++++++++++++++++++--
->  2 files changed, 43 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-> index c75fddc83576..c7fd8040480e 100644
-> --- a/drivers/tee/optee/core.c
-> +++ b/drivers/tee/optee/core.c
-> @@ -181,6 +181,7 @@ void optee_remove_common(struct optee *optee)
->  	tee_device_unregister(optee->supp_teedev);
->  	tee_device_unregister(optee->teedev);
->  
-> +	tee_device_unregister_all_dma_heaps(optee->teedev);
->  	tee_shm_pool_free(optee->pool);
->  	optee_supp_uninit(&optee->supp);
->  	mutex_destroy(&optee->call_queue.mutex);
-> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-> index cfdae266548b..a14ff0b7d3b3 100644
-> --- a/drivers/tee/optee/smc_abi.c
-> +++ b/drivers/tee/optee/smc_abi.c
-> @@ -1620,6 +1620,41 @@ static inline int optee_load_fw(struct platform_device *pdev,
->  }
->  #endif
->  
-> +static int optee_sdp_pool_init(struct optee *optee)
-> +{
-> +	enum tee_dma_heap_id heap_id = TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
-> +	struct tee_rstmem_pool *pool;
-> +	int rc;
-> +
-> +	if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP) {
+> No.  Sorry.  Let me clarify.
+> "two different processes" = getting the size + verifying the size.
 
-Is this SDP capability an ABI yet since we haven't supported it in
-upstream kernel? If no then can we rename it as
-OPTEE_SMC_SEC_CAP_RSTMEM?
+Yes, which seems like they should be handlded with _FAULT_NUM and
+_FAULT_DATA ioctls but I guess we're way past it now.
 
-> +		union {
-> +			struct arm_smccc_res smccc;
-> +			struct optee_smc_get_sdp_config_result result;
-> +		} res;
-> +
-> +		optee->smc.invoke_fn(OPTEE_SMC_GET_SDP_CONFIG, 0, 0, 0, 0, 0, 0,
-> +				     0, &res.smccc);
-> +		if (res.result.status != OPTEE_SMC_RETURN_OK) {
-> +			pr_err("Secure Data Path service not available\n");
-> +			return 0;
-> +		}
-> +
-> +		pool = tee_rstmem_static_pool_alloc(res.result.start,
-> +						    res.result.size);
-> +		if (IS_ERR(pool))
-> +			return PTR_ERR(pool);
-> +
-> +		rc = tee_device_register_dma_heap(optee->teedev, heap_id, pool);
-> +		if (rc)
-> +			goto err;
-> +	}
-> +
-> +	return 0;
-> +err:
-> +	pool->ops->destroy_pool(pool);
-> +	return rc;
-> +}
-> +
->  static int optee_probe(struct platform_device *pdev)
->  {
->  	optee_invoke_fn *invoke_fn;
-> @@ -1715,7 +1750,7 @@ static int optee_probe(struct platform_device *pdev)
->  	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
->  	if (!optee) {
->  		rc = -ENOMEM;
-> -		goto err_free_pool;
-> +		goto err_free_shm_pool;
->  	}
->  
->  	optee->ops = &optee_ops;
-> @@ -1788,6 +1823,10 @@ static int optee_probe(struct platform_device *pdev)
->  		pr_info("Asynchronous notifications enabled\n");
->  	}
->  
-> +	rc = optee_sdp_pool_init(optee);
+I'm also not much informed about the history here. Is there a real
+usecase behind exposing them? What is the user expected to do with
+this information?
 
-s/optee_sdp_pool_init/optee_rstmem_pool_init/
-
--Sumit
-
-> +	if (rc)
-> +		goto err_notif_uninit;
-> +
->  	/*
->  	 * Ensure that there are no pre-existing shm objects before enabling
->  	 * the shm cache so that there's no chance of receiving an invalid
-> @@ -1823,6 +1862,7 @@ static int optee_probe(struct platform_device *pdev)
->  		optee_disable_shm_cache(optee);
->  	optee_smc_notif_uninit_irq(optee);
->  	optee_unregister_devices();
-> +	tee_device_unregister_all_dma_heaps(optee->teedev);
->  err_notif_uninit:
->  	optee_notif_uninit(optee);
->  err_close_ctx:
-> @@ -1839,7 +1879,7 @@ static int optee_probe(struct platform_device *pdev)
->  	tee_device_unregister(optee->teedev);
->  err_free_optee:
->  	kfree(optee);
-> -err_free_pool:
-> +err_free_shm_pool:
->  	tee_shm_pool_free(pool);
->  	if (memremaped_shm)
->  		memunmap(memremaped_shm);
-> -- 
-> 2.43.0
-> 
+Raag
