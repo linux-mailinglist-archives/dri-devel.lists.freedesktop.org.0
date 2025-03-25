@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473C9A7039E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 15:26:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96493A7039F
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 15:27:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 945EA10E587;
-	Tue, 25 Mar 2025 14:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3CAF10E589;
+	Tue, 25 Mar 2025 14:27:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jkc3AjHf";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="h8mxzJOU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 280B910E586;
- Tue, 25 Mar 2025 14:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742912793; x=1774448793;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tQqhUpeG8SF2/KnVwLfZIQuf1DtSyv0t4rIx7Q7xjrM=;
- b=Jkc3AjHfCU/vm6MdxREWwDXiE/sitOzJjCLzh4CEqL0Na8iIBxAEuj36
- 6lVDSam6iW9kn6u6byo9U6NFPb22JO0d25ZddK7/v071WMgaGZCBTsIg4
- tf2kWmL0nxphcs+6+cplPi/0JE9nsSOZbJk6522evZHIRSeX/Qp+Oc0ye
- gXOBlJYWz9oz5Y20GgKsDc1ePvFpsa2V7BqFUVFSYSYxElnfkmD6adlwI
- YatU83vWXMlrDGHd7ZJaakY5PWKTmMAecV1qfbtnYdkGQz6cuEqL118MT
- c/jfPRqvm+NZ0hrdXSdZA3bQvt2qELrPaYXczGfcD5xlc6W1YnSBPid+p A==;
-X-CSE-ConnectionGUID: kiOPgx3qRJ+QyE/C2erHJw==
-X-CSE-MsgGUID: Y7B7IYHuRSWhlwFl00DruA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44088013"
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; d="scan'208";a="44088013"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 07:26:32 -0700
-X-CSE-ConnectionGUID: 72B7rNLxRsWWh3gSbL0ZWg==
-X-CSE-MsgGUID: O3RxF1smTxutf+sU17wOtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; d="scan'208";a="129061752"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.149])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 07:26:30 -0700
-Date: Tue, 25 Mar 2025 15:26:24 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Arshad Mehmood <arshad.mehmood@intel.com>
-Subject: Re: [PATCH] drm/i915/gt: Avoid duplicating CCS mode workaround
-Message-ID: <Z-K9EKc3v3rYdZhK@ashyti-mobl2.lan>
-References: <20250325120137.1302748-1-andi.shyti@linux.intel.com>
- <174290746252.1245393.5239853097693701739@DEV-409>
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F44E10E589
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 14:27:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id BB247102EBA49; Tue, 25 Mar 2025 15:27:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1742912836; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references;
+ bh=mVgBuvwlTjig0oSmPB6BQKFdvM38TG/M7XXOVQoAWGo=;
+ b=h8mxzJOUJNe4zDuFBuk4WSVlR1MP4YPHN94AvvdVP8/HeTviSAij+0yoyOlAiTqC1PZd+1
+ DYMXeaNmqBrD+Bofx4bbFOjfLiKkkqMUY8aM/crN9XyBiZN+62LmcRvDdajK5zDPDU80vT
+ L8fgD0eajwg4l66xHAyIK3DR413TwDeMZXixGQfXruUpaVUAyNQXrmtV3u71JnmUJYeTZ4
+ W/61WRvMhOHEgeXsoo4BeeFl2gAmduhB/eSKxZr/7q9nokMBqVaYnBrqSiZUBCCQ6zN4+8
+ nxA3IJEAz5BcZ1wu42KB2Ls7BFnRB2PO2iZ43hjimhge5T2UbRgWYsIhcETcIA==
+Message-ID: <7233d56f-d07d-46c3-9954-57eb583a36ac@denx.de>
+Date: Tue, 25 Mar 2025 15:27:11 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <174290746252.1245393.5239853097693701739@DEV-409>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/9] drm/panthor: Implement optional reset
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
+References: <20250321200625.132494-1-marex@denx.de>
+ <20250321200625.132494-5-marex@denx.de>
+ <20250324094333.7afb17a1@collabora.com>
+ <22187ae5-7486-416b-b612-53021bfca11e@denx.de>
+ <13376dff8d861389464b7ecdb2f82fe211638500.camel@pengutronix.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <13376dff8d861389464b7ecdb2f82fe211638500.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,59 +70,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 25, 2025 at 01:57:42PM +0100, Chris Wilson wrote:
-> Quoting Andi Shyti (2025-03-25 13:01:37)
-> > When generating workarounds for the CCS engine, specifically for
-> > setting the CCS mode related to compute load balancing, the
-> > function 'ccs_engine_wa_mode()' is called twice: once for the
-> > render engine and once for the compute engine.
-> > 
-> > Add a check to ensure the engine class is compute before applying
-> > the workaround to avoid redundant programming.
-> > 
-> > Suggested-by: Arshad Mehmood <arshad.mehmood@intel.com>
-> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/intel_workarounds.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> > index 116683ebe074..37251546b755 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> > @@ -2897,7 +2897,9 @@ engine_init_workarounds(struct intel_engine_cs *engine, struct i915_wa_list *wal
-> >          */
-> >         if (engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE) {
-> >                 general_render_compute_wa_init(engine, wal);
-> > -               ccs_engine_wa_mode(engine, wal);
-> > +
-> > +               if (engine->class == COMPUTE_CLASS)
-> > +                       ccs_engine_wa_mode(engine, wal);
+On 3/25/25 3:12 PM, Philipp Zabel wrote:
+> On Mo, 2025-03-24 at 20:05 +0100, Marek Vasut wrote:
+>> On 3/24/25 9:43 AM, Boris Brezillon wrote:
+>>
+>> [...]
+>>
+>>>> @@ -563,6 +585,7 @@ int panthor_device_suspend(struct device *dev)
+>>>>    
+>>>>    	panthor_devfreq_suspend(ptdev);
+>>>>    
+>>>> +	reset_control_assert(ptdev->resets);
+>>>
+>>> Hm, that might be the cause of the fast reset issue (which is a fast
+>>> resume more than a fast reset BTW): if you re-assert the reset line on
+>>> runtime suspend, I guess this causes a full GPU reset, and the MCU ends
+>>> up in a state where it needs a slow reset (all data sections reset to
+>>> their initial state). Can you try to move the reset_control_[de]assert
+>>> to the unplug/init functions?
+>> The reset on the MX95 is not really a reset, it is clear-only
+>> set-never-again bit which goes only one way, the "unreset" way, so I
+>> don't think this has any impact.
 > 
-> FIRST_RENDER_COMPUTE is meant to only be on the first engine of either
-> rcs or ccs (which share certain register domains), one engine.
+> This sounds like the bit is initially set to 1 (reset asserted) and can
+> be cleared by writing 0 (once, to deassert the reset). But in the
+> reset-simple patch it looks to be the other way around (active_low =
+> true)?
 > 
-> It looks like that was broken by
-> 
-> 	commit 1bfc03b1375244f9029bb448ee8224b3b6dae99f
-> 	Author: Lucas De Marchi <lucas.demarchi@intel.com>
-> 	Date:   Tue Mar 19 23:03:03 2024 -0700
-> 
-> 	    drm/i915: Remove special handling for !RCS_MASK()
-
-Aha! So the logic here[*] breaks the meaning of
-I915_ENGINE_FIRST_RENDER_COMPUTE, becasue, other than PVC, we
-forgot that we have DG2 that needs the special check that uses
-!RCS_MASK().
-
-I need then to restore the original check.
-
-Thanks Chris!
-Andi
-
-[*]
--       if ((engine->class == COMPUTE_CLASS && !RCS_MASK(engine->gt) &&
--            __ffs(CCS_MASK(engine->gt)) == engine->instance) ||
--            engine->class == RENDER_CLASS)
-+       if ((engine->class == COMPUTE_CLASS || engine->class == RENDER_CLASS) &&
-+           __ffs(CCS_MASK(engine->gt) | RCS_MASK(engine->gt)) == engine->instance)
+> If the reset control can't be asserted again on this hardware, it would
+> be better to have custom driver that doesn't implement the .assert()
+> callback at all.
+Maybe the reset-simple driver can be extended with some mode of 
+operation like this instead , to make it skip assert once deasserted , 
+for specific reset controllers ?
