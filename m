@@ -2,84 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D6CA702E7
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 14:55:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61965A702FE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Mar 2025 14:59:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2AC610E577;
-	Tue, 25 Mar 2025 13:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A648D10E3A2;
+	Tue, 25 Mar 2025 13:59:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RcBXFkHg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CseAqFYq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
- [209.85.160.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1AF310E3A2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 13:55:44 +0000 (UTC)
-Received: by mail-oa1-f46.google.com with SMTP id
- 586e51a60fabf-2c2c754af3cso2823682fac.3
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Mar 2025 06:55:44 -0700 (PDT)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABDA10E398;
+ Tue, 25 Mar 2025 13:59:37 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-3032a9c7cfeso1103815a91.1; 
+ Tue, 25 Mar 2025 06:59:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1742910944; x=1743515744; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1742911177; x=1743515977; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HfXW1tINyjybFH59i2/tceSOuMsWCGxf0dWvSOQSE9Q=;
- b=RcBXFkHgoxip16/Ymiz+ezHaDGUvqVbfcahBOeLIKWXfo8PkwKnddd+z8bDP5brnWy
- YK5c2DV2AerrCiZCKRrFMu9vBcFdWmheENy9uNBJNVgHC3zEdFpjltIfaskShHssT7/q
- EEo4xwftRNMucR9QmaF4q8+bjXe+tcRRVXxF1dMDt8Xk1X5vJe5C+SvZCh43UynFJPNO
- JVpI8kbXmQzTbKZD1luhDNKabUbmwJgArTYntJaw5hGbiwEQAW7m34tnsj8RsEqPe9xl
- AORCYZD7co/bLdX+ER/DIO6Vi2u9wNfz9YvrtQwsBXCyVZdxisapgUuHCOpUNh9B4ZRZ
- ne3g==
+ bh=BHsIjWZRxIowHqARUdyK/Q6E9HTzh2JqRCdqVXBheyA=;
+ b=CseAqFYq0DdRtXJrh8/K8AAIYFfgCAABqqHR8ruOcZsQBqMh05PLuXEAn0Cu/1OjSX
+ F5mvID0GXSsd5NT5T/2gI8EKscuuIckun9flX0FTfkInNJHaT8RQYniARV3xu9hfjmRC
+ X34rhtN8rx8kjyTp/ILQL88LPov7P8jpxOY/hMeh5chmoU/CLBK93uUmRe2vGgJGu7nn
+ NBx0k4z9C0n31eTuz8+6I/HMc/V26s8PDoO+KjtIHq5H++ZXvUNmK9MIHdyKrjRpTOna
+ d9bLxmPUHH32jDt/zHrDYaqwE63WVylNNamiiIXL4tNcF6IqTcbwhYibKi7+fYmrGbLc
+ FtAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742910944; x=1743515744;
+ d=1e100.net; s=20230601; t=1742911177; x=1743515977;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HfXW1tINyjybFH59i2/tceSOuMsWCGxf0dWvSOQSE9Q=;
- b=bT61jOcXYCdl5sxaYcKYa5lU8SCWcPo19tw/mJBpszzPA8mpBUw8GqqM7FzH5X1cU4
- rKqUcZltnj0rJchZVz2WXJks9bkuIuUzN6aPGxZRTWYM+NHhXeIN51EBj62YC7ft8y5h
- K6QoJnSJlS1xKIekdyzIRnjW5QEL6qtsQdX/xffJngc2ovgcBkBS5SZ06wXzwEOvHof8
- sXzDibXSodIWymcEpfjVRVEJjwhlof3sPLFzvBWsY9MtL5gC5yT7J5S12bZecXp6p4L+
- Zt1ZBulpGmJQw+29VNSV6Jclssu7+i6ImssijAY1MEicWZamj41WED7ElGhkklim+ReC
- /ahQ==
+ bh=BHsIjWZRxIowHqARUdyK/Q6E9HTzh2JqRCdqVXBheyA=;
+ b=PFyFvKMtcVqW8MX+zEUADNskgZSfI3iTUzaJ+vfcXyGkQJyveGIYnbyxeAzkIGpyfA
+ LtP08p7oKjclyvGAh3j1vtaiWq0TvoxN8WvqPkaxqgTYtno1GKj5EIcq8rdU+aNAosAW
+ Ig55KsBvaq8MaAlfhSl96+kwJjMKvx/BUqdY1HTuaM6HsnneubymUS8FDkTJkdLocubo
+ wTjIe4AIgrmZf6uy2fpyoaohguFBlk9BgKnEsXnMf626LEcZmdqEenS6Hb7tlj8K8aHK
+ cS4cD6+0xZcPnAS+ug4fT5vqent5JyxUYub7Pl+yOx3AVl/CYded0Kh252W2wSNDqqPQ
+ qupg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXC/uaoVU05fEc4p9nYKb1HgMRKg4HuWiBHh0KTrswVOSHAINegWu34SPsyYajS9zWzSEKvKpUbbE4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSio7gqlCoKaK4TmmFzQUg5tvwgG0QN0MbnLThEzQv+Eh3IGwv
- N8gKwtr/cQBEajF5KsYBZuvBsxteMbLItqdh21acmVSzFoNegTWOprOHcLztohF+TpchpfA6DtN
- mSyzldKsnUj4rqcGmqnCPsZ7Y/+2erh7jckvbzw==
-X-Gm-Gg: ASbGncsvoHR0PdurhmIEXxVpP7aPFcA+x2wlb33366tSsc4U9C9JKTcuVUhn01xLd3E
- 7imupRRpKRFwiOu3Y3RbCR5W4ff02cH36qmsoVD8VaS2auMRaWl9S0oOHSnnYKHpL9CW+Yulzol
- 8cWG8iCbaV6O8dJ7vwDAykpKVbGco=
-X-Google-Smtp-Source: AGHT+IEwBPPwUVoRos1sVNedvDmYTl2oPMhg6qa7EWRFlVhYT0/1fPMMFcZLaxlXCLhryoazT9mEtzOs9FsiBb8tVPo=
-X-Received: by 2002:a05:6870:f80b:b0:296:bbc8:4a82 with SMTP id
- 586e51a60fabf-2c780495379mr12124356fac.27.1742910943713; Tue, 25 Mar 2025
- 06:55:43 -0700 (PDT)
+ AJvYcCV/Pi4cehJRtNS3kd2FTry9GiSxv9dwJCk8p8ES6rIMMTv6Z+CceUXXuqF/fHmzw+GB1NXOhc1s@lists.freedesktop.org,
+ AJvYcCXx7qPDcRk/GZx9/jCYkXBDVd0THZjQ2RqcemwgbaScbubLFCuD/FxNtl4e6JBRN8A0Q74rWWZpkKAr@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyd5uelQdbtAABjvHREhXSJFxV67G2l5jWWI2K72O+xBhxCZAvn
+ kOEfTQ+9Pn7rwwalNxwpEKVcDEYvFA65nGHtamWasWCIawPjv+bAyFhTy9a4XM5QuL0LmzWmc0o
+ 6l+5T4hDlQ9AeyftJuMOYcYOp2BBbcw==
+X-Gm-Gg: ASbGncsH8pA67O6mseHI0CRqm5+uHkMNjV6DxYF+fZWDdufLrAIQ63FL7XV8/tB/6+o
+ +XfPJii7e6xNwfKFdTCHHQPcewbgHmAr0cHDFCzDoif6eeMU9gaMNAEd5Ft2nJh269XhBxtrFIR
+ qVJ2RWIPOVF910G2Fo9RpCLnZc6Q==
+X-Google-Smtp-Source: AGHT+IEfw9fQiARD33qNKgdpANhLby4iyXGm+mVQBe4FVd4RKDFeJ8Ytyp8GZMyNmTl8igpKa6GusLQI3v0pAWc2T40=
+X-Received: by 2002:a17:90b:1a86:b0:2ff:4be6:c5bd with SMTP id
+ 98e67ed59e1d1-3036b4de998mr1762409a91.8.1742911176367; Tue, 25 Mar 2025
+ 06:59:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
- <20250305130634.1850178-9-jens.wiklander@linaro.org>
- <Z-JWIyd8cKyXQR0H@sumit-X1>
-In-Reply-To: <Z-JWIyd8cKyXQR0H@sumit-X1>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 25 Mar 2025 14:55:32 +0100
-X-Gm-Features: AQ5f1Jp3D7eSeWP8gWeTN_I1pHWpPzOxKysZVMBSQkU1nox7ff2kFajLYyiQcek
-Message-ID: <CAHUa44FXjG1hC9v18Yx1ENPX_Bc9sZW1Z2=+m6+KUsxPMvDE+w@mail.gmail.com>
-Subject: Re: [PATCH v6 08/10] optee: support restricted memory allocation
-To: Sumit Garg <sumit.garg@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, 
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
+References: <20250325000723.366365-1-andres.emb.sys@gmail.com>
+ <85bda3bf-eaed-4eac-97ca-92c6301c0f9b@amd.com>
+ <CADnq5_OQEA07TNXdJy5wfViAk2dp-LNvaQQbT2UCs7BtcokgQg@mail.gmail.com>
+ <436be94f-2aab-4d15-9322-01ee72d46337@amd.com>
+In-Reply-To: <436be94f-2aab-4d15-9322-01ee72d46337@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 25 Mar 2025 09:59:24 -0400
+X-Gm-Features: AQ5f1JopC53LeQUmK-6XBQ6Dh2FJeRaDctQ0VghHhPEWQdFgRyI_T4s2DYsketU
+Message-ID: <CADnq5_M3OyXkrut=pf+mdmQQDbVLD5w2tc_q=WMwDmtyEM4sDQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Replace deprecated function strcpy() with
+ strscpy()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Andres Urian Florez <andres.emb.sys@gmail.com>, alexander.deucher@amd.com,
+ airlied@gmail.com, 
+ simona@ffwll.ch, mario.limonciello@amd.com, arnd@arndb.de, Tim.Huang@amd.com, 
+ skhan@linuxfoundation.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,148 +91,335 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 25, 2025 at 8:07=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> =
-wrote:
+On Tue, Mar 25, 2025 at 9:50=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> On Wed, Mar 05, 2025 at 02:04:14PM +0100, Jens Wiklander wrote:
-> > Add support in the OP-TEE backend driver for restricted memory
-> > allocation. The support is limited to only the SMC ABI and for secure
-> > video buffers.
-> >
-> > OP-TEE is probed for the range of restricted physical memory and a
-> > memory pool allocator is initialized if OP-TEE have support for such
-> > memory.
-> >
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >  drivers/tee/optee/core.c    |  1 +
-> >  drivers/tee/optee/smc_abi.c | 44 +++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 43 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-> > index c75fddc83576..c7fd8040480e 100644
-> > --- a/drivers/tee/optee/core.c
-> > +++ b/drivers/tee/optee/core.c
-> > @@ -181,6 +181,7 @@ void optee_remove_common(struct optee *optee)
-> >       tee_device_unregister(optee->supp_teedev);
-> >       tee_device_unregister(optee->teedev);
-> >
-> > +     tee_device_unregister_all_dma_heaps(optee->teedev);
-> >       tee_shm_pool_free(optee->pool);
-> >       optee_supp_uninit(&optee->supp);
-> >       mutex_destroy(&optee->call_queue.mutex);
-> > diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-> > index cfdae266548b..a14ff0b7d3b3 100644
-> > --- a/drivers/tee/optee/smc_abi.c
-> > +++ b/drivers/tee/optee/smc_abi.c
-> > @@ -1620,6 +1620,41 @@ static inline int optee_load_fw(struct platform_=
-device *pdev,
-> >  }
-> >  #endif
-> >
-> > +static int optee_sdp_pool_init(struct optee *optee)
-> > +{
-> > +     enum tee_dma_heap_id heap_id =3D TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
-> > +     struct tee_rstmem_pool *pool;
-> > +     int rc;
-> > +
-> > +     if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP) {
+> Am 25.03.25 um 14:30 schrieb Alex Deucher:
+> > On Tue, Mar 25, 2025 at 4:38=E2=80=AFAM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >> Alex shouldn't be try to completely nuke the CGS functions?
+> > Sure, but it would need to be replaced with something else so I'm not
+> > sure it's worth the effort since it's only used by a few older GPUs.
 >
-> Is this SDP capability an ABI yet since we haven't supported it in
-> upstream kernel? If no then can we rename it as
-> OPTEE_SMC_SEC_CAP_RSTMEM?
+> Well how about at least nuking this code here? Take a closer look it's tr=
+ying to pull in firmware from "radeon/*".
+>
+> That is certainly not used :)
 
-No problem. We can rename it.
+Yes, that can be removed.
+
+Alex
 
 >
-> > +             union {
-> > +                     struct arm_smccc_res smccc;
-> > +                     struct optee_smc_get_sdp_config_result result;
-> > +             } res;
-> > +
-> > +             optee->smc.invoke_fn(OPTEE_SMC_GET_SDP_CONFIG, 0, 0, 0, 0=
-, 0, 0,
-> > +                                  0, &res.smccc);
-> > +             if (res.result.status !=3D OPTEE_SMC_RETURN_OK) {
-> > +                     pr_err("Secure Data Path service not available\n"=
+> Christian.
+>
+> >
+> > Alex
+> >
+> >> Christian.
+> >>
+> >> Am 25.03.25 um 01:07 schrieb Andres Urian Florez:
+> >>> Instead of using the strcpy() deprecated function to populate the
+> >>> fw_name, use the strscpy() function
+> >>>
+> >>> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#=
+strcpy
+> >>>
+> >>> Signed-off-by: Andres Urian Florez <andres.emb.sys@gmail.com>
+> >>> ---
+> >>>  drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c | 68 ++++++++++++-----------=
+--
+> >>>  1 file changed, 34 insertions(+), 34 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_cgs.c
+> >>> index 68bce6a6d09d..525e53c94f4f 100644
+> >>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
+> >>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
+> >>> @@ -253,16 +253,16 @@ static int amdgpu_cgs_get_firmware_info(struct =
+cgs_device *cgs_device,
+> >>>               if (!adev->pm.fw) {
+> >>>                       switch (adev->asic_type) {
+> >>>                       case CHIP_TAHITI:
+> >>> -                             strcpy(fw_name, "radeon/tahiti_smc.bin"=
 );
-> > +                     return 0;
-> > +             }
-> > +
-> > +             pool =3D tee_rstmem_static_pool_alloc(res.result.start,
-> > +                                                 res.result.size);
-> > +             if (IS_ERR(pool))
-> > +                     return PTR_ERR(pool);
-> > +
-> > +             rc =3D tee_device_register_dma_heap(optee->teedev, heap_i=
-d, pool);
-> > +             if (rc)
-> > +                     goto err;
-> > +     }
-> > +
-> > +     return 0;
-> > +err:
-> > +     pool->ops->destroy_pool(pool);
-> > +     return rc;
-> > +}
-> > +
-> >  static int optee_probe(struct platform_device *pdev)
-> >  {
-> >       optee_invoke_fn *invoke_fn;
-> > @@ -1715,7 +1750,7 @@ static int optee_probe(struct platform_device *pd=
-ev)
-> >       optee =3D kzalloc(sizeof(*optee), GFP_KERNEL);
-> >       if (!optee) {
-> >               rc =3D -ENOMEM;
-> > -             goto err_free_pool;
-> > +             goto err_free_shm_pool;
-> >       }
-> >
-> >       optee->ops =3D &optee_ops;
-> > @@ -1788,6 +1823,10 @@ static int optee_probe(struct platform_device *p=
-dev)
-> >               pr_info("Asynchronous notifications enabled\n");
-> >       }
-> >
-> > +     rc =3D optee_sdp_pool_init(optee);
+> >>> +                             strscpy(fw_name, "radeon/tahiti_smc.bin=
+");
+> >>>                               break;
+> >>>                       case CHIP_PITCAIRN:
+> >>>                               if ((adev->pdev->revision =3D=3D 0x81) =
+&&
+> >>>                                   ((adev->pdev->device =3D=3D 0x6810)=
+ ||
+> >>>                                   (adev->pdev->device =3D=3D 0x6811))=
+) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "radeon/pitcair=
+n_k_smc.bin");
+> >>> +                                     strscpy(fw_name, "radeon/pitcai=
+rn_k_smc.bin");
+> >>>                               } else {
+> >>> -                                     strcpy(fw_name, "radeon/pitcair=
+n_smc.bin");
+> >>> +                                     strscpy(fw_name, "radeon/pitcai=
+rn_smc.bin");
+> >>>                               }
+> >>>                               break;
+> >>>                       case CHIP_VERDE:
+> >>> @@ -276,9 +276,9 @@ static int amdgpu_cgs_get_firmware_info(struct cg=
+s_device *cgs_device,
+> >>>                                       ((adev->pdev->device =3D=3D 0x6=
+823) ||
+> >>>                                       (adev->pdev->device =3D=3D 0x68=
+2b)))) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "radeon/verde_k=
+_smc.bin");
+> >>> +                                     strscpy(fw_name, "radeon/verde_=
+k_smc.bin");
+> >>>                               } else {
+> >>> -                                     strcpy(fw_name, "radeon/verde_s=
+mc.bin");
+> >>> +                                     strscpy(fw_name, "radeon/verde_=
+smc.bin");
+> >>>                               }
+> >>>                               break;
+> >>>                       case CHIP_OLAND:
+> >>> @@ -290,9 +290,9 @@ static int amdgpu_cgs_get_firmware_info(struct cg=
+s_device *cgs_device,
+> >>>                                   ((adev->pdev->revision =3D=3D 0x83)=
+ &&
+> >>>                                       (adev->pdev->device =3D=3D 0x66=
+10))) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "radeon/oland_k=
+_smc.bin");
+> >>> +                                     strscpy(fw_name, "radeon/oland_=
+k_smc.bin");
+> >>>                               } else {
+> >>> -                                     strcpy(fw_name, "radeon/oland_s=
+mc.bin");
+> >>> +                                     strscpy(fw_name, "radeon/oland_=
+smc.bin");
+> >>>                               }
+> >>>                               break;
+> >>>                       case CHIP_HAINAN:
+> >>> @@ -304,13 +304,13 @@ static int amdgpu_cgs_get_firmware_info(struct =
+cgs_device *cgs_device,
+> >>>                                       (adev->pdev->device =3D=3D 0x66=
+65) ||
+> >>>                                        (adev->pdev->device =3D=3D 0x6=
+667)))) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "radeon/hainan_=
+k_smc.bin");
+> >>> +                                     strscpy(fw_name, "radeon/hainan=
+_k_smc.bin");
+> >>>                               } else if ((adev->pdev->revision =3D=3D=
+ 0xc3) &&
+> >>>                                        (adev->pdev->device =3D=3D 0x6=
+665)) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "radeon/banks_k=
+_2_smc.bin");
+> >>> +                                     strscpy(fw_name, "radeon/banks_=
+k_2_smc.bin");
+> >>>                               } else {
+> >>> -                                     strcpy(fw_name, "radeon/hainan_=
+smc.bin");
+> >>> +                                     strscpy(fw_name, "radeon/hainan=
+_smc.bin");
+> >>>                               }
+> >>>                               break;
+> >>>                       case CHIP_BONAIRE:
+> >>> @@ -318,17 +318,17 @@ static int amdgpu_cgs_get_firmware_info(struct =
+cgs_device *cgs_device,
+> >>>                                       (adev->pdev->revision =3D=3D 0x=
+81) ||
+> >>>                                       (adev->pdev->device =3D=3D 0x66=
+5f)) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "amdgpu/bonaire=
+_k_smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/bonair=
+e_k_smc.bin");
+> >>>                               } else {
+> >>> -                                     strcpy(fw_name, "amdgpu/bonaire=
+_smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/bonair=
+e_smc.bin");
+> >>>                               }
+> >>>                               break;
+> >>>                       case CHIP_HAWAII:
+> >>>                               if (adev->pdev->revision =3D=3D 0x80) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "amdgpu/hawaii_=
+k_smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/hawaii=
+_k_smc.bin");
+> >>>                               } else {
+> >>> -                                     strcpy(fw_name, "amdgpu/hawaii_=
+smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/hawaii=
+_smc.bin");
+> >>>                               }
+> >>>                               break;
+> >>>                       case CHIP_TOPAZ:
+> >>> @@ -338,76 +338,76 @@ static int amdgpu_cgs_get_firmware_info(struct =
+cgs_device *cgs_device,
+> >>>                                   ((adev->pdev->device =3D=3D 0x6900)=
+ && (adev->pdev->revision =3D=3D 0xD1)) ||
+> >>>                                   ((adev->pdev->device =3D=3D 0x6900)=
+ && (adev->pdev->revision =3D=3D 0xD3))) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "amdgpu/topaz_k=
+_smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/topaz_=
+k_smc.bin");
+> >>>                               } else
+> >>> -                                     strcpy(fw_name, "amdgpu/topaz_s=
+mc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/topaz_=
+smc.bin");
+> >>>                               break;
+> >>>                       case CHIP_TONGA:
+> >>>                               if (((adev->pdev->device =3D=3D 0x6939)=
+ && (adev->pdev->revision =3D=3D 0xf1)) ||
+> >>>                                   ((adev->pdev->device =3D=3D 0x6938)=
+ && (adev->pdev->revision =3D=3D 0xf1))) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "amdgpu/tonga_k=
+_smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/tonga_=
+k_smc.bin");
+> >>>                               } else
+> >>> -                                     strcpy(fw_name, "amdgpu/tonga_s=
+mc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/tonga_=
+smc.bin");
+> >>>                               break;
+> >>>                       case CHIP_FIJI:
+> >>> -                             strcpy(fw_name, "amdgpu/fiji_smc.bin");
+> >>> +                             strscpy(fw_name, "amdgpu/fiji_smc.bin")=
+;
+> >>>                               break;
+> >>>                       case CHIP_POLARIS11:
+> >>>                               if (type =3D=3D CGS_UCODE_ID_SMU) {
+> >>>                                       if (ASICID_IS_P21(adev->pdev->d=
+evice, adev->pdev->revision)) {
+> >>>                                               info->is_kicker =3D tru=
+e;
+> >>> -                                             strcpy(fw_name, "amdgpu=
+/polaris11_k_smc.bin");
+> >>> +                                             strscpy(fw_name, "amdgp=
+u/polaris11_k_smc.bin");
+> >>>                                       } else if (ASICID_IS_P31(adev->=
+pdev->device, adev->pdev->revision)) {
+> >>>                                               info->is_kicker =3D tru=
+e;
+> >>> -                                             strcpy(fw_name, "amdgpu=
+/polaris11_k2_smc.bin");
+> >>> +                                             strscpy(fw_name, "amdgp=
+u/polaris11_k2_smc.bin");
+> >>>                                       } else {
+> >>> -                                             strcpy(fw_name, "amdgpu=
+/polaris11_smc.bin");
+> >>> +                                             strscpy(fw_name, "amdgp=
+u/polaris11_smc.bin");
+> >>>                                       }
+> >>>                               } else if (type =3D=3D CGS_UCODE_ID_SMU=
+_SK) {
+> >>> -                                     strcpy(fw_name, "amdgpu/polaris=
+11_smc_sk.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/polari=
+s11_smc_sk.bin");
+> >>>                               }
+> >>>                               break;
+> >>>                       case CHIP_POLARIS10:
+> >>>                               if (type =3D=3D CGS_UCODE_ID_SMU) {
+> >>>                                       if (ASICID_IS_P20(adev->pdev->d=
+evice, adev->pdev->revision)) {
+> >>>                                               info->is_kicker =3D tru=
+e;
+> >>> -                                             strcpy(fw_name, "amdgpu=
+/polaris10_k_smc.bin");
+> >>> +                                             strscpy(fw_name, "amdgp=
+u/polaris10_k_smc.bin");
+> >>>                                       } else if (ASICID_IS_P30(adev->=
+pdev->device, adev->pdev->revision)) {
+> >>>                                               info->is_kicker =3D tru=
+e;
+> >>> -                                             strcpy(fw_name, "amdgpu=
+/polaris10_k2_smc.bin");
+> >>> +                                             strscpy(fw_name, "amdgp=
+u/polaris10_k2_smc.bin");
+> >>>                                       } else {
+> >>> -                                             strcpy(fw_name, "amdgpu=
+/polaris10_smc.bin");
+> >>> +                                             strscpy(fw_name, "amdgp=
+u/polaris10_smc.bin");
+> >>>                                       }
+> >>>                               } else if (type =3D=3D CGS_UCODE_ID_SMU=
+_SK) {
+> >>> -                                     strcpy(fw_name, "amdgpu/polaris=
+10_smc_sk.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/polari=
+s10_smc_sk.bin");
+> >>>                               }
+> >>>                               break;
+> >>>                       case CHIP_POLARIS12:
+> >>>                               if (ASICID_IS_P23(adev->pdev->device, a=
+dev->pdev->revision)) {
+> >>>                                       info->is_kicker =3D true;
+> >>> -                                     strcpy(fw_name, "amdgpu/polaris=
+12_k_smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/polari=
+s12_k_smc.bin");
+> >>>                               } else {
+> >>> -                                     strcpy(fw_name, "amdgpu/polaris=
+12_smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/polari=
+s12_smc.bin");
+> >>>                               }
+> >>>                               break;
+> >>>                       case CHIP_VEGAM:
+> >>> -                             strcpy(fw_name, "amdgpu/vegam_smc.bin")=
+;
+> >>> +                             strscpy(fw_name, "amdgpu/vegam_smc.bin"=
+);
+> >>>                               break;
+> >>>                       case CHIP_VEGA10:
+> >>>                               if ((adev->pdev->device =3D=3D 0x687f) =
+&&
+> >>>                                       ((adev->pdev->revision =3D=3D 0=
+xc0) ||
+> >>>                                       (adev->pdev->revision =3D=3D 0x=
+c1) ||
+> >>>                                       (adev->pdev->revision =3D=3D 0x=
+c3)))
+> >>> -                                     strcpy(fw_name, "amdgpu/vega10_=
+acg_smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/vega10=
+_acg_smc.bin");
+> >>>                               else
+> >>> -                                     strcpy(fw_name, "amdgpu/vega10_=
+smc.bin");
+> >>> +                                     strscpy(fw_name, "amdgpu/vega10=
+_smc.bin");
+> >>>                               break;
+> >>>                       case CHIP_VEGA12:
+> >>> -                             strcpy(fw_name, "amdgpu/vega12_smc.bin"=
+);
+> >>> +                             strscpy(fw_name, "amdgpu/vega12_smc.bin=
+");
+> >>>                               break;
+> >>>                       case CHIP_VEGA20:
+> >>> -                             strcpy(fw_name, "amdgpu/vega20_smc.bin"=
+);
+> >>> +                             strscpy(fw_name, "amdgpu/vega20_smc.bin=
+");
+> >>>                               break;
+> >>>                       default:
+> >>>                               DRM_ERROR("SMC firmware not supported\n=
+");
 >
-> s/optee_sdp_pool_init/optee_rstmem_pool_init/
-
-OK
-
-Cheers,
-Jens
-
->
-> -Sumit
->
-> > +     if (rc)
-> > +             goto err_notif_uninit;
-> > +
-> >       /*
-> >        * Ensure that there are no pre-existing shm objects before enabl=
-ing
-> >        * the shm cache so that there's no chance of receiving an invali=
-d
-> > @@ -1823,6 +1862,7 @@ static int optee_probe(struct platform_device *pd=
-ev)
-> >               optee_disable_shm_cache(optee);
-> >       optee_smc_notif_uninit_irq(optee);
-> >       optee_unregister_devices();
-> > +     tee_device_unregister_all_dma_heaps(optee->teedev);
-> >  err_notif_uninit:
-> >       optee_notif_uninit(optee);
-> >  err_close_ctx:
-> > @@ -1839,7 +1879,7 @@ static int optee_probe(struct platform_device *pd=
-ev)
-> >       tee_device_unregister(optee->teedev);
-> >  err_free_optee:
-> >       kfree(optee);
-> > -err_free_pool:
-> > +err_free_shm_pool:
-> >       tee_shm_pool_free(pool);
-> >       if (memremaped_shm)
-> >               memunmap(memremaped_shm);
-> > --
-> > 2.43.0
-> >
