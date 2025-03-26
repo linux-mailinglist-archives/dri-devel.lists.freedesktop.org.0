@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A66A7277A
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 00:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5960EA7277C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 00:54:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80D5810E7F1;
-	Wed, 26 Mar 2025 23:54:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DEFA10E7F6;
+	Wed, 26 Mar 2025 23:54:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sYS1Yt3f";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="tdCsqyIl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2049.outbound.protection.outlook.com [40.107.102.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2586010E7F0;
- Wed, 26 Mar 2025 23:54:34 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2050.outbound.protection.outlook.com [40.107.220.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A53210E7F3;
+ Wed, 26 Mar 2025 23:54:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uMalEC+6l0AlO6AtcddwBJaSmJrjEUtSp1/BlBxzurYd3zQt5rNFqbMvX6MGikgHY2sYwyDqNzfcEqyapEbt9TGNdeC88vANFmaFfxnB/GCwKvglI13SxYsJgo9CHxY4cCSlOpmVrsXcj+uGcPHlk9QAYbfTZxN/JxcqFMSCO8PuUhxDMXrudf456J3dJmI156ZU7gAV14v+oxRDqH766CA8cDKHVV2/c5+7LtORB4rZjU2VhE/zd3LhS+IN+h4MRHtQacYz8AMFCpJh2kbhZg4hdbU9+hMF7eMblJwrZYdVu6A467k3R8gX3QNDpg6gcnv58MrtUmwtxbQ099Gdcg==
+ b=sszwT6xd2omrIm8tp/KgTT5+Tr3kLmBFy7KPBzs9L59GavmEvTgHgnmnQVmFVEGnYCmZlKS9U6z/VFR1jcJ5l0Bf8S4tT2EYecSjsCqIxWQo22CkD9SOF58s/0kE25NuIyLPRZd8qEf7XOqJPIqR537UVU0x7dXlYctSj6e/PmipivKeQ/JzdH9sf3meDjGjUzTNoBTXajZCyu3sCX7VhE/+ZuU/nuotEK5IoU5A4s+2KGtbIp0zeW6y+pPXxk5Ilr/ORFtzzLodrXtC2s9n9+1nLVN/EHwx7BsDhCRKXJlWhZ7p0ZyXlIq+pzDrHcPCmCBp8pwUUP0iMdol639u5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X0nGr0lSYWvXrypxdCLLxN4x5pkosTLWZheU+4u/VgU=;
- b=ubwoqjR6r3oZO/7B7uUue/dJHY2V9bYOnjJ/Al88u4UMRRLfapRZhchg8b9iDR6mk4RHcmt92APGrREtX/tNKrnttrv/tQawab7mgPR6vGiPhbNhBuMtGpEIw9AfYGAqBR8cKNxIgq2yBTxuooLPpUoNQh+tErjcH61YOIS/gZdbMGxR844lBIlOP1D866T2rlrRSbGve9oROTe8bUYth7UYOnjyBBQvNNvL1ca1HM2NsJTbQjp+ABguZOYx1bN/hzhRco+C1gkCO1DANvL8eMQIsXRqDcSDZxMtuR5zEGK6i1yev9LsGxXsZSNEi3sD+hToczV0uw4L8jTwQMm6bA==
+ bh=ltyZz0/YE1LPWigtPmRrJTB+O76WVKeNFq2rK1eOPYI=;
+ b=SCfBKllySFG+bQgbgMm9lFChWQKSRDwAOGrjleJGKHJ7WFzrMoi1sns6rsKQERwNsmdEpeJMipjVznyV/iWKGtSa428b6WpGtc86J2lq+fS+Rz9Ci05O6Mt+RwmkAFu02owqY62OVhBRheIOU6Pwa+dPSSqQW/DYHyFbEwysN5Mu8PnRPw0lX/ctXFgjzhGE5XqFAtRaQklH6WeiKwPxlg0zbNoogFyU6nXFekVca7mBG8tb1huzlGtrNAc9ylaPURwOaxVay5U562HsJQ1LpHxoDBBogqRvFLqHb7pWdGFZiqWTqaJjLFcQ965t6qQERZcHRTtrlzlNhn7Nd7ENqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X0nGr0lSYWvXrypxdCLLxN4x5pkosTLWZheU+4u/VgU=;
- b=sYS1Yt3f5B+wavF88zsdm6jG5e40zB+ScgVgb0oXgpenLKfufNBqu4st09QWcF/emgZ62Xekbi3O3AVxjRuSNA/boHBns0QeTKqz5R7ijKmbcU1frt1+4lQB13kmgZEgJ9GWFxXNPQJAimhCOMHufpwuVBzXhyC/+xbWQyi9BlE=
-Received: from BN9PR03CA0547.namprd03.prod.outlook.com (2603:10b6:408:138::12)
- by PH7PR12MB5805.namprd12.prod.outlook.com (2603:10b6:510:1d1::13)
+ bh=ltyZz0/YE1LPWigtPmRrJTB+O76WVKeNFq2rK1eOPYI=;
+ b=tdCsqyIlcDfg0RaIX/85Xs4Rf8lveh7wop4OLINS91z8TaK98onhdeyzLVVCOvAY33GEbz+oNbgZOHW0gJdXh4F0+c8OeGLbtVe+uUnQ4o3fhPSaIwrYMTkAvyZMF9kcaXlu9b8e3VlYxqDAEkbMQRutvNke5RbWNioiPL6B6Cc=
+Received: from MN2PR16CA0007.namprd16.prod.outlook.com (2603:10b6:208:134::20)
+ by MW4PR12MB7358.namprd12.prod.outlook.com (2603:10b6:303:22b::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Wed, 26 Mar
- 2025 23:54:29 +0000
-Received: from BL02EPF0001A0FB.namprd03.prod.outlook.com
- (2603:10b6:408:138:cafe::eb) by BN9PR03CA0547.outlook.office365.com
- (2603:10b6:408:138::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.43 via Frontend Transport; Wed,
- 26 Mar 2025 23:54:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Wed, 26 Mar
+ 2025 23:54:43 +0000
+Received: from BL02EPF0001A0FD.namprd03.prod.outlook.com
+ (2603:10b6:208:134:cafe::c4) by MN2PR16CA0007.outlook.office365.com
+ (2603:10b6:208:134::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.42 via Frontend Transport; Wed,
+ 26 Mar 2025 23:54:43 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF0001A0FB.mail.protection.outlook.com (10.167.242.102) with Microsoft
+ BL02EPF0001A0FD.mail.protection.outlook.com (10.167.242.104) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8534.20 via Frontend Transport; Wed, 26 Mar 2025 23:54:29 +0000
+ 15.20.8534.20 via Frontend Transport; Wed, 26 Mar 2025 23:54:43 +0000
 Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 26 Mar
- 2025 18:54:26 -0500
+ 2025 18:54:40 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -67,10 +67,10 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <quic_cbraga@quicinc.com>, <quic_abhinavk@quicinc.com>, <marcan@marcan.st>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>
-Subject: [PATCH V8 25/43] drm/amd/display: Add support for sRGB EOTF in DEGAM
- block
-Date: Wed, 26 Mar 2025 17:47:06 -0600
-Message-ID: <20250326234748.2982010-26-alex.hung@amd.com>
+Subject: [PATCH V8 26/43] drm/amd/display: Add support for sRGB Inverse EOTF
+ in SHAPER block
+Date: Wed, 26 Mar 2025 17:47:07 -0600
+Message-ID: <20250326234748.2982010-27-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250326234748.2982010-1-alex.hung@amd.com>
 References: <20250326234748.2982010-1-alex.hung@amd.com>
@@ -82,52 +82,52 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FB:EE_|PH7PR12MB5805:EE_
-X-MS-Office365-Filtering-Correlation-Id: 221aafef-1a1c-453f-0a6e-08dd6cc18c22
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FD:EE_|MW4PR12MB7358:EE_
+X-MS-Office365-Filtering-Correlation-Id: 93c3db28-b464-4195-1a60-08dd6cc19497
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|1800799024|36860700013|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?iqnGk8vmtEl0f3HWtvoKny2XZrsAfksq5lv8KiQdmP8kVA9YTWns1jvHESOI?=
- =?us-ascii?Q?SMSsAfJw+uWdWtIUqr/11AoK1157fjyM+MOsh+lpoI51lr21k2ABv+pYZL3t?=
- =?us-ascii?Q?OslgX/bJ1Z0eSS5Ea+2xo31iyQNbSuJkoFrLSk18AgkKXf6XSNy/c993Ukoh?=
- =?us-ascii?Q?2XA5ct01MaLCutwD9jtxj39M+C3n8DkQBYpGBqjf05vFziOHLKKbJNeGYUdD?=
- =?us-ascii?Q?F7Oy6TXG5sa1b8/0l8gY0MaFNyvyxJKyxxyByUCl8ns3jQK95Q+kVT5I8SgS?=
- =?us-ascii?Q?3Zna3bGlJWOy7VWEVHcoQBxcHLeMoo/+vBETVB5tKuOIrpRtLUwflhS9uxlh?=
- =?us-ascii?Q?8msjRDKoHQ99CyWhvYnAHot79GKCGAjp8PBNotS4Hig2ZPDRUiCzpvv+dYt6?=
- =?us-ascii?Q?18PYEQKgLWfGx4hZ/+AwTcfGvvbDh3pm/aiRMoSP6ppLLQ/7h16CDqPSQjsh?=
- =?us-ascii?Q?TpmGBD5UFUL6fyGhpqMO4aQXdkHA+uMW8MeKf3z7mFAjR8v467V0bHePBk2E?=
- =?us-ascii?Q?S2gKdyn9c1YGYFvde+TtTVcMyLznv/wu5wZHnVCOx//qbSxi9FyD2NV7UiUq?=
- =?us-ascii?Q?nNmnMjrsoj/Z5DL2ol8q/jRCgCNCCxJB6OdDVxYezwjEJeLPjKNVoSt1ntzX?=
- =?us-ascii?Q?o2VxwFrYD7CzWZtBXDNZT+UQnCtkTB55OUW/EnD4JmkmAqyn7lbAtp+6XDkI?=
- =?us-ascii?Q?Mx8N/a827uzJRYtvc3EFT2a6aGFyZx2FL2XezfCZahl04kJItY9mUzo5PryG?=
- =?us-ascii?Q?pZvhaU8ygGiJjXkyd/tpjTAdlSeLO13LQ7LaHCcgBOZ8teoYVc/Llh0FyBu0?=
- =?us-ascii?Q?d7n99upLMwkaJ3dAd3Tj7c7vHQQ+4jW+KrmLwJi5b0Iz0nIwbLa7fKfL0Rjm?=
- =?us-ascii?Q?uWTnGsu/+leqjwXf5L33l2cwuR7D1AOoYrKb6tS40bGMpSXLs96wMH8bGbq6?=
- =?us-ascii?Q?cTswAyqofH0gfmGg8l7G8cGRR61Zk8a4qNHHr4Chv3excIV7315R3+LtxWeb?=
- =?us-ascii?Q?Dpw1f4bfFzq2YfogwdgGBLPnxKZmdhDh5V2wc5vek4yYnNSOy0bxNkgj8Qon?=
- =?us-ascii?Q?28I49g22OttgGcoaXCsLYGKR60f+J0m3OmgVZGZq1xBusHyJPH+a3hlWZTVA?=
- =?us-ascii?Q?9SywPpYS+tl7XKIjL5jr6I6CdWRT97yQ6T4MAYsrLYtcRTMGJm0grCKJzkYY?=
- =?us-ascii?Q?w9I/NczrO18NN0yIb3d/r1LNQ/sKN0EBfd/CuAt0B/vPNM20WWc0NWl+zN6y?=
- =?us-ascii?Q?ByoCCpVOmozSO8c54boVa0MIzmp3g+itX5wZtGcWpsehZ1xfRlOq9QXo90v5?=
- =?us-ascii?Q?WhhZcTBP3312x/8EUTbVqasrZRWEG7d5oVpJdoVGCye6/+IRpOd+B2cDw38m?=
- =?us-ascii?Q?zyA8CUdC739PY6IMEVOhH4v0psN6dd6etXmcB07ca460mlSfI90UUnSpc2Aa?=
- =?us-ascii?Q?Y8evpDMIchL8fGzjBGq/uUTj4J1kITldFYrZdTe1HMvCIuMgpS49Spn5H1pf?=
- =?us-ascii?Q?iwLx/UHKSb8Vjr0=3D?=
+ ARA:13230040|36860700013|1800799024|376014|7416014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qmRFIvZL1nlfj9gxRikXWSYPTPA1RLdF9TJqKRyjgzkXhzKiyHhe23Oj+ZIl?=
+ =?us-ascii?Q?+k838PeUgHXlZt8qeMqCFP3LA03nNoYpHpuGoVNuAbP2TW3anqze9fZ/dyiJ?=
+ =?us-ascii?Q?Uzc15GoIdIliRb/ix+BJo2O/TdokE5YF1KuTcH55CO3x6uYytzLaaCbuwCw/?=
+ =?us-ascii?Q?S2PealN9BPihJNzKHOEY7NZ+hDFq8xKIGqy3S0tzO6RvKzFHsny1CzBoKrpK?=
+ =?us-ascii?Q?U3io1EC3liTkjyTZlg/9MGeEA7ZR+yZAeGcwdlzj9U3c6SmbNcS3+bjHcX61?=
+ =?us-ascii?Q?oNiwrHp7rUkn137gzqXQWXG3u4fPYXUW7173Ga0iIro+6PIZB0nlDLE+JEkJ?=
+ =?us-ascii?Q?gFYLUp0O1qJUn6kIbOy1pv9844f/0S+u+3vcTHtMzORix88SjGjewX9wnz0v?=
+ =?us-ascii?Q?awO8E/gy83WG56JoxQYdbogD23aaBIR7/u9RNEZkFGthP91LkJMNkTMyPBJa?=
+ =?us-ascii?Q?8ayZdx2whzFpIwKBRPBwwthEpcn7UFIduBjQJPHrsAFcBKFPV1hMamvj8H2L?=
+ =?us-ascii?Q?IZF3obu6O3S5q+CNJPObtlpgn1Xx/5BrvHmDCnDLU+UUh0hxU3r2Q0tYUOV3?=
+ =?us-ascii?Q?a7TiGkmPiBRJcGdomoOhBRlQBsY06X5rLQ+sdLfwtUu7ALnmS/m5mCsi4ptw?=
+ =?us-ascii?Q?PoYlFXDRltFjOJM/iqM8COfSJy3guaTIixnFAwjmQ7mEbgjTQ6p4ZHlG92yE?=
+ =?us-ascii?Q?6ciMX1+j7KXshAaidp8Iln2sViLbJFcrsLHIFbfg8UNtDJpqay0jW/Lc1dha?=
+ =?us-ascii?Q?vStLHKOdbsRnhGYou41oNKICvjEmsylgXwwpa5nJAdiobpmG5GvqDbqlu9+e?=
+ =?us-ascii?Q?yuPEaxUHfEC5sg+IcCZ4Q0PN8B8MDJwCkvD2A0w1vj+SbjuftCae7IdOerYm?=
+ =?us-ascii?Q?hgldBzPFzSa7HzSrR1f9B+w2q3NjNMTBoxH7fdE7LlWBpjBmoE/573NU6jhv?=
+ =?us-ascii?Q?B9kL9w1+JqYkHXPRbAqp1qFFUh0Z46tDx6u6QZ9m9rw4TX3Qd0WHoWSu5xLc?=
+ =?us-ascii?Q?jwVn/Lc0V3aPQFSsTbVYLDClw0NXzOweDHLkcR03RcyGg71XANzZll+Sjf45?=
+ =?us-ascii?Q?NmaBlTz02Il9bjTOrcUjP2xI/UbaOo/qqsISPj/7DswzdU485Vc9DJVUysiw?=
+ =?us-ascii?Q?+2RryPb3KM1k7Hhau9hRZL4XpPUf1c3U3YtQYBQ6rnHdB5+SjKkZ/GNbEK1a?=
+ =?us-ascii?Q?1WaGxzRdTnJ7j6WYqG8h8qySSfFXeGcMOyxlVxltroaiF0/1OS3Zm+k8E105?=
+ =?us-ascii?Q?Uft8gSpklwDM6fNHkdt9XsdflHNCL/5ZdMEZbXZyhQrfulFF6SRxg5+M5/kx?=
+ =?us-ascii?Q?ZfEhufmxdrpYGWPQ84251zFeLDV7Au1zun0cuXIsnzstjTvNLGFcFuab0I0q?=
+ =?us-ascii?Q?dVGAJPC+Jk43Lv86/UNcNAdkDwsoixbL50VYy4LO+y5YgpATg6/go4OjxVVF?=
+ =?us-ascii?Q?nIrS2D8g0c/hEHHZOXiItxfzEDgptzFqExzGg1Peh/XAamtkMxuNbskgG4B0?=
+ =?us-ascii?Q?XOnCYjcCKAG/HIw=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(1800799024)(36860700013)(7416014)(376014); DIR:OUT;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(7416014)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2025 23:54:29.1538 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 221aafef-1a1c-453f-0a6e-08dd6cc18c22
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2025 23:54:43.3584 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93c3db28-b464-4195-1a60-08dd6cc19497
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FB.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FD.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5805
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7358
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,94 +143,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose one 1D curve colorop with support for
-DRM_COLOROP_1D_CURVE_SRGB_EOTF and program HW to perform
-the sRGB transform when the colorop is not in bypass.
+Expose a 2nd curve colorop with support for
+DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF and program HW to
+perform the sRGB Inverse EOTF on the shaper block
+when the colorop is not in bypass.
 
-With this change the following IGT test passes:
-kms_colorop --run plane-XR30-XR30-srgb_eotf
+With this change the follow IGT tests pass:
+kms_colorop --run plane-XR30-XR30-srgb_inv_eotf
+kms_colorop --run plane-XR30-XR30-srgb_eotf-srgb_inv_eotf
 
-The color pipeline now consists of a single colorop:
-1. 1D curve colorop w/ sRGB EOTF
+The color pipeline now consists of the following colorops:
+1. 1D curve colorop w/ sRGB EOTF support
+2. 1D curve colorop w/ sRGB Inverse EOTF support
 
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Co-developed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 ---
-v8:
- - Fix incorrect && by || in __set_colorop_in_tf_1d_curve (Leo Li)
-
-v7:
- - Fix checkpatch warnings
-  - Change switch "{ }" position
-  - Delete double ";"
-  - Delete "{ }" for single-line if-statement
-  - Add a new line at EOF
-  - Change SPDX-License-Identifier: GPL-2.0+ from // to /* */
-
 v6:
- - cleanup if colorop alloc or init fails
+ - don't pass uninitialized variable into __set_output_tf
 
- .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  3 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 86 +++++++++++++++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 70 +++++++++++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h | 34 ++++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 10 +++
- 5 files changed, 202 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
- create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 74 +++++++++++++++++++
+ .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 19 +++++
+ .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h |  1 +
+ 3 files changed, 94 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
-index ab2a97e354da..46158d67ab12 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
-@@ -38,7 +38,8 @@ AMDGPUDM = \
- 	amdgpu_dm_pp_smu.o \
- 	amdgpu_dm_psr.o \
- 	amdgpu_dm_replay.o \
--	amdgpu_dm_wb.o
-+	amdgpu_dm_wb.o \
-+	amdgpu_dm_colorop.o
- 
- ifdef CONFIG_DRM_AMD_DC_FP
- AMDGPUDM += dc_fpu.o
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index ebabfe3a512f..0b513ab5050f 100644
+index 0b513ab5050f..4662d88885de 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -668,6 +668,18 @@ amdgpu_tf_to_dc_tf(enum amdgpu_transfer_function tf)
- 	}
- }
- 
-+static enum dc_transfer_func_predefined
-+amdgpu_colorop_tf_to_dc_tf(enum drm_colorop_curve_1d_type tf)
-+{
-+	switch (tf) {
-+	case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
-+	case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
-+		return TRANSFER_FUNCTION_SRGB;
-+	default:
-+		return TRANSFER_FUNCTION_LINEAR;
-+	}
-+}
-+
- static void __to_dc_lut3d_color(struct dc_rgb *rgb,
- 				const struct drm_color_lut lut,
- 				int bit_precision)
-@@ -1137,6 +1149,59 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
- 	return 0;
+@@ -1202,6 +1202,68 @@ __set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
+ 	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state);
  }
  
 +static int
-+__set_colorop_in_tf_1d_curve(struct dc_plane_state *dc_plane_state,
++__set_colorop_in_shaper_1d_curve(struct dc_plane_state *dc_plane_state,
 +		       struct drm_colorop_state *colorop_state)
 +{
-+	struct dc_transfer_func *tf = &dc_plane_state->in_transfer_func;
++	struct dc_transfer_func *tf = &dc_plane_state->in_shaper_func;
 +	struct drm_colorop *colorop = colorop_state->colorop;
 +	struct drm_device *drm = colorop->dev;
 +
-+	if (colorop->type != DRM_COLOROP_1D_CURVE ||
-+	    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_EOTF)
++	if (colorop->type != DRM_COLOROP_1D_CURVE &&
++	    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF)
 +		return -EINVAL;
 +
 +	if (colorop_state->bypass) {
@@ -239,18 +194,22 @@ index ebabfe3a512f..0b513ab5050f 100644
 +		return 0;
 +	}
 +
-+	drm_dbg(drm, "Degamma colorop with ID: %d\n", colorop->base.id);
++	drm_dbg(drm, "Shaper colorop with ID: %d\n", colorop->base.id);
 +
-+	tf->type = TF_TYPE_PREDEFINED;
-+	tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
++	if (colorop->type == DRM_COLOROP_1D_CURVE) {
++		tf->type = TF_TYPE_DISTRIBUTED_POINTS;
++		tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
++		tf->sdr_ref_white_level = SDR_WHITE_LEVEL_INIT_VALUE;
++		return __set_output_tf(tf, 0, 0, false);
++	}
 +
-+	return 0;
++	return -EINVAL;
 +}
 +
 +static int
-+__set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
-+			       struct dc_plane_state *dc_plane_state,
-+			       struct drm_colorop *colorop)
++__set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
++			      struct dc_plane_state *dc_plane_state,
++			      struct drm_colorop *colorop)
 +{
 +	struct drm_colorop *old_colorop;
 +	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
@@ -259,10 +218,15 @@ index ebabfe3a512f..0b513ab5050f 100644
 +
 +	old_colorop = colorop;
 +
-+	/* 1st op: 1d curve - degamma */
++	/* 2nd op: 1d curve - shaper */
 +	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
 +		if (new_colorop_state->colorop == old_colorop &&
-+		    new_colorop_state->curve_1d_type == DRM_COLOROP_1D_CURVE_SRGB_EOTF) {
++		    new_colorop_state->curve_1d_type == DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF) {
++			colorop_state = new_colorop_state;
++			break;
++		}
++
++		if (new_colorop_state->colorop == old_colorop) {
 +			colorop_state = new_colorop_state;
 +			break;
 +		}
@@ -271,100 +235,59 @@ index ebabfe3a512f..0b513ab5050f 100644
 +	if (!colorop_state)
 +		return -EINVAL;
 +
-+	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state);
++	return __set_colorop_in_shaper_1d_curve(dc_plane_state, colorop_state);
 +}
 +
  static int
  amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
  				     struct dc_plane_state *dc_plane_state)
-@@ -1187,6 +1252,24 @@ amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
- 	return 0;
- }
+@@ -1257,6 +1319,7 @@ amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
+ 		       struct dc_plane_state *dc_plane_state)
+ {
+ 	struct drm_colorop *colorop = plane_state->color_pipeline;
++	struct drm_device *dev = plane_state->plane->dev;
+ 	int ret;
  
-+static int
-+amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
-+		       struct dc_plane_state *dc_plane_state)
-+{
-+	struct drm_colorop *colorop = plane_state->color_pipeline;
-+	int ret;
-+
-+	/* 1D Curve - DEGAM TF */
-+	if (!colorop)
+ 	/* 1D Curve - DEGAM TF */
+@@ -1267,6 +1330,17 @@ amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
+ 	if (ret)
+ 		return ret;
+ 
++	/* 1D Curve - SHAPER TF */
++	colorop = colorop->next;
++	if (!colorop) {
++		drm_dbg(dev, "no Shaper TF colorop found\n");
 +		return -EINVAL;
++	}
 +
-+	ret = __set_dm_plane_colorop_degamma(plane_state, dc_plane_state, colorop);
++	ret = __set_dm_plane_colorop_shaper(plane_state, dc_plane_state, colorop);
 +	if (ret)
 +		return ret;
 +
-+	return 0;
-+}
-+
- /**
-  * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
-  * @crtc: amdgpu_dm crtc state
-@@ -1283,5 +1366,8 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 		dc_plane_state->input_csc_color_matrix.enable_adjustment = false;
- 	}
- 
-+	if (!amdgpu_dm_plane_set_colorop_properties(plane_state, dc_plane_state))
-+		return 0;
-+
- 	return amdgpu_dm_plane_set_color_properties(plane_state, dc_plane_state);
+ 	return 0;
  }
+ 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-new file mode 100644
-index 000000000000..3be0cb19ebc7
---- /dev/null
+index 3be0cb19ebc7..718544b11863 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-@@ -0,0 +1,70 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright 2023 Advanced Micro Devices, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * Authors: AMD
-+ *
-+ */
+@@ -34,6 +34,9 @@
+ const u64 amdgpu_dm_supported_degam_tfs =
+ 	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF);
+ 
++const u64 amdgpu_dm_supported_shaper_tfs =
++	BIT(DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF);
 +
-+#include <drm/drm_print.h>
-+#include <drm/drm_plane.h>
-+#include <drm/drm_property.h>
-+#include <drm/drm_colorop.h>
+ #define MAX_COLOR_PIPELINE_OPS 10
+ 
+ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
+@@ -60,6 +63,22 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 	list->type = ops[i]->base.id;
+ 	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", ops[i]->base.id);
+ 
++	i++;
 +
-+#include "amdgpu_dm_colorop.h"
-+
-+const u64 amdgpu_dm_supported_degam_tfs =
-+	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF);
-+
-+#define MAX_COLOR_PIPELINE_OPS 10
-+
-+int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
-+{
-+	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
-+	struct drm_device *dev = plane->dev;
-+	int ret;
-+	int i = 0;
-+
-+	memset(ops, 0, sizeof(ops));
-+
-+	/* 1D curve - DEGAM TF */
++	/* 1D curve - SHAPER TF */
 +	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
 +	if (!ops[i]) {
 +		DRM_ERROR("KMS: Failed to allocate colorop\n");
@@ -372,92 +295,26 @@ index 000000000000..3be0cb19ebc7
 +		goto cleanup;
 +	}
 +
-+	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, amdgpu_dm_supported_degam_tfs);
++	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, amdgpu_dm_supported_shaper_tfs);
 +	if (ret)
 +		goto cleanup;
 +
-+	list->type = ops[i]->base.id;
-+	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", ops[i]->base.id);
++	drm_colorop_set_next_property(ops[i-1], ops[i]);
 +
-+	return 0;
-+
-+cleanup:
-+	for (; i >= 0; i--)
-+		kfree(ops[i]);
-+
-+	return ret;
-+}
+ 	return 0;
+ 
+ cleanup:
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
-new file mode 100644
-index 000000000000..3324e2a66079
---- /dev/null
+index 3324e2a66079..71cd27994528 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
-@@ -0,0 +1,34 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright 2023 Advanced Micro Devices, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * Authors: AMD
-+ *
-+ */
-+
-+#ifndef __AMDGPU_DM_COLOROP_H__
-+#define __AMDGPU_DM_COLOROP_H__
-+
-+extern const u64 amdgpu_dm_supported_degam_tfs;
-+
-+int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list);
-+
-+#endif /* __AMDGPU_DM_COLOROP_H__*/
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index b5b9b0b5da63..bf97957ad4a2 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -37,6 +37,7 @@
- #include "amdgpu_display.h"
- #include "amdgpu_dm_trace.h"
- #include "amdgpu_dm_plane.h"
-+#include "amdgpu_dm_colorop.h"
- #include "gc/gc_11_0_0_offset.h"
- #include "gc/gc_11_0_0_sh_mask.h"
+@@ -28,6 +28,7 @@
+ #define __AMDGPU_DM_COLOROP_H__
  
-@@ -1791,10 +1792,19 @@ dm_plane_init_colorops(struct drm_plane *plane)
- {
- 	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
- 	int len = 0;
-+	int ret;
+ extern const u64 amdgpu_dm_supported_degam_tfs;
++extern const u64 amdgpu_dm_supported_shaper_tfs;
  
- 	if (plane->type == DRM_PLANE_TYPE_CURSOR)
- 		return 0;
- 
-+	/* initialize default pipeline */
-+	ret = amdgpu_dm_initialize_default_pipeline(plane, &(pipelines[len]));
-+	if (ret) {
-+		DRM_ERROR("Failed to create color pipeline for plane %d: %d\n", plane->base.id, ret);
-+		return ret;
-+	}
-+	len++;
-+
- 	/* Create COLOR_PIPELINE property and attach */
- 	drm_plane_create_color_pipeline_property(plane, pipelines, len);
+ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list);
  
 -- 
 2.43.0
