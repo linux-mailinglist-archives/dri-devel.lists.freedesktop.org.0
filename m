@@ -2,80 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060D7A72023
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 21:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE80A72028
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 21:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58DCE10E785;
-	Wed, 26 Mar 2025 20:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C636610E789;
+	Wed, 26 Mar 2025 20:47:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jXPS0VBR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mdAeHEQJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
- [209.85.166.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3E2F10E785
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 20:46:52 +0000 (UTC)
-Received: by mail-il1-f176.google.com with SMTP id
- e9e14a558f8ab-3d5bb2ae4d3so1014395ab.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 13:46:52 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 151B810E789
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 20:47:58 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-30c0517142bso3285581fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 13:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743022012; x=1743626812; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1743022076; x=1743626876; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5JhMoKQ5EpQ1pQUTEtH4nghhLWcwT/i5YVCywj3TCE4=;
- b=jXPS0VBRgEk0yv8Tdbl+zH8KF1S0nxVrHg2Zy/AqeHN36RpBBcuDMPR7+0caaafBBC
- 8kmafaZYLoE7VdbED0PNb8PCjtwYziFYTx2967Ixg4Eqv3YKYN2gsNaJGbpG7L0cR5hO
- PGNEMzT6xh0xWd8rK0/QMG4qYKKkwy7Xp2oz8995HsF/SCrLkaO3yFtD+uS9BHcR5XjS
- /xthhy/qja6jLm4j9CTRD4kqrJC62FHIyLn09W+BlXMStl4STCx9r+T2BFAl98zvpifC
- uFeAx6MP4rS4ahBLXGOL+awGwoKUB9XNMVDTAEC+ksTLy07C2fOyAOuuVb8BL+ZeX5nu
- t45g==
+ bh=MNs4I+VY96qzVEnIeAX0i56gaLKwfzD5slXgEMkegvA=;
+ b=mdAeHEQJSrWb69jLclaeLjDkqCY8b/UTICqulUC/PoxmlORI+UMgev9ykEdsWSqQ4e
+ 557xhBrfHm0lyiR5AfTM8ZrtR0MQ1h4gWXCdVEwWrYi4zskUto8UIDT7R9tC0ED1d0Im
+ GyvJL2W401joKyR39sjdRd/qpZyu14cjGZ7fbLDJXdDJ0pP2weporq+EE6af68deXEWt
+ Jf1RQqGVfuwPmNnGNIqgUo8Yi/bKCasyGxMH78Hasbe93MGLrw73yjCqt5/fU2bxH4hn
+ F9i18q+PBYvBkwZ52lftN7BPzZCSwdx7pqw85N21uUu9eZHk0Bl2n4Bukds/LKVnkgxV
+ q9FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743022012; x=1743626812;
+ d=1e100.net; s=20230601; t=1743022076; x=1743626876;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5JhMoKQ5EpQ1pQUTEtH4nghhLWcwT/i5YVCywj3TCE4=;
- b=QJ3z2yah7sjnhP7+vHY8bcOBxnX8vPvPUOfzoFzub5N/1VsH7614s/msPIJbz9HuR7
- aab0gwziMO33eR8nz+OVd9G9wlS4OZSsFbMa1uogNEXfXvyvP8oUbpsbwD6T1lglcEbQ
- mgvbL01Vm8b5wwlYV/+E8RYAEtt84VyC0bGVdEfCeNKdJuSzWbV4vP2ajqe1g1Q0voT/
- eo7FJaiH0eqCEeotyRo5onCWRsJUGvy8O4NCVa0QFvE1O571RJ7AoyOZ/2SI1QaUkHwL
- 8eRLtlNV5/jxyS/5TVLBxMsPXONSfJ6AqVKt0Y/paU24fzi3H36zpmhhargyPE6ilvZy
- RI2Q==
-X-Gm-Message-State: AOJu0YyxDfJrSkpYIEo0qmLK6+obyPC+JHDcG6xMIqC1fk6g8GqB/+OA
- yyZ8PneOtA7LSxal/c/v4zxvIcpHiLIKcJhR3fhdG4p0P2Va3RyqvBWFtK30aUEvexXlUH6gDoK
- YZEXr7qqhofgIFKsnd0v4+n9yYKo=
-X-Gm-Gg: ASbGnct1SrK+xp8lejWEwiSHk/KVAiJq1+eSBWH+aeVm5kSbvACKsDdpPq061WfnizV
- 0MjjSOw0j4tU/c+c5wtEYwDdPhBwcilqJc1xDCuQOKgs/ePBO0HSJVyWW16E0AdK/y2erw4ycFZ
- JsjK6vIjLPp58gHa2zaSNkHzRDAddbNWrGGwlOaKM/xuklZbAlQdQ4IzWFzzzvXtgqT2A=
-X-Google-Smtp-Source: AGHT+IGLmmU7KJxynJ3JmzAzaYdjW5MSKvJRuKUzfOy/PXKBCJHqw2vGsRgic8SeuLTGlXrTd5GgP9KRL2pxFlwrF9Y=
-X-Received: by 2002:a05:6e02:1fe8:b0:3d0:bd5:b863 with SMTP id
- e9e14a558f8ab-3d5cce27d98mr12686545ab.20.1743022011691; Wed, 26 Mar 2025
- 13:46:51 -0700 (PDT)
+ bh=MNs4I+VY96qzVEnIeAX0i56gaLKwfzD5slXgEMkegvA=;
+ b=B6JPAR/pjV8lajrfIxKL6EAU6GQG4nYfjMJKrvkbCNwpb72v7GfLs1EKxz1HVu6wvV
+ Nmdj/X62z64YrE2emHkz4HvKhHHRI0LCV42KcCaN9LWgmo9YmxzeA+Nv0NJ8DYg3bxnx
+ YCaKf/bmTHWVF483OKG1nmwmjIrFKuKSdPiXUzVv6CsxdnMMKohFEf0h1H4BUIXi9Bj6
+ Y4mAjqCVO5P3i3UxMmlMfJPcfEmNYZz4IOKc5Pp7ttw3T4+DQj18VzUjokyPtUnH+fgS
+ n7cM6Y5luP2IaM8tm8Fk/3/YjgUjKOuJZCklrwvju33+XQ+ZCWzI53wfx/P5lm86Y81G
+ MJ7A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2XQYrvaKLtTq1E6AvWiPc+CS/+ReJ6XslbXE/N8wgKqtjkxF71t4Kf9RSnwSIO1jGlGddDi/sUNM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw3MUk5vAPYqHo831KbV+gmzueERhdn7Wn13nbAmGmyuIVxMxfQ
+ su0gd4ckMBlWUPEVDcrDHYPoGnmn6VskoM096jT8KWuf5d7DMOM6t0iSJ/mcVgZpFja25BljH35
+ bIMUG/AtTiC3kjZxS3pgUqglrMPQ=
+X-Gm-Gg: ASbGncvaT9IMPgTISN55C40mMiVNyYc6s4ff199Ex2ng38f+qiVeXHNc6cOl9iYxGYP
+ CKBxrcLKR8JpAzz5U43Gfcc+wLd62o7a3YmFVIngm/N0MRvMud9Fa1bVaVb1Qg2ioCg1zaR6eee
+ bgsYMykElpsGUI7nFb6Hfuoj6FjI+J4o/N2DLx0JXRIw==
+X-Google-Smtp-Source: AGHT+IFTkL17Jc/5tc+lwRysHk8MME6mG/fwpKugvVpwwiEAGHYsBQsULAH9u2w5eS9UmGc0jzIZJK6sghNVKBbuAwc=
+X-Received: by 2002:a2e:988c:0:b0:30c:177c:9e64 with SMTP id
+ 38308e7fff4ca-30dc5f4fc1cmr4487501fa.35.1743022076074; Wed, 26 Mar 2025
+ 13:47:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250326143903.24380-1-robdclark@gmail.com>
- <342ee079-ee0e-470d-afd2-c2870115b489@amd.com>
- <CAF6AEGu2Ax+u3QmD2VADwh4A4s5TAmP5Lq4DcYYadKP4csH-=g@mail.gmail.com>
-In-Reply-To: <CAF6AEGu2Ax+u3QmD2VADwh4A4s5TAmP5Lq4DcYYadKP4csH-=g@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 26 Mar 2025 13:46:39 -0700
-X-Gm-Features: AQ5f1JrBlKDKgO0ATBxgVYhh5njSw5419j_VUVoZrjO0N4Ci8VzagRd6Vn0tpUY
-Message-ID: <CAF6AEGv-Zad2GF-=gDdYQdZGkJ_u+eyBFvTNK49m5+1ycaZu9Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Clark <robdclark@chromium.org>, 
+References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
+ <20250325-ptr-as-ptr-v7-7-87ab452147b9@gmail.com>
+ <D8POWLFKWABG.37BVXN2QCL8MP@proton.me>
+ <CAJ-ks9mUYw4FEJQfmDrHHt0oMy256jhp7qZ-CHp6R5c_sOCD4w@mail.gmail.com>
+ <D8PPIYIJCNX8.13VPQULEI0ALN@proton.me>
+ <CAJ-ks9k6220j6CQSOF4TDrgY9qq4PfV9uaMXz1Qk4m=eeSr5Ag@mail.gmail.com>
+ <D8Q4MSXXZ7OI.1NC226MO02VSN@proton.me>
+ <CAJ-ks9nHKpQPuSBypXTSATYhbAFkQTJzUq8jN0nu4t=Kw+0xxg@mail.gmail.com>
+ <D8QCK3CQES3Y.3LTZ4MVO5B3KT@proton.me>
+ <CAJ-ks9nKT2PUDm6=b4AB1QUWwwvcqPn7Vz60=c0B+uFMZrqPew@mail.gmail.com>
+ <D8QDOBUM6NF0.CGJY7ZA5KD9S@proton.me>
+ <CAJ-ks9ntTxBM=c5nUZWGv3MoRt-LveBchn-c1Xy-DGap7fLVRA@mail.gmail.com>
+In-Reply-To: <CAJ-ks9ntTxBM=c5nUZWGv3MoRt-LveBchn-c1Xy-DGap7fLVRA@mail.gmail.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Wed, 26 Mar 2025 16:47:20 -0400
+X-Gm-Features: AQ5f1JpxZvv_0238pnS7OYKOrg_jP5CAtUULUrbnzS777StxjTzB1jEvV5C3tbs
+Message-ID: <CAJ-ks9=dgQE_UF--Kv0HVTF_d1JzqK1gMoeE8GO8EGVtM-yt_Q@mail.gmail.com>
+Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+ Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- open list <linux-kernel@vger.kernel.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linux-media@vger.kernel.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linaro-mm-sig@lists.linaro.org>
+ Simona Vetter <simona@ffwll.ch>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,108 +119,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 7:46=E2=80=AFAM Rob Clark <robdclark@gmail.com> wro=
-te:
+On Wed, Mar 26, 2025 at 3:06=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
+ wrote:
 >
-> On Wed, Mar 26, 2025 at 7:41=E2=80=AFAM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
+> On Wed, Mar 26, 2025 at 1:36=E2=80=AFPM Benno Lossin <benno.lossin@proton=
+.me> wrote:
 > >
-> > Am 26.03.25 um 15:39 schrieb Rob Clark:
-> > > From: Rob Clark <robdclark@chromium.org>
+> > On Wed Mar 26, 2025 at 5:57 PM CET, Tamir Duberstein wrote:
 > > >
-> > > Add support for exporting a dma_fence fd for a specific point on a
-> > > timeline.
+> > >
+> > > In the current code you're looking at, yes. But in the code I have
+> > > locally I'm transmuting `[u8]` to `BStr`. See my earlier reply where =
+I
+> > > said "Hmm, looking at this again we can just transmute ref-to-ref and
+> > > avoid pointers entirely. We're already doing that in
+> > > `CStr::from_bytes_with_nul_unchecked`".
 > >
-> > Looks good on first glance. What's the userspace use case?
+> > `CStr::from_bytes_with_nul_unchecked` does the transmute with
+> > references. That is a usage that the docs of `transmute` explicitly
+> > recommend to change to an `as` cast [1].
 >
-> Timeline syncobj support for vtest/vpipe[1][2].. since core
-> virglrender and drm native ctx works in terms of fences (since in the
-> VM case, everything is a fence below the guest kernel uabi), we need
-> to be able to turn a point on a timeline back into a fence fd.  (Plus
-> it seemed like an odd omission from the existing uabi.)
+> RIght. That guidance was written in 2016
+> (https://github.com/rust-lang/rust/pull/34609) and doesn't present any
+> rationale for `as` casts being preferred to transmute. I posted a
+> comment in the most relevant issue I could find:
+> https://github.com/rust-lang/rust/issues/34249#issuecomment-2755316610.
 >
-> BR,
-> -R
+> > No idea about provenance still.
 >
-> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
-> [2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/8=
-05
+> Well that's not surprising, nobody was thinking about provenance in
+> 2016. But I really don't think we should blindly follow the advice in
+> this case. It doesn't make an iota of sense to me - does it make sense
+> to you?
 >
 > >
-> > Regards,
-> > Christian.
+> > [1]: https://doc.rust-lang.org/std/mem/fn.transmute.html#alternatives
 > >
+> > >> I tried to find some existing issues about the topic and found that
+> > >> there exists a clippy lint `transmute_ptr_to_ptr`. There is an issue
+> > >> asking for a better justification [1] and it seems like nobody provi=
+ded
+> > >> one there. Maybe we should ask the opsem team what happens to proven=
+ance
+> > >> when transmuting?
 > > >
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >  drivers/gpu/drm/drm_syncobj.c | 8 ++++++--
-> > >  include/uapi/drm/drm.h        | 2 ++
-> > >  2 files changed, 8 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_sync=
-obj.c
-> > > index 4f2ab8a7b50f..eb7a2dd2e261 100644
-> > > --- a/drivers/gpu/drm/drm_syncobj.c
-> > > +++ b/drivers/gpu/drm/drm_syncobj.c
-> > > @@ -762,7 +762,7 @@ static int drm_syncobj_import_sync_file_fence(str=
-uct drm_file *file_private,
-> > >  }
-> > >
-> > >  static int drm_syncobj_export_sync_file(struct drm_file *file_privat=
-e,
-> > > -                                     int handle, int *p_fd)
-> > > +                                     int handle, u64 point, int *p_f=
-d)
-> > >  {
-> > >       int ret;
-> > >       struct dma_fence *fence;
-> > > @@ -772,7 +772,7 @@ static int drm_syncobj_export_sync_file(struct dr=
-m_file *file_private,
-> > >       if (fd < 0)
-> > >               return fd;
-> > >
-> > > -     ret =3D drm_syncobj_find_fence(file_private, handle, 0, 0, &fen=
-ce);
-> > > +     ret =3D drm_syncobj_find_fence(file_private, handle, point, 0, =
-&fence);
-> > >       if (ret)
-> > >               goto err_put_fd;
-> > >
-> > > @@ -882,8 +882,12 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device=
- *dev, void *data,
-> > >
-> > >       if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FI=
-LE)
-> > >               return drm_syncobj_export_sync_file(file_private, args-=
->handle,
-> > > +                                                 args->point,
-> > >                                                   &args->fd);
+> > > Yeah, we should do this - but again: not relevant in this discussion.
+> >
+> > I think it's pretty relevant.
+>
+> It's not relevant because we're no longer talking about transmuting
+> pointer to pointer. The two options are:
+> 1. transmute reference to reference.
+> 2. coerce reference to pointer, `as` cast pointer to pointer (triggers
+> `ptr_as_ptr`), reborrow pointer to reference.
+>
+> If anyone can help me understand why (2) is better than (1), I'd
+> certainly appreciate it.
 
-Hmm, maybe I should add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE so
-that userspace gets a clean error on older kernels, rather than having
-the point param be silently ignored..
+Turns out there's a tortured past even in the standard library. In
+2017 someone replaces trasmutes with pointer casts:
 
-BR,
--R
+https://github.com/rust-lang/rust/commit/2633b85ab2c89822d2c227fc9e81c6ec1c=
+0ed9b6
 
-> > >
-> > > +     if (args->point)
-> > > +             return -EINVAL;
-> > > +
-> > >       return drm_syncobj_handle_to_fd(file_private, args->handle,
-> > >                                       &args->fd);
-> > >  }
-> > > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> > > index 7fba37b94401..c71a8f4439f2 100644
-> > > --- a/include/uapi/drm/drm.h
-> > > +++ b/include/uapi/drm/drm.h
-> > > @@ -912,6 +912,8 @@ struct drm_syncobj_handle {
-> > >
-> > >       __s32 fd;
-> > >       __u32 pad;
-> > > +
-> > > +     __u64 point;
-> > >  };
-> > >
-> > >  struct drm_syncobj_transfer {
-> >
+In 2020 someone changes it back to transmute:
+
+https://github.com/rust-lang/rust/pull/75157/files
+
+See also https://github.com/rust-lang/rust/pull/34609#issuecomment-23055987=
+1
+which makes my point better than I have, particularly this snippet:
+"In addition, casting through raw pointers removes the check that both
+types have the same size that transmute does provide.".
