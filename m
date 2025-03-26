@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C79A72724
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 00:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F0FA72726
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 00:40:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4091110E78E;
-	Wed, 26 Mar 2025 23:40:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA9C710E794;
+	Wed, 26 Mar 2025 23:40:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g8TC6PUJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h19SNizu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9A010E78E;
- Wed, 26 Mar 2025 23:40:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7728410E796;
+ Wed, 26 Mar 2025 23:40:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743032436; x=1774568436;
+ t=1743032442; x=1774568442;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2AIHpEEKnnHKbHbHSpBkIqoXJrvfxlWzMZC0AU2+S7I=;
- b=g8TC6PUJp1WVK32nrLbBjwHv0erMMq/SthkIkCp+ThxGlXjmPP83jTPo
- 0csrcWsHXECNRBKpEgEkwjhgUYIZ7aajX2iutMq/Jk3GEi8kmGdWkaFrw
- LwqSIjjOkVKxpby1tpAntB13gesv87hRubrKhvhanufrLJgBwAVc80M33
- bbIY2KcZuIXKzV+k9ZSD+I3P1SgLA9FuduLlCTkiEnHzQaJXC05Y17TnO
- IycVrX/MjG+kjcAGc726JZOk1AKOTrRLSITYAXzoi2dBN4TaxhE+a/1Vr
- a3gNRmGSAtTL2m86lFuhkiXTtFFngclTJypQS4blSrweld6GZMfhQFR7a Q==;
-X-CSE-ConnectionGUID: 1ZdxOO3dTbuwuceWZab/dA==
-X-CSE-MsgGUID: 201Bvn06TOikaqJ1TFuJzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="61741396"
-X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="61741396"
+ bh=KGfy8w8eDrctc2a+UsExK692S5f4DDJVOJ8XaYF8b7c=;
+ b=h19SNizua6v3QDN1al471ApokRCJ3qqBeUU2XoAvMrmQimwVNkqRKBLF
+ la8M2j2190iFrHUzRY3y2eYJ1LNrR+0XkM9Ubm8OST1bHNagFrfEkgyim
+ ytGCJBt7PexhNRozfhQrKEv1lzga+cC6XEss6pSp0h76j3jZRjWDkNs6h
+ TAe1nw7k49DX59+nG9+x821qBqFIGL3Gb5YUTzbI3FVUBmDpfLqn053C+
+ A6/Gn6sBeOQ9CHnRmoRjp1SAq3/dxhnjeIKnL/N//un0JMK99x8FAWIEG
+ u1857EUgZdeODanq1MjRUEQ8Z5TMDJe6c7gm1tzgar9opSnc8vddqJnrV g==;
+X-CSE-ConnectionGUID: GxbVZiLfS6SXVID+mFkb1g==
+X-CSE-MsgGUID: rxF4YVKWTb6MYPJtm/ib+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="61741409"
+X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="61741409"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 16:40:36 -0700
-X-CSE-ConnectionGUID: PXQ5QOKcT/yu7/YIZzmAuQ==
-X-CSE-MsgGUID: /AUaDAo7S8uuORo/8wWo5g==
+ 26 Mar 2025 16:40:41 -0700
+X-CSE-ConnectionGUID: JJw/AOMBRsqYs4+x/ZL1fg==
+X-CSE-MsgGUID: vlXvVP/4RBKCf1i65SMlFw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="148143298"
+X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="148143319"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost)
  ([10.245.246.3])
  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 16:40:33 -0700
+ 26 Mar 2025 16:40:39 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
@@ -49,9 +49,10 @@ Cc: Arshad Mehmood <arshad.mehmood@intel.com>,
  Chris Wilson <chris.p.wilson@linux.intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: [PATCH v2 3/6] drm/i915/gt: Remove FIRST_RENDER_COMPUTE in workaround
-Date: Thu, 27 Mar 2025 00:40:02 +0100
-Message-ID: <20250326234005.1574688-4-andi.shyti@linux.intel.com>
+Subject: [PATCH v2 4/6] drm/i915/gt: Check for the first CCS instead of
+ FIRST_RENDER_COMPUTE
+Date: Thu, 27 Mar 2025 00:40:03 +0100
+Message-ID: <20250326234005.1574688-5-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250326234005.1574688-1-andi.shyti@linux.intel.com>
 References: <20250326234005.1574688-1-andi.shyti@linux.intel.com>
@@ -74,47 +75,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andi Shyti <andi.shyti@intel.com>
 
-All platforms supported by i915 have at least one RCS engine,
-so there's no need to explicitly check for RCS or CCS presence.
-
-Remove the redundant check and move the associated functions
-to a more appropriate location in the code.
+Enable the CCS engine when the first CCS is encountered in the
+execlist setup, instead of checking for the
+I915_ENGINE_FIRST_RENDER_COMPUTE flag.
 
 Signed-off-by: Andi Shyti <andi.shyti@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index bedd88a15959..b8ea6505afa2 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -2894,20 +2894,14 @@ engine_init_workarounds(struct intel_engine_cs *engine, struct i915_wa_list *wal
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 4a80ffa1b962..70ea56054a19 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -2950,7 +2950,7 @@ static int execlists_resume(struct intel_engine_cs *engine)
  
- 	engine_fake_wa_init(engine, wal);
+ 	enable_execlists(engine);
  
--	/*
--	 * These are common workarounds that just need to applied
--	 * to a single RCS/CCS engine's workaround list since
--	 * they're reset as part of the general render domain reset.
--	 */
 -	if (engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE)
-+	if (engine->class == RENDER_CLASS) {
- 		general_render_compute_wa_init(engine, wal);
--
--	if (engine->class == COMPUTE_CLASS)
--		ccs_engine_wa_init(engine, wal);
--	else if (engine->class == RENDER_CLASS)
- 		rcs_engine_wa_init(engine, wal);
--	else
-+	} else if (engine->class == COMPUTE_CLASS) {
-+		ccs_engine_wa_init(engine, wal);
-+	} else {
- 		xcs_engine_wa_init(engine, wal);
-+	}
- }
++	if (FIRST_CCS(engine))
+ 		xehp_enable_ccs_engines(engine);
  
- void intel_engine_init_workarounds(struct intel_engine_cs *engine)
+ 	return 0;
 -- 
 2.47.2
 
