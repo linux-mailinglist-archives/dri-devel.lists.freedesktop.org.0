@@ -2,135 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55960A713BA
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 10:32:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1875A7140C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 10:46:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09B2410E68F;
-	Wed, 26 Mar 2025 09:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ADA810E3C2;
+	Wed, 26 Mar 2025 09:46:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RBlGHB9o";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vrrpfHVb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RBlGHB9o";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vrrpfHVb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a1M8dwgU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0FB610E696
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:32:27 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1513D1F449;
- Wed, 26 Mar 2025 09:32:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742981546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DswBERMkpxR267niKK/AGKT9RXW/1Vb0AVG9m8FuzFs=;
- b=RBlGHB9oL3a+QP9/UY46yElWDc49kg0eMw4o9trDJt07a/qCI6qauGTc8a6+8e2j6zvK0P
- KdirChV3m8zy4FeHNI7OJKoG4BTikT8CoUjaH6M+vrXNAkCpjVP23WFz4e2cjftDuixN8t
- OuklcvTCMDu8d9mreaDo4wsTHX3e+Hg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742981546;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DswBERMkpxR267niKK/AGKT9RXW/1Vb0AVG9m8FuzFs=;
- b=vrrpfHVbQMXZ7s5mib7CPoTs04bmhASyonzsDI9tsqkIyfZPcyYoyk6XSSC+c7aKy+KaGl
- DWn7YKjHwJ0usQBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1742981546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DswBERMkpxR267niKK/AGKT9RXW/1Vb0AVG9m8FuzFs=;
- b=RBlGHB9oL3a+QP9/UY46yElWDc49kg0eMw4o9trDJt07a/qCI6qauGTc8a6+8e2j6zvK0P
- KdirChV3m8zy4FeHNI7OJKoG4BTikT8CoUjaH6M+vrXNAkCpjVP23WFz4e2cjftDuixN8t
- OuklcvTCMDu8d9mreaDo4wsTHX3e+Hg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1742981546;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DswBERMkpxR267niKK/AGKT9RXW/1Vb0AVG9m8FuzFs=;
- b=vrrpfHVbQMXZ7s5mib7CPoTs04bmhASyonzsDI9tsqkIyfZPcyYoyk6XSSC+c7aKy+KaGl
- DWn7YKjHwJ0usQBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D38BF1374A;
- Wed, 26 Mar 2025 09:32:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id P/2gMqnJ42e+ZQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Mar 2025 09:32:25 +0000
-Message-ID: <888333e6-e81c-4186-b543-78fda7e3eb68@suse.de>
-Date: Wed, 26 Mar 2025 10:32:25 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB6410E3C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:46:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742982392; x=1774518392;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pSdpOBH3OsiqWCKed9YZ+vvLO/0PxNNz2Btrj67jOc4=;
+ b=a1M8dwgUnphgZ/EN+PtjV8EP8a3SurcaIsJCBP80X27BHzjWSyt7N17N
+ M9tjIw7vDkNLaCyNNoykCSGHi2guaTTEcbaDwh/BAEiu+z06wkEMygUxW
+ hqeTGqPOOkQP/Yjkb2SB5vfmwKUPuP0b4SEtsBdIKJgqdn/dQdTQYpAYO
+ Hg625qvz6roBI1+sIe19CKHCPeabinuKT2deH0ARjTECDKVtTtR0u+bMF
+ kPQqnTdtwNndPeshBDpRxDKpY9C+pjo7p/8X2BHl2ZgsfMPKC3fDaY27P
+ 2bpwNAENK1nSVTeMakfFN5vJNy9AREifyQFbXzjktXe4nSUd//iIr+oET w==;
+X-CSE-ConnectionGUID: D/IXXQ37QlexMggPsEYmtQ==
+X-CSE-MsgGUID: yT+3dXumS0ODmzhOvdOtFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="47912493"
+X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; d="scan'208";a="47912493"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 02:46:31 -0700
+X-CSE-ConnectionGUID: QvIovGnnTvK+1T0AfTwcDw==
+X-CSE-MsgGUID: 5IGA7C2wQ0uIRiBikBXcnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; d="scan'208";a="124447276"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 02:46:29 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1txNL8-000000061wz-1N9h; Wed, 26 Mar 2025 11:46:26 +0200
+Date: Wed, 26 Mar 2025 11:46:26 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ofir Bitton <obitton@habana.ai>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v3 1/1] accel/habanalabs: Switch to use %ptTs
+Message-ID: <Z-PM8oBtTPzqv-S2@smile.fi.intel.com>
+References: <20250305110126.2134307-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/mode_config: Make
- drm_mode_config.(max|min)_(width|height) signed
-To: Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250325212823.669459-1-lyude@redhat.com>
- <20250325212823.669459-3-lyude@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250325212823.669459-3-lyude@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,gmail.com,ffwll.ch];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:email,
- imap1.dmz-prg2.suse.org:helo, suse.de:mid]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250305110126.2134307-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,53 +72,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
++Cc: Jani (sorry, forgot to add you in the first place).
 
-Am 25.03.25 um 22:27 schrieb Lyude Paul:
-> Similarly, it doesn't really make much sense for us to allow devices to
-> specify their minimum/maximum resolution as signed. So, let's fix that as
-> well while we're at it.
+Do you think it's applicable now?
 
-This commit message only makes sense in the context of the series. 
-Better remove 'Similarily' and 'as well while we're at it'.
-
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Maxime Ripard <mripard@kernel.org>
+On Wed, Mar 05, 2025 at 01:00:25PM +0200, Andy Shevchenko wrote:
+> Use %ptTs instead of open-coded variant to print contents of time64_t type
+> in human readable form.
+> 
+> This changes N/A output to 1970-01-01 00:00:00 for zero timestamps,
+> but it's used only in the dev_err() output and won't break anything.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->   include/drm/drm_mode_config.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 271765e2e9f2d..4b8f0370b79bf 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -532,8 +532,8 @@ struct drm_mode_config {
->   	 */
->   	struct list_head privobj_list;
->   
-> -	int min_width, min_height;
-> -	int max_width, max_height;
-> +	unsigned int min_width, min_height;
-> +	unsigned int max_width, max_height;
-
-No problem, I just hope this has no fallout where these fields are being 
-used.
-
-Best regards
-Thomas
-
->   	const struct drm_mode_config_funcs *funcs;
->   
->   	/* output poll support */
+> 
+> v3: explained the difference for N/A cases (Jani)
+> v2: fixed the parameters to be the pointers
+> 
+>  drivers/accel/habanalabs/common/device.c | 25 +++---------------------
+>  1 file changed, 3 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+> index 68eebed3b050..80fa08bf57bd 100644
+> --- a/drivers/accel/habanalabs/common/device.c
+> +++ b/drivers/accel/habanalabs/common/device.c
+> @@ -1066,28 +1066,11 @@ static bool is_pci_link_healthy(struct hl_device *hdev)
+>  	return (device_id == hdev->pdev->device);
+>  }
+>  
+> -static void stringify_time_of_last_heartbeat(struct hl_device *hdev, char *time_str, size_t size,
+> -						bool is_pq_hb)
+> -{
+> -	time64_t seconds = is_pq_hb ? hdev->heartbeat_debug_info.last_pq_heartbeat_ts
+> -					: hdev->heartbeat_debug_info.last_eq_heartbeat_ts;
+> -	struct tm tm;
+> -
+> -	if (!seconds)
+> -		return;
+> -
+> -	time64_to_tm(seconds, 0, &tm);
+> -
+> -	snprintf(time_str, size, "%ld-%02d-%02d %02d:%02d:%02d (UTC)",
+> -		tm.tm_year + 1900, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+> -}
+> -
+>  static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
+>  {
+>  	struct eq_heartbeat_debug_info *heartbeat_debug_info = &hdev->heartbeat_debug_info;
+>  	u32 cpu_q_id = heartbeat_debug_info->cpu_queue_id, pq_pi_mask = (HL_QUEUE_LENGTH << 1) - 1;
+>  	struct asic_fixed_properties *prop = &hdev->asic_prop;
+> -	char pq_time_str[64] = "N/A", eq_time_str[64] = "N/A";
+>  
+>  	if (!prop->cpucp_info.eq_health_check_supported)
+>  		return true;
+> @@ -1095,17 +1078,15 @@ static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
+>  	if (!hdev->eq_heartbeat_received) {
+>  		dev_err(hdev->dev, "EQ heartbeat event was not received!\n");
+>  
+> -		stringify_time_of_last_heartbeat(hdev, pq_time_str, sizeof(pq_time_str), true);
+> -		stringify_time_of_last_heartbeat(hdev, eq_time_str, sizeof(eq_time_str), false);
+>  		dev_err(hdev->dev,
+> -			"EQ: {CI %u, HB counter %u, last HB time: %s}, PQ: {PI: %u, CI: %u (%u), last HB time: %s}\n",
+> +			"EQ: {CI %u, HB counter %u, last HB time: %ptTs}, PQ: {PI: %u, CI: %u (%u), last HB time: %ptTs}\n",
+>  			hdev->event_queue.ci,
+>  			heartbeat_debug_info->heartbeat_event_counter,
+> -			eq_time_str,
+> +			&hdev->heartbeat_debug_info.last_eq_heartbeat_ts,
+>  			hdev->kernel_queues[cpu_q_id].pi,
+>  			atomic_read(&hdev->kernel_queues[cpu_q_id].ci),
+>  			atomic_read(&hdev->kernel_queues[cpu_q_id].ci) & pq_pi_mask,
+> -			pq_time_str);
+> +			&hdev->heartbeat_debug_info.last_pq_heartbeat_ts);
+>  
+>  		hl_eq_dump(hdev, &hdev->event_queue);
+>  
+> -- 
+> 2.47.2
+> 
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+With Best Regards,
+Andy Shevchenko
+
 
