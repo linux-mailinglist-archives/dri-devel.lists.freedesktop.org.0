@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64358A71C45
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:49:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC236A71C36
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:49:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96FB210E73D;
-	Wed, 26 Mar 2025 16:49:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9A0010E73E;
+	Wed, 26 Mar 2025 16:49:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="ylDbbIo1";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="jMb19OG1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
  [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB94710E73D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE28D10E73E
  for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 16:49:06 +0000 (UTC)
 Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52QBt2Si012691;
- Wed, 26 Mar 2025 16:48:58 GMT
+ by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52QBt2Sj012691;
+ Wed, 26 Mar 2025 16:48:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
  :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=h
- NjgY9fkfUfPkAxRv0RpMQrD3p3Jc+IJU8ScTctzyOI=; b=ylDbbIo1fuIuEAxtN
- VCiyM6n5zkIBPCbIpG3+0ihF+cDxTj3pOnjtIYCw45mEhOl8V6+mQwAV8bqIFU73
- t/zc2POP5130uRHqAmi3ymbJnMwuKGL++mYK5RTIRAxTEHxPdGmj+sq+VSEmda25
- r2SE5Stxf0Hzm6qssaYMHOmROY9Uw/yvyjSph7VXxduZQ74cSo4sHbN/mtzP2rV4
- 8CA2kUj02SmlcSrhr/8SmXeRuXlEwK8rpJvJTU7L15vA6lIBUMpj38SjydmafkAY
- TNh08pUT1iW7Cqz2pLQAL2RjH4LqqnyfVEIoaevEhRLqLyYIQ8gS41PoVWaS4Lly
- sp89Q==
+ :message-id:mime-version:references:subject:to; s=dk201812; bh=1
+ XtCqPj1EnM2Gjjb3AR3Dxn8BqrtGEDAehFdBRDT+6c=; b=jMb19OG1lrrF71kmw
+ vQR9/mdXbOxV3hrgTVhXqHp/IruMzVTOpBxewZXAgL8xixbwZPYY/0EtmQDUqQXW
+ P8Uc64EL1oEHLy0eOuL3Kjk7bPOiOdEZSxtFB4BAjTysMNfUcwPu2zz8an5JITSu
+ GgtGXxieIRNorbmjhqlt9vqBwY5MU0a59usDQTLI5+5A5e55BKt5rE8wXq0mJyLG
+ j7YvJHXxi+WwoA4WFUJoKhtqd+3J4nxpKX42rqb1mznfkfLoaEAa6a89K/d4UEa6
+ hitUlIq/35YclO29wSHk5HNqnvF5Q0iBcO/wuYi9OUTPUaxe0qUW7dTlgogIhuod
+ olzMA==
 Received: from hhmail05.hh.imgtec.org
  (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 45kbmy9d6d-11
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 45kbmy9d6d-12
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
  Wed, 26 Mar 2025 16:48:58 +0000 (GMT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  (172.25.0.133) by HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 26 Mar 2025 16:48:47 +0000
+ 15.1.2507.44; Wed, 26 Mar 2025 16:48:48 +0000
 From: Matt Coster <matt.coster@imgtec.com>
-Date: Wed, 26 Mar 2025 16:48:30 +0000
-Subject: [PATCH v5 10/18] drm/imagination: Make has_fixed_data_addr a value
+Date: Wed, 26 Mar 2025 16:48:31 +0000
+Subject: [PATCH v5 11/18] drm/imagination: Use a lookup table for fw defs
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250326-sets-bxs-4-64-patch-v1-v5-10-e4c46e8280a9@imgtec.com>
+Message-ID: <20250326-sets-bxs-4-64-patch-v1-v5-11-e4c46e8280a9@imgtec.com>
 References: <20250326-sets-bxs-4-64-patch-v1-v5-0-e4c46e8280a9@imgtec.com>
 In-Reply-To: <20250326-sets-bxs-4-64-patch-v1-v5-0-e4c46e8280a9@imgtec.com>
 To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
@@ -62,24 +62,24 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  Wilczynski" <m.wilczynski@samsung.com>, Alessio Belle
  <alessio.belle@imgtec.com>, Alexandru Dadu <alexandru.dadu@imgtec.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5239;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3749;
  i=matt.coster@imgtec.com; h=from:subject:message-id;
- bh=IRDaeV2g+NERsKOKEH+3W+lXWQR79dC+FKAJ4vUEeSs=;
- b=owGbwMvMwCFWuUfy8817WRsYT6slMaQ/0X/Kc7pEL7nATqCvbf8bFSZT9cuZNVOjU/n3rRcue
- JecoT+jo5SFQYyDQVZMkWXHCssVan/UtCRu/CqGmcPKBDKEgYtTAG5yGcNfyU3/lLaeSZnVVaIm
- 88NNYkpRsO8St3VPFrXOZm+YwfU5muF//pl/8gUrvBTSVU5yZjy+ZHlSpOjGVK3PR+95JrxpevG
- YFwA=
+ bh=zlUb6eiw31ssFtizsAZ/dF3TAGZvAMmA4ZTagJNBHoE=;
+ b=owGbwMvMwCFWuUfy8817WRsYT6slMaQ/0X/qsCgtT+IVx16FrFpFp50ToxxVI0onGPWrtrP//
+ BzKWsrQUcrCIMbBICumyLJjheUKtT9qWhI3fhXDzGFlAhnCwMUpABNZ4c/wv4Zr95qle95FXK3T
+ fDFf20fNbnkvl0Gj2oQ/nrouh5WvrWJkuK36Z++aw78vbvymNLFw/aX1eakO795Y3orcqVchVJm
+ zkQ8A
 X-Developer-Key: i=matt.coster@imgtec.com; a=openpgp;
  fpr=05A40CFCE7269D61D97100A1747F0A9036F90DFA
 X-Originating-IP: [172.25.0.133]
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: gtzUgPPMho2mHDW3ZBgTxFk3T23dzd-T
+X-Proofpoint-ORIG-GUID: ndjst6GVAITSrzKdus16T5wazalY_4EH
 X-Authority-Analysis: v=2.4 cv=L+sdQ/T8 c=1 sm=1 tr=0 ts=67e42ffa cx=c_pps
  a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
  a=ETbM1kImDFEA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8
- a=r_1tXGB3AAAA:8 a=-4BdC3WIcRMaicUbabwA:9
+ a=r_1tXGB3AAAA:8 a=iYL5nd4a90DRai7o0HQA:9
  a=QEXdDO2ut3YA:10 a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: gtzUgPPMho2mHDW3ZBgTxFk3T23dzd-T
+X-Proofpoint-GUID: ndjst6GVAITSrzKdus16T5wazalY_4EH
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,144 +95,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is currently a callback function which takes no parameters; there's
-no reason for this so let's make it a straightforward value in pvr_fw_defs.
+With more than two firmware processor types, the if/else chain in
+pvr_fw_init() gets a bit ridiculous. Use a static array indexed on
+pvr_fw_processor_type (which is now a proper enum instead of #defines)
+instead.
 
 Signed-off-by: Matt Coster <matt.coster@imgtec.com>
 ---
 Changes in v5:
 - None
-- Link to v4: https://lore.kernel.org/r/20250320-sets-bxs-4-64-patch-v1-v4-10-d987cf4ca439@imgtec.com
+- Link to v4: https://lore.kernel.org/r/20250320-sets-bxs-4-64-patch-v1-v4-11-d987cf4ca439@imgtec.com
 Changes in v4:
 - None
-- Link to v3: https://lore.kernel.org/r/20250310-sets-bxs-4-64-patch-v1-v3-10-143b3dbef02f@imgtec.com
+- Link to v3: https://lore.kernel.org/r/20250310-sets-bxs-4-64-patch-v1-v3-11-143b3dbef02f@imgtec.com
 Changes in v3:
 - None
-- Link to v2: https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-11-3fd45d9fb0cf@imgtec.com
+- Link to v2: https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-13-3fd45d9fb0cf@imgtec.com
 Changes in v2:
 - None
-- Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-12-4ed30e865892@imgtec.com
+- Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-13-4ed30e865892@imgtec.com
 ---
- drivers/gpu/drm/imagination/pvr_fw.c      |  2 +-
- drivers/gpu/drm/imagination/pvr_fw.h      | 23 ++++++++---------------
- drivers/gpu/drm/imagination/pvr_fw_meta.c |  8 +-------
- drivers/gpu/drm/imagination/pvr_fw_mips.c |  8 +-------
- 4 files changed, 11 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/imagination/pvr_device.h |  4 ----
+ drivers/gpu/drm/imagination/pvr_fw.c     | 21 ++++++++++++++++-----
+ drivers/gpu/drm/imagination/pvr_fw.h     |  7 +++++++
+ 3 files changed, 23 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+index 6c01d96657de6dc3904ef5ca28365f06cfe0f40b..12bf0b9e5bfb48ef9e5ed9faa44e0896b7555f49 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.h
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -739,8 +739,4 @@ pvr_ioctl_union_padding_check(void *instance, size_t union_offset,
+ 					      __union_size, __member_size);  \
+ 	})
+ 
+-#define PVR_FW_PROCESSOR_TYPE_META  0
+-#define PVR_FW_PROCESSOR_TYPE_MIPS  1
+-#define PVR_FW_PROCESSOR_TYPE_RISCV 2
+-
+ #endif /* PVR_DEVICE_H */
 diff --git a/drivers/gpu/drm/imagination/pvr_fw.c b/drivers/gpu/drm/imagination/pvr_fw.c
-index 555b5ca4a27de78ac092bf94c601d284abe41ea6..74ea83b5c1a5f1edd79d2f5ccf1c6b1b400524a9 100644
+index 74ea83b5c1a5f1edd79d2f5ccf1c6b1b400524a9..a69c3c306a1c1de0a9587c003e1e03e4604cca81 100644
 --- a/drivers/gpu/drm/imagination/pvr_fw.c
 +++ b/drivers/gpu/drm/imagination/pvr_fw.c
-@@ -666,7 +666,7 @@ pvr_fw_process(struct pvr_device *pvr_dev)
- 		return PTR_ERR(fw_code_ptr);
- 	}
+@@ -942,16 +942,27 @@ pvr_fw_validate_init_device_info(struct pvr_device *pvr_dev)
+ int
+ pvr_fw_init(struct pvr_device *pvr_dev)
+ {
++	static const struct pvr_fw_defs *fw_defs[PVR_FW_PROCESSOR_TYPE_COUNT] = {
++		[PVR_FW_PROCESSOR_TYPE_META] = &pvr_fw_defs_meta,
++		[PVR_FW_PROCESSOR_TYPE_MIPS] = &pvr_fw_defs_mips,
++		[PVR_FW_PROCESSOR_TYPE_RISCV] = NULL,
++	};
++
+ 	u32 kccb_size_log2 = ROGUE_FWIF_KCCB_NUMCMDS_LOG2_DEFAULT;
+ 	u32 kccb_rtn_size = (1 << kccb_size_log2) * sizeof(*pvr_dev->kccb.rtn);
+ 	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
+ 	int err;
  
--	if (pvr_dev->fw_dev.defs->has_fixed_data_addr()) {
-+	if (pvr_dev->fw_dev.defs->has_fixed_data_addr) {
- 		u32 base_addr = private_data->base_addr & pvr_dev->fw_dev.fw_heap_info.offset_mask;
+-	if (fw_dev->processor_type == PVR_FW_PROCESSOR_TYPE_META)
+-		fw_dev->defs = &pvr_fw_defs_meta;
+-	else if (fw_dev->processor_type == PVR_FW_PROCESSOR_TYPE_MIPS)
+-		fw_dev->defs = &pvr_fw_defs_mips;
+-	else
++	if (fw_dev->processor_type >= PVR_FW_PROCESSOR_TYPE_COUNT)
++		return -EINVAL;
++
++	fw_dev->defs = fw_defs[fw_dev->processor_type];
++
++	/*
++	 * Not all firmware processor types are currently supported.
++	 * Once they are, this check can be removed.
++	 */
++	if (!fw_dev->defs)
+ 		return -EINVAL;
  
- 		fw_data_ptr =
+ 	err = fw_dev->defs->init(pvr_dev);
 diff --git a/drivers/gpu/drm/imagination/pvr_fw.h b/drivers/gpu/drm/imagination/pvr_fw.h
-index eead744835726712622d5aba9b3480fe264a089f..180d310074e3585c641e540a9e2576b5ab2a5705 100644
+index 180d310074e3585c641e540a9e2576b5ab2a5705..88ad713468ce3a1ee459b04dde5363c24791a4f1 100644
 --- a/drivers/gpu/drm/imagination/pvr_fw.h
 +++ b/drivers/gpu/drm/imagination/pvr_fw.h
-@@ -166,21 +166,6 @@ struct pvr_fw_defs {
- 	 */
- 	int (*wrapper_init)(struct pvr_device *pvr_dev);
+@@ -402,6 +402,13 @@ struct pvr_fw_device {
+ #define pvr_fw_irq_clear(pvr_dev) \
+ 	pvr_fw_irq_write_reg(pvr_dev, clear, (pvr_dev)->fw_dev.defs->irq.clear_mask)
  
--	/**
--	 * @has_fixed_data_addr:
--	 *
--	 * Called to check if firmware fixed data must be loaded at the address given by the
--	 * firmware layout table.
--	 *
--	 * This function is mandatory.
--	 *
--	 * Returns:
--	 *  * %true if firmware fixed data must be loaded at the address given by the firmware
--	 *    layout table.
--	 *  * %false otherwise.
--	 */
--	bool (*has_fixed_data_addr)(void);
--
- 	/**
- 	 * @irq: FW Interrupt information.
- 	 *
-@@ -205,6 +190,14 @@ struct pvr_fw_defs {
- 		/** @clear_mask: Value to write to the clear_reg in order to clear FW IRQs. */
- 		u32 clear_mask;
- 	} irq;
++enum pvr_fw_processor_type {
++	PVR_FW_PROCESSOR_TYPE_META = 0,
++	PVR_FW_PROCESSOR_TYPE_MIPS,
++	PVR_FW_PROCESSOR_TYPE_RISCV,
++	PVR_FW_PROCESSOR_TYPE_COUNT,
++};
 +
-+	/**
-+	 * @has_fixed_data_addr: Specify whether the firmware fixed data must be loaded at the
-+	 *                       address given by the firmware layout table.
-+	 *
-+	 * This value is mandatory.
-+	 */
-+	bool has_fixed_data_addr;
- };
+ extern const struct pvr_fw_defs pvr_fw_defs_meta;
+ extern const struct pvr_fw_defs pvr_fw_defs_mips;
  
- /**
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_meta.c b/drivers/gpu/drm/imagination/pvr_fw_meta.c
-index 6786e0153970691fa51ba3a0e62c00a46244a3a3..62ddfea6b7306784b979ce209bfdf4a9938f8984 100644
---- a/drivers/gpu/drm/imagination/pvr_fw_meta.c
-+++ b/drivers/gpu/drm/imagination/pvr_fw_meta.c
-@@ -533,12 +533,6 @@ pvr_meta_vm_unmap(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
- 			 fw_obj->fw_mm_node.start, fw_obj->fw_mm_node.size);
- }
- 
--static bool
--pvr_meta_has_fixed_data_addr(void)
--{
--	return false;
--}
--
- const struct pvr_fw_defs pvr_fw_defs_meta = {
- 	.init = pvr_meta_init,
- 	.fw_process = pvr_meta_fw_process,
-@@ -546,11 +540,11 @@ const struct pvr_fw_defs pvr_fw_defs_meta = {
- 	.vm_unmap = pvr_meta_vm_unmap,
- 	.get_fw_addr_with_offset = pvr_meta_get_fw_addr_with_offset,
- 	.wrapper_init = pvr_meta_wrapper_init,
--	.has_fixed_data_addr = pvr_meta_has_fixed_data_addr,
- 	.irq = {
- 		.status_reg = ROGUE_CR_META_SP_MSLVIRQSTATUS,
- 		.clear_reg = ROGUE_CR_META_SP_MSLVIRQSTATUS,
- 		.status_mask = ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_EN,
- 		.clear_mask = ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_CLRMSK,
- 	},
-+	.has_fixed_data_addr = false,
- };
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_mips.c b/drivers/gpu/drm/imagination/pvr_fw_mips.c
-index f195c602bb112066e88210d0106cb5ffc0a9abc6..2c3172841886b70eb7a9992ec3851f18adcad8d5 100644
---- a/drivers/gpu/drm/imagination/pvr_fw_mips.c
-+++ b/drivers/gpu/drm/imagination/pvr_fw_mips.c
-@@ -227,12 +227,6 @@ pvr_mips_get_fw_addr_with_offset(struct pvr_fw_object *fw_obj, u32 offset)
- 	       ROGUE_FW_HEAP_MIPS_BASE;
- }
- 
--static bool
--pvr_mips_has_fixed_data_addr(void)
--{
--	return true;
--}
--
- const struct pvr_fw_defs pvr_fw_defs_mips = {
- 	.init = pvr_mips_init,
- 	.fini = pvr_mips_fini,
-@@ -241,11 +235,11 @@ const struct pvr_fw_defs pvr_fw_defs_mips = {
- 	.vm_unmap = pvr_vm_mips_unmap,
- 	.get_fw_addr_with_offset = pvr_mips_get_fw_addr_with_offset,
- 	.wrapper_init = pvr_mips_wrapper_init,
--	.has_fixed_data_addr = pvr_mips_has_fixed_data_addr,
- 	.irq = {
- 		.status_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS,
- 		.clear_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR,
- 		.status_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_EN,
- 		.clear_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR_EVENT_EN,
- 	},
-+	.has_fixed_data_addr = true,
- };
 
 -- 
 2.49.0
