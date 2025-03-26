@@ -2,85 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CB48A719CE
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 16:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68305A719DA
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 16:11:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A97FE10E6EC;
-	Wed, 26 Mar 2025 15:08:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2C410E6F1;
+	Wed, 26 Mar 2025 15:11:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WnNpDrEt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Iu3V0huN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACE8410E6EC
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 15:08:47 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3914a5def6bso4124990f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 08:08:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1743001722; x=1743606522; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=K6QgeinZ4T2CEETUj1UU3X0d9N2W6dwCixOfG2GPPgo=;
- b=WnNpDrEtXTXpWPnsTMsQUNHmR1u5jNoBwRmVFR6MvjpsHyeBeS7KgIwLjAaEAgmpsO
- HpmCSyM/jX5wkz+qnqSaEO7wjSCzkkwh9LpB91BJ869hDkPhMDD1LSLTitPWn0kFj13h
- q6Qc8GOr1OXRGsKNKrC/SrJROMU84run7SWIhXdRccuDi/YThDZl8BACKZ84CLii8ES8
- oEfmMqI+qFXy8aNy73xLpSktfXKX+Gufgp02i5Mq3TUSr+2DWiInr2nak8qe8JIQsvIg
- heHWL0QKZ1nZPrnn8xCuYjQsW16xHUp72yxTUitrXN1JDD/bMcPx+YFADy9uSq1lc7m4
- agVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743001722; x=1743606522;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=K6QgeinZ4T2CEETUj1UU3X0d9N2W6dwCixOfG2GPPgo=;
- b=u2hCG8Ltw6F8SKNsqFaRY0vZtJu2yFvip5AlHzafWVBoE0Jon204XoQlYTaZHQk6JB
- MrKl0G8CEH0F4m+9sIqPQwKsYbnhS62TMW71il4xnb8CHDYttYuXcneLh8Al5x4VuwE+
- 8GfJICz+bn5/N/G0g0mnMYRnqA+bZfHUCXcM6UVTVyWeAL12x2WPwKizxW5jvO/Sngh8
- xYDqw4spOfDHecgP8bhdY2QWOjwGvkNfKfU9DW3mfda7hjHWosxZVTSNNxYq/o0gszwV
- I7Rt070TkU3O28tCSN9h2Y8OlEma7aiYRpxMhGCD22DA+9l8ugcOs64kb+O5iC6RTII0
- QGwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVeTte+U/2bfAzJqgAT80G4UQQJY0XEKD6VzMdwTFwOuzVcaPNveg9gjVg563cgmtn6Fe8fxnEPp3o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQvv6V5Zs1tRbfWgEbuYuZG6JT2UbbZ/aW3Y4nGCIKvfSjiyDb
- XKWrwKVgWLUFijCgjKS3sUtwwQHhrRKqH/uc5xqkM39PXLF+Oh6bEVemJRzAQwHUQuY5BXs2kNN
- Q/DWqwHzVND3uhDqqlTdrBOhj7amUUA3xmY5MUQ==
-X-Gm-Gg: ASbGncvDBqhWdygDGVUSJIY26wtv91Fz9sN/PM2ndGhlUBPjzEclVe/9Pww8tTszVRt
- tL51mcvgfpDQ1nQJsa9JXi4vqPOhvnxwok+KrK5SONzvzSZ4cG3rONVpL1olTXSEAi7dxD5/B4l
- TtW7AXH0eHJoBPa7F4WaOrEQjoVg98qccTGXBOzqeeEzYKemtw6lCDZStiFek=
-X-Google-Smtp-Source: AGHT+IFRX9Dag9WPYVZCjInr7s5+x9rD882OTti+EwgHv/CLcHvYu2T59wrDheZNF3bNaOL19EhKT3JrZA0RrFDharQ=
-X-Received: by 2002:a05:6000:2b0c:b0:391:4bfd:6d5 with SMTP id
- ffacd0b85a97d-3997f9389d0mr12644513f8f.52.1743001721724; Wed, 26 Mar 2025
- 08:08:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-0-e9bc7c9d30cc@linaro.org>
- <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-4-e9bc7c9d30cc@linaro.org>
- <2cfdf7f3-56a6-495e-83cf-1921a2e0ef8d@oss.qualcomm.com>
-In-Reply-To: <2cfdf7f3-56a6-495e-83cf-1921a2e0ef8d@oss.qualcomm.com>
-From: Christopher Obbard <christopher.obbard@linaro.org>
-Date: Wed, 26 Mar 2025 15:08:30 +0000
-X-Gm-Features: AQ5f1JrG9jYOKFuYMJGa7mTyKExVbCzem5WJO44l_oFhXBZmwxNQppiXtjv4bCQ
-Message-ID: <CACr-zFBFpqgHVRiH37ooeVJ4Jk1UA4AhP5J5L5yV8_CHBTG07g@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/dp: fallback to maximum when PWM bit count is
- zero
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 832DB10E6EB;
+ Wed, 26 Mar 2025 15:11:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743001875; x=1774537875;
+ h=from:date:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=T2vj5fs1lJoyIJWe3E0BaCVb+RTTxO7rAjHyemXklF4=;
+ b=Iu3V0huN/+1HGOhRiDqpSnZEaooVY/iLAcLBrniDSfarMxsoNSRXOrxJ
+ L7Vbzc6Y9xeDxj6qqPQRBvR0ITcsoal00X5wnu0ryyJRwubcmF9d3pmTb
+ 8ESseFAwPVdv7jOyqNkY7FfFthQgPKj1LEMb7vzFMrxM73YE3WPWFsP2u
+ beOLSKtMIDi9cVXytY2Axa/TxnlneyHvYfTSqvgq0XTud5NsSM06Et/2r
+ qH3k/fxMU05pEHDbtIf/Lmd6PHp9bxjnC5YySt+Z92/Vb4S73w61p1pF0
+ G/94xdeg9j5lTEtbsMmthNYBQ1TV2dDURa58qF/JQPQGQsLPcfVSiolod g==;
+X-CSE-ConnectionGUID: DQ86r5/CQay63zE8FL4CZA==
+X-CSE-MsgGUID: xywCGREeTwSp3AGxHLuxhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="47950128"
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="47950128"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 08:11:14 -0700
+X-CSE-ConnectionGUID: xuZCinpVSzu60sPZ4LJ70g==
+X-CSE-MsgGUID: ZI+qmaGRThuotURKYdK1wA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="124817289"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.5])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 08:11:08 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 26 Mar 2025 17:11:04 +0200 (EET)
+To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
+cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
+ =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Michal Wajdeczko <michal.wajdeczko@intel.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
- Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>,
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v6 4/6] PCI/IOV: Check that VF BAR fits within the
+ reservation
+In-Reply-To: <20250320110854.3866284-5-michal.winiarski@intel.com>
+Message-ID: <4959d675-edd8-a296-661c-6a7bd22fbc0d@linux.intel.com>
+References: <20250320110854.3866284-1-michal.winiarski@intel.com>
+ <20250320110854.3866284-5-michal.winiarski@intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="8323328-1797840117-1743001864=:942"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,44 +81,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Tue, 25 Mar 2025 at 22:53, Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On 25/03/2025 21:21, Christopher Obbard wrote:
-> > Some eDP devices report DP_EDP_PWMGEN_BIT_COUNT as 0, but still provide
-> > valid non-zero MIN and MAX values. This patch reworks the logic to
-> > fallback to the max value in such cases, ensuring correct backlight PWM
-> > configuration even when the bit count value is not explicitly set.
->
-> I don't think this matches the eDP standard. It tells to use MIN if
-> BIT_COUNT is less than MIN, if I understand it correctly.
+--8323328-1797840117-1743001864=:942
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Thanks for your comment; that's a good point.
+On Thu, 20 Mar 2025, Micha=C5=82 Winiarski wrote:
 
-I need to re-read this section of the spec; but at least on this
-hardware I printed the values of the registers and it seems like
-MIN and MAX are the same, so I could switch the patch around to use
-MIN in the next version.
+> When the resource representing VF MMIO BAR reservation is created, its
+> size is always large enough to accommodate the BAR of all SR-IOV Virtual
+> Functions that can potentially be created (total VFs). If for whatever
+> reason it's not possible to accommodate all VFs - the resource is not
+> assigned and no VFs can be created.
+>=20
+> The following patch will allow VF BAR size to be modified by drivers at
 
-   drm_edp_backlight_probe_max: pn=0, pn_min=11, pn_max=11, bl_caps=134
+"The following patch" sounds to be like you're referring to patch that=20
+follows this description, ie., the patch below. "An upcoming change" is=20
+alternative that doesn't suffer from the same problem.
 
+> a later point in time, which means that the check for resource
+> assignment is no longer sufficient.
+>=20
+> Add an additional check that verifies that VF BAR for all enabled VFs
+> fits within the underlying reservation resource.
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c
-b/drivers/gpu/drm/display/drm_dp_helper.c
-index 6e519c58c2e84..2be2b00c8a531 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -4061,6 +4061,8 @@ drm_edp_backlight_probe_max(struct drm_dp_aux
-*aux, struct drm_edp_backlight_inf
-                        aux->name, ret);
-        }
+So this does not solve the case where the initial size was too large to=20
+fix and such VF BARs remain unassigned, right?
 
-+       pr_info("%s: pn=%d, pn_min=%d, pn_max=%d, bl_caps=%d\n",
-__func__, pn, pn_min, pn_max, bl_caps);
-+
-        /*
-         * Some eDP panels report brightness byte count support, but
-the byte count
-         * reading is 0 (e.g. Samsung ATNA40YK20) so in these cases use pn_max
+> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
+> ---
+>  drivers/pci/iov.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+> index cbf335725d4fb..861273ad9a580 100644
+> --- a/drivers/pci/iov.c
+> +++ b/drivers/pci/iov.c
+> @@ -646,8 +646,13 @@ static int sriov_enable(struct pci_dev *dev, int nr_=
+virtfn)
+> =20
+>  =09nres =3D 0;
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> +=09=09resource_size_t vf_bar_sz =3D
+> +=09=09=09pci_iov_resource_size(dev,
+> +=09=09=09=09=09      pci_resource_num_from_vf_bar(i));
+
+Please add int idx =3D pci_resource_num_from_vf_bar(i);
+
+>  =09=09bars |=3D (1 << pci_resource_num_from_vf_bar(i));
+>  =09=09res =3D &dev->resource[pci_resource_num_from_vf_bar(i)];
+> +=09=09if (vf_bar_sz * nr_virtfn > resource_size(res))
+> +=09=09=09continue;
+
+Not directly related to this patch, I suspect this could actually try to=20
+assign an unassigned resource by doing something like this (perhaps in own=
+=20
+patch, it doesn't even need to be part of this series but can be sent=20
+later if you find the suggestion useful):
+
+=09=09/* Retry assignment if the initial size didn't fit */
+=09=09if (!res->parent && pci_assign_resource(res, idx))
+=09=09=09continue;
+
+Although I suspect reset_resource() might have been called for the=20
+resource and IIRC it breaks the resource somehow but it could have been=20
+that IOV resources can be resummoned from that state though thanks to=20
+their size not being stored into the resource itself but comes from iov=20
+structures.
+
+>  =09=09if (res->parent)
+>  =09=09=09nres++;
+>  =09}
+>=20
+
+--=20
+ i.
+
+--8323328-1797840117-1743001864=:942--
