@@ -2,52 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63621A71A63
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 16:32:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68EFA71B15
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 16:51:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B46F910E6FF;
-	Wed, 26 Mar 2025 15:32:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9685510E6FB;
+	Wed, 26 Mar 2025 15:51:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RriZcuFo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FAQvHtDI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9E1010E6FB
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 15:32:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 01D6C61145;
- Wed, 26 Mar 2025 15:32:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2593DC4CEE2;
- Wed, 26 Mar 2025 15:32:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743003151;
- bh=SPxu0Io7cx5liXuAr8Xi+OAnanZNKgiFPCAgw/m0XBw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RriZcuFozA+6QY0rYZQajMOGCFMyzsBT1xUrHVw7tHBRWOhu+WqmKx15XlXLodKOt
- i3++BC6wcOmNRYZ2kf1sbJ3UgWQl4d6Wvxi0CN9NIXCtollhGB7urmdNqyAdQkAr+Z
- 359fT6wBxBUldjuwdHtyVWtNUELDSUmyEHhuInCL/dKWik1wR0ClMfwSubZIAzYp4p
- 2x8eoIpPOlRON/2fVGfAQnU/8nRaGqOqzPEdVrGKolvD9fwUz1GHSP6YpM+MsRiPsf
- dpvJk33x8erFxRgGLD2II05q4E0htyzvJrjL6VLwtNcSuiNh09sdW4STOLed+8UIUB
- huKnne7Z68ytg==
-Date: Wed, 26 Mar 2025 16:32:29 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 4/5] drm/panel: deprecate old-style panel allocation
-Message-ID: <20250326-deft-vegan-stoat-ff14ff@houat>
-References: <20250325-b4-panel-refcounting-v1-0-4e2bf5d19c5d@redhat.com>
- <20250325-b4-panel-refcounting-v1-4-4e2bf5d19c5d@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 583AA10E6FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 15:51:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743004308; x=1774540308;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WDTgACKfbFOAULZ00BSFWmKYsHzNYTrM9EPoZ8yADMU=;
+ b=FAQvHtDITl1+1PGwmkL8K/D4DQ7FCTkAlhKYKu218NqFaL+N+9lN9hcu
+ sV9ml5xFDbYS8Yd360SeIPCbtwmNPdhTZo+Yk1KIN2BO9Cr7sf+49jnUz
+ EVwfYGA5DnQjahOcr8PmBt2XX3c5WdGIBwyBTk7BaVXkTMNCwRaNmf+aX
+ iYqw/853zhis+sTLDOrLk+Paqni1tX0NUgCe9JNq+GIQglOWwDlPvN7sL
+ Co250xX8cFYxePfcwU44ZnQ9G5Fhts1ISwC4ekvjTT1jHrQvsEL9My/QA
+ JMkgJpL8onsl9/SBBDltl3R6+hl0uZKYbmjz/XuVV9JX1I5Oybyu9U0zy w==;
+X-CSE-ConnectionGUID: DZb5tZ4vReqCcTckrgD6vQ==
+X-CSE-MsgGUID: 5appeT8fTMSgL7Cn4g8R8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44188252"
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="44188252"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 08:51:48 -0700
+X-CSE-ConnectionGUID: LS0XVK0wRUKBR+t1osMCeA==
+X-CSE-MsgGUID: b1QK+8PmQXC8SugrBN4iNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="124550670"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 08:51:46 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1txT2d-000000067f4-1as0; Wed, 26 Mar 2025 17:51:43 +0200
+Date: Wed, 26 Mar 2025 17:51:43 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Oded Gabbay <ogabbay@kernel.org>,
+ "Avizrat, Yaron" <yaron.avizrat@intel.com>,
+ "Elbaz, Koby" <koby.elbaz@intel.com>,
+ "Sinyuk, Konstantin" <konstantin.sinyuk@intel.com>
+Subject: Re: [PATCH v3 1/1] accel/habanalabs: Switch to use %ptTs
+Message-ID: <Z-Qij4C8DSmS0Mq-@smile.fi.intel.com>
+References: <20250305110126.2134307-1-andriy.shevchenko@linux.intel.com>
+ <Z-PM8oBtTPzqv-S2@smile.fi.intel.com> <87zfh86rqi.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5ozty4m4m7wvakqd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250325-b4-panel-refcounting-v1-4-4e2bf5d19c5d@redhat.com>
+In-Reply-To: <87zfh86rqi.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,57 +76,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Mar 26, 2025 at 11:55:33AM +0200, Jani Nikula wrote:
+> On Wed, 26 Mar 2025, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > +Cc: Jani (sorry, forgot to add you in the first place).
+> >
+> > Do you think it's applicable now?
+> 
+> Cc: Yaron, Koby, and Konstantin who are supposed to be the new
+> maintainers for accel/habanalabs.
 
---5ozty4m4m7wvakqd
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 4/5] drm/panel: deprecate old-style panel allocation
-MIME-Version: 1.0
+Thank you!
 
-On Tue, Mar 25, 2025 at 01:24:11PM -0400, Anusha Srivatsa wrote:
-> Start moving to the new refcounted allocations using
-> the new API devm_drm_panel_alloc(). Deprecate any other
-> allocation.
->=20
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->  drivers/gpu/drm/drm_panel.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index 11a0415bc61f59190ef5eb378d1583c493265e6a..5793011f4938a2d4fb9d84a70=
-0817bda317af305 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -74,8 +74,10 @@ EXPORT_SYMBOL(drm_panel_init);
->   * drm_panel_add - add a panel to the global registry
->   * @panel: panel to add
->   *
-> - * Add a panel to the global registry so that it can be looked up by dis=
-play
-> - * drivers.
-> + * Add a panel to the global registry so that it can be looked
-> + * up by display drivers. The panel to be added must have been
-> + * allocated by devm_drm_panel_alloc(). Old-style allocation by
-> + * kzalloc(), devm_kzalloc() and similar is deprecated.
+> > On Wed, Mar 05, 2025 at 01:00:25PM +0200, Andy Shevchenko wrote:
+> >> Use %ptTs instead of open-coded variant to print contents of time64_t type
+> >> in human readable form.
+> >> 
+> >> This changes N/A output to 1970-01-01 00:00:00 for zero timestamps,
+> >> but it's used only in the dev_err() output and won't break anything.
+> >> 
+> >> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> >> ---
+> >> 
+> >> v3: explained the difference for N/A cases (Jani)
+> >> v2: fixed the parameters to be the pointers
+> >> 
+> >>  drivers/accel/habanalabs/common/device.c | 25 +++---------------------
+> >>  1 file changed, 3 insertions(+), 22 deletions(-)
+> >> 
+> >> diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+> >> index 68eebed3b050..80fa08bf57bd 100644
+> >> --- a/drivers/accel/habanalabs/common/device.c
+> >> +++ b/drivers/accel/habanalabs/common/device.c
+> >> @@ -1066,28 +1066,11 @@ static bool is_pci_link_healthy(struct hl_device *hdev)
+> >>  	return (device_id == hdev->pdev->device);
+> >>  }
+> >>  
+> >> -static void stringify_time_of_last_heartbeat(struct hl_device *hdev, char *time_str, size_t size,
+> >> -						bool is_pq_hb)
+> >> -{
+> >> -	time64_t seconds = is_pq_hb ? hdev->heartbeat_debug_info.last_pq_heartbeat_ts
+> >> -					: hdev->heartbeat_debug_info.last_eq_heartbeat_ts;
+> >> -	struct tm tm;
+> >> -
+> >> -	if (!seconds)
+> >> -		return;
+> >> -
+> >> -	time64_to_tm(seconds, 0, &tm);
+> >> -
+> >> -	snprintf(time_str, size, "%ld-%02d-%02d %02d:%02d:%02d (UTC)",
+> >> -		tm.tm_year + 1900, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+> >> -}
+> >> -
+> >>  static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
+> >>  {
+> >>  	struct eq_heartbeat_debug_info *heartbeat_debug_info = &hdev->heartbeat_debug_info;
+> >>  	u32 cpu_q_id = heartbeat_debug_info->cpu_queue_id, pq_pi_mask = (HL_QUEUE_LENGTH << 1) - 1;
+> >>  	struct asic_fixed_properties *prop = &hdev->asic_prop;
+> >> -	char pq_time_str[64] = "N/A", eq_time_str[64] = "N/A";
+> >>  
+> >>  	if (!prop->cpucp_info.eq_health_check_supported)
+> >>  		return true;
+> >> @@ -1095,17 +1078,15 @@ static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
+> >>  	if (!hdev->eq_heartbeat_received) {
+> >>  		dev_err(hdev->dev, "EQ heartbeat event was not received!\n");
+> >>  
+> >> -		stringify_time_of_last_heartbeat(hdev, pq_time_str, sizeof(pq_time_str), true);
+> >> -		stringify_time_of_last_heartbeat(hdev, eq_time_str, sizeof(eq_time_str), false);
+> >>  		dev_err(hdev->dev,
+> >> -			"EQ: {CI %u, HB counter %u, last HB time: %s}, PQ: {PI: %u, CI: %u (%u), last HB time: %s}\n",
+> >> +			"EQ: {CI %u, HB counter %u, last HB time: %ptTs}, PQ: {PI: %u, CI: %u (%u), last HB time: %ptTs}\n",
+> >>  			hdev->event_queue.ci,
+> >>  			heartbeat_debug_info->heartbeat_event_counter,
+> >> -			eq_time_str,
+> >> +			&hdev->heartbeat_debug_info.last_eq_heartbeat_ts,
+> >>  			hdev->kernel_queues[cpu_q_id].pi,
+> >>  			atomic_read(&hdev->kernel_queues[cpu_q_id].ci),
+> >>  			atomic_read(&hdev->kernel_queues[cpu_q_id].ci) & pq_pi_mask,
+> >> -			pq_time_str);
+> >> +			&hdev->heartbeat_debug_info.last_pq_heartbeat_ts);
+> >>  
+> >>  		hl_eq_dump(hdev, &hdev->event_queue);
 
-It's not that it's deprecated, it's that it's unsafe. Since you already
-said that the allocation must be done through devm_drm_panel_alloc(),
-there's not much use to mention the old style stuff, I'd just drop the
-last sentence.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Maxime
 
---5ozty4m4m7wvakqd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+QeDAAKCRDj7w1vZxhR
-xXTHAQCc+DC/5rdeBP/uekSpO7skP6d+j8o6RjjWhw/KxNkDSwEApCzCZMZTIZ5e
-yLjpLaIpTIXpA3IMrUaV2mCS5wP5Hw0=
-=mCCS
------END PGP SIGNATURE-----
-
---5ozty4m4m7wvakqd--
