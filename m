@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088BAA71C3C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:49:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C4EA71C35
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:49:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D043E10E74B;
-	Wed, 26 Mar 2025 16:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEC2310E745;
+	Wed, 26 Mar 2025 16:49:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="YHXdEvNf";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="URw4LfbE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
  [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9529610E73D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E9E10E73E
  for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 16:49:10 +0000 (UTC)
 Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52QBt2Sp012691;
+ by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52QBt2Sq012691;
  Wed, 26 Mar 2025 16:49:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
  :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=L
- SUA1zThrdwdUlQspKjbmzFvYxGIaR7/+vnlWfD1acI=; b=YHXdEvNf1QXeUr3+f
- dJ0397Zem+eVE9bwJcfByk056qVKQSW+un4b5mni3yzdOd+45xVQHt8THkeDZvSG
- Oqa0FVQXyu3fcRkWRqkXISszczvY0Vw3Af9NLCXykfT4jVScurc0IaVb64u0VkHa
- fHcecA0wrhhUc86rqEGwYUxMXlq8r+vaBXdtZWeGHGcXwLLI7rTW4P/+VirKCx2l
- 332+X0zxH6GlMQWi2S4hihQxQsd/qrSxV5oJ7GArDM+sqwK8OCWKUofpOHZ9W7h2
- 1nazvMK/4SQVaagOgJphN1wvKFSU983sbQveqw7jkYO37e3H/se9sfz+gFipnW8J
- aZ+WA==
+ :message-id:mime-version:references:subject:to; s=dk201812; bh=b
+ QzN0bTHMYFmVWdhWuUYAzcfw05axOq1UdTLnXCJ4to=; b=URw4LfbETQQjm1Rcc
+ /xCy5QAGnd44JFG81P5a2wsMuBZnphkPyYbAPmI92ErZCp/Qz8ZnTocJi6cnXGAq
+ sOBYeL6IwPbdE5UiduqfJKUHacZgAHG++xKyOa06dX3gPUV3oqmSYf5nwPh1TwR9
+ 1/Guz+xAUZ1rutf4A//53z9ikWk8oaCY9qcbsOoi2hBy6JfkldLXFgPXdnajU3KH
+ AvDwnagcmtAkGUbrGxeJiD+1BhCBqCBMuau/G7Lrs1LHZAOxAERpzWu06u+WJc3P
+ TPT/v4iGwce3ENHrKMKoH5ZJaBtggiU1CcxRBBLHr59As7fLW6Sdt6Z9wKEn4Vbn
+ BPcZA==
 Received: from hhmail05.hh.imgtec.org
  (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 45kbmy9d6d-18
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 45kbmy9d6d-19
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
  Wed, 26 Mar 2025 16:49:02 +0000 (GMT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  (172.25.0.133) by HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 26 Mar 2025 16:48:53 +0000
+ 15.1.2507.44; Wed, 26 Mar 2025 16:48:54 +0000
 From: Matt Coster <matt.coster@imgtec.com>
-Date: Wed, 26 Mar 2025 16:48:37 +0000
-Subject: [PATCH DO NOT MERGE v5 17/18] arm64: dts: ti: k3-am62: New GPU
- binding details
+Date: Wed, 26 Mar 2025 16:48:38 +0000
+Subject: [PATCH DO NOT MERGE v5 18/18] arm64: dts: ti: k3-j721s2: Add GPU node
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250326-sets-bxs-4-64-patch-v1-v5-17-e4c46e8280a9@imgtec.com>
+Message-ID: <20250326-sets-bxs-4-64-patch-v1-v5-18-e4c46e8280a9@imgtec.com>
 References: <20250326-sets-bxs-4-64-patch-v1-v5-0-e4c46e8280a9@imgtec.com>
 In-Reply-To: <20250326-sets-bxs-4-64-patch-v1-v5-0-e4c46e8280a9@imgtec.com>
 To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
@@ -63,24 +62,25 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  Wilczynski" <m.wilczynski@samsung.com>, Alessio Belle
  <alessio.belle@imgtec.com>, Alexandru Dadu <alexandru.dadu@imgtec.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1705;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2059;
  i=matt.coster@imgtec.com; h=from:subject:message-id;
- bh=AiV3JtqpuKX4w4TzhqQhNz5mqpYDAlaAlzR9okWvUas=;
- b=owGbwMvMwCFWuUfy8817WRsYT6slMaQ/0X/2xFifk7voZ9WZxoMvSozkVxhGMSnNnxb12JFJ1
- 8POKUSgo5SFQYyDQVZMkWXHCssVan/UtCRu/CqGmcPKBDKEgYtTACZyci0jw/XG6W8dhX7Mn+Vk
- rakW/NEqiPta7dtLs9xUj8kuX3/pZgjDX6lzm9xsj4ccn3H65aYJFXNXGeedz9399OFzph2qCd0
- bZ/ACAA==
+ bh=9ciqbWOhP6QgnlA8rKn5pVqIA7HG18BMc8hwG3KLDFE=;
+ b=owGbwMvMwCFWuUfy8817WRsYT6slMaQ/0X/WWLL0fPucnrS4u9EnFP2cfs9wMNQXXv2EbfMOu
+ Z3xebaOHaUsDGIcDLJiiiw7VliuUPujpiVx41cxzBxWJpAhDFycAjCRqXMY/hfPPpD8USjnltEk
+ c+YHUmvD/576c2zDuSnd02QmLDq2g8+F4X/+4/YMhpk/nFVVX07k4pVfFeb2YPKUiYfTxA4dkAu
+ WLGEEAA==
 X-Developer-Key: i=matt.coster@imgtec.com; a=openpgp;
  fpr=05A40CFCE7269D61D97100A1747F0A9036F90DFA
 X-Originating-IP: [172.25.0.133]
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: U_OTcN-_xOCu4tQDDwLneFQVcMEy5-aR
+X-Proofpoint-ORIG-GUID: JWhJQH9zyMraeD4EfDQTXXETn1GSouhZ
 X-Authority-Analysis: v=2.4 cv=L+sdQ/T8 c=1 sm=1 tr=0 ts=67e42ffe cx=c_pps
  a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
- a=ETbM1kImDFEA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8
- a=r_1tXGB3AAAA:8 a=OLj8r6_nq0VfqmG8xPEA:9
- a=QEXdDO2ut3YA:10 a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: U_OTcN-_xOCu4tQDDwLneFQVcMEy5-aR
+ a=ETbM1kImDFEA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=sozttTNsAAAA:8
+ a=VwQbUJbxAAAA:8 a=r_1tXGB3AAAA:8
+ a=hJ1mkiiSfvO0DrLeNb8A:9 a=QEXdDO2ut3YA:10 a=S-JV1fTmrHgA:10 a=j2-svP0xy3wA:10
+ a=t8nPyN_e6usw4ciXM-Pk:22
+X-Proofpoint-GUID: JWhJQH9zyMraeD4EfDQTXXETn1GSouhZ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,49 +96,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the new compatible string introduced earlier (in "dt-bindings: gpu:
-img: More explicit compatible strings") and add a name to the single power
-domain for this GPU (introduced in "dt-bindings: gpu: img: Power domain
-details").
+The J721S2 binding is based on the TI downstream binding in 54b0f2a00d92
+("arm64: dts: ti: k3-j721s2-main: add gpu node") from [1] but with updated
+compatible strings.
+
+The clock[2] and power[3] indices were verified from docs, but the
+source of the interrupt index remains elusive.
+
+[1]: https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel
+[2]: https://downloads.ti.com/tisci/esd/latest/5_soc_doc/j721s2/clocks.html
+[3]: https://downloads.ti.com/tisci/esd/latest/5_soc_doc/j721s2/devices.html
 
 Signed-off-by: Matt Coster <matt.coster@imgtec.com>
 ---
 Changes in v5:
 - None
-- Link to v4: https://lore.kernel.org/r/20250320-sets-bxs-4-64-patch-v1-v4-17-d987cf4ca439@imgtec.com
+- Link to v4: https://lore.kernel.org/r/20250320-sets-bxs-4-64-patch-v1-v4-18-d987cf4ca439@imgtec.com
 Changes in v4:
 - None
-- Link to v3: https://lore.kernel.org/r/20250310-sets-bxs-4-64-patch-v1-v3-17-143b3dbef02f@imgtec.com
+- Link to v3: https://lore.kernel.org/r/20250310-sets-bxs-4-64-patch-v1-v3-18-143b3dbef02f@imgtec.com
 Changes in v3:
 - None
-- Link to v2: https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-7-3fd45d9fb0cf@imgtec.com
+- Link to v2: https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-21-3fd45d9fb0cf@imgtec.com
 Changes in v2:
-- None
-- Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-7-4ed30e865892@imgtec.com
+- Use normal reg syntax for 64-bit values
+- Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-21-4ed30e865892@imgtec.com
 ---
- arch/arm64/boot/dts/ti/k3-am62-main.dtsi | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
-index 7d355aa73ea2116723735f70b9351cefcd8bc118..d17b25cae196b08d24adbe7c913ccaba7eed37eb 100644
---- a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
-@@ -691,12 +691,14 @@ ospi0: spi@fc40000 {
+diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
+index 92bf48fdbeba45ecca8c854db5f72fd3666239c5..a79ac41b2c1f51b7193e6133864428bd35a5e835 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
+@@ -2048,4 +2048,16 @@ watchdog8: watchdog@23f0000 {
+ 		/* reserved for MAIN_R5F1_1 */
+ 		status = "reserved";
  	};
- 
- 	gpu: gpu@fd00000 {
--		compatible = "ti,am62-gpu", "img,img-axe";
-+		compatible = "ti,am62-gpu", "img,img-axe-1-16m", "img,img-axe",
-+			     "img,img-rogue";
- 		reg = <0x00 0x0fd00000 0x00 0x20000>;
- 		clocks = <&k3_clks 187 0>;
- 		clock-names = "core";
- 		interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
- 		power-domains = <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
-+		power-domain-names = "a";
- 	};
- 
- 	cpsw3g: ethernet@8000000 {
++
++	gpu: gpu@4e20000000 {
++		compatible = "ti,j721s2-gpu", "img,img-bxs-4-64", "img,img-rogue";
++		reg = <0x4e 0x20000000 0x00 0x80000>;
++		clocks = <&k3_clks 130 1>;
++		clock-names = "core";
++		interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
++		power-domains = <&k3_pds 130 TI_SCI_PD_EXCLUSIVE>,
++				<&k3_pds 373 TI_SCI_PD_EXCLUSIVE>;
++		power-domain-names = "a", "b";
++		dma-coherent;
++	};
+ };
 
 -- 
 2.49.0
