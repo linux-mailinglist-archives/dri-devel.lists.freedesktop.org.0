@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506A6A70FE8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 05:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D20A7100A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 06:03:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D38310E2B1;
-	Wed, 26 Mar 2025 04:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 185E810E07D;
+	Wed, 26 Mar 2025 05:03:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OQQ9WJWG";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="On4q/s/Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C54CC10E2B1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 04:35:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742963749; x=1774499749;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=GQ1oIpQGfgsBC45qDuxDMKJrmn5EAfssdGCXeqH/9ZQ=;
- b=OQQ9WJWGn93EFDwnaC2Kz+TK0rZ36jGoHdyL39FQRjdwx4ejR/ccRiOi
- o1ulmTZnAM823LhbM9Rp2sSlWLGjb+gJPu99gIYZ2t5V2hxyzOG2J2BDK
- VT+LFHVGLeoqnChThNjlrM0rhFx6HHBARlWEvnRDOTh/6+va0z7nU8elW
- qHCBLY0iaPhtSNa6WjvwvMqJXgMR0P0aMJIZCu1zwL5vpLhqteEbEUJbm
- NGh4yA2G928A1JpCxeDmFmqWduWbmmxWPpNTv3pxtd9wZwaHsNKqgAADl
- RIqqUFwlZolPlejystmJJCJnarzju1tbW3YeL5MbSwkrhDSl9jkvu0l5F A==;
-X-CSE-ConnectionGUID: 6/O6eXz2Tjeetx8ZHyAFxw==
-X-CSE-MsgGUID: h+juR7gVRi+yTyVo3ubNKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="43389824"
-X-IronPort-AV: E=Sophos;i="6.14,276,1736841600"; d="scan'208";a="43389824"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 21:35:48 -0700
-X-CSE-ConnectionGUID: uCbjFf2DRSWx3lTfQGASBg==
-X-CSE-MsgGUID: tnfpUoa8QleNuum3sJ8qdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,276,1736841600"; d="scan'208";a="161827195"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
- by orviesa001.jf.intel.com with ESMTP; 25 Mar 2025 21:35:45 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1txIUQ-0005SR-24;
- Wed, 26 Mar 2025 04:35:42 +0000
-Date: Wed, 26 Mar 2025 12:35:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anusha Srivatsa <asrivats@redhat.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Anusha Srivatsa <asrivats@redhat.com>
-Subject: Re: [PATCH 3/5] drm/panel: get/put panel reference in
- drm_panel_add/remove()
-Message-ID: <202503261119.h0EEYLFA-lkp@intel.com>
-References: <20250325-b4-panel-refcounting-v1-3-4e2bf5d19c5d@redhat.com>
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B053010E07D
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 05:02:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1742965369;
+ bh=MGp42LgOjmNmRuG5IfUDJVETvK0HfrBLslq5K6Y5Mho=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=On4q/s/YjnvWF2gA9OiHYJuogvwWs67FMq4Yt6+tdFGx57KSdvqwSGKc5CKxqxjZe
+ ZQhZPl1d11bDMI4F6JldgCFYq0jeTf+r2dXnn7tYpsslyuObvIZWkHg6YKiROm0XiU
+ e4KLGZUCIvoyO2UClDetuc9Zb+GMTjdapkmI9dqQbAzcJF+xUKEl4WRi/nSHUhWKRO
+ o1IPwpd5LDJtQuuC+3zCCohh04r4kIOielKp4i5UJymWK/WNgtXpPIFu2O08aMWsVa
+ xPV3oLqdMDFzhffG1YpQt7uDO9YbX4kZ0KvHeYXqja4x1wEZNWHoBXWbqm5+LssFO8
+ CEZBH+GoanSiw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4ZMvmn0VP1z4wd0;
+ Wed, 26 Mar 2025 16:02:49 +1100 (AEDT)
+Date: Wed, 26 Mar 2025 16:02:47 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
+ Dave Airlie <airlied@redhat.com>
+Cc: DRI <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Nam Cao <namcao@linutronix.de>
+Subject: Re: linux-next: manual merge of the tip tree with the drm tree
+Message-ID: <20250326160247.23651946@canb.auug.org.au>
+In-Reply-To: <20250313141253.0c5a7520@canb.auug.org.au>
+References: <20250313141253.0c5a7520@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250325-b4-panel-refcounting-v1-3-4e2bf5d19c5d@redhat.com>
+Content-Type: multipart/signed; boundary="Sig_/Unl2nueOgRxsjh.WrOW/t02";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,39 +62,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Anusha,
+--Sig_/Unl2nueOgRxsjh.WrOW/t02
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot noticed the following build errors:
+Hi all,
 
-[auto build test ERROR on c8ba07caaecc622a9922cda49f24790821af8a71]
+On Thu, 13 Mar 2025 14:12:53 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> Today's linux-next merge of the tip tree got a conflict in:
+>=20
+>   drivers/gpu/drm/i915/i915_pmu.c
+>=20
+> between commit:
+>=20
+>   87b593d79864 ("drm/i915/pmu: Drop custom hotplug code")
+>=20
+> from the drm tree and commit:
+>=20
+>   82ad584eed8b ("drm/i915/pmu: Switch to use hrtimer_setup()")
+>=20
+> from the tip tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+>=20
+>=20
+> diff --cc drivers/gpu/drm/i915/i915_pmu.c
+> index 69a109d02116,0ce87f188d11..000000000000
+> --- a/drivers/gpu/drm/i915/i915_pmu.c
+> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> @@@ -1155,8 -1264,8 +1155,7 @@@ void i915_pmu_register(struct drm_i915_
+>   	int ret =3D -ENOMEM;
+>  =20
+>   	spin_lock_init(&pmu->lock);
+> - 	hrtimer_init(&pmu->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+> - 	pmu->timer.function =3D i915_sample;
+> + 	hrtimer_setup(&pmu->timer, i915_sample, CLOCK_MONOTONIC, HRTIMER_MODE_=
+REL);
+>  -	pmu->cpuhp.cpu =3D -1;
+>   	init_rc6(pmu);
+>  =20
+>   	if (IS_DGFX(i915)) {
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anusha-Srivatsa/drm-panel-Add-new-helpers-for-refcounted-panel-allocatons/20250326-012651
-base:   c8ba07caaecc622a9922cda49f24790821af8a71
-patch link:    https://lore.kernel.org/r/20250325-b4-panel-refcounting-v1-3-4e2bf5d19c5d%40redhat.com
-patch subject: [PATCH 3/5] drm/panel: get/put panel reference in drm_panel_add/remove()
-config: hexagon-randconfig-002-20250326 (https://download.01.org/0day-ci/archive/20250326/202503261119.h0EEYLFA-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503261119.h0EEYLFA-lkp@intel.com/reproduce)
+This is now a conflict between Linus' tree and the drm tree.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503261119.h0EEYLFA-lkp@intel.com/
+--=20
+Cheers,
+Stephen Rothwell
 
-All errors (new ones prefixed by >>):
+--Sig_/Unl2nueOgRxsjh.WrOW/t02
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
->> ld.lld: error: undefined symbol: drm_panel_get
-   >>> referenced by drm_panel.c:82 (drivers/gpu/drm/drm_panel.c:82)
-   >>>               drivers/gpu/drm/drm_panel.o:(drm_panel_add) in archive vmlinux.a
-   >>> referenced by drm_panel.c:82 (drivers/gpu/drm/drm_panel.c:82)
-   >>>               drivers/gpu/drm/drm_panel.o:(drm_panel_add) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_panel_put
-   >>> referenced by drm_panel.c:100 (drivers/gpu/drm/drm_panel.c:100)
-   >>>               drivers/gpu/drm/drm_panel.o:(drm_panel_remove) in archive vmlinux.a
-   >>> referenced by drm_panel.c:100 (drivers/gpu/drm/drm_panel.c:100)
-   >>>               drivers/gpu/drm/drm_panel.o:(drm_panel_remove) in archive vmlinux.a
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmfjincACgkQAVBC80lX
+0GwpWQgAhUOHtN1AycWApCP38/IDZMeCwsMkZtHV970mt0gAEysZr6/Eh9w0GVZI
+HrWj5Js4Y5mZZkcR98mtLlvV0s8Ql4Ex1Xzb6BojdS7CSI1nu33l1y/6AcpVTgM/
+MWHuX38imAEagTjcRBD6xS4EMLx9MgHLSBGxbR5ILjrdC7kyZgymLtwVUND0s644
+LDhvXA4hCEsrJL33wX+iHEio5v74S6aDm8nj2JqjRDLlLv09F3IdNa45YidgsiKs
+sETH6B4iZP0EZiemCH+2c+NaVAsEcoWot7X6rResv4PrzZPAy+ogqSOqEd4j9bCC
+lkzRjdQdVI7mVgB/DWjpPDVPPS0R2Q==
+=ho/x
+-----END PGP SIGNATURE-----
+
+--Sig_/Unl2nueOgRxsjh.WrOW/t02--
