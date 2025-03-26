@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4D5A71618
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 12:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F59CA71620
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 12:56:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70B510E0A1;
-	Wed, 26 Mar 2025 11:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9343F10E6AF;
+	Wed, 26 Mar 2025 11:56:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="C7b1qYoM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CdPr96O+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0ECD10E0A1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 11:54:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1742990047; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KgSFBxidFYS8wsR76dLRI60ogFkOoLXRtvh+dsrfbsEF1qylvk8qEbnn4h9ND+xDc9CrJNqCt1kp53XtvNvA6aS9mxwLvS4/KmW4iYwYf9XJ/DEM2la5Ipm3pXO7MKHN6LMDqZrjVEsY73hIcQ9bW0pCLJNKHO/L1LKWiGgvvIU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1742990047;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=AceXwwk0dg/5R7XIw5oul2ygSeDFRaSA96BeLYqo5pM=; 
- b=njQiBcAByIRup3mqBmEQIqLkpwZmnRDCVo4N30weZFdIi5Ieqh3zyQa2cWcUFro3Kj9K3hKyVk7tPDUuTSlxMqKgmu50/W3nkj96wH+In2+HSkvSX4lj5gf2DbCXN2Wtr8kDnFs3XAnRrYnm0dQAQm6hMeGXu8ycCg3xkfpcdBY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742990047; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=AceXwwk0dg/5R7XIw5oul2ygSeDFRaSA96BeLYqo5pM=;
- b=C7b1qYoMraqTVE/p4+HACSFAM3pkzupchC001ua9JTLrVZEusvj/voC+NZOBFM/d
- MLoq4faBDdt5kVtuw3IMG2inJmIcwjhnaIImCkNwLx1nRz/VzSpaQ4BFw2rIEvkifNA
- 19a7ZDWxA2HROxOg797hvpzBC6htiCp3FOi+fpBU=
-Received: by mx.zohomail.com with SMTPS id 1742990044468581.4583932676458;
- Wed, 26 Mar 2025 04:54:04 -0700 (PDT)
-Message-ID: <16a30d03-9c98-47a4-959f-8671f7cb7fab@collabora.com>
-Date: Wed, 26 Mar 2025 14:54:00 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F4C10E121;
+ Wed, 26 Mar 2025 11:56:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742990172; x=1774526172;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Pe9hT+8vNs/VCkLVh+laTypGPeET9eix5N3L2/nKLfQ=;
+ b=CdPr96O+U9FCKT+Zi8QL4Yc/uF07i4ucqUqtd590tq69OfHEKh3Zfz6r
+ qNe9d23GbGmJo6dzq5F6HgatP1ixteOaDIeXO7K8BStd2Ld+GJ7zZRxBN
+ yXLfCldeMcc8FE1Ek9uMJccIf83QDI8bPtqit9TQXevSp0m5txkhnaAdV
+ hGub7LHJQ5z9hxmhDboKixuNYFF+RDjQdzIfc7GzGX1nNOCx6ieXpuKXd
+ RgTKY2exCBzuoJPCY3Ahj9HwMHGXOcqSLMuT73lIah0waPAskyyt5VZ+p
+ y9RcRsfI0pDxHuPnjivHi9jcLqZnpZYnS7C5GXRPRWnLVWNhPpCjnKozr A==;
+X-CSE-ConnectionGUID: 2xaY2tLgTb+1NRyhP2zWgQ==
+X-CSE-MsgGUID: hlE9AORsT2+LI14g69IidQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="55649137"
+X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; d="scan'208";a="55649137"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 04:56:12 -0700
+X-CSE-ConnectionGUID: hiEJXkJ1SfmQCwqmJ/2p0Q==
+X-CSE-MsgGUID: f6T5ksUfS46xeY4ToK4dSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; d="scan'208";a="129427137"
+Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.210])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 04:56:08 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org
+Cc: Dave Airlie <airlied@gmail.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Zhenyu Wang <zhenyuw.linux@gmail.com>, Zhi Wang
+ <zhi.wang.linux@gmail.com>
+Subject: Re: [PATCH] drm/i915/gvt: update MAINTAINERS
+In-Reply-To: <20250227093805.2217658-1-jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250227093805.2217658-1-jani.nikula@intel.com>
+Date: Wed, 26 Mar 2025 13:56:05 +0200
+Message-ID: <87msd86m5m.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] drm/virtio: Fix missed dmabuf unpinning in error
- path of prepare_fb()
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kernel@collabora.com" <kernel@collabora.com>
-References: <20250326014902.379339-1-dmitry.osipenko@collabora.com>
- <20250326014902.379339-2-dmitry.osipenko@collabora.com>
- <IA0PR11MB7185345D3DFA8C7900059144F8A62@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <IA0PR11MB7185345D3DFA8C7900059144F8A62@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,32 +73,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/26/25 08:14, Kasireddy, Vivek wrote:
-...
->>  static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
->>  				       struct drm_plane_state *new_state)
->>  {
->> @@ -376,23 +386,16 @@ static int virtio_gpu_plane_prepare_fb(struct
->> drm_plane *plane,
->>  		vgplane_st->fence = virtio_gpu_fence_alloc(vgdev,
->>  						     vgdev->fence_drv.context,
->>  						     0);
->> -		if (!vgplane_st->fence)
->> +		if (!vgplane_st->fence) {
->> +			if (obj->import_attach)
->> +				virtio_gpu_cleanup_imported_obj(obj);
-> I think checking for fence allocation failure before import would be much better.
-> In other words, cleaning up the fence in case of any import errors would be
-> much simpler IMO.
-> 
-> Regardless,
-> Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com> 
+On Thu, 27 Feb 2025, Jani Nikula <jani.nikula@intel.com> wrote:
+> Update GVT-g MAINTAINERS entry to reflect the current status of
+> maintenance and repositories.
+>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: Zhenyu Wang <zhenyuw.linux@gmail.com>
+> Cc: Zhi Wang <zhi.wang.linux@gmail.com>
 
-Another question, why do we need this fencing for imported dmabuf?
-Fencing isn't done host/guest blobs in this code, while dmabuf is
-essentially a guest blob. Could you please clarify why this fence is
-needed? Maybe we shouldn't allocate fence in the first place for the dmabuf.
+Zhenyu, Zhi, ping? Any input from you?
+
+BR,
+Jani.
+
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  MAINTAINERS | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5b69b93f63c6..98374661f5a8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11649,13 +11649,10 @@ F:	drivers/gpio/gpio-tangier.c
+>  F:	drivers/gpio/gpio-tangier.h
+>  
+>  INTEL GVT-g DRIVERS (Intel GPU Virtualization)
+> -M:	Zhenyu Wang <zhenyuw.linux@gmail.com>
+> -M:	Zhi Wang <zhi.wang.linux@gmail.com>
+> -L:	intel-gvt-dev@lists.freedesktop.org
+> -L:	intel-gfx@lists.freedesktop.org
+> -S:	Supported
+> +R:	Zhenyu Wang <zhenyuw.linux@gmail.com>
+> +R:	Zhi Wang <zhi.wang.linux@gmail.com>
+> +S:	Odd Fixes
+>  W:	https://github.com/intel/gvt-linux/wiki
+> -T:	git https://github.com/intel/gvt-linux.git
+>  F:	drivers/gpu/drm/i915/gvt/
+>  
+>  INTEL HID EVENT DRIVER
 
 -- 
-Best regards,
-Dmitry
+Jani Nikula, Intel
