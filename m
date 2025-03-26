@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6249A71DA2
+	by mail.lfdr.de (Postfix) with ESMTPS id 73AD5A71DA1
 	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 18:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD60E10E765;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB74110E760;
 	Wed, 26 Mar 2025 17:48:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="PKe0GirU";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="at3aiMjv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9268210E754
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 17:48:06 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 474944441C;
- Wed, 26 Mar 2025 17:48:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D24F210E760
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 17:48:08 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7DADC4443B;
+ Wed, 26 Mar 2025 17:48:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1743011285;
+ t=1743011287;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FzCa2zrAbheOTbL7Z1DIQWacnklnFI0a1ryUn/mz7c0=;
- b=PKe0GirU+LLt8flRiKK/pYhdiys9qYPxfgXHfHKxRrtN/m8vLr9kywoXjUzWb116szMYow
- Mjm+IfBSzbxJMxpjJjrhzXfyPTROGis3M5LJXwmDduF3qTi2beEZ0nwEHdJuhbUqGyMkNW
- vUZ7Bc+M1qgVDpJMT04F2LNO4xvB8I724Ymx7ytdPiiNwTQ/MdfXOohbDFrh+NywrZNYkf
- kVCpkPXTNj9tW8x+IxOmVdLBBYTsRqTs4Xjwc9SGRPsmLWVPmYjj1EbzbJECcg87A1l8ID
- UwMf9335RKmUXKt/Hkf6HhJiR0gAj2zqYyoxreeskxSGWreuPyxSDfp5c/sspg==
+ bh=0JsqmFLguGdHYdQCPsm7D7GBkBg/nRWv7oJAHkmWlfA=;
+ b=at3aiMjvQc1mWBn1ozeshRGPzhub/ADj2TZLGwmcSnrctlqOmCMcGgos20+6VwvG/+83jj
+ LoRpDwj2eiOvJt29UYtkrh94zDxo+g5/fGL9pDhG/xucno7uzDo9KoK8WN+0oP+o9lgoPH
+ wU4/61agaod3UAlld6r8sHfrH0kwOExMJb9m2V3yFfm2V8a/JZupXT54C8xVJwS7kHHzkJ
+ o278CvDDJEuW/R91zrMRI9vkknM8vzB46660GZWGYU0OfpOP/0u3jsqB1hsiTC2yqkjHBS
+ Ifwso/XysQcyJeXH5EqJLoKrGnAaCcSK2W2dLewvw1NUiHoNgZP7usBRelUBBg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 26 Mar 2025 18:47:38 +0100
-Subject: [PATCH v9 4/5] drm/bridge: ti-sn65dsi83: use dynamic lifetime
+Date: Wed, 26 Mar 2025 18:47:39 +0100
+Subject: [PATCH v9 5/5] drm/bridge: samsung-dsim: use dynamic lifetime
  management
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250326-drm-bridge-refcount-v9-4-5e0661fe1f84@bootlin.com>
+Message-Id: <20250326-drm-bridge-refcount-v9-5-5e0661fe1f84@bootlin.com>
 References: <20250326-drm-bridge-refcount-v9-0-5e0661fe1f84@bootlin.com>
 In-Reply-To: <20250326-drm-bridge-refcount-v9-0-5e0661fe1f84@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -64,7 +64,7 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieeiudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedupdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrghrvgigseguvghngidruggvpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtt
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieeiudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedupdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrghrvgigseguvghngidruggvpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtt
  hhopefjuhhirdfruhesghgvhhgvrghlthhhtggrrhgvrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,41 +92,37 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 Changes in v9: none
 Changes in v8: none
-Changes in v7: none
 
-Changed in v6:
- - Update to use devm_drm_bridge_alloc(), remove .destroy
-
-This patch was added in v5.
+This patch was added in v7.
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 7 +++----
+ drivers/gpu/drm/bridge/samsung-dsim.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 6e0ba427c2582c33f7b95634a18dcda9ac28267f..4efb62376e196d8bb5e9f58867e5c0e1624391db 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -947,9 +947,9 @@ static int sn65dsi83_probe(struct i2c_client *client)
- 	struct sn65dsi83 *ctx;
- 	int ret;
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 55ac6bd5da08c037aa7974df679d51e72bc54faf..0014c497e3fe7d8349a119dbdda30d65d816cccf 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1936,9 +1936,9 @@ int samsung_dsim_probe(struct platform_device *pdev)
+ 	struct samsung_dsim *dsi;
+ 	int ret, i;
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+-	if (!dsi)
 -		return -ENOMEM;
-+	ctx = devm_drm_bridge_alloc(dev, struct sn65dsi83, bridge, &sn65dsi83_funcs);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
++	dsi = devm_drm_bridge_alloc(dev, struct samsung_dsim, bridge, &samsung_dsim_bridge_funcs);
++	if (IS_ERR(dsi))
++		return PTR_ERR(dsi);
  
- 	ctx->dev = dev;
- 	INIT_WORK(&ctx->reset_work, sn65dsi83_reset_work);
-@@ -989,7 +989,6 @@ static int sn65dsi83_probe(struct i2c_client *client)
- 	dev_set_drvdata(dev, ctx);
- 	i2c_set_clientdata(client, ctx);
+ 	init_completion(&dsi->completed);
+ 	spin_lock_init(&dsi->transfer_lock);
+@@ -2008,7 +2008,6 @@ int samsung_dsim_probe(struct platform_device *pdev)
  
--	ctx->bridge.funcs = &sn65dsi83_funcs;
- 	ctx->bridge.of_node = dev->of_node;
- 	ctx->bridge.pre_enable_prev_first = true;
- 	ctx->bridge.type = DRM_MODE_CONNECTOR_LVDS;
+ 	pm_runtime_enable(dev);
+ 
+-	dsi->bridge.funcs = &samsung_dsim_bridge_funcs;
+ 	dsi->bridge.of_node = dev->of_node;
+ 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+ 
 
 -- 
 2.49.0
