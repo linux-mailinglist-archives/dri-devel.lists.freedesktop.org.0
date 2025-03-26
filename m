@@ -2,87 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725CEA71C94
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 226DAA71CDE
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 18:17:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0F5110E759;
-	Wed, 26 Mar 2025 16:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E0410E057;
+	Wed, 26 Mar 2025 17:17:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Y7f56Ycc";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WkaRsmdO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F2B210E759
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 16:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743008355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Rjq3Hj5xFP6rZJxR2TTuDzPzPwL1lh4vdjniXd5m5RU=;
- b=Y7f56Ycc08Fe9/5A4Q7ezIyougvo1AZzrRktF9n9raDsNeD9yRxbijz/uzZPDTh9PrWfsv
- JHEaiemywwM8roK2idteDZqwawg3OZ6lKmsQUfDHAvcCY22KzjCZ+PLYsBkPx8doitf1lQ
- zJzbSlvweUcsP596gBJXnGX12lgO234=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-658-pj9G-1_nMgW-rw4gk-zsvw-1; Wed, 26 Mar 2025 12:59:14 -0400
-X-MC-Unique: pj9G-1_nMgW-rw4gk-zsvw-1
-X-Mimecast-MFC-AGG-ID: pj9G-1_nMgW-rw4gk-zsvw_1743008354
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-6fda1dcbdf1so796287b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:59:14 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2AC10E057
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 17:17:08 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52QA1ill025349
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 17:17:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=57VyLFaymf8F9QU36mtSjFzj
+ QMz+UO59TFULkEduc7g=; b=WkaRsmdOaVzXTCXblrwhQ7etqbA9GJ8a7O3AI+A9
+ N0aYAr1dPUV3QNo7t/pkbcW+NO+iEvGg/FhM9wvxzlzKbVGoaLdaOWu7Lus9tdWK
+ eeWnWdgTGREkjZkoH5mPlJs1uDrUOyPamsEQE1mLHUM0OzXHwjCbcktrPOpLn0KI
+ FSSHkY/5RPHbY9o1KMFMG19zZmEHRmsbOXHQbdQ0KJoxLe9vNpN/+/7n7qRP9ra+
+ CfXNNIR7+oMYjE8KbVScA1tOl8++kb1GHuf//T2T3RnP/3cSkNmNum80TBXHlhqa
+ FjGMwnYhOGsU9+vVp1znwKEYZ0IKzEzlto7Kl3IB4VCVRw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45mffch7u0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 17:17:07 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7c3c8f8ab79so15608985a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 10:17:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743008353; x=1743613153;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Rjq3Hj5xFP6rZJxR2TTuDzPzPwL1lh4vdjniXd5m5RU=;
- b=kRSCTw5Ws7gVCTGnG3oLm834yjjZ+dJ4tUxAEjyK7//v4X+kn/fMkKXdpBHVnZsB30
- vh49H+QR8jxxwFZjyE+t7TRomEKENZWJQlQ4pltyCjzSrWYKEzZTn7nIY4XLhSZfUplp
- OS0Ip/aRmPKWJQOi5dSzxayOCodob2qWzj9jx3/V/S0jZ5KPMtImB3T40296AxcYomAr
- FiPPsHUqwA/GGWe7dRvlaHPIp4hXt8aIAzSsodIDTddD11uZOyaA1v09Pm5RvUs1GUSX
- wOa3RDolw85oAzNBq7XhdRso7LnsQnKnHvcvl4Mw4cYI8qH/5xtmQCCjHE9n3/JdqbDi
- IJzQ==
+ d=1e100.net; s=20230601; t=1743009427; x=1743614227;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=57VyLFaymf8F9QU36mtSjFzjQMz+UO59TFULkEduc7g=;
+ b=uKEIgr/PIr89ocShNgb5g7+EtgWTW93BH3Ibtni/Byunf/I5Q20Ruh1Jlm2tecyK+Z
+ Bnnbc/9qRNDk9909MREqVY9jrjvLEP7YOJwI+RONeRdKlUTZ3qos7907kWJiICyPpGrl
+ dMw0tr67jw60lZkkpMX86Q5xepfAxHy3Z0+4XF8NQtne3kdcWUxm6T5C3kWMck7P0WoK
+ WHVExcdg+XwOAiinW5MBz/Z3Dq398S9Q0XiRuXlgfPnYlkXuqI2f3D7xGwnBejpxbodD
+ zrDEfVqY5IsIOl+3GjpNDSfy3W0bUWMQbmRiooosDfMtoM6AYUuX/B0fGnnCt7Gpq2oX
+ P9Og==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXOJq/JV0peVBWgZFIe4pjPmHF4Xn+izrFN0uFmr9jmUSXe9K8FxFYA8JgxpgBBTkQTw7TpsXY+qqw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIAVzFzf5iyeOPkIyNBakJRTFashPDrASCKEJcTTc0HecN9C2r
- rIp3Frz07AqFJ0vtivwBsgJaycpR2VxADSjGE6D0VV4my3DD+16EUGgXJaN2pbtbTeg/CzpQkNo
- yfvZ4cYrmUtL3LJwCs2Nvq6fZTGkjbfdN1yiPkZBbBh/0TSkAvT1pdykmQ/LBS7UdNYHMzwJYPy
- k+nzvKwLVhv2ddJMupCm52oBOb2kizmfM4NlcZpkr+
-X-Gm-Gg: ASbGncs22jrimOB7lM1Xw8sf/Beuzp92niul1xq5wyLIVBJqSlIeMEEsssx38uxKz+8
- z1sn/E6EKCrZD0B+ND94V7KceG3igmkC01OMx8CCrV1uCpx1Dyd10x0xQcTUt2EMGjGfu4J0=
-X-Received: by 2002:a05:690c:6f89:b0:6f7:56f7:239a with SMTP id
- 00721157ae682-70224ef8d01mr3527407b3.5.1743008353555; 
- Wed, 26 Mar 2025 09:59:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGNhD/VnPuq2cwb513UQKU5kZaK7hnPtV7L199yzf7UrIkBMXew7fdhv6yxmsNW85m9Jnnw+W0intfImlVxg+M=
-X-Received: by 2002:a05:690c:6f89:b0:6f7:56f7:239a with SMTP id
- 00721157ae682-70224ef8d01mr3527067b3.5.1743008353151; Wed, 26 Mar 2025
- 09:59:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250325-b4-panel-refcounting-v1-0-4e2bf5d19c5d@redhat.com>
- <20250325-b4-panel-refcounting-v1-4-4e2bf5d19c5d@redhat.com>
- <20250326-deft-vegan-stoat-ff14ff@houat>
-In-Reply-To: <20250326-deft-vegan-stoat-ff14ff@houat>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 26 Mar 2025 12:59:02 -0400
-X-Gm-Features: AQ5f1JqpoRPe7w04zh2RRwaIAt9nW8dgoI7pNGjvtEUUnwu5T8O2URUdLhbAVIc
-Message-ID: <CAN9Xe3SWMz3M7ENbxJhh+_Z-qkbwRr3fP6OCLdfQowszN_V=HQ@mail.gmail.com>
-Subject: Re: [PATCH 4/5] drm/panel: deprecate old-style panel allocation
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ AJvYcCXD6Dip7eSNqBEMXbkzT0fZJemtgWvQrj3qDHC5CQWUwSwjU2uEMFPNUCdA0r831SMaHmWrj3kMScE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlJcWfC0Jsfsod3mAS6uAsL3IPiaPb3XGj+wovtYTEQo5GBoE7
+ zC0gOhP/EctMCQw7jHzv5p/HID2uf+TLfGhSi1jSy/xCtH8vnIeqEJnrqaFxjKn5Yqx7dbicVdh
+ PlZRu4RYBYgbA0jAWQdG4sw54oqicKEXljsVAmNwQg4vRoZIubAx7oUnV6GQImFC3+5o=
+X-Gm-Gg: ASbGncuUdFsMHLfr+Rp8yho15M657+cG4+GueYbZs7u8XyshxVuc5dPSoW8UNEeoj8l
+ Cx3Z0LirxB9JuPF/8PVDktTGBsWp3pAeIJO1LktZ86KxyDAdoAYS2VTvlj6q1CXP75Zbjta7GDC
+ 53VRM+FHaVIK/rtQC9JruWcMla2YqArAVEeE5ZoAGM7Y9SNdHr0LWfefQuDI5mVExkqj5APp9ls
+ 090eeneJCA6RJvPWqYqrHNAqruF85BNrCHpK5To+CqzaZkGrN3xUqH+16McnEFclmo76mUUQUZy
+ WnA8/7CT/igqEJz6HBKqvB9MBfq80gZLg2g+EbffWLouUbUHEGLFYNzpjPc/4YWOYUK3p3/WxDi
+ UwRk=
+X-Received: by 2002:a05:620a:2483:b0:7c5:df79:f2f with SMTP id
+ af79cd13be357-7c5ed9f2cd8mr77469185a.18.1743009426613; 
+ Wed, 26 Mar 2025 10:17:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHZVayB4qjwN0UyX1tnhJiLkSyjaqLbzhmrB0L0YbneGkZGXSc7GvgkWAaXLuLzkuqSASIp2Q==
+X-Received: by 2002:a05:620a:2483:b0:7c5:df79:f2f with SMTP id
+ af79cd13be357-7c5ed9f2cd8mr77462885a.18.1743009426112; 
+ Wed, 26 Mar 2025 10:17:06 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30d7d8f4280sm21672611fa.73.2025.03.26.10.17.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Mar 2025 10:17:05 -0700 (PDT)
+Date: Wed, 26 Mar 2025 19:17:03 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Christopher Obbard <christopher.obbard@linaro.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: WZsSI99iGy8MTzmbjDjJQ2A5Qbs7lxLmIzYMQe87bb4_1743008354
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000bb0300063141c18b"
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+ Rui Miguel Silva <rui.silva@linaro.org>,
+ Abel Vesa <abel.vesa@linaro.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] drm/dp: fallback to maximum when PWM bit count is
+ zero
+Message-ID: <jbowz36pz7es7koc3abi3maw6ytz4auuobhkmkqelvwavilqkr@gxgsdhao3skr>
+References: <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-0-e9bc7c9d30cc@linaro.org>
+ <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-4-e9bc7c9d30cc@linaro.org>
+ <2cfdf7f3-56a6-495e-83cf-1921a2e0ef8d@oss.qualcomm.com>
+ <CACr-zFBFpqgHVRiH37ooeVJ4Jk1UA4AhP5J5L5yV8_CHBTG07g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACr-zFBFpqgHVRiH37ooeVJ4Jk1UA4AhP5J5L5yV8_CHBTG07g@mail.gmail.com>
+X-Authority-Analysis: v=2.4 cv=CdgI5Krl c=1 sm=1 tr=0 ts=67e43693 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=cpwuP4bK5o1WZ1zuufgA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: 8ryGgfS69xteaAVgeVvUB2qcwJklMspA
+X-Proofpoint-ORIG-GUID: 8ryGgfS69xteaAVgeVvUB2qcwJklMspA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-26_08,2025-03-26_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 lowpriorityscore=0 suspectscore=0 phishscore=0
+ clxscore=1015 bulkscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503260106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,107 +131,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000bb0300063141c18b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Mar 26, 2025 at 11:32=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
-
-> On Tue, Mar 25, 2025 at 01:24:11PM -0400, Anusha Srivatsa wrote:
-> > Start moving to the new refcounted allocations using
-> > the new API devm_drm_panel_alloc(). Deprecate any other
-> > allocation.
+On Wed, Mar 26, 2025 at 03:08:30PM +0000, Christopher Obbard wrote:
+> Hi Dmitry,
+> 
+> On Tue, 25 Mar 2025 at 22:53, Dmitry Baryshkov
+> <dmitry.baryshkov@oss.qualcomm.com> wrote:
 > >
-> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> > ---
-> >  drivers/gpu/drm/drm_panel.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > On 25/03/2025 21:21, Christopher Obbard wrote:
+> > > Some eDP devices report DP_EDP_PWMGEN_BIT_COUNT as 0, but still provide
+> > > valid non-zero MIN and MAX values. This patch reworks the logic to
+> > > fallback to the max value in such cases, ensuring correct backlight PWM
+> > > configuration even when the bit count value is not explicitly set.
 > >
-> > diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> > index
-> 11a0415bc61f59190ef5eb378d1583c493265e6a..5793011f4938a2d4fb9d84a700817bd=
-a317af305
-> 100644
-> > --- a/drivers/gpu/drm/drm_panel.c
-> > +++ b/drivers/gpu/drm/drm_panel.c
-> > @@ -74,8 +74,10 @@ EXPORT_SYMBOL(drm_panel_init);
-> >   * drm_panel_add - add a panel to the global registry
-> >   * @panel: panel to add
-> >   *
-> > - * Add a panel to the global registry so that it can be looked up by
-> display
-> > - * drivers.
-> > + * Add a panel to the global registry so that it can be looked
-> > + * up by display drivers. The panel to be added must have been
-> > + * allocated by devm_drm_panel_alloc(). Old-style allocation by
-> > + * kzalloc(), devm_kzalloc() and similar is deprecated.
->
-> It's not that it's deprecated, it's that it's unsafe. Since you already
-> said that the allocation must be done through devm_drm_panel_alloc(),
-> there's not much use to mention the old style stuff, I'd just drop the
-> last sentence.
->
->
-Alrighty.
+> > I don't think this matches the eDP standard. It tells to use MIN if
+> > BIT_COUNT is less than MIN, if I understand it correctly.
+> 
+> Thanks for your comment; that's a good point.
+> 
+> I need to re-read this section of the spec; but at least on this
+> hardware I printed the values of the registers and it seems like
+> MIN and MAX are the same, so I could switch the patch around to use
+> MIN in the next version.
 
-Thanks,
-Anusha
+SGTM.
 
-> Maxime
->
-
---000000000000bb0300063141c18b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 26,=
- 2025 at 11:32=E2=80=AFAM Maxime Ripard &lt;<a href=3D"mailto:mripard@kerne=
-l.org">mripard@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On Tue, Mar 25, 2025 at 01:24:11PM -0400, Anusha S=
-rivatsa wrote:<br>
-&gt; Start moving to the new refcounted allocations using<br>
-&gt; the new API devm_drm_panel_alloc(). Deprecate any other<br>
-&gt; allocation.<br>
-&gt; <br>
-&gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.c=
-om" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/drm_panel.c | 6 ++++--<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c=
-<br>
-&gt; index 11a0415bc61f59190ef5eb378d1583c493265e6a..5793011f4938a2d4fb9d84=
-a700817bda317af305 100644<br>
-&gt; --- a/drivers/gpu/drm/drm_panel.c<br>
-&gt; +++ b/drivers/gpu/drm/drm_panel.c<br>
-&gt; @@ -74,8 +74,10 @@ EXPORT_SYMBOL(drm_panel_init);<br>
-&gt;=C2=A0 =C2=A0* drm_panel_add - add a panel to the global registry<br>
-&gt;=C2=A0 =C2=A0* @panel: panel to add<br>
-&gt;=C2=A0 =C2=A0*<br>
-&gt; - * Add a panel to the global registry so that it can be looked up by =
-display<br>
-&gt; - * drivers.<br>
-&gt; + * Add a panel to the global registry so that it can be looked<br>
-&gt; + * up by display drivers. The panel to be added must have been<br>
-&gt; + * allocated by devm_drm_panel_alloc(). Old-style allocation by<br>
-&gt; + * kzalloc(), devm_kzalloc() and similar is deprecated.<br>
-<br>
-It&#39;s not that it&#39;s deprecated, it&#39;s that it&#39;s unsafe. Since=
- you already<br>
-said that the allocation must be done through devm_drm_panel_alloc(),<br>
-there&#39;s not much use to mention the old style stuff, I&#39;d just drop =
-the<br>
-last sentence.<br>
-<br></blockquote><div><br></div><div>Alrighty.</div><div><br></div><div>Tha=
-nks,</div><div>Anusha <br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-Maxime<br>
-</blockquote></div></div>
-
---000000000000bb0300063141c18b--
-
+-- 
+With best wishes
+Dmitry
