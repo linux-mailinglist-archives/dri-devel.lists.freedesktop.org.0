@@ -2,89 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC3CA71C81
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:57:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065D7A71C82
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:57:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA83310E746;
-	Wed, 26 Mar 2025 16:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE44B10E750;
+	Wed, 26 Mar 2025 16:57:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MyGKr7+y";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FWols32t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4328810E746
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 16:57:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743008265;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YSw6iWm3RNiws4CIIERbiN79fDw46bRwyJPDIMgSAUU=;
- b=MyGKr7+yWhq6yT/lPUOGKK6mWN63C1/7sBvZJlcqm2A8NPvx3EX8jR8M/SETn1ZmkaFtbv
- 5CQTw+K3E7M3wTogiyqJMUeyu5vY75SSBL7UumAOdaZEW9lYvZGgnDA6toMmD+ZMULtdsi
- dRdXxfGxgVkofUvt/st/IirlidVGrfw=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-175-Vm7T6fD-OLeZi4Bk0SfQfA-1; Wed, 26 Mar 2025 12:57:43 -0400
-X-MC-Unique: Vm7T6fD-OLeZi4Bk0SfQfA-1
-X-Mimecast-MFC-AGG-ID: Vm7T6fD-OLeZi4Bk0SfQfA_1743008263
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-6f2a2ab50f6so893977b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:57:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743008263; x=1743613063;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YSw6iWm3RNiws4CIIERbiN79fDw46bRwyJPDIMgSAUU=;
- b=SW5AgNPgw59BCIM73fGAqXUrk/PcFOoPChmDMjBRlUkr+s7bp4YUZhfbm/dTjYlW0B
- 7oANHMsDRXDaMb0r0Cxtv5fTZDrmWaFpL4vUQShyorVCDdUR6abclhkUkSgwJ2BsABk0
- 1T1AHIWO4i5t3UDAzeFv/Bxs4JExq0VhCUYZ0efNFveyQOaBAYM+Ob9tC5UKvoBx/Ku3
- 4gk8xh+230/tQpB6u6ZNljoze84BoLvpCrNcii0/3PVFePxVbgnLUa2zghs2dujEvsdb
- rnH4fkbMRs5PsLG1/aQb9QJdqXgZhkGsSoawA0HDgt/kfU66GouCwT1Virqs19FHNNcE
- dSOg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLkRj8ti1lLyiuFXzv4xCwlwkRGWF50dPSlAO28poZJDXARgaxpbscSMYf8Cv/XjCc5yzSiKbEclw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhbCa0jcUED6q5Zcmpknuaxhll7tf10l4Oz3rYxkk/ZhA//apU
- s9djv7d3mPE/YM77K7LQQchnkEk3wwhfUtHgUnuknGGx1CK9s6acwkYsjI3gbKi3uRhYGkZq5sK
- P/xr0iOPHRpirsO/ZH2iTMDPE9HfJCElg9R7XGXclobKNtpuwmdtxc+QjvFzR9ymoj5Od2j8XiN
- BCqQXph9Ca1sKBoCFNTXIIi77R7gi5DrDcscROuoA0
-X-Gm-Gg: ASbGncvtJmFXhNqq5ylXsBe90sUVZyFt0nNiQ4E1TQXlpdepYRFbpcZaTXt809M2I1Q
- yn93QYRnWQ2YvaekidD1vmLbi0X46gsXRULj15/RvqercTKwdnt9rQSsQxA5523LUz11z1+Y=
-X-Received: by 2002:a05:690c:6304:b0:6f9:97f7:a5c4 with SMTP id
- 00721157ae682-70225092a51mr2433337b3.29.1743008262615; 
- Wed, 26 Mar 2025 09:57:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFa+MyV/BVNyYV9ZrHzkEQDHI3PKB8D6I/hyN7i5XVt5YyDEYK3vWHHQS/kkOpIWTgEVqri/Su4NhA7rBiAjQU=
-X-Received: by 2002:a05:690c:6304:b0:6f9:97f7:a5c4 with SMTP id
- 00721157ae682-70225092a51mr2432877b3.29.1743008262199; Wed, 26 Mar 2025
- 09:57:42 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99FA310E74D;
+ Wed, 26 Mar 2025 16:57:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743008272; x=1774544272;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=FpqIjZjTDf7sySDBXkgTepLaolfOuR0M0bpvfOmDFus=;
+ b=FWols32tvM/EeZGhfoPbqz95Z8eMtgXeLSLcd9eHEANjF/6OnVIW2nTe
+ D3uUCBhpMGPUeP0Ckn2rII28+1Vy8kVj4TbazIv7gS8v4zQJxp8Starxq
+ 06HkzMY25RlBjHySWh+b0jT7tUxl94OaWXqoC6eWDuCOPmrcziwJfpw8G
+ 7Xgm7ymaet7PnL1Pld5iJBeM8VaEA062xcG+P1ndCCO+Ih3cPUlZC2ezr
+ DCHC9l7R2TFIK7byGi+e/hw/gsek7uf9qGVZxBDcU8b24956QJlhSZpmY
+ V9wWyHHiURhjKwJDXtIpmNZHKR/+DoWzB2vGU7xD9Nrog4h6DdifebSyT g==;
+X-CSE-ConnectionGUID: c1U694aYTKa5YO5YxutG5w==
+X-CSE-MsgGUID: Oy3lvhdtSLa8pzWmt5RS/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="55308953"
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="55308953"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 09:57:52 -0700
+X-CSE-ConnectionGUID: dx5xhyxESJuYhSnDv1MAZg==
+X-CSE-MsgGUID: cTXtlse7QHua2hSBncxRnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="155739752"
+Received: from dut4419lnl.fm.intel.com ([10.105.10.235])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 09:57:51 -0700
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
+ joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
+ jianxun.zhang@intel.com, shuicheng.lin@intel.com,
+ dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
+ michal.mrozek@intel.com, raag.jadav@intel.com, john.c.harrison@intel.com
+Subject: [PATCH v14 0/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Date: Wed, 26 Mar 2025 16:57:44 +0000
+Message-ID: <20250326165751.72881-1-jonathan.cavitt@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250325-b4-panel-refcounting-v1-0-4e2bf5d19c5d@redhat.com>
- <20250325-b4-panel-refcounting-v1-1-4e2bf5d19c5d@redhat.com>
- <20250326102259.3bdbc22d@booty>
- <20250326-camouflaged-satisfied-quokka-8d5afc@houat>
-In-Reply-To: <20250326-camouflaged-satisfied-quokka-8d5afc@houat>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 26 Mar 2025 12:57:31 -0400
-X-Gm-Features: AQ5f1Jr4dLslmanORv0OSWK3j1aYjX2MKpqHWXZHt1w4KI7LYtFWTyx31QgqT7M
-Message-ID: <CAN9Xe3S-=YUWrvcxFTxOt_WMPDx7LManB-FYCvYPty5L5x9O6Q@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm/panel: Add new helpers for refcounted panel
- allocatons
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ONsbNGuHgM3pyuIDBYDhnAc-6emX0ku9Azwul3XCLrA_1743008263
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000004f380e063141bc8b"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,141 +69,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000004f380e063141bc8b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add additional information to each VM so they can report up to the first
+50 seen faults.  Only pagefaults are saved this way currently, though in
+the future, all faults should be tracked by the VM for future reporting.
 
-On Wed, Mar 26, 2025 at 11:26=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
+Additionally, of the pagefaults reported, only failed pagefaults are
+saved this way, as successful pagefaults should recover silently and not
+need to be reported to userspace.
 
-> On Wed, Mar 26, 2025 at 10:22:59AM +0100, Luca Ceresoli wrote:
-> > Hello Anusha,
-> >
-> > On Tue, 25 Mar 2025 13:24:08 -0400
-> > Anusha Srivatsa <asrivats@redhat.com> wrote:
-> >
-> > > Introduce reference counted allocations for panels to avoid
-> > > use-after-free. The patch adds the macro devm_drm_bridge_alloc()
-> > > to allocate a new refcounted panel. Followed the documentation for
-> > > drmm_encoder_alloc() and devm_drm_dev_alloc and other similar
-> > > implementations for this purpose.
-> > >
-> > > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> >
-> > [...]
-> >
-> > > +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t
-> offset,
-> > > +                        const struct drm_panel_funcs *funcs,
-> > > +                        int connector_type);
-> > > +
-> > > +/**
-> > > + * devm_drm_panel_alloc - Allocate and initialize an refcounted pane=
-l
-> >                                                      ^^
-> > "a refcounted panel"
-> >
-> > > + * @dev: struct device of the panel device
-> > > + * @type: the type of the struct which contains struct &drm_panel
-> > > + * @member: the name of the &drm_panel within @type
-> > > + * @funcs: callbacks for this panel
-> > > + * @connector_type: connector type of the driver
-> >
-> > I'd say it's the connector type in the hardware, rather than of the
-> > driver (the driver follows what is in the hardware. Maybe you can just
-> > copy the description present in the drm_panel_init kdoc:
-> >
-> >  * @connector_type: the connector type (DRM_MODE_CONNECTOR_*)
-> corresponding to
-> >  *      the panel interface (must NOT be DRM_MODE_CONNECTOR_Unknown)
-> >
-> > Other than that it looks good!
->
-> Heh, Unknown is fine, but you're right for the rest. I'd use the
-> drm_panel_init doc for that field actually.
->
-> Will make this change in the next iteration,
-Thanks Luca and Maxime
+To allow userspace to access these faults, a new ioctl -
+xe_vm_get_property_ioct - was created.
 
-Anusha
+v2: (Matt Brost)
+- Break full ban list request into a separate property.
+- Reformat drm_xe_vm_get_property struct.
+- Remove need for drm_xe_faults helper struct.
+- Separate data pointer and scalar return value in ioctl.
+- Get address type on pagefault report and save it to the pagefault.
+- Correctly reject writes to read-only VMAs.
+- Miscellaneous formatting fixes.
 
-> Maxime
->
+v3: (Matt Brost)
+- Only allow querying of failed pagefaults
 
---0000000000004f380e063141bc8b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v4:
+- Remove unnecessary size parameter from helper function, as it
+  is a property of the arguments. (jcavitt)
+- Remove unnecessary copy_from_user (Jainxun)
+- Set address_precision to 1 (Jainxun)
+- Report max size instead of dynamic size for memory allocation
+  purposes.  Total memory usage is reported separately.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 26,=
- 2025 at 11:26=E2=80=AFAM Maxime Ripard &lt;<a href=3D"mailto:mripard@kerne=
-l.org">mripard@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On Wed, Mar 26, 2025 at 10:22:59AM +0100, Luca Cer=
-esoli wrote:<br>
-&gt; Hello Anusha,<br>
-&gt; <br>
-&gt; On Tue, 25 Mar 2025 13:24:08 -0400<br>
-&gt; Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.com" target=3D"_=
-blank">asrivats@redhat.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; Introduce reference counted allocations for panels to avoid<br>
-&gt; &gt; use-after-free. The patch adds the macro devm_drm_bridge_alloc()<=
-br>
-&gt; &gt; to allocate a new refcounted panel. Followed the documentation fo=
-r<br>
-&gt; &gt; drmm_encoder_alloc() and devm_drm_dev_alloc and other similar<br>
-&gt; &gt; implementations for this purpose.<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@red=
-hat.com" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; [...]<br>
-&gt; <br>
-&gt; &gt; +void *__devm_drm_panel_alloc(struct device *dev, size_t size, si=
-ze_t offset,<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 const struct drm_panel_funcs *funcs,<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 int connector_type);<br>
-&gt; &gt; +<br>
-&gt; &gt; +/**<br>
-&gt; &gt; + * devm_drm_panel_alloc - Allocate and initialize an refcounted =
-panel<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^^<br>
-&gt; &quot;a refcounted panel&quot;<br>
-&gt; <br>
-&gt; &gt; + * @dev: struct device of the panel device<br>
-&gt; &gt; + * @type: the type of the struct which contains struct &amp;drm_=
-panel<br>
-&gt; &gt; + * @member: the name of the &amp;drm_panel within @type<br>
-&gt; &gt; + * @funcs: callbacks for this panel<br>
-&gt; &gt; + * @connector_type: connector type of the driver<br>
-&gt; <br>
-&gt; I&#39;d say it&#39;s the connector type in the hardware, rather than o=
-f the<br>
-&gt; driver (the driver follows what is in the hardware. Maybe you can just=
-<br>
-&gt; copy the description present in the drm_panel_init kdoc:<br>
-&gt; <br>
-&gt;=C2=A0 * @connector_type: the connector type (DRM_MODE_CONNECTOR_*) cor=
-responding to<br>
-&gt;=C2=A0 *=C2=A0 =C2=A0 =C2=A0 the panel interface (must NOT be DRM_MODE_=
-CONNECTOR_Unknown)<br>
-&gt; <br>
-&gt; Other than that it looks good!<br>
-<br>
-Heh, Unknown is fine, but you&#39;re right for the rest. I&#39;d use the<br=
->
-drm_panel_init doc for that field actually.<br>
-<br></blockquote><div>Will make this change in the next iteration,</div><di=
-v>Thanks Luca and Maxime</div><div><br></div><div>Anusha <br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
-Maxime<br>
-</blockquote></div></div>
+v5:
+- Return int from xe_vm_get_property_size (Shuicheng)
+- Fix memory leak (Shuicheng)
+- Remove unnecessary size variable (jcavitt)
 
---0000000000004f380e063141bc8b--
+v6:
+- Free vm after use (Shuicheng)
+- Compress pf copy logic (Shuicheng)
+- Update fault_unsuccessful before storing (Shuicheng)
+- Fix old struct name in comments (Shuicheng)
+- Keep first 50 pagefaults instead of last 50 (Jianxun)
+- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+
+v7:
+- Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
+- Fix double-locking error (jcavitt)
+- Assert kmemdump is successful (Shuicheng)
+- Repair and move fill_faults break condition (Dan Carpenter)
+- Free vm after use (jcavitt)
+- Combine assertions (jcavitt)
+- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+- Remove return mask from fill_faults, as return is already -EFAULT or 0
+  (jcavitt)
+
+v8:
+- Revert back to using drm_xe_vm_get_property_ioctl
+- s/Migrate/Move (Michal)
+- s/xe_pagefault/xe_gt_pagefault (Michal)
+- Create new header file, xe_gt_pagefault_types.h (Michal)
+- Add and fix kernel docs (Michal)
+- Rename xe_vm.pfs to xe_vm.faults (jcavitt)
+- Store fault data and not pagefault in xe_vm faults list (jcavitt)
+- Store address, address type, and address precision per fault (jcavitt)
+- Store engine class and instance data per fault (Jianxun)
+- Properly handle kzalloc error (Michal W)
+- s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
+- Store fault level per fault (Micahl M)
+- Apply better copy_to_user logic (jcavitt)
+
+v9:
+- More kernel doc fixes (Michal W, Jianxun)
+- Better error handling (jcavitt)
+
+v10:
+- Convert enums to defines in regs folder (Michal W)
+- Move xe_guc_pagefault_desc to regs folder (Michal W)
+- Future-proof size logic for zero-size properties (jcavitt)
+- Replace address type extern with access type (Jianxun)
+- Add fault type to xe_drm_fault (Jianxun)
+
+v11:
+- Remove unnecessary switch case logic (Raag)
+- Compress size get, size validation, and property fill functions into a
+  single helper function (jcavitt)
+- Assert valid size (jcavitt)
+- Store pagefaults in non-fault-mode VMs as well (Jianxun)
+
+v12:
+- Remove unnecessary else condition
+- Correct backwards helper function size logic (jcavitt)
+- Fix kernel docs and comments (Michal W)
+
+v13:
+- Move xe and user engine class mapping arrays to header (John H)
+
+v14:
+- Fix double locking issue (Jianxun)
+- Use size_t instead of int (Raag)
+- Remove unnecessary includes (jcavitt)
+
+Signed-off-by: Jonathan Cavitt <joanthan.cavitt@intel.com>
+Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Zhang Jianxun <jianxun.zhang@intel.com>
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+Cc: Raag Jadav <raag.jadav@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+
+Jonathan Cavitt (6):
+  drm/xe/xe_hw_engine: Map xe and user engine class in header
+  drm/xe/xe_gt_pagefault: Disallow writes to read-only VMAs
+  drm/xe/xe_gt_pagefault: Move pagefault struct to header
+  drm/xe/uapi: Define drm_xe_vm_get_property
+  drm/xe/xe_vm: Add per VM fault info
+  drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+
+ drivers/gpu/drm/xe/regs/xe_pagefault_desc.h |  50 +++++++
+ drivers/gpu/drm/xe/xe_device.c              |   3 +
+ drivers/gpu/drm/xe/xe_gt_pagefault.c        |  72 +++++-----
+ drivers/gpu/drm/xe/xe_gt_pagefault_types.h  |  42 ++++++
+ drivers/gpu/drm/xe/xe_guc_fwif.h            |  28 ----
+ drivers/gpu/drm/xe/xe_hw_engine.c           |  24 ++--
+ drivers/gpu/drm/xe/xe_hw_engine_types.h     |   3 +
+ drivers/gpu/drm/xe/xe_query.c               |  18 +--
+ drivers/gpu/drm/xe/xe_vm.c                  | 152 ++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_vm.h                  |  11 ++
+ drivers/gpu/drm/xe/xe_vm_types.h            |  32 +++++
+ include/uapi/drm/xe_drm.h                   |  79 ++++++++++
+ 12 files changed, 428 insertions(+), 86 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/regs/xe_pagefault_desc.h
+ create mode 100644 drivers/gpu/drm/xe/xe_gt_pagefault_types.h
+
+-- 
+2.43.0
 
