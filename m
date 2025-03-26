@@ -2,85 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D0EA7154D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 12:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4D5A71618
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 12:54:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E28910E6D6;
-	Wed, 26 Mar 2025 11:06:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C70B510E0A1;
+	Wed, 26 Mar 2025 11:54:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CqosZYCx";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="C7b1qYoM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3888210E036
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 11:06:48 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-3032a9c7cfeso1408745a91.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 04:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742987207; x=1743592007; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cjIoZ515VXMsGD1yxEFHbH0kYM6gMh0q//2PA62fqjo=;
- b=CqosZYCx7LDRm1ovvohPNOqhg9dVXGwaCgtm4FVvl4tg0jbUg9pOenWWgls0cV3YWX
- +6GTghxRQnlO7HB2e1dsL6A4nEKIBw4K8G+2OnlAnhmAf3vEa5x+G89p0gVUJIdfledp
- 4w/cmhEQL2Ps4+tjSuNI4RtSbi44IwcylP9jn3g0WKYyu3Za8pMNwXq5qdRAF6FOW693
- k9C6t/UQLyxZo/4hv2MRh4Oumx9r5ffLPuC8xJa/TRMh1J4n+rM4mtbC6O8QWGBbhhvJ
- SMEgtmfPwp+73oRQve5Hyay6d7MXYpUxgglj5a5nJtkX8w9BXb/PsFACNboiNRHMnxVn
- bQ+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742987207; x=1743592007;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cjIoZ515VXMsGD1yxEFHbH0kYM6gMh0q//2PA62fqjo=;
- b=rL538gIt9JPq+xGzRxa255J7SSyRyKbODstVWlgexc5+qH481jOHAZkLf3axCcEVek
- qPVBHdATh0ZdQvHZ9W2hJ+9mcH74nw8BieD1xccayKjyql5WbFuenyGYnp/5RjRg0KgO
- DBSX6LZZ2mlS44qIJ9dfELHQE9O6b+RDnCKIKKtJiOa4RHKXoRoBqLgekHdi1D0Oyltu
- NTxi35TvI/HYWnN9oizC/DtQWcQfYj4KTJI1takPahdCL34kVrGtH1HUJr2rz4weToMh
- CRFrE5oEiqsbnLUJQ9rTPo4oft4tTK2j0A6Ay45bflk58YphgkV0RiDDwFvT6vzMasiq
- bn7Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKti6IZ9FwXPcJYTKgnN73l9vdAn9ABgdpAOqL1LPoRluIwOlDbA2G0OWVIn23UcFzOpzGtat9kI8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBohKhvIWbuP7E0azWK/hz7LjrMmknzKxlfpPIpqzKyNVr4g3U
- kY9CY/1bQ0qnNhPn7jvGJvUR/L+1cmkoxRN3IUwfHUgNqzIiHdmKfz1Pb4QCGMqFtoMWlyzHrZO
- LAURQT7veJZAp8ZJPaiVjlXHPrWM=
-X-Gm-Gg: ASbGnctMYNj6g1Ib5MrF4OsldnJ76B0LpPLehTrX77LRjW+KMPwot+pAzjGoWGwj3Y0
- yEQHX/ClguRwmejPtnL9afrqLdwyeUOrJzXB0lFhqvloWfsja1MvFXRpn9VGt/0oqhiE280fSgK
- Xe7rvd3mzMHlC578RRG73qT0MZcPtL9/7P3ozT
-X-Google-Smtp-Source: AGHT+IFhsN8zZEiUjn1NupRp0c1pqcGbeCXmIGQgB/y+ORwTbGJ4I/yJyHk/CZqlvC1iNtRZDp2oxdjkuKwBgXExacA=
-X-Received: by 2002:a17:90b:2248:b0:2ff:682b:b754 with SMTP id
- 98e67ed59e1d1-3036b3c5fffmr3814475a91.2.1742987206674; Wed, 26 Mar 2025
- 04:06:46 -0700 (PDT)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0ECD10E0A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 11:54:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1742990047; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KgSFBxidFYS8wsR76dLRI60ogFkOoLXRtvh+dsrfbsEF1qylvk8qEbnn4h9ND+xDc9CrJNqCt1kp53XtvNvA6aS9mxwLvS4/KmW4iYwYf9XJ/DEM2la5Ipm3pXO7MKHN6LMDqZrjVEsY73hIcQ9bW0pCLJNKHO/L1LKWiGgvvIU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1742990047;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=AceXwwk0dg/5R7XIw5oul2ygSeDFRaSA96BeLYqo5pM=; 
+ b=njQiBcAByIRup3mqBmEQIqLkpwZmnRDCVo4N30weZFdIi5Ieqh3zyQa2cWcUFro3Kj9K3hKyVk7tPDUuTSlxMqKgmu50/W3nkj96wH+In2+HSkvSX4lj5gf2DbCXN2Wtr8kDnFs3XAnRrYnm0dQAQm6hMeGXu8ycCg3xkfpcdBY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742990047; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=AceXwwk0dg/5R7XIw5oul2ygSeDFRaSA96BeLYqo5pM=;
+ b=C7b1qYoMraqTVE/p4+HACSFAM3pkzupchC001ua9JTLrVZEusvj/voC+NZOBFM/d
+ MLoq4faBDdt5kVtuw3IMG2inJmIcwjhnaIImCkNwLx1nRz/VzSpaQ4BFw2rIEvkifNA
+ 19a7ZDWxA2HROxOg797hvpzBC6htiCp3FOi+fpBU=
+Received: by mx.zohomail.com with SMTPS id 1742990044468581.4583932676458;
+ Wed, 26 Mar 2025 04:54:04 -0700 (PDT)
+Message-ID: <16a30d03-9c98-47a4-959f-8671f7cb7fab@collabora.com>
+Date: Wed, 26 Mar 2025 14:54:00 +0300
 MIME-Version: 1.0
-References: <20250325212823.669459-1-lyude@redhat.com>
- <20250325212823.669459-2-lyude@redhat.com>
- <87wmcc6ppo.fsf@intel.com>
-In-Reply-To: <87wmcc6ppo.fsf@intel.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 26 Mar 2025 12:06:34 +0100
-X-Gm-Features: AQ5f1JowHMpK8x-bPz-sN6uw4JBitWlFWSrrxZiXJIoCocSPB7rJGOOuT_Vb0Ng
-Message-ID: <CANiq72ktoo_yfapmGsjkbyd07DwC7wcTL_3h9pHvk6Rt01+w7g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/edid: Use unsigned int in drm_add_modes_noedid()
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- "open list:RUST:Keyword:b(?i:rust)b" <rust-for-linux@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/2] drm/virtio: Fix missed dmabuf unpinning in error
+ path of prepare_fb()
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kernel@collabora.com" <kernel@collabora.com>
+References: <20250326014902.379339-1-dmitry.osipenko@collabora.com>
+ <20250326014902.379339-2-dmitry.osipenko@collabora.com>
+ <IA0PR11MB7185345D3DFA8C7900059144F8A62@IA0PR11MB7185.namprd11.prod.outlook.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <IA0PR11MB7185345D3DFA8C7900059144F8A62@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,26 +76,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 11:39=E2=80=AFAM Jani Nikula
-<jani.nikula@linux.intel.com> wrote:
->
-> That is largely the point, though. You know something fishy is going on
-> when you have a negative resolution. Nobody blinks an eye when you ask
-> for 4294963K telly, but it's still just as bonkers as that negative 4K.
->
-> I think the change at hand is fine, but please let's not pretend using
-> unsigned somehow protects us from negative numbers.
+On 3/26/25 08:14, Kasireddy, Vivek wrote:
+...
+>>  static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+>>  				       struct drm_plane_state *new_state)
+>>  {
+>> @@ -376,23 +386,16 @@ static int virtio_gpu_plane_prepare_fb(struct
+>> drm_plane *plane,
+>>  		vgplane_st->fence = virtio_gpu_fence_alloc(vgdev,
+>>  						     vgdev->fence_drv.context,
+>>  						     0);
+>> -		if (!vgplane_st->fence)
+>> +		if (!vgplane_st->fence) {
+>> +			if (obj->import_attach)
+>> +				virtio_gpu_cleanup_imported_obj(obj);
+> I think checking for fence allocation failure before import would be much better.
+> In other words, cleaning up the fence in case of any import errors would be
+> much simpler IMO.
+> 
+> Regardless,
+> Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com> 
 
-Is there a reasonable maximum that could/should be checked for? (I
-don't know the context)
+Another question, why do we need this fencing for imported dmabuf?
+Fencing isn't done host/guest blobs in this code, while dmabuf is
+essentially a guest blob. Could you please clarify why this fence is
+needed? Maybe we shouldn't allocate fence in the first place for the dmabuf.
 
-In other words, if one wants to detect invalid values in a primitive
-type, one needs to define the valid range anyway. Using the negatives
-of a signed type is convenient in C, but perhaps there is a tighter
-threshold?
-
-If so, then an extra advantage is that on the Rust side one could also
-have a proper strong type for this etc.
-
-Cheers,
-Miguel
+-- 
+Best regards,
+Dmitry
