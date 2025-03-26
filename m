@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00174A71CED
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 18:19:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4FCA71CF7
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 18:20:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F47D10E17C;
-	Wed, 26 Mar 2025 17:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C212010E763;
+	Wed, 26 Mar 2025 17:20:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kuVf/x7y";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Beo3azWg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF6FD10E17C;
- Wed, 26 Mar 2025 17:19:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B23E810E763;
+ Wed, 26 Mar 2025 17:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743009569; x=1774545569;
+ t=1743009642; x=1774545642;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=z09e1tWoyMfmnOxFDpDhdMbpNGPjINO4Wu1Rg0gJhrg=;
- b=kuVf/x7yM6EexcS9navd+FAsmc3UYpk+vRJ6DRuRrX9h3k9ZqPht8588
- OOnytFPTivRbTQsMzY3l9elDP67/KAIEYJzWh10RDz5VNYxg3okTaubbI
- xU956aI4LcVsHCt2GGkvlg69qBOwycc22LvZICezJNNW+/Dj0JlD/mVmX
- hsnpJ5DqKF7GjGUqtCkEA8vgT/kOf27a4WNoNV4qShwchSw8VxzTN6eXl
- +8dHbZ6OvtvOZGxFuJ9Uie3HwmKA32r0ASk8n71FgZ2hul5W21Z25t3Jo
- NSUhWgvSZPtqGStUFE9ocqj+1XRtJ5FE+R9kI8IfMdKMGyjGOaoI3rZZf A==;
-X-CSE-ConnectionGUID: 8zp50BCTTTOQZwmPxRgYpw==
-X-CSE-MsgGUID: bdtz2SciT06X5Dp1Kcjlkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44202839"
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="44202839"
+ bh=naQC8x78R+YCsv2TCaHicJqcwFO0UtB44ykDZ+RSw4E=;
+ b=Beo3azWg7ymkcICOia2ZJ6EBr40k24lGgMbjs4ZPah5j99GAsrp+PB1J
+ wIUkzpQL8Ke+QL2NGPJuFW8otnq6welabUsMRZxYcIRsaVvZNPhkqrE15
+ h4Cm8Q0efl8W4BiEcW5OKsUlGLA6N3N3WpDgwQFq6BvK6kdDv/Si4Orpl
+ 6EUw9pEjzNJcL9q4X5vqKaBfCfDSgv9EPOuyu8VkTDtb+MMuN3vIawCMa
+ xwCOqBBwx/XqIhhQByTvMe+fLmpUTB3MmpJPLNYVPt0zWwFAZOvFPjxyj
+ loZeCfIXY+PAIYQdE9TZuS6r7+M+kVUMEwsXyGae2sIkAGWfP48l5jt9m w==;
+X-CSE-ConnectionGUID: V1C9216pRWKFGbjSSz7QbA==
+X-CSE-MsgGUID: KN4ufaxdSR+/djgB+wFC6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44203046"
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="44203046"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 10:19:29 -0700
-X-CSE-ConnectionGUID: TdRAqeeCT9K8TVm1z2e0ow==
-X-CSE-MsgGUID: wGHt7v/mQsOxy94FxG6NuA==
+ 26 Mar 2025 10:20:42 -0700
+X-CSE-ConnectionGUID: 7CJkJGCUST2XdrwO1WrLMw==
+X-CSE-MsgGUID: Fe114/2aQEWys5zuZ7yziw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="130036129"
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="130036363"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 26 Mar 2025 10:19:26 -0700
+ by orviesa005.jf.intel.com with SMTP; 26 Mar 2025 10:20:39 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 26 Mar 2025 19:19:24 +0200
-Date: Wed, 26 Mar 2025 19:19:24 +0200
+ Wed, 26 Mar 2025 19:20:37 +0200
+Date: Wed, 26 Mar 2025 19:20:37 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Arun R Murthy <arun.r.murthy@intel.com>
 Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, chaitanya.kumar.borah@intel.com
 Subject: Re: [PATCH v9 3/3] drm/i915/display: Add i915 hook for
  format_mod_supported_async
-Message-ID: <Z-Q3HGnu01fEpgs4@intel.com>
+Message-ID: <Z-Q3ZXym8Rxyl7r8@intel.com>
 References: <20250319-asyn-v9-0-629d1ece63e7@intel.com>
  <20250319-asyn-v9-3-629d1ece63e7@intel.com>
 MIME-Version: 1.0
@@ -143,9 +143,6 @@ On Wed, Mar 19, 2025 at 04:02:17PM +0530, Arun R Murthy wrote:
 > -bool intel_plane_can_async_flip(struct intel_plane *plane, u64 modifier)
 > +bool intel_plane_can_async_flip(struct intel_plane *plane, u32 format,
 > +				u64 modifier)
-
-Please split this change into a separate patch.
-
 >  {
 > +	struct intel_display *display = to_intel_display(plane);
 > +
@@ -158,18 +155,6 @@ Please split this change into a separate patch.
 > +			    "[PLANE:%d:%s] Planar formats do not support async flips\n",
 > +			    plane->base.base.id, plane->base.name);
 > +		return false;
-
-This is introducing functional changes. Those should be separate
-patches.
-
-I also don't know what this pre-mtl vs. mtl+ stuff is about. I'm
-pretty sure planar formats are the only thing that actually can't do
-async flips (in the sense that we can't atomically async flip both
-luma and chroma). 
-
-I suppose we may want to reject C8 as well since it depends on
-the LUT and we can't update that atomically with an async flip.
-
 > +	}
 > +
 >  	return plane->can_async_flip && plane->can_async_flip(modifier);
@@ -180,10 +165,16 @@ the LUT and we can't update that atomically with an async flip.
 > +					    u64 modifier)
 > +{
 > +	if (plane->funcs->format_mod_supported &&
+
+We always have that.
+
 > +	    !plane->funcs->format_mod_supported(plane, format, modifier)) {
 > +		drm_dbg_kms(plane->dev,
 > +			    "[PLANE:%d:%s](format %p4cc) modifier 0x%llx not in universal list\n",
 > +			    plane->base.id, plane->name, &format, modifier);
+
+This is going to create tons of unwanted spam.
+
 > +		return false;
 > +	}
 > +
