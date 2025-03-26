@@ -2,65 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68EFA71B15
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 16:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F79BA71C13
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:43:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9685510E6FB;
-	Wed, 26 Mar 2025 15:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D03210E07A;
+	Wed, 26 Mar 2025 16:43:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FAQvHtDI";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="iWbHoKQ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 583AA10E6FB
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 15:51:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743004308; x=1774540308;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=WDTgACKfbFOAULZ00BSFWmKYsHzNYTrM9EPoZ8yADMU=;
- b=FAQvHtDITl1+1PGwmkL8K/D4DQ7FCTkAlhKYKu218NqFaL+N+9lN9hcu
- sV9ml5xFDbYS8Yd360SeIPCbtwmNPdhTZo+Yk1KIN2BO9Cr7sf+49jnUz
- EVwfYGA5DnQjahOcr8PmBt2XX3c5WdGIBwyBTk7BaVXkTMNCwRaNmf+aX
- iYqw/853zhis+sTLDOrLk+Paqni1tX0NUgCe9JNq+GIQglOWwDlPvN7sL
- Co250xX8cFYxePfcwU44ZnQ9G5Fhts1ISwC4ekvjTT1jHrQvsEL9My/QA
- JMkgJpL8onsl9/SBBDltl3R6+hl0uZKYbmjz/XuVV9JX1I5Oybyu9U0zy w==;
-X-CSE-ConnectionGUID: DZb5tZ4vReqCcTckrgD6vQ==
-X-CSE-MsgGUID: 5appeT8fTMSgL7Cn4g8R8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44188252"
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="44188252"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 08:51:48 -0700
-X-CSE-ConnectionGUID: LS0XVK0wRUKBR+t1osMCeA==
-X-CSE-MsgGUID: b1QK+8PmQXC8SugrBN4iNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="124550670"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 08:51:46 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1txT2d-000000067f4-1as0; Wed, 26 Mar 2025 17:51:43 +0200
-Date: Wed, 26 Mar 2025 17:51:43 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Oded Gabbay <ogabbay@kernel.org>,
- "Avizrat, Yaron" <yaron.avizrat@intel.com>,
- "Elbaz, Koby" <koby.elbaz@intel.com>,
- "Sinyuk, Konstantin" <konstantin.sinyuk@intel.com>
-Subject: Re: [PATCH v3 1/1] accel/habanalabs: Switch to use %ptTs
-Message-ID: <Z-Qij4C8DSmS0Mq-@smile.fi.intel.com>
-References: <20250305110126.2134307-1-andriy.shevchenko@linux.intel.com>
- <Z-PM8oBtTPzqv-S2@smile.fi.intel.com> <87zfh86rqi.fsf@intel.com>
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F52110E07A
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 16:43:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1743007415; x=1743266615;
+ bh=SBA0lIVlYigqsD6gj5BKr4rg3daBl3KuUvd0a5qoKyQ=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=iWbHoKQ3q//lzkeLnbXrpD/K0JBHRvanSfajOeHLvf/ABisj8J8MxZ+5Szf6IAVwz
+ cm6CROl1XHcgLoi0c8f8WF2vZ4BIPsM5D4ffwPzx2P24j7XXDs8bhVLjBqCUUQbi4S
+ LLTPIrty/DypE1RsJLAmhmdT++IBIwQDPOF6RiBEJViq1/YyFB1nebuFXfgkcSS3rv
+ RnwsOHDfYpSHbih8pB5hshb/Yg11MvlDP7va/eqAPI5HhqXjCSJl0zPxG6x0qK8mjB
+ Q4UuBTuuBwVXZquozIs6zNsdDgjSmdtxqbPbriXVgWN6nYRPn8UKI/p8DYLWx1pKoP
+ XcdjKJZB0215Q==
+Date: Wed, 26 Mar 2025 16:43:29 +0000
+To: Tamir Duberstein <tamird@gmail.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
+ Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
+ linux-block@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
+Message-ID: <D8QCK3CQES3Y.3LTZ4MVO5B3KT@proton.me>
+In-Reply-To: <CAJ-ks9nHKpQPuSBypXTSATYhbAFkQTJzUq8jN0nu4t=Kw+0xxg@mail.gmail.com>
+References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
+ <20250325-ptr-as-ptr-v7-7-87ab452147b9@gmail.com>
+ <D8POWLFKWABG.37BVXN2QCL8MP@proton.me>
+ <CAJ-ks9mUYw4FEJQfmDrHHt0oMy256jhp7qZ-CHp6R5c_sOCD4w@mail.gmail.com>
+ <D8PPIYIJCNX8.13VPQULEI0ALN@proton.me>
+ <CAJ-ks9k6220j6CQSOF4TDrgY9qq4PfV9uaMXz1Qk4m=eeSr5Ag@mail.gmail.com>
+ <D8Q4MSXXZ7OI.1NC226MO02VSN@proton.me>
+ <CAJ-ks9nHKpQPuSBypXTSATYhbAFkQTJzUq8jN0nu4t=Kw+0xxg@mail.gmail.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 56fa6bd54add0cb38181c1a80c576e471517373d
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zfh86rqi.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,89 +85,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 11:55:33AM +0200, Jani Nikula wrote:
-> On Wed, 26 Mar 2025, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > +Cc: Jani (sorry, forgot to add you in the first place).
-> >
-> > Do you think it's applicable now?
-> 
-> Cc: Yaron, Koby, and Konstantin who are supposed to be the new
-> maintainers for accel/habanalabs.
+On Wed Mar 26, 2025 at 11:35 AM CET, Tamir Duberstein wrote:
+> On Wed, Mar 26, 2025 at 6:31=E2=80=AFAM Benno Lossin <benno.lossin@proton=
+.me> wrote:
+>> On Wed Mar 26, 2025 at 12:54 AM CET, Tamir Duberstein wrote:
+>> > On Tue, Mar 25, 2025 at 6:40=E2=80=AFPM Benno Lossin <benno.lossin@pro=
+ton.me> wrote:
+>> >> On Tue Mar 25, 2025 at 11:33 PM CET, Tamir Duberstein wrote:
+>> >> > On Tue, Mar 25, 2025 at 6:11=E2=80=AFPM Benno Lossin <benno.lossin@=
+proton.me> wrote:
+>> >> >> On Tue Mar 25, 2025 at 9:07 PM CET, Tamir Duberstein wrote:
+>> >> >> > diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+>> >> >> > index 40034f77fc2f..6233af50bab7 100644
+>> >> >> > --- a/rust/kernel/str.rs
+>> >> >> > +++ b/rust/kernel/str.rs
+>> >> >> > @@ -29,7 +29,7 @@ pub const fn is_empty(&self) -> bool {
+>> >> >> >      #[inline]
+>> >> >> >      pub const fn from_bytes(bytes: &[u8]) -> &Self {
+>> >> >> >          // SAFETY: `BStr` is transparent to `[u8]`.
+>> >> >> > -        unsafe { &*(bytes as *const [u8] as *const BStr) }
+>> >> >> > +        unsafe { &*(core::mem::transmute::<*const [u8], *const =
+Self>(bytes)) }
+>> >> >>
+>> >> >> Hmm I'm not sure about using `transmute` here. Yes the types are
+>> >> >> transparent, but I don't think that we should use it here.
+>> >> >
+>> >> > What's your suggestion? I initially tried
+>> >> >
+>> >> > let bytes: *const [u8] =3D bytes;
+>> >> > unsafe { &*bytes.cast() }
+>> >> >
+>> >> > but that doesn't compile because of the implicit Sized bound on poi=
+nter::cast.
+>> >>
+>> >> This is AFAIK one of the only places where we cannot get rid of the `=
+as`
+>> >> cast. So:
+>> >>
+>> >>     let bytes: *const [u8] =3D bytes;
+>> >>     // CAST: `BStr` transparently wraps `[u8]`.
+>> >>     let bytes =3D bytes as *const BStr;
+>> >>     // SAFETY: `bytes` is derived from a reference.
+>> >>     unsafe { &*bytes }
+>> >>
+>> >> IMO a `transmute` is worse than an `as` cast :)
+>> >
+>> > Hmm, looking at this again we can just transmute ref-to-ref and avoid
+>> > pointers entirely. We're already doing that in
+>> > `CStr::from_bytes_with_nul_unchecked`
+>> >
+>> > Why is transmute worse than an `as` cast?
+>>
+>> It's right in the docs: "`transmute` should be the absolute last
+>> resort." [1]. IIRC, Gary was a bit more lenient in its use, but I think
+>> we should avoid it as much as possible such that people copying code or
+>> taking inspiration also don't use it.
+>>
+>> So for both cases I'd prefer an `as` cast.
+>>
+>> [1]: https://doc.rust-lang.org/std/mem/fn.transmute.html
+>
+> I don't follow the logic. The trouble with `as` casts is that they are
+> very lenient in what they allow, and to do these conversions with `as`
+> casts requires ref -> pointer -> pointer -> pointer deref versus a
+> single transmute. The safety comment perfectly describes why it's OK
+> to do: the types are transparent. So why is `as` casting pointers
+> better? It's just as unchecked as transmuting, and worse, it requires
+> a raw pointer dereference.
 
-Thank you!
+Note that you're not transmuting `[u8]` to `BStr`, but `*const [u8]` to
+`*const BStr`. Those pointers have provenance and I'm not sure if
+transmuting them preserves it.
 
-> > On Wed, Mar 05, 2025 at 01:00:25PM +0200, Andy Shevchenko wrote:
-> >> Use %ptTs instead of open-coded variant to print contents of time64_t type
-> >> in human readable form.
-> >> 
-> >> This changes N/A output to 1970-01-01 00:00:00 for zero timestamps,
-> >> but it's used only in the dev_err() output and won't break anything.
-> >> 
-> >> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> >> ---
-> >> 
-> >> v3: explained the difference for N/A cases (Jani)
-> >> v2: fixed the parameters to be the pointers
-> >> 
-> >>  drivers/accel/habanalabs/common/device.c | 25 +++---------------------
-> >>  1 file changed, 3 insertions(+), 22 deletions(-)
-> >> 
-> >> diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-> >> index 68eebed3b050..80fa08bf57bd 100644
-> >> --- a/drivers/accel/habanalabs/common/device.c
-> >> +++ b/drivers/accel/habanalabs/common/device.c
-> >> @@ -1066,28 +1066,11 @@ static bool is_pci_link_healthy(struct hl_device *hdev)
-> >>  	return (device_id == hdev->pdev->device);
-> >>  }
-> >>  
-> >> -static void stringify_time_of_last_heartbeat(struct hl_device *hdev, char *time_str, size_t size,
-> >> -						bool is_pq_hb)
-> >> -{
-> >> -	time64_t seconds = is_pq_hb ? hdev->heartbeat_debug_info.last_pq_heartbeat_ts
-> >> -					: hdev->heartbeat_debug_info.last_eq_heartbeat_ts;
-> >> -	struct tm tm;
-> >> -
-> >> -	if (!seconds)
-> >> -		return;
-> >> -
-> >> -	time64_to_tm(seconds, 0, &tm);
-> >> -
-> >> -	snprintf(time_str, size, "%ld-%02d-%02d %02d:%02d:%02d (UTC)",
-> >> -		tm.tm_year + 1900, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-> >> -}
-> >> -
-> >>  static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
-> >>  {
-> >>  	struct eq_heartbeat_debug_info *heartbeat_debug_info = &hdev->heartbeat_debug_info;
-> >>  	u32 cpu_q_id = heartbeat_debug_info->cpu_queue_id, pq_pi_mask = (HL_QUEUE_LENGTH << 1) - 1;
-> >>  	struct asic_fixed_properties *prop = &hdev->asic_prop;
-> >> -	char pq_time_str[64] = "N/A", eq_time_str[64] = "N/A";
-> >>  
-> >>  	if (!prop->cpucp_info.eq_health_check_supported)
-> >>  		return true;
-> >> @@ -1095,17 +1078,15 @@ static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
-> >>  	if (!hdev->eq_heartbeat_received) {
-> >>  		dev_err(hdev->dev, "EQ heartbeat event was not received!\n");
-> >>  
-> >> -		stringify_time_of_last_heartbeat(hdev, pq_time_str, sizeof(pq_time_str), true);
-> >> -		stringify_time_of_last_heartbeat(hdev, eq_time_str, sizeof(eq_time_str), false);
-> >>  		dev_err(hdev->dev,
-> >> -			"EQ: {CI %u, HB counter %u, last HB time: %s}, PQ: {PI: %u, CI: %u (%u), last HB time: %s}\n",
-> >> +			"EQ: {CI %u, HB counter %u, last HB time: %ptTs}, PQ: {PI: %u, CI: %u (%u), last HB time: %ptTs}\n",
-> >>  			hdev->event_queue.ci,
-> >>  			heartbeat_debug_info->heartbeat_event_counter,
-> >> -			eq_time_str,
-> >> +			&hdev->heartbeat_debug_info.last_eq_heartbeat_ts,
-> >>  			hdev->kernel_queues[cpu_q_id].pi,
-> >>  			atomic_read(&hdev->kernel_queues[cpu_q_id].ci),
-> >>  			atomic_read(&hdev->kernel_queues[cpu_q_id].ci) & pq_pi_mask,
-> >> -			pq_time_str);
-> >> +			&hdev->heartbeat_debug_info.last_pq_heartbeat_ts);
-> >>  
-> >>  		hl_eq_dump(hdev, &hdev->event_queue);
+I tried to find some existing issues about the topic and found that
+there exists a clippy lint `transmute_ptr_to_ptr`. There is an issue
+asking for a better justification [1] and it seems like nobody provided
+one there. Maybe we should ask the opsem team what happens to provenance
+when transmuting?
 
--- 
-With Best Regards,
-Andy Shevchenko
+[1]: https://github.com/rust-lang/rust-clippy/issues/6372
 
+---
+Cheers,
+Benno
 
