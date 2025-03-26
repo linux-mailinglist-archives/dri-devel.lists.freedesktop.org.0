@@ -2,60 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D2EA71C88
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725CEA71C94
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:59:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C589010E74D;
-	Wed, 26 Mar 2025 16:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0F5110E759;
+	Wed, 26 Mar 2025 16:59:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TZzDi+Zo";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Y7f56Ycc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F054C10E754;
- Wed, 26 Mar 2025 16:57:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743008273; x=1774544273;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=RcpL7pY0Ln2L1ti0ofx7hY7pxeVvWB7O7rvNH2trjgQ=;
- b=TZzDi+ZohdfVLm2IpIF2OQkRYw041GduSDMzg2IdRcib1mx9ohL77VKo
- /3ToSdNHRef++06xScTCMyCoB4ui18KIZiERz7fy1W3DbWdxcDJJ/auOd
- v17+Q5fqrpSqnxH+zpDUZVHtCfB3L4fSnvQF0HopKtbeB8u9/jH0d1Pkp
- lZ9AG3SFQHU1s1ldnruKA9Z0A719YVdNvcUOFWCD6NyZsJ4aRDzeG4Blf
- H59JNe6C6Ou05vuIj9Hr4yVNcj3gkNJ5egliHqmNyZYlTcyJ1YfC5RoJL
- 0DzP00odBUMwgMAs2oBvEJA2mhXyl7chl3wvtOziZcPSwW5t6ut6JetCM A==;
-X-CSE-ConnectionGUID: /A1P+oMLQ4GwdAhuG1hFLQ==
-X-CSE-MsgGUID: UWDjzs6sS16mFcC9+R1eAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="55308959"
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="55308959"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 09:57:53 -0700
-X-CSE-ConnectionGUID: HZz102xMT5mrpJN3ciJH2A==
-X-CSE-MsgGUID: q3oHUuJ9QjC9m2RANkrX3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="155739770"
-Received: from dut4419lnl.fm.intel.com ([10.105.10.235])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 09:57:53 -0700
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
- michal.mrozek@intel.com, raag.jadav@intel.com, john.c.harrison@intel.com
-Subject: [PATCH v14 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Date: Wed, 26 Mar 2025 16:57:50 +0000
-Message-ID: <20250326165751.72881-7-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250326165751.72881-1-jonathan.cavitt@intel.com>
-References: <20250326165751.72881-1-jonathan.cavitt@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F2B210E759
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 16:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743008355;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Rjq3Hj5xFP6rZJxR2TTuDzPzPwL1lh4vdjniXd5m5RU=;
+ b=Y7f56Ycc08Fe9/5A4Q7ezIyougvo1AZzrRktF9n9raDsNeD9yRxbijz/uzZPDTh9PrWfsv
+ JHEaiemywwM8roK2idteDZqwawg3OZ6lKmsQUfDHAvcCY22KzjCZ+PLYsBkPx8doitf1lQ
+ zJzbSlvweUcsP596gBJXnGX12lgO234=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-658-pj9G-1_nMgW-rw4gk-zsvw-1; Wed, 26 Mar 2025 12:59:14 -0400
+X-MC-Unique: pj9G-1_nMgW-rw4gk-zsvw-1
+X-Mimecast-MFC-AGG-ID: pj9G-1_nMgW-rw4gk-zsvw_1743008354
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-6fda1dcbdf1so796287b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:59:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743008353; x=1743613153;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Rjq3Hj5xFP6rZJxR2TTuDzPzPwL1lh4vdjniXd5m5RU=;
+ b=kRSCTw5Ws7gVCTGnG3oLm834yjjZ+dJ4tUxAEjyK7//v4X+kn/fMkKXdpBHVnZsB30
+ vh49H+QR8jxxwFZjyE+t7TRomEKENZWJQlQ4pltyCjzSrWYKEzZTn7nIY4XLhSZfUplp
+ OS0Ip/aRmPKWJQOi5dSzxayOCodob2qWzj9jx3/V/S0jZ5KPMtImB3T40296AxcYomAr
+ FiPPsHUqwA/GGWe7dRvlaHPIp4hXt8aIAzSsodIDTddD11uZOyaA1v09Pm5RvUs1GUSX
+ wOa3RDolw85oAzNBq7XhdRso7LnsQnKnHvcvl4Mw4cYI8qH/5xtmQCCjHE9n3/JdqbDi
+ IJzQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXOJq/JV0peVBWgZFIe4pjPmHF4Xn+izrFN0uFmr9jmUSXe9K8FxFYA8JgxpgBBTkQTw7TpsXY+qqw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwIAVzFzf5iyeOPkIyNBakJRTFashPDrASCKEJcTTc0HecN9C2r
+ rIp3Frz07AqFJ0vtivwBsgJaycpR2VxADSjGE6D0VV4my3DD+16EUGgXJaN2pbtbTeg/CzpQkNo
+ yfvZ4cYrmUtL3LJwCs2Nvq6fZTGkjbfdN1yiPkZBbBh/0TSkAvT1pdykmQ/LBS7UdNYHMzwJYPy
+ k+nzvKwLVhv2ddJMupCm52oBOb2kizmfM4NlcZpkr+
+X-Gm-Gg: ASbGncs22jrimOB7lM1Xw8sf/Beuzp92niul1xq5wyLIVBJqSlIeMEEsssx38uxKz+8
+ z1sn/E6EKCrZD0B+ND94V7KceG3igmkC01OMx8CCrV1uCpx1Dyd10x0xQcTUt2EMGjGfu4J0=
+X-Received: by 2002:a05:690c:6f89:b0:6f7:56f7:239a with SMTP id
+ 00721157ae682-70224ef8d01mr3527407b3.5.1743008353555; 
+ Wed, 26 Mar 2025 09:59:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGNhD/VnPuq2cwb513UQKU5kZaK7hnPtV7L199yzf7UrIkBMXew7fdhv6yxmsNW85m9Jnnw+W0intfImlVxg+M=
+X-Received: by 2002:a05:690c:6f89:b0:6f7:56f7:239a with SMTP id
+ 00721157ae682-70224ef8d01mr3527067b3.5.1743008353151; Wed, 26 Mar 2025
+ 09:59:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250325-b4-panel-refcounting-v1-0-4e2bf5d19c5d@redhat.com>
+ <20250325-b4-panel-refcounting-v1-4-4e2bf5d19c5d@redhat.com>
+ <20250326-deft-vegan-stoat-ff14ff@houat>
+In-Reply-To: <20250326-deft-vegan-stoat-ff14ff@houat>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Wed, 26 Mar 2025 12:59:02 -0400
+X-Gm-Features: AQ5f1JqpoRPe7w04zh2RRwaIAt9nW8dgoI7pNGjvtEUUnwu5T8O2URUdLhbAVIc
+Message-ID: <CAN9Xe3SWMz3M7ENbxJhh+_Z-qkbwRr3fP6OCLdfQowszN_V=HQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] drm/panel: deprecate old-style panel allocation
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: WZsSI99iGy8MTzmbjDjJQ2A5Qbs7lxLmIzYMQe87bb4_1743008354
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000bb0300063141c18b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,200 +98,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to request a list of observed faults
-from a specified VM.
+--000000000000bb0300063141c18b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-v2:
-- Only allow querying of failed pagefaults (Matt Brost)
+On Wed, Mar 26, 2025 at 11:32=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
 
-v3:
-- Remove unnecessary size parameter from helper function, as it
-  is a property of the arguments. (jcavitt)
-- Remove unnecessary copy_from_user (Jainxun)
-- Set address_precision to 1 (Jainxun)
-- Report max size instead of dynamic size for memory allocation
-  purposes.  Total memory usage is reported separately.
+> On Tue, Mar 25, 2025 at 01:24:11PM -0400, Anusha Srivatsa wrote:
+> > Start moving to the new refcounted allocations using
+> > the new API devm_drm_panel_alloc(). Deprecate any other
+> > allocation.
+> >
+> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> > ---
+> >  drivers/gpu/drm/drm_panel.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> > index
+> 11a0415bc61f59190ef5eb378d1583c493265e6a..5793011f4938a2d4fb9d84a700817bd=
+a317af305
+> 100644
+> > --- a/drivers/gpu/drm/drm_panel.c
+> > +++ b/drivers/gpu/drm/drm_panel.c
+> > @@ -74,8 +74,10 @@ EXPORT_SYMBOL(drm_panel_init);
+> >   * drm_panel_add - add a panel to the global registry
+> >   * @panel: panel to add
+> >   *
+> > - * Add a panel to the global registry so that it can be looked up by
+> display
+> > - * drivers.
+> > + * Add a panel to the global registry so that it can be looked
+> > + * up by display drivers. The panel to be added must have been
+> > + * allocated by devm_drm_panel_alloc(). Old-style allocation by
+> > + * kzalloc(), devm_kzalloc() and similar is deprecated.
+>
+> It's not that it's deprecated, it's that it's unsafe. Since you already
+> said that the allocation must be done through devm_drm_panel_alloc(),
+> there's not much use to mention the old style stuff, I'd just drop the
+> last sentence.
+>
+>
+Alrighty.
 
-v4:
-- Return int from xe_vm_get_property_size (Shuicheng)
-- Fix memory leak (Shuicheng)
-- Remove unnecessary size variable (jcavitt)
+Thanks,
+Anusha
 
-v5:
-- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
-- Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
+> Maxime
+>
 
-v6:
-- Repair and move fill_faults break condition (Dan Carpenter)
-- Free vm after use (jcavitt)
-- Combine assertions (jcavitt)
-- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
-- Remove return mask from fill_faults, as return is already -EFAULT or 0
-  (jcavitt)
+--000000000000bb0300063141c18b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-v7:
-- Revert back to using xe_vm_get_property_ioctl
-- Apply better copy_to_user logic (jcavitt)
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 26,=
+ 2025 at 11:32=E2=80=AFAM Maxime Ripard &lt;<a href=3D"mailto:mripard@kerne=
+l.org">mripard@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On Tue, Mar 25, 2025 at 01:24:11PM -0400, Anusha S=
+rivatsa wrote:<br>
+&gt; Start moving to the new refcounted allocations using<br>
+&gt; the new API devm_drm_panel_alloc(). Deprecate any other<br>
+&gt; allocation.<br>
+&gt; <br>
+&gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.c=
+om" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 drivers/gpu/drm/drm_panel.c | 6 ++++--<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c=
+<br>
+&gt; index 11a0415bc61f59190ef5eb378d1583c493265e6a..5793011f4938a2d4fb9d84=
+a700817bda317af305 100644<br>
+&gt; --- a/drivers/gpu/drm/drm_panel.c<br>
+&gt; +++ b/drivers/gpu/drm/drm_panel.c<br>
+&gt; @@ -74,8 +74,10 @@ EXPORT_SYMBOL(drm_panel_init);<br>
+&gt;=C2=A0 =C2=A0* drm_panel_add - add a panel to the global registry<br>
+&gt;=C2=A0 =C2=A0* @panel: panel to add<br>
+&gt;=C2=A0 =C2=A0*<br>
+&gt; - * Add a panel to the global registry so that it can be looked up by =
+display<br>
+&gt; - * drivers.<br>
+&gt; + * Add a panel to the global registry so that it can be looked<br>
+&gt; + * up by display drivers. The panel to be added must have been<br>
+&gt; + * allocated by devm_drm_panel_alloc(). Old-style allocation by<br>
+&gt; + * kzalloc(), devm_kzalloc() and similar is deprecated.<br>
+<br>
+It&#39;s not that it&#39;s deprecated, it&#39;s that it&#39;s unsafe. Since=
+ you already<br>
+said that the allocation must be done through devm_drm_panel_alloc(),<br>
+there&#39;s not much use to mention the old style stuff, I&#39;d just drop =
+the<br>
+last sentence.<br>
+<br></blockquote><div><br></div><div>Alrighty.</div><div><br></div><div>Tha=
+nks,</div><div>Anusha <br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+Maxime<br>
+</blockquote></div></div>
 
-v8:
-- Fix and clean up error value handling in ioctl (jcavitt)
-- Reapply return mask for fill_faults (jcavitt)
-
-v9:
-- Future-proof size logic for zero-size properties (jcavitt)
-- Add access and fault types (Jianxun)
-- Remove address type (Jianxun)
-
-v10:
-- Remove unnecessary switch case logic (Raag)
-- Compress size get, size validation, and property fill functions into a
-  single helper function (jcavitt)
-- Assert valid size (jcavitt)
-
-v11:
-- Remove unnecessary else condition
-- Correct backwards helper function size logic (jcavitt)
-
-v12:
-- Use size_t instead of int (Raag)
-
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Jainxun Zhang <jianxun.zhang@intel.com>
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>
----
- drivers/gpu/drm/xe/xe_device.c |  3 ++
- drivers/gpu/drm/xe/xe_vm.c     | 88 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h     |  2 +
- 3 files changed, 93 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 1ffb7d1f6be6..02f84a855502 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -195,6 +195,9 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(XE_WAIT_USER_FENCE, xe_wait_user_fence_ioctl,
- 			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-+			  DRM_RENDER_ALLOW),
-+
- };
- 
- static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index d1ddf1f03e3f..625eb559edd9 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3557,6 +3557,94 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	return err;
- }
- 
-+static int fill_faults(struct xe_vm *vm,
-+		       struct drm_xe_vm_get_property *args)
-+{
-+	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->data);
-+	struct xe_vm_fault store = { 0 };
-+	struct xe_vm_fault_entry *entry;
-+	int ret = 0, i = 0, count, entry_size;
-+
-+	entry_size = sizeof(struct xe_vm_fault);
-+	count = args->size / entry_size;
-+
-+	spin_lock(&vm->faults.lock);
-+	list_for_each_entry(entry, &vm->faults.list, list) {
-+		if (i++ == count)
-+			break;
-+
-+		memset(&store, 0, entry_size);
-+
-+		store.address = entry->address;
-+		store.address_precision = entry->address_precision;
-+		store.access_type = entry->access_type;
-+		store.fault_type = entry->fault_type;
-+		store.fault_level = entry->fault_level;
-+		store.engine_class = xe_to_user_engine_class[entry->engine_class];
-+		store.engine_instance = entry->engine_instance;
-+
-+		ret = copy_to_user(usr_ptr, &store, entry_size);
-+		if (ret)
-+			break;
-+
-+		usr_ptr++;
-+	}
-+	spin_unlock(&vm->faults.lock);
-+
-+	return ret ? -EFAULT : 0;
-+}
-+
-+static int xe_vm_get_property_helper(struct xe_vm *vm,
-+				     struct drm_xe_vm_get_property *args)
-+{
-+	size_t size;
-+
-+	switch (args->property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		spin_lock(&vm->faults.lock);
-+		size = size_mul(sizeof(struct xe_vm_fault), vm->faults.len);
-+		spin_unlock(&vm->faults.lock);
-+
-+		if (args->size)
-+			/*
-+			 * Number of faults may increase between calls to
-+			 * xe_vm_get_property_ioctl, so just report the
-+			 * number of faults the user requests if it's less
-+			 * than or equal to the number of faults in the VM
-+			 * fault array.
-+			 */
-+			return args->size <= size ? fill_faults(vm, args) : -EINVAL;
-+
-+		args->size = size;
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+
-+int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-+			     struct drm_file *file)
-+{
-+	struct xe_device *xe = to_xe_device(drm);
-+	struct xe_file *xef = to_xe_file(file);
-+	struct drm_xe_vm_get_property *args = data;
-+	struct xe_vm *vm;
-+	int ret = 0;
-+
-+	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
-+		return -EINVAL;
-+	if (XE_IOCTL_DBG(xe, args->size < 0))
-+		return -EINVAL;
-+
-+	vm = xe_vm_lookup(xef, args->vm_id);
-+	if (XE_IOCTL_DBG(xe, !vm))
-+		return -ENOENT;
-+
-+	ret = xe_vm_get_property_helper(vm, args);
-+
-+	xe_vm_put(vm);
-+	return ret;
-+}
-+
- /**
-  * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
-  * @vm: VM to bind the BO to
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 9bd7e93824da..63ec22458e04 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -196,6 +196,8 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file);
- int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file);
-+int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-+			     struct drm_file *file);
- 
- void xe_vm_close_and_put(struct xe_vm *vm);
- 
--- 
-2.43.0
+--000000000000bb0300063141c18b--
 
