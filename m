@@ -2,90 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02DD6A7132E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 09:57:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DC8A7134E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 10:05:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53BBE10E67F;
-	Wed, 26 Mar 2025 08:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B59E10E675;
+	Wed, 26 Mar 2025 09:05:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iHAlTj8Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZlzHLupV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACFB10E67F
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 08:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1742979439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z+qErHAQjwUHavvlddPgsEFoqcIAaFDIQOs5cTnyVHw=;
- b=iHAlTj8YNfeC7QeGVX0kKooRNYV7iG10vnX3gdTstNpgEsFw3kVmXSBBUu5fnvXMlanDWq
- Hu66MNFM+acy+Htyk8FiSTjpQC7aNu6PABHS5YHF3Y/eWKl1pq73zawn+GK6PG367kldLT
- cBCZ2ooh8Lfe0erb++v806MKrE08M2o=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-633-vyyQkClXMxO88SP6VGvaLw-1; Wed, 26 Mar 2025 04:57:18 -0400
-X-MC-Unique: vyyQkClXMxO88SP6VGvaLw-1
-X-Mimecast-MFC-AGG-ID: vyyQkClXMxO88SP6VGvaLw_1742979437
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3912fe32b08so3336093f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 01:57:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742979437; x=1743584237;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z+qErHAQjwUHavvlddPgsEFoqcIAaFDIQOs5cTnyVHw=;
- b=LrJ5ri+5BTrJKaau5hTtVIHl0LN/LntWvF1s0LWvVvyKmtcty822dFnibhcrdgVr5D
- ROltJftMDXxdNo+JB7O/BRrbk/cTeBw7oSajN1j0zC+R60saf/lpH6iS5awEuZ85ErYh
- 0O2kWaVgUpvIP9wLqIbYv/gcDyeR6BikCiKKBYkmNbZ+SPkAoM1WCnV0uL8kN1l2KUs3
- NEUBuh13ParNz9skv3ELSa2kogIHV9YbmsWDRRxwIsQTBmbiU/C6sDtAW7YZND0xbWmo
- NJYLZGJvH8BTJEV65BdcDKMX8NlZtF9Zn8BUVhPdtnI/z3jj6hLkmSLh3FkzZDsBX7u+
- Kb1Q==
-X-Gm-Message-State: AOJu0Yz3A13zgQAJFGSQucXFYs98cY/0bnqjGb8Mc+pnapiTM1UyPNu4
- gocSVpAA9+w1gCMeTmY/aO/iF5bNQPjAxpko/jNvVbJdQiN9IcEaWmRzxxzUySycrjpfatXHrVn
- BtLnXBHXpd7VIuIWO3IdKBJ+73PNR8I7QVOaF8NEvDJSqv9+iR5a8jFgnGTiLvKb7DQ==
-X-Gm-Gg: ASbGnctWWJp6oSCUA7vizdgdQqM3bQXg11yLOzTG3QwSDxDFLFqot6hmj5ai+XWJCmp
- t+6RYfZQRk7Z87smm3zOXvJO95jkQkko8BPonkWJVcvl1QnHKt0b4CeYJ59vdbcGrQqwS3Bj1/F
- GjJrD2mbhjs7m8COAYAkLhENYnhtlvM4Od7DSrGrvewoOjc4IIUa3713AHgRNYIFUwGGOuRzDg0
- 53kR4wHJigkyDeV7b7nwCAxt0JrJ+PoVo8WohssU9qjSVh8kOso+E0VRa0Y20mTc3D+ckdlPyU3
- jP2I22X4bPrQpd42ShD8D4Wb9RC1dxVAbefqGwPxwoh2AYL+r0YkZII=
-X-Received: by 2002:a05:6000:1ace:b0:39a:ca59:a626 with SMTP id
- ffacd0b85a97d-39aca59a880mr4543457f8f.28.1742979436966; 
- Wed, 26 Mar 2025 01:57:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEP6/iIGc7JXHHWbh3exMsrOSfK+NbW4AIotYpVY37/XSBWqfAtlkLRQwR0mTz7jfYcTLGW8A==
-X-Received: by 2002:a05:6000:1ace:b0:39a:ca59:a626 with SMTP id
- ffacd0b85a97d-39aca59a880mr4543431f8f.28.1742979436554; 
- Wed, 26 Mar 2025 01:57:16 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3997f9e65e0sm16493419f8f.61.2025.03.26.01.57.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Mar 2025 01:57:16 -0700 (PDT)
-Message-ID: <7132217e-be22-4e87-87ca-375249dc38cd@redhat.com>
-Date: Wed, 26 Mar 2025 09:57:15 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F0CB10E675
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:05:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 1F52AA40E01;
+ Wed, 26 Mar 2025 08:59:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 533D4C4CEE2;
+ Wed, 26 Mar 2025 09:05:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1742979909;
+ bh=mnpakjbsWDJ6QAVeTop1dEsqx82RPFlsUvEaSg9Qnso=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZlzHLupVbXC7oA/dBv/3qAYn1HNw/X5aK2ip0IvWs2OhHplce5FphmYbEphDuBw3K
+ kBcCC+qMlmJpVtv1XkQmjk94iTq3DRFjI0JG9iaMLZsxmRCG2yWZ8OtUSZHmVRuW2R
+ t5hvpd/0BpIeon00c/KO0BvZgPBXK6cyIeKuHB4qO4rCcUV42RfQWrRNQrc5I7woTl
+ Ngot/O7k4if/2TkxvdRMA2cCQn8VSZ4hDZA/wJkOIJLM7fk9wm3hadLjaYXPllQvzd
+ E+U17Ih72+yLKJNR7vvzKf7vWimdXqz98SEsbsYTY5GeVngX140APL4Ip+dzYHz6o4
+ cczhzEWbIQs8g==
+Date: Wed, 26 Mar 2025 10:05:07 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ tzimmermann@suse.de, lyude@redhat.com, acurrid@nvidia.com, lina@asahilina.net, 
+ daniel.almeida@collabora.com, j@jannau.net, ojeda@kernel.org,
+ alex.gaynor@gmail.com, 
+ boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
+ benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 3/8] rust: drm: add driver abstractions
+Message-ID: <20250326-meaty-talented-beetle-16c5f7@houat>
+References: <20250325235522.3992-1-dakr@kernel.org>
+ <20250325235522.3992-4-dakr@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] drm/format-helper: Optimize 32-to-8-bpp conversion
-To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org
-References: <20250325110407.81107-1-tzimmermann@suse.de>
- <20250325110407.81107-9-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250325110407.81107-9-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: AMtuHZhcwtanF_NKp4caLyAPqcixVnap6F4XVCC1MWM_1742979437
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="isazp2xhinn5rgim"
+Content-Disposition: inline
+In-Reply-To: <20250325235522.3992-4-dakr@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,55 +65,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/03/2025 11:31, Thomas Zimmermann wrote:
-> For ease of implementation, existing line-conversion functions
-> for 8-bit formats write each pixel individually. Optimize the
-> performance by writing mulitple pixels in a single 32-bit store.
 
-With the commit message typo fixed, mulitple => multiple
+--isazp2xhinn5rgim
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 3/8] rust: drm: add driver abstractions
+MIME-Version: 1.0
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/drm_format_helper.c | 23 ++++++++++++++++++++++-
->   1 file changed, 22 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-> index 66137df85725..73833db28c3c 100644
-> --- a/drivers/gpu/drm/drm_format_helper.c
-> +++ b/drivers/gpu/drm/drm_format_helper.c
-> @@ -250,10 +250,31 @@ static __always_inline void drm_fb_xfrm_line_32to8(void *dbuf, const void *sbuf,
->   						   unsigned int pixels,
->   						   u32 (*xfrm_pixel)(u32))
->   {
-> -	u8 *dbuf8 = dbuf;
-> +	__le32 *dbuf32 = dbuf;
-> +	u8 *dbuf8;
->   	const __le32 *sbuf32 = sbuf;
->   	const __le32 *send32 = sbuf32 + pixels;
->   
-> +	/* write 4 pixels at once */
-> +	send32 -= pixels & GENMASK(1, 0);
-> +	while (sbuf32 < send32) {
-> +		u32 pix[4] = {
-> +			le32_to_cpup(sbuf32++),
-> +			le32_to_cpup(sbuf32++),
-> +			le32_to_cpup(sbuf32++),
-> +			le32_to_cpup(sbuf32++),
-> +		};
-> +		/* write output bytes in reverse order for little endianness */
-> +		u32 val32 = xfrm_pixel(pix[0]) |
-> +			   (xfrm_pixel(pix[1]) << 8) |
-> +			   (xfrm_pixel(pix[2]) << 16) |
-> +			   (xfrm_pixel(pix[3]) << 24);
-> +		*dbuf32++ = cpu_to_le32(val32);
-> +	}
-> +	send32 += pixels & GENMASK(1, 0);
-> +
-> +	/* write trailing pixels */
-> +	dbuf8 = (u8 __force *)dbuf32;
->   	while (sbuf32 < send32)
->   		*dbuf8++ = xfrm_pixel(le32_to_cpup(sbuf32++));
->   }
+On Wed, Mar 26, 2025 at 12:54:30AM +0100, Danilo Krummrich wrote:
+> +/// Information data for a DRM Driver.
+> +pub struct DriverInfo {
+> +    /// Driver major version.
+> +    pub major: i32,
+> +    /// Driver minor version.
+> +    pub minor: i32,
+> +    /// Driver patchlevel version.
+> +    pub patchlevel: i32,
+> +    /// Driver name.
+> +    pub name: &'static CStr,
+> +    /// Driver description.
+> +    pub desc: &'static CStr,
+> +    /// Driver date.
+> +    pub date: &'static CStr,
+> +}
 
+The date was removed in 6.14
+
+Once fixed,
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+
+Maxime
+
+--isazp2xhinn5rgim
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+PDQgAKCRDj7w1vZxhR
+xUWeAQDUf8hSkOKxfYvnjZemM9/6PvcrFrTM6kkpg1vPqJ++pQEAngF4F51QZcBt
+hwYoQsXR5pQHnIaqtsZn1FGzQDY4iwo=
+=PzkD
+-----END PGP SIGNATURE-----
+
+--isazp2xhinn5rgim--
