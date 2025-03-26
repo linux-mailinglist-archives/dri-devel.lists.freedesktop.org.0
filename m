@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CB3A71966
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 15:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E508A71986
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 15:58:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD5610E6DF;
-	Wed, 26 Mar 2025 14:52:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6FA10E140;
+	Wed, 26 Mar 2025 14:58:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YvEEf/hk";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="ikzW2MH1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E93FC10E6DF;
- Wed, 26 Mar 2025 14:52:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743000753; x=1774536753;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=kMWBFtvP0kEE/trvo0qGsOmq8xhchyKSw1YVss2QtLk=;
- b=YvEEf/hk7OPwYSPoeBL39D0ZFQUfkn00k8f4PW1v4XQo71kzQiXhNiGh
- PiygvvF9hmde1Gwe67blZtf5vwNwmsZY12hDLhduHgWSY2/VNM38JxQGA
- CLXMVQvwV/y69ClRzw5cr6Ilk8jjojeplyNKMa4Kuz09+9oh0gET8TDZc
- ywW1yqHqty2NkSEbqXcUoS04lurU+Mc55Py1+9RsMTZOc1YygFfSFwgpe
- dLjQzfQdahxdmyCo89qMQxgkzJj6z5CvvliOFZBLD0iZxtKdWf0VL3w/C
- WJ/xI4+vX6Ch6Z3rLyosJ1tP6mBw50gq9OwIpmG7KFWW//EKZQnSK06+s A==;
-X-CSE-ConnectionGUID: o5lN9rFnSEaIJHTQxRySwg==
-X-CSE-MsgGUID: 1Zg+b6rZSiq2vl0o5Bg5zw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44455140"
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="44455140"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 07:52:32 -0700
-X-CSE-ConnectionGUID: /xCYhiUWTT+6GflWnlz/Pw==
-X-CSE-MsgGUID: I5/SSNZdRc6H47G3BpwTZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="124596406"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.5])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 07:52:26 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 26 Mar 2025 16:52:22 +0200 (EET)
-To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
-cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v6 1/6] PCI/IOV: Restore VF resizable BAR state after reset
-In-Reply-To: <b10b559c-cb23-d21e-d6ee-e060eb0b6b5b@linux.intel.com>
-Message-ID: <f12b85eb-0dad-fa48-ffca-d052f41e0a28@linux.intel.com>
-References: <20250320110854.3866284-1-michal.winiarski@intel.com>
- <20250320110854.3866284-2-michal.winiarski@intel.com>
- <b10b559c-cb23-d21e-d6ee-e060eb0b6b5b@linux.intel.com>
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 404E510E140
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 14:58:00 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52QEvbdM2222392
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Mar 2025 09:57:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1743001057;
+ bh=eXD8bmoxHD/Y0t9zn8pp0a84HOCX8GjkBQKf1mH3xlA=;
+ h=From:To:CC:Subject:Date;
+ b=ikzW2MH1uelOfwc2Eid2VFy4x4CYvmpWtkv42vqU+Uv1pvLY0WdhNoScEBcLpPbfA
+ Xp+5MrtXP+fqZCRLvpoicF1JYUe4EHGDyKLo4rwMvP8hS0Z4HrOQSGTDoWQvdYEzf2
+ d/WWYKFNHjUKAalxMwpMCyOvEWH2vUqJkusaiAeM=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 52QEvbTY097951
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 26 Mar 2025 09:57:37 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 26
+ Mar 2025 09:57:37 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 26 Mar 2025 09:57:37 -0500
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52QEvaSn045765;
+ Wed, 26 Mar 2025 09:57:37 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>,
+ <dri-devel@lists.freedesktop.org>, <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
+ <s-jain1@ti.com>, <r-donadkar@ti.com>, <j-choudhary@ti.com>,
+ <h-shenoy@ti.com>, <devarsht@ti.com>
+Subject: [PATCH v4 0/3] Add support for AM62L DSS
+Date: Wed, 26 Mar 2025 20:27:33 +0530
+Message-ID: <20250326145736.3659670-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-657385912-1743000742=:942"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,161 +74,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This adds support for DSS subsystem present in TI's AM62L SoC
+which supports single display pipeline with DPI output which
+is also routed to DSI Tx controller within the SoC.
 
---8323328-657385912-1743000742=:942
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Change Log:
+V4:
+- Update vid_info struct to keep hw_id and instantiate
+  only for actually existing pipes
 
-On Wed, 26 Mar 2025, Ilpo J=C3=A4rvinen wrote:
+V3:
+- Make generic infra to support truncated K3 DSS IP's
+- Remove AM62A updates from AM62L DT binding updates
 
-> On Thu, 20 Mar 2025, Micha=C5=82 Winiarski wrote:
->=20
-> > Similar to regular resizable BAR, VF BAR can also be resized, e.g. by
-> > the system firmware or the PCI subsystem itself.
-> >=20
-> > Add the capability ID and restore it as a part of IOV state.
-> >
-> > See PCIe r4.0, sec 9.3.7.4.
->=20
-> Usually it's best o refer to latest gen doc, the section number seems to=
-=20
-> be the same also in r6.2.
+V2:
+- Fix incorrect format of compatible string (comma instead of
+  hyphen) for AM62L SoC
+- Use separate register space and helper functions for AM62L
+  due to minor differences in register offset/bit position differences
+  for first plane
 
-Actually, it isn't. r6.2 9.3.7 does specify capability IDs so I though you=
-=20
-be refering to that section, but there's no 9.3.7.4 section at all.
+Rangediff:
+V3->V4:
+- https://gist.github.com/devarsht/1e75c9e1ac0cdfc01703a0776e31e782
 
---
- i.
+V2->V3:
+- https://gist.github.com/devarsht/24fa8dd2986861efa431352d19ebbb41
 
-> This didn't refer to spec section that specified VF Rebar ext capability
-> (7.8.7) though. I think it should and it would also be good to mention th=
-e=20
-> capability layout is the same as with the rebar cap.
->=20
-> > Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
-> > Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > ---
-> >  drivers/pci/iov.c             | 30 +++++++++++++++++++++++++++++-
-> >  drivers/pci/pci.h             |  1 +
-> >  include/uapi/linux/pci_regs.h |  1 +
-> >  3 files changed, 31 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> > index 121540f57d4bf..bf95387993cd5 100644
-> > --- a/drivers/pci/iov.c
-> > +++ b/drivers/pci/iov.c
-> > @@ -7,6 +7,7 @@
-> >   * Copyright (C) 2009 Intel Corporation, Yu Zhao <yu.zhao@intel.com>
-> >   */
-> > =20
-> > +#include <linux/bitfield.h>
-> >  #include <linux/pci.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/export.h>
-> > @@ -830,6 +831,7 @@ static int sriov_init(struct pci_dev *dev, int pos)
-> >  =09pci_read_config_byte(dev, pos + PCI_SRIOV_FUNC_LINK, &iov->link);
-> >  =09if (pci_pcie_type(dev) =3D=3D PCI_EXP_TYPE_RC_END)
-> >  =09=09iov->link =3D PCI_DEVFN(PCI_SLOT(dev->devfn), iov->link);
-> > +=09iov->vf_rebar_cap =3D pci_find_ext_capability(dev, PCI_EXT_CAP_ID_V=
-F_REBAR);
-> > =20
-> >  =09if (pdev)
-> >  =09=09iov->dev =3D pci_dev_get(pdev);
-> > @@ -868,6 +870,30 @@ static void sriov_release(struct pci_dev *dev)
-> >  =09dev->sriov =3D NULL;
-> >  }
-> > =20
-> > +static void sriov_restore_vf_rebar_state(struct pci_dev *dev)
-> > +{
-> > +=09unsigned int pos, nbars, i;
-> > +=09u32 ctrl;
-> > +
-> > +=09pos =3D dev->sriov->vf_rebar_cap;
-> > +=09if (!pos)
-> > +=09=09return;
-> > +
-> > +=09pci_read_config_dword(dev, pos + PCI_REBAR_CTRL, &ctrl);
-> > +=09nbars =3D FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
-> > +
-> > +=09for (i =3D 0; i < nbars; i++, pos +=3D 8) {
-> > +=09=09int bar_idx, size;
-> > +
-> > +=09=09pci_read_config_dword(dev, pos + PCI_REBAR_CTRL, &ctrl);
-> > +=09=09bar_idx =3D FIELD_GET(PCI_REBAR_CTRL_BAR_IDX, ctrl);
-> > +=09=09size =3D pci_rebar_bytes_to_size(dev->sriov->barsz[bar_idx]);
-> > +=09=09ctrl &=3D ~PCI_REBAR_CTRL_BAR_SIZE;
-> > +=09=09ctrl |=3D FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
-> > +=09=09pci_write_config_dword(dev, pos + PCI_REBAR_CTRL, ctrl);
->=20
-> I started to wonder if we'd still want to have the VF Rebar ones in=20
-> uapi/linux/pci_regs.h (despite the same capability layout):
->=20
-> /*
->  * PCI Resizable BAR and PCI VF Resizable BAR extended capabilities have=
-=20
->  * the same layout of fields.
->  */
-> #define PCI_VF_REBAR_CTRL=09=09PCI_REBAR_CTRL
-> #define PCI_VF_REBAR_CTRL_BAR_IDX=09PCI_REBAR_CTRL_BAR_IDX
-> etc.
->=20
-> as then it would be possible grep to pick up only the relevant lines.
->=20
-> I'd not duplicate _SHIFT defines though. FIELD_PREP/GET() in general does=
-=20
-> not need _SHIFT defines at all and they are just duplicated information.
->=20
-> > +=09}
-> > +}
-> > +
-> >  static void sriov_restore_state(struct pci_dev *dev)
-> >  {
-> >  =09int i;
-> > @@ -1027,8 +1053,10 @@ resource_size_t pci_sriov_resource_alignment(str=
-uct pci_dev *dev, int resno)
-> >   */
-> >  void pci_restore_iov_state(struct pci_dev *dev)
-> >  {
-> > -=09if (dev->is_physfn)
-> > +=09if (dev->is_physfn) {
-> > +=09=09sriov_restore_vf_rebar_state(dev);
-> >  =09=09sriov_restore_state(dev);
-> > +=09}
-> >  }
-> > =20
-> >  /**
-> > diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> > index b81e99cd4b62a..adc54bb2c8b34 100644
-> > --- a/drivers/pci/pci.h
-> > +++ b/drivers/pci/pci.h
-> > @@ -482,6 +482,7 @@ struct pci_sriov {
-> >  =09u16=09=09subsystem_vendor; /* VF subsystem vendor */
-> >  =09u16=09=09subsystem_device; /* VF subsystem device */
-> >  =09resource_size_t=09barsz[PCI_SRIOV_NUM_BARS];=09/* VF BAR size */
-> > +=09u16=09=09vf_rebar_cap;=09/* VF Resizable BAR capability offset */
-> >  =09bool=09=09drivers_autoprobe; /* Auto probing of VFs by driver */
-> >  };
-> > =20
-> > diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_reg=
-s.h
-> > index ba326710f9c8b..bb2a334e50386 100644
-> > --- a/include/uapi/linux/pci_regs.h
-> > +++ b/include/uapi/linux/pci_regs.h
-> > @@ -745,6 +745,7 @@
-> >  #define PCI_EXT_CAP_ID_L1SS=090x1E=09/* L1 PM Substates */
-> >  #define PCI_EXT_CAP_ID_PTM=090x1F=09/* Precision Time Measurement */
-> >  #define PCI_EXT_CAP_ID_DVSEC=090x23=09/* Designated Vendor-Specific */
-> > +#define PCI_EXT_CAP_ID_VF_REBAR 0x24=09/* VF Resizable BAR */
-> >  #define PCI_EXT_CAP_ID_DLF=090x25=09/* Data Link Feature */
-> >  #define PCI_EXT_CAP_ID_PL_16GT=090x26=09/* Physical Layer 16.0 GT/s */
-> >  #define PCI_EXT_CAP_ID_NPEM=090x29=09/* Native PCIe Enclosure Manageme=
-nt */
->=20
-> Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
->=20
->=20
---8323328-657385912-1743000742=:942--
+V1->V2
+- https://gist.github.com/devarsht/11d47f25ca9fea6976e6284330ddf443
+
+Links to previous versions:
+V3: https://lore.kernel.org/all/20250306132914.1469387-1-devarsht@ti.com/
+V2: https://lore.kernel.org/all/20250204061552.3720261-1-devarsht@ti.com/
+V1: https://lore.kernel.org/all/20241231090432.3649158-1-devarsht@ti.com/
+
+Test logs:
+https://gist.github.com/devarsht/16fe796b8fd3ea8abf5df8e2327d2311
+
+Devarsh Thakkar (3):
+  dt-bindings: display: ti,am65x-dss: Add support for AM62L DSS
+  drm/tidss: Update infrastructure to support K3 DSS cut-down versions
+  drm/tidss: Add support for AM62L display subsystem
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     |  21 ++-
+ drivers/gpu/drm/tidss/tidss_crtc.c            |   8 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c           | 176 ++++++++++++++----
+ drivers/gpu/drm/tidss/tidss_dispc.h           |  13 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |   1 +
+ drivers/gpu/drm/tidss/tidss_kms.c             |   2 +-
+ drivers/gpu/drm/tidss/tidss_plane.c           |   2 +-
+ 7 files changed, 178 insertions(+), 45 deletions(-)
+
+-- 
+2.39.1
+
