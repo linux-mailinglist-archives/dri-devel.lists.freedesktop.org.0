@@ -2,77 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20B7A71D35
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 18:36:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36508A71D9D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 18:48:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEFAC10E18E;
-	Wed, 26 Mar 2025 17:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9843310E74F;
+	Wed, 26 Mar 2025 17:48:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="KLeAnQw7";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UnkWmqIB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch
- [79.135.106.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23BD410E18E
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 17:36:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=protonmail; t=1743010566; x=1743269766;
- bh=ISTNGVgFNAIYx4YxVawxUgwnjBdmAFD9xRz8nBxjPR4=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=KLeAnQw7pMwTIc0aP8iawFI8ULRG+OGlYN/wCnE45deKP4azWBgmStXT+icgK/+NK
- wv4nibfgtrEPn2ayPX1GCkqf/OcZ4xvleZX0dAm++M/xykGsV/A2eI5gFpsR+5p1ki
- uM4mSYToshLeMtIIXgxDyQvbB+R3/n2EpSPb6Aipx4oB7Ng10QGx/nRd50g76irVxH
- VFEJoigZu8OkUii3xC7p3pXKV/7QSBllcv8VGqOkzqLWdvI5gvuakA0M+osHV3k5R5
- ylVKJaUq+efycUbXXYSbzu5Zz9ssEVULj0ZPmQloCwKSrrONqFy77iu8W7tgUEDjRI
- 22E/xuo2GEh3g==
-Date: Wed, 26 Mar 2025 17:36:01 +0000
-To: Tamir Duberstein <tamird@gmail.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
- Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, FUJITA Tomonori <fujita.tomonori@gmail.com>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
- linux-block@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
-Message-ID: <D8QDOBUM6NF0.CGJY7ZA5KD9S@proton.me>
-In-Reply-To: <CAJ-ks9nKT2PUDm6=b4AB1QUWwwvcqPn7Vz60=c0B+uFMZrqPew@mail.gmail.com>
-References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
- <20250325-ptr-as-ptr-v7-7-87ab452147b9@gmail.com>
- <D8POWLFKWABG.37BVXN2QCL8MP@proton.me>
- <CAJ-ks9mUYw4FEJQfmDrHHt0oMy256jhp7qZ-CHp6R5c_sOCD4w@mail.gmail.com>
- <D8PPIYIJCNX8.13VPQULEI0ALN@proton.me>
- <CAJ-ks9k6220j6CQSOF4TDrgY9qq4PfV9uaMXz1Qk4m=eeSr5Ag@mail.gmail.com>
- <D8Q4MSXXZ7OI.1NC226MO02VSN@proton.me>
- <CAJ-ks9nHKpQPuSBypXTSATYhbAFkQTJzUq8jN0nu4t=Kw+0xxg@mail.gmail.com>
- <D8QCK3CQES3Y.3LTZ4MVO5B3KT@proton.me>
- <CAJ-ks9nKT2PUDm6=b4AB1QUWwwvcqPn7Vz60=c0B+uFMZrqPew@mail.gmail.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: c0a294e4fdda451a84b260cbeb67b2c355063bc8
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 357B610E162
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 17:47:57 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F416E4443E;
+ Wed, 26 Mar 2025 17:47:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1743011276;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZBLEondICNX76+GWcBh7Pwovu0flUSeCsLISBKtY2ck=;
+ b=UnkWmqIBFhzqtIL2x2Wx/VrHCoJBrZYvibGBi3Ef6Rxb4sP/Swn9zmY7W1EIFnuIzlZunA
+ ygHiELr3Lh/r85odAzEep4YQCSnfVcp1srHJw0L7W9fzy5nEFrdNbslyETWZtbK9f1CdW8
+ ivpPbFFuBXCDgewdYNJXDr+9gkvnbVqYxzGPtZl0ubUVu8ZAVDIFAOWlHPlDaowhquegr3
+ fPCB9J/N3MkQIgdiUTnYNqkPf+GaG08BdzVKdeqyUyjOxRQIc+5H0jPFmi7ECoHmACtmwK
+ /0WaxDeP+0LKMO9UNhH+SBDb5g2T/B/sA8beKXzr7q7OhtJHQvM3ADSOi5Tofw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v9 0/5] drm/bridge: add devm_drm_bridge_alloc() with bridge
+ refcount
+Date: Wed, 26 Mar 2025 18:47:34 +0100
+Message-Id: <20250326-drm-bridge-refcount-v9-0-5e0661fe1f84@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALY95GcC/33NTQrCMBAF4KtI1kaStGkTV95DXLT5sQM2kaQGp
+ fTuTrtSEGE2bx7zzUyyS+AyOe5mklyBDDFg0PsdMUMXro6CxUwEE5JVvKY2jbRPYLFJzpv4CBO
+ VympscXxD8PKODTw39XzBPECeYnptT0q7bv97paWMcilky70yja5PfYzTDcLBxJGsYlEfimC/F
+ YVKX1nbddrzqlHfyrIsb9s133L+AAAA
+X-Change-ID: 20250314-drm-bridge-refcount-58d9503503f6
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Anusha Srivatsa <asrivats@redhat.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
+ =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieeiudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgieetkeekgfdtudevueffueffveekheeiudfhfedvhfeukeeuhffhtddtvdekfeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefuddprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgrrhgvgiesuggvnhigrdguvgdprhgtphhtthhopehimhigsehlihhst
+ hhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhm
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,110 +84,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Mar 26, 2025 at 5:57 PM CET, Tamir Duberstein wrote:
-> On Wed, Mar 26, 2025 at 12:43=E2=80=AFPM Benno Lossin <benno.lossin@proto=
-n.me> wrote:
->> On Wed Mar 26, 2025 at 11:35 AM CET, Tamir Duberstein wrote:
->> > On Wed, Mar 26, 2025 at 6:31=E2=80=AFAM Benno Lossin <benno.lossin@pro=
-ton.me> wrote:
->> >> On Wed Mar 26, 2025 at 12:54 AM CET, Tamir Duberstein wrote:
->> >> > On Tue, Mar 25, 2025 at 6:40=E2=80=AFPM Benno Lossin <benno.lossin@=
-proton.me> wrote:
->> >> >> On Tue Mar 25, 2025 at 11:33 PM CET, Tamir Duberstein wrote:
->> >> >> > On Tue, Mar 25, 2025 at 6:11=E2=80=AFPM Benno Lossin <benno.loss=
-in@proton.me> wrote:
->> >> >> >> On Tue Mar 25, 2025 at 9:07 PM CET, Tamir Duberstein wrote:
->> >> >> >> > diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
->> >> >> >> > index 40034f77fc2f..6233af50bab7 100644
->> >> >> >> > --- a/rust/kernel/str.rs
->> >> >> >> > +++ b/rust/kernel/str.rs
->> >> >> >> > @@ -29,7 +29,7 @@ pub const fn is_empty(&self) -> bool {
->> >> >> >> >      #[inline]
->> >> >> >> >      pub const fn from_bytes(bytes: &[u8]) -> &Self {
->> >> >> >> >          // SAFETY: `BStr` is transparent to `[u8]`.
->> >> >> >> > -        unsafe { &*(bytes as *const [u8] as *const BStr) }
->> >> >> >> > +        unsafe { &*(core::mem::transmute::<*const [u8], *con=
-st Self>(bytes)) }
->> >> >> >>
->> >> >> >> Hmm I'm not sure about using `transmute` here. Yes the types ar=
-e
->> >> >> >> transparent, but I don't think that we should use it here.
->> >> >> >
->> >> >> > What's your suggestion? I initially tried
->> >> >> >
->> >> >> > let bytes: *const [u8] =3D bytes;
->> >> >> > unsafe { &*bytes.cast() }
->> >> >> >
->> >> >> > but that doesn't compile because of the implicit Sized bound on =
-pointer::cast.
->> >> >>
->> >> >> This is AFAIK one of the only places where we cannot get rid of th=
-e `as`
->> >> >> cast. So:
->> >> >>
->> >> >>     let bytes: *const [u8] =3D bytes;
->> >> >>     // CAST: `BStr` transparently wraps `[u8]`.
->> >> >>     let bytes =3D bytes as *const BStr;
->> >> >>     // SAFETY: `bytes` is derived from a reference.
->> >> >>     unsafe { &*bytes }
->> >> >>
->> >> >> IMO a `transmute` is worse than an `as` cast :)
->> >> >
->> >> > Hmm, looking at this again we can just transmute ref-to-ref and avo=
-id
->> >> > pointers entirely. We're already doing that in
->> >> > `CStr::from_bytes_with_nul_unchecked`
->> >> >
->> >> > Why is transmute worse than an `as` cast?
->> >>
->> >> It's right in the docs: "`transmute` should be the absolute last
->> >> resort." [1]. IIRC, Gary was a bit more lenient in its use, but I thi=
-nk
->> >> we should avoid it as much as possible such that people copying code =
-or
->> >> taking inspiration also don't use it.
->> >>
->> >> So for both cases I'd prefer an `as` cast.
->> >>
->> >> [1]: https://doc.rust-lang.org/std/mem/fn.transmute.html
->> >
->> > I don't follow the logic. The trouble with `as` casts is that they are
->> > very lenient in what they allow, and to do these conversions with `as`
->> > casts requires ref -> pointer -> pointer -> pointer deref versus a
->> > single transmute. The safety comment perfectly describes why it's OK
->> > to do: the types are transparent. So why is `as` casting pointers
->> > better? It's just as unchecked as transmuting, and worse, it requires
->> > a raw pointer dereference.
->>
->> Note that you're not transmuting `[u8]` to `BStr`, but `*const [u8]` to
->> `*const BStr`. Those pointers have provenance and I'm not sure if
->> transmuting them preserves it.
->
-> In the current code you're looking at, yes. But in the code I have
-> locally I'm transmuting `[u8]` to `BStr`. See my earlier reply where I
-> said "Hmm, looking at this again we can just transmute ref-to-ref and
-> avoid pointers entirely. We're already doing that in
-> `CStr::from_bytes_with_nul_unchecked`".
+This series improves the way DRM bridges are allocated and initialized and
+makes them reference-counted. The goal of reference counting is to avoid
+use-after-free by drivers which got a pointer to a bridge and keep it
+stored and used even after the bridge has been deallocated.
 
-`CStr::from_bytes_with_nul_unchecked` does the transmute with
-references. That is a usage that the docs of `transmute` explicitly
-recommend to change to an `as` cast [1].
+The overall goal is supporting Linux devices with a DRM pipeline whose
+final components can be hot-plugged and hot-unplugged, including one or
+more bridges. For more details see the big picture [0].
 
-No idea about provenance still.
+DRM bridge drivers will have to be adapted to the new API -- the change is
+trivial for most cases. This series converts two of them to serve as an
+example. The remaining ones will be done as a follow-up after this first
+part is merged.
 
-[1]: https://doc.rust-lang.org/std/mem/fn.transmute.html#alternatives
+After that, refcounting will have to be added on the two sides: all
+functions returning a bridge pointer and all code obtaining such a
+pointer. A few examples have been sent in v7 (link below), they are OK, but
+I removed them since v8 because they must be merged only after converting
+all bridges.
 
->> I tried to find some existing issues about the topic and found that
->> there exists a clippy lint `transmute_ptr_to_ptr`. There is an issue
->> asking for a better justification [1] and it seems like nobody provided
->> one there. Maybe we should ask the opsem team what happens to provenance
->> when transmuting?
->
-> Yeah, we should do this - but again: not relevant in this discussion.
+Here's the grand plan:
 
-I think it's pretty relevant.
+ A. add new alloc API and refcounting (this series, at least patches 1-3)
+ B. after (A), convert all bridge drivers to new API
+ C. after (A), add documentation and kunit tests
+ D. after (B), add get/put to drm_bridge_add/remove() + attach/detech()
+    (patches 3-4 in the v7 series)
+ E. after (B), convert accessors (including patches 5-9 in the v7 series
+    which convert drm_bridge_chain_get_first_bridge() and its users);
+    this is a large work and can be done in chunks
+ F. after (A), debugfs: show refcount, show removed bridges
+ 
+Layout of this:
+
+ 1. Add the new API and refcounting:
+
+    drm/bridge: add devm_drm_bridge_alloc()
+    drm/bridge: add support for refcounting
+    drm/bridge: deprecate old-style bridge allocation
+
+ 2. convert a few bridge drivers (bridge providers) to the new API:
+
+    drm/bridge: ti-sn65dsi83: use dynamic lifetime management
+    drm/bridge: samsung-dsim: use dynamic lifetime management
+
+[0] https://lore.kernel.org/dri-devel/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v9 (only patches 2 and 3 have changes):
+- Made drm_bridge_put() return void
+- Added debugfs improvements to the grand plan (item F)
+- Reworded comment in patch 3
+- Link to v8: https://lore.kernel.org/r/20250320-drm-bridge-refcount-v8-0-b3ddaa9f1368@bootlin.com
+
+Changes in v8:
+- Applied requested changes to patch 2
+- Add R-by to other patches
+- Removed v7 patches 3-9: they are OK but must wait until all bridge
+  drivers are converted to the new API
+- Added patch to deprecate old-style bridge allocation
+- Link to v7: https://lore.kernel.org/r/20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com
 
 ---
-Cheers,
-Benno
+Luca Ceresoli (5):
+      drm/bridge: add devm_drm_bridge_alloc()
+      drm/bridge: add support for refcounting
+      drm/bridge: make devm_drm_bridge_alloc() mandatory for bridge allocation
+      drm/bridge: ti-sn65dsi83: use dynamic lifetime management
+      drm/bridge: samsung-dsim: use dynamic lifetime management
+
+ drivers/gpu/drm/bridge/samsung-dsim.c |  7 ++-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c |  7 ++-
+ drivers/gpu/drm/drm_bridge.c          | 86 +++++++++++++++++++++++++++++++++++
+ include/drm/drm_bridge.h              | 36 +++++++++++++++
+ 4 files changed, 128 insertions(+), 8 deletions(-)
+---
+base-commit: 8224bc33fdec82533a68486612e6fd78197b95b5
+change-id: 20250314-drm-bridge-refcount-58d9503503f6
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
