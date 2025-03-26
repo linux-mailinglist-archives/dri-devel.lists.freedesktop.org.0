@@ -2,54 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E42A7139E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 10:24:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78A3A713B5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 10:29:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC2A210E685;
-	Wed, 26 Mar 2025 09:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5530110E68C;
+	Wed, 26 Mar 2025 09:29:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AdgGapWe";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="QGtMg2U0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xxv2O7WJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QGtMg2U0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xxv2O7WJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A289210E685
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:24:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E07D6A40E4E;
- Wed, 26 Mar 2025 09:19:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238FEC4CEE2;
- Wed, 26 Mar 2025 09:24:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742981085;
- bh=6vR0hMY7/lFYGSwRX0YvgVjgLGDS7wGj/NIZGMcSIuE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AdgGapWer9fV3UUUEqX7PduLQJF8X5SZrXmBcP8hUeJmEK6QxbJzy4Qcbhtjz6Ydy
- hmpYxwwjqhvAJ90XI9f3xicowrpaNEfmC1gLv7C3yycJ8blt2aq6Y520YPTfcUPgFR
- u+7iH/AR0W2rzypqkmNlBJcGvPj+tqyk8fSS6Sza3Dt64A4umEv/9s4tos98N19l94
- Z0VSupooF5s2e7gd4VHCmYsLkcddjzdB1N8u1ZZ/9/VIVMFqRyJxktJPQIrC52VDku
- eYwq7gIr7CDb6Fd3xn4FurTlo/flLZIK3YsXRPZ4di2VWrv7n4gSEjC5Z/agagVfOi
- EIOOsM47F9Grw==
-Date: Wed, 26 Mar 2025 10:24:43 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- tzimmermann@suse.de, lyude@redhat.com, acurrid@nvidia.com, lina@asahilina.net, 
- daniel.almeida@collabora.com, j@jannau.net, ojeda@kernel.org,
- alex.gaynor@gmail.com, 
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
- benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, 
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 5/8] rust: drm: add DRM driver registration
-Message-ID: <20250326-loyal-scrupulous-leech-59d44a@houat>
-References: <20250325235522.3992-1-dakr@kernel.org>
- <20250325235522.3992-6-dakr@kernel.org>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9AB210E68C
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:29:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 47AD81F391;
+ Wed, 26 Mar 2025 09:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1742981380; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NBb0DLxbZ1Xy8lV9iYYVobxQWtWXO/9x6FdnTg4oeN8=;
+ b=QGtMg2U0W13REvRyAO6iDul3Ln6Bx540Pebz0AnigxAlctpaW5tnp/Tr9s107PyFC16lzg
+ rNczVYQsyqUn7Lp9J6TfMsoKosduFhkUL+TGCCal108Z0OOnYWlOGcjC+qmxevt3TRpvn+
+ 1eB1Zj9AhorFqlWNVmDZb6rn7c5Y+JU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1742981380;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NBb0DLxbZ1Xy8lV9iYYVobxQWtWXO/9x6FdnTg4oeN8=;
+ b=Xxv2O7WJ45F+uM7cVwGdJbh1i6TGufa2DOjjrVXsA7xVB5GzhRyBVfpnYRhe0Nx1K4Zjqx
+ Bu2fT1EhfApvJlCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1742981380; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NBb0DLxbZ1Xy8lV9iYYVobxQWtWXO/9x6FdnTg4oeN8=;
+ b=QGtMg2U0W13REvRyAO6iDul3Ln6Bx540Pebz0AnigxAlctpaW5tnp/Tr9s107PyFC16lzg
+ rNczVYQsyqUn7Lp9J6TfMsoKosduFhkUL+TGCCal108Z0OOnYWlOGcjC+qmxevt3TRpvn+
+ 1eB1Zj9AhorFqlWNVmDZb6rn7c5Y+JU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1742981380;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NBb0DLxbZ1Xy8lV9iYYVobxQWtWXO/9x6FdnTg4oeN8=;
+ b=Xxv2O7WJ45F+uM7cVwGdJbh1i6TGufa2DOjjrVXsA7xVB5GzhRyBVfpnYRhe0Nx1K4Zjqx
+ Bu2fT1EhfApvJlCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DC3061374A;
+ Wed, 26 Mar 2025 09:29:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id eRKQNAPJ42fQZAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Mar 2025 09:29:39 +0000
+Message-ID: <65cd8976-3e07-4886-8eaa-f9a6094f6f1e@suse.de>
+Date: Wed, 26 Mar 2025 10:29:39 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ncnfr2i3xiofvi2o"
-Content-Disposition: inline
-In-Reply-To: <20250325235522.3992-6-dakr@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/edid: Use unsigned int in drm_add_modes_noedid()
+To: Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>,
+ "open list:RUST:Keyword:b(?i:rust)b" <rust-for-linux@vger.kernel.org>
+References: <20250325212823.669459-1-lyude@redhat.com>
+ <20250325212823.669459-2-lyude@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250325212823.669459-2-lyude@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[18];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,protonmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,gmail.com,ffwll.ch,kernel.org,garyguo.net,protonmail.com,proton.me,google.com,umich.edu,vger.kernel.org];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
+ bootlin.com:url]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,146 +153,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
---ncnfr2i3xiofvi2o
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 5/8] rust: drm: add DRM driver registration
-MIME-Version: 1.0
-
-Hi,
-
-On Wed, Mar 26, 2025 at 12:54:32AM +0100, Danilo Krummrich wrote:
-> Implement the DRM driver `Registration`.
->=20
-> The `Registration` structure is responsible to register and unregister a
-> DRM driver. It makes use of the `Devres` container in order to allow the
-> `Registration` to be owned by devres, such that it is automatically
-> dropped (and the DRM driver unregistered) once the parent device is
-> unbound.
-
-The code looks correct, but the wording is confusing to me.
-drm_dev_unregister does indeed unregister the device, but it's not freed
-until the last reference is dropped, so it's not really "dropped once
-the parent device is unbound", the reference is, and it's not active
-anymore.
-
-> Co-developed-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Am 25.03.25 um 22:27 schrieb Lyude Paul:
+> A negative resolution doesn't really make any sense, no one goes into a TV
+> store and says "Hello sir, I would like a negative 4K TV please", that
+> would make everyone look at you funny.
+>
+> So, let's make these parameters a bit more reasonable and ensure that
+> they're unsigned - which makes the resulting rust bindings for this
+> function a bit easier to understand and work with.
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
 > ---
->  rust/kernel/drm/driver.rs | 57 ++++++++++++++++++++++++++++++++++++++-
->  rust/kernel/drm/mod.rs    |  1 +
->  2 files changed, 57 insertions(+), 1 deletion(-)
->=20
-> diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-> index 625cab7839a3..8d2b397018d1 100644
-> --- a/rust/kernel/drm/driver.rs
-> +++ b/rust/kernel/drm/driver.rs
-> @@ -4,7 +4,15 @@
->  //!
->  //! C header: [`include/linux/drm/drm_drv.h`](srctree/include/linux/drm/=
-drm_drv.h)
-> =20
-> -use crate::{bindings, drm, str::CStr};
-> +use crate::{
-> +    bindings,
-> +    devres::Devres,
-> +    drm,
-> +    error::{Error, Result},
-> +    prelude::*,
-> +    str::CStr,
-> +    types::ARef,
-> +};
->  use macros::vtable;
-> =20
->  /// Driver use the GEM memory manager. This should be set for all modern=
- drivers.
-> @@ -134,3 +142,50 @@ pub trait Driver {
->      /// IOCTL list. See `kernel::drm::ioctl::declare_drm_ioctls!{}`.
->      const IOCTLS: &'static [drm::ioctl::DrmIoctlDescriptor];
->  }
-> +
-> +/// The registration type of a `drm::Device`.
-> +///
-> +/// Once the `Registration` structure is dropped, the device is unregist=
-ered.
-> +pub struct Registration<T: Driver>(ARef<drm::Device<T>>);
-> +
-> +impl<T: Driver> Registration<T> {
-> +    /// Creates a new [`Registration`] and registers it.
-> +    pub fn new(drm: ARef<drm::Device<T>>, flags: usize) -> Result<Self> {
-> +        // SAFETY: Safe by the invariants of `drm::Device`.
-> +        let ret =3D unsafe { bindings::drm_dev_register(drm.as_raw(), fl=
-ags) };
-> +        if ret < 0 {
-> +            return Err(Error::from_errno(ret));
-> +        }
-> +
-> +        Ok(Self(drm))
-> +    }
-> +
-> +    /// Same as [`Registration::new`}, but transfers ownership of the [`=
-Registration`] to
-> +    /// [`Devres`].
-> +    pub fn new_foreign_owned(drm: ARef<drm::device::Device<T>>, flags: u=
-size) -> Result {
-> +        let reg =3D Registration::<T>::new(drm.clone(), flags)?;
-> +
-> +        Devres::new_foreign_owned(drm.as_ref(), reg, GFP_KERNEL)
-> +    }
-> +
-> +    /// Returns a reference to the `Device` instance for this registrati=
-on.
-> +    pub fn device(&self) -> &drm::Device<T> {
-> +        &self.0
-> +    }
-> +}
-> +
-> +// SAFETY: `Registration` doesn't offer any methods or access to fields =
-when shared between
-> +// threads, hence it's safe to share it.
-> +unsafe impl<T: Driver> Sync for Registration<T> {}
-> +
-> +// SAFETY: Registration with and unregistration from the DRM subsystem c=
-an happen from any thread.
-> +unsafe impl<T: Driver> Send for Registration<T> {}
-> +
-> +impl<T: Driver> Drop for Registration<T> {
-> +    /// Removes the registration from the kernel if it has completed suc=
-cessfully before.
-> +    fn drop(&mut self) {
-> +        // SAFETY: Safe by the invariant of `ARef<drm::Device<T>>`. The =
-existence of this
-> +        // `Registration` also guarantees the this `drm::Device` is actu=
-ally registered.
-> +        unsafe { bindings::drm_dev_unregister(self.0.as_raw()) };
-> +    }
-> +}
+>   drivers/gpu/drm/drm_edid.c | 2 +-
+>   include/drm/drm_edid.h     | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 13bc4c290b17d..2e2e1d2347397 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -7099,7 +7099,7 @@ EXPORT_SYMBOL(drm_add_edid_modes);
+>    * Return: The number of modes added or 0 if we couldn't find any.
+>    */
+>   int drm_add_modes_noedid(struct drm_connector *connector,
+> -			int hdisplay, int vdisplay)
+> +			 unsigned int hdisplay, unsigned int vdisplay)
 
-drm_dev_unregister also have an hotplug-aware variant in
-drm_dev_unplug(). However, most devices are hotpluggable, even if only
-through sysfs. So drm_dev_unplug() is generally a better option. Should
-we use it here, and / or should we provide multiple options still?
+You should also remove these branches:
 
-Another thing worth mentioning I think is that drm_dev_unplug() works by
-setting a flag, and drivers are expected to check that their access to
-device-bound resources (so registers mapping, clocks, regulators, etc.)
-are still there through drm_dev_enter/drm_dev_exit. It's pretty fragile
-overall, so I wonder if it's something we could abstract away in Rust.
+  https://elixir.bootlin.com/linux/v6.13.7/source/drivers/gpu/drm/drm_edid.c#L7109
 
-Maxime
+Best regards
+Thomas
 
---ncnfr2i3xiofvi2o
-Content-Type: application/pgp-signature; name="signature.asc"
+>   {
+>   	int i, count, num_modes = 0;
+>   	struct drm_display_mode *mode;
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index eaac5e665892a..b38409670868d 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -437,7 +437,7 @@ bool drm_detect_monitor_audio(const struct edid *edid);
+>   enum hdmi_quantization_range
+>   drm_default_rgb_quant_range(const struct drm_display_mode *mode);
+>   int drm_add_modes_noedid(struct drm_connector *connector,
+> -			 int hdisplay, int vdisplay);
+> +			 unsigned int hdisplay, unsigned int vdisplay);
+>   
+>   int drm_edid_header_is_valid(const void *edid);
+>   bool drm_edid_is_valid(struct edid *edid);
 
------BEGIN PGP SIGNATURE-----
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+PH2gAKCRDj7w1vZxhR
-xTS3AP9e5D9UpCoO4d3TIBSIr+fpF4mj+jKIqxtiJxo6VMTwGQD/VbcaKtmzwsX9
-w8nseKbzwambddtuJEdu+UXIzDhEhAg=
-=YPjG
------END PGP SIGNATURE-----
-
---ncnfr2i3xiofvi2o--
