@@ -2,69 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1840BA71A1F
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 16:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B4EA71A2B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 16:25:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 616D310E6FD;
-	Wed, 26 Mar 2025 15:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5841110E6F2;
+	Wed, 26 Mar 2025 15:25:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RybmhwP6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NgbxCAQ7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 481CC10E6FA;
- Wed, 26 Mar 2025 15:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743002586; x=1774538586;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=2ZQQrfoMCkW8KTsHXP4erfvYUa6Js4OjFNugSnhgNCM=;
- b=RybmhwP6Vv7hegRTwG7Ei1KgpQVYoluffC4gDJ7nDc2oyl+Kcug/gtdy
- JWJplXpxW4Qo/dV+DcO8U/98rEMI6++VVPJyZ7Ci69HWD+PjQmEcmL2Bp
- Cj4qR9eyGaAl0b27PEB+AtTNZbSF8CzIyHq+dNC8MTTPkdj7Yu7NXbYKt
- eZneOHoNBZeltSI+ZcO4wSVPR0pmW6FNibPFBb13HryU0W4DXLTzZYVFT
- E6kLS6Lhe1HCiBMNFp+tQtygcIoI40DrBdiQhFgyJFVXjL8lJWVRtp/32
- p1xWi0NmJS6/M4GSnxR2i1JQcIxx5tbrebKdRD0x53kiiVwo2spzIo4LJ A==;
-X-CSE-ConnectionGUID: j7MVufjNQhWICCGZELM/Cg==
-X-CSE-MsgGUID: aK/479IlRKqQlu7TLJYaDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="55296926"
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="55296926"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 08:23:00 -0700
-X-CSE-ConnectionGUID: Q+f2VCQiSRuWz7lMYmRRPQ==
-X-CSE-MsgGUID: s2xmdai3Rm2siOCMWMNiag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="155712192"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.5])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 08:22:55 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 26 Mar 2025 17:22:50 +0200 (EET)
-To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
-cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD64610E6F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 15:25:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 0454D43811;
+ Wed, 26 Mar 2025 15:25:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F1BC4CEE2;
+ Wed, 26 Mar 2025 15:25:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743002709;
+ bh=kt+LdfFip12WDLC5j3cmKeWc4UoHGSmUrB0AJQ2jWlQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NgbxCAQ7jAuOweaU4SDrahAdnPPPj3DFEv1JhosQrZBqWEqbSNE4mBoYVpo9puiR4
+ joKzu5ydeMX+xHvWvCBngu7uRMQE8nuaVRobr0il5yv8JLhOdaUs93WWGfXqOYHFBR
+ g2s0pQgXfL7ZoQzX/OjF6FQd0LaANruirSUGw0OSl3MuI0LirP3G9bliGQK9qvXvo9
+ a3e+/UB0ySWusYu1fM2vQdCf0pvaV16el8ipvn327JvFvCyBef9AYccS8bpdZpV9/T
+ sD+0sKi7WG0G854sZZgjcRweX/QRio7lpsQmQwkYjC4JYrN86z93MrAwPZbi3MBEpB
+ I35ka/GuhhBVQ==
+Date: Wed, 26 Mar 2025 16:25:01 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v6 5/6] PCI: Allow drivers to control VF BAR size
-In-Reply-To: <20250320110854.3866284-6-michal.winiarski@intel.com>
-Message-ID: <7374beef-46ed-ab53-ccb5-48565526545c@linux.intel.com>
-References: <20250320110854.3866284-1-michal.winiarski@intel.com>
- <20250320110854.3866284-6-michal.winiarski@intel.com>
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 1/5] drm/panel: Add new helpers for refcounted panel
+ allocatons
+Message-ID: <20250326-illegal-vicugna-of-reverence-e4c3d1@houat>
+References: <20250325-b4-panel-refcounting-v1-0-4e2bf5d19c5d@redhat.com>
+ <20250325-b4-panel-refcounting-v1-1-4e2bf5d19c5d@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-2132874728-1743002570=:942"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="w5aflokbiw5fdb7n"
+Content-Disposition: inline
+In-Reply-To: <20250325-b4-panel-refcounting-v1-1-4e2bf5d19c5d@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,183 +64,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-2132874728-1743002570=:942
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+--w5aflokbiw5fdb7n
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/5] drm/panel: Add new helpers for refcounted panel
+ allocatons
+MIME-Version: 1.0
 
-On Thu, 20 Mar 2025, Micha=C5=82 Winiarski wrote:
-
-> Drivers could leverage the fact that the VF BAR MMIO reservation is
-> created for total number of VFs supported by the device by resizing the
-> BAR to larger size when smaller number of VFs is enabled.
+On Tue, Mar 25, 2025 at 01:24:08PM -0400, Anusha Srivatsa wrote:
+> Introduce reference counted allocations for panels to avoid
+> use-after-free. The patch adds the macro devm_drm_bridge_alloc()
+> to allocate a new refcounted panel. Followed the documentation for
+> drmm_encoder_alloc() and devm_drm_dev_alloc and other similar
+> implementations for this purpose.
 >=20
-> Add a pci_iov_vf_bar_set_size() function to control the size and a
-> pci_iov_vf_bar_get_sizes() helper to get the VF BAR sizes that will
-> allow up to num_vfs to be successfully enabled with the current
-> underlying reservation size.
->=20
-> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 > ---
->  drivers/pci/iov.c   | 78 +++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/pci.h |  6 ++++
->  2 files changed, 84 insertions(+)
+>  drivers/gpu/drm/drm_panel.c | 25 +++++++++++++++++++++++++
+>  include/drm/drm_panel.h     | 22 ++++++++++++++++++++++
+>  2 files changed, 47 insertions(+)
 >=20
-> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> index 861273ad9a580..751eef232685c 100644
-> --- a/drivers/pci/iov.c
-> +++ b/drivers/pci/iov.c
-> @@ -1291,3 +1291,81 @@ int pci_sriov_configure_simple(struct pci_dev *dev=
-, int nr_virtfn)
->  =09return nr_virtfn;
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index c627e42a7ce70459f50eb5095fffc806ca45dabf..bdeab5710ee324dc1742fbc77=
+582250960556308 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -355,6 +355,31 @@ struct drm_panel *of_drm_find_panel(const struct dev=
+ice_node *np)
 >  }
->  EXPORT_SYMBOL_GPL(pci_sriov_configure_simple);
+>  EXPORT_SYMBOL(of_drm_find_panel);
+> =20
+> +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t off=
+set,
+> +			     const struct drm_panel_funcs *funcs,
+> +			     int connector_type)
+> +{
+> +	void *container;
+> +	struct drm_panel *panel;
+> +
+> +	if (!funcs) {
+> +		dev_warn(dev, "Missing funcs pointer\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	container =3D devm_kzalloc(dev, size, GFP_KERNEL);
+> +	if (!container)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	panel =3D container + offset;
+> +	panel->funcs =3D funcs;
+> +
+> +	drm_panel_init(panel, dev, funcs, connector_type);
+> +
+> +	return container;
+> +}
+> +EXPORT_SYMBOL(__devm_drm_panel_alloc);
+> +
+>  /**
+>   * of_drm_get_panel_orientation - look up the orientation of the panel t=
+hrough
+>   * the "rotation" binding from a device tree node
+> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+> index a9c042c8dea1a82ef979c7a68204e0b55483fc28..63fb1dbe15a0556e7484bc187=
+37a6b1f4c208b0c 100644
+> --- a/include/drm/drm_panel.h
+> +++ b/include/drm/drm_panel.h
+> @@ -28,6 +28,7 @@
+>  #include <linux/errno.h>
+>  #include <linux/list.h>
+>  #include <linux/mutex.h>
+> +#include <linux/kref.h>
+> =20
+>  struct backlight_device;
+>  struct dentry;
+> @@ -268,6 +269,27 @@ struct drm_panel {
+>  	bool enabled;
+>  };
+> =20
+> +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t off=
+set,
+> +			     const struct drm_panel_funcs *funcs,
+> +			     int connector_type);
 > +
 > +/**
-> + * pci_iov_vf_bar_set_size - set a new size for a VF BAR
-> + * @dev: the PCI device
-> + * @resno: the resource number
-> + * @size: new size as defined in the spec (0=3D1MB, 31=3D128TB)
-> + *
-> + * Set the new size of a VF BAR that supports VF resizable BAR capabilit=
-y.
-> + * Unlike pci_resize_resource(), this does not cause the resource that
-> + * reserves the MMIO space (originally up to total_VFs) to be resized, w=
-hich
-> + * means that following calls to pci_enable_sriov() can fail if the reso=
-urces
-> + * no longer fit.
-> + *
-> + * Returns 0 on success, or negative on failure.
+> + * devm_drm_panel_alloc - Allocate and initialize an refcounted panel
+> + * @dev: struct device of the panel device
+> + * @type: the type of the struct which contains struct &drm_panel
+> + * @member: the name of the &drm_panel within @type
+> + * @funcs: callbacks for this panel
+> + * @connector_type: connector type of the driver
+> + * The returned refcount is initialised to 1
 
-Return: is the correct kernel doc style.
+There's not returned refcount. What is returned is a pointer to the
+container structure. You should mention that the reference count is
+initialized to 1, and will be given back automatically through a devm
+action.
 
-> + */
-> +int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno, int size)
-> +{
-> +=09int ret;
-> +=09u32 sizes;
-> +
-> +=09if (!pci_resource_is_iov(resno))
-> +=09=09return -EINVAL;
-> +
-> +=09if (pci_iov_is_memory_decoding_enabled(dev))
-> +=09=09return -EBUSY;
-> +
-> +=09sizes =3D pci_rebar_get_possible_sizes(dev, resno);
-> +=09if (!sizes)
-> +=09=09return -ENOTSUPP;
-> +
-> +=09if (!(sizes & BIT(size)))
-> +=09=09return -EINVAL;
-> +
-> +=09ret =3D pci_rebar_set_size(dev, resno, size);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09pci_iov_resource_set_size(dev, resno, pci_rebar_size_to_bytes(size));
-> +
-> +=09return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(pci_iov_vf_bar_set_size);
-> +
-> +/**
-> + * pci_iov_vf_bar_get_sizes - get VF BAR sizes allowing to create up to =
-num_vfs
-> + * @dev: the PCI device
-> + * @resno: the resource number
-> + * @num_vfs: number of VFs
-> + *
-> + * Get the sizes of a VF resizable BAR that can be accommodated within t=
-he
-> + * resource that reserves the MMIO space if num_vfs are enabled.
+Iirc, Luca had a similar mention in his series, if you need inspiration.
 
-I'd rephrase to:
+> + * Returns:
+> + * Pointer to new panel, or ERR_PTR on failure.
 
-Get the sizes of a VF resizable BAR that can be accommodate @num_vfs=20
-within the currently assigned size of the resource @resno.
+It doesn't return a pointer to the new panel, but to the structure
+containing the panel.
 
-> + *
-> + * Returns 0 if BAR isn't resizable, otherwise returns a bitmask in form=
-at
+Maxime
 
-Return:
+--w5aflokbiw5fdb7n
+Content-Type: application/pgp-signature; name="signature.asc"
 
-a bitmask of sizes
+-----BEGIN PGP SIGNATURE-----
 
-> + * defined in the spec (bit 0=3D1MB, bit 31=3D128TB).
-> + */
-> +u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resno, int num_vfs=
-)
-> +{
-> +=09resource_size_t size;
-> +=09u32 sizes;
-> +=09int i;
-> +
-> +=09sizes =3D pci_rebar_get_possible_sizes(dev, resno);
-> +=09if (!sizes)
-> +=09=09return 0;
-> +
-> +=09while (sizes > 0) {
-> +=09=09i =3D __fls(sizes);
-> +=09=09size =3D pci_rebar_size_to_bytes(i);
-> +
-> +=09=09if (size * num_vfs <=3D pci_resource_len(dev, resno))
-> +=09=09=09break;
-> +
-> +=09=09sizes &=3D ~BIT(i);
-> +=09}
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+QcTAAKCRDj7w1vZxhR
+xR34AP0VPzR1Vh27yHyFY3AMWW8VIZce+7PEjB5diAGv7vXl2wEAi2DiPaz0gmCJ
+srThpK1ea4mhDs7YEH9HpYH/+BcEggc=
+=UONS
+-----END PGP SIGNATURE-----
 
-Couldn't this be handled without a loop:
-
-=09bar_sizes =3D (round_up(pci_resource_len(dev, resno) / num_vfs) - 1) >>
-=09=09    ilog2(SZ_1M);
-
-=09sizes &=3D bar_sizes;
-
-(Just to given an idea, I wrote this into the email so it might contain=20
-some off-by-one errors or like).
-
-> +
-> +=09return sizes;
-> +}
-> +EXPORT_SYMBOL_GPL(pci_iov_vf_bar_get_sizes);
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 0e8e3fd77e967..c8708f3749757 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -2389,6 +2389,8 @@ int pci_sriov_set_totalvfs(struct pci_dev *dev, u16=
- numvfs);
->  int pci_sriov_get_totalvfs(struct pci_dev *dev);
->  int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn);
->  resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno);
-> +int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno, int size);
-> +u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resno, int num_vfs=
-);
->  void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe);
-> =20
->  /* Arch may override these (weak) */
-> @@ -2441,6 +2443,10 @@ static inline int pci_sriov_get_totalvfs(struct pc=
-i_dev *dev)
->  #define pci_sriov_configure_simple=09NULL
->  static inline resource_size_t pci_iov_resource_size(struct pci_dev *dev,=
- int resno)
->  { return 0; }
-> +static inline int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno=
-, int size)
-> +{ return -ENODEV; }
-> +static inline u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resn=
-o, int num_vfs)
-> +{ return 0; }
->  static inline void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool pr=
-obe) { }
->  #endif
-> =20
->=20
-
---=20
- i.
-
---8323328-2132874728-1743002570=:942--
+--w5aflokbiw5fdb7n--
