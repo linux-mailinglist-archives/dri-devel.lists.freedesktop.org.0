@@ -2,53 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B4EA71A2B
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 16:25:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6999A71A8E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 16:37:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5841110E6F2;
-	Wed, 26 Mar 2025 15:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB08110E702;
+	Wed, 26 Mar 2025 15:37:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NgbxCAQ7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fGOJw8BP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD64610E6F2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 15:25:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0454D43811;
- Wed, 26 Mar 2025 15:25:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F1BC4CEE2;
- Wed, 26 Mar 2025 15:25:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743002709;
- bh=kt+LdfFip12WDLC5j3cmKeWc4UoHGSmUrB0AJQ2jWlQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NgbxCAQ7jAuOweaU4SDrahAdnPPPj3DFEv1JhosQrZBqWEqbSNE4mBoYVpo9puiR4
- joKzu5ydeMX+xHvWvCBngu7uRMQE8nuaVRobr0il5yv8JLhOdaUs93WWGfXqOYHFBR
- g2s0pQgXfL7ZoQzX/OjF6FQd0LaANruirSUGw0OSl3MuI0LirP3G9bliGQK9qvXvo9
- a3e+/UB0ySWusYu1fM2vQdCf0pvaV16el8ipvn327JvFvCyBef9AYccS8bpdZpV9/T
- sD+0sKi7WG0G854sZZgjcRweX/QRio7lpsQmQwkYjC4JYrN86z93MrAwPZbi3MBEpB
- I35ka/GuhhBVQ==
-Date: Wed, 26 Mar 2025 16:25:01 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 1/5] drm/panel: Add new helpers for refcounted panel
- allocatons
-Message-ID: <20250326-illegal-vicugna-of-reverence-e4c3d1@houat>
-References: <20250325-b4-panel-refcounting-v1-0-4e2bf5d19c5d@redhat.com>
- <20250325-b4-panel-refcounting-v1-1-4e2bf5d19c5d@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40AA010E701;
+ Wed, 26 Mar 2025 15:37:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743003436; x=1774539436;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=etz60a6MvWygM3PUJqxrf9Ighj+E4OBlFZOKYs0hJ/k=;
+ b=fGOJw8BP2iavmptqqMv6qETpPv6HVkb9r+ZfH6VLkI68543nYKkTbRL3
+ IEPDP4Zds3dwfG2A2BRgwQYTdMTuEgEZLr/C4Dtes2wWdXB6P/qPJwjOl
+ Y8bvgXLpmMKGL0DQVG0HG5BYQRlTBizLQfsUP/fk6K5dzUfbLWuWJxXKm
+ +Nv/L4XGn1sT1wjbioB17tPptvD3BnefUTEYD2cnhNu2b5kJnFWEuU28d
+ bTukLcMIT2A3L2m99f3+j6Q40gTYmVzm8xLTMFglf2BFOzF/1HqeJQMQm
+ 2fdOgF5pf6xJV2vuM72II2z0IcRguZlgXb5zg1fDiT55NIduFFoNjMY5P g==;
+X-CSE-ConnectionGUID: v6xE6ER8RV+LfMh8on1MSw==
+X-CSE-MsgGUID: l36yLLKHR9am35YLz8o08Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="55665414"
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="55665414"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 08:37:15 -0700
+X-CSE-ConnectionGUID: r2ZP/49wQz6sR25R0u4h7w==
+X-CSE-MsgGUID: Rvn45KkhT3iChDS164wt0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; d="scan'208";a="129923374"
+Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 08:37:09 -0700
+From: Alexander Usyskin <alexander.usyskin@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Karthik Poosa <karthik.poosa@intel.com>
+Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
+ Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Alexander Usyskin <alexander.usyskin@intel.com>
+Subject: [PATCH v7 00/12] mtd: add driver for Intel discrete graphics
+Date: Wed, 26 Mar 2025 17:26:11 +0200
+Message-ID: <20250326152623.3897204-1-alexander.usyskin@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="w5aflokbiw5fdb7n"
-Content-Disposition: inline
-In-Reply-To: <20250325-b4-panel-refcounting-v1-1-4e2bf5d19c5d@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,123 +80,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add driver for access to Intel discrete graphics card
+internal NVM device.
+Expose device on auxiliary bus by i915 and Xe drivers and
+provide mtd driver to register this device with MTD framework.
 
---w5aflokbiw5fdb7n
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 1/5] drm/panel: Add new helpers for refcounted panel
- allocatons
-MIME-Version: 1.0
+This is a rewrite of "drm/i915/spi: spi access for discrete graphics"
+and "spi: add driver for Intel discrete graphics"
+series with connection to the Xe driver and splitting
+the spi driver part to separate module in mtd subsystem.
 
-On Tue, Mar 25, 2025 at 01:24:08PM -0400, Anusha Srivatsa wrote:
-> Introduce reference counted allocations for panels to avoid
-> use-after-free. The patch adds the macro devm_drm_bridge_alloc()
-> to allocate a new refcounted panel. Followed the documentation for
-> drmm_encoder_alloc() and devm_drm_dev_alloc and other similar
-> implementations for this purpose.
->=20
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->  drivers/gpu/drm/drm_panel.c | 25 +++++++++++++++++++++++++
->  include/drm/drm_panel.h     | 22 ++++++++++++++++++++++
->  2 files changed, 47 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index c627e42a7ce70459f50eb5095fffc806ca45dabf..bdeab5710ee324dc1742fbc77=
-582250960556308 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -355,6 +355,31 @@ struct drm_panel *of_drm_find_panel(const struct dev=
-ice_node *np)
->  }
->  EXPORT_SYMBOL(of_drm_find_panel);
-> =20
-> +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t off=
-set,
-> +			     const struct drm_panel_funcs *funcs,
-> +			     int connector_type)
-> +{
-> +	void *container;
-> +	struct drm_panel *panel;
-> +
-> +	if (!funcs) {
-> +		dev_warn(dev, "Missing funcs pointer\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	container =3D devm_kzalloc(dev, size, GFP_KERNEL);
-> +	if (!container)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	panel =3D container + offset;
-> +	panel->funcs =3D funcs;
-> +
-> +	drm_panel_init(panel, dev, funcs, connector_type);
-> +
-> +	return container;
-> +}
-> +EXPORT_SYMBOL(__devm_drm_panel_alloc);
-> +
->  /**
->   * of_drm_get_panel_orientation - look up the orientation of the panel t=
-hrough
->   * the "rotation" binding from a device tree node
-> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index a9c042c8dea1a82ef979c7a68204e0b55483fc28..63fb1dbe15a0556e7484bc187=
-37a6b1f4c208b0c 100644
-> --- a/include/drm/drm_panel.h
-> +++ b/include/drm/drm_panel.h
-> @@ -28,6 +28,7 @@
->  #include <linux/errno.h>
->  #include <linux/list.h>
->  #include <linux/mutex.h>
-> +#include <linux/kref.h>
-> =20
->  struct backlight_device;
->  struct dentry;
-> @@ -268,6 +269,27 @@ struct drm_panel {
->  	bool enabled;
->  };
-> =20
-> +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t off=
-set,
-> +			     const struct drm_panel_funcs *funcs,
-> +			     int connector_type);
-> +
-> +/**
-> + * devm_drm_panel_alloc - Allocate and initialize an refcounted panel
-> + * @dev: struct device of the panel device
-> + * @type: the type of the struct which contains struct &drm_panel
-> + * @member: the name of the &drm_panel within @type
-> + * @funcs: callbacks for this panel
-> + * @connector_type: connector type of the driver
-> + * The returned refcount is initialised to 1
+This series intended to be pushed through drm-xe-next.
 
-There's not returned refcount. What is returned is a pointer to the
-container structure. You should mention that the reference count is
-initialized to 1, and will be given back automatically through a devm
-action.
+V2: Replace dev_* prints with drm_* prints in drm (xe and i915) patches.
+    Enable NVM device on Battlemage HW (xe driver patch)
+    Fix overwrite register address (xe driver patch)
+    Add Rodrigo's r-b
 
-Iirc, Luca had a similar mention in his series, if you need inspiration.
+V3: Use devm_pm_runtime_enable to simplify flow.
+    Drop print in i915 unload that was accidentally set as error.
+    Drop HAS_GSC_NVM macro in line with latest Xe changes.
+    Add more Rodrigo's r-b and Miquel's ack.
 
-> + * Returns:
-> + * Pointer to new panel, or ERR_PTR on failure.
+V4: Add patch that always creates mtd master device
+    and adjust mtd-intel-dg power management to use this device.
 
-It doesn't return a pointer to the new panel, but to the structure
-containing the panel.
+V5: Fix master device creation to accomodate for devices without
+    partitions (create partitoned master in this case)
+    Rebase over latest drm-xe-next
+    Add ack's
+V6: Fix master device release (use rigth idr in release)
+    Rebase over latest drm-xe-next
+    Grammar and style fixes
 
-Maxime
+V7: Add patch with non-posted erase support (fix hang on BMG)
+    Rebase over latest drm-xe-next
 
---w5aflokbiw5fdb7n
-Content-Type: application/pgp-signature; name="signature.asc"
+Abliyev, Reuven (1):
+  drm/xe/nvm: add support for non-posted erase
 
------BEGIN PGP SIGNATURE-----
+Alexander Usyskin (11):
+  mtd: core: always create master device
+  mtd: add driver for intel graphics non-volatile memory device
+  mtd: intel-dg: implement region enumeration
+  mtd: intel-dg: implement access functions
+  mtd: intel-dg: register with mtd
+  mtd: intel-dg: align 64bit read and write
+  mtd: intel-dg: wake card on operations
+  drm/i915/nvm: add nvm device for discrete graphics
+  drm/i915/nvm: add support for access mode
+  drm/xe/nvm: add on-die non-volatile memory device
+  drm/xe/nvm: add support for access mode
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+QcTAAKCRDj7w1vZxhR
-xR34AP0VPzR1Vh27yHyFY3AMWW8VIZce+7PEjB5diAGv7vXl2wEAi2DiPaz0gmCJ
-srThpK1ea4mhDs7YEH9HpYH/+BcEggc=
-=UONS
------END PGP SIGNATURE-----
+ MAINTAINERS                           |   7 +
+ drivers/gpu/drm/i915/Makefile         |   4 +
+ drivers/gpu/drm/i915/i915_driver.c    |   6 +
+ drivers/gpu/drm/i915/i915_drv.h       |   3 +
+ drivers/gpu/drm/i915/i915_reg.h       |   1 +
+ drivers/gpu/drm/i915/intel_nvm.c      | 115 ++++
+ drivers/gpu/drm/i915/intel_nvm.h      |  15 +
+ drivers/gpu/drm/xe/Makefile           |   1 +
+ drivers/gpu/drm/xe/regs/xe_gsc_regs.h |   4 +
+ drivers/gpu/drm/xe/xe_device.c        |   5 +
+ drivers/gpu/drm/xe/xe_device_types.h  |   6 +
+ drivers/gpu/drm/xe/xe_heci_gsc.c      |   5 +-
+ drivers/gpu/drm/xe/xe_nvm.c           | 161 +++++
+ drivers/gpu/drm/xe/xe_nvm.h           |  15 +
+ drivers/gpu/drm/xe/xe_pci.c           |   6 +
+ drivers/mtd/devices/Kconfig           |  11 +
+ drivers/mtd/devices/Makefile          |   1 +
+ drivers/mtd/devices/mtd_intel_dg.c    | 884 ++++++++++++++++++++++++++
+ drivers/mtd/mtdcore.c                 | 141 ++--
+ drivers/mtd/mtdcore.h                 |   2 +-
+ drivers/mtd/mtdpart.c                 |  17 +-
+ include/linux/intel_dg_nvm_aux.h      |  29 +
+ 22 files changed, 1385 insertions(+), 54 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.h
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.c
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.h
+ create mode 100644 drivers/mtd/devices/mtd_intel_dg.c
+ create mode 100644 include/linux/intel_dg_nvm_aux.h
 
---w5aflokbiw5fdb7n--
+-- 
+2.43.0
+
