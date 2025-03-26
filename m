@@ -2,103 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DEFFA714EF
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 11:36:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DEBA714F5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 11:36:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFA510E6A3;
-	Wed, 26 Mar 2025 10:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE4F10E6A5;
+	Wed, 26 Mar 2025 10:36:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YXeKllph";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="jT1yUdlJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D118410E6A3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 10:35:57 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-30c05fd126cso58525541fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 03:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742985356; x=1743590156; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W5AiCDUgeTdwDyc9crOgWfabxPyQS/xAXOnubihQEcg=;
- b=YXeKllphxdFWYv+oba5bVk4b++f6hxeD/xc969jIrHp0y0wZlkvRo7dQUWhrg9jvQx
- Z6d8503nP1wAFx/nMse5dI0kX4FAonmqZ/oe1Uv2g53nL6jB+2zQmddhffk5l980t4s6
- wzu0X/yn1v//H2jgOsieHRUz92eW0d4BlkZtA+RU6G9a7BYnIO1uD5DU1/hmBk5Jv0lC
- 3c55PqEq6GZNHWLC7429+79NCWAHn8d8vnlFk3AYPDZXHdpzxPybbX3KLI60bw/B4UPn
- x8mKeeXcSqa9lOJuoyF2QIVK+bC+ibfJ4N8IWOHJjnbvEEJqTRmLgn+v8WOuwe0bwTAz
- dN4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742985356; x=1743590156;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W5AiCDUgeTdwDyc9crOgWfabxPyQS/xAXOnubihQEcg=;
- b=um8VOsYY0b+D3IcwZRvN6aubtsAxxup1jnFgYC0Hu357MByi4ZJBnkz+gVeCSSCMS2
- V2u0cf2zdcZ9g8cneCVtEXvXYEm35k+vdxHIVs2EeM4A0cyH+UWeS6WvjvyDEfmanUdW
- Fi/pG5IuAzUSQf7zjhtKHuFKZ7UCstR16dSbcvRH4C3F7B4oq32cppkoFdUae/QBCe1e
- ZwOAz0GPOHk+deaHqPphCLKxczwze0fXRGx9jKHnJUU4rXQWSCNz60Ya5qQzxsby+KE3
- bl8hIw+YwIU5Y72z/u3ecI3gaQMkyzapzA5AcTHwYLWysaUdhCs/FKy2G2WLzoI3egBp
- 1d1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWIPNA3rKdLtH+qa6bXZjlph2fq5k/c3nfe5oKsbhF06BHsBGVL1Hg8Nt4hzseFxLUKLZ3iYac57Ro=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzxVOXG24HWvWf+o3gL6Wgu6ZzuKNXZYlFe7iJd3Sv0JHJj4wlf
- +Obv0TJJr10B8WfwSrcmnYk1AAs4+n9YeSRPKOccrtjr5vEHoxL9teeX2fy+bAY4BxUepch9mz4
- 3GElkVgsEZRexyx+vYsWh331AMWk=
-X-Gm-Gg: ASbGncuQ0PT1+XsUVtDEoacxlfmYjIMf0Gn+wz0bhAVx0JY9dX6WaN6gWW8hhXgaxrs
- 4vgu21VTSphreeyfrCUquNrBB2vrSLnV7v+3nafzzW5AOEPwyOCe3KbiI2TyE7pYOWKJzy8MhY7
- lEgi+CtPz4c24UYF2ugTDLfXdJ5MVEN4vydj4+Na4wtbG8zJuXZaur9BQoZJc=
-X-Google-Smtp-Source: AGHT+IH0DKwACe1nymEzj0ftx+SgXxFXIMCVyyNtqlvCyo9K6/6zTdS4KoA/gl5ad9HnVZ30KIalN9jorXqZaQaGEEE=
-X-Received: by 2002:a2e:6a05:0:b0:308:ec25:9004 with SMTP id
- 38308e7fff4ca-30d7e2bb98dmr75572281fa.35.1742985355748; Wed, 26 Mar 2025
- 03:35:55 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1636210E6A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 10:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1742985365;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sxtRYmgT7m7fJujiUxxbIz+1Fm2iJf1VrTa3KX7BD1k=;
+ b=jT1yUdlJDvEzv+Hwzp/EO4/yGRsmYx+RLkUCpjMVWrWBIHQrF6eEEZY/LwIPwkVoeUI34Q
+ Yj3V4V5aftOVDp1qtOyZkSPCmVujKouni9c4I2gyp0U8eZ8hTqEfCiVtZQjcwvfiPJ8zJ5
+ 9CLWTW3dxKDsEKGCeUlSX6YgHuv0v10=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-495-cNdV2pSsPoyiHBBCPtHOSg-1; Wed,
+ 26 Mar 2025 06:36:02 -0400
+X-MC-Unique: cNdV2pSsPoyiHBBCPtHOSg-1
+X-Mimecast-MFC-AGG-ID: cNdV2pSsPoyiHBBCPtHOSg_1742985361
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0B8E8196D2CD; Wed, 26 Mar 2025 10:36:01 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.45.224.27])
+ by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 96EDB1956095; Wed, 26 Mar 2025 10:36:00 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 1B3461800787; Wed, 26 Mar 2025 11:35:58 +0100 (CET)
+Date: Wed, 26 Mar 2025 11:35:58 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: airlied@redhat.com, virtualization@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 3/4] drm/cirrus-qemu: Use framebuffer format as-is, drop
+ adjustments
+Message-ID: <hujnqeg74eoiz4lj46xhetdpytfgndg4iegwpszqf3ztjzuw6o@tis4zsp7slc3>
+References: <20250325171716.154097-1-tzimmermann@suse.de>
+ <20250325171716.154097-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
- <20250325-ptr-as-ptr-v7-7-87ab452147b9@gmail.com>
- <D8POWLFKWABG.37BVXN2QCL8MP@proton.me>
- <CAJ-ks9mUYw4FEJQfmDrHHt0oMy256jhp7qZ-CHp6R5c_sOCD4w@mail.gmail.com>
- <D8PPIYIJCNX8.13VPQULEI0ALN@proton.me>
- <CAJ-ks9k6220j6CQSOF4TDrgY9qq4PfV9uaMXz1Qk4m=eeSr5Ag@mail.gmail.com>
- <D8Q4MSXXZ7OI.1NC226MO02VSN@proton.me>
-In-Reply-To: <D8Q4MSXXZ7OI.1NC226MO02VSN@proton.me>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 26 Mar 2025 06:35:19 -0400
-X-Gm-Features: AQ5f1JrL9k74M9QnPZ9eBW9sSNazpeGZMopS8Asu-Kcyr5Yu4M92EoF_Ba4pH7Y
-Message-ID: <CAJ-ks9nHKpQPuSBypXTSATYhbAFkQTJzUq8jN0nu4t=Kw+0xxg@mail.gmail.com>
-Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
- Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250325171716.154097-4-tzimmermann@suse.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: KDYaNJdFRz1ZyJoBgr0Vm0S2ilL9mnE3GDsrYB-NlXI_1742985361
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,70 +77,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 6:31=E2=80=AFAM Benno Lossin <benno.lossin@proton.m=
-e> wrote:
->
-> On Wed Mar 26, 2025 at 12:54 AM CET, Tamir Duberstein wrote:
-> > On Tue, Mar 25, 2025 at 6:40=E2=80=AFPM Benno Lossin <benno.lossin@prot=
-on.me> wrote:
-> >> On Tue Mar 25, 2025 at 11:33 PM CET, Tamir Duberstein wrote:
-> >> > On Tue, Mar 25, 2025 at 6:11=E2=80=AFPM Benno Lossin <benno.lossin@p=
-roton.me> wrote:
-> >> >> On Tue Mar 25, 2025 at 9:07 PM CET, Tamir Duberstein wrote:
-> >> >> > diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-> >> >> > index 40034f77fc2f..6233af50bab7 100644
-> >> >> > --- a/rust/kernel/str.rs
-> >> >> > +++ b/rust/kernel/str.rs
-> >> >> > @@ -29,7 +29,7 @@ pub const fn is_empty(&self) -> bool {
-> >> >> >      #[inline]
-> >> >> >      pub const fn from_bytes(bytes: &[u8]) -> &Self {
-> >> >> >          // SAFETY: `BStr` is transparent to `[u8]`.
-> >> >> > -        unsafe { &*(bytes as *const [u8] as *const BStr) }
-> >> >> > +        unsafe { &*(core::mem::transmute::<*const [u8], *const S=
-elf>(bytes)) }
-> >> >>
-> >> >> Hmm I'm not sure about using `transmute` here. Yes the types are
-> >> >> transparent, but I don't think that we should use it here.
-> >> >
-> >> > What's your suggestion? I initially tried
-> >> >
-> >> > let bytes: *const [u8] =3D bytes;
-> >> > unsafe { &*bytes.cast() }
-> >> >
-> >> > but that doesn't compile because of the implicit Sized bound on poin=
-ter::cast.
-> >>
-> >> This is AFAIK one of the only places where we cannot get rid of the `a=
-s`
-> >> cast. So:
-> >>
-> >>     let bytes: *const [u8] =3D bytes;
-> >>     // CAST: `BStr` transparently wraps `[u8]`.
-> >>     let bytes =3D bytes as *const BStr;
-> >>     // SAFETY: `bytes` is derived from a reference.
-> >>     unsafe { &*bytes }
-> >>
-> >> IMO a `transmute` is worse than an `as` cast :)
-> >
-> > Hmm, looking at this again we can just transmute ref-to-ref and avoid
-> > pointers entirely. We're already doing that in
-> > `CStr::from_bytes_with_nul_unchecked`
-> >
-> > Why is transmute worse than an `as` cast?
->
-> It's right in the docs: "`transmute` should be the absolute last
-> resort." [1]. IIRC, Gary was a bit more lenient in its use, but I think
-> we should avoid it as much as possible such that people copying code or
-> taking inspiration also don't use it.
->
-> So for both cases I'd prefer an `as` cast.
->
-> [1]: https://doc.rust-lang.org/std/mem/fn.transmute.html
+On Tue, Mar 25, 2025 at 06:12:51PM +0100, Thomas Zimmermann wrote:
+> Remove internal adjustments to framebuffer format from cirrus-qemu
+> driver. The driver did this to support higher resolutions by reducing
+> the per-pixel memory consumption.
+> 
+> DRM has a policy of exporting formats as they are implemented in
+> hardware. So avoid internal adjustments if possible.
 
-I don't follow the logic. The trouble with `as` casts is that they are
-very lenient in what they allow, and to do these conversions with `as`
-casts requires ref -> pointer -> pointer -> pointer deref versus a
-single transmute. The safety comment perfectly describes why it's OK
-to do: the types are transparent. So why is `as` casting pointers
-better? It's just as unchecked as transmuting, and worse, it requires
-a raw pointer dereference.
+Well.  While this policy makes sense for modern hardware this is IMHO
+not the case for the cirrus.
+
+First, because there is almost no userspace which can handle the ancient
+24 bpp format (DRM_FORMAT_RGB888).
+
+Second, because there is no way to communicate the hardware constrains
+of the cirrus.  userspace can query the formats, and userspace can query
+the resolutions, but there is no way to tell userspace that not all
+combinations are valid and that you have to go for the DRM_FORMAT_RGB565
+format if you want higher resolutions.
+
+Essentially the format conversations allows the driver to hide the
+oddities of the prehistoric hardware from userspace, so things are
+more smooth when running wayland on the cirrus.
+
+take care,
+  Gerd
+
+PS: https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
+still applies of course.
+
