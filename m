@@ -2,66 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045F4A7192D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 15:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9659CA71931
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 15:47:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5469F10E6E2;
-	Wed, 26 Mar 2025 14:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB80E10E6E4;
+	Wed, 26 Mar 2025 14:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="FRBgU1Ca";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VcpthBU1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC2FD10E6E2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 14:46:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1743000395; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ghZpvDPIx2W4upA6AWCap5qOIs4idAM13yP3crLjPK1kCGyX2UJsyd9lFx/f6AMnnt2tkoE2DiU6/PTe8WcItH3rrwD+Is/HnEV3FIp6+OnARNFrVL2ohvYpgAmvEXSmDabJ0IEqRa02hHBPQZt4ExvLrhRxLffgoKqAZpno+9k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1743000395;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=UM0Ih6VqtqbtAFJFS/WtVT4fHB3Sai9RsrTsE09plNk=; 
- b=j3l79jGiCQLmzYVr5krK0FMQ6XM/5RAfgg+eXUMKqxZnnYAub2idfsBCh7+9aI6Zmf/4mBDIl8yONUd6D0Acv+GMM7nBe8VhkDeQYVeRA0/mvqOkyiY8rcphOtp+3ok6M38fTnEkZyiE8lf3ylBZWIrqRsHY/ES73+dR1AOXAL8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743000395; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=UM0Ih6VqtqbtAFJFS/WtVT4fHB3Sai9RsrTsE09plNk=;
- b=FRBgU1CaK7Zy+0AL4OpfnUwHAm0RT6VgaukKrE+DxzjT0N4Z8l31PZOqcu9xvnoi
- lqD6OfIi1E/V9wE1Vv0YqA0Bw0f5KrYdHb3hUKghbxaVwXn95E5oVERxepoabadpyRe
- jQRRrD+44BzBr63ne0py+i6WAr7KzC/8V99oju4o=
-Received: by mx.zohomail.com with SMTPS id 1743000392935887.9682124854454;
- Wed, 26 Mar 2025 07:46:32 -0700 (PDT)
-Message-ID: <85470439-3c03-4787-be91-b6b680a5aca5@collabora.com>
-Date: Wed, 26 Mar 2025 17:46:27 +0300
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+ [209.85.166.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F01A010E6E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 14:46:57 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id
+ e9e14a558f8ab-3d5bb2ae4d3so6129565ab.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 07:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743000415; x=1743605215; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yIzY6JuPtPbu1sd31VEp2X/O3x/UgKedEbGz6vT002k=;
+ b=VcpthBU1NNHzbR3Pym0E+l62tAH3rLQy4I/ymr0P2OCeFu4oeRJELNfKzkPChFQ9Kf
+ pl03n8YsbY9IQSdoLIz5y3oCA7D+o+hTBNMdZtXfUOc0u5YrM8SypgeFswUx0lo78eIh
+ Zf+K9prVatbq+0WRMP1kCg/3xVRU0WhaR/ZC32tt6atVGq7oSTWo0bruAdP9ZfvziLnF
+ BmEAX7D2/LMzzZEhIsCuo8RGnlOGCmWZxVGNYdVYlerC9WJVim6rtjIdxu1zNq8FugRv
+ GjlexX/ia9qhnfKxLTP6nslwgHGGHCjY3pXFNZVhNareoIuC0JUKBCPH+qz+XATNv3kB
+ oPrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743000415; x=1743605215;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yIzY6JuPtPbu1sd31VEp2X/O3x/UgKedEbGz6vT002k=;
+ b=vS6FsXKL7H+3zx2/v13LKuf3tEgQZhAhzzbVR8Ch19iBk1EhvVYM0RxjhptgJoegU3
+ 8fVDkwQqgwobvWcWg+2ulQnzpf4fjoVKZhLjIWolEUwqf+C0lfBOpH2ZC8ETgYrpkIq+
+ JTZJ62n6hS+ENmtzRy58RdF1TcY/70zNoSHNA3YIB/kZaiU1G9hm2F2ZQwv8dKr8FtXs
+ VC1EgwlY9jgsNhbiK5CqLIkmwGf9z4jQnPPDWgNYPHucqtbzU15SGKba0gx3sNiKekQ5
+ wVJIeAtAFe9bB5jfq4iipn9Lx87PQCrOizOP6kze131axFoY9GFyXc9Oozuw5eCel/z4
+ imnA==
+X-Gm-Message-State: AOJu0Yx/KNehy8bi9fj26Br5pCFu0Tpu/gWVtFxnW3t6MB7+IopGhDbR
+ i26SxFgY7eueOwrymbMp+plkOGLxFy0jsg4TqPOrqwAPEYtEztLZvd2I+1r1J5BmzmoDL4qQqPz
+ E9VtHMe4sj57SiTh6TgPaE+Umjo4n36oX
+X-Gm-Gg: ASbGncuHHn2CqObzJh9/OmWsqKiAjYGip6y9VS+icL4msn1L1N22qYEVe8W4RmUltJr
+ GbWyqN4y2pbFl7glCaWJSeXzzuTgbqbZ2BJ5zwa4Pt5TWPjlgq8nfxZ4fjwvHg3leqHpMqlaJqZ
+ Y2ngezkO1Inb8NM6dpfizqGjm74Nd1GRIL+G7irhdl4kARMqGUS+0NN+k=
+X-Google-Smtp-Source: AGHT+IH8ychrG0Yq2ngyD0ecOqCO0RE/LXSO0aLcakG9T0PKFMWXaArBnOsdvh7pxztVoJ5s0s/eUYqjpz4S8ZEnOmM=
+X-Received: by 2002:a05:6e02:260f:b0:3d3:ced4:db9b with SMTP id
+ e9e14a558f8ab-3d5960bf801mr234679015ab.5.1743000415399; Wed, 26 Mar 2025
+ 07:46:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/7] virtio-gpu api: add blob userptr resource
-To: "Huang, Honglei1" <Honglei1.Huang@amd.com>,
- Demi Marie Obenour <demiobenour@gmail.com>, David Airlie
- <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Huang Rui <ray.huang@amd.com>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250228053650.393646-1-honglei1.huang@amd.com>
- <20250228053650.393646-2-honglei1.huang@amd.com>
- <cd9f85a5-0d99-4007-bba2-d792ac9d84da@gmail.com>
- <c2d1334f-6f5a-493f-bbf0-3e92789f128a@amd.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <c2d1334f-6f5a-493f-bbf0-3e92789f128a@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20250326143903.24380-1-robdclark@gmail.com>
+ <342ee079-ee0e-470d-afd2-c2870115b489@amd.com>
+In-Reply-To: <342ee079-ee0e-470d-afd2-c2870115b489@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 26 Mar 2025 07:46:43 -0700
+X-Gm-Features: AQ5f1Jot6jmzcgenF9qhrGVKGty_zzWylGXQwExIfmbDgtMjYHnUNBwSawcKJxY
+Message-ID: <CAF6AEGu2Ax+u3QmD2VADwh4A4s5TAmP5Lq4DcYYadKP4csH-=g@mail.gmail.com>
+Subject: Re: [PATCH] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robdclark@chromium.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linux-media@vger.kernel.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,41 +92,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/6/25 13:51, Huang, Honglei1 wrote:
-> 
-> On 2025/3/1 5:21, Demi Marie Obenour wrote:
->> On 2/28/25 12:36 AM, Honglei Huang wrote:
->>> From: Honglei Huang <Honglei1.Huang@amd.com>
->>>
->>> Add a new resource for blob resource, called userptr, used for let
->>> host access guest user space memory, to acquire buffer based userptr
->>> feature in virtio GPU.
->>>
->>> - The capset VIRTIO_GPU_CAPSET_HSAKMT used for context init,
->>> in this series patches only HSAKMT context can use the userptr
->>> feature. HSAKMT is a GPU compute library in HSA stack, like
->>> the role libdrm in mesa stack.
->>
->> Userptr should not be limited to HSMKMT contexts.  Userptr can
->> accelerate shm buffers by avoiding a copy from guest to host, and
->> it can be implemented using grant tables on Xen.
-> 
-> Yes, I totally agree userptr can accelerate shm buffers, but I currently
-> don't know if there are any other projects working on similar features,
-> or if maintainers have any opinions or better ways to implement them, so
-> I temporarily limit this feature to HSAKMT context only.
-> 
-> I am waiting for everyone's opinions, please provide your thoughts.
+On Wed, Mar 26, 2025 at 7:41=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 26.03.25 um 15:39 schrieb Rob Clark:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Add support for exporting a dma_fence fd for a specific point on a
+> > timeline.
+>
+> Looks good on first glance. What's the userspace use case?
 
-USERPTR should be relevant for anything Vulkan-related, like Venus and
-native contexts. I expect that this new feature will work universally
-good for all context types.
+Timeline syncobj support for vtest/vpipe[1][2].. since core
+virglrender and drm native ctx works in terms of fences (since in the
+VM case, everything is a fence below the guest kernel uabi), we need
+to be able to turn a point on a timeline back into a fence fd.  (Plus
+it seemed like an odd omission from the existing uabi.)
 
-In order to merge USERPTR support upstream, we at least will need to
-prototype the guest USERPTR in one of native context driver to know that
-it works. You'll need to post the whole set of host/guest USERPTR
-patches including QEMU and etc, not just the kernel patches.
+BR,
+-R
 
--- 
-Best regards,
-Dmitry
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
+[2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
+
+>
+> Regards,
+> Christian.
+>
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/gpu/drm/drm_syncobj.c | 8 ++++++--
+> >  include/uapi/drm/drm.h        | 2 ++
+> >  2 files changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncob=
+j.c
+> > index 4f2ab8a7b50f..eb7a2dd2e261 100644
+> > --- a/drivers/gpu/drm/drm_syncobj.c
+> > +++ b/drivers/gpu/drm/drm_syncobj.c
+> > @@ -762,7 +762,7 @@ static int drm_syncobj_import_sync_file_fence(struc=
+t drm_file *file_private,
+> >  }
+> >
+> >  static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+> > -                                     int handle, int *p_fd)
+> > +                                     int handle, u64 point, int *p_fd)
+> >  {
+> >       int ret;
+> >       struct dma_fence *fence;
+> > @@ -772,7 +772,7 @@ static int drm_syncobj_export_sync_file(struct drm_=
+file *file_private,
+> >       if (fd < 0)
+> >               return fd;
+> >
+> > -     ret =3D drm_syncobj_find_fence(file_private, handle, 0, 0, &fence=
+);
+> > +     ret =3D drm_syncobj_find_fence(file_private, handle, point, 0, &f=
+ence);
+> >       if (ret)
+> >               goto err_put_fd;
+> >
+> > @@ -882,8 +882,12 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *=
+dev, void *data,
+> >
+> >       if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE=
+)
+> >               return drm_syncobj_export_sync_file(file_private, args->h=
+andle,
+> > +                                                 args->point,
+> >                                                   &args->fd);
+> >
+> > +     if (args->point)
+> > +             return -EINVAL;
+> > +
+> >       return drm_syncobj_handle_to_fd(file_private, args->handle,
+> >                                       &args->fd);
+> >  }
+> > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> > index 7fba37b94401..c71a8f4439f2 100644
+> > --- a/include/uapi/drm/drm.h
+> > +++ b/include/uapi/drm/drm.h
+> > @@ -912,6 +912,8 @@ struct drm_syncobj_handle {
+> >
+> >       __s32 fd;
+> >       __u32 pad;
+> > +
+> > +     __u64 point;
+> >  };
+> >
+> >  struct drm_syncobj_transfer {
+>
