@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEA6A72722
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 00:40:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C79A72724
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 00:40:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5BCF10E790;
-	Wed, 26 Mar 2025 23:40:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4091110E78E;
+	Wed, 26 Mar 2025 23:40:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tlj4FsAW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g8TC6PUJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A5110E790;
- Wed, 26 Mar 2025 23:40:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9A010E78E;
+ Wed, 26 Mar 2025 23:40:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743032430; x=1774568430;
+ t=1743032436; x=1774568436;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wsY7/a57B+Q4orM/dKPI0qWfy0Ki0gfoCnRBLRVtxVM=;
- b=Tlj4FsAWUYP1eG5UG/3qhnzP5DbaHJN9Vf7R+25vMuCJgbDOuqy4K7iK
- 0WfzwZsMsqqXfSdGY3Dqapqb7uVhklrbxNLSnmOFIAMSH8/ZH53tzH06B
- NQVKrq66OIGG2QIU9q1aArxiTY1rSwO+GFgUl4qyYtWEbtcpn4Xt+laN7
- u7H7MxMi/lB3D+r2nYGho8ei3f/10oeTbvbulhtQtsUmajh4Joy5dwsgw
- OSEmeGQFAeohgLLy3b5DDAsg2KJKdv6gFdQVn7xkbZ+9cIO1iJY6/4/ZU
- WNKBgEJ/Zzs4uhdTL62+YfB6qTW2iy4jGQM1VLbVB51rDDEg+7dtppfWW w==;
-X-CSE-ConnectionGUID: JBRp/LO8QNaPMPdNG32XzQ==
-X-CSE-MsgGUID: VvRiBhI7Q1Kf73zedErZBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="61741389"
-X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="61741389"
+ bh=2AIHpEEKnnHKbHbHSpBkIqoXJrvfxlWzMZC0AU2+S7I=;
+ b=g8TC6PUJp1WVK32nrLbBjwHv0erMMq/SthkIkCp+ThxGlXjmPP83jTPo
+ 0csrcWsHXECNRBKpEgEkwjhgUYIZ7aajX2iutMq/Jk3GEi8kmGdWkaFrw
+ LwqSIjjOkVKxpby1tpAntB13gesv87hRubrKhvhanufrLJgBwAVc80M33
+ bbIY2KcZuIXKzV+k9ZSD+I3P1SgLA9FuduLlCTkiEnHzQaJXC05Y17TnO
+ IycVrX/MjG+kjcAGc726JZOk1AKOTrRLSITYAXzoi2dBN4TaxhE+a/1Vr
+ a3gNRmGSAtTL2m86lFuhkiXTtFFngclTJypQS4blSrweld6GZMfhQFR7a Q==;
+X-CSE-ConnectionGUID: 1ZdxOO3dTbuwuceWZab/dA==
+X-CSE-MsgGUID: 201Bvn06TOikaqJ1TFuJzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="61741396"
+X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="61741396"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 16:40:30 -0700
-X-CSE-ConnectionGUID: ysikK+AfR7yIts5VjGojZA==
-X-CSE-MsgGUID: WrsXmiutQDWtQIG949dI1g==
+ 26 Mar 2025 16:40:36 -0700
+X-CSE-ConnectionGUID: PXQ5QOKcT/yu7/YIZzmAuQ==
+X-CSE-MsgGUID: /AUaDAo7S8uuORo/8wWo5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="148143275"
+X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="148143298"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost)
  ([10.245.246.3])
  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2025 16:40:27 -0700
+ 26 Mar 2025 16:40:33 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
@@ -49,9 +49,9 @@ Cc: Arshad Mehmood <arshad.mehmood@intel.com>,
  Chris Wilson <chris.p.wilson@linux.intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: [PATCH v2 2/6] drm/i915/gt: Move CCS workaround to the correct section
-Date: Thu, 27 Mar 2025 00:40:01 +0100
-Message-ID: <20250326234005.1574688-3-andi.shyti@linux.intel.com>
+Subject: [PATCH v2 3/6] drm/i915/gt: Remove FIRST_RENDER_COMPUTE in workaround
+Date: Thu, 27 Mar 2025 00:40:02 +0100
+Message-ID: <20250326234005.1574688-4-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250326234005.1574688-1-andi.shyti@linux.intel.com>
 References: <20250326234005.1574688-1-andi.shyti@linux.intel.com>
@@ -72,109 +72,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CCS engine workaround was previously added in a section
-shared by both RCS and CCS engines.
+From: Andi Shyti <andi.shyti@intel.com>
 
-Move it to the proper CCS-specific section so that it's applied
-only once, avoiding unintended duplication caused by the first
-CCS/RCS detection check.
+All platforms supported by i915 have at least one RCS engine,
+so there's no need to explicitly check for RCS or CCS presence.
 
-To do this, the ccs_mode() function had to be moved earlier in
-the file to avoid the need for a forward declaration.
+Remove the redundant check and move the associated functions
+to a more appropriate location in the code.
 
-Suggested-by: Arshad Mehmood <arshad.mehmood@intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Signed-off-by: Andi Shyti <andi.shyti@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 58 +++++++++++----------
- 1 file changed, 30 insertions(+), 28 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 116683ebe074..bedd88a15959 100644
+index bedd88a15959..b8ea6505afa2 100644
 --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
 +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -2699,10 +2699,38 @@ xcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 				    XEHP_BLITTER_ROUND_ROBIN_MODE);
- }
+@@ -2894,20 +2894,14 @@ engine_init_workarounds(struct intel_engine_cs *engine, struct i915_wa_list *wal
  
-+static void ccs_engine_wa_mode(struct intel_engine_cs *engine, struct i915_wa_list *wal)
-+{
-+	struct intel_gt *gt = engine->gt;
-+	u32 mode;
-+
-+	/*
-+	 * This workaround should be applied only once across all
-+	 * CCS engines. Apply it to the first CCS encountered.
-+	 */
-+	if (!FIRST_CCS(engine))
-+		return;
-+
-+	/*
-+	 * Wa_14019159160: This workaround, along with others, leads to
-+	 * significant challenges in utilizing load balancing among the
-+	 * CCS slices. Consequently, an architectural decision has been
-+	 * made to completely disable automatic CCS load balancing.
-+	 */
-+	wa_masked_en(wal, GEN12_RCU_MODE, XEHP_RCU_MODE_FIXED_SLICE_CCS_MODE);
-+
-+	/*
-+	 * After having disabled automatic load balancing we need to
-+	 * assign all slices to a single CCS. We will call it CCS mode 1
-+	 */
-+	mode = intel_gt_apply_ccs_mode(gt);
-+	wa_masked_en(wal, XEHP_CCS_MODE, mode);
-+}
-+
- static void
- ccs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- {
--	/* boilerplate for any CCS engine workaround */
-+	ccs_engine_wa_mode(engine, wal);
- }
+ 	engine_fake_wa_init(engine, wal);
  
- /*
-@@ -2739,30 +2767,6 @@ add_render_compute_tuning_settings(struct intel_gt *gt,
- 		wa_write_clr(wal, GEN8_GARBCNTL, GEN12_BUS_HASH_CTL_BIT_EXC);
- }
- 
--static void ccs_engine_wa_mode(struct intel_engine_cs *engine, struct i915_wa_list *wal)
--{
--	struct intel_gt *gt = engine->gt;
--	u32 mode;
--
--	if (!IS_DG2(gt->i915))
--		return;
--
 -	/*
--	 * Wa_14019159160: This workaround, along with others, leads to
--	 * significant challenges in utilizing load balancing among the
--	 * CCS slices. Consequently, an architectural decision has been
--	 * made to completely disable automatic CCS load balancing.
+-	 * These are common workarounds that just need to applied
+-	 * to a single RCS/CCS engine's workaround list since
+-	 * they're reset as part of the general render domain reset.
 -	 */
--	wa_masked_en(wal, GEN12_RCU_MODE, XEHP_RCU_MODE_FIXED_SLICE_CCS_MODE);
--
--	/*
--	 * After having disabled automatic load balancing we need to
--	 * assign all slices to a single CCS. We will call it CCS mode 1
--	 */
--	mode = intel_gt_apply_ccs_mode(gt);
--	wa_masked_en(wal, XEHP_CCS_MODE, mode);
--}
--
- /*
-  * The workarounds in this function apply to shared registers in
-  * the general render reset domain that aren't tied to a
-@@ -2895,10 +2899,8 @@ engine_init_workarounds(struct intel_engine_cs *engine, struct i915_wa_list *wal
- 	 * to a single RCS/CCS engine's workaround list since
- 	 * they're reset as part of the general render domain reset.
- 	 */
--	if (engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE) {
-+	if (engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE)
+-	if (engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE)
++	if (engine->class == RENDER_CLASS) {
  		general_render_compute_wa_init(engine, wal);
--		ccs_engine_wa_mode(engine, wal);
--	}
+-
+-	if (engine->class == COMPUTE_CLASS)
+-		ccs_engine_wa_init(engine, wal);
+-	else if (engine->class == RENDER_CLASS)
+ 		rcs_engine_wa_init(engine, wal);
+-	else
++	} else if (engine->class == COMPUTE_CLASS) {
++		ccs_engine_wa_init(engine, wal);
++	} else {
+ 		xcs_engine_wa_init(engine, wal);
++	}
+ }
  
- 	if (engine->class == COMPUTE_CLASS)
- 		ccs_engine_wa_init(engine, wal);
+ void intel_engine_init_workarounds(struct intel_engine_cs *engine)
 -- 
 2.47.2
 
