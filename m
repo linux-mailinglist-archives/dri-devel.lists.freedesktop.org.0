@@ -2,56 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF03EA714A5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 11:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D60A714DA
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 11:31:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05B0810E69F;
-	Wed, 26 Mar 2025 10:20:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D3AC10E6A6;
+	Wed, 26 Mar 2025 10:31:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PeFvgVGw";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="ViqpvZj2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2B3110E69F
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 10:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1742984415;
- bh=emC1Ap/GyYEiZF9+ueiI+N364GJu+ISfmPEzU6k0TqQ=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=PeFvgVGwyQafHYULtLhzNKltRkaaXKtNVebk1xbetqan/Vrtx+36b2Gr4iPNWz8q0
- 5a1YbJP4mgYNbYSVq2Ljafn4w3HG61/Vp4rQz6SAkF727EXBi1RLF74OcauNY59kV7
- jxPKTr6ksm58egQBpEz3Vii8w/SnyK7inuYcTu6n4kydUgzFw7iu0IfPCqP+82Op3V
- UjLB2uPkEm4++sroyAEdprGB/+tNOQ7bWQfdz6sZ65eZ5iyA5wHgLWIQlhIGkXR/Ph
- 4Kpow6g3aqpAmRJDbFbcFiTBsPw9Z6L5ENLCHYlsLarXL25D5uxEOLVJ79z8NuXxqI
- QthgN9lBAU4lA==
-Received: from localhost (unknown [84.232.140.93])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 5736A17E0B9D;
- Wed, 26 Mar 2025 11:20:15 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Wed, 26 Mar 2025 12:20:04 +0200
-Subject: [PATCH v3 15/15] drm/tests: hdmi: Add test for unsuccessful forced
- fallback to YUV420
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECCCB10E0C5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 10:31:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1742985064; x=1743244264;
+ bh=PD6QsKlbd/UTEIZFjdWL2INF7cdUTBh6ExeiHs8aHeE=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=ViqpvZj2DYShZqRsjkXRHya7dm+a8V1pJaSqmByjF0GxUAhLHBw9zK8OGj2tJfKYn
+ W22bKXuOek30uCw7TONhJ+SsJ5O2t36d68I0KUmw1yXcEV0uuTtKPD0yOVbeuOSTeB
+ eGeVXA9Js4rg17xXT76DaF91riSkaGXNVfpX6+zdJxwt16NqaSXUZGFh6s1LLN5KEU
+ gflg5QvG69rpxM1yFrnnlcWKeat+CI7hMkQ/PiLfWdwH2ouVQcYV6hfwWt4oXPjVxq
+ OP5L7EM+1YJYcwmU6Bqj6wY6i2ytPo1CNgJx1tbMtBTTsAOpafptEC3pI24CS7+euR
+ W1EGIj+3YmK+Q==
+Date: Wed, 26 Mar 2025 10:30:56 +0000
+To: Tamir Duberstein <tamird@gmail.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
+ Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
+ linux-block@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
+Message-ID: <D8Q4MSXXZ7OI.1NC226MO02VSN@proton.me>
+In-Reply-To: <CAJ-ks9k6220j6CQSOF4TDrgY9qq4PfV9uaMXz1Qk4m=eeSr5Ag@mail.gmail.com>
+References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
+ <20250325-ptr-as-ptr-v7-7-87ab452147b9@gmail.com>
+ <D8POWLFKWABG.37BVXN2QCL8MP@proton.me>
+ <CAJ-ks9mUYw4FEJQfmDrHHt0oMy256jhp7qZ-CHp6R5c_sOCD4w@mail.gmail.com>
+ <D8PPIYIJCNX8.13VPQULEI0ALN@proton.me>
+ <CAJ-ks9k6220j6CQSOF4TDrgY9qq4PfV9uaMXz1Qk4m=eeSr5Ag@mail.gmail.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: e50c9b550854ec00eb95a773d66c999d39fa5c32
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250326-hdmi-conn-yuv-v3-15-294d3ebbb4b2@collabora.com>
-References: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
-In-Reply-To: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,79 +83,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide test to verify a forced fallback to YUV420 output cannot succeed
-when driver doesn't advertise YUV420 support.
+On Wed Mar 26, 2025 at 12:54 AM CET, Tamir Duberstein wrote:
+> On Tue, Mar 25, 2025 at 6:40=E2=80=AFPM Benno Lossin <benno.lossin@proton=
+.me> wrote:
+>> On Tue Mar 25, 2025 at 11:33 PM CET, Tamir Duberstein wrote:
+>> > On Tue, Mar 25, 2025 at 6:11=E2=80=AFPM Benno Lossin <benno.lossin@pro=
+ton.me> wrote:
+>> >> On Tue Mar 25, 2025 at 9:07 PM CET, Tamir Duberstein wrote:
+>> >> > diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+>> >> > index 40034f77fc2f..6233af50bab7 100644
+>> >> > --- a/rust/kernel/str.rs
+>> >> > +++ b/rust/kernel/str.rs
+>> >> > @@ -29,7 +29,7 @@ pub const fn is_empty(&self) -> bool {
+>> >> >      #[inline]
+>> >> >      pub const fn from_bytes(bytes: &[u8]) -> &Self {
+>> >> >          // SAFETY: `BStr` is transparent to `[u8]`.
+>> >> > -        unsafe { &*(bytes as *const [u8] as *const BStr) }
+>> >> > +        unsafe { &*(core::mem::transmute::<*const [u8], *const Sel=
+f>(bytes)) }
+>> >>
+>> >> Hmm I'm not sure about using `transmute` here. Yes the types are
+>> >> transparent, but I don't think that we should use it here.
+>> >
+>> > What's your suggestion? I initially tried
+>> >
+>> > let bytes: *const [u8] =3D bytes;
+>> > unsafe { &*bytes.cast() }
+>> >
+>> > but that doesn't compile because of the implicit Sized bound on pointe=
+r::cast.
+>>
+>> This is AFAIK one of the only places where we cannot get rid of the `as`
+>> cast. So:
+>>
+>>     let bytes: *const [u8] =3D bytes;
+>>     // CAST: `BStr` transparently wraps `[u8]`.
+>>     let bytes =3D bytes as *const BStr;
+>>     // SAFETY: `bytes` is derived from a reference.
+>>     unsafe { &*bytes }
+>>
+>> IMO a `transmute` is worse than an `as` cast :)
+>
+> Hmm, looking at this again we can just transmute ref-to-ref and avoid
+> pointers entirely. We're already doing that in
+> `CStr::from_bytes_with_nul_unchecked`
+>
+> Why is transmute worse than an `as` cast?
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+It's right in the docs: "`transmute` should be the absolute last
+resort." [1]. IIRC, Gary was a bit more lenient in its use, but I think
+we should avoid it as much as possible such that people copying code or
+taking inspiration also don't use it.
+
+So for both cases I'd prefer an `as` cast.
+
+[1]: https://doc.rust-lang.org/std/mem/fn.transmute.html
+
 ---
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 46 ++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
-
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 99bedb2d6f555b3b140256000dfa7491d2a8f515..c2976b42aa2aacd2a68a871bffe97e795ca713d4 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -1493,6 +1493,51 @@ static void drm_test_check_max_tmds_rate_format_fallback_yuv420(struct kunit *te
- 	drm_modeset_acquire_fini(&ctx);
- }
- 
-+/*
-+ * Test that if a driver supports only RGB, but the chosen mode can be
-+ * supported by the screen only in YUV420 output format, we end up with
-+ * an unsuccessful forced fallback attempt.
-+ */
-+static void drm_test_check_driver_unsupported_fallback_yuv420(struct kunit *test)
-+{
-+	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_display_info *info;
-+	struct drm_display_mode *yuv420_only_mode;
-+	struct drm_connector *conn;
-+	struct drm_device *drm;
-+	struct drm_crtc *crtc;
-+	int ret;
-+
-+	priv = drm_kunit_helper_connector_hdmi_init_with_edid(test,
-+				BIT(HDMI_COLORSPACE_RGB),
-+				12,
-+				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	drm = &priv->drm;
-+	crtc = priv->crtc;
-+	conn = &priv->connector;
-+	info = &conn->display_info;
-+	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
-+	KUNIT_ASSERT_FALSE(test, conn->ycbcr_420_allowed);
-+
-+	yuv420_only_mode = drm_kunit_display_mode_from_cea_vic(test, drm, 95);
-+	KUNIT_ASSERT_NOT_NULL(test, yuv420_only_mode);
-+	KUNIT_ASSERT_TRUE(test, drm_mode_is_420_only(info, yuv420_only_mode));
-+
-+	drm_modeset_acquire_init(&ctx, 0);
-+
-+	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
-+						     crtc, conn,
-+						     yuv420_only_mode,
-+						     &ctx);
-+	KUNIT_EXPECT_LT(test, ret, 0);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
-+}
-+
- /*
-  * Test that if a driver and screen supports RGB and YUV formats, and we
-  * try to set the VIC 1 mode, we end up with 8bpc RGB even if we could
-@@ -1884,6 +1929,7 @@ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
- 	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback_yuv420),
- 	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback_yuv422),
- 	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback_yuv420),
-+	KUNIT_CASE(drm_test_check_driver_unsupported_fallback_yuv420),
- 	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_changed),
- 	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_not_changed),
- 	KUNIT_CASE(drm_test_check_output_bpc_dvi),
-
--- 
-2.49.0
+Cheers,
+Benno
 
