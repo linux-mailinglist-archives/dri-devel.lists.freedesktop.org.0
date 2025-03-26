@@ -2,105 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC06A71C89
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC3CA71C81
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 17:57:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC0A010E751;
-	Wed, 26 Mar 2025 16:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA83310E746;
+	Wed, 26 Mar 2025 16:57:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ca5b7zH3";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MyGKr7+y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E52210E759
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 16:58:01 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-30c461a45f8so1055321fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:58:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743008279; x=1743613079; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YqICdU+/Fj/rPyvr8c71jUD3Qz8HzL0I+xuDALYEeNo=;
- b=Ca5b7zH34c1FzNiLgxSQOXP5j7iTxgAP7yVmvb/ehKwcPbjFwOS+yk3p78yG3PebWU
- 69RHGI+6ODFSSp6dxFstG7fPQCfXwU3+MEcYvcAleqqvjCS8hBNS9WVWDqKA/EZvKHbo
- Sm1/kkjnu/7WhKTEIIrLlyiv7WgmTRLuiWp/ec9i6wc/EOyE3/OHoJUix+uIyercwju5
- xpAqpmKR0/wIFjj4MC9n1RAZG/b7riaKcHtgwEMqmnOtHi4Sk5Q3+H6PYbEsRo+2X7Kg
- ao0qqY4xteIwcyiB8HpvBw9Egcme9wTuh+ewQ6pQBuP/tg697BoRSHWo66oEPxVSMhfR
- XTbA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4328810E746
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 16:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743008265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YSw6iWm3RNiws4CIIERbiN79fDw46bRwyJPDIMgSAUU=;
+ b=MyGKr7+yWhq6yT/lPUOGKK6mWN63C1/7sBvZJlcqm2A8NPvx3EX8jR8M/SETn1ZmkaFtbv
+ 5CQTw+K3E7M3wTogiyqJMUeyu5vY75SSBL7UumAOdaZEW9lYvZGgnDA6toMmD+ZMULtdsi
+ dRdXxfGxgVkofUvt/st/IirlidVGrfw=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-175-Vm7T6fD-OLeZi4Bk0SfQfA-1; Wed, 26 Mar 2025 12:57:43 -0400
+X-MC-Unique: Vm7T6fD-OLeZi4Bk0SfQfA-1
+X-Mimecast-MFC-AGG-ID: Vm7T6fD-OLeZi4Bk0SfQfA_1743008263
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-6f2a2ab50f6so893977b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 09:57:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743008279; x=1743613079;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YqICdU+/Fj/rPyvr8c71jUD3Qz8HzL0I+xuDALYEeNo=;
- b=cyFbPrU21nfLNIJpHlx24tG701Zo52qf4xe2q1thcb6iwA1oHWvlucIAux86gN+vYI
- 6OS7LTa4ko8C3pxvHCZ87jO+D+mah19jaywUqIZXgmU+EtzUgUsJbXcv5vQLIhed4bza
- ob2teHvp2z44NP7UpGaVbV6lras2Y2TsC8JcNsjujTMP5rQCOoWs4hdzwP3unhhgS3pn
- h62izOyzxI5pTN71wTiEMEYfRfPTIQqE5xS1MuL19UsunkYM85mrpV7oSNSIwUuO6oiS
- HCYHWkfwfjtG+4VDXrXY484VqJcpuGt70bQw6QTHQ6xIWX+G2/OmXRmRvR8mathev0tW
- YyQw==
+ d=1e100.net; s=20230601; t=1743008263; x=1743613063;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YSw6iWm3RNiws4CIIERbiN79fDw46bRwyJPDIMgSAUU=;
+ b=SW5AgNPgw59BCIM73fGAqXUrk/PcFOoPChmDMjBRlUkr+s7bp4YUZhfbm/dTjYlW0B
+ 7oANHMsDRXDaMb0r0Cxtv5fTZDrmWaFpL4vUQShyorVCDdUR6abclhkUkSgwJ2BsABk0
+ 1T1AHIWO4i5t3UDAzeFv/Bxs4JExq0VhCUYZ0efNFveyQOaBAYM+Ob9tC5UKvoBx/Ku3
+ 4gk8xh+230/tQpB6u6ZNljoze84BoLvpCrNcii0/3PVFePxVbgnLUa2zghs2dujEvsdb
+ rnH4fkbMRs5PsLG1/aQb9QJdqXgZhkGsSoawA0HDgt/kfU66GouCwT1Virqs19FHNNcE
+ dSOg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXKGXjvvNVToI4od5CGhv4C/W9u00U64TjvEGrzEZvRGpLku7aLF7ArCsjBtcVqDRlyGhI+Cuz5uQ8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzSELel2LzHoeUG5Qy29jdsYq8NNmSYvN4QNUjo5Jos8Q/6SYZQ
- z6x0rFdKxPg1iqiQrnIkjGHcftOxBSJqpymVLsAe7D7uUREXs8o7eunjbPEmqIKaTzjQ30qxmCH
- DM2ewmvmDTUGp230b4sWZh17hASk=
-X-Gm-Gg: ASbGncs+xbimuSbetN91E3eRg+ZqHjRkkY4Fpod3GQZ9yUhuCAXRlZVpFJNn5DJii+L
- 5gmuy9ynTxD1Vft32coaBPoUsNvDzm29SY7hFVrXpxlXxMSmHCA92EULOK1mwZ6xQOw14NPw9WK
- 2WWg5WJCJR6IsAn/KQoCJSffbdMLXjsHxzL4cK472t6A==
-X-Google-Smtp-Source: AGHT+IHPmamLHlMJlHI8sBUo4uWAXvfGRb8nW0bPTmn1FCPvvjT2j+y8ppF5Dq8MM/1VqdX3RkASobn3JxoYQd4Kpg4=
-X-Received: by 2002:a2e:a901:0:b0:302:48fd:6922 with SMTP id
- 38308e7fff4ca-30dc5f4fc11mr2688291fa.37.1743008279197; Wed, 26 Mar 2025
- 09:57:59 -0700 (PDT)
+ AJvYcCWLkRj8ti1lLyiuFXzv4xCwlwkRGWF50dPSlAO28poZJDXARgaxpbscSMYf8Cv/XjCc5yzSiKbEclw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyhbCa0jcUED6q5Zcmpknuaxhll7tf10l4Oz3rYxkk/ZhA//apU
+ s9djv7d3mPE/YM77K7LQQchnkEk3wwhfUtHgUnuknGGx1CK9s6acwkYsjI3gbKi3uRhYGkZq5sK
+ P/xr0iOPHRpirsO/ZH2iTMDPE9HfJCElg9R7XGXclobKNtpuwmdtxc+QjvFzR9ymoj5Od2j8XiN
+ BCqQXph9Ca1sKBoCFNTXIIi77R7gi5DrDcscROuoA0
+X-Gm-Gg: ASbGncvtJmFXhNqq5ylXsBe90sUVZyFt0nNiQ4E1TQXlpdepYRFbpcZaTXt809M2I1Q
+ yn93QYRnWQ2YvaekidD1vmLbi0X46gsXRULj15/RvqercTKwdnt9rQSsQxA5523LUz11z1+Y=
+X-Received: by 2002:a05:690c:6304:b0:6f9:97f7:a5c4 with SMTP id
+ 00721157ae682-70225092a51mr2433337b3.29.1743008262615; 
+ Wed, 26 Mar 2025 09:57:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFa+MyV/BVNyYV9ZrHzkEQDHI3PKB8D6I/hyN7i5XVt5YyDEYK3vWHHQS/kkOpIWTgEVqri/Su4NhA7rBiAjQU=
+X-Received: by 2002:a05:690c:6304:b0:6f9:97f7:a5c4 with SMTP id
+ 00721157ae682-70225092a51mr2432877b3.29.1743008262199; Wed, 26 Mar 2025
+ 09:57:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
- <20250325-ptr-as-ptr-v7-7-87ab452147b9@gmail.com>
- <D8POWLFKWABG.37BVXN2QCL8MP@proton.me>
- <CAJ-ks9mUYw4FEJQfmDrHHt0oMy256jhp7qZ-CHp6R5c_sOCD4w@mail.gmail.com>
- <D8PPIYIJCNX8.13VPQULEI0ALN@proton.me>
- <CAJ-ks9k6220j6CQSOF4TDrgY9qq4PfV9uaMXz1Qk4m=eeSr5Ag@mail.gmail.com>
- <D8Q4MSXXZ7OI.1NC226MO02VSN@proton.me>
- <CAJ-ks9nHKpQPuSBypXTSATYhbAFkQTJzUq8jN0nu4t=Kw+0xxg@mail.gmail.com>
- <D8QCK3CQES3Y.3LTZ4MVO5B3KT@proton.me>
-In-Reply-To: <D8QCK3CQES3Y.3LTZ4MVO5B3KT@proton.me>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 26 Mar 2025 12:57:22 -0400
-X-Gm-Features: AQ5f1JqRV6BswIsFmo4Lj79OnLQkYDCkrkMtDbiR3sIOJuzkCqt-e4S8pI8XxRU
-Message-ID: <CAJ-ks9nKT2PUDm6=b4AB1QUWwwvcqPn7Vz60=c0B+uFMZrqPew@mail.gmail.com>
-Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
- Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, 
+References: <20250325-b4-panel-refcounting-v1-0-4e2bf5d19c5d@redhat.com>
+ <20250325-b4-panel-refcounting-v1-1-4e2bf5d19c5d@redhat.com>
+ <20250326102259.3bdbc22d@booty>
+ <20250326-camouflaged-satisfied-quokka-8d5afc@houat>
+In-Reply-To: <20250326-camouflaged-satisfied-quokka-8d5afc@houat>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Wed, 26 Mar 2025 12:57:31 -0400
+X-Gm-Features: AQ5f1Jr4dLslmanORv0OSWK3j1aYjX2MKpqHWXZHt1w4KI7LYtFWTyx31QgqT7M
+Message-ID: <CAN9Xe3S-=YUWrvcxFTxOt_WMPDx7LManB-FYCvYPty5L5x9O6Q@mail.gmail.com>
+Subject: Re: [PATCH 1/5] drm/panel: Add new helpers for refcounted panel
+ allocatons
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ONsbNGuHgM3pyuIDBYDhnAc-6emX0ku9Azwul3XCLrA_1743008263
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000004f380e063141bc8b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,94 +100,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 12:43=E2=80=AFPM Benno Lossin <benno.lossin@proton.=
-me> wrote:
->
-> On Wed Mar 26, 2025 at 11:35 AM CET, Tamir Duberstein wrote:
-> > On Wed, Mar 26, 2025 at 6:31=E2=80=AFAM Benno Lossin <benno.lossin@prot=
-on.me> wrote:
-> >> On Wed Mar 26, 2025 at 12:54 AM CET, Tamir Duberstein wrote:
-> >> > On Tue, Mar 25, 2025 at 6:40=E2=80=AFPM Benno Lossin <benno.lossin@p=
-roton.me> wrote:
-> >> >> On Tue Mar 25, 2025 at 11:33 PM CET, Tamir Duberstein wrote:
-> >> >> > On Tue, Mar 25, 2025 at 6:11=E2=80=AFPM Benno Lossin <benno.lossi=
-n@proton.me> wrote:
-> >> >> >> On Tue Mar 25, 2025 at 9:07 PM CET, Tamir Duberstein wrote:
-> >> >> >> > diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-> >> >> >> > index 40034f77fc2f..6233af50bab7 100644
-> >> >> >> > --- a/rust/kernel/str.rs
-> >> >> >> > +++ b/rust/kernel/str.rs
-> >> >> >> > @@ -29,7 +29,7 @@ pub const fn is_empty(&self) -> bool {
-> >> >> >> >      #[inline]
-> >> >> >> >      pub const fn from_bytes(bytes: &[u8]) -> &Self {
-> >> >> >> >          // SAFETY: `BStr` is transparent to `[u8]`.
-> >> >> >> > -        unsafe { &*(bytes as *const [u8] as *const BStr) }
-> >> >> >> > +        unsafe { &*(core::mem::transmute::<*const [u8], *cons=
-t Self>(bytes)) }
-> >> >> >>
-> >> >> >> Hmm I'm not sure about using `transmute` here. Yes the types are
-> >> >> >> transparent, but I don't think that we should use it here.
-> >> >> >
-> >> >> > What's your suggestion? I initially tried
-> >> >> >
-> >> >> > let bytes: *const [u8] =3D bytes;
-> >> >> > unsafe { &*bytes.cast() }
-> >> >> >
-> >> >> > but that doesn't compile because of the implicit Sized bound on p=
-ointer::cast.
-> >> >>
-> >> >> This is AFAIK one of the only places where we cannot get rid of the=
- `as`
-> >> >> cast. So:
-> >> >>
-> >> >>     let bytes: *const [u8] =3D bytes;
-> >> >>     // CAST: `BStr` transparently wraps `[u8]`.
-> >> >>     let bytes =3D bytes as *const BStr;
-> >> >>     // SAFETY: `bytes` is derived from a reference.
-> >> >>     unsafe { &*bytes }
-> >> >>
-> >> >> IMO a `transmute` is worse than an `as` cast :)
-> >> >
-> >> > Hmm, looking at this again we can just transmute ref-to-ref and avoi=
-d
-> >> > pointers entirely. We're already doing that in
-> >> > `CStr::from_bytes_with_nul_unchecked`
-> >> >
-> >> > Why is transmute worse than an `as` cast?
-> >>
-> >> It's right in the docs: "`transmute` should be the absolute last
-> >> resort." [1]. IIRC, Gary was a bit more lenient in its use, but I thin=
-k
-> >> we should avoid it as much as possible such that people copying code o=
-r
-> >> taking inspiration also don't use it.
-> >>
-> >> So for both cases I'd prefer an `as` cast.
-> >>
-> >> [1]: https://doc.rust-lang.org/std/mem/fn.transmute.html
+--0000000000004f380e063141bc8b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Mar 26, 2025 at 11:26=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
+
+> On Wed, Mar 26, 2025 at 10:22:59AM +0100, Luca Ceresoli wrote:
+> > Hello Anusha,
 > >
-> > I don't follow the logic. The trouble with `as` casts is that they are
-> > very lenient in what they allow, and to do these conversions with `as`
-> > casts requires ref -> pointer -> pointer -> pointer deref versus a
-> > single transmute. The safety comment perfectly describes why it's OK
-> > to do: the types are transparent. So why is `as` casting pointers
-> > better? It's just as unchecked as transmuting, and worse, it requires
-> > a raw pointer dereference.
+> > On Tue, 25 Mar 2025 13:24:08 -0400
+> > Anusha Srivatsa <asrivats@redhat.com> wrote:
+> >
+> > > Introduce reference counted allocations for panels to avoid
+> > > use-after-free. The patch adds the macro devm_drm_bridge_alloc()
+> > > to allocate a new refcounted panel. Followed the documentation for
+> > > drmm_encoder_alloc() and devm_drm_dev_alloc and other similar
+> > > implementations for this purpose.
+> > >
+> > > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> >
+> > [...]
+> >
+> > > +void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t
+> offset,
+> > > +                        const struct drm_panel_funcs *funcs,
+> > > +                        int connector_type);
+> > > +
+> > > +/**
+> > > + * devm_drm_panel_alloc - Allocate and initialize an refcounted pane=
+l
+> >                                                      ^^
+> > "a refcounted panel"
+> >
+> > > + * @dev: struct device of the panel device
+> > > + * @type: the type of the struct which contains struct &drm_panel
+> > > + * @member: the name of the &drm_panel within @type
+> > > + * @funcs: callbacks for this panel
+> > > + * @connector_type: connector type of the driver
+> >
+> > I'd say it's the connector type in the hardware, rather than of the
+> > driver (the driver follows what is in the hardware. Maybe you can just
+> > copy the description present in the drm_panel_init kdoc:
+> >
+> >  * @connector_type: the connector type (DRM_MODE_CONNECTOR_*)
+> corresponding to
+> >  *      the panel interface (must NOT be DRM_MODE_CONNECTOR_Unknown)
+> >
+> > Other than that it looks good!
 >
-> Note that you're not transmuting `[u8]` to `BStr`, but `*const [u8]` to
-> `*const BStr`. Those pointers have provenance and I'm not sure if
-> transmuting them preserves it.
+> Heh, Unknown is fine, but you're right for the rest. I'd use the
+> drm_panel_init doc for that field actually.
+>
+> Will make this change in the next iteration,
+Thanks Luca and Maxime
 
-In the current code you're looking at, yes. But in the code I have
-locally I'm transmuting `[u8]` to `BStr`. See my earlier reply where I
-said "Hmm, looking at this again we can just transmute ref-to-ref and
-avoid pointers entirely. We're already doing that in
-`CStr::from_bytes_with_nul_unchecked`".
+Anusha
 
-> I tried to find some existing issues about the topic and found that
-> there exists a clippy lint `transmute_ptr_to_ptr`. There is an issue
-> asking for a better justification [1] and it seems like nobody provided
-> one there. Maybe we should ask the opsem team what happens to provenance
-> when transmuting?
+> Maxime
+>
 
-Yeah, we should do this - but again: not relevant in this discussion.
+--0000000000004f380e063141bc8b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 26,=
+ 2025 at 11:26=E2=80=AFAM Maxime Ripard &lt;<a href=3D"mailto:mripard@kerne=
+l.org">mripard@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On Wed, Mar 26, 2025 at 10:22:59AM +0100, Luca Cer=
+esoli wrote:<br>
+&gt; Hello Anusha,<br>
+&gt; <br>
+&gt; On Tue, 25 Mar 2025 13:24:08 -0400<br>
+&gt; Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.com" target=3D"_=
+blank">asrivats@redhat.com</a>&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; Introduce reference counted allocations for panels to avoid<br>
+&gt; &gt; use-after-free. The patch adds the macro devm_drm_bridge_alloc()<=
+br>
+&gt; &gt; to allocate a new refcounted panel. Followed the documentation fo=
+r<br>
+&gt; &gt; drmm_encoder_alloc() and devm_drm_dev_alloc and other similar<br>
+&gt; &gt; implementations for this purpose.<br>
+&gt; &gt; <br>
+&gt; &gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@red=
+hat.com" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; [...]<br>
+&gt; <br>
+&gt; &gt; +void *__devm_drm_panel_alloc(struct device *dev, size_t size, si=
+ze_t offset,<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 const struct drm_panel_funcs *funcs,<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 int connector_type);<br>
+&gt; &gt; +<br>
+&gt; &gt; +/**<br>
+&gt; &gt; + * devm_drm_panel_alloc - Allocate and initialize an refcounted =
+panel<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^^<br>
+&gt; &quot;a refcounted panel&quot;<br>
+&gt; <br>
+&gt; &gt; + * @dev: struct device of the panel device<br>
+&gt; &gt; + * @type: the type of the struct which contains struct &amp;drm_=
+panel<br>
+&gt; &gt; + * @member: the name of the &amp;drm_panel within @type<br>
+&gt; &gt; + * @funcs: callbacks for this panel<br>
+&gt; &gt; + * @connector_type: connector type of the driver<br>
+&gt; <br>
+&gt; I&#39;d say it&#39;s the connector type in the hardware, rather than o=
+f the<br>
+&gt; driver (the driver follows what is in the hardware. Maybe you can just=
+<br>
+&gt; copy the description present in the drm_panel_init kdoc:<br>
+&gt; <br>
+&gt;=C2=A0 * @connector_type: the connector type (DRM_MODE_CONNECTOR_*) cor=
+responding to<br>
+&gt;=C2=A0 *=C2=A0 =C2=A0 =C2=A0 the panel interface (must NOT be DRM_MODE_=
+CONNECTOR_Unknown)<br>
+&gt; <br>
+&gt; Other than that it looks good!<br>
+<br>
+Heh, Unknown is fine, but you&#39;re right for the rest. I&#39;d use the<br=
+>
+drm_panel_init doc for that field actually.<br>
+<br></blockquote><div>Will make this change in the next iteration,</div><di=
+v>Thanks Luca and Maxime</div><div><br></div><div>Anusha <br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+Maxime<br>
+</blockquote></div></div>
+
+--0000000000004f380e063141bc8b--
+
