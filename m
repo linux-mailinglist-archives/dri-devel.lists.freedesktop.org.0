@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E21A71519
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 11:47:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77EE3A71520
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 11:53:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 482A810E0C5;
-	Wed, 26 Mar 2025 10:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE30910E6A2;
+	Wed, 26 Mar 2025 10:53:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EuSWk+Lg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U0GykQKR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4320510E0C5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 10:47:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id F2E36A41010;
- Wed, 26 Mar 2025 10:41:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE926C4CEE2;
- Wed, 26 Mar 2025 10:46:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1742986021;
- bh=L4j3g8wiZqG0wfHlUP7eCw+iP9FoHwcb5XdoYR3/sK8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EuSWk+LgRI4Q0fjQh1ZNgYzXT3waiXc6XY+XSufexb7hlQJqfTDP3q6gUBBwCsxfS
- Ucb1b/rwdmsAea9ECcp3p/XY3XhBRlE9xfvTT3mkt26ISr10z/BaWUXoWtSBHlfpbk
- gR7M8DKq3b7RQaE3DizEX/xIiG4iu7/t/6EuMVCjJfPga46Om6bpXkDMksy3mtZmfu
- ACU0zj1ps3CbJO8HEwX+WMje1mTsS8aClqwgyQdWXcBYmUxfW2LlWM9ZYjkkCZzbRd
- pDossO/QIZoz5WsW4xOsqcliLAwjrQHW63XqIxxKE4FiQ2B0MCxrHTxxAdC+pyMDht
- rics4MWxsf58w==
-Date: Wed, 26 Mar 2025 11:46:54 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, lyude@redhat.com, acurrid@nvidia.com,
- lina@asahilina.net, daniel.almeida@collabora.com, j@jannau.net,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 5/8] rust: drm: add DRM driver registration
-Message-ID: <Z-PbHiaMNqR0FPbY@pollux>
-References: <20250325235522.3992-1-dakr@kernel.org>
- <20250325235522.3992-6-dakr@kernel.org>
- <20250326-loyal-scrupulous-leech-59d44a@houat>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 531F910E6A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 10:53:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1742986421; x=1774522421;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=CybyUmm4j5DDvIal5SPPlJBkJ/xFcZDgoJdRqLuQoKU=;
+ b=U0GykQKRzYTO2+zBfx6OAfEIJNp4LjJ4pPS28WWU4DTsjZL6DJIgENbF
+ s52uKg2UqJNXuL0VK0CIanWOZhkEcm43+4C2qyXcO4isQHZCCGTjAIDRL
+ NheXw/Bqs99Rl8ialmAcsQS96n5zGXSb6KpTwiPSvDC6AFFNsVObyPZSo
+ gh7/D7YL8Pes1hIByJ6rThGKZ0mlcthLNjJmkiP+EYcwuBiTJA1TMYIBW
+ 5wSG8cPRu4vzonK0AfuCX5MTSzg6VzY5tWoAERNnH4zkIn3hYNsK4/Yiz
+ C3n/4BCYo2clrqwEZt6tey6h2BpLBvWkuvCAsWVXv63j/g49UnD5au4c0 Q==;
+X-CSE-ConnectionGUID: lDie3dCDRuWKAwpp1UTcYQ==
+X-CSE-MsgGUID: pMT3v1TpSlm9P8Z2ToiOmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="31870046"
+X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; d="scan'208";a="31870046"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 03:53:40 -0700
+X-CSE-ConnectionGUID: z+oXJZDBSBSwFHtFt8BU5g==
+X-CSE-MsgGUID: NgceAeSDRc2XBgMJDRhNWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; d="scan'208";a="124640515"
+Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.210])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2025 03:53:37 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 7/8] drm/format-helper: Optimize 32-to-16-bpp conversion
+In-Reply-To: <20250325110407.81107-8-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250325110407.81107-1-tzimmermann@suse.de>
+ <20250325110407.81107-8-tzimmermann@suse.de>
+Date: Wed, 26 Mar 2025 12:53:33 +0200
+Message-ID: <87sen06p1u.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250326-loyal-scrupulous-leech-59d44a@houat>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,83 +71,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 10:24:43AM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Wed, Mar 26, 2025 at 12:54:32AM +0100, Danilo Krummrich wrote:
-> > Implement the DRM driver `Registration`.
-> > 
-> > The `Registration` structure is responsible to register and unregister a
-> > DRM driver. It makes use of the `Devres` container in order to allow the
-> > `Registration` to be owned by devres, such that it is automatically
-> > dropped (and the DRM driver unregistered) once the parent device is
-> > unbound.
-> 
-> The code looks correct, but the wording is confusing to me.
-> drm_dev_unregister does indeed unregister the device, but it's not freed
-> until the last reference is dropped, so it's not really "dropped once
-> the parent device is unbound", the reference is, and it's not active
-> anymore.
+On Tue, 25 Mar 2025, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> For ease of implementation, existing line-conversion functions
+> for 16-bit formats write each pixel individually. Optimize the
+> performance by writing mulitple pixels in single 64-bit and 32-bit
+> stores.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_format_helper.c | 40 ++++++++++++++++++++++++++++-
+>  1 file changed, 39 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+> index b9c9c712aa9c..66137df85725 100644
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -262,10 +262,48 @@ static __always_inline void drm_fb_xfrm_line_32to16(void *dbuf, const void *sbuf
+>  						    unsigned int pixels,
+>  						    u32 (*xfrm_pixel)(u32))
+>  {
+> -	__le16 *dbuf16 = dbuf;
+> +	__le64 *dbuf64 = dbuf;
+> +	__le32 *dbuf32;
+> +	__le16 *dbuf16;
+>  	const __le32 *sbuf32 = sbuf;
+>  	const __le32 *send32 = sbuf32 + pixels;
+>  
+> +#if defined(CONFIG_64BIT)
+> +	/* write 4 pixels at once */
+> +	send32 -= pixels & GENMASK(1, 0);
+> +	while (sbuf32 < send32) {
 
-The above wording is related to the Registration structure itself, i.e. the
-Registration is dropped, but not the the DRM device itself. However, if the
-Registration had the last reference to the DRM device, then of course it's
-freed.
+I find the adjusting of send32 before and after the loop with different
+masks a bit confusing. Would it not suffice to:
 
-> > +impl<T: Driver> Drop for Registration<T> {
-> > +    /// Removes the registration from the kernel if it has completed successfully before.
-> > +    fn drop(&mut self) {
-> > +        // SAFETY: Safe by the invariant of `ARef<drm::Device<T>>`. The existence of this
-> > +        // `Registration` also guarantees the this `drm::Device` is actually registered.
-> > +        unsafe { bindings::drm_dev_unregister(self.0.as_raw()) };
-> > +    }
-> > +}
-> 
-> drm_dev_unregister also have an hotplug-aware variant in
-> drm_dev_unplug(). However, most devices are hotpluggable, even if only
-> through sysfs. So drm_dev_unplug() is generally a better option. Should
-> we use it here, and / or should we provide multiple options still?
-> 
-> Another thing worth mentioning I think is that drm_dev_unplug() works by
-> setting a flag, and drivers are expected to check that their access to
-> device-bound resources (so registers mapping, clocks, regulators, etc.)
-> are still there through drm_dev_enter/drm_dev_exit. It's pretty fragile
-> overall, so I wonder if it's something we could abstract away in Rust.
+	while (sbuf32 < ALIGN_DOWN(send32, 4))
 
-DRM should not have to take care of the lifetime of device resources of the
-parent device. This is the responsibility of the driver core abstractions.
+and leave send32 untouched? With different alignments for 2 pixels at a
+time.
 
-At least for the device resources we directly give out to drivers, it has to be,
-since otherwise it would mean that the driver core abstraction is unsound.
-Drivers could otherwise extend the lifetime of device resources arbitrarily.
 
-For instance, I/O memory is only ever given out by bus abstractions embedded in
-a Devres container (e.g. Devres<pci::Bar>). Once the parent device is unbound
-the pci::Bar within the Devres container won't be accessible any more and will
-be dropped internally. So, that's nothing DRM has to take care of.
+BR,
+Jani.
 
-However, there are cases where it's better to let subsystem abstractions manage
-the lifetime of device resources, (e.g. DMA mappings). The relevant thing is,
-that we never hand out device resources to a driver in a way that the driver can
-extend their lifetime arbitrarily.
 
-There are also other mechanisms that I plan to encode in the type system of
-(bus) devices. With [1] I implemented a generic for (bus specific) devices to
-indicate their context (e.g. to indicate whether this reference comes from a bus
-callback, in which case we'd be allowed to call some methods without
-(additional) synchronization). I want to use this to also let abstractions
-indicate whether the device is guaranteed to be bound through the entire
-duration of subsequent calls to drivers.
+> +		u32 pix[4] = {
+> +			le32_to_cpup(sbuf32++),
+> +			le32_to_cpup(sbuf32++),
+> +			le32_to_cpup(sbuf32++),
+> +			le32_to_cpup(sbuf32++),
+> +		};
+> +		/* write output bytes in reverse order for little endianness */
+> +		u64 val64 = ((u64)xfrm_pixel(pix[0])) |
+> +			    ((u64)xfrm_pixel(pix[1]) << 16) |
+> +			    ((u64)xfrm_pixel(pix[2]) << 32) |
+> +			    ((u64)xfrm_pixel(pix[3]) << 48);
+> +		*dbuf64++ = cpu_to_le64(val64);
+> +	}
+> +	send32 += pixels & GENMASK(1, 1);
+> +#endif
+> +
+> +	/* write 2 pixels at once */
+> +	dbuf32 = (__le32 __force *)dbuf64;
+> +	while (sbuf32 < send32) {
+> +		u32 pix[2] = {
+> +			le32_to_cpup(sbuf32++),
+> +			le32_to_cpup(sbuf32++),
+> +		};
+> +		/* write output bytes in reverse order for little endianness */
+> +		u32 val32 = xfrm_pixel(pix[0]) |
+> +			   (xfrm_pixel(pix[1]) << 16);
+> +		*dbuf32++ = cpu_to_le32(val32);
+> +	}
+> +	send32 += pixels & GENMASK(0, 0);
+> +
+> +	/* write trailing pixel */
+> +	dbuf16 = (__le16 __force *)dbuf32;
+>  	while (sbuf32 < send32)
+>  		*dbuf16++ = cpu_to_le16(xfrm_pixel(le32_to_cpup(sbuf32++)));
+>  }
 
-So, there are basically three ways to deal with this:
-
-  1. Use type system encodings where possible, since it can be validated at
-     compile time and is zero cost on runtime.
-  2. Let specific subsystem abstractions take care of device resource lifetimes.
-  3. Wrap device resources directly managed by drivers in a Devres container.
-
-Also note that for Devres, I'm working on patches that will ensure that there is
-only one single synchronize_rcu() per device / driver binding, rather than for
-every Devres container instance.
-
-[1] https://lore.kernel.org/lkml/20250314160932.100165-1-dakr@kernel.org/
+-- 
+Jani Nikula, Intel
