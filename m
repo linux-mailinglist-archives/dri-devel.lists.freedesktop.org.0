@@ -2,67 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA91A70E64
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 02:22:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD04A70E66
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 02:23:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA80710E634;
-	Wed, 26 Mar 2025 01:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D93D10E09E;
+	Wed, 26 Mar 2025 01:23:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SI9Cp3CL";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="beOej1Ik";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF7A110E634
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 01:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1742952167; x=1774488167;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=EW2WUYnXzEeFiqZb4aNRiXPv+E5nRHDeYMd6+zBYJ/E=;
- b=SI9Cp3CLYDpZsG+MsFbUQl2gprTPFiIcf0ZL6+IqDFg/l02VNQG0wmGf
- WsLrgYt7O/Qy34N8ycpjkdzPMy7vDTO0ty0Wl2uRIWE995nKbPldnIUTJ
- Mw24R59ksDOMfft1tT5NiPWNybFG2ocfSaSwhcIWO8Tosp0rdD5fqrPNv
- amtY+JbeKq3bBdktyF+ovSnQARGhKVAC3LyGmVXQbFe/PWZGibjImPJfP
- xxJRqpZp/jziqUSSAJCS8sZZHBqn2r/SLtyD07gjoXWy9QOW0VIV+4fnm
- i914TW9leb73XnkrzPuvipdwyB8zhR6CqcuIc0vgXa+02m4ltX42HL225 g==;
-X-CSE-ConnectionGUID: YOU1mZyLS02OL6+a3Z4KMg==
-X-CSE-MsgGUID: +2i0lhakSWaj9o1yNMcSvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="43951826"
-X-IronPort-AV: E=Sophos;i="6.14,276,1736841600"; d="scan'208";a="43951826"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2025 18:22:47 -0700
-X-CSE-ConnectionGUID: 5oOBzU7oSCaHqS8SQxa1SA==
-X-CSE-MsgGUID: 5n/uCNutQEePq1cdGOjfgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,276,1736841600"; d="scan'208";a="125350033"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
- by fmviesa009.fm.intel.com with ESMTP; 25 Mar 2025 18:22:43 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1txFTd-0005MR-1a;
- Wed, 26 Mar 2025 01:22:41 +0000
-Date: Wed, 26 Mar 2025 09:21:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anusha Srivatsa <asrivats@redhat.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Anusha Srivatsa <asrivats@redhat.com>
-Subject: Re: [PATCH 2/5] drm/panel: Add refcount support
-Message-ID: <202503260820.3wTF0Zap-lkp@intel.com>
-References: <20250325-b4-panel-refcounting-v1-2-4e2bf5d19c5d@redhat.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AA5210E09E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 01:23:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1742952190; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=DQBxuP8yg1Fun9ghnAopfik+fTSE2qB8zjUwtloNmi7O7Esdn5uQA4S6Yakx3/8M2jTOy6fVQE4edvVjutBgtqDqT+Yu/N4AaLej3a83rjqP7ctdyffttI2yCw6ZCVawES7clUJqi+9d6NPWMKl22OiKd03azvNGVeha51OERas=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1742952190;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=NW9f+bZKrYG4W4EGpkQjKSRjNSJ3MN6IiH7LLUom2xs=; 
+ b=IpUOMOqkUA2XL8A+TClmJ7CeQXTA2TJ+sE2nOe1eEJYgQDKFlEe6kj41iwqRJmslH0YwFwFW8hbTanuzZNHju+KfifZ+OsmK4xmqyFbYcB+FtreylAEYPswzqyUYDARtqyhoOHDaciK7XzBKPRGvs4dra/uWSk/OOLT+SFp14as=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742952190; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=NW9f+bZKrYG4W4EGpkQjKSRjNSJ3MN6IiH7LLUom2xs=;
+ b=beOej1IkmDldd4HRa8P09RUb+VCnxw62wVKj2RZDKt7WNTnS99CniNpeVi9+52z+
+ 9OBMEgpFj/bxWtYG4rPwbpKe0QYKhgaW2e8RnbkARviNyd1momkVwbdUQ6fRie3OZyt
+ GyWrrMEw/CjOKlAu4A8mLuemmzX2cYbmBNhpnk1Q=
+Received: by mx.zohomail.com with SMTPS id 1742952187876559.010850757304;
+ Tue, 25 Mar 2025 18:23:07 -0700 (PDT)
+Message-ID: <314238f1-9c89-4dab-a338-a40765076fd9@collabora.com>
+Date: Wed, 26 Mar 2025 04:23:04 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250325-b4-panel-refcounting-v1-2-4e2bf5d19c5d@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/virtio: Fix flickering issue seen with imported
+ dmabufs
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>
+References: <20250325201021.1315080-1-vivek.kasireddy@intel.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250325201021.1315080-1-vivek.kasireddy@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,49 +69,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Anusha,
+On 3/25/25 23:10, Vivek Kasireddy wrote:
+> We need to save the reservation object pointer associated with the
+> imported dmabuf in the newly created GEM object to allow
+> drm_gem_plane_helper_prepare_fb() to extract the exclusive fence
+> from it and attach it to the plane state during prepare phase.
+> This is needed to ensure that drm_atomic_helper_wait_for_fences()
+> correctly waits for the relevant fences (move, etc) associated with
+> the reservation object, thereby implementing proper synchronization.
+> 
+> Otherwise, artifacts or slight flickering can be seen when apps
+> are dragged across the screen when running Gnome (Wayland). This
+> problem is mostly seen with dGPUs in the case where the FBs are
+> allocated in VRAM but need to be migrated to System RAM as they
+> are shared with virtio-gpu.
+> 
+> Fixes: ca77f27a2665 ("drm/virtio: Import prime buffers from other devices as guest blobs")
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+> Cc: Chia-I Wu <olvaffe@gmail.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_prime.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
+> index fe6a0b018571..ceb0401a000b 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+> @@ -332,6 +332,7 @@ struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
+>  	}
+>  
+>  	obj->import_attach = attach;
+> +	obj->resv = buf->resv;
+>  	get_dma_buf(buf);
+>  
+>  	ret = virtgpu_dma_buf_init_obj(dev, bo, attach);
 
-kernel test robot noticed the following build warnings:
+Will be better to set obj->resv before drm_gem_private_object_init()
+since it checks whether obj->resv was pre-inited. I'll change it while
+applying, thanks.
 
-[auto build test WARNING on c8ba07caaecc622a9922cda49f24790821af8a71]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anusha-Srivatsa/drm-panel-Add-new-helpers-for-refcounted-panel-allocatons/20250326-012651
-base:   c8ba07caaecc622a9922cda49f24790821af8a71
-patch link:    https://lore.kernel.org/r/20250325-b4-panel-refcounting-v1-2-4e2bf5d19c5d%40redhat.com
-patch subject: [PATCH 2/5] drm/panel: Add refcount support
-config: s390-randconfig-002-20250326 (https://download.01.org/0day-ci/archive/20250326/202503260820.3wTF0Zap-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503260820.3wTF0Zap-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503260820.3wTF0Zap-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_panel.c:408: warning: expecting prototype for drm_bridge_put_void(). Prototype was for drm_panel_put_void() instead
-
-
-vim +408 drivers/gpu/drm/drm_panel.c
-
-   398	
-   399	/**
-   400	 * drm_bridge_put_void - wrapper to drm_bridge_put() taking a void pointer
-   401	 *
-   402	 * @data: pointer to @struct drm_bridge, cast to a void pointer
-   403	 *
-   404	 * Wrapper of drm_bridge_put() to be used when a function taking a void
-   405	 * pointer is needed, for example as a devm action.
-   406	 */
-   407	static void drm_panel_put_void(void *data)
- > 408	{
-   409		struct drm_panel *panel = (struct drm_panel *)data;
-   410	
-   411		drm_panel_put(panel);
-   412	}
-   413	
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Dmitry
