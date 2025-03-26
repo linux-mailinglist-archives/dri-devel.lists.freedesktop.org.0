@@ -2,76 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBEEA7169C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 13:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F6BA716B1
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Mar 2025 13:30:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F088F10E123;
-	Wed, 26 Mar 2025 12:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37D2110E121;
+	Wed, 26 Mar 2025 12:30:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="V6fQBffy";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="BEtLe752";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s2xtvfz0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BEtLe752";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s2xtvfz0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
- [209.85.161.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B37CF10E123;
- Wed, 26 Mar 2025 12:23:46 +0000 (UTC)
-Received: by mail-oo1-f43.google.com with SMTP id
- 006d021491bc7-60245c7309bso907582eaf.3; 
- Wed, 26 Mar 2025 05:23:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1742991826; x=1743596626; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/jt+mhW7WzL4hAPVB3jqM8DW9AxXkWF07UC5yUwtCOU=;
- b=V6fQBffya4u0yoK3XekBsVgCydoNVZ8TqRNbc1t5wX2JJkEb1YGvub/jqy7AjAe7dI
- iMW05yuf8XT6sBYkG1i/gALvUWye01A9JPTWtYV+9woI0BY30/VRc/8ApLDxan04Zh2k
- K6gwU6VYSrovw9SOBoSrz7khotNjMCvWVP/O5q5i6Ib/fGRtp6LdUxghr5Qz11E4FzlH
- QxrxFZ2l0jbcay1Snk34gBGV5z2GUL2YfxYdW/cQIyIa95VM7TQr4nof+RzTE1xuZIcb
- olq5uUNotlXxehXNGQIs4BQUqpqXGys5pOcK4oW3mRAeI51Ef6uLzNWfDeek6d8QYOgQ
- VQPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1742991826; x=1743596626;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/jt+mhW7WzL4hAPVB3jqM8DW9AxXkWF07UC5yUwtCOU=;
- b=TXjdx7z6wOVZ0Y8ylWTLTqTiY1SENJSmOzR+tqnfZa6zlmWJbPKMbOMs0Ptqb/SFAY
- ldjOMVrc55Gd6g/yza7YASTxoTfpw8U+2dfXwBee3bIupjm1gfkiUajQ7f17VKMrQ5ei
- dIi0vhJQvYaPgNyxpuhNXEbPF/A8h/gW89nPLkiNFJAuNvwjtAASBcjtcm831K1ZrjJF
- +KMxm8LvwIOBdeVDUkKx46Tmh79kPs5oMHSZgqzOsiBksM+vclxShodr54+5HoT7zLul
- ueOuQg85rN5uLO5pBFxzVAL8w8GdBjrAM677OnIwZnB26f8dtSaZUEaQFyhlQjL/N909
- NbdA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV5NL5/egvkBjQw665+VXraSlLAe3vUzi7KXRaauLqErEvCe1w/n6vYn1ziAdyoiEMuCUZBU5O0+rUjzESIKg==@lists.freedesktop.org,
- AJvYcCWj7lKJc7M9ZjtKAemSTE7BLqNwkAwSQnUa9ZOyK9fE38PS4G1Wm2kI5N4q+jWr/JEOUM8UI/olGc4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzH9naJ34w9B1qf1Kbu+obuiZA3nQyNXRVW0OcQzfl/8ixgaxwh
- TSEaQrLWxS6mDdQcOSuqtb/tB08QITOHwAgpje3ct23CB9WEK+2AcDclbnwGSK5+cR0QJAf0ZA0
- mlzbd3Vqke2ZKwUCRKN9WD6ORDTA=
-X-Gm-Gg: ASbGncvtb8JAINAzdHSfwfK0sc48WqXBDezveQGcdyuxdsehOfN88Ok1/KnJ5CZcNjl
- rnke2MEdeH+gv86utdGKzCr226We4YFpzXbUBe1GMx5cr3G1T2m1roWlS7IGVbG3WTJVQ1vENZO
- mPCTiIcrGXMQiAwIMUeX+rtS4Aq0D24BJCSmOhh+5lha4oZV4SYT/1ItBefIgv8JyGjEZ/
-X-Google-Smtp-Source: AGHT+IGFSn2JGm55yJQz0SnF0rW3maCWrhUUNbku1EeoEWryIpa7jtlN5e7jgMMpilQ3/3EASIyEKo3u7I4+lxHJSf8=
-X-Received: by 2002:a05:6820:468f:b0:602:775d:161c with SMTP id
- 006d021491bc7-602775d1a55mr24771eaf.2.1742991825810; Wed, 26 Mar 2025
- 05:23:45 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB5710E121
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Mar 2025 12:30:16 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1FDF61F391;
+ Wed, 26 Mar 2025 12:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1742992214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yFU6BE2nWu4ty7aMEPicIs4wzVoRI/svIzL/0Gsc+cs=;
+ b=BEtLe752YOjXA7+5L3Hu0vsyqweNYbLvBQfMd4lOQojJ+sYyO+mo89tOTTSEyzXUFLCb7w
+ HV0pfv+eCp3gangus4A+V7efNL5VsgLoTnXQepg0mf6pYDiTQNidsq8OaIkq8JTD+VkpLl
+ NcIqy5Ch5uZehED6zcsQitqhJ/TXR+A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1742992214;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yFU6BE2nWu4ty7aMEPicIs4wzVoRI/svIzL/0Gsc+cs=;
+ b=s2xtvfz05aFg8bbGS3GrQGIsEUksKE6foCB1iPISsaO7LcYhKQfcBpXbxkvfZYrCRWlvlO
+ 4y1Hob5tdlF+gmCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1742992214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yFU6BE2nWu4ty7aMEPicIs4wzVoRI/svIzL/0Gsc+cs=;
+ b=BEtLe752YOjXA7+5L3Hu0vsyqweNYbLvBQfMd4lOQojJ+sYyO+mo89tOTTSEyzXUFLCb7w
+ HV0pfv+eCp3gangus4A+V7efNL5VsgLoTnXQepg0mf6pYDiTQNidsq8OaIkq8JTD+VkpLl
+ NcIqy5Ch5uZehED6zcsQitqhJ/TXR+A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1742992214;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=yFU6BE2nWu4ty7aMEPicIs4wzVoRI/svIzL/0Gsc+cs=;
+ b=s2xtvfz05aFg8bbGS3GrQGIsEUksKE6foCB1iPISsaO7LcYhKQfcBpXbxkvfZYrCRWlvlO
+ 4y1Hob5tdlF+gmCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F306D13927;
+ Wed, 26 Mar 2025 12:30:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id z5jcOVXz42fdHwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Mar 2025 12:30:13 +0000
+Message-ID: <98df4fc3-019f-4feb-a49e-987a97e36c95@suse.de>
+Date: Wed, 26 Mar 2025 13:30:13 +0100
 MIME-Version: 1.0
-References: <20250227093805.2217658-1-jani.nikula@intel.com>
- <87msd86m5m.fsf@intel.com>
-In-Reply-To: <87msd86m5m.fsf@intel.com>
-From: Zhi Wang <zhi.wang.linux@gmail.com>
-Date: Wed, 26 Mar 2025 14:23:34 +0200
-X-Gm-Features: AQ5f1JqPFjttgkZQgyXg09QaAe_a6h49h1gIO86e66Q1zu7GDpGL-Gb4z9NrmUY
-Message-ID: <CAN=xO47jWtRnRJM8jwD9dURiYPoKNWXh5En-_zXWa_N0bdSR9A@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915/gvt: update MAINTAINERS
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- intel-gvt-dev@lists.freedesktop.org, Dave Airlie <airlied@gmail.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Zhenyu Wang <zhenyuw.linux@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000009fc20306313de8d2"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] drm/cirrus-qemu: Use framebuffer format as-is, drop
+ adjustments
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: airlied@redhat.com, virtualization@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+References: <20250325171716.154097-1-tzimmermann@suse.de>
+ <20250325171716.154097-4-tzimmermann@suse.de>
+ <hujnqeg74eoiz4lj46xhetdpytfgndg4iegwpszqf3ztjzuw6o@tis4zsp7slc3>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <hujnqeg74eoiz4lj46xhetdpytfgndg4iegwpszqf3ztjzuw6o@tis4zsp7slc3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[4]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,146 +141,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000009fc20306313de8d2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Acked-by: Zhi Wang <zhi.wang.linux@gmail.com>
+first of all, what about the other patches?
 
-Jani Nikula <jani.nikula@intel.com> =E4=BA=8E 2025=E5=B9=B43=E6=9C=8826=E6=
-=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=881:56=E5=86=99=E9=81=93=EF=BC=9A
+- Patch 1 is a bugfix.
+- Patch 4 depends on this one.
+- Patch 2 should be given consideration.
 
-> On Thu, 27 Feb 2025, Jani Nikula <jani.nikula@intel.com> wrote:
-> > Update GVT-g MAINTAINERS entry to reflect the current status of
-> > maintenance and repositories.
-> >
-> > Cc: Dave Airlie <airlied@gmail.com>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> > Cc: Zhenyu Wang <zhenyuw.linux@gmail.com>
-> > Cc: Zhi Wang <zhi.wang.linux@gmail.com>
+Am 26.03.25 um 11:35 schrieb Gerd Hoffmann:
+> On Tue, Mar 25, 2025 at 06:12:51PM +0100, Thomas Zimmermann wrote:
+>> Remove internal adjustments to framebuffer format from cirrus-qemu
+>> driver. The driver did this to support higher resolutions by reducing
+>> the per-pixel memory consumption.
+>>
+>> DRM has a policy of exporting formats as they are implemented in
+>> hardware. So avoid internal adjustments if possible.
+> Well.  While this policy makes sense for modern hardware this is IMHO
+> not the case for the cirrus.
 >
-> Zhenyu, Zhi, ping? Any input from you?
+> First, because there is almost no userspace which can handle the ancient
+> 24 bpp format (DRM_FORMAT_RGB888).
+
+True, there's really just 32 bpp or 16.
+
 >
-> BR,
-> Jani.
+> Second, because there is no way to communicate the hardware constrains
+> of the cirrus.  userspace can query the formats, and userspace can query
+> the resolutions, but there is no way to tell userspace that not all
+> combinations are valid and that you have to go for the DRM_FORMAT_RGB565
+> format if you want higher resolutions.
+
+The viable strategy for user space is to allocate a variety of different 
+configs and check them one by one, thus filtering out the ones that 
+work. Weston failed to do this for me while I experimented with such 
+low-end scenarios. It tried to run an atomic state with a resolution at 
+32 bpp, which did not work. Weston just ignored the problem and the 
+display went stale. Xorg was clever enough to pick 16-bpp colors.
+
 >
-> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> > ---
-> >  MAINTAINERS | 9 +++------
-> >  1 file changed, 3 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 5b69b93f63c6..98374661f5a8 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11649,13 +11649,10 @@ F:  drivers/gpio/gpio-tangier.c
-> >  F:   drivers/gpio/gpio-tangier.h
-> >
-> >  INTEL GVT-g DRIVERS (Intel GPU Virtualization)
-> > -M:   Zhenyu Wang <zhenyuw.linux@gmail.com>
-> > -M:   Zhi Wang <zhi.wang.linux@gmail.com>
-> > -L:   intel-gvt-dev@lists.freedesktop.org
-> > -L:   intel-gfx@lists.freedesktop.org
-> > -S:   Supported
-> > +R:   Zhenyu Wang <zhenyuw.linux@gmail.com>
-> > +R:   Zhi Wang <zhi.wang.linux@gmail.com>
-> > +S:   Odd Fixes
-> >  W:   https://github.com/intel/gvt-linux/wiki
-> > -T:   git https://github.com/intel/gvt-linux.git
-> >  F:   drivers/gpu/drm/i915/gvt/
-> >
-> >  INTEL HID EVENT DRIVER
+> Essentially the format conversations allows the driver to hide the
+> oddities of the prehistoric hardware from userspace, so things are
+> more smooth when running wayland on the cirrus.
+
+I'm aware of the situation. We've had similar discussions about other 
+low-end hardware, but generally went with the hardware limits.
+
+Please note that there is a trade-off here: the effect of this series is 
+that the maximum resolution will be limited to 800x600. If user space 
+would appropriately validate atomic states, lower bpp could still 
+support higher resolutions. But converting color formats on the fly 
+isn't free. I recently did some simple measurements in a different 
+context and converting from 32 bpp to 16 bpp took 3 times as long as 
+memcpy'ing the raw pixels. See the cover letter of [1]. AFAICT cirrus is 
+currently paying CPU overhead for display resolution.
+
+[1] https://patchwork.freedesktop.org/series/146722/#rev1
+
 >
-> --
-> Jani Nikula, Intel
+> take care,
+>    Gerd
+>
+> PS: https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
+> still applies of course.
+
+It's been 10 years since you wrote that. So maybe it's time to 
+re-consider cirrus' exceptions and just go for a 'dumb implementation'. 
+Anyone can easily switch to better alternatives.
+
+Best regards
+Thomas
+
+
 >
 
---0000000000009fc20306313de8d2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-<p dir=3D"ltr">Acked-by: Zhi Wang &lt;<a href=3D"mailto:zhi.wang.linux@gmai=
-l.com">zhi.wang.linux@gmail.com</a>&gt;</p>
-<br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=
-=3D"gmail_attr">Jani Nikula &lt;<a href=3D"mailto:jani.nikula@intel.com">ja=
-ni.nikula@intel.com</a>&gt; =E4=BA=8E 2025=E5=B9=B43=E6=9C=8826=E6=97=A5=E5=
-=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=881:56=E5=86=99=E9=81=93=EF=BC=9A<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">On Thu, 27 Feb 2025, Jani Nikula &lt;<a href=
-=3D"mailto:jani.nikula@intel.com" target=3D"_blank" rel=3D"noreferrer">jani=
-.nikula@intel.com</a>&gt; wrote:<br>
-&gt; Update GVT-g MAINTAINERS entry to reflect the current status of<br>
-&gt; maintenance and repositories.<br>
-&gt;<br>
-&gt; Cc: Dave Airlie &lt;<a href=3D"mailto:airlied@gmail.com" target=3D"_bl=
-ank" rel=3D"noreferrer">airlied@gmail.com</a>&gt;<br>
-&gt; Cc: Joonas Lahtinen &lt;<a href=3D"mailto:joonas.lahtinen@linux.intel.=
-com" target=3D"_blank" rel=3D"noreferrer">joonas.lahtinen@linux.intel.com</=
-a>&gt;<br>
-&gt; Cc: Rodrigo Vivi &lt;<a href=3D"mailto:rodrigo.vivi@intel.com" target=
-=3D"_blank" rel=3D"noreferrer">rodrigo.vivi@intel.com</a>&gt;<br>
-&gt; Cc: Simona Vetter &lt;<a href=3D"mailto:simona.vetter@ffwll.ch" target=
-=3D"_blank" rel=3D"noreferrer">simona.vetter@ffwll.ch</a>&gt;<br>
-&gt; Cc: Tvrtko Ursulin &lt;<a href=3D"mailto:tursulin@ursulin.net" target=
-=3D"_blank" rel=3D"noreferrer">tursulin@ursulin.net</a>&gt;<br>
-&gt; Cc: Zhenyu Wang &lt;<a href=3D"mailto:zhenyuw.linux@gmail.com" target=
-=3D"_blank" rel=3D"noreferrer">zhenyuw.linux@gmail.com</a>&gt;<br>
-&gt; Cc: Zhi Wang &lt;<a href=3D"mailto:zhi.wang.linux@gmail.com" target=3D=
-"_blank" rel=3D"noreferrer">zhi.wang.linux@gmail.com</a>&gt;<br>
-<br>
-Zhenyu, Zhi, ping? Any input from you?<br>
-<br>
-BR,<br>
-Jani.<br>
-<br>
-&gt; Signed-off-by: Jani Nikula &lt;<a href=3D"mailto:jani.nikula@intel.com=
-" target=3D"_blank" rel=3D"noreferrer">jani.nikula@intel.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 MAINTAINERS | 9 +++------<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+), 6 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/MAINTAINERS b/MAINTAINERS<br>
-&gt; index 5b69b93f63c6..98374661f5a8 100644<br>
-&gt; --- a/MAINTAINERS<br>
-&gt; +++ b/MAINTAINERS<br>
-&gt; @@ -11649,13 +11649,10 @@ F:=C2=A0 drivers/gpio/gpio-tangier.c<br>
-&gt;=C2=A0 F:=C2=A0 =C2=A0drivers/gpio/gpio-tangier.h<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 INTEL GVT-g DRIVERS (Intel GPU Virtualization)<br>
-&gt; -M:=C2=A0 =C2=A0Zhenyu Wang &lt;<a href=3D"mailto:zhenyuw.linux@gmail.=
-com" target=3D"_blank" rel=3D"noreferrer">zhenyuw.linux@gmail.com</a>&gt;<b=
-r>
-&gt; -M:=C2=A0 =C2=A0Zhi Wang &lt;<a href=3D"mailto:zhi.wang.linux@gmail.co=
-m" target=3D"_blank" rel=3D"noreferrer">zhi.wang.linux@gmail.com</a>&gt;<br=
->
-&gt; -L:=C2=A0 =C2=A0<a href=3D"mailto:intel-gvt-dev@lists.freedesktop.org"=
- target=3D"_blank" rel=3D"noreferrer">intel-gvt-dev@lists.freedesktop.org</=
-a><br>
-&gt; -L:=C2=A0 =C2=A0<a href=3D"mailto:intel-gfx@lists.freedesktop.org" tar=
-get=3D"_blank" rel=3D"noreferrer">intel-gfx@lists.freedesktop.org</a><br>
-&gt; -S:=C2=A0 =C2=A0Supported<br>
-&gt; +R:=C2=A0 =C2=A0Zhenyu Wang &lt;<a href=3D"mailto:zhenyuw.linux@gmail.=
-com" target=3D"_blank" rel=3D"noreferrer">zhenyuw.linux@gmail.com</a>&gt;<b=
-r>
-&gt; +R:=C2=A0 =C2=A0Zhi Wang &lt;<a href=3D"mailto:zhi.wang.linux@gmail.co=
-m" target=3D"_blank" rel=3D"noreferrer">zhi.wang.linux@gmail.com</a>&gt;<br=
->
-&gt; +S:=C2=A0 =C2=A0Odd Fixes<br>
-&gt;=C2=A0 W:=C2=A0 =C2=A0<a href=3D"https://github.com/intel/gvt-linux/wik=
-i" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/intel=
-/gvt-linux/wiki</a><br>
-&gt; -T:=C2=A0 =C2=A0git <a href=3D"https://github.com/intel/gvt-linux.git"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/intel/g=
-vt-linux.git</a><br>
-&gt;=C2=A0 F:=C2=A0 =C2=A0drivers/gpu/drm/i915/gvt/<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 INTEL HID EVENT DRIVER<br>
-<br>
--- <br>
-Jani Nikula, Intel<br>
-</blockquote></div>
-
---0000000000009fc20306313de8d2--
