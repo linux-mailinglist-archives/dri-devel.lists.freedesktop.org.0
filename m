@@ -2,111 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DB7A73434
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 15:18:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C199A7343E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 15:21:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7806410E8EC;
-	Thu, 27 Mar 2025 14:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F00B210E070;
+	Thu, 27 Mar 2025 14:21:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Jr6sjJMr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gu1hNPQ1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vYfk6Bar";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kROhuoCn";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nxJFq5Bj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6595510E8EC
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 14:18:39 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D2C2E1F786;
- Thu, 27 Mar 2025 14:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743085118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=oHDUk5d5m1G0uGmpSfw/G6GtxuKRMzWpxSOvf8LUe6Q=;
- b=Jr6sjJMrHwaUs2NCGenzhr/1Psowzab9C43iR6VRECgG2OMrMmQkbgK9mh4xmkf0DF733h
- VboP0qjSdhAbg6t2CKx3CramVWLzRcpzoRZ4rC1d4tF2pXyi6hOGqgBimVH+s3sg72mE8g
- dhFtQn3wgVRoBqD0guOzg2YAPt6BksA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743085118;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=oHDUk5d5m1G0uGmpSfw/G6GtxuKRMzWpxSOvf8LUe6Q=;
- b=Gu1hNPQ19PB4r5f9EC6VMKvmX85zjhEdvhDGHieHIkkOp4OxctTYupCyBjQihPnv/sx/DX
- 7cG35lVn3AicJLCA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vYfk6Bar;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=kROhuoCn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743085117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=oHDUk5d5m1G0uGmpSfw/G6GtxuKRMzWpxSOvf8LUe6Q=;
- b=vYfk6BarQ/4w08tIZ2lUqYUPTC/mkD+yAFym6MRsYbgTlurxPcHsBlc7aBrvf2ORLLHMKp
- Fsncdy4oi/1yOgHPhrf52a20hBVcujj8EEPQRrTcIHfdY6lsEO7Pv9TRFCexfyQp7q2K3Q
- Gy7+auTtndJ/j0q+xqFYXCMuWnLy2LY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743085117;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=oHDUk5d5m1G0uGmpSfw/G6GtxuKRMzWpxSOvf8LUe6Q=;
- b=kROhuoCn+dWuIvESBrcM8XLDEQwX0b4SJiGQaftUyHAPJ36qAjstS1SnZk75KseAxv4U8L
- F4LUJrVjBtkL+vAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5BD11139D4;
- Thu, 27 Mar 2025 14:18:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 7Ou2FD1e5WdnXwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 27 Mar 2025 14:18:37 +0000
-Date: Thu, 27 Mar 2025 15:18:35 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20250327141835.GA96037@linux.fritz.box>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C99910E070
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 14:21:23 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEACA446;
+ Thu, 27 Mar 2025 15:19:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1743085172;
+ bh=aCijh6dK23ppJuTHRJqIOMUqMd5KE+ya18KSNMKNiI4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nxJFq5BjGzTg/4YWYiD9K3sn9VQwy8bC6yEpJEFG7Pv2RX4fDhu3dLbuRqxVSf+IC
+ akkktswnmMgNtt9nPyPLeyhkCKmiOMYm0yV7VGzbTNJdVHetIaziByuOZ80tsFxsps
+ NR37qDtLiYBXTJfBLcS6446F/7EOA9viB/zQ0tHY=
+Message-ID: <b5cf15a4-7c65-4718-9c39-a4c86179ba4c@ideasonboard.com>
+Date: Thu, 27 Mar 2025 16:21:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Rspamd-Queue-Id: D2C2E1F786
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[16]; RCVD_COUNT_TWO(0.00)[2];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MISSING_XM_UA(0.00)[];
- TO_DN_SOME(0.00)[]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/11] drm/fourcc: Add DRM_FORMAT_Y8
+To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20250326-xilinx-formats-v4-0-322a300c6d72@ideasonboard.com>
+ <20250326-xilinx-formats-v4-3-322a300c6d72@ideasonboard.com>
+ <CAMuHMdXM1B1c=62EpcuUdpdpaBRZSJLXb1GBB0egzp7Fyeo5-w@mail.gmail.com>
+ <b195971c-52e6-463e-a440-83dde4346e65@ideasonboard.com>
+ <20250327112009.6b4dc430@eldfell>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250327112009.6b4dc430@eldfell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,48 +112,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+Hi,
 
-here's the PR from drm-misc-next-fixes for this week. There's a single
-trivial fix for the new adp driver.
+On 27/03/2025 11:20, Pekka Paalanen wrote:
+> On Wed, 26 Mar 2025 15:55:18 +0200
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
+> 
+>> Hi,
+>>
+>> On 26/03/2025 15:52, Geert Uytterhoeven wrote:
+>>> Hi Tomi,
+>>>
+>>> On Wed, 26 Mar 2025 at 14:23, Tomi Valkeinen
+>>> <tomi.valkeinen@ideasonboard.com> wrote:
+>>>> Add greyscale Y8 format.
+>>>>
+>>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>
+>>> Thanks for your patch!
+>>>    
+>>>> --- a/include/uapi/drm/drm_fourcc.h
+>>>> +++ b/include/uapi/drm/drm_fourcc.h
+>>>> @@ -405,6 +405,9 @@ extern "C" {
+>>>>    #define DRM_FORMAT_YUV444      fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
+>>>>    #define DRM_FORMAT_YVU444      fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
+>>>>
+>>>> +/* Greyscale formats */
+>>>> +
+>>>> +#define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
+>>>
+>>> This format differs from e.g. DRM_FORMAT_R8, which encodes
+>>> the number of bits in the FOURCC format. What do you envision
+>>> for e.g. DRM_FORMAT_Y16? fourcc_code('G', 'R', '1', '6')?
+>>
+>> I wanted to use the same fourcc as on V4L2 side. Strictly speaking it's
+>> not required, but different fourccs for the same formats do confuse.
+>>
+>> So, generally speaking, I'd pick an existing fourcc from v4l2 side if
+>> possible, and if not, invent a new one.
+> 
+> Hi Tomi,
+> 
+> what's the actual difference between DRM_FORMAT_R8 and DRM_FORMAT_Y8?
+> 
+> Is the difference that when R8 gets expanded to RGB, it becomes (R, 0,
+> 0), but Y8 gets expanded to (c1 * Y, c2 * Y, c3 * Y) where c1..c3 are
+> defined by MatrixCoefficients (H.273 terminology)?
+> 
+> That would be my intuitive assumption following how YCbCr is handled.
+> Is it obvious enough, or should there be a comment to that effect?
 
-Best regards
-Thomas
+You raise an interesting point. Is it defined how a display driver, that 
+supports R8 as a format, shows R8 on screen? I came into this in the 
+context of grayscale formats, so I thought R8 would be handled as (R, R, 
+R) in RGB. But you say (R, 0, 0), which... also makes sense.
 
-drm-misc-next-fixes-2025-03-27:
-Short summary of fixes pull:
+I think that's a new argument in favor of Y8: Y8 means Y-only, so the 
+meaning is more explicit.
 
-adp:
-- Fix error handling in plane setup
-The following changes since commit 914ee6e730e134410b77edc453b629767e84c32c:
+How I see that the display controller would deal with Y8 (depending on 
+the HW):
 
-  drm/appletbdrm: Fix ref-counting on dmadev (2025-03-10 10:54:24 +0100)
+- Take the Y value as a greyscale value, if the HW supports greyscale 
+format directly.
+- Use the Y as YCbCr (Y, Cb-neutral, Cr-neutral), and use that if the HW 
+supports YCbCr directly.
+- Use the Y as YCbCr as above, and convert to RGB in the usual way.
 
-are available in the Git repository at:
+And as it's an YUV format, the limited/full range applies, which I 
+believe is not usually applied to RGB formats.
 
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-fixes-2025-03-27
+Does this make sense?
 
-for you to fetch changes up to ee20c69c789b6cb2179a535cf440d72b98f4a134:
+  Tomi
 
-  drm: adp: Fix NULL vs IS_ERR() check in adp_plane_new() (2025-03-14 09:42:11 -0400)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-adp:
-- Fix error handling in plane setup
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      drm: adp: Fix NULL vs IS_ERR() check in adp_plane_new()
-
- drivers/gpu/drm/adp/adp_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
