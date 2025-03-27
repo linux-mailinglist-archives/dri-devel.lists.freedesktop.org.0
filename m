@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5963BA73258
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 13:36:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243D5A7325F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 13:39:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3029C10E8B0;
-	Thu, 27 Mar 2025 12:36:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A9B10E8B2;
+	Thu, 27 Mar 2025 12:39:43 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="M+vprhAO";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0145A10E8B0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:36:33 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B60AE1063;
- Thu, 27 Mar 2025 05:36:38 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ACA8E3F58B;
- Thu, 27 Mar 2025 05:36:31 -0700 (PDT)
-Date: Thu, 27 Mar 2025 12:36:28 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
- <robh@kernel.org>, Steven Price <steven.price@arm.com>
-Cc: Philippe Simons <simons.philippe@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Jernej =?UTF-8?B?xaBrcmFiZWM=?=
- <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 1/2] drm/panfrost: Add PM runtime flags
-Message-ID: <20250327123628.3d33c68e@donnerap.manchester.arm.com>
-In-Reply-To: <20250312232319.25712-2-simons.philippe@gmail.com>
-References: <20250312232319.25712-1-simons.philippe@gmail.com>
- <20250312232319.25712-2-simons.philippe@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BEC4910E8B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:39:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=/T62cBBd0pDjBtvy1ZY090Q2whzh7b/Qe+q6nLlyZKA=; b=M
+ +vprhAOZ6Y7Ao54I7WlIa8WFFNs198QIv+rL6J78N/4GR06qp6FjWaYtGjkgvS7m
+ VDHhr5SriQAJZgmT6foqM8cT8PeuknOwsllGdkH+6aWyLtUZpCvDS8/zJ2D8dlUz
+ 9B0ICnGYJT5EzjPkkCZXb4kuRCUcXBxvAvQA+TMUWk=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-115 (Coremail) ; Thu, 27 Mar 2025 20:39:02 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Thu, 27 Mar 2025 20:39:02 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: lumag@kernel.org
+Cc: mripard@kernel.org, neil.armstrong@linaro.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
+ thierry.reding@gmail.com, victor.liu@nxp.com, rfoss@kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ "Andy Yan" <andy.yan@rock-chips.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re:[PATCH v2 1/5] drm/dp: Pull drm_dp_link_power_up/down from Tegra
+ to common drm_dp_helper
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <20250318063452.4983-1-andyshrk@163.com>
+References: <20250318063452.4983-1-andyshrk@163.com>
+X-NTES-SC: AL_Qu2fAfyctkkv5CKdbekfmkcVgOw9UcO5v/Qk3oZXOJF8jDzp/xADZW1jPVTtweeEIS+ujTi3dDVRxcBmeZlRU6Ugl2BHLaPoVMD7DZlp7dcIaA==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Message-ID: <76a55b32.acc9.195d79cf378.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cygvCgD338bmRuVnGa+OAA--.62833W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gEdXmflRdEM6AACsg
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,119 +66,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Mar 2025 00:23:18 +0100
-Philippe Simons <simons.philippe@gmail.com> wrote:
-
-Hi Rob, Boris, Steven,
-
-> When the GPU is the only device attached to a single power domain,
-> core genpd disable and enable it when gpu enter and leave runtime suspend.
-> 
-> Some power-domain requires a sequence before disabled,
-> and the reverse when enabled.
-> 
-> Add PM flags for CLK and RST, and implement in
-> panfrost_device_runtime_suspend/resume.
-
-So some Mali configuration and integration manual I am looking at says
-that this sequence should be always observed, as the powerdown sequence
-would include disabling the clocks first, then asserting the reset, then
-turning the power switches off (and the inverse sequence on powerup).
-
-So should we make this unconditional, not depending on implementation
-specific flags?
-
-And also I am wondering if panfrost_device_init() gets this wrong as well?
-As I see it enabling clock first, then reset, then pm_domain, where it
-should be exactly the opposite?
-
-Cheers,
-Andre
-
-> 
-> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_device.c | 37 ++++++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_device.h |  4 +++
->  2 files changed, 41 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index a45e4addcc19..189ad2ad2b32 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -406,11 +406,38 @@ void panfrost_device_reset(struct panfrost_device *pfdev)
->  static int panfrost_device_runtime_resume(struct device *dev)
->  {
->  	struct panfrost_device *pfdev = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT)) {
-> +		ret = reset_control_deassert(pfdev->rstc);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
-> +		ret = clk_enable(pfdev->clock);
-> +		if (ret)
-> +			goto err_clk;
-> +
-> +		if (pfdev->bus_clock) {
-> +			ret = clk_enable(pfdev->bus_clock);
-> +			if (ret)
-> +				goto err_bus_clk;
-> +		}
-> +	}
->  
->  	panfrost_device_reset(pfdev);
->  	panfrost_devfreq_resume(pfdev);
->  
->  	return 0;
-> +
-> +err_bus_clk:
-> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS))
-> +		clk_disable(pfdev->clock);
-> +err_clk:
-> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
-> +		reset_control_assert(pfdev->rstc);
-> +	return ret;
->  }
->  
->  static int panfrost_device_runtime_suspend(struct device *dev)
-> @@ -426,6 +453,16 @@ static int panfrost_device_runtime_suspend(struct device *dev)
->  	panfrost_gpu_suspend_irq(pfdev);
->  	panfrost_gpu_power_off(pfdev);
->  
-> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
-> +		if (pfdev->bus_clock)
-> +			clk_disable(pfdev->bus_clock);
-> +
-> +		clk_disable(pfdev->clock);
-> +	}
-> +
-> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
-> +		reset_control_assert(pfdev->rstc);
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index cffcb0ac7c11..f372d4819262 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -36,10 +36,14 @@ enum panfrost_drv_comp_bits {
->   * enum panfrost_gpu_pm - Supported kernel power management features
->   * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
->   * @GPU_PM_VREG_OFF: Allow turning off regulators during system suspend
-> + * @GPU_PM_RT_CLK_DIS: Allow disabling clocks during system runtime suspend
-> + * @GPU_PM_RST_ASRT: Allow asserting the reset control during runtime suspend
->   */
->  enum panfrost_gpu_pm {
->  	GPU_PM_CLK_DIS,
->  	GPU_PM_VREG_OFF,
-> +	GPU_PM_RT_CLK_DIS,
-> +	GPU_PM_RT_RST_ASRT
->  };
->  
->  struct panfrost_features {
-
+CkhlbGxvIERtaXRyeSwKICAgICBDb3VsZCB5b3UgdGFrZSB0aGlzIHNlcmllcz8gSWYgc28sIG1l
+cmdpbmcgaXQgZWFybGllciBjYW4gYXZvaWQgZnV0dXJlIGNvbmZsaWN0cyBmcm9tIG90aGVyIHBh
+dGNoZXMuIApCZXNpZGVzLCBJIGNhbiB1cGRhdGUgbXkgRFAgZHJpdmVyIGJhc2VkIG9uIGRybS1t
+aXNjLW5leHQuCgpBdCAyMDI1LTAzLTE4IDE0OjM0OjM1LCAiQW5keSBZYW4iIDxhbmR5c2hya0Ax
+NjMuY29tPiB3cm90ZToKPkZyb206IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4K
+Pgo+VGhlIGhlbHBlciBmdW5jdGlvbnMgZHJtX2RwX2xpbmtfcG93ZXJfdXAvZG93biB3ZXJlIG1v
+dmVkIHRvIFRlZ3JhCj5EUk0gaW4gY29tbWl0IDlhNDJjN2M2NDdhOSAoImRybS90ZWdyYTogTW92
+ZSBkcm1fZHBfbGluayBoZWxwZXJzIHRvIFRlZ3JhIERSTSIpIi4KPgo+Tm93IHNpbmNlIG1vcmUg
+YW5kIG1vcmUgdXNlcnMgYXJlIGR1cGxpY2F0aW5nIHRoZSBzYW1lIGNvZGUgaW4gdGhlaXIKPm93
+biBkcml2ZXJzLCBpdCdzIHRpbWUgdG8gbWFrZSB0aGVtIGFzIERSTSBEUCBjb21tb24gaGVscGVy
+cyBhZ2Fpbi4KPgo+U2lnbmVkLW9mZi1ieTogQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMu
+Y29tPgo+QWNrZWQtYnk6IERtaXRyeSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAb3NzLnF1
+YWxjb21tLmNvbT4KPi0tLQo+Cj5DaGFuZ2VzIGluIHYyOgo+LSBGaXggY29tbWl0IG1lc3NhZ2Ug
+YXMgc3VnZ2VzdGVkIGJ5IERtaXRyeQo+Cj4gZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2Rw
+X2hlbHBlci5jIHwgNjkgKysrKysrKysrKysrKysrKysrKysrKysrKwo+IGRyaXZlcnMvZ3B1L2Ry
+bS90ZWdyYS9kcC5jICAgICAgICAgICAgICB8IDY3IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+
+IGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9kcC5oICAgICAgICAgICAgICB8ICAyIC0KPiBkcml2ZXJz
+L2dwdS9kcm0vdGVncmEvc29yLmMgICAgICAgICAgICAgfCAgNCArLQo+IGluY2x1ZGUvZHJtL2Rp
+c3BsYXkvZHJtX2RwX2hlbHBlci5oICAgICB8ICAyICsKPiA1IGZpbGVzIGNoYW5nZWQsIDczIGlu
+c2VydGlvbnMoKyksIDcxIGRlbGV0aW9ucygtKQo+Cj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2Rpc3BsYXkvZHJtX2RwX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJt
+X2RwX2hlbHBlci5jCj5pbmRleCBkYmNlMWMzZjQ5NjkuLmU1ZGVjNjdlNWZjYSAxMDA2NDQKPi0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9kaXNwbGF5L2RybV9kcF9oZWxwZXIuYwo+KysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX2hlbHBlci5jCj5AQCAtODM4LDYgKzgzOCw3NSBAQCBp
+bnQgZHJtX2RwX2RwY2RfcmVhZF9waHlfbGlua19zdGF0dXMoc3RydWN0IGRybV9kcF9hdXggKmF1
+eCwKPiB9Cj4gRVhQT1JUX1NZTUJPTChkcm1fZHBfZHBjZF9yZWFkX3BoeV9saW5rX3N0YXR1cyk7
+Cj4gCj4rLyoqCj4rICogZHJtX2RwX2xpbmtfcG93ZXJfdXAoKSAtIHBvd2VyIHVwIGEgRGlzcGxh
+eVBvcnQgbGluawo+KyAqIEBhdXg6IERpc3BsYXlQb3J0IEFVWCBjaGFubmVsCj4rICogQHJldmlz
+aW9uOiBEUENEIHJldmlzaW9uIHN1cHBvcnRlZCBvbiB0aGUgbGluawo+KyAqCj4rICogUmV0dXJu
+cyAwIG9uIHN1Y2Nlc3Mgb3IgYSBuZWdhdGl2ZSBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCj4rICov
+Cj4raW50IGRybV9kcF9saW5rX3Bvd2VyX3VwKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsIHVuc2ln
+bmVkIGNoYXIgcmV2aXNpb24pCj4rewo+Kwl1OCB2YWx1ZTsKPisJaW50IGVycjsKPisKPisJLyog
+RFBfU0VUX1BPV0VSIHJlZ2lzdGVyIGlzIG9ubHkgYXZhaWxhYmxlIG9uIERQQ0QgdjEuMSBhbmQg
+bGF0ZXIgKi8KPisJaWYgKHJldmlzaW9uIDwgRFBfRFBDRF9SRVZfMTEpCj4rCQlyZXR1cm4gMDsK
+PisKPisJZXJyID0gZHJtX2RwX2RwY2RfcmVhZGIoYXV4LCBEUF9TRVRfUE9XRVIsICZ2YWx1ZSk7
+Cj4rCWlmIChlcnIgPCAwKQo+KwkJcmV0dXJuIGVycjsKPisKPisJdmFsdWUgJj0gfkRQX1NFVF9Q
+T1dFUl9NQVNLOwo+Kwl2YWx1ZSB8PSBEUF9TRVRfUE9XRVJfRDA7Cj4rCj4rCWVyciA9IGRybV9k
+cF9kcGNkX3dyaXRlYihhdXgsIERQX1NFVF9QT1dFUiwgdmFsdWUpOwo+KwlpZiAoZXJyIDwgMCkK
+PisJCXJldHVybiBlcnI7Cj4rCj4rCS8qCj4rCSAqIEFjY29yZGluZyB0byB0aGUgRFAgMS4xIHNw
+ZWNpZmljYXRpb24sIGEgIlNpbmsgRGV2aWNlIG11c3QgZXhpdCB0aGUKPisJICogcG93ZXIgc2F2
+aW5nIHN0YXRlIHdpdGhpbiAxIG1zIiAoU2VjdGlvbiAyLjUuMy4xLCBUYWJsZSA1LTUyLCAiU2lu
+awo+KwkgKiBDb250cm9sIEZpZWxkIiAocmVnaXN0ZXIgMHg2MDApLgo+KwkgKi8KPisJdXNsZWVw
+X3JhbmdlKDEwMDAsIDIwMDApOwo+Kwo+KwlyZXR1cm4gMDsKPit9Cj4rRVhQT1JUX1NZTUJPTChk
+cm1fZHBfbGlua19wb3dlcl91cCk7Cj4rCj4rLyoqCj4rICogZHJtX2RwX2xpbmtfcG93ZXJfZG93
+bigpIC0gcG93ZXIgZG93biBhIERpc3BsYXlQb3J0IGxpbmsKPisgKiBAYXV4OiBEaXNwbGF5UG9y
+dCBBVVggY2hhbm5lbAo+KyAqIEByZXZpc2lvbjogRFBDRCByZXZpc2lvbiBzdXBwb3J0ZWQgb24g
+dGhlIGxpbmsKPisgKgo+KyAqIFJldHVybnMgMCBvbiBzdWNjZXNzIG9yIGEgbmVnYXRpdmUgZXJy
+b3IgY29kZSBvbiBmYWlsdXJlLgo+KyAqLwo+K2ludCBkcm1fZHBfbGlua19wb3dlcl9kb3duKHN0
+cnVjdCBkcm1fZHBfYXV4ICphdXgsIHVuc2lnbmVkIGNoYXIgcmV2aXNpb24pCj4rewo+Kwl1OCB2
+YWx1ZTsKPisJaW50IGVycjsKPisKPisJLyogRFBfU0VUX1BPV0VSIHJlZ2lzdGVyIGlzIG9ubHkg
+YXZhaWxhYmxlIG9uIERQQ0QgdjEuMSBhbmQgbGF0ZXIgKi8KPisJaWYgKHJldmlzaW9uIDwgRFBf
+RFBDRF9SRVZfMTEpCj4rCQlyZXR1cm4gMDsKPisKPisJZXJyID0gZHJtX2RwX2RwY2RfcmVhZGIo
+YXV4LCBEUF9TRVRfUE9XRVIsICZ2YWx1ZSk7Cj4rCWlmIChlcnIgPCAwKQo+KwkJcmV0dXJuIGVy
+cjsKPisKPisJdmFsdWUgJj0gfkRQX1NFVF9QT1dFUl9NQVNLOwo+Kwl2YWx1ZSB8PSBEUF9TRVRf
+UE9XRVJfRDM7Cj4rCj4rCWVyciA9IGRybV9kcF9kcGNkX3dyaXRlYihhdXgsIERQX1NFVF9QT1dF
+UiwgdmFsdWUpOwo+KwlpZiAoZXJyIDwgMCkKPisJCXJldHVybiBlcnI7Cj4rCj4rCXJldHVybiAw
+Owo+K30KPitFWFBPUlRfU1lNQk9MKGRybV9kcF9saW5rX3Bvd2VyX2Rvd24pOwo+Kwo+IHN0YXRp
+YyBpbnQgcmVhZF9wYXlsb2FkX3VwZGF0ZV9zdGF0dXMoc3RydWN0IGRybV9kcF9hdXggKmF1eCkK
+PiB7Cj4gCWludCByZXQ7Cj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RwLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZHAuYwo+aW5kZXggMDhmYmQ4ZjE1MWExLi45OTBlNzQ0
+YjA5MjMgMTAwNjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZHAuYwo+KysrIGIvZHJp
+dmVycy9ncHUvZHJtL3RlZ3JhL2RwLmMKPkBAIC0yNTUsNzMgKzI1NSw2IEBAIGludCBkcm1fZHBf
+bGlua19wcm9iZShzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxp
+bmspCj4gCXJldHVybiAwOwo+IH0KPiAKPi0vKioKPi0gKiBkcm1fZHBfbGlua19wb3dlcl91cCgp
+IC0gcG93ZXIgdXAgYSBEaXNwbGF5UG9ydCBsaW5rCj4tICogQGF1eDogRGlzcGxheVBvcnQgQVVY
+IGNoYW5uZWwKPi0gKiBAbGluazogcG9pbnRlciB0byBhIHN0cnVjdHVyZSBjb250YWluaW5nIHRo
+ZSBsaW5rIGNvbmZpZ3VyYXRpb24KPi0gKgo+LSAqIFJldHVybnMgMCBvbiBzdWNjZXNzIG9yIGEg
+bmVnYXRpdmUgZXJyb3IgY29kZSBvbiBmYWlsdXJlLgo+LSAqLwo+LWludCBkcm1fZHBfbGlua19w
+b3dlcl91cChzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxpbmsp
+Cj4tewo+LQl1OCB2YWx1ZTsKPi0JaW50IGVycjsKPi0KPi0JLyogRFBfU0VUX1BPV0VSIHJlZ2lz
+dGVyIGlzIG9ubHkgYXZhaWxhYmxlIG9uIERQQ0QgdjEuMSBhbmQgbGF0ZXIgKi8KPi0JaWYgKGxp
+bmstPnJldmlzaW9uIDwgMHgxMSkKPi0JCXJldHVybiAwOwo+LQo+LQllcnIgPSBkcm1fZHBfZHBj
+ZF9yZWFkYihhdXgsIERQX1NFVF9QT1dFUiwgJnZhbHVlKTsKPi0JaWYgKGVyciA8IDApCj4tCQly
+ZXR1cm4gZXJyOwo+LQo+LQl2YWx1ZSAmPSB+RFBfU0VUX1BPV0VSX01BU0s7Cj4tCXZhbHVlIHw9
+IERQX1NFVF9QT1dFUl9EMDsKPi0KPi0JZXJyID0gZHJtX2RwX2RwY2Rfd3JpdGViKGF1eCwgRFBf
+U0VUX1BPV0VSLCB2YWx1ZSk7Cj4tCWlmIChlcnIgPCAwKQo+LQkJcmV0dXJuIGVycjsKPi0KPi0J
+LyoKPi0JICogQWNjb3JkaW5nIHRvIHRoZSBEUCAxLjEgc3BlY2lmaWNhdGlvbiwgYSAiU2luayBE
+ZXZpY2UgbXVzdCBleGl0IHRoZQo+LQkgKiBwb3dlciBzYXZpbmcgc3RhdGUgd2l0aGluIDEgbXMi
+IChTZWN0aW9uIDIuNS4zLjEsIFRhYmxlIDUtNTIsICJTaW5rCj4tCSAqIENvbnRyb2wgRmllbGQi
+IChyZWdpc3RlciAweDYwMCkuCj4tCSAqLwo+LQl1c2xlZXBfcmFuZ2UoMTAwMCwgMjAwMCk7Cj4t
+Cj4tCXJldHVybiAwOwo+LX0KPi0KPi0vKioKPi0gKiBkcm1fZHBfbGlua19wb3dlcl9kb3duKCkg
+LSBwb3dlciBkb3duIGEgRGlzcGxheVBvcnQgbGluawo+LSAqIEBhdXg6IERpc3BsYXlQb3J0IEFV
+WCBjaGFubmVsCj4tICogQGxpbms6IHBvaW50ZXIgdG8gYSBzdHJ1Y3R1cmUgY29udGFpbmluZyB0
+aGUgbGluayBjb25maWd1cmF0aW9uCj4tICoKPi0gKiBSZXR1cm5zIDAgb24gc3VjY2VzcyBvciBh
+IG5lZ2F0aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPi0gKi8KPi1pbnQgZHJtX2RwX2xpbmtf
+cG93ZXJfZG93bihzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxp
+bmspCj4tewo+LQl1OCB2YWx1ZTsKPi0JaW50IGVycjsKPi0KPi0JLyogRFBfU0VUX1BPV0VSIHJl
+Z2lzdGVyIGlzIG9ubHkgYXZhaWxhYmxlIG9uIERQQ0QgdjEuMSBhbmQgbGF0ZXIgKi8KPi0JaWYg
+KGxpbmstPnJldmlzaW9uIDwgMHgxMSkKPi0JCXJldHVybiAwOwo+LQo+LQllcnIgPSBkcm1fZHBf
+ZHBjZF9yZWFkYihhdXgsIERQX1NFVF9QT1dFUiwgJnZhbHVlKTsKPi0JaWYgKGVyciA8IDApCj4t
+CQlyZXR1cm4gZXJyOwo+LQo+LQl2YWx1ZSAmPSB+RFBfU0VUX1BPV0VSX01BU0s7Cj4tCXZhbHVl
+IHw9IERQX1NFVF9QT1dFUl9EMzsKPi0KPi0JZXJyID0gZHJtX2RwX2RwY2Rfd3JpdGViKGF1eCwg
+RFBfU0VUX1BPV0VSLCB2YWx1ZSk7Cj4tCWlmIChlcnIgPCAwKQo+LQkJcmV0dXJuIGVycjsKPi0K
+Pi0JcmV0dXJuIDA7Cj4tfQo+LQo+IC8qKgo+ICAqIGRybV9kcF9saW5rX2NvbmZpZ3VyZSgpIC0g
+Y29uZmlndXJlIGEgRGlzcGxheVBvcnQgbGluawo+ICAqIEBhdXg6IERpc3BsYXlQb3J0IEFVWCBj
+aGFubmVsCj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RwLmggYi9kcml2ZXJz
+L2dwdS9kcm0vdGVncmEvZHAuaAo+aW5kZXggY2IxMmVkMGM1NGU3Li42OTUwNjBjYWZhYzAgMTAw
+NjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZHAuaAo+KysrIGIvZHJpdmVycy9ncHUv
+ZHJtL3RlZ3JhL2RwLmgKPkBAIC0xNjQsOCArMTY0LDYgQEAgaW50IGRybV9kcF9saW5rX3JlbW92
+ZV9yYXRlKHN0cnVjdCBkcm1fZHBfbGluayAqbGluaywgdW5zaWduZWQgbG9uZyByYXRlKTsKPiB2
+b2lkIGRybV9kcF9saW5rX3VwZGF0ZV9yYXRlcyhzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxpbmspOwo+
+IAo+IGludCBkcm1fZHBfbGlua19wcm9iZShzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3Qg
+ZHJtX2RwX2xpbmsgKmxpbmspOwo+LWludCBkcm1fZHBfbGlua19wb3dlcl91cChzdHJ1Y3QgZHJt
+X2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxpbmspOwo+LWludCBkcm1fZHBfbGlu
+a19wb3dlcl9kb3duKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsIHN0cnVjdCBkcm1fZHBfbGluayAq
+bGluayk7Cj4gaW50IGRybV9kcF9saW5rX2NvbmZpZ3VyZShzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4
+LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxpbmspOwo+IGludCBkcm1fZHBfbGlua19jaG9vc2Uoc3Ry
+dWN0IGRybV9kcF9saW5rICpsaW5rLAo+IAkJICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxh
+eV9tb2RlICptb2RlLAo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYyBi
+L2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYwo+aW5kZXggZjk4ZjcwZWRhOTA2Li4yMWYzZGZk
+Y2M1YzkgMTAwNjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvc29yLmMKPisrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYwo+QEAgLTI2NjYsNyArMjY2Niw3IEBAIHN0YXRpYyB2
+b2lkIHRlZ3JhX3Nvcl9kcF9kaXNhYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcikKPiAJ
+ICogdGhlIEFVWCB0cmFuc2FjdGlvbnMgd291bGQganVzdCBiZSB0aW1pbmcgb3V0Lgo+IAkgKi8K
+PiAJaWYgKG91dHB1dC0+Y29ubmVjdG9yLnN0YXR1cyAhPSBjb25uZWN0b3Jfc3RhdHVzX2Rpc2Nv
+bm5lY3RlZCkgewo+LQkJZXJyID0gZHJtX2RwX2xpbmtfcG93ZXJfZG93bihzb3ItPmF1eCwgJnNv
+ci0+bGluayk7Cj4rCQllcnIgPSBkcm1fZHBfbGlua19wb3dlcl9kb3duKHNvci0+YXV4LCBzb3It
+PmxpbmsucmV2aXNpb24pOwo+IAkJaWYgKGVyciA8IDApCj4gCQkJZGV2X2Vycihzb3ItPmRldiwg
+ImZhaWxlZCB0byBwb3dlciBkb3duIGxpbms6ICVkXG4iLAo+IAkJCQllcnIpOwo+QEAgLTI4ODIs
+NyArMjg4Miw3IEBAIHN0YXRpYyB2b2lkIHRlZ3JhX3Nvcl9kcF9lbmFibGUoc3RydWN0IGRybV9l
+bmNvZGVyICplbmNvZGVyKQo+IAllbHNlCj4gCQlkZXZfZGJnKHNvci0+ZGV2LCAibGluayB0cmFp
+bmluZyBzdWNjZWVkZWRcbiIpOwo+IAo+LQllcnIgPSBkcm1fZHBfbGlua19wb3dlcl91cChzb3It
+PmF1eCwgJnNvci0+bGluayk7Cj4rCWVyciA9IGRybV9kcF9saW5rX3Bvd2VyX3VwKHNvci0+YXV4
+LCBzb3ItPmxpbmsucmV2aXNpb24pOwo+IAlpZiAoZXJyIDwgMCkKPiAJCWRldl9lcnIoc29yLT5k
+ZXYsICJmYWlsZWQgdG8gcG93ZXIgdXAgRFAgbGluazogJWRcbiIsIGVycik7Cj4gCj5kaWZmIC0t
+Z2l0IGEvaW5jbHVkZS9kcm0vZGlzcGxheS9kcm1fZHBfaGVscGVyLmggYi9pbmNsdWRlL2RybS9k
+aXNwbGF5L2RybV9kcF9oZWxwZXIuaAo+aW5kZXggNWFlNDI0MTk1OWYyLi5mOWRhYmNlNDg0YTcg
+MTAwNjQ0Cj4tLS0gYS9pbmNsdWRlL2RybS9kaXNwbGF5L2RybV9kcF9oZWxwZXIuaAo+KysrIGIv
+aW5jbHVkZS9kcm0vZGlzcGxheS9kcm1fZHBfaGVscGVyLmgKPkBAIC01NjYsNiArNTY2LDggQEAg
+aW50IGRybV9kcF9kcGNkX3JlYWRfbGlua19zdGF0dXMoc3RydWN0IGRybV9kcF9hdXggKmF1eCwK
+PiBpbnQgZHJtX2RwX2RwY2RfcmVhZF9waHlfbGlua19zdGF0dXMoc3RydWN0IGRybV9kcF9hdXgg
+KmF1eCwKPiAJCQkJICAgICBlbnVtIGRybV9kcF9waHkgZHBfcGh5LAo+IAkJCQkgICAgIHU4IGxp
+bmtfc3RhdHVzW0RQX0xJTktfU1RBVFVTX1NJWkVdKTsKPitpbnQgZHJtX2RwX2xpbmtfcG93ZXJf
+dXAoc3RydWN0IGRybV9kcF9hdXggKmF1eCwgdW5zaWduZWQgY2hhciByZXZpc2lvbik7Cj4raW50
+IGRybV9kcF9saW5rX3Bvd2VyX2Rvd24oc3RydWN0IGRybV9kcF9hdXggKmF1eCwgdW5zaWduZWQg
+Y2hhciByZXZpc2lvbik7Cj4gCj4gaW50IGRybV9kcF9kcGNkX3dyaXRlX3BheWxvYWQoc3RydWN0
+IGRybV9kcF9hdXggKmF1eCwKPiAJCQkgICAgICBpbnQgdmNwaWQsIHU4IHN0YXJ0X3RpbWVfc2xv
+dCwgdTggdGltZV9zbG90X2NvdW50KTsKPi0tIAo+Mi40My4wCg==
