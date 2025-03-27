@@ -2,83 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1130AA72B74
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 09:27:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C034A72BB1
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 09:42:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBDB810E2C1;
-	Thu, 27 Mar 2025 08:27:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B2210E87E;
+	Thu, 27 Mar 2025 08:42:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S2M/tltO";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gkpASxUy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
- [209.85.160.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F2D910E2C1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 08:27:23 +0000 (UTC)
-Received: by mail-oa1-f50.google.com with SMTP id
- 586e51a60fabf-2b8e2606a58so353361fac.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 01:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1743064043; x=1743668843; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZNaFBHARD8RYWQkk61EfntzC+oHyDk/Nf1u/x+30pAY=;
- b=S2M/tltO30j+m/r6PodcGk/ezUGM6cHDPJ9yfVQFqoOg6nUGK3oxMJ1ZcJqBS1MVcx
- 8M4BafPZh/K9SpbG7J8cZBMJkhiiL+Y5T6PNYgZGlE6kNt3GzLUNVoZwO+wfJeodrCId
- LjogXpVoo1O2iWe4y7ttUAmMmbj5x1TvUvtTuhUal6EtM+H0Cllm+9whMpdmgBHvcRkt
- +wB/98aHakjqN03IzG+Omz7G6/1rlRU5SUMILdxw84g0kQxtBrRRebTIndWh/YgQtkWi
- RgRrc7dZfLRuJmJ6ryuzUZN3rObYBvjlBEmNV3Rr9ANjirv72Vrr6CJKEgqSZdExNFiG
- at3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743064043; x=1743668843;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZNaFBHARD8RYWQkk61EfntzC+oHyDk/Nf1u/x+30pAY=;
- b=lxb8GYsFhTa001J8kmEJNB+Cj4vpYwCjX8Y8MI08nGnW2BL2p18gqyNMEZEcXhjJiL
- EyrbVDFs8cBZ5ebHBsFEZZJfoYZy5j71JiNTN5cWndcsTMr4FauXb1Fj1rl0lqjprQGF
- TCAnBldcRbKF/IPcdIfDwJYjJugjFmh/tlgbCDy4pjUHrJKeolep7OhaWHIXzIMC4bd1
- xtuTrkJH7iESW99EsryljbIUBQ7AwzTXtDKs7kYZJ6j6zQVD2Ua/1qoS7Q1n5VNVHPtf
- tvGP6EggWDUemPb6U+ZWh+OW4fupUxBH0SibjiYchbnoS1jNvvz0SqEe0Ij1T8ALtlrH
- ReVg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVALhoAWOjO6ebuwIRv8Tsk+qMiEZethgScJ7sEQyNUtE+8VA22xLOS9ko1Mokq/dGpkaYdLia1DL8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwONFuk5DtuauqdKVIfiChi2CmYO5i+Q1FvCVJWpEeEOzk/gsfm
- p4mHTWGXJdxQmDf2ea7PZW2rwU+XZgGOPEk4BmGGEQVz+uHXdUB6MFKh41YWK7JDd+S44C0T+hJ
- t94uiCdM1VEt4HshSt3YClNqW0wCWfxSc76NUVQ==
-X-Gm-Gg: ASbGncsZ9EbdAF089NxKdeSWAHN5+9VXrlBLBChzr93LHEDwGnNM2DciOtmHT4B1aB0
- C2l7IRHPb4EBPZYdS42yekQKVcKiabZYnG0EaEfXHd3gpK3CdHR32Za4dx1/IAI2IrD/3pyVX5o
- lfm3kTbDhG77O6KFwWRhkQdvhlL9c=
-X-Google-Smtp-Source: AGHT+IE4Y73Pz4N1BwH9vcQsjd8miSlNYWKQ9DjG4P07KcqUpTb0YMUN/u49Pwe5re+n/OV+igA1ripHNomVy4YAKtk=
-X-Received: by 2002:a05:6870:56a9:b0:2b7:d3d2:ba53 with SMTP id
- 586e51a60fabf-2c847f850famr1469213fac.12.1743064042412; Thu, 27 Mar 2025
- 01:27:22 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57D5E10E87C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 08:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=9sUozTRDpcXcE7/6GtuvYEBdIs1ipFo/7rGpFB5bHYM=; b=gkpASxUyZ9b5dHGQ5pPPkF0hQX
+ FrFAWHdGF8oIcQsiUtr/T2F/Raa4rxgQIoVsJFEoYL2PWpsKEsqWCCNQ7HkpK3S07tCRf0uSWuwG5
+ 8CkNghTiVtBd/HpiDiudIob9Q0tZgT3wZDDxIa88V0hdDSMs4JFeNG5T8o2nIYXNLeKn1ZzPS+llQ
+ btLBRzdI0MLn7zeZMDVyN0jbsDLyo5/A751g9+1mQSqEmrPv25OWZnCYCN/vUjuojcApebOLs850X
+ z93FizixHtrQVtDhv30yLAjEgSIV0ZaRVipI4xT3UlyNVTIAx8LbsEJ7igl95ZJQf6klNCG/ZhQVU
+ XSDp2RFQ==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1txiod-0078ko-M0; Thu, 27 Mar 2025 09:42:19 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: [PATCH v2 0/7] A few drm_syncobj optimisations
+Date: Thu, 27 Mar 2025 08:42:07 +0000
+Message-ID: <20250327084215.26662-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
-In-Reply-To: <20250305130634.1850178-1-jens.wiklander@linaro.org>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Thu, 27 Mar 2025 09:27:11 +0100
-X-Gm-Features: AQ5f1JrlH0shoTWzAhW6qEWQAlS0oouzF_cE5El7sl3-QfofSRRMGfXh-_QnuWM
-Message-ID: <CAHUa44F7HYQ8uR1vpu5XfR+Ag89JPpttW7hUvGROcXbPvXBXVA@mail.gmail.com>
-Subject: Re: [PATCH v6 00/10] TEE subsystem for restricted dma-buf allocations
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org
-Cc: Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, 
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,210 +58,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+A small set of drm_syncobj optimisations which should make things a tiny bit
+more efficient on the CPU side of things.
 
-On Wed, Mar 5, 2025 at 2:06=E2=80=AFPM Jens Wiklander <jens.wiklander@linar=
-o.org> wrote:
->
-> Hi,
->
-> This patch set allocates the restricted DMA-bufs from a DMA-heap
-> instantiated from the TEE subsystem.
->
-> The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> (OP-TEE, AMD-TEE, TS-TEE, or perhaps a future QTEE) which sets up the
-> restrictions for the memory used for the DMA-bufs.
->
-> The DMA-heap uses a restricted memory pool provided by the backend TEE
-> driver, allowing it to choose how to allocate the restricted physical
-> memory.
->
-> The allocated DMA-bufs must be imported with a new TEE_IOC_SHM_REGISTER_F=
-D
-> before they can be passed as arguments when requesting services from the
-> secure world.
->
-> Three use-cases (Secure Video Playback, Trusted UI, and Secure Video
-> Recording) has been identified so far to serve as examples of what can be
-> expected. The use-cases has predefined DMA-heap names,
-> "restricted,secure-video", "restricted,trusted-ui", and
-> "restricted,secure-video-record". The backend driver registers restricted
-> memory pools for the use-cases it supports.
+Improvement seems to be around 1.5%* more FPS if observed with "vkgears
+-present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant to make a
+definitive claim on the numbers since there is some run to run variance. But, as
+suggested by Michel Dänzer, I did do a five ~100 second runs on the each kernel
+to be able to show the ministat analysis.
 
-When preparing a v7 of this patch set, I'll switch to "protected"
-instead of "restricted" based on Nicolas Dufresne's comment [1],
-unless someone objects.
+x before
++ after
++------------------------------------------------------------+
+|                          x         +                       |
+|                   x      x         +                       |
+|                   x      xx      ++++                      |
+|                 x x      xx x    ++++                      |
+|                 x xx   x xx x+   ++++                      |
+|                xxxxx   xxxxxx+   ++++ + +                  |
+|                xxxxxxx xxxxxx+x  ++++ +++                  |
+|              x xxxxxxxxxxx*xx+* x++++++++   ++             |
+|        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
+|       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
+|x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
+|               |_______A______|                             |
+|                             |______A_______|               |
++------------------------------------------------------------+
+    N           Min           Max        Median           Avg        Stddev
+x 135      21697.58     22809.467     22321.396     22307.707     198.75011
++ 118     22200.746      23277.09       22661.4     22671.442     192.10609
+Difference at 95.0% confidence
+    363.735 +/- 48.3345
+    1.63054% +/- 0.216672%
+    (Student's t, pooled s = 195.681)
 
-[1] https://lore.kernel.org/lkml/32c29526416c07c37819aedabcbf1e562ee98bf2.c=
-amel@ndufresne.ca/
+v2:
+ * Implemented review feedback - see patch change logs.
 
-Cheers,
-Jens
+Cc: Maíra Canal <mcanal@igalia.com>
 
->
-> Each use-case has it's own restricted memory pool since different use-cas=
-es
-> requires isolation from different parts of the system. A restricted memor=
-y
-> pool can be based on a static carveout instantiated while probing the TEE
-> backend driver, or dynamically allocated from CMA and made restricted as
-> needed by the TEE.
->
-> This can be tested on a RockPi 4B+ with the following steps:
-> repo init -u https://github.com/jenswi-linaro/manifest.git -m rockpi4.xml=
- \
->         -b prototype/sdp-v6
-> repo sync -j8
-> cd build
-> make toolchains -j$(nproc)
-> make all -j$(nproc)
-> # Copy ../out/rockpi4.img to an SD card and boot the RockPi from that
-> # Connect a monitor to the RockPi
-> # login and at the prompt:
-> gst-launch-1.0 videotestsrc ! \
->         aesenc key=3D1f9423681beb9a79215820f6bda73d0f \
->                 iv=3De9aa8e834d8d70b7e0d254ff670dd718 serialize-iv=3Dtrue=
- ! \
->         aesdec key=3D1f9423681beb9a79215820f6bda73d0f ! \
->         kmssink
->
-> The aesdec module has been hacked to use an OP-TEE TA to decrypt the stre=
-am
-> into restricted DMA-bufs which are consumed by the kmssink.
->
-> The primitive QEMU tests from previous patch set can be tested on RockPi
-> in the same way with:
-> xtest --sdp-basic
->
-> The primitive test are tested on QEMU with the following steps:
-> repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml=
- \
->         -b prototype/sdp-v6
-> repo sync -j8
-> cd build
-> make toolchains -j$(nproc)
-> make SPMC_AT_EL=3D1 all -j$(nproc)
-> make SPMC_AT_EL=3D1 run-only
-> # login and at the prompt:
-> xtest --sdp-basic
->
-> The SPMC_AT_EL=3D1 parameter configures the build with FF-A and an SPMC a=
-t
-> S-EL1 inside OP-TEE. The parameter can be changed into SPMC_AT_EL=3Dn to =
-test
-> without FF-A using the original SMC ABI instead. Please remember to do
-> %rm -rf ../trusted-firmware-a/build/qemu
-> for TF-A to be rebuilt properly using the new configuration.
->
-> https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> list dependencies needed to build the above.
->
-> The tests are pretty basic, mostly checking that a Trusted Application in
-> the secure world can access and manipulate the memory. There are also som=
-e
-> negative tests for out of bounds buffers etc.
->
-> Thanks,
-> Jens
->
-> Changes since V5:
-> * Removing "tee: add restricted memory allocation" and
->   "tee: add TEE_IOC_RSTMEM_FD_INFO"
-> * Adding "tee: implement restricted DMA-heap",
->   "tee: new ioctl to a register tee_shm from a dmabuf file descriptor",
->   "tee: add tee_shm_alloc_cma_phys_mem()",
->   "optee: pass parent device to tee_device_alloc()", and
->   "tee: tee_device_alloc(): copy dma_mask from parent device"
-> * The two TEE driver OPs "rstmem_alloc()" and "rstmem_free()" are replace=
-d
->   with a struct tee_rstmem_pool abstraction.
-> * Replaced the the TEE_IOC_RSTMEM_ALLOC user space API with the DMA-heap =
-API
->
-> Changes since V4:
-> * Adding the patch "tee: add TEE_IOC_RSTMEM_FD_INFO" needed by the
->   GStreamer demo
-> * Removing the dummy CPU access and mmap functions from the dma_buf_ops
-> * Fixing a compile error in "optee: FF-A: dynamic restricted memory alloc=
-ation"
->   reported by kernel test robot <lkp@intel.com>
->
-> Changes since V3:
-> * Make the use_case and flags field in struct tee_shm u32's instead of
->   u16's
-> * Add more description for TEE_IOC_RSTMEM_ALLOC in the header file
-> * Import namespace DMA_BUF in module tee, reported by lkp@intel.com
-> * Added a note in the commit message for "optee: account for direction
->   while converting parameters" why it's needed
-> * Factor out dynamic restricted memory allocation from
->   "optee: support restricted memory allocation" into two new commits
->   "optee: FF-A: dynamic restricted memory allocation" and
->   "optee: smc abi: dynamic restricted memory allocation"
-> * Guard CMA usage with #ifdef CONFIG_CMA, effectively disabling dynamic
->   restricted memory allocate if CMA isn't configured
->
-> Changes since the V2 RFC:
-> * Based on v6.12
-> * Replaced the flags for SVP and Trusted UID memory with a u32 field with
->   unique id for each use case
-> * Added dynamic allocation of restricted memory pools
-> * Added OP-TEE ABI both with and without FF-A for dynamic restricted memo=
-ry
-> * Added support for FF-A with FFA_LEND
->
-> Changes since the V1 RFC:
-> * Based on v6.11
-> * Complete rewrite, replacing the restricted heap with TEE_IOC_RSTMEM_ALL=
-OC
->
-> Changes since Olivier's post [2]:
-> * Based on Yong Wu's post [1] where much of dma-buf handling is done in
->   the generic restricted heap
-> * Simplifications and cleanup
-> * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf he=
-ap
->   support"
-> * Replaced the word "secure" with "restricted" where applicable
->
-> Etienne Carriere (1):
->   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
->
-> Jens Wiklander (9):
->   tee: tee_device_alloc(): copy dma_mask from parent device
->   optee: pass parent device to tee_device_alloc()
->   optee: account for direction while converting parameters
->   optee: sync secure world ABI headers
->   tee: implement restricted DMA-heap
->   tee: add tee_shm_alloc_cma_phys_mem()
->   optee: support restricted memory allocation
->   optee: FF-A: dynamic restricted memory allocation
->   optee: smc abi: dynamic restricted memory allocation
->
->  drivers/tee/Makefile              |   1 +
->  drivers/tee/optee/Makefile        |   1 +
->  drivers/tee/optee/call.c          |  10 +-
->  drivers/tee/optee/core.c          |   1 +
->  drivers/tee/optee/ffa_abi.c       | 194 +++++++++++-
->  drivers/tee/optee/optee_ffa.h     |  27 +-
->  drivers/tee/optee/optee_msg.h     |  65 ++++-
->  drivers/tee/optee/optee_private.h |  55 +++-
->  drivers/tee/optee/optee_smc.h     |  71 ++++-
->  drivers/tee/optee/rpc.c           |  31 +-
->  drivers/tee/optee/rstmem.c        | 329 +++++++++++++++++++++
->  drivers/tee/optee/smc_abi.c       | 190 ++++++++++--
->  drivers/tee/tee_core.c            | 147 +++++++---
->  drivers/tee/tee_heap.c            | 470 ++++++++++++++++++++++++++++++
->  drivers/tee/tee_private.h         |   7 +
->  drivers/tee/tee_shm.c             | 199 ++++++++++++-
->  include/linux/tee_core.h          |  67 +++++
->  include/linux/tee_drv.h           |  10 +
->  include/uapi/linux/tee.h          |  29 ++
->  19 files changed, 1781 insertions(+), 123 deletions(-)
->  create mode 100644 drivers/tee/optee/rstmem.c
->  create mode 100644 drivers/tee/tee_heap.c
->
->
-> base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
-> --
-> 2.43.0
->
+Tvrtko Ursulin (7):
+  drm/syncobj: Remove unhelpful helper
+  drm/syncobj: Do not allocate an array to store zeros when waiting
+  drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
+  drm/syncobj: Use put_user in drm_syncobj_query_ioctl
+  drm/syncobj: Avoid temporary allocation in
+    drm_syncobj_timeline_signal_ioctl
+  drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
+  drm/syncobj: Add a fast path to drm_syncobj_array_find
+
+ drivers/gpu/drm/drm_syncobj.c | 286 ++++++++++++++++++----------------
+ 1 file changed, 154 insertions(+), 132 deletions(-)
+
+-- 
+2.48.0
+
