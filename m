@@ -2,62 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2913A73339
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 14:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90E7A7333E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 14:20:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01DC410E8CC;
-	Thu, 27 Mar 2025 13:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EEAF10E8D0;
+	Thu, 27 Mar 2025 13:20:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="SvAZm7Y5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="b1AHc6O/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FBEB10E8CC
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 13:20:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1743081611; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=G6VbkfWP50IkR6kG0VocpxZRhGh4vB/sd6zSg39AESecFwUvJOFnRrtAybC+06wCD9i5Rv5bngodS8SkTp0qQVprj+vd4B4A6roTVtG85Ht3Ta+bsytxD/93ZJVpF/JJchsR00ve2cMPF7wIPA5nM5YAjDg3JWMRl8Dat/d9iVI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1743081611;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=i86XYK3T5dTklR4bdc37SUEhyi6uULXnIsdtSauwk4c=; 
- b=Iz8s6xUM+y2+GwE7BT2+947yg41AJ5oH97tQs3XVcIoksS6Me+681l1FxFc13Jy9nWwFIXoifTCC28aRtqLEQEBGpjB7JARz99WmNjTKDGfbx2kPs68C5SA3/02bfW5bhQF5Xz9kytTOcHp2alHPlAUd5TJ6qkCZP7MGfCXX7Vk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743081611; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=i86XYK3T5dTklR4bdc37SUEhyi6uULXnIsdtSauwk4c=;
- b=SvAZm7Y5p0cA+t+nwbfVkjeo/sp9OU51swfp4WjMAuwUlgKdpGbjo99GY4F9G9J6
- RmOl4A5f2e6scdoU6QFnKet4Ub455zZ0OG6B0GNgLGCjKLShkPuUoBSbpb2sGDcROri
- K8kn8vaf6Tau0r0uHBNrMiM/MY0GwWowdsZtyApM=
-Received: by mx.zohomail.com with SMTPS id 1743081609383862.4068433783464;
- Thu, 27 Mar 2025 06:20:09 -0700 (PDT)
-Message-ID: <1ce494ef-3778-4f46-b019-4e4f160fbe02@collabora.com>
-Date: Thu, 27 Mar 2025 16:20:05 +0300
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C8C10E8D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 13:20:42 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-43cf3192f3bso10440625e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 06:20:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1743081640; x=1743686440; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VAC3jQYsjcnCVrZPAH4JIcMHqf1bqzRC+I0sVF5JOrQ=;
+ b=b1AHc6O/peCgUDqo6lQojoM8TdnycYgtYalIe8iL0E9REyRB+rtEYtJw3v3tpsa6Ue
+ sqiNdvDF6Hh7K+0su7SWsa8J4kpyFFZhcSWo4m0eo1PiQT2lXEKqpsZkkovn+hNXgWSB
+ fzjf+25jX0kBhNbwbuwRl9rplep4bX8D0syUftb/u3ZSCajqQXBDV7w8pY1pFHkd+SEV
+ 7y7l7uFlhYcurYZg6jwlODiGJqopFvvrNTS41aZIPQvQuPi/s/7wGFAg7rI00BmYaTCt
+ y2OSLhuGd0ZwhOtr2EiF7OnZ9RscbKVQOxTWCw/6rd1GhORs/OFgoQ4gkoc2akJK53mP
+ Uoxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743081640; x=1743686440;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VAC3jQYsjcnCVrZPAH4JIcMHqf1bqzRC+I0sVF5JOrQ=;
+ b=jSZxhgMQWBM+CNCemW8UHE5j3h/aeGzFRxE1PcPO5V+HDRzkBeEWRnt6UB6n+EKbNx
+ tMKP/2l8LjnWv0dtgBX0tXoEI/oh9zXLvKxGW6Xoy7trpPv6jgf8oZC0qaFC5PUHJ3p/
+ FIOiYbmlx/XwSr/2VGr5EmxipsqopB0C0PrtdwBKsxS9BUjmwNY/RLonmmaXCphFIqvh
+ 8+CgBdI8lhYw3Y46YnQL2Zp4UDP8Sn16oqp3T3N/HhT9KuLMBk04V/8XbyQJAu8JsPma
+ iFckEw1Sqai9KkDIP1h5Gzaitb9lDSxt/m2mVVMWgxNy/IMap41/MGCotWBTKaE7VDI2
+ 0VpQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9WXg2rQe9XPRFj3feKOO8jL4gUnZm5j1pD06CkI8Qt7jl57upmyoZSYJOmM6nYkYUySiQ8befp3Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwtxRhWkLCL1As7sK5kPbXc1FmDGOZjHH2+ZybV2TbsI55QSIWs
+ hNEyKRsZo57kgD07jdr7K0dJlJnfq71esval4ZMqconfeH2p6Iv2rpfEdFzxbscr5Heqs2nwpW6
+ 2an2hAJUtHSQUl7qU/WuQ4b18tfgTYBCquXYYEw==
+X-Gm-Gg: ASbGncuoobYeKBNP9Xzc0KQasANutGEy2AduYiQbLxWHVtInK1yc2uVWw/aegNMIY3F
+ ZYPthMkN25RYa/6iQvzjGaOd1LHzKRdquF3QqHhEwCL5vAuTtJxwMmImJXlHhBo0OYeLnrMztYG
+ mSpRS+C8OT5KaJcggjRAz9sGxGH4sghmejBmUA7t8vfzx2GLBzG9HtN+DejEmpQPg3JAFLaQ==
+X-Google-Smtp-Source: AGHT+IG3iVxfp4ue+UFXysXvz6DKi4QxLJqDrwxZD58TmfbCfjnNN1Hj7KqR62wJRNud2cz8gFthkm8XWf3losuWT5Q=
+X-Received: by 2002:a05:600c:4e12:b0:43c:e8a5:87a with SMTP id
+ 5b1f17b1804b1-43d84fba8afmr37682355e9.16.1743081640372; Thu, 27 Mar 2025
+ 06:20:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] accel/ivpu: pages_use_count is now a refcount_t
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: kernel@collabora.com, Maciej Falkowski
- <maciej.falkowski@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>
-References: <20250327104300.1982058-1-boris.brezillon@collabora.com>
- <878qoq678p.fsf@intel.com>
- <3a6a2168-3b38-4173-9731-6505a83d4d82@collabora.com>
- <fdb8ae46-6de5-4bdc-8c7d-5d8a3249d98b@linux.intel.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <fdb8ae46-6de5-4bdc-8c7d-5d8a3249d98b@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+References: <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-0-e9bc7c9d30cc@linaro.org>
+ <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-2-e9bc7c9d30cc@linaro.org>
+ <Z+UDlXFKbmxCECp9@linaro.org>
+In-Reply-To: <Z+UDlXFKbmxCECp9@linaro.org>
+From: Christopher Obbard <christopher.obbard@linaro.org>
+Date: Thu, 27 Mar 2025 13:20:29 +0000
+X-Gm-Features: AQ5f1Jrcx5M9VC1f4LvGyufiYg8Yl8JGFp1ql4ekPmK5Li1CNGcCqmgS2hBtMTc
+Message-ID: <CACr-zFBRC1ZGTqX_RDERk3k52hJ=kunN6Lw6Qs-5djttfTJ3ZA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] arm64: dts: qcom: x1e78100-t14s: add hpd gpio to
+ LCD panel
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rui.silva@linaro.org>,
+ devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +97,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/27/25 15:19, Jacek Lawrynowicz wrote:
-> Hi,
-> 
-> On 3/27/2025 12:37 PM, Dmitry Osipenko wrote:
->> On 3/27/25 14:30, Jani Nikula wrote:
->>> On Thu, 27 Mar 2025, Boris Brezillon <boris.brezillon@collabora.com> wrote:
->>>> Commit 051b6646d36d ("drm/shmem-helper: Use refcount_t for
->>>> pages_use_count") changed the type of
->>>> drm_gem_shmem_object::pages_use_count but accel drivers were left
->>>> behind.
->>>>
->>>> Fixes: 051b6646d36d ("drm/shmem-helper: Use refcount_t for pages_use_count")
->>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>>> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->>>> Cc: Maciej Falkowski <maciej.falkowski@linux.intel.com>
->>>> Cc: Oded Gabbay <ogabbay@kernel.org>
->>>> Cc: dri-devel@lists.freedesktop.org
->>>
->>> Just for build, on the series,
->>>
->>> Tested-by: Jani Nikula <jani.nikula@intel.com>
->>>
->>> Please merge.
->>
->> Applied to misc-next
-> 
-> This was applied in less then an hour after posting for review without any testing (building is not testing).
-> I can't see how this is up to community standards.
-> I would prefer that patches for accel/ivpu were merged by ivpu maintainers.
-> At least give us time to review them. 
+Hi Abel,
 
-Not the first time I'm forgetting about accle/, my bad. Maybe you could
-add yourself as a reviewer to drm-shmem MAINTAINERS to not miss relevant
-DRM code changes in future.
+On Thu, 27 Mar 2025 at 07:51, Abel Vesa <abel.vesa@linaro.org> wrote:
+>
+> On 25-03-25 19:21:27, Christopher Obbard wrote:
+> > The eDP panel has an HPD GPIO. Describe it in the devicetree.
+> >
+> > Unfortunately I cannot test this on the non-OLED model since I
+> > only have access to the model with OLED (which also uses the
+> > HPD GPIO).
+> >
+> > I believe this could be split into two patches; one adding the
+> > pinctrl node and one adding the hpd gpio to the T14s devicetree.
+> > But I will wait for your comments on this ;-).
+>
+> You should definitely drop these two paragraphs entirely from the commit
+> message. Maybe add them to the cover letter.
 
--- 
-Best regards,
-Dmitry
+Of course; I will do so in v3.
+But hey, it made you both reply, so in a way my comment did work ;-).
+
+Cheers!
+
+Chris
