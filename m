@@ -2,94 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92582A72EAC
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 12:19:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63198A72F02
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 12:25:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 172C110E324;
-	Thu, 27 Mar 2025 11:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 125A210E31E;
+	Thu, 27 Mar 2025 11:25:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PJX7wNb5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FpzlyjlO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697F310E324
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 11:19:07 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0BA6F291;
- Thu, 27 Mar 2025 12:17:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1743074234;
- bh=KZO+2Da5kS84MYHDYMQJGZhB4fjPxRyYiXXBr04R47Q=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PJX7wNb53K94q2jmt1TOLrGl6/QWK6i2witqBGBWb4kjdU/HbaXBebnqyIHMP4kcR
- UgeeJW0e2Xonk6JCcfDfHZJa/1MhSXw2QcbwsBHbpD5hsFuwDNGfWkgtKKC8nhvany
- x33/S9FboOd8MB1FHBaoszIWiVaLtkHDEZp7s3R0=
-Message-ID: <b16761e5-be8a-42f6-8fc9-b84455716382@ideasonboard.com>
-Date: Thu, 27 Mar 2025 13:18:58 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46ACA10E31E
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 11:25:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743074730; x=1774610730;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=j6WgPFmzS+DJvy5hZDMNvnCM+EO7f4jVp5BIXkPoFcw=;
+ b=FpzlyjlOCLtusQQ2bxasrfbAqhIZx+kxUmNr6Y1AOL6ixBTkFpe+B4my
+ iTLo51Wq53lHrvrNz31rw80P174xVWlQfLxrQPA98uTHk0zPzG/cIwoOH
+ TWKz0wSFUrv/0BAMuPs9WY6VcVN4V3jaJS+oPE8encl+KDZDreEqwQOkX
+ 2t9TKx2HWJOX3BPizCoEJQ7PK7tD8Zv4YdmR1Ens1gTLva0iK9L0ylTpI
+ 70LiDoZeYZRGW/R9ZSD6+c97Cr1tBE+iFCjRJZc0GCBxgOV2vtP3BmdQV
+ I/iRhY5jpqfxLmLtrgbo73xb6UJF4bjh5QPSUuTAsf2D6KUZdF0GISglf w==;
+X-CSE-ConnectionGUID: p/W9hvE4RlGl+rfnNp9UZw==
+X-CSE-MsgGUID: T5UaABxbSAi6JSdA9vaY6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44319197"
+X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; d="scan'208";a="44319197"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2025 04:25:27 -0700
+X-CSE-ConnectionGUID: 8ItsIo0IT36ycLRXzUDQlA==
+X-CSE-MsgGUID: 235PMXDjSCqDwU1Ja70ebA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; d="scan'208";a="125326296"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.17])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2025 04:25:22 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>, Gerd Hoffmann <kraxel@redhat.com>, Qiang Yu
+ <yuq825@gmail.com>, Steven Price <steven.price@arm.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v20 05/10] drm/shmem-helper: Refactor locked/unlocked
+ functions
+In-Reply-To: <20250322212608.40511-6-dmitry.osipenko@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250322212608.40511-1-dmitry.osipenko@collabora.com>
+ <20250322212608.40511-6-dmitry.osipenko@collabora.com>
+Date: Thu, 27 Mar 2025 13:25:18 +0200
+Message-ID: <87iknu67hd.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] drm/tidss: Update infrastructure to support K3 DSS
- cut-down versions
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
- s-jain1@ti.com, r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com,
- jyri.sarha@iki.fi, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- simona@ffwll.ch, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-References: <20250326145736.3659670-1-devarsht@ti.com>
- <20250326145736.3659670-3-devarsht@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250326145736.3659670-3-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,408 +78,462 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sun, 23 Mar 2025, Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> Add locked and remove unlocked postfixes from drm-shmem function names,
+> making names consistent with the drm/gem core code.
 
-On 26/03/2025 16:57, Devarsh Thakkar wrote:
-> SoCs like AM62Lx support cut-down version of K3 DSS where although same
-> register space is supported as in other K3 DSS supported SoCs such as
-> AM65x, AM62x, AM62Ax but some of the resources such as planes and
-> corresponding register spaces are truncated.
-> 
-> For e.g. AM62Lx has only single VIDL pipeline supported, so corresponding
-> register spaces for other video pipelines need to be skipped.
-> 
-> To add a generic support for future SoCs where one or more video pipelines
-> can get truncated from the parent register space, move the video plane
-> related information to vid_info struct which will also have a field to
-> indicate hardware index of each of the available video planes, so that
-> driver only maps and programs those video pipes and skips the unavailable
-> ones.
-> 
-> While at it, also change the num_planes field in the features structure to
-> num_vid so that all places in code which use vid_info structure are
-> highlighted in the code.
-> 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+This breaks the build for drivers/accel/ivpu/ivpu_gem.c.
+
+Please enable CONFIG_DRM_ACCEL_IVPU=m and fix the fallout.
+
+BR,
+Jani.
+
+
+>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > ---
-> V4:
-> - Create vid_info struct only for instantiated planes
-> - s/num_planes/num_vids
-> - s/vid_lite/is_lite
-> - Add hw_id member in vid_info struct and remove is_present
-> 
-> V2->V3:
-> - No change (patch introduced in V3)
-> 
->   drivers/gpu/drm/tidss/tidss_crtc.c  |   8 +-
->   drivers/gpu/drm/tidss/tidss_dispc.c | 135 ++++++++++++++++++++--------
->   drivers/gpu/drm/tidss/tidss_dispc.h |  11 ++-
->   drivers/gpu/drm/tidss/tidss_kms.c   |   2 +-
->   drivers/gpu/drm/tidss/tidss_plane.c |   2 +-
->   5 files changed, 114 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-> index 94f8e3178df5..6db100b81482 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> @@ -130,7 +130,7 @@ static void tidss_crtc_position_planes(struct tidss_device *tidss,
->   	    !to_tidss_crtc_state(cstate)->plane_pos_changed)
->   		return;
->   
-> -	for (layer = 0; layer < tidss->feat->num_planes; layer++) {
-> +	for (layer = 0; layer < tidss->feat->num_vids ; layer++) {
->   		struct drm_plane_state *pstate;
->   		struct drm_plane *plane;
->   		bool layer_active = false;
-> @@ -271,9 +271,9 @@ static void tidss_crtc_atomic_disable(struct drm_crtc *crtc,
->   	 * another videoport, the DSS will report sync lost issues. Disable all
->   	 * the layers here as a work-around.
->   	 */
-> -	for (u32 layer = 0; layer < tidss->feat->num_planes; layer++)
-> -		dispc_ovr_enable_layer(tidss->dispc, tcrtc->hw_videoport, layer,
-> -				       false);
-> +	for (u32 layer = 0; layer < tidss->feat->num_vids; layer++)
-> +		dispc_ovr_enable_layer(tidss->dispc, tcrtc->hw_videoport,
-> +				       tidss->feat->vid_info[layer].hw_id, false);
->   
->   	dispc_vp_disable(tidss->dispc, tcrtc->hw_videoport);
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index cacb5f3d8085..6f0255d65a06 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -103,9 +103,16 @@ const struct dispc_features dispc_k2g_feats = {
->   		},
->   	},
->   
-> -	.num_planes = 1,
-> -	.vid_name = { "vid1" },
-> -	.vid_lite = { false },
-> +	.num_vids = 1,
-> +
-> +	.vid_info = {
-> +		{
-> +			.name = "vid1",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +	},
-> +
->   	.vid_order = { 0 },
->   };
->   
-> @@ -178,11 +185,22 @@ const struct dispc_features dispc_am65x_feats = {
->   		},
->   	},
->   
-> -	.num_planes = 2,
-> +	.num_vids = 2,
->   	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-> -	.vid_name = { "vid", "vidl1" },
-> -	.vid_lite = { false, true, },
-> -	.vid_order = { 1, 0 },
-> +	.vid_info = {
-> +		{
-> +			.name = "vid",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +		{
-> +			.name = "vidl1",
-> +			.is_lite = true,
-> +			.hw_id = 1,
-> +		},
-> +	},
-> +
-> +	.vid_order = {1, 0},
->   };
->   
->   static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
-> @@ -267,9 +285,32 @@ const struct dispc_features dispc_j721e_feats = {
->   			.gamma_type = TIDSS_GAMMA_10BIT,
->   		},
->   	},
-> -	.num_planes = 4,
-> -	.vid_name = { "vid1", "vidl1", "vid2", "vidl2" },
-> -	.vid_lite = { 0, 1, 0, 1, },
-> +
-> +	.num_vids = 4,
-> +
-> +	.vid_info = {
-> +		{
-> +			.name = "vid1",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +		{
-> +			.name = "vidl1",
-> +			.is_lite = true,
-> +			.hw_id = 1,
-> +		},
-> +		{
-> +			.name = "vid2",
-> +			.is_lite = false,
-> +			.hw_id = 2,
-> +		},
-> +		{
-> +			.name = "vidl2",
-> +			.is_lite = true,
-> +			.hw_id = 3,
-> +		},
-> +	},
-> +
->   	.vid_order = { 1, 3, 0, 2 },
->   };
->   
-> @@ -315,11 +356,23 @@ const struct dispc_features dispc_am625_feats = {
->   		},
->   	},
->   
-> -	.num_planes = 2,
-> +	.num_vids = 2,
-> +
->   	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-> -	.vid_name = { "vid", "vidl1" },
-> -	.vid_lite = { false, true, },
-> -	.vid_order = { 1, 0 },
-> +	.vid_info = {
-> +		{
-> +			.name = "vid",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +		{
-> +			.name = "vidl1",
-> +			.is_lite = true,
-> +			.hw_id = 1,
-> +		}
-> +	},
-> +
-> +	.vid_order = {1, 0},
->   };
->   
->   const struct dispc_features dispc_am62a7_feats = {
-> @@ -369,11 +422,22 @@ const struct dispc_features dispc_am62a7_feats = {
->   		},
->   	},
->   
-> -	.num_planes = 2,
-> -	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-> -	.vid_name = { "vid", "vidl1" },
-> -	.vid_lite = { false, true, },
-> -	.vid_order = { 1, 0 },
-> +	.num_vids = 2,
-> +
-> +	.vid_info = {
-> +		{
-> +			.name = "vid",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +		{
-> +			.name = "vidl1",
-> +			.is_lite = true,
-> +			.hw_id = 1,
-> +		}
-> +	},
-> +
-> +	.vid_order = {1, 0},
->   };
->   
->   static const u16 *dispc_common_regmap;
-> @@ -788,7 +852,8 @@ void dispc_k3_clear_irqstatus(struct dispc_device *dispc, dispc_irq_t clearmask)
->   		if (clearmask & DSS_IRQ_VP_MASK(i))
->   			dispc_k3_vp_write_irqstatus(dispc, i, clearmask);
->   	}
-> -	for (i = 0; i < dispc->feat->num_planes; ++i) {
-> +
-> +	for (i = 0; i < dispc->feat->num_vids; ++i) {
->   		if (clearmask & DSS_IRQ_PLANE_MASK(i))
->   			dispc_k3_vid_write_irqstatus(dispc, i, clearmask);
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        | 60 +++++++++----------
+>  drivers/gpu/drm/imagination/pvr_gem.c         |  4 +-
+>  drivers/gpu/drm/lima/lima_gem.c               |  2 +-
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       |  2 +-
+>  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  2 +-
+>  drivers/gpu/drm/tests/drm_gem_shmem_test.c    | 14 ++---
+>  include/drm/drm_gem_shmem_helper.h            | 28 ++++-----
+>  7 files changed, 56 insertions(+), 56 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 98c68999d61a..a9e35a46e72b 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -174,7 +174,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  			kfree(shmem->sgt);
+>  		}
+>  		if (shmem->pages)
+> -			drm_gem_shmem_put_pages(shmem);
+> +			drm_gem_shmem_put_pages_locked(shmem);
+>  
+>  		drm_WARN_ON(obj->dev, shmem->pages_use_count);
+>  
+> @@ -186,7 +186,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
+>  
+> -static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+> +static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  	struct page **pages;
+> @@ -220,12 +220,12 @@ static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+>  }
+>  
+>  /*
+> - * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
+> + * drm_gem_shmem_put_pages_locked - Decrease use count on the backing pages for a shmem GEM object
+>   * @shmem: shmem GEM object
+>   *
+>   * This function decreases the use count and puts the backing pages when use drops to zero.
+>   */
+> -void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+> +void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  
+> @@ -247,7 +247,7 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+>  			  shmem->pages_mark_accessed_on_put);
+>  	shmem->pages = NULL;
+>  }
+> -EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages);
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
+>  
+>  int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+>  {
+> @@ -257,7 +257,7 @@ int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+>  
+>  	drm_WARN_ON(shmem->base.dev, drm_gem_is_imported(&shmem->base));
+>  
+> -	ret = drm_gem_shmem_get_pages(shmem);
+> +	ret = drm_gem_shmem_get_pages_locked(shmem);
+>  
+>  	return ret;
+>  }
+> @@ -267,7 +267,7 @@ void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
+>  {
+>  	dma_resv_assert_held(shmem->base.resv);
+>  
+> -	drm_gem_shmem_put_pages(shmem);
+> +	drm_gem_shmem_put_pages_locked(shmem);
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_unpin_locked);
+>  
+> @@ -318,7 +318,7 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_unpin);
+>  
+>  /*
+> - * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
+> + * drm_gem_shmem_vmap_locked - Create a virtual mapping for a shmem GEM object
+>   * @shmem: shmem GEM object
+>   * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
+>   *       store.
+> @@ -327,13 +327,13 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_unpin);
+>   * exists for the buffer backing the shmem GEM object. It hides the differences
+>   * between dma-buf imported and natively allocated objects.
+>   *
+> - * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
+> + * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap_locked().
+>   *
+>   * Returns:
+>   * 0 on success or a negative error code on failure.
+>   */
+> -int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+> -		       struct iosys_map *map)
+> +int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+> +			      struct iosys_map *map)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  	int ret = 0;
+> @@ -356,7 +356,7 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+>  			return 0;
+>  		}
+>  
+> -		ret = drm_gem_shmem_get_pages(shmem);
+> +		ret = drm_gem_shmem_get_pages_locked(shmem);
+>  		if (ret)
+>  			goto err_zero_use;
+>  
+> @@ -379,28 +379,28 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+>  
+>  err_put_pages:
+>  	if (!drm_gem_is_imported(obj))
+> -		drm_gem_shmem_put_pages(shmem);
+> +		drm_gem_shmem_put_pages_locked(shmem);
+>  err_zero_use:
+>  	shmem->vmap_use_count = 0;
+>  
+>  	return ret;
+>  }
+> -EXPORT_SYMBOL_GPL(drm_gem_shmem_vmap);
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_vmap_locked);
+>  
+>  /*
+> - * drm_gem_shmem_vunmap - Unmap a virtual mapping for a shmem GEM object
+> + * drm_gem_shmem_vunmap_locked - Unmap a virtual mapping for a shmem GEM object
+>   * @shmem: shmem GEM object
+>   * @map: Kernel virtual address where the SHMEM GEM object was mapped
+>   *
+>   * This function cleans up a kernel virtual address mapping acquired by
+> - * drm_gem_shmem_vmap(). The mapping is only removed when the use count drops to
+> - * zero.
+> + * drm_gem_shmem_vmap_locked(). The mapping is only removed when the use count
+> + * drops to zero.
+>   *
+>   * This function hides the differences between dma-buf imported and natively
+>   * allocated objects.
+>   */
+> -void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+> -			  struct iosys_map *map)
+> +void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+> +				 struct iosys_map *map)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  
+> @@ -416,12 +416,12 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+>  			return;
+>  
+>  		vunmap(shmem->vaddr);
+> -		drm_gem_shmem_put_pages(shmem);
+> +		drm_gem_shmem_put_pages_locked(shmem);
+>  	}
+>  
+>  	shmem->vaddr = NULL;
+>  }
+> -EXPORT_SYMBOL_GPL(drm_gem_shmem_vunmap);
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_vunmap_locked);
+>  
+>  static int
+>  drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
+> @@ -449,7 +449,7 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
+>  /* Update madvise status, returns true if not purged, else
+>   * false or -errno.
+>   */
+> -int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
+> +int drm_gem_shmem_madvise_locked(struct drm_gem_shmem_object *shmem, int madv)
+>  {
+>  	dma_resv_assert_held(shmem->base.resv);
+>  
+> @@ -460,9 +460,9 @@ int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
+>  
+>  	return (madv >= 0);
+>  }
+> -EXPORT_SYMBOL_GPL(drm_gem_shmem_madvise);
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_madvise_locked);
+>  
+> -void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
+> +void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  	struct drm_device *dev = obj->dev;
+> @@ -476,7 +476,7 @@ void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
+>  	kfree(shmem->sgt);
+>  	shmem->sgt = NULL;
+>  
+> -	drm_gem_shmem_put_pages(shmem);
+> +	drm_gem_shmem_put_pages_locked(shmem);
+>  
+>  	shmem->madv = -1;
+>  
+> @@ -492,7 +492,7 @@ void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
+>  
+>  	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping, 0, (loff_t)-1);
+>  }
+> -EXPORT_SYMBOL_GPL(drm_gem_shmem_purge);
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_purge_locked);
+>  
+>  /**
+>   * drm_gem_shmem_dumb_create - Create a dumb shmem buffer object
+> @@ -589,7 +589,7 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+>  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+>  
+>  	dma_resv_lock(shmem->base.resv, NULL);
+> -	drm_gem_shmem_put_pages(shmem);
+> +	drm_gem_shmem_put_pages_locked(shmem);
+>  	dma_resv_unlock(shmem->base.resv);
+>  
+>  	drm_gem_vm_close(vma);
+> @@ -639,7 +639,7 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
+>  		return -EINVAL;
+>  
+>  	dma_resv_lock(shmem->base.resv, NULL);
+> -	ret = drm_gem_shmem_get_pages(shmem);
+> +	ret = drm_gem_shmem_get_pages_locked(shmem);
+>  	dma_resv_unlock(shmem->base.resv);
+>  
+>  	if (ret)
+> @@ -707,7 +707,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
+>  
+>  	drm_WARN_ON(obj->dev, drm_gem_is_imported(obj));
+>  
+> -	ret = drm_gem_shmem_get_pages(shmem);
+> +	ret = drm_gem_shmem_get_pages_locked(shmem);
+>  	if (ret)
+>  		return ERR_PTR(ret);
+>  
+> @@ -729,7 +729,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
+>  	sg_free_table(sgt);
+>  	kfree(sgt);
+>  err_put_pages:
+> -	drm_gem_shmem_put_pages(shmem);
+> +	drm_gem_shmem_put_pages_locked(shmem);
+>  	return ERR_PTR(ret);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/imagination/pvr_gem.c b/drivers/gpu/drm/imagination/pvr_gem.c
+> index 6a8c81fe8c1e..d9d7c6d1a138 100644
+> --- a/drivers/gpu/drm/imagination/pvr_gem.c
+> +++ b/drivers/gpu/drm/imagination/pvr_gem.c
+> @@ -203,7 +203,7 @@ pvr_gem_object_vmap(struct pvr_gem_object *pvr_obj)
+>  
+>  	dma_resv_lock(obj->resv, NULL);
+>  
+> -	err = drm_gem_shmem_vmap(shmem_obj, &map);
+> +	err = drm_gem_shmem_vmap_locked(shmem_obj, &map);
+>  	if (err)
+>  		goto err_unlock;
+>  
+> @@ -257,7 +257,7 @@ pvr_gem_object_vunmap(struct pvr_gem_object *pvr_obj)
+>  			dma_sync_sgtable_for_device(dev, shmem_obj->sgt, DMA_BIDIRECTIONAL);
+>  	}
+>  
+> -	drm_gem_shmem_vunmap(shmem_obj, &map);
+> +	drm_gem_shmem_vunmap_locked(shmem_obj, &map);
+>  
+>  	dma_resv_unlock(obj->resv);
+>  }
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 9bb997dbb4b9..609221351cde 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -195,7 +195,7 @@ static int lima_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+>  	if (bo->heap_size)
+>  		return -EINVAL;
+>  
+> -	return drm_gem_shmem_vmap(&bo->base, map);
+> +	return drm_gem_shmem_vmap_locked(&bo->base, map);
+>  }
+>  
+>  static int lima_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 0f3935556ac7..a731f6b59a42 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -476,7 +476,7 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+>  		}
+>  	}
+>  
+> -	args->retained = drm_gem_shmem_madvise(&bo->base, args->madv);
+> +	args->retained = drm_gem_shmem_madvise_locked(&bo->base, args->madv);
+>  
+>  	if (args->retained) {
+>  		if (args->madv == PANFROST_MADV_DONTNEED)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+> index 3d9f51bd48b6..02b60ea1433a 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+> @@ -51,7 +51,7 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
+>  		goto unlock_mappings;
+>  
+>  	panfrost_gem_teardown_mappings_locked(bo);
+> -	drm_gem_shmem_purge(&bo->base);
+> +	drm_gem_shmem_purge_locked(&bo->base);
+>  	ret = true;
+>  
+>  	dma_resv_unlock(shmem->base.resv);
+> diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+> index fd4215e2f982..98884966bb92 100644
+> --- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+> +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+> @@ -173,7 +173,7 @@ static void drm_gem_shmem_test_vmap(struct kunit *test)
+>  	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  
+> -	ret = drm_gem_shmem_vmap(shmem, &map);
+> +	ret = drm_gem_shmem_vmap_locked(shmem, &map);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  	KUNIT_ASSERT_NOT_NULL(test, shmem->vaddr);
+>  	KUNIT_ASSERT_FALSE(test, iosys_map_is_null(&map));
+> @@ -183,7 +183,7 @@ static void drm_gem_shmem_test_vmap(struct kunit *test)
+>  	for (i = 0; i < TEST_SIZE; i++)
+>  		KUNIT_EXPECT_EQ(test, iosys_map_rd(&map, i, u8), TEST_BYTE);
+>  
+> -	drm_gem_shmem_vunmap(shmem, &map);
+> +	drm_gem_shmem_vunmap_locked(shmem, &map);
+>  	KUNIT_EXPECT_NULL(test, shmem->vaddr);
+>  	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 0);
+>  }
+> @@ -281,17 +281,17 @@ static void drm_gem_shmem_test_madvise(struct kunit *test)
+>  	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  
+> -	ret = drm_gem_shmem_madvise(shmem, 1);
+> +	ret = drm_gem_shmem_madvise_locked(shmem, 1);
+>  	KUNIT_EXPECT_TRUE(test, ret);
+>  	KUNIT_ASSERT_EQ(test, shmem->madv, 1);
+>  
+>  	/* Set madv to a negative value */
+> -	ret = drm_gem_shmem_madvise(shmem, -1);
+> +	ret = drm_gem_shmem_madvise_locked(shmem, -1);
+>  	KUNIT_EXPECT_FALSE(test, ret);
+>  	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
+>  
+>  	/* Check that madv cannot be set back to a positive value */
+> -	ret = drm_gem_shmem_madvise(shmem, 0);
+> +	ret = drm_gem_shmem_madvise_locked(shmem, 0);
+>  	KUNIT_EXPECT_FALSE(test, ret);
+>  	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
+>  }
+> @@ -319,7 +319,7 @@ static void drm_gem_shmem_test_purge(struct kunit *test)
+>  	ret = drm_gem_shmem_is_purgeable(shmem);
+>  	KUNIT_EXPECT_FALSE(test, ret);
+>  
+> -	ret = drm_gem_shmem_madvise(shmem, 1);
+> +	ret = drm_gem_shmem_madvise_locked(shmem, 1);
+>  	KUNIT_EXPECT_TRUE(test, ret);
+>  
+>  	/* The scatter/gather table will be freed by drm_gem_shmem_free */
+> @@ -329,7 +329,7 @@ static void drm_gem_shmem_test_purge(struct kunit *test)
+>  	ret = drm_gem_shmem_is_purgeable(shmem);
+>  	KUNIT_EXPECT_TRUE(test, ret);
+>  
+> -	drm_gem_shmem_purge(shmem);
+> +	drm_gem_shmem_purge_locked(shmem);
+>  	KUNIT_EXPECT_NULL(test, shmem->pages);
+>  	KUNIT_EXPECT_NULL(test, shmem->sgt);
+>  	KUNIT_EXPECT_EQ(test, shmem->madv, -1);
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index cef5a6b5a4d6..0609e336479d 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -102,19 +102,19 @@ struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *de
+>  							   struct vfsmount *gemfs);
+>  void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
+>  
+> -void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
+> +void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem);
+>  int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
+>  void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
+> -int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+> -		       struct iosys_map *map);
+> -void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+> -			  struct iosys_map *map);
+> +int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+> +			      struct iosys_map *map);
+> +void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+> +				 struct iosys_map *map);
+>  int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma);
+>  
+>  int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem);
+>  void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem);
+>  
+> -int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv);
+> +int drm_gem_shmem_madvise_locked(struct drm_gem_shmem_object *shmem, int madv);
+>  
+>  static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem)
+>  {
+> @@ -123,7 +123,7 @@ static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem
+>  		!shmem->base.dma_buf && !drm_gem_is_imported(&shmem->base);
+>  }
+>  
+> -void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
+> +void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem);
+>  
+>  struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem);
+>  struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem);
+> @@ -214,12 +214,12 @@ static inline struct sg_table *drm_gem_shmem_object_get_sg_table(struct drm_gem_
+>  }
+>  
+>  /*
+> - * drm_gem_shmem_object_vmap - GEM object function for drm_gem_shmem_vmap()
+> + * drm_gem_shmem_object_vmap - GEM object function for drm_gem_shmem_vmap_locked()
+>   * @obj: GEM object
+>   * @map: Returns the kernel virtual address of the SHMEM GEM object's backing store.
+>   *
+> - * This function wraps drm_gem_shmem_vmap(). Drivers that employ the shmem helpers should
+> - * use it as their &drm_gem_object_funcs.vmap handler.
+> + * This function wraps drm_gem_shmem_vmap_locked(). Drivers that employ the shmem
+> + * helpers should use it as their &drm_gem_object_funcs.vmap handler.
+>   *
+>   * Returns:
+>   * 0 on success or a negative error code on failure.
+> @@ -229,7 +229,7 @@ static inline int drm_gem_shmem_object_vmap(struct drm_gem_object *obj,
+>  {
+>  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+>  
+> -	return drm_gem_shmem_vmap(shmem, map);
+> +	return drm_gem_shmem_vmap_locked(shmem, map);
+>  }
+>  
+>  /*
+> @@ -237,15 +237,15 @@ static inline int drm_gem_shmem_object_vmap(struct drm_gem_object *obj,
+>   * @obj: GEM object
+>   * @map: Kernel virtual address where the SHMEM GEM object was mapped
+>   *
+> - * This function wraps drm_gem_shmem_vunmap(). Drivers that employ the shmem helpers should
+> - * use it as their &drm_gem_object_funcs.vunmap handler.
+> + * This function wraps drm_gem_shmem_vunmap_locked(). Drivers that employ the shmem
+> + * helpers should use it as their &drm_gem_object_funcs.vunmap handler.
+>   */
+>  static inline void drm_gem_shmem_object_vunmap(struct drm_gem_object *obj,
+>  					       struct iosys_map *map)
+>  {
+>  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+>  
+> -	drm_gem_shmem_vunmap(shmem, map);
+> +	drm_gem_shmem_vunmap_locked(shmem, map);
+>  }
+>  
+>  /**
 
-How did you test this?
-
-With the changes in this patch, the index (i here) can really only be 
-used to reference the vid_info array. Any other use is most likely an 
-error, like here.
-
->   	}
-> @@ -809,8 +874,8 @@ dispc_irq_t dispc_k3_read_and_clear_irqstatus(struct dispc_device *dispc)
->   	for (i = 0; i < dispc->feat->num_vps; ++i)
->   		status |= dispc_k3_vp_read_irqstatus(dispc, i);
->   
-> -	for (i = 0; i < dispc->feat->num_planes; ++i)
-> -		status |= dispc_k3_vid_read_irqstatus(dispc, i);
-> +	for (i = 0; i < dispc->feat->num_vids; ++i)
-> +		status |= dispc_k3_vid_read_irqstatus(dispc, dispc->feat->vid_info[i].hw_id);
-
-I think here and probably in almost all the cases it makes sense to use 
-a helper variable "hw_id".
-
->   
->   	dispc_k3_clear_irqstatus(dispc, status);
->   
-> @@ -825,8 +890,8 @@ static dispc_irq_t dispc_k3_read_irqenable(struct dispc_device *dispc)
->   	for (i = 0; i < dispc->feat->num_vps; ++i)
->   		enable |= dispc_k3_vp_read_irqenable(dispc, i);
->   
-> -	for (i = 0; i < dispc->feat->num_planes; ++i)
-> -		enable |= dispc_k3_vid_read_irqenable(dispc, i);
-> +	for (i = 0; i < dispc->feat->num_vids; ++i)
-> +		enable |= dispc_k3_vid_read_irqenable(dispc, dispc->feat->vid_info[i].hw_id);
->   
->   	return enable;
->   }
-> @@ -849,10 +914,11 @@ static void dispc_k3_set_irqenable(struct dispc_device *dispc,
->   			main_enable |= BIT(i);		/* VP IRQ */
->   		else
->   			main_disable |= BIT(i);		/* VP IRQ */
-> +
->   	}
->   
-> -	for (i = 0; i < dispc->feat->num_planes; ++i) {
-> -		dispc_k3_vid_set_irqenable(dispc, i, mask);
-> +	for (i = 0; i < dispc->feat->num_vids; ++i) {
-> +		dispc_k3_vid_set_irqenable(dispc, dispc->feat->vid_info[i].hw_id, mask);
->   		if (mask & DSS_IRQ_PLANE_MASK(i))
->   			main_enable |= BIT(i + 4);	/* VID IRQ */
-
-And here.
-
->   		else
-> @@ -861,7 +927,6 @@ static void dispc_k3_set_irqenable(struct dispc_device *dispc,
->   
->   	if (main_enable)
->   		dispc_write(dispc, DISPC_IRQENABLE_SET, main_enable);
-> -
->   	if (main_disable)
->   		dispc_write(dispc, DISPC_IRQENABLE_CLR, main_disable);
->   
-> @@ -2025,7 +2090,7 @@ int dispc_plane_check(struct dispc_device *dispc, u32 hw_plane,
->   		      const struct drm_plane_state *state,
->   		      u32 hw_videoport)
->   {
-> -	bool lite = dispc->feat->vid_lite[hw_plane];
-> +	bool lite = dispc->feat->vid_info[hw_plane].is_lite;
->   	u32 fourcc = state->fb->format->format;
->   	bool need_scaling = state->src_w >> 16 != state->crtc_w ||
->   		state->src_h >> 16 != state->crtc_h;
-> @@ -2096,7 +2161,7 @@ void dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
->   		       const struct drm_plane_state *state,
->   		       u32 hw_videoport)
->   {
-> -	bool lite = dispc->feat->vid_lite[hw_plane];
-> +	bool lite = dispc->feat->vid_info[hw_plane].is_lite;
->   	u32 fourcc = state->fb->format->format;
->   	u16 cpp = state->fb->format->cpp[0];
->   	u32 fb_width = state->fb->pitches[0] / cpp;
-> @@ -2210,7 +2275,7 @@ static void dispc_k2g_plane_init(struct dispc_device *dispc)
->   	/* MFLAG_START = MFLAGNORMALSTARTMODE */
->   	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
->   
-> -	for (hw_plane = 0; hw_plane < dispc->feat->num_planes; hw_plane++) {
-> +	for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
->   		u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
-
-And here.
-
-Maybe there's more, please check each of the cases where the index is used.
-
-  Tomi
-
->   		u32 thr_low, thr_high;
->   		u32 mflag_low, mflag_high;
-> @@ -2226,7 +2291,7 @@ static void dispc_k2g_plane_init(struct dispc_device *dispc)
->   
->   		dev_dbg(dispc->dev,
->   			"%s: bufsize %u, buf_threshold %u/%u, mflag threshold %u/%u preload %u\n",
-> -			dispc->feat->vid_name[hw_plane],
-> +			dispc->feat->vid_info[hw_plane].name,
->   			size,
->   			thr_high, thr_low,
->   			mflag_high, mflag_low,
-> @@ -2265,7 +2330,7 @@ static void dispc_k3_plane_init(struct dispc_device *dispc)
->   	/* MFLAG_START = MFLAGNORMALSTARTMODE */
->   	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
->   
-> -	for (hw_plane = 0; hw_plane < dispc->feat->num_planes; hw_plane++) {
-> +	for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
->   		u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
->   		u32 thr_low, thr_high;
->   		u32 mflag_low, mflag_high;
-> @@ -2281,7 +2346,7 @@ static void dispc_k3_plane_init(struct dispc_device *dispc)
->   
->   		dev_dbg(dispc->dev,
->   			"%s: bufsize %u, buf_threshold %u/%u, mflag threshold %u/%u preload %u\n",
-> -			dispc->feat->vid_name[hw_plane],
-> +			dispc->feat->vid_info[hw_plane].name,
->   			size,
->   			thr_high, thr_low,
->   			mflag_high, mflag_low,
-> @@ -2898,8 +2963,8 @@ int dispc_init(struct tidss_device *tidss)
->   	if (r)
->   		return r;
->   
-> -	for (i = 0; i < dispc->feat->num_planes; i++) {
-> -		r = dispc_iomap_resource(pdev, dispc->feat->vid_name[i],
-> +	for (i = 0; i < dispc->feat->num_vids; i++) {
-> +		r = dispc_iomap_resource(pdev, dispc->feat->vid_info[i].name,
->   					 &dispc->base_vid[i]);
->   		if (r)
->   			return r;
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-> index 086327d51a90..72a0146e57d5 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-> @@ -46,6 +46,12 @@ struct dispc_features_scaling {
->   	u32 xinc_max;
->   };
->   
-> +struct dispc_vid_info {
-> +	const char *name; /* Should match dt reg names */
-> +	u32 hw_id;
-> +	bool is_lite;
-> +};
-> +
->   struct dispc_errata {
->   	bool i2000; /* DSS Does Not Support YUV Pixel Data Formats */
->   };
-> @@ -82,9 +88,8 @@ struct dispc_features {
->   	const char *vpclk_name[TIDSS_MAX_PORTS]; /* Should match dt clk names */
->   	const enum dispc_vp_bus_type vp_bus_type[TIDSS_MAX_PORTS];
->   	struct tidss_vp_feat vp_feat;
-> -	u32 num_planes;
-> -	const char *vid_name[TIDSS_MAX_PLANES]; /* Should match dt reg names */
-> -	bool vid_lite[TIDSS_MAX_PLANES];
-> +	u32 num_vids;
-> +	struct dispc_vid_info vid_info[TIDSS_MAX_PLANES];
->   	u32 vid_order[TIDSS_MAX_PLANES];
->   };
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> index f371518f8697..19432c08ec6b 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> @@ -115,7 +115,7 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
->   
->   	const struct dispc_features *feat = tidss->feat;
->   	u32 max_vps = feat->num_vps;
-> -	u32 max_planes = feat->num_planes;
-> +	u32 max_planes = feat->num_vids;
->   
->   	struct pipe pipes[TIDSS_MAX_PORTS];
->   	u32 num_pipes = 0;
-> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-> index 116de124bddb..ff71370cad8b 100644
-> --- a/drivers/gpu/drm/tidss/tidss_plane.c
-> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
-> @@ -200,7 +200,7 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
->   	struct tidss_plane *tplane;
->   	enum drm_plane_type type;
->   	u32 possible_crtcs;
-> -	u32 num_planes = tidss->feat->num_planes;
-> +	u32 num_planes = tidss->feat->num_vids;
->   	u32 color_encodings = (BIT(DRM_COLOR_YCBCR_BT601) |
->   			       BIT(DRM_COLOR_YCBCR_BT709));
->   	u32 color_ranges = (BIT(DRM_COLOR_YCBCR_FULL_RANGE) |
-
+-- 
+Jani Nikula, Intel
