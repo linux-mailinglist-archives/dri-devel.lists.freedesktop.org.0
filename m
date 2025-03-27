@@ -2,63 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0106A73254
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 13:33:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5963BA73258
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 13:36:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7DED10E32B;
-	Thu, 27 Mar 2025 12:33:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ikd+0UEg";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3029C10E8B0;
+	Thu, 27 Mar 2025 12:36:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A975810E32B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:33:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743078807; x=1774614807;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=1qUO0MBYemzPSLBW6MOoCvhMEn3+p0HUFlE7+CgFknI=;
- b=Ikd+0UEgarOK4nBZL+jxjZTARzuSdTriT0NnKQl0YAwgORnCFyqSvc7p
- tK+p30w4WTekzt0UpEGlroKu7FncVjvdzVS2PVEykOAv0mzAu6RuDN+Bh
- 5ZABzIEvIhMmleL70OniovyUZn3YUIoeHl7ZuhNrVlskL1vQrQ7ivLmIC
- qRtHaNhcuxt7kXCBDJ09vb2CrWwm7XSMz4WwiW9+4daluIef2ls62V3hi
- d+20EWZ1qe9S/su8wvF53DcEBR9eGtzSoHOtzvCQ+o1tiZ1DvLM5/qw0N
- 6V0ihlDGTud5jPUUK9nBYtnbDqgzhEP5VWbP07hW3cEECasnaldbmkyj2 w==;
-X-CSE-ConnectionGUID: Iu6YqpxhSxKJG6+tS4+xBA==
-X-CSE-MsgGUID: d0zgYym/Rbei6Yy/oTEKUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48190785"
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; d="scan'208";a="48190785"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2025 05:33:04 -0700
-X-CSE-ConnectionGUID: 7CphrUGzRmuxnoxsh8Ky1w==
-X-CSE-MsgGUID: RcGr6TrAReugJ3/w05Iv3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; d="scan'208";a="129282364"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.17])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2025 05:33:01 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, dri-devel@lists.freedesktop.org
-Cc: kernel@collabora.com, Maciej Falkowski
- <maciej.falkowski@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: [PATCH 1/3] accel/ivpu: pages_use_count is now a refcount_t
-In-Reply-To: <fdb8ae46-6de5-4bdc-8c7d-5d8a3249d98b@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250327104300.1982058-1-boris.brezillon@collabora.com>
- <878qoq678p.fsf@intel.com>
- <3a6a2168-3b38-4173-9731-6505a83d4d82@collabora.com>
- <fdb8ae46-6de5-4bdc-8c7d-5d8a3249d98b@linux.intel.com>
-Date: Thu, 27 Mar 2025 14:32:58 +0200
-Message-ID: <87wmca4ps5.fsf@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0145A10E8B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:36:33 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B60AE1063;
+ Thu, 27 Mar 2025 05:36:38 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ACA8E3F58B;
+ Thu, 27 Mar 2025 05:36:31 -0700 (PDT)
+Date: Thu, 27 Mar 2025 12:36:28 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: Philippe Simons <simons.philippe@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Jernej =?UTF-8?B?xaBrcmFiZWM=?=
+ <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 1/2] drm/panfrost: Add PM runtime flags
+Message-ID: <20250327123628.3d33c68e@donnerap.manchester.arm.com>
+In-Reply-To: <20250312232319.25712-2-simons.philippe@gmail.com>
+References: <20250312232319.25712-1-simons.philippe@gmail.com>
+ <20250312232319.25712-2-simons.philippe@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,47 +55,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Mar 2025, Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> wrote:
-> Hi,
->
-> On 3/27/2025 12:37 PM, Dmitry Osipenko wrote:
->> On 3/27/25 14:30, Jani Nikula wrote:
->>> On Thu, 27 Mar 2025, Boris Brezillon <boris.brezillon@collabora.com> wrote:
->>>> Commit 051b6646d36d ("drm/shmem-helper: Use refcount_t for
->>>> pages_use_count") changed the type of
->>>> drm_gem_shmem_object::pages_use_count but accel drivers were left
->>>> behind.
->>>>
->>>> Fixes: 051b6646d36d ("drm/shmem-helper: Use refcount_t for pages_use_count")
->>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>>> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->>>> Cc: Maciej Falkowski <maciej.falkowski@linux.intel.com>
->>>> Cc: Oded Gabbay <ogabbay@kernel.org>
->>>> Cc: dri-devel@lists.freedesktop.org
->>>
->>> Just for build, on the series,
->>>
->>> Tested-by: Jani Nikula <jani.nikula@intel.com>
->>>
->>> Please merge.
->> 
->> Applied to misc-next
->
-> This was applied in less then an hour after posting for review without any testing (building is not testing).
-> I can't see how this is up to community standards.
-> I would prefer that patches for accel/ivpu were merged by ivpu maintainers.
-> At least give us time to review them. 
+On Thu, 13 Mar 2025 00:23:18 +0100
+Philippe Simons <simons.philippe@gmail.com> wrote:
 
-I regret rushing Boris/Dmitry to merge. Sorry about that.
+Hi Rob, Boris, Steven,
 
-My only excuse is that the build was broken, and the changes were small
-and mechanical, similar to what was done elsewhere to change the
-interfaces.
+> When the GPU is the only device attached to a single power domain,
+> core genpd disable and enable it when gpu enter and leave runtime suspend.
+> 
+> Some power-domain requires a sequence before disabled,
+> and the reverse when enabled.
+> 
+> Add PM flags for CLK and RST, and implement in
+> panfrost_device_runtime_suspend/resume.
 
+So some Mali configuration and integration manual I am looking at says
+that this sequence should be always observed, as the powerdown sequence
+would include disabling the clocks first, then asserting the reset, then
+turning the power switches off (and the inverse sequence on powerup).
 
-BR,
-Jani.
+So should we make this unconditional, not depending on implementation
+specific flags?
 
--- 
-Jani Nikula, Intel
+And also I am wondering if panfrost_device_init() gets this wrong as well?
+As I see it enabling clock first, then reset, then pm_domain, where it
+should be exactly the opposite?
+
+Cheers,
+Andre
+
+> 
+> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_device.c | 37 ++++++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_device.h |  4 +++
+>  2 files changed, 41 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index a45e4addcc19..189ad2ad2b32 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -406,11 +406,38 @@ void panfrost_device_reset(struct panfrost_device *pfdev)
+>  static int panfrost_device_runtime_resume(struct device *dev)
+>  {
+>  	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT)) {
+> +		ret = reset_control_deassert(pfdev->rstc);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
+> +		ret = clk_enable(pfdev->clock);
+> +		if (ret)
+> +			goto err_clk;
+> +
+> +		if (pfdev->bus_clock) {
+> +			ret = clk_enable(pfdev->bus_clock);
+> +			if (ret)
+> +				goto err_bus_clk;
+> +		}
+> +	}
+>  
+>  	panfrost_device_reset(pfdev);
+>  	panfrost_devfreq_resume(pfdev);
+>  
+>  	return 0;
+> +
+> +err_bus_clk:
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS))
+> +		clk_disable(pfdev->clock);
+> +err_clk:
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
+> +		reset_control_assert(pfdev->rstc);
+> +	return ret;
+>  }
+>  
+>  static int panfrost_device_runtime_suspend(struct device *dev)
+> @@ -426,6 +453,16 @@ static int panfrost_device_runtime_suspend(struct device *dev)
+>  	panfrost_gpu_suspend_irq(pfdev);
+>  	panfrost_gpu_power_off(pfdev);
+>  
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_CLK_DIS)) {
+> +		if (pfdev->bus_clock)
+> +			clk_disable(pfdev->bus_clock);
+> +
+> +		clk_disable(pfdev->clock);
+> +	}
+> +
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_RT_RST_ASRT))
+> +		reset_control_assert(pfdev->rstc);
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index cffcb0ac7c11..f372d4819262 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -36,10 +36,14 @@ enum panfrost_drv_comp_bits {
+>   * enum panfrost_gpu_pm - Supported kernel power management features
+>   * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
+>   * @GPU_PM_VREG_OFF: Allow turning off regulators during system suspend
+> + * @GPU_PM_RT_CLK_DIS: Allow disabling clocks during system runtime suspend
+> + * @GPU_PM_RST_ASRT: Allow asserting the reset control during runtime suspend
+>   */
+>  enum panfrost_gpu_pm {
+>  	GPU_PM_CLK_DIS,
+>  	GPU_PM_VREG_OFF,
+> +	GPU_PM_RT_CLK_DIS,
+> +	GPU_PM_RT_RST_ASRT
+>  };
+>  
+>  struct panfrost_features {
+
