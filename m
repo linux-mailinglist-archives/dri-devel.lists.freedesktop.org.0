@@ -2,112 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A7AA73C9F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 18:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BC7A73DB1
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 19:03:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90CBE10E31F;
-	Thu, 27 Mar 2025 17:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 373D510E133;
+	Thu, 27 Mar 2025 18:03:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BN69UswT";
+	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="qtlXXrFE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82C3E10E130
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 17:40:16 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52RF4itc004923
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 17:40:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- HAnKU+8WTJQfX9xGmYZ9jIU0o6jrNSszROdygX/BM+g=; b=BN69UswTm30Pimb6
- hGt81/2M/gdAxC5pg28QnBqRPLl9hMHDSGe/urxIreJ0pJM6PaC1Klm1oc9WomYm
- A/XefSmGoQzs+XBzTy5z0U2OzaANHALZrT4MUTDypIGz3P5JqflGFsK7CxsNCqhe
- kGIjvOcsPlkifK7ennr9xujGMtUC2sdHDD9q6f4NdafWjEWntX56rRql0ekH8FRi
- 3BV145Q4TsnSSLVbSIF5QC/3bnXPtENyXDtmasOG6qNN+P3YeY7ZnW9LtL86oR3e
- wNVa4v8HboQ4DhqDOfc+speKV4z+WJVB2WDl8+bbDz2daczBg+ZrdRGzK53NJdv5
- iyERtw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45m0xdy206-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 17:40:13 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c5c82c6d72so247877385a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 10:40:13 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 512B610E133
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 18:03:49 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-ac3b12e8518so246050166b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 11:03:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1743098628;
+ x=1743703428; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dbicw8Z0JQZt1O8kLiSpAtlB/Q01eTvFIz70oe6Zn9M=;
+ b=qtlXXrFERjdleJ3ljD0V+YfRCEiYAdqHkBo+rehYFhuavNXl6t62KRuBSkoEJiMMoR
+ hToMzbaVwKC/+eHW1NC4SXE/5R+qOPE6pzptBGDipQbOvSrnCRNK9ig1gvcLMRWcW51i
+ SbSTBJH+yZXk4RTcOsn9BYR/KMSxfa5sCIgcNhsGx0Ln/HoKRtehRaYlpIorYOoBUO0n
+ Wz6E96yEeJTmGg233oIJK9HjSFlSxjn8fR/HYeCl+YbjoTHnI1P9JexUEhcrjqqD0xWP
+ kI/9GtHGhC0d+g9FYTxSPqv95xZcdR4MNktoAcV+MNfqhwOubGXT/kF+mdAMy8OtwR9i
+ +4Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743097213; x=1743702013;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HAnKU+8WTJQfX9xGmYZ9jIU0o6jrNSszROdygX/BM+g=;
- b=LFoPPgmFUrDOF+BMUom7Pyp+/lV6cZXyEEHJDVbMV1cbVY5lMbL+Ph/hXVyEoq3axp
- /M9mzrRsUYtDQLv9x8LYGaa0NmlyPJc3uUJE67jvIbURw95Ulb+aeHcNc/IK2jMmJ04P
- Z+Ur5rELH2/yR/eQlGXeCIe6+xhwHzpT0ye92Ymvotwmjm7DMbB0RDzVG0o7ljL1HsoN
- jkl4RtMO/Jx8YpS3XzwoMhXmBb3SUjlXHhg1tC975nNgPevkRoC8lbk0Y9Gg2VPL5uPD
- efQpT2tgxrGcK+8cNlk3CAaC2ehwEHTXW5nh9EQnNnnwqm5whUVXkrpb03/aLYBaCLgn
- c1vg==
-X-Gm-Message-State: AOJu0YxQ+l5iAAZJtLnjetAAv/Is2RA0JBl0JEzSOh1y3bRZ6z2745lX
- UmDkyTIpya4HQuzFuVoMeEIil2ula0mciXQv1bhwRdXDTw0FLH1h7gEMgOedXZDGaXi/0IRw8lk
- ZbGDZfGJy10H1K3cZRjI4PADpo9G9j4gsr52AwHPvOaVS8haPJg2ot3zkqWHPt7pifmE=
-X-Gm-Gg: ASbGncurwN3hsFCUIwl1C0TiHmzjXi2m0BQLJI+YkPE3K5E3HEaDcx3q2UWurVpacav
- vB6YmDDDrNTpZ0u+XhFpxIbcNXHg1ZobSxDzoujOdKGtvkdvvWq+G4RYiYzgPJCtUgm9KUf2NHX
- 522RNOfj685IdH0CZnOYhMOpVM0dNWmo2tHeFKUoSRrchWfHp+OUB4+9ZLsmfyENUxGQCCgpX0D
- C3tawBH/XNhlrXBernwHjBB3Z3c5miGL0gIVTur+w6xQZ1UG6XRk7aJXXIJ01CimKq+gNjtSxEb
- IkPzUye2nPUhn7Z7sJW4fG7MDJS56W37d9NaOxDnmVMqnB+sh5NIkdQvgvU3KMbTw51sV9cGkld
- eIGFR5k0X7h+bwudh1BY+cbHRIIE3ufWJJGqjU1UDcY4DdlGYM1gslzvnu1w5K6gM
-X-Received: by 2002:a05:620a:2544:b0:7c5:5801:ea9a with SMTP id
- af79cd13be357-7c5ed9d9a49mr552449685a.11.1743097212758; 
- Thu, 27 Mar 2025 10:40:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFkRSeLScZxYeiAYG4QqXzG0n51R6iF2AKOozxwSHJWdm6gWamrwJp83iGBY7841frVHEVArQ==
-X-Received: by 2002:a05:620a:2544:b0:7c5:5801:ea9a with SMTP id
- af79cd13be357-7c5ed9d9a49mr552444385a.11.1743097212194; 
- Thu, 27 Mar 2025 10:40:12 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:ac:ffd6:501:5ae1:b167:ae27?
- (2001-14bb-ac-ffd6-501-5ae1-b167-ae27.rev.dnainternet.fi.
- [2001:14bb:ac:ffd6:501:5ae1:b167:ae27])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54b0957ffcfsm27071e87.138.2025.03.27.10.40.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Mar 2025 10:40:10 -0700 (PDT)
-Message-ID: <07c48ba0-dcf5-4ece-8beb-f225652c5014@oss.qualcomm.com>
-Date: Thu, 27 Mar 2025 19:40:07 +0200
+ d=1e100.net; s=20230601; t=1743098628; x=1743703428;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dbicw8Z0JQZt1O8kLiSpAtlB/Q01eTvFIz70oe6Zn9M=;
+ b=u9kTj3c48Szs0MZnWAP9X7Fj486S+RsUZFerbHO7qji7PKBduGChAyOzbULWuG5fVk
+ XJnRKCGZfRrSfPJwi293PemyPPELhKPZIZflBl1BJWglYqOsPAsUP5MI6l0SgKBW5H3e
+ DHwUY+YZC0utTaPDUkphY40rq0tl/snLlY/gZGjB59TMfVjJ+i0wPeRz8KjTKcdg2u3T
+ e6OpedgNATmt8OdZRP5wmqGtpJqSiP9GGNh9r5g09nFpbhJVIm/Ci0t4wDtlq9tGWDUu
+ 2Xys1nTU6TaTqasQPoOH0Xd+X+qNuRG7+ZKyj7qXJX+hsysFvLUwwoP5xGHmheusqyg5
+ z8qA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUiUqJ2Mx0woZFgQNjd+Q0n7k+o2T6i+4gU62GMxhdESfZoM2oy7I29dhP9JDCeEwYBflA+9a4oixQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjGAmj65rblg7MBZqBgBwxfD57uAUQdcxknI8OPEWISfMXZ85d
+ gUejQqtEsfrA+6ZtqjBNO7jCRssGZqPApSZF1QhPbPdpjJq6FB2vLaPJf48beTeaS+cOazDgRka
+ MsNnfG86AqocwaWAs3fnQaLhcERCpVAoR6AsHtKUfTqMZrgoF
+X-Gm-Gg: ASbGncvYv6EpeUUCi20fg+uYMdPjhTOlVRrJYg7tMNrxvGXubFMl8uBGZTuSQCdCKyJ
+ VgRloJE9fSuqxZgJMI5533UGUpeajxB1CCrCkNs0eWOzeoWJU6JvqOf2kZOVORWj6Ad2v043JE5
+ NfdvtYLFJ65u0A1Wqgu2FKtRuUT+eXfrvyftcvOoC6AsLd+xbVs3LEhhukMw==
+X-Google-Smtp-Source: AGHT+IFelE6ZT8lk2wC8uMQk8JWu4GpRTRVcpkeHSAxMAv581U1nTF8OZkfplT4eSECi7+QEqLmwxT6cOrEOT0JdY8s=
+X-Received: by 2002:a17:907:3dac:b0:ac6:b8de:1a74 with SMTP id
+ a640c23a62f3a-ac6faecff63mr352259466b.15.1743098627399; Thu, 27 Mar 2025
+ 11:03:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/dp: fallback to minimum when PWM bit count is zero
-To: Christopher Obbard <christopher.obbard@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>
-References: <20250327-wip-obbardc-qcom-t14s-oled-panel-brightness-v2-1-16dc3ee00276@linaro.org>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20250327-wip-obbardc-qcom-t14s-oled-panel-brightness-v2-1-16dc3ee00276@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: JbsFtqegVBZLPjAJrmiv3fc1N06Mw9uw
-X-Proofpoint-GUID: JbsFtqegVBZLPjAJrmiv3fc1N06Mw9uw
-X-Authority-Analysis: v=2.4 cv=Q43S452a c=1 sm=1 tr=0 ts=67e58d7d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=8uZFVrZtLw_Y6pPcPrcA:9
- a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-27_03,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0 adultscore=0
- mlxlogscore=999 malwarescore=0 mlxscore=0 priorityscore=1501 clxscore=1015
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503270120
+References: <20250312213746.228042-1-mhenning@darkrefraction.com>
+ <20250312213746.228042-2-mhenning@darkrefraction.com>
+ <Z9xb5SABWcwYnV-x@pollux>
+ <CAAgWFh2dHZs2D7R4ejY9sNQ+QCtLQeGGS2PNtcsm_MPeV3edLw@mail.gmail.com>
+ <Z-VX3TJPI6Tgin2G@cassiopeiae>
+In-Reply-To: <Z-VX3TJPI6Tgin2G@cassiopeiae>
+From: M Henning <mhenning@darkrefraction.com>
+Date: Thu, 27 Mar 2025 14:03:21 -0400
+X-Gm-Features: AQ5f1Jrd3vkEYReJYR0savrLdJ7oh25LCgvIMRK66RMN13RaBW-FbknH-D5WxrU
+Message-ID: <CAAgWFh3c=qE+c8Q04W2NXpBLBeXC12qTKLNmZeJA65m+dTMG8Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/nouveau: Add DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,93 +89,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/03/2025 19:25, Christopher Obbard wrote:
-> According to the eDP specification (e.g., VESA eDP 1.4b, section 3.3.10.2),
-> if DP_EDP_PWMGEN_BIT_COUNT is less than DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN,
-> the sink is required to use the MIN value as the effective bit count.
-> 
-> Some eDP panels report DP_EDP_PWMGEN_BIT_COUNT as 0 while still providing
-> valid non-zero MIN and MAX capability values. This patch updates the logic
-> to use the CAP_MIN value in such cases, ensuring correct scaling of AUX-set
-> backlight brightness values.
-> 
-> This improves compatibility with panels like the Samsung ATNA40YK20 used
-> on the Lenovo T14s Gen6 (Snapdragon variant with OLED) which report a
-> bit count of 0 but declares an 11-bit PWM capability range.
-> 
-> Co-developed-by: Rui Miguel Silva <rui.silva@linaro.org>
-> Signed-off-by: Rui Miguel Silva <rui.silva@linaro.org>
-> Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
-> ---
-> Changes in v2:
-> - Split backlight brightness patch from T14s OLED enablement series.
-> - Use PWMGEN_CAP_MIN rather than MAX (Dmitry).
-> - Rework commit message to reference eDP spec.
-> - Rebase on drm-misc-next.
-> - Link to v1: https://lore.kernel.org/all/20250325-wip-obbardc-qcom-t14s-oled-panel-v2-4-e9bc7c9d30cc@linaro.org/
-> ---
->   drivers/gpu/drm/display/drm_dp_helper.c | 50 ++++++++++++++++++++++-----------
->   1 file changed, 33 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index dbce1c3f49691fc687fee2404b723c73d533f23d..0b843d5b634f89f144b62b30311834d118b79ba9 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -4083,7 +4083,7 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
->   {
->   	int fxp, fxp_min, fxp_max, fxp_actual, f = 1;
->   	int ret;
-> -	u8 pn, pn_min, pn_max;
-> +	u8 pn, pn_min, pn_max, bl_caps;
->   
->   	if (!bl->aux_set)
->   		return 0;
-> @@ -4094,8 +4094,39 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
->   			    aux->name, ret);
->   		return -ENODEV;
->   	}
-> -
->   	pn &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-> +
-> +	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
-> +	if (ret != 1) {
-> +		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap min: %d\n",
-> +			    aux->name, ret);
-> +		return 0;
-> +	}
-> +	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-> +
-> +	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
-> +	if (ret != 1) {
-> +		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap max: %d\n",
-> +			    aux->name, ret);
-> +		return 0;
-> +	}
-> +	pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-> +
-> +	ret = drm_dp_dpcd_readb(aux, DP_EDP_BACKLIGHT_ADJUSTMENT_CAP, &bl_caps);
-> +	if (ret != 1) {
-> +		bl_caps = 0;
-> +		drm_dbg_kms(aux->drm_dev, "%s: Failed to read backlight adjustment cap: %d\n",
-> +			aux->name, ret);
-> +	}
-> +
-> +	/*
-> +	 * Some eDP panels report brightness byte count support, but the byte count
-> +	 * reading is 0 (e.g. Samsung ATNA40YK20) so use pn_min instead.
-> +	 */
-> +	if (!pn && (bl_caps & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT)
-> +	    && pn_min)
-> +		pn = pn_min;
+On Thu, Mar 27, 2025 at 9:51=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Fri, Mar 21, 2025 at 06:06:34PM -0400, M Henning wrote:
+> > On Thu, Mar 20, 2025 at 2:18=E2=80=AFPM Danilo Krummrich <dakr@kernel.o=
+rg> wrote:
+> > > On Wed, Mar 12, 2025 at 05:36:14PM -0400, Mel Henning wrote:
+> > > > +     __u32 width_align_pixels;
+> > > > +     __u32 height_align_pixels;
+> > > > +     __u32 pixel_squares_by_aliquots;
+> > > > +     __u32 aliquot_total;
+> > > > +     __u32 zcull_region_byte_multiplier;
+> > > > +     __u32 zcull_region_header_size;
+> > > > +     __u32 zcull_subregion_header_size;
+> > > > +     __u32 subregion_count;
+> > > > +     __u32 subregion_width_align_pixels;
+> > > > +     __u32 subregion_height_align_pixels;
+> > > > +
+> > > > +     __u32 ctxsw_size;
+> > > > +     __u32 ctxsw_align;
+> > > > +};
+> > >
+> > > What if this ever changes between hardware revisions or firmware vers=
+ions?
+> >
+> > There was some previous discussion of that here:
+> > https://gitlab.freedesktop.org/mesa/mesa/-/issues/12596#note_2796853
+> >
+> > From what I can tell, this structure hasn't really changed since
+> > FERMI_C (circa 2011), so I'm not too worried about it changing on us
+> > too quickly. When it does change, we have the option of appending more
+> > members to this struct in the usual way, or if the change is more
+> > fundamental we can return an error from this ioctl and add a new
+> > interface. Userspace needs to handle an error from this ioctl
+> > gracefully anyway since whether it works or not depends on the gpu
+> > generation and what firmware is loaded right now.
+>
+> We could also define it as
+>
+>         struct drm_nouveau_get_zcull_info {
+>                 __u32 version;
+>                 __u32 _pad;
+>
+>                 union {
+>                         struct drm_nouveau_get_zcull_info_v1 info;
+>                 }
+>         }
+>
+> just to be safe.
 
-I wonder, what stops you from implementing this part according to the 
-standard, rather than adding a hack for 0 value.
-
-> +
->   	bl->max = (1 << pn) - 1;
->   	if (!driver_pwm_freq_hz)
->   		return 0;
-
--- 
-With best wishes
-Dmitry
+We can do that, although I don't see any other drm drivers using a
+similar pattern anywhere.
