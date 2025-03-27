@@ -2,89 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9624FA736E8
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 17:35:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3F1A736EA
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 17:36:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFF3D10E1A3;
-	Thu, 27 Mar 2025 16:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F61710E1F4;
+	Thu, 27 Mar 2025 16:36:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lLXOBR4+";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0073410E178
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 16:35:53 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id
- a1e0cc1a2514c-86fab198f8eso602173241.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 09:35:53 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6A1710E178
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 16:36:08 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-226185948ffso27554065ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 09:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743093368; x=1743698168; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LmxjHPEoAvJ9V++u0ZZKt2L66dWQUhIJPZo7wO/C09Q=;
+ b=lLXOBR4+oev+i+GKCk1E5Rhnb41p65RnrCshCPpwQzuvr7QUx+x903OKlQjmOiDGj7
+ U7JVibmhDM+VlqR0YV2K21TrvUyMXl9TT/zxUMX7Z+XHv3zhZW4w5KBmFDucXbp6/mhE
+ I2WwyucBkzlPbwd6LVpRuGjnUQ1ayV6iV5ClCXWYmbaJ7ZsFnSdH5eJwVl3kRy9SAZYc
+ QRSZWdyA9749kBBldFCFEIY8LPrlgyXwKWj7kobaqI7Qq/B8g6H4wfnRLKiPFjKdhlQz
+ F0DzQ6Jat6l9ggyKP1l8qNct8TMN7xcMf9QCHTiLQobGpgLmKbhXTE8y14Qrkn6FlRVO
+ jBBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743093352; x=1743698152;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1743093368; x=1743698168;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ibdtL0f3H8DnAPyEw/T+T3QYX14z3U6slG7wOxVtOcQ=;
- b=qYHdtTc8weZ9jrRMGL8/7OSzM/Fb96ItZkfwPZjXPWBhtU4My7hjVzttkrqoTProK0
- 7dbNG2jMyclvv1QWqsJqX6a4GYt+eIKh3nGTn+pzxoD9L3GIEcXo/kXdasF4GqgPuMuo
- eLNzmHVItfawqG6usH3a5vb6xJXsHZq2D0MfPjj8BBKHF+F6M6QdRSr079dzWy5i/AWw
- uqbQU5mRyLE6i/rzLvgBrARUe9DD8FR0EGZrQ1XXp+kRHJaCrxI8nCLHEi2FiCT7Nn0r
- bKflD8Qesh4mxHcad8rixS921LmcZuBXXqerBiOHcY+kjdcLFrit2FNlqlDaGHlA1SLx
- dXLw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX6EkZWSm58a6YNaewVqgntXT++huWkSMiK6rJlJFyIYtH3MJVEXWnjPcCquX6J4iA9kyrsdf7TRNk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxk09MbQPdnOJRT5BIMpKua9HFBQqiSD/xgVd8C/qMVRxnkFDK+
- tXk1xr1fM2vDDCWZwKYRaqzGSVKMW/79enTkd+VetAOBdZOE4NZlyI3FeHn7l3c=
-X-Gm-Gg: ASbGncttIJ2hqg1m+7nVCa0QY+Wc0XYTWx5UhLlKfbYVca1O3ZVqroj+NDJf4mI1U4D
- s0D2MPnJiNmmAf+NDBqibMCcCWZy4nExzbauHfkUDQh3BOW1ndQlOTRKZD6DSF2iM+1wnWcPhK/
- LZCGNXtCXyyI7xsECe8KcEYsXviWht2+GWUFG5XUwNaFC/CwamQOlvG06VhIIRTH82k9pkHb95i
- 1MHTxWnMVgF/SJGQqwOLxVyS+RblYtaMPUtRacEhCoWAFtP45yhlSmoPJ1FoTTtM7cfet5cSCHF
- 0knQngikL8n6ajCC2NxJCPIioZbnp9PvKuJGDSzObmeBDlwT9GZvuMPTAdnbtST6tJ+N5GGJsc0
- 5XmCN3cLikmySTvSesA==
-X-Google-Smtp-Source: AGHT+IEzYSW0b0wLj/r8o1piTBW0LkiV+6FyOj97lo55GxTehdHH+fNQ7lkEkkQ/wUuDujRnynGxyg==
-X-Received: by 2002:a05:6122:401b:b0:520:6773:e5c5 with SMTP id
- 71dfb90a1353d-52600a3ec62mr4087905e0c.7.1743093352032; 
- Thu, 27 Mar 2025 09:35:52 -0700 (PDT)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com.
- [209.85.222.51]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-5260e6a0d03sm30457e0c.5.2025.03.27.09.35.51
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Mar 2025 09:35:51 -0700 (PDT)
-Received: by mail-ua1-f51.google.com with SMTP id
- a1e0cc1a2514c-86fbc8717fcso582470241.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 09:35:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUYulfCtrZ1TsjXZejPs3TFp7ADbj5nIsPpx4Oi2S3ucyjPQh84cJKMZ6H/5yAN57mZzNkqFDQPjRU=@lists.freedesktop.org
-X-Received: by 2002:a05:6122:1d48:b0:520:5a87:6708 with SMTP id
- 71dfb90a1353d-5260071fe18mr3630874e0c.0.1743093351421; Thu, 27 Mar 2025
- 09:35:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250326-xilinx-formats-v4-0-322a300c6d72@ideasonboard.com>
- <20250326-xilinx-formats-v4-3-322a300c6d72@ideasonboard.com>
- <CAMuHMdXM1B1c=62EpcuUdpdpaBRZSJLXb1GBB0egzp7Fyeo5-w@mail.gmail.com>
- <b195971c-52e6-463e-a440-83dde4346e65@ideasonboard.com>
- <20250327112009.6b4dc430@eldfell>
- <b5cf15a4-7c65-4718-9c39-a4c86179ba4c@ideasonboard.com>
- <20250327175842.130c0386@eldfell>
-In-Reply-To: <20250327175842.130c0386@eldfell>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 27 Mar 2025 17:35:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVEpTVWmwrYt+G-QSWucT91goUcFor9qbo5rZ+X2jnRog@mail.gmail.com>
-X-Gm-Features: AQ5f1JpeqSn4PpS1s7kqwyEJE-2D6rFE_STOfuC_nMbBosIVwkbb55ssK1rcc48
-Message-ID: <CAMuHMdVEpTVWmwrYt+G-QSWucT91goUcFor9qbo5rZ+X2jnRog@mail.gmail.com>
-Subject: Re: [PATCH v4 03/11] drm/fourcc: Add DRM_FORMAT_Y8
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Vishal Sagar <vishal.sagar@amd.com>, 
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
+ bh=LmxjHPEoAvJ9V++u0ZZKt2L66dWQUhIJPZo7wO/C09Q=;
+ b=uK15yp7Hs4/2YudUt/BGvCALJ63idzNw4o5dVtPMEmKcUv92gtimx83DnXyQyTHqC/
+ 9WpxGUsI8Xu7gvIilvwcbScIj0ZwwuAQxcXl/bcpaXsEYYJnsvxbbOocodxQunf6kVkK
+ ZNMXEm/IwKqQkjutCAoA15zYjNKXmLXnOEfebHKtyzD4AVmHtFA/UFF5Ydy1DDeFFZZV
+ qIO39WrE8alf5pmd0YmWY7UmlDXhl0CF2reXP+dGj0u6QWGy4I9FSCwnf8AAyXDS1wvV
+ r+oOpLbUMLTfvOW54YKphqNvD0cdp4phIl2T7f+5BSM6867pxEoMw6kfaPn8im5IO/do
+ vQDg==
+X-Gm-Message-State: AOJu0YzOhWhvMoHUjQmpHCqsdOZQV4ZT+s7hMecN3lst+FJbgw6EMhYD
+ CvKIcebqSoVW3NSZTrMzpK523fAKwjw/E/08a23OIFZlzafNs57o1/fEDQ==
+X-Gm-Gg: ASbGncvFtOj7QclekGXgznCxbW2CyKveiluGTG9LKHJM0QBIL4yZRiM2JuTmSaB5c5Y
+ DDZyyOqaVZp2LHl74Z/jreJJ+tdYp+tfdoCNjMyGRkwPClqU8eB/t2ojkN7UrHr3ndpuYVRAAnO
+ +dpTD0WRWgsLA8OZYrtFUTunvTirPDWWkjwcFMhDBRTfl+vluxtDgQ0idxa+aIN8a8PaFMoiiLq
+ GjWUVP8fHo5V9QdliWQUQNAj95lb0OBJsT4NsJsHtC/OwL4RYwmaiEin2RrZrIh+k/xnOX4U/qM
+ APv81Fbtv3D5pbGDFhrvOU011nS+kIXUK3Ek0tbBrBUniXTF+Q+3kKyGrTibdGBb5rBYuWCnQ3+
+ lp1oC7iY7IWthpSbk3aE=
+X-Google-Smtp-Source: AGHT+IHWZDl5zkqZIwHY29NR0GM8Q+CqAF9P42JqdFTTVI0DfFTzZMOYU6wY0UHJwzx2ehMvee/T6w==
+X-Received: by 2002:a17:902:db0f:b0:223:525b:2a7 with SMTP id
+ d9443c01a7336-228048b23ccmr63535595ad.15.1743093367707; 
+ Thu, 27 Mar 2025 09:36:07 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2291f1dece6sm1539855ad.192.2025.03.27.09.36.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Mar 2025 09:36:07 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robdclark@chromium.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-kernel@vger.kernel.org (open list),
+ linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
+ linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
+Subject: [PATCH v3] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
+Date: Thu, 27 Mar 2025 09:36:05 -0700
+Message-ID: <20250327163605.54760-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,80 +94,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka,
+From: Rob Clark <robdclark@chromium.org>
 
-On Thu, 27 Mar 2025 at 16:59, Pekka Paalanen
-<pekka.paalanen@haloniitty.fi> wrote:
-> On Thu, 27 Mar 2025 16:21:16 +0200
-> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
-> > On 27/03/2025 11:20, Pekka Paalanen wrote:
-> > > On Wed, 26 Mar 2025 15:55:18 +0200
-> > > Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
-> > >> On 26/03/2025 15:52, Geert Uytterhoeven wrote:
-> > >>> On Wed, 26 Mar 2025 at 14:23, Tomi Valkeinen
-> > >>> <tomi.valkeinen@ideasonboard.com> wrote:
-> > >>>> Add greyscale Y8 format.
-> > >>>>
-> > >>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > >>>
-> > >>> Thanks for your patch!
-> > >>>
-> > >>>> --- a/include/uapi/drm/drm_fourcc.h
-> > >>>> +++ b/include/uapi/drm/drm_fourcc.h
-> > >>>> @@ -405,6 +405,9 @@ extern "C" {
-> > >>>>    #define DRM_FORMAT_YUV444      fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
-> > >>>>    #define DRM_FORMAT_YVU444      fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
-> > >>>>
-> > >>>> +/* Greyscale formats */
-> > >>>> +
-> > >>>> +#define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
-> > >>>
-> > >>> This format differs from e.g. DRM_FORMAT_R8, which encodes
-> > >>> the number of bits in the FOURCC format. What do you envision
-> > >>> for e.g. DRM_FORMAT_Y16? fourcc_code('G', 'R', '1', '6')?
-> > >>
-> > >> I wanted to use the same fourcc as on V4L2 side. Strictly speaking it's
-> > >> not required, but different fourccs for the same formats do confuse.
-> > >>
-> > >> So, generally speaking, I'd pick an existing fourcc from v4l2 side if
-> > >> possible, and if not, invent a new one.
-> > >
-> > > what's the actual difference between DRM_FORMAT_R8 and DRM_FORMAT_Y8?
-> > >
-> > > Is the difference that when R8 gets expanded to RGB, it becomes (R, 0,
-> > > 0), but Y8 gets expanded to (c1 * Y, c2 * Y, c3 * Y) where c1..c3 are
-> > > defined by MatrixCoefficients (H.273 terminology)?
-> > >
-> > > That would be my intuitive assumption following how YCbCr is handled.
-> > > Is it obvious enough, or should there be a comment to that effect?
-> >
-> > You raise an interesting point. Is it defined how a display driver, that
-> > supports R8 as a format, shows R8 on screen? I came into this in the
-> > context of grayscale formats, so I thought R8 would be handled as (R, R,
-> > R) in RGB. But you say (R, 0, 0), which... also makes sense.
->
-> That is a good question too. I based my assumption on OpenGL behavior
-> of R8.
->
-> Single channel displays do exist I believe, but being single-channel,
-> expansion on the other channels is likely meaningless. Hm, but for the
-> KMS color pipeline, it would be meaningful, like with a CTM.
-> Interesting.
->
-> I don't know. Maybe Geert does?
+Add support for exporting a dma_fence fd for a specific point on a
+timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
+syncobj support, as it needs a way to turn a point on a timeline back
+into a dma_fence fd.  It also closes an odd omission from the syncobj
+UAPI.
 
-I did some digging, and was a bit surprised that it was you who told
-me to use R8 instead of Y8?
-https://lore.kernel.org/all/20220202111954.6ee9a10c@eldfell
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
+[2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
 
-Gr{oetje,eeting}s,
+v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
+v3: Add unstaged uabi header hunk
 
-                        Geert
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/drm_syncobj.c | 18 +++++++++++++-----
+ include/uapi/drm/drm.h        |  3 +++
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 4f2ab8a7b50f..bc57d6f1a22e 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -762,7 +762,7 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+ }
+ 
+ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+-					int handle, int *p_fd)
++					int handle, u64 point, int *p_fd)
+ {
+ 	int ret;
+ 	struct dma_fence *fence;
+@@ -772,7 +772,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+ 	if (fd < 0)
+ 		return fd;
+ 
+-	ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
++	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
+ 	if (ret)
+ 		goto err_put_fd;
+ 
+@@ -869,6 +869,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+ 				   struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_handle *args = data;
++	unsigned valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
++			       DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
++	u64 point = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+ 		return -EOPNOTSUPP;
+@@ -876,13 +879,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+ 	if (args->pad)
+ 		return -EINVAL;
+ 
+-	if (args->flags != 0 &&
+-	    args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
++	if (args->flags != 0 && (args->flags & ~valid_flags))
+ 		return -EINVAL;
+ 
++	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
++		point = args->point;
++
+ 	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
+ 		return drm_syncobj_export_sync_file(file_private, args->handle,
+-						    &args->fd);
++						    point, &args->fd);
++
++	if (args->point)
++		return -EINVAL;
+ 
+ 	return drm_syncobj_handle_to_fd(file_private, args->handle,
+ 					&args->fd);
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 7fba37b94401..dd0fd13eadbd 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -906,12 +906,15 @@ struct drm_syncobj_destroy {
+ 
+ #define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE (1 << 0)
+ #define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE (1 << 0)
++#define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE         (1 << 1)
+ struct drm_syncobj_handle {
+ 	__u32 handle;
+ 	__u32 flags;
+ 
+ 	__s32 fd;
+ 	__u32 pad;
++
++	__u64 point;
+ };
+ 
+ struct drm_syncobj_transfer {
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.49.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
