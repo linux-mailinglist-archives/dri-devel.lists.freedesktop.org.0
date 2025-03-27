@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A09A733A7
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 14:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71761A733B8
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 14:58:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF9E10E0FB;
-	Thu, 27 Mar 2025 13:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4F0D10E8E4;
+	Thu, 27 Mar 2025 13:58:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pWJL8lH4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gGL2rZ/3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F12C10E0FB
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 13:56:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=p2i2VUYsQLuK/jmT6lcjufmS8gzYAhRuKrroKzVjEvg=; b=pWJL8lH4fz2tEdkDz90rH1J2xM
- EoMtE9RH1wEuLmeJ5qksc1d58UoHsZhV411CE6tc72g3DdCY7FtYt8JEU6uUUiYzBUuL1my+HCwQ7
- sIHoVaKF9wa0l5looxP2EfPgjwEP/c91x7ZjdPx6BC8jraaPz7M/jzng23WA5dyrDWCDZZPu8KUGn
- 3wMpXVPbhWCNsUXkx4cxEGKNlTBwGpItMd6ZmZYdxLaTJzaR0HSuzxsnPUtlp8OqndL69QNbFl8wL
- cTQHL82d2yeFYB9aaQ3NvE2D09nNlJC4x0qEvqUPtwdzGoXPx5mGJfEEbzaDSvvNmuSnGsl/JaJXL
- eSY5xCsA==;
-Received: from [189.7.87.178] (helo=[192.168.0.224])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1txnj6-007FXx-Gv; Thu, 27 Mar 2025 14:56:56 +0100
-Message-ID: <81bc1927-bca9-41e4-b597-273397aad161@igalia.com>
-Date: Thu, 27 Mar 2025 10:56:53 -0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C03A010E8DB;
+ Thu, 27 Mar 2025 13:58:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A74CB5C66B0;
+ Thu, 27 Mar 2025 13:56:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE7DBC4CEDD;
+ Thu, 27 Mar 2025 13:58:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743083928;
+ bh=XzPi1F5SWwXKj7971VQiK+0IGADDRlyQ0aTFTKn+bMc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gGL2rZ/327aXTpediX2cwplMLST5kv1Z3VS0C7/mulCj00FyRK2/kexMQutKMT8u5
+ 5bEd0k7dmxXmRkePz7vgXSrWCSkADyrrTWW7yU1s3hIu5fz/RMbin2PLQMewXAmuNa
+ jGD391Ewnk/Y9ScUb9yUMI4XQQIxbUViL3CcAF9CRHKpJcuTzetUAQSYfl82Y0U+2f
+ GK6s+A53pbMg9DGIW3Ksuttpr+dMFGhY5NHIGVguDWGIwIbYpxkSpdR5Z7H9FIvUJr
+ VXUoGRVMqPT/p6x1USE5gbDo/whfCwlYnqOVWtxr946jxdX5FhX1QrVHYDPZnJg76d
+ laM7CFg1HnclA==
+Date: Thu, 27 Mar 2025 14:58:44 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: M Henning <mhenning@darkrefraction.com>
+Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] drm/nouveau: DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER
+Message-ID: <Z-VZlIc3E8ZQQmXa@cassiopeiae>
+References: <20250312213746.228042-1-mhenning@darkrefraction.com>
+ <20250312213746.228042-3-mhenning@darkrefraction.com>
+ <Z9xfoS89yimS1Sb3@pollux>
+ <CAAgWFh2RtCwaKNinX9X4BjwNiaBj5BF_ypzbqoqV4LJgN4cPvg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/7] drm/syncobj: Avoid one temporary allocation in
- drm_syncobj_array_find
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com
-References: <20250327084215.26662-1-tvrtko.ursulin@igalia.com>
- <20250327084215.26662-4-tvrtko.ursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250327084215.26662-4-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAgWFh2RtCwaKNinX9X4BjwNiaBj5BF_ypzbqoqV4LJgN4cPvg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,96 +62,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
-
-On 27/03/25 05:42, Tvrtko Ursulin wrote:
-> Drm_syncobj_array_find() helper is used from many userspace ioctl entry
-> points with the task of looking up userspace handles to internal objects.
+On Fri, Mar 21, 2025 at 07:00:57PM -0400, M Henning wrote:
+> This is a pointer in the gpu's virtual address space. It must be
+> aligned according to ctxsw_align and be at least ctxsw_size bytes
+> (where those values come from the nouveau_abi16_ioctl_get_zcull_info
+> structure). I'll change the description to say that much.
 > 
-> We can easily avoid one temporary allocation by making it read the handles
-> as it is looking them up.
+> Yes, this is GEM-backed. I'm actually not entirely sure what the
+> requirements are here, since this part is reverse-engineered. I think
+> NOUVEAU_GEM_DOMAIN_VRAM and NOUVEAU_GEM_DOMAIN_GART are both okay. The
+> proprietary driver allocates this buffer using
+> NV_ESC_RM_VID_HEAP_CONTROL and sets attr = NVOS32_ATTR_LOCATION_ANY |
+> NVOS32_ATTR_PAGE_SIZE_BIG | NVOS32_ATTR_PHYSICALITY_CONTIGUOUS, attr2
+> = NVOS32_ATTR2_GPU_CACHEABLE_YES | NVOS32_ATTR2_ZBC_PREFER_NO_ZBC.
+
+(Please do not top post.)
+
+What I mean is how do you map the backing GEM into the GPU's virtual address
+space? Since it's bound to a channel, I assume that it must be ensured it's
+properly mapped when work is pushed to the channel. Is it mapped through
+VM_BIND?
+
 > 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
-
-Best Regards,
-- Maíra
-
-> ---
-> v2:
->   * Fix handle type.
->   * Undo pointless unwind change.
-> ---
->   drivers/gpu/drm/drm_syncobj.c | 36 +++++++++++++++--------------------
->   1 file changed, 15 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index 28081cf74052..cd36c888f112 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -1213,39 +1213,35 @@ signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec)
->   EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
->   
->   static int drm_syncobj_array_find(struct drm_file *file_private,
-> -				  void __user *user_handles,
-> -				  uint32_t count_handles,
-> +				  u32 __user *handles,
-> +				  uint32_t count,
->   				  struct drm_syncobj ***syncobjs_out)
->   {
-> -	uint32_t i, *handles;
->   	struct drm_syncobj **syncobjs;
-> +	uint32_t i;
->   	int ret;
->   
-> -	handles = kmalloc_array(count_handles, sizeof(*handles), GFP_KERNEL);
-> -	if (handles == NULL)
-> +	if (!access_ok(handles, count * sizeof(*handles)))
-> +		return -EFAULT;
-> +
-> +	syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
-> +	if (!syncobjs)
->   		return -ENOMEM;
->   
-> -	if (copy_from_user(handles, user_handles,
-> -			   sizeof(uint32_t) * count_handles)) {
-> -		ret = -EFAULT;
-> -		goto err_free_handles;
-> -	}
-> +	for (i = 0; i < count; i++) {
-> +		u32 handle;
->   
-> -	syncobjs = kmalloc_array(count_handles, sizeof(*syncobjs), GFP_KERNEL);
-> -	if (syncobjs == NULL) {
-> -		ret = -ENOMEM;
-> -		goto err_free_handles;
-> -	}
-> -
-> -	for (i = 0; i < count_handles; i++) {
-> -		syncobjs[i] = drm_syncobj_find(file_private, handles[i]);
-> +		if (__get_user(handle, handles++)) {
-> +			ret = -EFAULT;
-> +			goto err_put_syncobjs;
-> +		}
-> +		syncobjs[i] = drm_syncobj_find(file_private, handle);
->   		if (!syncobjs[i]) {
->   			ret = -ENOENT;
->   			goto err_put_syncobjs;
->   		}
->   	}
->   
-> -	kfree(handles);
->   	*syncobjs_out = syncobjs;
->   	return 0;
->   
-> @@ -1253,8 +1249,6 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
->   	while (i-- > 0)
->   		drm_syncobj_put(syncobjs[i]);
->   	kfree(syncobjs);
-> -err_free_handles:
-> -	kfree(handles);
->   
->   	return ret;
->   }
-
+> On Thu, Mar 20, 2025 at 2:34 PM Danilo Krummrich <dakr@kernel.org> wrote:
+> >
+> > On Wed, Mar 12, 2025 at 05:36:15PM -0400, Mel Henning wrote:
+> > > diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+> >
+> > Same here, please split the uAPI change in a separate commit.
+> >
+> > > index 33361784eb4e..e9638f4dd7e6 100644
+> > > --- a/include/uapi/drm/nouveau_drm.h
+> > > +++ b/include/uapi/drm/nouveau_drm.h
+> > > @@ -448,6 +448,20 @@ struct drm_nouveau_get_zcull_info {
+> > >       __u32 ctxsw_align;
+> > >  };
+> > >
+> > > +struct drm_nouveau_set_zcull_ctxsw_buffer {
+> > > +     /**
+> > > +      * @ptr: The virtual address for the buffer, or null to bind nothing
+> > > +      */
+> > > +     __u64 addr;
+> >
+> > What is this buffer? Is this a GEM object backed buffer? How is it mapped?
+> >
+> > > +
+> > > +     /**
+> > > +      * @channel: the channel to set the buffer on
+> > > +      */
+> > > +     __u32 channel;
+> > > +
+> > > +     __u32 pad;
+> > > +};
+> > > +
+> > >  #define DRM_NOUVEAU_GETPARAM           0x00
+> > >  #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
+> > >  #define DRM_NOUVEAU_CHANNEL_ALLOC      0x02
+> > > @@ -462,6 +476,7 @@ struct drm_nouveau_get_zcull_info {
+> > >  #define DRM_NOUVEAU_VM_BIND            0x11
+> > >  #define DRM_NOUVEAU_EXEC               0x12
+> > >  #define DRM_NOUVEAU_GET_ZCULL_INFO     0x13
+> > > +#define DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER 0x14
+> > >  #define DRM_NOUVEAU_GEM_NEW            0x40
+> > >  #define DRM_NOUVEAU_GEM_PUSHBUF        0x41
+> > >  #define DRM_NOUVEAU_GEM_CPU_PREP       0x42
+> > > @@ -532,6 +547,7 @@ struct drm_nouveau_svm_bind {
+> > >  #define DRM_IOCTL_NOUVEAU_EXEC               DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_EXEC, struct drm_nouveau_exec)
+> > >
+> > >  #define DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO     DRM_IOR (DRM_COMMAND_BASE + DRM_NOUVEAU_GET_ZCULL_INFO, struct drm_nouveau_get_zcull_info)
+> > > +#define DRM_IOCTL_NOUVEAU_SET_ZCULL_CTXSW_BUFFER  DRM_IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER, struct drm_nouveau_set_zcull_ctxsw_buffer)
+> > >  #if defined(__cplusplus)
+> > >  }
+> > >  #endif
+> > > --
+> > > 2.48.1
+> > >
