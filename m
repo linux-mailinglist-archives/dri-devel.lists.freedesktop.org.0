@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24087A72ADF
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 08:56:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC2FA72AE2
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 08:56:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B23710E03B;
-	Thu, 27 Mar 2025 07:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82B3110E08A;
+	Thu, 27 Mar 2025 07:56:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bcz0RfUU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="erB0l3R7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D52F10E03B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 07:56:02 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4245310E08A
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 07:56:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 20C01A41BDA;
- Thu, 27 Mar 2025 07:50:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4E03C4CEDD;
- Thu, 27 Mar 2025 07:55:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 178525C5419;
+ Thu, 27 Mar 2025 07:54:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AAEEC4CEDD;
+ Thu, 27 Mar 2025 07:56:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743062157;
- bh=XwCGCufdAWY9+XJt03fhUGbNeZ4m9tswVxZeGzrbztM=;
+ s=k20201202; t=1743062199;
+ bh=9MOdzY1W+VK84uZ8tY1V+cmmJLQHaZQN4UG+HUI98rQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bcz0RfUU2oa+EZHU2Vp0WF0C2DVMOMzOMUwEtb7hV1R4SacNCyvy/2GIb97V+uKtb
- BidzlLAIKlWG6R1wPA+K7DOFCQCwT6iNSOBFFRSbwgoCI/H0TJkqESKdxMU6BJ/+jK
- 6LFOdaEKlV1275mkmIt04r4cUsTZGMACGN28QzaPWBMUYBGX6F8s/oHpDK8H0KlvFB
- ahnNpwQnmpdGFja9fOdgEwKkNmgFwLM/DnmaNZFtApJ5H9bLprpDpRtwLBH+iAzLKs
- wfquhQ5C8xGa2hRcz48VNQOh2dMweFDr6RPXbM4SK2TOPGKF1yFAqQ+9+gziI0MGBk
- HVIcZgydh0Jjw==
-Date: Thu, 27 Mar 2025 08:55:53 +0100
+ b=erB0l3R7EZDRT5tgRtDDgHuHvjoMgzFzVBPut/hNLKYULis63NkBUwQ8amwI1nSGY
+ H+IAjZDBV2smrpYpmatjq595O6QZIhurrBae0x9QY/tSlZr09+uipP32v+6rcJpBnx
+ uDqxnJkDADTBj+t0srgIwZQFsY/RD6LNfaACBx8+UXOrkbZ3I9RuzbYBr5gTWhWd3H
+ ZZyb+TYdSqBaryp4F7vmgk65ssy/xGwpZ6de7mO+AN3QRyizHBhAg+mEpGJBB8Ht7Z
+ NDrScMHw/vxq+NwIT2Ag9iiePE0AdMOiK3uZ4dkw/Ryz4U2EPxi9zRyaCEnIw3l73F
+ 3ADvX2kN/vvLg==
+Date: Thu, 27 Mar 2025 08:56:36 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Matt Coster <matt.coster@imgtec.com>
 Cc: Frank Binns <frank.binns@imgtec.com>, David Airlie <airlied@gmail.com>, 
@@ -47,15 +47,15 @@ Cc: Frank Binns <frank.binns@imgtec.com>, David Airlie <airlied@gmail.com>,
  Michal Wilczynski <m.wilczynski@samsung.com>,
  Alessio Belle <alessio.belle@imgtec.com>, 
  Alexandru Dadu <alexandru.dadu@imgtec.com>
-Subject: Re: [PATCH v5 01/18] dt-bindings: gpu: img: Future-proofing
- enhancements
-Message-ID: <20250327-pragmatic-lemon-flounder-e2936a@krzk-bin>
+Subject: Re: [PATCH v5 02/18] dt-bindings: gpu: img: Add BXS-4-64 devicetree
+ bindings
+Message-ID: <20250327-beneficial-crouching-rottweiler-90d0e7@krzk-bin>
 References: <20250326-sets-bxs-4-64-patch-v1-v5-0-e4c46e8280a9@imgtec.com>
- <20250326-sets-bxs-4-64-patch-v1-v5-1-e4c46e8280a9@imgtec.com>
+ <20250326-sets-bxs-4-64-patch-v1-v5-2-e4c46e8280a9@imgtec.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250326-sets-bxs-4-64-patch-v1-v5-1-e4c46e8280a9@imgtec.com>
+In-Reply-To: <20250326-sets-bxs-4-64-patch-v1-v5-2-e4c46e8280a9@imgtec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,16 +71,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 04:48:21PM +0000, Matt Coster wrote:
-> The first compatible strings added for the AXE-1-16M are not sufficient to
-> accurately describe all the IMG Rogue GPUs. The current "img,img-axe"
-> string refers to the entire family of Series AXE GPUs, but this is
-> primarily a marketing term and does not denote a level of hardware
-> similarity any greater than just "Rogue".
+On Wed, Mar 26, 2025 at 04:48:22PM +0000, Matt Coster wrote:
+> Unlike AXE-1-16M, BXS-4-64 uses two power domains.
 > 
-> The more specific "img,img-axe-1-16m" string refers to individual AXE-1-16M
-> GPU. For example, unlike the rest of the Series AXE GPUs, the AXE-1-16M
-> only uses a single power domain.
+> Like the existing AXE-1-16M integration, BXS-4-64 uses the single clock
+> integration in the TI k3-j721s2.
+> 
+> Signed-off-by: Matt Coster <matt.coster@imgtec.com>
+> ---
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
