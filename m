@@ -2,144 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CCC3A72C6A
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 10:30:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F781A72CD4
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 10:54:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C523910E89A;
-	Thu, 27 Mar 2025 09:30:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="ONh7rBgO";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B146510E032;
+	Thu, 27 Mar 2025 09:54:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from HK3PR03CU002.outbound.protection.outlook.com
- (mail-eastasiaazon11011046.outbound.protection.outlook.com [52.101.129.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE78610E89A
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 09:30:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q3OZ6SFBKSQKggh5vEfdYcP+5Pe14SLBYXzmZqT1oBntvDoqKfEBlHsAOqiwq+JahsHrWhZ4vjmdk4Fv8IUthG3g9E8A4LhwcI4dWMjRFTZsS1TeAd+5I4rKiC9CHR/Cma329mXho/TGuC8Yuc6yY+ZNss8uDN18Lq/eirRaIZQMHMrt6yLgTuynsTIpj6+kQyBLWS3da5nSKv5VkIG6gSRJ0efhRLJu9FkiB6KLfE6DqK9zt9tjCpj4TF6n3UNAAIMWxsRxYLtMRWBR7ENpHBMmJw5GVCr6f4RItBIbGfq6C4GWfCPv8+k2ZGCGwebs+YGXJJm7OSTyaehtcqsL/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dE/DnCyBrZ58hOjkDxC8Hu9PUZPaTclA1C/LEyi7Z4Q=;
- b=O/f7+/UFTiIFitxAdOt5Ya2/tnIcM43Sf0Y4K8yv3Ks9MBTsuDE+TYH2WjPn/vkXhTSRmnJvC+CFWSXJLDHN7l9uSweV5df6MyDiGr/FLs3OD3NunAm67ZQM63sxwIGLtxRrLM/m1i9yY00gRiJxBDGswRov0yuIucGEqTJPD10+6D10Zk/3ojLZqnRZD9EvJmSJDPXYo8nqjrYYGj17Y6EgCCpqa6CmXia1VPtq7eI9bjWBefPHoQTJJHVwR0AaIwpJQ1948eGYqpiHx51Q4SfF3awZfTn45TqCsV7rHb2xM1PxV2g2tMpT+We5l4SsQcDBvxykezbcKjw6jWksAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dE/DnCyBrZ58hOjkDxC8Hu9PUZPaTclA1C/LEyi7Z4Q=;
- b=ONh7rBgOiQogLJ8kFsfMBSlcl5sImETmGU4ixt1jhZxorhtl79c3GCgS1s0JDMeLdIUWYdGT2sd6HBDuD0BQhJJm0fz6HwSKnjZlP0KFyaV0JEJnSphv/o2hZhr10Cr7f8selFwPT8UNqR6ppfTxQ0iHzk8l74gcjfuQqElbeseSfOaz669SA3pm2nSojSiA5/7A/Ry0p2J3MV4Tebiq1YTOTsj003MA+QORxcANmkCy+UCRvmZBvxxlfsYrAagXYLqLdaqREZWb0XyGgfz8Yvg7EsdTQ4kKp6VA9T5F2G3zIOhNZ8cOwID5MOxG4p0gHnMc97JOG1JsRXgeYkTeQA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by KL1PR06MB6906.apcprd06.prod.outlook.com (2603:1096:820:128::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 27 Mar
- 2025 09:30:40 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%3]) with mapi id 15.20.8534.043; Thu, 27 Mar 2025
- 09:30:40 +0000
-From: Huan Yang <link@vivo.com>
-To: bingbu.cao@linux.intel.com, Matthew Wilcox <willy@infradead.org>,
- Christoph Hellwig <hch@lst.de>, Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A92C910E032;
+ Thu, 27 Mar 2025 09:54:01 +0000 (UTC)
+Received: from loongson.cn (unknown [223.64.68.198])
+ by gateway (Coremail) with SMTP id _____8DxC3IuIOVnWBGoAA--.19641S3;
+ Thu, 27 Mar 2025 17:53:50 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.68.198])
+ by front1 (Coremail) with SMTP id qMiowMAxSsQpIOVned1iAA--.26323S2;
+ Thu, 27 Mar 2025 17:53:48 +0800 (CST)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Huan Yang <link@vivo.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-Subject: [RFC PATCH 6/6] udmabuf: remove no need code
-Date: Thu, 27 Mar 2025 17:28:33 +0800
-Message-ID: <20250327092922.536-7-link@vivo.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250327092922.536-1-link@vivo.com>
-References: <20250327092922.536-1-link@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TY2PR02CA0041.apcprd02.prod.outlook.com
- (2603:1096:404:a6::29) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+ Huacai Chen <chenhuacai@kernel.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Huacai Chen <chenhuacai@loongson.cn>, stable@vger.kernel.org
+Subject: [PATCH V2 1/3] drm/amd/display: Protect FPU in dml21_copy()
+Date: Thu, 27 Mar 2025 17:53:32 +0800
+Message-ID: <20250327095334.3327111-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|KL1PR06MB6906:EE_
-X-MS-Office365-Filtering-Correlation-Id: 90c1d6fe-b5ca-44a5-3867-08dd6d1209e6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|7416014|52116014|921020|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?KdaPBLzFLXWw+Xfs6Oy/zJ53izb+Gv8AmRAFJ+ODEpNGhCWZLaaE5/9Bsasr?=
- =?us-ascii?Q?qmtHEBWLmcQkVyWql58VLWixbm7oJoVai4GSz2u9wP7WuFrrTRwh+Na3PSim?=
- =?us-ascii?Q?ChG0Ywn0FzFScZPyXsBZvBQhE8b9psY59ZftrOIlVugGVgsNTyNrHaWQ/ON9?=
- =?us-ascii?Q?X77kCl4rjSZSp7qW35zyrP+mric6lecC52EnchmSSSnQ0nZlZl3dZudV3u56?=
- =?us-ascii?Q?liIW4YbUDKxX08bQ2oPkbfx/UcvjzbNkhD4x7n5YHctvueQs2vKhfUZuCcDo?=
- =?us-ascii?Q?wO/I4p5aIm3ADqQDtiqseohDnlh7SdLNpTfLAHc6JsPT1uciZR2MaZDzUswk?=
- =?us-ascii?Q?lBHUOZx9xqhc5MjCn45QD303fuveLHqK6jAJezVNbf+qRK5E1mfc1ecHUzf1?=
- =?us-ascii?Q?WwFFN6r2H68kO5KCkfBzK6wKtELj4cBJJnG9B4mvzZEOuwYrmJMPfql2sVz2?=
- =?us-ascii?Q?Yc1KPrmtiPZOxGlf0QfOWBFrI+G+QMfAwZW5rOCmXtC1Owj/0fTv0VuAN1di?=
- =?us-ascii?Q?KcrxHrEBA/MjQP9pEE4EkRqk16uIVrxEMXhbl6LVIzlRQp52knlYo4yt4ZIJ?=
- =?us-ascii?Q?HH9DXZET8i1dHSCfrdjVaHO/kZns2VryuCv1dV6H5wN0mrL0SA9qTEKML1By?=
- =?us-ascii?Q?f60TLtH8rCIUlfGiBAbZ751ooPmA1gbvfn+aZeqMg1ITZ0vUFfhcFK9FdGBu?=
- =?us-ascii?Q?yi6XDesU0KJqUD6Xx4VUX2tU5W8XGdXKocuA7mQp6hZdV1w5oC8lr549scVM?=
- =?us-ascii?Q?fI8sgRK+a8jkjmyNXPfmcxX/75cnZ4HbqEfNYAK9Py/zc0rWusBHyZV0tBd4?=
- =?us-ascii?Q?Ot5MTsPim/odajKn1TQe8pGJ2c38uplDjaP1Q+CPBLIhJZaHnRPFlLATo8T1?=
- =?us-ascii?Q?isj1wMs/cOHKpjmQmuzJAJyddwsjba9vZwHW8NVKe77LyalAzGkZn8lTm4Kp?=
- =?us-ascii?Q?0dkRXDn7CrnIHQhihFlsJzNfV3Opsy/3JVjB4iqwSheZ7mSYw+EGwJRetGF8?=
- =?us-ascii?Q?LSsHSaAJpn5/sV1tA5F4NdNsxQeaJoUQ2/1pfPhBC9ufaMIDO1+7iIDYCwgs?=
- =?us-ascii?Q?5/LOkKB3lZgECrzcHvm1JVz5ChcSLELCAZ55U/TBdnj2hkDg9SxTVC4PPQx1?=
- =?us-ascii?Q?lmnQ8teHrXEFfHaNEF0BmvooG5fFQpXsi5iESmI3vGOPaTC7MZJJRAia8tEq?=
- =?us-ascii?Q?+PhbytEbCX1E5u6k340r4qba2j2/ECvto1+OXDqEINHY8HB7HHalkzj/HDfN?=
- =?us-ascii?Q?sZzU5b4UpCcBnxsHzSVmccgj+eBFLeo84lgSnkoq0GEYcT3ZrxjVRxao7jFJ?=
- =?us-ascii?Q?sJVobWlxtBPG73iP47ZO8JKY/oXvcmt039BxWrGwx3Or8+Ig+zwcbNRpztc9?=
- =?us-ascii?Q?CBPIGw31uRSakeMMSN93VICjnRhQfGGiR0aEKpQx2MPGZaV7QnVvaHTCf3VN?=
- =?us-ascii?Q?rW1JErgkvyGJ/KLTSB/0AjCXfIWTdB4zDVqlY10RIV2ViBHTkV/SGw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PUZPR06MB5676.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(921020)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LDCAEjmPcbTjV+/l+CF4P64YYdSpdsTOdVh+4/vnmu8qhvvDcaFsjptkBQ5q?=
- =?us-ascii?Q?65TsCFWp+siTxZPYLKQ8ElqXGzOvLax0ttwp3DD287slS8orIDE9Q6Pl18Dv?=
- =?us-ascii?Q?bvuKIFVkOMhprekl6LJaQYyZ9wrLoxXuvB0qNJp+S9wqNeffb2iuei6npN9S?=
- =?us-ascii?Q?qsHbTwX1QDBACYHuQnab1BpzWHWwp35+LEldiQHw7ntitq1EXzE1boa99Ma1?=
- =?us-ascii?Q?rvG9cVpTfDaQXAMKLenl9agcHs0PkgkTlAv8wAsrGdoOUygYqUcHBzxcRmOp?=
- =?us-ascii?Q?lEH7y3+U4FMdA92Tk1s3n5oDURelm1HEWqLPsWbIbpoo4JMrCXxn8GDrfHq1?=
- =?us-ascii?Q?eTTOZ1EFSn5CPyGLBNwmPJFry5hOmFwiiipYSTUlfgLEdEIR16HrTDSuPBUe?=
- =?us-ascii?Q?SEtZA3RDkXG4c7LpHKg8zbj51z22Lw1aOwF1YkdOegC7fCrn4ax97N78/4Mo?=
- =?us-ascii?Q?jwwhJ6CFyyFu0aXnHMHnJDwnayKlSY5RA5FIKRQTgXF4QCzoUJWTG1Vu4VBy?=
- =?us-ascii?Q?7W/N02pxDFFudjzn7Sb7FjPk+UeBYthns4R9fUjXfTu4SmB+kUubk2s+i11s?=
- =?us-ascii?Q?Y26WsvhMpPSljxBFhR3oLJH1L/LPy4pynKyoRsbBenyJOKPZdDHuqL9/6Afi?=
- =?us-ascii?Q?UiqCd8AkyIZMm6PkgpcHnODoV9u2i7KUDZQJaa3UFuMJzj9iIhSTRp8jnWkV?=
- =?us-ascii?Q?lgAnvqVPkckgNLxxfKhYMEppTGt7CZADfREB+IXGwiM7z81Evd4XRiRepN4w?=
- =?us-ascii?Q?Vza4+imT6de0BCsj4s8q7tSgkvBXTGt65LO581eqOJy6K1MZGn8Zbn/wFFlk?=
- =?us-ascii?Q?rasy8xp9GTF/94eC5g0WzvyWSzCC8zRZARYWsjl95F1oSgVP4EiJCVUYhwpq?=
- =?us-ascii?Q?bZKIS0RZlv3UUbNx1LNmPazf6MGS5jU73fn+lx3IjIp8GTlKyojAHbToh5l5?=
- =?us-ascii?Q?kgXOYJ5OaVIwHfDDFNwkz75+96OhstPX2EFtTXn/lqacfBxGOcvuy7y5movc?=
- =?us-ascii?Q?Ca8Fu7hCKAOxlJn1fjaX+9bHzpT1pdMA/tzOeA2wHVkiavu8AwpBwOfyqGJ8?=
- =?us-ascii?Q?E3YoCSOUC0oq75wuO+VaHKI8Vl3typYHoXVK3oPLjlYY19aSmuq6P97jPpn9?=
- =?us-ascii?Q?BMujUjqYzrngY6DhMaWzt1Sm2nmsvbA5gK/9vpWXnwCr6128BHM+hRDQka5b?=
- =?us-ascii?Q?b+V9tsJr3pWapQP9zOgoA8MHYihqEfN6t0tXlygjUYiF+Iu07sf69xDF//lh?=
- =?us-ascii?Q?VaAgc3rG4ZwM2Ye2K/B9L7VWJDl2B2hpcQpK4Tb3puFvdbW8DjWQbgpgRBaX?=
- =?us-ascii?Q?+eNsYsmNcoB9Eu+asVG9v4X80eja+pHh8Yy5t5hrBHZmeqgSuv6zweKNrzJs?=
- =?us-ascii?Q?2g8lLpjlZFdmG9gKsCys5Lf8Fy8FUYou6YSEjXq07baVDrb++Xfb+INQrE8y?=
- =?us-ascii?Q?vZEHBcoEuBBkEe8Mc74cjrc6Yn2z1mMMEM1wjh9n2tO19zWT9f5kNZr5TpgJ?=
- =?us-ascii?Q?O/Urpr3d/nBl8Fs5euQIrHknKOgVZCCe+VNJxNTF/PwU3N24bubLhmkFAXW0?=
- =?us-ascii?Q?PmCKYPSN3Hst28CHeJ3ircMmLkMwTSpzXNnW5Xq7?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90c1d6fe-b5ca-44a5-3867-08dd6d1209e6
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2025 09:30:40.1903 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3Xv+/8O4ItXV5BCPElBwFNBTeO8buvSlwY74mU6a72uzyJWDFAJTnPBFZPj7gBpb9h4IP5o87b5pLk47pBbBDg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6906
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qMiowMAxSsQpIOVned1iAA--.26323S2
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxuryUJF1rtw1fXr1fKw4Utrc_yoWrtry5pr
+ y5tr4rGrW8Ar12yw1jkF1UJ3y5XwsxCFy8JryUJw1akw1UWr1UJryDtrWUGrWUJr45JF17
+ JwnrJw1Utr18J3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
+ xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v2
+ 6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwI
+ xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
+ Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
+ IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k2
+ 6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
+ AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,385 +64,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch remove each test code.
+Commit 7da55c27e76749b9 ("drm/amd/display: Remove incorrect FP context
+start") removes the FP context protection of dml2_create(), and it said
+"All the DC_FP_START/END should be used before call anything from DML2".
 
-Signed-off-by: Huan Yang <link@vivo.com>
+However, dml21_copy() are not protected from their callers, causing such
+errors:
+
+ do_fpu invoked from kernel context![#1]:
+ CPU: 0 UID: 0 PID: 240 Comm: kworker/0:5 Not tainted 6.14.0-rc6+ #1
+ Workqueue: events work_for_cpu_fn
+ pc ffff80000318bd2c ra ffff80000315750c tp 9000000105910000 sp 9000000105913810
+ a0 0000000000000000 a1 0000000000000002 a2 900000013140d728 a3 900000013140d720
+ a4 0000000000000000 a5 9000000131592d98 a6 0000000000017ae8 a7 00000000001312d0
+ t0 9000000130751ff0 t1 ffff800003790000 t2 ffff800003790000 t3 9000000131592e28
+ t4 000000000004c6a8 t5 00000000001b7740 t6 0000000000023e38 t7 0000000000249f00
+ t8 0000000000000002 u0 0000000000000000 s9 900000012b010000 s0 9000000131400000
+ s1 9000000130751fd8 s2 ffff800003408000 s3 9000000130752c78 s4 9000000131592da8
+ s5 9000000131592120 s6 9000000130751ff0 s7 9000000131592e28 s8 9000000131400008
+    ra: ffff80000315750c dml2_top_soc15_initialize_instance+0x20c/0x300 [amdgpu]
+   ERA: ffff80000318bd2c mcg_dcn4_build_min_clock_table+0x14c/0x600 [amdgpu]
+  CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+  PRMD: 00000004 (PPLV0 +PIE -PWE)
+  EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
+  ECFG: 00071c1d (LIE=0,2-4,10-12 VS=7)
+ ESTAT: 000f0000 [FPD] (IS= ECode=15 EsubCode=0)
+  PRID: 0014d010 (Loongson-64bit, Loongson-3C6000/S)
+ Process kworker/0:5 (pid: 240, threadinfo=00000000f1700428, task=0000000020d2e962)
+ Stack : 0000000000000000 0000000000000000 0000000000000000 9000000130751fd8
+         9000000131400000 ffff8000031574e0 9000000130751ff0 0000000000000000
+         9000000131592e28 0000000000000000 0000000000000000 0000000000000000
+         0000000000000000 0000000000000000 0000000000000000 0000000000000000
+         0000000000000000 0000000000000000 0000000000000000 0000000000000000
+         0000000000000000 0000000000000000 0000000000000000 f9175936df5d7fd2
+         900000012b00ff08 900000012b000000 ffff800003409000 ffff8000034a1780
+         90000001019634c0 900000012b000010 90000001307beeb8 90000001306b0000
+         0000000000000001 ffff8000031942b4 9000000130780000 90000001306c0000
+         9000000130780000 ffff8000031c276c 900000012b044bd0 ffff800003408000
+         ...
+ Call Trace:
+ [<ffff80000318bd2c>] mcg_dcn4_build_min_clock_table+0x14c/0x600 [amdgpu]
+ [<ffff800003157508>] dml2_top_soc15_initialize_instance+0x208/0x300 [amdgpu]
+ [<ffff8000031942b0>] dml21_create_copy+0x30/0x60 [amdgpu]
+ [<ffff8000031c2768>] dc_state_create_copy+0x68/0xe0 [amdgpu]
+ [<ffff800002e98ea0>] amdgpu_dm_init+0x8c0/0x2060 [amdgpu]
+ [<ffff800002e9a658>] dm_hw_init+0x18/0x60 [amdgpu]
+ [<ffff800002b0a738>] amdgpu_device_init+0x1938/0x27e0 [amdgpu]
+ [<ffff800002b0ce80>] amdgpu_driver_load_kms+0x20/0xa0 [amdgpu]
+ [<ffff800002b008f0>] amdgpu_pci_probe+0x1b0/0x580 [amdgpu]
+ [<9000000003c7eae4>] local_pci_probe+0x44/0xc0
+ [<90000000032f2b18>] work_for_cpu_fn+0x18/0x40
+ [<90000000032f5da0>] process_one_work+0x160/0x300
+ [<90000000032f6718>] worker_thread+0x318/0x440
+ [<9000000003301b8c>] kthread+0x12c/0x220
+ [<90000000032b1484>] ret_from_kernel_thread+0x8/0xa4
+
+Unfortunately, protecting dml21_copy() out of DML2 causes "sleeping
+function called from invalid context", so protect them with DC_FP_START()
+and DC_FP_END() inside.
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- drivers/dma-buf/udmabuf.c                     | 142 ---------------
- include/uapi/linux/udmabuf.h                  |   5 -
- .../selftests/drivers/dma-buf/Makefile        |   1 -
- .../selftests/drivers/dma-buf/udmabuf_vmap.c  | 166 ------------------
- 4 files changed, 314 deletions(-)
- delete mode 100644 tools/testing/selftests/drivers/dma-buf/udmabuf_vmap.c
+ drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 78549a9f24ca..67ab50914a31 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -106,49 +106,6 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
- 	return 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
+index fb80ba9287b6..a6b8df1d96e8 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
+@@ -412,8 +412,12 @@ void dml21_copy(struct dml2_context *dst_dml_ctx,
+ 
+ 	dst_dml_ctx->v21.mode_programming.programming = dst_dml2_programming;
+ 
++	DC_FP_START();
++
+ 	/* need to initialize copied instance for internal references to be correct */
+ 	dml2_initialize_instance(&dst_dml_ctx->v21.dml_init);
++
++	DC_FP_END();
  }
  
--struct udmabuf_pfn_data {
--	unsigned long *pfns;
--	pgprot_t prot;
--	unsigned int idx;
--};
--
--static int udmabuf_vmap_pfn_apply(pte_t *pte, unsigned long addr, void *private)
--{
--	struct udmabuf_pfn_data *data = private;
--	pte_t ptent;
--
--	ptent = pte_mkspecial(pfn_pte(data->pfns[data->idx], data->prot));
--	set_pte_at(&init_mm, addr, pte, ptent);
--
--	data->idx++;
--	return 0;
--}
--
--static void *udmabuf_vmap_pfn(unsigned long *pfns, unsigned int count,
--			      pgprot_t prot)
--{
--	struct udmabuf_pfn_data data = { .pfns = pfns,
--					 .prot = pgprot_nx(prot) };
--	struct vm_struct *area;
--
--	area = get_vm_area_caller(count * PAGE_SIZE, 0,
--				  __builtin_return_address(0));
--	if (!area)
--		return NULL;
--
--	if (apply_to_page_range(&init_mm, (unsigned long)area->addr,
--				count * PAGE_SIZE, udmabuf_vmap_pfn_apply,
--				&data)) {
--		free_vm_area(area);
--		return NULL;
--	}
--
--	flush_cache_vmap((unsigned long)area->addr,
--			 (unsigned long)area->addr + count * PAGE_SIZE);
--
--	return area->addr;
--}
--
- static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
- {
- 	struct udmabuf *ubuf = buf->priv;
-@@ -556,102 +513,6 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
- 	return ret;
- }
- 
--static void *udmabuf_vmap_by_pfns(struct udmabuf *udmabuf)
--{
--	unsigned long *pfns;
--	void *vaddr = NULL;
--	unsigned int i;
--
--	pfns = kvmalloc_array(udmabuf->pagecount, sizeof(*pfns), GFP_KERNEL);
--	if (WARN_ON(!pfns))
--		return NULL;
--
--	for (i = 0; i < udmabuf->pagecount; ++i)
--		pfns[i] = folio_pfn(udmabuf->folios[i]) +
--			  (udmabuf->offsets[i] >> PAGE_SHIFT);
--
--	vaddr = udmabuf_vmap_pfn(pfns, udmabuf->pagecount, PAGE_KERNEL);
--	WARN_ON(!vaddr);
--
--	kvfree(pfns);
--	return vaddr;
--}
--
--static void *udmabuf_vmap_by_pages(struct udmabuf *udmabuf)
--{
--	struct page **pages;
--	void *vaddr = NULL;
--	unsigned int i;
--
--	pages = kvmalloc_array(udmabuf->pagecount, sizeof(*pages), GFP_KERNEL);
--	if (WARN_ON(!pages))
--		return NULL;
--
--	for (i = 0; i < udmabuf->pagecount; ++i)
--		pages[i] = folio_page(udmabuf->folios[i],
--				      udmabuf->offsets[i] >> PAGE_SHIFT);
--
--	vaddr = vmap(pages, udmabuf->pagecount, 0, PAGE_KERNEL);
--	WARN_ON(!vaddr);
--
--	kvfree(pages);
--	return vaddr;
--}
--
--static long udmabuf_vmap_test(struct file *filp, unsigned long arg)
--{
--	struct udmabuf_vmap uv;
--	struct dma_buf *dmabuf;
--	bool can_page = true;
--	struct iosys_map map;
--	struct udmabuf *ubuf;
--	void *vaddr, *pvaddr;
--	struct file *file;
--	int ret = 0, i;
--
--	if (copy_from_user(&uv, (void __user *)arg, sizeof(uv)))
--		return -EFAULT;
--	file = fget(uv.dma_buf_fd);
--	if (!file)
--		return -EINVAL;
--
--	dmabuf = file->private_data;
--	ret = dma_buf_vmap(dmabuf, &map);
--	if (ret)
--		goto out;
--	vaddr = map.vaddr;
--
--	ubuf = dmabuf->priv;
--	for (i = 0; i < ubuf->pagecount; ++i) {
--		struct folio *folio = ubuf->folios[i];
--
--		if (folio_test_hugetlb_vmemmap_optimized(folio)) {
--			can_page = false;
--			break;
--		}
--	}
--
--	if (!can_page)
--		pvaddr = udmabuf_vmap_by_pfns(ubuf);
--	else
--		pvaddr = udmabuf_vmap_by_pages(ubuf);
--
--	if (!pvaddr)
--		goto out_vaddr;
--
--	// compare if pages and pfns is same?
--	if (WARN_ON(memcmp(vaddr, pvaddr, ubuf->pagecount * PAGE_SIZE) != 0))
--		ret = -EINVAL;
--
--	vunmap(pvaddr);
--out_vaddr:
--	dma_buf_vunmap(dmabuf, &map);
--out:
--	fput(file);
--
--	return ret;
--}
--
- static long udmabuf_ioctl(struct file *filp, unsigned int ioctl,
- 			  unsigned long arg)
- {
-@@ -664,9 +525,6 @@ static long udmabuf_ioctl(struct file *filp, unsigned int ioctl,
- 	case UDMABUF_CREATE_LIST:
- 		ret = udmabuf_ioctl_create_list(filp, arg);
- 		break;
--	case UDMABUF_VMAP:
--		ret = udmabuf_vmap_test(filp, arg);
--		break;
- 	default:
- 		ret = -ENOTTY;
- 		break;
-diff --git a/include/uapi/linux/udmabuf.h b/include/uapi/linux/udmabuf.h
-index 88f5e5516286..46b6532ed855 100644
---- a/include/uapi/linux/udmabuf.h
-+++ b/include/uapi/linux/udmabuf.h
-@@ -27,12 +27,7 @@ struct udmabuf_create_list {
- 	struct udmabuf_create_item list[];
- };
- 
--struct udmabuf_vmap {
--	int dma_buf_fd;
--};
--
- #define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
- #define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
--#define UDMABUF_VMAP  _IOW('u', 0x44, struct udmabuf_vmap)
- 
- #endif /* _UAPI_LINUX_UDMABUF_H */
-diff --git a/tools/testing/selftests/drivers/dma-buf/Makefile b/tools/testing/selftests/drivers/dma-buf/Makefile
-index e5b131dcc2c3..441407bb0e80 100644
---- a/tools/testing/selftests/drivers/dma-buf/Makefile
-+++ b/tools/testing/selftests/drivers/dma-buf/Makefile
-@@ -2,7 +2,6 @@
- CFLAGS += $(KHDR_INCLUDES)
- 
- TEST_GEN_PROGS := udmabuf
--TEST_GEN_PROGS := udmabuf_vmap
- 
- top_srcdir ?=../../../../..
- 
-diff --git a/tools/testing/selftests/drivers/dma-buf/udmabuf_vmap.c b/tools/testing/selftests/drivers/dma-buf/udmabuf_vmap.c
-deleted file mode 100644
-index 7bd46c909bdf..000000000000
---- a/tools/testing/selftests/drivers/dma-buf/udmabuf_vmap.c
-+++ /dev/null
-@@ -1,166 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--#define _GNU_SOURCE
--#define __EXPORTED_HEADERS__
--
--#include <stdio.h>
--#include <stdlib.h>
--#include <unistd.h>
--#include <string.h>
--#include <errno.h>
--#include <fcntl.h>
--#include <malloc.h>
--#include <stdbool.h>
--
--#include <sys/ioctl.h>
--#include <sys/syscall.h>
--#include <sys/mman.h>
--#include <linux/memfd.h>
--#include <linux/udmabuf.h>
--#include "../../kselftest.h"
--
--#define TEST_PREFIX "drivers/dma-buf/udmabuf"
--#define NUM_PAGES 4
--#define NUM_ENTRIES 4
--#define MEMFD_SIZE 1024 /* in pages */
--
--static unsigned int page_size;
--
--static int create_memfd_with_seals(off64_t size, bool hpage)
--{
--	int memfd, ret;
--	unsigned int flags = MFD_ALLOW_SEALING;
--
--	if (hpage)
--		flags |= MFD_HUGETLB;
--
--	memfd = memfd_create("udmabuf-test", flags);
--	if (memfd < 0) {
--		ksft_print_msg("%s: [skip,no-memfd]\n", TEST_PREFIX);
--		exit(KSFT_SKIP);
--	}
--
--	ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
--	if (ret < 0) {
--		ksft_print_msg("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
--		exit(KSFT_SKIP);
--	}
--
--	ret = ftruncate(memfd, size);
--	if (ret == -1) {
--		ksft_print_msg("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
--		exit(KSFT_FAIL);
--	}
--
--	return memfd;
--}
--
--static int create_udmabuf_list(int devfd, int memfd, off64_t memfd_size)
--{
--	struct udmabuf_create_list *list;
--	int ubuf_fd, i;
--
--	list = malloc(sizeof(struct udmabuf_create_list) +
--		      sizeof(struct udmabuf_create_item) * NUM_ENTRIES);
--	if (!list) {
--		ksft_print_msg("%s: [FAIL, udmabuf-malloc]\n", TEST_PREFIX);
--		exit(KSFT_FAIL);
--	}
--
--	for (i = 0; i < NUM_ENTRIES; i++) {
--		list->list[i].memfd = memfd;
--		list->list[i].offset = i * (memfd_size / NUM_ENTRIES);
--		list->list[i].size = memfd_size / NUM_ENTRIES;
--	}
--
--	list->count = NUM_ENTRIES;
--	list->flags = UDMABUF_FLAGS_CLOEXEC;
--	ubuf_fd = ioctl(devfd, UDMABUF_CREATE_LIST, list);
--	free(list);
--	if (ubuf_fd < 0) {
--		ksft_print_msg("%s: [FAIL, udmabuf-create]\n", TEST_PREFIX);
--		exit(KSFT_FAIL);
--	}
--
--	return ubuf_fd;
--}
--
--static void *mmap_fd(int fd, off64_t size)
--{
--	void *addr;
--
--	addr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
--	if (addr == MAP_FAILED) {
--		ksft_print_msg("%s: ubuf_fd mmap fail\n", TEST_PREFIX);
--		exit(KSFT_FAIL);
--	}
--
--	return addr;
--}
--
--int main(int argc, char *argv[])
--{
--	struct udmabuf_create create;
--	int devfd, memfd, buf, ret;
--	struct udmabuf_vmap vm;
--	unsigned long *vaddr;
--	off64_t size;
--	int i;
--
--	ksft_print_header();
--	ksft_set_plan(2);
--
--	devfd = open("/dev/udmabuf", O_RDWR);
--	if (devfd < 0) {
--		ksft_print_msg(
--			"%s: [skip,no-udmabuf: Unable to access DMA buffer device file]\n",
--			TEST_PREFIX);
--		exit(KSFT_SKIP);
--	}
--
--	/**
--	 * Normal test
--	 */
--	size = getpagesize() * 512 + getpagesize() * 256;
--	memfd = create_memfd_with_seals(size, false);
--	buf = create_udmabuf_list(devfd, memfd, size);
--	vaddr = (unsigned long *)mmap_fd(buf, size);
--	for (i = 0; i < size / sizeof(unsigned long); i++)
--		vaddr[i] = random();
--
--	vm.dma_buf_fd = buf;
--
--	ret = ioctl(devfd, UDMABUF_VMAP, &vm);
--	if (ret < 0)
--		ksft_test_result_fail("%s: [FAIL, normal test]\n", TEST_PREFIX);
--	else
--		ksft_test_result_pass("%s: [PASS, normal test]\n", TEST_PREFIX);
--	munmap(vaddr, size);
--	close(buf);
--	close(memfd);
--
--	/**
--	 * Hugetlb test, 2MB
--	 */
--	size = getpagesize() * 512;
--	memfd = create_memfd_with_seals(size, true);
--	buf = create_udmabuf_list(devfd, memfd, size);
--	vaddr = (unsigned long *)mmap_fd(buf, size);
--	for (i = 0; i < size / sizeof(unsigned long); i++)
--		vaddr[i] = random();
--
--	vm.dma_buf_fd = buf;
--
--	ret = ioctl(devfd, UDMABUF_VMAP, &vm);
--	if (ret < 0)
--		ksft_test_result_fail("%s: [FAIL, huge test]\n", TEST_PREFIX);
--	else
--		ksft_test_result_pass("%s: [PASS, huge test]\n", TEST_PREFIX);
--	munmap(vaddr, size);
--	close(buf);
--	close(memfd);
--
--	ksft_print_msg("%s: ok\n", TEST_PREFIX);
--	ksft_print_cnts();
--
--	return 0;
--}
+ bool dml21_create_copy(struct dml2_context **dst_dml_ctx,
 -- 
-2.48.1
+2.47.1
 
