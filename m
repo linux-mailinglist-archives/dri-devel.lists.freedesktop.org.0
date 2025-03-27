@@ -2,80 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3F1A736EA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 17:36:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B044A736FF
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 17:38:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F61710E1F4;
-	Thu, 27 Mar 2025 16:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 332CD10E178;
+	Thu, 27 Mar 2025 16:38:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lLXOBR4+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ba0h6CAM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6A1710E178
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 16:36:08 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-226185948ffso27554065ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 09:36:08 -0700 (PDT)
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+ [209.85.167.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B62D810E178
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 16:38:37 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id
+ 2adb3069b0e04-54957f0c657so1391536e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 09:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743093368; x=1743698168; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1743093515; x=1743698315; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LmxjHPEoAvJ9V++u0ZZKt2L66dWQUhIJPZo7wO/C09Q=;
- b=lLXOBR4+oev+i+GKCk1E5Rhnb41p65RnrCshCPpwQzuvr7QUx+x903OKlQjmOiDGj7
- U7JVibmhDM+VlqR0YV2K21TrvUyMXl9TT/zxUMX7Z+XHv3zhZW4w5KBmFDucXbp6/mhE
- I2WwyucBkzlPbwd6LVpRuGjnUQ1ayV6iV5ClCXWYmbaJ7ZsFnSdH5eJwVl3kRy9SAZYc
- QRSZWdyA9749kBBldFCFEIY8LPrlgyXwKWj7kobaqI7Qq/B8g6H4wfnRLKiPFjKdhlQz
- F0DzQ6Jat6l9ggyKP1l8qNct8TMN7xcMf9QCHTiLQobGpgLmKbhXTE8y14Qrkn6FlRVO
- jBBg==
+ bh=MCipadPWDc9+WNsaYqHuzZhnDYq2MJBL/KTC3dNV0xw=;
+ b=ba0h6CAMUmZ0uBE2o0Pu/xdUjLj6ugUsDq5H+q43T5LDyvRF0JCrN89Q8Gj81fEtca
+ QnS8ZFXOK2+CFI5ZeVWNQIAVLb/oM7zQsxQDzA69Y6iewQ0fysiV7Gf1nYfXvQKugl6+
+ fmyegeoyPIuwAtMpZqi0TYkGoLkPmGraM2H+tHFQ6uVqhnnCgXupIN7hBx3TtYleISPx
+ afkQCMOIBR4j3zybdtvpeam0WTdhC77on+WTfVSV68535mYUFP+zpV7vGCeyoS4i+Wow
+ M62Px5pWHV8J8p8slxwlz9pmhxRddaexlhtukPmHhYfdz47atJRewG3q37Z+Mnzvn2wz
+ YHHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743093368; x=1743698168;
+ d=1e100.net; s=20230601; t=1743093515; x=1743698315;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=LmxjHPEoAvJ9V++u0ZZKt2L66dWQUhIJPZo7wO/C09Q=;
- b=uK15yp7Hs4/2YudUt/BGvCALJ63idzNw4o5dVtPMEmKcUv92gtimx83DnXyQyTHqC/
- 9WpxGUsI8Xu7gvIilvwcbScIj0ZwwuAQxcXl/bcpaXsEYYJnsvxbbOocodxQunf6kVkK
- ZNMXEm/IwKqQkjutCAoA15zYjNKXmLXnOEfebHKtyzD4AVmHtFA/UFF5Ydy1DDeFFZZV
- qIO39WrE8alf5pmd0YmWY7UmlDXhl0CF2reXP+dGj0u6QWGy4I9FSCwnf8AAyXDS1wvV
- r+oOpLbUMLTfvOW54YKphqNvD0cdp4phIl2T7f+5BSM6867pxEoMw6kfaPn8im5IO/do
- vQDg==
-X-Gm-Message-State: AOJu0YzOhWhvMoHUjQmpHCqsdOZQV4ZT+s7hMecN3lst+FJbgw6EMhYD
- CvKIcebqSoVW3NSZTrMzpK523fAKwjw/E/08a23OIFZlzafNs57o1/fEDQ==
-X-Gm-Gg: ASbGncvFtOj7QclekGXgznCxbW2CyKveiluGTG9LKHJM0QBIL4yZRiM2JuTmSaB5c5Y
- DDZyyOqaVZp2LHl74Z/jreJJ+tdYp+tfdoCNjMyGRkwPClqU8eB/t2ojkN7UrHr3ndpuYVRAAnO
- +dpTD0WRWgsLA8OZYrtFUTunvTirPDWWkjwcFMhDBRTfl+vluxtDgQ0idxa+aIN8a8PaFMoiiLq
- GjWUVP8fHo5V9QdliWQUQNAj95lb0OBJsT4NsJsHtC/OwL4RYwmaiEin2RrZrIh+k/xnOX4U/qM
- APv81Fbtv3D5pbGDFhrvOU011nS+kIXUK3Ek0tbBrBUniXTF+Q+3kKyGrTibdGBb5rBYuWCnQ3+
- lp1oC7iY7IWthpSbk3aE=
-X-Google-Smtp-Source: AGHT+IHWZDl5zkqZIwHY29NR0GM8Q+CqAF9P42JqdFTTVI0DfFTzZMOYU6wY0UHJwzx2ehMvee/T6w==
-X-Received: by 2002:a17:902:db0f:b0:223:525b:2a7 with SMTP id
- d9443c01a7336-228048b23ccmr63535595ad.15.1743093367707; 
- Thu, 27 Mar 2025 09:36:07 -0700 (PDT)
-Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+ bh=MCipadPWDc9+WNsaYqHuzZhnDYq2MJBL/KTC3dNV0xw=;
+ b=wlB3J4MIqaLNZaUZUauMIXZ9S3bAPyQBxYy+E+OYmN6kXi5lOggiR53PVQA9LBHOe6
+ lrkWpw81JWooM8GxD/3DEVArXZq+bCCFTDsZftENjiiZdKQ06g47+Qm7UxW38pwWmPio
+ mmBU6YzA3IMK6jrieNYf5gwUeRc+JnaF9QpLJRdqxVtWxmnfKvRnUEZAuLS26bvDcM3J
+ MXqyv91/LitrtPAMML9h0FHGgkFpSkP+33D1G66GXS1/T3wSnSNy1BfCVwjbgmEmlqNG
+ hBqSqQed6sDWJ35Uv27DGnx/Fc9sZ9r8OVnIASqPq7h2ImbMAW10+TKu2hC6dtppUdo1
+ T70A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVf/ewVs07PFbCzKOk2zwW2NXJO9/8ioX/VLS0YL5EBtoF4c8qXTkCSYHMoWVxoot49KICGorsu0aY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzROSr4pnHOstpM7QGqJ2K9d4cxVfyWVyLB//yDIaep1gsucdzi
+ lt6Kxcq2sGoYQKikQ0UO+IGNEZL0UnymcCZkO9uxmporOP4rSmYh
+X-Gm-Gg: ASbGncsSn+E3V4mK/ceh3685AukUwQgylVVNhzMwTvKhrjauG7b8DDoEHWmc/Iyx6Gu
+ 4MKsHOXV+uSu02VlI/Qy+XMnCOYTFZRhMcfZJmVAFMrKLM4tflHJYZQoZntgnYOfDS7bT9Io2zc
+ y1NP4rQeZUU3pJCdlirkNwGdTvtNnNIU9ItGiD0FO+Qxp2uomQXFdqYWrHZUVSTBxBLzyxJLtYC
+ HpgxX9hCdqJFrb0DoeOJjX+PqiAsEQSar47gSWpwtlN+ehVudzjP0TIYPRQAbLlaaR/HDCYiQdm
+ B5tFcDHBzo89ze9GroJ/FLa89U+BGNn6H/AccXaK+qF3VMQ5F0GMkvoZBGlGgsdfkHER
+X-Google-Smtp-Source: AGHT+IE2P34XSAHmzmsA5k5rQZOJz8G4YUEkCHQ1A39qmpTMqdjFzDpAeyy8rjX1BH6WCbNx9lRzLw==
+X-Received: by 2002:ac2:4bc6:0:b0:549:68a7:177c with SMTP id
+ 2adb3069b0e04-54b08b38577mr533774e87.7.1743093515026; 
+ Thu, 27 Mar 2025 09:38:35 -0700 (PDT)
+Received: from pilotmaintrash.lan ([178.34.180.83])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2291f1dece6sm1539855ad.192.2025.03.27.09.36.06
+ 2adb3069b0e04-54b0957feedsm10150e87.110.2025.03.27.09.38.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Mar 2025 09:36:07 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Clark <robdclark@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-kernel@vger.kernel.org (open list),
- linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
- linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v3] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
-Date: Thu, 27 Mar 2025 09:36:05 -0700
-Message-ID: <20250327163605.54760-1-robdclark@gmail.com>
+ Thu, 27 Mar 2025 09:38:33 -0700 (PDT)
+From: Alexander Baransky <sanyapilot496@gmail.com>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org
+Cc: Alexander Baransky <sanyapilot496@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] Add Visionox G2647FB105 panel support
+Date: Thu, 27 Mar 2025 19:37:43 +0300
+Message-ID: <20250327163750.986815-1-sanyapilot496@gmail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -94,100 +89,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+This patch series adds support for the Visionox G2647FB105 panel, used in:
+- Xiaomi Mi Note 10 / CC9 Pro (sm7150-xiaomi-tucana)
+- Xiaomi Mi Note 10 Lite (sm7150-xiaomi-toco)
 
-Add support for exporting a dma_fence fd for a specific point on a
-timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
-syncobj support, as it needs a way to turn a point on a timeline back
-into a dma_fence fd.  It also closes an odd omission from the syncobj
-UAPI.
+Testing has been done by me on sm7150-xiaomi-tucana. According to the
+downstream DTS, this driver should be fully compatible with the
+sm7150-xiaomi-toco (unfortunately not tested) without requiring any
+modifications.
 
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
-[2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
+Changes in v2:
+- Describe the power configuration in commit message (and fix the sentence style) in patch 1
+- Add Krzysztof's Reviewed-by tag to patch 1
+- Use a static const struct for supplies in patch 2
+- Fix identations in patch 2
+Link to v1: https://lore.kernel.org/all/20250325155756.703907-1-sanyapilot496@gmail.com/
 
-v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
-v3: Add unstaged uabi header hunk
+Signed-off-by: Alexander Baransky <sanyapilot496@gmail.com>
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/drm_syncobj.c | 18 +++++++++++++-----
- include/uapi/drm/drm.h        |  3 +++
- 2 files changed, 16 insertions(+), 5 deletions(-)
+Alexander Baransky (2):
+  dt-bindings: display: panel: Add Visionox G2647FB105
+  drm/panel: Add Visionox G2647FB105 panel driver
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 4f2ab8a7b50f..bc57d6f1a22e 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -762,7 +762,7 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
- }
- 
- static int drm_syncobj_export_sync_file(struct drm_file *file_private,
--					int handle, int *p_fd)
-+					int handle, u64 point, int *p_fd)
- {
- 	int ret;
- 	struct dma_fence *fence;
-@@ -772,7 +772,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
- 	if (fd < 0)
- 		return fd;
- 
--	ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
-+	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
- 	if (ret)
- 		goto err_put_fd;
- 
-@@ -869,6 +869,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 				   struct drm_file *file_private)
- {
- 	struct drm_syncobj_handle *args = data;
-+	unsigned valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
-+			       DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
-+	u64 point = 0;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
- 		return -EOPNOTSUPP;
-@@ -876,13 +879,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 	if (args->pad)
- 		return -EINVAL;
- 
--	if (args->flags != 0 &&
--	    args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
-+	if (args->flags != 0 && (args->flags & ~valid_flags))
- 		return -EINVAL;
- 
-+	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
-+		point = args->point;
-+
- 	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
- 		return drm_syncobj_export_sync_file(file_private, args->handle,
--						    &args->fd);
-+						    point, &args->fd);
-+
-+	if (args->point)
-+		return -EINVAL;
- 
- 	return drm_syncobj_handle_to_fd(file_private, args->handle,
- 					&args->fd);
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 7fba37b94401..dd0fd13eadbd 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -906,12 +906,15 @@ struct drm_syncobj_destroy {
- 
- #define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE (1 << 0)
- #define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE (1 << 0)
-+#define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE         (1 << 1)
- struct drm_syncobj_handle {
- 	__u32 handle;
- 	__u32 flags;
- 
- 	__s32 fd;
- 	__u32 pad;
-+
-+	__u64 point;
- };
- 
- struct drm_syncobj_transfer {
+ .../display/panel/visionox,g2647fb105.yaml    |  79 +++++
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-visionox-g2647fb105.c | 282 ++++++++++++++++++
+ 4 files changed, 371 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/visionox,g2647fb105.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-visionox-g2647fb105.c
+
 -- 
 2.49.0
 
