@@ -2,55 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243D5A7325F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 13:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277FCA732B0
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 13:54:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A9B10E8B2;
-	Thu, 27 Mar 2025 12:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A231410E098;
+	Thu, 27 Mar 2025 12:54:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="M+vprhAO";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y3GQLfWV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id BEC4910E8B2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:39:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=/T62cBBd0pDjBtvy1ZY090Q2whzh7b/Qe+q6nLlyZKA=; b=M
- +vprhAOZ6Y7Ao54I7WlIa8WFFNs198QIv+rL6J78N/4GR06qp6FjWaYtGjkgvS7m
- VDHhr5SriQAJZgmT6foqM8cT8PeuknOwsllGdkH+6aWyLtUZpCvDS8/zJ2D8dlUz
- 9B0ICnGYJT5EzjPkkCZXb4kuRCUcXBxvAvQA+TMUWk=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-115 (Coremail) ; Thu, 27 Mar 2025 20:39:02 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Thu, 27 Mar 2025 20:39:02 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: lumag@kernel.org
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42E5210E098
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:54:42 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5jGC9010210
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:54:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ ys0LaI2UcfNwMcZJGrbIWM94BdFxA4cSNIC6NvFfr+4=; b=Y3GQLfWVM090S1Y0
+ A8qvgSDjjyRnZe2RuTgUX9FaycDn+/xyENpFmZ1x1d956/MnXxzyd7As5XZZAgOB
+ XzprcxuXNZIuRooG/rukCYaCU3oznLslHd5JjmaHIZylMPviffJdJAWu7K3FxXT/
+ KRBKH/WK2JzrGai9VtoTMYk1GuFB8fGByhYz1iGyTFFYhZA5DCnZeVem6n2OIJrz
+ vnD+j4zKthLRNXdRd5FXyTqxo5N8gwQlD/5AI01TzPQ9OFDf/w2b2IPKkiiE5sFV
+ vNZQ5E28Tn7szpPZWNFCtBVqvZmqok9iSTtZST703XlJem6rGsOT55L0G0nezgqW
+ jTkzlg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45kmcygmwe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:54:41 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7c5d608e703so169578685a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 05:54:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743080080; x=1743684880;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ys0LaI2UcfNwMcZJGrbIWM94BdFxA4cSNIC6NvFfr+4=;
+ b=ieRaQKhoWBLFu/m/Jl+EZgyJ5HsI6ZWinWFxJX1ZIUnGtJNQOBnPYXyxSKTHmCguRD
+ AirfzGYjamMLx42PRH238FGP8QTerdW22b40oXSGLrY8BXCDI8gDC/vRwbZrBKPrpfcX
+ cOFeR4Mq4aeWbC5GFEBrFNLtqaKTpu+2T9F+N5VmWvM/Snrr7YuVnomZm29BJh5pahcj
+ 0hBO0lp58l9j8bxw91aLTrKLCg6qaa4Ft1uKXJnRzhOrckMt9+7V3AbyMI9KCCvqXyhu
+ 8ww+p8fBqGAJ9RmYIvIfHc/apz24XUFm7y/noJizosQhh5q1joUy2A/VqJqcoVLou22H
+ p4hw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWTGDa9n5hp9axfEOC+W9un8H+ectvZDrhkdB0GgCdVNER9ZYIycKvvQE5rf5ODzWSZqZBd9lesCn0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywbjy9rdUPmn0lcf1KIB4nq72H2XIvRujfq6pOWqVYi6+m+2f2K
+ Gak4nI8AlYvLgW8FdKbceL8SZiO8mvxqDTQNVj80AbLa1DRQC4TdsJtgWsenlJ468h/3MMVv+H5
+ Y3BVZN1vJKqOhcWgPQNxeoqKFbUmwdksaVIYo5mF4XN5coEOciZDlRGfIkCPdIcX2cWQ=
+X-Gm-Gg: ASbGncsxHtokt8xcAM1SWZTK0pxh+Ikd1SKIjC02I5/MoH+QPxHUDTpk+nN8MNFDvOL
+ wUKgFCPKacInOgoiQK5tE122SkE5T0SqzaK2syq3Ncio197eJOxySbpcGDDn/oRuZNxHjYgi3Lh
+ AWno2SL26+1gHIW3UJqiK+IQF9kkmXbs2j7AU6EHDrZc5SEWLjHMCr+0uEo8ohpRVYIAlAxpXIi
+ qpN7FzD8NidIFJxWn/VJjYtQk7wooORsK/a+MFmRvLrO7ozqn9UlPXBXtZmaJVsytBholcIrhU2
+ QzP8CJufAJSMSwwCG70sG1QWQr900AE3RPc3AQoz4WBwnaDWXMIuAdE6Wr1LhDMkmcDTWwHUZO3
+ rj2MkgMH/x1bEZuPHWvs9s/HLcq3HXS2EiTbbKMjDZqD3mHWzFlMAWusvwA5tb3tG
+X-Received: by 2002:a05:620a:4256:b0:7c5:5791:122b with SMTP id
+ af79cd13be357-7c5eda64823mr589647185a.37.1743080079955; 
+ Thu, 27 Mar 2025 05:54:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGauD6ziuw0IhIZog9VhQ+0nMgNmotDcQ10Mfm1rBFAYVGZeZbi6W/H9wqWH07z16ItQ2B2DQ==
+X-Received: by 2002:a05:620a:4256:b0:7c5:5791:122b with SMTP id
+ af79cd13be357-7c5eda64823mr589643085a.37.1743080079331; 
+ Thu, 27 Mar 2025 05:54:39 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ac:ffd6:c4de:52f:971e:7ff8?
+ (2001-14bb-ac-ffd6-c4de-52f-971e-7ff8.rev.dnainternet.fi.
+ [2001:14bb:ac:ffd6:c4de:52f:971e:7ff8])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30d7d7fe7b4sm24851371fa.53.2025.03.27.05.54.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Mar 2025 05:54:38 -0700 (PDT)
+Message-ID: <0d44fd9e-ab84-4db4-955a-22670d2990ef@oss.qualcomm.com>
+Date: Thu, 27 Mar 2025 14:54:37 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] drm/dp: Pull drm_dp_link_power_up/down from Tegra
+ to common drm_dp_helper
+To: Andy Yan <andyshrk@163.com>, lumag@kernel.org, thierry.reding@gmail.com,
+ mperttunen@nvidia.com
 Cc: mripard@kernel.org, neil.armstrong@linaro.org,
  dri-devel@lists.freedesktop.org, dianders@chromium.org,
  jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
- thierry.reding@gmail.com, victor.liu@nxp.com, rfoss@kernel.org,
+ victor.liu@nxp.com, rfoss@kernel.org,
  linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- "Andy Yan" <andy.yan@rock-chips.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re:[PATCH v2 1/5] drm/dp: Pull drm_dp_link_power_up/down from Tegra
- to common drm_dp_helper
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250318063452.4983-1-andyshrk@163.com>
+ Andy Yan <andy.yan@rock-chips.com>
 References: <20250318063452.4983-1-andyshrk@163.com>
-X-NTES-SC: AL_Qu2fAfyctkkv5CKdbekfmkcVgOw9UcO5v/Qk3oZXOJF8jDzp/xADZW1jPVTtweeEIS+ujTi3dDVRxcBmeZlRU6Ugl2BHLaPoVMD7DZlp7dcIaA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <76a55b32.acc9.195d79cf378.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cygvCgD338bmRuVnGa+OAA--.62833W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gEdXmflRdEM6AACsg
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+ <76a55b32.acc9.195d79cf378.Coremail.andyshrk@163.com>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <76a55b32.acc9.195d79cf378.Coremail.andyshrk@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=EZ3IQOmC c=1 sm=1 tr=0 ts=67e54a91 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Vs1iUdzkB0EA:10 a=Byx-y9mGAAAA:8 a=s8YR1HE3AAAA:8 a=EUspDBNiAAAA:8
+ a=vCqhtvarF6LdSwkuyZ8A:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=jGH_LyMDp9YhSvY-UuyI:22
+X-Proofpoint-ORIG-GUID: IrRwupXIYNROhO8BnrbM-X-iiIYPY9Wj
+X-Proofpoint-GUID: IrRwupXIYNROhO8BnrbM-X-iiIYPY9Wj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-27_01,2025-03-26_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
+ spamscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0 phishscore=0
+ adultscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503270088
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,141 +127,250 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlbGxvIERtaXRyeSwKICAgICBDb3VsZCB5b3UgdGFrZSB0aGlzIHNlcmllcz8gSWYgc28sIG1l
-cmdpbmcgaXQgZWFybGllciBjYW4gYXZvaWQgZnV0dXJlIGNvbmZsaWN0cyBmcm9tIG90aGVyIHBh
-dGNoZXMuIApCZXNpZGVzLCBJIGNhbiB1cGRhdGUgbXkgRFAgZHJpdmVyIGJhc2VkIG9uIGRybS1t
-aXNjLW5leHQuCgpBdCAyMDI1LTAzLTE4IDE0OjM0OjM1LCAiQW5keSBZYW4iIDxhbmR5c2hya0Ax
-NjMuY29tPiB3cm90ZToKPkZyb206IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4K
-Pgo+VGhlIGhlbHBlciBmdW5jdGlvbnMgZHJtX2RwX2xpbmtfcG93ZXJfdXAvZG93biB3ZXJlIG1v
-dmVkIHRvIFRlZ3JhCj5EUk0gaW4gY29tbWl0IDlhNDJjN2M2NDdhOSAoImRybS90ZWdyYTogTW92
-ZSBkcm1fZHBfbGluayBoZWxwZXJzIHRvIFRlZ3JhIERSTSIpIi4KPgo+Tm93IHNpbmNlIG1vcmUg
-YW5kIG1vcmUgdXNlcnMgYXJlIGR1cGxpY2F0aW5nIHRoZSBzYW1lIGNvZGUgaW4gdGhlaXIKPm93
-biBkcml2ZXJzLCBpdCdzIHRpbWUgdG8gbWFrZSB0aGVtIGFzIERSTSBEUCBjb21tb24gaGVscGVy
-cyBhZ2Fpbi4KPgo+U2lnbmVkLW9mZi1ieTogQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMu
-Y29tPgo+QWNrZWQtYnk6IERtaXRyeSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAb3NzLnF1
-YWxjb21tLmNvbT4KPi0tLQo+Cj5DaGFuZ2VzIGluIHYyOgo+LSBGaXggY29tbWl0IG1lc3NhZ2Ug
-YXMgc3VnZ2VzdGVkIGJ5IERtaXRyeQo+Cj4gZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2Rw
-X2hlbHBlci5jIHwgNjkgKysrKysrKysrKysrKysrKysrKysrKysrKwo+IGRyaXZlcnMvZ3B1L2Ry
-bS90ZWdyYS9kcC5jICAgICAgICAgICAgICB8IDY3IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+
-IGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9kcC5oICAgICAgICAgICAgICB8ICAyIC0KPiBkcml2ZXJz
-L2dwdS9kcm0vdGVncmEvc29yLmMgICAgICAgICAgICAgfCAgNCArLQo+IGluY2x1ZGUvZHJtL2Rp
-c3BsYXkvZHJtX2RwX2hlbHBlci5oICAgICB8ICAyICsKPiA1IGZpbGVzIGNoYW5nZWQsIDczIGlu
-c2VydGlvbnMoKyksIDcxIGRlbGV0aW9ucygtKQo+Cj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2Rpc3BsYXkvZHJtX2RwX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJt
-X2RwX2hlbHBlci5jCj5pbmRleCBkYmNlMWMzZjQ5NjkuLmU1ZGVjNjdlNWZjYSAxMDA2NDQKPi0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9kaXNwbGF5L2RybV9kcF9oZWxwZXIuYwo+KysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX2hlbHBlci5jCj5AQCAtODM4LDYgKzgzOCw3NSBAQCBp
-bnQgZHJtX2RwX2RwY2RfcmVhZF9waHlfbGlua19zdGF0dXMoc3RydWN0IGRybV9kcF9hdXggKmF1
-eCwKPiB9Cj4gRVhQT1JUX1NZTUJPTChkcm1fZHBfZHBjZF9yZWFkX3BoeV9saW5rX3N0YXR1cyk7
-Cj4gCj4rLyoqCj4rICogZHJtX2RwX2xpbmtfcG93ZXJfdXAoKSAtIHBvd2VyIHVwIGEgRGlzcGxh
-eVBvcnQgbGluawo+KyAqIEBhdXg6IERpc3BsYXlQb3J0IEFVWCBjaGFubmVsCj4rICogQHJldmlz
-aW9uOiBEUENEIHJldmlzaW9uIHN1cHBvcnRlZCBvbiB0aGUgbGluawo+KyAqCj4rICogUmV0dXJu
-cyAwIG9uIHN1Y2Nlc3Mgb3IgYSBuZWdhdGl2ZSBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCj4rICov
-Cj4raW50IGRybV9kcF9saW5rX3Bvd2VyX3VwKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsIHVuc2ln
-bmVkIGNoYXIgcmV2aXNpb24pCj4rewo+Kwl1OCB2YWx1ZTsKPisJaW50IGVycjsKPisKPisJLyog
-RFBfU0VUX1BPV0VSIHJlZ2lzdGVyIGlzIG9ubHkgYXZhaWxhYmxlIG9uIERQQ0QgdjEuMSBhbmQg
-bGF0ZXIgKi8KPisJaWYgKHJldmlzaW9uIDwgRFBfRFBDRF9SRVZfMTEpCj4rCQlyZXR1cm4gMDsK
-PisKPisJZXJyID0gZHJtX2RwX2RwY2RfcmVhZGIoYXV4LCBEUF9TRVRfUE9XRVIsICZ2YWx1ZSk7
-Cj4rCWlmIChlcnIgPCAwKQo+KwkJcmV0dXJuIGVycjsKPisKPisJdmFsdWUgJj0gfkRQX1NFVF9Q
-T1dFUl9NQVNLOwo+Kwl2YWx1ZSB8PSBEUF9TRVRfUE9XRVJfRDA7Cj4rCj4rCWVyciA9IGRybV9k
-cF9kcGNkX3dyaXRlYihhdXgsIERQX1NFVF9QT1dFUiwgdmFsdWUpOwo+KwlpZiAoZXJyIDwgMCkK
-PisJCXJldHVybiBlcnI7Cj4rCj4rCS8qCj4rCSAqIEFjY29yZGluZyB0byB0aGUgRFAgMS4xIHNw
-ZWNpZmljYXRpb24sIGEgIlNpbmsgRGV2aWNlIG11c3QgZXhpdCB0aGUKPisJICogcG93ZXIgc2F2
-aW5nIHN0YXRlIHdpdGhpbiAxIG1zIiAoU2VjdGlvbiAyLjUuMy4xLCBUYWJsZSA1LTUyLCAiU2lu
-awo+KwkgKiBDb250cm9sIEZpZWxkIiAocmVnaXN0ZXIgMHg2MDApLgo+KwkgKi8KPisJdXNsZWVw
-X3JhbmdlKDEwMDAsIDIwMDApOwo+Kwo+KwlyZXR1cm4gMDsKPit9Cj4rRVhQT1JUX1NZTUJPTChk
-cm1fZHBfbGlua19wb3dlcl91cCk7Cj4rCj4rLyoqCj4rICogZHJtX2RwX2xpbmtfcG93ZXJfZG93
-bigpIC0gcG93ZXIgZG93biBhIERpc3BsYXlQb3J0IGxpbmsKPisgKiBAYXV4OiBEaXNwbGF5UG9y
-dCBBVVggY2hhbm5lbAo+KyAqIEByZXZpc2lvbjogRFBDRCByZXZpc2lvbiBzdXBwb3J0ZWQgb24g
-dGhlIGxpbmsKPisgKgo+KyAqIFJldHVybnMgMCBvbiBzdWNjZXNzIG9yIGEgbmVnYXRpdmUgZXJy
-b3IgY29kZSBvbiBmYWlsdXJlLgo+KyAqLwo+K2ludCBkcm1fZHBfbGlua19wb3dlcl9kb3duKHN0
-cnVjdCBkcm1fZHBfYXV4ICphdXgsIHVuc2lnbmVkIGNoYXIgcmV2aXNpb24pCj4rewo+Kwl1OCB2
-YWx1ZTsKPisJaW50IGVycjsKPisKPisJLyogRFBfU0VUX1BPV0VSIHJlZ2lzdGVyIGlzIG9ubHkg
-YXZhaWxhYmxlIG9uIERQQ0QgdjEuMSBhbmQgbGF0ZXIgKi8KPisJaWYgKHJldmlzaW9uIDwgRFBf
-RFBDRF9SRVZfMTEpCj4rCQlyZXR1cm4gMDsKPisKPisJZXJyID0gZHJtX2RwX2RwY2RfcmVhZGIo
-YXV4LCBEUF9TRVRfUE9XRVIsICZ2YWx1ZSk7Cj4rCWlmIChlcnIgPCAwKQo+KwkJcmV0dXJuIGVy
-cjsKPisKPisJdmFsdWUgJj0gfkRQX1NFVF9QT1dFUl9NQVNLOwo+Kwl2YWx1ZSB8PSBEUF9TRVRf
-UE9XRVJfRDM7Cj4rCj4rCWVyciA9IGRybV9kcF9kcGNkX3dyaXRlYihhdXgsIERQX1NFVF9QT1dF
-UiwgdmFsdWUpOwo+KwlpZiAoZXJyIDwgMCkKPisJCXJldHVybiBlcnI7Cj4rCj4rCXJldHVybiAw
-Owo+K30KPitFWFBPUlRfU1lNQk9MKGRybV9kcF9saW5rX3Bvd2VyX2Rvd24pOwo+Kwo+IHN0YXRp
-YyBpbnQgcmVhZF9wYXlsb2FkX3VwZGF0ZV9zdGF0dXMoc3RydWN0IGRybV9kcF9hdXggKmF1eCkK
-PiB7Cj4gCWludCByZXQ7Cj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RwLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZHAuYwo+aW5kZXggMDhmYmQ4ZjE1MWExLi45OTBlNzQ0
-YjA5MjMgMTAwNjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZHAuYwo+KysrIGIvZHJp
-dmVycy9ncHUvZHJtL3RlZ3JhL2RwLmMKPkBAIC0yNTUsNzMgKzI1NSw2IEBAIGludCBkcm1fZHBf
-bGlua19wcm9iZShzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxp
-bmspCj4gCXJldHVybiAwOwo+IH0KPiAKPi0vKioKPi0gKiBkcm1fZHBfbGlua19wb3dlcl91cCgp
-IC0gcG93ZXIgdXAgYSBEaXNwbGF5UG9ydCBsaW5rCj4tICogQGF1eDogRGlzcGxheVBvcnQgQVVY
-IGNoYW5uZWwKPi0gKiBAbGluazogcG9pbnRlciB0byBhIHN0cnVjdHVyZSBjb250YWluaW5nIHRo
-ZSBsaW5rIGNvbmZpZ3VyYXRpb24KPi0gKgo+LSAqIFJldHVybnMgMCBvbiBzdWNjZXNzIG9yIGEg
-bmVnYXRpdmUgZXJyb3IgY29kZSBvbiBmYWlsdXJlLgo+LSAqLwo+LWludCBkcm1fZHBfbGlua19w
-b3dlcl91cChzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxpbmsp
-Cj4tewo+LQl1OCB2YWx1ZTsKPi0JaW50IGVycjsKPi0KPi0JLyogRFBfU0VUX1BPV0VSIHJlZ2lz
-dGVyIGlzIG9ubHkgYXZhaWxhYmxlIG9uIERQQ0QgdjEuMSBhbmQgbGF0ZXIgKi8KPi0JaWYgKGxp
-bmstPnJldmlzaW9uIDwgMHgxMSkKPi0JCXJldHVybiAwOwo+LQo+LQllcnIgPSBkcm1fZHBfZHBj
-ZF9yZWFkYihhdXgsIERQX1NFVF9QT1dFUiwgJnZhbHVlKTsKPi0JaWYgKGVyciA8IDApCj4tCQly
-ZXR1cm4gZXJyOwo+LQo+LQl2YWx1ZSAmPSB+RFBfU0VUX1BPV0VSX01BU0s7Cj4tCXZhbHVlIHw9
-IERQX1NFVF9QT1dFUl9EMDsKPi0KPi0JZXJyID0gZHJtX2RwX2RwY2Rfd3JpdGViKGF1eCwgRFBf
-U0VUX1BPV0VSLCB2YWx1ZSk7Cj4tCWlmIChlcnIgPCAwKQo+LQkJcmV0dXJuIGVycjsKPi0KPi0J
-LyoKPi0JICogQWNjb3JkaW5nIHRvIHRoZSBEUCAxLjEgc3BlY2lmaWNhdGlvbiwgYSAiU2luayBE
-ZXZpY2UgbXVzdCBleGl0IHRoZQo+LQkgKiBwb3dlciBzYXZpbmcgc3RhdGUgd2l0aGluIDEgbXMi
-IChTZWN0aW9uIDIuNS4zLjEsIFRhYmxlIDUtNTIsICJTaW5rCj4tCSAqIENvbnRyb2wgRmllbGQi
-IChyZWdpc3RlciAweDYwMCkuCj4tCSAqLwo+LQl1c2xlZXBfcmFuZ2UoMTAwMCwgMjAwMCk7Cj4t
-Cj4tCXJldHVybiAwOwo+LX0KPi0KPi0vKioKPi0gKiBkcm1fZHBfbGlua19wb3dlcl9kb3duKCkg
-LSBwb3dlciBkb3duIGEgRGlzcGxheVBvcnQgbGluawo+LSAqIEBhdXg6IERpc3BsYXlQb3J0IEFV
-WCBjaGFubmVsCj4tICogQGxpbms6IHBvaW50ZXIgdG8gYSBzdHJ1Y3R1cmUgY29udGFpbmluZyB0
-aGUgbGluayBjb25maWd1cmF0aW9uCj4tICoKPi0gKiBSZXR1cm5zIDAgb24gc3VjY2VzcyBvciBh
-IG5lZ2F0aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPi0gKi8KPi1pbnQgZHJtX2RwX2xpbmtf
-cG93ZXJfZG93bihzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxp
-bmspCj4tewo+LQl1OCB2YWx1ZTsKPi0JaW50IGVycjsKPi0KPi0JLyogRFBfU0VUX1BPV0VSIHJl
-Z2lzdGVyIGlzIG9ubHkgYXZhaWxhYmxlIG9uIERQQ0QgdjEuMSBhbmQgbGF0ZXIgKi8KPi0JaWYg
-KGxpbmstPnJldmlzaW9uIDwgMHgxMSkKPi0JCXJldHVybiAwOwo+LQo+LQllcnIgPSBkcm1fZHBf
-ZHBjZF9yZWFkYihhdXgsIERQX1NFVF9QT1dFUiwgJnZhbHVlKTsKPi0JaWYgKGVyciA8IDApCj4t
-CQlyZXR1cm4gZXJyOwo+LQo+LQl2YWx1ZSAmPSB+RFBfU0VUX1BPV0VSX01BU0s7Cj4tCXZhbHVl
-IHw9IERQX1NFVF9QT1dFUl9EMzsKPi0KPi0JZXJyID0gZHJtX2RwX2RwY2Rfd3JpdGViKGF1eCwg
-RFBfU0VUX1BPV0VSLCB2YWx1ZSk7Cj4tCWlmIChlcnIgPCAwKQo+LQkJcmV0dXJuIGVycjsKPi0K
-Pi0JcmV0dXJuIDA7Cj4tfQo+LQo+IC8qKgo+ICAqIGRybV9kcF9saW5rX2NvbmZpZ3VyZSgpIC0g
-Y29uZmlndXJlIGEgRGlzcGxheVBvcnQgbGluawo+ICAqIEBhdXg6IERpc3BsYXlQb3J0IEFVWCBj
-aGFubmVsCj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RwLmggYi9kcml2ZXJz
-L2dwdS9kcm0vdGVncmEvZHAuaAo+aW5kZXggY2IxMmVkMGM1NGU3Li42OTUwNjBjYWZhYzAgMTAw
-NjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZHAuaAo+KysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3RlZ3JhL2RwLmgKPkBAIC0xNjQsOCArMTY0LDYgQEAgaW50IGRybV9kcF9saW5rX3JlbW92
-ZV9yYXRlKHN0cnVjdCBkcm1fZHBfbGluayAqbGluaywgdW5zaWduZWQgbG9uZyByYXRlKTsKPiB2
-b2lkIGRybV9kcF9saW5rX3VwZGF0ZV9yYXRlcyhzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxpbmspOwo+
-IAo+IGludCBkcm1fZHBfbGlua19wcm9iZShzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3Qg
-ZHJtX2RwX2xpbmsgKmxpbmspOwo+LWludCBkcm1fZHBfbGlua19wb3dlcl91cChzdHJ1Y3QgZHJt
-X2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxpbmspOwo+LWludCBkcm1fZHBfbGlu
-a19wb3dlcl9kb3duKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsIHN0cnVjdCBkcm1fZHBfbGluayAq
-bGluayk7Cj4gaW50IGRybV9kcF9saW5rX2NvbmZpZ3VyZShzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4
-LCBzdHJ1Y3QgZHJtX2RwX2xpbmsgKmxpbmspOwo+IGludCBkcm1fZHBfbGlua19jaG9vc2Uoc3Ry
-dWN0IGRybV9kcF9saW5rICpsaW5rLAo+IAkJICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxh
-eV9tb2RlICptb2RlLAo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYyBi
-L2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYwo+aW5kZXggZjk4ZjcwZWRhOTA2Li4yMWYzZGZk
-Y2M1YzkgMTAwNjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvc29yLmMKPisrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYwo+QEAgLTI2NjYsNyArMjY2Niw3IEBAIHN0YXRpYyB2
-b2lkIHRlZ3JhX3Nvcl9kcF9kaXNhYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcikKPiAJ
-ICogdGhlIEFVWCB0cmFuc2FjdGlvbnMgd291bGQganVzdCBiZSB0aW1pbmcgb3V0Lgo+IAkgKi8K
-PiAJaWYgKG91dHB1dC0+Y29ubmVjdG9yLnN0YXR1cyAhPSBjb25uZWN0b3Jfc3RhdHVzX2Rpc2Nv
-bm5lY3RlZCkgewo+LQkJZXJyID0gZHJtX2RwX2xpbmtfcG93ZXJfZG93bihzb3ItPmF1eCwgJnNv
-ci0+bGluayk7Cj4rCQllcnIgPSBkcm1fZHBfbGlua19wb3dlcl9kb3duKHNvci0+YXV4LCBzb3It
-PmxpbmsucmV2aXNpb24pOwo+IAkJaWYgKGVyciA8IDApCj4gCQkJZGV2X2Vycihzb3ItPmRldiwg
-ImZhaWxlZCB0byBwb3dlciBkb3duIGxpbms6ICVkXG4iLAo+IAkJCQllcnIpOwo+QEAgLTI4ODIs
-NyArMjg4Miw3IEBAIHN0YXRpYyB2b2lkIHRlZ3JhX3Nvcl9kcF9lbmFibGUoc3RydWN0IGRybV9l
-bmNvZGVyICplbmNvZGVyKQo+IAllbHNlCj4gCQlkZXZfZGJnKHNvci0+ZGV2LCAibGluayB0cmFp
-bmluZyBzdWNjZWVkZWRcbiIpOwo+IAo+LQllcnIgPSBkcm1fZHBfbGlua19wb3dlcl91cChzb3It
-PmF1eCwgJnNvci0+bGluayk7Cj4rCWVyciA9IGRybV9kcF9saW5rX3Bvd2VyX3VwKHNvci0+YXV4
-LCBzb3ItPmxpbmsucmV2aXNpb24pOwo+IAlpZiAoZXJyIDwgMCkKPiAJCWRldl9lcnIoc29yLT5k
-ZXYsICJmYWlsZWQgdG8gcG93ZXIgdXAgRFAgbGluazogJWRcbiIsIGVycik7Cj4gCj5kaWZmIC0t
-Z2l0IGEvaW5jbHVkZS9kcm0vZGlzcGxheS9kcm1fZHBfaGVscGVyLmggYi9pbmNsdWRlL2RybS9k
-aXNwbGF5L2RybV9kcF9oZWxwZXIuaAo+aW5kZXggNWFlNDI0MTk1OWYyLi5mOWRhYmNlNDg0YTcg
-MTAwNjQ0Cj4tLS0gYS9pbmNsdWRlL2RybS9kaXNwbGF5L2RybV9kcF9oZWxwZXIuaAo+KysrIGIv
-aW5jbHVkZS9kcm0vZGlzcGxheS9kcm1fZHBfaGVscGVyLmgKPkBAIC01NjYsNiArNTY2LDggQEAg
-aW50IGRybV9kcF9kcGNkX3JlYWRfbGlua19zdGF0dXMoc3RydWN0IGRybV9kcF9hdXggKmF1eCwK
-PiBpbnQgZHJtX2RwX2RwY2RfcmVhZF9waHlfbGlua19zdGF0dXMoc3RydWN0IGRybV9kcF9hdXgg
-KmF1eCwKPiAJCQkJICAgICBlbnVtIGRybV9kcF9waHkgZHBfcGh5LAo+IAkJCQkgICAgIHU4IGxp
-bmtfc3RhdHVzW0RQX0xJTktfU1RBVFVTX1NJWkVdKTsKPitpbnQgZHJtX2RwX2xpbmtfcG93ZXJf
-dXAoc3RydWN0IGRybV9kcF9hdXggKmF1eCwgdW5zaWduZWQgY2hhciByZXZpc2lvbik7Cj4raW50
-IGRybV9kcF9saW5rX3Bvd2VyX2Rvd24oc3RydWN0IGRybV9kcF9hdXggKmF1eCwgdW5zaWduZWQg
-Y2hhciByZXZpc2lvbik7Cj4gCj4gaW50IGRybV9kcF9kcGNkX3dyaXRlX3BheWxvYWQoc3RydWN0
-IGRybV9kcF9hdXggKmF1eCwKPiAJCQkgICAgICBpbnQgdmNwaWQsIHU4IHN0YXJ0X3RpbWVfc2xv
-dCwgdTggdGltZV9zbG90X2NvdW50KTsKPi0tIAo+Mi40My4wCg==
+On 27/03/2025 14:39, Andy Yan wrote:
+> 
+> Hello Dmitry,
+>       Could you take this series? If so, merging it earlier can avoid future conflicts from other patches.
+> Besides, I can update my DP driver based on drm-misc-next.
+
+I'd really like an ack from Thiery or Mikko.
+
+If tere is none (and no objections), I'll push it on Monday.
+
+> 
+> At 2025-03-18 14:34:35, "Andy Yan" <andyshrk@163.com> wrote:
+>> From: Andy Yan <andy.yan@rock-chips.com>
+>>
+>> The helper functions drm_dp_link_power_up/down were moved to Tegra
+>> DRM in commit 9a42c7c647a9 ("drm/tegra: Move drm_dp_link helpers to Tegra DRM")".
+>>
+>> Now since more and more users are duplicating the same code in their
+>> own drivers, it's time to make them as DRM DP common helpers again.
+>>
+>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>> ---
+>>
+>> Changes in v2:
+>> - Fix commit message as suggested by Dmitry
+>>
+>> drivers/gpu/drm/display/drm_dp_helper.c | 69 +++++++++++++++++++++++++
+>> drivers/gpu/drm/tegra/dp.c              | 67 ------------------------
+>> drivers/gpu/drm/tegra/dp.h              |  2 -
+>> drivers/gpu/drm/tegra/sor.c             |  4 +-
+>> include/drm/display/drm_dp_helper.h     |  2 +
+>> 5 files changed, 73 insertions(+), 71 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+>> index dbce1c3f4969..e5dec67e5fca 100644
+>> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+>> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+>> @@ -838,6 +838,75 @@ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+>> }
+>> EXPORT_SYMBOL(drm_dp_dpcd_read_phy_link_status);
+>>
+>> +/**
+>> + * drm_dp_link_power_up() - power up a DisplayPort link
+>> + * @aux: DisplayPort AUX channel
+>> + * @revision: DPCD revision supported on the link
+>> + *
+>> + * Returns 0 on success or a negative error code on failure.
+>> + */
+>> +int drm_dp_link_power_up(struct drm_dp_aux *aux, unsigned char revision)
+>> +{
+>> +	u8 value;
+>> +	int err;
+>> +
+>> +	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+>> +	if (revision < DP_DPCD_REV_11)
+>> +		return 0;
+>> +
+>> +	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+>> +	if (err < 0)
+>> +		return err;
+>> +
+>> +	value &= ~DP_SET_POWER_MASK;
+>> +	value |= DP_SET_POWER_D0;
+>> +
+>> +	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+>> +	if (err < 0)
+>> +		return err;
+>> +
+>> +	/*
+>> +	 * According to the DP 1.1 specification, a "Sink Device must exit the
+>> +	 * power saving state within 1 ms" (Section 2.5.3.1, Table 5-52, "Sink
+>> +	 * Control Field" (register 0x600).
+>> +	 */
+>> +	usleep_range(1000, 2000);
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL(drm_dp_link_power_up);
+>> +
+>> +/**
+>> + * drm_dp_link_power_down() - power down a DisplayPort link
+>> + * @aux: DisplayPort AUX channel
+>> + * @revision: DPCD revision supported on the link
+>> + *
+>> + * Returns 0 on success or a negative error code on failure.
+>> + */
+>> +int drm_dp_link_power_down(struct drm_dp_aux *aux, unsigned char revision)
+>> +{
+>> +	u8 value;
+>> +	int err;
+>> +
+>> +	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+>> +	if (revision < DP_DPCD_REV_11)
+>> +		return 0;
+>> +
+>> +	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+>> +	if (err < 0)
+>> +		return err;
+>> +
+>> +	value &= ~DP_SET_POWER_MASK;
+>> +	value |= DP_SET_POWER_D3;
+>> +
+>> +	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+>> +	if (err < 0)
+>> +		return err;
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL(drm_dp_link_power_down);
+>> +
+>> static int read_payload_update_status(struct drm_dp_aux *aux)
+>> {
+>> 	int ret;
+>> diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
+>> index 08fbd8f151a1..990e744b0923 100644
+>> --- a/drivers/gpu/drm/tegra/dp.c
+>> +++ b/drivers/gpu/drm/tegra/dp.c
+>> @@ -255,73 +255,6 @@ int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link)
+>> 	return 0;
+>> }
+>>
+>> -/**
+>> - * drm_dp_link_power_up() - power up a DisplayPort link
+>> - * @aux: DisplayPort AUX channel
+>> - * @link: pointer to a structure containing the link configuration
+>> - *
+>> - * Returns 0 on success or a negative error code on failure.
+>> - */
+>> -int drm_dp_link_power_up(struct drm_dp_aux *aux, struct drm_dp_link *link)
+>> -{
+>> -	u8 value;
+>> -	int err;
+>> -
+>> -	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+>> -	if (link->revision < 0x11)
+>> -		return 0;
+>> -
+>> -	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+>> -	if (err < 0)
+>> -		return err;
+>> -
+>> -	value &= ~DP_SET_POWER_MASK;
+>> -	value |= DP_SET_POWER_D0;
+>> -
+>> -	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+>> -	if (err < 0)
+>> -		return err;
+>> -
+>> -	/*
+>> -	 * According to the DP 1.1 specification, a "Sink Device must exit the
+>> -	 * power saving state within 1 ms" (Section 2.5.3.1, Table 5-52, "Sink
+>> -	 * Control Field" (register 0x600).
+>> -	 */
+>> -	usleep_range(1000, 2000);
+>> -
+>> -	return 0;
+>> -}
+>> -
+>> -/**
+>> - * drm_dp_link_power_down() - power down a DisplayPort link
+>> - * @aux: DisplayPort AUX channel
+>> - * @link: pointer to a structure containing the link configuration
+>> - *
+>> - * Returns 0 on success or a negative error code on failure.
+>> - */
+>> -int drm_dp_link_power_down(struct drm_dp_aux *aux, struct drm_dp_link *link)
+>> -{
+>> -	u8 value;
+>> -	int err;
+>> -
+>> -	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+>> -	if (link->revision < 0x11)
+>> -		return 0;
+>> -
+>> -	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+>> -	if (err < 0)
+>> -		return err;
+>> -
+>> -	value &= ~DP_SET_POWER_MASK;
+>> -	value |= DP_SET_POWER_D3;
+>> -
+>> -	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+>> -	if (err < 0)
+>> -		return err;
+>> -
+>> -	return 0;
+>> -}
+>> -
+>> /**
+>>   * drm_dp_link_configure() - configure a DisplayPort link
+>>   * @aux: DisplayPort AUX channel
+>> diff --git a/drivers/gpu/drm/tegra/dp.h b/drivers/gpu/drm/tegra/dp.h
+>> index cb12ed0c54e7..695060cafac0 100644
+>> --- a/drivers/gpu/drm/tegra/dp.h
+>> +++ b/drivers/gpu/drm/tegra/dp.h
+>> @@ -164,8 +164,6 @@ int drm_dp_link_remove_rate(struct drm_dp_link *link, unsigned long rate);
+>> void drm_dp_link_update_rates(struct drm_dp_link *link);
+>>
+>> int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link);
+>> -int drm_dp_link_power_up(struct drm_dp_aux *aux, struct drm_dp_link *link);
+>> -int drm_dp_link_power_down(struct drm_dp_aux *aux, struct drm_dp_link *link);
+>> int drm_dp_link_configure(struct drm_dp_aux *aux, struct drm_dp_link *link);
+>> int drm_dp_link_choose(struct drm_dp_link *link,
+>> 		       const struct drm_display_mode *mode,
+>> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+>> index f98f70eda906..21f3dfdcc5c9 100644
+>> --- a/drivers/gpu/drm/tegra/sor.c
+>> +++ b/drivers/gpu/drm/tegra/sor.c
+>> @@ -2666,7 +2666,7 @@ static void tegra_sor_dp_disable(struct drm_encoder *encoder)
+>> 	 * the AUX transactions would just be timing out.
+>> 	 */
+>> 	if (output->connector.status != connector_status_disconnected) {
+>> -		err = drm_dp_link_power_down(sor->aux, &sor->link);
+>> +		err = drm_dp_link_power_down(sor->aux, sor->link.revision);
+>> 		if (err < 0)
+>> 			dev_err(sor->dev, "failed to power down link: %d\n",
+>> 				err);
+>> @@ -2882,7 +2882,7 @@ static void tegra_sor_dp_enable(struct drm_encoder *encoder)
+>> 	else
+>> 		dev_dbg(sor->dev, "link training succeeded\n");
+>>
+>> -	err = drm_dp_link_power_up(sor->aux, &sor->link);
+>> +	err = drm_dp_link_power_up(sor->aux, sor->link.revision);
+>> 	if (err < 0)
+>> 		dev_err(sor->dev, "failed to power up DP link: %d\n", err);
+>>
+>> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+>> index 5ae4241959f2..f9dabce484a7 100644
+>> --- a/include/drm/display/drm_dp_helper.h
+>> +++ b/include/drm/display/drm_dp_helper.h
+>> @@ -566,6 +566,8 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
+>> int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+>> 				     enum drm_dp_phy dp_phy,
+>> 				     u8 link_status[DP_LINK_STATUS_SIZE]);
+>> +int drm_dp_link_power_up(struct drm_dp_aux *aux, unsigned char revision);
+>> +int drm_dp_link_power_down(struct drm_dp_aux *aux, unsigned char revision);
+>>
+>> int drm_dp_dpcd_write_payload(struct drm_dp_aux *aux,
+>> 			      int vcpid, u8 start_time_slot, u8 time_slot_count);
+>> -- 
+>> 2.43.0
+
+
+-- 
+With best wishes
+Dmitry
