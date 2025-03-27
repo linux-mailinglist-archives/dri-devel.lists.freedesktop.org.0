@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB44A72E20
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 11:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44222A72E26
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 11:48:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01CFD10E89F;
-	Thu, 27 Mar 2025 10:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91C6710E8A3;
+	Thu, 27 Mar 2025 10:48:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="UsFoh7Sb";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="E7f53s2/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 964D310E89F
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 10:48:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1743072480; cv=none; 
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0E1610E8A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 10:48:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743072504; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=GWn1Fp0B3qE6pqkQb014UeHC+jHIsCyPTwINQfNm6mnmU5J7RtyS7I4HN9G16O00UQURDhv8cDRJyVG0zqSSJUhi3HOnuISO7xdQLp5uHBBX9Rz6WCFyJkmMDTf72HDZPm9edHworNtFLhaoUT8rBrR//KyrMhnN0R6u+WNgHJA=
+ b=Y2HLrdm7o/M4reGGMTUYsSS8McBMow45HKXNA7JpoOAr0vyUmi9HGYR82C10pUTAl31qy2Gydbm1NRegct6JuRJcyB1r9W0FHUdwBiqUm8YsflCXrBPMarAIzXHD0umcRYaGU2aPtwLg1rbGMxFOpqblVIuxPmthFvfRKbZNECw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1743072480;
+ s=zohoarc; t=1743072504;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=rKxwQ+22FcQ6BKcswBCuTnkH+nug+Kl9H3+rd52sx+k=; 
- b=Ny02VaEBz+spKY6kCvprOQ4cmNFRT1lvfogcMvoyvJt2klcDx+q0INdG8ayCPKmDUb0/c3k5PafmBEzBcGY1LmqGV2eQTf+fS2AwmQgIRyo3H8UGJlv0aJAQf5LcSfNxlKvTs/VSifANObzWkVMAeNUzGZQeMmzjfPEtikOYuGg=
+ bh=/0osdkzXO77uk+9mEd7tz4GU3wIFFWyxHdVicj2jq6Y=; 
+ b=GB0LJktl/9I1gfPDlTTm51e7ojXMYZHw+NFzG6gvuMeSOjTFNAYf41OouDX9fq6k/0fW0cCmc6p+hUmJSXWydpQP3BvF/gkkxTSKKOe6qixzOQ2jDTJ7Rpqn5HpXEeZbmQKnVyNpLc+c0iuQRb4TmSD9kf36lHlGRZHqxPNqFiQ=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743072480; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743072504; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
  h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=rKxwQ+22FcQ6BKcswBCuTnkH+nug+Kl9H3+rd52sx+k=;
- b=UsFoh7Sbsp3174HvPQRMXLAkVQ0wYphuvJ8tv4ssUWrLL7plTFRAIJghkWA6it3H
- QrTtggkJX2Rmtu+mZCuptghAYE+6nYR8kI7dCK+0+QqA/ojyoIbpTRhklDUW3Wc7iL7
- S72TCmMlq3AnRYf+OjVg6iDrDXOj8rVS6jIu8sdQ=
-Received: by mx.zohomail.com with SMTPS id 1743072478767291.3636419139931;
- Thu, 27 Mar 2025 03:47:58 -0700 (PDT)
-Message-ID: <55a739b3-c73f-4073-81a9-7dddd7370bba@collabora.com>
-Date: Thu, 27 Mar 2025 13:47:55 +0300
+ bh=/0osdkzXO77uk+9mEd7tz4GU3wIFFWyxHdVicj2jq6Y=;
+ b=E7f53s2/TLPMHduFMbQ+FTL+LAYeiHwHotN37Q+nHx0PNEyHsjzwJCfofu4W1m8k
+ 5FyaYdnIVKjWCnuaEJw8443FWaaDJJQ7Nev/BGYgzJiRwQaebiWJaeDWw6RrT62LbLb
+ ZGo4uQUNxT0phBuQFWjUgpqroddJkx/8rEKnIS/g=
+Received: by mx.zohomail.com with SMTPS id 1743072502628723.0604621475239;
+ Thu, 27 Mar 2025 03:48:22 -0700 (PDT)
+Message-ID: <475cd9ea-98ab-4557-ab75-bc9a8d099723@collabora.com>
+Date: Thu, 27 Mar 2025 13:48:19 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] accel/ivpu:
- s/drm_gem_shmem_v[un]map/drm_gem_shmem_v[un]map_locked/
+Subject: Re: [PATCH 3/3] accel/amdxdna:
+ s/drm_gem_v[un]map_unlocked/drm_gem_v[un]map/
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  dri-devel@lists.freedesktop.org
-Cc: kernel@collabora.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>
+Cc: kernel@collabora.com, Min Ma <min.ma@amd.com>,
+ Lizhi Hou <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>
 References: <20250327104300.1982058-1-boris.brezillon@collabora.com>
- <20250327104300.1982058-2-boris.brezillon@collabora.com>
-Content-Language: en-US
+ <20250327104300.1982058-3-boris.brezillon@collabora.com>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20250327104300.1982058-2-boris.brezillon@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250327104300.1982058-3-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
@@ -72,45 +70,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/27/25 13:42, Boris Brezillon wrote:
-> Commit 954907f7147d ("drm/shmem-helper: Refactor locked/unlocked
-> functions") suffixed drm_gem_shmem_v[un]map with _locked to reflect
-> the fact these functions must be called with the GEM resv lock held,
+On 3/27/25 13:43, Boris Brezillon wrote:
+> Commit 8f5c4871a014 ("drm/gem: Change locked/unlocked postfix of
+> drm_gem_v/unmap() function names") dropped the _unlocked suffix,
 > but accel drivers were left behind.
 > 
-> Fixes: 954907f7147d ("drm/shmem-helper: Refactor locked/unlocked functions")
+> Fixes: 8f5c4871a014 ("drm/gem: Change locked/unlocked postfix of drm_gem_v/unmap() function names")
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> Cc: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+> Cc: Min Ma <min.ma@amd.com>
+> Cc: Lizhi Hou <lizhi.hou@amd.com>
 > Cc: Oded Gabbay <ogabbay@kernel.org>
 > Cc: dri-devel@lists.freedesktop.org
 > ---
->  drivers/accel/ivpu/ivpu_gem.c | 4 ++--
+>  drivers/accel/amdxdna/amdxdna_gem.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-> index 09c9c5256af5..212d21ad2bbd 100644
-> --- a/drivers/accel/ivpu/ivpu_gem.c
-> +++ b/drivers/accel/ivpu/ivpu_gem.c
-> @@ -362,7 +362,7 @@ ivpu_bo_create(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
+> diff --git a/drivers/accel/amdxdna/amdxdna_gem.c b/drivers/accel/amdxdna/amdxdna_gem.c
+> index 606433d73236..d9691dca12d1 100644
+> --- a/drivers/accel/amdxdna/amdxdna_gem.c
+> +++ b/drivers/accel/amdxdna/amdxdna_gem.c
+> @@ -81,7 +81,7 @@ static void amdxdna_gem_obj_free(struct drm_gem_object *gobj)
+>  	if (abo->type == AMDXDNA_BO_DEV_HEAP)
+>  		drm_mm_takedown(&abo->mm);
 >  
->  	if (flags & DRM_IVPU_BO_MAPPABLE) {
->  		dma_resv_lock(bo->base.base.resv, NULL);
-> -		ret = drm_gem_shmem_vmap(&bo->base, &map);
-> +		ret = drm_gem_shmem_vmap_locked(&bo->base, &map);
->  		dma_resv_unlock(bo->base.base.resv);
+> -	drm_gem_vunmap_unlocked(gobj, &map);
+> +	drm_gem_vunmap(gobj, &map);
+>  	mutex_destroy(&abo->lock);
+>  	drm_gem_shmem_free(&abo->base);
+>  }
+> @@ -417,7 +417,7 @@ amdxdna_drm_create_cmd_bo(struct drm_device *dev,
+>  	abo->type = AMDXDNA_BO_CMD;
+>  	abo->client = filp->driver_priv;
 >  
->  		if (ret)
-> @@ -387,7 +387,7 @@ void ivpu_bo_free(struct ivpu_bo *bo)
->  
->  	if (bo->flags & DRM_IVPU_BO_MAPPABLE) {
->  		dma_resv_lock(bo->base.base.resv, NULL);
-> -		drm_gem_shmem_vunmap(&bo->base, &map);
-> +		drm_gem_shmem_vunmap_locked(&bo->base, &map);
->  		dma_resv_unlock(bo->base.base.resv);
->  	}
->  
+> -	ret = drm_gem_vmap_unlocked(to_gobj(abo), &map);
+> +	ret = drm_gem_vmap(to_gobj(abo), &map);
+>  	if (ret) {
+>  		XDNA_ERR(xdna, "Vmap cmd bo failed, ret %d", ret);
+>  		goto release_obj;
 
 Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
