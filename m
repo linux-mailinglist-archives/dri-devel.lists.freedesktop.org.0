@@ -2,76 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15DEA73E4C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 20:02:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC99A73EE7
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 20:44:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53FF910E943;
-	Thu, 27 Mar 2025 19:02:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C1110E145;
+	Thu, 27 Mar 2025 19:44:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="0TwIh1fC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gxCIPe4C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5E910E93E
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 19:02:22 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-abf3d64849dso209401466b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:02:22 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA87610E145
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 19:44:48 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-30c0517142bso14588591fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1743102141;
- x=1743706941; darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1743104687; x=1743709487; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=t01uOc+dKD9m8pHt78XkgjVSzMgtIiWN6r92eFZcqFI=;
- b=0TwIh1fCHJuRBB4fH06mi3y6AV6toj1V4UKVdwAcOdRnL1EyWLy1fnSlp4YdA0I1F1
- eFGd8G7graaj/lvGvIF2d0fSys86KGtl8+gvVaJLGgof7meSVHUstLsOHO7e0+S4c/JJ
- EqE4TLjcT6B1bqumHgAyYdDK7yq22yPrbUZDT0FhaeZA980Xmc+ixwSMllfjApR/PVZ1
- /PU2xDr7XRA887su9CjvAjOvY6tPh4IcMvlbvPpDfVuUmRg1pI+9hnZk9+5zL3fmozf1
- Os37lzjJS/gjGuGt9bcG/PwX+QIqyYjUAWxLHSnl6niyNbpYr9PBMM9h4Z5DHpWBRWAN
- AsKg==
+ bh=zJrB+25qfJY+3ZkUCcZjNy69G3uZBa+b+woWWSnmCkY=;
+ b=gxCIPe4CXASM1HySDFngB/cI0L/K3ONfnSeNh6F8HSWykQu1CmMBWBumqe0VShYqK2
+ I8XT8SkdP4bm0QJpUPrAjN3zcxb27V37B3l7kz/GnNCD9PfjZtBirWdPhHG5XLy4qBYI
+ mDOny7YfteJAGZWz3A+SuwcH/l65iod+E+yln6eTYLlkaAPtpindiQhPv9dMv5ULmCcc
+ tdaRfTroZbxkPYgOwWgf4x3AWio08PahfFhwpOQdH+lpgSPjeNWNnSWWJkNL3GzEYtp3
+ QEI+168/KkRvCuoz7tsHF5KNDBbA/41yYbPGuza0hz1Ddxw1qi25KiC8DpVGEw2P6EE1
+ yWXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743102141; x=1743706941;
+ d=1e100.net; s=20230601; t=1743104687; x=1743709487;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=t01uOc+dKD9m8pHt78XkgjVSzMgtIiWN6r92eFZcqFI=;
- b=r/u9gq99P7Eh7/xeiLrwqBlIKPOknlHSKf3YgfNsex3pBoV6LHouO338TGCqusnvBE
- VEQD2ZGsFKpDvhN1oywimkgAHv5ve1pXfpiNDmif/uTJkSkLh8mQCpa7Lex8pBhqD9n/
- xNSJ1OWha1VeLy6OjiwRpDQajRSBWn+d0GnndHW2Plxtrfx6YdjBmEx0J9fLWKTqaWUv
- BC/1pXA1nwhxb9Q5A62PLlCpeLJm+xpHew+etBqNPGOLDrTTmG8bqNv1pLXc9zMAoXt/
- oZMlecq96qdIY5pZbZFXM6xVU0ZkaxCePf4gp29f3fyPvZg90X7wi1RZYylYhbSNVBjQ
- 1+fQ==
+ bh=zJrB+25qfJY+3ZkUCcZjNy69G3uZBa+b+woWWSnmCkY=;
+ b=l7gUyFu65K7TMJYtSoviK3yIqxJePME53zz0kYTmasJOFwTEli28S28Klze6LcDulN
+ hosjrqGHgAeBnO1BFLV5mw30+iX1b6KuUT0Sl2BQaxov9/RA0YH7e5lChEb8YGD24DK5
+ B005YlaDXLJiNbPPtBWMyP+lMn06w95h7Cor/frE+y82+WASkA2z1oO0+tMPrRz6QSjH
+ ZFanwSZ8+s87BjBJc3nI1VyT88mb1JMXxm3OoRFFmT5tP7gaUYLfVeoLQwi3YddD8Xk/
+ qRs3monkyDb83k0PuYpwgOxmIZ1CrK7tHjSmFn5UcWwFYuVRR9K/iEsgVWvu/CUrAmFM
+ ttFg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVHu1x3Xm2U7bsGcmBVayNGawfbv8Apoq48l8GvDVW9oiD+hwkULYK+kwEcDYP+r+nXwCz9hbSn5x4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSwDJ5zFvm4nB9xdYBvITVxA7k8jpPNgWXkrNGmHysE7xvr9q/
- CIZt/gerLcc6f1MjILvPh6GklVNTApdbgPcsFHmOCmjBamp6Esy9IAoshejs5JmelbQoPsIGqWR
- PilZGFdwksRp5jl52QpsfkHjuSwLBO78HRd3ygw==
-X-Gm-Gg: ASbGncumTFnOyDW6BVPOCXQA1UKctk+WyohjKd1n5BXpiU5rKaHOBqqQGCyF0WWcykI
- 1Rldv6CJRSB1JFoR2y2PuFd27hFeTTNV88cy2k3X6HmJgqUnRUrYafln1/hurAhNXq4Z6tJ3kRP
- T70BMdwFgVo9m8yNtwjZR456V/qxcWqxIKDCfIXIEkd9TJiX3YGBCr1DcNfQ==
-X-Google-Smtp-Source: AGHT+IFdAriu33TeMlfQtOemQZ156y3VpXNsrgytu4hyNzGPMxzNiqF61n78Yv6Jx/sursoj3lVdJ7K5H65m6DZ9YSU=
-X-Received: by 2002:a17:907:9410:b0:ac2:cf0b:b806 with SMTP id
- a640c23a62f3a-ac6fb1bdeb6mr368891266b.56.1743102140953; Thu, 27 Mar 2025
- 12:02:20 -0700 (PDT)
+ AJvYcCXa1SU7rDckqHjc837K6++/XxZLAy9fzohkguB3L7lWdLKYdE3UKAf05aaKmW44oJ7xsjIjwZZUSLE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy50mpxTOJgFpho5doGWAW1xDm5FwvLqYdLr4zgOIiUgv+4BRKB
+ WxiEdymfjDo39kC8e1liebKVigyaidRitr7LWqZjkEaIeQhfA6XOKMnUcs6hNeMCg6gvDyDTqnt
+ hWL/CkYkeG0Y1A9FDkx61zAQvlIQ=
+X-Gm-Gg: ASbGncsjzHe9+lzgGf1/7hZ6kzTMg93xW5LQ3gNYnBsb/mr7pnxOibIdvxTS1NtSoTi
+ vAEyDg2mjQdZuacVDC2vA+daL2ySsKLVDxKzqmwP6yOXlYfAgvJMFQukLlOXL8BaDAY3DxYKQs4
+ Yb3AOHmixb7d5YUx+4B3dQO2AcUP4ce7Zubx1sdkuMtVjpeS6Pcx98
+X-Google-Smtp-Source: AGHT+IFyLKYlIEvGpAd9CCRPDur7dyQO/OEa86nU/lx3w5Jjq2h0PxLW9TMc3L3t1yE/rhj6ZShnSCOlezEb1R9xtqM=
+X-Received: by 2002:a05:651c:1a0b:b0:30b:b7c3:ea71 with SMTP id
+ 38308e7fff4ca-30dc5e31b95mr23059291fa.15.1743104686814; Thu, 27 Mar 2025
+ 12:44:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250312213746.228042-1-mhenning@darkrefraction.com>
- <20250312213746.228042-3-mhenning@darkrefraction.com>
- <Z9xfoS89yimS1Sb3@pollux>
- <CAAgWFh2RtCwaKNinX9X4BjwNiaBj5BF_ypzbqoqV4LJgN4cPvg@mail.gmail.com>
- <Z-VZlIc3E8ZQQmXa@cassiopeiae>
-In-Reply-To: <Z-VZlIc3E8ZQQmXa@cassiopeiae>
-From: M Henning <mhenning@darkrefraction.com>
-Date: Thu, 27 Mar 2025 15:01:54 -0400
-X-Gm-Features: AQ5f1JrCSLT7wmMfX_bBZIXEHu0KcL2uFmLp74llm2T31nXsEw2JHxFsuNCAqvM
-Message-ID: <CAAgWFh2F-MH_U1V6SY_Z3nWz0_meyvAcWjfUiEoXzpW697oi7w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/nouveau: DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
- Faith Ekstrand <faith.ekstrand@collabora.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
+References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
+ <D8Q4MSXXZ7OI.1NC226MO02VSN@proton.me>
+ <CAJ-ks9nHKpQPuSBypXTSATYhbAFkQTJzUq8jN0nu4t=Kw+0xxg@mail.gmail.com>
+ <D8QCK3CQES3Y.3LTZ4MVO5B3KT@proton.me>
+ <CAJ-ks9nKT2PUDm6=b4AB1QUWwwvcqPn7Vz60=c0B+uFMZrqPew@mail.gmail.com>
+ <D8QDOBUM6NF0.CGJY7ZA5KD9S@proton.me>
+ <CAJ-ks9ntTxBM=c5nUZWGv3MoRt-LveBchn-c1Xy-DGap7fLVRA@mail.gmail.com>
+ <D8QI804Q3DAS.2BV4WSL81H52Z@proton.me>
+ <CAJ-ks9mA5QDeZ3EvOD3THayFt4TtDysgm0jp2aiSF2mQCrhWiQ@mail.gmail.com>
+ <D8QJMH5UR6VG.2OT5MXJJQU5QT@proton.me>
+ <CAJ-ks9m96vf_HxttuopuC_UfNGJbHHNdEGS2er6nZZG38pe3HQ@mail.gmail.com>
+In-Reply-To: <CAJ-ks9m96vf_HxttuopuC_UfNGJbHHNdEGS2er6nZZG38pe3HQ@mail.gmail.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Thu, 27 Mar 2025 15:44:09 -0400
+X-Gm-Features: AQ5f1Jr0ooXTkF4heGS1OXy1iD2yeKYqVr9uVRi6oc_-HuImKMszqPEfh2j-Kuc
+Message-ID: <CAJ-ks9n3BdKkfCpMXhE8M8Sx4B5rASoNvbmA4zPU3rmPQwZCiQ@mail.gmail.com>
+Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+ Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,99 +118,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 27, 2025 at 9:58=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
-wrote:
+On Thu, Mar 27, 2025 at 10:15=E2=80=AFAM Tamir Duberstein <tamird@gmail.com=
+> wrote:
 >
-> On Fri, Mar 21, 2025 at 07:00:57PM -0400, M Henning wrote:
-> > This is a pointer in the gpu's virtual address space. It must be
-> > aligned according to ctxsw_align and be at least ctxsw_size bytes
-> > (where those values come from the nouveau_abi16_ioctl_get_zcull_info
-> > structure). I'll change the description to say that much.
+> On Wed, Mar 26, 2025 at 6:15=E2=80=AFPM Benno Lossin <benno.lossin@proton=
+.me> wrote:
 > >
-> > Yes, this is GEM-backed. I'm actually not entirely sure what the
-> > requirements are here, since this part is reverse-engineered. I think
-> > NOUVEAU_GEM_DOMAIN_VRAM and NOUVEAU_GEM_DOMAIN_GART are both okay. The
-> > proprietary driver allocates this buffer using
-> > NV_ESC_RM_VID_HEAP_CONTROL and sets attr =3D NVOS32_ATTR_LOCATION_ANY |
-> > NVOS32_ATTR_PAGE_SIZE_BIG | NVOS32_ATTR_PHYSICALITY_CONTIGUOUS, attr2
-> > =3D NVOS32_ATTR2_GPU_CACHEABLE_YES | NVOS32_ATTR2_ZBC_PREFER_NO_ZBC.
->
-> (Please do not top post.)
->
-> What I mean is how do you map the backing GEM into the GPU's virtual addr=
-ess
-> space? Since it's bound to a channel, I assume that it must be ensured it=
-'s
-> properly mapped when work is pushed to the channel. Is it mapped through
-> VM_BIND?
-
-Yes. The userspace code for this is here:
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33861/diffs?commi=
-t_id=3D0c4baab863730f9fc8b417834ffcbb400f11d617
-It calls into the usual function for driver internal allocations
-(nvkmd_dev_alloc_mem) which calls VM_BIND internally.
-
-I don't understand: why is this line of questioning important?
-
+> > On Wed Mar 26, 2025 at 11:09 PM CET, Tamir Duberstein wrote:
+> > > On Wed, Mar 26, 2025 at 5:09=E2=80=AFPM Benno Lossin <benno.lossin@pr=
+oton.me> wrote:
+> > >> On Wed Mar 26, 2025 at 8:06 PM CET, Tamir Duberstein wrote:
+> > >> > On Wed, Mar 26, 2025 at 1:36=E2=80=AFPM Benno Lossin <benno.lossin=
+@proton.me> wrote:
+> > >> >> On Wed Mar 26, 2025 at 5:57 PM CET, Tamir Duberstein wrote:
+> > >> >> >
+> > >> >> > Yeah, we should do this - but again: not relevant in this discu=
+ssion.
+> > >> >>
+> > >> >> I think it's pretty relevant.
+> > >> >
+> > >> > It's not relevant because we're no longer talking about transmutin=
+g
+> > >> > pointer to pointer. The two options are:
+> > >> > 1. transmute reference to reference.
+> > >> > 2. coerce reference to pointer, `as` cast pointer to pointer (trig=
+gers
+> > >> > `ptr_as_ptr`), reborrow pointer to reference.
+> > >> >
+> > >> > If anyone can help me understand why (2) is better than (1), I'd
+> > >> > certainly appreciate it.
+> > >>
+> > >> I am very confident that (2) is correct. With (1) I'm not sure (see
+> > >> above), so that's why I mentioned it.
+> > >
+> > > Can you help me understand why you're confident about (2) but not (1)=
+?
 > >
-> > On Thu, Mar 20, 2025 at 2:34=E2=80=AFPM Danilo Krummrich <dakr@kernel.o=
-rg> wrote:
-> > >
-> > > On Wed, Mar 12, 2025 at 05:36:15PM -0400, Mel Henning wrote:
-> > > > diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouv=
-eau_drm.h
-> > >
-> > > Same here, please split the uAPI change in a separate commit.
-> > >
-> > > > index 33361784eb4e..e9638f4dd7e6 100644
-> > > > --- a/include/uapi/drm/nouveau_drm.h
-> > > > +++ b/include/uapi/drm/nouveau_drm.h
-> > > > @@ -448,6 +448,20 @@ struct drm_nouveau_get_zcull_info {
-> > > >       __u32 ctxsw_align;
-> > > >  };
-> > > >
-> > > > +struct drm_nouveau_set_zcull_ctxsw_buffer {
-> > > > +     /**
-> > > > +      * @ptr: The virtual address for the buffer, or null to bind =
-nothing
-> > > > +      */
-> > > > +     __u64 addr;
-> > >
-> > > What is this buffer? Is this a GEM object backed buffer? How is it ma=
-pped?
-> > >
-> > > > +
-> > > > +     /**
-> > > > +      * @channel: the channel to set the buffer on
-> > > > +      */
-> > > > +     __u32 channel;
-> > > > +
-> > > > +     __u32 pad;
-> > > > +};
-> > > > +
-> > > >  #define DRM_NOUVEAU_GETPARAM           0x00
-> > > >  #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
-> > > >  #define DRM_NOUVEAU_CHANNEL_ALLOC      0x02
-> > > > @@ -462,6 +476,7 @@ struct drm_nouveau_get_zcull_info {
-> > > >  #define DRM_NOUVEAU_VM_BIND            0x11
-> > > >  #define DRM_NOUVEAU_EXEC               0x12
-> > > >  #define DRM_NOUVEAU_GET_ZCULL_INFO     0x13
-> > > > +#define DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER 0x14
-> > > >  #define DRM_NOUVEAU_GEM_NEW            0x40
-> > > >  #define DRM_NOUVEAU_GEM_PUSHBUF        0x41
-> > > >  #define DRM_NOUVEAU_GEM_CPU_PREP       0x42
-> > > > @@ -532,6 +547,7 @@ struct drm_nouveau_svm_bind {
-> > > >  #define DRM_IOCTL_NOUVEAU_EXEC               DRM_IOWR(DRM_COMMAND_=
-BASE + DRM_NOUVEAU_EXEC, struct drm_nouveau_exec)
-> > > >
-> > > >  #define DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO     DRM_IOR (DRM_COMMAND_=
-BASE + DRM_NOUVEAU_GET_ZCULL_INFO, struct drm_nouveau_get_zcull_info)
-> > > > +#define DRM_IOCTL_NOUVEAU_SET_ZCULL_CTXSW_BUFFER  DRM_IOW (DRM_COM=
-MAND_BASE + DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER, struct drm_nouveau_set_zcul=
-l_ctxsw_buffer)
-> > > >  #if defined(__cplusplus)
-> > > >  }
-> > > >  #endif
-> > > > --
-> > > > 2.48.1
-> > > >
+> > My explanation from above explains why I'm not confident about (1):
+> >
+> >     For ptr-to-int transmutes, I know that they will probably remove
+> >     provenance, hence I am a bit cautious about using them for ptr-to-p=
+tr or
+> >     ref-to-ref.
+> >
+> > The reason I'm confident about (2) is that that is the canonical way to
+> > cast the type of a reference pointing to an `!Sized` value.
+>
+> Do you have a citation, other than the transmute doc?
+
+Turns out this appeases clippy:
+
+diff --git a/rust/kernel/uaccess.rs b/rust/kernel/uaccess.rs
+index 80a9782b1c6e..7a6fc78fc314 100644
+--- a/rust/kernel/uaccess.rs
++++ b/rust/kernel/uaccess.rs
+@@ -240,9 +240,10 @@ pub fn read_raw(&mut self, out: &mut
+[MaybeUninit<u8>]) -> Result {
+     /// Fails with [`EFAULT`] if the read happens on a bad address,
+or if the read goes out of
+     /// bounds of this [`UserSliceReader`]. This call may modify
+`out` even if it returns an error.
+     pub fn read_slice(&mut self, out: &mut [u8]) -> Result {
++        let out: *mut [u8] =3D out;
+         // SAFETY: The types are compatible and `read_raw` doesn't
+write uninitialized bytes to
+         // `out`.
+-        let out =3D unsafe { &mut *(out as *mut [u8] as *mut
+[MaybeUninit<u8>]) };
++        let out =3D unsafe { &mut *(out as *mut [MaybeUninit<u8>]) };
+         self.read_raw(out)
+     }
+
+Benno, would that work for you? Same in str.rs, of course.
