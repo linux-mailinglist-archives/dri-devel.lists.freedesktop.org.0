@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82B4A74136
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 23:55:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57DF3A7413B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 23:59:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2077110E0D6;
-	Thu, 27 Mar 2025 22:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFC8A10E165;
+	Thu, 27 Mar 2025 22:59:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Q594SFK9";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WSO4Kgga";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9BF410E165
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 22:55:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB33510E165
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 22:59:31 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF13D446;
- Thu, 27 Mar 2025 23:54:04 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C90B1446;
+ Thu, 27 Mar 2025 23:57:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1743116044;
- bh=5dcJ6twb0oWsmBHIlhgdwYsyHCMN1hm7TsGSl/bOP6o=;
+ s=mail; t=1743116262;
+ bh=ce43ubclLYVDVVwz6u4lLxtqmLE2iNCLrwoRsYmtNqo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Q594SFK98lcwolGilpPbFx8WmfRPeHs/Yum6qAGR6florz+BR5Z6D1IjMOwfKqURb
- 9JlKAudv8NVL3JliDbBfmpqvBRkoFrJEf6EGHvWNG5V1vdjvTC3Zgbfi3+948UD1o3
- GxcmHAaDnPo6ERZUxG5SXR5Sk8odCrE7nFBvpGaY=
-Date: Fri, 28 Mar 2025 00:55:29 +0200
+ b=WSO4KggaskYagYGaS9JPISt/OXxyWcHuUf9/lOddzr5svUzDfUbLeuCNPtT8wg6S7
+ lU/8YckBbsiPSlaX/lnHmfgO1AuhQFlzdrCnGLoycgDP9TAnBoHIScf3mE4dw0tYm5
+ D/A3qA6KZ5JPCBUELgM4emeqbnsUD6WJKC/aa5RQ=
+Date: Fri, 28 Mar 2025 00:59:06 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Vishal Sagar <vishal.sagar@amd.com>,
@@ -41,14 +41,14 @@ Cc: Vishal Sagar <vishal.sagar@amd.com>,
  linux-arm-kernel@lists.infradead.org,
  Geert Uytterhoeven <geert@linux-m68k.org>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v4 05/11] drm/fourcc: Add DRM_FORMAT_X403
-Message-ID: <20250327225529.GD16629@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 10/11] drm: xlnx: zynqmp: Add support for X403
+Message-ID: <20250327225906.GE16629@pendragon.ideasonboard.com>
 References: <20250326-xilinx-formats-v4-0-322a300c6d72@ideasonboard.com>
- <20250326-xilinx-formats-v4-5-322a300c6d72@ideasonboard.com>
+ <20250326-xilinx-formats-v4-10-322a300c6d72@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250326-xilinx-formats-v4-5-322a300c6d72@ideasonboard.com>
+In-Reply-To: <20250326-xilinx-formats-v4-10-322a300c6d72@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +68,33 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Wed, Mar 26, 2025 at 03:22:48PM +0200, Tomi Valkeinen wrote:
-> Add X403, a 3 plane non-subsampled YCbCr format.
-
-I'd add 10-bpp somewhere in there.
-
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/gpu/drm/drm_fourcc.c  | 3 +++
->  include/uapi/drm/drm_fourcc.h | 8 ++++++++
->  2 files changed, 11 insertions(+)
+On Wed, Mar 26, 2025 at 03:22:53PM +0200, Tomi Valkeinen wrote:
+> Add support for X403 format.
 > 
-> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> index e5f04f7ec164..60684f99f4a7 100644
-> --- a/drivers/gpu/drm/drm_fourcc.c
-> +++ b/drivers/gpu/drm/drm_fourcc.c
-> @@ -356,6 +356,9 @@ const struct drm_format_info *__drm_format_info(u32 format)
->  		{ .format = DRM_FORMAT_Y10_P32,		.depth = 0,  .num_planes = 1,
->  		  .char_per_block = { 4, 0, 0 }, .block_w = { 3, 0, 0 }, .block_h = { 1, 0, 0 },
->  		  .hsub = 1, .vsub = 1, .is_yuv = true },
-> +		{ .format = DRM_FORMAT_X403,		.depth = 0,  .num_planes = 3,
-> +		  .char_per_block = { 4, 4, 4 }, .block_w = { 3, 3, 3 }, .block_h = { 1, 1, 1 },
-> +		  .hsub = 1, .vsub = 1, .is_yuv = true },
->  	};
->  
->  	unsigned int i;
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index f6316adbeb97..10d77f6f6e95 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -385,6 +385,14 @@ extern "C" {
->   */
->  #define DRM_FORMAT_Q401		fourcc_code('Q', '4', '0', '1')
->  
-> +/* 3 plane non-subsampled (444) YCbCr
-
-/*
- * 3 plane non-subsampled (444) YCbCr
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> + * 10 bpc, 30 bits per sample image data in a single contiguous buffer.
-> + * index 0: Y plane,  [31:0] x:Y2:Y1:Y0    [2:10:10:10] little endian
-> + * index 1: Cb plane, [31:0] x:Cb2:Cb1:Cb0 [2:10:10:10] little endian
-> + * index 2: Cr plane, [31:0] x:Cr2:Cr1:Cr0 [2:10:10:10] little endian
-> + */
-> +#define DRM_FORMAT_X403		fourcc_code('X', '4', '0', '3')
-> +
->  /*
->   * 3 plane YCbCr
->   * index 0: Y plane, [7:0] Y
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index ae8b4073edf6..ce685dfbf31f 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -317,6 +317,11 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
+>  		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YONLY_10,
+>  		.swap		= false,
+>  		.sf		= scaling_factors_101010,
+> +	}, {
+> +		.drm_fmt	= DRM_FORMAT_X403,
+> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV24_10,
+> +		.swap		= false,
+> +		.sf		= scaling_factors_101010,
+>  	},
+>  };
+>  
 
 -- 
 Regards,
