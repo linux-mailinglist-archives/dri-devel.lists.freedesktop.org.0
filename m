@@ -2,51 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71761A733B8
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 14:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A399A733EE
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 15:10:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4F0D10E8E4;
-	Thu, 27 Mar 2025 13:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F0C10E10D;
+	Thu, 27 Mar 2025 14:10:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gGL2rZ/3";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="NKbxoAz9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C03A010E8DB;
- Thu, 27 Mar 2025 13:58:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A74CB5C66B0;
- Thu, 27 Mar 2025 13:56:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE7DBC4CEDD;
- Thu, 27 Mar 2025 13:58:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743083928;
- bh=XzPi1F5SWwXKj7971VQiK+0IGADDRlyQ0aTFTKn+bMc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gGL2rZ/327aXTpediX2cwplMLST5kv1Z3VS0C7/mulCj00FyRK2/kexMQutKMT8u5
- 5bEd0k7dmxXmRkePz7vgXSrWCSkADyrrTWW7yU1s3hIu5fz/RMbin2PLQMewXAmuNa
- jGD391Ewnk/Y9ScUb9yUMI4XQQIxbUViL3CcAF9CRHKpJcuTzetUAQSYfl82Y0U+2f
- GK6s+A53pbMg9DGIW3Ksuttpr+dMFGhY5NHIGVguDWGIwIbYpxkSpdR5Z7H9FIvUJr
- VXUoGRVMqPT/p6x1USE5gbDo/whfCwlYnqOVWtxr946jxdX5FhX1QrVHYDPZnJg76d
- laM7CFg1HnclA==
-Date: Thu, 27 Mar 2025 14:58:44 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: M Henning <mhenning@darkrefraction.com>
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH 2/2] drm/nouveau: DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER
-Message-ID: <Z-VZlIc3E8ZQQmXa@cassiopeiae>
-References: <20250312213746.228042-1-mhenning@darkrefraction.com>
- <20250312213746.228042-3-mhenning@darkrefraction.com>
- <Z9xfoS89yimS1Sb3@pollux>
- <CAAgWFh2RtCwaKNinX9X4BjwNiaBj5BF_ypzbqoqV4LJgN4cPvg@mail.gmail.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D406810E8DE
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 14:10:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743084607; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Ix4ekuq6nF7aEqJgbNhX2cWRTGmSr2Eqjx1KwqwhAbVyOKNaBy7XZJoqDEynY/E52nSekItdp6qGyMtT/feSyufrswTcbZd4atwHeBGmqNFmW1VXivC9kWDJm09/Aqn42RrIS6uYybChK3W8j5ukB+JTQZHJ0SumZCNp3K6yjRY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1743084607;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=n6bkGovYDWEwPMuhmGO3/APdXBLQXfsjmkhnXRHkumk=; 
+ b=IM1TyO7xLEJ1k1z0dlAlCttU+hcU+NDiy3hoc6NAUugupIcapU1/mEpJCZlV6znDeB+3Y3Ca//YJtxwbEt7OLb+l6ziJaBkPI4EjzHmDgjHGDH6cWEFYxAgUpLgSfbS4X/QFArnMF+ZJIJ/Sr1zmWlraTPKL65M4G8GK6tRtw3A=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743084607; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=n6bkGovYDWEwPMuhmGO3/APdXBLQXfsjmkhnXRHkumk=;
+ b=NKbxoAz9ZYyZbmjeP4irPQN8c5DHrGlePcnyfvXsLD+vG5SJbV+qJI2xyMfRX4q1
+ ZzbvNr6LEvTpNxCsOtWSK4+MsHXYjfQ4DW2apwLrCnNFKLZ0uKyg4dNFdkd6Hkpd69m
+ BPPKZY6Ie4TGNlXoqVdXlDHUCx1n0qH7HJdAvDj8=
+Received: by mx.zohomail.com with SMTPS id 1743084604813824.3329284862294;
+ Thu, 27 Mar 2025 07:10:04 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: ?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v3 0/4] Panthor BO tagging and GEMS debug display
+Date: Thu, 27 Mar 2025 14:08:33 +0000
+Message-ID: <20250327140845.105962-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAgWFh2RtCwaKNinX9X4BjwNiaBj5BF_ypzbqoqV4LJgN4cPvg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,78 +71,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 21, 2025 at 07:00:57PM -0400, M Henning wrote:
-> This is a pointer in the gpu's virtual address space. It must be
-> aligned according to ctxsw_align and be at least ctxsw_size bytes
-> (where those values come from the nouveau_abi16_ioctl_get_zcull_info
-> structure). I'll change the description to say that much.
-> 
-> Yes, this is GEM-backed. I'm actually not entirely sure what the
-> requirements are here, since this part is reverse-engineered. I think
-> NOUVEAU_GEM_DOMAIN_VRAM and NOUVEAU_GEM_DOMAIN_GART are both okay. The
-> proprietary driver allocates this buffer using
-> NV_ESC_RM_VID_HEAP_CONTROL and sets attr = NVOS32_ATTR_LOCATION_ANY |
-> NVOS32_ATTR_PAGE_SIZE_BIG | NVOS32_ATTR_PHYSICALITY_CONTIGUOUS, attr2
-> = NVOS32_ATTR2_GPU_CACHEABLE_YES | NVOS32_ATTR2_ZBC_PREFER_NO_ZBC.
+This patch series is aimed at providing UM with detailed memory profiling
+information in debug builds. It is achieved through a device-wide list of
+DRM GEM objects, and also implementing the ability to label BO's from UM
+through a new IOCTL.
 
-(Please do not top post.)
+The new debugfs file shows a list of driver DRM GEM objects in tabular mode.
+To visualise it, cat sudo cat /sys/kernel/debug/dri/*.gpu/gems.
+To test this functionality from UM, please refer to this Mesa patch series:
 
-What I mean is how do you map the backing GEM into the GPU's virtual address
-space? Since it's bound to a channel, I assume that it must be ensured it's
-properly mapped when work is pushed to the channel. Is it mapped through
-VM_BIND?
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34224
 
-> 
-> On Thu, Mar 20, 2025 at 2:34 PM Danilo Krummrich <dakr@kernel.org> wrote:
-> >
-> > On Wed, Mar 12, 2025 at 05:36:15PM -0400, Mel Henning wrote:
-> > > diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
-> >
-> > Same here, please split the uAPI change in a separate commit.
-> >
-> > > index 33361784eb4e..e9638f4dd7e6 100644
-> > > --- a/include/uapi/drm/nouveau_drm.h
-> > > +++ b/include/uapi/drm/nouveau_drm.h
-> > > @@ -448,6 +448,20 @@ struct drm_nouveau_get_zcull_info {
-> > >       __u32 ctxsw_align;
-> > >  };
-> > >
-> > > +struct drm_nouveau_set_zcull_ctxsw_buffer {
-> > > +     /**
-> > > +      * @ptr: The virtual address for the buffer, or null to bind nothing
-> > > +      */
-> > > +     __u64 addr;
-> >
-> > What is this buffer? Is this a GEM object backed buffer? How is it mapped?
-> >
-> > > +
-> > > +     /**
-> > > +      * @channel: the channel to set the buffer on
-> > > +      */
-> > > +     __u32 channel;
-> > > +
-> > > +     __u32 pad;
-> > > +};
-> > > +
-> > >  #define DRM_NOUVEAU_GETPARAM           0x00
-> > >  #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
-> > >  #define DRM_NOUVEAU_CHANNEL_ALLOC      0x02
-> > > @@ -462,6 +476,7 @@ struct drm_nouveau_get_zcull_info {
-> > >  #define DRM_NOUVEAU_VM_BIND            0x11
-> > >  #define DRM_NOUVEAU_EXEC               0x12
-> > >  #define DRM_NOUVEAU_GET_ZCULL_INFO     0x13
-> > > +#define DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER 0x14
-> > >  #define DRM_NOUVEAU_GEM_NEW            0x40
-> > >  #define DRM_NOUVEAU_GEM_PUSHBUF        0x41
-> > >  #define DRM_NOUVEAU_GEM_CPU_PREP       0x42
-> > > @@ -532,6 +547,7 @@ struct drm_nouveau_svm_bind {
-> > >  #define DRM_IOCTL_NOUVEAU_EXEC               DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_EXEC, struct drm_nouveau_exec)
-> > >
-> > >  #define DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO     DRM_IOR (DRM_COMMAND_BASE + DRM_NOUVEAU_GET_ZCULL_INFO, struct drm_nouveau_get_zcull_info)
-> > > +#define DRM_IOCTL_NOUVEAU_SET_ZCULL_CTXSW_BUFFER  DRM_IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER, struct drm_nouveau_set_zcull_ctxsw_buffer)
-> > >  #if defined(__cplusplus)
-> > >  }
-> > >  #endif
-> > > --
-> > > 2.48.1
-> > >
+Changelog:
+ v3:
+  - Replaced kfree() with kfree_const() when freeing a bo label
+  - Rearranged functions for delaing with GEMs list adding and deleting
+  - Changed Kernel BO labelling format not to include quotes
+  - Return error in labelling ioctl when string length is too long
+
+
+Adrián Larumbe (4):
+  drm/panthor: Introduce BO labeling
+  drm/panthor: Add driver IOCTL for setting BO labels
+  drm/panthor: show device-wide list of DRM GEM objects over DebugFS
+  drm/panthor: Display heap chunk entries in DebugFS GEMS file
+
+ drivers/gpu/drm/panthor/panthor_device.c |   5 +
+ drivers/gpu/drm/panthor/panthor_device.h |  11 ++
+ drivers/gpu/drm/panthor/panthor_drv.c    |  66 ++++++++++
+ drivers/gpu/drm/panthor/panthor_gem.c    | 158 +++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_gem.h    |  60 +++++++++
+ drivers/gpu/drm/panthor/panthor_heap.c   |   3 +
+ include/uapi/drm/panthor_drm.h           |  19 +++
+ 7 files changed, 322 insertions(+)
+
+--
+2.48.1
