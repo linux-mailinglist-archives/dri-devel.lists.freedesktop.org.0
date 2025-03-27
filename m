@@ -2,75 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F2FA740AA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 23:17:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBDAA740F4
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 23:35:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C7C10E0FF;
-	Thu, 27 Mar 2025 22:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 454EE10E161;
+	Thu, 27 Mar 2025 22:35:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="jic0rZP8";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RSByoPiO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA74910E0FF
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 22:17:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=protonmail; t=1743113838; x=1743373038;
- bh=pOr0DNwW22udl+QjNXdk6JXxuaFTQiZdJAYlJD9wBnM=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=jic0rZP8jIRDUlYJVFn/WyH0SzSXhx/zI69q9kX7QeIHgrcfENJqk0J8WRHjnVLi8
- NYQ1OQjEs2l7GGNjObJEnLrPxDYndr08EDpfs5TYJPPr+lShwi3LeLeDuagfKMTX0v
- UXJnlwsDLJtsylUVLqPjRLZYRG8dDGGuGYSii/uS3sv0xX1IDXSgSC7+Wz31lLkvL2
- 5BnTTLJTUPFluto7iYwREkzHvpTxJGSFCr0IhBxuyRScrQ9B5ClXkGkU0BdIv7WVEx
- 65PCUwy1qRK0ngPc/CSLFvWJ2GfvoP8cmalbSSqimzg1t97SUicTxDSvJk0LsHlwll
- zekMJyBpIF4Pg==
-Date: Thu, 27 Mar 2025 22:17:13 +0000
-To: Tamir Duberstein <tamird@gmail.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
- Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, FUJITA Tomonori <fujita.tomonori@gmail.com>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
- linux-block@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
-Message-ID: <D8REA6VW7QFS.Y5195VX38USO@proton.me>
-In-Reply-To: <CAJ-ks9n3BdKkfCpMXhE8M8Sx4B5rASoNvbmA4zPU3rmPQwZCiQ@mail.gmail.com>
-References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
- <CAJ-ks9nKT2PUDm6=b4AB1QUWwwvcqPn7Vz60=c0B+uFMZrqPew@mail.gmail.com>
- <D8QDOBUM6NF0.CGJY7ZA5KD9S@proton.me>
- <CAJ-ks9ntTxBM=c5nUZWGv3MoRt-LveBchn-c1Xy-DGap7fLVRA@mail.gmail.com>
- <D8QI804Q3DAS.2BV4WSL81H52Z@proton.me>
- <CAJ-ks9mA5QDeZ3EvOD3THayFt4TtDysgm0jp2aiSF2mQCrhWiQ@mail.gmail.com>
- <D8QJMH5UR6VG.2OT5MXJJQU5QT@proton.me>
- <CAJ-ks9m96vf_HxttuopuC_UfNGJbHHNdEGS2er6nZZG38pe3HQ@mail.gmail.com>
- <CAJ-ks9n3BdKkfCpMXhE8M8Sx4B5rASoNvbmA4zPU3rmPQwZCiQ@mail.gmail.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 82a53baabf13e0ce95fda485724e51f17f7c7368
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD3DE10E161
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 22:35:14 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77CF9446;
+ Thu, 27 Mar 2025 23:33:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1743114803;
+ bh=SaJOk6M4y4yQuYGOGvlYpvYsC/4YT1F7z+qnV1nCrQs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RSByoPiOsIOgZeWaXOPH8jRhYyw712i8uC2SHV03xtZefNxXYg9irW9s70kPYDDbl
+ RV3qkz2EECH8+QysvoGNn6LovnTOZNzwtdlJ4qdgd/2368kb2WJKFjwz7YsYOF1p2e
+ iOe/FUKru50IZUoECNnLSyKXDyDmczuME5UX8YW0=
+Date: Fri, 28 Mar 2025 00:34:49 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 02/11] drm/fourcc: Add DRM_FORMAT_XV15/XV20
+Message-ID: <20250327223449.GA16629@pendragon.ideasonboard.com>
+References: <20250326-xilinx-formats-v4-0-322a300c6d72@ideasonboard.com>
+ <20250326-xilinx-formats-v4-2-322a300c6d72@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20250326-xilinx-formats-v4-2-322a300c6d72@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,90 +65,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Mar 27, 2025 at 8:44 PM CET, Tamir Duberstein wrote:
-> On Thu, Mar 27, 2025 at 10:15=E2=80=AFAM Tamir Duberstein <tamird@gmail.c=
-om> wrote:
->> On Wed, Mar 26, 2025 at 6:15=E2=80=AFPM Benno Lossin <benno.lossin@proto=
-n.me> wrote:
->> > On Wed Mar 26, 2025 at 11:09 PM CET, Tamir Duberstein wrote:
->> > > On Wed, Mar 26, 2025 at 5:09=E2=80=AFPM Benno Lossin <benno.lossin@p=
-roton.me> wrote:
->> > >> On Wed Mar 26, 2025 at 8:06 PM CET, Tamir Duberstein wrote:
->> > >> > On Wed, Mar 26, 2025 at 1:36=E2=80=AFPM Benno Lossin <benno.lossi=
-n@proton.me> wrote:
->> > >> >> On Wed Mar 26, 2025 at 5:57 PM CET, Tamir Duberstein wrote:
->> > >> >> >
->> > >> >> > Yeah, we should do this - but again: not relevant in this disc=
-ussion.
->> > >> >>
->> > >> >> I think it's pretty relevant.
->> > >> >
->> > >> > It's not relevant because we're no longer talking about transmuti=
-ng
->> > >> > pointer to pointer. The two options are:
->> > >> > 1. transmute reference to reference.
->> > >> > 2. coerce reference to pointer, `as` cast pointer to pointer (tri=
-ggers
->> > >> > `ptr_as_ptr`), reborrow pointer to reference.
->> > >> >
->> > >> > If anyone can help me understand why (2) is better than (1), I'd
->> > >> > certainly appreciate it.
->> > >>
->> > >> I am very confident that (2) is correct. With (1) I'm not sure (see
->> > >> above), so that's why I mentioned it.
->> > >
->> > > Can you help me understand why you're confident about (2) but not (1=
-)?
->> >
->> > My explanation from above explains why I'm not confident about (1):
->> >
->> >     For ptr-to-int transmutes, I know that they will probably remove
->> >     provenance, hence I am a bit cautious about using them for ptr-to-=
-ptr or
->> >     ref-to-ref.
->> >
->> > The reason I'm confident about (2) is that that is the canonical way t=
-o
->> > cast the type of a reference pointing to an `!Sized` value.
->>
->> Do you have a citation, other than the transmute doc?
+Hi Tomi,
 
-Not that I am aware of anything.
+Thank you for the patch.
 
-> Turns out this appeases clippy:
->
-> diff --git a/rust/kernel/uaccess.rs b/rust/kernel/uaccess.rs
-> index 80a9782b1c6e..7a6fc78fc314 100644
-> --- a/rust/kernel/uaccess.rs
-> +++ b/rust/kernel/uaccess.rs
-> @@ -240,9 +240,10 @@ pub fn read_raw(&mut self, out: &mut
-> [MaybeUninit<u8>]) -> Result {
->      /// Fails with [`EFAULT`] if the read happens on a bad address,
-> or if the read goes out of
->      /// bounds of this [`UserSliceReader`]. This call may modify
-> `out` even if it returns an error.
->      pub fn read_slice(&mut self, out: &mut [u8]) -> Result {
-> +        let out: *mut [u8] =3D out;
->          // SAFETY: The types are compatible and `read_raw` doesn't
-> write uninitialized bytes to
->          // `out`.
-> -        let out =3D unsafe { &mut *(out as *mut [u8] as *mut
-> [MaybeUninit<u8>]) };
-> +        let out =3D unsafe { &mut *(out as *mut [MaybeUninit<u8>]) };
->          self.read_raw(out)
->      }
+On Wed, Mar 26, 2025 at 03:22:45PM +0200, Tomi Valkeinen wrote:
+> Add two new pixel formats:
+> 
+> DRM_FORMAT_XV15 ("XV15")
+> DRM_FORMAT_XV20 ("XV20")
+> 
+> The formats are 2 plane 10 bit per component YCbCr, with the XV15 2x2
+> subsampled whereas XV20 is 2x1 subsampled.
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/drm_fourcc.c  | 6 ++++++
+>  include/uapi/drm/drm_fourcc.h | 8 ++++++++
+>  2 files changed, 14 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 2f5781f5dcda..e101d1b99aeb 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -346,6 +346,12 @@ const struct drm_format_info *__drm_format_info(u32 format)
+>  		{ .format = DRM_FORMAT_P030,            .depth = 0,  .num_planes = 2,
+>  		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
+>  		  .hsub = 2, .vsub = 2, .is_yuv = true},
+> +		{ .format = DRM_FORMAT_XV15,		.depth = 0,  .num_planes = 2,
+> +		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
+> +		  .hsub = 2, .vsub = 2, .is_yuv = true },
+> +		{ .format = DRM_FORMAT_XV20,		.depth = 0,  .num_planes = 2,
+> +		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
+> +		  .hsub = 2, .vsub = 1, .is_yuv = true },
 
-Seems like your email client auto-wrapped that :(
+It appears we can never have too much (or enough) documentation, as
+reading the format info documentation leaves me with unanswered
+questions.
 
-> Benno, would that work for you? Same in str.rs, of course.
+Looking at drm_format_info_min_pitch():
 
-For this specific case, I do have a `cast_slice_mut` function I
-mentioned in the other thread, but that is still stuck in the untrusted
-data series, I hope that it's ready tomorrow or maybe next week. I'd
-prefer if we use that (since its implementation also doesn't use `as`
-casts :). But if you can't wait, then the above is fine.
+uint64_t drm_format_info_min_pitch(const struct drm_format_info *info,
+				   int plane, unsigned int buffer_width)
+{
+	if (!info || plane < 0 || plane >= info->num_planes)
+		return 0;
 
----
-Cheers,
-Benno
+	return DIV_ROUND_UP_ULL((u64)buffer_width * info->char_per_block[plane],
+			    drm_format_info_block_width(info, plane) *
+			    drm_format_info_block_height(info, plane));
+}
 
+For the first plane, the function will return `buffer_width * 4 / 3`
+(rouding up), which I think is right. For the second plane, it will
+return `buffer_width * 8 / 3`, which I believe is wrong as the format is
+subsampled by a factor 2 horizontally. It seems that either
+char_per_block and block_w need to take horizontal subsampling into
+account (and therefore be 8 and 6 for the second plane), or
+drm_format_info_min_pitch() should consider .hsub. Or there's something
+else I'm missing :-)
+
+>  	};
+>  
+>  	unsigned int i;
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 81202a50dc9e..1247b814bd66 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -304,6 +304,14 @@ extern "C" {
+>  #define DRM_FORMAT_RGB565_A8	fourcc_code('R', '5', 'A', '8')
+>  #define DRM_FORMAT_BGR565_A8	fourcc_code('B', '5', 'A', '8')
+>  
+> +/*
+> + * 2 plane 10 bit per component YCrCb
+> + * index 0 = Y plane, [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian
+> + * index 1 = Cb:Cr plane, [63:0] x:Cr2:Cb2:Cr1:x:Cb1:Cr0:Cb0 2:10:10:10:2:10:10:10 little endian
+
+I believe this is right, but I have a hard time validating it, as I
+think the corresponding figures in UG1085 are incorrect (they show a
+8bpp format as far as I can tell). Do I assume correctly that you've
+tested the formats ?
+
+> + */
+> +#define DRM_FORMAT_XV15		fourcc_code('X', 'V', '1', '5') /* 2x2 subsampled Cr:Cb plane 2:10:10:10 */
+> +#define DRM_FORMAT_XV20		fourcc_code('X', 'V', '2', '0') /* 2x1 subsampled Cr:Cb plane 2:10:10:10 */
+> +
+>  /*
+>   * 2 plane YCbCr
+>   * index 0 = Y plane, [7:0] Y
+
+-- 
+Regards,
+
+Laurent Pinchart
