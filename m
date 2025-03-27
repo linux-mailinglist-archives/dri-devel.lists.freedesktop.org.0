@@ -2,86 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2F4A73333
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 14:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2913A73339
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 14:20:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A834310E0AD;
-	Thu, 27 Mar 2025 13:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01DC410E8CC;
+	Thu, 27 Mar 2025 13:20:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EJbAq+cu";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="SvAZm7Y5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A63510E0AD
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 13:19:30 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-39133f709f5so549939f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 06:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1743081568; x=1743686368; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+cDdIOswm/cyDdBII0iuR2QdTuXYbEwDjifjrlArm8o=;
- b=EJbAq+cu5zTD4Wqt6ID4ZrMET+CEgtojoyKpry0oVBZWoWScy7YIa/9xAtNiss18EA
- vIaK+aFoUw3Hg8+IgmwdvJBo/Ofj/Qj9/SSOcTB7FLwSlLKqGIX0Gi25+uU01AiagfKa
- pj5bBNZ5amfLqSVkEwVLbk9bkTrAu01M24ebVxA+75o5mseviUEspVdPTtrFWbPGqa8c
- lqCMN5d/+Pl5cvLU5W0urO9TdyYSXehoAyPv8l6GPGV5BeU76EhK+alJRG8BpH1NoEzs
- tJSo2tQ51acDFHbQYKRm4MEfhSMyE2uuwjreCsZPx3vJOS6B6/7J4ek/AkCnNHhakM+u
- A2Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743081568; x=1743686368;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+cDdIOswm/cyDdBII0iuR2QdTuXYbEwDjifjrlArm8o=;
- b=qDPWbl9AsZnFbogZm+l8ahBkTkbIoHlntqf1a9b7LDqxodsXBT6tP41woKCblSI7mn
- qi786w6UM3LtkrOV2xGtDnuqVRj2N6jDtDKDph1MIukPVhufiThK6V9XTtJBHpzviakq
- eMJedvdIcAgsYOAW+W77FjYRnwytarAaftztdD7p1YYpFApEGOdRbjFdByNrDvCl4sBt
- W9OuWYhQh7EOIqgfPoW+wwwbMBE3RQr3JQDca+9sWy4Lb/yrBeN+i2Rxo78jI62/R1IJ
- 1B/XAl3MMS7tF/TQU0TSj6P8n2a9jS/Voh6OtnIRSGExY4nDOMCjf65AFdI5Oh8FyWu5
- JQSA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUgJwAr8Rb0Z5wjm1vrmjcqMLqpiv1DJIs/NJaUYv1hD8qNqdMofrdbADEu5mJJxxb1GGg8flXgbc0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx/T77kpYDA1S0oCdME8LZHTdsBBz266BLO5zubtQgYZfpVXjTZ
- 4oiHT/bY4P2Akic1vRWg2g46s6AdUPZDxZTZTuEzjrACtDcrsdDtJdHkckOR2m596cQmQHrGH1l
- X8FgBN9XYXR+Wkn7/pF2SlVeBhiwmTowF0/Q7vA==
-X-Gm-Gg: ASbGncvxMuxNNt0zub1895nMOhiLa5i8s8tvBUDn5NkrGqHjP/ks4Iob97zLDS6y6Zw
- GDy0ROtxKj454kETWB75j3PitF66q8KXKezwkvhVFUJGgO7+Bf+YztKpCrVyuNu9EbCuwrNBI3U
- tlwz+Mm+v5k5x509qfYEC8cDhZXK2UjJvG/Tp3pu0RlB9nA8KF4/sWkIGCITA=
-X-Google-Smtp-Source: AGHT+IHs5VZplywxnxEi47k8pf3rZnEm/7qBpY3Ioc8amqZO6vhJqMiAOdf0vB5bQQTzKsXVOl4SWXK8fz/Hde+Ezy8=
-X-Received: by 2002:a5d:6487:0:b0:385:ee40:2d88 with SMTP id
- ffacd0b85a97d-39ad1740bd5mr3141625f8f.3.1743081567876; Thu, 27 Mar 2025
- 06:19:27 -0700 (PDT)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FBEB10E8CC
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 13:20:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743081611; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=G6VbkfWP50IkR6kG0VocpxZRhGh4vB/sd6zSg39AESecFwUvJOFnRrtAybC+06wCD9i5Rv5bngodS8SkTp0qQVprj+vd4B4A6roTVtG85Ht3Ta+bsytxD/93ZJVpF/JJchsR00ve2cMPF7wIPA5nM5YAjDg3JWMRl8Dat/d9iVI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1743081611;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=i86XYK3T5dTklR4bdc37SUEhyi6uULXnIsdtSauwk4c=; 
+ b=Iz8s6xUM+y2+GwE7BT2+947yg41AJ5oH97tQs3XVcIoksS6Me+681l1FxFc13Jy9nWwFIXoifTCC28aRtqLEQEBGpjB7JARz99WmNjTKDGfbx2kPs68C5SA3/02bfW5bhQF5Xz9kytTOcHp2alHPlAUd5TJ6qkCZP7MGfCXX7Vk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743081611; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=i86XYK3T5dTklR4bdc37SUEhyi6uULXnIsdtSauwk4c=;
+ b=SvAZm7Y5p0cA+t+nwbfVkjeo/sp9OU51swfp4WjMAuwUlgKdpGbjo99GY4F9G9J6
+ RmOl4A5f2e6scdoU6QFnKet4Ub455zZ0OG6B0GNgLGCjKLShkPuUoBSbpb2sGDcROri
+ K8kn8vaf6Tau0r0uHBNrMiM/MY0GwWowdsZtyApM=
+Received: by mx.zohomail.com with SMTPS id 1743081609383862.4068433783464;
+ Thu, 27 Mar 2025 06:20:09 -0700 (PDT)
+Message-ID: <1ce494ef-3778-4f46-b019-4e4f160fbe02@collabora.com>
+Date: Thu, 27 Mar 2025 16:20:05 +0300
 MIME-Version: 1.0
-References: <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-0-e9bc7c9d30cc@linaro.org>
- <20250325-wip-obbardc-qcom-t14s-oled-panel-v2-4-e9bc7c9d30cc@linaro.org>
- <Z+UGqItLubQ9kwF+@linaro.org>
-In-Reply-To: <Z+UGqItLubQ9kwF+@linaro.org>
-From: Christopher Obbard <christopher.obbard@linaro.org>
-Date: Thu, 27 Mar 2025 13:19:16 +0000
-X-Gm-Features: AQ5f1JqvG9Z_EF7biygLKr6lcDhPMwDOinSPLyFBaGcwOFtc4jXqvP1t5fWsCZ0
-Message-ID: <CACr-zFAVDhDvWupMMCe5ttpCU8+NSD0XK1tS=TsstM1znhDHNA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/dp: fallback to maximum when PWM bit count is
- zero
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rui.silva@linaro.org>,
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] accel/ivpu: pages_use_count is now a refcount_t
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kernel@collabora.com, Maciej Falkowski
+ <maciej.falkowski@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>
+References: <20250327104300.1982058-1-boris.brezillon@collabora.com>
+ <878qoq678p.fsf@intel.com>
+ <3a6a2168-3b38-4173-9731-6505a83d4d82@collabora.com>
+ <fdb8ae46-6de5-4bdc-8c7d-5d8a3249d98b@linux.intel.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <fdb8ae46-6de5-4bdc-8c7d-5d8a3249d98b@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,23 +73,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Right, the reason this was included in this series is because without
-this patch the panel's backlight doesn't actually work. So for me it
-was natural to include it. But happy to split it into its own series.
+On 3/27/25 15:19, Jacek Lawrynowicz wrote:
+> Hi,
+> 
+> On 3/27/2025 12:37 PM, Dmitry Osipenko wrote:
+>> On 3/27/25 14:30, Jani Nikula wrote:
+>>> On Thu, 27 Mar 2025, Boris Brezillon <boris.brezillon@collabora.com> wrote:
+>>>> Commit 051b6646d36d ("drm/shmem-helper: Use refcount_t for
+>>>> pages_use_count") changed the type of
+>>>> drm_gem_shmem_object::pages_use_count but accel drivers were left
+>>>> behind.
+>>>>
+>>>> Fixes: 051b6646d36d ("drm/shmem-helper: Use refcount_t for pages_use_count")
+>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>>> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>>>> Cc: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+>>>> Cc: Oded Gabbay <ogabbay@kernel.org>
+>>>> Cc: dri-devel@lists.freedesktop.org
+>>>
+>>> Just for build, on the series,
+>>>
+>>> Tested-by: Jani Nikula <jani.nikula@intel.com>
+>>>
+>>> Please merge.
+>>
+>> Applied to misc-next
+> 
+> This was applied in less then an hour after posting for review without any testing (building is not testing).
+> I can't see how this is up to community standards.
+> I would prefer that patches for accel/ivpu were merged by ivpu maintainers.
+> At least give us time to review them. 
 
-On Thu, 27 Mar 2025 at 08:05, Abel Vesa <abel.vesa@linaro.org> wrote:
->
-> On 25-03-25 19:21:29, Christopher Obbard wrote:
-> > Some eDP devices report DP_EDP_PWMGEN_BIT_COUNT as 0, but still provide
-> > valid non-zero MIN and MAX values. This patch reworks the logic to
-> > fallback to the max value in such cases, ensuring correct backlight PWM
-> > configuration even when the bit count value is not explicitly set.
-> >
-> > This improves compatibility with eDP panels (e.g. Samsung ATNA40YK20
-> > used on the Lenovo T14s Gen6 Snapdragon with OLED panel) which reports
-> > DP_EDP_PWMGEN_BIT_COUNT as 0 but still provides valid non-zero MIN/MAX
-> > values.
-> >
->
-> Nit-pick: AFAICT, there is no relationship between this patch and the
-> rest. So it should've probably not be part of this patchset.
+Not the first time I'm forgetting about accle/, my bad. Maybe you could
+add yourself as a reviewer to drm-shmem MAINTAINERS to not miss relevant
+DRM code changes in future.
+
+-- 
+Best regards,
+Dmitry
