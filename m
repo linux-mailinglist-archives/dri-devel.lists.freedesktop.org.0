@@ -2,101 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27600A73A53
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 18:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897B3A73A9C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 18:34:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE0010E0F1;
-	Thu, 27 Mar 2025 17:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E76A110E08C;
+	Thu, 27 Mar 2025 17:34:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ws6vBnpY";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="v8i7uPL/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB0C10E0F1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 17:25:20 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-43ce71582e9so10019325e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 10:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1743096319; x=1743701119; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=uFNNjaE2jorSLUU/UXYsik7tXL37/Ckqc+9BheoGsBM=;
- b=ws6vBnpY/D9tEp/JA3AnZqy54zIKxBAjjCoKfsy4tCWMlx3pOwZF5DvuSjPrZ/dbav
- 5Incks+pddE2D6HqtReqzaD+wxk56lmT0hU+Zp0ZngqufsdV5BZigutOqvKUCBrm/zAT
- wgzTk0QxC6kcIhvHbBCZtQpnfI/qTHNZk1LtNaJVykgZcO900Hz03FaXtrEEdtcQuDOG
- qYqKHI1M1ME/dxst/pvC9d1bJnODCiCaKPzZsM6eu/tBACj7Ao/2izj2MeEel+zIFEYu
- FAtzCoFo+WY5N5pr2A+mOJSfJA6UEP0GBDTFQcH9bvmjusyGqbgJHgf88w2A0HMtffwi
- Ka4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743096319; x=1743701119;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uFNNjaE2jorSLUU/UXYsik7tXL37/Ckqc+9BheoGsBM=;
- b=oENUOCgNhP34Pg6RpToF54QlOLg9BhKvnGuzsE5S7aZGFA1th3aExllO65xCu6CeGH
- S/aMnboQ3FY3Skad++UmoxcYUsS6hFlTmOyfsd7s3WiR5h1Yn0ng4+pvFfw72mPxpEsj
- YNi7QAceQlRkoSHZ8XCpqhG4q29A7ZoZjE/H2i4JJYBjdx/VpoC2uJO/jZxNUQ//FSzc
- 7JLq481kJDALr8eDfdY36cLlq72XqEi48bq2oHxxUUKOZwCJ5yh835EohdeOVEot38+C
- yOMIL0EEam6ZG6AumqrV6nUPvDeEAtXRnLgCdynj31+JAkBYed3hzakikYj9dcCxUQ85
- wO2g==
-X-Gm-Message-State: AOJu0Yy5OZWRz8BQTyDm4M9Uga8cfN0KYSi0FOgEAhxEEcGow1w7cbuv
- aM12jIuesmvVFx5za+t2Euw8QVoMZ+HEixOfEtjM7MpYF3ahABlT4mamFhlVtrTZHwdWJgZge8O
- UB6c=
-X-Gm-Gg: ASbGncvcq7b8DFOMdZf/LBBI0KPz3d1XksNVv6RjlahNjPcTaB/2yLcYOpyNn0pBVCj
- Ud73xbl8Jij5FZ36n14Nhd16Fe12KxUaEG46kW1InuLGYlSHnYk1NsrkCiA77jJlh5O56yEAwLP
- Zi1eej7Kt2HYsc1Q6oGVcUSe535cgJtWNzG/UJsZkYIF5J9WVdv+cJdCOlVLATLsyMvfhaTFYXu
- bDY72awr9/yavE0XiEw0t9wvXdWVRkiIGqkIHNMS2HPr0N6j44X2pqoth8e5z3A9F412UaxKI5w
- S4Qdbu8SBE3+tst0yzeDyq2/DBz/pNivjAVOm50jcm5CF2niFdx4jDlC
-X-Google-Smtp-Source: AGHT+IG6HZVRndm/SI4MfA5kUV10tRAvIz8zy6VUE73vnCcorqncpm2q15iOxitfjTm65+tpqf32cg==
-X-Received: by 2002:a05:600c:1604:b0:434:fa55:eb56 with SMTP id
- 5b1f17b1804b1-43d8522cca1mr36264425e9.7.1743096318599; 
- Thu, 27 Mar 2025 10:25:18 -0700 (PDT)
-Received: from localhost ([2a00:23c8:b70a:ae01:9cf7:b69:fc50:980f])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-39c0b79e304sm103142f8f.73.2025.03.27.10.25.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Mar 2025 10:25:18 -0700 (PDT)
-From: Christopher Obbard <christopher.obbard@linaro.org>
-Date: Thu, 27 Mar 2025 17:25:10 +0000
-Subject: [PATCH v2] drm/dp: fallback to minimum when PWM bit count is zero
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6773410E08C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 17:34:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uextY627Dlf3YqjiV2aeJarse5OyCNV2Lpp0bpjXfMtEc15VWsCYKzV/+7RMPXJt6uYyv+RPJenZOt76NZpBUfVfdDpnmNHxPnlVimVwSkyIsjCPQJwK2WLD5u1gY/uP5O6EpaBtOGRuJebce1M2D0Qw0uxiuKmLcsyDQKNFnljjohnjz20OH+f/8MfwGkx2VaW5UcYF0xrYfuBKj8t4lJUbN3SIdfJxtKqZEY2T0Ja9/I82CZLnxdOJaqp8k14JuQZoVuOfnGWNcUy0UORD6qOPEiTVYBARweZQz5Ru83W7dhrxcJGDWFvdMImHHQz2Qmj9/KiCLVP+qgDU5qDQTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ANKWYFo3shgoiYksf1dxkXyV0xhsBqVe5rJ6HxnotHw=;
+ b=waXz6m0Dsx+oS+2Bx7+Qz9PspJfPuDjNU094xjdS+DELYNsFgfThTcccTwbglAX/lrH1SZ6Dpo/S//uo5BMsF/CeA3jkStKro1SOMM3IqFjB3BknB0mJmV6kSo3U1VPZAkK7Qsr7L0+ihoaKAlAEFSS41mPZUix6r7pn1fXE6KYiGHy9xS2Ifi5fpxvek1T+4zxuf1YDic7shC0pE2osz2gteXGmT9A17QXnWpczyrSkgRNTTKfii7g1VU26H+jIIW4QzOrdMOzSJcgatmeXX7YTQ85IurPMCNqPM+S0Hd0bIWZ+ti+Gc5BmRkAVGu1HyFx4rRSTcXHIfSSQfsCSpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ANKWYFo3shgoiYksf1dxkXyV0xhsBqVe5rJ6HxnotHw=;
+ b=v8i7uPL/3vuJ0N2uZLg7xOhsk5znEQXcf7+Z9sW7Q/MDVpvzEo/B5XYF8GoSy3SEKr87z8whDH3aWVOnGkVwQObVqNQXUTeWdy5x4iKnwlW4OXdYclL0WhGRLwd7ZIhmgYdosvF5I+1TkmvxnEPqn7v7DpQGX8dOdgHYsIYZmb4=
+Received: from SA0PR11CA0010.namprd11.prod.outlook.com (2603:10b6:806:d3::15)
+ by SA0PR12MB4445.namprd12.prod.outlook.com (2603:10b6:806:95::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 27 Mar
+ 2025 17:34:45 +0000
+Received: from SN1PEPF00036F43.namprd05.prod.outlook.com
+ (2603:10b6:806:d3:cafe::9d) by SA0PR11CA0010.outlook.office365.com
+ (2603:10b6:806:d3::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.44 via Frontend Transport; Thu,
+ 27 Mar 2025 17:34:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SN1PEPF00036F43.mail.protection.outlook.com (10.167.248.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8534.20 via Frontend Transport; Thu, 27 Mar 2025 17:34:44 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 27 Mar
+ 2025 12:34:44 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 27 Mar
+ 2025 12:34:44 -0500
+Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 27 Mar 2025 12:34:43 -0500
+Message-ID: <8d7f0b85-2fce-c679-1b45-d6c36016b649@amd.com>
+Date: Thu, 27 Mar 2025 10:34:43 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] accel/ivpu: Fix warning in
+ ivpu_ipc_send_receive_internal()
+Content-Language: en-US
+To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <oded.gabbay@gmail.com>, <quic_jhugo@quicinc.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <stable@vger.kernel.org>
+References: <20250325114219.3739951-1-maciej.falkowski@linux.intel.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <20250325114219.3739951-1-maciej.falkowski@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250327-wip-obbardc-qcom-t14s-oled-panel-brightness-v2-1-16dc3ee00276@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAPWJ5WcC/x3NTQrCMBBA4auUWTsQx6YWryJd5GdsB2oSM0WF0
- rsbXH6b93ZQrsIKt26Hym9RyamBTh2ExaWZUWIzkCFrLnTFjxTM3rsaA75CfuJ27hXzyhGLS7y
- irzIvW2JV7A2ZcbB+sKOBViyVH/L93+7TcfwALVIRAH0AAAA=
-X-Change-ID: 20250327-wip-obbardc-qcom-t14s-oled-panel-brightness-4020865b6580
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rui.silva@linaro.org>, 
- Abel Vesa <abel.vesa@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Christopher Obbard <christopher.obbard@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4303;
- i=christopher.obbard@linaro.org; h=from:subject:message-id;
- bh=/2xRSARzKGQ4h11CgHv2bq7msP9g4VI83b030w4wYFo=;
- b=owEBbQKS/ZANAwAKAWNNxPBocEb4AcsmYgBn5Yn64KspE82XCwduXNxq/mObSEjV0OktoKB7O
- CS69xjfLtmJAjMEAAEKAB0WIQTxi9yLbCX5CqI9UXRjTcTwaHBG+AUCZ+WJ+gAKCRBjTcTwaHBG
- +DvjEACDhVZKkIaryW8LiPt8FICYljuve62aItGb4wA7S4RMrXyj8uYCAg8zAUCD5tldojT7ApC
- YUoYDHVt8t/4eYjcpr6RICIB5z2lYNgczioVM0SREcxzEjrlxWFdmC1EgtShvGfk0jI0YaRXmfE
- 3KeSD0a7OqKOd4Vo9+74FYphr5TSs1qexIu5FjQniCUYCcMeZ+YHvFL/JtpMZTlcTkcSDbKrmnT
- xysU/0e9Ter1sQCS2Qh9U9HSNvDwlHiAs+Cp9cF4GQktBCO6+GL1fSA0NzaS94WRbn+4BOvo4sW
- J86LEB83x0IPfxi83q2bjJil7b2u3AJ7jBo98l1rbTemcDyPEd0tksOymypOwXrpebNC59SO9Su
- 1X3HZUHNomwVvSGTKcxKLiLYVlxjMKuQDNBBuXVrBc2P2f8/ADUTP7OyQtI5F6R+hHD5PkcS6vF
- rEb6PVeN59NXfGKGMNFe3I5XDZbq3lunUmB8doVTKQ+9EhYOmDdur4PS9feN+pEPCNFF1GM5AZk
- sAmhA9AcSNAamVn5yvqQX9na09Vmy1BKI3bOsQXeZafbJjzUug3J/2QzAnBFm9RmqvLlU/xY0lX
- aH9swSYFbn0wT6kZl+Lpxhr5/KKemIaa2dvd0Dwe0zqMfKYQo8H/yWraPZJOC9gFNFFONNYgIIC
- 2bCk39V856Psrtg==
-X-Developer-Key: i=christopher.obbard@linaro.org; a=openpgp;
- fpr=F18BDC8B6C25F90AA23D5174634DC4F0687046F8
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F43:EE_|SA0PR12MB4445:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51afb323-92cc-465f-5d73-08dd6d55a9fd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|36860700013|1800799024|82310400026|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dXI5bEJzNXJueWRBN3cyYkd1ZU8yK0ZLTFpjeGlEK2x5UTVVSWJTdjB3SGI5?=
+ =?utf-8?B?eG5lUFhuU2dhRUkrd0RtSVFCdTNKKzRzanlWbmd0d0xiQnphYmtGWTNWdzZQ?=
+ =?utf-8?B?LytFRnprRWxLQ0kyaDVDS1lTQmI0WTJtTENiZEkvNEMwRThoWTNvSFp6TEQx?=
+ =?utf-8?B?R2ZpSmI1YzhuM0NqaHR1SzlpeEVDc1BtUDJNenMweEtOQlB2RkxtTEVHcGVE?=
+ =?utf-8?B?aWdCVTZsQThYQ0h5ZHRuaGUvT2NzUFY0aW52QXcrRzRwOHdXOHE1MklYVmQw?=
+ =?utf-8?B?MzZZMFU2bERQbjMxVmZNRXpZQjl0eWhiM1BsT1pRV2hRMFhxWG5kdUlTWTFz?=
+ =?utf-8?B?NlBiRTA3YmJNdUt3Q2lJZGRzSVRmczJwUUF6VUtodXJYL3Bzc205TDJrNEhv?=
+ =?utf-8?B?c2poNjZYR2phQTljZXkvV0VpMWUrUjVta3NaT0xEVG93Y2ZVOG91UU5COE9M?=
+ =?utf-8?B?ejVGRmhyVERiY3ZRTWFFZXhaYk1SbFE5MVh6emlSNmU2L3hhVGZ3RTZNakx1?=
+ =?utf-8?B?dDhyejJHbVI5ZlNteWRjSGM3RngwQjNoMDhKbUtSV3dQdVVFUTFodSt6b1hi?=
+ =?utf-8?B?a2ljQVRhN1hpQlpkNHBYbzhBOVdKbmd0Qk9JMEFQbkFEZklwTmU3cUxkQ0pa?=
+ =?utf-8?B?SklZd0lmL3NuTHBRbU9tVTVRRXZjWjIxWTQ1Zi9rU0Y1by9WWFY0VElvYWJk?=
+ =?utf-8?B?anZpUi9pMTJYakN5RG5sejFzdlpBaXNEYjdLZkZJL2tmN1FoczVmN3c2RWNw?=
+ =?utf-8?B?S1l5M3VUMFI2NTVDZXN4UnlGTnVONDI0Ui9KRkVPcUZub1hGS3pjU2xreE9o?=
+ =?utf-8?B?S29ObWJWQ3ZFUStoU1o5ekp1ZER2aFE5bittMUFjeDBGRjM3bVJwVldoSmYz?=
+ =?utf-8?B?b0R3YWYySno1aTVmcDQ1RnF6TXBMWVRaelgxeGtMVXJ6ZDg3TkRjZnVqK2Nt?=
+ =?utf-8?B?ZEZIRHVRWDFzS2ExbnZScUNzZ3VsOHkzMG9kU3AzaGx0TEg3OExsWXBKNjAw?=
+ =?utf-8?B?WG1qWisrc0VpNmYvYjh2UXpvZ0U2RTJpMWZzVUxLSm5Ld3BvMDNUR09DQ1di?=
+ =?utf-8?B?OUVKS2FVOEVRZXhsWE9pMGVKRE03NEF2bllTaDZlYllITjcrby93VXhBeHFD?=
+ =?utf-8?B?Wm4wRFN0aGpDY2hpMVRlb2d6SjBMVnozSVBvak1TbXNXS2Yyd3hLTEhWS3Vh?=
+ =?utf-8?B?aVpaTW1DK015d1RSVElxY2E0a2xPNFB1RmZKV1lPVVFrYkw5aDV1ZDRDRlRi?=
+ =?utf-8?B?QWphWmttT3V5RGNFaW9mM3ZDeTl5TXh4RXlSbjIzQ1dGb3AwbGFLVzNpcm1Z?=
+ =?utf-8?B?TjVvcTlDZks4TkVzbHd1YXRlQ3ZldnBYcHFSdjRHYnNVSktBaTYzS0puUGw4?=
+ =?utf-8?B?YVdNOTdDQzZIZytuMG5yUWx4TkFnSnV1RHd3cHFUYXNsUWVFaG8zMFpGSGFl?=
+ =?utf-8?B?OVU5dVF1ZkNVZWtoanMzZmh4bEF1SEhKVXZQMDhFQ3YwSFR1TlR5dGJaZUFU?=
+ =?utf-8?B?UDllc1h0ZmpCQ0lSSkZERGh1anVrUHluYVk3N2IzSjdBUytQdzFWbTVtb3ow?=
+ =?utf-8?B?T2pFK3BCTEVxaUZtY2lJTlBZMTRZcld1d1p1S0pBUlJkalZjQkhVVEJIV2Nm?=
+ =?utf-8?B?WUY2TVJ2enpUYlBtVnF3TXF1Q2hFU3FUdTJtczNpa3pWNmYvOTc4bk85TXNq?=
+ =?utf-8?B?R1o5YmNrT1EzMjJEekw0Vzl2L1BhZnE3dm1LeFE5dHdvZFk3YXN4RVI3T0RO?=
+ =?utf-8?B?MnFPbFFFMThGSjhubUVDMWIwcUltaWRIOXMydTc2R0p2SW8wanhzdUhYMVll?=
+ =?utf-8?B?c2oreHZHeVhTSFNOVUY4ODIvQ1hPQUx6dUQyOC9wNU1rczBERXlqRnNyWmZs?=
+ =?utf-8?B?eThVZ0dLNUpQbFcyL05VbUl1Q1c4c2VPQmk4SlhWTXpVclJVcXVpSEtDL0VN?=
+ =?utf-8?B?Y0twRW5Xa2RuaTRnQUI2TXRSQ0dFUkhCWk53QXBPQ1lTTE1TRWFPRkFYSWZ0?=
+ =?utf-8?B?b2JMa1J1ZHVoL3g0bEU3dE5jTHdaa3lQYkkyMGFZamprcGN5U2wxMW5xRVBB?=
+ =?utf-8?Q?xy1xkZ?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2025 17:34:44.7455 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51afb323-92cc-465f-5d73-08dd6d55a9fd
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00036F43.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,115 +151,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to the eDP specification (e.g., VESA eDP 1.4b, section 3.3.10.2),
-if DP_EDP_PWMGEN_BIT_COUNT is less than DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN,
-the sink is required to use the MIN value as the effective bit count.
-
-Some eDP panels report DP_EDP_PWMGEN_BIT_COUNT as 0 while still providing
-valid non-zero MIN and MAX capability values. This patch updates the logic
-to use the CAP_MIN value in such cases, ensuring correct scaling of AUX-set
-backlight brightness values.
-
-This improves compatibility with panels like the Samsung ATNA40YK20 used
-on the Lenovo T14s Gen6 (Snapdragon variant with OLED) which report a
-bit count of 0 but declares an 11-bit PWM capability range.
-
-Co-developed-by: Rui Miguel Silva <rui.silva@linaro.org>
-Signed-off-by: Rui Miguel Silva <rui.silva@linaro.org>
-Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
----
-Changes in v2:
-- Split backlight brightness patch from T14s OLED enablement series.
-- Use PWMGEN_CAP_MIN rather than MAX (Dmitry).
-- Rework commit message to reference eDP spec.
-- Rebase on drm-misc-next.
-- Link to v1: https://lore.kernel.org/all/20250325-wip-obbardc-qcom-t14s-oled-panel-v2-4-e9bc7c9d30cc@linaro.org/
----
- drivers/gpu/drm/display/drm_dp_helper.c | 50 ++++++++++++++++++++++-----------
- 1 file changed, 33 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index dbce1c3f49691fc687fee2404b723c73d533f23d..0b843d5b634f89f144b62b30311834d118b79ba9 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -4083,7 +4083,7 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
- {
- 	int fxp, fxp_min, fxp_max, fxp_actual, f = 1;
- 	int ret;
--	u8 pn, pn_min, pn_max;
-+	u8 pn, pn_min, pn_max, bl_caps;
- 
- 	if (!bl->aux_set)
- 		return 0;
-@@ -4094,8 +4094,39 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
- 			    aux->name, ret);
- 		return -ENODEV;
- 	}
--
- 	pn &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
-+	if (ret != 1) {
-+		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap min: %d\n",
-+			    aux->name, ret);
-+		return 0;
-+	}
-+	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
-+	if (ret != 1) {
-+		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap max: %d\n",
-+			    aux->name, ret);
-+		return 0;
-+	}
-+	pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_BACKLIGHT_ADJUSTMENT_CAP, &bl_caps);
-+	if (ret != 1) {
-+		bl_caps = 0;
-+		drm_dbg_kms(aux->drm_dev, "%s: Failed to read backlight adjustment cap: %d\n",
-+			aux->name, ret);
-+	}
-+
-+	/*
-+	 * Some eDP panels report brightness byte count support, but the byte count
-+	 * reading is 0 (e.g. Samsung ATNA40YK20) so use pn_min instead.
-+	 */
-+	if (!pn && (bl_caps & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT)
-+	    && pn_min)
-+		pn = pn_min;
-+
- 	bl->max = (1 << pn) - 1;
- 	if (!driver_pwm_freq_hz)
- 		return 0;
-@@ -4122,21 +4153,6 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
- 	 * - FxP is within 25% of desired value.
- 	 *   Note: 25% is arbitrary value and may need some tweak.
- 	 */
--	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
--	if (ret != 1) {
--		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap min: %d\n",
--			    aux->name, ret);
--		return 0;
--	}
--	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
--	if (ret != 1) {
--		drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap max: %d\n",
--			    aux->name, ret);
--		return 0;
--	}
--	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
--	pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
--
- 	/* Ensure frequency is within 25% of desired value */
- 	fxp_min = DIV_ROUND_CLOSEST(fxp * 3, 4);
- 	fxp_max = DIV_ROUND_CLOSEST(fxp * 5, 4);
-
----
-base-commit: ee20c69c789b6cb2179a535cf440d72b98f4a134
-change-id: 20250327-wip-obbardc-qcom-t14s-oled-panel-brightness-4020865b6580
-
-Best regards,
--- 
-Christopher Obbard <christopher.obbard@linaro.org>
-
+On 3/25/25 04:42, Maciej Falkowski wrote:
+> From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>
+> Warn if device is suspended only when runtime PM is enabled.
+> Runtime PM is disabled during reset/recovery and it is not an error
+> to use ivpu_ipc_send_receive_internal() in such cases.
+>
+> Fixes: 5eaa49741119 ("accel/ivpu: Prevent recovery invocation during probe and resume")
+> Cc: <stable@vger.kernel.org> # v6.13+
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+> ---
+>   drivers/accel/ivpu/ivpu_ipc.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+> index 0e096fd9b95d..39f83225c181 100644
+> --- a/drivers/accel/ivpu/ivpu_ipc.c
+> +++ b/drivers/accel/ivpu/ivpu_ipc.c
+> @@ -302,7 +302,8 @@ ivpu_ipc_send_receive_internal(struct ivpu_device *vdev, struct vpu_jsm_msg *req
+>   	struct ivpu_ipc_consumer cons;
+>   	int ret;
+>   
+> -	drm_WARN_ON(&vdev->drm, pm_runtime_status_suspended(vdev->drm.dev));
+> +	drm_WARN_ON(&vdev->drm, pm_runtime_status_suspended(vdev->drm.dev) &&
+> +		    pm_runtime_enabled(vdev->drm.dev));
+Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>   
+>   	ivpu_ipc_consumer_add(vdev, &cons, channel, NULL);
+>   
