@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EF6A72DF9
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 11:43:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46969A72E08
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 11:45:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E4A610E304;
-	Thu, 27 Mar 2025 10:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E5E10E89B;
+	Thu, 27 Mar 2025 10:45:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fi6Lb0xt";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hdR5Ft+a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2366210E2CB
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 10:43:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36C0910E89B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 10:45:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743072186;
- bh=iTgb0cAaWoIHoTFxneTAPVeXLTxFIueFnnUYVEAPAgc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fi6Lb0xtNEM3BeAP9Wx1gjU4ycNCr+dTA0OdB4MGFdI8C/XLb0k0U/E76GDNcDaxB
- jR8HnR6lZB5nzFLYGXwU3vT7wjgH+1oi3ZrQZ9EmJO/HZCSOgyb66F2L+zAOp0w2hS
- N17R34TJSXJMqT3VdDzbc+3ZwXHlUxJh40Hg7cZKVaQcHhEws4BukD+y/QjfGLtun9
- Vyq5xQFLh3/wu+xCh16SNOuNHaRnbU89xRqn9U2EbkGqqQqvrw3zpWrg/GxzEDxtmX
- 2W0AP84NFLpvx44qvGwgjJjyMZQi2HBVciUilRtsyf+2MMWrRey61N8i0+kCnrEIgn
- u/lBlihF2MiCg==
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ s=mail; t=1743072324;
+ bh=ZG3rMmTx+yMtVLwYOUM1iwCNQ7qk3qeCktu62BjST2I=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=hdR5Ft+aumm8X7GhdiLTS5sSyuHmjTrfiqLTbzin1jSKZcGY/cxy6bzobPznrGOF0
+ VmEJcUJplukZ8CrIac7j1yZcdjwOWUafV2veshWB4GWyxpJgZZ7eiUQA+95YRV6QsK
+ MoqYlsS8mghRaAJFvCbilPoUTQoeZyDBRk+ec+FCX9ftD+qCulfVPalW3Msi5tZXRo
+ vmeveYanblqGjNZZQGGsdMPKrsWBz6QHHIS/bafKDzlkEW1A6WjC2HyDKD2TGYRk2k
+ Wd9JyalO3uHQbEBIWf800GlyoEw2WLaNchw6ks/SvnPPryRxKLMJ3Fblklv3WXasZ7
+ dtuJy2yE0lOaw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4755517E0FCE;
- Thu, 27 Mar 2025 11:43:06 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 32DAB17E0A5F;
+ Thu, 27 Mar 2025 11:45:24 +0100 (CET)
+Date: Thu, 27 Mar 2025 11:45:20 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, Min Ma <min.ma@amd.com>,
- Lizhi Hou <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>
-Subject: [PATCH 3/3] accel/amdxdna:
- s/drm_gem_v[un]map_unlocked/drm_gem_v[un]map/
-Date: Thu, 27 Mar 2025 11:43:00 +0100
-Message-ID: <20250327104300.1982058-3-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250327104300.1982058-1-boris.brezillon@collabora.com>
-References: <20250327104300.1982058-1-boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, Qiang Yu <yuq825@gmail.com>, Steven Price
+ <steven.price@arm.com>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
+ <matt.coster@imgtec.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v20 00/10] Add generic DRM-shmem memory shrinker (part 1)
+Message-ID: <20250327114520.5b470d8e@collabora.com>
+In-Reply-To: <1c9daef3-cd64-4f2f-8021-6ab2f17ae572@collabora.com>
+References: <20250322212608.40511-1-dmitry.osipenko@collabora.com>
+ <0e0686da-ae96-4a7a-81b2-b9ece1fa4837@suse.de>
+ <1c9daef3-cd64-4f2f-8021-6ab2f17ae572@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,43 +69,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 8f5c4871a014 ("drm/gem: Change locked/unlocked postfix of
-drm_gem_v/unmap() function names") dropped the _unlocked suffix,
-but accel drivers were left behind.
+On Wed, 26 Mar 2025 23:08:55 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-Fixes: 8f5c4871a014 ("drm/gem: Change locked/unlocked postfix of drm_gem_v/unmap() function names")
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Min Ma <min.ma@amd.com>
-Cc: Lizhi Hou <lizhi.hou@amd.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/accel/amdxdna/amdxdna_gem.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> On 3/25/25 17:17, Thomas Zimmermann wrote:
+> > I've looked through this before, so
+> > 
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.d>
+> > 
+> > for the series.  
+> 
+> Applied to misc-next, thanks!
 
-diff --git a/drivers/accel/amdxdna/amdxdna_gem.c b/drivers/accel/amdxdna/amdxdna_gem.c
-index 606433d73236..d9691dca12d1 100644
---- a/drivers/accel/amdxdna/amdxdna_gem.c
-+++ b/drivers/accel/amdxdna/amdxdna_gem.c
-@@ -81,7 +81,7 @@ static void amdxdna_gem_obj_free(struct drm_gem_object *gobj)
- 	if (abo->type == AMDXDNA_BO_DEV_HEAP)
- 		drm_mm_takedown(&abo->mm);
- 
--	drm_gem_vunmap_unlocked(gobj, &map);
-+	drm_gem_vunmap(gobj, &map);
- 	mutex_destroy(&abo->lock);
- 	drm_gem_shmem_free(&abo->base);
- }
-@@ -417,7 +417,7 @@ amdxdna_drm_create_cmd_bo(struct drm_device *dev,
- 	abo->type = AMDXDNA_BO_CMD;
- 	abo->client = filp->driver_priv;
- 
--	ret = drm_gem_vmap_unlocked(to_gobj(abo), &map);
-+	ret = drm_gem_vmap(to_gobj(abo), &map);
- 	if (ret) {
- 		XDNA_ERR(xdna, "Vmap cmd bo failed, ret %d", ret);
- 		goto release_obj;
--- 
-2.48.1
+Looks like the accel drivers were left behind. I just sent a patch
+series to address that [1].
+
+[1]https://lore.kernel.org/r/dri-devel/20250327104300.1982058-1-boris.brezillon@collabora.com/
 
