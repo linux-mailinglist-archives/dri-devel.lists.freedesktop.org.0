@@ -2,197 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2372CA72A74
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 08:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3084FA72AB2
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 08:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5503210E0AE;
-	Thu, 27 Mar 2025 07:15:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C708D10E859;
+	Thu, 27 Mar 2025 07:42:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="msIZhgkt";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tAYgp7rU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87E5610E0AE
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 07:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743059700; x=1774595700;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=y2SXRItw/yl39Pe798jZryECpgfWUds7xoYjeO3Ziz8=;
- b=msIZhgkthcM5Fm6X2cVQucADOJtDjVuPS/o5RVQ4JwJ0Ilq75Yhb3+kw
- CislECzMLXGk0uS96RopI3sFat2VjNoBDd2crbTVetrPlBcqlIGbonFMb
- xWi5IeM6yvSnb6vExzhVhcsGTt3aKtOmNyWtn0xzh0tpokXVFyNDXmGxP
- b/oGeAbQ536NtyGPWGpjiZwBUqPt6AVOrkmyDW4GDNy9r6Gk/rPHP924y
- +44wE4FuuQOidA59Z+FiTv6anu57bjNSysT0RJT9WUqeDGr6Z70H0pGHj
- l+daCHr6KA1l8eEj9hX3WLwL5j/yze8r2jNaF9ywb2LGwXpNqpjx0xp+a Q==;
-X-CSE-ConnectionGUID: LNjjewg3QQSRk6m/jrVbwA==
-X-CSE-MsgGUID: cuFCT2KBT76RFlUVBirR9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48253698"
-X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="48253698"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2025 00:15:00 -0700
-X-CSE-ConnectionGUID: iOExeJBvQF+Xy7Bl403LKA==
-X-CSE-MsgGUID: XvRsulJqTrGW/DqaURD4aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; d="scan'208";a="129898277"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2025 00:15:00 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 27 Mar 2025 00:14:59 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 27 Mar 2025 00:14:59 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 27 Mar 2025 00:14:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Df3+SQf3DLpbBBiyjkSsJYdmojYdxiaNBYt2UGEXeeaLFHQEoLM07Upl6VM9BccrYauDe1J8LyCQbQCDPOn8O30zbzG1u0SaP7PkjVPTizPA5QRLM7h6ia72ZFIg0b6jLrSECky6lx0pkN/Mev7vr7oTqDRWV3PxQMHWZ7nurZp+7nr5kryw1mJwpREf/k5DovMwLtR4rsjNVO5EToRez8CRnO0Ra3Sf1/owJjIyllGb7KbeW5OQ504sH0CmzVNLX4Z1Q6fCSPhhkPixP4AVZmdW+qhoI7cZIZPGQy6Tozectwxdb/Qi2tojoPcOwt8JNWR3XR7F2nV32VTQerzGuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y2SXRItw/yl39Pe798jZryECpgfWUds7xoYjeO3Ziz8=;
- b=Z9XjwSbEk4GwEF7A1D3Yg6k07h0FyyufxKY5SRSPvEgTHfRUXGgHwbcoaY5z/FL3RDXr3p3eBDz5CYXKrSQ+mDHgvWWbBtJkD5YpvKPRa/bSHtZKHWwNDfAdQKDKl5s9OJjVobzAZQc829ea8drRebdi6UTovN2Fb/0JFcZyo/i36XNfePuklAIhOsaVaiWFQvKnXkuMNSUp31iT18Sx2Rp+Y7w4pa46Ghrr8mOxGbYc2TJgFvHOQVD3kZXlVJ8i2WNjrhk0xqic/KcKQLSY5ovS1KaW/WK7FQ/VZgwo1csBJ5EUq7Ja4vN0a1biZzaPRDuoPyDcxZwyAti8B1+qdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
- by CO1PR11MB4994.namprd11.prod.outlook.com (2603:10b6:303:91::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 27 Mar
- 2025 07:14:57 +0000
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b%3]) with mapi id 15.20.8534.043; Thu, 27 Mar 2025
- 07:14:56 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, David Airlie
- <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Gurchetan Singh
- <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, "Pierre-Eric
- Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kernel@collabora.com" <kernel@collabora.com>
-Subject: RE: [PATCH v1 2/2] drm/virtio: Fix missed dmabuf unpinning in error
- path of prepare_fb()
-Thread-Topic: [PATCH v1 2/2] drm/virtio: Fix missed dmabuf unpinning in error
- path of prepare_fb()
-Thread-Index: AQHbnfGBeSAw8gFsy0Sck8QBafnwF7OE3R3AgAByhgCAASzF4A==
-Date: Thu, 27 Mar 2025 07:14:56 +0000
-Message-ID: <IA0PR11MB71851C0607629875CC458A90F8A12@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <20250326014902.379339-1-dmitry.osipenko@collabora.com>
- <20250326014902.379339-2-dmitry.osipenko@collabora.com>
- <IA0PR11MB7185345D3DFA8C7900059144F8A62@IA0PR11MB7185.namprd11.prod.outlook.com>
- <16a30d03-9c98-47a4-959f-8671f7cb7fab@collabora.com>
-In-Reply-To: <16a30d03-9c98-47a4-959f-8671f7cb7fab@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|CO1PR11MB4994:EE_
-x-ms-office365-filtering-correlation-id: 997d151d-033b-4b8d-0e8b-08dd6cff1447
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|7416014|376014|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?NXFxa2RhRlg1OWk1V3dlVGQyL1RBL2FHUXRCZThyUW9UQUhpOGNiMERvemVu?=
- =?utf-8?B?dGdabFdLTDUxLzlvMDVOUUdRK3RFY2lzSGVFdmc4U1ZmdG8vWWNYa015VjN0?=
- =?utf-8?B?bWJuVE9JcmZ2WnF3THBFaG51MEVNWGpwWTVlekZCcHdpOHR3VExORzZRWGZB?=
- =?utf-8?B?VkdxYjdtcjRMdnVwVm1BVWNoRG5xdWt4cklyaUxmV3pISHN0S2cveG84QVF1?=
- =?utf-8?B?bTByWXNMS3lhNW41SVlRNnEzZGxrMmtXMEloYXl4bGtML2VuM3AzSWZWQnM2?=
- =?utf-8?B?VDE1ckNvZGR1RmVyK3NDR1pKK2JhY1JtSTNNVHE4TmtLZ1JFb0tZNVhRK2xt?=
- =?utf-8?B?VHpPMCtMSlNqbXU5MnBFSW4zM2RyYXB2cVhKWjZ5Q3ptS1hSa29IZTBTU3hn?=
- =?utf-8?B?VWdpL0c1MC9aMTBpZ0RuNWEvTUcwM2R2NDNBMStGQmFScHFqalRab3VrL2N4?=
- =?utf-8?B?bEhURGR5MHhhVHJjNThSNTdUWGhrdE1YYjN0cjg0WGZKVGo0ejVic3MxZGEr?=
- =?utf-8?B?ZWtRZ2hHZzlGUWg1aXg1UGZLTWdub1RScHNhQk9OV2lkZUZtT1ZxVSt6TW1w?=
- =?utf-8?B?V0ZUY2VvL1NWZkZkUURtdmRFak9iOVN5VFhRSENEUTFNSy91c0ZLMERFSno4?=
- =?utf-8?B?aVFBbVhyQkswRnVhM2JMWU44TVQxOGdQTVZMcXFMZ3FEVTNmRGxsRHZtSGNT?=
- =?utf-8?B?YkNhamxjSmZraDVaOEF3STZUZXp2VmRkcVU3cFJaR29WNWdQN3U1TCtNSFdI?=
- =?utf-8?B?QnNPRGFuV0lVSjQ4cURVK1NHN1ltdElBTXMyNXd0d0FDZkJNd0hmcVg1WVdq?=
- =?utf-8?B?Mlo5L3JmcU9DWVBxNVhCZmJTWW9KcG1mNGRVMVJ0cUZTeWFkS3VrV01nOGNY?=
- =?utf-8?B?T25hOUVVMXAwYkJ1dld0Z1E5eFErVFNKWDRndlNMTG9sa09uWFZ1R3UraXk5?=
- =?utf-8?B?b0NQY2MzRkRxTHRmN0xtVjJpd2tzT1NtOS9jd2J6UC9IbUI1YmNZWHBmdTNS?=
- =?utf-8?B?c1RJTXIvTytLOGx0NjJPNHJOS3c2R3pXdGd5NHZYTGNzbS9jU210bkZ0OEhs?=
- =?utf-8?B?UmQ2RlA3YTZtTkxqZGtySHY3c0tqaTJ6SGFhMFpJSEdCU09xYklYQnZjU3g2?=
- =?utf-8?B?SGRGVjNjakRxK1ZKOGhzSHFlSkMzaEtmRTRxMktUaVl5eXB1bXN2a0FHdDdn?=
- =?utf-8?B?dUxueFZOMDg3aXppTFVETnNXK3k0NTNDV0ttV0diMGR1SHB6NThMVHdmd0pD?=
- =?utf-8?B?eE1zeElSY1R2NmlJdU9LQlRtK0VyakEyM09kcVcvdkVFNzNaZ3VhVnhmcjBt?=
- =?utf-8?B?YytGVHRXeHBHWFlhNFJFbktTSEErbVB5dTVIOHF6Z1ZnZm0vc2M5ZzJmWk0w?=
- =?utf-8?B?blJjeDZqcXA2OWY2ZGVZSEwrSDJraEJoWXFnV21pTzBBNm1jWHFqZzVYSjFT?=
- =?utf-8?B?ZVJYcWJWL2xTZFhkdSt5MEUrWVk2d2xXTjVBaUJpUTBGUGtOa1hrNVJsa3Jy?=
- =?utf-8?B?UkRNR2UzL2x2WExVeCtyNHVBYTlDMU9zT3Vjeml3RElyVmt5bEVheXgxellW?=
- =?utf-8?B?Tm1xRnZ6TnhLN2RSazcxckFXNGNTSzRXZHhqSDRmcFo3VDhqbHl4UmFaRkJQ?=
- =?utf-8?B?dWQvb0w0L01CbUtpdlJhekd1bG5wZGJZYzNWeWdXdDlCeFBDS1lpU2hLa3F3?=
- =?utf-8?B?ZXRiSmdRMTIrZGU4cXR4M1Z6aGw4T0lCY3k2MGwvMVN1VHpvRFgzSHNyTksx?=
- =?utf-8?B?c1NtQ2syMEl6OEJtb0phQmp1ZmtPaklFRXQ2Unk0eHNVSXYvZ3J3M1RiUmRy?=
- =?utf-8?B?OWZCSU8xSVpyNXF3RHNWWDZRU1J6ZlFCbjd1OE9WTmRvcVF2czZNWmF0WUVV?=
- =?utf-8?B?ekcrSHNYQVVGczBzSEt5RGRWZXZzckFXOFlacVo4djMzSWxhdGg5WWZZSXhM?=
- =?utf-8?Q?FYzjpMdhkvrnrwbH/i567tYTyZdHhnyI?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MmFPdFkybDNnNjR4OGxyOTREMUpiT0xoZmFKbm13WE1JcFdGWjYrc25oUktN?=
- =?utf-8?B?Wk9pZUdzTXlFY25iVWl0QjYyOUQ2bEgrbmNmT1gxaUZMYXpTcFVFcHV3YS95?=
- =?utf-8?B?QThDc0JVdEdLckF2ajhaR3F1bG9jNmF2QUd0TEduZnhGd0ptbTJXVzhGVXZN?=
- =?utf-8?B?UUV0dVNETzFyQlpXaXVLOW9qMW95SzhUOHZzQ1hycExYdndyeGZQeUQzbE92?=
- =?utf-8?B?TmVSL29DOEJuN3krRWdtWTdYd2xDLzJCUE90WFlEdmpOM2N1a1daUk0wd1NR?=
- =?utf-8?B?UnlBZUVKaVB0Sms5NDBLeEdrUEgxcGdCcEpUNFdlSWJkT2o3ajNmSUdNNGFx?=
- =?utf-8?B?VFlWaVNMa3lFY2pyZlBndzg1YldZVGFkUE1JcjhHaWEwNjJiRWk0ZkdtYkxH?=
- =?utf-8?B?YnZmUnpjWTlGRWx2SUlzY3dWMWxpcVlvcjczTm5Oay94ZXgxSHZjV09FQUx2?=
- =?utf-8?B?ZjJ2VVlJZ3ZJaVAxZjZzZCs2emJnSWdEYVVLcHAvTjlFNS9FYmZrT1EyTEhC?=
- =?utf-8?B?MzhBd0ZXRWhNalhUTm83UnM1b1Ivd1pIRU95MzVjUDVwUjVYb1dLUmtLVkty?=
- =?utf-8?B?SjZjSm92L2twaFMySVErNklUejVJaDRPK3hqSytTSm5odUpIK1JjWEhNRGdi?=
- =?utf-8?B?cnhXdlVKTm53ZzhpTmtkekRhR09aVXZsSDhhMWpNMzg4YktDcE84WDNpbXZ5?=
- =?utf-8?B?L2NFYXcyU0lKMUxsTmZkNzQwZmlMMWhKUndCMVF4b3hGcWxBb09ZcTF1UTlp?=
- =?utf-8?B?VUxwUzJGQzY3OVpqRTZ6NUtQbmZNN29TWFowRzZ0dlJpaFZBK0V0dERqY3Ar?=
- =?utf-8?B?aXdvVG54c1V4QVd6VURXWnA2MkJ4V05pWlhSU05HMGFCLzVFREM1UXlCNnJJ?=
- =?utf-8?B?bjFUQ2ZOVUhXY2VQRmNhUW1hUmdWV3JIS3RmQ2tMMGlyMExkeVVZSTZibHBM?=
- =?utf-8?B?RmM5SHJFK29YTXRVY0J6WE0xZDRhUHE4SHJKWjdtM3lFdjNwY05CbXZmWEtQ?=
- =?utf-8?B?cTNoWEVBV1Fmd2ZvR0RMVHhwelEzeWFTc2hHTmhjNVBRSjlTMFVBS2tSdHJn?=
- =?utf-8?B?TTd2RVBXR2ZHY3lLUmdXVGhjak55dk54eTQ2Q0F6MGUrRFQ4T3JUL0xFR0Ns?=
- =?utf-8?B?dXpteG1sM084K1krVDg3SUlnTjl5TXZnVzdkQThubmp5QUUzSjcyTTFTeG9D?=
- =?utf-8?B?ZEZqMFd5aFRsTGZnVTRFc2J4UTJTVmY4R2IyOGszNUhaT0ZTNzdIM1BpZURJ?=
- =?utf-8?B?NGdjNWdCWFBFSzBtOW5GWDR0S1NWM0FlcGNqNU5KT3BrTmx1aVRHSWh2aDFN?=
- =?utf-8?B?RmRFMDlqNC9QVUpOY0ovQUtNRHVBc0JUcWVBZzhybmp1S0N6enZjc0IwWEcz?=
- =?utf-8?B?bnJCVmtuUEZuQk9MTjMzUE42QUF1dTlzRWlCWHVPczNZMDcwcWNkdTBhL25I?=
- =?utf-8?B?NlQraVU5MzZlMWtDOVN0Y0UvOVoveFdrS1Fyb0FGMHN0OHNJYkcxSjZWUjNr?=
- =?utf-8?B?RXJ6YSs0MGZrbkRVMjZQazBNaHk3M0svMmdqSjNwUG5ldWpkY2pDSU43WnJF?=
- =?utf-8?B?WDZnUStBSTZwM3dHQWtESUtGalZpZGYwQ25zTlN6MlgzdUs2YWx2MjJxcU1W?=
- =?utf-8?B?eHBWSFk5dW5kUXFVbDJORjZCVWF1TkFPNXY5QXBvemptR2FNSnVGcXlqdXJy?=
- =?utf-8?B?bjJFY3ZLaDFreVNYSHpDOFJMVGJzcGZFdU1lSEE3NTlEMWFXdVA4K2xLWHZX?=
- =?utf-8?B?K2tCSjhVWm1hMkpHcmNaQnpjSmozM21BdGV6RGRtZ0h5Nzl4Ym9saytZYldW?=
- =?utf-8?B?bjhlR2g4bk9sMnlFaUJTMWRjK3pTdUYvUlluTDVjRVV6NXJLTlNjWndaczZp?=
- =?utf-8?B?NmJlOFBWY0NydjExSjBETU13N2NCbHpFbkFSYzVKUlkvUjB6bU5kS3Qxbmpq?=
- =?utf-8?B?cnhKRGd1Q3VPVmdKcy9wM0Nrd3Z3KzFhMFdiZ2tMNmVYdUVicklaWjdUbDlx?=
- =?utf-8?B?SzlSb2Joc2wzbWVidEVvNWNLcStlZGh0Vk5LbmRIR0hWNDZ1QWdoVGFzakVN?=
- =?utf-8?B?eVJIZG5tbE9meDJjWGRpL1FRUUdUN201UFpZQnRjVjBHYVRYeGpnSVFISjJ5?=
- =?utf-8?Q?qCMYrvFfd4mUEPY21Jq3B3/Tm?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
+ [209.85.160.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D71910E859
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 07:42:10 +0000 (UTC)
+Received: by mail-oa1-f44.google.com with SMTP id
+ 586e51a60fabf-2b38896c534so301545fac.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 00:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1743061330; x=1743666130; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0Yz3GUX6XsM224gr6XKQEAgq589B/LL0UkQGjhjBGwI=;
+ b=tAYgp7rU83TYzNyDnNI6XVQOkyW0dEZvVB+NPE5r0JsPXnJR3ZvZmo4fRIy5jHixQx
+ 0gZItOMGe2Bkzcs0Jn5ioEBs0QvPxkKyKGBOrfksRSeIZw1R+k6ZzDv1H0Zp0qroSjcD
+ JhzPwOQn4MRaicW+kJ0FU3Q/Oym3I+V6lTIGT2Tvgq3o0oMGOjwjXQ6b3Z4Woj+g0gn4
+ Omk3WacLZmaEveVvagl+iaLR+IKhdZRqkvDDNqq6/Ucs8R9Qw52Ao+OdxHZkrjlctPFB
+ /RO0GIkBs1OttYU02tSKN2Amd6mmho/L7jA9rlYXefWXabYaTFDqCoUmWOHzYY/ByFlo
+ l0Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743061330; x=1743666130;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0Yz3GUX6XsM224gr6XKQEAgq589B/LL0UkQGjhjBGwI=;
+ b=epfJL5AxOTQNwldSgL8lmCUHKzDROTj1n2Rl2gGbTOMTb8VBbiSDwqbBjOfpatBDjj
+ X27Ui6v2Xjko1ki3bvop50aRbxVlLbksSb/8IA1GTBhu38jZZMKgIhYUCpMCu8rH1vly
+ Un8ofIo09vKaZIQGBaBGGyZmrTSsRKpwzsc8X96VWeHgmMzj5h39VcIGNUBH3ctTgeMV
+ 7fQQcLH3z8bh22D/x6gDT/jX9sxrqtlkJhZcCdIZTUWqdZM1oZav1s0hV1LplRjoB5sW
+ vz2WOyUJea+blCuuifO22JMgrZfCA7kugI7s0NosPsrEsDQWlmAJhFNXY1ZUmN6Z5Cgq
+ Z/Yg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWPjDIRJcyESbExScoWhwRUp+kxB/XQWr6NIOcqPu65T31vJs/s6aJ36594bS5J1ZDgyUapcytC5Aw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWA30b9d3B8HpI95gAYUnMCXbRxNWHSpBjokEVUF0xrVnk1CCW
+ TD6138yCrGgbbm+SOU/gnlpND/vrF11ONxSRACNafA5lZyU0g2OSz/G+6Hrf5b7iQblvGcYhN2e
+ lkzkzn87+w/ACct5JNPweDOltYp1eLgq4o+C4DQ==
+X-Gm-Gg: ASbGncsz9VEVr24pP6DDOHAofdVix02NFi5XqHHjA+VvtUfmCfIDKB/ksHs+ClSU4G3
+ NjL5qc8h2Q4oMi8vP3/LldRfCkVP3VOZJvZxnE7mCiaQjbDqT0nipt8Re7AbH+4QUv9R/1kdIBu
+ JvThMID7r+oDfhuwRZiw8WaTG5bwo=
+X-Google-Smtp-Source: AGHT+IEuzFu54ZYzJqGHEirIntYenIkcBiYp2Yxy6HHYV+YxvWp0YOkF2QHuz3j762PwgVE4Dt+Gh5t4pAIhKW2Kirw=
+X-Received: by 2002:a05:6870:d3cb:b0:2b8:3c87:f36 with SMTP id
+ 586e51a60fabf-2c847f7ce6dmr1473724fac.13.1743061329469; Thu, 27 Mar 2025
+ 00:42:09 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 997d151d-033b-4b8d-0e8b-08dd6cff1447
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Mar 2025 07:14:56.8632 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZcwSUqWsvk78J3xa0DRhvX21D4uXmMvMDa3IOC8UVP6fA0Ics/CQ0m0RtN34WhK9oKoDurW4LtvUhhvd2sfoygUM0HYpTY3ljUq91HF7wzE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4994
-X-OriginatorOrg: intel.com
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-5-jens.wiklander@linaro.org>
+ <Z-JLLHcrt1pwXe7J@sumit-X1>
+In-Reply-To: <Z-JLLHcrt1pwXe7J@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 27 Mar 2025 08:41:58 +0100
+X-Gm-Features: AQ5f1JpKpCaHnPq-WqpxZiMG9gvRuu0d1oZ8goQvglf9XAprpIT1EHtIU6jGLNc
+Message-ID: <CAHUa44FO4NR90UsQQMNBC7n=4wE-bC+71OR5r7-gzFZBf+-76A@mail.gmail.com>
+Subject: Re: [PATCH v6 04/10] optee: sync secure world ABI headers
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, 
+ Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -208,44 +97,341 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRG1pdHJ5LA0KDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEgMi8yXSBkcm0vdmlydGlvOiBG
-aXggbWlzc2VkIGRtYWJ1ZiB1bnBpbm5pbmcgaW4gZXJyb3INCj4gcGF0aCBvZiBwcmVwYXJlX2Zi
-KCkNCj4gDQo+IE9uIDMvMjYvMjUgMDg6MTQsIEthc2lyZWRkeSwgVml2ZWsgd3JvdGU6DQo+IC4u
-Lg0KPiA+PiAgc3RhdGljIGludCB2aXJ0aW9fZ3B1X3BsYW5lX3ByZXBhcmVfZmIoc3RydWN0IGRy
-bV9wbGFuZSAqcGxhbmUsDQo+ID4+ICAJCQkJICAgICAgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUg
-Km5ld19zdGF0ZSkNCj4gPj4gIHsNCj4gPj4gQEAgLTM3NiwyMyArMzg2LDE2IEBAIHN0YXRpYyBp
-bnQgdmlydGlvX2dwdV9wbGFuZV9wcmVwYXJlX2ZiKHN0cnVjdA0KPiA+PiBkcm1fcGxhbmUgKnBs
-YW5lLA0KPiA+PiAgCQl2Z3BsYW5lX3N0LT5mZW5jZSA9IHZpcnRpb19ncHVfZmVuY2VfYWxsb2Mo
-dmdkZXYsDQo+ID4+ICAJCQkJCQkgICAgIHZnZGV2LT5mZW5jZV9kcnYuY29udGV4dCwNCj4gPj4g
-IAkJCQkJCSAgICAgMCk7DQo+ID4+IC0JCWlmICghdmdwbGFuZV9zdC0+ZmVuY2UpDQo+ID4+ICsJ
-CWlmICghdmdwbGFuZV9zdC0+ZmVuY2UpIHsNCj4gPj4gKwkJCWlmIChvYmotPmltcG9ydF9hdHRh
-Y2gpDQo+ID4+ICsJCQkJdmlydGlvX2dwdV9jbGVhbnVwX2ltcG9ydGVkX29iaihvYmopOw0KPiA+
-IEkgdGhpbmsgY2hlY2tpbmcgZm9yIGZlbmNlIGFsbG9jYXRpb24gZmFpbHVyZSBiZWZvcmUgaW1w
-b3J0IHdvdWxkIGJlIG11Y2gNCj4gYmV0dGVyLg0KPiA+IEluIG90aGVyIHdvcmRzLCBjbGVhbmlu
-ZyB1cCB0aGUgZmVuY2UgaW4gY2FzZSBvZiBhbnkgaW1wb3J0IGVycm9ycyB3b3VsZCBiZQ0KPiA+
-IG11Y2ggc2ltcGxlciBJTU8uDQo+ID4NCj4gPiBSZWdhcmRsZXNzLA0KPiA+IEFja2VkLWJ5OiBW
-aXZlayBLYXNpcmVkZHkgPHZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20+DQo+IA0KPiBBbm90aGVy
-IHF1ZXN0aW9uLCB3aHkgZG8gd2UgbmVlZCB0aGlzIGZlbmNpbmcgZm9yIGltcG9ydGVkIGRtYWJ1
-Zj8NCj4gRmVuY2luZyBpc24ndCBkb25lIGhvc3QvZ3Vlc3QgYmxvYnMgaW4gdGhpcyBjb2RlLCB3
-aGlsZSBkbWFidWYgaXMNCj4gZXNzZW50aWFsbHkgYSBndWVzdCBibG9iLiBDb3VsZCB5b3UgcGxl
-YXNlIGNsYXJpZnkgd2h5IHRoaXMgZmVuY2UgaXMNCj4gbmVlZGVkPyBNYXliZSB3ZSBzaG91bGRu
-J3QgYWxsb2NhdGUgZmVuY2UgaW4gdGhlIGZpcnN0IHBsYWNlIGZvciB0aGUgZG1hYnVmLg0KQXQt
-bGVhc3QgZm9yIHRoZSBub24tdmlyZ2wgdXNlLWNhc2VzICh3aGVyZSB0aGUgcmVuZGVyaW5nIGlz
-IGRvbmUgaW4gdGhlIEd1ZXN0IHN1Y2gNCmFzIGluIHBhc3N0aHJvdWdoKSwgdGhpcyBHdWVzdC9I
-b3N0IHN5bmNocm9uaXphdGlvbiBmZW5jZSBzZXJ2ZXMgdHdvIHB1cnBvc2VzOg0KLSBJdCBwcmV2
-ZW50cyB0aGUgR3Vlc3QgZnJvbSByZXVzaW5nL2Rlc3Ryb3lpbmcgdGhlIHN1Ym1pdHRlZCBidWZm
-ZXIgKEd1ZXN0IGNvbXBvc2l0b3INCiAgRkIpIHVudGlsIHRoZSBIb3N0IGlzIGRvbmUgdXNpbmcg
-aXQuIE90aGVyd2lzZSwgdGhlIEd1ZXN0IGNvbXBvc2l0b3IgbWlnaHQgcmVuZGVyDQogIGludG8g
-dGhpcyBidWZmZXIgYXQgdGhlIHNhbWUgdGltZSB3aGlsZSB0aGUgSG9zdCBpcyBjb25zdW1pbmcg
-aXQsIGxlYWRpbmcgdG8gaXNzdWVzDQogIHN1Y2ggYXMgdGVhcmluZy9mbGlja2VyaW5nLiBUaGlz
-IHByb2JsZW0gaXMgbW9yZSBub3RpY2VhYmxlIGluIGNhc2VzIHdoZXJlIHRoZQ0KICBHdWVzdCBj
-b21wb3NpdG9yIGhhcyBvbmx5IG9uZSBiYWNrYnVmZmVyIHN1Y2ggYXMgWG9yZyArIGRpcnRmeUZi
-Lg0KDQotIEl0IGFsc28gcHJldmVudHMgdGhlIEd1ZXN0IGNvbXBvc2l0b3IgZnJvbSByZW5kZXJp
-bmcgZmFzdGVyIHRoYW4gdGhlIEhvc3QgcmVmcmVzaA0KICByYXRlLiBJbiBvdGhlciB3b3Jkcywg
-aXQganVzdCBzZXRzIHRoZSB1cHBlciBib3VuZCBpbiB0ZXJtcyBvZiB0aGUgYnVmZmVyIHN1Ym1p
-c3Npb24NCiAgcmF0ZSBhcyB0aGVyZSBpcyBubyBwb2ludCBpbiBnb2luZyBvdmVyIHRoZSBIb3N0
-IHJlZnJlc2ggcmF0ZSwgd2hpY2ggd291bGQgbGlrZWx5DQogIGxlYWQgdG8gd2FzdGFnZSBvZiBH
-UFUgY3ljbGVzIGFuZCBkcm9wcGVkIGZyYW1lcy4NCg0KVGhlcmVmb3JlLCB0aGlzIGZlbmNlIGlz
-IHJlYWxseSBuZWVkZWQgZm9yIEd1ZXN0IGJsb2JzIGluY2x1ZGluZyBpbXBvcnRlZCBkbWFidWZz
-Lg0KDQpUaGFua3MsDQpWaXZlaw0KDQo+IA0KPiAtLQ0KPiBCZXN0IHJlZ2FyZHMsDQo+IERtaXRy
-eQ0K
+Hi Sumit,
+
+On Tue, Mar 25, 2025 at 7:20=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> =
+wrote:
+>
+> Hi Jens,
+>
+> It has taken a bit of time for me to review this patch-set as I am
+> settling in my new role.
+>
+> On Wed, Mar 05, 2025 at 02:04:10PM +0100, Jens Wiklander wrote:
+> > Update the header files describing the secure world ABI, both with and
+> > without FF-A. The ABI is extended to deal with restricted memory, but a=
+s
+> > usual backward compatible.
+> >
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >  drivers/tee/optee/optee_ffa.h | 27 ++++++++++---
+> >  drivers/tee/optee/optee_msg.h | 65 ++++++++++++++++++++++++++++++--
+> >  drivers/tee/optee/optee_smc.h | 71 ++++++++++++++++++++++++++++++++++-
+> >  3 files changed, 154 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/tee/optee/optee_ffa.h b/drivers/tee/optee/optee_ff=
+a.h
+> > index 257735ae5b56..7bd037200343 100644
+> > --- a/drivers/tee/optee/optee_ffa.h
+> > +++ b/drivers/tee/optee/optee_ffa.h
+> > @@ -81,7 +81,7 @@
+> >   *                   as the second MSG arg struct for
+> >   *                   OPTEE_FFA_YIELDING_CALL_WITH_ARG.
+> >   *        Bit[31:8]: Reserved (MBZ)
+> > - * w5:         Bitfield of secure world capabilities OPTEE_FFA_SEC_CAP=
+_* below,
+> > + * w5:         Bitfield of OP-TEE capabilities OPTEE_FFA_SEC_CAP_*
+> >   * w6:         The maximum secure world notification number
+> >   * w7:         Not used (MBZ)
+> >   */
+> > @@ -94,6 +94,8 @@
+> >  #define OPTEE_FFA_SEC_CAP_ASYNC_NOTIF        BIT(1)
+> >  /* OP-TEE supports probing for RPMB device if needed */
+> >  #define OPTEE_FFA_SEC_CAP_RPMB_PROBE BIT(2)
+> > +/* OP-TEE supports Restricted Memory for secure data path */
+> > +#define OPTEE_FFA_SEC_CAP_RSTMEM     BIT(3)
+> >
+> >  #define OPTEE_FFA_EXCHANGE_CAPABILITIES OPTEE_FFA_BLOCKING_CALL(2)
+> >
+> > @@ -108,7 +110,7 @@
+> >   *
+> >   * Return register usage:
+> >   * w3:    Error code, 0 on success
+> > - * w4-w7: Note used (MBZ)
+> > + * w4-w7: Not used (MBZ)
+> >   */
+> >  #define OPTEE_FFA_UNREGISTER_SHM     OPTEE_FFA_BLOCKING_CALL(3)
+> >
+> > @@ -119,16 +121,31 @@
+> >   * Call register usage:
+> >   * w3:    Service ID, OPTEE_FFA_ENABLE_ASYNC_NOTIF
+> >   * w4:         Notification value to request bottom half processing, s=
+hould be
+> > - *     less than OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE.
+> > + *     less than OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE
+> >   * w5-w7: Not used (MBZ)
+> >   *
+> >   * Return register usage:
+> >   * w3:    Error code, 0 on success
+> > - * w4-w7: Note used (MBZ)
+> > + * w4-w7: Not used (MBZ)
+> >   */
+> >  #define OPTEE_FFA_ENABLE_ASYNC_NOTIF OPTEE_FFA_BLOCKING_CALL(5)
+> >
+> > -#define OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE 64
+> > +#define OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE      64
+> > +
+> > +/*
+> > + * Release Restricted memory
+> > + *
+> > + * Call register usage:
+> > + * w3:    Service ID, OPTEE_FFA_RECLAIM_RSTMEM
+> > + * w4:    Shared memory handle, lower bits
+> > + * w5:    Shared memory handle, higher bits
+> > + * w6-w7: Not used (MBZ)
+> > + *
+> > + * Return register usage:
+> > + * w3:    Error code, 0 on success
+> > + * w4-w7: Note used (MBZ)
+> > + */
+> > +#define OPTEE_FFA_RELEASE_RSTMEM     OPTEE_FFA_BLOCKING_CALL(8)
+> >
+> >  /*
+> >   * Call with struct optee_msg_arg as argument in the supplied shared m=
+emory
+> > diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_ms=
+g.h
+> > index e8840a82b983..1b558526e7d9 100644
+> > --- a/drivers/tee/optee/optee_msg.h
+> > +++ b/drivers/tee/optee/optee_msg.h
+> > @@ -133,13 +133,13 @@ struct optee_msg_param_rmem {
+> >  };
+> >
+> >  /**
+> > - * struct optee_msg_param_fmem - ffa memory reference parameter
+> > + * struct optee_msg_param_fmem - FF-A memory reference parameter
+> >   * @offs_lower:         Lower bits of offset into shared memory refere=
+nce
+> >   * @offs_upper:         Upper bits of offset into shared memory refere=
+nce
+> >   * @internal_offs: Internal offset into the first page of shared memor=
+y
+> >   *              reference
+> >   * @size:       Size of the buffer
+> > - * @global_id:          Global identifier of Shared memory
+> > + * @global_id:          Global identifier of the shared memory
+> >   */
+> >  struct optee_msg_param_fmem {
+> >       u32 offs_low;
+> > @@ -165,7 +165,7 @@ struct optee_msg_param_value {
+> >   * @attr:    attributes
+> >   * @tmem:    parameter by temporary memory reference
+> >   * @rmem:    parameter by registered memory reference
+> > - * @fmem:    parameter by ffa registered memory reference
+> > + * @fmem:    parameter by FF-A registered memory reference
+> >   * @value:   parameter by opaque value
+> >   * @octets:  parameter by octet string
+> >   *
+> > @@ -296,6 +296,18 @@ struct optee_msg_arg {
+> >   */
+> >  #define OPTEE_MSG_FUNCID_GET_OS_REVISION     0x0001
+> >
+> > +/*
+> > + * Values used in OPTEE_MSG_CMD_LEND_RSTMEM below
+> > + * OPTEE_MSG_RSTMEM_RESERVED         Reserved
+> > + * OPTEE_MSG_RSTMEM_SECURE_VIDEO_PLAY        Secure Video Playback
+> > + * OPTEE_MSG_RSTMEM_TRUSTED_UI               Trused UI
+> > + * OPTEE_MSG_RSTMEM_SECURE_VIDEO_RECORD      Secure Video Recording
+> > + */
+> > +#define OPTEE_MSG_RSTMEM_RESERVED            0
+> > +#define OPTEE_MSG_RSTMEM_SECURE_VIDEO_PLAY   1
+> > +#define OPTEE_MSG_RSTMEM_TRUSTED_UI          2
+> > +#define OPTEE_MSG_RSTMEM_SECURE_VIDEO_RECORD 3
+> > +
+> >  /*
+> >   * Do a secure call with struct optee_msg_arg as argument
+> >   * The OPTEE_MSG_CMD_* below defines what goes in struct optee_msg_arg=
+::cmd
+> > @@ -337,6 +349,49 @@ struct optee_msg_arg {
+> >   * OPTEE_MSG_CMD_STOP_ASYNC_NOTIF informs secure world that from now i=
+s
+> >   * normal world unable to process asynchronous notifications. Typicall=
+y
+> >   * used when the driver is shut down.
+> > + *
+> > + * OPTEE_MSG_CMD_LEND_RSTMEM lends restricted memory. The passed norma=
+l
+> > + * physical memory is restricted from normal world access. The memory
+> > + * should be unmapped prior to this call since it becomes inaccessible
+> > + * during the request.
+> > + * Parameters are passed as:
+> > + * [in] param[0].attr                        OPTEE_MSG_ATTR_TYPE_VALUE=
+_INPUT
+> > + * [in] param[0].u.value.a           OPTEE_MSG_RSTMEM_* defined above
+> > + * [in] param[1].attr                        OPTEE_MSG_ATTR_TYPE_TMEM_=
+INPUT
+> > + * [in] param[1].u.tmem.buf_ptr              physical address
+> > + * [in] param[1].u.tmem.size         size
+> > + * [in] param[1].u.tmem.shm_ref              holds restricted memory r=
+eference
+> > + *
+> > + * OPTEE_MSG_CMD_RECLAIM_RSTMEM reclaims a previously lent restricted
+> > + * memory reference. The physical memory is accessible by the normal w=
+orld
+> > + * after this function has return and can be mapped again. The informa=
+tion
+> > + * is passed as:
+> > + * [in] param[0].attr                        OPTEE_MSG_ATTR_TYPE_VALUE=
+_INPUT
+> > + * [in] param[0].u.value.a           holds restricted memory cookie
+> > + *
+> > + * OPTEE_MSG_CMD_GET_RSTMEM_CONFIG get configuration for a specific
+> > + * restricted memory use case. Parameters are passed as:
+> > + * [in] param[0].attr                        OPTEE_MSG_ATTR_TYPE_VALUE=
+_INOUT
+> > + * [in] param[0].value.a             OPTEE_MSG_RSTMEM_*
+> > + * [in] param[1].attr                        OPTEE_MSG_ATTR_TYPE_{R,F}=
+MEM_OUTPUT
+> > + * [in] param[1].u.{r,f}mem          Buffer or NULL
+> > + * [in] param[1].u.{r,f}mem.size     Provided size of buffer or 0 for =
+query
+> > + * output for the restricted use case:
+> > + * [out] param[0].value.a            Minimal size of SDP memory
+> > + * [out] param[0].value.b            Required alignment of size and st=
+art of
+> > + *                                   restricted memory
+> > + * [out] param[1].{r,f}mem.size              Size of output data
+> > + * [out] param[1].{r,f}mem           If non-NULL, contains an array of
+> > + *                                   uint16_t holding endpoints that
+> > + *                                   must be included when lending
+> > + *                                   memory for this use case
+> > + *
+> > + * OPTEE_MSG_CMD_ASSIGN_RSTMEM assigns use-case to restricted memory
+> > + * previously lent using the FFA_LEND framework ABI. Parameters are pa=
+ssed
+> > + * as:
+> > + * [in] param[0].attr                        OPTEE_MSG_ATTR_TYPE_VALUE=
+_INPUT
+> > + * [in] param[0].u.value.a           holds restricted memory cookie
+> > + * [in] param[0].u.value.b           OPTEE_MSG_RSTMEM_* defined above
+> >   */
+> >  #define OPTEE_MSG_CMD_OPEN_SESSION   0
+> >  #define OPTEE_MSG_CMD_INVOKE_COMMAND 1
+> > @@ -346,6 +401,10 @@ struct optee_msg_arg {
+> >  #define OPTEE_MSG_CMD_UNREGISTER_SHM 5
+> >  #define OPTEE_MSG_CMD_DO_BOTTOM_HALF 6
+> >  #define OPTEE_MSG_CMD_STOP_ASYNC_NOTIF       7
+> > +#define OPTEE_MSG_CMD_LEND_RSTMEM    8
+> > +#define OPTEE_MSG_CMD_RECLAIM_RSTMEM 9
+> > +#define OPTEE_MSG_CMD_GET_RSTMEM_CONFIG      10
+> > +#define OPTEE_MSG_CMD_ASSIGN_RSTMEM  11
+> >  #define OPTEE_MSG_FUNCID_CALL_WITH_ARG       0x0004
+> >
+> >  #endif /* _OPTEE_MSG_H */
+> > diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_sm=
+c.h
+> > index 879426300821..abc379ce190c 100644
+> > --- a/drivers/tee/optee/optee_smc.h
+> > +++ b/drivers/tee/optee/optee_smc.h
+> > @@ -264,7 +264,6 @@ struct optee_smc_get_shm_config_result {
+> >  #define OPTEE_SMC_SEC_CAP_HAVE_RESERVED_SHM  BIT(0)
+> >  /* Secure world can communicate via previously unregistered shared mem=
+ory */
+> >  #define OPTEE_SMC_SEC_CAP_UNREGISTERED_SHM   BIT(1)
+> > -
+> >  /*
+> >   * Secure world supports commands "register/unregister shared memory",
+> >   * secure world accepts command buffers located in any parts of non-se=
+cure RAM
+> > @@ -280,6 +279,10 @@ struct optee_smc_get_shm_config_result {
+> >  #define OPTEE_SMC_SEC_CAP_RPC_ARG            BIT(6)
+> >  /* Secure world supports probing for RPMB device if needed */
+> >  #define OPTEE_SMC_SEC_CAP_RPMB_PROBE         BIT(7)
+> > +/* Secure world supports Secure Data Path */
+> > +#define OPTEE_SMC_SEC_CAP_SDP                        BIT(8)
+> > +/* Secure world supports dynamic restricted memory */
+> > +#define OPTEE_SMC_SEC_CAP_DYNAMIC_RSTMEM     BIT(9)
+> >
+> >  #define OPTEE_SMC_FUNCID_EXCHANGE_CAPABILITIES       9
+> >  #define OPTEE_SMC_EXCHANGE_CAPABILITIES \
+> > @@ -451,6 +454,72 @@ struct optee_smc_disable_shm_cache_result {
+> >
+> >  /* See OPTEE_SMC_CALL_WITH_REGD_ARG above */
+> >  #define OPTEE_SMC_FUNCID_CALL_WITH_REGD_ARG  19
+> > +/*
+> > + * Get Secure Data Path memory config
+> > + *
+> > + * Returns the Secure Data Path memory config.
+> > + *
+> > + * Call register usage:
+> > + * a0   SMC Function ID, OPTEE_SMC_GET_SDP_CONFIG
+> > + * a2-6      Not used, must be zero
+> > + * a7        Hypervisor Client ID register
+> > + *
+> > + * Have config return register usage:
+> > + * a0        OPTEE_SMC_RETURN_OK
+> > + * a1        Physical address of start of SDP memory
+> > + * a2        Size of SDP memory
+> > + * a3        Not used
+> > + * a4-7      Preserved
+> > + *
+> > + * Not available register usage:
+> > + * a0        OPTEE_SMC_RETURN_ENOTAVAIL
+> > + * a1-3 Not used
+> > + * a4-7      Preserved
+> > + */
+> > +#define OPTEE_SMC_FUNCID_GET_SDP_CONFIG              20
+>
+> Let's have a consistent ABI naming here. I think RSTMEM is more generic
+> rather than SDP, so let's use same naming convention as we use for FF-A
+> ABI.
+
+Yes, I'll fix it.
+
+Cheers,
+Jens
+
+>
+> -Sumit
+>
+> > +#define OPTEE_SMC_GET_SDP_CONFIG \
+> > +     OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_SDP_CONFIG)
+> > +
+> > +struct optee_smc_get_sdp_config_result {
+> > +     unsigned long status;
+> > +     unsigned long start;
+> > +     unsigned long size;
+> > +     unsigned long flags;
+> > +};
+> > +
+> > +/*
+> > + * Get Secure Data Path dynamic memory config
+> > + *
+> > + * Returns the Secure Data Path dynamic memory config.
+> > + *
+> > + * Call register usage:
+> > + * a0        SMC Function ID, OPTEE_SMC_GET_DYN_SHM_CONFIG
+> > + * a2-6      Not used, must be zero
+> > + * a7        Hypervisor Client ID register
+> > + *
+> > + * Have config return register usage:
+> > + * a0        OPTEE_SMC_RETURN_OK
+> > + * a1        Minamal size of SDP memory
+> > + * a2        Required alignment of size and start of registered SDP me=
+mory
+> > + * a3        Not used
+> > + * a4-7      Preserved
+> > + *
+> > + * Not available register usage:
+> > + * a0        OPTEE_SMC_RETURN_ENOTAVAIL
+> > + * a1-3 Not used
+> > + * a4-7      Preserved
+> > + */
+> > +
+> > +#define OPTEE_SMC_FUNCID_GET_DYN_SDP_CONFIG  21
+> > +#define OPTEE_SMC_GET_DYN_SDP_CONFIG \
+> > +     OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_DYN_SDP_CONFIG)
+> > +
+> > +struct optee_smc_get_dyn_sdp_config_result {
+> > +     unsigned long status;
+> > +     unsigned long size;
+> > +     unsigned long align;
+> > +     unsigned long flags;
+> > +};
+> >
+> >  /*
+> >   * Resume from RPC (for example after processing a foreign interrupt)
+> > --
+> > 2.43.0
+> >
