@@ -2,105 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC99A73EE7
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 20:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8769A73F88
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 21:54:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04C1110E145;
-	Thu, 27 Mar 2025 19:44:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9CFB10E086;
+	Thu, 27 Mar 2025 20:54:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gxCIPe4C";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Kuk/+bzn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA87610E145
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 19:44:48 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-30c0517142bso14588591fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 12:44:48 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BFD910E086
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 20:54:34 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-54991d85f99so2649737e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 13:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743104687; x=1743709487; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1743108869; x=1743713669;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zJrB+25qfJY+3ZkUCcZjNy69G3uZBa+b+woWWSnmCkY=;
- b=gxCIPe4CXASM1HySDFngB/cI0L/K3ONfnSeNh6F8HSWykQu1CmMBWBumqe0VShYqK2
- I8XT8SkdP4bm0QJpUPrAjN3zcxb27V37B3l7kz/GnNCD9PfjZtBirWdPhHG5XLy4qBYI
- mDOny7YfteJAGZWz3A+SuwcH/l65iod+E+yln6eTYLlkaAPtpindiQhPv9dMv5ULmCcc
- tdaRfTroZbxkPYgOwWgf4x3AWio08PahfFhwpOQdH+lpgSPjeNWNnSWWJkNL3GzEYtp3
- QEI+168/KkRvCuoz7tsHF5KNDBbA/41yYbPGuza0hz1Ddxw1qi25KiC8DpVGEw2P6EE1
- yWXQ==
+ bh=e8UsDIEuQLaBq2B4bFyfUGHpD+OjquB6qiwgS7a8XjY=;
+ b=Kuk/+bznrIxbGGmfn9yVoIwA1hEjBhTVCEGlLPPmHQeEY9N5Nu/kqwVKO0mD+AOesv
+ rPCD5G7HYOxqRUlGW/9ZEJcknc7+PxXpD8vUBOMbo7sEY4V6Ri1fiJG0BCYkw1/Nngo9
+ A0+YcKfkAkHr+49wEr9I9aU26+nsQ8AHrWeKI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743104687; x=1743709487;
+ d=1e100.net; s=20230601; t=1743108869; x=1743713669;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zJrB+25qfJY+3ZkUCcZjNy69G3uZBa+b+woWWSnmCkY=;
- b=l7gUyFu65K7TMJYtSoviK3yIqxJePME53zz0kYTmasJOFwTEli28S28Klze6LcDulN
- hosjrqGHgAeBnO1BFLV5mw30+iX1b6KuUT0Sl2BQaxov9/RA0YH7e5lChEb8YGD24DK5
- B005YlaDXLJiNbPPtBWMyP+lMn06w95h7Cor/frE+y82+WASkA2z1oO0+tMPrRz6QSjH
- ZFanwSZ8+s87BjBJc3nI1VyT88mb1JMXxm3OoRFFmT5tP7gaUYLfVeoLQwi3YddD8Xk/
- qRs3monkyDb83k0PuYpwgOxmIZ1CrK7tHjSmFn5UcWwFYuVRR9K/iEsgVWvu/CUrAmFM
- ttFg==
+ bh=e8UsDIEuQLaBq2B4bFyfUGHpD+OjquB6qiwgS7a8XjY=;
+ b=HdHk4jW3qEYmjTMTP9gZiyaiWx/EaJ+y5xrh3584zRUKbM11swblZPvvoP3PiNOukI
+ CDqeFWlSsppIOKqaLKKNcvh2U75oB9Hudxi6cpQV6TZgZ4gzanq6rDZluG/YaSXCE/EK
+ YjxEODyBnCyCjkSjZ2iGxfUmpg503uxFot7AcwOezlb0LaWci+kZ8/0dUBRf2S2dNxoS
+ ruAlsaNRxMDjjKOWbYRf73h8Mz3lelVo4MFKvSOGmAR9hqOXu+3/oOWqT30Exnrge72n
+ xbE7Yr29aScCe3eGp6nYL/BqruV864gedjMHuwEn0+T4WWA2vxX8jJdVXmHKKWZHi/bL
+ uINA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXa1SU7rDckqHjc837K6++/XxZLAy9fzohkguB3L7lWdLKYdE3UKAf05aaKmW44oJ7xsjIjwZZUSLE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy50mpxTOJgFpho5doGWAW1xDm5FwvLqYdLr4zgOIiUgv+4BRKB
- WxiEdymfjDo39kC8e1liebKVigyaidRitr7LWqZjkEaIeQhfA6XOKMnUcs6hNeMCg6gvDyDTqnt
- hWL/CkYkeG0Y1A9FDkx61zAQvlIQ=
-X-Gm-Gg: ASbGncsjzHe9+lzgGf1/7hZ6kzTMg93xW5LQ3gNYnBsb/mr7pnxOibIdvxTS1NtSoTi
- vAEyDg2mjQdZuacVDC2vA+daL2ySsKLVDxKzqmwP6yOXlYfAgvJMFQukLlOXL8BaDAY3DxYKQs4
- Yb3AOHmixb7d5YUx+4B3dQO2AcUP4ce7Zubx1sdkuMtVjpeS6Pcx98
-X-Google-Smtp-Source: AGHT+IFyLKYlIEvGpAd9CCRPDur7dyQO/OEa86nU/lx3w5Jjq2h0PxLW9TMc3L3t1yE/rhj6ZShnSCOlezEb1R9xtqM=
-X-Received: by 2002:a05:651c:1a0b:b0:30b:b7c3:ea71 with SMTP id
- 38308e7fff4ca-30dc5e31b95mr23059291fa.15.1743104686814; Thu, 27 Mar 2025
- 12:44:46 -0700 (PDT)
+ AJvYcCUAMwJ3eSo3Z84mrRxY25WGDI/lrZpjtEXW5VUodWEv88sOymCI7/qOzIK3CMhF6N3CjhlKeOlLg3I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4/jYCCoBWWFxVuPezRAtqFbvWEPkYbWXbCEmejDrq8LE/MMTl
+ RxnVknKEZvNayLx9t229FLYof4hlfZ18XF75tl1vwqxKg3EtzsLJB6I6qEGvmpf02rDWomzcIsU
+ BgYw1
+X-Gm-Gg: ASbGncvobcOov3YzmzGc01+QUgmEpVLFpLqdGXDfoXv3mKxsO8CDzLtulw213rFS3xI
+ lHM5PZLQnxZ+NSBAls8zUOv6CjpUshiMkPxvyDfeDACiZUo1DNWAHTxvTV4B4x2U6x6LVE5puUT
+ 1O66DD7buke3eK3mrCWJv5vQkcmSJV0epHpxFPIKE4ZINr3bCgN+48q4FHjuF5z463KgvRHTKH4
+ DL3DPNbtqEh/BZKDI5og3LhfmGBdu8kwDXb0MFr22ygl/3OBsiWsA0Ae4KUVAX7ONBG6xxSKq1E
+ gnMp+Rm2t78ZOlvq1bBV3Wdz1VQNVWqmJGpmkDSltSqsL/EvpGnBtMUW3v0eHDDXFm7O/b4GeGo
+ sHVdG054S
+X-Google-Smtp-Source: AGHT+IEPOfajfgh70a/9yh/P79oDhtnFrrKCq9gKZ/DOr/+Xsw5ioJryrWSxBRg/ASvdeDQwjPRPiA==
+X-Received: by 2002:a05:6512:ac3:b0:549:8f14:a839 with SMTP id
+ 2adb3069b0e04-54b0adf3756mr64282e87.11.1743108868659; 
+ Thu, 27 Mar 2025 13:54:28 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
+ [209.85.167.46]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54b0959104bsm74404e87.174.2025.03.27.13.54.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Mar 2025 13:54:28 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-54af20849adso1422131e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 13:54:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU7vaSG9WJsT8K+cQtwnt8oy2eysV87upDo35ViiF9rNr+ioCVVn8x6+zPA0NyAXIhhR5CdsyreWRA=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:1145:b0:54a:f743:3137 with SMTP id
+ 2adb3069b0e04-54b0acd179cmr72751e87.19.1743108866803; Thu, 27 Mar 2025
+ 13:54:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com>
- <D8Q4MSXXZ7OI.1NC226MO02VSN@proton.me>
- <CAJ-ks9nHKpQPuSBypXTSATYhbAFkQTJzUq8jN0nu4t=Kw+0xxg@mail.gmail.com>
- <D8QCK3CQES3Y.3LTZ4MVO5B3KT@proton.me>
- <CAJ-ks9nKT2PUDm6=b4AB1QUWwwvcqPn7Vz60=c0B+uFMZrqPew@mail.gmail.com>
- <D8QDOBUM6NF0.CGJY7ZA5KD9S@proton.me>
- <CAJ-ks9ntTxBM=c5nUZWGv3MoRt-LveBchn-c1Xy-DGap7fLVRA@mail.gmail.com>
- <D8QI804Q3DAS.2BV4WSL81H52Z@proton.me>
- <CAJ-ks9mA5QDeZ3EvOD3THayFt4TtDysgm0jp2aiSF2mQCrhWiQ@mail.gmail.com>
- <D8QJMH5UR6VG.2OT5MXJJQU5QT@proton.me>
- <CAJ-ks9m96vf_HxttuopuC_UfNGJbHHNdEGS2er6nZZG38pe3HQ@mail.gmail.com>
-In-Reply-To: <CAJ-ks9m96vf_HxttuopuC_UfNGJbHHNdEGS2er6nZZG38pe3HQ@mail.gmail.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Thu, 27 Mar 2025 15:44:09 -0400
-X-Gm-Features: AQ5f1Jr0ooXTkF4heGS1OXy1iD2yeKYqVr9uVRi6oc_-HuImKMszqPEfh2j-Kuc
-Message-ID: <CAJ-ks9n3BdKkfCpMXhE8M8Sx4B5rASoNvbmA4zPU3rmPQwZCiQ@mail.gmail.com>
-Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
- Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, 
+References: <20250326-b4-panel-ls043t1le01-v3-1-96c554c0ea2b@redhat.com>
+In-Reply-To: <20250326-b4-panel-ls043t1le01-v3-1-96c554c0ea2b@redhat.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 27 Mar 2025 13:54:15 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WvD6tTu_rLTm0njXM5-S_1WBg2rf+TyFZvdi8xUT7yQA@mail.gmail.com>
+X-Gm-Features: AQ5f1JqwXpRnI1xK0FFhWi1aSV1krHZ9nkiYrhEk988aBRX6Vsz34UXOhp11Tyw
+Message-ID: <CAD=FV=WvD6tTu_rLTm0njXM5-S_1WBg2rf+TyFZvdi8xUT7yQA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/panel/sharp-ls043t1le01: Use _multi variants
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- netdev@vger.kernel.org
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Tejas Vipin <tejasvipin76@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,75 +106,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 27, 2025 at 10:15=E2=80=AFAM Tamir Duberstein <tamird@gmail.com=
-> wrote:
+Hi,
+
+On Wed, Mar 26, 2025 at 8:29=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.co=
+m> wrote:
 >
-> On Wed, Mar 26, 2025 at 6:15=E2=80=AFPM Benno Lossin <benno.lossin@proton=
-.me> wrote:
-> >
-> > On Wed Mar 26, 2025 at 11:09 PM CET, Tamir Duberstein wrote:
-> > > On Wed, Mar 26, 2025 at 5:09=E2=80=AFPM Benno Lossin <benno.lossin@pr=
-oton.me> wrote:
-> > >> On Wed Mar 26, 2025 at 8:06 PM CET, Tamir Duberstein wrote:
-> > >> > On Wed, Mar 26, 2025 at 1:36=E2=80=AFPM Benno Lossin <benno.lossin=
-@proton.me> wrote:
-> > >> >> On Wed Mar 26, 2025 at 5:57 PM CET, Tamir Duberstein wrote:
-> > >> >> >
-> > >> >> > Yeah, we should do this - but again: not relevant in this discu=
-ssion.
-> > >> >>
-> > >> >> I think it's pretty relevant.
-> > >> >
-> > >> > It's not relevant because we're no longer talking about transmutin=
-g
-> > >> > pointer to pointer. The two options are:
-> > >> > 1. transmute reference to reference.
-> > >> > 2. coerce reference to pointer, `as` cast pointer to pointer (trig=
-gers
-> > >> > `ptr_as_ptr`), reborrow pointer to reference.
-> > >> >
-> > >> > If anyone can help me understand why (2) is better than (1), I'd
-> > >> > certainly appreciate it.
-> > >>
-> > >> I am very confident that (2) is correct. With (1) I'm not sure (see
-> > >> above), so that's why I mentioned it.
-> > >
-> > > Can you help me understand why you're confident about (2) but not (1)=
-?
-> >
-> > My explanation from above explains why I'm not confident about (1):
-> >
-> >     For ptr-to-int transmutes, I know that they will probably remove
-> >     provenance, hence I am a bit cautious about using them for ptr-to-p=
-tr or
-> >     ref-to-ref.
-> >
-> > The reason I'm confident about (2) is that that is the canonical way to
-> > cast the type of a reference pointing to an `!Sized` value.
+> Move away from using deprecated API and use _multi variants
+> if available. Use mipi_dsi_msleep() and mipi_dsi_usleep_range()
+> instead of msleep() and usleep_range() respectively.
 >
-> Do you have a citation, other than the transmute doc?
+> Used Coccinelle to find the _multi variant APIs,replacing
+> mpi_dsi_msleep() where necessary and for returning
+> dsi_ctx.accum_err in these functions. mipi_dsi_dcs_write()
+> does not have a corresponding _multi() variant. Replacing it with
+> mipi_dsi_dcs_write_seq_multi() instead. This change is manual.
+>
+> The Coccinelle script is the same as the one in commit c8ba07caaecc
+> ("drm/panel/synaptics-r63353: Use _multi variants")
+>
+> v2: Use mipi_dsi_write_buffer_multi() in place of
+> mipi_dsi_dcs_write(). (Dmitry)
+>
+> v3: add commit details where the same coccinelle script is
+> used and remove the actual script from commit log.
+> Use mipi_dsi_dcs_write_seq_multi() for mipi_dsi_dcs_write() (Doug)
+>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Tejas Vipin <tejasvipin76@gmail.com>
+> Cc: Doug Anderson <dianders@chromium.org>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> ---
+> Changes in v3:
+> - Simplify commit log by adding a reference to a patch that uses the
+>   same script.
+> - Simplify code by using a helper that doesnt need additional code
+>   changes other then using the helper itself.
+>
+> - Link to v2: https://lore.kernel.org/r/20250324-b4-panel-ls043t1le01-v2-=
+1-e43aedc115be@redhat.com
+>
+> Changes in v2:
+> - While mipi_dsi_dcs_write() does not have a corresponding _multi()
+>   variant replace it with mipi_dsi_dcs_write_buffer_multi() to have all
+>   APIs following _multi() usage for easier error handling
+>
+> - Link to v1: https://lore.kernel.org/r/20250316-b4-panel-ls043t1le01-v1-=
+1-ee38371b0ba0@redhat.com
+> ---
+>  drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c | 41 +++++++++----------=
+------
+>  1 file changed, 15 insertions(+), 26 deletions(-)
 
-Turns out this appeases clippy:
-
-diff --git a/rust/kernel/uaccess.rs b/rust/kernel/uaccess.rs
-index 80a9782b1c6e..7a6fc78fc314 100644
---- a/rust/kernel/uaccess.rs
-+++ b/rust/kernel/uaccess.rs
-@@ -240,9 +240,10 @@ pub fn read_raw(&mut self, out: &mut
-[MaybeUninit<u8>]) -> Result {
-     /// Fails with [`EFAULT`] if the read happens on a bad address,
-or if the read goes out of
-     /// bounds of this [`UserSliceReader`]. This call may modify
-`out` even if it returns an error.
-     pub fn read_slice(&mut self, out: &mut [u8]) -> Result {
-+        let out: *mut [u8] =3D out;
-         // SAFETY: The types are compatible and `read_raw` doesn't
-write uninitialized bytes to
-         // `out`.
--        let out =3D unsafe { &mut *(out as *mut [u8] as *mut
-[MaybeUninit<u8>]) };
-+        let out =3D unsafe { &mut *(out as *mut [MaybeUninit<u8>]) };
-         self.read_raw(out)
-     }
-
-Benno, would that work for you? Same in str.rs, of course.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
