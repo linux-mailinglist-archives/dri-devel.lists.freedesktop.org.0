@@ -2,108 +2,229 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4DEA72C0E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 10:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 744AAA72BF2
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 09:59:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C69A110E894;
-	Thu, 27 Mar 2025 09:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADEDD10E88F;
+	Thu, 27 Mar 2025 08:59:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="SDStPgrp";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="GD4orJ9C";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="UTbEanaA";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UTbEanaA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 468 seconds by postgrey-1.36 at gabe;
- Thu, 27 Mar 2025 09:06:11 UTC
-Received: from fhigh-a6-smtp.messagingengine.com
- (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA0D10E894
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 09:06:11 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal
- [10.202.2.45])
- by mailfhigh.phl.internal (Postfix) with ESMTP id D8ADB11400AF;
- Thu, 27 Mar 2025 04:58:21 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-05.internal (MEProxy); Thu, 27 Mar 2025 04:58:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1743065901; x=1743152301; bh=kk50b7VQtC
- oi6qqeYirs2opyA8yqIK4cNax+DA6HcVk=; b=SDStPgrprdwR4zU/vpSycIzboL
- BckAU7v7+qBwG8T2n+RKeKBdcKTyR7J453IDULDyOAuY5egBXoOn/r4UtapRipen
- FHGlr0FRDAxX1G2oD8cwg0B3SaMl4hkN3xuIihof8V47vokjd69mA6m0yqpbZ0aT
- +AXhl9GgGwDOTjvtiX7r2GYGqa5rrKR7rCd62uXg4wQJBABE4QLx6xjjbFg24UC4
- wZwWCK8BA7Vci7Th1Xt33UjHRD49aasLZ890SEoVZ5dKgfT83hi/Az6EtUIHwHdP
- Focp4h93tEsihHbeouGmMrLDnFNTiXLRtlgV+jwCexfE+/EHoofL7u2TNRGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1743065901; x=1743152301; bh=kk50b7VQtCoi6qqeYirs2opyA8yqIK4cNax
- +DA6HcVk=; b=GD4orJ9C4CVwvieaU8+w9R65kDp4fev0YJ/aQe0Grxsv84MkqWK
- fulQ5b7PLsUxgTXBos3mGEABasQAXrqNYTzGCIWEe25H2qoOkthlp76NuB4bWvmR
- FS9ej14XAvzh2Zjv8oFMYSM6xB/Xcb07+0VdzlNnZmw3Lrve3On/+MZfUFKtf5zq
- iLm5ejVZ8TDzdV7lxhCQvR9gvmyqYPVgzylrqR/vFBBjmQKs94PVo888vjY6VHpx
- kSLqSaSmZm3k88X3LBb8UPqsPTK2fmx7ZCZ+38Z5j0zVSvqippjz9RvyvLm/Syl7
- 5TXAZlfNqhd7nPeSKu12BsAEvcixttRtvNQ==
-X-ME-Sender: <xms:LBPlZ9-tuEFAOM2UFp5LzNOUAvcmYKEqVu62dce2vVQaEu7hAm7EXw>
- <xme:LBPlZxt-YtvoZjIipyWScSrwNTfF4_ZtOPIIR_1LgzRdphb9ALYfuybn_GHpp4jp6
- TX2qMTfINyxsmFDLHw>
-X-ME-Received: <xmr:LBPlZ7BLgIikfi0Gw1mLxIyPhx8NjGa1e6OKyDqeKs2wiuEOAM2IJtjXVXfjUzeWxe5Tl08qycEGV5kvO2NsUDUjeDYdIBusKA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieejleelucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
- gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
- jeenucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqe
- enucggtffrrghtthgvrhhnpedtgedvfeevteeltdegjeegvdeugeefheevhffhveelgeej
- geejieejhffhkeektdenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhfrhgvvgguvg
- hskhhtohhprdhorhhgpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedt
- necurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtg
- hpthhtohepvdekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrlhihshhsrges
- rhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrd
- gtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehm
- rggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtg
- hpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhm
- mhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlh
- drohhrghdprhgtphhtthhopegrlhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhr
- tghpthhtohepsghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:LBPlZxfGww1FiQO3h-LVVP5BVt47aMjxmO2cPlRoG13crGVqXaFMIw>
- <xmx:LBPlZyPGy4vBVbqGcrRx5fZZXCdnItH_5auozgxJ2dHVkdoORVSMOA>
- <xmx:LBPlZzlr8Rzp-yzf_bIxeDLMAnlR4OiPS9ddmMLSLaXgkZ3_f2A2Gw>
- <xmx:LBPlZ8tuSfISNq9YrpiAa1v2hsNmm3Vmlu2CoxBkUmTjoJoeeoYOUg>
- <xmx:LRPlZ3YZpTDLeE7EZ8niGwFbP0ssZi7F_sRe5DQ6GpBtPyroG5zTzs_1>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Mar 2025 04:58:19 -0400 (EDT)
-Date: Thu, 27 Mar 2025 09:58:17 +0100
-From: Janne Grunau <j@jannau.net>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from DUZPR83CU001.outbound.protection.outlook.com
+ (mail-northeuropeazon11013051.outbound.protection.outlook.com [52.101.67.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0E3F10E88F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 08:59:15 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=X+50rXiYbYYI9CXgfrD7xtY7iO/mEPp0zLXBLTl/ANNfHxuhbAPYTiY85Q2BjRejdN/ZlT0ynpsq8zyCVq/TPOLz1Qhd/5CD3U9SiMN4DQG6U+88dnB+T0EmuyAwiBvM+hEvnFsSxh+XSC7mATPeNNpVUAP7l8Zh8+ApX8LQNfM7Fo3D5Uy6edv3ea/gnbouV2uMyO3STf5c9woH8wFh/Nns59FEttsiGUPLjRvUhNyc3DbIMdZJS2UlUVanz71w0CrGt6Hpp+G9yrdkeS77HlBT/3ac3Irg0xCGcwWI6PxrOvYbAU33fcpXAMvvoDmEtpD/o8rF0rgpCaZkn7FmtQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r+joEiBWcZdqoa7PjbjpHs/1Z33X6ppbboOt7jJqG3M=;
+ b=rSV3fPsg6qN7JylOkS1+TYC222nATKzg0JvVMR71bD5H6weZRqXgyTIDCz2hTD/4KigRoCfL4B2vvnUeZVRwylg+fJOMX7GyghoX0+7Y/uwBEEoopG/WV+FGFURadgTN6vpzGf+JN86QPKz+6BUwCbnZ2oAg2zEuB46Os3sd93eGnrCEdqgRmSVtmmb1SHVNcTA0Kh6Nm6cfBEKDk9UIbcRJIxvLH8Kx3cpp968C6ASDHfrhzz9Dop1ubDn4V5pZo3VWm99O5ue9RA2DjgCzs1HnQRqrtHWZV/F4OtPhcwLDUjXrvi1j8gvpdZsOh/kDXkKhMNetgNQH5d8G72vibA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r+joEiBWcZdqoa7PjbjpHs/1Z33X6ppbboOt7jJqG3M=;
+ b=UTbEanaA1BDUAlaBcVVsVK5GM4bRUd0LOO2JXMAKqEAOBtCzASLj/gP6y9wQEUCaNJLVk9afFcnp5I7yhtF9dIzZ/TTpiC5ynLZ/nO3i0ZKyuEzsbZXA8fpDGN7T6UiTsV5U9ec5LRG2Zht4tmxIh0jRdlyM4fQRXoa+iZMCVwY=
+Received: from AS9PR05CA0184.eurprd05.prod.outlook.com (2603:10a6:20b:495::20)
+ by AS2PR08MB9500.eurprd08.prod.outlook.com (2603:10a6:20b:60c::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 27 Mar
+ 2025 08:59:11 +0000
+Received: from AM4PEPF00027A6B.eurprd04.prod.outlook.com
+ (2603:10a6:20b:495:cafe::c6) by AS9PR05CA0184.outlook.office365.com
+ (2603:10a6:20b:495::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.42 via Frontend Transport; Thu,
+ 27 Mar 2025 08:59:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM4PEPF00027A6B.mail.protection.outlook.com (10.167.16.89) with
+ Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.20
+ via Frontend Transport; Thu, 27 Mar 2025 08:59:11 +0000
+Received: ("Tessian outbound eb3c789b7dfa:v604");
+ Thu, 27 Mar 2025 08:59:10 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 9a4e8bf8b5289c3a
+X-TessianGatewayMetadata: X/8koUvNfL6FDTQo5p6wpjRRelgUG6xThIlNgPWdL7NlhBOBCZN7+NG6In2jeckGcPoP9XLmkK45akIDcmj3QShnyuxSFdr9Du4BmXuRBzNaC9KSbV9H4nOFNwMME99u9p34b79Cbrkm1JT2rjRVUN+mCKa8CKttqSqLwkpU8GU=
+X-CR-MTA-TID: 64aa7808
+Received: from L5a367fc766c9.2
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 043813FD-3B65-4747-86B2-37459C618CB3.1; 
+ Thu, 27 Mar 2025 08:58:59 +0000
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
+ L5a367fc766c9.2 (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Thu, 27 Mar 2025 08:58:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cj37wNwV4Ui0sZL8niGbkNFcwVDb1+YuI9FLYN/uUKCcygUw3TjY18LRag04zcfAkm+5s+UYXQ86ZQlAu3suxWSxOcx6CPvCoz/rk75f+ys/JWKi9d/DLUfMOW8dbKlPSmafPUjdHIs0eYgp9TWdKVaQRDlQ/YRmO/SMfCpthVi/8UFO+J4EvC6mSIsLNG/iyzLMehB4TdEQEID+7YyybEhZ+mte6pBtyxYJ+4YSBe5hPrGauSh2DAeaS2mNTXCyuQFYsdNYP79cLADmIOal2piZSj0JuUpeeUqNbv5wONoBbczwoea0EcjS9ZslBapgAM0ViTuBPcJpieFhxf30Ng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r+joEiBWcZdqoa7PjbjpHs/1Z33X6ppbboOt7jJqG3M=;
+ b=rtcpBdO2uHcqXudI47zR1sljC55GnLhbEJPlE/DnATThtk3atboxrjgvf4hLw7soCP9tRqVCHMdGuWUeKRj7/jxWBKbMpa8SnMLd+Y1h7oRwfQAovCoAtZzHD/mOqXTTH+VHd8MMUEB6n5pls5JW8Yp4tvB3z/uBB//CNf+aJvmUvEnu+ynaTfVeBjFzXph8zK5PR7x4h6UdzuS9Wzq335ndNbIR2hpv7Yfh+NhD4Ne6ZaA7GgFaMyoDpPxQvHC+ki0PidxiezKluW1WzvARk5aQHYcRhF0RqDTLCiU6NF3WnQUhmGAD/pVivZw5x48iCVLnLsRM2Xut92fm+nooQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r+joEiBWcZdqoa7PjbjpHs/1Z33X6ppbboOt7jJqG3M=;
+ b=UTbEanaA1BDUAlaBcVVsVK5GM4bRUd0LOO2JXMAKqEAOBtCzASLj/gP6y9wQEUCaNJLVk9afFcnp5I7yhtF9dIzZ/TTpiC5ynLZ/nO3i0ZKyuEzsbZXA8fpDGN7T6UiTsV5U9ec5LRG2Zht4tmxIh0jRdlyM4fQRXoa+iZMCVwY=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AM0PR08MB3315.eurprd08.prod.outlook.com (2603:10a6:208:5c::16)
+ by GV1PR08MB11025.eurprd08.prod.outlook.com (2603:10a6:150:1ef::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Thu, 27 Mar
+ 2025 08:58:55 +0000
+Received: from AM0PR08MB3315.eurprd08.prod.outlook.com
+ ([fe80::42a0:1b6e:cf98:d8fc]) by AM0PR08MB3315.eurprd08.prod.outlook.com
+ ([fe80::42a0:1b6e:cf98:d8fc%6]) with mapi id 15.20.8534.043; Thu, 27 Mar 2025
+ 08:58:55 +0000
+Message-ID: <33a9bb1c-136f-40cc-adfb-9f94365158ed@arm.com>
+Date: Thu, 27 Mar 2025 08:58:53 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 8/8] drm/panthor: Expose the panthor perf ioctls
+Content-Language: en-GB
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,	Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,	Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Sven Peter <sven@svenpeter.dev>, Jonathan Corbet <corbet@lwn.net>,
- Sergio Lopez Pascual <slp@sinrega.org>,
- Ryan Houdek <sonicadvance1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, Asahi Lina <lina@asahilina.net>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v5] drm: Add UAPI for the Asahi driver
-Message-ID: <20250327085817.GA341311@robin.jannau.net>
-References: <20250326-agx-uapi-v5-1-04fccfc9e631@rosenzweig.io>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Mihail Atanassov <mihail.atanassov@arm.com>, nd@arm.com
+References: <20241211165024.490748-1-lukas.zapolskas@arm.com>
+ <20241211165024.490748-9-lukas.zapolskas@arm.com>
+ <ym5gk6uhwteiv3p4kvjjvpujval3rfjsv2lnzzgmq3cvnmfv5o@qbwtvgnqyyui>
+From: Lukas Zapolskas <lukas.zapolskas@arm.com>
+In-Reply-To: <ym5gk6uhwteiv3p4kvjjvpujval3rfjsv2lnzzgmq3cvnmfv5o@qbwtvgnqyyui>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0205.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a5::12) To AM0PR08MB3315.eurprd08.prod.outlook.com
+ (2603:10a6:208:5c::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250326-agx-uapi-v5-1-04fccfc9e631@rosenzweig.io>
+X-MS-TrafficTypeDiagnostic: AM0PR08MB3315:EE_|GV1PR08MB11025:EE_|AM4PEPF00027A6B:EE_|AS2PR08MB9500:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae89ae0d-ddd1-42da-2fe3-08dd6d0da43f
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+ ARA:13230040|376014|1800799024|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?WlcrdGU3L05iRkJPL1lMb29IdS9EelI2REZqWms0VTR6VldkR0F3YThhZVcx?=
+ =?utf-8?B?THJYbFZ5bWdvYmdTbHNyMUtvK2VXUlpEeEF1QkZXUjFNemNOYkIzYXNlQ0lR?=
+ =?utf-8?B?Z0FBRmZQbkkyTmtYV3ZPSEtpVXJHWE1JZktBUjRKcUtlWUVua05IZjZjKzA4?=
+ =?utf-8?B?WEMwOVRRUzlVcWdiZGdlaHpHc2RDYWw1dFk5UGN5dGNMNjAvMDdnR2U4NkNP?=
+ =?utf-8?B?Qlprb3dENWFIUmhlazhmKzh2UTdYMC9DK0NVdUxxSVZkc00zcllYZ09hWHhj?=
+ =?utf-8?B?Z0xCNjVpZWNvODRSRlhtaGtjSWNRTDQ2MVNQdGtJOWJaWWovcGYrUHB3eUg3?=
+ =?utf-8?B?Q2RZQWhobjFyQWJwRzZEZDIxS2p2SHRnUENOR1NFcThsUTVwQTV0WVpleVYw?=
+ =?utf-8?B?K1FuRVloVnRrSEhBMWhCYnl0WjNWT1NlZldxS2Y0Z0JobjNWSlhVV0tqSDBu?=
+ =?utf-8?B?V0xqWTFyZERiK1NLZnQweXZxVVI4bXVzaWVtcWs1NURSVDVWdjAvY3pqbTNi?=
+ =?utf-8?B?LzVJMVYvRDMxS1Z2RGRwVUJHdUNmbnhlanVJMXZsMHIrclUwb0RGa2wrcFUy?=
+ =?utf-8?B?NkU3ekovVDAvaytpaWtBMVZHNE9LeWVwTzJyQU9JK1FZYXowdW1LMmFSYnZk?=
+ =?utf-8?B?ZTZFLzlPTmF3cVBIajFNNm5MNXpRc1ZXSHBYbnd4b1FlM0NQRFBrQVZjOHov?=
+ =?utf-8?B?bkxZTWx0OVJhcVdEUUFUb0NRRUxNN2hsZlRQV0ZKVTZBV3BRbC9kQitmc0ZJ?=
+ =?utf-8?B?NC84WGUrcEp0TEliY3pMUDJVNm55YUlMaDNreDFxbHIwMHphVkF3cURVRHhq?=
+ =?utf-8?B?dkxKT1o2bVgveGh2OEtORHJiYnBTMkREd1gzZUZlVjRZRkwxWkNab0U3cnFj?=
+ =?utf-8?B?c2xhNUJ2SzdtYU1GV05mWHRIeDFvZXA0RzE0bmh5TzZraStyK1VMdWVURUhE?=
+ =?utf-8?B?WGRCWjlhbnpxUUkvK2N3VStCWVIwdTQzMGsvWUVabDBOUHN3M0laZzRKc2g2?=
+ =?utf-8?B?YVR2RE5JaUV0dTRjQm80am5MMzEveDFCYml4S1d0RTVqblN0d3A4UFFpMml6?=
+ =?utf-8?B?amNONEZvMW1XeEVjQktJOWlWcWRhWkc5V0pLaTA2ZEQzR0FHbVZqMkN6ZWdq?=
+ =?utf-8?B?TnQwUjNKUXNmUmI1KzhjT3V4d2M1ZXVLRjZNQWxoSjRiazI5NEIzWTh3blhS?=
+ =?utf-8?B?RHNWbFVsVXEyRkFrZHZDM3dnNnh6bEZEYys5aXRxdGhYRkR6dkE4Z1pQaW9N?=
+ =?utf-8?B?bXBudUFrMXhETXdrd243SDFETkZJdTdsSVV5T3JaT3dNYW1GSDJRcUl6ME9Z?=
+ =?utf-8?B?ZTdOY1p3TGZQV1lQT29hNkF0bjl6Q1RFUFl6bi9XMTRicC92alFhQnNyK0Y4?=
+ =?utf-8?B?WEVQVGVSWHlnWHFLelJ6a29obkM3RDRkTncrdVVkLzArWEJIRHEydDl6L3RX?=
+ =?utf-8?B?OVljUmZoSzN3eWxxVjN0LzVscTdNTExZNkt5RkJXb3dsSmVzeFZMdWZibExw?=
+ =?utf-8?B?V3VDOUNTV0RQNjhLYmVmQ0RpU1M4R01ReGlCak02Z1lFRTcrWWZtekpjZU5n?=
+ =?utf-8?B?YVBzOG9CUFBqMnY3YXZzcFVpRS9jRVdKOTA1RVJQUlA5cVdlTFBvNVgwbFdp?=
+ =?utf-8?B?NUNEQWpGU1hSSk1nSWhVU3B0WGd0Mmtna212TEw5YWFGbVhwQ1FCeDJVOWRl?=
+ =?utf-8?B?Q2VodjlabWk1a0NlUGR4WDVOWEM5M0dBT3FHd2VHcHlYOG5YeVlScDhQZStr?=
+ =?utf-8?B?bWpzUTFDV0J1QUtBc292bk5MZWRMQmhBOCtORzJxMFpoTlllV01JTUk5VVZE?=
+ =?utf-8?B?V0Z0dE5MS0ZKbFR2L3psaFU0ZU53ZHlSTFVWZFIzOXl3c1lOdHNWWk9SSHJp?=
+ =?utf-8?B?NXgzMnFaWTduRUhlTk1lNk81OSt1T2xWWmhUTFg3VWdQdWxSZHp5OUR2UUhX?=
+ =?utf-8?Q?MI7ulAero3c=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM0PR08MB3315.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFS:(13230040)(376014)(1800799024)(366016)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB11025
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: ip=[2603:10a6:208:5c::16];
+ domain=AM0PR08MB3315.eurprd08.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM4PEPF00027A6B.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 08b7b1ba-7882-4e93-ecd3-08dd6d0d9a2f
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|35042699022|82310400026|376014|14060799003|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ekNndWZQTlhXU040bCttVkdNeGdjUytQL3BIMTBLZEJYaU4zWG9tMGlnOTk5?=
+ =?utf-8?B?d1BNWGw4WU0zRjFQaDU4ZVI0Z1h2RDZhYkVpRE5WT1l0SlI5SXc3UlhxKzFF?=
+ =?utf-8?B?aHp1WU9ielhpalNwVkRBd054Y3lGV3djSW5NNFVQYWtWaXFpREpGZFdzaFRO?=
+ =?utf-8?B?RVJJTTZqdStjTFB2R3E4a2lnVUVTV2hXTTNWNldSUDNrS2x5ZU5pUDZBR1FH?=
+ =?utf-8?B?dHQzQmVXeGFOR25TTWZMK1FNZERoTkNvWE5kZnU4RmxqU2ZpazlYR0VVNnQr?=
+ =?utf-8?B?ZWNKeVZKclp6Q2NlMm9LMTR5Q21zMGFnUFh2WFN0RDZiTHhzTXFqbnRnbm9Q?=
+ =?utf-8?B?NVVKOHBjWElLcU9iQXlsOGZ6am54akJqWEVoY3N3QzlFRGZhNGVBL2JUNjJi?=
+ =?utf-8?B?emp3N1UvSzVRY3FLTUgxVmZ0Vjc2VFFIYzBmSTNJTEp0aktmMmNTTDdxODdw?=
+ =?utf-8?B?QnJDZHJhOHJWL2RHOW13VmdqSFgyZ2dQNnUxYXlORnpJdDRHK1ZhL3RqbmRZ?=
+ =?utf-8?B?UEpEM0EyNUhwMVpnam5EcVpPVUdwMlNBWUwrSXdoQ2ZXSFhMb0UwR1k3dDFw?=
+ =?utf-8?B?WnhLZ0pNR1RmOXNuMXo3anhBMXhQM2ladVRnVmk1WWd0WDNybm1kcDIzTzBL?=
+ =?utf-8?B?QUJST2Z6TGVWbjRpMG5QMTJpUFZtMklIa092NVhZM1pvcmk2SFlyVTFzSEhQ?=
+ =?utf-8?B?azJGbkphcVNXc1BKa0VHWVVOSlZtZkQwV3JGSlZpdGluaVJZRkhCZS9XcFdk?=
+ =?utf-8?B?cXBzYjkvQ1hUYlVKT1hVQ3RoRFZObUoxS2dZR09SS2RrUTZEVDUyY2pNRXI2?=
+ =?utf-8?B?QVFZN2wzWkhYWS9EeHFOTWluS1YzM2dkdWFZUjZMU0FqYk9MdzNWWUN4aWVD?=
+ =?utf-8?B?SzMrMXFWNzQ5cmZrQ095dGZNSDYwOWZZTS94VVZrNXFKSnpnWXVxaFdVQnp3?=
+ =?utf-8?B?M2JMQSsrTzhpMGFzb0hia2hjTC8yWlpLZWZVQ00rKzJtdHJFeUFzL00vcWtV?=
+ =?utf-8?B?a0FLQUNrYjFlVk5WYllDZzJDME9NMElDSXJCa2xCOFlCaXhkdjhpMHhCcG8z?=
+ =?utf-8?B?am9PVVU0UUsyVGlTajNrZ0h4RjgvQ2JMVkk0dVNNamhBamJQWC9YT0kzVHFv?=
+ =?utf-8?B?Y3dSMFNWTjVuV2JLT0U1Q1dzOVJTdU1UclA0VGxTU2ZhQVRWck52OGxtWDRF?=
+ =?utf-8?B?SzJGWFRobHBQU1o5aUszVUg0Z0o5YVBXTXlnanAzYUNFclBvWTNMZUZOZ3k3?=
+ =?utf-8?B?N0VWYkJtV3N4Uldrb09xNFduMWlUNzBndk1velRNOWVFZDZUeGxRMWcwVG8z?=
+ =?utf-8?B?OTdtdFR3UUZsYTdGSmRKUnd0YTJvVUVtaGtUWFl6U0Q4dDdic0s4YlhFYzND?=
+ =?utf-8?B?ZjYrb1ZiVjdaa3FJL0c4RlRxVlpEMlJyVTZjb0szT2NzbVA4SXhJZkJRV2hj?=
+ =?utf-8?B?cHJXQW9mUXdONktRZUpoV21XNW5NdGQyK21xTXJsdEZCVXdrQzdTais0RjNW?=
+ =?utf-8?B?Y21rd0JPV1Rna1RLbWk2SW1Cdkk1KzM5eG5UaDFNMGQxejI0dWRIeVByTjVr?=
+ =?utf-8?B?THIxMHB4cDQrRExPbFVQLzRpNkFoblVSUTFBWWpFU3ROTFFYT0wrejhPSzhM?=
+ =?utf-8?B?aVZLb1BlbHY2Tm8reEYzY3R4cEJONGM2aFlFdFlWa2hqOWI4QnM0T0E4L0VY?=
+ =?utf-8?B?eXhQNDZwTXZkUzZHRHhac3NrVS8ra25LbXB5WUppWk0zWVlkZFA0bkNWbk9M?=
+ =?utf-8?B?Yk5WOUo2V3huOFVreHFiWjRoUnFZWGpvU2J2cnBibkhqVHg3LzNUT2tNWkp2?=
+ =?utf-8?B?ZURoUnArS2tRTUh1anFneFVxRTZpc1lLb3hFWlFLUzVQUEdCVFNZWEZYdkov?=
+ =?utf-8?B?cWVLQ0J0MnZKYVRBd0F4dmhXL1lmcDYyRkRsbWlhdm9JT2t2a3pJTzlScTE0?=
+ =?utf-8?B?dEFMVm43MFpPZU1JR0ZRbWVnQ1h2blAyRjREeVRxNG9TQytYUkVwTkJMMmRH?=
+ =?utf-8?Q?fV+i/wYihaCZ941fM+wG9aPOyk+Dd0=3D?=
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:64aa7808-outbound-1.mta.getcheckrecipient.com; CAT:NONE;
+ SFS:(13230040)(36860700013)(35042699022)(82310400026)(376014)(14060799003)(1800799024);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2025 08:59:11.3616 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae89ae0d-ddd1-42da-2fe3-08dd6d0da43f
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00027A6B.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,214 +240,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 02:16:38PM -0400, Alyssa Rosenzweig wrote:
-> This adds the UAPI for the Asahi driver targeting the GPU in the Apple
-> M1 and M2 series systems on chip. The UAPI design is based on other
-> modern Vulkan-capable drivers, including Xe and Panthor. Memory
-> management is based on explicit VM management. Synchronization is
-> exclusively explicit sync.
+
+
+On 27/01/2025 20:14, Adrián Larumbe wrote:
+> I don't know what the usual practice is when adding a new DRM driver ioctl(), but wouldn't it make
+> more sense to add the PERF_CONTROL one to the panthor_drm_driver_ioctls array in this patch instead?
+>
+
+That does make more sense, I'll shuffle the patches around.
+
+
+> Other than that:
 > 
-> This UAPI is validated against our open source Mesa stack, which is
-> fully conformant to the OpenGL 4.6, OpenGL ES 3.2, OpenCL 3.0, and
-> Vulkan 1.4 standards. The Vulkan driver supports sparse, exercising the
-> VM_BIND mechanism.
+> Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 > 
-> This patch adds the standalone UAPI header. It is implemented by an open
-> source DRM driver written in Rust. We fully intend to upstream this
-> driver when possible. However, as a production graphics driver, it
-> depends on a significant number of Rust abstractions that will take a
-> long time to upstream. In the mean time, our userspace is upstream in
-> Mesa but is not allowed to probe with upstream Mesa as the UAPI is not
-> yet reviewed and merged in the upstream kernel. Although we ship a
-> patched Mesa in Fedora Asahi Remix, any containers shipping upstream
-> Mesa builds are broken for our users, including upstream Flatpak and
-> Waydroid runtimes. Additionally, it forces us to maintain forks of Mesa
-> and virglrenderer, which complicates bisects.
+> On 11.12.2024 16:50, Lukas Zapolskas wrote:
+>> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
+>> ---
+>>   drivers/gpu/drm/panthor/panthor_drv.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+>> index 2848ab442d10..ef081a383fa9 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+>> @@ -1654,6 +1654,8 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>>    * - 1.1 - adds DEV_QUERY_TIMESTAMP_INFO query
+>>    * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
+>>    *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
+>> + * - 1.3 - adds DEV_QUERY_PERF_INFO query
+>> + *         adds PERF_CONTROL ioctl
+>>    */
+>>   static const struct drm_driver panthor_drm_driver = {
+>>   	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+>> @@ -1667,7 +1669,7 @@ static const struct drm_driver panthor_drm_driver = {
+>>   	.name = "panthor",
+>>   	.desc = "Panthor DRM driver",
+>>   	.major = 1,
+>> -	.minor = 2,
+>> +	.minor = 3,
+>>   
+>>   	.gem_create_object = panthor_gem_create_object,
+>>   	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+>> -- 
+>> 2.25.1
 > 
-> The intention in sending out this patch is for this UAPI to be
-> thoroughly reviewed. Once we as the DRM community are satisfied with the
-> UAPI, this header lands signifying that the UAPI is stable and must only
-> be evolved in backwards-compatible ways; it will be the UAPI implemented
-> in the DRM driver that eventually lands upstream. That promise lets us
-> enable upstream Mesa, solving all these issues while the upstream Rust
-> abstractions are developed.
 > 
-> https://github.com/alyssarosenzweig/linux/commits/agx-uapi-v5 contains
-> the DRM driver implementing this proposed UAPI.
-> 
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33984 contains
-> the Mesa patches to implement this proposed UAPI.
-> 
-> That Linux and Mesa branch together give a complete graphics/compute
-> stack on top of this UAPI.
-> 
-> Co-developed-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> ---
-> Changes in v5:
-> - Rename GEM_BIND to VM_BIND and make it take an array of bind ops. This
->   significantly decreases the # of kernel<-->user roundtrips with Vulkan
->   sparse binding. The uAPI here is lifted directly from Xe.
-> - Merge in_syncs and out_syncs arrays, but leave
->   in_sync_count/out_sync_count alone, requiring waits to precede
->   signals. This simplifies both kernel & userspace, compared to either
->   fully merged or fully separate arrays, so it seems like a Good idea.
-> - Drop queue caps, make all caps render + compute. Even GLES2 uses
->   compute to accelerate blits, and even compute workloads use render for
->   a few fallback blits. This lets us drop a bunch of crud in both kernel
->   & userspace and should slightly improve submit overhead.
-> - Reorder ioctl IDs to group a little more logically (bikeshed...).
-> - Improve some comments.
-> - Link to v4: https://lore.kernel.org/r/20250323-agx-uapi-v4-1-12ed2db96737@rosenzweig.io
+> Adrian Larumbe
 
-...
+Thank you very much for taking a look! I'm working on addressing
+the comments you left and hoping to get a v3 up soon.
 
-> diff --git a/include/uapi/drm/asahi_drm.h b/include/uapi/drm/asahi_drm.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..a9465cb89ebde6f6768fbd5ba0fa4d753e2a7e32
-> --- /dev/null
-> +++ b/include/uapi/drm/asahi_drm.h
-> @@ -0,0 +1,1211 @@
+Kind regards,
+Lukas Zapolskas
 
-...
-
-> +/**
-> + * struct drm_asahi_params_global - Global parameters.
-> + *
-> + * This struct may be queried by drm_asahi_get_params.
-> + */
-> +struct drm_asahi_params_global {
-> +	/** @features: Feature bits from drm_asahi_feature */
-> +	__u64 features;
-> +
-> +	/** @gpu_generation: GPU generation, e.g. 13 for G13G */
-> +	__u32 gpu_generation;
-> +
-> +	/** @gpu_variant: GPU variant as a character, e.g. 'G' for G13G */
-> +	__u32 gpu_variant;
-
-nit: the example can avoid the duplication of 'G' with "e.g. 'C' for
-G13C"
-
-...
-
-> +/**
-> + * struct drm_asahi_get_params - Arguments passed to DRM_IOCTL_ASAHI_GET_PARAMS
-> + */
-> +struct drm_asahi_get_params {
-> +	/** @param_group: Parameter group to fetch (MBZ) */
-> +	__u32 param_group;
-> +
-> +	/** @pad: MBZ */
-> +	__u32 pad;
-> +
-> +	/** @pointer: User pointer to write parameter struct */
-> +	__u64 pointer;
-> +
-> +	/** @size: Size of user buffer, max size supported on return */
-> +	__u64 size;
-
-The comment is misleading in the case of newer / extended kernel which
-supports a larger size than supplied. You could change it to "size
-written on return" or clarify that the value on return will not exceed
-the input value.
-
-> +};
-> +
-> +/**
-> + * struct drm_asahi_vm_create - Arguments passed to DRM_IOCTL_ASAHI_VM_CREATE
-> + */
-> +struct drm_asahi_vm_create {
-> +	/**
-> +	 * @kernel_start: Start of the kernel-reserved address range. See
-> +	 * drm_asahi_params_global::vm_kernel_min_size.
-> +	 *
-> +	 * Both @kernel_start and @kernel_end must be within the range of
-> +	 * valid VAs given by drm_asahi_params_global::vm_user_start and
-> +	 * drm_asahi_params_global::vm_user_end. The size of the kernel range
-
-This reads a little strange. Would it make sense to rename drm_asahi_params_global's
-vm_user_start and vm_user_end to vm_start/vm_end?
-
-> +	 * (@kernel_end - @kernel_start) must be at least
-> +	 * drm_asahi_params_global::vm_kernel_min_size.
-> +	 *
-> +	 * Userspace must not bind any memory on this VM into this reserved
-> +	 * range, it is for kernel use only.
-> +	 */
-> +	__u64 kernel_start;
-> +
-> +	/**
-> +	 * @kernel_end: End of the kernel-reserved address range. See
-> +	 * @kernel_start.
-> +	 */
-> +	__u64 kernel_end;
-
-...
-
-> +/**
-> + * struct drm_asahi_vm_bind - Arguments passed to
-> + * DRM_IOCTL_ASAHI_VM_BIND
-> + */
-> +struct drm_asahi_vm_bind {
-> +	/** @vm_id: The ID of the VM to bind to */
-> +	__u32 vm_id;
-> +
-> +	/** @num_binds: number of binds in this IOCTL. Must be non-zero. */
-> +	__u32 num_binds;
-> +
-> +	/**
-> +	 * @stride: If num_binds > 1, stride in bytes between consecutive binds.
-> +	 * This allows extensibility of drm_asahi_gem_bind_op.
-> +	 *
-> +	 * If num_binds == 1, MBZ. Extensibility in that case is handled at the
-> +	 * ioctl level instead.
-> +	 */
-> +	__u32 stride;
-> +
-> +	/** @pad: MBZ */
-> +	__u32 pad;
-> +
-> +	/**
-> +	 * @bind: Union holding the bind request.
-> +	 *
-> +	 * This union is named to make the Rust bindings nicer to work with.
-> +	 */
-
-This comment could use a short justification why this union does not
-defeat extensibility after the initial statement that "structures should
-not contain unions"
-
-> +	union {
-> +		/** @bind.b: If num_binds == 1, the bind */
-> +		struct drm_asahi_gem_bind_op b;
-> +
-> +		/**
-> +		 * @bind.userptr: If num_binds > 1, user pointer to an array of
-> +		 * @num_binds structures of type @drm_asahi_gem_bind_op and size
-> +		 * @stride bytes.
-> +		 */
-> +		__u64 userptr;
-> +	} bind;
-> +};
-
-...
-
-> +/**
-> + * struct drm_asahi_submit - Arguments passed to DRM_IOCTL_ASAHI_SUBMIT
-> + */
-> +struct drm_asahi_submit {
-> +	/**
-> +	 * @syncs: An optional array of drm_asahi_sync. First @in_sync_count
-> +	 * in-syncs then @out_sync_count out-syncs.
-> +	 */
-> +     __u64 syncs;
-
-Would it make sense to explictly state that this is a pointer?
-
-Reviewed-by: Janne Grunau <j@jannau.net>
-
-ciao
-Janne
