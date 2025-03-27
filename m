@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBD5A72F54
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 12:30:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56D4A72FC8
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 12:37:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71FEB10E8AD;
-	Thu, 27 Mar 2025 11:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21CE210E0ED;
+	Thu, 27 Mar 2025 11:37:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V9JjrSIv";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="c+q2ymV1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C154110E8AD
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 11:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743075037; x=1774611037;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Qc/3JRNQJZPBUGMXBMeweJVuwNQCbZyCZGpCnOH/KwQ=;
- b=V9JjrSIvHk8dSSsfVEdRp0yL2klzr13x/XtYt8Hh7s+QW7uOUI3WjAiF
- LLX+As+B7LLpyap/3QLlxtrxQ4IHs2Qmz48+UGHGnqVtB5g8T1qmguohI
- cZdm1hrKA+UZGporcskSWFwT+iZUrkVxlXexy2i0TPkpusTIbDZIuVohb
- jx0SV37hGk6kA8HmghgK0TBzV8wVkiCnzum63291iWjYH1XCVOGo8OIqN
- NS04njmYOsRehL5dfI92nfjx3HC6GIEXuMpw4/GMwWgAj5k6OJ4Uo1Qqp
- ELy51bjccvKSc1XhI/MZHuTKCMq2ihUytnFBvtvk4VH6WTCZy1Q5u5u83 Q==;
-X-CSE-ConnectionGUID: DzNwu7hkTfSAVUP0KCuL2g==
-X-CSE-MsgGUID: ra/OOfaMTpKdOT9j33VsrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44319496"
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; d="scan'208";a="44319496"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2025 04:30:37 -0700
-X-CSE-ConnectionGUID: GPi8BeiwRza7ifQ7HSdZ4g==
-X-CSE-MsgGUID: N1Pn7sK6SHmb15gV7Wys2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; d="scan'208";a="125326710"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.17])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2025 04:30:33 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, Jacek Lawrynowicz
- <jacek.lawrynowicz@linux.intel.com>, Maciej Falkowski
- <maciej.falkowski@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: [PATCH 1/3] accel/ivpu: pages_use_count is now a refcount_t
-In-Reply-To: <20250327104300.1982058-1-boris.brezillon@collabora.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250327104300.1982058-1-boris.brezillon@collabora.com>
-Date: Thu, 27 Mar 2025 13:30:30 +0200
-Message-ID: <878qoq678p.fsf@intel.com>
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3135110E328
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 11:37:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743075465; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kE93UmAslX5mdpHXLr30GMa/gLQ+78Im8cNkSEucSVtG5ItWH4P1UT4NvyUGrrDyFlzjTI81gU5F0u5127pNqy1MCPnrJ2I3EYkhGaHowgPYz8WOVaLj2bPcqs9+8G5lteosyvAicbdMK0DHkcU1ik2LMce8t1BbD7BCeYQm784=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1743075465;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=YDPBgJ2uIKHtOJIPEbZDfG6dgwtwlWFqGk/zgFQv8XU=; 
+ b=j1Oe6Wt5QAmpp9i277imuMKui3FknIBsGQ5jB7PtDBsKirjuVE9kUlB4FoRFPV8ptZ21l3g+fVgRCX03tyv6wAsIAlmld6xI/JNZ1w8Fi+mQsQKR8RVRBrCMmH0Me90Va4o25ugg+laebr6IXHMX6s+/4KfuMAADBC4sPdeUJcc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743075465; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=YDPBgJ2uIKHtOJIPEbZDfG6dgwtwlWFqGk/zgFQv8XU=;
+ b=c+q2ymV1/5UlgGA6DNODTYUXXj72XwVWwL4epkg9cgDK0WkiDw1wpruiSANycDAX
+ rMQN8HYKm0cg/Db+PfacQ2At4waVstmtc9DHoGmucOkc43iV/+ZXyHJlbSVhgQqm6Wi
+ XggH9Q3C5EJXXjcCgPt8hixkfpnl30lp+6rVkfzw=
+Received: by mx.zohomail.com with SMTPS id 1743075462906613.4071965337324;
+ Thu, 27 Mar 2025 04:37:42 -0700 (PDT)
+Message-ID: <3a6a2168-3b38-4173-9731-6505a83d4d82@collabora.com>
+Date: Thu, 27 Mar 2025 14:37:39 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] accel/ivpu: pages_use_count is now a refcount_t
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel@collabora.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>
+References: <20250327104300.1982058-1-boris.brezillon@collabora.com>
+ <878qoq678p.fsf@intel.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <878qoq678p.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,42 +72,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Mar 2025, Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> Commit 051b6646d36d ("drm/shmem-helper: Use refcount_t for
-> pages_use_count") changed the type of
-> drm_gem_shmem_object::pages_use_count but accel drivers were left
-> behind.
->
-> Fixes: 051b6646d36d ("drm/shmem-helper: Use refcount_t for pages_use_count")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> Cc: Maciej Falkowski <maciej.falkowski@linux.intel.com>
-> Cc: Oded Gabbay <ogabbay@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
+On 3/27/25 14:30, Jani Nikula wrote:
+> On Thu, 27 Mar 2025, Boris Brezillon <boris.brezillon@collabora.com> wrote:
+>> Commit 051b6646d36d ("drm/shmem-helper: Use refcount_t for
+>> pages_use_count") changed the type of
+>> drm_gem_shmem_object::pages_use_count but accel drivers were left
+>> behind.
+>>
+>> Fixes: 051b6646d36d ("drm/shmem-helper: Use refcount_t for pages_use_count")
+>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> Cc: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+>> Cc: Oded Gabbay <ogabbay@kernel.org>
+>> Cc: dri-devel@lists.freedesktop.org
+> 
+> Just for build, on the series,
+> 
+> Tested-by: Jani Nikula <jani.nikula@intel.com>
+> 
+> Please merge.
 
-Just for build, on the series,
-
-Tested-by: Jani Nikula <jani.nikula@intel.com>
-
-Please merge.
-
-> ---
->  drivers/accel/ivpu/ivpu_gem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-> index 8741c73b92ce..09c9c5256af5 100644
-> --- a/drivers/accel/ivpu/ivpu_gem.c
-> +++ b/drivers/accel/ivpu/ivpu_gem.c
-> @@ -282,7 +282,7 @@ static void ivpu_gem_bo_free(struct drm_gem_object *obj)
->  	ivpu_bo_unbind_locked(bo);
->  	mutex_destroy(&bo->lock);
->  
-> -	drm_WARN_ON(obj->dev, bo->base.pages_use_count > 1);
-> +	drm_WARN_ON(obj->dev, refcount_read(&bo->base.pages_use_count) > 1);
->  	drm_gem_shmem_free(&bo->base);
->  }
+Applied to misc-next
 
 -- 
-Jani Nikula, Intel
+Best regards,
+Dmitry
