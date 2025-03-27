@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A8BA73399
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 14:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21B5A7339B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 14:52:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E6E010E0A6;
-	Thu, 27 Mar 2025 13:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E886310E8DD;
+	Thu, 27 Mar 2025 13:52:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b3zbp2vC";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="F1ZLME6I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE6A910E0A6;
- Thu, 27 Mar 2025 13:51:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 459C9435AB;
- Thu, 27 Mar 2025 13:51:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF8DC4CEDD;
- Thu, 27 Mar 2025 13:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743083489;
- bh=MfBm0ARJgTYvHs/SLl+TW6RGQHEr5XhW8mIQcvpQV/M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b3zbp2vCLZn9ZlT2QEbh1A0R7IEjqDiIznyRlG+JaVlPo9CdrAQWF841fTJQT7PXD
- bFrglbFD1lxaZ7/tvE14qFs3+puZcuX7rf7bltfMFOdm30DloW7ZF/+5gv5tsD43i0
- DQ7ZU57m3+jUMwU1FELZhnzb+CIOVEN3tR6bcvLC/b3nbRumukVf+65+uryUPEcnwm
- OCQz9O9EVzlWbdTUnLgD2A+AP/E8NJ6j7nv28BO1IzrlNXGty776djdcgJ2YmNh857
- rDd8R3ohbKz8F1RGxIDPXBZmN1M4RYW0iMY4zEhp3PohA2MQeQDJECw8jX3dZCva2c
- 49mlgwALUGspw==
-Date: Thu, 27 Mar 2025 14:51:25 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: M Henning <mhenning@darkrefraction.com>
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] drm/nouveau: Add DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO
-Message-ID: <Z-VX3TJPI6Tgin2G@cassiopeiae>
-References: <20250312213746.228042-1-mhenning@darkrefraction.com>
- <20250312213746.228042-2-mhenning@darkrefraction.com>
- <Z9xb5SABWcwYnV-x@pollux>
- <CAAgWFh2dHZs2D7R4ejY9sNQ+QCtLQeGGS2PNtcsm_MPeV3edLw@mail.gmail.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7890010E8DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 13:52:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=wM4oVcwxrWlVGmyeT76cBxZCuG1OHMlHbi5XRiXUE3g=; b=F1ZLME6IBFhaWhNOqrnCIpeuWQ
+ gzS1smS8aYoHNOOODtVPT7oyzhs5YSOttJMd2TnrW0Cn/Jenw0Krgq+m6TzpeCduWk77MEwXEnwyi
+ blRikOCyYUc88/gZ+cT2ztCRH4/K4kBer/CDLP55jefU5/YF5fwLaClVYb1reRVgUui1KtOakyZre
+ Q3UDUad4GWhdngdTn95GRpep36R3r6D5x3nJPrfpDTY3POp3v8clWup6dx9sEZz6VI0UjzWjs3XhP
+ YOboGAyVgo/D2/2dmPKx27M2iTcHs8/xgCTyy4zDerK7IbDN50sJYi4+xRkDrKSwFvfybvhO225BB
+ hNYH353A==;
+Received: from [189.7.87.178] (helo=[192.168.0.224])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1txnf1-007FSA-L2; Thu, 27 Mar 2025 14:52:43 +0100
+Message-ID: <f85dc2d3-a601-4caf-9ddb-c3256423f001@igalia.com>
+Date: Thu, 27 Mar 2025 10:52:38 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 5/5] drm/v3d: Use V3D_SMS registers for power on/off
+ and reset on V3D 7.x
+To: Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral <itoral@igalia.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, kernel-dev@igalia.com
+References: <20250317-v3d-gpu-reset-fixes-v6-0-f3ee7717ed17@igalia.com>
+ <20250317-v3d-gpu-reset-fixes-v6-5-f3ee7717ed17@igalia.com>
+ <bffb4df1-1171-4a9b-9b73-af33136c620a@gmx.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <bffb4df1-1171-4a9b-9b73-af33136c620a@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAgWFh2dHZs2D7R4ejY9sNQ+QCtLQeGGS2PNtcsm_MPeV3edLw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,47 +68,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 21, 2025 at 06:06:34PM -0400, M Henning wrote:
-> On Thu, Mar 20, 2025 at 2:18 PM Danilo Krummrich <dakr@kernel.org> wrote:
-> > On Wed, Mar 12, 2025 at 05:36:14PM -0400, Mel Henning wrote:
-> > > +     __u32 width_align_pixels;
-> > > +     __u32 height_align_pixels;
-> > > +     __u32 pixel_squares_by_aliquots;
-> > > +     __u32 aliquot_total;
-> > > +     __u32 zcull_region_byte_multiplier;
-> > > +     __u32 zcull_region_header_size;
-> > > +     __u32 zcull_subregion_header_size;
-> > > +     __u32 subregion_count;
-> > > +     __u32 subregion_width_align_pixels;
-> > > +     __u32 subregion_height_align_pixels;
-> > > +
-> > > +     __u32 ctxsw_size;
-> > > +     __u32 ctxsw_align;
-> > > +};
-> >
-> > What if this ever changes between hardware revisions or firmware versions?
+Hi Stefan,
+
+On 27/03/25 07:57, Stefan Wahren wrote:
+> Hi Maíra,
 > 
-> There was some previous discussion of that here:
-> https://gitlab.freedesktop.org/mesa/mesa/-/issues/12596#note_2796853
+> Am 18.03.25 um 02:01 schrieb Maíra Canal:
+>> In addition to the standard reset controller, V3D 7.x requires 
+>> configuring
+>> the V3D_SMS registers for proper power on/off and reset. Add the new
+>> registers to `v3d_regs.h` and ensure they are properly configured during
+>> device probing, removal, and reset.
+>>
+>> This change fixes GPU reset issues on the Raspberry Pi 5 (BCM2712).
+>> Without exposing these registers, a GPU reset causes the GPU to hang,
+>> stopping any further job execution and freezing the desktop GUI. The same
+>> issue occurs when unloading and loading the v3d driver.
+>>
+>> Link: https://github.com/raspberrypi/linux/issues/6660
+>> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_drv.c  | 40 ++++++++++++++++++++++++++++++++ 
+>> ++++++++
+>>   drivers/gpu/drm/v3d/v3d_drv.h  | 11 +++++++++++
+>>   drivers/gpu/drm/v3d/v3d_gem.c  | 17 +++++++++++++++++
+>>   drivers/gpu/drm/v3d/v3d_regs.h | 26 ++++++++++++++++++++++++++
+>>   4 files changed, 94 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/ 
+>> v3d_drv.c
+>> index 
+>> c63f0ed1bd8a3d5511085e76ed2fbd6ee7df6f80..122848cdccc4a02039d9ea2e77aa2f377886b5d6 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+>> @@ -263,6 +263,36 @@ static const struct of_device_id v3d_of_match[] = {
+>>   };
+>>   MODULE_DEVICE_TABLE(of, v3d_of_match);
+>>
+>> +static void
+>> +v3d_idle_sms(struct v3d_dev *v3d)
+>> +{
+>> +    if (v3d->ver < V3D_GEN_71)
+>> +        return;
+>> +
+>> +    V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_CLEAR_POWER_OFF);
+>> +
+>> +    if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
+>> +                    V3D_SMS_STATE) == V3D_SMS_IDLE), 100)) {
+>> +        DRM_ERROR("Failed to power up SMS\n");
+>> +    }
+>> +
+>> +    v3d_reset_sms(v3d);
+>> +}
+>> +
+>> +static void
+>> +v3d_power_off_sms(struct v3d_dev *v3d)
+>> +{
+>> +    if (v3d->ver < V3D_GEN_71)
+>> +        return;
+>> +
+>> +    V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_POWER_OFF);
+>> +
+>> +    if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
+>> +                    V3D_SMS_STATE) == V3D_SMS_POWER_OFF_STATE), 100)) {
+>> +        DRM_ERROR("Failed to power off SMS\n");
+>> +    }
+>> +}
+>> +
+>>   static int
+>>   map_regs(struct v3d_dev *v3d, void __iomem **regs, const char *name)
+>>   {
+>> @@ -300,6 +330,12 @@ static int v3d_platform_drm_probe(struct 
+>> platform_device *pdev)
+>>       if (ret)
+>>           return ret;
+>>
+>> +    if (v3d->ver >= V3D_GEN_71) {
+>> +        ret = map_regs(v3d, &v3d->sms_regs, "sms");
+>> +        if (ret)
+>> +            return ret;
+> Is it correct, that BCM2712 now requires the SMS register and otherwise
+> the driver doesn't probe?
+
+Hum, yeah, it is correct, but I can send a patch to ensure backwards
+compatibility. But keep in mind that you won't be able to reset the GPU
+or unload/load (power on/off).
+
 > 
-> From what I can tell, this structure hasn't really changed since
-> FERMI_C (circa 2011), so I'm not too worried about it changing on us
-> too quickly. When it does change, we have the option of appending more
-> members to this struct in the usual way, or if the change is more
-> fundamental we can return an error from this ioctl and add a new
-> interface. Userspace needs to handle an error from this ioctl
-> gracefully anyway since whether it works or not depends on the gpu
-> generation and what firmware is loaded right now.
+> Just a note for the future: the devicetree is considered as an ABI [1],
+> so new kernels should still work with old DTB (no regression). For
+> Raspberry Pi OS, the kernel and DTB are always updated, but this doesn't
+> apply for Linux Mainline. AFAIK V3D doesn't work with Linux Mainline on
+> Raspberry Pi 5 yet, so this is just a theoretical problem.
 
-We could also define it as
+Yeah, I had that in mind, but due to the reason pointed in the end of
+your comment, it was okay to do so and ensure that reset and power on/
+off will work when RPi 5 reach upstream support.
 
-	struct drm_nouveau_get_zcull_info {
-		__u32 version;
-		__u32 _pad;
+But, I'm open to send a patch removing the requirement.
 
-		union {
-			struct drm_nouveau_get_zcull_info_v1 info;
-		}
-	}
+Best Regards,
+- Maíra
 
-just to be safe.
+> 
+> Best regards
+> 
+> [1] - https://docs.kernel.org/devicetree/bindings/ABI.html
+
