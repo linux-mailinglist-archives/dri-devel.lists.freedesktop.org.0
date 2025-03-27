@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C727A73E04
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 19:26:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6A6A73E0F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Mar 2025 19:37:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9AD610E936;
-	Thu, 27 Mar 2025 18:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7752410E937;
+	Thu, 27 Mar 2025 18:37:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="2/dLzEJW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nZGjku0h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9592410E936
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 18:26:38 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-aaf0f1adef8so184670266b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 11:26:38 -0700 (PDT)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2588410E13F;
+ Thu, 27 Mar 2025 18:37:09 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-301a6347494so301857a91.3; 
+ Thu, 27 Mar 2025 11:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1743099997;
- x=1743704797; darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1743100629; x=1743705429; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CTyrCRgo5ha+JUdwfzwN807l63P0OcURzXC+ycir374=;
- b=2/dLzEJWz9BMr/GugG4T0gDB98C9u/Fvs6YiSmbzY4kKyoPxK9PLHhS4EnajlLByWM
- LMQEiyBH2EDReh3eO5VK5mjANlHZIFu1EL86yyg/hvKZ/zTn6Oxre/foOKaavR8Xvm/F
- TOwfF7m+2VKVwm7OVa0rI1hZsrdXBMKwXBE2eCX4ymQsRPACXXwsaelNLCzyeZbMGxE9
- yWW3zYRtx3Eb5q0xzRdkwEh7g02nOG4d1SED+RYNa3dhI9wzJk/DoiUf1n1kf3VZvTk2
- N6By6necByU9PJ+T2X2epnHzujNAn7AAmHgkZJHdOuG+KbSjdBP2AZne1d2ZHB4KX9F2
- 5c0Q==
+ bh=/JREactd+MR6uIyk15bAj7n2qQdSERCkAnE+wV8jYE4=;
+ b=nZGjku0h7Mi7w/qWfQQXMWhtSyy3Is+fbjxyv/E8kRbTcq2lCY6Rs6Qrn7qprNdWl4
+ 4J3nRl/y4Mt0uFHfhQyfXsBT1EiDRQnESUnx7gmOO5MSCnZ4z2+4aCbvehjtWNy95pca
+ kM76tgvl3SNho1f9WVD0AU/xei2PPSKkYnoYi2dOcwJtLmU9/DEnCxOkjQfAUVessc0p
+ LoFWKw1zgHDOmw3P/Yn12A7fWRJ0r5zRi+P7NHNLn+0WnuyqX7+xB5Zao4WXhQNnACEM
+ IfxJeN6dpblTiwoDELYkXWFBhzRjhWv7WSo4tAX6q9Wy4qLfmW5qCCbP3Nt+1Vg6BVtf
+ HOSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743099997; x=1743704797;
+ d=1e100.net; s=20230601; t=1743100629; x=1743705429;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CTyrCRgo5ha+JUdwfzwN807l63P0OcURzXC+ycir374=;
- b=QuHNVUiQfFHnjLYeQXXedtaa06NrsAD+rYroYIJOZA/bxTvsa6Ap+IFyzgj24SLAF6
- fklCStBsYk7EBTpuyEs/TgmFsN0wMZRb6NY8SpHpXifmzXwyj+OZQv85Vqec3rJcqWyk
- sk3nFZMfzNtugGjgaDYVH3TfapUPkQ6EKQBjXqnX+r6kHUDLTWXuR1KyqklBG7mYiMe7
- wTmUWAWOj/LqfpW8iZ+VmZaE3sIMSi47lFmsyW++7+a4iItuDLJvZ4oQU2vDlpnOPCnu
- mrR35hO2xcttQlGD8IVUTGaqWh4j4PEbVkEx/pIe8HK6GT8vEO24YJyytQd+Gk6MsDad
- 7abw==
+ bh=/JREactd+MR6uIyk15bAj7n2qQdSERCkAnE+wV8jYE4=;
+ b=PplSrLGjm6mo0SrFW1F25Vam/gLTDk6ptcHOwUrzfbLUnmnt5E+QJdfh+XhKItq3aQ
+ iuj9t3ttN3EatoCkx566BJtC08bn5D9EZOPRtNnGnvLxMPLnws1B+8THWE9B/ikepWy1
+ qLCHs6golOVCnXCqKvznfUITDdSShLvS46dYR/wtR/nva1VG+lqIzrq2t7mVlI7jaTuD
+ C3XJarYT2CfQ5mEL3CdzL1zZPto4WX+eLEq9pmFtzjSJBSpjE9K/o8eou1vAMm40R8wG
+ 9QQ0zr5TMFwnjIUOeTSEIondUHsazMCBtOq0dIfl1ECPglt8TAYckcZIal1Wt9LuddVA
+ Jf2w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVYp44RblJCmcxKSUVtmDZ8OzFgzyk2KHlA4M7MexZg7ReaMrybTLcMrnOfpt5KTkk1KZpUvG+M8yU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwNe5vp/plhMHbYAN6jTxhAQHIdI+OSjLr2D1BsVtYGaEkyD52D
- IJFKkAfuY9+/H6rOfLfUM59SRCUJyPHWTf+gvLYGIlA/6W/bRM/3e3FRUd67N3Ujxmrs8LG2PEe
- OsYePi97VrVcUtvxOWnv8EYTXKtndXt3ECW7o0A==
-X-Gm-Gg: ASbGncsF7dOfINdPTDckCgn5rELeSWXbMJi2qxeFOLnWE7mf6b35QhMNcuegK1tHpPp
- F+z7EVgKJ/j+jb5lKWo5Ibw2s4phnWQMPnSpcLJxedT8Gxhh63M96bV5dje+DZbc4WxZ7n7+0oX
- GgBoHNBktkDcyYpVh1qTm3KGylvMuPdjZ+/wuKsD7nUIjIfZ6v+MGKzDWKfg==
-X-Google-Smtp-Source: AGHT+IET0BCFr//EzIPopKFaGN5jZeir/J+CVx/Z+vlQ+1+JmTOCYtSGfPtUJKXO2oYFfeOennYoIUh2PSb/hxTp95w=
-X-Received: by 2002:a17:907:6ea7:b0:ac2:88df:6a5b with SMTP id
- a640c23a62f3a-ac6fb14cefcmr417811366b.42.1743099996622; Thu, 27 Mar 2025
- 11:26:36 -0700 (PDT)
+ AJvYcCVblCc/cpdZlcpMwj5kuLb22w/63M/U9FYULdrfzdwN3KTrx51YF4UGuXM2DlTJ9eU6WUi0dHClsuT8@lists.freedesktop.org,
+ AJvYcCVvJhXh+WEQDgQo6iG0dYm+eErwz/b38pplOZnqZnVOCXGKouqQ3ACL1KxToaE+Zc70wnMS46ko@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1aj6eccibc/fUEEvzbsZb+fi7xOcSmUZf4QIm7Kb/QHRJTOIm
+ 9/CNr9yxX0FVLlscLeImDKSXB2sWe54+ag0OebknBMD+rQOWcJ/GoJcZWN0ty/SrOX9dOUuJdKk
+ qSGnWE45IuhltJC7EthdxcdzIGzI=
+X-Gm-Gg: ASbGncsaMtdeIIp3v9boCFPrzUe/weJyj0iX5FXuBJaJmTxyGM6xhAOvhLRR6JGg1jE
+ I0YsU6DUV4IFfZ0V0JCOjcvjwcvXQd4QEm6/bXoM5JNXKXS3Q/dHYuwggF1R8L/szDr1q48ho+F
+ y8SUvRgrc1TGbEFFi4c5t4geBAGw==
+X-Google-Smtp-Source: AGHT+IH7c05IJ5W/E9xxmJQsQPdfmivr+RUCxhCsCfa8LemId4Vp9O0cRT5dp0nui4Q2qTyhx/gmnMNOqoAD7O2RzL4=
+X-Received: by 2002:a17:90b:3e8d:b0:2ff:5759:549a with SMTP id
+ 98e67ed59e1d1-303b2112a46mr2303459a91.1.1743100628593; Thu, 27 Mar 2025
+ 11:37:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250312213746.228042-1-mhenning@darkrefraction.com>
- <20250312213746.228042-2-mhenning@darkrefraction.com>
- <Z9xb5SABWcwYnV-x@pollux>
- <abcc6ddc-47d5-4970-8fc1-e82c150fbfd9@nvidia.com> <Z9x0NLY6HHsvxOFD@pollux>
- <CAAgWFh1VzRnt9QdCR9xOVhar7vEYAGPBcMHfqXGq_QHm0A6H8Q@mail.gmail.com>
- <Z-VK8eeA_7BURiBy@cassiopeiae>
-In-Reply-To: <Z-VK8eeA_7BURiBy@cassiopeiae>
-From: M Henning <mhenning@darkrefraction.com>
-Date: Thu, 27 Mar 2025 14:26:09 -0400
-X-Gm-Features: AQ5f1JrzgQIz946PQKGDBUroIHuC_WtCuVXd9vIquncA5sGiP4wdWFbj9jwxrno
-Message-ID: <CAAgWFh1yGZkEi+Fr9htOp+iXJjLo6Q1B+rszKKAcxgw4Y0D1RQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/nouveau: Add DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Ben Skeggs <bskeggs@nvidia.com>, Karol Herbst <kherbst@redhat.com>, 
- Lyude Paul <lyude@redhat.com>, Faith Ekstrand <faith.ekstrand@collabora.com>, 
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+References: <20250213070837.2976-1-hanchunchao@inspur.com>
+In-Reply-To: <20250213070837.2976-1-hanchunchao@inspur.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 27 Mar 2025 14:36:57 -0400
+X-Gm-Features: AQ5f1JpbAw11CZFqXhvzASt06rySaccLlqPtNMKK5tEKU1zWvxVL9sPEAzCP3w4
+Message-ID: <CADnq5_Mw_d5KnUAUMLgu01o5dBoAKGJtPzYFTLp-hSsz8RSWWA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: Remove repeated word in docs
+To: Charles Han <hanchunchao@inspur.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.co, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, 
+ Rodrigo.Siqueira@amd.com, mario.limonciello@amd.com, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,81 +88,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 27, 2025 at 8:56=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
-wrote:
+On Thu, Feb 13, 2025 at 2:08=E2=80=AFAM Charles Han <hanchunchao@inspur.com=
+> wrote:
 >
-> On Tue, Mar 25, 2025 at 07:40:56PM -0400, M Henning wrote:
-> > Okay, that sounds reasonable since I don't expect this to change very q=
-uickly.
-> >
-> > Since I don't fully understand, is the suggestion here to:
-> > 1) add the interface as a function on nvkm_gr using the nvkm_gr_func
-> > vtable and store the actual data on r535_gr
-> > or
-> > 2) add the interface to NVIF (which IF?) and store the actual data on n=
-vkm_gr
-> > ?
+> Remove the repeated word "the" in docs.
 >
-> I think we want both.
->
-> 1) I think the suggestion was to store the data directly in nvkm_gr, howe=
-ver the
->    structure is indeed specific to r535, so I think, unfortunately, we ne=
-ed the
->    vtable and store that data in r535_gr.
+> Signed-off-by: Charles Han <hanchunchao@inspur.com>
 
-Well, NV2080_CTRL_GR_GET_ZCULL_INFO_PARAMS is r535-specific, but we
-need to convert it into a common structure and combine it with info
-from NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES at some point, so
-I think it makes sense to do that conversion+combination before
-storing it on any structure. In that case, maybe we store the
-structure on nvkm_gr directly during r535_gr_oneinit and then the call
-to get the info only goes through NVIF?
+Applied.  Thanks!
 
+Alex
 
-> 2) Yes, this should be passed through nvif. Unfortunately, I think it wou=
-ld need
->    to be a whole new one (similar to the fifo one).
+> ---
+>  Documentation/gpu/amdgpu/display/dc-debug.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Maybe Ben can provide you some additional pointers one this? Mayber he ca=
-n
-> suggest a shortcut, since he has patches queued to simplify the whole int=
-erface.
+> diff --git a/Documentation/gpu/amdgpu/display/dc-debug.rst b/Documentatio=
+n/gpu/amdgpu/display/dc-debug.rst
+> index 013f63b271f3..605dca21f4ae 100644
+> --- a/Documentation/gpu/amdgpu/display/dc-debug.rst
+> +++ b/Documentation/gpu/amdgpu/display/dc-debug.rst
+> @@ -154,7 +154,7 @@ of the display parameters, but the userspace might al=
+so cause this issue. One
+>  way to identify the source of the problem is to take a screenshot or mak=
+e a
+>  desktop video capture when the problem happens; after checking the
+>  screenshot/video recording, if you don't see any of the artifacts, it me=
+ans
+> -that the issue is likely on the the driver side. If you can still see th=
+e
+> +that the issue is likely on the driver side. If you can still see the
+>  problem in the data collected, it is an issue that probably happened dur=
+ing
+>  rendering, and the display code just got the framebuffer already corrupt=
+ed.
 >
-> >
-> > (Sorry, I don't understand how these layers are intended to fit togethe=
-r.))
-> >
-> > On Thu, Mar 20, 2025 at 4:02=E2=80=AFPM Danilo Krummrich <dakr@kernel.o=
-rg> wrote:
-> > >
-> > > On Fri, Mar 21, 2025 at 05:57:55AM +1000, Ben Skeggs wrote:
-> > > > On 21/3/25 04:18, Danilo Krummrich wrote:
-> > > >
-> > > > > Hi Mel,
-> > > > >
-> > > > > On Wed, Mar 12, 2025 at 05:36:14PM -0400, Mel Henning wrote:
-> > > >
-> > > > > > @@ -72,6 +75,9 @@ struct nvkm_device {
-> > > > > >                   bool armed;
-> > > > > >                   bool legacy_done;
-> > > > > >           } intr;
-> > > > > > +
-> > > > > > + bool has_zcull_info;
-> > > > > > + struct drm_nouveau_get_zcull_info zcull_info;
-> > > > > This is bypassing the nvif layer entirely. I think you should sto=
-re the contents
-> > > > > of struct NV2080_CTRL_GR_GET_ZCULL_INFO_PARAMS in struct r535_gr =
-and have an
-> > > > > nvif interface to access the data.
-> > > >
-> > > > I agree here, though nvkm_gr would be a better choice for a couple =
-of
-> > > > reasons, not least that it's possible (and should be reasonably tri=
-vial) to
-> > > > support this on earlier GPUs - should someone desire to at a later =
-point.
-> > >
-> > > I agree, if the interface is stable enough -- I don't know whether th=
-is is prone
-> > > to change or not.
+> --
+> 2.43.0
+>
