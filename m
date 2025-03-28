@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DEA8A748EB
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:05:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED54EA748FA
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:09:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51AC510E9E8;
-	Fri, 28 Mar 2025 11:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF7710E0D0;
+	Fri, 28 Mar 2025 11:09:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ivHQ7WQY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hBPDLDfW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9BE10E9E7;
- Fri, 28 Mar 2025 11:04:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35F2A10E0D0;
+ Fri, 28 Mar 2025 11:09:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id F2BBDA417EE;
- Fri, 28 Mar 2025 10:59:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF7DDC4CEE4;
- Fri, 28 Mar 2025 11:04:55 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 88525A41823;
+ Fri, 28 Mar 2025 11:03:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 803BCC4CEE4;
+ Fri, 28 Mar 2025 11:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743159897;
- bh=xbBDfvoHPjXsPnxNu0jxmSFBxISJDceHastTCXhL2kc=;
+ s=k20201202; t=1743160158;
+ bh=jpAvNwxAGa4avnNQMP1myH7Occ8e2O5ooHf8+rmEEYc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ivHQ7WQYt1VuHpHJC9cXlvdRdOhAgT601+jK+EGF5l4TBolYFwCI9NqYaigOuFI8P
- tZQh4Id0h13lrj1eR391xAs70u+0P6zn5i7hQiP/orWRsswHUTHyvRGAP7lDctFqfR
- SBF2hexsW0xIlgqR3n6RZreHWc0pZ6xHqR3cYH9D9M5ZORD1wFPR8SLjkzZTFCQAsD
- zX5rfTRLmVA763iXDy0w4/HUBj7jl/CpEXlko4Qts4kd134s2tV6k/vD+oeHIaBl6T
- qP2qy1FdL2shCIXKtYYKClwQHjSQHR0BmY4We1J4zQFichEI/CVY8yOyAdz3EKPARX
- P9tGDxFrSHqEw==
-Date: Fri, 28 Mar 2025 12:04:53 +0100
+ b=hBPDLDfWH9ZBkNmyNPvmhHLWMFEsznSTNfsn9ddSbUHu3K43yB9/zEdWvQCpccBVH
+ HJaw1deWiYcGUWei1w4gT6ca6gyvwFV6v2wCcsaMqdgh2dQUeDdlyOt0g3p+r10XdO
+ ET7WTCpcHnuvh3vi9Z+fQb09OiZ1dz1v1ZmfiQN2miPsRHnqOhTe9KYsTY6TVvtxvJ
+ fFiLw2MUxe/CBmqQpndJiMW/9LH68vH+bcsq6mmy8MjpqwaQeSYfPLov0a7qungrE2
+ em7n5UD0IxmKIbxzoDvpdfpyz0Q3riDhRwHn1Mnz7WvWY6a91ajc7kD89zPzmagDy5
+ TzqFBq5SkN8ZA==
+Date: Fri, 28 Mar 2025 12:09:13 +0100
 From: Danilo Krummrich <dakr@kernel.org>
 To: M Henning <mhenning@darkrefraction.com>
-Cc: Ben Skeggs <bskeggs@nvidia.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>,
+Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ bskeggs@nvidia.com, jhubbard@nvidia.com,
  Faith Ekstrand <faith.ekstrand@collabora.com>,
  dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
 Subject: Re: [PATCH 1/2] drm/nouveau: Add DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO
-Message-ID: <Z-aCVZYcEkxJHBle@pollux>
+Message-ID: <Z-aDWWUTN1MBI_wl@pollux>
 References: <20250312213746.228042-1-mhenning@darkrefraction.com>
  <20250312213746.228042-2-mhenning@darkrefraction.com>
  <Z9xb5SABWcwYnV-x@pollux>
- <abcc6ddc-47d5-4970-8fc1-e82c150fbfd9@nvidia.com>
- <Z9x0NLY6HHsvxOFD@pollux>
- <CAAgWFh1VzRnt9QdCR9xOVhar7vEYAGPBcMHfqXGq_QHm0A6H8Q@mail.gmail.com>
- <Z-VK8eeA_7BURiBy@cassiopeiae>
- <CAAgWFh1yGZkEi+Fr9htOp+iXJjLo6Q1B+rszKKAcxgw4Y0D1RQ@mail.gmail.com>
+ <CAAgWFh2dHZs2D7R4ejY9sNQ+QCtLQeGGS2PNtcsm_MPeV3edLw@mail.gmail.com>
+ <Z-VX3TJPI6Tgin2G@cassiopeiae>
+ <CAAgWFh3c=qE+c8Q04W2NXpBLBeXC12qTKLNmZeJA65m+dTMG8Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAgWFh1yGZkEi+Fr9htOp+iXJjLo6Q1B+rszKKAcxgw4Y0D1RQ@mail.gmail.com>
+In-Reply-To: <CAAgWFh3c=qE+c8Q04W2NXpBLBeXC12qTKLNmZeJA65m+dTMG8Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,32 +65,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 27, 2025 at 02:26:09PM -0400, M Henning wrote:
-> On Thu, Mar 27, 2025 at 8:56 AM Danilo Krummrich <dakr@kernel.org> wrote:
-> >
-> > On Tue, Mar 25, 2025 at 07:40:56PM -0400, M Henning wrote:
-> > > Okay, that sounds reasonable since I don't expect this to change very quickly.
-> > >
-> > > Since I don't fully understand, is the suggestion here to:
-> > > 1) add the interface as a function on nvkm_gr using the nvkm_gr_func
-> > > vtable and store the actual data on r535_gr
-> > > or
-> > > 2) add the interface to NVIF (which IF?) and store the actual data on nvkm_gr
-> > > ?
-> >
-> > I think we want both.
-> >
-> > 1) I think the suggestion was to store the data directly in nvkm_gr, however the
-> >    structure is indeed specific to r535, so I think, unfortunately, we need the
-> >    vtable and store that data in r535_gr.
-> 
-> Well, NV2080_CTRL_GR_GET_ZCULL_INFO_PARAMS is r535-specific, but we
-> need to convert it into a common structure and combine it with info
-> from NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES at some point, so
-> I think it makes sense to do that conversion+combination before
-> storing it on any structure. In that case, maybe we store the
-> structure on nvkm_gr directly during r535_gr_oneinit and then the call
-> to get the info only goes through NVIF?
+(CC: Ben, John)
 
-Sounds good to me! It means you need an intermediate structure though, we should
-avoid using uAPI structures in NVKM code.
+On Thu, Mar 27, 2025 at 02:03:21PM -0400, M Henning wrote:
+> On Thu, Mar 27, 2025 at 9:51 AM Danilo Krummrich <dakr@kernel.org> wrote:
+> >
+> > On Fri, Mar 21, 2025 at 06:06:34PM -0400, M Henning wrote:
+> > > On Thu, Mar 20, 2025 at 2:18 PM Danilo Krummrich <dakr@kernel.org> wrote:
+> > > > On Wed, Mar 12, 2025 at 05:36:14PM -0400, Mel Henning wrote:
+> > > > > +     __u32 width_align_pixels;
+> > > > > +     __u32 height_align_pixels;
+> > > > > +     __u32 pixel_squares_by_aliquots;
+> > > > > +     __u32 aliquot_total;
+> > > > > +     __u32 zcull_region_byte_multiplier;
+> > > > > +     __u32 zcull_region_header_size;
+> > > > > +     __u32 zcull_subregion_header_size;
+> > > > > +     __u32 subregion_count;
+> > > > > +     __u32 subregion_width_align_pixels;
+> > > > > +     __u32 subregion_height_align_pixels;
+> > > > > +
+> > > > > +     __u32 ctxsw_size;
+> > > > > +     __u32 ctxsw_align;
+> > > > > +};
+> > > >
+> > > > What if this ever changes between hardware revisions or firmware versions?
+> > >
+> > > There was some previous discussion of that here:
+> > > https://gitlab.freedesktop.org/mesa/mesa/-/issues/12596#note_2796853
+> > >
+> > > From what I can tell, this structure hasn't really changed since
+> > > FERMI_C (circa 2011), so I'm not too worried about it changing on us
+> > > too quickly. When it does change, we have the option of appending more
+> > > members to this struct in the usual way, or if the change is more
+> > > fundamental we can return an error from this ioctl and add a new
+> > > interface. Userspace needs to handle an error from this ioctl
+> > > gracefully anyway since whether it works or not depends on the gpu
+> > > generation and what firmware is loaded right now.
+> >
+> > We could also define it as
+> >
+> >         struct drm_nouveau_get_zcull_info {
+> >                 __u32 version;
+> >                 __u32 _pad;
+> >
+> >                 union {
+> >                         struct drm_nouveau_get_zcull_info_v1 info;
+> >                 }
+> >         }
+> >
+> > just to be safe.
+> 
+> We can do that, although I don't see any other drm drivers using a
+> similar pattern anywhere.
+
+I think it's a bit cleaner than adding new members, leave existing ones unset or
+add a new IOCTL in the worst case.
+
+Maybe the NVIDIA folks can give us some hint on whether this is expected to
+change at some point?
