@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C961AA74672
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 10:40:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F32A74674
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 10:41:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3590210E9B2;
-	Fri, 28 Mar 2025 09:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE3010E9B3;
+	Fri, 28 Mar 2025 09:40:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="t0gkUwaq";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="FI8znxur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35D6810E9B2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 09:40:49 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-223fd89d036so44434535ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 02:40:49 -0700 (PDT)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD3810E9B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 09:40:53 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-226185948ffso40899865ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 02:40:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1743154849; x=1743759649; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=lVf1OxT8PGj4PYemPZVHKfGsO8vE6CKP1+cnxJtI79Q=;
- b=t0gkUwaq8/0c0cEwyIMuB/MJxCRwXENbstC76oEjs50or86JlT8/1fkhm5uaeo/QG+
- zv34g5NCa+9D/l/LUH4eCOMGPfYCn/T5po5o9OA67dva3zWmwT8zIvszCSDXesY0EiLR
- lnXISm7+zofdxhPCBBJp5lTSnPtxPIpbdWEZ3uL0v3AVbQkisr7qp7kWwzvF/Ipqq1zW
- AA0YBtch+iC20aBntp5HUiKik93s5/xKINv0yCnyh26UaObr6c20s/HDliWK+qx6w+bI
- Z0aMzV1+FFk6p333gcX2nq7Ix4Z9eFDrqg6GK7rs3w8YTSTNr73/zy7Z90jplhcGPVd/
- z2XA==
+ t=1743154853; x=1743759653; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KjMXfLmHy2KF4ip5PaP1f7WukJ56BcbFiMpRTGURY+I=;
+ b=FI8znxurYnM9sH3xxV6+7mhDVp2Z4R6LlT4bojKWjSyu61w00a5keAaFMEwInQlrTn
+ V5HFWLslRz9OfGRB1PHXRYeQ3mkUa+wKxDYqGmxFaY5JQhwRxO1a2XT+66NIBy40c3jQ
+ 91P4pg+eJbFVh3kXNfegHAURVK8VIKkxpa/wr4JiIrvwlRa5EhJhfFN3agrHzWXniXlQ
+ C4ZW4r4w1j1S6ibpkTT3vxW+jmX37lCNkYkN18iPWokplS+CnYf5KwMvfP4de35Hsc26
+ xKBtGWye4IFmf7ZOCXoQMXCcJwJcA3ceiyNi/AeAGH3UGhfG2RfZe/ddfxnA6Qach9jm
+ QITQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743154849; x=1743759649;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lVf1OxT8PGj4PYemPZVHKfGsO8vE6CKP1+cnxJtI79Q=;
- b=nAYYyjdI6wogshbcs7FGrQC+CqVm1dn4lo9oFXmW/hN73VDx5LR8aDDuxcr4vtySh6
- nbykMV8XbbW6CWXnKnfqbqu1/K5FPPyuaaEBph38H5FUnS8cvzHHENiR3kOAaY/ausLx
- tnXrtidOjm7pdoG7hnUWTV/z8zw0uoo9gbCwEfVNTjrk/OTnoOmrb8JQJzTPP3Xrngl4
- M6KkgPgSWBgM5MvFGGV3MV4CWchgYbcqXrsOkrQ+pGz9Th79oCurzhOymE7mkw1I5LKb
- U2LnS1i+milrtZItnQecl0go9MuA0cWjRPYwTpGpM3hL8cphLIGLdBowF/d+ozWfo7DH
- oJmw==
-X-Gm-Message-State: AOJu0Yz/6hMx3z9OsFXrCbqe6sShdabmEZj62w3DVksl+OOdazFSZhJQ
- IiTw14tqxHTY0xbmF+GLu+k2QLPcHbhrGOHYYkrMk7PxHLWSWNIsksWuihU+Y/Y=
-X-Gm-Gg: ASbGnctfhsSBu1O3G4AYE5k8z9ZGGb1UvgXUptwsefISyfwwwpKLkt8NAECppVgicJb
- tPKcRftZ91InJMlYBmTE5LGNorP48YrkX46E1nk0Z7Rj9yMv0+3B+zWY3sH+SAcHZELexCvla8Q
- //XaVZG9JJ8F4h8W0Djh19EujA6fvn4ULkUgE+laoUuVRSea27PA51OlLtAhSAs0JHDY3f6xQmh
- XyoEOeR+Csj4CXPLORaxsXcsqSz6GFeEZr6NSpxOsUs1/Ja+QKQFxSbhgMCpj8Da6ppDICZuAid
- GY5fNcBFFYVyC2CDLaYWl7IS9tm7wxH6W1Au1ts6PkDTP0QBuPaf3BHDsbqxtTenQa49+uz6/HG
- 8K9w=
-X-Google-Smtp-Source: AGHT+IHlMk3FT8wV80BXMjlruAdNjtASKILfG6spB3x0ZSEswoz0sZWSrejxGN07tV3Fa7SmSJ5ASQ==
-X-Received: by 2002:a05:6a00:3392:b0:736:9fa2:bcbb with SMTP id
- d2e1a72fcca58-739610e3485mr11701752b3a.24.1743154848458; 
- Fri, 28 Mar 2025 02:40:48 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1743154853; x=1743759653;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KjMXfLmHy2KF4ip5PaP1f7WukJ56BcbFiMpRTGURY+I=;
+ b=bvCkcqQTw+TDe+d0v1tw+ZkKjz5TBBTzILU4Lae/yf/6obJOvVWQ+WANwm0W6xGaFU
+ tqNNO64wZevTlgytqfB8nJA1re1GXkxtrvyjWGA+5NZDRxlzDMsGLiHVLYf95hEJEbD+
+ 4wr8gfoVcmXmx4LTbcGnn1nU0l2zNPiSgbrXQLGJVHg3pyVKampFh/GIQnXzshFqmxMp
+ c801rw5GZP5utwxoiHbtn/F/73RJDtMYFVWYlXM9GGpUq3PLH6+yLjVgLma7QgZJqaV7
+ WaedI+oZHgbvsevVB9RMdMZWSPmU+Z5F+0uFtQMw1/uoSZ3J87uoutbaNTBfPEosxTxX
+ ux7w==
+X-Gm-Message-State: AOJu0YxlMsYwOcba6prFzrE+JHwOQx3RoM3NGmP1tLWmZj9q0wKUC22S
+ lKRlhwGlRapEcUyrj4F9O/v502R5nOmESFlFKtOIMzQgeL1gKr+6SyY3W2YoR/w=
+X-Gm-Gg: ASbGncsRZSes8Mlv8GdshjBKhnB5jQ2sRB+TPRpjt98ruzuP92VGUq/XOa9mEH2ouNK
+ +kiKfP4piaBnZfvHRfX/XR3i4So4xApEq7JnKGj7sbp4OosHRv90c+953BJ67nVRdGAkv1I3KAv
+ Z2j67VqaEwxG86wTgzGE4uz5fgfmYY8DyYhYp+bSRacCtqO8UNvO+MfTwnVdfHOLRH9uyTnu8fX
+ lktZ4YEqKAFdsVQSlzG7CPTjjkebUPjCwOvspgBIjCRSzqnMvhYNHCqDMvOpS47SyBbsBzmm2/F
+ PkpHZuKW/uAvJye/VjzUYAqinGxjkoD2mOCFElCDeD5O/MuHZ2dvORqKZ0acqFgMWygsrSS606d
+ MB6sKgVh5czST9A==
+X-Google-Smtp-Source: AGHT+IGp2o3LkuIAgi71QZgUHz6T+RQ1Ol3kgJLLZiH+h6Iuyl7UW85ocR8eAQzVe59u+58NXlwvcQ==
+X-Received: by 2002:a17:903:228c:b0:224:216e:332f with SMTP id
+ d9443c01a7336-22804968a3cmr108743245ad.48.1743154853027; 
+ Fri, 28 Mar 2025 02:40:53 -0700 (PDT)
 Received: from zjn.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7397106c7b7sm1283012b3a.116.2025.03.28.02.40.45
+ d2e1a72fcca58-7397106c7b7sm1283012b3a.116.2025.03.28.02.40.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Mar 2025 02:40:48 -0700 (PDT)
+ Fri, 28 Mar 2025 02:40:52 -0700 (PDT)
 From: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
 To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
  dianders@google.com, hsinyi@google.com,
@@ -69,10 +70,13 @@ To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
  Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
-Subject: [PATCH v9 0/2] arm64: dts: mediatek: Add MT8186 Ponyta
-Date: Fri, 28 Mar 2025 17:40:32 +0800
-Message-Id: <20250328094034.3400233-1-cengjianeng@huaqin.corp-partner.google.com>
+Subject: [PATCH v9 1/2] dt-bindings: arm: mediatek: Add MT8186 Ponyta
+ Chromebook
+Date: Fri, 28 Mar 2025 17:40:33 +0800
+Message-Id: <20250328094034.3400233-2-cengjianeng@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250328094034.3400233-1-cengjianeng@huaqin.corp-partner.google.com>
+References: <20250328094034.3400233-1-cengjianeng@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,57 +94,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is v9 of the MT8186 Chromebook device tree series.
+Ponyta is a custom label Chromebook based on MT8186. It is a
+self-developed project of Huaqin and has no fixed OEM.
+
+Signed-off-by: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
 ---
-Changes in v9:
-- PATCH 2/2: Add sound model to fix the warning.
-- Link to v8:https://lore.kernel.org/all/20240914063122.1622196-1-cengjianeng@huaqin.corp-partner.google.com/
+Chage in V9:
+- No change.
 
 Changes in v8:
 - PATCH 1/2: Remove custom label.
-- PATCH 2/2: Change the commit about ponyta.
-- Link to v7:https://lore.kernel.org/all/20240913031505.372868-1-cengjianeng@huaqin.corp-partner.google.com/
+- Link to v7:https://lore.kernel.org/all/01020191ea98a643-2d0be5d1-e00b-48e0-b823-bfe2c65b0d00-000000@eu-west-1.amazonses.com/
 
-Changes in v7:
-- PATCH 2/2: Remove prototype sku.
-- PATCH 2/2: Disable the other trackpad to enable one of them.
-- Link to v5:https://lore.kernel.org/all/20240913015503.4192806-1-cengjianeng@huaqin.corp-partner.google.com/
-
-Changes in v6:
+Chage since V6:
 - No change.
 
 Changes in v5:
 - PATCH 1/2: Remove sku2147483647.
-- PATCH 2/2: Remove sku2147483647.
-- Link to v4:https://lore.kernel.org/all/20240906085739.1322676-1-cengjianeng@huaqin.corp-partner.google.com/
+- Link to v4:https://lore.kernel.org/all/20240906085739.1322676-2-cengjianeng@huaqin.corp-partner.google.com/
 
 Changes in v4:
 - PATCH 1/2: Add more info for Ponyta custom label in commit.
 - Link to v3:https://lore.kernel.org/all/20240904081501.2060933-1-cengjianeng@huaqin.corp-partner.google.com/
 
 Changes in v3:
-- PATCH 0/2: Add the modify records.
 - PATCH 1/2: Modify lable to label.
 - Link to v2:https://lore.kernel.org/all/20240903061603.3007289-1-cengjianeng@huaqin.corp-partner.google.com/
 
-Changes in v2:
-- PATCH 2/2: Modify the dtb name without rev2.
-- Link to v1:https://lore.kernel.org/all/20240902125502.1844374-1-cengjianeng@huaqin.corp-partner.google.com/
+Chage since V2:
+- No change.
 
-Jianeng Ceng (2):
-  dt-bindings: arm: mediatek: Add MT8186 Ponyta Chromebook
-  arm64: dts: mediatek: Add MT8186 Ponyta Chromebooks
+---
+ Documentation/devicetree/bindings/arm/mediatek.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
- .../devicetree/bindings/arm/mediatek.yaml     | 10 ++++
- arch/arm64/boot/dts/mediatek/Makefile         |  2 +
- .../mediatek/mt8186-corsola-ponyta-sku0.dts   | 18 +++++++
- .../mediatek/mt8186-corsola-ponyta-sku1.dts   | 22 +++++++++
- .../dts/mediatek/mt8186-corsola-ponyta.dtsi   | 49 +++++++++++++++++++
- 5 files changed, 101 insertions(+)
- create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
- create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
- create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
-
+diff --git a/Documentation/devicetree/bindings/arm/mediatek.yaml b/Documentation/devicetree/bindings/arm/mediatek.yaml
+index 108ae5e0185d..fdc57c140af7 100644
+--- a/Documentation/devicetree/bindings/arm/mediatek.yaml
++++ b/Documentation/devicetree/bindings/arm/mediatek.yaml
+@@ -285,6 +285,16 @@ properties:
+           - const: google,steelix-sku393218
+           - const: google,steelix
+           - const: mediatek,mt8186
++      - description: Google Ponyta
++        items:
++          - const: google,ponyta-sku0
++          - const: google,ponyta
++          - const: mediatek,mt8186
++      - description: Google Ponyta
++        items:
++          - const: google,ponyta-sku1
++          - const: google,ponyta
++          - const: mediatek,mt8186
+       - description: Google Rusty (Lenovo 100e Chromebook Gen 4)
+         items:
+           - const: google,steelix-sku196609
 -- 
 2.34.1
 
