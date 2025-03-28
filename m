@@ -2,137 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE6FA74A79
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 14:18:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC85A74ACB
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 14:39:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB6810EA20;
-	Fri, 28 Mar 2025 13:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0DC910EA1F;
+	Fri, 28 Mar 2025 13:39:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="q9G+1EAp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OJYdJxf5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q8/CzdqD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MdYDg+T6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SsbP5q3h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CE6510EA2C
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 13:18:35 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D746E1F388;
- Fri, 28 Mar 2025 13:18:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743167913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TLedskyPe7vrksqYf4WkTbhZCghC6IkMneXJ/3JjfZk=;
- b=q9G+1EApP87Li9LqZ9tNT7ffxKyy+w57xFiXdpDFCwiauMDbmHQX+fjkf50sYL8yGd1lR3
- nc9ZZf9VwwjMveBJxK47J9y6jY+ULu18gNd5QIVQqucysHJUdC0Lx+5quFGcp2hqOdCc8I
- w9CrSaGk+bDZUhugXMyDoJ+l2tWDdf0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743167913;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TLedskyPe7vrksqYf4WkTbhZCghC6IkMneXJ/3JjfZk=;
- b=OJYdJxf5zZ3Yh5YLqjTziUp5W2XWk5+0S6M0+53ZzGDTpYS3m/P0fScyVjSE6h8XRmdusl
- kq4Z1nGo6CoZbFAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743167912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TLedskyPe7vrksqYf4WkTbhZCghC6IkMneXJ/3JjfZk=;
- b=q8/CzdqDKbykRtQuxwRNzI4ZioFocno7/Xx3H2jQ7PPLtOn+MBjdkfR6Cn+Kjw4IX8lgot
- 47jeTCuwubUaREL1xRTaLBuU0JRYXZNNj1KcjE11YhDWVv523SsYUZQUGUM0odHHDVxPJ1
- In/Hsr9PAavTgsPK+mRHvkBMBt2VLsA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743167912;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TLedskyPe7vrksqYf4WkTbhZCghC6IkMneXJ/3JjfZk=;
- b=MdYDg+T6WDahQ/+kFgw5gNORCJCLgX/+D+mifG+QddA6846lPKfzZ8uZ5DGV5a9aSTDn40
- j4hBPERmaiTJIwCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94D8A13927;
- Fri, 28 Mar 2025 13:18:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id XtYII6ih5mcBYAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Mar 2025 13:18:32 +0000
-Message-ID: <75afa0eb-6aac-41c3-a0f6-2245ef380800@suse.de>
-Date: Fri, 28 Mar 2025 14:18:32 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 798C710E180;
+ Fri, 28 Mar 2025 13:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743169183; x=1774705183;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=E4YCWYah0uPuM+ME2BF9AWfua+/2us84yikmhnw/gMY=;
+ b=SsbP5q3hn9KbygwA9+NYBex016gQHoF4DutXKB/aAKx3Ha4lftz2ot5d
+ T8LkisgQ/6/qC9p00YLyHRJ1/zM7lbtai1Yb2ZINMY9jmNUypQrIWvdd6
+ dzT1owCihinKdg74hapLptCrvr7kLS+M22WDjjAX7crVnBN79QdnVbJBB
+ bm3L+HJr8FqKnuZjXUvVq+kwgnFJZc4BQqVuU4iYg8SJugECpFF//bbwW
+ mOSHlq9U74bvy9IQSGooKjQfXrCZe9e59GLDoSTfkXRM2RPBatrvHKYJ8
+ mtbQUkG/yNsyBVoq6uH4Vz97qeuCFKgNZWEwpF3ueImqBAwQrooX4QUwP Q==;
+X-CSE-ConnectionGUID: uIPTnlUfTymeE7PDwninKQ==
+X-CSE-MsgGUID: /4dhqtIDSkW4wgYGo0h0zg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="44712002"
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="44712002"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2025 06:39:36 -0700
+X-CSE-ConnectionGUID: o3+bBIFiQoaJ/JNvnMCFfg==
+X-CSE-MsgGUID: cjRaHvzxRnW9Hf2uazzBNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="130659774"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orviesa005.jf.intel.com with SMTP; 28 Mar 2025 06:36:25 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 28 Mar 2025 15:36:23 +0200
+Date: Fri, 28 Mar 2025 15:36:23 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ chaitanya.kumar.borah@intel.com, ville.syrjala@intel.com
+Subject: Re: [PATCH v11 3/5] drm/i915/display: Acomodate format check in
+ can_async_flip()
+Message-ID: <Z-al1w93rJKHJz82@intel.com>
+References: <20250328-asyn-v11-0-ecc2d33aac69@intel.com>
+ <20250328-asyn-v11-3-ecc2d33aac69@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/11] backlight: lcd: Replace fb events with a
- dedicated function call
-To: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <danielt@kernel.org>, pavel@ucw.cz, jingoohan1@gmail.com, 
- deller@gmx.de, simona@ffwll.ch, linux-leds@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Simona Vetter <simona.vetter@ffwll.ch>
-References: <20250321095517.313713-1-tzimmermann@suse.de>
- <20250321095517.313713-9-tzimmermann@suse.de> <Z91NHP65X9GFIYOe@aspen.lan>
- <fd216fbf-ff4b-4d33-a8be-b1b7fe525a35@suse.de>
- <20250328084240.GD585744@google.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250328084240.GD585744@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[10];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[kernel.org,ucw.cz,gmail.com,gmx.de,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:email,
- suse.de:mid]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+In-Reply-To: <20250328-asyn-v11-3-ecc2d33aac69@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,55 +74,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Fri, Mar 28, 2025 at 06:15:37PM +0530, Arun R Murthy wrote:
+> The function pointer can_async_flip() checks for async supported
+> modifier, add format support check also in the same function.
 
-Am 28.03.25 um 09:42 schrieb Lee Jones:
-> On Mon, 24 Mar 2025, Thomas Zimmermann wrote:
->
->> Hi
->>
->> Am 21.03.25 um 12:27 schrieb Daniel Thompson:
->>> On Fri, Mar 21, 2025 at 10:54:01AM +0100, Thomas Zimmermann wrote:
->>>> Remove support for fb events from the lcd subsystem. Provide the
->>>> helper lcd_notify_blank_all() instead. In fbdev, call
->>>> lcd_notify_blank_all() to inform the lcd subsystem of changes
->>>> to a display's blank state.
->>>>
->>>> Fbdev maintains a list of all installed notifiers. Instead of fbdev
->>>> notifiers, maintain an internal list of lcd devices.
->>>>
->>>> v3:
->>>> - export lcd_notify_mode_change_all() (kernel test robot)
->>>> v2:
->>>> - maintain global list of lcd devices
->>>> - avoid IS_REACHABLE() in source file
->>>> - use lock guards
->>>> - initialize lcd list and list mutex
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
->>> Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
->> Thanks for reviewing.Â  There are reviews of all patches. If nothing else
->> comes in, feel free to merge it via the backlight tree.Â  I can also take the
->> series into dri-devel.
-> I plan to take this in via the Backlight tree.  Once applied, I'll send
-> out a pull-request for other maintainers to pull from.
->
-> For the record, just so we're clear, this will not make v6.15.
+You are changing intel_plane_can_async_flip(), not the
+.can_async_flip() vfunc. So this commit message doesn't
+really fit the actual patch.
 
-Makes sense. Thanks a lot.
+> 
+> v11: Move filtering Indexed 8bit to a separate patch
+> 
+> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/i9xx_plane.c          |  4 ++--
+>  drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 10 +++++++++-
+>  drivers/gpu/drm/i915/display/intel_atomic_plane.h  |  3 ++-
+>  drivers/gpu/drm/i915/display/intel_display.c       | 14 ++++----------
+>  drivers/gpu/drm/i915/display/skl_universal_plane.c |  2 +-
+>  5 files changed, 18 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/i915/display/i9xx_plane.c
+> index 5e8344fdfc28a311dc0632bb848a0e08f9e6c6d2..20c47de6d8bfd1d8ddafae02ed68370df799e22b 100644
+> --- a/drivers/gpu/drm/i915/display/i9xx_plane.c
+> +++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
+> @@ -828,7 +828,7 @@ unsigned int vlv_plane_min_alignment(struct intel_plane *plane,
+>  {
+>  	struct intel_display *display = to_intel_display(plane);
+>  
+> -	if (intel_plane_can_async_flip(plane, fb->modifier))
+> +	if (intel_plane_can_async_flip(plane, fb->format->format, fb->modifier))
+>  		return 256 * 1024;
+>  
+>  	/* FIXME undocumented so not sure what's actually needed */
+> @@ -852,7 +852,7 @@ static unsigned int g4x_primary_min_alignment(struct intel_plane *plane,
+>  {
+>  	struct intel_display *display = to_intel_display(plane);
+>  
+> -	if (intel_plane_can_async_flip(plane, fb->modifier))
+> +	if (intel_plane_can_async_flip(plane, fb->format->format, fb->modifier))
+>  		return 256 * 1024;
+>  
+>  	if (intel_scanout_needs_vtd_wa(display))
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> index 7276179df878658b7053fe6d8dc37b69f19625e3..6cf12801e1f1f11766ff4d6faf17a21b2c375e8a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> @@ -174,8 +174,16 @@ bool intel_plane_needs_physical(struct intel_plane *plane)
+>  		DISPLAY_INFO(display)->cursor_needs_physical;
+>  }
+>  
+> -bool intel_plane_can_async_flip(struct intel_plane *plane, u64 modifier)
+> +bool intel_plane_can_async_flip(struct intel_plane *plane, u32 format,
+> +				u64 modifier)
+>  {
+> +	if (intel_format_info_is_yuv_semiplanar(drm_format_info(format), modifier)) {
+> +		drm_dbg_kms(plane->base.dev,
+> +			    "[PLANE:%d:%s] Planar formats do not support async flips\n",
+> +			    plane->base.base.id, plane->base.name);
 
-Best regards
-Thomas
+I don't think we want this spam either.
 
->
+> +		return false;
+> +	}
+> +
+>  	return plane->can_async_flip && plane->can_async_flip(modifier);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.h b/drivers/gpu/drm/i915/display/intel_atomic_plane.h
+> index 6efac923dcbc757e6f68564cbef2919c920f13cb..772a12aa9c6997d77b9393f964e91f3e8747d149 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.h
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.h
+> @@ -21,7 +21,8 @@ enum plane_id;
+>  
+>  struct intel_plane *
+>  intel_crtc_get_plane(struct intel_crtc *crtc, enum plane_id plane_id);
+> -bool intel_plane_can_async_flip(struct intel_plane *plane, u64 modifier);
+> +bool intel_plane_can_async_flip(struct intel_plane *plane, u32 format,
+> +				u64 modifier);
+>  unsigned int intel_adjusted_rate(const struct drm_rect *src,
+>  				 const struct drm_rect *dst,
+>  				 unsigned int rate);
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index ee7812126129227971be89d3a79f944155620b03..ff349355ac95a039272f2fe174034ca06a555249 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -5998,22 +5998,16 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
+>  		if (!plane->async_flip)
+>  			continue;
+>  
+> -		if (!intel_plane_can_async_flip(plane, new_plane_state->hw.fb->modifier)) {
+> +		if (!intel_plane_can_async_flip(plane, new_plane_state->hw.fb->format->format,
+> +						new_plane_state->hw.fb->modifier)) {
+>  			drm_dbg_kms(display->drm,
+> -				    "[PLANE:%d:%s] Modifier 0x%llx does not support async flip\n",
+> +				    "[PLANE:%d:%s] Format %p4cc Modifier 0x%llx does not support async flip\n",
+>  				    plane->base.base.id, plane->base.name,
+> +				    &new_plane_state->hw.fb->format->format,
+>  				    new_plane_state->hw.fb->modifier);
+>  			return -EINVAL;
+>  		}
+>  
+> -		if (intel_format_info_is_yuv_semiplanar(new_plane_state->hw.fb->format,
+> -							new_plane_state->hw.fb->modifier)) {
+> -			drm_dbg_kms(display->drm,
+> -				    "[PLANE:%d:%s] Planar formats do not support async flips\n",
+> -				    plane->base.base.id, plane->base.name);
+> -			return -EINVAL;
+> -		}
+> -
+>  		/*
+>  		 * We turn the first async flip request into a sync flip
+>  		 * so that we can reconfigure the plane (eg. change modifier).
+> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> index 8739195aba696d13b30e1b978c8b2bb5e188119b..8f6170a5c108a000582f3415f78bad279254d8cf 100644
+> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> @@ -601,7 +601,7 @@ static u32 tgl_plane_min_alignment(struct intel_plane *plane,
+>  	 * Figure out what's going on here...
+>  	 */
+>  	if (display->platform.alderlake_p &&
+> -	    intel_plane_can_async_flip(plane, fb->modifier))
+> +	    intel_plane_can_async_flip(plane, fb->format->format, fb->modifier))
+
+This introduces a slight change in behaviour where planar formats
+will no longer use the extra 16K alignment on ADL. I think that is
+fine (and sort of unavoidable given how I implemented this stuff),
+but it should be highlighted in the commit message.
+
+>  		return mult * 16 * 1024;
+>  
+>  	switch (fb->modifier) {
+> 
+> -- 
+> 2.25.1
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Ville Syrjälä
+Intel
