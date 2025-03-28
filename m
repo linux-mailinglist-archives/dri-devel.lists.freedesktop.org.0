@@ -2,103 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795C5A74641
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 10:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22B4A74682
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 10:44:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B939B10E9B0;
-	Fri, 28 Mar 2025 09:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 416B010E9B6;
+	Fri, 28 Mar 2025 09:43:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DjBzpwhI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6u+VsFq3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DjBzpwhI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6u+VsFq3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Shwyg2eF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8E810E9AE
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 09:22:10 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 617C61F45B;
- Fri, 28 Mar 2025 09:21:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743153713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UQxO5ijWVS1SeJJC6CnixaRaP7FOlg9n56GuWqnG7NM=;
- b=DjBzpwhIcCLF+5X5bLLx50OLvDhz0Yyk2AsbH9Nv3of+h9yduCm3rdH8V6KqdKizvyNtbt
- MRftrcRG1cFdUxVaF9dsFfAfj09Sg/Vqh2uUWtnP9gsSbjZwOO9uABRWvxovTWlKMcsM3e
- Zoqyx4O8iGasC3BvJbYss6n5icplGto=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743153713;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UQxO5ijWVS1SeJJC6CnixaRaP7FOlg9n56GuWqnG7NM=;
- b=6u+VsFq3rYLk7Gct5n2WbVm+BIMo54NXq56niqWES0yf+Wg1W1KZExYS1OgLaQZTcDQQWv
- QJCWejm/kIwV/KDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743153713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UQxO5ijWVS1SeJJC6CnixaRaP7FOlg9n56GuWqnG7NM=;
- b=DjBzpwhIcCLF+5X5bLLx50OLvDhz0Yyk2AsbH9Nv3of+h9yduCm3rdH8V6KqdKizvyNtbt
- MRftrcRG1cFdUxVaF9dsFfAfj09Sg/Vqh2uUWtnP9gsSbjZwOO9uABRWvxovTWlKMcsM3e
- Zoqyx4O8iGasC3BvJbYss6n5icplGto=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743153713;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UQxO5ijWVS1SeJJC6CnixaRaP7FOlg9n56GuWqnG7NM=;
- b=6u+VsFq3rYLk7Gct5n2WbVm+BIMo54NXq56niqWES0yf+Wg1W1KZExYS1OgLaQZTcDQQWv
- QJCWejm/kIwV/KDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F122139D4;
- Fri, 28 Mar 2025 09:21:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id eOtVCjFq5mciEwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Mar 2025 09:21:53 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kraxel@redhat.com,
-	airlied@redhat.com
-Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 4/4] drm/cirrus-qemu: Remove custom plane state
-Date: Fri, 28 Mar 2025 10:17:08 +0100
-Message-ID: <20250328091821.195061-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250328091821.195061-1-tzimmermann@suse.de>
-References: <20250328091821.195061-1-tzimmermann@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D872910E9B6;
+ Fri, 28 Mar 2025 09:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743155037; x=1774691037;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=ZHC9r9A6EpQB5S+DumdduCPawmpKfP07Cy0oQIWGNQU=;
+ b=Shwyg2eF4XK7ITb0jV2w4GYME1LC0LB/MalKPJOaDmKyte7pFQL0O9sy
+ ATlEEtqPvTrmhUx71lfrdsshenC0fviLj2a8OhZho1/el5wnOtXS3wDT5
+ 8iocB9NlyeDcdUHx9feQVdQvMYfyQ3u7cV+EdDmhoiZHNA2j4ewp2JBeG
+ 3mupDJT53Zf7ZTB5THmLPaEWn0ppU9o1CZUiWsEWQ2lUCBYNCb7dPb4af
+ NPSobYPxh9ArxqWGUiuKuMo+IpugSLKethIDAksy9HuWddN6xYkMgcbgD
+ hMdajloAGPY93criwFak9wJpLhT7/gOGdqTzGyjPGjkapjd5BJ9k/JEue g==;
+X-CSE-ConnectionGUID: 7rOq5yGLR+eQl6T5tzo9kg==
+X-CSE-MsgGUID: HQFECGToRQSUvidvCptldA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48170261"
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="48170261"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2025 02:43:57 -0700
+X-CSE-ConnectionGUID: E2OyBsWISIGAdTAS3YwleQ==
+X-CSE-MsgGUID: msg0WgTvSyORPqLlKyKHrQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="129547496"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by fmviesa003.fm.intel.com with ESMTP; 28 Mar 2025 02:43:53 -0700
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH v10 0/4] Expose modifiers/formats supported by async flips
+Date: Fri, 28 Mar 2025 14:59:12 +0530
+Message-Id: <20250328-asyn-v10-0-8b8ad12cfc97@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -6.80
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[5];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOhr5mcC/02OwW6DMBBEfwX5XKNdsA3Nqf9R5bAYUywVE62JF
+ RTx7zVJo3Cc0bzRu4vo2LsoTsVdsEs++jnkgPBRCDtS+HHS97kQFVQaECpJcQ2yGxrT1JAba0W
+ eXtgN/vb4+T7nPPA8yWVkRy9YIWILja5Rl8oYgE+JkvgaSi6nKy/j+uXD4n5LO0/74+jjMvP6E
+ Et6/30qVNg+FZKWIBuymqyirld04HeF1L6hGv+9U5shsMp2ThMY0x+hbdv+AF5A8qcQAQAA
+X-Change-ID: 20250102-asyn-bf76730501cc
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ chaitanya.kumar.borah@intel.com, ville.syrjala@intel.com, 
+ Arun R Murthy <arun.r.murthy@intel.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ Naveen Kumar <naveen1.kumar@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,96 +75,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove struct cirrus_primary_plane_state and its helpers, which
-are all unused. Use struct drm_shadow_plane_state instead.
+All of the formats/modifiers supported by the plane during synchronous
+flips are nor supported by asynchronous flips. The formats/modifiers
+exposed to user by IN_FORMATS exposes all formats/modifiers supported by
+plane and this list varies for async flips. If the async flip supported
+formats/modifiers are exposed to the user, user based on this list can
+take decision to proceed or not and avoid flip failures during async
+flips.
+Discussion around this can be located @
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
+Mutter implementation for IN_FORMARTS_ASYNC under review @
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/4063
+Xorg/modesetting patch
+https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1816
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+TODO: Upon merge of the patch related to async flip
+https://patchwork.freedesktop.org/patch/626849/?series=139807&rev=6
+the patch 5 in this series will have to make use of the new function
+pointer can_async_flip().
+
+v3: Add new plane->funcs format_mod_supported_async (Ville)
+
+Arun R Murthy (3):
+  drm/plane: Add new plane property IN_FORMATS_ASYNC
+  drm/plane: Expose function to create format/modifier blob
+  drm/i915/display: Populate list of async supported formats/modifiers
+
+ drivers/gpu/drm/drm_mode_config.c             |  7 +++
+ drivers/gpu/drm/drm_plane.c                   | 50 ++++++++++++------
+ .../drm/i915/display/skl_universal_plane.c    | 51 +++++++++++++++++++
+ include/drm/drm_mode_config.h                 |  6 +++
+ include/drm/drm_plane.h                       |  4 ++
+ 5 files changed, 103 insertions(+), 15 deletions(-)
+
+--
+2.25.1
+
 ---
- drivers/gpu/drm/tiny/cirrus-qemu.c | 59 +-----------------------------
- 1 file changed, 1 insertion(+), 58 deletions(-)
+Arun R Murthy (5):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: Expose function to create format/modifier blob
+      drm/plane: Function to check async supported modifier/format
+      drm/i915/display: Populate list of async supported formats/modifiers
+      drm/i915/display: Add function for format_mod_supported_async
 
-diff --git a/drivers/gpu/drm/tiny/cirrus-qemu.c b/drivers/gpu/drm/tiny/cirrus-qemu.c
-index 76744394e2a3b..ccf3f6551344a 100644
---- a/drivers/gpu/drm/tiny/cirrus-qemu.c
-+++ b/drivers/gpu/drm/tiny/cirrus-qemu.c
-@@ -70,16 +70,6 @@ struct cirrus_device {
- 
- #define to_cirrus(_dev) container_of(_dev, struct cirrus_device, dev)
- 
--struct cirrus_primary_plane_state {
--	struct drm_shadow_plane_state base;
--};
--
--static inline struct cirrus_primary_plane_state *
--to_cirrus_primary_plane_state(struct drm_plane_state *plane_state)
--{
--	return container_of(plane_state, struct cirrus_primary_plane_state, base.base);
--};
--
- /* ------------------------------------------------------------------ */
- /*
-  * The meat of this driver. The core passes us a mode and we have to program
-@@ -374,58 +364,11 @@ static const struct drm_plane_helper_funcs cirrus_primary_plane_helper_funcs = {
- 	.atomic_update = cirrus_primary_plane_helper_atomic_update,
- };
- 
--static struct drm_plane_state *
--cirrus_primary_plane_atomic_duplicate_state(struct drm_plane *plane)
--{
--	struct drm_plane_state *plane_state = plane->state;
--	struct cirrus_primary_plane_state *new_primary_plane_state;
--	struct drm_shadow_plane_state *new_shadow_plane_state;
--
--	if (!plane_state)
--		return NULL;
--
--	new_primary_plane_state = kzalloc(sizeof(*new_primary_plane_state), GFP_KERNEL);
--	if (!new_primary_plane_state)
--		return NULL;
--	new_shadow_plane_state = &new_primary_plane_state->base;
--
--	__drm_gem_duplicate_shadow_plane_state(plane, new_shadow_plane_state);
--
--	return &new_shadow_plane_state->base;
--}
--
--static void cirrus_primary_plane_atomic_destroy_state(struct drm_plane *plane,
--						      struct drm_plane_state *plane_state)
--{
--	struct cirrus_primary_plane_state *primary_plane_state =
--		to_cirrus_primary_plane_state(plane_state);
--
--	__drm_gem_destroy_shadow_plane_state(&primary_plane_state->base);
--	kfree(primary_plane_state);
--}
--
--static void cirrus_reset_primary_plane(struct drm_plane *plane)
--{
--	struct cirrus_primary_plane_state *primary_plane_state;
--
--	if (plane->state) {
--		cirrus_primary_plane_atomic_destroy_state(plane, plane->state);
--		plane->state = NULL; /* must be set to NULL here */
--	}
--
--	primary_plane_state = kzalloc(sizeof(*primary_plane_state), GFP_KERNEL);
--	if (!primary_plane_state)
--		return;
--	__drm_gem_reset_shadow_plane(plane, &primary_plane_state->base);
--}
--
- static const struct drm_plane_funcs cirrus_primary_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
- 	.destroy = drm_plane_cleanup,
--	.reset = cirrus_reset_primary_plane,
--	.atomic_duplicate_state = cirrus_primary_plane_atomic_duplicate_state,
--	.atomic_destroy_state = cirrus_primary_plane_atomic_destroy_state,
-+	DRM_GEM_SHADOW_PLANE_FUNCS,
- };
- 
- static int cirrus_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ drivers/gpu/drm/drm_mode_config.c                  |   7 ++
+ drivers/gpu/drm/drm_plane.c                        |  72 +++++++++----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 113 ++++++++++++++++++---
+ include/drm/drm_mode_config.h                      |   6 ++
+ include/drm/drm_plane.h                            |  24 +++++
+ 5 files changed, 188 insertions(+), 34 deletions(-)
+---
+base-commit: 08bd590935a5258ffd79355c59adffd72fb2c642
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Changes in v9:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v8: https://lore.kernel.org/r/20250312-asyn-v8-0-0c4cbe5a066d@intel.com
+
+Changes in v6:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v5: https://lore.kernel.org/r/20250218-asyn-v5-0-7ac5ac4abd4a@intel.com
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 +++
+ drivers/gpu/drm/drm_plane.c                        | 53 +++++++++++++++-----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 56 ++++++++++++++++------
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 +++++++
+ 5 files changed, 112 insertions(+), 27 deletions(-)
+---
+base-commit: bc7a84cbc968ce97e581e9e3c2d26fb0ac106482
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 ++++
+ drivers/gpu/drm/drm_plane.c                        | 49 ++++++++++++++++------
+ drivers/gpu/drm/i915/display/i9xx_plane.c          |  6 ++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 30 ++++++++++++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.h  |  6 ++-
+ drivers/gpu/drm/i915/display/intel_display.c       | 11 +----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |  5 ++-
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 ++++++++
+ 9 files changed, 111 insertions(+), 26 deletions(-)
+---
+base-commit: be5a404c3344b7d794766f045b8f94aa93c42069
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 +++
+ drivers/gpu/drm/drm_plane.c                        | 52 ++++++++++++++++------
+ drivers/gpu/drm/i915/display/i9xx_plane.c          |  6 ++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 32 ++++++++++++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.h  |  6 ++-
+ drivers/gpu/drm/i915/display/intel_display.c       | 14 ++----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |  5 ++-
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 +++++++
+ 9 files changed, 117 insertions(+), 28 deletions(-)
+---
+base-commit: aba848f9b752cf51474c0c3b1abcf0f572f774dc
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Arun R Murthy (4):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to acommodate async
+      drm/i915/display: Acomodate format check in can_async_flip()
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 +++
+ drivers/gpu/drm/drm_plane.c                        | 52 ++++++++++++++++------
+ drivers/gpu/drm/i915/display/i9xx_plane.c          |  6 ++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 22 ++++++++-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.h  |  6 ++-
+ drivers/gpu/drm/i915/display/intel_display.c       | 14 ++----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |  5 ++-
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 +++++++
+ 9 files changed, 107 insertions(+), 28 deletions(-)
+---
+base-commit: c1893793c7d3868fe083bdab33999178337b5561
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
 -- 
-2.48.1
+Arun R Murthy <arun.r.murthy@intel.com>
 
