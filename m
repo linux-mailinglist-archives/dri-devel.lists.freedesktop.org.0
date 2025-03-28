@@ -2,56 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCD8A74C96
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 15:28:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E84CA74C9A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 15:28:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7705910EA2B;
-	Fri, 28 Mar 2025 14:28:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D149510EA34;
+	Fri, 28 Mar 2025 14:28:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oWM0CN97";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NSlzbK1t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C4ED10EA2B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 14:28:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 204DF10EA34;
+ Fri, 28 Mar 2025 14:28:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 027B9614BD;
- Fri, 28 Mar 2025 14:28:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26D2C4CEEA;
- Fri, 28 Mar 2025 14:28:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 28A355C6206;
+ Fri, 28 Mar 2025 14:26:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BABC2C4CEEB;
+ Fri, 28 Mar 2025 14:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743172087;
- bh=2uknwqe+Y6i7pMdOjoqSIIMaI/JT+FSHvmuSZYqm9ao=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oWM0CN97srCgu07X54677tyhZpT67sX/u6RNoWG3my9j17UvNNXiWqapNtjpF3kVN
- lhcbfz0TglfnGi0IDUU8q3YQEss0hV6Jc3EynVY3RWAxbasJ+9gftsIC03fzIeZUcp
- 93tGRbbx/7m1gAKzPnw4WhNiT3Z2FmWGAudU84obUsdg+z8WMstK15XeKigbFV2Cpz
- PCc+tdehJwluqQ8xqZ7gbk+ozaWrv9i0kjWwxr6ArNjqtcT521zl4oeObSqBadImOY
- ZE5JaNjJpnMpTrcSfrPEbn5cuXaw+Gxt2gRAAnLW+1UDbJEGP/9W9llVfEyqQPUO8b
- ytv+yyOfdi7uA==
-Date: Fri, 28 Mar 2025 15:28:04 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- tzimmermann@suse.de, lyude@redhat.com, acurrid@nvidia.com, lina@asahilina.net, 
- daniel.almeida@collabora.com, j@jannau.net, ojeda@kernel.org,
- alex.gaynor@gmail.com, 
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
- benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, 
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 5/8] rust: drm: add DRM driver registration
-Message-ID: <20250328-impossible-locust-of-merriment-b625bd@houat>
-References: <20250325235522.3992-1-dakr@kernel.org>
- <20250325235522.3992-6-dakr@kernel.org>
- <20250326-loyal-scrupulous-leech-59d44a@houat>
- <Z-PbHiaMNqR0FPbY@pollux>
+ s=k20201202; t=1743172111;
+ bh=h1KAMVHgEmCXUU78TKdWT4vGzNAZ5q84G0ZmdwV8ScA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=NSlzbK1tQztp2g3yu0BhAqerg2RRdSjEj4+yFnkyRPdsDduGpkbovNpjNzp11GPrU
+ U3SX2p/uEAUiITeCTWEcwmk0JnH9gVi8FPraEBFIZGhgWe4FFdMoKjnDHqzC2/aEaV
+ McmjVxul0AdCAG9Ss+Kiv/j+XXqVP33GVE5dJgQnMsebhr7KxHQwBr1XM0NZsts3Zw
+ TW9uFOT6zjyWukBYBHw+pcADHY+ucCBPjZneESxSc6VifDVpebhNmTs9MIuUPB8cot
+ uyqRIheGp4pM7A9YLDHTiWFBvmoLuTRXVTRzzhqCkkeIf/tElIRIYMiHIbAA/+OzmV
+ IFl8LPaRfb6aQ==
+Message-ID: <4aebd1f6-5098-4548-adae-843db8f45aa5@kernel.org>
+Date: Fri, 28 Mar 2025 15:28:20 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="yogbmzuaf53os4lx"
-Content-Disposition: inline
-In-Reply-To: <Z-PbHiaMNqR0FPbY@pollux>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/10] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI
+ to DP bridge nodes
+To: Ayushi Makhija <quic_amakhija@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robdclark@gmail.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run, marijn.suijten@somainline.org,
+ andersson@kernel.org, robh@kernel.org, robh+dt@kernel.org,
+ krzk+dt@kernel.org, konradybcio@kernel.org, conor+dt@kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_jesszhan@quicinc.com
+References: <20250311122445.3597100-1-quic_amakhija@quicinc.com>
+ <20250311122445.3597100-8-quic_amakhija@quicinc.com>
+ <20250312-athletic-cockle-of-happiness-e88a3a@krzk-bin>
+ <d64bf3b3-7c4d-490e-8bd7-1ad889aa7472@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <d64bf3b3-7c4d-490e-8bd7-1ad889aa7472@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,115 +115,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 13/03/2025 13:10, Ayushi Makhija wrote:
 
---yogbmzuaf53os4lx
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 5/8] rust: drm: add DRM driver registration
-MIME-Version: 1.0
+...
 
-On Wed, Mar 26, 2025 at 11:46:54AM +0100, Danilo Krummrich wrote:
-> On Wed, Mar 26, 2025 at 10:24:43AM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Wed, Mar 26, 2025 at 12:54:32AM +0100, Danilo Krummrich wrote:
-> > > Implement the DRM driver `Registration`.
-> > >=20
-> > > The `Registration` structure is responsible to register and unregiste=
-r a
-> > > DRM driver. It makes use of the `Devres` container in order to allow =
-the
-> > > `Registration` to be owned by devres, such that it is automatically
-> > > dropped (and the DRM driver unregistered) once the parent device is
-> > > unbound.
-> >=20
-> > The code looks correct, but the wording is confusing to me.
-> > drm_dev_unregister does indeed unregister the device, but it's not freed
-> > until the last reference is dropped, so it's not really "dropped once
-> > the parent device is unbound", the reference is, and it's not active
-> > anymore.
->=20
-> The above wording is related to the Registration structure itself, i.e. t=
-he
-> Registration is dropped, but not the the DRM device itself. However, if t=
-he
-> Registration had the last reference to the DRM device, then of course it's
-> freed.
+> 
+>> +
+>> +			anx_bridge_1: anx7625@58 {
+> 
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> 
+> In this I have changed the node name as anx_bridge1 : anx7625@58.
 
-Ok, my bad then :)
+Except that it is difficult to understand what is what, let's recap.
 
-> > > +impl<T: Driver> Drop for Registration<T> {
-> > > +    /// Removes the registration from the kernel if it has completed=
- successfully before.
-> > > +    fn drop(&mut self) {
-> > > +        // SAFETY: Safe by the invariant of `ARef<drm::Device<T>>`. =
-The existence of this
-> > > +        // `Registration` also guarantees the this `drm::Device` is =
-actually registered.
-> > > +        unsafe { bindings::drm_dev_unregister(self.0.as_raw()) };
-> > > +    }
-> > > +}
-> >=20
-> > drm_dev_unregister also have an hotplug-aware variant in
-> > drm_dev_unplug(). However, most devices are hotpluggable, even if only
-> > through sysfs. So drm_dev_unplug() is generally a better option. Should
-> > we use it here, and / or should we provide multiple options still?
-> >=20
-> > Another thing worth mentioning I think is that drm_dev_unplug() works by
-> > setting a flag, and drivers are expected to check that their access to
-> > device-bound resources (so registers mapping, clocks, regulators, etc.)
-> > are still there through drm_dev_enter/drm_dev_exit. It's pretty fragile
-> > overall, so I wonder if it's something we could abstract away in Rust.
->=20
-> DRM should not have to take care of the lifetime of device resources of t=
-he
-> parent device. This is the responsibility of the driver core abstractions.
->
-> At least for the device resources we directly give out to drivers, it has=
- to be,
-> since otherwise it would mean that the driver core abstraction is unsound.
-> Drivers could otherwise extend the lifetime of device resources arbitrari=
-ly.
+Original code was:
+	anx_bridge_1: anx7625@58 {
 
-Sure.
+You said you changed it to:
 
-> For instance, I/O memory is only ever given out by bus abstractions embed=
-ded in
-> a Devres container (e.g. Devres<pci::Bar>). Once the parent device is unb=
-ound
-> the pci::Bar within the Devres container won't be accessible any more and=
- will
-> be dropped internally. So, that's nothing DRM has to take care of.
->=20
-> However, there are cases where it's better to let subsystem abstractions =
-manage
-> the lifetime of device resources, (e.g. DMA mappings). The relevant thing=
- is,
-> that we never hand out device resources to a driver in a way that the dri=
-ver can
-> extend their lifetime arbitrarily.
+	anx_bridge1 : anx7625@58.
 
-I was talking about the opposite though: when the driver is still around
-but the device (and its resources) aren't anymore.
+and now I give my offer: I offer to buy a beer (or tee/coffee/juice) to
+anyone who will spot the difference(s) between these two node names,
+IOW, tell me what changed here.
 
-It makes total sense to tie the lifetime of the device resources to the
-device. However, the DRM device and driver will far outlive the device
-it was bound to so it needs to deal with that kind of degraded "the DRM
-driver can still be called by userspace, but it doesn't have a device
-anymore" scenario. That's what I was talking about.
-
-Maxime
-
---yogbmzuaf53os4lx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+ax9AAKCRDj7w1vZxhR
-xRi7AQCZe5y9bi0+6xnE2QtnR5CfK9kyAMyEiwgRrYFv1zkJnwD/RTJYHFLlyypZ
-AkDjxaDIihAM/IBomZ31OeO/Y1yJNwE=
-=iLCa
------END PGP SIGNATURE-----
-
---yogbmzuaf53os4lx--
+Best regards,
+Krzysztof
