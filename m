@@ -2,91 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FFAA74E43
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 17:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FF0A74E5F
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 17:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD08E10EA55;
-	Fri, 28 Mar 2025 16:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D2510EA57;
+	Fri, 28 Mar 2025 16:16:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NdUrU0jZ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BLqUlF8Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37B4710EA55
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 16:11:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743178293;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KdeQH6uVc+6jOdbwRNbvHQS0LykD9Jrj0j6reO3thF0=;
- b=NdUrU0jZSvTCzMVJHAule2hrf0TtG34vAHZNtpInWnwHJVmHGx82qhm2XGZxx6siBpu+4T
- cFVWOaRRLM/+FJA91BtTy8SO3+yR2MJn6bWRW9C1RDk99J6Rf+QKvQ1BINHd5dcC3KR9lB
- VsnrxdaWkf9r/cedIVC1EAjYlbpcnKo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-124-xl1lC2FYOdeiIxK8Zl7Jfw-1; Fri, 28 Mar 2025 12:11:31 -0400
-X-MC-Unique: xl1lC2FYOdeiIxK8Zl7Jfw-1
-X-Mimecast-MFC-AGG-ID: xl1lC2FYOdeiIxK8Zl7Jfw_1743178290
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-43cf5196c25so11185665e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 09:11:31 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD6810EA50
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 16:16:39 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52SAqrBU023507
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 16:16:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ B759YGuSR8/g/OsdQG8l1yWCBSW95rqY5su4+Bu54AY=; b=BLqUlF8Q/hcFVuBn
+ mUqD58LEk5n6r21nLVfjuFmB5a6T/vjg2ua4jhD5Pf//22pwQmKr/PTbtAcOGlME
+ d2n8+Ssk5wlZmMJH1kTMrtvhETh2t1DnuZRjFRf3Qj5fBdQdDqo1ovt1m8B8bPra
+ LcN1JmohI3rVTvQoN0Z0q60XVoVKgQlurCvDH9p6rjq1op0IcQjRfdybBQpbpf/2
+ H8RWjjJScv0gNF9J7y4WFiAW5sMB5eEuMvKtFeF3IBTVr5G8mqRHSNM38fG9kGGv
+ H4NLTOmFjzV8VtOaVB+x8ASxunMWKYadeSdvKvOuI0EXKJFB/v3qdQCQ2ogJb2si
+ XtLLYQ==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45njsc2d37-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 16:16:38 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-224191d9228so52253465ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 09:16:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743178290; x=1743783090;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KdeQH6uVc+6jOdbwRNbvHQS0LykD9Jrj0j6reO3thF0=;
- b=c/DqOPgKD2ycOGYTHz32P9qucrkKLGbNSw0ROdFWDlqIby9IF4NE31/JNIfCmwQKjB
- soQj0/6onznC5S5kq+XB1K8IhTktBM3mowWHx/ALKnB64tv9p0kH1B/xc1jeUQ7gWw1e
- 9f5mkoDXErXdiptp9jiSU+0YZxE+FRu6YLhTG3RnnZwFOtmKZHvpliFYFWXbFnWXEmeN
- eRuxYtSv8Ecl839ne9GkMzeNGoiRL8f+RbsTdxEarhZKuZobK5p3522OAlKVj+PJ3RBJ
- +67amvF1nGKhJLBWQrsuHzcIzKWNiGov3bLZodFEikinmN88mJOVRESel6NFJgitjG3H
- bj4g==
+ d=1e100.net; s=20230601; t=1743178597; x=1743783397;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=B759YGuSR8/g/OsdQG8l1yWCBSW95rqY5su4+Bu54AY=;
+ b=R4WQOjt+dAQTTt+ix+IVziXgnx9B297WR+lggAc9jJqxbyNxFJMxcHsTgxqv0QePXX
+ CmCOVqhZm9VcKVOrk1H6ULU0BCs0JXRXoTmtKjfGbJpYic8k44JD9JaDBE6DY6faGBOH
+ M2o3diFvc4JoaaOHmKPFU86Ueb0AHYl7JsgCswVOfeLjpJqFVUGgN+0lTVqEgQkFvzh3
+ n3hOqm0PMTSqcUiESqjg+iXqFn9a5gl7qTzPFzLw1fDQxcps7yhKl3n37r7EfEOSrmJK
+ Odh5wsTgSjkQlVu5707Kq4J2+RyZWiPFia1Uma2UgqYJuuPfd9wKLO9AvmYOd+YXBepU
+ Wg7Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVHTGwZ1UnHzO3HBS0SBfKLgCh3FrHKjTaULodZbwINu11KJ0RTaxzqkCLhvfyvm+tzr6IB/j1SY7U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy3dwUjix3qaNlzoBlPXtHYkCbPqhLT3wgmrQsaEln1+gSDBUgj
- hZEuzfSDkjX5Zr6UJHLf6rzVgOJbmyU1TOwDws2c1Cas0KXtqXub9O6U86rXRKi0NMIZ0Dp3HFa
- QelwyIBtuFGvXGC4AfJzO+4fqm0SoiVL2+ynKxsGBlAwoYHx+E9Wpr/NrFggKvHYo5Q==
-X-Gm-Gg: ASbGncuohvUfp2bNYosqqmzRHg9ZdADOKTexfu7+RaLRRmUz9br9xjHk+ybnprzSu5X
- e8LhiRVFEhkiQwbcXCllyIlzIhJdK2MsZ2F441BQ1aDGgErkpl8wZlcteg+4SXIp6hOAme4cBn/
- qlCPq76gTsTRYXVP3isp35Krsjl0mw9jAuB+qI/tV0msJsVOpBi4RrSTTk93qpk6p0BGzGwEimO
- yAEQOuu3o1/BMRJoBv/vw+nIxx/q+lvYUl40fclRn1Nv12s6KJGvvxaVpIOH5/Kdx0=
-X-Received: by 2002:a05:600c:c8d:b0:43d:ed:acd5 with SMTP id
- 5b1f17b1804b1-43db61d0e8amr1039405e9.10.1743178290107; 
- Fri, 28 Mar 2025 09:11:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHJz5tgdxTohEgr9/vL5EQK4OflnAoAQemAMNchhPjn6NX+3nvJjkhFjSKbTQbJIsqm3SDIig==
-X-Received: by 2002:a05:600c:c8d:b0:43d:ed:acd5 with SMTP id
- 5b1f17b1804b1-43db61d0e8amr1038695e9.10.1743178289570; 
- Fri, 28 Mar 2025 09:11:29 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
+ AJvYcCWaJC/nVarYxnDzG6arxGZGj6+5ey17tIEYTLKjdrF2NBMyOB+ynpIH6vG1nNbjpOSrel1A82QtLLw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1tyVbhlET6PP8Q36B7as2Kz+6vCZC9OlQolHJJcyxlQ0kS88V
+ eSgD+uOZ7KCiEAkn+HVX29c+UpdFsFKcQQvlJlY+sueqDMeYogrxJi0PUBCR+r605tJ7RWd7WaF
+ HpzgeHt66Clv7nAYrFkWgUZy1iXGMSRXrbRqWY097DArp3xSheLSk/D8dIbA3usTS7G8=
+X-Gm-Gg: ASbGncvsYGiSqrxXYq+uHQjZci0HMkd6IHUknBhlNtSyChiALstdgE7NLUupmMP/Src
+ 7GNUw/kMG7i90J3mN+h8eD2pE7qbEpmUTaKEu42fcPlMrUqjpJKRA/9x95RxPOk2Lchv+dYSCqB
+ 8W6XcY6RAjASSRwJXl9BiMOCwzWSHdhe0tE0Aff3IOjrRmQE2H7F2ma2a90LuqbyWyoHpyFQFj0
+ BLqccRBGFSNUHqYE0bmja1A0FLTVxII3c7Ke3fzAyw/y9/4HOhAvPsqSRBI0tOBZ3tQ/9ByBT1d
+ D8VO50HD4rssHDD6jB/SCXLTD24x8xRFLhgGwXFXQMCik3bj+NY6CRHJQcIFc3JRlg==
+X-Received: by 2002:a05:6a00:3904:b0:731:737c:3224 with SMTP id
+ d2e1a72fcca58-73960e225abmr11435022b3a.10.1743178597424; 
+ Fri, 28 Mar 2025 09:16:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFT7dTLMyDkYpfkimHY1G/1zkIlOuVqtTlPHJknPeb1bpYe5ITQX9VQXyNO7yhOATzBrQtSmg==
+X-Received: by 2002:a05:6a00:3904:b0:731:737c:3224 with SMTP id
+ d2e1a72fcca58-73960e225abmr11434983b3a.10.1743178596848; 
+ Fri, 28 Mar 2025 09:16:36 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d82efeb11sm75327905e9.22.2025.03.28.09.11.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Mar 2025 09:11:28 -0700 (PDT)
-Date: Fri, 28 Mar 2025 17:11:28 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Helen Koike <koike@igalia.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Vignesh Raman <vignesh.raman@collabora.com>, 
- helen.fornazier@gmail.com, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: DRM CI
-Message-ID: <20250328-gay-jaybird-of-wind-9dcca2@houat>
-References: <20250319-greedy-sturgeon-from-avalon-ac758f@houat>
- <ab1d875c-7a1e-47a3-b786-85fb46c42bb2@igalia.com>
- <20250320-benevolent-quokka-of-cubism-c1c0ce@houat>
- <5db038f9-b353-494a-aa11-9e6a95932537@igalia.com>
+ d2e1a72fcca58-739710ae9a3sm2010625b3a.143.2025.03.28.09.16.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Mar 2025 09:16:36 -0700 (PDT)
+Message-ID: <8e8a2de5-14b7-420d-a80e-69422d43ce3c@oss.qualcomm.com>
+Date: Fri, 28 Mar 2025 10:16:34 -0600
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ojizsxjoupwvmzll"
-Content-Disposition: inline
-In-Reply-To: <5db038f9-b353-494a-aa11-9e6a95932537@igalia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3] accel/amdxdna: Add BO import and export
+To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
+ jacek.lawrynowicz@linux.intel.com, mario.limonciello@amd.com,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, min.ma@amd.com, max.zhen@amd.com,
+ sonal.santan@amd.com, king.tam@amd.com
+References: <20250325200105.2744079-1-lizhi.hou@amd.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250325200105.2744079-1-lizhi.hou@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=fJk53Yae c=1 sm=1 tr=0 ts=67e6cb66 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=zd2uoN0lAAAA:8 a=EUspDBNiAAAA:8
+ a=hqc9sBmNjcyLIcRXNsUA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-GUID: zzDMd_PIBr0i5wP0nAq6XO9K6d7WqqqD
+X-Proofpoint-ORIG-GUID: zzDMd_PIBr0i5wP0nAq6XO9K6d7WqqqD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-28_08,2025-03-27_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015 phishscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0 spamscore=0
+ adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503280113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,141 +119,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 3/25/2025 2:01 PM, Lizhi Hou wrote:
+> Add amdxdna_gem_prime_export() and amdxdna_gem_prime_import() for BO
+> import and export. Register mmu notifier for imported BO as well. When
+> MMU_NOTIFIER_UNMAP event is received, queue work to remove the notifier.
+> 
+> The same BO could be mapped multiple times if it is exported and imported
+> by an application. Use a link list to track VMAs the BO been mapped.
+> 
+> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 
---ojizsxjoupwvmzll
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: DRM CI
-MIME-Version: 1.0
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 
-On Thu, Mar 20, 2025 at 09:32:36AM -0300, Helen Koike wrote:
-> Hi Maxime,
->=20
-> Thanks for your reply.
->=20
-> On 20/03/2025 06:33, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Wed, Mar 19, 2025 at 02:39:59PM -0300, Helen Koike wrote:
-> > > Hi Maxime,
-> > >=20
-> > > On 19/03/2025 11:11, Maxime Ripard wrote:
-> > > > Hi,
-> > > >=20
-> > > > At last Plumbers, we agreed with Dave that a good first step to ram=
-p up
-> > > > CI for DRM trees would be to enable build and kunit testing in the =
-main
-> > > > DRM tree.
-> > > >=20
-> > > > I played around with it last week and wrote a good first iteration =
-of
-> > > > the gitlab-ci file.
-> > > >=20
-> > > > https://gitlab.freedesktop.org/mripard/gitlab/-/blob/main/.gitlab-c=
-i.yml?ref_type=3Dheads
-> > >=20
-> > > How about improving and using the current DRM-CI instead of creating a
-> > > new one?
-> >=20
-> > Thanks for the suggestion, and I did try. I don't think it's a good
-> > option though, at first at least.
-> >=20
-> > There's several layers to it:
-> >=20
-> >    - The most important one is I don't really see much to share at this
-> >      point, really. The containers creation is a good example of
-> >      something useful, reusable, and that I did use. However, drm-ci us=
-es
-> >      different defconfigs, its own set of hardcoded compilers, etc.
->
-> This is the effort kci-gitlab is doing (see last patch with a drm-ci
-> proposal), to simplify things and remove the dependency of mesa-ci.
-
-Do you have a link to that patch?
-
-> >      I guess we could try to improve and consolidate it, but for a scri=
-pt
-> >      that simple, I don't think it's worth it.
->=20
-> Well, we are splitting our community in some way...
-
-I don't think so? In KMS, we tend to provide a default behaviour with
-helpers, but any driver is free to deviate from that if it makes sense.
-One of these reasons is that there's no point in trying to make
-something specific to a driver generic until there is multiple users for
-it. So we have plenty of drivers that don't use the helpers and the
-"default" solution.
-
-A community isn't a single codebase, it's a single set of people working
-on the same set of problems. If anything, allowing deviation is better
-for a community, because then we can have the discussion we have right
-now, and we don't work in silos.
-
-Now, if we start saying "ok, any CI in DRM must be done on Debian, with
-bleeding edge mesa and igt", then we're splitting the community, because
-it just won't work for some people, and they'll still have to make it
-work.
-
-> >      Similarly, I don't think it makes sense to try to come up with a
-> >      super generic implementation of kunit, when there's only one user.
->=20
-> No need to a super generic implementation. At least in kci-gitlab, there =
-is
-> room to very specific implementations.
->=20
-> >=20
-> >      That, of course, can and should be reevaluated as we test more
-> >      features and the script does indeed become more complicated.
-> >=20
-> >    - We discussed it during the thread with Linus, but I also don't thi=
-nk
-> >      a one-size-fits-all approach is going to work. drm-ci at the moment
-> >      has plenty of reasonable policies, but which people are still going
-> >      to have different opinions on. Like, whether you want to
-> >      aggressively update IGT or mesa. Or whether or not you are willing
-> >      to disable KASAN to accomodate db410c and db820c. The choices made
-> >      in drm-ci so far are reasonable, but choosing something else is ju=
-st
-> >      as reasonable. That's why I thought at the time that providing
-> >      common scripts to include is a better way forward than a gitlab-ci
-> >      file everybody is supposed to use.
-> >=20
-> >    - To some extent, the complaints Rob had last week about drm-ci
-> >      expectations not being updated fast enough in drm-misc are related
-> >      as well. It could also easily be solved by drm/msm having the
-> >      gitlab-ci script and its expectations in a separate repo, under the
-> >      msm maintainers control. And then it could go as fast as they want,
-> >      under their terms, without creating any impedance mismatch with the
-> >      rest of DRM.
->=20
-> (I confess I'm not following that thread, I'm guilty on that)
->=20
-> If we are going this way, maybe it is better to remove DRM-CI completely
-> from the kernel code?
->=20
-> Just to be clear, I'm not opposing anything, I just want to understand how
-> everything would fit together.
-
-I think it really has value as a "library" or repo, kind of how github
-actions work for example. Providing something that would, say, configure
-and build the kernel and report the status as a comment on a PR would be
-awesome. And there's no reason not to share that. But I believe every
-maintainer will need to glue the whole thing together how they see fit.
-
-Maxime
-
---ojizsxjoupwvmzll
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+bKLwAKCRDj7w1vZxhR
-xeLIAP0drO3aRODsr8FMBAjBVZDbFIBc4u4WvGqutfMq8UZqHwD/WXVKx0ZeYmKJ
-lTu4jJPLeAxOb9diFlAwf3tuCswc3AA=
-=W+3e
------END PGP SIGNATURE-----
-
---ojizsxjoupwvmzll--
-
+I think this was just a one time glitch, but please remember to include 
+a changelog for v2+.
