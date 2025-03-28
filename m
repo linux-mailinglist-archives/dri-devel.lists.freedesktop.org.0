@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80E6A748DF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:01:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38BDA748E3
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:03:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E64010E9E4;
-	Fri, 28 Mar 2025 11:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDF3010E9F5;
+	Fri, 28 Mar 2025 11:03:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R/9r3fIP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Sz2kqWji";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A39410E9E3;
- Fri, 28 Mar 2025 11:01:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C3B04614B4;
- Fri, 28 Mar 2025 11:01:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6976AC4CEE4;
- Fri, 28 Mar 2025 11:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743159702;
- bh=4vR8XRswEcbeL+RPvYmMfrweBQ190iuWvm0Je9EsKYk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R/9r3fIPYj/ps3KXy1Z6/3LE2y6u43k3U039GsWELz8dEOKJ7+SCoLif7Bca5eyxU
- A1qBazYDMi6pJdhU3nkmawkR1TmGh4PnGgOUP+OP4tezzTlv9xBCy52Vp4ajIGrGfo
- ya1XNLi0xNiNiBJO3s7Qv3+Dw+W8Fn8ekOoZGwooQiP0PmNMKcL+jHl1dsOFRPyjYv
- oAHZeOWB5dqy/CyUkY8w2CJTISMkryuvbaeWYpZTMTbNpQBT5Z6giZKLNE+zX8GaUG
- MU+WS7RJrBymSIRHcR78Ste4fouYaYTcM3AHb66Yb/6VteeANa1GqtwPembSnOkHcd
- 6MrbuUd3BqKyQ==
-Date: Fri, 28 Mar 2025 12:01:37 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Chris Bainbridge <chris.bainbridge@gmail.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- nouveau@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, lyude@redhat.com, sumit.semwal@linaro.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/prime: fix drm_prime_gem_destroy comment
-Message-ID: <Z-aBkc2p5BZLrBJH@pollux>
-References: <Z9GHj-edWJmyzpdY@debian.local>
- <00e4d9c4-ecfc-4784-b603-12db04cda806@amd.com>
- <Z9q-ggKKgTsvW-Rz@debian.local> <Z9rA0G2urlVHFOSx@cassiopeiae>
- <1f4a534f-8883-4793-b191-60c2773f6217@amd.com>
- <Z9rSTkXlub-JZAz0@cassiopeiae> <Z-P4zQ1464SeZGmB@debian.local>
- <94eeb36a-9aa5-4afd-9ba6-76e8ace10122@amd.com>
- <Z-P84iMUP4NBAY7k@debian.local>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2985A10EA0C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 11:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1743159771;
+ bh=Eg4htkgtKxBxfGSXYOZ7EIc8dBXBO4HYGaR+6HLT4nk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Sz2kqWjiL6JPedeWh2Yu1sKA0RuuOaiMvI3zA0EHxyfMhBe5Sfpl1W2M4fOUJ6WHU
+ +QjOOGFWFcPepp7uF5IAW4fOX/8tzagh4MZnNSOJfaqFhFASQCjP12u2BzkjG3y9Xs
+ PaLpuH2xPaiXbnb3JtiUNuIQGc/1BIhU/7a5vzRkmkPmo68wzNGK9KonaoMvdEpafM
+ CCw/ZJzaaOeJ0O3HJvq0i+mdcR+uxDZLB0RsYqG99cjjGB8m+IGpiRwk0thUH7Omp0
+ /FD65Y9bJ8CfxH0djH4PiynHWIdXGMzfUO37myCXcpvI4zr8pp24OX87jVJVIz+RUP
+ KdZ2k5wbLuqPQ==
+Received: from debian.. (unknown [171.76.87.92])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 19A4C17E0673;
+ Fri, 28 Mar 2025 12:02:47 +0100 (CET)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
+ simona.vetter@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
+ lumag@kernel.org, quic_abhinavk@quicinc.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/3] drm/ci: mesa uprev and python-artifacts/check-patch
+ fixes
+Date: Fri, 28 Mar 2025 16:32:30 +0530
+Message-ID: <20250328110239.993685-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z-P84iMUP4NBAY7k@debian.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,21 +62,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 01:10:58PM +0000, Chris Bainbridge wrote:
-> Edit the comments on correct usage of drm_prime_gem_destroy to note
-> that, if using TTM, drm_prime_gem_destroy must be called in the
-> ttm_buffer_object.destroy hook, to avoid the dma_buf being freed leaving
-> a dangling pointer which will be later dereferenced by
-> ttm_bo_delayed_delete.
-> 
-> Signed-off-by: Chris Bainbridge <chris.bainbridge@gmail.com>
-> Suggested-by: Christian König <christian.koenig@amd.com>
+The python-artifacts job has a timeout of 10 minutes, which causes
+build failures as it was unable to clone the repository within the
+specified limits. This patch sets GIT_DEPTH to 10 to speed up cloning
+and avoid build failures due to timeouts when fetching the full
+repository.
 
-Can you please send new version of patches as a new mail thread (not in reply to
-previous versions) please?
+The check-patch job is also updated to ensure the repository is not
+shallow before fetching branches. This prevents issues where git
+merge-base fails due to incomplete history. Additionally, the timeout
+for the check-patch job is set to 1 hour.
 
-Otherwise,
+The current s3cp implementation does not work anymore after the migration.
+Uprev mesa to adapt these changes. Also replace broken s3cp command with a
+curl wrapper call in drm-ci.
 
-	Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+check-patch testing,
+MR - https://gitlab.freedesktop.org/vigneshraman/linux/-/merge_requests/18
+pipeline - https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1391545
 
-@Christian, I assume you will pick this one up?
+mesa uprev testing,
+MR - https://gitlab.freedesktop.org/vigneshraman/linux/-/merge_requests/18
+pipeline - https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1391440
+
+Google farm is down, so the baremetal jobs failed.
+i915:cml jobs are stuck due to some devices in the lab being under maintenance.
+
+Vignesh Raman (3):
+  drm/ci: use shallow clone to avoid timeouts
+  drm/ci: check-patch: unshallow repository before fetching
+  drm/ci: uprev mesa
+
+ drivers/gpu/drm/ci/build-igt.sh      |  2 +-
+ drivers/gpu/drm/ci/build.sh          |  6 +++---
+ drivers/gpu/drm/ci/check-patch.py    | 16 ++++++++++++----
+ drivers/gpu/drm/ci/gitlab-ci.yml     |  8 ++++++--
+ drivers/gpu/drm/ci/image-tags.yml    |  2 +-
+ drivers/gpu/drm/ci/lava-submit.sh    |  2 +-
+ drivers/gpu/drm/ci/static-checks.yml |  1 +
+ 7 files changed, 25 insertions(+), 12 deletions(-)
+
+-- 
+2.47.2
+
