@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77810A7459E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 09:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC809A745A9
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 09:48:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0AF810E2F3;
-	Fri, 28 Mar 2025 08:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2013610E063;
+	Fri, 28 Mar 2025 08:48:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oCGo3RDt";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="aNROWXAD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EEAE10E2F3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 08:42:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 05F32A410AD;
- Fri, 28 Mar 2025 08:37:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 819DBC4CEE4;
- Fri, 28 Mar 2025 08:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743151365;
- bh=eKiysfOtXP1WtvpY1AV0YfA4J7E/PtTyWO4U4gpCiT0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oCGo3RDtIzVH0sJT2bwZHE5CvaoGNME4l1ssBly4wNuIPPtDzjGuRKA3tBSu8L5qG
- vB5lQ9Tfh11RGt31s5jYzl310aI+LSHajyBPozzAdXi8HeifobRt8RYV5T7NvJ7OEb
- Ff8+l4ODqmMffdxeryXMuVMu+t6g85cE81scqBR/UeQpjOsKtlUJIl7lpER7oY3bqm
- 1fZFb7WbEuhH2uekwJeX6Yvd7zuEukrQbMzUk5fzyZelipzpGH9LBs5swJS2qU9ZnY
- b+uXu1XJLCnVPShrvUImpVkkkhU2E5sgsNeejmBLBppQ3M4GFO8F0W70pqn+Lwoysg
- lIIInw8veY/AA==
-Date: Fri, 28 Mar 2025 08:42:40 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Thompson <danielt@kernel.org>, pavel@ucw.cz,
- jingoohan1@gmail.com, deller@gmx.de, simona@ffwll.ch,
- linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v4 08/11] backlight: lcd: Replace fb events with a
- dedicated function call
-Message-ID: <20250328084240.GD585744@google.com>
-References: <20250321095517.313713-1-tzimmermann@suse.de>
- <20250321095517.313713-9-tzimmermann@suse.de>
- <Z91NHP65X9GFIYOe@aspen.lan>
- <fd216fbf-ff4b-4d33-a8be-b1b7fe525a35@suse.de>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22D0A10E063
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 08:48:39 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2D3B12047F;
+ Fri, 28 Mar 2025 08:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1743151718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MFT7SMTIg6YlG+MnRcstSp1n0mAZWbvlA88+Ka5wf1E=;
+ b=aNROWXADk37lK71/z15aMTrLXqCW7kKCQZzoI3D1GSqXGeddsOxZr1Q+1s0ZLibHN3vdEr
+ 14bj8Vz/+AQVnM0O2gzXkoqjyMhh1Wt9G/fneYKrKxnWYwtxyL8oagkGeYaqDOx/+yetfU
+ +TU2xgeBESO2lE+uANYbFI3edxBLkqiplFGtx4k0ZDytQ8UPzB14FDk5Rd6oiCF3axNZxV
+ q0TPb55fq3DylYRGQJ+KVUT7sQt/p0As+dmjnXqXhD9f+pQtruAUPEs9LlwHfWW3AcDIb9
+ Dmw5xjDIl6Bc6vf/cJ750zq8tSmh+x+i+DS0/unqfis2Ef3yfgEtwmD87HaHDA==
+Date: Fri, 28 Mar 2025 09:48:35 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] drm/panel: Add refcount support
+Message-ID: <20250328094835.502b3b4d@booty>
+In-Reply-To: <20250327-b4-panel-refcounting-v2-2-b5f5ca551f95@redhat.com>
+References: <20250327-b4-panel-refcounting-v2-0-b5f5ca551f95@redhat.com>
+ <20250327-b4-panel-refcounting-v2-2-b5f5ca551f95@redhat.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fd216fbf-ff4b-4d33-a8be-b1b7fe525a35@suse.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujedtkeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtohepqhhuihgtpghjvghsshiihhgrnhesqhhui
+ hgtihhntgdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,40 +69,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Mar 2025, Thomas Zimmermann wrote:
+On Thu, 27 Mar 2025 10:55:40 -0400
+Anusha Srivatsa <asrivats@redhat.com> wrote:
 
-> Hi
+> Allocate panel via reference counting. Add _get() and _put() helper
+> functions to ensure panel allocations are refcounted. Avoid use after
+> free by ensuring panel pointer is valid and can be usable till the last
+> reference is put.
 > 
-> Am 21.03.25 um 12:27 schrieb Daniel Thompson:
-> > On Fri, Mar 21, 2025 at 10:54:01AM +0100, Thomas Zimmermann wrote:
-> > > Remove support for fb events from the lcd subsystem. Provide the
-> > > helper lcd_notify_blank_all() instead. In fbdev, call
-> > > lcd_notify_blank_all() to inform the lcd subsystem of changes
-> > > to a display's blank state.
-> > > 
-> > > Fbdev maintains a list of all installed notifiers. Instead of fbdev
-> > > notifiers, maintain an internal list of lcd devices.
-> > > 
-> > > v3:
-> > > - export lcd_notify_mode_change_all() (kernel test robot)
-> > > v2:
-> > > - maintain global list of lcd devices
-> > > - avoid IS_REACHABLE() in source file
-> > > - use lock guards
-> > > - initialize lcd list and list mutex
-> > > 
-> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
-> > Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+> v2: Export drm_panel_put/get() (Maxime)
+> - Change commit log with better workding (Luca, Maxime)
+> - Change drm_panel_put() to return void (Luca)
+> - Code Cleanups - add return in documentation, replace bridge to
+> panel (Luca)
 > 
-> Thanks for reviewing.  There are reviews of all patches. If nothing else
-> comes in, feel free to merge it via the backlight tree.  I can also take the
-> series into dri-devel.
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 
-I plan to take this in via the Backlight tree.  Once applied, I'll send
-out a pull-request for other maintainers to pull from.
+With the added #include as per my comment on patch 1, you can add:
 
-For the record, just so we're clear, this will not make v6.15.
+ Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 -- 
-Lee Jones [李琼斯]
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
