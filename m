@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E67A745BC
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 09:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3BDFA745E3
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 10:00:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0D810E02B;
-	Fri, 28 Mar 2025 08:53:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UjsScPIM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13EFE10E3BC;
+	Fri, 28 Mar 2025 09:00:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B25210E02B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 08:53:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9FBE44444E;
- Fri, 28 Mar 2025 08:53:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1743152033;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fq28d+GTVbmTb7BFcdN0DAaSRJZdvQ95irksTrYkEpI=;
- b=UjsScPIMUY2hMDZZer1kl+ImeWQ/6N6jcfRwapbJBGEb4dpnwL3E/Lmv7K4tSvoEG5X1RF
- F5FvKMLLhvtWg/+R9jj0bw0Bood6uwfi3G5iqXD5zRgS+kQ4dB+o2IEe01ShTEjvai5lz9
- e0itmAqJslji7Yb00F7/oJbsdDpx56AZsJzv0AZgdgEctFZnHE4XJKckqiLiG9BYeKdu1U
- r0sWhIkbuB/DO5Akcbn+nU90+Avu/E6wCdi7xYVRGSKj3Kqhhj39s1FESNpODWe6Wg2Lhn
- 54z8Irz712GoX+SP2bl9zfQL13nJoWBRm76FU1vbaP61UiOqBrbTbS88LjxD+A==
-Date: Fri, 28 Mar 2025 09:53:51 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] drm/panel/panel-simple: Use the new allocation
- in place of devm_kzalloc()
-Message-ID: <20250328095351.7bac2d4d@booty>
-In-Reply-To: <20250327-b4-panel-refcounting-v2-4-b5f5ca551f95@redhat.com>
-References: <20250327-b4-panel-refcounting-v2-0-b5f5ca551f95@redhat.com>
- <20250327-b4-panel-refcounting-v2-4-b5f5ca551f95@redhat.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujedtkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtohepqhhuihgtpghjvghsshiihhgrnhesqhhui
- hgtihhntgdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-Greylist: delayed 74864 seconds by postgrey-1.36 at gabe;
+ Fri, 28 Mar 2025 09:00:53 UTC
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7BA10E3BC
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 09:00:53 +0000 (UTC)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZPDyP6Hmsz5B1J5;
+ Fri, 28 Mar 2025 17:00:45 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+ by mse-fl2.zte.com.cn with SMTP id 52S90OpQ000912;
+ Fri, 28 Mar 2025 17:00:24 +0800 (+08)
+ (envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp05[null]) by mapi (Zmail) with MAPI id mid32;
+ Fri, 28 Mar 2025 17:00:26 +0800 (CST)
+Date: Fri, 28 Mar 2025 17:00:26 +0800 (CST)
+X-Zmail-TransId: 2afc67e6652affffffffc56-b98be
+X-Mailer: Zmail v1.0
+Message-ID: <202503281700265542u_5j7eZjBf05CqIqnYKa@zte.com.cn>
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <laurent.pinchart@ideasonboard.com>
+Cc: <tomi.valkeinen@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <yang.yang29@zte.com.cn>,
+ <xu.xin16@zte.com.cn>, <ye.xingchen@zte.com.cn>, <zhang.enpei@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm0veGxueDogenlucW1wX2RwOiBVc2UgZGV2X2Vycl9wcm9iZSgp?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 52S90OpQ000912
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67E6653D.003/4ZPDyP6Hmsz5B1J5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,21 +56,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Mar 2025 10:55:42 -0400
-Anusha Srivatsa <asrivats@redhat.com> wrote:
+From: Zhang Enpei <zhang.enpei@zte.com.cn>
 
-> Start using the new helper that does the refcounted
-> allocations.
-> 
-> v2: check error condition (Luca)
+Replace the open-code with dev_err_probe() to simplify the code.
 
-Here as well, when you resend, move the changelog after the '---' line.
+Signed-off-by: Zhang Enpei <zhang.enpei@zte.com.cn>
+Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+---
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index a6a4a871f197..28efa4c7ec8e 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -2466,10 +2466,8 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+ 	dp->reset = devm_reset_control_get(dp->dev, NULL);
+ 	if (IS_ERR(dp->reset)) {
+-		if (PTR_ERR(dp->reset) != -EPROBE_DEFER)
+-			dev_err(dp->dev, "failed to get reset: %ld\n",
+-				PTR_ERR(dp->reset));
+-		ret = PTR_ERR(dp->reset);
++		ret = dev_err_probe(dp->dev, PTR_ERR(dp->reset),
++				    "failed to get reset\n");
+ 		goto err_free;
+ 	}
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
