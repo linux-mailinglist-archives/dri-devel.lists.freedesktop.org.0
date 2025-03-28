@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA331A74412
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 07:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9337FA74513
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 09:10:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D10C910E087;
-	Fri, 28 Mar 2025 06:43:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7F3810E98F;
+	Fri, 28 Mar 2025 08:10:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A0C110E087
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 06:43:47 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.105])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4ZP9qy4WcFzTgrJ;
- Fri, 28 Mar 2025 14:39:58 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 61E771400D1;
- Fri, 28 Mar 2025 14:43:38 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Fri, 28 Mar 2025 14:43:37 +0800
-Message-ID: <51bae617-cfc7-43f9-968e-5f2a3ad9af40@huawei.com>
-Date: Fri, 28 Mar 2025 14:43:36 +0800
+X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
+ Fri, 28 Mar 2025 01:52:57 UTC
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9035310E0C7;
+ Fri, 28 Mar 2025 01:52:57 +0000 (UTC)
+Received: from loongson.cn (unknown [10.2.9.245])
+ by gateway (Coremail) with SMTP id _____8CxqmrK_+VnleCoAA--.21949S3;
+ Fri, 28 Mar 2025 09:47:54 +0800 (CST)
+Received: from code-server.gen (unknown [10.2.9.245])
+ by front1 (Coremail) with SMTP id qMiowMDxu8TH_+VnqOZjAA--.33647S2;
+ Fri, 28 Mar 2025 09:47:51 +0800 (CST)
+From: Dongyan Qian <qiandongyan@loongson.cn>
+To: chenhuacai@loongson.cn
+Cc: airlied@gmail.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, chenhuacai@kernel.org,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org, simona@ffwll.ch,
+ stable@vger.kernel.org
+Subject: Re: [PATCH V2 3/3] drm/amd/display: Protect FPU in
+ dml2_validate()/dml21_validate()
+Date: Fri, 28 Mar 2025 09:47:51 +0800
+Message-Id: <20250328014751.674244-1-qiandongyan@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20250327095334.3327111-3-chenhuacai@loongson.cn>
+References: <20250327095334.3327111-3-chenhuacai@loongson.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 drm-dp 5/9] drm/hisilicon/hibmc: Getting connector info
- and EDID by using AUX channel
-To: Jani Nikula <jani.nikula@linux.intel.com>, <xinliang.liu@linaro.org>,
- <tiantao6@hisilicon.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <kong.kongxinwei@hisilicon.com>
-CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
- <lidongming5@huawei.com>, <libaihan@huawei.com>, <shenjian15@huawei.com>,
- <shaojijie@huawei.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <shiyongbang@huawei.com>
-References: <20250319032435.1119469-1-shiyongbang@huawei.com>
- <20250319032435.1119469-6-shiyongbang@huawei.com> <87frj8c9ol.fsf@intel.com>
- <ff11c8ac-7eb4-42cb-86d3-ad9924c9374b@huawei.com> <87jz8ea6zq.fsf@intel.com>
- <8ee961ca-0d3c-487d-a672-82714ee56743@huawei.com> <875xjw87dm.fsf@intel.com>
- <a8599ca0-9a50-453e-8986-f8fae5aa9160@huawei.com> <87v7ru6bfk.fsf@intel.com>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <87v7ru6bfk.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+X-CM-TRANSID: qMiowMDxu8TH_+VnqOZjAA--.33647S2
+X-CM-SenderInfo: htld0v5rqj5t3q6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+ ZEXasCq-sGcSsGvfJ3UbIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnUUvcSsGvfC2Kfnx
+ nUUI43ZEXa7xR_UUUUUUUUU==
+X-Mailman-Approved-At: Fri, 28 Mar 2025 08:10:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,57 +56,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Huacai,
 
-> On Thu, 27 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
->> 在 2025/3/26 17:32, Jani Nikula 写道:
->>> On Tue, 25 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
->>>>> On Mon, 24 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
->>>>>>> On Wed, 19 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
->>>>>>>> From: Baihan Li <libaihan@huawei.com>
->>>>>>>>
->>>>>>>> Add registering drm_aux and use it to get connector edid with drm
->>>>>>>> functions. Add ddc channel in connector initialization to put drm_aux
->>>>>>>> in drm_connector.
->>>>>>>>
->>>>>>>> Signed-off-by: Baihan Li <libaihan@huawei.com>
->>>>>>>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
->>>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>>>> ---
->>>>>>>> ChangeLog:
->>>>>>>> v6 -> v7:
->>>>>>>>       - add if statement about drm aux in hibmc_dp_connector_get_modes(), suggested by Jani Nikula
->>>>>>> I don't understand this, and I did not suggest such a thing.
->>>>>>>
->>>>>>> BR,
->>>>>>> Jani.
->>>>>>>
->>>>>> Hi Jani,
->>>>>>
->>>>>> Is the modification of v8 correct?
->>>>> I never received that for whatever reason.
->>>> Here's the link: https://lore.kernel.org/all/20250320101455.2538835-1-shiyongbang@huawei.com/
->>> Thanks.
->>>
->>> The EDID handling looks fine.
->>>
->>> AFAICT you leak dp->aux.name though.
->>>
->>>
->>> BR,
->>> Jani.
->> Thanks for for reminding me, actually the dp->aux.name was written because I misunderstood what you meant in V7,
->> and I deleted it in V8.
-> This is in the link you posted:
->
-> +	dp->aux.name = kasprintf(GFP_KERNEL, "HIBMC DRM dp aux");
->
-Hi Jani,
+Tested successfully with `glmark2` on both x86 and Loongson platforms, using AMD Radeon RX 9070 XT.
 
-I got it. I think I can change it to devm_kasprintf() in next bug fix patch, is that ok?
+---
 
+**Intel i5-10400F Platform:**
 
->
->> Thanks,
->> Baihan.
->>
->>>
+- **Board / CPU**: Intel i5-10400F
+- **Firmware Vendor**: American Megatrends International, LLC
+- **Kernel**: https://lore.kernel.org/all/20250327095334.3327111-3-chenhuacai@loongson.cn/
+- **GPU**: AMD Navi 48 [RX 9070/9070 XT]
+- **Result**: `glmark2` score 18703
+
+---
+
+**Loongson 3C6000 Platform:**
+
+- **Board / CPU**: 3C6000 AC612A0
+- **Firmware**: EDK2025-3C6000-7A2000_AC612A0_Rc2502pre0313
+- **Kernel**: https://lore.kernel.org/all/20250327095334.3327111-3-chenhuacai@loongson.cn/
+- **GPU**: AMD Navi 48 [RX 9070/9070 XT]
+- **Result**: `glmark2` score 10893 
+
+---
+
+Tested-by: Dongyan Qian <qiandongyan@loongson.cn>
+
+Best Regards,  
+Dongyan Qian
+
