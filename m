@@ -2,52 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E3FA748E5
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEA8A748EB
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:05:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A8010E9F6;
-	Fri, 28 Mar 2025 11:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51AC510E9E8;
+	Fri, 28 Mar 2025 11:05:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZlXwEPS2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ivHQ7WQY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41F5B10EA11
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 11:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743159782;
- bh=FOFWiAYSyx44KVxMf8ZVYfZw2/T0gUlKOs0RhszDu0U=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZlXwEPS2LocAW8WUtqhJFw1KPezF+mBfTVBdGEEnC/X7RlwkpiXvoED8NF3lLRgCN
- lEK2uoIj2vCi2WGn8W+fMx/Mh2ZWs/VS3sVvZ7m/WFAVTCEOgjtAcns2mbC1nkrJ+f
- LSoIp5NENjVR7E1SSqDMca05i623B7Bk0kyn5RGuv092gDnaxoCXcMBwdLE/ASAvDa
- oiRJ1NJkE9CGXNC4+L19DjA8tCLmobN2a5dfLkGQ8+BfQS5UuL280ikwTTPADDdxbv
- +V8VwotuDoBe33RBuKm0jL4bgOeO02Xg/NCCncyW4E9N/kijlQi+ZDSeOx7ZxuzOuj
- 9hszRTdxsHAhA==
-Received: from debian.. (unknown [171.76.87.92])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 46B7F17E1062;
- Fri, 28 Mar 2025 12:02:59 +0100 (CET)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
- simona.vetter@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
- lumag@kernel.org, quic_abhinavk@quicinc.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/3] drm/ci: uprev mesa
-Date: Fri, 28 Mar 2025 16:32:33 +0530
-Message-ID: <20250328110239.993685-4-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250328110239.993685-1-vignesh.raman@collabora.com>
-References: <20250328110239.993685-1-vignesh.raman@collabora.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9BE10E9E7;
+ Fri, 28 Mar 2025 11:04:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id F2BBDA417EE;
+ Fri, 28 Mar 2025 10:59:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF7DDC4CEE4;
+ Fri, 28 Mar 2025 11:04:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743159897;
+ bh=xbBDfvoHPjXsPnxNu0jxmSFBxISJDceHastTCXhL2kc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ivHQ7WQYt1VuHpHJC9cXlvdRdOhAgT601+jK+EGF5l4TBolYFwCI9NqYaigOuFI8P
+ tZQh4Id0h13lrj1eR391xAs70u+0P6zn5i7hQiP/orWRsswHUTHyvRGAP7lDctFqfR
+ SBF2hexsW0xIlgqR3n6RZreHWc0pZ6xHqR3cYH9D9M5ZORD1wFPR8SLjkzZTFCQAsD
+ zX5rfTRLmVA763iXDy0w4/HUBj7jl/CpEXlko4Qts4kd134s2tV6k/vD+oeHIaBl6T
+ qP2qy1FdL2shCIXKtYYKClwQHjSQHR0BmY4We1J4zQFichEI/CVY8yOyAdz3EKPARX
+ P9tGDxFrSHqEw==
+Date: Fri, 28 Mar 2025 12:04:53 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: M Henning <mhenning@darkrefraction.com>
+Cc: Ben Skeggs <bskeggs@nvidia.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm/nouveau: Add DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO
+Message-ID: <Z-aCVZYcEkxJHBle@pollux>
+References: <20250312213746.228042-1-mhenning@darkrefraction.com>
+ <20250312213746.228042-2-mhenning@darkrefraction.com>
+ <Z9xb5SABWcwYnV-x@pollux>
+ <abcc6ddc-47d5-4970-8fc1-e82c150fbfd9@nvidia.com>
+ <Z9x0NLY6HHsvxOFD@pollux>
+ <CAAgWFh1VzRnt9QdCR9xOVhar7vEYAGPBcMHfqXGq_QHm0A6H8Q@mail.gmail.com>
+ <Z-VK8eeA_7BURiBy@cassiopeiae>
+ <CAAgWFh1yGZkEi+Fr9htOp+iXJjLo6Q1B+rszKKAcxgw4Y0D1RQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAgWFh1yGZkEi+Fr9htOp+iXJjLo6Q1B+rszKKAcxgw4Y0D1RQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,111 +67,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current s3cp implementation does not work anymore after the
-migration, and instead of fixing it and propagating the fix down to us,
-it's simpler to directly use curl. Uprev mesa [1][2] to adapt these
-changes. Also replace broken s3cp command with a curl wrapper call in
-drm-ci.
+On Thu, Mar 27, 2025 at 02:26:09PM -0400, M Henning wrote:
+> On Thu, Mar 27, 2025 at 8:56 AM Danilo Krummrich <dakr@kernel.org> wrote:
+> >
+> > On Tue, Mar 25, 2025 at 07:40:56PM -0400, M Henning wrote:
+> > > Okay, that sounds reasonable since I don't expect this to change very quickly.
+> > >
+> > > Since I don't fully understand, is the suggestion here to:
+> > > 1) add the interface as a function on nvkm_gr using the nvkm_gr_func
+> > > vtable and store the actual data on r535_gr
+> > > or
+> > > 2) add the interface to NVIF (which IF?) and store the actual data on nvkm_gr
+> > > ?
+> >
+> > I think we want both.
+> >
+> > 1) I think the suggestion was to store the data directly in nvkm_gr, however the
+> >    structure is indeed specific to r535, so I think, unfortunately, we need the
+> >    vtable and store that data in r535_gr.
+> 
+> Well, NV2080_CTRL_GR_GET_ZCULL_INFO_PARAMS is r535-specific, but we
+> need to convert it into a common structure and combine it with info
+> from NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES at some point, so
+> I think it makes sense to do that conversion+combination before
+> storing it on any structure. In that case, maybe we store the
+> structure on nvkm_gr directly during r535_gr_oneinit and then the call
+> to get the info only goes through NVIF?
 
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34120
-[2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34244
-
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
- drivers/gpu/drm/ci/build-igt.sh   | 2 +-
- drivers/gpu/drm/ci/build.sh       | 6 +++---
- drivers/gpu/drm/ci/gitlab-ci.yml  | 6 ++++--
- drivers/gpu/drm/ci/image-tags.yml | 2 +-
- drivers/gpu/drm/ci/lava-submit.sh | 2 +-
- 5 files changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/ci/build-igt.sh b/drivers/gpu/drm/ci/build-igt.sh
-index eddb5f782a5e..caa2f4804ed5 100644
---- a/drivers/gpu/drm/ci/build-igt.sh
-+++ b/drivers/gpu/drm/ci/build-igt.sh
-@@ -71,4 +71,4 @@ tar -cf artifacts/igt.tar /igt
- # Pass needed files to the test stage
- S3_ARTIFACT_NAME="igt.tar.gz"
- gzip -c artifacts/igt.tar > ${S3_ARTIFACT_NAME}
--ci-fairy s3cp --token-file "${S3_JWT_FILE}" ${S3_ARTIFACT_NAME} https://${PIPELINE_ARTIFACTS_BASE}/${KERNEL_ARCH}/${S3_ARTIFACT_NAME}
-+s3_upload ${S3_ARTIFACT_NAME} https://${PIPELINE_ARTIFACTS_BASE}/${KERNEL_ARCH}/
-diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-index 284873e94d8d..6fb74c51abe2 100644
---- a/drivers/gpu/drm/ci/build.sh
-+++ b/drivers/gpu/drm/ci/build.sh
-@@ -148,13 +148,13 @@ if [[ "$UPLOAD_TO_MINIO" = "1" ]]; then
- 
-     ls -l "${S3_JWT_FILE}"
-     for f in $FILES_TO_UPLOAD; do
--        ci-fairy s3cp --token-file "${S3_JWT_FILE}" /kernel/$f \
--                https://${PIPELINE_ARTIFACTS_BASE}/${DEBIAN_ARCH}/$f
-+        s3_upload /kernel/$f \
-+                https://${PIPELINE_ARTIFACTS_BASE}/${DEBIAN_ARCH}/
-     done
- 
-     S3_ARTIFACT_NAME="kernel-files.tar.zst"
-     tar --zstd -cf $S3_ARTIFACT_NAME install
--    ci-fairy s3cp --token-file "${S3_JWT_FILE}" ${S3_ARTIFACT_NAME} https://${PIPELINE_ARTIFACTS_BASE}/${DEBIAN_ARCH}/${S3_ARTIFACT_NAME}
-+    s3_upload ${S3_ARTIFACT_NAME} https://${PIPELINE_ARTIFACTS_BASE}/${DEBIAN_ARCH}/
- 
-     echo "Download vmlinux.xz from https://${PIPELINE_ARTIFACTS_BASE}/${DEBIAN_ARCH}/vmlinux.xz"
- fi
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index 6850ce99a673..e54e382bf5fb 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -1,6 +1,6 @@
- variables:
-   DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
--  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 82ab58f6c6f94fa80ca7e1615146f08356e3ba69
-+  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha f73132f1215a37ce8ffc711a0136c90649aaf128
- 
-   UPSTREAM_REPO: https://gitlab.freedesktop.org/drm/kernel.git
-   TARGET_BRANCH: drm-next
-@@ -20,8 +20,10 @@ variables:
-           rm download-git-cache.sh
-           set +o xtrace
-   S3_JWT_FILE: /s3_jwt
-+  S3_JWT_HEADER_FILE: /s3_jwt_header
-   S3_JWT_FILE_SCRIPT: |-
-       echo -n '${S3_JWT}' > '${S3_JWT_FILE}' &&
-+      echo -n "Authorization: Bearer ${S3_JWT}" > '${S3_JWT_HEADER_FILE}' &&
-       unset CI_JOB_JWT S3_JWT  # Unsetting vulnerable env variables
-   S3_HOST: s3.freedesktop.org
-   # This bucket is used to fetch the kernel image
-@@ -253,7 +255,7 @@ make git archive:
-     - tar -cvzf ../$CI_PROJECT_NAME.tar.gz .
- 
-     # Use id_tokens for JWT auth
--    - ci-fairy s3cp --token-file "${S3_JWT_FILE}" ../$CI_PROJECT_NAME.tar.gz https://$S3_HOST/${S3_GITCACHE_BUCKET}/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_PROJECT_NAME.tar.gz
-+    - s3_upload ../$CI_PROJECT_NAME.tar.gz https://$S3_HOST/${S3_GITCACHE_BUCKET}/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/
- 
- 
- # Sanity checks of MR settings and commit logs
-diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
-index c04ba0e69935..53fe34b86578 100644
---- a/drivers/gpu/drm/ci/image-tags.yml
-+++ b/drivers/gpu/drm/ci/image-tags.yml
-@@ -1,5 +1,5 @@
- variables:
--   CONTAINER_TAG: "20250307-mesa-uprev"
-+   CONTAINER_TAG: "20250328-mesa-uprev"
-    DEBIAN_X86_64_BUILD_BASE_IMAGE: "debian/x86_64_build-base"
-    DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
- 
-diff --git a/drivers/gpu/drm/ci/lava-submit.sh b/drivers/gpu/drm/ci/lava-submit.sh
-index f22720359b33..a1e8b34fb2d4 100755
---- a/drivers/gpu/drm/ci/lava-submit.sh
-+++ b/drivers/gpu/drm/ci/lava-submit.sh
-@@ -54,7 +54,7 @@ cp artifacts/ci-common/init-*.sh results/job-rootfs-overlay/
- cp "$SCRIPTS_DIR"/setup-test-env.sh results/job-rootfs-overlay/
- 
- tar zcf job-rootfs-overlay.tar.gz -C results/job-rootfs-overlay/ .
--ci-fairy s3cp --token-file "${S3_JWT_FILE}" job-rootfs-overlay.tar.gz "https://${JOB_ROOTFS_OVERLAY_PATH}"
-+s3_upload job-rootfs-overlay.tar.gz "https://${JOB_ARTIFACTS_BASE}"
- 
- # Prepare env vars for upload.
- section_switch variables "Environment variables passed through to device:"
--- 
-2.47.2
-
+Sounds good to me! It means you need an intermediate structure though, we should
+avoid using uAPI structures in NVKM code.
