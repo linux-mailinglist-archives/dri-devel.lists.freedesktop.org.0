@@ -2,88 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499E4A742D2
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 04:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C374A742CE
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 04:30:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1FB10E975;
-	Fri, 28 Mar 2025 03:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EFF810E0E7;
+	Fri, 28 Mar 2025 03:29:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iVAL3uUp";
+	dkim=pass (2048-bit key; unprotected) header.d=fastmail.com header.i=@fastmail.com header.b="sqeRiTMn";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="uife+W1O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 127FC10E975
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 03:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743132931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=usKcBKUiUQSqKONDJgmZhFPmNI3mTlZy9aKEuoHbHmM=;
- b=iVAL3uUpUqevJeemSkIobldsAY5RWiPwAe3TmdWFIJlCXN5olXaby/ZzUV4I9NC1oisASp
- saNuhde8Vq7fUN2HtUSen+B/fTP5ZKxtM8pVuytEf9Wsxu7swF76etN3pXZMwkw5gtZ2op
- SSJ69rLFAyx2yoL1f1/sJFXq9g/Ucuk=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-465-XgFxPX4OMaOTqr5G2ZgDDA-1; Thu, 27 Mar 2025 23:35:29 -0400
-X-MC-Unique: XgFxPX4OMaOTqr5G2ZgDDA-1
-X-Mimecast-MFC-AGG-ID: XgFxPX4OMaOTqr5G2ZgDDA_1743132929
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-6f2a2ab50f6so24851827b3.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Mar 2025 20:35:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743132929; x=1743737729;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=usKcBKUiUQSqKONDJgmZhFPmNI3mTlZy9aKEuoHbHmM=;
- b=bAPquHQJQr3uuwn7YGxMiZVT8OLfpHb9LiYU/2ekIpYJZL7wWkV9CkpsjyVDtX1ax0
- IH2qqCZW95AAGqheFmhqbtT7RTWhPreuklTKbNZDV5ZyrzBo7MnfI9sZkagaT2OZJ8ef
- VKw6nOMDWM3BqblfZqVFUk7HR74w1fHKM3htrO7y6dTmcil6+2AG1VqVvBYeGNpcclAX
- +htnOptvpNarFctdJGJWHO2/SVXlxKDBjIyN5zDXU5pCivb4Tlv95IReOIvb5WHRYs9C
- hWN98k15YhXh/PVKuSWIGCKtT6ge3/3GgogDHX3bkQXRNcZLMShew2q87KVXPxY5DVTd
- b5jw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVA3V8ZzU6YKg7GJwP+DbbgOrbpPqvaeAblh73GQFA3jxYei37+e9UOmNGeXLSN4LjZq8LW53cpiic=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxoAuE0ifaRPGUgAHDgbwoULhoUw2wbqG/CPb31cup7AGDcLnky
- lYFkVswWsN3r5ehtsuEPIoFKf/yShrMxxmnIzhoxv6YHMERmm/fj7ro1W+oJYhNcskn/po4JNsd
- H0D+CCbc3cFSX82yJuyg4fcGXysx/sA2KTYoELzDVTQuA8s+8EH5XPFpuVaDbsOm70t7TZdsSRE
- JuVctYu/tGDF9jHaSkXJhjD+YXdObLLh1e1Ex5i/B0
-X-Gm-Gg: ASbGnct5WhJO6DPZWzD1YnRczLJjuo+FFu/f8La5l5WPstn3UuvU3/InP20gNqx2gy4
- pf++5IpuJsbV/DKzts5D03jbFPzOl6L03gfjyJCdrVG/tIBadRLKkmzCNxSXnpXnHRJ6dAYQ=
-X-Received: by 2002:a05:690c:680e:b0:6fd:3dd3:c768 with SMTP id
- 00721157ae682-70224f01e20mr85762597b3.2.1743132928952; 
- Thu, 27 Mar 2025 20:35:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFiiWgeE8KfRgDp7Qss8k23dxLX2Nbvq1hhOC6uiCVNm/a1/gxhUX3wj5hWQhDFY49lNuVaDvUkORnCcQKjF9c=
-X-Received: by 2002:a05:690c:680e:b0:6fd:3dd3:c768 with SMTP id
- 00721157ae682-70224f01e20mr85762377b3.2.1743132928448; Thu, 27 Mar 2025
- 20:35:28 -0700 (PDT)
+Received: from fout-b6-smtp.messagingengine.com
+ (fout-b6-smtp.messagingengine.com [202.12.124.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 208DF10E0E7;
+ Fri, 28 Mar 2025 03:29:56 +0000 (UTC)
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal
+ [10.202.2.48])
+ by mailfout.stl.internal (Postfix) with ESMTP id DBCA711401C0;
+ Thu, 27 Mar 2025 23:29:54 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-08.internal (MEProxy); Thu, 27 Mar 2025 23:29:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to; s=fm2; t=1743132594; x=1743218994; bh=Cp9lnvxnIv186+PcpNlli
+ pcDG9HTXGIBE5DKPJ+XZwc=; b=sqeRiTMnXfM6jqq8DA3k13Z2gwVf98zn/H135
+ GS8gXTnNMEJ3MKU/LYrcWreGIEKUUwFwcMiZni9IDYqCYZhiAj3ueNWOxAcNMmb7
+ Ukl2I7cZ67Elzju84csRh4YA6sX1eVOYDKtbpT2NAk+B5YRJGx6n6VqqeHdN40dS
+ HidgHMy3sQCRd63X0nK5MTmtriUq0yiors1t/3rUof5zEQSiRLm3nwKoZiacKt2d
+ iLw0oQOErnrrA4rVzc6A+DPcbFxK8JxJdtMiMSuQgFf64ZkKuZXICOlQc4WhNVOy
+ qriyZ4dCHLdSJIquBkhmbJl1hq9Ik+ipiZVHIOBpiAYeHu/ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1743132594; x=1743218994; bh=Cp9lnvxnIv186+PcpNllipcDG9HTXGIBE5D
+ KPJ+XZwc=; b=uife+W1ONSbhjyAYkKtKCHueaVurosYX+/re1nHbnO2HBb/vuIn
+ 1FTXGpknr2ycz3RCRjGVfAQWPMZ/srvTeCJsUgCArpalhAHbAfiAS8IOnGu0zTRo
+ V9gFqgrt0+2hW6r3W5uKuARubbHjKmpNFYqERgNUPjeL63CdeJ/U4du9DpIDCdx4
+ IJC7r8BATbq81tr7NYLrOXokyqPrsUEXXPPZHRczZ122mwkiSCfKwAL+ML7cZ+iq
+ SsKvfSue5mzE/woQJG4C9wrSE4EbtJXY6fK28PhDperyE/etyN/bGMbTLKc8bkSz
+ 1nDslQ+40Fyg1KFtLK3nBY9qfpT2o15rDUA==
+X-ME-Sender: <xms:shfmZ0ueZmte-UCiLj_sx71Sr2OicFTeql5p0qIqBCVMLU_0_1YoDA>
+ <xme:shfmZxfkAizWkzupd75SCwrdIhPYL9H_qFEoR_wguSR-ayfvcaK9ny6xrVmJA5xj8
+ eid39WO4WUuDqlsddw>
+X-ME-Received: <xmr:shfmZ_wfvIQvzMU-OzolW59hbrShzUKUYBO8Ixc8e6e_u3BA4Z16pxECoNALr0yqvIRWyEhuy1AK-MiRObQ9K1zAemtGImyIirLvbXcrBxnJUnrX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujedtvdduucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
+ evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhs
+ uceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrg
+ htthgvrhhnpefhvefgkeeiuddtudfhgefgiedvuefhhedtffejtddtfeekieefieejveet
+ hfegheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ gsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthht
+ ohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhrghrrhihrdifvghnth
+ hlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdr
+ tghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpth
+ htoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthho
+ pegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrih
+ hrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhl
+ rdgthhdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorh
+ hgpdhrtghpthhtohepsgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:shfmZ3NyCdJM4kDItLzQq4l4PaerQQJfU1PHSdIwvxJs2VqU3G9oIA>
+ <xmx:shfmZ0_RIGPuBdhT93TbFw2L5RHMWtEYYUmC9fJ9flovfKCs4EVGXA>
+ <xmx:shfmZ_W0wKi7BigvzbvCrGgrVa63VstqKsNXKWcPg6NMpLMzuXKMFA>
+ <xmx:shfmZ9e7Grd1sw7Jvos6p3fhNA_7W76JBum0yIg3NekAXL_9jnYMTQ>
+ <xmx:shfmZ-d0gZN4Dit82iKkYe5JQ1c7xde-YhBNjDy9ijbxehNfrdVZRCiw>
+Feedback-ID: ibd7e4881:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Mar 2025 23:29:52 -0400 (EDT)
+From: James Flowers <bold.zone2373@fastmail.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, skhan@linuxfoundation.org
+Cc: James Flowers <bold.zone2373@fastmail.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] drm/amd/display: removed unused function
+Date: Thu, 27 Mar 2025 20:29:02 -0700
+Message-ID: <20250328032942.16264-1-bold.zone2373@fastmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250326-b4-panel-ls043t1le01-v3-1-96c554c0ea2b@redhat.com>
- <CAD=FV=WvD6tTu_rLTm0njXM5-S_1WBg2rf+TyFZvdi8xUT7yQA@mail.gmail.com>
-In-Reply-To: <CAD=FV=WvD6tTu_rLTm0njXM5-S_1WBg2rf+TyFZvdi8xUT7yQA@mail.gmail.com>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 27 Mar 2025 22:32:44 -0400
-X-Gm-Features: AQ5f1JptLiItXJqf1k9KSW1nrIdGJWlW1enEH5LZcDQYBadm4S9hrj2t0uxO3eg
-Message-ID: <CAN9Xe3QCd1HO2pL5SAVB-TVrVU8AgVZc+D5MD9owkqv6DgKSpg@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/panel/sharp-ls043t1le01: Use _multi variants
-To: Doug Anderson <dianders@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Tejas Vipin <tejasvipin76@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: pheYKVPrDTWNpRLd8O94j91BpWUJmU1uuAKXDmkPaC0_1743132929
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000ff377706315ec211"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,155 +101,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000ff377706315ec211
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Removed unused function mpc401_get_3dlut_fast_load_status.
 
-On Thu, Mar 27, 2025 at 4:54=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
+Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h     | 17 -----------------
+ .../drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c  | 11 -----------
+ .../drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h  | 14 --------------
+ 3 files changed, 42 deletions(-)
 
-> Hi,
->
-> On Wed, Mar 26, 2025 at 8:29=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.=
-com>
-> wrote:
-> >
-> > Move away from using deprecated API and use _multi variants
-> > if available. Use mipi_dsi_msleep() and mipi_dsi_usleep_range()
-> > instead of msleep() and usleep_range() respectively.
-> >
-> > Used Coccinelle to find the _multi variant APIs,replacing
-> > mpi_dsi_msleep() where necessary and for returning
-> > dsi_ctx.accum_err in these functions. mipi_dsi_dcs_write()
-> > does not have a corresponding _multi() variant. Replacing it with
-> > mipi_dsi_dcs_write_seq_multi() instead. This change is manual.
-> >
-> > The Coccinelle script is the same as the one in commit c8ba07caaecc
-> > ("drm/panel/synaptics-r63353: Use _multi variants")
-> >
-> > v2: Use mipi_dsi_write_buffer_multi() in place of
-> > mipi_dsi_dcs_write(). (Dmitry)
-> >
-> > v3: add commit details where the same coccinelle script is
-> > used and remove the actual script from commit log.
-> > Use mipi_dsi_dcs_write_seq_multi() for mipi_dsi_dcs_write() (Doug)
-> >
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Cc: Tejas Vipin <tejasvipin76@gmail.com>
-> > Cc: Doug Anderson <dianders@chromium.org>
-> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> > ---
-> > Changes in v3:
-> > - Simplify commit log by adding a reference to a patch that uses the
-> >   same script.
-> > - Simplify code by using a helper that doesnt need additional code
-> >   changes other then using the helper itself.
-> >
-> > - Link to v2:
-> https://lore.kernel.org/r/20250324-b4-panel-ls043t1le01-v2-1-e43aedc115be=
-@redhat.com
-> >
-> > Changes in v2:
-> > - While mipi_dsi_dcs_write() does not have a corresponding _multi()
-> >   variant replace it with mipi_dsi_dcs_write_buffer_multi() to have all
-> >   APIs following _multi() usage for easier error handling
-> >
-> > - Link to v1:
-> https://lore.kernel.org/r/20250316-b4-panel-ls043t1le01-v1-1-ee38371b0ba0=
-@redhat.com
-> > ---
-> >  drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c | 41
-> +++++++++----------------
-> >  1 file changed, 15 insertions(+), 26 deletions(-)
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-
-Thanks Doug and Neil!
-
-Anusha
-
---000000000000ff377706315ec211
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 27,=
- 2025 at 4:54=E2=80=AFPM Doug Anderson &lt;<a href=3D"mailto:dianders@chrom=
-ium.org">dianders@chromium.org</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">Hi,<br>
-<br>
-On Wed, Mar 26, 2025 at 8:29=E2=80=AFPM Anusha Srivatsa &lt;<a href=3D"mail=
-to:asrivats@redhat.com" target=3D"_blank">asrivats@redhat.com</a>&gt; wrote=
-:<br>
-&gt;<br>
-&gt; Move away from using deprecated API and use _multi variants<br>
-&gt; if available. Use mipi_dsi_msleep() and mipi_dsi_usleep_range()<br>
-&gt; instead of msleep() and usleep_range() respectively.<br>
-&gt;<br>
-&gt; Used Coccinelle to find the _multi variant APIs,replacing<br>
-&gt; mpi_dsi_msleep() where necessary and for returning<br>
-&gt; dsi_ctx.accum_err in these functions. mipi_dsi_dcs_write()<br>
-&gt; does not have a corresponding _multi() variant. Replacing it with<br>
-&gt; mipi_dsi_dcs_write_seq_multi() instead. This change is manual.<br>
-&gt;<br>
-&gt; The Coccinelle script is the same as the one in commit c8ba07caaecc<br=
->
-&gt; (&quot;drm/panel/synaptics-r63353: Use _multi variants&quot;)<br>
-&gt;<br>
-&gt; v2: Use mipi_dsi_write_buffer_multi() in place of<br>
-&gt; mipi_dsi_dcs_write(). (Dmitry)<br>
-&gt;<br>
-&gt; v3: add commit details where the same coccinelle script is<br>
-&gt; used and remove the actual script from commit log.<br>
-&gt; Use mipi_dsi_dcs_write_seq_multi() for mipi_dsi_dcs_write() (Doug)<br>
-&gt;<br>
-&gt; Cc: Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel.org" target=3D"=
-_blank">mripard@kernel.org</a>&gt;<br>
-&gt; Cc: Dmitry Baryshkov &lt;<a href=3D"mailto:dmitry.baryshkov@linaro.org=
-" target=3D"_blank">dmitry.baryshkov@linaro.org</a>&gt;<br>
-&gt; Cc: Tejas Vipin &lt;<a href=3D"mailto:tejasvipin76@gmail.com" target=
-=3D"_blank">tejasvipin76@gmail.com</a>&gt;<br>
-&gt; Cc: Doug Anderson &lt;<a href=3D"mailto:dianders@chromium.org" target=
-=3D"_blank">dianders@chromium.org</a>&gt;<br>
-&gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.c=
-om" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt; Changes in v3:<br>
-&gt; - Simplify commit log by adding a reference to a patch that uses the<b=
-r>
-&gt;=C2=A0 =C2=A0same script.<br>
-&gt; - Simplify code by using a helper that doesnt need additional code<br>
-&gt;=C2=A0 =C2=A0changes other then using the helper itself.<br>
-&gt;<br>
-&gt; - Link to v2: <a href=3D"https://lore.kernel.org/r/20250324-b4-panel-l=
-s043t1le01-v2-1-e43aedc115be@redhat.com" rel=3D"noreferrer" target=3D"_blan=
-k">https://lore.kernel.org/r/20250324-b4-panel-ls043t1le01-v2-1-e43aedc115b=
-e@redhat.com</a><br>
-&gt;<br>
-&gt; Changes in v2:<br>
-&gt; - While mipi_dsi_dcs_write() does not have a corresponding _multi()<br=
->
-&gt;=C2=A0 =C2=A0variant replace it with mipi_dsi_dcs_write_buffer_multi() =
-to have all<br>
-&gt;=C2=A0 =C2=A0APIs following _multi() usage for easier error handling<br=
->
-&gt;<br>
-&gt; - Link to v1: <a href=3D"https://lore.kernel.org/r/20250316-b4-panel-l=
-s043t1le01-v1-1-ee38371b0ba0@redhat.com" rel=3D"noreferrer" target=3D"_blan=
-k">https://lore.kernel.org/r/20250316-b4-panel-ls043t1le01-v1-1-ee38371b0ba=
-0@redhat.com</a><br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c | 41 +++++++++--=
---------------<br>
-&gt;=C2=A0 1 file changed, 15 insertions(+), 26 deletions(-)<br>
-<br>
-Reviewed-by: Douglas Anderson &lt;<a href=3D"mailto:dianders@chromium.org" =
-target=3D"_blank">dianders@chromium.org</a>&gt;<br></blockquote><div><br></=
-div><div>Thanks Doug and Neil!</div><div><br></div><div>Anusha <br></div></=
-div></div>
-
---000000000000ff377706315ec211--
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+index 3a89cc0cffc1..eaef3899da7b 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+@@ -967,23 +967,6 @@ struct mpc_funcs {
+ 	*/
+ 
+ 	void (*update_3dlut_fast_load_select)(struct mpc *mpc, int mpcc_id, int hubp_idx);
+-	/**
+-	* @get_3dlut_fast_load_status:
+-	*
+-	* Get 3D LUT fast load status and reference them with done, soft_underflow and hard_underflow pointers.
+-	*
+-	* Parameters:
+-	* - [in/out] mpc - MPC context.
+-	* - [in] mpcc_id
+-	* - [in/out] done
+-	* - [in/out] soft_underflow
+-	* - [in/out] hard_underflow
+-	*
+-	* Return:
+-	*
+-	* void
+-	*/
+-	void (*get_3dlut_fast_load_status)(struct mpc *mpc, int mpcc_id, uint32_t *done, uint32_t *soft_underflow, uint32_t *hard_underflow);
+ 
+ 	/**
+ 	* @populate_lut:
+diff --git a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c
+index ad67197557ca..98cf0cbd59ba 100644
+--- a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c
++++ b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c
+@@ -47,16 +47,6 @@ void mpc401_update_3dlut_fast_load_select(struct mpc *mpc, int mpcc_id, int hubp
+ 	REG_SET(MPCC_MCM_3DLUT_FAST_LOAD_SELECT[mpcc_id], 0, MPCC_MCM_3DLUT_FL_SEL, hubp_idx);
+ }
+ 
+-void mpc401_get_3dlut_fast_load_status(struct mpc *mpc, int mpcc_id, uint32_t *done, uint32_t *soft_underflow, uint32_t *hard_underflow)
+-{
+-	struct dcn401_mpc *mpc401 = TO_DCN401_MPC(mpc);
+-
+-	REG_GET_3(MPCC_MCM_3DLUT_FAST_LOAD_STATUS[mpcc_id],
+-			MPCC_MCM_3DLUT_FL_DONE, done,
+-			MPCC_MCM_3DLUT_FL_SOFT_UNDERFLOW, soft_underflow,
+-			MPCC_MCM_3DLUT_FL_HARD_UNDERFLOW, hard_underflow);
+-}
+-
+ void mpc401_set_movable_cm_location(struct mpc *mpc, enum mpcc_movable_cm_location location, int mpcc_id)
+ {
+ 	struct dcn401_mpc *mpc401 = TO_DCN401_MPC(mpc);
+@@ -618,7 +608,6 @@ static const struct mpc_funcs dcn401_mpc_funcs = {
+ 	.set_bg_color = mpc1_set_bg_color,
+ 	.set_movable_cm_location = mpc401_set_movable_cm_location,
+ 	.update_3dlut_fast_load_select = mpc401_update_3dlut_fast_load_select,
+-	.get_3dlut_fast_load_status = mpc401_get_3dlut_fast_load_status,
+ 	.populate_lut = mpc401_populate_lut,
+ 	.program_lut_read_write_control = mpc401_program_lut_read_write_control,
+ 	.program_lut_mode = mpc401_program_lut_mode,
+diff --git a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h
+index ce6fbcf14d7a..8e35ebc603a9 100644
+--- a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.h
+@@ -241,23 +241,9 @@ void mpc401_update_3dlut_fast_load_select(
+ 	int mpcc_id,
+ 	int hubp_idx);
+ 
+-void mpc401_get_3dlut_fast_load_status(
+-	struct mpc *mpc,
+-	int mpcc_id,
+-	uint32_t *done,
+-	uint32_t *soft_underflow,
+-	uint32_t *hard_underflow);
+-
+ void mpc401_update_3dlut_fast_load_select(
+ 	struct mpc *mpc,
+ 	int mpcc_id,
+ 	int hubp_idx);
+ 
+-void mpc401_get_3dlut_fast_load_status(
+-	struct mpc *mpc,
+-	int mpcc_id,
+-	uint32_t *done,
+-	uint32_t *soft_underflow,
+-	uint32_t *hard_underflow);
+-
+ #endif
+-- 
+2.49.0
 
