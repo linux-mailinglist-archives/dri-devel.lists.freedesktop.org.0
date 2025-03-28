@@ -2,100 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30434A75267
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 23:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F33A7526F
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 23:22:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5D010E0B7;
-	Fri, 28 Mar 2025 22:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39A3010EAC2;
+	Fri, 28 Mar 2025 22:22:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RSlUdDgM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AbaRMvsh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
- [209.85.166.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2F710E074
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 22:14:58 +0000 (UTC)
-Received: by mail-il1-f177.google.com with SMTP id
- e9e14a558f8ab-3d5bb2ae4d3so8891565ab.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 15:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1743200098; x=1743804898;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RUbOEFaJOAbY7faqDFBOHIbC1ZRfCrfheNTZ60rM6cc=;
- b=RSlUdDgMb3tjbSj7EbyWp5Kus31PP73LGU8zYaoRYK/EXN15xWoZK4ZIUJzpJOiet3
- 4qQUnPXU7NiXiF0ZhA4L313HG6vik7A/FXmd05IpdYgF1ANsSeQVT5nJX0XIVzvrexu+
- DUr+lp1beXvqixOyWTg7ToZ+8MtGGme0/ke0w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743200098; x=1743804898;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RUbOEFaJOAbY7faqDFBOHIbC1ZRfCrfheNTZ60rM6cc=;
- b=XZOoCD/s5zg7vDyR7Hhf+LMbLneFY28aS+S+1BYJWTrc9UAE0XmZv+tjQaxRdCJCMz
- 8ZoEhAqAritEZ1YgvmLc4a4b0BvdzAOGUQi8jKL+IkMyVRgF4mu2DbyL6UmqQ+g/A3ZS
- MFiBtKQNhIbKLUB7OBQU37saPHwLY/ddQkyXrFOR+77mqhsO7QXAcb5UQ6zmTG1BD9hm
- cJ+36bB015bb4LM5XbxLXZ78hu7ONXZcBiQomtBJdFiRrWgiZW9k+QzVShY+9gLCMxeI
- KEnO5i9jovxtqVW7VNwQkr2b3ZOQcUNIv+FWu0QHrjZUPHmhNe2xGwFNh4DOLSfCKpLl
- 4NPQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWafT2DhSA40Qyz5qnPQ3ce2govefZ6Hcoetk85S3fPTYWkTu+oBwS6xFSa3nkMYTFMEesx+mKrIek=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YweX2oXKrfnB76DImX9vgfEV4++rVNv3megX6lGRbq9ATfQYsRL
- hu15cJy2rsOJGSaU2vJRDShgTcwr2FCfC4NwR+xspLVROVImA5iF1wTN59uHpVI=
-X-Gm-Gg: ASbGncuLNxotbvXJrl33No9Xosp4tvKaniFKeAGb/Xart3++M5qPrrb1Z37wnJ4taRq
- 1paBwIVcurg44dAT6CwfDuvlaf2ukdoi8meq6YEnfUHBogZXkU+7vha9Fw8Wi2f8EOWi+8WlzY1
- q+RT2P4HDi6ZpXvPQaSeeILyvYs/06Lx6SfkOhWF0edt0vCwTmL891Cc0ty04lOHiOVS4F+/LqC
- 2m1jtASI2bkOoUiAIDEN/JUXsi9OiLQt9CM7uVcFTkqPp2MKAb4fo64LHCXz8DB72ZJgzuXIvoe
- 8eAmv/dG5ineZXouzl03esRpaju5yvIsFuSE/i39EICWtruXsM0rExs=
-X-Google-Smtp-Source: AGHT+IHAgQaNQm7V/HQ9xhZOQz/Fs6tsLI4+HRU2b6hOJkb/FR7IJnx7J0M2QjLjv4gsNmH0eGf+NQ==
-X-Received: by 2002:a05:6e02:3807:b0:3d0:47cf:869c with SMTP id
- e9e14a558f8ab-3d5e0a004a5mr11036025ab.19.1743200097993; 
- Fri, 28 Mar 2025 15:14:57 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.170.29])
- by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-4f464751ebasm643215173.57.2025.03.28.15.14.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Mar 2025 15:14:57 -0700 (PDT)
-Message-ID: <a998f3fa-495c-4165-884a-a11c5cb61e96@linuxfoundation.org>
-Date: Fri, 28 Mar 2025 16:14:55 -0600
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCDA110E1E9
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 22:22:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743200529; x=1774736529;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=G98Z3WGYvhW2A7hi2E5Ks/YG6A7og48XM823kzIjspc=;
+ b=AbaRMvshAIw3RLT6aUctkyKTdI8Hd8VjtbAa0GjRG0dPvFV8nmTuqMGW
+ UVkUakuQB+cpQAiYxAB79pdCYvJ5TWdC8X/NfCkCJLFAXM6wsQfs08VBc
+ 9gLeNfA6gpPGGj4aIkUJjD0PYmF106HY19dXjZLLv8YtbKETTlY1yiIQ+
+ W9/BUEM02oBCmQ8EwVziJgM1riMDa/+Qpcid+Qwo0Q56d9MebuaVlHLyT
+ UtK0lg4WT/9UBFdwVQSazq8r7w9EEVed/oi4lkqXT4qGpwNSCeEf0DkDl
+ IM/YQCLuMu2WpE0Sb5P4SoZYsz5faCyeG+luAeENim0CJOH7JYteGUwXT Q==;
+X-CSE-ConnectionGUID: WXEOSO4mThChq4aA97bhhA==
+X-CSE-MsgGUID: DdXbWALHRm+hO2jHALtJWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="54771487"
+X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; d="scan'208";a="54771487"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2025 15:22:09 -0700
+X-CSE-ConnectionGUID: KYawj+qMRMyHBjjedYu1Iw==
+X-CSE-MsgGUID: ZOy7Bdi5RhSgFN2XMyjDdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; d="scan'208";a="156553352"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+ by fmviesa001.fm.intel.com with ESMTP; 28 Mar 2025 15:22:04 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tyI5R-0007ju-2g;
+ Fri, 28 Mar 2025 22:22:01 +0000
+Date: Sat, 29 Mar 2025 06:21:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+ Jens Wiklander <jens.wiklander@linaro.org>,
+ Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+Subject: Re: [PATCH v3 08/11] tee: add Qualcomm TEE driver
+Message-ID: <202503290620.2KJEcZM6-lkp@intel.com>
+References: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-8-7f457073282d@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/14] Add support for suppressing warning backtraces
-To: Andrew Morton <akpm@linux-foundation.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow
- <davidgow@google.com>, Rae Moar <rmoar@google.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Kees Cook <kees@kernel.org>,
- Alessandro Carminati <acarmina@redhat.com>, linux-kselftest@vger.kernel.org,
- David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Daniel Diaz <daniel.diaz@linaro.org>, Arthur Grillo
- <arthurgrillo@riseup.net>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- loongarch@lists.linux.dev, x86@kernel.org
-References: <20250313114329.284104-1-acarmina@redhat.com>
- <202503131016.5DCEAEC945@keescook>
- <20250313-abiding-vivid-robin-159dfa@houat>
- <c8287bde-fa1c-4113-af22-4701d40d386e@roeck-us.net>
- <20250313150505.cf1568bf7197a52a8ab302e6@linux-foundation.org>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20250313150505.cf1568bf7197a52a8ab302e6@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-8-7f457073282d@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,31 +81,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/13/25 16:05, Andrew Morton wrote:
-> On Thu, 13 Mar 2025 11:31:12 -0700 Guenter Roeck <linux@roeck-us.net> wrote:
-> 
->> On Thu, Mar 13, 2025 at 06:24:25PM +0100, Maxime Ripard wrote:
->>>>
->>>> Yeah, as with my prior review, I'm a fan of this. It makes a bunch of my
->>>> very noisy tests much easier to deal with.
->>>
->>> And for the record, we're also affected by this in DRM and would very
->>> much like to get it merged in one shape or another.
->>>
->>
->> I was unable to get maintainers of major architectures interested enough
->> to provide feedback, and did not see a path forward. Maybe Alessandro
->> has more success than me.
-> 
-> I'll put them into mm.git, to advance things a bit.
+Hi Amirreza,
 
-I haven't heard from kunit maintainers yet. This thread got lost
-in inbox due to travel.
+kernel test robot noticed the following build warnings:
 
-David/Brendan/Rae, Okay to take this series?
+[auto build test WARNING on db8da9da41bced445077925f8a886c776a47440c]
 
-Andrew, Okay to take this through your tree - this needs merging.
+url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250328-104950
+base:   db8da9da41bced445077925f8a886c776a47440c
+patch link:    https://lore.kernel.org/r/20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-8-7f457073282d%40oss.qualcomm.com
+patch subject: [PATCH v3 08/11] tee: add Qualcomm TEE driver
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250329/202503290620.2KJEcZM6-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503290620.2KJEcZM6-lkp@intel.com/reproduce)
 
-thanks,
--- Shuah
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503290620.2KJEcZM6-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> drivers/tee/qcomtee/core.c:310: warning: Function parameter or struct member 'oic' not described in 'qcomtee_object_qtee_init'
+
+
+vim +310 drivers/tee/qcomtee/core.c
+
+   298	
+   299	/**
+   300	 * qcomtee_object_qtee_init() - Initialize an object for QTEE.
+   301	 * @object: object returned.
+   302	 * @object_id: object ID received from QTEE.
+   303	 *
+   304	 * Return: On failure, returns < 0 and sets @object to %NULL_QCOMTEE_OBJECT.
+   305	 *         On success, returns 0
+   306	 */
+   307	static int qcomtee_object_qtee_init(struct qcomtee_object_invoke_ctx *oic,
+   308					    struct qcomtee_object **object,
+   309					    unsigned int object_id)
+ > 310	{
+   311		int ret = 0;
+   312	
+   313		switch (qcomtee_object_type(object_id)) {
+   314		case QCOMTEE_OBJECT_TYPE_NULL:
+   315			*object = NULL_QCOMTEE_OBJECT;
+   316	
+   317			break;
+   318		case QCOMTEE_OBJECT_TYPE_CB:
+   319			*object = qcomtee_local_object_get(object_id);
+   320			if (*object == NULL_QCOMTEE_OBJECT)
+   321				ret = -EINVAL;
+   322	
+   323			break;
+   324	
+   325		default: /* QCOMTEE_OBJECT_TYPE_TEE */
+   326			*object = qcomtee_qtee_object_alloc(oic, object_id);
+   327			if (*object == NULL_QCOMTEE_OBJECT)
+   328				ret = -ENOMEM;
+   329	
+   330			break;
+   331		}
+   332	
+   333		return ret;
+   334	}
+   335	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
