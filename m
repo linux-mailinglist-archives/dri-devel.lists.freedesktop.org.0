@@ -2,176 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFEEA74E3E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 17:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FFAA74E43
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 17:11:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FEB310EA58;
-	Fri, 28 Mar 2025 16:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD08E10EA55;
+	Fri, 28 Mar 2025 16:11:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SPI61/J4";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NdUrU0jZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B94EF10EA56;
- Fri, 28 Mar 2025 16:08:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743178134; x=1774714134;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=BHP1H5iKZP6pLnQo3vQgNnqHE1MXeeePdPOFXnBSMjI=;
- b=SPI61/J4JWgLu1rHsQoEEpkK19ES9Qj8msFkENvMwGp5yRjNvDD86NmY
- 3THOIILf2ghsEZ6AnlyilED0u9VEITQNxmssN4QJ7JAuZsnw4zYF4YsLm
- iMqz5Onscarhd/EOv7T7Z6GCbr2S7k+GBmqouAwdfbpEanT2jvJXkHX0E
- IMLXzTQrYxkpNVpaGOOe3Bdg7jzk9zDBVR8j1QV7Qtn3AcLwjK+L+17mM
- 7vhUlGoK4WRuut/pkKVS5BSUW1eIHSOtVyMAPxc59ja/q9TLV4wWqDtRq
- xA1STLHYruK2+m5iQsBI7RveRSk5pxHsIsGtyzUFwl2fR+2Sp2Wf2YS5/ w==;
-X-CSE-ConnectionGUID: GR9DgFCzQ0+pIf5ZxBLjhg==
-X-CSE-MsgGUID: VrHeoxDmRGGSYluinPmMRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="69909315"
-X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="69909315"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2025 09:08:49 -0700
-X-CSE-ConnectionGUID: eVWV6sxDQM63r4165HhRiQ==
-X-CSE-MsgGUID: /l16WyUHS/uITRpu/hEFKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="126402810"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 28 Mar 2025 09:08:47 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Fri, 28 Mar 2025 09:08:45 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Fri, 28 Mar 2025 09:08:45 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.48) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 28 Mar 2025 09:08:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xsov0MQ099Coh7hrx/cbfDh8KDKekXOUrvn8d/zNpUqCUXM7m8ceA4xGquoTqp7Q8P9oFhgfAwA+X2TkzL9sVO7z0DQjMCposzils+W0Jk7pIXNIfMXI9mEym8ZUkA+B3YcJpNd3gGC+usQvowyS7F5JkwA3XKaWlkIPDkZ3c4rNXu46fYnmbJ6PccxMJ9vz4utMVd+oV6rrikfdE1GI5wVvJiryFQHpBNanfSMiw6UaUP29usaQiW5/FsnOubsGsTqS11sbFpLVwLsMy5s7T768vzj3rwos23G187BTBS0D6asa0ozmttQbQuJnKO5/OINI8mBVMHZzKfJ9sbSQNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Btlm3OIFNFttPMDf2tnpgTmtRgWyHiW0ry08SsCLPiU=;
- b=MjIpCXfZXdqeO7n43UCIbhdKoHiWDZbpQ7XRoMqOcH+xNOT9bQuWe0BFa0+pOJ6EnkF7SAXVnM757TstQSy28sbt9zhGLMIm6yu5mBsGIBSmV+8Lw4hDVLEg06EeYpqAhshIjrsWAH00hnFgVGK6fC4B+yQM2pO+xTl8/7IWd10aJCPCPPXdn2LThJJtQC6Zt/8h4JobvtmJgOLXfSGMS6HNPQ6cHDc2w9CCD9Il8hZaASSELzsr9TVGBu1rWwvCf8lG0fs9j5y4oU1cQ/hcxL4bldjvpkOcocnuAgRzuamggqhJ+okmkUjehgGBn3+PAY28fOi8N2iItYXCeeaEsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
- by DM4PR11MB6019.namprd11.prod.outlook.com (2603:10b6:8:60::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8534.44; Fri, 28 Mar 2025 16:08:37 +0000
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843%5]) with mapi id 15.20.8534.043; Fri, 28 Mar 2025
- 16:08:36 +0000
-From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Jani
- Nikula" <jani.nikula@linux.intel.com>, "Borah, Chaitanya Kumar"
- <chaitanya.kumar.borah@intel.com>, "Syrjala, Ville" <ville.syrjala@intel.com>
-Subject: RE: [PATCH v11 3/5] drm/i915/display: Acomodate format check in
- can_async_flip()
-Thread-Topic: [PATCH v11 3/5] drm/i915/display: Acomodate format check in
- can_async_flip()
-Thread-Index: AQHbn+F1gSMA8AkYHkWmGsGU9/ItebOIjQeAgAApMoA=
-Date: Fri, 28 Mar 2025 16:08:36 +0000
-Message-ID: <IA0PR11MB73075B55F64514ACB9B384DABAA02@IA0PR11MB7307.namprd11.prod.outlook.com>
-References: <20250328-asyn-v11-0-ecc2d33aac69@intel.com>
- <20250328-asyn-v11-3-ecc2d33aac69@intel.com> <Z-al1w93rJKHJz82@intel.com>
-In-Reply-To: <Z-al1w93rJKHJz82@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7307:EE_|DM4PR11MB6019:EE_
-x-ms-office365-filtering-correlation-id: 42c9dae8-361b-4800-c8ba-08dd6e12cc00
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?rv7nyxFZ3WmpvquN09rUM8ABt7vm+e9Rldfx6JKfD7dPyyNSR9Oa1o79zT?=
- =?iso-8859-1?Q?PIZp0KWcQFWSPATR8zNR5BeXwZxJWu0xyS0M5oL06wPwj7BO2n9uxaL3MU?=
- =?iso-8859-1?Q?wE7kfLmA1ovqdGGBJ1TgYpk51EAFjkWrfwWnrFKmjoszNJ0VCpIvW//LYj?=
- =?iso-8859-1?Q?uydqdyY1RLxqc0XRpdmBwMjOvHXC1xCNakcJD3Dwog32n4twQoj7BFzXd8?=
- =?iso-8859-1?Q?YIifa64BfmKTd2wZ9z9YHnOA7GtFOoy//vFvfUDWdxNTiv54dOL38tbChH?=
- =?iso-8859-1?Q?Z4oueK8Qwivl2hDkIfgxb64kZsb6+S4JlwhRnZpcNkrALtoQFHiFpvgrZ4?=
- =?iso-8859-1?Q?rU3adRdYBwa3OVP85Zbfb5W+iYhQXr41Gg+jI8FI7tkVdoCtEXysFEvnH6?=
- =?iso-8859-1?Q?MWCGJA1lwDWuxJmNNZSajJi9khunGfHFbnWwOGVIcZa3vpEqCjE3Dhf6in?=
- =?iso-8859-1?Q?diCChjni4dpS5qOwp9wRP9faBleZ5OYwQwTNZ14DelrTB3HtGgB1nZBddX?=
- =?iso-8859-1?Q?tmh+dGqoAjhepI7qyMiQPPy6YA3ws0JJ+DLmcP7nh8YQA0beZKl8vLoZQZ?=
- =?iso-8859-1?Q?fAXyv1kM9+qy4rl+dcxeTUMvHAM39RlOvVYtaU9Vu5uJ1CMnnO01cQQJXl?=
- =?iso-8859-1?Q?Guw53jIhZNfneJ62XaOJvdPU1uANISY5WZMn//8poTsj9INC8/E4XxlsXX?=
- =?iso-8859-1?Q?r5T8UN94werzTY49klyQ2fHCoQvEDcP1x6sXA9LiMDr1vY7Qf/QuwUhgx6?=
- =?iso-8859-1?Q?i9fsvobYmDzzv+XWh1J4Zsq3P8dNEYLXa+40Wg0XcfUg0I0AbKB6thxox+?=
- =?iso-8859-1?Q?hmt5nKJziBPiWXTj7TwoE+No4sXFMRw4d1/SFGGT/3+yjMpHisPv4RFgoJ?=
- =?iso-8859-1?Q?EiKpXGJz/7feX0pc8bxBPruizqfpWrg1seiP+bkuxnXJwrFDDB8Og0o07z?=
- =?iso-8859-1?Q?VEfQhcYrMaVuC8HDYuPSZCIELAhC7SmW0EipQhQPJc//V1XEb0MZRqty3e?=
- =?iso-8859-1?Q?lTSoXo9QlHQMFkwLBUTWzS/HlV0bE7e+IMZDpsZ3brcgHSBuAhwIjj+dDD?=
- =?iso-8859-1?Q?hUtaaCQaUTXSD8KewqExtB4dm+7Z12IRhtsr41yNJOrePtV83HUMoayASw?=
- =?iso-8859-1?Q?LQ1cS9dZgVqEewlOK4kPZKPPBTcuhGl4sM7bD/hD7IhAeKdye2OQ0Zjodo?=
- =?iso-8859-1?Q?Gne2VtE+gxgWz+jya+1FuloT7oAlyvaM2YjbCHSTjbuqBQfOQUHguaqMQ+?=
- =?iso-8859-1?Q?56kTyTQgn/3XwMaPR0lLgjnVQ15MDcYPmfFmnoFH7PhT1PMqKq4fURAaW6?=
- =?iso-8859-1?Q?xQbfl2L5VzBCLkeJTbi7suQSzfQDyaSJB6zkKAGabez/ha9DH+HZnDbZ+k?=
- =?iso-8859-1?Q?gs3hUWNFJoymon62K3MMmJ5RN5wJrDmDel7mSp9h2QVyrOpMT0AovRDt7d?=
- =?iso-8859-1?Q?hsnEzvQh50YI3I0CEO4HPPsKMR8r1H1VOtNtgGIpML8iScz00WFAluweH/?=
- =?iso-8859-1?Q?kzzo20X3mn96WOI8Z5d2oX?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?6QOvL2ixPFs/JrK80WSoyOwJlAgHIp0mQiEaB5ykOx3pZtY1Ux3thG0xuv?=
- =?iso-8859-1?Q?D9o25iaoZm316HosagQpKqOaUtuBXgAeHp9BJaWp+y1CLeUOTCP5Ig66nv?=
- =?iso-8859-1?Q?cNTjgbk11djOb5LWC4gYe1f/6sK06YshjNGep72U3TvUz+Kybqf8PWS9cv?=
- =?iso-8859-1?Q?ycYidT44VPR6HCbze/rzdNvZiCI/acvUmi9rn8gbpS6MktUKc92W45A+yZ?=
- =?iso-8859-1?Q?D/RwpwIHKmhcwk/YnDkq7ftuwdtmmqtpn6sHCY0JRhgb38pA/Ulwb8PlJT?=
- =?iso-8859-1?Q?nBw16cVVXgtycg/+QobK1XiQq+06uWzZuwJjaD8ZJP75tgHumvX6R+jYt7?=
- =?iso-8859-1?Q?2YC8NawfzYpeKPX7bIKMlYmkzC5kjubQftqsBoFaJIGlBN+OZ/s4NgFp7V?=
- =?iso-8859-1?Q?+QsBw/YMFhzD6uwPBYAJtMQOyqVYpI5fdybzX7cH0xgLiCIS5IBCAu1s9C?=
- =?iso-8859-1?Q?nwMLf7oFaiD8MtUwWdjVD30GKsjbIyRwoZU+tIgMoyz7WEUdaqKKPY3VMe?=
- =?iso-8859-1?Q?BkntFNbCjWqxblbFmcaP9Bz2XYi675al1ftIvW7QRxmw7mUiMw08eP6MR3?=
- =?iso-8859-1?Q?LxeF+YKPHOXbUMXhEIWZyhY8H9tJRy5aDYrJqaDSzjm2NFEsbSqj7XQr5Q?=
- =?iso-8859-1?Q?CQD1EF4CGoabTyglG8fGt2UQ9EGnxqoR2eRFT0AJ28l3S9zezcUEdIXKGB?=
- =?iso-8859-1?Q?bg58eXvgxLnQkrqO7RAJ78H9PQSX02qVVH2/0zgryMOvoKooZriwlFsgWA?=
- =?iso-8859-1?Q?fWeCD0mKiJieYml7UhQtL0iOnW0rlJWpQgjVxIYxrK10k5olINtPy+eEAa?=
- =?iso-8859-1?Q?UoTPC/jD3Ymu7mq0WMtU8En9WQjQ8vrDvJ7CC4/PC20KlSWTMHAVE5UPkm?=
- =?iso-8859-1?Q?RFdMp7Xu6aVRhX+Y6y3NKRT2igm19ErSTDRJfQufbV5aChF0/y6Tt/dEKe?=
- =?iso-8859-1?Q?lg24/wRM18H3bGkdeSyiIazDc/DZMF5phCK6HwK/P0DnSm5i9vOE+ZSoCB?=
- =?iso-8859-1?Q?PuAI1adEAUQAJHEiX8AOrYGGNlUYm9j1l84oNQ9c1AKjx+dsmwlqaLhMW5?=
- =?iso-8859-1?Q?vgyyjJ1NdS+coEP884uSrvk/ZG6imm42U8+lNlgFC+n7zvDo8+puNQ0f2+?=
- =?iso-8859-1?Q?qmHS/VzQYMB9djP/6BoS2k4ZeBpIhdDa+j2hMi/x1NIjUXxCqZROyeqSez?=
- =?iso-8859-1?Q?A8WhK5hpwo5tsANFGov2FGDlzvQ84GHPGXtLi259sEDoEY0rVPnxXM7JAo?=
- =?iso-8859-1?Q?klq+lDKp8xJVvQ1+fJrkUHHKsT2OAybz4xBRPir1xV49nxNvjFFCFhyTNN?=
- =?iso-8859-1?Q?xCQOhrlJTvY0NVTAacRtWkB45qnUu03bOlQAnGMzwoJMECl+E893+tpLea?=
- =?iso-8859-1?Q?U24fOISrjVK7goe13cmiLSoezhzCQex5B5WoxsDxHxcl6rIYFlvkEAkMAN?=
- =?iso-8859-1?Q?tVwhrsfnqdNxFWrZScK5u7leSv2B40GKvg53GTm7ee0NtlYjOTHESctxJj?=
- =?iso-8859-1?Q?ClFs/pDxm8MVkKIKVENC83Lh7JAZDBTp+ua5QMwDK/Po048bzMrV4Jp/OA?=
- =?iso-8859-1?Q?nUbfW0uEVgGffHjIeUNCVsn5uGuD9N/NCcubEPlfkoe8Ve+9eICz/HkEqs?=
- =?iso-8859-1?Q?86ouf4hu25neQOc36kOSY2sSSQubLn9trX?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37B4710EA55
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 16:11:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743178293;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KdeQH6uVc+6jOdbwRNbvHQS0LykD9Jrj0j6reO3thF0=;
+ b=NdUrU0jZSvTCzMVJHAule2hrf0TtG34vAHZNtpInWnwHJVmHGx82qhm2XGZxx6siBpu+4T
+ cFVWOaRRLM/+FJA91BtTy8SO3+yR2MJn6bWRW9C1RDk99J6Rf+QKvQ1BINHd5dcC3KR9lB
+ VsnrxdaWkf9r/cedIVC1EAjYlbpcnKo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-124-xl1lC2FYOdeiIxK8Zl7Jfw-1; Fri, 28 Mar 2025 12:11:31 -0400
+X-MC-Unique: xl1lC2FYOdeiIxK8Zl7Jfw-1
+X-Mimecast-MFC-AGG-ID: xl1lC2FYOdeiIxK8Zl7Jfw_1743178290
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-43cf5196c25so11185665e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 09:11:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743178290; x=1743783090;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KdeQH6uVc+6jOdbwRNbvHQS0LykD9Jrj0j6reO3thF0=;
+ b=c/DqOPgKD2ycOGYTHz32P9qucrkKLGbNSw0ROdFWDlqIby9IF4NE31/JNIfCmwQKjB
+ soQj0/6onznC5S5kq+XB1K8IhTktBM3mowWHx/ALKnB64tv9p0kH1B/xc1jeUQ7gWw1e
+ 9f5mkoDXErXdiptp9jiSU+0YZxE+FRu6YLhTG3RnnZwFOtmKZHvpliFYFWXbFnWXEmeN
+ eRuxYtSv8Ecl839ne9GkMzeNGoiRL8f+RbsTdxEarhZKuZobK5p3522OAlKVj+PJ3RBJ
+ +67amvF1nGKhJLBWQrsuHzcIzKWNiGov3bLZodFEikinmN88mJOVRESel6NFJgitjG3H
+ bj4g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVHTGwZ1UnHzO3HBS0SBfKLgCh3FrHKjTaULodZbwINu11KJ0RTaxzqkCLhvfyvm+tzr6IB/j1SY7U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy3dwUjix3qaNlzoBlPXtHYkCbPqhLT3wgmrQsaEln1+gSDBUgj
+ hZEuzfSDkjX5Zr6UJHLf6rzVgOJbmyU1TOwDws2c1Cas0KXtqXub9O6U86rXRKi0NMIZ0Dp3HFa
+ QelwyIBtuFGvXGC4AfJzO+4fqm0SoiVL2+ynKxsGBlAwoYHx+E9Wpr/NrFggKvHYo5Q==
+X-Gm-Gg: ASbGncuohvUfp2bNYosqqmzRHg9ZdADOKTexfu7+RaLRRmUz9br9xjHk+ybnprzSu5X
+ e8LhiRVFEhkiQwbcXCllyIlzIhJdK2MsZ2F441BQ1aDGgErkpl8wZlcteg+4SXIp6hOAme4cBn/
+ qlCPq76gTsTRYXVP3isp35Krsjl0mw9jAuB+qI/tV0msJsVOpBi4RrSTTk93qpk6p0BGzGwEimO
+ yAEQOuu3o1/BMRJoBv/vw+nIxx/q+lvYUl40fclRn1Nv12s6KJGvvxaVpIOH5/Kdx0=
+X-Received: by 2002:a05:600c:c8d:b0:43d:ed:acd5 with SMTP id
+ 5b1f17b1804b1-43db61d0e8amr1039405e9.10.1743178290107; 
+ Fri, 28 Mar 2025 09:11:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHJz5tgdxTohEgr9/vL5EQK4OflnAoAQemAMNchhPjn6NX+3nvJjkhFjSKbTQbJIsqm3SDIig==
+X-Received: by 2002:a05:600c:c8d:b0:43d:ed:acd5 with SMTP id
+ 5b1f17b1804b1-43db61d0e8amr1038695e9.10.1743178289570; 
+ Fri, 28 Mar 2025 09:11:29 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43d82efeb11sm75327905e9.22.2025.03.28.09.11.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Mar 2025 09:11:28 -0700 (PDT)
+Date: Fri, 28 Mar 2025 17:11:28 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: Helen Koike <koike@igalia.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Vignesh Raman <vignesh.raman@collabora.com>, 
+ helen.fornazier@gmail.com, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: DRM CI
+Message-ID: <20250328-gay-jaybird-of-wind-9dcca2@houat>
+References: <20250319-greedy-sturgeon-from-avalon-ac758f@houat>
+ <ab1d875c-7a1e-47a3-b786-85fb46c42bb2@igalia.com>
+ <20250320-benevolent-quokka-of-cubism-c1c0ce@houat>
+ <5db038f9-b353-494a-aa11-9e6a95932537@igalia.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42c9dae8-361b-4800-c8ba-08dd6e12cc00
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2025 16:08:36.7277 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: avRF9cb20/jr0lpTo/6rDKm22WECVoxCZHGr5E1wbzxVOZhG5KL3Qo/IJ45zbg3bGJ9LbFzIuXiXuGEgXYATGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6019
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ojizsxjoupwvmzll"
+Content-Disposition: inline
+In-Reply-To: <5db038f9-b353-494a-aa11-9e6a95932537@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -187,193 +102,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Fri, Mar 28, 2025 at 06:15:37PM +0530, Arun R Murthy wrote:
-> > The function pointer can_async_flip() checks for async supported
-> > modifier, add format support check also in the same function.
->=20
-> You are changing intel_plane_can_async_flip(), not the
-> .can_async_flip() vfunc. So this commit message doesn't really fit the ac=
-tual
-> patch.
->=20
-Done!
 
-> >
-> > v11: Move filtering Indexed 8bit to a separate patch
-> >
-> > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/i9xx_plane.c          |  4 ++--
-> >  drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 10 +++++++++-
-> > drivers/gpu/drm/i915/display/intel_atomic_plane.h  |  3 ++-
-> >  drivers/gpu/drm/i915/display/intel_display.c       | 14 ++++----------
-> >  drivers/gpu/drm/i915/display/skl_universal_plane.c |  2 +-
-> >  5 files changed, 18 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c
-> > b/drivers/gpu/drm/i915/display/i9xx_plane.c
-> > index
-> >
-> 5e8344fdfc28a311dc0632bb848a0e08f9e6c6d2..20c47de6d8bfd1d8ddafae02e
-> d68
-> > 370df799e22b 100644
-> > --- a/drivers/gpu/drm/i915/display/i9xx_plane.c
-> > +++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
-> > @@ -828,7 +828,7 @@ unsigned int vlv_plane_min_alignment(struct
-> > intel_plane *plane,  {
-> >  	struct intel_display *display =3D to_intel_display(plane);
-> >
-> > -	if (intel_plane_can_async_flip(plane, fb->modifier))
-> > +	if (intel_plane_can_async_flip(plane, fb->format->format,
-> > +fb->modifier))
-> >  		return 256 * 1024;
-> >
-> >  	/* FIXME undocumented so not sure what's actually needed */ @@
-> > -852,7 +852,7 @@ static unsigned int g4x_primary_min_alignment(struct
-> > intel_plane *plane,  {
-> >  	struct intel_display *display =3D to_intel_display(plane);
-> >
-> > -	if (intel_plane_can_async_flip(plane, fb->modifier))
-> > +	if (intel_plane_can_async_flip(plane, fb->format->format,
-> > +fb->modifier))
-> >  		return 256 * 1024;
-> >
-> >  	if (intel_scanout_needs_vtd_wa(display))
-> > diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> > b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> > index
-> >
-> 7276179df878658b7053fe6d8dc37b69f19625e3..6cf12801e1f1f11766ff4d6faf
-> 17
-> > a21b2c375e8a 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> > @@ -174,8 +174,16 @@ bool intel_plane_needs_physical(struct intel_plane
-> *plane)
-> >  		DISPLAY_INFO(display)->cursor_needs_physical;
-> >  }
-> >
-> > -bool intel_plane_can_async_flip(struct intel_plane *plane, u64
-> > modifier)
-> > +bool intel_plane_can_async_flip(struct intel_plane *plane, u32 format,
-> > +				u64 modifier)
-> >  {
-> > +	if (intel_format_info_is_yuv_semiplanar(drm_format_info(format),
-> modifier)) {
-> > +		drm_dbg_kms(plane->base.dev,
-> > +			    "[PLANE:%d:%s] Planar formats do not support
-> async flips\n",
-> > +			    plane->base.base.id, plane->base.name);
->=20
-> I don't think we want this spam either.
->=20
-Ok!
+--ojizsxjoupwvmzll
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: DRM CI
+MIME-Version: 1.0
 
-> > +		return false;
-> > +	}
-> > +
-> >  	return plane->can_async_flip && plane->can_async_flip(modifier);  }
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-> > b/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-> > index
-> >
-> 6efac923dcbc757e6f68564cbef2919c920f13cb..772a12aa9c6997d77b9393f96
-> 4e9
-> > 1f3e8747d149 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-> > @@ -21,7 +21,8 @@ enum plane_id;
-> >
-> >  struct intel_plane *
-> >  intel_crtc_get_plane(struct intel_crtc *crtc, enum plane_id
-> > plane_id); -bool intel_plane_can_async_flip(struct intel_plane *plane,
-> > u64 modifier);
-> > +bool intel_plane_can_async_flip(struct intel_plane *plane, u32 format,
-> > +				u64 modifier);
-> >  unsigned int intel_adjusted_rate(const struct drm_rect *src,
-> >  				 const struct drm_rect *dst,
-> >  				 unsigned int rate);
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c
-> > b/drivers/gpu/drm/i915/display/intel_display.c
-> > index
-> >
-> ee7812126129227971be89d3a79f944155620b03..ff349355ac95a039272f2fe1
-> 7403
-> > 4ca06a555249 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> > @@ -5998,22 +5998,16 @@ static int intel_async_flip_check_hw(struct
-> intel_atomic_state *state, struct in
-> >  		if (!plane->async_flip)
-> >  			continue;
-> >
-> > -		if (!intel_plane_can_async_flip(plane, new_plane_state->hw.fb-
-> >modifier)) {
-> > +		if (!intel_plane_can_async_flip(plane, new_plane_state->hw.fb-
-> >format->format,
-> > +						new_plane_state->hw.fb-
-> >modifier)) {
-> >  			drm_dbg_kms(display->drm,
-> > -				    "[PLANE:%d:%s] Modifier 0x%llx does not
-> support async flip\n",
-> > +				    "[PLANE:%d:%s] Format %p4cc Modifier
-> 0x%llx does not support
-> > +async flip\n",
-> >  				    plane->base.base.id, plane->base.name,
-> > +				    &new_plane_state->hw.fb->format->format,
-> >  				    new_plane_state->hw.fb->modifier);
-> >  			return -EINVAL;
-> >  		}
-> >
-> > -		if (intel_format_info_is_yuv_semiplanar(new_plane_state-
-> >hw.fb->format,
-> > -							new_plane_state-
-> >hw.fb->modifier)) {
-> > -			drm_dbg_kms(display->drm,
-> > -				    "[PLANE:%d:%s] Planar formats do not
-> support async flips\n",
-> > -				    plane->base.base.id, plane->base.name);
-> > -			return -EINVAL;
-> > -		}
-> > -
-> >  		/*
-> >  		 * We turn the first async flip request into a sync flip
-> >  		 * so that we can reconfigure the plane (eg. change modifier).
-> > diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> > b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> > index
-> >
-> 8739195aba696d13b30e1b978c8b2bb5e188119b..8f6170a5c108a000582f341
-> 5f78b
-> > ad279254d8cf 100644
-> > --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> > +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> > @@ -601,7 +601,7 @@ static u32 tgl_plane_min_alignment(struct
-> intel_plane *plane,
-> >  	 * Figure out what's going on here...
-> >  	 */
-> >  	if (display->platform.alderlake_p &&
-> > -	    intel_plane_can_async_flip(plane, fb->modifier))
-> > +	    intel_plane_can_async_flip(plane, fb->format->format,
-> > +fb->modifier))
+On Thu, Mar 20, 2025 at 09:32:36AM -0300, Helen Koike wrote:
+> Hi Maxime,
 >=20
-> This introduces a slight change in behaviour where planar formats will no
-> longer use the extra 16K alignment on ADL. I think that is fine (and sort=
- of
-> unavoidable given how I implemented this stuff), but it should be highlig=
-hted in
-> the commit message.
+> Thanks for your reply.
 >=20
-Done !
+> On 20/03/2025 06:33, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Wed, Mar 19, 2025 at 02:39:59PM -0300, Helen Koike wrote:
+> > > Hi Maxime,
+> > >=20
+> > > On 19/03/2025 11:11, Maxime Ripard wrote:
+> > > > Hi,
+> > > >=20
+> > > > At last Plumbers, we agreed with Dave that a good first step to ram=
+p up
+> > > > CI for DRM trees would be to enable build and kunit testing in the =
+main
+> > > > DRM tree.
+> > > >=20
+> > > > I played around with it last week and wrote a good first iteration =
+of
+> > > > the gitlab-ci file.
+> > > >=20
+> > > > https://gitlab.freedesktop.org/mripard/gitlab/-/blob/main/.gitlab-c=
+i.yml?ref_type=3Dheads
+> > >=20
+> > > How about improving and using the current DRM-CI instead of creating a
+> > > new one?
+> >=20
+> > Thanks for the suggestion, and I did try. I don't think it's a good
+> > option though, at first at least.
+> >=20
+> > There's several layers to it:
+> >=20
+> >    - The most important one is I don't really see much to share at this
+> >      point, really. The containers creation is a good example of
+> >      something useful, reusable, and that I did use. However, drm-ci us=
+es
+> >      different defconfigs, its own set of hardcoded compilers, etc.
+>
+> This is the effort kci-gitlab is doing (see last patch with a drm-ci
+> proposal), to simplify things and remove the dependency of mesa-ci.
 
-> >  		return mult * 16 * 1024;
-> >
-> >  	switch (fb->modifier) {
-> >
-> > --
-> > 2.25.1
+Do you have a link to that patch?
+
+> >      I guess we could try to improve and consolidate it, but for a scri=
+pt
+> >      that simple, I don't think it's worth it.
 >=20
-> --
-> Ville Syrj=E4l=E4
-> Intel
+> Well, we are splitting our community in some way...
+
+I don't think so? In KMS, we tend to provide a default behaviour with
+helpers, but any driver is free to deviate from that if it makes sense.
+One of these reasons is that there's no point in trying to make
+something specific to a driver generic until there is multiple users for
+it. So we have plenty of drivers that don't use the helpers and the
+"default" solution.
+
+A community isn't a single codebase, it's a single set of people working
+on the same set of problems. If anything, allowing deviation is better
+for a community, because then we can have the discussion we have right
+now, and we don't work in silos.
+
+Now, if we start saying "ok, any CI in DRM must be done on Debian, with
+bleeding edge mesa and igt", then we're splitting the community, because
+it just won't work for some people, and they'll still have to make it
+work.
+
+> >      Similarly, I don't think it makes sense to try to come up with a
+> >      super generic implementation of kunit, when there's only one user.
+>=20
+> No need to a super generic implementation. At least in kci-gitlab, there =
+is
+> room to very specific implementations.
+>=20
+> >=20
+> >      That, of course, can and should be reevaluated as we test more
+> >      features and the script does indeed become more complicated.
+> >=20
+> >    - We discussed it during the thread with Linus, but I also don't thi=
+nk
+> >      a one-size-fits-all approach is going to work. drm-ci at the moment
+> >      has plenty of reasonable policies, but which people are still going
+> >      to have different opinions on. Like, whether you want to
+> >      aggressively update IGT or mesa. Or whether or not you are willing
+> >      to disable KASAN to accomodate db410c and db820c. The choices made
+> >      in drm-ci so far are reasonable, but choosing something else is ju=
+st
+> >      as reasonable. That's why I thought at the time that providing
+> >      common scripts to include is a better way forward than a gitlab-ci
+> >      file everybody is supposed to use.
+> >=20
+> >    - To some extent, the complaints Rob had last week about drm-ci
+> >      expectations not being updated fast enough in drm-misc are related
+> >      as well. It could also easily be solved by drm/msm having the
+> >      gitlab-ci script and its expectations in a separate repo, under the
+> >      msm maintainers control. And then it could go as fast as they want,
+> >      under their terms, without creating any impedance mismatch with the
+> >      rest of DRM.
+>=20
+> (I confess I'm not following that thread, I'm guilty on that)
+>=20
+> If we are going this way, maybe it is better to remove DRM-CI completely
+> from the kernel code?
+>=20
+> Just to be clear, I'm not opposing anything, I just want to understand how
+> everything would fit together.
+
+I think it really has value as a "library" or repo, kind of how github
+actions work for example. Providing something that would, say, configure
+and build the kernel and report the status as a comment on a PR would be
+awesome. And there's no reason not to share that. But I believe every
+maintainer will need to glue the whole thing together how they see fit.
+
+Maxime
+
+--ojizsxjoupwvmzll
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+bKLwAKCRDj7w1vZxhR
+xeLIAP0drO3aRODsr8FMBAjBVZDbFIBc4u4WvGqutfMq8UZqHwD/WXVKx0ZeYmKJ
+lTu4jJPLeAxOb9diFlAwf3tuCswc3AA=
+=W+3e
+-----END PGP SIGNATURE-----
+
+--ojizsxjoupwvmzll--
+
