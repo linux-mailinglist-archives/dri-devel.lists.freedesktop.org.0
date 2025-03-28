@@ -2,71 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F04A74E9C
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 17:39:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77758A74EA8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 17:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB7210EA6E;
-	Fri, 28 Mar 2025 16:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C86E10EA50;
+	Fri, 28 Mar 2025 16:46:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XT6hP72S";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="har13dwV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A940110EA6E;
- Fri, 28 Mar 2025 16:39:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743179978; x=1774715978;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=rli8gCkSQGB9JpRw0Pa80TvJo0wcWK5OPRHOyfpODsM=;
- b=XT6hP72SR+R9c6gp+mWAWUiDCUKQIN6qyK6PVlFO5GT5JS3YNVQeTmNy
- wcTK1HvZJAhgdD5Lp2yIVJAIMnmYo+KkYfWSDzCu2inYD0+3WQ22BlKvB
- ZyjgCFjMOaHPyQXh3isntjgqkE3EKrC2vVnnhEUrA0Chm0bG73hS1Klvb
- RRpsX+yZcukZkza7gntLEw5oPU4+Ldehws4A66o6gv751q62pI/bm+b/M
- F11/Tr1I80SbWjAI/mJMEV/dBAJrJlj2hkA4rrUkg0nLEeaWsXq1MdvRp
- h61jISfZ/us4QU+jbD/1lWe9Yy+hbgo0TUCH/8mjrm3jThlrYpnzS1KF3 Q==;
-X-CSE-ConnectionGUID: gBm2B1AVRfiQ5whVlQ6bKg==
-X-CSE-MsgGUID: 6sWnxJguQWquwvg7jvPgLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="32153170"
-X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="32153170"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2025 09:39:38 -0700
-X-CSE-ConnectionGUID: sbJ66p1vQY6AxqAT4flbNA==
-X-CSE-MsgGUID: 0ksRt6/wQDu9gNyM9SijuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="162724321"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.43])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2025 09:39:33 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 28 Mar 2025 18:39:29 +0200 (EET)
-To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
-cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v6 4/6] PCI/IOV: Check that VF BAR fits within the
- reservation
-In-Reply-To: <4959d675-edd8-a296-661c-6a7bd22fbc0d@linux.intel.com>
-Message-ID: <77a5558f-fe6f-cba1-4515-c8597ae3c9bb@linux.intel.com>
-References: <20250320110854.3866284-1-michal.winiarski@intel.com>
- <20250320110854.3866284-5-michal.winiarski@intel.com>
- <4959d675-edd8-a296-661c-6a7bd22fbc0d@linux.intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B503910EA50
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 16:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=asuGj6YjINGHzxvIKq7i+wfFsCnr3zPa3Db4er5fVJ4=; b=har13dwVBsGiAHOFZ84M+98BiV
+ 4bi9cOJBvv8QboxtP2G+ACejeEsFGq/KeqMXjktAP79dF6xDxvOCBxJOAClB/dBb1sJlkskacli+5
+ zGWsfJNzMKPt6thJDqyJHzF5lgG4hpIaLO8vJKXk0BgtxFgXnMbssaNG/PYOGuhHffD1TrAAyz3KP
+ J3gsRSGSvpuAwkb3k5KUvQKUzWqLVnu6+5Od57b3+NETG8KsD06KH96AQUYTeFQT5yfHBfTRSy2/S
+ U8WGjALS04nWCnsXc5pHIhQp/F4H7n/ixVDYtf2mUWnGysMZcOAGTGI4JhSwNyEnayCOKlJpwLODJ
+ 2RNVjEdw==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tyCqe-0082NX-Q3; Fri, 28 Mar 2025 17:46:24 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: [PATCH v3 0/7]  few drm_syncobj optimisations
+Date: Fri, 28 Mar 2025 16:46:13 +0000
+Message-ID: <20250328164621.59150-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1549821212-1743179969=:932"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,104 +58,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+A small set of drm_syncobj optimisations which should make things a tiny bit
+more efficient on the CPU side of things.
 
---8323328-1549821212-1743179969=:932
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Improvement seems to be around 1.5%* more FPS if observed with "vkgears
+-present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant to make a
+definitive claim on the numbers since there is some run to run variance. But, as
+suggested by Michel Dänzer, I did do a five ~100 second runs on the each kernel
+to be able to show the ministat analysis.
 
-On Wed, 26 Mar 2025, Ilpo J=C3=A4rvinen wrote:
+x before
++ after
++------------------------------------------------------------+
+|                          x         +                       |
+|                   x      x         +                       |
+|                   x      xx      ++++                      |
+|                 x x      xx x    ++++                      |
+|                 x xx   x xx x+   ++++                      |
+|                xxxxx   xxxxxx+   ++++ + +                  |
+|                xxxxxxx xxxxxx+x  ++++ +++                  |
+|              x xxxxxxxxxxx*xx+* x++++++++   ++             |
+|        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
+|       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
+|x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
+|               |_______A______|                             |
+|                             |______A_______|               |
++------------------------------------------------------------+
+    N           Min           Max        Median           Avg        Stddev
+x 135      21697.58     22809.467     22321.396     22307.707     198.75011
++ 118     22200.746      23277.09       22661.4     22671.442     192.10609
+Difference at 95.0% confidence
+    363.735 +/- 48.3345
+    1.63054% +/- 0.216672%
+    (Student's t, pooled s = 195.681)
 
-> On Thu, 20 Mar 2025, Micha=C5=82 Winiarski wrote:
->=20
-> > When the resource representing VF MMIO BAR reservation is created, its
-> > size is always large enough to accommodate the BAR of all SR-IOV Virtua=
-l
-> > Functions that can potentially be created (total VFs). If for whatever
-> > reason it's not possible to accommodate all VFs - the resource is not
-> > assigned and no VFs can be created.
-> >=20
-> > The following patch will allow VF BAR size to be modified by drivers at
->=20
-> "The following patch" sounds to be like you're referring to patch that=20
-> follows this description, ie., the patch below. "An upcoming change" is=
-=20
-> alternative that doesn't suffer from the same problem.
->=20
-> > a later point in time, which means that the check for resource
-> > assignment is no longer sufficient.
-> >=20
-> > Add an additional check that verifies that VF BAR for all enabled VFs
-> > fits within the underlying reservation resource.
->=20
-> So this does not solve the case where the initial size was too large to=
-=20
-> fix and such VF BARs remain unassigned, right?
->=20
-> > Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
-> > ---
-> >  drivers/pci/iov.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >=20
-> > diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> > index cbf335725d4fb..861273ad9a580 100644
-> > --- a/drivers/pci/iov.c
-> > +++ b/drivers/pci/iov.c
-> > @@ -646,8 +646,13 @@ static int sriov_enable(struct pci_dev *dev, int n=
-r_virtfn)
-> > =20
-> >  =09nres =3D 0;
-> >  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
-> > +=09=09resource_size_t vf_bar_sz =3D
-> > +=09=09=09pci_iov_resource_size(dev,
-> > +=09=09=09=09=09      pci_resource_num_from_vf_bar(i));
->=20
-> Please add int idx =3D pci_resource_num_from_vf_bar(i);
->=20
-> >  =09=09bars |=3D (1 << pci_resource_num_from_vf_bar(i));
-> >  =09=09res =3D &dev->resource[pci_resource_num_from_vf_bar(i)];
-> > +=09=09if (vf_bar_sz * nr_virtfn > resource_size(res))
-> > +=09=09=09continue;
->=20
-> Not directly related to this patch, I suspect this could actually try to=
-=20
-> assign an unassigned resource by doing something like this (perhaps in ow=
-n=20
-> patch, it doesn't even need to be part of this series but can be sent=20
-> later if you find the suggestion useful):
->=20
-> =09=09/* Retry assignment if the initial size didn't fit */
-> =09=09if (!res->parent && pci_assign_resource(res, idx))
-> =09=09=09continue;
->=20
-> Although I suspect reset_resource() might have been called for the=20
-> resource and IIRC it breaks the resource somehow but it could have been=
-=20
-> that IOV resources can be resummoned from that state though thanks to=20
-> their size not being stored into the resource itself but comes from iov=
-=20
-> structures.
+v2:
+ * Implemented review feedback - see patch change logs.
 
-I realized reset_resource() will zero the flags so it won't work without=20
-getting rid of reset_resource() calls first which I've not yet completed.=
-=20
+v3:
+ * Moved #define DRM_SYNCOBJ_FAST_PATH_ENTRIES one patch earlier for less churn.
 
-And once I get the rebar sizes included into bridge window sizing=20
-algorithm, the default size could possibly be shrunk by the resource
-fitting/assignment code so the resource assignment should no longer fail=20
-just because the initial size was too large. So it shouldn't be necessary=
-=20
-after that.
+Cc: Maíra Canal <mcanal@igalia.com>
 
-> >  =09=09if (res->parent)
-> >  =09=09=09nres++;
-> >  =09}
-> >=20
->=20
->=20
+Tvrtko Ursulin (7):
+  drm/syncobj: Remove unhelpful helper
+  drm/syncobj: Do not allocate an array to store zeros when waiting
+  drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
+  drm/syncobj: Use put_user in drm_syncobj_query_ioctl
+  drm/syncobj: Avoid temporary allocation in
+    drm_syncobj_timeline_signal_ioctl
+  drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
+  drm/syncobj: Add a fast path to drm_syncobj_array_find
 
---=20
- i.
+ drivers/gpu/drm/drm_syncobj.c | 286 ++++++++++++++++++----------------
+ 1 file changed, 154 insertions(+), 132 deletions(-)
 
---8323328-1549821212-1743179969=:932--
+-- 
+2.48.0
