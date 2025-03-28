@@ -2,66 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1238A741D8
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 01:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9AC6A741E6
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 02:05:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1823E10E192;
-	Fri, 28 Mar 2025 00:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE2A10E959;
+	Fri, 28 Mar 2025 01:05:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="DtxW+hk0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U+Pt+CsY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58BA810E19F
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 00:48:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1743122927; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=IzZR/6eV3eRANWwtaDsVX/tXgsystpLRs4MCOJQyyFvwjM8t4p1XelmrqOJEbuc0Bt+fbmHaeE3tOre1KtzUOsEK8itnIDNuh7g8IEjms5/nuJvB4KUs1kpy/T1IIq7EDjNE3xdz9OpmRQtJY1IWZHkLeE61bOOS8rpmem4wK0M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1743122927;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=y4jDLIxxgTPU6S6kjP6W2qy0YbeeCk7wPRc5Aobjd8M=; 
- b=Nmte/jjj7G01iR2nwqUhdLMHRg+n7VG7CdERbuYd7ANJ9k0UZEu4UQkeGyagX3eRqZDAuHz68CaoyCklRKpot31/s0RfCAz4clsFJOnwQ55xaloi4vk0p7DNxGx2JUcQ6F/D07INAwgkhQT48mM6ybk4+1Hc5vaDvgIeR5kx4so=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743122927; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=y4jDLIxxgTPU6S6kjP6W2qy0YbeeCk7wPRc5Aobjd8M=;
- b=DtxW+hk0x+nE/5ZN/O4jFoR06MHA4xywBRKT++cphAAK0IL8yZXUakntasdEI4Jg
- JGZc3Kw+3j2ng4V1AyKeeJSive2GpXY7ZY4yVMilLaiC9n+hbUfg15rtQRkEh86Zi9a
- s1HNnPjN84Gn0FKEvYHhPlH9wwFBrEXOIjtSKZB0=
-Received: by mx.zohomail.com with SMTPS id 174312292550316.712910908575054;
- Thu, 27 Mar 2025 17:48:45 -0700 (PDT)
-Message-ID: <f438c1ae-add1-4ff1-b9f3-6996fc441cd9@collabora.com>
-Date: Fri, 28 Mar 2025 03:48:40 +0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CECD710E959
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 01:05:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0277A5C4B25
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 01:03:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 59D57C4CEDD
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 01:05:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743123923;
+ bh=ux5aupLrKnKbu9gsbpTOFuN+AGW/3PidnuT3mwu//QU=;
+ h=From:To:Subject:Date:From;
+ b=U+Pt+CsY6yXGS9plLZoTnQOLNUTMm5UwiH0wo/GXGNiOxkS3zqnstAHuLSlfHH9N3
+ 47tDKdf7RxKzr+4nhrqR4p+F1Hol70Gv3YofTrJ3CilAroLDT7tugedanIQt0UszHw
+ ErWIa0nVecCarD93cVxYBUDwIYjS+knDU0ovgs/P1oBcSx6noT7YsjMsYR3de+pKGV
+ oxIgh4y+cymA9ZBJ5z/rHprLUKPd0VKrdmotfOvXtmhpEK0K7K6dXtl1jkwpPwD1R8
+ 34GrhGYGu4FYAtzGp1aHZn6BgfpYuOl1Gitxtl0DC/t4BG22AeFoiBtGFt7FWdEi/+
+ zfR8VasjTaXWg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 4A44FC41612; Fri, 28 Mar 2025 01:05:23 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 219929] New: Direct firmware load for amdgpu/isp_4_1_0.bin
+ failed with error -2
+Date: Fri, 28 Mar 2025 01:05:22 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: atiqcx@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-219929-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline
- syncobjs
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Rob Clark <robdclark@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linaro-mm-sig@lists.linaro.org>
-References: <20250327213632.7903-1-robdclark@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250327213632.7903-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,75 +75,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/28/25 00:36, Rob Clark wrote:
-...
->  static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
-> -					      int fd, int handle)
-> +					      int fd, int handle, u64 point)
->  {
->  	struct dma_fence *fence = sync_file_get_fence(fd);
->  	struct drm_syncobj *syncobj;
-> @@ -755,14 +755,18 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
->  		return -ENOENT;
->  	}
->  
-> -	drm_syncobj_replace_fence(syncobj, fence);
-> +	if (point) {
-> +		drm_syncobj_add_point(syncobj, dma_fence_chain_alloc(), fence, point);
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219929
 
-Nit: check dma_fence_chain_alloc() for ENOMEM
+            Bug ID: 219929
+           Summary: Direct firmware load for amdgpu/isp_4_1_0.bin failed
+                    with error -2
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: atiqcx@gmail.com
+        Regression: No
 
-> +	} else {
-> +		drm_syncobj_replace_fence(syncobj, fence);
-> +	}
+Created attachment 307900
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D307900&action=3Dedit
+`journalctl --boot` output
 
-Nit: checkpath should complain about the unnecessary braces
+On AMD Ryzen AI 9 HX 370 w/ Radeon 890M, seeing this error on kernel logs:
 
->  	dma_fence_put(fence);
->  	drm_syncobj_put(syncobj);
->  	return 0;
->  }
->  
->  static int drm_syncobj_export_sync_file(struct drm_file *file_private,
-> -					int handle, int *p_fd)
-> +					int handle, u64 point, int *p_fd)
->  {
->  	int ret;
->  	struct dma_fence *fence;
-> @@ -772,7 +776,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
->  	if (fd < 0)
->  		return fd;
->  
-> -	ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
-> +	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
->  	if (ret)
->  		goto err_put_fd;
->  
-> @@ -869,6 +873,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
->  				   struct drm_file *file_private)
->  {
->  	struct drm_syncobj_handle *args = data;
-> +	unsigned valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
-> +			       DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
-> +	u64 point = 0;
->  
->  	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
->  		return -EOPNOTSUPP;
-> @@ -876,13 +883,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
->  	if (args->pad)
->  		return -EINVAL;
->  
-> -	if (args->flags != 0 &&
-> -	    args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
-> +	if (args->flags != 0 && (args->flags & ~valid_flags))
->  		return -EINVAL;
-
-Nit: args->flags!=0 not needed as (0 & ~valid_flags) is always false,
-same for import
-
-...
+amdgpu 0000:65:00.0: Direct firmware load for amdgpu/isp_4_1_0.bin failed w=
+ith
+error -2
 
 
--- 
-Best regards,
-Dmitry
+Steps to Reproduce:
+1. Boot
+
+
+Looks like the Graphics is working okay, `lspci` gives this,
+
+65:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Strix
+[Radeon 880M / 890M] (rev c1)
+        Subsystem: ASUSTeK Computer Inc. Device 37f8
+        Flags: bus master, fast devsel, latency 0, IRQ 73, IOMMU group 18
+        Memory at 7a10000000 (64-bit, prefetchable) [size=3D256M]
+        Memory at dd200000 (64-bit, prefetchable) [size=3D2M]
+        I/O ports at e000 [size=3D256]
+        Memory at dd700000 (32-bit, non-prefetchable) [size=3D512K]
+        Capabilities: [48] Vendor Specific Information: Len=3D08 <?>
+        Capabilities: [50] Power Management version 3
+        Capabilities: [64] Express Legacy Endpoint, IntMsgNum 0
+        Capabilities: [a0] MSI: Enable- Count=3D1/4 Maskable- 64bit+
+        Capabilities: [c0] MSI-X: Enable+ Count=3D4 Masked-
+        Capabilities: [100] Vendor Specific Information: ID=3D0001 Rev=3D1 =
+Len=3D010
+<?>
+        Capabilities: [270] Secondary PCI Express
+        Capabilities: [2a0] Access Control Services
+        Capabilities: [2b0] Address Translation Service (ATS)
+        Capabilities: [2c0] Page Request Interface (PRI)
+        Capabilities: [2d0] Process Address Space ID (PASID)
+        Capabilities: [410] Physical Layer 16.0 GT/s <?>
+        Capabilities: [450] Lane Margining at the Receiver
+        Kernel driver in use: amdgpu
+        Kernel modules: amdgpu
+
+
+In that case, wondering why this error show up? Is the firmware file
+'isp_4_1_0.bin' not necessary?
+
+
+Kernel: 6.13.8
+Distro: fedora 41
+Device: Asus P16 H7606WV
+Desktop: gnome
+Xorg or wayland: wayland
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
