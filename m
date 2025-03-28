@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F974A75037
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 19:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C43D6A75039
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 19:12:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6265410EA8B;
-	Fri, 28 Mar 2025 18:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E342110EA92;
+	Fri, 28 Mar 2025 18:12:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="diKJ/8SA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a8fE1XXh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A760610EA8B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 18:12:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E102510EA8B
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 18:12:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743185525; x=1774721525;
+ t=1743185527; x=1774721527;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=T53QCUqkXcX9lHjwShX9lvvpE3mUBzCddMQKa6FhvsI=;
- b=diKJ/8SAOr0Rm0aMRdVFn4UsBF34ywdRANIdS/l7vZWUQuH+R7WqeA10
- X7h4oHB0l5flNKOphjan3Kdo5S5ptQPTyULUlFLHLk5nUHz8O/9sOig+Q
- i+F5pVk9TXT7TMmK3EKfOibQFIXuZ5u6DPKD4t6STUYfc3VhUmFuNV9dH
- FY7A+XxX+RifcJdQVLfl1Y20IDXuA/lkaXNgcZwYVD+H6I1qEU0X0NxW6
- fJK8u78XmXcQwDYWYMZeGyutBDlCBNIH3h3M1ZmkT//7EohbRKr8eKmq7
- lnOMwXv0+8ahDvT29mXujDx8w6p6v9ZPajmmNVV8Roe0OKA/GNPQ7L3VI w==;
-X-CSE-ConnectionGUID: uQH/7wZ2RW2xFDSIq6OkUQ==
-X-CSE-MsgGUID: 6vb0Dg+/SuaPd0CTXGKVdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="48338806"
-X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; d="scan'208";a="48338806"
+ bh=B0ZYK86iSHrdxJAxg5jbQ7rkd+AYOD/CzKyo2JahHCk=;
+ b=a8fE1XXhUk3Yh+gSxqhfM3H/VSYCPWA3VZVQJaqRzVNR0rhM5tZ5bQ6T
+ 7Bi782UrTufFCmMKsiYpx2zh2bfRBnpEApvV5DdGOqqPNwQ8pIpcwP+F3
+ ZCbIzB2h2yaFur+xu6D5fg5bauq0jZCc1nyYdzUNj72oZ9D3kRjbNLfJV
+ tLdvN0wTHzetf2wEwVfSHwOtafAk9Ekr5HlLMj6isULEz4CEc+hqCTqlK
+ skybsySJNlMr4znH7CSsdFUt0iA3jtbFHvalQMDeY3Y9Y93giYMw15nzr
+ kXN9jQw+uTnejk/kLDd30KdkuciWq6hj4uA1nmaNPyS8Mb0i+AdF+FWpG g==;
+X-CSE-ConnectionGUID: pnCil1zcQceLglgXMokJOQ==
+X-CSE-MsgGUID: iret7uYRTlGmQpkqLIHMJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="48338816"
+X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; d="scan'208";a="48338816"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2025 11:12:05 -0700
-X-CSE-ConnectionGUID: QOQbcTgKQw62id9ZW8Yr3Q==
-X-CSE-MsgGUID: uy5ziifzTbm+0JRH8SpK1A==
+ 28 Mar 2025 11:12:07 -0700
+X-CSE-ConnectionGUID: 3w4BQVq+QyizLhBsk8vMqw==
+X-CSE-MsgGUID: iBzGSgYnRFuj39NG/dxvOw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; d="scan'208";a="130616373"
+X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; d="scan'208";a="130616382"
 Received: from gkczarna.igk.intel.com ([10.211.131.163])
- by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2025 11:12:03 -0700
+ by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2025 11:12:05 -0700
 From: Tomasz Lis <tomasz.lis@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Matthew Brost <matthew.brost@intel.com>,
@@ -48,10 +48,9 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
  =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
  =?UTF-8?q?Micha=C5=82=20Wajdeczko?= <michal.wajdeczko@intel.com>,
  =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>
-Subject: [PATCH v5 1/4] drm/xe/vf: Divide ballooning into allocation and
- insertion
-Date: Fri, 28 Mar 2025 19:11:57 +0100
-Message-Id: <20250328181200.1011623-2-tomasz.lis@intel.com>
+Subject: [PATCH v5 2/4] drm/xe/sriov: Shifting GGTT area post migration
+Date: Fri, 28 Mar 2025 19:11:58 +0100
+Message-Id: <20250328181200.1011623-3-tomasz.lis@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250328181200.1011623-1-tomasz.lis@intel.com>
 References: <20250328181200.1011623-1-tomasz.lis@intel.com>
@@ -72,201 +71,269 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The balloon nodes used to fill areas of GGTT inaccessible for
-a specific VF, were allocaten and inserted into GGTT within
-one function. This disallowed re-using the insertion part
-during VF migration recovery.
+We have only one GGTT for all IOV functions, with each VF having assigned
+a range of addresses for its use. After migration, a VF can receive a
+different range of addresses than it had initially.
 
-This patch separates allocation (init/fini functs) from the insertion
-of balloons (balloon/deballoon functs). Locks are also moved to ensure
-calls from post-migration recovery worker will not cause a deadlock.
+This implements shifting GGTT addresses within drm_mm nodes, so that
+VMAs stay valid after migration. This will make the driver use new
+addresses when accessing GGTT from the moment the shifting ends.
+
+By taking the ggtt->lock for the period of VMA fixups, this change
+also adds constraint on that mutex. Any locks used during the recovery
+cannot ever wait for hardware response - because after migration,
+the hardware will not do anything until fixups are finished.
+
+v2: Moved some functs to xe_ggtt.c; moved shift computation to just
+  after querying; improved documentation; switched some warns to asserts;
+  skipping fixups when GGTT shift eq 0; iterating through tiles (Michal)
+v3: Updated kerneldocs, removed unused funct, properly allocate
+  balloning nodes if non existent
+v4: Re-used ballooning functions from VF init, used bool in place of
+  standard error codes
 
 Signed-off-by: Tomasz Lis <tomasz.lis@intel.com>
 ---
- drivers/gpu/drm/xe/xe_ggtt.c        |  9 +---
- drivers/gpu/drm/xe/xe_ggtt.h        |  2 +
- drivers/gpu/drm/xe/xe_gt_sriov_vf.c | 64 ++++++++++++++++++++++-------
- 3 files changed, 52 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/xe/xe_ggtt.c              | 33 +++++++++
+ drivers/gpu/drm/xe/xe_ggtt.h              |  1 +
+ drivers/gpu/drm/xe/xe_gt_sriov_vf.c       | 84 +++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_gt_sriov_vf.h       |  1 +
+ drivers/gpu/drm/xe/xe_gt_sriov_vf_types.h |  2 +
+ drivers/gpu/drm/xe/xe_sriov_vf.c          | 17 +++++
+ 6 files changed, 138 insertions(+)
 
 diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-index 5fcb2b4c2c13..2d7456e37ef4 100644
+index 2d7456e37ef4..e9e6088104d9 100644
 --- a/drivers/gpu/drm/xe/xe_ggtt.c
 +++ b/drivers/gpu/drm/xe/xe_ggtt.c
-@@ -452,9 +452,7 @@ int xe_ggtt_node_insert_balloon(struct xe_ggtt_node *node, u64 start, u64 end)
- 	node->base.start = start;
- 	node->base.size = end - start;
- 
--	mutex_lock(&ggtt->lock);
- 	err = drm_mm_reserve_node(&ggtt->mm, &node->base);
--	mutex_unlock(&ggtt->lock);
- 
- 	if (xe_gt_WARN(ggtt->tile->primary_gt, err,
- 		       "Failed to balloon GGTT %#llx-%#llx (%pe)\n",
-@@ -477,16 +475,11 @@ void xe_ggtt_node_remove_balloon(struct xe_ggtt_node *node)
- 		return;
- 
- 	if (!drm_mm_node_allocated(&node->base))
--		goto free_node;
-+		return;
- 
- 	xe_ggtt_dump_node(node->ggtt, &node->base, "remove-balloon");
- 
--	mutex_lock(&node->ggtt->lock);
+@@ -482,6 +482,39 @@ void xe_ggtt_node_remove_balloon(struct xe_ggtt_node *node)
  	drm_mm_remove_node(&node->base);
--	mutex_unlock(&node->ggtt->lock);
--
--free_node:
--	xe_ggtt_node_fini(node);
  }
  
++/**
++ * xe_ggtt_node_shift_nodes - Shift GGTT nodes to adjust for a change in usable address range.
++ * @ggtt: the &xe_ggtt struct instance
++ * @shift: change to the location of area provisioned for current VF
++ */
++void xe_ggtt_node_shift_nodes(struct xe_ggtt *ggtt, s64 shift)
++{
++	struct drm_mm_node *node, *tmpn;
++	LIST_HEAD(temp_list_head);
++	int err;
++
++	lockdep_assert_held(&ggtt->lock);
++
++	/*
++	 * Move nodes, from range previously assigned to this VF, to a temp list.
++	 */
++	drm_mm_for_each_node_safe(node, tmpn, &ggtt->mm) {
++		drm_mm_remove_node(node);
++		list_add(&node->node_list, &temp_list_head);
++	}
++
++	/*
++	 * Now the GGTT VM contains no nodes. We can re-add all VF nodes with
++	 * shifted offsets.
++	 */
++	list_for_each_entry_safe(node, tmpn, &temp_list_head, node_list) {
++		list_del(&node->node_list);
++		node->start += shift;
++		err = drm_mm_reserve_node(&ggtt->mm, node);
++		xe_tile_assert(ggtt->tile, !err);
++	}
++}
++
  /**
+  * xe_ggtt_node_insert_locked - Locked version to insert a &xe_ggtt_node into the GGTT
+  * @node: the &xe_ggtt_node to be inserted
 diff --git a/drivers/gpu/drm/xe/xe_ggtt.h b/drivers/gpu/drm/xe/xe_ggtt.h
-index 27e7d67de004..fddb68f309d9 100644
+index fddb68f309d9..557906413761 100644
 --- a/drivers/gpu/drm/xe/xe_ggtt.h
 +++ b/drivers/gpu/drm/xe/xe_ggtt.h
-@@ -18,6 +18,8 @@ void xe_ggtt_node_fini(struct xe_ggtt_node *node);
+@@ -18,6 +18,7 @@ void xe_ggtt_node_fini(struct xe_ggtt_node *node);
  int xe_ggtt_node_insert_balloon(struct xe_ggtt_node *node,
  				u64 start, u64 size);
  void xe_ggtt_node_remove_balloon(struct xe_ggtt_node *node);
-+int xe_gt_sriov_vf_balloon_ggtt(struct xe_gt *gt);
-+void xe_gt_sriov_vf_deballoon_ggtt(struct xe_gt *gt);
++void xe_ggtt_node_shift_nodes(struct xe_ggtt *ggtt, s64 shift);
+ int xe_gt_sriov_vf_balloon_ggtt(struct xe_gt *gt);
+ void xe_gt_sriov_vf_deballoon_ggtt(struct xe_gt *gt);
  
- int xe_ggtt_node_insert(struct xe_ggtt_node *node, u32 size, u32 align);
- int xe_ggtt_node_insert_locked(struct xe_ggtt_node *node,
 diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_vf.c b/drivers/gpu/drm/xe/xe_gt_sriov_vf.c
-index a439261bf4d7..9edbe34f45f4 100644
+index 9edbe34f45f4..859294796aec 100644
 --- a/drivers/gpu/drm/xe/xe_gt_sriov_vf.c
 +++ b/drivers/gpu/drm/xe/xe_gt_sriov_vf.c
-@@ -560,26 +560,33 @@ u64 xe_gt_sriov_vf_lmem(struct xe_gt *gt)
- 	return gt->sriov.vf.self_config.lmem_size;
+@@ -415,6 +415,7 @@ static int vf_get_ggtt_info(struct xe_gt *gt)
+ 	xe_gt_sriov_dbg_verbose(gt, "GGTT %#llx-%#llx = %lluK\n",
+ 				start, start + size - 1, size / SZ_1K);
+ 
++	config->ggtt_shift = start - (s64)config->ggtt_base;
+ 	config->ggtt_base = start;
+ 	config->ggtt_size = size;
+ 
+@@ -972,6 +973,89 @@ int xe_gt_sriov_vf_query_runtime(struct xe_gt *gt)
+ 	return err;
  }
  
--static struct xe_ggtt_node *
--vf_balloon_ggtt_node(struct xe_ggtt *ggtt, u64 start, u64 end)
-+static int
-+vf_balloon_ggtt_node(struct xe_ggtt *ggtt, struct xe_ggtt_node *node,
-+		     u64 start, u64 end)
- {
--	struct xe_ggtt_node *node;
- 	int err;
- 
--	node = xe_ggtt_node_init(ggtt);
- 	if (IS_ERR(node))
--		return node;
-+		return PTR_ERR(node);
- 
- 	err = xe_ggtt_node_insert_balloon(node, start, end);
- 	if (err) {
--		xe_ggtt_node_fini(node);
--		return ERR_PTR(err);
-+		return err;
- 	}
- 
--	return node;
-+	return 0;
- }
- 
--static int vf_balloon_ggtt(struct xe_gt *gt)
-+static void xe_gt_sriov_vf_balloon_init(struct xe_gt *gt)
++/**
++ * xe_gt_sriov_vf_fixup_ggtt_nodes - Shift GGTT allocations to match assigned range.
++ * @gt: the &xe_gt struct instance
++ * Return: True if fixups are necessary
++ *
++ * Since Global GTT is not virtualized, each VF has an assigned range
++ * within the global space. This range might have changed during migration,
++ * which requires all memory addresses pointing to GGTT to be shifted.
++ */
++bool xe_gt_sriov_vf_fixup_ggtt_nodes(struct xe_gt *gt)
 +{
++	struct xe_gt_sriov_vf_selfconfig *config = &gt->sriov.vf.self_config;
 +	struct xe_tile *tile = gt_to_tile(gt);
 +	struct xe_ggtt *ggtt = tile->mem.ggtt;
-+
-+	tile->sriov.vf.ggtt_balloon[0] = xe_ggtt_node_init(ggtt);
-+	tile->sriov.vf.ggtt_balloon[1] = xe_ggtt_node_init(ggtt);
-+}
-+
-+int xe_gt_sriov_vf_balloon_ggtt(struct xe_gt *gt)
- {
- 	struct xe_gt_sriov_vf_selfconfig *config = &gt->sriov.vf.self_config;
- 	struct xe_tile *tile = gt_to_tile(gt);
-@@ -589,6 +596,7 @@ static int vf_balloon_ggtt(struct xe_gt *gt)
- 
- 	xe_gt_assert(gt, IS_SRIOV_VF(xe));
- 	xe_gt_assert(gt, !xe_gt_is_media_type(gt));
-+	lockdep_assert_held(&tile->mem.ggtt->lock);
- 
- 	if (!config->ggtt_size)
- 		return -ENODATA;
-@@ -611,7 +619,7 @@ static int vf_balloon_ggtt(struct xe_gt *gt)
- 	start = xe_wopcm_size(xe);
- 	end = config->ggtt_base;
- 	if (end != start) {
--		tile->sriov.vf.ggtt_balloon[0] = vf_balloon_ggtt_node(ggtt, start, end);
-+		vf_balloon_ggtt_node(ggtt, tile->sriov.vf.ggtt_balloon[0], start, end);
- 		if (IS_ERR(tile->sriov.vf.ggtt_balloon[0]))
- 			return PTR_ERR(tile->sriov.vf.ggtt_balloon[0]);
- 	}
-@@ -619,7 +627,7 @@ static int vf_balloon_ggtt(struct xe_gt *gt)
- 	start = config->ggtt_base + config->ggtt_size;
- 	end = GUC_GGTT_TOP;
- 	if (end != start) {
--		tile->sriov.vf.ggtt_balloon[1] = vf_balloon_ggtt_node(ggtt, start, end);
-+		vf_balloon_ggtt_node(ggtt, tile->sriov.vf.ggtt_balloon[1], start, end);
- 		if (IS_ERR(tile->sriov.vf.ggtt_balloon[1])) {
- 			xe_ggtt_node_remove_balloon(tile->sriov.vf.ggtt_balloon[0]);
- 			return PTR_ERR(tile->sriov.vf.ggtt_balloon[1]);
-@@ -629,15 +637,34 @@ static int vf_balloon_ggtt(struct xe_gt *gt)
- 	return 0;
- }
- 
--static void deballoon_ggtt(struct drm_device *drm, void *arg)
-+void xe_gt_sriov_vf_deballoon_ggtt(struct xe_gt *gt)
- {
--	struct xe_tile *tile = arg;
-+	struct xe_tile *tile = gt_to_tile(gt);
- 
- 	xe_tile_assert(tile, IS_SRIOV_VF(tile_to_xe(tile)));
-+	lockdep_assert_held(&tile->mem.ggtt->lock);
- 	xe_ggtt_node_remove_balloon(tile->sriov.vf.ggtt_balloon[1]);
- 	xe_ggtt_node_remove_balloon(tile->sriov.vf.ggtt_balloon[0]);
- }
- 
-+static void xe_gt_sriov_vf_balloon_fini(struct xe_gt *gt)
-+{
-+	struct xe_tile *tile = gt_to_tile(gt);
-+
-+	xe_ggtt_node_fini(tile->sriov.vf.ggtt_balloon[1]);
-+	xe_ggtt_node_fini(tile->sriov.vf.ggtt_balloon[0]);
-+}
-+
-+static void deballoon_ggtt(struct drm_device *drm, void *arg)
-+{
-+	struct xe_tile *tile = arg;
-+
-+	mutex_lock(&tile->mem.ggtt->lock);
-+	xe_gt_sriov_vf_deballoon_ggtt(tile->primary_gt);
-+	mutex_unlock(&tile->mem.ggtt->lock);
-+	xe_gt_sriov_vf_balloon_fini(tile->primary_gt);
-+}
-+
- /**
-  * xe_gt_sriov_vf_prepare_ggtt - Prepare a VF's GGTT configuration.
-  * @gt: the &xe_gt
-@@ -650,14 +677,21 @@ int xe_gt_sriov_vf_prepare_ggtt(struct xe_gt *gt)
- {
- 	struct xe_tile *tile = gt_to_tile(gt);
- 	struct xe_device *xe = tile_to_xe(tile);
-+	struct xe_ggtt *ggtt = tile->mem.ggtt;
- 	int err;
- 
- 	if (xe_gt_is_media_type(gt))
- 		return 0;
- 
--	err = vf_balloon_ggtt(gt);
--	if (err)
-+	xe_gt_sriov_vf_balloon_init(gt);
++	s64 ggtt_shift;
 +
 +	mutex_lock(&ggtt->lock);
-+	err = xe_gt_sriov_vf_balloon_ggtt(gt);
-+	mutex_unlock(&ggtt->lock);
-+	if (err) {
-+		xe_gt_sriov_vf_balloon_fini(gt);
- 		return err;
++	ggtt_shift = config->ggtt_shift;
++	/*
++	 * Move nodes, including balloons, from range previously assigned to this VF,
++	 * into newly provisioned area.
++	 *
++	 * The balloon nodes are there to eliminate unavailable ranges from use: one
++	 * reserves the GGTT area below the range for current VF, and another one
++	 * reserves area above.
++	 *
++	 * Below is a GGTT layout of example VF, with a certain address range assigned to
++	 * said VF, and inaccessible areas above and below:
++	 *
++	 *  0                                                                        4GiB
++	 *  |<--------------------------- Total GGTT size ----------------------------->|
++	 *      WOPCM                                                         GUC_TOP
++	 *      |<-------------- Area mappable by xe_ggtt instance ---------------->|
++	 *
++	 *  +---+---------------------------------+----------+----------------------+---+
++	 *  |\\\|/////////////////////////////////|  VF mem  |//////////////////////|\\\|
++	 *  +---+---------------------------------+----------+----------------------+---+
++	 *
++	 * Hardware enforced access rules before migration:
++	 *
++	 *  |<------- inaccessible for VF ------->|<VF owned>|<-- inaccessible for VF ->|
++	 *
++	 * drm_mm nodes used for tracking allocations:
++	 *
++	 *     |<----------- balloon ------------>|<- nodes->|<----- balloon ------>|
++	 *
++	 * After the migration, GGTT area assigned to the VF might have shifted, either
++	 * to lower or to higher address. But we expect the total size and extra areas to
++	 * be identical, as migration can only happen between matching platforms.
++	 * Below is an example of GGTT layout of the VF after migration. Content of the
++	 * GGTT for VF has been moved to a new area, and we receive its address from GuC:
++	 *
++	 *  +---+----------------------+----------+---------------------------------+---+
++	 *  |\\\|//////////////////////|  VF mem  |/////////////////////////////////|\\\|
++	 *  +---+----------------------+----------+---------------------------------+---+
++	 *
++	 * Hardware enforced access rules after migration:
++	 *
++	 *  |<- inaccessible for VF -->|<VF owned>|<------- inaccessible for VF ------->|
++	 *
++	 * So the VF has a new slice of GGTT assigned, and during migration process, the
++	 * memory content was copied to that new area. But the drm_mm nodes within xe kmd
++	 * are still tracking allocations using the old addresses. The nodes within VF
++	 * owned area have to be shifted, and balloon nodes need to be resized to
++	 * properly mask out areas not owned by the VF.
++	 *
++	 * Fixed drm_mm nodes used for tracking allocations:
++	 *
++	 *     |<------ balloon ------>|<- nodes->|<----------- balloon ----------->|
++	 *
++	 * Due to use of GPU profiles, we do not expect the old and new GGTT ares to
++	 * overlap; but our node shifting will fix addresses properly regardless.
++	 *
++	 */
++	if (ggtt_shift) {
++		xe_gt_sriov_vf_deballoon_ggtt(gt);
++		xe_ggtt_node_shift_nodes(ggtt, ggtt_shift);
++		xe_gt_sriov_vf_balloon_ggtt(gt);
 +	}
++	mutex_unlock(&ggtt->lock);
++	return ggtt_shift != 0;
++}
++
+ static int vf_runtime_reg_cmp(const void *a, const void *b)
+ {
+ 	const struct vf_runtime_reg *ra = a;
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_vf.h b/drivers/gpu/drm/xe/xe_gt_sriov_vf.h
+index ba6c5d74e326..26d3140bba91 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_vf.h
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_vf.h
+@@ -18,6 +18,7 @@ int xe_gt_sriov_vf_query_config(struct xe_gt *gt);
+ int xe_gt_sriov_vf_connect(struct xe_gt *gt);
+ int xe_gt_sriov_vf_query_runtime(struct xe_gt *gt);
+ int xe_gt_sriov_vf_prepare_ggtt(struct xe_gt *gt);
++bool xe_gt_sriov_vf_fixup_ggtt_nodes(struct xe_gt *gt);
+ int xe_gt_sriov_vf_notify_resfix_done(struct xe_gt *gt);
+ void xe_gt_sriov_vf_migrated_event_handler(struct xe_gt *gt);
  
- 	return drmm_add_action_or_reset(&xe->drm, deballoon_ggtt, tile);
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_vf_types.h b/drivers/gpu/drm/xe/xe_gt_sriov_vf_types.h
+index a57f13b5afcd..5ccbdf8d08b6 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_vf_types.h
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_vf_types.h
+@@ -40,6 +40,8 @@ struct xe_gt_sriov_vf_selfconfig {
+ 	u64 ggtt_base;
+ 	/** @ggtt_size: assigned size of the GGTT region. */
+ 	u64 ggtt_size;
++	/** @ggtt_shift: difference in ggtt_base on last migration */
++	s64 ggtt_shift;
+ 	/** @lmem_size: assigned size of the LMEM. */
+ 	u64 lmem_size;
+ 	/** @num_ctxs: assigned number of GuC submission context IDs. */
+diff --git a/drivers/gpu/drm/xe/xe_sriov_vf.c b/drivers/gpu/drm/xe/xe_sriov_vf.c
+index c1275e64aa9c..2eb6b8d8a217 100644
+--- a/drivers/gpu/drm/xe/xe_sriov_vf.c
++++ b/drivers/gpu/drm/xe/xe_sriov_vf.c
+@@ -7,6 +7,7 @@
+ 
+ #include "xe_assert.h"
+ #include "xe_device.h"
++#include "xe_gt.h"
+ #include "xe_gt_sriov_printk.h"
+ #include "xe_gt_sriov_vf.h"
+ #include "xe_pm.h"
+@@ -170,6 +171,20 @@ static bool vf_post_migration_imminent(struct xe_device *xe)
+ 	work_pending(&xe->sriov.vf.migration.worker);
  }
+ 
++static bool vf_post_migration_fixup_ggtt_nodes(struct xe_device *xe)
++{
++	struct xe_tile *tile;
++	unsigned int id;
++	bool need_fixups = false;
++
++	for_each_tile(tile, xe, id) {
++		struct xe_gt *gt = tile->primary_gt;
++
++		need_fixups |= xe_gt_sriov_vf_fixup_ggtt_nodes(gt);
++	}
++	return need_fixups;
++}
++
+ /*
+  * Notify all GuCs about resource fixups apply finished.
+  */
+@@ -191,6 +206,7 @@ static void vf_post_migration_notify_resfix_done(struct xe_device *xe)
+ 
+ static void vf_post_migration_recovery(struct xe_device *xe)
+ {
++	bool need_fixups;
+ 	int err;
+ 
+ 	drm_dbg(&xe->drm, "migration recovery in progress\n");
+@@ -201,6 +217,7 @@ static void vf_post_migration_recovery(struct xe_device *xe)
+ 	if (unlikely(err))
+ 		goto fail;
+ 
++	need_fixups = vf_post_migration_fixup_ggtt_nodes(xe);
+ 	/* FIXME: add the recovery steps */
+ 	vf_post_migration_notify_resfix_done(xe);
+ 	xe_pm_runtime_put(xe);
 -- 
 2.25.1
 
