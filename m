@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F75EA7528C
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 23:46:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0279A7529B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 23:53:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E79310EAC7;
-	Fri, 28 Mar 2025 22:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE53810E1EC;
+	Fri, 28 Mar 2025 22:53:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y54rwQTD";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ILMyTjyB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E95C410EAC7
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 22:46:20 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B6610E1EC
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 22:53:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 86E396115E;
- Fri, 28 Mar 2025 22:46:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E9D6C4CEE4;
- Fri, 28 Mar 2025 22:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743201979;
- bh=gKPBVUpj+xuutNs0NDxBSv7wG9g2bTlQC3qVmWnO40M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Y54rwQTDxr9Sw0n66Or5YPHaLyYjr4sGExbr41S8t31zFTNaZNJEOG/oLYRaCkZrO
- aUJzCmHOl2hwoCMWfue25wgvXNICtaN7dH6SjkSKCwRjsJPsHIn0wBEanCUyiTQNzm
- HFP/Z9XSX0azyE3zZAcvV/R390L7Ha6MHfbwL0fmrRwqpAKRsjPajJwO1/2zRgvseH
- c0rlHtxpyJdRq6UQIZfazbgAg5KA9jWs+5qIIXdLTKouWhIevRm8cSKCQZgPlrZ+ju
- r3oh34cRdmxtnxmFZIhE3BDXgisIQMbU33ZF47VA0g6t0OHEeeFXbWtDoiG9Ju3RjP
- ZWqMPqNqMCjzA==
-Date: Fri, 28 Mar 2025 23:46:12 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Lyude Paul <lyude@redhat.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, acurrid@nvidia.com,
- lina@asahilina.net, daniel.almeida@collabora.com, j@jannau.net,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 3/8] rust: drm: add driver abstractions
-Message-ID: <Z-cmtEZzILsLVpu9@pollux>
-References: <20250325235522.3992-1-dakr@kernel.org>
- <20250325235522.3992-4-dakr@kernel.org>
- <43ad9fdcc62897bd0a78689020a8dd291b045ce4.camel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <43ad9fdcc62897bd0a78689020a8dd291b045ce4.camel@redhat.com>
+ by nyc.source.kernel.org (Postfix) with ESMTP id C37B9A43040;
+ Fri, 28 Mar 2025 22:47:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353EEC4CEE4;
+ Fri, 28 Mar 2025 22:53:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+ s=korg; t=1743202383;
+ bh=uMHCMkIp1JpzwK/KslzBXCnJB3B/qFWTnmOMAK1in40=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ILMyTjyBso7K5+o4nbs26Pn5cHVWQm2GLLUBUU6L6Xi+fwqx2KCM3V3LBajgA8puB
+ KnrvP/bQN8GP5OomQ+aEM6tjBdfck+qoFXs8ztHAbcsuc/oeySEGgq4ad2PiOAdMnP
+ tYCiaYsel0JulQkbsLDNglaz+OTqx9udrazM6AgY=
+Date: Fri, 28 Mar 2025 15:53:01 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, Brendan Higgins
+ <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar
+ <rmoar@google.com>, Maxime Ripard <mripard@kernel.org>, Kees Cook
+ <kees@kernel.org>, Alessandro Carminati <acarmina@redhat.com>,
+ linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, Arnd
+ Bergmann <arnd@arndb.de>, =?ISO-8859-1?Q?Ma=EDra?= Canal
+ <mcanal@igalia.com>, Dan Carpenter <dan.carpenter@linaro.org>, Daniel Diaz
+ <daniel.diaz@linaro.org>, Arthur Grillo <arthurgrillo@riseup.net>, Naresh
+ Kamboju <naresh.kamboju@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Alessandro Carminati
+ <alessandro.carminati@gmail.com>, Jani Nikula <jani.nikula@intel.com>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, loongarch@lists.linux.dev, x86@kernel.org
+Subject: Re: [PATCH v4 00/14] Add support for suppressing warning backtraces
+Message-Id: <20250328155301.ab5514e2ab8043512a8527bd@linux-foundation.org>
+In-Reply-To: <a998f3fa-495c-4165-884a-a11c5cb61e96@linuxfoundation.org>
+References: <20250313114329.284104-1-acarmina@redhat.com>
+ <202503131016.5DCEAEC945@keescook>
+ <20250313-abiding-vivid-robin-159dfa@houat>
+ <c8287bde-fa1c-4113-af22-4701d40d386e@roeck-us.net>
+ <20250313150505.cf1568bf7197a52a8ab302e6@linux-foundation.org>
+ <a998f3fa-495c-4165-884a-a11c5cb61e96@linuxfoundation.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,57 +77,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 28, 2025 at 06:00:11PM -0400, Lyude Paul wrote:
-> On Wed, 2025-03-26 at 00:54 +0100, Danilo Krummrich wrote:
-> > diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-> > new file mode 100644
-> > index 000000000000..1ac770482ae0
-> > --- /dev/null
-> > +++ b/rust/kernel/drm/driver.rs
-> > @@ -0,0 +1,143 @@
-> > +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > +
-> > +//! DRM driver core.
-> > +//!
-> > +//! C header: [`include/linux/drm/drm_drv.h`](srctree/include/linux/drm/drm_drv.h)
-> > +
-> > +use crate::{bindings, drm, str::CStr};
-> > +use macros::vtable;
-> > +
-> > +/// Driver use the GEM memory manager. This should be set for all modern drivers.
-> > +pub const FEAT_GEM: u32 = bindings::drm_driver_feature_DRIVER_GEM;
-> > +/// Driver supports mode setting interfaces (KMS).
-> > +pub const FEAT_MODESET: u32 = bindings::drm_driver_feature_DRIVER_MODESET;
-> > +/// Driver supports dedicated render nodes.
-> > +pub const FEAT_RENDER: u32 = bindings::drm_driver_feature_DRIVER_RENDER;
-> > +/// Driver supports the full atomic modesetting userspace API.
-> > +///
-> > +/// Drivers which only use atomic internally, but do not support the full userspace API (e.g. not
-> > +/// all properties converted to atomic, or multi-plane updates are not guaranteed to be tear-free)
-> > +/// should not set this flag.
-> > +pub const FEAT_ATOMIC: u32 = bindings::drm_driver_feature_DRIVER_ATOMIC;
-> > +/// Driver supports DRM sync objects for explicit synchronization of command submission.
-> > +pub const FEAT_SYNCOBJ: u32 = bindings::drm_driver_feature_DRIVER_SYNCOBJ;
-> > +/// Driver supports the timeline flavor of DRM sync objects for explicit synchronization of command
-> > +/// submission.
-> > +pub const FEAT_SYNCOBJ_TIMELINE: u32 = bindings::drm_driver_feature_DRIVER_SYNCOBJ_TIMELINE;
-> > +/// Driver supports compute acceleration devices. This flag is mutually exclusive with `FEAT_RENDER`
-> > +/// and `FEAT_MODESET`. Devices that support both graphics and compute acceleration should be
-> > +/// handled by two drivers that are connected using auxiliary bus.
-> > +pub const FEAT_COMPUTE_ACCEL: u32 = bindings::drm_driver_feature_DRIVER_COMPUTE_ACCEL;
-> > +/// Driver supports user defined GPU VA bindings for GEM objects.
-> > +pub const FEAT_GEM_GPUVA: u32 = bindings::drm_driver_feature_DRIVER_GEM_GPUVA;
-> > +/// Driver supports and requires cursor hotspot information in the cursor plane (e.g. cursor plane
-> > +/// has to actually track the mouse cursor and the clients are required to set hotspot in order for
-> > +/// the cursor planes to work correctly).
-> > +pub const FEAT_CURSOR_HOTSPOT: u32 = bindings::drm_driver_feature_DRIVER_CURSOR_HOTSPOT;
+On Fri, 28 Mar 2025 16:14:55 -0600 Shuah Khan <skhan@linuxfoundation.org> wrote:
+
+> On 3/13/25 16:05, Andrew Morton wrote:
+> > On Thu, 13 Mar 2025 11:31:12 -0700 Guenter Roeck <linux@roeck-us.net> wrote:
+> > 
+> >> On Thu, Mar 13, 2025 at 06:24:25PM +0100, Maxime Ripard wrote:
+> >>>>
+> >>>> Yeah, as with my prior review, I'm a fan of this. It makes a bunch of my
+> >>>> very noisy tests much easier to deal with.
+> >>>
+> >>> And for the record, we're also affected by this in DRM and would very
+> >>> much like to get it merged in one shape or another.
+> >>>
+> >>
+> >> I was unable to get maintainers of major architectures interested enough
+> >> to provide feedback, and did not see a path forward. Maybe Alessandro
+> >> has more success than me.
+> > 
+> > I'll put them into mm.git, to advance things a bit.
 > 
-> IMHO I don't think that we should be exposing any of these constants, building
-> the feature flag mask should honestly be abstracted away into the rust
-> bindings as not doing so means it's very easy to break assumptions that could
-> lead to unsoundness.
+> I haven't heard from kunit maintainers yet. This thread got lost
+> in inbox due to travel.
+> 
+> David/Brendan/Rae, Okay to take this series?
+> 
+>
+> Andrew, Okay to take this through your tree - this needs merging.
 
-Yep, that was the plan, just forgot to make them crate private; on the other
-hand I should probably drop them entirely for now.
 
-- Danilo
+The review for 07/14 made me expect an update - perhaps tweak the asm
+constraints and add a comment.  This can be addressed later, as long as
+we don't forget.
+
+However
+https://lkml.kernel.org/r/20250324104702.12139E73-hca@linux.ibm.com
+needs to be addressed before a merge.  The series in mm.git breaks the
+s390 build.
+
+
