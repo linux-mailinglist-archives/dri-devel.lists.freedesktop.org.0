@@ -2,56 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A42A7483A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 11:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25EB8A7483C
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 11:28:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6633510E9CF;
-	Fri, 28 Mar 2025 10:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 797E210E9D0;
+	Fri, 28 Mar 2025 10:28:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Mn3jL0hf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XuaJDFtu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADC8910E9CF
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 10:28:17 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 296EF752;
- Fri, 28 Mar 2025 11:26:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1743157587;
- bh=OTwI9aGqFKxdOoAi9IRebrULyZqV3oGbyNLGr/YD3+8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Mn3jL0hf/e80kH2AjGhu3uy3ViQOOYxjuLq+tx/E8kMGOOoBPtvBZAYtnb1mI3EA8
- 6Pm9/pWynXpTNYkcknaMy2BwPzB3x0KeRELYNZHIHDfjKsh2nV0tqgtIgpBTclUMfg
- uMF48BhYkFQGqt4EEdwiPhMHX1rO0AgBOh+A6ngU=
-Date: Fri, 28 Mar 2025 12:27:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Vishal Sagar <vishal.sagar@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B882B10E9D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 10:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743157704; x=1774693704;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=sZMiKU7x0+BMowQV4/xzw/6SsxoIkXIT8nD81qFL2wA=;
+ b=XuaJDFtu4PrM76Zcw2cqWnQuhoURZOzS/F7qkoujGMTYTBV27HcYslz1
+ XRPnMltwb6h/z27Q2ED3ocnBHZGbhbo+5bkr878Fg3URRWujrKLRy614C
+ sIBGir1e7RAVJGmbI4ipMy3aC7VeOClIb9CIKeGD4ByugmuhvL7ci6SxX
+ qR8bcISbOSm1rmA31pEgxoOqRHLKvFEsuJ7lg8MmqP9ubxYlnKHGWu5C6
+ dwNPj05KHJr9ssa7tkR7cvLRBUPDUgXg/mF2DMvuNLXHH+895ldW4GPbR
+ pXxhtKEcXQ4OlWSDbR7jgPWZOCbxExPFEla+QxoHsXFy6d7Z4OzyF59IH A==;
+X-CSE-ConnectionGUID: Y1PjSCdmS12dBl2+Og29dg==
+X-CSE-MsgGUID: QzOzT0mGRYuXIfItOegnTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44678473"
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="44678473"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2025 03:28:23 -0700
+X-CSE-ConnectionGUID: Etlj5KfoQP2lLuGcQbJpiA==
+X-CSE-MsgGUID: Qk1KpXzQSJiRPoEvUyFHFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; d="scan'208";a="126331990"
+Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.94])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2025 03:28:18 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
+ tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
+Cc: liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com,
+ libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v4 02/11] drm/fourcc: Add DRM_FORMAT_XV15/XV20
-Message-ID: <20250328102752.GA2639@pendragon.ideasonboard.com>
-References: <20250326-xilinx-formats-v4-0-322a300c6d72@ideasonboard.com>
- <20250326-xilinx-formats-v4-2-322a300c6d72@ideasonboard.com>
- <20250327223449.GA16629@pendragon.ideasonboard.com>
- <5282b9f9-edef-45fd-8228-16096981a11a@ideasonboard.com>
+ shiyongbang@huawei.com
+Subject: Re: [PATCH v7 drm-dp 5/9] drm/hisilicon/hibmc: Getting connector
+ info and EDID by using AUX channel
+In-Reply-To: <51bae617-cfc7-43f9-968e-5f2a3ad9af40@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250319032435.1119469-1-shiyongbang@huawei.com>
+ <20250319032435.1119469-6-shiyongbang@huawei.com>
+ <87frj8c9ol.fsf@intel.com>
+ <ff11c8ac-7eb4-42cb-86d3-ad9924c9374b@huawei.com>
+ <87jz8ea6zq.fsf@intel.com>
+ <8ee961ca-0d3c-487d-a672-82714ee56743@huawei.com>
+ <875xjw87dm.fsf@intel.com>
+ <a8599ca0-9a50-453e-8986-f8fae5aa9160@huawei.com>
+ <87v7ru6bfk.fsf@intel.com>
+ <51bae617-cfc7-43f9-968e-5f2a3ad9af40@huawei.com>
+Date: Fri, 28 Mar 2025 12:28:14 +0200
+Message-ID: <87pli14fgh.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5282b9f9-edef-45fd-8228-16096981a11a@ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,111 +85,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 28, 2025 at 12:05:40PM +0200, Tomi Valkeinen wrote:
-> On 28/03/2025 00:34, Laurent Pinchart wrote:
-> > On Wed, Mar 26, 2025 at 03:22:45PM +0200, Tomi Valkeinen wrote:
-> >> Add two new pixel formats:
-> >>
-> >> DRM_FORMAT_XV15 ("XV15")
-> >> DRM_FORMAT_XV20 ("XV20")
-> >>
-> >> The formats are 2 plane 10 bit per component YCbCr, with the XV15 2x2
-> >> subsampled whereas XV20 is 2x1 subsampled.
-> >>
-> >> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >> ---
-> >>   drivers/gpu/drm/drm_fourcc.c  | 6 ++++++
-> >>   include/uapi/drm/drm_fourcc.h | 8 ++++++++
-> >>   2 files changed, 14 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> >> index 2f5781f5dcda..e101d1b99aeb 100644
-> >> --- a/drivers/gpu/drm/drm_fourcc.c
-> >> +++ b/drivers/gpu/drm/drm_fourcc.c
-> >> @@ -346,6 +346,12 @@ const struct drm_format_info *__drm_format_info(u32 format)
-> >>   		{ .format = DRM_FORMAT_P030,            .depth = 0,  .num_planes = 2,
-> >>   		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
-> >>   		  .hsub = 2, .vsub = 2, .is_yuv = true},
-> >> +		{ .format = DRM_FORMAT_XV15,		.depth = 0,  .num_planes = 2,
-> >> +		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
-> >> +		  .hsub = 2, .vsub = 2, .is_yuv = true },
-> >> +		{ .format = DRM_FORMAT_XV20,		.depth = 0,  .num_planes = 2,
-> >> +		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
-> >> +		  .hsub = 2, .vsub = 1, .is_yuv = true },
-> > 
-> > It appears we can never have too much (or enough) documentation, as
-> > reading the format info documentation leaves me with unanswered
-> > questions.
-> > 
-> > Looking at drm_format_info_min_pitch():
-> > 
-> > uint64_t drm_format_info_min_pitch(const struct drm_format_info *info,
-> > 				   int plane, unsigned int buffer_width)
-> > {
-> > 	if (!info || plane < 0 || plane >= info->num_planes)
-> > 		return 0;
-> > 
-> > 	return DIV_ROUND_UP_ULL((u64)buffer_width * info->char_per_block[plane],
-> > 			    drm_format_info_block_width(info, plane) *
-> > 			    drm_format_info_block_height(info, plane));
-> > }
-> > 
-> > For the first plane, the function will return `buffer_width * 4 / 3`
-> > (rouding up), which I think is right. For the second plane, it will
-> > return `buffer_width * 8 / 3`, which I believe is wrong as the format is
-> > subsampled by a factor 2 horizontally. It seems that either
-> > char_per_block and block_w need to take horizontal subsampling into
-> > account (and therefore be 8 and 6 for the second plane), or
-> > drm_format_info_min_pitch() should consider .hsub. Or there's something
-> > else I'm missing :-)
-> 
-> The buffer_width is already divided by the hsub, in 
-> drm_format_info_plane_width().
+On Fri, 28 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>> On Thu, 27 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>>> =E5=9C=A8 2025/3/26 17:32, Jani Nikula =E5=86=99=E9=81=93:
+>>>> On Tue, 25 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>>>>>> On Mon, 24 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>>>>>>>> On Wed, 19 Mar 2025, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>>>>>>>>> From: Baihan Li <libaihan@huawei.com>
+>>>>>>>>>
+>>>>>>>>> Add registering drm_aux and use it to get connector edid with drm
+>>>>>>>>> functions. Add ddc channel in connector initialization to put drm=
+_aux
+>>>>>>>>> in drm_connector.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Baihan Li <libaihan@huawei.com>
+>>>>>>>>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+>>>>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>>>>> ---
+>>>>>>>>> ChangeLog:
+>>>>>>>>> v6 -> v7:
+>>>>>>>>>       - add if statement about drm aux in hibmc_dp_connector_get_=
+modes(), suggested by Jani Nikula
+>>>>>>>> I don't understand this, and I did not suggest such a thing.
+>>>>>>>>
+>>>>>>>> BR,
+>>>>>>>> Jani.
+>>>>>>>>
+>>>>>>> Hi Jani,
+>>>>>>>
+>>>>>>> Is the modification of v8 correct?
+>>>>>> I never received that for whatever reason.
+>>>>> Here's the link: https://lore.kernel.org/all/20250320101455.2538835-1=
+-shiyongbang@huawei.com/
+>>>> Thanks.
+>>>>
+>>>> The EDID handling looks fine.
+>>>>
+>>>> AFAICT you leak dp->aux.name though.
+>>>>
+>>>>
+>>>> BR,
+>>>> Jani.
+>>> Thanks for for reminding me, actually the dp->aux.name was written beca=
+use I misunderstood what you meant in V7,
+>>> and I deleted it in V8.
+>> This is in the link you posted:
+>>
+>> +	dp->aux.name =3D kasprintf(GFP_KERNEL, "HIBMC DRM dp aux");
+>>
+> Hi Jani,
+>
+> I got it. I think I can change it to devm_kasprintf() in next bug fix pat=
+ch, is that ok?
 
-The function documentation doesn't clearly indicate if buffer_width is
-the width of the buffer (as in the width of the first plane), or the
-width of the requested plane. The variable name implies (for me) that
-it's the width of the buffer, not the plane.
+Maybe. I don't have the time to look into hibmc details.
 
-I've checked users of the function, and it seems to be a mess. The
-following users pass the plane width to the function:
+BR,
+Jani.
 
-drivers/gpu/drm/drm_framebuffer.c
-drivers/gpu/drm/drm_gem_framebuffer_helper.c
-drivers/gpu/drm/tests/drm_format_test.c
 
-However, the following users seem to pass the full buffer width:
+>
+>
+>>
+>>> Thanks,
+>>> Baihan.
+>>>
+>>>>
 
-drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-drivers/gpu/drm/tests/drm_format_helper_test.c
-
-> >>   	};
-> >>   
-> >>   	unsigned int i;
-> >> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> >> index 81202a50dc9e..1247b814bd66 100644
-> >> --- a/include/uapi/drm/drm_fourcc.h
-> >> +++ b/include/uapi/drm/drm_fourcc.h
-> >> @@ -304,6 +304,14 @@ extern "C" {
-> >>   #define DRM_FORMAT_RGB565_A8	fourcc_code('R', '5', 'A', '8')
-> >>   #define DRM_FORMAT_BGR565_A8	fourcc_code('B', '5', 'A', '8')
-> >>   
-> >> +/*
-> >> + * 2 plane 10 bit per component YCrCb
-> >> + * index 0 = Y plane, [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian
-> >> + * index 1 = Cb:Cr plane, [63:0] x:Cr2:Cb2:Cr1:x:Cb1:Cr0:Cb0 2:10:10:10:2:10:10:10 little endian
-> > 
-> > I believe this is right, but I have a hard time validating it, as I
-> > think the corresponding figures in UG1085 are incorrect (they show a
-> > 8bpp format as far as I can tell). Do I assume correctly that you've
-> > tested the formats ?
-> 
-> Yes. kms++'s master branch has support for all the formats in this series.
-> 
->   Tomi
-
--- 
-Regards,
-
-Laurent Pinchart
+--=20
+Jani Nikula, Intel
