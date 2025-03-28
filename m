@@ -2,91 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AFEA74968
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:44:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C06A7497B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:48:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1308910E0A4;
-	Fri, 28 Mar 2025 11:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0286410E9F2;
+	Fri, 28 Mar 2025 11:48:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="P4WfsX0h";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="J2mKnDhW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oDeBYnut";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a4-smtp.messagingengine.com
- (fout-a4-smtp.messagingengine.com [103.168.172.147])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFD610E0A4
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 11:44:47 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal
- [10.202.2.45])
- by mailfout.phl.internal (Postfix) with ESMTP id 717381382CF4;
- Fri, 28 Mar 2025 07:44:46 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-05.internal (MEProxy); Fri, 28 Mar 2025 07:44:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1743162286; x=1743248686; bh=bgXswIbMjn
- A/aMDEQsm4ZrPZ7vvhEhrgXQbINneJrC0=; b=P4WfsX0h8A4n3adLSi/2kD9Koc
- wzhiG4cf3L1B468n6wlttySyNW0Ukzv93z6De4Q+VdCbnC7xljJA5OogUhPlWXIf
- jzzC7bstIbmaGSdALz7W96Q9TPaV8GEqSOViDnAGS6fEA/xgJsVBgyFSPyo0KVtt
- RvQM+nnQe5EsYRZpFjhw9hej6rqBBJyCKqhrmt/HfnLgQ5I6+m1Dhdovh4grR5aU
- DfKYjinI//I5wG39t3etExZtj3eyZxSJTygyIJFKbv8lywzg0pmCluGjex+cm68Z
- Et/H9A1yh1LF2HhkDXDSoGtMshC5O0Yc0wm6n6cNh7emBlpFrW1byI3YGcdw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1743162286; x=1743248686; bh=bgXswIbMjnA/aMDEQsm4ZrPZ7vvhEhrgXQb
- INneJrC0=; b=J2mKnDhWT6mc8281idWRL3K5oMqQXn/kVZJt40RAh4wI8LbNzbe
- AhrnQYU2dPGAeHCu4YMDJfbyUCrCrp2ovMfu0LWeB/Uhk06+BHuITS3OuF9LK24b
- 6UKO58LDZDv8WOJxGoLuNrtWfVVJiRpw3iiu/bodAqUU1dKO+QMy5WCQ9fhuNwFI
- lnn9spCMmmJmj17t/SbC8OewzZ90ox935PTWXKdtrWCGsxfzVsIn/Cob4yfs8MUg
- zZW72sEmiwu+X0Q5+4tVymDayyNx23urK4HqquRsU4zrJfVTbRdtN180YjhAo3R4
- ZJaxy8WpY/BaAciQpKEcL7vDS7BxQeS5GBA==
-X-ME-Sender: <xms:rYvmZ04NQjNpCjZCemWRMaKJUDQPQCXOgr36DbV-SOMxxE-25KMyhA>
- <xme:rYvmZ17a8Vo5ZbCt-RwJMHpFn5xuAxkG8Tw8qYb3Qgl0VJbeoVEQGUg4SMBSLWVBP
- T5GruRSQA2T9IfQR3U>
-X-ME-Received: <xmr:rYvmZzfGMs0k07Jzh7UDCps4-U8RTXAabWkD75jzUZq3NLbvOkYv5f7lsuHTTXJyeEQ0eh8yx13GwOndi743bWfQpLguj1rAxA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeduvdduucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpeffhf
- fvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfirhhunhgr
- uhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvffevleegud
- ejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhsthgvrhfu
- ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpd
- hnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehshhgr
- ohdrmhhinhhghihinhesiihtvgdrtghomhdrtghnpdhrtghpthhtohepfhhnkhhlrdhkvg
- hrnhgvlhesghhmrghilhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhs
- thhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghsrghhiheslhhish
- htshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhg
- vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeihrghnghdrhigrnhhgvdelseiith
- gvrdgtohhmrdgtnhdprhgtphhtthhopeiguhdrgihinhduieesiihtvgdrtghomhdrtghn
- pdhrtghpthhtohephigvrdigihhnghgthhgvnhesiihtvgdrtghomhdrtghnpdhrtghpth
- htohepthgrnhhgrdguohhnghigihhnghesiihtvgdrtghomhdrtghn
-X-ME-Proxy: <xmx:rYvmZ5I7S65MjMkBPq8fRmm_CIFNFqNq8kjKgjDgAaJJHCp692T2Jg>
- <xmx:rYvmZ4JNaZAHANSovkUFtoiwk4NBlWub8Ompm9CmAmFusevv7Sge8g>
- <xmx:rYvmZ6xoN8lDdqEr3EQFgigCen7qYdE2U4vGxecy7MDT_PaibrLVjg>
- <xmx:rYvmZ8Kqz40ff1C47gaiZqgqAEvbJRzP_plgrRuRlO_SCCUImNJwoQ>
- <xmx:rovmZ9VkzrL-s7ymQgDaGvPISB-zXyx625B5ycTH1DYFcRGyBZ7VG-0O>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 28 Mar 2025 07:44:45 -0400 (EDT)
-Date: Fri, 28 Mar 2025 12:44:43 +0100
-From: Janne Grunau <j@jannau.net>
-To: shao.mingyin@zte.com.cn
-Cc: fnkl.kernel@gmail.com, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
- yang.yang29@zte.com.cn, xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn,
- tang.dongxing@zte.com.cn
-Subject: Re: [PATCH] drm: adp: Use device_match_of_node()
-Message-ID: <20250328114443.GA597674@robin.jannau.net>
-References: <20250328170705401AXCIsIhOYGoIu8LDn_lj6@zte.com.cn>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C54D610E1AC;
+ Fri, 28 Mar 2025 11:48:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 491C65C57E2;
+ Fri, 28 Mar 2025 11:46:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88576C4CEE4;
+ Fri, 28 Mar 2025 11:48:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743162521;
+ bh=ubfo+6G4HyjsKC9Qt3QnXYGYKpuzAJVzYi8an+53eRM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oDeBYnutRbhSlImrMHaUNapXSWsPH8Ker34IgZ//2QTy1X2XnO4VIjic/vsgri0u4
+ lgdtNIWuS1m6mzwD0NByNenm0aBtPV7oTgIpI3wKXvcwOl7e2T5D26P1xdKk3YCQK2
+ B14D8DZOrDEEjOhlvvsUbElScE+3Ke6IgtGIcQl55vfj2bIL3mn92W76c3JRUXYzn7
+ B+xS71+Kzxo0t4wtjXZsJnbZeYICpX8pb3LB+gx5cxBUKCdYOpslF7ZBSBrE3PNYLx
+ JdnN4I8ayuN8NsXLL0iyfJel6AuAJZjr7IHhXR7YYfr+wh8m5M2RA3pI8RxDCXcrHL
+ wnj5nXv1MaRzA==
+Date: Fri, 28 Mar 2025 12:48:36 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: M Henning <mhenning@darkrefraction.com>
+Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] drm/nouveau: DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER
+Message-ID: <Z-aMlNW2-MvjETXV@pollux>
+References: <20250312213746.228042-1-mhenning@darkrefraction.com>
+ <20250312213746.228042-3-mhenning@darkrefraction.com>
+ <Z9xfoS89yimS1Sb3@pollux>
+ <CAAgWFh2RtCwaKNinX9X4BjwNiaBj5BF_ypzbqoqV4LJgN4cPvg@mail.gmail.com>
+ <Z-VZlIc3E8ZQQmXa@cassiopeiae>
+ <CAAgWFh2F-MH_U1V6SY_Z3nWz0_meyvAcWjfUiEoXzpW697oi7w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250328170705401AXCIsIhOYGoIu8LDn_lj6@zte.com.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAgWFh2F-MH_U1V6SY_Z3nWz0_meyvAcWjfUiEoXzpW697oi7w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,38 +64,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 28, 2025 at 05:07:05PM +0800, shao.mingyin@zte.com.cn wrote:
-> From: Tang Dongxing <tang.dongxing@zte.com.cn>
+On Thu, Mar 27, 2025 at 03:01:54PM -0400, M Henning wrote:
+> On Thu, Mar 27, 2025 at 9:58 AM Danilo Krummrich <dakr@kernel.org> wrote:
+> >
+> > On Fri, Mar 21, 2025 at 07:00:57PM -0400, M Henning wrote:
+> > > This is a pointer in the gpu's virtual address space. It must be
+> > > aligned according to ctxsw_align and be at least ctxsw_size bytes
+> > > (where those values come from the nouveau_abi16_ioctl_get_zcull_info
+> > > structure). I'll change the description to say that much.
+> > >
+> > > Yes, this is GEM-backed. I'm actually not entirely sure what the
+> > > requirements are here, since this part is reverse-engineered. I think
+> > > NOUVEAU_GEM_DOMAIN_VRAM and NOUVEAU_GEM_DOMAIN_GART are both okay. The
+> > > proprietary driver allocates this buffer using
+> > > NV_ESC_RM_VID_HEAP_CONTROL and sets attr = NVOS32_ATTR_LOCATION_ANY |
+> > > NVOS32_ATTR_PAGE_SIZE_BIG | NVOS32_ATTR_PHYSICALITY_CONTIGUOUS, attr2
+> > > = NVOS32_ATTR2_GPU_CACHEABLE_YES | NVOS32_ATTR2_ZBC_PREFER_NO_ZBC.
+> >
+> > (Please do not top post.)
+> >
+> > What I mean is how do you map the backing GEM into the GPU's virtual address
+> > space? Since it's bound to a channel, I assume that it must be ensured it's
+> > properly mapped when work is pushed to the channel. Is it mapped through
+> > VM_BIND?
 > 
-> Replace the open-code with device_match_of_node().
+> Yes. The userspace code for this is here:
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33861/diffs?commit_id=0c4baab863730f9fc8b417834ffcbb400f11d617
+> It calls into the usual function for driver internal allocations
+> (nvkmd_dev_alloc_mem) which calls VM_BIND internally.
+
+BOs mapped through VM_BIND are prone to eviction, is this a problem here, or is
+it fine if it is only ensured that this mapping is valid for the duration of
+subsequent EXEC jobs?
+
+Does the mapping need to be valid when DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER is
+called? If so, how is this ensured?
+
+Can DRM_NOUVEAU_SET_ZCULL_CTXSW_BUFFER be called in between multiple
+DRM_NOUVEAU_EXEC calls?
+
+Does it maybe need an async mode, such as EXEC and VM_BIND? (To me it doesn't
+seem to be the case, but those questions still need an answer.)
+
+I also think we should document those things.
+
+> I don't understand: why is this line of questioning important?
+
+By sending those patches you ask me as the maintainer of the project to take
+resposibility of your changes. In this case it even goes further. In fact, you
+ask me to take resposibility of a new interface, which, since it is a uAPI, can
+*never* be removed in the future after being released.
+
+It is part of my job to act responsibly, which includes understanding what the
+interface does, how it is intended to be used, whether it is sufficient for its
+purpose or if it has any flaws.
+
 > 
-> Signed-off-by: Tang Dongxing <tang.dongxing@zte.com.cn>
-> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-> ---
->  drivers/gpu/drm/adp/adp_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-> index c98c647f981d..0abb56ce2c34 100644
-> --- a/drivers/gpu/drm/adp/adp_drv.c
-> +++ b/drivers/gpu/drm/adp/adp_drv.c
-> @@ -553,7 +553,7 @@ static const struct component_master_ops adp_master_ops = {
-> 
->  static int compare_dev(struct device *dev, void *data)
->  {
-> -	return dev->of_node == data;
-> +	return device_match_of_node(dev, data);
->  }
-
-please remove compare_dev() completely and replace the argmunent in the
-drm_of_component_match_add() call directly. Commonly
-component_compare_of() is used but it is also just a wrapper around
-device_match_of_node().
-
-drivers/gpu/drm/arm/hdlcd_drv.c and drivers/gpu/drm/arm/malidp_drv.c
-follow the same pattern so please fix those as well. One of them was
-used as template for this driver.
-
-Thanks,
-
-Janne
+> > >
+> > > On Thu, Mar 20, 2025 at 2:34 PM Danilo Krummrich <dakr@kernel.org> wrote:
+> > > >
+> > > > On Wed, Mar 12, 2025 at 05:36:15PM -0400, Mel Henning wrote:
+> > > > > diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+> > > >
+> > > > Same here, please split the uAPI change in a separate commit.
+> > > >
+> > > > > index 33361784eb4e..e9638f4dd7e6 100644
+> > > > > --- a/include/uapi/drm/nouveau_drm.h
+> > > > > +++ b/include/uapi/drm/nouveau_drm.h
+> > > > > @@ -448,6 +448,20 @@ struct drm_nouveau_get_zcull_info {
+> > > > >       __u32 ctxsw_align;
+> > > > >  };
+> > > > >
+> > > > > +struct drm_nouveau_set_zcull_ctxsw_buffer {
+> > > > > +     /**
+> > > > > +      * @ptr: The virtual address for the buffer, or null to bind nothing
+> > > > > +      */
+> > > > > +     __u64 addr;
+> > > >
+> > > > What is this buffer? Is this a GEM object backed buffer? How is it mapped?
