@@ -2,49 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3914FA74D53
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 16:05:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C77EA74D74
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 16:10:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBB310E048;
-	Fri, 28 Mar 2025 15:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7551910E201;
+	Fri, 28 Mar 2025 15:10:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c6J7IYiL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f7qnPUyA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3259810E048;
- Fri, 28 Mar 2025 15:05:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 788FD10E201
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 15:10:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 93257A42AF8;
- Fri, 28 Mar 2025 15:00:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5010FC4CEE4;
- Fri, 28 Mar 2025 15:05:41 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D0381A42B2F;
+ Fri, 28 Mar 2025 15:04:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 053AEC4CEE5;
+ Fri, 28 Mar 2025 15:10:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743174343;
- bh=DFlgmDbfFVNEIC8CuMgkRVk9uaSaT4iLRwL3bDdyVjU=;
+ s=k20201202; t=1743174603;
+ bh=8mVD449PawS/p5m/Co7ffo96wtsQqQSnrPundwS6NoI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c6J7IYiLwYEa8HUpwYBGYRDyIuKnXwG2AIg/IQgkucNhPP7TlZ3NVRsWsoA+kw1GR
- AFGsDW3zqA7Y5WXozoKfKFjNwK0AK9hPJZQTeFbRLuOf721qwquNcEwMHcIl/fBiuX
- m9eKDJn3BEz7+QM9DG4mft7OcdU7ZhpmWUrhLESEUp7CKwfxTbLkqJ065KFjDIOtdD
- Rz414Fe68nmJwmIP24fAuRXdstVNpGWk5HKwp7gkRUCYtI5rCn+xu2nVm+8NcN3uE2
- 9JHPX1z7eBO7QQtFfxiSeLnTfAI9Z5fA+iyxT0l0bVaquQGxy4vkQI/1HEPB9Kcg+I
- P6cDE2SXaOtbQ==
-Date: Fri, 28 Mar 2025 16:05:38 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] drm/nouveau/outp: Avoid
- -Wflex-array-member-not-at-end warning
-Message-ID: <Z-a6wtoIAkDY2ERx@pollux>
-References: <Z-a2DAQmcsHHlyci@kspp>
+ b=f7qnPUyA7fNCJOX/b3W3QEGEVBZxw86ST+Rf3WT8ywwQiOA9WwaLvPlOJz1dIiYT4
+ WN8yfBOGiKSXetz+e0MCWbLf5GQGPuxGAYREMQaG37iRAf8S4Wg7i8wvLIvX2WKr+v
+ e91YHfk6ViDsnqdTn7nagkrxGh8jZ6+WzSxlPw01XWxrdLeHOi4MAYhErYAOH6Jn4Z
+ S6cAoXTdw9MyDFIazGhFh1JKDreJjMFKEGOo6OInVC9EPwa+/WgJHYqbniAYCyfHjO
+ azNxz4vc/idtUeiGoxCY6bkomZ0Gy7XtfeItwDlOQKT+kwf/maxZawZ0Ey6pwqNJrO
+ M0ZUtRLyPTqXA==
+Date: Fri, 28 Mar 2025 16:10:00 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
+ helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch,
+ robdclark@gmail.com, 
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ valentine.burley@collabora.com, 
+ lumag@kernel.org, quic_abhinavk@quicinc.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] drm/ci: Add jobs to run KUnit tests
+Message-ID: <20250328-idealistic-invisible-unicorn-961d67@houat>
+References: <20250327160117.945165-1-vignesh.raman@collabora.com>
+ <20250327160117.945165-4-vignesh.raman@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="75a2n7mh4apie7ji"
 Content-Disposition: inline
-In-Reply-To: <Z-a2DAQmcsHHlyci@kspp>
+In-Reply-To: <20250327160117.945165-4-vignesh.raman@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,68 +64,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 28, 2025 at 08:45:32AM -0600, Gustavo A. R. Silva wrote:
-> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-> getting ready to enable it, globally.
-> 
-> Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
-> a flexible structure where the size of the flexible-array member
-> is known at compile-time, and refactor the rest of the code,
-> accordingly.
-> 
-> So, with these changes, fix the following warning:
-> 
-> drivers/gpu/drm/nouveau/nvif/outp.c:199:45: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+--75a2n7mh4apie7ji
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 3/3] drm/ci: Add jobs to run KUnit tests
+MIME-Version: 1.0
+
+On Thu, Mar 27, 2025 at 09:31:12PM +0530, Vignesh Raman wrote:
+> Add jobs to run KUnit tests using tools/testing/kunit/kunit.py tool.
+>=20
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 > ---
->  drivers/gpu/drm/nouveau/nvif/outp.c | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvif/outp.c b/drivers/gpu/drm/nouveau/nvif/outp.c
-> index 6daeb7f0b09b..403cf16d5e84 100644
-> --- a/drivers/gpu/drm/nouveau/nvif/outp.c
-> +++ b/drivers/gpu/drm/nouveau/nvif/outp.c
-> @@ -195,20 +195,18 @@ nvif_outp_dp_aux_pwr(struct nvif_outp *outp, bool enable)
->  int
->  nvif_outp_hda_eld(struct nvif_outp *outp, int head, void *data, u32 size)
->  {
-> -	struct {
-> -		struct nvif_outp_hda_eld_v0 mthd;
-> -		u8 data[128];
-> -	} args;
-> +	DEFINE_RAW_FLEX(struct nvif_outp_hda_eld_v0, mthd, data, 128);
->  	int ret;
->  
-> -	if (WARN_ON(size > ARRAY_SIZE(args.data)))
-> +	if (WARN_ON(size > 128))
+>  drivers/gpu/drm/ci/gitlab-ci.yml |  1 +
+>  drivers/gpu/drm/ci/kunit.sh      | 34 ++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/ci/kunit.yml     | 19 ++++++++++++++++++
+>  3 files changed, 54 insertions(+)
+>  create mode 100755 drivers/gpu/drm/ci/kunit.sh
+>  create mode 100644 drivers/gpu/drm/ci/kunit.yml
+>=20
+> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab=
+-ci.yml
+> index 9e61b49e9960..90ae57ca86a1 100644
+> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+> @@ -109,6 +109,7 @@ include:
+>    - drivers/gpu/drm/ci/build.yml
+>    - drivers/gpu/drm/ci/test.yml
+>    - drivers/gpu/drm/ci/check-devicetrees.yml
+> +  - drivers/gpu/drm/ci/kunit.yml
+>    - 'https://gitlab.freedesktop.org/gfx-ci/lab-status/-/raw/main/lab-sta=
+tus.yml'
+> =20
+> =20
+> diff --git a/drivers/gpu/drm/ci/kunit.sh b/drivers/gpu/drm/ci/kunit.sh
+> new file mode 100755
+> index 000000000000..197b19d05fba
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/kunit.sh
+> @@ -0,0 +1,34 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: MIT
+> +
+> +set -euxo pipefail
+> +
+> +case "${KERNEL_ARCH}" in
+> +    "arm")
+> +        QEMU_PKG=3D"qemu-system-arm"
+> +        GCC_ARCH=3D"arm-linux-gnueabihf"
+> +        ;;
+> +    "arm64")
+> +        QEMU_PKG=3D"qemu-system-aarch64"
+> +        GCC_ARCH=3D"aarch64-linux-gnu"
+> +        ;;
+> +    "x86_64")
+> +        QEMU_PKG=3D"qemu-system-x86"
+> +        GCC_ARCH=3D"x86_64-linux-gnu"
+> +        ;;
+> +    *)
+> +        echo "Unsupported architecture: ${KERNEL_ARCH}"
+> +        exit 1
+> +        ;;
+> +esac
+> +
+> +export ARCH=3D"${KERNEL_ARCH}"
+> +export CROSS_COMPILE=3D"${GCC_ARCH}-"
+> +
+> +apt-get update -qq && apt-get install -y --no-install-recommends "${QEMU=
+_PKG}"
 
-Seems a bit unfortunate that the size is duplicated here.
+Thanks for working on that.
 
-Can we have an accessor macro to derive the size for us?
+I'm a bit concerned about using making it entirely debian specific here.
+Between the call to apt, the gcc triplet and the qemu package name, this
+not really a script to run kunit tests, but to run them on Debian :)
 
-	union {
-		u8 bytes[struct_size_t(type, member, count)];
-		type obj;
-	} name##_u initializer;
+We should make it pretty explicit and / or just assume the runner has
+the right packages and call kunit directly.
 
-Maybe a macro that returns the size difference between bytes and obj?
+Maxime
 
->  		return -EINVAL;
->  
-> -	args.mthd.version = 0;
-> -	args.mthd.head = head;
-> +	mthd->version = 0;
-> +	mthd->head = head;
->  
-> -	memcpy(args.data, data, size);
-> -	ret = nvif_mthd(&outp->object, NVIF_OUTP_V0_HDA_ELD, &args, sizeof(args.mthd) + size);
-> +	memcpy(mthd->data, data, size);
-> +	ret = nvif_mthd(&outp->object, NVIF_OUTP_V0_HDA_ELD, mthd,
-> +			__struct_size(mthd) + size);
->  	NVIF_ERRON(ret, &outp->object, "[HDA_ELD head:%d size:%d]", head, size);
->  	return ret;
->  }
-> -- 
-> 2.43.0
-> 
+--75a2n7mh4apie7ji
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+a7yAAKCRDj7w1vZxhR
+xQvVAQD1lfS0Kb493V52mh+q8MQC1q6XrDmqPA2YMCaf+0CXYAEAs5AVppk0CIA3
+T/QxymOrulLOT75Wz9HOu5L8QRI2NAg=
+=wBRy
+-----END PGP SIGNATURE-----
+
+--75a2n7mh4apie7ji--
