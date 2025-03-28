@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA1CA74942
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:35:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48397A74947
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Mar 2025 12:36:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C38210E0E8;
-	Fri, 28 Mar 2025 11:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA9D610E9E1;
+	Fri, 28 Mar 2025 11:36:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="TZVKhzzK";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="XJ8lvoRl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A38A10E0E8
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 11:35:20 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id
- af79cd13be357-7c07cd527e4so199450285a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 04:35:20 -0700 (PDT)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+ [209.85.160.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C36910E9E1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 11:36:21 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id
+ d75a77b69052e-4767e969b94so38494921cf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 04:36:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1743161719; x=1743766519;
+ d=fooishbar.org; s=google; t=1743161781; x=1743766581;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pd8PN3p/9kcncZ2GucwiT4TwhVYWesPdmNLpevSyZB8=;
- b=TZVKhzzKFGrkTV5T1IFHtZ09Bm7THMmR9SPbNmzisBd38HGQ6iFdJl5viMHEH+ghkj
- ojo5VkySVMo3zats084sYFX8/6s5xHi6hCSjBi0uSoj96luOJJpuu4weHFU8vYD8UbCA
- LZAbfucs8W2JMTT/Csf//JZm+88+fYP4llLGnCusHs8yHA9TNN2LHKfnWptHGbH6LdNn
- 5F8PkItXtp6xCKoml6Z3QCd0MjSYgHSJwFtOr/HlMH6xr8QyD9PYnJSD61WrT3EDSAT9
- yH+VW3skXhpUAZHI/Tg6WtMXwR93RdbxZ5831OyW3wZ7bpIB03svLnRpUkMBiIYeTED6
- vQgg==
+ bh=ET074EYL50HSsDeaXyGaU0mb+9S3ItW3P13lTFuLZfI=;
+ b=XJ8lvoRlg3ONIpwuVmW8jJKi94zUqC1oHYIU+07vtOWVHu+sw5vWAwtsgloRcPD0+H
+ +TIYYUTlbKCVAHT8yabUvB0C82hzzF+bXbdpbcxSn73ZAmQ4DZf1jzWc7Tr1uENtBZF/
+ BMpgUyHZR+qnINp9K7zlP6jpFiyNJWZtwYUmDFbRbeVDjwU/gAW2/J93TlXl1FBc96Pl
+ 1sxjjFgIdeYFP9ncSt+x/Y1p3clRart2q2neQRtxlzUhbR2YH/7dJPl6X5VS+oSd8zvq
+ KJHkbzwW/tnFt59yd1DbendTB9TczNd5ngp+K4yQfvi7Ijl9KM40tTGy1YgVIvFnfauN
+ +zQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743161719; x=1743766519;
+ d=1e100.net; s=20230601; t=1743161781; x=1743766581;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=pd8PN3p/9kcncZ2GucwiT4TwhVYWesPdmNLpevSyZB8=;
- b=s6mKiy7ccMf1jv2RZArSvJikUkPpNvlaPdQSrJ4zger5YjkNQ42sdYWkP5xMXfa6uR
- w3bGqLGooh0QJ+OeYkRT9SSquBfZ8Y9B4YWFco3pqfu9sF4McDu7WFKBusDJtmMH6v6v
- fbxUgNjeOA5YOPtTd1fA4ICONR8oykxl9DYAy3U3g31+9xWRhfeQ/XsernlMe2zburVS
- yrP+dy6JxcDA6NGlpFIp4p07tcfqrPlXhDYB8dd/sXavJP4GBHG2eJlZir5HB0VPyU9k
- nO7MmmF8OCQJnDnQgVM2E+boBhJAFD/Fw43cbL5E+zYLPOdujwGGo114h1lbcI1j3oya
- ckFw==
-X-Gm-Message-State: AOJu0YypTw4Y3ONo6/Q1FNJNRp/V3mow9IBFnkTfU2mJ7oj83vgbv6zQ
- n7au+abW7NzrPO1QuVtlEYYf2RU6Rm2Kcw2cA5TZ4W/pyOLGZMWggRdfGvWKF3juNg/XRspfXoP
- n3Y7KfBdpZD/ovFrBwEbHDUgAf45x+LatwB8JJw==
-X-Gm-Gg: ASbGnctfNjxfC/W+kwQmJPp1CKlsWJ2YivdLc0aEAl1z0vJ/xktD+ScG+46xgzpfF5C
- cBtqvcRC7DMtX2mHVcJRT+eGjmDEORLc2QdZrcoc4C/BRVR4RKqFeWuk1mNrDlPjvn1yRfE5WhM
- ajQ3q8o6f7TcETgdBGBjJ1sUoJ
-X-Google-Smtp-Source: AGHT+IGU/FLsYSVAavUZD7ktRkUnhsimm7RoBgs50oKXuun5E8Xt5sIYYsCRUWZIx6YbZMwldkrPM7yjhWbUWKN2PaI=
-X-Received: by 2002:a05:620a:4496:b0:7c5:4949:23f9 with SMTP id
- af79cd13be357-7c5ed9fd825mr1126022385a.18.1743161719039; Fri, 28 Mar 2025
- 04:35:19 -0700 (PDT)
+ bh=ET074EYL50HSsDeaXyGaU0mb+9S3ItW3P13lTFuLZfI=;
+ b=w+pJhEDYYvSrTjCExzyTYtzhdDX2jGVDAV3j8bLjKMvZwus+SMJgSqESHx2sAooWtR
+ QGRvyMQbrVOSwYC85tj0AwhJA7j0r0TvzsSjK866oEbzJ+7OHTByhxYWUV1hzhiEacGr
+ BKuqVHZI4+3z1+SqTU0fhHxOQvOnJg22hJtxfcm1XIQRerQyXJkTcvnhcs82XQY3/gHL
+ 1IhKk/rFWaajusfgPUPoB7E4T2O05N3dfxTV0YoWXtuffqwKRtT6WkcI2qMJ+Vcz7cA3
+ ic1XFA+1ZVTj3BsPWugjvq48nfnAjh0a/KqFlGSjSyqCTReTSJ47b7tI4r1Mf3T+LSYa
+ E15Q==
+X-Gm-Message-State: AOJu0YwP5M1AI+8r3w/tMEopqMiDuxzqsH9h6wl1zidyEYzAM08Dau6r
+ NiwB6tj7J4UaVaAOaFbnEaDRwvJBq1cCg/oUueWSF9ne/swWwWrIvaS2FmihNtkDF3M9U00iknr
+ 09N3jKmEynypYBbTP7FWGU3aUCpZXrljdO+3fcg==
+X-Gm-Gg: ASbGncv8gZYTh7ae3xpEf56D4R6s6vUIlNGrGrFh0nCkw3sFJ0p+1+IFk3N4dSz3KZb
+ O5XAREc6TqO6XzwSbmJZqEJz6C/HpKXwIBQ0JkZ8EcmULAckKoOcvX9mFNKpNeCSCEWeX2tZcdL
+ hwYrVdLSGBAK7bwMqvt38/lURG
+X-Google-Smtp-Source: AGHT+IGgZ+mLJodz0D+guvTqMFLeD09dzf+lw+ubZeqocR8L/AGvkeOetdVLhIiwDUZf+RYpUNyNpa4RIYpozR4orO8=
+X-Received: by 2002:a05:622a:2587:b0:477:e07:4c5d with SMTP id
+ d75a77b69052e-4776e0b2338mr128707891cf.19.1743161780705; Fri, 28 Mar 2025
+ 04:36:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250328110239.993685-1-vignesh.raman@collabora.com>
- <20250328110239.993685-3-vignesh.raman@collabora.com>
-In-Reply-To: <20250328110239.993685-3-vignesh.raman@collabora.com>
+ <20250328110239.993685-4-vignesh.raman@collabora.com>
+In-Reply-To: <20250328110239.993685-4-vignesh.raman@collabora.com>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 28 Mar 2025 11:35:08 +0000
-X-Gm-Features: AQ5f1JqqTavugbKkR-L4Seu2kshOIzEVZgcN1gS5a5w-02Htx7tpV1HQ9g70LxI
-Message-ID: <CAPj87rNLqMxBgKGTSHMHT39agzu=GY-Dgk6Zma1oM1ztkTch3Q@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] drm/ci: check-patch: unshallow repository before
- fetching
+Date: Fri, 28 Mar 2025 11:36:09 +0000
+X-Gm-Features: AQ5f1JqmEJUT3tv3RAXr6WPZW7InZtdLNYmLZ4c8-tZqyom9CaQS986EPYo3Vgw
+Message-ID: <CAPj87rOPHqLaFn3r4rkeMMrQ=OSRQUJ2LLrQ4ZDE6eA1S6zybw@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] drm/ci: uprev mesa
 To: Vignesh Raman <vignesh.raman@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
  helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch, 
@@ -90,12 +89,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Vignesh,
 
 On Fri, 28 Mar 2025 at 11:03, Vignesh Raman <vignesh.raman@collabora.com> wrote:
-> Ensure the repository is not shallow before fetching branches in
-> check-patch job. This prevents issues where git merge-base fails
-> due to incomplete history. Set the timeout of check-patch job to 1h.
+> The current s3cp implementation does not work anymore after the
+> migration, and instead of fixing it and propagating the fix down to us,
+> it's simpler to directly use curl. Uprev mesa [1][2] to adapt these
+> changes. Also replace broken s3cp command with a curl wrapper call in
+> drm-ci.
 
-Ouch - an hour is pretty brutal. Is there a way to unshallow only back
-to the merge base?
+Thanks a lot for fixing this. Sorry the fallout has been so bad.
+
+You can also upgrade ci-templates to get an s3cp which works again.
 
 Cheers,
 Daniel
