@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461EEA75686
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 14:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662A8A756B8
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 15:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD36310E241;
-	Sat, 29 Mar 2025 13:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8203410E250;
+	Sat, 29 Mar 2025 14:33:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="cGcTw6BN";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="Ewx0gEgz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
- [95.215.58.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 705AC10E241
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 13:59:35 +0000 (UTC)
-Message-ID: <2909146e-dffa-400b-b3ae-c0432c4a0bae@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1743256771;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=36gri5fD2xCnOVAPYs/LSgPPkt9zRhINUlQM2IDvXSc=;
- b=cGcTw6BNm1vP1awkZJO0tJCiwL1WMjvxz9EzJ59JDqvhKT/bp4L4+24TbnlVTNZwghSAFh
- WAFY9+S82iTQP53LoSM+bttb7IAdSWSDELJGbkfKq0ASyOuFZPTDl+hnUzOtDmHQpGOtd4
- ujnPPHdaPxKvUNPrtnlS7+lsigmP+v4=
-Date: Sat, 29 Mar 2025 19:28:39 +0530
+Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCB8110E24F;
+ Sat, 29 Mar 2025 14:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1743258814; x=1743518014;
+ bh=xDKh0SEYG2UAlozeNWGpbQBdJE/U5hxRytnarzkniLw=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=Ewx0gEgzTm/4skymrdCnUxvrMGoEmzhj9CRwDsgeBRDXFbFGBTC7iUgaY3iNq3Qec
+ S/ek6UbYSoKT7b8vChXzeAYM8jIqvprVtTAGjAOg4xDaOL/bBQbeW4XsMb5FMyzhYl
+ 87kPpauFtR39a9a4BIABETmxLUcZ3VMZcEd87s7zdkBYADGiFhPqYyViuC7QpHRlVy
+ xLAmXxOqboXMO49YdoFRch1F0qhvQcBoDvi4gB9YMjs06tYhD2ElhnFAV/v7VmdS3w
+ b0lq0pj43oCV55ErVNL7rfMFl/BxCMiBKzWxsudlPUjD7ObHcmazy/7FJNtpSL7Bgx
+ r2KCPxXQ8xanQ==
+Date: Sat, 29 Mar 2025 14:33:27 +0000
+To: Alex Hung <alex.hung@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, leo.liu@amd.com,
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
+ uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+ quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+ sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+ louis.chauvet@bootlin.com
+Subject: Re: [PATCH V8 10/43] drm/plane: Add COLOR PIPELINE property
+Message-ID: <5xGNnbC-7q5cgvaDZS7MUb2jT1VizZ1zjr2eGKwLwwfP9RbSCtzszBDBRsEC8-eRLXSPMbTWLfWkzkaEGw7TqzJDi_eYM2uWoyu_vKaGSOc=@emersion.fr>
+In-Reply-To: <20250326234748.2982010-11-alex.hung@amd.com>
+References: <20250326234748.2982010-1-alex.hung@amd.com>
+ <20250326234748.2982010-11-alex.hung@amd.com>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: c30abc44cc5700c2516214c6859b7254d65ed0a0
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 0/4] drm/tidss: Add OLDI bridge support
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Simona Vetter <simona@ffwll.ch>, Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Devicetree List <devicetree@vger.kernel.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>
-References: <20250226181300.756610-1-aradhya.bhatia@linux.dev>
- <20250328124413.GA44888@francesco-nb>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <20250328124413.GA44888@francesco-nb>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,27 +65,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Francesco,
+Two nits below, regardless:
 
-On 28/03/25 18:14, Francesco Dolcini wrote:
-> Hello Aradhya,
-> 
-> On Wed, Feb 26, 2025 at 11:42:56PM +0530, Aradhya Bhatia wrote:
->> The AM62Px SoC has 2 OLDI TXes like AM62x SoC. However, the AM62Px SoC also has
->> 2 separate DSSes. The 2 OLDI TXes can now be shared between the 2 VPs of the 2
->> DSSes.
-> 
-> Do we have support for 2 independent single link LVDS/OLDI display + 1 x DSI
-> display? From my understanding the SoC should support it, but it's not
-> clear if the SW does support it.
+Reviewed-by: Simon Ser <contact@emersion.fr>
 
-The AM62Px SoC does indeed support the configuration that you mention,
-but the mainline tidss driver does not support AM62Px DSSes yet.
+> +=09} else if (property =3D=3D plane->color_pipeline_property) {
+> +=09=09/* find DRM colorop object */
+> +=09=09struct drm_colorop *colorop =3D NULL;
+> +
+> +=09=09colorop =3D drm_colorop_find(dev, file_priv, val);
+> +
+> +=09=09if (val && !colorop)
+> +=09=09=09return -EACCES;
+> +
+> +=09=09/* set it on drm_plane_state */
+> +=09=09drm_atomic_set_colorop_for_plane(state, colorop);
 
-This series only adds support for the OLDI TXes found in TI's DSS
-hardware.
+Nit: I don't think these comments are especially useful, the names of the
+functions are clear enough.
 
--- 
-Regards
-Aradhya
+> +int drm_plane_create_color_pipeline_property(struct drm_plane *plane,
+> +=09=09=09=09=09     const struct drm_prop_enum_list *pipelines,
+> +=09=09=09=09=09     const int num_pipelines)
 
+Nit: in general we don't mark non-pointer arguments as const: the function
+cannot mutate the caller's value anyways.
