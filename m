@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6392DA756BC
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 15:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A3FA756C3
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 15:41:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D248210E257;
-	Sat, 29 Mar 2025 14:37:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7F4210E259;
+	Sat, 29 Mar 2025 14:41:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="hx/yoyZp";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="Rc1aLNAz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-10625.protonmail.ch (mail-10625.protonmail.ch
- [79.135.106.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AFC510E257;
- Sat, 29 Mar 2025 14:37:13 +0000 (UTC)
+Received: from mail-4018.protonmail.ch (mail-4018.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A500810E265
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 14:41:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1743259030; x=1743518230;
+ s=protonmail2; t=1743259262; x=1743518462;
  bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=hx/yoyZpD0fFLC0LEoUqL1kVbWUYAlVHtKRNJiAjaoKp6nPduEYBX0Ebw5d/Czu0/
- d/3f52NYwL+XIIei4x/sXqDWzlwvxuF3D9LEuLHi2XeTBY180ddeMrpBY7bYlql9iG
- yeXWbSfm3sMH8p2vXMnxsKTWUUA/vXaPU+Z1iRWE4gxYW+K9w/Ae4UUu3C1rRovXba
- 1/Hx6FXlQiAkyuR/8DFQByw+yAJ3HfLhju9z0LFCzOqDtyh4sK0EVxT5tOgOYmlGPA
- gcQke99VG8xjZLdHzckWP4DhW1gU41b85dI1BqAGqQhZMMpzZtnB30deV30m5WDwjQ
- 5GCMxl3fUoZdQ==
-Date: Sat, 29 Mar 2025 14:37:05 +0000
+ b=Rc1aLNAzRXE2Yoz6fwzKYhrF9MvwOXg3uZwjMwP7HdHM+IlXaJBH1sZcJSU2Cce6b
+ ETL9gZ9avsgGQneudCn468NRnge9MCfaW2IX0jUGJ1kTGtH4C3PhyKNB4CPQWtMh84
+ vvIPKqAyxNZa7hkbvRcnaKT8Exd4vqQGngmXshTH2a+ROmqFp/qguVCaDSBLV4O/2R
+ sROg9IX4fcLHgp/auKzyvwNcpU5noLNRtxvzyhSeitYRfOqM8wK8HAX9/nlF1ayd4r
+ 8QAOQyWX20UR+2f4fI1ZM0tVSB57/0ZOOiAZUQJodYBl1YCXsOWX3JUuB37JCMm8XD
+ 699ohRqYBvniQ==
+Date: Sat, 29 Mar 2025 14:40:58 +0000
 To: Alex Hung <alex.hung@amd.com>
 From: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -41,14 +40,13 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
  sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
  louis.chauvet@bootlin.com
-Subject: Re: [PATCH V8 11/43] drm/colorop: Introduce
- DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
-Message-ID: <yKCDBb-qsK7qRMuSSBgmsRSvVXvgqwx5FKp-uzTXjlP-drIUUvSJLZGiuE9ZbAR4Q5k15kZQ38gYLI2KwisI4yiW5sZFLDIVPtwdjIVY1JM=@emersion.fr>
-In-Reply-To: <20250326234748.2982010-12-alex.hung@amd.com>
+Subject: Re: [PATCH V8 12/43] Documentation/gpu: document drm_colorop
+Message-ID: <SltZ89M6U3kGZgiUE-3RzJ5kyczz3pkSZL3PKSkUcHG7Dz8N2s9IcObx-P9A-NMYt6H817kloUcwl_8xmsHw7VX4pvupuJ4ebVKnMnWh7PU=@emersion.fr>
+In-Reply-To: <20250326234748.2982010-13-alex.hung@amd.com>
 References: <20250326234748.2982010-1-alex.hung@amd.com>
- <20250326234748.2982010-12-alex.hung@amd.com>
+ <20250326234748.2982010-13-alex.hung@amd.com>
 Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 9e313b25b3470230dc6ff95fce226ab9f34b4a69
+X-Pm-Message-ID: fe5806361cc6f8c9822d7543f869b84e57afdcbc
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
