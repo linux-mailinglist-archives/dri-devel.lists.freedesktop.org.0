@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB55A754F2
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 09:04:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB510A754F6
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 09:04:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A15F10E20B;
-	Sat, 29 Mar 2025 08:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67F3310E1C5;
+	Sat, 29 Mar 2025 08:04:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bMMgHmAE";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="SA0CrFM4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
- [209.85.219.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC64B10E1C5
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 08:04:06 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id
- 6a1803df08f44-6ecfa716ec1so28028696d6.2
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 01:04:06 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48E4F10EAD8
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 08:04:10 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6eeb7589db4so27076486d6.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 01:04:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1743235446; x=1743840246;
+ d=google.com; s=20230601; t=1743235449; x=1743840249;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lQBD/upcVAg1gWOWDoO2acIXmYeT1uzqcBawZPPe4wk=;
- b=bMMgHmAEQIhMvx4kis6DNnxGUU6MgJ7nMIgRa5i7pBfB4fnsovd7/HoIy4QKA50TZW
- tNdP05EqUZoOuI6CTgdXmWCBXnsAKOxd5UOkuoJrMEN0fT69TEzAxEPc+KFT1WPPd6GK
- DjH3Duw+DYvI6TghIY4tJZL9A7zDKCmpOcLQ4bdEmzFRb1eF+18VNzf9F9pKt+HIod08
- nJORjER21KmfE1m2EWFGp5h1Hnn1TG8FGs2G6ZAqjloIAcc6/h+YGUU8PRhbKSGcptPU
- NlP37CB7ftkyQbW7/3eoWgS0P1uugiYnXgzXxRjG8pRYY4PN69TtP79O9UVsDUdlp3sS
- DHwg==
+ bh=VI+yN/EGad6Szcmbe0NLYqG/kyI8emf9kAVvZ5wj864=;
+ b=SA0CrFM4o8QCU18n+rYG4riA6gRuETo/4t96hpp/Dl1L6COp4M9sEyEj78hwGLS/6J
+ U0w9mP8htkYBKJpTfUb8K3bb6bcJBbcNKBTWskETgK/Nf7xSJbNVGYw4W8R/TEe+iKjm
+ 8JDZMRPP0Dmw71of2M8j9+Cno86mDmve8YHUZ1He9c10TbSRGZFp3UK2k20U1TTNLViM
+ Yf4MgdCI6obM8/fgGOdt2vp2Ohyo62tRQjCy3wZ6JBshUAd8HmjO4DwheAyK373L7pYh
+ u9Pp19CwNbCGD68pi5ZPtleHC7GeY/FMFcxWv8xEzLDR2b98TgYsG+In0UI+3/QkpKOf
+ Ut4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743235446; x=1743840246;
+ d=1e100.net; s=20230601; t=1743235449; x=1743840249;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=lQBD/upcVAg1gWOWDoO2acIXmYeT1uzqcBawZPPe4wk=;
- b=YeSFrEQs1ovI+6eobo1ELxDtLo3v7IhowGWUu95xqXMqUi78os0XpN5I7OFi+IcypA
- xT7vqdzrjdLCbjMM8eTi6/5CJMtnE/18jEJYvytU04Vcyf7ZoKIXuOx8BTAfy46yCskZ
- QI6Kwfg5iLvbmwrWO2Gb7FnrCYezujeKQzR+OfkbCtURvEit4SJxE55JS5p2GbTNwMAR
- T4URqQ784/b7wuvUTBvZD/Pn8V6zUE02lAVaXRMr7K+XH3uD2VTylm7tmNyAEnjrnMO3
- kfWNhtMUYD2VD5PNYUiHhQb27a1JsROuySgK1OZDKRTfyLzawZ4yGFjU/srEOxgHtfCP
- 0EKQ==
+ bh=VI+yN/EGad6Szcmbe0NLYqG/kyI8emf9kAVvZ5wj864=;
+ b=dfk+aoDWS9HCw5ovkiMD2r6vNMDBL5pQZ3T7M13K3/Ctu1VRZC6/nQYzQjA69bMVDF
+ oFvGQ9/An0nyzyauTXUI4ON2v2XniXbHPFBC3UCZVccThSl3a2F6VJmiTwjX7KhvJ2BE
+ ewkhl9YlayZWuqVzSyc8Hj93sZKrZuc5g8Y/lZw4jGdYYJVTnkvGeJn0TYIPP/KVSkKa
+ 6rXIs7iqMj/vleSZl+itaDuewp+Eswh/P8PBCPJ0XE6kjuzT3PMHlNbaBEnfATOI9sr/
+ IjPvbLRCB9lyIp8g+D5szOSe+rJ65zl8ypqRccL14fiXSUOny66MiyRBPG23y1dvFFRJ
+ mPwA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0zUG0KekT41adtZHeS2ThVUBC8060e9mla5s74xO0BfyRGhuF3PPHpuOCW6u85Bds3SEQSMhgtNQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyFg+3AzqlKE9EZbNKNtNCapxqnZvYK72yP3fhePw5i5P0xAnFj
- AVfhxYzV9NUl2gd4zXf78s0/ALk2ieUwHEkvb1prluRdbiamNA/lZlHElFS/0nFfWro2iQLW7Tv
- KaHomNQf9P5ldO06eGqXryTufvTUNvswD6bYl
-X-Gm-Gg: ASbGncuPF0PW8ZCEgW1WnmRVt9QRDzt3mOsELQv1W8dlFh7Br558AXAZOpRzCcQDscO
- 9FNZ/EcnAgOdQH5F6eMJHeqWWvR4iTWnI8a9qrgJYK5wG+3MlSgoF87RhjqIHibRfJeVlUVyfxD
- WKW+Ie7XT1xuvaPV/bSyH9cv7oe5LVBv3pFZActA==
-X-Google-Smtp-Source: AGHT+IF4vYb8pOLkFJRWTHuhbGYXsOEBIHKcutBVeb6PlPGVt7mQOFXq+lOTNgVlorU0yJVkuuNGGMDr57LNVLIoTCk=
-X-Received: by 2002:a05:6214:1c0e:b0:6e6:5e15:d94f with SMTP id
- 6a1803df08f44-6eed6210e0dmr34807856d6.27.1743235445399; Sat, 29 Mar 2025
- 01:04:05 -0700 (PDT)
+ AJvYcCVaEcluAEs4GOpsuQL0mV0KXhcU8hyC+KjuTbMy4SqppAenKS9RawKyMtwPGq9E7CKIKS8usArT8xM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxA/sXOJXkNvGluaZqjDha2cZJw9uBKXk4XcbrrJEhJ7YDQ1hMP
+ RTT4jiI6+0LMHXyIWVZfztgouiolsf0qeRJUO2Byzod7mxWUkFFVS5704aBgcWtyFh2vI2Lyk5G
+ 5SmaSJfIvopJF1BPJsGd6+xrhDKO2dfv6AqiY
+X-Gm-Gg: ASbGncsxj/YbsEcD5+qXXBNHXNWiZgGvDhwgdichf91HBI5P9hvwO4lM537dK/QBUXf
+ PwArZ58ScuXAYMq7MCh8vkpuxU6pUeLga+fHZJnzH4YeWzrXFruX3wnIiSKXBXlHi5iv9feazRW
+ efcPrSO4d+Ko1RS18NPCv0qFoiKY4=
+X-Google-Smtp-Source: AGHT+IGFuDJ/yS0u8dS14Gv20AD9SchI1L60wuXbwG89moIXFiN8E7tD+sXircX+ivXQe8fclvFz4iylGbitphpvsqU=
+X-Received: by 2002:a05:6214:496:b0:6ea:d604:9e56 with SMTP id
+ 6a1803df08f44-6eed6073e0cmr33102156d6.9.1743235448950; Sat, 29 Mar 2025
+ 01:04:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250313114329.284104-1-acarmina@redhat.com>
- <20250313114329.284104-3-acarmina@redhat.com>
-In-Reply-To: <20250313114329.284104-3-acarmina@redhat.com>
+ <20250313114329.284104-4-acarmina@redhat.com>
+In-Reply-To: <20250313114329.284104-4-acarmina@redhat.com>
 From: David Gow <davidgow@google.com>
-Date: Sat, 29 Mar 2025 16:03:52 +0800
-X-Gm-Features: AQ5f1JpiQDaFl6M7J1W3u94aKAMwVNCidCWvJ9Rbjt0nfJWjQoJiJ3LuwPfFL-Q
-Message-ID: <CABVgOS=zNx18SJK1oQkZOpN14-H8QsH=08rsAWjwgRizuwaz8w@mail.gmail.com>
-Subject: Re: [PATCH v4 02/14] kunit: bug: Count suppressed warning backtraces
+Date: Sat, 29 Mar 2025 16:03:56 +0800
+X-Gm-Features: AQ5f1JpicRKRSaCIuqiwug0PrStdjBYACeo4Eb48BhA0aZtbew_fx1TOosHWZm8
+Message-ID: <CABVgOSmrb_am5nxOxJaZ_JL_wf21xy6e9R2hvEuEiJG29P4y2A@mail.gmail.com>
+Subject: Re: [PATCH v4 03/14] kunit: Add test cases for backtrace warning
+ suppression
 To: Alessandro Carminati <acarmina@redhat.com>
 Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, 
  Arnd Bergmann <arnd@arndb.de>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
@@ -86,7 +87,7 @@ Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
  loongarch@lists.linux.dev, x86@kernel.org, 
  Linux Kernel Functional Testing <lkft@linaro.org>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000858e5a063176a171"
+ micalg=sha-256; boundary="000000000000bc27de063176a140"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,102 +103,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000858e5a063176a171
+--000000000000bc27de063176a140
 Content-Type: text/plain; charset="UTF-8"
 
 On Thu, 13 Mar 2025 at 19:44, Alessandro Carminati <acarmina@redhat.com> wrote:
 >
 > From: Guenter Roeck <linux@roeck-us.net>
 >
-> Count suppressed warning backtraces to enable code which suppresses
-> warning backtraces to check if the expected backtrace(s) have been
-> observed.
+> Add unit tests to verify that warning backtrace suppression works.
 >
-> Using atomics for the backtrace count resulted in build errors on some
-> architectures due to include file recursion, so use a plain integer
-> for now.
+> If backtrace suppression does _not_ work, the unit tests will likely
+> trigger unsuppressed backtraces, which should actually help to get
+> the affected architectures / platforms fixed.
 >
+> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 > Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
 > Reviewed-by: Kees Cook <keescook@chromium.org>
-> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> Reviewed-by: David Gow <davidgow@google.com>
 > Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
 > ---
 
-Looks good. I'd definitely prefer the atomics to work one day, but I
-doubt we're likely to have backtraces from multiple threads happening
-in a KUnit test, so it's definitely not urgent.
+Always nice to have tests. :-)
 
 Reviewed-by: David Gow <davidgow@google.com>
 
 Cheers,
 -- David
 
-
->  include/kunit/bug.h | 7 ++++++-
->  lib/kunit/bug.c     | 4 +++-
->  2 files changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/include/kunit/bug.h b/include/kunit/bug.h
-> index 0a8e62c1fcaf..44efa7d5c902 100644
-> --- a/include/kunit/bug.h
-> +++ b/include/kunit/bug.h
-> @@ -20,6 +20,7 @@
->  struct __suppressed_warning {
->         struct list_head node;
->         const char *function;
-> +       int counter;
->  };
->
->  void __kunit_start_suppress_warning(struct __suppressed_warning *warning);
-> @@ -28,7 +29,7 @@ bool __kunit_is_suppressed_warning(const char *function);
->
->  #define DEFINE_SUPPRESSED_WARNING(func)        \
->         struct __suppressed_warning __kunit_suppress_##func = \
-> -               { .function = __stringify(func) }
-> +               { .function = __stringify(func), .counter = 0 }
->
->  #define KUNIT_START_SUPPRESSED_WARNING(func) \
->         __kunit_start_suppress_warning(&__kunit_suppress_##func)
-> @@ -39,12 +40,16 @@ bool __kunit_is_suppressed_warning(const char *function);
->  #define KUNIT_IS_SUPPRESSED_WARNING(func) \
->         __kunit_is_suppressed_warning(func)
->
-> +#define SUPPRESSED_WARNING_COUNT(func) \
-> +       (__kunit_suppress_##func.counter)
-> +
->  #else /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
->
->  #define DEFINE_SUPPRESSED_WARNING(func)
->  #define KUNIT_START_SUPPRESSED_WARNING(func)
->  #define KUNIT_END_SUPPRESSED_WARNING(func)
->  #define KUNIT_IS_SUPPRESSED_WARNING(func) (false)
-> +#define SUPPRESSED_WARNING_COUNT(func) (0)
->
->  #endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
->  #endif /* __ASSEMBLY__ */
-> diff --git a/lib/kunit/bug.c b/lib/kunit/bug.c
-> index 351f9a595a71..84c05b1a9e8b 100644
-> --- a/lib/kunit/bug.c
-> +++ b/lib/kunit/bug.c
-> @@ -32,8 +32,10 @@ bool __kunit_is_suppressed_warning(const char *function)
->                 return false;
->
->         list_for_each_entry(warning, &suppressed_warnings, node) {
-> -               if (!strcmp(function, warning->function))
-> +               if (!strcmp(function, warning->function)) {
-> +                       warning->counter++;
->                         return true;
-> +               }
->         }
->         return false;
->  }
-> --
-> 2.34.1
->
-
---000000000000858e5a063176a171
+--000000000000bc27de063176a140
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -287,13 +220,13 @@ uFrCoYIRlx4rSVHpBIKgnsgdm0SFQK72MPmIkfhfq9Fh0h8AjhF73sLO7K5BfwWkx1gwMySyNY0e
 PCRYr6WEVOkUJS0a0fui693ymMPFLQAimmz8EpyFok4Ju066StkYO1dIgUIla4x61auxkWHwnzGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAcDMKctW1GQKDKqEUSh4
-pjANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgVTlqx+rB+MllLMbVbaEqSyy5EuK0
-Ji2VFlgb6K8WjT8wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-MzI5MDgwNDA2WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+pjANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgm3R/ghgzBpj1jMOVW83mzw4C0AL9
+5UEGdIWFX/GO6EAwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+MzI5MDgwNDA5WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAeuoP7Q3jsS1vafe5Mqe3U7GeLIkrx8UXHMoV8DJ9/Dp/Tg7XaGWsZ14BPjHAZayS
-FN6tD63zmrKZdLOLrvvJMFAWE0N25dkAG5lyeiP6tXTBRzW5SUI7JM17zvlOMNAHFlq2GvsCPBfo
-1JlJtCX5CQ/gVIz/rCq60OHGmEVEizMT9UrLqd+C1WttHFl/YpWgLKhNhLZGo+wlsjSWbha9TGDV
-qIhNixh4/7In1sN2o/RN1XeBtwTtmTNIYdJf6pLPnQ3TilQc9lDwBWn3q7tnXjQ7QoktpcDKtK8A
-PBwWKw0ohCMkNvJECVJKN7/Gem5ZIqRtt4TfJeYt+ewlboPnuw==
---000000000000858e5a063176a171--
+AQEBBQAEggEAVuI1QEd4DlrvS5gBl3QUy59Zf/mUB8dgId9VEYAz0al5EKjnUBz77/up2C+g4NEz
+0wLl0FVtlf3Yobp82pqwW3x0dwzzdrHbgari46VT5k6TcWhyzFWPFAiYjBbWUPKbFmYHg2fbspaH
+ZVQcmtvsl5j3YWFtdRXGpP23CO5/j7Ccqat1DtBfiaJGs8BiuMmbUCxU6DAJh9msFzW2HI81pjEn
+NzUg/rB4tvKa2KsGETAEK5aWEqlGuTZGfUAXRIp0Osxr0lOA061vD5zrxMAdt6qZY0hpsLn8WdQ1
+mMivBeGETU9GcOmYSrrowtgKlJbuS+r/mMiBqOPIH54sv3R6gA==
+--000000000000bc27de063176a140--
