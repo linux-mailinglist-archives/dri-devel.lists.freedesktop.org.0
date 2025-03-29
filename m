@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0C0A75614
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 12:54:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E1BA75615
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 12:54:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0075210E23C;
-	Sat, 29 Mar 2025 11:54:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED37B10E23E;
+	Sat, 29 Mar 2025 11:54:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="jqqhzicK";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="wEW2JX30";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
- [91.218.175.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91B2810E23C
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 11:54:04 +0000 (UTC)
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
+ [91.218.175.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0B310E23E
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 11:54:09 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1743249243;
+ t=1743249247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=THxuM/PMfTP0Y+Z6SEtj+1K+JpeW8z2FyoRNt+QLTYA=;
- b=jqqhzicKmbz5crbssFy0Qgrpg7BiBCXgHzDgzUlPX2T1ld9OhkfC5S7W4S3fpXMjPrmM44
- KW4Es0cXhpgw0n4IgLxi2OEDEaHiLwbuOnRxjUtOPkcZ7FARkAajQ6QVIfhbY+zq70oyW8
- yWa0suAwwx9LjVFyTGXw2XHFoUj8E+Q=
+ bh=wE0vIhT17gdRjzWiLk98s997NPXVl9LLMvXAAAFDDCE=;
+ b=wEW2JX30KCdb9gDaFAA5pgaP7jS6NBeJYvn+7ZdVf0fRp7mEi1In4MHKRdiA/eEPRm9h3y
+ X7pEpIRcPMOFNnKYf1FjuMKEquzJwOpaPPbmEWyyg7Pmu5JNkC0L7LYWBhUQWeFWztUIgF
+ 4lkfW2gf/VhFKGHsCx8NeltIbrYFuuo=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
@@ -47,9 +47,10 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v11 13/14] drm/bridge: Update the bridge enable/disable doc
-Date: Sat, 29 Mar 2025 17:23:32 +0530
-Message-Id: <20250329115333.72614-3-aradhya.bhatia@linux.dev>
+Subject: [PATCH v11 14/14] drm/bridge: cdns-dsi: Use pre_enable/post_disable
+ to enable/disable
+Date: Sat, 29 Mar 2025 17:23:33 +0530
+Message-Id: <20250329115333.72614-4-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250329113925.68204-1-aradhya.bhatia@linux.dev>
 References: <20250329113925.68204-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
@@ -70,341 +71,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the bridges get pre-enabled before the CRTC is enabled, and get
-post-disabled after the CRTC is disabled, update the function
-descriptions to accurately reflect the updated scenario.
+From: Aradhya Bhatia <a-bhatia1@ti.com>
 
-The enable sequence for the display pipeline looks like:
+The cdns-dsi controller requires that it be turned on completely before
+the input DPI's source has begun streaming[0]. Not having that, allows
+for a small window before cdns-dsi enable and after cdns-dsi disable
+where the previous entity (in this case tidss's videoport) to continue
+streaming DPI video signals. This small window where cdns-dsi is
+disabled but is still receiving signals causes the input FIFO of
+cdns-dsi to get corrupted. This causes the colors to shift on the output
+display. The colors can either shift by one color component (R->G, G->B,
+B->R), or by two color components (R->B, G->R, B->G).
 
-	bridge[n]_pre_enable
-	...
-	bridge[1]_pre_enable
+Since tidss's videoport starts streaming via crtc enable hooks, we need
+cdns-dsi to be up and running before that. Now that the bridges are
+pre_enabled before crtc is enabled, and post_disabled after crtc is
+disabled, use the pre_enable and post_disable hooks to get cdns-dsi
+ready and running before the tidss videoport to get pass the color shift
+issues.
 
-	crtc_enable
-	encoder_enable
+[0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
+     TRM Link: http://www.ti.com/lit/pdf/spruil1
 
-	bridge[1]_enable
-	...
-	bridge[n]_enable
-
-And, the disable sequence for the display pipeline looks like:
-
-	bridge[n]_disable
-	...
-	bridge[1]_disable
-
-	encoder_disable
-	crtc_disable
-
-	bridge[1]_post_disable
-	...
-	bridge[n]_post_disable
-
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
- include/drm/drm_bridge.h | 216 +++++++++++++++++++++++++++------------
- 1 file changed, 150 insertions(+), 66 deletions(-)
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 64 ++++++++++---------
+ 1 file changed, 35 insertions(+), 29 deletions(-)
 
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index cdad3b78a195..fc126562733c 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -164,17 +164,28 @@ struct drm_bridge_funcs {
- 	/**
- 	 * @disable:
- 	 *
--	 * This callback should disable the bridge. It is called right before
--	 * the preceding element in the display pipe is disabled. If the
--	 * preceding element is a bridge this means it's called before that
--	 * bridge's @disable vfunc. If the preceding element is a &drm_encoder
--	 * it's called right before the &drm_encoder_helper_funcs.disable,
--	 * &drm_encoder_helper_funcs.prepare or &drm_encoder_helper_funcs.dpms
--	 * hook.
-+	 * The @disable callback should disable the bridge.
- 	 *
- 	 * The bridge can assume that the display pipe (i.e. clocks and timing
- 	 * signals) feeding it is still running when this callback is called.
- 	 *
-+	 * It is called right before the preceding element in the display pipe
-+	 * is disabled. If the preceding element is a &drm_bridge, then it's
-+	 * called before that bridge is disabled.
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+index b022dd6e6b6e..47435f2624a8 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+@@ -670,13 +670,28 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+ 	return MODE_OK;
+ }
+ 
+-static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
+-					   struct drm_atomic_state *state)
++static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
++						struct drm_atomic_state *state)
+ {
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+ 	u32 val;
+ 
++	/*
++	 * The cdns-dsi controller needs to be disabled after it's DPI source
++	 * has stopped streaming. If this is not followed, there is a brief
++	 * window before DPI source is disabled and after cdns-dsi controller
++	 * has been disabled where the DPI stream is still on, but the cdns-dsi
++	 * controller is not ready anymore to accept the incoming signals. This
++	 * is one of the reasons why a shift in pixel colors is observed on
++	 * displays that have cdns-dsi as one of the bridges.
 +	 *
-+	 * If the preceding element of the bridge is a display controller, which
-+	 * has under it a &drm_crtc and a &drm_encoder, then this callback is
-+	 * called right before the encoder and the CRTC are disabled via the
-+	 * following hooks.
-+	 * &drm_encoder_helper_funcs.atomic_disable, or
-+	 * &drm_encoder_helper_funcs.prepare, or
-+	 * &drm_encoder_helper_funcs.disable, or &drm_encoder_helper_funcs.dpms
-+	 * hook for the encoder, and
-+	 * &drm_crtc_helper_funcs.prepare, or
-+	 * &drm_crtc_helper_funcs.atomic_disable, or
-+	 * &drm_crtc_helper_funcs.disable, or &drm_crtc_helper_funcs.dpms hook
-+	 * for the CRTC.
++	 * To mitigate this, disable this bridge from the bridge post_disable()
++	 * hook, instead of the bridge _disable() hook. The bridge post_disable()
++	 * hook gets called after the CRTC disable, where often many DPI sources
++	 * disable their streams.
++	 */
++
+ 	val = readl(dsi->regs + MCTL_MAIN_DATA_CTL);
+ 	val &= ~(IF_VID_SELECT_MASK | IF_VID_MODE | VID_EN | HOST_EOT_GEN |
+ 		 DISP_EOT_GEN);
+@@ -688,15 +703,6 @@ static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
+ 	if (dsi->platform_ops && dsi->platform_ops->disable)
+ 		dsi->platform_ops->disable(dsi);
+ 
+-	pm_runtime_put(dsi->base.dev);
+-}
+-
+-static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+-						struct drm_atomic_state *state)
+-{
+-	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+-	struct cdns_dsi *dsi = input_to_dsi(input);
+-
+ 	dsi->phy_initialized = false;
+ 	dsi->link_initialized = false;
+ 	phy_power_off(dsi->dphy);
+@@ -774,8 +780,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
+ 	dsi->link_initialized = true;
+ }
+ 
+-static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+-					  struct drm_atomic_state *state)
++static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
++					      struct drm_atomic_state *state)
+ {
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+@@ -792,6 +798,21 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	u32 tmp, reg_wakeup, div, status;
+ 	int nlanes;
+ 
++	/*
++	 * The cdns-dsi controller needs to be enabled before it's DPI source
++	 * has begun streaming. If this is not followed, there is a brief window
++	 * after DPI source enable and before cdns-dsi controller enable where
++	 * the DPI stream is on, but the cdns-dsi controller is not ready to
++	 * accept the incoming signals. This is one of the reasons why a shift
++	 * in pixel colors is observed on displays that have cdns-dsi as one of
++	 * the bridges.
 +	 *
- 	 * The @disable callback is optional.
- 	 *
- 	 * NOTE:
-@@ -187,17 +198,30 @@ struct drm_bridge_funcs {
- 	/**
- 	 * @post_disable:
- 	 *
--	 * This callback should disable the bridge. It is called right after the
--	 * preceding element in the display pipe is disabled. If the preceding
--	 * element is a bridge this means it's called after that bridge's
--	 * @post_disable function. If the preceding element is a &drm_encoder
--	 * it's called right after the encoder's
--	 * &drm_encoder_helper_funcs.disable, &drm_encoder_helper_funcs.prepare
--	 * or &drm_encoder_helper_funcs.dpms hook.
--	 *
- 	 * The bridge must assume that the display pipe (i.e. clocks and timing
--	 * signals) feeding it is no longer running when this callback is
--	 * called.
-+	 * signals) feeding this bridge is no longer running when the
-+	 * @post_disable is called.
-+	 *
-+	 * This callback should perform all the actions required by the hardware
-+	 * after it has stopped receiving signals from the preceding element.
-+	 *
-+	 * It is called right after the preceding element is post-disabled, and
-+	 * right before the following element gets post-disabled (given that the
-+	 * preceding and following elements are &drm_bridges), unless marked
-+	 * otherwise by the @pre_enable_prev_first flag.
-+	 *
-+	 * If the preceding element of the bridge is a display controller, which
-+	 * has under it a &drm_crtc and a &drm_encoder, then this callback is
-+	 * called right after the encoder and the CRTC are disabled via the
-+	 * following hooks.
-+	 * &drm_encoder_helper_funcs.atomic_disable, or
-+	 * &drm_encoder_helper_funcs.prepare, or
-+	 * &drm_encoder_helper_funcs.disable, or &drm_encoder_helper_funcs.dpms
-+	 * hook for the encoder, and
-+	 * &drm_crtc_helper_funcs.prepare, or
-+	 * &drm_crtc_helper_funcs.atomic_disable, or
-+	 * &drm_crtc_helper_funcs.disable, or &drm_crtc_helper_funcs.dpms hook
-+	 * for the CRTC.
- 	 *
- 	 * The @post_disable callback is optional.
- 	 *
-@@ -240,18 +264,26 @@ struct drm_bridge_funcs {
- 	/**
- 	 * @pre_enable:
- 	 *
--	 * This callback should enable the bridge. It is called right before
--	 * the preceding element in the display pipe is enabled. If the
--	 * preceding element is a bridge this means it's called before that
--	 * bridge's @pre_enable function. If the preceding element is a
--	 * &drm_encoder it's called right before the encoder's
--	 * &drm_encoder_helper_funcs.enable, &drm_encoder_helper_funcs.commit or
--	 * &drm_encoder_helper_funcs.dpms hook.
--	 *
- 	 * The display pipe (i.e. clocks and timing signals) feeding this bridge
--	 * will not yet be running when this callback is called. The bridge must
--	 * not enable the display link feeding the next bridge in the chain (if
--	 * there is one) when this callback is called.
-+	 * will not yet be running when the @pre_enable is called.
-+	 *
-+	 * This callback should perform all the necessary actions to prepare the
-+	 * bridge to accept signals from the preceding element.
-+	 *
-+	 * It is called right after the following element is pre-enabled, and
-+	 * right before the preceding element gets pre-enabled (given that the
-+	 * following and preceding elements are &drm_bridges), unless marked
-+	 * otherwise by @pre_enable_prev_first flag.
-+	 *
-+	 * If the preceding element of the bridge is a display controller, which
-+	 * has under it a &drm_crtc and a &drm_encoder, then this callback is
-+	 * called right before the CRTC and the encoder are enabled via these
-+	 * hooks.
-+	 * &drm_crtc_helper_funcs.atomic_enable, or
-+	 * &drm_crtc_helper_funcs.commit hook for the CRTC, and
-+	 * &drm_encoder_helper_funcs.atomic_enable, or
-+	 * &drm_encoder_helper_funcs.enable, or &drm_encoder_helper_funcs.commit
-+	 * hook for the encoder.
- 	 *
- 	 * The @pre_enable callback is optional.
- 	 *
-@@ -265,19 +297,27 @@ struct drm_bridge_funcs {
- 	/**
- 	 * @enable:
- 	 *
--	 * This callback should enable the bridge. It is called right after
--	 * the preceding element in the display pipe is enabled. If the
--	 * preceding element is a bridge this means it's called after that
--	 * bridge's @enable function. If the preceding element is a
--	 * &drm_encoder it's called right after the encoder's
--	 * &drm_encoder_helper_funcs.enable, &drm_encoder_helper_funcs.commit or
--	 * &drm_encoder_helper_funcs.dpms hook.
-+	 * The @enable callback should enable the bridge.
- 	 *
- 	 * The bridge can assume that the display pipe (i.e. clocks and timing
- 	 * signals) feeding it is running when this callback is called. This
- 	 * callback must enable the display link feeding the next bridge in the
- 	 * chain if there is one.
- 	 *
-+	 * It is called right after the preceding element in the display pipe is
-+	 * enabled. If the preceding element is a &drm_bridge, then it's called
-+	 * after that bridge is enabled.
-+	 *
-+	 * If the preceding element of the bridge is a display controller, which
-+	 * has under it a &drm_crtc and a &drm_encoder, then this callback is
-+	 * called right after the CRTC and the encoder are enabled via these
-+	 * hooks.
-+	 * &drm_crtc_helper_funcs.atomic_enable, or
-+	 * &drm_crtc_helper_funcs.commit hook for the CRTC, and
-+	 * &drm_encoder_helper_funcs.atomic_enable, or
-+	 * &drm_encoder_helper_funcs.enable, or &drm_encoder_helper_funcs.commit
-+	 * hook for the encoder.
-+	 *
- 	 * The @enable callback is optional.
- 	 *
- 	 * NOTE:
-@@ -290,17 +330,26 @@ struct drm_bridge_funcs {
- 	/**
- 	 * @atomic_pre_enable:
- 	 *
--	 * This callback should enable the bridge. It is called right before
--	 * the preceding element in the display pipe is enabled. If the
--	 * preceding element is a bridge this means it's called before that
--	 * bridge's @atomic_pre_enable or @pre_enable function. If the preceding
--	 * element is a &drm_encoder it's called right before the encoder's
--	 * &drm_encoder_helper_funcs.atomic_enable hook.
--	 *
- 	 * The display pipe (i.e. clocks and timing signals) feeding this bridge
--	 * will not yet be running when this callback is called. The bridge must
--	 * not enable the display link feeding the next bridge in the chain (if
--	 * there is one) when this callback is called.
-+	 * will not yet be running when the @atomic_pre_enable is called.
-+	 *
-+	 * This callback should perform all the necessary actions to prepare the
-+	 * bridge to accept signals from the preceding element.
-+	 *
-+	 * It is called right after the following element is pre-enabled, and
-+	 * right before the preceding element gets pre-enabled (given that the
-+	 * following and preceding elements are &drm_bridges), unless marked
-+	 * otherwise by @pre_enable_prev_first flag.
-+	 *
-+	 * If the preceding element of the bridge is a display controller, which
-+	 * has under it a &drm_crtc and a &drm_encoder, then this callback is
-+	 * called right before the CRTC and the encoder are enabled via these
-+	 * hooks.
-+	 * &drm_crtc_helper_funcs.atomic_enable, or
-+	 * &drm_crtc_helper_funcs.commit hook for the CRTC, and
-+	 * &drm_encoder_helper_funcs.atomic_enable, or
-+	 * &drm_encoder_helper_funcs.enable, or &drm_encoder_helper_funcs.commit
-+	 * hook for the encoder.
- 	 *
- 	 * The @atomic_pre_enable callback is optional.
- 	 */
-@@ -310,18 +359,27 @@ struct drm_bridge_funcs {
- 	/**
- 	 * @atomic_enable:
- 	 *
--	 * This callback should enable the bridge. It is called right after
--	 * the preceding element in the display pipe is enabled. If the
--	 * preceding element is a bridge this means it's called after that
--	 * bridge's @atomic_enable or @enable function. If the preceding element
--	 * is a &drm_encoder it's called right after the encoder's
--	 * &drm_encoder_helper_funcs.atomic_enable hook.
-+	 * The @atomic_enable callback should enable the bridge.
- 	 *
- 	 * The bridge can assume that the display pipe (i.e. clocks and timing
- 	 * signals) feeding it is running when this callback is called. This
- 	 * callback must enable the display link feeding the next bridge in the
- 	 * chain if there is one.
- 	 *
-+	 * It is called right after the preceding element in the display pipe is
-+	 * enabled. If the preceding element is a &drm_bridge, then it's called
-+	 * after that bridge is enabled.
-+	 *
-+	 * If the preceding element of the bridge is a display controller, which
-+	 * has under it a &drm_crtc and a &drm_encoder, then this callback is
-+	 * called right after the CRTC and the encoder are enabled via these
-+	 * hooks.
-+	 * &drm_crtc_helper_funcs.atomic_enable, or
-+	 * &drm_crtc_helper_funcs.commit hook for the CRTC, and
-+	 * &drm_encoder_helper_funcs.atomic_enable, or
-+	 * &drm_encoder_helper_funcs.enable, or &drm_encoder_helper_funcs.commit
-+	 * hook for the encoder.
-+	 *
- 	 * The @atomic_enable callback is optional.
- 	 */
- 	void (*atomic_enable)(struct drm_bridge *bridge,
-@@ -329,16 +387,28 @@ struct drm_bridge_funcs {
- 	/**
- 	 * @atomic_disable:
- 	 *
--	 * This callback should disable the bridge. It is called right before
--	 * the preceding element in the display pipe is disabled. If the
--	 * preceding element is a bridge this means it's called before that
--	 * bridge's @atomic_disable or @disable vfunc. If the preceding element
--	 * is a &drm_encoder it's called right before the
--	 * &drm_encoder_helper_funcs.atomic_disable hook.
-+	 * The @atomic_disable callback should disable the bridge.
- 	 *
- 	 * The bridge can assume that the display pipe (i.e. clocks and timing
- 	 * signals) feeding it is still running when this callback is called.
- 	 *
-+	 * It is called right before the preceding element in the display pipe
-+	 * is disabled. If the preceding element is a &drm_bridge, then it's
-+	 * called before that bridge is disabled.
-+	 *
-+	 * If the preceding element of the bridge is a display controller, which
-+	 * has under it a &drm_crtc and a &drm_encoder, then this callback is
-+	 * called right before the encoder and the CRTC are disabled via the
-+	 * following hooks.
-+	 * &drm_encoder_helper_funcs.atomic_disable, or
-+	 * &drm_encoder_helper_funcs.prepare, or
-+	 * &drm_encoder_helper_funcs.disable, or &drm_encoder_helper_funcs.dpms
-+	 * hook for the encoder, and
-+	 * &drm_crtc_helper_funcs.prepare, or
-+	 * &drm_crtc_helper_funcs.atomic_disable, or
-+	 * &drm_crtc_helper_funcs.disable, or &drm_crtc_helper_funcs.dpms hook
-+	 * for the CRTC.
-+	 *
- 	 * The @atomic_disable callback is optional.
- 	 */
- 	void (*atomic_disable)(struct drm_bridge *bridge,
-@@ -347,16 +417,30 @@ struct drm_bridge_funcs {
- 	/**
- 	 * @atomic_post_disable:
- 	 *
--	 * This callback should disable the bridge. It is called right after the
--	 * preceding element in the display pipe is disabled. If the preceding
--	 * element is a bridge this means it's called after that bridge's
--	 * @atomic_post_disable or @post_disable function. If the preceding
--	 * element is a &drm_encoder it's called right after the encoder's
--	 * &drm_encoder_helper_funcs.atomic_disable hook.
--	 *
- 	 * The bridge must assume that the display pipe (i.e. clocks and timing
--	 * signals) feeding it is no longer running when this callback is
--	 * called.
-+	 * signals) feeding this bridge is no longer running when the
-+	 * @atomic_post_disable is called.
-+	 *
-+	 * This callback should perform all the actions required by the hardware
-+	 * after it has stopped receiving signals from the preceding element.
-+	 *
-+	 * It is called right after the preceding element is post-disabled, and
-+	 * right before the following element gets post-disabled (given that the
-+	 * preceding and following elements are &drm_bridges), unless marked
-+	 * otherwise by the @pre_enable_prev_first flag.
-+	 *
-+	 * If the preceding element of the bridge is a display controller, which
-+	 * has under it a &drm_crtc and a &drm_encoder, then this callback is
-+	 * called right after the encoder and the CRTC are disabled via the
-+	 * following hooks.
-+	 * &drm_encoder_helper_funcs.atomic_disable, or
-+	 * &drm_encoder_helper_funcs.prepare, or
-+	 * &drm_encoder_helper_funcs.disable, or &drm_encoder_helper_funcs.dpms
-+	 * hook for the encoder, and
-+	 * &drm_crtc_helper_funcs.prepare, or
-+	 * &drm_crtc_helper_funcs.atomic_disable, or
-+	 * &drm_crtc_helper_funcs.disable, or &drm_crtc_helper_funcs.dpms hook
-+	 * for the CRTC.
- 	 *
- 	 * The @atomic_post_disable callback is optional.
- 	 */
++	 * To mitigate this, enable this bridge from the bridge pre_enable()
++	 * hook, instead of the bridge _enable() hook. The bridge pre_enable()
++	 * hook gets called before the CRTC enable, where often many DPI sources
++	 * enable their streams.
++	 */
++
+ 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
+ 		return;
+ 
+@@ -811,8 +832,8 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	mode = &crtc_state->adjusted_mode;
+ 	nlanes = output->dev->lanes;
+ 
+-	cdns_dsi_hs_init(dsi);
+ 	cdns_dsi_init_link(dsi);
++	cdns_dsi_hs_init(dsi);
+ 
+ 	/*
+ 	 * Now that the DSI Link and DSI Phy are initialized,
+@@ -941,19 +962,6 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
+ }
+ 
+-static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+-					      struct drm_atomic_state *state)
+-{
+-	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+-	struct cdns_dsi *dsi = input_to_dsi(input);
+-
+-	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
+-		return;
+-
+-	cdns_dsi_init_link(dsi);
+-	cdns_dsi_hs_init(dsi);
+-}
+-
+ static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
+ 					       struct drm_bridge_state *bridge_state,
+ 					       struct drm_crtc_state *crtc_state,
+@@ -1048,9 +1056,7 @@ cdns_dsi_bridge_atomic_reset(struct drm_bridge *bridge)
+ static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
+ 	.attach = cdns_dsi_bridge_attach,
+ 	.mode_valid = cdns_dsi_bridge_mode_valid,
+-	.atomic_disable = cdns_dsi_bridge_atomic_disable,
+ 	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
+-	.atomic_enable = cdns_dsi_bridge_atomic_enable,
+ 	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
+ 	.atomic_check = cdns_dsi_bridge_atomic_check,
+ 	.atomic_reset = cdns_dsi_bridge_atomic_reset,
 -- 
 2.34.1
 
