@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD2EA756D7
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 15:54:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861E8A756D9
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 15:55:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA8110E1DC;
-	Sat, 29 Mar 2025 14:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C901610E275;
+	Sat, 29 Mar 2025 14:55:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="QvfG2LXY";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="YNkn4w94";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.protonmail.ch (mail-4022.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880BA10E1DC;
- Sat, 29 Mar 2025 14:53:54 +0000 (UTC)
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3721310E275
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 14:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1743260032; x=1743519232;
- bh=jP3J+eTrkEcK+jvMNEy3uIxgqi6Q8UGHrm8Bed83ABY=;
+ s=protonmail2; t=1743260120; x=1743519320;
+ bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=QvfG2LXYTEkMwEIbLBT+lmv3UV/tcUBPR0iso7W3YqZxOPBGYVHAyGL1QFRMHLB+k
- 1uQYhtuunPP0G0XGOHxIRBmxRbQMT6eIygjTAj8lmnZAcCMkudN3w8FNPEDIyocJyL
- 33I7EfGEMF8mTPjTDfVQVfHD+BnEn4TnoDQF06ydhI7AuLxu7Ol3ydUfEiRqbnOHbP
- EoFcqGUuE1PXtzRZHeaYd1eovOzoQ4vC5ob8wnDhhixahq7mSbkDILcE1Djhl/E9wd
- ldphFe31grus9ad4CqCnJrjZYzmCx0zKP1FUOGUCn8AgxArTNPjgf5uCkikYbfL89n
- NOM3NFRri+KNQ==
-Date: Sat, 29 Mar 2025 14:53:46 +0000
+ b=YNkn4w94Z6aRReUovXVftYB5CCupKkxjCiU91wnsyHRgIHn1ZZtt27GucW5Lrymy/
+ qVSa1+s3KQsRcnhmBnlVthmkCmaEg+l6CPF9tAlfpOjgcsCZdvSCdT0XoiRQblY3qc
+ 0bgmBtsj/oPDDwK5HAIe7D933OCwFXnvYxAi3BjOSmlH8wwyNQZ85mIUP82uw3ASKY
+ 04mjSbu/y9ooGNdmbDleOKpPQWcpF+QBpPdDp5FEMLN2YnIGg+j+0s2tNtdj1ADdZs
+ dU0IMhOFC9s8CxwnP2yqxrUqyKljy/kxUm5OlOKFkaacMJj71p+OfYFtP/Pz1h7Jtb
+ SZ7sVP1wuvMRQ==
+Date: Sat, 29 Mar 2025 14:55:16 +0000
 To: Alex Hung <alex.hung@amd.com>
 From: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -40,14 +40,13 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
  sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
  louis.chauvet@bootlin.com
-Subject: Re: [PATCH V8 30/43] drm/colorop: add BT2020/BT709 OETF and Inverse
- OETF
-Message-ID: <0jv9Mgs5Ahcp97O9hBA8bZLEGGT66SyHczz8ufCh0jePFjcyNKUU8mNAwPhX1HzCF67V-mh_Ir6QLmHPFlmXBTcJ6Mi7nQa1OWHiw2EQcyw=@emersion.fr>
-In-Reply-To: <20250326234748.2982010-31-alex.hung@amd.com>
+Subject: Re: [PATCH V8 32/43] drm/colorop: Add 1D Curve Custom LUT type
+Message-ID: <j1-AeCci4JRhG2yr3xmRvMWGCHruvIf9aKX3fcirtJVleSQVbwyboGfCXRD0w8-WRM4Dc5h3GMu-Kw83d7wHBASg0HQnW8WQWh-_bGN87h8=@emersion.fr>
+In-Reply-To: <20250326234748.2982010-33-alex.hung@amd.com>
 References: <20250326234748.2982010-1-alex.hung@amd.com>
- <20250326234748.2982010-31-alex.hung@amd.com>
+ <20250326234748.2982010-33-alex.hung@amd.com>
 Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 23c2d9e91355ff2e85f95a89fc3521e0b216de99
+X-Pm-Message-ID: d79ff0c43d08b2fa798213c8c2cece33da525524
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -65,16 +64,5 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-Note, this patch adds new values in the middle of the enum. This is in
-general a breaking uAPI change: all enum values afterwards will get
-re-numbered.
-
-Maybe this patch should come before the PQ 125 one. In this series it
-shouldn't matter either way because we're also introducing the enum, but
-(1) who knows what/how distros might end up cherry-picking (2) future
-patches might take inspiration from this one.
-
-With that fixed:
 
 Reviewed-by: Simon Ser <contact@emersion.fr>
