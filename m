@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB510A754F6
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 09:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC181A754FB
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 09:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67F3310E1C5;
-	Sat, 29 Mar 2025 08:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2824C10EADD;
+	Sat, 29 Mar 2025 08:04:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="SA0CrFM4";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="wmTN2GEz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48E4F10EAD8
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 08:04:10 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id
- 6a1803df08f44-6eeb7589db4so27076486d6.1
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 01:04:10 -0700 (PDT)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D34310EAD8
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 08:04:16 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id
+ af79cd13be357-7c6a59a515aso26877585a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 01:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1743235449; x=1743840249;
+ d=google.com; s=20230601; t=1743235455; x=1743840255;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VI+yN/EGad6Szcmbe0NLYqG/kyI8emf9kAVvZ5wj864=;
- b=SA0CrFM4o8QCU18n+rYG4riA6gRuETo/4t96hpp/Dl1L6COp4M9sEyEj78hwGLS/6J
- U0w9mP8htkYBKJpTfUb8K3bb6bcJBbcNKBTWskETgK/Nf7xSJbNVGYw4W8R/TEe+iKjm
- 8JDZMRPP0Dmw71of2M8j9+Cno86mDmve8YHUZ1He9c10TbSRGZFp3UK2k20U1TTNLViM
- Yf4MgdCI6obM8/fgGOdt2vp2Ohyo62tRQjCy3wZ6JBshUAd8HmjO4DwheAyK373L7pYh
- u9Pp19CwNbCGD68pi5ZPtleHC7GeY/FMFcxWv8xEzLDR2b98TgYsG+In0UI+3/QkpKOf
- Ut4w==
+ bh=43Hmb/rQnY/p9bKcFwbHnY8VWXXsJpeH4Ap5rUxVlbE=;
+ b=wmTN2GEzdbSPt88f1gGxpObbFH+9NowWvektPfex95N4sIq0trUIZPFXhoOmJjh7Mk
+ 86fpVPCQxFx43mtsHRWRQuMmWFBIILMbvdhCLaNOg5hI16E5l4l2dl/0mJI+OjedRAhS
+ eTxUvEKv97n71NrPSGx+BCX1Z6wE8vJsX8Km/25Z8Jpv8AT3eAIIg5aOxm4nFHStcfhO
+ /aJur6ING9ZPuDv91Fi/XLfbC+xA2bcEfcQuq5FQb1KpWbTAkapijfbsZalGY1JbRTQL
+ Jl/OR73pNNGi6xunFpumeQTdiB9q1KNSx+awyKhv2se9jJSO2mlUZyXfTunzXCNUFKf3
+ ULaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743235449; x=1743840249;
+ d=1e100.net; s=20230601; t=1743235455; x=1743840255;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=VI+yN/EGad6Szcmbe0NLYqG/kyI8emf9kAVvZ5wj864=;
- b=dfk+aoDWS9HCw5ovkiMD2r6vNMDBL5pQZ3T7M13K3/Ctu1VRZC6/nQYzQjA69bMVDF
- oFvGQ9/An0nyzyauTXUI4ON2v2XniXbHPFBC3UCZVccThSl3a2F6VJmiTwjX7KhvJ2BE
- ewkhl9YlayZWuqVzSyc8Hj93sZKrZuc5g8Y/lZw4jGdYYJVTnkvGeJn0TYIPP/KVSkKa
- 6rXIs7iqMj/vleSZl+itaDuewp+Eswh/P8PBCPJ0XE6kjuzT3PMHlNbaBEnfATOI9sr/
- IjPvbLRCB9lyIp8g+D5szOSe+rJ65zl8ypqRccL14fiXSUOny66MiyRBPG23y1dvFFRJ
- mPwA==
+ bh=43Hmb/rQnY/p9bKcFwbHnY8VWXXsJpeH4Ap5rUxVlbE=;
+ b=wyO7Z8y9YEZA9gpmeLs4NDHNMTLcHMSHQMPYt+XDEV/wpQiNOxx5dV+mI0TiYtwv43
+ MNFxEetcK3ar9zWF0vuUDv9f6JkcBUB5eYmmwirQQHGKYR2TglI6JDopf6jK54EhJLoU
+ pZZLhiNh6YvY4NXfPPc75vpUalVuI42RGKYj/nVTbFbS4bCx0MReuYFyMlkVMvkEhu+4
+ g8nZ/rfzzKr9oQed8OW63IYA/N6LvLE40ZLDNY5ECRWr7dLro7CsrRyuGioipU+6jwH5
+ 0Gd91EYJvtgS6DZQjxG+8E97UXmFa0ZXjnfAhsksi8Kxy8BleRyBTIGi6r80EMPt4dG/
+ D44Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVaEcluAEs4GOpsuQL0mV0KXhcU8hyC+KjuTbMy4SqppAenKS9RawKyMtwPGq9E7CKIKS8usArT8xM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxA/sXOJXkNvGluaZqjDha2cZJw9uBKXk4XcbrrJEhJ7YDQ1hMP
- RTT4jiI6+0LMHXyIWVZfztgouiolsf0qeRJUO2Byzod7mxWUkFFVS5704aBgcWtyFh2vI2Lyk5G
- 5SmaSJfIvopJF1BPJsGd6+xrhDKO2dfv6AqiY
-X-Gm-Gg: ASbGncsxj/YbsEcD5+qXXBNHXNWiZgGvDhwgdichf91HBI5P9hvwO4lM537dK/QBUXf
- PwArZ58ScuXAYMq7MCh8vkpuxU6pUeLga+fHZJnzH4YeWzrXFruX3wnIiSKXBXlHi5iv9feazRW
- efcPrSO4d+Ko1RS18NPCv0qFoiKY4=
-X-Google-Smtp-Source: AGHT+IGFuDJ/yS0u8dS14Gv20AD9SchI1L60wuXbwG89moIXFiN8E7tD+sXircX+ivXQe8fclvFz4iylGbitphpvsqU=
-X-Received: by 2002:a05:6214:496:b0:6ea:d604:9e56 with SMTP id
- 6a1803df08f44-6eed6073e0cmr33102156d6.9.1743235448950; Sat, 29 Mar 2025
- 01:04:08 -0700 (PDT)
+ AJvYcCU4FRllIPr9QH4lTo9YPPjPevEF5yhivrcGNATY/GxYuHAd6peG67pxd5Aeb5eHgsKTn5ZOmiJic2g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxpJ2mczksOWxUXfgxaIcYBW8W/7DBwJQIOSRGTQDDgZ+2myRjT
+ qp1+yFwK0MN3JIGeZEFkGL1zVvXReNVLSNmbdQNymcpiGqGL7UONEOLwegIsOMyiCuKN0cPWiUp
+ 49ZbBEwqVh6Kmn1OMGoLT8ZjS87JhYXFXecAJ
+X-Gm-Gg: ASbGncuncmY9VnqBBN+k/YecJFIOi/DpoUDGfDaXT8ZjzIwuCwlMHeDkZcXclzHbx5o
+ 6DNRHvfuL92jKTH/f17HgupqvH8Sd2bA27nXw6YLkPTlc2SHQjT7pBaj7X8UjRmb9g5IlSIlCl2
+ D8iDoA4QXfr7ei4GVNV18GlMevmEE=
+X-Google-Smtp-Source: AGHT+IEc78D847LUde3+5bswzdf1ixUrsSY5twv855UuX9+/F9K0OsF+VDrVmnty/ImwqqAtDRcJZXHHN5I0PSHwDjI=
+X-Received: by 2002:ad4:5c42:0:b0:6eb:1e80:19fa with SMTP id
+ 6a1803df08f44-6eed5f6164cmr22680736d6.1.1743235454901; Sat, 29 Mar 2025
+ 01:04:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250313114329.284104-1-acarmina@redhat.com>
- <20250313114329.284104-4-acarmina@redhat.com>
-In-Reply-To: <20250313114329.284104-4-acarmina@redhat.com>
+ <20250313114329.284104-7-acarmina@redhat.com>
+In-Reply-To: <20250313114329.284104-7-acarmina@redhat.com>
 From: David Gow <davidgow@google.com>
-Date: Sat, 29 Mar 2025 16:03:56 +0800
-X-Gm-Features: AQ5f1JpicRKRSaCIuqiwug0PrStdjBYACeo4Eb48BhA0aZtbew_fx1TOosHWZm8
-Message-ID: <CABVgOSmrb_am5nxOxJaZ_JL_wf21xy6e9R2hvEuEiJG29P4y2A@mail.gmail.com>
-Subject: Re: [PATCH v4 03/14] kunit: Add test cases for backtrace warning
- suppression
+Date: Sat, 29 Mar 2025 16:04:01 +0800
+X-Gm-Features: AQ5f1JpT-aX1aghV5CTNaG4UuLzzr7X5SV4zHe81kzrsiyK5QNGcvsu-jzq-6nI
+Message-ID: <CABVgOSmofN-jw9AWpOTAvhE-d-oLW_MBnPx8QQ1GVLZb-sMEhg@mail.gmail.com>
+Subject: Re: [PATCH v4 06/14] x86: Add support for suppressing warning
+ backtraces
 To: Alessandro Carminati <acarmina@redhat.com>
 Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, 
  Arnd Bergmann <arnd@arndb.de>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
@@ -85,9 +85,11 @@ Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
  linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
  loongarch@lists.linux.dev, x86@kernel.org, 
- Linux Kernel Functional Testing <lkft@linaro.org>
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000bc27de063176a140"
+ micalg=sha-256; boundary="000000000000186981063176a237"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,34 +105,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000bc27de063176a140
+--000000000000186981063176a237
 Content-Type: text/plain; charset="UTF-8"
 
 On Thu, 13 Mar 2025 at 19:44, Alessandro Carminati <acarmina@redhat.com> wrote:
 >
 > From: Guenter Roeck <linux@roeck-us.net>
 >
-> Add unit tests to verify that warning backtrace suppression works.
+> Add name of functions triggering warning backtraces to the __bug_table
+> object section to enable support for suppressing WARNING backtraces.
 >
-> If backtrace suppression does _not_ work, the unit tests will likely
-> trigger unsuppressed backtraces, which should actually help to get
-> the affected architectures / platforms fixed.
+> To limit image size impact, the pointer to the function name is only added
+> to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
+> CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
+> parameter is replaced with a (dummy) NULL parameter to avoid an image size
+> increase due to unused __func__ entries (this is necessary because __func__
+> is not a define but a virtual variable).
 >
 > Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 > Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
 > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 > Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
 > ---
-
-Always nice to have tests. :-)
 
 Reviewed-by: David Gow <davidgow@google.com>
 
 Cheers,
 -- David
 
---000000000000bc27de063176a140
+
+>  arch/x86/include/asm/bug.h | 21 ++++++++++++++++-----
+>  1 file changed, 16 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
+> index e85ac0c7c039..f6e13fc675ab 100644
+> --- a/arch/x86/include/asm/bug.h
+> +++ b/arch/x86/include/asm/bug.h
+> @@ -35,18 +35,28 @@
+>
+>  #ifdef CONFIG_DEBUG_BUGVERBOSE
+>
+> +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
+> +# define HAVE_BUG_FUNCTION
+> +# define __BUG_FUNC_PTR        __BUG_REL(%c1)
+> +# define __BUG_FUNC    __func__
+> +#else
+> +# define __BUG_FUNC_PTR
+> +# define __BUG_FUNC    NULL
+> +#endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
+> +
+>  #define _BUG_FLAGS(ins, flags, extra)                                  \
+>  do {                                                                   \
+>         asm_inline volatile("1:\t" ins "\n"                             \
+>                      ".pushsection __bug_table,\"aw\"\n"                \
+>                      "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"   \
+>                      "\t"  __BUG_REL(%c0) "\t# bug_entry::file\n"       \
+> -                    "\t.word %c1"        "\t# bug_entry::line\n"       \
+> -                    "\t.word %c2"        "\t# bug_entry::flags\n"      \
+> -                    "\t.org 2b+%c3\n"                                  \
+> +                    "\t"  __BUG_FUNC_PTR "\t# bug_entry::function\n"   \
+> +                    "\t.word %c2"        "\t# bug_entry::line\n"       \
+> +                    "\t.word %c3"        "\t# bug_entry::flags\n"      \
+> +                    "\t.org 2b+%c4\n"                                  \
+>                      ".popsection\n"                                    \
+>                      extra                                              \
+> -                    : : "i" (__FILE__), "i" (__LINE__),                \
+> +                    : : "i" (__FILE__), "i" (__BUG_FUNC), "i" (__LINE__),\
+>                          "i" (flags),                                   \
+>                          "i" (sizeof(struct bug_entry)));               \
+>  } while (0)
+> @@ -92,7 +102,8 @@ do {                                                         \
+>  do {                                                           \
+>         __auto_type __flags = BUGFLAG_WARNING|(flags);          \
+>         instrumentation_begin();                                \
+> -       _BUG_FLAGS(ASM_UD2, __flags, ANNOTATE_REACHABLE(1b));   \
+> +       if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))                     \
+> +               _BUG_FLAGS(ASM_UD2, __flags, ANNOTATE_REACHABLE(1b));   \
+>         instrumentation_end();                                  \
+>  } while (0)
+>
+> --
+> 2.34.1
+>
+
+--000000000000186981063176a237
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -220,13 +282,13 @@ uFrCoYIRlx4rSVHpBIKgnsgdm0SFQK72MPmIkfhfq9Fh0h8AjhF73sLO7K5BfwWkx1gwMySyNY0e
 PCRYr6WEVOkUJS0a0fui693ymMPFLQAimmz8EpyFok4Ju066StkYO1dIgUIla4x61auxkWHwnzGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAcDMKctW1GQKDKqEUSh4
-pjANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgm3R/ghgzBpj1jMOVW83mzw4C0AL9
-5UEGdIWFX/GO6EAwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-MzI5MDgwNDA5WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+pjANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg2//D/Xyyvi5/ruv5pLyZ3Rv3y1HE
+7fNAKkTKrh5hWNEwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+MzI5MDgwNDE1WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAVuI1QEd4DlrvS5gBl3QUy59Zf/mUB8dgId9VEYAz0al5EKjnUBz77/up2C+g4NEz
-0wLl0FVtlf3Yobp82pqwW3x0dwzzdrHbgari46VT5k6TcWhyzFWPFAiYjBbWUPKbFmYHg2fbspaH
-ZVQcmtvsl5j3YWFtdRXGpP23CO5/j7Ccqat1DtBfiaJGs8BiuMmbUCxU6DAJh9msFzW2HI81pjEn
-NzUg/rB4tvKa2KsGETAEK5aWEqlGuTZGfUAXRIp0Osxr0lOA061vD5zrxMAdt6qZY0hpsLn8WdQ1
-mMivBeGETU9GcOmYSrrowtgKlJbuS+r/mMiBqOPIH54sv3R6gA==
---000000000000bc27de063176a140--
+AQEBBQAEggEASVlVFQXw4S3LvkoUEZJTR42uF61UnTKRZ1Lgt9fykLsQjDZijEnIOpMeJYkmZXyu
+7QcD+Ra2/VA+DA4I4QWkaSB0j7LwcrPn8LNP2wU66CUhrecq0speJgnRJyIkA0otoc+ER83dnzmH
+6bfJg20kfVB0h9LCjFXs5lKkV+4t6KuuqOcY/8NPt06C9aYf5Dwk2T1WxpNaORrGAEFflYWarP00
+r9guI0DFa/bKju/HEwOR1Tlhvz0kGdXggqfTm9F16r49EBBwyZO1aWjJ0/0ErT9jrLwUMOJmY1Xd
+W4bgW3fB7adVI0LPodpz2ViCEEios5AmV+rb2cKlmUfMzI3gCQ==
+--000000000000186981063176a237--
