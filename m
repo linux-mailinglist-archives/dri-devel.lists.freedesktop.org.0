@@ -2,60 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E1BA75615
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 12:54:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F55A75622
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 13:04:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED37B10E23E;
-	Sat, 29 Mar 2025 11:54:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C87410E237;
+	Sat, 29 Mar 2025 12:04:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="wEW2JX30";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HUkWr8Ur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
- [91.218.175.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0B310E23E
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 11:54:09 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1743249247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wE0vIhT17gdRjzWiLk98s997NPXVl9LLMvXAAAFDDCE=;
- b=wEW2JX30KCdb9gDaFAA5pgaP7jS6NBeJYvn+7ZdVf0fRp7mEi1In4MHKRdiA/eEPRm9h3y
- X7pEpIRcPMOFNnKYf1FjuMKEquzJwOpaPPbmEWyyg7Pmu5JNkC0L7LYWBhUQWeFWztUIgF
- 4lkfW2gf/VhFKGHsCx8NeltIbrYFuuo=
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Dominik Haller <d.haller@phytec.de>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v11 14/14] drm/bridge: cdns-dsi: Use pre_enable/post_disable
- to enable/disable
-Date: Sat, 29 Mar 2025 17:23:33 +0530
-Message-Id: <20250329115333.72614-4-aradhya.bhatia@linux.dev>
-In-Reply-To: <20250329113925.68204-1-aradhya.bhatia@linux.dev>
-References: <20250329113925.68204-1-aradhya.bhatia@linux.dev>
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E03B710E237
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 12:04:49 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-2ff5544af03so663945a91.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 05:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743249889; x=1743854689; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wdGfX1nkkaOW4O4ujEOaMydVXl5u/twkpDKmuOuz89c=;
+ b=HUkWr8UrdU6iNJ9gOE0S/9F9FIn0+4wEvNpof74bHGEvwmMVBOZeNsX1oYYGzmpuHS
+ xUPt1jOvX8pBIu5jjIb8uNHShTU+xq/w1hB0trF9koh2nuHOMtMIK8O9RwErlbOh6AjG
+ rbHGxKHpxOpJq75p7f4JfKEQCAAvUAJNJC+0dZYO1lKZ03/WFoFzZ0aLUO9HXjHmzoa5
+ 04QfaU7rDY8XX6Sj9my0enjg+/uRH7OHVHCMTTSqi+yyqmVGgwBtaIuUuCzWpyRmyNye
+ sy6pryyMInO/j2KUZzelRIILPsknhH1jErf03BUmrwMIzaccq3aZ6WyVyS0uUE0Isyve
+ ksEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743249889; x=1743854689;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wdGfX1nkkaOW4O4ujEOaMydVXl5u/twkpDKmuOuz89c=;
+ b=AsdoJ2M3WjlO3rWMX99pD9C2xagkdGq0va38hNM15w+KPR+QCpfsQMvSsgNfhHsFZk
+ hyWZm2JMUultUunV47k6SwVADTeNs3XB+bSl2tPcnDdLTcoOAIm0d6ZyNTP6u9DVdlAy
+ 67UMIfiISM3VlNMfJMjkvCpeZJxzJX5O7q4CtIJcMo1BQbu5SU+weTH1Jsf9Fu2AISXw
+ M1AnBoJvKRp28Dbfx8pXyZpV7IxyDpW79m17tuwotjuVGFHHolMkMd/8d8We0uHfThlY
+ /SK+zsHzDbVumD+PAewzrBSEVzrnVVYhdAVEvbW6ydaOSdoSA2E4FAOVew7QWl7sK5aL
+ ZHCg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXTQvjh7AKxZok8PDcoSU38p06ZNfgtDIr3IczKVXQCJKGCDIWWdluInqOWzpPbKU62+mgSVSFF0kY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkZlaEC4lI8MnZ6hU4Q6Mr7dP2ifVO0Whq61+DsJ/PG0Spd112
+ g6hwC7Dn0HSKOmTGthg567h0T1Nm4iwPOxxALck3kfDuoHWobWnaeJxljzGNB510FUWESclG2Bs
+ 9jRQKuihNwnz2A3PemQ07Ek1oPhM=
+X-Gm-Gg: ASbGnctcc+VbMW7ngWDWjVD0aScDK/niEpqlCwjolmaqqddGFW3W2DsJKz+M4unL6jf
+ XOqY96UuUWjEZVWbdihyoD+TcGbEiGP4zMtBrjc0sQlHxN78kyekfp0sGEqTbJ1COS0wqpVMToX
+ DVQiJG3cOKWZZiHxvHojsVtEZ1/Q==
+X-Google-Smtp-Source: AGHT+IFo2UW5T+sFxhmwqIg+9PDnfH9AlwSZ2JIdsgHYNVzUvdlOAsTTCFjCh8UvJiZBM9onqJ46wvoqPc/VqkxO740=
+X-Received: by 2002:a17:90b:390f:b0:2ff:4be6:c5e2 with SMTP id
+ 98e67ed59e1d1-3053216fadamr1374643a91.7.1743249889149; Sat, 29 Mar 2025
+ 05:04:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250325212823.669459-1-lyude@redhat.com>
+ <20250325212823.669459-2-lyude@redhat.com>
+ <87wmcc6ppo.fsf@intel.com>
+ <4a7f76493305b0afc6ae8d14cfd7bc031316b3d0.camel@redhat.com>
+In-Reply-To: <4a7f76493305b0afc6ae8d14cfd7bc031316b3d0.camel@redhat.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 29 Mar 2025 13:04:36 +0100
+X-Gm-Features: AQ5f1Jqbd9HZU2nzqFw8nwbypmV9t7OkAeLVo0-UYJymAEYKQwYKoPABHjKi-rQ
+Message-ID: <CANiq72n_PJWF=2Duxt_bTzzH2opAcNMRt+31WcDLuu1Qx2Nz2A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/edid: Use unsigned int in drm_add_modes_noedid()
+To: Lyude Paul <lyude@redhat.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ "open list:RUST:Keyword:b(?i:rust)b" <rust-for-linux@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,160 +98,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aradhya Bhatia <a-bhatia1@ti.com>
+On Fri, Mar 28, 2025 at 11:27=E2=80=AFPM Lyude Paul <lyude@redhat.com> wrot=
+e:
+>
+> So - it actually does protect us to a limited extent on the rust side of
+> things. With CONFIG_RUST_OVERFLOW_CHECKS=3Dy, arithematic checks are buil=
+tin to
+> the language. This isn't the default config of course, but it's better th=
+en
+> nothing.
 
-The cdns-dsi controller requires that it be turned on completely before
-the input DPI's source has begun streaming[0]. Not having that, allows
-for a small window before cdns-dsi enable and after cdns-dsi disable
-where the previous entity (in this case tidss's videoport) to continue
-streaming DPI video signals. This small window where cdns-dsi is
-disabled but is still receiving signals causes the input FIFO of
-cdns-dsi to get corrupted. This causes the colors to shift on the output
-display. The colors can either shift by one color component (R->G, G->B,
-B->R), or by two color components (R->B, G->R, B->G).
+It is the default! :)
 
-Since tidss's videoport starts streaming via crtc enable hooks, we need
-cdns-dsi to be up and running before that. Now that the bridges are
-pre_enabled before crtc is enabled, and post_disabled after crtc is
-disabled, use the pre_enable and post_disable hooks to get cdns-dsi
-ready and running before the tidss videoport to get pass the color shift
-issues.
-
-[0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
-     TRM Link: http://www.ti.com/lit/pdf/spruil1
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
----
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 64 ++++++++++---------
- 1 file changed, 35 insertions(+), 29 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index b022dd6e6b6e..47435f2624a8 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -670,13 +670,28 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 	return MODE_OK;
- }
- 
--static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
--					   struct drm_atomic_state *state)
-+static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
-+						struct drm_atomic_state *state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
- 	u32 val;
- 
-+	/*
-+	 * The cdns-dsi controller needs to be disabled after it's DPI source
-+	 * has stopped streaming. If this is not followed, there is a brief
-+	 * window before DPI source is disabled and after cdns-dsi controller
-+	 * has been disabled where the DPI stream is still on, but the cdns-dsi
-+	 * controller is not ready anymore to accept the incoming signals. This
-+	 * is one of the reasons why a shift in pixel colors is observed on
-+	 * displays that have cdns-dsi as one of the bridges.
-+	 *
-+	 * To mitigate this, disable this bridge from the bridge post_disable()
-+	 * hook, instead of the bridge _disable() hook. The bridge post_disable()
-+	 * hook gets called after the CRTC disable, where often many DPI sources
-+	 * disable their streams.
-+	 */
-+
- 	val = readl(dsi->regs + MCTL_MAIN_DATA_CTL);
- 	val &= ~(IF_VID_SELECT_MASK | IF_VID_MODE | VID_EN | HOST_EOT_GEN |
- 		 DISP_EOT_GEN);
-@@ -688,15 +703,6 @@ static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
- 	if (dsi->platform_ops && dsi->platform_ops->disable)
- 		dsi->platform_ops->disable(dsi);
- 
--	pm_runtime_put(dsi->base.dev);
--}
--
--static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
--						struct drm_atomic_state *state)
--{
--	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
--	struct cdns_dsi *dsi = input_to_dsi(input);
--
- 	dsi->phy_initialized = false;
- 	dsi->link_initialized = false;
- 	phy_power_off(dsi->dphy);
-@@ -774,8 +780,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
- 	dsi->link_initialized = true;
- }
- 
--static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
--					  struct drm_atomic_state *state)
-+static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+					      struct drm_atomic_state *state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -792,6 +798,21 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	u32 tmp, reg_wakeup, div, status;
- 	int nlanes;
- 
-+	/*
-+	 * The cdns-dsi controller needs to be enabled before it's DPI source
-+	 * has begun streaming. If this is not followed, there is a brief window
-+	 * after DPI source enable and before cdns-dsi controller enable where
-+	 * the DPI stream is on, but the cdns-dsi controller is not ready to
-+	 * accept the incoming signals. This is one of the reasons why a shift
-+	 * in pixel colors is observed on displays that have cdns-dsi as one of
-+	 * the bridges.
-+	 *
-+	 * To mitigate this, enable this bridge from the bridge pre_enable()
-+	 * hook, instead of the bridge _enable() hook. The bridge pre_enable()
-+	 * hook gets called before the CRTC enable, where often many DPI sources
-+	 * enable their streams.
-+	 */
-+
- 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
- 		return;
- 
-@@ -811,8 +832,8 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	mode = &crtc_state->adjusted_mode;
- 	nlanes = output->dev->lanes;
- 
--	cdns_dsi_hs_init(dsi);
- 	cdns_dsi_init_link(dsi);
-+	cdns_dsi_hs_init(dsi);
- 
- 	/*
- 	 * Now that the DSI Link and DSI Phy are initialized,
-@@ -941,19 +962,6 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
- }
- 
--static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
--					      struct drm_atomic_state *state)
--{
--	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
--	struct cdns_dsi *dsi = input_to_dsi(input);
--
--	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
--		return;
--
--	cdns_dsi_init_link(dsi);
--	cdns_dsi_hs_init(dsi);
--}
--
- static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
- 					       struct drm_bridge_state *bridge_state,
- 					       struct drm_crtc_state *crtc_state,
-@@ -1048,9 +1056,7 @@ cdns_dsi_bridge_atomic_reset(struct drm_bridge *bridge)
- static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
- 	.attach = cdns_dsi_bridge_attach,
- 	.mode_valid = cdns_dsi_bridge_mode_valid,
--	.atomic_disable = cdns_dsi_bridge_atomic_disable,
- 	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
--	.atomic_enable = cdns_dsi_bridge_atomic_enable,
- 	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
- 	.atomic_check = cdns_dsi_bridge_atomic_check,
- 	.atomic_reset = cdns_dsi_bridge_atomic_reset,
--- 
-2.34.1
-
+Cheers,
+Miguel
