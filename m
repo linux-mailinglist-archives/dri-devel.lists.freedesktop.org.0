@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E9EA755F4
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 12:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2777CA755F7
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 12:40:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A55210E238;
-	Sat, 29 Mar 2025 11:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7170910E23B;
+	Sat, 29 Mar 2025 11:40:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="j04CjqJC";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="OSoZ3ISe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
- [91.218.175.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F019710E235
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 11:40:14 +0000 (UTC)
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com
+ [91.218.175.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA50A10E23A
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 11:40:20 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1743248413;
+ t=1743248418;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6NnvwpZW/Ru4gwZAAmI8HT5ONpJ7fvTfrCTtZxUgpzU=;
- b=j04CjqJC3S2SvygENfRBnJdo0selMxvta6AH8kXCbvcAX0lQWJViSenLTw8ac4P6RtYri6
- 1u/rxe9/VqHi/aSHCEURrD+O8ZRAIFYoFdT56izawVqa/RWWBoJbkv40anXIWcznUJKMcp
- HyUE3/mo70Hiwya3isOy24Ek12USyY0=
+ bh=rIk50ETauNoMoUpyiJL6wIEyxdPfToBDa+Clu3JgPXw=;
+ b=OSoZ3ISevVyyRaRnfEtlnClKQSf3zwCB/FgQO9xVsL31sBU0AsrRKEH7naLAN5SKHWgrq3
+ jQYDGu6CtYOZH3nDq5fx9wHDjpgmcq0zFM0NitYxey24me2q0u4XUbS3G9ZnPszAugVkTS
+ oVK3O2UmBwsQ8WDLA7GEoBXfK0+5+So=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
@@ -47,9 +47,9 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v11 07/14] drm/mipi-dsi: Add helper to find input format
-Date: Sat, 29 Mar 2025 17:09:18 +0530
-Message-Id: <20250329113925.68204-8-aradhya.bhatia@linux.dev>
+Subject: [PATCH v11 08/14] drm/bridge: cdns-dsi: Add input format negotiation
+Date: Sat, 29 Mar 2025 17:09:19 +0530
+Message-Id: <20250329113925.68204-9-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250329113925.68204-1-aradhya.bhatia@linux.dev>
 References: <20250329113925.68204-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
@@ -72,8 +72,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 
-Add a helper API that can be used by the DSI hosts to find the required
-input bus format for the given output dsi pixel format.
+Add support for the input format negotiation hook, that uses the helper
+drm_mipi_dsi_get_input_bus_fmt() for dsi hosts, to figure out the
+required input format.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
@@ -81,77 +82,55 @@ Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 37 ++++++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h     |  1 +
- 2 files changed, 38 insertions(+)
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index dfa595556320..e5184a0c2465 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -36,6 +36,8 @@
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_print.h>
- 
-+#include <linux/media-bus-format.h>
-+
- #include <video/mipi_display.h>
- 
- /**
-@@ -870,6 +872,41 @@ ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+index 89a3f3efc522..c333b5c025d9 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+@@ -936,6 +936,33 @@ static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 	cdns_dsi_hs_init(dsi);
  }
- EXPORT_SYMBOL(mipi_dsi_generic_read);
  
-+/**
-+ * drm_mipi_dsi_get_input_bus_fmt() - Get the required MEDIA_BUS_FMT_* based
-+ *				      input pixel format for a given DSI output
-+ *				      pixel format
-+ * @dsi_format: pixel format that a DSI host needs to output
-+ *
-+ * Various DSI hosts can use this function during their
-+ * &drm_bridge_funcs.atomic_get_input_bus_fmts operation to ascertain
-+ * the MEDIA_BUS_FMT_* pixel format required as input.
-+ *
-+ * RETURNS:
-+ * a 32-bit MEDIA_BUS_FMT_* value on success or 0 in case of failure.
-+ */
-+u32 drm_mipi_dsi_get_input_bus_fmt(enum mipi_dsi_pixel_format dsi_format)
++static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
++					       struct drm_bridge_state *bridge_state,
++					       struct drm_crtc_state *crtc_state,
++					       struct drm_connector_state *conn_state,
++					       u32 output_fmt,
++					       unsigned int *num_input_fmts)
 +{
-+	switch (dsi_format) {
-+	case MIPI_DSI_FMT_RGB888:
-+		return MEDIA_BUS_FMT_RGB888_1X24;
++	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
++	struct cdns_dsi *dsi = input_to_dsi(input);
++	struct cdns_dsi_output *output = &dsi->output;
++	u32 *input_fmts;
 +
-+	case MIPI_DSI_FMT_RGB666:
-+		return MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
++	*num_input_fmts = 0;
 +
-+	case MIPI_DSI_FMT_RGB666_PACKED:
-+		return MEDIA_BUS_FMT_RGB666_1X18;
++	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
++	if (!input_fmts)
++		return NULL;
 +
-+	case MIPI_DSI_FMT_RGB565:
-+		return MEDIA_BUS_FMT_RGB565_1X16;
++	input_fmts[0] = drm_mipi_dsi_get_input_bus_fmt(output->dev->format);
++	if (!input_fmts[0])
++		return NULL;
 +
-+	default:
-+		/* Unsupported DSI Format */
-+		return 0;
-+	}
++	*num_input_fmts = 1;
++
++	return input_fmts;
 +}
-+EXPORT_SYMBOL(drm_mipi_dsi_get_input_bus_fmt);
 +
- /**
-  * mipi_dsi_dcs_write_buffer() - transmit a DCS command with payload
-  * @dsi: DSI peripheral device
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index bd40a443385c..d6796ce9f5ff 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -293,6 +293,7 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
- 				  const void *payload, size_t size);
- ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
- 			      size_t num_params, void *data, size_t size);
-+u32 drm_mipi_dsi_get_input_bus_fmt(enum mipi_dsi_pixel_format dsi_format);
+ static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
+ 	.attach = cdns_dsi_bridge_attach,
+ 	.mode_valid = cdns_dsi_bridge_mode_valid,
+@@ -946,6 +973,7 @@ static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_get_input_bus_fmts = cdns_dsi_bridge_get_input_bus_fmts,
+ };
  
- #define mipi_dsi_msleep(ctx, delay)	\
- 	do {				\
+ static int cdns_dsi_attach(struct mipi_dsi_host *host,
 -- 
 2.34.1
 
