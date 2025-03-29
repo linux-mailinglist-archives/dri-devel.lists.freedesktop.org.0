@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B066A757BD
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 20:50:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D8EA757C0
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 20:55:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 694FE10E05E;
-	Sat, 29 Mar 2025 19:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 442C910E1C6;
+	Sat, 29 Mar 2025 19:55:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TRserY7c";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GhSKxabT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
- [209.85.128.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBDD110E05E
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 19:50:28 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-702599fa7c5so3671087b3.1
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 12:50:28 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DFA810E1C6
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 19:55:42 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-6ef60e500d7so24981817b3.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 12:55:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743277828; x=1743882628; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1743278141; x=1743882941; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kgUng1lsLClhuHLGL9t/6EycDsTNPfaDVFfdT+Zvh3A=;
- b=TRserY7cOjbF0cQm2OM1zFu96Yufxuhgzir6z8+sJMBqnAfk7Ft1t5kVNK++oVHntC
- KRA3XiCtqeA8pER/Jd7DUj3BRlHZEzFSYVLOjCWmn3vlO008TQg0kMqX2mjbdvkts94v
- dOYDOXdLf6AJgbClqr/L9a+qtZFxAZas6cnfFA0GynNaFBIXv+magRBNbAB/Yb9Hf90e
- I1/QSIzeq04JfTKIg1cZciXyNmkdvQhPYIjI9aILSqjKSsb/xFdAb0M+/s+1+Gm3cqOL
- L+5CQlLm3d8a92lCrUoNydFYGa8T/+dZL43q3t9QKzSh6hFgDK5iSLdk6M8GacObOAba
- EpZA==
+ bh=u308vrKVuoCKv+aJT65raHq9rbK345amQxp+zuYQWyM=;
+ b=GhSKxabThWI/IaYepeqBXBUYbHRPMKhftMm0w6zxb8x3xT3Sg7A4S5nSHRVHkeTqh1
+ gu+sVBWkMLe09X+ebWwqNbOFb79Dx74kBA+RM67NuA1waPPB3FbpG2ARHdWYn1HVbQ+I
+ vuB2hoeYbaOVMDVNHT0fijz+tJwIhRvV8cgQLh1gVmJBygz124piBA7zjZSwgJ59Fzxb
+ q8mFdf0Sl7rY7d8KBuOQlQQ/K8Enw4YzmZcHYaIZUtq4Tjh9KbxYREN4Ef0hG5WfjIrD
+ TsEDHAmChLy7WKJTd2flauk6CBdYsHeUZBn+jPLS/YGG0lmPVdbBod+F0Q5hG3dwhvoT
+ ciRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743277828; x=1743882628;
+ d=1e100.net; s=20230601; t=1743278141; x=1743882941;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kgUng1lsLClhuHLGL9t/6EycDsTNPfaDVFfdT+Zvh3A=;
- b=i6PtDCTfaaiTH7v+WQKwemQ94I8zhT8jIKBQQ+QoYu6uBf3HP2Kzm0EPRAv++TA13j
- pt1SRj1psETO4lYJNbAM9rplazv+yJLs5qjhE9+6Dp0yDHBjj1w2w9NM8UqzML/GMade
- VzaUikD4f5UCo9IReK0F+M13+3MvK8/FzPrGjULoMcpwv4X3yD3bURcGhuF4guWuY3uS
- cyW48EwZz2loy/+1QJbMXYEyULH05/J6pkofBMWn2v/4c+TcP+cWZFcNCgMBO6SexLGs
- dLrqJ4DYQnPYbRaS0cm+1B+ei0eZX8tLAttO3SkuBU/Wr5tkVj5kT1XsYwtLftItgnoH
- b7sg==
-X-Gm-Message-State: AOJu0YxUbx03J+L9K0/GTP8VK5hz2xWluPHcGVjtCsq1g2xKo7CMsOyd
- wmm0FFr6wJiK3b/qnSFC0w2/medbD5BSYCJVTAkFXjRQ0TV7GwfC
-X-Gm-Gg: ASbGnct2pmdP1r9jmrgXPGJqE4RWbe9N1oZzIsp3g/UX0BK9OKNdDsUz9H3cpNIRrvJ
- n9Aif5iAMG9lgxhLEW+js44IotZKj+4y2b55cTGf4jOJcIn0QHERXzLazdUglyFGMBrLc5zKHQJ
- ef2pmEOqgmNbwgwFVoNcnGXcZd16xBKSUAPDweWP03HEWNf7owD4gHPT4N9w02eg68G3wEafUTh
- HIw8IQ0P3rkkcCSHz5YH5gYl4YuK8jseGI3KY3/sEVnFBNGgzH5tNYa4ZHvqBaVgo5uyuYTm8VZ
- wCl3nPPoXov5CCNQVkDkmxJnaTmtHxWo8c+t3u04BUQLWrGlk2A=
-X-Google-Smtp-Source: AGHT+IFXYHGF1kbfN6DrpHRX6V4TwAnNDp2HMI6U89Z+SpTpIjE4sgJHSH4xQxwFLc3mE4l32HKTFg==
-X-Received: by 2002:a05:690c:3345:b0:6f9:e4e1:a86 with SMTP id
- 00721157ae682-7023e105414mr105948257b3.16.1743277827709; 
- Sat, 29 Mar 2025 12:50:27 -0700 (PDT)
+ bh=u308vrKVuoCKv+aJT65raHq9rbK345amQxp+zuYQWyM=;
+ b=RDNdeLYOxkUgRlMTcm9Y0Q7d/b+7vlAvweHWLaejYc/geLwnCfWgTBUE1bukb/+BBF
+ BJ71JXMB4fITTqj8oCW/hhHfKI8Er0KT8Vmxou7b++of1Pm0HSjB0l2xoH4SxcgHwOPR
+ 5l8GNe/Bm8Z/JRlYC4qQ9A4Z50IPVN8CrdCBHQl7RbkEcQNK0C5/wCtkWZ56HYIKYw4P
+ tDVeMJtwY6vwg87QMh/O/fq8G+rHlJpm4+EY/P1eKnHaeq6G1Lu4BUPE0mMaGzsjcCQ4
+ EDHA6mJkOZpoiBQBzpVrgcnJa6vYnU+htjEbt6lNGCgU3vv1e60c2uQ8I2nd3PWUKecK
+ QtuQ==
+X-Gm-Message-State: AOJu0YyUBzLQLWbCBD2oDYQyg/oToJ7q04p9v2NBmWZibTNfSUi9OlAl
+ upXJLjXN9+dHtx/LdVKRrDaW3R61T1fcMAyrvDyl1U1CJq/DIRS/
+X-Gm-Gg: ASbGncsRb9RloWUCGRgha08mBwvWMrJnU4ZhqNii0UabIpPaYQgeOTo+k3Xzt0j2iE0
+ AyAwbxbYIXfrMKoy7laseY4KEKpRRBrecY/ytHnvfObZgKGGCr1ECCJdYVPvhwvIwDGsJhn+ftZ
+ CC9jN+bZQjn/TWhZtLNrLS+MAB4ic3UyPEnd2VylvgRCT+DAYbgye0oopDl96PFHkBL/NOVbtOJ
+ HTNwA/8sS7vXuvq1da8W21VETHbLg0E8/vs3mmZqAUpCJBp/hniEOnKGzXjkhg++ga8S+Gf6C5R
+ ELYkLI0w3QK1hEugvePFO+qpDuMqP2P6xia1f54Au2d+riBF5gc=
+X-Google-Smtp-Source: AGHT+IG4rcKHYfG6fUGVUeKFoCaHXdI7Vf7h1ZSu+rjN4tPNcDUIdkmqIFpDhXKjne+NQj0YXgNZuQ==
+X-Received: by 2002:a05:690c:4883:b0:6fb:3b2b:e73e with SMTP id
+ 00721157ae682-702571117d1mr59207557b3.14.1743278141336; 
+ Sat, 29 Mar 2025 12:55:41 -0700 (PDT)
 Received: from [10.138.35.215] ([45.134.140.51])
  by smtp.gmail.com with ESMTPSA id
- 00721157ae682-7023a341a52sm13676117b3.23.2025.03.29.12.50.26
+ 00721157ae682-7023a3c44besm13457077b3.55.2025.03.29.12.55.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Mar 2025 12:50:27 -0700 (PDT)
-Message-ID: <42048a80-a736-4ccc-953b-924d1e640cd0@gmail.com>
-Date: Sat, 29 Mar 2025 15:50:46 -0400
+ Sat, 29 Mar 2025 12:55:40 -0700 (PDT)
+Message-ID: <3baabd6b-95ba-4f84-bdef-b44d6d071aba@gmail.com>
+Date: Sat, 29 Mar 2025 15:56:00 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/7] virtio-gpu api: add blob userptr resource
+Subject: Re: [PATCH v2 0/7] *** Add virtio gpu userptr support ***
 Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- "Huang, Honglei1" <Honglei1.Huang@amd.com>, David Airlie
+To: Honglei Huang <honglei1.huang@amd.com>, David Airlie
  <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
  <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -74,12 +73,8 @@ To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
  Huang Rui <ray.huang@amd.com>
 Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250228053650.393646-1-honglei1.huang@amd.com>
- <20250228053650.393646-2-honglei1.huang@amd.com>
- <cd9f85a5-0d99-4007-bba2-d792ac9d84da@gmail.com>
- <c2d1334f-6f5a-493f-bbf0-3e92789f128a@amd.com>
- <85470439-3c03-4787-be91-b6b680a5aca5@collabora.com>
+ linux-kernel@vger.kernel.org, Dmitry Osipenko <dmitry.osipenko@collabora.com>
+References: <20250321080029.1715078-1-honglei1.huang@amd.com>
 From: Demi Marie Obenour <demiobenour@gmail.com>
 Autocrypt: addr=demiobenour@gmail.com; keydata=
  xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49yB+l2nipd
@@ -124,9 +119,9 @@ Autocrypt: addr=demiobenour@gmail.com; keydata=
  vUSQHSrmfOzX3cV4yfmjM5lewgSstoxGyTx2M8enslgdXhPthZlDnTnOT+C+OTsh8+m5tos8
  HQjaPM01MKBiAqdPgksm1wu2DrrwUi6ChRVTUBcj6+/9IJ81H2P2gJk3Ls3AVIxIffLoY34E
  +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <85470439-3c03-4787-be91-b6b680a5aca5@collabora.com>
+In-Reply-To: <20250321080029.1715078-1-honglei1.huang@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,44 +137,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/26/25 10:46 AM, Dmitry Osipenko wrote:
-> On 3/6/25 13:51, Huang, Honglei1 wrote:
->>
->> On 2025/3/1 5:21, Demi Marie Obenour wrote:
->>> On 2/28/25 12:36 AM, Honglei Huang wrote:
->>>> From: Honglei Huang <Honglei1.Huang@amd.com>
->>>>
->>>> Add a new resource for blob resource, called userptr, used for let
->>>> host access guest user space memory, to acquire buffer based userptr
->>>> feature in virtio GPU.
->>>>
->>>> - The capset VIRTIO_GPU_CAPSET_HSAKMT used for context init,
->>>> in this series patches only HSAKMT context can use the userptr
->>>> feature. HSAKMT is a GPU compute library in HSA stack, like
->>>> the role libdrm in mesa stack.
->>>
->>> Userptr should not be limited to HSMKMT contexts.  Userptr can
->>> accelerate shm buffers by avoiding a copy from guest to host, and
->>> it can be implemented using grant tables on Xen.
->>
->> Yes, I totally agree userptr can accelerate shm buffers, but I currently
->> don't know if there are any other projects working on similar features,
->> or if maintainers have any opinions or better ways to implement them, so
->> I temporarily limit this feature to HSAKMT context only.
->>
->> I am waiting for everyone's opinions, please provide your thoughts.
+On 3/21/25 4:00 AM, Honglei Huang wrote:
+> From: Honglei Huang <Honglei1.Huang@amd.com>
 > 
-> USERPTR should be relevant for anything Vulkan-related, like Venus and
-> native contexts. I expect that this new feature will work universally
-> good for all context types.
+> Hello,
 > 
-> In order to merge USERPTR support upstream, we at least will need to
-> prototype the guest USERPTR in one of native context driver to know that
-> it works. You'll need to post the whole set of host/guest USERPTR
-> patches including QEMU and etc, not just the kernel patches.
+> This series add virtio gpu userptr support and add libhsakmt capset.
+> The userptr feature is used for let host access guest user space memory,
+> this feature is used for GPU compute use case, to enable ROCm/OpenCL native
+> context. It should be pointed out that we are not to implement SVM here, 
+> this is just a buffer based userptr implementation.
+> The libhsakmt capset is used for ROCm context, libhsakmt is like the role 
+> of libdrm in Mesa.
+> 
+> Patches 1-2 add libhsakmt capset and userptr blob resource flag.
 
-Does the user-mode VMM need to be QEMU or would patches to
-another open-source VMM, such as crosvm, be sufficient?
+libhsakmt and userptr are orthogonal from each other.
+Should the libhsakmt context be a separate patch series?
+
+> Patches 3-5 implement basic userptr feature, in some popular bench marks,
+> it has an efficiency of about 70% compared to bare metal in OpenCL API.
+> Patch 6 adds interval tree to manage userptrs and prevent duplicate creation.
+> 
+> V2: - Split add HSAKMT context and blob userptr resource to two patches.
+>     - Remove MMU notifier related patches, cause use not moveable user space
+>       memory with MMU notifier is not a good idea.
+>     - Remove HSAKMT context check when create context, let all the context
+>       support the userptr feature.
+>     - Remove MMU notifier related content in cover letter.
+>     - Add more comments  for patch 6 in cover letter.
+
+I have not looked at the implementation, but thanks for removing the MMU
+notifier support.  Should the interval tree be added before the feature
+is exposed to userspace?  That would prevent users who are doing kernel
+bisects from temporarily exposing a buggy feature to userspace.
 -- 
 Sincerely,
 Demi Marie Obenour (she/her/hers)
