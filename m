@@ -2,84 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4891A75310
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 00:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09593A753C0
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 01:48:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E81CB10E1EF;
-	Fri, 28 Mar 2025 23:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37AA610EAD4;
+	Sat, 29 Mar 2025 00:48:15 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TqtpcE9G";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3DBA10E1DD
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 21:09:24 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-22548a28d0cso75149775ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 14:09:24 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B953110EAD4
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 00:48:05 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-ac73723b2d5so77197366b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 17:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743196164; x=1743800964; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=hwl4NdWNLA+WiZCnf70iMDLkFwdpvil0W/uJAOBiirY=;
- b=Z0tAG/Tt3vuE+YM3HItT9e9gsLYLd/QJPteJldyfPKPfzlnxu+Oy0OL+g0q1BMUqYR
- gmWurbYl/sPd/CZND3nekCaxValWchH05E3lWapi+9JMZdt2DwA/qnmtmAoIGG40358r
- 7lDmTCbqUJIu3LyqdrBDAonMq8v4VMV55HmrImBhEoYRKqrH72fQdMYmBNgI5FYvYeRw
- WmWf25R15uKXWBMxhGGg+Vx/NA3xMxqgKM9kebh/f0vYI6Otbev0x0brm0m9nTsP1cO0
- 6w1QkcT6F/XnxXtFWskFr6hxMNtz7jZkGora4C9YxQ1lsDvOBbHwgYrSe2d+X2qGqHju
- VZDA==
+ d=linux-foundation.org; s=google; t=1743209284; x=1743814084;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vSWfXqTtVONWjEjGnSYCIl5O9S7T/KCfljo3I595s4w=;
+ b=TqtpcE9GeRDjW3sLdphorLWHwwZDpzHCQpauINlZWJxYLp9ap3R4zJ9IbAPQaKTSL7
+ lS6TgzXHTB9OYKI7FadY66kaknxbs+tSX7xLbLPfKKASWz7FXk1Cdxs5uWdhLd9aJ+LA
+ 3lcZ1hDCLdZiWOGaa9650BlzVLtrDMR6nv878=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743196164; x=1743800964;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hwl4NdWNLA+WiZCnf70iMDLkFwdpvil0W/uJAOBiirY=;
- b=NcamEM2POGOjfRWdpzKgUEM5WFa1GxK387SLjk9RPrG35CKb4cxWEdiKCiD1s6zN/f
- qR+4Zp42aTFUhZDi7WfYmrh6PJMIlViOCXtM813SK89Y2i7YoMLvpZHyIs2fD8DTr4ac
- nxhtlDonA3PoInyn51ranxl6t9OCRdr3Hf2m0tEjgv2/v1Xrw3OfFwc5Nk9O94/VjPmU
- 4t1XTIF/WQfH/n/VgNupzWaPmY+tSlvUiPBlkMJqS1pkh30uvuoMNCJE1ZWG4cYQcDRn
- OujIrL/DDic7ES0dA77Rd6dXRoPAQrMqsY0eswUeZuj+p1nkdONCbg2P4Os1oxC0W8k7
- HGgg==
+ d=1e100.net; s=20230601; t=1743209284; x=1743814084;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vSWfXqTtVONWjEjGnSYCIl5O9S7T/KCfljo3I595s4w=;
+ b=G1oZGhqrym8R1/IN6er4ishaT7152hLlZ69iJb8XhS8CljA4U9rZdpzJVuZyoj+4f9
+ IWhm7vnzLTb/9w2pz4i6opuX2mJwNNMpopmO0WFpCaxVcKKSs3f0dTx41Iv/i063s9s5
+ txrbQ+uGBnxqGEKUFC9JEZtjG7i/ytbaORmHnLp7zyKdRT6cfHcEFSsFIoce9stDOsk0
+ +s4zGWiusahkZ9JzRTCa+5oA1YvhlkiksCLfZ+WX1HSm0CEUFXF0w3XX66FL0fB+bbOD
+ pQdGDdKr3acvqWFX5Vv/FHrU5Ro/fymiE8ebqhRINrKyq/O8UfEDepTNgQSdGTnknM8a
+ bLdg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUISKM5E/4HQBJr/O9xBtSNEp0oc3goPpdkkv/DKnfoNyhmkZk8kdyrU/0qqfIk5wmupzFjWBEG0XQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZWBx39pnER1EZRuklC7ltT9uXP1Vaa4ZndaX3bKe5tZsnSrjH
- BvpTEBZp7Ko5lAB6jJuBRW/Vly9qBaTe77jcVNBL4pF0ThxiW8Oo
-X-Gm-Gg: ASbGncsPeuEQ65G5cGxo4E2YwqSw2ot9FgWQzVcwuisEQzDjJiMvQAyxpuUntJHZG/i
- NHeN6ZRe+UMEKkFmqp7h9WzerVGrJ80SwopPovph/EvWKHaBZvXEpvP8fn6kvNLiZxuuKf09Q91
- VCD55SSz/i260hoH7A2k5GrOVMkql+oBRRVQ3+3HJoIn7lMLrQ+eVXRyig7TSzRMlLtcTp2mRyJ
- eq2aMF4Pv6scMyRVKi0kTsWZfgjjREo8FRTS4/d9oxiehiXNkZMdSC2XFblXrIx3ARjc5XNjF9u
- 3cqgxTh9LLN5yLi7wTZQBQvzHC33YIi56Is28c8kDO7sNaqDHg+q+S6DbFiPrmWbd/zakR+23nP
- F
-X-Google-Smtp-Source: AGHT+IHd9fQtVFVVgph9WnMxD+yvA2cH9ftmKIA/aV/HJRnRVCXLI90/TItx7A2zuPaJnIRPAtH+Uw==
-X-Received: by 2002:a17:903:2ce:b0:220:e5be:29c7 with SMTP id
- d9443c01a7336-2292f9f64fbmr10191425ad.39.1743196164150; 
- Fri, 28 Mar 2025 14:09:24 -0700 (PDT)
-Received: from fedora (c-67-164-59-41.hsd1.ca.comcast.net. [67.164.59.41])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2291eee22a2sm23351755ad.81.2025.03.28.14.09.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Mar 2025 14:09:23 -0700 (PDT)
-Date: Fri, 28 Mar 2025 14:09:20 -0700
-From: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-To: Huan Yang <link@vivo.com>
-Cc: bingbu.cao@linux.intel.com, Matthew Wilcox <willy@infradead.org>,
- Christoph Hellwig <hch@lst.de>, Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- opensource.kernel@vivo.com
-Subject: Re: [RFC PATCH 0/6] Deep talk about folio vmap
-Message-ID: <Z-cQAIsh3dAhaT6s@fedora>
-References: <20250327092922.536-1-link@vivo.com>
+ AJvYcCUMKngux1RY/Ae8/yM6eYGEih+LXAln+UZfDKI4zqcf1WEwWEypI7P/FLFAKIjJQ41ZpvzINnCbIeo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxBBUkef1Sa8BoKWIaO4i0n+bZDmwsT4Ikz2xYzVxQKSe/bh30g
+ gqNVtRfxVjbRzcQqMx/XblL1B1pedsfeMxfLBqXv8fgYHd2HVmQWRr97LEx9numA7d4Xm2yD7ct
+ C0kM=
+X-Gm-Gg: ASbGncse/tduufyhcYD6JJ29FcL041wHMNAAqhqH9I6pKhAoMnKYryy6VjBtMMp6dqi
+ bG7VMGIn7m0pPaLw+PcFFX2Q3deLFKinp2/JlFeF/ZlNOcI8YXSEAgAnnAOyrArKURgzTS+5g+M
+ 7zLuNspZvGBE1tmNh0wzNsbanx8VXW+2tfG9j3lbPYq1BjyFc0/ewPjo+z+EnT088Pl1Zy8Lyb7
+ omKfD9KXwsUtnK9RTJb+zFBTOOb/I5ti3xYHX4AkpX2NDXFXUC8yrjAweW/4JIMg5w6kpvIMhH1
+ KzKF/2I7dgVvU+dgQ0stYsDOJrCnYEX+whUne6/UxYbzBBLLck2V+QVmpK0GvwrTq53YkZum1Xz
+ zYYX5eaYv96vWi/7e+/g=
+X-Google-Smtp-Source: AGHT+IF9RDx8F6m36N6EglVRNHGxIeYJuMDEbZLgJkIaKeC7Jua3NpdYJF7xp4wyMbSq+ToF8RdQjA==
+X-Received: by 2002:a17:907:2ce6:b0:ac4:493:403 with SMTP id
+ a640c23a62f3a-ac738be0827mr76160566b.37.1743209283703; 
+ Fri, 28 Mar 2025 17:48:03 -0700 (PDT)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
+ [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5edc17b1e41sm2114312a12.63.2025.03.28.17.48.02
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Mar 2025 17:48:03 -0700 (PDT)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-5e5cd420781so5276596a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Mar 2025 17:48:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVBCozQzHAAKD5gKjuuFJFZas5PviUi+jsJUUhZxPaTBte2ZjeoevxtYbNrPkZGx9TYM1RvmDX9ggc=@lists.freedesktop.org
+X-Received: by 2002:a17:907:7243:b0:abf:59e1:ad88 with SMTP id
+ a640c23a62f3a-ac738a52618mr108343466b.29.1743209282057; Fri, 28 Mar 2025
+ 17:48:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250327092922.536-1-link@vivo.com>
-X-Mailman-Approved-At: Fri, 28 Mar 2025 23:15:34 +0000
+References: <CAPM=9tyx=edsZ3ajuAUAv4vjfa=WNEzobqAsYbBTjCfLbuEeFQ@mail.gmail.com>
+In-Reply-To: <CAPM=9tyx=edsZ3ajuAUAv4vjfa=WNEzobqAsYbBTjCfLbuEeFQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 28 Mar 2025 17:47:45 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com>
+X-Gm-Features: AQ5f1JpwLkBfLNPVNA75n3MocrdUGO9s7ICZtUVMklJ6FSaTF5cP68qqN1KX5Co
+Message-ID: <CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.15-rc1
+To: Dave Airlie <airlied@gmail.com>
+Cc: simona.vetter@ffwll.ch, dri-devel <dri-devel@lists.freedesktop.org>, 
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,90 +97,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 27, 2025 at 05:28:27PM +0800, Huan Yang wrote:
-> Bingbu reported an issue in [1] that udmabuf vmap failed and in [2], we
-> discussed the scenario of folio vmap due to the misuse of vmap_pfn
-> in udmabuf.
-> 
-> We reached the conclusion that vmap_pfn prohibits the use of page-based
-> PFNs:
-> Christoph Hellwig : 'No, vmap_pfn is entirely for memory not backed by
-> pages or folios, i.e. PCIe BARs and similar memory.  This must not be
-> mixed with proper folio backed memory.'
-> 
-> But udmabuf still need consider HVO based folio's vmap, and need fix
-> vmap issue. This RFC code want to show the two point that I mentioned
-> in [2], and more deep talk it:
-> 
-> Point1. simple copy vmap_pfn code, don't bother common vmap_pfn, use by
-> itself and remove pfn_valid check.
-> 
-> Point2. implement folio array based vmap(vmap_folios), which can given a
-> range of each folio(offset, nr_pages), so can suit HVO folio's vmap.
-> 
-> Patch 1-2 implement point1, and add a test simple set in udmabuf driver.
-> Patch 3-5 implement point2, also can test it.
-> 
-> Kasireddy also show that 'another option is to just limit udmabuf's vmap()
-> to only shmem folios'(This I guess folio_test_hugetlb_vmemmap_optimized
-> can help.)
-> 
-> But I prefer point2 to solution this issue, and IMO, folio based vmap still
-> need.
-> 
-> Compare to page based vmap(or pfn based), we need split each large folio
-> into single page struct, this need more large array struct and more longer
-> iter. If each tail page struct not exist(like HVO), can only use pfn vmap,
-> but there are no common api to do this.
-> 
-> In [2], we talked that udmabuf can use hugetlb as the memory
-> provider, and can give a range use. So if HVO used in hugetlb, each folio's
-> tail page may freed, so we can't use page based vmap, only can use pfn
-> based, which show in point1.
-> 
-> Further more, Folio based vmap only need record each folio(and offset,
-> nr_pages if range need). For 20MB vmap, page based need 5120 pages(40KB),
-> 2MB folios only need 10 folio(80Byte).
-> 
-> Matthew show that Vishal also offered a folio based vmap - vmap_file[3].
-> This RFC patch want a range based folio, not only a full folio's map(like
-> file's folio), to resolve some problem like HVO's range folio vmap.
+On Thu, 27 Mar 2025 at 19:53, Dave Airlie <airlied@gmail.com> wrote:
+>
+> This is the main drm pull request for 6.15. Bit late, but my wife was
+> away getting a PhD and kids took over my writing summaries time, and
+> fd.o was offline last week which slowed me down a small bit.
 
-Hmmm, I should've been more communicative, sorry about that. V1 was
-poorly implemented, and I've had a V2 sitting around that does Exactly
-what you want.
+Grr. I did the pull, resolved the (trivial) conflicts, but I notice
+that this ended up containing the disgusting "hdrtest" crap that
 
-I'll send V2 to the mailing list and you can take a look at it;
-preferrably you integrate that into this patchset instead (it would
-make both the udma and vmalloc code much neater).
+ (a) slows down the build because it's done for a regular allmodconfig
+build rather than be some simple thing that you guys can run as needed
 
-> Please give me more suggestion.
-> 
-> Test case:
-> //enable/disable HVO
-> 1. echo [1|0] > /proc/sys/vm/hugetlb_optimize_vmemmap
-> //prepare HUGETLB
-> 2. echo 10 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
-> 3. ./udmabuf_vmap
-> 4. check output, and dmesg if any warn.
-> 
-> [1] https://lore.kernel.org/all/9172a601-c360-0d5b-ba1b-33deba430455@linux.intel.com/
-> [2] https://lore.kernel.org/lkml/20250312061513.1126496-1-link@vivo.com/
-> [3] https://lore.kernel.org/linux-mm/20250131001806.92349-1-vishal.moola@gmail.com/
-> 
-> Huan Yang (6):
->   udmabuf: try fix udmabuf vmap
->   udmabuf: try udmabuf vmap test
->   mm/vmalloc: try add vmap folios range
->   udmabuf: use vmap_range_folios
->   udmabuf: vmap test suit for pages and pfns compare
->   udmabuf: remove no need code
-> 
->  drivers/dma-buf/udmabuf.c | 29 +++++++++-----------
->  include/linux/vmalloc.h   | 57 +++++++++++++++++++++++++++++++++++++++
->  mm/vmalloc.c              | 47 ++++++++++++++++++++++++++++++++
->  3 files changed, 117 insertions(+), 16 deletions(-)
-> 
-> --
-> 2.48.1
-> 
+ (b) also leaves random 'hdrtest' turds around in the include directories
+
+People already complained separately about this. It should never have
+made it to me in this broken form.
+
+Why the heck is this testing being done as a regular part of the build?
+
+And dammit we don't add random turd files for dependencies that then
+make the source tree nasty.
+
+The thing that made me notice that it was still there was that "git
+status" complains about the stupid turds not being ignored.
+
+But more importantly, those turds also break filename completion! So
+no, adding it to gitignore doesn't actually fix the problem, it would
+just have made me not notice as quickly.
+
+This thing needs to *die*.
+
+If you want to do that hdrtest thing, do it as part of your *own*
+checks. Don't make everybody else see that disgusting thing and have
+those turds in their trees.
+
+I'll just disable it by marking it BROKEN for now. You guys can figure
+out what you want to do, but no, forcing others to see those things is
+not the answer.
+
+I would suggest you *not* make this part of the Kconfig setup and
+normal build at all, but be something where *you* can run it as part
+of your tests (ie do it as a "make drm-hdrtest" kind of thing, not as
+part of regular builds).
+
+                 Linus
