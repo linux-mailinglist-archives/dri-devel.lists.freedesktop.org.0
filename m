@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662A8A756B8
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 15:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6392DA756BC
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 15:37:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8203410E250;
-	Sat, 29 Mar 2025 14:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D248210E257;
+	Sat, 29 Mar 2025 14:37:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="Ewx0gEgz";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="hx/yoyZp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCB8110E24F;
- Sat, 29 Mar 2025 14:33:36 +0000 (UTC)
+Received: from mail-10625.protonmail.ch (mail-10625.protonmail.ch
+ [79.135.106.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AFC510E257;
+ Sat, 29 Mar 2025 14:37:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1743258814; x=1743518014;
- bh=xDKh0SEYG2UAlozeNWGpbQBdJE/U5hxRytnarzkniLw=;
+ s=protonmail2; t=1743259030; x=1743518230;
+ bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=Ewx0gEgzTm/4skymrdCnUxvrMGoEmzhj9CRwDsgeBRDXFbFGBTC7iUgaY3iNq3Qec
- S/ek6UbYSoKT7b8vChXzeAYM8jIqvprVtTAGjAOg4xDaOL/bBQbeW4XsMb5FMyzhYl
- 87kPpauFtR39a9a4BIABETmxLUcZ3VMZcEd87s7zdkBYADGiFhPqYyViuC7QpHRlVy
- xLAmXxOqboXMO49YdoFRch1F0qhvQcBoDvi4gB9YMjs06tYhD2ElhnFAV/v7VmdS3w
- b0lq0pj43oCV55ErVNL7rfMFl/BxCMiBKzWxsudlPUjD7ObHcmazy/7FJNtpSL7Bgx
- r2KCPxXQ8xanQ==
-Date: Sat, 29 Mar 2025 14:33:27 +0000
+ b=hx/yoyZpD0fFLC0LEoUqL1kVbWUYAlVHtKRNJiAjaoKp6nPduEYBX0Ebw5d/Czu0/
+ d/3f52NYwL+XIIei4x/sXqDWzlwvxuF3D9LEuLHi2XeTBY180ddeMrpBY7bYlql9iG
+ yeXWbSfm3sMH8p2vXMnxsKTWUUA/vXaPU+Z1iRWE4gxYW+K9w/Ae4UUu3C1rRovXba
+ 1/Hx6FXlQiAkyuR/8DFQByw+yAJ3HfLhju9z0LFCzOqDtyh4sK0EVxT5tOgOYmlGPA
+ gcQke99VG8xjZLdHzckWP4DhW1gU41b85dI1BqAGqQhZMMpzZtnB30deV30m5WDwjQ
+ 5GCMxl3fUoZdQ==
+Date: Sat, 29 Mar 2025 14:37:05 +0000
 To: Alex Hung <alex.hung@amd.com>
 From: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -40,13 +41,14 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
  sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
  louis.chauvet@bootlin.com
-Subject: Re: [PATCH V8 10/43] drm/plane: Add COLOR PIPELINE property
-Message-ID: <5xGNnbC-7q5cgvaDZS7MUb2jT1VizZ1zjr2eGKwLwwfP9RbSCtzszBDBRsEC8-eRLXSPMbTWLfWkzkaEGw7TqzJDi_eYM2uWoyu_vKaGSOc=@emersion.fr>
-In-Reply-To: <20250326234748.2982010-11-alex.hung@amd.com>
+Subject: Re: [PATCH V8 11/43] drm/colorop: Introduce
+ DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
+Message-ID: <yKCDBb-qsK7qRMuSSBgmsRSvVXvgqwx5FKp-uzTXjlP-drIUUvSJLZGiuE9ZbAR4Q5k15kZQ38gYLI2KwisI4yiW5sZFLDIVPtwdjIVY1JM=@emersion.fr>
+In-Reply-To: <20250326234748.2982010-12-alex.hung@amd.com>
 References: <20250326234748.2982010-1-alex.hung@amd.com>
- <20250326234748.2982010-11-alex.hung@amd.com>
+ <20250326234748.2982010-12-alex.hung@amd.com>
 Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: c30abc44cc5700c2516214c6859b7254d65ed0a0
+X-Pm-Message-ID: 9e313b25b3470230dc6ff95fce226ab9f34b4a69
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -65,28 +67,4 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Two nits below, regardless:
-
 Reviewed-by: Simon Ser <contact@emersion.fr>
-
-> +=09} else if (property =3D=3D plane->color_pipeline_property) {
-> +=09=09/* find DRM colorop object */
-> +=09=09struct drm_colorop *colorop =3D NULL;
-> +
-> +=09=09colorop =3D drm_colorop_find(dev, file_priv, val);
-> +
-> +=09=09if (val && !colorop)
-> +=09=09=09return -EACCES;
-> +
-> +=09=09/* set it on drm_plane_state */
-> +=09=09drm_atomic_set_colorop_for_plane(state, colorop);
-
-Nit: I don't think these comments are especially useful, the names of the
-functions are clear enough.
-
-> +int drm_plane_create_color_pipeline_property(struct drm_plane *plane,
-> +=09=09=09=09=09     const struct drm_prop_enum_list *pipelines,
-> +=09=09=09=09=09     const int num_pipelines)
-
-Nit: in general we don't mark non-pointer arguments as const: the function
-cannot mutate the caller's value anyways.
