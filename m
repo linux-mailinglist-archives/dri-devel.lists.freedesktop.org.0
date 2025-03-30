@@ -2,114 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAFD3A75BCE
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 20:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9D7A75BEF
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 21:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C6B610E34F;
-	Sun, 30 Mar 2025 18:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20A2210E28B;
+	Sun, 30 Mar 2025 19:26:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pqjWk2Xe";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ki1PSypQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C953810E34F
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 18:46:18 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52UBVkde013046
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 18:46:18 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A51C710E28B
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 19:26:41 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52UDlNqV023365
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 19:26:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=vOlLqEjKwbxEq639/h9Id8+4
- Qr2lhoih+XgMY4+YVDc=; b=pqjWk2Xe+Qxd2TWYxD5R0zkkkpJp4aU9hxNpvESD
- JSCKTmjyyhp2hN0j6cLvS460Mex0QASMzc2YbgWiEEob5JAX7X7ApKLIIYffvKxd
- SM/54Z/9RsqHDad0My8RyGeu31hd/AuJCk0ElLO5OSjHq78Av+qKxsIFyP6OJuIj
- P58BDkn8E3UBhrTDTahFl1QDLFXDbkaH2EYbrY+rbIGuBrpAzm77Nno/lNEkOr02
- N75BSdSpBKn77TDclsLjuEm6qAoBTNYRYPCKR+p6MxZKY9Z8jyAyT54w5BvVJ1Rp
- igtGnz4GpOjeOoZESR2fOTzJrJLvpD4VpOlLFREDb52k4w==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p935tmau-1
+ :references:subject:to; s=qcppdkim1; bh=pAHgTy/CACDJNBcxbiqcZgMo
+ cw/wyMoGwl1/5JsSoqg=; b=ki1PSypQdYxX22g6f4x0HgB9VJNCi0zLqJxdUL97
+ SacGa2FmMl1rO4yXCwd3SsJpWoDgDlR+UB0le2RVqZ7PliEKDVeun5MqqH34kTnc
+ 3wjlqOi5TGUGFHWL5QaBOZC6NVTn8YnSz0n0q2/FYCMAVfX3SwR1J9xQDm+Yqxc2
+ 10V9ZNi5ACoB1N1sdbQjyhRQgH05XfPm77nRg9JDEl9aTVt9MmPfvi7slyVTqsvB
+ fO0at1J7RajacBB4xNqwP7HEcL+vgaffLzOwdMcPnOisB/s5G+MYNzdVwxPgKhXc
+ rFANVRK3vLdKKY2prnv2rsZEWucFTnGyU5Nf5Bq3nvUsWA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p8f1aqfq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 18:46:18 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c5c77aff55so921050285a.3
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 11:46:17 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 19:26:40 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7c5d608e703so701543685a.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 12:26:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743360377; x=1743965177;
+ d=1e100.net; s=20230601; t=1743362800; x=1743967600;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vOlLqEjKwbxEq639/h9Id8+4Qr2lhoih+XgMY4+YVDc=;
- b=VDHvhXgx+y0vg3V9PACUSu45BfdFUd4Qzol7Hq0Lx2WGfken3uCdWtG0XcNbKRnC84
- dLbafqGwj9YEHQijZB1jw+VTL1DjCK0beqTMeotnGff4x5F3PE/lsyCeaxVBJIQbZlJG
- ymYYkOor87QO3876E2/qrz0cWIpuQlRrx7Zvx7K3ynOi6LrjJYES/TC2lRybyHoZlwDT
- oOotS4gN6XzMyG5RQV5PwN/qTnX8k+EsDjRJj9QpHFxkHDjTASHsUA5hv42B0X+D7Uw7
- 8N8Jc9Ills6LlSaz/DD3paZe6HWVc9AjP5lc0ucLUNHIIzXJ+RXZ/JT12fqAJnZKVHkk
- NFEA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVx2sZ/NFij9Kri5cpx2qms3QWOi9xgezIq3yhG+mDg6+uaM9ot0Wo292OnCVx+v9a6furfU1nCxuY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTPU8ekfAq9wdLGWqpIYnOWz5PTJxxGoIWdJiLPb1yX/ggh5Tn
- ldXqH1nUO4cEo4SEB/FP7/nrs55t0LHIO+MtrVcAG4ubarIqqHVedRShc6f3TLuX50HzgaHCof6
- pJaKYF2WFi+HzAajIohKb7GHLDNm2wK05qsMGpmeSUiPoP3CU3klkWpIn4JOH0ZJbEkc=
-X-Gm-Gg: ASbGncu87Ic1RQLof06R3COKlnv48lIdxDp4xiVPuQcL407nwwZj9XZNNO4B9teTpVp
- Zrtwh9vIbcQf3VdPgj44F1ZGlxHISSy7qDOIMsDqtexU6j9kMHzL+s0kG4na1BqA4PKnn8MogQP
- 5r2OvX+ndw7g1I1iwmVxtA/54A3KHgP5BgNnODUcZTxej+c1a7S/6QbDlUKfHzX48TMzBw5EcuG
- h3DK7mDAnPXGpO91vQuIzyi/Yp8BeYCL+K2ExDY+JhS7e7oe2KF2q7uts8QZyR05N/65qdomsvm
- 63kyQvxfdmraNi7S/990UhCAxcke7dC44pMoxnphzzRk1wcQN0vITW/lUArIr7qSB5RfbaDn5o7
- ZdWg=
-X-Received: by 2002:a05:620a:4454:b0:7c5:6291:904d with SMTP id
- af79cd13be357-7c6908758e1mr863307485a.38.1743360376745; 
- Sun, 30 Mar 2025 11:46:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGmBVhEQYU73drJz7EC/guyVz0cEaX8wDqOsw9gIjYHp01Ieg/NUkgxp3VYtEZx2GwJw2hT/g==
-X-Received: by 2002:a05:620a:4454:b0:7c5:6291:904d with SMTP id
- af79cd13be357-7c6908758e1mr863304885a.38.1743360376301; 
- Sun, 30 Mar 2025 11:46:16 -0700 (PDT)
+ bh=pAHgTy/CACDJNBcxbiqcZgMocw/wyMoGwl1/5JsSoqg=;
+ b=lmZYsH+z2l1vNp6Hi4+md396yuB0M95lscd9SHqJUXIKgrUay15WRcehmaS5aHTg52
+ U8eSYDWX/n868hkagi0YVjRo6JvYmp0WcPdkFa2CjZir1BlUQP+pSDD1LCIlY17pqxcx
+ ID1skjiuGh+U/1BWJxfg7G41COhtPFbyuQLImLiCIag+pWCuXjJOQwKNE8oC3PQuT3YA
+ f6HTxsuATm13lRrpm0MWLnyWCENiDYTDYbgvFUU4GuCHjKCPHkKKQzlXS57clsaOr/9i
+ MY1/pC5uWpkmBMjqCxEhs0TqwR3vireHckwRhoPwkCF0VMrwb3+qvIfXb0XaK9oKhRsF
+ rE6g==
+X-Gm-Message-State: AOJu0YxgnEzSrSWVQtqqR9rRF0ILYit63wCSAD6ovBzIEVhwXJtTJFV+
+ Fa/9GZuqhWpOKC/81PGttDIY+WkIl/ZgCureYrmP0/3ranSEY0GwrABLlKOsq6RJQxXq57hbJNP
+ JhIPiga4uE8NyQnuLrnpoxLxaZwVaxxoy2VWAXVx12PflVMI5MNGlPDv8HTKGfXw4YTo=
+X-Gm-Gg: ASbGncukVVml4N1dGeqVj/ZHGKxkh3McKNOoz9qW3Ae6scy5iGhiYpU3XDuKx8753fw
+ 4l5H55CU2hWtnnsDpyjL8e4Hr6vkptFiNbLUUiOXIUtVpM0UI9EDeFBDSL8aEKodQmSsWruMBf/
+ LPl9hJfDMeALwzJ+d3duUczbGZ9eXOSOmqA0MhymA47OJlaGsZiDciOmNhIPOxnudA96PKRCxzq
+ qgpDef6dto6USSzr5z2EApPJA9DjtsEPgFMI5JS8aVcPuYRQbEDtrydx1uJgC2jG4Wv/8VITk2k
+ WK5Yf3QogLuNA2s6dNi3TrOC+LIrnc9K9b5wnGMpEbCMQJQyDtylOIy2+LmUvxi+hoHBLBvweQZ
+ jcY0=
+X-Received: by 2002:a05:620a:1aa1:b0:7c5:5fa0:4617 with SMTP id
+ af79cd13be357-7c69087cc6cmr977665485a.40.1743362799740; 
+ Sun, 30 Mar 2025 12:26:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHuzwPAeNbLcInRyGKSU3ltKyTKZ5JZ5WGJJjb7Pq+vWyVd70VYxdrssavMwtCrSJhB7YhpgA==
+X-Received: by 2002:a05:620a:1aa1:b0:7c5:5fa0:4617 with SMTP id
+ af79cd13be357-7c69087cc6cmr977663785a.40.1743362799399; 
+ Sun, 30 Mar 2025 12:26:39 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30dd2ab9705sm12073651fa.46.2025.03.30.11.46.12
+ 2adb3069b0e04-54b0959f429sm949528e87.212.2025.03.30.12.26.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Mar 2025 11:46:14 -0700 (PDT)
-Date: Sun, 30 Mar 2025 21:46:11 +0300
+ Sun, 30 Mar 2025 12:26:37 -0700 (PDT)
+Date: Sun, 30 Mar 2025 22:26:34 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Hermes.wu@ite.com.tw
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] drm/bridge: it6505: skip auto training when
- previous try fail
-Message-ID: <poqcbsiibivd7sguf7pe477noo67jp2hfli54j5yeqgvzw7vdj@wmfjdqf6akmp>
-References: <20250326-fix-link-training-v2-0-756c8306f500@ite.com.tw>
- <20250326-fix-link-training-v2-5-756c8306f500@ite.com.tw>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
+ mperttunen@nvidia.com, jonathanh@nvidia.com,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+ tiwai@suse.com, dmitry.baryshkov@linaro.org, mripard@kernel.org
+Subject: Re: [PATCH v2] ASoC: hdmi-codec: wire up the .prepare callback also
+ for SPDIF DAI ops
+Message-ID: <yyxqg6odzlac2434kmzvjccguf6cehhotat2m6r4at7o2ldiuh@rl7y2vv4hetj>
+References: <20250329191433.873237-1-martin.blumenstingl@googlemail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250326-fix-link-training-v2-5-756c8306f500@ite.com.tw>
-X-Proofpoint-GUID: zqOlONlvJPNqaJ9MXRSp9jJImgh2t8MK
-X-Authority-Analysis: v=2.4 cv=KOFaDEFo c=1 sm=1 tr=0 ts=67e9917a cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=Ns9eNvu6AAAA:8 a=6XuZkpsQUAZ6t1zeVoMA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=LZLx1i01EnjtqRv10NxV:22
-X-Proofpoint-ORIG-GUID: zqOlONlvJPNqaJ9MXRSp9jJImgh2t8MK
+In-Reply-To: <20250329191433.873237-1-martin.blumenstingl@googlemail.com>
+X-Authority-Analysis: v=2.4 cv=AsDu3P9P c=1 sm=1 tr=0 ts=67e99af0 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=mK_AVkanAAAA:8 a=EUspDBNiAAAA:8
+ a=rfKdTcLzpojuHggjPigA:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=cvBusfyB2V15izCimMoJ:22 a=3gWm3jAn84ENXaBijsEo:22
+X-Proofpoint-GUID: _NIfWZ-D2DZ4FBvOlO2kdP8g6yKv-8nC
+X-Proofpoint-ORIG-GUID: _NIfWZ-D2DZ4FBvOlO2kdP8g6yKv-8nC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-30_08,2025-03-27_02,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 adultscore=0 spamscore=0
- phishscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503300132
+ suspectscore=0 malwarescore=0
+ mlxscore=0 mlxlogscore=860 priorityscore=1501 spamscore=0 bulkscore=0
+ impostorscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 adultscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503300136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,94 +119,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 01:34:17PM +0800, Hermes Wu via B4 Relay wrote:
-> From: Hermes Wu <Hermes.wu@ite.com.tw>
+On Sat, Mar 29, 2025 at 08:14:33PM +0100, Martin Blumenstingl wrote:
+> Commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare hook") added a
+> prepare implementation. Back then the new callback was only integrated
+> with hdmi_codec_i2s_dai_ops (which is used by the I2S input code-path).
+> It was not added to hdmi_codec_spdif_dai_ops (which is used by the SPDIF
+> input code-path).
 > 
-> When connect to device which can only training done by
-> step training, skip auto training when link training restart,
-> usually happen when display resolution is changed.
+> With commit baf616647fe6 ("drm/connector: implement generic HDMI audio
+> helpers") the DRM subsystem has gained a helper framework which can be
+> used by HDMI controller drivers. HDMI controller drivers are often
+> tightly coupled with the hdmi-codec because of the so-called HDMI audio
+> infoframe (which is often managed by the display controller).
 > 
-> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> To allow the new DRM HDMI audio framework to work with the hdmi-codec
+> driver for SPDIF inputs we also need to hook up the prepare callback to
+> hdmi_codec_spdif_dai_ops. Just hooking into the hw_params callback would
+> not be enough as hw_params (is called too early and) doesn't have access
+> to the HDMI audio infoframe contents.
+> 
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 > ---
->  drivers/gpu/drm/bridge/ite-it6505.c | 29 +++++++++++++++++------------
->  1 file changed, 17 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index 2bbe787ccb1b57906f2a31a011dd92f327019b08..47f8134df8b6f5c2172c6cfdbc91da8063993a05 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -467,6 +467,7 @@ struct it6505 {
->  	struct delayed_work hdcp_work;
->  	struct work_struct hdcp_wait_ksv_list;
->  	struct completion extcon_completion;
-> +	u8 step_train_only;
->  	bool hdcp_desired;
->  	bool is_repeater;
->  	u8 hdcp_down_stream_count;
-> @@ -2457,11 +2458,13 @@ static void it6505_link_step_train_process(struct it6505 *it6505)
->  				     ret ? "pass" : "failed", i + 1);
->  		if (ret) {
->  			it6505_link_train_ok(it6505);
-> +			it6505->step_train_only = true;
->  			return;
->  		}
->  	}
->  
->  	DRM_DEV_DEBUG_DRIVER(dev, "training fail");
-> +	it6505->step_train_only = false;
->  	it6505->link_state = LINK_IDLE;
->  	it6505_video_reset(it6505);
->  }
-> @@ -2477,18 +2480,19 @@ static void it6505_link_training_work(struct work_struct *work)
->  
->  	if (!it6505_get_sink_hpd_status(it6505))
->  		return;
-> -
-> -	for (retry = AUTO_TRAIN_RETRY; retry > 0; retry--) {
-> -		it6505_link_training_setup(it6505);
-> -		it6505_reset_hdcp(it6505);
-> -		it6505_aux_reset(it6505);
-> -
-> -		ret = it6505_link_start_auto_train(it6505);
-> -		DRM_DEV_DEBUG_DRIVER(dev, "auto train %s,",
-> -				     ret ? "pass" : "failed");
-> -		if (ret) {
-> -			it6505_link_train_ok(it6505);
-> -			return;
-> +	if (!it6505->step_train_only) {
+> Changes since v1 at [0]:
+> - re-sending since there was no feedback
 
-No need to. Just
 
-		for (retry = AUTO_TRAIN_RETRY; retry > 0 && !it6505->step_train_only; retry--) {
+Almost forgot:
 
-> +		for (retry = AUTO_TRAIN_RETRY; retry > 0; retry--) {
-> +			it6505_link_training_setup(it6505);
-> +			it6505_reset_hdcp(it6505);
-> +			it6505_aux_reset(it6505);
-> +
-> +			ret = it6505_link_start_auto_train(it6505);
-> +			DRM_DEV_DEBUG_DRIVER(dev, "auto train %s,",
-> +					     ret ? "pass" : "failed");
-> +			if (ret) {
-> +				it6505_link_train_ok(it6505);
-> +				return;
-> +			}
->  		}
->  	}
->  
-> @@ -2599,6 +2603,7 @@ static void it6505_irq_hpd(struct it6505 *it6505)
->  			it6505_variable_config(it6505);
->  			it6505_parse_link_capabilities(it6505);
->  		}
-> +		it6505->step_train_only = false;
->  
->  		it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
->  					     DP_SET_POWER_D0);
-> 
-> -- 
-> 2.34.1
-> 
-> 
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 -- 
 With best wishes
