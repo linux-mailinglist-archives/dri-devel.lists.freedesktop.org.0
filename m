@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433C4A757F7
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Mar 2025 23:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19936A75836
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 01:27:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA0210E137;
-	Sat, 29 Mar 2025 22:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D94C10E052;
+	Sun, 30 Mar 2025 00:27:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="LPcheZpm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vAZcA0ai";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56C5A10E137
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 22:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1743286193;
- bh=TSrXCN10LxvinHZFJvppglU0ohO08fr4kTSwHDOmZg8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LPcheZpmeUhF/uz3TQCswx3B8fIRGuKJYz4+bqGflUWCl7tqjCfvADH+Ef9cpM1Iq
- b8MsCKIOjdVkvy188j96AIn3coeq/xKJejv5EXrqAg+rTZowELbVV+UqfjvB8jJVEB
- eJ+5I4eEcUJCXfw13QLLey25dakM7prh0DYlj+FyM3J9jjZVHqad8YdF1QbR9dYMXd
- 5ok11OYGMq8LrBDVeBHbnq1U240Y4HxWYEC4j1CJOYSecxgni1uxm+MZXp8p6bYI5o
- E914X3DDOaTZt1FHfWN+aJTs2iORAENixiIdcijngEw8bFJosfRHdfAP+VN4vdUU01
- eyh4wlMEw6OTw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4ZQBQP2N6vz4wcD;
- Sun, 30 Mar 2025 09:09:49 +1100 (AEDT)
-Date: Sun, 30 Mar 2025 09:09:46 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Alessandro Carminati <acarmina@redhat.com>
-Cc: linux-kselftest@vger.kernel.org, Dan Carpenter
- <dan.carpenter@linaro.org>, Daniel Diaz <daniel.diaz@linaro.org>, David Gow
- <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>, Brendan
- Higgins <brendan.higgins@linux.dev>, Naresh Kamboju
- <naresh.kamboju@linaro.org>, Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>, Ville Syrjala
- <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>, Guenter
- Roeck <linux@roeck-us.net>, Alessandro Carminati
- <alessandro.carminati@gmail.com>, Jani Nikula <jani.nikula@intel.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Mickael Salaun <mic@digikod.net>,
- Kees Cook <kees@kernel.org>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-next@vger.kernel.org
-Subject: Re: [PATCH] kunit: fixes Compilation error on s390
-Message-ID: <20250330090946.3f7d0c00@canb.auug.org.au>
-In-Reply-To: <20250329150320.331018-1-acarmina@redhat.com>
-References: <20250329150320.331018-1-acarmina@redhat.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E09B310E052
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 00:27:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9E8ADA4158C;
+ Sun, 30 Mar 2025 00:21:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F1B5C4CEE2;
+ Sun, 30 Mar 2025 00:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743294422;
+ bh=hqrM7xNKkgrwmYt3U5EeEy//ier+fwof/YGETEWtSY0=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=vAZcA0ai3Qulf76VLDmaI5v32TX/eOmRAOqLpxauPWkuiNy5Cw+gflbJcZKrLUJwS
+ yg1BZs47Pa1N4wOmERYtlakxUtTCV+CfUp217Zx63EQiN9JOPIqpOogW3Lbj2UZakD
+ KI+ZSwDzJaPanDnMehyP2wZLHqWRbJVCs+XikFs6qoiHfwIWAvJlFW+9o2D73UV/0B
+ iBMSuYyKUT+TsDrhXuEVDXQ+HZNoSX2McHUH6nFa3OfbqRfztYKInulhG+6Q9p3wMZ
+ tBujoSoc+pRS4pW6vFgfmyU66/qCzDFIe5q3KxSTzpPPvwiwkiCiQkF97rnHs7XAdE
+ fufGz7r6HGrNw==
+Date: Sat, 29 Mar 2025 19:27:01 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/WIRnLKoDx7qC7ang90AEz=l";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Douglas Anderson <dianders@chromium.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Abel Vesa <abel.vesa@linaro.org>, Rui Miguel Silva <rui.silva@linaro.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ linux-arm-msm@vger.kernel.org, David Airlie <airlied@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org
+To: Christopher Obbard <christopher.obbard@linaro.org>
+In-Reply-To: <20250327-wip-obbardc-qcom-t14s-oled-panel-v3-0-45d5f2747398@linaro.org>
+References: <20250327-wip-obbardc-qcom-t14s-oled-panel-v3-0-45d5f2747398@linaro.org>
+Message-Id: <174329418093.2439779.7622824447479032708.robh@kernel.org>
+Subject: Re: [PATCH v3 0/2] Add support for OLED panel used on Snapdragon
+ Lenovo T14s Gen6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,51 +70,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/WIRnLKoDx7qC7ang90AEz=l
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-Hi Alessandro,
+On Thu, 27 Mar 2025 16:56:52 +0000, Christopher Obbard wrote:
+> The Snapdragon Lenovo T14s Gen6 can be bought with a number of different
+> panels. This patch series adds support for the OLED model which has a
+> Samsung ATNA40YK20 panel.
+> 
+> With this patch series, the backlight of the OLED eDP panel does not
+> illuminate since the brightness is incorrectly read from the eDP panel
+> as 0 (to be clear this is not a regression). This will be fixed in a
+> follow-up patch series as it does not block the device tree patches.
+> 
+> Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
+> ---
+> Changes in v3:
+> - Added review trailers from v2.
+> - Dropped dt-binding documentation patch (applied by Douglas Anderson into
+>   drm-misc-next).
+> - Dropped eDP maximum brightness patch (will be sent in separate
+>   series).
+> - Removed duplicate nodes in T14s OLED device tree.
+> - Reworked WIP comments from commit messages.
+> - Link to v2: https://lore.kernel.org/r/20250325-wip-obbardc-qcom-t14s-oled-panel-v2-0-e9bc7c9d30cc@linaro.org
+> 
+> Changes in v2:
+> - Use the existing atna33xc20 driver rather than panel-edp.
+> - Add eDP panel into OLED devicetree.
+> - Add patch to read the correct maximum brightness from the eDP panel.
+> - Link to v1: https://lore.kernel.org/r/20250320-wip-obbardc-qcom-t14s-oled-panel-v1-1-05bc4bdcd82a@linaro.org
+> 
+> ---
+> Christopher Obbard (2):
+>       arm64: dts: qcom: x1e78100-t14s: add hpd gpio to eDP panel
+>       arm64: dts: qcom: x1e78100-t14s-oled: add eDP panel
+> 
+>  .../boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts      |  8 ++++++++
+>  arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi   | 11 +++++++++++
+>  2 files changed, 19 insertions(+)
+> ---
+> base-commit: b6ae34803e82511009e2b78dc4fd154330ecdc2d
+> change-id: 20250320-wip-obbardc-qcom-t14s-oled-panel-b74fed21d600
+> 
+> Best regards,
+> --
+> Christopher Obbard <christopher.obbard@linaro.org>
+> 
+> 
+> 
 
-On Sat, 29 Mar 2025 15:03:20 +0000 Alessandro Carminati <acarmina@redhat.co=
-m> wrote:
->
-> The current implementation of suppressing warning backtraces uses __func_=
-_,
-> which is a compile-time constant only for non -fPIC compilation.
-> GCC's support for this situation in position-independent code varies acro=
-ss
-> versions and architectures.
->=20
-> On the s390 architecture, -fPIC is required for compilation, and support
-> for this scenario is available in GCC 11 and later.
->=20
-> Fixes:  d8b14a2 ("bug/kunit: core support for suppressing warning backtra=
-ces")
->=20
-> Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
 
-Please keep all the commit message tags together at the end of the
-commit message.
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
---=20
-Cheers,
-Stephen Rothwell
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
---Sig_/WIRnLKoDx7qC7ang90AEz=l
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
------BEGIN PGP SIGNATURE-----
+  pip3 install dtschema --upgrade
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmfob6oACgkQAVBC80lX
-0GybxAf9H9ESwyhD70HQ69NJ+Nl9QTfMPqlHp3iI7S5xCMmQYhxEubw9tN0gwuqm
-XPhDsYd5E+HWmFto3OHhhb/j1RIISTphA3Q4b3k2wJEfQIhZBxr0c/TKGksx2/4s
-Dyi6/ZeLGYdsreC2DI4x+SiUUYKWXawMmKcXolS3uQgLwv/QLPtY7U6RoLbYSXTC
-AznTMEPBDyUJqzbITKGSQBQ3YpvfVSj2tbPIxckLHWD7QLQ6HZf3RRSDwtMYoSEs
-U3U9jr4uOlSWsfJkMRpaUBS9v1EZtTWxp22eBZCjOdBDzA+kTiP7CcpgJziILKQY
-+SGFpT9uoGyFrJOiQMWK8lVoYFRdUg==
-=AsrT
------END PGP SIGNATURE-----
 
---Sig_/WIRnLKoDx7qC7ang90AEz=l--
+This patch series was applied (using b4) to base:
+ Base: using specified base-commit b6ae34803e82511009e2b78dc4fd154330ecdc2d
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250327-wip-obbardc-qcom-t14s-oled-panel-v3-0-45d5f2747398@linaro.org:
+
+arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb: panel: compatible: 'oneOf' conditional failed, one must be fixed:
+	['samsung,atna40yk20', 'samsung,atna33xc20'] is too long
+	'samsung,atna33xc20' was expected
+	'samsung,atna40yk20' is not one of ['samsung,atna45af01', 'samsung,atna45dc02', 'samsung,atna56ac03']
+	from schema $id: http://devicetree.org/schemas/display/panel/samsung,atna33xc20.yaml#
+arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb: /soc@0/display-subsystem@ae00000/displayport-controller@aea0000/aux-bus/panel: failed to match any schema with compatible: ['samsung,atna40yk20', 'samsung,atna33xc20']
+
+
+
+
+
