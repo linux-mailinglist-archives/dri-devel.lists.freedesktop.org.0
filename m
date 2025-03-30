@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5279AA7589E
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 07:12:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0FDA758A2
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 07:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54E4E10E02F;
-	Sun, 30 Mar 2025 05:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE9D410E0E4;
+	Sun, 30 Mar 2025 05:12:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="PLS/kaDL";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="S+Q2PR3S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
- [209.85.160.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1019E10E02F
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 05:12:14 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id
- d75a77b69052e-476964b2c1dso11443271cf.3
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 22:12:13 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 991A710E0E4
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 05:12:24 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6e8fb83e137so31053156d6.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Mar 2025 22:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1743311533; x=1743916333;
+ d=google.com; s=20230601; t=1743311543; x=1743916343;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=22Alhc1dp1/dxOw+uQZlfATgUTTcc2SJDy+wMnUcEPg=;
- b=PLS/kaDL5ij5sdotBta1tWvESD9du3hj3P+1gYQm9Fo0jchG/Jg+ApEhFQFIlKPM+Q
- 2XBUC4Mzh83HgYkSt52sjnad1TC98PxLKHthnervV05zBPgbdvGmHJpH1OcD2YAC0YvO
- 5H73EWC5jKUhpQHJmsSNxTeI3xF0OAv14STQycz523IvGSPEV2ivY8Y1l3RJXZfJs9yP
- AUvHfShaBQLgY+gbVRFRwng9aeh0xn/yOXkphJVqnBW+2n9/6YKXpya823YGgppynByb
- TmRqwzB9I17Z1UzIGIM3bd7Dk5VIo91Dz5C1N0eoGdO8fD7EEOdw2ncQeVBCxdu2krot
- RCTA==
+ bh=0xMDmQ4bqeqEMWs9Mm6oIPA+F48CM404UBRUCummczk=;
+ b=S+Q2PR3SJnFVHBt2+q4IaCbeP6tKzbBaM6UkIKfamji/RTmos/i3hmfyB1wUylL/In
+ uQevS1gM0LBVUPsfRG/dfculq7OH1iie1QNFxxSCYOsC7Di8UCncejw37Eo2fhirpwV4
+ t+szOmkc1g/FuMpb8djjQZllgs/EMwwWjmIncccJFUZEK8l+FXc3zE2Ps+OBNBtJw26X
+ eHQNEgd1wnxiQUyhx+Kth7DkrXH0sZIj8zyJcb76xmfUItIYf9spYxDnfbmBoySucqK6
+ PNuYiF/L8G9y0XgWP/2lR3Esle5h9bYcB0lAh442GgLuqxioZbPS44njGG5lZMlcFhHI
+ R5vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743311533; x=1743916333;
+ d=1e100.net; s=20230601; t=1743311543; x=1743916343;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=22Alhc1dp1/dxOw+uQZlfATgUTTcc2SJDy+wMnUcEPg=;
- b=P+LbL6LtsEHvKGchMmFCvfwxwKbIoEl5LXfqm18bWqwhUSlr0vA7DiBy+nF29/NMcM
- 27TiQF4bNQpkQdVptKIeFl4ZRacSyn7esevo22qNv7sRO9HvLG3RhUkcZKdW7qsI6Tzb
- BjNYXtVwMHu3elRGyELDrvAbEUD+M2M/vvYsyCZO8vb3YLdYqWokEPFpm1/pa8TfNO6J
- plLaj2Dc8HZEyXxpMAhQICHBYgngqXWt94gEtV3SdJ1tXt/JVa0Q7fZfjXwoa06qSQcE
- uxC5UmIPmrpftH3inb6rECERgiF4sFBX2/y3M8DvsNk6Oojd6N6e5Gn5vzvWKuo0ek5n
- ph8g==
+ bh=0xMDmQ4bqeqEMWs9Mm6oIPA+F48CM404UBRUCummczk=;
+ b=sITmM48wSDqoeetnd0szqkkK9cZR/x4VdHaXAT+QPZCCSk8XQCMJGUCukBe+6Rn29W
+ Zfsh4RLw6KP9Q2SqQtZ9THKxQtwvwCGo4BDHRFDu4cgNxHuO8Kcrc+AMY27V9nYwsVD9
+ rSfln/03UhOq/gxNlaznnsdfk34PHFMz1HDfB6KrmVz62u0A1SKEN/+nplE/QYi2uSow
+ sP4cH45b8X18Pq/7A+GWqNbejFPpLryeVr5HG50Um7GuHMW7xByD3OsdIRiH0OU+VfHw
+ 3f1/0ThSppO8xgqG0eT5aSCgmDA6X+zLgZ8E8d+e7y+R4kGOIxtRD7ABbCzOxQ3cioF2
+ a9PQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW1Lx81Dwe2FaIvtJZfWkOY3X6skVNbCthPrHArftvKSb27SK64y9LRcV5yJpV1yxEQ0CKYZPZz5sg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxfPW1efaDiiMdZYqKCC/dxXtz6tYYfaC8AcDpZWEx3SqZR0yQP
- fvuBeNkfiW5JrLcYbemsrxO+uwsCYU900KDJXs02/XWfhC8jDknw//lNMub4nZpTsxDBjQ5cXmv
- Cqps2vHPIvK84QIjGCy1XXeTpBOY5UjCHQtxR
-X-Gm-Gg: ASbGncuh/SaBAGRkD2KmHfwlFSi3EWArlB+ua9OiWCbP3g4QLVoginPT1NLqtFgl/d5
- g+YtfIwW7LcaUJyz73lGVNKa9msS2wkA8IcsZ+JXAFLP2yDcUMl6PZdjhJKCf/H2cKOkGwA1142
- WzQeX3wq+SkVphZuSv24Pruio16FI=
-X-Google-Smtp-Source: AGHT+IFginpYH0GLYppqMhHhZN2boY1CevRWXB0X1bojwdSeH6RvTyK6a19sr+kf/52ZCAlQWrNKkRkTeOwztAjD5D0=
-X-Received: by 2002:ad4:5fc9:0:b0:6e8:f470:2b0d with SMTP id
- 6a1803df08f44-6eed5fcf561mr68651036d6.19.1743311532750; Sat, 29 Mar 2025
- 22:12:12 -0700 (PDT)
+ AJvYcCU+G3fsrgKc8IzodRpxuhPsNtisCQAtlakD3zffOZAayTfvWVkuqbVX/YSiv1DVLKv38sfVqVKOfMw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWWl4++R0twQiDLI+EDwSE7OXGGi5q0rxn/KvnYlih8RUUrt4+
+ bMYIq44wxIC7AeTQuBqN0rH4J7E3w3V+9i5mCnmyJAQ/hpHnFKJZVTzB4eSiW/C6MumimdVXqFN
+ 0a7TvW3BXRyr1N6J9Es0axwg+PjWe1SUZIVb2
+X-Gm-Gg: ASbGncv+vbs2wrCOJBKGAOdv5FlBiR5eAbKBPpGxJ73FIhs/LK1U28lGIYtMyvMgmoL
+ nKz4bUk5UR5OqY7XbxpW6VPfBi1xLXSax6R5fd9J4JKDmavAWZ3bUoDnprCPOSKL7UUhjVDC/Ka
+ zuz8EqUKZzZS54c8GGUXcMwHezUdg=
+X-Google-Smtp-Source: AGHT+IECso0AH+f9gY/3D2hxexj20fLuhrzfIJFbiITVTezAm5nCtrtTZCxSJvO/r2/hTlIiKeYdYFh/oV5kPxb6WRg=
+X-Received: by 2002:ad4:5e8a:0:b0:6e8:97d2:99a2 with SMTP id
+ 6a1803df08f44-6eed62274dcmr63689486d6.39.1743311543479; Sat, 29 Mar 2025
+ 22:12:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250329150529.331215-1-acarmina@redhat.com>
-In-Reply-To: <20250329150529.331215-1-acarmina@redhat.com>
+References: <20250329150320.331018-1-acarmina@redhat.com>
+In-Reply-To: <20250329150320.331018-1-acarmina@redhat.com>
 From: David Gow <davidgow@google.com>
-Date: Sun, 30 Mar 2025 13:11:59 +0800
-X-Gm-Features: AQ5f1JooguJgc3s96n2JzLR8eEnagdouWhjCy8iGfhlMWQXOVXQqVUnOKOUNKUs
-Message-ID: <CABVgOS=s-NgS1tPOOPDstuVfTmsW9H0kP8nEQmtfFiubQeyvWw@mail.gmail.com>
-Subject: Re: [PATCH] kunit: fixes backtrace suppression test module description
+Date: Sun, 30 Mar 2025 13:12:11 +0800
+X-Gm-Features: AQ5f1JqP_E82VImpD5tveJ2n-SlMTcQ5iK-8tml7RUBGNC7746FyJEl393zGM-o
+Message-ID: <CABVgOS=CmT-=opimA0Yq3S=VpPYb-4UXYZqpr=LTFQBybomnww@mail.gmail.com>
+Subject: Re: [PATCH] kunit: fixes Compilation error on s390
 To: Alessandro Carminati <acarmina@redhat.com>
 Cc: linux-kselftest@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>, 
- Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>, 
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Maxime Ripard <mripard@kernel.org>,
- Ville Syrjala <ville.syrjala@linux.intel.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>, 
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, 
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>, 
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com, 
- linux-kernel@vger.kernel.org, linux-next@vger.kernel.org
+ Daniel Diaz <daniel.diaz@linaro.org>,
+ Arthur Grillo <arthurgrillo@riseup.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard <mripard@kernel.org>, 
+ Ville Syrjala <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>, 
+ Jani Nikula <jani.nikula@intel.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Mickael Salaun <mic@digikod.net>, Kees Cook <kees@kernel.org>, 
+ Stephen Rothwell <sfr@canb.auug.org.au>, dri-devel@lists.freedesktop.org, 
+ kunit-dev@googlegroups.com, linux-arch@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
+ linux-next@vger.kernel.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000ab22fa0631885833"
+ micalg=sha-256; boundary="0000000000004f06f306318859be"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,53 +96,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000ab22fa0631885833
+--0000000000004f06f306318859be
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 29 Mar 2025 at 23:06, Alessandro Carminati <acarmina@redhat.com> wrote:
+On Sat, 29 Mar 2025 at 23:04, Alessandro Carminati <acarmina@redhat.com> wrote:
 >
-> Adds module description to the backtrace suppression test
+> The current implementation of suppressing warning backtraces uses __func__,
+> which is a compile-time constant only for non -fPIC compilation.
+> GCC's support for this situation in position-independent code varies across
+> versions and architectures.
 >
-> Fixes:  ("19f3496") kunit: add test cases for backtrace warning suppression
+> On the s390 architecture, -fPIC is required for compilation, and support
+> for this scenario is available in GCC 11 and later.
+>
+> Fixes:  d8b14a2 ("bug/kunit: core support for suppressing warning backtraces")
 >
 > Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
 > ---
 
-The "Fixes" tag here should be immediately before the Signed-off-by
-line, without a newline. Also, ideally the format should be something
-like:
-Fixes: d03d078df162 ("kunit: add test cases for backtrace warning suppression")
-
-(But you'll need to make sure the commit hash matches the one which
-actually lands -- I picked d03d078df162 from the current
-mm-nonmm-unstable branch.)
-
-Nevertheless, I like the content of this, so it should be either
-accepted or rolled into a new version of the backtrace suppression
-test.
+Makes sense and seems to work here. Thanks!
 
 Acked-by: David Gow <davidgow@google.com>
 
 Cheers,
 -- David
 
->  lib/kunit/backtrace-suppression-test.c | 1 +
+
+>  lib/kunit/Kconfig | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/lib/kunit/backtrace-suppression-test.c b/lib/kunit/backtrace-suppression-test.c
-> index 8b4125af2481..d4c5df09bba6 100644
-> --- a/lib/kunit/backtrace-suppression-test.c
-> +++ b/lib/kunit/backtrace-suppression-test.c
-> @@ -102,3 +102,4 @@ static struct kunit_suite backtrace_suppression_test_suite = {
->  kunit_test_suites(&backtrace_suppression_test_suite);
+> diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
+> index 201402f0ab49..6c937144dcea 100644
+> --- a/lib/kunit/Kconfig
+> +++ b/lib/kunit/Kconfig
+> @@ -17,6 +17,7 @@ if KUNIT
 >
->  MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("KUnit test to verify warning backtrace suppression");
+>  config KUNIT_SUPPRESS_BACKTRACE
+>         bool "KUnit - Enable backtrace suppression"
+> +       depends on (!S390 && CC_IS_GCC) || (CC_IS_GCC && GCC_VERSION >= 110000)
+>         default y
+>         help
+>           Enable backtrace suppression for KUnit. If enabled, backtraces
 > --
 > 2.34.1
 >
 
---000000000000ab22fa0631885833
+--0000000000004f06f306318859be
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -232,13 +231,13 @@ uFrCoYIRlx4rSVHpBIKgnsgdm0SFQK72MPmIkfhfq9Fh0h8AjhF73sLO7K5BfwWkx1gwMySyNY0e
 PCRYr6WEVOkUJS0a0fui693ymMPFLQAimmz8EpyFok4Ju066StkYO1dIgUIla4x61auxkWHwnzGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAcDMKctW1GQKDKqEUSh4
-pjANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgBP3cE6Dpzx/52lRFIdz7ierlg4y3
-obxFgA8OZlbe7hMwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-MzMwMDUxMjEzWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+pjANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg2b9KEh5FrtfAkoEKlqi4asV237rr
+9fb6nmFTHZWJumwwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+MzMwMDUxMjIzWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAiqLN4p9OQku0kFutJHSMEwcPbbywBi1ykXuT933p/xFVn4q/23H9z6Q4Gr9Qf5qf
-whMoJMR1RicPUTdUW2Z/3gA3NihEHx2o1AQANneJF917NQEf7fblnUI6JgA3dgwClgI4dKSmxVZT
-FDz9G0va5APKHcas01CfEpyKBspLwTFCfFteTBf6PWH1AAWIwi3azZSo6LHP6sQXgNnyOkgdvSNa
-LH3mBx1zcUXxrvbsIxHonN0Ci+37lJOjEIaxC14Uzq9Ye4dUm3cmRdS+pr9JyrX+4wGfnbn+Yw3d
-1U2uBPI2cw+1F+c1rcW6rvdA3SVcIOrrw9mqNekb7+WULTzzhA==
---000000000000ab22fa0631885833--
+AQEBBQAEggEAgPfoxb2P4ooZHla/9Oj6NKDGUb055QQd2H+S4Z+qEB/GZ5fPox3MhCexlt33YxcC
+oy5hEqCst1Ug5GUWsI5KwPQm6jpg1R+amEK83pycNIXSUcoN7VgtM4+ImAwmm6WEcYY4hhzarLql
+f3j+FRyy1rBm4V07Dcf/nfJel9rI2vRNR3IJDPkFX3Lxseo20DxlODDPF5Ebx9ge47NmgcW5LBSV
+d+ULUQ3N7B7/mEmOWOcTz9f+6BJ8W8cPbaqHjcV9mrjH4GxpRZgigXtD5sBsjYda4u4uTFEICms9
+YcGGqdPKL0Cqv/PGjphXU6HPh2gbbSgIRDBY0SIT7CZmTPvTew==
+--0000000000004f06f306318859be--
