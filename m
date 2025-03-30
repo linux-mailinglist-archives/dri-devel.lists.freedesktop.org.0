@@ -2,77 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDF0A75BAC
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 20:06:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14C4A75BB4
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 20:10:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B0E010E343;
-	Sun, 30 Mar 2025 18:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E045610E346;
+	Sun, 30 Mar 2025 18:10:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LC2CxIgF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MIbo4g88";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E79EF10E343
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 18:05:55 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-43d0359b1fcso23785255e9.0
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 11:05:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1743357954; x=1743962754; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hnfsVQoN7BVQq/UCAqhsRfIkUla9FknIwhk198jk+nA=;
- b=LC2CxIgFaKuhkZYCDuaB+dZWY0vu99Fz5lEwnA2321q94lzKwDj8/3OYJIQmP9jeTi
- hP9PQiK7zwQh7jrkNGGgJqVHfW5xtYp4F1OrX0RZ4JXFRbFSPNTEoEHmm7Sjj/GHxh4L
- SnPyFSnl66TPqa760h2Dr8Kg++kEUoraeZ5ADifBFHW/wx6/IXE8NGyuU23tpbUpIL5n
- ge1VcgJxgsfY8b+Dp9129Rtv4xAShTjsjRuEQ1uQlKw8kBGQu3pDHElzx1PYxFJufdzl
- dio1paIw0PcIgfi+xuCW3ObgY6Wh99JzaMG0Bc4WFH9f29tEJdcQr9l9X1rapQqjaPq3
- Jngg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743357954; x=1743962754;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hnfsVQoN7BVQq/UCAqhsRfIkUla9FknIwhk198jk+nA=;
- b=e7ARakEIC76jFRHfwafAHwsz0akteh0dJ4/CgPXSUP0jPXfnBFMAlDbuA28zvmKBJF
- rhkLFJKokDsyKuqQeioqzHismITfiE9yyb38KGq00bslYuwpR0T2WRYGO6edG2RepqZ3
- 1FvPufS+PKsBR6RjbOPljWrA1jPOzC/RX6fhIkBKmLtbzxguLpIpdyb1ZRnEwtztJu/C
- MCe+7z4PJ70J4CVuVJwI/toyQj8gAs2ZoJgq4Yay16eG5Fn1RZ3xtMgf5mcNr3jqyIpP
- /9bNc3YYSthz0nJYdYTnUnEQw/ccs9+kThNlz9BnsiQtw6Z9qmFcEJDbhHs9F7k6tzsz
- tCpQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0/V/+BhwKqkczp3wUGmTItw/DTaOsLTE0zNxlJhoUh3M2qpWfRerZM0LmL5n+fWsgBZgprnrDJ24=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwR3e3I0gNKfDZTD9SCulYrbz8Q0ugFfTGwkKYhXxCpwU888HB/
- z5X/TgUv3pPI4hHWjY5WGeVsffRaO9z1R3fluWm4VdOdVounZxrcRuUExR7oxa7Z+evH9+FYzOi
- HC0kC79XvjqobHHLiJOnoIKRrMhINKh2xV2f4kQ==
-X-Gm-Gg: ASbGnctWZUhj4Fp/zm0Zk/lizJNZxzILTKEGMbClY6oFsLqP5O64QzWc/N1Wa0HZ+9X
- yXism2w2HQb5+C7cDM9gRLWKqwn8FBd/lia07qyhqW2EyCghbHvUjPZkeHZFyA2Ep0wqD3P/nwL
- PAPGF+Ov8ugYS1VAPb5u6YFPOZgypu1wQK4SOKOIH8nj9NLn65LlEC9jbipujeCQ5S+pj1ZA==
-X-Google-Smtp-Source: AGHT+IHoos9QzanPsGiYgW04xbM8tHV8yEstV7nbyP17tfhgl5Tu6pOmCopyigYoqs8pQfUizNRz5NEJZ+MuExnPEyA=
-X-Received: by 2002:a05:600c:3493:b0:43b:c6a7:ac60 with SMTP id
- 5b1f17b1804b1-43db62b72e4mr57523125e9.10.1743357954536; Sun, 30 Mar 2025
- 11:05:54 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9786A10E346
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 18:10:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=N75v2HqyJOpmak3w13xGj/S5QvQzHhXruTn6pilQLIY=; b=MIbo4g88lf9x9jrf9xboOAIROs
+ tPjCrSZjCosWazHBC/n+/akKzmviBEC4B5zzYdFHgsqg9RuYV9C4vxsbGA93rMAG2CzDAMGM2yN3p
+ vbAQIlX6C5b1ik2c1PVvSVgNm7WvnvgblQp5h5jMzjo+scJsjNTtPzAr++g9JXj4uV2wttTEvwbAC
+ kmyGNc+xF0j2ClVvXoU1ldjLqc/dyIqVgjQK3gG+M8aGeYZqEs2vY6etKBgAgolQ4gNXifQv32pTb
+ C0lOdpdRYx9wRQbE8JyMrTje9YonvpwG9cF8Aglsx7EErGto5/PMN5TJNvmbkaBN9UODvVBqW0a5x
+ V4ZaduyA==;
+Received: from [189.7.87.178] (helo=[192.168.0.224])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tyx6m-008mKg-1F; Sun, 30 Mar 2025 20:10:08 +0200
+Message-ID: <5e353e6d-6e81-411b-8eef-dd4a241ca1ac@igalia.com>
+Date: Sun, 30 Mar 2025 15:10:03 -0300
 MIME-Version: 1.0
-References: <20250330-wip-obbardc-qcom-t14s-oled-panel-brightness-v5-1-25083d9732fc@linaro.org>
- <f2odvmbhsfmkrkzada2a7qdjavomt2cjji7mbwibzlhxiz35ai@2qxnfb44eb2r>
-In-Reply-To: <f2odvmbhsfmkrkzada2a7qdjavomt2cjji7mbwibzlhxiz35ai@2qxnfb44eb2r>
-From: Christopher Obbard <christopher.obbard@linaro.org>
-Date: Sun, 30 Mar 2025 19:05:43 +0100
-X-Gm-Features: AQ5f1JrPaoChzlVOaAUOxwhyfNR6iarewZ64iTBqQ4hyLv-fzJCFGnyzphgmD5s
-Message-ID: <CACr-zFDUMzb+jKcBc1SfpsOiQsAJJ0jsPdS-vcA=OXy-K3pfQQ@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/dp: clamp PWM bit count to advertised MIN and MAX
- capabilities
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] drm/vc4: tests: Stop allocating the state in test init
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
- Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250318-drm-vc4-kunit-failures-v1-0-779864d9ab37@kernel.org>
+ <20250318-drm-vc4-kunit-failures-v1-3-779864d9ab37@kernel.org>
+ <ad77e39d-4862-4e04-87a0-2a6a2682d5c9@igalia.com>
+ <20250328-radiant-azure-falcon-aafcf3@houat>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250328-radiant-azure-falcon-aafcf3@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,42 +68,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi Maxime,
 
-On Sun, 30 Mar 2025 at 18:56, Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On Sun, Mar 30, 2025 at 06:49:40PM +0100, Christopher Obbard wrote:
-> > According to the eDP specification (VESA Embedded DisplayPort Standard
-> > v1.4b, Section 3.3.10.2), if the value of DP_EDP_PWMGEN_BIT_COUNT is
-> > less than DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, the sink is required to use
-> > the MIN value as the effective PWM bit count.
-> >
-> > This commit updates the logic to clamp the reported
-> > DP_EDP_PWMGEN_BIT_COUNT to the range defined by
-> > DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN and _CAP_MAX. As part of this change,
-> > the behavior is modified such that reading _CAP_MIN and _CAP_MAX
-> > registers is now required to succeed. Before reading these registers
-> > was optional.
->
-> Describe why, not what. Something like 'is now required to succeed,
-> otherwise bl->max value can end up being not set, although
-> drm_edp_backlight_probe_max() returned success'.
->
-> LGTM otherwise.
+On 28/03/25 12:32, Maxime Ripard wrote:
+> On Sun, Mar 23, 2025 at 03:48:17PM -0300, Maíra Canal wrote:
+>> Hi Maxime,
+>>
+>> On 18/03/25 11:17, Maxime Ripard wrote:
+>>> The vc4-pv-muxing-combinations and vc5-pv-muxing-combinations test
+>>> suites use a common test init function which, in part, allocates the
+>>> drm atomic state the test will use.
+>>>
+>>> That allocation relies on  drm_kunit_helper_atomic_state_alloc(), and
+>>> thus requires a struct drm_modeset_acquire_ctx. This context will then
+>>> be stored in the allocated state->acquire_ctx field.
+>>>
+>>> However, the context is local to the test init function, and is cleared
+>>> as soon as drm_kunit_helper_atomic_state_alloc() is done. We thus end up
+>>> with an dangling pointer to a cleared context in state->acquire_ctx for
+>>> our test to consumes.
+>>>
+>>> We should really allocate the context and the state in the test
+>>> functions, so we can also control when we're done with it.
+>>>
+>>> Fixes: 30188df0c387 ("drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()")
+>>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>>> ---
+>>>    drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c | 41 +++++++++++++++++---------
+>>>    1 file changed, 27 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
+>>> index 992e8f5c5c6ea8d92338a8fe739fa1115ff85338..52c04ef33206bf4f9e21e3c8b7cea932824a67fa 100644
+>>> --- a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
+>>> +++ b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
+>>> @@ -18,11 +18,10 @@
+>>>    #include "vc4_mock.h"
+>>>    struct pv_muxing_priv {
+>>>    	struct vc4_dev *vc4;
+>>> -	struct drm_atomic_state *state;
+>>
+>> Can't we add `struct drm_modeset_acquire_ctx` here? Then, we can be sure
+>> that the context exists during the entire test case.
+>>
+>> Also, we can add `drm_modeset_drop_locks()` and
+>> `drm_modeset_acquire_fini()` to a exit function in the kunit suite.
+> 
+> That's what we were doing before, but the kunit functions and exit
+> functions are run in a separate thread by design, which then cause
+> lockdep to complain.
+> 
+> It's not great, but we can't really change either :/
+> 
 
-Amazing. We got there eventually!
-I updated the commit message around this change to be:
+Thanks for the explanation, Maxime. In that case,
 
-    As part of this change, the behavior is modified such that reading both
-    _CAP_MIN and _CAP_MAX registers is now required to succeed, otherwise
-    bl->max value could end up being not set although
-    drm_edp_backlight_probe_max() returned success.
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
+Best Regards,
+- Maíra
 
-I will wait for more feedback for few days before sending the next version.
+> Maxime
 
-
-Cheers!
-
-Chris
