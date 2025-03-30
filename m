@@ -2,26 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C65A75992
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 12:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E660A75994
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 12:29:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C87B10E039;
-	Sun, 30 Mar 2025 10:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9582310E0BF;
+	Sun, 30 Mar 2025 10:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Sun, 30 Mar 2025 10:29:10 UTC
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4936710E039
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 10:29:10 +0000 (UTC)
-X-CSE-ConnectionGUID: B5r/05UgQySkbdTFbpsU5w==
-X-CSE-MsgGUID: M4xtPMwKTyCbtdmMMg94bg==
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8D66110E039
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 10:29:11 +0000 (UTC)
+X-CSE-ConnectionGUID: X5IqqMAFSNi3CvRRKevGwQ==
+X-CSE-MsgGUID: NGroiOWSQzun0ZRcDcTxjg==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 30 Mar 2025 19:24:03 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 30 Mar 2025 19:24:07 +0900
 Received: from localhost.localdomain (unknown [10.226.92.49])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id E36B840078A5;
- Sun, 30 Mar 2025 19:23:59 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 23FC040078A5;
+ Sun, 30 Mar 2025 19:24:03 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -34,10 +32,13 @@ Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 0/2] drm: renesas: Extend RZ/G2L KMS formats
-Date: Sun, 30 Mar 2025 11:23:51 +0100
-Message-ID: <20250330102357.56010-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 1/2] drm: renesas: rz-du: Drop bpp variable from struct
+ rzg2l_du_format_info
+Date: Sun, 30 Mar 2025 11:23:52 +0100
+Message-ID: <20250330102357.56010-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250330102357.56010-1-biju.das.jz@bp.renesas.com>
+References: <20250330102357.56010-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,35 +56,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The RPF module on VSDP supports various format conversion and send the
-image data to BRS(Blend ROP Sub Unit) for further processing.
+Drop the unused variable bpp from struct rzg2l_du_format_info.
 
-The rzg2l_du_kms component lists a restricted subset of the capabilities
-of the VSPD which prevents additional formats from being used for
-display planes.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v2:
+ * New patch.
+---
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c | 3 ---
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h | 1 -
+ 2 files changed, 4 deletions(-)
 
-Extend RZ/G2L supported KMS formats. Also drop the unused bpp variable
-from struct rzg2l_du_format_info.
-
-Sending v2 as per the agreement with Kieran on #renesas-soc irc.
-
-v1->v2:
- * Dropped the unused variable bpp from struct rzg2l_du_format_info.
- * Updated the commit description.
- * Collected tags
- * Dropped bpp entries.
-
-Biju Das (1):
-  drm: renesas: rz-du: Drop bpp variable from struct
-    rzg2l_du_format_info
-
-Kieran Bingham (1):
-  drm: renesas: Extend RZ/G2L supported KMS formats
-
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c | 120 +++++++++++++++++--
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h |   1 -
- 2 files changed, 113 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+index 90c6269ccd29..1a428ab3c424 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+@@ -38,19 +38,16 @@ static const struct rzg2l_du_format_info rzg2l_du_format_infos[] = {
+ 	{
+ 		.fourcc = DRM_FORMAT_XRGB8888,
+ 		.v4l2 = V4L2_PIX_FMT_XBGR32,
+-		.bpp = 32,
+ 		.planes = 1,
+ 		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_ARGB8888,
+ 		.v4l2 = V4L2_PIX_FMT_ABGR32,
+-		.bpp = 32,
+ 		.planes = 1,
+ 		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_RGB888,
+ 		.v4l2 = V4L2_PIX_FMT_BGR24,
+-		.bpp = 24,
+ 		.planes = 1,
+ 		.hsub = 1,
+ 	}
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+index 876e97cfbf45..e2c599f115c6 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+@@ -23,7 +23,6 @@ struct sg_table;
+ struct rzg2l_du_format_info {
+ 	u32 fourcc;
+ 	u32 v4l2;
+-	unsigned int bpp;
+ 	unsigned int planes;
+ 	unsigned int hsub;
+ };
 -- 
 2.43.0
 
