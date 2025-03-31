@@ -2,91 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5A3A76948
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 17:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CB5A76AC2
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 17:39:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0944210E415;
-	Mon, 31 Mar 2025 15:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3591C10E13A;
+	Mon, 31 Mar 2025 15:39:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="cior+5+s";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="b3NDwSdw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC5210E415
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 15:06:57 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-30bfe0d2b6dso44891101fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 08:06:57 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A95FA10E13A
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 15:39:48 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-43d04dc73b7so52272305e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 08:39:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1743433610; x=1744038410;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UcGdaRNt7zwbYw4AvOVG6yQbALs0693po5JMHnUNj3k=;
- b=cior+5+sr6TgHxjXmx37ZDV1Aq5X3Y9mLFOfaJCj//PYmje07AcxmK1FIHskws8l7X
- yGoRrPY7ROPcnG9epbrTy8wJyJuyDoqOf/0N81GRAwC+SOdsV8+emFz3X6RUkHJZiu/1
- rhTalaNydMedNOxc0CMxGpijaDdlmrJM/qVFw=
+ d=linaro.org; s=google; t=1743435587; x=1744040387; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1sNg10NoCtirreV3RmWGt7kQXy82wXq+5oOziEES3k4=;
+ b=b3NDwSdwXlKgoUvc6HdnBF/P5Y0dsrernAfGVrcJtg5piRrQMsjP8BHnByHYdCfO6T
+ diKuzCsuYOP09ujQHLKpjWEvLbTjvbMGSMJdamLE/BbsXeFKW3Azc69E6XKXKT+0xKfv
+ V6UEcKh7++viWv47+WKL5RnOsX/d7m4uXNkmA7fBQdSkR7p+ETcPgK8x17IkFNdLiZKW
+ G4q9/VBSvPgRUMXEBXjgi/txpRxU+knwdE0EH78/g+nSwdoF6LUB91R8BU3SDN/wB+iq
+ uWNHocINif9D/AoQOSsqj3VqXFnnVFbpBDC02XWmJMPVF1FF3dvT3c+4k5uDMrM3C0c/
+ bPkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743433610; x=1744038410;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UcGdaRNt7zwbYw4AvOVG6yQbALs0693po5JMHnUNj3k=;
- b=q51DV4Ux2KjexE1anDIM4NghT3BkMLDVZ4CT/mPlqU5oZY6BdGE5VJ7izNc0AlH8Bc
- tLacHRxZ3Tl3VprsxP24sTE35VeYDNjKLWpwO32MxTPKJ5Pg73eAWoOl3iHaTt4r7Uh1
- IQoTDbBkpaZUzsxCs50OP/HFoZKDla25VyX+GumoLxv6k2xFVhfVCQjO9BF+hQFqBnnh
- GDcuEvdf79QoMPzeSI8y8DDM9gSpUj4hDI2doxpq+Vq9UCR61fmqAglhgIjJl+iNxB4l
- gW6iQSbSrromFNZGq4jil3T0HOEpY1jMy8/xS38tOR9YaXoTvGoNDBuBdj1Qxr40nRDa
- oDcQ==
+ d=1e100.net; s=20230601; t=1743435587; x=1744040387;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1sNg10NoCtirreV3RmWGt7kQXy82wXq+5oOziEES3k4=;
+ b=GNM6Z+/BIPavwi9YWQGxWy+m8JdtgnqDMH3g1uLcqt7InnpXRYyKiXmrWujeYWjFe9
+ zv1Q9GzbHDK+aWxwQZDhSdnHfwBS5kBNmzgzJvfHCHm5tpn/a9aALY05v+kRTkvpJyWD
+ F1wVCL0+PGv67JfD/YBsmRyCBpx7BfeoJIs0wzpq3D/cAA540TcCugI8YGAaIknOJsE9
+ R+b2OVLFjjVIqOxt/5GLOHmkosaxpzs+HZdNCswnOriYaFz2M1HvupRwUdTVuovJMLXI
+ xuwWuZ7CQX/zKc31e1gpGLwEGATuy8KyPV3RLrH5ExEtAy5r9RYRR/HVr5EbGbpz0c2q
+ 5MvA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUIiQTqjAx57DWOVm1+j8OOUZjq+p+hRrXDHGPDyhjN+BLK9w2ut29mIwtV1AgJQ5Y57l6rpNLMj7g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxiGbNnlROzEozz1tVaXDO8MGa99chU9ZRtHzZTQACzkl1CpHp/
- D9lQXAz8q/nunH4pYTvpOHJ3qtrWgvtYzXUoMk12PY/vLlWfejtM/4KV0SX5kewe6QCnwxNc60Z
- 4eA==
-X-Gm-Gg: ASbGncu9Lt96rZ9Ib1PSxPB1Sb2+/lDlfdgFDmPMNET1fz9K+6RQg6ZTB6S96mDDvDB
- jwQkWeyOAR6AX76THJxdUmTBIXk4D1extMu09PpG5IxaZTXpLGxxwLFy6FaSLHK/yjstzl9ImtN
- 6i0KurOAtk6+5rWh60alk8iumLpwATexkol0DxjYQmqaCqav6F7gODzs+ohsz06OxxK1HuzosGb
- 7t+RZQrH48t/qxs6E3xkmsPfdqIv1YTne59kW+2zbKACD9k3r86vpVstvfT6E43T38b5EcD5V4M
- YG5YgfaTs3DonMXbBubPNnMdQ90SOdvc1F74/VgK6zbrsN6ZVQ2e6qdR9Cpaw6biU/93f/OzM9N
- TiMlnrYJQ
-X-Google-Smtp-Source: AGHT+IEzK6o6OFjQT5j5mXVH+NLnYDEPNHMCqYEeUevxCkDyTtR0fGb5TZ4fS63zKhL+DbYURkLiEQ==
-X-Received: by 2002:a05:651c:1142:b0:30b:f775:bae0 with SMTP id
- 38308e7fff4ca-30de02f7108mr36390301fa.36.1743433609954; 
- Mon, 31 Mar 2025 08:06:49 -0700 (PDT)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com.
- [209.85.167.52]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30dd2b59468sm15065791fa.103.2025.03.31.08.06.48
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Mar 2025 08:06:48 -0700 (PDT)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-54b09cb06b0so3595399e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 08:06:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUGmStTvkVOiCxsokFhRZRKX6HvF/WGi5nH4gUXfsbQhIZHFhQotCy6cMN/dHru3d9aZo1rYj8a89I=@lists.freedesktop.org
-X-Received: by 2002:a2e:9b05:0:b0:30d:626e:d03a with SMTP id
- 38308e7fff4ca-30de02f8530mr27295971fa.34.1743433607807; Mon, 31 Mar 2025
- 08:06:47 -0700 (PDT)
+ AJvYcCUS2HZHiOxQHkh1SNKLcvIDuFczpwAqV5/n2OJXbD1U45KJ1RMP4I842JtX3u81fbr6d03FG0rizHA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzgo2EnV0Yrwu5Skwj/f9HVR+HkUqigNDuSeVDA/YUO8c7mHzbu
+ 8nfRfBeVhS5/J9k/dk0+h/2Q+baYq8ckiqigkceKFW+ioTwDuhI6q4peqYuLOfJtxGPjma6gFfQ
+ 6ITtn9AUHgaFJW+MQNYgBJpsRoLo4vABcEV3L6w==
+X-Gm-Gg: ASbGncvim5AKE7Tv7BnLDcz3c4TV2gtZm2Gj9LRdoqEYiGkYEyZR/n+XZSwPXwUxdKh
+ siw9Mxg+qclaa4tUH/ySmnJbT9ucLAuF5xtX3n0DIE7HN9EsLZHXBLqNy9fwPT3G0XICofxLYDF
+ 08uyZE//lxOIAlwRvaMJFrNRFU972a
+X-Google-Smtp-Source: AGHT+IFq8kefn/iwjp3s9ms0HQTK+BhHSf0ZsbQcmKw5Vm41+dOdUlPBBEt/0fVmInccDrEv7cwRoXPu9DZcYcXNgvM=
+X-Received: by 2002:a05:600c:3485:b0:43d:2230:300f with SMTP id
+ 5b1f17b1804b1-43dabe237f8mr100927755e9.0.1743435586577; Mon, 31 Mar 2025
+ 08:39:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250331061838.167781-1-tejasvipin76@gmail.com>
-In-Reply-To: <20250331061838.167781-1-tejasvipin76@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 31 Mar 2025 08:06:36 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UbUqNf4WoWzqMe5bDQmxiT+bRG_cn0n1dBrkFRijx0Cw@mail.gmail.com>
-X-Gm-Features: AQ5f1JpNALqbXefbGr_-OhdG6T9nJRItrlLN0TLPzRg4IlCEn1c8nByQj4w1VJw
-Message-ID: <CAD=FV=UbUqNf4WoWzqMe5bDQmxiT+bRG_cn0n1dBrkFRijx0Cw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: boe-bf060y8m-aj0: transition to mipi_dsi
- wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, asrivats@redhat.com
+References: <20250327-wip-obbardc-qcom-t14s-oled-panel-v3-0-45d5f2747398@linaro.org>
+ <20250327-wip-obbardc-qcom-t14s-oled-panel-v3-1-45d5f2747398@linaro.org>
+ <Z-pJP4PMwPo3L3Og@hovoldconsulting.com>
+In-Reply-To: <Z-pJP4PMwPo3L3Og@hovoldconsulting.com>
+From: Christopher Obbard <christopher.obbard@linaro.org>
+Date: Mon, 31 Mar 2025 17:39:35 +0200
+X-Gm-Features: AQ5f1JoEit7j_TzMlyZa7QbfN6E0NDm9GuAOKbUqEfVJoM1pbPZfw3UrD5vfGmY
+Message-ID: <CACr-zFA_oSySRnA2VaSQk2ND_AHeyt3v=RuPTbABPM7SYown6g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] arm64: dts: qcom: x1e78100-t14s: add hpd gpio to
+ eDP panel
+To: Johan Hovold <johan@kernel.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>,
+ devicetree@vger.kernel.org, 
+ "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,27 +98,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Johan,
 
-On Sun, Mar 30, 2025 at 11:18=E2=80=AFPM Tejas Vipin <tejasvipin76@gmail.co=
-m> wrote:
+On Mon, 31 Mar 2025 at 09:50, Johan Hovold <johan@kernel.org> wrote:
 >
-> @@ -157,7 +137,6 @@ static int boe_bf060y8m_aj0_prepare(struct drm_panel =
-*panel)
+> On Thu, Mar 27, 2025 at 04:56:53PM +0000, Christopher Obbard wrote:
+> > The eDP panel has an HPD GPIO. Describe it in the device tree
+> > for the generic T14s model, as the HPD GPIO property is used in
+> > both the OLED and LCD models which inherit this device tree.
 >
->         ret =3D boe_bf060y8m_aj0_on(boe);
->         if (ret < 0) {
-> -               dev_err(dev, "Failed to initialize panel: %d\n", ret);
->                 gpiod_set_value_cansleep(boe->reset_gpio, 1);
->                 return ret;
+> AFAICT, this patch is not correct as the hotplug detect signal is
+> connected directly to the display controller on (these) Qualcomm SoCs
+> and is already handled by its driver.
+>
+> Describing it as you do here leads to less accurate delays, see commits:
+>
+>         2327b13d6c47 ("drm/panel-edp: Take advantage of wait_hpd_asserted() in struct drm_dp_aux").
+>         3b5765df375c ("drm/panel: atna33xc20: Take advantage of wait_hpd_asserted() in struct drm_dp_aux")
+>
+> Perhaps you lose some other functionality too.
+>
+> > Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> > Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
+> > ---
+> >  arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
+> > index 962fb050c55c4fd33f480a21a8c47a484d0c82b8..46c73f5c039ed982b553636cf8c4237a20ba7687 100644
+> > --- a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
+> > @@ -980,8 +980,12 @@ &mdss_dp3 {
+> >       aux-bus {
+> >               panel: panel {
+> >                       compatible = "edp-panel";
+> > +                     hpd-gpios = <&tlmm 119 GPIO_ACTIVE_HIGH>;
+> >                       power-supply = <&vreg_edp_3p3>;
+> >
+> > +                     pinctrl-0 = <&edp_hpd_n_default>;
+> > +                     pinctrl-names = "default";
+> > +
+> >                       port {
+> >                               edp_panel_in: endpoint {
+> >                                       remote-endpoint = <&mdss_dp3_out>;
+> > @@ -1286,6 +1290,13 @@ hall_int_n_default: hall-int-n-state {
+> >               bias-disable;
+> >       };
+> >
+> > +     edp_hpd_n_default: edp-hpd-n-state {
+> > +             pins = "gpio119";
+> > +             function = "gpio";
+> > +             drive-strength = <2>;
+> > +             bias-pull-up;
+> > +     };
+>
+> I checked the firmware configuration for this pin on my T14s, which
+> does not match what you have here. Instead the function is set to
+> "edp0_hot" which forwards the signal to the display controller which
+> already handles the signal on panel power on. (And there is also no
+> internal pull up enabled).
+>
+> We may want to describe this pin configuration somewhere, but that's a
+> separate issue.
 
-It's not new, but the error handling here looks wrong to me. Instead
-of just returning after setting the GPIO, this should be turning off
-the regulators, shouldn't it? That would mean adding a new error label
-for turning off "BF060Y8M_VREG_VCI" and then jumping to that.
+Thanks for your review, I will send another version in coming days and
+drop this first patch (adding hpd to the T14s DTSI).
 
-Given that we're already squeezing an error handling fix into this
-patch, maybe it would make sense to add this one too (and, of course,
-mention it in the commit message).
+As a consequence I will need to add no-hpd property to the panel node.
+I will add a short comment about how the hpd signal is handled by the
+driver already.
 
--Doug
+Thanks!
+
+Chris
