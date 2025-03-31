@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCBBA76C59
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 19:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7382EA76C5E
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 19:03:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E3FC10E07A;
-	Mon, 31 Mar 2025 17:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C89F010E05A;
+	Mon, 31 Mar 2025 17:03:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="F/V0Gqpi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PRrAmqNg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A80A10E07A
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 17:01:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=nqpiqL1pRJBmt2edeyHbKtJnuEH70avCHbilMf7Zby8=; b=F/V0Gqpi2lRLW5QtGgWQmHXta6
- HmRP7dVo4+Vu/gdhg7f3KruHQZZKmSaO8LRQRdfZQ45DbmmQHrCJNZlaALc0D1EtZeD3Cs+vJIhQR
- mk+d6cs3TL3g1zBWF9nFww56xS+SLg98tb1SYXeOiGX3ieqzxkabdpHCcfl3cLSwXK0SNUgO3cKX6
- UCLEa7+Fu4KONPlluK0vQqSmA36zFDtRKmFHFcwHkPHQmHRlqPnNmcgpgZrsuL6xyRjlBlo5f5Q1D
- FpegmQIUCgIqDrJYmLmTSLW5hYb6vKOVYiE8Smoi4dupJ7dwoIgrY3Em5/J0esEJEaWpONS5EUJrE
- nJ/GS4DA==;
-Received: from [189.115.14.110] (helo=[192.168.68.130])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tzIVU-009IID-8C; Mon, 31 Mar 2025 19:01:04 +0200
-Message-ID: <f2109b3e-ff56-4bbf-833a-442f5489c8ee@igalia.com>
-Date: Mon, 31 Mar 2025 14:01:00 -0300
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 965B210E05A
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 17:03:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8B2EF4366B;
+ Mon, 31 Mar 2025 17:03:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C5AF5C4CEE3;
+ Mon, 31 Mar 2025 17:03:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743440617;
+ bh=zYUBTx3mP3FxfTSGErZ2JJwH6vnMYKAlrU3a0Dl0ZXk=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=PRrAmqNgtIDA+kR0ViCSFkcepfjq0kq2B8xNNSLfZ4a4zR2FpL4a/+OvHH4h1akhp
+ cC3OSOEvWDU0Oj8kpauJwB1b2sTcRS1n7UcWjtkHaeATA75qQYqhOTch08nDYQ6IAK
+ EMulF4yRDFLpJAiK8woJrA17HHST2OOtnhc2dbOgsCAjgEW9h5VEGBkZcQw619a4dt
+ ceONc12PmdsTG7vFcsWFTDGS+Jyu6zl5TtDd09h7i+z0FtZ+6BcyvZ63bwOTFR5Do2
+ XGh7BHBbmE86alGI0E0yUy1pNd9F7/XEYIhLRjckdiqpMIUIQYfLJbJjn5fN2AbghU
+ 5ZV7kFVYBOvYw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id B0F56C3600B;
+ Mon, 31 Mar 2025 17:03:37 +0000 (UTC)
+From: Mark Dietzer via B4 Relay <devnull+git.doridian.net@kernel.org>
+Date: Mon, 31 Mar 2025 10:03:33 -0700
+Subject: [PATCH v3] drm: panel-backlight-quirks: Add Framework 16 panel
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: DRM CI
-To: Maxime Ripard <mripard@redhat.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Vignesh Raman <vignesh.raman@collabora.com>, helen.fornazier@gmail.com,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-References: <20250319-greedy-sturgeon-from-avalon-ac758f@houat>
- <ab1d875c-7a1e-47a3-b786-85fb46c42bb2@igalia.com>
- <20250320-benevolent-quokka-of-cubism-c1c0ce@houat>
- <5db038f9-b353-494a-aa11-9e6a95932537@igalia.com>
- <20250328-gay-jaybird-of-wind-9dcca2@houat>
-Content-Language: en-US
-From: Helen Koike <koike@igalia.com>
-In-Reply-To: <20250328-gay-jaybird-of-wind-9dcca2@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250331-framework16-drm-quirks-v3-1-7fd29770a918@doridian.net>
+X-B4-Tracking: v=1; b=H4sIAOXK6mcC/4WOQW7DIBBFrxKx7lhAbAxd5R5VFgSGepRi3MF1W
+ 0W+e4kv0M2X3uI/vYeoyIRVvJ4egnGjSmVucH45iTD5+R2BYmOhpR6k1hYS+4zfhe/KQOQMn1/
+ E9wpjfxtslHI8WyPaeWFM9HOI366NE5cM68ToD50KzlilEPo49NBb6eEWpGsTtXMOLRpz8cvSJ
+ V/X7OmjCyU/vRPVtfDv0bvpp/3ftE2DgjAmn6xJA7p4iYUpkp+7GVdx3ff9D8XlE+8HAQAA
+X-Change-ID: 20250228-framework16-drm-quirks-74b58d007386
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Mark Dietzer <git@doridian.net>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743440617; l=1963;
+ i=git@doridian.net; s=20250228; h=from:subject:message-id;
+ bh=ZU/61npGl+rwUoUEE7wnye9HmuwhwaVSQG0fvTUZY9k=;
+ b=8cNITSsSusv0HSWzqGUPM3xOgLyl5BeDJyoHuVZMAJik6fSOLLTq4zTFDMXsj5MLfJEtXbeZE
+ 3n6etJtw7WbAPeF+zTDTX6GnDHDArlR3+lK58lLwozmr4tSAg296RSn
+X-Developer-Key: i=git@doridian.net; a=ed25519;
+ pk=XY9bZ7EBhoLNoRt6zd2/vutpAXC3tsX6OytpZHjbUsQ=
+X-Endpoint-Received: by B4 Relay for git@doridian.net/20250228 with auth_id=353
+X-Original-From: Mark Dietzer <git@doridian.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,131 +74,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: git@doridian.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Mark Dietzer <git@doridian.net>
 
+Similarly for the Framework 13 panels already handled in those quirks,
+the 16 can be helped by the same kind of patch.
 
-On 28/03/2025 13:11, Maxime Ripard wrote:
-> On Thu, Mar 20, 2025 at 09:32:36AM -0300, Helen Koike wrote:
->> Hi Maxime,
->>
->> Thanks for your reply.
->>
->> On 20/03/2025 06:33, Maxime Ripard wrote:
->>> Hi,
->>>
->>> On Wed, Mar 19, 2025 at 02:39:59PM -0300, Helen Koike wrote:
->>>> Hi Maxime,
->>>>
->>>> On 19/03/2025 11:11, Maxime Ripard wrote:
->>>>> Hi,
->>>>>
->>>>> At last Plumbers, we agreed with Dave that a good first step to ramp up
->>>>> CI for DRM trees would be to enable build and kunit testing in the main
->>>>> DRM tree.
->>>>>
->>>>> I played around with it last week and wrote a good first iteration of
->>>>> the gitlab-ci file.
->>>>>
->>>>> https://gitlab.freedesktop.org/mripard/gitlab/-/blob/main/.gitlab-ci.yml?ref_type=heads
->>>>
->>>> How about improving and using the current DRM-CI instead of creating a
->>>> new one?
->>>
->>> Thanks for the suggestion, and I did try. I don't think it's a good
->>> option though, at first at least.
->>>
->>> There's several layers to it:
->>>
->>>     - The most important one is I don't really see much to share at this
->>>       point, really. The containers creation is a good example of
->>>       something useful, reusable, and that I did use. However, drm-ci uses
->>>       different defconfigs, its own set of hardcoded compilers, etc.
->>
->> This is the effort kci-gitlab is doing (see last patch with a drm-ci
->> proposal), to simplify things and remove the dependency of mesa-ci.
-> 
-> Do you have a link to that patch?
+I have run this on my own 16 for multiple months (hard coding the value to
+0 before the quirks made it upstream) and it has resulted in a darker
+minimum brightness (as expected) and no issues.
 
-Yes, please check 
-https://lore.kernel.org/all/20250123135342.1468787-1-vignesh.raman@collabora.com/
+The Framework community threads between the 13 and 16 for this improvement
+are the same one, so user reports in the link below will be mixed and
+likely more focused on the 13.
 
-There is a link to v1 as well, where kunit is mentioned.
+Link: https://community.frame.work/t/solved-even-lower-screen-brightness/25711/60
 
-> 
->>>       I guess we could try to improve and consolidate it, but for a script
->>>       that simple, I don't think it's worth it.
->>
->> Well, we are splitting our community in some way...
-> 
-> I don't think so? In KMS, we tend to provide a default behaviour with
-> helpers, but any driver is free to deviate from that if it makes sense.
-> One of these reasons is that there's no point in trying to make
-> something specific to a driver generic until there is multiple users for
-> it. So we have plenty of drivers that don't use the helpers and the
-> "default" solution.
-> 
-> A community isn't a single codebase, it's a single set of people working
-> on the same set of problems. If anything, allowing deviation is better
-> for a community, because then we can have the discussion we have right
-> now, and we don't work in silos.
-> 
-> Now, if we start saying "ok, any CI in DRM must be done on Debian, with
-> bleeding edge mesa and igt", then we're splitting the community, because
-> it just won't work for some people, and they'll still have to make it
-> work.
-> 
->>>       Similarly, I don't think it makes sense to try to come up with a
->>>       super generic implementation of kunit, when there's only one user.
->>
->> No need to a super generic implementation. At least in kci-gitlab, there is
->> room to very specific implementations.
->>
->>>
->>>       That, of course, can and should be reevaluated as we test more
->>>       features and the script does indeed become more complicated.
->>>
->>>     - We discussed it during the thread with Linus, but I also don't think
->>>       a one-size-fits-all approach is going to work. drm-ci at the moment
->>>       has plenty of reasonable policies, but which people are still going
->>>       to have different opinions on. Like, whether you want to
->>>       aggressively update IGT or mesa. Or whether or not you are willing
->>>       to disable KASAN to accomodate db410c and db820c. The choices made
->>>       in drm-ci so far are reasonable, but choosing something else is just
->>>       as reasonable. That's why I thought at the time that providing
->>>       common scripts to include is a better way forward than a gitlab-ci
->>>       file everybody is supposed to use.
->>>
->>>     - To some extent, the complaints Rob had last week about drm-ci
->>>       expectations not being updated fast enough in drm-misc are related
->>>       as well. It could also easily be solved by drm/msm having the
->>>       gitlab-ci script and its expectations in a separate repo, under the
->>>       msm maintainers control. And then it could go as fast as they want,
->>>       under their terms, without creating any impedance mismatch with the
->>>       rest of DRM.
->>
->> (I confess I'm not following that thread, I'm guilty on that)
->>
->> If we are going this way, maybe it is better to remove DRM-CI completely
->> from the kernel code?
->>
->> Just to be clear, I'm not opposing anything, I just want to understand how
->> everything would fit together.
-> 
-> I think it really has value as a "library" or repo, kind of how github
-> actions work for example. Providing something that would, say, configure
-> and build the kernel and report the status as a comment on a PR would be
-> awesome. And there's no reason not to share that. But I believe every
-> maintainer will need to glue the whole thing together how they see fit.
-> 
+Signed-off-by: Mark Dietzer <git@doridian.net>
+Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v3:
+- Fix the EDID, first submission was incorrect
+- Link to v2: https://lore.kernel.org/r/20250228-framework16-drm-quirks-v2-1-c7faf86f5e9d@doridian.net
+---
+ drivers/gpu/drm/drm_panel_backlight_quirks.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Sure, I just don't want us to re-do things all the time, if we manage to 
-find a way to share I'm fine with that.
+diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+index c477d98ade2b41314d4218281ced7d3c4d087769..1370fd02f0e0667ef8ec76839d415092102e02c8 100644
+--- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
++++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+@@ -41,6 +41,14 @@ static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks
+ 		.ident.name = "NE135A1M-NY1",
+ 		.min_brightness = 0,
+ 	},
++	/* 16 inch panel */
++	{
++		.dmi_match.field = DMI_BOARD_VENDOR,
++		.dmi_match.value = "Framework",
++		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x0bc9),
++		.ident.name = "NE160QDM-NZ6",
++		.min_brightness = 0,
++	},
+ };
+ 
+ static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel_min_backlight_quirk *quirk,
 
+---
+base-commit: 76544811c850a1f4c055aa182b513b7a843868ea
+change-id: 20250228-framework16-drm-quirks-74b58d007386
 
-Regards,
-Helen
-
+Best regards,
+-- 
+Mark Dietzer <git@doridian.net>
 
 
