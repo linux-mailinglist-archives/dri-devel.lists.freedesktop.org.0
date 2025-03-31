@@ -2,52 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE37A76DB6
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 21:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40628A76DC9
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 21:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7E8A10E17A;
-	Mon, 31 Mar 2025 19:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A83D710E47F;
+	Mon, 31 Mar 2025 19:55:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PfD6USYn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VjAZmNJ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89EAE10E1AA;
- Mon, 31 Mar 2025 19:42:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=rVlZZIyv4OmgkIPoXTTB1AOOU+jCOEaTz7XE+EIH4Es=; b=PfD6USYnQn7UdkrdK8S+n6AhjU
- KPG1r0g+MGl8ap2Fkr/Jle67xArcIR/Chclmh3xVu4n1gCge+URpJ/VDnq4l88hAO1ejlzkUCry3f
- DG2VfY805uCZF4xDRYKUukV/efvmQaH3IqSbBD7LsXASKcwjzdV6FwaKQU6mK32iMfBfef5kgtBOa
- EVyJoL/8I7eL+I8IYoP4VdVtVaDWYeAevY+xhHa2/lSMXWR4jUA6rO9Iqac7u4u3h3fOl04Exl6g8
- 3WG0nhPHXMXdX/98VlHKrZcZOTRJ/VvGjZ7fnvXGkJPkY16hLjl8fc+ewJi4gq1YOlEXXbJ8eGJ69
- LRrRrF6A==;
-Received: from [179.125.94.226] (helo=quatroqueijos.lan)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tzL1d-009LPP-1s; Mon, 31 Mar 2025 21:42:26 +0200
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-To: stable@vger.kernel.org
-Cc: Imre Deak <imre.deak@intel.com>, Lyude Paul <lyude@redhat.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Jerry Zuo <jerry.zuo@amd.com>,
- Zaeem Mohamed <zaeem.mohamed@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, cascardo@igalia.com
-Subject: [PATCH 6.6 3/3] drm/amd/display: Don't write DP_MSTM_CTRL after LT
-Date: Mon, 31 Mar 2025 16:42:17 -0300
-Message-ID: <20250331194217.763735-3-cascardo@igalia.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250331194217.763735-1-cascardo@igalia.com>
-References: <20250331194217.763735-1-cascardo@igalia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A72B10E1CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 19:55:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743450925; x=1774986925;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=c7NzQUgJyQ6dXCaMlYVpOtWEnGAmsfB/UgZKrFbmZjA=;
+ b=VjAZmNJ332q3t9XflrfyiWAm0xWGwXr9pFsPJtvVW3aadquyUy7NZTER
+ Wen4xx4KZZvBmgCI+5aq3lyX5T4F9HtiYz9CZjUzeOiS9b+4u2xJGMH7x
+ oYNR4M39AC83HC5XWTsNFdkqPgLzoAOgel/1B3UL63+lsnl3QGyVGqsYD
+ FwbsNDNuFntKme0A+EusgbJoQBgdUH8d7dQfcpK8ugWXWx3kmrbnB6s/U
+ YcVaXWMbaJOiM4N5geyuEsEIWSLOUwoF9btHokLUCvSYoEEpbraW7iGux
+ cXhn+YGnqWKMQfSaXod6cifkO68j/6uOYZy00d5qnAceo6hOwT7y19huH Q==;
+X-CSE-ConnectionGUID: iGLraeRwQACbJOwfY68+9Q==
+X-CSE-MsgGUID: QPszK7mbTsGFNMRc1Lkgsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="55411192"
+X-IronPort-AV: E=Sophos;i="6.14,291,1736841600"; d="scan'208";a="55411192"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2025 12:55:18 -0700
+X-CSE-ConnectionGUID: pkWiiMerQnuqaQO/d85r/w==
+X-CSE-MsgGUID: ccVwXtgEQT2n4V/ycGhXXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,291,1736841600"; d="scan'208";a="131397506"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orviesa005.jf.intel.com with SMTP; 31 Mar 2025 12:55:14 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 31 Mar 2025 22:55:13 +0300
+Date: Mon, 31 Mar 2025 22:55:13 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Denis Arefev <arefev@swemel.ru>, Helge Deller <deller@gmx.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH 1/1] fbdev: atyfb: Fix buffer overflow
+Message-ID: <Z-rzIfUMmOq1UZY1@intel.com>
+References: <20250327100126.12585-1-arefev@swemel.ru>
+ <20250327100126.12585-2-arefev@swemel.ru>
+ <87pli26arh.fsf@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <87pli26arh.fsf@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,74 +75,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wayne Lin <Wayne.Lin@amd.com>
+On Thu, Mar 27, 2025 at 12:14:26PM +0200, Jani Nikula wrote:
+> On Thu, 27 Mar 2025, Denis Arefev <arefev@swemel.ru> wrote:
+> > The value LCD_MISC_CNTL is used in the 'aty_st_lcd()' function to
+> > calculate an index for accessing an array element of size 9.
+> > This may cause a buffer overflow.
+> 
+> The fix is to fix it, not silently brush it under the carpet.
 
-[ Upstream commit bc068194f548ef1f230d96c4398046bf59165992 ]
+There's actually nothing to fix. The backlight code is only
+used on Rage Mobility which has real indexed LCD registers.
 
-[Why]
-Observe after suspend/resme, we can't light up mst monitors under specific
-mst hub. The reason is that driver still writes DPCD DP_MSTM_CTRL after LT.
-It's forbidden even we write the same value for that dpcd register.
+Older chips do supposedly have backlight control as well,
+but implemented differently. I was mildly curious about
+this stuff, so I I poked at my Rage LT Pro a bit to see
+if I could get backlight control working on it, but the
+only things I was able to achieve were either backlight
+completely off, or blinking horribly. So looks like at least
+on this machine (Dell Insipiron 7000) the backlight is
+implemented in a way that can't be controller via the
+normal registers. The machine does have brightness keys that
+do work (though the difference between the min and max is
+barely noticeable) but they don't result in any changes in
+the relevant registers.
 
-[How]
-We already resume the mst branch device dpcd settings during
-resume_mst_branch_status(). Leverage drm_dp_mst_topology_queue_probe() to
-only probe the topology, not calling drm_dp_mst_topology_mgr_resume() which
-will set DP_MSTM_CTRL as well.
+> 
+> BR,
+> Jani.
+> 
+> >
+> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> >
+> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > Signed-off-by: Denis Arefev <arefev@swemel.ru>
+> > ---
+> >  drivers/video/fbdev/aty/atyfb_base.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
+> > index 210fd3ac18a4..93eb5eb6042b 100644
+> > --- a/drivers/video/fbdev/aty/atyfb_base.c
+> > +++ b/drivers/video/fbdev/aty/atyfb_base.c
+> > @@ -149,6 +149,8 @@ static const u32 lt_lcd_regs[] = {
+> >  void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+> >  {
+> >  	if (M64_HAS(LT_LCD_REGS)) {
+> > +		if ((u32)index >= ARRAY_SIZE(lt_lcd_regs))
+> > +			return;
+> >  		aty_st_le32(lt_lcd_regs[index], val, par);
+> >  	} else {
+> >  		unsigned long temp;
+> > @@ -164,6 +166,8 @@ void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+> >  u32 aty_ld_lcd(int index, const struct atyfb_par *par)
+> >  {
+> >  	if (M64_HAS(LT_LCD_REGS)) {
+> > +		if ((u32)index >= ARRAY_SIZE(lt_lcd_regs))
+> > +			return 0;
+> >  		return aty_ld_le32(lt_lcd_regs[index], par);
+> >  	} else {
+> >  		unsigned long temp;
+> 
+> -- 
+> Jani Nikula, Intel
 
-Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
-Change-Id: I879e9f2e53dfb6fa28a33b6202a5402945ae91c5
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-[cascardo: adjust context in local declarations]
-Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 986ee37688c1..2b7f98a2e36f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2825,8 +2825,7 @@ static int dm_resume(void *handle)
- 	struct dm_atomic_state *dm_state = to_dm_atomic_state(dm->atomic_obj.state);
- 	enum dc_connection_type new_connection_type = dc_connection_none;
- 	struct dc_state *dc_state;
--	int i, r, j, ret;
--	bool need_hotplug = false;
-+	int i, r, j;
- 
- 	if (amdgpu_in_reset(adev)) {
- 		dc_state = dm->cached_dc_state;
-@@ -3003,23 +3002,16 @@ static int dm_resume(void *handle)
- 		    aconnector->mst_root)
- 			continue;
- 
--		ret = drm_dp_mst_topology_mgr_resume(&aconnector->mst_mgr, true);
--
--		if (ret < 0) {
--			dm_helpers_dp_mst_stop_top_mgr(aconnector->dc_link->ctx,
--					aconnector->dc_link);
--			need_hotplug = true;
--		}
-+		drm_dp_mst_topology_queue_probe(&aconnector->mst_mgr);
- 	}
- 	drm_connector_list_iter_end(&iter);
- 
--	if (need_hotplug)
--		drm_kms_helper_hotplug_event(ddev);
--
- 	amdgpu_dm_irq_resume_late(adev);
- 
- 	amdgpu_dm_smu_write_watermarks_table(adev);
- 
-+	drm_kms_helper_hotplug_event(ddev);
-+
- 	return 0;
- }
- 
 -- 
-2.47.2
-
+Ville Syrjälä
+Intel
