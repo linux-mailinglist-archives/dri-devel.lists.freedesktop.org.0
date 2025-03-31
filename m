@@ -2,82 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2E8A76374
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 11:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04497A76387
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 11:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6743C10E3B4;
-	Mon, 31 Mar 2025 09:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5D6510E3B9;
+	Mon, 31 Mar 2025 09:47:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pSRENAaH";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PpQOmUtZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 851DB10E3B4
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 09:45:15 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4394a0c65fcso40579495e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 02:45:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1743414314; x=1744019114; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aKS0Fboa1dtHIDG4S6gLCYTAz2lAP8mKMrYFIOMeSw4=;
- b=pSRENAaHj8LWOSytswu+gcqJHnC63LcWchjJWGLHBZyJNTgOk9QEY0csQGZVtEG3an
- LumP9cQvSbKY33+WFrDGua+hZudEK1sXOlAXbcw76rUJi9lzG9Di1QoaU7DrKpOWYLjD
- NNBJYcDD/m+aIZIMmQA9rzz2Ieiyt6ivNGaHd/3RZsE3VCnoGAShvAXMaXiklcpB9pRO
- LqSIpmO2A49OMSb0SVShTRIMwyVS7NsJtERLgGvneTH72gHjVsOONOCTDqE8/Ubeq1tG
- IDVhnfGjqr4EXOIbzxYBuni9rLl0GeXRx0UjzgXgq1GPVSpdTO3BcDr78WG1qWR29t4z
- wbEQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADB6B10E3B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 09:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743414473;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z62G6FOx16kflbgrYyqknAXqyOjvzup3mMmRwxYCUyQ=;
+ b=PpQOmUtZqjQWtbjqEqHovD407b3RBfvAtihRgjcmSYWGTF7eKWwf5MtiYFVsdVVJocIDS8
+ 2v+Sa9CBgjYC0D3+n4YT8nwQ29i4Zcv1J7WOE2FqtlZqUt90Qu3Lfb9cmAaej1feDIHOhS
+ z3PFRr0xDGudBRa422sZNt3O2MWEaHQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-34-3stqsreEN8WZjO_jbFiLAg-1; Mon, 31 Mar 2025 05:47:52 -0400
+X-MC-Unique: 3stqsreEN8WZjO_jbFiLAg-1
+X-Mimecast-MFC-AGG-ID: 3stqsreEN8WZjO_jbFiLAg_1743414471
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3912fc9861cso1668942f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 02:47:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743414314; x=1744019114;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aKS0Fboa1dtHIDG4S6gLCYTAz2lAP8mKMrYFIOMeSw4=;
- b=ofv7QszLNQtPYOCRCNn/pz/EhhH26kmbGI4mD1bXT8OJWjSdaunkoni3ikSG6ciBtW
- GAvgZJjHDXmuZRd4is/dC1FD+VaNpMG45RBK6PO/+uVvspHU6pVXRXucY71pdIkW5cUv
- NYTISmPCRNs4aEA6cp15IjXrVDxVjtxWT8fqe1SVqPqFQElDplHt82zBMpKvQlugrz84
- qw7Rppv7Ipe50hBI9l4Vl+MUtMGGjvbxkm4k8mk67rFcND0D3TU6ZveoAQmGLJWYp3AV
- qqlEICSabr5psWjIL5daZlSeioab8UWmP1BbHG5a7TwOzSrnuVXPsiKRKvp/WZgUOaGf
- kksg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXi0w3rZDKnbCBrRJwFLtwwlSzrkKPekkChqM1OxXHwnMvyx4cMm4SDWcUwVHMmOHijbHURcuM3dZ4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPTCCIU9JFHl5syGkD4c1kZ65fbR7ikFJ7TYdXgiQjP4tJFGHe
- ioHAe3v7BjoNaDKaW85zK1DWbcdqf9dHSO/FowxQfKSA1/XM3kLDiQyXtlUx+xH36tPfCu4lhvo
- Vn78=
-X-Gm-Gg: ASbGnctfrmoiRbjBAIbWKmp1RWpr9vncPeG2TJ1feFf61uOVgXbf2KCCjRLaT1ifHYT
- lTRKMDoz6UuLbmtpKemTMlZaf3VSLcg3sgDzrdUmDtA1fEDmB6xcCR9JWVwEtPKVFQH1KvEvh4w
- b/2IeNjKz16xZmXbp+aAe1mPrl9I9qY2I4v8hSUz+UmwKfcmqNEYLyIaY8WXm4QQCQP4dLgBmjW
- z969ORc1Gq/a8PjoiES6DhIPP6cbfC0dGcekwAnn5F7n4MWFIGEu1wWAypPk9CORf9jzFR1EwgS
- eVeFrUTcS4FBW+/FJyDS9MfNhHagpQSyBoYJUN6+wyLJIgOevA==
-X-Google-Smtp-Source: AGHT+IFVzFpYmKBAGEXWi3zw7wUU5N+0+BO4pZCgxv4I35ZkC0wJP7yiqMMStfAjpc9DsFCTgkEtog==
-X-Received: by 2002:a05:600c:83c4:b0:43c:ec28:d31b with SMTP id
- 5b1f17b1804b1-43db62283d1mr102074565e9.10.1743414313954; 
- Mon, 31 Mar 2025 02:45:13 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-43d8fbc10e1sm115778485e9.12.2025.03.31.02.45.12
+ d=1e100.net; s=20230601; t=1743414471; x=1744019271;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z62G6FOx16kflbgrYyqknAXqyOjvzup3mMmRwxYCUyQ=;
+ b=Muti0HSXPGd8lBYglgakhgH4EpGlW+pG2sXRIs7TbvQbLeFfXQmVRSXapiJcXEyJrJ
+ zz4uRA3n1/Ko+Dx284/6L5mZs/hu3sbJOCq006wBfEQ3cv5NiwHC1KJCyuctmbPV9ln0
+ GBS053BRKCAqDWjkVVBB5evLrBulk3njNPcQRAd9mwGFhzeSIuoZQGW3XC0zLs2Orfzg
+ Spucpko2QkZeZeuCEIZq/zzAxKceYr3Yb0slH7toq+cEOi9lC9pdZLev05/cueaMvUGB
+ xQg7a7gKCEyVefeyj9sbtUZcowNxVz9BQJdn+9msxw7eQrlPdhGKrYMK2eN6MCvKqRe3
+ Im0Q==
+X-Gm-Message-State: AOJu0YxFX0XmjXzno4EMblRpe5lNLoc5OXO7etcFOjfGu7b5YLwvhVjt
+ rLubIph5/VL5TkUFHJ/JtQRDsENw0RQ0H+vVDjAXVlw7psmgIBaEcsTZogWwVkVHNj+mWt+hIUW
+ txfYuI8iKsvlPjUtrOy+eQRVRPTpYr5lQd/xpsTHpk0dz2XNP4uFTEg04WfJWwk4DGw==
+X-Gm-Gg: ASbGncve2TtKoZxmVNzDT0PX6jfuCniynR0YdCoRlAjC9A9Om4HmuHR/EhiS5c3IEyy
+ CLjiTAkc7ajlF5MsgNllOiWypwDHwItsbb3FA8YQR/WzBlykyrw1y2o2l/5Kn1Y64n7FCOjGK8E
+ tmKR/UdIXyo7qok7w0tdjx1Dq5a4CFaWfQa+aIQBtGcG/Oj5xP2yV8q6lmuVCUbnXUFmJ4THs3K
+ 83T79JdE/I7a21UTqENjIcuXPjoSk4G7ZNI+SSpP6vF7TwccM+stsT4C8Bor1wCP/MdRwzEYV8U
+ Rs5XNBNQSX8qP9pbi2DF5omDntVRucS8Bs94NAtYlqrb6g==
+X-Received: by 2002:a5d:5f8c:0:b0:390:eebc:6f32 with SMTP id
+ ffacd0b85a97d-39c1211c6cemr7180719f8f.48.1743414471212; 
+ Mon, 31 Mar 2025 02:47:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFE05gPUp5Apq96EIEopu3LwlC0VSzuIjtFyw+pOhK13JZmbsAWiDz2MPpXVrdNvGVqk9inDQ==
+X-Received: by 2002:a5d:5f8c:0:b0:390:eebc:6f32 with SMTP id
+ ffacd0b85a97d-39c1211c6cemr7180707f8f.48.1743414470927; 
+ Mon, 31 Mar 2025 02:47:50 -0700 (PDT)
+Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43d82efeb11sm160962185e9.22.2025.03.31.02.47.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Mar 2025 02:45:13 -0700 (PDT)
-Date: Mon, 31 Mar 2025 12:45:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rob Clark <robdclark@chromium.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH] dma-buf/sw_sync: Decrement refcount on error in
- sw_sync_ioctl_get_deadline()
-Message-ID: <5dbd6105-3acf-47ad-84d6-2920171916ac@stanley.mountain>
+ Mon, 31 Mar 2025 02:47:50 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+ airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 18/18] drm/sysfb: vesadrm: Add gamma correction
+In-Reply-To: <20250319083021.6472-19-tzimmermann@suse.de>
+References: <20250319083021.6472-1-tzimmermann@suse.de>
+ <20250319083021.6472-19-tzimmermann@suse.de>
+Date: Mon, 31 Mar 2025 11:47:49 +0200
+Message-ID: <87r02dfs56.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: xTpYy11CsxWGv5LNcTw4Vh9W9QFQmDVWtCXIYx4xGeA_1743414471
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,30 +94,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call dma_fence_put(fence) before returning an error on this error path.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Fixes: 70e67aaec2f4 ("dma-buf/sw_sync: Add fence deadline support")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/dma-buf/sw_sync.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> Add palette support and export GAMMA properties via sysfs. User-space
+> compositors can use this interface for programming gamma ramps or night
+> mode.
+>
+> Vesadrm supports palette updates via VGA DAC registers or VESA palette
+> calls. Up to 256 palette entries are available. Userspace always supplies
+> gamma ramps of 256 entries. If the native color format does not match
+> this because pixel component have less then 8 bits, vesadrm interpolates
+> among the palette entries.
+>
+> The code uses CamelCase style in a few places to match the VESA manuals.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index f5905d67dedb..b7615c5c6cac 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -438,8 +438,10 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
- 		return -EINVAL;
- 
- 	pt = dma_fence_to_sync_pt(fence);
--	if (!pt)
-+	if (!pt) {
-+		dma_fence_put(fence);
- 		return -EINVAL;
-+	}
- 
- 	spin_lock_irqsave(fence->lock, flags);
- 	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
 -- 
-2.47.2
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
