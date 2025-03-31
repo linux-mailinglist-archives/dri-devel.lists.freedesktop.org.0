@@ -2,97 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7843A76512
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 13:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E90A76530
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 13:51:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEE2310E3DB;
-	Mon, 31 Mar 2025 11:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72EEC10E3DF;
+	Mon, 31 Mar 2025 11:51:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ncX0ZzRZ";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="U2/7PLMN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB65810E3DB
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 11:37:56 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DCF10703;
- Mon, 31 Mar 2025 13:35:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1743420957;
- bh=fhjjBv2eIKP3UTkyHFQb4hg2T8JcFRpc2QNw54u90kI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ncX0ZzRZ+jM6USFckRkzBceTc5VoiY5YQGklLG9BOd1Syyz1bqFcutuXMgX1AiW4w
- 3RlNOUCpf+aI/zygWsheT2GtBu0krGinFmNkLL1I2q4F5OeMP7B+91LkwhMcWRAmdb
- VhSwEncuP4e6vnWSs5qLRoo1KK5dFeStwpU+9hMs=
-Message-ID: <1f3d7c22-6848-471d-b41e-fbdae0535c86@ideasonboard.com>
-Date: Mon, 31 Mar 2025 14:37:45 +0300
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B2C510E3DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 11:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1743421837; x=1744026637; i=markus.elfring@web.de;
+ bh=TVPznMmgvtOTQGHG9dQFnDWblNXq5SWHs7cRlxqIIBU=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=U2/7PLMNWMiVZLnqu+F2Sf/pnzUEuI7Geuuw0K9YAlHpoyQRIqyqo5ZC4k5DFYOX
+ nM3Y8O0VwdZ5dtX05bDLYZK2CBu2VwFcub6Eph7hlvBft/Y7gbNzcsW5BmOrNMfk8
+ zrVxX6bLoUxdCni83DiC9mK6v/6lrAdGG5ucfkc83lyJ3V2UvzX1y3hsNHr78Q8W0
+ we0kLgj1v/V07SyzigLAXj2cvR+c8vesal0C8Db60xgtXR5in4ThQ4JTqWKzBW9cY
+ a97Dn+C55XjxsTQE0uHKhtT2gE5iCWd9uGExq3pU3dv3j4OvFuhdw1iP9Jse8UATq
+ WnQrbw+CZt37Pxsd3w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.37]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Ma0Pm-1teRhJ1r6q-00LO3i; Mon, 31
+ Mar 2025 13:50:37 +0200
+Message-ID: <1ec61529-09f2-44d8-9324-b94da82158c4@web.de>
+Date: Mon, 31 Mar 2025 13:50:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/11] drm: xlnx: zynqmp: Add support for Y8 and Y10_P32
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Vishal Sagar <vishal.sagar@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250326-xilinx-formats-v4-0-322a300c6d72@ideasonboard.com>
- <20250326-xilinx-formats-v4-9-322a300c6d72@ideasonboard.com>
- <20250327225209.GB16629@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250327225209.GB16629@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Henry Martin <bsdhenrymartin@gmail.com>, linux-fbdev@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Daniel Thompson
+ <danielt@kernel.org>, Daniel Thompson <daniel@riscstar.com>,
+ Helge Deller <deller@gmx.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee@kernel.org>
+References: <20250331091245.6668-1-bsdhenrymartin@gmail.com>
+Subject: Re: [PATCH] backlight: qcom-wled: Add NULL check in the wled_configure
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250331091245.6668-1-bsdhenrymartin@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:7SsMn2wJgXRiuoievwieoWQ0ugNrKUFxHLUISgQYGEL/GdYBhn2
+ K7mDW8JkYzDHDMR4tahn4hOeh3vuMGcWYhK5N15fPjf8jk9jHVjXHNbwO6lzen945JMJhUi
+ Xt7Wz1zwYCzSQthYpiEfOro20w6QF36Z6i9RPc68m9mRNF8nLhokA2ye0A/bNmf+IPBnKZV
+ BsSCJ4DfntREhAwDNyRzw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:TX2hSyP+jTg=;di9CvYZZ/LcOKQJzTwOxYTaVrj7
+ H5cwQX0UaVtv0z0YCQwTciZbUxOF8z/ej01KbQFdZ42CU45JdS3yq8NOVi9BJsu8qLda6kwVT
+ +AW5eC3GtUqB8THB4qA3XADVz0GPs/+tB/NX4W9GNee4nPodH3CNGQRqDPKdp05clgRQPTR0d
+ FXME1sWL8Muzo1+kiuTYr+sqhfOuWOsVj7ZWGRO6P7eqsj/CKQFNJ6t9PLq0OJSsr+9jXls0Z
+ csAJsxEqM67AnuPKe5mJ6Jjq2NA72Ta8vKnxe2hFUCFpLwUZbtEGMaZTNekxOAexCheHEbtRw
+ KWLnQysIXesHiP6A7yGFV38aDUmtXAlrabGTUWGkWBKJEBvQj4lfRITsR3rZTds5XdCuG6MtV
+ VcrFUZKakY5gPTv85sn/x3HhXIbp/EVlx9xvfiCW4kNd7UzPF1D4oGRCjBh5VcfdOq4Le3XJT
+ XnJrxeyMy7Ro76msigt27AOS+wEbSdIDpR3r/NuUbJjzE8J2KapfN8+pQyA+lj+WS/Z+Hck15
+ nYx8Wmdr3LJGCfe07gnpFqVPtGzqIVkAEmmRsNA5Fpjg2rHuqfhji1NJUmti9VQb94igPWmW+
+ nWis8EGwkSsdhPSUKw9a6LlC09vYdTx9ddejYB9xydDnWMOZWGQfBfGrSZTTOKJdAUs+49GFY
+ 0j8WdS1MZMJ1rJ8sOs43W4ytdF3CHAIb/zb5Kj6/uirOl3Igwt+5tKTPLih4hNjBdWblALz4B
+ cIh0X6vvwDMaaKQVWFq+VWYWy1CLupDI9Wr2PIE8KU3OHN0aoOvpcBj0W0fIMmMWnlfs/cDhj
+ 0D6a7IEVNRH8AewjgDxDw7R14h5DyV6Ur96c7DvP0yuLUf3FSvE/1ULtDg7adlxnHlTEjqFD4
+ O0AVxzTpu8X5huFeCwNPo1DJG5CTrawWaj3RpXwx20AgvkMXULrIQFqZs2Ro+Q8ME7e3fDPfQ
+ B5N9ZtDwpC5l+E/J+485YQmJdSlxJ+rkNoKXqePhQC3dpl6LpS2XG6mWiwcjNE6dYQdwwGuSu
+ MaLvadAuU7KJOVdkmwOT4lpTOmgjbPHJngWf/r4hiorGY3qZ4oRFeJK7Kw/5H7oSV+WLxjfkz
+ yCoH0i7HsB4xBYVeh8Vumz/aiBUYP5zNkbwOKTaq/v737QBzBTzzvUITXpDtOBrx79z+e+ELC
+ q0DZX2rvV/7HnshQv6RrJy84ljqY8Y1CgQ8BCJWiifgODchmda7YkvoMzCzyIAy2OGbaZfjEK
+ SAp/cAlnok2pf2Q02AGk4irOFClvLqCP+BJV9ZcolqG5lQXFahLFtBiTxEPIoe8RxVNUlhBKG
+ vrjwleLbEVLhRWWuv1MC74uycJK7Jb9M4V6W/nA57Y5AmjK1y9asEhgPf14tZnEQKm0fNwOHs
+ AIxXSDloN7lR0CaNgYuatQ9ZcCBBkfcUCUeVX03pN4x/oIU1weR3zebgnDc0PkwvxCTIbXOeb
+ eS07o3LzjXH8Y3HHfqy5sO/1nrY1RB/ou7dNBcWz6HzS/UVwZuJR7ZOjvsc4MZI3nRvVDMg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,79 +91,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+> When devm_kasprintf() fails, it returns a NULL pointer. However, this re=
+turn value is not properly checked in the function wled_configure.
+>
+> A NULL check should be added after the devm_kasprintf call to prevent po=
+tential NULL pointer dereference error.
 
-On 28/03/2025 00:52, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Mar 26, 2025 at 03:22:52PM +0200, Tomi Valkeinen wrote:
->> Add support for Y8 and Y10_P32 formats. We also need to add new csc
->> matrices for the y-only formats.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/gpu/drm/xlnx/zynqmp_disp.c | 26 +++++++++++++++++++++++++-
->>   1 file changed, 25 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
->> index 1dc77f2e4262..ae8b4073edf6 100644
->> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
->> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
->> @@ -307,6 +307,16 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
->>   		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV16CI_10,
->>   		.swap		= false,
->>   		.sf		= scaling_factors_101010,
->> +	}, {
->> +		.drm_fmt	= DRM_FORMAT_Y8,
->> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MONO,
->> +		.swap		= false,
->> +		.sf		= scaling_factors_888,
->> +	}, {
->> +		.drm_fmt	= DRM_FORMAT_Y10_P32,
->> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YONLY_10,
->> +		.swap		= false,
->> +		.sf		= scaling_factors_101010,
-> 
-> Assuming the DRM format definitions get approved, this looks good to me.
-> 
->>   	},
->>   };
->>   
->> @@ -697,6 +707,16 @@ static const u32 csc_sdtv_to_rgb_offsets[] = {
->>   	0x0, 0x1800, 0x1800
->>   };
->>   
->> +static const u16 csc_sdtv_to_rgb_yonly_matrix[] = {
-> 
-> TODO: Add support for colorspaces to the driver.
-> 
->> +	0x0, 0x0, 0x1000,
->> +	0x0, 0x0, 0x1000,
->> +	0x0, 0x0, 0x1000,
-> 
-> This surprises me a bit, I was expecting 0x1000 to be in the first
-> column. What am I missing ?
+* Please adhere to word wrapping preferences around 75 characters per text=
+ line.
 
-All this is undocumented (afaics). But my understanding is that as this 
-is a single channel format, the Y data is in the "lowest" channel, which 
-is handled by the rightmost column in the matrix.
+* How do you think about to choose the imperative mood for an improved cha=
+nge description?
+  https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/t=
+ree/Documentation/process/submitting-patches.rst?h=3Dv6.14#n94
 
->> +};
->> +
->> +static const u32 csc_sdtv_to_rgb_yonly_offsets[] = {
->> +	0x1800, 0x1800, 0x0
-> 
-> Why do you need offsets ? Those values correspond to -128 in a 8-bit
-> range, and that's what would need to be applied to the chroma values.
-> There's no chroma here. I think you could use csc_zero_offsets.
 
-Indeed, the values are not needed. The only value in the offsets that 
-matters is the last one (matching the rightmost column in the matrix), 
-which needs to be 0. But I think it makes sense to have the array here, 
-otherwise one needs to dig into the code to see what are the offsets for 
-y-only.
+=E2=80=A6
+> +++ b/drivers/video/backlight/qcom-wled.c
+> @@ -1406,8 +1406,14 @@ static int wled_configure(struct wled *wled)
+>  	wled->ctrl_addr =3D be32_to_cpu(*prop_addr);
+>
+>  	rc =3D of_property_read_string(dev->of_node, "label", &wled->name);
+> -	if (rc)
+> +	if (rc) {
+>  		wled->name =3D devm_kasprintf(dev, GFP_KERNEL, "%pOFn", dev->of_node)=
+;
+> +		if (!wled->name) {
+> +			dev_err(dev, "Failed to allocate memory for wled name\n");
+> +			return -ENOMEM;
+> +		}
+> +	}
+=E2=80=A6
 
-  Tomi
+An extra error messages for a failed memory allocation may occasionally be=
+ omitted.
 
+Regards,
+Markus
