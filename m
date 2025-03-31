@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C01CA7636E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 11:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2E8A76374
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 11:45:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C40E10E3B0;
-	Mon, 31 Mar 2025 09:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6743C10E3B4;
+	Mon, 31 Mar 2025 09:45:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UXy+ipPM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pSRENAaH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1CF10E3B0
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 09:44:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743414252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Re6QIAlnvIzvPC2AMafGkuWRkGecrZcKmMzcIXOHXK4=;
- b=UXy+ipPMyadCDKiPc2DYg2gPHHfI97hmgfSYdyr5Oq/EeuPVXndZ/yRd7IIGCLOK/4I1//
- bjio3JiTKLpXGmf8GDRl13oGodYP/aDD6fAL4MWquBTUQF65ApuB1iatO3JrD68fUo8ETO
- mnQMz9zmAwtVIKG7e7EugkrbH9hnR0g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-146-9h8ZykviOA6FZbpmoFnBUw-1; Mon, 31 Mar 2025 05:44:11 -0400
-X-MC-Unique: 9h8ZykviOA6FZbpmoFnBUw-1
-X-Mimecast-MFC-AGG-ID: 9h8ZykviOA6FZbpmoFnBUw_1743414250
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43d01024089so38947475e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 02:44:11 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 851DB10E3B4
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 09:45:15 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-4394a0c65fcso40579495e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 02:45:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1743414314; x=1744019114; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aKS0Fboa1dtHIDG4S6gLCYTAz2lAP8mKMrYFIOMeSw4=;
+ b=pSRENAaHj8LWOSytswu+gcqJHnC63LcWchjJWGLHBZyJNTgOk9QEY0csQGZVtEG3an
+ LumP9cQvSbKY33+WFrDGua+hZudEK1sXOlAXbcw76rUJi9lzG9Di1QoaU7DrKpOWYLjD
+ NNBJYcDD/m+aIZIMmQA9rzz2Ieiyt6ivNGaHd/3RZsE3VCnoGAShvAXMaXiklcpB9pRO
+ LqSIpmO2A49OMSb0SVShTRIMwyVS7NsJtERLgGvneTH72gHjVsOONOCTDqE8/Ubeq1tG
+ IDVhnfGjqr4EXOIbzxYBuni9rLl0GeXRx0UjzgXgq1GPVSpdTO3BcDr78WG1qWR29t4z
+ wbEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743414250; x=1744019050;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Re6QIAlnvIzvPC2AMafGkuWRkGecrZcKmMzcIXOHXK4=;
- b=tcFbzVJM4s7gwzPUVClfA8cwlspQoQA1Xie0WPRMmXUboxdb2w0kYAWWPUijw4KHGm
- DGNXWvehGF9P37fnait39MONHuowTRq2u8YwhnOdntd9UUC8XWLwcexoGNfpraSAcnto
- gf+avtECEllp5BNhZzVJcXIuPZpaMNI3Qzm6aqDchh62U/sGokNg4rLy9bLAvvoqO2Rw
- zB/Oyie/RG0YbJTlE65ITBu0zl/rXxWBYc00E0dI50ZKdEB6B+tTq3xI8LtPZO6ed8cG
- yP61fm7TG6mH+lqHPQ8MZcPv6NgyGwiMVzZJAS1BUexSCUR87ZeOTkWNywtnRwAcOn+N
- 01sg==
-X-Gm-Message-State: AOJu0YwUIHklMSPZnFv5b9gblPatFYYD0FRDH+7v6NbfZPaUwyh3FRCx
- yipRV+/Wv0x0+HQPtd26vA10XOO6SK5sYuiOMonTjRYkzk+cmu46uXn7o0GGRD7H3uYTb+5XwJx
- 6c9YrGiOKtkDDF6dsUnCkEhbss0Ke/coaZ3rA9e41kbMTaHXp17ZK2aulkOM1HLqR/Q==
-X-Gm-Gg: ASbGncshbyZ035tlWn6x/ZwyPRuVsQaJjcv2h9pky+kN+yNIWumS4Wnz7JCfnS5hQfJ
- YKjeJBvxM4RTyhXhVxCVLlZmOrOHhhb4bq7Rg8xqYBZVxT8+SvaTF1DMvNouT6+75EbfamUOLlC
- I0m+k2KTTkjTOO4gWiH3cEfy4thUkAtSrmLUi2YFs+QoXiOLajRkBTSuWPYFcZ2UK4UcQzA9wTP
- Pw39gefjOsA2o1l4yUqlNpGJS7MNEAXl5cacgXdYfefWGwfPjHSZqksKL8iOBIS7vaPR0W32gf6
- ZguwvralPQQoIF+G0I0+fji6S06pk/QUzDH4Umajj8ExBQ==
-X-Received: by 2002:a05:600c:1c9e:b0:43d:3df:42d8 with SMTP id
- 5b1f17b1804b1-43db61e0723mr65079455e9.6.1743414250119; 
- Mon, 31 Mar 2025 02:44:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHmQA1QEFNLZHa8namus+IoIHgJleSB/ZFYS+VyEb1Wdu8mhDen2zqyKkI2ckuarBWsCCyz2A==
-X-Received: by 2002:a05:600c:1c9e:b0:43d:3df:42d8 with SMTP id
- 5b1f17b1804b1-43db61e0723mr65079225e9.6.1743414249626; 
- Mon, 31 Mar 2025 02:44:09 -0700 (PDT)
-Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39c0b658b47sm10977654f8f.13.2025.03.31.02.44.08
+ d=1e100.net; s=20230601; t=1743414314; x=1744019114;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aKS0Fboa1dtHIDG4S6gLCYTAz2lAP8mKMrYFIOMeSw4=;
+ b=ofv7QszLNQtPYOCRCNn/pz/EhhH26kmbGI4mD1bXT8OJWjSdaunkoni3ikSG6ciBtW
+ GAvgZJjHDXmuZRd4is/dC1FD+VaNpMG45RBK6PO/+uVvspHU6pVXRXucY71pdIkW5cUv
+ NYTISmPCRNs4aEA6cp15IjXrVDxVjtxWT8fqe1SVqPqFQElDplHt82zBMpKvQlugrz84
+ qw7Rppv7Ipe50hBI9l4Vl+MUtMGGjvbxkm4k8mk67rFcND0D3TU6ZveoAQmGLJWYp3AV
+ qqlEICSabr5psWjIL5daZlSeioab8UWmP1BbHG5a7TwOzSrnuVXPsiKRKvp/WZgUOaGf
+ kksg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXi0w3rZDKnbCBrRJwFLtwwlSzrkKPekkChqM1OxXHwnMvyx4cMm4SDWcUwVHMmOHijbHURcuM3dZ4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwPTCCIU9JFHl5syGkD4c1kZ65fbR7ikFJ7TYdXgiQjP4tJFGHe
+ ioHAe3v7BjoNaDKaW85zK1DWbcdqf9dHSO/FowxQfKSA1/XM3kLDiQyXtlUx+xH36tPfCu4lhvo
+ Vn78=
+X-Gm-Gg: ASbGnctfrmoiRbjBAIbWKmp1RWpr9vncPeG2TJ1feFf61uOVgXbf2KCCjRLaT1ifHYT
+ lTRKMDoz6UuLbmtpKemTMlZaf3VSLcg3sgDzrdUmDtA1fEDmB6xcCR9JWVwEtPKVFQH1KvEvh4w
+ b/2IeNjKz16xZmXbp+aAe1mPrl9I9qY2I4v8hSUz+UmwKfcmqNEYLyIaY8WXm4QQCQP4dLgBmjW
+ z969ORc1Gq/a8PjoiES6DhIPP6cbfC0dGcekwAnn5F7n4MWFIGEu1wWAypPk9CORf9jzFR1EwgS
+ eVeFrUTcS4FBW+/FJyDS9MfNhHagpQSyBoYJUN6+wyLJIgOevA==
+X-Google-Smtp-Source: AGHT+IFVzFpYmKBAGEXWi3zw7wUU5N+0+BO4pZCgxv4I35ZkC0wJP7yiqMMStfAjpc9DsFCTgkEtog==
+X-Received: by 2002:a05:600c:83c4:b0:43c:ec28:d31b with SMTP id
+ 5b1f17b1804b1-43db62283d1mr102074565e9.10.1743414313954; 
+ Mon, 31 Mar 2025 02:45:13 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-43d8fbc10e1sm115778485e9.12.2025.03.31.02.45.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Mar 2025 02:44:09 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 17/18] drm/sysfb: vesadrm: Add EDID support
-In-Reply-To: <20250319083021.6472-18-tzimmermann@suse.de>
-References: <20250319083021.6472-1-tzimmermann@suse.de>
- <20250319083021.6472-18-tzimmermann@suse.de>
-Date: Mon, 31 Mar 2025 11:44:07 +0200
-Message-ID: <87tt79fsbc.fsf@minerva.mail-host-address-is-not-set>
+ Mon, 31 Mar 2025 02:45:13 -0700 (PDT)
+Date: Mon, 31 Mar 2025 12:45:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Rob Clark <robdclark@chromium.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH] dma-buf/sw_sync: Decrement refcount on error in
+ sw_sync_ioctl_get_deadline()
+Message-ID: <5dbd6105-3acf-47ad-84d6-2920171916ac@stanley.mountain>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: iL2vN1rp8IpZ2jR1QhXj9vF5ARb0cdKx8LKDLaJMq0E_1743414250
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,27 +93,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Call dma_fence_put(fence) before returning an error on this error path.
 
-> Enable the connector's EDID property if edid_info contains valid
-> data. Exports the EDID via sysfs for user-space compositors.
->
-> EDID information is not always available. Depending on the system
-> and kernel configuration, it is either provided by the boot loader
-> or read by the kernel during early boot stages.
->
-> There's only one VESA display, so EDID data always belongs to this
-> output.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Fixes: 70e67aaec2f4 ("dma-buf/sw_sync: Add fence deadline support")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/dma-buf/sw_sync.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index f5905d67dedb..b7615c5c6cac 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -438,8 +438,10 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+ 		return -EINVAL;
+ 
+ 	pt = dma_fence_to_sync_pt(fence);
+-	if (!pt)
++	if (!pt) {
++		dma_fence_put(fence);
+ 		return -EINVAL;
++	}
+ 
+ 	spin_lock_irqsave(fence->lock, flags);
+ 	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.47.2
 
