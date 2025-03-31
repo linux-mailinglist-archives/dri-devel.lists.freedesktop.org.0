@@ -2,62 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFC2A765B8
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 14:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F341A7660E
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 14:34:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00A1F10E3EC;
-	Mon, 31 Mar 2025 12:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8651710E0A1;
+	Mon, 31 Mar 2025 12:34:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Pq+lbGHa";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GGnFF8JM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB48510E3EC
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 12:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743423787; x=1774959787;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=OCZvu5QJIcaNqafaE+kxtGxHaUlcB7WyioBflxbw96o=;
- b=Pq+lbGHaNmVJtrxkq/qri0HWKaRqU/g7uT61KYwlucuhhNlRJysr0xyZ
- jgo46xEciK7XYNS/6LoGXXmXUD4/1W7Vp/6m4005fPkW3kx42L0T22ddp
- p1KW/uwNUVNpB0LtSh2QNysWKJNva/pdgr0piqrdmW+7xZP7rfnyt/cI2
- sJpL2x9J/br/ojAWALyNU3RCKhVat+eJwKfaPgoK28whGcKraEV6Gbsas
- Xo4jaOSVX0gCznGopF4vSZzosauoGIfHxPz5zXhXVgFTNgQAm9f862Feg
- eb3F4t9QWcAEUm2ND32+QCoMO2NEwt39yoxqDe0ULvZwkdXJL/pdhvH2R w==;
-X-CSE-ConnectionGUID: IzuXIDyEQ9q0fLq/jdzYwA==
-X-CSE-MsgGUID: j/gqnaovQH6yvqGUE9r3HA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="44714237"
-X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; d="scan'208";a="44714237"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2025 05:23:07 -0700
-X-CSE-ConnectionGUID: 8GbwudkYSVykEz7vltiLdA==
-X-CSE-MsgGUID: r1ChqzVZQCyuLJorEJb74A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; d="scan'208";a="126066586"
-Received: from pszymich-mobl2.ger.corp.intel.com (HELO [10.245.112.211])
- ([10.245.112.211])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2025 05:23:05 -0700
-Message-ID: <72fe8dcc-3a02-49ca-9285-17aec29cf493@linux.intel.com>
-Date: Mon, 31 Mar 2025 14:23:01 +0200
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21E610E0A1;
+ Mon, 31 Mar 2025 12:34:28 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-43cec5cd73bso28123755e9.3; 
+ Mon, 31 Mar 2025 05:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743424467; x=1744029267; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8C1B/iAjfxZB5rM4ON16gPgb8RTIZjhmtB4Xg7w4JZc=;
+ b=GGnFF8JMaAZGTrLA1WW5gaf9vizGujfol8A/disyOSSq8xp/9xI6JOYQ81fgdGOtzL
+ ALUroHl0hCNwEWy1oLCvxk+iZQSHXh4rtfemKCmoSqSKskJuCA6hP4h7FFJ88UMAFnIV
+ M6OI3i2jWCd7vHKot2mtRBTyOBWVua6CJpVVve9Um0E2/CIEYoo37i7WqEwmcrC45NwF
+ j+n0usfXbhcZo8KdlG80J9PRxX65EbGZIrpDfElgLfXauiWKNBFNG6SluOlDktPtSPwJ
+ xtq7zKDHaNea/dt1lW5qSqpC6Scz1/DytZZUqXO/Nj+4jweaqULgeBtubZ4RZSmGo0e0
+ 3Bbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743424467; x=1744029267;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8C1B/iAjfxZB5rM4ON16gPgb8RTIZjhmtB4Xg7w4JZc=;
+ b=GFZUo3MikgXeu2wx9w+llFcIqzVh7Zcq+FL03LJmYgaC40NcSGe9NScOgp6SI+YJgf
+ 3YsrtAW4Ajv362DQypeyiQIatdB4GOdW08g0jCeeMzvIVp1CvVhKcWwTcOhuEqNkGzKN
+ t4DltVAyWPgbTyLxuws6e4Z5TJwxh7DMgaMOWrEfPqHDRyWNM4OyjikHK/3pFHrTlU5R
+ XRIWhGOgseXzYEp5RGqn+ngjSvbMVMz/Qj/r8ySOLmIHa983s8cgJ7s+YNThz54WeT3T
+ fx/1+z/J12wkdoArw8LS5UazLgspTjN1YzbWBRgP872Cs7vAuu/EyCAnqi77JgAU3rNU
+ uaDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVjX1Q0doOurlgO8dPyFab18gbMhdMhH7j2Zlq0bDmXd2zHytR5wVlMM6cRd9bH8kVfHfxWOHbvRaM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxT1HFAgEStt3xI7q2t8tkoDaaN2QPQpb8qBdK4wUUvHa3q6B9S
+ j/AFNq2Ek4J2AxZi5UfOPU661/UFbpGyKoY5CircFTp5dcgvdaiW
+X-Gm-Gg: ASbGncvdvpy6MKAk/PlZQEyiMP5ETu4Xf2Mz2MAG76vSBfL0lSzMxz81n4NOaQc1kwI
+ zDS1LytCug38c0hUsyejCyN0RqLiiiIOf/GdzpO9f8WkF+I3TnwLiGgrifd2kW2o9wpjjFXkYZC
+ F3kcj/AJriePtOR+rsl941/VuGFSrCanzIUaStJpQFNPdSOzEDcwgMTgkNioFduyGS5i8IvPcGN
+ cjPv0WRs1SQtlJTrRRTrPHXDwcCC+E6j4N9eo4Ql92SJx0GxA4oUM4NAh26AuJf/fHLlT2zBrXq
+ Ff7dN+G4Gw5Xqps3eRtPZ/u6xkjsCC/Kj7YnI9GCnDMGssUydGUPw1TGO2C1C8nIQ+bM8UwzJh6
+ cOTi2uRio
+X-Google-Smtp-Source: AGHT+IEfunH6HBm1Y7PMm/0AssIfHy3J3Wc1+rqe+wHnYUK4e/iGLilXY3nFa6l/MWKO2U0EbJxUpw==
+X-Received: by 2002:a5d:59ae:0:b0:391:1139:2653 with SMTP id
+ ffacd0b85a97d-39c1211d013mr7275853f8f.52.1743424467274; 
+ Mon, 31 Mar 2025 05:34:27 -0700 (PDT)
+Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39c0b79e393sm11326406f8f.72.2025.03.31.05.34.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Mar 2025 05:34:26 -0700 (PDT)
+Message-ID: <2a2e9a4c-b888-45e1-a191-847dd8e7cb9d@gmail.com>
+Date: Mon, 31 Mar 2025 14:34:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix warning in
- ivpu_ipc_send_receive_internal()
-To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com, lizhi.hou@amd.com,
- stable@vger.kernel.org
-References: <20250325114219.3739951-1-maciej.falkowski@linux.intel.com>
+Subject: Re: [PATCH] drm/amd/display: replace use of msleep(<20) with
+ usleep_range for better accuracy
+To: James Flowers <bold.zone2373@fastmail.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ aurabindo.pillai@amd.com, alex.hung@amd.com, skhan@linuxfoundation.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250326070054.68355-1-bold.zone2373@fastmail.com>
 Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250325114219.3739951-1-maciej.falkowski@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20250326070054.68355-1-bold.zone2373@fastmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,35 +95,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-fixes
+Am 26.03.25 um 08:00 schrieb James Flowers:
+> msleep < 20ms will often sleep for ~20ms (according to Documentation/timers/timers-howto.rst).
 
-On 3/25/2025 12:42 PM, Maciej Falkowski wrote:
-> From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> 
-> Warn if device is suspended only when runtime PM is enabled.
-> Runtime PM is disabled during reset/recovery and it is not an error
-> to use ivpu_ipc_send_receive_internal() in such cases.
-> 
-> Fixes: 5eaa49741119 ("accel/ivpu: Prevent recovery invocation during probe and resume")
-> Cc: <stable@vger.kernel.org> # v6.13+
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Our display team has to decide but I don't think that this patch is justified.
+
+The time given to msleep is just the minimum time necessary for some HW action to take place. Waiting longer than that is usually not harmful except when you want to optimize total operation time.
+
+Regards,
+Christian.
+
+>
+> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
 > ---
->  drivers/accel/ivpu/ivpu_ipc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-> index 0e096fd9b95d..39f83225c181 100644
-> --- a/drivers/accel/ivpu/ivpu_ipc.c
-> +++ b/drivers/accel/ivpu/ivpu_ipc.c
-> @@ -302,7 +302,8 @@ ivpu_ipc_send_receive_internal(struct ivpu_device *vdev, struct vpu_jsm_msg *req
->  	struct ivpu_ipc_consumer cons;
->  	int ret;
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index 2cd35392e2da..2d225735602b 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -682,7 +682,7 @@ static bool execute_synaptics_rc_command(struct drm_dp_aux *aux,
+>  		if (rc_cmd == cmd)
+>  			// active is 0
+>  			break;
+> -		msleep(10);
+> +		usleep_range(10000, 10200);
+>  	}
 >  
-> -	drm_WARN_ON(&vdev->drm, pm_runtime_status_suspended(vdev->drm.dev));
-> +	drm_WARN_ON(&vdev->drm, pm_runtime_status_suspended(vdev->drm.dev) &&
-> +		    pm_runtime_enabled(vdev->drm.dev));
->  
->  	ivpu_ipc_consumer_add(vdev, &cons, channel, NULL);
->  
+>  	// read rc result
 
