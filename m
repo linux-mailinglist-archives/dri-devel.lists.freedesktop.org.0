@@ -2,82 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04497A76387
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 11:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BCAA763F8
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 12:17:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5D6510E3B9;
-	Mon, 31 Mar 2025 09:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEBD110E3BF;
+	Mon, 31 Mar 2025 10:17:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PpQOmUtZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YU5wCZY2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADB6B10E3B9
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 09:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743414473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Z62G6FOx16kflbgrYyqknAXqyOjvzup3mMmRwxYCUyQ=;
- b=PpQOmUtZqjQWtbjqEqHovD407b3RBfvAtihRgjcmSYWGTF7eKWwf5MtiYFVsdVVJocIDS8
- 2v+Sa9CBgjYC0D3+n4YT8nwQ29i4Zcv1J7WOE2FqtlZqUt90Qu3Lfb9cmAaej1feDIHOhS
- z3PFRr0xDGudBRa422sZNt3O2MWEaHQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-34-3stqsreEN8WZjO_jbFiLAg-1; Mon, 31 Mar 2025 05:47:52 -0400
-X-MC-Unique: 3stqsreEN8WZjO_jbFiLAg-1
-X-Mimecast-MFC-AGG-ID: 3stqsreEN8WZjO_jbFiLAg_1743414471
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3912fc9861cso1668942f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 02:47:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743414471; x=1744019271;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z62G6FOx16kflbgrYyqknAXqyOjvzup3mMmRwxYCUyQ=;
- b=Muti0HSXPGd8lBYglgakhgH4EpGlW+pG2sXRIs7TbvQbLeFfXQmVRSXapiJcXEyJrJ
- zz4uRA3n1/Ko+Dx284/6L5mZs/hu3sbJOCq006wBfEQ3cv5NiwHC1KJCyuctmbPV9ln0
- GBS053BRKCAqDWjkVVBB5evLrBulk3njNPcQRAd9mwGFhzeSIuoZQGW3XC0zLs2Orfzg
- Spucpko2QkZeZeuCEIZq/zzAxKceYr3Yb0slH7toq+cEOi9lC9pdZLev05/cueaMvUGB
- xQg7a7gKCEyVefeyj9sbtUZcowNxVz9BQJdn+9msxw7eQrlPdhGKrYMK2eN6MCvKqRe3
- Im0Q==
-X-Gm-Message-State: AOJu0YxFX0XmjXzno4EMblRpe5lNLoc5OXO7etcFOjfGu7b5YLwvhVjt
- rLubIph5/VL5TkUFHJ/JtQRDsENw0RQ0H+vVDjAXVlw7psmgIBaEcsTZogWwVkVHNj+mWt+hIUW
- txfYuI8iKsvlPjUtrOy+eQRVRPTpYr5lQd/xpsTHpk0dz2XNP4uFTEg04WfJWwk4DGw==
-X-Gm-Gg: ASbGncve2TtKoZxmVNzDT0PX6jfuCniynR0YdCoRlAjC9A9Om4HmuHR/EhiS5c3IEyy
- CLjiTAkc7ajlF5MsgNllOiWypwDHwItsbb3FA8YQR/WzBlykyrw1y2o2l/5Kn1Y64n7FCOjGK8E
- tmKR/UdIXyo7qok7w0tdjx1Dq5a4CFaWfQa+aIQBtGcG/Oj5xP2yV8q6lmuVCUbnXUFmJ4THs3K
- 83T79JdE/I7a21UTqENjIcuXPjoSk4G7ZNI+SSpP6vF7TwccM+stsT4C8Bor1wCP/MdRwzEYV8U
- Rs5XNBNQSX8qP9pbi2DF5omDntVRucS8Bs94NAtYlqrb6g==
-X-Received: by 2002:a5d:5f8c:0:b0:390:eebc:6f32 with SMTP id
- ffacd0b85a97d-39c1211c6cemr7180719f8f.48.1743414471212; 
- Mon, 31 Mar 2025 02:47:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFE05gPUp5Apq96EIEopu3LwlC0VSzuIjtFyw+pOhK13JZmbsAWiDz2MPpXVrdNvGVqk9inDQ==
-X-Received: by 2002:a5d:5f8c:0:b0:390:eebc:6f32 with SMTP id
- ffacd0b85a97d-39c1211c6cemr7180707f8f.48.1743414470927; 
- Mon, 31 Mar 2025 02:47:50 -0700 (PDT)
-Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d82efeb11sm160962185e9.22.2025.03.31.02.47.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Mar 2025 02:47:50 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 18/18] drm/sysfb: vesadrm: Add gamma correction
-In-Reply-To: <20250319083021.6472-19-tzimmermann@suse.de>
-References: <20250319083021.6472-1-tzimmermann@suse.de>
- <20250319083021.6472-19-tzimmermann@suse.de>
-Date: Mon, 31 Mar 2025 11:47:49 +0200
-Message-ID: <87r02dfs56.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 252FB10E3BF
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 10:17:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743416254; x=1774952254;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=P3ae9o2zkDLTx09+K++AB9fYk/TKSV28NS5F5x/wtcU=;
+ b=YU5wCZY2nwB3WU/dhushPENET5xZTYrWbbNAa89D/vwhqMsaPuR+qTri
+ K/H4PmtBC5uOammVTS/FVIs28XHmrSOI8LIPcfDEtCkXCnhx7rZLZSry1
+ fUgecG0CmQBfvXm52ZApn/YM/i46pF6rMfC31DsWw2klJjwdG81cWMzwE
+ lNQK/8k5tRzfxT97RJD1K5QakOVeumYHpgxif2Fi3TIeEw1L/EkaGtfS+
+ YqZDrl+XBQvVvn3Rc+1Vd4quFAnekxRDH1zeOqyirxArgqL2MDBjKT4an
+ dBWOntcDGya3dMVzTSJMjVXijE/01erLYN7Z6sdCOCdgjYlSca3QBcPKK Q==;
+X-CSE-ConnectionGUID: BrLlE++jRCaQK2ijdGDo/w==
+X-CSE-MsgGUID: Py3zSES4TsWYHhVF5nJcvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="48364532"
+X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; d="scan'208";a="48364532"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2025 03:17:33 -0700
+X-CSE-ConnectionGUID: paWjvvQDQ7OT5YVewgiQLg==
+X-CSE-MsgGUID: rMYsm2X9R4++SHo22bhuXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; d="scan'208";a="157057222"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.182])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2025 03:17:31 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>, Dave Airlie
+ <airlied@gmail.com>
+Cc: simona.vetter@ffwll.ch, dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [git pull] drm for 6.15-rc1
+In-Reply-To: <CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CAPM=9tyx=edsZ3ajuAUAv4vjfa=WNEzobqAsYbBTjCfLbuEeFQ@mail.gmail.com>
+ <CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com>
+Date: Mon, 31 Mar 2025 13:17:28 +0300
+Message-ID: <87h6394i87.fsf@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: xTpYy11CsxWGv5LNcTw4Vh9W9QFQmDVWtCXIYx4xGeA_1743414471
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,29 +71,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Fri, 28 Mar 2025, Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> If you want to do that hdrtest thing, do it as part of your *own*
+> checks. Don't make everybody else see that disgusting thing and have
+> those turds in their trees.
+>
+> I'll just disable it by marking it BROKEN for now. You guys can figure
+> out what you want to do, but no, forcing others to see those things is
+> not the answer.
 
-> Add palette support and export GAMMA properties via sysfs. User-space
-> compositors can use this interface for programming gamma ramps or night
-> mode.
->
-> Vesadrm supports palette updates via VGA DAC registers or VESA palette
-> calls. Up to 256 palette entries are available. Userspace always supplies
-> gamma ramps of 256 entries. If the native color format does not match
-> this because pixel component have less then 8 bits, vesadrm interpolates
-> among the palette entries.
->
-> The code uses CamelCase style in a few places to match the VESA manuals.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Fair. I hear you.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> I would suggest you *not* make this part of the Kconfig setup and
+> normal build at all, but be something where *you* can run it as part
+> of your tests (ie do it as a "make drm-hdrtest" kind of thing, not as
+> part of regular builds).
+
+I would very much prefer for this to be part of the build, just hidden
+behind Kconfig. We're doing build-time checks, and kbuild gives us all
+the machinery to make it happen. Without the dependency tracking you'd
+have to check everything every time, and that's just going to mean
+people won't run it.
+
+I suggest a Kconfig knob to truly make this opt-in, only for developers
+who actually want it. Not enabled by allmodconfig or allyesconfig or
+even allnoconfig. Only if you manually enable it. And yes, that's how it
+should've been from the start. My bad.
+
+Below's a patch to make it happen. We'll probably want to add more
+checks like this in the future. We want to catch a whole bunch of build
+issues up front. We want to be clean of e.g. W=1 and kernel-doc issues
+pre-merge instead of doing extra rounds of fixes afterwards.
+
+BR,
+Jani.
+
+
+
+From 8c709510caab4b4ad6aa73cbcd972f32b58cad8d Mon Sep 17 00:00:00 2001
+From: Jani Nikula <jani.nikula@intel.com>
+Date: Mon, 31 Mar 2025 12:25:45 +0300
+Subject: [PATCH] drm: add config option for extra build-time checks
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Cc: Jani Nikula <jani.nikula@intel.com>
+
+The DRM subsystem contains additional build-time checks, primarily aimed
+at DRM developers and CI systems. The checks may be overzealous. They
+may slow down or fail the build altogether. They may create excessive
+dependency files in the build tree. They should not be enabled for
+regular builds, and certainly not forced on unsuspecting developers
+running an allyesconfig or allmodconfig build.
+
+Add config DRM_DISABLE_EXTRA_BUILD_CHECKS, enabled by default as well as
+by allyesconfig/allmodconfig, hiding the extra checks from anyone but
+people who intentionally opt-in for the checks.
+
+For example, to enable header tests:
+
+$ scripts/config --disable CONFIG_DRM_DISABLE_EXTRA_BUILD_CHECKS --enable CONFIG_DRM_HEADER_TEST
+$ make olddefconfig
+
+Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
+Closes: https://lore.kernel.org/r/CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com
+Fixes: 62ae45687e43 ("drm: ensure drm headers are self-contained and pass kernel-doc")
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/Kconfig | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 2cba2b6ebe1c..5a3fce9ef998 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -489,9 +489,26 @@ config DRM_PRIVACY_SCREEN
+ 	bool
+ 	default n
+ 
++# Reversed option to disable on allyesconfig/allmodconfig builds
++config DRM_DISABLE_EXTRA_BUILD_CHECKS
++	bool "Disable DRM subsystem extra build-time checks"
++	default y
++	help
++	  The DRM subsystem contains additional build-time checks, primarily
++	  aimed at DRM developers and CI systems. The checks may be
++	  overzealous. They may slow down or fail the build altogether. They may
++	  create excessive dependency files in the tree. They should not be
++	  enabled for regular builds, and thus they are disabled by default.
++
++# Proxy config to allow simple "depends on DRM_EXTRA_BUILD_CHECKS"
++config DRM_EXTRA_BUILD_CHECKS
++	bool
++	depends on DRM && EXPERT && DRM_DISABLE_EXTRA_BUILD_CHECKS=n
++	default !DRM_DISABLE_EXTRA_BUILD_CHECKS
++
+ config DRM_WERROR
+ 	bool "Compile the drm subsystem with warnings as errors"
+-	depends on DRM && EXPERT
++	depends on DRM_EXTRA_BUILD_CHECKS
+ 	depends on !WERROR
+ 	default n
+ 	help
+@@ -505,7 +522,7 @@ config DRM_WERROR
+ 
+ config DRM_HEADER_TEST
+ 	bool "Ensure DRM headers are self-contained and pass kernel-doc"
+-	depends on DRM && EXPERT && BROKEN
++	depends on DRM_EXTRA_BUILD_CHECKS
+ 	default n
+ 	help
+ 	  Ensure the DRM subsystem headers both under drivers/gpu/drm and
+-- 
+2.39.5
+
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Jani Nikula, Intel
