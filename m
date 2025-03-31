@@ -2,112 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98031A75CAE
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Mar 2025 23:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C503FA75E26
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 05:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F8B10E293;
-	Sun, 30 Mar 2025 21:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E783E10E2A3;
+	Mon, 31 Mar 2025 03:25:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="fb1AsJUC";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Db4egIFk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2524010E293
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 21:18:14 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52UL5plF021136
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 21:18:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=Paayu8WvfEGwEqdQbUj3+ZGD
- d1cOdWz4M9UO1SwtVuw=; b=fb1AsJUCSOSzNfD21cezt7tvkihLf6jcbCuz+ZeV
- SMkxnxnA5r5KD3z29dwkdPGLtkDrIxfIEsay5bf4t/FG8HQyKoti0wlmULHwvtaL
- gJhIFYuCTmyTGmHJOTh/6UUSd1ErEG3dfnNm00nMq67RFb9IPgY60Fr/KkBta0nk
- qRbQQnPbZttwkvgbl4PvrEFqqLzWbQyq8XJW6N9efK4gN5tKHG6UEKt2dvsYG60j
- J/wJBkI76m0cLA/pe4oGLj7QBrlDe/OtX9tvKQFwLBFyeTK7GPiVSxFWcUFkaNK6
- dwOHKemuHlOJw/9tMQroYJO6L89Wf269fBI4VjdH7SO1QA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p9892suh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 21:18:12 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7c5750ca8b2so643789485a.0
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 14:18:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743369492; x=1743974292;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Paayu8WvfEGwEqdQbUj3+ZGDd1cOdWz4M9UO1SwtVuw=;
- b=MU3sg/9hjo43fbFMzg9etXysm5xeSNJHzgA5VoK2LgNZn4UhLzVAAVbdnF/QcUK8zS
- 4DZhwfKgkVpHGEufTK7ihKUmETjwvAQQNnS1bYO7PNt73AP8wy4GdmyhULx7wcFCDLVo
- OJkwyV0Q/g1N6gXV356220lYX5R2sFRXeR5tWPupgldkGd7qxGWUC7wdf53tWZq3NJap
- biMz3WIlvkgZyQ33PvUSV6lddkKCjPYliMEmANhXXXRpGs/2Eqyleo8zjunndSJQt0G+
- ZuqIlNvbxXIKF93a+f8ymvaVidAt72xkdr6rUfnHattHwfKJBNK+N9mlqV0Pd1zeBwgk
- FKgQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXi+9N8kJqonwnZB3719sucL8WDIRM/NS4G8PzF/D+gZMoU21HjB5DC1cbKbwzOMMTO9uKf3nlI10E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+EWL1zwV/JfPOTCIhYz3RlyUrI6dgQ4isnV6fcavL7VbSvq2U
- uOummQq/YJAv+n3/85aFS9bG3J1ufp9my9w/A28/H2vnufXlQBBWqw0LPpLIOPQTIKV/I76S0vh
- BQGAsWzJX48YneZQXZoPduD1Eh2pDeiq7oTSNYNhwjZT0CLbranOLpyd30+4Nqd4GCUw=
-X-Gm-Gg: ASbGncsZkGprxIZUp4WwshpcrICAjwuL2rZqNnUHpDE4eOBtXGzh0QB2zG6YjtHFT+0
- CnwtXu+M+qbAnIbhhatAZ+IGE8YmV6e4rBs/Rs9YP04j4R7i5HhekAYdaesRr69cgg9y6BFiwvT
- Nvme4pQawG8nXtstoEBVO2YZecYhaemFIOPSyJvlrRa3sZLXqLJBLQ/CFUNg9810mI7ng1SSIg2
- /aQIltYNayI1R3ceCLaSx9AgbEsNuJDX9+SeQIGaHh7Zr9stWnwdtVapvmrZ94Avch1gw/bqEd2
- WrFjlGg1O1n8a8K5iZNsAqM0dD0OqCUqRCGiQYk78udeWcnBygizwaahDMCLfav3YL/HRK5M8Nn
- b00A=
-X-Received: by 2002:a05:620a:4722:b0:7c5:18bb:f8b8 with SMTP id
- af79cd13be357-7c6862ef454mr1103732385a.1.1743369492210; 
- Sun, 30 Mar 2025 14:18:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFAv7jrTxDdjg78EAAVbYKt+dMneuIjLdd38so3bZG7Hgu4I+zdN5YTn/dl7VRlOI11qb8vvQ==
-X-Received: by 2002:a05:620a:4722:b0:7c5:18bb:f8b8 with SMTP id
- af79cd13be357-7c6862ef454mr1103729685a.1.1743369491843; 
- Sun, 30 Mar 2025 14:18:11 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30dd2aa92a3sm12169691fa.12.2025.03.30.14.18.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Mar 2025 14:18:09 -0700 (PDT)
-Date: Mon, 31 Mar 2025 00:18:06 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/15] drm/connector: hdmi: Add missing bpc debug info
- to hdmi_try_format_bpc()
-Message-ID: <esfrpbkbcvktjfu3u4m3wlc3te73t42pz3k2eb5pthdl2w7o4w@mwgwseljuaml>
-References: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
- <20250326-hdmi-conn-yuv-v3-4-294d3ebbb4b2@collabora.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFF8210E2A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 03:25:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743391546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9H7GiXM1SYgn+J7AZH1DVhthFc+DqcJXbubfnJ6db+o=;
+ b=Db4egIFkfZTLqb7+m2uZCuso0FkEBgc9bP98y01xkt/YquaJ3y69xR1/e8wTHBczVVZZ49
+ 0KHqsDO1mDP4OvtDi3c3G4neV4pXocnVwI0MsAJGlQUSO//uaOBk/obzEFkhJMXrwa/QII
+ XmhymPrB/P1H3yG10faDXSv2QDGVCwM=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-6-Z3zqrOq2O_mLCzAbl7tmug-1; Sun,
+ 30 Mar 2025 23:25:43 -0400
+X-MC-Unique: Z3zqrOq2O_mLCzAbl7tmug-1
+X-Mimecast-MFC-AGG-ID: Z3zqrOq2O_mLCzAbl7tmug_1743391541
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 4C6E11801A06; Mon, 31 Mar 2025 03:25:41 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 525DF1801752; Mon, 31 Mar 2025 03:25:38 +0000 (UTC)
+From: Anusha Srivatsa <asrivats@redhat.com>
+Subject: [PATCH v3 0/4] drm/panel: Panel Refcounting infrastructure
+Date: Sun, 30 Mar 2025 22:24:11 -0400
+Message-Id: <20250330-b4-panel-refcounting-v3-0-0e0d4e4641eb@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250326-hdmi-conn-yuv-v3-4-294d3ebbb4b2@collabora.com>
-X-Authority-Analysis: v=2.4 cv=fIk53Yae c=1 sm=1 tr=0 ts=67e9b514 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Vs1iUdzkB0EA:10 a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8 a=Go0fpDh_rV6_VJzv3a0A:9
- a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-GUID: DuhMYam8-ue9xprCpTBZZ7XrUVtO61I3
-X-Proofpoint-ORIG-GUID: DuhMYam8-ue9xprCpTBZZ7XrUVtO61I3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-30_09,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 mlxscore=0 adultscore=0 phishscore=0 suspectscore=0
- mlxlogscore=922 clxscore=1015 lowpriorityscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503300150
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMv86WcC/3XNSwrCMBCA4auUrI2kacZSV95DXOQxaQOalKQGp
+ fTupgVBQZf/DPPNTBJGh4kcq5lEzC654Es0u4roQfoeqTOlCWccWMMFVYKO0uOVRrQ63P3kfE8
+ FkwoOUjbCtqScjmXpHht7vpQeXJpCfG5fcr1O3yD8BnNNGRXIlQVTdxrMKaIZ5LTX4UZWMfNPp
+ f2j8KIosKAlQG07+FKWZXkBaMAmOP8AAAA=
+X-Change-ID: 20250324-b4-panel-refcounting-40ab56aa34f7
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Anusha Srivatsa <asrivats@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743387855; l=2326;
+ i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
+ bh=/AWc+ap+/VlwCnxyDD+hThYJBzd/9ydDfXQ7wQ294vA=;
+ b=g8ObQcleCQMWGAeFaD7vB8+1P3Z5Dfgqb4o1QVwuj1SaFZu7OkBrwcASeYZAKUmGlYpx2ZWcn
+ Mj+3IStQxYUD4N+QnaLI+2F2rIDQ7ejdgPVj6pPUsqErKK6gNqFmIVF
+X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
+ pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,21 +85,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 26, 2025 at 12:19:53PM +0200, Cristian Ciocaltea wrote:
-> The very first debug message in hdmi_try_format_bpc() is incomplete, as
-> it doesn't provide the given bpc in addition to the tried format.
-> 
-> Add the missing debug information and drop the now redundant message
-> from hdmi_compute_config().
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
+This series adds the infrastructure needed for the refcounting
+allocations for panels similar to Luca's efforts with bridges.
+Underlying intention and idea is the same - avoid use-after-free
+situations in panels. Get reference to panel when in use and put
+the reference back (down) when not in use.
+Once this gets approved, rest of the drivers will have to be
+mass converted to use this API.  All the callers of of_drm_find_panel()
+will have to be converted too.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Tried to split the patches as suggested in the RFC series[1].
+Also fixed the connector used during panel_init to be the one
+passed by driver.
 
+Patch 4 was not suggested or part of my initial work. Added it
+after looking at the comments Luca's v8 of the bridge series
+received.[2]
+
+[1] -> https://patchwork.freedesktop.org/series/146236/
+[2] -> https://patchwork.freedesktop.org/series/146306/#rev2
+
+Suggested-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+---
+Changes in v3:
+- Move the include from patch 1 to patch 2 where it is actually used
+- Move the refcounting documentation out from the returns section to the
+  actual helper socumentation.
+- Code style changes. Move the version changes after the s-o-b.
+- Link to v2: https://lore.kernel.org/r/20250327-b4-panel-refcounting-v2-0-b5f5ca551f95@redhat.com
+
+Changes in v2:
+- Change drm_panel_put() to return void.
+- Export drm_panel_get()/put()
+- Code cleanups: add missing return documentation, improve documentation
+  in commit logs. 
+- Link to v1: https://lore.kernel.org/r/20250325-b4-panel-refcounting-v1-0-4e2bf5d19c5d@redhat.com
+
+---
+Anusha Srivatsa (4):
+      drm/panel: Add new helpers for refcounted panel allocatons
+      drm/panel: Add refcount support
+      drm/panel: deprecate old-style panel allocation
+      drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()
+
+ drivers/gpu/drm/drm_panel.c          | 92 +++++++++++++++++++++++++++++++++++-
+ drivers/gpu/drm/panel/panel-simple.c |  9 ++--
+ include/drm/drm_panel.h              | 39 +++++++++++++++
+ 3 files changed, 133 insertions(+), 7 deletions(-)
+---
+base-commit: 372a9ca3c1f2ea10dd05a5d5008d055bc9536ced
+change-id: 20250324-b4-panel-refcounting-40ab56aa34f7
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Anusha Srivatsa <asrivats@redhat.com>
+
