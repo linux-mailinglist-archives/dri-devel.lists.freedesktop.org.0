@@ -2,84 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 615D3A7631E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 11:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78683A76321
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 11:26:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F01810E39B;
-	Mon, 31 Mar 2025 09:24:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xz3XVtLA";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1292310E3A9;
+	Mon, 31 Mar 2025 09:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1F210E39B
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 09:24:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743413050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PoBCnj+9f2Z438qoWFLFepV7OurqIheox2I9kA5C3aY=;
- b=Xz3XVtLAeeGMryDUsYAFw7C7AUn1dT/Jn7staM8lvAHtqgDUOW2AJ7QIlebxrcTcS5/LmI
- ZvN063SmaPtuGvfqhcjmgu7FIxXO1MmElMie14k102UObOEVovZLruMV3GE+qJM3YAL7BL
- fHx2LjdQeVFe6L+SNqeotZehh5LTQ8U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-549-dK6CKwN-Nk6ubrpgm9SFgA-1; Mon, 31 Mar 2025 05:24:09 -0400
-X-MC-Unique: dK6CKwN-Nk6ubrpgm9SFgA-1
-X-Mimecast-MFC-AGG-ID: dK6CKwN-Nk6ubrpgm9SFgA_1743413048
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-43941ad86d4so21435865e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 02:24:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743413048; x=1744017848;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PoBCnj+9f2Z438qoWFLFepV7OurqIheox2I9kA5C3aY=;
- b=atAHgaXiF12KclVzG6+jksJQjtQSaLrui9I+uuLpnhLRAr1ffs+fMoxJKiF1Z0XdXs
- vH8w/ecE3/mPgJETxH5h3SGxaWEz2YjFFjajfLOaRrYmG8J+b+fNq3a3RbKaR4uXEa5D
- Lpegu6ipqVQ5tpZ1uMxyeiTUEsyo4v9EgZvYQXtzYUbzo8txgffHRwUm5Dheg7VqEUiJ
- YXOIBd9nw99j0Jhp7n3bBe19Nse82FU+MJVcp5zFVtRm94O8TzHseA6ARjlkumILJ5JX
- obOeFfz3Q98zjbjIb4GMlBySSXHGrXgifYAwmDM2hRHnm/ZhBJ92KSxFExfsvCHPfrxq
- kXVg==
-X-Gm-Message-State: AOJu0YxhtJez98L5MtWqNTjbfz2dH73+JJul3c4gisNkhvHd+04o3bSY
- sqkDu++a2vdQf3FejPo7vwUACClQdowY3yllAUMP0UHAr3hJmuBnJALCzl9Z+Ed068SaGZtyCky
- 3gzXJ6uJVWOR7YJ8BYAuylt3t+MSC4EKqTkOkoxqVKv+U+dlPHudLekAzmVIqcqDIqg==
-X-Gm-Gg: ASbGncum4dwbPdAW79zSrcgsmxwjXcely6ysBzlIAvrQ9xlIYdCO8VCig7hiJ/RANaM
- dQTPDCNd1k7pCGXV7XibXGbZXls/zi3CRqQKymQ8dcpCsGgcZWWNY/ymHNewJu9tbmbEXHXkgke
- 63SFVwAPMZDCGHxXlvZNj6WjLlxriucijrV87vGKr/9Yzdnz7q4T4E3yVX7kAJyzL9ErbGEf88f
- 7qEV69IyDbHmM5+fiQiIRogvkN2kWdRFxd6OBMpnAlzNDtbEmcyCDIpD6dNXBwwtFbAsp1Jj7Re
- OEuquuNs8vrdRzeB5E2OVt7ci1lGlGKdC8QTTu929C3eHw==
-X-Received: by 2002:a05:600c:444c:b0:43c:fceb:91a with SMTP id
- 5b1f17b1804b1-43db62273admr60207765e9.11.1743413047953; 
- Mon, 31 Mar 2025 02:24:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHW3N1I1Jzz1khdYTC2IypmEufSdzxip14knVfQUMDfDyZd2XGAqDycO/vm/QS0z4/BBrWnRg==
-X-Received: by 2002:a05:600c:444c:b0:43c:fceb:91a with SMTP id
- 5b1f17b1804b1-43db62273admr60207525e9.11.1743413047588; 
- Mon, 31 Mar 2025 02:24:07 -0700 (PDT)
-Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43d8fccfe2fsm115922135e9.22.2025.03.31.02.24.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Mar 2025 02:24:07 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 13/18] firmware: sysfb: Move bpp-depth calculation into
- screen_info helper
-In-Reply-To: <20250319083021.6472-14-tzimmermann@suse.de>
-References: <20250319083021.6472-1-tzimmermann@suse.de>
- <20250319083021.6472-14-tzimmermann@suse.de>
-Date: Mon, 31 Mar 2025 11:24:05 +0200
-Message-ID: <875xjph7t6.fsf@minerva.mail-host-address-is-not-set>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: iVBPZt1R5f2mUJUV5BIuIXHKIwLEs3-8wKrNCllqsf0_1743413048
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Received: from mxhk.zte.com.cn (unknown [63.216.63.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 402EE10E3A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 09:26:03 +0000 (UTC)
+Received: from mxct.zte.com.cn (unknown [192.168.251.13])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZR5N12sxhz8RV6T
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 17:25:53 +0800 (CST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZR5Ms4BDzz51SXw;
+ Mon, 31 Mar 2025 17:25:45 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+ by mse-fl1.zte.com.cn with SMTP id 52V9PVjp073794;
+ Mon, 31 Mar 2025 17:25:31 +0800 (+08)
+ (envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp01[null]) by mapi (Zmail) with MAPI id mid32;
+ Mon, 31 Mar 2025 17:25:34 +0800 (CST)
+Date: Mon, 31 Mar 2025 17:25:34 +0800 (CST)
+X-Zmail-TransId: 2af967ea5f8effffffffc4e-3c31b
+X-Mailer: Zmail v1.0
+Message-ID: <20250331172534353mkMR1nv-dsjFTZTXCPY0a@zte.com.cn>
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <j@jannau.net>, <liviu.dudau@arm.com>, <chunkuang.hu@kernel.org>
+Cc: <fnkl.kernel@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <asahi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <p.zabel@pengutronix.de>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>,
+ <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <yang.yang29@zte.com.cn>,
+ <xu.xin16@zte.com.cn>, <ye.xingchen@zte.com.cn>, <tang.dongxing@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIDAvNF0gUmVwbGFjZSBjdXN0b20gY29tcGFyZV9kZXYgd2l0aCBjb21wb25lbnRfY29tcGFyZV9vZiBpbiBkcm0=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl1.zte.com.cn 52V9PVjp073794
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67EA5FA1.001/4ZR5N12sxhz8RV6T
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,21 +65,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+From: Tang Dongxing <tang.dongxing@zte.com.cn>
 
-> Move the calculation of the bits per pixels for screen_info into a
-> helper function. This will make it available to other callers besides
-> the firmware code.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Remove the custom device comparison function compare_dev and replace it
+with the existing kernel helper component_compare_of, as suggested in
+the review feedback. This simplifies the code by eliminating redundant
+logic and aligns with the pattern used in other DRM drivers like
+hdlcd_drv.c and malidp_drv.c.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Tang Dongxing (4):
+  drm: adp: Replace custom compare_dev with component_compare_of
+  drm: arm: hdlcd: Replace custom compare_dev with component_compare_of
+  drm: malidp: Replace custom compare_dev with component_compare_of
+  drm: mediatek: Replace custom compare_dev with component_compare_of
+
+ drivers/gpu/drm/adp/adp_drv.c          | 7 +------
+ drivers/gpu/drm/arm/hdlcd_drv.c        | 7 +------
+ drivers/gpu/drm/arm/malidp_drv.c       | 9 +--------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 7 +------
+ 4 files changed, 4 insertions(+), 26 deletions(-)
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+2.25.1
