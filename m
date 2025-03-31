@@ -2,91 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D776A760DF
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 10:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158E2A760EE
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 10:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21EDE10E397;
-	Mon, 31 Mar 2025 08:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD2F010E398;
+	Mon, 31 Mar 2025 08:08:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AYXLLYi/";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IXPCS3AO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5D610E397
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 08:06:18 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4394036c0efso26222215e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 01:06:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1743408377; x=1744013177; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=dem/AHZR7qF3cH79b+8VdRbhMuCiw79+oYYuDn1nDoI=;
- b=AYXLLYi/LYVU4ua3TAEsa75k+h3+SHn/zYqG7VmNH5JWoTqfcJJAwC6XPXOXNFXiJf
- g3YXU3Hg5eIHm09qlyZ5gZ3bRw2YF80BZqjJA8904F2s+coOJ3WW/HaXydzB1ND8BvR3
- SkmMPTfQ1KTp4tV6ubf9GFXhsg6OslYnVfncb8b1Sqw9D0ASiyYEJ3h5bEEv44hfE1r/
- c6xhQLHVuQKzDDinrDskRdlK6fuzsgH5D4jBmvxJ6X/6j5gJb1hii9sT56qtOorcWflL
- KCzTO95OjYqNF+i22jIvZNqjdp5g5oL56c4pV9/ZgKpSwjAEOrZQAJo+WG0wIpGNuKXN
- LzDg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7F0510E398
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 08:08:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743408491;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3YHvdds3A+TCrRx/ho1JIq9at01xQmwFerOjrZyVS7Y=;
+ b=IXPCS3AOgRM72gFbjI/txCjp4eDKa56pBlab6RuuAn75QDstYhlOMEaLUd2pCA+OBttOlQ
+ jQoAQ57Uz/0IikfXd+UYH3yN7AuLZsz6Zzw3M7bxi0Y5lN56djiWNhrHeYljO6Z6YJOuQc
+ ffPJCNQ/0jyD9e5nTzFdwhJfN5DdzHA=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-418-uTS3mO9bMJ6zLBZyK6GR9A-1; Mon, 31 Mar 2025 04:08:10 -0400
+X-MC-Unique: uTS3mO9bMJ6zLBZyK6GR9A-1
+X-Mimecast-MFC-AGG-ID: uTS3mO9bMJ6zLBZyK6GR9A_1743408490
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-6e8f9057432so87762036d6.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 01:08:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743408377; x=1744013177;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dem/AHZR7qF3cH79b+8VdRbhMuCiw79+oYYuDn1nDoI=;
- b=aLf2LGfcaJyvQKXSmzYUmskEKElzVmeb4sEqhMRuhtVUr1ccK5jnjjCyvo3frXUEr9
- sIcDSIVIkXxGUEPgCJzZhqE/I4eiPbWr+GmEuXIRbBc2a5RIacEKeJexC3UUHcm3BFwa
- ij/uhpwa6RyzlQIYIY2PP4UlIWdnz1IMtJ68f5ri2z6vaVP1MUG9FrttHh/1w1E/XGaz
- wQj1Mo78AcO524v867n5EpraIydqrO2YL3NU+3IFZzCvYKihvU72ntCbz7U4SXEmSoB+
- WcMYdtgZaDC1k/WcU4pjODJNjqCEht2P4+rdT3yCPS1HE45P3skrsRkRXkVRL5KvGR5d
- ropw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXv6ZLEJVBDjsIPfGO6CT7egNxoz/g5NXLzH8P7hZeQr9FSQ6yv/fFwjEzXDRp0sdVAV+9f9LZ1Y0E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyJv25otR6/MOddvFpPwaKpXkNHSIj/XWVtTz//4FJuwxDhYcIF
- QdMtaWOg0AkIxBeZIC6g69z92Zw5kYMI2zONX/YlacSfHXRRTZJr2C2Jm4niHwU=
-X-Gm-Gg: ASbGncv0NO20sUEq8Ad3pELZ1vFAXyKOa/5bgi8Qq8CXMLLXYBU2ZShGCRmPR+qkHjH
- RnPIuJBIckepNQJskfmG6CVbxOzsVQ9WumNUOnBhbwBo11QHypiX8MxtD4bg+4qXjjeJmMd+0lQ
- sk1UyXs/hMceUXbITngPQk4n3E1KtegAwmmnbhGBiHnSUMrw9O8W3LXWG0AOUS7I+HWufBKdgAH
- D9bK7md+ds2XVFfhVWw+PhfaHAwytxl9gMOMCJldKKsJJZOSgQZ08jvnABEPmRrCq1T/W0w8Pia
- lYa8ty6CoLD1FP+HN+5CtWfBzU/Lf7/ZI/awX3t6NqoEWEVuYA==
-X-Google-Smtp-Source: AGHT+IH4vJ/KqgunlkK1ej1cXacAghtjETA+BJXj8kGxSrm8d1nKUfuPzSv/zW4Kld1su7UgbTv4Jw==
-X-Received: by 2002:a05:600c:4f0d:b0:43c:f597:d589 with SMTP id
- 5b1f17b1804b1-43db62b5b62mr61296165e9.27.1743408376550; 
- Mon, 31 Mar 2025 01:06:16 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-43d8fba3ef1sm117879915e9.2.2025.03.31.01.06.15
+ d=1e100.net; s=20230601; t=1743408490; x=1744013290;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3YHvdds3A+TCrRx/ho1JIq9at01xQmwFerOjrZyVS7Y=;
+ b=wDD/c81GI52hdBKDCDe3AKnkLcoFoF7VBUE6OjJLHFq4Y0xy9gQjU2SUfENJ7YRDmC
+ dyYeR27qLjgGN0UB8AxuQGTFu7XdLuBE1b6SIVkmMRj7J//hR73vxZggOLhz/jL2sHfh
+ byMjeJTQU/7gALRIQd88feoX+D3TW8gEvaDgCs6VQ9GbhEikM3w4IGtx4y9JHqdiCsoO
+ b/g0xWmH21RO0BZirECH58bJGOkUGbp9nqCLuvI6VmcRk0iz9lP7nsBlw0uQS4LTKRyK
+ DVkwz5mji8utp2n16ww+GfTG9qfxQAewmTkc9NtDaBKSHSbxHhPmPmOhYgIgCg9AsPc5
+ /WEQ==
+X-Gm-Message-State: AOJu0YwLZomD3f0S2yAkzaloZfBQ7liycqLfhqDAs/OwGw/+CQxYSDD/
+ 5G0odbuhgmodmjX4o/LSFcqvIPXhwD8XdaMrEGUpUKiP4uh1p/dGkx/9h/tpTWtvSoVwQNrEJty
+ dNyWIpUrdvl2c1OCcShL7bhCUYVY6Q2rclRTBcdcwwK8QFPWdpDVP1SUzb83RCPKzJQ==
+X-Gm-Gg: ASbGncvPJTLy4Nj7Xm22/wAT9r2Z7APle6QhoGo5e0NMUtD9On/MXZJAVbw0WCxI4wz
+ HZFjI5SKfNWYRZPY3G8KayLS4jPZL9s5eGI/kBfAJtTzzx1Js7lsMe3g5Eb+O87V1FFqqFisvQF
+ rC8j0jAnBVbBjTy585DcAStgnZLTNsQg0jeGaKi/yQX6VR73oxrixX5anDgnp1KaAKnuON4F0P6
+ 8OBPrhrdi4pGEBrHtyLSRLrDdr00PTIja3cQqN2HkmjkXA0ZfuTiD7PuGfiJrC5vpU56skak6y+
+ Y1diAHt9dxxqAXdruHyaP/6MUjej2epxzRLA4fogmEbgCg==
+X-Received: by 2002:ad4:4ee3:0:b0:6ed:1486:c3df with SMTP id
+ 6a1803df08f44-6eed5f97fdcmr131741126d6.2.1743408489893; 
+ Mon, 31 Mar 2025 01:08:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEUZVSsfnLFG9tmzfgfCRDQ6Hb8etsjYCC4n/977FOotvRbEq2b65KnHPlSzMUK++XiSmQAfA==
+X-Received: by 2002:ad4:4ee3:0:b0:6ed:1486:c3df with SMTP id
+ 6a1803df08f44-6eed5f97fdcmr131740816d6.2.1743408489496; 
+ Mon, 31 Mar 2025 01:08:09 -0700 (PDT)
+Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6eec96566dbsm43480196d6.47.2025.03.31.01.08.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Mar 2025 01:06:16 -0700 (PDT)
-Date: Mon, 31 Mar 2025 11:06:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: David Gow <davidgow@google.com>
-Cc: Alessandro Carminati <acarmina@redhat.com>,
- linux-kselftest@vger.kernel.org, Kees Cook <keescook@chromium.org>,
- Daniel Diaz <daniel.diaz@linaro.org>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville Syrjala <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, linux-next@vger.kernel.org
-Subject: Re: [PATCH] kunit: fixes backtrace suppression test module description
-Message-ID: <8e4dcf64-898c-4334-8124-598964089f4a@stanley.mountain>
-References: <20250329150529.331215-1-acarmina@redhat.com>
- <CABVgOS=s-NgS1tPOOPDstuVfTmsW9H0kP8nEQmtfFiubQeyvWw@mail.gmail.com>
+ Mon, 31 Mar 2025 01:08:08 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+ airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 09/18] drm/sysfb: Maintain CRTC state in struct
+ drm_sysfb_crtc_state
+In-Reply-To: <20250319083021.6472-10-tzimmermann@suse.de>
+References: <20250319083021.6472-1-tzimmermann@suse.de>
+ <20250319083021.6472-10-tzimmermann@suse.de>
+Date: Mon, 31 Mar 2025 10:08:05 +0200
+Message-ID: <87o6xhhbbu.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABVgOS=s-NgS1tPOOPDstuVfTmsW9H0kP8nEQmtfFiubQeyvWw@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 61N0xzAztK7g5nM6_dmeq6-b4T1EQKIdzjCmyoTakUc_1743408490
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,32 +95,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 30, 2025 at 01:11:59PM +0800, David Gow wrote:
-> On Sat, 29 Mar 2025 at 23:06, Alessandro Carminati <acarmina@redhat.com> wrote:
-> >
-> > Adds module description to the backtrace suppression test
-> >
-> > Fixes:  ("19f3496") kunit: add test cases for backtrace warning suppression
-> >
-> > Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
-> > ---
-> 
-> The "Fixes" tag here should be immediately before the Signed-off-by
-> line, without a newline. Also, ideally the format should be something
-> like:
-> Fixes: d03d078df162 ("kunit: add test cases for backtrace warning suppression")
-> 
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Yeah.  Everyone should configure the default hash length to 12.
+> Move ofdrm's struct ofdrm_crtc_state plus functions to sysfb
+> helpers and rename everything to drm_sysfb_crtc_state.
+>
+> The sysfb CRTC state is a regular CRTC state with information on
+> the primary plane's color format, as required for color management.
+> Helpers for sysfb planes will later set this up automatically.
+>
+> In ofdrm and simpledrm, replace existing code with the new helpers.
+> Ofdrm continues to use the CRTC state for color management. This
+> has no effect on simpledrm.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-git config set --global core.abbrev 12
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-I generate my fixes tags like so:
+-- 
+Best regards,
 
-#!/bin/bash
-
-git log -1 --format='Fixes: %h ("%s")' $*
-
-regards,
-dan carpenter
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
