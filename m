@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B47A76077
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 09:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02B1A7607F
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 09:50:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB6110E389;
-	Mon, 31 Mar 2025 07:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5F6210E387;
+	Mon, 31 Mar 2025 07:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30FD710E37F
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 07:50:22 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.44])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4ZR38G3nnHz1jBX4;
- Mon, 31 Mar 2025 15:45:34 +0800 (CST)
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8C410E387
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 07:50:24 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4ZR3FD2P86z1d18l;
+ Mon, 31 Mar 2025 15:49:52 +0800 (CST)
 Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id F376B140120;
- Mon, 31 Mar 2025 15:50:19 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 457A2140383;
+ Mon, 31 Mar 2025 15:50:21 +0800 (CST)
 Received: from localhost.huawei.com (10.169.71.169) by
  kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 31 Mar 2025 15:50:18 +0800
+ 15.2.1748.10; Mon, 31 Mar 2025 15:50:19 +0800
 From: Yongbang Shi <shiyongbang@huawei.com>
 To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -32,10 +32,10 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
  <jani.nikula@linux.intel.com>, <dmitry.baryshkov@oss.qualcomm.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v9 drm-dp 8/9] drm/hisilicon/hibmc: Add MSI irq getting and
- requesting for HPD
-Date: Mon, 31 Mar 2025 15:42:11 +0800
-Message-ID: <20250331074212.3370287-9-shiyongbang@huawei.com>
+Subject: [PATCH v9 drm-dp 9/9] drm/hisilicon/hibmc: Add vga connector detect
+ functions
+Date: Mon, 31 Mar 2025 15:42:12 +0800
+Message-ID: <20250331074212.3370287-10-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20250331074212.3370287-1-shiyongbang@huawei.com>
 References: <20250331074212.3370287-1-shiyongbang@huawei.com>
@@ -62,169 +62,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Baihan Li <libaihan@huawei.com>
 
-To realize HPD feature, request irq for HPD , add its handler function.
-We use pci_alloc_irq_vectors() to get our msi irq, because we have two
-interrupts now.
+Because the connected VGA connector would make driver can't get the
+userspace call, adding detect_ctx in vga connector to make HPD active
+userspace.
 
 Signed-off-by: Baihan Li <libaihan@huawei.com>
 Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-ChangeLog:
-v4 -> v5:
-  - remove pci_disable_msi() in hibmc_unload()
----
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  3 +
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   | 74 +++++++++++++++----
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  3 +
- 3 files changed, 66 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-index 5614b727a710..394b1e933c3a 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-@@ -99,6 +99,9 @@
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+index 05e19ea4c9f9..e8a527ede854 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+@@ -60,6 +60,7 @@ static void hibmc_connector_destroy(struct drm_connector *connector)
+ static const struct drm_connector_helper_funcs
+ 	hibmc_connector_helper_funcs = {
+ 	.get_modes = hibmc_connector_get_modes,
++	.detect_ctx = drm_connector_helper_detect_from_ddc,
+ };
  
- #define HIBMC_DP_TIMING_SYNC_CTRL		0xFF0
+ static const struct drm_connector_funcs hibmc_connector_funcs = {
+@@ -127,5 +128,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
  
-+#define HIBMC_DP_INTSTAT			0x1e0724
-+#define HIBMC_DP_INTCLR				0x1e0728
-+
- /* dp serdes reg */
- #define HIBMC_DP_HOST_OFFSET		0x10000
- #define HIBMC_DP_LANE0_RATE_OFFSET	0x4
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 98b01c8aee8e..768b97f9e74a 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -32,6 +32,8 @@
+ 	drm_connector_attach_encoder(connector, encoder);
  
- DEFINE_DRM_GEM_FOPS(hibmc_fops);
- 
-+static const char *g_irqs_names_map[HIBMC_MAX_VECTORS] = { "vblank", "hpd" };
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
 +
- static irqreturn_t hibmc_interrupt(int irq, void *arg)
- {
- 	struct drm_device *dev = (struct drm_device *)arg;
-@@ -49,6 +51,22 @@ static irqreturn_t hibmc_interrupt(int irq, void *arg)
- 	return IRQ_HANDLED;
- }
- 
-+static irqreturn_t hibmc_dp_interrupt(int irq, void *arg)
-+{
-+	struct drm_device *dev = (struct drm_device *)arg;
-+	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
-+	u32 status;
-+
-+	status = readl(priv->mmio + HIBMC_DP_INTSTAT);
-+	if (status) {
-+		priv->dp.irq_status = status;
-+		writel(status, priv->mmio + HIBMC_DP_INTCLR);
-+		return IRQ_WAKE_THREAD;
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
- 			     struct drm_mode_create_dumb *args)
- {
-@@ -251,15 +269,48 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
  	return 0;
  }
- 
--static int hibmc_unload(struct drm_device *dev)
-+static void hibmc_unload(struct drm_device *dev)
- {
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--
- 	drm_atomic_helper_shutdown(dev);
-+}
- 
--	free_irq(pdev->irq, dev);
-+static int hibmc_msi_init(struct drm_device *dev)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	char name[32] = {0};
-+	int valid_irq_num;
-+	int irq;
-+	int ret;
- 
--	pci_disable_msi(to_pci_dev(dev->dev));
-+	ret = pci_alloc_irq_vectors(pdev, HIBMC_MIN_VECTORS,
-+				    HIBMC_MAX_VECTORS, PCI_IRQ_MSI);
-+	if (ret < 0) {
-+		drm_err(dev, "enabling MSI failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	valid_irq_num = ret;
-+
-+	for (int i = 0; i < valid_irq_num; i++) {
-+		snprintf(name, ARRAY_SIZE(name) - 1, "%s-%s-%s",
-+			 dev->driver->name, pci_name(pdev), g_irqs_names_map[i]);
-+
-+		irq = pci_irq_vector(pdev, i);
-+
-+		if (i)
-+			/* PCI devices require shared interrupts. */
-+			ret = devm_request_threaded_irq(&pdev->dev, irq,
-+							hibmc_dp_interrupt,
-+							hibmc_dp_hpd_isr,
-+							IRQF_SHARED, name, dev);
-+		else
-+			ret = devm_request_irq(&pdev->dev, irq, hibmc_interrupt,
-+					       IRQF_SHARED, name, dev);
-+		if (ret) {
-+			drm_err(dev, "install irq failed: %d\n", ret);
-+			return ret;
-+		}
-+	}
- 
- 	return 0;
- }
-@@ -291,15 +342,10 @@ static int hibmc_load(struct drm_device *dev)
- 		goto err;
- 	}
- 
--	ret = pci_enable_msi(pdev);
-+	ret = hibmc_msi_init(dev);
- 	if (ret) {
--		drm_warn(dev, "enabling MSI failed: %d\n", ret);
--	} else {
--		/* PCI devices require shared interrupts. */
--		ret = request_irq(pdev->irq, hibmc_interrupt, IRQF_SHARED,
--				  dev->driver->name, dev);
--		if (ret)
--			drm_warn(dev, "install irq failed: %d\n", ret);
-+		drm_err(dev, "hibmc msi init failed, ret:%d\n", ret);
-+		goto err;
- 	}
- 
- 	/* reset all the states of crtc/plane/encoder/connector */
-@@ -375,7 +421,7 @@ static void hibmc_pci_remove(struct pci_dev *pdev)
- 
- static void hibmc_pci_shutdown(struct pci_dev *pdev)
- {
--	drm_atomic_helper_shutdown(pci_get_drvdata(pdev));
-+	hibmc_pci_remove(pdev);
- }
- 
- static const struct pci_device_id hibmc_pci_table[] = {
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index daed1330b961..274feabe7df0 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -22,6 +22,9 @@
- 
- #include "dp/dp_hw.h"
- 
-+#define HIBMC_MIN_VECTORS	1
-+#define HIBMC_MAX_VECTORS	2
-+
- struct hibmc_vdac {
- 	struct drm_device *dev;
- 	struct drm_encoder encoder;
 -- 
 2.33.0
 
