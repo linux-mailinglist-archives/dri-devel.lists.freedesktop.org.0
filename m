@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E895A766BD
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 15:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8858FA766CF
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 15:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA82C10E400;
-	Mon, 31 Mar 2025 13:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B2E010E124;
+	Mon, 31 Mar 2025 13:26:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e8cKGzs/";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="k492Rhox";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC47F10E409
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 13:21:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743427279; x=1774963279;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=lO5sWc/yHfoUVr0xVOV/MpPdVAaIA0kdRoiUvtqgZCY=;
- b=e8cKGzs/2ZSF7ZGXafKjbeaXlwOHbdT1AtYTERJXAWa3IyTSE98B0KvM
- tC1bUc7avlkF4xFWW0XChuoza0T13WoMZf98iROnQYIbdu0PsSwWx4tgT
- sDcR/rCfO9cIgTq2svy4UvxDEFrl/DxvjAFsU+dWsXouzJPyQAQHa0dSZ
- rrcljigGKbPp0ydPFfA+9xT2GDMlCSC+OEsC6wbFx7K3zG8JCz8wNsVBb
- pzG+Lf2SWviSQSARmvSoBP4JPePj0fSOCPEbJzItR2Z5eL0BPSAXiA5fB
- z3LiejVqp4KiQHG7uqR+supOuLMZ8uZcUq/LjrFXyIhf7Yr9I2QjgcpCD Q==;
-X-CSE-ConnectionGUID: 7b6aMktwTzCOeIzwXDEBqw==
-X-CSE-MsgGUID: CxO4Itp4Q5i4Q2uOjBhjFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="44425987"
-X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; d="scan'208";a="44425987"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2025 06:21:19 -0700
-X-CSE-ConnectionGUID: PSbS5NPpSe2XzvaiTFfpKQ==
-X-CSE-MsgGUID: v4KEV/4cT+uM5/TEvGWQSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; d="scan'208";a="130792691"
-Received: from gkczarna.igk.intel.com ([10.211.131.163])
- by fmviesa005.fm.intel.com with ESMTP; 31 Mar 2025 06:21:17 -0700
-From: Tomasz Lis <tomasz.lis@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- =?UTF-8?q?Micha=C5=82=20Wajdeczko?= <michal.wajdeczko@intel.com>,
- =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>
-Subject: [PATCH v6 4/4] drm/xe/vf: Fixup CTB send buffer messages after
- migration
-Date: Mon, 31 Mar 2025 15:21:07 +0200
-Message-Id: <20250331132107.1242954-5-tomasz.lis@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250331132107.1242954-1-tomasz.lis@intel.com>
-References: <20250331132107.1242954-1-tomasz.lis@intel.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F98010E124
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 13:26:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743427559; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=lFpzyWNT0USwVhZo90t1H8YsKmXjkTiA40JVXFnWo4QCPAIk2thx7TRBlAU1K8dPThDc1FIFEYAX4FIom3w23pokpTh/x1Mg4e6yP3fzKqbgKWLkiz6TFLxuYaiHAXXHS1mctV24fS+qH0cfeKzobVyKDJR8eZNUgAT0or9iiF4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1743427559;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=HWooIc3os8p0nMskc5BNvunTe8NZcWqXI8Mkie2yYgw=; 
+ b=FyJqWhpbofJ3JePl7TCwFDAJ1r9kM5DiBswVCtsyEncz5aO++A94Lv8x+2b07Y9how9mN2ZYTEzuIXH7sWOFWYsErvYs5Tlozrd39DA4FXoO0K3wrZeyw5MY3OKlUnpeFyi1Rl1LyqK8YwL7wqgRhF+B7m8ykeFtEUCss6ggIWo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743427559; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=HWooIc3os8p0nMskc5BNvunTe8NZcWqXI8Mkie2yYgw=;
+ b=k492Rhoxz+7diXbMUgv1Ut3B3mjToaQHx37PzVyEGSmze1bsEZQIfeJ4NgBDdA2M
+ NL0HbA23ybIE+SErXhBegGTPl66oS60Ti0OBi5XFh9YJ5aK85GWX/ReGY9ALX10OBi5
+ U/1UtHTusAnM4Mt5ZDDLjk2AT4H/jHxGWhZDasK0=
+Received: by mx.zohomail.com with SMTPS id 1743427556313451.45814764603153;
+ Mon, 31 Mar 2025 06:25:56 -0700 (PDT)
+Message-ID: <114525a6-950e-4894-92de-fa7655bb9156@collabora.com>
+Date: Mon, 31 Mar 2025 10:25:48 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/6] drm/panfrost: Add support for AARCH64_4K page
+ table format
+To: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: boris.brezillon@collabora.com, robh@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, kernel@collabora.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ sjoerd@collabora.com, angelogioacchino.delregno@collabora.com,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+References: <20250324185801.168664-1-ariel.dalessandro@collabora.com>
+ <20250324185801.168664-5-ariel.dalessandro@collabora.com>
+ <2aa3bf07-924b-4359-b566-0db57d53cdf5@arm.com>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <2aa3bf07-924b-4359-b566-0db57d53cdf5@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,263 +75,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During post-migration recovery of a VF, it is necessary to update
-GGTT references included in messages which are going to be sent
-to GuC. GuC will start consuming messages after VF KMD will inform
-it about fixups being done; before that, the VF KMD is expected
-to update any H2G messages which are already in send buffer but
-were not consumed by GuC.
+Hi Steven,
 
-Only a small subset of messages allowed for VFs have GGTT references
-in them. This patch adds the functionality to parse the CTB send
-ring buffer and shift addresses contained within.
+On 3/31/25 8:15 AM, Steven Price wrote:
+> On 24/03/2025 18:57, Ariel D'Alessandro wrote:
+>> Currently, Panfrost only supports MMU configuration in "LEGACY" (as
+>> Bifrost calls it) mode, a (modified) version of LPAE "Large Physical
+>> Address Extension", which in Linux we've called "mali_lpae".
+>>
+>> This commit adds support for conditionally enabling AARCH64_4K page
+>> table format. To achieve that, a "GPU optional quirks" field was added
+>> to `struct panfrost_features` with the related flag.
+>>
+>> Note that, in order to enable AARCH64_4K mode, the GPU variant must have
+>> the HW_FEATURE_AARCH64_MMU feature flag present.
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> 
+> (one very minor nit below)
+> 
+>> ---
+>>   drivers/gpu/drm/panfrost/panfrost_device.h |  16 +++
+>>   drivers/gpu/drm/panfrost/panfrost_mmu.c    | 140 +++++++++++++++++++--
+>>   drivers/gpu/drm/panfrost/panfrost_regs.h   |  34 +++++
+>>   3 files changed, 183 insertions(+), 7 deletions(-)
+>>
+> 
+> [...]
+> 
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>> index 294f86b3c25e..ccf51fd5f9c0 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> [...]
+>> +
+>> +static int panfrost_mmu_cfg_init(struct panfrost_mmu *mmu,
+>> +				  enum io_pgtable_fmt fmt)
+> 
+> NIT: It's always hard to see in the diff, but the alignment of the
+> second line is wrong. But I'll fix this up when merging.
 
-While fixing the CTB content, ct->lock is not taken. This means
-the only barrier taken remains GGTT address lock - which is ok,
-because only requests with GGTT addresses matter, but it also means
-tail changes can happen during the CTB fixups execution (which may
-be ignored as any new messages will not have anything to fix).
+Indeed, you're right. Thanks for the nitpick!
 
-The GGTT address locking will be introduced in a future series.
+Happy to see this hitting drm-misc-next soon :)
 
-v2: removed storing shift as that's now done in VMA nodes patch;
-  macros to inlines; warns to asserts; log messages fixes (Michal)
-v3: removed inline keywords, enums for offsets in CTB messages,
-  less error messages, if return unused then made functs void (Michal)
-v4: update the cached head before starting fixups
-v5: removed/updated comments, wrapped lines, converted assert into
-  error, enums for offsets to separate patch, reused xe_map_rd
-
-Signed-off-by: Tomasz Lis <tomasz.lis@intel.com>
----
- drivers/gpu/drm/xe/xe_guc_ct.c   | 142 +++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_guc_ct.h   |   2 +
- drivers/gpu/drm/xe/xe_sriov_vf.c |  25 ++++++
- 3 files changed, 169 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/xe_guc_ct.c b/drivers/gpu/drm/xe/xe_guc_ct.c
-index 686fe664c20d..6c80106e5e8b 100644
---- a/drivers/gpu/drm/xe/xe_guc_ct.c
-+++ b/drivers/gpu/drm/xe/xe_guc_ct.c
-@@ -84,6 +84,8 @@ struct g2h_fence {
- 	bool done;
- };
- 
-+#define make_u64(hi, lo) ((u64)((u64)(u32)(hi) << 32 | (u32)(lo)))
-+
- static void g2h_fence_init(struct g2h_fence *g2h_fence, u32 *response_buffer)
- {
- 	g2h_fence->response_buffer = response_buffer;
-@@ -1622,6 +1624,146 @@ static void g2h_worker_func(struct work_struct *w)
- 	receive_g2h(ct);
- }
- 
-+static u32 xe_map_rd_u32(struct xe_device *xe, struct iosys_map *cmds,
-+			     u32 head, u32 pos)
-+{
-+	return xe_map_rd(xe, cmds, (head + pos) * sizeof(u32), u32);
-+}
-+
-+static void xe_map_fixup_u64(struct xe_device *xe, struct iosys_map *cmds,
-+			       u32 head, u32 pos, s64 shift)
-+{
-+	u32 msg[2];
-+	u64 offset;
-+
-+	xe_map_memcpy_from(xe, msg, cmds, (head + pos) * sizeof(u32),
-+			   2 * sizeof(u32));
-+	offset = make_u64(msg[1], msg[0]);
-+	offset += shift;
-+	msg[0] = lower_32_bits(offset);
-+	msg[1] = upper_32_bits(offset);
-+	xe_map_memcpy_to(xe, cmds, (head + pos) * sizeof(u32), msg, 2 * sizeof(u32));
-+}
-+
-+/*
-+ * Shift any GGTT addresses within a single message left within CTB from
-+ * before post-migration recovery.
-+ * @ct: pointer to CT struct of the target GuC
-+ * @cmds: iomap buffer containing CT messages
-+ * @head: start of the target message within the buffer
-+ * @len: length of the target message
-+ * @size: size of the commands buffer
-+ * @shift: the address shift to be added to each GGTT reference
-+ */
-+static void ct_update_addresses_in_message(struct xe_guc_ct *ct,
-+					   struct iosys_map *cmds, u32 head,
-+					   u32 len, u32 size, s64 shift)
-+{
-+	struct xe_device *xe = ct_to_xe(ct);
-+	u32 action, i, n;
-+	u32 msg[1];
-+
-+	xe_map_memcpy_from(xe, msg, cmds, head * sizeof(u32),
-+			   1 * sizeof(u32));
-+	action = FIELD_GET(GUC_HXG_REQUEST_MSG_0_ACTION, msg[0]);
-+	switch (action) {
-+	case XE_GUC_ACTION_REGISTER_CONTEXT:
-+	case XE_GUC_ACTION_REGISTER_CONTEXT_MULTI_LRC:
-+		xe_map_fixup_u64(xe, cmds, head,
-+				 XE_GUC_REGISTER_CONTEXT_MULTI_LRC_OFFS_WQ_DESC, shift);
-+		xe_map_fixup_u64(xe, cmds, head,
-+				 XE_GUC_REGISTER_CONTEXT_MULTI_LRC_OFFS_WQ_BASE, shift);
-+		if (action == XE_GUC_ACTION_REGISTER_CONTEXT_MULTI_LRC) {
-+			n = xe_map_rd_u32(xe, cmds, head,
-+				       XE_GUC_REGISTER_CONTEXT_MULTI_LRC_OFFS_N_CHILDREN);
-+			for (i = 0; i < n; i++)
-+				xe_map_fixup_u64(xe, cmds, head,
-+					    XE_GUC_REGISTER_CONTEXT_MULTI_LRC_OFFS_HWLRCA
-+					    + 2 * i, shift);
-+		} else {
-+			xe_map_fixup_u64(xe, cmds, head, 10, shift);
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+static int ct_update_addresses_in_buffer(struct xe_guc_ct *ct,
-+					 struct guc_ctb *h2g,
-+					 s64 shift, u32 *mhead, s32 avail)
-+{
-+	struct xe_device *xe = ct_to_xe(ct);
-+	u32 head = *mhead;
-+	u32 size = h2g->info.size;
-+	u32 msg[1];
-+	u32 len;
-+
-+	/* Read header */
-+	xe_map_memcpy_from(xe, msg, &h2g->cmds, sizeof(u32) * head,
-+			   sizeof(u32));
-+	len = FIELD_GET(GUC_CTB_MSG_0_NUM_DWORDS, msg[0]) + GUC_CTB_MSG_MIN_LEN;
-+
-+	if (unlikely(len > (u32)avail)) {
-+		xe_gt_err(ct_to_gt(ct), "H2G channel broken on read, avail=%d, len=%d, fixups skipped\n",
-+			  avail, len);
-+		return 0;
-+	}
-+
-+	head = (head + 1) % size;
-+	ct_update_addresses_in_message(ct, &h2g->cmds, head, len - 1, size, shift);
-+	*mhead = (head + len - 1) % size;
-+
-+	return avail - len;
-+}
-+
-+/**
-+ * xe_guc_ct_fixup_messages_with_ggtt - Fixup any pending H2G CTB messages by updating
-+ * GGTT offsets in their payloads.
-+ * @ct: pointer to CT struct of the target GuC
-+ * @ggtt_shift: shift to be added to all GGTT addresses within the CTB
-+ */
-+void xe_guc_ct_fixup_messages_with_ggtt(struct xe_guc_ct *ct, s64 ggtt_shift)
-+{
-+	struct xe_guc *guc = ct_to_guc(ct);
-+	struct xe_gt *gt = guc_to_gt(guc);
-+	struct guc_ctb *h2g = &ct->ctbs.h2g;
-+	u32 head, tail, size;
-+	s32 avail;
-+
-+	if (unlikely(h2g->info.broken))
-+		return;
-+
-+	h2g->info.head = desc_read(ct_to_xe(ct), h2g, head);
-+	head = h2g->info.head;
-+	tail = READ_ONCE(h2g->info.tail);
-+	size = h2g->info.size;
-+
-+	if (unlikely(head > size))
-+		goto corrupted;
-+
-+	if (unlikely(tail >= size))
-+		goto corrupted;
-+
-+	avail = tail - head;
-+
-+	/* beware of buffer wrap case */
-+	if (unlikely(avail < 0))
-+		avail += size;
-+	xe_gt_dbg(gt, "available %d (%u:%u:%u)\n", avail, head, tail, size);
-+	xe_gt_assert(gt, avail >= 0);
-+
-+	while (avail > 0)
-+		avail = ct_update_addresses_in_buffer(ct, h2g, ggtt_shift, &head, avail);
-+
-+	return;
-+
-+corrupted:
-+	xe_gt_err(gt, "Corrupted H2G descriptor head=%u tail=%u size=%u, fixups not applied\n",
-+		 head, tail, size);
-+	h2g->info.broken = true;
-+}
-+
- static struct xe_guc_ct_snapshot *guc_ct_snapshot_alloc(struct xe_guc_ct *ct, bool atomic,
- 							bool want_ctb)
- {
-diff --git a/drivers/gpu/drm/xe/xe_guc_ct.h b/drivers/gpu/drm/xe/xe_guc_ct.h
-index 82c4ae458dda..5649bda82823 100644
---- a/drivers/gpu/drm/xe/xe_guc_ct.h
-+++ b/drivers/gpu/drm/xe/xe_guc_ct.h
-@@ -22,6 +22,8 @@ void xe_guc_ct_snapshot_print(struct xe_guc_ct_snapshot *snapshot, struct drm_pr
- void xe_guc_ct_snapshot_free(struct xe_guc_ct_snapshot *snapshot);
- void xe_guc_ct_print(struct xe_guc_ct *ct, struct drm_printer *p, bool want_ctb);
- 
-+void xe_guc_ct_fixup_messages_with_ggtt(struct xe_guc_ct *ct, s64 ggtt_shift);
-+
- static inline bool xe_guc_ct_enabled(struct xe_guc_ct *ct)
- {
- 	return ct->state == XE_GUC_CT_STATE_ENABLED;
-diff --git a/drivers/gpu/drm/xe/xe_sriov_vf.c b/drivers/gpu/drm/xe/xe_sriov_vf.c
-index 2eb6b8d8a217..9a1b578fdd03 100644
---- a/drivers/gpu/drm/xe/xe_sriov_vf.c
-+++ b/drivers/gpu/drm/xe/xe_sriov_vf.c
-@@ -10,6 +10,7 @@
- #include "xe_gt.h"
- #include "xe_gt_sriov_printk.h"
- #include "xe_gt_sriov_vf.h"
-+#include "xe_guc_ct.h"
- #include "xe_pm.h"
- #include "xe_sriov.h"
- #include "xe_sriov_printk.h"
-@@ -158,6 +159,27 @@ static int vf_post_migration_requery_guc(struct xe_device *xe)
- 	return ret;
- }
- 
-+static s32 xe_gt_sriov_vf_ggtt_shift(struct xe_gt *gt)
-+{
-+	struct xe_gt_sriov_vf_selfconfig *config = &gt->sriov.vf.self_config;
-+
-+	return config->ggtt_shift;
-+}
-+
-+static void vf_post_migration_fixup_ctb(struct xe_device *xe)
-+{
-+	struct xe_gt *gt;
-+	unsigned int id;
-+
-+	xe_assert(xe, IS_SRIOV_VF(xe));
-+
-+	for_each_gt(gt, xe, id) {
-+		s32 shift = xe_gt_sriov_vf_ggtt_shift(gt);
-+
-+		xe_guc_ct_fixup_messages_with_ggtt(&gt->uc.guc.ct, shift);
-+	}
-+}
-+
- /*
-  * vf_post_migration_imminent - Check if post-restore recovery is coming.
-  * @xe: the &xe_device struct instance
-@@ -219,6 +241,9 @@ static void vf_post_migration_recovery(struct xe_device *xe)
- 
- 	need_fixups = vf_post_migration_fixup_ggtt_nodes(xe);
- 	/* FIXME: add the recovery steps */
-+	if (need_fixups)
-+		vf_post_migration_fixup_ctb(xe);
-+
- 	vf_post_migration_notify_resfix_done(xe);
- 	xe_pm_runtime_put(xe);
- 	drm_notice(&xe->drm, "migration recovery ended\n");
 -- 
-2.25.1
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
