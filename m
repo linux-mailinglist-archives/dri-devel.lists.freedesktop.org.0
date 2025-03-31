@@ -2,80 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89460A75F4A
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 09:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5EAA75F55
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 09:15:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F12E210E0A2;
-	Mon, 31 Mar 2025 07:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97D0610E2AF;
+	Mon, 31 Mar 2025 07:15:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="sUeX4UTO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e+Ly3arK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TRu7g0+D";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2AG3vZvc";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oFg1gK8o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wjDRYzhA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lSquOEQz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fs5PfK5y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A179110E0A2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 07:14:02 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7685610E2AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 07:15:53 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DCBF51F38D;
- Mon, 31 Mar 2025 07:13:59 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E367021174;
+ Mon, 31 Mar 2025 07:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743405240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1743405352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XhvY6BQczok9g60AIDy9OSIKgryzoWsw++4Pjv3m0Oc=;
- b=sUeX4UTOEGGYkOWpHQCYw0yGzvIecNlOQiPuP5shTfG75yNYad3nysyttqmfL7pSx59lQm
- 0TZyTSyVjBijw9b8U7zlM+qSRZxzO0J+BY0Kov/1COe9isgbGdEOz4UdH7yNDmoC3zZtz2
- 6UzKMablUMo3B9vZqwbpCdH0AEnFxxk=
+ bh=lMf7BkFlomVn+3BURC4WMY8EIFh7cIxFbkZYJjSmOcQ=;
+ b=oFg1gK8oYgDm0BYgjjE0o00jaDhwF4zU+m1ZCM+CnlzuxocY4mRusay1ktTvxYmYFYcsY3
+ IU0MvYefx154OHWqzzEZTazpeVJFVzWCEHsPR6A7UsUt/yBnTRCTU2PBSAEEHvd3VhqvTh
+ yv80s15wV+83jgqTLezX1xxt1rEhHwE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743405240;
+ s=susede2_ed25519; t=1743405352;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XhvY6BQczok9g60AIDy9OSIKgryzoWsw++4Pjv3m0Oc=;
- b=e+Ly3arK0/rEfSVnE0tDnYxoCKccQz3/UzlfpQeoN5IBUr76qinE6JIihEUbxUisc5uDGP
- mTfrCOe3MdJBHtBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+ bh=lMf7BkFlomVn+3BURC4WMY8EIFh7cIxFbkZYJjSmOcQ=;
+ b=wjDRYzhAL0Q/1g2LwtQ34pmRZB153FlysclNkYS3ZEC3dl+5JfXpnfBOpOoMH7zN7Mfef+
+ AR69fliOOv51XiDA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lSquOEQz;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fs5PfK5y
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743405239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1743405351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XhvY6BQczok9g60AIDy9OSIKgryzoWsw++4Pjv3m0Oc=;
- b=TRu7g0+DulNjSEg+n/5W05FQ9JJpwv80UVHlqGIRhpqbB32XFsB0ZsAJ12m7lnlMP0T0yg
- mUW0kwWJXHKwvxn79wTtphFvilHSHu82Szshh25zqRJwfUfHpmimRAg5l38rVtEln20yxg
- te6hKKBOHiQZQEkmh/v/ROTbTAQVoIg=
+ bh=lMf7BkFlomVn+3BURC4WMY8EIFh7cIxFbkZYJjSmOcQ=;
+ b=lSquOEQzoPg3mN+gUxOkaaq+a3ytZci6RkeoOPGPsgvIsmgRskaCO2GuZHp3wWC7I51e08
+ M5Hd0779ZJrHJipzpaiIxgj+/zUyq7HtcaqbP/EaJzklHDT0oIqCm86+MNz+KsvejeQzbm
+ DuSrRSleCqVfoegP488fMwTqz6+tHP8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743405239;
+ s=susede2_ed25519; t=1743405351;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XhvY6BQczok9g60AIDy9OSIKgryzoWsw++4Pjv3m0Oc=;
- b=2AG3vZvcfGQENkXUdF1QiXt2QfXOlxQhOewf+9yE7ByAGN3pO+ijQgydBc3o3cyFGf8xQp
- YWLGQiNyKLsoB2DQ==
+ bh=lMf7BkFlomVn+3BURC4WMY8EIFh7cIxFbkZYJjSmOcQ=;
+ b=fs5PfK5yh3dlShBtsjela1JvaYgQMWj1AH2vhJ839R7d2vP67FFmJ8nfSswFiJ3W4bhNc8
+ 7Fbaxe2DLGI6E9Aw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7B2AA13A1F;
- Mon, 31 Mar 2025 07:13:59 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8718013A1F;
+ Mon, 31 Mar 2025 07:15:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id RWhZHLdA6mf5IwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 31 Mar 2025 07:13:59 +0000
-Message-ID: <c1809502-e9b7-43f7-9d88-0e615bf1ff94@suse.de>
-Date: Mon, 31 Mar 2025 09:13:59 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id TpiZHydB6meOJAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 31 Mar 2025 07:15:51 +0000
+Message-ID: <e2085799-e235-436a-8c5c-f6a51cbaeaaa@suse.de>
+Date: Mon, 31 Mar 2025 09:15:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 0/6] Introduce sparse DRM shmem object allocations
+Subject: Re: [RFC PATCH v2 5/6] drm/shmem: Add a helper to check object's page
+ backing status
 To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -87,6 +90,7 @@ To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 References: <20250326021433.772196-1-adrian.larumbe@collabora.com>
+ <20250326021433.772196-6-adrian.larumbe@collabora.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -113,25 +117,34 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250326021433.772196-1-adrian.larumbe@collabora.com>
+In-Reply-To: <20250326021433.772196-6-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: E367021174
 X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[collabora.com,linux-foundation.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,arm.com];
- RCPT_COUNT_TWELVE(0.00)[13]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
  FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Score: -4.30
+ FREEMAIL_TO(0.00)[collabora.com,linux-foundation.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,arm.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[13];
+ MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+];
+ ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -151,91 +164,68 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi
 
 Am 26.03.25 um 03:14 schrieb Adrián Larumbe:
-> This patch series is a proposal for implementing sparse page allocations
-> for shmem objects. It was initially motivated by a kind of BO managed by
-> the Panfrost driver, the tiler heap, which grows on demand every time the
-> GPU faults on a virtual address within its drm_mm-managed ranged.
+> Provide a helper function that lets shmem API users know whether a given
+> object is backed by physical pages, or else in the case of a sparse
+> shmem object, at least one of them is populated.
+>
+> The obvious user is fdinfo, which needs to know an object's resident
+> status.
+>
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> ---
+>   drivers/gpu/drm/drm_gem_shmem_helper.c | 18 ++++++++++++++++++
+>   include/drm/drm_gem_shmem_helper.h     |  2 ++
+>   2 files changed, 20 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 1bf33e5a1c4c..79ac7c7c953f 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -1033,6 +1033,24 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>   }
+>   EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
+>   
+> +/**
+> + * drm_gem_shmem_is_populated - Tell whether the shem object is backed by
+> + *                 at least one page of physical memory
+> + * @shmem: shmem GEM object
+> + *
+> + * Returns:
+> + * A boolean, where the 'true' value depends on at least one page being preset
+> + * in a sparse object's xarray, or all the shmem file pages for PRIME buffers
+> + * and regular shmem objects.
+> + */
+> +bool drm_gem_shmem_is_populated(struct drm_gem_shmem_object *shmem)
+> +{
+> +	return (shmem->base.import_attach ||
 
-I've looked at panfrost_gem.h and found that the driver's gem structure 
-has grown quite a bit. It seems to have outgrown gem-shmem already.  I 
-think you should consider pulling a copy of gem-shmem into the driver 
-and building a dedicated memory manager on top.
+The field import_attach should no longer be tested for detecting 
+imported buffers. Use drm_gem_is_imported() instead.
 
 Best regards
 Thomas
 
->
-> Because keeping a struct page pointer array that can describe the entire
-> virtual range is wasteful when only a few backing pages have been
-> allocated, at Collabora we thought a sparse allocation approach with
-> xarrays was a more efficient choice.
->
-> Since sparse and 'dense' DRM shmem objects must be managed slightly
-> differently, the API is expanded to allow client drivers to create sparse
-> objects and also to expand their page backing range, but everything else
-> should remain as transparent as possible and be handled from within the DRM
-> shmem system itself.
->
-> Discussion of previus revision can be found here:
-> https://lore.kernel.org/dri-devel/20250218232552.3450939-1-adrian.larumbe@collabora.com/
->
-> Changelog:
->   v2:
->    - Removed patch with helper for non-blocking shmem page allocations.
->    - Moved page_array definitions away from scatterlist interface to hide
->    them from consumers.
->    - Refactored sg_alloc_append_table_from_pages() so that it now calls
->    sg_alloc_append_table_from_page_array() to avoid code duplication.
->    - Undid extension of __drm_gem_shmem_create() argument list so that a sparse
->    shmem object is now fully defined in a parent function.
->    - Moved check for absence of backing pages when putting an object into
->    drm_gem_shmem_put_pages()
->    - Added explanatory comments above DRM WARN'ings across yet unimplemented
->    shmem code paths, like kernel vmap's and UM mappings of sparse objects
->    - Created drm_gem helper for doing the actual sparse allocation, to keep
->    the interface aligned with the existing one with regular shmem objects.
->    - Split the body of drm_gem_shmem_get_sparse_pages_locked() into two separate
->    functions, one which performs the actual page allocation, and another
->    one that retrieves an sgtable.
->    - Expanded the argument list of drm_gem_shmem_get_sparse_pages() and its
->    children functions so that it takes an gfp mask, in the even that we would
->    want to do non-blocking allocations, for instance like when we wish to
->    avoid races with the shrinker memory reclaim path.
->    - Created shmem helper that returns whether an shmem object has any backing pages.
->
-> TODO:
-> The following items need to be worked on, and will be the subject of a v3 of this RFC:
->
->   - Handle the special case when some of the pages in a sparse allocation range are
->     already present, rather than bailing out immediately.
->   - Redefining panfrost_gem_object::sgts into an xarray or perhaps a sg_append_table
->     to avoid memory waste in allocating more sgtable pointers than we could need.
->   - Deciding on the rules for sparse shmem object's kmaps and UM maps.
->
-> Adrián Larumbe (6):
->    lib/scatterlist.c: Support constructing sgt from page xarray
->    drm/shmem: Introduce the notion of sparse objects
->    drm/shmem: Implement sparse allocation of pages for shmem objects
->    drm/panfrost: Use shmem sparse allocation for heap BOs
->    drm/shmem: Add a helper to check object's page backing status
->    drm/panfrost/panthor: Take sparse objects into account for fdinfo
->
->   drivers/gpu/drm/drm_gem.c               | 117 +++++++++++
->   drivers/gpu/drm/drm_gem_shmem_helper.c  | 264 +++++++++++++++++++++++-
->   drivers/gpu/drm/panfrost/panfrost_gem.c |  14 +-
->   drivers/gpu/drm/panfrost/panfrost_gem.h |   2 +-
->   drivers/gpu/drm/panfrost/panfrost_mmu.c |  86 ++------
->   drivers/gpu/drm/panthor/panthor_gem.c   |   2 +-
->   include/drm/drm_gem.h                   |   6 +
->   include/drm/drm_gem_shmem_helper.h      |  29 ++-
->   include/linux/scatterlist.h             |  17 ++
->   lib/scatterlist.c                       | 175 +++++++++++-----
->   10 files changed, 579 insertions(+), 133 deletions(-)
->
->
-> base-commit: 2f9d51740cc30e0d2c8a23a55b1e20cf2513c250
-> --
-> 2.48.1
+> +		(!shmem->sparse && shmem->pages) ||
+> +		(shmem->sparse && !xa_empty(&shmem->xapages)));
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_is_populated);
+> +
+>   MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
+>   MODULE_IMPORT_NS("DMA_BUF");
+>   MODULE_LICENSE("GPL v2");
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index cbe4548e3ff6..60d2b8ef230b 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -302,6 +302,8 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>   int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>   			      struct drm_mode_create_dumb *args);
+>   
+> +bool drm_gem_shmem_is_populated(struct drm_gem_shmem_object *shmem);
+> +
+>   /**
+>    * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
+>    *
 
 -- 
 --
