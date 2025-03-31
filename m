@@ -2,58 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD024A76B77
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 17:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C556AA76B73
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 17:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB6D510E44A;
-	Mon, 31 Mar 2025 15:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC15A10E446;
+	Mon, 31 Mar 2025 15:59:23 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="U5x95cYU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s0/WC8HJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x6Oz5Ft+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XzIsJCYT";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA82A10E444
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 15:59:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA37910E43E
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 15:59:08 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AED981F747;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EEC0C21201;
  Mon, 31 Mar 2025 15:59:02 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743436743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1ocZEZJlr8cxv7b1CsSc92KZqlxu4k6D1ZmzRk9YtP4=;
+ b=U5x95cYUoBXyF5yp10BdyGaS74W3UCy9hSc5N1winQFo0SlD6JydmNJiQkjrprcM9+uDT8
+ 3KxKh7JjNVaDqa9IgNCK+estihX8flwsafQKoeV81rsc/8TnSl7CvWci9QsxvgE4QUrZjO
+ Nx+FIaR1SmKYp/x6Wnv24MSQeaA+8MA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743436743;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1ocZEZJlr8cxv7b1CsSc92KZqlxu4k6D1ZmzRk9YtP4=;
+ b=s0/WC8HJAaCxnRZpbzo2pcFkEQXsAa70iMzW9Z8xAVJ5W43jIzaZ6cTG1EtzCANtj3XwR2
+ 5OEJHjqYh+giG+BQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743436742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1ocZEZJlr8cxv7b1CsSc92KZqlxu4k6D1ZmzRk9YtP4=;
+ b=x6Oz5Ft+qWGOWMPB5jo6ZG+I+SUnjhD+omd1b15rKX7xXhBe2XSxI5pzFRV3sYyMr5+USJ
+ YvlFRdJAGTbP7XYiczjXD0Y+CHL+7MD/rvU8OPYB2Zlgkeori53t0/w/hijCAoeR/cJ80T
+ /eoiK3SGzlVmwJ454egQWFk+ryR163s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743436742;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1ocZEZJlr8cxv7b1CsSc92KZqlxu4k6D1ZmzRk9YtP4=;
+ b=XzIsJCYTTWTK9ix+wt0VnofsAXbZnSp7N13lE8ppu15CKOoJChL2sVxiLTC/fvlPg7YjN/
+ JB4aa+xx74UwF3Bw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7362513A1F;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B4AF013A56;
  Mon, 31 Mar 2025 15:59:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 8FvaGsa76mfdVQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id OA/tKsa76mfdVQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 31 Mar 2025 15:59:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, jani.nikula@linux.intel.com, mripard@kernel.org,
  simona@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 08/18] drm/sysfb: Merge connector functions
-Date: Mon, 31 Mar 2025 17:52:11 +0200
-Message-ID: <20250331155538.1173333-9-tzimmermann@suse.de>
+Subject: [PATCH v2 09/18] drm/sysfb: Maintain CRTC state in struct
+ drm_sysfb_crtc_state
+Date: Mon, 31 Mar 2025 17:52:12 +0200
+Message-ID: <20250331155538.1173333-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250331155538.1173333-1-tzimmermann@suse.de>
 References: <20250331155538.1173333-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
+X-Spam-Score: -6.80
+X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
+ BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,ffwll.ch,gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
+ TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
 X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: AED981F747
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,137 +116,288 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Merge the connector functions of ofdrm and simpledrm. Replace the
-code in each driver with the shared helpers. Set up callbacks with
-initializer macros.
+Move ofdrm's struct ofdrm_crtc_state plus functions to sysfb
+helpers and rename everything to drm_sysfb_crtc_state.
 
-No effective code changes. The sysfb connector only returns the
-preconfigured display mode.
+The sysfb CRTC state is a regular CRTC state with information on
+the primary plane's color format, as required for color management.
+Helpers for sysfb planes will later set this up automatically.
+
+In ofdrm and simpledrm, replace existing code with the new helpers.
+Ofdrm continues to use the CRTC state for color management. This
+has no effect on simpledrm.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/sysfb/drm_sysfb_helper.c | 14 ++++++++++++++
- drivers/gpu/drm/sysfb/drm_sysfb_helper.h | 15 +++++++++++++++
- drivers/gpu/drm/sysfb/ofdrm.c            | 14 ++------------
- drivers/gpu/drm/sysfb/simpledrm.c        | 14 ++------------
- 4 files changed, 33 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.c | 59 ++++++++++++++++++
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.h | 29 +++++++++
+ drivers/gpu/drm/sysfb/ofdrm.c            | 76 ++----------------------
+ drivers/gpu/drm/sysfb/simpledrm.c        |  6 +-
+ 4 files changed, 95 insertions(+), 75 deletions(-)
 
 diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_helper.c b/drivers/gpu/drm/sysfb/drm_sysfb_helper.c
-index 6deeac81a41de..355e025c7c625 100644
+index 355e025c7c625..368061b6f5146 100644
 --- a/drivers/gpu/drm/sysfb/drm_sysfb_helper.c
 +++ b/drivers/gpu/drm/sysfb/drm_sysfb_helper.c
-@@ -2,6 +2,8 @@
+@@ -1,7 +1,11 @@
+ // SPDX-License-Identifier: GPL-2.0-only
  
++#include <linux/export.h>
++#include <linux/slab.h>
  #include <linux/module.h>
  
-+#include <drm/drm_probe_helper.h>
-+
- #include "drm_sysfb_helper.h"
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
  
- MODULE_DESCRIPTION("Helpers for DRM sysfb drivers");
-@@ -30,3 +32,15 @@ struct drm_display_mode drm_sysfb_mode(unsigned int width,
- 	}
+ #include "drm_sysfb_helper.h"
+@@ -33,6 +37,61 @@ struct drm_display_mode drm_sysfb_mode(unsigned int width,
  }
  EXPORT_SYMBOL(drm_sysfb_mode);
-+
+ 
 +/*
-+ * Connector
++ * CRTC
 + */
 +
-+int drm_sysfb_connector_helper_get_modes(struct drm_connector *connector)
++static void drm_sysfb_crtc_state_destroy(struct drm_sysfb_crtc_state *sysfb_crtc_state)
 +{
-+	struct drm_sysfb_device *sysfb = to_drm_sysfb_device(connector->dev);
++	__drm_atomic_helper_crtc_destroy_state(&sysfb_crtc_state->base);
 +
-+	return drm_connector_helper_get_modes_fixed(connector, &sysfb->fb_mode);
++	kfree(sysfb_crtc_state);
 +}
-+EXPORT_SYMBOL(drm_sysfb_connector_helper_get_modes);
++
++void drm_sysfb_crtc_reset(struct drm_crtc *crtc)
++{
++	struct drm_sysfb_crtc_state *sysfb_crtc_state;
++
++	if (crtc->state)
++		drm_sysfb_crtc_state_destroy(to_drm_sysfb_crtc_state(crtc->state));
++
++	sysfb_crtc_state = kzalloc(sizeof(*sysfb_crtc_state), GFP_KERNEL);
++	if (sysfb_crtc_state)
++		__drm_atomic_helper_crtc_reset(crtc, &sysfb_crtc_state->base);
++	else
++		__drm_atomic_helper_crtc_reset(crtc, NULL);
++}
++EXPORT_SYMBOL(drm_sysfb_crtc_reset);
++
++struct drm_crtc_state *drm_sysfb_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
++{
++	struct drm_device *dev = crtc->dev;
++	struct drm_crtc_state *crtc_state = crtc->state;
++	struct drm_sysfb_crtc_state *new_sysfb_crtc_state;
++	struct drm_sysfb_crtc_state *sysfb_crtc_state;
++
++	if (drm_WARN_ON(dev, !crtc_state))
++		return NULL;
++
++	new_sysfb_crtc_state = kzalloc(sizeof(*new_sysfb_crtc_state), GFP_KERNEL);
++	if (!new_sysfb_crtc_state)
++		return NULL;
++
++	sysfb_crtc_state = to_drm_sysfb_crtc_state(crtc_state);
++
++	__drm_atomic_helper_crtc_duplicate_state(crtc, &new_sysfb_crtc_state->base);
++	new_sysfb_crtc_state->format = sysfb_crtc_state->format;
++
++	return &new_sysfb_crtc_state->base;
++}
++EXPORT_SYMBOL(drm_sysfb_crtc_atomic_duplicate_state);
++
++void drm_sysfb_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state)
++{
++	drm_sysfb_crtc_state_destroy(to_drm_sysfb_crtc_state(crtc_state));
++}
++EXPORT_SYMBOL(drm_sysfb_crtc_atomic_destroy_state);
++
+ /*
+  * Connector
+  */
 diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-index cf80b291014a0..7e3fe9fa5cff9 100644
+index 7e3fe9fa5cff9..91da27405a46d 100644
 --- a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
 +++ b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-@@ -37,6 +37,21 @@ static inline struct drm_sysfb_device *to_drm_sysfb_device(struct drm_device *de
+@@ -6,6 +6,7 @@
+ #include <linux/container_of.h>
+ #include <linux/iosys-map.h>
+ 
++#include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_modes.h>
+ 
+@@ -37,6 +38,34 @@ static inline struct drm_sysfb_device *to_drm_sysfb_device(struct drm_device *de
  	return container_of(dev, struct drm_sysfb_device, dev);
  }
  
 +/*
-+ * Connector
++ * CRTC
 + */
 +
-+int drm_sysfb_connector_helper_get_modes(struct drm_connector *connector);
++struct drm_sysfb_crtc_state {
++	struct drm_crtc_state base;
 +
-+#define DRM_SYSFB_CONNECTOR_HELPER_FUNCS \
-+	.get_modes = drm_sysfb_connector_helper_get_modes
++	/* Primary-plane format; required for color mgmt. */
++	const struct drm_format_info *format;
++};
 +
-+#define DRM_SYSFB_CONNECTOR_FUNCS \
-+	.reset = drm_atomic_helper_connector_reset, \
-+	.fill_modes = drm_helper_probe_single_connector_modes, \
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state, \
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state
++static inline struct drm_sysfb_crtc_state *
++to_drm_sysfb_crtc_state(struct drm_crtc_state *base)
++{
++	return container_of(base, struct drm_sysfb_crtc_state, base);
++}
++
++void drm_sysfb_crtc_reset(struct drm_crtc *crtc);
++struct drm_crtc_state *drm_sysfb_crtc_atomic_duplicate_state(struct drm_crtc *crtc);
++void drm_sysfb_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state);
++
++#define DRM_SYSFB_CRTC_FUNCS \
++	.reset = drm_sysfb_crtc_reset, \
++	.set_config = drm_atomic_helper_set_config, \
++	.page_flip = drm_atomic_helper_page_flip, \
++	.atomic_duplicate_state = drm_sysfb_crtc_atomic_duplicate_state, \
++	.atomic_destroy_state = drm_sysfb_crtc_atomic_destroy_state
 +
  /*
-  * Mode config
+  * Connector
   */
 diff --git a/drivers/gpu/drm/sysfb/ofdrm.c b/drivers/gpu/drm/sysfb/ofdrm.c
-index 470b93f0f791a..85db7441d1bf4 100644
+index 85db7441d1bf4..faaf35ba17f36 100644
 --- a/drivers/gpu/drm/sysfb/ofdrm.c
 +++ b/drivers/gpu/drm/sysfb/ofdrm.c
-@@ -998,23 +998,13 @@ static const struct drm_encoder_funcs ofdrm_encoder_funcs = {
- 	.destroy = drm_encoder_cleanup,
- };
+@@ -725,24 +725,6 @@ static void ofdrm_device_set_gamma(struct ofdrm_device *odev,
+  * Modesetting
+  */
  
--static int ofdrm_connector_helper_get_modes(struct drm_connector *connector)
--{
--	struct drm_sysfb_device *sysfb = to_drm_sysfb_device(connector->dev);
+-struct ofdrm_crtc_state {
+-	struct drm_crtc_state base;
 -
--	return drm_connector_helper_get_modes_fixed(connector, &sysfb->fb_mode);
+-	/* Primary-plane format; required for color mgmt. */
+-	const struct drm_format_info *format;
+-};
+-
+-static struct ofdrm_crtc_state *to_ofdrm_crtc_state(struct drm_crtc_state *base)
+-{
+-	return container_of(base, struct ofdrm_crtc_state, base);
 -}
 -
- static const struct drm_connector_helper_funcs ofdrm_connector_helper_funcs = {
--	.get_modes = ofdrm_connector_helper_get_modes,
-+	DRM_SYSFB_CONNECTOR_HELPER_FUNCS,
+-static void ofdrm_crtc_state_destroy(struct ofdrm_crtc_state *ofdrm_crtc_state)
+-{
+-	__drm_atomic_helper_crtc_destroy_state(&ofdrm_crtc_state->base);
+-	kfree(ofdrm_crtc_state);
+-}
+-
+ static const uint64_t ofdrm_primary_plane_format_modifiers[] = {
+ 	DRM_FORMAT_MOD_LINEAR,
+ 	DRM_FORMAT_MOD_INVALID
+@@ -759,7 +741,7 @@ static int ofdrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
+ 	struct drm_framebuffer *new_fb = new_plane_state->fb;
+ 	struct drm_crtc *new_crtc = new_plane_state->crtc;
+ 	struct drm_crtc_state *new_crtc_state = NULL;
+-	struct ofdrm_crtc_state *new_ofdrm_crtc_state;
++	struct drm_sysfb_crtc_state *new_sysfb_crtc_state;
+ 	int ret;
+ 
+ 	if (new_crtc)
+@@ -786,8 +768,8 @@ static int ofdrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
+ 
+ 	new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_plane_state->crtc);
+ 
+-	new_ofdrm_crtc_state = to_ofdrm_crtc_state(new_crtc_state);
+-	new_ofdrm_crtc_state->format = new_fb->format;
++	new_sysfb_crtc_state = to_drm_sysfb_crtc_state(new_crtc_state);
++	new_sysfb_crtc_state->format = new_fb->format;
+ 
+ 	return 0;
+ }
+@@ -920,10 +902,10 @@ static void ofdrm_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_ato
+ {
+ 	struct ofdrm_device *odev = ofdrm_device_of_dev(crtc->dev);
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+-	struct ofdrm_crtc_state *ofdrm_crtc_state = to_ofdrm_crtc_state(crtc_state);
++	struct drm_sysfb_crtc_state *sysfb_crtc_state = to_drm_sysfb_crtc_state(crtc_state);
+ 
+ 	if (crtc_state->enable && crtc_state->color_mgmt_changed) {
+-		const struct drm_format_info *format = ofdrm_crtc_state->format;
++		const struct drm_format_info *format = sysfb_crtc_state->format;
+ 
+ 		if (crtc_state->gamma_lut)
+ 			ofdrm_device_set_gamma(odev, format, crtc_state->gamma_lut->data);
+@@ -943,55 +925,9 @@ static const struct drm_crtc_helper_funcs ofdrm_crtc_helper_funcs = {
+ 	.atomic_flush = ofdrm_crtc_helper_atomic_flush,
  };
  
- static const struct drm_connector_funcs ofdrm_connector_funcs = {
--	.reset = drm_atomic_helper_connector_reset,
--	.fill_modes = drm_helper_probe_single_connector_modes,
-+	DRM_SYSFB_CONNECTOR_FUNCS,
- 	.destroy = drm_connector_cleanup,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+-static void ofdrm_crtc_reset(struct drm_crtc *crtc)
+-{
+-	struct ofdrm_crtc_state *ofdrm_crtc_state =
+-		kzalloc(sizeof(*ofdrm_crtc_state), GFP_KERNEL);
+-
+-	if (crtc->state)
+-		ofdrm_crtc_state_destroy(to_ofdrm_crtc_state(crtc->state));
+-
+-	if (ofdrm_crtc_state)
+-		__drm_atomic_helper_crtc_reset(crtc, &ofdrm_crtc_state->base);
+-	else
+-		__drm_atomic_helper_crtc_reset(crtc, NULL);
+-}
+-
+-static struct drm_crtc_state *ofdrm_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
+-{
+-	struct drm_device *dev = crtc->dev;
+-	struct drm_crtc_state *crtc_state = crtc->state;
+-	struct ofdrm_crtc_state *new_ofdrm_crtc_state;
+-	struct ofdrm_crtc_state *ofdrm_crtc_state;
+-
+-	if (drm_WARN_ON(dev, !crtc_state))
+-		return NULL;
+-
+-	new_ofdrm_crtc_state = kzalloc(sizeof(*new_ofdrm_crtc_state), GFP_KERNEL);
+-	if (!new_ofdrm_crtc_state)
+-		return NULL;
+-
+-	ofdrm_crtc_state = to_ofdrm_crtc_state(crtc_state);
+-
+-	__drm_atomic_helper_crtc_duplicate_state(crtc, &new_ofdrm_crtc_state->base);
+-	new_ofdrm_crtc_state->format = ofdrm_crtc_state->format;
+-
+-	return &new_ofdrm_crtc_state->base;
+-}
+-
+-static void ofdrm_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+-					    struct drm_crtc_state *crtc_state)
+-{
+-	ofdrm_crtc_state_destroy(to_ofdrm_crtc_state(crtc_state));
+-}
+-
+ static const struct drm_crtc_funcs ofdrm_crtc_funcs = {
+-	.reset = ofdrm_crtc_reset,
++	DRM_SYSFB_CRTC_FUNCS,
+ 	.destroy = drm_crtc_cleanup,
+-	.set_config = drm_atomic_helper_set_config,
+-	.page_flip = drm_atomic_helper_page_flip,
+-	.atomic_duplicate_state = ofdrm_crtc_atomic_duplicate_state,
+-	.atomic_destroy_state = ofdrm_crtc_atomic_destroy_state,
  };
  
- static const struct drm_mode_config_funcs ofdrm_mode_config_funcs = {
+ static const struct drm_encoder_funcs ofdrm_encoder_funcs = {
 diff --git a/drivers/gpu/drm/sysfb/simpledrm.c b/drivers/gpu/drm/sysfb/simpledrm.c
-index 0cee8e1b21084..6d76d125d126a 100644
+index 6d76d125d126a..986177e4a0f05 100644
 --- a/drivers/gpu/drm/sysfb/simpledrm.c
 +++ b/drivers/gpu/drm/sysfb/simpledrm.c
-@@ -727,23 +727,13 @@ static const struct drm_encoder_funcs simpledrm_encoder_funcs = {
- 	.destroy = drm_encoder_cleanup,
+@@ -715,12 +715,8 @@ static const struct drm_crtc_helper_funcs simpledrm_crtc_helper_funcs = {
  };
  
--static int simpledrm_connector_helper_get_modes(struct drm_connector *connector)
--{
--	struct drm_sysfb_device *sysfb = to_drm_sysfb_device(connector->dev);
--
--	return drm_connector_helper_get_modes_fixed(connector, &sysfb->fb_mode);
--}
--
- static const struct drm_connector_helper_funcs simpledrm_connector_helper_funcs = {
--	.get_modes = simpledrm_connector_helper_get_modes,
-+	DRM_SYSFB_CONNECTOR_HELPER_FUNCS,
+ static const struct drm_crtc_funcs simpledrm_crtc_funcs = {
+-	.reset = drm_atomic_helper_crtc_reset,
++	DRM_SYSFB_CRTC_FUNCS,
+ 	.destroy = drm_crtc_cleanup,
+-	.set_config = drm_atomic_helper_set_config,
+-	.page_flip = drm_atomic_helper_page_flip,
+-	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
  };
  
- static const struct drm_connector_funcs simpledrm_connector_funcs = {
--	.reset = drm_atomic_helper_connector_reset,
--	.fill_modes = drm_helper_probe_single_connector_modes,
-+	DRM_SYSFB_CONNECTOR_FUNCS,
- 	.destroy = drm_connector_cleanup,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
- static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
+ static const struct drm_encoder_funcs simpledrm_encoder_funcs = {
 -- 
 2.49.0
 
