@@ -2,77 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96EBA75ECA
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 08:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89460A75F4A
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 09:14:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADF1C10E076;
-	Mon, 31 Mar 2025 06:18:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F12E210E0A2;
+	Mon, 31 Mar 2025 07:14:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aQOU3ViF";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="sUeX4UTO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e+Ly3arK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TRu7g0+D";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2AG3vZvc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6A0010E076
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 06:18:48 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-3032aa1b764so5202421a91.1
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Mar 2025 23:18:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743401928; x=1744006728; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YqfZ9w/ImUwiK75rO1HvxehLxAen84p9wgdPi0LkNec=;
- b=aQOU3ViF4B+b6gWT7pZkA1X+Zw6BGcw5w+BY9DOeXijcJYLnI1fxfiwO12qb4U7I45
- v1dMJ9PRhFh5HUetfaowOd6iCnNVitlqEUHujCgURG4fILjn0lwqoazMsYBg/NjOWi+L
- Mlm7Fjjb8npR/S5POi8DU8FJzuwO/of4RmkuyBDV6mk7eZCftR+QA628IAJNyQC73jyq
- l8PE20dCl7CnaNNVPaqvogHdbEz1m2K3CRk9KmXO+EVFE7lg2Y5Ka2lPxXUzhrmW/RP9
- CWHGR+QnNQtTu2cVRHfnV0og34IHz7oXdT3KgpvD9iAeIeQ8xWK4qSgU47BNaM/x/ECC
- W9ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743401928; x=1744006728;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YqfZ9w/ImUwiK75rO1HvxehLxAen84p9wgdPi0LkNec=;
- b=ds7jczElHwQcdEmik6PDkQielToVv1NzHZ6F8mCnTw9I7Fv9jwr8UJ2uxoG9I7GCj/
- LeTUCM7DpBDia52uxK2/yB5cp5julVo2lY2jbq5Rt+x2bUfSy6rvX/UYXj2UhDuyhBg+
- nKoQ55TwvvYv9vLaxsU1r0G7fdOGrAtv2siN+1Wf2gownzLeEROviIdx9vvMfyaV3w6n
- 2erqrG+CyjUtZa5VpPFIwkPuagpepPUXvrV9IBcGnKGxbyqXvVb5ltEESv0psS3aw1RU
- 09rISG/zZE6QZlZtnRlpVNBQh6r9nmjabNjd4Ig7Ss7pneVF4tgHQGMbkRYkNj0Z/weE
- 50TQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXpxOvaZbdzZ/FB1j21k2G04GGxAOSZd2xx3CAXjk6+uRwKmI5H7lFZ7Rg554gVon/AkX/DnnDXZw8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXmNdBM2SwwvZEeQ0JReksnL6K33w3G1qnPMSU/5cDOy9EHFvB
- fldIqd42C/yDTAocN6VPxVQYhFjIQ2qwA8n8noIAqbZPMOausO3QCjRfaq5l
-X-Gm-Gg: ASbGncvkVx3wj/oX6j/kb5ijGKCk57mCUhYVYUspGiJ998qVzoOenugtWHQ9zDjunrP
- 3/uJpGvNPUVX+ioabXSmQRxEN80VZirzl7R9PCGb0Y/fmbTX5WYibi/1OlrIKXpG6VSt0YTOWgm
- 2SFutgGAQeRDSpAPxW8MAH0ISQwXYHPQp6tiI7hrm2MreBqhKao+4eqoMv5gDCPhLUSWpCTsqDU
- hWUoBrRgZ7srnN8VbvqnLvU3JdyuILLedCWrhyJ5g8IRLZmMh+P7Ne9vUXYbq1yrOq6XBvKUoc0
- +kIuCprm2DKEFyBNc/MRken0M4OtcF69JmnTx7CazAn6cZ0TL48fOS9nzAydVRUi
-X-Google-Smtp-Source: AGHT+IHaC2BICbj8uY5XRfbnRS9PlYZs2JBVZA/EL8010zewr1McTuIX82yBfpRHcKhShSMuoQVtFA==
-X-Received: by 2002:a17:90a:f946:b0:2ee:94d1:7a89 with SMTP id
- 98e67ed59e1d1-30531f7c875mr9920707a91.1.1743401928351; 
- Sun, 30 Mar 2025 23:18:48 -0700 (PDT)
-Received: from distilledx.SRMIST.EDU.IN ([103.4.222.252])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3039e10c545sm8847841a91.23.2025.03.30.23.18.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Mar 2025 23:18:47 -0700 (PDT)
-From: Tejas Vipin <tejasvipin76@gmail.com>
-To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- asrivats@redhat.com, Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH v2] drm/panel: boe-bf060y8m-aj0: transition to mipi_dsi
- wrapped functions
-Date: Mon, 31 Mar 2025 11:48:38 +0530
-Message-ID: <20250331061838.167781-1-tejasvipin76@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A179110E0A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 07:14:02 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id DCBF51F38D;
+ Mon, 31 Mar 2025 07:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743405240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XhvY6BQczok9g60AIDy9OSIKgryzoWsw++4Pjv3m0Oc=;
+ b=sUeX4UTOEGGYkOWpHQCYw0yGzvIecNlOQiPuP5shTfG75yNYad3nysyttqmfL7pSx59lQm
+ 0TZyTSyVjBijw9b8U7zlM+qSRZxzO0J+BY0Kov/1COe9isgbGdEOz4UdH7yNDmoC3zZtz2
+ 6UzKMablUMo3B9vZqwbpCdH0AEnFxxk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743405240;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XhvY6BQczok9g60AIDy9OSIKgryzoWsw++4Pjv3m0Oc=;
+ b=e+Ly3arK0/rEfSVnE0tDnYxoCKccQz3/UzlfpQeoN5IBUr76qinE6JIihEUbxUisc5uDGP
+ mTfrCOe3MdJBHtBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743405239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XhvY6BQczok9g60AIDy9OSIKgryzoWsw++4Pjv3m0Oc=;
+ b=TRu7g0+DulNjSEg+n/5W05FQ9JJpwv80UVHlqGIRhpqbB32XFsB0ZsAJ12m7lnlMP0T0yg
+ mUW0kwWJXHKwvxn79wTtphFvilHSHu82Szshh25zqRJwfUfHpmimRAg5l38rVtEln20yxg
+ te6hKKBOHiQZQEkmh/v/ROTbTAQVoIg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743405239;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XhvY6BQczok9g60AIDy9OSIKgryzoWsw++4Pjv3m0Oc=;
+ b=2AG3vZvcfGQENkXUdF1QiXt2QfXOlxQhOewf+9yE7ByAGN3pO+ijQgydBc3o3cyFGf8xQp
+ YWLGQiNyKLsoB2DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7B2AA13A1F;
+ Mon, 31 Mar 2025 07:13:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id RWhZHLdA6mf5IwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 31 Mar 2025 07:13:59 +0000
+Message-ID: <c1809502-e9b7-43f7-9d88-0e615bf1ff94@suse.de>
+Date: Mon, 31 Mar 2025 09:13:59 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 0/6] Introduce sparse DRM shmem object allocations
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20250326021433.772196-1-adrian.larumbe@collabora.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250326021433.772196-1-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[collabora.com,linux-foundation.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,arm.com];
+ RCPT_COUNT_TWELVE(0.00)[13]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,177 +148,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes the boe-bf060y8m-aj0 panel to use multi style functions for
-improved error handling. Additionally the MIPI_DSI_MODE_LPM flag is set
-after the off commands are run in boe_bf060y8m_aj0_off regardless of any
-failures.
+Hi
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
----
-Changes in v2:
-    - Always set MIPI_DSI_MODE_LPM in boe_bf060y8m_aj0_off
+Am 26.03.25 um 03:14 schrieb Adrián Larumbe:
+> This patch series is a proposal for implementing sparse page allocations
+> for shmem objects. It was initially motivated by a kind of BO managed by
+> the Panfrost driver, the tiler heap, which grows on demand every time the
+> GPU faults on a virtual address within its drm_mm-managed ranged.
 
-Link to v1: https://lore.kernel.org/all/20250330151304.128417-1-tejasvipin76@gmail.com/
----
- .../gpu/drm/panel/panel-boe-bf060y8m-aj0.c    | 109 +++++++-----------
- 1 file changed, 41 insertions(+), 68 deletions(-)
+I've looked at panfrost_gem.h and found that the driver's gem structure 
+has grown quite a bit. It seems to have outgrown gem-shmem already.  I 
+think you should consider pulling a copy of gem-shmem into the driver 
+and building a dedicated memory manager on top.
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-index 7e66db4a88bb..3b174b4a41b6 100644
---- a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-+++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-@@ -55,71 +55,51 @@ static void boe_bf060y8m_aj0_reset(struct boe_bf060y8m_aj0 *boe)
- static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
- {
- 	struct mipi_dsi_device *dsi = boe->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
--
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0x4c);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_3D_CONTROL, 0x10);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, DCS_ALLOW_HBM_RANGE);
--	mipi_dsi_dcs_write_seq(dsi, 0xf8,
--			       0x00, 0x08, 0x10, 0x00, 0x22, 0x00, 0x00, 0x2d);
--
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(30);
--
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xc0,
--			       0x08, 0x48, 0x65, 0x33, 0x33, 0x33,
--			       0x2a, 0x31, 0x39, 0x20, 0x09);
--	mipi_dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x00, 0x00, 0x1f, 0x1f,
--			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
--			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
--	mipi_dsi_dcs_write_seq(dsi, 0xe2, 0x20, 0x04, 0x10, 0x12, 0x92,
--			       0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83, 0x83,
--			       0x5c, 0x5c, 0x5c);
--	mipi_dsi_dcs_write_seq(dsi, 0xde, 0x01, 0x2c, 0x00, 0x77, 0x3e);
--
--	msleep(30);
--
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display on: %d\n", ret);
--		return ret;
--	}
--	msleep(50);
--
--	return 0;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
-+
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0xa5, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x00, 0x4c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_3D_CONTROL, 0x10);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE, DCS_ALLOW_HBM_RANGE);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf8,
-+				     0x00, 0x08, 0x10, 0x00, 0x22, 0x00, 0x00, 0x2d);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 30);
-+
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0xa5, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0,
-+				     0x08, 0x48, 0x65, 0x33, 0x33, 0x33,
-+				     0x2a, 0x31, 0x39, 0x20, 0x09);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x00, 0x00, 0x00, 0x1f, 0x1f,
-+				     0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-+				     0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0x20, 0x04, 0x10, 0x12, 0x92,
-+				     0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83, 0x83,
-+				     0x5c, 0x5c, 0x5c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xde, 0x01, 0x2c, 0x00, 0x77, 0x3e);
-+
-+	mipi_dsi_msleep(&dsi_ctx, 30);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 50);
-+
-+	return dsi_ctx.accum_err;
- }
- 
--static int boe_bf060y8m_aj0_off(struct boe_bf060y8m_aj0 *boe)
-+static void boe_bf060y8m_aj0_off(struct boe_bf060y8m_aj0 *boe)
- {
- 	struct mipi_dsi_device *dsi = boe->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	/* OFF commands sent in HS mode */
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		return ret;
--	}
--	msleep(20);
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 20);
- 
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		return ret;
--	}
--	usleep_range(1000, 2000);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_usleep_range(&dsi_ctx, 1000, 2000);
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
--
--	return 0;
- }
- 
- static int boe_bf060y8m_aj0_prepare(struct drm_panel *panel)
-@@ -157,7 +137,6 @@ static int boe_bf060y8m_aj0_prepare(struct drm_panel *panel)
- 
- 	ret = boe_bf060y8m_aj0_on(boe);
- 	if (ret < 0) {
--		dev_err(dev, "Failed to initialize panel: %d\n", ret);
- 		gpiod_set_value_cansleep(boe->reset_gpio, 1);
- 		return ret;
- 	}
-@@ -178,15 +157,11 @@ static int boe_bf060y8m_aj0_prepare(struct drm_panel *panel)
- static int boe_bf060y8m_aj0_unprepare(struct drm_panel *panel)
- {
- 	struct boe_bf060y8m_aj0 *boe = to_boe_bf060y8m_aj0(panel);
--	struct device *dev = &boe->dsi->dev;
--	int ret;
- 
--	ret = boe_bf060y8m_aj0_off(boe);
--	if (ret < 0)
--		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+	boe_bf060y8m_aj0_off(boe);
- 
- 	gpiod_set_value_cansleep(boe->reset_gpio, 1);
--	ret = regulator_bulk_disable(ARRAY_SIZE(boe->vregs), boe->vregs);
-+	regulator_bulk_disable(ARRAY_SIZE(boe->vregs), boe->vregs);
- 
- 	return 0;
- }
-@@ -234,13 +209,11 @@ static int boe_bf060y8m_aj0_bl_update_status(struct backlight_device *bl)
- {
- 	struct mipi_dsi_device *dsi = bl_get_data(bl);
- 	u16 brightness = backlight_get_brightness(bl);
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
--	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
--	if (ret < 0)
--		return ret;
-+	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, brightness);
- 
--	return 0;
-+	return dsi_ctx.accum_err;
- }
- 
- static int boe_bf060y8m_aj0_bl_get_brightness(struct backlight_device *bl)
+Best regards
+Thomas
+
+>
+> Because keeping a struct page pointer array that can describe the entire
+> virtual range is wasteful when only a few backing pages have been
+> allocated, at Collabora we thought a sparse allocation approach with
+> xarrays was a more efficient choice.
+>
+> Since sparse and 'dense' DRM shmem objects must be managed slightly
+> differently, the API is expanded to allow client drivers to create sparse
+> objects and also to expand their page backing range, but everything else
+> should remain as transparent as possible and be handled from within the DRM
+> shmem system itself.
+>
+> Discussion of previus revision can be found here:
+> https://lore.kernel.org/dri-devel/20250218232552.3450939-1-adrian.larumbe@collabora.com/
+>
+> Changelog:
+>   v2:
+>    - Removed patch with helper for non-blocking shmem page allocations.
+>    - Moved page_array definitions away from scatterlist interface to hide
+>    them from consumers.
+>    - Refactored sg_alloc_append_table_from_pages() so that it now calls
+>    sg_alloc_append_table_from_page_array() to avoid code duplication.
+>    - Undid extension of __drm_gem_shmem_create() argument list so that a sparse
+>    shmem object is now fully defined in a parent function.
+>    - Moved check for absence of backing pages when putting an object into
+>    drm_gem_shmem_put_pages()
+>    - Added explanatory comments above DRM WARN'ings across yet unimplemented
+>    shmem code paths, like kernel vmap's and UM mappings of sparse objects
+>    - Created drm_gem helper for doing the actual sparse allocation, to keep
+>    the interface aligned with the existing one with regular shmem objects.
+>    - Split the body of drm_gem_shmem_get_sparse_pages_locked() into two separate
+>    functions, one which performs the actual page allocation, and another
+>    one that retrieves an sgtable.
+>    - Expanded the argument list of drm_gem_shmem_get_sparse_pages() and its
+>    children functions so that it takes an gfp mask, in the even that we would
+>    want to do non-blocking allocations, for instance like when we wish to
+>    avoid races with the shrinker memory reclaim path.
+>    - Created shmem helper that returns whether an shmem object has any backing pages.
+>
+> TODO:
+> The following items need to be worked on, and will be the subject of a v3 of this RFC:
+>
+>   - Handle the special case when some of the pages in a sparse allocation range are
+>     already present, rather than bailing out immediately.
+>   - Redefining panfrost_gem_object::sgts into an xarray or perhaps a sg_append_table
+>     to avoid memory waste in allocating more sgtable pointers than we could need.
+>   - Deciding on the rules for sparse shmem object's kmaps and UM maps.
+>
+> Adrián Larumbe (6):
+>    lib/scatterlist.c: Support constructing sgt from page xarray
+>    drm/shmem: Introduce the notion of sparse objects
+>    drm/shmem: Implement sparse allocation of pages for shmem objects
+>    drm/panfrost: Use shmem sparse allocation for heap BOs
+>    drm/shmem: Add a helper to check object's page backing status
+>    drm/panfrost/panthor: Take sparse objects into account for fdinfo
+>
+>   drivers/gpu/drm/drm_gem.c               | 117 +++++++++++
+>   drivers/gpu/drm/drm_gem_shmem_helper.c  | 264 +++++++++++++++++++++++-
+>   drivers/gpu/drm/panfrost/panfrost_gem.c |  14 +-
+>   drivers/gpu/drm/panfrost/panfrost_gem.h |   2 +-
+>   drivers/gpu/drm/panfrost/panfrost_mmu.c |  86 ++------
+>   drivers/gpu/drm/panthor/panthor_gem.c   |   2 +-
+>   include/drm/drm_gem.h                   |   6 +
+>   include/drm/drm_gem_shmem_helper.h      |  29 ++-
+>   include/linux/scatterlist.h             |  17 ++
+>   lib/scatterlist.c                       | 175 +++++++++++-----
+>   10 files changed, 579 insertions(+), 133 deletions(-)
+>
+>
+> base-commit: 2f9d51740cc30e0d2c8a23a55b1e20cf2513c250
+> --
+> 2.48.1
+
 -- 
-2.49.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
