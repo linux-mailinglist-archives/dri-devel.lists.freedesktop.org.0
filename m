@@ -2,171 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B347BA76C9D
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 19:42:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2AA6A76CD3
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 20:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F18F510E17C;
-	Mon, 31 Mar 2025 17:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F80010E47C;
+	Mon, 31 Mar 2025 18:21:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="r9Svj+QY";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="qWcNPf46";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2088.outbound.protection.outlook.com [40.107.237.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07EE810E17C;
- Mon, 31 Mar 2025 17:42:26 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65D5A10E057;
+ Mon, 31 Mar 2025 18:21:06 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NqZ2IUiPFOXHn3bO0yyyuXOowHZF4rHFBjRNhTOQ+qsQ+KB15CKboPC9EOXtuJPwL377c8NOkqenpzvsgDs4Jz0cuivJBfEccjkA8Uy5SpYMcnZvUcTCvx1ZEm6FhgN+BHm46yM4jZOUB1DfE43e3M6nMS6t3FYYyve5FpkaohhyvYOgjaJ5+F3lzZl9eeXML4dqqBPyFRfSSOxmPAIn8hvwTzVZrmywkqaEzDwFGktSZs9xzXShJLyfrtyHz1bKWDEX7UiaXTEdrpJkiyBBzQZ5jnVuT8bsbt6AX8WdYJJt+xr3nZbMXn4S6HlY85VNPCpwGQ7cmukFz+b1/EchxQ==
+ b=navrCSszctRGAqK3/SmKKnefQq/Lagch1hy/6cFmOf+95GnFMz66quOE4JsErbPO5eSIox7bzE7nCzu6QI49Kyp3mLJ2u84tkwab139pKGazGqk87EXK8n8viV9uoeOjWS4Guf8AUNlzRvSEDLVyrm903iCp1yA619goyWuM5Id9OWgE+zmIQIUocsCwcJdgiFdgJ2yR9t1tAfvewk4e4VVqQ5B53Q7qrG353LbNfc/eHK4HyWi2tmPToChQitODPQTBAMejdfwYoktnmnNFDOOuUZlJJR7rXx+QaqNmWy+h1ORTcww34v6HUBrmfMghSyNxGDqkmwaq3vIlZBJBuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=guFteVA3KW6muJdrqQhm7cjp349BxMd0DSAGHziAmKM=;
- b=QFFJnmSfwchlwKFo669pfmGH/cx6VG5qX5efRKai29nFn8LiTgqglOBk6s1+2h3qWhFbC3jLg1CtIHjJxUZyrSVACRKlVcLh/sRQJtfLgqeAppdYiVLaNoJUdswlMqLwUcGrW+o91KYYqDgvmBakKvs8vyNvO1V7cZ8Ic8NLpYSPENAgb1hZrIwkWP8zMLTSXUdGuuOcbEfBTWoG/r9CeTuURn3mMgekRX2ZJXBCxy3kGT8OieCy4lCr/gVGR/SqehWNC8RrRwUjbQDMU75zH2zS5VL5J0soWn4uZuoDCn8SWwg2DGZQeaA+ZfkFWg7jSrVresyXdsq9SJ1j5IkZUg==
+ bh=1HXWYn57BxnPGCYJCdqO/OF2XjScQu04kGfJGcRbQQI=;
+ b=hmdjMficw7MpAuL/8YN0GRLnX1LuDWeP3phII5EJT+0oVUPr8WJP5Seg647+F1xBA5GYBbwvHZTkUyQcQZot/22nx9b1j/IcjE63LZFc6A7gwb8aK3+pM1fEe+jcoL6DkVHWvmIedX3ie9QyaZlb0MG1buZnuVBwo2bW7/AUUSlL3BK4huMlVCHOD5EnohfzsjAtvmrWQZ/5YlZooM8mfndSjFR8GxneU5eJCqp4cxaQ2hj7ji7Pf2yrhzicDa3KDa7j6zJFLsX+WeZ1vIB6PqciP542WXLQd3YJter5o5NvNvfK7RM6MzhHcdL52XHdl5XhSRwaiWo+7PzA6joXZw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=guFteVA3KW6muJdrqQhm7cjp349BxMd0DSAGHziAmKM=;
- b=r9Svj+QYvKGlKeSKuOm2XfgCZqb93i9qveja/1QVuf+7Py+IHxo9qTZr38C5MxpBJNBm5qs6woM+Cmi3JKjGJUpzWvBZS8ZboyCrDB59erL3DwiVFpBYIG8uRWy1nuQJ9xUBw5W6qfyGOx7jWjRyPfWFlWMeS8g6VfRNFGnThFs=
+ bh=1HXWYn57BxnPGCYJCdqO/OF2XjScQu04kGfJGcRbQQI=;
+ b=qWcNPf46f+h+a9HLSKrgQ3T3d14DlEkk8xA3AStbG0ZrrGcOoXqpyHICqOhJEZWtB6VhcgS4m9IMBcMEB6M/ujqC2pFXZsaoeahiJZQVyfefKOKtgQsB4AuqkCnH/Fy1uL8ALCiMdvc4nqTJeOxYUN181U4YEVYk6aRufiq4RDg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by DS4PR12MB9636.namprd12.prod.outlook.com (2603:10b6:8:27f::13) with
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SJ2PR12MB8062.namprd12.prod.outlook.com (2603:10b6:a03:4c8::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Mon, 31 Mar
- 2025 17:42:20 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%4]) with mapi id 15.20.8534.043; Mon, 31 Mar 2025
- 17:42:20 +0000
-Message-ID: <5eac0bab-60c2-4e94-9ab2-bad5f451c8c9@amd.com>
-Date: Mon, 31 Mar 2025 11:42:14 -0600
+ 2025 18:20:59 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062%5]) with mapi id 15.20.8534.043; Mon, 31 Mar 2025
+ 18:20:59 +0000
+Message-ID: <81cac86c-dece-4f0d-abd7-efd888a08db0@amd.com>
+Date: Mon, 31 Mar 2025 14:20:53 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V8 24/43] drm/amd/display: Skip color pipeline
- initialization for cursor plane
-To: Shengyu Qu <wiagn233@outlook.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- louis.chauvet@bootlin.com
-References: <20250326234748.2982010-1-alex.hung@amd.com>
- <20250326234748.2982010-25-alex.hung@amd.com>
- <TYCPR01MB8437BA1D5FFC25AE63F731D198A22@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <0add5ab1-0717-42a8-8994-a381b635040b@amd.com>
- <TYCPR01MB8437ADBCD38143B223E9384A98AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <9984f8e4-3f24-49d0-a7be-4f746dfbb4cc@amd.com>
- <TYCPR01MB8437D229F3DFFA7CA6CA02D198AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <a6489110-4e76-4977-a0d5-586e3b99ab0e@amd.com>
- <TYCPR01MB843722301025CE5047BCFA2898AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <e6bac4d3-d445-48d6-8121-39895a09ccff@amd.com>
- <TYCPR01MB84372C5EFC66F7CC9259FBBE98AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <TYCPR01MB843757F4E7BFF224712BD68F98AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
+Subject: Re: [PATCH] drm/amd/display: replace use of msleep(<20) with
+ usleep_range for better accuracy
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ James Flowers <bold.zone2373@fastmail.com>, sunpeng.li@amd.com,
+ siqueira@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, aurabindo.pillai@amd.com,
+ alex.hung@amd.com, skhan@linuxfoundation.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250326070054.68355-1-bold.zone2373@fastmail.com>
+ <2a2e9a4c-b888-45e1-a191-847dd8e7cb9d@gmail.com>
 Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <TYCPR01MB843757F4E7BFF224712BD68F98AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <2a2e9a4c-b888-45e1-a191-847dd8e7cb9d@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR01CA0039.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:2::11) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+X-ClientProxiedBy: YT3PR01CA0023.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:86::28) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|DS4PR12MB9636:EE_
-X-MS-Office365-Filtering-Correlation-Id: 238ba43e-c25b-4149-0d30-08dd707b62df
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SJ2PR12MB8062:EE_
+X-MS-Office365-Filtering-Correlation-Id: 986a1fa4-eb80-4b8b-1dc4-08dd7080c94d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cEd3Uk9TQmNhamdUTmdFM2h2OFNGYkt3OEFSM1p1b2JBWXZyeHFJaXRGcGdD?=
- =?utf-8?B?NkR1bWYra1IxVldqQTZVQit5YTU0NVVzM1JXOERKYWpBRXE4dklySFN3VTBJ?=
- =?utf-8?B?VTVTOHJHOHBMVlRWSG1ZNGNsL1NtU2puVUQxWVBRM3kvQWRnZUxpTmg3SlVi?=
- =?utf-8?B?WmxvV0t0SmY3WXFlSTBQaXAxSkpDK1NxbCtnbVROa3ZnaXFYNFFMeU05ZzBx?=
- =?utf-8?B?a2xYUWJxanYrTzJDck1haWFIVzVtNnBuZFhVYkVmdXppZ3hxSlVtREhldDdD?=
- =?utf-8?B?bmRaL2RGMHJicDJYRnRJSUxYb3VwRGM2UG9jWlErd1A4bWVKQlp4MDJSUWNy?=
- =?utf-8?B?aVo0Z01uWG9lUWZOZFhDdmZ6SUVkdFBRSit6MkE2MjZiSE8vWmVsM1c2Z1Y4?=
- =?utf-8?B?bTVkVjg1NXAyMUNxUjJKSmRzemxMbHNGaFg2am1LV2pJSmdEK3VMOTMxb0xB?=
- =?utf-8?B?NEJYcXczMGt1LzFmbW5rVG1VbGxkdDdmZjl1WFZ4TnVMb3FxbjdkcE9ZWWNC?=
- =?utf-8?B?NnpIRTE2M09ZUEhFd1JnNW5lcUgxUUNsMXkrbis3SDllS1RHMXlFcHkrc1Jw?=
- =?utf-8?B?ckZqcUhSbVVhaCtZWlBuMUIrNlJzeGhhdFUxS2ljRDFDK0dqSzhIRWJ4VE9C?=
- =?utf-8?B?NVcxN3ZoM2FaVFZpZ1g2dWhqdjBWSFF6UWhIR0tIbHBLM0lOZUNuMjNjSjdr?=
- =?utf-8?B?cDF1eCtXTVRkRUtxNjZDWGwrWW44YkEyRlA5dXhKTXpST01LQVJWQXJPSWNM?=
- =?utf-8?B?YVM5VDdWdFhzcjRMTUNGd1VTYXAzY1dqclBQSnJpQmlLR0VEaVVrVzV6ZFJn?=
- =?utf-8?B?dENVOGFmcnRIZStORDIrL2RCMHJMcCtJYkRqVThUeGRYTitWY0hFQk92QWJK?=
- =?utf-8?B?dE81UHNXckdRaTJQbndXR3FzcENVNXg0WmdNcHZRYzdudFBPN0lRMkZSUGJx?=
- =?utf-8?B?dTRnb1dablBUVjh6d1pMUC83VFV0ejF0TDRLZ1ZRdElZSXVLSEZXQjFWSWtC?=
- =?utf-8?B?Mm4wMkRiTzRXdk1TUFMyMmgxZ2I4d2tzSzErQ1FGbCt0SWNNaTM5aDlDUzNq?=
- =?utf-8?B?bnVrY0VOaUt4bllTdW9wMk9oSmkwdFU2enZHSHFvV2JjYVVvSzFVYnhTVm9n?=
- =?utf-8?B?RGdZS3lEWERiNHFUdjErR01MSWgxNWxsVFRnWkRYUkVJMlcwSVZqbEI3NDd3?=
- =?utf-8?B?Smpaakdkcm9CMDd2ZUI4cXovQkNMa1l5eWZic3V6Z3pSWWZkbTB2N1RsaTNK?=
- =?utf-8?B?RkJEczBtaE01ZWRBYk9CUFVLNHdiQTdyMUJXTXJaODNOMGZucW02ZEdvOGRO?=
- =?utf-8?B?TzZrbi90V245M05QUWNkZjZYd0wwMDBZTGt6b0hzTVFCRXdJWE1UUmhBKzdu?=
- =?utf-8?B?NHdDbktramUrT3FtYnFYTzljalJQcW9GTks3Nyt4SzBJTnNiQWZ1VVJTRHQ5?=
- =?utf-8?B?a0tmdDR6Vmd6WlZMaW04a2FiWVhCNlo5cFhvcnRsYmxzRDd5NW5HdFhpd2ZF?=
- =?utf-8?B?WFRsUmUwTmRXUlYrUDZvVVdGUFloTlZkVzkxNHR2eEhDTStvWlhzM2IvSlBs?=
- =?utf-8?B?RmNPcG80MUdQSHBPbWZSemlaOXNFQXp2dEFqNUozaFVKdEVXb3lSK1F4Zmtt?=
- =?utf-8?B?TC9RSGFCNTFON0ZqdCtaOWxrbVI3N1E1ZGs3VS9UZzBpQ2tzU29Rdy9vd2l6?=
- =?utf-8?B?LzAzc2R1Q2J1MzFLRGJ5ZE8wU0kyU3lXbGJFb3lWSTFyRmlnMEg5VWhLRG5K?=
- =?utf-8?B?NndadzhPQnBLSjVydFNnR0kyYlJEV0czYklnOE9Eei9lU09uNGJ6cVVDTmI4?=
- =?utf-8?B?TmVWSC9vNWhaK2xUUUh1SDJzazR2dURXWEFXd0E1Tys1MDhRUmkrU1I1VGNx?=
- =?utf-8?Q?y1f1PrM782v14?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RndIVG9XUlFMVjdIdDVrSmZydmhiZVZ3LzNJd3VJSkVtaHd2d1dpOHhudk9p?=
+ =?utf-8?B?VzF6SjduQjhLY0ppdVlRTzFVTlFFRXFrUDVvZTVIbWQxbTZrR3Vma2JOQlRm?=
+ =?utf-8?B?RVFnUENpTEJWMmY4WlZ0UUNhWUI0WWJnNFY2eE4rSDBnVTBQMlNQWHgyN0dM?=
+ =?utf-8?B?a1M3VzJKNWxCUUdKbUt0bGdrZllWK0puaVZXM25LVzI5MnA2Q05rcGpqU3BL?=
+ =?utf-8?B?b2pJUllpOEVucVdVZTIvczhOYWNpUFBDKzdBYm1pUFBQYmJ3bXpKbmdHR3ZM?=
+ =?utf-8?B?V2tPRExhbHlLUWdTTkcxNXhiT2VNdEhiaWRxRDdqbTJPT3czVUZtVUF5LzFU?=
+ =?utf-8?B?NjdEWTczMittN3ZFSnBrSklwZFF5MHBZUHE0c251Q1FPZjRMaFlPVTR3YWZP?=
+ =?utf-8?B?V1BjcDhDL1hxZUVuNXIwY0ZURFpnYktXM2h6OXAyTWx0UUF0ZzRjN2pTWHYv?=
+ =?utf-8?B?MmRFYllvN0RUdE92amF4UEU0bEJwVnN3MTBocUVzbFVmMG5ucXNjQjBNcGhp?=
+ =?utf-8?B?UnVQNlBzd0JvMVowY2xPM21Kc1JDKzkxOGVaSmVWMjNQV0NtejJPa3h6ZndT?=
+ =?utf-8?B?dHRlSkhpbFl1eE1DRXNKZVB5d1A0ZjBUTllaaW9Bd1JLWUFRd25xRzVROGp3?=
+ =?utf-8?B?aFlPUzYyWkxzMU9Sd2JXNUNaVDJRcXVUYVFqK09JOEUxYlhOSDA1anlPaFNj?=
+ =?utf-8?B?dVFxaHpYWE9zRTIxaDRTTWdIVEhOV00wbkZNOVNjbWdnSDIvamNEMllNN3lH?=
+ =?utf-8?B?Q3JNbEVMODliQ3dHMzhhMFNXbHQwTXNSYUduaU52dHd5R0FydGtCVUtsNDlC?=
+ =?utf-8?B?TFZJT096YkRCV1JpSldmVExwOGpkSWM4OW9ZT3plZnlBa0ZoOWtLVXJVd3dC?=
+ =?utf-8?B?SGNMMVh2N3pzNjFOZGlMVEJnWjZYYkx2UjloSXEyTjN6NVlTaTdPekUzLzZk?=
+ =?utf-8?B?YWJlNGFYZ1Y1SlJBWDZlSGNkL0dYQ0hBdG0wYlhtTExpc3VvdmhidWgwQ1VE?=
+ =?utf-8?B?Z1RzT0wycGp5QzJYL3pSUER1S2xoU1NsQTdyeHpKMk1tQi9GdkE3eXM3UzU1?=
+ =?utf-8?B?ZE9TNGtaLzFpNDY0dDlpc3pDS0l3K1dYbmUwVFkzWXYyaE1qR2ZLQVIyenFr?=
+ =?utf-8?B?MTVNMmNQQkFEd29qaU0wczc2ZENXS1NicC9WZTJXZnlxVGh1WE4yazhibDZs?=
+ =?utf-8?B?OThocFpkVFJVbkpFeDJSVmMrL2o0YTNvRUE2SnlZeFltQjEzcm81YWRpaVcw?=
+ =?utf-8?B?Tm4rTjk2QW8rVXZJMzdpRzhobGlRbFd2Ymh1SVhoNHBZMXJHYStxekhYZGV6?=
+ =?utf-8?B?NWZzcUpETDZXclFIUC9wR0w3UGRLQXpweTRHQ2pBUC9zSWRTNnpOUGhiSjZ4?=
+ =?utf-8?B?N3o4eFFZYkZDMzZhYm82bE9WVldoNTRCbUdsNXZ2Mnh3ZmIzci85N1RueHd0?=
+ =?utf-8?B?WS9nZGg0b3VOZjFOaFhiMXNOMkR2Y2NNUXlvdWpzNDdiSktVM09TMTAxUHZh?=
+ =?utf-8?B?VytyczNPaTduRlM0eW5iNENob0JsRzJTVG94bE8vQlM0cDExcVRiaTc5QkJF?=
+ =?utf-8?B?QlB0ZWxRSksxU2RHejZGbUlDanpLUjBaSlFPdjVRMnFibnFmdWNPMllNTFFB?=
+ =?utf-8?B?bUVKYUpqOS9MRDNsYkVDRDkvUk91SzZna2ZWMU1SRWNBMmRUR3lUMS9DSTVC?=
+ =?utf-8?B?anNuWHpyRUZpRU1NaXlJcEo0bks3dWZ5K3N1U2J3d1p3WjJiU3I1d0d6bUtv?=
+ =?utf-8?B?a2kxWjNrWlZOeDBGaE02OHo1eWNUQm53V2RVdURTOEd3eU0yL1FQSG9WRTVO?=
+ =?utf-8?B?ZXg0N2ZsYVc5RTRZZElhVUNkbUJ1NnFjSVBNYzJodWhFVjZTZ0hqd2szQ3Vi?=
+ =?utf-8?B?VG5zWEhBVHBkSjREbWZRZTJFenRIYi92Tnl2ZGxsKy85bFpLS1owVE9OUUFS?=
+ =?utf-8?Q?L2q8UpRBvjk=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TDFzMHYzb1JpR1BmUjNHQjlYUHNSYmZOWGp6R1pnc3FMVENtNWdqOHVtU2dD?=
- =?utf-8?B?M2dGR2k1YXpkbEZpZjRsUzFNMlc1bit0QXBZY2lpK1VocjJCcCtoU21EM0l4?=
- =?utf-8?B?bUVDRzFwaEZVdXRna3RSR0M1QnlEdlpwMnU1aEwrd2Z3QUNaT25oNEdQTlJE?=
- =?utf-8?B?ZFFJYk1FcDc2aFdVbXpaOUc4WlREZjFiRXpaeWg5Q0Q1NzV4aWVkT3ovU2sw?=
- =?utf-8?B?OEpBQUFFQlFlUmVmamVkUVNza1dNaGJvY0xnWVkxVjRRYUFvV0g3UkdlWGFS?=
- =?utf-8?B?aG9kWVhST3B6WTRPUUQzR1JqZXNvWkMzS2RVbWpuQzh6K0ZhVTY2SkxjaWpj?=
- =?utf-8?B?Qm8wY015UlNqRWp0QUhPSHVMbzNCOW9oT2szV29tTmlQU2c2VnRTd0U2QlNM?=
- =?utf-8?B?dzRCN1hZeFJXWnhEY1FpbVI2VDg4RmxRM2FzS1QveUxrT2haUURpbXA0YnBw?=
- =?utf-8?B?OVNnNDcybCszQVBVN0IvNUtRakxweUxGclluaDRNRk9sZGx6RWN0NDZqc25l?=
- =?utf-8?B?TnVocmVrR2FNL2FzdWhhMktWRFcvRHJnR1RuaXNIbm5iWWJLcHpDWFFMWlVJ?=
- =?utf-8?B?RDJrQUliZHErbHJiWk9yblRJNlh6MzFZb0d5eFEzVlVMN05WQkJEbEpxTXZw?=
- =?utf-8?B?dm9wVnRJRFRYRS9DcnM4dkJYZlVwWitBNy9XekdkMUJCRkdUVEZFSlJaQ0lJ?=
- =?utf-8?B?Uys3dVpEN3c5UUpOSWhUend0aFN3cW5UOHFvdURCQzFYZlpPV0lQcGZpUko3?=
- =?utf-8?B?L3ZheTZhakNDVDlqRUx2NEtHYzE4NVF0ZlZSd3hOWFFrWU9GMDJrTGhtd2Rs?=
- =?utf-8?B?ZHFkRHJrVURaWHplejBxdEl6VWZkcXVaaHFVMFFWSlVIdHVkZzV0YTh3bWI5?=
- =?utf-8?B?Vm1DNnVyOHV2ejJQZDR5ZE1oUnQ2RHplcVlUUUpyYmZpa2ppMlpQay81Zm0y?=
- =?utf-8?B?bzk0a1BvNHBqblE1eWdBMTJHUmFmVXFwRGZ0TFhoaHd6c3EwUmZ6SjVKZmZk?=
- =?utf-8?B?NTBneDhiZlBES3RJa2NkSHY5RytzNGVDUXNtWEpRNEZtSnhtVWJWWjdmNmtO?=
- =?utf-8?B?VHVSa3ZuZEFTMFBYRFkwdUhOZnhjSXhLaDN5bzZhbkhDcVIzbm8xL21lRDAx?=
- =?utf-8?B?UHN3cTgwNE83MVRPamVGcXRUWHhhekQ1MTY0OTBydE9oWC9XajJpWWM0bnNk?=
- =?utf-8?B?WFBPOFNoKzIzTjNEQTk2MHJNVlhSMDN4UU5EWUpLM3NId3RCZVpjSldpT2Jw?=
- =?utf-8?B?UFU0Q0JGd3A2alNDOWlQY3pqcU92MDRjUk9LSDNnK3ExbVJlRC9PM29rbjly?=
- =?utf-8?B?VnBqeDFDMXNoWExLeE82KzdUWWY0RHFnMGxFMWVEYzFNTCtCaThZZmRWOGtL?=
- =?utf-8?B?T2pqRjJOcTdWeENVbWJrZ2I5RDNFQlkrcVcybzl4YjZIOFIzcEdNMG1mNzRF?=
- =?utf-8?B?VW5GT3FmWXJtanNab0kxZnJBaHRET0N0SVZPTk1YTWUxZDBOVEIrUmk1VnVL?=
- =?utf-8?B?TWc4L0hLa0JvQmgxUmViVk5IRGwxeUZERnJKU255UlI5VWplRnhsRmFlc2la?=
- =?utf-8?B?VUJMVGVKNDBZUE90Q25FNjlKZmJqQjFWNml5WW4xVnRIY0t5MVhkbTRHdWMz?=
- =?utf-8?B?WTBtUUc0TENLZEszcFArTkFScGwyeVIwZ3ljcGlxRCs2MTNWQi9UQWZMc09P?=
- =?utf-8?B?bXVEUUdVUW5QbEFLaWloVDl5WmJJOTZ1c1ZUYzNNSHV1dEEzNHJTYjMwT0lk?=
- =?utf-8?B?UmpXQm0zTGxGYVBML05PcGY1VkNDZTVyOFVFZmc2aW9uNmVVanFwYUgzaE9i?=
- =?utf-8?B?VXo4NGthNTI5bDBRWlo4V2JTYXp6dG9kNVN0SHF2RWFXOXZDQ0s5LzR6RFR0?=
- =?utf-8?B?VzNLZ1k4dGVrZXVTZ0xtNkcrcUNtdStPV3NlVW1nUjBpdUFaOXc2SlZFM3NF?=
- =?utf-8?B?ZU9LVFFQWHBLTXk0bVM5RDlvL095Z3owQjdTNmhXTGs4d09XWkRwWnZmY1dq?=
- =?utf-8?B?VUw4alJqb2ROeDR3eDhoWEZTTVBTeWFveER2TlJkeWEwMjNWRnFQQm1NcFRu?=
- =?utf-8?B?dHpFZ1Bsd0tPR2t0YnNRMWZuZmlWdFV1UU9BQkE5M3FXNHNNV3NWb0ZnemRU?=
- =?utf-8?Q?M2f+0qGCSzLmGeTcpxZ8eiiUE?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QzZVTTh6ZzN0R1NaekxJbG1qSEN4Rnd0TUd2cCs5a2RjV0RCM1d0YmFhcTBX?=
+ =?utf-8?B?eExrRFVycUxSbnRmTzR0UjlEOWpWbENNRTZxUS9Sa1FTN05ZTllHbEFWZFZY?=
+ =?utf-8?B?R1N3V2xFdjJIMzlJQ1czOHVJVlkzZnRoUHFwYzdvMTFMSDRUU0JidXAzeUtL?=
+ =?utf-8?B?MlgyVFJOMmptZnZpNmIyMWZEQ2FXQytmYVQ3MWMvTDdGbXNkZTVjZWJXaHk5?=
+ =?utf-8?B?RWtRemZES2VSWmFSRFJWbWl3ZGJZbkkvSzU5bUJKOHllQU5KUi9lWVIrYklh?=
+ =?utf-8?B?N3NsZWo0ZjlvdDNFVkk1aFdDN1NLYWg0QXJ2MGdMZVZPNFFyL2l5R3hSQXFj?=
+ =?utf-8?B?VDJyZ3BIMnpXYng4MVBod09La1VMMFJOMkN4WG5ib2Z3RUYyTExpTFpURDNH?=
+ =?utf-8?B?Z3IzUkY4WmhlK09xMVd1ekVsTlRKWWNtV1RRZk03ZGhLWjY1bGRwSlpleHdp?=
+ =?utf-8?B?ampyR2VWc2F0SXFlRDhJZnpWTVc2TmtiMXpDZVRGTWo4NXB4RHhSU25uWVNG?=
+ =?utf-8?B?QjFWdjU5YjZFMkorUWVkVlJsZG9NRHdlNzNjNG8weU1hU3krcksraXBHT2Fr?=
+ =?utf-8?B?ZlR0RTlSK3hCZHFSYXg0RXpydTBmMWRSWVJFeXF1VVB1dXRYMUxsb1Q3azV4?=
+ =?utf-8?B?UjdZVk9saytZUGhoY0VRVGRZZGs4WHVpYmlyL2tWS2pTYjgwN0M5azQzR2xi?=
+ =?utf-8?B?bFQyNkdsQi9tNXBnanROQ2dxaW94dU9SM3FERHpVbzBwRS9CL2dpMUlBOS9r?=
+ =?utf-8?B?YzJITUNSdDhBcTdvRFh6bGEyYm16VExTYmRIZjl2RmlQUTQ5bzBqMHpTUFln?=
+ =?utf-8?B?VmJQRTJBRzRQM0cxak4wWnJ6UU1TdEoxZmJZSW42bXp1OVF3bVFRdlBobDV2?=
+ =?utf-8?B?dmZnS1o1NkVBaU1QemI0SzEwQWlaWVMwUVhQLzh4WklzZkdqUDVHVGN6cm5E?=
+ =?utf-8?B?OVc3dHErTUtxcU5SSTlPUURxMmNaLytiVnMvdXIrOElRSHkvUTBZTnlCUjg3?=
+ =?utf-8?B?dmNWV2kydFZCMEV4Y2N4Q01aVFJFS3NXZ2lZN3VZeEUydkNudlpWZXF5ZGti?=
+ =?utf-8?B?bVp4Nmp3T3BqVnE1d0pOTlJmVG92b00yRzhPNkM5RDRFTUhwVkJSNkQ5U0o5?=
+ =?utf-8?B?MjRNMEtPS1R4OUZqbkMzM01STi9hOTdXbnZWTUlnNXZ4ZGJUUCs0dGlvdVRZ?=
+ =?utf-8?B?LzZoOHJIRjFXanc3YnBnZDMvRFZURTYwM0padExSUlkzbVdBRWxqUlBHSW1O?=
+ =?utf-8?B?WDVnUERtbjJ0MkZMWWU4T1IwdjgwUldiUVVES3hWd0orazFmMitPaFlJejBw?=
+ =?utf-8?B?OGowWVpRbXNpZ3hBaEhCSjVJT2xKZ2wvNk9ZNjJMcDVrbFpOU3JDSEtldHRz?=
+ =?utf-8?B?Wjgydm1TUUpybmhFZ0dhVTBLay82UlJGRU9LcmJBZlpabjB4UkhhdDBHU2hU?=
+ =?utf-8?B?TzdFUkx5WHFFaWpvSzNHMFNtTnRXNk1pZ3NaN1U5QTRKcFpvakVPYVY5c2xZ?=
+ =?utf-8?B?by9YUUNqeXpLVVloTC9MVGdMK1NCSlJkLytIU0UwNHQrb3lDTCtJVzJDdCtH?=
+ =?utf-8?B?RnY4WGFqWXpKeDVwdkdKeDhXOXJndmZNNjlUQXhUUllZYmt1RHN5Z0twNzlL?=
+ =?utf-8?B?ams0Uy9YNW4wNGN5U0VQSCt0a2lwbHVhSnoxRGpKUHlQUmpMbVdTOFBHVFZR?=
+ =?utf-8?B?N1hFRk5lY0dCUk9URE4wdHgxR1JNL3VXMVZ0TFNCOE1WNmlxWFEwa1lVNzNE?=
+ =?utf-8?B?ZDU3bVlvaEt0VjU3VHRwVmUyZm5GVW9PNXFXOW9ZeWh2RW04aWl6WjBtV1V6?=
+ =?utf-8?B?dnlnMSt2WHVIeFFtc1ZqUnNndDczZGpsa3ZmcEtvOUcxc2Y1Q3NUNHl6Z2o1?=
+ =?utf-8?B?c2tnQ0J3bkltWHBZM0EvY0tnTWt4cEpHNXRsZ3FKV21hSmRJOXRTMWNtbTVi?=
+ =?utf-8?B?KzF3WVdpVkdraFB6akVHNTdycEhEMVhsOXFUcEtCNS9LQUR0VzRHRDljMFR4?=
+ =?utf-8?B?T2plY3F3N2hjb3ZFVFAvZGV0a3R4SExwTFJhM0dkT3VCVGpMSmhOWVBKcXlW?=
+ =?utf-8?B?UnlMTU92cDJjcFBnSjJFMDY2ZXJ1S1BqNkZzSWQ4RitPbzVqbXRrdks2U1E2?=
+ =?utf-8?Q?AcGqN/sMfs4SkTYgHgGGyu1+x?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 238ba43e-c25b-4149-0d30-08dd707b62df
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 986a1fa4-eb80-4b8b-1dc4-08dd7080c94d
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 17:42:20.3596 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 18:20:59.4851 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lYoiovGUYea0NXVfObc43Kr2mc55ZJcHJiZ3bKX2g9s1QeUyNyb1pod1HkB9ifyapHzlck2IT1alTgJO/GVT1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9636
+X-MS-Exchange-CrossTenant-UserPrincipalName: jMf+5sueQ9ASrL1BFt2ugF+OIGnZ2MHbacgs98jrmEWtJvPZ0+CQWaJs488BbFpArzfhUNWyJc3sr9D0yv4Czg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,141 +171,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 3/31/25 11:04, Shengyu Qu wrote:
-> Or we can add some kind of "linked with" info to plane's COLOR_PIPELINE 
-> property, to let userspace know that cursor plane and background plane 
-> share the same colorop config. So that userspace could do extra 
-> conversion on cursor image data to avoid display wrong cursor color.
-
-That's over-complicate and makes little sense for both device drivers 
-and userspace applications.
-
-If any planes share same colorop config, a device driver exposes the 
-same color pipeline with the same colorops.
-
-If a plane does not support color pipeline or a driver doesn't want to 
-support it, there is no color pipeline and no color objects.
-
-Again it is up to compositors or apps to determine how color pipeline 
-and colorops are used (or not). For example, both primary plane and 
-overlay plane have the same color pipeline, HDR can be enabled only on 
-overlay but not on primary.
-
+On 2025-03-31 08:34, Christian König wrote:
+> Am 26.03.25 um 08:00 schrieb James Flowers:
+>> msleep < 20ms will often sleep for ~20ms (according to Documentation/timers/timers-howto.rst).
 > 
-> 在 2025/4/1 0:50, Shengyu Qu 写道:
->> Thanks, I mistook about the MPO document. Maybe we should also disable 
->> colorop on the background plane of the cursor plane? So that 
->> compositors would do sw color convertion on both cursor plane and 
->> background plane, which should keep cursor display correctly.
+> Our display team has to decide but I don't think that this patch is justified.
+> 
+> The time given to msleep is just the minimum time necessary for some HW action to take place. Waiting longer than that is usually not harmful except when you want to optimize total operation time.
+> 
 
-Cursor plane has no color pipeline and thus it has no colorop either. It 
-inherits color processing from its parent plane.
+Agreed. Little timing changes often have unintended effects.
+I have no desire to change working code unless it's required
+to fix a real-life issue.
 
-You can create a color pipeline for cursor plane for your hardware. If 
-none of existing colorop matches your need, new colorop can be defined.
+Harry
 
-
+> Regards,
+> Christian.
+> 
 >>
->> 在 2025/4/1 0:34, Alex Hung 写道:
->>>
->>>
->>> On 3/31/25 10:31, Shengyu Qu wrote:
->>>> Sorry for vague expression. I mean that I think we shouldn't 
->>>> register DRM_PLANE_TYPE_CURSOR in the driver, as we don't have 
->>>> actual hardware support.
->>>
->>> This is not true. AMD has hardware cursor support.
->>>
->>>>
->>>> 在 2025/4/1 0:26, Alex Hung 写道:
->>>>>
->>>>>
->>>>> On 3/31/25 10:12, Shengyu Qu wrote:
->>>>>> So currently we have to hope the compositor won't use 
->>>>>> DRM_PLANE_TYPE_CURSOR planes at all.... Why do we still register 
->>>>>> DRM_PLANE_TYPE_CURSOR in the driver?
->>>>>
->>>>> I am not sure what your question is. A compositor can choose or 
->>>>> skip any hardware features, but this discussion is out of the scope.
->>>>>
->>>>>>
->>>>>> 在 2025/4/1 0:06, Alex Hung 写道:
->>>>>>>
->>>>>>>
->>>>>>> On 3/31/25 09:43, Shengyu Qu wrote:
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> Thanks for reply. So currently we have to apply color conversion 
->>>>>>>> on the background plane of the cursor to do some color space 
->>>>>>>> conversion. What would happen if cursor and background plane 
->>>>>>>> needs different conversion config? Or we just give the cursor a 
->>>>>>>> dedicated plane?
->>>>>>>
->>>>>>> This scenario is not supported on AMD hardware, but software 
->>>>>>> cursors on other plane types won't be affected.
->>>>>>>
->>>>>>>>
->>>>>>>> Best regards,
->>>>>>>> Shengyu
->>>>>>>>
->>>>>>>> 在 2025/3/31 22:28, Alex Hung 写道:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> On 3/30/25 06:59, Shengyu Qu wrote:
->>>>>>>>>> Hi,
->>>>>>>>>>
->>>>>>>>>> Do we really need to disable cursor plane color pipeline 
->>>>>>>>>> support? I don't think we need to disable that if it is 
->>>>>>>>>> supported, since there might be some user-defined colored 
->>>>>>>>>> cursor icon.
->>>>>>>>>
->>>>>>>>> This patch applies to AMD hardware only: https:// 
->>>>>>>>> elixir.bootlin.com/ linux/v6.13/source/Documentation/gpu/ 
->>>>>>>>> amdgpu/ display/mpo- overview.rst#L101
->>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> Best regards,
->>>>>>>>>> Shengyu
->>>>>>>>>>
->>>>>>>>>> For some unknown reason, seems my mail is not shown in the 
->>>>>>>>>> mail list archive, so I resent it.
->>>>>>>>>>
->>>>>>>>>> 在 2025/3/27 7:47, Alex Hung 写道:
->>>>>>>>>>> cursor plane does not need to have color pipeline.
->>>>>>>>>>>
->>>>>>>>>>> Signed-off-by: Alex Hung <alex.hung@amd.com>
->>>>>>>>>>> ---
->>>>>>>>>>> v7:
->>>>>>>>>>>   - Add a commit messages
->>>>>>>>>>>
->>>>>>>>>>>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 3 
->>>>>>>>>>> +++
->>>>>>>>>>>   1 file changed, 3 insertions(+)
->>>>>>>>>>>
->>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/ 
->>>>>>>>>>> amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/ 
->>>>>>>>>>> amdgpu_dm_plane.c
->>>>>>>>>>> index 9632b8b73e7e..b5b9b0b5da63 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->>>>>>>>>>> @@ -1792,6 +1792,9 @@ dm_plane_init_colorops(struct drm_plane 
->>>>>>>>>>> *plane)
->>>>>>>>>>>       struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
->>>>>>>>>>>       int len = 0;
->>>>>>>>>>> +    if (plane->type == DRM_PLANE_TYPE_CURSOR)
->>>>>>>>>>> +        return 0;
->>>>>>>>>>> +
->>>>>>>>>>>       /* Create COLOR_PIPELINE property and attach */
->>>>>>>>>>>       drm_plane_create_color_pipeline_property(plane, 
->>>>>>>>>>> pipelines, len);
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
+>> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+>> ---
+>>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+>> index 2cd35392e2da..2d225735602b 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+>> @@ -682,7 +682,7 @@ static bool execute_synaptics_rc_command(struct drm_dp_aux *aux,
+>>  		if (rc_cmd == cmd)
+>>  			// active is 0
+>>  			break;
+>> -		msleep(10);
+>> +		usleep_range(10000, 10200);
+>>  	}
+>>  
+>>  	// read rc result
 > 
 
