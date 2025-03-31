@@ -2,75 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242DBA760A4
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 09:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A6FA760A8
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 09:55:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AFE310E390;
-	Mon, 31 Mar 2025 07:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A789110E393;
+	Mon, 31 Mar 2025 07:55:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="bwCC02T9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W3/bh3EO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0B9110E390
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 07:55:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sb9hcwin4tLRp3oqgDcx/MjqTaRYlwB2vSQozhYeOj4=; b=bwCC02T90+w20Rigll6t4LOJse
- ncSrDoAbrpcYMOJlaUZabIrii55xXfB/50d2baNQ0o2q/k2uGQld46Amu876rqHxFKceZCSC3rfGl
- cimnpaAsO8McDHHL2DCw/QZ4E8Y5M5/Z0xljp0HmVmY7E8qhG9t0wLrejPZ+y+U7uJfNJHxW+px+B
- uUHpKajSPts78R9zJjsUUcs7hVK6X8/nD0BNDlLjOIHNsvFWeEwY7+k4j2dR1WnqQn5STbOqwc0h5
- azEndrsep7ppw77ho/HbGrYMQGv8GAi4RrzoU7xT7gdAO/6D7L6YWn9jWFWt/TCra0sp0Cgy+OEOH
- iA5QCBlQ==;
-Received: from [194.136.85.206] (port=34794 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.98.1)
- (envelope-from <pekka.paalanen@haloniitty.fi>)
- id 1tz9z0-0000000021R-2b7A; Mon, 31 Mar 2025 10:54:58 +0300
-Date: Mon, 31 Mar 2025 10:54:46 +0300
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Vishal Sagar
- <vishal.sagar@amd.com>, Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Michal Simek <michal.simek@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v4 03/11] drm/fourcc: Add DRM_FORMAT_Y8
-Message-ID: <20250331105446.098f0fbe@eldfell>
-In-Reply-To: <CAMuHMdVEpTVWmwrYt+G-QSWucT91goUcFor9qbo5rZ+X2jnRog@mail.gmail.com>
-References: <20250326-xilinx-formats-v4-0-322a300c6d72@ideasonboard.com>
- <20250326-xilinx-formats-v4-3-322a300c6d72@ideasonboard.com>
- <CAMuHMdXM1B1c=62EpcuUdpdpaBRZSJLXb1GBB0egzp7Fyeo5-w@mail.gmail.com>
- <b195971c-52e6-463e-a440-83dde4346e65@ideasonboard.com>
- <20250327112009.6b4dc430@eldfell>
- <b5cf15a4-7c65-4718-9c39-a4c86179ba4c@ideasonboard.com>
- <20250327175842.130c0386@eldfell>
- <CAMuHMdVEpTVWmwrYt+G-QSWucT91goUcFor9qbo5rZ+X2jnRog@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1B9E10E394
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 07:55:37 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-5e6c18e2c7dso7682949a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 00:55:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743407736; x=1744012536; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jhSDhknLfaKoAskNTlrl4k31o/FzwCgA7zXF8gqAJQg=;
+ b=W3/bh3EOrbk9TZdTkuqbq5Oosh4HXOA1cB4+hpf9oxb4XC/ss6Ksxjza0HzXfgujN3
+ kBeS1wbDkSUGGC9N/V82cmQmFjPbt3EnJn789shTT7ZmA6/si8rq4Rly/x/hZvjHsm1x
+ 6sf9n8iR8pobu6kA5vxwurX70Q1c/HxgP0vrXHlEbm3hvwDMZ1pgI/dzdi/jKbcTconM
+ IAJ6KflxxGqRvkETJydG/0dgBq6Apo4gNexpn7z1AoLY0VvKkPJaKu1b2aWPoIrd77D4
+ umDx9aBNl3cm8RBq2iABVM0GMfp6afq+4RIXTj035Xn5m3Ag/wg9QCPRf786+mdYp3oB
+ W2VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743407736; x=1744012536;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jhSDhknLfaKoAskNTlrl4k31o/FzwCgA7zXF8gqAJQg=;
+ b=hhULzBICdXGtXfffhbER0tjr9utUya32TlPP+obVJ3a3AB8/3RB2l+YRaVQtvlHOq3
+ XNhI7kvF663Aroq6uEWeuu6MynSskEU4tAyjpMSmL/w+7Z0b2uMVp8UsTHeSMeegsgZ+
+ 6PttDynVlY6FN898JmBHLEBHYfTsktFZZ/qMFeSCF7VUR4eHvUo83qe3Xr2t3Mp17LVU
+ CPWXyQ52ikh+EcFma0iVZHrX1LiatKR+G+/zx9fjQV2G1sY88ujEbsBZDGnlAUEsr53C
+ e5CR1XpJl6vyQW9uXS/wrNvOsAJXTusvDVip3QGyta9u0pZIbJgfqYvoZRAEnuI7vKHC
+ Q1KQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV+IY3RsJYsJ5RiqGgx8F6XEqAlAwIovo8n+CUA+etBkwfK7N1yZy5u5rrL8TS4qpyc/xPQh4vBJpg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywz/TOHCYXA9571A0V3y02oMk3CG81yY4DO9ABGl2rqVNe66x1V
+ EDPawZJArqaJ9iXQdWLjXmFvq8m8FLcOGgG/SF6o+kZyzA2sWq/omxX7xX4CbH8BOTGoAEJRfMi
+ uhNIdZKnMvFhSQGMI8FKBEW0IR8k=
+X-Gm-Gg: ASbGncuJ5m+F2gvFTr/Iq4h98th31a5sM0XP/V9dNhY3f65Lv1XVkfzKPOZuRSZPgrc
+ WuxK/orfPaCoD91ceWIciQjdO3jPGGfGWB0UjgBo6S2amOgTL5mvdFxiV7q8NAtJ9DpzoyIuXVR
+ bjSGBqmBe9wAurzkbvBTo6nMTRFw==
+X-Google-Smtp-Source: AGHT+IG+P9tkPvhVhRPKISalG/60ZULdT19cun5J/nPAl6qjbLOBD+JT+BRWsBqhaBCLHd4636n+W5g3kjd2i/Cb1f8=
+X-Received: by 2002:a17:907:2ce6:b0:ac3:413b:69c7 with SMTP id
+ a640c23a62f3a-ac738be07f4mr640242066b.39.1743407735884; Mon, 31 Mar 2025
+ 00:55:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QZAnc9FdGv0CGGuBeb7Bgcd";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+References: <20250327160117.945165-1-vignesh.raman@collabora.com>
+ <20250327160117.945165-3-vignesh.raman@collabora.com>
+ <v4dhuuuvfk63bakncz43z3ndjdze5ac7nrv6qvtpdnonfpetsx@5hh3vzcj336x>
+ <20250331-amphibian-hopping-bobcat-e19a0b@houat>
+In-Reply-To: <20250331-amphibian-hopping-bobcat-e19a0b@houat>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Mon, 31 Mar 2025 10:55:23 +0300
+X-Gm-Features: AQ5f1JpQ9fyxYtLdrUedBGMD-ND6srXxfnPbzw0qqt2zxCvy4-i4JXwyMC3DrT8
+Message-ID: <CALT56yO-=nQnTB=H4L-qnta4js3FB=-WCOFj8q57PPWjLY+JKA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] drm/ci: Add jobs to validate devicetrees
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Vignesh Raman <vignesh.raman@collabora.com>, dri-devel@lists.freedesktop.org, 
+ daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com, 
+ simona.vetter@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com, 
+ sergi.blanch.torne@collabora.com, valentine.burley@collabora.com, 
+ lumag@kernel.org, quic_abhinavk@quicinc.com, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,146 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QZAnc9FdGv0CGGuBeb7Bgcd
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 27 Mar 2025 17:35:39 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-
-> Hi Pekka,
->=20
-> On Thu, 27 Mar 2025 at 16:59, Pekka Paalanen
-> <pekka.paalanen@haloniitty.fi> wrote:
-> > On Thu, 27 Mar 2025 16:21:16 +0200
-> > Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote: =20
-> > > On 27/03/2025 11:20, Pekka Paalanen wrote: =20
-> > > > On Wed, 26 Mar 2025 15:55:18 +0200
-> > > > Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote: =20
-> > > >> On 26/03/2025 15:52, Geert Uytterhoeven wrote: =20
-> > > >>> On Wed, 26 Mar 2025 at 14:23, Tomi Valkeinen
-> > > >>> <tomi.valkeinen@ideasonboard.com> wrote: =20
-> > > >>>> Add greyscale Y8 format.
-> > > >>>>
-> > > >>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> =
-=20
-> > > >>>
-> > > >>> Thanks for your patch!
-> > > >>> =20
-> > > >>>> --- a/include/uapi/drm/drm_fourcc.h
-> > > >>>> +++ b/include/uapi/drm/drm_fourcc.h
-> > > >>>> @@ -405,6 +405,9 @@ extern "C" {
-> > > >>>>    #define DRM_FORMAT_YUV444      fourcc_code('Y', 'U', '2', '4'=
-) /* non-subsampled Cb (1) and Cr (2) planes */
-> > > >>>>    #define DRM_FORMAT_YVU444      fourcc_code('Y', 'V', '2', '4'=
-) /* non-subsampled Cr (1) and Cb (2) planes */
-> > > >>>>
-> > > >>>> +/* Greyscale formats */
-> > > >>>> +
-> > > >>>> +#define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y') =
- /* 8-bit Y-only */ =20
-> > > >>>
-> > > >>> This format differs from e.g. DRM_FORMAT_R8, which encodes
-> > > >>> the number of bits in the FOURCC format. What do you envision
-> > > >>> for e.g. DRM_FORMAT_Y16? fourcc_code('G', 'R', '1', '6')? =20
-> > > >>
-> > > >> I wanted to use the same fourcc as on V4L2 side. Strictly speaking=
- it's
-> > > >> not required, but different fourccs for the same formats do confus=
-e.
-> > > >>
-> > > >> So, generally speaking, I'd pick an existing fourcc from v4l2 side=
- if
-> > > >> possible, and if not, invent a new one. =20
-> > > >
-> > > > what's the actual difference between DRM_FORMAT_R8 and DRM_FORMAT_Y=
-8?
-> > > >
-> > > > Is the difference that when R8 gets expanded to RGB, it becomes (R,=
- 0,
-> > > > 0), but Y8 gets expanded to (c1 * Y, c2 * Y, c3 * Y) where c1..c3 a=
-re
-> > > > defined by MatrixCoefficients (H.273 terminology)?
-> > > >
-> > > > That would be my intuitive assumption following how YCbCr is handle=
-d.
-> > > > Is it obvious enough, or should there be a comment to that effect? =
-=20
-> > >
-> > > You raise an interesting point. Is it defined how a display driver, t=
-hat
-> > > supports R8 as a format, shows R8 on screen? I came into this in the
-> > > context of grayscale formats, so I thought R8 would be handled as (R,=
- R,
-> > > R) in RGB. But you say (R, 0, 0), which... also makes sense. =20
+On Mon, 31 Mar 2025 at 10:53, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> On Sun, Mar 30, 2025 at 08:06:45PM +0300, Dmitry Baryshkov wrote:
+> > On Thu, Mar 27, 2025 at 09:31:11PM +0530, Vignesh Raman wrote:
+> > > Add jobs to run dt_binding_check and dtbs_check. If warnings are seen,
+> > > exit with a non-zero error code while configuring them as warning in
+> > > the GitLab CI pipeline.
 > >
-> > That is a good question too. I based my assumption on OpenGL behavior
-> > of R8.
-> >
-> > Single channel displays do exist I believe, but being single-channel,
-> > expansion on the other channels is likely meaningless. Hm, but for the
-> > KMS color pipeline, it would be meaningful, like with a CTM.
-> > Interesting.
-> >
-> > I don't know. Maybe Geert does? =20
->=20
-> I did some digging, and was a bit surprised that it was you who told
-> me to use R8 instead of Y8?
-> https://lore.kernel.org/all/20220202111954.6ee9a10c@eldfell
+> > Can it really succeed or is it going to be an always-failing job? The
+> > dt_binding_check generally succeed, dtbs_check generates tons of
+> > warnings. We are trying to make progress there, but it's still very far
+> > from being achevable.
+>
+> It depends on the platforms I guess. Some are 100% covered and any
+> warning should be treated as a failure, and some have not started the
+> effort.
+>
+> I guess we could solve it with some kind of expectation list, but I do
+> wonder if it's something *we* should be focusing on :)
 
-Hi Geert,
+I think that we might want to limit this to `make dt_bindings_check
+DT_SCHEMA_FILES=display`, checking all GPU / display schema files.
 
-indeed I did. I never thought of the question of expansion to R,G,B
-before. Maybe that expansion is what spells R8 and Y8 apart?
-
-I do think that expansion needs to be specified, so that the KMS color
-pipeline computations are defined. There is a big difference between
-multiplying these with an arbitrary 3x3 matrix (e.g. CTM):
-
-- (R, 0, 0)
-- (R, R, R)
-- (c1 * Y, c2 * Y, c3 * Y)
-
-I forgot to consider that in the discussion of single-channel displays,
-because the displays obviously do not consider any other channel than
-the one.
-
-Using DRM_FORMAT_Y8 FB with a single-channel display might even be
-surprising, because the proposed Y8 definition would result in c1 * Y,
-and not Y. The default c1 comes from the BT.601 matrix IIRC?
-
-Therefore I think the difference between R8 and Y8 has been found. Now
-we just need to determine whether R8 means (R, 0, 0) or (R, R, R) to
-nail down the color operations as well. There are questions like what
-is the outcome at the video signal level when we have one KMS plane
-with an R8 FB and another KMS plane with an RGBA8888 FB on the same
-CRTC? What about Y8 or NV12 in the mix? What if the video signal is
-single-channel, RGB, or YCbCr?
-
-
-Thanks,
-pq
-
---Sig_/QZAnc9FdGv0CGGuBeb7Bgcd
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmfqSkYACgkQI1/ltBGq
-qqc4pxAAnPZQ0QQxEZ5HZEAD/A561x3dmKYKf16AaBIpBhdwXvF672H3q7NOC3MH
-4qWNrJHlv5TQ+rhcwQJfYzqnOTfOwoQdpz0siUUjtSrxwfpQ2T9KmAT1sWHSudet
-kmEWqPBDXwmnUui4Hi6bXgiKqYsMW6PaXwT/3GO3UI8Matmu5D0yeIqqC+p4UnH7
-WCcZ4osqzkgxyRkw2r7+aZq6k0VsfYXjXTNQ1PXHCArJSx5Rwlucw96IvOvUSO/o
-EvA0h+UIqIiuq3Va7XfyeoTaVKZ52f8F5nkeTHYoc1X3AbOAiEIGANId3vGu8hZn
-9UG0SAMxJBl2BGdJpi+auNSS1Mq5J8RT/X4Tlq0L9UOg6w3gB1SwbdnQIgolYYGu
-MiwdyAry2zffnH5e3/pfsiM37IZNMX2bC8XzfvpK+pVxpfTE+lU15ffEA8++LisI
-zdpckbn440o9I074KglAGkZaB33++gNlemoVZE0nl+YY+o0frBXeObf1OMuPnZ2m
-K5uwHCbQLRnQkKnL2gcbwaMtZmkohGnksoD+pT7FF6ebMd4yv/7JyXnBezyccGhv
-Q0xATae0gNbooT4s0VrduWFRariMVz0WUUsoIb2rYx2MHXnahtmS/zXkwbYXU2U1
-1tg/KdcAxlpSiTCS+6UTRD1hai9FzgLLxz7vMUbdx2r2iEDjSPY=
-=dA9t
------END PGP SIGNATURE-----
-
---Sig_/QZAnc9FdGv0CGGuBeb7Bgcd--
+-- 
+With best wishes
+Dmitry
