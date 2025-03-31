@@ -2,60 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BCAA763F8
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 12:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BCCA76444
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Mar 2025 12:33:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEBD110E3BF;
-	Mon, 31 Mar 2025 10:17:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YU5wCZY2";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6399A10E3C3;
+	Mon, 31 Mar 2025 10:33:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 252FB10E3BF
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 10:17:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743416254; x=1774952254;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=P3ae9o2zkDLTx09+K++AB9fYk/TKSV28NS5F5x/wtcU=;
- b=YU5wCZY2nwB3WU/dhushPENET5xZTYrWbbNAa89D/vwhqMsaPuR+qTri
- K/H4PmtBC5uOammVTS/FVIs28XHmrSOI8LIPcfDEtCkXCnhx7rZLZSry1
- fUgecG0CmQBfvXm52ZApn/YM/i46pF6rMfC31DsWw2klJjwdG81cWMzwE
- lNQK/8k5tRzfxT97RJD1K5QakOVeumYHpgxif2Fi3TIeEw1L/EkaGtfS+
- YqZDrl+XBQvVvn3Rc+1Vd4quFAnekxRDH1zeOqyirxArgqL2MDBjKT4an
- dBWOntcDGya3dMVzTSJMjVXijE/01erLYN7Z6sdCOCdgjYlSca3QBcPKK Q==;
-X-CSE-ConnectionGUID: BrLlE++jRCaQK2ijdGDo/w==
-X-CSE-MsgGUID: Py3zSES4TsWYHhVF5nJcvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="48364532"
-X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; d="scan'208";a="48364532"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2025 03:17:33 -0700
-X-CSE-ConnectionGUID: paWjvvQDQ7OT5YVewgiQLg==
-X-CSE-MsgGUID: rMYsm2X9R4++SHo22bhuXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; d="scan'208";a="157057222"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.182])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2025 03:17:31 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>, Dave Airlie
- <airlied@gmail.com>
-Cc: simona.vetter@ffwll.ch, dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [git pull] drm for 6.15-rc1
-In-Reply-To: <CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CAPM=9tyx=edsZ3ajuAUAv4vjfa=WNEzobqAsYbBTjCfLbuEeFQ@mail.gmail.com>
- <CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com>
-Date: Mon, 31 Mar 2025 13:17:28 +0300
-Message-ID: <87h6394i87.fsf@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A8B1B10E3C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 10:33:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1ADE01F37;
+ Mon, 31 Mar 2025 03:33:09 -0700 (PDT)
+Received: from [10.57.15.213] (unknown [10.57.15.213])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F21C33F63F;
+ Mon, 31 Mar 2025 03:33:02 -0700 (PDT)
+Message-ID: <9ad57d16-5977-4542-8598-d23d41227e7a@arm.com>
+Date: Mon, 31 Mar 2025 11:32:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/panfrost: add h616 compatible string
+To: Philippe Simons <simons.philippe@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
+ =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+References: <20250312232319.25712-1-simons.philippe@gmail.com>
+ <20250312232319.25712-3-simons.philippe@gmail.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250312232319.25712-3-simons.philippe@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,118 +55,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Mar 2025, Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> If you want to do that hdrtest thing, do it as part of your *own*
-> checks. Don't make everybody else see that disgusting thing and have
-> those turds in their trees.
->
-> I'll just disable it by marking it BROKEN for now. You guys can figure
-> out what you want to do, but no, forcing others to see those things is
-> not the answer.
+On 12/03/2025 23:23, Philippe Simons wrote:
+> Tie the Allwinner compatible string to the two features bits that will
+> toggle the clocks and the reset line whenever the power domain is changing
+> state.
 
-Fair. I hear you.
+This looks fine, but we need the new compatible string to be documented
+in the bindings:
 
-> I would suggest you *not* make this part of the Kconfig setup and
-> normal build at all, but be something where *you* can run it as part
-> of your tests (ie do it as a "make drm-hdrtest" kind of thing, not as
-> part of regular builds).
+Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
 
-I would very much prefer for this to be part of the build, just hidden
-behind Kconfig. We're doing build-time checks, and kbuild gives us all
-the machinery to make it happen. Without the dependency tracking you'd
-have to check everything every time, and that's just going to mean
-people won't run it.
+I'm not sure what the situation is for the device tree for this
+platform, but it would be good to get that all sorted before we merge
+the compatible into panfrost.
 
-I suggest a Kconfig knob to truly make this opt-in, only for developers
-who actually want it. Not enabled by allmodconfig or allyesconfig or
-even allnoconfig. Only if you manually enable it. And yes, that's how it
-should've been from the start. My bad.
+Thanks,
+Steve
 
-Below's a patch to make it happen. We'll probably want to add more
-checks like this in the future. We want to catch a whole bunch of build
-issues up front. We want to be clean of e.g. W=1 and kernel-doc issues
-pre-merge instead of doing extra rounds of fixes afterwards.
+> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 0f3935556ac7..f13743fe6bad 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -776,6 +776,13 @@ static const struct panfrost_compatible default_data = {
+>  	.pm_domain_names = NULL,
+>  };
+>  
+> +static const struct panfrost_compatible allwinner_h616_data = {
+> +	.num_supplies = ARRAY_SIZE(default_supplies) - 1,
+> +	.supply_names = default_supplies,
+> +	.num_pm_domains = 1,
+> +	.pm_features = BIT(GPU_PM_RT_CLK_DIS) | BIT(GPU_PM_RT_RST_ASRT),
+> +};
+> +
+>  static const struct panfrost_compatible amlogic_data = {
+>  	.num_supplies = ARRAY_SIZE(default_supplies) - 1,
+>  	.supply_names = default_supplies,
+> @@ -859,6 +866,7 @@ static const struct of_device_id dt_match[] = {
+>  	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
+>  	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
+>  	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
+> +	{ .compatible = "allwinner,sun50i-h616-mali", .data = &allwinner_h616_data },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, dt_match);
 
-BR,
-Jani.
-
-
-
-From 8c709510caab4b4ad6aa73cbcd972f32b58cad8d Mon Sep 17 00:00:00 2001
-From: Jani Nikula <jani.nikula@intel.com>
-Date: Mon, 31 Mar 2025 12:25:45 +0300
-Subject: [PATCH] drm: add config option for extra build-time checks
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Cc: Jani Nikula <jani.nikula@intel.com>
-
-The DRM subsystem contains additional build-time checks, primarily aimed
-at DRM developers and CI systems. The checks may be overzealous. They
-may slow down or fail the build altogether. They may create excessive
-dependency files in the build tree. They should not be enabled for
-regular builds, and certainly not forced on unsuspecting developers
-running an allyesconfig or allmodconfig build.
-
-Add config DRM_DISABLE_EXTRA_BUILD_CHECKS, enabled by default as well as
-by allyesconfig/allmodconfig, hiding the extra checks from anyone but
-people who intentionally opt-in for the checks.
-
-For example, to enable header tests:
-
-$ scripts/config --disable CONFIG_DRM_DISABLE_EXTRA_BUILD_CHECKS --enable CONFIG_DRM_HEADER_TEST
-$ make olddefconfig
-
-Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-Closes: https://lore.kernel.org/r/CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com
-Fixes: 62ae45687e43 ("drm: ensure drm headers are self-contained and pass kernel-doc")
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/Kconfig | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 2cba2b6ebe1c..5a3fce9ef998 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -489,9 +489,26 @@ config DRM_PRIVACY_SCREEN
- 	bool
- 	default n
- 
-+# Reversed option to disable on allyesconfig/allmodconfig builds
-+config DRM_DISABLE_EXTRA_BUILD_CHECKS
-+	bool "Disable DRM subsystem extra build-time checks"
-+	default y
-+	help
-+	  The DRM subsystem contains additional build-time checks, primarily
-+	  aimed at DRM developers and CI systems. The checks may be
-+	  overzealous. They may slow down or fail the build altogether. They may
-+	  create excessive dependency files in the tree. They should not be
-+	  enabled for regular builds, and thus they are disabled by default.
-+
-+# Proxy config to allow simple "depends on DRM_EXTRA_BUILD_CHECKS"
-+config DRM_EXTRA_BUILD_CHECKS
-+	bool
-+	depends on DRM && EXPERT && DRM_DISABLE_EXTRA_BUILD_CHECKS=n
-+	default !DRM_DISABLE_EXTRA_BUILD_CHECKS
-+
- config DRM_WERROR
- 	bool "Compile the drm subsystem with warnings as errors"
--	depends on DRM && EXPERT
-+	depends on DRM_EXTRA_BUILD_CHECKS
- 	depends on !WERROR
- 	default n
- 	help
-@@ -505,7 +522,7 @@ config DRM_WERROR
- 
- config DRM_HEADER_TEST
- 	bool "Ensure DRM headers are self-contained and pass kernel-doc"
--	depends on DRM && EXPERT && BROKEN
-+	depends on DRM_EXTRA_BUILD_CHECKS
- 	default n
- 	help
- 	  Ensure the DRM subsystem headers both under drivers/gpu/drm and
--- 
-2.39.5
-
-
--- 
-Jani Nikula, Intel
