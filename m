@@ -2,114 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85E4A7709A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 00:01:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6084A770E9
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 00:34:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21ED310E4A4;
-	Mon, 31 Mar 2025 22:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BA010E1EE;
+	Mon, 31 Mar 2025 22:34:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YOBKivb/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DZ++TUH9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 603B510E4A4
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 22:00:44 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VFCupn011984
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 22:00:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=mkFZoZXQJzJt0Cg5UOTM27a1
- fl/MrtPgUNj+Jrp+bYg=; b=YOBKivb/vSQMJi59VIMk0WZG2rYeBMWW5n0rV8qc
- OqREB8zPgGOOHTSM4GZGpkBWovRFRnzo8twAgi2oZIGgKN5Gvsd0H/zxgsAvZKBW
- GWFJJJ2z7FChxQJSFSH37TZDgceiKYvRwgNJKinDY2XdW5uYYDPOXkYGdic3NzcD
- 54RW8chblSN1CVZMmWo2qratP3c78XePJQRokqSutLepMnkN3DeqxFZuiyuwM8yB
- qOKSo3CYgP/lxSnOU0sUOO85JW3YoXMdvuWcvKtPws3u/qxdRAAuatOYhMn0+jhn
- Ie380S+2Ln9of7KWmBC2wmQ4Oz8+99VnSHwsttQT+5NUqg==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p9mjnm6x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 22:00:43 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-2ff52e1c56fso12097742a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 15:00:43 -0700 (PDT)
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B36C410E39B
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 09:13:00 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id
+ d9443c01a7336-22401f4d35aso82455585ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 02:13:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743412380; x=1744017180; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=aXfa9bgMsQdeUBd20MfPXF0A+XxOPRxIRG+U13SNVEE=;
+ b=DZ++TUH99SGdOmQjiicklEWeT/Z36WsO9u6IyyuC+qYNNGBzoeqW7GxdwUYAWx5ObO
+ 0etmUXLyp/OiHi4DrN8e+nMnO+FTSEtjAO6kQwrt0lSdqdrrx4nUf+gv7IrhPcCKM6PS
+ 0mJ/agFjHfWvPUkbxz/KdiufEsvEMChwxJ40gi9c0zfAkQWcGRqxqk30wHqb8j7Ro/ot
+ 1MhVWnlhr/yhGwMn5ISQOEUuxtI7oVsgLdMejaLyufhP7BrsjEdHf5YWo2VfWHOGlH+f
+ QiUh7kAt/W96i3wKtrfNE17obwpFe8UdT1VnYT0gl4OoI9AUuVOMOdQygJoBvXVoHbIu
+ rRAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743458443; x=1744063243;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1743412380; x=1744017180;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=mkFZoZXQJzJt0Cg5UOTM27a1fl/MrtPgUNj+Jrp+bYg=;
- b=S42n6/lpwKjp5uJtPJdniauwuiWbfjwFUKjgiZD+/jmEtbI3JgLzQQUwN8F7K3blbY
- 0B+cZqXUhSoBb2TJAbhmtXzpbKOSO2HVf/3j2KCVTmhVR5h//+pzcDysyyv3Q48QAOE2
- oiKJDtyiKo2D2w50Y+yNCK7FsTl6KsmWhXa8ptXgah548xin7T8SJhvOCJnIZ2kstsqU
- sYS3LYWj7M/4x/GeLOQR9AuFDkQkrY+bH82a1XZw5c+Oim+gS1X9XjiHXQms6SNcVk2J
- Uiglz/c4CxvnqZ2ax6BIlbqhjPQHnhJwE1QFEQl4d8eZ+16K+zo/KVtQY4rscZrWvO9i
- 4s9Q==
+ bh=aXfa9bgMsQdeUBd20MfPXF0A+XxOPRxIRG+U13SNVEE=;
+ b=JGMv90ETcdLTwfqR7eK64rovXargLzX8PVQP+l7eUbF2wvGBb14GX7GQ6YKgmhHKMI
+ f0wrxybIjHhHEJ9IfsL3cUHxWpIfKcaJt3b5Y3vwWUKnvnl3ytTj/VvU/GHj3A2O73/0
+ 3wQ6nuCR4SmJ6OfvbZq/vNL3g2UBAWRHHAPeXTXuuqMo4l/as/yv1FDMztiJoKgBSify
+ hCwlCoog89K6R+gtsGVCmBuFpzuNDmcpqOLo/OysTd6HqHrxs68T7oUEl6N2gYAdx7gE
+ JSE6mveZwS91l5sMkFx8ON1e0cZxqo948yGUHqYFFea4Dir7BDxCjc2RXfXBPBjcW1/5
+ KM1g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMEWW/lg7/OlLiHT2HI4h6ziUq/cDvcQ1XUMtxrD5Y9jUOQfA1J6PtAPjgJdbSv5k61tsqVuz4hLM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJ3GpqtX8OaPrqzqONdFxYwJm39surBn8e+m21HcAkmc/prCBz
- o3avXyI/j8ip30z5fO8PdCKZwq6W3hY70WypmsMwZMADyHZgnnQdtgBo9U8wNK2C6mabUen9x4C
- Qs1UwEWQ4efoOB+CRwjDGVbOaKouQ6356KxFMV5XrWZjKU4oA3Mn8AfOy0WfaWmfDSWy22awIwM
- SrkVtbBGpqO+sVmbFG4YWB6kvs8OrmdbCVvjgJYObBbg==
-X-Gm-Gg: ASbGncv8hjR20ctcuTFZminrCgg7wIgDGxVoHNGUpyOMA4t+lfyTViqlSLsSJ2SKu9S
- 1sHApuZRSOF5wr6CiMdaKjU8hfCr9imnU88b+nYq0etaoJPDpQXKR4MWn4bWl2pGRbYiVdy16
-X-Received: by 2002:a17:90b:4ed0:b0:2fe:a79e:f56f with SMTP id
- 98e67ed59e1d1-30531fa2e07mr17238376a91.13.1743458442838; 
- Mon, 31 Mar 2025 15:00:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGRjxY76/5/UsuzMPvfK4iO1euUPzgYJFxPuu7zecfhm4WiN69/SwrKxiGXZio8ZH7TREkRUUaI7irNgCBpWcU=
-X-Received: by 2002:a17:90b:4ed0:b0:2fe:a79e:f56f with SMTP id
- 98e67ed59e1d1-30531fa2e07mr17238311a91.13.1743458442457; Mon, 31 Mar 2025
- 15:00:42 -0700 (PDT)
+ AJvYcCWTNDvbswQPCUjZR5RhLXZz5308V6Pcvi9l2MzBmTbWretrdMN4xoM+BuFnTDrMkKP59c/zTCR8awU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwtiOC9ch2mDYIqgbCJ5fxFqiBzyrWzSbZ+nSaIJIU099C8AYIc
+ REU2xhebi5mYmeAYA3yhrGfTBnFSp3T3ZLyjft9DYUOCo+ky2jOb
+X-Gm-Gg: ASbGncsnBrrKEESboPkSrQo+LJugRu9Xn//huzK2eAeJFXD+y1sGkNf3glpYpkN312P
+ mwnJNtjInNtRwVjSw3KWtDAZ7MHsSfLI48+Nr8GTv5voLFa/qP4Hc59VWpVsdbtMSOTKCt9Fx22
+ rh+JohwaQ9d957gPVMug3XvcI+hWFlMhnpdy5QBQHpSTV7q5AqblW/2mYWj/si8VWz85/i3hWgt
+ O6BTMCeHW2jhfXu0pqC2vboL8SB4M3J891bHU54UpPxc2nMyyjVvKxadYfPAscx6CzaierC+ald
+ iSszb3n5bSP5H3aYlaA6Fc7NwNUBh/nbnKk2ZzPDWWBilvid0rjwl1UdMJXw4gMcN9S2scGIeD3
+ a3W+Ujg==
+X-Google-Smtp-Source: AGHT+IFEEh/emvRl57NiK87EmBBBQ4yLrU3pfC0mqT77RnMd2vcNv7HBRIC3yTEMkuLyR9iPqdxvVw==
+X-Received: by 2002:a17:902:e550:b0:224:c46:d167 with SMTP id
+ d9443c01a7336-2292f95f1edmr137533305ad.16.1743412380165; 
+ Mon, 31 Mar 2025 02:13:00 -0700 (PDT)
+Received: from henry.localdomain ([111.202.148.167])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2291f1fa0a5sm64957295ad.240.2025.03.31.02.12.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Mar 2025 02:12:59 -0700 (PDT)
+From: Henry Martin <bsdhenrymartin@gmail.com>
+To: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Henry Martin <bsdhenrymartin@gmail.com>
+Subject: [PATCH] backlight: qcom-wled: Add NULL check in the wled_configure
+Date: Mon, 31 Mar 2025 17:12:45 +0800
+Message-Id: <20250331091245.6668-1-bsdhenrymartin@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250327-wip-obbardc-qcom-t14s-oled-panel-v3-0-45d5f2747398@linaro.org>
- <20250327-wip-obbardc-qcom-t14s-oled-panel-v3-1-45d5f2747398@linaro.org>
- <Z-pJP4PMwPo3L3Og@hovoldconsulting.com>
- <CACr-zFA_oSySRnA2VaSQk2ND_AHeyt3v=RuPTbABPM7SYown6g@mail.gmail.com>
- <b4983b93-97fc-43ed-a41c-a44f90773062@oss.qualcomm.com>
- <CACr-zFDDPfRXZYUsbMoBASU6O5mBmqiFNFBtZTL9_vbo_7uANg@mail.gmail.com>
-In-Reply-To: <CACr-zFDDPfRXZYUsbMoBASU6O5mBmqiFNFBtZTL9_vbo_7uANg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Tue, 1 Apr 2025 01:00:31 +0300
-X-Gm-Features: AQ5f1JpqhHc7KEz0u200xVRtc-LLhmuNIHxpZh6lPavUuGu8Ac7aioAB8xnQ09Y
-Message-ID: <CAO9ioeV9JoED9pvdwJneB1+-=uWW_XZ3Dm0ckQbiv7kfA7usoA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] arm64: dts: qcom: x1e78100-t14s: add hpd gpio to
- eDP panel
-To: Christopher Obbard <christopher.obbard@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Rui Miguel Silva <rui.silva@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, devicetree@vger.kernel.org,
- "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Authority-Analysis: v=2.4 cv=Mfhsu4/f c=1 sm=1 tr=0 ts=67eb108b cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10
- a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=rRiRvEloSRtx8nxw5TkA:9
- a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: z0yPbHwl3rikcLTUovfLI0FYvWjITjfM
-X-Proofpoint-GUID: z0yPbHwl3rikcLTUovfLI0FYvWjITjfM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-31_10,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 suspectscore=0 clxscore=1015 impostorscore=0
- malwarescore=0 spamscore=0 adultscore=0 phishscore=0 mlxscore=0
- bulkscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503310151
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 31 Mar 2025 22:34:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,102 +88,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 1 Apr 2025 at 00:38, Christopher Obbard
-<christopher.obbard@linaro.org> wrote:
->
-> Hi Dmitry,
->
-> On Mon, 31 Mar 2025 at 17:49, Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> >
-> > On 31/03/2025 18:39, Christopher Obbard wrote:
-> > > Hi Johan,
-> > >
-> > > On Mon, 31 Mar 2025 at 09:50, Johan Hovold <johan@kernel.org> wrote:
-> > >>
-> > >> On Thu, Mar 27, 2025 at 04:56:53PM +0000, Christopher Obbard wrote:
-> > >>> The eDP panel has an HPD GPIO. Describe it in the device tree
-> > >>> for the generic T14s model, as the HPD GPIO property is used in
-> > >>> both the OLED and LCD models which inherit this device tree.
-> > >>
-> > >> AFAICT, this patch is not correct as the hotplug detect signal is
-> > >> connected directly to the display controller on (these) Qualcomm SoCs
-> > >> and is already handled by its driver.
-> > >>
-> > >> Describing it as you do here leads to less accurate delays, see commits:
-> > >>
-> > >>          2327b13d6c47 ("drm/panel-edp: Take advantage of wait_hpd_asserted() in struct drm_dp_aux").
-> > >>          3b5765df375c ("drm/panel: atna33xc20: Take advantage of wait_hpd_asserted() in struct drm_dp_aux")
-> > >>
-> > >> Perhaps you lose some other functionality too.
-> > >>
-> > >>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> > >>> Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
-> > >>> ---
-> > >>>   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi | 11 +++++++++++
-> > >>>   1 file changed, 11 insertions(+)
-> > >>>
-> > >>> diff --git a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
-> > >>> index 962fb050c55c4fd33f480a21a8c47a484d0c82b8..46c73f5c039ed982b553636cf8c4237a20ba7687 100644
-> > >>> --- a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
-> > >>> +++ b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
-> > >>> @@ -980,8 +980,12 @@ &mdss_dp3 {
-> > >>>        aux-bus {
-> > >>>                panel: panel {
-> > >>>                        compatible = "edp-panel";
-> > >>> +                     hpd-gpios = <&tlmm 119 GPIO_ACTIVE_HIGH>;
-> > >>>                        power-supply = <&vreg_edp_3p3>;
-> > >>>
-> > >>> +                     pinctrl-0 = <&edp_hpd_n_default>;
-> > >>> +                     pinctrl-names = "default";
-> > >>> +
-> > >>>                        port {
-> > >>>                                edp_panel_in: endpoint {
-> > >>>                                        remote-endpoint = <&mdss_dp3_out>;
-> > >>> @@ -1286,6 +1290,13 @@ hall_int_n_default: hall-int-n-state {
-> > >>>                bias-disable;
-> > >>>        };
-> > >>>
-> > >>> +     edp_hpd_n_default: edp-hpd-n-state {
-> > >>> +             pins = "gpio119";
-> > >>> +             function = "gpio";
-> > >>> +             drive-strength = <2>;
-> > >>> +             bias-pull-up;
-> > >>> +     };
-> > >>
-> > >> I checked the firmware configuration for this pin on my T14s, which
-> > >> does not match what you have here. Instead the function is set to
-> > >> "edp0_hot" which forwards the signal to the display controller which
-> > >> already handles the signal on panel power on. (And there is also no
-> > >> internal pull up enabled).
-> > >>
-> > >> We may want to describe this pin configuration somewhere, but that's a
-> > >> separate issue.
-> > >
-> > > Thanks for your review, I will send another version in coming days and
-> > > drop this first patch (adding hpd to the T14s DTSI).
-> > >
-> > > As a consequence I will need to add no-hpd property to the panel node.
-> > No, you won't. There is a HPD line and it is routed to the DP controller.
->
-> OK, I think I misunderstand what Johan said. After taking some time to
-> think about it in more detail:
-> - The first commit will be changed so that the hpd GPIO will be added
-> to the X1E DP controller instead of the panel. grepping the source for
-> dp_hot_plug_det shows me how to do that. This part is clear.
->
-> - The panel node in the generic T14s DTSI should not have the
-> hpd-gpios property / pinctrl set.
->
-> - The panel node should not have the hpd-gpios property / pinctrl set.
+When devm_kasprintf() fails, it returns a NULL pointer. However, this return value is not properly checked in the function wled_configure.
 
-LGTM. Use sc8180x-primus as an example
+A NULL check should be added after the devm_kasprintf call to prevent potential NULL pointer dereference error.
 
->
-> I hope I understand that correctly. I will send a new series in the
-> morning unless there is any objection.
+Fixes: f86b77583d88c ("backlight: pm8941: Convert to using %pOFn instead of device_node.name")
 
+Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+---
+ drivers/video/backlight/qcom-wled.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+index 9afe701b2a1b..db5eda8ec37e 100644
+--- a/drivers/video/backlight/qcom-wled.c
++++ b/drivers/video/backlight/qcom-wled.c
+@@ -1406,8 +1406,14 @@ static int wled_configure(struct wled *wled)
+ 	wled->ctrl_addr = be32_to_cpu(*prop_addr);
+ 
+ 	rc = of_property_read_string(dev->of_node, "label", &wled->name);
+-	if (rc)
++	if (rc) {
+ 		wled->name = devm_kasprintf(dev, GFP_KERNEL, "%pOFn", dev->of_node);
++		if (!wled->name) {
++			dev_err(dev, "Failed to allocate memory for wled name\n");
++			return -ENOMEM;
++		}
++	}
++
+ 
+ 	switch (wled->version) {
+ 	case 3:
 -- 
-With best wishes
-Dmitry
+2.34.1
+
