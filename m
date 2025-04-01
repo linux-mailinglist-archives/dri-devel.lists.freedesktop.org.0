@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5064DA77274
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 03:57:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2E3A772A4
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 04:15:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEEBB10E4C5;
-	Tue,  1 Apr 2025 01:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 914EE10E159;
+	Tue,  1 Apr 2025 02:15:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Uv6g86If";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mSnWgYCS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F387310E4C5
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 01:56:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11A5A10E159
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 02:15:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743472615;
- bh=w72XsOriwq4ahQrpLJkMKWJRW+nSyFT1Oqpro0NM/3U=;
+ s=mail; t=1743473724;
+ bh=Fqvw6uxuRFvcoeqKohK6RGL/Kz3larBJDRQ1jIJPPXM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Uv6g86If3PGWnsxGjpogBnpt523IIxIfBs9UZ6Kd6S6LZzuQI3HmxBCQ62dD3nlJJ
- xW6B8a2jVNRevTgJo7/fHuB5Be9j2gGqZriICvla6luJWB78clJO91EtQGYQ1g6m7I
- O30dtbUzX1AIu1flHIWzEEs1BeGgozhtkMdc0MP+q5E+33dekJoqz3TnzkVmFB4J6e
- H5gRrLEGNzVm5pmONrBK8wUFRCeIgS2Qn85twlR48X9jmGh74MRJvzCAhUhz5wiHIw
- UZImyUCMKOUNl8EWxvvn9g1xxngcUWl4AAk+DilDAbFCjKqh7a6i5fudcYhmdZtDCN
- 7xAErkMHWLAAw==
+ b=mSnWgYCSDUpsSYxqJzqP1YbE1hOkgqQANXSLFZZv2u0prxrNG+HUhtXFOoM76l7vN
+ NgJYYva7aWM9t9rOIT9A9tiKpnUzEHAj4TEF3jgEjKGn+di042b+/RR9SJvCrZwOm1
+ xZguuoikmEzHe9ZFYinY9hXLq8IS9W6Orn9+RT4vQN82XIHAPCzP5gkMv92zkxB92H
+ n/hcZ8nNpVDU0rrjhStbvihGmEaARONN/QUYhcCpRmIgk2Om2rHWyJ6hA1dHJzPKIT
+ +JCo3wygXLpSpE3El6BhBbhsgOGcYeLp16KX+AglKj8kr5JTgA9XS5J7Y+uLzW5ZnT
+ MDqzZ3hRWLc1A==
 Received: from [192.168.50.250] (unknown [171.76.83.191])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6982817E080B;
- Tue,  1 Apr 2025 03:56:52 +0200 (CEST)
-Message-ID: <482f82a0-3f60-47bc-965b-bbf282414d6c@collabora.com>
-Date: Tue, 1 Apr 2025 07:26:44 +0530
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7CEE517E0CD1;
+ Tue,  1 Apr 2025 04:15:20 +0200 (CEST)
+Message-ID: <ddd0095e-72b4-4cd1-9216-2071afbbad25@collabora.com>
+Date: Tue, 1 Apr 2025 07:45:09 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 2/3] drm/ci: Add jobs to validate devicetrees
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
+To: Dmitry Baryshkov <dbaryshkov@gmail.com>, Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, daniels@collabora.com,
  helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch,
  robdclark@gmail.com, guilherme.gallo@collabora.com,
  sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
- lumag@kernel.org, quic_abhinavk@quicinc.com, mripard@kernel.org,
+ lumag@kernel.org, quic_abhinavk@quicinc.com,
  maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
  linux-kernel@vger.kernel.org
 References: <20250327160117.945165-1-vignesh.raman@collabora.com>
  <20250327160117.945165-3-vignesh.raman@collabora.com>
  <v4dhuuuvfk63bakncz43z3ndjdze5ac7nrv6qvtpdnonfpetsx@5hh3vzcj336x>
+ <20250331-amphibian-hopping-bobcat-e19a0b@houat>
+ <CALT56yO-=nQnTB=H4L-qnta4js3FB=-WCOFj8q57PPWjLY+JKA@mail.gmail.com>
 Content-Language: en-US
 From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <v4dhuuuvfk63bakncz43z3ndjdze5ac7nrv6qvtpdnonfpetsx@5hh3vzcj336x>
+In-Reply-To: <CALT56yO-=nQnTB=H4L-qnta4js3FB=-WCOFj8q57PPWjLY+JKA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,183 +73,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Dmitry,
 
-On 30/03/25 22:36, Dmitry Baryshkov wrote:
-> On Thu, Mar 27, 2025 at 09:31:11PM +0530, Vignesh Raman wrote:
->> Add jobs to run dt_binding_check and dtbs_check. If warnings are seen,
->> exit with a non-zero error code while configuring them as warning in
->> the GitLab CI pipeline.
-> 
-> Can it really succeed or is it going to be an always-failing job? The
-> dt_binding_check generally succeed, dtbs_check generates tons of
-> warnings. We are trying to make progress there, but it's still very far
-> from being achevable.
-
-Even though it fails, it will be shown as a warning in the pipeline.
-https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1390797
-
-> 
+On 31/03/25 13:25, Dmitry Baryshkov wrote:
+> On Mon, 31 Mar 2025 at 10:53, Maxime Ripard <mripard@kernel.org> wrote:
 >>
->> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
->> ---
->>   drivers/gpu/drm/ci/check-devicetrees.yml | 38 ++++++++++++++++++++++
->>   drivers/gpu/drm/ci/dt-binding-check.sh   | 18 +++++++++++
->>   drivers/gpu/drm/ci/dtbs-check.sh         | 41 ++++++++++++++++++++++++
->>   drivers/gpu/drm/ci/gitlab-ci.yml         |  1 +
->>   4 files changed, 98 insertions(+)
->>   create mode 100644 drivers/gpu/drm/ci/check-devicetrees.yml
->>   create mode 100755 drivers/gpu/drm/ci/dt-binding-check.sh
->>   create mode 100755 drivers/gpu/drm/ci/dtbs-check.sh
+>> On Sun, Mar 30, 2025 at 08:06:45PM +0300, Dmitry Baryshkov wrote:
+>>> On Thu, Mar 27, 2025 at 09:31:11PM +0530, Vignesh Raman wrote:
+>>>> Add jobs to run dt_binding_check and dtbs_check. If warnings are seen,
+>>>> exit with a non-zero error code while configuring them as warning in
+>>>> the GitLab CI pipeline.
+>>>
+>>> Can it really succeed or is it going to be an always-failing job? The
+>>> dt_binding_check generally succeed, dtbs_check generates tons of
+>>> warnings. We are trying to make progress there, but it's still very far
+>>> from being achevable.
 >>
->> diff --git a/drivers/gpu/drm/ci/check-devicetrees.yml b/drivers/gpu/drm/ci/check-devicetrees.yml
->> new file mode 100644
->> index 000000000000..5f0c477f7578
->> --- /dev/null
->> +++ b/drivers/gpu/drm/ci/check-devicetrees.yml
->> @@ -0,0 +1,38 @@
->> +.dt-check-base:
->> +  timeout: "1h"
->> +  variables:
->> +    FF_USE_NEW_BASH_EVAL_STRATEGY: 'true'
->> +  script:
->> +    - drivers/gpu/drm/ci/${SCRIPT_NAME}
->> +  artifacts:
->> +    when: on_failure
->> +    paths:
->> +      - ${ARTIFACT_FILE}
->> +  allow_failure:
->> +    exit_codes:
->> +      - 102
->> +
->> +dtbs-check:arm32:
->> +  extends:
->> +    - .build:arm32
->> +    - .dt-check-base
->> +  variables:
->> +    SCRIPT_NAME: "dtbs-check.sh"
->> +    ARTIFACT_FILE: "dtbs-check.log"
->> +
->> +dtbs-check:arm64:
->> +  extends:
->> +    - .build:arm64
->> +    - .dt-check-base
->> +  variables:
->> +    SCRIPT_NAME: "dtbs-check.sh"
->> +    ARTIFACT_FILE: "dtbs-check.log"
->> +
->> +dt-binding-check:
->> +  extends:
->> +    - .build
->> +    - .use-debian/x86_64_build
->> +    - .dt-check-base
->> +  variables:
->> +    SCRIPT_NAME: "dt-binding-check.sh"
->> +    ARTIFACT_FILE: "dt-binding-check.log"
->> diff --git a/drivers/gpu/drm/ci/dt-binding-check.sh b/drivers/gpu/drm/ci/dt-binding-check.sh
->> new file mode 100755
->> index 000000000000..2a72bb89c013
->> --- /dev/null
->> +++ b/drivers/gpu/drm/ci/dt-binding-check.sh
->> @@ -0,0 +1,18 @@
->> +#!/bin/bash
->> +# SPDX-License-Identifier: MIT
->> +
->> +set -euxo pipefail
->> +
->> +apt-get update -qq
->> +apt install -y --no-install-recommends yamllint
->> +pip3 install dtschema
->> +
->> +if ! make -j${FDO_CI_CONCURRENT:-4} dt_binding_check >/dev/null 2>dt-binding-check.log; then
+>> It depends on the platforms I guess. Some are 100% covered and any
+>> warning should be treated as a failure, and some have not started the
+>> effort.
+>>
+>> I guess we could solve it with some kind of expectation list, but I do
+>> wonder if it's something *we* should be focusing on :)
 > 
-> I'd rather see errors in job output too.
-
-Will update it.
-
+> I think that we might want to limit this to `make dt_bindings_check
+> DT_SCHEMA_FILES=display`, checking all GPU / display schema files.
 > 
->> +    echo "ERROR: 'make dt_binding_check' failed. Please check dt-binding-check.log for details."
->> +    exit 1
->> +fi
->> +
->> +if [[ -s dt-binding-check.log ]]; then
->> +    echo "WARNING: dt_binding_check reported warnings. Please check dt-binding-check.log for details."
->> +    exit 102
->> +fi
->> diff --git a/drivers/gpu/drm/ci/dtbs-check.sh b/drivers/gpu/drm/ci/dtbs-check.sh
->> new file mode 100755
->> index 000000000000..a0129d5a53b0
->> --- /dev/null
->> +++ b/drivers/gpu/drm/ci/dtbs-check.sh
->> @@ -0,0 +1,41 @@
->> +#!/bin/bash
->> +# SPDX-License-Identifier: MIT
->> +
->> +set -euxo pipefail
->> +
->> +. drivers/gpu/drm/ci/override-ld-with-bfd.sh
->> +
->> +apt-get update -qq
->> +pip3 install dtschema
->> +
->> +case "${KERNEL_ARCH}" in
->> +    "arm")
->> +        GCC_ARCH="arm-linux-gnueabihf"
->> +        ;;
->> +    "arm64")
->> +        GCC_ARCH="aarch64-linux-gnu"
->> +        ;;
->> +    "x86_64")
->> +        GCC_ARCH="x86_64-linux-gnu"
->> +        ;;
->> +    *)
->> +        echo "Unsupported architecture: ${KERNEL_ARCH}"
->> +        exit 1
->> +        ;;
->> +esac
->> +
->> +export ARCH="${KERNEL_ARCH}"
->> +export CROSS_COMPILE="${GCC_ARCH}-"
->> +
->> +make `basename ${DEFCONFIG}`
->> +make -j${FDO_CI_CONCURRENT:-4} dtbs
-> 
-> You don't need to build dtbs separately, dtbs_check includes dtbs.
 
-Ack. Will remove this.
-
-> 
->> +
->> +if ! make -j${FDO_CI_CONCURRENT:-4} dtbs_check >/dev/null 2>dtbs-check.log; then
-> 
-> I'd rather see errors in job output too.
-
-Will update it.
+Yes, will test the changes and send v2.
 
 Regards,
 Vignesh
-
-> 
->> +    echo "ERROR: 'make dtbs_check' failed. Please check dtbs-check.log for details."
->> +    exit 1
->> +fi
->> +
->> +if [[ -s dtbs-check.log ]]; then
->> +    echo "WARNING: dtbs_check reported warnings. Please check dtbs-check.log for details."
->> +    exit 102
->> +fi
->> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
->> index 65adcd97e06b..9e61b49e9960 100644
->> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
->> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
->> @@ -108,6 +108,7 @@ include:
->>     - drivers/gpu/drm/ci/static-checks.yml
->>     - drivers/gpu/drm/ci/build.yml
->>     - drivers/gpu/drm/ci/test.yml
->> +  - drivers/gpu/drm/ci/check-devicetrees.yml
->>     - 'https://gitlab.freedesktop.org/gfx-ci/lab-status/-/raw/main/lab-status.yml'
->>   
->>   
->> -- 
->> 2.47.2
->>
-> 
-
