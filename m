@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E677A777E5
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 11:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC05A77806
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 11:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6937C10E539;
-	Tue,  1 Apr 2025 09:39:48 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bU+d4FUY";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3E1110E540;
+	Tue,  1 Apr 2025 09:44:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 724E510E0A8
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 09:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743500385;
- bh=Ah+mV8yuvZRy/olIXu1yJ6+e1HLEkDn2tSZ5n3RQDuI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bU+d4FUYY/c4bGEcpy0FZircnLalG2hJ+JQfnaYRxkTK72wUc91t/EY0QeWe/E6UM
- ydNAWupakCbIwl6WR4jP4SAxdtwQQcnATpUZaOlJ6nr0teQNacsbtsZGAPjwLxm+4M
- ARFq9yzY55L0SeNjp3CuCf8CXt0XMX6AaIFaPmaulfo6tTrM/zktPxGE+ma7qumUd0
- s7BTxsb6hzi2vMvmFMgxOodb0UeTjF2TieJd97ISIzq+NRq6pWXHSXkvDh0sBBLGKl
- 9vpC0F9+4V4yOt0ttxHC/L5ogRSxR29DYO39z+AmuehX8Kaqbf4cgMihGlNX8Yu/wq
- n3nYTAtbKTlTg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 7273017E0CD1;
- Tue,  1 Apr 2025 11:39:44 +0200 (CEST)
-Date: Tue, 1 Apr 2025 11:39:40 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Steven
- Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH v2 6/6] drm/panfrost/panthor: Take sparse objects
- into account for fdinfo
-Message-ID: <20250401113940.089e4e14@collabora.com>
-In-Reply-To: <20250326021433.772196-7-adrian.larumbe@collabora.com>
-References: <20250326021433.772196-1-adrian.larumbe@collabora.com>
- <20250326021433.772196-7-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0136310E540
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 09:44:49 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.141.245])
+ by APP-01 (Coremail) with SMTP id qwCowADnjv+DtetnAd2vBA--.1435S2;
+ Tue, 01 Apr 2025 17:44:36 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: obitton@habana.ai,
+	ogabbay@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
+Subject: [PATCH] habanalabs: Add error handling for
+ hl_mmu_get_hop_pte_phys_addr()
+Date: Tue,  1 Apr 2025 17:44:13 +0800
+Message-ID: <20250401094413.2401-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADnjv+DtetnAd2vBA--.1435S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr4Uuw18JF4Duw15Kr47CFg_yoW8GryfpF
+ n3Kr4rXFy5Jr1UZayUtr1IvF1Yv39xWFy3K3ZFka9093s8X3s7u343W3WSvw4UArWkGan7
+ Zw1kAFs8CF18ZrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+ AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+ v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
+ c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
+ MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUcBMtUUU
+ UU=
+X-Originating-IP: [124.16.141.245]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBg0TA2frlYJ04QABsU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,49 +61,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Mar 2025 02:14:26 +0000
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+In _hl_mmu_v2_hr_map(), If hl_mmu_get_hop_pte_phys_addr() fail to
+get physical address, the return address will be set as U64_MAX.
+Hence, the return value of hl_mmu_get_hop_pte_phys_addr() must
+be checked to prevent invalid address access. Add error handling
+and propagate return code to caller function to fix this issue.
 
-> Make use of the new shmem helper for deciding whether a GEM object has
-> backing pages.
+Fixes: 8aa1e1e60553 ("habanalabs: add gaudi2 MMU support")
+Cc: stable@vger.kernel.org # v6.0+
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-This should be done in patch 4, otherwise the series is not bisectible.
-
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
->  drivers/gpu/drm/panthor/panthor_gem.c   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_gem.c
-> index 0cda2c4e524f..2c6d73a7b5e5 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -200,7 +200,7 @@ static enum drm_gem_object_status panfrost_gem_status=
-(struct drm_gem_object *obj
->  	struct panfrost_gem_object *bo =3D to_panfrost_bo(obj);
->  	enum drm_gem_object_status res =3D 0;
-> =20
-> -	if (bo->base.base.import_attach || bo->base.pages)
-> +	if (drm_gem_shmem_is_populated(&bo->base))
->  		res |=3D DRM_GEM_OBJECT_RESIDENT;
-> =20
->  	if (bo->base.madv =3D=3D PANFROST_MADV_DONTNEED)
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
-hor/panthor_gem.c
-> index 8244a4e6c2a2..48930fe7b398 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -155,7 +155,7 @@ static enum drm_gem_object_status panthor_gem_status(=
-struct drm_gem_object *obj)
->  	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
->  	enum drm_gem_object_status res =3D 0;
-> =20
-> -	if (bo->base.base.import_attach || bo->base.pages)
-> +	if (drm_gem_shmem_is_populated(&bo->base))
->  		res |=3D DRM_GEM_OBJECT_RESIDENT;
-> =20
->  	return res;
+diff --git a/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c b/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
+index 31507b2a431b..cdade07e22c5 100644
+--- a/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
++++ b/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
+@@ -253,6 +253,11 @@ static int _hl_mmu_v2_hr_map(struct hl_ctx *ctx,
+ 		hop_pte_phys_addr[i] = hl_mmu_get_hop_pte_phys_addr(ctx, mmu_prop, i,
+ 									hops_pgt_info[i]->phys_addr,
+ 									scrambled_virt_addr);
++		if (hop_pte_phys_addr[i] == U64_MAX) {
++			rc = -EINVAL;
++			goto err;
++		}
++
+ 		curr_pte = *(u64 *) (uintptr_t) hl_mmu_hr_pte_phys_to_virt(ctx, hops_pgt_info[i],
+ 							hop_pte_phys_addr[i],
+ 							ctx->hdev->asic_prop.pmmu.hop_table_size);
+-- 
+2.42.0.windows.2
 
