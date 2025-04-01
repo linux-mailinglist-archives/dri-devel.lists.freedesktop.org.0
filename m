@@ -2,91 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D989CA77DD6
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 16:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D582A77E14
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 16:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7779B10E273;
-	Tue,  1 Apr 2025 14:34:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5478710E5EB;
+	Tue,  1 Apr 2025 14:43:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NbVgzHG3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cOmAXulF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4833B10E273
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 14:34:16 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-ac297cbe017so1191353966b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 07:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1743518055; x=1744122855;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eTh5SHeVHsMzCTb1Q+DgN78bwF0gyC1oK/TiTM7beZE=;
- b=NbVgzHG3LC4AVkSKbjibZfmqWl9VEgC9Ot8UkS6EplcMbcF2gIlU8ip5HSrKczMyfM
- nKu3BMxkhKu+tDZAAPp2dStofXL8x1to2ijOj33/+EmySSouWyWieBmAePUE0swCjBqG
- /mKxkB+MCQ+M8I6/KMf84ltVJqjuBU0+kemyc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743518055; x=1744122855;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eTh5SHeVHsMzCTb1Q+DgN78bwF0gyC1oK/TiTM7beZE=;
- b=w5ShIl6hT7v4jaJxhi5c64CPQil6f+UZCNwnTxltgkj44jkyheJ4V4p7H85EGH5WYG
- Zh2vC974bInDTDlKJlMq08b7gwE7EPt6yVNiYYIk3oFYmym2biZA/gQVy9WBobkbnK1+
- xVJlRk5TZ/YMuU5LKoheuCYeSm2PvEN4I/bJJkkExi6+RM9UI0GKTaS2lqLXkdw9bjFa
- VvNoYa45rmERWL9aCYZC9jV7Sytttg1pP2x2z5ZdM+SgNbMA2WwqtbWPBzedq6V1xv77
- 1UrHrl4FRArdFelH/bWxM+V/qtIg6ajMjpHozrBaIhVSWLTOEgEpYv8sE3D7gDwSoNHF
- vffg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWTBbQ6XZauUchRh/fcd50L0Fi20ai3BhH7XmaCYI0Yr2wBC291JcwKWmWWEikjfvkKBL91mQAUp1A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwI8T+wUvmN74TU22LpJ9nRoqBi9gn09mUq6N+Ie+zxPWFQPaqC
- IXUGQSUp1fLmV2HoYRmd0fWKT0MFlC+WxTDcP4wnbqAvXhB0RBEt9g2I+e8iE9NnvowfKoWnAZ8
- =
-X-Gm-Gg: ASbGncsRQHtdcAAWCbKyQBwJazG9q2SKj43PnSlTvj2GNj5BjMuEraG7AB/tFZif192
- YiXWKZngeNe+WG8ylCBzRHtk8LBIVlFSEFXCKMZQ5t4yo78FGHJX7aK8Ka7UXigO5VFFagN9hJQ
- TxxBHPA4WQGDPsKGmxSoDpjHtxzmQSILdh05nctvxQM11yhAK3dnbCo7H/W9bTqf/gWKAq453Af
- umLhHdBwfUEPv1FqjX8efhcrdhp35VEa7kKQIT+d/HGcYfO8tdZ7QZUcqW7AL1lSzO6kll1j6Te
- 98z27kMnhOQU5mWCq9v5Y6tETwouOkSujXD6333ZK2SlandotOaNM+cet8hduLN4fscByLfwugu
- CEBItHNp/YOQCGw51
-X-Google-Smtp-Source: AGHT+IHhls2TANhnt1QfxM05pb0UM+NsurSWJTLB33n8oVTTVRF4TFXCC2aXY+VRaLbOL/6uVGTSEw==
-X-Received: by 2002:a17:907:9718:b0:ac6:f5b5:36e0 with SMTP id
- a640c23a62f3a-ac797de1058mr18405966b.19.1743518054390; 
- Tue, 01 Apr 2025 07:34:14 -0700 (PDT)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com.
- [209.85.208.54]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac78c9e0756sm74981966b.128.2025.04.01.07.34.13
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Apr 2025 07:34:13 -0700 (PDT)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-5e789411187so9413a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 07:34:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUn/5cHUK/aMUiz1We4ukXaXXTwZOcM08ADAmY8wcu5peNU/0n4bqCbcfpeXA4W9m5iRrQqD0l1uX8=@lists.freedesktop.org
-X-Received: by 2002:a50:cc91:0:b0:5e5:ba42:80a9 with SMTP id
- 4fb4d7f45d1cf-5f0347c665cmr100229a12.1.1743518052834; Tue, 01 Apr 2025
- 07:34:12 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E67D10E5EB;
+ Tue,  1 Apr 2025 14:43:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743518600; x=1775054600;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=K6WJY3tfkFhz/muLLbEhJ7qHN/xkLBt2I7DVfEWfKWw=;
+ b=cOmAXulFoWVJwxPq2MYzsUm42Ork1EhgE9efyl1BobzmKHU9xD61l2VQ
+ 5CEG8vWkQcjg0A97ELr+eqEk6Z9YNKuFDKwWNikm7pyaFy9tGJKkL/T7x
+ CkoPt8CcrfUJdpgpqOr1MvHO/Ck6RcClXBC6flZRS0da5LyUElEREA/BJ
+ 9RY0dPtvAZXL3Yn2WvZ3lYcAi2HW9tfQ5y8KVez4H71dz8/17KoyKinQk
+ XyKTRHQl3ZTNPQI5M2O4VYIN+myMQDQr4flKhGnftlF7J1FUNT9WKhMNv
+ CV3Fb85kA/gfVI0AZf9FaoMfd619qowRZpj4KAyt2bpUlubN2HMGVS7k0 A==;
+X-CSE-ConnectionGUID: E/4GTyeOQsuo90sdZzycJA==
+X-CSE-MsgGUID: xpXoUQTORIWG+dzZsUeMUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44095946"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="44095946"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 07:43:19 -0700
+X-CSE-ConnectionGUID: rfAdMOvnSAy03oJnx0kCmg==
+X-CSE-MsgGUID: 3ySWbYOHTWquYSPc0wG4Sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="131543480"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.7])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 07:43:17 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH 1/2] drm/dp_mst: Fix GUID DPCD write to non-root MST
+ branch devices
+In-Reply-To: <20250401103846.686408-1-imre.deak@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250401103846.686408-1-imre.deak@intel.com>
+Date: Tue, 01 Apr 2025 17:43:13 +0300
+Message-ID: <87ikno2b9a.fsf@intel.com>
 MIME-Version: 1.0
-References: <20250401130151.2238772-1-dmitry.osipenko@collabora.com>
- <l2ndn2jo2swv4unuc5r7fm3of6w3teyytpqfpgcvkdwnp3fubc@ect2rh2ikmhn>
-In-Reply-To: <l2ndn2jo2swv4unuc5r7fm3of6w3teyytpqfpgcvkdwnp3fubc@ect2rh2ikmhn>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Tue, 1 Apr 2025 07:34:01 -0700
-X-Gmail-Original-Message-ID: <CAAfnVBkMMVQVXeS9Bo=bkXQs1wG2xHMWBCwxjHxPbLkBU2upbA@mail.gmail.com>
-X-Gm-Features: AQ5f1JpkuWyndcUlvHsQpMPOTjRVCP5lLXHzBouOq_RMXhlH1GwCPo-Cy9RHAC8
-Message-ID: <CAAfnVBkMMVQVXeS9Bo=bkXQs1wG2xHMWBCwxjHxPbLkBU2upbA@mail.gmail.com>
-Subject: Re: [PATCH v1] MAINTAINERS: Add Dmitry Osipenko as drm/virtio
- co-maintainer
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@redhat.com>, 
- Chia-I Wu <olvaffe@gmail.com>, dri-devel@lists.freedesktop.org, 
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
- kernel@collabora.com
-Content-Type: multipart/alternative; boundary="000000000000338dc10631b86e8a"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,50 +71,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000338dc10631b86e8a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 1, 2025 at 7:25=E2=80=AFAM Gerd Hoffmann <kraxel@redhat.com> wr=
-ote:
-
-> On Tue, Apr 01, 2025 at 04:01:51PM +0300, Dmitry Osipenko wrote:
-> > I was helping to co-maintain VirtIO-GPU driver in drm-misc with
-> > permission from Gerd Hoffmann for past 2 years and would like to
-> > receive new patches directly into my inbox. Add myself as co-maintainer=
-.
-> >
-> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+On Tue, 01 Apr 2025, Imre Deak <imre.deak@intel.com> wrote:
+> The return value on success of drm_dp_send_dpcd_write() called for
+> non-root MST branch devices from drm_dp_check_mstb_guid() is the number
+> of bytes transferred. Atm this return value (in case of a complete read)
+> will be regarded incorrectly as an error by the caller of
+> drm_dp_check_mstb_guid(). Fix this by converting the return value for a
+> complete read to the expected success code (0) and for a partial read to
+> a failure code (-EPROTO).
 >
-> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+> Fixes: 2554da0de3e8 ("drm/display: dp-mst-topology: use new DCPD access helpers")
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+> ---
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
->
-Reviewed-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> index de3fc6090c906..619f461e02f76 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -2200,6 +2200,8 @@ static int drm_dp_check_mstb_guid(struct drm_dp_mst_branch *mstb, guid_t *guid)
+>  			ret = drm_dp_send_dpcd_write(mstb->mgr,
+>  						     mstb->port_parent,
+>  						     DP_GUID, sizeof(buf), buf);
+> +			if (ret >= 0)
+> +				ret = ret == sizeof(buf) ? 0 : -EPROTO;
+>  		} else {
+>  			ret = drm_dp_dpcd_write_data(mstb->mgr->aux,
+>  						     DP_GUID, buf, sizeof(buf));
 
---000000000000338dc10631b86e8a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Apr 1, =
-2025 at 7:25=E2=80=AFAM Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.c=
-om">kraxel@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">On Tue, Apr 01, 2025 at 04:01:51PM +0300, Dmitry Osipe=
-nko wrote:<br>
-&gt; I was helping to co-maintain VirtIO-GPU driver in drm-misc with<br>
-&gt; permission from Gerd Hoffmann for past 2 years and would like to<br>
-&gt; receive new patches directly into my inbox. Add myself as co-maintaine=
-r.<br>
-&gt; <br>
-&gt; Signed-off-by: Dmitry Osipenko &lt;<a href=3D"mailto:dmitry.osipenko@c=
-ollabora.com" target=3D"_blank">dmitry.osipenko@collabora.com</a>&gt;<br>
-<br>
-Reviewed-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=
-=3D"_blank">kraxel@redhat.com</a>&gt;<br>
-<br></blockquote><div><br></div>Reviewed-by: Gurchetan Singh &lt;<a href=3D=
-"mailto:gurchetansingh@chromium.org">gurchetansingh@chromium.org</a>&gt;<di=
-v class=3D"gmail-yj6qo"></div><br class=3D"gmail-Apple-interchange-newline"=
-><div>=C2=A0</div></div></div>
-
---000000000000338dc10631b86e8a--
+-- 
+Jani Nikula, Intel
