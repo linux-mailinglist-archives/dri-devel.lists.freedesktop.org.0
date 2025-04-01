@@ -2,90 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF184A77FE3
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 18:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47156A78025
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 18:23:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C347410E60A;
-	Tue,  1 Apr 2025 16:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2886D10E116;
+	Tue,  1 Apr 2025 16:23:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="eSsxfE31";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="B81H9uYV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TfuZOS7P";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B81H9uYV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TfuZOS7P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF4410E60A
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 16:12:19 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-ac28e66c0e1so863896366b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 09:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1743523938; x=1744128738;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=R0cWPyIGalJTJpOn4sOHZYmIkTB2QC9Z2olFNCWNik4=;
- b=eSsxfE31kYHWymQh9FxVsP74IT5etC9nI/Mj5TzIh2CxBkv7zrpKmDM5DB1uZR/QwY
- zXfhDg8F3QKLq4AZq2Jv23wKkzf4C0G1BEhUJ17pN1Jt7eSqyR+Q8fW9D1rByuiVKeRb
- 0WUTlzTCwzFmBZXuhcrcYZemhteJvFVABlXvo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743523938; x=1744128738;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=R0cWPyIGalJTJpOn4sOHZYmIkTB2QC9Z2olFNCWNik4=;
- b=YvoN1Cz9AohvzKHkXw8kOA/0fg+Gme3wy/woYZxJZtl747btCN9S6NPNUcTjt996E4
- OcaVLRZkfMrqsF1wqGGh6sepyhyT0b3X94DtVtXxHtWvtFYVlT9WUKfnX/1R1GNTWScZ
- fa/8n8yFMKtm+kUfAQASoXnKvUMJnGMuTA2iDvndiuEfqHgJ+1lPOSrAszSQRe65Le4G
- E9HXxs7DSEpRkvsFZTlERG/SN53JQhBFQYY1imuRRiULMOHtHPmxVhO8oReOlr1IXtNG
- BRrWK1QZQxuNUF0sVvOteb2CbJnbJcogKhkiZ1fQUPSUoABh8qd04b0O3rwh0JMOWKYJ
- E8Zw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2KefLU5FwY8EXcaepSsxIJ4eGsHws0lVx4u8eSxtH0PEHF2am7fsO+P6OOhOYJEsmrFC8IUh9SRY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1TCBmrXLHOi6ai2PdnrDO9ikTCBLSh7eiq7rBVTHVtQ+22sul
- wW1LpK56rHMpqq2BiM5bMDP1drEcZJtmnnkRgqUkP5hx9WXcoRI8XxGg+nxq/rRg8SJPVYYm9oY
- qfts=
-X-Gm-Gg: ASbGncs/rggUJA3qJoIyVSza/jgia1j35LHcFrHZulGicKY53y3TzYGys80NGr78Ioq
- wNxehSeCf//T/ooMXCRoTVqdITbISIGkkgfGMHg6Hh5UNECYBpws17hvc/2q8J92vR968sWjSU3
- oyzm6f2UhE5CyBekNrVWPo1rGqyzQWW20Htw4089taIPpxzY+Mc3ob5GS4l/vpVYbduJEV602l+
- WVGsEFQoKDTaQdq33+DsthnPcYBjkT4cLic9SSdmAvC92cJOZZtpaqCSdW5gm0vHSvT7sIAMSgi
- jxNrgMfrXOf8f1azDXtauFl6CetepFigEYUs6Wi17TYolEMjXtEzYi4d7rcWeINP3DaHMoTn0Gh
- SPd7LlHM6dduS3AJWeGQ=
-X-Google-Smtp-Source: AGHT+IG/8xnXxDDuJsaKLGYJH1lIgste+eteext8rvEtZ8rKSjToECwMWKHEPt63aXtl+31zHkQ9Mw==
-X-Received: by 2002:a17:907:868a:b0:ac3:ad7b:5618 with SMTP id
- a640c23a62f3a-ac7389e6750mr1465181466b.3.1743523937731; 
- Tue, 01 Apr 2025 09:12:17 -0700 (PDT)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com.
- [209.85.208.50]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac71927af39sm778885066b.44.2025.04.01.09.12.17
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Apr 2025 09:12:17 -0700 (PDT)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-5e673822f76so9747687a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 09:12:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXOzmsqJsUBCQC92orByY9LaeBgGXkn6+oK3fRRMRLNXw0SSz2xeoGBohfPiH0JcJUsjCSIWs/d5gE=@lists.freedesktop.org
-X-Received: by 2002:a17:907:60ca:b0:ac7:95b3:fbe2 with SMTP id
- a640c23a62f3a-ac795b40722mr84123166b.56.1743523936719; Tue, 01 Apr 2025
- 09:12:16 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F239910E116
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 16:23:09 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5D16B210F4;
+ Tue,  1 Apr 2025 16:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743524585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=c5kQpTFo0guy0Q8KEdRexePBPFz0+YM1La0l84HRWvM=;
+ b=B81H9uYVcqYPCkEQu7xCH5yByvIZkyaudGOSl5irJoYCMCPFI55DLzbnQsEH5IuszS7btj
+ ZuP/Jy1zxpfU3Fx5aCPLzDwwyVYz3WvjmzmNWNEj03QcBfyVcsDfXRyAep6I22GvK9HkBL
+ PEH5YNfbuLz/yc0rYqiRAml1BPULQro=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743524585;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=c5kQpTFo0guy0Q8KEdRexePBPFz0+YM1La0l84HRWvM=;
+ b=TfuZOS7PGqfWD9xr/apFssFo6ncPaGUlsibtZayVuoa8On80v/wQ2S0OcclWlb9mocTClM
+ gNNscmdXMUm0lGBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743524585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=c5kQpTFo0guy0Q8KEdRexePBPFz0+YM1La0l84HRWvM=;
+ b=B81H9uYVcqYPCkEQu7xCH5yByvIZkyaudGOSl5irJoYCMCPFI55DLzbnQsEH5IuszS7btj
+ ZuP/Jy1zxpfU3Fx5aCPLzDwwyVYz3WvjmzmNWNEj03QcBfyVcsDfXRyAep6I22GvK9HkBL
+ PEH5YNfbuLz/yc0rYqiRAml1BPULQro=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743524585;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=c5kQpTFo0guy0Q8KEdRexePBPFz0+YM1La0l84HRWvM=;
+ b=TfuZOS7PGqfWD9xr/apFssFo6ncPaGUlsibtZayVuoa8On80v/wQ2S0OcclWlb9mocTClM
+ gNNscmdXMUm0lGBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 33F59138A5;
+ Tue,  1 Apr 2025 16:23:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id wfNWC+kS7GdxDAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 01 Apr 2025 16:23:05 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com,
+	sean@poorly.run,
+	patrik.r.jakobsson@gmail.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/9] drm/udl: Support adapters without vendor firmware
+ descriptor
+Date: Tue,  1 Apr 2025 18:12:10 +0200
+Message-ID: <20250401161929.283244-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <CAPM=9tyx=edsZ3ajuAUAv4vjfa=WNEzobqAsYbBTjCfLbuEeFQ@mail.gmail.com>
- <CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com>
- <87h6394i87.fsf@intel.com> <Z-p2ii-N2-dd_HJ6@phenom.ffwll.local>
- <20250331133137.GA263675@nvidia.com> <87tt782htn.fsf@intel.com>
-In-Reply-To: <87tt782htn.fsf@intel.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 1 Apr 2025 09:12:00 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com>
-X-Gm-Features: AQ5f1Jrv7hzkHPbwtJqWz0Cd1SXHgUtjes9IRxVS7PrDi4g4uM9zP-lB0F8gOBM
-Message-ID: <CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.15-rc1
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Dave Airlie <airlied@gmail.com>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,poorly.run,gmail.com];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCPT_COUNT_FIVE(0.00)[5];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Score: -1.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,46 +108,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 1 Apr 2025 at 05:21, Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> The header checks have existed for uapi headers before, including the,
-> uh, turds, but apparently adding them in drm broke the camel's back.
+Fallback to default values for devices without vendor firmware
+descriptor. Enables support for such devices. Since we're at it,
+improve the descriptor parser.
 
-The uapi header test things never caused any problems for me [*],
-because they don't actually pollute the source tree.
+Patches 1 to 3 do some cleanups for the driver.
 
-Why? Because they all end up in that generated 'usr/include/' directory.
+Patches 4 to 8 rewrite the parser code for the vendor firmware
+descriptor. It's now more compatible and validates the raw input
+more reliably.
 
-So when I look at the source files, filename completion is entirely
-unaffected, and it all works fine.
+Patch 9 adds support for the additional devices.
 
-Look, I can complete something like
+Tested with various DisplayLink adapters, including one without
+vendor firmware descriptor.
 
-    include/uapi/asm-generic/poll.h
+Thomas Zimmermann (9):
+  drm/udl: Remove unused field dev from struct udl_device
+  drm/udl: Remove unused field gem_lock from struct udl_device
+  drm/udl: Improve type safety when using struct udl_device
+  drm/udl: The number of pixels is always positive
+  drm/udl: Handle errors from usb_get_descriptor()
+  drm/udl: Return error if vendor descriptor is too short
+  drm/udl: Treat vendor descriptor as u8
+  drm/udl: Validate length in vendor-descriptor parser
+  drm/udl: Support adapters without firmware descriptor
 
-perfectly fine, because there is *not* some generated turd that affects it all.
+ drivers/gpu/drm/udl/udl_drv.c      |   6 +-
+ drivers/gpu/drm/udl/udl_drv.h      |  19 ++--
+ drivers/gpu/drm/udl/udl_main.c     | 174 +++++++++++++++++------------
+ drivers/gpu/drm/udl/udl_modeset.c  |  21 ++--
+ drivers/gpu/drm/udl/udl_transfer.c |   6 +-
+ 5 files changed, 128 insertions(+), 98 deletions(-)
 
-Because for the uapi files those hdrtest files end up being in
+-- 
+2.49.0
 
-    ./usr/include/asm-generic/poll.hdrtest
-
-and I never have any reason to really look at that subdirectory at
-all, since it's all generated.
-
-Or put another way - if I _were_ to look at it, it would be exactly
-because I want to see some generated file, in which case the 'hdrtest'
-turd would be part of it.
-
-(Although I cannot recall that ever having actually happened, to be
-honest - but looking at various header files is common, and I hit the
-drm case immediately)
-
-Would you mind taking more of that uapi approach than creating that
-hidden directory specific to the drm tree? Maybe this could *all* be
-generalized?
-
-           Linus
-
-[*] I say "never caused any problems for me", but maybe it did way in
-the past and it was fixed and I just don't recall. I have definitely
-complained about pathname completion issues to people before.
