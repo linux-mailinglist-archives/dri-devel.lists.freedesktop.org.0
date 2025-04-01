@@ -2,80 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8C4A7766C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 10:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB70A7767E
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 10:33:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE7810E097;
-	Tue,  1 Apr 2025 08:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9287210E515;
+	Tue,  1 Apr 2025 08:33:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HnoCPooj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JsOxi66j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B02B10E50B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 08:30:21 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id
- 98e67ed59e1d1-3014678689aso7419414a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 01:30:21 -0700 (PDT)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
+ [209.85.160.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C736210E515
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 08:33:17 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id
+ 586e51a60fabf-2c76a1b574cso1634430fac.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 01:33:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743496221; x=1744101021; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1743496396; x=1744101196; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PjoRRxErQAE65f2vVZqYUjTQAES/NXv5oq8jYX02KT4=;
- b=HnoCPoojV3AWm5ecn4E8duWMYeVr4xdG7TKRrdJ+8JmK8tS/WMmiI3sy9dr3HZ7mDD
- MceWscpP55xM8QEKZ5eqMu80DI3qnSLSl9QjBNCVkXcyXlcmv8SCLltoTEY6/wY42SYH
- L8YRkaVBxNrFIaIl8g0yn0ARZpTKscmNxJkzeXswHWISAL8UrYZrjTWDS94hqzSx38CZ
- utjCTVfFOf7D9nnMpqHuchPqbgaHVfNhAPdtAb/fbWiTM8oTIivhz1rsWq6CA1I4m/Xz
- gHbyKhz/60kulWr4A/T3V6pMhGWgpXspxLxjA+6r+8r3v8Gy8ZUGIzZTSPVI8kHdE5v7
- 9+tA==
+ bh=/CPeJtNEQsuzyZj1LWzpLz2qGETWIvRqRfnm4VRDQlo=;
+ b=JsOxi66jhXm5wbEmS/2PsaLmXcPsn4qqgyzUtL4YEtHZ/PlZTRG5/LLexTE98XWUyc
+ 57/Y3Mgp7A6Mwy+fuek3UPC7sPPV0/rKHGMcIgdAmXAtOA7swXIw9lawQjgfeJYYGfrt
+ ufKUcjmlwdjcRje9hS3INqQ0DTv1dskzGBmGaR6pBo8/YgHmtcwDgPVfWOWME6vZDseV
+ RsioKcL9ZKqEsuXyNdBLFunvoQCGZ7QVpmQzQp46dS/nsIimlIxr5N7uS0g6Ca9ZDGg7
+ BLZFQ9ETslG00fB5ND86DqUg4cs0XChGhATMEz7JGiggIwk1JtX2gYbbulh/FTcc0EY1
+ i88g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743496221; x=1744101021;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1743496396; x=1744101196;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PjoRRxErQAE65f2vVZqYUjTQAES/NXv5oq8jYX02KT4=;
- b=WRAyi3J4dK/t6K0L0geRFzwrLHfC0hd0B3AO6uBUs3zm94nRgUzQsOtMdWe0zqxwMZ
- ZhO1MhRRpwpaDgjC2iQbfbbrr/9Ens4K345xN8hWDkU0zPaxgtEIHFoFWqS4qkRunEtM
- /xrI19fa31henqbGYUm/79lxww9Ll6zpEpLlfr3cuMqKMa4LtyqLFNxa6iMiilJ3Zk8H
- SiFzGXN/fBAN9tH7K2XPupzYu6mg2tXu7Qtghkbdcq0um6XuzuwfVabfCYC7J04rMU/r
- HIw+FzkQ0Ks6UTch4AHDHzUwB6NVNzQHmUJBU54dX9smRcxG5XooEsTQ3ubdBApyhibH
- p0kg==
+ bh=/CPeJtNEQsuzyZj1LWzpLz2qGETWIvRqRfnm4VRDQlo=;
+ b=WTCmMWBBkS257FNYSncTcUvOHSV2T+ayjzQ75QL/uQUM68NbMfDg/SwEhlJpdHMkrR
+ he2Ek7TUJliwdpzmp4qsrfivarSdg3jMVDvPeEAWmsGRYxyZJx5E+jkJBRnE2z6Aq6ep
+ fqbinSi9ZmROqx9nI8zVEGcn1ZHlP1rXx23bpNAyISppW4oWSVhjbhTVwksB/RuZUp06
+ BesHEjQfYuv/WF+71SEDD02gSudlY1hXgnnfGTg1LzbRM85WOXXIWySbmn6WwN2LfqQ3
+ uIjGTHcF6cDIFUOU+VBQae53an8zRDOLCATqb0Zt8wO6Kw5iKiXtDIjmRrEH/5lxvonL
+ v/LQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWCWghs64B31bwD/jckDo3qHWjXmR+P0OJdRYPTQEsNbsDxip2V7sTLzPDBjqOncZRZLRsLpikUBL8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yybn8O6fLO+T/8/ZIbSgb5DdRFc7s7om11I+dCv1c8Yh5RBGAYy
- HALizlR54ghmMc7aUZ+6QLbx4S21djRrfs3BFiqfWX6852gW34z+2UemljVuOzk=
-X-Gm-Gg: ASbGnctrqQgc4SiFuZQHhkd0bwbauoCZkNIBFfYrUN7/DjfRU0E7uzMAp3PizOE7xH1
- Gu2OBhlpQy1U63IbBx2Lry0xu0AiycA90/bYyEF1OPQ9sANV6MV59dQnizzRXQsB12jLVmmtoRf
- f+gd1LTzTdJ9uGi5NYeOvM629EPQRNF6aODd6MCACyEyX2Gx/z8JQy89bViPu+WihG+HVBILV/N
- TuP+gwCd690xxZr6vIU4bC2fMolPqcDXOTlRKFJ2/lAMgxnOl6xbJmhKj7aOkRvnrUb9GcwdJxl
- 36YIpKvQMBjkVeU63eMbdn9F9XOdmCSJkulw7jzS2h4lHjcouQUcZPz1/oPKwGo/ejOhKDA=
-X-Google-Smtp-Source: AGHT+IFWAAHV082oTdqQGEjBX414lW/d/FJAUbsjDbzy53pI1JmjcwR0u4fqgwsDs6QJqtqU53fJMg==
-X-Received: by 2002:a17:90b:384d:b0:2f9:9ddd:689b with SMTP id
- 98e67ed59e1d1-3053214bfd5mr14011201a91.22.1743496220800; 
- Tue, 01 Apr 2025 01:30:20 -0700 (PDT)
-Received: from henry.localdomain ([111.202.148.167])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-30562c6d29dsm505191a91.2.2025.04.01.01.30.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Apr 2025 01:30:20 -0700 (PDT)
-From: Henry Martin <bsdhenrymartin@gmail.com>
-To: Markus.Elfring@web.de
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Henry Martin <bsdhenrymartin@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v3] backlight: pm8941: Add NULL check in wled_configure()
-Date: Tue,  1 Apr 2025 16:29:50 +0800
-Message-Id: <20250401082950.21698-1-bsdhenrymartin@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <d5f2aa49-27e2-4cc1-91be-4e195ed5249e@web.de>
-References: <d5f2aa49-27e2-4cc1-91be-4e195ed5249e@web.de>
+ AJvYcCUN6r1QQwEOoxD+8z4kKdSw21304Wn0pjoeOay3gaik312qPnQ+Nkb14ScPNS6kUSjBjMRZ02hZ3l4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxpm1x4L5bpnhr0a+TBWGPj6W27o5XbOgbOKpmeSZyyUNMQSPRj
+ C8ZAA3jzcw0G/tG5aRpzuE0lDtG9ZHHSj2yC/RuDrcvyOrHA5sbXbOdnFAQ09gEYscoQMljhP71
+ dHVrwEEEXC1eK2ZBrQisR0/LkNyHoBkkiP2oyWA==
+X-Gm-Gg: ASbGncua7VaGJ5W+loKKJ9uLCBYXeyucmYKITdrE514LehZ4y8ooffC3o/SwsLy3Qpe
+ nAvFxOc6AehNoC+pE2cuSlBQJ6gOaXhLN/yWO6MkaM6E6V1mUtS9JSELzSuyK9xqxY4cEIOg6IH
+ i76KLJfMaROq9ZXUjLZPeu1lQ9N1E=
+X-Google-Smtp-Source: AGHT+IH9KoU4vUjjPFFl/HpklAnLrv8QnpnI/vnq7QrGKUOSlwBJn74UzBQjYlMDiU71pl/whujtfshDhL1bJanCT0o=
+X-Received: by 2002:a05:6870:7815:b0:2c1:9a53:83c4 with SMTP id
+ 586e51a60fabf-2cbcf755a40mr7187474fac.26.1743496396402; Tue, 01 Apr 2025
+ 01:33:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-6-jens.wiklander@linaro.org>
+ <Z-JOPgcWlpTlskgd@sumit-X1>
+ <CAHUa44GjpHT5Nqo+Ar5jNYNPV-YJQYpLTCf=7oJ1o0VjP-t0nA@mail.gmail.com>
+ <Z-ucuPzwz4IqVTgb@sumit-X1>
+In-Reply-To: <Z-ucuPzwz4IqVTgb@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 1 Apr 2025 10:33:04 +0200
+X-Gm-Features: AQ5f1JrwSW9AJKXv4JPdCzTC-p9MDUHywS1_JUmGEaiaPvfsks0gIEo3VJPjUog
+Message-ID: <CAHUa44FpsCVrbwj1=nsJVJFVJSF1kzKdWAkAMXRu6EdLrLvh8g@mail.gmail.com>
+Subject: Re: [PATCH v6 05/10] tee: implement restricted DMA-heap
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, 
+ Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,43 +99,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function wled_configure() uses devm_kasprintf() without checking for
-allocation failures, which could lead to NULL pointer dereferences.
+On Tue, Apr 1, 2025 at 9:58=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> w=
+rote:
+>
+> On Tue, Mar 25, 2025 at 11:55:46AM +0100, Jens Wiklander wrote:
+> > Hi Sumit,
+> >
+>
+> <snip>
+>
+> >
+> > >
+> > > > +
+> > > > +#include "tee_private.h"
+> > > > +
+> > > > +struct tee_dma_heap {
+> > > > +     struct dma_heap *heap;
+> > > > +     enum tee_dma_heap_id id;
+> > > > +     struct tee_rstmem_pool *pool;
+> > > > +     struct tee_device *teedev;
+> > > > +     /* Protects pool and teedev above */
+> > > > +     struct mutex mu;
+> > > > +};
+> > > > +
+> > > > +struct tee_heap_buffer {
+> > > > +     struct tee_rstmem_pool *pool;
+> > > > +     struct tee_device *teedev;
+> > > > +     size_t size;
+> > > > +     size_t offs;
+> > > > +     struct sg_table table;
+> > > > +};
+> > > > +
+> > > > +struct tee_heap_attachment {
+> > > > +     struct sg_table table;
+> > > > +     struct device *dev;
+> > > > +};
+> > > > +
+> > > > +struct tee_rstmem_static_pool {
+> > > > +     struct tee_rstmem_pool pool;
+> > > > +     struct gen_pool *gen_pool;
+> > > > +     phys_addr_t pa_base;
+> > > > +};
+> > > > +
+> > > > +#if !IS_MODULE(CONFIG_TEE) && IS_ENABLED(CONFIG_DMABUF_HEAPS)
+> > >
+> > > Can this dependency rather be better managed via Kconfig?
+> >
+> > This was the easiest yet somewhat flexible solution I could find. If
+> > you have something better, let's use that instead.
+> >
+>
+> --- a/drivers/tee/optee/Kconfig
+> +++ b/drivers/tee/optee/Kconfig
+> @@ -5,6 +5,7 @@ config OPTEE
+>         depends on HAVE_ARM_SMCCC
+>         depends on MMU
+>         depends on RPMB || !RPMB
+> +       select DMABUF_HEAPS
+>         help
+>           This implements the OP-TEE Trusted Execution Environment (TEE)
+>           driver.
 
-Add proper error handling when devm_kasprintf() fails by:
-- Returning -ENOMEM immediately
-- Ensuring no resources are left allocated (none need cleanup in this case)
+I wanted to avoid that since there are plenty of use cases where
+DMABUF_HEAPS aren't needed. This seems to do the job:
++config TEE_DMABUF_HEAP
++ bool
++ depends on TEE =3D y && DMABUF_HEAPS
 
-Fixes: f86b77583d88 ("backlight: pm8941: Convert to using %pOFn instead of device_node.name")
-Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
-V2 -> V3: Fix commit message and verify proper error handling with
-resource cleanup.
-V1 -> V2: Fix commit message to use imperative mood and wrap lines to 75
-characters.
+We can only use DMABUF_HEAPS if the TEE subsystem is compiled into the kern=
+el.
 
- drivers/video/backlight/qcom-wled.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index 9afe701b2a1b..a63bb42c8f8b 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -1406,9 +1406,11 @@ static int wled_configure(struct wled *wled)
- 	wled->ctrl_addr = be32_to_cpu(*prop_addr);
- 
- 	rc = of_property_read_string(dev->of_node, "label", &wled->name);
--	if (rc)
-+	if (rc) {
- 		wled->name = devm_kasprintf(dev, GFP_KERNEL, "%pOFn", dev->of_node);
--
-+		if (!wled->name)
-+			return -ENOMEM;
-+	}
- 	switch (wled->version) {
- 	case 3:
- 		u32_opts = wled3_opts;
--- 
-2.34.1
-
+Cheers,
+Jens
