@@ -2,81 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72D1A77761
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 11:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB44FA77781
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 11:18:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18C6910E2C9;
-	Tue,  1 Apr 2025 09:17:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0685B10E528;
+	Tue,  1 Apr 2025 09:18:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KrE4GqkF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hzZhNNUu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC76510E2C9
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 09:17:02 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id
- d9443c01a7336-2241053582dso83370945ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 02:17:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743499022; x=1744103822; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+GLEyWRUn87tdAHFpsIgdK3yHHnhiGzWNhKJ4cVG5iU=;
- b=KrE4GqkFMhdthQ0BnJpsVS2wUYWWDo89KfUfTWkTy9GAR2cSYPcYwJcL5eaE5FJeYI
- tZ11kq0vLCq0ew/vdc+ILsLILG9jE6w6zhAeZ2GAE40gt8F6CrFVvpPaoOfNrDUJKGKd
- YLDrA+tjZTpG83LV/o/A5j3zC4j9N1/Uh6aGmoFZ4ZjvmvX90h10CRfhD6fipJBb6t3e
- iHnD/vZhZC22wt1UVFdNqfDw9luITlz7rD0X2dC//oZ/gR3DAc7XZSYmuyZM2RAwy6R5
- PSYQxtZyOh7JE/yqcA9K+qcBENtBzR0ifE/hEqoy7G17cB5Wq8A9zkBqbAMzNZkrF3Az
- 6Ezg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743499022; x=1744103822;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+GLEyWRUn87tdAHFpsIgdK3yHHnhiGzWNhKJ4cVG5iU=;
- b=tL1rzpgm+vdM78IS5IPJPXb0iwK3xNBSko5w7X2b33L/SMDs6lUGVbXBo58nlNGmm3
- /iVZ1F2fc5sfFhlyj51stAaKaNpyGeQ2bRjgSs5xVtfzf8bvpenaXQEuloBcTQVaBd+q
- SIkKPGldINjHDLyy8TulMBS7UTkfDeGAH4rTEiA2imB6ZzWpS2yYOjIRR3PVcAbaQ9ma
- d/WnqLd+70/H7BYtM31LC4H06VtZZlk9XTa4w2KivQjxCuS/vCYoSm65qid9C1qVLy/t
- BJc9Fn+JUoVTmZh7NVIVts7FAJGhjcxGV3tg3LhiyhyNv1oCgGWwrnIpsYOBQec+jtsA
- Z3lA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUwkxl5X7voGPm32gSqPMG2kP70pWoUMegCuswcc7m92SsfdllOl00tVvt3c9VAb3PGxYRD/bBiQMY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzvS20FGoczBboB2urhLHtyGh0vMxgLDVGx0K/GgDBw+18+/OH
- iOd0hFN2hFjQSHVsmJVHm61mQIQlpRUPZmazubV3YgiX+L0LGvaO
-X-Gm-Gg: ASbGncsw34g/FWANLUIzKV2cPN9WrHswQWEbDJyGXKgvdH81/IKh2PwskhnFXYUKH/e
- TO0uOvYr8FC51ZhhNyW2puHaY9VwJZmHMY/NBMBl5YMeMvQTHqKEQWD0xZQoR6dLrCgddImm73I
- Dg6vR+vX7Sr5q7bvYk6tp96QniH+H5bzE/3E1b8ofWumj+oL7mysex8rfqiAHIOvWwUzYKktlsa
- V3pE0QwK+ytuHdzU/WTJYWeLe68JAbv6R88zSHxlVmdYDqkfHF2TXZoEyNE4wzkfu1Kjrks0WMN
- RP3AXMB0WucMpZ0V7aDEe4IfaFs87SZ4KJaeXLL2WXKOpmSTk7AeWhnA+bmQLztsl8tGHggkGsg
- bw9jGIw==
-X-Google-Smtp-Source: AGHT+IHunF5jyUL3TmPXi3AK47epCDZ22lyUsYqq4UiVJYVJRr74B+C/7SC7nQxjxJzTz0Tx+kvJng==
-X-Received: by 2002:a17:903:1cb:b0:223:f928:4553 with SMTP id
- d9443c01a7336-2292f9f7646mr232149915ad.44.1743499022271; 
- Tue, 01 Apr 2025 02:17:02 -0700 (PDT)
-Received: from henry.localdomain ([111.202.148.167])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2291eedf9b4sm83492285ad.84.2025.04.01.02.16.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Apr 2025 02:17:01 -0700 (PDT)
-From: Henry Martin <bsdhenrymartin@gmail.com>
-To: danielt@kernel.org
-Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Henry Martin <bsdhenrymartin@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v4] backlight: pm8941: Add NULL check in wled_configure()
-Date: Tue,  1 Apr 2025 17:16:47 +0800
-Message-Id: <20250401091647.22784-1-bsdhenrymartin@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <Z-uqpxcge0J99IPI@aspen.lan>
-References: <Z-uqpxcge0J99IPI@aspen.lan>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A15CE10E527;
+ Tue,  1 Apr 2025 09:18:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743499133; x=1775035133;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=S3+pOJoUuUOEkrcjFFOuXEmEJU8uMeYFcgKG22k7/t4=;
+ b=hzZhNNUut3c3m6CrUwZNz0IBkE0RLrrQH89zBXUFV/y46QzaM7m98oQg
+ zoGG4B1hxshIlYJfxi7HOXSulZhdc9W73j1/V3x7toAP6/cCbvEiQGacE
+ 4fE4G1NyzrFEG9Vm/bG/NxrUgut5BHcPrhX2V7tdaUP/pAUYT5ZOkNJ2R
+ L7U6H/pKi58YzhqhhmiUhLLqrwStgyD5CCi2pq1ecBNxT1B4ch4rhx4NY
+ 75kl4ANQcNXSGGwzBfA5FurhBM2i0JNRKcpY6R11XBFGuObMDL6UAuhh/
+ S4FcxhH3VMBbNPbyXYkIozd9r3cHtRASAzyIo9wX5KFK5nqA+t7Ol8rpU g==;
+X-CSE-ConnectionGUID: mPcfZ8qfSgqEOYpA6jjbSA==
+X-CSE-MsgGUID: aQCzSERRTxaCjGN1rg8pbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="43960438"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="43960438"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 02:18:53 -0700
+X-CSE-ConnectionGUID: l62pIIDVTpKQjS29hPejPw==
+X-CSE-MsgGUID: h1upR25NRkGMXNeVbsnwTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="131541390"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.7])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 02:18:49 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>, stable@vger.kernel.org
+Cc: Wayne Lin <Wayne.Lin@amd.com>, Jerry Zuo <jerry.zuo@amd.com>, Zaeem
+ Mohamed <zaeem.mohamed@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ cascardo@igalia.com, imre.deak@intel.com
+Subject: Re: [PATCH 6.12] drm/amd/display: Don't write DP_MSTM_CTRL after LT
+In-Reply-To: <20250331145819.682274-1-cascardo@igalia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250331145819.682274-1-cascardo@igalia.com>
+Date: Tue, 01 Apr 2025 12:18:46 +0300
+Message-ID: <87zfh02qa1.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,46 +72,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_kasprintf() returns NULL when memory allocation fails. Currently,
-wled_configure() does not check for this case, which results in a NULL
-pointer dereference.
+On Mon, 31 Mar 2025, Thadeu Lima de Souza Cascardo <cascardo@igalia.com> wrote:
+> From: Wayne Lin <Wayne.Lin@amd.com>
+>
+> [ Upstream commit bc068194f548ef1f230d96c4398046bf59165992 ]
+>
+> [Why]
+> Observe after suspend/resme, we can't light up mst monitors under specific
+> mst hub.
 
-Add NULL check after devm_kasprintf() to prevent this issue.
+This is already at stable backport stage, but it would really be helpful
+to log *which* specific mst hub we're talking about here. Now the
+information is lost in time, at least to outsiders.
 
-Fixes: f86b77583d88 ("backlight: pm8941: Convert to using %pOFn instead of device_node.name")
-Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
----
-V3 -> V4: No functional changes, just correcting the version number
-V2 -> V3: Correct commit meessage and confirm this patch has considered
-resource cleanup to avoid any subsequent issues, ensuring that errors
-are handled properly and no resources are left in an inconsistent
-state.
-V1 -> V2: Fix commit message to use imperative mood and wrap lines to 75
-characters.
+BR,
+Jani.
 
- drivers/video/backlight/qcom-wled.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index 9afe701b2a1b..a63bb42c8f8b 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -1406,9 +1406,11 @@ static int wled_configure(struct wled *wled)
- 	wled->ctrl_addr = be32_to_cpu(*prop_addr);
- 
- 	rc = of_property_read_string(dev->of_node, "label", &wled->name);
--	if (rc)
-+	if (rc) {
- 		wled->name = devm_kasprintf(dev, GFP_KERNEL, "%pOFn", dev->of_node);
--
-+		if (!wled->name)
-+			return -ENOMEM;
-+	}
- 	switch (wled->version) {
- 	case 3:
- 		u32_opts = wled3_opts;
+
+> The reason is that driver still writes DPCD DP_MSTM_CTRL after LT.
+> It's forbidden even we write the same value for that dpcd register.
+>
+> [How]
+> We already resume the mst branch device dpcd settings during
+> resume_mst_branch_status(). Leverage drm_dp_mst_topology_queue_probe() to
+> only probe the topology, not calling drm_dp_mst_topology_mgr_resume() which
+> will set DP_MSTM_CTRL as well.
+>
+> Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
+> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+> Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++------------
+>  1 file changed, 4 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index d9a3917d207e..c4c6538eabae 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -3231,8 +3231,7 @@ static int dm_resume(void *handle)
+>  	struct dm_atomic_state *dm_state = to_dm_atomic_state(dm->atomic_obj.state);
+>  	enum dc_connection_type new_connection_type = dc_connection_none;
+>  	struct dc_state *dc_state;
+> -	int i, r, j, ret;
+> -	bool need_hotplug = false;
+> +	int i, r, j;
+>  	struct dc_commit_streams_params commit_params = {};
+>  
+>  	if (dm->dc->caps.ips_support) {
+> @@ -3427,23 +3426,16 @@ static int dm_resume(void *handle)
+>  		    aconnector->mst_root)
+>  			continue;
+>  
+> -		ret = drm_dp_mst_topology_mgr_resume(&aconnector->mst_mgr, true);
+> -
+> -		if (ret < 0) {
+> -			dm_helpers_dp_mst_stop_top_mgr(aconnector->dc_link->ctx,
+> -					aconnector->dc_link);
+> -			need_hotplug = true;
+> -		}
+> +		drm_dp_mst_topology_queue_probe(&aconnector->mst_mgr);
+>  	}
+>  	drm_connector_list_iter_end(&iter);
+>  
+> -	if (need_hotplug)
+> -		drm_kms_helper_hotplug_event(ddev);
+> -
+>  	amdgpu_dm_irq_resume_late(adev);
+>  
+>  	amdgpu_dm_smu_write_watermarks_table(adev);
+>  
+> +	drm_kms_helper_hotplug_event(ddev);
+> +
+>  	return 0;
+>  }
+
 -- 
-2.34.1
-
+Jani Nikula, Intel
