@@ -2,115 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD78EA7726D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 03:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5064DA77274
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 03:57:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43AB210E230;
-	Tue,  1 Apr 2025 01:52:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEEBB10E4C5;
+	Tue,  1 Apr 2025 01:57:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XEX1ePXa";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Uv6g86If";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7727D10E230
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 01:52:28 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VFCr06025837
- for <dri-devel@lists.freedesktop.org>; Tue, 1 Apr 2025 01:52:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- KkmvufDkyFM8TbOcd8xfOYX+yJYpC83DnPb8liBX77k=; b=XEX1ePXavfZlFRPn
- b1mJ7V32PodL/X4wT1j1BfpSaEJfHeVviyfLuwnt/9A68l42cJl7h2bQyaar75Z5
- CYkjVypVPOk6/BVW4TL4F/MOXu0l8iagOxDLgxpwoR5yekCV4FT88sUBarF41BuZ
- SrsmU+lpeTaHtK3lQQ0EbV/Wf0bNfwsu1bGsENZB3c5cOWVBUIrKHZ/xfmsrjwJR
- PMw+Q8hWPvUcdywn/D2jpF1O99SF53ASc7SW4gdW1xjy6FCRXQXIevXKPwamaXNU
- pdmvvOc+cRFqo2CrZcRH+ojhZQv6KlTYAG67wiOQZLBwzL7lxoChIwcK1SFxDdtj
- dy1Uig==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p6jhpb0a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 01:52:27 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6e8ed78717eso83863766d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 18:52:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743472346; x=1744077146;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KkmvufDkyFM8TbOcd8xfOYX+yJYpC83DnPb8liBX77k=;
- b=nMfswLAkN0vFK93uEDuHhXUl3Zbp6ZX+sphX76+OLV3jHwtEpITGYMRT34BuJ9Vxvb
- CIIuiTB91jtjXBvmSEVvlg/j+wtccU3SxW3CZiXx4FGHSmCH1KIdf9VNCO7mC7DW1faE
- cfwS9tIX9u7Lgy54mekDZ0oblK3PyuDyZ4K2JDnhhLpD4dA2okuFxMwv2DvUx7c8G8UY
- Lhzv7QEEasgHrwWdIhHhVj9RJ51d5QRoa9SsKE+6SXIpUt7ah4pIDGnsEzE44oQfsn8L
- bsJau3bijXdcQl+CwLIF7acyL6/hGCYXUiGBdUKZVvO6VrARtevuIiX2cEEB3tEb/mCp
- 1y4Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXmLzZnAZbOa+42qrOziyNTFP9HoF7E6Adb9QABaSyUet95h8w943JLu/z/YyWyw0hPjfjaZKiAvBo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy3LZ3QZCek+edYmMbekSbMksmFR4qYQh2CdcY+CPoy7iKOkpZl
- SVgJTm+Hg8LhufZsqW9JtdWDdTDFz+M+mxDycIAGlebxIwQO8GyaoKE85aWuHx46k+ebJxnroh3
- 7TYV9jgM59lD/GYt6Lk8+QAjH1SXSbwI1kx4lnR+QOQse1EG1VP6ADDV9gGOrWGso7QU=
-X-Gm-Gg: ASbGnctF/sUTS2nLlH75EgtY6WTCIj7HSVfmdDeGJyW5E7gUKQe6y2seT/yef8A9Zqk
- zRw6NO+f9ddkf5gGugCOSMvY/Wg7AWuPTJBMNEv+4pAHwv9BfmnTEousHvvaWMOOFXWZMxusGzO
- /Z3STrDfh3Qa0l2r1fq3ymR1nBngg89XyP0l3amcn64fGwzOQIxrsbpkKhV7xJObV/YMlrV/fNV
- 4fpP0Z03nZsftd/9cbiO1aI8ILcQpB1HvDUwCsHM5v2sAI2Dc9taosOCN9kDgjN6BmamZt+LPuU
- nHil1COiSJqjVtShd6FrQs5TL42dL9FronNyjF7e+EzKw9utUavrUzXSVpDv0g2WPAdV2wzulWz
- Y0zc=
-X-Received: by 2002:ad4:5ae7:0:b0:6ed:22ef:19b6 with SMTP id
- 6a1803df08f44-6eef5d9d0e0mr23303866d6.14.1743472346499; 
- Mon, 31 Mar 2025 18:52:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFdLHhF5AGVHH/2gDMMGVxACUr3BKovVYKx68WKwJC04elu+jzwzyQYLStuMh2K7a7bC5dbmA==
-X-Received: by 2002:ad4:5ae7:0:b0:6ed:22ef:19b6 with SMTP id
- 6a1803df08f44-6eef5d9d0e0mr23303546d6.14.1743472346094; 
- Mon, 31 Mar 2025 18:52:26 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30dd2b8f92dsm15560831fa.114.2025.03.31.18.52.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Mar 2025 18:52:23 -0700 (PDT)
-Date: Tue, 1 Apr 2025 04:52:20 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Tejas Vipin <tejasvipin76@gmail.com>, neil.armstrong@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, asrivats@redhat.com
-Subject: Re: [PATCH v2] drm/panel: boe-bf060y8m-aj0: transition to mipi_dsi
- wrapped functions
-Message-ID: <mz4axwltt6zhm2hykenerz2k6hp5qb4tqa3seui2vnztsldpoo@hejaeukdu2tg>
-References: <20250331061838.167781-1-tejasvipin76@gmail.com>
- <CAD=FV=UbUqNf4WoWzqMe5bDQmxiT+bRG_cn0n1dBrkFRijx0Cw@mail.gmail.com>
- <jlqxx47vzlp6rmwpi3tskig4qu4bgyqd7vletxbzzn7xdpep72@42tzrjkg65lh>
- <CAD=FV=XeHeed5KhHPVVQoF1YPS1-ysmyPu-AAyHRjBLrfqa_aA@mail.gmail.com>
- <y5l6gr7gdrz6syc3kxortl4p52bpygs2cqzkgayhnbsvrjcbcw@hxhel54zw372>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F387310E4C5
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 01:56:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1743472615;
+ bh=w72XsOriwq4ahQrpLJkMKWJRW+nSyFT1Oqpro0NM/3U=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Uv6g86If3PGWnsxGjpogBnpt523IIxIfBs9UZ6Kd6S6LZzuQI3HmxBCQ62dD3nlJJ
+ xW6B8a2jVNRevTgJo7/fHuB5Be9j2gGqZriICvla6luJWB78clJO91EtQGYQ1g6m7I
+ O30dtbUzX1AIu1flHIWzEEs1BeGgozhtkMdc0MP+q5E+33dekJoqz3TnzkVmFB4J6e
+ H5gRrLEGNzVm5pmONrBK8wUFRCeIgS2Qn85twlR48X9jmGh74MRJvzCAhUhz5wiHIw
+ UZImyUCMKOUNl8EWxvvn9g1xxngcUWl4AAk+DilDAbFCjKqh7a6i5fudcYhmdZtDCN
+ 7xAErkMHWLAAw==
+Received: from [192.168.50.250] (unknown [171.76.83.191])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6982817E080B;
+ Tue,  1 Apr 2025 03:56:52 +0200 (CEST)
+Message-ID: <482f82a0-3f60-47bc-965b-bbf282414d6c@collabora.com>
+Date: Tue, 1 Apr 2025 07:26:44 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <y5l6gr7gdrz6syc3kxortl4p52bpygs2cqzkgayhnbsvrjcbcw@hxhel54zw372>
-X-Proofpoint-GUID: 1LxqOsPNoKIX0Q9Jd0CD4JTzgQhsZiC8
-X-Proofpoint-ORIG-GUID: 1LxqOsPNoKIX0Q9Jd0CD4JTzgQhsZiC8
-X-Authority-Analysis: v=2.4 cv=bZZrUPPB c=1 sm=1 tr=0 ts=67eb46db cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=a_HvFp4BeVyG9yXqjdkA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-01_01,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
- impostorscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2504010010
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/3] drm/ci: Add jobs to validate devicetrees
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
+ helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch,
+ robdclark@gmail.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
+ lumag@kernel.org, quic_abhinavk@quicinc.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org
+References: <20250327160117.945165-1-vignesh.raman@collabora.com>
+ <20250327160117.945165-3-vignesh.raman@collabora.com>
+ <v4dhuuuvfk63bakncz43z3ndjdze5ac7nrv6qvtpdnonfpetsx@5hh3vzcj336x>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <v4dhuuuvfk63bakncz43z3ndjdze5ac7nrv6qvtpdnonfpetsx@5hh3vzcj336x>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,75 +68,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 01, 2025 at 04:01:03AM +0300, Dmitry Baryshkov wrote:
-> On Mon, Mar 31, 2025 at 03:40:27PM -0700, Doug Anderson wrote:
-> > Hi,
-> > 
-> > On Mon, Mar 31, 2025 at 1:28 PM Dmitry Baryshkov
-> > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > >
-> > > On Mon, Mar 31, 2025 at 08:06:36AM -0700, Doug Anderson wrote:
-> > > > Hi,
-> > > >
-> > > > On Sun, Mar 30, 2025 at 11:18 PM Tejas Vipin <tejasvipin76@gmail.com> wrote:
-> > > > >
-> > > > > @@ -157,7 +137,6 @@ static int boe_bf060y8m_aj0_prepare(struct drm_panel *panel)
-> > > > >
-> > > > >         ret = boe_bf060y8m_aj0_on(boe);
-> > > > >         if (ret < 0) {
-> > > > > -               dev_err(dev, "Failed to initialize panel: %d\n", ret);
-> > > > >                 gpiod_set_value_cansleep(boe->reset_gpio, 1);
-> > > > >                 return ret;
-> > > >
-> > > > It's not new, but the error handling here looks wrong to me. Instead
-> > > > of just returning after setting the GPIO, this should be turning off
-> > > > the regulators, shouldn't it? That would mean adding a new error label
-> > > > for turning off "BF060Y8M_VREG_VCI" and then jumping to that.
-> > >
-> > > We should not be turning off the regulator in _prepare(), there will be
-> > > an unmatched regulator disable call happening in _unprepare(). Of course
-> > > it can be handled by adding a boolean, etc, but I think keeping them on
-> > > is a saner thing.
-> > 
-> > Hrmmmm.
-> > 
-> > The issue is that if we're returning an error from a function the
-> > caller should expect that the function undid anything that it did
-> > partially. It _has_ to work that way, right? Otherwise we've lost the
-> > context of exactly how far we got through the function so we don't
-> > know which things to later undo and which things to later not undo.
-> 
-> Kind of yes. I'd rather make drm_panel functions return void here, as
-> that matches panel bridge behaviour. The only driver that actually uses
-> return values of those functions is analogix_dp, see
-> analogix_dp_prepare_panel(). However most of invocations of that
-> function can go away. I'll send a patchset.
-> 
-> > 
-> > ...although I think you said that the DRM framework ignores errors
-> > from prepare() and still calls unprepare(). I guess this is in
-> > panel_bridge_atomic_pre_enable() where drm_panel_prepare()'s error
-> > code is ignored?
-> 
+Hi Dmitry,
 
-Hmm... Most of the drivers ignore the results of the drm_panel_prepare()
-/ _unprepare() / _enable() / _disable(), but then the framework handles
-error values of the callbacks and skips calling the corresponding
-en/dis callback if the previous call has failed. Which means I was
-incorrect here.
+On 30/03/25 22:36, Dmitry Baryshkov wrote:
+> On Thu, Mar 27, 2025 at 09:31:11PM +0530, Vignesh Raman wrote:
+>> Add jobs to run dt_binding_check and dtbs_check. If warnings are seen,
+>> exit with a non-zero error code while configuring them as warning in
+>> the GitLab CI pipeline.
+> 
+> Can it really succeed or is it going to be an always-failing job? The
+> dt_binding_check generally succeed, dtbs_check generates tons of
+> warnings. We are trying to make progress there, but it's still very far
+> from being achevable.
+
+Even though it fails, it will be shown as a warning in the pipeline.
+https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1390797
 
 > 
-> > This feels like a bug waiting to happen. Are you
-> > saying that boe_bf060y8m_aj0_unprepare() has to be written such that
-> > it doesn't hit regulator underflows no matter which fail path
-> > boe_bf060y8m_aj0_prepare() hit? That feels wrong.
+>>
+>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>> ---
+>>   drivers/gpu/drm/ci/check-devicetrees.yml | 38 ++++++++++++++++++++++
+>>   drivers/gpu/drm/ci/dt-binding-check.sh   | 18 +++++++++++
+>>   drivers/gpu/drm/ci/dtbs-check.sh         | 41 ++++++++++++++++++++++++
+>>   drivers/gpu/drm/ci/gitlab-ci.yml         |  1 +
+>>   4 files changed, 98 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/ci/check-devicetrees.yml
+>>   create mode 100755 drivers/gpu/drm/ci/dt-binding-check.sh
+>>   create mode 100755 drivers/gpu/drm/ci/dtbs-check.sh
+>>
+>> diff --git a/drivers/gpu/drm/ci/check-devicetrees.yml b/drivers/gpu/drm/ci/check-devicetrees.yml
+>> new file mode 100644
+>> index 000000000000..5f0c477f7578
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/check-devicetrees.yml
+>> @@ -0,0 +1,38 @@
+>> +.dt-check-base:
+>> +  timeout: "1h"
+>> +  variables:
+>> +    FF_USE_NEW_BASH_EVAL_STRATEGY: 'true'
+>> +  script:
+>> +    - drivers/gpu/drm/ci/${SCRIPT_NAME}
+>> +  artifacts:
+>> +    when: on_failure
+>> +    paths:
+>> +      - ${ARTIFACT_FILE}
+>> +  allow_failure:
+>> +    exit_codes:
+>> +      - 102
+>> +
+>> +dtbs-check:arm32:
+>> +  extends:
+>> +    - .build:arm32
+>> +    - .dt-check-base
+>> +  variables:
+>> +    SCRIPT_NAME: "dtbs-check.sh"
+>> +    ARTIFACT_FILE: "dtbs-check.log"
+>> +
+>> +dtbs-check:arm64:
+>> +  extends:
+>> +    - .build:arm64
+>> +    - .dt-check-base
+>> +  variables:
+>> +    SCRIPT_NAME: "dtbs-check.sh"
+>> +    ARTIFACT_FILE: "dtbs-check.log"
+>> +
+>> +dt-binding-check:
+>> +  extends:
+>> +    - .build
+>> +    - .use-debian/x86_64_build
+>> +    - .dt-check-base
+>> +  variables:
+>> +    SCRIPT_NAME: "dt-binding-check.sh"
+>> +    ARTIFACT_FILE: "dt-binding-check.log"
+>> diff --git a/drivers/gpu/drm/ci/dt-binding-check.sh b/drivers/gpu/drm/ci/dt-binding-check.sh
+>> new file mode 100755
+>> index 000000000000..2a72bb89c013
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/dt-binding-check.sh
+>> @@ -0,0 +1,18 @@
+>> +#!/bin/bash
+>> +# SPDX-License-Identifier: MIT
+>> +
+>> +set -euxo pipefail
+>> +
+>> +apt-get update -qq
+>> +apt install -y --no-install-recommends yamllint
+>> +pip3 install dtschema
+>> +
+>> +if ! make -j${FDO_CI_CONCURRENT:-4} dt_binding_check >/dev/null 2>dt-binding-check.log; then
 > 
-> Let me try to fix that.
-> 
-> -- 
-> With best wishes
-> Dmitry
+> I'd rather see errors in job output too.
 
--- 
-With best wishes
-Dmitry
+Will update it.
+
+> 
+>> +    echo "ERROR: 'make dt_binding_check' failed. Please check dt-binding-check.log for details."
+>> +    exit 1
+>> +fi
+>> +
+>> +if [[ -s dt-binding-check.log ]]; then
+>> +    echo "WARNING: dt_binding_check reported warnings. Please check dt-binding-check.log for details."
+>> +    exit 102
+>> +fi
+>> diff --git a/drivers/gpu/drm/ci/dtbs-check.sh b/drivers/gpu/drm/ci/dtbs-check.sh
+>> new file mode 100755
+>> index 000000000000..a0129d5a53b0
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/ci/dtbs-check.sh
+>> @@ -0,0 +1,41 @@
+>> +#!/bin/bash
+>> +# SPDX-License-Identifier: MIT
+>> +
+>> +set -euxo pipefail
+>> +
+>> +. drivers/gpu/drm/ci/override-ld-with-bfd.sh
+>> +
+>> +apt-get update -qq
+>> +pip3 install dtschema
+>> +
+>> +case "${KERNEL_ARCH}" in
+>> +    "arm")
+>> +        GCC_ARCH="arm-linux-gnueabihf"
+>> +        ;;
+>> +    "arm64")
+>> +        GCC_ARCH="aarch64-linux-gnu"
+>> +        ;;
+>> +    "x86_64")
+>> +        GCC_ARCH="x86_64-linux-gnu"
+>> +        ;;
+>> +    *)
+>> +        echo "Unsupported architecture: ${KERNEL_ARCH}"
+>> +        exit 1
+>> +        ;;
+>> +esac
+>> +
+>> +export ARCH="${KERNEL_ARCH}"
+>> +export CROSS_COMPILE="${GCC_ARCH}-"
+>> +
+>> +make `basename ${DEFCONFIG}`
+>> +make -j${FDO_CI_CONCURRENT:-4} dtbs
+> 
+> You don't need to build dtbs separately, dtbs_check includes dtbs.
+
+Ack. Will remove this.
+
+> 
+>> +
+>> +if ! make -j${FDO_CI_CONCURRENT:-4} dtbs_check >/dev/null 2>dtbs-check.log; then
+> 
+> I'd rather see errors in job output too.
+
+Will update it.
+
+Regards,
+Vignesh
+
+> 
+>> +    echo "ERROR: 'make dtbs_check' failed. Please check dtbs-check.log for details."
+>> +    exit 1
+>> +fi
+>> +
+>> +if [[ -s dtbs-check.log ]]; then
+>> +    echo "WARNING: dtbs_check reported warnings. Please check dtbs-check.log for details."
+>> +    exit 102
+>> +fi
+>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+>> index 65adcd97e06b..9e61b49e9960 100644
+>> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+>> @@ -108,6 +108,7 @@ include:
+>>     - drivers/gpu/drm/ci/static-checks.yml
+>>     - drivers/gpu/drm/ci/build.yml
+>>     - drivers/gpu/drm/ci/test.yml
+>> +  - drivers/gpu/drm/ci/check-devicetrees.yml
+>>     - 'https://gitlab.freedesktop.org/gfx-ci/lab-status/-/raw/main/lab-status.yml'
+>>   
+>>   
+>> -- 
+>> 2.47.2
+>>
+> 
+
