@@ -2,97 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8759A77E8C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9FAA77E99
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:12:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9AB210E108;
-	Tue,  1 Apr 2025 15:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C46010E119;
+	Tue,  1 Apr 2025 15:12:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ZPC3IMC2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bg/itma8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF6F210E108
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 15:07:12 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-30c44a87b9cso43763601fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 08:07:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1743520030; x=1744124830;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dRuO63E+69TadZDhBnj56rdcnGKLJdb/8PuPtgys64c=;
- b=ZPC3IMC2zSNbqlAAou9tsk2Av5f1oZPXztXPOVjnWgpcHYLQxKtpDnBI/ALYZjDxxc
- TBPZMWvo8OqyYsNy0AlGuHjP/TDmNoycDEcUcMDFtjxNSH1sf/qfkEMFgVdpF4xD+Xug
- x0trQRDRkjrPVAnwN06FYz9k1PMjA1DkwJCVI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743520030; x=1744124830;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dRuO63E+69TadZDhBnj56rdcnGKLJdb/8PuPtgys64c=;
- b=ByZvDZ+ccauWMOMndJmjFKvpWKG5o3QahOqBrdpnrrIJyvrU8d5wp0R1UvIBeQgR6J
- wAlN4wlU6JP3Fy9beBHd9A9Zqf9huN9T9ez0vMp7WeJRyLpwc46y3CBIVEL9dnOvrFoq
- 5CBf+B9X/c7HDrlCpTx07cSQWcQPhnAEQRDR+fnLggjTA3hizxpZzdY+nVdrHKymFXdM
- Ne6sty5jNhN3UAY9FD4p9DGDCEUGq1iPiJiCjQaOMhFwtgDXS1OGqIHsDm/MyIYtnplX
- WnZpl8yW4H+goR5EbWt4jP0WgOffRi5s14kxCRFHdEdKVJKvSWbmk69wgrDn4uZAL/FD
- SnZg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVCVFMNixHbs8u0uHcOUHR5YcZ7xW9TQdZCfslXZlTPGAM3v2PwhAnPInbwyoZfNRel6qkyStvbS/k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxUgU04DmPHW+Qt2gJzBogSANnOrRNVk1oFuO9191pUcmhwUYLw
- pipR/gkJnYbD4o0t6PwHbRpsSo4kObuyIIwEDXNkP5IJCsUjeHW2dtcpmkxDhe/1BKRXfRw0DJH
- J5A==
-X-Gm-Gg: ASbGnctqTPUNksBKx6wBVe0xlw3O3IpwGi8ZFoGUE0ZCdxcyC4/AEekRbu7F15RPi4z
- wjUv5V0VK4BfOkAMsrdsz/r6qBzGwiOlh+xjH2EpZ4w4XymmS5lgUalRr0hv8yQ4lqFL4KviiuL
- WDVBC/LAsJBaOmFgIEOTMVzrs14S+w7W9Q7t0b+jqDx1IykjCC4bleZci67r1AfkoO9Uve/I8Cj
- sm4ZuOxEZ8wI1BLBLhmU+WiHCdHlaZUV+1SpQ5GSPtswoTABbf57sZifIAmMmQtU9750cbKaHj3
- F2y4KmPiIoeaEkDuKimejXRoO8927X8vf3W0GQbjkUSCl/IJqSEmboXuIqeBQgWQ65lKP46c3Vy
- fXlobhgufVbVjFIz1cnk=
-X-Google-Smtp-Source: AGHT+IHbbJQx4tQ2dG2OrnEDPCXk2siRQ+EAynpKMmwpSLktAtZgX5X5kTf1rRk/ck0M6whNlhLhRA==
-X-Received: by 2002:a2e:a882:0:b0:30c:f60:6c6 with SMTP id
- 38308e7fff4ca-30de022ecfamr44632801fa.6.1743520029855; 
- Tue, 01 Apr 2025 08:07:09 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
- [209.85.167.44]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30dd2ad3cdfsm17390801fa.54.2025.04.01.08.07.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Apr 2025 08:07:09 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-5497590ffbbso6758150e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 08:07:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXeYxA+ymUMIImnVYO6klElkFz69K/HpJu9hF5gBDnTvIDWdKhkbtYGb5j4ya3fN+U1DC1eU0UR0us=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:224f:b0:549:74a7:12de with SMTP id
- 2adb3069b0e04-54b1113f382mr3140375e87.48.1743520027562; Tue, 01 Apr 2025
- 08:07:07 -0700 (PDT)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6849710E119
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 15:12:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 5BF9A43470;
+ Tue,  1 Apr 2025 15:12:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62789C4CEE4;
+ Tue,  1 Apr 2025 15:12:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743520353;
+ bh=KZXcafL2auCLUJgbm7uw6IG9C/2A7tu8xp8GCwbcb38=;
+ h=From:Subject:Date:To:Cc:From;
+ b=Bg/itma8fp+k16JA1TqDRICROFJycG/+xJnlTOJ7+OdUBKGS5hzq1dzPLEI5KtP0n
+ qkL4vzIJ/OAqg2RCudlGmB/AFraHLCTe2/AuexjncR/1qLXfxe85J350WmaJtKCQDd
+ aqd6PQmk6ItZC0UxM+WbAUc1UiziOO7UMLrmru6+aZ8nkTDrXGTsCqGF4xkCChHzCf
+ vGYMcE6/bmkYO11TyuFFeOtekd1SIpTGKTXFC5w/SyFMf20HhfXZAgdvuwJiHa9KIK
+ Q5IBRRjVIV8LvIHq4QpPrmuHg9lBZXcQfBhnbVxEcxLSUq6HgocT/In4U8YfhnNrlp
+ ugwwUpI4bu15A==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v2 0/2] dma-buf: heaps: Support carved-out heaps
+Date: Tue, 01 Apr 2025 17:12:20 +0200
+Message-Id: <20250401-dma-buf-ecc-heap-v2-0-043fd006a1af@kernel.org>
 MIME-Version: 1.0
-References: <20250331061838.167781-1-tejasvipin76@gmail.com>
- <CAD=FV=UbUqNf4WoWzqMe5bDQmxiT+bRG_cn0n1dBrkFRijx0Cw@mail.gmail.com>
- <jlqxx47vzlp6rmwpi3tskig4qu4bgyqd7vletxbzzn7xdpep72@42tzrjkg65lh>
- <CAD=FV=XeHeed5KhHPVVQoF1YPS1-ysmyPu-AAyHRjBLrfqa_aA@mail.gmail.com>
- <y5l6gr7gdrz6syc3kxortl4p52bpygs2cqzkgayhnbsvrjcbcw@hxhel54zw372>
- <mz4axwltt6zhm2hykenerz2k6hp5qb4tqa3seui2vnztsldpoo@hejaeukdu2tg>
-In-Reply-To: <mz4axwltt6zhm2hykenerz2k6hp5qb4tqa3seui2vnztsldpoo@hejaeukdu2tg>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 1 Apr 2025 08:06:55 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XwczaG+FTBv_VxoR=GxNsXemCehkMc_V2=DDoXAepZoA@mail.gmail.com>
-X-Gm-Features: AQ5f1JocZ9bptb3nCF0tRv42SZ1SGHwRnbocP0Js32Tf11L8NlMkhlfRqmEasTM
-Message-ID: <CAD=FV=XwczaG+FTBv_VxoR=GxNsXemCehkMc_V2=DDoXAepZoA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: boe-bf060y8m-aj0: transition to mipi_dsi
- wrapped functions
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Tejas Vipin <tejasvipin76@gmail.com>, neil.armstrong@linaro.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, quic_jesszhan@quicinc.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asrivats@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFQC7GcC/32NTQ6CMBBGr0Jm7ZhObRNx5T0Ii/4MtFGBtEo0p
+ He3cgCX7yXf+zbInCJnuDQbJF5jjvNUQR4acMFMI2P0lUEKqYQmjf5h0L4GZOcwsFlQns2JyEv
+ XKoY6WxIP8b0nu75yiPk5p8/+sNLP/omthAK1ctZ6oVpNdL1xmvh+nNMIfSnlCxcCXfaxAAAA
+X-Change-ID: 20240515-dma-buf-ecc-heap-28a311d2c94e
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Mattijs Korpershoek <mkorpershoek@kernel.org>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2423; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=KZXcafL2auCLUJgbm7uw6IG9C/2A7tu8xp8GCwbcb38=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOlvmMKXs2Wcnil56IeYVdCv5UZL8gxXslzZkvf3u/JP7
+ TaF3XZPOkpZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCRlRsZfrNfLmbxXKH5cOv/
+ Ax9DL99h/zDDseWlB8OOaRqM/DZ5vjsZGe4LT5ZavHZ2nJfMo5WOJ3pO3T++8P/ZnP83A7gm+ct
+ NMWAHAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,38 +77,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Mar 31, 2025 at 6:52=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> > > ...although I think you said that the DRM framework ignores errors
-> > > from prepare() and still calls unprepare(). I guess this is in
-> > > panel_bridge_atomic_pre_enable() where drm_panel_prepare()'s error
-> > > code is ignored?
-> >
->
-> Hmm... Most of the drivers ignore the results of the drm_panel_prepare()
-> / _unprepare() / _enable() / _disable(), but then the framework handles
-> error values of the callbacks and skips calling the corresponding
-> en/dis callback if the previous call has failed. Which means I was
-> incorrect here.
+This series is the follow-up of the discussion that John and I had some
+time ago here:
 
-Oh, right. LOL, that was even me adding that code in commit
-d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
-drm_panel"). It wasn't my intention there to work around the fact that
-the panel_bridge ignores the error, but it's a happy accident. I guess
-that means that the warning:
+https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDHHqqyrroCMQ@mail.gmail.com/
 
-dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
+The initial problem we were discussing was that I'm currently working on
+a platform which has a memory layout with ECC enabled. However, enabling
+the ECC has a number of drawbacks on that platform: lower performance,
+increased memory usage, etc. So for things like framebuffers, the
+trade-off isn't great and thus there's a memory region with ECC disabled
+to allocate from for such use cases.
 
-...would also happen any time a panel prepare returned an error code
-that was ignored by the bridge. That seems OK-ish to me even if the
-comment above the warning doesn't list that as one of the reasons the
-warning might be printed. I didn't test this myself, but assuming I
-got it right does anyone want to submit a patch to add this reason to
-the comment? ...or, maybe even better, we could fix the panel bridge
-code to not call the panel unprepare if the prepare failed...
+After a suggestion from John, I chose to first start using heap
+allocations flags to allow for userspace to ask for a particular ECC
+setup. This is then backed by a new heap type that runs from reserved
+memory chunks flagged as such, and the existing DT properties to specify
+the ECC properties.
 
-tl;dr for Tejas in this patch is that I still think he should spin his
-patch to fix it so the regulators get disabled in the error case.
+After further discussion, it was considered that flags were not the
+right solution, and relying on the names of the heaps would be enough to
+let userspace know the kind of buffer it deals with.
 
--Doug
+Thus, even though the uAPI part of it has been dropped in this second
+version, we still need a driver to create heaps out of carved-out memory
+regions. In addition to the original usecase, a similar driver can be
+found in BSPs from most vendors, so I believe it would be a useful
+addition to the kernel.
+
+I submitted a draft PR to the DT schema for the bindings used in this
+PR:
+https://github.com/devicetree-org/dt-schema/pull/138
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Add vmap/vunmap operations
+- Drop ECC flags uapi
+- Rebase on top of 6.14
+- Link to v1: https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org
+
+---
+Maxime Ripard (2):
+      dma-buf: heaps: system: Remove global variable
+      dma-buf: heaps: Introduce a new heap for reserved memory
+
+ drivers/dma-buf/heaps/Kconfig         |   8 +
+ drivers/dma-buf/heaps/Makefile        |   1 +
+ drivers/dma-buf/heaps/carveout_heap.c | 360 ++++++++++++++++++++++++++++++++++
+ drivers/dma-buf/heaps/system_heap.c   |  17 +-
+ 4 files changed, 381 insertions(+), 5 deletions(-)
+---
+base-commit: fcbf30774e82a441890b722bf0c26542fb82150f
+change-id: 20240515-dma-buf-ecc-heap-28a311d2c94e
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
