@@ -2,61 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB44FA77781
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 11:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1544A777BD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 11:28:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0685B10E528;
-	Tue,  1 Apr 2025 09:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBF5A10E531;
+	Tue,  1 Apr 2025 09:28:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hzZhNNUu";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="F1tZAL7k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A15CE10E527;
- Tue,  1 Apr 2025 09:18:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743499133; x=1775035133;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=S3+pOJoUuUOEkrcjFFOuXEmEJU8uMeYFcgKG22k7/t4=;
- b=hzZhNNUut3c3m6CrUwZNz0IBkE0RLrrQH89zBXUFV/y46QzaM7m98oQg
- zoGG4B1hxshIlYJfxi7HOXSulZhdc9W73j1/V3x7toAP6/cCbvEiQGacE
- 4fE4G1NyzrFEG9Vm/bG/NxrUgut5BHcPrhX2V7tdaUP/pAUYT5ZOkNJ2R
- L7U6H/pKi58YzhqhhmiUhLLqrwStgyD5CCi2pq1ecBNxT1B4ch4rhx4NY
- 75kl4ANQcNXSGGwzBfA5FurhBM2i0JNRKcpY6R11XBFGuObMDL6UAuhh/
- S4FcxhH3VMBbNPbyXYkIozd9r3cHtRASAzyIo9wX5KFK5nqA+t7Ol8rpU g==;
-X-CSE-ConnectionGUID: mPcfZ8qfSgqEOYpA6jjbSA==
-X-CSE-MsgGUID: aQCzSERRTxaCjGN1rg8pbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="43960438"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="43960438"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 02:18:53 -0700
-X-CSE-ConnectionGUID: l62pIIDVTpKQjS29hPejPw==
-X-CSE-MsgGUID: h1upR25NRkGMXNeVbsnwTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="131541390"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.7])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 02:18:49 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>, stable@vger.kernel.org
-Cc: Wayne Lin <Wayne.Lin@amd.com>, Jerry Zuo <jerry.zuo@amd.com>, Zaeem
- Mohamed <zaeem.mohamed@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- cascardo@igalia.com, imre.deak@intel.com
-Subject: Re: [PATCH 6.12] drm/amd/display: Don't write DP_MSTM_CTRL after LT
-In-Reply-To: <20250331145819.682274-1-cascardo@igalia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250331145819.682274-1-cascardo@igalia.com>
-Date: Tue, 01 Apr 2025 12:18:46 +0300
-Message-ID: <87zfh02qa1.fsf@intel.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6055D10E531;
+ Tue,  1 Apr 2025 09:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+ Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+ References; bh=OQmjQ53C4jHN6jFVTqWcXEFwQwdDwwsRmFvi0np2P+8=; t=1743499717;
+ x=1743931717; b=F1tZAL7kZAXTNeoJxEi8JazfugO98Is53LaZr0AUFQjKO/Jxz6K+5QOqnTwIW
+ d6iAYiCm2e/97BC9/L41sO2BncQUNrtGRKheutQetFDPb2vRaNppJiWK6Gr9lpXxBlbYmwVBzcpJm
+ nyO8RA6UQESLgZahezBvW9XTghNa9sZbSnE6FrNFe4MdPFMNwWKFcXr1vU7MFLqK/bNtj0n67zv+Q
+ tbLIFu53u7Tamq5fWSiwOxGKxQtfNLTPr9G1xcZqoqv723x2/iMLov1DKetAMhvD/DKSMVA4/7CFc
+ AjUL1jKKCQXHL9N78oDT87TjXw7Rxt3elqrS1rPOeOiGQoOfqw==;
+Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+ id 1tzXuy-003ke3-1D; Tue, 01 Apr 2025 11:28:24 +0200
+Message-ID: <c02e66a7-903c-43c1-8b8a-81ef5084d719@leemhuis.info>
+Date: Tue, 1 Apr 2025 11:28:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/gvt: Add __nonstring annotations for
+ unterminated strings
+To: Jani Nikula <jani.nikula@linux.intel.com>, Kees Cook <kees@kernel.org>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: Zhi Wang <zhi.wang.linux@gmail.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Justin Forbes <jforbes@redhat.com>, Nicolas Chauvet <kwizart@gmail.com>
+References: <20250310222355.work.417-kees@kernel.org>
+ <37e1da82-736f-44a4-af51-036f9e3182f4@leemhuis.info>
+ <87ecyc46d0.fsf@intel.com>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <87ecyc46d0.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1743499717;0eca9112;
+X-HE-SMSGID: 1tzXuy-003ke3-1D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,83 +115,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 31 Mar 2025, Thadeu Lima de Souza Cascardo <cascardo@igalia.com> wrote:
-> From: Wayne Lin <Wayne.Lin@amd.com>
->
-> [ Upstream commit bc068194f548ef1f230d96c4398046bf59165992 ]
->
-> [Why]
-> Observe after suspend/resme, we can't light up mst monitors under specific
-> mst hub.
+On 01.04.25 10:46, Jani Nikula wrote:
+> On Mon, 31 Mar 2025, Thorsten Leemhuis <linux@leemhuis.info> wrote:
+>> On 10.03.25 23:23, Kees Cook wrote:
+>>> When a character array without a terminating NUL character has a static
+>>> initializer, GCC 15's -Wunterminated-string-initialization will only
+>>> warn if the array lacks the "nonstring" attribute[1]. Mark the arrays
+>>> with __nonstring to and correctly identify the char array as "not a C
+>>> string" and thereby eliminate the warning.
+>>>
+>>> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=117178 [1]
+>>> [...]
+>>> Signed-off-by: Kees Cook <kees@kernel.org>
+>>
+>> To provide another small data point:
+>>
+>> Tested-by: Thorsten Leemhuis <linux@leemhuis.info>
+>>
+>> A "Compile-Tested-by", to be precise: after a handful similar patches
+>> reached mainline recently this is the only one I still need to compile
+>> the pretty broad Fedora rawhide config on rawhide using the GCC 15
+>> pre-release it currently includes. The latter or the final will
+>> hopefully soon also reach Fedora 42 beta as well and bring the "[1]"
+>> mentioned in the patch description above to F42 -- which will be
+>> released in a few weeks, so I guess it would be nice to have this patch
+>> mainlined rather sooner that later to avoid more people running into this.
+> 
+> Thanks for testing, though I've merged [1] instead.
+> 
+> [1] https://lore.kernel.org/r/20250327124739.2609656-1-jani.nikula@intel.com
 
-This is already at stable backport stage, but it would really be helpful
-to log *which* specific mst hub we're talking about here. Now the
-information is lost in time, at least to outsiders.
+Yeah, sorry, I only spotted that one two hours ago and started a test
+compile a while ago, but seems I'm too late here. Whatever, happens. :-D
 
-BR,
-Jani.
-
-
-
-> The reason is that driver still writes DPCD DP_MSTM_CTRL after LT.
-> It's forbidden even we write the same value for that dpcd register.
->
-> [How]
-> We already resume the mst branch device dpcd settings during
-> resume_mst_branch_status(). Leverage drm_dp_mst_topology_queue_probe() to
-> only probe the topology, not calling drm_dp_mst_topology_mgr_resume() which
-> will set DP_MSTM_CTRL as well.
->
-> Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
-> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-> Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++------------
->  1 file changed, 4 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index d9a3917d207e..c4c6538eabae 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -3231,8 +3231,7 @@ static int dm_resume(void *handle)
->  	struct dm_atomic_state *dm_state = to_dm_atomic_state(dm->atomic_obj.state);
->  	enum dc_connection_type new_connection_type = dc_connection_none;
->  	struct dc_state *dc_state;
-> -	int i, r, j, ret;
-> -	bool need_hotplug = false;
-> +	int i, r, j;
->  	struct dc_commit_streams_params commit_params = {};
->  
->  	if (dm->dc->caps.ips_support) {
-> @@ -3427,23 +3426,16 @@ static int dm_resume(void *handle)
->  		    aconnector->mst_root)
->  			continue;
->  
-> -		ret = drm_dp_mst_topology_mgr_resume(&aconnector->mst_mgr, true);
-> -
-> -		if (ret < 0) {
-> -			dm_helpers_dp_mst_stop_top_mgr(aconnector->dc_link->ctx,
-> -					aconnector->dc_link);
-> -			need_hotplug = true;
-> -		}
-> +		drm_dp_mst_topology_queue_probe(&aconnector->mst_mgr);
->  	}
->  	drm_connector_list_iter_end(&iter);
->  
-> -	if (need_hotplug)
-> -		drm_kms_helper_hotplug_event(ddev);
-> -
->  	amdgpu_dm_irq_resume_late(adev);
->  
->  	amdgpu_dm_smu_write_watermarks_table(adev);
->  
-> +	drm_kms_helper_hotplug_event(ddev);
-> +
->  	return 0;
->  }
-
--- 
-Jani Nikula, Intel
+Many thx for taking care of that! Ciao, Thorsten
