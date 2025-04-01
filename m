@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E837A775C1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 09:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E84A775C3
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 09:57:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E57310E507;
-	Tue,  1 Apr 2025 07:57:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05CAF10E509;
+	Tue,  1 Apr 2025 07:57:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DuUpeq+K";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Kq95sMl8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E42410E03E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E72F10E507
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 07:57:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1743494234;
- bh=/cPp2FOZempdD1jZLPyNYNzLMxH3a4f39Y/s9EMo9lo=;
- h=From:To:Cc:Subject:Date:From;
- b=DuUpeq+KoUEgy2OM4lsFo+cvoy/c3cm1jpRpk3ChrRx+ZkxSDcF5Nhe37ubze/F08
- 2iNuZhZvopb7Hs1SeFNv636VftAYeIjguk9aYe3IDKM8qcqR2NYYmyLFSI+7d5gyYx
- dEGNVqa7ryVuYvw+Gynq3mNh+YhomepMoWJA8k9e8EN+Htg0p7W2tx/PSpz9To5hNq
- W/RJPcUKWqzmqNiyXyIQfopHrOKeWAIqkSv2BJYVKcbcUo0sRhWrtKRNa1ZANEs5J5
- rl5XoX2MPyGYsLBC1iTKG2DF8Y5uEnH8dRUvDJHWvKSMBy5ec9exW2IojhFJwul/S9
- P8MMkkQFKVssA==
+ bh=75X705kyqvYIPA8U/+uLSyKGgbY/yQ2cTtQmTwdI+q4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Kq95sMl8fmwnipD0zb9Gq/KzHQ++gb0NY4v0rJDGRsFvkf/bZsbirVoMUwOExAUrL
+ J0/e0ngbwX5U2co4bOF+rtghnrTf/Vp6Ft4ruDXYYC03HpJI6v1FgQrq3xPo4TpoUy
+ /Cry2nFJLhh0HW0CsatuqYgWghW7ZqQNqwMZjg1KWKMzbt064Sqr0UbhGf/wwvbhsj
+ F8Qb/QGaJG8Bx+MxVu5dwhA2Xtgqp7z8fk4v2lFgsEyn+YBqdCr6QC/ARedxLTqc+y
+ nb7B0chMgv3dg6s25/n/2NlhfX52quf5xOJpoztVnYm2ffBjZYehQpFVpswz7laTlp
+ mc1NVmPRs8VLg==
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 23A4117E0860;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 8DBD817E088D;
  Tue,  1 Apr 2025 09:57:14 +0200 (CEST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -39,10 +39,13 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org,
 	kernel@collabora.com
-Subject: [PATCH 0/3] drm/panthor: Misc fixes
-Date: Tue,  1 Apr 2025 09:57:07 +0200
-Message-ID: <20250401075710.2638950-1-boris.brezillon@collabora.com>
+Subject: [PATCH 1/3] drm/panthor: Call panthor_gpu_coherency_init() after PM
+ resume()
+Date: Tue,  1 Apr 2025 09:57:08 +0200
+Message-ID: <20250401075710.2638950-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250401075710.2638950-1-boris.brezillon@collabora.com>
+References: <20250401075710.2638950-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,33 +63,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+When the device is coherent, panthor_gpu_coherency_init() will read
+GPU_COHERENCY_FEATURES to make sure the GPU supports the ACE-Lite
+coherency protocol, which will fail if the clocks/power-domains are
+not enabled when the read is done. Move the
+panthor_gpu_coherency_init() call after the device has been resumed
+to prevent that.
 
-This is a collection of fixes for bugs found while working on adding
-JM support to panthor. Those are not particularly tied to JM support
-and are worth having regardless.
-
-Note that the last one doesn't have a Fixes tag because all MMU faults
-are considered fatal right now, so unblocking the writer/reader early
-on a fault will just make it crash, which is eventually want would
-happen anyway.
-
-Regards,
-
-Boris
-
-Boris Brezillon (3):
-  drm/panthor: Call panthor_gpu_coherency_init() after PM resume()
-  drm/panthor: Update panthor_mmu::irq::mask when needed
-  drm/panthor: Let IRQ handlers clear the interrupts themselves
-
+Fixes: dd7db8d911a1 ("drm/panthor: Explicitly set the coherency mode")
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
  drivers/gpu/drm/panthor/panthor_device.c | 8 ++++----
- drivers/gpu/drm/panthor/panthor_device.h | 2 --
- drivers/gpu/drm/panthor/panthor_fw.c     | 2 ++
- drivers/gpu/drm/panthor/panthor_gpu.c    | 2 ++
- drivers/gpu/drm/panthor/panthor_mmu.c    | 3 +++
- 5 files changed, 11 insertions(+), 6 deletions(-)
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index a9da1d1eeb70..c73c1608d6e6 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -171,10 +171,6 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 	struct page *p;
+ 	int ret;
+ 
+-	ret = panthor_gpu_coherency_init(ptdev);
+-	if (ret)
+-		return ret;
+-
+ 	init_completion(&ptdev->unplug.done);
+ 	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
+ 	if (ret)
+@@ -247,6 +243,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 	if (ret)
+ 		goto err_rpm_put;
+ 
++	ret = panthor_gpu_coherency_init(ptdev);
++	if (ret)
++		return ret;
++
+ 	ret = panthor_mmu_init(ptdev);
+ 	if (ret)
+ 		goto err_unplug_gpu;
 -- 
 2.48.1
 
