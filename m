@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23BEA77B80
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 14:59:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACF65A77B94
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 15:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE9510E5AE;
-	Tue,  1 Apr 2025 12:59:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C27A10E098;
+	Tue,  1 Apr 2025 13:03:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HDtCAghC";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Zg+4L99x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E4D10E5AE
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 12:59:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743512359;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4T5YZzFJVFoHxFGDPwj28D6xxyWc9uUCeJgRzddCMdE=;
- b=HDtCAghC91tQqPWRGzIDfSF7WE/XhIZWDwQUiA96NTUVffx41Qo08ObwhyJ1zMVVUHYPCz
- ynpv5jwlzH46eFpYamW4gLBWJJ5vC9M3vY82Jnwdch86PTQ+WFfqRMkoUx8C26X/w2zK7x
- Mg73RwYtZiTyhq5Q0kTdQAy5bFGZXe4=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-54-WXLNX-uMPlipBAMXdygAJQ-1; Tue,
- 01 Apr 2025 08:59:15 -0400
-X-MC-Unique: WXLNX-uMPlipBAMXdygAJQ-1
-X-Mimecast-MFC-AGG-ID: WXLNX-uMPlipBAMXdygAJQ_1743512354
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 53B481956087; Tue,  1 Apr 2025 12:59:14 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.44.32.206])
- by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id C64871956094; Tue,  1 Apr 2025 12:59:08 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v6 8/8] drm/i915/display: Add drm_panic support for 4-tiling
- with DPT
-Date: Tue,  1 Apr 2025 14:51:14 +0200
-Message-ID: <20250401125818.333033-9-jfalempe@redhat.com>
-In-Reply-To: <20250401125818.333033-1-jfalempe@redhat.com>
-References: <20250401125818.333033-1-jfalempe@redhat.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7636710E098
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 13:03:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743512581; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=UoHxfQUKAaXSemGjOESKYUCkgP7sqKeJKV+23Lxo4hD3Llsw1U5BBcXO4/+yaqEtaN5mLmB8pXSmrusrRg31MLDAf9a3p8S6C1lhtzxbVoISKpcEuv4RVrJZhrv1lfeepv98feOwpGHvFoaQpzdRhC6nwXgHJv/qs4DwK5K1/3k=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1743512581;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=relEiKc13eENm52bRCs3RiJ+RXj5koRdZHU3Otk5FDQ=; 
+ b=IYFROvcScw/GcjlksmR2gRvKpBzIy0fg/wwrLMUuSUXuywaVAV1cuZc4Z4FKx8Ue6bMmqBAFCxwM4jbRizo5uwbZu1W89BARMCnAv9zN+0k5iIlQkPPSUObzs/MOYaHZnntCdzix5YLh657CAoBRCb14YDmjDMCjl4r4A3TEevk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743512581; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=relEiKc13eENm52bRCs3RiJ+RXj5koRdZHU3Otk5FDQ=;
+ b=Zg+4L99xL+98wtsN/9QbnB2mYv7we1ANT7IZeJtxCi8myVoqLpJS4LqXRRjJy864
+ mH5qttZrKMr+LTd4HlozjbXtuZ2WjkcObIBDc5z2EJ4Eu/t/N+YMJZtb9/3fSF+74rb
+ BkssLS+aBVxP7uj1P8f86zAsIuJ4XVejWpcbnPRo=
+Received: by mx.zohomail.com with SMTPS id 1743512580399914.8049633205814;
+ Tue, 1 Apr 2025 06:03:00 -0700 (PDT)
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: [PATCH v1] MAINTAINERS: Add Dmitry Osipenko as drm/virtio
+ co-maintainer
+Date: Tue,  1 Apr 2025 16:01:51 +0300
+Message-ID: <20250401130151.2238772-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +66,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Alder Lake and later, it's not possible to disable tiling when DPT
-is enabled.
-So this commit implements 4-Tiling support, to still be able to draw
-the panic screen.
+I was helping to co-maintain VirtIO-GPU driver in drm-misc with
+permission from Gerd Hoffmann for past 2 years and would like to
+receive new patches directly into my inbox. Add myself as co-maintainer.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- .../gpu/drm/i915/display/intel_atomic_plane.c | 22 ++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-index 76c10555c10e..68deffe3aa9a 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-@@ -1289,6 +1289,25 @@ static void intel_ytile_set_pixel(struct drm_scanout_buffer *sb, unsigned int x,
- 	iosys_map_wr(&sb->map[0], offset, u32, color);
- }
- 
-+static void intel_4tile_set_pixel(struct drm_scanout_buffer *sb, unsigned int x, unsigned int y,
-+				  u32 color)
-+{
-+	u32 offset;
-+	unsigned int swizzle;
-+	unsigned int width_in_blocks = DIV_ROUND_UP(sb->width, 32);
-+
-+	/* Block offset */
-+	offset = ((y / YTILE_HEIGHT) * width_in_blocks + (x / YTILE_WIDTH)) * YTILE_SIZE;
-+
-+	x = x % YTILE_WIDTH;
-+	y = y % YTILE_HEIGHT;
-+
-+	/* bit order inside a block is y4 y3 x4 y2 x3 x2 y1 y0 x1 x0 */
-+	swizzle = (x & 3) | ((y & 3) << 2) | ((x & 0xc) << 2) | (y & 4) << 4 | ((x & 0x10) << 3) | ((y & 0x18) << 5);
-+	offset += swizzle * 4;
-+	iosys_map_wr(&sb->map[0], offset, u32, color);
-+}
-+
- static void intel_panic_flush(struct drm_plane *plane)
- {
- 	struct intel_plane_state *plane_state = to_intel_plane_state(plane->state);
-@@ -1323,7 +1342,6 @@ static void (*intel_get_tiling_func(u64 fb_modifier))(struct drm_scanout_buffer
- 	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS:
- 	case I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS:
- 		return intel_ytile_set_pixel;
--	case I915_FORMAT_MOD_X_TILED:
- 	case I915_FORMAT_MOD_4_TILED:
- 	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
- 	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-@@ -1333,6 +1351,8 @@ static void (*intel_get_tiling_func(u64 fb_modifier))(struct drm_scanout_buffer
- 	case I915_FORMAT_MOD_4_TILED_MTL_MC_CCS:
- 	case I915_FORMAT_MOD_4_TILED_BMG_CCS:
- 	case I915_FORMAT_MOD_4_TILED_LNL_CCS:
-+		return intel_4tile_set_pixel;
-+	case I915_FORMAT_MOD_X_TILED:
- 	case I915_FORMAT_MOD_Yf_TILED:
- 	case I915_FORMAT_MOD_Yf_TILED_CCS:
- 	default:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 24e4d90a38d1..048dcf2a3675 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -25153,6 +25153,7 @@ F:	include/uapi/linux/virtio_gpio.h
+ VIRTIO GPU DRIVER
+ M:	David Airlie <airlied@redhat.com>
+ M:	Gerd Hoffmann <kraxel@redhat.com>
++M:	Dmitry Osipenko <dmitry.osipenko@collabora.com>
+ R:	Gurchetan Singh <gurchetansingh@chromium.org>
+ R:	Chia-I Wu <olvaffe@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
 -- 
 2.49.0
 
