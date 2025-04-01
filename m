@@ -2,50 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC05A77806
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 11:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EDBA77855
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 12:00:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3E1110E540;
-	Tue,  1 Apr 2025 09:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466B010E54D;
+	Tue,  1 Apr 2025 10:00:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="Ac2JgVIP";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0136310E540
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 09:44:49 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.141.245])
- by APP-01 (Coremail) with SMTP id qwCowADnjv+DtetnAd2vBA--.1435S2;
- Tue, 01 Apr 2025 17:44:36 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: obitton@habana.ai,
-	ogabbay@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
-Subject: [PATCH] habanalabs: Add error handling for
- hl_mmu_get_hop_pte_phys_addr()
-Date: Tue,  1 Apr 2025 17:44:13 +0800
-Message-ID: <20250401094413.2401-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.42.0.windows.2
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9FE710E54D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 10:00:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1743501615; x=1744106415; i=markus.elfring@web.de;
+ bh=zYUg14mNyqc4q2rrOlc4nM8Ni46h/sIA41//bM4zIxo=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=Ac2JgVIPM2MTN/AVOsB3V3bpdFdtAQfecP/c2rqnga0WnGNK+HcuJ/tLlAub+Fu5
+ vszT8YyNmOSaiKJ9PR+3jeIWkE7JgbthUM7/ElwwQaCh73VfSIgcubRt34rd5OHZE
+ SHw4s9k8AdJGF/hgagckoVQGha6EvleBr+E4BnJEU7HegrQ/P60tNRRB5yRqDWEcB
+ etPiI1nUwe1cE9bF3m+NvDr1Fvb/Y/CmvZH8ctQP4Lip6P+kqzBcIm/GGDzRY+PIY
+ ic04hGpefFolb0ULQoCiUFM1Z9y3K8IJpTb3X6pvwjkSlQfNVTRVQmCbwrQBLiR1D
+ TtuUXRgw+dLuqxMQoQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.54]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Melaj-1tR30c0cKL-00dXs6; Tue, 01
+ Apr 2025 12:00:15 +0200
+Message-ID: <383c933a-2316-40a4-ae82-f4b64e53b62c@web.de>
+Date: Tue, 1 Apr 2025 12:00:12 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowADnjv+DtetnAd2vBA--.1435S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zr4Uuw18JF4Duw15Kr47CFg_yoW8GryfpF
- n3Kr4rXFy5Jr1UZayUtr1IvF1Yv39xWFy3K3ZFka9093s8X3s7u343W3WSvw4UArWkGan7
- Zw1kAFs8CF18ZrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
- AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
- v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
- c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
- MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUcBMtUUU
- UU=
-X-Originating-IP: [124.16.141.245]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBg0TA2frlYJ04QABsU
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v4?] backlight: pm8941: Add NULL check in wled_configure()
+To: Daniel Thompson <danielt@kernel.org>,
+ Henry Martin <bsdhenrymartin@gmail.com>, linux-fbdev@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Helge Deller <deller@gmx.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee@kernel.org>
+References: <d5f2aa49-27e2-4cc1-91be-4e195ed5249e@web.de>
+ <20250401082950.21698-1-bsdhenrymartin@gmail.com>
+ <Z-uqpxcge0J99IPI@aspen.lan>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <Z-uqpxcge0J99IPI@aspen.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:35Y86OrRspHmbZbOtY2dnh8M6H40It4ODRJuL/gWp3eBhefzQMm
+ QL31oQeB8VJK0AOdK1JgZ1l/rQGcKeEzXH1EpbYJWbH/lq8kvhxCGbw+3C4/zQmI/T26d5E
+ Kx+3q2xqMjVs/gC2q5ALd0Czm5duoi2A59KXnw3LMa1H1fpKQN+6GrJk/GriMQbc5ULWAzt
+ qGAZHq1Tvbuv0ftV2TbLw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wncKC41epd8=;N1azTlu8pf5G2YwIj7RFt5yG/NN
+ Yw3zGOs6DrvEz8vZVr6hgb+sDCtYJUUBFyFwZsrZLsGPPz7Ib403bGW8zHv0+8pbzWIr2AJOw
+ ijf0Vg6Jysbs77CL7ZPu9uBX40nGKHQpo0lkUKixbY2LD/ZYSycnVwlorifJ8773Z9DdJthwf
+ 7lQZX4wma0re1QtTkitRp88tQMN1+Nkt7jVoF3E6acTyUtKO7LeIS+sCCKTdJeDbQgB6YNTVG
+ mVmeL0Wb0Mp2KW8Pi4YZJsqmEX5RKA1V1/13InL8IaiwY6b1srQbupO6ZjByHnMMLPmfimaYJ
+ 4D23dWVFji+Uan21kw8F9qdBE2YmFgs/ee/dfq+ZUxIPnuUTUYmbKF75E6Rb/IXwnG6mQ1HHJ
+ znuBVfPz5iGmAXNKhwKMoworiKYSqlf6JxFOg3mSw0dPdneK5CDQz4JWDlN0GWowvlxd9ZP9c
+ Ecl8cLidxgjdt8T/yXOrsPdSLgiJMrkypwuykE9kTRtZuu6wwy/ttGzJAyCz1xYdf9pvr+ETi
+ tWuksO1HQAX4zHe6hDiTzobkUlPJyZ33D3cgSeGDeGZMMqAwAc2eANbwTS0fKqwZSdMPSjrz2
+ dqBS+ulZEA81zYFkMYLnIP9qI7u4bQpTNwBMrdJ3o4rU//nsYB0qbqkcYLK98QRTTXGsgWSiu
+ J5TlwsZsUx40Fh1nQbO/+wfuCuB9RV1D7fHgF4vv6cTi0bm7KgSJdUJcEFiWJrVGXiURMomL2
+ tdBRsqflNe1c5eqyS6yXHSSm0dqlE1YXRPiS93xFWgtKC65/BJfqhHwUycwrDNbgJpPW2J6ns
+ mkk1cuUZhz34VQAdpsWXgAKGhuWu8rCy7bvxq0lRXSJ8Y4PDA1APch8SNgRbRUTngh7yFPgg6
+ GQg9OS0Jzxi/glR+O57U6wsgX4qTHUBr5iKyjaOxuVtg/95HN0fp5hjcbQ3qJgLnWqEFBj/Yo
+ KZMESmyY1M++xtp1XrxLwTf6Ib51ZUuhd1gOcGBvfFjmslOXFhoXPKucmtajMmo0200/PMsbE
+ 8QRH3Mtck/k5zEVpjwxpRSJ//wP3VWseEx6JxLTnDSgayy7sjRXnbwY7yobM+gEPbHWUpzUhX
+ WhFpM3kHFZ5Yjvi6QkPp9g+KHqIoEI/4aVk32v/ubRsT1jkm3RAkyGEi+guOpAKFqbHrwganH
+ rvLXfTvPulUD1d/ILhP1MEbo9Xl49JHBbgAW+O9NF2ZKvGvPsOtB8rmCLeSqCGTgxq3yXmxFL
+ e0DmH1G4dxFd0Gxj3FF+hNg5H0vBHSOl6sLQWL7RUkH/bn78IUQkJMqSbyGEvgfkwwYTq63ra
+ 5UsJVH2oxXqoumEcjjYf8L1nIQcaDCgBvNHdr+MPYMBogf2VGlupmGiNdAJPsokEb/ljbtBb3
+ SGj41c4eC71xqfguelTENoSTA2rL/39vW9wYe+nRN2WvF1P8WNRoUq/AU6r9WToKtkKgfC44v
+ E2xTN2soAViFL6h+59TcfCYeAgYEmOwQlQhrFZ2SepCSXLsvrcv4mwsPmCxS15110Y1/Qcw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,35 +95,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In _hl_mmu_v2_hr_map(), If hl_mmu_get_hop_pte_phys_addr() fail to
-get physical address, the return address will be set as U64_MAX.
-Hence, the return value of hl_mmu_get_hop_pte_phys_addr() must
-be checked to prevent invalid address access. Add error handling
-and propagate return code to caller function to fix this issue.
+=E2=80=A6
+>    patch description ;-). I think the original v3 was better worded.
+=E2=80=A6
 
-Fixes: 8aa1e1e60553 ("habanalabs: add gaudi2 MMU support")
-Cc: stable@vger.kernel.org # v6.0+
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Can you find the mentioning of adjustments helpful for better error handli=
+ng?
 
-diff --git a/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c b/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
-index 31507b2a431b..cdade07e22c5 100644
---- a/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
-+++ b/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
-@@ -253,6 +253,11 @@ static int _hl_mmu_v2_hr_map(struct hl_ctx *ctx,
- 		hop_pte_phys_addr[i] = hl_mmu_get_hop_pte_phys_addr(ctx, mmu_prop, i,
- 									hops_pgt_info[i]->phys_addr,
- 									scrambled_virt_addr);
-+		if (hop_pte_phys_addr[i] == U64_MAX) {
-+			rc = -EINVAL;
-+			goto err;
-+		}
-+
- 		curr_pte = *(u64 *) (uintptr_t) hl_mmu_hr_pte_phys_to_virt(ctx, hops_pgt_info[i],
- 							hop_pte_phys_addr[i],
- 							ctx->hdev->asic_prop.pmmu.hop_table_size);
--- 
-2.42.0.windows.2
-
+Regards,
+Markus
