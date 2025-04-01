@@ -2,60 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512DEA784C4
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 00:36:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F816A784C6
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 00:38:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCDC410E68F;
-	Tue,  1 Apr 2025 22:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE9110E688;
+	Tue,  1 Apr 2025 22:38:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AyxtTte1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N8gvtqE1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE08910E0AC;
- Tue,  1 Apr 2025 22:35:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743546951; x=1775082951;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=BP0hpLs2me+nkjEi7CKXG8TX+mVtTdPjcMD2b4sYkCY=;
- b=AyxtTte1sHtHGJSYY8jZlVPlpQRDjfF7sbUF4Qkqub7ecdrb1m+ux9k1
- RGqbhJD+s7kc5OXkNPb9ZcKPqi0rBwBEIATgJly0F0SegUmho+2Y6yM/V
- KXa1xWxg7XSMtK6IoCElrP2aIDmgUV9CFh9DiU7efpLT2Y0J8SqLuudkV
- IEKW+jNMg8e9zgixiPnocPTr1F8Q71sgYuV5Dp587LtZ9dU2ZdP+KR3Hm
- XMoSgYbIrI/X/3VasKTXN5j4HpEZpqiG65S6C3fnye+Zrm1og9tAbYVih
- f0dmKoSwvoAjBUYlvpFhb6sLR28IFHMNkETS5iUxEykumFn5yTyh+DR+y g==;
-X-CSE-ConnectionGUID: 9Gg3+K6vScqL9/3rTBX34w==
-X-CSE-MsgGUID: qVB/K0wVRM64u2850Z+YSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44777463"
-X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; d="scan'208";a="44777463"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 15:35:50 -0700
-X-CSE-ConnectionGUID: EVwOlsbxQQOUmuzOOYPWaQ==
-X-CSE-MsgGUID: duE1W2lES6eDJVnTyMzr/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; d="scan'208";a="149696000"
-Received: from dut4066lnl.fm.intel.com ([10.105.8.54])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 15:35:49 -0700
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: igt-dev@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org, stuart.summers@intel.com,
- ivan.briano@intel.com
-Subject: [PATCH v2 4/4] tests/intel/xe_vm: Test DRM_IOCTL_XE_VM_GET_PROPERTY
- fault reporting
-Date: Tue,  1 Apr 2025 22:35:49 +0000
-Message-ID: <20250401223549.101028-5-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250401223549.101028-1-jonathan.cavitt@intel.com>
-References: <20250401223549.101028-1-jonathan.cavitt@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 829A310E688
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 22:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743547098;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C5PJKLi2OplBGTGIMXpZ53IzIo/Tz04cZeR9oJzwXFw=;
+ b=N8gvtqE1wMEPnueJ2vCyssvec/AA6vqRKz/t4GI5Xbdd5tWRJX/DG/sh01mOYL84YttIZJ
+ zMezMg8HD+NQAv6HBARk/ImiNsEy35rUYjBph65uqfL/waJPGGVsaME9++TIh8+O8B4gbO
+ ecmg7Kc8nvbzqsBbOqtVYCFwBtlzCMY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-490-vO_UYWoLOa63NxqhuWrcpA-1; Tue, 01 Apr 2025 18:38:17 -0400
+X-MC-Unique: vO_UYWoLOa63NxqhuWrcpA-1
+X-Mimecast-MFC-AGG-ID: vO_UYWoLOa63NxqhuWrcpA_1743547096
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-43cf3168b87so33909045e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 15:38:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743547096; x=1744151896;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=C5PJKLi2OplBGTGIMXpZ53IzIo/Tz04cZeR9oJzwXFw=;
+ b=XiTageMQyVCwaqZVWW1zc5AtyBQHsmxjMyFlzTwSQJqRsyZPs1I1OhZy9YNGJKROTi
+ msW7S26mxanpTIfxTr7cOT5nl4D3TGt5G7xKWjeSSH8oK4yH+7jeHRSNPjVYJ4JcJVhN
+ 8Uk1TF29GoFqAGbOci06eaDLxMd5NhU8yxZIJHnyP8cKi8kGzYU1Z6CQbYUK2AfrUvFF
+ /znC4lFPD0YgksSfp0ikV88JESFV12r9KUMSYAQQXA/0wi7Hf8VowVXb04xyqG8YBX1v
+ g483yPOLaymmZiEHkpKsrXtp7dZDHMxTaP8Sd+H38TvmbBckrFhs2ZmxZzKlfb67TDqB
+ Bgcw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXLpjKdkaM2/Tz+wrmRgXvjvB5w4m5vaD7RL+xtePLK6M9d5GnfraN1HwTW+IerzKp9+JDZeN3ij24=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzbmTLL/DKf1ZuOIvDPGg0nE+BP2nDcCCx8beTBkC7baSgHJV/w
+ 4RtibgoMPTV5JSlQVzzBqAkqJLBC37JALQSmArzATukvPRZ/pLAWOQb399oAaF4f4Ouj7SrR3fU
+ 1dgPk33VAYcBFRCQHTfj0wUv1ByfbEg1TmH5fFIZuOxPPv5dArEcMMVLUh38jkEurEQ==
+X-Gm-Gg: ASbGncuR+FhBZ0Gpa25ZUdowubuq2tMpG4J73Qi9XL0deycntecneVBs4GB05yshNx4
+ EBw8GeW+/4hNcMa7YegFrUannvWufxVMKMzZgXlIzOyys3pXe6IJ2g5QVvKNSSk0GC1Tnzj9A4F
+ YWc8wEyCU1/qBQxpPpcf/bla1j3R1MjsHZKr18sTfN1bthVv8deJpGwDn23GkFZ6fUvPBF9uFqd
+ nUdvwjeb02OIF3XUbUxxJHJ6K7RlSBVAx2YCVbwn9SNoJ62TZTI5erTvix7kQWFRKYK7R6IAgXF
+ JqjVUGbAQTdfQLVHpaOnfnA4z0qHdNkIBuCbAdJQI0GguBfyjunLNxs=
+X-Received: by 2002:a05:600c:4e52:b0:43b:ca39:6c75 with SMTP id
+ 5b1f17b1804b1-43ead8c33d6mr29300725e9.16.1743547096017; 
+ Tue, 01 Apr 2025 15:38:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF+A9B3Z3i0+ExREjsKk6CLKNAI1PotfynRKX0NjYjl47QvaVyla0up+c3eNFCiXusT9Z7c5g==
+X-Received: by 2002:a05:600c:4e52:b0:43b:ca39:6c75 with SMTP id
+ 5b1f17b1804b1-43ead8c33d6mr29300575e9.16.1743547095592; 
+ Tue, 01 Apr 2025 15:38:15 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39c0b7a4294sm14934785f8f.89.2025.04.01.15.38.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Apr 2025 15:38:14 -0700 (PDT)
+Message-ID: <4256338c-e547-4ec5-a72e-262d58f2a818@redhat.com>
+Date: Wed, 2 Apr 2025 00:38:13 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/8] drm/i915/gem: Add i915_gem_object_panic_map()
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250401125818.333033-1-jfalempe@redhat.com>
+ <20250401125818.333033-5-jfalempe@redhat.com> <Z-wmxijRKQiZFyup@intel.com>
+ <Z-wo9W5SnvVQDEDt@intel.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <Z-wo9W5SnvVQDEDt@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: JvMrbNuL_-hEma0w-5ps7lPdZii-WVFjpie1lnFtN-A_1743547096
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,204 +109,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a test to xe_vm that determines if pagefaults are correctly tracked
-and reported by the DRM_IOCTL_XE_VM_GET_PROPERTY.
+On 01/04/2025 19:57, Ville Syrjälä wrote:
+> On Tue, Apr 01, 2025 at 08:47:50PM +0300, Ville Syrjälä wrote:
+>> On Tue, Apr 01, 2025 at 02:51:10PM +0200, Jocelyn Falempe wrote:
+>>> Prepare the work for drm_panic support. This is used to map the
+>>> current framebuffer, so the CPU can overwrite it with the panic
+>>> message.
+>>>
+>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>> ---
+>>>
+>>> v5:
+>>>   * Use iosys_map for intel_bo_panic_map().
+>>>
+>>>   drivers/gpu/drm/i915/display/intel_bo.c    |  5 ++++
+>>>   drivers/gpu/drm/i915/display/intel_bo.h    |  1 +
+>>>   drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
+>>>   drivers/gpu/drm/i915/gem/i915_gem_pages.c  | 29 ++++++++++++++++++++++
+>>>   drivers/gpu/drm/xe/display/intel_bo.c      | 10 ++++++++
+>>>   5 files changed, 47 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_bo.c b/drivers/gpu/drm/i915/display/intel_bo.c
+>>> index fbd16d7b58d9..ac904e9ec7d5 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_bo.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_bo.c
+>>> @@ -57,3 +57,8 @@ void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj)
+>>>   {
+>>>   	i915_debugfs_describe_obj(m, to_intel_bo(obj));
+>>>   }
+>>> +
+>>> +void intel_bo_panic_map(struct drm_gem_object *obj, struct iosys_map *map)
+>>> +{
+>>> +	i915_gem_object_panic_map(to_intel_bo(obj), map);
+>>> +}
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_bo.h b/drivers/gpu/drm/i915/display/intel_bo.h
+>>> index ea7a2253aaa5..5b6c63d99786 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_bo.h
+>>> +++ b/drivers/gpu/drm/i915/display/intel_bo.h
+>>> @@ -23,5 +23,6 @@ struct intel_frontbuffer *intel_bo_set_frontbuffer(struct drm_gem_object *obj,
+>>>   						   struct intel_frontbuffer *front);
+>>>   
+>>>   void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj);
+>>> +void intel_bo_panic_map(struct drm_gem_object *obj, struct iosys_map *map);
+>>>   
+>>>   #endif /* __INTEL_BO__ */
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> index a5f34542135c..b16092707ea5 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> @@ -692,6 +692,8 @@ i915_gem_object_unpin_pages(struct drm_i915_gem_object *obj)
+>>>   int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj);
+>>>   int i915_gem_object_truncate(struct drm_i915_gem_object *obj);
+>>>   
+>>> +void i915_gem_object_panic_map(struct drm_i915_gem_object *obj, struct iosys_map *map);
+>>> +
+>>>   /**
+>>>    * i915_gem_object_pin_map - return a contiguous mapping of the entire object
+>>>    * @obj: the object to map into kernel address space
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>>> index 8780aa243105..718bea6474d7 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>>> @@ -355,6 +355,35 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
+>>>   	return vaddr ?: ERR_PTR(-ENOMEM);
+>>>   }
+>>>   
+>>> +/* Map the current framebuffer for CPU access. Called from panic handler, so no
+>>> + * need to pin or cleanup.
+>>> + */
+>>> +void i915_gem_object_panic_map(struct drm_i915_gem_object *obj, struct iosys_map *map)
+>>> +{
+>>> +	enum i915_map_type has_type;
+>>> +	void *ptr;
+>>> +
+>>> +	ptr = page_unpack_bits(obj->mm.mapping, &has_type);
+>>> +
+>>> +
+>>> +	if (!ptr) {
+>>> +		if (i915_gem_object_has_struct_page(obj))
+>>> +			ptr = i915_gem_object_map_page(obj, I915_MAP_WB);
+>>> +		else
+>>> +			ptr = i915_gem_object_map_pfn(obj, I915_MAP_WB);
+>>
+>> WB mapping would require clflushing to make it to the display.
+>> Is that being done somewhere?
+> 
+> This also seems to have a bunch of race conditions:
+> - what happens if the oops happens before the pages have
+>    even been swapped in?
+> - what happens if the oops happens before we've committed
+>    the fb to the hardware?
+> 
 
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Jianxun Zhang <jianxun.zhang@intel.com>
-Suggested-by: Stuart Summers <stuart.summers@intel.com>
----
- tests/intel/xe_vm.c | 159 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 157 insertions(+), 2 deletions(-)
+The panic handler tries to take the panic_lock from the 
+device->mode_config, which should ensure we're not in the middle of a 
+page swap.
 
-diff --git a/tests/intel/xe_vm.c b/tests/intel/xe_vm.c
-index 536532579f..af62357894 100644
---- a/tests/intel/xe_vm.c
-+++ b/tests/intel/xe_vm.c
-@@ -2359,6 +2359,10 @@ static void invalid_vm_id(int fd)
-  * SUBTEST: vm-get-property-invalid-property
-  * Functionality: ioctl_input_validation
-  * Description: Check query with invalid property returns expected error code
-+ *
-+ * SUBTEST: vm-get-property-exercise
-+ * Functionality: drm_xe_vm_get_property
-+ * Description: Check query correctly reports pageproperty on vm
-  */
- static void get_property_invalid_reserved(int fd, uint32_t vm)
- {
-@@ -2399,12 +2403,162 @@ static void get_property_invalid_property(int fd, uint32_t vm)
- 	do_ioctl_err(fd, DRM_IOCTL_XE_VM_GET_PROPERTY, &query, EINVAL);
- }
- 
-+static void
-+gen_pf(int fd, uint32_t vm, struct drm_xe_engine_class_instance *eci)
-+{
-+	int n_exec_queues = 2;
-+	int n_execs = 2;
-+	uint64_t addr = 0x1a0000;
-+	struct drm_xe_sync sync[2] = {
-+		{ .type = DRM_XE_SYNC_TYPE_SYNCOBJ, .flags = DRM_XE_SYNC_FLAG_SIGNAL, },
-+		{ .type = DRM_XE_SYNC_TYPE_SYNCOBJ, .flags = DRM_XE_SYNC_FLAG_SIGNAL, },
-+	};
-+	struct drm_xe_exec exec = {
-+		.num_batch_buffer = 1,
-+		.num_syncs = 2,
-+		.syncs = to_user_pointer(sync),
-+	};
-+	uint32_t exec_queues[2];
-+	uint32_t syncobjs[2];
-+	size_t bo_size;
-+	uint32_t bo = 0;
-+	struct {
-+		struct xe_spin spin;
-+		uint32_t batch[16];
-+		uint64_t pad;
-+		uint32_t data;
-+	} *data;
-+	struct xe_spin_opts spin_opts = { .preempt = false };
-+	int i, b;
-+
-+	bo_size = sizeof(*data) * n_execs;
-+	bo_size = xe_bb_size(fd, bo_size);
-+
-+	bo = xe_bo_create(fd, vm, bo_size,
-+			  vram_if_possible(fd, eci->gt_id),
-+			  DRM_XE_GEM_CREATE_FLAG_NEEDS_VISIBLE_VRAM);
-+	data = xe_bo_map(fd, bo, bo_size);
-+
-+	for (i = 0; i < n_exec_queues; i++) {
-+		exec_queues[i] = xe_exec_queue_create(fd, vm, eci, 0);
-+		syncobjs[i] = syncobj_create(fd, 0);
-+	};
-+
-+	sync[0].handle = syncobj_create(fd, 0);
-+	xe_vm_bind_async(fd, vm, 0, bo, 0, addr, bo_size, sync, 1);
-+
-+	for (i = 0; i < n_execs; i++) {
-+		uint64_t base_addr = !i ? addr + bo_size * 128 : addr;
-+		uint64_t batch_offset = (char *)&data[i].batch - (char *)data;
-+		uint64_t batch_addr = base_addr + batch_offset;
-+		uint64_t spin_offset = (char *)&data[i].spin - (char *)data;
-+		uint64_t sdi_offset = (char *)&data[i].data - (char *)data;
-+		uint64_t sdi_addr = base_addr + sdi_offset;
-+		uint64_t exec_addr;
-+		int e = i % n_exec_queues;
-+
-+		if (!i) {
-+			spin_opts.addr = base_addr + spin_offset;
-+			xe_spin_init(&data[i].spin, &spin_opts);
-+			exec_addr = spin_opts.addr;
-+		} else {
-+			b = 0;
-+			data[i].batch[b++] = MI_STORE_DWORD_IMM_GEN4;
-+			data[i].batch[b++] = sdi_addr;
-+			data[i].batch[b++] = sdi_addr >> 32;
-+			data[i].batch[b++] = 0xc0ffee;
-+			data[i].batch[b++] = MI_BATCH_BUFFER_END;
-+			igt_assert(b <= ARRAY_SIZE(data[i].batch));
-+
-+			exec_addr = batch_addr;
-+		}
-+
-+		sync[0].flags &= ~DRM_XE_SYNC_FLAG_SIGNAL;
-+		sync[1].flags |= DRM_XE_SYNC_FLAG_SIGNAL;
-+		sync[1].handle = syncobjs[e];
-+
-+		exec.exec_queue_id = exec_queues[e];
-+		exec.address = exec_addr;
-+		if (e != i)
-+			 syncobj_reset(fd, &syncobjs[e], 1);
-+		xe_exec(fd, &exec);
-+	}
-+
-+	for (i = 0; i < n_exec_queues && n_execs; i++)
-+		igt_assert(syncobj_wait(fd, &syncobjs[i], 1, INT64_MAX, 0,
-+					NULL));
-+	igt_assert(syncobj_wait(fd, &sync[0].handle, 1, INT64_MAX, 0, NULL));
-+
-+	sync[0].flags |= DRM_XE_SYNC_FLAG_SIGNAL;
-+	xe_vm_unbind_async(fd, vm, 0, 0, addr, bo_size, sync, 1);
-+	igt_assert(syncobj_wait(fd, &sync[0].handle, 1, INT64_MAX, 0, NULL));
-+
-+	syncobj_destroy(fd, sync[0].handle);
-+	for (i = 0; i < n_exec_queues; i++) {
-+		syncobj_destroy(fd, syncobjs[i]);
-+		xe_exec_queue_destroy(fd, exec_queues[i]);
-+	}
-+
-+	munmap(data, bo_size);
-+	gem_close(fd, bo);
-+}
-+
-+static void print_pf(struct xe_vm_fault *fault)
-+{
-+	igt_debug("FAULT:\n");
-+	igt_debug("address = 0x%08x%08x\n",
-+		  upper_32_bits(fault->address),
-+		  lower_32_bits(fault->address));
-+	igt_debug("address precision = %u\n", fault->address_precision);
-+	igt_debug("access type = %u\n", fault->access_type);
-+	igt_debug("fault type = %u\n", fault->fault_type);
-+	igt_debug("fault level = %u\n", fault->fault_level);
-+	igt_debug("\n");
-+}
-+
-+static void get_property_exercise(int fd, uint32_t vm)
-+{
-+	struct drm_xe_engine_class_instance *hwe;
-+	struct xe_vm_fault *faults, f0, f;
-+	struct drm_xe_vm_get_property query = {
-+		.vm_id = vm,
-+		.property = DRM_XE_VM_GET_PROPERTY_FAULTS
-+	};
-+	int i, fault_count;
-+
-+	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_VM_GET_PROPERTY, &query), 0);
-+
-+	igt_assert_eq(query.size, 0);
-+
-+	xe_for_each_engine(fd, hwe)
-+		gen_pf(fd, vm, hwe);
-+
-+	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_VM_GET_PROPERTY, &query), 0);
-+	igt_assert_lt(0, query.size);
-+
-+	faults = malloc(query.size);
-+	igt_assert(faults);
-+
-+	query.data = to_user_pointer(faults);
-+	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_VM_GET_PROPERTY, &query), 0);
-+
-+	fault_count = query.size / sizeof(struct xe_vm_fault);
-+	f0 = faults[0];
-+	for (i = 0; i < fault_count; i++) {
-+		f = faults[i];
-+		print_pf(&f);
-+		igt_assert_eq(f.address, f0.address);
-+		igt_assert_eq(f.access_type, f0.access_type);
-+		igt_assert_eq(f.fault_type, f0.fault_type);
-+	}
-+	free(faults);
-+}
-+
- static void test_get_property(int fd, void (*func)(int fd, uint32_t vm))
- {
- 	uint32_t vm;
- 
--	vm = xe_vm_create(fd, DRM_XE_VM_CREATE_FLAG_LR_MODE ||
--			  DRM_XE_VM_CREATE_FLAG_FAULT_MODE, 0);
-+	vm = xe_vm_create(fd, 0, 0);
- 	func(fd, vm);
- 	xe_vm_destroy(fd, vm);
- }
-@@ -2529,6 +2683,7 @@ igt_main
- 		{ "invalid-vm-id", get_property_invalid_vm_id },
- 		{ "invalid-size", get_property_invalid_size },
- 		{ "invalid-property", get_property_invalid_property },
-+		{ "exercise", get_property_exercise },
- 		{ }
- 	};
- 
+https://elixir.bootlin.com/linux/v6.14-rc6/source/include/drm/drm_panic.h#L70
+
+https://elixir.bootlin.com/linux/v6.14-rc6/source/include/drm/drm_mode_config.h#L500
+
+If the lock is already taken when the panic handler run, it will skip 
+this device, and won't draw the panic screen on it.
+
+Best regards,
+
 -- 
-2.43.0
+
+Jocelyn
+
+>>
+>>> +
+>>> +		if (IS_ERR(ptr))
+>>> +			return;
+>>
+>> What happens when the mapping fails?
+>>
+>>> +
+>>> +		obj->mm.mapping = page_pack_bits(ptr, I915_MAP_WB);
+>>> +	}
+>>> +
+>>> +	if (i915_gem_object_has_iomem(obj))
+>>> +		iosys_map_set_vaddr_iomem(map, (void __iomem *) ptr);
+>>> +	else
+>>> +		iosys_map_set_vaddr(map, ptr);
+>>> +}
+>>> +
+>>>   /* get, pin, and map the pages of the object into kernel space */
+>>>   void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
+>>>   			      enum i915_map_type type)
+>>> diff --git a/drivers/gpu/drm/xe/display/intel_bo.c b/drivers/gpu/drm/xe/display/intel_bo.c
+>>> index 27437c22bd70..c68166a64336 100644
+>>> --- a/drivers/gpu/drm/xe/display/intel_bo.c
+>>> +++ b/drivers/gpu/drm/xe/display/intel_bo.c
+>>> @@ -59,3 +59,13 @@ void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj)
+>>>   {
+>>>   	/* FIXME */
+>>>   }
+>>> +
+>>> +void intel_bo_panic_map(struct drm_gem_object *obj, struct iosys_map *map)
+>>> +{
+>>> +	struct xe_bo *bo = gem_to_xe_bo(obj);
+>>> +	int ret;
+>>> +
+>>> +	ret = ttm_bo_vmap(&bo->ttm, map);
+>>> +	if (ret)
+>>> +		iosys_map_clear(map);
+>>> +}
+>>> -- 
+>>> 2.49.0
+>>
+>> -- 
+>> Ville Syrjälä
+>> Intel
+> 
 
