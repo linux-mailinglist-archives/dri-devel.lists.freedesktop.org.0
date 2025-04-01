@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA856A7810B
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 19:05:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748A5A7810D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 19:05:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F6710E62E;
-	Tue,  1 Apr 2025 17:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B855510E630;
+	Tue,  1 Apr 2025 17:05:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WkhsX17H";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Y+tWcWLz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D33010E62E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 17:05:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55EB610E630
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 17:05:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743527140;
+ s=mimecast20190719; t=1743527146;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CLUstK61xAXM/gs96bsAOZILqsnCQXzSXUukxAi+2lc=;
- b=WkhsX17HAMMbLYDyjAzu8fjsgEvgJjlorLfIlGuLdjrXsA26pyHlLQBFDuSw8HNdgk6hRF
- LFJEiSJ7lWuR/s+lru9goRiJJ4U/yhUuXLS95V7J6wvfcKUXJ3bYWgMmbIfRRwGLo2Ik5o
- i0r4nP2E+W1nLUpsKlauVppN4iGC3Lw=
+ bh=mUKnnvYyn+coNsWluPrWHQ14aAy143VL7GAIbKLN55A=;
+ b=Y+tWcWLzrBdL6VS0WjeEX7CFL6ruh8Lt94UdESRQdNZT1m5UmlHezVbroujPgR8prIe4Jt
+ 3lk85wc2mGchH7yRZohVxAgEw9OQ2/sB6tNVIlkH7fdfxIkV6g4dfiVJaTJhNXYuQR/AFm
+ OUTsWceTwlbSNaYJEwoAXYR61Ri3xu8=
 Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-681-CwVWGLadNEa5trB-SijpAw-1; Tue,
- 01 Apr 2025 13:05:39 -0400
-X-MC-Unique: CwVWGLadNEa5trB-SijpAw-1
-X-Mimecast-MFC-AGG-ID: CwVWGLadNEa5trB-SijpAw_1743527136
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-175-zeVlDFwvPRO3PBoKRrEoig-1; Tue,
+ 01 Apr 2025 13:05:41 -0400
+X-MC-Unique: zeVlDFwvPRO3PBoKRrEoig-1
+X-Mimecast-MFC-AGG-ID: zeVlDFwvPRO3PBoKRrEoig_1743527139
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 6DE7D19560B6; Tue,  1 Apr 2025 17:05:36 +0000 (UTC)
+ id 469951954B38; Tue,  1 Apr 2025 17:05:39 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id EF0171828A80; Tue,  1 Apr 2025 17:05:33 +0000 (UTC)
+ id B9F00180B487; Tue,  1 Apr 2025 17:05:36 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 01 Apr 2025 12:03:50 -0400
-Subject: [PATCH 07/10] panel/boe-tv101wum-ll2: Use refcounted allocation in
- place of devm_kzalloc()
+Date: Tue, 01 Apr 2025 12:03:51 -0400
+Subject: [PATCH 08/10] panel/dsi-cm: Use refcounted allocation in place of
+ devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250401-b4-drm-panel-mass-driver-convert-v1-7-cdd7615e1f93@redhat.com>
+Message-Id: <20250401-b4-drm-panel-mass-driver-convert-v1-8-cdd7615e1f93@redhat.com>
 References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
 In-Reply-To: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -62,11 +62,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Douglas Anderson <dianders@chromium.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743523429; l=1472;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743523429; l=1282;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=Xzn2wN1O+Drv+RLLltDt9Nl2qRP7FbO46Im5Ji+jRFs=;
- b=qCOpMXB+Q5SsvMpJ7k+WgQX+/FGhc3kgX2dRC14aRN7ThcH0LKYbppz6FXumPi7BNia+ICqQf
- S7uSB28GUyNAUgY4ypEBT7SRqFZht9XZ1dGNkcXNkHRkzWmTMDkpuYT
+ bh=JoNfquM7qzkcKmUulZWWjNdY1sPbIefQYKUNSp2RtSI=;
+ b=eDIYj8leCHW/fg3jtbOZ/on02VaQERqAbuIJUsXuldSHijRYqFT/G+yL8eUUuTKmp35iBgVwt
+ KCxYj5Ds+ffAhr2Zqg+6xvDRa6DXMP/20hSQycRVyfWiO5tbNLHwDGD
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
@@ -90,37 +90,37 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panel/panel-dsi-cm.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c
-index 50e4a5341bc65727b5ed6ba43a11f5ab9ac9f5b9..04c7890cc51db43bdc6e38cdae8f7f21fd48009f 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c
-@@ -166,9 +166,11 @@ static int boe_tv101wum_ll2_probe(struct mipi_dsi_device *dsi)
- 	struct boe_tv101wum_ll2 *ctx;
- 	int ret;
+diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
+index 6b3f4d664d2ade668525660394cf81924436492e..ae6e9ffc46cb49ddb53981815ad248953bb37fbb 100644
+--- a/drivers/gpu/drm/panel/panel-dsi-cm.c
++++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
+@@ -511,9 +511,10 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+ 	dev_dbg(dev, "probe\n");
+ 
+-	ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
+-	if (!ddata)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct boe_tv101wum_ll2, panel,
-+				   &boe_tv101wum_ll2_panel_funcs,
-+				   DRM_MODE_CONNECTOR_DSI
-+	if (IS_ERR(panel))
-+		return PTR_ERR(panel);
++	ddata = devm_drm_panel_alloc(dev, struct panel_drv_data, panel,
++				     &dsicm_panel_funcs, DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(ddata))
++		return PTR_ERR(ddata);
  
- 	ret = devm_regulator_bulk_get_const(&dsi->dev,
- 					ARRAY_SIZE(boe_tv101wum_ll2_supplies),
-@@ -190,8 +192,6 @@ static int boe_tv101wum_ll2_probe(struct mipi_dsi_device *dsi)
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
- 			  MIPI_DSI_MODE_VIDEO_HSE;
+ 	mipi_dsi_set_drvdata(dsi, ddata);
+ 	ddata->dsi = dsi;
+@@ -530,9 +531,6 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
  
--	drm_panel_init(&ctx->panel, dev, &boe_tv101wum_ll2_panel_funcs,
+ 	dsicm_hw_reset(ddata);
+ 
+-	drm_panel_init(&ddata->panel, dev, &dsicm_panel_funcs,
 -		       DRM_MODE_CONNECTOR_DSI);
- 	ctx->panel.prepare_prev_first = true;
- 
- 	ret = drm_panel_of_backlight(&ctx->panel);
+-
+ 	if (ddata->use_dsi_backlight) {
+ 		struct backlight_properties props = { 0 };
+ 		props.max_brightness = 255;
 
 -- 
 2.48.1
