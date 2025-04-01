@@ -2,61 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64683A78024
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 18:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0F3A78002
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 18:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42CFD10E60E;
-	Tue,  1 Apr 2025 16:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDF4810E5F0;
+	Tue,  1 Apr 2025 16:17:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B0CF10E60E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 16:23:14 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2A6691F445;
- Tue,  1 Apr 2025 16:23:07 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 017CE13A43;
- Tue,  1 Apr 2025 16:23:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id YMTIOuoS7GdxDAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 01 Apr 2025 16:23:06 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com,
-	sean@poorly.run,
-	patrik.r.jakobsson@gmail.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 9/9] drm/udl: Support adapters without firmware descriptor
-Date: Tue,  1 Apr 2025 18:12:19 +0200
-Message-ID: <20250401161929.283244-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250401161929.283244-1-tzimmermann@suse.de>
-References: <20250401161929.283244-1-tzimmermann@suse.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D343F10E5F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 16:17:44 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98BD8150C
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 09:17:47 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 199B33F63F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 09:17:43 -0700 (PDT)
+Date: Tue, 1 Apr 2025 17:17:40 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH 1/3] drm/panthor: Call panthor_gpu_coherency_init() after
+ PM resume()
+Message-ID: <Z-wRpKpzlK4Xg7ed@e110455-lin.cambridge.arm.com>
+References: <20250401075710.2638950-1-boris.brezillon@collabora.com>
+ <20250401075710.2638950-2-boris.brezillon@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00]; REPLY(-4.00)[];
- TAGGED_RCPT(0.00)[];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU]
-X-Spam-Score: -4.00
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 2A6691F445
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+In-Reply-To: <20250401075710.2638950-2-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,102 +50,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set default limit on the number of pixels for adapters without
-vendor firmware descriptor. The devices work as expected, they
-just don't provide any description.
+On Tue, Apr 01, 2025 at 09:57:08AM +0200, Boris Brezillon wrote:
+> When the device is coherent, panthor_gpu_coherency_init() will read
+> GPU_COHERENCY_FEATURES to make sure the GPU supports the ACE-Lite
+> coherency protocol, which will fail if the clocks/power-domains are
+> not enabled when the read is done. Move the
+> panthor_gpu_coherency_init() call after the device has been resumed
+> to prevent that.
 
-If parsing the vendor firmware descriptor fails, the device falls
-back to the given default limits. Failing to allocate memory is
-still an error.
+While doing this, do you mind fixing the definitions for GPU_COHERENCY_ACE
+and GPU_COHERENCY_ACE_LITE? They are swapped, according to my arch spec.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/udl/udl_main.c | 37 +++++++++++++++++++---------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+Otherwise, patch looks good to me.
 
-diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-index b5a6b254a2028..2685608af8cec 100644
---- a/drivers/gpu/drm/udl/udl_main.c
-+++ b/drivers/gpu/drm/udl/udl_main.c
-@@ -76,6 +76,7 @@ static int udl_parse_vendor_descriptor(struct udl_device *udl)
- {
- 	struct drm_device *dev = &udl->drm;
- 	struct usb_device *udev = udl_to_usb_device(udl);
-+	bool detected = false;
- 	void *buf;
- 	int ret;
- 	unsigned int len;
-@@ -84,16 +85,16 @@ static int udl_parse_vendor_descriptor(struct udl_device *udl)
- 
- 	buf = kzalloc(MAX_VENDOR_DESCRIPTOR_SIZE, GFP_KERNEL);
- 	if (!buf)
--		return false;
-+		return -ENOMEM;
- 
- 	ret = usb_get_descriptor(udev, 0x5f, /* vendor specific */
- 				 0, buf, MAX_VENDOR_DESCRIPTOR_SIZE);
- 	if (ret < 0)
--		goto unrecognized;
-+		goto out;
- 	len = ret;
- 
- 	if (len < 5)
--		goto unrecognized;
-+		goto out;
- 
- 	desc = buf;
- 	desc_end = desc + len;
-@@ -103,21 +104,20 @@ static int udl_parse_vendor_descriptor(struct udl_device *udl)
- 	    (desc[2] != 0x01) ||   /* version (2 bytes) */
- 	    (desc[3] != 0x00) ||
- 	    (desc[4] != len - 2))  /* length after type */
--		goto unrecognized;
-+		goto out;
- 	desc += 5;
- 
-+	detected = true;
-+
- 	while (desc < desc_end)
- 		desc = udl_parse_key_value_pair(udl, desc, desc_end);
- 
--	goto success;
--
--unrecognized:
--	/* allow udlfb to load for now even if firmware unrecognized */
--	drm_warn(dev, "Unrecognized vendor firmware descriptor\n");
--
--success:
-+out:
-+	if (!detected)
-+		drm_warn(dev, "Unrecognized vendor firmware descriptor\n");
- 	kfree(buf);
--	return true;
-+
-+	return 0;
- }
- 
- /*
-@@ -345,11 +345,16 @@ int udl_init(struct udl_device *udl)
- 		drm_warn(dev, "buffer sharing not supported"); /* not an error */
- 	}
- 
--	if (!udl_parse_vendor_descriptor(udl)) {
--		ret = -ENODEV;
--		DRM_ERROR("firmware not recognized. Assume incompatible device\n");
-+	/*
-+	 * Not all devices provide vendor descriptors with device
-+	 * information. Initialize to default values from real-world
-+	 * devices. It is just enough memory for FullHD.
-+	 */
-+	udl->sku_pixel_limit = USL_SKU_PIXEL_LIMIT_DEFAULT;
-+
-+	ret = udl_parse_vendor_descriptor(udl);
-+	if (ret)
- 		goto err;
--	}
- 
- 	if (udl_select_std_channel(udl))
- 		DRM_ERROR("Selecting channel failed\n");
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+> 
+> Fixes: dd7db8d911a1 ("drm/panthor: Explicitly set the coherency mode")
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index a9da1d1eeb70..c73c1608d6e6 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -171,10 +171,6 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	struct page *p;
+>  	int ret;
+>  
+> -	ret = panthor_gpu_coherency_init(ptdev);
+> -	if (ret)
+> -		return ret;
+> -
+>  	init_completion(&ptdev->unplug.done);
+>  	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
+>  	if (ret)
+> @@ -247,6 +243,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		goto err_rpm_put;
+>  
+> +	ret = panthor_gpu_coherency_init(ptdev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret = panthor_mmu_init(ptdev);
+>  	if (ret)
+>  		goto err_unplug_gpu;
+> -- 
+> 2.48.1
+> 
+
 -- 
-2.49.0
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
