@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D582A77E14
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 16:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02ABA77E60
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 16:59:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5478710E5EB;
-	Tue,  1 Apr 2025 14:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DF7D10E5C1;
+	Tue,  1 Apr 2025 14:59:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cOmAXulF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Vt60qDLK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E67D10E5EB;
- Tue,  1 Apr 2025 14:43:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743518600; x=1775054600;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=K6WJY3tfkFhz/muLLbEhJ7qHN/xkLBt2I7DVfEWfKWw=;
- b=cOmAXulFoWVJwxPq2MYzsUm42Ork1EhgE9efyl1BobzmKHU9xD61l2VQ
- 5CEG8vWkQcjg0A97ELr+eqEk6Z9YNKuFDKwWNikm7pyaFy9tGJKkL/T7x
- CkoPt8CcrfUJdpgpqOr1MvHO/Ck6RcClXBC6flZRS0da5LyUElEREA/BJ
- 9RY0dPtvAZXL3Yn2WvZ3lYcAi2HW9tfQ5y8KVez4H71dz8/17KoyKinQk
- XyKTRHQl3ZTNPQI5M2O4VYIN+myMQDQr4flKhGnftlF7J1FUNT9WKhMNv
- CV3Fb85kA/gfVI0AZf9FaoMfd619qowRZpj4KAyt2bpUlubN2HMGVS7k0 A==;
-X-CSE-ConnectionGUID: E/4GTyeOQsuo90sdZzycJA==
-X-CSE-MsgGUID: xpXoUQTORIWG+dzZsUeMUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44095946"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="44095946"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 07:43:19 -0700
-X-CSE-ConnectionGUID: rfAdMOvnSAy03oJnx0kCmg==
-X-CSE-MsgGUID: 3ySWbYOHTWquYSPc0wG4Sw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="131543480"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.7])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 07:43:17 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH 1/2] drm/dp_mst: Fix GUID DPCD write to non-root MST
- branch devices
-In-Reply-To: <20250401103846.686408-1-imre.deak@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250401103846.686408-1-imre.deak@intel.com>
-Date: Tue, 01 Apr 2025 17:43:13 +0300
-Message-ID: <87ikno2b9a.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA5710E5FD;
+ Tue,  1 Apr 2025 14:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Dz4AjBZl0FeY67rC7WIKCKabLEHdUSe+H9IOtc9JH2s=; b=Vt60qDLKSAn1NOAbU28KBaJ8e8
+ MvR9A/Qqpv0c1V8s4hTpsmsO+1fDszm0aXEoOyFV58b0ha97OU0oenzbKU1Y+nEi8tDPpFpE1wZqO
+ 8QXLwy/cBeOsPZWi5m61WoPmERo1PAwCsTJ/XkLzy32xQw+DQV8GK0IA5v4efm7fwZ40TMg86bJrn
+ HF9NARq/mwuOnVlCl3zQ32OYt+DsQiXB9AEKSuJ6XIQlKbVK9JKvB55/khqE50uI7O8o7GRIrx7dk
+ M0W0vKLeujpvBx6nsymG9uRUnVC06s7Gc6Okoqj1bQ3zNhKGvzT/5dvEmKYtK5qoyx3IDZ7E11Ivf
+ Pxoym+1w==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tzd5a-009r7m-Oj; Tue, 01 Apr 2025 16:59:42 +0200
+Message-ID: <030635b9-d491-4e54-92dc-072e35b47e64@igalia.com>
+Date: Tue, 1 Apr 2025 15:59:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v3 04/14] drm/sched: Clarify locked section in
+ drm_sched_rq_select_entity_fifo
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+References: <20250331201705.60663-1-tvrtko.ursulin@igalia.com>
+ <20250331201705.60663-5-tvrtko.ursulin@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250331201705.60663-5-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +64,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 01 Apr 2025, Imre Deak <imre.deak@intel.com> wrote:
-> The return value on success of drm_dp_send_dpcd_write() called for
-> non-root MST branch devices from drm_dp_check_mstb_guid() is the number
-> of bytes transferred. Atm this return value (in case of a complete read)
-> will be regarded incorrectly as an error by the caller of
-> drm_dp_check_mstb_guid(). Fix this by converting the return value for a
-> complete read to the expected success code (0) and for a partial read to
-> a failure code (-EPROTO).
->
-> Fixes: 2554da0de3e8 ("drm/display: dp-mst-topology: use new DCPD access helpers")
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+On 31/03/2025 21:16, Tvrtko Ursulin wrote:
+> Rq->lock only protects the tree walk so lets move the rest out.
 
+I retract this one, reinit_completion has to be in the locked section 
+too. Next posting will be rebased accordingly but I will hold off 
+sending it out until more comments are received.
+
+Regards,
+
+Tvrtko
+
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
 > ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index de3fc6090c906..619f461e02f76 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -2200,6 +2200,8 @@ static int drm_dp_check_mstb_guid(struct drm_dp_mst_branch *mstb, guid_t *guid)
->  			ret = drm_dp_send_dpcd_write(mstb->mgr,
->  						     mstb->port_parent,
->  						     DP_GUID, sizeof(buf), buf);
-> +			if (ret >= 0)
-> +				ret = ret == sizeof(buf) ? 0 : -EPROTO;
->  		} else {
->  			ret = drm_dp_dpcd_write_data(mstb->mgr->aux,
->  						     DP_GUID, buf, sizeof(buf));
+>   drivers/gpu/drm/scheduler/sched_main.c | 31 ++++++++++++++------------
+>   1 file changed, 17 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index f593b88ab02c..357133e6d4d0 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -326,29 +326,32 @@ static struct drm_sched_entity *
+>   drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
+>   				struct drm_sched_rq *rq)
+>   {
+> +	struct drm_sched_entity *entity = NULL;
+>   	struct rb_node *rb;
+>   
+>   	spin_lock(&rq->lock);
+>   	for (rb = rb_first_cached(&rq->rb_tree_root); rb; rb = rb_next(rb)) {
+> -		struct drm_sched_entity *entity;
+> -
+>   		entity = rb_entry(rb, struct drm_sched_entity, rb_tree_node);
+> -		if (drm_sched_entity_is_ready(entity)) {
+> -			/* If we can't queue yet, preserve the current entity in
+> -			 * terms of fairness.
+> -			 */
+> -			if (!drm_sched_can_queue(sched, entity)) {
+> -				spin_unlock(&rq->lock);
+> -				return ERR_PTR(-ENOSPC);
+> -			}
+> -
+> -			reinit_completion(&entity->entity_idle);
+> +		if (drm_sched_entity_is_ready(entity))
+>   			break;
+> -		}
+> +		else
+> +			entity = NULL;
+>   	}
+>   	spin_unlock(&rq->lock);
+>   
+> -	return rb ? rb_entry(rb, struct drm_sched_entity, rb_tree_node) : NULL;
+> +	if (!entity)
+> +		return NULL;
+> +
+> +	/*
+> +	 * If scheduler cannot take more jobs signal the caller to not consider
+> +	 * lower priority queues.
+> +	 */
+> +	if (!drm_sched_can_queue(sched, entity))
+> +		return ERR_PTR(-ENOSPC);
+> +
+> +	reinit_completion(&entity->entity_idle);
+> +
+> +	return entity;
+>   }
+>   
+>   /**
 
--- 
-Jani Nikula, Intel
