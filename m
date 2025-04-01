@@ -2,73 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EDBA78120
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 19:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB4DA78151
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 19:20:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7FCE10E633;
-	Tue,  1 Apr 2025 17:09:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2522A10E62D;
+	Tue,  1 Apr 2025 17:20:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="SkQff7ui";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LAYKJGel";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB83010E633
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 17:09:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=QwFzB9rgmSr+DDy/b0Hd/aaJjyUrXEHFSgwJ+5QTAZE=; b=SkQff7ui2dNykAT/PDqf0vlSCq
- JvsCdACSYe6T3hSLfM3FS6XnoTUAWaC8QlDsGfSHAfpe3/1xMVYJjq+Ehpkz9GRAJZCdFb8EvtwBF
- iljWyv4a77vp98tDoDmbknBxwJr/Ku7C441orgCjgmX5MTGO1jD0vg5GjeLbUkjz7kfmLhYFNDD1Q
- XlvxjXhT4fRnPenmqAN0T7HKdRn6O7ymBiNQB6qVgVVnoc6IYGnALtk9chuv+O9zRJ3YCbXis/703
- u/jnLw1FwOHLiS4NfA9/hp64nCVZZHYbIfpxDLawE14K4BvpIe4Kdf2BHTdR3CHh1eLXfeo3Dtz1N
- pbzxgLSw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252]
- helo=noisy.programming.kicks-ass.net)
- by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
- id 1tzf6D-00000006qiQ-3phb; Tue, 01 Apr 2025 17:08:30 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
- id 1849630049D; Tue,  1 Apr 2025 19:08:29 +0200 (CEST)
-Date: Tue, 1 Apr 2025 19:08:29 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Alessandro Carminati <acarmina@redhat.com>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Guenter Roeck <linux@roeck-us.net>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, loongarch@lists.linux.dev, x86@kernel.org,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>
-Subject: Re: [PATCH v4 06/14] x86: Add support for suppressing warning
- backtraces
-Message-ID: <20250401170829.GO5880@noisy.programming.kicks-ass.net>
-References: <20250313114329.284104-1-acarmina@redhat.com>
- <20250313114329.284104-7-acarmina@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F24DE10E62D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 17:20:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743528003; x=1775064003;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9v2/BVb/MT2vav3Jc2L6UQQ0F0HWEHdTwDNdsMzxlAc=;
+ b=LAYKJGel+E3XqiGa5aX4FxcQeElLAD8/lh7DjWPTlGPtIZhksTIaR/if
+ kjjNRtZp+ZdmP2sroC7Hz/90F+JuBOUvrOaLLy1KkI7YnmSBIvLj0h8pT
+ CUc99lPC5xoL6Pe3/sw//JDvCXM8fghxD02j9uRCuunYHA+/qcKkrrh8L
+ a0XN/6bV2itJHa6fWBtgBylgIoCzolwapXAh8PDdzjD0+PFGjOj/LfyUU
+ knoPWOGtuQTi9cfytRctFHtqSaOohEGI5nCaTEWUMBWBAKqgRhSp/48H3
+ zTrbwOmLyf7lgQIaXQNCtw0NeHCAFL6mavmS3f5AuBt/Do4QzW/VVms2V A==;
+X-CSE-ConnectionGUID: opzFv5v5RzWW4N04bCsM9w==
+X-CSE-MsgGUID: /xaQUc54Ts28nBTdhJ9fEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="55524280"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="55524280"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 10:20:03 -0700
+X-CSE-ConnectionGUID: a6UK/Sh9T3y6kyIMcUMS8Q==
+X-CSE-MsgGUID: UN9gT+yuT+qlqWWyQWl9pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="126206433"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by orviesa009.jf.intel.com with ESMTP; 01 Apr 2025 10:20:01 -0700
+Received: from [10.246.5.201] (mwajdecz-MOBL.ger.corp.intel.com [10.246.5.201])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id 6165934972;
+ Tue,  1 Apr 2025 18:19:59 +0100 (IST)
+Message-ID: <0ba89b4d-956a-4d9b-a9ae-62ca787c9975@intel.com>
+Date: Tue, 1 Apr 2025 19:19:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250313114329.284104-7-acarmina@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/4] drm/xe/vf: Post-migration recovery of GGTT nodes
+ and CTB
+To: Tomasz Lis <tomasz.lis@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ =?UTF-8?Q?Piotr_Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>
+References: <20250331132107.1242954-1-tomasz.lis@intel.com>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20250331132107.1242954-1-tomasz.lis@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,76 +76,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 13, 2025 at 11:43:21AM +0000, Alessandro Carminati wrote:
-> From: Guenter Roeck <linux@roeck-us.net>
-> 
-> Add name of functions triggering warning backtraces to the __bug_table
-> object section to enable support for suppressing WARNING backtraces.
-> 
-> To limit image size impact, the pointer to the function name is only added
-> to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
-> CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
-> parameter is replaced with a (dummy) NULL parameter to avoid an image size
-> increase due to unused __func__ entries (this is necessary because __func__
-> is not a define but a virtual variable).
-> 
-> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
-> ---
->  arch/x86/include/asm/bug.h | 21 ++++++++++++++++-----
->  1 file changed, 16 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
-> index e85ac0c7c039..f6e13fc675ab 100644
-> --- a/arch/x86/include/asm/bug.h
-> +++ b/arch/x86/include/asm/bug.h
-> @@ -35,18 +35,28 @@
->  
->  #ifdef CONFIG_DEBUG_BUGVERBOSE
->  
-> +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
-> +# define HAVE_BUG_FUNCTION
-> +# define __BUG_FUNC_PTR	__BUG_REL(%c1)
-> +# define __BUG_FUNC	__func__
-> +#else
-> +# define __BUG_FUNC_PTR
-> +# define __BUG_FUNC	NULL
-> +#endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
-> +
->  #define _BUG_FLAGS(ins, flags, extra)					\
->  do {									\
->  	asm_inline volatile("1:\t" ins "\n"				\
->  		     ".pushsection __bug_table,\"aw\"\n"		\
->  		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
->  		     "\t"  __BUG_REL(%c0) "\t# bug_entry::file\n"	\
-> -		     "\t.word %c1"        "\t# bug_entry::line\n"	\
-> -		     "\t.word %c2"        "\t# bug_entry::flags\n"	\
-> -		     "\t.org 2b+%c3\n"					\
-> +		     "\t"  __BUG_FUNC_PTR "\t# bug_entry::function\n"	\
-> +		     "\t.word %c2"        "\t# bug_entry::line\n"	\
-> +		     "\t.word %c3"        "\t# bug_entry::flags\n"	\
-> +		     "\t.org 2b+%c4\n"					\
->  		     ".popsection\n"					\
->  		     extra						\
-> -		     : : "i" (__FILE__), "i" (__LINE__),		\
-> +		     : : "i" (__FILE__), "i" (__BUG_FUNC), "i" (__LINE__),\
->  			 "i" (flags),					\
->  			 "i" (sizeof(struct bug_entry)));		\
->  } while (0)
-> @@ -92,7 +102,8 @@ do {								\
->  do {								\
->  	__auto_type __flags = BUGFLAG_WARNING|(flags);		\
->  	instrumentation_begin();				\
-> -	_BUG_FLAGS(ASM_UD2, __flags, ANNOTATE_REACHABLE(1b));	\
-> +	if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))			\
-> +		_BUG_FLAGS(ASM_UD2, __flags, ANNOTATE_REACHABLE(1b));	\
->  	instrumentation_end();					\
->  } while (0)
+Hi Tomasz,
 
-NAK, this grows the BUG site for now appreciable reason.
+This series should be primary sent to the intel-xe as series is xe
+specific and it's the only way to get CI results for the xe driver.
+
+Once you dropped the drm_mm patch, the dri-devel is not required.
+
+On 31.03.2025 15:21, Tomasz Lis wrote:
+> To support VF Migration, it is necessary to do fixups to any
+> non-virtualized resources. These fixups need to be applied within
+> VM, on the KMD working with VF.
+> 
+> This series adds two fixup functions to the recovery worker:
+> * for fixing drm_mm nodes which represent GGTT allocations
+> * for fixing content of outgoing CTB buffer
+> 
+> v2: Fixed missing include, made checkpatch happy
+> v3: Moved some functs to xe_ggtt.c; moved shift computation to just
+>   after querying; improved documentation; switched some warns to asserts;
+>   skipping fixups when GGTT shift eq 0; iterating through tiles rather
+>   than gts; fixes in log messages
+> v4: Updated kerneldocs, removed unused funct, properly allocate
+>   balloning nodes if non existent, removed inline keywords, enums for
+>   offsets in CTB messages, less error messages, if return unused then
+>   made functs void
+> v5: Removed drm_mm change, but added VF init modifications. These then
+>   allowed to re-use ballooning functions during ggtt node fixing.
+> v6: Minor update - fixed some misplaced funct declarations
+> 
+> Tomasz Lis (4):
+>   drm/xe/vf: Divide ballooning into allocation and insertion
+>   drm/xe/sriov: Shifting GGTT area post migration
+>   drm/xe/guc: Introduce enum with offsets for multi-LRC register H2G
+>   drm/xe/vf: Fixup CTB send buffer messages after migration
+> 
+>  drivers/gpu/drm/xe/abi/guc_actions_abi.h  |   7 ++
+>  drivers/gpu/drm/xe/xe_ggtt.c              |  40 ++++--
+>  drivers/gpu/drm/xe/xe_ggtt.h              |   1 +
+>  drivers/gpu/drm/xe/xe_gt_sriov_vf.c       | 147 +++++++++++++++++++---
+>  drivers/gpu/drm/xe/xe_gt_sriov_vf.h       |   3 +
+>  drivers/gpu/drm/xe/xe_gt_sriov_vf_types.h |   2 +
+>  drivers/gpu/drm/xe/xe_guc_ct.c            | 142 +++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_guc_ct.h            |   2 +
+>  drivers/gpu/drm/xe/xe_guc_submit.c        |   4 +
+>  drivers/gpu/drm/xe/xe_sriov_vf.c          |  42 +++++++
+>  10 files changed, 368 insertions(+), 22 deletions(-)
+> 
+
