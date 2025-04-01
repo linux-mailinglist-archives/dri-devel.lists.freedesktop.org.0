@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECA5A783CF
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 23:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8016DA783D3
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 23:12:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB7F210E086;
-	Tue,  1 Apr 2025 21:11:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA11710E68A;
+	Tue,  1 Apr 2025 21:12:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8635010E086
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 21:11:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0B10510E67E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 21:12:29 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5BB781063
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 14:11:38 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F09A812FC
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 14:12:31 -0700 (PDT)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DCDC53F694
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 14:11:34 -0700 (PDT)
-Date: Tue, 1 Apr 2025 22:11:23 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7A8133F694
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 14:12:28 -0700 (PDT)
+Date: Tue, 1 Apr 2025 22:12:17 +0100
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: shao.mingyin@zte.com.cn
 Cc: j@jannau.net, chunkuang.hu@kernel.org, fnkl.kernel@gmail.com,
@@ -31,17 +31,16 @@ Cc: j@jannau.net, chunkuang.hu@kernel.org, fnkl.kernel@gmail.com,
  linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, yang.yang29@zte.com.cn,
  xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn, tang.dongxing@zte.com.cn
-Subject: Re: [PATCH 2/4] drm: arm: =?utf-8?Q?hdlcd?=
- =?utf-8?Q?=3A_Replace_custom_compare=5Fdev_with=C2=A0component=5Fcompare?=
- =?utf-8?B?X29m?=
-Message-ID: <Z-xWe6nHEvKHdvsd@e110455-lin.cambridge.arm.com>
+Subject: Re: [PATCH 3/4] drm: malidp: =?utf-8?Q?Rep?=
+ =?utf-8?Q?lace_custom_compare=5Fdev_with=C2=A0component=5Fcompare=5Fof?=
+Message-ID: <Z-xWsbM2fh8TPmhO@e110455-lin.cambridge.arm.com>
 References: <20250331172534353mkMR1nv-dsjFTZTXCPY0a@zte.com.cn>
- <20250331173018043nQB6z_xgZxuYx0AkGeixh@zte.com.cn>
+ <20250331173124559aCNI8BfX0ay0U5wryryME@zte.com.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250331173018043nQB6z_xgZxuYx0AkGeixh@zte.com.cn>
+In-Reply-To: <20250331173124559aCNI8BfX0ay0U5wryryME@zte.com.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,7 +56,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 31, 2025 at 05:30:18PM +0800, shao.mingyin@zte.com.cn wrote:
+On Mon, Mar 31, 2025 at 05:31:24PM +0800, shao.mingyin@zte.com.cn wrote:
 > From: Tang Dongxing <tang.dongxing@zte.com.cn>
 > 
 > Remove the custom device comparison function compare_dev and replace it
@@ -69,37 +68,39 @@ On Mon, Mar 31, 2025 at 05:30:18PM +0800, shao.mingyin@zte.com.cn wrote:
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
 Best regards,
-Liviu Dudau
+Liviu
 
 > ---
->  drivers/gpu/drm/arm/hdlcd_drv.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+>  drivers/gpu/drm/arm/malidp_drv.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-> index c3179d74f3f5..45b1dc5613bf 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-> @@ -346,11 +346,6 @@ static const struct component_master_ops hdlcd_master_ops = {
->  	.unbind		= hdlcd_drm_unbind,
+> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+> index e083021e9e99..e2e6fd1f64b0 100644
+> --- a/drivers/gpu/drm/arm/malidp_drv.c
+> +++ b/drivers/gpu/drm/arm/malidp_drv.c
+> @@ -910,13 +910,6 @@ static const struct component_master_ops malidp_master_ops = {
+>  	.unbind = malidp_unbind,
 >  };
 > 
-> -static int compare_dev(struct device *dev, void *data)
+> -static int malidp_compare_dev(struct device *dev, void *data)
 > -{
-> -	return dev->of_node == data;
+> -	struct device_node *np = data;
+> -
+> -	return dev->of_node == np;
 > -}
 > -
->  static int hdlcd_probe(struct platform_device *pdev)
+>  static int malidp_platform_probe(struct platform_device *pdev)
 >  {
 >  	struct device_node *port;
-> @@ -361,7 +356,7 @@ static int hdlcd_probe(struct platform_device *pdev)
+> @@ -930,7 +923,7 @@ static int malidp_platform_probe(struct platform_device *pdev)
 >  	if (!port)
 >  		return -ENODEV;
 > 
-> -	drm_of_component_match_add(&pdev->dev, &match, compare_dev, port);
-> +	drm_of_component_match_add(&pdev->dev, &match, component_compare_of, port);
+> -	drm_of_component_match_add(&pdev->dev, &match, malidp_compare_dev,
+> +	drm_of_component_match_add(&pdev->dev, &match, component_compare_of,
+>  				   port);
 >  	of_node_put(port);
-> 
->  	return component_master_add_with_match(&pdev->dev, &hdlcd_master_ops,
+>  	return component_master_add_with_match(&pdev->dev, &malidp_master_ops,
 > -- 
 > 2.25.1
 
