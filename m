@@ -2,83 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60C9A78488
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 00:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF30A784B0
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 00:27:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37B0E10E0CC;
-	Tue,  1 Apr 2025 22:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADFA310E684;
+	Tue,  1 Apr 2025 22:27:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b2gXNUyo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AG5cor+i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 283A410E0CC
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 22:16:49 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-224171d6826so95689155ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 15:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743545808; x=1744150608; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6pjJFrDt3l5lA2Y5cy0IcLmKsiR6lTrZ7yPV2lCZbZg=;
- b=b2gXNUyoxt+yomIeRnx6XLHpCWAq1Pcc7/js6OQo5b9s4c40bP39UjdL/mK6XvFHFx
- ejIJWCPqpsxeoqEfveQ3PrMFFNARNu4x7tyMqobgBkgYD85aqlwmzypH1no8qVFzrqH8
- kGGr/viVZbRRIOBZmutO7TPih8gsgED4VGmIykmkoAeS86A8XxlDJSfjQBA46AnxVCzm
- CP4NPykoTqQrHRLzgtBBK4AoxM0oRDviNHjA9mQdmYgFTBmmDhQeXJCdumnGVG+2q20O
- MFcRb8gJvcjMpPnEi31mIg0umyauj0rDemFzzI7UlDbAOMGk3K4Dr++/XZQDXpOQnwKQ
- oVVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743545808; x=1744150608;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6pjJFrDt3l5lA2Y5cy0IcLmKsiR6lTrZ7yPV2lCZbZg=;
- b=GfBgaigXjT1f//UrfbXDEcr117AYBBELxKr2iThqayogryQu1dHMRhvWbQUol544g+
- wp2MRiDq3WF7f3TBlJwTG5kG5uIjizCKSUjqKcWY+cBC9WhxSbQeOnVk5iYUz0Dk/QxN
- c74iRfBLUg8rBGnmey3TEu6nX3ZbH84V3WK3HHH2Do9/EZmFk/0SD2y4NqY28Bhbh5vf
- irv0KgRoBjwGlPYFVzw6mcZ/bp4GO9UGgBBrI4wHHEzmbIY7xpMhSp+U4udrPjxUkOSy
- /zO/vn0yoEUJm2xb5Y4bhsQy1C/tSyeZGzVN0I1kDg7lzXTDsWIh9jLRtxMzaZuvEZEB
- 5Jiw==
-X-Gm-Message-State: AOJu0Yz1BboLRqoK2IxIMJmcFOfznt0AB1/85d24jJpVn1lQkqtsc21B
- HU2tmQKMBDEsqi1rX8vxENNnHBgVABXN4hJsobKYcs+bCDb0TQ5zEShjBQ==
-X-Gm-Gg: ASbGncs1qFinXCzWLS9RlDt9aKCe4b6C30DXABzcTRTyX15K7bFuUblrf4Pq9kd5qnz
- T9CCmm9+PJn5+Qpwc7Lhs2ch4L4pn4GNODlvsAnNSU3xxfKEFU2LiQJ6LfqXDSeg8/IZP0yyNLO
- dpMMjrBi82zG0AYJr2AnY/5NQQ5gKaCRiLHIHUefnufkM5WcjjaEyfBZrEtPGpgZhJ8y9YWFCh/
- s13437qSNS+nzPzTQp+arjliMPrz/XOUS/0e+y1GLKAflW7azd3XChAmmzlCj9kksSnBqz2XcJ8
- oGU9wst+OqwExQiSIFJ7wK6y5NdwZdiPGv0MbAoq3tSBg4wO23mH1P+MKcDcb/4hoEmnVVM0b2P
- RN0wy4ShU8do02Pae+v8=
-X-Google-Smtp-Source: AGHT+IFWsM/vg8gTEwV01NxefY3BYdtce+TTnANxhcuLyKtYcd30tGt/Vxio0MWSb+uhR603BU132w==
-X-Received: by 2002:a17:903:11d2:b0:220:c86d:d7eb with SMTP id
- d9443c01a7336-2292f9e529dmr241352415ad.36.1743545808126; 
- Tue, 01 Apr 2025 15:16:48 -0700 (PDT)
-Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2291f1cf14csm94451805ad.137.2025.04.01.15.16.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Apr 2025 15:16:47 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Clark <robdclark@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-kernel@vger.kernel.org (open list),
- linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
- linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v7] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
-Date: Tue,  1 Apr 2025 15:16:43 -0700
-Message-ID: <20250401221643.87504-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C410810E18A;
+ Tue,  1 Apr 2025 22:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743546419; x=1775082419;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=R4BhX5xH5i50LcNnC1XBi8WQ9E5qGIdbkNSBblAvgPE=;
+ b=AG5cor+iixZkuh23kU5L7Ea0lZCATQ2KduksqVyW8Sv9vlDhHi2BT5A1
+ aiz0emnG0vx/dw0ITXhu7Sa1CChVNxnIXSk2+Kc6+nz/0UpxQMfNsziO9
+ TZT78XFTZAmojG4JV6pvCHk8tXxlnuiMVNLyq2A61fgoguJF5ZUPH8Se0
+ jmY+0gD7wWWcpcKwdALQLftM+JHAMU5SUPoVuMTVdDVJ68TpYQ8lNebBd
+ 7f6UpMkAmdhtjpXGe2CKVMzS/3PQDWtSvP+g/l7y57FIzK8hcGg/IZLlW
+ gVvgzlLPXNeeRViTCra9QzKQnFdwsJ1+PrgRf9et+MfmZdS6eNPZBjFN4 w==;
+X-CSE-ConnectionGUID: RgHs6S5lRpmUMgiaA0UN2g==
+X-CSE-MsgGUID: zrKvWbnjQm6ADLIrocSpXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="47609248"
+X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; d="scan'208";a="47609248"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 15:26:58 -0700
+X-CSE-ConnectionGUID: dm6f6V3WTvW86o9fL3LPjg==
+X-CSE-MsgGUID: wg9FXfsvQwmItMM+MYRohw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; d="scan'208";a="130624929"
+Received: from dut4066lnl.fm.intel.com ([10.105.8.54])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 15:26:58 -0700
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
+ joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
+ jianxun.zhang@intel.com, shuicheng.lin@intel.com,
+ dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
+ michal.mrozek@intel.com, raag.jadav@intel.com, john.c.harrison@intel.com,
+ ivan.briano@intel.com
+Subject: [PATCH v16 0/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Date: Tue,  1 Apr 2025 22:26:51 +0000
+Message-ID: <20250401222657.78545-1-jonathan.cavitt@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,175 +70,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Add additional information to each VM so they can report up to the first
+50 seen faults.  Only pagefaults are saved this way currently, though in
+the future, all faults should be tracked by the VM for future reporting.
 
-Add support for exporting a dma_fence fd for a specific point on a
-timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
-syncobj support, as it needs a way to turn a point on a timeline back
-into a dma_fence fd.  It also closes an odd omission from the syncobj
-UAPI.
+Additionally, of the pagefaults reported, only failed pagefaults are
+saved this way, as successful pagefaults should recover silently and not
+need to be reported to userspace.
 
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
-[2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
+To allow userspace to access these faults, a new ioctl -
+xe_vm_get_property_ioct - was created.
 
-v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
-v3: Add unstaged uabi header hunk
-v4: Also handle IMPORT_SYNC_FILE case
-v5: Address comments from Dmitry
-v6: checkpatch.pl nits
-v7: Add check for DRIVER_SYNCOBJ_TIMELINE
+v2: (Matt Brost)
+- Break full ban list request into a separate property.
+- Reformat drm_xe_vm_get_property struct.
+- Remove need for drm_xe_faults helper struct.
+- Separate data pointer and scalar return value in ioctl.
+- Get address type on pagefault report and save it to the pagefault.
+- Correctly reject writes to read-only VMAs.
+- Miscellaneous formatting fixes.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/drm_syncobj.c | 53 ++++++++++++++++++++++++++++-------
- include/uapi/drm/drm.h        |  4 +++
- 2 files changed, 47 insertions(+), 10 deletions(-)
+v3: (Matt Brost)
+- Only allow querying of failed pagefaults
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 4f2ab8a7b50f..3e41461eb9d6 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
- }
- 
- static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
--					      int fd, int handle)
-+					      int fd, int handle, u64 point)
- {
- 	struct dma_fence *fence = sync_file_get_fence(fd);
- 	struct drm_syncobj *syncobj;
-@@ -755,14 +755,24 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
- 		return -ENOENT;
- 	}
- 
--	drm_syncobj_replace_fence(syncobj, fence);
-+	if (point) {
-+		struct dma_fence_chain *chain = dma_fence_chain_alloc();
-+
-+		if (!chain)
-+			return -ENOMEM;
-+
-+		drm_syncobj_add_point(syncobj, chain, fence, point);
-+	} else {
-+		drm_syncobj_replace_fence(syncobj, fence);
-+	}
-+
- 	dma_fence_put(fence);
- 	drm_syncobj_put(syncobj);
- 	return 0;
- }
- 
- static int drm_syncobj_export_sync_file(struct drm_file *file_private,
--					int handle, int *p_fd)
-+					int handle, u64 point, int *p_fd)
- {
- 	int ret;
- 	struct dma_fence *fence;
-@@ -772,7 +782,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
- 	if (fd < 0)
- 		return fd;
- 
--	ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
-+	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
- 	if (ret)
- 		goto err_put_fd;
- 
-@@ -869,6 +879,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 				   struct drm_file *file_private)
- {
- 	struct drm_syncobj_handle *args = data;
-+	unsigned int valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
-+				   DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
-+	u64 point = 0;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
- 		return -EOPNOTSUPP;
-@@ -876,13 +889,21 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 	if (args->pad)
- 		return -EINVAL;
- 
--	if (args->flags != 0 &&
--	    args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
-+	if (args->flags & ~valid_flags)
- 		return -EINVAL;
- 
-+	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE) {
-+		if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
-+			return -EOPNOTSUPP;
-+		point = args->point;
-+	}
-+
- 	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
- 		return drm_syncobj_export_sync_file(file_private, args->handle,
--						    &args->fd);
-+						    point, &args->fd);
-+
-+	if (args->point)
-+		return -EINVAL;
- 
- 	return drm_syncobj_handle_to_fd(file_private, args->handle,
- 					&args->fd);
-@@ -893,6 +914,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
- 				   struct drm_file *file_private)
- {
- 	struct drm_syncobj_handle *args = data;
-+	unsigned int valid_flags = DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE |
-+				   DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE;
-+	u64 point = 0;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
- 		return -EOPNOTSUPP;
-@@ -900,14 +924,23 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
- 	if (args->pad)
- 		return -EINVAL;
- 
--	if (args->flags != 0 &&
--	    args->flags != DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
-+	if (args->flags & ~valid_flags)
- 		return -EINVAL;
- 
-+	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE) {
-+		if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
-+			return -EOPNOTSUPP;
-+		point = args->point;
-+	}
-+
- 	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
- 		return drm_syncobj_import_sync_file_fence(file_private,
- 							  args->fd,
--							  args->handle);
-+							  args->handle,
-+							  point);
-+
-+	if (args->point)
-+		return -EINVAL;
- 
- 	return drm_syncobj_fd_to_handle(file_private, args->fd,
- 					&args->handle);
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 7fba37b94401..e63a71d3c607 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -905,13 +905,17 @@ struct drm_syncobj_destroy {
- };
- 
- #define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE (1 << 0)
-+#define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE         (1 << 1)
- #define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE (1 << 0)
-+#define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE         (1 << 1)
- struct drm_syncobj_handle {
- 	__u32 handle;
- 	__u32 flags;
- 
- 	__s32 fd;
- 	__u32 pad;
-+
-+	__u64 point;
- };
- 
- struct drm_syncobj_transfer {
+v4:
+- Remove unnecessary size parameter from helper function, as it
+  is a property of the arguments. (jcavitt)
+- Remove unnecessary copy_from_user (Jainxun)
+- Set address_precision to 1 (Jainxun)
+- Report max size instead of dynamic size for memory allocation
+  purposes.  Total memory usage is reported separately.
+
+v5:
+- Return int from xe_vm_get_property_size (Shuicheng)
+- Fix memory leak (Shuicheng)
+- Remove unnecessary size variable (jcavitt)
+
+v6:
+- Free vm after use (Shuicheng)
+- Compress pf copy logic (Shuicheng)
+- Update fault_unsuccessful before storing (Shuicheng)
+- Fix old struct name in comments (Shuicheng)
+- Keep first 50 pagefaults instead of last 50 (Jianxun)
+- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+
+v7:
+- Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
+- Fix double-locking error (jcavitt)
+- Assert kmemdump is successful (Shuicheng)
+- Repair and move fill_faults break condition (Dan Carpenter)
+- Free vm after use (jcavitt)
+- Combine assertions (jcavitt)
+- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+- Remove return mask from fill_faults, as return is already -EFAULT or 0
+  (jcavitt)
+
+v8:
+- Revert back to using drm_xe_vm_get_property_ioctl
+- s/Migrate/Move (Michal)
+- s/xe_pagefault/xe_gt_pagefault (Michal)
+- Create new header file, xe_gt_pagefault_types.h (Michal)
+- Add and fix kernel docs (Michal)
+- Rename xe_vm.pfs to xe_vm.faults (jcavitt)
+- Store fault data and not pagefault in xe_vm faults list (jcavitt)
+- Store address, address type, and address precision per fault (jcavitt)
+- Store engine class and instance data per fault (Jianxun)
+- Properly handle kzalloc error (Michal W)
+- s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
+- Store fault level per fault (Micahl M)
+- Apply better copy_to_user logic (jcavitt)
+
+v9:
+- More kernel doc fixes (Michal W, Jianxun)
+- Better error handling (jcavitt)
+
+v10:
+- Convert enums to defines in regs folder (Michal W)
+- Move xe_guc_pagefault_desc to regs folder (Michal W)
+- Future-proof size logic for zero-size properties (jcavitt)
+- Replace address type extern with access type (Jianxun)
+- Add fault type to xe_drm_fault (Jianxun)
+
+v11:
+- Remove unnecessary switch case logic (Raag)
+- Compress size get, size validation, and property fill functions into a
+  single helper function (jcavitt)
+- Assert valid size (jcavitt)
+- Store pagefaults in non-fault-mode VMs as well (Jianxun)
+
+v12:
+- Remove unnecessary else condition
+- Correct backwards helper function size logic (jcavitt)
+- Fix kernel docs and comments (Michal W)
+
+v13:
+- Move xe and user engine class mapping arrays to header (John H)
+
+v14:
+- Fix double locking issue (Jianxun)
+- Use size_t instead of int (Raag)
+- Remove unnecessary includes (jcavitt)
+
+v15:
+- Do not report faults from reserved engines (Jianxun)
+
+v16:
+- Remove engine class and instance (Ivan)
+
+Signed-off-by: Jonathan Cavitt <joanthan.cavitt@intel.com>
+Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Zhang Jianxun <jianxun.zhang@intel.com>
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+Cc: Raag Jadav <raag.jadav@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+Cc: Ivan Briano <ivan.briano@intel.com>
+
+Jonathan Cavitt (5):
+  drm/xe/xe_gt_pagefault: Disallow writes to read-only VMAs
+  drm/xe/xe_gt_pagefault: Move pagefault struct to header
+  drm/xe/uapi: Define drm_xe_vm_get_property
+  drm/xe/xe_vm: Add per VM fault info
+  drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+
+ drivers/gpu/drm/xe/regs/xe_pagefault_desc.h |  50 ++++++
+ drivers/gpu/drm/xe/xe_device.c              |   3 +
+ drivers/gpu/drm/xe/xe_gt_pagefault.c        |  72 ++++----
+ drivers/gpu/drm/xe/xe_gt_pagefault_types.h  |  42 +++++
+ drivers/gpu/drm/xe/xe_guc_fwif.h            |  28 ----
+ drivers/gpu/drm/xe/xe_vm.c                  | 173 ++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_vm.h                  |  11 ++
+ drivers/gpu/drm/xe/xe_vm_types.h            |  28 ++++
+ include/uapi/drm/xe_drm.h                   |  75 +++++++++
+ 9 files changed, 421 insertions(+), 61 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/regs/xe_pagefault_desc.h
+ create mode 100644 drivers/gpu/drm/xe/xe_gt_pagefault_types.h
+
 -- 
-2.49.0
+2.43.0
 
