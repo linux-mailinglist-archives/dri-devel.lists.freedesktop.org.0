@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8933BA775AF
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 09:54:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214CFA775B0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 09:54:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EFF810E502;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36DC810E08B;
 	Tue,  1 Apr 2025 07:54:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q2kU+knL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tXZak33d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B53310E501
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D83CA10E08B
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 07:54:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 96264A440E1;
+ by nyc.source.kernel.org (Postfix) with ESMTP id CFC72A44123;
  Tue,  1 Apr 2025 07:48:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0AA6AC4CEE8;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1C035C4CEE9;
  Tue,  1 Apr 2025 07:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1743494050;
- bh=Sv32eWrLlAonnSTDakaOBa/sXD+tsT+ZOUml/oxxLoo=;
+ bh=y9xM5x/9mDBXXIijOs8N9ZcgaLGefpK4A6S03ho3yEw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=q2kU+knL8EKAB49dKjL+m0Zirqd9SEg7hPQZTosOI+F2kvzmG+Oi5b95MJgJDsuXZ
- xJQTNpLVAXN3ATzfayT0xmf+4HB7iksbBXH76vsD39jPjxFWuwTYLCATKEnRilD7s2
- EyZ5u4a6RipKntXNhTpriOgg/+LkECH9dhPY0wAjJ0gkuD77S1g6f6l8Uj4D/Cj13U
- cmtesQn9Gft6K58X5Q/SgujXJcvBN+8Oj06v6gdXv60cbJ2V1ZuvrCOCIxWwWLosOp
- pZwpw993rNZMl2SYDbhKIwjHa6HmMOMy1k1gkTqy+2PVJx7RNXY8N3u2EUo8XnKjUM
- W344kX3DWU6zg==
+ b=tXZak33dv2XlvqQjHjZNNfZqHCkygoFPVfCPH/d9+FfWqRP0eoglC0P7ivfWIQHiz
+ /y7Jd1Agckv9+cpOuskmGrA+m7hL7kOHFCHbziGv6tTqwE+6Fkf0Ce0G4wxzD1ECUc
+ p+gNQeurt9iX1zRI8CmZJUvfmUorYxEMIjjDSs01iDvzu906vqOcJEP7eo5IcL1mhb
+ E3DNtxEz7eGJpe1jucfufz1iZzF1grGLTd43zjJUQEohdFT2BVLx4OSliAggBnchGl
+ eOoZSGX1CcrGeJCS5eqBVLwJcKdKtNHwQ9cHqUl1vFAQrhsjcHz974hrtvcKMxkC5g
+ EfdKWqADPk++g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id EDEF7C3601B;
- Tue,  1 Apr 2025 07:54:09 +0000 (UTC)
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 0C2E5C36014;
+ Tue,  1 Apr 2025 07:54:10 +0000 (UTC)
 From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
-Date: Tue, 01 Apr 2025 15:54:56 +0800
-Subject: [PATCH v3 2/5] drm/bridge: it6505: check INT_LINK_TRAIN_FAIL while
- link auto training
+Date: Tue, 01 Apr 2025 15:54:57 +0800
+Subject: [PATCH v3 3/5] drm/bridge: it6505: modify DP link auto training
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250401-fix-link-training-v3-2-7f60f2ab7b8c@ite.com.tw>
+Message-Id: <20250401-fix-link-training-v3-3-7f60f2ab7b8c@ite.com.tw>
 References: <20250401-fix-link-training-v3-0-7f60f2ab7b8c@ite.com.tw>
 In-Reply-To: <20250401-fix-link-training-v3-0-7f60f2ab7b8c@ite.com.tw>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -55,11 +54,11 @@ Cc: Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Hermes Wu <Hermes.wu@ite.com.tw>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743494115; l=2919;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743494115; l=2426;
  i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
- bh=jMRBMAfZXvgPInoi2ZG2fBNx0MmsnJGVHvslLR/IkmI=;
- b=FuXxX/ovmPDCHKbUAFA7caxlmx80XxMxkp+RAqdCKlrQlUi6GXG2gdBppNvdFspOciGhZ+IiP
- m3mlyq/H4mSCy6vMYoybAaIxroG2zNlf+DK3NPPHHDHZCweQ5NN9QAC
+ bh=w0mjd1b/vD9l754Z7HEk7/mi9+TqCrQ9as279Ea9bf8=;
+ b=+cLnmpKZvWnSs9nFSmMV3fSWd/NXpkMJSeeIgIE2+UcyeS8EhXzDTIWjwJTPJGmOt2XHyMZDw
+ v4qlN1oPJnmCT5mrLTlbPUFcXYrkbweSP3VPKSWzUCfHJuxnaidBVMj
 X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
  pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
 X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
@@ -83,81 +82,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-When start link training, interrupt status INT_LINK_TRAIN_FAIL can
-use to check link training fail and no need to wait until timeout.
+IT6505 supports HW link training which will write DPCD and check
+training status automatically.
 
-it6505_irq_link_train_fail() remove from interrupt and no longer used.
+In the case that driver set link rate at 2.7G and HW fail to training,
+it will change link configuration and try 1.65G. And this will cause
+INT_VID_FIFO_ERROR triggered when link clock is changed.
+
+When video error occurs, video logic is reset and link training restart,
+this will cause endless auto link training.
+
+Modify link auto training with disable INT_VID_FIFO_ERROR to avoid loop
+and check INT_LINK_TRAIN_FAIL event to abort wait training done.
 
 Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index b47042dc06bb1e1dfd92bc0dc6d69dc918a140ba..7f6227c278a51358c70a3de93454aafeef64f2bb 100644
+index 7f6227c278a51358c70a3de93454aafeef64f2bb..f9b99c70789eea6beb3c6513155c9a4ca103d219 100644
 --- a/drivers/gpu/drm/bridge/ite-it6505.c
 +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -821,8 +821,8 @@ static void it6505_int_mask_enable(struct it6505 *it6505)
- 	it6505_write(it6505, INT_MASK_02, BIT(INT_AUX_CMD_FAIL) |
- 		     BIT(INT_HDCP_KSV_CHECK) | BIT(INT_AUDIO_FIFO_ERROR));
- 
--	it6505_write(it6505, INT_MASK_03, BIT(INT_LINK_TRAIN_FAIL) |
--		     BIT(INT_VID_FIFO_ERROR) | BIT(INT_IO_LATCH_FIFO_OVERFLOW));
-+	it6505_write(it6505, INT_MASK_03, BIT(INT_VID_FIFO_ERROR) |
-+		     BIT(INT_IO_LATCH_FIFO_OVERFLOW));
- }
- 
- static void it6505_int_mask_disable(struct it6505 *it6505)
-@@ -1802,6 +1802,8 @@ static bool it6505_link_start_auto_train(struct it6505 *it6505)
- {
- 	int timeout = 500, link_training_state;
- 	bool state = false;
-+	int int03;
-+	struct device *dev = it6505->dev;
+@@ -1806,6 +1806,13 @@ static bool it6505_link_start_auto_train(struct it6505 *it6505)
+ 	struct device *dev = it6505->dev;
  
  	mutex_lock(&it6505->aux_lock);
++
++	/* Disable FIFO error interrupt trigger  */
++	/* to prevent training fail loop issue   */
++	it6505_set_bits(it6505, INT_MASK_03, BIT(INT_VID_FIFO_ERROR), 0);
++
++	it6505_write(it6505, INT_STATUS_03,
++		     BIT(INT_LINK_TRAIN_FAIL) | BIT(INT_VID_FIFO_ERROR));
  	it6505_set_bits(it6505, REG_TRAIN_CTRL0,
-@@ -1814,6 +1816,17 @@ static bool it6505_link_start_auto_train(struct it6505 *it6505)
- 	while (timeout > 0) {
- 		usleep_range(1000, 2000);
+ 			FORCE_CR_DONE | FORCE_EQ_DONE, 0x00);
+ 	/* reset link state machine and re start training*/
+@@ -1818,8 +1825,10 @@ static bool it6505_link_start_auto_train(struct it6505 *it6505)
  		link_training_state = it6505_read(it6505, REG_LINK_TRAIN_STS);
-+		int03 = it6505_read(it6505, INT_STATUS_03);
-+		if (int03 & BIT(INT_LINK_TRAIN_FAIL)) {
-+			it6505_write(it6505, INT_STATUS_03,
-+				     BIT(INT_LINK_TRAIN_FAIL));
-+
-+			DRM_DEV_DEBUG_DRIVER(dev,
-+					     "INT_LINK_TRAIN_FAIL(%x)!",
-+					      int03);
-+
-+			break;
-+		}
+ 		int03 = it6505_read(it6505, INT_STATUS_03);
+ 		if (int03 & BIT(INT_LINK_TRAIN_FAIL)) {
++			/* Ignore INT_VID_FIFO_ERROR when auto training fail*/
+ 			it6505_write(it6505, INT_STATUS_03,
+-				     BIT(INT_LINK_TRAIN_FAIL));
++				     BIT(INT_LINK_TRAIN_FAIL) |
++				     BIT(INT_VID_FIFO_ERROR));
  
- 		if (link_training_state > 0 &&
- 		    (link_training_state & LINK_STATE_NORP)) {
-@@ -2693,14 +2706,6 @@ static void it6505_irq_audio_fifo_error(struct it6505 *it6505)
- 		it6505_enable_audio(it6505);
- }
+ 			DRM_DEV_DEBUG_DRIVER(dev,
+ 					     "INT_LINK_TRAIN_FAIL(%x)!",
+@@ -1837,6 +1846,9 @@ static bool it6505_link_start_auto_train(struct it6505 *it6505)
+ 		timeout--;
+ 	}
+ unlock:
++	/* recover interrupt trigger*/
++	it6505_set_bits(it6505, INT_MASK_03,
++			BIT(INT_VID_FIFO_ERROR), BIT(INT_VID_FIFO_ERROR));
+ 	mutex_unlock(&it6505->aux_lock);
  
--static void it6505_irq_link_train_fail(struct it6505 *it6505)
--{
--	struct device *dev = it6505->dev;
--
--	DRM_DEV_DEBUG_DRIVER(dev, "link training fail interrupt");
--	schedule_work(&it6505->link_works);
--}
--
- static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
- {
- 	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
-@@ -2765,7 +2770,6 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- 		{ BIT_INT_AUX_CMD_FAIL, it6505_irq_aux_cmd_fail },
- 		{ BIT_INT_HDCP_KSV_CHECK, it6505_irq_hdcp_ksv_check },
- 		{ BIT_INT_AUDIO_FIFO_ERROR, it6505_irq_audio_fifo_error },
--		{ BIT_INT_LINK_TRAIN_FAIL, it6505_irq_link_train_fail },
- 	};
- 	int int_status[3], i;
- 
+ 	return state;
 
 -- 
 2.34.1
