@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9656FA7835C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 22:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8230FA7835F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 22:38:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0481D10E008;
-	Tue,  1 Apr 2025 20:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6707F10E154;
+	Tue,  1 Apr 2025 20:38:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7586210E154
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 20:36:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 797BE10E67C
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 20:38:22 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7757339
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 13:36:40 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50DA9339
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 13:38:25 -0700 (PDT)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6D2DB3F59E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 13:36:37 -0700 (PDT)
-Date: Tue, 1 Apr 2025 21:36:33 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CF96D3F59E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 13:38:21 -0700 (PDT)
+Date: Tue, 1 Apr 2025 21:38:18 +0100
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Steven Price <steven.price@arm.com>,
  =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
  dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v2 4/5] drm/panthor: Let IRQ handlers clear the
- interrupts themselves
-Message-ID: <Z-xOUQn0vR6x1J2j@e110455-lin.cambridge.arm.com>
+Subject: Re: [PATCH v2 5/5] drm/panthor: Don't update MMU_INT_MASK in
+ panthor_mmu_irq_handler()
+Message-ID: <Z-xOukv9omzczzMq@e110455-lin.cambridge.arm.com>
 References: <20250401182348.252422-1-boris.brezillon@collabora.com>
- <20250401182348.252422-5-boris.brezillon@collabora.com>
+ <20250401182348.252422-6-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250401182348.252422-5-boris.brezillon@collabora.com>
+In-Reply-To: <20250401182348.252422-6-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,87 +50,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 01, 2025 at 08:23:47PM +0200, Boris Brezillon wrote:
-> MMU handler needs to be in control of the job interrupt clears because
-> clearing the interrupt also unblocks the writer/reader that triggered
-> the fault, and we don't want it to be unblocked until we've had a chance
-> to process the IRQ.
-> 
-> Since clearing the clearing is just one line, let's make it explicit
-> instead of doing it in the generic code path.
-> 
-> Changes in v2:
-> - Move the MMU_INT_CLEAR around
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Tue, Apr 01, 2025 at 08:23:48PM +0200, Boris Brezillon wrote:
+> Interrupts are automatically unmasked in
+> panthor_mmu_irq_threaded_handler() when the handler returns. Unmasking
+> prematurely might generate spurious interrupts if the IRQ line is
+> shared.
+
+Makes sense to not do this too early.
 
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
 Best regards,
 Liviu
 
-> ---
->  drivers/gpu/drm/panthor/panthor_device.h | 2 --
->  drivers/gpu/drm/panthor/panthor_fw.c     | 2 ++
->  drivers/gpu/drm/panthor/panthor_gpu.c    | 2 ++
->  drivers/gpu/drm/panthor/panthor_mmu.c    | 5 +++++
->  4 files changed, 9 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index da6574021664..4c27b6d85f46 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -383,8 +383,6 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
->  		if (!status)									\
->  			break;									\
->  												\
-> -		gpu_write(ptdev, __reg_prefix ## _INT_CLEAR, status);				\
-> -												\
->  		__handler(ptdev, status);							\
->  		ret = IRQ_HANDLED;								\
->  	}											\
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 0f52766a3120..446bb377b953 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -1008,6 +1008,8 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
->  
->  static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
-> +	gpu_write(ptdev, JOB_INT_CLEAR, status);
-> +
->  	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
->  		ptdev->fw->booted = true;
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 671049020afa..32d678a0114e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -150,6 +150,8 @@ static void panthor_gpu_init_info(struct panthor_device *ptdev)
->  
->  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
-> +	gpu_write(ptdev, GPU_INT_CLEAR, status);
-> +
->  	if (status & GPU_IRQ_FAULT) {
->  		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
->  		u64 address = ((u64)gpu_read(ptdev, GPU_FAULT_ADDR_HI) << 32) |
+> Changes in v2:
+> - New patch
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
 > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 7cca97d298ea..4ac95a31907d 100644
+> index 4ac95a31907d..7a7993016314 100644
 > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
 > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1710,6 +1710,11 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->  			access_type, access_type_name(ptdev, fault_status),
->  			source_id);
->  
-> +		/* We don't handle VM faults at the moment, so let's just clear the
-> +		 * interrupt and let the writer/reader crash.
-> +		 */
-> +		gpu_write(ptdev, MMU_INT_CLEAR, mask);
-> +
->  		/* Ignore MMU interrupts on this AS until it's been
+> @@ -1719,7 +1719,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
 >  		 * re-enabled.
 >  		 */
+>  		ptdev->mmu->irq.mask = new_int_mask;
+> -		gpu_write(ptdev, MMU_INT_MASK, new_int_mask);
+>  
+>  		if (ptdev->mmu->as.slots[as].vm)
+>  			ptdev->mmu->as.slots[as].vm->unhandled_fault = true;
 > -- 
 > 2.49.0
 > 
