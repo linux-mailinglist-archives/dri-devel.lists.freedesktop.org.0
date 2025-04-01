@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F48CA78106
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 19:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DD0A78105
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 19:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB8210E5EE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1F510E629;
 	Tue,  1 Apr 2025 17:05:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FYdqWGMP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FoVk2VOu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0C510E1F4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E8E10E11B
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 17:05:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1743527130;
@@ -22,35 +22,35 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vj8xue6rKan/3jjaM+X4JsVo+LOpo2e3PWf82qPSnUQ=;
- b=FYdqWGMPYSiaU8aYRplmGlcgq4zjnzJKK8E49SMhbPFmliqHOPk/p3W9jx8ajgudmKdC5I
- QnWFK3LZV/HHbjZ8kDF3lndGZJb18e6LKjawPYFXvaiiv+BELaREjPIVL3QdoqkJkUO3g5
- i5XecsPUV9ORbWZHuAAGXK19PaJH5tU=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ bh=uOUxTLcoOh+ubNQJGUIK0Jf022g1JzkzObL9tNbdE5c=;
+ b=FoVk2VOux/apvaeHcmE0Ic4tuhiSyekuTa7qBDGUAiYG8eGuBpYRCeJJHu9ziFByqtqEB8
+ GH6nsnRDKDNQDAugb1p868sx59g4hzQfvTDqBkhdlwJVNrNGklhgt3HFmShsXfcpTAvkii
+ umn3FbzGgYUsAX0awyse54suXXn4gzc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-47-RsG6G7S8NI2mi5jHCeaWQw-1; Tue,
- 01 Apr 2025 13:05:24 -0400
-X-MC-Unique: RsG6G7S8NI2mi5jHCeaWQw-1
-X-Mimecast-MFC-AGG-ID: RsG6G7S8NI2mi5jHCeaWQw_1743527122
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-381-D4umeVjoPeKvwZlQf97Arw-1; Tue,
+ 01 Apr 2025 13:05:26 -0400
+X-MC-Unique: D4umeVjoPeKvwZlQf97Arw-1
+X-Mimecast-MFC-AGG-ID: D4umeVjoPeKvwZlQf97Arw_1743527125
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id BC11C1956059; Tue,  1 Apr 2025 17:05:21 +0000 (UTC)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 08EAE1809CA6; Tue,  1 Apr 2025 17:05:25 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 19F94180B48C; Tue,  1 Apr 2025 17:05:18 +0000 (UTC)
+ id 14DE4180B48C; Tue,  1 Apr 2025 17:05:21 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 01 Apr 2025 12:03:45 -0400
-Subject: [PATCH 02/10] panel/arm-versatile: Use the refcounted allocation
+Date: Tue, 01 Apr 2025 12:03:46 -0400
+Subject: [PATCH 03/10] panel/z00t-tm5p5-n35596: Use refcounted allocation
  in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250401-b4-drm-panel-mass-driver-convert-v1-2-cdd7615e1f93@redhat.com>
+Message-Id: <20250401-b4-drm-panel-mass-driver-convert-v1-3-cdd7615e1f93@redhat.com>
 References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
 In-Reply-To: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -62,11 +62,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Douglas Anderson <dianders@chromium.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743523429; l=1347;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743523429; l=1535;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=yq0bGbrSiZCFbtWlVTkUoz+8iM0rglTHAdjV541oArM=;
- b=7mpFXmsVEV3d4nOazrxWX/L5QjJEUajBuxqSsbUeo8TZ6ty5CjGNZYJZixwruciwbb0Ta6O3P
- 4mUsPEs2AAkCa6L46OnDgaxILEcY9S+Alzh8xKFlqUdqlOhk3r/FlSv
+ bh=Yw3L+jHcFHC7CZ76zn/KRCSpyNXGQngVaA7V3jGHGnY=;
+ b=DRjTuyF9wKJaN48Te/lswlpRZ6PXWuEua/jn4IEg6ZSd+SRPloSbTJT25q7UE3nmGb6lZz5Mf
+ N+r+6HXORP6DSeS5cQYlejsf35HUZLlRqBA+jyrRqUmRa9YtlqMz4qG
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
@@ -90,38 +90,38 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-arm-versatile.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/gpu/drm/panel/panel-arm-versatile.c
-index 503ecea72c5eac6614ecb280a0669d64c9d85b90..ea5119018df47832bd6b2a859c602484b8c66b33 100644
---- a/drivers/gpu/drm/panel/panel-arm-versatile.c
-+++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
-@@ -306,9 +306,11 @@ static int versatile_panel_probe(struct platform_device *pdev)
- 		return PTR_ERR(map);
- 	}
+diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+index b05a663c134c974df2909e228d6b2e67e39d54c0..db006576d7046b65eb698c64c9ac3c5f7b69b68d 100644
+--- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
++++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+@@ -224,9 +224,11 @@ static int tm5p5_nt35596_probe(struct mipi_dsi_device *dsi)
+ 	struct tm5p5_nt35596 *ctx;
+ 	int ret;
  
--	vpanel = devm_kzalloc(dev, sizeof(*vpanel), GFP_KERNEL);
--	if (!vpanel)
+-	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+-	if (!ctx)
 -		return -ENOMEM;
-+	vpanel = devm_drm_panel_alloc(dev, struct versatile_panel, panel,
-+				      &versatile_panel_drm_funcs,
-+				      DRM_MODE_CONNECTOR_DPI);
-+	if (IS_ERR(vpanel))
-+		return PTR_ERR(vpanel);
++	ctx = devm_drm_panel_alloc(dev, struct tm5p5_nt35596, panel,
++				   &tm5p5_nt35596_panel_funcs,
++				   DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
  
- 	ret = regmap_read(map, SYS_CLCD, &val);
- 	if (ret) {
-@@ -348,9 +350,6 @@ static int versatile_panel_probe(struct platform_device *pdev)
- 			dev_info(dev, "panel mounted on IB2 daughterboard\n");
- 	}
+ 	ctx->supplies[0].supply = "vdd";
+ 	ctx->supplies[1].supply = "vddio";
+@@ -253,9 +255,6 @@ static int tm5p5_nt35596_probe(struct mipi_dsi_device *dsi)
+ 			  MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_NO_EOT_PACKET |
+ 			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
  
--	drm_panel_init(&vpanel->panel, dev, &versatile_panel_drm_funcs,
--		       DRM_MODE_CONNECTOR_DPI);
+-	drm_panel_init(&ctx->panel, dev, &tm5p5_nt35596_panel_funcs,
+-		       DRM_MODE_CONNECTOR_DSI);
 -
- 	drm_panel_add(&vpanel->panel);
- 
- 	return 0;
+ 	ctx->panel.backlight = tm5p5_nt35596_create_backlight(dsi);
+ 	if (IS_ERR(ctx->panel.backlight)) {
+ 		ret = PTR_ERR(ctx->panel.backlight);
 
 -- 
 2.48.1
