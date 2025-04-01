@@ -2,63 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F3CA77E9C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8258DA77EA9
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:14:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9286D10E5D5;
-	Tue,  1 Apr 2025 15:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF9BB10E5B2;
+	Tue,  1 Apr 2025 15:14:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sTnjfXsD";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="mF3pMUUW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78BDA10E5D5
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 15:12:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 72A24A44EB5;
- Tue,  1 Apr 2025 15:07:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D505C4CEE4;
- Tue,  1 Apr 2025 15:12:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743520360;
- bh=y9uUCO5LiRtQLj6Fsm+YQo4CsMyHiN/s5Cd299WnI0c=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=sTnjfXsD8tRSR4y8taH3NAbycapO9M7X27x1Ir32al2QBw6f0vZdZiqal16oK25kx
- ShRflDKODNz1eG4wm0Up/WGasPqeZuUaaBhIp+jTxmky8+/QABwkIa/ewbPf054TKL
- HYSXQIw1Iug9h154hiU0/cuks+scAGOsmvmCnWH/SttnvWyozyyJQhVe34usJR2ov9
- dLhf/1SBkNslYjEvU80AWTEwid8Sj8Ar5+inmRUS+rh4lEeP523lXULCDzVQQnwSU2
- XiM6svLfaitzfCbDsNmq6nax9cwxLO3rojjrZnGBiRkMvkNDqoTFmfD9W323UWZLBk
- HwFSVLymcpOuQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 01 Apr 2025 17:12:22 +0200
-Subject: [PATCH v2 2/2] dma-buf: heaps: Introduce a new heap for reserved
- memory
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+ [209.85.160.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53A7410E5D3
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 15:14:44 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id
+ d75a77b69052e-476b89782c3so62687121cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 08:14:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1743520483; x=1744125283;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kF5PXIoeMjDQGNj6HtCBg+FijPQ8aiEElhntbyKpmQU=;
+ b=mF3pMUUWjNIcDO3LgIHlmvJKoeek/XhbfN6xAZARdEGF+Ohy7pHf8t+aNobCFUud+E
+ jOd540F/mRvL62mY2ymngMQUpQ06GI1d5brPdHhJVw381xh0R2+KYbaK7G4qJu32zt1A
+ ZR5KnwT08+NJ92BMGPt9JY+EXNChw9R3BaspVMrJpGTa8/2aQYfD2R0bYWK41jHSaDLw
+ 2/2oujT+WCcf6AgjSP/ujg8pV1kO0msnP0/4Gm9ffysGqjopMaWa09I8jIGe+O0bP+Nq
+ m1rdwlESYoCtLF/7N69IdUfVu0U5qaavaBFkcQ4uhUreF+QCYE1HgQXBT3OFzql198xW
+ n8FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743520483; x=1744125283;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kF5PXIoeMjDQGNj6HtCBg+FijPQ8aiEElhntbyKpmQU=;
+ b=O9qFIHE1IJQ3GjjJxV4HolVD/6g7ILHyMJv96sobdznv4vLwVpdaLlg7Y2bpHPddrE
+ YeR5WqGPJ/7cS8FgGxIN94HMxjbbm7bMc/CDMejodeBj6mhKh16j1+uVFHAJGr3iG1mp
+ 4VBYJkeoj0/0JhJXWht9S36whx1H7o0ISSlx+Hs+fczxyyPwAoteAvMHKlybHxBBIM5g
+ Pk3UtsEaRoLAq9viuZjco5pWekjExbJCWtkU9DSkdvishBFaWrXaG5t95O5w91zXcfZY
+ TckyJ0ecGYq7uvR2CmHYu7V73NcjmnGm0oV60CUBf2ykriABGMfGGbpANWwg7Nu2aIJj
+ qn/w==
+X-Gm-Message-State: AOJu0Yx6a+BIg79C+o8cKI8hi3gtk5TO4eeimbtKNEUG9/ecs40M9U68
+ DtCQGa/PUG9GEJgxIgTiaSHp3AX3xiO2zJHZ6r198ofyPgLKkTDP/n+aAtvHGgFS69mdEneMz3d
+ mFCSBeO0b1qP8su/Tbp1ww6LHCMtTJWhX5LC70g==
+X-Gm-Gg: ASbGncvQxKy/BKxJdE3PjFJMB7d/95QrCdpmfQm6FXszgpDvLCpYmZYYnke/7LlNUm9
+ PNL2b4TM/XObbxMN+M9YZoISPUggqiIMIS1b2D1i3+sDThm8VM4kb23DYTvUj+4FAx4kOfHQQYR
+ T8PmhURiD1w8VWQ3bYVN+zKBM=
+X-Google-Smtp-Source: AGHT+IG/6o22bgLO8gypopmq93KMhQXUD2ouGdW3beT+zn6GpJZioeneAByX4hRsQ5M6CJAW9PYHbQYESkoa1FYhXQo=
+X-Received: by 2002:a05:6214:300b:b0:6e8:f949:38c6 with SMTP id
+ 6a1803df08f44-6eef5ed4831mr51479786d6.33.1743520483018; Tue, 01 Apr 2025
+ 08:14:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250401-dma-buf-ecc-heap-v2-2-043fd006a1af@kernel.org>
-References: <20250401-dma-buf-ecc-heap-v2-0-043fd006a1af@kernel.org>
-In-Reply-To: <20250401-dma-buf-ecc-heap-v2-0-043fd006a1af@kernel.org>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Mattijs Korpershoek <mkorpershoek@kernel.org>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10813; i=mripard@kernel.org;
- h=from:subject:message-id; bh=y9uUCO5LiRtQLj6Fsm+YQo4CsMyHiN/s5Cd299WnI0c=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOlvmCJe2G/89GTq7m+tjNovjkjsNtj5wPTWzTdpgZMWp
- jZs38Qb2lHKwiDGxSArpsgSI2y+JO7UrNedbHzzYOawMoEMYeDiFICJbA1l+B99NUqlX2CqVA0b
- P0/Y0rNiFc0NR3n3/V26TVnoctyD/aUMf7gOux/cM80n/WKX0R2FzJQXTWvOxt2pZ0r5w21VbJu
- hww4A
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+References: <20250326234748.2982010-1-alex.hung@amd.com>
+ <20250326234748.2982010-7-alex.hung@amd.com>
+In-Reply-To: <20250326234748.2982010-7-alex.hung@amd.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 1 Apr 2025 16:14:31 +0100
+X-Gm-Features: AQ5f1Jq83jhYE5DeMNdtCJBK9LdwSzxVMKHurDwEQvQ5LjhNo6OcNPPflV6X384
+Message-ID: <CAPj87rOh=1OuASau+fjL_z+XBs-P=jUiQgjJjWXQZt1FYFC==w@mail.gmail.com>
+Subject: Re: [PATCH V8 06/43] drm/colorop: Add 1D Curve subtype
+To: Alex Hung <alex.hung@amd.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, leo.liu@amd.com, 
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, 
+ contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com, 
+ sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com, 
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com, 
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com, 
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,413 +89,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some reserved memory regions might have particular memory setup or
-attributes that make them good candidates for heaps.
+Hi Alex,
 
-Let's provide a heap type that will create a new heap for each reserved
-memory region flagged as such.
+On Wed, 26 Mar 2025 at 23:50, Alex Hung <alex.hung@amd.com> wrote:
+> +static int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +                           struct drm_plane *plane, enum drm_colorop_type type)
+> +{
+> +       struct drm_mode_config *config = &dev->mode_config;
+> +       struct drm_property *prop;
+> +       int ret = 0;
+> +
+> +       ret = drm_mode_object_add(dev, &colorop->base, DRM_MODE_OBJECT_COLOROP);
+> +       if (ret)
+> +               return ret;
+> +
+> +       colorop->base.properties = &colorop->properties;
+> +       colorop->dev = dev;
+> +       colorop->type = type;
+> +       colorop->plane = plane;
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/dma-buf/heaps/Kconfig         |   8 +
- drivers/dma-buf/heaps/Makefile        |   1 +
- drivers/dma-buf/heaps/carveout_heap.c | 360 ++++++++++++++++++++++++++++++++++
- 3 files changed, 369 insertions(+)
+'plane' seems really incongruous here. The colorop can be created for
+any number of planes, but we're setting it to always be bound to a
+single plane at init, and that can only be changed later.
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..c6981d696733b4d8d0c3f6f5a37d967fd6a1a4a2 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -1,5 +1,13 @@
-+config DMABUF_HEAPS_CARVEOUT
-+	bool "Carveout Heaps"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable the carveout dmabuf heap. The carveout
-+	  heap is backed by pages from reserved memory regions flagged as
-+	  exportable. If in doubt, say Y.
-+
- config DMABUF_HEAPS_SYSTEM
- 	bool "DMA-BUF System Heap"
- 	depends on DMABUF_HEAPS
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 974467791032ffb8a7aba17b1407d9a19b3f3b44..b734647ad5c84f449106748160258e372f153df2 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_DMABUF_HEAPS_CARVEOUT)	+= carveout_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heaps/carveout_heap.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..f7198b781ea57f4f60e554d917c9277e9a716b16
---- /dev/null
-+++ b/drivers/dma-buf/heaps/carveout_heap.c
-@@ -0,0 +1,360 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+#include <linux/genalloc.h>
-+#include <linux/highmem.h>
-+#include <linux/of_reserved_mem.h>
-+
-+struct carveout_heap_priv {
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+};
-+
-+struct carveout_heap_buffer_priv {
-+	struct mutex lock;
-+	struct list_head attachments;
-+
-+	unsigned long num_pages;
-+	struct carveout_heap_priv *heap;
-+	dma_addr_t daddr;
-+	void *vaddr;
-+	unsigned int vmap_cnt;
-+};
-+
-+struct carveout_heap_attachment {
-+	struct list_head head;
-+	struct sg_table table;
-+
-+	struct device *dev;
-+	bool mapped;
-+};
-+
-+static int carveout_heap_attach(struct dma_buf *buf,
-+				struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = buf->priv;
-+	struct carveout_heap_attachment *a;
-+	struct sg_table *sgt;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+	int ret;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+	INIT_LIST_HEAD(&a->head);
-+	a->dev = attachment->dev;
-+	attachment->priv = a;
-+
-+	sgt = &a->table;
-+	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-+	if (ret)
-+		goto err_cleanup_attach;
-+
-+	sg_dma_address(sgt->sgl) = priv->daddr;
-+	sg_dma_len(sgt->sgl) = len;
-+
-+	mutex_lock(&priv->lock);
-+	list_add(&a->head, &priv->attachments);
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+
-+err_cleanup_attach:
-+	kfree(a);
-+	return ret;
-+}
-+
-+static void carveout_heap_detach(struct dma_buf *dmabuf,
-+				 struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&priv->lock);
-+	list_del(&a->head);
-+	mutex_unlock(&priv->lock);
-+
-+	sg_free_table(&a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *
-+carveout_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+			  enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+	struct sg_table *table = &a->table;
-+	int ret;
-+
-+	ret = dma_map_sgtable(a->dev, table, direction, 0);
-+	if (ret)
-+		return ERR_PTR(-ENOMEM);
-+
-+	a->mapped = true;
-+
-+	return table;
-+}
-+
-+static void carveout_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+					struct sg_table *table,
-+					enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	a->mapped = false;
-+	dma_unmap_sgtable(a->dev, table, direction, 0);
-+}
-+
-+static int
-+carveout_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-+				       enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt > 0)
-+		invalidate_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int
-+carveout_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
-+				     enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt > 0)
-+		flush_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int carveout_heap_mmap(struct dma_buf *dmabuf,
-+			      struct vm_area_struct *vma)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+	struct page *page = virt_to_page(priv->vaddr);
-+
-+	return remap_pfn_range(vma, vma->vm_start, page_to_pfn(page),
-+			       len, vma->vm_page_prot);
-+}
-+
-+static int carveout_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+
-+	mutex_lock(&priv->lock);
-+
-+	iosys_map_set_vaddr(map, priv->vaddr);
-+	priv->vmap_cnt++;
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static void carveout_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+
-+	mutex_lock(&priv->lock);
-+
-+	priv->vmap_cnt--;
-+	mutex_unlock(&priv->lock);
-+
-+	iosys_map_clear(map);
-+}
-+
-+static void carveout_heap_dma_buf_release(struct dma_buf *buf)
-+{
-+	struct carveout_heap_buffer_priv *buffer_priv = buf->priv;
-+	struct carveout_heap_priv *heap_priv = buffer_priv->heap;
-+	unsigned long len = buffer_priv->num_pages * PAGE_SIZE;
-+
-+	gen_pool_free(heap_priv->pool, (unsigned long)buffer_priv->vaddr, len);
-+	kfree(buffer_priv);
-+}
-+
-+static const struct dma_buf_ops carveout_heap_buf_ops = {
-+	.attach		= carveout_heap_attach,
-+	.detach		= carveout_heap_detach,
-+	.map_dma_buf	= carveout_heap_map_dma_buf,
-+	.unmap_dma_buf	= carveout_heap_unmap_dma_buf,
-+	.begin_cpu_access	= carveout_heap_dma_buf_begin_cpu_access,
-+	.end_cpu_access	= carveout_heap_dma_buf_end_cpu_access,
-+	.mmap		= carveout_heap_mmap,
-+	.vmap		= carveout_heap_vmap,
-+	.vunmap		= carveout_heap_vunmap,
-+	.release	= carveout_heap_dma_buf_release,
-+};
-+
-+static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
-+					      unsigned long len,
-+					      u32 fd_flags,
-+					      u64 heap_flags)
-+{
-+	struct carveout_heap_priv *heap_priv = dma_heap_get_drvdata(heap);
-+	struct carveout_heap_buffer_priv *buffer_priv;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	struct dma_buf *buf;
-+	dma_addr_t daddr;
-+	size_t size = PAGE_ALIGN(len);
-+	void *vaddr;
-+	int ret;
-+
-+	buffer_priv = kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
-+	if (!buffer_priv)
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_LIST_HEAD(&buffer_priv->attachments);
-+	mutex_init(&buffer_priv->lock);
-+
-+	vaddr = gen_pool_dma_zalloc(heap_priv->pool, size, &daddr);
-+	if (!vaddr) {
-+		ret = -ENOMEM;
-+		goto err_free_buffer_priv;
-+	}
-+
-+	buffer_priv->vaddr = vaddr;
-+	buffer_priv->daddr = daddr;
-+	buffer_priv->heap = heap_priv;
-+	buffer_priv->num_pages = size >> PAGE_SHIFT;
-+
-+	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
-+	exp_info.ops = &carveout_heap_buf_ops;
-+	exp_info.size = size;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer_priv;
-+
-+	buf = dma_buf_export(&exp_info);
-+	if (IS_ERR(buf)) {
-+		ret = PTR_ERR(buf);
-+		goto err_free_buffer;
-+	}
-+
-+	return buf;
-+
-+err_free_buffer:
-+	gen_pool_free(heap_priv->pool, (unsigned long)vaddr, len);
-+err_free_buffer_priv:
-+	kfree(buffer_priv);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+static const struct dma_heap_ops carveout_heap_ops = {
-+	.allocate = carveout_heap_allocate,
-+};
-+
-+static int __init carveout_heap_setup(struct device_node *node)
-+{
-+	struct dma_heap_export_info exp_info = {};
-+	const struct reserved_mem *rmem;
-+	struct carveout_heap_priv *priv;
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+	void *base;
-+	int ret;
-+
-+	rmem = of_reserved_mem_lookup(node);
-+	if (!rmem)
-+		return -EINVAL;
-+
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	pool = gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
-+	if (!pool) {
-+		ret = -ENOMEM;
-+		goto err_cleanup_heap;
-+	}
-+	priv->pool = pool;
-+
-+	base = memremap(rmem->base, rmem->size, MEMREMAP_WB);
-+	if (!base) {
-+		ret = -ENOMEM;
-+		goto err_release_mem_region;
-+	}
-+
-+	ret = gen_pool_add_virt(pool, (unsigned long)base, rmem->base,
-+				rmem->size, NUMA_NO_NODE);
-+	if (ret)
-+		goto err_unmap;
-+
-+	exp_info.name = node->full_name;
-+	exp_info.ops = &carveout_heap_ops;
-+	exp_info.priv = priv;
-+
-+	heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(heap)) {
-+		ret = PTR_ERR(heap);
-+		goto err_cleanup_pool_region;
-+	}
-+	priv->heap = heap;
-+
-+	return 0;
-+
-+err_cleanup_pool_region:
-+	gen_pool_free(pool, (unsigned long)base, rmem->size);
-+err_unmap:
-+	memunmap(base);
-+err_release_mem_region:
-+	gen_pool_destroy(pool);
-+err_cleanup_heap:
-+	kfree(priv);
-+	return ret;
-+}
-+
-+static int __init carveout_heap_init(void)
-+{
-+	struct device_node *rmem_node;
-+	struct device_node *node;
-+	int ret;
-+
-+	rmem_node = of_find_node_by_path("/reserved-memory");
-+	if (!rmem_node)
-+		return 0;
-+
-+	for_each_child_of_node(rmem_node, node) {
-+		if (!of_property_read_bool(node, "export"))
-+			continue;
-+
-+		ret = carveout_heap_setup(node);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+module_init(carveout_heap_init);
+I can see the sense in allowing different pipelines to move between
+different planes, but then it shouldn't be set at init time. I think
+you want to just drop the 'plane' argument here, and only set the
+plane during an atomic commit when actually switching the state.
 
--- 
-2.49.0
+It would also be helpful for userspace to know how color pipelines
+could be used, and to back that up with igt. Questions I have whilst
+reading this:
 
+1. Is it guaranteed that, if any plane on a device supports the
+COLOR_PIPELINE property, all planes will support COLOR_PIPELINE?
+(Given the amdgpu cursor-plane discussion, it looks like no, which is
+unfortunate but oh well.)
+
+2. Is it guaranteed that, if a COLOR_PIPELINE property exists on a
+plane, that BYPASS will be one of the supported values? (The current
+implementation does this, which seems sensible, but if the plan is to
+not make this a uAPI invariant, e.g. to support planes with mandatory
+CM steps, this should probably be explicitly documented.)
+
+3. Can a given color pipeline potentially be used on different planes,
+i.e. a colorop used to represent a separate hardware processing block
+which may be used on any plane but only one plane at a time? (This
+should be documented either way, and if they are unique per plane, igt
+should enforce this.)
+
+3. Can a given color pipeline be active on multiple planes at a time?
+(If so, the implementation definitely needs rethinking: the colorop
+would need to have a list of planes.)
+
+4. Can a given color pipeline be active on multiple planes on multiple
+CRTCs at a time?
+
+5. For a given colorop property, is it an invariant that the colorop
+will only appear in one color pipeline at a time? (I believe so, but
+this probably needs documenting and/or igt.)
+
+Either way, I suspect that clorop->plane is the wrong thing to do, and
+that it maybe wants to be a list of planes in the drm_colorop_state?
+
+Cheers,
+Daniel
