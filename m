@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AF3A77A68
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 14:10:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05095A77A99
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 14:19:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5270810E2D1;
-	Tue,  1 Apr 2025 12:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6525F10E322;
+	Tue,  1 Apr 2025 12:18:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NkheP0nk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X5fZgBTO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B6E410E2D1
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 12:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743509444;
- bh=YQ8tu7x+Ukps5x3s4anWDD7Vj6bx89t2M5F/63Ywx3Y=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=NkheP0nk/x6W5AyxAZCzKQJSTd51b47L9ARfS1xcqAWPsb9EQzOuHewB410L4jRwr
- 4O0Yrvlj/OoI4JO4JmM8Em1CPACIMKF8jZYlN0Kjt3n/3oivzdQHwlD9cMi2zXs01F
- 6nkeH9OTM0X7Ublj6cuI5a2gOzh7wo/KpbM/2PfCQmAGgBTp8fZGmthnO4JcRNqdJZ
- Sz6uwwMh+RAnRxAMMmoAsMQHK+bojroLZhGpQvyyMH9dlUKeGz5iTKWdY7n45Tn+5S
- U7p5vOeA0HqqbG1OyB6xqwG5T25EKI7J5Kxd6yB4RVpWX2QibzLVmfNgOauiMQ3axT
- MXBKD7DdgfOpg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 512D617E0657;
- Tue,  1 Apr 2025 14:10:44 +0200 (CEST)
-Date: Tue, 1 Apr 2025 14:10:41 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Ashley Smith <ashley.smith@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Heiko Stuebner
- <heiko@sntech.de>, kernel@collabora.com, Daniel Stone
- <daniels@collabora.com>, dri-devel@lists.freedesktop.org,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5116510E2DE;
+ Tue,  1 Apr 2025 12:18:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743509927; x=1775045927;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HaiOBqHuFiJ6ixd05DvNz+WuwX4gzteShKVoCBENbV8=;
+ b=X5fZgBTOn6oQO2GM8w5QxphREPEFus4w/rfGmGuF1pEAmppTbMSh0RqM
+ bXGSIysp1lHFlr+6ShOQhLoHkXDURRReG65x8tvf1RldqOQzn1oS0Bnml
+ PEIOMLNIGC4ltx0gAib789Va5apGnVhuL4M4WXNtJIoFDBL81/zrHbVSQ
+ 4xhU0LnIyjstM5bRGgGIn2Vhr1kEfQ/YHUOCQmWzE90SNFNbgRwcK+0mv
+ H5w22/2/DRCQbZ5WwY//U381VC1R8344slQ/cGbQdGMyIPzzWtjtbGy4H
+ nV5YSNyK22IyN4j4BDaKoDNeoxQPkjsurcSagOwL3gG6GnPXSmog0Gd3E A==;
+X-CSE-ConnectionGUID: 8WPp4vjyTeW4C1t5fLRhFQ==
+X-CSE-MsgGUID: PgCd6YAwSKSCJeySadj4JQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="70186930"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="70186930"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 05:18:46 -0700
+X-CSE-ConnectionGUID: ivyA8vynRjex5Iyoi33rAg==
+X-CSE-MsgGUID: KAbHE6hJTWmHsvsLvmC7BQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="131373404"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.7])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 05:18:43 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: Make the timeout per-queue instead of per-job
-Message-ID: <20250401141041.535df992@collabora.com>
-In-Reply-To: <20250307155556.173494-1-ashley.smith@collabora.com>
-References: <20250307155556.173494-1-ashley.smith@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Cc: jani.nikula@intel.com, linux-kbuild@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, Masahiro Yamada <masahiroy@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [PATCH 0/5] hdrtest: hide the disgusting turds
+Date: Tue,  1 Apr 2025 15:18:25 +0300
+Message-Id: <20250401121830.21696-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,69 +72,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  7 Mar 2025 15:55:52 +0000
-Ashley Smith <ashley.smith@collabora.com> wrote:
+Hide all the disgusting turds in .hdrtest subdirectories in the build
+tree, and put the extra drm build-time checks behind a kconfig option.
 
-> +static void
-> +queue_suspend_timeout(struct panthor_queue *queue)
-> +{
-> +	unsigned long qtimeout, now;
-> +	struct panthor_group *group;
-> +	struct panthor_job *job;
-> +	bool timer_was_active;
-> +
-> +	spin_lock(&queue->fence_ctx.lock);
-> +
-> +	/* Already suspended, nothing to do. */
-> +	if (queue->timeout.remaining != MAX_SCHEDULE_TIMEOUT)
-> +		goto out_unlock;
-> +
-> +	job = list_first_entry_or_null(&queue->fence_ctx.in_flight_jobs,
-> +				       struct panthor_job, node);
-> +	group = job ? job->group : NULL;
-> +
-> +	/* If the queue is blocked and the group is idle, we want the timer to
-> +	 * keep running because the group can't be unblocked by other queues,
-> +	 * so it has to come from an external source, and we want to timebox
-> +	 * this external signalling.
-> +	 */
-> +	if (group && (group->blocked_queues & BIT(job->queue_idx)) &&
-> +	    group_is_idle(group))
-> +		goto out_unlock;
-> +
-> +	now = jiffies;
-> +	qtimeout = queue->timeout.work.timer.expires;
-> +
-> +	/* Cancel the timer. */
-> +	timer_was_active = cancel_delayed_work(&queue->timeout.work);
 
-Looks like queue_suspend_timeout() is only called on a state update,
-and this won't happen if the group suspension/termination fails (FW
-hang), which will leave this delayed work behind, possibly leading
-to a UAF or a spurious queue_timeout_work() call when we don't expect
-one.
+BR,
+Jani.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index e96179ed74e6..1106967af0ac 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -2784,8 +2784,18 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
-                         * automatically terminate all active groups, so let's
-                         * force the state to halted here.
-                         */
--                       if (csg_slot->group->state != PANTHOR_CS_GROUP_TERMINATED)
-+                       if (csg_slot->group->state != PANTHOR_CS_GROUP_TERMINATED) {
-                                csg_slot->group->state = PANTHOR_CS_GROUP_TERMINATED;
-+
-+                               /* Reset the queue slots manually if the termination
-+                                * request failed.
-+                                */
-+                               for (i = 0; i < group->queue_count; i++) {
-+                                       if (group->queues[i])
-+                                               cs_slot_reset_locked(ptdev, csg_id, i);
-+                               }
-+                       }
-+
-                        slot_mask &= ~BIT(csg_id);
-                }
-        }
+
+Cc: linux-kbuild@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+
+Jani Nikula (5):
+  drm: place header test files in .hdrtest subdirectories
+  drm/xe: place header test files in .hdrtest subdirectories
+  drm/i915: place header test files in .hdrtest subdirectories
+  kbuild: hdrtest: place header test files in .hdrtest subdirectories
+  drm: add config option for extra build-time checks
+
+ drivers/gpu/drm/Kconfig       | 21 +++++++++++++++++++--
+ drivers/gpu/drm/Makefile      |  6 +++---
+ drivers/gpu/drm/i915/Makefile |  6 +++---
+ drivers/gpu/drm/xe/Makefile   |  6 +++---
+ include/drm/Makefile          |  6 +++---
+ usr/include/Makefile          |  4 ++--
+ 6 files changed, 33 insertions(+), 16 deletions(-)
+
+-- 
+2.39.5
+
