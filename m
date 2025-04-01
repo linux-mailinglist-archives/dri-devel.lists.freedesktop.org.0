@@ -2,55 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117CEA77FA5
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D60A77FA4
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C74310E5EA;
-	Tue,  1 Apr 2025 15:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43E0A10E083;
+	Tue,  1 Apr 2025 15:58:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ieCck9Uc";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RR1UeJDk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3368610E5EA
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 15:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743523089; x=1775059089;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=KC9IqAC+1yetzZ4dZeZRWXGPpfD0dUAxhHtcS6CzGHc=;
- b=ieCck9UcMGzz6ihlcHesDcrtyvN/0lG6h/QQbH7TdpZgecuFrbiC41p2
- dbYdOF8db3of+ROg+rFB/bdVZQQ2ERZ4QUBEDcJFrtCOKbqvfY+Gmujuk
- JtyplJRWMwCXqlNd9coujYT15TLi97Vu+PTfm6yCBjOzygfytHXflYPXv
- LHfXouT2Fo7txABJv0lC6rU7RDOXfbXzGOAB/XbxlsCXYXM9K97OG69RQ
- cDjUUTWmRXcrDyZfowcs226uYOFY5ARoJM5KzAIlbEQt2a8j/sUi6nG+c
- kRIZPZsoTjjK8+j/WPuP3P4SqETzaRkWtMXQi3xZhB9c4FfM92UCLfmQr Q==;
-X-CSE-ConnectionGUID: 53WmMLQRTh+/n8NhtRQ4Aw==
-X-CSE-MsgGUID: o8Wn0EbCQrSwnuYzvj0EWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44108433"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="44108433"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 08:58:08 -0700
-X-CSE-ConnectionGUID: QuoabnVRT4y88FX+VvP+rA==
-X-CSE-MsgGUID: 9+SHAuSNRqKMUfg0TmdXDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="157413576"
-Received: from try2-8594.igk.intel.com ([10.91.220.58])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 08:58:07 -0700
-From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5A910E083
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 15:58:04 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-224191d92e4so107991905ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 08:58:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743523083; x=1744127883; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fJH6ATFt5Un9kLuUVs0DY+xyNkxCSbS19/se7Ih7dOg=;
+ b=RR1UeJDkM8wfJJvlYYFG5yHHKMM9NOGPkR9xYwrFufivdyYtpOKLYQ8p+YsLtqLPaX
+ nCY/JpocRBTTGigF4zobtGeO7PWkV4jVM19U9EQKAmY0/7026egti7UUY2CHKmQtUV4p
+ aFwwrxGvNeJjc6GMKI6rNKhJRdfCf2LyKCGh1Yh2VW3+rnhXU9VktXcKgrDt7Kjkn8JT
+ 4mHRma3Co6WeNWLMpQDm9U2ixizxzvcA3sfMLj7kyeQ/vNuNMK5xtNHBUJ0talkECYkL
+ tC1RNMu78FVbFxR6reGEfPNqTiHg8XTT33hVRPa2OfqdkRUVQYgSy2xV3+bHLi6NZ1wv
+ Y2Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743523083; x=1744127883;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fJH6ATFt5Un9kLuUVs0DY+xyNkxCSbS19/se7Ih7dOg=;
+ b=UWSIoTshuVo2slNf4xGnyGigbQpzX0vne3oM1LqpOjzqEORumv/8X0hmX2FOAeaHwD
+ GLjx57a9EsHGW8mZIWqa5Rd2lk4W/6aUikE6UjJUNA7k+6FNBWTD7HL+6tfs2qmSLiGo
+ fcq3963gBR3VvlkoUIR8QyBMwceQIRTc4lIZFJHJGWAKPuC4EVDOMvDMoMkvqNfkx9xz
+ A8i/dJ8gKB0qm0O7qP8oHbCCeoFB9xQ06+FRyv1YSomGOs1aq30BhwHZBFkV9nqoVMOM
+ J0KV5tElNs/x8pSl5ltnIRhKDuYHd5CpVwttZM08awCSXg8ko/GpcaFNug7qzrA23GmY
+ wPGw==
+X-Gm-Message-State: AOJu0YxsyaEuSkK+mzhaVUJqBm81fbGz11Hjb7c7QUH0wMhu53d9+XRK
+ 1PqKPWI1b4jT38CciagM0PgAgRsyIaiy7D2U1eGk2J4WBsGNuUciVVk/tA==
+X-Gm-Gg: ASbGncsP4osT0+JbFp9m9hBZCVY0NPEfdXJ6Tf9vEO1FhpZd57jQ3gGNn/iVnpGFTPe
+ 6h7R5hnV5onA/NMbJjAN4XTUBTXLHRvs2wc7ueIR97Fbo5yHj4AuAbIXTE5hgpW//wUOOBlO9UF
+ CeiXAow6DvJGkyFO/zWsRjc5w0vT24u/J3Smo9ic0YUVmJlTD7HxEQpJrlWA3/+JviJDpTvAbNH
+ EcXkNJBCRp7aFy8Kn0DSgb9xDUIKiKv9Y760QP/Eqnh+ld90bgOaz6EyEvTfnxuLtZva9pvOzv8
+ nfU/wxpxAr46eszee/n8ZmTbiaG4CGjHyOMIvaUPFpif/z+NHA4JiIgldAS7VpYdFWcfihoJGyD
+ X7KERdvS90JYrbMgWBXA=
+X-Google-Smtp-Source: AGHT+IEMQK5Uw8F9wEfsJTHQFcSwehiUaH4GbiWL58FJVcHeW3soaaFsqIizRSu/dHaDx3lBd1yIYQ==
+X-Received: by 2002:a17:902:cec3:b0:215:b473:1dc9 with SMTP id
+ d9443c01a7336-2292f9fc071mr220976905ad.46.1743523083175; 
+ Tue, 01 Apr 2025 08:58:03 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2291f1f937bsm90014575ad.222.2025.04.01.08.58.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Apr 2025 08:58:02 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- jacek.lawrynowicz@linux.intel.com, lizhi.hou@amd.com,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Subject: [PATCH] accel/ivpu: Flush pending jobs of device's workqueues
-Date: Tue,  1 Apr 2025 17:57:55 +0200
-Message-ID: <20250401155755.4049156-1-maciej.falkowski@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robdclark@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-kernel@vger.kernel.org (open list),
+ linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
+ linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
+Subject: [PATCH v6] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
+Date: Tue,  1 Apr 2025 08:57:58 -0700
+Message-ID: <20250401155758.48855-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,33 +95,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use flush_work() instead of cancel_work_sync() for driver
-workqueues to guarantee that remaining pending work
-will be handled.
+From: Rob Clark <robdclark@chromium.org>
 
-Fixes: bc3e5f48b7ee ("accel/ivpu: Use workqueue for IRQ handling")
-Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Add support for exporting a dma_fence fd for a specific point on a
+timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
+syncobj support, as it needs a way to turn a point on a timeline back
+into a dma_fence fd.  It also closes an odd omission from the syncobj
+UAPI.
+
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
+[2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
+
+v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
+v3: Add unstaged uabi header hunk
+v4: Also handle IMPORT_SYNC_FILE case
+v5: Address comments from Dmitry
+v6: checkpatch.pl nits
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_syncobj.c | 47 +++++++++++++++++++++++++++--------
+ include/uapi/drm/drm.h        |  4 +++
+ 2 files changed, 41 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 4fa73189502e..5e3888ff1022 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -421,9 +421,9 @@ void ivpu_prepare_for_reset(struct ivpu_device *vdev)
- {
- 	ivpu_hw_irq_disable(vdev);
- 	disable_irq(vdev->irq);
--	cancel_work_sync(&vdev->irq_ipc_work);
--	cancel_work_sync(&vdev->irq_dct_work);
--	cancel_work_sync(&vdev->context_abort_work);
-+	flush_work(&vdev->irq_ipc_work);
-+	flush_work(&vdev->irq_dct_work);
-+	flush_work(&vdev->context_abort_work);
- 	ivpu_ipc_disable(vdev);
- 	ivpu_mmu_disable(vdev);
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 4f2ab8a7b50f..636cd83ca29e 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
  }
+ 
+ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+-					      int fd, int handle)
++					      int fd, int handle, u64 point)
+ {
+ 	struct dma_fence *fence = sync_file_get_fence(fd);
+ 	struct drm_syncobj *syncobj;
+@@ -755,14 +755,24 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+ 		return -ENOENT;
+ 	}
+ 
+-	drm_syncobj_replace_fence(syncobj, fence);
++	if (point) {
++		struct dma_fence_chain *chain = dma_fence_chain_alloc();
++
++		if (!chain)
++			return -ENOMEM;
++
++		drm_syncobj_add_point(syncobj, chain, fence, point);
++	} else {
++		drm_syncobj_replace_fence(syncobj, fence);
++	}
++
+ 	dma_fence_put(fence);
+ 	drm_syncobj_put(syncobj);
+ 	return 0;
+ }
+ 
+ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+-					int handle, int *p_fd)
++					int handle, u64 point, int *p_fd)
+ {
+ 	int ret;
+ 	struct dma_fence *fence;
+@@ -772,7 +782,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+ 	if (fd < 0)
+ 		return fd;
+ 
+-	ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
++	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
+ 	if (ret)
+ 		goto err_put_fd;
+ 
+@@ -869,6 +879,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+ 				   struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_handle *args = data;
++	unsigned int valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
++				   DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
++	u64 point = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+ 		return -EOPNOTSUPP;
+@@ -876,13 +889,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+ 	if (args->pad)
+ 		return -EINVAL;
+ 
+-	if (args->flags != 0 &&
+-	    args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
++	if (args->flags & ~valid_flags)
+ 		return -EINVAL;
+ 
++	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
++		point = args->point;
++
+ 	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
+ 		return drm_syncobj_export_sync_file(file_private, args->handle,
+-						    &args->fd);
++						    point, &args->fd);
++
++	if (args->point)
++		return -EINVAL;
+ 
+ 	return drm_syncobj_handle_to_fd(file_private, args->handle,
+ 					&args->fd);
+@@ -893,6 +911,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 				   struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_handle *args = data;
++	unsigned int valid_flags = DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE |
++				   DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE;
++	u64 point = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+ 		return -EOPNOTSUPP;
+@@ -900,14 +921,20 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 	if (args->pad)
+ 		return -EINVAL;
+ 
+-	if (args->flags != 0 &&
+-	    args->flags != DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
++	if (args->flags & ~valid_flags)
+ 		return -EINVAL;
+ 
++	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE)
++		point = args->point;
++
+ 	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
+ 		return drm_syncobj_import_sync_file_fence(file_private,
+ 							  args->fd,
+-							  args->handle);
++							  args->handle,
++							  point);
++
++	if (args->point)
++		return -EINVAL;
+ 
+ 	return drm_syncobj_fd_to_handle(file_private, args->fd,
+ 					&args->handle);
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 7fba37b94401..e63a71d3c607 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -905,13 +905,17 @@ struct drm_syncobj_destroy {
+ };
+ 
+ #define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE (1 << 0)
++#define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE         (1 << 1)
+ #define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE (1 << 0)
++#define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE         (1 << 1)
+ struct drm_syncobj_handle {
+ 	__u32 handle;
+ 	__u32 flags;
+ 
+ 	__s32 fd;
+ 	__u32 pad;
++
++	__u64 point;
+ };
+ 
+ struct drm_syncobj_transfer {
 -- 
-2.43.0
+2.49.0
 
