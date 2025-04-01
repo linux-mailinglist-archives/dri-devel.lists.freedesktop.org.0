@@ -2,172 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260B6A771E0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 02:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D95A77200
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 02:35:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE9510E4B1;
-	Tue,  1 Apr 2025 00:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D09F10E4B9;
+	Tue,  1 Apr 2025 00:35:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="y9aYSDHc";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="a+J93/0q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2049.outbound.protection.outlook.com [40.107.93.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B16B10E122;
- Tue,  1 Apr 2025 00:29:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eOQr/v7arleycl4qpk6Q+AXq0PjgwfstZMpEkHN9+s95mcUETCotGIbq2KpOXxIkOWRQC0eThWll1fY56UwVVx2D20nBsalsryb2xbqVLj3CxT/0wYFy5gMm8H3OWjCftjPyn5rg3G8h8Z71XL3+3/9KNqesBNSkf0jW00S5BqnbE2G6LU3vP2Md8xYWyKONYZ2VW+KcnSHcG/KpJMvCX3T+M8LQJTkLZpIxncOa3B+3r0nvX7b0toAiWTy6MmlfwV4cqSwF1tkDiyohya54kiTxcZi02Hvtc6Svo9KKCyZD9510azLUFsyqkzLHasvGCk90x3ujBEh4KTxAOLAzpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Jod8NqicSWA454ox5ok306hPVv+EXmxat5n9QeshLo=;
- b=fmj9MOpfTRu3VQsK5Fpv/iPkUmwGTcFaUa4mvjtuFsxBFmlJX3/Td9yc9RtftdRKOFX8COkNjST0ipI/tU+YLK2uQnCohilP6y2zUoApT/1LB48pzcvqd0Co1XQ+PipwfcSrQpW/M4VOqoG5b4VkxpQvvYxf0koRzLAiAy11zoUZ+vl9ze0/zqXlziYS99TVwJ0Zrhv7w7auMc9h6WDVWElLLNHYlMW7k2HaMhRhj0jSHbwz0UbPnzZPA3g6cjWcNKls6UnO9DLVcO97SpA+v+6Lwqd3owyQ21F0uVhyo8YgR9+7STy9CM7nFiw7Hc6+hBz/J8juA+frM7MW8CJxFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Jod8NqicSWA454ox5ok306hPVv+EXmxat5n9QeshLo=;
- b=y9aYSDHcAoFixXWC2wJWOY0U5T3kRnMBZeGDAA9Uv1Rlvn3HMdTz7g+yZWS0vuV8rADNTWFY7O2NuhYdPdAebN0rCl0dzrvU9oaMlb/rxpoABqiDbUWxwsIVOCtoCUOgfyGXXBMs9670VrpFPYJCH8gEQVoG3bc3igYQG+G9lu4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by PH7PR12MB6396.namprd12.prod.outlook.com (2603:10b6:510:1fc::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Tue, 1 Apr
- 2025 00:29:03 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%4]) with mapi id 15.20.8534.043; Tue, 1 Apr 2025
- 00:29:03 +0000
-Message-ID: <4198d3db-aa31-49c1-a8c0-ed8f40b7855d@amd.com>
-Date: Mon, 31 Mar 2025 18:28:59 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V8 24/43] drm/amd/display: Skip color pipeline
- initialization for cursor plane
-To: Xaver Hugl <xaver.hugl@gmail.com>
-Cc: Shengyu Qu <wiagn233@outlook.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
- quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
- marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
- chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com
-References: <20250326234748.2982010-1-alex.hung@amd.com>
- <20250326234748.2982010-25-alex.hung@amd.com>
- <TYCPR01MB8437BA1D5FFC25AE63F731D198A22@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <0add5ab1-0717-42a8-8994-a381b635040b@amd.com>
- <TYCPR01MB8437ADBCD38143B223E9384A98AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <9984f8e4-3f24-49d0-a7be-4f746dfbb4cc@amd.com>
- <TYCPR01MB8437D229F3DFFA7CA6CA02D198AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <a6489110-4e76-4977-a0d5-586e3b99ab0e@amd.com>
- <TYCPR01MB843722301025CE5047BCFA2898AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <e6bac4d3-d445-48d6-8121-39895a09ccff@amd.com>
- <TYCPR01MB84372C5EFC66F7CC9259FBBE98AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <TYCPR01MB843757F4E7BFF224712BD68F98AD2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
- <5eac0bab-60c2-4e94-9ab2-bad5f451c8c9@amd.com>
- <CAFZQkGyOvLyqVBRr5_mhApeEx2emoJ8KRp2_GDuF2rL-4zZ2bA@mail.gmail.com>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <CAFZQkGyOvLyqVBRr5_mhApeEx2emoJ8KRp2_GDuF2rL-4zZ2bA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW2PR16CA0044.namprd16.prod.outlook.com
- (2603:10b6:907:1::21) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1450910E4B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 00:35:50 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VG8Fo7031690
+ for <dri-devel@lists.freedesktop.org>; Tue, 1 Apr 2025 00:35:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=xVZG5XFmHuEOv/oou7fYzA05
+ cG9iGzRAigpfxBHQiuA=; b=a+J93/0qSoeRKO+yA9bJBTkfRclycEtd2Lx3NAQ/
+ jPSjh+io7iw5THr0ul2LU3ISPF/kcRNaD3XsqXA3oV2/P43GbqpiR4objUqWtdVA
+ 9/e2jD4AoWssBvLZEL4p60q8I0Y0pBpW1ib3enau8RpIz/IhcK1Bv6zvEfvLKnMk
+ kCfF44xwpB14rgJDPNfVphkmUcwMb2MFimMqKObvS/VHGt6quBKGQeVWy1IJIlXs
+ evXTLuSOhLrRRf6VRzKXhjkThMn6t6EjLRZ52j/6RDiHHqQ/mgxsd4jeXZ8SIjlJ
+ fAJa0h6R9lxYAIs490VFTK/GTb44zxPT3+wvQQbNQstt8w==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45qxa7ryx1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 00:35:49 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c544d2c34fso669860485a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Mar 2025 17:35:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743467748; x=1744072548;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xVZG5XFmHuEOv/oou7fYzA05cG9iGzRAigpfxBHQiuA=;
+ b=h1vkQceHcptHSE96GbsvdYyB4uHDn4GnrMqKuVqeByMT9cKx9vhgYWoh0UOTJkDcR1
+ qENKM0W5wROZlfdJvh607X0WMjGXiiTjld7MYjfD8SfXik6snarKWk7s90OLWU3lc1+E
+ CVc960E6fww0VK6bVuwPdCzYxL/poDX+y+IH343EY92dYEhBLUYp++LxAXW8X9AViQe3
+ lfHbjjN/vzPigrur5uxi5iZX4PLrRcg/fAKC6ropHuf9aIMEV+8TnmhBeQUB5s27cWLl
+ mgVd/ZDCt0rfe73N5Z4txSsziDEPD6Fe331kw786Yqn4X8htfoCwGZ2vzd9LFdmzZLQw
+ Xm1g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWXq99tSsYepYa37WgEA6ah4wMpKD39jRJAyv1IXTLg2zBblccUyP7E1c8NZadF0DdYTgjYWuFZMBo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxqZXg3w5GJPiiCqp2R6zzl7j5EQT2y4/UISIVm0OnNwBNAaEjE
+ a4ap8XHor0BaieHqsaufolBCZQscFdGlnww+Q88ELGECspqxer6vVg84QmiEDjU3o52yJvS9EWw
+ /zltg0F7GWq2mgus7rG6Hle/Ms9gMwvZBG7CHAh0dG5d1JBkbb67ZNjfIRuBHTvdNmeE=
+X-Gm-Gg: ASbGncu3/WMXrlmmxS4pHKWwVsvR+20ulucNhJyuIeifjzxJWVxI7EV0dlUQZnU+H/n
+ 4AxJuXc2o+C4GuCa0X1o7Y/Y9igZhCaUnWuzs5SGp7GoQ8n1otJbhEDKEpySrJmTEezy/cANnuv
+ hO0b23azPyyWVbZaAOXojBZKDwx4SHcyt/ZUhAVMN/lKpkPbwCjbi8QudSmiLu1vY3W6z163XgH
+ 942LVMV7rWnb7ogSJZFPelhwA3U8b3+oBLZh84jotQd/tpRsID8eNML13ByDexP+4ulF2hyreKJ
+ B6sAH0qJesaLXBV3yyP2zIkpu110P8wtX7uJOqQAfy6eJyLw7UPCH/c4H9dK5CA6vTpBZILg3dO
+ 1ZCc=
+X-Received: by 2002:a05:620a:199c:b0:7c5:e38a:66c2 with SMTP id
+ af79cd13be357-7c690894ff8mr1717399285a.58.1743467747816; 
+ Mon, 31 Mar 2025 17:35:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEA1opS2Ob3NuZOH0FyIY6wfqVH21/dPNFhnu8zvlNMPksgVPFTQVVPl0FPx1SOzRn48BMMjg==
+X-Received: by 2002:a05:620a:199c:b0:7c5:e38a:66c2 with SMTP id
+ af79cd13be357-7c690894ff8mr1717396385a.58.1743467747473; 
+ Mon, 31 Mar 2025 17:35:47 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54b0959f429sm1232125e87.212.2025.03.31.17.35.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Mar 2025 17:35:45 -0700 (PDT)
+Date: Tue, 1 Apr 2025 03:35:42 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ laurentiu.tudor1@dell.com, abel.vesa@linaro.org, johan@kernel.org
+Subject: Re: [PATCH v2 1/2] drm/msm/dp: Fix support of LTTPR handling
+Message-ID: <qcmyxcfhtecyddx42aaw6or436qj3ghsq6uckyoux4wulcn7oq@hwyg3dddbpb3>
+References: <20250311234109.136510-1-alex.vinarskis@gmail.com>
+ <20250311234109.136510-2-alex.vinarskis@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|PH7PR12MB6396:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa51fa24-4028-47cc-e8cc-08dd70b43447
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WS9za0d5Vkc2V1B6SHQzQTBGdU5vVTZzbExaSWdDaS9zQ29NUUg0ZGJ3VXla?=
- =?utf-8?B?anYvUWdiUGNEWTEvVWNvQ1FQZGJadVdDVjJOQ00zRGFvdHMzcW9KMUhlTG16?=
- =?utf-8?B?R093Wmtlem5OKzVFcUdyZi83bGVnd0IrWTBqa3RqL0ZKY3BjcmNuR210Tnc0?=
- =?utf-8?B?SURVbytjVDdQbVlaYkY5eUpPV0l1cGNvSDY4bzErQ2RjZnZDRzdKRmhEUCsv?=
- =?utf-8?B?WmlrZU1Rb2U3ZzJ3Nk1qTTlLMFUrV2RwZVZpb3E5bjVzYU1BSDlJYzNseldj?=
- =?utf-8?B?T1pMM0hZWTh0QlJ3ZGs2STYvZEpxc2JuaENIcEE0akV6dzR6T3p3M3I4WHZW?=
- =?utf-8?B?bEVveFN0ckRabEwySHZCcWZ1S1puaTh6WGpOdmhSYmh1aWxSQUkwOTNBTzVm?=
- =?utf-8?B?WUE1alZiMUlORGZUWDZNbGRacXRVd3I0UTZvN2JRdGVreGRJMkpTWnZ4eGEw?=
- =?utf-8?B?WGgyT3hGMDVEWnI1TGNrVksrVjY2d1BmS2xKMHRuek5YclBvTmk0UFRENEgr?=
- =?utf-8?B?ZDVtczlRM29vbkQxOGYvOE9paE9FOElIUzFUU2ZLWWlWQjZ5ck5DaUU0SzY1?=
- =?utf-8?B?ZFdWenprVGNQaTlwd3IvcSswUnhVZU9mdU01VTBUK1Ivc1JXK2ZMd3d1T0pl?=
- =?utf-8?B?OE1Ld3FsNFoxTlQ5WENRdnRrZXpIN2pDMy9WWWVQU1FOeGxFb25Tb2IwMFJ1?=
- =?utf-8?B?aVBqeXNoUUxJZlVRODdWU2NNdFE5VE9KbVN6QjBzV25ySVVBK1RtdEJPSncx?=
- =?utf-8?B?ckFsb0E4MlVYUTNQbnVNaVcxSDdDbVVSTC9MM3dxM0dScUdmSHV6S25tSG5y?=
- =?utf-8?B?dUJhenBqUmQvbjFHMEttYXFRT2tBbHg0VzI4RjhleHF1ZHlsTmFmSUpRa2p4?=
- =?utf-8?B?WmJJQTUyK1VlTjU2Q0dRUzBHbWZ1MVZTbTRqSG5TSE9FVTNkSzBCWXo4TTRO?=
- =?utf-8?B?MnZCWjl4L2xiNkZQdjllRGxGM2JmUXVFdWJlMktGVHBtR1d0dDA2YlN3Zitv?=
- =?utf-8?B?SUFINmQveEpnWFRCNnExWE5wY2QyVTNmYXVRZGY2MCtpSkZkZXNUUjhVNUJa?=
- =?utf-8?B?Qk80TFFaaTl1d1U5L0tPQllZTlppSG5vQjhBSEpXNXRiUmJpMFh3OWIxMDBN?=
- =?utf-8?B?TTRzR1kyekxFeU9PQVJBa2NvcGUrc3Q3bjl3c0NCclNkZ3BGb0RVWE9kQnhz?=
- =?utf-8?B?ZjRDbDAvazhrVFMrdERLaW5zUG5TejlYRS8vMlhyUmFIaDB4bGpGQkFwUXY4?=
- =?utf-8?B?QlFmWnQ3SWh3VmFwSnkvOHl6VWMwSVFKMnd2cE9FTGluRTdDUXZOcmNQRW5C?=
- =?utf-8?B?Zjlpd3VEd2toQ0d6ajNuVUFCZlV0ejg1bFZZUkN4VGZIankxMnZtK0J4RWRD?=
- =?utf-8?B?MzdLRVNualQrRkVmMU9YNktSQXoxeEdJOEx4aFdyZU1SeWx0Nm5reTFPNnJ0?=
- =?utf-8?B?RlNHTmEvWTNuYjFnYmtDL2ZDbklmU3l1OWQ0Nmw1bEFvL0tTTHE1UldOUWc1?=
- =?utf-8?B?Qk84YlpDQUVFK25mWU1PbG03RTBtcUFyMk5DQ0tySklNQTlhWkV2RE1TZWhs?=
- =?utf-8?B?eEVxZ0M2WDdINkJmSzJyR3l0YnpmSjZ6QlVWNWRpNHRvZ3lmQW80NkI4MmVQ?=
- =?utf-8?B?TEdBVDB3QWJEaThmdllPNWo5R0RuWGNreXVjdVYvL0ZkZGFQaXdtZXFBVlpJ?=
- =?utf-8?B?R25yWXAvS3VWV2Mxd0RYOFA0Nk1UVTB6dFV0NDNXQXpQcG1qbmg2TGlKOUtp?=
- =?utf-8?B?cjI5LzdSSWFyemswMlB3VXM3UHhsNzVxbHZiVjJSYitjcnpxenM5c2poSkJN?=
- =?utf-8?B?RGJqOTBkZHhuLzlsWk9VbFVPcWVaOEdTd2VlV3I4WFk5Slo1SGRqNCtxWjVF?=
- =?utf-8?Q?Xhrot5P65aTyA?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTJ3dUF6RVk2aGN1czdrQStodVVEZll4cVFYaC9OUVRld3dDL0VKZ0FOQ2Zo?=
- =?utf-8?B?QS9tMWtLQ2xqYzdDd2V0SHZiVTUvblFNVHNJS2M2Ui9MUHRMYVRZNFZHeGNM?=
- =?utf-8?B?NjIxNjBtVTN4d0NncUU5K1R5cTJibGlrZktsLzZ6MGJrTzY3WFhwZVphQlRX?=
- =?utf-8?B?Tm1sT1BJNVdPTlZXUGVvelU3aEh2SzgvdWN2cmxXV1F4MGxtci9Pc1IrTWhC?=
- =?utf-8?B?YXhRa2Z6b0VDcW8rTXRub3dld3g4QlVaZFN0NUFRTEV1aE1JMDdDeUU4eEZl?=
- =?utf-8?B?bFd1bUE4cE9PS0dHa0pCVWlGMWx0SHhib0xLcjhISUk3Sm1acksrTGV1NDRn?=
- =?utf-8?B?dm1vQWp2TGhUT3VBWTBOcFZ1b2V5Z0Iyb1VSb1lLRzhIaWtVWVMweEpjbk9G?=
- =?utf-8?B?MTcvM2tEQlZiaEoraE1kelZLM0ZXUHZtZXI2USs0OXRTNWNUeVBlcUZtVlcy?=
- =?utf-8?B?UG9kZGZudEp3NlFwMzJMVnBkZVpyeWJzaVk1eU5hTitDaWYyN1N2QTRBdjJF?=
- =?utf-8?B?VzNiOGtLMm1Ea2FXWnk5NjhOeWFXN3B3SWxjVWtnaTY5OGFna2JGR2FybENK?=
- =?utf-8?B?MCtqUFZDTjZWUVd6QmQzcVc3ZU10VVBKc0YvbG5FdTdTM3JtbWg4MEg2UERk?=
- =?utf-8?B?OHZxeVI3SkMwTGFsWlNPUWhDdG1ZR3p3cm9oR3JydGltMDFYamF5a2tTQUU4?=
- =?utf-8?B?Y1p1bnRzSTJTSUFlUHJhaFlqWnBsZXgwWksrNkFTSGMyTFFyZlhLK1BXVXhy?=
- =?utf-8?B?NzdCUVNuVDJhNUFSQ0IweGc4TzR0akhzWlFxd3IwYXRWcmdSZGt5cmljZnA0?=
- =?utf-8?B?YXc0WTBJc201UXdNaTliZ3JVSEYrTi9sNmQ3d0lTbWtXVUFoNVI3Yml0NklK?=
- =?utf-8?B?T0NtRXlSWk1wRzY1MGp3WDJFOFJhOGE3ZzZxZ3VKdW8vTi9pTjZBc1FTd0pv?=
- =?utf-8?B?NWxmNEpCWWk2QzYxKzVuUTlXejJaUEhXNU82Ry83L3gvbE9laC9GcVpEclJC?=
- =?utf-8?B?SFcrS01JbndmcS9FRG5iY0Q2SFBUb3hmZW5WVk5ienhWcW4vM3lUMHJ1eXg4?=
- =?utf-8?B?V2tteG9kcmtScTlWcnpvV2ovL2FZajkwdUJJM0FBaTA5UUN3cENZK3pYT2tr?=
- =?utf-8?B?TnJBbG1hV2lmdnZGZHV3bFBNd3NoeE1ubUxqWjVRYm9iNU40R3ZiS0pWK2dv?=
- =?utf-8?B?YjlVS2lyWGlXcEtHdW9OYUc4RUNyZE56aVJQMEJYWWxoeU9aN2ZmNVlQMjFF?=
- =?utf-8?B?YWh3alV2bHNzekNxRzNEZEtaTXB6Q3lQVDJCLy95WnBiVTZjZzV1Tmh0WWRy?=
- =?utf-8?B?SXlnZmVhYkFTbW5YQnA1NXAyQXBIZW9IQkZSaHVGajFHQWRsem5rc0h2cUQ2?=
- =?utf-8?B?Q3ZXV3kxSzJsR05VZ1lYMnZpR3YzbFZOUWp6M0VNV3lQd3FEa0xtVDJaM2Nx?=
- =?utf-8?B?bmMzaUJzSmQxU3VDMTdXakNPUTJqY1FxVDQxbGtUUjUyT0lWUG5mVkEwUWtO?=
- =?utf-8?B?OEQ4ZWxrZ214Z3V2MmxRNm9IaXcrd2tEV1BySy8xdi9ObWI1bnJvZmRXNFdo?=
- =?utf-8?B?OG9nTkZ1ZnQ3dE5jelR4aTROVHRuYjl1MEJhSGFHMmhpWUlReGloNCtXdFAw?=
- =?utf-8?B?TEJNWS9KOEJDNnA2bTQxMEVrQWhJOC9HOTZYb3hucWV4U00xOG90dTBDUUJj?=
- =?utf-8?B?ZFJndU9HVUQwckJ0RklOT2hoeGZuUHU2Y1ZmZlFaYzVWc3F0RjVESnlxVjJv?=
- =?utf-8?B?aDRWbjFSQU4vRUswZk5CNG9vTERvUDZ6SjV3V2JvcDRIakllSG13UmszZXZT?=
- =?utf-8?B?d3poNTlKc0pkZXRBM1haQVVUd0EvQU9vaDFQMURrcGtBNjVRMHRrcTVpamE4?=
- =?utf-8?B?UTgyYlBCUlRWa2UyeThDYmJEbEk1UndkQVpZTDdkS0g4WGtUVjNVTnJXVFQ5?=
- =?utf-8?B?MEpyY0FHT0xwdHNCd2l5YVpmZ016WkZrZ2RDL0w5OC9qa3N0cE56NlFMdURO?=
- =?utf-8?B?MFRNTHNGcmt4MzlSVGJiK2ExOVdmdFVsOHBZSnZFd3VPdkhYdjNqN1VSVE1o?=
- =?utf-8?B?OEZuZzZmTHE0MDhwQXFVSVJoZjRrSXBmWUUwaXNxNmNycWlTeUdMQUFzOUtG?=
- =?utf-8?Q?jwR/AMxaGoBoKmYko4X/L7uwk?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa51fa24-4028-47cc-e8cc-08dd70b43447
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2025 00:29:03.2106 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qk2T053+QHh0nAInCeusZRNmg35FY3sdJVN150ny8g6QGuHU2d0vpKAGueei3E41sCRPL5VyUx/5wT4gflppNQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6396
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250311234109.136510-2-alex.vinarskis@gmail.com>
+X-Proofpoint-ORIG-GUID: LlJm_h0OrTvmV8IUlkjbOKtW8fV0rj4e
+X-Proofpoint-GUID: LlJm_h0OrTvmV8IUlkjbOKtW8fV0rj4e
+X-Authority-Analysis: v=2.4 cv=J9Oq7BnS c=1 sm=1 tr=0 ts=67eb34e5 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=pGLkceISAAAA:8 a=KKAkSRfTAAAA:8 a=eggZMxrzFqzPhGHCAmkA:9
+ a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-31_11,2025-03-27_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 phishscore=0 lowpriorityscore=0 bulkscore=0
+ malwarescore=0 mlxscore=0 mlxlogscore=999 adultscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2504010002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,16 +123,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Mar 12, 2025 at 12:38:03AM +0100, Aleksandrs Vinarskis wrote:
+> Take into account LTTPR capabilities when selecting maximum allowed
+> link rate, number of data lines. Initialize LTTPR before
+> msm_dp_panel_read_sink_caps, as
+> a) Link params computation need to take into account LTTPR's caps
+> b) It appears DPTX shall (re)read DPRX caps after LTTPR detection
 
+... as required by DP 2.1, Section 3.6.7.6.1
 
-On 3/31/25 12:53, Xaver Hugl wrote:
->> Cursor plane has no color pipeline and thus it has no colorop either. It
->> inherits color processing from its parent plane.
+Split this into two patches.
+
 > 
-> Just to be sure: That means amdgpu will reject atomic commits that try
-> to set a color pipeline on the primary plane while showing the cursor
-> plane on top of it? Just like with scaling?
+> Return lttpr_count to prepare for per-segment link training.
+
+And this one is the third one.
+
+> 
+> Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+> Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 29 +++++++++++++++++++---------
+>  drivers/gpu/drm/msm/dp/dp_panel.c   | 30 ++++++++++++++++++++---------
+>  drivers/gpu/drm/msm/dp/dp_panel.h   |  2 ++
+>  3 files changed, 43 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index bbc47d86ae9e..d0c2dc7e6648 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -108,6 +108,8 @@ struct msm_dp_display_private {
+>  	struct msm_dp_event event_list[DP_EVENT_Q_MAX];
+>  	spinlock_t event_lock;
+>  
+> +	u8 lttpr_common_caps[DP_LTTPR_COMMON_CAP_SIZE];
+
+It would feel more natural to have lttpr_common_caps inside msm_dp_panel
+rather than here.
+
+> +
+>  	bool wide_bus_supported;
+>  
+>  	struct msm_dp_audio *audio;
+> @@ -367,17 +369,21 @@ static int msm_dp_display_send_hpd_notification(struct msm_dp_display_private *d
+>  	return 0;
+>  }
+>  
+> -static void msm_dp_display_lttpr_init(struct msm_dp_display_private *dp)
+> +static int msm_dp_display_lttpr_init(struct msm_dp_display_private *dp, u8 *dpcd)
+
+Hmm, why? Return code is still unused in this patch. If it is a
+preparation for the next one, it should be split into a separate patch.
+
+>  {
+> -	u8 lttpr_caps[DP_LTTPR_COMMON_CAP_SIZE];
+> -	int rc;
+> +	int rc, lttpr_count;
+>  
+> -	if (drm_dp_read_lttpr_common_caps(dp->aux, dp->panel->dpcd, lttpr_caps))
+> -		return;
+> +	if (drm_dp_read_lttpr_common_caps(dp->aux, dpcd, dp->lttpr_common_caps))
+> +		return 0;
+>  
+> -	rc = drm_dp_lttpr_init(dp->aux, drm_dp_lttpr_count(lttpr_caps));
+> -	if (rc)
+> +	lttpr_count = drm_dp_lttpr_count(dp->lttpr_common_caps);
+> +	rc = drm_dp_lttpr_init(dp->aux, lttpr_count);
+> +	if (rc) {
+>  		DRM_ERROR("failed to set LTTPRs transparency mode, rc=%d\n", rc);
+> +		return 0;
+> +	}
+> +
+> +	return lttpr_count;
+>  }
+>  
+>  static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
+
+[...]
+
+> @@ -64,16 +67,24 @@ static int msm_dp_panel_read_dpcd(struct msm_dp_panel *msm_dp_panel)
+>  	major = (link_info->revision >> 4) & 0x0f;
+>  	minor = link_info->revision & 0x0f;
+>  
+> -	link_info->rate = drm_dp_max_link_rate(dpcd);
+> -	link_info->num_lanes = drm_dp_max_lane_count(dpcd);
+> +	max_source_lanes = msm_dp_panel->max_dp_lanes;
+> +	max_source_rate = msm_dp_panel->max_dp_link_rate;
+>  
+> -	/* Limit data lanes from data-lanes of endpoint property of dtsi */
+> -	if (link_info->num_lanes > msm_dp_panel->max_dp_lanes)
+> -		link_info->num_lanes = msm_dp_panel->max_dp_lanes;
+> +	max_sink_lanes = drm_dp_max_lane_count(dpcd);
+> +	max_sink_rate = drm_dp_max_link_rate(dpcd);
+> +
+> +	max_lttpr_lanes = drm_dp_lttpr_max_lane_count(lttpr_common_caps);
+> +	max_lttpr_rate = drm_dp_lttpr_max_link_rate(lttpr_common_caps);
+>  
+> +	if (max_lttpr_lanes)
+> +		max_sink_lanes = min(max_sink_lanes, max_lttpr_lanes);
+> +	if (max_lttpr_rate)
+> +		max_sink_rate = min(max_sink_rate, max_lttpr_rate);
+> +
+> +	/* Limit data lanes from data-lanes of endpoint property of dtsi */
+> +	link_info->num_lanes = min(max_sink_lanes, max_source_lanes);
+>  	/* Limit link rate from link-frequencies of endpoint property of dtsi */
+> -	if (link_info->rate > msm_dp_panel->max_dp_link_rate)
+> -		link_info->rate = msm_dp_panel->max_dp_link_rate;
+> +	link_info->rate = min(max_sink_rate, max_source_rate);
 
 
-In theory that should be the case, and I will investigate and confirm 
-it. Is this a beavhiour expected by a compositor?
+Please keep existing code and extend it to handle max_lttpr_lanes /
+max_lttpr_rate instead of rewriting it unnecessarily.
+
+>  
+>  	drm_dbg_dp(panel->drm_dev, "version: %d.%d\n", major, minor);
+>  	drm_dbg_dp(panel->drm_dev, "link_rate=%d\n", link_info->rate);
+
+-- 
+With best wishes
+Dmitry
