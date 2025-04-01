@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C7DA77A9C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 14:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DCFA77A9D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 14:19:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C163110E374;
-	Tue,  1 Apr 2025 12:19:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7830810E56C;
+	Tue,  1 Apr 2025 12:19:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e96vg1qO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H3Mwxk9q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 701FD10E2DE;
- Tue,  1 Apr 2025 12:19:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49D4710E324;
+ Tue,  1 Apr 2025 12:19:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743509940; x=1775045940;
+ t=1743509947; x=1775045947;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=jT6ExL+POLRIZkDCDeOJqvP819AIWXO6Td1/S/GF2sE=;
- b=e96vg1qOnf+yI08bnplalZT5109ylK+NHpEgbclOLcYu+xFzKooLupgj
- D3gzRC7tGTjd56ZVvKTg5QvnIOpILeDfhgGHzH6zr4OWCwcT4nB0+58QD
- WMi1e4j8ZZV1MTE1EMJaxohYXNkvWmmWog//J8Kd22jicHT24cc6lEbVi
- g8OQ03V3wFnl0WqmaTw/pivypKQzVnwoECoLySwH1tRESQDqN4tj6izLR
- I0LVbzU2KSfas4CIRwKzAQAQiR5UkZqJzT/IN9I4Ag7iRI+N+ew9LWktq
- VzUD+ZUtcOl+jHXs0YDGKP/xLnNZdKp0+sjz+MESC/o2FKh8jHaPLit4w A==;
-X-CSE-ConnectionGUID: gdfcxY9YRFi4yWeYBcvF3A==
-X-CSE-MsgGUID: k9GDYq5DQj+/NvPYI2xTHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="70186967"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="70186967"
+ bh=kqy+pDKqPTt6DnS1U2G2+KSZGBj9TgpE+/PhWyhKPZM=;
+ b=H3Mwxk9qS998qpX3wwlohRO9JQDJr0nBzMR7x/LrojsPnRb4EZBj1yf2
+ Q1gTKBHJrw6zw0xKWhEWMX7iWN2GEjZP9wtTsEK+RZipP6lxdehgYEJaR
+ WLZbu2lmb/KkdX62/plS+Gr6XLRoHg13Ja1eSTx81LjMlSYWEsZp24P5m
+ 9DJUVM/qS3iX+FVi47Il85UGk3kpDjhPaqJ2ZmRPMhRjDMZI852WhS1pl
+ JMBNBCTCClNVdditQrelz2pKCF3B56+K3UHeQ3XZH27pKr0IeXC2KSnTo
+ W521ZXxxrrzXxNV4IITlvaIes0uNzUAbWeocM+aVtl2EvyhrXrDgBYJkh Q==;
+X-CSE-ConnectionGUID: xQm8lu2TQeeR+miIkuXKfQ==
+X-CSE-MsgGUID: JDSIhMj9RP+rrrJe14iEwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="70186981"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="70186981"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 05:19:00 -0700
-X-CSE-ConnectionGUID: 2eNsLzwHTH2xvgeR6joxnA==
-X-CSE-MsgGUID: 0OVOkFVaQSKzuJtY65XBNw==
+ 01 Apr 2025 05:19:07 -0700
+X-CSE-ConnectionGUID: ZEI6qYuTQtOOhUT4okRwJQ==
+X-CSE-MsgGUID: qydX8mSjSjyTNh1ep3pLzQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="131373437"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="131373448"
 Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.7])
  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 05:18:56 -0700
+ 01 Apr 2025 05:19:03 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-kernel@vger.kernel.org
-Cc: jani.nikula@intel.com, Lucas De Marchi <lucas.demarchi@intel.com>,
- Masahiro Yamada <masahiroy@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/5] drm/xe: place header test files in .hdrtest subdirectories
-Date: Tue,  1 Apr 2025 15:18:27 +0300
-Message-Id: <20250401121830.21696-3-jani.nikula@intel.com>
+Cc: jani.nikula@intel.com, Masahiro Yamada <masahiroy@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: [PATCH 3/5] drm/i915: place header test files in .hdrtest
+ subdirectories
+Date: Tue,  1 Apr 2025 15:18:28 +0300
+Message-Id: <20250401121830.21696-4-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250401121830.21696-1-jani.nikula@intel.com>
 References: <20250401121830.21696-1-jani.nikula@intel.com>
@@ -92,8 +92,7 @@ Makefiles and kbuild to descend to each of them.
 
 Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
 Closes: https://lore.kernel.org/r/CAHk-=wjMrqzuUmH-mFbR_46EWEFS=bB=J7h9ABMVy56Vi81PKQ@mail.gmail.com
-Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Fixes: c6d4a099a240 ("drm/i915: reimplement header test feature")
 Cc: Masahiro Yamada <masahiroy@kernel.org>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
@@ -106,29 +105,29 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: intel-xe@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org
 ---
- drivers/gpu/drm/xe/Makefile | 6 +++---
+ drivers/gpu/drm/i915/Makefile | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index 9699b08585f7..2029c3b5aa5c 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -327,12 +327,12 @@ ifneq ($(CONFIG_DRM_XE_DISPLAY),y)
- endif
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index ed05b131ed3a..a8ffe5c74962 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -418,12 +418,12 @@ no-header-test := \
+ 	display/intel_vbt_defs.h
  
- always-$(CONFIG_DRM_XE_WERROR) += \
--	$(patsubst %.h,%.hdrtest, $(shell cd $(src) && find * -name '*.h' $(hdrtest_find_args)))
-+	$(patsubst %.h,.hdrtest/%.hdrtest, $(shell cd $(src) && find * -name '*.h' $(hdrtest_find_args)))
+ always-$(CONFIG_DRM_I915_WERROR) += \
+-	$(patsubst %.h,%.hdrtest, $(filter-out $(no-header-test), \
++	$(patsubst %.h,.hdrtest/%.hdrtest, $(filter-out $(no-header-test), \
+ 		$(shell cd $(src) && find * -name '*.h')))
  
 -quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
 +quiet_cmd_hdrtest = HDRTEST $<
-       cmd_hdrtest = $(CC) -DHDRTEST $(filter-out $(CFLAGS_GCOV), $(c_flags)) -S -o /dev/null -x c /dev/null -include $<; touch $@
+       cmd_hdrtest = $(CC) $(filter-out $(CFLAGS_GCOV), $(c_flags)) -S -o /dev/null -x c /dev/null -include $<; \
+ 		$(srctree)/scripts/kernel-doc -none -Werror $<; touch $@
  
 -$(obj)/%.hdrtest: $(src)/%.h FORCE
 +$(obj)/.hdrtest/%.hdrtest: $(src)/%.h FORCE
  	$(call if_changed_dep,hdrtest)
- 
- uses_generated_oob := $(addprefix $(obj)/, $(xe-y))
 -- 
 2.39.5
 
