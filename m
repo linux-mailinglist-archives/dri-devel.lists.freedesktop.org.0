@@ -2,74 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3876AA7810F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 19:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF184A77FE3
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 18:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8652110E632;
-	Tue,  1 Apr 2025 17:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C347410E60A;
+	Tue,  1 Apr 2025 16:12:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BsegudO2";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="eSsxfE31";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEC9B10E632
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 17:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743527150;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ucdSlMOfTDKmwdx9hI0wYD4kbTz/U/trniewD9ZB4c0=;
- b=BsegudO2L3wbJA4+qPTkXfWwFmnywyi9IsI8hYFhjAGekhbP1yrBWGZffpJQb92BrqEijH
- JiaA6s1RN/0R6Vt+ARSa4A5l46KX4uKzCqiZ4DL6oiVvSodacwKRpvYC0W8v9ldXKsMqAz
- VkrPZxqLrBkT4p9SUPULtMX03C6wHKE=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-125-ryXREDC8Oz6oscdswF4teQ-1; Tue,
- 01 Apr 2025 13:05:46 -0400
-X-MC-Unique: ryXREDC8Oz6oscdswF4teQ-1
-X-Mimecast-MFC-AGG-ID: ryXREDC8Oz6oscdswF4teQ_1743527145
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id C6277180025F; Tue,  1 Apr 2025 17:05:44 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
- by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 59D80180B48C; Tue,  1 Apr 2025 17:05:42 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 01 Apr 2025 12:03:53 -0400
-Subject: [PATCH 10/10] panel/panel-edp: Use refcounted allocation in place
- of devm_kzalloc()
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF4410E60A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 16:12:19 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-ac28e66c0e1so863896366b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 09:12:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1743523938; x=1744128738;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=R0cWPyIGalJTJpOn4sOHZYmIkTB2QC9Z2olFNCWNik4=;
+ b=eSsxfE31kYHWymQh9FxVsP74IT5etC9nI/Mj5TzIh2CxBkv7zrpKmDM5DB1uZR/QwY
+ zXfhDg8F3QKLq4AZq2Jv23wKkzf4C0G1BEhUJ17pN1Jt7eSqyR+Q8fW9D1rByuiVKeRb
+ 0WUTlzTCwzFmBZXuhcrcYZemhteJvFVABlXvo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743523938; x=1744128738;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=R0cWPyIGalJTJpOn4sOHZYmIkTB2QC9Z2olFNCWNik4=;
+ b=YvoN1Cz9AohvzKHkXw8kOA/0fg+Gme3wy/woYZxJZtl747btCN9S6NPNUcTjt996E4
+ OcaVLRZkfMrqsF1wqGGh6sepyhyT0b3X94DtVtXxHtWvtFYVlT9WUKfnX/1R1GNTWScZ
+ fa/8n8yFMKtm+kUfAQASoXnKvUMJnGMuTA2iDvndiuEfqHgJ+1lPOSrAszSQRe65Le4G
+ E9HXxs7DSEpRkvsFZTlERG/SN53JQhBFQYY1imuRRiULMOHtHPmxVhO8oReOlr1IXtNG
+ BRrWK1QZQxuNUF0sVvOteb2CbJnbJcogKhkiZ1fQUPSUoABh8qd04b0O3rwh0JMOWKYJ
+ E8Zw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2KefLU5FwY8EXcaepSsxIJ4eGsHws0lVx4u8eSxtH0PEHF2am7fsO+P6OOhOYJEsmrFC8IUh9SRY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1TCBmrXLHOi6ai2PdnrDO9ikTCBLSh7eiq7rBVTHVtQ+22sul
+ wW1LpK56rHMpqq2BiM5bMDP1drEcZJtmnnkRgqUkP5hx9WXcoRI8XxGg+nxq/rRg8SJPVYYm9oY
+ qfts=
+X-Gm-Gg: ASbGncs/rggUJA3qJoIyVSza/jgia1j35LHcFrHZulGicKY53y3TzYGys80NGr78Ioq
+ wNxehSeCf//T/ooMXCRoTVqdITbISIGkkgfGMHg6Hh5UNECYBpws17hvc/2q8J92vR968sWjSU3
+ oyzm6f2UhE5CyBekNrVWPo1rGqyzQWW20Htw4089taIPpxzY+Mc3ob5GS4l/vpVYbduJEV602l+
+ WVGsEFQoKDTaQdq33+DsthnPcYBjkT4cLic9SSdmAvC92cJOZZtpaqCSdW5gm0vHSvT7sIAMSgi
+ jxNrgMfrXOf8f1azDXtauFl6CetepFigEYUs6Wi17TYolEMjXtEzYi4d7rcWeINP3DaHMoTn0Gh
+ SPd7LlHM6dduS3AJWeGQ=
+X-Google-Smtp-Source: AGHT+IG/8xnXxDDuJsaKLGYJH1lIgste+eteext8rvEtZ8rKSjToECwMWKHEPt63aXtl+31zHkQ9Mw==
+X-Received: by 2002:a17:907:868a:b0:ac3:ad7b:5618 with SMTP id
+ a640c23a62f3a-ac7389e6750mr1465181466b.3.1743523937731; 
+ Tue, 01 Apr 2025 09:12:17 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com.
+ [209.85.208.50]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ac71927af39sm778885066b.44.2025.04.01.09.12.17
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Apr 2025 09:12:17 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-5e673822f76so9747687a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 09:12:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXOzmsqJsUBCQC92orByY9LaeBgGXkn6+oK3fRRMRLNXw0SSz2xeoGBohfPiH0JcJUsjCSIWs/d5gE=@lists.freedesktop.org
+X-Received: by 2002:a17:907:60ca:b0:ac7:95b3:fbe2 with SMTP id
+ a640c23a62f3a-ac795b40722mr84123166b.56.1743523936719; Tue, 01 Apr 2025
+ 09:12:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250401-b4-drm-panel-mass-driver-convert-v1-10-cdd7615e1f93@redhat.com>
-References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
-In-Reply-To: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Linus Walleij <linus.walleij@linaro.org>, Joel Selvaraj <jo@jsfamily.in>, 
- Douglas Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743523429; l=1281;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=BcsCt7sDT4Hwy4xAWbpR/vQV5EY4L/ydvFeaXu+tuIA=;
- b=32M/ON9nGQoWm16EsoIsC0cPw5l9gM9gH4tPzD2OACXv7Iz+kiheQ2z6nI2Et18fr7eGepbJY
- WdsHP5Y0DJ2D+YFsuESSUTGhQhNFf+Au5wqfMj1pUbZOsoauH1mYYxG
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+References: <CAPM=9tyx=edsZ3ajuAUAv4vjfa=WNEzobqAsYbBTjCfLbuEeFQ@mail.gmail.com>
+ <CAHk-=wjcdfrDTjzm6J6T-3fxtVyBG7a_0BXc2=mgOuM6KPFnCg@mail.gmail.com>
+ <87h6394i87.fsf@intel.com> <Z-p2ii-N2-dd_HJ6@phenom.ffwll.local>
+ <20250331133137.GA263675@nvidia.com> <87tt782htn.fsf@intel.com>
+In-Reply-To: <87tt782htn.fsf@intel.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 1 Apr 2025 09:12:00 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com>
+X-Gm-Features: AQ5f1Jrv7hzkHPbwtJqWz0Cd1SXHgUtjes9IRxVS7PrDi4g4uM9zP-lB0F8gOBM
+Message-ID: <CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.15-rc1
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Dave Airlie <airlied@gmail.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,42 +101,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move to using the new API devm_drm_panel_alloc() to allocate the
-panel.
+On Tue, 1 Apr 2025 at 05:21, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+> The header checks have existed for uapi headers before, including the,
+> uh, turds, but apparently adding them in drm broke the camel's back.
 
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- drivers/gpu/drm/panel/panel-edp.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+The uapi header test things never caused any problems for me [*],
+because they don't actually pollute the source tree.
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 52028c8f8988d4b771bd2604256aea4cde4f4020..e8fe0014143fd0f86ee51c94f2afd24416fa0c12 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -839,9 +839,10 @@ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
- 	struct device_node *ddc;
- 	int err;
- 
--	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
--	if (!panel)
--		return -ENOMEM;
-+	panel = devm_drm_panel_alloc(dev, struct panel_edp, base,
-+				     &panel_edp_funcs, DRM_MODE_CONNECTOR_eDP);
-+	if (IS_ERR(panel))
-+		return PTR_ERR(panel);
- 
- 	panel->prepared_time = 0;
- 	panel->desc = desc;
-@@ -886,8 +887,6 @@ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
- 
- 	dev_set_drvdata(dev, panel);
- 
--	drm_panel_init(&panel->base, dev, &panel_edp_funcs, DRM_MODE_CONNECTOR_eDP);
--
- 	err = drm_panel_of_backlight(&panel->base);
- 	if (err)
- 		goto err_finished_ddc_init;
+Why? Because they all end up in that generated 'usr/include/' directory.
 
--- 
-2.48.1
+So when I look at the source files, filename completion is entirely
+unaffected, and it all works fine.
 
+Look, I can complete something like
+
+    include/uapi/asm-generic/poll.h
+
+perfectly fine, because there is *not* some generated turd that affects it all.
+
+Because for the uapi files those hdrtest files end up being in
+
+    ./usr/include/asm-generic/poll.hdrtest
+
+and I never have any reason to really look at that subdirectory at
+all, since it's all generated.
+
+Or put another way - if I _were_ to look at it, it would be exactly
+because I want to see some generated file, in which case the 'hdrtest'
+turd would be part of it.
+
+(Although I cannot recall that ever having actually happened, to be
+honest - but looking at various header files is common, and I hit the
+drm case immediately)
+
+Would you mind taking more of that uapi approach than creating that
+hidden directory specific to the drm tree? Maybe this could *all* be
+generalized?
+
+           Linus
+
+[*] I say "never caused any problems for me", but maybe it did way in
+the past and it was fixed and I just don't recall. I have definitely
+complained about pathname completion issues to people before.
