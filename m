@@ -2,97 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B146A78478
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 00:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D60C9A78488
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 00:16:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7748E10E079;
-	Tue,  1 Apr 2025 22:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B0E10E0CC;
+	Tue,  1 Apr 2025 22:16:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eWfc2dFG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b2gXNUyo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9889110E079
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 22:15:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743545717;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gCnG0w61xeNP3N9rmjlU9KIs4JUt9rduykjEWBDPfjI=;
- b=eWfc2dFGDrkF3LHCkATfZRlbVv+a/kzHUUDPsOGlNO+u35mp5w9dwb2cnGETAHcC7XAlP8
- Au0vWwHVDLpHJT94IymqkwpzgJvkmrGxUYJxV8HtL43ALd+IDVR4u0fa1JRXA51x4La6gJ
- 1AvLeNoOq5LXkJA0nrypt2+RM3Je60g=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-133-4VfYIePRO-eveZ8CPJYq_Q-1; Tue, 01 Apr 2025 18:15:16 -0400
-X-MC-Unique: 4VfYIePRO-eveZ8CPJYq_Q-1
-X-Mimecast-MFC-AGG-ID: 4VfYIePRO-eveZ8CPJYq_Q_1743545715
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-39143311936so2323559f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 15:15:16 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 283A410E0CC
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 22:16:49 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-224171d6826so95689155ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 15:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743545808; x=1744150608; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6pjJFrDt3l5lA2Y5cy0IcLmKsiR6lTrZ7yPV2lCZbZg=;
+ b=b2gXNUyoxt+yomIeRnx6XLHpCWAq1Pcc7/js6OQo5b9s4c40bP39UjdL/mK6XvFHFx
+ ejIJWCPqpsxeoqEfveQ3PrMFFNARNu4x7tyMqobgBkgYD85aqlwmzypH1no8qVFzrqH8
+ kGGr/viVZbRRIOBZmutO7TPih8gsgED4VGmIykmkoAeS86A8XxlDJSfjQBA46AnxVCzm
+ CP4NPykoTqQrHRLzgtBBK4AoxM0oRDviNHjA9mQdmYgFTBmmDhQeXJCdumnGVG+2q20O
+ MFcRb8gJvcjMpPnEi31mIg0umyauj0rDemFzzI7UlDbAOMGk3K4Dr++/XZQDXpOQnwKQ
+ oVVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743545715; x=1744150515;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gCnG0w61xeNP3N9rmjlU9KIs4JUt9rduykjEWBDPfjI=;
- b=ZCFKMXhXcpG5/nFxld5mGa5X75X/2v01j7seGBriOoaCtm4PFNzIqz71d8rdlHxN3+
- yzmyPCoKqmEZACnnO9iEQtPyAHFAqA5tZe0j3Xo4WP9Unvm0PuhOmRfEN4QUOrOhrBYU
- AtpJExfR/+x8z3SoCNxhlagAzNBU9FSrELBVxQj/EbatqHa9AAh+1dmlrp96ZFCzIfAw
- QzO768XK6O3nQNnP3Dqn5g+4ftpecemZE+vpCaDsjewEoKzLxuoQemUXYU/NSDal6QFx
- JSA/HHVxUv/1nfMYPql/3a9WPDzgwYU8U1ZJmgl+QrHLTkXfG2CgdAXgq5Hm7gC7/HDh
- BkYQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV619S+BHbJaIIwfaxMXkosWS7Wp7LZvPqIEyWHK8F1mdTca1I0xcr7wm1uxmp/fFhuiWqF9DlTgAo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyprKc6/hS3ceJE2DK8Xl2UkMHL+0DanDnHRCFksC/6YRHLNCas
- /gNoIbPPhBYXKWlpHINMF9onFbp3zCgxWzWkBUvf0PISh9Pb4KAlfTNuhsr8zh6P2MoqkwwnSOL
- BXdQQ0q5UeA5pVMMLk983CfPC8b8Td9112b9rXxMK7uZ2PvG8LeIVFYFelbM139/C5w==
-X-Gm-Gg: ASbGncvdPBnbraObeSFIvJL41iqvHm9CzFO0f5ELL0d6DB0vnlsfru82odvZvr2lMvQ
- yE625UtF6XA+PvqOgFDaD4YBgQi/a5Xu1EKcMNq7bRFSJRLXBga6q4LD8kuR9MjPikOOTHrOSvU
- TBFHkjo4OEuYNlfpFuTnHRe+K2pg3OTieRNK93RrHPqF8B0DoRkIgWE7r9IBC6JBRdga0GzlH1y
- i54N1ELz4Aldbn1RNmnGVXZOHBdODHwqgCq1iwhsJq9wjYnIZ4aFQLYvTUEMrBO94M2y/Dvtfxp
- elduCEVTipAN9HfCN6/rhijKR8Udwv2i0iAhHXTGrMlLAjqMEFM/Pfk=
-X-Received: by 2002:a5d:47cb:0:b0:391:300f:749e with SMTP id
- ffacd0b85a97d-39c23646f8dmr4379874f8f.11.1743545714962; 
- Tue, 01 Apr 2025 15:15:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFyd9uviVhrGUf1RSdE3DFAW69QVYjkJkLc0cnGUT2yI2qvwX6spAl3h5cUQ5Eklq6k0cX4nA==
-X-Received: by 2002:a5d:47cb:0:b0:391:300f:749e with SMTP id
- ffacd0b85a97d-39c23646f8dmr4379847f8f.11.1743545714502; 
- Tue, 01 Apr 2025 15:15:14 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ d=1e100.net; s=20230601; t=1743545808; x=1744150608;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6pjJFrDt3l5lA2Y5cy0IcLmKsiR6lTrZ7yPV2lCZbZg=;
+ b=GfBgaigXjT1f//UrfbXDEcr117AYBBELxKr2iThqayogryQu1dHMRhvWbQUol544g+
+ wp2MRiDq3WF7f3TBlJwTG5kG5uIjizCKSUjqKcWY+cBC9WhxSbQeOnVk5iYUz0Dk/QxN
+ c74iRfBLUg8rBGnmey3TEu6nX3ZbH84V3WK3HHH2Do9/EZmFk/0SD2y4NqY28Bhbh5vf
+ irv0KgRoBjwGlPYFVzw6mcZ/bp4GO9UGgBBrI4wHHEzmbIY7xpMhSp+U4udrPjxUkOSy
+ /zO/vn0yoEUJm2xb5Y4bhsQy1C/tSyeZGzVN0I1kDg7lzXTDsWIh9jLRtxMzaZuvEZEB
+ 5Jiw==
+X-Gm-Message-State: AOJu0Yz1BboLRqoK2IxIMJmcFOfznt0AB1/85d24jJpVn1lQkqtsc21B
+ HU2tmQKMBDEsqi1rX8vxENNnHBgVABXN4hJsobKYcs+bCDb0TQ5zEShjBQ==
+X-Gm-Gg: ASbGncs1qFinXCzWLS9RlDt9aKCe4b6C30DXABzcTRTyX15K7bFuUblrf4Pq9kd5qnz
+ T9CCmm9+PJn5+Qpwc7Lhs2ch4L4pn4GNODlvsAnNSU3xxfKEFU2LiQJ6LfqXDSeg8/IZP0yyNLO
+ dpMMjrBi82zG0AYJr2AnY/5NQQ5gKaCRiLHIHUefnufkM5WcjjaEyfBZrEtPGpgZhJ8y9YWFCh/
+ s13437qSNS+nzPzTQp+arjliMPrz/XOUS/0e+y1GLKAflW7azd3XChAmmzlCj9kksSnBqz2XcJ8
+ oGU9wst+OqwExQiSIFJ7wK6y5NdwZdiPGv0MbAoq3tSBg4wO23mH1P+MKcDcb/4hoEmnVVM0b2P
+ RN0wy4ShU8do02Pae+v8=
+X-Google-Smtp-Source: AGHT+IFWsM/vg8gTEwV01NxefY3BYdtce+TTnANxhcuLyKtYcd30tGt/Vxio0MWSb+uhR603BU132w==
+X-Received: by 2002:a17:903:11d2:b0:220:c86d:d7eb with SMTP id
+ d9443c01a7336-2292f9e529dmr241352415ad.36.1743545808126; 
+ Tue, 01 Apr 2025 15:16:48 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39c0b7a4346sm15465228f8f.95.2025.04.01.15.15.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Apr 2025 15:15:13 -0700 (PDT)
-Message-ID: <72fa1da6-caaa-41c9-aef1-4e780bde6acf@redhat.com>
-Date: Wed, 2 Apr 2025 00:15:10 +0200
+ d9443c01a7336-2291f1cf14csm94451805ad.137.2025.04.01.15.16.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Apr 2025 15:16:47 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robdclark@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-kernel@vger.kernel.org (open list),
+ linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
+ linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
+Subject: [PATCH v7] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
+Date: Tue,  1 Apr 2025 15:16:43 -0700
+Message-ID: <20250401221643.87504-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/8] drm/i915/display/i9xx: Add a disable_tiling() for
- i9xx planes
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250401125818.333033-1-jfalempe@redhat.com>
- <20250401125818.333033-3-jfalempe@redhat.com> <Z-wkmdNgCM2-Ye7m@intel.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <Z-wkmdNgCM2-Ye7m@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: -6CK7W50EYVxcL5QtAPR2OqSpXpHK_OXCULeL9P3e6Y_1743545715
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -109,100 +95,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/04/2025 19:38, Ville Syrjälä wrote:
-> On Tue, Apr 01, 2025 at 02:51:08PM +0200, Jocelyn Falempe wrote:
->> drm_panic draws in linear framebuffer, so it's easier to re-use the
->> current framebuffer, and disable tiling in the panic handler, to show
->> the panic screen.
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/i915/display/i9xx_plane.c     | 23 +++++++++++++++++++
->>   .../drm/i915/display/intel_display_types.h    |  2 ++
->>   2 files changed, 25 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/i915/display/i9xx_plane.c
->> index 5e8344fdfc28..9c93d5ac7129 100644
->> --- a/drivers/gpu/drm/i915/display/i9xx_plane.c
->> +++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
->> @@ -908,6 +908,27 @@ static const struct drm_plane_funcs i8xx_plane_funcs = {
->>   	.format_mod_supported = i8xx_plane_format_mod_supported,
->>   };
->>   
->> +static void i9xx_disable_tiling(struct intel_plane *plane)
->> +{
->> +	struct intel_display *display = to_intel_display(plane);
->> +	enum i9xx_plane_id i9xx_plane = plane->i9xx_plane;
->> +	u32 dspcntr;
->> +	u32 reg;
->> +
->> +	dspcntr = intel_de_read_fw(display, DSPCNTR(display, i9xx_plane));
->> +	dspcntr &= ~DISP_TILED;
->> +	intel_de_write_fw(display, DSPCNTR(display, i9xx_plane), dspcntr);
-> 
-> This fails to account all the different alignment/etc. restrictions
-> between linear vs. tiled. I don't think we want hacks like this.
+From: Rob Clark <robdclark@chromium.org>
 
-Thanks for taking a look.
-I assumed that linear have always less alignment restrictions than 
-tiled. I also assumed that the framebuffer size in linear is smaller 
-than tiled (as we keep the same pixel format). So going from tiled to 
-linear should be safe, the other way is not.
+Add support for exporting a dma_fence fd for a specific point on a
+timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
+syncobj support, as it needs a way to turn a point on a timeline back
+into a dma_fence fd.  It also closes an odd omission from the syncobj
+UAPI.
 
-It's done this way in amdgpu [1], but I agree it might be different on 
-Intel hardware
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
+[2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
 
-The alternative is to draw with tiling, which is what I have done for 
-Y-tile and 4-tile format, so it's also a possibility, but more complex 
-to maintain.
+v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
+v3: Add unstaged uabi header hunk
+v4: Also handle IMPORT_SYNC_FILE case
+v5: Address comments from Dmitry
+v6: checkpatch.pl nits
+v7: Add check for DRIVER_SYNCOBJ_TIMELINE
 
-[1] 
-https://elixir.bootlin.com/linux/v6.14-rc6/source/drivers/gpu/drm/amd/display/dc/core/dc_surface.c#L298
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+---
+ drivers/gpu/drm/drm_syncobj.c | 53 ++++++++++++++++++++++++++++-------
+ include/uapi/drm/drm.h        |  4 +++
+ 2 files changed, 47 insertions(+), 10 deletions(-)
 
-Best regards,
-
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 4f2ab8a7b50f..3e41461eb9d6 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
+ }
+ 
+ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+-					      int fd, int handle)
++					      int fd, int handle, u64 point)
+ {
+ 	struct dma_fence *fence = sync_file_get_fence(fd);
+ 	struct drm_syncobj *syncobj;
+@@ -755,14 +755,24 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+ 		return -ENOENT;
+ 	}
+ 
+-	drm_syncobj_replace_fence(syncobj, fence);
++	if (point) {
++		struct dma_fence_chain *chain = dma_fence_chain_alloc();
++
++		if (!chain)
++			return -ENOMEM;
++
++		drm_syncobj_add_point(syncobj, chain, fence, point);
++	} else {
++		drm_syncobj_replace_fence(syncobj, fence);
++	}
++
+ 	dma_fence_put(fence);
+ 	drm_syncobj_put(syncobj);
+ 	return 0;
+ }
+ 
+ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+-					int handle, int *p_fd)
++					int handle, u64 point, int *p_fd)
+ {
+ 	int ret;
+ 	struct dma_fence *fence;
+@@ -772,7 +782,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+ 	if (fd < 0)
+ 		return fd;
+ 
+-	ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
++	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
+ 	if (ret)
+ 		goto err_put_fd;
+ 
+@@ -869,6 +879,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+ 				   struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_handle *args = data;
++	unsigned int valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
++				   DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
++	u64 point = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+ 		return -EOPNOTSUPP;
+@@ -876,13 +889,21 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+ 	if (args->pad)
+ 		return -EINVAL;
+ 
+-	if (args->flags != 0 &&
+-	    args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
++	if (args->flags & ~valid_flags)
+ 		return -EINVAL;
+ 
++	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE) {
++		if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
++			return -EOPNOTSUPP;
++		point = args->point;
++	}
++
+ 	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
+ 		return drm_syncobj_export_sync_file(file_private, args->handle,
+-						    &args->fd);
++						    point, &args->fd);
++
++	if (args->point)
++		return -EINVAL;
+ 
+ 	return drm_syncobj_handle_to_fd(file_private, args->handle,
+ 					&args->fd);
+@@ -893,6 +914,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 				   struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_handle *args = data;
++	unsigned int valid_flags = DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE |
++				   DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE;
++	u64 point = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+ 		return -EOPNOTSUPP;
+@@ -900,14 +924,23 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 	if (args->pad)
+ 		return -EINVAL;
+ 
+-	if (args->flags != 0 &&
+-	    args->flags != DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
++	if (args->flags & ~valid_flags)
+ 		return -EINVAL;
+ 
++	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE) {
++		if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
++			return -EOPNOTSUPP;
++		point = args->point;
++	}
++
+ 	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
+ 		return drm_syncobj_import_sync_file_fence(file_private,
+ 							  args->fd,
+-							  args->handle);
++							  args->handle,
++							  point);
++
++	if (args->point)
++		return -EINVAL;
+ 
+ 	return drm_syncobj_fd_to_handle(file_private, args->fd,
+ 					&args->handle);
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 7fba37b94401..e63a71d3c607 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -905,13 +905,17 @@ struct drm_syncobj_destroy {
+ };
+ 
+ #define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE (1 << 0)
++#define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE         (1 << 1)
+ #define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE (1 << 0)
++#define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE         (1 << 1)
+ struct drm_syncobj_handle {
+ 	__u32 handle;
+ 	__u32 flags;
+ 
+ 	__s32 fd;
+ 	__u32 pad;
++
++	__u64 point;
+ };
+ 
+ struct drm_syncobj_transfer {
 -- 
-
-Jocelyn
-
-> 
->> +
->> +	if (DISPLAY_VER(display) >= 4) {
->> +		reg = intel_de_read_fw(display, DSPSURF(display, i9xx_plane));
->> +		intel_de_write_fw(display, DSPSURF(display, i9xx_plane), reg);
->> +
->> +	} else {
->> +		reg = intel_de_read_fw(display, DSPADDR(display, i9xx_plane));
->> +		intel_de_write_fw(display, DSPADDR(display, i9xx_plane), reg);
->> +	}
->> +}
->> +
->>   struct intel_plane *
->>   intel_primary_plane_create(struct intel_display *display, enum pipe pipe)
->>   {
->> @@ -1050,6 +1071,8 @@ intel_primary_plane_create(struct intel_display *display, enum pipe pipe)
->>   		}
->>   	}
->>   
->> +	plane->disable_tiling = i9xx_disable_tiling;
->> +
->>   	modifiers = intel_fb_plane_get_modifiers(display, INTEL_PLANE_CAP_TILING_X);
->>   
->>   	if (DISPLAY_VER(display) >= 5 || display->platform.g4x)
->> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
->> index 367b53a9eae2..62d0785c9edf 100644
->> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
->> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
->> @@ -1512,6 +1512,8 @@ struct intel_plane {
->>   			   bool async_flip);
->>   	void (*enable_flip_done)(struct intel_plane *plane);
->>   	void (*disable_flip_done)(struct intel_plane *plane);
->> +	/* For drm_panic */
->> +	void (*disable_tiling)(struct intel_plane *plane);
->>   };
->>   
->>   #define to_intel_atomic_state(x) container_of(x, struct intel_atomic_state, base)
->> -- 
->> 2.49.0
-> 
+2.49.0
 
