@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28857A77FB2
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838B0A7815D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 19:22:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E55010E609;
-	Tue,  1 Apr 2025 15:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F51A10E638;
+	Tue,  1 Apr 2025 17:22:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H+gvklvk";
+	dkim=pass (1024-bit key; secure) header.d=chir.rs header.i=lotte@chir.rs header.b="YMBsE16Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EC5510E605
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 15:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743523191; x=1775059191;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=zbQfy37o69TuWt7m62dMHv9PkN/WEzw63IHLDroXJmY=;
- b=H+gvklvkwuuGpWxzeGRJSCiTh7coILG0T5PSTcuWUxWZK6yPEKSq5Fhf
- Yr6Wl7N9IKSxHO1WttBeRzCdZKrLXYqMnExLSKfwI04ESeGG6wRxOMmgz
- ysr/9anp9bGZc/h2iiyMFnhVw7OwkDLJcWVW/jwX7vK5XLa5za2I/ub0U
- ZcsmyC3ZGszTnPdP3H1NIAHSqZOI3RRDpXnM0XxcEvDSFWCe7Ax8bG7eq
- tDox/tEH1yf1pOKECsk0NJAKoCZ3yyQ3jvqjypAk1F8+LjJEUPCzQIp+l
- +SDz52xg2y3yoWsT1h0AfyD6SklYshzywKGbPAg36EK9bBUptICrtEJmL w==;
-X-CSE-ConnectionGUID: d0sHkWHxTuS57NVgv3WamA==
-X-CSE-MsgGUID: Mn6YwA7kQkW2K40FfTExTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44004575"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="44004575"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 08:59:51 -0700
-X-CSE-ConnectionGUID: mA0gcTM+Tp6vWTQq1AHj+A==
-X-CSE-MsgGUID: WU8qsStvS1+mdZOk5LavLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="131434013"
-Received: from try2-8594.igk.intel.com ([10.91.220.58])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 08:59:49 -0700
-From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- jacek.lawrynowicz@linux.intel.com, lizhi.hou@amd.com,
- Karol Wachowski <karol.wachowski@intel.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Subject: [PATCH] accel/ivpu: Add cmdq_id to job related logs
-Date: Tue,  1 Apr 2025 17:59:39 +0200
-Message-ID: <20250401155939.4049467-1-maciej.falkowski@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+X-Greylist: delayed 907 seconds by postgrey-1.36 at gabe;
+ Tue, 01 Apr 2025 08:34:34 UTC
+Received: from sender-op-o17.zoho.eu (sender-op-o17.zoho.eu [136.143.169.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A73B10E512
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 08:34:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743495553; cv=none; d=zohomail.eu; s=zohoarc; 
+ b=bnUeaESSZiOvk18jfd9NqyilfTpZ37Z5HjWmmkYPhPFAiwf8aKs/2mxanNYj9WGGTTVjKXoy7VstD24JzEKcXRqCBpJ1gZHXQkTtFPmLnd2gijQBtHkvDc033b65Qb/+BFqngzp4dOiCox2JgU4TKxx29mS1mS9nAAdPUuaj4io=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu;
+ s=zohoarc; t=1743495553;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=pTCQB0gM1iH0vy/KyRCFBtfEoTxJD8u1Wse1yiltnjE=; 
+ b=P/qmd0BU2fQ2u4aillXudrrxhHymlzpXHo4PpzTg1KRuCuRsATSdE0vulbULBOTiOuYfV0eIDASLA9Tugsvpl+VZYFjXeiW9ch/8pfa017Ilkefr9r8jpXKtVdCGx7CanTSo8yEESBXZSWka3yzA1chxzV0+Z57bQchOCbinnIw=
+ARC-Authentication-Results: i=1; mx.zohomail.eu; dkim=pass  header.i=chir.rs;
+ spf=pass  smtp.mailfrom=lotte@chir.rs;
+ dmarc=pass header.from=<lotte@chir.rs>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743495553; 
+ s=zmail; d=chir.rs; i=lotte@chir.rs;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=pTCQB0gM1iH0vy/KyRCFBtfEoTxJD8u1Wse1yiltnjE=;
+ b=YMBsE16QvUsJcnBVlJKsGQki4FRJQ8sNLhNjuUQpKeIcycJx3XP5mv3GyTSYtv9u
+ BVd1UpQxFaTfLoVaqf/YfkCCkOpZMQwvj0qXaYu4iQrpU+2He0eOv6XIJ7HZa4cZZqH
+ aBGIY/536PMga1/k3YtAU7TdJZ/CzyTHgDl1/YA8=
+Received: by mx.zoho.eu with SMTPS id 1743495550257642.4299015885807;
+ Tue, 1 Apr 2025 10:19:10 +0200 (CEST)
+From: =?UTF-8?q?Charlotte=20=Dele=C5=84kec?= <lotte@chir.rs>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, max@maxfierke.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/4] Introduce ClockworkPi CWD686 DRM panel driver
+Date: Tue,  1 Apr 2025 09:18:30 +0100
+Message-ID: <20250401081852.283532-1-lotte@chir.rs>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+X-Mailman-Approved-At: Tue, 01 Apr 2025 17:22:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,64 +65,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karol Wachowski <karol.wachowski@intel.com>
+The ClockworkPi DevTerm (all models) uses a 6.86" IPS display
+of unknown provenance, which uses the Chipone ICNL9707 IC driver[1].
 
-Add tracking of command queue ID in JOB debug message to improve
-debugging capabilities.
+The display panel Max Fierke has has two model numbers: TXW686001 and
+WTL068601G, but couldn’t find any manufacturer associated with either, so
+he opted for the ClockworkPi model number.
 
-Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
-Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_job.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+This driver is based on the GPL-licensed driver released by ClockworkPi[1],
+authored by Pinfan Zhu, with some additional cleanup, rotation support,
+and display sleep re-enabling done by Max Fierke.
 
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 004059e4f1e8..863e3cd6ace5 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -470,8 +470,8 @@ static void ivpu_job_destroy(struct ivpu_job *job)
- 	struct ivpu_device *vdev = job->vdev;
- 	u32 i;
- 
--	ivpu_dbg(vdev, JOB, "Job destroyed: id %3u ctx %2d engine %d",
--		 job->job_id, job->file_priv->ctx.id, job->engine_idx);
-+	ivpu_dbg(vdev, JOB, "Job destroyed: id %3u ctx %2d cmdq_id %u engine %d",
-+		 job->job_id, job->file_priv->ctx.id, job->cmdq_id, job->engine_idx);
- 
- 	for (i = 0; i < job->bo_count; i++)
- 		if (job->bos[i])
-@@ -564,8 +564,8 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
- 	dma_fence_signal(job->done_fence);
- 
- 	trace_job("done", job);
--	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d engine %d status 0x%x\n",
--		 job->job_id, job->file_priv->ctx.id, job->engine_idx, job_status);
-+	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d cmdq_id %u engine %d status 0x%x\n",
-+		 job->job_id, job->file_priv->ctx.id, job->cmdq_id, job->engine_idx, job_status);
- 
- 	ivpu_job_destroy(job);
- 	ivpu_stop_job_timeout_detection(vdev);
-@@ -664,8 +664,8 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority, u32 cmdq_id)
- 	}
- 
- 	trace_job("submit", job);
--	ivpu_dbg(vdev, JOB, "Job submitted: id %3u ctx %2d engine %d prio %d addr 0x%llx next %d\n",
--		 job->job_id, file_priv->ctx.id, job->engine_idx, cmdq->priority,
-+	ivpu_dbg(vdev, JOB, "Job submitted: id %3u ctx %2d cmdq_id %u engine %d prio %d addr 0x%llx next %d\n",
-+		 job->job_id, file_priv->ctx.id, cmdq->id, job->engine_idx, cmdq->priority,
- 		 job->cmd_buf_vpu_addr, cmdq->jobq->header.tail);
- 
- 	mutex_unlock(&file_priv->lock);
-@@ -777,7 +777,8 @@ static int ivpu_submit(struct drm_file *file, struct ivpu_file_priv *file_priv,
- 		goto err_free_handles;
- 	}
- 
--	ivpu_dbg(vdev, JOB, "Submit ioctl: ctx %u buf_count %u\n", file_priv->ctx.id, buffer_count);
-+	ivpu_dbg(vdev, JOB, "Submit ioctl: ctx %u cmdq_id %u buf_count %u\n",
-+		 file_priv->ctx.id, cmdq_id, buffer_count);
- 
- 	job = ivpu_job_create(file_priv, engine, buffer_count);
- 	if (!job) {
--- 
-2.43.0
+[1] https://github.com/clockworkpi/DevTerm/blob/main/Schematics/ICNL9707_Datasheet.pdf
+[2] https://github.com/clockworkpi/DevTerm/blob/main/Code/patch/armbian_build_a06/patch/kernel-004-panel.patch
+
+Thanks to Krzysztof Kozlowski, Rob Herring, and Sam Ravnborg for their
+prior reviews.
+
+I hope this is the correct way of reviving old patches.
+
+Changes in v4:
+ - Use existing clockwork vendor ID
+ - Update the panel initalization code for DRM changes
+
+Changes in v3:
+ - dt-bindings: add missing lines for spacing
+
+Changes in v2:
+ - dt-bindings: remove redundant backlight example
+ - add missing regulators
+ - remove some unused properties from definition (e.g. enable_gpio, supply)
+ - reorder includes
+ - remove redundant ctx->backlight in favor of backlight through drm_panel_of_backlight
+ - remove now-unneeded ctx->enabled and enable/disable hooks
+ - replace ICNL9707_DCS macro with mipi_dsi_dcs_write_seq
+ - use dev_err_probe instead of checking EPROBE_DEFER
+ - fixed return type of cwd686_remove to be void following changes to mipi_dsi_driver
+ - add .get_orientation callback
+
 
