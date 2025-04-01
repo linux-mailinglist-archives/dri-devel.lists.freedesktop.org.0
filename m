@@ -2,67 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6D2A781C7
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 19:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C1DA7820A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 20:24:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3375710E647;
-	Tue,  1 Apr 2025 17:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65FA610E652;
+	Tue,  1 Apr 2025 18:24:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TIdpu00T";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PxGwNy7e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 604F510E63E;
- Tue,  1 Apr 2025 17:57:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743530234; x=1775066234;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Y8po2mG+ZdaKzrhPAKY3Rl4zdUDsFxDOPIFpWcJDdv0=;
- b=TIdpu00T8f4RCTgE29x8sf3XHxx13w9jo5zgLGgTaMkRA2o1V17deBa7
- thuxTXmmbVQ4xEe437HW8ccZZL0kdFxMT3whIEVR9lTkeSIrywSRCMJnf
- zmKex5Qk4gMIT/qaZ+WBR+tmX0Szp9MnPvlEw3TfpuNOJVBXaHgqe7xpf
- roUJfjLAZ6NGccyCCXHJH9aEqnPvPEhzZ5wmMG9RuEwI+T52gn6THscuq
- x0ORz3KgvW/y3j8Xgfxc6Jo2RUCYnS9D6em+312hvLIUNXLRLSZUJJ3qd
- UvaK8XSn9tVs66uhMwG1jEf50njKe7BImz7CCIWa5vveoCKAl/tbmX0Ry g==;
-X-CSE-ConnectionGUID: pSz1Q6WBQwiThhhqy6aiSA==
-X-CSE-MsgGUID: wj8hk7iXThu8oG+AXpTnBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="55067318"
-X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; d="scan'208";a="55067318"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 10:57:14 -0700
-X-CSE-ConnectionGUID: umPCKkn0S/CmVVIWh/SdPA==
-X-CSE-MsgGUID: MGn87gW3SuSRxx6RaXap2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; d="scan'208";a="131660814"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 01 Apr 2025 10:57:09 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 01 Apr 2025 20:57:09 +0300
-Date: Tue, 1 Apr 2025 20:57:09 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 4/8] drm/i915/gem: Add i915_gem_object_panic_map()
-Message-ID: <Z-wo9W5SnvVQDEDt@intel.com>
-References: <20250401125818.333033-1-jfalempe@redhat.com>
- <20250401125818.333033-5-jfalempe@redhat.com>
- <Z-wmxijRKQiZFyup@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0422210E5E6
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 18:23:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1743531831;
+ bh=3fvlzivxwTS6jEWFNUyQiyXs4ROvHCMZRHfzeX75Pz8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=PxGwNy7edsNiQBJqId1gsyRS8wkyboSsolyZx15TCgo6oG/xWd/NZtImlZjfi5h1q
+ bUtY1J7I7/IhH1zL90fhsFXBii1nmHJalXmvaLb+iWlvJOfO2B4s4bFS4jAcnfu/qX
+ UcqUi2XqhnNJt+/9/SElinLiuz06LgbC4i7sTpkVQBUOZOjqRQ6TAIqegIzQGWzabV
+ CvnYR0VaZAE0tqybHqorXHcHqfhdcnR8fBm499k06oKBl10xJo6vxsTDmeXjmGW0zk
+ 6OQAK4ZBQfpaFboBVX8L3BIRw0GB/fQSv5dbUfdatY7AQtVchN7f2r81QQnIEUmwM7
+ XVFWFFjRjjm1w==
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3C3FC17E0391;
+ Tue,  1 Apr 2025 20:23:51 +0200 (CEST)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+	kernel@collabora.com
+Subject: [PATCH v2 0/5] drm/panthor: Misc fixes
+Date: Tue,  1 Apr 2025 20:23:43 +0200
+Message-ID: <20250401182348.252422-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z-wmxijRKQiZFyup@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,141 +60,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 01, 2025 at 08:47:50PM +0300, Ville Syrjälä wrote:
-> On Tue, Apr 01, 2025 at 02:51:10PM +0200, Jocelyn Falempe wrote:
-> > Prepare the work for drm_panic support. This is used to map the
-> > current framebuffer, so the CPU can overwrite it with the panic
-> > message.
-> > 
-> > Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> > ---
-> > 
-> > v5:
-> >  * Use iosys_map for intel_bo_panic_map().
-> > 
-> >  drivers/gpu/drm/i915/display/intel_bo.c    |  5 ++++
-> >  drivers/gpu/drm/i915/display/intel_bo.h    |  1 +
-> >  drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
-> >  drivers/gpu/drm/i915/gem/i915_gem_pages.c  | 29 ++++++++++++++++++++++
-> >  drivers/gpu/drm/xe/display/intel_bo.c      | 10 ++++++++
-> >  5 files changed, 47 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_bo.c b/drivers/gpu/drm/i915/display/intel_bo.c
-> > index fbd16d7b58d9..ac904e9ec7d5 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_bo.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_bo.c
-> > @@ -57,3 +57,8 @@ void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj)
-> >  {
-> >  	i915_debugfs_describe_obj(m, to_intel_bo(obj));
-> >  }
-> > +
-> > +void intel_bo_panic_map(struct drm_gem_object *obj, struct iosys_map *map)
-> > +{
-> > +	i915_gem_object_panic_map(to_intel_bo(obj), map);
-> > +}
-> > diff --git a/drivers/gpu/drm/i915/display/intel_bo.h b/drivers/gpu/drm/i915/display/intel_bo.h
-> > index ea7a2253aaa5..5b6c63d99786 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_bo.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_bo.h
-> > @@ -23,5 +23,6 @@ struct intel_frontbuffer *intel_bo_set_frontbuffer(struct drm_gem_object *obj,
-> >  						   struct intel_frontbuffer *front);
-> >  
-> >  void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj);
-> > +void intel_bo_panic_map(struct drm_gem_object *obj, struct iosys_map *map);
-> >  
-> >  #endif /* __INTEL_BO__ */
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > index a5f34542135c..b16092707ea5 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > @@ -692,6 +692,8 @@ i915_gem_object_unpin_pages(struct drm_i915_gem_object *obj)
-> >  int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj);
-> >  int i915_gem_object_truncate(struct drm_i915_gem_object *obj);
-> >  
-> > +void i915_gem_object_panic_map(struct drm_i915_gem_object *obj, struct iosys_map *map);
-> > +
-> >  /**
-> >   * i915_gem_object_pin_map - return a contiguous mapping of the entire object
-> >   * @obj: the object to map into kernel address space
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> > index 8780aa243105..718bea6474d7 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> > @@ -355,6 +355,35 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
-> >  	return vaddr ?: ERR_PTR(-ENOMEM);
-> >  }
-> >  
-> > +/* Map the current framebuffer for CPU access. Called from panic handler, so no
-> > + * need to pin or cleanup.
-> > + */
-> > +void i915_gem_object_panic_map(struct drm_i915_gem_object *obj, struct iosys_map *map)
-> > +{
-> > +	enum i915_map_type has_type;
-> > +	void *ptr;
-> > +
-> > +	ptr = page_unpack_bits(obj->mm.mapping, &has_type);
-> > +
-> > +
-> > +	if (!ptr) {
-> > +		if (i915_gem_object_has_struct_page(obj))
-> > +			ptr = i915_gem_object_map_page(obj, I915_MAP_WB);
-> > +		else
-> > +			ptr = i915_gem_object_map_pfn(obj, I915_MAP_WB);
-> 
-> WB mapping would require clflushing to make it to the display.
-> Is that being done somewhere?
+Hello,
 
-This also seems to have a bunch of race conditions:
-- what happens if the oops happens before the pages have
-  even been swapped in?
-- what happens if the oops happens before we've committed
-  the fb to the hardware?
+This is a collection of fixes for bugs found while working on adding
+JM support to panthor. Those are not particularly tied to JM support
+and are worth having regardless.
 
-> 
-> > +
-> > +		if (IS_ERR(ptr))
-> > +			return;
-> 
-> What happens when the mapping fails?
-> 
-> > +
-> > +		obj->mm.mapping = page_pack_bits(ptr, I915_MAP_WB);
-> > +	}
-> > +
-> > +	if (i915_gem_object_has_iomem(obj))
-> > +		iosys_map_set_vaddr_iomem(map, (void __iomem *) ptr);
-> > +	else
-> > +		iosys_map_set_vaddr(map, ptr);
-> > +}
-> > +
-> >  /* get, pin, and map the pages of the object into kernel space */
-> >  void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
-> >  			      enum i915_map_type type)
-> > diff --git a/drivers/gpu/drm/xe/display/intel_bo.c b/drivers/gpu/drm/xe/display/intel_bo.c
-> > index 27437c22bd70..c68166a64336 100644
-> > --- a/drivers/gpu/drm/xe/display/intel_bo.c
-> > +++ b/drivers/gpu/drm/xe/display/intel_bo.c
-> > @@ -59,3 +59,13 @@ void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj)
-> >  {
-> >  	/* FIXME */
-> >  }
-> > +
-> > +void intel_bo_panic_map(struct drm_gem_object *obj, struct iosys_map *map)
-> > +{
-> > +	struct xe_bo *bo = gem_to_xe_bo(obj);
-> > +	int ret;
-> > +
-> > +	ret = ttm_bo_vmap(&bo->ttm, map);
-> > +	if (ret)
-> > +		iosys_map_clear(map);
-> > +}
-> > -- 
-> > 2.49.0
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+Note that the last two don't have Fixes tag because they fix issues
+we can't really hit with the current implementation (no fault
+handling, and no shared irq line).
+
+Changelog available in each patch if you're interested.
+
+Regards,
+
+Boris
+
+Boris Brezillon (5):
+  drm/panthor: Fix GPU_COHERENCY_ACE[_LITE] definitions
+  drm/panthor: Call panthor_gpu_coherency_init() after PM resume()
+  drm/panthor: Update panthor_mmu::irq::mask when needed
+  drm/panthor: Let IRQ handlers clear the interrupts themselves
+  drm/panthor: Don't update MMU_INT_MASK in panthor_mmu_irq_handler()
+
+ drivers/gpu/drm/panthor/panthor_device.c | 8 ++++----
+ drivers/gpu/drm/panthor/panthor_device.h | 2 --
+ drivers/gpu/drm/panthor/panthor_fw.c     | 2 ++
+ drivers/gpu/drm/panthor/panthor_gpu.c    | 2 ++
+ drivers/gpu/drm/panthor/panthor_mmu.c    | 7 ++++++-
+ drivers/gpu/drm/panthor/panthor_regs.h   | 4 ++--
+ 6 files changed, 16 insertions(+), 9 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+2.49.0
+
