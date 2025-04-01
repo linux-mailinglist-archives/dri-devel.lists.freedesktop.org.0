@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82264A77FB0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28857A77FB2
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A6E10E608;
-	Tue,  1 Apr 2025 15:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E55010E609;
+	Tue,  1 Apr 2025 15:59:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ldd23sZ2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H+gvklvk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD2010E605
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 15:59:29 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EC5510E605
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 15:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743523169; x=1775059169;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=/o4MNIjV7pzs0iqPLb8btb53Vy9nooo5Oy5i2561QJA=;
- b=Ldd23sZ2IevFm9r3qUdJX9Ea84HV7tks6N7garGAkmJ1MEzbcb3Do8ne
- wIq0SRRYz9XnO6YMMYq7pNhUffuaFJ+Y+ocxi2E9IUCXpNLD6AFRVEhKK
- eziD7XXYszidHF+fPjjTyd8fRqWe6bdQ6AGOfWZAwaCC8YTrnDkSceB/s
- QWmgQ7X/ORnfH2wQSJTEVJqzWipEpI9ZPLN8F7no5pxG7R7M14RZNYtnx
- kRrhY4PIb/fQXVJPcyKVrjvXnLm1VB7iaNgynJGKj3ZJASW5WkBVjEwnf
- 4DvVkJUHZS139O0FYqr4lNWzg+7cfogFItLk2Fv5H8ZG7VS8R0HtBt1uo w==;
-X-CSE-ConnectionGUID: EkMGEkUyQE2mdxZHUl/DfQ==
-X-CSE-MsgGUID: ePRdx+4jTNeuE+tGY6knrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44108623"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="44108623"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 08:59:27 -0700
-X-CSE-ConnectionGUID: nFj87rTOQ0qbTArRsbSReQ==
-X-CSE-MsgGUID: 6RXHLhIDSwu6I6w/mNolMA==
+ t=1743523191; x=1775059191;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zbQfy37o69TuWt7m62dMHv9PkN/WEzw63IHLDroXJmY=;
+ b=H+gvklvkwuuGpWxzeGRJSCiTh7coILG0T5PSTcuWUxWZK6yPEKSq5Fhf
+ Yr6Wl7N9IKSxHO1WttBeRzCdZKrLXYqMnExLSKfwI04ESeGG6wRxOMmgz
+ ysr/9anp9bGZc/h2iiyMFnhVw7OwkDLJcWVW/jwX7vK5XLa5za2I/ub0U
+ ZcsmyC3ZGszTnPdP3H1NIAHSqZOI3RRDpXnM0XxcEvDSFWCe7Ax8bG7eq
+ tDox/tEH1yf1pOKECsk0NJAKoCZ3yyQ3jvqjypAk1F8+LjJEUPCzQIp+l
+ +SDz52xg2y3yoWsT1h0AfyD6SklYshzywKGbPAg36EK9bBUptICrtEJmL w==;
+X-CSE-ConnectionGUID: d0sHkWHxTuS57NVgv3WamA==
+X-CSE-MsgGUID: Mn6YwA7kQkW2K40FfTExTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44004575"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="44004575"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 08:59:51 -0700
+X-CSE-ConnectionGUID: mA0gcTM+Tp6vWTQq1AHj+A==
+X-CSE-MsgGUID: WU8qsStvS1+mdZOk5LavLQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="157413751"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="131434013"
 Received: from try2-8594.igk.intel.com ([10.91.220.58])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2025 08:59:26 -0700
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 08:59:49 -0700
 From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  jacek.lawrynowicz@linux.intel.com, lizhi.hou@amd.com,
- Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>,
+ Karol Wachowski <karol.wachowski@intel.com>,
  Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Subject: [PATCH 2/2] accel/ivpu: Show NPU frequency in sysfs
-Date: Tue,  1 Apr 2025 17:59:12 +0200
-Message-ID: <20250401155912.4049340-3-maciej.falkowski@linux.intel.com>
+Subject: [PATCH] accel/ivpu: Add cmdq_id to job related logs
+Date: Tue,  1 Apr 2025 17:59:39 +0200
+Message-ID: <20250401155939.4049467-1-maciej.falkowski@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250401155912.4049340-1-maciej.falkowski@linux.intel.com>
-References: <20250401155912.4049340-1-maciej.falkowski@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,144 +68,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+From: Karol Wachowski <karol.wachowski@intel.com>
 
-Add sysfs files that show maximum and current
-frequency of the NPU's data processing unit.
-New sysfs entries:
-- npu_max_frequency_mhz
-- npu_current_frequency_mhz
+Add tracking of command queue ID in JOB debug message to improve
+debugging capabilities.
 
-Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
 Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_hw.h      |  5 ++++
- drivers/accel/ivpu/ivpu_hw_btrs.c |  8 +++++
- drivers/accel/ivpu/ivpu_hw_btrs.h |  1 +
- drivers/accel/ivpu/ivpu_sysfs.c   | 49 ++++++++++++++++++++++++++++++-
- 4 files changed, 62 insertions(+), 1 deletion(-)
+ drivers/accel/ivpu/ivpu_job.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
-index 6e67e736ef8e..d79668fe1609 100644
---- a/drivers/accel/ivpu/ivpu_hw.h
-+++ b/drivers/accel/ivpu/ivpu_hw.h
-@@ -87,6 +87,11 @@ static inline u32 ivpu_hw_dpu_max_freq_get(struct ivpu_device *vdev)
- 	return ivpu_hw_btrs_dpu_max_freq_get(vdev);
- }
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index 004059e4f1e8..863e3cd6ace5 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -470,8 +470,8 @@ static void ivpu_job_destroy(struct ivpu_job *job)
+ 	struct ivpu_device *vdev = job->vdev;
+ 	u32 i;
  
-+static inline u32 ivpu_hw_dpu_freq_get(struct ivpu_device *vdev)
-+{
-+	return ivpu_hw_btrs_dpu_freq_get(vdev);
-+}
-+
- static inline void ivpu_hw_irq_clear(struct ivpu_device *vdev)
- {
- 	ivpu_hw_ip_irq_clear(vdev);
-diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
-index 91eb8a93c15b..b236c7234daa 100644
---- a/drivers/accel/ivpu/ivpu_hw_btrs.c
-+++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
-@@ -606,6 +606,14 @@ u32 ivpu_hw_btrs_dpu_max_freq_get(struct ivpu_device *vdev)
- 	return pll_ratio_to_dpu_freq(vdev, vdev->hw->pll.max_ratio);
- }
+-	ivpu_dbg(vdev, JOB, "Job destroyed: id %3u ctx %2d engine %d",
+-		 job->job_id, job->file_priv->ctx.id, job->engine_idx);
++	ivpu_dbg(vdev, JOB, "Job destroyed: id %3u ctx %2d cmdq_id %u engine %d",
++		 job->job_id, job->file_priv->ctx.id, job->cmdq_id, job->engine_idx);
  
-+u32 ivpu_hw_btrs_dpu_freq_get(struct ivpu_device *vdev)
-+{
-+	if (ivpu_hw_btrs_gen(vdev) == IVPU_HW_BTRS_MTL)
-+		return pll_ratio_to_dpu_freq_mtl(pll_config_get_mtl(vdev));
-+	else
-+		return pll_ratio_to_dpu_freq_lnl(pll_config_get_lnl(vdev));
-+}
-+
- /* Handler for IRQs from Buttress core (irqB) */
- bool ivpu_hw_btrs_irq_handler_mtl(struct ivpu_device *vdev, int irq)
- {
-diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.h b/drivers/accel/ivpu/ivpu_hw_btrs.h
-index a2f0877237e8..300f749971d4 100644
---- a/drivers/accel/ivpu/ivpu_hw_btrs.h
-+++ b/drivers/accel/ivpu/ivpu_hw_btrs.h
-@@ -32,6 +32,7 @@ void ivpu_hw_btrs_profiling_freq_reg_set_lnl(struct ivpu_device *vdev);
- void ivpu_hw_btrs_ats_print_lnl(struct ivpu_device *vdev);
- void ivpu_hw_btrs_clock_relinquish_disable_lnl(struct ivpu_device *vdev);
- u32 ivpu_hw_btrs_dpu_max_freq_get(struct ivpu_device *vdev);
-+u32 ivpu_hw_btrs_dpu_freq_get(struct ivpu_device *vdev);
- bool ivpu_hw_btrs_irq_handler_mtl(struct ivpu_device *vdev, int irq);
- bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq);
- int ivpu_hw_btrs_dct_get_request(struct ivpu_device *vdev, bool *enable);
-diff --git a/drivers/accel/ivpu/ivpu_sysfs.c b/drivers/accel/ivpu/ivpu_sysfs.c
-index 97102feaf8dd..268ab7744a8b 100644
---- a/drivers/accel/ivpu/ivpu_sysfs.c
-+++ b/drivers/accel/ivpu/ivpu_sysfs.c
-@@ -1,10 +1,12 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (C) 2024 Intel Corporation
-+ * Copyright (C) 2024-2025 Intel Corporation
-  */
+ 	for (i = 0; i < job->bo_count; i++)
+ 		if (job->bos[i])
+@@ -564,8 +564,8 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
+ 	dma_fence_signal(job->done_fence);
  
- #include <linux/device.h>
- #include <linux/err.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/units.h>
+ 	trace_job("done", job);
+-	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d engine %d status 0x%x\n",
+-		 job->job_id, job->file_priv->ctx.id, job->engine_idx, job_status);
++	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d cmdq_id %u engine %d status 0x%x\n",
++		 job->job_id, job->file_priv->ctx.id, job->cmdq_id, job->engine_idx, job_status);
  
- #include "ivpu_drv.h"
- #include "ivpu_gem.h"
-@@ -90,10 +92,55 @@ sched_mode_show(struct device *dev, struct device_attribute *attr, char *buf)
+ 	ivpu_job_destroy(job);
+ 	ivpu_stop_job_timeout_detection(vdev);
+@@ -664,8 +664,8 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority, u32 cmdq_id)
+ 	}
  
- static DEVICE_ATTR_RO(sched_mode);
+ 	trace_job("submit", job);
+-	ivpu_dbg(vdev, JOB, "Job submitted: id %3u ctx %2d engine %d prio %d addr 0x%llx next %d\n",
+-		 job->job_id, file_priv->ctx.id, job->engine_idx, cmdq->priority,
++	ivpu_dbg(vdev, JOB, "Job submitted: id %3u ctx %2d cmdq_id %u engine %d prio %d addr 0x%llx next %d\n",
++		 job->job_id, file_priv->ctx.id, cmdq->id, job->engine_idx, cmdq->priority,
+ 		 job->cmd_buf_vpu_addr, cmdq->jobq->header.tail);
  
-+/**
-+ * DOC: npu_max_frequency
-+ *
-+ * The npu_max_frequency shows maximum frequency in MHz of the NPU's data
-+ * processing unit
-+ */
-+static ssize_t
-+npu_max_frequency_mhz_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct ivpu_device *vdev = to_ivpu_device(drm);
-+	u32 freq = ivpu_hw_dpu_max_freq_get(vdev);
-+
-+	return sysfs_emit(buf, "%lu\n", freq / HZ_PER_MHZ);
-+}
-+
-+static DEVICE_ATTR_RO(npu_max_frequency_mhz);
-+
-+/**
-+ * DOC: npu_current_frequency_mhz
-+ *
-+ * The npu_current_frequency_mhz shows current frequency in MHz of the NPU's
-+ * data processing unit
-+ */
-+static ssize_t
-+npu_current_frequency_mhz_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct ivpu_device *vdev = to_ivpu_device(drm);
-+	u32 freq = 0;
-+
-+	/* Read frequency only if device is active, otherwise frequency is 0 */
-+	if (pm_runtime_get_if_active(vdev->drm.dev) > 0) {
-+		freq = ivpu_hw_dpu_freq_get(vdev);
-+
-+		pm_runtime_put_autosuspend(vdev->drm.dev);
-+	}
-+
-+	return sysfs_emit(buf, "%lu\n", freq / HZ_PER_MHZ);
-+}
-+
-+static DEVICE_ATTR_RO(npu_current_frequency_mhz);
-+
- static struct attribute *ivpu_dev_attrs[] = {
- 	&dev_attr_npu_busy_time_us.attr,
- 	&dev_attr_npu_memory_utilization.attr,
- 	&dev_attr_sched_mode.attr,
-+	&dev_attr_npu_max_frequency_mhz.attr,
-+	&dev_attr_npu_current_frequency_mhz.attr,
- 	NULL,
- };
+ 	mutex_unlock(&file_priv->lock);
+@@ -777,7 +777,8 @@ static int ivpu_submit(struct drm_file *file, struct ivpu_file_priv *file_priv,
+ 		goto err_free_handles;
+ 	}
  
+-	ivpu_dbg(vdev, JOB, "Submit ioctl: ctx %u buf_count %u\n", file_priv->ctx.id, buffer_count);
++	ivpu_dbg(vdev, JOB, "Submit ioctl: ctx %u cmdq_id %u buf_count %u\n",
++		 file_priv->ctx.id, cmdq_id, buffer_count);
+ 
+ 	job = ivpu_job_create(file_priv, engine, buffer_count);
+ 	if (!job) {
 -- 
 2.43.0
 
