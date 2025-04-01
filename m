@@ -2,53 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02ABA77E60
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 16:59:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C0AA77EFA
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 17:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DF7D10E5C1;
-	Tue,  1 Apr 2025 14:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A61410E5E3;
+	Tue,  1 Apr 2025 15:32:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Vt60qDLK";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GMFYHBDm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA5710E5FD;
- Tue,  1 Apr 2025 14:59:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Dz4AjBZl0FeY67rC7WIKCKabLEHdUSe+H9IOtc9JH2s=; b=Vt60qDLKSAn1NOAbU28KBaJ8e8
- MvR9A/Qqpv0c1V8s4hTpsmsO+1fDszm0aXEoOyFV58b0ha97OU0oenzbKU1Y+nEi8tDPpFpE1wZqO
- 8QXLwy/cBeOsPZWi5m61WoPmERo1PAwCsTJ/XkLzy32xQw+DQV8GK0IA5v4efm7fwZ40TMg86bJrn
- HF9NARq/mwuOnVlCl3zQ32OYt+DsQiXB9AEKSuJ6XIQlKbVK9JKvB55/khqE50uI7O8o7GRIrx7dk
- M0W0vKLeujpvBx6nsymG9uRUnVC06s7Gc6Okoqj1bQ3zNhKGvzT/5dvEmKYtK5qoyx3IDZ7E11Ivf
- Pxoym+1w==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tzd5a-009r7m-Oj; Tue, 01 Apr 2025 16:59:42 +0200
-Message-ID: <030635b9-d491-4e54-92dc-072e35b47e64@igalia.com>
-Date: Tue, 1 Apr 2025 15:59:42 +0100
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D9510E5E3;
+ Tue,  1 Apr 2025 15:32:28 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by mslow3.mail.gandi.net (Postfix) with ESMTP id 26CAE5814B4;
+ Tue,  1 Apr 2025 15:00:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 921F5441C8;
+ Tue,  1 Apr 2025 15:00:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1743519646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z6SUzGcMkPKel2Eccn/jYaKzkfn5nDr4VwnUJsYHcl0=;
+ b=GMFYHBDmkQqPnwkmOAvUpfp7X/+LmL7dcjdsCjsTdJynnH4itkSn1hQxCz5+SCHo1uaclf
+ DhgtZjY4wTeHh3eozM/vo5clyziidRAKCKFpzukdJ18oiayB6OHyD0IAd2+Luv1CSMp1gD
+ zY/JN/ez/OxbyQY0KoB1rJxDH4cgB5kVBny+R9Xqxu+BqgxnjIxQ7QpvHp8Jrrz21EIWBv
+ 8JOX6UARWLuysU9uR3cJezATqmPZbdx1VtrBi/dHC/aKYZWjiGqymqvGJBV9Qw7YGDO25i
+ GAc2Rla0P/hRZ+f7DASVPsS87VlZylgntjN5l/aSlpNhYftOGqddTvQHiMmsfA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Alexander Usyskin <alexander.usyskin@intel.com>
+Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Lucas De Marchi <lucas.demarchi@intel.com>,  Thomas
+ =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,  Rodrigo
+ Vivi <rodrigo.vivi@intel.com>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
+ <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Jani Nikula
+ <jani.nikula@linux.intel.com>,  Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
+ Karthik Poosa <karthik.poosa@intel.com>,  Reuven Abliyev
+ <reuven.abliyev@intel.com>,  Oren Weil <oren.jer.weil@intel.com>,
+ linux-mtd@lists.infradead.org,  dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 01/12] mtd: core: always create master device
+In-Reply-To: <20250326152623.3897204-2-alexander.usyskin@intel.com> (Alexander
+ Usyskin's message of "Wed, 26 Mar 2025 17:26:12 +0200")
+References: <20250326152623.3897204-1-alexander.usyskin@intel.com>
+ <20250326152623.3897204-2-alexander.usyskin@intel.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Tue, 01 Apr 2025 17:00:43 +0200
+Message-ID: <87ecycrko4.fsf@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 04/14] drm/sched: Clarify locked section in
- drm_sched_rq_select_entity_fifo
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-References: <20250331201705.60663-1-tvrtko.ursulin@igalia.com>
- <20250331201705.60663-5-tvrtko.ursulin@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250331201705.60663-5-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukeeftdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufgjfhgffffkgggtgfesthhqredttderjeenucfhrhhomhepofhiqhhuvghlucftrgihnhgrlhcuoehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeffgefhjedtfeeigeduudekudejkedtiefhleelueeiueevheekvdeludehiedvfeenucfkphepledvrddukeegrdduuddtrdduleefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledvrddukeegrdduuddtrdduleefpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvuddprhgtphhtthhopegrlhgvgigrnhguvghrrdhushihshhkihhnsehinhhtvghlrdgtohhmpdhrtghpthhtoheprhhitghhrghrugesnhhougdrrghtpdhrtghpthhtohepvhhighhnvghshhhrsehtihdrtghomhdprhgtphhtthhopehluhgtrghsrdguvghmrghrtghhihesihhnthgvlhdrtghomhdprhgtphhtthhopehthhhomhgrshdrhhgvlhhlshhtrhhomheslhhinhhugidrihhnthgvl
+ hdrtghomhdprhgtphhtthhopehrohgurhhighhordhvihhvihesihhnthgvlhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,76 +79,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Alexander,
 
-On 31/03/2025 21:16, Tvrtko Ursulin wrote:
-> Rq->lock only protects the tree walk so lets move the rest out.
+On 26/03/2025 at 17:26:12 +02, Alexander Usyskin <alexander.usyskin@intel.c=
+om> wrote:
 
-I retract this one, reinit_completion has to be in the locked section 
-too. Next posting will be rebased accordingly but I will hold off 
-sending it out until more comments are received.
+> Create master device without partition when
+> CONFIG_MTD_PARTITIONED_MASTER flag is unset.
+>
+> This streamlines device tree and allows to anchor
+> runtime power management on master device in all cases.
+>
+> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
 
-Regards,
+I successfully tested it, this patch will be applied at -rc1 to the
+mtd/next tree.
 
-Tvrtko
+I was wondering, do you think it would be possible to keep the creation
+of mtd_master and make it a symbolic link to mtdx when
+MTD_PARTITIONED_MASTER=3Dy or when there is no partition? In short, always
+having mtd_masterx, because I fear at some point we'll have problems
+otherwise :-)
 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 31 ++++++++++++++------------
->   1 file changed, 17 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index f593b88ab02c..357133e6d4d0 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -326,29 +326,32 @@ static struct drm_sched_entity *
->   drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
->   				struct drm_sched_rq *rq)
->   {
-> +	struct drm_sched_entity *entity = NULL;
->   	struct rb_node *rb;
->   
->   	spin_lock(&rq->lock);
->   	for (rb = rb_first_cached(&rq->rb_tree_root); rb; rb = rb_next(rb)) {
-> -		struct drm_sched_entity *entity;
-> -
->   		entity = rb_entry(rb, struct drm_sched_entity, rb_tree_node);
-> -		if (drm_sched_entity_is_ready(entity)) {
-> -			/* If we can't queue yet, preserve the current entity in
-> -			 * terms of fairness.
-> -			 */
-> -			if (!drm_sched_can_queue(sched, entity)) {
-> -				spin_unlock(&rq->lock);
-> -				return ERR_PTR(-ENOSPC);
-> -			}
-> -
-> -			reinit_completion(&entity->entity_idle);
-> +		if (drm_sched_entity_is_ready(entity))
->   			break;
-> -		}
-> +		else
-> +			entity = NULL;
->   	}
->   	spin_unlock(&rq->lock);
->   
-> -	return rb ? rb_entry(rb, struct drm_sched_entity, rb_tree_node) : NULL;
-> +	if (!entity)
-> +		return NULL;
-> +
-> +	/*
-> +	 * If scheduler cannot take more jobs signal the caller to not consider
-> +	 * lower priority queues.
-> +	 */
-> +	if (!drm_sched_can_queue(sched, entity))
-> +		return ERR_PTR(-ENOSPC);
-> +
-> +	reinit_completion(&entity->entity_idle);
-> +
-> +	return entity;
->   }
->   
->   /**
+Right now we have:
 
+- Without partition:
+mtd0 (mtd0ro mtdblock0)
+- With partition and MTD_PARTITIONED_MASTER=3Dn
+mtd0 (mtd0ro mtdblock0)
+mtd_master0
+- With partition and MTD_PARTITIONED_MASTER=3Dy
+mtd0 (mtd0ro mtdblock0) [this is the master]
+mtd1 (mtd1ro mtdblock1)
+
+I am suggesting:
+- Without partition:
+mtd0 (mtd0ro mtdblock0)
+mtd_master0 -> link to mtd0
+- With partition and MTD_PARTITIONED_MASTER=3Dn
+mtd0 (mtd0ro mtdblock0)
+mtd_master0
+- With partition and MTD_PARTITIONED_MASTER=3Dy
+mtd0 (mtd0ro mtdblock0) [this is the master]
+mtd1 (mtd1ro mtdblock1)
+mtd_master0 -> link to mtd0
+
+What do you think? Or maybe even always mtd_master in the first place.
+
+Richard, your point of view on this?
+
+Thanks,
+Miqu=C3=A8l
