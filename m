@@ -2,56 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA36A782F4
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 21:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44ABDA7830A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 22:01:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68B8710E677;
-	Tue,  1 Apr 2025 19:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB1410E66C;
+	Tue,  1 Apr 2025 20:01:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="uxPvljF0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Sj0UIMgJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-24420.protonmail.ch (mail-24420.protonmail.ch
- [109.224.244.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 856E610E676
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 19:53:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1743537216; x=1743796416;
- bh=W8tVSECA3wGFJRO7/CI9pHZECxu/bdeLCEdE5PriXlQ=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=uxPvljF0tSQyPdqiZuP5A4k6GZiyXh/JPFV5UVx46Kp7cSlX3v44vRwH1kqujU91U
- lrB4jFkBNAlUBAXjVn+tUPxZ2GnY3B2vHBRFVHKvQPbm7sAA95/DjMdPJbqDHwW2Kn
- pPE9mvPQHDVLSmGNP8Df382LUuKhzqZMPQ6WJnBWdjsVykNilZanpCZ5yK9e+I72/T
- mqq2N2CfO3cODEbhXpcYJ9LTrYTdRT8566yMp4UjuWWxA/sTycPr0gvUdEh/6oGo7f
- 6yVQFWdLSiIB8wdZc51ngYPUBDAvSDZjQwGMMRW0YKPJQwEVIonROYsBXCqpSvi7kA
- bjKjs0zVYCoFw==
-Date: Tue, 01 Apr 2025 19:53:31 +0000
-To: Daniel Stone <daniel@fooishbar.org>
-From: Simon Ser <contact@emersion.fr>
-Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, mwen@igalia.com, jadahl@redhat.com,
- sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com,
- joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com,
- victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
- quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
- marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
- chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com
-Subject: Re: [PATCH V8 06/43] drm/colorop: Add 1D Curve subtype
-Message-ID: <46R4JuwCeyu56R2FsAN-j6n0Pu5VSeLdju8KUycQ3PF5cVQrlUO3C5SX8CgpRJ-QL5_-XS2ds94pPjhzEl6hOo3iyLl0y_d0Syzinn7BxSY=@emersion.fr>
-In-Reply-To: <CAPj87rOh=1OuASau+fjL_z+XBs-P=jUiQgjJjWXQZt1FYFC==w@mail.gmail.com>
-References: <20250326234748.2982010-1-alex.hung@amd.com>
- <20250326234748.2982010-7-alex.hung@amd.com>
- <CAPj87rOh=1OuASau+fjL_z+XBs-P=jUiQgjJjWXQZt1FYFC==w@mail.gmail.com>
-Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 682d023465909fa9e420aa6b1b00dfbe1ca1c30e
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5397410E170
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 20:01:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 3ABB8A4155A;
+ Tue,  1 Apr 2025 19:55:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EB7BC4CEE4;
+ Tue,  1 Apr 2025 20:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743537659;
+ bh=SsEtymDjFxM1dLd88DEPk7b/DPbXgQcSJ+nDYJthskA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Sj0UIMgJB3BhWg6Q5hThirUmVNapBvLUCssaM9xJhq4z8rINztn8U2a8VU7uKVvO+
+ KNTKB8yFVEH/6P0aJxnzC8ql/cEZBktK2XjcFkIJonPY+vNiktGaEJh1pu3KP86pOZ
+ 0Z/JDChHvvi4fQgWwY2pv315OrvtUWanr7oVb/zq3/xkPyam7hR1FljADmz/mdjKmW
+ 3KeD4+Bq0JfzX1PdRiolOCzdjflmaIQN6ONyog6XNtxrNEObEDL4X29f59mJiYMhry
+ cfSVpBrf0Tf8VE+sJ34qXMxAOHcRzpXoXlXhcPxZlM+YajKX9z4ArQ7bi8GhCQGACf
+ ReX1Z2plvjm5Q==
+Date: Tue, 1 Apr 2025 13:00:55 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Peter Zijlstra <peterz@infradead.org>, 
+ Alessandro Carminati <acarmina@redhat.com>, linux-kselftest@vger.kernel.org, 
+ David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>, 
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Maxime Ripard <mripard@kernel.org>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, 
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-arch@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, 
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
+ x86@kernel.org, Linux Kernel Functional Testing <lkft@linaro.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>
+Subject: Re: [PATCH v4 06/14] x86: Add support for suppressing warning
+ backtraces
+Message-ID: <rkuxvq6pkha6pixz5rtu327ujt7ism5f4wgrak7egcecuxwe42@qkn5ewdzwhvo>
+References: <20250313114329.284104-1-acarmina@redhat.com>
+ <20250313114329.284104-7-acarmina@redhat.com>
+ <20250401170829.GO5880@noisy.programming.kicks-ass.net>
+ <ddc7939f-fb98-43af-aed1-0bc0594ecc41@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <ddc7939f-fb98-43af-aed1-0bc0594ecc41@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,91 +85,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Apr 01, 2025 at 10:53:46AM -0700, Guenter Roeck wrote:
+> On 4/1/25 10:08, Peter Zijlstra wrote:
+> > > +	if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))			\
+> > > +		_BUG_FLAGS(ASM_UD2, __flags, ANNOTATE_REACHABLE(1b));	\
+> > >   	instrumentation_end();					\
+> > >   } while (0)
+> > 
+> > NAK, this grows the BUG site for now appreciable reason.
+> 
+> Only if CONFIG_KUNIT_SUPPRESS_BACKTRACE is enabled. Why does that
+> warrant a NACK ?
 
+I agree with Peter, this bloats the code around thousands of UD2 sites.
 
+It would be much better to do the checking after the exception.  In fact
+it looks like you're already doing that in report_bug()?
 
+	if (warning && KUNIT_IS_SUPPRESSED_WARNING(function))
+		return BUG_TRAP_TYPE_WARN;
 
+Why check it twice?
 
-On Tuesday, April 1st, 2025 at 17:14, Daniel Stone <daniel@fooishbar.org> w=
-rote:
-
->=20
->=20
-> Hi Alex,
->=20
-> On Wed, 26 Mar 2025 at 23:50, Alex Hung alex.hung@amd.com wrote:
->=20
-> > +static int drm_colorop_init(struct drm_device *dev, struct drm_colorop=
- *colorop,
-> > + struct drm_plane *plane, enum drm_colorop_type type)
-> > +{
-> > + struct drm_mode_config *config =3D &dev->mode_config;
-> > + struct drm_property *prop;
-> > + int ret =3D 0;
-> > +
-> > + ret =3D drm_mode_object_add(dev, &colorop->base, DRM_MODE_OBJECT_COLO=
-ROP);
-> > + if (ret)
-> > + return ret;
-> > +
-> > + colorop->base.properties =3D &colorop->properties;
-> > + colorop->dev =3D dev;
-> > + colorop->type =3D type;
-> > + colorop->plane =3D plane;
->=20
-> 'plane' seems really incongruous here. The colorop can be created for
-> any number of planes, but we're setting it to always be bound to a
-> single plane at init, and that can only be changed later.
-
-I don't think the current design allows a single colorop to be re-used
-between planes? I think as-is, drivers create one set of colorops per
-plane and never share them between different planes?
-
-> 1. Is it guaranteed that, if any plane on a device supports the
-> COLOR_PIPELINE property, all planes will support COLOR_PIPELINE?
-> (Given the amdgpu cursor-plane discussion, it looks like no, which is
-> unfortunate but oh well.)
-
-I don't think so. (They could all expose a COLOR_PIPELINE with the only
-choice as the zero bypass pipeline, but that sounds silly.)
-
-> 2. Is it guaranteed that, if a COLOR_PIPELINE property exists on a
-> plane, that BYPASS will be one of the supported values? (The current
-> implementation does this, which seems sensible, but if the plan is to
-> not make this a uAPI invariant, e.g. to support planes with mandatory
-> CM steps, this should probably be explicitly documented.)
-
-Yes. This is a hard requirement, mentioned in the design doc IIRC.
-
-> 3. Can a given color pipeline potentially be used on different planes,
-> i.e. a colorop used to represent a separate hardware processing block
-> which may be used on any plane but only one plane at a time? (This
-> should be documented either way, and if they are unique per plane, igt
-> should enforce this.)
-
-Right now, I don't think so. Could be a future extension I suppose, but
-I think we need to properly sit down and think about all of the possible
-consequences. Maybe using the same pipeline ID isn't the best uAPI here.
-
-> 3. Can a given color pipeline be active on multiple planes at a time?
-> (If so, the implementation definitely needs rethinking: the colorop
-> would need to have a list of planes.)
-
-I don't think so.
-
-> 4. Can a given color pipeline be active on multiple planes on multiple
-> CRTCs at a time?
-
-Ditto.
-
-> 5. For a given colorop property, is it an invariant that the colorop
-> will only appear in one color pipeline at a time? (I believe so, but
-> this probably needs documenting and/or igt.)
-
-I don't really understand why that would matter to user-space.
-
-> Either way, I suspect that clorop->plane is the wrong thing to do, and
-> that it maybe wants to be a list of planes in the drm_colorop_state?
-
-I don't think so, for a given plane, there can only be a single pipeline
-active at a time.
+-- 
+Josh
