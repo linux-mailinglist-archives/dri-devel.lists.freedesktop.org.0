@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D95FA7802D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 18:23:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2980FA7802E
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 18:23:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D90AF10E613;
-	Tue,  1 Apr 2025 16:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78D4D10E615;
+	Tue,  1 Apr 2025 16:23:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="t268xbWR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HUzluKsF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t268xbWR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HUzluKsF";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0heUIQPH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wXZ/BwH7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0heUIQPH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wXZ/BwH7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B29310E613
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 16:23:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E35C10E612
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 16:23:36 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5F19921179;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8DC992118F;
  Tue,  1 Apr 2025 16:23:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1743524586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d+M7B3Pox3ENsI98NBP0CwykKTvgAlZ88iVnSAVIwOk=;
- b=t268xbWR0N7cTymMaT3zVJfalWK3V0XSlQHfr5DMFLRZJF8NEykhpWiib2/BUPrlXkUtId
- KKK4ewzpWjtxaYsc5tNFomIkdG571mtSlAFhtjwFKKFIhtlQuPerp8zeW1rUzmEdLJSUXo
- raCNWUpyuyqUrf6920fPw5ZtlW7qQxY=
+ bh=X4BYspz9+3MvxwJVQE2BCJ+rAeEuclKaQiVs4KujwFs=;
+ b=0heUIQPHbILEVDibO+vKkEDPxNjbIMkJxKYSXQ8hX0sGKo7/nn3RJfLRFoQNOykhtD+ZAd
+ At2JXK0mU94dJsMjlzurQ3aZagD8LHLKHo8Y1hImnBzZQmWmJGuQ79zrftxBzCvj2HdOdm
+ daLAJtK0lcyyzetbNxsAp5mhpfEoflU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1743524586;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d+M7B3Pox3ENsI98NBP0CwykKTvgAlZ88iVnSAVIwOk=;
- b=HUzluKsFXHs+P0KVBhHpbCAtkcOlygYJScquXOEiBfstbbtyZTGslZ583DrLzZleSNpDAW
- RsxStKuYdxS11ZDA==
+ bh=X4BYspz9+3MvxwJVQE2BCJ+rAeEuclKaQiVs4KujwFs=;
+ b=wXZ/BwH7c86HtV6zQr4seW9r3prRf7l5M5I00RFr1oF7t9PgbDaahgf4B9vgKJXn3Simzb
+ RmfgpUA6VNeiwqDQ==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -49,27 +49,27 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d+M7B3Pox3ENsI98NBP0CwykKTvgAlZ88iVnSAVIwOk=;
- b=t268xbWR0N7cTymMaT3zVJfalWK3V0XSlQHfr5DMFLRZJF8NEykhpWiib2/BUPrlXkUtId
- KKK4ewzpWjtxaYsc5tNFomIkdG571mtSlAFhtjwFKKFIhtlQuPerp8zeW1rUzmEdLJSUXo
- raCNWUpyuyqUrf6920fPw5ZtlW7qQxY=
+ bh=X4BYspz9+3MvxwJVQE2BCJ+rAeEuclKaQiVs4KujwFs=;
+ b=0heUIQPHbILEVDibO+vKkEDPxNjbIMkJxKYSXQ8hX0sGKo7/nn3RJfLRFoQNOykhtD+ZAd
+ At2JXK0mU94dJsMjlzurQ3aZagD8LHLKHo8Y1hImnBzZQmWmJGuQ79zrftxBzCvj2HdOdm
+ daLAJtK0lcyyzetbNxsAp5mhpfEoflU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1743524586;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d+M7B3Pox3ENsI98NBP0CwykKTvgAlZ88iVnSAVIwOk=;
- b=HUzluKsFXHs+P0KVBhHpbCAtkcOlygYJScquXOEiBfstbbtyZTGslZ583DrLzZleSNpDAW
- RsxStKuYdxS11ZDA==
+ bh=X4BYspz9+3MvxwJVQE2BCJ+rAeEuclKaQiVs4KujwFs=;
+ b=wXZ/BwH7c86HtV6zQr4seW9r3prRf7l5M5I00RFr1oF7t9PgbDaahgf4B9vgKJXn3Simzb
+ RmfgpUA6VNeiwqDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3835713A43;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6625F138A5;
  Tue,  1 Apr 2025 16:23:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id QMiBDOoS7GdxDAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ODrGF+oS7GdxDAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 01 Apr 2025 16:23:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com,
@@ -77,9 +77,9 @@ To: airlied@redhat.com,
 	patrik.r.jakobsson@gmail.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 5/9] drm/udl: Handle errors from usb_get_descriptor()
-Date: Tue,  1 Apr 2025 18:12:15 +0200
-Message-ID: <20250401161929.283244-6-tzimmermann@suse.de>
+Subject: [PATCH 6/9] drm/udl: Return error if vendor descriptor is too short
+Date: Tue,  1 Apr 2025 18:12:16 +0200
+Message-ID: <20250401161929.283244-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250401161929.283244-1-tzimmermann@suse.de>
 References: <20250401161929.283244-1-tzimmermann@suse.de>
@@ -118,63 +118,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reading the vendor descriptor from the udl device can fail with
-an error, which the current code fails to capture. Store the return
-value in an integer and test for the error. Abort parsing on errors
-or treat the value as length on success.
+There need to be least 5 bytes in the vendor descriptor. Return
+an error otherwise. Also change the branching to early-out on
+the error. Adjust indention of the rest of the parser function.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/udl/udl_main.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/udl/udl_main.c | 72 +++++++++++++++++-----------------
+ 1 file changed, 36 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-index 47fb6c34bfde3..4291ddb7158c4 100644
+index 4291ddb7158c4..58d6065589d3a 100644
 --- a/drivers/gpu/drm/udl/udl_main.c
 +++ b/drivers/gpu/drm/udl/udl_main.c
-@@ -31,28 +31,32 @@ static int udl_parse_vendor_descriptor(struct udl_device *udl)
- 	char *desc;
- 	char *buf;
- 	char *desc_end;
+@@ -45,43 +45,43 @@ static int udl_parse_vendor_descriptor(struct udl_device *udl)
+ 		goto unrecognized;
+ 	len = ret;
+ 
+-	if (len > 5) {
+-		DRM_INFO("vendor descriptor length: %u data:%11ph\n",
+-			 len, desc);
 -
--	u8 total_len = 0;
-+	int ret;
-+	unsigned int len;
- 
- 	buf = kzalloc(MAX_VENDOR_DESCRIPTOR_SIZE, GFP_KERNEL);
- 	if (!buf)
- 		return false;
- 	desc = buf;
- 
--	total_len = usb_get_descriptor(udev, 0x5f, /* vendor specific */
--				    0, desc, MAX_VENDOR_DESCRIPTOR_SIZE);
--	if (total_len > 5) {
--		DRM_INFO("vendor descriptor length:%x data:%11ph\n",
--			total_len, desc);
-+	ret = usb_get_descriptor(udev, 0x5f, /* vendor specific */
-+				 0, desc, MAX_VENDOR_DESCRIPTOR_SIZE);
-+	if (ret < 0)
+-		if ((desc[0] != len) ||    /* descriptor length */
+-		    (desc[1] != 0x5f) ||   /* vendor descriptor type */
+-		    (desc[2] != 0x01) ||   /* version (2 bytes) */
+-		    (desc[3] != 0x00) ||
+-		    (desc[4] != len - 2))  /* length after type */
+-			goto unrecognized;
+-
+-		desc_end = desc + len;
+-		desc += 5; /* the fixed header we've already parsed */
+-
+-		while (desc < desc_end) {
+-			u8 length;
+-			u16 key;
+-
+-			key = le16_to_cpu(*((u16 *) desc));
+-			desc += sizeof(u16);
+-			length = *desc;
+-			desc++;
+-
+-			switch (key) {
+-			case 0x0200: { /* max_area */
+-				u32 max_area;
+-				max_area = le32_to_cpu(*((u32 *)desc));
+-				DRM_DEBUG("DL chip limited to %d pixel modes\n",
+-					max_area);
+-				udl->sku_pixel_limit = max_area;
+-				break;
+-			}
+-			default:
+-				break;
+-			}
+-			desc += length;
++	if (len < 5)
 +		goto unrecognized;
-+	len = ret;
 +
-+	if (len > 5) {
-+		DRM_INFO("vendor descriptor length: %u data:%11ph\n",
-+			 len, desc);
++	DRM_INFO("vendor descriptor length: %u data:%11ph\n", len, desc);
++
++	if ((desc[0] != len) ||    /* descriptor length */
++	    (desc[1] != 0x5f) ||   /* vendor descriptor type */
++	    (desc[2] != 0x01) ||   /* version (2 bytes) */
++	    (desc[3] != 0x00) ||
++	    (desc[4] != len - 2))  /* length after type */
++		goto unrecognized;
++
++	desc_end = desc + len;
++	desc += 5; /* the fixed header we've already parsed */
++
++	while (desc < desc_end) {
++		u8 length;
++		u16 key;
++
++		key = le16_to_cpu(*((u16 *)desc));
++		desc += sizeof(u16);
++		length = *desc;
++		desc++;
++
++		switch (key) {
++		case 0x0200: { /* max_area */
++			u32 max_area = le32_to_cpu(*((u32 *)desc));
++
++			DRM_DEBUG("DL chip limited to %d pixel modes\n",
++				  max_area);
++			udl->sku_pixel_limit = max_area;
++			break;
++		}
++		default:
++			break;
+ 		}
++		desc += length;
+ 	}
  
--		if ((desc[0] != total_len) || /* descriptor length */
-+		if ((desc[0] != len) ||    /* descriptor length */
- 		    (desc[1] != 0x5f) ||   /* vendor descriptor type */
- 		    (desc[2] != 0x01) ||   /* version (2 bytes) */
- 		    (desc[3] != 0x00) ||
--		    (desc[4] != total_len - 2)) /* length after type */
-+		    (desc[4] != len - 2))  /* length after type */
- 			goto unrecognized;
- 
--		desc_end = desc + total_len;
-+		desc_end = desc + len;
- 		desc += 5; /* the fixed header we've already parsed */
- 
- 		while (desc < desc_end) {
+ 	goto success;
 -- 
 2.49.0
 
