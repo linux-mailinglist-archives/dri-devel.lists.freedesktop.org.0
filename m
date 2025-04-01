@@ -2,78 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB66A77C0C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 15:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057C0A77C8D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 15:48:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A477410E5A3;
-	Tue,  1 Apr 2025 13:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 229D110E5BF;
+	Tue,  1 Apr 2025 13:48:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="fxULT5/r";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cKiXgx5L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 952F510E5A3
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 13:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7ZhFowZYPb/ehWe3WI9YDzdqsWQBq6iqxIFEK20hOv0=; b=fxULT5/ryE6nrW7IvM++sEHUGg
- /Zgyu+03x5TWoOgeVWdoSCY3VlGGOuncrqGNHBNAkY67Dy1JwhjeWDi8tuq9ysnWJBHq440I7C/mb
- tS+1rFRf8nDyBParFYzVkoAR8/btiBW3xVe6awJGw9NvNTJuqNIRFxpaXCMMFLaYeH8qFErvn6Wza
- YUldOi+0pjK62jO0oWxpVlnECPuavByutr1Xmlf/ZuDwsJ2MBSe0mOXJummZv82XoSwTeuXCHZJ2N
- hTCga/344qp+GS4dg603VcRDqlDkXxS8wjzSrZ5tApQun0mN4eaR4lo6zQQphPYuZYIKs+VOT5jIp
- 18qOXvEg==;
-Received: from [194.136.85.206] (port=49796 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.98.1)
- (envelope-from <pekka.paalanen@haloniitty.fi>)
- id 1tzbeS-000000004cW-0byF; Tue, 01 Apr 2025 16:27:36 +0300
-Date: Tue, 1 Apr 2025 16:27:32 +0300
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Vishal Sagar <vishal.sagar@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Michal Simek <michal.simek@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v4 03/11] drm/fourcc: Add DRM_FORMAT_Y8
-Message-ID: <20250401162732.731ef774@eldfell>
-In-Reply-To: <20250331135337.61934003@eldfell>
-References: <20250326-xilinx-formats-v4-0-322a300c6d72@ideasonboard.com>
- <20250326-xilinx-formats-v4-3-322a300c6d72@ideasonboard.com>
- <CAMuHMdXM1B1c=62EpcuUdpdpaBRZSJLXb1GBB0egzp7Fyeo5-w@mail.gmail.com>
- <b195971c-52e6-463e-a440-83dde4346e65@ideasonboard.com>
- <20250327112009.6b4dc430@eldfell>
- <b5cf15a4-7c65-4718-9c39-a4c86179ba4c@ideasonboard.com>
- <20250327175842.130c0386@eldfell>
- <CAMuHMdVEpTVWmwrYt+G-QSWucT91goUcFor9qbo5rZ+X2jnRog@mail.gmail.com>
- <20250331105446.098f0fbe@eldfell>
- <20250331082135.GB13690@pendragon.ideasonboard.com>
- <20250331135337.61934003@eldfell>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8551910E5BB;
+ Tue,  1 Apr 2025 13:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743515294; x=1775051294;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=TZ0Wmnbwt9NR3N1+cfyPvR4a+8wr2pjZAD84vmdcvSU=;
+ b=cKiXgx5LhNc1deWWcY1Bj4se0MWb8TyYh4AWAw6xi6+sxPYm2awKYwH9
+ EUslrlNwGtbRFpjYdH0aHuwOppnCtvR5BiYWJervuNymsohAmICmyq7RN
+ VGgPf4n5IYAol/AtKTznEYwNePsTWdkVE1VNjpOShjsRj+F8gUvMuMBFu
+ d/5A2X3Mb34AG3N/r7KKGQsuT32dud81Gqf9S9ZOgzuk0TfqOinjiH5Ga
+ 29mWV7WmFG+KoRmyXEHxWQ0XFQ3mI6Qws8XBj+nj7dW9Zyl2nPPkUg0Sr
+ sOUxm9Mw2L6cfyLtunz00R5ERSB4x+F2hHzgQ+/Ja8PngAooLxyGtr1zU Q==;
+X-CSE-ConnectionGUID: DyhQEOBdRA+iFmt9tecfGQ==
+X-CSE-MsgGUID: 9rEOJmwVRQKOvMCCyhRWUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44550175"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="44550175"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 06:48:14 -0700
+X-CSE-ConnectionGUID: 8LXhDeQOR4yAP9t/OrtvYg==
+X-CSE-MsgGUID: IS9NcCS4T6SmK7dQL5C5Rw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; d="scan'208";a="126218599"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.7])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 06:48:10 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v6 5/8] drm/i915/display: Add drm_panic support
+In-Reply-To: <20250401125818.333033-6-jfalempe@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250401125818.333033-1-jfalempe@redhat.com>
+ <20250401125818.333033-6-jfalempe@redhat.com>
+Date: Tue, 01 Apr 2025 16:48:07 +0300
+Message-ID: <87ldsk2dt4.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/OLA4PRd4W1=pfOT/_baNr+x";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,168 +74,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/OLA4PRd4W1=pfOT/_baNr+x
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, 01 Apr 2025, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+> This adds drm_panic support for a wide range of Intel GPU. I've
+> tested it only on 4 laptops, Haswell (with 128MB of eDRAM),
+> Comet Lake, Raptor Lake, and Lunar Lake.
+> For hardware using DPT, it's not possible to disable tiling, as you
+> will need to reconfigure the way the GPU is accessing the
+> framebuffer.
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>
+> v4:
+>  * Add support for Xe driver.
+>  
+> v6:
+>  * Use struct intel_display instead of drm_i915_private for intel_atomic_plane.c 
+>
+>  .../gpu/drm/i915/display/intel_atomic_plane.c | 79 ++++++++++++++++++-
+>  1 file changed, 78 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> index 7276179df878..eebf20fafaeb 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> @@ -33,13 +33,16 @@
+>  
+>  #include <linux/dma-fence-chain.h>
+>  #include <linux/dma-resv.h>
+> +#include <linux/iosys-map.h>
+>  
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_blend.h>
+>  #include <drm/drm_damage_helper.h>
+> +#include <drm/drm_cache.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_panic.h>
+>  
+>  #include "gem/i915_gem_object.h"
+>  #include "i915_config.h"
+> @@ -47,6 +50,7 @@
+>  #include "i915_vma.h"
+>  #include "i9xx_plane_regs.h"
+>  #include "intel_atomic_plane.h"
+> +#include "intel_bo.h"
+>  #include "intel_cdclk.h"
+>  #include "intel_cursor.h"
+>  #include "intel_display_rps.h"
+> @@ -54,6 +58,7 @@
+>  #include "intel_display_types.h"
+>  #include "intel_fb.h"
+>  #include "intel_fb_pin.h"
+> +#include "intel_fbdev.h"
+>  #include "skl_scaler.h"
+>  #include "skl_universal_plane.h"
+>  #include "skl_watermark.h"
+> @@ -1251,14 +1256,86 @@ intel_cleanup_plane_fb(struct drm_plane *plane,
+>  	intel_plane_unpin_fb(old_plane_state);
+>  }
+>  
+> +/* Only used by drm_panic get_scanout_buffer() and panic_flush(), so it is
+> + * protected by the drm panic spinlock
+> + */
+> +static struct iosys_map panic_map;
+> +
+> +static void intel_panic_flush(struct drm_plane *plane)
+> +{
+> +	struct intel_plane_state *plane_state = to_intel_plane_state(plane->state);
+> +	struct intel_plane *iplane = to_intel_plane(plane);
+> +	struct intel_display *display = to_intel_display(iplane);
+> +	struct drm_framebuffer *fb = plane_state->hw.fb;
+> +
+> +	/* Force a cache flush, otherwise the new pixels won't show up */
+> +	drm_clflush_virt_range(panic_map.vaddr, fb->height * fb->pitches[0]);
+> +
+> +	/* Don't disable tiling if it's the fbdev framebuffer.*/
+> +	if (to_intel_framebuffer(fb) == intel_fbdev_framebuffer(display->fbdev.fbdev)) {
+> +		return;
+> +
 
-On Mon, 31 Mar 2025 13:53:37 +0300
-Pekka Paalanen <pekka.paalanen@haloniitty.fi> wrote:
-
-> On Mon, 31 Mar 2025 11:21:35 +0300
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
->=20
-> > On Mon, Mar 31, 2025 at 10:54:46AM +0300, Pekka Paalanen wrote: =20
-> > > On Thu, 27 Mar 2025 17:35:39 +0100
-> > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > >    =20
-> > > > Hi Pekka,
-> > > >=20
-> > > > On Thu, 27 Mar 2025 at 16:59, Pekka Paalanen
-> > > > <pekka.paalanen@haloniitty.fi> wrote:   =20
-> > > > > On Thu, 27 Mar 2025 16:21:16 +0200
-> > > > > Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:     =20
-> > > > > > On 27/03/2025 11:20, Pekka Paalanen wrote:     =20
-> > > > > > > On Wed, 26 Mar 2025 15:55:18 +0200
-> > > > > > > Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:     =
-=20
-> > > > > > >> On 26/03/2025 15:52, Geert Uytterhoeven wrote:     =20
-> > > > > > >>> On Wed, 26 Mar 2025 at 14:23, Tomi Valkeinen
-> > > > > > >>> <tomi.valkeinen@ideasonboard.com> wrote:     =20
-> > > > > > >>>> Add greyscale Y8 format.
-> > > > > > >>>>
-> > > > > > >>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > > >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard=
-.com>     =20
-> > > > > > >>>
-> > > > > > >>> Thanks for your patch!
-> > > > > > >>>     =20
-> > > > > > >>>> --- a/include/uapi/drm/drm_fourcc.h
-> > > > > > >>>> +++ b/include/uapi/drm/drm_fourcc.h
-> > > > > > >>>> @@ -405,6 +405,9 @@ extern "C" {
-> > > > > > >>>>    #define DRM_FORMAT_YUV444      fourcc_code('Y', 'U', '2=
-', '4') /* non-subsampled Cb (1) and Cr (2) planes */
-> > > > > > >>>>    #define DRM_FORMAT_YVU444      fourcc_code('Y', 'V', '2=
-', '4') /* non-subsampled Cr (1) and Cb (2) planes */
-> > > > > > >>>>
-> > > > > > >>>> +/* Greyscale formats */
-> > > > > > >>>> +
-> > > > > > >>>> +#define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E',=
- 'Y')  /* 8-bit Y-only */     =20
-> > > > > > >>>
-> > > > > > >>> This format differs from e.g. DRM_FORMAT_R8, which encodes
-> > > > > > >>> the number of bits in the FOURCC format. What do you envisi=
-on
-> > > > > > >>> for e.g. DRM_FORMAT_Y16? fourcc_code('G', 'R', '1', '6')?  =
-   =20
-> > > > > > >>
-> > > > > > >> I wanted to use the same fourcc as on V4L2 side. Strictly sp=
-eaking it's
-> > > > > > >> not required, but different fourccs for the same formats do =
-confuse.
-> > > > > > >>
-> > > > > > >> So, generally speaking, I'd pick an existing fourcc from v4l=
-2 side if
-> > > > > > >> possible, and if not, invent a new one.     =20
-> > > > > > >
-> > > > > > > what's the actual difference between DRM_FORMAT_R8 and DRM_FO=
-RMAT_Y8?
-> > > > > > >
-> > > > > > > Is the difference that when R8 gets expanded to RGB, it becom=
-es (R, 0,
-> > > > > > > 0), but Y8 gets expanded to (c1 * Y, c2 * Y, c3 * Y) where c1=
-..c3 are
-> > > > > > > defined by MatrixCoefficients (H.273 terminology)?
-> > > > > > >
-> > > > > > > That would be my intuitive assumption following how YCbCr is =
-handled.
-> > > > > > > Is it obvious enough, or should there be a comment to that ef=
-fect?     =20
-> > > > > >
-> > > > > > You raise an interesting point. Is it defined how a display dri=
-ver, that
-> > > > > > supports R8 as a format, shows R8 on screen? I came into this i=
-n the
-> > > > > > context of grayscale formats, so I thought R8 would be handled =
-as (R, R,
-> > > > > > R) in RGB. But you say (R, 0, 0), which... also makes sense.   =
-  =20
-> > > > >
-> > > > > That is a good question too. I based my assumption on OpenGL beha=
-vior
-> > > > > of R8.
-> > > > >
-> > > > > Single channel displays do exist I believe, but being single-chan=
-nel,
-> > > > > expansion on the other channels is likely meaningless. Hm, but fo=
-r the
-> > > > > KMS color pipeline, it would be meaningful, like with a CTM.
-> > > > > Interesting.
-> > > > >
-> > > > > I don't know. Maybe Geert does?     =20
-> > > >=20
-> > > > I did some digging, and was a bit surprised that it was you who told
-> > > > me to use R8 instead of Y8?
-> > > > https://lore.kernel.org/all/20220202111954.6ee9a10c@eldfell   =20
-> > >=20
-> > > Hi Geert,
-> > >=20
-> > > indeed I did. I never thought of the question of expansion to R,G,B
-> > > before. Maybe that expansion is what spells R8 and Y8 apart?
-> > >=20
-> > > I do think that expansion needs to be specified, so that the KMS color
-> > > pipeline computations are defined. There is a big difference between
-> > > multiplying these with an arbitrary 3x3 matrix (e.g. CTM):
-> > >=20
-> > > - (R, 0, 0)
-> > > - (R, R, R)
-> > > - (c1 * Y, c2 * Y, c3 * Y)   =20
-> >=20
-> > I'd be very surprised by an YUV to RGB conversion matrix where the first
-> > column would contain different values. What we need to take into account
-> > though is quantization (full vs. limited range). =20
-
-Quantization range is indeed good to note. R8 would be always full
-range, but Y8 would follow COLOR_RANGE property.
-
-> That makes Y8 produce (Y, Y, Y), and we have our answer: R8 should be
-> (R, 0, 0), so we have both variants.
->=20
-> Can we specify Y, R, G and B be nominal values in the range 0.0 - 1.0
-> in the KMS color processing?
-
-I think this 0.0 - 1.0 nominal range definition for the abstract KMS
-color processing is necessary.
-
-It also means that limited range Y8 data, when containing values 0-15
-or 240-255, would produce negative and greater than 1.0 values,
-respectively. They might get immediately clamped to 0.0 - 1.0 with the
-first color operation they face, though, but the concept seems
-important and carrying over to the new color pipelines UAPI which might
-choose not to clamp.
+Mismatched {}
 
 
-Thanks,
-pq
+> +	if (fb->modifier && iplane->disable_tiling)
+> +		iplane->disable_tiling(iplane);
+> +}
+> +
+> +static int intel_get_scanout_buffer(struct drm_plane *plane,
+> +				    struct drm_scanout_buffer *sb)
+> +{
+> +	struct intel_plane_state *plane_state;
+> +	struct drm_gem_object *obj;
+> +	struct drm_framebuffer *fb;
+> +	struct intel_display *display = to_intel_display(plane->dev);
+> +
+> +	if (!plane->state || !plane->state->fb || !plane->state->visible)
+> +		return -ENODEV;
+> +
+> +	plane_state = to_intel_plane_state(plane->state);
+> +	fb = plane_state->hw.fb;
+> +	obj = intel_fb_bo(fb);
+> +	if (!obj)
+> +		return -ENODEV;
+> +
+> +	iosys_map_clear(&panic_map);
+> +	if (to_intel_framebuffer(fb) == intel_fbdev_framebuffer(display->fbdev.fbdev)) {
+> +		intel_fbdev_get_map(display->fbdev.fbdev, &panic_map);
+> +	} else {
+> +		/* Can't disable tiling if DPT is in use */
+> +		if (intel_fb_uses_dpt(fb))
+> +			return -EOPNOTSUPP;
+> +
+> +		intel_bo_panic_map(obj, &panic_map);
+> +	}
+> +	if (iosys_map_is_null(&panic_map))
+> +		return -ENOMEM;
+> +
+> +	sb->map[0] = panic_map;
+> +	sb->width = fb->width;
+> +	sb->height = fb->height;
+> +	sb->format = fb->format;
+> +	sb->pitch[0] = fb->pitches[0];
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct drm_plane_helper_funcs intel_plane_helper_funcs = {
+>  	.prepare_fb = intel_prepare_plane_fb,
+>  	.cleanup_fb = intel_cleanup_plane_fb,
+>  };
+>  
+> +static const struct drm_plane_helper_funcs intel_primary_plane_helper_funcs = {
+> +	.prepare_fb = intel_prepare_plane_fb,
+> +	.cleanup_fb = intel_cleanup_plane_fb,
+> +	.get_scanout_buffer = intel_get_scanout_buffer,
+> +	.panic_flush = intel_panic_flush,
+> +};
+> +
+>  void intel_plane_helper_add(struct intel_plane *plane)
+>  {
+> -	drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
+> +	if (plane->base.type == DRM_PLANE_TYPE_PRIMARY)
+> +		drm_plane_helper_add(&plane->base, &intel_primary_plane_helper_funcs);
+> +	else
+> +		drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
+>  }
+>  
+>  void intel_plane_init_cursor_vblank_work(struct intel_plane_state *old_plane_state,
 
---Sig_/OLA4PRd4W1=pfOT/_baNr+x
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmfr6cQACgkQI1/ltBGq
-qqcyAg/7B5M9LjzwSycaieCw4rY2vce9hzdBsGuTQ9VLRFvXZF/OhbeaTsYJCg6j
-NGDDcGHOq0SV25e6I8YvaSUfb7n+MbW+l8Xjo3Ivoz0S9Uy5aUeo58ZsjM3GO2yu
-7JlWxw4cAJge22SukdPef5qmGa37+Lkl0HyowrjbIAJYUqdEzRKrqLZRl3EVG+98
-SKR2Z4ZZhysT2lrlDCJaAz8UfYDXO7FoZ0qcDqYbl6tzSKv6kIizymb9RGrywcel
-5Bsm3Y8ynnXVtZc02TMWswXpoCDPn3VxdOCz6D2pQkcgdB0cZjigAuiDtOXbnA7L
-iQPJECcDK1vlSFpNk7Xa24SN3FNiCGpiGKpZp/vobDL8aDtOWvcburh+VZ6yq3WL
-Pi1RDaePaCr5/vxJ8+Aw+tgWtx5kaSUEN5kCkQQ4ujVaeRsyE3qx/mITMEEx6LgJ
-o23+CS7EmbM0Q3XLByu4MvzgerWz2kBpgBSRZ8bwFpwns3kAG6YCKjoE1sguj+qI
-xTj7NH9zfRq9jIz8Td6Tix/jVPzqAEKUcwb2N9SCoJyc4eV0wLjp0xmyEL65soGg
-ZqVyXyfhwtHemGOEQt37MQOmxEs+lclEhh8+Cg+LKCyMyrWrbSFlSqJp7ohmT8fd
-S4N12JsErxzbtTtGsZETiaYc+tqrC9yoqW/x0IUQKZHHl7jeyyA=
-=flgN
------END PGP SIGNATURE-----
-
---Sig_/OLA4PRd4W1=pfOT/_baNr+x--
+-- 
+Jani Nikula, Intel
