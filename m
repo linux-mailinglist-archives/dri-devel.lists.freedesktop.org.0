@@ -2,183 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2A2A773EA
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 07:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BCFEA773F5
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Apr 2025 07:33:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83CCC10E4E9;
-	Tue,  1 Apr 2025 05:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8AD10E175;
+	Tue,  1 Apr 2025 05:33:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YqNIi2pu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XOpgtrf8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3450210E07B;
- Tue,  1 Apr 2025 05:29:48 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB9E10E07B;
+ Tue,  1 Apr 2025 05:33:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743485388; x=1775021388;
+ t=1743485616; x=1775021616;
  h=message-id:date:subject:to:references:from:in-reply-to:
  content-transfer-encoding:mime-version;
- bh=bO13LoC3A26lVcZPeL2rU+2A3yn5+0iN9uw2k75LWiQ=;
- b=YqNIi2puVJqcz5nYEGnaFStURMR2bD3LPxN56fPRc+9yAtL9wSe4nwPb
- WVAQJIOtqjNfEB5f9M3QhBQ9LPpBomM9J02OjH1StWAyqyVvdIJ9Pv15x
- KjDfYYBZsdkomQ18+uGjhLEBvobpp5bR9YLDP241aybs4+Ajr/FNn7qgI
- dmqFo+Qa43p1Ym0aVNOPdBDM9i3Qay5LSV48VPi5tXuiaUEHZMcNGns6p
- VdGjNOpL/5MF6te4bBy1xR9jFGf32dt8tHhj3aw+3Z5Fn0M/fDtUXL3ay
- QjWusXGHiYU94eVz3qsN4y8H1fUhJ7bu/Wi9QLL9qdKAPgIPuf9JqeQea A==;
-X-CSE-ConnectionGUID: lP9Z3MnKS4i870BW/CM8Yg==
-X-CSE-MsgGUID: CJyEebV2T1yFQZbBHMmAyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="62324385"
-X-IronPort-AV: E=Sophos;i="6.14,292,1736841600"; d="scan'208";a="62324385"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2025 22:29:48 -0700
-X-CSE-ConnectionGUID: 0CDEl5gWRNqKSsQkKQQThA==
-X-CSE-MsgGUID: TdJwyZTaR/GScJ+4wi742Q==
+ bh=ABFYvXz5QZDEHUJ1poV1MntM/VqRBhdJ8Y6LDo7HYBE=;
+ b=XOpgtrf8pfChU3JJhwGeeP8U/TVUnsvD21IO0DVX1HvET00U5B94f+d5
+ jCwkMF3Q7cWOCLK78/zV2SQT2FK4KLsKnFpINwEZo08TfhcNpzWEM+oiv
+ Q+ZrOfJ6OsLhEAgjA3GvP6CA6msJwLGQNESfyVEZn6vpOY0/nqXZSB8LR
+ pWnSLnH9uebUT8S/RRXCj3bju7qqHiaz1qPtx3JSNoBilmvtXWwZ6eDVV
+ I/4QuKuNK7MUfme8rJlj6IfiH9ByWc+4J15unedkvG7c9Gn9o6dNTaHJN
+ 5pp6Rcj7vkoWGvmSwXJPmN6nktK+/2we4ZsMgUp5bdNstrJE16B6/EGxH A==;
+X-CSE-ConnectionGUID: p/Ss7Bb5QE61xvxvFpyMpw==
+X-CSE-MsgGUID: AbQBFybYT4SP8qHlga3E5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="32389594"
+X-IronPort-AV: E=Sophos;i="6.14,292,1736841600"; d="scan'208";a="32389594"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2025 22:33:35 -0700
+X-CSE-ConnectionGUID: HxbzgO5TRAqo1PTbf3HXSQ==
+X-CSE-MsgGUID: g8bWbcdmSZWYFdjSuJwKRg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,292,1736841600"; d="scan'208";a="126509016"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 31 Mar 2025 22:29:48 -0700
+X-IronPort-AV: E=Sophos;i="6.14,292,1736841600"; d="scan'208";a="126040401"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2025 22:33:35 -0700
 Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 31 Mar 2025 22:29:47 -0700
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Mon, 31 Mar 2025 22:33:34 -0700
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Mon, 31 Mar 2025 22:29:47 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.2.1544.14 via Frontend Transport; Mon, 31 Mar 2025 22:33:34 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 31 Mar 2025 22:29:46 -0700
+ 15.1.2507.44; Mon, 31 Mar 2025 22:33:34 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NSVfopEZvozdbzkBS2JPxjcsk75wosaFXLPDtHBpb//dwyL5ToU7/HXkNpnh/JWilIwuHB1aINqvSEq7yNDVGtmlRlLrvEYSSlJWT8gaiSfsnEp/5h2AozfxF6p7m4udQxOuwto9zl0uegvzuyoIOjJs3F3MyrMbVnjxYcBcf5GlfBYqSb1eongn255VLf+TRvQ+R+H7ZLzpyrlla2t3djgNO1RYwSrvY4OSqr2Ku92uHL3LCjI7XNlAVSHKADrAk9DmAncldDvN/PHVsAAvPjHjqW1ibsaydQaA6jhRCdtKWA2FQ3Z6bd+DfuiTQpNySg0fEqD1xo21x4qBt63pTQ==
+ b=pyA1yWsNU4kJ5161GLOCztql5o6gjKJNTLWaUzCHm52gthVBRs79C1WpVZTTviHXBMVoOgGX/TlAiN10Co5O7zmbU60FtJIBblvJ7bDTqhjZaKQ/lMIqP9+618iHhdKHFJkrs0EdrGs7fGShFVlBklTnha/2/jdRgeiTkwpExQPuckD6c9mmljwAmkCj8GZ8bRm5qrx+WREngvJBuGcTYY5XlsZV3RAWw4DmQdMKaHuQ5kvEFx1E6PDT2ybRaukThcA+SigtCisve30QoP2hXqJdBkzQiwhES21XygyyQkLeMwiA8ah+8S+/hR6XIIeElN7D87X5Dj1bLGh/K+roKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R1eGmzDcN92JQkwjiAYKPBFNEvJMOK5+reZnhhA6IdA=;
- b=e4JV7r9TeJ+s1MCS7rbGLjM5apFiHWRNfyCaMK4mCgm/Tnicumg6d+Os3bcmyLm3YItBO5aFb3y/22sblSF5PLaUYPIqsAS3TeCC+YNCNwtvkpXXiK4JupHjV5cjnI/wTelXfsfYV/3ogCW+bsoBa+UWoG4mf0S2VikHpyVcljJqIspktjjpJmnhumZTZjOfHiHdCXo30y3qD2rMvVsiNV3oKtoXMBHxSVZNAmYF9SCDtDN1vBWjUeLKod8Hp3Dp8pU9ZYwvALE8K/MJXwtDP8kDiM6GT9NjUx0DpgIA6UPYfnIOvHx49/31li7dJIaJ9XcV6H03BcrT4nSv23PkqA==
+ bh=337nra4Wu00ENjrDjZYQ7hBXbE0LJLGpGAaxlwsSEg4=;
+ b=B1QyRRtXgZpELsE5vAYij7L2cY0c+/Ele6IrVz6QebvjYAx0SNRPp8/9f8kbyaCJ252Z8a25IkzIwQGmJamQ92x6xgk3rDrvfJvGk9vVlgLJN11ULjAz1RjyIYZfxcEh68gLCxUzpuV6iC1UxzLZyj2i7X/2D/ZLbEvzeR6ZJf5aMAb6O8xCZkRD/srYUWbck/eUd4lhEUpNPxEo8K9YdvN3+1Cvi4y1U/MNpkxtvkPrp05X0pKR9JtJGnqtiCQ8mC6jVGjNMsj9S1P3XtfieqrS4H1k+v4vleKyAPunXsn92ripzEpUKsgmfeol8GGid6b07SSQV92+cFUJjIzBjQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by SN7PR11MB6678.namprd11.prod.outlook.com (2603:10b6:806:26a::20) with
+ by IA0PR11MB7910.namprd11.prod.outlook.com (2603:10b6:208:40d::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.53; Tue, 1 Apr
- 2025 05:29:13 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Tue, 1 Apr
+ 2025 05:33:05 +0000
 Received: from DM4PR11MB5341.namprd11.prod.outlook.com
  ([fe80::397:7566:d626:e839]) by DM4PR11MB5341.namprd11.prod.outlook.com
  ([fe80::397:7566:d626:e839%4]) with mapi id 15.20.8534.043; Tue, 1 Apr 2025
- 05:29:13 +0000
-Message-ID: <a595e02e-7827-4162-806f-09e7767fefef@intel.com>
-Date: Tue, 1 Apr 2025 10:59:06 +0530
+ 05:33:05 +0000
+Message-ID: <61fc84b0-46f9-4f2d-91d6-29cc42386290@intel.com>
+Date: Tue, 1 Apr 2025 11:02:57 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/12] drm/i915/display: Compute the scaler filter
+Subject: Re: [PATCH 07/12] drm/i915/display: Configure the second scaler for
 To: Nemesa Garg <nemesa.garg@intel.com>, <intel-gfx@lists.freedesktop.org>,
  <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 References: <20250321160628.2663912-1-nemesa.garg@intel.com>
- <20250321160628.2663912-6-nemesa.garg@intel.com>
+ <20250321160628.2663912-8-nemesa.garg@intel.com>
 Content-Language: en-US
 From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <20250321160628.2663912-6-nemesa.garg@intel.com>
+In-Reply-To: <20250321160628.2663912-8-nemesa.garg@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0P287CA0010.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:d9::15) To DM4PR11MB5341.namprd11.prod.outlook.com
+X-ClientProxiedBy: MA0PR01CA0063.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ac::17) To DM4PR11MB5341.namprd11.prod.outlook.com
  (2603:10b6:5:390::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|SN7PR11MB6678:EE_
-X-MS-Office365-Filtering-Correlation-Id: 459edbec-06bd-402d-d8ae-08dd70de22f0
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|IA0PR11MB7910:EE_
+X-MS-Office365-Filtering-Correlation-Id: 649518ab-e2fc-455c-dc4c-08dd70dead6a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?a1BWWGxBSi93My9MVkZIbFRsSE1STm02RWlxRFBtdXcrbithTTdQSlRhL2pm?=
- =?utf-8?B?bFZGTGY2ZWZPYm92b0ZMTjRycFdGRUFNaXJKNXErOTAreFJXRlNSYW50QTh6?=
- =?utf-8?B?citndFhLZ0FGaC9DUWFXd01zQ1pvRUdkcVNUSXkweTI2Q0JZM0d3L0F4aDFm?=
- =?utf-8?B?VERkanBOdVBRak1USFZaMmVUY0lET3pSMlJ6RjZET2NrUko5WnFYbnhYbWQ5?=
- =?utf-8?B?K2s4UnRBbzcxeWhyallsT3dXOEEvbkU2UTl5MTREM3BPVzdPMTRCOXNveE51?=
- =?utf-8?B?ZTI0YjFzb0tsNHR4WDZHMGd6VWtrU1pXdUNQNDVtcTkxM2paR0RiR2JCTUtQ?=
- =?utf-8?B?WWY1NHI0ZVp0NmN1OGlmSjFKMEROM1UzMkkvNWpqWDY5UkF6QVp5VUM5RGwv?=
- =?utf-8?B?aS9sYzNyTjd1QVJUajl1SWozSlptWlR6OUxRMzY1VFZ5M2FCeVhrdHQrMWwv?=
- =?utf-8?B?ZDBKK29wSlR3TFB0QjBheXExWWIyMklRbXhpOHoyQzhmbE9WaUpGc2pMY0Rz?=
- =?utf-8?B?Y09UZ0UwbWJTTjBZQXZZSGJWTkFlVFVscURVdlcvT0hHeHhjQXQvQ1VWRSts?=
- =?utf-8?B?OTZKZmdYSEF3ZjFBL2oyWUFPR2hoenE4NWdBT0pXOVh5K29jb2x3dWpjVi9n?=
- =?utf-8?B?angxdkRIVHhsenZCR1VYbnlVczR6MmpVOG1odWZxWUZJbFVveEVGOG5UbHZQ?=
- =?utf-8?B?U1JLU0VWUEhING5WU0tXSHJUSUtyZmNYZUlxcEh5eWlkVXJvRWNTL0ZsdEho?=
- =?utf-8?B?TDQxOUJ2Y2Q4WkxLQnBLYmNrY1g1d21mMXRGQUpTOWxjazR5MXRxMmxFY2Mz?=
- =?utf-8?B?L1VId3pHUzROTnBQLzZyZ0owL1MySFVmU3Y1M3ZWTHJ0TkpqcFMwOTZXR1Bx?=
- =?utf-8?B?SDNPSlo2SXB3UXFVZHI4MElhTmpyT3Y1OExRUEJYV2lFdUQwNTMyME9ZWjg1?=
- =?utf-8?B?SVNFMlI2eHVIMGtiWmhEb29XcWtjazg4REpnc3F4dW9QbFBRRjAvMnB5a0dS?=
- =?utf-8?B?Yy9maFVHSGwxcXlsM0syQ29JNkhjUUp1MmQvZnI2UUEwV0hBdWF2Zk5pNXZR?=
- =?utf-8?B?K2cwOW1xVWZvUlZ0dzJWdGdwZVZuNFV5N2JqdEZvVERWdSszM1lIYXRwQkdB?=
- =?utf-8?B?RVVFNFVWa25KSXVEd3ZxQ0h2eFRWNXZ6Vyttbm1IaGYycHAyMVZHNDZ3SG1N?=
- =?utf-8?B?STFmVE1aeW81ZExtNUVGNEw4VmlZRGNDM0ZSbW1PQnc5Z1QzS0ZUSi8vMjNR?=
- =?utf-8?B?OW1zMUErZ004VFBua2xtd0JWR2VlUmhkeG1EOFBkYkcrKytyS1VrcU1Oak5M?=
- =?utf-8?B?cGRORHIybzNySkFHS0RscUFJbWFTWmRiR0FBNWZsVmJ1NWJTaEFydG1yMlN2?=
- =?utf-8?B?bU1IUUhsMkh6Rnc3Y0tzRDIyV1pZa2pSTlhKd0ZBUG1sYU9SVnliQnE2eThw?=
- =?utf-8?B?T3hiV244VmZVdHdLTVBVaEo5d3Exd21qVVpJZ1dKd3dsMCs2c0hYbjZkWUNB?=
- =?utf-8?B?dlV3WGNFYXM4YVhraCtaTFJQL3BPOWlSZTh5bzF2MGdnQmptK09DMGl2Z25p?=
- =?utf-8?B?UWJDR1BqcmxXd3JUVTNRKzAwWkhETzRYSDIzSXVvR29hUHpmVjZnV0NrTFVX?=
- =?utf-8?B?Z2hFaGhoNHp1YTFES2I5ZXhxWDE3NWV0MkRza0JSQnFhTFRYT0dmMVRsSjM2?=
- =?utf-8?B?ZTkweUE0UkNQTGt0M0U4TVZVRDROblI1c1RodzZaZUxEUFgwM0RWOERZWEFO?=
- =?utf-8?B?cGZmVjlBVkJyMCtJSnNRZmg5a2s0dmk0WlUyRGk2aGRSNEhhUUpIdndlN05B?=
- =?utf-8?B?NmlPVElsSnVLeDhWQUNKb08xVVBnVmw0azRCZi9UZlVEVkNTY1pMYjdvT1NB?=
- =?utf-8?B?anJKQzhWRG13eCtWa1VBK2NybmsxNnE3azUwMFBINmlmbHc9PQ==?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aEhEYy8yZC9IL3F4dGVqR2NhZVluSlBPVVlLeFhySWQ0TmVGZHRGYkY3aU1k?=
+ =?utf-8?B?ZVppVjNOVlp3YXFvZVQyVGhPbCt5OG1yakdvZkQ3UFRCdEtQNm9qeFZDR01Z?=
+ =?utf-8?B?SnVDV3M5dENPUWh2NUlmRmI5WjY5dVBhbUZXdFd3aUNJYUxmSTBuaXVOSVA5?=
+ =?utf-8?B?QmFyY0E2ajIvb1BEbTRseE1GNFRCcVQxNmcydG85Q1lGYUxyNHQxVC9nVkdJ?=
+ =?utf-8?B?SjlXSEVlNDU3OWhXNGpNVndQVUtVeGYrOEJOalVKY2NmRUFyUUVEd2JkS2hw?=
+ =?utf-8?B?MXRBVjVMUVFDSzhwbHBoMm9hSmljU3k3ZExCYUxWd01sWE1BZFBDaU9QVjFT?=
+ =?utf-8?B?djZWVURiNlJqODlEUTl0Wlg5bnB3RXNRZkFabmFaa0MvdkswRkJORXI0RnIr?=
+ =?utf-8?B?MEVLYjlBZkhTVWlDaW1iZnM3b1B2Y3NmWmxGcFg4eTVWSWpJTE9SYTd3d0xm?=
+ =?utf-8?B?eElGWTVpWTdmam96R1o3V3FNbzJ1dzd3VWhXSFJNVzNGdDU3U2UrRWFFdzNU?=
+ =?utf-8?B?WUoxdFRwcWpOakFFNU0rUml3d0dPV3dKZXpGVWtRQU1QVHBUNmtIWFJpaTk3?=
+ =?utf-8?B?VWYzY3JacEpldk9CRDU1VlVWRk9QalorR296UjVrTTZSQTNNemhPOWFRWlgx?=
+ =?utf-8?B?a2luT2k1SXR3Mm1KL2I4YjJtWGxlTnFwRlNTcFBJZm5nWkozalZsY1VtZXl4?=
+ =?utf-8?B?SWxNNEJDamNDRHAwc3g4UTZtUndxait6MHI2Y2RncVBQd3hpbzNveFYxZlh1?=
+ =?utf-8?B?My90SUR5b3oxTHErbXJOVlY4M1VXZGFoaG9qMWRxcUVoMmxvTEFSTXluVm5t?=
+ =?utf-8?B?K29UNzJIRWVjZ0JDTy9hcUljZGpJZkhybUZQdkZvMWYyQXpRb2RPYlAwSVFD?=
+ =?utf-8?B?QXhPelRoSmJ3ZU1icFJyb2hEaWIvNjF4eHF0NXE3dlZ1R3BDWm9lUnZLNzB4?=
+ =?utf-8?B?K3Q2MEdEellRUXUrZ1ZFQkZRaEYxYlpMS2l1anZrMDhCY3RxNlArWTN5VnJN?=
+ =?utf-8?B?cTBvV1lTNW16ZndIeERScHB2TEY1M1NQZDBxeDRmS1p5aTJCQ3grOHkzbEZE?=
+ =?utf-8?B?WDh0aW8wN0NFMFo4VGRFQ3o4WDNudTUyTXNZTlFlZStKaDRGZTRrVHpSZTdR?=
+ =?utf-8?B?dkFyOVBvT0w4a3FPOGNjRDFRUTdLVXg2cVl4QnhIK2pidnYzQ1pjWkJJYWJZ?=
+ =?utf-8?B?SExNdkR1eDJ1YWlycnVtOHd0TDg1QW5tRUZmTmx2ZG5qbEZ1RDFZMHo3Rk0y?=
+ =?utf-8?B?VUczbk5uSnQvMmJmM29ERGVYSU9mcUdPbjZLdzA5VG1BTmpWUjJKbXNlZVB3?=
+ =?utf-8?B?ejBXZnRjbEpaTW5oRk1kOGU3TkV0MWJOT3ROaWhibThTNmtyanZlTlhaeVl6?=
+ =?utf-8?B?V1FXU1BWUEZZNGZUOHpIb3JoS2dveHFwU01YMXNsVVhwZk9GNlBrUHVuUElG?=
+ =?utf-8?B?OWpFemFOUkFCdzBsRXlzdTB4K0RIRlBpZFo4WExjM0xHeVJkNTNLNzlzUDFQ?=
+ =?utf-8?B?dkRQYjFTR0xvSDV6dDJMUE5nNzNYK203b0hJUmh4OXVIbXZqc3ptc2tHdGcr?=
+ =?utf-8?B?WXhzRmowRjRaUjM2YWdPUWk4cmtRVWRyc1ZBS1VrRFV6WXBFeVB0a2NEVSsv?=
+ =?utf-8?B?VCtUSjZHMXMweHVXVDZlcC96azR0RElGSUk5d2tDUThQQ0FlV1EvZm5TWWtI?=
+ =?utf-8?B?Z25mNG8ybVlnQXFCT1Nwc2taV2E4WktCNytLbEtMK2Nib3oxTDA2RHhMbFVP?=
+ =?utf-8?B?bUs2Y1kyOG5LbHZyVW5SM1pYWHpiNDRKNktmK3FmQXdjYjU1TXBMY0dhS1dp?=
+ =?utf-8?B?Y1pRM0hEWCt3WHY5RzRwaWtPd2xyN2RtQVpaNE9JU2M2bjhTU04rTzErQ3ZW?=
+ =?utf-8?Q?ctqq36CHFik3N?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmVZZGFYL0hEZWRvWXZTVlRQelp5ZnVadTljbGhZcXVoMnV5ZTN0SU9XQXJV?=
- =?utf-8?B?cCsxQ09zUWt5a0ZKdllzR2dpdCtTeVczV1hCaEhPRS9FM1c0VGtnWkhrZTl5?=
- =?utf-8?B?Vk14aFVLS0cwbEpzcTM2S2ZLc3F4ZlVFRVRZeWEwNEZpajZQQll3ZmUwYmly?=
- =?utf-8?B?bHpLRzBqZ1hOWGVTdUNaVVE5SWt0eHkvR3BWU09YUkdXQysrb3k5WnVNOWtQ?=
- =?utf-8?B?emM0S3VIMmRDdTFualEyRHBwdUt0alVnTlFEZVpqeTFFK0NnbUxLeUtYVDVs?=
- =?utf-8?B?V1djNWlJQXhVVkhXUHR3WkRkMWltMFZ0cHhLcHR0U2pyOUhkck80MjIwK3J4?=
- =?utf-8?B?V3JBU1B2aWhyMTV1UzJGQkFEWHl5aEIxbnBTcC9mUkxFZjE0Z0dPdytTd0lH?=
- =?utf-8?B?cGNHeUphNkw2NERzZGJIZFhlQlFucDV5Mzh2bHhvRFN0Rm51Z2JHUHNRNDkz?=
- =?utf-8?B?NlFUUjdnVUR0clpTMDFnRFNiV1poQWxyZmY3dzI3MkpLczFUWkFVVjE4WDZV?=
- =?utf-8?B?RkJaTlo2UnN2RUFCQ0xxWSthQVFObHdQanBnYklITWJFaDNiamovRmhyQUVr?=
- =?utf-8?B?a2JkWjRsajlTZlFsVDlMQkRQVjJHOXZpRUliTDU3d0w1OHBUMHdDN0Jtbzg5?=
- =?utf-8?B?azhVa2o4S205LzJ1TmF3b2FXN0p6bTZoQW9lMWVYRXhlbVRLVVByMXlodUxv?=
- =?utf-8?B?TE1nSGhlRnI2ME90SHM2QlV5TUF4cmQyd21kbFJKT1d6UEQwTEtnUG5JdFAr?=
- =?utf-8?B?YmMzeitWWEFTS05nVzRVSXhzZTBaR2EvMitpMmRCUFYreWwydStRTnlLb3FS?=
- =?utf-8?B?TFpCaXY2RXl6VmhhakwxNlhUYVpMSGg0ZXZmQ290Zm1lc1pIV0lxdHFCbVBv?=
- =?utf-8?B?UVVjU3FPRTl0cUMvOG0zZ0V2TFFYTlExQ3dWbFNHdFB4Vy8wQWpJVjNiWlNK?=
- =?utf-8?B?endjcFErQ1RPYUU5eHU5d0ZMWnZyYWJSL2t0WVdWay9YR3J6SkhrKzlJKzhX?=
- =?utf-8?B?WE9rQk1jZ0pjd1lWZXdld0UvdkhNR0pwc2xhMHlLbGpDa0tmZVhjazhrRDNz?=
- =?utf-8?B?dENkcVN0NjZLZjhZWm1YQmw0RFI1VENwRzVJODhIaEpPd1MxbkgrQ2V0Q3dw?=
- =?utf-8?B?c21TaEh1QVhnbUpWdnhqVHNjbEVPNWlQV2xEOUJubE5mbVNOUFJyeDVrTk5h?=
- =?utf-8?B?cmE1Mnh4UWNwMFROdEZYVG9HeUYzVFZVUXIwNDRPSnNnU2I4bmY5aStwTWNu?=
- =?utf-8?B?NGwvOHdENkljNlNkS2VsU09WRDVleEhWblpmVERld2pYaVoxeVFTcWtMZ01Y?=
- =?utf-8?B?N0Q1VnozVC83N1l5Qjh6QnhqUEkzVEVUWFpuZXJSdERZSFlsOFdPKzF0aGtp?=
- =?utf-8?B?QTIvTlZXYWZ1ZjZDV3dpOUl6dzNHT2hYREc1V0djL2RHL3ZFMnZkQiszUVVV?=
- =?utf-8?B?VXdCQWhDMlFmcmZlcE5WTWZobFAxTHliakdwNVZvVFFmbnVEYkdDMUE5eXhm?=
- =?utf-8?B?VGdZUDBXZnNma2xXUnMzUm5Rd0J4NnN5ZVBZWWNZc3QzME5SYlpPZk0zY2w2?=
- =?utf-8?B?d2RzTkwvOW1UZTFJZ3U5N3NKQkJtVE5FRzZNRDdVUVJUNTNBSkRrUkwvZnJs?=
- =?utf-8?B?ditBbW9hYXlXNzhwWmp3VHEvNDVDbmEwRyt1NTdPQ3BZNGJSZ2tqU3Zmc0FU?=
- =?utf-8?B?UXowWWZRM05FL1hpZmFSRkh3cnJTcXZYTzMycnQ5dlQvWnBzWEJ2aDNMOUpS?=
- =?utf-8?B?TzdoQ2E5OEpZZzZXSjNRcWtaV2Q4S2R6UWozRUVHeGNOZWFtdFc4M0p5WXBi?=
- =?utf-8?B?cTRFekFoOWdSM0VGZUN6dUc3VXBwNStnYmpWOEQ5cGhLZjFLZ3pabis0NEZi?=
- =?utf-8?B?cGhnMXhmSW40disxbS9PeXF0MXFCUW1leGlaK0x0eGw2cEtFV1hrSzdnMGU4?=
- =?utf-8?B?eHNTTGRMZ3Q1dXUvRllxMWR6NFRIdElNMVE1ZUtaa3ZCWGhRZVNQY0h6Qzhl?=
- =?utf-8?B?SzBPK05tVFN4eGtDa2pUTSs4THRQNGRJWGxOT2lmQ2k5SjFTc3NlT3ROM0lv?=
- =?utf-8?B?TlNSUjhCK200QmdmRnZVUS9GZjZROVVXVVc3WTdCSTAyM2t1MHl3Vi83bUdy?=
- =?utf-8?B?YVhHbys5WmxDNGFBam1HNkMyNjkyUnRzZEFYVFVvRlJLYVBIVjFFWkRCOCts?=
- =?utf-8?B?eFE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 459edbec-06bd-402d-d8ae-08dd70de22f0
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aXBnYWNNdFdYNjdCOW5xKy9qdDRiazRnbjhQeXlPWGo2dXk5WStHVDVycXpD?=
+ =?utf-8?B?SFNHVWxHV3NNMFRjTUlEVTdpRzJDeTNzeEpSTzlINVR0YTNOekliRGtXVGpv?=
+ =?utf-8?B?Nnd2YmdwbnZ0OWhOU0dRNS95Z1YxVDBKNXEyTTIrM1B5UFFGSHJlcFJsMGp2?=
+ =?utf-8?B?allGaW0rU3FFd01XS0o2T1JtUEN6cy9uUXYwQnhJbFNMS0RMT1hBYm9iNEp2?=
+ =?utf-8?B?SW5QTHphdUpsbHB6SDBkd2NpSCtnRGxSTmh4cXhZWEJvb0tobGdRTkxMRzNt?=
+ =?utf-8?B?YXhBaFJnMTFweDIzTVFnQkhvSVRBbmdxN3J0MjVrYTRQMWl4SGZpa0xPdlB3?=
+ =?utf-8?B?L2tJbWFkOUpxbDg2WlB2Y3k5VU1BdkY4ZVpHUXJZWGtjaTBjeTVtTGl0eEc1?=
+ =?utf-8?B?amdHY1FJYmEyT0grT1VaMzlxTU9oTnJScWlzTkx5Ylh1dlJWR2dNMnRYdTZq?=
+ =?utf-8?B?ZUFhMEU1cUVNL0tFY1Z3V1hKUEV6K3p5KzFsZ1NIcit2NVc0NTBHVENxVVRI?=
+ =?utf-8?B?ekZiaENJVU91eW5VVUN2MFJtOXhoTHI5MWVQSVVibEtMZC9oajBZQnpNQkNH?=
+ =?utf-8?B?dVMxRXdsVkNQQ2ltREo2MlJRVVpTaDA3bkNPVkJmM05PZHozQjVTVk54OU9u?=
+ =?utf-8?B?R2wrMHlyeTFzaHlqRERpVmRDRVhuVUp3QWVhRDBsamxSVXpLdTBPb2hsZlBz?=
+ =?utf-8?B?SnY4WllIeG1EQnlLbUsvaEk5b2wwa3l1aWZuZTdJaC92bjU5ZnVaNzVyRlo1?=
+ =?utf-8?B?Uk5TWkhocSt0eitiSDFhaUNUcWtTU280OG5mdmM1bkN5TEdQd01rUHI0NDJR?=
+ =?utf-8?B?VHJ5TGNuZFA4SkMxKzhyb2loZU5hS1JEaEJyV3k1cUR6MFMzM0pvQ0ZLdE9C?=
+ =?utf-8?B?SHhQdFlldGhNY0xYV09WVXZOdFZGcndQbEpUMGR5V09lTTJabGlMVFhCcWdJ?=
+ =?utf-8?B?aVRCR2dNeDdKMmNRR2Nqam54blNzTWI0Tm56RGlYU2E3R3d3M3d1OTNjOUwv?=
+ =?utf-8?B?cmR5NDhXcXRhOU1tY2tJSUZ6d1p4YTBRMStNOWlINzBVaGdyNGdUQ3B6Y3Ry?=
+ =?utf-8?B?UXQxSldnd21PNW1kTTlIVlpFdVlHNzcvUFlMYmhFOUc4c3RyS3JIWlRYUEF4?=
+ =?utf-8?B?MXlTa2RkTng4dWlkWXBOdFVVdE1zSWNaeTdPa1ZDREluUXB1dHA1cGZEa3l1?=
+ =?utf-8?B?Y3o1c2JDSGQyaTA1TmlGeGg2MEx6N2E2YjBjblJGMzJuY3o0VVREUHdnT0Zw?=
+ =?utf-8?B?bE9kTkR6SUc1OWlac25zZEdoeC9mazdvbEpTa3NjOE9WZlhBVUdpa1dFWUpD?=
+ =?utf-8?B?YnlLMXNKVmdKT1pJSkRkRTg3T1BoK05leDNWYmlmOVdXZDQ3V3R0UnpLNlps?=
+ =?utf-8?B?ckFWcjhwaVFRbUtaYUV3anZ6cUo4Rml3VU5BRU9lS1JES0wwVUVLSHBRKysx?=
+ =?utf-8?B?SUNndHpDd3djdDhrVm10OWR0bVFmRFFMMGloQ0VqdElKL0tBUDdFbzErbkFJ?=
+ =?utf-8?B?azQvek1xSXFPVjZSdUFHVzNtMUpnbkJsaHp6VjJ4RnNDcEFVTkk5aGlmcHpt?=
+ =?utf-8?B?TzBFUkR2N1hsSy83MkZqYjB2YXM3QU5KWFc1c1Vub1BpcGVRRDNaV1BlbnhP?=
+ =?utf-8?B?QjZGV241b3EwU2gvVm1xVG5SU1N6Y2dCU3BRZDVEemlnVmM5VGdsTmttSjNZ?=
+ =?utf-8?B?bXZYampjQ0gyN1IvbFFSSTN4MWlyWmV2TGNVWndYb2UxeVNtNHRXeWtWNis5?=
+ =?utf-8?B?MEw5ZUltVG9sZmNTcjl1bFh6akFQamNYTFhRQllLT2hVM0xDYkJvd3VZVUVS?=
+ =?utf-8?B?NGEwQkthSllQTElEVjArYkFFQVN2MkthNi9oc0ZWSS9rbHVKUzF1VXZrblI5?=
+ =?utf-8?B?S3FUdDgwOGVQU3VZOGNCaVp4NXBZWGthdWo2a2loL1EvaHBkR3dNd1FQcDho?=
+ =?utf-8?B?VXp4NHg0em1Ob0wxaS9ZOUNWRHdoU2svMExORzhnWEYyQTRhTGxSQlJ4ck5B?=
+ =?utf-8?B?eHpoZ0FYMlhLeUpDZEFtNzRBZUp0T3RuajVianZVWkVDRk1oTktBRjR0bmpL?=
+ =?utf-8?B?RWROV2l5VXlNbGx6N2hRUzNLR2FqVEl3WWhmcHU1VWRESlVDS1NSRWRrT2lU?=
+ =?utf-8?B?OVV2NHpFajFZL3pkNlRJUXhaR0RZaVhiSTZPak1vNzBTMEFtcWRyamczaWVI?=
+ =?utf-8?B?Q2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 649518ab-e2fc-455c-dc4c-08dd70dead6a
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2025 05:29:12.9164 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2025 05:33:05.2118 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9XwAEb6jgSFYdGOHrw9gomDsbRLvOKfWWMB4ncKfqz9ON9dq647vtUGUjqIC2tYNItAzP+8xmKPAOifWPbVAntq9hcwbhaEPDFaQojkqbO8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6678
+X-MS-Exchange-CrossTenant-UserPrincipalName: ftmE5jhRjRdjbTpOlSXBcZeMJUoHCCJECGTbhroJYJ8MdWXlnjjqpcEDx5Sokjr79pAIiKdkgiB0s1xSoW9wWFdGayQFQLYcHWwbum6YRqg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7910
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -197,234 +197,179 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 3/21/2025 9:36 PM, Nemesa Garg wrote:
-> coefficients
+> sharpness
 
-This is part of the subject, need to fix.
+This again is part of subject.
+
+
+> As only second scaler can be used for sharpness check if it
+> is available and also check if panel fitting is not enabled,
+> then set the sharpness as both uses pipe scaler so only one
+> can be enabled at a time.
+
+This can be improved. Avoid having one long sentence for the commit message.
 
 Regards,
 
 Ankit
 
+
 >
-> The sharpness property requires the use of one of the scaler
-> so need to set the sharpness scaler coefficient values.
-> These values are based on experiments and vary for different
-> tap value/win size. These values are normalized by taking the
-> sum of all values and then dividing each value with a sum.
->
-> v2: Fix ifndef header naming issue reported by kernel test robot
-> v3: Rename file name[Arun]
->      Replace array size number with macro[Arun]
-> v4: Correct the register format[Jani]
->      Add brief comment and expalin about file[Jani]
->      Remove coefficient value from crtc_state[Jani]
-> v5: Fix build issue
-> v6: Add new function for writing coefficients[Ankit]
-> v7: Add cooments and add a scaler id check [Ankit]
-> v8: Remove casf_enable from here[Ankit]
+> v2: Add the panel fitting check before enabling sharpness
+> v3: Reframe commit message[Arun]
+> v4: Replace string based comparison with plane_state[Jani]
+> v5: Rebase
+> v6: Fix build issue
+> v7: Remove scaler id from verify_crtc_state[Ankit]
+> v8: Change the patch title. Add code comment.
+>      Move the config part in patch#6. [Ankit]
+> v9: Refactor the patch[Ankit]
 >
 > Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
-> Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 > ---
->   drivers/gpu/drm/i915/display/intel_casf.c     | 120 ++++++++++++++++++
->   drivers/gpu/drm/i915/display/intel_casf.h     |   1 +
->   .../gpu/drm/i915/display/intel_casf_regs.h    |   7 +
->   .../drm/i915/display/intel_display_types.h    |   8 ++
->   4 files changed, 136 insertions(+)
+>   drivers/gpu/drm/i915/display/intel_casf.c    |  8 +++++++
+>   drivers/gpu/drm/i915/display/intel_casf.h    |  1 +
+>   drivers/gpu/drm/i915/display/intel_display.c |  4 +++-
+>   drivers/gpu/drm/i915/display/skl_scaler.c    | 25 +++++++++++++++-----
+>   4 files changed, 31 insertions(+), 7 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/i915/display/intel_casf.c b/drivers/gpu/drm/i915/display/intel_casf.c
-> index d0bb51cd4b54..eb69c449a2f5 100644
+> index 4c41a41872bd..367a73a91ae6 100644
 > --- a/drivers/gpu/drm/i915/display/intel_casf.c
 > +++ b/drivers/gpu/drm/i915/display/intel_casf.c
-> @@ -12,6 +12,13 @@
->   #define MAX_PIXELS_FOR_3_TAP_FILTER (1920 * 1080)
->   #define MAX_PIXELS_FOR_5_TAP_FILTER (3840 * 2160)
->   
-> +#define FILTER_COEFF_0_125 125
-> +#define FILTER_COEFF_0_25 250
-> +#define FILTER_COEFF_0_5 500
-> +#define FILTER_COEFF_1_0 1000
-> +#define FILTER_COEFF_0_0 0
-> +#define SET_POSITIVE_SIGN(x) ((x) & (~SIGN))
-> +
->   /**
->    * DOC: Content Adaptive Sharpness Filter (CASF)
->    *
-> @@ -33,6 +40,24 @@ static const u16 sharpness_lut[] = {
->   	73, 60, 48, 36, 24, 12, 0
->   };
->   
-> +const u16 filtercoeff_1[] = {
-> +	FILTER_COEFF_0_0, FILTER_COEFF_0_0, FILTER_COEFF_0_5,
-> +	FILTER_COEFF_1_0, FILTER_COEFF_0_5, FILTER_COEFF_0_0,
-> +	FILTER_COEFF_0_0,
-> +};
-> +
-> +const u16 filtercoeff_2[] = {
-> +	FILTER_COEFF_0_0, FILTER_COEFF_0_25, FILTER_COEFF_0_5,
-> +	FILTER_COEFF_1_0, FILTER_COEFF_0_5, FILTER_COEFF_0_25,
-> +	FILTER_COEFF_0_0,
-> +};
-> +
-> +const u16 filtercoeff_3[] = {
-> +	FILTER_COEFF_0_125, FILTER_COEFF_0_25, FILTER_COEFF_0_5,
-> +	FILTER_COEFF_1_0, FILTER_COEFF_0_5, FILTER_COEFF_0_25,
-> +	FILTER_COEFF_0_125,
-> +};
-> +
->   void intel_filter_lut_load(struct intel_crtc *crtc,
->   			   const struct intel_crtc_state *crtc_state)
->   {
-> @@ -97,6 +122,8 @@ int intel_casf_compute_config(struct intel_crtc_state *crtc_state)
->   
->   	intel_casf_compute_win_size(crtc_state);
->   
-> +	intel_casf_scaler_compute_config(crtc_state);
-> +
->   	return 0;
->   }
->   
-> @@ -119,3 +146,96 @@ void intel_casf_sharpness_get_config(struct intel_crtc_state *crtc_state)
->   			REG_FIELD_GET(FILTER_SIZE_MASK, sharp);
+> @@ -148,6 +148,14 @@ void intel_casf_sharpness_get_config(struct intel_crtc_state *crtc_state)
 >   	}
 >   }
-> +
-> +static int casf_coeff_tap(int i)
+>   
+> +bool intel_casf_needs_scaler(const struct intel_crtc_state *crtc_state)
 > +{
-> +	return i % SCALER_FILTER_NUM_TAPS;
+> +	if (crtc_state->hw.casf_params.casf_enable)
+> +		return true;
+> +
+> +	return false;
 > +}
 > +
-> +static u16 casf_coeff(struct intel_crtc_state *crtc_state, int t)
-> +{
-> +	struct scaler_filter_coeff value;
-> +	u16 coeff;
-> +
-> +	value = crtc_state->hw.casf_params.coeff[t];
-> +	coeff = SET_POSITIVE_SIGN(0) | EXPONENT(value.exp) | MANTISSA(value.mantissa);
-> +	return coeff;
-> +}
-> +
-> +/*
-> + * 17 phase of 7 taps requires 119 coefficients in 60 dwords per set.
-> + * To enable casf:  program scaler coefficients with the coeffients
-> + * that are calculated and stored in hw.casf_params.coeff as per
-> + * SCALER_COEFFICIENT_FORMAT
-> + */
-> +static void intel_casf_write_coeff(struct intel_crtc_state *crtc_state)
-> +{
-> +	struct intel_display *display = to_intel_display(crtc_state);
-> +	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-> +	int id = crtc_state->scaler_state.scaler_id;
-> +	int i;
-> +
-> +	if (id != 1) {
-> +		drm_WARN(display->drm, 0, "Second scaler not enabled\n");
-> +		return;
-> +	}
-> +
-> +	intel_de_write_fw(display, GLK_PS_COEF_INDEX_SET(crtc->pipe, id, 0),
-> +			  PS_COEF_INDEX_AUTO_INC);
-> +
-> +	for (i = 0; i < 17 * SCALER_FILTER_NUM_TAPS; i += 2) {
-> +		u32 tmp;
-> +		int t;
-> +
-> +		t = casf_coeff_tap(i);
-> +		tmp = casf_coeff(crtc_state, t);
-> +
-> +		t = casf_coeff_tap(i + 1);
-> +		tmp |= casf_coeff(crtc_state, t) << 16;
-> +
-> +		intel_de_write_fw(display, GLK_PS_COEF_DATA_SET(crtc->pipe, id, 0),
-> +				  tmp);
-> +	}
-> +}
-> +
-> +static void convert_sharpness_coef_binary(struct scaler_filter_coeff *coeff,
-> +					  u16 coefficient)
-> +{
-> +	if (coefficient < 25) {
-> +		coeff->mantissa = (coefficient * 2048) / 100;
-> +		coeff->exp = 3;
-> +	} else if (coefficient < 50) {
-> +		coeff->mantissa = (coefficient * 1024) / 100;
-> +		coeff->exp = 2;
-> +	} else if (coefficient < 100) {
-> +		coeff->mantissa = (coefficient * 512) / 100;
-> +		coeff->exp = 1;
-> +	} else {
-> +		coeff->mantissa = (coefficient * 256) / 100;
-> +		coeff->exp = 0;
-> +	}
-> +}
-> +
-> +void intel_casf_scaler_compute_config(struct intel_crtc_state *crtc_state)
-> +{
-> +	const u16 *filtercoeff;
-> +	u16 filter_coeff[SCALER_FILTER_NUM_TAPS];
-> +	u16 sumcoeff = 0;
-> +	u8 i;
-> +
-> +	if (crtc_state->hw.casf_params.win_size == 0)
-> +		filtercoeff = filtercoeff_1;
-> +	else if (crtc_state->hw.casf_params.win_size == 1)
-> +		filtercoeff = filtercoeff_2;
-> +	else
-> +		filtercoeff = filtercoeff_3;
-> +
-> +	for (i = 0; i < SCALER_FILTER_NUM_TAPS; i++)
-> +		sumcoeff += *(filtercoeff + i);
-> +
-> +	for (i = 0; i < SCALER_FILTER_NUM_TAPS; i++) {
-> +		filter_coeff[i] = (*(filtercoeff + i) * 100 / sumcoeff);
-> +		convert_sharpness_coef_binary(&crtc_state->hw.casf_params.coeff[i],
-> +					      filter_coeff[i]);
-> +	}
-> +}
+>   static int casf_coeff_tap(int i)
+>   {
+>   	return i % SCALER_FILTER_NUM_TAPS;
 > diff --git a/drivers/gpu/drm/i915/display/intel_casf.h b/drivers/gpu/drm/i915/display/intel_casf.h
-> index 80642809c08b..381d5e10c70d 100644
+> index 381d5e10c70d..026a2b8348df 100644
 > --- a/drivers/gpu/drm/i915/display/intel_casf.h
 > +++ b/drivers/gpu/drm/i915/display/intel_casf.h
-> @@ -16,5 +16,6 @@ void intel_casf_update_strength(struct intel_crtc_state *new_crtc_state);
->   void intel_casf_sharpness_get_config(struct intel_crtc_state *crtc_state);
+> @@ -17,5 +17,6 @@ void intel_casf_sharpness_get_config(struct intel_crtc_state *crtc_state);
 >   void intel_filter_lut_load(struct intel_crtc *crtc,
 >   			   const struct intel_crtc_state *crtc_state);
-> +void intel_casf_scaler_compute_config(struct intel_crtc_state *crtc_state);
+>   void intel_casf_scaler_compute_config(struct intel_crtc_state *crtc_state);
+> +bool intel_casf_needs_scaler(const struct intel_crtc_state *crtc_state);
 >   
 >   #endif /* __INTEL_CASF_H__ */
-> diff --git a/drivers/gpu/drm/i915/display/intel_casf_regs.h b/drivers/gpu/drm/i915/display/intel_casf_regs.h
-> index b96950a48335..f8c3c86f2949 100644
-> --- a/drivers/gpu/drm/i915/display/intel_casf_regs.h
-> +++ b/drivers/gpu/drm/i915/display/intel_casf_regs.h
-> @@ -30,4 +30,11 @@
->   #define   INDEX_VALUE_MASK             REG_GENMASK(4, 0)
->   #define   INDEX_VALUE(x)               REG_FIELD_PREP(INDEX_VALUE_MASK, (x))
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index b852ffe94a10..4ffe738ad725 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -60,6 +60,7 @@
+>   #include "intel_audio.h"
+>   #include "intel_bo.h"
+>   #include "intel_bw.h"
+> +#include "intel_casf.h"
+>   #include "intel_cdclk.h"
+>   #include "intel_clock_gating.h"
+>   #include "intel_color.h"
+> @@ -4225,7 +4226,8 @@ static int intel_crtc_atomic_check(struct intel_atomic_state *state,
 >   
-> +/* Scaler Coefficient structure */
-> +#define SIGN                           REG_BIT(15)
-> +#define EXPONENT_MASK                  REG_GENMASK(13, 12)
-> +#define EXPONENT(x)                    REG_FIELD_PREP(EXPONENT_MASK, (x))
-> +#define MANTISSA_MASK                  REG_GENMASK(11, 3)
-> +#define MANTISSA(x)                    REG_FIELD_PREP(MANTISSA_MASK, (x))
-> +
->   #endif /* __INTEL_CASF_REGS__ */
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 2540a2a1a0e0..b2dcdbc6b81c 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -931,7 +931,15 @@ struct intel_csc_matrix {
->   	u16 postoff[3];
->   };
+>   	if (DISPLAY_VER(display) >= 9) {
+>   		if (intel_crtc_needs_modeset(crtc_state) ||
+> -		    intel_crtc_needs_fastset(crtc_state)) {
+> +		    intel_crtc_needs_fastset(crtc_state) ||
+> +		    intel_casf_needs_scaler(crtc_state)) {
+>   			ret = skl_update_scaler_crtc(crtc_state);
+>   			if (ret)
+>   				return ret;
+> diff --git a/drivers/gpu/drm/i915/display/skl_scaler.c b/drivers/gpu/drm/i915/display/skl_scaler.c
+> index 39fc537e54f0..d816dae9cec4 100644
+> --- a/drivers/gpu/drm/i915/display/skl_scaler.c
+> +++ b/drivers/gpu/drm/i915/display/skl_scaler.c
+> @@ -5,6 +5,7 @@
 >   
-> +struct scaler_filter_coeff {
-> +	u16 sign;
-> +	u16 exp;
-> +	u16 mantissa;
-> +};
+>   #include "i915_drv.h"
+>   #include "i915_reg.h"
+> +#include "intel_casf.h"
+>   #include "intel_casf_regs.h"
+>   #include "intel_de.h"
+>   #include "intel_display_trace.h"
+> @@ -272,7 +273,8 @@ int skl_update_scaler_crtc(struct intel_crtc_state *crtc_state)
+>   				 drm_rect_width(&crtc_state->pipe_src),
+>   				 drm_rect_height(&crtc_state->pipe_src),
+>   				 width, height, NULL, 0,
+> -				 crtc_state->pch_pfit.enabled);
+> +				 crtc_state->pch_pfit.enabled ||
+> +				 intel_casf_needs_scaler(crtc_state));
+>   }
+>   
+>   /**
+> @@ -311,7 +313,9 @@ int skl_update_scaler_plane(struct intel_crtc_state *crtc_state,
+>   }
+>   
+>   static int intel_allocate_scaler(struct intel_crtc_scaler_state *scaler_state,
+> -				 struct intel_crtc *crtc)
+> +				 struct intel_crtc *crtc,
+> +				 struct intel_plane_state *plane_state,
+> +				 bool casf_scaler)
+>   {
+>   	int i;
+>   
+> @@ -319,6 +323,10 @@ static int intel_allocate_scaler(struct intel_crtc_scaler_state *scaler_state,
+>   		if (scaler_state->scalers[i].in_use)
+>   			continue;
+>   
+> +		/* CASF needs second scaler */
+> +		if (!plane_state && casf_scaler && i != 1)
+> +			continue;
 > +
->   struct intel_casf {
-> +#define SCALER_FILTER_NUM_TAPS 7
-> +	struct scaler_filter_coeff coeff[SCALER_FILTER_NUM_TAPS];
->   	u8 strength;
->   	u8 win_size;
->   	bool casf_enable;
+>   		scaler_state->scalers[i].in_use = true;
+>   
+>   		return i;
+> @@ -369,7 +377,7 @@ static int intel_atomic_setup_scaler(struct intel_crtc_state *crtc_state,
+>   				     int num_scalers_need, struct intel_crtc *crtc,
+>   				     const char *name, int idx,
+>   				     struct intel_plane_state *plane_state,
+> -				     int *scaler_id)
+> +				     int *scaler_id, bool casf_scaler)
+>   {
+>   	struct intel_display *display = to_intel_display(crtc);
+>   	struct intel_crtc_scaler_state *scaler_state = &crtc_state->scaler_state;
+> @@ -378,7 +386,7 @@ static int intel_atomic_setup_scaler(struct intel_crtc_state *crtc_state,
+>   	int vscale = 0;
+>   
+>   	if (*scaler_id < 0)
+> -		*scaler_id = intel_allocate_scaler(scaler_state, crtc);
+> +		*scaler_id = intel_allocate_scaler(scaler_state, crtc, plane_state, casf_scaler);
+>   
+>   	if (drm_WARN(display->drm, *scaler_id < 0,
+>   		     "Cannot find scaler for %s:%d\n", name, idx))
+> @@ -510,10 +518,14 @@ static int setup_crtc_scaler(struct intel_atomic_state *state,
+>   	struct intel_crtc_scaler_state *scaler_state =
+>   		&crtc_state->scaler_state;
+>   
+> +	if (intel_casf_needs_scaler(crtc_state) && crtc_state->pch_pfit.enabled)
+> +		return -EINVAL;
+> +
+>   	return intel_atomic_setup_scaler(crtc_state,
+>   					 hweight32(scaler_state->scaler_users),
+>   					 crtc, "CRTC", crtc->base.base.id,
+> -					 NULL, &scaler_state->scaler_id);
+> +					 NULL, &scaler_state->scaler_id,
+> +					 intel_casf_needs_scaler(crtc_state));
+>   }
+>   
+>   static int setup_plane_scaler(struct intel_atomic_state *state,
+> @@ -548,7 +560,8 @@ static int setup_plane_scaler(struct intel_atomic_state *state,
+>   	return intel_atomic_setup_scaler(crtc_state,
+>   					 hweight32(scaler_state->scaler_users),
+>   					 crtc, "PLANE", plane->base.base.id,
+> -					 plane_state, &plane_state->scaler_id);
+> +					 plane_state, &plane_state->scaler_id,
+> +					 false);
+>   }
+>   
+>   /**
