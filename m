@@ -2,85 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CAFAA79461
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 19:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3032FA7947B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 19:46:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81D3910E8B3;
-	Wed,  2 Apr 2025 17:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16F5E10E899;
+	Wed,  2 Apr 2025 17:46:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a7dpzCy6";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WNTiAPOR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
- [209.85.166.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB4A610E8AC;
- Wed,  2 Apr 2025 17:43:06 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id
- ca18e2360f4ac-85b3f92c866so338339f.3; 
- Wed, 02 Apr 2025 10:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743615786; x=1744220586; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dmamZMwYgFpi0j7+3VuOLzPrfkXXmhZ2avEG64/SS20=;
- b=a7dpzCy6r9vff1Z949GSSbX0UE1mznfVBocvgojgUmHqL+H/CIJPAxCj9AfyWig2ev
- R4mtKzLQtRyGzSZtV9sXcKfo1iClV4cT7ALJYWUvI+TDdvDpb+xdOtkMnipKOPQZVpyn
- 7Z2RM5Pe5nEC9OKa4CFP8qpAOPMq+WkkqhUDmd2cYY5C6OwHb8BlR0nWbglpMXjNfbkP
- 2jkTQ53swcthA/G9Ldy9A8doMNjzqKyV4op7dDWTWM17xTnSBGlIMV209beFnWcGBhRP
- wxvXAeJE7u/K9BH3nNnkoJWYUgpILz+NNt9QKjiDxJnUTE8ADEqqe3Omj2s8F3cM/1sP
- +CUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743615786; x=1744220586;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dmamZMwYgFpi0j7+3VuOLzPrfkXXmhZ2avEG64/SS20=;
- b=Q4xWYZQVu+/j16cZOYEFOm3EPghD9mGPIPbFjMWDuMK/FomSz2FZ2ez1CVr7ePQc4I
- BI5bffPgH16YDsLJvqQg3TDG0xW2eAD3jAtsqRDFNpWF5WBhxk0x/RQRE9fopFL+G21P
- E734Kla21mQvZlXiZaRlDCUbsF+sqvYcXjvPDVrPNhLHAFb7MLXBzRx3IZ62WsVgDG8r
- NvV44gD6F9euvA79luxkGAxbzHcX+mBG2uy1NqkWkykJ/sXeFWbD+05Srcl7IHN5Dm7c
- Cd5Cl2RjfRiXQQE6YnZTaabd0a8kJ5LKI//Cfph3fGD5W6I4xkkE7cez4JY4xKRBvwRI
- HHkA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQkOEbcXqc0OL2RrEx/DXmhhTpQ5ojOhlDMhZ6N0+pV4hrrFvj8RwSvwaen/E38TOJoU52CrY2rCJeeXVABQ==@lists.freedesktop.org,
- AJvYcCWDBdnbJWNq0EDaREKjcf4rnyGptVFDfvIqytX4wMCikh3SxjLtubww7DD4YvBcAkboO6StxR86v/NZ@lists.freedesktop.org,
- AJvYcCWW4rGy1R+aNmCaEt6XC9VpmVElLw2OsOENYgWKBEl0VGUBufpaTZrIkKjxO6B+r/jmPUhnL588@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YywS5khXRnOqwLoULaweDyVmrlp/b+QxNs4MRe9hM0zx1aKFQnW
- +vHZXeT/JGpVJ2R5+8qMjdegd0Nuv/Ph4h6/fSW7XG4grNQ7CLbv
-X-Gm-Gg: ASbGncttbb9fn/gSVQ8nkPOfYTpSyi2Ay2TeI3Vg/Nuni764JCfCDZHnO8a3Kqv1JHB
- 1bvdCWwa3TQTv4PTooOxXN/ftwGavLWMGqkXpV6CEVhmOyNDXvN2PPr16GWZ7q2g5SoPIkbYe+3
- mZHDAIa4QhM07H4x3gLCoopH+Xl/h9k8x8Rbgh+/DH12gQb69uRmeOQLiSFLTeYlpB797KrLu/4
- V59CeDnPqEikI67XER4DT0XUJCx3JA6OEetZewMGE4kiAymsDLROT7Lq7tP1llrcyH4xxO4Uxg5
- m3dxYK5FuLCOoWJU7h/MEW6qm+5gGXzH2wbXV0f1+UIX8A8eATY3nmWYhCi9wRHlTdLgfTl4/+Z
- BdA==
-X-Google-Smtp-Source: AGHT+IHals0Ha6Jbgxu6ZrP/iyj69ILFezhPsXy3WvO7TTJBtm+wHjVRufglAOrxetkFLageXKmqeg==
-X-Received: by 2002:a92:cda4:0:b0:3d3:fcff:edae with SMTP id
- e9e14a558f8ab-3d5e08eb18amr200191655ab.3.1743615785891; 
- Wed, 02 Apr 2025 10:43:05 -0700 (PDT)
-Received: from gandalf.. (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
- by smtp.googlemail.com with ESMTPSA id
- e9e14a558f8ab-3d5d5af8369sm33439725ab.71.2025.04.02.10.43.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Apr 2025 10:43:05 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
- louis.chauvet@bootlin.com, linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com,
- Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v3 54/54] drm: RFC - make drm_dyndbg_user.o for drm-*_helpers,
- drivers
-Date: Wed,  2 Apr 2025 11:41:56 -0600
-Message-ID: <20250402174156.1246171-55-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250402174156.1246171-1-jim.cromie@gmail.com>
-References: <20250402174156.1246171-1-jim.cromie@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34D5A10E899
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 17:46:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743615995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=M8tq3Ac2LCgq0tpaPoX9b/VjI7pxLnGx+4+0fVvmu3M=;
+ b=WNTiAPOR/rNwK3d5GslVwOQPaplRdU2zGxg1Zf9n7CHSQ0hcPJCtxG1MZ1OCq6Jw/NdQAq
+ v7UoxGwDSnrMSPOwzmwBzYeKaZyRBkNCX387aKunSGTLzJAjMNjo1fQXqcJAp1/kYil5AV
+ 6vDNuz8I9B4DCREJZVWnvXtvslLQi/c=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-670-CsplDWmqMEeu1I_y5ZaLCQ-1; Wed,
+ 02 Apr 2025 13:46:32 -0400
+X-MC-Unique: CsplDWmqMEeu1I_y5ZaLCQ-1
+X-Mimecast-MFC-AGG-ID: CsplDWmqMEeu1I_y5ZaLCQ_1743615990
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 9E3D71800257; Wed,  2 Apr 2025 17:46:29 +0000 (UTC)
+Received: from [127.0.1.1] (unknown [10.44.32.79])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 1AA38180174E; Wed,  2 Apr 2025 17:46:22 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+Subject: [PATCH v2 0/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
+Date: Wed, 02 Apr 2025 19:45:59 +0200
+Message-Id: <20250402-virtio-gpu-host-page-size-v2-0-0afdc8c16cb9@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANd37WcC/x2MQQqAMAzAviI9WxhlgvoV8SBbnb24saqIw787P
+ AaSFFDOwgpjUyDzJSpxr0BtA25b9sAovjKQoc5YQ3hJPiRiSCduUQ9MS3VUHkbqyQ2DX9laB7V
+ PmVe5//c0v+8HZo2n+WsAAAA=
+X-Change-ID: 20250402-virtio-gpu-host-page-size-282c99dfe44c
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Simona Vetter <simona@ffwll.ch>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Rob Clark <robdclark@gmail.com>, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Sergio Lopez <slp@redhat.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2063; i=slp@redhat.com;
+ h=from:subject:message-id; bh=ZAM0NRncp3/C0HdE7bQJ/OItovivxBBfaaJK67GIIv8=;
+ b=owEBbQKS/ZANAwAIAfRpJ40vDAI1AcsmYgBn7Xfrg7BYQwZ9cPC3ftS9ZuMvWFjEkoif/R9dC
+ 8U+2uR0nJyJAjMEAAEIAB0WIQS+1fz3US2GgJFC6KL0aSeNLwwCNQUCZ+136wAKCRD0aSeNLwwC
+ NfBCD/0c5I88+rTwl0J7ptGd5rMF5G1auRnLUjwnz3rv30ohXabt9ptbB1E62yEyQ0UfJk1GvAT
+ VgKozBk/1SQM/n0bFJN6i89x3bwislJhRwuItJ7fs7u94bla8tCsi3vJGaemaYwh2vJy0Ct8+3/
+ xWVfwVEaN4qwnJ1KsZEe9hT0J2DMl/roMHx5Mz3nybGIp0TCuXSxh137YhtgaNmwkpwlOP+oSKi
+ Dc6bWV5MLtz6DEQWe6Q3J5pT5dtbiuHBn7+UZ2Wy5+hwAzd3CknxpNSbXwGE+Rng3cydSkGWBgt
+ tvSLMoBeL762RLsT4+NoOFzrEOSRFgxWXmXny1PSJOfoFjfNTwPfe/CjpVaRKkEvkD48mTC4f7i
+ D6IbfU/l157+gARu7t8Y1lSFZIDbyddOeFn4V3vbtOO4trQsmzJ10Lh79ubKCAvi3v61oY7W2y9
+ 9m3nQl5l9fYIh0Bb7sQr1F8And7Dizz+Qt7DIkpVofh74TXHcNPIiRlv7u5nV0Ep2XpPp85ZzdG
+ JgBFpM6q4K3L1ZSOLHvagxyCloslE0C9VvhEIrK1sYNW/JyAF7radalx7YN7rHO7iWD1SXeejU3
+ JWXUgaDp2ishZUDXXSalDSzUGPhFz+FInbuiE0QQEAyHL9NmEssLlrDpw/U5LAPBoC5DslLA0WV
+ dZaG1WsTzLIbn9g==
+X-Developer-Key: i=slp@redhat.com; a=openpgp;
+ fpr=BED5FCF7512D86809142E8A2F469278D2F0C0235
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,122 +98,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new drm_dyndbg_user.c with a single call to
-DYNDBG_CLASSMAP_USE(drm_debug_classes).  This creates a _class_user
-record (and a linkage dependency).
+There's an incresing number of machines supporting multiple page sizes
+and on these machines the host and a guest can be running, each one,
+with a different page size.
 
-If a driver adds this object to its Makefile target, it gets the
-record, which authorizes dyndbg to enable the module's class'd
-pr_debugs, such as DRMs <category>_dbg() macros.
+For what pertains to virtio-gpu, this is not a problem if the page size
+of the guest happens to be bigger or equal than the host, but will
+potentially lead to failures in memory allocations and/or mappings
+otherwise.
 
-So Id like to automatically inject this object into drivers.  I tried
-subdir-objs-y, but thats not a thing.
+To improve this situation, we introduce here the HOST_PAGE_SIZE feature.
+This feature indicates that the host has an extended virtio_gpu_config
+structure that include it's own page size a new field.
 
-In drm/Makefile:
+On the second commit, we also add a new param that can be read with
+VIRTGPU_GETPARAM by userspace applications running in the guest to
+obtain the host's page size and find out the right alignment to be used
+in shared memory allocations.
 
-Add object dependency to drm_*_helper-y targets:
+There has been a discussion in virtio-comments about whether the
+information about alignment restrictions must be shared in a generic or
+in a device-specific way, favoring the latter:
 
-  $targ-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
+https://lore.kernel.org/virtio-comment/CY8PR12MB7195B5E575099CD9CA1F2F39DCAF2@CY8PR12MB7195.namprd12.prod.outlook.com/T/#t
 
-Attempt a foreach:
+v2:
+ - Rebase on top of current upstream.
+ - Make a reference in the cover to the discussion about how device
+   page alignment restrictions should be shared with the driver.
 
-  to add $driver-y += ../drm_dyndbg_user.o
-
-this appears to be a train-wreck for impl reasons, but it describes a
-want/need reasonably well.  It might not be a good maintainble idea.
-
-Explicitly adding to radeon/Makefile worked:
-
-  $radeon-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += ../drm_dyndbg_user.o
-
-But doing this is just as per-module as just adding the _USE()
-explicitly to the main .c file, which is less magical than make-fu.
-
-Also, it appears to cause make && make rebuilds.
-
-and try to link it to helpers and everything
-
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- drivers/gpu/drm/Makefile          |  9 +++++++++
- drivers/gpu/drm/drm_dyndbg_user.c | 11 +++++++++++
- 2 files changed, 20 insertions(+)
- create mode 100644 drivers/gpu/drm/drm_dyndbg_user.c
+Sergio Lopez (2):
+      drm/virtio: introduce the HOST_PAGE_SIZE feature
+      drm/virtio: add VIRTGPU_PARAM_HOST_PAGE_SIZE to params
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 704f94efc804..1adb5a262180 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -74,10 +74,12 @@ drm-y := \
- 	drm_vblank_work.o \
- 	drm_vma_manager.o \
- 	drm_writeback.o
-+
- drm-$(CONFIG_DRM_CLIENT) += \
- 	drm_client.o \
- 	drm_client_event.o \
- 	drm_client_modeset.o
-+
- drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
- drm-$(CONFIG_COMPAT) += drm_ioc32.o
- drm-$(CONFIG_DRM_PANEL) += drm_panel.o
-@@ -111,20 +113,25 @@ obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
- drm_dma_helper-y := drm_gem_dma_helper.o
- drm_dma_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_dma.o
- drm_dma_helper-$(CONFIG_DRM_KMS_HELPER) += drm_fb_dma_helper.o
-+drm_dma_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
- obj-$(CONFIG_DRM_GEM_DMA_HELPER) += drm_dma_helper.o
- 
- drm_shmem_helper-y := drm_gem_shmem_helper.o
- drm_shmem_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_shmem.o
-+drm_shmem_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
- obj-$(CONFIG_DRM_GEM_SHMEM_HELPER) += drm_shmem_helper.o
- 
- drm_suballoc_helper-y := drm_suballoc.o
-+drm_suballoc_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
- obj-$(CONFIG_DRM_SUBALLOC_HELPER) += drm_suballoc_helper.o
- 
- drm_vram_helper-y := drm_gem_vram_helper.o
-+drm_vram_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
- obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
- 
- drm_ttm_helper-y := drm_gem_ttm_helper.o
- drm_ttm_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_ttm.o
-+drm_ttm_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
- obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
- 
- #
-@@ -149,11 +156,13 @@ drm_kms_helper-y := \
- 	drm_simple_kms_helper.o
- drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
- drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
-+drm_kms_helper-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
- obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
- 
- #
- # Drivers and the rest
- #
-+subdir-obj-$(CONFIG_DRM_USE_DYNAMIC_DEBUG) += drm_dyndbg_user.o
- 
- obj-y			+= tests/
- 
-diff --git a/drivers/gpu/drm/drm_dyndbg_user.c b/drivers/gpu/drm/drm_dyndbg_user.c
-new file mode 100644
-index 000000000000..9e4aa87d4b58
---- /dev/null
-+++ b/drivers/gpu/drm/drm_dyndbg_user.c
-@@ -0,0 +1,11 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include "drm/drm_print.h"
-+/*
-+ * if DRM_USE_DYNAMIC_DEBBUG:
-+ *    DYNDBG_CLASSMAP_USE(drm_debug_classes);
-+ *
-+ * dyndbg classmaps are opt-in, so modules which call drm:_*_dbg must
-+ * link this to authorize dyndbg to change the static-keys underneath.
-+ */
-+DRM_CLASSMAP_USE(drm_debug_classes);
+ drivers/gpu/drm/virtio/virtgpu_drv.c   |  1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  2 ++
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c |  5 +++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c   | 13 ++++++++++---
+ include/uapi/drm/virtgpu_drm.h         |  1 +
+ include/uapi/linux/virtio_gpu.h        |  5 +++++
+ 6 files changed, 24 insertions(+), 3 deletions(-)
+---
+base-commit: acc4d5ff0b61eb1715c498b6536c38c1feb7f3c1
+change-id: 20250402-virtio-gpu-host-page-size-282c99dfe44c
+
+Best regards,
 -- 
-2.49.0
+Sergio Lopez <slp@redhat.com>
 
