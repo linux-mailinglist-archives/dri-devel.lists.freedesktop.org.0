@@ -2,141 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FE6A78F64
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B82A78F6E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:08:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6DEA10E1B0;
-	Wed,  2 Apr 2025 13:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C303710E794;
+	Wed,  2 Apr 2025 13:08:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="QA1+O/zD";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="VbgPI0Iz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2087.outbound.protection.outlook.com [40.107.102.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA4810E1B0
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:03:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Zvo80CG4FA1YCvciZpbGZg+hgkod/FpmfZWxQCdGlPAHZKntIl3/IhivF6UFMFgUft34VmJcG7eYwJswbPyIMO1sL0cdBgkNMt8PPW2OcP4r5KJnC95+UViGruC1lQAg3vtJ25cfY3NfQG+NfJ4oGnPI8WZwO12uWGs0bXgUG5oZYr1M6hj8+fb60R+NkcuOtcDCG5fKOV7oLw3CLWv5BewQaLspGYmgBb3XXxyNxT6ywt3UnshgGSefT2Kd4FVlGsbT4ZNSADxhXMsMlpWl+fTfPIQg/GyXr6Xdee4fahIhQGxYMJZIaHfAdUqduQ3BsnTU5GjbnE5R3wTy8+x9DQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6uf2JAgx4Ng8nbjykWqFO44lrjMBPqzVHZx0feH1NeA=;
- b=yzljavRDAGWYoPf6zsGnxuKjS3ik89kdx40jbAG5kQiUoDQUb7XlJZSK8gc2zU0THH+2Y10ZDZlTZEJBBzxclu5NXzRLcYBfiYTw6BuDvSH5vqGMWK55Ybwj3lQc7sYf1/BVGGHYpzCSbPt/4PzbsrdTdFut203HeAl86Al1QLq4vjs7SroG/eQ1XpP+5tRgNkYbAXHGVxqIFcDtPtKNYgsCICPizL++xjQ8lE5cdqju9AWgecZGGbMMu7ADBBiI5d+LVxhF/sTwnM58yiGjMssaiTOW0fVUzk29NKcK9ooDpk/bTabBWyhU9GaSMLJlZoa/zAdWjX1a+6WJ8qBdfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6uf2JAgx4Ng8nbjykWqFO44lrjMBPqzVHZx0feH1NeA=;
- b=QA1+O/zDN3Rl3KxBqC3EJ/32wM/eHHNxwSKZCV1tnjo1JvaI1vfALVpwrlTs1xrdDRrGNThaU7VgVOI2Yr+a2XdBieCmZaqh3BmcU4yMkF0ebWdwwIrWlety32IOZdKeIftX/ZCWakINW22znv3cngrrjWHJoTZPpaNLgJKW5oELsdyiahKGv050i6CqTay3p2mKwyn4hOY+9S4F8lTDzlKcw/MaH4jl14ArpeA7L+V88IJRIIlUPVKfuqPyPRSYp2+A0NHfl36OGVPSnxs4aZrSzGKPlB56PdoqPuCZ1hm6fq+/OmeKPhi0cVyAJUfDIM5Gu6rhdud18dEz6gx6Mg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by BN7PPF9C6E5285F.namprd12.prod.outlook.com
- (2603:10b6:40f:fc02::6db) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.54; Wed, 2 Apr
- 2025 13:03:49 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8534.043; Wed, 2 Apr 2025
- 13:03:49 +0000
-Date: Wed, 2 Apr 2025 10:03:47 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [git pull] drm for 6.15-rc1
-Message-ID: <20250402130347.GB342109@nvidia.com>
-References: <87h6394i87.fsf@intel.com> <Z-p2ii-N2-dd_HJ6@phenom.ffwll.local>
- <20250331133137.GA263675@nvidia.com> <87tt782htn.fsf@intel.com>
- <CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com>
- <CAK7LNAQThGkgtKgquRPv8Ysi_omedRthF1_++apKda-xWeWcbA@mail.gmail.com>
- <20250401191455.GC325917@nvidia.com> <877c433bys.fsf@intel.com>
- <20250401194649.GE325917@nvidia.com> <87v7rm203e.fsf@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87v7rm203e.fsf@intel.com>
-X-ClientProxiedBy: BN9PR03CA0223.namprd03.prod.outlook.com
- (2603:10b6:408:f8::18) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483E710E794
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:08:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1743599299;
+ bh=ugF+WqKm9kgqQdaTPHY1qJ3Qavy8FobVwb/atnkcQ3M=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=VbgPI0Iz0ZXGEc5WZYhLXxxncmmn6uWiWt8n/pqo5/TXE4OIu/9Nr3cN7M484OqpD
+ ePUro6b3kpWgUcem0ZWi4GitlEHhoDQaJFh2cKo3ZKluBqWIcrOT8Sxc3aTKqNpJ1o
+ rWS/pYTN2P1jwqZEbsBqgNLCSduUrjCT1Sdo+P0p49ykFFgCB1T2VywT1dRACBYQfA
+ y47+XzRUaWw12pBIgAs6m2XcYtkifFGWAwdM31JPMGAxFYUhYovwqDuFllD+C80/Wa
+ h7q3dcBGmpH4vdUfRO5yhYlHdbMdTQ1Shu9W5fV+Qlcin02UsLWecuLwH/c1TyoId/
+ DmwgUEhNl1fkw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 85D3117E080B;
+ Wed,  2 Apr 2025 15:08:18 +0200 (CEST)
+Date: Wed, 2 Apr 2025 15:08:12 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 3/4] drm/panthor: Label all kernel BO's
+Message-ID: <20250402150812.0595465a@collabora.com>
+In-Reply-To: <20250402115432.1469703-4-adrian.larumbe@collabora.com>
+References: <20250402115432.1469703-1-adrian.larumbe@collabora.com>
+ <20250402115432.1469703-4-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BN7PPF9C6E5285F:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbab84a5-69b2-4e3a-6d5e-08dd71e6cf27
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ehWcYp4L6OzW9jHlUswJZ8KU7nMB03mLFBJyVAVDpPt029Vtb5n3wVsj1pdn?=
- =?us-ascii?Q?+vDcbUmZO6Bqmy30B2w07BpLAcrdMEDpHR9ZVfRZ/oua9kcTSBqkakRN0rIw?=
- =?us-ascii?Q?2wfOgcjwZWruC4+7hZ616rmgC54t7HsIrkdqPRGkPaaO5sIO3+Xy4HM0lhj9?=
- =?us-ascii?Q?GDtUVIiVhqXWW7EKngzxeq3hrOMJ5o3HhBMF7rbBgZ1HTqpq3APFnMFi3rKu?=
- =?us-ascii?Q?8TTAuTq7CuhGDQ9ab65Ng/+of8dWvLaDvpnuYXyS4S+PyIOFeBionE6xPDaf?=
- =?us-ascii?Q?DdQLznr37lNfCzFa0P9ScHCpIsNRU/giHwwayYmW38qUcQfbP7QTTtZ/h9C4?=
- =?us-ascii?Q?4Un0eL3MFMFnf6D589TByXltmeyYFZOHWRg7O1oUchEtBpCmgMDmJXP44HfV?=
- =?us-ascii?Q?AJhJfdjMfZAFLSlbSqAoNcMEwHEdqfdRUIHvQ6Nn1u5eZX8jZsb+XLs7qce6?=
- =?us-ascii?Q?AJRsoWDwxmHIRltLMtd28j66tdfY6xEG30u/iKZlnjsxw0vBQzv0T3PKGpC/?=
- =?us-ascii?Q?Vl7UT8rAQmwg3mzz8sxE54nh3THuENrhqo+wlnPwszl79AunNGqOuFOUXPLC?=
- =?us-ascii?Q?au6+QgtZciLVejT5FbCAjhcGXKmidEKBwpxmTY++c6kc/bHUWbTid8Z6P8vU?=
- =?us-ascii?Q?9JWHVPL4Au2Y8YxypqQrqvrXCtFDY/aqdounuepQVN15bT0XPob/7B1HtDBa?=
- =?us-ascii?Q?fA77k5R16oAn0FKp7tSTvISy7lN+cPRvL0lcvs0G3ISXDdnB3JNqQ9Qqfh+h?=
- =?us-ascii?Q?4XiohStUVgPhCQr1TSglAiNqNGFgnBi+RXLo4Nn7K57JbeY54QDmnyFA46lv?=
- =?us-ascii?Q?COf/VDU9BsvW/Qv/Hd05EDqpOoc+Q5Tv98ASMhiFsmFoAH4uoAonL+z6U767?=
- =?us-ascii?Q?Ys4s3mfYxk6vvGBoqFflBs6mnf9JaMZaCgGfGKFypTsKdtICr9rM8fBHgLiq?=
- =?us-ascii?Q?r7H9giLasu5CkrQv9hPaNE7uR8oD80TADyx9zzQ+Y1mPZ2FHVIZWAAHDNTE6?=
- =?us-ascii?Q?Fd+6P+Mgc6FNVs9g+tT4ZFzv53lcDjF9weYEC87NtKWoDpNCGBeWaGOUJ2Ux?=
- =?us-ascii?Q?anpK8ghTjnXuJCMANYhrLNyEjh4L9LWG2Ym1MVW8p1anPj44CdPct+BmtZlS?=
- =?us-ascii?Q?+3/nETdaxyNm2Z5xeSf9Q6hOuhUP2m+IhCt4Kcva6+xvnKK5KDyGJkozeaZW?=
- =?us-ascii?Q?PR1vOa753Lg8GRXahFCbsFNICbZjrOYYpRRFCMjsojg8b73TKn+XXA9285gY?=
- =?us-ascii?Q?DVtuhc9uVvesrGoLsheiX3ZmPy4zuB/zM01J595q0l4qCGb0xHrjP/Fm1U09?=
- =?us-ascii?Q?xMd9BD0cCyHJGWmcNbipTenhNWrcp6ZUY4TR55ijXvKalpb+fBd55sT3iF3d?=
- =?us-ascii?Q?fAam/hTnFj+tilsS93fnKgx70FnoVcY2h+lF98kiXDuL2ch6J8UMVETNMwu/?=
- =?us-ascii?Q?F5CDgn4oXvk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9TlVJkp5602+MBFcoquH/6sUDX3UiUP5Vfn+VBjTzu7YmzMvrJ8AnYiOK+x3?=
- =?us-ascii?Q?xXQFZuarJiZqag9+pEYOeJagErci6u9kj7tNy/Se6E6GIyCkXgN9pdBg7csr?=
- =?us-ascii?Q?dSWD4UtlOOhsTB4NHvvdKKX2Lg8SgBAhULH1yyW397EP9btYFu6psECijlB3?=
- =?us-ascii?Q?b6EGL8zFS5uHzAM/TdPGCK7Z6YTJbnxswph4q6g0l3UXk5HzQccUy0l33n9D?=
- =?us-ascii?Q?OdjumoPrPWJgarae2/XJy1aUAgXdRYei85QHjj3DomvsmSwKERgUhc/d/uUn?=
- =?us-ascii?Q?2ppNqfHzw1ftESV8IAauEBwYFBYKRLbOPbdYcMPnCfv9IaZU37s7oTLQjsnF?=
- =?us-ascii?Q?tt7Ad2X6jtbb89E85KcMt95gZ1uJJ6D3kxrmaaQr1K3NAbxtLdsi0bWIUDAE?=
- =?us-ascii?Q?KJOFZ/GYfMhVj/KHvET/tHpGxtmuyFaAIPydoiUG1+GsGSRscV0VbNO4sQKu?=
- =?us-ascii?Q?+gMll0ZVd92OR8JzXleTugl52VFA9tW09u8izGOJj0jV+xVLdjeZLejrxr+s?=
- =?us-ascii?Q?QZzo+2D5mz6oHymzVx9fUtd3T/vdEP7wtAUYjAaI7lMX7p9TiitMABZQdvUB?=
- =?us-ascii?Q?8sSrXXePwPvaNL/zEyxoHumjINco6eoNZeSeS0S8f5xAyigwbdMWNaBKlGJW?=
- =?us-ascii?Q?m7nxiEECJi2MMBFOFXZUw690vpBYYnhbRXNruvB7IM4BVPiDJ4KxAG6ZoBTq?=
- =?us-ascii?Q?6ZeNZWwPyFG1FoHSqpLLc1ZHiXpUd4Tj1CYDKsKUlbPMbsXPl+Kbz0OepwUJ?=
- =?us-ascii?Q?HuIfkVZrEO4q4fKkg5dtQvyNCgV4cZRI+amJZz1cdVtU9HZCOXb8ueW9V7An?=
- =?us-ascii?Q?ZV230xywFjlLCGxAXlLxWuy8MBXpYVaB6UuTEgShqsa3l70xmenNYtW1wW1g?=
- =?us-ascii?Q?59ZdInuvsh0mUoZ0fiV1R8fVPqWUaV3YAnuYv0Bwyhf4ffwA2BeMCCP+7ymE?=
- =?us-ascii?Q?SxX4TUpYnHzq1Cc+APLf/cmGbULSFNljzFlijrP6O3FibPLmvRLbrRXY14Un?=
- =?us-ascii?Q?9rM3Jc177hcC5b+I9OEGvPafAwhXd5eIshEQJdVamSVGihOh7mHlC0FZCT5z?=
- =?us-ascii?Q?k419V6ax3uUHcZVx2KL02hinYcb88nePLWzFkfTXtKxujNgi0XK8swBCYUhv?=
- =?us-ascii?Q?fLmCXTKbLvP0yYLGuDxZ1VLkO8EtHFdtm7GqWiDh8xjQLKHU2SWc/nFgimnG?=
- =?us-ascii?Q?+ITmqwvzWxsqxMhX8lA82O4gD6cqLoxACFLZTj7aKbKCZkOLlhJ2kt+sjgAt?=
- =?us-ascii?Q?F4OaF2JLDfc+rBbRRtwQegPMHSCh56IK9s8u5yTHBgy0MHdZV95zBjG/SSXv?=
- =?us-ascii?Q?3P4kxFxHsKsaAgqQRSknqStSEPdXZW0e2er4/n9DvciKPlo2OmI2K4WGWHpX?=
- =?us-ascii?Q?Evt0s2lMxOM7BpjOwitWxT9zesHYkuUqw4aV7IMfbi27Ol+u2tBabxMg+Kuz?=
- =?us-ascii?Q?vC2RxWNO8UauNQB8Wxdi1JVJcpMMgJ1CuWxaYPG+QjfmtoCwXROFK8C9wXVd?=
- =?us-ascii?Q?CV+qJJe9IVDZtByvZaemiaSqjprPdGzwwLHgMJ72s56k3izXRNnsdA4PDxzr?=
- =?us-ascii?Q?x/qgIu+lAt8xv52FbN407hSFsspGuTzf2K6Mx3Gj?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbab84a5-69b2-4e3a-6d5e-08dd71e6cf27
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 13:03:48.9856 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kP9+Ck51QF6VOwd6v8cOb3GLg4YtJCT0PWXtaGknqdx+/f8ORbhiE7OgcbkHudwb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF9C6E5285F
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,38 +68,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 02, 2025 at 03:56:37PM +0300, Jani Nikula wrote:
-> On Tue, 01 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> > On Tue, Apr 01, 2025 at 10:42:35PM +0300, Jani Nikula wrote:
-> >> On Tue, 01 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> >> > So, I'd suggest a better way to run this is first build the kernel,
-> >> > then mine the gcc -MD output (ie stored in the .XX.cmd files) to
-> >> > generate a list of headers that are actually part of the build, then
-> >> > only test those. That eliminates all the kconfig problems. Opt out any
-> >> > special headers that really have a good reason not to be stand alone.
-> >> 
-> >> I think we'd want the drm headers pass the checks independent of configs
-> >> (apart from CONFIG_DRM). One size doesn't fit all.
-> >
-> > Why? That demand is just making it impossible to make shared
-> > infrastructure, and I don't think DRM should go off and build its own
-> > stuff just for DRM in a way that nobody else can use it.
-> >
-> > If you really, really, care then you can have your makefile codegen an
-> > "allheaders.c" that #includes drm/*.h and compile that.
-> 
-> The v2 series [1] generalizes the header checks and it's no longer in
-> any way dependent on DRM. For starters, each subsystem/driver needs to
-> decide for themselves which headers are to be checked.
+On Wed,  2 Apr 2025 12:54:28 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Yuk. The idea at the top of this email is alot better. Why don't you
-implement it?
+> Kernel BO's aren't exposed to UM, so labelling them is the responsibility
+> of the driver itself. This kind of tagging will prove useful in further
+> commits when want to expose these objects through DebugFS.
+>=20
+> Expand panthor_kernel_bo_create() interface to take a NULL-terminated
+> string. No bounds checking is done because all label strings are given
+> as statically-allocated literals, but if a more complex kernel BO naming
+> scheme with explicit memory allocation and formatting was desired in the
+> future, this would have to change.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_fw.c    | 8 +++++---
+>  drivers/gpu/drm/panthor/panthor_gem.c   | 3 ++-
+>  drivers/gpu/drm/panthor/panthor_gem.h   | 2 +-
+>  drivers/gpu/drm/panthor/panthor_heap.c  | 6 ++++--
+>  drivers/gpu/drm/panthor/panthor_sched.c | 9 ++++++---
+>  5 files changed, 18 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panth=
+or/panthor_fw.c
+> index 4a9c4afa9ad7..36e60bb2dcc5 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -449,7 +449,8 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_devic=
+e *ptdev,
+>  				       DRM_PANTHOR_BO_NO_MMAP,
+>  				       DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>  				       DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> -				       PANTHOR_VM_KERNEL_AUTO_VA);
+> +				       PANTHOR_VM_KERNEL_AUTO_VA,
+> +				       "Queue FW interface");
+>  	if (IS_ERR(mem))
+>  		return mem;
+> =20
+> @@ -481,7 +482,8 @@ panthor_fw_alloc_suspend_buf_mem(struct panthor_devic=
+e *ptdev, size_t size)
+>  	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
+>  					DRM_PANTHOR_BO_NO_MMAP,
+>  					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+> -					PANTHOR_VM_KERNEL_AUTO_VA);
+> +					PANTHOR_VM_KERNEL_AUTO_VA,
+> +					"FW suspend buffer");
+>  }
+> =20
+>  static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+> @@ -601,7 +603,7 @@ static int panthor_fw_load_section_entry(struct panth=
+or_device *ptdev,
+>  		section->mem =3D panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
+>  							section_size,
+>  							DRM_PANTHOR_BO_NO_MMAP,
+> -							vm_map_flags, va);
+> +							vm_map_flags, va, "FW Section");
 
-> This can be expanded with more clever ways to choose the headers to
-> check. But we have to start *somewhere*.
+nit: Let's try to use the caps consistently in the names we assign to
+kernel BOs, like, cap on the first word only, or cap on each word, I
+don't mind, but pick one and try to stick to it.
 
-Bah, that argument only works if nobody has better ideas. There are
-meaningful technical problems with your approach, and proposed
-solutions here.
+>  		if (IS_ERR(section->mem))
+>  			return PTR_ERR(section->mem);
+> =20
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
+hor/panthor_gem.c
+> index 7d017f9d1d52..44d027e6d664 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -81,7 +81,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo=
+ *bo)
+>  struct panthor_kernel_bo *
+>  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm=
+ *vm,
+>  			 size_t size, u32 bo_flags, u32 vm_map_flags,
+> -			 u64 gpu_va)
+> +			 u64 gpu_va, const char *name)
+>  {
+>  	struct drm_gem_shmem_object *obj;
+>  	struct panthor_kernel_bo *kbo;
+> @@ -105,6 +105,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev=
+, struct panthor_vm *vm,
+>  	kbo->obj =3D &obj->base;
+>  	bo->flags =3D bo_flags;
+> =20
+> +	panthor_gem_kernel_bo_set_label(kbo, name);
 
-Jason
+nit: can we add a blank line here, and remove the one that's after the
+bo->flags assignment?
+
+>  	/* The system and GPU MMU page size might differ, which becomes a
+>  	 * problem for FW sections that need to be mapped at explicit address
+>  	 * since our PAGE_SIZE alignment might cover a VA range that's
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
+hor/panthor_gem.h
+> index e18fbc093abd..49daa5088a0d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -153,7 +153,7 @@ panthor_kernel_bo_vunmap(struct panthor_kernel_bo *bo)
+>  struct panthor_kernel_bo *
+>  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm=
+ *vm,
+>  			 size_t size, u32 bo_flags, u32 vm_map_flags,
+> -			 u64 gpu_va);
+> +			 u64 gpu_va, const char *name);
+> =20
+>  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+> =20
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/pan=
+thor/panthor_heap.c
+> index db0285ce5812..ad122bd37ac2 100644
+> --- a/drivers/gpu/drm/panthor/panthor_heap.c
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> @@ -147,7 +147,8 @@ static int panthor_alloc_heap_chunk(struct panthor_de=
+vice *ptdev,
+>  	chunk->bo =3D panthor_kernel_bo_create(ptdev, vm, heap->chunk_size,
+>  					     DRM_PANTHOR_BO_NO_MMAP,
+>  					     DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+> -					     PANTHOR_VM_KERNEL_AUTO_VA);
+> +					     PANTHOR_VM_KERNEL_AUTO_VA,
+> +					     "Tiler heap chunk");
+>  	if (IS_ERR(chunk->bo)) {
+>  		ret =3D PTR_ERR(chunk->bo);
+>  		goto err_free_chunk;
+> @@ -550,7 +551,8 @@ panthor_heap_pool_create(struct panthor_device *ptdev=
+, struct panthor_vm *vm)
+>  	pool->gpu_contexts =3D panthor_kernel_bo_create(ptdev, vm, bosize,
+>  						      DRM_PANTHOR_BO_NO_MMAP,
+>  						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+> -						      PANTHOR_VM_KERNEL_AUTO_VA);
+> +						      PANTHOR_VM_KERNEL_AUTO_VA,
+> +						      "Heap pool");
+>  	if (IS_ERR(pool->gpu_contexts)) {
+>  		ret =3D PTR_ERR(pool->gpu_contexts);
+>  		goto err_destroy_pool;
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
+nthor/panthor_sched.c
+> index 1a276db095ff..a0b8f1ba4ea8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -3334,7 +3334,8 @@ group_create_queue(struct panthor_group *group,
+>  						  DRM_PANTHOR_BO_NO_MMAP,
+>  						  DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>  						  DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> -						  PANTHOR_VM_KERNEL_AUTO_VA);
+> +						  PANTHOR_VM_KERNEL_AUTO_VA,
+> +						  "Ring buffer");
+>  	if (IS_ERR(queue->ringbuf)) {
+>  		ret =3D PTR_ERR(queue->ringbuf);
+>  		goto err_free_queue;
+> @@ -3364,7 +3365,8 @@ group_create_queue(struct panthor_group *group,
+>  					 DRM_PANTHOR_BO_NO_MMAP,
+>  					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>  					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> -					 PANTHOR_VM_KERNEL_AUTO_VA);
+> +					 PANTHOR_VM_KERNEL_AUTO_VA,
+> +					 "fdinfo slots");
+
+I think I'd prefer "Group job stats", just in case we end up dumping
+other stuff that's not exposed through fdinfo there.
+
+> =20
+>  	if (IS_ERR(queue->profiling.slots)) {
+>  		ret =3D PTR_ERR(queue->profiling.slots);
+> @@ -3495,7 +3497,8 @@ int panthor_group_create(struct panthor_file *pfile,
+>  						   DRM_PANTHOR_BO_NO_MMAP,
+>  						   DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>  						   DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> -						   PANTHOR_VM_KERNEL_AUTO_VA);
+> +						   PANTHOR_VM_KERNEL_AUTO_VA,
+> +						   "Group sync objects");
+>  	if (IS_ERR(group->syncobjs)) {
+>  		ret =3D PTR_ERR(group->syncobjs);
+>  		goto err_put_group;
+
