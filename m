@@ -2,85 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1A0A792BE
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABCEAA7933D
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:34:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09B5D10E048;
-	Wed,  2 Apr 2025 16:12:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A78DF10E85F;
+	Wed,  2 Apr 2025 16:34:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GVs84480";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="l14pX2Zm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com
- [209.85.166.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE6D10E048
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:12:12 +0000 (UTC)
-Received: by mail-il1-f174.google.com with SMTP id
- e9e14a558f8ab-3d5eb0ec2bdso77365ab.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 09:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743610331; x=1744215131; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5rK9kTwLfXEgDnRykzZWh9AEgnuJfNseTnoRiIhmpsc=;
- b=GVs84480piwR1zz8SuVsLO/vJT2Al77RdkZ7AbK04iIbC6I1ROV9Ge712aZ9Lk0fAs
- Yc5stg1bSQnXSzPdJg8T1wvWr6Ro763+s4DZv5NstOo/ZOKHyLJhkZw9UOazhoAnNFLL
- LO+2hfmdQr1d+qmLRqnjfwMN4qPJYtMdinqKBX4BIxP4mb+ukkduuOzYAyQv4QFy8CQS
- Nz1EiS8BebMqDArzmKHVz2H4d6+ct0OPJYVrgHXaKf7xEyC2EPqsS4wz1ABb4eK10sg6
- ydb3zhnOTlOVSyzBV9U8oNhD2z103qJZo178M1T7GTOgUZUVOasgbfjDIQmPvWubNb/P
- o+Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743610331; x=1744215131;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5rK9kTwLfXEgDnRykzZWh9AEgnuJfNseTnoRiIhmpsc=;
- b=u2ftxujVbE9e/VYg19Lai6L5AXfNNw01mlaOYNq3KseL9QeoA5uQZYJLXa+B8cyouu
- GTTBCBGTmfIoWxtBCk0S5bqD3kCdVBey7qsIiutJmZSd2Ut/VSrB5ujBVNOU0v0yoac9
- XL/7vf6uxvmpnMTaCsVZiuBLnrjzM4Evh0M2KFaLBk3WzO/Lm7nff+DWTGKuGzHRSZYd
- HRpdv53Y1hdVg/CdoxPfmAdIslO2vqHo++rhcrvzg0yMlwXXU6ukDL+pdJYAGtFxl37f
- BXIkBVGp6eAVik5zhH9rzmIUyrgGdIERcNfpyMUNmfXnGv4jB8EqiFgFC5gGZUaQ8fjn
- aluw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVSXT6YtDuzGN2c9k7L/bOm2Mftx86B//BYyAUKb73aIbwPXlV0N5bcrtThDyB48jpznJrjrzUdD7E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyXkJ4/1nr3t2JmD50VyaY2457YRgKOMv/JwQJg245V0discnAH
- lGWfFGSzvkgkdhte5gOVNX1b448io6uxaioBDZMA65qhiEe9u2YWnUBd08DDd/xuW8+q6EY3zL3
- 7591sVVggQMJOT/+b6e72KwY9MSs=
-X-Gm-Gg: ASbGncs3772ln27bJWPhDgtGhsDyzq7BWJzsWUpqECXciP+9cf5sGWZ6bd4R9VGvLNc
- rKABP+gqHprAKJVpMy1+WQU/3FTzgmt1bZzA1eGRpBw6slYpl1PDjCUD+7PGan00FnmMku+LiUH
- 9WVA8wAxD1q+gNkMQ7AFpPZ6sYOfzMy5orcTOuhuiW6tBTRewH6rWnz+7DxvLH8o43Tno8BDI=
-X-Google-Smtp-Source: AGHT+IFkYI6mSsCBU3Xd58kZsuiXhxMXIV+xUr1NKSGa56kWg9906qGj0TOjzVUzEtK07ut+ViwxdQy4wwNXDrQnrD0=
-X-Received: by 2002:a05:6e02:4401:10b0:3d6:d3f7:8813 with SMTP id
- e9e14a558f8ab-3d6d3f7c3c0mr33927585ab.22.1743610331229; Wed, 02 Apr 2025
- 09:12:11 -0700 (PDT)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2084.outbound.protection.outlook.com [40.107.223.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E07CA10E85F
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:34:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sT64O7VUTSsVpdfIKWyhgVYQBUs8CwdoPGRzZpnOVNMeRefz+5eAoRwuWGrLoCQLx911F/jAXGHWz+xN1ISyBs+AnibrEEjSUJHylOBmXlEQAXml4LSJmtyXDE573HhCDV1PR5rzKVT4+RbVz8b6L1EcM37AXNjx7S0bVDoDcMfFn+vyBl2pjywA9W93K7IS77MlSLIJik/xlxtQrjsH8PBCwD7KbHt+ciiKlxhAXvgZamcyhWiZ3UGVPawZXyatIBkyjfbAPYEk8kcQvq8xsstxsJUmxUkSMKFnRfMl1wQuOzqIwwMeBtKzDSDGFLz+LEMFckmJtgfKuSKgb4nM1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XWacam+h32ukrHJRR5Xi6By27nFkQBUURfQ7fjJ21pM=;
+ b=KGio1JJ8KCBp/VGxYx2vx9gAiljIVoG9fqJOXDAxugtMBGdpQ/dg6JAdFx0Bpk9bnyeYoUD82vPQTivFwOc1sspdZec7T+I6dKZx4Zo7qy15h2/rygeCOwQROJFRjCmu+FE2IndMny2rsL5FTE8mnjJc3GKtTAAIV3pvnoTw2/94apbfGKMV2AjS9dsBjbMSuRP9iYPO8Qa+bYWR9WOKf8K8S7Wk5ljl1KUWxvd7D5vWcGhvb13IAK28Rcw/gyJz6K0pUobZjwZA4OyrN8NDjlgSDub9BMoSMF+LVBB9EIEjhsYtH5DcWAstbDHAgK+1WIrIi2UG173g/sR8uYLgxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XWacam+h32ukrHJRR5Xi6By27nFkQBUURfQ7fjJ21pM=;
+ b=l14pX2ZmU9MjtKxctvc470cErFFC3Bn8veoZi9h3cj6wWmNQb7HaPHO8jOMB4C2gGGADM+rIzcKQzPbIru13pYMPzlW1zuRADDGBxEF0PW2NfmJTXY4di4q80llqQary2nISmpC6rhwmm5KQ5ruw2oEbhlo+RoXOOotZeKDpzQyloxJWl8Q65SzVxhyyO9J6WoazPH/0f1KXYHu7+WtZ0OcmPCDdoKmw2MWmd8L6z6zrl0O0PJW1pSr32h5V78/EcsIVVNiccOxFI2PoXCUsnrOI6V6V7rdDww5W8T9vWa6FjT1ozOZ2aNiqe39UMencmNT59qDJsq24gnFn+bdzYg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by BN5PR12MB9512.namprd12.prod.outlook.com (2603:10b6:408:2ab::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.47; Wed, 2 Apr
+ 2025 16:34:03 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8534.043; Wed, 2 Apr 2025
+ 16:34:03 +0000
+Date: Wed, 2 Apr 2025 13:34:02 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Dave Airlie <airlied@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [git pull] drm for 6.15-rc1
+Message-ID: <20250402163402.GD342109@nvidia.com>
+References: <87tt782htn.fsf@intel.com>
+ <CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com>
+ <CAK7LNAQThGkgtKgquRPv8Ysi_omedRthF1_++apKda-xWeWcbA@mail.gmail.com>
+ <20250401191455.GC325917@nvidia.com> <877c433bys.fsf@intel.com>
+ <20250401194649.GE325917@nvidia.com> <87v7rm203e.fsf@intel.com>
+ <20250402130347.GB342109@nvidia.com> <87r02a1xge.fsf@intel.com>
+ <Z-1MqJen5o0yhoQQ@phenom.ffwll.local>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z-1MqJen5o0yhoQQ@phenom.ffwll.local>
+X-ClientProxiedBy: BN0PR04CA0163.namprd04.prod.outlook.com
+ (2603:10b6:408:eb::18) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
-References: <20250401155758.48855-1-robdclark@gmail.com>
- <CAF6AEGsKbjq_q7ezQTn5vyAF1cjXahgbv84uYK35BJH1KBXSpw@mail.gmail.com>
- <ff614cb7-94ca-4d74-9bbb-f97c95893113@collabora.com>
- <b636faa5-ab31-41d6-b957-4dfe89a2b47d@amd.com>
-In-Reply-To: <b636faa5-ab31-41d6-b957-4dfe89a2b47d@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 2 Apr 2025 09:11:59 -0700
-X-Gm-Features: AQ5f1JoTRdjAnHaCZTeG_hJr4mmegr_fGINI7Zx0FF-EN5SHZjfv1OdMb7Fb8uc
-Message-ID: <CAF6AEGutP-TTJjt=HrzpYooUerQ3jETYz=Mw8NEb2h3kLo=3kA@mail.gmail.com>
-Subject: Re: [PATCH v6] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline
- syncobjs
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- open list <linux-kernel@vger.kernel.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linux-media@vger.kernel.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BN5PR12MB9512:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f60e429-5b93-4c18-249a-08dd72042dfc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?lP3uDg/H8sX/xEI1kJTjfuNcu4W7Nxrj0Rt0PT/oPvbBP8mpujFKkHBOLjJf?=
+ =?us-ascii?Q?ZjAtY+PduxbxM8yKaiOsb5XuXSR/+dwu3g/FGE5kZxnHh00IA+odyOIdekZc?=
+ =?us-ascii?Q?oSm9Fbs4DrKlcENaQLRv3RCaQ/lWhJZNIDA6pvPkzs+KQyMZ1+CchG+wPYKu?=
+ =?us-ascii?Q?B8S4RZpSLTvWvrGe46fFvBniHZcQthXKnXRWahwl06ofsMUP0JPpUjDUrr7C?=
+ =?us-ascii?Q?hVTNHH18zM1+50lkDoc6y+ytBsctyoSd4ICxFNDUv5Yl5Why74/RhQ/dYEq5?=
+ =?us-ascii?Q?4ejg9uRwN7oKkidQIcNKUK5gCTwj2GeKP896/sICF0j7Ibrj32EjJKAeCRNx?=
+ =?us-ascii?Q?LEZOZ5q+WcaT3S7LNT6ys1h3tJgL0Dhk1TV1uQXm2XqvXn1XU5M1lmiGoYnk?=
+ =?us-ascii?Q?5euQz4mkgDxbRHcDbjPEvZMj5n/giED/b562VNazxPuZHLVZqk6kCjl/xFcX?=
+ =?us-ascii?Q?+UHicXN9g0saiy6H+eqoHTaduTUs6UxaXbiMWF7gldbrWXbAIViiSiDCZKY3?=
+ =?us-ascii?Q?rAC71mkA7s2fwuV4G2fzE9fgQvV5GXGcGGtfiL5ijTfDvzRkmoKhNBJdZ1EE?=
+ =?us-ascii?Q?nHKp9kBdMPjf3Ybz8PDiU/9AU3eddqUiuspj1WIniEMkKfdebTetPVl/ENWf?=
+ =?us-ascii?Q?U/Iz19Vi/Dwsat2KVPA2imqQDTBvRPewU5GydCzGmd4bEgdfO26lc8M2BcZw?=
+ =?us-ascii?Q?Yf376FRFQ2xy54WogitaVMsOXrNMogerKV4Gol9Ri8S0oFMX/PuszzFMDBAg?=
+ =?us-ascii?Q?Tt7SQ6aX8FrkKIPhsGIMwyZ9U9d/qZRYZlUvSNhJn58iLfw01CweQkgjORTd?=
+ =?us-ascii?Q?IFibEeUfBLYKoMjAkEOr8saFa1Ui1mSA37SvSp08m3KLPyVcbcAAI5Jzs0/o?=
+ =?us-ascii?Q?MCZ03+Fti/WLlnE7vh14adiSnOdj4G6S07gbdQxcPo0F//Ra8zYBFkd8YHCb?=
+ =?us-ascii?Q?F4mmMZXaIHEoYFWkk7fecU477WanvnAHFks4/pASmgJAvg9VhFyLvOtOA1gA?=
+ =?us-ascii?Q?gjD1ztLr+MVpi19CoQrCtBrVMaBvFGQOCOrHnNTlyeyhMXxtZhVZ46gGSiGp?=
+ =?us-ascii?Q?c6RE/6uKYTc8V98GOEX/wk5jcHvtds012++N5TC73mGdwGMNubJYuvNCKusl?=
+ =?us-ascii?Q?ZtfaiqcS/DNOj4NIDEy+7pZozFWtxwPzyUTNrFLXJMAkITEmsyakAiE+oQL9?=
+ =?us-ascii?Q?2pWRFBHYpPNJB7PFzxGld8Cx0hGUntEAl/8Qg11fyyxFwtHhQn8euhmdREmR?=
+ =?us-ascii?Q?Dyo2tHbubT7QEj8mHNlxoB8fWDhbqQUXVS4Kis91GJODpxcQgdoAfSPZfqnQ?=
+ =?us-ascii?Q?2cavTUHCqTW64AH8CiLSN6uz4Wzm7jQcDJCT6Xu1Fz5PwbnrLseANmXRZJn7?=
+ =?us-ascii?Q?EY6zQ/SPEoAuST+4UJkgJVYXSHYZ?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fM9buciDStMWFdQgoOBX8NG9sbo7oxZT8Gukh6bwMUtWNFBO8uJaQy1pGNrV?=
+ =?us-ascii?Q?kVvC1lXYFZuczMUSCBrO+b3p4DX193LSiogbK0Wz/ebUD66X8jtSZj6z+TUf?=
+ =?us-ascii?Q?sFsMfENJZAXGsrxRkawbL20kjeqkqXRZcpzTYOyCAUxG5llhewLVHImGaN4/?=
+ =?us-ascii?Q?3yV6b4LECR0uwDe6z9dAwcIFdQ/3zBQR+Zvck4vIxBITIZ6suEWC3VOKXkOt?=
+ =?us-ascii?Q?Uk65sivRUwWRTYFLJkLQBbr67EOlyBYc+CvtO5Bji+Zf+WnGVm+ayp38zigF?=
+ =?us-ascii?Q?m1we724wnsDAvo7SgKl4ycXADvtRWua8tHeepEEi3pIpMt3sdL34byY3IbLr?=
+ =?us-ascii?Q?IraujIyu4OR2FTmEyCKvhWtNfOk1IIWlpE+spsFMHlnbTpmaR0i1mQtK2kun?=
+ =?us-ascii?Q?PRtup+8h1dMvyWqdCUFJPg+NeqF4vvpkaEDbLgkYcizM0k1xiQi+PHpqYnp5?=
+ =?us-ascii?Q?2JMcybqO8aHl9lTJ4d+cYt3xRcAR47oKB/FEabCSU76a7uYZmUxrKGymoymK?=
+ =?us-ascii?Q?cuzQom/5GuYXuCiICorSJx9WKiWQhqFyWACTdI+a8peeEszpRg5IM8prE0MX?=
+ =?us-ascii?Q?NkligJflyJxwuup7L1tIFdoAt3ew90ReVLGH/VPSiHfZEv6ihOq4o7kACsXW?=
+ =?us-ascii?Q?iPTRB4jlW1fqpE83Kr/RpD3nCUX7SieIgzuKKFFOXv1GX+67P8sjhkU9ucF8?=
+ =?us-ascii?Q?AnCIBK7lBOurDrv00SKSpwEAGtHjokDwz331Rk5KuDsVHslsppR6SUm3ZetD?=
+ =?us-ascii?Q?R4rD48kt51MnE8w6LRxP4xUu1qL7/jEBSNXya+4VJbhPJ4f/pXpi0g9bIxd6?=
+ =?us-ascii?Q?TFu8xhadabWIU82RhQ1Yen/vhoTsUb752WfkIxTHdnKpu+FZECDHoZQqSn4S?=
+ =?us-ascii?Q?Hy1CVNwY8iRHkDwXcq2+H3lz3n+RRTQHZUBUEV+BXo/tBuQM+sTo8sYEG9zl?=
+ =?us-ascii?Q?Qg5/jsCpk3/rVnkYpxM9oVygtsBnoN2R0A8nsOS5fUe/3zkWGmezHrzhFNZE?=
+ =?us-ascii?Q?nlh8q5gU+je/Fqr5PV8gz4fr+bk5I5VKxnL2A7SMw52D1Uxwow8GZaT5q4NK?=
+ =?us-ascii?Q?DqzXFaMWGlQPqS30GMmItiSEull1ITkfUlNIlkEklBPg+IpuN5lScV7MlTVQ?=
+ =?us-ascii?Q?xfYPkFMSrns8tTeOmLUM8+X64z+Lv4TFEtC4/3dwYPi0aXZZmOiuclTP8syH?=
+ =?us-ascii?Q?QMh73wHFADTfjINf6nemsM35dwRfqCjMyDGVfvRiWoliv2u5ZFc2de7v/aZn?=
+ =?us-ascii?Q?IiKzjXQ5jfTh+BE/YIG+cowIRzD6Sg1dSPNIJPjavKKBAhLV8NSJGLRzg0gS?=
+ =?us-ascii?Q?gTwb8YjgriWgpsHhleWH+YlBn/5ZpbDGC/+Cq2/L2QT0bhNkuEwpldZu7CwX?=
+ =?us-ascii?Q?PX7IJhYiqTF1cDuoroWchTAiGJiiTvb0CJpgNcumzLZcK6n1xcWDCGcWhEsc?=
+ =?us-ascii?Q?goQkkjVSZnw6fSgNPx4HOFQ/woE99paY5bhOyipLaLmt2dATkchM11sWcI8d?=
+ =?us-ascii?Q?q1WFv5EwpuWxDYF3rBDpPPyVR3NtTCsQPXpXuT6kyLG8BIZya2ztM0fYH7A6?=
+ =?us-ascii?Q?+d0B0JMImsyKqdvo1iOM4BxUcrLHPcGCgheDDViS?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f60e429-5b93-4c18-249a-08dd72042dfc
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 16:34:03.6532 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YNEFnXYXGO4O8ErQG9XTe4fRNeJneuCL8GqeMStiGB6/8OhGveITPVw111CwWJeV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9512
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,199 +152,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 1, 2025 at 11:55=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 01.04.25 um 22:46 schrieb Dmitry Osipenko:
-> > On 4/1/25 23:40, Rob Clark wrote:
-> >> On Tue, Apr 1, 2025 at 8:58=E2=80=AFAM Rob Clark <robdclark@gmail.com>=
- wrote:
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> Add support for exporting a dma_fence fd for a specific point on a
-> >>> timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
-> >>> syncobj support, as it needs a way to turn a point on a timeline back
-> >>> into a dma_fence fd.  It also closes an odd omission from the syncobj
-> >>> UAPI.
-> >>>
-> >>> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
-> >>> [2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_reques=
-ts/805
-> >>>
-> >>> v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
-> >>> v3: Add unstaged uabi header hunk
-> >>> v4: Also handle IMPORT_SYNC_FILE case
-> >>> v5: Address comments from Dmitry
-> >>> v6: checkpatch.pl nits
-> >>>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >>> ---
-> >>>  drivers/gpu/drm/drm_syncobj.c | 47 +++++++++++++++++++++++++++------=
---
-> >>>  include/uapi/drm/drm.h        |  4 +++
-> >>>  2 files changed, 41 insertions(+), 10 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_sync=
-obj.c
-> >>> index 4f2ab8a7b50f..636cd83ca29e 100644
-> >>> --- a/drivers/gpu/drm/drm_syncobj.c
-> >>> +++ b/drivers/gpu/drm/drm_syncobj.c
-> >>> @@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_fi=
-le *file_private,
-> >>>  }
-> >>>
-> >>>  static int drm_syncobj_import_sync_file_fence(struct drm_file *file_=
-private,
-> >>> -                                             int fd, int handle)
-> >>> +                                             int fd, int handle, u64=
- point)
-> >>>  {
-> >>>         struct dma_fence *fence =3D sync_file_get_fence(fd);
-> >>>         struct drm_syncobj *syncobj;
-> >>> @@ -755,14 +755,24 @@ static int drm_syncobj_import_sync_file_fence(s=
-truct drm_file *file_private,
-> >>>                 return -ENOENT;
-> >>>         }
-> >>>
-> >>> -       drm_syncobj_replace_fence(syncobj, fence);
-> >>> +       if (point) {
-> >>> +               struct dma_fence_chain *chain =3D dma_fence_chain_all=
-oc();
-> >>> +
-> >>> +               if (!chain)
-> >>> +                       return -ENOMEM;
-> >>> +
-> >>> +               drm_syncobj_add_point(syncobj, chain, fence, point);
-> >>> +       } else {
-> >>> +               drm_syncobj_replace_fence(syncobj, fence);
-> >>> +       }
-> >>> +
-> >>>         dma_fence_put(fence);
-> >>>         drm_syncobj_put(syncobj);
-> >>>         return 0;
-> >>>  }
-> >>>
-> >>>  static int drm_syncobj_export_sync_file(struct drm_file *file_privat=
-e,
-> >>> -                                       int handle, int *p_fd)
-> >>> +                                       int handle, u64 point, int *p=
-_fd)
-> >>>  {
-> >>>         int ret;
-> >>>         struct dma_fence *fence;
-> >>> @@ -772,7 +782,7 @@ static int drm_syncobj_export_sync_file(struct dr=
-m_file *file_private,
-> >>>         if (fd < 0)
-> >>>                 return fd;
-> >>>
-> >>> -       ret =3D drm_syncobj_find_fence(file_private, handle, 0, 0, &f=
-ence);
-> >>> +       ret =3D drm_syncobj_find_fence(file_private, handle, point, 0=
-, &fence);
-> >>>         if (ret)
-> >>>                 goto err_put_fd;
-> >>>
-> >>> @@ -869,6 +879,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device =
-*dev, void *data,
-> >>>                                    struct drm_file *file_private)
-> >>>  {
-> >>>         struct drm_syncobj_handle *args =3D data;
-> >>> +       unsigned int valid_flags =3D DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_T=
-IMELINE |
-> >>> +                                  DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXP=
-ORT_SYNC_FILE;
-> >>> +       u64 point =3D 0;
-> >>>
-> >>>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
-> >>>                 return -EOPNOTSUPP;
-> >>> @@ -876,13 +889,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_devic=
-e *dev, void *data,
-> >>>         if (args->pad)
-> >>>                 return -EINVAL;
-> >>>
-> >>> -       if (args->flags !=3D 0 &&
-> >>> -           args->flags !=3D DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SY=
-NC_FILE)
-> >>> +       if (args->flags & ~valid_flags)
-> >>>                 return -EINVAL;
-> >>>
-> >>> +       if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
-> >>> +               point =3D args->point;
-> >>> +
-> >>>         if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_=
-FILE)
-> >>>                 return drm_syncobj_export_sync_file(file_private, arg=
-s->handle,
-> >>> -                                                   &args->fd);
-> >>> +                                                   point, &args->fd)=
-;
-> >>> +
-> >>> +       if (args->point)
-> >>> +               return -EINVAL;
-> >>>
-> >>>         return drm_syncobj_handle_to_fd(file_private, args->handle,
-> >>>                                         &args->fd);
-> >>> @@ -893,6 +911,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device =
-*dev, void *data,
-> >>>                                    struct drm_file *file_private)
-> >>>  {
-> >>>         struct drm_syncobj_handle *args =3D data;
-> >>> +       unsigned int valid_flags =3D DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_T=
-IMELINE |
-> >>> +                                  DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMP=
-ORT_SYNC_FILE;
-> >>> +       u64 point =3D 0;
-> >>>
-> >>>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
-> >>>                 return -EOPNOTSUPP;
-> >> oh, I suppose I should add a check for DRIVER_SYNCOBJ_TIMELINE?  I'll
-> >> send a v7 a bit later
-> > Christian already applied to misc-test, please rebase and make it as a
-> > new patch
->
-> Yeah, sorry I was a bit to quick obviously.
->
-> On the other hand I don't see an immediate need for a check for DRIVER_SY=
-NCOBJ_TIMELINE here.
->
-> The functions should work even when the driver doesn't handle timeline sy=
-ncobj on it's own.
+On Wed, Apr 02, 2025 at 04:41:44PM +0200, Simona Vetter wrote:
 
-Ok, no problem, I'll just put an explicit cap check in virglrenderer,
-rather than relying on this to tell me also if the driver supports
-timeline:
+> - Gradually roll this out, ideally with support in main Kbuild so it
+>   doesn't have to be replicated.
 
-         struct drm_syncobj_handle args =3D {
-            .handle =3D 0,   /* invalid handle */
-            .flags =3D DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE |
-                     DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE,
-            .fd =3D -1,
-            .point =3D 1,
-         };
+No one said flag day, you'd have to approach the same way everyone
+else has done when adding new compiler errors and warnings to the
+build. An off-by-default option to produce the new errors/warnings,
+and alot of time and fixes before the new tests become on by default.
 
-         errno =3D 0;
-         ret =3D drmIoctl(fd, DRM_IOCTL_SYNCOBJ_HANDLE_TO_FD, &args);
+The stuff like this is not really sensible:
 
-         /* ENOENT means the kernel supports
-DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
-          * but that we didn't provide a valid handle.  EINVAL means
-the kernel does
-          * not support DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE.
-          */
-         if (errno =3D=3D ENOENT) {
-            resp[0] =3D true;
-            resp[1] =3D 1;
-         } else {
-            assert(errno =3D=3D EINVAL);
-         }
++header-check-$(CONFIG_DRM_I915_WERROR) += \
++       $(filter-out $(no-header-test),$(shell cd $(src) && find * -name '*.h'))
 
+Not only should we not be using globs to read the source files in a
+build system, but it is brutal to have to list every header file in
+the build in the makefiles, along with some kconfig :\
 
-BR,
--R
+( also find is usually spelled $(wildcard $(src)/*.h) )
 
-> Regards,
-> Christian.
->
->
+Jason
