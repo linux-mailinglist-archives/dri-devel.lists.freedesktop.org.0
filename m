@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F160A78BC5
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 12:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58818A78BCE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 12:18:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E703810E730;
-	Wed,  2 Apr 2025 10:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9818110E739;
+	Wed,  2 Apr 2025 10:18:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="IdlW/s+r";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="kyHne2d6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08E2710E72E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 10:14:50 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-3031354f134so8539703a91.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 03:14:49 -0700 (PDT)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37ACD10E739
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 10:18:55 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-30362ee1312so11538024a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 03:18:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1743588889; x=1744193689;
+ d=chromium.org; s=google; t=1743589135; x=1744193935;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lw7No9CatrhunZQ4Ziy751N/t8utTcZj0hKQTdSN9jk=;
- b=IdlW/s+rx+VHXgT8QxJ31rVOcHwUs0YYxJ9VP9q3fxy8YJ+q3Uyd4VuNa+JIQbpJO8
- HVkV25nK8d1TmY3RqqkKIXMsXL5zhVD7V7ULjhirn+nYwh4f8SShUTV2sHwc87JDbZ6D
- Lm9N5zm76/LIlhQb2w++l7O3yullZjGdjqDTY=
+ bh=0D56V4bGfpX/TU9e5gmFluYXKUdNZrEsrQeh3MS0+Bo=;
+ b=kyHne2d6e+aFuoAG9nkPqHQqPh8LU0+D15i/SSOv49loFV3/cI+/jVfNfH5VuTev0M
+ anLfq8/0rlMelYP02owR601lwtx4NO4TSID6Y7TnnNiKAiU9177044R7A6PrDnvMAMyp
+ 0aDDCD2PsiXWrNsEGcFnAlmdcGfqSh3C83ZdE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743588889; x=1744193689;
+ d=1e100.net; s=20230601; t=1743589135; x=1744193935;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lw7No9CatrhunZQ4Ziy751N/t8utTcZj0hKQTdSN9jk=;
- b=lviP3RL1BJAx22LBuSe7k4W/RAn/qOOwQOA9v2UFXASqteICcdN0+/aODCpvVlAX8R
- kB7HqdaPNRg4w1NdTKPbVZc7eXEwCsKDaytIb/RR032eVnNOKXg3E+aKy1IXDpQ44rB0
- TFreQwQVQ+bewJKmawo1ZAmErbWnt0gbwdL9eKLJd8+U9ciAu6AtQCBK5ge8MrwDqi3m
- lezxwtbcSLg+KdQgUcwTgCXz9RukJi5CWuOVuC8BLSgHeoyEYVjLZxbSe6i9750Oheg+
- JqP6Wh7bDLWFEHEX3lz3bsAZ3yR8amkGbCLVNqQe8rS7Fp2kyzNJ6QCGrBH0x8uFvcaH
- 6zag==
+ bh=0D56V4bGfpX/TU9e5gmFluYXKUdNZrEsrQeh3MS0+Bo=;
+ b=OhOI8sB0jMC8vblzr5NVpsji7I/tR5xhl9dsz/OXwUuULSWoos2D01o1IHhK/yUxvp
+ 5I7CXbz0mm2dh0sDIa+mgikJG2e82tinW24ywkhU12CvkTr2cK95PrAqdszDVcA6H+2O
+ +fyOWUyb5FDCnMq4LcPsmh0y0V5D3Oa1H+++kq7kNNtOMRII5WvNAcHCDGXScg7IT5cg
+ Knt8QGJ6gDCaNkEfqn/wEosxJ+J1M38z2EgRtiDHO8+WygzJ/8e2G6vll/8JC3QWC76W
+ xLyWe3uESUOf5q19NvBWVOU7u9hY5CWqaCSQT/6mjhBUfx8i1i9Zvb7Ca+krN2xRBsXG
+ cU9w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUa7dWWBz7aEMIhQXz5k2dxz0vaC69Sx9eI7F293+C2begjpYx32bpoLeL3WfDLKxIApE2v/UrpoB0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwkeTNI5oL3MxMxBR2Ce3ix1T+wAf3PHeIwdxANiLRTy9hYLGhZ
- xDkt18n3CU1TQKX8MIIc8qW7eUyGsUiQqYKW1f5ICMbWaa6SLelRf+UzA8/BAkDaIaUnHOsDPbe
- dug6q8ZAhsHbHrxKnI5UboZ1xTV9YPKFbzqyB
-X-Gm-Gg: ASbGncsrhpRHobxeku2NltIavTiOflbDkJ8k+U8DARFJnvROQ+4PAY5NY/tDdKlAJPw
- CyuNPK/KBDnzSrrHcxXYpSUFE4iHUynkyLzTp5dh8f1a8+G4TrGgWtI1dJq5FXH+gDdUWCWm/Eg
- Q8mgmDWFpGxo3n4geX7spjm7N/PwZ8uteTf6UoSfT3fGkcQkrbh0Yn
-X-Google-Smtp-Source: AGHT+IH4KbDIAmz8gZLfVjOiL+nuNvvi6uk1SQsIGj72ELmQEPT6v+Qk+JdsGhfa3B8h399dfK9zguZ+jHJ7xZMou58=
-X-Received: by 2002:a17:90a:d2ce:b0:2ff:5a9d:9390 with SMTP id
- 98e67ed59e1d1-30531f957a3mr24885869a91.8.1743588889523; Wed, 02 Apr 2025
- 03:14:49 -0700 (PDT)
+ AJvYcCX9NXjbFdalhXrEgbKqvnDS72FpecC/cxp2VshPZZfGqktnSzYrQZYe/ui1RsFiP4JKXoGpaG27Leg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwoGI1ylV5FPO8hinac4KpSDm1szC9O0ggUZ8HIJI2d8D8sm+Jb
+ ai2TB9gdWYNhrL8+NSnAyVR3OF07W08VNegDmy8Gs5lqgQV7wTt9NJKWFNh8xujr+eMtACFCGzH
+ y8925TBGH91EHLGcFYOIgI9z+jXkt9lCnChBK
+X-Gm-Gg: ASbGncsvsorWlLTyWVuY2Mg7WiYl6jVkhW9xmcUr8LFH5m7HOzgo4SXKPIflyFv9d2M
+ ZQ3iOGM00oE7dmoX+MEzIv1W38rrIRnDTdJ/Tl3xeLEaZSlv6P+0wxnHxXYg90lIiAl9SeVB/pF
+ q6g+NUWlfEpN9aRdQUNCPVT9Kn3zCFoN+E5bMg7AjqqUz+5KEF4wVV
+X-Google-Smtp-Source: AGHT+IGQrnkGyKn8dVTSUjKIJxy2/wcmbcJv3W5smbWJ2t/E7cpQH6SMGOxQZ5dG0vuNvno9IYMLbv3UhEax8FtatNA=
+X-Received: by 2002:a17:90a:c88b:b0:2ff:7c2d:6ff3 with SMTP id
+ 98e67ed59e1d1-3056ef48b43mr2719742a91.35.1743589134726; Wed, 02 Apr 2025
+ 03:18:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250402083628.20111-1-angelogioacchino.delregno@collabora.com>
- <20250402083628.20111-2-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250402083628.20111-2-angelogioacchino.delregno@collabora.com>
+ <20250402083628.20111-3-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250402083628.20111-3-angelogioacchino.delregno@collabora.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 2 Apr 2025 18:14:36 +0800
-X-Gm-Features: AQ5f1Jooc0a6tL_Gl6htqIUeZsyBaGUQis_xndlOKQ_9u_xfpEMy_zMefycOXDw
-Message-ID: <CAGXv+5HUJUL342uMA7wjmm8TsBUveVa0i8k+BfB2aZXd--AoKg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/5] drm/mediatek: mtk_drm_drv: Fix kobject put for
- mtk_mutex device ptr
+Date: Wed, 2 Apr 2025 18:18:41 +0800
+X-Gm-Features: AQ5f1Jr3BoD2em-LznhL9zgkOSxDEEueTpI7DlFY2HYoRHnyStO_tGh8xaXUAvA
+Message-ID: <CAGXv+5GsoHN5mVe_kEP+oAzxa9HqgfhoiDqvO3xiQurFrvQ3qA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/5] drm/mediatek: Fix kobject put for component
+ sub-drivers
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
  simona@ffwll.ch, matthias.bgg@gmail.com, nancy.lin@mediatek.com, 
@@ -90,27 +90,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, Apr 2, 2025 at 4:36=E2=80=AFPM AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >
-> This driver is taking a kobject for mtk_mutex only once per mmsys
-> device for each drm-mediatek driver instance, differently from the
-> behavior with other components, but it is decrementing the kobj's
-> refcount in a loop and once per mmsys: this is not right and will
-> result in a refcount_t underflow warning when mediatek-drm returns
-> multiple probe deferrals in one boot (or when manually bound and
-> unbound).
->
-> Besides that, the refcount for mutex_dev was not decremented for
-> error cases in mtk_drm_bind(), causing another refcount_t warning
-> but this time for overflow, when the failure happens not during
-> driver bind but during component bind.
->
-> In order to fix one of the reasons why this is happening, remove
-> the put_device(xx->mutex_dev) loop from the mtk_drm_kms_init()'s
-> put_mutex_dev label (and drop the label) and add a single call to
-> correctly free the single incremented refcount of mutex_dev to
-> the mtk_drm_unbind() function to fix the refcount_t underflow.
->
-> Moreover, add the same call to the error cases in mtk_drm_bind()
-> to fix the refcount_t overflow.
+> In function mtk_drm_get_all_priv(), this driver is incrementing
+
+              ^ mtk_drm_get_all_drm_priv()
+
+> the refcount for the sub-drivers of mediatek-drm with a call to
+> device_find_child() when taking a reference to all of those child
+> devices.
+
+Looking closer, that function is also missing a platform_device_put()
+to match of_find_device_by_node().
+
+> When the component bind fails multiple times this results in a
+> refcount_t overflow, as the reference count is never decremented:
+> fix that by adding a call to put_device() for all of the mmsys
+> devices in a loop, in error cases of mtk_drm_bind() and in the
+> mtk_drm_unbind() callback.
 >
 > Fixes: 1ef7ed48356c ("drm/mediatek: Modify mediatek-drm for mt8195 multi =
 mmsys support")
@@ -120,75 +115,50 @@ abora.com>
 Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
 > ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
 > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
 iatek/mtk_drm_drv.c
-> index e09578756de0..a8fbccb50c74 100644
+> index a8fbccb50c74..6b31df587507 100644
 > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
 > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -464,7 +464,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
->
->         ret =3D drmm_mode_config_init(drm);
->         if (ret)
-> -               goto put_mutex_dev;
-> +               return ret;
->
->         drm->mode_config.min_width =3D 64;
->         drm->mode_config.min_height =3D 64;
-> @@ -483,7 +483,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
->                 drm->dev_private =3D private->all_drm_private[i];
->                 ret =3D component_bind_all(private->all_drm_private[i]->d=
-ev, drm);
->                 if (ret)
-> -                       goto put_mutex_dev;
-> +                       return ret;
->         }
->
->         /*
-> @@ -576,9 +576,6 @@ static int mtk_drm_kms_init(struct drm_device *drm)
->  err_component_unbind:
->         for (i =3D 0; i < private->data->mmsys_dev_num; i++)
->                 component_unbind_all(private->all_drm_private[i]->dev, dr=
-m);
-> -put_mutex_dev:
-> -       for (i =3D 0; i < private->data->mmsys_dev_num; i++)
-> -               put_device(private->all_drm_private[i]->mutex_dev);
->
->         return ret;
->  }
-> @@ -649,8 +646,10 @@ static int mtk_drm_bind(struct device *dev)
->                 return 0;
->
->         drm =3D drm_dev_alloc(&mtk_drm_driver, dev);
-> -       if (IS_ERR(drm))
-> -               return PTR_ERR(drm);
-> +       if (IS_ERR(drm)) {
-> +               ret =3D PTR_ERR(drm);
-> +               goto err_put_dev;
-> +       }
->
->         private->drm_master =3D true;
->         drm->dev_private =3D private;
-> @@ -676,6 +675,8 @@ static int mtk_drm_bind(struct device *dev)
->         drm_dev_put(drm);
+> @@ -676,6 +676,10 @@ static int mtk_drm_bind(struct device *dev)
 >         for (i =3D 0; i < private->data->mmsys_dev_num; i++)
 >                 private->all_drm_private[i]->drm =3D NULL;
-> +err_put_dev:
-> +       put_device(private->mutex_dev);
+>  err_put_dev:
+> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
+> +               /* For device_find_child in mtk_drm_get_all_priv() */
+> +               put_device(private->all_drm_private[i]->dev);
+> +       }
+>         put_device(private->mutex_dev);
 >         return ret;
 >  }
+> @@ -683,6 +687,7 @@ static int mtk_drm_bind(struct device *dev)
+>  static void mtk_drm_unbind(struct device *dev)
+>  {
+>         struct mtk_drm_private *private =3D dev_get_drvdata(dev);
+> +       int i;
 >
-> @@ -688,6 +689,8 @@ static void mtk_drm_unbind(struct device *dev)
->                 drm_dev_unregister(private->drm);
+>         /* for multi mmsys dev, unregister drm dev in mmsys master */
+>         if (private->drm_master) {
+> @@ -690,6 +695,10 @@ static void mtk_drm_unbind(struct device *dev)
 >                 mtk_drm_kms_deinit(private->drm);
 >                 drm_dev_put(private->drm);
-> +
-> +               put_device(private->mutex_dev);
+>
+> +               for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
+
+Just FYI you can also declare the int within the for statement.
+
+ChenYu
+
+> +                       /* For device_find_child in mtk_drm_get_all_priv(=
+) */
+> +                       put_device(private->all_drm_private[i]->dev);
+> +               }
+>                 put_device(private->mutex_dev);
 >         }
 >         private->mtk_drm_bound =3D false;
->         private->drm_master =3D false;
 > --
 > 2.48.1
 >
