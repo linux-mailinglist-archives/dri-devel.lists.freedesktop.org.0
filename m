@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFF4A789CC
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 10:28:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57D0A789CD
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 10:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88C28891B8;
-	Wed,  2 Apr 2025 08:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF8B110E6E2;
+	Wed,  2 Apr 2025 08:28:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iMIY7G+p";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j+rKbt4f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1728B10E6E2
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 08:27:58 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02B3E10E6E2
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 08:28:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E72A54426C;
- Wed,  2 Apr 2025 08:27:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BD6CC4CEDD;
- Wed,  2 Apr 2025 08:27:56 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 99EA961145;
+ Wed,  2 Apr 2025 08:28:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A2AEC4CEE5;
+ Wed,  2 Apr 2025 08:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743582477;
- bh=fBfmi+UvdP/eUpQ/8ozTCbqqVHLfNXYxLlPHS6YEA74=;
+ s=k20201202; t=1743582503;
+ bh=AxDNNMZJCuIzgSEb/lxlToXjKumuqj6WXPlR2NT09I4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iMIY7G+p2hLBrxGJS7aqCyxCOO6eEZUmrU/GvI2HYqsOusDoi+S7epdpauGiJrL/X
- c+bxk1OPgU3kFItzSR0/+ejjdIS3BA1Ugo4RS5iYnLHkuEE1NziBCGVELNuJ+lEYoA
- KfSZROjbmCcQc3IBNQ75jsLtBhUOs33EdV1AP/dSILCoEi5dLsWZ5nPmeBUN2kJmxC
- HaaJVowKIL4IH0MyTsdDDnxcW30woxacSs4K3Ao24VPujt3/FbCQTvuaF64YOSPOcJ
- sflRO8LkY7+76c4p7AMWjEWMOBDVJpsqSxHPN9vC0mn06qt8y0MLnx2NJ5XTzZP8QI
- aL7eTHlRn7ilQ==
-Date: Wed, 2 Apr 2025 10:27:53 +0200
+ b=j+rKbt4fDfq0taKoNa1fnbEnb6Fwlh8WKOxXrfE30NjnAbH4N86gQLXQ5Io81xblV
+ ASKGdfE32usra1zAPoVRDPM37ui3XHQlhm8xpEJEyTuWGZokvc9cig4I0Cy24TKrs6
+ nIHwd5hEh+MiJ+k4aNZ68mizpuA5xf+/P6WDfD4bVaf+6Rg3Hwowf+eSm0inVwC0OC
+ Towx3EnNi4NFX7rLIpQo6eTKO+AibF9OwUocdOjjGj3BSu0H/vTP581se3qWbLm2i4
+ xJ3xOMutes+wxGY0yMOZa9XyIKyoCvgZhzXr6EbFTZwFcorrsQBmJsx/4NmPjkivwv
+ Wo5wdJ5pizIIw==
+Date: Wed, 2 Apr 2025 10:28:19 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Marcus Folkesson <marcus.folkesson@gmail.com>
 Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -40,15 +40,15 @@ Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: st7571-i2c: Add Sitronix ST7571 panel
- bindings
-Message-ID: <20250402-rare-slick-carp-dbcab9@krzk-bin>
+Subject: Re: [PATCH 3/3] MAINTAINERS: add antry for Sitronix ST7571 LCD
+ controller
+Message-ID: <20250402-gabby-orthodox-numbat-ebf605@krzk-bin>
 References: <20250402-st7571-v1-0-351d6b9eeb4a@gmail.com>
- <20250402-st7571-v1-1-351d6b9eeb4a@gmail.com>
+ <20250402-st7571-v1-3-351d6b9eeb4a@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250402-st7571-v1-1-351d6b9eeb4a@gmail.com>
+In-Reply-To: <20250402-st7571-v1-3-351d6b9eeb4a@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,115 +64,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 02, 2025 at 08:12:10AM +0200, Marcus Folkesson wrote:
-> Sitronix ST7571 is a 4bit gray scale dot matrix LCD controller.
-> The controller has a SPI, I2C and 8bit parallel interface, this is for
-> the I2C interface only.
+On Wed, Apr 02, 2025 at 08:12:12AM +0200, Marcus Folkesson wrote:
+> Add MAINTAINERS entry for the Sitronix ST7571 dot matrix LCD
+> controller.
 > 
 > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 > ---
->  .../bindings/display/sitronix,st7571-i2c.yaml      | 71 ++++++++++++++++++++++
->  1 file changed, 71 insertions(+)
+>  MAINTAINERS | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7571-i2c.yaml b/Documentation/devicetree/bindings/display/sitronix,st7571-i2c.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..6e5e0994a98db646a37bb17c4289332546c9266e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/sitronix,st7571-i2c.yaml
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 889bd4a59551c9bc125f94944a6e1c7e3ef2de83..00d19d45679f6d18a7e9c9e619b7642176b7ef95 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7572,6 +7572,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:	Documentation/devicetree/bindings/display/sitronix,st7586.txt
+>  F:	drivers/gpu/drm/tiny/st7586.c
+>  
+> +DRM DRIVER FOR SITRONIX ST7571 PANELS
+> +M:	Marcus Folkesson <marcus.folkesson@gmail.com>
+> +S:	Maintained
+> +T:	git git://anongit.freedesktop.org/drm/drm-misc
 
-Drop i2c
-
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/sitronix,st7571-i2c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sitronix ST7571 Display Panels
-> +
-> +maintainers:
-> +  - Marcus Folkesson <marcus.folkesson@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: sitronix,st7571-i2c
-
-Drop i2c
-
-> +
-> +  reg:
-> +    description: I2C address of the LCD controller
-
-Drop description
-
-
-> +    maxItems: 1
-> +
-> +  sitronix,panel-width-mm:
-> +    description: physical panel width [mm]
-> +
-> +  sitronix,panel-height-mm:
-> +    description: physical panel height [mm]
-
-No, use standard properties.
-
-> +
-> +  sitronix,panel-nlines:
-> +    description: Number of lines in the panel
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 1
-> +    maximum: 128
-> +    default: 128
-
-Ditto
-
-> +
-> +  sitronix,panel-start-line:
-> +    description: Start line of the panel
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 127
-> +    default: 0
-
-Ditto
-
-> +
-> +  reset-gpios:
-> +    description: GPIO connected to the RST_N signal.
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reset-gpios
-
-Keep same order as in properties.
-
-> +  - sitronix,panel-width-mm
-> +  - sitronix,panel-height-mm
-> +
-
-Missing ref to panels schema.
-
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #
-
-Drop
-
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        display@3f {
-
-Look how this is called in other bindings... The binding and example are
-not following existing code. Why? Why doing something entirely
-different?
+Are you one of the maintainers and do you actually push there? If not,
+drop.
 
 Best regards,
 Krzysztof
