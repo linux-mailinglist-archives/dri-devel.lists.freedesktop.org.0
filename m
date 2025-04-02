@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCC0A79319
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B29B6A7931A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:27:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D323010E84D;
-	Wed,  2 Apr 2025 16:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB5A510E853;
+	Wed,  2 Apr 2025 16:27:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="I/yUthHP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="G9nP4FWi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4F9010E84D
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:27:42 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28BA810E853
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:27:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743611262;
+ s=mimecast20190719; t=1743611264;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n20sMf532VbVnrpCAXL1VVfimq/xFU4hBiyB9gxSCUM=;
- b=I/yUthHPE742sPiTgv/SmD0M02GscIulJtbWuzaphBLSflytzi7lRHVXayWi2dx/gxY8Xi
- FQOFy/DVFvB1RHp/TXLO8OgpHr4Ub7h2r6UyVjYOOSJbPYArTMrZfeYr2dMpmPbq9kolDU
- X2fFHp26uAlP0foODLwkqyxD4bddti4=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ bh=5EzueVYpplGxvASeTRTyPsRiyFvto0Vy2Kcau66JwAs=;
+ b=G9nP4FWiV4o/N8/WYTcTk/6G2N+MlRuy3xxnSQ1yb4bJ3HWPj0klM7L28ncJMykYuUpTNA
+ g1JWuga6Y0d7uj3JC/BFftWfcTd+mEB2zKxLq+GxGiKfrcM1G2YS3dCVsC469/URt4Zjnk
+ 1apY4f4nEHDLH+Ah+boj3w8DdvWfgfY=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-609-b9O-w6C_N8i3Gxnyh6wN3Q-1; Wed,
- 02 Apr 2025 12:27:37 -0400
-X-MC-Unique: b9O-w6C_N8i3Gxnyh6wN3Q-1
-X-Mimecast-MFC-AGG-ID: b9O-w6C_N8i3Gxnyh6wN3Q_1743611254
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-502-zZeRuaLzPJS1f346MLDk7Q-1; Wed,
+ 02 Apr 2025 12:27:41 -0400
+X-MC-Unique: zZeRuaLzPJS1f346MLDk7Q-1
+X-Mimecast-MFC-AGG-ID: zZeRuaLzPJS1f346MLDk7Q_1743611258
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 8D49A1956087; Wed,  2 Apr 2025 16:27:34 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 9E51019560B6; Wed,  2 Apr 2025 16:27:38 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 8AB62195609D; Wed,  2 Apr 2025 16:27:30 +0000 (UTC)
+ id B8A91195609D; Wed,  2 Apr 2025 16:27:34 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 02 Apr 2025 11:24:06 -0400
-Subject: [PATCH 28/30] panel/novatek-nt39016: Use refcounted allocation in
+Date: Wed, 02 Apr 2025 11:24:07 -0400
+Subject: [PATCH 29/30] panel/lcd-olinuxino: Use refcounted allocation in
  place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-b4-drm_panel_mass_convert_part2-v1-28-903b70999ea6@redhat.com>
+Message-Id: <20250402-b4-drm_panel_mass_convert_part2-v1-29-903b70999ea6@redhat.com>
 References: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
 In-Reply-To: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,11 +68,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743607440; l=1326;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743607440; l=1392;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=Niq8gbCDLPdaXJKvZgPPfcwhl8kkf6v8++wBNoX0yvk=;
- b=uUBjuu4uAf6zvsY7BdU2W9NZi3KL2l71OpE62cx6Qb43FdZK4WcIbFREATd8c1bzrb9LtfZHE
- vCtPpS1XB8NDS9JT/7pwHbb5DzBYLD4/tDogZQN3CEt0tTK2DE5mWl6
+ bh=+jsQl646bOU9X8y48TMvtQRkadDZ3AxzB7aFav6cb9w=;
+ b=mmc7dvs5cgJDC72L+gor9D4R7BopRqNGGmjJ7fbK2JWxzYG5U7h4QgerROTSHLZ53ftW9kV2X
+ qG+C/miz5x/DegTpKAVxmLLkweOKwmzBtcU26ltz17Y0mk6QOXfVP2D
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -96,37 +96,38 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-novatek-nt39016.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-index 9fa7654e2b6755fbc641b6bef3cc450e0e16ba32..b9c23be05d4f03c82f9770d3c05d0e8afbb06c6a 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-@@ -246,9 +246,10 @@ static int nt39016_probe(struct spi_device *spi)
- 	struct nt39016 *panel;
- 	int err;
+diff --git a/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c b/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
+index 94ae8c8270b8fbdf47009dac6232ddf6885c2369..66f99982f360fe4445b0c0cbc1e57c4db4be5eda 100644
+--- a/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
++++ b/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
+@@ -175,9 +175,11 @@ static int lcd_olinuxino_probe(struct i2c_client *client)
+ 				     I2C_FUNC_SMBUS_READ_I2C_BLOCK))
+ 		return -ENODEV;
  
--	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
--	if (!panel)
+-	lcd = devm_kzalloc(dev, sizeof(*lcd), GFP_KERNEL);
+-	if (!lcd)
 -		return -ENOMEM;
-+	panel = devm_drm_panel_alloc(dev, struct nt39016, drm_panel, &nt39016_funcs,
++	lcd = devm_drm_panel_alloc(dev, struct lcd_olinuxino, panel,
++				   &lcd_olinuxino_funcs,
 +				   DRM_MODE_CONNECTOR_DPI);
-+	if (IS_ERR(panel))
-+		return PTR_ERR(panel);
++	if (IS_ERR(lcd))
++		return PTR_ERR(lcd);
  
- 	spi_set_drvdata(spi, panel);
+ 	i2c_set_clientdata(client, lcd);
+ 	lcd->dev = dev;
+@@ -234,9 +236,6 @@ static int lcd_olinuxino_probe(struct i2c_client *client)
+ 	if (IS_ERR(lcd->enable_gpio))
+ 		return PTR_ERR(lcd->enable_gpio);
  
-@@ -279,9 +280,6 @@ static int nt39016_probe(struct spi_device *spi)
- 		return PTR_ERR(panel->map);
- 	}
- 
--	drm_panel_init(&panel->drm_panel, dev, &nt39016_funcs,
+-	drm_panel_init(&lcd->panel, dev, &lcd_olinuxino_funcs,
 -		       DRM_MODE_CONNECTOR_DPI);
 -
- 	err = drm_panel_of_backlight(&panel->drm_panel);
- 	if (err)
- 		return dev_err_probe(dev, err, "Failed to get backlight handle\n");
+ 	ret = drm_panel_of_backlight(&lcd->panel);
+ 	if (ret)
+ 		return ret;
 
 -- 
 2.48.1
