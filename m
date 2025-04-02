@@ -2,45 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B16A79396
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 19:04:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64297A793A0
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 19:10:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C30FD10E7F2;
-	Wed,  2 Apr 2025 17:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41BE910E865;
+	Wed,  2 Apr 2025 17:10:56 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bvm68viR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from irl.hu (irl.hu [95.85.9.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE3B10E7F2;
- Wed,  2 Apr 2025 17:04:24 +0000 (UTC)
-Received: from fedori.lan (51b692a2.dsl.pool.telekom.hu
- [::ffff:81.182.146.162]) (AUTH: CRAM-MD5 soyer@irl.hu, )
- by irl.hu with ESMTPSA
- id 0000000000080D7C.0000000067ED6E16.0008406E; Wed, 02 Apr 2025 19:04:21 +0200
-From: Gergo Koteles <soyer@irl.hu>
-To: Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alex Hung <alex.hung@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Hersen Wu <hersenxs.wu@amd.com>, Melissa Wen <mwen@igalia.com>,
- Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
- Gergo Koteles <soyer@irl.hu>
-Subject: [PATCH] drm/amd/display: do not copy invalid CRTC timing info
-Date: Wed,  2 Apr 2025 19:03:31 +0200
-Message-ID: <24439c13a014e1cd200785db6f3dcf08f4773eb3.1743612701.git.soyer@irl.hu>
-X-Mailer: git-send-email 2.49.0
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 737E210E7F5
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 17:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743613852;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XiTG0FByjC9Rs16rt52doAGprRUtZJNgSviOZz6x1o8=;
+ b=bvm68viRUU1Hbn8LrzbBtkC051+f6GTM1WkFggKo0ScC+U+9QYuRUzRHNLA0a4Ql+5E7hp
+ AEaVEX/ruMRBiN6AxNK37SoWDZn+mNZ1ap1XMw9N47wotFyzabmA9Uc3rtc33a39lZpPOE
+ lMTUupLzN0fj9Er8NG64PICx3nFwwUQ=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-264-2p6AgTrvMp695wiKCVs6Iw-1; Wed,
+ 02 Apr 2025 13:10:48 -0400
+X-MC-Unique: 2p6AgTrvMp695wiKCVs6Iw-1
+X-Mimecast-MFC-AGG-ID: 2p6AgTrvMp695wiKCVs6Iw_1743613843
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 47E8E180AF52; Wed,  2 Apr 2025 17:10:43 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.40])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id EB43D195DF85; Wed,  2 Apr 2025 17:10:40 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+ Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+ Kingdom.
+ Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20250402150005.2309458-2-willy@infradead.org>
+References: <20250402150005.2309458-2-willy@infradead.org>
+ <20250402150005.2309458-1-willy@infradead.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ v9fs@lists.linux.dev
+Subject: Re: [PATCH v2 1/9] 9p: Add a migrate_folio method
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <803464.1743613839.1@warthog.procyon.org.uk>
+Date: Wed, 02 Apr 2025 18:10:39 +0100
+Message-ID: <803465.1743613839@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,43 +77,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since b255ce4388e0, it is possible that the CRTC timing
-information for the preferred mode has not yet been
-calculated while amdgpu_dm_connector_mode_valid() is running.
+Matthew Wilcox (Oracle) <willy@infradead.org> wrote:
 
-In this case use the CRTC timing information of the actual mode.
+> The migration code used to be able to migrate dirty 9p folios by writing
+> them back using writepage.  When the writepage method was removed,
+> we neglected to add a migrate_folio method, which means that dirty 9p
+> folios have been unmovable ever since.  This reduced our success at
+> defragmenting memory on machines which use 9p heavily.
+> 
+> Fixes: 80105ed2fd27 (9p: Use netfslib read/write_iter)
+> Cc: stable@vger.kernel.org
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: v9fs@lists.linux.dev
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-Fixes: b255ce4388e0 ("drm/amdgpu: don't change mode in amdgpu_dm_connector_mode_valid()")
-Closes: https://lore.kernel.org/all/ed09edb167e74167a694f4854102a3de6d2f1433.camel@irl.hu/
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4085
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index bae83a129b5f..0eb25cdcb52f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6500,12 +6500,12 @@ decide_crtc_timing_for_drm_display_mode(struct drm_display_mode *drm_mode,
- 					const struct drm_display_mode *native_mode,
- 					bool scale_enabled)
- {
--	if (scale_enabled) {
--		copy_crtc_timing_for_drm_display_mode(native_mode, drm_mode);
--	} else if (native_mode->clock == drm_mode->clock &&
--			native_mode->htotal == drm_mode->htotal &&
--			native_mode->vtotal == drm_mode->vtotal) {
--		copy_crtc_timing_for_drm_display_mode(native_mode, drm_mode);
-+	if (scale_enabled || (
-+	    native_mode->clock == drm_mode->clock &&
-+	    native_mode->htotal == drm_mode->htotal &&
-+	    native_mode->vtotal == drm_mode->vtotal)) {
-+		if (native_mode->crtc_clock)
-+			copy_crtc_timing_for_drm_display_mode(native_mode, drm_mode);
- 	} else {
- 		/* no scaling nor amdgpu inserted, no need to patch */
- 	}
--- 
-2.49.0
+Reviewed-by: David Howells <dhowells@redhat.com>
 
