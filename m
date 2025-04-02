@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0AAA788FA
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 09:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343BBA78911
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 09:46:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20D110E6D0;
-	Wed,  2 Apr 2025 07:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A36810E6CF;
+	Wed,  2 Apr 2025 07:46:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="UbgPGhXY";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="K19W1GmQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D77FC10E6D0
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 07:42:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7588910E6CF
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 07:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
  References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=uwSUjXhnpPVALtfn6H/0Ef+Hu/5PlKbVNs0zSo5MJgI=; b=UbgPGhXYcAW7Ecq25uYBAa81JB
- YejYfLTgWYPRfCDH2TETkjUUcMvwoBl851u/SlwbYNyM+yFIyh1vaxj3MsprEfF1FK26n5zhpDDHd
- 0RYGNmo+SUBtmS4ReHBp3tzeFKK0va69/75S9gYtFYaalaORY5Hw/o8guEL/XrRBXYj8AEbukW2Md
- LGryWJxcZ1Mzcn3518Ul0AimhzGe/TBpi+hQ2z98XSyzcgUfOVyd2mTc3oBmaQQd81PMoT1r62W1T
- CuUM7rCOZBxmcgETDmqQzITfoRPWmm3VOCvo6KMNAoKgoYfkVSHQQuqvcIPvXatsDpO3fjOfsgBNA
- eJdGDGWg==;
+ bh=uIzWjvfJbyS7n54sJ+5shgly3p7L+Bq4hAOWNvm3+QQ=; b=K19W1GmQJKHEi4CglJlEuX8NWi
+ LthI2Z1LT4kdChvQwI3VZxL8k5hQ8dfV9NdzrOUMMX5Pj6OAhhEMS8GDkCXS2YpBQcPOH/Ls8WWAg
+ vt0plzI5MTrstT6vVlp7xwsZ0RSoiIMGP/bQXVfBeMRFvz9Ykq9JPtPXarpYwYT/LMNYgK0a0CjKi
+ kJJEWZJJLww9Gks/HsTl8JvWnlqFdUJ6xwagZ6hon/A/xb2B/diil2B0kL2IZ7+7EZgbibHMjzb7w
+ /qUr5UiptHJqHeN9jIzxomcDYiKG84dHAl9weULxWpIBCV33DZruujj7uy0w4xbjRcWo4+Gbycyy+
+ hIRGELoQ==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252]
  helo=noisy.programming.kicks-ass.net)
  by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
- id 1tzsjs-00000006zGs-2jZ9; Wed, 02 Apr 2025 07:42:21 +0000
+ id 1tzsnH-00000006zJG-0AVp; Wed, 02 Apr 2025 07:45:51 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
- id C032230049D; Wed,  2 Apr 2025 09:42:19 +0200 (CEST)
-Date: Wed, 2 Apr 2025 09:42:19 +0200
+ id 95EEB30049D; Wed,  2 Apr 2025 09:45:50 +0200 (CEST)
+Date: Wed, 2 Apr 2025 09:45:50 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: Guenter Roeck <linux@roeck-us.net>
 Cc: Alessandro Carminati <acarmina@redhat.com>,
@@ -62,7 +62,7 @@ Cc: Alessandro Carminati <acarmina@redhat.com>,
  Dave Hansen <dave.hansen@linux.intel.com>
 Subject: Re: [PATCH v4 06/14] x86: Add support for suppressing warning
  backtraces
-Message-ID: <20250402074219.GP5880@noisy.programming.kicks-ass.net>
+Message-ID: <20250402074550.GQ5880@noisy.programming.kicks-ass.net>
 References: <20250313114329.284104-1-acarmina@redhat.com>
  <20250313114329.284104-7-acarmina@redhat.com>
  <20250401170829.GO5880@noisy.programming.kicks-ass.net>
@@ -88,20 +88,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Tue, Apr 01, 2025 at 10:53:46AM -0700, Guenter Roeck wrote:
 
-> > > @@ -92,7 +102,8 @@ do {								\
-> > >   do {								\
-> > >   	__auto_type __flags = BUGFLAG_WARNING|(flags);		\
-> > >   	instrumentation_begin();				\
-> > > -	_BUG_FLAGS(ASM_UD2, __flags, ANNOTATE_REACHABLE(1b));	\
-> > > +	if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))			\
-> > > +		_BUG_FLAGS(ASM_UD2, __flags, ANNOTATE_REACHABLE(1b));	\
-> > >   	instrumentation_end();					\
+> > >   #define _BUG_FLAGS(ins, flags, extra)					\
+> > >   do {									\
+> > >   	asm_inline volatile("1:\t" ins "\n"				\
+> > >   		     ".pushsection __bug_table,\"aw\"\n"		\
+> > >   		     "2:\t" __BUG_REL(1b) "\t# bug_entry::bug_addr\n"	\
+> > >   		     "\t"  __BUG_REL(%c0) "\t# bug_entry::file\n"	\
+> > > -		     "\t.word %c1"        "\t# bug_entry::line\n"	\
+> > > -		     "\t.word %c2"        "\t# bug_entry::flags\n"	\
+> > > -		     "\t.org 2b+%c3\n"					\
+> > > +		     "\t"  __BUG_FUNC_PTR "\t# bug_entry::function\n"	\
+> > > +		     "\t.word %c2"        "\t# bug_entry::line\n"	\
+> > > +		     "\t.word %c3"        "\t# bug_entry::flags\n"	\
+> > > +		     "\t.org 2b+%c4\n"					\
+> > >   		     ".popsection\n"					\
+> > >   		     extra						\
+> > > -		     : : "i" (__FILE__), "i" (__LINE__),		\
+> > > +		     : : "i" (__FILE__), "i" (__BUG_FUNC), "i" (__LINE__),\
+> > >   			 "i" (flags),					\
+> > >   			 "i" (sizeof(struct bug_entry)));		\
 > > >   } while (0)
-> > 
-> > NAK, this grows the BUG site for now appreciable reason.
-> 
-> Only if CONFIG_KUNIT_SUPPRESS_BACKTRACE is enabled. Why does that warrant a NACK ?
 
-And isn't that something distros will want enabled? All I'm seeing is
-bloating every single UD2 site, and no real justification. As Josh said,
-this should be done on the other side of the trap if at all.
+Also this, why do you need this extra function in the bug entry? Isn't
+that trivial from the trap site itself? symbol information should be
+able to get you the function from the trap ip.
+
+None of this makes any sense.
