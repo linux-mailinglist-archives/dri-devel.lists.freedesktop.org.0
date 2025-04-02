@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71BDA78FD1
+	by mail.lfdr.de (Postfix) with ESMTPS id 14936A78FD0
 	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:31:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E36D10E7C2;
-	Wed,  2 Apr 2025 13:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF69A10E7C0;
+	Wed,  2 Apr 2025 13:31:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TbQrJStT";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bePSgVek";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95B7A10E7BB
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:31:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0D5710E7BB
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:31:25 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0A2E19E1;
- Wed,  2 Apr 2025 15:29:29 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04FC21FD6;
+ Wed,  2 Apr 2025 15:29:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1743600570;
- bh=S8uUUDEaNeicbiSY8YvRq9DMlAGVbKYKCtdKJ0sZaN8=;
+ s=mail; t=1743600572;
+ bh=vjRuuRXkQ3UFqYx/0yC4s/4b1wMI2nCnKESmkXL4LGc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=TbQrJStTAPF/eX2uVj21oQLUiAQSdSbuRTR8bEbdfA1mEtwLCjQNHwn9xj/cNFzqg
- bRrN/9IxkjOov7R65sbDIpt1ExDvfOSYFub3T8h0VHPPjShL+SrFUAoyv5IyYTUT1f
- qB/8V5uw8CvyXOxrbIzWhj0QWZPElZn9/571LhF8=
+ b=bePSgVek6aFL2lIogvgla6Mc4vD1ekSrYF6lPAnZu3rboQXtuLIpHx4aj5I61/Sqg
+ +6jWuKieT/305mi9XK6UAJIfMg/Knu3foDyCfyldVvJWiXTXnsG72ibaUjisn+bwJh
+ nnG5NeAQacxM3Ha6vaZATZSaWcQaGBfp0TrmZk/I=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 02 Apr 2025 16:30:49 +0300
-Subject: [PATCH v2 07/18] drm/bridge: cdns-dsi: Fail if HS rate changed
- when validating PHY config
+Date: Wed, 02 Apr 2025 16:30:50 +0300
+Subject: [PATCH v2 08/18] drm/bridge: cdns-dsi: Clean up
+ cdns_dsi_mode2cfg()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-cdns-dsi-impro-v2-7-4a093eaa5e27@ideasonboard.com>
+Message-Id: <20250402-cdns-dsi-impro-v2-8-4a093eaa5e27@ideasonboard.com>
 References: <20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com>
 In-Reply-To: <20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -52,21 +52,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Devarsh Thakkar <devarsht@ti.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2073;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2823;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=S8uUUDEaNeicbiSY8YvRq9DMlAGVbKYKCtdKJ0sZaN8=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn7Twd0AEPulojI4YQTGxGlw6WhL0s6oojtNNCo
- xGjiLne1PSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+08HQAKCRD6PaqMvJYe
- 9YEcD/0bgooVvLCuu3FLtqeH3YC4ZA8SY/8y8p73Uq7oomgpTBroT3IKCHwFz5CGjRwFwKyvKWU
- 49YHzXWtvHKvaG5zkLT4/DBlXEshXP6ss5n2mSE6cUres/zdcuLKUw34XI23inbILk5hQ9STkFA
- ydYNpT/3gwzcfi8YEL99Z1YnkcBNDNTbEhugwFiZin620DQyVS75prnbIpKtoV8w5ZWP0Qil7WC
- IEfpDvajZ9YgClKsudDokHQQbYdfYKPE32S/O1uESrHiC0hukSDENMiCovaMsUfgZVEV35Qlkdk
- g36FPQQuQTBb57Q6rENl62mfPACfkA470gD5eMCLWE/KfwDk/ztpblrh8/VbII1VRZH029ybkOf
- cbe+JBhQO03GlaI3XY7h+xGu2uEEhm3yVr4JrQCQueKk1dDMF9GVMqNKR2vFUqIj/RfAHc4FeLh
- fFttc4ylimhxsqb14tzONvAZViku9y05/6Z/2947F3shnrzBz2dFk611s5ClKK4aTujvexVjz3d
- ltQIzcJzOSYQp8tkfb/iOe9kh78TVN0H9gZer9Sw5VWfZ3Dt4SVfjhMhkQS3aLFHFtAdNx5c6Yo
- RywJDjX0/pfoIinfbZeLodLfe6cVHrqDdvbZjJaowgpPnuxG5E+T8IedpBrRBjis/o4LdsVOA4K
- oGfwJfwi+7y+85w==
+ bh=vjRuuRXkQ3UFqYx/0yC4s/4b1wMI2nCnKESmkXL4LGc=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn7Twe4ruVwjDyoZFcIcdKbfQD5zYgBMS52y27F
+ sAMybOt7t+JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+08HgAKCRD6PaqMvJYe
+ 9feeEACuB7Lm9N6fMlgyo92alSQDJNrXcax5yxnsjAfUFi/MHJqlyXp5se2qMeu6PfMicvbDpKU
+ hUvOc7vYBwAyq7Xte8qBrDKm3chOM8zxZ2862G8k13xTMI2Fm/OBIUtJhQpdm6WaRs1KuzLwZwh
+ 7WPyCe3BIeaLgtJ4tKWeTW7x7rOqpBbBHG9hB41tUibQFdYlIg6lKeGOgzcGU4uHVtbY0gwjg/r
+ BRHwCtI5xEQSv01UgIQ7Api4Nb+js+jJuBAjzjJkaBP3VUkVp/RSBRMpBgYGnZVVJSXCB4juIDP
+ oKwnDAIpb3M7Tb3XCe6eebc20WgqlwwA4SZToB08xsNYJmjVcHZkpcYLYlSdLK+XPa+quTFWDeX
+ E7V2hSkJU/gnMXCW6/+ZmFFToCT/qyYJl7Oe15A4FuJV1wNxMrTYVAwBIp96R/gmX3sqUPOoVf1
+ AYLBB1xsqllBmLioXpuFPip7Pbk1XGWEfK/GEah14PIt696Y3OMGBAbpr7QvGWZa7UdcN2Cnril
+ +cxqBHxXmVqx1l9FAOpzWe9h29h1SvJk4hsXSJaFRiz1er3Xb7556cYqcwFShAmF0/K6+ywCwvo
+ qbGm0bIttUKVGz+Oxx/rWWUWxdxTLV5EXa3NQULWvfF84+CM4VCDGpqN0CdgHGNSqZT5zRKix88
+ 5BRpV64LLORGLrw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,54 +84,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The phy_validate() can change the HS clock rate we passed to it in the
-PHY config, depending on what the HW can actually do. The driver just
-ignores this at the moment, but if the actual HS clock rate is different
-than the requested one, the pipeline will fail as all the DSI timing
-calculations will be incorrect.
-
-There are ways to improve DSI operation for various clock rates, but for
-now, just add a check to see if the rate changed, and return an error if
-that happens.
+Clean up the function a bit, mainly by doing the mode_valid_check dance
+once in the beginning of the function, and grouping the calculations
+wrt. sync/event mode a bit better.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 48 ++++++++++++--------------
+ 1 file changed, 22 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 53322407c1b0..9238acf69823 100644
+index 9238acf69823..0aaa1d06b21c 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -580,6 +580,7 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
- 	unsigned long dsi_hss_hsa_hse_hbp;
- 	unsigned int nlanes = output->dev->lanes;
- 	int mode_clock = (mode_valid_check ? mode->clock : mode->crtc_clock);
-+	unsigned long req_hs_clk_rate;
- 	int ret;
+@@ -481,42 +481,38 @@ static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
+ 			     bool mode_valid_check)
+ {
+ 	struct cdns_dsi_output *output = &dsi->output;
+-	unsigned int tmp;
+-	bool sync_pulse = false;
++	u32 dpi_hsa, dpi_hbp, dpi_hfp, dpi_hact;
++	bool sync_pulse;
+ 	int bpp;
  
- 	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg, mode_valid_check);
-@@ -596,10 +597,20 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
- 	if (ret)
- 		return ret;
- 
-+	req_hs_clk_rate = output->phy_opts.mipi_dphy.hs_clk_rate;
- 	ret = phy_validate(dsi->dphy, PHY_MODE_MIPI_DPHY, 0, &output->phy_opts);
- 	if (ret)
- 		return ret;
- 
-+	if (req_hs_clk_rate != output->phy_opts.mipi_dphy.hs_clk_rate) {
-+		dev_err(&dsi->dphy->dev,
-+			"validation changed hs_clk_rate from %lu to %lu, diff %lu\n",
-+			req_hs_clk_rate, output->phy_opts.mipi_dphy.hs_clk_rate,
-+			output->phy_opts.mipi_dphy.hs_clk_rate -
-+				req_hs_clk_rate);
-+		return -EINVAL;
++	if (mode_valid_check) {
++		dpi_hsa = mode->hsync_end - mode->hsync_start;
++		dpi_hbp = mode->htotal - mode->hsync_end;
++		dpi_hfp = mode->hsync_start - mode->hdisplay;
++		dpi_hact = mode->hdisplay;
++	} else {
++		dpi_hsa = mode->crtc_hsync_end - mode->crtc_hsync_start;
++		dpi_hbp = mode->crtc_htotal - mode->crtc_hsync_end;
++		dpi_hfp =  mode->crtc_hsync_start - mode->crtc_hdisplay;
++		dpi_hact = mode->crtc_hdisplay;
 +	}
 +
- 	dsi_hss_hsa_hse_hbp = dsi_cfg->hbp + DSI_HBP_FRAME_OVERHEAD;
- 	if (output->dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
- 		dsi_hss_hsa_hse_hbp += dsi_cfg->hsa + DSI_HSA_FRAME_OVERHEAD;
+ 	memset(dsi_cfg, 0, sizeof(*dsi_cfg));
+ 
+-	if (output->dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
+-		sync_pulse = true;
++	sync_pulse = output->dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+ 
+ 	bpp = mipi_dsi_pixel_format_to_bpp(output->dev->format);
+ 
+-	if (mode_valid_check)
+-		tmp = mode->htotal -
+-		      (sync_pulse ? mode->hsync_end : mode->hsync_start);
+-	else
+-		tmp = mode->crtc_htotal -
+-		      (sync_pulse ?
+-		       mode->crtc_hsync_end : mode->crtc_hsync_start);
+-
+-	dsi_cfg->hbp = dpi_to_dsi_timing(tmp, bpp, DSI_HBP_FRAME_OVERHEAD);
++	dsi_cfg->hbp = dpi_to_dsi_timing(dpi_hbp + (sync_pulse ? 0 : dpi_hsa),
++					 bpp, DSI_HBP_FRAME_OVERHEAD);
+ 
+-	if (sync_pulse) {
+-		if (mode_valid_check)
+-			tmp = mode->hsync_end - mode->hsync_start;
+-		else
+-			tmp = mode->crtc_hsync_end - mode->crtc_hsync_start;
++	if (sync_pulse)
++		dsi_cfg->hsa =
++			dpi_to_dsi_timing(dpi_hsa, bpp, DSI_HSA_FRAME_OVERHEAD);
+ 
+-		dsi_cfg->hsa = dpi_to_dsi_timing(tmp, bpp,
+-						 DSI_HSA_FRAME_OVERHEAD);
+-	}
++	dsi_cfg->hact = dpi_to_dsi_timing(dpi_hact, bpp, 0);
+ 
+-	dsi_cfg->hact = dpi_to_dsi_timing(mode_valid_check ?
+-					  mode->hdisplay : mode->crtc_hdisplay,
+-					  bpp, 0);
+-	dsi_cfg->hfp = dpi_to_dsi_timing(mode_to_dpi_hfp(mode, mode_valid_check),
+-					 bpp, DSI_HFP_FRAME_OVERHEAD);
++	dsi_cfg->hfp = dpi_to_dsi_timing(dpi_hfp, bpp, DSI_HFP_FRAME_OVERHEAD);
+ 
+ 	return 0;
+ }
 
 -- 
 2.43.0
