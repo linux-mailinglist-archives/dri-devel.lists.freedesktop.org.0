@@ -2,142 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056A6A78B7B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 11:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A471FA78BA4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 11:58:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A63710E728;
-	Wed,  2 Apr 2025 09:45:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EC3310E6F0;
+	Wed,  2 Apr 2025 09:58:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="W51jKUW3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sMGqo046";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W51jKUW3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sMGqo046";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S7Jgt/TP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03CD010E73C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 09:45:23 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4BC901F38E;
- Wed,  2 Apr 2025 09:45:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743587122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3wqHq0y0vfW+gtDYZnbbzr+c6KEpRcpGnljd2nWTC2M=;
- b=W51jKUW3nu33LTOMeOXys/gup5jZsLcx43h9IHwfne9BjL8mk3uhvk80guC9qeBLSn+wWD
- WP7IZtqO4C3brUZxRntP3Ms0WI0nFziRpEXRLdtds7w4uoHeJU+j0EbaSJRoFgLlQdCW1q
- k6ODRNCu0POFYt7fvg5A7UISznS0snQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743587122;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3wqHq0y0vfW+gtDYZnbbzr+c6KEpRcpGnljd2nWTC2M=;
- b=sMGqo046EcB2rA2P+soZVXMpfim+u0eauPkUOe5Uy1YIbJBnqJTv1uf8e3v1xOvkDi+NPE
- BtIpNWpicSH26UBg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=W51jKUW3;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sMGqo046
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743587122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3wqHq0y0vfW+gtDYZnbbzr+c6KEpRcpGnljd2nWTC2M=;
- b=W51jKUW3nu33LTOMeOXys/gup5jZsLcx43h9IHwfne9BjL8mk3uhvk80guC9qeBLSn+wWD
- WP7IZtqO4C3brUZxRntP3Ms0WI0nFziRpEXRLdtds7w4uoHeJU+j0EbaSJRoFgLlQdCW1q
- k6ODRNCu0POFYt7fvg5A7UISznS0snQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743587122;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3wqHq0y0vfW+gtDYZnbbzr+c6KEpRcpGnljd2nWTC2M=;
- b=sMGqo046EcB2rA2P+soZVXMpfim+u0eauPkUOe5Uy1YIbJBnqJTv1uf8e3v1xOvkDi+NPE
- BtIpNWpicSH26UBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 048B113A4B;
- Wed,  2 Apr 2025 09:45:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Mx+fOjEH7WdYSgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 02 Apr 2025 09:45:21 +0000
-Message-ID: <dae5089d-e214-4518-b927-5c4149babad8@suse.de>
-Date: Wed, 2 Apr 2025 11:45:21 +0200
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F2E310E3BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 09:58:48 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-4394a823036so60782605e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 02:58:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1743587924; x=1744192724; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=F64Bhf8JcqE2NyBcccVmI5z7F2vvtYs8PqVACVDcoJ4=;
+ b=S7Jgt/TPQIh3T9hO7EYqWSnKkBs5XQRurQUEXaTtCziWTFm8BQTRzxGhDxV0BsutVk
+ wqIacMVlAVmC3nNL00RFxjvYPdcT/ke1rc3Htt1/x7lJLuc8IOahxlH4xoskd32j5taI
+ /mgf0ZI6s54kBoJEgfrutgMbr+4Y5dx0xDFPeaMIqPQt5h5368xJW3GAbQwx6lyqRUGX
+ 1hEDTI2F5hTLSSv4syck20aYQEuzv6haO333l2FnoXfuBO5KPGMdL1WjX9NfDDWR3DRm
+ TwLhxPI9EpRrepSDNtcXwE2RCxPv5mjlNryj1x4cQKsX7Hz2KHsK0ZU6iFD57IV2Qfdx
+ mkCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743587924; x=1744192724;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=F64Bhf8JcqE2NyBcccVmI5z7F2vvtYs8PqVACVDcoJ4=;
+ b=FlSqafUq9vfmBiSceysC2iun1oA1NLgRA4mZrZfTy1oYuuri+8TNha6DbZIQ5wqsAu
+ saslFNlbmKGRMsOCgppmn7pZzEZa9z0os96b0tJ/HnqAywRZgAUmBstJtLO2jrYCbDsO
+ BBJC1jqY7S9PGV3Qdv1KwLnlSHvay8/6Av6I61yTAHDJjXHsNXeLFmK/9ZWDY3+rFmsv
+ nEfKTwS2u6s9ML+ayERlg44ItAL9PfbYX5ajlwdx5oXw2e4iEftQmoQbx+nHBHPzSsRF
+ P3SFyzHRD7+yHsG2A81qLNxDdoI8VJl+uCosuX7/M6fMZxUufzRbl+UrJuhA38xXcd1x
+ IM1Q==
+X-Gm-Message-State: AOJu0YwzM+W3LdA3WlsK+JYnhfYZgcLzHE8+fucS/t+zofdINZhcku9+
+ qw6tei/dQSy+ve8A3byfS3QvDtBn200Movm4R5luyrhpixugDUvP2Krm1wwhja0=
+X-Gm-Gg: ASbGncvPumPQRM6KzCFCGwODwVW9VZcZTJZVdWQ+gpJGSkFMis7//fqZTZGP02SfjZr
+ P6x4vc4FZeasq8i9hcavJelaDceEUY+r1TkzZMDkbugt8oq2ex+/5LC7E5AyrIvWJ5bpp1maAzF
+ F+j7pZlBJl89QMFZlSK5jpInyD/qA1YjImS4bnS9yB1tiqgT7PRlPaomkYR9vFR5QyD+4aj/27P
+ mC2RdAzqly1FKopOrFQ7HqGCl2Dq/canmmGq1KCmeov5ES6Qw6l+uRvJw1lYF57qOIs0dDmEuZs
+ 4FT9O8rZtFOJbM7QC5R+b0mJFMPAQgBaLeaFQNDM6ByhHS9x39EX8HaC/0dtEAU2Jr4=
+X-Google-Smtp-Source: AGHT+IFF+LY0kUxsYN1yucCu27iDkU8fohgx1eaXgcBCwuhTj6Le9wBHGbHQPhPbt6iIdhv/R5hh1w==
+X-Received: by 2002:a05:6000:4014:b0:391:2a9a:478c with SMTP id
+ ffacd0b85a97d-39c297543b5mr1431926f8f.23.1743587924276; 
+ Wed, 02 Apr 2025 02:58:44 -0700 (PDT)
+Received: from localhost ([213.215.212.194])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-39c0b65b985sm16581662f8f.12.2025.04.02.02.58.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Apr 2025 02:58:43 -0700 (PDT)
+From: Christopher Obbard <christopher.obbard@linaro.org>
+Subject: [PATCH v4 0/2] Add support for OLED panel used on Snapdragon
+ Lenovo T14s Gen6
+Date: Wed, 02 Apr 2025 10:58:31 +0100
+Message-Id: <20250402-wip-obbardc-qcom-t14s-oled-panel-v4-0-41ba3f3739d0@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC drm-next 0/1] Add support for drm_panic
-To: Ryosuke Yasuoka <ryasuoka@redhat.com>, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- drawat.floss@gmail.com, jfalempe@redhat.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org
-References: <20250402084351.1545536-1-ryasuoka@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250402084351.1545536-1-ryasuoka@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 4BC901F38E
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- TO_DN_SOME(0.00)[]; ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[]; TAGGED_RCPT(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[10]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
+X-B4-Tracking: v=1; b=H4sIAEcK7WcC/5XNu24CMRCF4VdBrpnIV8xS5T0iCntmFiwt68VGS
+ yK07x5DRZQGyv8U37mJyiVxFbvVTRSeU015bGHXK4HHMB4YErUWWmonjZZwTRPkGEMhhDPmE1y
+ UrZAHJpjCyANEb3smrWgjpWjMVLhP34+Lr33rY6qXXH4ej7O6r2/gswIF0kW0kZC2OnwOaQwlf
+ +RyEHd91s+ie0HUIIG7iB47MhLxn2ieRf+CaJpoHblee+tNt/0jLsvyCz7jerZ1AQAA
+X-Change-ID: 20250320-wip-obbardc-qcom-t14s-oled-panel-b74fed21d600
+To: Douglas Anderson <dianders@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+ Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>, 
+ devicetree@vger.kernel.org, 
+ Christopher Obbard <christopher.obbard@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2101;
+ i=christopher.obbard@linaro.org; h=from:subject:message-id;
+ bh=IlA4UvDfErox3kVQzczkwY1GjiDHyTr52IErFszm38M=;
+ b=owEBbQKS/ZANAwAKAWNNxPBocEb4AcsmYgBn7QpPRoqhp0uCFc1qfUTwfMlvTteUzDKNC76k/
+ ZxU7VoUoRyJAjMEAAEKAB0WIQTxi9yLbCX5CqI9UXRjTcTwaHBG+AUCZ+0KTwAKCRBjTcTwaHBG
+ +OuZD/4q4OrxLfM5IQZJdlfHMtgt6pBL2NUTwms3NT0YVSZguUAkuGXPQq9EaAlqyIed58qWrJ/
+ 44+r7asNQ4rhp96wGMY3QuiMWVcDMkz3uIy1bkOYhxNY82kt1eDE6dtusJOuoM0BU/d16gV2qSt
+ 9gs8CCH7cUeL0auRWoSJiZ1vNcP1QnwGXl01x9po7YUaEUe1BWAxpQPP7DWh2J+DWfjPm+ySBIS
+ zibb2tgf3U6ffJst8RbEjypQZ3Bs9/mymnqUBHustX6D9vBMPn6/q5+IwfzQTngDZEnIDyZDTpQ
+ D7IYQBx4OpSQfO7NZA2/z2361xC3zXZqH1+ZE2On3Yfkw4Cwa+s2voOEfPgtoswePcQ+9U7UoYi
+ o1xTepR9clFspYYwzj8TH5y9YP4im+K5oBO2K3q5k88lyDDPq6v3t2QC58i/Id23zUBgxCtejxY
+ Tl/ulhlDvjXe6wNSsFTLLq9wKS+s92QqjB5EeTobkVrQpKvtbbb89p7/tdUSskMz25M5NdojAxL
+ SIZge2SXxTogRI3mQ1AG9IZ1q1HTL00pWMof4rfQizh3NoYInBFHvUoHz0GdrnSX1V3Hw3IVJRg
+ inSMaDlt7fhnVLLTplZILt+F6pPGvEt0QTa8q88Q1jao0/iAXbDcJp1fm/qnOpYZg7F003wZqwc
+ XXcCA+pNCd0oFDw==
+X-Developer-Key: i=christopher.obbard@linaro.org; a=openpgp;
+ fpr=F18BDC8B6C25F90AA23D5174634DC4F0687046F8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,45 +119,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+The Snapdragon Lenovo T14s Gen6 can be bought with a number of different
+panels. This patch series adds support for the OLED model which has a
+Samsung ATNA40YK20 panel.
 
-Am 02.04.25 um 10:43 schrieb Ryosuke Yasuoka:
-> This patch adds drm_panic support for hyperv-drm driver. This function
-> works but it's still needed to brush up. Let me hear your opinions.
->
-> Once kernel panic occurs we expect to see a panic screen. However, to
-> see the screen, I need to close/re-open the graphic console client
-> window. As the panic screen shows correctly in the small preview
-> window in Hyper-V manager and debugfs API for drm_panic works correctly,
-> I think kernel needs to send signal to Hyper-V host that the console
-> client refreshes, but I have no idea what kind of signal is needed.
->
-> This patch is tested on Hyper-V 2022.
->
-> Ryosuke Yasuoka (1):
->    drm/hyperv: Add support for drm_panic
->
->   drivers/gpu/drm/drm_simple_kms_helper.c     | 26 +++++++++++++
->   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 42 +++++++++++++++++++++
->   include/drm/drm_simple_kms_helper.h         | 22 +++++++++++
+With this patch series the backlight of the OLED eDP panel does not
+illuminate since the brightness is incorrectly read from the eDP panel
+as (to be clear this is not a regression). This is fixed in [0].
 
-No changes to simple_kms_helper please. This is obsolete and should go 
-away. Just put everything into hyperv_drm.
+[0]: https://lore.kernel.org/all/20250330-wip-obbardc-qcom-t14s-oled-panel-brightness-v6-1-84ad1cd1078a@linaro.org/
 
-Best regards
-Thomas
+Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
+---
+Changes in v4:
+- Rework HPD GPIO into eDP device rather than panel (Johan).
+- Drop review tags for HPD GPIO patch.
+- Link to v3: https://lore.kernel.org/r/20250327-wip-obbardc-qcom-t14s-oled-panel-v3-0-45d5f2747398@linaro.org
 
->   3 files changed, 90 insertions(+)
->
->
-> base-commit: cf05922d63e2ae6a9b1b52ff5236a44c3b29f78c
+Changes in v3:
+- Added review trailers from v2.
+- Dropped dt-binding documentation patch (applied by Douglas Anderson into
+  drm-misc-next).
+- Dropped eDP maximum brightness patch (will be sent in separate
+  series).
+- Removed duplicate nodes in T14s OLED device tree.
+- Reworked WIP comments from commit messages.
+- Link to v2: https://lore.kernel.org/r/20250325-wip-obbardc-qcom-t14s-oled-panel-v2-0-e9bc7c9d30cc@linaro.org
 
+Changes in v2:
+- Use the existing atna33xc20 driver rather than panel-edp.
+- Add eDP panel into OLED devicetree.
+- Add patch to read the correct maximum brightness from the eDP panel.
+- Link to v1: https://lore.kernel.org/r/20250320-wip-obbardc-qcom-t14s-oled-panel-v1-1-05bc4bdcd82a@linaro.org
+
+---
+Christopher Obbard (2):
+      arm64: dts: qcom: x1e78100-t14s: add hpd gpio to dp controller
+      arm64: dts: qcom: x1e78100-t14s-oled: add edp panel
+
+ arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts | 8 ++++++++
+ arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi     | 8 ++++++++
+ 2 files changed, 16 insertions(+)
+---
+base-commit: b6ae34803e82511009e2b78dc4fd154330ecdc2d
+change-id: 20250320-wip-obbardc-qcom-t14s-oled-panel-b74fed21d600
+
+Best regards,
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Christopher Obbard <christopher.obbard@linaro.org>
 
