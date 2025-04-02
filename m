@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3846DA78E90
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 14:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6641A78EDD
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 14:47:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2A4410E776;
-	Wed,  2 Apr 2025 12:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF18A10E77E;
+	Wed,  2 Apr 2025 12:47:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="IyZ00P8C";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A0GvEm2A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A374410E77F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 12:34:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1743597277; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=STaBJNr4rZBo8f01c6VRqrJWEa0Y6jLfwmOHdlCvjodQKacGTfeaEE7N5YlXonxCccgYZ4HEq7s1mRNJDTe7NOVVjoNJReZJ7Z64g+qyWraTupVXUcU5zppU2Shmd2soFlyTwTAtME7D5npLiqVetN+ywpYqxoT+BoaaG17vcFA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1743597277;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=1KX7JQi6EbzwxEG4xd90S9IXnOU37kajAaOpaq/ajeQ=; 
- b=Ne5sMX5Z95USWS5DMV7uKspCnRByCk51Z6WBz9V65lkQ/I++oArYVEuEJ3aB0OdZiw2lABgTXDq+igo6cQc8CVhrCYyX4mCKA2aUy2plEVGNVT8m/Y9qIBfKA7CQPZhsyXdUiQ0pa5b9sohZ6unPaILhdroDkmsIsqFskb4oeGw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743597277; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=1KX7JQi6EbzwxEG4xd90S9IXnOU37kajAaOpaq/ajeQ=;
- b=IyZ00P8CTrqdu6kCoQM8fd5GvRu8kjnC1RpMZznrTwGNp2DYkVbMXMPbPplrXu6F
- RSRoS7MOiMkcbvklCEMqDdstjlherVOurFLhFgXlg+my5abvLXcurVmGuqK586T8xky
- Q1ZfUfihpvqr6pu98D1ldAZVGwQx5uWiH0vp3HIs=
-Received: by mx.zohomail.com with SMTPS id 1743597273931232.0685945330315;
- Wed, 2 Apr 2025 05:34:33 -0700 (PDT)
-Message-ID: <975582a3-313b-4989-aac2-c3b309ba55b6@collabora.com>
-Date: Wed, 2 Apr 2025 15:34:28 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAF4810E77E;
+ Wed,  2 Apr 2025 12:47:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743598036; x=1775134036;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Gj2aB2JqBmqXPO78uNKvPd/l2jxWVWHHMd/bVheBitA=;
+ b=A0GvEm2ASQdClm4umbZDKin41Vf0GX3vO0v/3U6WtqlSXomrYI5hyQM1
+ rD2cW4CBddOTBj05KfhoiIqpdpEFje6s35CPvzuU1y3CpB2nQsLQlR9iX
+ Is0DTT+tLPqY+Gpo/cCdo0GEfI3PFCPZ3isnhhfpBxkq+zmBC7vEW6RFz
+ KSIY3sHJ7CxZ5LuHGaqYNeaWlRD5xPUJY7EO19bQ9o85cVPcQ7L7sYK1K
+ 6l7Yjl2G1HGtqnoJrHSVQivzqq0zi1KKsxbXAQ/7iRXSwkK8wU5HEEPAj
+ gsZcAvkv/HIHwpoVRmtDf/2+2cis52HG0ZKFOcbXL7ABmrugkozFsrO+Q A==;
+X-CSE-ConnectionGUID: aW4t6a2aSvCg4wRwsfJq5Q==
+X-CSE-MsgGUID: B3ZT9gB5Q7STmFmxrzlkoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="55953437"
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; d="scan'208";a="55953437"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Apr 2025 05:47:11 -0700
+X-CSE-ConnectionGUID: gPJlNXYbQLS1e6N7A65cbg==
+X-CSE-MsgGUID: xLyK4DAQQ6S0hlKPTGmchw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; d="scan'208";a="127180570"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.73])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Apr 2025 05:47:07 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org
+Cc: jani.nikula@intel.com, Jason Gunthorpe <jgg@nvidia.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, linux-kbuild@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/4] kbuild: resurrect generic header check facility
+Date: Wed,  2 Apr 2025 15:46:52 +0300
+Message-Id: <20250402124656.629226-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] drm/virtio: implement userptr: add interval tree
-To: "Huang, Honglei1" <Honglei1.Huang@amd.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Huang Rui <ray.huang@amd.com>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, Demi Marie Obenour <demiobenour@gmail.com>
-References: <20250321080029.1715078-1-honglei1.huang@amd.com>
- <20250321080029.1715078-8-honglei1.huang@amd.com>
- <810789ec-c034-4bdd-961a-f49c67336e45@collabora.com>
- <6e796751-86f3-42e5-b0a6-3a3602d3af13@amd.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <6e796751-86f3-42e5-b0a6-3a3602d3af13@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,15 +72,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/2/25 04:53, Huang, Honglei1 wrote:
-> 
-> On 2025/3/30 19:57, Dmitry Osipenko wrote:
->> If the purpose of this feature is to dedup usrptr BOs of a the single
->> process/application, can this can be done in userspace? 
+Another go at hiding the turds.
 
-I assume it can be done in userspace, don't see why it needs to be in
-kernel.
+In v1 [1] I hid the build artifacts under .hdrtest subdirectories, one in each
+$(obj) directory, but the feedback from Linus [2] was to have one top level
+directory for this.
+
+This is not possible without turning the whole thing back into a generic header
+check facility. Personally, I think this is a good thing. Just look at patches
+2-4, it's great.
+
+The main reason we've been doing this in the subsystem/driver level at all is
+the opposition from the kbuild maintainer. We'd very much like for Masahiro to
+support us in our efforts, but without that support, we're limited to hacking in
+the subsystem/driver Makefiles.
+
+BR,
+Jani.
+
+
+[1] https://lore.kernel.org/r/20250401121830.21696-1-jani.nikula@intel.com
+
+[2] https://lore.kernel.org/r/CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com
+
+
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: linux-kbuild@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+
+
+Jani Nikula (4):
+  kbuild: add generic header check facility
+  drm: switch to generic header check facility
+  drm/i915: switch to generic header check facility
+  drm/xe: switch to generic header check facility
+
+ drivers/gpu/drm/Kconfig           |  2 +-
+ drivers/gpu/drm/Makefile          | 15 +--------------
+ drivers/gpu/drm/i915/Makefile     | 14 ++------------
+ drivers/gpu/drm/xe/Makefile       | 10 ++--------
+ drivers/gpu/drm/xe/xe_pcode_api.h |  4 ++++
+ include/drm/Makefile              | 15 +--------------
+ init/Kconfig                      | 25 +++++++++++++++++++++++++
+ scripts/Makefile.build            | 13 +++++++++++++
+ scripts/Makefile.lib              |  7 +++++++
+ 9 files changed, 56 insertions(+), 49 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.39.5
+
