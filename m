@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14936A78FD0
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67BEA78FD4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF69A10E7C0;
-	Wed,  2 Apr 2025 13:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D9F110E7CC;
+	Wed,  2 Apr 2025 13:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bePSgVek";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cS+v1bTa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0D5710E7BB
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:31:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E312A10E7C4
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:31:26 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04FC21FD6;
- Wed,  2 Apr 2025 15:29:30 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 292E36A2;
+ Wed,  2 Apr 2025 15:29:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1743600572;
- bh=vjRuuRXkQ3UFqYx/0yC4s/4b1wMI2nCnKESmkXL4LGc=;
+ s=mail; t=1743600573;
+ bh=PM3qn/s33KHnLl3YvY8GLYvLdFsywv9G587wE6W8Bwk=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=bePSgVek6aFL2lIogvgla6Mc4vD1ekSrYF6lPAnZu3rboQXtuLIpHx4aj5I61/Sqg
- +6jWuKieT/305mi9XK6UAJIfMg/Knu3foDyCfyldVvJWiXTXnsG72ibaUjisn+bwJh
- nnG5NeAQacxM3Ha6vaZATZSaWcQaGBfp0TrmZk/I=
+ b=cS+v1bTaOhJ5Kp2CgKyh5zPS5svmlJ/aP6I9Cvu6DKZ1ZNWZphx9epAGK3SbZ2gn0
+ uxmTWepbQDW/2gJm7GnutZJzLGLNKbVp56ClQMR0iTxf/dsVRrYOL9VinZOIXY5vV+
+ GFx+jReLqTq7SXVoeIXk0+cLdaq8uWYIaGQ09NQA=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 02 Apr 2025 16:30:50 +0300
-Subject: [PATCH v2 08/18] drm/bridge: cdns-dsi: Clean up
- cdns_dsi_mode2cfg()
+Date: Wed, 02 Apr 2025 16:30:51 +0300
+Subject: [PATCH v2 09/18] drm/bridge: cdns-dsi: Fix REG_WAKEUP_TIME value
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-cdns-dsi-impro-v2-8-4a093eaa5e27@ideasonboard.com>
+Message-Id: <20250402-cdns-dsi-impro-v2-9-4a093eaa5e27@ideasonboard.com>
 References: <20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com>
 In-Reply-To: <20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -52,21 +51,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Devarsh Thakkar <devarsht@ti.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2823;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1914;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=vjRuuRXkQ3UFqYx/0yC4s/4b1wMI2nCnKESmkXL4LGc=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn7Twe4ruVwjDyoZFcIcdKbfQD5zYgBMS52y27F
- sAMybOt7t+JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+08HgAKCRD6PaqMvJYe
- 9feeEACuB7Lm9N6fMlgyo92alSQDJNrXcax5yxnsjAfUFi/MHJqlyXp5se2qMeu6PfMicvbDpKU
- hUvOc7vYBwAyq7Xte8qBrDKm3chOM8zxZ2862G8k13xTMI2Fm/OBIUtJhQpdm6WaRs1KuzLwZwh
- 7WPyCe3BIeaLgtJ4tKWeTW7x7rOqpBbBHG9hB41tUibQFdYlIg6lKeGOgzcGU4uHVtbY0gwjg/r
- BRHwCtI5xEQSv01UgIQ7Api4Nb+js+jJuBAjzjJkaBP3VUkVp/RSBRMpBgYGnZVVJSXCB4juIDP
- oKwnDAIpb3M7Tb3XCe6eebc20WgqlwwA4SZToB08xsNYJmjVcHZkpcYLYlSdLK+XPa+quTFWDeX
- E7V2hSkJU/gnMXCW6/+ZmFFToCT/qyYJl7Oe15A4FuJV1wNxMrTYVAwBIp96R/gmX3sqUPOoVf1
- AYLBB1xsqllBmLioXpuFPip7Pbk1XGWEfK/GEah14PIt696Y3OMGBAbpr7QvGWZa7UdcN2Cnril
- +cxqBHxXmVqx1l9FAOpzWe9h29h1SvJk4hsXSJaFRiz1er3Xb7556cYqcwFShAmF0/K6+ywCwvo
- qbGm0bIttUKVGz+Oxx/rWWUWxdxTLV5EXa3NQULWvfF84+CM4VCDGpqN0CdgHGNSqZT5zRKix88
- 5BRpV64LLORGLrw==
+ bh=PM3qn/s33KHnLl3YvY8GLYvLdFsywv9G587wE6W8Bwk=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn7TweyQPovNekJjG70A8r4TqzcJ/RzGV+MzpSO
+ QLm9FkmlieJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+08HgAKCRD6PaqMvJYe
+ 9fM1D/4rcbNWQXxfqSvs7aVKIohHjvYtU5pKE0RDzydbYhHTW4n9F8Se/x3T++shXnKUfTrT7V/
+ OaKm9e7AeocvNtPdkY0/lfRAtvEpuMH3J7U0CTl9/CsGjq253/4lKVW+j+gEhDeCb+Ip8ipjX8j
+ H3YbzlQZtlZF93gVx4d/jS1pBje+g7T26nYv1402EBbsAJSUlCdUwDgxbEr1PCSERZylv2BzBlP
+ NSl4HzotvY/0zrcATP1p8ENDex8BltYmFdVAtIuHqz8mg6PhiIxDkj0PgNWdVxmkCN272jspYvU
+ MTxHVPTYitYsmjtq1CLuCt2vvxbzZRKXUWB8lwx4IKYBpxOGrqz+Y2f2p27Bv7qWfCj78pY5f68
+ Iaczz8yQpXJDkn8X8CjZRk3ZJ5UMXDdzm7sSoNMnzhtLIvwtTEjRdJ5LyUdGWl2tm9e6sdfaVZb
+ jxRWeD+MWpg5D40omp2fx2FNZS3ebsQ4G8yxSuD+eaUgLnpZlUgJZdqN7DdzT7gBpqKVa9wW+cT
+ 2Hi8D9/WhbWBpuCqgSvwvInujJ/aizA8ExOnB7eP/NuYtBsm6Ov/Lb+Xm+RsmHTPXCXOjROmJgg
+ GUapoY8ePDu6Kg6dUv24ULQOiBpHuDNuOjGujm7Lg1SYNjPiG6BCe2JPUsi5PSvXYu0Cgd2W2mK
+ Avghy47TW0sOWNg==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,84 +83,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clean up the function a bit, mainly by doing the mode_valid_check dance
-once in the beginning of the function, and grouping the calculations
-wrt. sync/event mode a bit better.
+The driver tries to calculate the value for REG_WAKEUP_TIME. However,
+the calculation itself is not correct, and to add on it, the resulting
+value is almost always larger than the field's size, so the actual
+result is more or less random.
+
+According to the docs, figuring out the value for REG_WAKEUP_TIME
+requires HW characterization and there's no way to have a generic
+algorithm to come up with the value. That doesn't help at all...
+
+However, we know that the value must be smaller than the line time, and,
+at least in my understanding, the proper value for it is quite small.
+Testing shows that setting it to 1/10 of the line time seems to work
+well. All video modes from my HDMI monitor work with this algorithm.
+
+Hopefully we'll get more information on how to calculate the value, and
+we can then update this.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 48 ++++++++++++--------------
- 1 file changed, 22 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 9238acf69823..0aaa1d06b21c 100644
+index 0aaa1d06b21c..62811631341b 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -481,42 +481,38 @@ static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
- 			     bool mode_valid_check)
- {
- 	struct cdns_dsi_output *output = &dsi->output;
--	unsigned int tmp;
--	bool sync_pulse = false;
-+	u32 dpi_hsa, dpi_hbp, dpi_hfp, dpi_hact;
-+	bool sync_pulse;
- 	int bpp;
+@@ -882,7 +882,13 @@ static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
  
-+	if (mode_valid_check) {
-+		dpi_hsa = mode->hsync_end - mode->hsync_start;
-+		dpi_hbp = mode->htotal - mode->hsync_end;
-+		dpi_hfp = mode->hsync_start - mode->hdisplay;
-+		dpi_hact = mode->hdisplay;
-+	} else {
-+		dpi_hsa = mode->crtc_hsync_end - mode->crtc_hsync_start;
-+		dpi_hbp = mode->crtc_htotal - mode->crtc_hsync_end;
-+		dpi_hfp =  mode->crtc_hsync_start - mode->crtc_hdisplay;
-+		dpi_hact = mode->crtc_hdisplay;
-+	}
+ 	tx_byte_period = DIV_ROUND_DOWN_ULL((u64)NSEC_PER_SEC * 8,
+ 					    phy_cfg->hs_clk_rate);
+-	reg_wakeup = (phy_cfg->hs_prepare + phy_cfg->hs_zero) / tx_byte_period;
 +
- 	memset(dsi_cfg, 0, sizeof(*dsi_cfg));
++	/*
++	 * Estimated time [in clock cycles] to perform LP->HS on D-PHY.
++	 * It is not clear how to calculate this, so for now,
++	 * set it to 1/10 of the total number of clocks in a line.
++	 */
++	reg_wakeup = dsi_cfg.htotal / nlanes / 10;
+ 	writel(REG_WAKEUP_TIME(reg_wakeup) | REG_LINE_DURATION(tmp),
+ 	       dsi->regs + VID_DPHY_TIME);
  
--	if (output->dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
--		sync_pulse = true;
-+	sync_pulse = output->dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
- 
- 	bpp = mipi_dsi_pixel_format_to_bpp(output->dev->format);
- 
--	if (mode_valid_check)
--		tmp = mode->htotal -
--		      (sync_pulse ? mode->hsync_end : mode->hsync_start);
--	else
--		tmp = mode->crtc_htotal -
--		      (sync_pulse ?
--		       mode->crtc_hsync_end : mode->crtc_hsync_start);
--
--	dsi_cfg->hbp = dpi_to_dsi_timing(tmp, bpp, DSI_HBP_FRAME_OVERHEAD);
-+	dsi_cfg->hbp = dpi_to_dsi_timing(dpi_hbp + (sync_pulse ? 0 : dpi_hsa),
-+					 bpp, DSI_HBP_FRAME_OVERHEAD);
- 
--	if (sync_pulse) {
--		if (mode_valid_check)
--			tmp = mode->hsync_end - mode->hsync_start;
--		else
--			tmp = mode->crtc_hsync_end - mode->crtc_hsync_start;
-+	if (sync_pulse)
-+		dsi_cfg->hsa =
-+			dpi_to_dsi_timing(dpi_hsa, bpp, DSI_HSA_FRAME_OVERHEAD);
- 
--		dsi_cfg->hsa = dpi_to_dsi_timing(tmp, bpp,
--						 DSI_HSA_FRAME_OVERHEAD);
--	}
-+	dsi_cfg->hact = dpi_to_dsi_timing(dpi_hact, bpp, 0);
- 
--	dsi_cfg->hact = dpi_to_dsi_timing(mode_valid_check ?
--					  mode->hdisplay : mode->crtc_hdisplay,
--					  bpp, 0);
--	dsi_cfg->hfp = dpi_to_dsi_timing(mode_to_dpi_hfp(mode, mode_valid_check),
--					 bpp, DSI_HFP_FRAME_OVERHEAD);
-+	dsi_cfg->hfp = dpi_to_dsi_timing(dpi_hfp, bpp, DSI_HFP_FRAME_OVERHEAD);
- 
- 	return 0;
- }
 
 -- 
 2.43.0
