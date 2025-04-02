@@ -2,70 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09633A790CF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 16:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCCEDA79100
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 16:20:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46FA110E7D8;
-	Wed,  2 Apr 2025 14:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B13810E7EF;
+	Wed,  2 Apr 2025 14:20:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=crpt.ru header.i=@crpt.ru header.b="FJsoM969";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="itjJPuQF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.crpt.ru (mail1.crpt.ru [91.236.205.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6344210E7D8;
- Wed,  2 Apr 2025 14:12:34 +0000 (UTC)
-Received: from mail.crpt.ru ([192.168.60.3])
- by mail.crpt.ru  with ESMTP id 532ECOEp031968-532ECOEr031968
- (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=OK);
- Wed, 2 Apr 2025 17:12:24 +0300
-Received: from EX2.crpt.local (192.168.60.4) by ex1.crpt.local (192.168.60.3)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Wed, 2 Apr
- 2025 17:12:25 +0300
-Received: from EX2.crpt.local ([192.168.60.4]) by EX2.crpt.local
- ([192.168.60.4]) with mapi id 15.01.2507.044; Wed, 2 Apr 2025 17:12:25 +0300
-From: =?utf-8?B?0JLQsNGC0L7RgNC+0L/QuNC9INCQ0L3QtNGA0LXQuQ==?=
- <a.vatoropin@crpt.ru>
-To: Felix Kuehling <Felix.Kuehling@amd.com>
-CC: =?utf-8?B?0JLQsNGC0L7RgNC+0L/QuNC9INCQ0L3QtNGA0LXQuQ==?=
- <a.vatoropin@crpt.ru>, Alex Deucher <alexander.deucher@amd.com>,
- =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>
-Subject: [PATCH v3] drm/amdkfd: Change svm_range_get_info return type
-Thread-Topic: [PATCH v3] drm/amdkfd: Change svm_range_get_info return type
-Thread-Index: AQHbo9lC4BY/VWq2e0yOP4nLCPzxPA==
-Date: Wed, 2 Apr 2025 14:12:25 +0000
-Message-ID: <20250402141219.372650-1-a.vatoropin@crpt.ru>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.200.60.21]
-x-kse-serverinfo: EX1.crpt.local, 9
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: Clean, bases: 2/17/2025 9:52:00 AM
-x-kse-attachment-filter-triggered-rules: Clean
-x-kse-attachment-filter-triggered-filters: Clean
-x-kse-bulkmessagesfiltering-scan-result: protection disabled
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFEB210E7D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 14:20:49 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 532DGkh1023742
+ for <dri-devel@lists.freedesktop.org>; Wed, 2 Apr 2025 14:20:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=QaHBoCu2plE0M+UFuQVndI6v
+ xXKN8hJXQP76uM4bYAA=; b=itjJPuQF6B3qUNo7Dx81DozIs8xtaYSW0kC135JA
+ SNbtWuVtK3hiUWqU7G/eeiX6BWxd0GwCoaDks75zRubQzo2PqRfc0w4fwoLseoHm
+ U+REuRT5Tajl4lurMi0x22mZbe0o2Co7mcd3zA4FkTs437zxYpzpEOTa8eRPtsmf
+ 4IH01QkNeXRnFoieyDLagMCoahKlgiqU1rIPa2T3vK+qw9DER+JTEHEfLLAMfdqM
+ 3VPDQW/zZeU0YaZ2A7bbrUVSOaLQd+4/1XSloXIgdDC1E8gbIwmcwc/96kkGGY6K
+ J0YRlkSdxU1eO9dH1LqEdiFfreCgAc8XtlMH+fBVm659Bg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45rxapsk56-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 14:20:49 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7c0a3ff7e81so1227062985a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 07:20:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743603648; x=1744208448;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QaHBoCu2plE0M+UFuQVndI6vxXKN8hJXQP76uM4bYAA=;
+ b=IvBK2IpdH1UlrGrrLMCvIDTdfsgu050jQCIwjNlvzLhsR52+iGb9xHS2ZCPzmmJ01Z
+ hOT0yIHwoSFRbVwsJz6HtImMKZIvF/slkhBlFoe/tI7JUdusIpZYHG+LTvOonlKXQNQP
+ LHUsJpoNSbdmYfUryH+huNmHbDyavVXKIz6AK5Hn0LQ1i0dGypFkRwseJ4wkMaSAkO8V
+ bgJLwEoLgafL1YGD+TSc2Tk1ZNJ48WLZHI5YqEbRHGQ6aCkCFxanE1xC1HPvVYnB8Jld
+ 13zDRS9wOhnzJTE3k0QPdaWCHTJtt3tYNajWY/e3Uc2RL08IBTFrnLyk8RzFLrweekga
+ rTJA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW6F0XVX/r+i47ymTiU45E33wa7dblyKOGbyR0KlOx6TpY/1TZ6geRMuZ/n1hcXXhZkmIOa4Wk2CGU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxqEcFLRFMKNAaFOEHbkjDS2WCrrkUccR0s1JhfTProP6cxERHK
+ n7EPRMdB3sDXBrDCEZCwcnLCjW4gYnQw7Sro3MzvKSFrbL3mxtLQuhgbYN5B4Ks+/+TACZ+WERN
+ 85D/TSiC9rUaH0+UsoIkvOGMi+ROyUxGRro/ml58QqyXbNuixk/DRBafh6WCj+Xx4qYQ=
+X-Gm-Gg: ASbGncvM4vQCDI7h/WEAHnKOZFkabx0m7+ISeiVGRWd4Iy0j26unoW9pWZxqz206MWU
+ k3oqaklSqXnw0y1U6EkACKzeTswLLQwfwrChKimZ/W8hAIGR3gGVy7uhYkYoP3gdYJLZSl738o/
+ WnFAbh7KvxVmv5tSyiSwzvK7j9daS6LJNb2/BpsJIY1Wu8hPqp0nP+cjm79NjodqKInKI3bAlVx
+ 7ZZ9XfE9HzPEWdqrsbJDYqc93OlhHpTzym7il9pj0uJj7NuXMuIeVDSmJEEmqCZ4iBLbQKXnJzP
+ +7Yqcht6UCkBLqItLZ4tW5dJIyu9xv9oMvh/3U7prx9Oj2+unr/OxeaupUWFckxWA8QUfYjitU5
+ wlus=
+X-Received: by 2002:a05:620a:2685:b0:7c5:3b9d:61fa with SMTP id
+ af79cd13be357-7c69072a6ffmr2301577985a.26.1743603647722; 
+ Wed, 02 Apr 2025 07:20:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IER6WrRBqjM3x6rtOW5O3fmd1tFkam6VMOs9xv543bktN2RGF5eKxROMpj0zYvG2nH7flGq/A==
+X-Received: by 2002:a05:620a:2685:b0:7c5:3b9d:61fa with SMTP id
+ af79cd13be357-7c69072a6ffmr2301572085a.26.1743603647316; 
+ Wed, 02 Apr 2025 07:20:47 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54b0957fd8asm1639781e87.134.2025.04.02.07.20.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Apr 2025 07:20:46 -0700 (PDT)
+Date: Wed, 2 Apr 2025 17:20:43 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Christopher Obbard <christopher.obbard@linaro.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+ Rui Miguel Silva <rui.silva@linaro.org>,
+ Abel Vesa <abel.vesa@linaro.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] arm64: dts: qcom: x1e78100-t14s: add hpd gpio to
+ dp controller
+Message-ID: <qaihakhkbsgij7fvuutimfl6g3wgyt2nmrmrudef4q3oe4kluq@o5yeimais3dt>
+References: <20250402-wip-obbardc-qcom-t14s-oled-panel-v4-0-41ba3f3739d0@linaro.org>
+ <20250402-wip-obbardc-qcom-t14s-oled-panel-v4-1-41ba3f3739d0@linaro.org>
 MIME-Version: 1.0
-X-FEAS-Client-IP: 192.168.60.3
-X-FE-Policy-ID: 2:4:0:SYSTEM
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=crpt.ru; s=crpt.ru;
- c=relaxed/relaxed; 
- h=from:to:cc:subject:date:message-id:content-type:mime-version;
- bh=LW6r9FmmgL8wgSDH1rANqK2rFnzYBzbw9u9WPWj5At8=;
- b=FJsoM969Fh78xU6SpjBQxzC2WiTfbku1m8KnjnVhzN8HHu3dvLlxZ1Zh5BRhtESs4MFM/f9Okn2s
- 38oZrzigKPyv1NVND7bPRHh/wyMJmGHvoT6d5z3QlHp7vbKm/dmYU4JIMZLalA6c86cmjT06SYyn
- kN69oxLJ7Y9d/9s1MoyNCvFMXd70WkMPP0ST5qyqcTuNWGKFoJ6vC9H5oWxFPuDM+KenzvZbSNcr
- JozRUPFdDXNL1SJRG7s2bFJ1U1dt7BNbdnmAsEpbW3h68idMgJ07WlSUtPUUs8LvWE4gj9koLrHG
- 7tZuh4dSAND2ux/DbGQUL32kgiwWocdd7PNb9Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250402-wip-obbardc-qcom-t14s-oled-panel-v4-1-41ba3f3739d0@linaro.org>
+X-Authority-Analysis: v=2.4 cv=Vbj3PEp9 c=1 sm=1 tr=0 ts=67ed47c1 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=3v6bRUsi6CVysc_G3k4A:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: Nw3ppJLnJtE7UzUuhDKx9M8b9utlnVue
+X-Proofpoint-GUID: Nw3ppJLnJtE7UzUuhDKx9M8b9utlnVue
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-02_06,2025-04-02_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ suspectscore=0 clxscore=1015 mlxscore=0 phishscore=0 bulkscore=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 mlxlogscore=999
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504020091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,83 +129,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQW5kcmV5IFZhdG9yb3BpbiA8YS52YXRvcm9waW5AY3JwdC5ydT4NCg0KU3RhdGljIGFu
-YWx5c2lzIHNob3dzIHRoYXQgcG9pbnRlciAic3ZtcyIgY2Fubm90IGJlIE5VTEwgYmVjYXVzZSBp
-dCBwb2ludHMNCnRvIHRoZSBvYmplY3QgInN0cnVjdCBzdm1fcmFuZ2VfbGlzdCIuIFJlbW92ZSB0
-aGUgZXh0cmEgTlVMTCBjaGVjay4gSXQgaXMNCm1lYW5pbmdsZXNzIGFuZCBoYXJtcyB0aGUgcmVh
-ZGFiaWxpdHkgb2YgdGhlIGNvZGUuDQoNCkluIHRoZSBmdW5jdGlvbiBzdm1fcmFuZ2VfZ2V0X2lu
-Zm8oKSB0aGVyZSBpcyBubyBwb3NzaWJpbGl0eSBvZiBmYWlsdXJlLg0KVGhlcmVmb3JlLCB0aGUg
-Y2FsbGVyIG9mIHRoZSBmdW5jdGlvbiBzdm1fcmFuZ2VfZ2V0X2luZm8oKSBkb2VzIG5vdCBuZWVk
-DQphIHJldHVybiB2YWx1ZS4gQ2hhbmdlIHRoZSBmdW5jdGlvbiBzdm1fcmFuZ2VfZ2V0X2luZm8o
-KSByZXR1cm4gdHlwZSBmcm9tDQoiaW50IiB0byAidm9pZCIuIA0KDQpTaW5jZSB0aGUgZnVuY3Rp
-b24gc3ZtX3JhbmdlX2dldF9pbmZvKCkgaGFzIGEgcmV0dXJuIHR5cGUgb2YgInZvaWQiLiBUaGUN
-CmNhbGxlciBvZiB0aGUgZnVuY3Rpb24gc3ZtX3JhbmdlX2dldF9pbmZvKCkgZG9lcyBub3QgbmVl
-ZCBhIHJldHVybiB2YWx1ZS4NCkRlbGV0ZSBleHRyYSBjb2RlLg0KDQpGb3VuZCBieSBMaW51eCBW
-ZXJpZmljYXRpb24gQ2VudGVyIChsaW51eHRlc3Rpbmcub3JnKSB3aXRoIFNWQUNFLg0KDQpTaWdu
-ZWQtb2ZmLWJ5OiBBbmRyZXkgVmF0b3JvcGluIDxhLnZhdG9yb3BpbkBjcnB0LnJ1Pg0KLS0tDQp2
-MSAtPiB2MjogYWxzbyBjaGFuZ2UgcmV0dXJuIHR5cGUgb2Ygc3ZtX3JhbmdlX2dldF9pbmZvKCkg
-cGVyIEZlbGl4IEt1ZWhsaW5nIHN1Z2dlc3Rpb24NCnYyIC0+IHYzOiBkZWxldGVkIGV4dHJhIGNv
-ZGUgaW4gdGhlIGZ1bmN0aW9uIGtmZF9jcml1X2NoZWNrcG9pbnRfc3ZtKCkNCg0KIGRyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9jaGFyZGV2LmMgfCAgNCArLS0tDQogZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRrZmQva2ZkX3N2bS5jICAgICB8ICA5ICsrLS0tLS0tLQ0KIGRyaXZlcnMvZ3B1
-L2RybS9hbWQvYW1ka2ZkL2tmZF9zdm0uaCAgICAgfCAxMSArKysrKy0tLS0tLQ0KIDMgZmlsZXMg
-Y2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAxNiBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9jaGFyZGV2LmMgYi9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGtmZC9rZmRfY2hhcmRldi5jDQppbmRleCAxZTlkZDAwNjIwYmYuLmEyMTQ5YWZh
-NTgwMyAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9jaGFyZGV2
-LmMNCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9jaGFyZGV2LmMNCkBAIC0y
-MDM5LDkgKzIwMzksNyBAQCBzdGF0aWMgaW50IGNyaXVfZ2V0X3Byb2Nlc3Nfb2JqZWN0X2luZm8o
-c3RydWN0IGtmZF9wcm9jZXNzICpwLA0KIA0KIAludW1fZXZlbnRzID0ga2ZkX2dldF9udW1fZXZl
-bnRzKHApOw0KIA0KLQlyZXQgPSBzdm1fcmFuZ2VfZ2V0X2luZm8ocCwgJm51bV9zdm1fcmFuZ2Vz
-LCAmc3ZtX3ByaXZfZGF0YV9zaXplKTsNCi0JaWYgKHJldCkNCi0JCXJldHVybiByZXQ7DQorCXN2
-bV9yYW5nZV9nZXRfaW5mbyhwLCAmbnVtX3N2bV9yYW5nZXMsICZzdm1fcHJpdl9kYXRhX3NpemUp
-Ow0KIA0KIAkqbnVtX29iamVjdHMgPSBudW1fcXVldWVzICsgbnVtX2V2ZW50cyArIG51bV9zdm1f
-cmFuZ2VzOw0KIA0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9z
-dm0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9zdm0uYw0KaW5kZXggMTAwNzE3
-YTk4ZWMxLi5lYmRiYmI2MjBiMTEgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGtmZC9rZmRfc3ZtLmMNCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9zdm0u
-Yw0KQEAgLTQwNzYsOCArNDA3Niw4IEBAIGludCBrZmRfY3JpdV9yZXN0b3JlX3N2bShzdHJ1Y3Qg
-a2ZkX3Byb2Nlc3MgKnAsDQogCXJldHVybiByZXQ7DQogfQ0KIA0KLWludCBzdm1fcmFuZ2VfZ2V0
-X2luZm8oc3RydWN0IGtmZF9wcm9jZXNzICpwLCB1aW50MzJfdCAqbnVtX3N2bV9yYW5nZXMsDQot
-CQkgICAgICAgdWludDY0X3QgKnN2bV9wcml2X2RhdGFfc2l6ZSkNCit2b2lkIHN2bV9yYW5nZV9n
-ZXRfaW5mbyhzdHJ1Y3Qga2ZkX3Byb2Nlc3MgKnAsIHVpbnQzMl90ICpudW1fc3ZtX3JhbmdlcywN
-CisJCQl1aW50NjRfdCAqc3ZtX3ByaXZfZGF0YV9zaXplKQ0KIHsNCiAJdWludDY0X3QgdG90YWxf
-c2l6ZSwgYWNjZXNzaWJpbGl0eV9zaXplLCBjb21tb25fYXR0cl9zaXplOw0KIAlpbnQgbmF0dHJf
-Y29tbW9uID0gNCwgbmF0dHJfYWNjZXNzaWJpbGl0eSA9IDE7DQpAQCAtNDA4OSw4ICs0MDg5LDYg
-QEAgaW50IHN2bV9yYW5nZV9nZXRfaW5mbyhzdHJ1Y3Qga2ZkX3Byb2Nlc3MgKnAsIHVpbnQzMl90
-ICpudW1fc3ZtX3JhbmdlcywNCiAJKnN2bV9wcml2X2RhdGFfc2l6ZSA9IDA7DQogDQogCXN2bXMg
-PSAmcC0+c3ZtczsNCi0JaWYgKCFzdm1zKQ0KLQkJcmV0dXJuIC1FSU5WQUw7DQogDQogCW11dGV4
-X2xvY2soJnN2bXMtPmxvY2spOw0KIAlsaXN0X2Zvcl9lYWNoX2VudHJ5KHByYW5nZSwgJnN2bXMt
-Pmxpc3QsIGxpc3QpIHsNCkBAIC00MTMyLDcgKzQxMzAsNiBAQCBpbnQgc3ZtX3JhbmdlX2dldF9p
-bmZvKHN0cnVjdCBrZmRfcHJvY2VzcyAqcCwgdWludDMyX3QgKm51bV9zdm1fcmFuZ2VzLA0KIA0K
-IAlwcl9kZWJ1ZygibnVtX3N2bV9yYW5nZXMgJXUgdG90YWxfcHJpdl9zaXplICVsbHVcbiIsICpu
-dW1fc3ZtX3JhbmdlcywNCiAJCSAqc3ZtX3ByaXZfZGF0YV9zaXplKTsNCi0JcmV0dXJuIDA7DQog
-fQ0KIA0KIGludCBrZmRfY3JpdV9jaGVja3BvaW50X3N2bShzdHJ1Y3Qga2ZkX3Byb2Nlc3MgKnAs
-DQpAQCAtNDE0OSw4ICs0MTQ2LDYgQEAgaW50IGtmZF9jcml1X2NoZWNrcG9pbnRfc3ZtKHN0cnVj
-dCBrZmRfcHJvY2VzcyAqcCwNCiAJc3RydWN0IG1tX3N0cnVjdCAqbW07DQogDQogCXN2bXMgPSAm
-cC0+c3ZtczsNCi0JaWYgKCFzdm1zKQ0KLQkJcmV0dXJuIC1FSU5WQUw7DQogDQogCW1tID0gZ2V0
-X3Rhc2tfbW0ocC0+bGVhZF90aHJlYWQpOw0KIAlpZiAoIW1tKSB7DQpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3N2bS5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRrZmQva2ZkX3N2bS5oDQppbmRleCA2ZWEyM2M3ODAwOWMuLjAxYzdhNDg3NzkwNCAxMDA2NDQN
-Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9zdm0uaA0KKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3N2bS5oDQpAQCAtMTg0LDggKzE4NCw4IEBAIHZvaWQg
-c2NoZWR1bGVfZGVmZXJyZWRfbGlzdF93b3JrKHN0cnVjdCBzdm1fcmFuZ2VfbGlzdCAqc3Ztcyk7
-DQogdm9pZCBzdm1fcmFuZ2VfZG1hX3VubWFwX2RldihzdHJ1Y3QgZGV2aWNlICpkZXYsIGRtYV9h
-ZGRyX3QgKmRtYV9hZGRyLA0KIAkJCSB1bnNpZ25lZCBsb25nIG9mZnNldCwgdW5zaWduZWQgbG9u
-ZyBucGFnZXMpOw0KIHZvaWQgc3ZtX3JhbmdlX2RtYV91bm1hcChzdHJ1Y3Qgc3ZtX3JhbmdlICpw
-cmFuZ2UpOw0KLWludCBzdm1fcmFuZ2VfZ2V0X2luZm8oc3RydWN0IGtmZF9wcm9jZXNzICpwLCB1
-aW50MzJfdCAqbnVtX3N2bV9yYW5nZXMsDQotCQkgICAgICAgdWludDY0X3QgKnN2bV9wcml2X2Rh
-dGFfc2l6ZSk7DQordm9pZCBzdm1fcmFuZ2VfZ2V0X2luZm8oc3RydWN0IGtmZF9wcm9jZXNzICpw
-LCB1aW50MzJfdCAqbnVtX3N2bV9yYW5nZXMsDQorCQkJdWludDY0X3QgKnN2bV9wcml2X2RhdGFf
-c2l6ZSk7DQogaW50IGtmZF9jcml1X2NoZWNrcG9pbnRfc3ZtKHN0cnVjdCBrZmRfcHJvY2VzcyAq
-cCwNCiAJCQkgICAgdWludDhfdCBfX3VzZXIgKnVzZXJfcHJpdl9kYXRhLA0KIAkJCSAgICB1aW50
-NjRfdCAqcHJpdl9vZmZzZXQpOw0KQEAgLTIzNywxMyArMjM3LDEyIEBAIHN0YXRpYyBpbmxpbmUg
-aW50IHN2bV9yYW5nZV9zY2hlZHVsZV9ldmljdF9zdm1fYm8oDQogCXJldHVybiAtRUlOVkFMOw0K
-IH0NCiANCi1zdGF0aWMgaW5saW5lIGludCBzdm1fcmFuZ2VfZ2V0X2luZm8oc3RydWN0IGtmZF9w
-cm9jZXNzICpwLA0KLQkJCQkgICAgIHVpbnQzMl90ICpudW1fc3ZtX3JhbmdlcywNCi0JCQkJICAg
-ICB1aW50NjRfdCAqc3ZtX3ByaXZfZGF0YV9zaXplKQ0KK3N0YXRpYyBpbmxpbmUgdm9pZCBzdm1f
-cmFuZ2VfZ2V0X2luZm8oc3RydWN0IGtmZF9wcm9jZXNzICpwLA0KKwkJCQkgICAgICB1aW50MzJf
-dCAqbnVtX3N2bV9yYW5nZXMsDQorCQkJCSAgICAgIHVpbnQ2NF90ICpzdm1fcHJpdl9kYXRhX3Np
-emUpDQogew0KIAkqbnVtX3N2bV9yYW5nZXMgPSAwOw0KIAkqc3ZtX3ByaXZfZGF0YV9zaXplID0g
-MDsNCi0JcmV0dXJuIDA7DQogfQ0KIA0KIHN0YXRpYyBpbmxpbmUgaW50IGtmZF9jcml1X2NoZWNr
-cG9pbnRfc3ZtKHN0cnVjdCBrZmRfcHJvY2VzcyAqcCwNCi0tIA0KMi40My4wDQo=
+On Wed, Apr 02, 2025 at 10:58:32AM +0100, Christopher Obbard wrote:
+> The eDP controller has an HPD GPIO. Describe it in the device tree
+> for the generic T14s model, as the HPD GPIO is used in both the
+> OLED and LCD models which inherit this device tree.
+> 
+> Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
+> ---
+>  arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
+> index 962fb050c55c4fd33f480a21a8c47a484d0c82b8..b0dbe4eaa77e5a6f862fd0db2a3c91db2aab5030 100644
+> --- a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
+> @@ -975,6 +975,9 @@ &mdss_dp3 {
+>  	compatible = "qcom,x1e80100-dp";
+>  	/delete-property/ #sound-dai-cells;
+>  
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&edp_hpd_active>;
+> +
+>  	status = "okay";
+>  
+>  	aux-bus {
+> @@ -1215,6 +1218,11 @@ &tlmm {
+>  			       <72 2>, /* Secure EC I2C connection (?) */
+>  			       <238 1>; /* UFS Reset */
+>  
+> +	edp_hpd_active: edp-hpd-active-state {
+> +		pins = "gpio119";
+> +		function = "edp_hot";
+> +	};
+
+This looks generic enough and can go into the SoC dtsi.
+
+> +
+>  	eusb3_reset_n: eusb3-reset-n-state {
+>  		pins = "gpio6";
+>  		function = "gpio";
+> 
+> -- 
+> 2.49.0
+> 
+
+-- 
+With best wishes
+Dmitry
