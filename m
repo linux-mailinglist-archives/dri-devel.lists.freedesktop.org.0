@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51133A792FF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2BAA79301
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:26:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98F5510E840;
-	Wed,  2 Apr 2025 16:26:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA3E10E823;
+	Wed,  2 Apr 2025 16:26:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NfaKw64A";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EPCiw/gV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE20610E840
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:26:22 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D908910E823
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743611182;
+ s=mimecast20190719; t=1743611189;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lkk6+P8kz4b/Qa31/Ssl4swVSnk002BGAZpApGFTvXM=;
- b=NfaKw64AUCR0Jh9W7qF5HtSQQr3opoSOjXLpAeSPZJ3b7juYmOMoRAl5ayewojFxTerpoU
- 10wU1O5SxOfIr6cT8w++Eo0b1KomL/IBFlCY2Y1ip+8baYrf0qjRGLNDsX5+kKjNkBZpJI
- x5oKbsr8ceY/cgNDJxVjwp5xazp0Sco=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ bh=HSEO70ahAubWGEM4TPHZlNJ5/BiWYj6e1K2ja+EnewY=;
+ b=EPCiw/gV1CfRgk0aHyL9Qn+Bq8MtqgmtgLr8PnjZrS/ZflJ8th3AjvoABI1HuL35gFkh0O
+ niD6b+O+5z1+jTJ8qlUynsRQP2ihCmrmzyHmozDVFjw/lyyJP4+Q+wP521hlyNAKBsyY0a
+ Q3iykAqzIHWd9CZhEHa+Ug6rO0LgWCE=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-441-Dr0IbInTN0qayJUWiB7LhA-1; Wed,
- 02 Apr 2025 12:26:19 -0400
-X-MC-Unique: Dr0IbInTN0qayJUWiB7LhA-1
-X-Mimecast-MFC-AGG-ID: Dr0IbInTN0qayJUWiB7LhA_1743611176
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-458-C3aW6570P7ilLtWgnmWP9g-1; Wed,
+ 02 Apr 2025 12:26:24 -0400
+X-MC-Unique: C3aW6570P7ilLtWgnmWP9g-1
+X-Mimecast-MFC-AGG-ID: C3aW6570P7ilLtWgnmWP9g_1743611181
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 62B8C1801A00; Wed,  2 Apr 2025 16:26:16 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id EBF0A1800265; Wed,  2 Apr 2025 16:26:20 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 7296C195609D; Wed,  2 Apr 2025 16:26:12 +0000 (UTC)
+ id AE240195609D; Wed,  2 Apr 2025 16:26:16 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 02 Apr 2025 11:23:48 -0400
-Subject: [PATCH 10/30] panel/ilitek-ili9881c: Use refcounted allocation in
+Date: Wed, 02 Apr 2025 11:23:49 -0400
+Subject: [PATCH 11/30] panel/innolux-ej030na: Use refcounted allocation in
  place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-b4-drm_panel_mass_convert_part2-v1-10-903b70999ea6@redhat.com>
+Message-Id: <20250402-b4-drm_panel_mass_convert_part2-v1-11-903b70999ea6@redhat.com>
 References: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
 In-Reply-To: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,11 +68,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743607440; l=1306;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743607440; l=1339;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=4NECJWEGNcCzkUexn1VzkV2SkLcEjReKiF0klndVbl8=;
- b=p+sd4NMCJM/MyUF25c/ggqMXE3ykI0Vz9CJApZGMFozILEr0KZqA9bHVXk7Ivbl+glk5BqoNK
- IVmAUzAf3MSDi3OQMPt5Ep8IvFMY9sUXqNvCcoKXIUN+SVlVPyoQIQ+
+ bh=EuyM0klfe+I7/TbF4SujatT69lvtURfeKp1CiiGFgHk=;
+ b=aFfSovD+14j5EtKmbY581WDEB83u02a65C4XKUkEmsDPraj9d5PZCNTII5gHHaioVQAp8wLis
+ miNVTPzhY6iBRJ4ujlkJx5MHP6Gi8SsYlXmy6d3OTe/+GOkfuZJkfGq
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -96,35 +96,38 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-innolux-ej030na.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index 28cd7560e5db1d5734b10babdb4e4e553c6e07d0..aa4192def09353afa40c1981d0b105064fe95b02 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -1506,16 +1506,15 @@ static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
- 	struct ili9881c *ctx;
- 	int ret;
+diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+index f85b7a4cbb4206bea7b5a019ba1de1dd05b13fe2..b2309900873b28f98707f79f4332763369a27d72 100644
+--- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
++++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+@@ -204,9 +204,11 @@ static int ej030na_probe(struct spi_device *spi)
+ 	struct ej030na *priv;
+ 	int err;
  
--	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+-	if (!priv)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(&dsi->dev, struct ili9881c, panel, &ili9881c_funcs,
-+				   DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
-+
- 	mipi_dsi_set_drvdata(dsi, ctx);
- 	ctx->dsi = dsi;
- 	ctx->desc = of_device_get_match_data(&dsi->dev);
++	priv = devm_drm_panel_alloc(dev, struct ej030na, panel,
++				    &ej030na_funcs,
++				    DRM_MODE_CONNECTOR_DPI);
++	if (IS_ERR(priv))
++		return PTR_ERR(priv);
  
--	drm_panel_init(&ctx->panel, &dsi->dev, &ili9881c_funcs,
--		       DRM_MODE_CONNECTOR_DSI);
+ 	priv->spi = spi;
+ 	spi_set_drvdata(spi, priv);
+@@ -231,9 +233,6 @@ static int ej030na_probe(struct spi_device *spi)
+ 		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio),
+ 				     "Failed to get reset GPIO\n");
+ 
+-	drm_panel_init(&priv->panel, dev, &ej030na_funcs,
+-		       DRM_MODE_CONNECTOR_DPI);
 -
- 	ctx->power = devm_regulator_get(&dsi->dev, "power");
- 	if (IS_ERR(ctx->power))
- 		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->power),
+ 	err = drm_panel_of_backlight(&priv->panel);
+ 	if (err)
+ 		return err;
 
 -- 
 2.48.1
