@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2B5A78F99
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D145DA78FA7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:22:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47E3E10E7A5;
-	Wed,  2 Apr 2025 13:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7E5B10E7B9;
+	Wed,  2 Apr 2025 13:22:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Y5MAYP2/";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="pvpXpP2C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D4D610E7A5
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:21:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743600067;
- bh=9sr+NddIGa5PMOQr3Z2ERC47oRBn6mBFjzbWH7raRmg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Y5MAYP2/VcL4GfEFkLLMiPQvcSfTTplcdvGR06cRed6GVAatmHXSXaPyHEQfldaUG
- J6wbt8c87zWbnCOshOR/C3xgRTtpxijmi05kLPxsTYgVKTR1tBFtWvQncGgnxb1ydQ
- MxCa9KgI4EmIJurjPOfaWR+duYL96zMSSWGjYKhb2OpHk8B6454fiB8QXPqOukhVTD
- /UQ7LaZkWD9KWOPi+IE/fs6A9AAypcuX9JdNU79WxK1mzPc163WYeBlRDhThnOozLg
- gdjdu2hVYbRVd4gakxeToNbeszoK5JS82jaRwR4KNmYWtmMXdfRtx1UhRiltFFZOyB
- bBsAVPdV41OFg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E45C10E7B4;
+ Wed,  2 Apr 2025 13:22:11 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 16F2917E0B0B;
- Wed,  2 Apr 2025 15:21:07 +0200 (CEST)
-Date: Wed, 2 Apr 2025 15:21:02 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Gerd Hoffmann
- <kraxel@redhat.com>, Qiang Yu <yuq825@gmail.com>, Steven Price
- <steven.price@arm.com>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
- <matt.coster@imgtec.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v20 09/10] drm/shmem-helper: Switch
- drm_gem_shmem_vmap/vunmap to use pin/unpin
-Message-ID: <20250402152102.01d9cfee@collabora.com>
-In-Reply-To: <710cdbd4-2c6e-48b7-b12b-972ab6d12abf@collabora.com>
-References: <20250322212608.40511-1-dmitry.osipenko@collabora.com>
- <20250322212608.40511-10-dmitry.osipenko@collabora.com>
- <ea4f4059-7748-4bfd-9205-8e95222144da@suse.de>
- <710cdbd4-2c6e-48b7-b12b-972ab6d12abf@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4ZSQWg5MlTz9tlj;
+ Wed,  2 Apr 2025 15:22:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1743600127;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OEFLwQGV8kwA47pjDYZtqrNGxwn0fUtyTLovXFASnZY=;
+ b=pvpXpP2CWYi/b2qBoNQyT/t1b17bM/N6dCp8pWV/WqddnSdT4E5XVIcslpY167Qow2aIf2
+ iyhJih1UoO3bjEaGAx8qOyyO1bXJSPSZCkqCX/WHigzlqvkN3s6MLxOA8+fg1/7A3oKswS
+ rM/G7yObM/24EwcaqWZ1lRUVgfHbxE6ca/jBB8Ia5QMG4wB3LzrRmEZgMs+zURoraAup6A
+ smP7dN6Bm3bVc9DcfM8sjUuqj8uYc76ya+SRW8D2qW07Vu2pAvVir1sogLrIVafPb0DF+A
+ K0vTJfYb4SGqvK/hKjntADh1Bf3qUc5OcJGYDzUZq46C704X5EQTxUAdmuknSA==
+Message-ID: <3bdd9d9a-e019-4469-a90b-92d105c67427@mailbox.org>
+Date: Wed, 2 Apr 2025 15:22:04 +0200
 MIME-Version: 1.0
+Subject: Re: [RFC v3 06/14] drm/sched: Implement RR via FIFO
+To: phasta@kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20250331201705.60663-1-tvrtko.ursulin@igalia.com>
+ <20250331201705.60663-7-tvrtko.ursulin@igalia.com>
+ <e4594adff1606e6a92714bbcad5838c3f100acdf.camel@mailbox.org>
+ <264be6a0-b9be-4430-9de4-276456e34214@mailbox.org>
+ <58b680faeeeea1c317b43a34c71d978efe72009d.camel@mailbox.org>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <58b680faeeeea1c317b43a34c71d978efe72009d.camel@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 68983e1b8174621f439
+X-MBO-RS-META: cymkjm6jm3ys9cua8dk68ycha8cy8xft
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +69,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Apr 2025 15:58:55 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+On 2025-04-02 14:00, Philipp Stanner wrote:
+> On Wed, 2025-04-02 at 12:58 +0200, Michel Dänzer wrote:
+>> On 2025-04-02 12:46, Philipp Stanner wrote:
+>>> On Mon, 2025-03-31 at 21:16 +0100, Tvrtko Ursulin wrote:
+>>>> Round-robin being the non-default policy and unclear how much it
+>>>> is
+>>>> used,
+>>>> we can notice that it can be implemented using the FIFO data
+>>>> structures if
+>>>> we only invent a fake submit timestamp which is monotonically
+>>>> increasing
+>>>> inside drm_sched_rq instances.
+>>>>
+>>>> So instead of remembering which was the last entity the scheduler
+>>>> worker
+>>>> picked, we can bump the picked one to the bottom of the tree,
+>>>> achieving
+>>>> the same round-robin behaviour.
+>>>>
+>>>> Advantage is that we can consolidate to a single code path and
+>>>> remove
+>>>> a
+>>>> bunch of code. Downside is round-robin mode now needs to lock on
+>>>> the
+>>>> job
+>>>> pop path but that should not be visible.
+>>>
+>>> Why did you decide to do it that way and then later remove RR &
+>>> FIFO
+>>> alltogether in patch 10, basically?
+>>>
+>>> I think the far cleaner way for our development-process would be a
+>>> separate patch(-series) that *removes* RR completely. Advantages
+>>> are:
+>>>
+>>>    1. It should be relatively easy to do
+>>>    2. It would simplify the existing code base independently of
+>>> what
+>>>       happens with your RFC series here
+>>>    3. Before changing everyone's scheduling policy to a completely
+>>> new,
+>>>       deadline-based one, we could first be sure for a few release
+>>>       cycles that everyone is now on FIFO, establishing common
+>>> ground.
+>>>    4. We could CC every- and anyone who might use RR or might know
+>>>       someone who does
+>>>    5. If it turns out we screwed up and someone really relies on
+>>> RR, it
+>>>       would be easy to revert.
+>>>
+>>> I am not aware of any RR users and have, in past discussions, never
+>>> heard of any. So removing it is more tempting for the above
+>>> reasons.
+>>
+>> https://gitlab.freedesktop.org/drm/amd/-/issues/2516 has a bunch of
+>> RR users...
+> 
+> Right, there's a number of people complaining about the regression. But
+> what I'm interested in is: how did it evolve since then. Are there
+> distributions who set the module parameter? Does Steam do it? Or is it
+> individual users who work around the problem that way?
 
-> On 4/2/25 15:47, Thomas Zimmermann wrote:
-> > Hi
-> >=20
-> > Am 22.03.25 um 22:26 schrieb Dmitry Osipenko: =20
-> >> The vmapped pages shall be pinned in memory and previously get/
-> >> put_pages()
-> >> were implicitly hard-pinning/unpinning the pages. This will no longer =
-be
-> >> the case with addition of memory shrinker because pages_use_count > 0
-> >> won't
-> >> determine anymore whether pages are hard-pinned (they will be soft-
-> >> pinned),
-> >> while the new pages_pin_count will do the hard-pinning. Switch the
-> >> vmap/vunmap() to use pin/unpin() functions in a preparation of addition
-> >> of the memory shrinker support to drm-shmem. =20
-> >=20
-> > I've meanwhile rediscovered this patch and I'm sure this is not correct.
-> > Vmap should not pin AFAIK. It is possible to vmap if the buffer has been
-> > pinned, but that's not automatic.=C2=A0 For other vmaps it is necessary=
- to
-> > hold the reservation lock to prevent the buffer from moving.
+I know only of the latter.
 
-Hm, is this problematic though? If you want to vmap() inside a section
-that's protected by the resv lock, you can
 
-- drm_gem_shmem_vmap_locked()
-- do whatever you need to do with the vaddr,
-- drm_gem_shmem_vunmap_locked()
+> https://gitlab.freedesktop.org/drm/amd/-/issues/2516#note_2679509
+> 
+> ^ this comment for example seems to indicate that on newer Wayland
+> versions part of the problem has vanished?
 
-and the {pin,page_use}_count will be back to their original values.
-Those are just ref counters, and I doubt the overhead of
-incrementing/decrementing them makes a difference compared to the heavy
-page-allocation/vmap operations...
+That's about using the Wine wayland driver (which uses the Wayland protocol directly) instead of the x11 driver (which uses the X11 protocol via Xwayland). Xwayland not being involved can avoid at least some of the issues (in particular, the scenario I described in https://gitlab.freedesktop.org/drm/amd/-/issues/2516#note_2119750 can't happen then). That doesn't solve the issues when Xwayland is involved though, just avoids them.
+
+
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
