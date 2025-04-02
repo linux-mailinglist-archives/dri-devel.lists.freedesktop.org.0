@@ -2,86 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BB9A79049
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40DFA7905A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:54:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5F9D10E16A;
-	Wed,  2 Apr 2025 13:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 201C010E1B8;
+	Wed,  2 Apr 2025 13:54:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="chnN6Ra/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fjm58qaI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 496BB10E1B8
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:52:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743601935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VOgJPmykAObI2jQBeah+5x6J5ky48bfmV5G/uZspF+c=;
- b=chnN6Ra/eFho3KmkS21PLt78OV0Dp6EQ4fM79yQhOddFsDwwbuoYdToCFI+67UhgSzWXNs
- TEQT1+8tw/BItPUYdj2mHMRnZz5TVEL0J0xeMI7vCZPChKQGmYrhjjyNA713+7gCS34vvc
- Opcp0ikTFesbAhDphGDfUuMetcwhXBs=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-139-sJw699VcOHWjnjdVoor_jA-1; Wed, 02 Apr 2025 09:52:14 -0400
-X-MC-Unique: sJw699VcOHWjnjdVoor_jA-1
-X-Mimecast-MFC-AGG-ID: sJw699VcOHWjnjdVoor_jA_1743601933
-Received: by mail-pf1-f197.google.com with SMTP id
- d2e1a72fcca58-736d64c5e16so115290b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 06:52:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743601933; x=1744206733;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VOgJPmykAObI2jQBeah+5x6J5ky48bfmV5G/uZspF+c=;
- b=hE7Bhjlb6p+Ik454T3b4a2uwpZ1SiMaxm3vsv9Ma/YzOnN9f0wD8xMfb1lw5wjN9go
- ljmCuEfKlZr2O5BM1oVmS9+xAHEAPV/11Up/tDCRtg9GqerDHNsRqr1chL6bKnb+dfkc
- jbyDSKHnmr28+k0XYIX3BOnQPRsnsdZ7spC5CV/GNwjDudQTahPhVQkJzU4TJIhjkbay
- XGnQoDLS7ueANgcFxh3TDNTVpulWUQDTcLYY8BKq5aZgTevxueCxxH5LHNqLdO77E7a6
- RY12GauU9EBAJuY6JS1VHqsBqFBNGVIgErjeL/A2u6bFR6Aq2Hzj2J/MCbKf1tY4ITqO
- Ig6g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWnfIFyRjnJZkvGEh4f3ZKrNuOVVle6+1G3/dWwxZLamYyXVZBtNbRgTRqwaK4G6JAPPijKm16uJx8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvnTW+D4B3DrTYqczSkTzk47C7SC/kQ2GtWxqH2ebimBG+56nY
- KTUAXLFIEU4eHtXgFNkfHUS5C9mw5IaV7XKzsqCpkmMp2COQUleezXQbLflYd1V3FflILAKZs6n
- Sk0V6CPyiJji0V0tlRcPlT2A9gdX7GAkBYF+C8nU6aq2rrk1y2bwMjLQt9s+n6dyngswt6RQ4o7
- DEg+R3LBptrrdju7wzJGYtmt1HIk8oT2jJTefEbYeF
-X-Gm-Gg: ASbGncuSkgRQbi6BE7LfwhMMK12M2c5h8EhWI9qLxllvRK+6Lw+adnzYW6t5J1KTj2O
- +g9+PEgk5ErvF+obRGLqLElLE2L7rHxLkOE5PwZ8NBZnEqj7gB/8tBCu2G/wjB9DLDylSQIfWVV
- HEUZP/Dltku1eTY95R5z9k+0hQska3
-X-Received: by 2002:a05:6a00:4606:b0:736:64b7:f104 with SMTP id
- d2e1a72fcca58-7398034d311mr21220202b3a.5.1743601933112; 
- Wed, 02 Apr 2025 06:52:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG0zGL/a3PY98j5a5/Uh1iZIbTLXGDprDz04ve4TfMxa8U5wSK0yN9qe8umGPmAsIHrQ6w5aWwqZRLDXm7JuF0=
-X-Received: by 2002:a05:6a00:4606:b0:736:64b7:f104 with SMTP id
- d2e1a72fcca58-7398034d311mr21220172b3a.5.1743601932776; Wed, 02 Apr 2025
- 06:52:12 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85F8B10E1B8
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743602039; x=1775138039;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=sFz3S6P+ubR2AXzntU0wmC+tnrCYNAOMsylpPK3blDw=;
+ b=fjm58qaID5zXNBx7mV1hPUxo/LtLFqKlLV3QjJkTm72LSwc5pKtPp4cN
+ d04DkGsaROH49pK16huL2Co57eM+bAceIVRKY/P2gCDXizseEP70e3iYs
+ zTC+zKHCDtnxapIrGenKpz2+kiP6Eox3aifjX3o1a9KNOIlZ3Xwdlg0fu
+ /512LvDawQB28yKfe6vluGDI04skG3OsthscyXMxfdE0Kga/szKtWVrYq
+ 0W/fEC5nwxLCtTQT7MXUkeHBv278wEgcC0Z1oHFh3oOsTuUnuMEZhAbj0
+ tFA3sGALNk6qQ05pAWnu1W/OT4H+rCKL+PMeaC1UbVrOGy5CB9BG308iD Q==;
+X-CSE-ConnectionGUID: Wy4l+1H+SC2tNlHCPugIHA==
+X-CSE-MsgGUID: mvUFUFW+QCWd0XvYOFsmYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="45110364"
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; d="scan'208";a="45110364"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Apr 2025 06:53:43 -0700
+X-CSE-ConnectionGUID: 4082ts5bRKuIxGU2W4wSOA==
+X-CSE-MsgGUID: X4GUFp0PSbS8RF/HpzZwKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; d="scan'208";a="127194467"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.73])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Apr 2025 06:53:40 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Dave Airlie <airlied@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, LKML
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [git pull] drm for 6.15-rc1
+In-Reply-To: <20250402130347.GB342109@nvidia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <87h6394i87.fsf@intel.com> <Z-p2ii-N2-dd_HJ6@phenom.ffwll.local>
+ <20250331133137.GA263675@nvidia.com> <87tt782htn.fsf@intel.com>
+ <CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com>
+ <CAK7LNAQThGkgtKgquRPv8Ysi_omedRthF1_++apKda-xWeWcbA@mail.gmail.com>
+ <20250401191455.GC325917@nvidia.com> <877c433bys.fsf@intel.com>
+ <20250401194649.GE325917@nvidia.com> <87v7rm203e.fsf@intel.com>
+ <20250402130347.GB342109@nvidia.com>
+Date: Wed, 02 Apr 2025 16:53:37 +0300
+Message-ID: <87r02a1xge.fsf@intel.com>
 MIME-Version: 1.0
-References: <20250402084351.1545536-1-ryasuoka@redhat.com>
- <dae5089d-e214-4518-b927-5c4149babad8@suse.de>
-In-Reply-To: <dae5089d-e214-4518-b927-5c4149babad8@suse.de>
-From: Ryosuke Yasuoka <ryasuoka@redhat.com>
-Date: Wed, 2 Apr 2025 22:52:01 +0900
-X-Gm-Features: AQ5f1Jpw7m9T_UxVBqa763yKKRkEwQNaxAeOXPrh1fO22sf04fLAjs0UuR6sE_k
-Message-ID: <CAHpthZp5L-iyE=sggm-fjooVsgLcMPpBSyNkfCC5Dj0B=Vy2JQ@mail.gmail.com>
-Subject: Re: [PATCH RFC drm-next 0/1] Add support for drm_panic
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
- simona@ffwll.ch, drawat.floss@gmail.com, jfalempe@redhat.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-hyperv@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wGbNAwmr9ijZGQQAQ6uhLBhTDFJ-Hl7KmVR8trVfxTA_1743601933
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,63 +77,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 2, 2025 at 6:45=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
+On Wed, 02 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
+> On Wed, Apr 02, 2025 at 03:56:37PM +0300, Jani Nikula wrote:
+>> On Tue, 01 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
+>> > On Tue, Apr 01, 2025 at 10:42:35PM +0300, Jani Nikula wrote:
+>> >> On Tue, 01 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
+>> >> > So, I'd suggest a better way to run this is first build the kernel,
+>> >> > then mine the gcc -MD output (ie stored in the .XX.cmd files) to
+>> >> > generate a list of headers that are actually part of the build, then
+>> >> > only test those. That eliminates all the kconfig problems. Opt out any
+>> >> > special headers that really have a good reason not to be stand alone.
+>> >> 
+>> >> I think we'd want the drm headers pass the checks independent of configs
+>> >> (apart from CONFIG_DRM). One size doesn't fit all.
+>> >
+>> > Why? That demand is just making it impossible to make shared
+>> > infrastructure, and I don't think DRM should go off and build its own
+>> > stuff just for DRM in a way that nobody else can use it.
+>> >
+>> > If you really, really, care then you can have your makefile codegen an
+>> > "allheaders.c" that #includes drm/*.h and compile that.
+>> 
+>> The v2 series [1] generalizes the header checks and it's no longer in
+>> any way dependent on DRM. For starters, each subsystem/driver needs to
+>> decide for themselves which headers are to be checked.
 >
-> Hi
->
-> Am 02.04.25 um 10:43 schrieb Ryosuke Yasuoka:
-> > This patch adds drm_panic support for hyperv-drm driver. This function
-> > works but it's still needed to brush up. Let me hear your opinions.
-> >
-> > Once kernel panic occurs we expect to see a panic screen. However, to
-> > see the screen, I need to close/re-open the graphic console client
-> > window. As the panic screen shows correctly in the small preview
-> > window in Hyper-V manager and debugfs API for drm_panic works correctly=
-,
-> > I think kernel needs to send signal to Hyper-V host that the console
-> > client refreshes, but I have no idea what kind of signal is needed.
-> >
-> > This patch is tested on Hyper-V 2022.
-> >
-> > Ryosuke Yasuoka (1):
-> >    drm/hyperv: Add support for drm_panic
-> >
-> >   drivers/gpu/drm/drm_simple_kms_helper.c     | 26 +++++++++++++
-> >   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 42 ++++++++++++++++++++=
-+
-> >   include/drm/drm_simple_kms_helper.h         | 22 +++++++++++
->
-> No changes to simple_kms_helper please. This is obsolete and should go
-> away. Just put everything into hyperv_drm.
+> Yuk. The idea at the top of this email is alot better. Why don't you
+> implement it?
 
-OK. Maybe it will work without any modification in simple_kms_helper if we =
-can
-call the pipe->funcs from draw_panic_plane() like drm_plane_helper_funcs.
+Because quite frankly I don't have the time, and I've already spent a
+disproportionate amount of the time I didn't have on hiding the turds on
+the existing header test thing this week.
 
-Currently, the hyperv_drm is implemented with a simple display pipeline.
-The pipeline control functions are in pipe->funcs and they will call via
-drm_simple_kms_palne_helper_funcs. And these helper functions will
-be called by drm_panic_plane().
-
-Thank you for your comment.
-Ryosuke
-
-> Best regards
-> Thomas
+>> This can be expanded with more clever ways to choose the headers to
+>> check. But we have to start *somewhere*.
 >
-> >   3 files changed, 90 insertions(+)
-> >
-> >
-> > base-commit: cf05922d63e2ae6a9b1b52ff5236a44c3b29f78c
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
+> Bah, that argument only works if nobody has better ideas. There are
+> meaningful technical problems with your approach, and proposed
+> solutions here.
 
+There are also meaningful social problems with the approach of making
+people do a lot of stuff they didn't have time to do in the first place,
+just to end up not merging any of it ever.
+
+What I've been focusing on is to fix this stuff enough to make it work
+for 6.15. If it's accepted, *maybe* I'll look at further improvements
+for the next merge window. And if there's enough interest, there's a
+baseline for others to build on. But right now, seems to me it could all
+just be reverted in a whim, with all the time wasted.
+
+
+BR,
+Jani.
+
+-- 
+Jani Nikula, Intel
