@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0898A789C7
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 10:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFF4A789CC
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 10:28:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0063210E6DE;
-	Wed,  2 Apr 2025 08:26:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88C28891B8;
+	Wed,  2 Apr 2025 08:28:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kvYiNLxr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iMIY7G+p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4743510E6DE;
- Wed,  2 Apr 2025 08:26:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZMxlYpiOVtonxMMMmaKVPwiI+dBlMT6YQhICanXIPAE=; b=kvYiNLxr0LnvTHb6WiPUFvWpCk
- 5MTLg437/KSEmQQCZ+i+MYn6j1tHxurjSuq+Y0xRyOk3NkcVMm1fwDmISIeuuf2vpHLqWA2Q4XOSu
- TR03jEloHB5+wnCfIX6g44uTpgl44HF99vPunCxHecjy6Ovop/rWTO0vbTH0g54HQkMmtnXAt1XUN
- hcP+VbruFs6XMXWWgVPH5kRYhCho8204WmniKV/e8CpEM8BRY7ilwczXllOnN9MqWZ3LGI10CkLM4
- hfdEaW4RkmJmLpk7g2qOtVvgiRDguoHL95ZhPfZUGudNqy0lytR+yH38gtodHE3ald2FdQXlo+BaQ
- mfQq3s4A==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tztQV-00AHIY-Hn; Wed, 02 Apr 2025 10:26:23 +0200
-Message-ID: <df0a7e4e-9de1-40a3-9aa6-4b9051dbd624@igalia.com>
-Date: Wed, 2 Apr 2025 09:26:22 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1728B10E6E2
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 08:27:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E72A54426C;
+ Wed,  2 Apr 2025 08:27:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BD6CC4CEDD;
+ Wed,  2 Apr 2025 08:27:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743582477;
+ bh=fBfmi+UvdP/eUpQ/8ozTCbqqVHLfNXYxLlPHS6YEA74=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iMIY7G+p2hLBrxGJS7aqCyxCOO6eEZUmrU/GvI2HYqsOusDoi+S7epdpauGiJrL/X
+ c+bxk1OPgU3kFItzSR0/+ejjdIS3BA1Ugo4RS5iYnLHkuEE1NziBCGVELNuJ+lEYoA
+ KfSZROjbmCcQc3IBNQ75jsLtBhUOs33EdV1AP/dSILCoEi5dLsWZ5nPmeBUN2kJmxC
+ HaaJVowKIL4IH0MyTsdDDnxcW30woxacSs4K3Ao24VPujt3/FbCQTvuaF64YOSPOcJ
+ sflRO8LkY7+76c4p7AMWjEWMOBDVJpsqSxHPN9vC0mn06qt8y0MLnx2NJ5XTzZP8QI
+ aL7eTHlRn7ilQ==
+Date: Wed, 2 Apr 2025 10:27:53 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: st7571-i2c: Add Sitronix ST7571 panel
+ bindings
+Message-ID: <20250402-rare-slick-carp-dbcab9@krzk-bin>
+References: <20250402-st7571-v1-0-351d6b9eeb4a@gmail.com>
+ <20250402-st7571-v1-1-351d6b9eeb4a@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 00/14] Deadline DRM scheduler
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- "Liu, Leo" <Leo.Liu@amd.com>
-References: <20250331201705.60663-1-tvrtko.ursulin@igalia.com>
- <5d2a726c-bdf0-45e1-abfa-3ed8d1ffbed4@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <5d2a726c-bdf0-45e1-abfa-3ed8d1ffbed4@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250402-st7571-v1-1-351d6b9eeb4a@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,227 +64,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 02/04/2025 07:49, Christian König wrote:
-> Adding Leo since that is especially interesting for our multimedia engines.
+On Wed, Apr 02, 2025 at 08:12:10AM +0200, Marcus Folkesson wrote:
+> Sitronix ST7571 is a 4bit gray scale dot matrix LCD controller.
+> The controller has a SPI, I2C and 8bit parallel interface, this is for
+> the I2C interface only.
 > 
-> @Leo could you spare someone to test and maybe review this?
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+>  .../bindings/display/sitronix,st7571-i2c.yaml      | 71 ++++++++++++++++++++++
+>  1 file changed, 71 insertions(+)
 > 
-> Am 31.03.25 um 22:16 schrieb Tvrtko Ursulin:
->> This is similar to v2 but I dropped some patches (for now) and added some new
->> ones. Most notably deadline scaling based on queue depth appears to be able to
->> add a little bit of fairness with spammy clients (deep submission queue).
->>
->> As such, on the high level main advantages of the series:
->>
->>   1. Code simplification - no more multiple run queues.
->>   2. Scheduling quality - schedules better than FIFO.
->>   3. No more RR is even more code simplification but this one needs to be tested
->>      and approved by someone who actually uses RR.
->>
->> In the future futher simplifactions and improvements should be possible on top
->> of this work. But for now I keep it simple.
->>
->> First patch adds some unit tests which allow for easy evaluation of scheduling
->> behaviour against different client submission patterns. From there onwards it is
->> a hopefully natural progression of patches (or close) to the end result which is
->> a slightly more fair scheduler than FIFO.
->>
->> Regarding the submission patterns tested, it is always two parallel clients
->> and they broadly cover these categories:
->>
->>   * Deep queue clients
->>   * Hogs versus interactive
->>   * Priority handling
-> 
-> First of all, impressive piece of work.
+> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7571-i2c.yaml b/Documentation/devicetree/bindings/display/sitronix,st7571-i2c.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..6e5e0994a98db646a37bb17c4289332546c9266e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/sitronix,st7571-i2c.yaml
 
-Thank you!
+Drop i2c
 
-I am not super happy though, since what would be much better is some 
-sort of a CFS. But to do that would require to crack the entity GPU time 
-tracking problem. That I tried two times so far and failed to find a 
-generic, elegant and not too intrusive solution.
+> @@ -0,0 +1,71 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/sitronix,st7571-i2c.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sitronix ST7571 Display Panels
+> +
+> +maintainers:
+> +  - Marcus Folkesson <marcus.folkesson@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: sitronix,st7571-i2c
 
->> Lets look at the results:
->>
->> 1. Two normal priority deep queue clients.
->>
->> These ones submit one second worth of 8ms jobs. As fast as they can, no
->> dependencies etc. There is no difference in runtime between FIFO and qddl but
->> the latter allows both clients to progress with work more evenly:
->>
->> https://people.igalia.com/tursulin/drm-sched-qddl/normal-normal.png
->>
->> (X axis is time, Y is submitted queue-depth, hence lowering of qd corresponds
->>    with work progress for both clients, tested with both schedulers separately.)
-> 
-> This was basically the killer argument why we implemented FIFO in the first place. RR completely sucked on fairness when you have many clients submitting many small jobs.
-> 
-> Looks like that the deadline scheduler is even better than FIFO in that regard, but I would also add a test with (for example) 100 clients doing submissions at the same time.
+Drop i2c
 
-I can try that. So 100 clients with very deep submission queues? How 
-deep? Fully async? Or some synchronicity and what kind?
+> +
+> +  reg:
+> +    description: I2C address of the LCD controller
 
->> 2. Same two clients but one is now low priority.
->>
->> https://people.igalia.com/tursulin/drm-sched-qddl/normal-low.png
->>
->> Normal priority client is a solid line, low priority dotted. We can see how FIFO
->> completely starves the low priority client until the normal priority is fully
->> done. Only then the low priority client gets any GPU time.
->>
->> In constrast, qddl allows some GPU time to the low priority client.
->>
->> 3. Same clients but now high versus normal priority.
->>
->> Similar behaviour as in the previous one with normal a bit less de-prioritised
->> relative to high, than low was against normal.
->>
->> https://people.igalia.com/tursulin/drm-sched-qddl/high-normal.png
->>
->> 4. Heavy load vs interactive client.
->>
->> Heavy client emits a 75% GPU load in the format of 3x 2.5ms jobs followed by a
->> 2.5ms wait.
->>
->> Interactive client emites a 10% GPU load in the format of 1x 1ms job followed
->> by a 9ms wait.
->>
->> This simulates an interactive graphical client used on top of a relatively heavy
->> background load but no GPU oversubscription.
->>
->> Graphs show the interactive client only and from now on, instead of looking at
->> the client's queue depth, we look at its "fps".
->>
->> https://people.igalia.com/tursulin/drm-sched-qddl/heavy-interactive.png
->>
->> We can see that qddl allows a slighty higher fps for the interactive client
->> which is good.
-> 
-> The most interesting question for this is what is the maximum frame time?
-> 
-> E.g. how long needs the user to wait for a response from the interactive client at maximum?
+Drop description
 
-I did a quick measure of those metrics, for this workload only.
 
-Measured time from submit of the first job in the group (so frame), to 
-time last job in a group finished, and then subtracted the expected jobs 
-duration to get just the wait plus overheads latency.
+> +    maxItems: 1
+> +
+> +  sitronix,panel-width-mm:
+> +    description: physical panel width [mm]
+> +
+> +  sitronix,panel-height-mm:
+> +    description: physical panel height [mm]
 
-Five averaged runs:
+No, use standard properties.
 
-	min	avg	max 	[ms]
-FIFO	2.5	13.14	18.3
-qddl	3.2	9.9	16.6
+> +
+> +  sitronix,panel-nlines:
+> +    description: Number of lines in the panel
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 1
+> +    maximum: 128
+> +    default: 128
 
-So it is a bit better in max, more so in max latencies. Question is how 
-representative is this synthetic workload of the real world.
+Ditto
 
-Regards,
+> +
+> +  sitronix,panel-start-line:
+> +    description: Start line of the panel
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 127
+> +    default: 0
 
-Tvrtko
+Ditto
 
->> 5. Low priority GPU hog versus heavy-interactive.
->>
->> Low priority client: 3x 2.5ms jobs client followed by a 0.5ms wait.
->> Interactive client: 1x 0.5ms job followed by a 10ms wait.
->>
->> https://people.igalia.com/tursulin/drm-sched-qddl/lowhog-interactive.png
->>
->> No difference between the schedulers.
->>
->> 6. Last set of test scenarios will have three subgroups.
->>
->> In all cases we have two interactive (synchronous, single job at a time) clients
->> with a 50% "duty cycle" GPU time usage.
->>
->> Client 1: 1.5ms job + 1.5ms wait (aka short bursty)
->> Client 2: 2.5ms job + 2.5ms wait (aka long bursty)
->>
->> a) Both normal priority.
->>
->> https://people.igalia.com/tursulin/drm-sched-qddl/5050-short.png
->> https://people.igalia.com/tursulin/drm-sched-qddl/5050-long.png
->>
->> Both schedulers favour the higher frequency duty cycle with qddl giving it a
->> little bit more which should be good for interactivity.
->>
->> b) Normal vs low priority.
->>
->> https://people.igalia.com/tursulin/drm-sched-qddl/5050-normal-low-normal.png
->> https://people.igalia.com/tursulin/drm-sched-qddl/5050-normal-low-low.png
->>
->> Qddl gives a bit more to the normal than low.
->>
->> c) High vs normal priority.
->>
->> https://people.igalia.com/tursulin/drm-sched-qddl/5050-high-normal-high.png
->> https://people.igalia.com/tursulin/drm-sched-qddl/5050-high-normal-normal.png
->>
->> Again, qddl gives a bit more share to the higher priority client.
->>
->> On the overall qddl looks like a potential improvement in terms of fairness,
->> especially avoiding priority starvation. There do not appear to be any
->> regressions with the tested workloads.
->>
->> As before, I am looking for feedback, ideas for what kind of submission
->> scenarios to test. Testers on different GPUs would be very welcome too.
->>
->> And I should probably test round-robin at some point, to see if we are maybe
->> okay to drop unconditionally, it or further work improving qddl would be needed.
->>
->> v2:
->>   * Fixed many rebase errors.
->>   * Added some new patches.
->>   * Dropped single shot dependecy handling.
->>
->> v3:
->>   * Added scheduling quality unit tests.
->>   * Refined a tiny bit by adding some fairness.
->>   * Dropped a few patches for now.
->>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@redhat.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <pstanner@redhat.com>
->> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> Cc: Michel Dänzer <michel.daenzer@mailbox.org>
->>
->> Tvrtko Ursulin (14):
->>    drm/sched: Add some scheduling quality unit tests
->>    drm/sched: Avoid double re-lock on the job free path
->>    drm/sched: Consolidate drm_sched_job_timedout
->>    drm/sched: Clarify locked section in drm_sched_rq_select_entity_fifo
->>    drm/sched: Consolidate drm_sched_rq_select_entity_rr
->>    drm/sched: Implement RR via FIFO
->>    drm/sched: Consolidate entity run queue management
->>    drm/sched: Move run queue related code into a separate file
->>    drm/sched: Add deadline policy
->>    drm/sched: Remove FIFO and RR and simplify to a single run queue
->>    drm/sched: Queue all free credits in one worker invocation
->>    drm/sched: Embed run queue singleton into the scheduler
->>    drm/sched: De-clutter drm_sched_init
->>    drm/sched: Scale deadlines depending on queue depth
->>
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   6 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |  27 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   5 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |   8 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   |   8 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       |   8 +-
->>   drivers/gpu/drm/scheduler/Makefile            |   2 +-
->>   drivers/gpu/drm/scheduler/sched_entity.c      | 121 ++--
->>   drivers/gpu/drm/scheduler/sched_fence.c       |   2 +-
->>   drivers/gpu/drm/scheduler/sched_internal.h    |  17 +-
->>   drivers/gpu/drm/scheduler/sched_main.c        | 581 ++++--------------
->>   drivers/gpu/drm/scheduler/sched_rq.c          | 188 ++++++
->>   drivers/gpu/drm/scheduler/tests/Makefile      |   3 +-
->>   .../gpu/drm/scheduler/tests/tests_scheduler.c | 548 +++++++++++++++++
->>   include/drm/gpu_scheduler.h                   |  17 +-
->>   15 files changed, 962 insertions(+), 579 deletions(-)
->>   create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
->>   create mode 100644 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
->>
-> 
+> +
+> +  reset-gpios:
+> +    description: GPIO connected to the RST_N signal.
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reset-gpios
+
+Keep same order as in properties.
+
+> +  - sitronix,panel-width-mm
+> +  - sitronix,panel-height-mm
+> +
+
+Missing ref to panels schema.
+
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #
+
+Drop
+
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        display@3f {
+
+Look how this is called in other bindings... The binding and example are
+not following existing code. Why? Why doing something entirely
+different?
+
+Best regards,
+Krzysztof
 
