@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84782A78EE3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 14:47:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AEEA78EE4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 14:47:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B28BD10E785;
-	Wed,  2 Apr 2025 12:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0AE10E0A4;
+	Wed,  2 Apr 2025 12:47:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="INWVAHr2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lLyzR+AS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26EA910E784;
- Wed,  2 Apr 2025 12:47:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A7FA10E0A4;
+ Wed,  2 Apr 2025 12:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743598045; x=1775134045;
+ t=1743598052; x=1775134052;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7kBGJe/b/YJonwEAB/pAg4Y102PYNZxoPCYFTwNHLo0=;
- b=INWVAHr2uWIoQNgne0nAIHtMqgNp1sq/BiVF5dUm8Jo2t2vjy7eEAVaH
- CKhkDvYHlZgYZwmKRXcB8o/1J5Gw3vDUE80yCLky/HFJ2RpPaxITmRtWr
- h/c8A5tt+X/+prkDVoF+aocf5/pDF5aXkWADu8UBclPrX2S0nQmJz96XU
- isdh/9OMYyEpqRSex38hphvNnvDLr+V9vZ+oyXLqA0Ld2HP3suSlWr0Cn
- u9PC/pC8AFKRCGwin8lNmS/P5nsCP5R95u0VbqYfbG38h3VORXth07JLi
- aztLwj7zK85domIhlkel33FHx584W7jXuMhYjE0F+hVfwtH3rZSqJoVX7 g==;
-X-CSE-ConnectionGUID: Zka6ker6Sn2Di/XtvVi2fw==
-X-CSE-MsgGUID: cudM36dhQwyt8bD+cH/Rhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="55953464"
-X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; d="scan'208";a="55953464"
+ bh=d5VI9ZLfR6Us/gAEzp8GzzGH2ksRebnMw1CHva4QmGk=;
+ b=lLyzR+ASX8laYTGZVBlKOzctX3MdsQcDTDvVKUuX0P1Z1JmMmAqlBqtE
+ jA4KZB0t4Boz99o8AfY88OU3N+AqZ8WzfdtxNe6kPRHdCgPYpi42+TRmN
+ Ch6iBBBG1EQMwzBVddjKRBtIrUkS6iVFeGNZrKI4o+7A8IhubtJ11/HHl
+ x1AHre765p9SSvOnT/NlFyPCgskhmKAn1I2pHhZF0WrG55+lXcnHxWg2r
+ yyFIYs5YTsAdEokPcuZphSARTYr3hDVcVXvMSVlEwyL9xSr95F8dbRvy+
+ 5RDyfzxf+TtygoqUYzDD+ohbhuIyBfrqyGb5WT/QShZ9LyR6XMeFnQbqj A==;
+X-CSE-ConnectionGUID: kgSRkMRwRq+Wa/dBbS/xdA==
+X-CSE-MsgGUID: CDR4p2rwT02QXQMybYF6MA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="55953478"
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; d="scan'208";a="55953478"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2025 05:47:25 -0700
-X-CSE-ConnectionGUID: +zVGJ6EMTLWImVrf0u5jjw==
-X-CSE-MsgGUID: mvzKh6FUQhGJp6x2yeLDWQ==
+ 02 Apr 2025 05:47:31 -0700
+X-CSE-ConnectionGUID: Qm6j3l87QeyOmk7HqQrGjw==
+X-CSE-MsgGUID: /PtvqrrtQXqWU0aknNHXtw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; d="scan'208";a="127180616"
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; d="scan'208";a="127180654"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.73])
  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2025 05:47:20 -0700
+ 02 Apr 2025 05:47:27 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-kernel@vger.kernel.org
@@ -50,9 +50,9 @@ Cc: jani.nikula@intel.com, Jason Gunthorpe <jgg@nvidia.com>,
  Simona Vetter <simona.vetter@ffwll.ch>, linux-kbuild@vger.kernel.org,
  dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/4] drm: switch to generic header check facility
-Date: Wed,  2 Apr 2025 15:46:54 +0300
-Message-Id: <20250402124656.629226-3-jani.nikula@intel.com>
+Subject: [PATCH v2 3/4] drm/i915: switch to generic header check facility
+Date: Wed,  2 Apr 2025 15:46:55 +0300
+Message-Id: <20250402124656.629226-4-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250402124656.629226-1-jani.nikula@intel.com>
 References: <20250402124656.629226-1-jani.nikula@intel.com>
@@ -77,12 +77,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Switch to the generic header check facility, and sunset the copy-pasted
 local version.
 
-Keep CONFIG_DRM_HEADER_TEST around for fine-grained control of what gets
-checked. To be unified later.
+Keep the header checks gated on CONFIG_DRM_I915_WERROR as before. To be
+unified later.
 
 Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
 Closes: https://lore.kernel.org/r/CAHk-=wjMrqzuUmH-mFbR_46EWEFS=bB=J7h9ABMVy56Vi81PKQ@mail.gmail.com
-Fixes: 62ae45687e43 ("drm: ensure drm headers are self-contained and pass kernel-doc")
+Fixes: c6d4a099a240 ("drm/i915: reimplement header test feature")
 Cc: Masahiro Yamada <masahiroy@kernel.org>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Simona Vetter <simona.vetter@ffwll.ch>
@@ -95,73 +95,35 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: intel-xe@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org
 ---
- drivers/gpu/drm/Kconfig  |  2 +-
- drivers/gpu/drm/Makefile | 15 +--------------
- include/drm/Makefile     | 15 +--------------
- 3 files changed, 3 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/i915/Makefile | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 2cba2b6ebe1c..10189d0ec30d 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -505,7 +505,7 @@ config DRM_WERROR
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index ed05b131ed3a..dca187e58bda 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -411,19 +411,9 @@ ifdef CONFIG_DRM_I915_WERROR
+     cmd_checkdoc = $(srctree)/scripts/kernel-doc -none -Werror $<
+ endif
  
- config DRM_HEADER_TEST
- 	bool "Ensure DRM headers are self-contained and pass kernel-doc"
--	depends on DRM && EXPERT && BROKEN
-+	depends on DRM && HEADER_CHECK
- 	default n
- 	help
- 	  Ensure the DRM subsystem headers both under drivers/gpu/drm and
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index ed54a546bbe2..fb2642d46f29 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -225,19 +225,6 @@ obj-$(CONFIG_DRM_LOONGSON) += loongson/
- obj-$(CONFIG_DRM_POWERVR) += imagination/
+-# header test
+-
+ # exclude some broken headers from the test coverage
+ no-header-test := \
+ 	display/intel_vbt_defs.h
  
- # Ensure drm headers are self-contained and pass kernel-doc
--hdrtest-files := \
-+header-check-$(CONFIG_DRM_HEADER_TEST) += \
- 	$(shell cd $(src) && find . -maxdepth 1 -name 'drm_*.h') \
- 	$(shell cd $(src) && find display lib -name '*.h')
+-always-$(CONFIG_DRM_I915_WERROR) += \
+-	$(patsubst %.h,%.hdrtest, $(filter-out $(no-header-test), \
+-		$(shell cd $(src) && find * -name '*.h')))
 -
--always-$(CONFIG_DRM_HEADER_TEST) += \
--	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
--
--# Include the header twice to detect missing include guard.
 -quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
--      cmd_hdrtest = \
--		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
--		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
--		touch $@
+-      cmd_hdrtest = $(CC) $(filter-out $(CFLAGS_GCOV), $(c_flags)) -S -o /dev/null -x c /dev/null -include $<; \
+-		$(srctree)/scripts/kernel-doc -none -Werror $<; touch $@
 -
 -$(obj)/%.hdrtest: $(src)/%.h FORCE
 -	$(call if_changed_dep,hdrtest)
-diff --git a/include/drm/Makefile b/include/drm/Makefile
-index a7bd15d2803e..ed0567a7956a 100644
---- a/include/drm/Makefile
-+++ b/include/drm/Makefile
-@@ -1,18 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- # Ensure drm headers are self-contained and pass kernel-doc
--hdrtest-files := \
-+header-check-$(CONFIG_DRM_HEADER_TEST) += \
- 	$(shell cd $(src) && find * -name '*.h' 2>/dev/null)
--
--always-$(CONFIG_DRM_HEADER_TEST) += \
--	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
--
--# Include the header twice to detect missing include guard.
--quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
--      cmd_hdrtest = \
--		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
--		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
--		touch $@
--
--$(obj)/%.hdrtest: $(src)/%.h FORCE
--	$(call if_changed_dep,hdrtest)
++header-check-$(CONFIG_DRM_I915_WERROR) += \
++	$(filter-out $(no-header-test),$(shell cd $(src) && find * -name '*.h'))
 -- 
 2.39.5
 
