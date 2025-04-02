@@ -2,41 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B96FA78CD5
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 13:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3DEA78D27
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 13:35:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7498A10E0F5;
-	Wed,  2 Apr 2025 11:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1B0210E0F3;
+	Wed,  2 Apr 2025 11:35:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Rcq3WvBz";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 81C3810E0F5
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 11:04:00 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3719C106F;
- Wed,  2 Apr 2025 04:04:03 -0700 (PDT)
-Received: from [10.57.15.238] (unknown [10.57.15.238])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E5923F694;
- Wed,  2 Apr 2025 04:03:58 -0700 (PDT)
-Message-ID: <a465d240-c84b-4d97-9d5c-0c5c6e477dbd@arm.com>
-Date: Wed, 2 Apr 2025 12:03:56 +0100
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+ [209.85.128.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41F8D10E75D
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 11:35:21 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-6febbd3b75cso60739157b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 04:35:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1743593719; x=1744198519;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=s1/KlpYm3UM4GjlGHXNbUdwP3FIBF3TOQzxxk/M8qKo=;
+ b=Rcq3WvBz5/mW9yZLNun8DWdBZ8GrT7SfjZPxeL0OhuauBusQN3ZaxO+RB/8kgJZMQh
+ bIUjKKy1+BTdUrAaR+vqXJX6xs+gw4R4X06sMfdM+cqEbXNMOI0jP9GxU/AFiWeZznOA
+ D349Swu6+lEohG2/UQNaInTUrXBowwF5KoxPq2Vquh2MkSlovpTdygFGEfr8ECMIklRc
+ VxHPwTqtw4RjQOY9g9MX2CKzYiZ+9GEMulQqQCc60vFkOgSqD8PErOjaduXvsZG8KGX8
+ tu1TVPAYTyVy2RcuycbnfyEGu3e04ZIIopCzeb4dV0eV+fDAnU90WILGAAq4sm86cz2P
+ 4/aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743593719; x=1744198519;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=s1/KlpYm3UM4GjlGHXNbUdwP3FIBF3TOQzxxk/M8qKo=;
+ b=eYG4eMDmsmT52BX/T4Bvv8tFPONyfhvh/+W79ICdioAFUtRUPfk3g43ZzhutnIR+eX
+ Vz4JOCROhGA5sTfoeVa+rrDj1emiyxgklGIcf5BCfvYR2J9SN6QmYWhSgQfPb38SXvD1
+ silL3InmQ08zm9ovoco+kVLksAo/0QMt1U783d+oZvIfMSvxy4KLVvilQ7q5efTcTijQ
+ 7jp2A16o2UE3KrlqE8/v8zwkVfoKsi/cbwcNu2B3jEz7FVvRdAisqgby4jSoDO2da+Oj
+ oglxCTuQXWhHtYisXrFM/Lw0yh2Md52JOWbTU1SYPg2ffnGOVQN3BoHumsGO/a60JQfm
+ p44w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWgWVFgWctMCmeEkJ3AAHITXLP+JErccuKXzWBe5503tIWtE+/ZoYDFUs/TVZxkCvaEYgpj/1ARoIY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAJeZNh2yhldRxZC9KJnZr4w5qsLy42pdqzS4fpr2QbH5HVf3+
+ 3EoBujA0xKfQsOJsffn5hLI+XO03JcjfK6XgG9HgqH721j0OuOyhSrpYN1Dxz1kUq036GVpafMq
+ dNSNF0OjX3EuHpMykJO1l1npTYnfjw2MXQ0tmCg==
+X-Gm-Gg: ASbGnctzTKfrTzd92wC8DDYgniGdxZA4aarbUD7RY3naF1otU5U7/zX3Ik5UkDCbrYI
+ SxpOPG2ujmK4kteVi3pBOfX6ALAScQi5t+qO/cp+SZAcrlPRpjuwooUBQZtkNp0gJOFouetGcoX
+ hZ92BmYd3/bKs5a+8AOcjfunn8Sj1a0gdJyIyg1Roa0Nspr8+b9fLsA6fO7GtW1jgQI5mA
+X-Google-Smtp-Source: AGHT+IGr8Yxz3zfQtp5zVjqj96xcJ11TwxaJBj5hp4ypVaFwNYzSnui2oiuDQ1M/uFDaiwTUhmCsnNbBU6oKxM6+wWo=
+X-Received: by 2002:a05:690c:4d82:b0:6fb:1f78:d9ee with SMTP id
+ 00721157ae682-702571161cfmr249550377b3.15.1743593719430; Wed, 02 Apr 2025
+ 04:35:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] drm/panthor: Let IRQ handlers clear the interrupts
- themselves
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-References: <20250401182348.252422-1-boris.brezillon@collabora.com>
- <20250401182348.252422-5-boris.brezillon@collabora.com>
- <2e565589-4845-4007-80be-adb6b370e911@arm.com>
- <20250402125820.49c5a450@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250402125820.49c5a450@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <8305d098-bd28-45e6-acda-29e629dfccc9@stanley.mountain>
+In-Reply-To: <8305d098-bd28-45e6-acda-29e629dfccc9@stanley.mountain>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 2 Apr 2025 11:34:58 +0000
+X-Gm-Features: AQ5f1JrgSH9_HopXXMS8ZOVaiXusrf2OzR6y0mAxNfEdCRKuLRfnxeiLZ3pZEkA
+Message-ID: <CAPY8ntCtAdWg1yN+DgxRe3np4Nu3aDUrrdqe4Q9WeqJMtbrrAg@mail.gmail.com>
+Subject: Re: [PATCH] drm/vc4: release firmware on error paths in vc4_hvs_bind()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,42 +88,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/04/2025 11:58, Boris Brezillon wrote:
-> On Wed, 2 Apr 2025 11:20:17 +0100
-> Steven Price <steven.price@arm.com> wrote:
-> 
->>> static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->>> {
->>> 	bool has_unhandled_faults = false;
->>>
->>> 	status = panthor_mmu_fault_mask(ptdev, status);
->>> 	while (status) {
->>> 		u32 as = ffs(status | (status >> 16)) - 1;  
->>
->> panthor_mmu_fault_mask() masks status with GENMASK(15, 0), so AFAICT
->> (status >> 16) is always 0.
->>
->> Which isn't a big issue, other than you are now only clearing IRQs which
->> are recognised by the loop.
-> 
-> Quick note on that: I think it's been written when I was trying to add
-> support for CSF in panfrost, and panthor_mmu_fault_mask() (at the time
-> it was panfrost_mmu_fault_mask()) was a way to have a different
-> fault_mask for JM and CSF. Now that JM support in panthor is being
-> considered [1], I'd prefer to keep this logic, even if it seems silly
-> right now.
-> 
-> [1]https://gitlab.freedesktop.org/panfrost/linux/-/merge_requests/16
+Hi Dan
 
-Yeah no problem - it was mostly that when I looked at the code it
-appears to be expecting 'status' to have bits set in the top half, but
-we then only clear the bits in the lower half. It took a bit of digging
-to satisfy myself that the IRQ mask always masks out the top bits.
+On Wed, 2 Apr 2025 at 12:00, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> Call rpi_firmware_put() on these two error paths before returning.
 
-With an updated commit message I think this is fine.
+Ack that there is an issue here, but it seems easier to me to move the block
 
-JM support in panthor is a whole other discussion ;)
+        max_rate = rpi_firmware_clk_get_max_rate(firmware,
+                             RPI_FIRMWARE_CORE_CLK_ID);
+        rpi_firmware_put(firmware);
+        if (max_rate >= 550000000)
+            hvs->vc5_hdmi_enable_hdmi_20 = true;
 
-Thanks,
-Steve
+        if (max_rate >= 600000000)
+            hvs->vc5_hdmi_enable_4096by2160 = true;
 
+        hvs->max_core_rate = max_rate;
+
+to before we make the devm_clk_get calls. It has no dependencies on
+having retrieved the clocks, and hopefully means we don't get the same
+type of leaks creeping back in in future.
+
+Thanks
+  Dave
+
+> Fixes: 2fa4ef5fb943 ("drm/vc4: hvs: Create hw_init function")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/gpu/drm/vc4/vc4_hvs.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+> index 4811d794001f..41e9d0aff757 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+> @@ -1678,6 +1678,7 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+>                 hvs->core_clk = devm_clk_get(&pdev->dev,
+>                                              (vc4->gen >= VC4_GEN_6_C) ? "core" : NULL);
+>                 if (IS_ERR(hvs->core_clk)) {
+> +                       rpi_firmware_put(firmware);
+>                         dev_err(&pdev->dev, "Couldn't get core clock\n");
+>                         return PTR_ERR(hvs->core_clk);
+>                 }
+> @@ -1685,6 +1686,7 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+>                 hvs->disp_clk = devm_clk_get(&pdev->dev,
+>                                              (vc4->gen >= VC4_GEN_6_C) ? "disp" : NULL);
+>                 if (IS_ERR(hvs->disp_clk)) {
+> +                       rpi_firmware_put(firmware);
+>                         dev_err(&pdev->dev, "Couldn't get disp clock\n");
+>                         return PTR_ERR(hvs->disp_clk);
+>                 }
+> --
+> 2.47.2
+>
