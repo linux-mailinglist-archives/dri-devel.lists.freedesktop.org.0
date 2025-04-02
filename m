@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B44A78BD5
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 12:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F2AA78BD8
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 12:20:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7213B10E72E;
-	Wed,  2 Apr 2025 10:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C234E10E735;
+	Wed,  2 Apr 2025 10:20:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4D29710E72E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 10:19:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2A15B10E735
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 10:20:09 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 082951063;
- Wed,  2 Apr 2025 03:19:48 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D264A1063;
+ Wed,  2 Apr 2025 03:20:11 -0700 (PDT)
 Received: from [10.57.15.238] (unknown [10.57.15.238])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B8EA3F63F;
- Wed,  2 Apr 2025 03:19:44 -0700 (PDT)
-Message-ID: <bde220ff-2d28-48a4-bc60-08479cb79196@arm.com>
-Date: Wed, 2 Apr 2025 11:19:42 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BBBE93F63F;
+ Wed,  2 Apr 2025 03:20:07 -0700 (PDT)
+Message-ID: <d0cacc29-0643-4bb0-8f33-8de9752088a2@arm.com>
+Date: Wed, 2 Apr 2025 11:20:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] drm/panthor: Fix GPU_COHERENCY_ACE[_LITE]
- definitions
+Subject: Re: [PATCH v2 2/5] drm/panthor: Call panthor_gpu_coherency_init()
+ after PM resume()
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
 References: <20250401182348.252422-1-boris.brezillon@collabora.com>
- <20250401182348.252422-2-boris.brezillon@collabora.com>
+ <20250401182348.252422-3-boris.brezillon@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20250401182348.252422-2-boris.brezillon@collabora.com>
+In-Reply-To: <20250401182348.252422-3-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,35 +51,50 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 01/04/2025 19:23, Boris Brezillon wrote:
-> GPU_COHERENCY_ACE and GPU_COHERENCY_ACE_LITE definitions have been
-> swapped.
+> When the device is coherent, panthor_gpu_coherency_init() will read
+> GPU_COHERENCY_FEATURES to make sure the GPU supports the ACE-Lite
+> coherency protocol, which will fail if the clocks/power-domains are
+> not enabled when the read is done. Move the
+> panthor_gpu_coherency_init() call after the device has been resumed
+> to prevent that.
 > 
 > Changes in v2:
-> - New patch
+> - Add Liviu's R-b
 > 
-> Reported-by: Liviu Dudau <liviu.dudau@arm.com>
-> Fixes: 546b366600ef ("drm/panthor: Add GPU register definitions")
+> Fixes: dd7db8d911a1 ("drm/panthor: Explicitly set the coherency mode")
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/panthor/panthor_regs.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_device.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-> index b7b3b3add166..a7a323dc5cf9 100644
-> --- a/drivers/gpu/drm/panthor/panthor_regs.h
-> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-> @@ -133,8 +133,8 @@
->  #define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index a9da1d1eeb70..c73c1608d6e6 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -171,10 +171,6 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	struct page *p;
+>  	int ret;
 >  
->  #define GPU_COHERENCY_PROTOCOL				0x304
-> -#define   GPU_COHERENCY_ACE				0
-> -#define   GPU_COHERENCY_ACE_LITE			1
-> +#define   GPU_COHERENCY_ACE_LITE			0
-> +#define   GPU_COHERENCY_ACE				1
->  #define   GPU_COHERENCY_NONE				31
+> -	ret = panthor_gpu_coherency_init(ptdev);
+> -	if (ret)
+> -		return ret;
+> -
+>  	init_completion(&ptdev->unplug.done);
+>  	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
+>  	if (ret)
+> @@ -247,6 +243,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		goto err_rpm_put;
 >  
->  #define MCU_CONTROL					0x700
+> +	ret = panthor_gpu_coherency_init(ptdev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret = panthor_mmu_init(ptdev);
+>  	if (ret)
+>  		goto err_unplug_gpu;
 
