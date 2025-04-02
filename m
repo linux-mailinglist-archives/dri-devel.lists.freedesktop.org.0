@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF83A78E6F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 14:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE8EA78E74
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 14:32:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39FE510E772;
-	Wed,  2 Apr 2025 12:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1E310E77A;
+	Wed,  2 Apr 2025 12:32:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="jz30fZ3v";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="MGTwIXCl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id B977610E770
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 12:32:14 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E25F310E77A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 12:32:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=jvJrC
- JlXKu0zyBhFzDwypCRXXkJB5PHy1URiAxDBM28=; b=jz30fZ3v9aBAfxkd5mqMl
- jkHWm5hKKsL+mYZErNFNeJjOJ6oSukaEG2MpzVhhWIKpfAKDC/Cudfjd1bAKvxZn
- PdfRkYOd93NPhfUyzRIWUKyJYHb+IemVxCndB7vnGWlTII2TNkZX0HsStTg/3MA9
- TB+PKwuMm3mk2Uc1xOPz+w=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=SAmBQ
+ fQ4gtVQYYiOf9e8DZppYPFI9MirWXA6gFfsoeE=; b=MGTwIXCl6X63pnKuYAA0r
+ pXDerXH7TBHXky8AaQZOE3YVkWYj7hrNbRQl9F7ffYA9A2/7BYHcTXEJO5429OB0
+ Qh4s+pyuAJfJwbsjBzFf3HG8m3GbJnnTghIrD6UkgaYt4MMUppHNtk5lmuoWmCc8
+ PBzyuDtQF8fIlHIv6oVfgM=
 Received: from ProDesk.. (unknown [])
- by gzsmtp4 (Coremail) with SMTP id PygvCgDnd405Lu1nJwOJBA--.36321S4;
- Wed, 02 Apr 2025 20:31:59 +0800 (CST)
+ by gzsmtp4 (Coremail) with SMTP id PygvCgDnd405Lu1nJwOJBA--.36321S5;
+ Wed, 02 Apr 2025 20:32:00 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
@@ -32,22 +32,22 @@ Cc: conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
  Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v3 2/7] dt-bindings: display: rockchip,
- inno-hdmi: Document GRF for RK3036 HDMI
-Date: Wed,  2 Apr 2025 20:31:36 +0800
-Message-ID: <20250402123150.238234-3-andyshrk@163.com>
+Subject: [PATCH v3 3/7] drm/rockchip: inno-hdmi: Simplify error handler with
+ dev_err_probe
+Date: Wed,  2 Apr 2025 20:31:37 +0800
+Message-ID: <20250402123150.238234-4-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250402123150.238234-1-andyshrk@163.com>
 References: <20250402123150.238234-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PygvCgDnd405Lu1nJwOJBA--.36321S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZryxWw47XF1UAFyxtFyrZwb_yoW8Gw15pa
- sxC3srWFyxGFy7X34ktr1kCrWYgF97Aa15GFW2qr17tr12gan5Ka1agwn8ZF4UAFs7ZFyS
- 9ay7GFy5Aw1Ivr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jrjjgUUUUU=
+X-CM-TRANSID: PygvCgDnd405Lu1nJwOJBA--.36321S5
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uryfXr4fuF1fJr4Utr1xuFg_yoW8Aw1Dpr
+ ZxJFyjvFy8JF18W347ua15Ar1Sya1Uta18CrZrGwn5Zw17Zrs8try3ZFWFqrWFyF95Zw4a
+ y393Xa4UZ3W7WaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jJkuxUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkA0jXmftKOaFiAABso
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gMjXmftK+o5ZwAAs5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,10 +65,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-HDMI on RK3036 use GRF control the HSYNC/VSYNC polarity, but this part
-is missing when it first landing upstream.
-
-Document that it is mandatory for RK3036 HDMI.
+Use dev_err_probe simplify the error handle.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 
@@ -77,45 +74,51 @@ Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 (no changes since v2)
 
 Changes in v2:
-- First included in v2
+- First included in this series
 
- .../bindings/display/rockchip/rockchip,inno-hdmi.yaml    | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
-index 9d1e7f894ea54..290376bec079a 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
-@@ -56,6 +56,12 @@ properties:
-       - port@0
-       - port@1
+diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+index 483ecfeaebb08..e891d42dd08a4 100644
+--- a/drivers/gpu/drm/rockchip/inno_hdmi.c
++++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+@@ -885,29 +885,22 @@ static int inno_hdmi_bind(struct device *dev, struct device *master,
+ 		return PTR_ERR(hdmi->regs);
  
-+  rockchip,grf:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to GRF used for control the polarity of hsync/vsync of rk3036
-+      HDMI.
-+
- required:
-   - compatible
-   - reg
-@@ -75,6 +81,8 @@ allOf:
-             const: rockchip,rk3036-inno-hdmi
+ 	hdmi->pclk = devm_clk_get(hdmi->dev, "pclk");
+-	if (IS_ERR(hdmi->pclk)) {
+-		DRM_DEV_ERROR(hdmi->dev, "Unable to get HDMI pclk clk\n");
+-		return PTR_ERR(hdmi->pclk);
+-	}
++	if (IS_ERR(hdmi->pclk))
++		return dev_err_probe(dev, PTR_ERR(hdmi->pclk), "Unable to get HDMI pclk\n");
  
-     then:
-+      required:
-+        - rockchip,grf
-       properties:
-         power-domains: false
+ 	ret = clk_prepare_enable(hdmi->pclk);
+-	if (ret) {
+-		DRM_DEV_ERROR(hdmi->dev,
+-			      "Cannot enable HDMI pclk clock: %d\n", ret);
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "Cannot enable HDMI pclk: %d\n", ret);
  
-@@ -103,6 +111,7 @@ examples:
-       clock-names = "pclk", "ref";
-       pinctrl-names = "default";
-       pinctrl-0 = <&hdmi_ctl>;
-+      rockchip,grf = <&grf>;
-       #sound-dai-cells = <0>;
+ 	hdmi->refclk = devm_clk_get_optional(hdmi->dev, "ref");
+ 	if (IS_ERR(hdmi->refclk)) {
+-		DRM_DEV_ERROR(hdmi->dev, "Unable to get HDMI reference clock\n");
+-		ret = PTR_ERR(hdmi->refclk);
++		ret = dev_err_probe(dev, PTR_ERR(hdmi->refclk), "Unable to get HDMI refclk\n");
+ 		goto err_disable_pclk;
+ 	}
  
-       ports {
+ 	ret = clk_prepare_enable(hdmi->refclk);
+ 	if (ret) {
+-		DRM_DEV_ERROR(hdmi->dev,
+-			      "Cannot enable HDMI reference clock: %d\n", ret);
++		ret = dev_err_probe(dev, ret, "Cannot enable HDMI refclk: %d\n", ret);
+ 		goto err_disable_pclk;
+ 	}
+ 
 -- 
 2.43.0
 
