@@ -2,80 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B5EA7931C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2303A792A6
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:06:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8732810E854;
-	Wed,  2 Apr 2025 16:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF15310E820;
+	Wed,  2 Apr 2025 16:06:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HBPerfe9";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JpcpZ3ID";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B397110E854
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:27:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743611266;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9PD6OmDX45LDR7+nbtGPkK9QX6P2gjTV1BpF+hq9cvw=;
- b=HBPerfe9obbCwhaLq1CfXnfcrXb+oj9fzNAXXTTyfzAbg2tjcUiVRGgVbRYJEyS5bSBjaM
- +WXqFCgWBNhDRX7DCS5buRHal5pqJpi7/5lUxGVCjhRJok0J8+EFUrkifviPMIxgMkd35o
- a1dCabq5W5JFx4duYr2YA2QWhD3TtaI=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-253-MnCVOWQlOE-CQsqJq256Vw-1; Wed,
- 02 Apr 2025 12:27:45 -0400
-X-MC-Unique: MnCVOWQlOE-CQsqJq256Vw-1
-X-Mimecast-MFC-AGG-ID: MnCVOWQlOE-CQsqJq256Vw_1743611263
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id D00771954B32; Wed,  2 Apr 2025 16:27:42 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id EB2D8195609D; Wed,  2 Apr 2025 16:27:38 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 02 Apr 2025 11:24:08 -0400
-Subject: [PATCH 30/30] panel/orisetech-ota5601a: Use refcounted allocation
- in place of devm_kzalloc()
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D2910E81E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:06:30 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-abbd96bef64so1124906966b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 09:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1743609989; x=1744214789;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=025ywTe8X2oiiTY/KI73kld6gosblZKwh9c0eIC7QAo=;
+ b=JpcpZ3IDulNOelRpsOh3/2EWfVuuE1eHzK/dBPToE6QrU/Od9+8x+mxp5EwSipNbEw
+ Pv85f3N63V1ORiyo7F83F5abpSvOV995Ropz4lEOEh9WpenMFZ9zRBv4MCyFYyeWiFgM
+ VXb8hQ/iRy4+a2oF9WalyR8KhO4K90e75w7Xw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743609989; x=1744214789;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=025ywTe8X2oiiTY/KI73kld6gosblZKwh9c0eIC7QAo=;
+ b=w9XLvOs4spwW4AMYGllww/4bIVDlgbZIT9eJaIKje9DSp7wjyqicQPBVHxnfqyBWOU
+ ASs+qyNN+T425bWFctqwfmmVpqFIOeoQe56Ws+0HjEZTmB7sBcWUDZt6Et/w0ALWnQqA
+ IQIWg6V3EbI0ohIuom9aJQ4cM5mamrpjJS1Rpkv4DqtIFZSLzrH3iOCXAyn/M/QXOz7G
+ FgsUQySaVRjpdbm8EFxodOeaHGz7GVpjL42Zr3Foxva2912EdkaYS/MSs7PqEcb0HDRx
+ SdkWpphI9jp6pwotF9d8qiAqmSSnQOgyzPZ3uB+BkXcgtvtEYVAkJAEETMQTgTm8wjhh
+ 1DCg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXLugDcrPG4ZMGEjd7NuA/RraIN81iGPtj7fxFpYcFHQoubwVe2v6QVPm/Zs4ArdgtZHjkVI7g3Va4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzEt553oOy9WO++w96CC48Pa71WZRPns2VejS+04HSazobPMMwZ
+ qw/vg6rxPLeeVMgECkzhiHMt5neT/JQ66U7yXEqo6MWID00tOvnexoyxw/tALFp7ClMJYKQMB4m
+ pBYo=
+X-Gm-Gg: ASbGncvN9CJu0XcfS1C0m9PXY6eHYyweuHg4E9EXQzVkhVzRfaxpuk4jkT/WzG1Onug
+ /0l+GRC0uOoYje/dQfKCuhO0Xwnf5QigJ5nfEVZrFxkCvweA+oObFGj6m7Nx9wBwqhVDpau4SU/
+ iaDbD8NNNSp9i+uhdY82ddfzxade3+2e1bJanxjPkIrv/3lnU7lG/QXRsckTEqKXALJwFf6h0Ed
+ j7+l1OKzkN1JVXONkAedmfg0k4wHb9lX62p8eECswn92F827BQmv9auMPJuYEbaHsPNpXd3JdJ1
+ +Ei6trRwZygu2iBYeMFwm+Du09gGvESED6tYcqCY5FcWDE1+RAfNrs2CCrFFT0TeYjzhYtKcYdE
+ 4KT6AmbsQdjGGxMU3UfA=
+X-Google-Smtp-Source: AGHT+IEXHgrJKlYQbDUdU+xf92+xuhViA51foOz7emClG6m1/5Zce6yNAraQwX6I40i7TAVD8zC0zA==
+X-Received: by 2002:a17:907:7216:b0:ac6:b729:9285 with SMTP id
+ a640c23a62f3a-ac738bf66a5mr1461169166b.55.1743609988566; 
+ Wed, 02 Apr 2025 09:06:28 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com.
+ [209.85.218.47]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ac71967fd33sm947161666b.142.2025.04.02.09.06.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Apr 2025 09:06:27 -0700 (PDT)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-abbd96bef64so1124900266b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 09:06:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXnR3ZoXmeYYliO3fSnev83FjTdIg5g97BFN9NThtVeuIJuL3b/bXtOcY1ZW4Umg8V7e1PjOEG5IMY=@lists.freedesktop.org
+X-Received: by 2002:a17:906:dc95:b0:ac7:36c2:aed5 with SMTP id
+ a640c23a62f3a-ac738a5aa5amr1649611366b.28.1743609986968; Wed, 02 Apr 2025
+ 09:06:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-b4-drm_panel_mass_convert_part2-v1-30-903b70999ea6@redhat.com>
-References: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
-In-Reply-To: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Icenowy Zheng <icenowy@aosc.io>, Jagan Teki <jagan@amarulasolutions.com>, 
- Ondrej Jirman <megi@xff.cz>, Javier Martinez Canillas <javierm@redhat.com>, 
- Michael Trimarchi <michael@amarulasolutions.com>, 
- Michael Walle <mwalle@kernel.org>, Jagan Teki <jagan@edgeble.ai>, 
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Purism Kernel Team <kernel@puri.sm>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743607440; l=1321;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=o4EPDV0aZd5aebRCtAzJHstJ3xqapBa1C3808IhKyF4=;
- b=BVaohY7WGETvX3RovtLsktqY1+PIhCXrnlCpEDxR1cOZ7BoVwBKiBqXeM8stZxc4dq9T+HT71
- nCF/6+64E/tB79uroCVimFiZs0E49dwNfoqF8e/78jY3L2Z7iGs9Scu
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+References: <20250402124656.629226-1-jani.nikula@intel.com>
+In-Reply-To: <20250402124656.629226-1-jani.nikula@intel.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 2 Apr 2025 09:06:09 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whkpFR93_rX2Wi5bQErH1-bzFXkWZP2wgBGCRgsFQuOhg@mail.gmail.com>
+X-Gm-Features: AQ5f1Jqd6jCqv34VGPiVcJowK6E-xTG9BBy-7Ow_2MxO0m2aPE5XhfB34p0FnyE
+Message-ID: <CAHk-=whkpFR93_rX2Wi5bQErH1-bzFXkWZP2wgBGCRgsFQuOhg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] kbuild: resurrect generic header check facility
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: linux-kernel@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, linux-kbuild@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,44 +100,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move to using the new API devm_drm_panel_alloc() to allocate the
-panel.
+On Wed, 2 Apr 2025 at 05:47, Jani Nikula <jani.nikula@intel.com> wrote:
+>
+> Another go at hiding the turds.
 
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- drivers/gpu/drm/panel/panel-orisetech-ota5601a.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+The patches look sane to me.
 
-diff --git a/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c b/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
-index fc87f61d4400d49814953d7f453a7c6e84004f29..3231e84dc66c2bf319f5287fd53bc437e24e0d5b 100644
---- a/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
-+++ b/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
-@@ -237,9 +237,11 @@ static int ota5601a_probe(struct spi_device *spi)
- 	struct ota5601a *panel;
- 	int err;
- 
--	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
--	if (!panel)
--		return -ENOMEM;
-+	panel = devm_drm_panel_alloc(dev, struct ota5601a, drm_panel,
-+				     &ota5601a_funcs,
-+				     DRM_MODE_CONNECTOR_DPI);
-+	if (IS_ERR(panel))
-+		return PTR_ERR(panel);
- 
- 	spi_set_drvdata(spi, panel);
- 
-@@ -273,9 +275,6 @@ static int ota5601a_probe(struct spi_device *spi)
- 		return PTR_ERR(panel->map);
- 	}
- 
--	drm_panel_init(&panel->drm_panel, dev, &ota5601a_funcs,
--		       DRM_MODE_CONNECTOR_DPI);
--
- 	err = drm_panel_of_backlight(&panel->drm_panel);
- 	if (err) {
- 		if (err != -EPROBE_DEFER)
+I didn't _test_ them - because that's not how I roll - but they look
+like they would do the right thing and not interfere with my odd TAB
+lifestyle (I say "odd", because apparently I'm the only one who lives
+and dies by auto-complete, but obviously my way is never really odd.
+By definition).
 
--- 
-2.48.1
-
+         Linus
