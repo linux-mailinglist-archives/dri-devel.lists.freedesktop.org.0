@@ -2,76 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D110A78B70
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 11:43:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 056A6A78B7B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 11:45:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5BA610E707;
-	Wed,  2 Apr 2025 09:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A63710E728;
+	Wed,  2 Apr 2025 09:45:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="iyMcMLZN";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="W51jKUW3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sMGqo046";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W51jKUW3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sMGqo046";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4BFA89C93
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 09:42:58 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-224019ad9edso49366205ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 02:42:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1743586978; x=1744191778;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yqCjN2XnaBIaqPEFvjQc6aei3tdzzIB/3dXAk1qHr5w=;
- b=iyMcMLZNVi5P4yzmA5A0YvBf10502/UdiHQHnCYwPR/7Dj1DIcGqWJdiHAz2XUtG1A
- fueDwHdy2AM7PR3qJlLcm0GBlSGg02Uufqvl310t1JT8OdtHmWSshE978elQzlryJze5
- ZQ0jIdPSpAcoJ3N6ijy74BZWXENkzfNCUfs+0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743586978; x=1744191778;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yqCjN2XnaBIaqPEFvjQc6aei3tdzzIB/3dXAk1qHr5w=;
- b=NRKyfBtwxtBzJafOzJgMXHxQBXXncQ6rOhhAbwPNcaCWQuoXXVvTunJMviqrttuXfh
- bSPyeJkOtnJCCL099/F+eop+lrfNGwOWsIR+4JHNvNIUn3eBPgzIRkRYFCiSEynTFhC8
- +QVEumioTfq4alwjoXKGa1aPZFolqw5InDIcgEcFrBThuKbMuDhPNFH5C5VHkD4B4RGT
- u3ZZdpASyyextm9Ds145+Cjx46Zg8ocF5aQkMXctvLBBQVpu+XG+2yUsIkNCKg6MvrUi
- fdsDEOAkhfKCLEO6AuXE27QNKqQOf9ucPBMzuY85bMgwd+H3dx13+KBb7InDYTHFfczV
- d3/A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXYejqYNoR3Vl6z7datuv0Sj+f9TmmsRxjDv5bq/T1qB49JscKPwWGNrVhH8hLQ3+MrUoNZRHg3tYA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxyMkU2jBqS76ByuACHO0bH4wEMo1Wm5pFVtDJfFbHV+I7rafNv
- 5Mxq6062Xo3fHd013ScrmNe4v13GoGHN3z1xG2hxj8f/+TW7D2x+omnXMzCxcnW0EsaLms0rp+C
- NXKYXO6bl1aTPlK/TG30uOSjp4//QeH6/mjnE
-X-Gm-Gg: ASbGncvshTkKNmrvVcnJayU2js7DRce1TCihQ4u4T89UoqXZpHkQ1sBHqSBaF5TjSqA
- 8D/pKKsTyFLXcfH8YTCgrCkkHz2Ophky7+WURjgXjTuSj43NSEyUASok/in46qQnnjS/qoJ1vHJ
- oCnbKPwPDsr9CFXpncD2nLY7r5HH3JZREf35j/z85Bjzh6nMnpdmmE
-X-Google-Smtp-Source: AGHT+IGMZDQXr98ZNR/OTYIob8ILLj+AqDEEsuZ8JN3W+IxwuRQKfzlFXjpxIo8J+CbSTybZ0f55Aqhe9qvbkLunHuc=
-X-Received: by 2002:a17:903:1110:b0:223:517a:d2a3 with SMTP id
- d9443c01a7336-2296c65f3b4mr20133075ad.17.1743586978295; Wed, 02 Apr 2025
- 02:42:58 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03CD010E73C
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 09:45:23 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4BC901F38E;
+ Wed,  2 Apr 2025 09:45:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743587122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3wqHq0y0vfW+gtDYZnbbzr+c6KEpRcpGnljd2nWTC2M=;
+ b=W51jKUW3nu33LTOMeOXys/gup5jZsLcx43h9IHwfne9BjL8mk3uhvk80guC9qeBLSn+wWD
+ WP7IZtqO4C3brUZxRntP3Ms0WI0nFziRpEXRLdtds7w4uoHeJU+j0EbaSJRoFgLlQdCW1q
+ k6ODRNCu0POFYt7fvg5A7UISznS0snQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743587122;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3wqHq0y0vfW+gtDYZnbbzr+c6KEpRcpGnljd2nWTC2M=;
+ b=sMGqo046EcB2rA2P+soZVXMpfim+u0eauPkUOe5Uy1YIbJBnqJTv1uf8e3v1xOvkDi+NPE
+ BtIpNWpicSH26UBg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=W51jKUW3;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sMGqo046
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1743587122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3wqHq0y0vfW+gtDYZnbbzr+c6KEpRcpGnljd2nWTC2M=;
+ b=W51jKUW3nu33LTOMeOXys/gup5jZsLcx43h9IHwfne9BjL8mk3uhvk80guC9qeBLSn+wWD
+ WP7IZtqO4C3brUZxRntP3Ms0WI0nFziRpEXRLdtds7w4uoHeJU+j0EbaSJRoFgLlQdCW1q
+ k6ODRNCu0POFYt7fvg5A7UISznS0snQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1743587122;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3wqHq0y0vfW+gtDYZnbbzr+c6KEpRcpGnljd2nWTC2M=;
+ b=sMGqo046EcB2rA2P+soZVXMpfim+u0eauPkUOe5Uy1YIbJBnqJTv1uf8e3v1xOvkDi+NPE
+ BtIpNWpicSH26UBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 048B113A4B;
+ Wed,  2 Apr 2025 09:45:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Mx+fOjEH7WdYSgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 02 Apr 2025 09:45:21 +0000
+Message-ID: <dae5089d-e214-4518-b927-5c4149babad8@suse.de>
+Date: Wed, 2 Apr 2025 11:45:21 +0200
 MIME-Version: 1.0
-References: <20250402083628.20111-1-angelogioacchino.delregno@collabora.com>
- <20250402083628.20111-6-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250402083628.20111-6-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 2 Apr 2025 17:42:45 +0800
-X-Gm-Features: AQ5f1JpfpbwiH6bCyV4YV_ME0bLhkIPk06VpTzeijPYQFz6wYmEpVSh-GkNPq_Y
-Message-ID: <CAGXv+5EnGbYTPh9vrrcn0T1oskCY=AHDJsd1rfGw4MiPoUAAxQ@mail.gmail.com>
-Subject: Re: [PATCH v1 5/5] drm/mediatek: mtk_disp_rdma: Enable/disable
- interrupt on bind/unbind
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, matthias.bgg@gmail.com, nancy.lin@mediatek.com, 
- ck.hu@mediatek.com, djkurtz@chromium.org, littlecvr@chromium.org, 
- bibby.hsieh@mediatek.com, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC drm-next 0/1] Add support for drm_panic
+To: Ryosuke Yasuoka <ryasuoka@redhat.com>, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ drawat.floss@gmail.com, jfalempe@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org
+References: <20250402084351.1545536-1-ryasuoka@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250402084351.1545536-1-ryasuoka@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 4BC901F38E
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ TO_DN_SOME(0.00)[]; ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ MID_RHS_MATCH_FROM(0.00)[]; TAGGED_RCPT(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[10]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,128 +153,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 2, 2025 at 4:36=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> The RDMA driver is installing an ISR in the probe function but, if
-> the component is not bound yet, the interrupt handler may call the
-> vblank_cb ahead of time (while probing other drivers) or too late
-> (while removing other drivers), possibly accessing memory that it
-> should not try to access by reusing stale pointers.
->
-> In order to fix this, like done in the OVL driver, add a new `irq`
-> member to struct mtk_disp_ovl and then set the NOAUTOEN flag to
-> the irq before installing the ISR to manually disable and clear
-> the hwirqs with register writes, and enable_irq() and disable_irq()
-> in the bind and unbind callbacks respectively.
->
-> Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT817=
-3.")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 35 ++++++++++++++----------
->  1 file changed, 21 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/m=
-ediatek/mtk_disp_rdma.c
-> index bf47790e4d6b..8c5021365a04 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> @@ -81,6 +81,7 @@ struct mtk_disp_rdma_data {
->  struct mtk_disp_rdma {
->         struct clk                      *clk;
->         void __iomem                    *regs;
-> +       int                             irq;
->         struct cmdq_client_reg          cmdq_reg;
->         const struct mtk_disp_rdma_data *data;
->         void                            (*vblank_cb)(void *data);
-> @@ -295,13 +296,23 @@ void mtk_rdma_layer_config(struct device *dev, unsi=
-gned int idx,
->  static int mtk_disp_rdma_bind(struct device *dev, struct device *master,
->                               void *data)
->  {
-> -       return 0;
-> +       struct mtk_disp_rdma *priv =3D dev_get_drvdata(dev);
-> +
-> +       /* Disable and clear pending interrupts */
-> +       writel(0x0, priv->regs + DISP_REG_RDMA_INT_ENABLE);
-> +       writel(0x0, priv->regs + DISP_REG_RDMA_INT_STATUS);
->
-> +       enable_irq(priv->irq);
-> +
-> +       return 0;
->  }
->
->  static void mtk_disp_rdma_unbind(struct device *dev, struct device *mast=
-er,
->                                  void *data)
->  {
-> +       struct mtk_disp_rdma *priv =3D dev_get_drvdata(dev);
-> +
-> +       disable_irq(priv->irq);
->  }
->
->  static const struct component_ops mtk_disp_rdma_component_ops =3D {
-> @@ -314,16 +325,15 @@ static int mtk_disp_rdma_probe(struct platform_devi=
-ce *pdev)
->         struct device *dev =3D &pdev->dev;
->         struct mtk_disp_rdma *priv;
->         struct resource *res;
-> -       int irq;
->         int ret;
->
->         priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->         if (!priv)
->                 return -ENOMEM;
->
-> -       irq =3D platform_get_irq(pdev, 0);
-> -       if (irq < 0)
-> -               return irq;
-> +       priv->irq =3D platform_get_irq(pdev, 0);
-> +       if (priv->irq < 0)
-> +               return priv->irq;
->
->         priv->clk =3D devm_clk_get(dev, NULL);
->         if (IS_ERR(priv->clk))
-> @@ -347,21 +357,18 @@ static int mtk_disp_rdma_probe(struct platform_devi=
-ce *pdev)
->         if (ret && (ret !=3D -EINVAL))
->                 return dev_err_probe(dev, ret, "Failed to get rdma fifo s=
-ize\n");
->
-> -       /* Disable and clear pending interrupts */
-> -       writel(0x0, priv->regs + DISP_REG_RDMA_INT_ENABLE);
-> -       writel(0x0, priv->regs + DISP_REG_RDMA_INT_STATUS);
-> -
-> -       ret =3D devm_request_irq(dev, irq, mtk_disp_rdma_irq_handler,
-> -                              IRQF_TRIGGER_NONE, dev_name(dev), priv);
-> -       if (ret < 0)
-> -               return dev_err_probe(dev, ret, "Failed to request irq %d\=
-n", irq);
-> -
->         priv->data =3D of_device_get_match_data(dev);
->
->         platform_set_drvdata(pdev, priv);
->
->         pm_runtime_enable(dev);
->
-> +       irq_set_status_flags(priv->irq, IRQ_NOAUTOEN);
-> +       ret =3D devm_request_irq(dev, priv->irq, mtk_disp_rdma_irq_handle=
-r,
-> +                              IRQF_TRIGGER_NONE, dev_name(dev), priv);
+Hi
 
-Same comment as OVL driver change.
-
-ChenYu
-
-> +       if (ret < 0)
-> +               return dev_err_probe(dev, ret, "Failed to request irq %d\=
-n", priv->irq);
-> +
->         ret =3D component_add(dev, &mtk_disp_rdma_component_ops);
->         if (ret) {
->                 pm_runtime_disable(dev);
-> --
-> 2.48.1
+Am 02.04.25 um 10:43 schrieb Ryosuke Yasuoka:
+> This patch adds drm_panic support for hyperv-drm driver. This function
+> works but it's still needed to brush up. Let me hear your opinions.
 >
+> Once kernel panic occurs we expect to see a panic screen. However, to
+> see the screen, I need to close/re-open the graphic console client
+> window. As the panic screen shows correctly in the small preview
+> window in Hyper-V manager and debugfs API for drm_panic works correctly,
+> I think kernel needs to send signal to Hyper-V host that the console
+> client refreshes, but I have no idea what kind of signal is needed.
+>
+> This patch is tested on Hyper-V 2022.
+>
+> Ryosuke Yasuoka (1):
+>    drm/hyperv: Add support for drm_panic
+>
+>   drivers/gpu/drm/drm_simple_kms_helper.c     | 26 +++++++++++++
+>   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 42 +++++++++++++++++++++
+>   include/drm/drm_simple_kms_helper.h         | 22 +++++++++++
+
+No changes to simple_kms_helper please. This is obsolete and should go 
+away. Just put everything into hyperv_drm.
+
+Best regards
+Thomas
+
+>   3 files changed, 90 insertions(+)
+>
+>
+> base-commit: cf05922d63e2ae6a9b1b52ff5236a44c3b29f78c
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
