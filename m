@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3948DA7930D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D07A7930E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6313D10E848;
-	Wed,  2 Apr 2025 16:27:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 392D910E846;
+	Wed,  2 Apr 2025 16:27:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BeQ4Yq+y";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PC32HOpp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2096310E849
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:27:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4E9C10E849
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:27:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743611221;
+ s=mimecast20190719; t=1743611227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PF3326fVU7EkcW3hdKGVCgStfM4AKl0CPV6LOBOueVY=;
- b=BeQ4Yq+yuoW4UPC9XYGKN2fJb9aK4pJLNThCBwiTAgju8nyCp4/GykwSk28OVbzovGVxfX
- 3PfiAuykxh6cNrxYAdmwaCMWRTrC52In+bLrUnnFus98bVMm/kJY29nXKSdsjbAY20T90N
- +nXCSHHWJHgMr5k/2fKHH+pMrHwMUFE=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ bh=5lQ8TI8gl4MIGsUjiBcrpgYYt0M7hW5xnXkDy9c8nOw=;
+ b=PC32HOppvUaRIU8+YmLE9yxRVHUiyVV+Tp7Ef7BK8tn7zAak0XcWCn+emocr/IL5u3/lEs
+ DNbvriFE7pXe1b63BX6YHvOULn/CFkIUKmd51XQew42BL7Cz+Gx7llSORpp1N19CSez42T
+ 2EcSEWepR3s0+kKqWoc7QtB4XLyE6n4=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-685-o1h0161CNnO7F6tlJ6PPkA-1; Wed,
- 02 Apr 2025 12:26:58 -0400
-X-MC-Unique: o1h0161CNnO7F6tlJ6PPkA-1
-X-Mimecast-MFC-AGG-ID: o1h0161CNnO7F6tlJ6PPkA_1743611215
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-389-TH1pFjSMPPaqJuqU-lxkwA-1; Wed,
+ 02 Apr 2025 12:27:02 -0400
+X-MC-Unique: TH1pFjSMPPaqJuqU-lxkwA-1
+X-Mimecast-MFC-AGG-ID: TH1pFjSMPPaqJuqU-lxkwA_1743611220
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id B914B180034D; Wed,  2 Apr 2025 16:26:55 +0000 (UTC)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 2272F180882E; Wed,  2 Apr 2025 16:27:00 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id B241B195609D; Wed,  2 Apr 2025 16:26:51 +0000 (UTC)
+ id 0F70E195609D; Wed,  2 Apr 2025 16:26:55 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 02 Apr 2025 11:23:57 -0400
-Subject: [PATCH 19/30] panel/magnachip-d53e6ea8966: Use refcounted
- allocation in place of devm_kzalloc()
+Date: Wed, 02 Apr 2025 11:23:58 -0400
+Subject: [PATCH 20/30] panel/mantix-mlaf057we51: Use refcounted allocation
+ in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-b4-drm_panel_mass_convert_part2-v1-19-903b70999ea6@redhat.com>
+Message-Id: <20250402-b4-drm_panel_mass_convert_part2-v1-20-903b70999ea6@redhat.com>
 References: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
 In-Reply-To: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,11 +68,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743607440; l=1421;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743607440; l=1435;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=Dc8uKXlqTDknhwrvVeBmpqtls+s5KcMmvtGSnNVdukg=;
- b=5dtBANBxn6IdGQaEVw0WdHGM8TCjfStG01MD+kqCQI/IpGBIaSCdtgarS1pw/y80QsNEEnJ6U
- HggUToInNvjD40qSwWXSImkjBv3zDBK5LPMEakNPL8pkYKFQDVMWfft
+ bh=yDL1X2KRlQleOoI9y6keJaGM798Sa3CZHFZtCRX2hRE=;
+ b=UlEP6GntIrHDZn+PRY99gPD8R1muqGxGxXztpKE6QMJ4f6fgUGEO/lQPXMZN0BINBnawm5owg
+ Lcwg0JcdJXxCibgpWmsm8k4CjUOnYmdqb4Ja74RJJ06Zk72u3idODj4
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -96,38 +96,38 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c b/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-index 799c2161fc85b24e1fb236fd63b397bf66fc15c8..ee225286ce6df0ce48cf7a2c60d600332d02ed86 100644
---- a/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-+++ b/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-@@ -370,9 +370,11 @@ static int d53e6ea8966_probe(struct spi_device *spi)
- 		.node = NULL,
- 	};
+diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+index 4db852ffb0f619a398c04ba2358e503733db108f..55664f5d5aa5d4c45ad3974119a3da492db4bdad 100644
+--- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
++++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+@@ -234,9 +234,11 @@ static int mantix_probe(struct mipi_dsi_device *dsi)
+ 	struct mantix *ctx;
+ 	int ret;
  
--	db = devm_kzalloc(dev, sizeof(*db), GFP_KERNEL);
--	if (!db)
+-	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+-	if (!ctx)
 -		return -ENOMEM;
-+	db = devm_drm_panel_alloc(dev, struct ili9881c, panel,
-+				  &d53e6ea8966_panel_funcs,
-+				  DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(db))
-+		return PTR_ERR(db);
++	ctx = devm_drm_panel_alloc(dev, struct mantix, panel, &mantix_drm_funcs,
++				   DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
++
+ 	ctx->default_mode = of_device_get_match_data(dev);
  
- 	spi_set_drvdata(spi, db);
+ 	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+@@ -271,9 +273,6 @@ static int mantix_probe(struct mipi_dsi_device *dsi)
+ 	if (IS_ERR(ctx->vddi))
+ 		return dev_err_probe(dev, PTR_ERR(ctx->vddi), "Failed to request vddi regulator\n");
  
-@@ -425,9 +427,6 @@ static int d53e6ea8966_probe(struct spi_device *spi)
- 	db->dsi_dev->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
- 			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
- 
--	drm_panel_init(&db->panel, dev, &d53e6ea8966_panel_funcs,
+-	drm_panel_init(&ctx->panel, dev, &mantix_drm_funcs,
 -		       DRM_MODE_CONNECTOR_DSI);
 -
- 	if (db->panel_info->backlight_register) {
- 		ret = db->panel_info->backlight_register(db);
- 		if (ret < 0)
+ 	ret = drm_panel_of_backlight(&ctx->panel);
+ 	if (ret)
+ 		return ret;
 
 -- 
 2.48.1
