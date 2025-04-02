@@ -2,98 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F816A784C6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 00:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC140A78606
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 03:10:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE9110E688;
-	Tue,  1 Apr 2025 22:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B4C10E01F;
+	Wed,  2 Apr 2025 01:10:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N8gvtqE1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JtzPBZAm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 829A310E688
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Apr 2025 22:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743547098;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C5PJKLi2OplBGTGIMXpZ53IzIo/Tz04cZeR9oJzwXFw=;
- b=N8gvtqE1wMEPnueJ2vCyssvec/AA6vqRKz/t4GI5Xbdd5tWRJX/DG/sh01mOYL84YttIZJ
- zMezMg8HD+NQAv6HBARk/ImiNsEy35rUYjBph65uqfL/waJPGGVsaME9++TIh8+O8B4gbO
- ecmg7Kc8nvbzqsBbOqtVYCFwBtlzCMY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-490-vO_UYWoLOa63NxqhuWrcpA-1; Tue, 01 Apr 2025 18:38:17 -0400
-X-MC-Unique: vO_UYWoLOa63NxqhuWrcpA-1
-X-Mimecast-MFC-AGG-ID: vO_UYWoLOa63NxqhuWrcpA_1743547096
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-43cf3168b87so33909045e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Apr 2025 15:38:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743547096; x=1744151896;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C5PJKLi2OplBGTGIMXpZ53IzIo/Tz04cZeR9oJzwXFw=;
- b=XiTageMQyVCwaqZVWW1zc5AtyBQHsmxjMyFlzTwSQJqRsyZPs1I1OhZy9YNGJKROTi
- msW7S26mxanpTIfxTr7cOT5nl4D3TGt5G7xKWjeSSH8oK4yH+7jeHRSNPjVYJ4JcJVhN
- 8Uk1TF29GoFqAGbOci06eaDLxMd5NhU8yxZIJHnyP8cKi8kGzYU1Z6CQbYUK2AfrUvFF
- /znC4lFPD0YgksSfp0ikV88JESFV12r9KUMSYAQQXA/0wi7Hf8VowVXb04xyqG8YBX1v
- g483yPOLaymmZiEHkpKsrXtp7dZDHMxTaP8Sd+H38TvmbBckrFhs2ZmxZzKlfb67TDqB
- Bgcw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXLpjKdkaM2/Tz+wrmRgXvjvB5w4m5vaD7RL+xtePLK6M9d5GnfraN1HwTW+IerzKp9+JDZeN3ij24=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzbmTLL/DKf1ZuOIvDPGg0nE+BP2nDcCCx8beTBkC7baSgHJV/w
- 4RtibgoMPTV5JSlQVzzBqAkqJLBC37JALQSmArzATukvPRZ/pLAWOQb399oAaF4f4Ouj7SrR3fU
- 1dgPk33VAYcBFRCQHTfj0wUv1ByfbEg1TmH5fFIZuOxPPv5dArEcMMVLUh38jkEurEQ==
-X-Gm-Gg: ASbGncuR+FhBZ0Gpa25ZUdowubuq2tMpG4J73Qi9XL0deycntecneVBs4GB05yshNx4
- EBw8GeW+/4hNcMa7YegFrUannvWufxVMKMzZgXlIzOyys3pXe6IJ2g5QVvKNSSk0GC1Tnzj9A4F
- YWc8wEyCU1/qBQxpPpcf/bla1j3R1MjsHZKr18sTfN1bthVv8deJpGwDn23GkFZ6fUvPBF9uFqd
- nUdvwjeb02OIF3XUbUxxJHJ6K7RlSBVAx2YCVbwn9SNoJ62TZTI5erTvix7kQWFRKYK7R6IAgXF
- JqjVUGbAQTdfQLVHpaOnfnA4z0qHdNkIBuCbAdJQI0GguBfyjunLNxs=
-X-Received: by 2002:a05:600c:4e52:b0:43b:ca39:6c75 with SMTP id
- 5b1f17b1804b1-43ead8c33d6mr29300725e9.16.1743547096017; 
- Tue, 01 Apr 2025 15:38:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF+A9B3Z3i0+ExREjsKk6CLKNAI1PotfynRKX0NjYjl47QvaVyla0up+c3eNFCiXusT9Z7c5g==
-X-Received: by 2002:a05:600c:4e52:b0:43b:ca39:6c75 with SMTP id
- 5b1f17b1804b1-43ead8c33d6mr29300575e9.16.1743547095592; 
- Tue, 01 Apr 2025 15:38:15 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39c0b7a4294sm14934785f8f.89.2025.04.01.15.38.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Apr 2025 15:38:14 -0700 (PDT)
-Message-ID: <4256338c-e547-4ec5-a72e-262d58f2a818@redhat.com>
-Date: Wed, 2 Apr 2025 00:38:13 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A5710E01F
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 01:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743556252; x=1775092252;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yobEfPdvLGT2LuLPEMUSZ7qNptH3/YvNa+vijI6VvWg=;
+ b=JtzPBZAmih21f5aQY0obbU1v+jhst3Xuu5XVobs4R3LfAtLhmUeJAdtq
+ p9/PgiGfGL9HnFfDCkebfic3XAwFHqZEHP3zIL7NZ6gFyyW96XJZrTZ4R
+ OkAgbWKQEhoNR8y4p4jz+65OdLKf4QQan/u3wBK5/uKDdnbWdbZHjNeLC
+ 7wTqHj6EpseQdttuEiy12SDrUBnHZ7k4DhtG/vFTvfTls16F5tlxqP7mf
+ jLDcBgdMxXRIbgo5gLql3F2V6cG3LvtBRXxmeKrdyO7obWie6fRwk6f2N
+ xIlCTxfvAMAeApwbXIM2rlwaS+rklcNMxbzLYfj0j2QBmrmhjdwTDGrF7 g==;
+X-CSE-ConnectionGUID: Gq3rTVweQvKTtRc+eC5zlA==
+X-CSE-MsgGUID: Si05MRdtSz+Vj+FqjCNLSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="56271536"
+X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; d="scan'208";a="56271536"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2025 18:10:51 -0700
+X-CSE-ConnectionGUID: MBtw/jbzRxWBvg5RTDgsHg==
+X-CSE-MsgGUID: xpPVMDo7TAKv4nHyVE1fgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; d="scan'208";a="130657242"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+ by fmviesa003.fm.intel.com with ESMTP; 01 Apr 2025 18:10:49 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tzmcw-000AJe-20;
+ Wed, 02 Apr 2025 01:10:46 +0000
+Date: Wed, 2 Apr 2025 09:09:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexandru Dadu <alexandru.dadu@imgtec.com>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Alexandru Dadu <alexandru.dadu@imgtec.com>
+Subject: Re: [PATCH] drm/imagination: loop counters moved to loop scope
+Message-ID: <202504020813.vjg3Thjg-lkp@intel.com>
+References: <20250401-for-loop-counter-scope-v1-1-5ba75770be52@imgtec.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/8] drm/i915/gem: Add i915_gem_object_panic_map()
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250401125818.333033-1-jfalempe@redhat.com>
- <20250401125818.333033-5-jfalempe@redhat.com> <Z-wmxijRKQiZFyup@intel.com>
- <Z-wo9W5SnvVQDEDt@intel.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <Z-wo9W5SnvVQDEDt@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JvMrbNuL_-hEma0w-5ps7lPdZii-WVFjpie1lnFtN-A_1743547096
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250401-for-loop-counter-scope-v1-1-5ba75770be52@imgtec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,158 +75,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/04/2025 19:57, Ville Syrjälä wrote:
-> On Tue, Apr 01, 2025 at 08:47:50PM +0300, Ville Syrjälä wrote:
->> On Tue, Apr 01, 2025 at 02:51:10PM +0200, Jocelyn Falempe wrote:
->>> Prepare the work for drm_panic support. This is used to map the
->>> current framebuffer, so the CPU can overwrite it with the panic
->>> message.
->>>
->>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>> ---
->>>
->>> v5:
->>>   * Use iosys_map for intel_bo_panic_map().
->>>
->>>   drivers/gpu/drm/i915/display/intel_bo.c    |  5 ++++
->>>   drivers/gpu/drm/i915/display/intel_bo.h    |  1 +
->>>   drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 ++
->>>   drivers/gpu/drm/i915/gem/i915_gem_pages.c  | 29 ++++++++++++++++++++++
->>>   drivers/gpu/drm/xe/display/intel_bo.c      | 10 ++++++++
->>>   5 files changed, 47 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/i915/display/intel_bo.c b/drivers/gpu/drm/i915/display/intel_bo.c
->>> index fbd16d7b58d9..ac904e9ec7d5 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_bo.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_bo.c
->>> @@ -57,3 +57,8 @@ void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj)
->>>   {
->>>   	i915_debugfs_describe_obj(m, to_intel_bo(obj));
->>>   }
->>> +
->>> +void intel_bo_panic_map(struct drm_gem_object *obj, struct iosys_map *map)
->>> +{
->>> +	i915_gem_object_panic_map(to_intel_bo(obj), map);
->>> +}
->>> diff --git a/drivers/gpu/drm/i915/display/intel_bo.h b/drivers/gpu/drm/i915/display/intel_bo.h
->>> index ea7a2253aaa5..5b6c63d99786 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_bo.h
->>> +++ b/drivers/gpu/drm/i915/display/intel_bo.h
->>> @@ -23,5 +23,6 @@ struct intel_frontbuffer *intel_bo_set_frontbuffer(struct drm_gem_object *obj,
->>>   						   struct intel_frontbuffer *front);
->>>   
->>>   void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj);
->>> +void intel_bo_panic_map(struct drm_gem_object *obj, struct iosys_map *map);
->>>   
->>>   #endif /* __INTEL_BO__ */
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>> index a5f34542135c..b16092707ea5 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>> @@ -692,6 +692,8 @@ i915_gem_object_unpin_pages(struct drm_i915_gem_object *obj)
->>>   int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj);
->>>   int i915_gem_object_truncate(struct drm_i915_gem_object *obj);
->>>   
->>> +void i915_gem_object_panic_map(struct drm_i915_gem_object *obj, struct iosys_map *map);
->>> +
->>>   /**
->>>    * i915_gem_object_pin_map - return a contiguous mapping of the entire object
->>>    * @obj: the object to map into kernel address space
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>> index 8780aa243105..718bea6474d7 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>> @@ -355,6 +355,35 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
->>>   	return vaddr ?: ERR_PTR(-ENOMEM);
->>>   }
->>>   
->>> +/* Map the current framebuffer for CPU access. Called from panic handler, so no
->>> + * need to pin or cleanup.
->>> + */
->>> +void i915_gem_object_panic_map(struct drm_i915_gem_object *obj, struct iosys_map *map)
->>> +{
->>> +	enum i915_map_type has_type;
->>> +	void *ptr;
->>> +
->>> +	ptr = page_unpack_bits(obj->mm.mapping, &has_type);
->>> +
->>> +
->>> +	if (!ptr) {
->>> +		if (i915_gem_object_has_struct_page(obj))
->>> +			ptr = i915_gem_object_map_page(obj, I915_MAP_WB);
->>> +		else
->>> +			ptr = i915_gem_object_map_pfn(obj, I915_MAP_WB);
->>
->> WB mapping would require clflushing to make it to the display.
->> Is that being done somewhere?
-> 
-> This also seems to have a bunch of race conditions:
-> - what happens if the oops happens before the pages have
->    even been swapped in?
-> - what happens if the oops happens before we've committed
->    the fb to the hardware?
-> 
+Hi Alexandru,
 
-The panic handler tries to take the panic_lock from the 
-device->mode_config, which should ensure we're not in the middle of a 
-page swap.
+kernel test robot noticed the following build warnings:
 
-https://elixir.bootlin.com/linux/v6.14-rc6/source/include/drm/drm_panic.h#L70
+[auto build test WARNING on 2f9d51740cc30e0d2c8a23a55b1e20cf2513c250]
 
-https://elixir.bootlin.com/linux/v6.14-rc6/source/include/drm/drm_mode_config.h#L500
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandru-Dadu/drm-imagination-loop-counters-moved-to-loop-scope/20250401-204252
+base:   2f9d51740cc30e0d2c8a23a55b1e20cf2513c250
+patch link:    https://lore.kernel.org/r/20250401-for-loop-counter-scope-v1-1-5ba75770be52%40imgtec.com
+patch subject: [PATCH] drm/imagination: loop counters moved to loop scope
+config: arm64-randconfig-002-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020813.vjg3Thjg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504020813.vjg3Thjg-lkp@intel.com/reproduce)
 
-If the lock is already taken when the panic handler run, it will skip 
-this device, and won't draw the panic screen on it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504020813.vjg3Thjg-lkp@intel.com/
 
-Best regards,
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/imagination/pvr_fw.c: In function 'pvr_fw_validate':
+>> drivers/gpu/drm/imagination/pvr_fw.c:98:6: warning: unused variable 'entry' [-Wunused-variable]
+     u32 entry;
+         ^~~~~
+
+
+vim +/entry +98 drivers/gpu/drm/imagination/pvr_fw.c
+
+cc1aeedb98ad34 Sarah Walker   2023-11-22   79  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   80  /**
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   81   * pvr_fw_validate() - Parse firmware header and check compatibility
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   82   * @pvr_dev: Device pointer.
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   83   *
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   84   * Returns:
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   85   *  * 0 on success, or
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   86   *  * -EINVAL if firmware is incompatible.
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   87   */
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   88  static int
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   89  pvr_fw_validate(struct pvr_device *pvr_dev)
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   90  {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   91  	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   92  	const struct firmware *firmware = pvr_dev->fw_dev.firmware;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   93  	const struct pvr_fw_layout_entry *layout_entries;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   94  	const struct pvr_fw_info_header *header;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   95  	const u8 *fw = firmware->data;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   96  	u32 fw_offset = firmware->size - SZ_4K;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   97  	u32 layout_table_size;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  @98  	u32 entry;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   99  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  100  	if (firmware->size < SZ_4K || (firmware->size % FW_BLOCK_SIZE))
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  101  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  102  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  103  	header = (const struct pvr_fw_info_header *)&fw[fw_offset];
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  104  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  105  	if (header->info_version != PVR_FW_INFO_VERSION) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  106  		drm_err(drm_dev, "Unsupported fw info version %u\n",
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  107  			header->info_version);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  108  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  109  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  110  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  111  	if (header->header_len != sizeof(struct pvr_fw_info_header) ||
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  112  	    header->layout_entry_size != sizeof(struct pvr_fw_layout_entry) ||
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  113  	    header->layout_entry_num > PVR_FW_INFO_MAX_NUM_ENTRIES) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  114  		drm_err(drm_dev, "FW info format mismatch\n");
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  115  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  116  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  117  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  118  	if (!(header->flags & PVR_FW_FLAGS_OPEN_SOURCE) ||
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  119  	    header->fw_version_major > FW_MAX_SUPPORTED_MAJOR_VERSION ||
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  120  	    header->fw_version_major == 0) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  121  		drm_err(drm_dev, "Unsupported FW version %u.%u (build: %u%s)\n",
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  122  			header->fw_version_major, header->fw_version_minor,
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  123  			header->fw_version_build,
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  124  			(header->flags & PVR_FW_FLAGS_OPEN_SOURCE) ? " OS" : "");
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  125  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  126  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  127  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  128  	if (pvr_gpu_id_to_packed_bvnc(&pvr_dev->gpu_id) != header->bvnc) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  129  		struct pvr_gpu_id fw_gpu_id;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  130  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  131  		packed_bvnc_to_pvr_gpu_id(header->bvnc, &fw_gpu_id);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  132  		drm_err(drm_dev, "FW built for incorrect GPU ID %i.%i.%i.%i (expected %i.%i.%i.%i)\n",
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  133  			fw_gpu_id.b, fw_gpu_id.v, fw_gpu_id.n, fw_gpu_id.c,
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  134  			pvr_dev->gpu_id.b, pvr_dev->gpu_id.v, pvr_dev->gpu_id.n, pvr_dev->gpu_id.c);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  135  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  136  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  137  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  138  	fw_offset += header->header_len;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  139  	layout_table_size =
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  140  		header->layout_entry_size * header->layout_entry_num;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  141  	if ((fw_offset + layout_table_size) > firmware->size)
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  142  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  143  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  144  	layout_entries = (const struct pvr_fw_layout_entry *)&fw[fw_offset];
+318bb30bc58c60 Alexandru Dadu 2025-04-01  145  	for (u32 entry = 0; entry < header->layout_entry_num; entry++) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  146  		u32 start_addr = layout_entries[entry].base_addr;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  147  		u32 end_addr = start_addr + layout_entries[entry].alloc_size;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  148  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  149  		if (start_addr >= end_addr)
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  150  			return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  151  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  152  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  153  	fw_offset = (firmware->size - SZ_4K) - header->device_info_size;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  154  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  155  	drm_info(drm_dev, "FW version v%u.%u (build %u OS)\n", header->fw_version_major,
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  156  		 header->fw_version_minor, header->fw_version_build);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  157  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  158  	pvr_dev->fw_version.major = header->fw_version_major;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  159  	pvr_dev->fw_version.minor = header->fw_version_minor;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  160  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  161  	pvr_dev->fw_dev.header = header;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  162  	pvr_dev->fw_dev.layout_entries = layout_entries;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  163  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  164  	return 0;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  165  }
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  166  
 
 -- 
-
-Jocelyn
-
->>
->>> +
->>> +		if (IS_ERR(ptr))
->>> +			return;
->>
->> What happens when the mapping fails?
->>
->>> +
->>> +		obj->mm.mapping = page_pack_bits(ptr, I915_MAP_WB);
->>> +	}
->>> +
->>> +	if (i915_gem_object_has_iomem(obj))
->>> +		iosys_map_set_vaddr_iomem(map, (void __iomem *) ptr);
->>> +	else
->>> +		iosys_map_set_vaddr(map, ptr);
->>> +}
->>> +
->>>   /* get, pin, and map the pages of the object into kernel space */
->>>   void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
->>>   			      enum i915_map_type type)
->>> diff --git a/drivers/gpu/drm/xe/display/intel_bo.c b/drivers/gpu/drm/xe/display/intel_bo.c
->>> index 27437c22bd70..c68166a64336 100644
->>> --- a/drivers/gpu/drm/xe/display/intel_bo.c
->>> +++ b/drivers/gpu/drm/xe/display/intel_bo.c
->>> @@ -59,3 +59,13 @@ void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj)
->>>   {
->>>   	/* FIXME */
->>>   }
->>> +
->>> +void intel_bo_panic_map(struct drm_gem_object *obj, struct iosys_map *map)
->>> +{
->>> +	struct xe_bo *bo = gem_to_xe_bo(obj);
->>> +	int ret;
->>> +
->>> +	ret = ttm_bo_vmap(&bo->ttm, map);
->>> +	if (ret)
->>> +		iosys_map_clear(map);
->>> +}
->>> -- 
->>> 2.49.0
->>
->> -- 
->> Ville Syrjälä
->> Intel
-> 
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
