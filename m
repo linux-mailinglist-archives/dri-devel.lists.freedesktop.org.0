@@ -2,72 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7972A78F90
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2B5A78F99
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E90D10E79F;
-	Wed,  2 Apr 2025 13:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47E3E10E7A5;
+	Wed,  2 Apr 2025 13:21:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MvW7eJbG";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Y5MAYP2/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
- [209.85.167.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A077910E79F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:16:22 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id
- 5614622812f47-3fb3f4bf97aso2068251b6e.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 06:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743599782; x=1744204582; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q6gpLUKQtk5zxPVjHDvDvSHDg4kW29T6hnEgCIVVHTg=;
- b=MvW7eJbG92FB8RkT8Ks1At50vqa+Y/InjPLrLmshM9rbNmHsLi6FsR7Diectuzjf50
- d0x1wwKWLlkBwqj7SV1fZBG0iqYsTBUqs7OTOF+ctQKkOWJu3FYLFUchjObYNXw8Dnpw
- Lr0x2mTXBaB0LYWRJwDEzWB3zEuWn4Hnjuk2SZE8tSolHYTSfD+3TI1DUmRvke8ueDFl
- pry+zLzIyJO9M0aaEZMEiV6TaMoRjfCJbb5a26O2hr55qJYyXtuOo228x9LXR+lO301N
- tSmXrXmTL5R2pGgyH/f9exXTSGODNj4d8ZpcDTHDjEjSWKg9OpzpMD7lirTAMRbP8BYE
- VPfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743599782; x=1744204582;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Q6gpLUKQtk5zxPVjHDvDvSHDg4kW29T6hnEgCIVVHTg=;
- b=e/X2X8inSojAkpIzZPGQi1tYOJI2kekBYB7Mcoj5FfYvGaf+5upxFM0934fLSHP0bM
- KczltWod8P+tahBVc1l6HdSvDlkV6yqp9HAxRVFYYjX1glUKnGP5Hu6teARM/2ZEhwxg
- 7IG/UGyiDwAHCgEU3YYXyQT2wJGDLaUregS43GMYanjkRSA+bOpxTHeudcMBdAD6jngm
- qZGUkSg+JiZ7jARO6qJ6BGhfHSa1v8L6jJud+WiK3q+xFf5O3IxoZ4SGhbdW36p/Es6d
- BMGfxlEUAfxCbB1kZf7/bfT4IEE4OwAK0oAwBfA0/8E57K9D7WwQQsZ3buPG1dJ7J3IM
- a8og==
-X-Forwarded-Encrypted: i=1;
- AJvYcCURdGQsn2loicUD4vL7A39UnayNUEZ07Ned0TzBva1+OBXkkNoO3G9/5QUxGc3b/3B344YDZOrJlFU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/G8kxqWDMEFRuNBh6kv/Ysm8ZehCIaRcYCe4h/rFkG/3WM/9D
- Fu5xjlIQ0QL6fjAnQOwu4hmVZ9kPj+xLb85bRcLJBC1q9xBTSuDxVLgUpkIjLZAqBbvAPxv8E7x
- 12FUulq63UyA9RTS0/RbkRxFjCIw=
-X-Gm-Gg: ASbGncs+Cgov3cortKMLKhkpYpvH2FrJQicmXDWFCGveUEsxW1gjrfw/pLsjbnASdKB
- RPq9BDFseMB8UulpgMk4GqopcLPNEO6ktBJpg4Lv1Z/nDchw7cOkKe5nPHirMucyCBNc2p5ieL4
- hZiV55eli5lBsMwJM57HV/WdnC
-X-Google-Smtp-Source: AGHT+IGtK5+3EN3RP36Jr6WhTgroYh7bJ+nbc8HfGZjGf3GbDQOIMlpGyvgP8INPiwIm/LolK7X4vsx+srQCIhDUtoE=
-X-Received: by 2002:a05:6808:150c:b0:3fe:aecb:7110 with SMTP id
- 5614622812f47-4003633f6dcmr1245029b6e.37.1743599781839; Wed, 02 Apr 2025
- 06:16:21 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D4D610E7A5
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1743600067;
+ bh=9sr+NddIGa5PMOQr3Z2ERC47oRBn6mBFjzbWH7raRmg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Y5MAYP2/VcL4GfEFkLLMiPQvcSfTTplcdvGR06cRed6GVAatmHXSXaPyHEQfldaUG
+ J6wbt8c87zWbnCOshOR/C3xgRTtpxijmi05kLPxsTYgVKTR1tBFtWvQncGgnxb1ydQ
+ MxCa9KgI4EmIJurjPOfaWR+duYL96zMSSWGjYKhb2OpHk8B6454fiB8QXPqOukhVTD
+ /UQ7LaZkWD9KWOPi+IE/fs6A9AAypcuX9JdNU79WxK1mzPc163WYeBlRDhThnOozLg
+ gdjdu2hVYbRVd4gakxeToNbeszoK5JS82jaRwR4KNmYWtmMXdfRtx1UhRiltFFZOyB
+ bBsAVPdV41OFg==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 16F2917E0B0B;
+ Wed,  2 Apr 2025 15:21:07 +0200 (CEST)
+Date: Wed, 2 Apr 2025 15:21:02 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, Qiang Yu <yuq825@gmail.com>, Steven Price
+ <steven.price@arm.com>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
+ <matt.coster@imgtec.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v20 09/10] drm/shmem-helper: Switch
+ drm_gem_shmem_vmap/vunmap to use pin/unpin
+Message-ID: <20250402152102.01d9cfee@collabora.com>
+In-Reply-To: <710cdbd4-2c6e-48b7-b12b-972ab6d12abf@collabora.com>
+References: <20250322212608.40511-1-dmitry.osipenko@collabora.com>
+ <20250322212608.40511-10-dmitry.osipenko@collabora.com>
+ <ea4f4059-7748-4bfd-9205-8e95222144da@suse.de>
+ <710cdbd4-2c6e-48b7-b12b-972ab6d12abf@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20250401161929.283244-1-tzimmermann@suse.de>
- <20250401161929.283244-7-tzimmermann@suse.de>
-In-Reply-To: <20250401161929.283244-7-tzimmermann@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Wed, 2 Apr 2025 15:16:10 +0200
-X-Gm-Features: AQ5f1Jpqk4WlR9xN-ml5vlp9yqeR-HzxlQx35c_lW0viVHhj5xfZaxTrLnthwBg
-Message-ID: <CAMeQTsYcxHyFVn_BHUpxrfMsXZUX07Unm1rBmMYo6i1SMgj3VA@mail.gmail.com>
-Subject: Re: [PATCH 6/9] drm/udl: Return error if vendor descriptor is too
- short
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: airlied@redhat.com, sean@poorly.run, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,113 +71,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 1, 2025 at 6:23=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
->
-> There need to be least 5 bytes in the vendor descriptor. Return
-> an error otherwise. Also change the branching to early-out on
-> the error. Adjust indention of the rest of the parser function.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/udl/udl_main.c | 72 +++++++++++++++++-----------------
->  1 file changed, 36 insertions(+), 36 deletions(-)
->
-> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_mai=
-n.c
-> index 4291ddb7158c4..58d6065589d3a 100644
-> --- a/drivers/gpu/drm/udl/udl_main.c
-> +++ b/drivers/gpu/drm/udl/udl_main.c
-> @@ -45,43 +45,43 @@ static int udl_parse_vendor_descriptor(struct udl_dev=
-ice *udl)
->                 goto unrecognized;
->         len =3D ret;
->
-> -       if (len > 5) {
-> -               DRM_INFO("vendor descriptor length: %u data:%11ph\n",
-> -                        len, desc);
-> -
-> -               if ((desc[0] !=3D len) ||    /* descriptor length */
-> -                   (desc[1] !=3D 0x5f) ||   /* vendor descriptor type */
-> -                   (desc[2] !=3D 0x01) ||   /* version (2 bytes) */
-> -                   (desc[3] !=3D 0x00) ||
-> -                   (desc[4] !=3D len - 2))  /* length after type */
-> -                       goto unrecognized;
-> -
-> -               desc_end =3D desc + len;
-> -               desc +=3D 5; /* the fixed header we've already parsed */
-> -
-> -               while (desc < desc_end) {
-> -                       u8 length;
-> -                       u16 key;
-> -
-> -                       key =3D le16_to_cpu(*((u16 *) desc));
-> -                       desc +=3D sizeof(u16);
-> -                       length =3D *desc;
-> -                       desc++;
-> -
-> -                       switch (key) {
-> -                       case 0x0200: { /* max_area */
-> -                               u32 max_area;
-> -                               max_area =3D le32_to_cpu(*((u32 *)desc));
-> -                               DRM_DEBUG("DL chip limited to %d pixel mo=
-des\n",
-> -                                       max_area);
-> -                               udl->sku_pixel_limit =3D max_area;
-> -                               break;
-> -                       }
-> -                       default:
-> -                               break;
-> -                       }
-> -                       desc +=3D length;
-> +       if (len < 5)
+On Wed, 2 Apr 2025 15:58:55 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-Hi Thomas,
+> On 4/2/25 15:47, Thomas Zimmermann wrote:
+> > Hi
+> >=20
+> > Am 22.03.25 um 22:26 schrieb Dmitry Osipenko: =20
+> >> The vmapped pages shall be pinned in memory and previously get/
+> >> put_pages()
+> >> were implicitly hard-pinning/unpinning the pages. This will no longer =
+be
+> >> the case with addition of memory shrinker because pages_use_count > 0
+> >> won't
+> >> determine anymore whether pages are hard-pinned (they will be soft-
+> >> pinned),
+> >> while the new pages_pin_count will do the hard-pinning. Switch the
+> >> vmap/vunmap() to use pin/unpin() functions in a preparation of addition
+> >> of the memory shrinker support to drm-shmem. =20
+> >=20
+> > I've meanwhile rediscovered this patch and I'm sure this is not correct.
+> > Vmap should not pin AFAIK. It is possible to vmap if the buffer has been
+> > pinned, but that's not automatic.=C2=A0 For other vmaps it is necessary=
+ to
+> > hold the reservation lock to prevent the buffer from moving.
 
-Shouldn't this be if (len <=3D 5)? The old code only parsed if the
-descriptor returned at least 6 bytes.
+Hm, is this problematic though? If you want to vmap() inside a section
+that's protected by the resv lock, you can
 
--Patrik
+- drm_gem_shmem_vmap_locked()
+- do whatever you need to do with the vaddr,
+- drm_gem_shmem_vunmap_locked()
 
-> +               goto unrecognized;
-> +
-> +       DRM_INFO("vendor descriptor length: %u data:%11ph\n", len, desc);
-> +
-> +       if ((desc[0] !=3D len) ||    /* descriptor length */
-> +           (desc[1] !=3D 0x5f) ||   /* vendor descriptor type */
-> +           (desc[2] !=3D 0x01) ||   /* version (2 bytes) */
-> +           (desc[3] !=3D 0x00) ||
-> +           (desc[4] !=3D len - 2))  /* length after type */
-> +               goto unrecognized;
-> +
-> +       desc_end =3D desc + len;
-> +       desc +=3D 5; /* the fixed header we've already parsed */
-> +
-> +       while (desc < desc_end) {
-> +               u8 length;
-> +               u16 key;
-> +
-> +               key =3D le16_to_cpu(*((u16 *)desc));
-> +               desc +=3D sizeof(u16);
-> +               length =3D *desc;
-> +               desc++;
-> +
-> +               switch (key) {
-> +               case 0x0200: { /* max_area */
-> +                       u32 max_area =3D le32_to_cpu(*((u32 *)desc));
-> +
-> +                       DRM_DEBUG("DL chip limited to %d pixel modes\n",
-> +                                 max_area);
-> +                       udl->sku_pixel_limit =3D max_area;
-> +                       break;
-> +               }
-> +               default:
-> +                       break;
->                 }
-> +               desc +=3D length;
->         }
->
->         goto success;
-> --
-> 2.49.0
->
+and the {pin,page_use}_count will be back to their original values.
+Those are just ref counters, and I doubt the overhead of
+incrementing/decrementing them makes a difference compared to the heavy
+page-allocation/vmap operations...
