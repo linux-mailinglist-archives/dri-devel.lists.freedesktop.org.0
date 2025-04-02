@@ -2,132 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DC2A79551
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 20:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B2BA79593
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 21:04:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91F1D10E7F3;
-	Wed,  2 Apr 2025 18:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F171D10E11C;
+	Wed,  2 Apr 2025 19:04:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ajfxnJQ9";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VWKsLfo4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
- [209.85.128.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A46B10E7F3
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 18:45:17 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-6f7031ea11cso1616727b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 11:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743619516; x=1744224316; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=xrd9rhAP2VF8H2guxJAgaMmc1BAZwOh7QKhbshcNLJU=;
- b=ajfxnJQ9Mj0q+hEgLEjHHWA7cLo0FO3u3RB/Bf8ChagFCqsRwKmvT40P9BPRertJAv
- k+nIh+GbrZYx8moNUvGAmdvi2TKvf7bWTTmj/WGt62BjCtqDAQuPZelKFJZ/e/WWt1N+
- CMkajOujDrsP9eWTfY16sLIx7dhXSpS8NHeuLla9+Q7gCzp85Fj/m0/YA6b3WtXn92GF
- qcLRB9KHsvJ2AcYfYoPYmPd+qiHMhPJV9pbA96RnRDw83/3Vx5qfLIOGbMyRmudD+C22
- jViDzXiGIA00IGxASXfI1J/PN3MsYVdQ74JI69VLgPhIjqddF3Owb8QHcDadytY+J9LL
- huWw==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D428310E062
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 19:04:40 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 532ASksm000399
+ for <dri-devel@lists.freedesktop.org>; Wed, 2 Apr 2025 19:04:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ gWBJkjjCygBm9fx50is0sIfTFnXUE+TQIDtlji3JDMM=; b=VWKsLfo4MC6PKo8q
+ pz1Aw06MkdrWfhQSvrFnoRtooOhdVHe5D0uKDLMDDvcPd/Q934YVewQ4TO6YoIe4
+ Vv0Sd841lWIQo8ayg7kDvADRq4bOWCKeXabuQYFDxEMQcmvjiSq2BajVlDIwjEAO
+ p/0Fe4efK4RMD5fLAbOSAQXimMyBszuIeFNIj+qWaLMI7OzNTF88ZY11l7Zp7vZw
+ EaETPZ/ymAcwMHGmjeDggea3FpN4l3wHgEeC1zFawFIl2t6iG4uyfGJB3Lmfum96
+ kS91FpuBu0DVEAGfCzsMj84d4CGleOzIWYwHtI7/wdV7aFQd2Y8WQ5v5XDf3iOGZ
+ WJ5jiA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p67qms60-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 19:04:35 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7c5d608e6f5so23501885a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 12:04:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743619516; x=1744224316;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xrd9rhAP2VF8H2guxJAgaMmc1BAZwOh7QKhbshcNLJU=;
- b=UfpFfO2WFx+IpGrIE1AsC4ZUihk3TLqgtAEuszkrwd5kfSWbPaudloXgqhvYl9t09d
- jmecNQH32UPCLY3xaqIWeU+iZ5willj//gggsGUDBSUqcAhYmyrdqkiSbExDL57akVNp
- C0YrWULrW6G89WaLARGgp59S1r+rSirZ70MB7SFVMXsM8imnIH1j7ITbLRps9nMRQv2t
- 3lt6QqDL48cjjHHvxe9xowV1WZrRgmaUMgt0NVSrKefAmaFwJVTnHvjNsEEBPZFi5DKx
- N47FSdBDokvqxF9T6E9pjR00QMPHxswaTe6/A7pWkKK8NOsm8UXLMrx5dRTfC3K77z7V
- E35Q==
-X-Gm-Message-State: AOJu0Ywaw/IbgNMSolA1vfupoR1SfrenkgyfdpbJ9wxtJWQZrsqpXr1n
- WgSZsT6nFCFIOAQ12R8Hi9mGYA2mZ6nnchidVolNDtB4wV3+MdWo
-X-Gm-Gg: ASbGncunL1TVu2UwZ+S4z0kBjFpkofAydL7ORtofdVTuWYAYnXxpw8Xvq6Y7HbtXv0P
- qvxV8bui8LMGdt2nuYPELhjYv+VtU5B0IL0kx8JajqUcb/KAYuRhCTtuTY/m8MOLs2fONf2rg6g
- ymI0+BmFPjgmlIXzN8aJRWB6ghs5GrSisnFiuWMd3SuTXl78L1PPn9REBfLBJRGV5gIEdD1ceJg
- 7VcI2R7xQp6ah28GHqspGdeEbvGA/LvMtDC9euSd+3An88Pd4P/lPhUAya4IUV6O7VeHux8/q77
- YKCXAn1GtHpV1Wvr56i/oEtKw2qVXrat4BnAolH92YPJWxlWObI=
-X-Google-Smtp-Source: AGHT+IEWyT4pv5lWH9jwWo/gBD5TVxCNEn6VD+Sl5d8QNuM1ecZtig6lmPxe9flawrV2VOlo0o4YsA==
-X-Received: by 2002:a05:690c:6e09:b0:6fd:3d82:f900 with SMTP id
- 00721157ae682-70257275106mr266156487b3.20.1743619516065; 
- Wed, 02 Apr 2025 11:45:16 -0700 (PDT)
-Received: from [10.138.35.215] ([45.134.140.51])
+ d=1e100.net; s=20230601; t=1743620674; x=1744225474;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gWBJkjjCygBm9fx50is0sIfTFnXUE+TQIDtlji3JDMM=;
+ b=cgwbfqQikP5EU8qFHt8VaV6cnKmp7xXj1zbefPbNY/4xjxY7hiVykiV2v3G1lXK7OE
+ M9UZcpNrlkZyDk/7WFcYQqZRdLw2V04K6ROyC3W07hJCNJEZCqfD+t4J6IscACh+uZaM
+ 24lpwq2ihAzGRmOScRjIdOkNWXkwQeelbcVjoUQoQ0GKk1CE8TdpiQVevUmtG8FXjOt/
+ 07aFI3VIFzxIuvvCrhx2ZTmDQHgS46RCOF1D4jmAfQXcKchHwdIeHPRc2dKFN0wqcVeL
+ au2uDfQDYiYB/PetyM9MYt60fFgmcVSCl8B4BXpQInUG518BvVLwJ0xiDqF5gXlLVSFC
+ FR5A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUwprNOauShRSYwk6rJtYBHC/tNGNStrOJ57UQeuvRQgG8QHmOEgcez9Doqx2nOuv4rCCRfcZqosrE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyq+2GQEusN8zg+nnRQrqSziawQEDn99INKUFjynPPUXIsojSez
+ FjkTK7ZUWmk2kCWATx5JxkwaB5icOsQH45z40O/GEAiJkKRr3w9AoQCrEeOVVKYRFLdHX6Upit+
+ vmDbWoULywT/fqyfL7/bOvcSNO7xGycgu5yhqR/tkTOMWlAnuo/u1qeRx1HeDd7inbek=
+X-Gm-Gg: ASbGncsCoxvsEEG8m5/swoGrG630cjIdNHZxpLKazIR1bL4yQiM2xfC/JCTOtviX4RI
+ 3SKYvUogsLZplxO08RgnoztIP3x2tJXO2HIHjGZUFk1PuavfuYgX8GoFY0t2H6ltZviXoQwNw5l
+ rTXbWxEOrf8CswSbmkXS9maQNBEcrPNo7EL1AyWu2g+leX4DLlqtsmIMWc053PMes9bh1DOyOtj
+ NXMSx+5Bdex+SapVdkfsdyrXAuQErke3Ub7wIfhqPO4+mvIjUO8iTMWCFxqlkYmwVwABPq6rJyw
+ Q1HYdIwNiV4MP4sRy1UZlWMqpTaN+FyJIXyErSwzrvF0CQUFR8MjwRdRJpRdrYbUi3HQgNDFt1I
+ C1VU=
+X-Received: by 2002:a05:620a:2a0b:b0:7c5:a2f8:e6e4 with SMTP id
+ af79cd13be357-7c69072add2mr2438610685a.29.1743620674518; 
+ Wed, 02 Apr 2025 12:04:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBur0fWjo7yOQcPuAucUs2xiLxZrEWFnw5KrVRkA8NKQ4OAfYtC7kDB0iXCG6T1nj+zDzWKw==
+X-Received: by 2002:a05:620a:2a0b:b0:7c5:a2f8:e6e4 with SMTP id
+ af79cd13be357-7c69072add2mr2438607585a.29.1743620674066; 
+ Wed, 02 Apr 2025 12:04:34 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 00721157ae682-7023a3c3958sm34004787b3.50.2025.04.02.11.45.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Apr 2025 11:45:15 -0700 (PDT)
-Message-ID: <6fb21077-c254-49a7-97fd-64c87322ea43@gmail.com>
-Date: Wed, 2 Apr 2025 14:45:35 -0400
+ 2adb3069b0e04-54b0957f9b7sm1730436e87.139.2025.04.02.12.04.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Apr 2025 12:04:33 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: lumag@kernel.org, Andy Yan <andyshrk@163.com>
+Cc: mripard@kernel.org, neil.armstrong@linaro.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
+ thierry.reding@gmail.com, victor.liu@nxp.com, rfoss@kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20250318063452.4983-1-andyshrk@163.com>
+References: <20250318063452.4983-1-andyshrk@163.com>
+Subject: Re: [PATCH v2 1/5] drm/dp: Pull drm_dp_link_power_up/down from
+ Tegra to common drm_dp_helper
+Message-Id: <174362067146.2885153.4786307891834552899.b4-ty@oss.qualcomm.com>
+Date: Wed, 02 Apr 2025 22:04:31 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] drm/virtio: implement userptr: add interval tree
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- "Huang, Honglei1" <Honglei1.Huang@amd.com>, David Airlie
- <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Huang Rui <ray.huang@amd.com>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250321080029.1715078-1-honglei1.huang@amd.com>
- <20250321080029.1715078-8-honglei1.huang@amd.com>
- <810789ec-c034-4bdd-961a-f49c67336e45@collabora.com>
- <6e796751-86f3-42e5-b0a6-3a3602d3af13@amd.com>
- <975582a3-313b-4989-aac2-c3b309ba55b6@collabora.com>
-Content-Language: en-US
-From: Demi Marie Obenour <demiobenour@gmail.com>
-Autocrypt: addr=demiobenour@gmail.com; keydata=
- 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
- +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <975582a3-313b-4989-aac2-c3b309ba55b6@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
+X-Authority-Analysis: v=2.4 cv=fMI53Yae c=1 sm=1 tr=0 ts=67ed8a43 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=XR8D0OoHHMoA:10 a=3lv0NsTm8rjeSSnkhIQA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: qX38mMPYNvBDc8k2m-sUqbW6MrYZboK9
+X-Proofpoint-GUID: qX38mMPYNvBDc8k2m-sUqbW6MrYZboK9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-02_09,2025-04-02_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 spamscore=0 impostorscore=0 clxscore=1015
+ mlxlogscore=995 bulkscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504020122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,34 +122,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/2/25 8:34 AM, Dmitry Osipenko wrote:
-> On 4/2/25 04:53, Huang, Honglei1 wrote:
->>
->> On 2025/3/30 19:57, Dmitry Osipenko wrote:
->>> If the purpose of this feature is to dedup usrptr BOs of a the single
->>> process/application, can this can be done in userspace? 
+On Tue, 18 Mar 2025 14:34:35 +0800, Andy Yan wrote:
+> The helper functions drm_dp_link_power_up/down were moved to Tegra
+> DRM in commit 9a42c7c647a9 ("drm/tegra: Move drm_dp_link helpers to Tegra DRM")".
 > 
-> I assume it can be done in userspace, don't see why it needs to be in
-> kernel.
+> Now since more and more users are duplicating the same code in their
+> own drivers, it's time to make them as DRM DP common helpers again.
+> 
+> 
+> [...]
 
-The kernel definitely does not need to be responsible for deduplication,
-but is it safe to allow userspace to create overlapping BOs, especially
-ones that are partially but not entirely overlapping?  If the userspace
-libraries ~everyone will be using refuse to create such BOs, then
-overlapping BOs will be tested by ~nobody, and untested kernel code is
-a good place for security vulnerabilities to linger.
+Applied to drm-misc-next, thanks!
 
-If there are no legitimate use-cases for overlapping BOs, I would treat
-attempts to create them as an errors and return -EINVAL, indicating that
-the userspace code attempting to create them is buggy.  Userspace can
-deduplicate the BOs itself if necessary.  Of course, there need to be
-tests for userspace attempting to create overlapping BOs, including
-attempting to do so concurrently from multiple threads.
+[1/5] drm/dp: Pull drm_dp_link_power_up/down from Tegra to common drm_dp_helper
+      commit: 09cdda7a60f45784cebddf1fa2109d6279f9890b
+[2/5] drm/bridge: cdns-mhdp8546: Switch to common helpers to power up/down dp link
+      commit: 23ee8c6b34fdfed970e2fae2b2ac5635303d77b8
+[3/5] drm/bridge: anx6345: Switch to common helpers to power up/down dp link
+      commit: 4adde49ba497ebd376a164c517152670e4f8eedd
+[4/5] drm/bridge: anx78xx: Switch to common helpers to power up/down dp link
+      commit: 39f14a01994b5102bdc4632a339a59a03a2f89f3
+[5/5] drm/bridge: it6505: Switch to common helpers to power up/down dp link
+      commit: f09d9f921f2b7b78e73e9f192a9c08b534b8e5e5
 
-That said, probably the most important part is consistency with userptr
-in other (non-virtio) drivers, such as Intel and AMD.  If they allow
-overlapping userptr BOs, then virtio should too; if they do not, then
-virtio should also forbid them.
+Best regards,
 -- 
-Sincerely,
-Demi Marie Obenour (she/her/hers)
+With best wishes
+Dmitry
+
+
