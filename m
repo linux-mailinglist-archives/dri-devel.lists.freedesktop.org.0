@@ -2,104 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C044A78BA3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 11:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62265A78BBE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 12:09:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0590E10E72B;
-	Wed,  2 Apr 2025 09:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 006FD10E063;
+	Wed,  2 Apr 2025 10:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="e16DTmPO";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="R2TTor1l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C05010E3BC
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 09:58:48 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-43cfebc343dso48387785e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 02:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1743587926; x=1744192726; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=WlNr7s9//ER/SikIA2XjkSmK+up9sy8cyHVWwjM89l8=;
- b=e16DTmPOFruXl0jm+khS9I61IUa5M1I1S6qEdSpx6cgoPJFOA+tHQpKDF9YFKp1Gak
- 4E/g61+gJQucP0qfFqPyuhKEo8WV7zhkh1mM1gr6lXI9/+VCRWiLeSMS1hjdjxoPZ4Od
- JDcTmtjX28x4ISfE+i33WeIXqY86RTZhoabJcCRxxPRarBAR4XiqEreMPqUYc9uw1kB7
- 6MC5BWKDVhUBDq7ENyIYl/e2iZSMOKotvQaqYcPUiqEiVt1R3tt15tqSMFtu1YPINAwP
- kslj9NaRNqO7N51D4ypkDxaGrDop5hygrou1Z14kx80PDcvE8XUsUcWb4XfMgwyNovKN
- tC7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743587926; x=1744192726;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WlNr7s9//ER/SikIA2XjkSmK+up9sy8cyHVWwjM89l8=;
- b=iPFREDaeRv4rdVr3QJ3psRupPaY79mh6/FsPJEK6Ap8ckVbgyYNUUcZeXc/aTmDpI3
- 5fat+LOo7jkGucPZ83vYS5mKfzRFdk8tAnP0OLBAangrhZjyemBYMuBQ2lvYcnMAQKiJ
- FBIMF2b3YPtCPEwpTFN8g07Fb6yR2xM7x5on78k6lyaOzmVqa4labx96J8Kh9Hl6nvQp
- mwl+sTFvKxTCJU7QY3LnixExM/DKgCBZ1OfrYg29qLL7DQylbBMvB12cyMUQpIEe35CC
- ZslhnoQ59cmgICM1hFU8/Ogo1M436BjkJt+BNMSQ5U2E74Z3a/AQjiiYVDQfr0kSOJYw
- 5Opg==
-X-Gm-Message-State: AOJu0Yy3OxylZE8RLP2jj5Fz6WbWqNXlYRDYoksYZ/qsvEAnGSJzNvgd
- NqI09nfOx8UJWSn1RBjWDepU8Pu4Azjk9MISQnIieDcGY0bKCa15QtyOuEboQ40=
-X-Gm-Gg: ASbGncs2z+HBx+DANoLDvcf5EJGE1JXJGEt3Q7y+eZSyfofSJ+RrWH4AlCktgj41nob
- mpz7GZfx6pCkuZzoxxLu1+2iKTF1OXwvc9eL9MXgilJ1cCCGNSkadVFkyTNykdiYXrLI/VWDBBC
- p1A9GxC4uIiAtN4VvUmHmELLPHu1/jNsWGvXL01oPJrZWlPo67nYgg1qoD7TPe0AViO3dQdGOm0
- VG+PG9lMmpTrNFnkN26smQmkwozY3OkJkStLe+NNW9PnuLs0253Z7PR2114AB75M42Lt70msBf0
- Ao2U0D8/SqYZYkQAOr+LgiRxYHj2Uh7r28FsWYtJOa6ltDixS6k3FDRL
-X-Google-Smtp-Source: AGHT+IFTrd+aG1QnoeDWN5Twws3fGm4IGPhSV3zclRttiqm7JC1zigHY/sr1x2gYCsORgZ8e0lDQ8g==
-X-Received: by 2002:a05:600c:68a:b0:43c:f4b3:b094 with SMTP id
- 5b1f17b1804b1-43ea9f8dae7mr37628625e9.6.1743587926052; 
- Wed, 02 Apr 2025 02:58:46 -0700 (PDT)
-Received: from localhost ([213.215.212.194])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-43ea8d16d35sm34705285e9.0.2025.04.02.02.58.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Apr 2025 02:58:45 -0700 (PDT)
-From: Christopher Obbard <christopher.obbard@linaro.org>
-Date: Wed, 02 Apr 2025 10:58:33 +0100
-Subject: [PATCH v4 2/2] arm64: dts: qcom: x1e78100-t14s-oled: add edp panel
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AFBE10E063
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 10:08:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1743588532;
+ bh=xA/faLEB0MkdAsz9QcJVzhzblw7gBnHvn4QbsV73wCI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=R2TTor1lnu8BsZvlTYnHg1NXM+t7l+8q5xKDq8ujeaUyOQxiOJPQHoSfF6Ip0AJEh
+ 6kJie715j+uoTCnirJs9ssTrPtEwaF20B0EeVm76TgV31oOYsEGSZHrwGNTh6oYukt
+ AdWFSYI/AwvwGpWzKloINpz0kk27tkvPte7eVlAn+eyBEYniAYGePJ+DlSHChlTwmg
+ 44grpWD2LoZRw6uCHVezgVsmi6h/AdyRPZl+YQ56DZEbwd69/egpnWifrmHnpC/oND
+ uEVdX/IMJMqseTxjRIgBD6SlWuv9pc7ThdvOUhW0bxla5wfH7zaWB1pPmL/qn7Nw6h
+ n5SnKausYkHqg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0CD3117E091E;
+ Wed,  2 Apr 2025 12:08:51 +0200 (CEST)
+Message-ID: <608f25af-69dc-455d-b382-aaa3cb2d9578@collabora.com>
+Date: Wed, 2 Apr 2025 12:08:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-wip-obbardc-qcom-t14s-oled-panel-v4-2-41ba3f3739d0@linaro.org>
-References: <20250402-wip-obbardc-qcom-t14s-oled-panel-v4-0-41ba3f3739d0@linaro.org>
-In-Reply-To: <20250402-wip-obbardc-qcom-t14s-oled-panel-v4-0-41ba3f3739d0@linaro.org>
-To: Douglas Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
- Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>, 
- devicetree@vger.kernel.org, 
- Christopher Obbard <christopher.obbard@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1087;
- i=christopher.obbard@linaro.org; h=from:subject:message-id;
- bh=NM+r1eddNSJ+PhsAt5mpIMaaO5aqtw1lqIQpoUzxeuo=;
- b=owEBbQKS/ZANAwAKAWNNxPBocEb4AcsmYgBn7QpThFC4dZp45FqIClVwad+jsKVUrk56+VO/Q
- SuTYwy/5FmJAjMEAAEKAB0WIQTxi9yLbCX5CqI9UXRjTcTwaHBG+AUCZ+0KUwAKCRBjTcTwaHBG
- +Ml6D/0b9LsPEQpFxaORUDI4PxBYS0vegaZinECmfYatrMEJZ0CRoesXn4RqP0Rkz8O1l+VdZ99
- vRmgfsW0Gxp1qRzh7oxa6sEk+K5Hk7ufI4Qig7CntNHwZwfkqW3+jos1MTZypwEGK3CmpjOoPNx
- mnnwxfzaOzUxtu8iuKdI7fGFSXYYQnNGlggPuW2NkKHwuM6juYbGvyrr7Bs0L1DPiF5PpDA53sr
- V56jVUWnss6DVU4pJ9v1vsiOpJpg9BVtH/6D07SJ9o8wbM0pYair+IfFdkLLvOidUGySWODI8vm
- 7BScqTbK6wWBpoxSF6q1nuZOqYatUDUHF37LBjr6A450gAcTbqJRpk/PQkV2YNkoUiOll49GriQ
- 5FwnWfq1AAuRBQS/CoUrVhUfVwlLh1WIB7wELoflpqeMK7ErAtd3b6pcRle5U8m4R1RnFepnUfp
- qnOeFQDGX1M3wNQn1/NN86UR8XZdOhJjf3ZRQQqQ+fBTel/uBb6TMhJluZzU3Zi3D8UuDmYMvIg
- LXpsSwKSCJ5zcMB1oP2zL0MDpRy58QWFgg3nQMSX47RUY6RYvXfU6Qp9uxEQCNOQnVx/CdgZyz6
- dfRrpSdK724AJ6HvUuCW4jPS+ZdI2xc8NqjpIe/i21nws4gS/pO6wemnISaryic2YzSxoIqOxrZ
- XjJZSTNiPXOlmPw==
-X-Developer-Key: i=christopher.obbard@linaro.org; a=openpgp;
- fpr=F18BDC8B6C25F90AA23D5174634DC4F0687046F8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 4/5] drm/mediatek: mtk_disp_ovl: Enable/disable
+ interrupt on bind/unbind
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
+ simona@ffwll.ch, matthias.bgg@gmail.com, nancy.lin@mediatek.com,
+ ck.hu@mediatek.com, djkurtz@chromium.org, littlecvr@chromium.org,
+ bibby.hsieh@mediatek.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com
+References: <20250402083628.20111-1-angelogioacchino.delregno@collabora.com>
+ <20250402083628.20111-5-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5E1qShE1LqgFL6rrgRzjwFUPoBqYdhO-sgNzmMqQsMS0Q@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <CAGXv+5E1qShE1LqgFL6rrgRzjwFUPoBqYdhO-sgNzmMqQsMS0Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,32 +69,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the Samsung ATNA40YK20 eDP panel to the device tree for the
-Snapdragon T14s OLED model.
+Il 02/04/25 11:38, Chen-Yu Tsai ha scritto:
+> On Wed, Apr 2, 2025 at 4:36 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> The OVL driver is installing an ISR in the probe function but, if
+>> the component is not bound yet, the interrupt handler may call the
+>> vblank_cb ahead of time (while probing other drivers) or too late
+>> (while removing other drivers), possibly accessing memory that it
+>> should not try to access by reusing stale pointers.
+>>
+>> In order to fix this, add a new `irq` member to struct mtk_disp_ovl
+>> and then set the NOAUTOEN flag to the irq before installing the ISR
+>> to manually call enable_irq() and disable_irq() in the bind and
+>> unbind callbacks respectively.
+>>
+>> Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 19 +++++++++++++------
+>>   1 file changed, 13 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+>> index df82cea4bb79..1bff3a1273f6 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+>> @@ -161,6 +161,7 @@ struct mtk_disp_ovl {
+>>          struct drm_crtc                 *crtc;
+>>          struct clk                      *clk;
+>>          void __iomem                    *regs;
+>> +       int                             irq;
+>>          struct cmdq_client_reg          cmdq_reg;
+>>          const struct mtk_disp_ovl_data  *data;
+>>          void                            (*vblank_cb)(void *data);
+>> @@ -587,12 +588,18 @@ void mtk_ovl_bgclr_in_off(struct device *dev)
+>>   static int mtk_disp_ovl_bind(struct device *dev, struct device *master,
+>>                               void *data)
+>>   {
+>> +       struct mtk_disp_ovl *priv = dev_get_drvdata(dev);
+>> +
+>> +       enable_irq(priv->irq);
+>>          return 0;
+>>   }
+>>
+>>   static void mtk_disp_ovl_unbind(struct device *dev, struct device *master,
+>>                                  void *data)
+>>   {
+>> +       struct mtk_disp_ovl *priv = dev_get_drvdata(dev);
+>> +
+>> +       disable_irq(priv->irq);
+>>   }
+>>
+>>   static const struct component_ops mtk_disp_ovl_component_ops = {
+>> @@ -605,16 +612,15 @@ static int mtk_disp_ovl_probe(struct platform_device *pdev)
+>>          struct device *dev = &pdev->dev;
+>>          struct mtk_disp_ovl *priv;
+>>          struct resource *res;
+>> -       int irq;
+>>          int ret;
+>>
+>>          priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+>>          if (!priv)
+>>                  return -ENOMEM;
+>>
+>> -       irq = platform_get_irq(pdev, 0);
+>> -       if (irq < 0)
+>> -               return irq;
+>> +       priv->irq = platform_get_irq(pdev, 0);
+>> +       if (priv->irq < 0)
+>> +               return priv->irq;
+>>
+>>          priv->clk = devm_clk_get(dev, NULL);
+>>          if (IS_ERR(priv->clk))
+>> @@ -635,10 +641,11 @@ static int mtk_disp_ovl_probe(struct platform_device *pdev)
+>>          priv->data = of_device_get_match_data(dev);
+>>          platform_set_drvdata(pdev, priv);
+>>
+>> -       ret = devm_request_irq(dev, irq, mtk_disp_ovl_irq_handler,
+>> +       irq_set_status_flags(priv->irq, IRQ_NOAUTOEN);
+>> +       ret = devm_request_irq(dev, priv->irq, mtk_disp_ovl_irq_handler,
+>>                                 IRQF_TRIGGER_NONE, dev_name(dev), priv);
+> 
+> Use IRQF_NO_AUTOEN here? Also, IRQF_TRIGGER_NONE can be dropped.
+> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
----
- arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Yeah, nice one. Thanks!
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts
-index be65fafafa736a0401a5872c40f69cb20cfbbd90..d524afa12d19b2a6f22a24b9bed6b6b40248375f 100644
---- a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts
-+++ b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts
-@@ -10,3 +10,11 @@ / {
- 	compatible = "lenovo,thinkpad-t14s-oled", "lenovo,thinkpad-t14s",
- 		     "qcom,x1e78100", "qcom,x1e80100";
- };
-+
-+&panel {
-+	compatible = "samsung,atna40yk20", "samsung,atna33xc20";
-+	enable-gpios = <&pmc8380_3_gpios 4 GPIO_ACTIVE_HIGH>;
-+
-+	pinctrl-0 = <&edp_bl_en>;
-+	pinctrl-names = "default";
-+};
+Cheers,
+Angelo
 
--- 
-2.49.0
+> Make sense otherwise.
+> 
+> ChenYu
+> 
+>>          if (ret < 0)
+>> -               return dev_err_probe(dev, ret, "Failed to request irq %d\n", irq);
+>> +               return dev_err_probe(dev, ret, "Failed to request irq %d\n", priv->irq);
+>>
+>>          pm_runtime_enable(dev);
+>>
+>> --
+>> 2.48.1
+>>
+
 
