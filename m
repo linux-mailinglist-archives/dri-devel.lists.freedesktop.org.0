@@ -2,118 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EDDA795A5
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 21:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F93EA7963E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 22:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF4E510E8C1;
-	Wed,  2 Apr 2025 19:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA2B310E8CC;
+	Wed,  2 Apr 2025 20:06:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jjwq2uGF";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zX6cywBZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AAC010E8C1
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 19:10:23 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 532A5VF2027388
- for <dri-devel@lists.freedesktop.org>; Wed, 2 Apr 2025 19:10:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=zmUYkVYqvGzbPDQXyu/mUYb4
- 7LYlnrBBpOgNv+07v8s=; b=jjwq2uGFX3im1U8tRkkH0D97x1TydXUWEqQVwtV1
- gsnsIRkjMTvH5GSU/zjcOSj8lJnANasDKqM39G0Fk5O6q9ZHecUvrxmIucamsGAd
- VQ16CGgzkPhQqQiFwLgoz0Kn7y/yFuxsfjtH9bn8v/k7RwWYjhcbDXxwD/U/evWg
- gnXUIiVd1RRBKFvJ6DXy0v9LXW1QqMgG2C8LkEgkXzBI4ht/RJqUxAfgoOPxAqxF
- yCCHbSFKQwVxDr4TFfpu4wOpx3WdALaqob9X1wEHaWOlTxLM+TqBRu+I6GQTzJWR
- MtaZwnzWgnGhc82YXAO/IySu3uZwCdpDYzy7saATvcB/fw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45s36a1et4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 19:10:22 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c5cd0f8961so21173485a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 12:10:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743621021; x=1744225821;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zmUYkVYqvGzbPDQXyu/mUYb47LYlnrBBpOgNv+07v8s=;
- b=ckP4Pg5inHxdNgsPV4JDX600CEqiCCXDOecmoiDCI+Rw2T3XjqVyO1M0GQH3sRPQaN
- Tt/SJAJ2jP09xrtvQxsDsT5XFekvMPvDKNxwi4em+QJANffY8oX4E7OPHA7dQuCMCPVe
- ozQcfX2hO/SdkTWuEK/xOv/xR3kODUDqlP7gkhxp+7ALeyscEVkz2zULNrjlXzrqGIjX
- g38wrbcATAySiax60qawyvdYq5Tjq7Z7FELFnG5svS7GmSrBdRSAawgVQtq2kg9RsIBI
- PMe5B5i0TWnmX50WBIfQ7cWdFYGoCP8fenh+hfsxHkCj1+kXJNHGne2TDKCq2N7c1e7/
- 4sUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXMNRstyLO0ihziP/Su5sL/8e2VMDy/sKmuS/BarvLRvxaRzWUtzp1EGnp+K/uqOfe7Jgt0ViqlPic=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwN4R+2cevlsC2tOZKaUa5WGlnVvrNcNlyii6nXKm7pZ4mEkzm1
- 64y+5YWrvMwfXgeB/3o92fflNtF54BTvNDP/7VAQTI4kfClLA1gRSAUYzCoaQflvyarlEoKJHyp
- aVkMUSL4/GZmiiZuBNoaD//GbKDhBML0D8teEvaBlxBvRDKizR9c7cAsARCHJPPhBiPQ=
-X-Gm-Gg: ASbGncsZ7oDip5d0k3nKL821zJNGZs6I6o94ir1mSsM1k908OLgS/3u35Pw0u3KzZnJ
- YkIx8YnTkf5RU3Hta/o1IsBvDj1rHs7sNHuDisDziIOkgspLunj+IptghC3SUX7XnxZoAwwS+Ac
- VPj6IbO/66sUG+qA4E0DknUjUL3AXjLRkZTNwULZRB4qk1571ZUXy+2OasSEeIRARiOXhKo6oRe
- db9PTugdpCqJTWKkCY/8yalxQlIAE5U+D9008S/1AFzH3ZYr+zfBB6clbbecZiwoWDSIaqlHac8
- e1yUuTLEOvrOzaZrV5PFObkSjX7UWTgKV+aPuOGiOBuuLY0dndSSDDEsEPd77dpyRa36/Vcmxkt
- Iubo=
-X-Received: by 2002:a05:620a:2685:b0:7c5:3b9d:61fa with SMTP id
- af79cd13be357-7c69072a6ffmr2450036085a.26.1743621021603; 
- Wed, 02 Apr 2025 12:10:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEL12WrxSm3dTTl0ltF+TFscnVQIRQop3TdWFVMRKTPWUPSA00Q+ercIZwKI0JKi3FN2ZJRbA==
-X-Received: by 2002:a05:620a:2685:b0:7c5:3b9d:61fa with SMTP id
- af79cd13be357-7c69072a6ffmr2450032285a.26.1743621021206; 
- Wed, 02 Apr 2025 12:10:21 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54b09591191sm1712994e87.193.2025.04.02.12.10.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Apr 2025 12:10:20 -0700 (PDT)
-Date: Wed, 2 Apr 2025 22:10:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Christopher Obbard <christopher.obbard@linaro.org>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Rui Miguel Silva <rui.silva@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] arm64: dts: qcom: x1e78100-t14s-oled: add edp panel
-Message-ID: <a4wlwnhgxxzgarkbwtpwqsh42ksmp63xgqwewgatg43esc37zq@wc4bbkjvlpjn>
-References: <20250402-wip-obbardc-qcom-t14s-oled-panel-v5-0-ff33f4d0020f@linaro.org>
- <20250402-wip-obbardc-qcom-t14s-oled-panel-v5-3-ff33f4d0020f@linaro.org>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2050.outbound.protection.outlook.com [40.107.101.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9B7E10E15A;
+ Wed,  2 Apr 2025 20:06:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PpuJ3VxCUAQRC2lbgwM+JKLVzL2KMSNCN4XyisHbxmC26qBj1fjtUmen7rFJESBcGhzDhFca/6XAsLa/APLgNXeIKPoCiUReWtKzhoO/RjdtjRp+zdcsjLEEmu46nQz+y5xqmpU8QZdJiMY3KZBXrPEe4KHw6Pbwc8YgF0Kby+DtxYqJQa9Kf23caJxcbVk2AwBQOhlJcRh13BetVW3OhMXIYNyNfe8iWBAVBZfwnkbTooDpyA0dRUoBsOAa2k6IQ1MYDXmB28NvPuCXHb3QJ5kUzPYxP9xMMln0+LQPatN1dPkloQg7ku6jBaOq+hhrFkp0ocIgzmlelB6Jb9lEzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7Dlg65vjql6dTmmvxhzVx8UDjgRxQLftHt7Dv+inJtQ=;
+ b=vgmob7Ghwms2sqzunHnNSTP0izgJkk9F6QawuhHs4uVq60fTIhjrq9X35+bHsKSF277BfW7lpW+PraQVOv95xA4lthM9RbTds6RNSxyfFEhVqphljOGKXnxMhuEEvNapT3iK1u2GRiVhjm6Umb43E8TBe/tR3+3qQpRdYawfrKFGw2W6uii8BhgznQ4XPG3TnDsanbsJBjpOQq5ti5wa1gyC2X+fHPmRbNSMQOp8j6H5sqHzu4wclrhGpEv0s+qZX6YFq5OWsfYRMdesdoFFok9WdFbhgUCY6kzElTru20XyEMWUeACiKhNIe4Lt2wMNv5L2m77L/cW1awOi7fpkNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7Dlg65vjql6dTmmvxhzVx8UDjgRxQLftHt7Dv+inJtQ=;
+ b=zX6cywBZRFEedNTYK/FF/zviyv83WPaTr+G9uAgBJ+A7MRXwHyWrvekP1hsBzCZNP9H+Hf8dcuDOUoNIcdmuA666LErO0oO2Zp2IsNvZZe/Lr5OvVQvAf8ZAlgBYk9ZuDfLvX3XgMHGZbNm/K/lhOUvUEQwKHKpNYBlhtVwajKE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DS0PR12MB8247.namprd12.prod.outlook.com (2603:10b6:8:f5::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.50; Wed, 2 Apr
+ 2025 20:06:50 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.8534.043; Wed, 2 Apr 2025
+ 20:06:50 +0000
+Message-ID: <ab83b8ad-2076-425f-974e-6352be7882b5@amd.com>
+Date: Wed, 2 Apr 2025 15:06:46 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] drm_connector reference counting and USB-C docks
+To: Chris Bainbridge <chris.bainbridge@gmail.com>,
+ amd-gfx@lists.freedesktop.org
+Cc: dakr@kernel.org, christian.koenig@amd.com, daniel@ffwll.ch,
+ ville.syrjala@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ lyude@redhat.com, sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <Z-Cw0x7wa5w7tliO@debian.local>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <Z-Cw0x7wa5w7tliO@debian.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR05CA0020.namprd05.prod.outlook.com
+ (2603:10b6:805:de::33) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250402-wip-obbardc-qcom-t14s-oled-panel-v5-3-ff33f4d0020f@linaro.org>
-X-Authority-Analysis: v=2.4 cv=W6M4VQWk c=1 sm=1 tr=0 ts=67ed8b9e cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=bmQPT5UhyNeoAJmEc28A:9
- a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: HlVy0p-gIIypqdZ0ozF7CDjeuuETLqo2
-X-Proofpoint-GUID: HlVy0p-gIIypqdZ0ozF7CDjeuuETLqo2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-02_09,2025-04-02_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- adultscore=0 mlxlogscore=809 mlxscore=0 bulkscore=0 spamscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 phishscore=0
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504020122
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB8247:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee4211ab-1b1c-444c-1fd7-08dd7221e6d0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?R2VYVGpIelJqUk8vR1lOTVdDNWNxTDl0TEZmY3ptVEQvNmNiY0haWG9WYXpK?=
+ =?utf-8?B?cVdEU2JFNkNhSGdOaGZ2M0taNWQ1V25LL2IvQ3A2M1AyWTR5ZG4wMjc2YURH?=
+ =?utf-8?B?RFJKakF4NzVVcDhkT3ZEOThPdndENTA4bmZrb0dIdG1JRkp4bVRCSytpNkZG?=
+ =?utf-8?B?WXI5cTluMU5ta0pqa1lndkdaU2w2TEtpSWNHZy9vcU1uTU5HcE9PVWNkdjdV?=
+ =?utf-8?B?MTRLSW9HVERxTnRwTE1aQjlWbGpIbkpGb3dVMHVBYy8xTS9NSFR2KzEvM1p0?=
+ =?utf-8?B?MTZqWi9FSUExNzQyZmZuMEdNZTR2RHExNTBPQmtnN3ZwQzBqVmRLMEtsTVhj?=
+ =?utf-8?B?SmNqNkhPbm1BbEZ5ZDNyOXB2OHFaR004ZGRIOGxKTkIwYXpJbk9qY3BsK1Vo?=
+ =?utf-8?B?Mmx2K2pqMzBJbGdUWEJPc2ZYQURXZmFPb3Axbnl1aE0vb0tUTmVGRGx6RnBU?=
+ =?utf-8?B?MVNpRkdLQUlxS2t5b2kyeTVjbGVSWEgrU0JBZktzTmxkeFpKVnVEY1Rpbkdh?=
+ =?utf-8?B?NzZid0xWVFdzNlJyTEE5dzdIdFJrdkhDRHhTbENocnY4M1FseVMvclpGQmpP?=
+ =?utf-8?B?eDVwc3FXVUFNeGdwQko2R3FxdmFVUWs5Q0VveDdSQ0w5bk1uNXZPQXpiUXhp?=
+ =?utf-8?B?TFduMFN4bFNCenRlUjlRVHJLaUUxRDNia09RTVkvclJucWhLM3QwVDVtcWNW?=
+ =?utf-8?B?YTlWaGtLSVFvS1pwQ1J6UUtUcWx3QUN4NTYvOEF2VjJwV0h0TWk2a08wbkM0?=
+ =?utf-8?B?ZkFaVUN0V0hOUGxjVk9vTlZrZlg3VUE1RUVVSjNXQjEvdTZUd1MvNWNydmd0?=
+ =?utf-8?B?NlZFS3p6dFJOUDdVVm00SFpwZjU1bk94ekVGMjRsdHowb2RHTWVZQzFoMjZj?=
+ =?utf-8?B?cDNQQXVnczdTMzlHUFUrTlpZd2Z5aEIrb3h1bEgyMnZoUEtndURQZnhaTjFy?=
+ =?utf-8?B?Nmc5SGwzYWxpZFZMVmVIMkJTeEdNYjJRNW9xazczUGVONWp5VzNONUR3SWU3?=
+ =?utf-8?B?RXNGTzU4YS9WSHpDN1RIZXJnNkxLY3dQVW1KNEdhd0llOFEyT2ZTNGxjTlp2?=
+ =?utf-8?B?TVFaK1hHWWJKOG5zL1pzd0p3RGRGbm9GdmUwSXlOc2Vnam1manpEbWEwRFFV?=
+ =?utf-8?B?N0twSk15WWZwZ3NxdFBTMUpTMGM5T2xmQ2VaVGc3RWhLeUc4L25zcFRFZlhK?=
+ =?utf-8?B?Y1VWeUJPVGZwMDRSNzdkbTNYbUlJbzBMZm9hL0JLc0dOZnorVk1tU3Foazdy?=
+ =?utf-8?B?cjI3U0dKY3JMSTRDVU5VVVgvVjFZd1IrczI0Vm5yMk54V2VVOTl4ak9YRERt?=
+ =?utf-8?B?MGtXN3k4OUZaUjBGQW9mZWhqS0FiTm5ZM296V3VYZ3JaUVFyU1k3d3Q3MXcv?=
+ =?utf-8?B?WUNWSDFpL3RqU1VMRkozaTdONGs3S08yNGM5aXpyNFE3N2RNS3VVWE04a0xK?=
+ =?utf-8?B?R3kyZStneU8vQVNwbHBpTXI2QVQ1K21TU3ZxcENBck1UWmxWQm44emdFZTRa?=
+ =?utf-8?B?a01ld3RJTmxjdlNDQXdmVnRJcVdXUEt0S2RVaXJZL04ycXVIOUdVUERwM2NT?=
+ =?utf-8?B?SWpla216SDlscGMrUm5aTndMaUM4ZXptSjdpa2plMFQvS2pzODN4VGMwSFNL?=
+ =?utf-8?B?d3ZjVU41cG1PaEhUUit2RHZWK0JhT3U3TEZIZmgwbWFSTHlmeFZteTFhdll0?=
+ =?utf-8?B?dnE3OUF2N0RFSUVQemo2cVEvV0NJT2RXWVJKZkhMdldMRG9WeWVoaFBZK3A1?=
+ =?utf-8?B?M1VMOEIzV05Ra0ZNa293VjhSWHFjQ25XQlN5UlFDaVJUdXFHZGhuUlJSQitv?=
+ =?utf-8?B?NDYvcS9EUDJnZ0txbXNBczd5YnJWbkRUQUJ0YUVjd0hMbWt0RFVDTjBvd2RQ?=
+ =?utf-8?Q?RN0D9guDIN3hE?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aU5YT1pvRFljdjZqUitUVzQyRTE2TVdiN3NVdEVoaFgzMHZzemNPQXR1TWlp?=
+ =?utf-8?B?ZlVMakhrcXNBU244VEY1aWRvYUtaZUhmd3IyczFmeXRJVHFLVVJMQkRRVTFQ?=
+ =?utf-8?B?WjdFcTE3SmFmVGNmeG8rdGd1K0hIamZ2Y0JVdENHeFBVZk5zRy9BekFHb1FG?=
+ =?utf-8?B?TWR5eXh6cjE4RUtEZHdnZVJnSUh0aWI3TU9teXJHb0MyeURDME5Db1FWRG9X?=
+ =?utf-8?B?ME5DaVI5OU14NlU4QXpha1J0Zkk4K0prSnhCNWdhREZ5cDhKQlJXZzNzN3c3?=
+ =?utf-8?B?ckd4ZDRseG9tNHYvYXFDMExXM2J6eUdTWjhTdEZvejk3VzJra3BGc29IUVlS?=
+ =?utf-8?B?eE9aaU95L3N4VXBBRUtwcmFWUDc2NlB2Q09ROUNNOHRMdkxYUjZJQVFWd3Fr?=
+ =?utf-8?B?M0U4ZHh2eDlFZy9WTmZMc3E3dEFRYnA5NE5BNEF5bmZTWkwvSGZBK2M0VHJm?=
+ =?utf-8?B?WVhEZ1pzNDBHSFFMYllwWHpBWEp3ZDlQVnBuNjBLalhnMmhaZmVjYUZDSGNI?=
+ =?utf-8?B?TjZZTlNWMGU5aXlkZ3pnM0p1SkFHLzBXSUhkVXJaWU4xNXc0d0RialNrL0Qy?=
+ =?utf-8?B?V01SQVJKUU5WRmVWSTVwYVBmbDdUb3VQbDl2ZmlkZmtPOTFrV1BvbC9VNWlE?=
+ =?utf-8?B?V25HUHBYSlNXK1FwR0NwVmNreEV4Mzg0VlpsREhkT1d1Q3ozUkIrT09lMlpX?=
+ =?utf-8?B?dU54ZFhUY2VhbExSVXkyV25DckFiMGcrcDJjeG56ZHc3TEMwaS9UVmpOVjhF?=
+ =?utf-8?B?NFBqSi9YbURjVzVjWGNZcUkxVVMvaStmclVzQmNPZmxERW42RW5kdjhuK2kz?=
+ =?utf-8?B?ckdXeWFpajZ1MGdQaFVIRldlazVObDJOZjROTFNkVjNtd1JMdnFJdW8rclEw?=
+ =?utf-8?B?RUZxT0ZvZzAwSlhzTzNCT0FYV25LT1VZcHRTZThsdVAyRnpEbEVuL1R1aW5W?=
+ =?utf-8?B?bDM5MkhYd3FHQ2pjVHhyRUxEaFZmaWVoY0FOVmIwMTFCVk9IMERNSVhMcDUz?=
+ =?utf-8?B?YUI1V0JSYmZOMjdkSzlnWWZEVWNTU1RxcWVoL25NMThLaDJ0V3E0WlM5UWNU?=
+ =?utf-8?B?VDc5WEI1WFZHTG1KeWdHTytzbUhYVUttb1FoVE5Qa1ZGai95Tkh3S1p6ZGlL?=
+ =?utf-8?B?dFpkSGlQMVhLRDBUTW4wYm53Y0t0THhiRTNrWmZ6VUFReE1tUGRmNHd0czhC?=
+ =?utf-8?B?b2lUYzZhYkRncHRkUGFuaWhZVmc1VzNyaU91dXRLSzNaeEVaNW4zenphYi82?=
+ =?utf-8?B?NHVDeEVxRE5oTWZoelJBZjdzUTR5c0oxbFhQV2tQSDFCZGd6WlhmSXdtU0Rz?=
+ =?utf-8?B?STlZbExmbTdrZzhkNWxMdktKb1dZYXM3UGR3ZXlxYkQza1l0cnVWbVcrSGFu?=
+ =?utf-8?B?SWd2YUxnMGhFS0EvTUcvVTA2bEpjMWlEYmxTZ2l1REorRXE4N1dkL3dOSnFN?=
+ =?utf-8?B?VHpnSlZjZlZDL3FRRlgwNEwzdHhOaUJxK3p4R0VQUGZjVmlkTzFXYkJpeDdl?=
+ =?utf-8?B?UmwrN0gzU2NOVnpIKzNVb1E3SmIzaG1PUy9PNW1Fbm1xd0pIMm5QdXJIRVhF?=
+ =?utf-8?B?WitoNnRLbTUxVjRnSy9sbzduc2dPZlZFUW51ZzkwaWttNzV0Y0tDdzYwTkxG?=
+ =?utf-8?B?RXN3QUtKMGlYV2ZKamhsd1ZYWUZHcmdBYlQvVWV0RzFIaHJVY3JYWCtFY2Rm?=
+ =?utf-8?B?MlRKcDhpWUZjQTV4TFFRdW9hVVNNSFVEcmFKaWY5akxISlptdWo1bGltdFlW?=
+ =?utf-8?B?NlFlbTB6bldYOWthMHJDK0l4eHpWS2psZzEySy9lVnkrUThCVjcyNjhPTEdE?=
+ =?utf-8?B?a3p5d0FScGJVNDZtNUlTNi81bFdydlBVUE01dndRZXgvTGJtVFlyUzJsZ3dO?=
+ =?utf-8?B?dVZ1QlkyNGI2L0pyV2lnVWVaQ3dLYVQvWkVVMGVaTm9qbm5rNDVoRGFYZHIx?=
+ =?utf-8?B?STJrMkZlTWVwSm9uTldyekVTaWtrY2htZjFFaXZCUGFZZGlZV1kvZVdIRm5p?=
+ =?utf-8?B?RW1zK2tNNkdWMmpxcHZPNE1DWWhCaHNFenRmajVtb1BTR2QwdG5QU3VkOEEr?=
+ =?utf-8?B?Qy8waUozS0xVZGpWTEFTQ0owTVBrUUNXRnBHdlRkYm0xZUtrR1N4RWM1UExw?=
+ =?utf-8?Q?lclbzRSNDzjc1T0goQ/Vl65NT?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee4211ab-1b1c-444c-1fd7-08dd7221e6d0
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 20:06:49.8969 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RSaWaSh/PjgKb/m1FvKNVB8qkJIFNctD6HabnE9fFR5PD+mwxUAWih2IDoqx+q9BkPR4aad7pRGHYUQ8OWS3FA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8247
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,19 +165,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 02, 2025 at 03:36:34PM +0100, Christopher Obbard wrote:
-> Add the Samsung ATNA40YK20 eDP panel to the device tree for the
-> Snapdragon T14s OLED model.
+On 3/23/2025 8:09 PM, Chris Bainbridge wrote:
+> There is a reference couting / lifecycle issue with drm_connector when used
+> with a USB-C dock. The problem has been previously reproduced on both Intel and
+> AMD GPUs.
 > 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> On both Intel and AMD, the symptoms are:
 > 
+>    - multiple connectors being listed in sysfs `sys/class/drm/cardX/` (because
+>      the old connectors are not removed when the dock is unplugged)
+>    - no display on the external monitors.
+>    - "Payload for VCPI 1 not in topology, not sending remove" error if drm.debug
+>      is enabled
+> 
+> On AMD, this issue is the root cause of a number of errors when re-plugging in
+> a dock:
+> 
+>    - *ERROR* Failed to get ACT after 3000ms
+>    - kernel NULL pointer dereference calling setcrtc
+>    - UBSAN: shift-out-of-bounds in drivers/gpu/drm/display/drm_dp_mst_topology.c
+>    - use-after-free in dc_stream_release
+>    - refcount_t: underflow; use-after-free.
+>    - slab-use-after-free in event_property_validate
+>    - WARNING display/dc/dcn21/dcn21_link_encoder.c:215 dcn21_link_encoder_acquire_phy
+>    - Part 1 of payload creation for DP-2 failed, skipping part 2
+>    - probably most bug reports relating to suspend/resume and a dock
+> 
+> This bug has been reproduced on both Ubuntu/Gnome and Debian/XFCE. The symptoms
+> are intermittent and vary (as above), but the consistent initial symptom is
+> multiple connectors being listed in sysfs.
+> 
+> To reproduce, annotate drm_dp_delayed_destroy_port with something like:
+> 
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -5014,6 +5014,9 @@ drm_dp_delayed_destroy_port(struct drm_dp_mst_port *port)
+>   
+>          if (port->connector) {
+>                  drm_connector_unregister(port->connector);
+> +               printk("drm_dp_delayed_destroy_port %s refcount=%d\n",
+> +                               port->connector->name,
+> +                               kref_read(&port->connector->base.refcount));
+>                  drm_connector_put(port->connector);
+>          }
+>   
+> Boot laptop with dock connected, activate external monitors, suspend, unplug
+> the dock, and resume. This problem is intermittent, so these steps may need to
+> be repeated. But when the problem is hit, the drm_dp_mst_port will be
+> destroyed, but the drm_connector will still be alive. (This can also be
+> reproduced with just plugging and unplugging without suspend/resume, but, on my
+> laptop, it happens almost every time with suspend/resume).
+> 
+> The cause of this problem appears to be:
+> 
+>    - calling setcrtc to enable a CRTC results in the drm_connector refcount
+>      being incremented:
+>    - drm_atomic_get_connector_state appears to add connectors into
+>      drm_atomic_state->connectors, and increments the refcount
+> 
+>    - on disabling the external monitors, a call to drm_mode_setcrtc results in
+>      the drm_connector being destroyed via call chain:
+> 
+>      amdgpu_drm_ioctl
+>        drm_ioctl
+>          drm_ioctl_kernel
+>            drm_mode_setcrtc (via func)
+>              drm_atomic_helper_set_config (via crtc->funcs->set_config)
+>                drm_atomic_state_put
+>                  __drm_atomic_state_free (via kref_put)
+>                    drm_atomic_state_clear
+>                      drm_atomic_state_default_clear
+>                        drm_connector_put
+>                          drm_mode_object_put
+>                            drm_connector_free (via ->free_cb put destroyer)
+>                              dm_dp_mst_connector_destroy
+> 
+>    - so the drm_connector is not destroyed until/if userspace calls setcrtc to
+>      clear the CRTC (set.num_connectors=0). If this does not happen for whatever
+>      reason (userspace process is terminated, frozen due to suspend, etc.) then
+>      the drm_connector object will still be alive even though the corresponding
+>      drm_dp_mst_port is dead.
+> 
+>    - in normal usage, drm_connector_cleanup releases the connector ID:
+> 
+>      ida_free(&dev->mode_config.connector_ida, connector->index);
+> 
+>    - when dock is replugged, a connector ID is allocated:
+> 
+>      connector->connector_type_id = ida_alloc_min(connector_ida, 1, GFP_KERNEL);
+> 
+>    - if setcrtc has not been called to free the old ID, then ida_alloc_min
+>      allocates a new connector ID instead of reusing the old one. This explains
+>      the "multiple connectors being listed in sysfs" problem.
+> 
+>    - the other problems occur after this, due to the multiple half-dead
+>      connector objects.
+> 
+>    - UBSAN: shift-out-of-bounds in drivers/gpu/drm/display/drm_dp_mst_topology.c:4568
+>      occurs because vcpi==0 in this payload, so BIT op is a left-shift by -1.
+> 
+>    - slab-use-after-free in event_property_validate: looks like it happens
+>      because hdcp_update_display, hdcp_remove_display copy references to
+>      amdgpu_dm_connector (which contains a nested drm_connector) in to the
+>      delayed_work struct hdcp_workqueue without incrementing the reference count
+>      (see pair of lines "hdcp_w->aconnector[conn_index] = aconnector;").
+>      If the connector is freed, &aconnector[conn_index] will become a dangling
+>      pointer. Actually, I can reproduce this easily by just booting to
+>      gdm then plugging and unplugging the dock a few times, so it's
+>      possible this is an independent issue that also needs fixing.
+> 
+>    - use-after-free in dc_stream_release - there appears to be a few
+>      points where a dc_stream_state pointer is copied without refcounting
+>      ("pipe_ctx->stream = stream;") but I don't know if this is the problem. It
+>      could also just be that earlier failures have left something in a bad state.
+> 
+> I'm unsure of the best approach to fix the root cause. One way is to try
+> and release the references by disabling the CRTC. I tried calling
+> drm_mode_crtc from drm_dp_delayed_destroy_port. This was a bit hacky,
+> but did seem to work, the reference count got reduced to 0, and the
+> drm_connector was destroyed. Another option would be to call the
+> drm_connector destructor from drm_dp_delayed_destroy_port (protected by
+> some mutex so that it doesn't get called twice when the actual refcount
+> goes to 0) - that might work to free up the connector ID, but I suspect
+> there could be other issues with having the drm_connector object still
+> alive and potentially holding references to other objects, even though
+> the dock has been physically disconnected.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Thanks for the thorough analysis and all your thoughts here.  It sounds 
+like fixing this is going to resolve quite a large number of issues.
 
--- 
-With best wishes
-Dmitry
+Working up your call path, drm_dp_destroy_port() is what queues the 
+delayed destroy work and specifically has a comment about holding the 
+mode config mutex from EDID retrieval being the reason that it can't be 
+destroyed immediately.
+
+Perhaps could this be solved by reading EDID immediately when the device
+shows up and caching it for all callers?  Then this could be an 
+immediate destroy.
+
