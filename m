@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559E4A78FCB
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC83A78FCC
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 15:31:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A43D810E7BD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0B610E7BC;
 	Wed,  2 Apr 2025 13:31:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iHMAvUFZ";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wXmGBINm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2542210E14F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:31:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 427FB10E7BB
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 13:31:22 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62FF71986;
- Wed,  2 Apr 2025 15:29:26 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 861F81990;
+ Wed,  2 Apr 2025 15:29:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1743600567;
- bh=0rz+qtGwR8012ibx7Ol/9THyUm6cLrG8rh2vtI7MsMc=;
+ s=mail; t=1743600568;
+ bh=c1oUALt2KZgajaeiEy/9OAK/9/j14NZ5nS73HsxdZOA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=iHMAvUFZ0oSZaOR2bJctKAa9uKxqxZ1uwIFG+fgt5ReEow5ommMK0fE7hXUtlMVHP
- LYg4CJOs+qmplVfNkcrrvIm5kSC4X9Ctgy/7LmY7shiVHpIRsYSRzKm1vHRg2p7+WX
- 1Hf+o9yBxVAqV7dcQwiZpakjC1ZGJsqvH4fXSda0=
+ b=wXmGBINmOlLXn1vTyhMmFZrXUAfsfyZtR9pUGb0w99+dJ58rFxlqXdfSyz+58BF3h
+ H018uSJwxkNFLeBm2pZkm3R6mcjrWaoUaU+gxWkMwgcGgHDF0+/8aGiR8ub/CKFaGB
+ S2D0dDF0K5AGe7ojFYzsR+sf3HN2mVWuDAl4Z++4=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 02 Apr 2025 16:30:46 +0300
-Subject: [PATCH v2 04/18] phy: cdns-dphy: Store hs_clk_rate and return it
+Date: Wed, 02 Apr 2025 16:30:47 +0300
+Subject: [PATCH v2 05/18] phy: cdns-dphy: Remove leftover code
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-cdns-dsi-impro-v2-4-4a093eaa5e27@ideasonboard.com>
+Message-Id: <20250402-cdns-dsi-impro-v2-5-4a093eaa5e27@ideasonboard.com>
 References: <20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com>
 In-Reply-To: <20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -51,21 +51,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Devarsh Thakkar <devarsht@ti.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1212;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2173;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=0rz+qtGwR8012ibx7Ol/9THyUm6cLrG8rh2vtI7MsMc=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn7TwcaZeTlUBNgRJH+o0UqxKZ47XGEk5nI4+fx
- rlZ/xHDxHSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+08HAAKCRD6PaqMvJYe
- 9fwTD/4xUL4hkpewbyumBl2OhN2ZsCukOxQqMp6sDpBhQla+6MmBo5TwSfiDKA5PxrVTVCoRRHl
- Tz13fTTolMEQB8iy4zjXiMJ7YoVFe0yzM73tnnh4Ay5RfGd4JvM96cx8prHIdyRuzQG/ANWjaS7
- XVq12EuPuOpuzzWHdwSh10BVmxzShAOJINdAHPCvl0e7OXkUE9tesiZEmqgIfQwWqGdV7ZiGtHx
- 8goeYf3sVYdKDcEQSfAZZDXXmRjEFFHZ6mlbjxoUpR/HoKEumNUAIYU/mL1nqmWOFOrC89g3/eG
- hJq8F2FIdZQEaWxRYqO5KlzYXLq1qPWiKfK0stc7BYHPl83I9oqk8uzWaVqYiZmNidVr21Q/wXz
- ec3sOipiMf5xS4j16tOu47LJ6W1WupZ9FGqd/C6ocDn9KE00TdJOWesU326VPcUn7lRAsv+yDGY
- WSxKkXX3n2FKpiQB70ejX1wcD3/OqmVeJOK9J7wSdPNZPXX7dGyyiM6GcsfYkCd4J35IPa83G3z
- +whWZc3fkm6jHWRYIMvW4FSRXRHpdRdFXoiKqk1UAKdCqdRvfpZJWkruEqfjTqjMknMErxQ8rfC
- PCANjw3lqM0A5neDAwc0TdSUqxnGRQXn7tfmKPVNcOFjDjekJfeSMhRTsMk/h2yUUoPpArXnMBJ
- 0LZmxjAyRkrlGKg==
+ bh=c1oUALt2KZgajaeiEy/9OAK/9/j14NZ5nS73HsxdZOA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn7Twc8yDvZ1RQJmWUsNT9bt28ZCh+IWNxKTyfr
+ JxisTgoyRGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+08HAAKCRD6PaqMvJYe
+ 9cqHD/9RumZ2gSAlo7blCD7hh6ZrKtGOq284AvCCYaDZvrs4Mzx2hggPApHUDHtXlpnebCAF48s
+ JDRfz/OAfVIR184WRUzqOPBH1VxP22ztZsJLwqGVDvA/o/IMTQfNzmIeFHArLZ5JLOH+t7o27Pt
+ BlgXlBUJn6BIVrW1X9mDuYfrpLRObGkDbNo3iyQkykFD314zD91/O4YJ8Ik8RuqZeeV0bceFKr8
+ k2zpHNKg4dYmODOlGEFBdCxjRxcDAIwJkyUtPvcFkgjo8J1i3pkExPTTDkqrJOIqR/qVDZGBUrQ
+ WgVHoDXspczgFPTAF4uBACOXICC04RifuCSxHGZ3ET2Pszvg8Ju2KHcraEUxDIOb8HB9YZQNseq
+ EUbfzuFLhe4Maj624ts32U3VifQtHflpK5VYr61NOoR2Z+Flrn4p6oM0CWIImb5gbraKDnaFbIz
+ BuN8Cyw16yQ1Oa5oP3DJeRbZhGbJuYP5XjGQ4gh15Me+Ao0JrZawQ41eVaV6041pJzCCT+8oYsY
+ BnzAwg/FgZ6/YdP8X1hMyqgArhoSfrNo4hKvHD4WsvagnI1ObkJYZWoDM6v8sM5ge9T2RQHPdr3
+ zpItaUkyesVtWXZ3MJZRYryv8gMAMJmskOeHcEPKxOIEJ5Fncw0tFtIBwxRYfDzSlKnqPGaf9L1
+ 7/75V09J/IMEAUw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,45 +83,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DPHY driver does not return the actual hs_clk_rate, so the DSI
-driver has no idea what clock was actually achieved. Set the realized
-hs_clk_rate to the opts struct, so that the DSI driver gets it back.
+The code in cdns-dphy has probably been part of a DSI driver in the
+past. Remove DSI defines and variables which are not used or do not
+actually do anything. Also rename cdns_dsi_get_dphy_pll_cfg() to
+cdns_get_dphy_pll_cfg(), i.e. drop the "dsi", as it's not relevant here.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/phy/cadence/cdns-dphy.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/phy/cadence/cdns-dphy.c | 19 ++++---------------
+ 1 file changed, 4 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/phy/cadence/cdns-dphy.c b/drivers/phy/cadence/cdns-dphy.c
-index ed87a3970f83..f79ec4fab409 100644
+index f79ec4fab409..7f8b70ec10c5 100644
 --- a/drivers/phy/cadence/cdns-dphy.c
 +++ b/drivers/phy/cadence/cdns-dphy.c
-@@ -79,6 +79,7 @@ struct cdns_dphy_cfg {
- 	u8 pll_ipdiv;
- 	u8 pll_opdiv;
- 	u16 pll_fbdiv;
-+	u32 hs_clk_rate;
- 	unsigned int nlanes;
+@@ -55,14 +55,6 @@
+ #define DPHY_PSM_CFG_FROM_REG		BIT(0)
+ #define DPHY_PSM_CLK_DIV(x)		((x) << 1)
+ 
+-#define DSI_HBP_FRAME_OVERHEAD		12
+-#define DSI_HSA_FRAME_OVERHEAD		14
+-#define DSI_HFP_FRAME_OVERHEAD		6
+-#define DSI_HSS_VSS_VSE_FRAME_OVERHEAD	4
+-#define DSI_BLANKING_FRAME_OVERHEAD	6
+-#define DSI_NULL_FRAME_OVERHEAD		6
+-#define DSI_EOT_PKT_SIZE		4
+-
+ #define DPHY_TX_J721E_WIZ_PLL_CTRL	0xF04
+ #define DPHY_TX_J721E_WIZ_STATUS	0xF08
+ #define DPHY_TX_J721E_WIZ_RST_CTRL	0xF0C
+@@ -117,10 +109,9 @@ static const unsigned int tx_bands[] = {
+ 	870, 950, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2500
  };
  
-@@ -154,6 +155,9 @@ static int cdns_dsi_get_dphy_pll_cfg(struct cdns_dphy *dphy,
- 					  cfg->pll_ipdiv,
- 					  pll_ref_hz);
+-static int cdns_dsi_get_dphy_pll_cfg(struct cdns_dphy *dphy,
+-				     struct cdns_dphy_cfg *cfg,
+-				     struct phy_configure_opts_mipi_dphy *opts,
+-				     unsigned int *dsi_hfp_ext)
++static int cdns_get_dphy_pll_cfg(struct cdns_dphy *dphy,
++				 struct cdns_dphy_cfg *cfg,
++				 struct phy_configure_opts_mipi_dphy *opts)
+ {
+ 	unsigned long pll_ref_hz = clk_get_rate(dphy->pll_ref_clk);
+ 	u64 dlane_bps;
+@@ -289,15 +280,13 @@ static int cdns_dphy_config_from_opts(struct phy *phy,
+ 				      struct cdns_dphy_cfg *cfg)
+ {
+ 	struct cdns_dphy *dphy = phy_get_drvdata(phy);
+-	unsigned int dsi_hfp_ext = 0;
+ 	int ret;
  
-+	cfg->hs_clk_rate = div_u64((u64)pll_ref_hz * cfg->pll_fbdiv,
-+				   2 * cfg->pll_opdiv * cfg->pll_ipdiv);
-+
- 	return 0;
- }
- 
-@@ -297,6 +301,7 @@ static int cdns_dphy_config_from_opts(struct phy *phy,
+ 	ret = phy_mipi_dphy_config_validate(opts);
  	if (ret)
  		return ret;
  
-+	opts->hs_clk_rate = cfg->hs_clk_rate;
- 	opts->wakeup = cdns_dphy_get_wakeup_time_ns(dphy) / 1000;
+-	ret = cdns_dsi_get_dphy_pll_cfg(dphy, cfg,
+-					opts, &dsi_hfp_ext);
++	ret = cdns_get_dphy_pll_cfg(dphy, cfg, opts);
+ 	if (ret)
+ 		return ret;
  
- 	return 0;
 
 -- 
 2.43.0
