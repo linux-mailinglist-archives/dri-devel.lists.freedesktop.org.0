@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07734A79317
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCC0A79319
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:27:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8F110E84F;
-	Wed,  2 Apr 2025 16:27:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D323010E84D;
+	Wed,  2 Apr 2025 16:27:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hfRh2/MB";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="I/yUthHP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C97010E84F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:27:36 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4F9010E84D
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:27:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743611255;
+ s=mimecast20190719; t=1743611262;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MP0mQPob/NaxglglYTtJLQMKwaDtnjjAZ+fqpD006Q0=;
- b=hfRh2/MBZJNqrxQDtDlckUOG97hWsZQLXYcPe1d0sjgVmUSR2Y5GOW4cCiC6EbhEByZUuB
- NeUGs/2xC9io8pTpgpCy7bgi9ud8obkz7abXH4e5gM6MDEUGlPUu1FvnQwhbx0NRqnowwc
- sWJg1Yk/9iIFSHJPVWasWTsYS1YWkWw=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ bh=n20sMf532VbVnrpCAXL1VVfimq/xFU4hBiyB9gxSCUM=;
+ b=I/yUthHPE742sPiTgv/SmD0M02GscIulJtbWuzaphBLSflytzi7lRHVXayWi2dx/gxY8Xi
+ FQOFy/DVFvB1RHp/TXLO8OgpHr4Ub7h2r6UyVjYOOSJbPYArTMrZfeYr2dMpmPbq9kolDU
+ X2fFHp26uAlP0foODLwkqyxD4bddti4=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-390-tFDMFe4UNGiarUsIquna4A-1; Wed,
- 02 Apr 2025 12:27:32 -0400
-X-MC-Unique: tFDMFe4UNGiarUsIquna4A-1
-X-Mimecast-MFC-AGG-ID: tFDMFe4UNGiarUsIquna4A_1743611250
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-609-b9O-w6C_N8i3Gxnyh6wN3Q-1; Wed,
+ 02 Apr 2025 12:27:37 -0400
+X-MC-Unique: b9O-w6C_N8i3Gxnyh6wN3Q-1
+X-Mimecast-MFC-AGG-ID: b9O-w6C_N8i3Gxnyh6wN3Q_1743611254
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 3FA82195608B; Wed,  2 Apr 2025 16:27:30 +0000 (UTC)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 8D49A1956087; Wed,  2 Apr 2025 16:27:34 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 3C5C6195609D; Wed,  2 Apr 2025 16:27:26 +0000 (UTC)
+ id 8AB62195609D; Wed,  2 Apr 2025 16:27:30 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 02 Apr 2025 11:24:05 -0400
-Subject: [PATCH 27/30] panel/novatek-nt36672e: Use refcounted allocation in
+Date: Wed, 02 Apr 2025 11:24:06 -0400
+Subject: [PATCH 28/30] panel/novatek-nt39016: Use refcounted allocation in
  place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250402-b4-drm_panel_mass_convert_part2-v1-27-903b70999ea6@redhat.com>
+Message-Id: <20250402-b4-drm_panel_mass_convert_part2-v1-28-903b70999ea6@redhat.com>
 References: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
 In-Reply-To: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,11 +68,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743607440; l=1422;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743607440; l=1326;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=usXViKv02eqspzENJO9Be1fV1s9csWvAjxEFuLZ2qiw=;
- b=FCV4GOz2buSHwrt+V3/pq+2CQj/12zJH5oLp9Hp3Fg5lvqC9gswRymotadhssWLtMDRNvS4NQ
- LV1EGiym2RJB7JwQABwagDavKKn9uHKT4OvxeAzJ0xKFWlOFF9njFpG
+ bh=Niq8gbCDLPdaXJKvZgPPfcwhl8kkf6v8++wBNoX0yvk=;
+ b=uUBjuu4uAf6zvsY7BdU2W9NZi3KL2l71OpE62cx6Qb43FdZK4WcIbFREATd8c1bzrb9LtfZHE
+ vCtPpS1XB8NDS9JT/7pwHbb5DzBYLD4/tDogZQN3CEt0tTK2DE5mWl6
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -96,37 +96,37 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-novatek-nt36672e.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panel/panel-novatek-nt39016.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-index 8c9e04207ba96db93d18a845a9240d2a22ec6b8f..c5e00eb55722e483a97e8af3a3594cdb9030dae8 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-@@ -522,9 +522,11 @@ static int nt36672e_panel_probe(struct mipi_dsi_device *dsi)
- 	struct nt36672e_panel *ctx;
- 	int i, ret = 0;
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
+index 9fa7654e2b6755fbc641b6bef3cc450e0e16ba32..b9c23be05d4f03c82f9770d3c05d0e8afbb06c6a 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
+@@ -246,9 +246,10 @@ static int nt39016_probe(struct spi_device *spi)
+ 	struct nt39016 *panel;
+ 	int err;
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
+-	if (!panel)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct nt36672e_panel, panel,
-+				   &nt36672e_drm_funcs,
-+				   DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
++	panel = devm_drm_panel_alloc(dev, struct nt39016, drm_panel, &nt39016_funcs,
++				   DRM_MODE_CONNECTOR_DPI);
++	if (IS_ERR(panel))
++		return PTR_ERR(panel);
  
- 	ctx->desc = of_device_get_match_data(dev);
- 	if (!ctx->desc) {
-@@ -553,8 +555,6 @@ static int nt36672e_panel_probe(struct mipi_dsi_device *dsi)
- 	dsi->format = ctx->desc->format;
- 	dsi->mode_flags = ctx->desc->mode_flags;
+ 	spi_set_drvdata(spi, panel);
  
--	drm_panel_init(&ctx->panel, dev, &nt36672e_drm_funcs, DRM_MODE_CONNECTOR_DSI);
+@@ -279,9 +280,6 @@ static int nt39016_probe(struct spi_device *spi)
+ 		return PTR_ERR(panel->map);
+ 	}
+ 
+-	drm_panel_init(&panel->drm_panel, dev, &nt39016_funcs,
+-		       DRM_MODE_CONNECTOR_DPI);
 -
- 	ret = drm_panel_of_backlight(&ctx->panel);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to get backlight\n");
+ 	err = drm_panel_of_backlight(&panel->drm_panel);
+ 	if (err)
+ 		return dev_err_probe(dev, err, "Failed to get backlight handle\n");
 
 -- 
 2.48.1
