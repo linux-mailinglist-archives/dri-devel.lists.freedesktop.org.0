@@ -2,188 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA7CA78AD7
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 11:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083B3A78B23
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 11:33:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2498E10E725;
-	Wed,  2 Apr 2025 09:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E999B10E061;
+	Wed,  2 Apr 2025 09:33:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ElQa/4ok";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AcDlYr59";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7084210E725
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 09:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743585336; x=1775121336;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=yqfO79g4+69x+Xe5HRZCPPzJO+vlevuzWUk6opco7X0=;
- b=ElQa/4ok/4YPaYWDvHo0hhsmNPQu/DEl6H/e4cys4Rs4/NejPM+BAn9F
- H5Y1jikWq+GYhsk+FUhNfcHLiaCMK+cqFEeZaXGSQ7RgROnup+Xs44dkV
- Ii9qKbRSIXrKYhT6XbyHieeAolzCTlAmiVpaSSQabpEybuyQ2801LjY1h
- XaABIYY62RDUaFZ+e7jtJSFJ0wlo1EtYaGt5Ck1/Jo2G3L5hcIhLfZWTL
- GSHgCPGOpGoD+XwH2VfwBrhNbDcsSylWLA+YgivvrCb2r4twkr4C7je2I
- bggv/zu0irsD9Rhq2ZW4BmPs6pLq0oxhz6xS+sm3GqIxo93LXsY0sieIR g==;
-X-CSE-ConnectionGUID: LyLDTv1hSyy2TR6YuQWACQ==
-X-CSE-MsgGUID: IRHYiZZ6RNiLUjxD0DCodQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="56309271"
-X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; d="scan'208";a="56309271"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2025 02:15:35 -0700
-X-CSE-ConnectionGUID: rdq/pxPDSbq3SvLdE9PUrA==
-X-CSE-MsgGUID: 5b/D7QkyRR6SK3lrJ8azZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; d="scan'208";a="127541225"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2025 02:15:36 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Wed, 2 Apr 2025 02:15:34 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Wed, 2 Apr 2025 02:15:34 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 2 Apr 2025 02:15:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iFWG1axah2rasXbEjhEVH2PYtt2o8wBcpRILIS79ukPcPY5ImDs87KpJ1YLMKz3ICB7CdVF+0IVG/9T2gIJf5+a1ARAr4rm8xtrJtfnFTdpzcHwlrglfzw0CaFaFKIDHDzerT9oEkQOEnqh2WPrXqFhmiiW5+V+rsrcEeQOp3K4qoBY34g8BfkhhUX7WFbyrlPzsWrU3jfufgn9u8ttgzo+ypoYmnWQ/GGWiJ0On1t7dLoHQtxUOsPQJlnD4PVYodMAnWNHQP9VLTws2vxpL4Dtm/G2Vhe/hGd94Nng38mWBXAU1ZZqmna1gFiwPukF25+txzBnqB1ItsO4Nf2iKzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rMtLpm9QaARMpo+K8nMCW+27c2IlxX8JwurCzrLmU5w=;
- b=coO/V13LnxNNZVALd++QZQNNJmq3F6poam9cHEFvBJWP7QK5KUy+KlzGrkw2st4R7t86NyWnFAh/71r2vF/clFZkuTt7dkP+6VXzo5zXAn/kouXxgDUNzF5JSUl6dnaIilZGbAC46/WNq1KKS6IQ4dwfB02kb0/dgwb4WhJDWg8UqGLb7kHt2ARNIQ0RXqGRsNeQTF9yNFDk2SnrfMU7gC8is06uNXi6HLcY3BWWvh/OmhInI+nodF6xe7tbFf9b+00iS85PaG7z9Asl3vVkiB4FmrQac4dqVbtEVS6bvlkHEVzeJs/IUVWrRnUBNKPZ3EdndtTO5kQfjuueCcgNdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5549.namprd11.prod.outlook.com (2603:10b6:5:388::7) by
- SJ2PR11MB7503.namprd11.prod.outlook.com (2603:10b6:a03:4cb::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Wed, 2 Apr
- 2025 09:15:30 +0000
-Received: from DM4PR11MB5549.namprd11.prod.outlook.com
- ([fe80::6c31:ab8a:d70:2555]) by DM4PR11MB5549.namprd11.prod.outlook.com
- ([fe80::6c31:ab8a:d70:2555%6]) with mapi id 15.20.8534.043; Wed, 2 Apr 2025
- 09:15:30 +0000
-Message-ID: <f60ed837-b605-4ce8-9b45-87a9d4f34fc4@intel.com>
-Date: Wed, 2 Apr 2025 12:15:25 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/1] accel/habanalabs: Switch to use %ptTs
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jani Nikula
- <jani.nikula@linux.intel.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Oded
- Gabbay" <ogabbay@kernel.org>, "Elbaz, Koby" <koby.elbaz@intel.com>, "Sinyuk,
- Konstantin" <konstantin.sinyuk@intel.com>
-References: <20250305110126.2134307-1-andriy.shevchenko@linux.intel.com>
- <Z-PM8oBtTPzqv-S2@smile.fi.intel.com> <87zfh86rqi.fsf@intel.com>
- <Z-Qij4C8DSmS0Mq-@smile.fi.intel.com>
-Content-Language: en-US
-From: "Avizrat, Yaron" <yaron.avizrat@intel.com>
-In-Reply-To: <Z-Qij4C8DSmS0Mq-@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TLZP290CA0001.ISRP290.PROD.OUTLOOK.COM
- (2603:1096:950:9::14) To DM4PR11MB5549.namprd11.prod.outlook.com
- (2603:10b6:5:388::7)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACDA110E061
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 09:33:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1743586410;
+ bh=3My4gJld4RfMeL+Sp+iPPQtscgLDbHhJKzXiLsm0yqk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AcDlYr59vqTfzUIPZTdnkKDux8witurLaR9/M/ppwM5AstkZx0rRZHMa+4zDp+IBx
+ PK3lj9XhEUZYc5bZp7eOuQhKPZN7qTS8RPM8CNSSvbpbz+6MhP/s/PCsL0qyP0vcOz
+ 7OAd6zZd+JLWC9Oe9HyIA3WC2U3wjPBkwJpEdQ6YR2STdNEBxTLgOgR5MSglL+te08
+ 1XI63/chGf5xW/850olYMs/gOGChDhv/YEtC1ms9nou/heyYxb27B9S4wQqVAETy+9
+ JthpCmxwlanvkQKDQAXz5uajFZAOilbW919I+nfFLMkmyHluuSLeudLD4aGcRLdqZ6
+ ozpNZnlI0nJTw==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 8F6AD17E014F;
+ Wed,  2 Apr 2025 11:33:29 +0200 (CEST)
+Message-ID: <8e4bafe5-b080-4b9d-8894-ff19eb972660@collabora.com>
+Date: Wed, 2 Apr 2025 11:33:29 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5549:EE_|SJ2PR11MB7503:EE_
-X-MS-Office365-Filtering-Correlation-Id: 129238b7-5f33-4af8-3edb-08dd71c6ea2c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SGxxbnVMVDFTT1RzQ3NtSVRrVjIzTExYOVZBTU1GUjVHeC9wa2UwZnNiVnph?=
- =?utf-8?B?Mkt6MFB4cWxIRG91Q1hkOGlSUXVwMm0xMEEwcDltVk1LUUl0NkFiOFljUUFv?=
- =?utf-8?B?Ull2QmN2WE9HWGo5QmlQdWpOZ05KdXVScW1hM05VY2J0ejVVbFRUbmtmQ2pD?=
- =?utf-8?B?a2c5NjM4bXVJaTB0Sk82Tmt0dzdaRlUvTklMTDZtYTFhQzlHNyt2QjBKSmQr?=
- =?utf-8?B?WGJWR0l6SXV3L0t5NmF3UVZuYUdhTjNxcGs1YWgzbk15cXFJcWNic1dSMU8r?=
- =?utf-8?B?K2JScTBzS0EwU3paVGhwZUZ5SWRMRlExdVVmM2RQRXg0NG5mSzF5OXJ1M1B2?=
- =?utf-8?B?YWZWZisvaW9JYnc1NnFhRXREdHhHY2dpRnd2aTBoaU1QMUZRb3JrRGQ3ajJ1?=
- =?utf-8?B?RzFuNzM0Mnd5bS9oSnAzYWtVckRLWnpFQ1Ezb3gwUTZ5OTNxZWtQQUxIZGFJ?=
- =?utf-8?B?a001cFMxUmlhY0E5amtXZDFidnMyenBKMFdXTCtiVVdVVjMvZ2Z3ZEV4Wk5W?=
- =?utf-8?B?YWNtK3g3aTRjTWRpTGpEcmhWNHJBeGozUDI4aW5JQzN1Yk55dnNOVU1nMFlB?=
- =?utf-8?B?aGxMUGNWSmY0ZWIxYjVMdDNaeHRzMVo2a0VUU0liWlB3SDBFK2wvM1ZqeFJH?=
- =?utf-8?B?QlJvS25tL2FNaEYyeXRudGgwbkhUUSs5TmhmYlFtSC82TWo1eS9tbjY2VHFl?=
- =?utf-8?B?M0Q4QmlZUlRpWWh4YVpvcldDdmVpeTlZWFVaV3E3VC9pWkNwWFlscUR0dTE3?=
- =?utf-8?B?MTdSdFo1L3NBcDAzaEdFSmY2SDR4MHdsM3crWjJaZStCUzBxaFErazlVNGhk?=
- =?utf-8?B?TVUxNlVaRVM4UUxET2t4emk4Q3ZqeTRuWEtPVmkrby9iQ3RWUSt2VnNYc01M?=
- =?utf-8?B?eE0xUTZGNEY1Yk9CZ3FMcjJPaDVad050N2t5MnpVYi95RUZvc3RkKzM3d2tO?=
- =?utf-8?B?eUE0WjVobi9DYkpORWlxTzRXRTJIMFhFV3hnMW1JUUN6a3h1S0ZCeTQxMGZX?=
- =?utf-8?B?aFk1bElVS0dPUUhUQUNVOWY4R255OHNDNlFFR0JXeHBwbXV5YW9KOUxTRE5F?=
- =?utf-8?B?R1dkWHZ5amZDL20xa2I0R2FkVkwrc2tObnI1WVJkb1QwUW45SzBITTJVbU1C?=
- =?utf-8?B?aHlHN0RNOERRdzZVOFNpRWpBQTdsaFBvVWErZVNtazRKUnUxcTJPVk92b2V5?=
- =?utf-8?B?UzlnUmpGellXdDZYMFF6a0dtT3RnTUpDelRaQ1BUNGJwNm1YNEdIbzVjb3Nv?=
- =?utf-8?B?cGlGaTBaNnF0LzNDRlp4M21iWGV4eWw1dzRBbTh2NXMzSSs0RS91Q0hTbEcv?=
- =?utf-8?B?NjZmeHJBSFZKcjB0TVl0TzFvMEd1d1B0YWJnc3lpTE5SaUpqWWZ0V29iaWNa?=
- =?utf-8?B?ZnZqNHFPd1N6UmZnNjJ3dFlMSGQ3Q09zeVNvVVM1cTVvSGRPNnJkcyt1UThk?=
- =?utf-8?B?ODMyT3pKcEdSaVRyU3B3bmlzNGxzMUR1aFc3RUJyWVlLSUppSzBMOGpaU1lC?=
- =?utf-8?B?c2NlOFJoSitLUWRwMzg1bjdOT3ZROFIzT2JSNjNqVGRnNkpYUCttT04rdGFY?=
- =?utf-8?B?T0ZlTXNvbDVSTC9rdTFpL25LcC8yZm9hYlAyWUZtcFhIZjI3T1VMS2xtYmNi?=
- =?utf-8?B?LzBhUFRCSlJJaVVrSzBJRmpabVNHUHhwVXQzRGNyWGZrUGpsdGJhM1R1bGRw?=
- =?utf-8?B?SjdqdmlYNldZc3VISTFSRU1RazFtcU0xR0JzRWhaYzdKaUpHYXV1aXdEYVR1?=
- =?utf-8?B?WlhMYnVOWmluQnR6M1NEZ1N5VUFzWlRadDBQa1FpWVJZelI2QzAzdXh5S0Fw?=
- =?utf-8?B?TzFDTS9LS1VMdzZ0UUpjWkg0cU8xSmFWbWE0b0ZtcHBGNENXMlZadGpCc251?=
- =?utf-8?Q?aPE4qYnxHGpG5?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5549.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjZOQTY4YzlLbGcyYnVZOVZ3Q0g2R3FRK3lVMGVHeFZ3dXZvMCthOURCOHZs?=
- =?utf-8?B?bk44clN6ZUVlQnFRVmFLSUk3ZjJhayt1Uy9hZ29VaXpEVFJRb1liZVByUjJl?=
- =?utf-8?B?Z1M5Z1JnSmpXQWl4anRadHMzRGdOREJwcC9NOXNXYkRYMWJtY21oVEJWdjN2?=
- =?utf-8?B?Q3k0cXowWDFQYTAybWk5ZjVmcHJFL0paRUtON3JZOEN4R3ZOUE9BN0NtWHI5?=
- =?utf-8?B?cEppTVJPZWEzOEsvRHczTEJLUk1xUzIxbjFDaW83WlU3S1dDTUJhRnl6NC9y?=
- =?utf-8?B?b1R0ZnMxd1k5K0pSWWhTaGIwN0JueVE4NXl5SkNXMzI0Q1QzUTVEcUZQUjY2?=
- =?utf-8?B?REhHVGU5Rjd4c1ArK1dQSk1haTJheTBwR0UvLzRMenV0VjBVMVcrR0JoSk40?=
- =?utf-8?B?K2M1Wnd4QkVJNWRtOGdPN21EcTZqczZvNnRPdHU2L2U2TDl2YzhmZU12Yk9h?=
- =?utf-8?B?QnkwNVpkSnB3TWM4TWV3SU1zS0NRa3RkS21Cd0dwRXBJOFQycUZBTDlxbFR5?=
- =?utf-8?B?NDZBOGdwc1RHNG5oZldtdE9mWkhhSmJWa2lSRm56UVorWk8rMlVzMzlXelRX?=
- =?utf-8?B?dWRQWk5qaW9nWDU1ajROd0c1Q3I1eXFhQVZnWGRHd0NISjlhNFhtTkVrUzRE?=
- =?utf-8?B?VndkeTAydk5lQ0VLMzI4Mklxem9kMDRrTUpBUXgzY3ZZb2pqR2xCcHhFSWRR?=
- =?utf-8?B?WVR1dmpGZGJoaUdGYnkrU0w5Ky9CcHZiSUlsWW5QZDBKaGU3VlVpZW85eXAz?=
- =?utf-8?B?dndYTUpRcVo1Y1c3N01ZejA4Q1BtcDN0NTh3cXVyS3ZiOS8vQnplNTVhU1o2?=
- =?utf-8?B?SUZpRHQ4Y2hROWMvNDJVVVBMOC9WU0FGU01MalEycmo4YVp1NDN1SlloaDdH?=
- =?utf-8?B?NjFjYTlYOFZHc09JNFpZNHJWWkNFL2ZsTEN4QVc5MkJBRXhOQnpRcUI4Uy9z?=
- =?utf-8?B?eE5PS1RqVnM2ckQ3KzlKK1Bkd1NZMG5nVTFub1B2bThybmxlQVlWaE5tTXc5?=
- =?utf-8?B?bW5GNXloK1dnQ0YxUkhGWS9vTC9WY0x2VlFmTUFiNXFJb0xFNklNOEdoQ0x3?=
- =?utf-8?B?cUxvZmF2V1RKMUJMdHh3YXpiWXVjVnhadmwzVzEzWmJHSitvVVlOSmJuTG5V?=
- =?utf-8?B?YWpxVWc3T3JNRnNyTGF5c0IzVHoyOWQzRGcyd1ZCa2wrR1NkbGhJNktCaFFi?=
- =?utf-8?B?SUFVQkVSZG1HeGRlcDZmU09UbVFLZ0thc3lRLzUzNG5lVXR5SXR4bEc3OHRK?=
- =?utf-8?B?bTEvOCt4cmJxbUFnQzBQVlpTVmc2aGdCL3o0VmN4WStWb0VMTHlraG0xVVJh?=
- =?utf-8?B?UnJyMzRNRHN0Z3hoVjdvVFFrcXBKR0dFajRZdWEySGtSZXNwcTlqUFlLVFZu?=
- =?utf-8?B?a3lwbnVpc3FySFIwTHUvQW9wL0YyK2FZYnpLRmJGd3c5MFYzNnpJRmRpKzNH?=
- =?utf-8?B?ZVlNc3oyay9KejFDMlVqbkV5UUpmWXBuZWpOWGtxT2NIMnpidjIzTW9WdWNj?=
- =?utf-8?B?SUlyeDZ5UlgybWRNZzBVczJoME5XNkxuYUpLYmVkRHV2WDZ0WHFiWFpTRUsy?=
- =?utf-8?B?M3lGS2ExUTRORnBDV3huNFJkUk5SUlZnTEZ2dWYwc1ozZjFrckI4b3dNWFNJ?=
- =?utf-8?B?VVhOTVV1RkVWSElJRzNBSEFGenFzVzlZcHpEaXJlY3FzVlU3bkVJMnBBU2Jo?=
- =?utf-8?B?UUVNNVVFSitZaDlmSkVDZ2VLcURUNEQvejhUMk12aDBpR0Q2eHlGQUtVYVBp?=
- =?utf-8?B?UWRoK0ltdzNma2N2QnR1MUhGMUNNMDBlV0g5TjVEUVVGS2hhM3hkOW1mZ0Nj?=
- =?utf-8?B?YlF5dk5HbHFGTkk5UkQ0OGIzazc0eEVMblJLYi9xSFA5NjVxTk4rcGllV2NF?=
- =?utf-8?B?MTVjR0tlWUlZbDlWdiswOW5LYzdJb1dEcjFHODd1d1VISXNjV040WTJrSlI0?=
- =?utf-8?B?c3M3dWdGbkRRb1g5VlhQZWJPZkJFMWkwUENsVnRlQlhSUmUyM3Rxb09IUGdi?=
- =?utf-8?B?WHBvcTE5Y25BOTdEamFFYTdjdkRIc1Jhc0FFblY5VTByOU9oUHZQS0tYcy9q?=
- =?utf-8?B?WlBhdjJWcFBRdXRaSDNhU2hDYmY4bllJNDBTb1RJVjFPTWtzclJ3MDVaTzFB?=
- =?utf-8?B?dFg4NnFNaVVqWG1hMU51bk8yc25TVjhMV0FYUDZsd0grS012cEthSi85bW9Y?=
- =?utf-8?B?NWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 129238b7-5f33-4af8-3edb-08dd71c6ea2c
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5549.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 09:15:30.5999 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T/pBb0y3COZkrN4EuvngRybRkucDjBjm9qBc6QonSzxzytFRGnYwpD6UUK0UCn28AdUYGG0IJwXKYZeg2MpvIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7503
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/15] soc: mediatek: add mmsys support for MT8196
+To: =?UTF-8?B?UGF1bC1wbCBDaGVuICjpmbPmn4/pnJYp?= <Paul-pl.Chen@mediatek.com>, 
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: =?UTF-8?B?U3VubnkgU2hlbiAo5rKI5aeN5aeNKQ==?= <Sunny.Shen@mediatek.com>,
+ =?UTF-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?UTF-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
+ <Xiandong.Wang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "fshao@chromium.org" <fshao@chromium.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "treapking@chromium.org" <treapking@chromium.org>
+References: <20250321093435.94835-1-paul-pl.chen@mediatek.com>
+ <20250321093435.94835-7-paul-pl.chen@mediatek.com>
+ <67337197-abec-450c-b400-ae37a0cd0692@collabora.com>
+ <17b12339c2ac5231cbbd88358691cca7f58f8e3f.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <17b12339c2ac5231cbbd88358691cca7f58f8e3f.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,86 +85,491 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 26/03/2025 17:51, Andy Shevchenko wrote:
-> On Wed, Mar 26, 2025 at 11:55:33AM +0200, Jani Nikula wrote:
->> On Wed, 26 Mar 2025, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
->>> +Cc: Jani (sorry, forgot to add you in the first place).
+Il 02/04/25 06:06, Paul-pl Chen (陳柏霖) ha scritto:
+> On Mon, 2025-03-24 at 18:09 +0100, AngeloGioacchino Del Regno wrote:
+>>
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> Il 21/03/25 10:33, paul-pl.chen ha scritto:
+>>> From: Nancy Lin <nancy.lin@mediatek.com>
 >>>
->>> Do you think it's applicable now?
->> Cc: Yaron, Koby, and Konstantin who are supposed to be the new
->> maintainers for accel/habanalabs.
-> Thank you!
-Acked-by: Yaron Avizrat <yaron.avizrat@intel.com>
+>>> 1. Defining driver data and adding compatible string
+>>> for different subsystems
+>>> (DISPSYS0, DISPSYS1, OVLSYS0, OVLSYS1, VDISP_AO)
+>>> 2. Adding functions to control top clocks and ddp clocks.
+>>> 3. Updating the probe function to initialize clocks and
+>>> enable runtime PM if its node has the power-domains property.
+>>> 4. Adding functions to configure ddp components and
+>>> set default configurations.
+>>> 5. Adding the routing table for each mmsys in MT8196.
+>>
+>> You need at least two commits for all that you're doing here... and
+>> adding MT8196
+>> tables should be the last one.
+>>
+> Hi AngeloGioacchino,
+> 
+> Thank you for your feedback. I appreciate your suggestion to split the
+> changes into at least two commits. Based on your advice, I'm
+> considering dividing the changes as follows:
+> 
+> Commit 1: Add mmsys support
+> This commit would include:
+> (1) Defining driver data and adding compatible strings for different
+> subsystems (DISPSYS0, DISPSYS1, OVLSYS0, OVLSYS1, VDISP_AO)
+> (2) Adding functions to control top clocks and ddp clocks
+> (3) Updating the probe function to initialize clocks and enable runtime
+> PM if its node has the power-domains property
+> (4) Adding functions to configure ddp components and set default
+> configurations
+> 
+> Commit 2: Add mmsys tables support for MT8196
+> This commit would focus on:
+> (5) Adding the routing table for each mmsys in MT8196
+> 
+> Does this division align with your expectations?
 
-Thanks,
-Yaron
->>> On Wed, Mar 05, 2025 at 01:00:25PM +0200, Andy Shevchenko wrote:
->>>> Use %ptTs instead of open-coded variant to print contents of time64_t type
->>>> in human readable form.
->>>>
->>>> This changes N/A output to 1970-01-01 00:00:00 for zero timestamps,
->>>> but it's used only in the dev_err() output and won't break anything.
->>>>
->>>> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->>>> ---
->>>>
->>>> v3: explained the difference for N/A cases (Jani)
->>>> v2: fixed the parameters to be the pointers
->>>>
->>>>  drivers/accel/habanalabs/common/device.c | 25 +++---------------------
->>>>  1 file changed, 3 insertions(+), 22 deletions(-)
->>>>
->>>> diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
->>>> index 68eebed3b050..80fa08bf57bd 100644
->>>> --- a/drivers/accel/habanalabs/common/device.c
->>>> +++ b/drivers/accel/habanalabs/common/device.c
->>>> @@ -1066,28 +1066,11 @@ static bool is_pci_link_healthy(struct hl_device *hdev)
->>>>  	return (device_id == hdev->pdev->device);
->>>>  }
->>>>  
->>>> -static void stringify_time_of_last_heartbeat(struct hl_device *hdev, char *time_str, size_t size,
->>>> -						bool is_pq_hb)
->>>> -{
->>>> -	time64_t seconds = is_pq_hb ? hdev->heartbeat_debug_info.last_pq_heartbeat_ts
->>>> -					: hdev->heartbeat_debug_info.last_eq_heartbeat_ts;
->>>> -	struct tm tm;
->>>> -
->>>> -	if (!seconds)
->>>> -		return;
->>>> -
->>>> -	time64_to_tm(seconds, 0, &tm);
->>>> -
->>>> -	snprintf(time_str, size, "%ld-%02d-%02d %02d:%02d:%02d (UTC)",
->>>> -		tm.tm_year + 1900, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
->>>> -}
->>>> -
->>>>  static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
->>>>  {
->>>>  	struct eq_heartbeat_debug_info *heartbeat_debug_info = &hdev->heartbeat_debug_info;
->>>>  	u32 cpu_q_id = heartbeat_debug_info->cpu_queue_id, pq_pi_mask = (HL_QUEUE_LENGTH << 1) - 1;
->>>>  	struct asic_fixed_properties *prop = &hdev->asic_prop;
->>>> -	char pq_time_str[64] = "N/A", eq_time_str[64] = "N/A";
->>>>  
->>>>  	if (!prop->cpucp_info.eq_health_check_supported)
->>>>  		return true;
->>>> @@ -1095,17 +1078,15 @@ static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
->>>>  	if (!hdev->eq_heartbeat_received) {
->>>>  		dev_err(hdev->dev, "EQ heartbeat event was not received!\n");
->>>>  
->>>> -		stringify_time_of_last_heartbeat(hdev, pq_time_str, sizeof(pq_time_str), true);
->>>> -		stringify_time_of_last_heartbeat(hdev, eq_time_str, sizeof(eq_time_str), false);
->>>>  		dev_err(hdev->dev,
->>>> -			"EQ: {CI %u, HB counter %u, last HB time: %s}, PQ: {PI: %u, CI: %u (%u), last HB time: %s}\n",
->>>> +			"EQ: {CI %u, HB counter %u, last HB time: %ptTs}, PQ: {PI: %u, CI: %u (%u), last HB time: %ptTs}\n",
->>>>  			hdev->event_queue.ci,
->>>>  			heartbeat_debug_info->heartbeat_event_counter,
->>>> -			eq_time_str,
->>>> +			&hdev->heartbeat_debug_info.last_eq_heartbeat_ts,
->>>>  			hdev->kernel_queues[cpu_q_id].pi,
->>>>  			atomic_read(&hdev->kernel_queues[cpu_q_id].ci),
->>>>  			atomic_read(&hdev->kernel_queues[cpu_q_id].ci) & pq_pi_mask,
->>>> -			pq_time_str);
->>>> +			&hdev->heartbeat_debug_info.last_pq_heartbeat_ts);
->>>>  
->>>>  		hl_eq_dump(hdev, &hdev->event_queue);
+Yes, but if you want, you can even do more than two commits - just make it
+readable; each commit needs a precise scope, only changes that *need to*
+be together go in a single commit.
+
+>>>
+>>> Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
+>>> Signed-off-by: Paul-pl Chen <paul-pl.chen@mediatek.com>
+>>> ---
+>>>    drivers/soc/mediatek/mt8196-mmsys.h    | 451
+>>> +++++++++++++++++++++++++
+>>>    drivers/soc/mediatek/mtk-mmsys.c       | 203 ++++++++++-
+>>>    drivers/soc/mediatek/mtk-mmsys.h       |  18 +
+>>>    include/linux/soc/mediatek/mtk-mmsys.h |  60 ++++
+>>>    4 files changed, 731 insertions(+), 1 deletion(-)
+>>>    create mode 100644 drivers/soc/mediatek/mt8196-mmsys.h
+>>>
+>>> diff --git a/drivers/soc/mediatek/mt8196-mmsys.h
+>>> b/drivers/soc/mediatek/mt8196-mmsys.h
+>>> new file mode 100644
+>>> index 000000000000..ff841ae9939a
+>>> --- /dev/null
+>>> +++ b/drivers/soc/mediatek/mt8196-mmsys.h
+>>> @@ -0,0 +1,451 @@
+>>
+>> ..snip..
+>>
+>>> +static const struct mtk_mmsys_default
+>>> mmsys_mt8196_disp0_default_table[] = {
+>>> +     {MT8196_OVLSYS_GCE_EVENT_SEL, MT8196_EVENT_GCE_EN, GENMASK(1,
+>>> 0)},
+>>> +     {MT8196_DISP0_BYPASS_MUX_SHADOW,
+>>> +      MT8196_CB_BYPASS_MUX_SHADOW | MT8196_BYPASS_MUX_SHADOW,
+>>> +      MT8196_CB_BYPASS_MUX_SHADOW | MT8196_BYPASS_MUX_SHADOW},
+>>> +     {MT8196_DISP0_DLI_RELAY0, MT8196_DLI_RELAY_1T2P, GENMASK(31,
+>>> 30)},
+>>> +     {MT8196_DISP0_DLI_RELAY1, MT8196_DLI_RELAY_1T2P, GENMASK(31,
+>>> 30)},
+>>> +     {MT8196_DISP0_DLI_RELAY8, MT8196_DLI_RELAY_1T2P, GENMASK(31,
+>>> 30)},
+>>> +     {MT8196_DISP0_DLO_RELAY1, MT8196_DLI_RELAY_1T2P, GENMASK(31,
+>>> 30)},
+>>> +     {MT8196_DISP0_DLO_RELAY2, MT8196_DLI_RELAY_1T2P, GENMASK(31,
+>>> 30)},
+>>> +     {MT8196_DISP0_DLO_RELAY3, MT8196_DLI_RELAY_1T2P, GENMASK(31,
+>>> 30)},
+>>> +};
+>>> +
+>>> +static const struct mtk_mmsys_default
+>>> mmsys_mt8196_disp1_default_table[] = {
+>>> +     {MT8196_OVLSYS_GCE_EVENT_SEL, MT8196_EVENT_GCE_EN, GENMASK(1,
+>>> 0)},
+>>> +     {MT8196_DISP1_INT_MERGE, 0, BIT(0)},
+>>> +     {MT8196_DISP1_BYPASS_MUX_SHADOW,
+>>> +      MT8196_CB_BYPASS_MUX_SHADOW | MT8196_BYPASS_MUX_SHADOW,
+>>> +      MT8196_CB_BYPASS_MUX_SHADOW | MT8196_BYPASS_MUX_SHADOW},
+>>> +     {MT8196_DISP1_DLI_RELAY21, MT8196_DLI_RELAY_1T2P, GENMASK(31,
+>>> 30)},
+>>> +     {MT8196_DISP1_DLI_RELAY22, MT8196_DLI_RELAY_1T2P, GENMASK(31,
+>>> 30)},
+>>> +     {MT8196_DISP1_DLI_RELAY23, MT8196_DLI_RELAY_1T2P, GENMASK(31,
+>>> 30)},
+>>> +     {MT8196_DISP1_GCE_FRAME_DONE_SEL0, MT8196_FRAME_DONE_DVO,
+>>> GENMASK(5, 0)},
+>>> +     {MT8196_DISP1_GCE_FRAME_DONE_SEL1,
+>>> MT8196_FRAME_DONE_DP_INTF0, GENMASK(5, 0)},
+>>> +};
+>>> +
+>>> +static const struct mtk_mmsys_routes
+>>> mmsys_mt8196_ovl0_routing_table[] = {
+>>> +     {
+>>> +             DDP_COMPONENT_OVL0_EXDMA2,
+>>> DDP_COMPONENT_OVL0_BLENDER1,
+>>
+>> There's a new MMSYS_ROUTE macro that was introduced because tables
+>> contained
+>> wrong values in multiple instances and in multiple SoCs: please use
+>> it here and
+>> for all routing tables.
+>>
+> Sure, I will use the new MMSYS_ROUTE macro " MMSYS_ROUTE " to replace
+> the old routing table.
+>>> +             MT8196_OVL_RSZ_IN_CB2_MOUT_EN,
+>>> MT8196_DISP_OVL_EXDMA2_1_TO_OVL_EXDMA_OUT_CB3,
+>>> +             MT8196_DISP_OVL_EXDMA2_1_TO_OVL_EXDMA_OUT_CB3
+>>
+>> ..snip..
+>>
+>>> +};
+>>> +#endif /* __SOC_MEDIATEK_MT8196_MMSYS_H */
+>>> diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+>>> b/drivers/soc/mediatek/mtk-mmsys.c
+>>> index bb4639ca0b8c..1d3ca4f9f237 100644
+>>> --- a/drivers/soc/mediatek/mtk-mmsys.c
+>>> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+>>> @@ -4,12 +4,14 @@
+>>>     * Author: James Liao <jamesjj.liao@mediatek.com>
+>>>     */
+>>>
+>>> +#include <linux/clk.h>
+>>>    #include <linux/delay.h>
+>>>    #include <linux/device.h>
+>>>    #include <linux/io.h>
+>>>    #include <linux/module.h>
+>>>    #include <linux/of.h>
+>>>    #include <linux/platform_device.h>
+>>> +#include <linux/pm_runtime.h>
+>>>    #include <linux/reset-controller.h>
+>>>    #include <linux/soc/mediatek/mtk-mmsys.h>
+>>>
+>>> @@ -21,6 +23,7 @@
+>>>    #include "mt8188-mmsys.h"
+>>>    #include "mt8192-mmsys.h"
+>>>    #include "mt8195-mmsys.h"
+>>> +#include "mt8196-mmsys.h"
+>>>    #include "mt8365-mmsys.h"
+>>>
+>>>    #define MMSYS_SW_RESET_PER_REG 32
+>>> @@ -144,6 +147,54 @@ static const struct mtk_mmsys_driver_data
+>>> mt8195_vppsys1_driver_data = {
+>>>        .is_vppsys = true,
+>>>    };
+>>>
+>>> +static const struct mtk_mmsys_driver_data
+>>> mt8196_dispsys0_driver_data = {
+>>> +     .clk_driver = "clk-mt8196-disp0",
+>>> +     .routes = mmsys_mt8196_disp0_routing_table,
+>>> +     .num_routes = ARRAY_SIZE(mmsys_mt8196_disp0_routing_table),
+>>> +     .async_info = mmsys_mt8196_disp0_async_comp_table,
+>>> +     .num_async_info =
+>>> ARRAY_SIZE(mmsys_mt8196_disp0_async_comp_table),
+>>> +     .def_config = mmsys_mt8196_disp0_default_table,
+>>> +     .num_def_config =
+>>> ARRAY_SIZE(mmsys_mt8196_disp0_default_table),
+>>> +     .num_top_clk = 1,
+>>> +};
+>>> +
+>>> +static const struct mtk_mmsys_driver_data
+>>> mt8196_dispsys1_driver_data = {
+>>> +     .clk_driver = "clk-mt8196-disp1",
+>>> +     .routes = mmsys_mt8196_disp1_routing_table,
+>>> +     .num_routes = ARRAY_SIZE(mmsys_mt8196_disp1_routing_table),
+>>> +     .async_info = mmsys_mt8196_disp1_async_comp_table,
+>>> +     .num_async_info =
+>>> ARRAY_SIZE(mmsys_mt8196_disp1_async_comp_table),
+>>> +     .def_config = mmsys_mt8196_disp1_default_table,
+>>> +     .num_def_config =
+>>> ARRAY_SIZE(mmsys_mt8196_disp1_default_table),
+>>> +     .num_top_clk = 1,
+>>> +};
+>>> +
+>>> +static const struct mtk_mmsys_driver_data
+>>> mt8196_ovlsys0_driver_data = {
+>>> +     .clk_driver = "clk-mt8196-ovl0",
+>>> +     .routes = mmsys_mt8196_ovl0_routing_table,
+>>> +     .num_routes = ARRAY_SIZE(mmsys_mt8196_ovl0_routing_table),
+>>> +     .async_info = mmsys_mt8196_ovl0_async_comp_table,
+>>> +     .num_async_info =
+>>> ARRAY_SIZE(mmsys_mt8196_ovl0_async_comp_table),
+>>> +     .def_config = mmsys_mt8196_ovl0_default_table,
+>>> +     .num_def_config =
+>>> ARRAY_SIZE(mmsys_mt8196_ovl0_default_table),
+>>> +};
+>>> +
+>>> +static const struct mtk_mmsys_driver_data
+>>> mt8196_ovlsys1_driver_data = {
+>>> +     .clk_driver = "clk-mt8196-ovl1",
+>>> +     .routes = mmsys_mt8196_ovl1_routing_table,
+>>> +     .num_routes = ARRAY_SIZE(mmsys_mt8196_ovl1_routing_table),
+>>> +     .async_info = mmsys_mt8196_ovl1_async_comp_table,
+>>> +     .num_async_info =
+>>> ARRAY_SIZE(mmsys_mt8196_ovl1_async_comp_table),
+>>> +     .def_config = mmsys_mt8196_ovl0_default_table,
+>>> +     .num_def_config =
+>>> ARRAY_SIZE(mmsys_mt8196_ovl0_default_table),
+>>> +};
+>>> +
+>>> +static const struct mtk_mmsys_driver_data
+>>> mt8196_vdisp_ao_driver_data = {
+>>> +     .clk_driver = "clk-mt8196-vdisp_ao",
+>>> +     .def_config = mmsys_mt8196_vdisp_ao_default_table,
+>>> +     .num_def_config =
+>>> ARRAY_SIZE(mmsys_mt8196_vdisp_ao_default_table),
+>>> +};
+>>> +
+>>>    static const struct mtk_mmsys_driver_data
+>>> mt8365_mmsys_driver_data = {
+>>>        .clk_driver = "clk-mt8365-mm",
+>>>        .routes = mt8365_mmsys_routing_table,
+>>> @@ -158,6 +209,9 @@ struct mtk_mmsys {
+>>>        spinlock_t lock; /* protects mmsys_sw_rst_b reg */
+>>>        struct reset_controller_dev rcdev;
+>>>        struct cmdq_client_reg cmdq_base;
+>>> +     struct clk **async_clk;
+>>> +     int num_async_clk;
+>>> +     struct clk **top_clk;
+>>>    };
+>>>
+>>>    static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32
+>>> offset, u32 mask, u32 val,
+>>> @@ -180,6 +234,99 @@ static void mtk_mmsys_update_bits(struct
+>>> mtk_mmsys *mmsys, u32 offset, u32 mask,
+>>>        writel_relaxed(tmp, mmsys->regs + offset);
+>>>    }
+>>>
+>>> +int mtk_mmsys_top_clk_enable(struct device *dev)
+>>> +{
+>>> +     struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+>>> +     int ret, i;
+>>> +
+>>> +     if (!mmsys->data->num_top_clk)
+>>> +             return 0;
+>>> +
+>>> +     for (i = 0; i < mmsys->data->num_top_clk; i++)
+>>> +             ret = clk_prepare_enable(mmsys->top_clk[i]);
+>>> +     return ret;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(mtk_mmsys_top_clk_enable);
+>>> +
+>>> +void mtk_mmsys_top_clk_disable(struct device *dev)
+>>> +{
+>>> +     struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+>>> +     int i;
+>>> +
+>>> +     for (i = 0; i < mmsys->data->num_top_clk; i++)
+>>> +             clk_disable_unprepare(mmsys->top_clk[i]);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(mtk_mmsys_top_clk_disable);
+>>> +
+>>> +int mtk_mmsys_ddp_clk_enable(struct device *dev, enum
+>>> mtk_ddp_comp_id comp_id)
+>>> +{
+>>> +     struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+>>> +     const struct mtk_mmsys_async_info *async = mmsys->data-
+>>>> async_info;
+>>> +
+>>> +     int i;
+>>> +
+>>> +     if (!mmsys->data->num_async_info)
+>>> +             return 0;
+>>> +
+>>> +     for (i = 0; i < mmsys->data->num_async_info; i++)
+>>> +             if (comp_id == async[i].comp_id)
+>>> +                     return clk_prepare_enable(mmsys-
+>>>> async_clk[async[i].index]);
+>>
+>> Why can't you add the clocks in the mediatek-drm nodes and handle
+>> enablement in the
+>> drm driver?!
+>>
+> The "async" is not like other components under mediate-drm that have
+> independent functions.It only controls which clocks need to be enabled
+> when the path MUX goes through certain routes.
+> 
+> That's why it's placed in mtk-mmsys. It's only activated when it needs
+> to be connected to the necessary path MUX.
+> 
+> Currently, the path order is represented through component IDs.
+> Therefore, to indicate its relative position on the DDP path, we
+> defined a component ID for it to use.
+> 
+
+I'm still not convinced - this explanation still doesn't exclude the possibility
+of doing that in mediatek-drm, really.
+
+Having one big node containing clocks for multiple hardware IPs doesn't correctly
+describe the hardware in the devicetree as well, and this is because those clocks
+don't belong to the big VDO, but to the single hardware components that are
+children of a VDO.
+
+While this means that the clocks are still contained in a VDO macro-block, they
+are relative to a sub-block and enable register access of a sub-block, not of
+the VDO macro-block.
+
+
+>>> +     return 0;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_clk_enable);
+>>> +
+>>> +void mtk_mmsys_ddp_clk_disable(struct device *dev, enum
+>>> mtk_ddp_comp_id comp_id)
+>>> +{
+>>> +     struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+>>> +     const struct mtk_mmsys_async_info *async = mmsys->data-
+>>>> async_info;
+>>> +     int i;
+>>> +
+>>> +     if (!mmsys->data->num_async_info)
+>>> +             return;
+>>> +
+>>> +     for (i = 0; i < mmsys->data->num_async_info; i++)
+>>> +             if (comp_id == async[i].comp_id)
+>>> +                     clk_disable_unprepare(mmsys-
+>>>> async_clk[async[i].index]);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_clk_disable);
+>>> +
+>>> +void mtk_mmsys_ddp_config(struct device *dev, enum mtk_ddp_comp_id
+>>> comp_id,
+>>> +                       int width, int height, struct cmdq_pkt
+>>> *cmdq_pkt)
+>>> +{
+>>> +     struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+>>> +     const struct mtk_mmsys_async_info *async = mmsys->data-
+>>>> async_info;
+>>> +     int i;
+>>> +
+>>> +     if (!mmsys->data->num_async_info)
+>>> +             return;
+>>> +
+>>> +     for (i = 0; i < mmsys->data->num_async_info; i++)
+>>> +             if (comp_id == async[i].comp_id)
+>>> +                     break;
+>>> +
+>>> +     if (i == mmsys->data->num_async_info)
+>>> +             return;
+>>> +
+>>> +     mtk_mmsys_update_bits(mmsys, async[i].offset, async[i].mask,
+>>> +                           height << 16 | width, cmdq_pkt);
+>>
+>> linux/bitfield.h provides macros that you should use for those
+>> register fields.
+>>
+> 
+> We use "mtk_mmsys_update_bits" to check if a cmdq packet exists.
+> If the cmdq packet exists, the function will make settings through
+> cmdq.
+> If cmdq is NULL, it will directly make settings through the CPU.
+> 
+> Regarding your comment
+> "linux/bitfield.h provides macros that you should use for those
+> register fields", are they suggesting that:
+> 
+> [1] We should use the macros provided by linux/bitfield.h to replace
+> expressions like "height << 16"
+> 
+
+You have to use those macros to replace expressions like "height << 16".
+
+val = FIELD_PREP(SOMETHING, height);
+val |= FIELD_PREP(SOMETHING_ELSE, width);
+
+mtk_mmsys_update_bits(mmsys, async[i].offset, async[i].mask, val, cmdq_pkt);
+
+Regards,
+Angelo
+
+> or [2] We should rewrite mtk_mmsys_update_bits using kernel APIs
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_config);
+>>> +
+>>> +void mtk_mmsys_default_config(struct device *dev)
+>>> +{
+>>> +     struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+>>> +     const struct mtk_mmsys_default *def_config = mmsys->data-
+>>>> def_config;
+>>> +     int i;
+>>> +
+>>> +     if (!mmsys->data->num_def_config)
+>>> +             return;
+>>> +
+>>> +     for (i = 0; i < mmsys->data->num_def_config; i++)
+>>> +             mtk_mmsys_update_bits(mmsys, def_config[i].offset,
+>>> def_config[i].mask,
+>>> +                                   def_config[i].val, NULL);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(mtk_mmsys_default_config);
+>>> +
+>>>    void mtk_mmsys_ddp_connect(struct device *dev,
+>>>                           enum mtk_ddp_comp_id cur,
+>>>                           enum mtk_ddp_comp_id next)
+>>> @@ -390,7 +537,7 @@ static int mtk_mmsys_probe(struct
+>>> platform_device *pdev)
+>>>        struct platform_device *clks;
+>>>        struct platform_device *drm;
+>>>        struct mtk_mmsys *mmsys;
+>>> -     int ret;
+>>> +     int ret, i;
+>>>
+>>>        mmsys = devm_kzalloc(dev, sizeof(*mmsys), GFP_KERNEL);
+>>>        if (!mmsys)
+>>> @@ -432,6 +579,49 @@ static int mtk_mmsys_probe(struct
+>>> platform_device *pdev)
+>>>                return PTR_ERR(clks);
+>>>        mmsys->clks_pdev = clks;
+>>>
+>>> +     if (mmsys->data->num_top_clk) {
+>>> +             struct device_node *node;
+>>> +
+>>> +             node = of_get_child_by_name(dev->of_node, "top");
+>>
+>> No, you can't do that if there's no binding to support that.
+>>
+> We will add the "async" component in the MMSYS YAML file.
+> "async" is a nessceary clock in the specific routing display
+> path MUX configuration
+>>
+>>> +             if (!node) {
+>>> +                     dev_err(&pdev->dev, "Couldn't find top
+>>> node\n");
+>>> +                     return -EINVAL;
+>>> +             }
+>>> +
+>>> +             mmsys->top_clk = devm_kmalloc_array(dev, mmsys->data-
+>>>> num_top_clk,
+>>> +                                                 sizeof(*mmsys-
+>>>> top_clk), GFP_KERNEL);
+>>> +             if (!mmsys->top_clk)
+>>> +                     return -ENOMEM;
+>>> +
+>>> +             for (i = 0; i < mmsys->data->num_top_clk; i++) {
+>>> +                     mmsys->top_clk[i] = of_clk_get(node, i);
+>>> +                     if (IS_ERR(mmsys->top_clk[i]))
+>>> +                             return PTR_ERR(mmsys->top_clk[i]);
+>>> +             }
+>>> +     }
+>>> +
+>>> +     if (mmsys->data->num_async_info) {
+>>> +             struct device_node *node;
+>>> +
+>>> +             node = of_get_child_by_name(dev->of_node, "async");
+>>> +             if (!node) {
+>>> +                     dev_err(&pdev->dev, "Couldn't find async
+>>> node\n");
+>>> +                     return -EINVAL;
+>>> +             }
+>>> +
+>>
+>> Also this looks like you have children providing only clocks?!
+>> I really need to look at the bindings to decide, but this looks
+>> wrong.
+>>
+> We will add the "async" component in the MMSYS YAML file.
+> "async" is a nessceary clock in the specific routing display
+> path MUX configuration
+>> Regards,
+>> Angelo
+>>
+>>
+>> Best Regards,
+> Paul
+
+
