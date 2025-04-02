@@ -2,154 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F93EA7963E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 22:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28066A7964C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 22:11:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA2B310E8CC;
-	Wed,  2 Apr 2025 20:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E05010E8D1;
+	Wed,  2 Apr 2025 20:10:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zX6cywBZ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="iAnAzB16";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2050.outbound.protection.outlook.com [40.107.101.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B7E10E15A;
- Wed,  2 Apr 2025 20:06:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PpuJ3VxCUAQRC2lbgwM+JKLVzL2KMSNCN4XyisHbxmC26qBj1fjtUmen7rFJESBcGhzDhFca/6XAsLa/APLgNXeIKPoCiUReWtKzhoO/RjdtjRp+zdcsjLEEmu46nQz+y5xqmpU8QZdJiMY3KZBXrPEe4KHw6Pbwc8YgF0Kby+DtxYqJQa9Kf23caJxcbVk2AwBQOhlJcRh13BetVW3OhMXIYNyNfe8iWBAVBZfwnkbTooDpyA0dRUoBsOAa2k6IQ1MYDXmB28NvPuCXHb3QJ5kUzPYxP9xMMln0+LQPatN1dPkloQg7ku6jBaOq+hhrFkp0ocIgzmlelB6Jb9lEzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7Dlg65vjql6dTmmvxhzVx8UDjgRxQLftHt7Dv+inJtQ=;
- b=vgmob7Ghwms2sqzunHnNSTP0izgJkk9F6QawuhHs4uVq60fTIhjrq9X35+bHsKSF277BfW7lpW+PraQVOv95xA4lthM9RbTds6RNSxyfFEhVqphljOGKXnxMhuEEvNapT3iK1u2GRiVhjm6Umb43E8TBe/tR3+3qQpRdYawfrKFGw2W6uii8BhgznQ4XPG3TnDsanbsJBjpOQq5ti5wa1gyC2X+fHPmRbNSMQOp8j6H5sqHzu4wclrhGpEv0s+qZX6YFq5OWsfYRMdesdoFFok9WdFbhgUCY6kzElTru20XyEMWUeACiKhNIe4Lt2wMNv5L2m77L/cW1awOi7fpkNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7Dlg65vjql6dTmmvxhzVx8UDjgRxQLftHt7Dv+inJtQ=;
- b=zX6cywBZRFEedNTYK/FF/zviyv83WPaTr+G9uAgBJ+A7MRXwHyWrvekP1hsBzCZNP9H+Hf8dcuDOUoNIcdmuA666LErO0oO2Zp2IsNvZZe/Lr5OvVQvAf8ZAlgBYk9ZuDfLvX3XgMHGZbNm/K/lhOUvUEQwKHKpNYBlhtVwajKE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by DS0PR12MB8247.namprd12.prod.outlook.com (2603:10b6:8:f5::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.50; Wed, 2 Apr
- 2025 20:06:50 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.8534.043; Wed, 2 Apr 2025
- 20:06:50 +0000
-Message-ID: <ab83b8ad-2076-425f-974e-6352be7882b5@amd.com>
-Date: Wed, 2 Apr 2025 15:06:46 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] drm_connector reference counting and USB-C docks
-To: Chris Bainbridge <chris.bainbridge@gmail.com>,
- amd-gfx@lists.freedesktop.org
-Cc: dakr@kernel.org, christian.koenig@amd.com, daniel@ffwll.ch,
- ville.syrjala@linux.intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- lyude@redhat.com, sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <Z-Cw0x7wa5w7tliO@debian.local>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <Z-Cw0x7wa5w7tliO@debian.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR05CA0020.namprd05.prod.outlook.com
- (2603:10b6:805:de::33) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com
+ [136.143.188.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB6F410E15A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 20:10:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743624655; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=CKXnU8PbmzjTEANX+VTMgCEKgMDYI4vm0uqzkMnMQmUNraAtmBPvgpbwNbQaYxPGZipTZPVlBXd40POdcBZB8qQP2siKSm2mv9rrpNKO4xYPchLcAT5aEAg+w+3umKfmGB8zb72m8s6IenxdZLCk7fk/ceVoHblYikd6KnlJsdk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1743624655;
+ h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=XO5MxFY5llVp30HEh93wqC1jgn2Y9GtufEhvThmfN1k=; 
+ b=k94uD7GJAh2GM0MBOifvdxEG9EWwfGRa2Ia3cC1dc5tmQQBX1bY6afuoOp0HpaARFRv5ITdwEgEE7Xb4OkaM7ah7TiRUn6S8WVY3YsXAw/v32b1gG32zhnSO2k6jUXVZQytdrlu8DX1+DZM1J2CZUDi3XvU0FqdyUYwC8FeUeBc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mark.filion@collabora.com;
+ dmarc=pass header.from=<mark.filion@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743624654; 
+ s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
+ bh=XO5MxFY5llVp30HEh93wqC1jgn2Y9GtufEhvThmfN1k=;
+ b=iAnAzB16M1jXV8L4HHvLGLFP9JgRHdojgve8MosyJ6z5CUu38oXgFUY+hvSZ0yZu
+ h0gkMD9CYm+DSEb8PA1Was972Z8sskqDPUU9gHL2w9f9rsE72p6de2lL8wYQaLhdHGE
+ eWnYt7MQrcRhpIweM+GSqn964KtkNoI85Vg9C3uE=
+Received: by mx.zohomail.com with SMTPS id 1743624652504188.28658594518822;
+ Wed, 2 Apr 2025 13:10:52 -0700 (PDT)
+Message-ID: <739bbb77731ba06256240eae8c3934908a1dde03.camel@collabora.com>
+Subject: 2025 X.Org Board of Directors Elections Nomination period is NOW OPEN
+From: Mark Filion <mark.filion@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Date: Wed, 02 Apr 2025 16:10:51 -0400
+Content-Type: multipart/alternative; boundary="=-cGi7XBVtk5m1+vTeDODl"
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41app1) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB8247:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee4211ab-1b1c-444c-1fd7-08dd7221e6d0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?R2VYVGpIelJqUk8vR1lOTVdDNWNxTDl0TEZmY3ptVEQvNmNiY0haWG9WYXpK?=
- =?utf-8?B?cVdEU2JFNkNhSGdOaGZ2M0taNWQ1V25LL2IvQ3A2M1AyWTR5ZG4wMjc2YURH?=
- =?utf-8?B?RFJKakF4NzVVcDhkT3ZEOThPdndENTA4bmZrb0dIdG1JRkp4bVRCSytpNkZG?=
- =?utf-8?B?WXI5cTluMU5ta0pqa1lndkdaU2w2TEtpSWNHZy9vcU1uTU5HcE9PVWNkdjdV?=
- =?utf-8?B?MTRLSW9HVERxTnRwTE1aQjlWbGpIbkpGb3dVMHVBYy8xTS9NSFR2KzEvM1p0?=
- =?utf-8?B?MTZqWi9FSUExNzQyZmZuMEdNZTR2RHExNTBPQmtnN3ZwQzBqVmRLMEtsTVhj?=
- =?utf-8?B?SmNqNkhPbm1BbEZ5ZDNyOXB2OHFaR004ZGRIOGxKTkIwYXpJbk9qY3BsK1Vo?=
- =?utf-8?B?Mmx2K2pqMzBJbGdUWEJPc2ZYQURXZmFPb3Axbnl1aE0vb0tUTmVGRGx6RnBU?=
- =?utf-8?B?MVNpRkdLQUlxS2t5b2kyeTVjbGVSWEgrU0JBZktzTmxkeFpKVnVEY1Rpbkdh?=
- =?utf-8?B?NzZid0xWVFdzNlJyTEE5dzdIdFJrdkhDRHhTbENocnY4M1FseVMvclpGQmpP?=
- =?utf-8?B?eDVwc3FXVUFNeGdwQko2R3FxdmFVUWs5Q0VveDdSQ0w5bk1uNXZPQXpiUXhp?=
- =?utf-8?B?TFduMFN4bFNCenRlUjlRVHJLaUUxRDNia09RTVkvclJucWhLM3QwVDVtcWNW?=
- =?utf-8?B?YTlWaGtLSVFvS1pwQ1J6UUtUcWx3QUN4NTYvOEF2VjJwV0h0TWk2a08wbkM0?=
- =?utf-8?B?ZkFaVUN0V0hOUGxjVk9vTlZrZlg3VUE1RUVVSjNXQjEvdTZUd1MvNWNydmd0?=
- =?utf-8?B?NlZFS3p6dFJOUDdVVm00SFpwZjU1bk94ekVGMjRsdHowb2RHTWVZQzFoMjZj?=
- =?utf-8?B?cDNQQXVnczdTMzlHUFUrTlpZd2Z5aEIrb3h1bEgyMnZoUEtndURQZnhaTjFy?=
- =?utf-8?B?Nmc5SGwzYWxpZFZMVmVIMkJTeEdNYjJRNW9xazczUGVONWp5VzNONUR3SWU3?=
- =?utf-8?B?RXNGTzU4YS9WSHpDN1RIZXJnNkxLY3dQVW1KNEdhd0llOFEyT2ZTNGxjTlp2?=
- =?utf-8?B?TVFaK1hHWWJKOG5zL1pzd0p3RGRGbm9GdmUwSXlOc2Vnam1manpEbWEwRFFV?=
- =?utf-8?B?N0twSk15WWZwZ3NxdFBTMUpTMGM5T2xmQ2VaVGc3RWhLeUc4L25zcFRFZlhK?=
- =?utf-8?B?Y1VWeUJPVGZwMDRSNzdkbTNYbUlJbzBMZm9hL0JLc0dOZnorVk1tU3Foazdy?=
- =?utf-8?B?cjI3U0dKY3JMSTRDVU5VVVgvVjFZd1IrczI0Vm5yMk54V2VVOTl4ak9YRERt?=
- =?utf-8?B?MGtXN3k4OUZaUjBGQW9mZWhqS0FiTm5ZM296V3VYZ3JaUVFyU1k3d3Q3MXcv?=
- =?utf-8?B?WUNWSDFpL3RqU1VMRkozaTdONGs3S08yNGM5aXpyNFE3N2RNS3VVWE04a0xK?=
- =?utf-8?B?R3kyZStneU8vQVNwbHBpTXI2QVQ1K21TU3ZxcENBck1UWmxWQm44emdFZTRa?=
- =?utf-8?B?a01ld3RJTmxjdlNDQXdmVnRJcVdXUEt0S2RVaXJZL04ycXVIOUdVUERwM2NT?=
- =?utf-8?B?SWpla216SDlscGMrUm5aTndMaUM4ZXptSjdpa2plMFQvS2pzODN4VGMwSFNL?=
- =?utf-8?B?d3ZjVU41cG1PaEhUUit2RHZWK0JhT3U3TEZIZmgwbWFSTHlmeFZteTFhdll0?=
- =?utf-8?B?dnE3OUF2N0RFSUVQemo2cVEvV0NJT2RXWVJKZkhMdldMRG9WeWVoaFBZK3A1?=
- =?utf-8?B?M1VMOEIzV05Ra0ZNa293VjhSWHFjQ25XQlN5UlFDaVJUdXFHZGhuUlJSQitv?=
- =?utf-8?B?NDYvcS9EUDJnZ0txbXNBczd5YnJWbkRUQUJ0YUVjd0hMbWt0RFVDTjBvd2RQ?=
- =?utf-8?Q?RN0D9guDIN3hE?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aU5YT1pvRFljdjZqUitUVzQyRTE2TVdiN3NVdEVoaFgzMHZzemNPQXR1TWlp?=
- =?utf-8?B?ZlVMakhrcXNBU244VEY1aWRvYUtaZUhmd3IyczFmeXRJVHFLVVJMQkRRVTFQ?=
- =?utf-8?B?WjdFcTE3SmFmVGNmeG8rdGd1K0hIamZ2Y0JVdENHeFBVZk5zRy9BekFHb1FG?=
- =?utf-8?B?TWR5eXh6cjE4RUtEZHdnZVJnSUh0aWI3TU9teXJHb0MyeURDME5Db1FWRG9X?=
- =?utf-8?B?ME5DaVI5OU14NlU4QXpha1J0Zkk4K0prSnhCNWdhREZ5cDhKQlJXZzNzN3c3?=
- =?utf-8?B?ckd4ZDRseG9tNHYvYXFDMExXM2J6eUdTWjhTdEZvejk3VzJra3BGc29IUVlS?=
- =?utf-8?B?eE9aaU95L3N4VXBBRUtwcmFWUDc2NlB2Q09ROUNNOHRMdkxYUjZJQVFWd3Fr?=
- =?utf-8?B?M0U4ZHh2eDlFZy9WTmZMc3E3dEFRYnA5NE5BNEF5bmZTWkwvSGZBK2M0VHJm?=
- =?utf-8?B?WVhEZ1pzNDBHSFFMYllwWHpBWEp3ZDlQVnBuNjBLalhnMmhaZmVjYUZDSGNI?=
- =?utf-8?B?TjZZTlNWMGU5aXlkZ3pnM0p1SkFHLzBXSUhkVXJaWU4xNXc0d0RialNrL0Qy?=
- =?utf-8?B?V01SQVJKUU5WRmVWSTVwYVBmbDdUb3VQbDl2ZmlkZmtPOTFrV1BvbC9VNWlE?=
- =?utf-8?B?V25HUHBYSlNXK1FwR0NwVmNreEV4Mzg0VlpsREhkT1d1Q3ozUkIrT09lMlpX?=
- =?utf-8?B?dU54ZFhUY2VhbExSVXkyV25DckFiMGcrcDJjeG56ZHc3TEMwaS9UVmpOVjhF?=
- =?utf-8?B?NFBqSi9YbURjVzVjWGNZcUkxVVMvaStmclVzQmNPZmxERW42RW5kdjhuK2kz?=
- =?utf-8?B?ckdXeWFpajZ1MGdQaFVIRldlazVObDJOZjROTFNkVjNtd1JMdnFJdW8rclEw?=
- =?utf-8?B?RUZxT0ZvZzAwSlhzTzNCT0FYV25LT1VZcHRTZThsdVAyRnpEbEVuL1R1aW5W?=
- =?utf-8?B?bDM5MkhYd3FHQ2pjVHhyRUxEaFZmaWVoY0FOVmIwMTFCVk9IMERNSVhMcDUz?=
- =?utf-8?B?YUI1V0JSYmZOMjdkSzlnWWZEVWNTU1RxcWVoL25NMThLaDJ0V3E0WlM5UWNU?=
- =?utf-8?B?VDc5WEI1WFZHTG1KeWdHTytzbUhYVUttb1FoVE5Qa1ZGai95Tkh3S1p6ZGlL?=
- =?utf-8?B?dFpkSGlQMVhLRDBUTW4wYm53Y0t0THhiRTNrWmZ6VUFReE1tUGRmNHd0czhC?=
- =?utf-8?B?b2lUYzZhYkRncHRkUGFuaWhZVmc1VzNyaU91dXRLSzNaeEVaNW4zenphYi82?=
- =?utf-8?B?NHVDeEVxRE5oTWZoelJBZjdzUTR5c0oxbFhQV2tQSDFCZGd6WlhmSXdtU0Rz?=
- =?utf-8?B?STlZbExmbTdrZzhkNWxMdktKb1dZYXM3UGR3ZXlxYkQza1l0cnVWbVcrSGFu?=
- =?utf-8?B?SWd2YUxnMGhFS0EvTUcvVTA2bEpjMWlEYmxTZ2l1REorRXE4N1dkL3dOSnFN?=
- =?utf-8?B?VHpnSlZjZlZDL3FRRlgwNEwzdHhOaUJxK3p4R0VQUGZjVmlkTzFXYkJpeDdl?=
- =?utf-8?B?UmwrN0gzU2NOVnpIKzNVb1E3SmIzaG1PUy9PNW1Fbm1xd0pIMm5QdXJIRVhF?=
- =?utf-8?B?WitoNnRLbTUxVjRnSy9sbzduc2dPZlZFUW51ZzkwaWttNzV0Y0tDdzYwTkxG?=
- =?utf-8?B?RXN3QUtKMGlYV2ZKamhsd1ZYWUZHcmdBYlQvVWV0RzFIaHJVY3JYWCtFY2Rm?=
- =?utf-8?B?MlRKcDhpWUZjQTV4TFFRdW9hVVNNSFVEcmFKaWY5akxISlptdWo1bGltdFlW?=
- =?utf-8?B?NlFlbTB6bldYOWthMHJDK0l4eHpWS2psZzEySy9lVnkrUThCVjcyNjhPTEdE?=
- =?utf-8?B?a3p5d0FScGJVNDZtNUlTNi81bFdydlBVUE01dndRZXgvTGJtVFlyUzJsZ3dO?=
- =?utf-8?B?dVZ1QlkyNGI2L0pyV2lnVWVaQ3dLYVQvWkVVMGVaTm9qbm5rNDVoRGFYZHIx?=
- =?utf-8?B?STJrMkZlTWVwSm9uTldyekVTaWtrY2htZjFFaXZCUGFZZGlZV1kvZVdIRm5p?=
- =?utf-8?B?RW1zK2tNNkdWMmpxcHZPNE1DWWhCaHNFenRmajVtb1BTR2QwdG5QU3VkOEEr?=
- =?utf-8?B?Qy8waUozS0xVZGpWTEFTQ0owTVBrUUNXRnBHdlRkYm0xZUtrR1N4RWM1UExw?=
- =?utf-8?Q?lclbzRSNDzjc1T0goQ/Vl65NT?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee4211ab-1b1c-444c-1fd7-08dd7221e6d0
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 20:06:49.8969 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RSaWaSh/PjgKb/m1FvKNVB8qkJIFNctD6HabnE9fFR5PD+mwxUAWih2IDoqx+q9BkPR4aad7pRGHYUQ8OWS3FA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8247
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,141 +61,227 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/23/2025 8:09 PM, Chris Bainbridge wrote:
-> There is a reference couting / lifecycle issue with drm_connector when used
-> with a USB-C dock. The problem has been previously reproduced on both Intel and
-> AMD GPUs.
-> 
-> On both Intel and AMD, the symptoms are:
-> 
->    - multiple connectors being listed in sysfs `sys/class/drm/cardX/` (because
->      the old connectors are not removed when the dock is unplugged)
->    - no display on the external monitors.
->    - "Payload for VCPI 1 not in topology, not sending remove" error if drm.debug
->      is enabled
-> 
-> On AMD, this issue is the root cause of a number of errors when re-plugging in
-> a dock:
-> 
->    - *ERROR* Failed to get ACT after 3000ms
->    - kernel NULL pointer dereference calling setcrtc
->    - UBSAN: shift-out-of-bounds in drivers/gpu/drm/display/drm_dp_mst_topology.c
->    - use-after-free in dc_stream_release
->    - refcount_t: underflow; use-after-free.
->    - slab-use-after-free in event_property_validate
->    - WARNING display/dc/dcn21/dcn21_link_encoder.c:215 dcn21_link_encoder_acquire_phy
->    - Part 1 of payload creation for DP-2 failed, skipping part 2
->    - probably most bug reports relating to suspend/resume and a dock
-> 
-> This bug has been reproduced on both Ubuntu/Gnome and Debian/XFCE. The symptoms
-> are intermittent and vary (as above), but the consistent initial symptom is
-> multiple connectors being listed in sysfs.
-> 
-> To reproduce, annotate drm_dp_delayed_destroy_port with something like:
-> 
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -5014,6 +5014,9 @@ drm_dp_delayed_destroy_port(struct drm_dp_mst_port *port)
->   
->          if (port->connector) {
->                  drm_connector_unregister(port->connector);
-> +               printk("drm_dp_delayed_destroy_port %s refcount=%d\n",
-> +                               port->connector->name,
-> +                               kref_read(&port->connector->base.refcount));
->                  drm_connector_put(port->connector);
->          }
->   
-> Boot laptop with dock connected, activate external monitors, suspend, unplug
-> the dock, and resume. This problem is intermittent, so these steps may need to
-> be repeated. But when the problem is hit, the drm_dp_mst_port will be
-> destroyed, but the drm_connector will still be alive. (This can also be
-> reproduced with just plugging and unplugging without suspend/resume, but, on my
-> laptop, it happens almost every time with suspend/resume).
-> 
-> The cause of this problem appears to be:
-> 
->    - calling setcrtc to enable a CRTC results in the drm_connector refcount
->      being incremented:
->    - drm_atomic_get_connector_state appears to add connectors into
->      drm_atomic_state->connectors, and increments the refcount
-> 
->    - on disabling the external monitors, a call to drm_mode_setcrtc results in
->      the drm_connector being destroyed via call chain:
-> 
->      amdgpu_drm_ioctl
->        drm_ioctl
->          drm_ioctl_kernel
->            drm_mode_setcrtc (via func)
->              drm_atomic_helper_set_config (via crtc->funcs->set_config)
->                drm_atomic_state_put
->                  __drm_atomic_state_free (via kref_put)
->                    drm_atomic_state_clear
->                      drm_atomic_state_default_clear
->                        drm_connector_put
->                          drm_mode_object_put
->                            drm_connector_free (via ->free_cb put destroyer)
->                              dm_dp_mst_connector_destroy
-> 
->    - so the drm_connector is not destroyed until/if userspace calls setcrtc to
->      clear the CRTC (set.num_connectors=0). If this does not happen for whatever
->      reason (userspace process is terminated, frozen due to suspend, etc.) then
->      the drm_connector object will still be alive even though the corresponding
->      drm_dp_mst_port is dead.
-> 
->    - in normal usage, drm_connector_cleanup releases the connector ID:
-> 
->      ida_free(&dev->mode_config.connector_ida, connector->index);
-> 
->    - when dock is replugged, a connector ID is allocated:
-> 
->      connector->connector_type_id = ida_alloc_min(connector_ida, 1, GFP_KERNEL);
-> 
->    - if setcrtc has not been called to free the old ID, then ida_alloc_min
->      allocates a new connector ID instead of reusing the old one. This explains
->      the "multiple connectors being listed in sysfs" problem.
-> 
->    - the other problems occur after this, due to the multiple half-dead
->      connector objects.
-> 
->    - UBSAN: shift-out-of-bounds in drivers/gpu/drm/display/drm_dp_mst_topology.c:4568
->      occurs because vcpi==0 in this payload, so BIT op is a left-shift by -1.
-> 
->    - slab-use-after-free in event_property_validate: looks like it happens
->      because hdcp_update_display, hdcp_remove_display copy references to
->      amdgpu_dm_connector (which contains a nested drm_connector) in to the
->      delayed_work struct hdcp_workqueue without incrementing the reference count
->      (see pair of lines "hdcp_w->aconnector[conn_index] = aconnector;").
->      If the connector is freed, &aconnector[conn_index] will become a dangling
->      pointer. Actually, I can reproduce this easily by just booting to
->      gdm then plugging and unplugging the dock a few times, so it's
->      possible this is an independent issue that also needs fixing.
-> 
->    - use-after-free in dc_stream_release - there appears to be a few
->      points where a dc_stream_state pointer is copied without refcounting
->      ("pipe_ctx->stream = stream;") but I don't know if this is the problem. It
->      could also just be that earlier failures have left something in a bad state.
-> 
-> I'm unsure of the best approach to fix the root cause. One way is to try
-> and release the references by disabling the CRTC. I tried calling
-> drm_mode_crtc from drm_dp_delayed_destroy_port. This was a bit hacky,
-> but did seem to work, the reference count got reduced to 0, and the
-> drm_connector was destroyed. Another option would be to call the
-> drm_connector destructor from drm_dp_delayed_destroy_port (protected by
-> some mutex so that it doesn't get called twice when the actual refcount
-> goes to 0) - that might work to free up the connector ID, but I suspect
-> there could be other issues with having the drm_connector object still
-> alive and potentially holding references to other objects, even though
-> the dock has been physically disconnected.
+--=-cGi7XBVtk5m1+vTeDODl
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the thorough analysis and all your thoughts here.  It sounds 
-like fixing this is going to resolve quite a large number of issues.
+Hello!
 
-Working up your call path, drm_dp_destroy_port() is what queues the 
-delayed destroy work and specifically has a comment about holding the 
-mode config mutex from EDID retrieval being the reason that it can't be 
-destroyed immediately.
+We are seeking nominations for candidates for election to the X.Org
+Foundation Board of Directors. All X.Org Foundation members are
+eligible for election to the board.
 
-Perhaps could this be solved by reading EDID immediately when the device
-shows up and caching it for all callers?  Then this could be an 
-immediate destroy.
+Nominations for the 2025 election are now open and will remain open
+until 23:59 UTC on 16 April 2025.
 
+The Board consists of directors elected from the membership. Each year,
+an election is held to bring the total number of directors to eight.
+The four members receiving the highest vote totals will serve as
+directors for two year terms.
+
+The directors who received two year terms starting in 2024 were Erik
+Faye-Lund, Mark Filion, Neal Gompa and Simon Ser. They will continue to
+serve until their term ends in 2026. Current directors whose term
+expires in 2025 are Lyude Paul, Arkadiusz Hiler and Christopher
+Michael. Additionally, a fourth board position is open following the
+resignation of Simona Vetter in Q3 2024.
+
+A director is expected to participate in the fortnightly IRC meeting to
+discuss current business and to attend the annual meeting of the X.Org
+Foundation, which will be held at a location determined in advance by
+the Board of Directors.
+
+A member may nominate themselves or any other member they feel is
+qualified. Nominations should be sent to the Election Committee
+at=C2=A0elections@x.org.
+
+Nominees shall be required to be current members of the X.Org
+Foundation, and submit a personal statement of up to 200 words that
+will be provided to prospective voters. The collected statements, along
+with the statement of contribution to the X.Org Foundation in the
+member's account page on=C2=A0http://members.x.org, will be made available
+to all voters to help them make their voting decisions.
+
+Nominations, membership applications or renewals and completed personal
+statements must be received no later than 23:59 UTC on 16 April 2025.
+
+The slate of candidates will be published 23 April 2025 and candidate
+Q&A will begin then. The deadline for Xorg membership applications and
+renewals is 28 April 2025.
+
+Best,=C2=A0
+
+Mark Filion, on behalf of the X.Org BoD
+
+--=-cGi7XBVtk5m1+vTeDODl
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0,=
+ 0, 0); font-family: Cantarell; font-style: normal; font-variant-caps: norm=
+al; font-weight: 400; letter-spacing: normal; text-align: start; text-inden=
+t: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webk=
+it-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px;=
+ text-decoration: none;">Hello!</div><div style=3D"caret-color: rgb(0, 0, 0=
+); color: rgb(0, 0, 0); font-family: Cantarell; font-style: normal; font-va=
+riant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: s=
+tart; text-indent: 0px; text-transform: none; white-space: normal; word-spa=
+cing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-st=
+roke-width: 0px; text-decoration: none;"><br></div><div style=3D"caret-colo=
+r: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Cantarell; font-style: n=
+ormal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal;=
+ text-align: start; text-indent: 0px; text-transform: none; white-space: no=
+rmal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -=
+webkit-text-stroke-width: 0px; text-decoration: none;">We are seeking nomin=
+ations for candidates for election to the X.Org Foundation Board of Directo=
+rs. All X.Org Foundation members are eligible for election to the board.</d=
+iv><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-famil=
+y: Cantarell; font-style: normal; font-variant-caps: normal; font-weight: 4=
+00; letter-spacing: normal; text-align: start; text-indent: 0px; text-trans=
+form: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-c=
+olor: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: =
+none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
+0); font-family: Cantarell; font-style: normal; font-variant-caps: normal; =
+font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0=
+px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-t=
+ap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; tex=
+t-decoration: none;">Nominations for the 2025 election are now open and wil=
+l remain open until 23:59 UTC on 16 April 2025.</div><div style=3D"caret-co=
+lor: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Cantarell; font-style:=
+ normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norma=
+l; text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4);=
+ -webkit-text-stroke-width: 0px; text-decoration: none;"><br></div><div sty=
+le=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Cantarel=
+l; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-=
+spacing: normal; text-align: start; text-indent: 0px; text-transform: none;=
+ white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(=
+0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">The =
+Board consists of directors elected from the membership. Each year, an elec=
+tion is held to bring the total number of directors to eight. The four memb=
+ers receiving the highest vote totals will serve as directors for two year =
+terms.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); f=
+ont-family: Cantarell; font-style: normal; font-variant-caps: normal; font-=
+weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; t=
+ext-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-hi=
+ghlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-dec=
+oration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: r=
+gb(0, 0, 0); font-family: Cantarell; font-style: normal; font-variant-caps:=
+ normal; font-weight: 400; letter-spacing: normal; text-align: start; text-=
+indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width:=
+ 0px; text-decoration: none;">The directors who received two year terms sta=
+rting in 2024 were Erik Faye-Lund, Mark Filion, Neal Gompa and Simon Ser. T=
+hey will continue to serve until their term ends in 2026. Current directors=
+ whose term expires in 2025 are Lyude Paul, Arkadiusz Hiler and Christopher=
+ Michael. Additionally, a fourth board position is open following the resig=
+nation of Simona Vetter in Q3 2024.</div><div style=3D"caret-color: rgb(0, =
+0, 0); color: rgb(0, 0, 0); font-family: Cantarell; font-style: normal; fon=
+t-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-alig=
+n: start; text-indent: 0px; text-transform: none; white-space: normal; word=
+-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-tex=
+t-stroke-width: 0px; text-decoration: none;"><br></div><div style=3D"caret-=
+color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Cantarell; font-styl=
+e: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: nor=
+mal; text-align: start; text-indent: 0px; text-transform: none; white-space=
+: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4=
+); -webkit-text-stroke-width: 0px; text-decoration: none;">A director is ex=
+pected to participate in the fortnightly IRC meeting to discuss current bus=
+iness and to attend the annual meeting of the X.Org Foundation, which will =
+be held at a location determined in advance by the Board of Directors.</div=
+><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family:=
+ Cantarell; font-style: normal; font-variant-caps: normal; font-weight: 400=
+; letter-spacing: normal; text-align: start; text-indent: 0px; text-transfo=
+rm: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-col=
+or: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: no=
+ne;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0)=
+; font-family: Cantarell; font-style: normal; font-variant-caps: normal; fo=
+nt-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px=
+; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap=
+-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-=
+decoration: none;">A member may nominate themselves or any other member the=
+y feel is qualified. Nominations should be sent to the Election Committee a=
+t<span class=3D"Apple-converted-space">&nbsp;</span><a href=3D"mailto:elect=
+ions@x.org" style=3D"color: rgb(46, 52, 54);">elections@x.org</a>.</div><di=
+v style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Can=
+tarell; font-style: normal; font-variant-caps: normal; font-weight: 400; le=
+tter-spacing: normal; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: =
+rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;"=
+><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); fo=
+nt-family: Cantarell; font-style: normal; font-variant-caps: normal; font-w=
+eight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; te=
+xt-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-hig=
+hlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-deco=
+ration: none;">Nominees shall be required to be current members of the X.Or=
+g Foundation, and submit a personal statement of up to 200 words that will =
+be provided to prospective voters. The collected statements, along with the=
+ statement of contribution to the X.Org Foundation in the member's account =
+page on<span class=3D"Apple-converted-space">&nbsp;</span><a href=3D"http:/=
+/members.x.org/" style=3D"color: rgb(46, 52, 54);">http://members.x.org</a>=
+, will be made available to all voters to help them make their voting decis=
+ions.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); fo=
+nt-family: Cantarell; font-style: normal; font-variant-caps: normal; font-w=
+eight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; te=
+xt-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-hig=
+hlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-deco=
+ration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rg=
+b(0, 0, 0); font-family: Cantarell; font-style: normal; font-variant-caps: =
+normal; font-weight: 400; letter-spacing: normal; text-align: start; text-i=
+ndent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -=
+webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: =
+0px; text-decoration: none;">Nominations, membership applications or renewa=
+ls and completed personal statements must be received no later than 23:59 U=
+TC on 16 April 2025.</div><div style=3D"caret-color: rgb(0, 0, 0); color: r=
+gb(0, 0, 0); font-family: Cantarell; font-style: normal; font-variant-caps:=
+ normal; font-weight: 400; letter-spacing: normal; text-align: start; text-=
+indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width:=
+ 0px; text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0=
+, 0); color: rgb(0, 0, 0); font-family: Cantarell; font-style: normal; font=
+-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align=
+: start; text-indent: 0px; text-transform: none; white-space: normal; word-=
+spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text=
+-stroke-width: 0px; text-decoration: none;">The slate of candidates will be=
+ published 23 April 2025 and candidate Q&amp;A will begin then. The deadlin=
+e for Xorg membership applications and renewals is 28 April 2025.</div><div=
+ style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Cant=
+arell; font-style: normal; font-variant-caps: normal; font-weight: 400; let=
+ter-spacing: normal; text-align: start; text-indent: 0px; text-transform: n=
+one; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: r=
+gba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">=
+<br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); fon=
+t-family: Cantarell; font-style: normal; font-variant-caps: normal; font-we=
+ight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; tex=
+t-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-high=
+light-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decor=
+ation: none;">Best,<span class=3D"Apple-converted-space">&nbsp;</span></div=
+><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family:=
+ Cantarell; font-style: normal; font-variant-caps: normal; font-weight: 400=
+; letter-spacing: normal; text-align: start; text-indent: 0px; text-transfo=
+rm: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-col=
+or: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: no=
+ne;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0)=
+; font-family: Cantarell; font-style: normal; font-variant-caps: normal; fo=
+nt-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px=
+; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap=
+-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-=
+decoration: none;">Mark Filion, on behalf of the X.Org BoD</div><div><span>=
+</span></div></body></html>
+
+--=-cGi7XBVtk5m1+vTeDODl--
