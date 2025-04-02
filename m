@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F99A7919F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 17:00:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312ECA7919E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 17:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17BA410E7FA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17B1F10E7F9;
 	Wed,  2 Apr 2025 15:00:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="XHNF/9U/";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="Rgpmie3P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0670A10E7FC;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0632410E7FB;
  Wed,  2 Apr 2025 15:00:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=UNBvZu32+wbhgVGJ/9V2hTzAlK5EbvmAK/2hRd+u46M=; b=XHNF/9U/du9de/iK9s+5I0zADe
- O+pcJekTrVv0miXdwnb2siiLrxPQ27obx126RH95lkiAfLPAAiw5DvsERoraJ1GxJ5zwc0OJN8MLJ
- mzz6kW7koritqrR8/48YFJXZ8pTDxscVtOMVpcZEwruRJWoZgw7wP6NWFJE+OwtsX98cnjHp30+IB
- mBwUPemgYHjyVvwXxn6n+4vuYbWzk0y5zi0LnKrLC/Wp2/1dvYNXnRqeKPpFabINxRCSZHqn+ho1y
- MGDRzGBrEvmxT/3g7p5MVUDU9NOB6UTqSjIzkQtteVdvzD7oY9ZCxp71gpUWpcba7+RjXi61HPi8L
- 4YWmojyQ==;
+ bh=HxorfBgE1Uv1byaGENr7pDp1WuWnctNAqk3G3c3CU84=; b=Rgpmie3PxYC1mfYW3w8XJdLFLM
+ 68IZm5NGrCaClZqC3nKJYdIKGsB9h3JMsYOLPPY8ATYR0OcEt13uXZk9CS0jPSa/6/OEnVSnp+edn
+ JtxL3K6k/cAaAPnIWeuw6+iwIVR25bAFZBbxqjronOrOtc8H5iobhcWmrZQdGWb2o0JqDsgecbGEB
+ HfdWvIXKNnyRerhjAo32CuQy3pHoEKaBz0FHeCA9ZaSmapfUsfM+zxb2hRq+btwmZYOlie2LnekjW
+ vQoPBKxXlold4/4j1Yc7w9yTYhuj1kWqrWw/hO7N07E6HYSJUOZHneXcoL9DAx1IweKyALy4yV8tG
+ M75fmUIw==;
 Received: from willy by casper.infradead.org with local (Exim 4.98.1 #2 (Red
- Hat Linux)) id 1tzzZX-00000009gsH-1u8G;
+ Hat Linux)) id 1tzzZX-00000009gsR-2QUj;
  Wed, 02 Apr 2025 15:00:07 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
  intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 5/9] shmem: Add shmem_writeout()
-Date: Wed,  2 Apr 2025 15:59:59 +0100
-Message-ID: <20250402150005.2309458-6-willy@infradead.org>
+Subject: [PATCH v2 6/9] i915: Use writeback_iter()
+Date: Wed,  2 Apr 2025 16:00:00 +0100
+Message-ID: <20250402150005.2309458-7-willy@infradead.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250402150005.2309458-1-willy@infradead.org>
 References: <20250402150005.2309458-1-willy@infradead.org>
@@ -56,81 +56,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will be the replacement for shmem_writepage().
+Convert from an inefficient loop to the standard writeback iterator.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- include/linux/shmem_fs.h |  7 ++++---
- mm/shmem.c               | 20 ++++++++++++++------
- 2 files changed, 18 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 32 ++++++-----------------
+ 1 file changed, 8 insertions(+), 24 deletions(-)
 
-diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-index 0b273a7b9f01..5f03a39a26f7 100644
---- a/include/linux/shmem_fs.h
-+++ b/include/linux/shmem_fs.h
-@@ -104,10 +104,11 @@ static inline bool shmem_mapping(struct address_space *mapping)
- 	return false;
- }
- #endif /* CONFIG_SHMEM */
--extern void shmem_unlock_mapping(struct address_space *mapping);
--extern struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
-+void shmem_unlock_mapping(struct address_space *mapping);
-+struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
- 					pgoff_t index, gfp_t gfp_mask);
--extern void shmem_truncate_range(struct inode *inode, loff_t start, loff_t end);
-+int shmem_writeout(struct folio *folio, struct writeback_control *wbc);
-+void shmem_truncate_range(struct inode *inode, loff_t start, loff_t end);
- int shmem_unuse(unsigned int type);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index ae3343c81a64..5e784db9f315 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -305,36 +305,20 @@ void __shmem_writeback(size_t size, struct address_space *mapping)
+ 		.range_end = LLONG_MAX,
+ 		.for_reclaim = 1,
+ 	};
+-	unsigned long i;
++	struct folio *folio = NULL;
++	int error = 0;
  
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 99327c30507c..7d377ceae035 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -1536,12 +1536,20 @@ int shmem_unuse(unsigned int type)
- 	return error;
- }
- 
--/*
-- * Move the page from the page cache to the swap cache.
-- */
- static int shmem_writepage(struct page *page, struct writeback_control *wbc)
- {
--	struct folio *folio = page_folio(page);
-+	return shmem_writeout(page_folio(page), wbc);
-+}
-+
-+/**
-+ * shmem_writeout - Write the folio to swap
-+ * @folio: The folio to write
-+ * @wbc: How writeback is to be done
-+ *
-+ * Move the folio from the page cache to the swap cache.
-+ */
-+int shmem_writeout(struct folio *folio, struct writeback_control *wbc)
-+{
- 	struct address_space *mapping = folio->mapping;
- 	struct inode *inode = mapping->host;
- 	struct shmem_inode_info *info = SHMEM_I(inode);
-@@ -1586,9 +1594,8 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
- try_split:
- 		/* Ensure the subpages are still dirty */
- 		folio_test_set_dirty(folio);
--		if (split_huge_page_to_list_to_order(page, wbc->list, 0))
-+		if (split_folio_to_list(folio, wbc->list))
- 			goto redirty;
--		folio = page_folio(page);
- 		folio_clear_dirty(folio);
+ 	/*
+ 	 * Leave mmapings intact (GTT will have been revoked on unbinding,
+-	 * leaving only CPU mmapings around) and add those pages to the LRU
++	 * leaving only CPU mmapings around) and add those folios to the LRU
+ 	 * instead of invoking writeback so they are aged and paged out
+ 	 * as normal.
+ 	 */
+-
+-	/* Begin writeback on each dirty page */
+-	for (i = 0; i < size >> PAGE_SHIFT; i++) {
+-		struct page *page;
+-
+-		page = find_lock_page(mapping, i);
+-		if (!page)
+-			continue;
+-
+-		if (!page_mapped(page) && clear_page_dirty_for_io(page)) {
+-			int ret;
+-
+-			SetPageReclaim(page);
+-			ret = mapping->a_ops->writepage(page, &wbc);
+-			if (!PageWriteback(page))
+-				ClearPageReclaim(page);
+-			if (!ret)
+-				goto put;
+-		}
+-		unlock_page(page);
+-put:
+-		put_page(page);
++	while ((folio = writeback_iter(mapping, &wbc, folio, &error))) {
++		if (folio_mapped(folio))
++			folio_redirty_for_writepage(&wbc, folio);
++		else
++			error = shmem_writeout(folio, &wbc);
  	}
- 
-@@ -1660,6 +1667,7 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
- 	folio_unlock(folio);
- 	return 0;
  }
-+EXPORT_SYMBOL_GPL(shmem_writeout);
  
- #if defined(CONFIG_NUMA) && defined(CONFIG_TMPFS)
- static void shmem_show_mpol(struct seq_file *seq, struct mempolicy *mpol)
 -- 
 2.47.2
 
