@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C79A793FF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 19:42:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10004A79406
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 19:42:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3B810E87D;
-	Wed,  2 Apr 2025 17:42:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D15210E887;
+	Wed,  2 Apr 2025 17:42:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EECV0Ntr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b3sLMge6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D01C10E881;
- Wed,  2 Apr 2025 17:42:21 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id
- ca18e2360f4ac-85b3f92c8dfso526839f.2; 
- Wed, 02 Apr 2025 10:42:21 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
+ [209.85.166.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 743E810E881;
+ Wed,  2 Apr 2025 17:42:22 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-85b4277d0fbso1642039f.0; 
+ Wed, 02 Apr 2025 10:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1743615741; x=1744220541; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+AN9v4KQ0PiEc7jM3vE8QrHxAiVUi2zmd1sx7ARoRMg=;
- b=EECV0NtrPoq97nYEtYhexUVFl4DxZPI9pmKlZAZni0LFxbNd97Lqv5KURHZXnlmlqg
- OV8OCiO0gZ4WApk+qntbLnEqf7cPEzKnVc7Bq94km1ucqNnObagy99NIxGkrAKKBs1Va
- l85pC/2/HhSF5vdApkxkDm03fOL74hhWK9aqhNfK5XxM0QDnpL3EF+QEaNGKG2CxZ2xv
- SntWJLKtFBjiJ9kFq4WreJY+PG1rCqZwxZCuLaG3us2oLAd8mBnABREWouCzVzdeMXM3
- uuoE4szWho5KSsjLb8WRNR+l2GwWiMZFshom9LJX56+lDoy+pRz2KIBcpG7abvQ1kMis
- MQrg==
+ bh=0gFevukveSt7PbWkbUevQGA0uvSXu+LT7vaKBaZctmY=;
+ b=b3sLMge6PF/u/40OnvL/Vt1pviufzM4XfFMeaZBFwEk8ezVFmk5jhs1Pq1n221Q1Dn
+ n0vRjxW/TT5H9HgpBLxhjBU9Q/QFpg3wZRxQlp1MYRxv1sxywfuzMKlcXwEQjTiQ4OG5
+ tT+O46NdzsanSmxOQzHvprZ/OhdaPD+yNqK4OKMFwRbPwtLEhdfqr1sKklts/KluyubW
+ PgDdMtz57jrZzpRei+eFKcACwWbBR8bsR86smO+2uuhO8W5apQn1WSDlYwc5XS/psTPO
+ a2k9J428JzHPkaMYzPWWzhLEzN093evmzog5Fx0X7+LkxxaoXGCCUAHx0UysaD+ci+dP
+ xWIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1743615741; x=1744220541;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+AN9v4KQ0PiEc7jM3vE8QrHxAiVUi2zmd1sx7ARoRMg=;
- b=FVtLhAb24Djwb7HoScA8Q6ITKPqCDEdsTOg9y1BJj+FWAehGo9GG9BEpNjMZAO58I+
- VbYt8ilcV5GCNd6FZcXuMnK81JmNeVm/Mx8ZNUA+wz/3nRWFKiJMy+HmDHp2xS4+rdXk
- opxjxWq1WqYtkcxwHGDrEW/qmpyw3MJnpVy7L7541yWqbA/XhIIgTFgP6StHNPdf+Ll/
- sdS7iI9hHxIiHQuiQdbAl5zCyfwz7FV/aI5YBPhiMNrI2koGdugL3wwL5+vrEFrzAV5p
- V2pl1a0189XClyf8ciMpGcK8Q7p6cG53Zj6NvHrL04bg9y9lrQ4zAGIVChRNMLR6BgHk
- 0m+Q==
+ bh=0gFevukveSt7PbWkbUevQGA0uvSXu+LT7vaKBaZctmY=;
+ b=QSbc8glT3WSgzrdsweJLFx6mYwP6O4RgwqGl6UZY+SRd7qdO2VTYfOyP98GAxTO6gy
+ 7n1fMPNunOIVyJ7rjQYvCRX0sEiWFjfFELExHZXRLctSoZtXBW72Xep0d1eDwIvWsYIA
+ 6ucaCxjVCE8bVBUx6d3atbl/81qbos1Stv/O6dpdRKjnVJ6u/XDlM5/XqXIBlKOpSneJ
+ TOJWCJTV8GhvlClLEQ66pjQ5+30Za29SeMRii0fdoAypMnVp8rZc2OBnp1mlCLuHWqko
+ xzIF0miWbDJtNAN8YQIu5Mp2o6cFG+W3HFniEtbXnf4rhEvFIpHM6pDVa1AXh0cvjsff
+ T5kg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVvjEHa9Ce2iw5AkDJ0kUm+LBElDQECrV7yYe4qnrqg8KhyD3Af51Ar9onitAa/dLMjkSDQeHOdi/zx+7M20Q==@lists.freedesktop.org,
- AJvYcCWWwK7+ONoZFydScgZbAHa66xrZ4rsLBYPkIDCcwAvbizc2KIX3mBYPw7CXsv4vxERQnqBBdd7Q@lists.freedesktop.org,
- AJvYcCXDhhgsH9NtVwvQ6FmmSEs7kYleiVmIbpEN5c4y0jt0RBZw1c66ATLhkZ0Z0YTSCZcvs5loL+KN3Yl5@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPgSTXdP2opqROgIuvSnhoQsD2fD++7SKTYHh6mkVUhZnwpPnz
- OOb9W46MV0qvKeRfu9p4URKEiuU+WD5uikwhUwKGolBvDGijc8Mb
-X-Gm-Gg: ASbGncsvPOYVhSK9ACj83SEjWY14X8KC9r+LziFPVftkE1uW9Kd1TVe7yuVK1q+e51w
- VdGEhf4BEvsuuHban8LgdTcuyX+3hOkgHG5ftG1FeeY2fUPtW0Rz5Fm1A37rjOgt3yYblCFo8kz
- kpV6id2oT7xzHBJf2O+PH6fNUvv8msqJjvw9hvDUsdHERzeUla07hVKRC0B3YYjVJwpIEgK3taA
- E2l4MsZ3LI6jXvgygqTQf6E0/QS/Hl6c38rS1KgJrotc/4MPbCjX25ecAHes3dFEqKUxZJ8HAFZ
- kWrRtZa0KRcnLoAwlVAGknP1FJtIiPpW2wHKv0v3BSB3Ry54GZ0oecFG519KnltaCShTbSekuxp
- hlQ==
-X-Google-Smtp-Source: AGHT+IH4Y0UWSmgU+NCi7WHRrVlXFXoekgCq0dMBYgztyw3Hpw5BNtpfhLC0O0dU/4LF+BFX2wTffA==
-X-Received: by 2002:a05:6e02:152d:b0:3d3:f64a:38b9 with SMTP id
- e9e14a558f8ab-3d5e09e4828mr192342365ab.15.1743615740615; 
- Wed, 02 Apr 2025 10:42:20 -0700 (PDT)
+ AJvYcCUunmf0ZmsJEXsWZd3NX45lEYpPvKJIuW6nppEXt1fzcJg4/BXQPu1KKR8o9CR/omN8AjFs0B1R@lists.freedesktop.org,
+ AJvYcCVv3you8wdqejjIgM9F/XPm5lbog6IpOaFBhToNzig2uEQpO0k9mR5OQAvfE+pWL2O14izxtMk3LHoz8ksMjQ==@lists.freedesktop.org,
+ AJvYcCWB9MPE5ELrI4WqlYP2bj/w5SV1QyRQhzQMgipYZVVSq8yE71FTgl9iEkOqbPckBJQem+DwuhcBGy8A@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwvwbMGNVNz0cxXxSpsEbKasp74l5AkT3+MzPtbnf/EL5jnzFCy
+ TgnKkU9LFE2qtiu99XYdfMAIV6kx/piGLTq/cZlHbouSfdvnozWs
+X-Gm-Gg: ASbGncvkJGt2MRYpdeHAf22uK9H2EMTZyKyJ5QxIRKGXWfN82G7h0o7Aiy0hiNZmDlJ
+ ZBM8qkTcmGkakc2/6yKMY+MUNSnX487qbUGtsShYaFQIAKSLyBHn5ToB4FhuBJ2oqnLroG8lnL+
+ BEybBil19x+fSutyXpPw5WxMrzoK3yniHPVXgZPb1fn67/3/K68pUyb4lS/+6WyqH6rgDABD+EH
+ b6S9Zq8m7QzvZi4mbZwc6I8vOwjNM5tKtFVlm3pN4sEii8eL/DPzW5JeMiynQ0+O9rpMbk+njeC
+ 0mnLxX+p4V8z78niXiKQTgCdgWIxOceKBrCpOOn81YJEtxe6AtTVYfJp9jF05iDibzGL/ILxFys
+ gtA==
+X-Google-Smtp-Source: AGHT+IEV2XIR0LN/wAE2n62Y1VoOctpEVbSfU4OWKQUPEpcCeuWBTEhGGJZ77uLyoEnBh82Q9kZt3g==
+X-Received: by 2002:a05:6e02:3c85:b0:3d3:d994:e92e with SMTP id
+ e9e14a558f8ab-3d5e09db5d3mr173946165ab.17.1743615741560; 
+ Wed, 02 Apr 2025 10:42:21 -0700 (PDT)
 Received: from gandalf.. (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
  by smtp.googlemail.com with ESMTPSA id
- e9e14a558f8ab-3d5d5af8369sm33439725ab.71.2025.04.02.10.42.19
+ e9e14a558f8ab-3d5d5af8369sm33439725ab.71.2025.04.02.10.42.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Apr 2025 10:42:19 -0700 (PDT)
+ Wed, 02 Apr 2025 10:42:21 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
  louis.chauvet@bootlin.com, linux-kernel@vger.kernel.org
@@ -72,9 +72,9 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com,
  Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v3 07/54] dyndbg: drop NUM_TYPE_ARRAY
-Date: Wed,  2 Apr 2025 11:41:09 -0600
-Message-ID: <20250402174156.1246171-8-jim.cromie@gmail.com>
+Subject: [PATCH v3 08/54] dyndbg: reduce verbose/debug clutter
+Date: Wed,  2 Apr 2025 11:41:10 -0600
+Message-ID: <20250402174156.1246171-9-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250402174156.1246171-1-jim.cromie@gmail.com>
 References: <20250402174156.1246171-1-jim.cromie@gmail.com>
@@ -95,33 +95,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ARRAY_SIZE works here, since array decl is complete.
+currently, for verbose=3, these are logged (blank lines for clarity):
+
+ dyndbg: query 0: "class DRM_UT_CORE +p" mod:*
+ dyndbg: split into words: "class" "DRM_UT_CORE" "+p"
+
+ dyndbg: op='+'
+ dyndbg: flags=0x1
+ dyndbg: *flagsp=0x1 *maskp=0xffffffff
+
+ dyndbg: parsed: func="" file="" module="" format="" lineno=0-0 class=...
+ dyndbg: no matches for query
+ dyndbg: no-match: func="" file="" module="" format="" lineno=0-0 class=...
+ dyndbg: processed 1 queries, with 0 matches, 0 errs
+
+That is excessive, so this patch:
+ - shrinks 3 lines of 2nd stanza to single line
+ - drops 1st 2 lines of 3rd stanza
+   3rd line is like 1st, with result, not procedure.
+   2nd line is just status, retold in 4th, with more info.
+
+New output:
+
+ dyndbg: query 0: "class DRM_UT_CORE +p" mod:*
+ dyndbg: split into words: "class" "DRM_UT_CORE" "+p"
+ dyndbg: op='+' flags=0x1 *flagsp=0x1 *maskp=0xffffffff
+ dyndbg: no-match: func="" file="" module="" format="" lineno=0-0 class=...
+ dyndbg: processed 1 queries, with 0 matches, 0 errs
+
+Also reduce verbose=3 messages in ddebug_add_module
+
+When modprobing a module, dyndbg currently logs/says "add-module", and
+then "skipping" if the module has no prdbgs.  Instead just check 1st
+and return quietly.
 
 no functional change
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- include/linux/dynamic_debug.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+-v2 squash several verbose cleanups together
+---
+ lib/dynamic_debug.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index b9afc7731b7c..ac199293d203 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -107,11 +107,9 @@ struct ddebug_class_map {
- 		.mod_name = KBUILD_MODNAME,				\
- 		.base = _base,						\
- 		.map_type = _maptype,					\
--		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
-+		.length = ARRAY_SIZE(_var##_classnames),		\
- 		.class_names = _var##_classnames,			\
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 55df35df093b..c609ff873224 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -264,9 +264,6 @@ static int ddebug_change(const struct ddebug_query *query,
  	}
--#define NUM_TYPE_ARGS(eltype, ...)				\
--        (sizeof((eltype[]){__VA_ARGS__}) / sizeof(eltype))
+ 	mutex_unlock(&ddebug_lock);
  
- /* encapsulate linker provided built-in (or module) dyndbg data */
- struct _ddebug_info {
+-	if (!nfound && verbose)
+-		pr_info("no matches for query\n");
+-
+ 	return nfound;
+ }
+ 
+@@ -499,7 +496,6 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
+ 		pr_err("bad flag-op %c, at start of %s\n", *str, str);
+ 		return -EINVAL;
+ 	}
+-	v3pr_info("op='%c'\n", op);
+ 
+ 	for (; *str ; ++str) {
+ 		for (i = ARRAY_SIZE(opt_array) - 1; i >= 0; i--) {
+@@ -513,7 +509,6 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
+ 			return -EINVAL;
+ 		}
+ 	}
+-	v3pr_info("flags=0x%x\n", modifiers->flags);
+ 
+ 	/* calculate final flags, mask based upon op */
+ 	switch (op) {
+@@ -529,7 +524,7 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
+ 		modifiers->flags = 0;
+ 		break;
+ 	}
+-	v3pr_info("*flagsp=0x%x *maskp=0x%x\n", modifiers->flags, modifiers->mask);
++	v3pr_info("op='%c' flags=0x%x maskp=0x%x\n", op, modifiers->flags, modifiers->mask);
+ 
+ 	return 0;
+ }
+@@ -539,7 +534,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
+ 	struct flag_settings modifiers = {};
+ 	struct ddebug_query query = {};
+ #define MAXWORDS 9
+-	int nwords, nfound;
++	int nwords;
+ 	char *words[MAXWORDS];
+ 
+ 	nwords = ddebug_tokenize(query_string, words, MAXWORDS);
+@@ -557,10 +552,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
+ 		return -EINVAL;
+ 	}
+ 	/* actually go and implement the change */
+-	nfound = ddebug_change(&query, &modifiers);
+-	vpr_info_dq(&query, nfound ? "applied" : "no-match");
+-
+-	return nfound;
++	return ddebug_change(&query, &modifiers);
+ }
+ 
+ /* handle multiple queries in query string, continue on error, return
+@@ -1234,11 +1226,10 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+ {
+ 	struct ddebug_table *dt;
+ 
+-	v3pr_info("add-module: %s.%d sites\n", modname, di->num_descs);
+-	if (!di->num_descs) {
+-		v3pr_info(" skip %s\n", modname);
++	if (!di->num_descs)
+ 		return 0;
+-	}
++
++	v3pr_info("add-module: %s %d sites\n", modname, di->num_descs);
+ 
+ 	dt = kzalloc(sizeof(*dt), GFP_KERNEL);
+ 	if (dt == NULL) {
 -- 
 2.49.0
 
