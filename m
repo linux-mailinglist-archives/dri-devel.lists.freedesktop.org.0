@@ -2,89 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2303A792A6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1A0A792BE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:12:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF15310E820;
-	Wed,  2 Apr 2025 16:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09B5D10E048;
+	Wed,  2 Apr 2025 16:12:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JpcpZ3ID";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GVs84480";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76D2910E81E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:06:30 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-abbd96bef64so1124906966b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 09:06:30 -0700 (PDT)
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com
+ [209.85.166.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE6D10E048
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:12:12 +0000 (UTC)
+Received: by mail-il1-f174.google.com with SMTP id
+ e9e14a558f8ab-3d5eb0ec2bdso77365ab.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 09:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1743609989; x=1744214789;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=025ywTe8X2oiiTY/KI73kld6gosblZKwh9c0eIC7QAo=;
- b=JpcpZ3IDulNOelRpsOh3/2EWfVuuE1eHzK/dBPToE6QrU/Od9+8x+mxp5EwSipNbEw
- Pv85f3N63V1ORiyo7F83F5abpSvOV995Ropz4lEOEh9WpenMFZ9zRBv4MCyFYyeWiFgM
- VXb8hQ/iRy4+a2oF9WalyR8KhO4K90e75w7Xw=
+ d=gmail.com; s=20230601; t=1743610331; x=1744215131; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5rK9kTwLfXEgDnRykzZWh9AEgnuJfNseTnoRiIhmpsc=;
+ b=GVs84480piwR1zz8SuVsLO/vJT2Al77RdkZ7AbK04iIbC6I1ROV9Ge712aZ9Lk0fAs
+ Yc5stg1bSQnXSzPdJg8T1wvWr6Ro763+s4DZv5NstOo/ZOKHyLJhkZw9UOazhoAnNFLL
+ LO+2hfmdQr1d+qmLRqnjfwMN4qPJYtMdinqKBX4BIxP4mb+ukkduuOzYAyQv4QFy8CQS
+ Nz1EiS8BebMqDArzmKHVz2H4d6+ct0OPJYVrgHXaKf7xEyC2EPqsS4wz1ABb4eK10sg6
+ ydb3zhnOTlOVSyzBV9U8oNhD2z103qJZo178M1T7GTOgUZUVOasgbfjDIQmPvWubNb/P
+ o+Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743609989; x=1744214789;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=025ywTe8X2oiiTY/KI73kld6gosblZKwh9c0eIC7QAo=;
- b=w9XLvOs4spwW4AMYGllww/4bIVDlgbZIT9eJaIKje9DSp7wjyqicQPBVHxnfqyBWOU
- ASs+qyNN+T425bWFctqwfmmVpqFIOeoQe56Ws+0HjEZTmB7sBcWUDZt6Et/w0ALWnQqA
- IQIWg6V3EbI0ohIuom9aJQ4cM5mamrpjJS1Rpkv4DqtIFZSLzrH3iOCXAyn/M/QXOz7G
- FgsUQySaVRjpdbm8EFxodOeaHGz7GVpjL42Zr3Foxva2912EdkaYS/MSs7PqEcb0HDRx
- SdkWpphI9jp6pwotF9d8qiAqmSSnQOgyzPZ3uB+BkXcgtvtEYVAkJAEETMQTgTm8wjhh
- 1DCg==
+ d=1e100.net; s=20230601; t=1743610331; x=1744215131;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5rK9kTwLfXEgDnRykzZWh9AEgnuJfNseTnoRiIhmpsc=;
+ b=u2ftxujVbE9e/VYg19Lai6L5AXfNNw01mlaOYNq3KseL9QeoA5uQZYJLXa+B8cyouu
+ GTTBCBGTmfIoWxtBCk0S5bqD3kCdVBey7qsIiutJmZSd2Ut/VSrB5ujBVNOU0v0yoac9
+ XL/7vf6uxvmpnMTaCsVZiuBLnrjzM4Evh0M2KFaLBk3WzO/Lm7nff+DWTGKuGzHRSZYd
+ HRpdv53Y1hdVg/CdoxPfmAdIslO2vqHo++rhcrvzg0yMlwXXU6ukDL+pdJYAGtFxl37f
+ BXIkBVGp6eAVik5zhH9rzmIUyrgGdIERcNfpyMUNmfXnGv4jB8EqiFgFC5gGZUaQ8fjn
+ aluw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXLugDcrPG4ZMGEjd7NuA/RraIN81iGPtj7fxFpYcFHQoubwVe2v6QVPm/Zs4ArdgtZHjkVI7g3Va4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzEt553oOy9WO++w96CC48Pa71WZRPns2VejS+04HSazobPMMwZ
- qw/vg6rxPLeeVMgECkzhiHMt5neT/JQ66U7yXEqo6MWID00tOvnexoyxw/tALFp7ClMJYKQMB4m
- pBYo=
-X-Gm-Gg: ASbGncvN9CJu0XcfS1C0m9PXY6eHYyweuHg4E9EXQzVkhVzRfaxpuk4jkT/WzG1Onug
- /0l+GRC0uOoYje/dQfKCuhO0Xwnf5QigJ5nfEVZrFxkCvweA+oObFGj6m7Nx9wBwqhVDpau4SU/
- iaDbD8NNNSp9i+uhdY82ddfzxade3+2e1bJanxjPkIrv/3lnU7lG/QXRsckTEqKXALJwFf6h0Ed
- j7+l1OKzkN1JVXONkAedmfg0k4wHb9lX62p8eECswn92F827BQmv9auMPJuYEbaHsPNpXd3JdJ1
- +Ei6trRwZygu2iBYeMFwm+Du09gGvESED6tYcqCY5FcWDE1+RAfNrs2CCrFFT0TeYjzhYtKcYdE
- 4KT6AmbsQdjGGxMU3UfA=
-X-Google-Smtp-Source: AGHT+IEXHgrJKlYQbDUdU+xf92+xuhViA51foOz7emClG6m1/5Zce6yNAraQwX6I40i7TAVD8zC0zA==
-X-Received: by 2002:a17:907:7216:b0:ac6:b729:9285 with SMTP id
- a640c23a62f3a-ac738bf66a5mr1461169166b.55.1743609988566; 
- Wed, 02 Apr 2025 09:06:28 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com.
- [209.85.218.47]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac71967fd33sm947161666b.142.2025.04.02.09.06.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Apr 2025 09:06:27 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-abbd96bef64so1124900266b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 09:06:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnR3ZoXmeYYliO3fSnev83FjTdIg5g97BFN9NThtVeuIJuL3b/bXtOcY1ZW4Umg8V7e1PjOEG5IMY=@lists.freedesktop.org
-X-Received: by 2002:a17:906:dc95:b0:ac7:36c2:aed5 with SMTP id
- a640c23a62f3a-ac738a5aa5amr1649611366b.28.1743609986968; Wed, 02 Apr 2025
- 09:06:26 -0700 (PDT)
+ AJvYcCVSXT6YtDuzGN2c9k7L/bOm2Mftx86B//BYyAUKb73aIbwPXlV0N5bcrtThDyB48jpznJrjrzUdD7E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXkJ4/1nr3t2JmD50VyaY2457YRgKOMv/JwQJg245V0discnAH
+ lGWfFGSzvkgkdhte5gOVNX1b448io6uxaioBDZMA65qhiEe9u2YWnUBd08DDd/xuW8+q6EY3zL3
+ 7591sVVggQMJOT/+b6e72KwY9MSs=
+X-Gm-Gg: ASbGncs3772ln27bJWPhDgtGhsDyzq7BWJzsWUpqECXciP+9cf5sGWZ6bd4R9VGvLNc
+ rKABP+gqHprAKJVpMy1+WQU/3FTzgmt1bZzA1eGRpBw6slYpl1PDjCUD+7PGan00FnmMku+LiUH
+ 9WVA8wAxD1q+gNkMQ7AFpPZ6sYOfzMy5orcTOuhuiW6tBTRewH6rWnz+7DxvLH8o43Tno8BDI=
+X-Google-Smtp-Source: AGHT+IFkYI6mSsCBU3Xd58kZsuiXhxMXIV+xUr1NKSGa56kWg9906qGj0TOjzVUzEtK07ut+ViwxdQy4wwNXDrQnrD0=
+X-Received: by 2002:a05:6e02:4401:10b0:3d6:d3f7:8813 with SMTP id
+ e9e14a558f8ab-3d6d3f7c3c0mr33927585ab.22.1743610331229; Wed, 02 Apr 2025
+ 09:12:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250402124656.629226-1-jani.nikula@intel.com>
-In-Reply-To: <20250402124656.629226-1-jani.nikula@intel.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 2 Apr 2025 09:06:09 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whkpFR93_rX2Wi5bQErH1-bzFXkWZP2wgBGCRgsFQuOhg@mail.gmail.com>
-X-Gm-Features: AQ5f1Jqd6jCqv34VGPiVcJowK6E-xTG9BBy-7Ow_2MxO0m2aPE5XhfB34p0FnyE
-Message-ID: <CAHk-=whkpFR93_rX2Wi5bQErH1-bzFXkWZP2wgBGCRgsFQuOhg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] kbuild: resurrect generic header check facility
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: linux-kernel@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, linux-kbuild@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org
+References: <20250401155758.48855-1-robdclark@gmail.com>
+ <CAF6AEGsKbjq_q7ezQTn5vyAF1cjXahgbv84uYK35BJH1KBXSpw@mail.gmail.com>
+ <ff614cb7-94ca-4d74-9bbb-f97c95893113@collabora.com>
+ <b636faa5-ab31-41d6-b957-4dfe89a2b47d@amd.com>
+In-Reply-To: <b636faa5-ab31-41d6-b957-4dfe89a2b47d@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 2 Apr 2025 09:11:59 -0700
+X-Gm-Features: AQ5f1JoTRdjAnHaCZTeG_hJr4mmegr_fGINI7Zx0FF-EN5SHZjfv1OdMb7Fb8uc
+Message-ID: <CAF6AEGutP-TTJjt=HrzpYooUerQ3jETYz=Mw8NEb2h3kLo=3kA@mail.gmail.com>
+Subject: Re: [PATCH v6] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline
+ syncobjs
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linux-media@vger.kernel.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linaro-mm-sig@lists.linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,16 +96,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Apr 2025 at 05:47, Jani Nikula <jani.nikula@intel.com> wrote:
+On Tue, Apr 1, 2025 at 11:55=E2=80=AFPM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> Another go at hiding the turds.
+> Am 01.04.25 um 22:46 schrieb Dmitry Osipenko:
+> > On 4/1/25 23:40, Rob Clark wrote:
+> >> On Tue, Apr 1, 2025 at 8:58=E2=80=AFAM Rob Clark <robdclark@gmail.com>=
+ wrote:
+> >>> From: Rob Clark <robdclark@chromium.org>
+> >>>
+> >>> Add support for exporting a dma_fence fd for a specific point on a
+> >>> timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
+> >>> syncobj support, as it needs a way to turn a point on a timeline back
+> >>> into a dma_fence fd.  It also closes an odd omission from the syncobj
+> >>> UAPI.
+> >>>
+> >>> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
+> >>> [2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_reques=
+ts/805
+> >>>
+> >>> v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
+> >>> v3: Add unstaged uabi header hunk
+> >>> v4: Also handle IMPORT_SYNC_FILE case
+> >>> v5: Address comments from Dmitry
+> >>> v6: checkpatch.pl nits
+> >>>
+> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >>> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >>> ---
+> >>>  drivers/gpu/drm/drm_syncobj.c | 47 +++++++++++++++++++++++++++------=
+--
+> >>>  include/uapi/drm/drm.h        |  4 +++
+> >>>  2 files changed, 41 insertions(+), 10 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_sync=
+obj.c
+> >>> index 4f2ab8a7b50f..636cd83ca29e 100644
+> >>> --- a/drivers/gpu/drm/drm_syncobj.c
+> >>> +++ b/drivers/gpu/drm/drm_syncobj.c
+> >>> @@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_fi=
+le *file_private,
+> >>>  }
+> >>>
+> >>>  static int drm_syncobj_import_sync_file_fence(struct drm_file *file_=
+private,
+> >>> -                                             int fd, int handle)
+> >>> +                                             int fd, int handle, u64=
+ point)
+> >>>  {
+> >>>         struct dma_fence *fence =3D sync_file_get_fence(fd);
+> >>>         struct drm_syncobj *syncobj;
+> >>> @@ -755,14 +755,24 @@ static int drm_syncobj_import_sync_file_fence(s=
+truct drm_file *file_private,
+> >>>                 return -ENOENT;
+> >>>         }
+> >>>
+> >>> -       drm_syncobj_replace_fence(syncobj, fence);
+> >>> +       if (point) {
+> >>> +               struct dma_fence_chain *chain =3D dma_fence_chain_all=
+oc();
+> >>> +
+> >>> +               if (!chain)
+> >>> +                       return -ENOMEM;
+> >>> +
+> >>> +               drm_syncobj_add_point(syncobj, chain, fence, point);
+> >>> +       } else {
+> >>> +               drm_syncobj_replace_fence(syncobj, fence);
+> >>> +       }
+> >>> +
+> >>>         dma_fence_put(fence);
+> >>>         drm_syncobj_put(syncobj);
+> >>>         return 0;
+> >>>  }
+> >>>
+> >>>  static int drm_syncobj_export_sync_file(struct drm_file *file_privat=
+e,
+> >>> -                                       int handle, int *p_fd)
+> >>> +                                       int handle, u64 point, int *p=
+_fd)
+> >>>  {
+> >>>         int ret;
+> >>>         struct dma_fence *fence;
+> >>> @@ -772,7 +782,7 @@ static int drm_syncobj_export_sync_file(struct dr=
+m_file *file_private,
+> >>>         if (fd < 0)
+> >>>                 return fd;
+> >>>
+> >>> -       ret =3D drm_syncobj_find_fence(file_private, handle, 0, 0, &f=
+ence);
+> >>> +       ret =3D drm_syncobj_find_fence(file_private, handle, point, 0=
+, &fence);
+> >>>         if (ret)
+> >>>                 goto err_put_fd;
+> >>>
+> >>> @@ -869,6 +879,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device =
+*dev, void *data,
+> >>>                                    struct drm_file *file_private)
+> >>>  {
+> >>>         struct drm_syncobj_handle *args =3D data;
+> >>> +       unsigned int valid_flags =3D DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_T=
+IMELINE |
+> >>> +                                  DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXP=
+ORT_SYNC_FILE;
+> >>> +       u64 point =3D 0;
+> >>>
+> >>>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+> >>>                 return -EOPNOTSUPP;
+> >>> @@ -876,13 +889,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_devic=
+e *dev, void *data,
+> >>>         if (args->pad)
+> >>>                 return -EINVAL;
+> >>>
+> >>> -       if (args->flags !=3D 0 &&
+> >>> -           args->flags !=3D DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SY=
+NC_FILE)
+> >>> +       if (args->flags & ~valid_flags)
+> >>>                 return -EINVAL;
+> >>>
+> >>> +       if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
+> >>> +               point =3D args->point;
+> >>> +
+> >>>         if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_=
+FILE)
+> >>>                 return drm_syncobj_export_sync_file(file_private, arg=
+s->handle,
+> >>> -                                                   &args->fd);
+> >>> +                                                   point, &args->fd)=
+;
+> >>> +
+> >>> +       if (args->point)
+> >>> +               return -EINVAL;
+> >>>
+> >>>         return drm_syncobj_handle_to_fd(file_private, args->handle,
+> >>>                                         &args->fd);
+> >>> @@ -893,6 +911,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device =
+*dev, void *data,
+> >>>                                    struct drm_file *file_private)
+> >>>  {
+> >>>         struct drm_syncobj_handle *args =3D data;
+> >>> +       unsigned int valid_flags =3D DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_T=
+IMELINE |
+> >>> +                                  DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMP=
+ORT_SYNC_FILE;
+> >>> +       u64 point =3D 0;
+> >>>
+> >>>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+> >>>                 return -EOPNOTSUPP;
+> >> oh, I suppose I should add a check for DRIVER_SYNCOBJ_TIMELINE?  I'll
+> >> send a v7 a bit later
+> > Christian already applied to misc-test, please rebase and make it as a
+> > new patch
+>
+> Yeah, sorry I was a bit to quick obviously.
+>
+> On the other hand I don't see an immediate need for a check for DRIVER_SY=
+NCOBJ_TIMELINE here.
+>
+> The functions should work even when the driver doesn't handle timeline sy=
+ncobj on it's own.
 
-The patches look sane to me.
+Ok, no problem, I'll just put an explicit cap check in virglrenderer,
+rather than relying on this to tell me also if the driver supports
+timeline:
 
-I didn't _test_ them - because that's not how I roll - but they look
-like they would do the right thing and not interfere with my odd TAB
-lifestyle (I say "odd", because apparently I'm the only one who lives
-and dies by auto-complete, but obviously my way is never really odd.
-By definition).
+         struct drm_syncobj_handle args =3D {
+            .handle =3D 0,   /* invalid handle */
+            .flags =3D DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE |
+                     DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE,
+            .fd =3D -1,
+            .point =3D 1,
+         };
 
-         Linus
+         errno =3D 0;
+         ret =3D drmIoctl(fd, DRM_IOCTL_SYNCOBJ_HANDLE_TO_FD, &args);
+
+         /* ENOENT means the kernel supports
+DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
+          * but that we didn't provide a valid handle.  EINVAL means
+the kernel does
+          * not support DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE.
+          */
+         if (errno =3D=3D ENOENT) {
+            resp[0] =3D true;
+            resp[1] =3D 1;
+         } else {
+            assert(errno =3D=3D EINVAL);
+         }
+
+
+BR,
+-R
+
+> Regards,
+> Christian.
+>
+>
