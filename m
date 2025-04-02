@@ -2,141 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABCEAA7933D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752EDA7935A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Apr 2025 18:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A78DF10E85F;
-	Wed,  2 Apr 2025 16:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D69B10E85B;
+	Wed,  2 Apr 2025 16:39:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="l14pX2Zm";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="etBGqs3u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2084.outbound.protection.outlook.com [40.107.223.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E07CA10E85F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:34:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sT64O7VUTSsVpdfIKWyhgVYQBUs8CwdoPGRzZpnOVNMeRefz+5eAoRwuWGrLoCQLx911F/jAXGHWz+xN1ISyBs+AnibrEEjSUJHylOBmXlEQAXml4LSJmtyXDE573HhCDV1PR5rzKVT4+RbVz8b6L1EcM37AXNjx7S0bVDoDcMfFn+vyBl2pjywA9W93K7IS77MlSLIJik/xlxtQrjsH8PBCwD7KbHt+ciiKlxhAXvgZamcyhWiZ3UGVPawZXyatIBkyjfbAPYEk8kcQvq8xsstxsJUmxUkSMKFnRfMl1wQuOzqIwwMeBtKzDSDGFLz+LEMFckmJtgfKuSKgb4nM1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XWacam+h32ukrHJRR5Xi6By27nFkQBUURfQ7fjJ21pM=;
- b=KGio1JJ8KCBp/VGxYx2vx9gAiljIVoG9fqJOXDAxugtMBGdpQ/dg6JAdFx0Bpk9bnyeYoUD82vPQTivFwOc1sspdZec7T+I6dKZx4Zo7qy15h2/rygeCOwQROJFRjCmu+FE2IndMny2rsL5FTE8mnjJc3GKtTAAIV3pvnoTw2/94apbfGKMV2AjS9dsBjbMSuRP9iYPO8Qa+bYWR9WOKf8K8S7Wk5ljl1KUWxvd7D5vWcGhvb13IAK28Rcw/gyJz6K0pUobZjwZA4OyrN8NDjlgSDub9BMoSMF+LVBB9EIEjhsYtH5DcWAstbDHAgK+1WIrIi2UG173g/sR8uYLgxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XWacam+h32ukrHJRR5Xi6By27nFkQBUURfQ7fjJ21pM=;
- b=l14pX2ZmU9MjtKxctvc470cErFFC3Bn8veoZi9h3cj6wWmNQb7HaPHO8jOMB4C2gGGADM+rIzcKQzPbIru13pYMPzlW1zuRADDGBxEF0PW2NfmJTXY4di4q80llqQary2nISmpC6rhwmm5KQ5ruw2oEbhlo+RoXOOotZeKDpzQyloxJWl8Q65SzVxhyyO9J6WoazPH/0f1KXYHu7+WtZ0OcmPCDdoKmw2MWmd8L6z6zrl0O0PJW1pSr32h5V78/EcsIVVNiccOxFI2PoXCUsnrOI6V6V7rdDww5W8T9vWa6FjT1ozOZ2aNiqe39UMencmNT59qDJsq24gnFn+bdzYg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by BN5PR12MB9512.namprd12.prod.outlook.com (2603:10b6:408:2ab::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.47; Wed, 2 Apr
- 2025 16:34:03 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8534.043; Wed, 2 Apr 2025
- 16:34:03 +0000
-Date: Wed, 2 Apr 2025 13:34:02 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [git pull] drm for 6.15-rc1
-Message-ID: <20250402163402.GD342109@nvidia.com>
-References: <87tt782htn.fsf@intel.com>
- <CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com>
- <CAK7LNAQThGkgtKgquRPv8Ysi_omedRthF1_++apKda-xWeWcbA@mail.gmail.com>
- <20250401191455.GC325917@nvidia.com> <877c433bys.fsf@intel.com>
- <20250401194649.GE325917@nvidia.com> <87v7rm203e.fsf@intel.com>
- <20250402130347.GB342109@nvidia.com> <87r02a1xge.fsf@intel.com>
- <Z-1MqJen5o0yhoQQ@phenom.ffwll.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z-1MqJen5o0yhoQQ@phenom.ffwll.local>
-X-ClientProxiedBy: BN0PR04CA0163.namprd04.prod.outlook.com
- (2603:10b6:408:eb::18) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E220210E85B
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Apr 2025 16:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743611939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jA07gZAckB5bQhywn6Vwf6YGCI+Gg9x9Lpp/1wjtdSQ=;
+ b=etBGqs3uXVxdyuDntip6FyhlNGsF2sPyk7/zlYITsWy522iYH8mMBxCNOyWGh7RPmqB1c5
+ qaaQLbIvMtCNka6si77ckLNOEhkih7aPzEshNfpPlMa2ugnb4TNnDSeBqIeRpFd4OcxIvM
+ l4E4zIrzp5Cs5IPaKbjCdec15ayD7CQ=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-290-7_ZiO4ZFPya71ZBVtm0EPA-1; Wed, 02 Apr 2025 12:38:57 -0400
+X-MC-Unique: 7_ZiO4ZFPya71ZBVtm0EPA-1
+X-Mimecast-MFC-AGG-ID: 7_ZiO4ZFPya71ZBVtm0EPA_1743611935
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-2ff68033070so11541562a91.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Apr 2025 09:38:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743611935; x=1744216735;
+ h=content-transfer-encoding:cc:to:subject:message-id:date
+ :mime-version:references:in-reply-to:from:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=jA07gZAckB5bQhywn6Vwf6YGCI+Gg9x9Lpp/1wjtdSQ=;
+ b=WLDy+NbH77ZB+VfJdTHwV0rC+YJWsVbtINj7JRwOIXp7InLuOF16yMGgvOE3/+ZaHt
+ Wx/IbuNqQ7qElDmXDLvnftv82lMJYuaRzMtPyIR7NMQwtzgKY19zr/b+vDgEfWoIc8g4
+ 6iyzw9j+KffYcwJUZnIyRMoVOjDFE7zH4hPVHmIbw2tY5wJOQLSEUQpzOvavcHCFwXN9
+ 6F7lqQouHg+r2Ml9W7VrTZc3nnt+ek4yyUh02iuoGjkTLGB3NDVGl5OKYclLXl23HAoN
+ sUP+F4eNsY0NMVd2ojpJsBsbaRymmsEYw9Wk+V/lzALMQHEAihv3ipEVZ/J3Cpe9up9d
+ ygqw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVszC6Le6BEzN6Q0eCZxqM/NOQ/qT8vuaMTJEbNRgeJPyHvK5hkmU6qjVQvLDXThU2/u/W/qzVBKkA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2ViCVVIL+f/oeRuqmsO0QG4Ilfshxd3JBvPup9MKKie1THq3B
+ SU4pVpdMr0qd8c1BkN7yDo9uMEwA7GK+L9+2VG1BzKXBhuwWltnBo+ak0meJ7pgd5dWWu/Ppver
+ q0rGaZMWFmVpF81qzlqfB49kFvIxYTxXf0ANF0zLoiH3Ldgt4dQbBHpr39ZQt5QjV/2onSiYfBl
+ U3+pp08L0qxS5w0Hdy+YxmYj82ly8j+wPo2/IAvc8h
+X-Gm-Gg: ASbGnctVPK1j3AFYA3zWuUtOB+6IZYUN4CCrF1LVHe98gjpGxaACf5R0AtRF4hDedIZ
+ 5tT1CNR2gaZAamsonoduV7UVZ5RFYdbN22Vy7LxyXrzVjUUn5SJpR1egCM87CC6xPdRPoUg==
+X-Received: by 2002:a17:90a:e183:b0:2ff:5e4e:861 with SMTP id
+ 98e67ed59e1d1-3056094b28amr11892720a91.24.1743611935193; 
+ Wed, 02 Apr 2025 09:38:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFJeSWFRN5z2wxWXtKvRsOPT5CfAHrY7buz3TM6wH9tz9gjBfwFVkgsnjlHEgDTEqYebTRrhaxUSg2BrAW/4wM=
+X-Received: by 2002:a17:90a:e183:b0:2ff:5e4e:861 with SMTP id
+ 98e67ed59e1d1-3056094b28amr11892695a91.24.1743611934877; Wed, 02 Apr 2025
+ 09:38:54 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 2 Apr 2025 18:38:54 +0200
+From: Sergio Lopez Pascual <slp@redhat.com>
+In-Reply-To: <CAAfnVBki816fSPuQ_FcvuwYzbSwiS_WaYsGSA1AyitmAA5OsXg@mail.gmail.com>
+References: <20240723114914.53677-1-slp@redhat.com>
+ <942afa37-a24c-48ed-ae10-c811849165bf@collabora.com>
+ <CAAiTLFV6mAgrMj=itcxoBCibvYRyrAk02wYp-gYJ8kxhF0EPmw@mail.gmail.com>
+ <CAAfnVBkWKn3+YEhNz0CTmw-T_jjL72axkWqYgkzkSa72t_Gf0A@mail.gmail.com>
+ <CAF6AEGsnpEYFsCfZUAPopWzY=wv_GWn0P5f5D6U9y-JrWGQVnw@mail.gmail.com>
+ <CAAfnVBki816fSPuQ_FcvuwYzbSwiS_WaYsGSA1AyitmAA5OsXg@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BN5PR12MB9512:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f60e429-5b93-4c18-249a-08dd72042dfc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?lP3uDg/H8sX/xEI1kJTjfuNcu4W7Nxrj0Rt0PT/oPvbBP8mpujFKkHBOLjJf?=
- =?us-ascii?Q?ZjAtY+PduxbxM8yKaiOsb5XuXSR/+dwu3g/FGE5kZxnHh00IA+odyOIdekZc?=
- =?us-ascii?Q?oSm9Fbs4DrKlcENaQLRv3RCaQ/lWhJZNIDA6pvPkzs+KQyMZ1+CchG+wPYKu?=
- =?us-ascii?Q?B8S4RZpSLTvWvrGe46fFvBniHZcQthXKnXRWahwl06ofsMUP0JPpUjDUrr7C?=
- =?us-ascii?Q?hVTNHH18zM1+50lkDoc6y+ytBsctyoSd4ICxFNDUv5Yl5Why74/RhQ/dYEq5?=
- =?us-ascii?Q?4ejg9uRwN7oKkidQIcNKUK5gCTwj2GeKP896/sICF0j7Ibrj32EjJKAeCRNx?=
- =?us-ascii?Q?LEZOZ5q+WcaT3S7LNT6ys1h3tJgL0Dhk1TV1uQXm2XqvXn1XU5M1lmiGoYnk?=
- =?us-ascii?Q?5euQz4mkgDxbRHcDbjPEvZMj5n/giED/b562VNazxPuZHLVZqk6kCjl/xFcX?=
- =?us-ascii?Q?+UHicXN9g0saiy6H+eqoHTaduTUs6UxaXbiMWF7gldbrWXbAIViiSiDCZKY3?=
- =?us-ascii?Q?rAC71mkA7s2fwuV4G2fzE9fgQvV5GXGcGGtfiL5ijTfDvzRkmoKhNBJdZ1EE?=
- =?us-ascii?Q?nHKp9kBdMPjf3Ybz8PDiU/9AU3eddqUiuspj1WIniEMkKfdebTetPVl/ENWf?=
- =?us-ascii?Q?U/Iz19Vi/Dwsat2KVPA2imqQDTBvRPewU5GydCzGmd4bEgdfO26lc8M2BcZw?=
- =?us-ascii?Q?Yf376FRFQ2xy54WogitaVMsOXrNMogerKV4Gol9Ri8S0oFMX/PuszzFMDBAg?=
- =?us-ascii?Q?Tt7SQ6aX8FrkKIPhsGIMwyZ9U9d/qZRYZlUvSNhJn58iLfw01CweQkgjORTd?=
- =?us-ascii?Q?IFibEeUfBLYKoMjAkEOr8saFa1Ui1mSA37SvSp08m3KLPyVcbcAAI5Jzs0/o?=
- =?us-ascii?Q?MCZ03+Fti/WLlnE7vh14adiSnOdj4G6S07gbdQxcPo0F//Ra8zYBFkd8YHCb?=
- =?us-ascii?Q?F4mmMZXaIHEoYFWkk7fecU477WanvnAHFks4/pASmgJAvg9VhFyLvOtOA1gA?=
- =?us-ascii?Q?gjD1ztLr+MVpi19CoQrCtBrVMaBvFGQOCOrHnNTlyeyhMXxtZhVZ46gGSiGp?=
- =?us-ascii?Q?c6RE/6uKYTc8V98GOEX/wk5jcHvtds012++N5TC73mGdwGMNubJYuvNCKusl?=
- =?us-ascii?Q?ZtfaiqcS/DNOj4NIDEy+7pZozFWtxwPzyUTNrFLXJMAkITEmsyakAiE+oQL9?=
- =?us-ascii?Q?2pWRFBHYpPNJB7PFzxGld8Cx0hGUntEAl/8Qg11fyyxFwtHhQn8euhmdREmR?=
- =?us-ascii?Q?Dyo2tHbubT7QEj8mHNlxoB8fWDhbqQUXVS4Kis91GJODpxcQgdoAfSPZfqnQ?=
- =?us-ascii?Q?2cavTUHCqTW64AH8CiLSN6uz4Wzm7jQcDJCT6Xu1Fz5PwbnrLseANmXRZJn7?=
- =?us-ascii?Q?EY6zQ/SPEoAuST+4UJkgJVYXSHYZ?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fM9buciDStMWFdQgoOBX8NG9sbo7oxZT8Gukh6bwMUtWNFBO8uJaQy1pGNrV?=
- =?us-ascii?Q?kVvC1lXYFZuczMUSCBrO+b3p4DX193LSiogbK0Wz/ebUD66X8jtSZj6z+TUf?=
- =?us-ascii?Q?sFsMfENJZAXGsrxRkawbL20kjeqkqXRZcpzTYOyCAUxG5llhewLVHImGaN4/?=
- =?us-ascii?Q?3yV6b4LECR0uwDe6z9dAwcIFdQ/3zBQR+Zvck4vIxBITIZ6suEWC3VOKXkOt?=
- =?us-ascii?Q?Uk65sivRUwWRTYFLJkLQBbr67EOlyBYc+CvtO5Bji+Zf+WnGVm+ayp38zigF?=
- =?us-ascii?Q?m1we724wnsDAvo7SgKl4ycXADvtRWua8tHeepEEi3pIpMt3sdL34byY3IbLr?=
- =?us-ascii?Q?IraujIyu4OR2FTmEyCKvhWtNfOk1IIWlpE+spsFMHlnbTpmaR0i1mQtK2kun?=
- =?us-ascii?Q?PRtup+8h1dMvyWqdCUFJPg+NeqF4vvpkaEDbLgkYcizM0k1xiQi+PHpqYnp5?=
- =?us-ascii?Q?2JMcybqO8aHl9lTJ4d+cYt3xRcAR47oKB/FEabCSU76a7uYZmUxrKGymoymK?=
- =?us-ascii?Q?cuzQom/5GuYXuCiICorSJx9WKiWQhqFyWACTdI+a8peeEszpRg5IM8prE0MX?=
- =?us-ascii?Q?NkligJflyJxwuup7L1tIFdoAt3ew90ReVLGH/VPSiHfZEv6ihOq4o7kACsXW?=
- =?us-ascii?Q?iPTRB4jlW1fqpE83Kr/RpD3nCUX7SieIgzuKKFFOXv1GX+67P8sjhkU9ucF8?=
- =?us-ascii?Q?AnCIBK7lBOurDrv00SKSpwEAGtHjokDwz331Rk5KuDsVHslsppR6SUm3ZetD?=
- =?us-ascii?Q?R4rD48kt51MnE8w6LRxP4xUu1qL7/jEBSNXya+4VJbhPJ4f/pXpi0g9bIxd6?=
- =?us-ascii?Q?TFu8xhadabWIU82RhQ1Yen/vhoTsUb752WfkIxTHdnKpu+FZECDHoZQqSn4S?=
- =?us-ascii?Q?Hy1CVNwY8iRHkDwXcq2+H3lz3n+RRTQHZUBUEV+BXo/tBuQM+sTo8sYEG9zl?=
- =?us-ascii?Q?Qg5/jsCpk3/rVnkYpxM9oVygtsBnoN2R0A8nsOS5fUe/3zkWGmezHrzhFNZE?=
- =?us-ascii?Q?nlh8q5gU+je/Fqr5PV8gz4fr+bk5I5VKxnL2A7SMw52D1Uxwow8GZaT5q4NK?=
- =?us-ascii?Q?DqzXFaMWGlQPqS30GMmItiSEull1ITkfUlNIlkEklBPg+IpuN5lScV7MlTVQ?=
- =?us-ascii?Q?xfYPkFMSrns8tTeOmLUM8+X64z+Lv4TFEtC4/3dwYPi0aXZZmOiuclTP8syH?=
- =?us-ascii?Q?QMh73wHFADTfjINf6nemsM35dwRfqCjMyDGVfvRiWoliv2u5ZFc2de7v/aZn?=
- =?us-ascii?Q?IiKzjXQ5jfTh+BE/YIG+cowIRzD6Sg1dSPNIJPjavKKBAhLV8NSJGLRzg0gS?=
- =?us-ascii?Q?gTwb8YjgriWgpsHhleWH+YlBn/5ZpbDGC/+Cq2/L2QT0bhNkuEwpldZu7CwX?=
- =?us-ascii?Q?PX7IJhYiqTF1cDuoroWchTAiGJiiTvb0CJpgNcumzLZcK6n1xcWDCGcWhEsc?=
- =?us-ascii?Q?goQkkjVSZnw6fSgNPx4HOFQ/woE99paY5bhOyipLaLmt2dATkchM11sWcI8d?=
- =?us-ascii?Q?q1WFv5EwpuWxDYF3rBDpPPyVR3NtTCsQPXpXuT6kyLG8BIZya2ztM0fYH7A6?=
- =?us-ascii?Q?+d0B0JMImsyKqdvo1iOM4BxUcrLHPcGCgheDDViS?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f60e429-5b93-4c18-249a-08dd72042dfc
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 16:34:03.6532 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YNEFnXYXGO4O8ErQG9XTe4fRNeJneuCL8GqeMStiGB6/8OhGveITPVw111CwWJeV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9512
+Date: Wed, 2 Apr 2025 18:38:54 +0200
+X-Gm-Features: AQ5f1Jqh3JlHDowKtF1SlejjtYnTX8s9zM8BYZmloreOmj3oPMj4ojBdK_5F-_E
+Message-ID: <CAAiTLFWOfX+TOcLFKpgqZvGoC6xSbDyHcefET-jtbm=bCTtqeQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
+To: Gurchetan Singh <gurchetansingh@chromium.org>,
+ Rob Clark <robdclark@gmail.com>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>, tzimmermann@suse.de,
+ mripard@kernel.org, 
+ olvaffe@gmail.com, kraxel@redhat.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, airlied@redhat.com, 
+ linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: i1OYvZN1xUHHvq97C6xd3Ra0DqhLfsobKChjSmuWsfg_1743611935
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,25 +105,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 02, 2025 at 04:41:44PM +0200, Simona Vetter wrote:
+Gurchetan Singh <gurchetansingh@chromium.org> writes:
 
-> - Gradually roll this out, ideally with support in main Kbuild so it
->   doesn't have to be replicated.
+> On Tue, Aug 6, 2024 at 1:15=E2=80=AFPM Rob Clark <robdclark@gmail.com> wr=
+ote:
+>
+>> On Tue, Aug 6, 2024 at 9:15=E2=80=AFAM Gurchetan Singh
+>> <gurchetansingh@chromium.org> wrote:
+>> >
+>> >
+>> >
+>> > On Mon, Aug 5, 2024 at 2:14=E2=80=AFAM Sergio Lopez Pascual <slp@redha=
+t.com>
+>> wrote:
+>> >>
+>> >> Dmitry Osipenko <dmitry.osipenko@collabora.com> writes:
+>> >>
+>> >> > On 7/23/24 14:49, Sergio Lopez wrote:
+>> >> >> There's an incresing number of machines supporting multiple page
+>> sizes
+>> >> >> and on these machines the host and a guest can be running, each on=
+e,
+>> >> >> with a different page size.
+>> >> >>
+>> >> >> For what pertains to virtio-gpu, this is not a problem if the page
+>> size
+>> >> >> of the guest happens to be bigger or equal than the host, but will
+>> >> >> potentially lead to failures in memory allocations and/or mappings
+>> >> >> otherwise.
+>> >> >
+>> >> > Please describe concrete problem you're trying to solve. Guest memo=
+ry
+>> >> > allocation consists of guest pages, I don't see how knowledge of ho=
+st
+>> >> > page size helps anything in userspace.
+>> >> >
+>> >> > I suspect you want this for host blobs, but then it should be
+>> >> > virtio_gpu_vram_create() that should use max(host_page_sz,
+>> >> > guest_page_size), AFAICT. It's kernel who is responsible for memory
+>> >> > management, userspace can't be trusted for doing that.
+>> >>
+>> >> Mesa's Vulkan/Venus uses CREATE_BLOB to request the host the creation
+>> >> and mapping into the guest of device-backed memory and shmem regions.
+>> >> The CREATE_BLOB ioctl doesn't update drm_virtgpu_resource_create->siz=
+e,
+>> >> so the guest kernel (and, as a consequence, the host kernel) can't
+>> >> override the user's request.
+>> >>
+>> >> I'd like Mesa's Vulkan/Venus in the guest to be able to obtain the ho=
+st
+>> >> page size to align the size of the CREATE_BLOB requests as required.
+>> >
+>> >
+>> > gfxstream solves this problem by putting the relevant information in t=
+he
+>> capabilities obtained from the host:
+>> >
+>> >
+>> https://android.googlesource.com/platform/hardware/google/gfxstream/+/re=
+fs/heads/main/host/virtio-gpu-gfxstream-renderer.cpp#1691
+>> >
+>> > If you want to be paranoid, you can also validate the
+>> ResourceCreateBlob::size is properly host-page aligned when that request
+>> reaches the host.
+>> >
+>> > So you can probably solve this problem using current interfaces.
+>> Whether it's cleaner for all context types to use the capabilities, or h=
+ave
+>> all VMMs to expose VIRTIO_GPU_F_HOST_PAGE_SIZE, would be the cost/benefi=
+t
+>> tradeoff.
+>> >
+>>
+>> I guess solving it in a context-type specific way is possible.  But I
+>> think it is a relatively universal constraint.  And maybe it makes
+>> sense for virtgpu guest kernel to enforce alignment (at least it can
+>> return an error synchronously) in addition to the host.
+>>
+>
+> virtio-media may have support for VIRTIO_MEDIA_CMD_MMAP too, so could run
+> into this issue.
+>
+> https://github.com/chromeos/virtio-media?tab=3Dreadme-ov-file#shared-memo=
+ry-regions
+>
+> virtio-fs also has the DAX window which uses the same memory mapping
+> mechanism.
+>
+> https://virtio-fs.gitlab.io/design.html
+>
+> Maybe this should not be a virtio-gpu thing, but a virtio thing?
 
-No one said flag day, you'd have to approach the same way everyone
-else has done when adding new compiler errors and warnings to the
-build. An off-by-default option to produce the new errors/warnings,
-and alot of time and fixes before the new tests become on by default.
+There seem to be certain consensus that the information about alignment
+restrictions must be shared in a device-specific way:
 
-The stuff like this is not really sensible:
+https://lore.kernel.org/virtio-comment/CY8PR12MB7195B5E575099CD9CA1F2F39DCA=
+F2@CY8PR12MB7195.namprd12.prod.outlook.com/T/#t
 
-+header-check-$(CONFIG_DRM_I915_WERROR) += \
-+       $(filter-out $(no-header-test),$(shell cd $(src) && find * -name '*.h'))
+There's also the precedent of virtio-fs already sharing the alignment
+restrictions through FUSE_INIT (from VIRTIO SPECS 1.3, section
+5.11.6.4).
 
-Not only should we not be using globs to read the source files in a
-build system, but it is brutal to have to list every header file in
-the build in the makefiles, along with some kconfig :\
+---
+The driver maps a file range into the DAX window using the
+FUSE_SETUPMAPPING request. Alignment
+constraints for FUSE_SETUPMAPPING and FUSE_REMOVEMAPPING requests are
+communicated dur-
+ing FUSE_INIT negotiation.
+---
 
-( also find is usually spelled $(wildcard $(src)/*.h) )
+Given this information, I'm going to rebase and respin this series.
 
-Jason
+Thanks,
+Sergio.
+
