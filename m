@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1B9A7AB11
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:17:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45B9A7AB13
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA17D10EAF3;
-	Thu,  3 Apr 2025 19:17:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0288610EAEB;
+	Thu,  3 Apr 2025 19:17:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IaHjO0vo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l/Qmducu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B363A10EAF3
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:17:51 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C8010E2E5;
+ Thu,  3 Apr 2025 19:17:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 33B015C491D;
- Thu,  3 Apr 2025 19:15:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B7EC4CEE3;
+ by tor.source.kernel.org (Postfix) with ESMTP id CD316614BB;
  Thu,  3 Apr 2025 19:17:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2624DC4CEE8;
+ Thu,  3 Apr 2025 19:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707870;
- bh=s7qG5trji6KeA+b15lMAdNg4FohJ1eLxx5i7yXuZ8rw=;
+ s=k20201202; t=1743707876;
+ bh=nRyx3VmQ3nHY0DNs36hSyb4Eipali8JfXysXiAvQ/38=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IaHjO0vouzKEHeZhe6VA8VyCinci3hFgMb9GVecrnIDAYdDnIXXDUUYQjxHFGz9g7
- OhBLtL8VRdzoj/J1Ov+MtOgjLlqRSo+t85Psl1bwx05tv4uViurUFqXRHCroUofvmG
- fbjpwYvtRBNvHMqKA/FTFBn69n8AWpeCsMVeLukIRstM4Rc8xlcrLeYtf1wh6+RvfC
- Z1Ur1RCyh3t4eb0kaKeVWzNqLB7k46IbXosxCd67h2TrssPGm7ITRxmhsnvfqFaEBg
- RIll9iX6F3+5kCUeqibbmqTWz736Jsuz2X5tFS1vL6YkFISr7dfM654BzZNiqeLclo
- 0BYdVQIfsnesw==
+ b=l/QmducuhDnXwuw2XWlLM3W82S0MiqlPyXSs97TsGVpplOH0Enaq/tt8tEZX+VRzj
+ 7AMbuXw0recVbEGOyyYLPrlaQW3DQnIGF/0j5DgtKoywGsqdGxlYHw/BQI0BQKiNSS
+ /uzjxXFxrrBwelmZR0rCjjtFy0Y4zL7YzEjbkauL7J3wR7ylPuUNY6qzWKtT9bPcJ8
+ xP01jAmvFvPLyi5cSjisqaxE3EuIO36cng7t/z4h5O+pm5OtRJo55NAB/FA+2L1Oes
+ jT5dzU2Vk1G6vDGoO3+Kn1HCe+MyYJd1aUDEfcQ8K77H4LPSQKb17wXVIqDNXuqpz3
+ Set2HtaQKTv+w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Sasha Levin <sashal@kernel.org>, p.zabel@pengutronix.de, airlied@gmail.com,
- simona@ffwll.ch, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 21/33] drm/mediatek: mtk_dpi: Explicitly manage
- TVD clock in power on/off
-Date: Thu,  3 Apr 2025 15:16:44 -0400
-Message-Id: <20250403191656.2680995-21-sashal@kernel.org>
+Cc: Wentao Liang <vulab@iscas.ac.cn>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, kenneth.feng@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ sunil.khatri@amd.com, boyuan.zhang@amd.com, Jun.Ma2@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 23/33] drm/amdgpu: handle
+ amdgpu_cgs_create_device() errors in amd_powerplay_create()
+Date: Thu,  3 Apr 2025 15:16:46 -0400
+Message-Id: <20250403191656.2680995-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191656.2680995-1-sashal@kernel.org>
 References: <20250403191656.2680995-1-sashal@kernel.org>
@@ -65,67 +65,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+From: Wentao Liang <vulab@iscas.ac.cn>
 
-[ Upstream commit 473c33f5ce651365468503c76f33158aaa1c7dd2 ]
+[ Upstream commit 1435e895d4fc967d64e9f5bf81e992ac32f5ac76 ]
 
-In preparation for adding support for MT8195's HDMI reserved
-DPI, add calls to clk_prepare_enable() / clk_disable_unprepare()
-for the TVD clock: in this particular case, the aforementioned
-clock is not (and cannot be) parented to neither pixel or engine
-clocks hence it won't get enabled automatically by the clock
-framework.
+Add error handling to propagate amdgpu_cgs_create_device() failures
+to the caller. When amdgpu_cgs_create_device() fails, release hwmgr
+and return -ENOMEM to prevent null pointer dereference.
 
-Please note that on all of the currently supported MediaTek
-platforms, the TVD clock is always a parent of either pixel or
-engine clocks, and this means that the common clock framework
-is already enabling this clock before the children.
-On such platforms, this commit will only increase the refcount
-of the TVD clock without any functional change.
+[v1]->[v2]: Change error code from -EINVAL to -ENOMEM. Free hwmgr.
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Link: https://patchwork.kernel.org/project/dri-devel/patch/20250217154836.108895-10-angelogioacchino.delregno@collabora.com/
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 21ec6c775521f..9c11d3158324c 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -471,6 +471,7 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
- 
- 	mtk_dpi_disable(dpi);
- 	clk_disable_unprepare(dpi->pixel_clk);
-+	clk_disable_unprepare(dpi->tvd_clk);
- 	clk_disable_unprepare(dpi->engine_clk);
- }
- 
-@@ -487,6 +488,12 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 		goto err_refcount;
- 	}
- 
-+	ret = clk_prepare_enable(dpi->tvd_clk);
-+	if (ret) {
-+		dev_err(dpi->dev, "Failed to enable tvd pll: %d\n", ret);
-+		goto err_engine;
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+index a71c6117d7e54..0115d26b5af92 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+@@ -51,6 +51,11 @@ static int amd_powerplay_create(struct amdgpu_device *adev)
+ 	hwmgr->adev = adev;
+ 	hwmgr->not_vf = !amdgpu_sriov_vf(adev);
+ 	hwmgr->device = amdgpu_cgs_create_device(adev);
++	if (!hwmgr->device) {
++		kfree(hwmgr);
++		return -ENOMEM;
 +	}
 +
- 	ret = clk_prepare_enable(dpi->pixel_clk);
- 	if (ret) {
- 		dev_err(dpi->dev, "Failed to enable pixel clock: %d\n", ret);
-@@ -496,6 +503,8 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 	return 0;
- 
- err_pixel:
-+	clk_disable_unprepare(dpi->tvd_clk);
-+err_engine:
- 	clk_disable_unprepare(dpi->engine_clk);
- err_refcount:
- 	dpi->refcount--;
+ 	mutex_init(&hwmgr->msg_lock);
+ 	hwmgr->chip_family = adev->family;
+ 	hwmgr->chip_id = adev->asic_type;
 -- 
 2.39.5
 
