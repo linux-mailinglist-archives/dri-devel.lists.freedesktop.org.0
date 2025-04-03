@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D91A79C12
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 08:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933DAA79C3A
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 08:42:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3513510E208;
-	Thu,  3 Apr 2025 06:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2745310E21A;
+	Thu,  3 Apr 2025 06:42:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ic7VPpVb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Qgce0Ewg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D072A10E208
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 06:35:04 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C75BD10E21A
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 06:42:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C0EB75C64E5;
- Thu,  3 Apr 2025 06:32:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 776B1C4CEE3;
- Thu,  3 Apr 2025 06:34:55 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E31F768424;
+ Thu,  3 Apr 2025 06:42:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC26CC4CEE3;
+ Thu,  3 Apr 2025 06:42:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743662096;
- bh=qRM3eG6gqLVGutDjiR2oQQ4su3EUaT75uA7KTA4luMA=;
+ s=k20201202; t=1743662544;
+ bh=Mm5UvShqJfS6Bo3gBY57Tk/+isrXqZzI84v5T2TgGyI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ic7VPpVbqDl+foe4m6vFPehXrEaNTdi6Fn3uQKFgASy7+TZXiOAWo9cHZLLtV2uQ4
- U6A0a4ir7DbesULikeqlrXDugQQXaPnY9xf+mtJfIIlKZsI9HY1+lKnj9jTnKNup3h
- VISQvK+3JPQzvfUtXTZsZSKlHwOndyyQSxNpUU12qFn891JZOisLp5HkLUalRF4JP7
- L/9EeEkAB9SApAhYYQpaHOlHCTZfpHs1LUgUqfJXAXcSjQGn0mts8WiQoEmnJwoQ7x
- NJA9ZmIbnTiFWBfGN2ujLCTXwg4pufVuK1BAWXNz8sD8vSkSf6v2BE7ZKJa6gxkeK1
- /oN04mr+AN4CQ==
-Date: Thu, 3 Apr 2025 08:34:52 +0200
+ b=Qgce0Ewgkd+Cumb5f6U4T1HhR7WHTnXMeJrlK6+7f+dxtNnJnHGzn4rG1Mh0jfzKG
+ GYtkJizV2zO7Q72uwCvGV+9tZ7MjW203gozPMAbCeIkZnsgByXUV8z2r4qJ1sEcryJ
+ 0RX3uL8ze5r0AjY4Ymw5pMLgaJum8G4C9JgeHAZwZMjMg60yGnZf9DZiVvrnA2uncK
+ TTDMv92scWRTufXVLVNFCgXkbUkZZHANAES+VwsOK7DGMrgpmPDjadzPqVXME1DnVt
+ 96T/3vhXiBiJsHJydOyNmnrUJcYxXPYniJ1sxotmez8xtYriIU6Ck4lRHhZfRByenT
+ hz65jzoVWTjgg==
+Date: Thu, 3 Apr 2025 08:42:20 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Andy Yan <andyshrk@163.com>
-Cc: heiko@sntech.de, conor+dt@kernel.org, krzk+dt@kernel.org, 
- robh@kernel.org, hjc@rock-chips.com, mripard@kernel.org, 
- neil.armstrong@linaro.org, dmitry.baryshkov@oss.qualcomm.com,
- devicetree@vger.kernel.org, 
+Cc: dmitry.baryshkov@oss.qualcomm.com, heiko@sntech.de, hjc@rock-chips.com, 
+ mripard@kernel.org, naoki@radxa.com, stephen@radxa.com, 
+ cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
+ Laurent.pinchart@ideasonboard.com, 
+ yubing.zhang@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v3 2/7] dt-bindings: display: rockchip,inno-hdmi:
- Document GRF for RK3036 HDMI
-Message-ID: <20250403-first-dandelion-orca-ed9bbe@krzk-bin>
-References: <20250402123150.238234-1-andyshrk@163.com>
- <20250402123150.238234-3-andyshrk@163.com>
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ robh@kernel.org, 
+ sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v3 4/9] dt-bindings: display: simple-bridge: Add ra620
+ compatible
+Message-ID: <20250403-big-hog-from-ganymede-6aa617@krzk-bin>
+References: <20250403033748.245007-1-andyshrk@163.com>
+ <20250403033748.245007-5-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250402123150.238234-3-andyshrk@163.com>
+In-Reply-To: <20250403033748.245007-5-andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,24 +66,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 02, 2025 at 08:31:36PM +0800, Andy Yan wrote:
+On Thu, Apr 03, 2025 at 11:37:32AM +0800, Andy Yan wrote:
 > From: Andy Yan <andy.yan@rock-chips.com>
 > 
-> HDMI on RK3036 use GRF control the HSYNC/VSYNC polarity, but this part
-> is missing when it first landing upstream.
+> RA620 is a DP to HDMI bridge converter from RADXA, which first
+> found be used on ROCK 5 ITX.
 > 
-> Document that it is mandatory for RK3036 HDMI.
+> This chip can be used without involving software.
 > 
 > Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 > 
 > ---
 > 
-> (no changes since v2)
-> 
-> Changes in v2:
-> - First included in v2
+> Changes in v3:
+> - First introduced in this version.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
