@@ -2,72 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47987A7A8D6
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 19:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7B6A7A831
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 18:50:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8987F10EA4F;
-	Thu,  3 Apr 2025 17:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2142610EA2E;
+	Thu,  3 Apr 2025 16:49:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="2DQrMMUN";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="aNiXaaf4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 3614 seconds by postgrey-1.36 at gabe;
- Thu, 03 Apr 2025 17:48:46 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBDC10EA4F
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 17:48:44 +0000 (UTC)
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 533DFYG7020998;
- Thu, 3 Apr 2025 18:48:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- s35/hd6j/oze5BQkwpCnAuHUmsOym+Ak7W6YaAEdPvY=; b=2DQrMMUNOkxT30fy
- csV/MW1O1HBkGFvgMXIvytqri6PCwBuv/VZyYZgZLkOXV2AAgHVpmzMtv0e2sa3b
- ASJA7VTKezVWW5TTjBJSYMFf8hUCHOib1YclyTV9ShF09oGqaIkZ5ADVKtwrMwym
- avPUCbfxINEnVP9q3GiZWGh53DyDrL+mmBcRAzmHP8i0x3pL0jyZKpmZcfr7LHcX
- 48XefNcuzjCAJPY4U3TKj7BE4SRUReFdS+MViRgQENtIJQTig9YHxc0UeX80l7vl
- hZwrO943fqfPK7oaJe5Lw19X8BZmkB/zol8UJEO/EuoV310EbjzcO7Lmc7ExS5DT
- XajjAg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 45spura89a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Apr 2025 18:48:11 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 91CE54004D;
- Thu,  3 Apr 2025 18:47:09 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D2AAF8FB462;
- Thu,  3 Apr 2025 18:46:34 +0200 (CEST)
-Received: from [10.130.77.153] (10.130.77.153) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Apr
- 2025 18:46:34 +0200
-Message-ID: <49ca9518-ca05-44d8-8f63-53bb1d0d177a@foss.st.com>
-Date: Thu, 3 Apr 2025 18:46:33 +0200
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1B8C10E2C4
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 16:49:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743698989; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=PvL03y2mKKtDbbzoWadMFpA42dP9rW5Iw1NgTcLbcu7hKx+2gqR4xU1z7ZTeMxocXamSXkLLTcrzF5kSQCe9nOBJwqv8UtuWDiGtMZ4Kqyrk5aLxdtdl6z4i8tbG21sMWFirwjyLXBvRRt6vdnsNW4NMFcZP85GO4R9JM9zdIXA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1743698989;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=P0rUllkZNhOc/K0eG/q1fbeiU31K6a1atlL6dbjH7wE=; 
+ b=i9MK+YZ5xuihinl3YOhhoHziQDdTzb2QCsh2wck1oW/uJ/ebaeyaEu+d0QiQCUeESFleEQ1pLBVKNKLdxvV/F4dbrbj5vx5KepiCMx+MbJ9nFe8pXd3x23tWkrzL2BqZKtYYVk5sgTeMD682cFxqLwdSuWuAio2z1CMexWjeKck=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743698989; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:Cc:Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=P0rUllkZNhOc/K0eG/q1fbeiU31K6a1atlL6dbjH7wE=;
+ b=aNiXaaf4g0jwjm3d/BOjz0l0JVkD8GN+/9I0GCoSECKfPXw26XacfwJ+XGD21kor
+ TTJgky4Ez0+0FsxkoKEQBggZnNtINWTGQjvgSQEWqJ0WmynR1cKrYzJY4lKu8yc70Si
+ 6G8YSPmhXJHBowD4yKamYmtihlrao9BxfYsuRuLQ=
+Received: by mx.zohomail.com with SMTPS id 1743698987522585.1673470029504;
+ Thu, 3 Apr 2025 09:49:47 -0700 (PDT)
+Message-ID: <9af42e2f-7c5c-4b71-822d-eb39946448df@collabora.com>
+Date: Thu, 3 Apr 2025 19:49:41 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sti: remove duplicate object names
-To: Rolf Eike Beer <eb@emlix.com>, Alain Volmat <alain.volmat@foss.st.com>,
- David Airlie <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, Thierry Reding <treding@nvidia.com>
-References: <1920148.tdWV9SEqCh@devpool47.emlix.com>
+Subject: Re: [PATCH v2 1/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Sergio Lopez <slp@redhat.com>, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona@ffwll.ch>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250402-virtio-gpu-host-page-size-v2-0-0afdc8c16cb9@redhat.com>
+ <20250402-virtio-gpu-host-page-size-v2-1-0afdc8c16cb9@redhat.com>
+ <712de3a8-83c2-4ae7-8a5c-dd1baa3d50e4@collabora.com>
 Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <1920148.tdWV9SEqCh@devpool47.emlix.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.130.77.153]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-03_07,2025-04-03_03,2024-11-22_01
+In-Reply-To: <712de3a8-83c2-4ae7-8a5c-dd1baa3d50e4@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,24 +77,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 4/2/25 20:55, Dmitry Osipenko wrote:
+> On 4/2/25 20:46, Sergio Lopez wrote:
+>> diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
+>> index bf2c9cabd20793e3851e749baadf210341445501..adc264df4e458e9c754936c3015c069e5ee6b899 100644
+>> --- a/include/uapi/linux/virtio_gpu.h
+>> +++ b/include/uapi/linux/virtio_gpu.h
+>> @@ -64,6 +64,10 @@
+>>   * context_init and multiple timelines
+>>   */
+>>  #define VIRTIO_GPU_F_CONTEXT_INIT        4
+>> +/*
+>> + * Config struct contains host page size
+>> + */
+>> +#define VIRTIO_GPU_F_HOST_PAGE_SIZE      5
+>>  
+>>  enum virtio_gpu_ctrl_type {
+>>  	VIRTIO_GPU_UNDEFINED = 0,
+>> @@ -364,6 +368,7 @@ struct virtio_gpu_config {
+>>  	__le32 events_clear;
+>>  	__le32 num_scanouts;
+>>  	__le32 num_capsets;
+>> +	__le32 host_page_size;
+>>  };
+> 
+> Hi, this is still a spec change and the virtio-gpu spec update is need.
+> Please send the spec patch, I'd want to see that it won't have new
+> objections before merging the kernel patches.
 
+Noticed the virtio-spec patch now. My bad for missing it a day ago,
+thanks for sending it!
 
-On 1/15/25 09:58, Rolf Eike Beer wrote:
-> When merging 2 drivers common object files were not deduplicated.
->
-> Fixes: dcec16efd677 ("drm/sti: Build monolithic driver")
-> Cc: stable@kernel.org
-> Signed-off-by: Rolf Eike Beer <eb@emlix.com>
-> ---
->
-Hi Rolf,
-
-This patch predates my time as the STi maintainer, so I had not seen it.
-
-Applied on drm-misc-fixes.
-
-Thanks,
-Raphaël
-
-
-
+-- 
+Best regards,
+Dmitry
