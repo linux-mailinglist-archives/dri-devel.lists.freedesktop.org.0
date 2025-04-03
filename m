@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F551A7AA6D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6AEA7AA63
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8C510EA72;
-	Thu,  3 Apr 2025 19:13:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00A6810E1C1;
+	Thu,  3 Apr 2025 19:13:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NzLLLEDi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J4nhbtwx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26DDD10EA70
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:13:28 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C319A10EA4D;
+ Thu,  3 Apr 2025 19:13:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1BAF35C6C0F;
- Thu,  3 Apr 2025 19:11:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DB47C4CEE3;
- Thu,  3 Apr 2025 19:13:21 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 31E93614B5;
+ Thu,  3 Apr 2025 19:13:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43347C4CEE9;
+ Thu,  3 Apr 2025 19:13:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707602;
- bh=Od6xNWqg5f1TGcVxQW6t87mVJrpqg1QBQau9rDrcCbc=;
+ s=k20201202; t=1743707604;
+ bh=EKdo6glVJ5uwfI//1+P8dkxEj9XhjdNxCeuyPd/eAPg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NzLLLEDiM5pVl7mLHWB9RQwLwsGvU5uec/xEjZB7VNpF4ryZtFDltRwHUgBDOGApz
- TvaPrPpsz8cE5nbI6uh4tMDDEF+bThtB56GYsWikosTIpyrRTi912hHnzo/gBH/vww
- 8rIDSQzQajsaNgyIBAWFjYv7CWS1SAS+se5J2Lhc7+SfwbcxlotvC7pV0HAaknMyFE
- 3SG2RGL9GZiYpTqssqOfEOsdYXijLxvUXJtt5nZpNu00guSIbuqMgPAunj2nzOtehG
- t9snVEKE0piex2UiSX8jfEa2Qta2TJhS3myX4sH0Np8K+aoFwu/5ytwjBvHRE16lIz
- 5pyR6L3/YipJQ==
+ b=J4nhbtwxVtFV98KFbap5pev82KSlYL52LiWhtk8yKSdQaFJ2ImEehxKXZ6Aey3k/Q
+ 5aj+GUl1JStMZeh6nXuUG/gszDD7GUd0s2NBYobcHWPokubqAjxgH28mxN4sBj1GXU
+ eeq+2N8tlIjRmbWbWgg+U1G+9QFECrJ4RSwPcMVrCCVjxYKuWLImucbELIaobVgUqD
+ /vIZ50nE+22XxtZGZBBLYzUqMFU8J47k2aQmjM+VXvQcdbQf+M0c+p2+ThhS1Lm2Y4
+ 1+hoC1sKNW5QKneKYy9eRZddJDNbcA/q3vN38LZFjQ4jHajFeRpspWwgjd5xPM9OZC
+ 0DkoCrh/p0pPQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Derek Foreman <derek.foreman@collabora.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Heiko Stuebner <heiko@sntech.de>, Sasha Levin <sashal@kernel.org>,
- hjc@rock-chips.com, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.14 03/44] drm/rockchip: Don't change hdmi reference
- clock rate
-Date: Thu,  3 Apr 2025 15:12:32 -0400
-Message-Id: <20250403191313.2679091-3-sashal@kernel.org>
+Cc: Shekhar Chauhan <shekhar.chauhan@intel.com>,
+ Clint Taylor <Clinton.A.Taylor@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sasha Levin <sashal@kernel.org>,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, airlied@gmail.com, simona@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 04/44] drm/xe/bmg: Add new PCI IDs
+Date: Thu,  3 Apr 2025 15:12:33 -0400
+Message-Id: <20250403191313.2679091-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191313.2679091-1-sashal@kernel.org>
 References: <20250403191313.2679091-1-sashal@kernel.org>
@@ -67,68 +67,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Derek Foreman <derek.foreman@collabora.com>
+From: Shekhar Chauhan <shekhar.chauhan@intel.com>
 
-[ Upstream commit 1854df7087be70ad54e24b2e308d7558ebea9f27 ]
+[ Upstream commit fa8ffaae1b15236b8afb0fbbc04117ff7c900a83 ]
 
-The code that changes hdmi->ref_clk was accidentally copied from
-downstream code that sets a different clock. We don't actually
-want to set any clock here at all.
+Add 3 new PCI IDs for BMG.
 
-Setting this clock incorrectly leads to incorrect timings for
-DDC, CEC, and HDCP signal generation.
+v2: Fix typo -> Replace '.' with ','
 
-No Fixes listed, as the theoretical timing error in DDC appears to
-still be within tolerances and harmless - and HDCP and CEC are not
-yet supported.
-
-Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241217201708.3320673-1-derek.foreman@collabora.com
+Signed-off-by: Shekhar Chauhan <shekhar.chauhan@intel.com>
+Reviewed-by: Clint Taylor <Clinton.A.Taylor@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250128162015.3288675-1-shekhar.chauhan@intel.com
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ include/drm/intel/pciids.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index e498767a0a667..cebd72bf1ef25 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -54,7 +54,6 @@ struct rockchip_hdmi_qp {
- 	struct regmap *regmap;
- 	struct regmap *vo_regmap;
- 	struct rockchip_encoder encoder;
--	struct clk *ref_clk;
- 	struct dw_hdmi_qp *hdmi;
- 	struct phy *phy;
- 	struct gpio_desc *enable_gpio;
-@@ -81,7 +80,6 @@ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
- 	if (crtc && crtc->state) {
- 		rate = drm_hdmi_compute_mode_clock(&crtc->state->adjusted_mode,
- 						   8, HDMI_COLORSPACE_RGB);
--		clk_set_rate(hdmi->ref_clk, rate);
- 		/*
- 		 * FIXME: Temporary workaround to pass pixel clock rate
- 		 * to the PHY driver until phy_configure_opts_hdmi
-@@ -330,17 +328,6 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 		return ret;
- 	}
+diff --git a/include/drm/intel/pciids.h b/include/drm/intel/pciids.h
+index 77c826589ec11..4035e215c962a 100644
+--- a/include/drm/intel/pciids.h
++++ b/include/drm/intel/pciids.h
+@@ -846,7 +846,10 @@
+ 	MACRO__(0xE20B, ## __VA_ARGS__), \
+ 	MACRO__(0xE20C, ## __VA_ARGS__), \
+ 	MACRO__(0xE20D, ## __VA_ARGS__), \
+-	MACRO__(0xE212, ## __VA_ARGS__)
++	MACRO__(0xE210, ## __VA_ARGS__), \
++	MACRO__(0xE212, ## __VA_ARGS__), \
++	MACRO__(0xE215, ## __VA_ARGS__), \
++	MACRO__(0xE216, ## __VA_ARGS__)
  
--	for (i = 0; i < ret; i++) {
--		if (!strcmp(clks[i].id, "ref")) {
--			hdmi->ref_clk = clks[1].clk;
--			break;
--		}
--	}
--	if (!hdmi->ref_clk) {
--		drm_err(hdmi, "Missing ref clock\n");
--		return -EINVAL;
--	}
--
- 	hdmi->enable_gpio = devm_gpiod_get_optional(hdmi->dev, "enable",
- 						    GPIOD_OUT_HIGH);
- 	if (IS_ERR(hdmi->enable_gpio)) {
+ /* PTL */
+ #define INTEL_PTL_IDS(MACRO__, ...) \
 -- 
 2.39.5
 
