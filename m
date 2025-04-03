@@ -2,113 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862B0A79E1E
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 10:27:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 558AFA79E4E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 10:36:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46F0C10E1A8;
-	Thu,  3 Apr 2025 08:27:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE85510E066;
+	Thu,  3 Apr 2025 08:36:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="bWky0SJn";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Gv0f1zS3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 202D710E1A8
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 08:27:24 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-ac7bd86f637so69651966b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 01:27:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1743668842; x=1744273642; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=o+Mp6jmtYK1H17CFfYiwi2sa1wA1pdf2H15LrCJwia8=;
- b=bWky0SJnyIIxTez+ScsRCBpK3uSbGHTlWeU9lxO+BZnm4N1WayXLI3xj5d4AbLhw1O
- RttLDX8xhINirN5PBMiAUgX32puqk29rHcISFBy0gw7Y9IeW/NzlhednTiyiUAjrkugQ
- QlxatlPv5Y9Rq3acd96Ve6SO9DkaaPyptJOPY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743668842; x=1744273642;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=o+Mp6jmtYK1H17CFfYiwi2sa1wA1pdf2H15LrCJwia8=;
- b=UYDyF4U2xtgH2n+fCX9iS1Y/R12hWjQJe3qMJaUWDeR47WCEiM3Nutxz1agwaJLcdJ
- 9CTimXYVzGu4Z/Z7ycrF9MDMqsFk3xSfBLYCa+2SfWJSwdHpE/0hFFMUcfAvqcdadhQm
- ximVTd5rZ1Gc0GpXTUx06KRf4vMjtWapwLkDg4+9Q6WQpe0GRKzUBbJCsjsLETyMJstL
- hSzQKVP/wpeUcuhGWved9kJYLzGqggFTzOL0Ntqdf+jzAD/KRUbyib5mCwWucwwXpocu
- Zy3wCE+ULA5p+MeVAwaK2tt3WuFZCaXKVMMYMTZvvWV2iI9zFGw5lsbkQfFN8PsrLkPE
- 3wkw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU0m+uDRNhu2+k+z2bUkWH+wHKbaEEZOD0QLLBK+DItxY29iNhxeUS2KBCVKS+Ty0uTuzoWR82GrpI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzJEmH3zkolkhC1qbMB0LC/sE3HG2okGlL2jwFL64F4fbBOAm2
- YNk5JuQHfSC64bJ5osXFn5rSNWUZO7/xhCv8w9vtZgRu+t+1/3IiFWJLvkr3klQ=
-X-Gm-Gg: ASbGnctjK5PXjVO5sVdPbcwgS4MGPEPNOYnYjkpBPpswRC2I+UYuuE7XpPTZ7LgcT+L
- ASx43zh93nMbhKyRd/SVnNqWyhD/sWgcMlWei/4bpr97nMBZF5sQvCBRupkmir85oTyQRwCq/G7
- uEGAz1U5ToBx/KmKapICUNwCHfMZpMiCNp/WxaN0zMPAz2nUAbvNwO3vRuzVHPOLNPL4zP7YSuU
- 9PFLFt4GNCbo5RXNV5dUT8J7NzT/lusVcQ85HjDsJvAw5Nw2r07kN9vDkBfRZq3FthQOBPaIW3t
- NG5HVbv35c+6oea/EyIGfSwwXVmcgTXzTuhVMf7UcAL0gLoVgy3NIuyn
-X-Google-Smtp-Source: AGHT+IGcfR+2lbcGxpYCyqAi52EwdZb7Vb//nyaqQ4Ire5aanYllMG0HRfmeR5SThj3fwVAh+TVljw==
-X-Received: by 2002:a17:907:7f93:b0:ac3:ed4d:c9a1 with SMTP id
- a640c23a62f3a-ac7b6dd2448mr199507466b.17.1743668842335; 
- Thu, 03 Apr 2025 01:27:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ac7c01c2170sm55536566b.170.2025.04.03.01.27.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Apr 2025 01:27:21 -0700 (PDT)
-Date: Thu, 3 Apr 2025 10:27:19 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from TYVP286CU001.outbound.protection.outlook.com
+ (mail-japaneastazon11011004.outbound.protection.outlook.com [52.101.125.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F54110E066
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 08:36:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iPiJwNGkKcjk/4qzFHG1Hvtmw6kcZggls1zMaSU6cd8qw1aEU3ZvZfSS58MVznu8rIV3lqBiG5Z8H1skwJoWu4X7KDejmWmpyG/yQH7Hk/flcpAUe1R1udfmtzriqk6zdbVbQc3UBQNRelTYv9I7BT1f9gE7pFAOrDzluQ52W1ZC25HPHjGH4RHhgML6pDq/+yZsw/59MIY5FYn8w0YlEp1h8yRvju//jtqxVRydmfd2wVHroLWn+872waVxAP7dcrNBD5ed+oGHyASwT3TBbVavuHmMKNUpPdRMn4v45UyAdsktD8tDOYGxJOAkPrSpHbeKMteATJd2XDRb0NlnGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=swg09rI6Q+VGw3N8ziJtHgndSTpWvSr0nUDmhGZul5w=;
+ b=USA6o5Kcwrym1SnzVOfHOKrrd1yAm95MiKyH+RlRGW+XyTwx1sMHj10UOt0pUq/ZjzWo/l/ec+J+QRoHarjnVElR7MvdX8jsJ1936rRFR1RMfnJKLE/NarvEs9EPLqooh/yR3mnCs6Hh5wUOgxY2FaRB3Tenae2s2oCM05qw7wSrad+qz9pQ50d6r+MSQQlmUYlzpobu1HWvr7zVA3ocnvZKG/P79JKJkWc1NdWUG/AtXbEeBgPnNGjQmsMs4q0BQb5+LlQW8P7dwq8/A/Y85uzcNol4Ds0k1I10wtgLZLStesBFWUYMGrSu9QV44PN0YPpn5gHkE1OKjv0Y2kma/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=swg09rI6Q+VGw3N8ziJtHgndSTpWvSr0nUDmhGZul5w=;
+ b=Gv0f1zS3VBhrJFNM6aJvWUojudu3oaleYq8T5hlg/3WNaEGfjyaNcZaJf8IUe02HRxJtvPYDlFR85/gnod5o27sslldYrqUdeA47GRFOo7DewC0APQ75cWWhEFVZtoNVzxrh6EcIKr8DYSdkxYbkBwFGszflPiWfPGifQU0UQXg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
+ by OSZPR01MB8220.jpnprd01.prod.outlook.com (2603:1096:604:1a5::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.41; Thu, 3 Apr
+ 2025 08:36:39 +0000
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3%5]) with mapi id 15.20.8583.038; Thu, 3 Apr 2025
+ 08:36:39 +0000
+Date: Thu, 3 Apr 2025 10:36:24 +0200
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Tomasz Figa <tfiga@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
-Message-ID: <Z-5GZ3kJDbhgVBPG@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Tomasz Figa <tfiga@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH v2 2/2] drm: renesas: Extend RZ/G2L supported KMS formats
+Message-ID: <Z-5IiPFJTL-nb9ey@tom-desktop>
+References: <20250330102357.56010-1-biju.das.jz@bp.renesas.com>
+ <20250330102357.56010-3-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
-X-Operating-System: Linux phenom 6.12.17-amd64 
+In-Reply-To: <20250330102357.56010-3-biju.das.jz@bp.renesas.com>
+X-ClientProxiedBy: FR0P281CA0081.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::7) To OS9PR01MB13950.jpnprd01.prod.outlook.com
+ (2603:1096:604:35e::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|OSZPR01MB8220:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d98c0b1-07c9-4b75-b7ba-08dd728aa6ea
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|52116014|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zp3dpDeSZivvx3JEFejet5pmB20GXWSo78vZdkMkVjZLcGZDmT8V7GovS90W?=
+ =?us-ascii?Q?v/TnlnikKkHPSqUSVx8V4IoBobhV6u5lDVuTudhA8ZXc94wnkDDZSmuOKitP?=
+ =?us-ascii?Q?I/8GMB2jWVJ67PAI8DnWA6I0nVqvj67A3JA7Ykp1F8AZud6Z9WLjCAwjbeWS?=
+ =?us-ascii?Q?mrX0QYPOLTU5yFaekOsxwwXTmy8Pw2nxuJHyM7B6YCbRduT1fG6X8N8harrU?=
+ =?us-ascii?Q?prb5Tn2Z0V3C9LI8iL8ovbld0upO+gn7ixCzTmOS/8o9K7rF/Q0Spd/da/PC?=
+ =?us-ascii?Q?+gul7ZMlOpLZXl1oyLVHz6r13K571QF5Dix28Q+CFEN0fFQjE3dxdA8ko5M4?=
+ =?us-ascii?Q?aQiESxwGSHgQqP6kIZntUAxAQ0ijddUek/AmtioUMqjzs2ZsmxyD5Fahv1zn?=
+ =?us-ascii?Q?DGHpgymt0VXq4LdTr8xxGKHHuaBgxvpelS29wUiMvKNIWNwywSlA5Nl09JOy?=
+ =?us-ascii?Q?yW54qszWri9ClJGZ2z72yyMX7mk0vA7VIQyDILj7SGMYxLvG7WvGijpuC4Mg?=
+ =?us-ascii?Q?PZ9jcrdRlhjKnis6ooKiiNpJeN4csJAY24JHONTzGzdKPL8/BD2VtdhDmNnL?=
+ =?us-ascii?Q?9PJBT74iN66zKhgOj9kTeN4EQ2pHA0tc3EwtK4YHLsK6pd/V7dvfibzFFRzA?=
+ =?us-ascii?Q?Iwjiwoyp+r3uzmXlTGMpncOv4LbxI9xhhTDw1+GLQDSwpVpz4dc3Gb5WDALF?=
+ =?us-ascii?Q?EFC7s/KwLxvlBDoHJI1gsOy6ssvn30HxTbp9Qu4kkNhXNiv2yzLXwqm5PHLm?=
+ =?us-ascii?Q?6tpTVDGL24RPWg+ymE4ehFyDVs4XJ0B2lj07C95V5T6dO+VcRsXHlVwsUHZq?=
+ =?us-ascii?Q?gx60Ef2d6Aso2m8ihc8kJwEDSVbM6Kyr1sFMkIT59YcaEJPqmQJkJIyyr62P?=
+ =?us-ascii?Q?ZIcjyyStQVLSINt61qvjhD5xm7yQc7tJbUvL0Lmzy2FcmshY3U+d/1Ttxbxm?=
+ =?us-ascii?Q?b9fyvpSjKoz1b1QkJvS6SnT+tOMXg5PVwpqK24TsnUK0uDb5dOgetMY/6ygF?=
+ =?us-ascii?Q?iTqnZi2XSGPECjG0WlBZs3UrB6IS2LfJpfWvpi03scov18ZzYQYuB+1YIKUn?=
+ =?us-ascii?Q?7/we0CJaoChnoONjAO/qfXCGrQqs3YY3LC7K+L4nB0c7ZlHQ/rdXahGOGsdD?=
+ =?us-ascii?Q?vQY2qCnP4T1rju8G4AbiZ1NjEIapIznNL/IcngSUnHI0zOxbZ6CRaNK9TCoS?=
+ =?us-ascii?Q?tIR6FfQpiGRy8alE0r8efh2pSnsl1PLbBhLgQ6a8XgZIwG45sXz81wsqn7tM?=
+ =?us-ascii?Q?FN21eunRNkI+T3nSfpsCB1uWQE/abyyJlfM55kwOrII2GajsYgZesqGolQQs?=
+ =?us-ascii?Q?FXpYGUvjjdqyuiEvQw4BuWavInaPmx9SnxullzOhB9mI+2rvlJbAncUT4Bgn?=
+ =?us-ascii?Q?9nQBXUQkPSB+pST5/glyWHjfKBADJYadsYVQCc/vW3whO2nkCGrQ0iuWSYeP?=
+ =?us-ascii?Q?gDok4K0N3NSPYb6bKh9TSUVfNHP4fAqT?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS9PR01MB13950.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jC+UKFSFmA5xhiRhkfss2zrPh+v7hEhcC67IupVfX/aAuJ4oyt/wsbOj4VXF?=
+ =?us-ascii?Q?uiQM1LnoXAnF+KUBE2Z6Jvs1Huyh4ktvJAiwXsFpELw9qwVEcM+tcPLBTQFk?=
+ =?us-ascii?Q?ogE3PDDJau5KT5W8PwMoaRz0CFR0liagcx0KlWh/RzSR8j1U2/CSNYL7WDmk?=
+ =?us-ascii?Q?v1dUtPqChvKxcGZj4l017Nv3ZGZRckq81JrDFIMD7S/2CEN2dqGblkG+oDQk?=
+ =?us-ascii?Q?vt5/aOri/RZfVB1gX03CjcLfzXtJiBgy2WjJhJFuJ5aXKNmm3Crqb+8kvZMi?=
+ =?us-ascii?Q?vqyHvhyc2+2zyddPURnibJT0oA2ac5Q1c9QTLmW2Lsxodd2W8MjpmCiUd1n/?=
+ =?us-ascii?Q?PgZHAWeJKb5Xq5PJfTjjvEQm1CFXqZlWLtuUQnePl8xM9w3mql8cX+4BG+aa?=
+ =?us-ascii?Q?RrRKknEfBJmCZMkjsyBg260NNddHC/7ndZPhExbtOyzjTF2EvPQsKor+pQDO?=
+ =?us-ascii?Q?URpgcVKTiOfMiwtCMLKrh5DCXDADMNNlXYjc7zvz8jXWdrY8KPkeGCmUpk8j?=
+ =?us-ascii?Q?1ug7Pj4GRtEQtK8zxfaq8ZPLuCQPgXzAP2lxcXcvAPw0E/nP+6PYTKPb21wS?=
+ =?us-ascii?Q?eIR6Sorrd4ZDkNExQ7In4XuE2xDzpDdoV56x8n0QrfhAJLbLSJ1WJcY/zmgf?=
+ =?us-ascii?Q?BoEkHSWFriOl8+WuYJmVG7ZAOEXiZSSb8vXmx0KWpNb3mktBgwuQhDgrOAEQ?=
+ =?us-ascii?Q?et4JzydQImpPWKWP4fbMeLx6GG41vN3JKTNbL9aaeHVtEfPtrD/J3zqySj1y?=
+ =?us-ascii?Q?1aFEvqMhPb+Qm0AqoNqT7w/xxcBdA8nuC6kV0o66xKhBcb36+LnmZYDYOII/?=
+ =?us-ascii?Q?xOhBSJsWMmMN+uddhAJvqN1H7NyohB1aacXy9Rlmhoo/WFpScbDLDKEZul4a?=
+ =?us-ascii?Q?GmDkBkUuXonbW/zOH2umjNsku+20Ip2dUHTMKqdwBLPk8PDK1b6KbiyjgmMk?=
+ =?us-ascii?Q?g5bMwGrezG5AyK0qb+BwHOvl7cOtl+ZaJ0dn0cGdX6b67TlIXuhKwYitZw8U?=
+ =?us-ascii?Q?KqiiV/KdSO7KSipwM/d5f1Tbaonqt5FV9otG1CIds4Fgp2j829MDcsSYI1v1?=
+ =?us-ascii?Q?JgIPUZrgmAd6nWvKL7k21kZBN+cPjqVQWlbTLWfHFQx7ajeAkQhXghcWgNg/?=
+ =?us-ascii?Q?zHlcXJGe5ptOzXtKlVkufEvL49u/6UVpYwXcQ8ZsOylpNewMTlRzhP3ijQAD?=
+ =?us-ascii?Q?LuBt1BZqB+ytamxlhxUOXJJySXefFdXWG0JFsqFQVzrs8JdsoRO7tNFuxPDO?=
+ =?us-ascii?Q?gsCS8gxCXNMTdFrtZ3BEsSvLIR77KXe1hq0OwjKhifZ5lq6X0/Eqrgn8f0w9?=
+ =?us-ascii?Q?1oFeP5Ovw1yFXu0iga4Wk1eO5jci3l+DiGB4Au+s66TYokiZVDtAud5ondSv?=
+ =?us-ascii?Q?mFnGEIcx4gKl8nwQOJQd5sHl9cqV2umGpYSpMbsLNIxjSSnYRFa9RbJYHZWH?=
+ =?us-ascii?Q?4LjKGPhZUpVxN3skaARh9sabf5+QVevlbpg0M3PJi5vCQGU3FDNDDsT+0P1m?=
+ =?us-ascii?Q?VOtP9Q+ujFXp89UCMz4+eTn/cjlRemFup0e9QFC8UgWBtMi2GLl2ppuVQlkg?=
+ =?us-ascii?Q?9uLbdrlWnjENeDkmYX/+WGRlBaoEns9Uq9XVDRAmglsKgeQ+GZMLV7ifOfbO?=
+ =?us-ascii?Q?4ujCuU8EZQFNKByIHaDbm7Y=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d98c0b1-07c9-4b75-b7ba-08dd728aa6ea
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2025 08:36:39.1848 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7mJvaZK/KH/9ph71XOOca+8OFNmE6YbAJvPoa6nL2pJSx46cgCQoVD621Qin1lqAphPbibvAIommcCarnuHU4BNR6r7PTXmV0JvuzcmFLq6EQNjL6mkr1fH717+EmZkK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8220
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,174 +157,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 10, 2025 at 01:06:06PM +0100, Maxime Ripard wrote:
-> Hi,
+Hi Biju, Kieran,
+
+Thank you for the patch.
+
+On Sun, Mar 30, 2025 at 11:23:53AM +0100, Biju Das wrote:
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > 
-> Here's preliminary work to enable dmem tracking for heavy users of DMA
-> allocations on behalf of userspace: v4l2, DRM, and dma-buf heaps.
+> The RZ/G2L driver utilises the VSPD to read data from input sources.
 > 
-> It's not really meant for inclusion at the moment, because I really
-> don't like it that much, and would like to discuss solutions on how to
-> make it nicer.
+> The rzg2l_du_kms component lists a restricted subset of the capabilities
+> of the VSPD which prevents additional formats from being used for
+> display planes.
 > 
-> In particular, the dma dmem region accessors don't feel that great to
-> me. It duplicates the logic to select the proper accessor in
-> dma_alloc_attrs(), and it looks fragile and potentially buggy to me.
+> The supported display plane formats are mapped in rzg2l_du_vsp_formats[].
 > 
-> One solution I tried is to do the accounting in dma_alloc_attrs()
-> directly, depending on a flag being set, similar to what __GFP_ACCOUNT
-> is doing.
+> Extend the rzg2l_du_format_infos[] table with the corresponding mappings
+> between the supported DRM formats and the formats exposed by the VSP in
+> rzg2l_du_vsp_formats, maintaining the same ordering in both tables.
 > 
-> It didn't work because dmem initialises a state pointer when charging an
-> allocation to a region, and expects that state pointer to be passed back
-> when uncharging. Since dma_alloc_attrs() returns a void pointer to the
-> allocated buffer, we need to put that state into a higher-level
-> structure, such as drm_gem_object, or dma_buf.
+> The RPF module on VSDP supports various format conversion and send the
+> image data to BRS(Blend ROP Sub Unit) for further processing.
 > 
-> Since we can't share the region selection logic, we need to get the
-> region through some other mean. Another thing I consider was to return
-> the region as part of the allocated buffer (through struct page or
-> folio), but those are lost across the calls and dma_alloc_attrs() will
-> only get a void pointer. So that's not doable without some heavy
-> rework, if it's a good idea at all.
-> 
-> So yeah, I went for the dumbest possible solution with the accessors,
-> hoping you could suggest a much smarter idea :)
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-I've had a private chat with Maxime to get him up to speed on hopefully a
-lot of the past discussions, but probably best I put my notes here too.
-Somewhat unstructured list of challenges with trying to account all the
-memory for gpu/isp/camera/whatever:
+Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-- At LPC in Dublin I think we've pretty much reached the conclusion that
-  normal struct page memory should be just accounted in memcg. Otherwise
-  you just get really nasty double-accounting chaos or issues where you
-  can exhaust reserves.
+Thanks & Regards,
+Tommaso
 
-- We did not figure out what to do with mixed stuff like CMA, where we
-  probably want to account it both into memcg (because it's struct page)
-  but also separately into dmem (because the CMA region is a limited
-  resource and only using memcg will not help us manage it).
-
-- There's the entire chaos of carve-out vs CMA and how userspace can
-  figure out how to set reasonable limits automatically. Maxime brought
-  the issue that limits need to be adjusted if carve-out/CMA/shmem aren't
-  accounted the same, which I think is a valid concern. But due to the
-  above conclusion around memcg accounting I think that's unavoidable, so
-  we need some means for userspace to autoconfigure reasonable limits.
-  Then that autoconfig can be done on each boot, and kernel (or dt or
-  whatever) changes between these three allocators don't matter anymore.
-
-- Autoconfiguration challenges also exist for split display/render SoC. It
-  gets even more fun if you also throw in camera and media codecs, and
-  even more fun if you have multiple CMA regions.
-
-- Discrete gpu also has a very fun autoconfiguration issue because you
-  have dmem limits for vram, and memcg limits for system memory. Vram
-  might be swapped out to system memory, so naively you might want to
-  assume that you need higher memcg limits than dmem limits. But there's
-  systems with more dmem and smem (because the cpu with its memory is
-  essentially just the co-processor that orchestrates the real compute
-  machine, which is all gpus).
-
-- We need a charge transfer, least for Android since there all memory is
-  allocated through binder. TJ Mercier did some patches:
-
-  https://lore.kernel.org/dri-devel/20230123191728.2928839-3-tjmercier@google.com/
-
-  Ofc with dmem this would need to work for both dmem and memcg charges,
-  since with CMA and discrete gpu we'll have bo that are tracked in both.
-
-- Hard limits for shmem/ttm drivers need a memcg-aware shrinker. TTM
-  doesn't even have a shrinker yet, but with xe we now have a
-  helper-library approach to enabling shrinking for TTM drivers.
-  memcg-aware shrinking will be a large step up in complexity on top (and
-  probably a good reason to switch over to the common shrinker lru instead
-  of hand-rolling).
-
-  See the various attempts at ttm shrinkers by Christian König and Thomas
-  Hellstrom over the past years on dri-devel.
-
-  This also means that most likely cgroup limit enforcement for ttm based
-  drivers will be per-driver or at least very uneven.
-
-- Hard limits for dmem vram means ttm eviction needs to be able to account
-  the evicted bo against the right memcg. Because this can happen in
-  random other threads (cs ioctl of another process, kernel threads)
-  accounting this correctly is going to be "fun". Plus I haven't thought
-  through interactions with memcg-aware shrinkers, which might cause some
-  really fundamental issues.
-
-- We also ideally need pin account, but I don't think we have any
-  consensus on how to do that for memcg memory. Thus far it's all
-  functionality-specific limits (e.g. mlock, rdma has its own for
-  long-term pinned memory), not sure it makes sense to push for a unified
-  tracking in memcg here?
-
-  For dmem I think it's pretty easy, but there the question is how to
-  differentiate between dmem that's always pinned (cma, I don't think
-  anyone bothered with a shrinker for cma memory, vc4 maybe?) and dmem
-  that generally has a shrinker and really wants a separate pin limit
-  (vram/ttm drivers).
-
-- Unfortunately on top of the sometimes very high individual complexity
-  these issues also all interact. Which means that we won't be able to
-  roll this out in one go, and we need to cope with very uneven
-  enforcement. I think trying to allow userspace to cope with changing
-  cgroup support through autoconfiguration is the most feasible way out of
-  this challenge.
-
-tldr; cgroup for device memory is a really complex mess
-
-Cheers, Sima
-
-> Thanks,
-> Maxime
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
-> Maxime Ripard (12):
->       cma: Register dmem region for each cma region
->       cma: Provide accessor to cma dmem region
->       dma: coherent: Register dmem region for each coherent region
->       dma: coherent: Provide accessor to dmem region
->       dma: contiguous: Provide accessor to dmem region
->       dma: direct: Provide accessor to dmem region
->       dma: Create default dmem region for DMA allocations
->       dma: Provide accessor to dmem region
->       dma-buf: Clear cgroup accounting on release
->       dma-buf: cma: Account for allocations in dmem cgroup
->       drm/gem: Add cgroup memory accounting
->       media: videobuf2: Track buffer allocations through the dmem cgroup
-> 
->  drivers/dma-buf/dma-buf.c                          |  7 ++++
->  drivers/dma-buf/heaps/cma_heap.c                   | 18 ++++++++--
->  drivers/gpu/drm/drm_gem.c                          |  5 +++
->  drivers/gpu/drm/drm_gem_dma_helper.c               |  6 ++++
->  .../media/common/videobuf2/videobuf2-dma-contig.c  | 19 +++++++++++
->  include/drm/drm_device.h                           |  1 +
->  include/drm/drm_gem.h                              |  2 ++
->  include/linux/cma.h                                |  9 +++++
->  include/linux/dma-buf.h                            |  5 +++
->  include/linux/dma-direct.h                         |  2 ++
->  include/linux/dma-map-ops.h                        | 32 ++++++++++++++++++
->  include/linux/dma-mapping.h                        | 11 ++++++
->  kernel/dma/coherent.c                              | 26 +++++++++++++++
->  kernel/dma/direct.c                                |  8 +++++
->  kernel/dma/mapping.c                               | 39 ++++++++++++++++++++++
->  mm/cma.c                                           | 21 +++++++++++-
->  mm/cma.h                                           |  3 ++
->  17 files changed, 211 insertions(+), 3 deletions(-)
+> v1->v2:
+>  * Updated commit description.
+>  * Collected tags
+>  * Dropped bpp entries.
 > ---
-> base-commit: 55a2aa61ba59c138bd956afe0376ec412a7004cf
-> change-id: 20250307-dmem-cgroups-73febced0989
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c | 117 ++++++++++++++++++-
+>  1 file changed, 113 insertions(+), 4 deletions(-)
 > 
-> Best regards,
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+> index 1a428ab3c424..55a97691e9b2 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+> @@ -36,13 +36,37 @@
+>  
+>  static const struct rzg2l_du_format_info rzg2l_du_format_infos[] = {
+>  	{
+> -		.fourcc = DRM_FORMAT_XRGB8888,
+> -		.v4l2 = V4L2_PIX_FMT_XBGR32,
+> +		.fourcc = DRM_FORMAT_RGB332,
+> +		.v4l2 = V4L2_PIX_FMT_RGB332,
+>  		.planes = 1,
+>  		.hsub = 1,
+>  	}, {
+> -		.fourcc = DRM_FORMAT_ARGB8888,
+> -		.v4l2 = V4L2_PIX_FMT_ABGR32,
+> +		.fourcc = DRM_FORMAT_ARGB4444,
+> +		.v4l2 = V4L2_PIX_FMT_ARGB444,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_XRGB4444,
+> +		.v4l2 = V4L2_PIX_FMT_XRGB444,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_ARGB1555,
+> +		.v4l2 = V4L2_PIX_FMT_ARGB555,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_XRGB1555,
+> +		.v4l2 = V4L2_PIX_FMT_XRGB555,
+> +		.planes = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_RGB565,
+> +		.v4l2 = V4L2_PIX_FMT_RGB565,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_BGR888,
+> +		.v4l2 = V4L2_PIX_FMT_RGB24,
+>  		.planes = 1,
+>  		.hsub = 1,
+>  	}, {
+> @@ -50,6 +74,91 @@ static const struct rzg2l_du_format_info rzg2l_du_format_infos[] = {
+>  		.v4l2 = V4L2_PIX_FMT_BGR24,
+>  		.planes = 1,
+>  		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_BGRA8888,
+> +		.v4l2 = V4L2_PIX_FMT_ARGB32,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_BGRX8888,
+> +		.v4l2 = V4L2_PIX_FMT_XRGB32,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_ARGB8888,
+> +		.v4l2 = V4L2_PIX_FMT_ABGR32,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_XRGB8888,
+> +		.v4l2 = V4L2_PIX_FMT_XBGR32,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_UYVY,
+> +		.v4l2 = V4L2_PIX_FMT_UYVY,
+> +		.planes = 1,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_YUYV,
+> +		.v4l2 = V4L2_PIX_FMT_YUYV,
+> +		.planes = 1,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_YVYU,
+> +		.v4l2 = V4L2_PIX_FMT_YVYU,
+> +		.planes = 1,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_NV12,
+> +		.v4l2 = V4L2_PIX_FMT_NV12M,
+> +		.planes = 2,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_NV21,
+> +		.v4l2 = V4L2_PIX_FMT_NV21M,
+> +		.planes = 2,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_NV16,
+> +		.v4l2 = V4L2_PIX_FMT_NV16M,
+> +		.planes = 2,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_NV61,
+> +		.v4l2 = V4L2_PIX_FMT_NV61M,
+> +		.planes = 2,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_YUV420,
+> +		.v4l2 = V4L2_PIX_FMT_YUV420M,
+> +		.planes = 3,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_YVU420,
+> +		.v4l2 = V4L2_PIX_FMT_YVU420M,
+> +		.planes = 3,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_YUV422,
+> +		.v4l2 = V4L2_PIX_FMT_YUV422M,
+> +		.planes = 3,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_YVU422,
+> +		.v4l2 = V4L2_PIX_FMT_YVU422M,
+> +		.planes = 3,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_YUV444,
+> +		.v4l2 = V4L2_PIX_FMT_YUV444M,
+> +		.planes = 3,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_YVU444,
+> +		.v4l2 = V4L2_PIX_FMT_YVU444M,
+> +		.planes = 3,
+> +		.hsub = 1,
+>  	}
+>  };
+>  
 > -- 
-> Maxime Ripard <mripard@kernel.org>
+> 2.43.0
 > 
-
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
