@@ -2,55 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD0FA7A14D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 12:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25848A7A18A
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 13:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E7610E99E;
-	Thu,  3 Apr 2025 10:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0214310E99B;
+	Thu,  3 Apr 2025 11:03:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nsp7uBpe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qxy5Rjw4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD08210E99B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 10:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743677270;
- bh=x1wtdufQF5A9ff40c172tRf7AZns8UAMMhQfqRaFnN4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nsp7uBpe5gwRIweVut4tJQ7obUSye6hB0kimMKqule2r8ctO9aEO+oMxU/x/nvHIu
- wZ/tOU0XABIePTkwo/gbBbUrUpxShlk+odCVU6ictUi4juIhyklynbntc4PmIhHKbG
- l9S2Y8NieIaXz8GDa+NkM9hv8EVrYyi6RDteJhOkbfZA24KhvctJO0Euip+K/JqlZc
- mH5r8gAeNo+gTO/g/4Oe/kXdjeDpnAn7cFSJP3JBbYCgoGACfKboqZHLXhM9BC9e7/
- QDFBcOXynMHmQaFZHcg3r8NqpqmXnKhNFI/BOprB5DFcqsZgDEXDoxUiWSDNdLQmp2
- /6eWTvhLoUmyw==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 89D8317E0702;
- Thu,  3 Apr 2025 12:47:49 +0200 (CEST)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- nancy.lin@mediatek.com, ck.hu@mediatek.com, djkurtz@chromium.org,
- littlecvr@chromium.org, bibby.hsieh@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- wenst@chromium.org, kernel@collabora.com
-Subject: [PATCH v2 5/5] drm/mediatek: mtk_disp_rdma: Enable/disable interrupt
- on bind/unbind
-Date: Thu,  3 Apr 2025 12:47:41 +0200
-Message-ID: <20250403104741.71045-6-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250403104741.71045-1-angelogioacchino.delregno@collabora.com>
-References: <20250403104741.71045-1-angelogioacchino.delregno@collabora.com>
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
+ [209.85.210.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2FB210E99B
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 11:03:16 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id
+ 46e09a7af769-72c3b863b8eso537200a34.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 04:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743678195; x=1744282995; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hvN/6Su1mH83SRr3FDPdM8q8m8TzDCee/L7A0fQJoJI=;
+ b=Qxy5Rjw4S66ae7wchLGCkJrbYAE0Uvc0QaAhuPaYD7xn6ubSfYjApAnFsjzzbRnKkl
+ nSKQTbE/2YHoI00GuSmeORYRRY/8v8DSAzG0zn9AQvGdfxytPJfb5MCROvVpmSh+NcSj
+ bjGIV214/oZyn6+6ZkK3BYItyadrNgiV9e9ZEXk3uEpyvhBLE7XdciV5w/ZkdXlNNoss
+ 9cw9f1OmDKnghK1Q1mncArNs8D5l9RVLXRgp7s8eqlLfpGimtgEv+mqMFPBPiXVbc1Gz
+ hKdvdLHDKjobaUILU/ilAGgf1/8XfezXDpzLg6WdSL3zA3K1h8AIkYx/OY7kVp+TJsNw
+ C+3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743678195; x=1744282995;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hvN/6Su1mH83SRr3FDPdM8q8m8TzDCee/L7A0fQJoJI=;
+ b=YbauiNyGmXKpKl6ybm8MXu5Cd4qeL5J8EyBimklYQig10Cx1diJTfBauHK4wzxTKKx
+ 7OCQwT0muPFtmb3fWv7qFKF38aZJ0tM+nlcRW/Gstkc8NOIkIY9OdH4Ajt5K2VE745CC
+ /cN0Xk++o3RRgCADwbgREPjz/SNIzCIhMMrGdiIVfz18KoKFTeZ/o8MVWdme18XDYr1V
+ UnFRUOlVYTGgONVteieBbSsqDGUfltcF9sMjYQ8b9wmmUabWvtGwJGAZiE3QaOLxy18t
+ stLPMaBk10np2aFEhN0tur18Im6G343vaxZDYi4/Rir0pmfE0le055UFwoOuvMmW38BK
+ 5f3g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX9faPzOCgtVQ0Cjd0fSsnIwAMWAzYC5/qt9tbXjnqR8XGouF7eH2FMldgOPIucJxpP2thIfXzh5Qg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwPNFt6Z4yFVQLeA6i/NPtns8xSAVMks5sv8c6U6Gch2UI6v+UG
+ 0yFFvjegzGwDurs3uTszs7P98H4At2Acb6H2GLtGFRlhxiOcgeGF0XVs+q17BpXElcdGEO7lmdj
+ OLWALk+l02idj8i/9BO+stbn/DZs=
+X-Gm-Gg: ASbGnct4zxw/V8DmSil6CTX28oii47bKsugwIPUabVvn8ioVtJUFhoZBypMV/822J3n
+ wG+ssgHocQaebtqTweF8YvywaoebwbY2g1cjkyUWJ3a8y5eEvudDXQyd1Q1CUwzNRylVAGTk1Kk
+ Pl+kA/w8fCn5MKbS/nH9aA8Can
+X-Google-Smtp-Source: AGHT+IF4zjgwLRBgQXou7TjHl0ErOu4lNU+weym5nx+Q62vHuNAQGupRBXUxh4pE053Tgvj2HCWIGth2p9X6dUyd/VU=
+X-Received: by 2002:a05:6808:180b:b0:3f6:ab0d:8dbf with SMTP id
+ 5614622812f47-3ff0f5b4637mr12296896b6e.29.1743678195593; Thu, 03 Apr 2025
+ 04:03:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250401161929.283244-1-tzimmermann@suse.de>
+ <20250401161929.283244-10-tzimmermann@suse.de>
+In-Reply-To: <20250401161929.283244-10-tzimmermann@suse.de>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Thu, 3 Apr 2025 13:03:04 +0200
+X-Gm-Features: ATxdqUEaztZzjvtmISxKzzpJ4jhHNcyt3Z5raV-dNjbARg4lQjfN5QvdjXvvOP8
+Message-ID: <CAMeQTsYJyu8=UOkCE__bO2WdAWBBGPAuiW2m7NF727KdzhyfeQ@mail.gmail.com>
+Subject: Re: [PATCH 9/9] drm/udl: Support adapters without firmware descriptor
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: airlied@redhat.com, sean@poorly.run, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,118 +83,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The RDMA driver is installing an ISR in the probe function but, if
-the component is not bound yet, the interrupt handler may call the
-vblank_cb ahead of time (while probing other drivers) or too late
-(while removing other drivers), possibly accessing memory that it
-should not try to access by reusing stale pointers.
+On Tue, Apr 1, 2025 at 6:23=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+>
+> Set default limit on the number of pixels for adapters without
+> vendor firmware descriptor. The devices work as expected, they
+> just don't provide any description.
+>
+> If parsing the vendor firmware descriptor fails, the device falls
+> back to the given default limits. Failing to allocate memory is
+> still an error.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/udl/udl_main.c | 37 +++++++++++++++++++---------------
+>  1 file changed, 21 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_mai=
+n.c
+> index b5a6b254a2028..2685608af8cec 100644
+> --- a/drivers/gpu/drm/udl/udl_main.c
+> +++ b/drivers/gpu/drm/udl/udl_main.c
+> @@ -76,6 +76,7 @@ static int udl_parse_vendor_descriptor(struct udl_devic=
+e *udl)
+>  {
+>         struct drm_device *dev =3D &udl->drm;
+>         struct usb_device *udev =3D udl_to_usb_device(udl);
+> +       bool detected =3D false;
+>         void *buf;
+>         int ret;
+>         unsigned int len;
+> @@ -84,16 +85,16 @@ static int udl_parse_vendor_descriptor(struct udl_dev=
+ice *udl)
+>
+>         buf =3D kzalloc(MAX_VENDOR_DESCRIPTOR_SIZE, GFP_KERNEL);
+>         if (!buf)
+> -               return false;
+> +               return -ENOMEM;
+>
+>         ret =3D usb_get_descriptor(udev, 0x5f, /* vendor specific */
+>                                  0, buf, MAX_VENDOR_DESCRIPTOR_SIZE);
+>         if (ret < 0)
+> -               goto unrecognized;
+> +               goto out;
+>         len =3D ret;
+>
+>         if (len < 5)
+> -               goto unrecognized;
+> +               goto out;
+>
+>         desc =3D buf;
+>         desc_end =3D desc + len;
+> @@ -103,21 +104,20 @@ static int udl_parse_vendor_descriptor(struct udl_d=
+evice *udl)
+>             (desc[2] !=3D 0x01) ||   /* version (2 bytes) */
+>             (desc[3] !=3D 0x00) ||
+>             (desc[4] !=3D len - 2))  /* length after type */
+> -               goto unrecognized;
+> +               goto out;
+>         desc +=3D 5;
+>
+> +       detected =3D true;
+> +
+>         while (desc < desc_end)
+>                 desc =3D udl_parse_key_value_pair(udl, desc, desc_end);
+>
+> -       goto success;
+> -
+> -unrecognized:
+> -       /* allow udlfb to load for now even if firmware unrecognized */
+> -       drm_warn(dev, "Unrecognized vendor firmware descriptor\n");
+> -
+> -success:
+> +out:
+> +       if (!detected)
+> +               drm_warn(dev, "Unrecognized vendor firmware descriptor\n"=
+);
+>         kfree(buf);
+> -       return true;
+> +
+> +       return 0;
+>  }
+>
+>  /*
+> @@ -345,11 +345,16 @@ int udl_init(struct udl_device *udl)
+>                 drm_warn(dev, "buffer sharing not supported"); /* not an =
+error */
+>         }
+>
+> -       if (!udl_parse_vendor_descriptor(udl)) {
+> -               ret =3D -ENODEV;
+> -               DRM_ERROR("firmware not recognized. Assume incompatible d=
+evice\n");
+> +       /*
+> +        * Not all devices provide vendor descriptors with device
+> +        * information. Initialize to default values from real-world
+> +        * devices. It is just enough memory for FullHD.
+> +        */
+> +       udl->sku_pixel_limit =3D USL_SKU_PIXEL_LIMIT_DEFAULT;
 
-In order to fix this, like done in the OVL driver, add a new `irq`
-member to struct mtk_disp_ovl and then add the IRQF_NO_AUTOEN flag
-to the irq while installing the ISR to manually disable and clear
-the hwirqs with register writes, and enable_irq() and disable_irq()
-in the bind and unbind callbacks respectively.
+Should be UDL_SKU_PIXEL_LIMIT_DEFAULT
 
-Also, the call to devm_request_irq() was moved after the platform
-data and drvdata assignment, but in this specific case it is just
-to make it cosmetically correct, as with this change the ISR will
-not execute until the component is bound, hence no dev_get_drvdata
-happens before that.
-
-Note that since IRQF_TRIGGER_NONE is effectively 0 and doing nothing
-this (fake) flag was dropped.
-
-Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
-Link: https://lore.kernel.org/r/20250402083628.20111-6-angelogioacchino.delregno@collabora.com
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 34 ++++++++++++++----------
- 1 file changed, 20 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index bf47790e4d6b..c1bc1bbad86d 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -81,6 +81,7 @@ struct mtk_disp_rdma_data {
- struct mtk_disp_rdma {
- 	struct clk			*clk;
- 	void __iomem			*regs;
-+	int				irq;
- 	struct cmdq_client_reg		cmdq_reg;
- 	const struct mtk_disp_rdma_data	*data;
- 	void				(*vblank_cb)(void *data);
-@@ -295,13 +296,23 @@ void mtk_rdma_layer_config(struct device *dev, unsigned int idx,
- static int mtk_disp_rdma_bind(struct device *dev, struct device *master,
- 			      void *data)
- {
--	return 0;
-+	struct mtk_disp_rdma *priv = dev_get_drvdata(dev);
-+
-+	/* Disable and clear pending interrupts */
-+	writel(0x0, priv->regs + DISP_REG_RDMA_INT_ENABLE);
-+	writel(0x0, priv->regs + DISP_REG_RDMA_INT_STATUS);
-+
-+	enable_irq(priv->irq);
- 
-+	return 0;
- }
- 
- static void mtk_disp_rdma_unbind(struct device *dev, struct device *master,
- 				 void *data)
- {
-+	struct mtk_disp_rdma *priv = dev_get_drvdata(dev);
-+
-+	disable_irq(priv->irq);
- }
- 
- static const struct component_ops mtk_disp_rdma_component_ops = {
-@@ -314,16 +325,15 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct mtk_disp_rdma *priv;
- 	struct resource *res;
--	int irq;
- 	int ret;
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
- 
--	irq = platform_get_irq(pdev, 0);
--	if (irq < 0)
--		return irq;
-+	priv->irq = platform_get_irq(pdev, 0);
-+	if (priv->irq < 0)
-+		return priv->irq;
- 
- 	priv->clk = devm_clk_get(dev, NULL);
- 	if (IS_ERR(priv->clk))
-@@ -347,21 +357,17 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
- 	if (ret && (ret != -EINVAL))
- 		return dev_err_probe(dev, ret, "Failed to get rdma fifo size\n");
- 
--	/* Disable and clear pending interrupts */
--	writel(0x0, priv->regs + DISP_REG_RDMA_INT_ENABLE);
--	writel(0x0, priv->regs + DISP_REG_RDMA_INT_STATUS);
--
--	ret = devm_request_irq(dev, irq, mtk_disp_rdma_irq_handler,
--			       IRQF_TRIGGER_NONE, dev_name(dev), priv);
--	if (ret < 0)
--		return dev_err_probe(dev, ret, "Failed to request irq %d\n", irq);
--
- 	priv->data = of_device_get_match_data(dev);
- 
- 	platform_set_drvdata(pdev, priv);
- 
- 	pm_runtime_enable(dev);
- 
-+	ret = devm_request_irq(dev, priv->irq, mtk_disp_rdma_irq_handler,
-+			       IRQF_NO_AUTOEN, dev_name(dev), priv);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to request irq %d\n", priv->irq);
-+
- 	ret = component_add(dev, &mtk_disp_rdma_component_ops);
- 	if (ret) {
- 		pm_runtime_disable(dev);
--- 
-2.48.1
-
+> +
+> +       ret =3D udl_parse_vendor_descriptor(udl);
+> +       if (ret)
+>                 goto err;
+> -       }
+>
+>         if (udl_select_std_channel(udl))
+>                 DRM_ERROR("Selecting channel failed\n");
+> --
+> 2.49.0
+>
