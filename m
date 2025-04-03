@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B3EA7AAFF
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B42A7AAFE
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBA410EAE2;
-	Thu,  3 Apr 2025 19:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEE8310EAD8;
+	Thu,  3 Apr 2025 19:17:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qjuYe6pw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UG4vp5mm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5505210EAD8
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:17:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1F110EAD8
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:17:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C922F5C0F6E;
- Thu,  3 Apr 2025 19:15:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 470CCC4CEEE;
- Thu,  3 Apr 2025 19:17:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 92E065C5D01;
+ Thu,  3 Apr 2025 19:15:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C014C4CEE3;
+ Thu,  3 Apr 2025 19:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707850;
- bh=tsey9lFjsUGntmrHH9ckeMk/2c9aA+ynGcoaHvslFHw=;
+ s=k20201202; t=1743707852;
+ bh=/n99OrJr943Fv7M+mK6QQYkLZijWdXT6pptPvMBNrBM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qjuYe6pw3+OkYNsTGsk2r2lhrJg5O4Ky8Jmn3/ESaBD0jabZVAOfzIdpYSWbkhwQx
- qJYdU2aoD+IfX41sGhfkPYRRcqUzj6l4NowTPs1lnhp5xKV+4CddLNlkBV/z1Qf+MW
- 40pemsoIVReSskojN49Imc8vOAhiChlzKWqdLl8DNlaTK3WwJPoz7CLs2ni60nXQJW
- Y/IeqMbNVlQniVg5U4fxNePoIprp5i9T90jXb7If0dGlwbEqcn5w3BCJwAe0hd6Hs2
- iOvoVFzgTL8m+2jnsFbRx4KnrYyUTLcUPK0QrLR16U3MjSIQNyGR5HGMqB1ODMMs6U
- mb8pGLDkbptdA==
+ b=UG4vp5mmALBM7EE1EBKe/R2obKdr51hSoBsaAyVIvtX80afBpgOAkGvYa0pFMp5ll
+ jJc96NzEOzpZ5vTn+QkovU2ypwGYxHRRjzKm3eTbgGxWYLGcR3E6ScPdL+EVvnH6MI
+ wmqcTNFGAMsUzL/Za+zk0sBWIiW1usQ2/rtVaqjJ5jbjtIkCFHJ8x1lcBIvqVzyWTa
+ BvCzBNuElr13CmVr5WYQacV5/I9sC13AYvQeShErcEIkYG9HwVIopYWXItNvQoHvSQ
+ Z+CXAWQvEB3G0EpXn4UR8DyH07FFOP/qUjft5a72OlbOW3vfZbPKNa4o54EeowG8TZ
+ AZ1SxMhN1iFtQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Andrew Wyatt <fewtarius@steamfork.org>, John Edwards <uejji@uejji.net>,
- =?UTF-8?q?Jo=C3=A3o=20Pedro=20Kurtz?= <joexkurtz@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Hans de Goede <hdegoede@redhat.com>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 10/33] drm: panel-orientation-quirks: Add quirk
- for OneXPlayer Mini (Intel)
-Date: Thu,  3 Apr 2025 15:16:33 -0400
-Message-Id: <20250403191656.2680995-10-sashal@kernel.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 11/33] drm/debugfs: fix printk format for bridge
+ index
+Date: Thu,  3 Apr 2025 15:16:34 -0400
+Message-Id: <20250403191656.2680995-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191656.2680995-1-sashal@kernel.org>
 References: <20250403191656.2680995-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.21
@@ -67,59 +65,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrew Wyatt <fewtarius@steamfork.org>
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-[ Upstream commit b24dcc183583fc360ae0f0899e286a68f46abbd0 ]
+[ Upstream commit 72443c730b7a7b5670a921ea928e17b9b99bd934 ]
 
-The Intel model of the OneXPlayer Mini uses a 1200x1920 portrait LCD panel.
-The DMI strings are the same as the OneXPlayer, which already has a DMI
-quirk, but the panel is different.
+idx is an unsigned int, use %u for printk-style strings.
 
-Add a DMI match to correctly rotate this panel.
-
-Signed-off-by: Andrew Wyatt <fewtarius@steamfork.org>
-Co-developed-by: John Edwards <uejji@uejji.net>
-Signed-off-by: John Edwards <uejji@uejji.net>
-Tested-by: João Pedro Kurtz <joexkurtz@gmail.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250213222455.93533-6-uejji@uejji.net
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Robert Foss <rfoss@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250214-drm-assorted-cleanups-v7-1-88ca5827d7af@bootlin.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/drm_debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 384a8dcf454fb..c554ad8f246b6 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -129,6 +129,12 @@ static const struct drm_dmi_panel_orientation_data lcd1080x1920_rightside_up = {
- 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
- };
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 9d3e6dd68810e..98a37dc3324e4 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -743,7 +743,7 @@ static int bridges_show(struct seq_file *m, void *data)
+ 	unsigned int idx = 0;
  
-+static const struct drm_dmi_panel_orientation_data lcd1200x1920_leftside_up = {
-+	.width = 1200,
-+	.height = 1920,
-+	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
-+};
-+
- static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
- 	.width = 1200,
- 	.height = 1920,
-@@ -473,6 +479,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
- 		},
- 		.driver_data = (void *)&lcd1600x2560_leftside_up,
-+	}, {	/* OneXPlayer Mini (Intel) */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_leftside_up,
- 	}, {	/* OrangePi Neo */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
+ 	drm_for_each_bridge_in_chain(encoder, bridge) {
+-		drm_printf(&p, "bridge[%d]: %ps\n", idx++, bridge->funcs);
++		drm_printf(&p, "bridge[%u]: %ps\n", idx++, bridge->funcs);
+ 		drm_printf(&p, "\ttype: [%d] %s\n",
+ 			   bridge->type,
+ 			   drm_get_connector_type_name(bridge->type));
 -- 
 2.39.5
 
