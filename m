@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23001A7B119
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 23:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2914A7B11B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 23:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7902C10EB7E;
-	Thu,  3 Apr 2025 21:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEFC010EB7F;
+	Thu,  3 Apr 2025 21:28:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HIsaziqm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q/wMPq1C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABE410EB7C;
- Thu,  3 Apr 2025 21:28:52 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD70310EB7F;
+ Thu,  3 Apr 2025 21:28:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743715733; x=1775251733;
+ t=1743715736; x=1775251736;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=N2nCmRQNccJxIX/nA42OM6pyMhhdGnSltWVfrKrcGrM=;
- b=HIsaziqmvsR/t5NxxJE3nZWxGYa5GUsOK0Gjmu24dav84+b++Cam5h/D
- LL5ut77+DX+64pk6rMJCuHG23MowTyzI7PpLSDnaY5Z++jpviQNuNwfbx
- 7tws3AC+owG8jDnVMGRagEFMt/+p0bIaxJxYYxD95VaGvV6C2yni+DiM8
- QEBoQVL9v4/uqMEUM6UJUHzCeN6CtbdbVmrci8aYrMnmLKFqIP/BXyKhT
- 192exSo1NPW+K8FlCbmJmulVyGfmVofa2ViK/LgHfBKAqw0fGVjEPBrp3
- RsMR5BAs252Q3/mk6Q2GuPzr1aiWGGVKEu9kg2eV1YARByAIdFNncK44t A==;
-X-CSE-ConnectionGUID: 3e/ubciLRHeeRdBWlvdcnQ==
-X-CSE-MsgGUID: nHYgmkuNQru3oSZAo470Rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="44862793"
-X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="44862793"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2025 14:28:52 -0700
-X-CSE-ConnectionGUID: +TISXZwxQjuuUJ6K020+IA==
-X-CSE-MsgGUID: CptgXO61TPyVhfCr8FNGUw==
+ bh=uqclMaQKOZDr1U6GkIkx8/oYXk2O/0sVcxqgcVwjsFU=;
+ b=Q/wMPq1CASpFCCaso3z+DwpLgqoCAnIOnOCcnYnasvqMUBeDR5A1AEUq
+ cdx1Ud7k+kJeb0TBHTcTOl4SuTWCGPZmcPiB7EbIaj8QsrsxIn14f33iw
+ eWmh3mdHVQS2BxuxO8HnKGijlSRYQ+ZyA6tYBAmT+fdYUZc84TLiWaCxM
+ 8D7PIAD/rh4xrOxhwcRluSob2tvMGazzbLS/6/pSkOAa/noZznqrHUKIY
+ vEe/UfjTQI5Lk6Xz8JwRaEEOrw6V/7sQ+HQKyBor0bDdq7gmvMBxpjBAK
+ RN1O0IQ8Zlaox2QCpQ+NhYVPqZv7yCO4/78q9cY5FspRS7A7JIgCNIfzR w==;
+X-CSE-ConnectionGUID: 2yXUPip2QQe3lvidf7nYaw==
+X-CSE-MsgGUID: 6VybkrG2Sju7a/S63rfCgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="67619368"
+X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="67619368"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2025 14:28:54 -0700
+X-CSE-ConnectionGUID: UDrCJd2DS2yfQvJ11vGeug==
+X-CSE-MsgGUID: nLHZ3YaSRgq/R7dVxqXOJw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="127648086"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2025 14:28:52 -0700
+X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="126933565"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 03 Apr 2025 14:28:53 -0700
 Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 3 Apr 2025 14:28:50 -0700
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 3 Apr 2025 14:28:52 -0700
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 3 Apr 2025 14:28:50 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.43) by
+ 15.2.1544.14 via Frontend Transport; Thu, 3 Apr 2025 14:28:52 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.41) by
  edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 3 Apr 2025 14:28:50 -0700
+ 15.1.2507.44; Thu, 3 Apr 2025 14:28:52 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t+7CZ/5xmTRBx0wxaBgv7tKnsfJTOtZansno2c1rajVaKtV9Tqx3Pj9FIT5V2MyqW+yeZpLNkaoU1ghZ4i/usEcTB384EwOQO6C0xynTdBzW3HJ5LIKUCEqOU+IZVibLkUO4kIif0nmMLosk6jkrv7LrekoKpnK6SEhYLFUNJRS7az/cbmpHaZN2jX/Ia1T2dqCp6z3fET5ktn/L6kNRe8Rtl017AKYrYtWeTTzmznmtqV073R9yPpMsK2DwUv7iY8wOX8mSSlqV6RNNeMLcZ0knuX89EsQ7JXOO5J++vMaePmzXn6cyvkkSDDF5M51zCJrRpBmfpnJe6pjq7vBYSg==
+ b=nf+Yl8MEOWSA0ou5jOJEGUUTx8vvH2hiWkwXpHrsfJ9fFBeqfTNsxgQITaxNnuNDpedWhU+CuD7lpLdZ5FcDV3jscOf601CcRZSMYUsZz471ikB49Nstd3MhbrZrKEqqcdrtA9lKHLvlBhZ+z9hsTmcOwPqKPS9j6SHki7c7xP+JDPbUIuQOJbtHk5cO7Nq3r5KA9jMZyADpoFlOjPwHT7CVcVJmI33Q7seDVtnTCN75fkIzyGspZ1MiYUipWZSvCkiMkvpspiTjE6YHZyN0sbvko7k2NLg/tjRNV6DTMfKcviENUMYLUTY0H07Yb+KfgHrioWZ2DL6oXuBEYQqmmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zP6+4DDRN7hN9zvZYY5/ten5w/XrXRdErTkDi0yiXA8=;
- b=JffRZkC9xn8qzlIZ86Gx0AyLRzUw6fggUSsHIrLDXIDuW/k1bAQdq3M1HSaNgf1/vFyPy9Q8NzwRtZxjANpOHNmEsRuPDqIi+/tM6DEgnrxJiyt9aRvrUpLpMEG/bC8D7ZEhjkwqzliL0DIEhcegNM+JFrz8H3wEQTY5P/hFkDTl0oS2AP8czUkFS2kutVQ67qHqWN0gy2PuBZfdSGc6kyHdqqVyzdqMCrNSQ67xV+xKmtl351s2De8Hdybgy8yk9JTQoroNPzINt+8NNUSe6hGyORDv6uCsBDcgnsQMuYUoRL33ZJL1dAp0AQOPUBiFjWBpyall6JpVXkFOjiBTXg==
+ bh=2eHGo3SLeVSVWY7yyY8Hhn53Bh5fa7P1UqH/uRgT3uk=;
+ b=JJlq9rtxjFyPj4VmiUDAR9fqg+X0fY58vB4vXzUuMvPiVwNWRZCJNbKGiJ5MDxootB/SK8FrVPDZEJp2xYX2szJ39nrh0aXv5aeLInMBj+ecTCH2Z+gJj5uzd2B53mTsRNRD2LJJrAn7s44daCUd+VwfhQJvdhVRKbkT9USd482Xgz+0y0G4NZgqwn74osuR32KxvD01ragnxd3Fi/6caEjuZLj9isxo4fS+8iCqMUYw+XINgloe11uSpGHd5Sfd6Mfv2gYTfECgIIcf/iVqFJBVoLXb0PJQOpucSgP/IDOTNaRvrCfs1YDA+mHkQzBrMbLHr8sW+2q6K/iWSwntAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -67,24 +67,26 @@ Received: from CH0PR11MB5444.namprd11.prod.outlook.com (2603:10b6:610:d3::13)
  by MW4PR11MB6764.namprd11.prod.outlook.com (2603:10b6:303:209::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 3 Apr
- 2025 21:28:34 +0000
+ 2025 21:28:50 +0000
 Received: from CH0PR11MB5444.namprd11.prod.outlook.com
  ([fe80::5f89:ba81:ff70:bace]) by CH0PR11MB5444.namprd11.prod.outlook.com
  ([fe80::5f89:ba81:ff70:bace%3]) with mapi id 15.20.8583.043; Thu, 3 Apr 2025
- 21:28:34 +0000
+ 21:28:48 +0000
 From: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
 To: "Brost, Matthew" <matthew.brost@intel.com>,
  "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
 CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
-Subject: RE: [PATCH v2 1/4] drm/xe: Add devcoredump chunking
-Thread-Topic: [PATCH v2 1/4] drm/xe: Add devcoredump chunking
-Thread-Index: AQHbpNaks6nYR6a33UOxdYQQaScsHbOSZwOA
-Date: Thu, 3 Apr 2025 21:28:34 +0000
-Message-ID: <CH0PR11MB54440C198B9BAF07700665E8E5AE2@CH0PR11MB5444.namprd11.prod.outlook.com>
+Subject: RE: [PATCH v2 2/4] drm/xe: Update xe_ttm_access_memory to use GPU for
+ non-visible access
+Thread-Topic: [PATCH v2 2/4] drm/xe: Update xe_ttm_access_memory to use GPU
+ for non-visible access
+Thread-Index: AQHbpNajSaIwCD24QU+UQ/PrDa6HiLOSZ0XA
+Date: Thu, 3 Apr 2025 21:28:48 +0000
+Message-ID: <CH0PR11MB5444564A7A44CBF255CE097DE5AE2@CH0PR11MB5444.namprd11.prod.outlook.com>
 References: <20250403202705.18488-1-matthew.brost@intel.com>
- <20250403202705.18488-2-matthew.brost@intel.com>
-In-Reply-To: <20250403202705.18488-2-matthew.brost@intel.com>
+ <20250403202705.18488-3-matthew.brost@intel.com>
+In-Reply-To: <20250403202705.18488-3-matthew.brost@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -93,80 +95,80 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: CH0PR11MB5444:EE_|MW4PR11MB6764:EE_
-x-ms-office365-filtering-correlation-id: 09fedf59-081c-4213-3359-08dd72f67d2b
+x-ms-office365-filtering-correlation-id: d07927ab-4f63-4f19-ffd4-08dd72f6858c
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
  ARA:13230040|366016|1800799024|376014|7053199007|38070700018; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?MkREQUb5c8qpiZ/KB8xGkHAcQemyjc+w8xDp4KafT5rW0aPavHxR2Jh44eSx?=
- =?us-ascii?Q?8SGME4fLQIlLJOcdkGwrziKSENdy2bCLawhFpbxVMKoD6/Ij8XrNcJXmR3Ro?=
- =?us-ascii?Q?M0WrwpnNvA6dOFTdWn+4YSHpWPeswSMDghIS4boXQ591bvJdoFIF2JXEDhYL?=
- =?us-ascii?Q?HPm8MTsXLvHK/6440WISe4CPi1VH7MOeWSKorxrV2OHQx9HyMESewvhH3lCP?=
- =?us-ascii?Q?n9qVGdQVpISXceJ1y2lmIUuzn71t11QkiYpUmWsg0VRnOnK6W9bSAHx+haWk?=
- =?us-ascii?Q?A+DXMRQASA4+9HAZirhXnCcOcTcUal9M7fuUxPeIqHFxylLxoIO8qWsIbb/z?=
- =?us-ascii?Q?q0QqZyMwkNF72ebawh3Tt9ujMfrUZW0s5D6B7TV71JpzJyA/4J0EbMe2hy/0?=
- =?us-ascii?Q?1+aiCUS6z1sn6aIQbpmUr8c8AGGEP0V8uHrne/ODdtFs30siQwSRF+Y4vJv9?=
- =?us-ascii?Q?MVTIyzs08yA5TgeSZ0HizfjWlqwygq/oPnxJoqWsR0fui7A2yBuiYg34yrFJ?=
- =?us-ascii?Q?OVp3qMajFmfHyAdyWc0GtUkD0/q2AzG66uLFe/ZsHghLb6+FjsSaHuiVqkr9?=
- =?us-ascii?Q?LCDt+EIFMUqFEUgFkUZD6IgcZx5jV17TYsfEjjH2TCs3/Y1m9e6IQQkFmaA2?=
- =?us-ascii?Q?iTQiNFRF0jbRK7hxgggoQyemgtImDotXXR7NpP7eN9i+aHMoZHBE/nYRVzPs?=
- =?us-ascii?Q?yaOZBrsjCDgL+Pp8UvsjsN/4udjsQO5sQvg1w3R4kkwbrijtYtjG4FBHQGQA?=
- =?us-ascii?Q?AEYtZ842uFBMyPaJOeEijFZJ6ZYXMsIGlXZQX0NzyrEaglJcDMMtqVVqmoNh?=
- =?us-ascii?Q?E35/wMLkKz7HYhLvMS4IIuovRT1Hznj3LEP046fzD1IGd01nvL5px6Hj3wuU?=
- =?us-ascii?Q?h7PCGksnYz3NktWuyAzXwLx2p2JKP+uOav2wLUp0j8FH5H5tE2flRuHrcHDI?=
- =?us-ascii?Q?qkmZS9CbBNf+AflDUvgh8Rw+iyMBMGOdLruaP8JI3mUpweafBWiqBLNu/cq2?=
- =?us-ascii?Q?b6nbMUYovVwIqscydwiCdTAavUGnp9Tbgx3oZHtykoNbG7cDQYv48cnQ8ZgV?=
- =?us-ascii?Q?PkqGc4kKt6Sky4BHLK9xTpprM4m33mQjaoTFUaRWoWDrpIgJQNbkAFMv/8HY?=
- =?us-ascii?Q?bS4bVFDDvHEwcv+NasHb5l/g4Uniaus6O49t4jXh1fpFDMs/25KobZTH3zde?=
- =?us-ascii?Q?qv4hgVx0BJikZBF0iR8Q2eZru6Wnn6oEJmN33iaZgeqgP05ALcShtbaD5BOR?=
- =?us-ascii?Q?buyMCPr8+SCJCViZXFrb72PDQjRZ7B/75BZ1ozGAG9B7d6tf0svs3MLBctT8?=
- =?us-ascii?Q?/jP2GMDmIxgMUp+iReS8w6DIpNhaTX+GK75T4CLg0xRyslBAWAYMH5PDATSL?=
- =?us-ascii?Q?8rBcpmipwVIGQYfxGVFyGXrkYVDU0wzDNw9BA13Bd/75RkLK0mm3A77suu8s?=
- =?us-ascii?Q?/gXek/v/OjjphD1/5861akafRCEUnYB4?=
+x-microsoft-antispam-message-info: =?us-ascii?Q?/B2X+pTy+SBbJTeOMzenC+/+i4WKusnQy+ywaxBGY1XbMGn1hxptPGBfnGdC?=
+ =?us-ascii?Q?G+KRNb1j04P/5eg1DPwwtz51MNuzYf5jnCDgLufVBnPVaBak64cYDFgHYBJy?=
+ =?us-ascii?Q?yKSHI10ElxrJ74Sq6+IiftiHkCRNvpQ9wr9TJtzXkVees1u/RfeXP+7p9nei?=
+ =?us-ascii?Q?vcSeKkyGcQFwCzpfoJPWT8E8lSgh8powSzrpuFNkkfBagqTUrok55m94cmI6?=
+ =?us-ascii?Q?9M1t+CmRL4+Vi1my2sCCgtaIB+qYjBJFnVHb8ScwzbiXsCqR5bdI6HK2scxL?=
+ =?us-ascii?Q?pQeNNfUW6g1o/mh/OjXT2/OAozBcz1ux5c0DJQD9N8pv0ffTmC1f+orxoPfG?=
+ =?us-ascii?Q?fZl+vewgCuQ4B9jseowVbp+Sw9SLxHTagfwFvJSsjt0Wp3Dyt5YQwHlELDn3?=
+ =?us-ascii?Q?teL4ZnrxbKZvGXdOOhJ7YhiQGWkRevm/84Z1e/tVpd1t8pPMOL4vL5Qpuzoo?=
+ =?us-ascii?Q?PDFVIAQzyiunOkvf2KHQBfNi5n2DflQw2uArdhnCzv7oZ/Q374U0c99pRVdQ?=
+ =?us-ascii?Q?VzSPYT2EpCV9yECEcaTrsfGjcOUM7KgKANq43RXeZYj9sdCpzzdUYIsEXBLb?=
+ =?us-ascii?Q?wPGk4nx/wSD9czDXn3xSA+BfSLeiIqC0sC7/I1Xm7vEhalcXCuyaZxQDxvQv?=
+ =?us-ascii?Q?W7zgKBujM7g9njTAkh18Q7hD5EsgeOA0rOTI8475UMJo9dTLaco0NDw4EP2z?=
+ =?us-ascii?Q?kRl1xcPOKtptd5gCgIVEL1OGceGeR9ngoGK1TuyUwXsKKye8Iw4bMaa/iEAS?=
+ =?us-ascii?Q?4TwWN0NL/wjoMeA1vgWMnrhk3ZLVJt6HzkKUWZssc2WFbPHixJraIjOr0gxN?=
+ =?us-ascii?Q?/FtV9yZzmakuefLT9LhXo7jwlbbNfTC/rkqqJjxX4iQY/EhRHN/LdewhAsZ4?=
+ =?us-ascii?Q?V5HdAj4qXyWYjU29xPlR4nCtmQG8UnH7RsTIrdViK+INDf700wPck1Eu4OCA?=
+ =?us-ascii?Q?CGDTIITPqshbNaSGJEEHvBCa9QeiVlr+InwR6POhnw4slSad26hrBnF0STQD?=
+ =?us-ascii?Q?cqse8ypBa3eszsaeiql4kFJ9ZPmVSt2xaVhHSHttwd9OnH9jMOHoCgjuHTKH?=
+ =?us-ascii?Q?EsSoIkdfJR5hcZUBABjVyE6XRaDbZBKNNb/T1uLYjUY4JbE43nxLIyyTF3zz?=
+ =?us-ascii?Q?nehVJuYxJ8fUieFLVpLW4FvQKSV9k8UWHYZyx5L31ILnOi4TQ2K2MXRxNXYn?=
+ =?us-ascii?Q?pxWxiYi2KQ51Vlu5rgqYq2aPfYBHcgyVpQZor8G3M3xX9ckogydMsPkZ4umN?=
+ =?us-ascii?Q?EbP0GOSwOuNjZzKAPRnuI+5l7OmA14icy3Clkf9OabBF4+dWoIsoXUaagrxS?=
+ =?us-ascii?Q?kNPZUB1Zlf6grOmKFPyZHyPs4XvC8Y0ed7ib3OzEOn4jwcGgl07WYM6ceIxr?=
+ =?us-ascii?Q?oExFndd/bJVQCPF8APKUOdKYbfpT5c2+ajlCllj8tkow3ddct+z0d24FRswk?=
+ =?us-ascii?Q?TDl7TCHMVMmN4ypn+g+jFYaJDn3dZYGD?=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH0PR11MB5444.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014)(7053199007)(38070700018); DIR:OUT;
  SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?aOC312rwYiWord2ooDyGIYmQUuH/jvEG2Q6MEMst4b0tVoy8l4mSKulDQ1jC?=
- =?us-ascii?Q?+HDa+kYqXNFclOlAQdg1YTQK6CGXbj8k7hSzgggJvH6hSJd/ePmSBD2gaurY?=
- =?us-ascii?Q?YYQJ0ab8wfx5G9vlu/MJ5LWSLU5poa+BKmfmqzCZBuTn+kxgZWPSfT0tSLLL?=
- =?us-ascii?Q?piDKFJumeUKO/y5RPIs/uOYlQ21iymsRxdYCIV4vjdhkOC5ISr3PUnSXpm2a?=
- =?us-ascii?Q?lwlmL1B9i1QVR5aKLu4FGfKp2jVsF8WSqttHA4EOFYX6oH7sKbHm9CLLZXER?=
- =?us-ascii?Q?IiYJf844dQDFPwDopFQKN4D6/Q963WSHEYmUjzrt3imd3RaAEJweMuVq51RY?=
- =?us-ascii?Q?xq5nZH9/CUrY3+N3o+rwZHUhDnxqW/ZhGspuPSR8vyPdNwF+q7gEJJGbvPYL?=
- =?us-ascii?Q?hw0mMnKHuTz1WNTz6n+4XNCMZ0mLGI/Txmr54eqlh6lwvLQ3UWBzcUoyNSKk?=
- =?us-ascii?Q?iPDJlaELYvguL/LOjXZUT9O/aDePQjZY/5i1ffqXL01Kw/vTHX45VAQIdFIS?=
- =?us-ascii?Q?Xqr+VkgUL0QEze0PGZUz0Ykxiju19lCCbu77QIltpK+N6gEuuBM4YnWLOx9m?=
- =?us-ascii?Q?PnK80ZkJpbFvl0Lf0VUytbEs4L0E2DGC0r3SrVFr/2TEpVkTACsiVUrLB2jD?=
- =?us-ascii?Q?xnyZJaX7CI8qZVgfWZcaD0YXG+KULh2cTzzLhRv9hTEcely/KvOoMrstQAL+?=
- =?us-ascii?Q?DttcBDLqdN5eGEScGWbBBsH/XZGbIvG81aS05tzptonxJbcnWKBsroDZdSjC?=
- =?us-ascii?Q?7jQRvZzqCTIMCIMUt9DzLRilr03KibJUevhfCSoFY0Bg/idddYLxipxZKE1u?=
- =?us-ascii?Q?o6r37gTXIkhehXv4Wgte9kpklgCnn1Hq+FrycDHLCDjYH0Iphf3pU6wZ1MsF?=
- =?us-ascii?Q?ZPWJf1hTt7o1J5Yrltykii266BA5r+IqK2MeokXrvsHW+oQ8XhclX8qlr6Nh?=
- =?us-ascii?Q?bqJrpgmYKPRqXXx9GkFXdqAe8+Xdy0jCck81ojBUx3bEjw2GnpQe2yhQQoNK?=
- =?us-ascii?Q?+GJ4RLT1G9oRmbKkjmkV3YqD/t3jGx8u6zg+HLIZclQ9TlNuYWzmyhiT9MBZ?=
- =?us-ascii?Q?gsxL88ehh1hEAD4tFZg8si2E4eUiHkM9/BM7DKsComnpAaiNIn3wEK3QbaLM?=
- =?us-ascii?Q?564g7sAdsXh50ntYcKmFapKlv2nC64ShClYBdrPs3e7J4ez3rUqPAryyJwMu?=
- =?us-ascii?Q?4qSGj72CFXMSUsrzKmxcIENS/C4P4QY27+SDqC1j4YinNy8EgFyen6oK5nYU?=
- =?us-ascii?Q?wIBikCGkI8jZNrAdAq3Tz0oq7UIS4DHzTP6XXE+bL0uDfeUoH4VlltB69d1u?=
- =?us-ascii?Q?XqMd5HBFubGEgt5yy/JmbUveL26g8mFQnm/ueqT1H+2wjbgV5ATvuikGrRen?=
- =?us-ascii?Q?iR2CelPpXwiuDVj8GdyXV4ZyZExXdqJN8lzFcIaKJL2OPxKTsTuAtQt5pbsA?=
- =?us-ascii?Q?p+9PbNR8d7NlWNqNTh0QxvCrq0CLwf1+emDwDcGJNb8bZ9J5+OnBwwWqp+oy?=
- =?us-ascii?Q?NI5l1xHZtJl0r8M69G+d21dOfIlzKX/pQYbMQW0K98CWbyKQ7n1BEn/plb0u?=
- =?us-ascii?Q?nP5RvK3XLECvWr1U3HzPIAfrREYeZaXfliC7UmVWTspW0Oqr9vqpZUjXqY4o?=
- =?us-ascii?Q?0A=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GjDu10astb8zZdIm2fBl0OKirCIjqJHh3VTJ9lyhoM3Eqe9bIsSYn5EwGZAw?=
+ =?us-ascii?Q?3fyEgm0Hpxipzt5p9Abycuauk369+VnFN++JyFtgPOqyKCpvzt5olsLb+EVx?=
+ =?us-ascii?Q?x9u1yHCdsYle7Uz0WVH5seCQzishGUpAubfMBHRTwrQcPHVJWNerxSyJI8r8?=
+ =?us-ascii?Q?3voycw+cbYzpvMoJaZa18pxDh2eys3PQ47WKvGed2zwf8CQujkLssGCvdatI?=
+ =?us-ascii?Q?KvhtN3VwMBz+LzxiuWPEy37MYBAd3+sLtzyNcnmRPHP0zxOcq0s8S+cqd2TA?=
+ =?us-ascii?Q?COP1nK2Rc5uHVjRB2/abBpMNln2PDk1wp6rTr99A4ROi+mWc5hjhOj7iIX55?=
+ =?us-ascii?Q?L9JRgjDohqPFph5tWZOW3Cx+6hcGngFi3/DGd+q04X3MeQMiDo0kJRRtXI8x?=
+ =?us-ascii?Q?oRuXmTerndCoNVX9a0LjnCy7TI2adzoyYO26Z0UC4vtRlxnB95lRLsrUzGek?=
+ =?us-ascii?Q?3aA1g0obFYGAX2qAky7tp/YgV1G57DmZVeEg5HWJBvYgkzViNoENObk4z9GP?=
+ =?us-ascii?Q?Enk5CVT61ZZWg86gaAlMFyZH66lh5eBCQv00s1pKKl+VPrWO9lZNgHiz4IX5?=
+ =?us-ascii?Q?NORFCbFZI4lClA7TTxtrXlhfpu1NP7kiEO8y1VM1/Iss4f2e+SFOuADtRmnk?=
+ =?us-ascii?Q?gaNsCaLWatFT1j6IKbJhx11aX/c4wo7ejKTcNZ5vo2Jb8YedBWQKeZtxR4Yk?=
+ =?us-ascii?Q?Q4EBbXH3GQPwau9JZsUkryJcdNc+NIjbg/bQOgs3rPs8SpPd3jA5Xhn0l7eE?=
+ =?us-ascii?Q?bOr00MHpAdlPWpUSgV0dPxPHfw8ODwxCJbyVmt/wLrtUwGFXdpAPwhhrRqsS?=
+ =?us-ascii?Q?UAeAyp1J0sNrUkmLll9/qgJDNVHlJ/mEo16MoGQbzwsRCDNnUTRvfBivqkiK?=
+ =?us-ascii?Q?UsKF0zBv+bukYFtUVRmFAGopaYhTnLfBxViQ2+Dipi5B3lnE7YOQMfgZ+tcs?=
+ =?us-ascii?Q?Yr4YgULrZDt3N5JjCak0WScQmDz1O6axPbZSXcZRLpbKrWd4p8jswnG7voTR?=
+ =?us-ascii?Q?AB6gK0FLl/9EVDi9DTuqprrd/mv8RL/chI2OzQU+1uhrrJHoeUw5g6drH4j4?=
+ =?us-ascii?Q?e9MLMdPVDmB/EhtAs7qQhQaKhG3+pm03UPYxAeOkSYKRi2vNKONLJCFqGtz+?=
+ =?us-ascii?Q?NOLwIlmQydwVshXnPPKf/wOFjF75BweOJVjCya+LvYX25XuZTvhmSttXpIle?=
+ =?us-ascii?Q?TymEo9X7lHgTrA6HLMTOGEl8J3YU7c/IEcOI8tW9YDRRhvJ/acX1ccG5LOqP?=
+ =?us-ascii?Q?i9yQqsZZSOC+XOITLpu4L/PGyDkYtOC54PH+8kj4ANvVoGidCseE58tT+y8g?=
+ =?us-ascii?Q?2yuRA965G1k9pPz1Gnz284csEpYRL9R9Q1v9u/h876c0+VYe9Q4b5Hr6C+au?=
+ =?us-ascii?Q?MP0AbykhPuQnlWeNwApYzrcnAhcJkbz5CuxO1O8v3WZLUmD8uybN2Lih3mSP?=
+ =?us-ascii?Q?MsdwnrMo0pMdm/C3AaitoBJThgNG15X3+nrFL+3izLM5iigyGFJOgtQ62cB0?=
+ =?us-ascii?Q?22zf91i9heEguNmTC7HgQwWxEIfk4/a1cTFkcpWZxIH8O1SAtCtd+aMS+qN+?=
+ =?us-ascii?Q?mu44HMbWYqUWG7RBbncr23hZUQPQh4wSY+6nznHOa8ltHHmvvTUktbkgkMuS?=
+ =?us-ascii?Q?zA=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5444.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09fedf59-081c-4213-3359-08dd72f67d2b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2025 21:28:34.3545 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d07927ab-4f63-4f19-ffd4-08dd72f6858c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2025 21:28:48.4384 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: naYFi5k0Xrx/BHtkKpEI4VIe4rwF2mZNMMHTVSlEBIcBmZFHrRPS6LrGtWa5KgMzfV14Pgjz74vbLs499b5o2vy2TO0NxfWLmkmNzxHItLs=
+X-MS-Exchange-CrossTenant-userprincipalname: xLt7qq66MQG5Q6H1+MAHulzKlpnZCwvPZhQD05mpYGp674x5j5+2ItuTnrF9fYxUHIIRqQ75AULenM8xFC71I4welr3wDF3KsNfvbaaeqi4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6764
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -190,182 +192,479 @@ w Brost
 Sent: Thursday, April 3, 2025 1:27 PM
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/4] drm/xe: Add devcoredump chunking
+Subject: [PATCH v2 2/4] drm/xe: Update xe_ttm_access_memory to use GPU for =
+non-visible access
 >=20
-> Chunk devcoredump into 1.5G pieces to avoid hitting the kvmalloc limit
-> of 2G. Simple algorithm reads 1.5G at time in xe_devcoredump_read
-> callback as needed.
+> Add migrate layer functions to access VRAM and update
+> xe_ttm_access_memory to use for non-visible access and large (more than
+> 16k) BO access. 8G devcoreump on BMG observed 3 minute CPU copy time vs.
+> 3s GPU copy time.
+>=20
+> v4:
+>  - Fix non-page aligned accesses
+>  - Add support for small / unaligned access
+>  - Update commit message indicating migrate used for large accesses (Auld=
+)
+>  - Fix warning in xe_res_cursor for non-zero offset
+> v5:
+>  - Fix 32 bit build (CI)
+> v6:
+>  - Rebase and use SVM migration copy functions
+> v7:
+>  - Fix build error (CI)
 >=20
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-I have no issues with this patch, though you should maybe get a second opin=
-ion.
+I left some notes down below.  Most are non-blocking, which I labeled as su=
+ch.  And
+as for the rest, it's probable that I'm just misunderstanding some parts of=
+ the code, and
+that the notes I left are not relevant.
+
+So, I'll be providing my reviewed-by now in the case that the blocking revi=
+ew notes
+turn out to not need to be addressed.  And in the case they need to be addr=
+essed,
+you can take my reviewed-by for the next revision.
+
 Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
--Jonathan Cavitt
 
 > ---
->  drivers/gpu/drm/xe/xe_devcoredump.c       | 59 ++++++++++++++++++-----
->  drivers/gpu/drm/xe/xe_devcoredump_types.h |  2 +
->  drivers/gpu/drm/xe/xe_guc_hwconfig.c      |  2 +-
->  3 files changed, 50 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/xe/xe_bo.c      |  15 ++-
+>  drivers/gpu/drm/xe/xe_migrate.c | 221 ++++++++++++++++++++++++++++++--
+>  drivers/gpu/drm/xe/xe_migrate.h |   4 +
+>  3 files changed, 223 insertions(+), 17 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_=
-devcoredump.c
-> index 81b9d9bb3f57..a9e618abf8ac 100644
-> --- a/drivers/gpu/drm/xe/xe_devcoredump.c
-> +++ b/drivers/gpu/drm/xe/xe_devcoredump.c
-> @@ -80,7 +80,8 @@ static struct xe_guc *exec_queue_to_guc(struct xe_exec_=
-queue *q)
->  	return &q->gt->uc.guc;
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index 3c7c2353d3c8..c7e6b03d4aef 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -1414,6 +1414,7 @@ static int xe_ttm_access_memory(struct ttm_buffer_o=
+bject *ttm_bo,
+>  	struct xe_res_cursor cursor;
+>  	struct xe_vram_region *vram;
+>  	int bytes_left =3D len;
+> +	int err =3D 0;
+> =20
+>  	xe_bo_assert_held(bo);
+>  	xe_device_assert_mem_access(xe);
+> @@ -1421,9 +1422,14 @@ static int xe_ttm_access_memory(struct ttm_buffer_=
+object *ttm_bo,
+>  	if (!mem_type_is_vram(ttm_bo->resource->mem_type))
+>  		return -EIO;
+> =20
+> -	/* FIXME: Use GPU for non-visible VRAM */
+> -	if (!xe_ttm_resource_visible(ttm_bo->resource))
+> -		return -EIO;
+> +	if (!xe_ttm_resource_visible(ttm_bo->resource) || len >=3D SZ_16K) {
+> +		struct xe_migrate *migrate =3D
+> +			mem_type_to_migrate(xe, ttm_bo->resource->mem_type);
+> +
+> +		err =3D xe_migrate_access_memory(migrate, bo, offset, buf, len,
+> +					       write);
+> +		goto out;
+> +	}
+> =20
+>  	vram =3D res_to_mem_region(ttm_bo->resource);
+>  	xe_res_first(ttm_bo->resource, offset & PAGE_MASK,
+> @@ -1447,7 +1453,8 @@ static int xe_ttm_access_memory(struct ttm_buffer_o=
+bject *ttm_bo,
+>  			xe_res_next(&cursor, PAGE_SIZE);
+>  	} while (bytes_left);
+> =20
+> -	return len;
+> +out:
+> +	return err ?: len;
 >  }
 > =20
-> -static ssize_t __xe_devcoredump_read(char *buffer, size_t count,
-> +static ssize_t __xe_devcoredump_read(char *buffer, ssize_t count,
-> +				     ssize_t start,
->  				     struct xe_devcoredump *coredump)
->  {
->  	struct xe_device *xe;
-> @@ -94,7 +95,7 @@ static ssize_t __xe_devcoredump_read(char *buffer, size=
-_t count,
->  	ss =3D &coredump->snapshot;
+>  const struct ttm_device_funcs xe_ttm_funcs =3D {
+> diff --git a/drivers/gpu/drm/xe/xe_migrate.c b/drivers/gpu/drm/xe/xe_migr=
+ate.c
+> index ff0fc2fb0eb9..ba8568691d99 100644
+> --- a/drivers/gpu/drm/xe/xe_migrate.c
+> +++ b/drivers/gpu/drm/xe/xe_migrate.c
+> @@ -670,6 +670,7 @@ static void emit_copy(struct xe_gt *gt, struct xe_bb =
+*bb,
+>  	u32 mocs =3D 0;
+>  	u32 tile_y =3D 0;
 > =20
->  	iter.data =3D buffer;
-> -	iter.start =3D 0;
-> +	iter.start =3D start;
->  	iter.remain =3D count;
+> +	xe_gt_assert(gt, !(pitch & 3));
+>  	xe_gt_assert(gt, size / pitch <=3D S16_MAX);
+>  	xe_gt_assert(gt, pitch / 4 <=3D S16_MAX);
+>  	xe_gt_assert(gt, pitch <=3D U16_MAX);
+> @@ -1602,8 +1603,12 @@ enum xe_migrate_copy_dir {
+>  	XE_MIGRATE_COPY_TO_SRAM,
+>  };
 > =20
->  	p =3D drm_coredump_printer(&iter);
-> @@ -168,6 +169,8 @@ static void xe_devcoredump_snapshot_free(struct xe_de=
-vcoredump_snapshot *ss)
->  	ss->vm =3D NULL;
->  }
-> =20
-> +#define XE_DEVCOREDUMP_CHUNK_MAX	(SZ_512M + SZ_1G)
+> +#define XE_CACHELINE_BYTES	64ull
+> +#define XE_CACHELINE_MASK	(XE_CACHELINE_BYTES - 1)
 > +
->  static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
->  				   size_t count, void *data, size_t datalen)
+>  static struct dma_fence *xe_migrate_vram(struct xe_migrate *m,
+> -					 unsigned long npages,
+> +					 unsigned long len,
+> +					 unsigned long sram_offset,
+>  					 dma_addr_t *sram_addr, u64 vram_addr,
+>  					 const enum xe_migrate_copy_dir dir)
 >  {
-> @@ -183,6 +186,9 @@ static ssize_t xe_devcoredump_read(char *buffer, loff=
-_t offset,
->  	/* Ensure delayed work is captured before continuing */
->  	flush_work(&ss->work);
+> @@ -1613,17 +1618,21 @@ static struct dma_fence *xe_migrate_vram(struct x=
+e_migrate *m,
+>  	struct dma_fence *fence =3D NULL;
+>  	u32 batch_size =3D 2;
+>  	u64 src_L0_ofs, dst_L0_ofs;
+> -	u64 round_update_size;
+>  	struct xe_sched_job *job;
+>  	struct xe_bb *bb;
+>  	u32 update_idx, pt_slot =3D 0;
+> +	unsigned long npages =3D DIV_ROUND_UP(len + sram_offset, PAGE_SIZE);
+> +	unsigned int pitch =3D len >=3D PAGE_SIZE && !(len & ~PAGE_MASK) ?
+> +		PAGE_SIZE : 4;
+>  	int err;
 > =20
-> +	if (ss->read.size > XE_DEVCOREDUMP_CHUNK_MAX)
-> +		xe_pm_runtime_get(gt_to_xe(ss->gt));
+> -	if (npages * PAGE_SIZE > MAX_PREEMPTDISABLE_TRANSFER)
+> -		return ERR_PTR(-EINVAL);
+> +	if (drm_WARN_ON(&xe->drm, (len & XE_CACHELINE_MASK) ||
+> +			(sram_offset | vram_addr) & XE_CACHELINE_MASK))
+> +		return ERR_PTR(-EOPNOTSUPP);
+> =20
+> -	round_update_size =3D npages * PAGE_SIZE;
+> -	batch_size +=3D pte_update_cmd_size(round_update_size);
+> +	xe_assert(xe, npages * PAGE_SIZE <=3D MAX_PREEMPTDISABLE_TRANSFER);
+
+Hmm... Does this case still need to return an error value?  I don't think r=
+eplacing it with an
+xe_assert is entirely valid, as asserts should not be used as a replacement=
+ of proper error
+handling.  Or so I've been told.
+
+So, I guess the question is: what error was this preventing previously, and=
+ is it still a concern?
+
 > +
->  	mutex_lock(&coredump->lock);
+> +	batch_size +=3D pte_update_cmd_size(len);
+>  	batch_size +=3D EMIT_COPY_DW;
 > =20
->  	if (!ss->read.buffer) {
-> @@ -195,12 +201,26 @@ static ssize_t xe_devcoredump_read(char *buffer, lo=
-ff_t offset,
->  		return 0;
+>  	bb =3D xe_bb_new(gt, batch_size, use_usm_batch);
+> @@ -1633,22 +1642,21 @@ static struct dma_fence *xe_migrate_vram(struct x=
+e_migrate *m,
 >  	}
 > =20
-> +	if (offset >=3D ss->read.chunk_position + XE_DEVCOREDUMP_CHUNK_MAX ||
-> +	    offset < ss->read.chunk_position) {
-> +		ss->read.chunk_position =3D
-> +			ALIGN_DOWN(offset, XE_DEVCOREDUMP_CHUNK_MAX);
-> +
-> +		__xe_devcoredump_read(ss->read.buffer,
-> +				      XE_DEVCOREDUMP_CHUNK_MAX,
-> +				      ss->read.chunk_position, coredump);
-> +	}
-> +
->  	byte_copied =3D count < ss->read.size - offset ? count :
->  		ss->read.size - offset;
-> -	memcpy(buffer, ss->read.buffer + offset, byte_copied);
-> +	memcpy(buffer, ss->read.buffer +
-> +	       (offset % XE_DEVCOREDUMP_CHUNK_MAX), byte_copied);
+>  	build_pt_update_batch_sram(m, bb, pt_slot * XE_PAGE_SIZE,
+> -				   sram_addr, round_update_size);
+> +				   sram_addr, len + sram_offset);
 > =20
->  	mutex_unlock(&coredump->lock);
+>  	if (dir =3D=3D XE_MIGRATE_COPY_TO_VRAM) {
+> -		src_L0_ofs =3D xe_migrate_vm_addr(pt_slot, 0);
+> +		src_L0_ofs =3D xe_migrate_vm_addr(pt_slot, 0) + sram_offset;
+>  		dst_L0_ofs =3D xe_migrate_vram_ofs(xe, vram_addr, false);
 > =20
-> +	if (ss->read.size > XE_DEVCOREDUMP_CHUNK_MAX)
-> +		xe_pm_runtime_put(gt_to_xe(ss->gt));
-> +
->  	return byte_copied;
+>  	} else {
+>  		src_L0_ofs =3D xe_migrate_vram_ofs(xe, vram_addr, false);
+> -		dst_L0_ofs =3D xe_migrate_vm_addr(pt_slot, 0);
+> +		dst_L0_ofs =3D xe_migrate_vm_addr(pt_slot, 0) + sram_offset;
+>  	}
+> =20
+>  	bb->cs[bb->len++] =3D MI_BATCH_BUFFER_END;
+>  	update_idx =3D bb->len;
+> =20
+> -	emit_copy(gt, bb, src_L0_ofs, dst_L0_ofs, round_update_size,
+> -		  XE_PAGE_SIZE);
+> +	emit_copy(gt, bb, src_L0_ofs, dst_L0_ofs, len, pitch);
+> =20
+>  	job =3D xe_bb_create_migration_job(m->q, bb,
+>  					 xe_migrate_batch_base(m, use_usm_batch),
+> @@ -1696,7 +1704,7 @@ struct dma_fence *xe_migrate_to_vram(struct xe_migr=
+ate *m,
+>  				     dma_addr_t *src_addr,
+>  				     u64 dst_addr)
+>  {
+> -	return xe_migrate_vram(m, npages, src_addr, dst_addr,
+> +	return xe_migrate_vram(m, npages * PAGE_SIZE, 0, src_addr, dst_addr,
+>  			       XE_MIGRATE_COPY_TO_VRAM);
 >  }
 > =20
-> @@ -254,17 +274,32 @@ static void xe_devcoredump_deferred_snap_work(struc=
-t work_struct *work)
->  	xe_guc_exec_queue_snapshot_capture_delayed(ss->ge);
->  	xe_force_wake_put(gt_to_fw(ss->gt), fw_ref);
-> =20
-> -	xe_pm_runtime_put(xe);
-> +	ss->read.chunk_position =3D 0;
-> =20
->  	/* Calculate devcoredump size */
-> -	ss->read.size =3D __xe_devcoredump_read(NULL, INT_MAX, coredump);
-> -
-> -	ss->read.buffer =3D kvmalloc(ss->read.size, GFP_USER);
-> -	if (!ss->read.buffer)
-> -		return;
-> +	ss->read.size =3D __xe_devcoredump_read(NULL, LONG_MAX, 0, coredump);
-> +
-> +	if (ss->read.size > XE_DEVCOREDUMP_CHUNK_MAX) {
-> +		ss->read.buffer =3D kvmalloc(XE_DEVCOREDUMP_CHUNK_MAX,
-> +					   GFP_USER);
-> +		if (!ss->read.buffer)
-> +			goto put_pm;
-> +
-> +		__xe_devcoredump_read(ss->read.buffer,
-> +				      XE_DEVCOREDUMP_CHUNK_MAX,
-> +				      0, coredump);
-> +	} else {
-> +		ss->read.buffer =3D kvmalloc(ss->read.size, GFP_USER);
-> +		if (!ss->read.buffer)
-> +			goto put_pm;
-> +
-> +		__xe_devcoredump_read(ss->read.buffer, ss->read.size, 0,
-> +				      coredump);
-> +		xe_devcoredump_snapshot_free(ss);
-> +	}
-> =20
-> -	__xe_devcoredump_read(ss->read.buffer, ss->read.size, coredump);
-> -	xe_devcoredump_snapshot_free(ss);
-> +put_pm:
-> +	xe_pm_runtime_put(xe);
+> @@ -1717,12 +1725,199 @@ struct dma_fence *xe_migrate_from_vram(struct xe=
+_migrate *m,
+>  				       u64 src_addr,
+>  				       dma_addr_t *dst_addr)
+>  {
+> -	return xe_migrate_vram(m, npages, dst_addr, src_addr,
+> +	return xe_migrate_vram(m, npages * PAGE_SIZE, 0, dst_addr, src_addr,
+>  			       XE_MIGRATE_COPY_TO_SRAM);
 >  }
 > =20
->  static void devcoredump_snapshot(struct xe_devcoredump *coredump,
-> @@ -425,7 +460,7 @@ void xe_print_blob_ascii85(struct drm_printer *p, con=
-st char *prefix, char suffi
->  	if (offset & 3)
->  		drm_printf(p, "Offset not word aligned: %zu", offset);
+>  #endif
 > =20
-> -	line_buff =3D kzalloc(DMESG_MAX_LINE_LEN, GFP_KERNEL);
-> +	line_buff =3D kzalloc(DMESG_MAX_LINE_LEN, GFP_ATOMIC);
->  	if (!line_buff) {
->  		drm_printf(p, "Failed to allocate line buffer\n");
->  		return;
-> diff --git a/drivers/gpu/drm/xe/xe_devcoredump_types.h b/drivers/gpu/drm/=
-xe/xe_devcoredump_types.h
-> index 1a1d16a96b2d..a174385a6d83 100644
-> --- a/drivers/gpu/drm/xe/xe_devcoredump_types.h
-> +++ b/drivers/gpu/drm/xe/xe_devcoredump_types.h
-> @@ -66,6 +66,8 @@ struct xe_devcoredump_snapshot {
->  	struct {
->  		/** @read.size: size of devcoredump in human readable format */
->  		ssize_t size;
-> +		/** @read.chunk_position: position of devcoredump chunk */
-> +		ssize_t chunk_position;
->  		/** @read.buffer: buffer of devcoredump in human readable format */
->  		char *buffer;
->  	} read;
-> diff --git a/drivers/gpu/drm/xe/xe_guc_hwconfig.c b/drivers/gpu/drm/xe/xe=
-_guc_hwconfig.c
-> index af2c817d552c..21403a250834 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_hwconfig.c
-> +++ b/drivers/gpu/drm/xe/xe_guc_hwconfig.c
-> @@ -175,7 +175,7 @@ int xe_guc_hwconfig_lookup_u32(struct xe_guc *guc, u3=
-2 attribute, u32 *val)
->  	if (num_dw =3D=3D 0)
->  		return -EINVAL;
+> +static void xe_migrate_dma_unmap(struct xe_device *xe, dma_addr_t *dma_a=
+ddr,
+> +				 int len, int write)
+> +{
+> +	unsigned long i, npages =3D DIV_ROUND_UP(len, PAGE_SIZE);
+> +
+> +	for (i =3D 0; i < npages; ++i) {
+> +		if (!dma_addr[i])
+> +			continue;
+
+Non-blocking:
+I'm guessing the dma_addr array can be non-contiguous (I.E. position 3 havi=
+ng a
+dma address does not imply positions 1 and 2 have them).  Because otherwise
+this can be a break condition instead of a continue.
+
+> +
+> +		dma_unmap_page(xe->drm.dev, dma_addr[i], PAGE_SIZE,
+> +			       write ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
+> +	}
+> +	kfree(dma_addr);
+> +}
+> +
+> +static dma_addr_t *xe_migrate_dma_map(struct xe_device *xe,
+> +				      void *buf, int len, int write)
+> +{
+> +	dma_addr_t *dma_addr;
+> +	unsigned long i, npages =3D DIV_ROUND_UP(len, PAGE_SIZE);
+> +
+> +	dma_addr =3D kcalloc(npages, sizeof(*dma_addr), GFP_KERNEL);
+> +	if (!dma_addr)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	for (i =3D 0; i < npages; ++i) {
+> +		dma_addr_t addr;
+> +		struct page *page;
+> +
+> +		if (is_vmalloc_addr(buf))
+> +			page =3D vmalloc_to_page(buf);
+> +		else
+> +			page =3D virt_to_page(buf);
+> +
+> +		addr =3D dma_map_page(xe->drm.dev,
+> +				    page, 0, PAGE_SIZE,
+> +				    write ? DMA_TO_DEVICE :
+> +				    DMA_FROM_DEVICE);
+> +		if (dma_mapping_error(xe->drm.dev, addr))
+> +			goto err_fault;
+> +
+> +		dma_addr[i] =3D addr;
+> +		buf +=3D PAGE_SIZE;
+> +	}
+> +
+> +	return dma_addr;
+> +
+> +err_fault:
+> +	xe_migrate_dma_unmap(xe, dma_addr, len, write);
+> +	return ERR_PTR(-EFAULT);
+> +}
+> +
+> +/**
+> + * xe_migrate_access_memory - Access memory of a BO via GPU
+> + *
+> + * @m: The migration context.
+> + * @bo: buffer object
+> + * @offset: access offset into buffer object
+> + * @buf: pointer to caller memory to read into or write from
+> + * @len: length of access
+> + * @write: write access
+> + *
+> + * Access memory of a BO via GPU either reading in or writing from a pas=
+sed in
+> + * pointer. Pointer is dma mapped for GPU access and GPU commands are is=
+sued to
+> + * read to or write from pointer.
+> + *
+> + * Returns:
+> + * 0 if successful, negative error code on failure.
+> + */
+> +int xe_migrate_access_memory(struct xe_migrate *m, struct xe_bo *bo,
+> +			     unsigned long offset, void *buf, int len,
+> +			     int write)
+> +{
+> +	struct xe_tile *tile =3D m->tile;
+> +	struct xe_device *xe =3D tile_to_xe(tile);
+> +	struct xe_res_cursor cursor;
+> +	struct dma_fence *fence =3D NULL;
+> +	dma_addr_t *dma_addr;
+> +	unsigned long page_offset =3D (unsigned long)buf & ~PAGE_MASK;
+> +	int bytes_left =3D len, current_page =3D 0;
+> +	void *orig_buf =3D buf;
+> +
+> +	xe_bo_assert_held(bo);
+> +
+> +	/* Use bounce buffer for small access and unaligned access */
+> +	if (len & XE_CACHELINE_MASK ||
+> +	    ((uintptr_t)buf | offset) & XE_CACHELINE_MASK) {
+> +		int buf_offset =3D 0;
+> +
+> +		/*
+> +		 * Less than ideal for large unaligned access but this should be
+> +		 * fairly rare, can fixup if this becomes common.
+> +		 */
+> +		do {
+> +			u8 bounce[XE_CACHELINE_BYTES];
+> +			void *ptr =3D (void *)bounce;
+> +			int err;
+> +			int copy_bytes =3D min_t(int, bytes_left,
+> +					       XE_CACHELINE_BYTES -
+> +					       (offset & XE_CACHELINE_MASK));
+> +			int ptr_offset =3D offset & XE_CACHELINE_MASK;
+> +
+> +			err =3D xe_migrate_access_memory(m, bo,
+> +						       offset &
+> +						       ~XE_CACHELINE_MASK,
+> +						       (void *)ptr,
+> +						       sizeof(bounce), 0);
+> +			if (err)
+> +				return err;
+> +
+> +			if (!write) {
+> +				memcpy(buf + buf_offset, ptr + ptr_offset,
+> +				       copy_bytes);
+> +				goto next;
+> +			}
+
+Non-blocking:
+This should debatably be an if-else block, rather than relying on a "goto n=
+ext"
+here, as "goto next" is not used elsewhere in the function.
+
+"""
+	if (write) {
+		memcpy(ptr + ptr_offset, buf + buf_offset, copy_bytes);
+		err =3D xe_migrate_access_memory(m, bo,
+						    offset & ~XE_CACHELINE_MASK,
+						    (void *)ptr,
+						    sizeof(bounce), 0);
+	} else {
+		memcpy(buf + buf_offset, ptr + ptr_offset,
+			  copy_bytes);
+	}
+
+	if (err)
+		return err;
+"""
+
+> +
+> +			memcpy(ptr + ptr_offset, buf + buf_offset, copy_bytes);
+> +			err =3D xe_migrate_access_memory(m, bo,
+> +						       offset & ~XE_CACHELINE_MASK,
+> +						       (void *)ptr,
+> +						       sizeof(bounce), 0);
+> +			if (err)
+> +				return err;
+> +
+> +next:
+> +			bytes_left -=3D copy_bytes;
+> +			buf_offset +=3D copy_bytes;
+> +			offset +=3D copy_bytes;
+> +		} while (bytes_left);
+> +
+> +		return 0;
+> +	}
+> +
+> +	dma_addr =3D xe_migrate_dma_map(xe, buf, len + page_offset, write);
+> +	if (IS_ERR(dma_addr))
+> +		return PTR_ERR(dma_addr);
+> +
+> +	xe_res_first(bo->ttm.resource, offset, bo->size - offset, &cursor);
+> +
+> +	do {
+> +		struct dma_fence *__fence;
+> +		u64 vram_addr =3D vram_region_gpu_offset(bo->ttm.resource) +
+> +			cursor.start;
+> +		int current_bytes;
+> +
+> +		if (cursor.size > MAX_PREEMPTDISABLE_TRANSFER)
+> +			current_bytes =3D min_t(int, bytes_left,
+> +					      MAX_PREEMPTDISABLE_TRANSFER);
+> +		else
+> +			current_bytes =3D min_t(int, bytes_left, cursor.size);
+> +
+> +		if (fence)
+> +			dma_fence_put(fence);
+> +
+> +		__fence =3D xe_migrate_vram(m, current_bytes,
+> +					  (unsigned long)buf & ~PAGE_MASK,
+> +					  dma_addr + current_page,
+> +					  vram_addr, write ?
+> +					  XE_MIGRATE_COPY_TO_VRAM :
+> +					  XE_MIGRATE_COPY_TO_SRAM);
+> +		if (IS_ERR(__fence)) {
+> +			if (fence)
+> +				dma_fence_wait(fence, false);
+> +			fence =3D __fence;
+> +			goto out_err;
+> +		}
+> +		fence =3D __fence;
+
+Non-blocking:
+It would be nice if we didn't have two paths assigning fence the __fence va=
+lue,
+but any attempt I do to try and change that ends in having to compute the I=
+S_ERR
+value for __fence twice.  E.G.:
+
+"""
+	if (IS_ERR(__fence) && fence)
+		dma_fence_wait(fence, false);
+	fence =3D __fence;
+	if (IS_ERR(fence))
+		goto out_err;
+"""
+
+So, either way works.
+
+> +
+> +		buf +=3D current_bytes;
+> +		offset +=3D current_bytes;
+> +		current_page =3D (int)(buf - orig_buf) / PAGE_SIZE;
+> +		bytes_left -=3D current_bytes;
+> +		if (bytes_left)
+> +			xe_res_next(&cursor, current_bytes);
+> +	} while (bytes_left);
+> +
+> +	dma_fence_wait(fence, false);
+> +	dma_fence_put(fence);
+> +	xe_migrate_dma_unmap(xe, dma_addr, len + page_offset, write);
+> +
+> +	return 0;
+> +
+> +out_err:
+> +	xe_migrate_dma_unmap(xe, dma_addr, len + page_offset, write);
+> +	return PTR_ERR(fence);
+
+Non-blocking:
+The branching execution might be able to be shortened.  Perhaps:
+"""
+	dma_fence_wait(fence, false);
+	dma_fence_put(fence);
+
+out_err:
+	xe_migtate_dma_unmap(xe, dma_addr, len + page_offset, write);
+	return IS_ERR(fence) ? PTR_ERR(fence) : 0;
+}
+"""
+-Jonathan Cavitt
+
+> +}
+> +
+>  #if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
+>  #include "tests/xe_migrate.c"
+>  #endif
+> diff --git a/drivers/gpu/drm/xe/xe_migrate.h b/drivers/gpu/drm/xe/xe_migr=
+ate.h
+> index 6ff9a963425c..fb9839c1bae0 100644
+> --- a/drivers/gpu/drm/xe/xe_migrate.h
+> +++ b/drivers/gpu/drm/xe/xe_migrate.h
+> @@ -112,6 +112,10 @@ struct dma_fence *xe_migrate_copy(struct xe_migrate =
+*m,
+>  				  struct ttm_resource *dst,
+>  				  bool copy_only_ccs);
 > =20
-> -	hwconfig =3D kzalloc(size, GFP_KERNEL);
-> +	hwconfig =3D kzalloc(size, GFP_ATOMIC);
->  	if (!hwconfig)
->  		return -ENOMEM;
-> =20
+> +int xe_migrate_access_memory(struct xe_migrate *m, struct xe_bo *bo,
+> +			     unsigned long offset, void *buf, int len,
+> +			     int write);
+> +
+>  #define XE_MIGRATE_CLEAR_FLAG_BO_DATA		BIT(0)
+>  #define XE_MIGRATE_CLEAR_FLAG_CCS_DATA		BIT(1)
+>  #define XE_MIGRATE_CLEAR_FLAG_FULL	(XE_MIGRATE_CLEAR_FLAG_BO_DATA | \
 > --=20
 > 2.34.1
 >=20
