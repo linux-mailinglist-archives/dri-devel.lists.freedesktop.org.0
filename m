@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F87CA7AADB
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318CAA7AADC
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8914410EAC7;
-	Thu,  3 Apr 2025 19:16:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 126CE10EAC6;
+	Thu,  3 Apr 2025 19:16:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ckzRDsPK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KIWMJaAT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB9810EAC5;
- Thu,  3 Apr 2025 19:16:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14BA610EAC7;
+ Thu,  3 Apr 2025 19:16:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6BCD144BE6;
- Thu,  3 Apr 2025 19:16:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D3DC4CEE8;
- Thu,  3 Apr 2025 19:16:16 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 6FDA34477F;
+ Thu,  3 Apr 2025 19:16:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B185C4CEE9;
+ Thu,  3 Apr 2025 19:16:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707777;
- bh=kyj/9npGKcCiu0gq2WV58Ak38lvTBV8yF72OMCXZyJM=;
+ s=k20201202; t=1743707779;
+ bh=6DawYNWvJ6dNBYweojLU9iinP7E66eH6Pv3SICYLtsI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ckzRDsPKPhW2byGhPemANzy/sW+UX0aWGN3/SjzmzABtC04j+qwPjyfTwECaFZ3OU
- LnH7nTr4avtUTCPBbmPIqkAsgMDel2BMkf7IebRXVNHXkzNNRUXHeDqaKOAV8hhbE9
- HS+qSjld3YVtut9c6ONz09iUKqAvL/ZsiiAO+N9VeQW9Mpf/Y23Hbf2eY+yHbzpsLx
- y9HGJlQ+VfAbF8ea8neYcb8X8M7/L4//qRYAdzV3OXm+pdvWMOJ7XIWpSpCOT06wjc
- AVaDv2x4K0XyH03tgqhrwn4bsCLmRdFBovQTSVraGxRBBA+pA3A8uDqJ6JvNeoWafD
- SjLOT0uSg9xEQ==
+ b=KIWMJaAT9gcA5W5VBQTbbQBMy6YhGxgZ9Eabcw6wIzcHA86Sic2fhUCpiECPjZ6wy
+ CwG9ng5EkWsr1XlEbI5A3rEV6gA0TpxDFaedLHhhBwfuCpFuAtG7C8e+J9SPtFF9Nl
+ QAVhiBbI0q0nkjolE+5ZA/wxELSctqS/N7S2pd94celNwfkb9/oy63WyhT9WON2oRS
+ +CPuoiHl/MDMPN44ngorNQCPscEnNTJ81ag1vPEeOYR6fo3gGrn4PhzDlk7ePXJ5mY
+ 0u4PzF80ZR463xq9Uor43nInMo1GJ+23y6wVSjt0zak8JmQOi54vkCYP3W80Gx+jV4
+ cP7PvZyAkRUxQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Philip Yang <Philip.Yang@amd.com>, Kent Russell <kent.russell@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Gustavo Sousa <gustavo.sousa@intel.com>, Sasha Levin <sashal@kernel.org>,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.13 21/37] drm/amdkfd: debugfs hang_hws skip GPU with
- MES
-Date: Thu,  3 Apr 2025 15:14:57 -0400
-Message-Id: <20250403191513.2680235-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 22/37] drm/xe/xelp: Move Wa_16011163337 from
+ tunings to workarounds
+Date: Thu,  3 Apr 2025 15:14:58 -0400
+Message-Id: <20250403191513.2680235-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191513.2680235-1-sashal@kernel.org>
 References: <20250403191513.2680235-1-sashal@kernel.org>
@@ -66,42 +67,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-[ Upstream commit fe9d0061c413f8fb8c529b18b592b04170850ded ]
+[ Upstream commit d9b5d83c5a4d720af6ddbefe2825c78f0325a3fd ]
 
-debugfs hang_hws is used by GPU reset test with HWS, for MES this crash
-the kernel with NULL pointer access because dqm->packet_mgr is not setup
-for MES path.
+Workaround database specifies 16011163337 as a workaround so lets move it
+there.
 
-Skip GPU with MES for now, MES hang_hws debugfs interface will be
-supported later.
-
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Kent Russell <kent.russell@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Gustavo Sousa <gustavo.sousa@intel.com>
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250227101304.46660-3-tvrtko.ursulin@igalia.com
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/xe/xe_tuning.c | 8 --------
+ drivers/gpu/drm/xe/xe_wa.c     | 7 +++++++
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-index 35caa71f317dc..463771b7dd4a7 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-@@ -1519,6 +1519,11 @@ int kfd_debugfs_hang_hws(struct kfd_node *dev)
- 		return -EINVAL;
- 	}
+diff --git a/drivers/gpu/drm/xe/xe_tuning.c b/drivers/gpu/drm/xe/xe_tuning.c
+index d449de0fb6ecb..3c78f3d715591 100644
+--- a/drivers/gpu/drm/xe/xe_tuning.c
++++ b/drivers/gpu/drm/xe/xe_tuning.c
+@@ -97,14 +97,6 @@ static const struct xe_rtp_entry_sr engine_tunings[] = {
+ };
  
-+	if (dev->kfd->shared_resources.enable_mes) {
-+		dev_err(dev->adev->dev, "Inducing MES hang is not supported\n");
-+		return -EINVAL;
-+	}
-+
- 	return dqm_debugfs_hang_hws(dev->dqm);
- }
+ static const struct xe_rtp_entry_sr lrc_tunings[] = {
+-	{ XE_RTP_NAME("Tuning: ganged timer, also known as 16011163337"),
+-	  XE_RTP_RULES(GRAPHICS_VERSION_RANGE(1200, 1210), ENGINE_CLASS(RENDER)),
+-	  /* read verification is ignored due to 1608008084. */
+-	  XE_RTP_ACTIONS(FIELD_SET_NO_READ_MASK(FF_MODE2,
+-						FF_MODE2_GS_TIMER_MASK,
+-						FF_MODE2_GS_TIMER_224))
+-	},
+-
+ 	/* DG2 */
  
+ 	{ XE_RTP_NAME("Tuning: L3 cache"),
+diff --git a/drivers/gpu/drm/xe/xe_wa.c b/drivers/gpu/drm/xe/xe_wa.c
+index 02cf647f86d8e..da15af8093cae 100644
+--- a/drivers/gpu/drm/xe/xe_wa.c
++++ b/drivers/gpu/drm/xe/xe_wa.c
+@@ -612,6 +612,13 @@ static const struct xe_rtp_entry_sr engine_was[] = {
+ };
+ 
+ static const struct xe_rtp_entry_sr lrc_was[] = {
++	{ XE_RTP_NAME("16011163337"),
++	  XE_RTP_RULES(GRAPHICS_VERSION_RANGE(1200, 1210), ENGINE_CLASS(RENDER)),
++	  /* read verification is ignored due to 1608008084. */
++	  XE_RTP_ACTIONS(FIELD_SET_NO_READ_MASK(FF_MODE2,
++						FF_MODE2_GS_TIMER_MASK,
++						FF_MODE2_GS_TIMER_224))
++	},
+ 	{ XE_RTP_NAME("1409342910, 14010698770, 14010443199, 1408979724, 1409178076, 1409207793, 1409217633, 1409252684, 1409347922, 1409142259"),
+ 	  XE_RTP_RULES(GRAPHICS_VERSION_RANGE(1200, 1210)),
+ 	  XE_RTP_ACTIONS(SET(COMMON_SLICE_CHICKEN3,
 -- 
 2.39.5
 
