@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC91A7A62C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 17:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91951A7A62D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 17:19:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 939AB10EA25;
-	Thu,  3 Apr 2025 15:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D143C10EA29;
+	Thu,  3 Apr 2025 15:19:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MpOHcOnI";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Lcj+CT1h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4579810EA2B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 15:19:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 689F810EA29
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 15:19:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743693550;
+ s=mimecast20190719; t=1743693554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=deqvuqfBRMkmmyJi8icr/EzK8JTWkbpj8HyHVfnYF2M=;
- b=MpOHcOnIGnc3MEkW1knRqEVqOW2cYL2ExtF7bg7cjcNeJvc/wE5h/vv1gYPJE0JJurlQ7P
- Ge6rBfqwzrMJv/6bRYy4/hJtiPr/IRBJHocIWoiBbk109NcIFp4aN2GAwg5a3g7AQ05EJM
- cCGNLRHmz0qYAssNDEf+04T493G/qIQ=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ bh=X7DMmMZXzdF8LXmcYrCvtE/dHZ3PGksX88vhJy1Fbto=;
+ b=Lcj+CT1hL9l9eoO+DH7RpLejM/GvzcE4QGGHjiLlZT2Xen17oFl2+2kWjZZz7QZb0NpZ7A
+ /TXU1YPNoGDKVMAGupVdtdBv/hHbNnoz9BSCLThbm9b3rAguT/K70IxY+OyIYHkGn0WTzE
+ lQKJ8jWQr2miv281wVG6er0dPpJ1fvc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-186-GcrHXLBcMuiPFkfLXWWTzA-1; Thu,
- 03 Apr 2025 11:19:07 -0400
-X-MC-Unique: GcrHXLBcMuiPFkfLXWWTzA-1
-X-Mimecast-MFC-AGG-ID: GcrHXLBcMuiPFkfLXWWTzA_1743693543
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-154-pKqar8g1NA6JHj2UnsrDCA-1; Thu,
+ 03 Apr 2025 11:19:11 -0400
+X-MC-Unique: pKqar8g1NA6JHj2UnsrDCA-1
+X-Mimecast-MFC-AGG-ID: pKqar8g1NA6JHj2UnsrDCA_1743693547
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 89D3C180025B; Thu,  3 Apr 2025 15:19:03 +0000 (UTC)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id ABEAF1801A07; Thu,  3 Apr 2025 15:19:07 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 04B021801A6D; Thu,  3 Apr 2025 15:18:58 +0000 (UTC)
+ id BA3881801752; Thu,  3 Apr 2025 15:19:03 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 03 Apr 2025 10:16:24 -0400
-Subject: [PATCH v2 17/30] panel/lg-lg4573: Use refcounted allocation in
- place of devm_kzalloc()
+Date: Thu, 03 Apr 2025 10:16:25 -0400
+Subject: [PATCH v2 18/30] panel/lincolntech-lcd197: Use refcounted
+ allocation in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-b4-drm_panel_mass_convert_part2-v2-17-260c8a44c56b@redhat.com>
+Message-Id: <20250403-b4-drm_panel_mass_convert_part2-v2-18-260c8a44c56b@redhat.com>
 References: <20250403-b4-drm_panel_mass_convert_part2-v2-0-260c8a44c56b@redhat.com>
 In-Reply-To: <20250403-b4-drm_panel_mass_convert_part2-v2-0-260c8a44c56b@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,11 +68,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743689775; l=1200;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743689775; l=1484;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=fxUMpNSW8esmFPv/nGjkQyAOVNCAMMhql8rSebiViOw=;
- b=EXpZRKCBY5jJ9WLYap1y1KDhoDa26eq7Zk7vGZ3L91poS15GuXFlaKIl+JWVBp3ZqqzMGRqqV
- 4TJTBR5QPIuBruTfFFFeKQ/rM85pPqI5UHk5zTmn+Rj0gAHRbubUNb8
+ bh=ivekhNNXLgy47sf15VedzyJGzNnLprsWSCrRsqDwUjc=;
+ b=346C1nWjrEdcK+Kimp4OdelZiEooQuqMqIziJyblxGUgPicN6/KC8QgwW+zzDkZD/jgrmmnaY
+ Kf7Wuv679sXBLsqtEPzULVjIti2AjfkGr+DiXWh3GzDEmr8cpA55Ye2
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
@@ -98,38 +98,38 @@ Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
 v2: none.
 ---
- drivers/gpu/drm/panel/panel-lg-lg4573.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-lincolntech-lcd197.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-lg-lg4573.c b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-index cf246d15b7b628a0b3821bfb2697842b6e484319..dec619902c15f8fbfdd138ef3bd2aa7cae921375 100644
---- a/drivers/gpu/drm/panel/panel-lg-lg4573.c
-+++ b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-@@ -243,9 +243,11 @@ static int lg4573_probe(struct spi_device *spi)
- 	struct lg4573 *ctx;
- 	int ret;
+diff --git a/drivers/gpu/drm/panel/panel-lincolntech-lcd197.c b/drivers/gpu/drm/panel/panel-lincolntech-lcd197.c
+index 032c542aab0f788e8a244721c838d9d740af98fb..54ad17704072213b00292df487a9f28cffd45f6c 100644
+--- a/drivers/gpu/drm/panel/panel-lincolntech-lcd197.c
++++ b/drivers/gpu/drm/panel/panel-lincolntech-lcd197.c
+@@ -190,9 +190,11 @@ static int lincoln_lcd197_panel_probe(struct mipi_dsi_device *dsi)
+ 	dsi->mode_flags = (MIPI_DSI_MODE_VIDEO |
+ 			   MIPI_DSI_MODE_VIDEO_BURST);
  
--	ctx = devm_kzalloc(&spi->dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	lcd = devm_kzalloc(&dsi->dev, sizeof(*lcd), GFP_KERNEL);
+-	if (!lcd)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(&spi->dev, struct lg4573, panel,
-+				   &lg4573_drm_funcs,
-+				   DRM_MODE_CONNECTOR_DPI);
++	ctx = devm_drm_panel_alloc(dev, struct lincoln_lcd197_panel, panel,
++				   &lincoln_lcd197_panel_funcs,
++				   DRM_MODE_CONNECTOR_DSI);
 +	if (IS_ERR(ctx))
 +		return PTR_ERR(ctx);
  
- 	ctx->spi = spi;
+ 	mipi_dsi_set_drvdata(dsi, lcd);
+ 	lcd->dsi = dsi;
+@@ -214,9 +216,6 @@ static int lincoln_lcd197_panel_probe(struct mipi_dsi_device *dsi)
+ 		return dev_err_probe(dev, PTR_ERR(lcd->reset_gpio),
+ 				     "failed to get reset gpio");
  
-@@ -258,9 +260,6 @@ static int lg4573_probe(struct spi_device *spi)
- 		return ret;
- 	}
- 
--	drm_panel_init(&ctx->panel, &spi->dev, &lg4573_drm_funcs,
--		       DRM_MODE_CONNECTOR_DPI);
+-	drm_panel_init(&lcd->panel, dev,
+-		       &lincoln_lcd197_panel_funcs, DRM_MODE_CONNECTOR_DSI);
 -
- 	drm_panel_add(&ctx->panel);
- 
- 	return 0;
+ 	err = drm_panel_of_backlight(&lcd->panel);
+ 	if (err)
+ 		return err;
 
 -- 
 2.48.1
