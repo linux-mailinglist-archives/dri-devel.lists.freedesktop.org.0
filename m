@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E42EA7AAE3
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBACA7AAE4
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33A0510EACB;
-	Thu,  3 Apr 2025 19:16:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8607F10EACD;
+	Thu,  3 Apr 2025 19:16:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WoEep89j";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VTEhP7EL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2CA510EACA;
- Thu,  3 Apr 2025 19:16:36 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2AC010EACD;
+ Thu,  3 Apr 2025 19:16:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 221AF614B8;
- Thu,  3 Apr 2025 19:16:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA7A0C4AF0B;
- Thu,  3 Apr 2025 19:16:33 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 51F01A45BA3;
+ Thu,  3 Apr 2025 19:11:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D88AC4CEE8;
+ Thu,  3 Apr 2025 19:16:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707795;
- bh=cK+5iYiEQTUO+ve4DctLYfKsSAI+8wfVuH0TwHq0GUc=;
+ s=k20201202; t=1743707798;
+ bh=N5vEAPhIXp8QThO2m4vvumB+oYonZK64P/jqdtUmfak=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WoEep89j/BIJSh1tu2uuh7Bfw2nzj5wHNM0Ug19K786yRez0GwRkrgYXrwg/Il+W8
- TpYYfSqHGLtIhp8U4KGfflasVJygwpjghUGBYNjVHOr2HELE3aBP1RL6zkwAP1BMhO
- Ejc+tv1nFi5gMJGHZ78T0MerB4UVgg9NsnjJGgRpN2XacfqraYOblzHSZaj67xzZli
- RQUNSCrz0hX9XLuk0qgq6uQ1opPTv5oL+DKzd0G+XI52usVCIBH6ew8/a6d/swDjWg
- Kc0d1dV6zDTFoazbO12cPDbpjE+Muk3aJs4NYS6yxR223lrKOoUMmYQoN3lRRj2ZjZ
- MP7K8mrSy5SAA==
+ b=VTEhP7EL5GhLxhrzULjrQidertxXT6WZvMa9jfFjrX+rzNdryDxG323s0mXAPWDD4
+ Y0le3a7Y1Z4dFN8PbcHRIQcru9smpAIGd8y8uJTljFrgQe79SwY84WhSLt8pda6DXh
+ s+vGGyPDMhadiuB/+zyfuz8NxNTWtW8ucfagdyW0VQoJkC9pjXXsXUK7fGk24UtC14
+ amk2spKxFK6OQoinifv/rlmFL9QsWdvE2JCbSIPvLQ/R2eUKArJ6l+f5Xtgo6Zad6g
+ PghZI2IBjvpvc1bxoTdS5P67p11lw3t98OpVQKOslt3w0AAT8+woefc6umQXQnarsO
+ GCxHhpYxMYizA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ryan Seto <ryanseto@amd.com>, Dillon Varone <dillon.varone@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: Emily Deng <Emily.Deng@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- austin.zheng@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
- sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, siqueira@igalia.com, alex.hung@amd.com,
- colin.i.king@gmail.com, aurabindo.pillai@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.13 27/37] drm/amd/display: Prevent VStartup Overflow
-Date: Thu,  3 Apr 2025 15:15:03 -0400
-Message-Id: <20250403191513.2680235-27-sashal@kernel.org>
+ Felix.Kuehling@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.13 29/37] drm/amdgpu: Fix the race condition for
+ draining retry fault
+Date: Thu,  3 Apr 2025 15:15:05 -0400
+Message-Id: <20250403191513.2680235-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191513.2680235-1-sashal@kernel.org>
 References: <20250403191513.2680235-1-sashal@kernel.org>
@@ -68,50 +65,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ryan Seto <ryanseto@amd.com>
+From: Emily Deng <Emily.Deng@amd.com>
 
-[ Upstream commit 29c1c20496a7a9bafe2bc2f833d69aa52e0f2c2d ]
+[ Upstream commit f844732e3ad9c4b78df7436232949b8d2096d1a6 ]
 
-[Why]
-For some VR headsets with large blanks, it's possible
-to overflow the OTG_VSTARTUP_PARAM:VSTARTUP_START
-register. This can lead to incorrect DML calculations
-and underflow downstream.
+Issue:
+In the scenario where svm_range_restore_pages is called, but
+svm->checkpoint_ts has not been set and the retry fault has not been
+drained, svm_range_unmap_from_cpu is triggered and calls svm_range_free.
+Meanwhile, svm_range_restore_pages continues execution and reaches
+svm_range_from_addr. This results in a "failed to find prange..." error,
+ causing the page recovery to fail.
 
-[How]
-Min the calcualted max_vstartup_lines with the max
-value of the register.
+How to fix:
+Move the timestamp check code under the protection of svm->lock.
 
-Reviewed-by: Dillon Varone <dillon.varone@amd.com>
-Signed-off-by: Ryan Seto <ryanseto@amd.com>
-Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+v2:
+Make sure all right locks are released before go out.
+
+v3:
+Directly goto out_unlock_svms, and return -EAGAIN.
+
+v4:
+Refine code.
+
+Signed-off-by: Emily Deng <Emily.Deng@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c  | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 31 +++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-index ecfa3c898e09d..4285cb7fcbe71 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-@@ -12,6 +12,7 @@
- #define DML2_MAX_FMT_420_BUFFER_WIDTH 4096
- #define DML_MAX_NUM_OF_SLICES_PER_DSC 4
- #define ALLOW_SDPIF_RATE_LIMIT_PRE_CSTATE
-+#define DML_MAX_VSTARTUP_START 1023
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+index 1b04d54f9a69c..4eeea51c9a0eb 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+@@ -2992,19 +2992,6 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
+ 		goto out;
+ 	}
  
- const char *dml2_core_internal_bw_type_str(enum dml2_core_internal_bw_type bw_type)
- {
-@@ -3648,6 +3649,7 @@ static unsigned int CalculateMaxVStartup(
- 	dml2_printf("DML::%s: vblank_avail = %u\n", __func__, vblank_avail);
- 	dml2_printf("DML::%s: max_vstartup_lines = %u\n", __func__, max_vstartup_lines);
- #endif
-+	max_vstartup_lines = (unsigned int)math_min2(max_vstartup_lines, DML_MAX_VSTARTUP_START);
- 	return max_vstartup_lines;
- }
+-	/* check if this page fault time stamp is before svms->checkpoint_ts */
+-	if (svms->checkpoint_ts[gpuidx] != 0) {
+-		if (amdgpu_ih_ts_after(ts,  svms->checkpoint_ts[gpuidx])) {
+-			pr_debug("draining retry fault, drop fault 0x%llx\n", addr);
+-			r = 0;
+-			goto out;
+-		} else
+-			/* ts is after svms->checkpoint_ts now, reset svms->checkpoint_ts
+-			 * to zero to avoid following ts wrap around give wrong comparing
+-			 */
+-			svms->checkpoint_ts[gpuidx] = 0;
+-	}
+-
+ 	if (!p->xnack_enabled) {
+ 		pr_debug("XNACK not enabled for pasid 0x%x\n", pasid);
+ 		r = -EFAULT;
+@@ -3024,6 +3011,21 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
+ 	mmap_read_lock(mm);
+ retry_write_locked:
+ 	mutex_lock(&svms->lock);
++
++	/* check if this page fault time stamp is before svms->checkpoint_ts */
++	if (svms->checkpoint_ts[gpuidx] != 0) {
++		if (amdgpu_ih_ts_after(ts,  svms->checkpoint_ts[gpuidx])) {
++			pr_debug("draining retry fault, drop fault 0x%llx\n", addr);
++			r = -EAGAIN;
++			goto out_unlock_svms;
++		} else {
++			/* ts is after svms->checkpoint_ts now, reset svms->checkpoint_ts
++			 * to zero to avoid following ts wrap around give wrong comparing
++			 */
++			svms->checkpoint_ts[gpuidx] = 0;
++		}
++	}
++
+ 	prange = svm_range_from_addr(svms, addr, NULL);
+ 	if (!prange) {
+ 		pr_debug("failed to find prange svms 0x%p address [0x%llx]\n",
+@@ -3149,7 +3151,8 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
+ 	mutex_unlock(&svms->lock);
+ 	mmap_read_unlock(mm);
  
+-	svm_range_count_fault(node, p, gpuidx);
++	if (r != -EAGAIN)
++		svm_range_count_fault(node, p, gpuidx);
+ 
+ 	mmput(mm);
+ out:
 -- 
 2.39.5
 
