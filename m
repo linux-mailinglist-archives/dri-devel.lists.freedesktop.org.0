@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C570A7AE40
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 22:24:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D062A7AE3F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 22:24:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C5710E278;
-	Thu,  3 Apr 2025 20:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD07110E164;
+	Thu,  3 Apr 2025 20:24:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="NN1uj31/";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="LcGBSLa+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com
- [209.85.214.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC71010E164
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 20:24:48 +0000 (UTC)
-Received: by mail-pl1-f201.google.com with SMTP id
- d9443c01a7336-225505d1ca5so12123405ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 13:24:48 -0700 (PDT)
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
+ [209.85.216.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F11C710E278
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 20:24:50 +0000 (UTC)
+Received: by mail-pj1-f74.google.com with SMTP id
+ 98e67ed59e1d1-2ff854a2541so1207992a91.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 13:24:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1743711888; x=1744316688;
+ d=google.com; s=20230601; t=1743711890; x=1744316690;
  darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=CRkNhQokk2FGmI6E6ywUdIUe2Ks9OEjNqCR63wcowWw=;
- b=NN1uj31/x0gz+N1KAVefE4G3PxRAOLzPWy0xhZnNt0Tvpliw6KXv2Jtqb5lcfi1TU0
- hnrgsWPshetzzpBPJf0fTKBqWgRRYvZEwMVS019wzzlgfmY06Hssv5RfoJyqL+PY/6Er
- 33TlesZCwkG8KpRVjjs7GTrvjFTn9H4qu/9T+/YjVcw56Ls996Omp0G8vvMztOY9doqP
- 8dnBlghOObWsJTJnese+Xt8tA1ZvHnjF7UGPGd+ZZFiuQ9VzDWtkO9+DTp+OtjE9IJSD
- /WU+Q26PQaB3kCe5dniYYcxMnWI/q4CNjrNPIX19ptpzvavLaNS7G1j7Tf76yFoxDTvq
- HivQ==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pil1LeiyQzc9Wfedi7qRLX2THzbN1bSqcXBycZBxx3E=;
+ b=LcGBSLa+3/JohHuf4GzKUw6d2qdi4ito6j6BiP//uttPCLn6o0XgWDde2r2ZYNyh9W
+ G2fN3HljeRUWUWi/qzeiI2tS1IQs8gay1IT4gHYlKzXgtsw7Kei463DqbkO08LtRRh5h
+ brd5o2ejIubSWMI6z0uG2at5JeW4cbapZYPzYBP50UGQbdSju4r6gDVlnVHEo+vQo0v/
+ oXC+GY6Rn8KndLZwqw8hfIA7KcuSt+0Yx5MVoR3je7MOq6X2MFnRpqe6pG5462Hy1daE
+ TVaB8ouEB73BYWZvz3M26MOfPVLWX/btlz7eIKWMpezD4c+Dx2eaEgIibHOMD4dJCtqM
+ Bs1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743711888; x=1744316688;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CRkNhQokk2FGmI6E6ywUdIUe2Ks9OEjNqCR63wcowWw=;
- b=SZW5yOqCpiT7SuTmE/5SXQR93VT0+q9w/e3UaLpx6IXJP2KQe++fhQyeDC0CrtagAn
- mDcnK42b4VTWCQnhWDMOifKvT1S25cY169hfIustvXiI68OSlOdLeF6iawZi77goucJS
- aIi/ow2Kdi/cQ3FY5xDGYZktwu1hI0uWT0pWwP6KdrgtkC36jSiFZ3C8in6uCMnKnz+F
- msQ+A70dGDe8r0NRJwlSA32oXN7TDGPhmNE1E3cH1c8NK+GfrGl2dB2h8aP1RAZARPJX
- FO56McMt9vC6+NmpX0VkZG9/0jhWJJtP7s0oQpJ1V0a19ETBvkvlzvuvWoBLqwvfGhpX
- kVsQ==
-X-Gm-Message-State: AOJu0YxvR415vpASY3Uf36DN8hsuZWDfAYQFPgnBqFMc2wV3crE3/gOr
- ynzbV/CUrwxlfSBZkB+rmVa8QJhzXrkpPuRRnB/cVh02VCbk/bXPKlpx933jmGHklfIS5rlAnwM
- h/mlXIA==
-X-Google-Smtp-Source: AGHT+IHWDO/5M2fCSVHvmzRMrnuToohUfpuJh+UsPsfUghfHJeFXsbikUT0hXKvJp3jc7nt+shYR87GdY9k7
-X-Received: from plri2.prod.google.com ([2002:a17:903:32c2:b0:220:efca:379c])
+ d=1e100.net; s=20230601; t=1743711890; x=1744316690;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pil1LeiyQzc9Wfedi7qRLX2THzbN1bSqcXBycZBxx3E=;
+ b=Rrb+KdABZTJaLo2y76zOvsek+sEcEOUuABWp/8aZf0AnaE0ZeJupXwDR5R2bkxT8nw
+ vRgqxbbdiddn62qf/NxHmELrPylIMmnny67rb+X4NvF1WbCmSMnney7nybHtMQ6NbAXz
+ +unOb7sLnIg52PYQu3W9FgB/TVdq2JovVCtqE8y8GeSeJxXfnmoujEI2P+Kdh3lmQkJF
+ ZRkIqOBDliNRcfJZaYlaaUAWsLADGpOzBakWAfFypif/nRoic/Mu4O2r1SDJiNBFzITL
+ Ur0eFo+DoiVh2VttYVqiXXhZTDYP8DMt8DYk4CiqH42GWkPyMupk4cBn7d2nRNZltfAW
+ 0Oyg==
+X-Gm-Message-State: AOJu0Yy1X41ilsBQTxAutmQ3DpEglM75PmpGaZTddhDwxq3PZRDNzw3p
+ Xr5h+N5GGpcWpwNe8CDGRPxezACWUTEUeWi2T/kqbCL9Le/1tyAmwtF4ZQ2xAJhhuYznH+MCGKm
+ scJpXUw==
+X-Google-Smtp-Source: AGHT+IHECJgbaJYB5gyuhkerty/z5QcoT9YXQkYlH1mJyNC2bK+Z2YOQrOHG9csQbYSvdr6YjtqHqs0SwrVx
+X-Received: from pjg12.prod.google.com ([2002:a17:90b:3f4c:b0:301:1bf5:2efc])
  (user=irogers job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:32c9:b0:220:ca39:d453
- with SMTP id d9443c01a7336-22a8a05e77amr5995565ad.17.1743711888439; Thu, 03
- Apr 2025 13:24:48 -0700 (PDT)
-Date: Thu,  3 Apr 2025 13:24:35 -0700
+ 2002:a17:90b:51cc:b0:2fa:1e3e:9be5
+ with SMTP id 98e67ed59e1d1-306a4757ff7mr1693465a91.0.1743711890504; Thu, 03
+ Apr 2025 13:24:50 -0700 (PDT)
+Date: Thu,  3 Apr 2025 13:24:36 -0700
+In-Reply-To: <20250403202439.57791-1-irogers@google.com>
 Mime-Version: 1.0
+References: <20250403202439.57791-1-irogers@google.com>
 X-Mailer: git-send-email 2.49.0.504.g3bcea36a83-goog
-Message-ID: <20250403202439.57791-1-irogers@google.com>
-Subject: [PATCH v3 0/4] Add support for a DRM tool like PMU
+Message-ID: <20250403202439.57791-2-irogers@google.com>
+Subject: [PATCH v3 1/4] perf parse-events: Avoid scanning PMUs that can't
+ contain events
 From: Ian Rogers <irogers@google.com>
 To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
  Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
@@ -87,42 +90,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM clients expose information through usage stats as documented in
-Documentation/gpu/drm-usage-stats.rst (available online at
-https://docs.kernel.org/gpu/drm-usage-stats.html). Add a tool like
-PMU, similar to the hwmon PMU, that exposes DRM information.
+Add perf_pmus__scan_for_event that only reads sysfs for pmus that
+could contain a given event.
 
-v3: Minor tweak to the test so the skip (exit 2) doesn't trigger the
-    trap cleanup.
+Signed-off-by: Ian Rogers <irogers@google.com>
+---
+ tools/perf/util/parse-events.c |  4 ++--
+ tools/perf/util/pmus.c         | 35 ++++++++++++++++++++++++++++++++++
+ tools/perf/util/pmus.h         |  1 +
+ 3 files changed, 38 insertions(+), 2 deletions(-)
 
-v2: Add support to only scan hwmon and drm PMUs if the event or PMU
-wildcard can match. Add a test as requested by Namhyung. Add file
-comments.
-
-v1:
-https://lore.kernel.org/lkml/20250211071727.364389-1-irogers@google.com/
-
-Ian Rogers (4):
-  perf parse-events: Avoid scanning PMUs that can't contain events
-  perf parse-events: Avoid scanning PMUs that can't match a wildcard
-  perf drm_pmu: Add a tool like PMU to expose DRM information
-  perf tests: Add a DRM PMU test
-
- tools/perf/tests/shell/drm_pmu.sh |  78 ++++
- tools/perf/util/Build             |   1 +
- tools/perf/util/drm_pmu.c         | 689 ++++++++++++++++++++++++++++++
- tools/perf/util/drm_pmu.h         |  39 ++
- tools/perf/util/evsel.c           |   9 +
- tools/perf/util/parse-events.c    |  30 +-
- tools/perf/util/pmu.c             |  15 +
- tools/perf/util/pmu.h             |   4 +-
- tools/perf/util/pmus.c            | 101 ++++-
- tools/perf/util/pmus.h            |   2 +
- 10 files changed, 952 insertions(+), 16 deletions(-)
- create mode 100755 tools/perf/tests/shell/drm_pmu.sh
- create mode 100644 tools/perf/util/drm_pmu.c
- create mode 100644 tools/perf/util/drm_pmu.h
-
+diff --git a/tools/perf/util/parse-events.c b/tools/perf/util/parse-events.c
+index 5152fd5a6ead..d77af1d24985 100644
+--- a/tools/perf/util/parse-events.c
++++ b/tools/perf/util/parse-events.c
+@@ -434,7 +434,7 @@ int parse_events_add_cache(struct list_head *list, int *idx, const char *name,
+ 	const char *config_name = get_config_name(parsed_terms);
+ 	const char *metric_id = get_config_metric_id(parsed_terms);
+ 
+-	while ((pmu = perf_pmus__scan(pmu)) != NULL) {
++	while ((pmu = perf_pmus__scan_for_event(pmu, name)) != NULL) {
+ 		LIST_HEAD(config_terms);
+ 		struct perf_event_attr attr;
+ 		int ret;
+@@ -1585,7 +1585,7 @@ int parse_events_multi_pmu_add(struct parse_events_state *parse_state,
+ 
+ 	INIT_LIST_HEAD(list);
+ 
+-	while ((pmu = perf_pmus__scan(pmu)) != NULL) {
++	while ((pmu = perf_pmus__scan_for_event(pmu, event_name)) != NULL) {
+ 		bool auto_merge_stats;
+ 
+ 		if (parse_events__filter_pmu(parse_state, pmu))
+diff --git a/tools/perf/util/pmus.c b/tools/perf/util/pmus.c
+index b99292de7669..f2706c395509 100644
+--- a/tools/perf/util/pmus.c
++++ b/tools/perf/util/pmus.c
+@@ -350,6 +350,41 @@ struct perf_pmu *perf_pmus__scan_core(struct perf_pmu *pmu)
+ 	return NULL;
+ }
+ 
++struct perf_pmu *perf_pmus__scan_for_event(struct perf_pmu *pmu, const char *event)
++{
++	bool use_core_pmus = !pmu || pmu->is_core;
++
++	if (!pmu) {
++		/* Hwmon filename values that aren't used. */
++		enum hwmon_type type;
++		int number;
++		/*
++		 * Core PMUs, other sysfs PMUs and tool PMU can take all event
++		 * types or aren't wother optimizing for.
++		 */
++		unsigned int to_read_pmus =  PERF_TOOL_PMU_TYPE_PE_CORE_MASK |
++			PERF_TOOL_PMU_TYPE_PE_OTHER_MASK |
++			PERF_TOOL_PMU_TYPE_TOOL_MASK;
++
++		/* Could the event be a hwmon event? */
++		if (parse_hwmon_filename(event, &type, &number, /*item=*/NULL, /*alarm=*/NULL))
++			to_read_pmus |= PERF_TOOL_PMU_TYPE_HWMON_MASK;
++
++		pmu_read_sysfs(to_read_pmus);
++		pmu = list_prepare_entry(pmu, &core_pmus, list);
++	}
++	if (use_core_pmus) {
++		list_for_each_entry_continue(pmu, &core_pmus, list)
++			return pmu;
++
++		pmu = NULL;
++		pmu = list_prepare_entry(pmu, &other_pmus, list);
++	}
++	list_for_each_entry_continue(pmu, &other_pmus, list)
++		return pmu;
++	return NULL;
++}
++
+ static struct perf_pmu *perf_pmus__scan_skip_duplicates(struct perf_pmu *pmu)
+ {
+ 	bool use_core_pmus = !pmu || pmu->is_core;
+diff --git a/tools/perf/util/pmus.h b/tools/perf/util/pmus.h
+index 8def20e615ad..213ee65306d6 100644
+--- a/tools/perf/util/pmus.h
++++ b/tools/perf/util/pmus.h
+@@ -19,6 +19,7 @@ struct perf_pmu *perf_pmus__find_by_type(unsigned int type);
+ 
+ struct perf_pmu *perf_pmus__scan(struct perf_pmu *pmu);
+ struct perf_pmu *perf_pmus__scan_core(struct perf_pmu *pmu);
++struct perf_pmu *perf_pmus__scan_for_event(struct perf_pmu *pmu, const char *event);
+ 
+ const struct perf_pmu *perf_pmus__pmu_for_pmu_filter(const char *str);
+ 
 -- 
 2.49.0.504.g3bcea36a83-goog
 
