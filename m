@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563BCA79A7F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 05:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBABA79AAA
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 05:55:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 597E210E901;
-	Thu,  3 Apr 2025 03:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 071EE10E904;
+	Thu,  3 Apr 2025 03:55:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="dYO/aihA";
+	dkim=pass (2048-bit key; secure) header.d=codewreck.org header.i=@codewreck.org header.b="0HBoscdF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id D102410E8FE
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 03:38:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=MGndv
- tMPEokiBrxHHMnhfjH0BcuiAuDizFZG9VwssFg=; b=dYO/aihA/IOkosTD8Gya/
- rOmaNCNYNlQzcib9xmKmhF7m3EXqp1gBa/VOo3VngRkzk5vh+qWKwxVcft8oKPfO
- /36gpU0z86RrfHVwy0UJnWSFobP5NidQ7UIK1Nt0KoN7n+cXxAyCLoiV8C7JFT+X
- DCvACAKAunDXmGJPfRSt9o=
-Received: from ProDesk.. (unknown [])
- by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id
- _____wBHWgmNAu5n7FfDDg--.28713S11; 
- Thu, 03 Apr 2025 11:38:06 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: dmitry.baryshkov@oss.qualcomm.com,
-	heiko@sntech.de
-Cc: hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, stephen@radxa.com,
- cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
- Laurent.pinchart@ideasonboard.com, yubing.zhang@rock-chips.com,
- krzk+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- robh@kernel.org, sebastian.reichel@collabora.com,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v3 9/9] arm64: dts: rockchip: Enable DP2HDMI for ROCK 5 ITX
-Date: Thu,  3 Apr 2025 11:37:37 +0800
-Message-ID: <20250403033748.245007-10-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250403033748.245007-1-andyshrk@163.com>
-References: <20250403033748.245007-1-andyshrk@163.com>
+X-Greylist: delayed 514 seconds by postgrey-1.36 at gabe;
+ Thu, 03 Apr 2025 03:55:18 UTC
+Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F241210E8F8;
+ Thu,  3 Apr 2025 03:55:18 +0000 (UTC)
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+ by submarine.notk.org (Postfix) with ESMTPS id 67B0E14C2DB;
+ Thu,  3 Apr 2025 05:46:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
+ s=2; t=1743651996;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ITcMLIFP5tKAjz41ehoKWCF5eQQiDYMOb1fN5yVdzj8=;
+ b=0HBoscdFpgxuQgZl92opSENbMA9Pk+zXKbOYbpRJnb2fOIuhEQ1bwZ5rGPvmlYb+8wVHw8
+ wHc2273ChihnbkPMTZ1/DAooFHD2hJ+0yffsGhHC9Cy9veCKiE8j7cW1KdfmCPrBKGxCoy
+ Qn3m8QJ0MYx70hWGhV57dz2ZTADFzPnA6CZqQO0W6iJCwIBiDSjDSOwrvW/d4+WTVhVAcH
+ g6HcnkJSY+HEZzS8B0uR8bH0QBVA+A0ZU2VyhxlEvsqXe3FXAMaHh6g4yHfkceyrco8IVL
+ 7ipXZTHnksTxDqR7U3ceJDpBoPzzk84gVw3dN7X3aD3CMOZtc1b/HQqenuVM/Q==
+Received: from localhost (gaia.codewreck.org [local])
+ by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 72519fa4;
+ Thu, 3 Apr 2025 03:46:32 +0000 (UTC)
+Date: Thu, 3 Apr 2025 12:46:17 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org, David Howells <dhowells@redhat.com>,
+ v9fs@lists.linux.dev
+Subject: Re: [PATCH v2 1/9] 9p: Add a migrate_folio method
+Message-ID: <Z-4EiVQ6klHkkMoy@codewreck.org>
+References: <20250402150005.2309458-1-willy@infradead.org>
+ <20250402150005.2309458-2-willy@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBHWgmNAu5n7FfDDg--.28713S11
-X-Coremail-Antispam: 1Uf129KBjvJXoW7CrykKw18Xw43uF4kZw1fZwb_yoW8tF4rpF
- nFvrs5Kr97uryaqw1FvF1kZF1DKrs5ua93Jr1aqry0yFW7Xa4kK3Wrur9YqF1jvFyxZ3ya
- yr4kXa4293WDXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jrWrAUUUUU=
-X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqAwkXmft-c-LwgAAsv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250402150005.2309458-2-willy@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,116 +64,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+Matthew Wilcox (Oracle) wrote on Wed, Apr 02, 2025 at 03:59:55PM +0100:
+> The migration code used to be able to migrate dirty 9p folios by writing
+> them back using writepage.  When the writepage method was removed,
+> we neglected to add a migrate_folio method, which means that dirty 9p
+> folios have been unmovable ever since.  This reduced our success at
+> defragmenting memory on machines which use 9p heavily.
+> 
+> Fixes: 80105ed2fd27 (9p: Use netfslib read/write_iter)
+> Cc: stable@vger.kernel.org
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: v9fs@lists.linux.dev
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-The HDMI0(Port next to Headphone Jack) is drived by DP1 on rk3588
-via RA620(a dp2hdmi converter).
+Given I'm not in Cc of the whole series I'm lacking context but I assume
+that means I'm not supposed to take this in.
 
-Add related dt nodes to enable it.
+I won't pretend I understand folios anyway, but commit messages makes
+sense to me:
+Acked-by: Dominique Martinet <asmadeus@codewreck.org>
 
-Note: ROCKCHIP_VOP2_EP_DP1 is defined as 11 in dt-binding header,
-but it will trigger a dtc warning like "graph node unit address
-error, expected "b"" if we use it directly after endpoint, so we
-use "b" instead here.
-
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-
----
-
-Changes in v3:
-- Add RA620 into bridge chain.
-
- .../boot/dts/rockchip/rk3588-rock-5-itx.dts   | 59 +++++++++++++++++++
- 1 file changed, 59 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts
-index 67b8863292487..bb61633a5b995 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts
-@@ -57,6 +57,29 @@ analog-sound {
- 			  "Headphone", "Headphones";
- 	};
- 
-+	bridge {
-+		compatible = "radxa,ra620";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			port@0 {
-+				reg = <0>;
-+				hdmi_bridge_in: endpoint {
-+					remote-endpoint = <&dp1_out_con>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				hdmi_bridge_out: endpoint {
-+					remote-endpoint = <&hdmi_con_in>;
-+				};
-+			};
-+		};
-+	};
-+
- 	gpio-leds {
- 		compatible = "gpio-leds";
- 		pinctrl-names = "default";
-@@ -73,6 +96,17 @@ hdd-led2 {
- 		};
- 	};
- 
-+	hdmi0-con {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_bridge_out>;
-+			};
-+		};
-+	};
-+
- 	hdmi1-con {
- 		compatible = "hdmi-connector";
- 		type = "a";
-@@ -268,6 +302,24 @@ &cpu_l3 {
- 	cpu-supply = <&vdd_cpu_lit_s0>;
- };
- 
-+&dp1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&dp1m0_pins>;
-+};
-+
-+&dp1_in {
-+	dp1_in_vp2: endpoint {
-+		remote-endpoint = <&vp2_out_dp1>;
-+	};
-+};
-+
-+&dp1_out {
-+	dp1_out_con: endpoint {
-+		remote-endpoint = <&hdmi_bridge_in>;
-+	};
-+};
-+
- &gpu {
- 	mali-supply = <&vdd_gpu_s0>;
- 	status = "okay";
-@@ -1262,3 +1314,10 @@ vp1_out_hdmi1: endpoint@ROCKCHIP_VOP2_EP_HDMI1 {
- 		remote-endpoint = <&hdmi1_in_vp1>;
- 	};
- };
-+
-+&vp2 {
-+	vp2_out_dp1: endpoint@b {
-+		reg = <ROCKCHIP_VOP2_EP_DP1>;
-+		remote-endpoint = <&dp1_in_vp2>;
-+	};
-+};
+Thanks,
 -- 
-2.43.0
-
+Dominique Martinet | Asmadeus
