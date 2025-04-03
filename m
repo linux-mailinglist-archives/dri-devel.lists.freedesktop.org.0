@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E15A7AAAA
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6EDA7AAAD
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:15:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F60810EA9E;
-	Thu,  3 Apr 2025 19:14:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA4410EA9F;
+	Thu,  3 Apr 2025 19:15:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EMcLaEzR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jwJD2XMx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7658D10EA9D;
- Thu,  3 Apr 2025 19:14:51 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEF2D10EAA0;
+ Thu,  3 Apr 2025 19:14:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 87B69614BB;
- Thu,  3 Apr 2025 19:14:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F5B8C4CEE8;
- Thu,  3 Apr 2025 19:14:48 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5DC8C5C6C3C;
+ Thu,  3 Apr 2025 19:12:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86FD5C4CEE9;
+ Thu,  3 Apr 2025 19:14:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707690;
- bh=qtM3LpyFMjD+GrErvAB29sHbCu0aoFeOXVti8SyyFTc=;
+ s=k20201202; t=1743707698;
+ bh=kaRu9WvREo0g3PGur8HUiN9Nxn15RedJRMDDs3epyfE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EMcLaEzR030g0P2U2aWrrdtBq3YEbCY5SykujQDRKcsS+KXvw1L1rVQEj8bOfD6qD
- 2j3B0Ec3vVkAZY6xRcXbqxNOAZEmJeWTlsGVgm8SZ4TaiGu9IlVBj6kUSK96yoscQY
- mQr6qCsnvFr2U9TcXi8ECD3fAXwIRxHAKa/SBB6rqN8QvI6B2BWxRupvSL/o19Qo6F
- s/jDZOgAm2A9Y/5ZNQOo3R+SEC6ZPouDVyGxHdIOhdtVxgxCEjt9lJI7ea9mb4u/ah
- hGoezoJUJfbG3rxIpsHLx4zoVt8ZRXjIKgiTrpmpUU3nwgtZdT9uX7InOg7guclzwO
- hNa1OcA9Kf5eg==
+ b=jwJD2XMxd/hXiONDOXk7ek3P5kT+v6kRxkH3uQ3kFudDBYEZwart4Mv+9pzW1GQW2
+ hCemSLfSKe44G3uapm7av0kvbuyLO2V4MW2wlQUnty7/aEfDnjYPUje+oHX+XyuS7G
+ FZtRbZUgq/BOqp8XDALUn5eXgtu4JfzjtosoBQDFyqDdJ3R7IV6N9djG46LFwqr+6s
+ qDZ9JxXPz5zDaEQSXIF94EwYglIx2LA6QimiGFT8WCEmJ41B7jx/GPApKy5G2320Xm
+ RYfnZDA6wPjF67+Uik98SHDHaBo//6fc3gYC/+FOo+AS+dC6GDMsP4I2qwBvbBZQ21
+ BSk0jkys65jKA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Emily Deng <Emily.Deng@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ airlied@gmail.com, simona@ffwll.ch, lijo.lazar@amd.com,
+ sunil.khatri@amd.com, Hawking.Zhang@amd.com, Jun.Ma2@amd.com,
+ Yunxiang.Li@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 34/44] drm/amdgpu: Fix the race condition for
- draining retry fault
-Date: Thu,  3 Apr 2025 15:13:03 -0400
-Message-Id: <20250403191313.2679091-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 37/44] drm/amdgpu: grab an additional reference
+ on the gang fence v2
+Date: Thu,  3 Apr 2025 15:13:06 -0400
+Message-Id: <20250403191313.2679091-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191313.2679091-1-sashal@kernel.org>
 References: <20250403191313.2679091-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14
@@ -65,94 +68,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Emily Deng <Emily.Deng@amd.com>
+From: Christian König <christian.koenig@amd.com>
 
-[ Upstream commit f844732e3ad9c4b78df7436232949b8d2096d1a6 ]
+[ Upstream commit 0d9a95099dcb05b5f4719c830d15bf4fdcad0dc2 ]
 
-Issue:
-In the scenario where svm_range_restore_pages is called, but
-svm->checkpoint_ts has not been set and the retry fault has not been
-drained, svm_range_unmap_from_cpu is triggered and calls svm_range_free.
-Meanwhile, svm_range_restore_pages continues execution and reaches
-svm_range_from_addr. This results in a "failed to find prange..." error,
- causing the page recovery to fail.
+We keep the gang submission fence around in adev, make sure that it
+stays alive.
 
-How to fix:
-Move the timestamp check code under the protection of svm->lock.
+v2: fix memory leak on retry
 
-v2:
-Make sure all right locks are released before go out.
-
-v3:
-Directly goto out_unlock_svms, and return -EAGAIN.
-
-v4:
-Refine code.
-
-Signed-off-by: Emily Deng <Emily.Deng@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Acked-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 31 +++++++++++++++-------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 9477a4adcd36d..d1cf9dd352904 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -3002,19 +3002,6 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
- 		goto out;
- 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 018dfccd771ba..fe40bbead6222 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -6851,18 +6851,26 @@ struct dma_fence *amdgpu_device_switch_gang(struct amdgpu_device *adev,
+ {
+ 	struct dma_fence *old = NULL;
  
--	/* check if this page fault time stamp is before svms->checkpoint_ts */
--	if (svms->checkpoint_ts[gpuidx] != 0) {
--		if (amdgpu_ih_ts_after(ts,  svms->checkpoint_ts[gpuidx])) {
--			pr_debug("draining retry fault, drop fault 0x%llx\n", addr);
--			r = 0;
--			goto out;
--		} else
--			/* ts is after svms->checkpoint_ts now, reset svms->checkpoint_ts
--			 * to zero to avoid following ts wrap around give wrong comparing
--			 */
--			svms->checkpoint_ts[gpuidx] = 0;
--	}
--
- 	if (!p->xnack_enabled) {
- 		pr_debug("XNACK not enabled for pasid 0x%x\n", pasid);
- 		r = -EFAULT;
-@@ -3034,6 +3021,21 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
- 	mmap_read_lock(mm);
- retry_write_locked:
- 	mutex_lock(&svms->lock);
-+
-+	/* check if this page fault time stamp is before svms->checkpoint_ts */
-+	if (svms->checkpoint_ts[gpuidx] != 0) {
-+		if (amdgpu_ih_ts_after(ts,  svms->checkpoint_ts[gpuidx])) {
-+			pr_debug("draining retry fault, drop fault 0x%llx\n", addr);
-+			r = -EAGAIN;
-+			goto out_unlock_svms;
-+		} else {
-+			/* ts is after svms->checkpoint_ts now, reset svms->checkpoint_ts
-+			 * to zero to avoid following ts wrap around give wrong comparing
-+			 */
-+			svms->checkpoint_ts[gpuidx] = 0;
++	dma_fence_get(gang);
+ 	do {
+ 		dma_fence_put(old);
+ 		old = amdgpu_device_get_gang(adev);
+ 		if (old == gang)
+ 			break;
+ 
+-		if (!dma_fence_is_signaled(old))
++		if (!dma_fence_is_signaled(old)) {
++			dma_fence_put(gang);
+ 			return old;
 +		}
-+	}
-+
- 	prange = svm_range_from_addr(svms, addr, NULL);
- 	if (!prange) {
- 		pr_debug("failed to find prange svms 0x%p address [0x%llx]\n",
-@@ -3159,7 +3161,8 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
- 	mutex_unlock(&svms->lock);
- 	mmap_read_unlock(mm);
  
--	svm_range_count_fault(node, p, gpuidx);
-+	if (r != -EAGAIN)
-+		svm_range_count_fault(node, p, gpuidx);
+ 	} while (cmpxchg((struct dma_fence __force **)&adev->gang_submit,
+ 			 old, gang) != old);
  
- 	mmput(mm);
- out:
++	/*
++	 * Drop it once for the exchanged reference in adev and once for the
++	 * thread local reference acquired in amdgpu_device_get_gang().
++	 */
++	dma_fence_put(old);
+ 	dma_fence_put(old);
+ 	return NULL;
+ }
 -- 
 2.39.5
 
