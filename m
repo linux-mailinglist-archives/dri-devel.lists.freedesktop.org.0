@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B59A7AB48
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:19:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09547A7AB4A
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:19:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7589410EB18;
-	Thu,  3 Apr 2025 19:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35A0F10EB19;
+	Thu,  3 Apr 2025 19:19:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I2b8bC29";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MOw29Imm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0342C10EB18
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:19:34 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 439B110EB19
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:19:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 763AD5C66C7;
- Thu,  3 Apr 2025 19:17:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7769C4CEEA;
- Thu,  3 Apr 2025 19:19:31 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 9F4724400C;
+ Thu,  3 Apr 2025 19:19:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A40DBC4CEE3;
+ Thu,  3 Apr 2025 19:19:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707973;
- bh=/m5bVa6TpCzS6RGtpo9/JUJxy4QwEAhGF+KqMsUtHqQ=;
+ s=k20201202; t=1743707975;
+ bh=Aukq3tmQCLJmA1gdRb8cjrzyv0lX691slKjdUWkiyqo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=I2b8bC29NSTiYuK4ZiGqphXkRhywPqOLnUwQfL/uNItan2iSkfsNH5UgXv8dYPQ2g
- 2iXsjO2LqsgPODC45t+ndM39Y6lCGgCD1GosjeFVT6N3/0BnU23JbwrPfLXNRdIkeR
- UC45rsNHf4DAP7qQpt5rU4NnhIK2ZA34hwso3v3HmwpFid1VkwnxFpP+eg3HNF7iH4
- 4rnyRQ27nNONkD6su5uCEpaESwOodjWvAo2a/tcWQxJQLGK9hxOQL6V7RiJ6aBXdrV
- U0vQlbAUsc9nmJKwaQu0JiUX8t+Kw8bIJc5iG8qmj3T/ucA0zt62vDyWvyw3uaGyAs
- Svw84G2STPN/Q==
+ b=MOw29Imm1PZjPBrONBcENM1gL/ls29M2ilwzx4KLNkVIaFfD+H4LQ+u/69Ckpbfqv
+ Xv123dkxYtB3cAtIdHkOVNo9GXc2rAPMFO7g017hfybo0UNxm83N1BVx3lbBdjFJyP
+ iW6QOQucWyuFEViGK4qra87caym+O6MUHx0M/PBkrVUnSxCV9x4CFeGiWeTxXspXYh
+ eJAnX4+G0hfetn/yECKmLYnhEKAYnw/ZGLc/SJVNraX+nUzyC2JPhd1yg8KJFwIy2H
+ GSqa0QEwQaAHFAajNzbCSbU05g+L45bf5muw+taBS/T+zJBAh9Ac2AjDtmlb3TQOtr
+ Ipno7tkOvP/3g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Andrew Wyatt <fewtarius@steamfork.org>, John Edwards <uejji@uejji.net>,
- =?UTF-8?q?Jo=C3=A3o=20Pedro=20Kurtz?= <joexkurtz@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Hans de Goede <hdegoede@redhat.com>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
  simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 07/20] drm: panel-orientation-quirks: Add quirk
- for OneXPlayer Mini (Intel)
-Date: Thu,  3 Apr 2025 15:19:00 -0400
-Message-Id: <20250403191913.2681831-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 08/20] drm/bridge: panel: forbid initializing a
+ panel with unknown connector type
+Date: Thu,  3 Apr 2025 15:19:01 -0400
+Message-Id: <20250403191913.2681831-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191913.2681831-1-sashal@kernel.org>
 References: <20250403191913.2681831-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.132
@@ -67,59 +66,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrew Wyatt <fewtarius@steamfork.org>
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-[ Upstream commit b24dcc183583fc360ae0f0899e286a68f46abbd0 ]
+[ Upstream commit b296955b3a740ecc8b3b08e34fd64f1ceabb8fb4 ]
 
-The Intel model of the OneXPlayer Mini uses a 1200x1920 portrait LCD panel.
-The DMI strings are the same as the OneXPlayer, which already has a DMI
-quirk, but the panel is different.
+Having an DRM_MODE_CONNECTOR_Unknown connector type is considered bad, and
+drm_panel_bridge_add_typed() and derivatives are deprecated for this.
 
-Add a DMI match to correctly rotate this panel.
+drm_panel_init() won't prevent initializing a panel with a
+DRM_MODE_CONNECTOR_Unknown connector type. Luckily there are no in-tree
+users doing it, so take this as an opportinuty to document a valid
+connector type must be passed.
 
-Signed-off-by: Andrew Wyatt <fewtarius@steamfork.org>
-Co-developed-by: John Edwards <uejji@uejji.net>
-Signed-off-by: John Edwards <uejji@uejji.net>
-Tested-by: João Pedro Kurtz <joexkurtz@gmail.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250213222455.93533-6-uejji@uejji.net
+Returning an error if this rule is violated is not possible because
+drm_panel_init() is a void function. Add at least a warning to make any
+violations noticeable, especially to non-upstream drivers.
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Robert Foss <rfoss@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250214-drm-assorted-cleanups-v7-5-88ca5827d7af@bootlin.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/drm_panel.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 12d547f093bd2..036b095c98882 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -129,6 +129,12 @@ static const struct drm_dmi_panel_orientation_data lcd1080x1920_rightside_up = {
- 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
- };
- 
-+static const struct drm_dmi_panel_orientation_data lcd1200x1920_leftside_up = {
-+	.width = 1200,
-+	.height = 1920,
-+	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
-+};
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index 7fd3de89ed079..acd29b4f43f84 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -49,7 +49,7 @@ static LIST_HEAD(panel_list);
+  * @dev: parent device of the panel
+  * @funcs: panel operations
+  * @connector_type: the connector type (DRM_MODE_CONNECTOR_*) corresponding to
+- *	the panel interface
++ *	the panel interface (must NOT be DRM_MODE_CONNECTOR_Unknown)
+  *
+  * Initialize the panel structure for subsequent registration with
+  * drm_panel_add().
+@@ -57,6 +57,9 @@ static LIST_HEAD(panel_list);
+ void drm_panel_init(struct drm_panel *panel, struct device *dev,
+ 		    const struct drm_panel_funcs *funcs, int connector_type)
+ {
++	if (connector_type == DRM_MODE_CONNECTOR_Unknown)
++		DRM_WARN("%s: %s: a valid connector type is required!\n", __func__, dev_name(dev));
 +
- static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
- 	.width = 1200,
- 	.height = 1920,
-@@ -473,6 +479,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
- 		},
- 		.driver_data = (void *)&lcd1600x2560_leftside_up,
-+	}, {	/* OneXPlayer Mini (Intel) */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_leftside_up,
- 	}, {	/* OrangePi Neo */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
+ 	INIT_LIST_HEAD(&panel->list);
+ 	panel->dev = dev;
+ 	panel->funcs = funcs;
 -- 
 2.39.5
 
