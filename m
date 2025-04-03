@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4DEA7AB10
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:17:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1B9A7AB11
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:17:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA3010EAF0;
-	Thu,  3 Apr 2025 19:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA17D10EAF3;
+	Thu,  3 Apr 2025 19:17:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lVQSzIoa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IaHjO0vo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7E0310EAEF
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:17:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B363A10EAF3
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:17:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 57CF35C6255;
- Thu,  3 Apr 2025 19:15:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A881EC4CEE8;
- Thu,  3 Apr 2025 19:17:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 33B015C491D;
+ Thu,  3 Apr 2025 19:15:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B7EC4CEE3;
+ Thu,  3 Apr 2025 19:17:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707869;
- bh=H3VghN29XNAy06+WBBEN/U8Yh4BCdN+CDO5yaZMq4yU=;
+ s=k20201202; t=1743707870;
+ bh=s7qG5trji6KeA+b15lMAdNg4FohJ1eLxx5i7yXuZ8rw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lVQSzIoanX/wnJ5fwf5bUiKpxicqserntPRP818kJbvuTGK5y6ZXcxBmJl/t1geL+
- AcINcSk5DDM52ATsy+AL4lFPB9wv1QMaCkjli1KI9MQuN9reRHF9U+/Wliin6EAHtC
- kJGVFQpGqZstybZ5GV5UE5rz6EZWImA6GXnQGNumkrywew6JPV/9Lt8sb9MrLUfdvn
- 0HLMsVPSnoNzSRn20vMgmWfIiE1fljiBZ/85MWdC366CDfnQ0/d0dDyJog3XrnbAyZ
- aWpuZCseV53UA0KT70KbhHgciUV5aMCGxUtNu9xSUjGjNziZrgHg0UcTsapbtzXrMr
- 1xsRvupv+li/Q==
+ b=IaHjO0vouzKEHeZhe6VA8VyCinci3hFgMb9GVecrnIDAYdDnIXXDUUYQjxHFGz9g7
+ OhBLtL8VRdzoj/J1Ov+MtOgjLlqRSo+t85Psl1bwx05tv4uViurUFqXRHCroUofvmG
+ fbjpwYvtRBNvHMqKA/FTFBn69n8AWpeCsMVeLukIRstM4Rc8xlcrLeYtf1wh6+RvfC
+ Z1Ur1RCyh3t4eb0kaKeVWzNqLB7k46IbXosxCd67h2TrssPGm7ITRxmhsnvfqFaEBg
+ RIll9iX6F3+5kCUeqibbmqTWz736Jsuz2X5tFS1vL6YkFISr7dfM654BzZNiqeLclo
+ 0BYdVQIfsnesw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,10 +38,10 @@ Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Sasha Levin <sashal@kernel.org>, p.zabel@pengutronix.de, airlied@gmail.com,
  simona@ffwll.ch, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 20/33] drm/mediatek: mtk_dpi: Move the
- input_2p_en bit to platform data
-Date: Thu,  3 Apr 2025 15:16:43 -0400
-Message-Id: <20250403191656.2680995-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 21/33] drm/mediatek: mtk_dpi: Explicitly manage
+ TVD clock in power on/off
+Date: Thu,  3 Apr 2025 15:16:44 -0400
+Message-Id: <20250403191656.2680995-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191656.2680995-1-sashal@kernel.org>
 References: <20250403191656.2680995-1-sashal@kernel.org>
@@ -67,85 +67,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-[ Upstream commit c90876a695dd83e76680b88b40067275a5982811 ]
+[ Upstream commit 473c33f5ce651365468503c76f33158aaa1c7dd2 ]
 
-In preparation for adding support for MT8195's HDMI reserved DPI
-instance, move the input_2p_en bit for DP_INTF to platform data.
+In preparation for adding support for MT8195's HDMI reserved
+DPI, add calls to clk_prepare_enable() / clk_disable_unprepare()
+for the TVD clock: in this particular case, the aforementioned
+clock is not (and cannot be) parented to neither pixel or engine
+clocks hence it won't get enabled automatically by the clock
+framework.
 
-While at it, remove the input_2pixel member from platform data as
-having this bit implies that the 2pixel feature must be enabled.
+Please note that on all of the currently supported MediaTek
+platforms, the TVD clock is always a parent of either pixel or
+engine clocks, and this means that the common clock framework
+is already enabling this clock before the children.
+On such platforms, this commit will only increase the refcount
+of the TVD clock without any functional change.
 
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Link: https://patchwork.kernel.org/project/dri-devel/patch/20250217154836.108895-7-angelogioacchino.delregno@collabora.com/
+Link: https://patchwork.kernel.org/project/dri-devel/patch/20250217154836.108895-10-angelogioacchino.delregno@collabora.com/
 Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index a08d206549543..21ec6c775521f 100644
+index 21ec6c775521f..9c11d3158324c 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -127,14 +127,14 @@ struct mtk_dpi_yc_limit {
-  * @is_ck_de_pol: Support CK/DE polarity.
-  * @swap_input_support: Support input swap function.
-  * @support_direct_pin: IP supports direct connection to dpi panels.
-- * @input_2pixel: Input pixel of dp_intf is 2 pixel per round, so enable this
-- *		  config to enable this feature.
-  * @dimension_mask: Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_PORCH
-  *		    (no shift).
-  * @hvsize_mask: Mask of HSIZE and VSIZE mask (no shift).
-  * @channel_swap_shift: Shift value of channel swap.
-  * @yuv422_en_bit: Enable bit of yuv422.
-  * @csc_enable_bit: Enable bit of CSC.
-+ * @input_2p_en_bit: Enable bit for input two pixel per round feature.
-+ *		     If present, implies that the feature must be enabled.
-  * @pixels_per_iter: Quantity of transferred pixels per iteration.
-  * @edge_cfg_in_mmsys: If the edge configuration for DPI's output needs to be set in MMSYS.
-  */
-@@ -148,12 +148,12 @@ struct mtk_dpi_conf {
- 	bool is_ck_de_pol;
- 	bool swap_input_support;
- 	bool support_direct_pin;
--	bool input_2pixel;
- 	u32 dimension_mask;
- 	u32 hvsize_mask;
- 	u32 channel_swap_shift;
- 	u32 yuv422_en_bit;
- 	u32 csc_enable_bit;
-+	u32 input_2p_en_bit;
- 	u32 pixels_per_iter;
- 	bool edge_cfg_in_mmsys;
- };
-@@ -610,9 +610,9 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
- 		mtk_dpi_dual_edge(dpi);
- 		mtk_dpi_config_disable_edge(dpi);
- 	}
--	if (dpi->conf->input_2pixel) {
--		mtk_dpi_mask(dpi, DPI_CON, DPINTF_INPUT_2P_EN,
--			     DPINTF_INPUT_2P_EN);
-+	if (dpi->conf->input_2p_en_bit) {
-+		mtk_dpi_mask(dpi, DPI_CON, dpi->conf->input_2p_en_bit,
-+			     dpi->conf->input_2p_en_bit);
- 	}
- 	mtk_dpi_sw_reset(dpi, false);
+@@ -471,6 +471,7 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
  
-@@ -992,12 +992,12 @@ static const struct mtk_dpi_conf mt8195_dpintf_conf = {
- 	.output_fmts = mt8195_output_fmts,
- 	.num_output_fmts = ARRAY_SIZE(mt8195_output_fmts),
- 	.pixels_per_iter = 4,
--	.input_2pixel = true,
- 	.dimension_mask = DPINTF_HPW_MASK,
- 	.hvsize_mask = DPINTF_HSIZE_MASK,
- 	.channel_swap_shift = DPINTF_CH_SWAP,
- 	.yuv422_en_bit = DPINTF_YUV422_EN,
- 	.csc_enable_bit = DPINTF_CSC_ENABLE,
-+	.input_2p_en_bit = DPINTF_INPUT_2P_EN,
- };
+ 	mtk_dpi_disable(dpi);
+ 	clk_disable_unprepare(dpi->pixel_clk);
++	clk_disable_unprepare(dpi->tvd_clk);
+ 	clk_disable_unprepare(dpi->engine_clk);
+ }
  
- static int mtk_dpi_probe(struct platform_device *pdev)
+@@ -487,6 +488,12 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+ 		goto err_refcount;
+ 	}
+ 
++	ret = clk_prepare_enable(dpi->tvd_clk);
++	if (ret) {
++		dev_err(dpi->dev, "Failed to enable tvd pll: %d\n", ret);
++		goto err_engine;
++	}
++
+ 	ret = clk_prepare_enable(dpi->pixel_clk);
+ 	if (ret) {
+ 		dev_err(dpi->dev, "Failed to enable pixel clock: %d\n", ret);
+@@ -496,6 +503,8 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+ 	return 0;
+ 
+ err_pixel:
++	clk_disable_unprepare(dpi->tvd_clk);
++err_engine:
+ 	clk_disable_unprepare(dpi->engine_clk);
+ err_refcount:
+ 	dpi->refcount--;
 -- 
 2.39.5
 
