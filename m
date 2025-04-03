@@ -2,70 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9B6A7A70B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 17:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DDCA7A73A
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 17:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64D8110E247;
-	Thu,  3 Apr 2025 15:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55A8910E24F;
+	Thu,  3 Apr 2025 15:47:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="6nHCw1L9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BHiu9zpQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D78910E284
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 15:38:49 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 533CWoms014593;
- Thu, 3 Apr 2025 17:38:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- JKIe0+aIGjdecJpynSnkAswexl7oru3HsHNJpwNRFbw=; b=6nHCw1L9nFIWS5Gd
- TYAj222BoR7JXEUkMSPWZSsCotEjtgu5+XOiphXuJtW8swOhshEmEjKwxdxpL7/I
- 8oWkq6xiBvY5++2b15TVvgSY/EkNFtfuCGSB9Myw5raxTziMAcl6nVueib51KRNK
- aFHalYRCUed7ZfAjUfDRbA//X/uUcKXHV8XLbt2IqCFoZjv8wjv1cjGKRv9UtuC4
- a740IF9IONI7+2RAosC4HriCNKVb/1qLN7NBQP/CQb1N6NUBkmTcNKyPE8Z7epCv
- KQif7J0nS7Smpnv4AVjc0tdSzvH6Eyu6tgnPhMR5DCY4O4c1UqN8Tjc0mq13cnnk
- ESGLKg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 45ryyfr53u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Apr 2025 17:38:31 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 3609840044;
- Thu,  3 Apr 2025 17:37:27 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 61E0A8BF27C;
- Thu,  3 Apr 2025 17:36:51 +0200 (CEST)
-Received: from [10.130.77.153] (10.130.77.153) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Apr
- 2025 17:36:50 +0200
-Message-ID: <018d4212-7465-42c2-82b6-8b9a4a9e2716@foss.st.com>
-Date: Thu, 3 Apr 2025 17:36:50 +0200
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE8E10E24F
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 15:47:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 29A6843AE7;
+ Thu,  3 Apr 2025 15:47:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A82C4CEE5;
+ Thu,  3 Apr 2025 15:47:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743695246;
+ bh=EaxIEi2MzHezSZZXiYbZ5wYqTfobu9WblfTbW9XFbBU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BHiu9zpQPAcxHwkl1Fk/pF6J7ENRms/xF8j934S+wm5det9lbVcH1nobBOu15k51V
+ RmDBtTgJZHYPAdwvl4kISbu5SX2/wkYQ0u1jiGP4hQtG7pu7SP7BNPvH7vTC1xrEIo
+ ltfbDK2HY+se5xOmcWrS/NNPQn+JU+xDg4xJp/d+sv7rTQqOUQghv20wtk5dTFtOFB
+ veMF3kZMzeJReUYQtauA8m+blHkxnPv0xw+OKZwrM1t6or5a9UTXUI5ozuHTVEJYt1
+ gw8ANUXA7riCX5CUAfPQlKcGsacCkcw1I4VNuBhzP9A+Vm0J7vijuKj1sAzGiztkWX
+ iVhsYPqKATeJg==
+Date: Thu, 3 Apr 2025 17:47:23 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Dave Airlie <airlied@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Simona Vetter <simona@ffwll.ch>, Tomasz Figa <tfiga@chromium.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Ben Woodard <woodard@redhat.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
+Message-ID: <20250403-quick-salamander-of-charisma-cab289@houat>
+References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+ <f5fdc666-dd72-4a4f-9270-b539a3179382@amd.com>
+ <20250310-eccentric-wonderful-puffin-ddbb26@houat>
+ <CAPM=9tzkLXOz=-3eujUbbjMHunR+_5JZ4oQaqNmbrWWF9WZJ0w@mail.gmail.com>
+ <e08f10da-b0cd-444b-8e0b-11009b05b161@amd.com>
+ <CAPM=9twgFt43OKqUY0TNopTmibnR_d891xmV=wFM91n604NUCw@mail.gmail.com>
+ <5ed87c80-6fe3-4f8c-bb98-ca07f1db8c34@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sti: fix inconsistent indenting warning
-To: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>, Charles Han
- <hanchunchao@inspur.com>, <alain.volmat@foss.st.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250305101641.2399-1-hanchunchao@inspur.com>
- <ee3989a0-e03b-4947-acef-7174fef9d36b@gmail.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <ee3989a0-e03b-4947-acef-7174fef9d36b@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.130.77.153]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-03_06,2025-04-02_03,2024-11-22_01
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ladwbtqhxfoyjegt"
+Content-Disposition: inline
+In-Reply-To: <5ed87c80-6fe3-4f8c-bb98-ca07f1db8c34@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,22 +79,77 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--ladwbtqhxfoyjegt
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
+MIME-Version: 1.0
 
-On 3/7/25 13:58, Raphaël Gallais-Pou wrote:
->
->
-> Le 05/03/2025 à 11:16, Charles Han a écrit :
->> Fix below inconsistent indenting smatch warning.
->> smatch warnings:
->> drivers/gpu/drm/sti/sti_hda.c:696 sti_hda_bind() warn: inconsistent indenting
->>
->> Signed-off-by: Charles Han <hanchunchao@inspur.com>
->
+On Thu, Apr 03, 2025 at 09:39:52AM +0200, Christian K=F6nig wrote:
+> > For the UMA GPU case where there is no device memory or eviction
+> > problem, perhaps a configurable option to just say account memory in
+> > memcg for all allocations done by this process, and state yes you can
+> > work around it with allocation servers or whatever but the behaviour
+> > for well behaved things is at least somewhat defined.
+>=20
+> We can have that as a workaround, but I think we should approach that
+> differently.
+>=20
+> With upcoming CXL even coherent device memory is exposed to the core
+> OS as NUMA memory with just a high latency.
+>=20
+> So both in the CXL and UMA case it actually doesn't make sense to
+> allocate the memory through the driver interfaces any more. With
+> AMDGPU for example we are just replicating mbind()/madvise() within
+> the driver.
+>=20
+> Instead what the DRM subsystem should aim for is to allocate memory
+> using the normal core OS functionality and then import it into the
+> driver.
+>=20
+> AMD, NVidia and Intel have HMM working for quite a while now but it
+> has some limitations, especially on the performance side.
+>=20
+> So for AMDGPU we are currently evaluating udmabuf as alternative. That
+> seems to be working fine with different NUMA nodes, is perfectly memcg
+> accounted and gives you a DMA-buf which can be imported everywhere.
+>=20
+> The only show stopper might be the allocation performance, but even if
+> that's the case I think the ongoing folio work will properly resolve
+> that.
 
-Hi,
+I mean, no, the showstopper to that is that using udmabuf has the
+assumption that you have an IOMMU for every device doing DMA, which is
+absolutely not true on !x86 platforms.
 
-Applied on drm-misc-next.
+It might be true for all GPUs, but it certainly isn't for display
+controllers, and it's not either for codecs, ISPs, and cameras.
 
-Thanks,
-Raphaël Gallais-Pou
+And then there's the other assumption that all memory is under the
+memory allocator control, which isn't the case on most recent platforms
+either.
 
+We *need* to take CMA into account there, all the carved-out, device
+specific memory regions, and the memory regions that aren't even under
+Linux supervision like protected memory that is typically handled by the
+firmware and all you get is a dma-buf.
+
+Saying that it's how you want to workaround it on AMD is absolutely
+fine, but DRM as a whole should certainly not aim for that, because it
+can't.
+
+Maxime
+
+--ladwbtqhxfoyjegt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+6tigAKCRDj7w1vZxhR
+xQFfAQDBTdwSGeM/HRXug8mlHyT5psOLiGa5pibxIgH2xR/VmgEA0w5A63Bu6RYa
+JKVhD2+5cuBaPVUha8mXQIEsqmEOGgI=
+=Li+I
+-----END PGP SIGNATURE-----
+
+--ladwbtqhxfoyjegt--
