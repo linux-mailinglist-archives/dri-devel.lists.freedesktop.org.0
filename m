@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D858A7AA65
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:13:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5A4A7AA66
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:13:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 009DC10E0FA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0324710EA4D;
 	Thu,  3 Apr 2025 19:13:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="leLdJ+od";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M4iU5CCc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BADC910E0FA
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:13:24 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEF6410E1C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:13:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 357A66115B;
- Thu,  3 Apr 2025 19:13:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9441AC4CEE3;
- Thu,  3 Apr 2025 19:13:17 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 9869144C5D;
+ Thu,  3 Apr 2025 19:13:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68015C4CEE8;
+ Thu,  3 Apr 2025 19:13:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707598;
- bh=AS4RaIshtcU30uLBqrbLWUqtMzDm0R+BHz6wn5S4PGo=;
- h=From:To:Cc:Subject:Date:From;
- b=leLdJ+odZ61X9Yu06Rp4KBGbQ4tMXwj0SNQE+FK6e65QZV9hqXByVqBkY0XbW+szR
- n/YHODia+6eNKe3c2f31Djf7P1FtmZcXiYwAWia1Zba+Xa53xZcsNVR3US8Md+naiz
- sjrCx1ZLQuuz1wcjBaFK3Xj7nqxMp1J5fX44KzdG4J3HEgCDE3n74kDc9O6O4ne2v1
- hhVoCzAKd+PUfDLrW9XYWXU9/sEuxKOfnHjHZEk0uf47BjDnLfNfq0/UbBlzfd+sTD
- tUDbdZsESIoyQS92MIW+R5mg5xGZ/oo3MQaq5GHlupLkpBkoWphdGMOVUxqC6qxS3D
- 5VRDPM7+Q/kaQ==
+ s=k20201202; t=1743707600;
+ bh=gN5SRJ/jkhN4jUG5zwwxY3uWuQjgxLrfGnbO4Sw5yLs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=M4iU5CCcCo5NEhClcrMboYFsEhnXFYODerptmVzP1KitRi2LnbiqmuV0OwrQD+ss1
+ PEDavpblY4+Q0eahWsjNAcXWQY4qMH8Z320G2JqbdNUQM53LEe8sw4an0jmgyOsFDF
+ PLqpbvdasvCcm0YwXLoomjDfNFsJh8LEb5ysxft2b0dBQU6Q1BHNPycuuf+yQ+RmQ3
+ Z8UNuTdf5EJesAjy+Xr844TpsSoUpNoy5s9jwMB8AZWiw36E44mxx4SfLncjyIzPKr
+ WMHkOONy4fsCQsJEHQe1yuIMJoExNEuvaZ7uoLEGgjOK73pF9EQ6CBQpEGRlIv8g+d
+ wcyGU+OP9Y+zw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 01/44] drm: allow encoder mode_set even when
- connectors change for crtc
-Date: Thu,  3 Apr 2025 15:12:30 -0400
-Message-Id: <20250403191313.2679091-1-sashal@kernel.org>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Sasha Levin <sashal@kernel.org>, airlied@redhat.com, kraxel@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.14 02/44] drm/virtio: Set missing bo->attached flag
+Date: Thu,  3 Apr 2025 15:12:31 -0400
+Message-Id: <20250403191313.2679091-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250403191313.2679091-1-sashal@kernel.org>
+References: <20250403191313.2679091-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -65,46 +65,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-[ Upstream commit 7e182cb4f5567f53417b762ec0d679f0b6f0039d ]
+[ Upstream commit ffda6454267d0b870f3a09945a7ce88137b914a6 ]
 
-In certain use-cases, a CRTC could switch between two encoders
-and because the mode being programmed on the CRTC remains
-the same during this switch, the CRTC's mode_changed remains false.
-In such cases, the encoder's mode_set also gets skipped.
+VirtIO-GPU driver now supports detachment of shmem BOs from host, but
+doing it only for imported dma-bufs. Mark all shmem BOs as attached, not
+just dma-bufs. This is a minor correction since detachment of a non-dmabuf
+BOs not supported today.
 
-Skipping mode_set on the encoder for such cases could cause an issue
-because even though the same CRTC mode was being used, the encoder
-type could have changed like the CRTC could have switched from a
-real time encoder to a writeback encoder OR vice-versa.
-
-Allow encoder's mode_set to happen even when connectors changed on a
-CRTC and not just when the mode changed.
-
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241211-abhinavk-modeset-fix-v3-1-0de4bf3e7c32@quicinc.com
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241129155357.2265357-1-dmitry.osipenko@collabora.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/virtio/virtgpu_prime.c | 1 -
+ drivers/gpu/drm/virtio/virtgpu_vq.c    | 3 +++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 5186d2114a503..32902f77f00dd 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1376,7 +1376,7 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *old_state)
- 		mode = &new_crtc_state->mode;
- 		adjusted_mode = &new_crtc_state->adjusted_mode;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
+index f92133a01195a..4837076308615 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_prime.c
++++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+@@ -250,7 +250,6 @@ static int virtgpu_dma_buf_init_obj(struct drm_device *dev,
+ 	virtio_gpu_cmd_resource_create_blob(vgdev, bo, &params,
+ 					    ents, nents);
+ 	bo->guest_blob = true;
+-	bo->attached = true;
  
--		if (!new_crtc_state->mode_changed)
-+		if (!new_crtc_state->mode_changed && !new_crtc_state->connectors_changed)
- 			continue;
+ 	dma_buf_unpin(attach);
+ 	dma_resv_unlock(resv);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index ad91624df42dd..062639250a4e9 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -1300,6 +1300,9 @@ virtio_gpu_cmd_resource_create_blob(struct virtio_gpu_device *vgdev,
  
- 		drm_dbg_atomic(dev, "modeset on [ENCODER:%d:%s]\n",
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
+ 	bo->created = true;
++
++	if (nents)
++		bo->attached = true;
+ }
+ 
+ void virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
 -- 
 2.39.5
 
