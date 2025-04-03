@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6250DA7B0BB
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 23:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AA3A7B0BC
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 23:23:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF5F10EB5E;
-	Thu,  3 Apr 2025 21:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D1B710EB5C;
+	Thu,  3 Apr 2025 21:23:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HThZvGAy";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YyQA9NUM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA18910EB5A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 21:23:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 924A610EB5C
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 21:23:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743715397;
+ s=mimecast20190719; t=1743715400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0euA2BNVZVmUNDUqSRsiptnpnBHJh1mpEHiTlqrUOyk=;
- b=HThZvGAyqdLjqXiv4IZQe6jUJbsu37Lthb/WjKWupE6asWcGB/oyVnd8o1JOLzWHDF9V9n
- HA1fLydQ0j9KphoOhy750aUq53rrc3ygPsa5FPx69eXDpmKDCTt4DW2h9S5Nr4uM6EgE03
- FGk0PaEl9MWFulxmvlfD+sNWJeJlT/g=
+ bh=WtDD4psvehMqoPDauFzp4quAlC/Z4QtnPL6Yv3xQNKs=;
+ b=YyQA9NUMBybRo6uD95HhKcXO7bRvhbzmAJBM7BSgu6SIuXILmW4GgTNr8BbSb3ZF/bZy7E
+ UcAfpLvecqTBTE0wyiI2ai7pRCO4eBU3EyjU7KD4ah6WCTI+by+u6puk1CzvebhYO0zKWC
+ kQ0WzyA1Q8CP9S2kIXOd1zihPGaelfo=
 Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-358-NolDOIazNgqqQsqUmcTSWw-1; Thu,
- 03 Apr 2025 17:23:11 -0400
-X-MC-Unique: NolDOIazNgqqQsqUmcTSWw-1
-X-Mimecast-MFC-AGG-ID: NolDOIazNgqqQsqUmcTSWw_1743715389
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-130-RXZ95Cb_M9Kdsa_mn9az7Q-1; Thu,
+ 03 Apr 2025 17:23:16 -0400
+X-MC-Unique: RXZ95Cb_M9Kdsa_mn9az7Q-1
+X-Mimecast-MFC-AGG-ID: RXZ95Cb_M9Kdsa_mn9az7Q_1743715393
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id DE303180034D; Thu,  3 Apr 2025 21:23:08 +0000 (UTC)
+ id 623191800265; Thu,  3 Apr 2025 21:23:13 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 7E5F4180B488; Thu,  3 Apr 2025 21:23:04 +0000 (UTC)
+ id 1CFCA1828A9F; Thu,  3 Apr 2025 21:23:08 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 03 Apr 2025 16:20:42 -0400
-Subject: [PATCH 11/46] panel/samsung-db7430: Use refcounted allocation in
+Date: Thu, 03 Apr 2025 16:20:43 -0400
+Subject: [PATCH 12/46] panel/samsung-ld9040: Use refcounted allocation in
  place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-11-965b15ad5b8e@redhat.com>
+Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-12-965b15ad5b8e@redhat.com>
 References: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
 In-Reply-To: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,11 +71,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=1306;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=1299;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=nLkhEhWqxBkHr9HZAzxzL5N30PvbIzwllPLao3lK10o=;
- b=tSazrLQsPap77XsG9vkQWCmXMq1ufg/lwYpF7n+MaWoRRYRtv8DaSNuUXqGtxCZyU6ynW00yO
- qlKj3gbz837D7wvKy9FrZvpaR2BQBfQarktG31VNHqAXvdmdvQC1TjL
+ bh=kHEU0vbK262UK39wDcA9C4YEifrauAz8Eo4OSOvMFe8=;
+ b=WJwxQLGvnTjmM7c6QsiG14lD9YrjfLGxcAMSj0hZFhUmSPRBIfwOQtNtB8dwqHIb2EzXWWdqK
+ 3v2QnGYK+mKCNLuAkkMiMuvfHXzEz/ukYePQxnjfKm5oSi2SIJz8J2X
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
@@ -99,38 +99,38 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-samsung-db7430.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-ld9040.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-db7430.c b/drivers/gpu/drm/panel/panel-samsung-db7430.c
-index 14c6700e37b30a58e7081423c18bff8db7896c5b..a97182f3c9907ad33ab6e7717129029e3bc4cd8b 100644
---- a/drivers/gpu/drm/panel/panel-samsung-db7430.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-db7430.c
-@@ -267,9 +267,11 @@ static int db7430_probe(struct spi_device *spi)
- 	struct db7430 *db;
+diff --git a/drivers/gpu/drm/panel/panel-samsung-ld9040.c b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
+index 9f438683a6f6e872317af879d1d9518551b08987..c7f2241523a07dfeb7c1cb02c4b4e4758382ae76 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-ld9040.c
++++ b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
+@@ -339,9 +339,11 @@ static int ld9040_probe(struct spi_device *spi)
+ 	struct ld9040 *ctx;
  	int ret;
  
--	db = devm_kzalloc(dev, sizeof(*db), GFP_KERNEL);
--	if (!db)
+-	ctx = devm_kzalloc(dev, sizeof(struct ld9040), GFP_KERNEL);
+-	if (!ctx)
 -		return -ENOMEM;
-+	db = devm_drm_panel_alloc(dev, struct db7430, panel, &db7430_drm_funcs,
-+				  DRM_MODE_CONNECTOR_DPI);
-+	if (IS_ERR(db))
-+		return PTR_ERR(db);
-+
- 	db->dev = dev;
++	ctx = devm_drm_panel_alloc(dev, struct ld9040, panel,
++				   &ld9040_drm_funcs,
++				   DRM_MODE_CONNECTOR_DPI);
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
  
- 	/*
-@@ -294,9 +296,6 @@ static int db7430_probe(struct spi_device *spi)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "MIPI DBI init failed\n");
+ 	spi_set_drvdata(spi, ctx);
  
--	drm_panel_init(&db->panel, dev, &db7430_drm_funcs,
+@@ -373,9 +375,6 @@ static int ld9040_probe(struct spi_device *spi)
+ 		return ret;
+ 	}
+ 
+-	drm_panel_init(&ctx->panel, dev, &ld9040_drm_funcs,
 -		       DRM_MODE_CONNECTOR_DPI);
 -
- 	/* FIXME: if no external backlight, use internal backlight */
- 	ret = drm_panel_of_backlight(&db->panel);
- 	if (ret)
+ 	bldev = devm_backlight_device_register(dev, dev_name(dev), dev,
+ 					       ctx, &ld9040_bl_ops,
+ 					       &ld9040_bl_props);
 
 -- 
 2.48.1
