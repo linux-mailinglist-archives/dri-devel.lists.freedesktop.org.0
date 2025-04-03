@@ -2,87 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069FAA7A157
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 12:50:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E87A7A148
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 12:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05AB810E995;
-	Thu,  3 Apr 2025 10:50:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5222E10E214;
+	Thu,  3 Apr 2025 10:47:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F2ZhPmoh";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gDiS+LNW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7967F10E081
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 10:31:39 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-30bef9b04adso6346741fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 03:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743676298; x=1744281098; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Pkl55XOjf550d6YijfrQtlIy4dvUDtTsQLi7ATChpCM=;
- b=F2ZhPmohWzeD4bhr25IYR78bSHfA8DUfx0tOJB9AQCf2SRngUKQujbCHs1rQW/oRfV
- CyE6BqO+mh3xpxrwkKGnMiBg2wsz9xwsPBGCxFknnihaLyepdva9iZmfN6fiWcocNV+R
- NZf1tXpb4OwI2zA7WWuebfdy/X28HRzgNeXgNvwDl+eqmpfpiqMzrYc8oRgXpX8jxlpf
- D01iT86tnJ5+CJIZ3b0m0nygL0mTuoBIi5ZQu1mQo9m/c525BbPNnD1Gg9ftbNllo4ql
- Lsh3ufZG5czRB6C34rmxP2EJVOEs3KLdAPym4QjjJRfriYyb0sx6C7JPb8W3Cf03q5Gx
- Q7dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743676298; x=1744281098;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Pkl55XOjf550d6YijfrQtlIy4dvUDtTsQLi7ATChpCM=;
- b=F6sgGGaQJ3n/mwP6KLZFdb2fv9HF8OSzCsSmX3q3UNFPMf1efPc2W+zI/mdNoZ9zur
- t4RryhG/av/1VN64ZAhwqxhCq3psld9dnKHp0cxx5b6DiMai8oK/73Kwxt74Cg/cUxGU
- ROxax0FrxX0sp64YNti8/D88YxcMDwxi5K8XhSMRJRiML6ALdbddY3Qqfdb53Z6IcVqV
- xkXN16OXmwzeW8fvwkUu27D9TlL1aR5ealC1Xrr0D6yfYT6PgAz4ii3+7dj1mVZjWoTz
- iuzlvb7i4Yp79yzZC4ylHAmBjlZYP3q10J8CMlhlvJ8LQeFKgngyCJRAOVT/bmeUZaNM
- 1TtQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVsKOxw2+/CWvLWx7q2OeFyOe4WAWyl2SbGnLVFggxxdjX4BPWgHqw/ePw2UeGL6pFfi36ssys5LUM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9WFrsCDWmMTo/FPWAWbJQSWm3u7BWb920i5kQFtU1PDmsciBj
- RO9EUNVh/pDqpsGpfW7929rEJie73TsugnuKTBFvG5L4ReGzitoe
-X-Gm-Gg: ASbGncs0wITt2FtAJ+VV+Gkf4D62Ia7xadSLk/Q3Xbau/yqO7JUsYpbeS981V9eLYom
- ZBIaeU32cCt+3rArtEfAWyPI52DQWFj3gCrMBdiVzRL3DTlEFhynPv8VTjg+IqGlHXQ0l2BtTsh
- WRqgpYvrikvQKDT2F4YkhdLurlglXpUdHxAMMlEnBkf1ivCXDxFD50nJjo7TzCsDSjs11/KHIbp
- fHuTQ4re8PO1ouFbWez6YHzGE6HfJAuQXhqf5matOHR1TJHn2h64mL6I7WtmeCXDSzWlfsPIs6I
- wa4OQVhnAethllSfoimf59qrJ/o239B/9ZRRkCmvsZb2UMyDiPmdFjQJOaSj4dFtPXTJ6VDZhM+
- 6yoBLDdNbYYr4Bd38
-X-Google-Smtp-Source: AGHT+IH2Bx56lpKD5XZwwwuXaUE9amtjtXGdogWmMz4v9lpDdZavcEWpRMM5U9IqHfqZOxG9kifMmQ==
-X-Received: by 2002:a2e:bd0e:0:b0:30b:e983:9ba0 with SMTP id
- 38308e7fff4ca-30ef912d2afmr25767961fa.23.1743676297324; 
- Thu, 03 Apr 2025 03:31:37 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30f031ce889sm1577031fa.98.2025.04.03.03.31.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Apr 2025 03:31:36 -0700 (PDT)
-Date: Thu, 3 Apr 2025 12:31:34 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: st7571-i2c: Add Sitronix ST7571 panel
- bindings
-Message-ID: <Z-5jhrwTfu4WMk5n@gmail.com>
-References: <20250402-st7571-v1-0-351d6b9eeb4a@gmail.com>
- <20250402-st7571-v1-1-351d6b9eeb4a@gmail.com>
- <20250402-rare-slick-carp-dbcab9@krzk-bin>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF51510E1BE
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 10:47:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1743677264;
+ bh=krVSqUMcdIJm0l6D8vCcbNrCt6hb1FXOmk01RVoxGgI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=gDiS+LNWako3Yd4OZmxHJpbbQH24gPo3P7AJpjH5rPQQSYCi/aTFkSG5zooc6fazC
+ 2l2sQJ9ByJfzScLHLeHRx48qcuokSKnvopPznQaaoIfx5xewQk+T9spIXHrWeEJkpw
+ bpKuqH4Ckro4vF9Xv2Zk+nRivlZuzDc0HpiTct15XKroXv4iJrPm5oX6oM/qrEs/QU
+ MUTOq+FRkRN1PPc8JI0rZ+POhoxRu+N8AK5p51gbmtubkk2QgXKqbs+unl3oRBpV4J
+ Macve0O4vLxKgaGRsiZILjto1gDlZ2ohY0Fp3n4MzNkKRKfy9ccqmET6shy6f0Pe6P
+ pY5zacfHULYgA==
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 828FC17E0702;
+ Thu,  3 Apr 2025 12:47:43 +0200 (CEST)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ nancy.lin@mediatek.com, ck.hu@mediatek.com, djkurtz@chromium.org,
+ littlecvr@chromium.org, bibby.hsieh@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ wenst@chromium.org, kernel@collabora.com
+Subject: [PATCH v2 0/5] drm/mediatek: Cleanups and sanitization
+Date: Thu,  3 Apr 2025 12:47:36 +0200
+Message-ID: <20250403104741.71045-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ferfG92n2ptOGpLx"
-Content-Disposition: inline
-In-Reply-To: <20250402-rare-slick-carp-dbcab9@krzk-bin>
-X-Mailman-Approved-At: Thu, 03 Apr 2025 10:50:04 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,131 +63,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changes in v2:
+ - Fixed typo in description for commit [2/5]
+ - Using IRQF_NO_AUTOEN in devm_request_irq() instead of calling
+   irq_set_status_flags() to set flag for the same functionality.
 
---ferfG92n2ptOGpLx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+During probe, the mediatek-drm drivers take a bunch of kobject
+references for the various component sub-drivers and for the
+mmsys/mutex handles.
 
-Thank you Krzysztof,
+Unfortunately, the refcount is not correctly decremented in some
+cases, and not correctly incremented in some others, leading to
+refcount_t overflows *or* underflows depending on where the code
+fails during platform driver probe or during component bind.
 
-I will fix the issues you pointed out, just a few comments below.
+This means that if mediatek-drm or any component of it returns a
+probe deferral, and if this happens "too many times" (where too
+many equals to around 3-5 times, and that's happening especially
+when outer drivers are compiled as module while mediatek-drm is
+built-in), it creates a whole bunch of badnesses.
 
-On Wed, Apr 02, 2025 at 10:27:53AM +0200, Krzysztof Kozlowski wrote:
-> On Wed, Apr 02, 2025 at 08:12:10AM +0200, Marcus Folkesson wrote:
-> > Sitronix ST7571 is a 4bit gray scale dot matrix LCD controller.
-> > The controller has a SPI, I2C and 8bit parallel interface, this is for
-> > the I2C interface only.
-> >=20
-> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > ---
-> >  .../bindings/display/sitronix,st7571-i2c.yaml      | 71 ++++++++++++++=
-++++++++
-> >  1 file changed, 71 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/sitronix,st7571-=
-i2c.yaml b/Documentation/devicetree/bindings/display/sitronix,st7571-i2c.ya=
-ml
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..6e5e0994a98db646a37bb17=
-c4289332546c9266e
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/sitronix,st7571-i2c.yaml
->=20
+This series sanitizes the freeing of the acquired kobjects in
+mediatek-drm - especially in the multi-mmsys (multi-vdo) case.
 
-[...]
+While at it, this also moves the ISR enablement and disablement
+to the component bind/unbind callbacks respectively, while keeping
+the ISR installation to the probe function: this is done to avoid
+leaks and to avoid entering ISRs for OVL/RDMA after those are
+unbound (as that'd be dangerous, other than useless, because those
+could access memory that doesn't belong to those drivers anymore,
+as pointers may not have been set to NULL...!).
 
->=20
-> > +    maxItems: 1
-> > +
-> > +  sitronix,panel-width-mm:
-> > +    description: physical panel width [mm]
-> > +
-> > +  sitronix,panel-height-mm:
-> > +    description: physical panel height [mm]
->=20
-> No, use standard properties.
-
-I will use width-mm and height-mm from panels.yaml from
-panel-common.yaml instead
-
->=20
-> > +
-> > +  sitronix,panel-nlines:
-> > +    description: Number of lines in the panel
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    minimum: 1
-> > +    maximum: 128
-> > +    default: 128
->=20
-> Ditto
-
-I will use vactive in panel-timing instead.
-
-Do I need to specify those properties or should I just list them as
-required?
-
-Some bindings set e.g.
-
-reg: true
-reset-gpios: true
-
-and others just list them as required.
+As an example, this is the reason (if not one of the reasons) for
+a boot failure seen on the MT8195 Tomato Chromebook, pointed out
+by KernelCI.
 
 
->=20
-> > +
-> > +  sitronix,panel-start-line:
-> > +    description: Start line of the panel
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    minimum: 0
-> > +    maximum: 127
-> > +    default: 0
->=20
-> Ditto
+AngeloGioacchino Del Regno (5):
+  drm/mediatek: mtk_drm_drv: Fix kobject put for mtk_mutex device ptr
+  drm/mediatek: Fix kobject put for component sub-drivers
+  drm/mediatek: mtk_drm_drv: Unbind secondary mmsys components on err
+  drm/mediatek: mtk_disp_ovl: Enable/disable interrupt on bind/unbind
+  drm/mediatek: mtk_disp_rdma: Enable/disable interrupt on bind/unbind
 
-I will use vfront-porch in panel-timing instead.
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c  | 20 +++++++++-----
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 34 ++++++++++++++----------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c   | 31 +++++++++++++++------
+ 3 files changed, 56 insertions(+), 29 deletions(-)
 
+-- 
+2.48.1
 
-[...]
->=20
-> > +    i2c {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        display@3f {
->=20
-> Look how this is called in other bindings... The binding and example are
-> not following existing code. Why? Why doing something entirely
-> different?
-
-Sorry, I'm not sure what you mean here.
-
->=20
-> Best regards,
-> Krzysztof
-
-Best regards,
-Marcus Folkesson
-
---ferfG92n2ptOGpLx
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmfuY4EACgkQiIBOb1ld
-UjI7Gw/9F4LvS32qIkIpPs75F5yZZNtfUcPbkFPQ7lF5z+fABUdvoneq2xFkw30S
-ItTED5BG4DUpXkuKqapvWLq5tvdHk0t6wcjDJGoz+qla7RScgC0lf24p/l4q0RIn
-PS1c9+p3SGmsORM88jrj/fZCBKom2HZMrG/SKbnL3c5zG37Hy9dXcV2x+ha+k56F
-Qtw9xFxPjS3xaDFQr4hzZ9mo/ppVPOKUkjZh8fAzaeuexyMT5iI6U3FrAp/VK6OZ
-iec6nE/whl7yqDqf1h+xVuJbaxW54+qTk2XweuGn2wk4l3VLi7skW6c3M5fiDj/Z
-d4bDYdBqFTMA+/9RiAEONDDMEq/LPzmF3FSACsaIxz9NbJeDtu+Nc0UA5KaVog9X
-Sq9CA4BTmoXL2tMF5leO3FA88Ujlp2kopATjE4GQy1+r5/pFQDIITJMfjnLaPnMD
-Zi2HyKUfbnvEZbRO814BFaISfJD40hBKR2ik5wf0ZgDzqM6hMCCWBneg6qtMNk+H
-jybbsUVsB+8GJWoMFRaFoHv15ydpcx10qk5YyxBdlFS4F1HVDlZr3uS4/u2QvWe+
-kgzOgYlVTvNTS68U7HYBRJBJ6xGxDyOdETaKVxXQM8xydwDcGCZthh41AINhCWj0
-h243gcMmfCNbJpgVPIR1gb36CgpYRoY57wLW2f2AwFqo2o/udD4=
-=VjMV
------END PGP SIGNATURE-----
-
---ferfG92n2ptOGpLx--
