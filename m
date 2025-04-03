@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0041AA7AB7D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:21:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5310EA7AB7F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEC710EB41;
-	Thu,  3 Apr 2025 19:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9042810EB42;
+	Thu,  3 Apr 2025 19:21:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r0FMJiCc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AtilNI3B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1AE10EB40
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:21:00 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 898F810EB42
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:21:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1B0775C681B;
- Thu,  3 Apr 2025 19:18:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67938C4CEE3;
- Thu,  3 Apr 2025 19:20:58 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id EC48F61567;
+ Thu,  3 Apr 2025 19:20:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4906AC4CEE3;
+ Thu,  3 Apr 2025 19:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743708059;
- bh=mrQfTVPQtZD86RqB0Xrk3f9mgqysvajVRgxyfqDzdnw=;
+ s=k20201202; t=1743708061;
+ bh=0ppqdJpg4KC7Ap1Vpy/8hlHSfTjr7LQJi83E3R+Yf+c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=r0FMJiCcF23JjmqAR+VX+XMCkql24vmmiRww2yiZQF2Q/nuPatl09tBSRU7L9UvXG
- Hvpfud5YEdheRaTCQnePWi5+8H9XnDvodB2q9FlNzLeG7pSZAqd223MHQdlm78bg0X
- iZrUMrNCgszLQ5u5+g0SwDyzsaUTlmg45crNr4W9wrZaFjmPqE05NuNrv7OmcFSx6p
- GKSZ0r2cAz7o42SY1igQXiWJJSLhxEuuJohFVTFQyX27VNp9LJbXXbj5IOAVNGXCar
- WOdg+QteLQFQAYTVOMTdtL+rbf/uYcPia+bWfCsUn4IE2yKruKuhY1OaQGYJhBPCuj
- vPu1Pjg4YXj5g==
+ b=AtilNI3BbSWIfGmyG3Gg3cDwt+LSQqB6Sa4Rv3RAQVDpGNSKG33v88EfXer8sZwu4
+ RrvzPJ81xe4umgV7rDRSI++1yWhUozR9AtQD4kU8kzykgow/RG3aUwfdKcNQp5Qqbm
+ Zmmy4AJ3MFuFo8/B6qbIT0MPMxBi8oD9ebWiUrxfT6ZdTx2bLdRlJlX4sHv21soBWL
+ RTazrNBxOuef4WV5Sltb+njZJKOlCO1qFZnwyWzpSmgBSInTxftlE1E63pqhvSjjo5
+ dsQ1HTeWcsDNxhfjEN2Oz+KviC2vTG69A8oQlnoEPrW65r+pHoC9gV/L9uLtvZgepm
+ ZetEJ4ccW8WeQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Andrew Wyatt <fewtarius@steamfork.org>, John Edwards <uejji@uejji.net>,
- Paco Avelar <pacoavelar@hotmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Hans de Goede <hdegoede@redhat.com>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
  simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 3/9] drm: panel-orientation-quirks: Add new quirk
- for GPD Win 2
-Date: Thu,  3 Apr 2025 15:20:44 -0400
-Message-Id: <20250403192050.2682427-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 4/9] drm/bridge: panel: forbid initializing a
+ panel with unknown connector type
+Date: Thu,  3 Apr 2025 15:20:45 -0400
+Message-Id: <20250403192050.2682427-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403192050.2682427-1-sashal@kernel.org>
 References: <20250403192050.2682427-1-sashal@kernel.org>
@@ -66,43 +66,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrew Wyatt <fewtarius@steamfork.org>
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-[ Upstream commit a860eb9c6ba6cdbf32e3e01a606556e5a90a2931 ]
+[ Upstream commit b296955b3a740ecc8b3b08e34fd64f1ceabb8fb4 ]
 
-Some GPD Win 2 units shipped with the correct DMI strings.
+Having an DRM_MODE_CONNECTOR_Unknown connector type is considered bad, and
+drm_panel_bridge_add_typed() and derivatives are deprecated for this.
 
-Add a DMI match to correctly rotate the panel on these units.
+drm_panel_init() won't prevent initializing a panel with a
+DRM_MODE_CONNECTOR_Unknown connector type. Luckily there are no in-tree
+users doing it, so take this as an opportinuty to document a valid
+connector type must be passed.
 
-Signed-off-by: Andrew Wyatt <fewtarius@steamfork.org>
-Signed-off-by: John Edwards <uejji@uejji.net>
-Tested-by: Paco Avelar <pacoavelar@hotmail.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250213222455.93533-5-uejji@uejji.net
+Returning an error if this rule is violated is not possible because
+drm_panel_init() is a void function. Add at least a warning to make any
+violations noticeable, especially to non-upstream drivers.
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Robert Foss <rfoss@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250214-drm-assorted-cleanups-v7-5-88ca5827d7af@bootlin.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/drm_panel.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 6bb8d4502ca8e..6fc9d638ccd23 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -235,6 +235,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Default string"),
- 		},
- 		.driver_data = (void *)&gpd_win2,
-+	}, {	/* GPD Win 2 (correct DMI strings) */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "WIN2")
-+		},
-+		.driver_data = (void *)&lcd720x1280_rightside_up,
- 	}, {	/* GPD Win 3 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index ed7985c0535a2..b81c57267a408 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -47,7 +47,7 @@ static LIST_HEAD(panel_list);
+  * @dev: parent device of the panel
+  * @funcs: panel operations
+  * @connector_type: the connector type (DRM_MODE_CONNECTOR_*) corresponding to
+- *	the panel interface
++ *	the panel interface (must NOT be DRM_MODE_CONNECTOR_Unknown)
+  *
+  * Initialize the panel structure for subsequent registration with
+  * drm_panel_add().
+@@ -55,6 +55,9 @@ static LIST_HEAD(panel_list);
+ void drm_panel_init(struct drm_panel *panel, struct device *dev,
+ 		    const struct drm_panel_funcs *funcs, int connector_type)
+ {
++	if (connector_type == DRM_MODE_CONNECTOR_Unknown)
++		DRM_WARN("%s: %s: a valid connector type is required!\n", __func__, dev_name(dev));
++
+ 	INIT_LIST_HEAD(&panel->list);
+ 	panel->dev = dev;
+ 	panel->funcs = funcs;
 -- 
 2.39.5
 
