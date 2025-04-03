@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED316A7A61F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 17:18:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A52A7A620
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 17:18:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E88110EA19;
-	Thu,  3 Apr 2025 15:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B7F10EA20;
+	Thu,  3 Apr 2025 15:18:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xl064cle";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Pb/1RuUA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A448210EA19
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 15:18:24 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 168B810EA1E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 15:18:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743693503;
+ s=mimecast20190719; t=1743693510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4YtI7Km9VBvu4HgQrCUx8dvhsghxh/J2EXv9TMkg96A=;
- b=Xl064cle2G5lhGSmjK7bfDryxudBn6NQb52ejjjdqaF7D0CXGv3KB5Q9YUuKROuh8qyzKc
- f2bjegbReONPfsONGp3HbdJA/cx3s0GD9KWcAZlxHrnJPRYUHZ7fpSQP/m8Oubx45OiZwf
- H1Pu2hNV+82uDOe6tIG3rXnNYFtuXKc=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ bh=4Q28aZlHchMCXGe0AtyVdvVmSymSEtarZ+Ruj3XKAwc=;
+ b=Pb/1RuUA1wUZl7LI67vdpLszH+E9BAEdyxuZFwmsVFjozF3WHJksz81gCInHYqW53x7bib
+ jpyVJQyBjR+70X97ksFlhn43l4VJuD45ec6K7c+nW8aSZ5g5tveZMAOCmHZjXmxCXnaQ/z
+ lh7bFahgo97GnY0/SwD6DoyHMma8LYA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-340-MZD_15DbPNuzpPmZbfOFOQ-1; Thu,
- 03 Apr 2025 11:18:20 -0400
-X-MC-Unique: MZD_15DbPNuzpPmZbfOFOQ-1
-X-Mimecast-MFC-AGG-ID: MZD_15DbPNuzpPmZbfOFOQ_1743693498
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-561-vzju_zpSPwy2A4HwDHwCQQ-1; Thu,
+ 03 Apr 2025 11:18:27 -0400
+X-MC-Unique: vzju_zpSPwy2A4HwDHwCQQ-1
+X-Mimecast-MFC-AGG-ID: vzju_zpSPwy2A4HwDHwCQQ_1743693502
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 225F61956053; Thu,  3 Apr 2025 15:18:18 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id CDF23180034D; Thu,  3 Apr 2025 15:18:22 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id D651A1801752; Thu,  3 Apr 2025 15:18:13 +0000 (UTC)
+ id 6C4F21801752; Thu,  3 Apr 2025 15:18:18 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 03 Apr 2025 10:16:14 -0400
-Subject: [PATCH v2 07/30] panel/ilitek-ili9341: Use refcounted allocation
- in place of devm_kzalloc()
+Date: Thu, 03 Apr 2025 10:16:15 -0400
+Subject: [PATCH v2 08/30] panel/panel-ili9805: Use refcounted allocation in
+ place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-b4-drm_panel_mass_convert_part2-v2-7-260c8a44c56b@redhat.com>
+Message-Id: <20250403-b4-drm_panel_mass_convert_part2-v2-8-260c8a44c56b@redhat.com>
 References: <20250403-b4-drm_panel_mass_convert_part2-v2-0-260c8a44c56b@redhat.com>
 In-Reply-To: <20250403-b4-drm_panel_mass_convert_part2-v2-0-260c8a44c56b@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,11 +68,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743689775; l=1448;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743689775; l=1439;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=A9bzGrCEuaETUaYsFZMAVKRZzaxpNSaaYvX8YFVJT1A=;
- b=gJeYyeNzx1I2KiCR3UkyaKESPE7M6fLnAXD2vquOiVq82Cf1UrzmmGRsH89L0HBjVLM2MK2QS
- d4PafdlFYTgCSBuyK4Z1ZxVzDKcLowrCs7bpesctq0LcvkCjgT3Wi7R
+ bh=tG6h8l9NqnDPeEhBcV2AhHGrGMourP7+ADLAtf5qRdE=;
+ b=DEPWzimzMVTjkR/Y+7te7S5FN6/mNhLrMgZisVAbXJMrRt3z66Ph5aoKcQNXFKHg0xuXf8u0H
+ N5y1XLCqubACND1cE3t+NR/PQ6i7GOiQPyFV6PhznD8IMEif8yxMAkC
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
@@ -91,45 +91,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move to using the new API devm_drm_panel_alloc() to allocate the
-panel.
+Start using the new helper that does the refcounted
+allocations
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
-v2: Remove drm_panel_init() from the probe. It is taken care of in the
-new helper.(Ondrej Jirman)
+v2: none.
 ---
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panel/panel-ilitek-ili9805.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-index ff39f5dd4097e8da0a0e16c50c5bfd45c078d91c..bcd561e06465444440e0a5d143219c06e2121218 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-@@ -490,9 +490,11 @@ static int ili9341_dpi_probe(struct spi_device *spi, struct gpio_desc *dc,
- 	struct ili9341 *ili;
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9805.c b/drivers/gpu/drm/panel/panel-ilitek-ili9805.c
+index 1cbc25758bd2bc0ed1ea64eed61edc7cdda68f9e..bda585e00cf980575b8b858149fa39fbaf2182df 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9805.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9805.c
+@@ -307,9 +307,12 @@ static int ili9805_dsi_probe(struct mipi_dsi_device *dsi)
+ 	struct ili9805 *ctx;
  	int ret;
  
--	ili = devm_kzalloc(dev, sizeof(struct ili9341), GFP_KERNEL);
--	if (!ili)
+-	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
+-	if (!ctx)
 -		return -ENOMEM;
-+	ili = devm_drm_panel_alloc(dev, struct ili9341, panel,
-+				   &ili9341_dpi_funcs,
-+				   DRM_MODE_CONNECTOR_DPI);
-+	if (IS_ERR(ili))
-+		return PTR_ERR(ili);
++	ctx = devm_drm_panel_alloc(dev, struct ili9805, panel,
++				   &ili9805_funcs,
++				   DRM_MODE_CONNECTOR_DSI)
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
++
+ 	mipi_dsi_set_drvdata(dsi, ctx);
+ 	ctx->dsi = dsi;
+ 	ctx->desc = of_device_get_match_data(&dsi->dev);
+@@ -320,9 +323,6 @@ static int ili9805_dsi_probe(struct mipi_dsi_device *dsi)
+ 		MIPI_DSI_MODE_VIDEO_SYNC_PULSE | MIPI_DSI_MODE_NO_EOT_PACKET;
+ 	dsi->lanes = 2;
  
- 	ili->dbi = devm_kzalloc(dev, sizeof(struct mipi_dbi),
- 				GFP_KERNEL);
-@@ -526,8 +528,6 @@ static int ili9341_dpi_probe(struct spi_device *spi, struct gpio_desc *dc,
- 	}
- 
- 	ili->max_spi_speed = ili->conf->max_spi_speed;
--	drm_panel_init(&ili->panel, dev, &ili9341_dpi_funcs,
--		       DRM_MODE_CONNECTOR_DPI);
- 	drm_panel_add(&ili->panel);
- 
- 	return 0;
+-	drm_panel_init(&ctx->panel, &dsi->dev, &ili9805_funcs,
+-		       DRM_MODE_CONNECTOR_DSI);
+-
+ 	ctx->dvdd = devm_regulator_get(&dsi->dev, "dvdd");
+ 	if (IS_ERR(ctx->dvdd))
+ 		return PTR_ERR(ctx->dvdd);
 
 -- 
 2.48.1
