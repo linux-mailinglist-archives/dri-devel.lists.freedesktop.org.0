@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1787A7AADF
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E42EA7AAE3
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A09910EABF;
-	Thu,  3 Apr 2025 19:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33A0510EACB;
+	Thu,  3 Apr 2025 19:16:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SrvYb5aC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WoEep89j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7077610EABF;
- Thu,  3 Apr 2025 19:16:30 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2CA510EACA;
+ Thu,  3 Apr 2025 19:16:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E40015C2BCA;
- Thu,  3 Apr 2025 19:14:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8ACAC4CEE3;
- Thu,  3 Apr 2025 19:16:27 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 221AF614B8;
+ Thu,  3 Apr 2025 19:16:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA7A0C4AF0B;
+ Thu,  3 Apr 2025 19:16:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707789;
- bh=SAaVT5xL1/xkJan04m2q6BElqCElm+ckUg/oWX730+o=;
+ s=k20201202; t=1743707795;
+ bh=cK+5iYiEQTUO+ve4DctLYfKsSAI+8wfVuH0TwHq0GUc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SrvYb5aCOVUnLjXQVtpVFMYgzKYptr3A0pSur9/eO3s4gzBslkKK/s/qW0GEy9ooY
- KamXqvFpIzpseqiGDzWR6Qbz0vHoxsNesAhu0D4vtcAH5lNmubCQsMEY8mEiJ7gG3g
- jQZemap45+rWrINZ9/jFsATpR+0/CaY6qtampj61bkxarvzbMTm8XKb+m+rAFKvjhP
- 6NSAx6fXcCDwTgtvFVxA7uOTrPApw5MEHA1rzOckea2KDDMOClXfETvHfAL6TKpsCO
- Mh+vINDvV8+ftzXkBGvzlKZHGteg22wI32B+PO6uzs6r8uxLFmRUPZjuu+oiBZLj+v
- mtdMxGsCkuWGw==
+ b=WoEep89j/BIJSh1tu2uuh7Bfw2nzj5wHNM0Ug19K786yRez0GwRkrgYXrwg/Il+W8
+ TpYYfSqHGLtIhp8U4KGfflasVJygwpjghUGBYNjVHOr2HELE3aBP1RL6zkwAP1BMhO
+ Ejc+tv1nFi5gMJGHZ78T0MerB4UVgg9NsnjJGgRpN2XacfqraYOblzHSZaj67xzZli
+ RQUNSCrz0hX9XLuk0qgq6uQ1opPTv5oL+DKzd0G+XI52usVCIBH6ew8/a6d/swDjWg
+ Kc0d1dV6zDTFoazbO12cPDbpjE+Muk3aJs4NYS6yxR223lrKOoUMmYQoN3lRRj2ZjZ
+ MP7K8mrSy5SAA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Wentao Liang <vulab@iscas.ac.cn>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, kenneth.feng@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, boyuan.zhang@amd.com, Jun.Ma2@amd.com,
+Cc: Ryan Seto <ryanseto@amd.com>, Dillon Varone <dillon.varone@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ austin.zheng@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
+ sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, siqueira@igalia.com, alex.hung@amd.com,
+ colin.i.king@gmail.com, aurabindo.pillai@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.13 26/37] drm/amdgpu: handle
- amdgpu_cgs_create_device() errors in amd_powerplay_create()
-Date: Thu,  3 Apr 2025 15:15:02 -0400
-Message-Id: <20250403191513.2680235-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 27/37] drm/amd/display: Prevent VStartup Overflow
+Date: Thu,  3 Apr 2025 15:15:03 -0400
+Message-Id: <20250403191513.2680235-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191513.2680235-1-sashal@kernel.org>
 References: <20250403191513.2680235-1-sashal@kernel.org>
@@ -65,39 +68,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wentao Liang <vulab@iscas.ac.cn>
+From: Ryan Seto <ryanseto@amd.com>
 
-[ Upstream commit 1435e895d4fc967d64e9f5bf81e992ac32f5ac76 ]
+[ Upstream commit 29c1c20496a7a9bafe2bc2f833d69aa52e0f2c2d ]
 
-Add error handling to propagate amdgpu_cgs_create_device() failures
-to the caller. When amdgpu_cgs_create_device() fails, release hwmgr
-and return -ENOMEM to prevent null pointer dereference.
+[Why]
+For some VR headsets with large blanks, it's possible
+to overflow the OTG_VSTARTUP_PARAM:VSTARTUP_START
+register. This can lead to incorrect DML calculations
+and underflow downstream.
 
-[v1]->[v2]: Change error code from -EINVAL to -ENOMEM. Free hwmgr.
+[How]
+Min the calcualted max_vstartup_lines with the max
+value of the register.
 
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+Reviewed-by: Dillon Varone <dillon.varone@amd.com>
+Signed-off-by: Ryan Seto <ryanseto@amd.com>
+Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c  | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-index 26624a716fc60..f8434158a4022 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-@@ -51,6 +51,11 @@ static int amd_powerplay_create(struct amdgpu_device *adev)
- 	hwmgr->adev = adev;
- 	hwmgr->not_vf = !amdgpu_sriov_vf(adev);
- 	hwmgr->device = amdgpu_cgs_create_device(adev);
-+	if (!hwmgr->device) {
-+		kfree(hwmgr);
-+		return -ENOMEM;
-+	}
-+
- 	mutex_init(&hwmgr->msg_lock);
- 	hwmgr->chip_family = adev->family;
- 	hwmgr->chip_id = adev->asic_type;
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+index ecfa3c898e09d..4285cb7fcbe71 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+@@ -12,6 +12,7 @@
+ #define DML2_MAX_FMT_420_BUFFER_WIDTH 4096
+ #define DML_MAX_NUM_OF_SLICES_PER_DSC 4
+ #define ALLOW_SDPIF_RATE_LIMIT_PRE_CSTATE
++#define DML_MAX_VSTARTUP_START 1023
+ 
+ const char *dml2_core_internal_bw_type_str(enum dml2_core_internal_bw_type bw_type)
+ {
+@@ -3648,6 +3649,7 @@ static unsigned int CalculateMaxVStartup(
+ 	dml2_printf("DML::%s: vblank_avail = %u\n", __func__, vblank_avail);
+ 	dml2_printf("DML::%s: max_vstartup_lines = %u\n", __func__, max_vstartup_lines);
+ #endif
++	max_vstartup_lines = (unsigned int)math_min2(max_vstartup_lines, DML_MAX_VSTARTUP_START);
+ 	return max_vstartup_lines;
+ }
+ 
 -- 
 2.39.5
 
