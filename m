@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207D8A7A616
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 17:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AA8A7A617
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 17:18:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73A1010EA08;
-	Thu,  3 Apr 2025 15:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7794810E279;
+	Thu,  3 Apr 2025 15:18:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="c9odJAfD";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="D16rXWMQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB05910EA0D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 15:17:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08C9A10EA12
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 15:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743693473;
+ s=mimecast20190719; t=1743693478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FHOzoCPihGTExJUSS35Q5qFYB4w7e9yK1puyfm64FGc=;
- b=c9odJAfDqlMeqzxSWmjlauqDqMNZ1CyRUs4RzpNstbim3FWmnUkuJ7VBB+rA7AfkSMohYu
- 1KhQaJk+JxvvmzQChtWjXnDl64W0FXUgH1bf1b5oy1Wu88icHnwwioEfHEdb1PST1bTbAN
- r9oh5Af8dtTHZ+jJ0F2ui1qecogC1sA=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Gq1s6w0V4qTJakqD+13XSp/fuzrBarAlnb9Z5XWtw8=;
+ b=D16rXWMQrxjwr4VTRHxO9pxWNQ0r3/+SrIo0YWoCqLo/BDRCa6g1XWh/fsq9HJ15255tYZ
+ qmmsvfp/z6dzMwr24u2hTxNbIRpD7JjM4J+wUhtBt5TVHqJcaU95ieRGEP/ssaAssgwywS
+ s2jGS1cV73k+JTZvFQgW9bWky33Ib9s=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-470-hGowlwQQOBWi7fMbzZJ1_Q-1; Thu,
- 03 Apr 2025 11:17:48 -0400
-X-MC-Unique: hGowlwQQOBWi7fMbzZJ1_Q-1
-X-Mimecast-MFC-AGG-ID: hGowlwQQOBWi7fMbzZJ1_Q_1743693466
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-142-r_wK1JsgPDGXujZzA67gaA-1; Thu,
+ 03 Apr 2025 11:17:52 -0400
+X-MC-Unique: r_wK1JsgPDGXujZzA67gaA-1
+X-Mimecast-MFC-AGG-ID: r_wK1JsgPDGXujZzA67gaA_1743693470
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 47D441955F34; Thu,  3 Apr 2025 15:17:44 +0000 (UTC)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 8D4B21955DDD; Thu,  3 Apr 2025 15:17:49 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 354081801752; Thu,  3 Apr 2025 15:17:37 +0000 (UTC)
+ id 943971801A6D; Thu,  3 Apr 2025 15:17:44 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Subject: [PATCH v2 00/30] drm/panel: Use refcounted allocation in place of
- devm_kzalloc() - Part2
-Date: Thu, 03 Apr 2025 10:16:07 -0400
-Message-Id: <20250403-b4-drm_panel_mass_convert_part2-v2-0-260c8a44c56b@redhat.com>
+Date: Thu, 03 Apr 2025 10:16:08 -0400
+Subject: [PATCH v2 01/30] panel/panel-elida-kd35t133: Refcounted allocation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACeY7mcC/42NQQ6CMBAAv0L2bM1SqVpP/sMQUmCRJtKSbdNoS
- P9u5QUeZw4zGwRiSwFu1QZMyQbrXQF5qGCYjXuSsGNhkCgVNihF34iRl241jl7dYkLoBu8ScSy
- KoxRqkuraoyFFBkplZZrsez882sKzDdHzZx+m+mf/b6daoNB46i+otSZzvjONs4nHwS/Q5py/8
- vXWI88AAAA=
-X-Change-ID: 20250402-b4-drm_panel_mass_convert_part2-5f258b0ae5ea
+Message-Id: <20250403-b4-drm_panel_mass_convert_part2-v2-1-260c8a44c56b@redhat.com>
+References: <20250403-b4-drm_panel_mass_convert_part2-v2-0-260c8a44c56b@redhat.com>
+In-Reply-To: <20250403-b4-drm_panel_mass_convert_part2-v2-0-260c8a44c56b@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -70,11 +67,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743689775; l=5387;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743689775; l=1405;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=2Qzt83/ngQEHCLu8BEV5TvgfhcfJXL98fFg73ZyxLQk=;
- b=VnDbWg8Vi1y6AJlsO456Og9Iim6s3V6ccCu0L+H+DVRXgLdrtMHy1Gd/zeupWENoc6YqWa9Mf
- nwrs6sMwxKwC3EnS5K3+W8dClWNdQxDY+m3PJjiK/zedXC4zbg5zkYk
+ bh=6VpPOhwIcSfjjNY1C0AaMpBmfxqA+CDfd2Z/wYhskuM=;
+ b=u38xGBSl9gG8gX9WC1XAgNgI99tHP3mCMxbh0dOrWAvNJ1PoGVEO4VhZX5iXbxdURm2gga6dY
+ ZlNMyatE75cCUerW8sRBdiSLC1p1fS7V4l0GeKrr9vo/tPzfp4T7Y9+
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
@@ -93,87 +90,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Start converting drivers to use the API - devm_drm_panel_alloc().
-
-Sending next 30 drivers. Sending in batches for easier review.
-
-Part 1 of the series : https://patchwork.freedesktop.org/series/147082/
+Move to using the new API devm_drm_panel_alloc() to allocate the
+panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
-Changes in v2:
-- Remove drm_panel_init() from probe function in ilitek-ili9341 driver. 
-- Link to v1: https://lore.kernel.org/r/20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com
-
+v2: none.
 ---
-Anusha Srivatsa (30):
-      panel/panel-elida-kd35t133: Refcounted allocation
-      panel/elida-kd35t133: Use refcounted allocation in place of devm_kzalloc()
-      panel/fy07024di26a30d: Use refcounted allocation in place of devm_kzalloc()
-      panel/himax-hx83112a: Use refcounted allocation in place of devm_kzalloc()
-      panel/himax-hx8394: Use refcounted allocation in place of devm_kzalloc()
-      panel/ilitek-ili9322: Use refcounted allocation in place of devm_kzalloc()
-      panel/ilitek-ili9341: Use refcounted allocation in place of devm_kzalloc()
-      panel/panel-ili9805: Use refcounted allocation in place of devm_kzalloc()
-      panel/ilitek-ili9806e: Use refcounted allocation in place of devm_kzalloc()
-      panel/ilitek-ili9881c: Use refcounted allocation in place of devm_kzalloc()
-      panel/innolux-ej030na: Use refcounted allocation in place of devm_kzalloc()
-      panel/innolux-p079zca: Use refcounted allocation in place of devm_kzalloc()
-      panel/jadard-jd9365da-h3: Use refcounted allocation in place of devm_kzalloc()
-      panel/jdi-fhd-r63452: Use refcounted allocation in place of devm_kzalloc()
-      panel/ltk050h3146w: Use refcounted allocation in place of devm_kzalloc()
-      panel/ltk500hd1829: Use refcounted allocation in place of devm_kzalloc()
-      panel/lg-lg4573: Use refcounted allocation in place of devm_kzalloc()
-      panel/lincolntech-lcd197: Use refcounted allocation in place of devm_kzalloc()
-      panel/magnachip-d53e6ea8966: Use refcounted allocation in place of devm_kzalloc()
-      panel/mantix-mlaf057we51: Use refcounted allocation in place of devm_kzalloc()
-      panel/newvision-nv3051d: Use refcounted allocation in place of devm_kzalloc()
-      panel/newvision-nv3052c: Use refcounted allocation in place of devm_kzalloc()
-      panel/novatek-nt35510: Use refcounted allocation in place of devm_kzalloc()
-      panel/novatek-nt35560: Use refcounted allocation in place of devm_kzalloc()
-      panel/novatek-nt35950: Use refcounted allocation in place of devm_kzalloc()
-      panel/novatek-nt36523: Use refcounted allocation in place of devm_kzalloc()
-      panel/novatek-nt36672e: Use refcounted allocation in place of devm_kzalloc()
-      panel/novatek-nt39016: Use refcounted allocation in place of devm_kzalloc()
-      panel/lcd-olinuxino: Use refcounted allocation in place of devm_kzalloc()
-      panel/orisetech-ota5601a: Use refcounted allocation in place of devm_kzalloc()
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
- drivers/gpu/drm/panel/panel-elida-kd35t133.c          | 10 ++++------
- drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c     | 11 +++++------
- drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c | 10 ++++------
- drivers/gpu/drm/panel/panel-himax-hx83112a.c          | 10 +++++-----
- drivers/gpu/drm/panel/panel-himax-hx8394.c            | 11 +++++------
- drivers/gpu/drm/panel/panel-ilitek-ili9322.c          | 10 ++++------
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c          | 10 +++++-----
- drivers/gpu/drm/panel/panel-ilitek-ili9805.c          | 12 ++++++------
- drivers/gpu/drm/panel/panel-ilitek-ili9806e.c         | 10 ++++------
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c         | 11 +++++------
- drivers/gpu/drm/panel/panel-innolux-ej030na.c         | 11 +++++------
- drivers/gpu/drm/panel/panel-innolux-p079zca.c         | 11 +++++------
- drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c      | 10 ++++------
- drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c          | 10 +++++-----
- drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c    | 11 +++++------
- drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c    | 11 +++++------
- drivers/gpu/drm/panel/panel-lg-lg4573.c               | 11 +++++------
- drivers/gpu/drm/panel/panel-lincolntech-lcd197.c      | 11 +++++------
- drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c   | 11 +++++------
- drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c      | 11 +++++------
- drivers/gpu/drm/panel/panel-newvision-nv3051d.c       | 11 +++++------
- drivers/gpu/drm/panel/panel-newvision-nv3052c.c       | 10 ++++------
- drivers/gpu/drm/panel/panel-novatek-nt35510.c         | 12 ++++++------
- drivers/gpu/drm/panel/panel-novatek-nt35560.c         | 12 ++++++------
- drivers/gpu/drm/panel/panel-novatek-nt35950.c         | 10 ++++------
- drivers/gpu/drm/panel/panel-novatek-nt36523.c         |  9 +++++----
- drivers/gpu/drm/panel/panel-novatek-nt36672e.c        | 10 +++++-----
- drivers/gpu/drm/panel/panel-novatek-nt39016.c         | 10 ++++------
- drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c    | 11 +++++------
- drivers/gpu/drm/panel/panel-orisetech-ota5601a.c      | 11 +++++------
- 30 files changed, 145 insertions(+), 174 deletions(-)
----
-base-commit: de04bb0089a96cc00d13b12cbf66a088befe3057
-change-id: 20250402-b4-drm_panel_mass_convert_part2-5f258b0ae5ea
+diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+index b904d54374449055b16df0c9abf132d2c944a6ff..1f177834d62986679830b15b960fb7299ca65cfa 100644
+--- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
++++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+@@ -206,9 +206,10 @@ static int kd35t133_probe(struct mipi_dsi_device *dsi)
+ 	struct kd35t133 *ctx;
+ 	int ret;
+ 
+-	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+-	if (!ctx)
+-		return -ENOMEM;
++	ctx = devm_drm_panel_alloc(dev, struct kd35t133, panel,
++				   &kd35t133_funcs, DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
+ 
+ 	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(ctx->reset_gpio)) {
+@@ -248,9 +249,6 @@ static int kd35t133_probe(struct mipi_dsi_device *dsi)
+ 			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET |
+ 			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
+ 
+-	drm_panel_init(&ctx->panel, &dsi->dev, &kd35t133_funcs,
+-		       DRM_MODE_CONNECTOR_DSI);
+-
+ 	ret = drm_panel_of_backlight(&ctx->panel);
+ 	if (ret)
+ 		return ret;
 
-Best regards,
 -- 
-Anusha Srivatsa <asrivats@redhat.com>
+2.48.1
 
