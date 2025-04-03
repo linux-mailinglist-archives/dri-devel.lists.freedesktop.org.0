@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DD6A79FF4
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 11:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4EDA7A038
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 11:41:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E69310E979;
-	Thu,  3 Apr 2025 09:24:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1C9310E975;
+	Thu,  3 Apr 2025 09:41:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iejpTnim";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BXpPlxoE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB5510E975;
- Thu,  3 Apr 2025 09:24:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD79210E956;
+ Thu,  3 Apr 2025 09:41:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743672263; x=1775208263;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=7VCT8HrgotJu0FeOR9DgnBYiH6sAi4gtpRg/UAtuitk=;
- b=iejpTnimZJQ+/jR2jcEqw7EwiGr2ACplR1wSk5xqUiOPiejUXl9eUJSr
- Ic4jFsB48QV0nk155kapL0Kd/dsUYqZa8b+XS/Uj1Emetpj8IpeSzA9S4
- G6gR3OrneOWFz06CU+3aMjsgPF3R1KXpmRQsIWA3QQFp+RC0ypJx+Xwwf
- G1G+0tRmP2KPsrqazIBRp0YMoXEXdTwSGOxX9VVJ9OdT0utQRjidj3aos
- MkfVDhPYfyPMky+rBKhnu23Uyv2yRSFEF4T7LYpocCJqIpkkItD7TjkYG
- 4wOgIm0oaPRdMYPvgczmHoV2UxO+hK0x2nHsHLjf0zcXJ7fe8e9tz48bU A==;
-X-CSE-ConnectionGUID: KNv7k3wzSTen60Ggo4LLzg==
-X-CSE-MsgGUID: ORTLk8lISEyq4OqTPyeZVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="44963072"
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; d="scan'208";a="44963072"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2025 02:24:13 -0700
-X-CSE-ConnectionGUID: O4CbjtLxTYWttoyiGo7z2g==
-X-CSE-MsgGUID: UefEEqGFQd+rZ5+ctpbh4w==
+ t=1743673290; x=1775209290;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=0N71E9OmVLY4RitS7I3se71yRpFvU2M1iUNUvDB7EaU=;
+ b=BXpPlxoEkqAiu6zhsS3w8+k0yupBn4y7k2l+weer/+1NDkkU0VEBxDf+
+ qlfpXksbpAsry1sIaCjgxuVjp8OttreuHyFl22Kx5aT8Duzh51UndilrZ
+ cmegGO+HRO9e7djoZFQqFB6Be3ycngecLc+h6A2Hz2BUNS8GwkEO0qDvb
+ mjAdFjeJz6oW9eeCyZrmFxxWrQCrRrEZud0E5INit97PT/vUdY7zM8xPR
+ ixvjUwzt/VJ3whHCrCCu7MH18RyRKcczlTpmY4z7obTcFoHppUYdZP3NN
+ QtJx1BrfIvv2LtMDLbvuP9YcMwnkQhScMMGpNxAvrtazSLKq7MzCvXDfO g==;
+X-CSE-ConnectionGUID: x/ef1DrFQTGMatYkg1M7uA==
+X-CSE-MsgGUID: VoBd+qQvQMKl9NNHN62Zbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="45195162"
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; d="scan'208";a="45195162"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2025 02:41:29 -0700
+X-CSE-ConnectionGUID: YclFKZwVTX2/DNruYGBFRA==
+X-CSE-MsgGUID: b5NioH2OSI6/jFrElvXs6Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; d="scan'208";a="127452098"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
- ([10.245.244.152])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2025 02:24:05 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 3 Apr 2025 12:24:02 +0300 (EEST)
-To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
-cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v7 2/6] PCI: Add a helper to convert between VF BAR number
- and IOV resource
-In-Reply-To: <20250402141122.2818478-3-michal.winiarski@intel.com>
-Message-ID: <1355b321-da51-62fb-1696-290b87fe783b@linux.intel.com>
-References: <20250402141122.2818478-1-michal.winiarski@intel.com>
- <20250402141122.2818478-3-michal.winiarski@intel.com>
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; d="scan'208";a="157947490"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.164])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2025 02:35:40 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Alan Previn <alan.previn.teres.alexis@intel.com>
+Subject: Re: [PATCH] drm/i915/huc: Fix fence not released on early probe errors
+Date: Thu, 03 Apr 2025 11:35:38 +0200
+Message-ID: <1820024.VLH7GnMWUR@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <c1b77ca1-1851-4e3b-be37-267388a7501c@intel.com>
+References: <20250402172057.209924-2-janusz.krzysztofik@linux.intel.com>
+ <c1b77ca1-1851-4e3b-be37-267388a7501c@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1835209759-1743672242=:1302"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,177 +74,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Daniele,
 
---8323328-1835209759-1743672242=:1302
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Thanks for review.
 
-On Wed, 2 Apr 2025, Micha=C5=82 Winiarski wrote:
+On Thursday, 3 April 2025 11:12:12 CEST Daniele Ceraolo Spurio wrote:
+> 
+> On 4/2/2025 10:20 AM, Janusz Krzysztofik wrote:
+> > HuC delayed loading fence, introduced with commit 27536e03271da
+> > ("drm/i915/huc: track delayed HuC load with a fence"), is registered with
+> > object tracker early on driver probe but unregistered only from driver
+> > remove, which is not called on early probe errors.  Since its memory is
+> > allocated under devres, then released anyway, it may happen to be
+> > allocated again to the fence and reused on future driver probes, resulting
+> > in kernel warnings that taint the kernel:
+> >
+> > <4> [309.731371] ------------[ cut here ]------------
+> > <3> [309.731373] ODEBUG: init destroyed (active state 0) object: 
+ffff88813d7dd2e0 object type: i915_sw_fence hint: 
+sw_fence_dummy_notify+0x0/0x20 [i915]
+> > <4> [309.731575] WARNING: CPU: 2 PID: 3161 at lib/debugobjects.c:612 
+debug_print_object+0x93/0xf0
+> > ...
+> > <4> [309.731693] CPU: 2 UID: 0 PID: 3161 Comm: i915_module_loa Tainted: G     
+U             6.14.0-CI_DRM_16362-gf0fd77956987+ #1
+> > ...
+> > <4> [309.731700] RIP: 0010:debug_print_object+0x93/0xf0
+> > ...
+> > <4> [309.731728] Call Trace:
+> > <4> [309.731730]  <TASK>
+> > ...
+> > <4> [309.731949]  __debug_object_init+0x17b/0x1c0
+> > <4> [309.731957]  debug_object_init+0x34/0x50
+> > <4> [309.732126]  __i915_sw_fence_init+0x34/0x60 [i915]
+> > <4> [309.732256]  intel_huc_init_early+0x4b/0x1d0 [i915]
+> > <4> [309.732468]  intel_uc_init_early+0x61/0x680 [i915]
+> > <4> [309.732667]  intel_gt_common_init_early+0x105/0x130 [i915]
+> > <4> [309.732804]  intel_root_gt_init_early+0x63/0x80 [i915]
+> > <4> [309.732938]  i915_driver_probe+0x1fa/0xeb0 [i915]
+> > <4> [309.733075]  i915_pci_probe+0xe6/0x220 [i915]
+> > <4> [309.733198]  local_pci_probe+0x44/0xb0
+> > <4> [309.733203]  pci_device_probe+0xf4/0x270
+> > <4> [309.733209]  really_probe+0xee/0x3c0
+> > <4> [309.733215]  __driver_probe_device+0x8c/0x180
+> > <4> [309.733219]  driver_probe_device+0x24/0xd0
+> > <4> [309.733223]  __driver_attach+0x10f/0x220
+> > <4> [309.733230]  bus_for_each_dev+0x7d/0xe0
+> > <4> [309.733236]  driver_attach+0x1e/0x30
+> > <4> [309.733239]  bus_add_driver+0x151/0x290
+> > <4> [309.733244]  driver_register+0x5e/0x130
+> > <4> [309.733247]  __pci_register_driver+0x7d/0x90
+> > <4> [309.733251]  i915_pci_register_driver+0x23/0x30 [i915]
+> > <4> [309.733413]  i915_init+0x34/0x120 [i915]
+> > <4> [309.733655]  do_one_initcall+0x62/0x3f0
+> > <4> [309.733667]  do_init_module+0x97/0x2a0
+> > <4> [309.733671]  load_module+0x25ff/0x2890
+> > <4> [309.733688]  init_module_from_file+0x97/0xe0
+> > <4> [309.733701]  idempotent_init_module+0x118/0x330
+> > <4> [309.733711]  __x64_sys_finit_module+0x77/0x100
+> > <4> [309.733715]  x64_sys_call+0x1f37/0x2650
+> > <4> [309.733719]  do_syscall_64+0x91/0x180
+> > <4> [309.733763]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > <4> [309.733792]  </TASK>
+> > ...
+> > <4> [309.733806] ---[ end trace 0000000000000000 ]---
+> >
+> > That scenario is most easily reproducible with
+> > igt@i915_module_load@reload-with-fault-injection.
+> >
+> > Fix the issue by moving the cleanup step to driver release path.
+> >
+> > Fixes: 27536e03271da ("drm/i915/huc: track delayed HuC load with a fence")
+> > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13592
+> > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> 
+> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> 
+> I'm kind of surprised that this issue only showed up in the last few 
+> months, given that the code has been there for 2+ years. Did we change 
+> something that caused this to show up? I had a quick look at the patches 
+> merged around the time this issue was first reported but I didn't spot 
+> anything that could impact this.
 
-> There are multiple places where conversions between IOV resources and
-> corresponding VF BAR numbers are done.
->=20
-> Extract the logic to pci_resource_num_from_vf_bar() and
-> pci_resource_num_to_vf_bar() helpers.
->=20
-> Suggested-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/pci/iov.c       | 26 ++++++++++++++++----------
->  drivers/pci/pci.h       | 19 +++++++++++++++++++
->  drivers/pci/setup-bus.c |  3 ++-
->  3 files changed, 37 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> index 8bdc0829f847b..3d5da055c3dc1 100644
-> --- a/drivers/pci/iov.c
-> +++ b/drivers/pci/iov.c
-> @@ -151,7 +151,7 @@ resource_size_t pci_iov_resource_size(struct pci_dev =
-*dev, int resno)
->  =09if (!dev->is_physfn)
->  =09=09return 0;
-> =20
-> -=09return dev->sriov->barsz[resno - PCI_IOV_RESOURCES];
-> +=09return dev->sriov->barsz[pci_resource_num_to_vf_bar(resno)];
->  }
-> =20
->  static void pci_read_vf_config_common(struct pci_dev *virtfn)
-> @@ -342,12 +342,14 @@ int pci_iov_add_virtfn(struct pci_dev *dev, int id)
->  =09virtfn->multifunction =3D 0;
-> =20
->  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
-> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
-> +=09=09int idx =3D pci_resource_num_from_vf_bar(i);
-> +
-> +=09=09res =3D &dev->resource[idx];
->  =09=09if (!res->parent)
->  =09=09=09continue;
->  =09=09virtfn->resource[i].name =3D pci_name(virtfn);
->  =09=09virtfn->resource[i].flags =3D res->flags;
-> -=09=09size =3D pci_iov_resource_size(dev, i + PCI_IOV_RESOURCES);
-> +=09=09size =3D pci_iov_resource_size(dev, idx);
->  =09=09resource_set_range(&virtfn->resource[i],
->  =09=09=09=09   res->start + size * id, size);
->  =09=09rc =3D request_resource(res, &virtfn->resource[i]);
-> @@ -644,8 +646,10 @@ static int sriov_enable(struct pci_dev *dev, int nr_=
-virtfn)
-> =20
->  =09nres =3D 0;
->  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
-> -=09=09bars |=3D (1 << (i + PCI_IOV_RESOURCES));
-> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
-> +=09=09int idx =3D pci_resource_num_from_vf_bar(i);
-> +
-> +=09=09bars |=3D (1 << idx);
-> +=09=09res =3D &dev->resource[idx];
->  =09=09if (res->parent)
->  =09=09=09nres++;
->  =09}
-> @@ -811,8 +815,10 @@ static int sriov_init(struct pci_dev *dev, int pos)
-> =20
->  =09nres =3D 0;
->  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
-> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
-> -=09=09res_name =3D pci_resource_name(dev, i + PCI_IOV_RESOURCES);
-> +=09=09int idx =3D pci_resource_num_from_vf_bar(i);
-> +
-> +=09=09res =3D &dev->resource[idx];
-> +=09=09res_name =3D pci_resource_name(dev, idx);
-> =20
->  =09=09/*
->  =09=09 * If it is already FIXED, don't change it, something
-> @@ -871,7 +877,7 @@ static int sriov_init(struct pci_dev *dev, int pos)
->  =09dev->is_physfn =3D 0;
->  failed:
->  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
-> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
-> +=09=09res =3D &dev->resource[pci_resource_num_from_vf_bar(i)];
->  =09=09res->flags =3D 0;
->  =09}
-> =20
-> @@ -933,7 +939,7 @@ static void sriov_restore_state(struct pci_dev *dev)
->  =09pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, ctrl);
-> =20
->  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++)
-> -=09=09pci_update_resource(dev, i + PCI_IOV_RESOURCES);
-> +=09=09pci_update_resource(dev, pci_resource_num_from_vf_bar(i));
-> =20
->  =09pci_write_config_dword(dev, iov->pos + PCI_SRIOV_SYS_PGSIZE, iov->pgs=
-z);
->  =09pci_iov_set_numvfs(dev, iov->num_VFs);
-> @@ -999,7 +1005,7 @@ void pci_iov_update_resource(struct pci_dev *dev, in=
-t resno)
->  {
->  =09struct pci_sriov *iov =3D dev->is_physfn ? dev->sriov : NULL;
->  =09struct resource *res =3D pci_resource_n(dev, resno);
-> -=09int vf_bar =3D resno - PCI_IOV_RESOURCES;
-> +=09int vf_bar =3D pci_resource_num_to_vf_bar(resno);
->  =09struct pci_bus_region region;
->  =09u16 cmd;
->  =09u32 new;
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index adc54bb2c8b34..f44840ee3c327 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -693,6 +693,15 @@ static inline bool pci_resource_is_iov(int resno)
->  {
->  =09return resno >=3D PCI_IOV_RESOURCES && resno <=3D PCI_IOV_RESOURCE_EN=
-D;
->  }
-> +static inline int pci_resource_num_from_vf_bar(int resno)
-> +{
-> +=09return resno + PCI_IOV_RESOURCES;
-> +}
-> +
-> +static inline int pci_resource_num_to_vf_bar(int resno)
-> +{
-> +=09return resno - PCI_IOV_RESOURCES;
-> +}
->  extern const struct attribute_group sriov_pf_dev_attr_group;
->  extern const struct attribute_group sriov_vf_dev_attr_group;
->  #else
-> @@ -717,6 +726,16 @@ static inline bool pci_resource_is_iov(int resno)
->  {
->  =09return false;
->  }
-> +static inline int pci_resource_num_from_vf_bar(int resno)
-> +{
-> +=09WARN_ON_ONCE(1);
-> +=09return -ENODEV;
-> +}
-> +static inline int pci_resource_num_to_vf_bar(int resno)
-> +{
-> +=09WARN_ON_ONCE(1);
-> +=09return -ENODEV;
-> +}
->  #endif /* CONFIG_PCI_IOV */
-> =20
->  #ifdef CONFIG_PCIE_TPH
-> diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
-> index 54d6f4fa3ce16..281121449fc0b 100644
-> --- a/drivers/pci/setup-bus.c
-> +++ b/drivers/pci/setup-bus.c
-> @@ -1885,7 +1885,8 @@ static int iov_resources_unassigned(struct pci_dev =
-*dev, void *data)
->  =09bool *unassigned =3D data;
-> =20
->  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
-> -=09=09struct resource *r =3D &dev->resource[i + PCI_IOV_RESOURCES];
-> +=09=09int idx =3D pci_resource_num_from_vf_bar(i);
-> +=09=09struct resource *r =3D &dev->resource[idx];
->  =09=09struct pci_bus_region region;
-> =20
->  =09=09/* Not assigned or rejected by kernel? */
->=20
+I didn't either.  I think that may come from the fact that sporadically 
+triggered issues are often hidden behind others, more persistent, and 
+automatically closed rather than worked on if not reported for some time.  A 
+couple of weeks ago I fixed a few long lasting issues that were triggered with 
+the same test more frequently than this one.
 
-Thanks, looks more readable now.
+Thanks,
+Janusz
 
-Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> 
+> Daniele
+> 
+> > ---
+> >   drivers/gpu/drm/i915/gt/uc/intel_huc.c | 11 +++++------
+> >   drivers/gpu/drm/i915/gt/uc/intel_huc.h |  1 +
+> >   drivers/gpu/drm/i915/gt/uc/intel_uc.c  |  1 +
+> >   3 files changed, 7 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/
+i915/gt/uc/intel_huc.c
+> > index f30c90650b7ec..9659e6a301e19 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> > @@ -317,6 +317,11 @@ void intel_huc_init_early(struct intel_huc *huc)
+> >   	}
+> >   }
+> >   
+> > +void intel_huc_fini_late(struct intel_huc *huc)
+> > +{
+> > +	delayed_huc_load_fini(huc);
+> > +}
+> > +
+> >   #define HUC_LOAD_MODE_STRING(x) (x ? "GSC" : "legacy")
+> >   static int check_huc_loading_mode(struct intel_huc *huc)
+> >   {
+> > @@ -414,12 +419,6 @@ int intel_huc_init(struct intel_huc *huc)
+> >   
+> >   void intel_huc_fini(struct intel_huc *huc)
+> >   {
+> > -	/*
+> > -	 * the fence is initialized in init_early, so we need to clean it up
+> > -	 * even if HuC loading is off.
+> > -	 */
+> > -	delayed_huc_load_fini(huc);
+> > -
+> >   	if (huc->heci_pkt)
+> >   		i915_vma_unpin_and_release(&huc->heci_pkt, 0);
+> >   
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.h b/drivers/gpu/drm/
+i915/gt/uc/intel_huc.h
+> > index d5e441b9e08d6..921ad4b1687f0 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
+> > @@ -55,6 +55,7 @@ struct intel_huc {
+> >   
+> >   int intel_huc_sanitize(struct intel_huc *huc);
+> >   void intel_huc_init_early(struct intel_huc *huc);
+> > +void intel_huc_fini_late(struct intel_huc *huc);
+> >   int intel_huc_init(struct intel_huc *huc);
+> >   void intel_huc_fini(struct intel_huc *huc);
+> >   int intel_huc_auth(struct intel_huc *huc, enum 
+intel_huc_authentication_type type);
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/
+gt/uc/intel_uc.c
+> > index 90ba1b0b4c9d2..4a3493e8d4333 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> > @@ -136,6 +136,7 @@ void intel_uc_init_late(struct intel_uc *uc)
+> >   
+> >   void intel_uc_driver_late_release(struct intel_uc *uc)
+> >   {
+> > +	intel_huc_fini_late(&uc->huc);
+> >   }
+> >   
+> >   /**
+> 
+> 
 
---=20
- i.
 
---8323328-1835209759-1743672242=:1302--
+
+
