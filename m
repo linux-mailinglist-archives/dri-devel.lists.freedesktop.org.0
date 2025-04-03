@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF52CA7AAD7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F87CA7AADB
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F16BD10EAC2;
-	Thu,  3 Apr 2025 19:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8914410EAC7;
+	Thu,  3 Apr 2025 19:16:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u3dI9BFL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ckzRDsPK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C10C410EAC2;
- Thu,  3 Apr 2025 19:16:16 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB9810EAC5;
+ Thu,  3 Apr 2025 19:16:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 425015C026D;
- Thu,  3 Apr 2025 19:13:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB1C3C4CEE3;
- Thu,  3 Apr 2025 19:16:14 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 6BCD144BE6;
+ Thu,  3 Apr 2025 19:16:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D3DC4CEE8;
+ Thu,  3 Apr 2025 19:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707776;
- bh=i6DETD1Avhc2RRSPj7UiOVAKtd4jihLU5CxouD+O6y8=;
+ s=k20201202; t=1743707777;
+ bh=kyj/9npGKcCiu0gq2WV58Ak38lvTBV8yF72OMCXZyJM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u3dI9BFLZFFT84Yq63pJpLyLKw3tp6oaiGfF+dkQWvdQWt8zpD/1EhVc9AQzbKWeV
- yrq31bOrNCP7LBs+5PzhJzqmCXDE6PjEyV8/6hqZAHio1oheR+Q9Ley3Zy11pv6PVk
- 3YspXGYNy1WSPbxDKs3rK58vWNiAzWQuVSYEd0Y+E4FNpHHeCD2mdC67UxHMA0nzF2
- TCJQ92yrGIEDl+053JByc7Re0C+UnRA6+4M7KxM3IdVv83GSOSxZId+F5Yq7/Jb0qT
- AVlfQ6M53Xf4N5ORkS+fh/ObmM6Vo7KAlTsiiBigcnGGD/QE6MQAipOA+9ySWLJWCG
- KV9mUiIo67RAg==
+ b=ckzRDsPKPhW2byGhPemANzy/sW+UX0aWGN3/SjzmzABtC04j+qwPjyfTwECaFZ3OU
+ LnH7nTr4avtUTCPBbmPIqkAsgMDel2BMkf7IebRXVNHXkzNNRUXHeDqaKOAV8hhbE9
+ HS+qSjld3YVtut9c6ONz09iUKqAvL/ZsiiAO+N9VeQW9Mpf/Y23Hbf2eY+yHbzpsLx
+ y9HGJlQ+VfAbF8ea8neYcb8X8M7/L4//qRYAdzV3OXm+pdvWMOJ7XIWpSpCOT06wjc
+ AVaDv2x4K0XyH03tgqhrwn4bsCLmRdFBovQTSVraGxRBBA+pA3A8uDqJ6JvNeoWafD
+ SjLOT0uSg9xEQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Philip Yang <Philip.Yang@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
+Cc: Philip Yang <Philip.Yang@amd.com>, Kent Russell <kent.russell@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  Felix.Kuehling@amd.com, christian.koenig@amd.com, airlied@gmail.com,
  simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.13 20/37] drm/amdkfd: Fix pqm_destroy_queue race
- with GPU reset
-Date: Thu,  3 Apr 2025 15:14:56 -0400
-Message-Id: <20250403191513.2680235-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 21/37] drm/amdkfd: debugfs hang_hws skip GPU with
+ MES
+Date: Thu,  3 Apr 2025 15:14:57 -0400
+Message-Id: <20250403191513.2680235-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191513.2680235-1-sashal@kernel.org>
 References: <20250403191513.2680235-1-sashal@kernel.org>
@@ -67,32 +68,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Philip Yang <Philip.Yang@amd.com>
 
-[ Upstream commit 7919b4cad5545ed93778f11881ceee72e4dbed66 ]
+[ Upstream commit fe9d0061c413f8fb8c529b18b592b04170850ded ]
 
-If GPU in reset, destroy_queue return -EIO, pqm_destroy_queue should
-delete the queue from process_queue_list and free the resource.
+debugfs hang_hws is used by GPU reset test with HWS, for MES this crash
+the kernel with NULL pointer access because dqm->packet_mgr is not setup
+for MES path.
+
+Skip GPU with MES for now, MES hang_hws debugfs interface will be
+supported later.
 
 Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+Reviewed-by: Kent Russell <kent.russell@amd.com>
 Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-index 1d538e874140c..6ca0efa2c3c97 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-@@ -529,7 +529,7 @@ int pqm_destroy_queue(struct process_queue_manager *pqm, unsigned int qid)
- 			pr_err("Pasid 0x%x destroy queue %d failed, ret %d\n",
- 				pqm->process->pasid,
- 				pqn->q->properties.queue_id, retval);
--			if (retval != -ETIME)
-+			if (retval != -ETIME && retval != -EIO)
- 				goto err_destroy_queue;
- 		}
- 		kfd_procfs_del_queue(pqn->q);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+index 35caa71f317dc..463771b7dd4a7 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+@@ -1519,6 +1519,11 @@ int kfd_debugfs_hang_hws(struct kfd_node *dev)
+ 		return -EINVAL;
+ 	}
+ 
++	if (dev->kfd->shared_resources.enable_mes) {
++		dev_err(dev->adev->dev, "Inducing MES hang is not supported\n");
++		return -EINVAL;
++	}
++
+ 	return dqm_debugfs_hang_hws(dev->dqm);
+ }
+ 
 -- 
 2.39.5
 
