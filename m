@@ -2,113 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83250A7A293
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 14:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED277A7A295
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 14:14:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7EBC10E21B;
-	Thu,  3 Apr 2025 12:14:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A75510E226;
+	Thu,  3 Apr 2025 12:14:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Fv64jfy4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XQBNsLI+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D551810E21B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 12:14:19 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5339rxSf028887
- for <dri-devel@lists.freedesktop.org>; Thu, 3 Apr 2025 12:14:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=dLykAhXWunHI8kSEy4WPYTUf
- hVytF9OGgggs8oTBDs0=; b=Fv64jfy4d7VRv6OsrA0sxh9Ku25e6unlukHU6c8p
- 8wQRIVptsYgJVqd4mxFejsLZQnguSeTRwvPFTYtvOfNMLE8+o1xkA8yzM1wwWX17
- prCeJ45gxLCpz281i9Zx8jhwFPi45eQrnO2je3DMhgdPaFhJj5GlTsQvAnErxwUu
- 1XWG+1JkZ2GKOrbDR95XS8ecyAmk8rLhItrK0frTlP/J7nsK8ooiW1ihsf1wW26f
- +K/8K+vwERjvObuiVkQqAmMG29cif/nhfrpSqm9hcHZbBpBEG9ZeGphNmLww1rkW
- /NFr51LzS1VWyJDoBuHowhLSC6T20TBssRh5KzZ0aLcizg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45rbpyyqan-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 12:14:19 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7c5ba3b91b1so169274785a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 05:14:18 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9556610E226
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 12:14:38 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-43cfebc343dso5239175e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 05:14:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1743682477; x=1744287277; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7/jCevx24uOhH2Yv9CVXT91AbhBZfEmtWMRKLBjAx74=;
+ b=XQBNsLI+zAxiDZojSTLYUxnQrv7JzXG1gpO4ngdkleHG3oEvn3lDmjDERQFvqMLohA
+ lpTnOZPsnoYypF1zTg+PCgOcRVy62OWoU2z3YndhCFz6r5ivD1WgSEB60Lf52ribGyO9
+ fCfyWI3qjfmvkGGQKVM+PeTMsYZyyOO7ZlMUsQFAJIQ6Ly9QAM1RB6Nmn5RVqRmuyMxc
+ JSOLzP6zAiANa5/1HJbPnQF4xMltMijmTbTaRovQ8KveUciNxXRHEFIbJM+K0lrcerkh
+ u3+IFxrT/uYwc6RPV6RHj26FEw/iXj86cGXM+8GJikKGnuLLYjZd9y7pyS/CdVgOHiDj
+ pc1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743682458; x=1744287258;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dLykAhXWunHI8kSEy4WPYTUfhVytF9OGgggs8oTBDs0=;
- b=aE5zL4Y4ewihd6vbSEAP5EhMpM0F9jy29DQp0yNvDk4dFth8pzva4DzgT+nGpfU/Ut
- bvWKCdKwKZ94BJXf1a8v1nF8GU3rmCAjitRN2Yzk/JqbUSur2Y80JM4y3i89gjyTnh04
- XxwT64G6zKFvj1oOZWA2jr81Q6nfzqX0JndpSUZqaR57cCBWfcXU8SFZunT8lzEZ/lTx
- YbiVDpXEufFksWb+0nWno7uL0aJFKIEPo4V10E+8XSFJgD2mR44EBrvzERRBfaOiJSGS
- NK4/E0mcvIpgOSRN4m4R55tEF78kwfKKil/HJ4lG9M7wusapNx05wzcuRubGJEwYpuhE
- SmLw==
+ d=1e100.net; s=20230601; t=1743682477; x=1744287277;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7/jCevx24uOhH2Yv9CVXT91AbhBZfEmtWMRKLBjAx74=;
+ b=UdcGpDFIaJRBwwv1EqdUxBbZubAEVy0iMKdHRhmHZNGIcfR7FelAVi12ED5Xz4V6jc
+ hgu68xrczi7DIeMGJUIonnWMlV8DokjNJ/bUEfq1kHq2C0/m7RxpEiU1uBmNke4jDI4d
+ jNYC7iFhh/dUly/eUEQvpUNYbVJbChuzCb+FNMCxt8rXGv9a5c0j73h7eEO2UU9t+IPP
+ iduu8PamQyWNLVyU3dx4SH8KXUTTVqdFFAsg7ojf6EJJzmMIp3+VKDqLA8HhCI3t7rRH
+ C5ClZfJ7pxpdWrHwYtMH5CFLeLXAaBFFXI8hyz8IeYHk5EjTLPxv9qtrZdmBeQNnty/U
+ MfnQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVjYy/NOY0SRecSOSOoa2T1WHwy86LUw5PQjOEBVhChVv/Htg8UUcDiXc7nqPhYl7FKlK4jbQPFt/s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvgjZNW94U6FiQaWcrcGqukZbPRkBhOmrlkWFIAYPUSTfWHZRi
- d1gidfXufskkMfIbBE6NYhMpt8LwxvxLjSWK7lOFGT0VcBBKPrjcF/pGdQXiFpci/A2sY/CfVjt
- alROddcSevbr4S6DazkDJbxRdkEWKJY1tTeKvVJLd3gcyWoy6cQ/cP9sEPJEU7pz/soM=
-X-Gm-Gg: ASbGncsDg1rjpomsiilAlzfLJgB96Zc8QS/uAowy3z5fxkVlEn3e4gT64IvOej3ndLW
- pL0RrZTrMqMa8K4iV1wGdO54GmI36rDjgWj69dgb/iRArKyfQiXpNb7gICYy6GIOmsbld8XVzzu
- SGTgk7UubSUsEx9fHB1Y6F+UDWKgVeE3bRxOy4ftRHbFWOuoKCggfr7R+irGIkSBk/+vNkuizIC
- 8ocIzMksFlHsgeIRC7N0QoF2MjacqkKvFVFOREmgaNIPyupvX9dVGWn1Q/1BKZKlVGU1U54dVIa
- wnUp/44fCrUOuv1BjUa5G4aVN5pI3Ib5vW5P3DzQQmPAfc2IaWEKhqF2obZj9b/xsjEbalrm1d0
- ksAQ=
-X-Received: by 2002:a05:620a:2910:b0:7c3:b7c2:acf6 with SMTP id
- af79cd13be357-7c76c98f7dbmr511677185a.15.1743682457780; 
- Thu, 03 Apr 2025 05:14:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEQP5HNZ7qkcK4qHlBcQj9o3SAvJ8aXKNFHMdgvICYbDg+OhKlKPefSoRKfg6pRpmiRTZ1ysw==
-X-Received: by 2002:a05:620a:2910:b0:7c3:b7c2:acf6 with SMTP id
- af79cd13be357-7c76c98f7dbmr511673185a.15.1743682457414; 
- Thu, 03 Apr 2025 05:14:17 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54c1e5cc52csm138973e87.105.2025.04.03.05.14.14
+ AJvYcCXH7JneIbPCP9ZvMDB2cSxI5iTHWdBs2+XQ0eLR8lTWtmnTRwoumFJGndQ/7Bv/6MW3cLPdO26dc9Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YymseznynX4CGb+X3kXNsJ1T5sXYYdGok/H1nTWnFo0r0lnC3pf
+ HlKjL//VCfbdqTOVMi/QJBwtN0WKbaBjVd4xDjA7hSmJvzaI2823OAl1Y0xOO4o=
+X-Gm-Gg: ASbGncuyUQm+cZLhhlFnlSKFwmQVUhGnpPUYGmBYfDHUMQ6PEtdaaLW/r88y5ZhdVrU
+ ooeifwVXXl2q2zxynUV7QiZSljpcAOoNjfB9jByxKGc5C9KKqDKP2PpjbMnewPQYfQKyhboI3me
+ KZtM5hA8IotsJSoHlUhk/0kDI1nIViVJQqaJ6EynZgGexDvaLesHk0AhDGTJkDYPLdIZlH9+nXD
+ gzJKdKb/VK2g9nTkikuBXXhKLRiyjaP712fCT69pivwTS7WEEGBn7FvkjYytARKZ2oovPlDN60i
+ M7uPX2QRWofTqiNBJHcflI7NM/KQzJJe7IGbEDL6dopr7lqShg==
+X-Google-Smtp-Source: AGHT+IGkavCS1QLioI0A5um9YHakZm/b68w7/8yrhL34IDIj0Vn7SXOf+jbx8K2zNM3v9nUYnPtePQ==
+X-Received: by 2002:a5d:5d13:0:b0:39c:1257:feba with SMTP id
+ ffacd0b85a97d-39c303ba531mr1381065f8f.58.1743682477082; 
+ Thu, 03 Apr 2025 05:14:37 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-39c30096b9csm1667479f8f.13.2025.04.03.05.14.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Apr 2025 05:14:15 -0700 (PDT)
-Date: Thu, 3 Apr 2025 15:14:13 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: heiko@sntech.de, hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, 
- stephen@radxa.com, cristian.ciocaltea@collabora.com,
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, robh@kernel.org,
- sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v3 5/9] drm/birdge: simple-bridge: Add support for radxa
- ra620
-Message-ID: <mp6dgybevy5uercnqam3ok4rorpmo7a7ok5jcgadmxypl7ueaf@yl64do47jnp3>
-References: <20250403033748.245007-1-andyshrk@163.com>
- <20250403033748.245007-6-andyshrk@163.com>
+ Thu, 03 Apr 2025 05:14:36 -0700 (PDT)
+Date: Thu, 3 Apr 2025 15:14:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH v2] drm/vc4: release firmware on error paths in vc4_hvs_bind()
+Message-ID: <ee4989e2-f55e-4d09-8a0d-306b78b9c9d0@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250403033748.245007-6-andyshrk@163.com>
-X-Proofpoint-GUID: u_KHQgFza0CEfHS-aw2Fsk-M_uFnnQHo
-X-Proofpoint-ORIG-GUID: u_KHQgFza0CEfHS-aw2Fsk-M_uFnnQHo
-X-Authority-Analysis: v=2.4 cv=ZNLXmW7b c=1 sm=1 tr=0 ts=67ee7b9b cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=s8YR1HE3AAAA:8 a=EUspDBNiAAAA:8 a=mpY5dVvo0S6m34Ll3HoA:9
- a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=jGH_LyMDp9YhSvY-UuyI:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-03_05,2025-04-02_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 clxscore=1015 mlxscore=0 adultscore=0 mlxlogscore=994
- priorityscore=1501 bulkscore=0 suspectscore=0 malwarescore=0 phishscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504030051
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,27 +91,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 03, 2025 at 11:37:33AM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
-> 
-> The RA620 is an active DP to HDMI converter chip, basically
-> no software is involved to drive it.
-> 
-> Add it to simple bridge to make it can be find by the drm bridge chain.
-> 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> 
-> ---
-> 
-> Changes in v3:
-> - First introduced in this version.
-> 
->  drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+There was a bug where we should have called rpi_firmware_put(firmware)
+if devm_clk_get() failed.  Really, it's better and more readable to
+move all the firmware code together so that we can release it one
+time.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Fixes: 2fa4ef5fb943 ("drm/vc4: hvs: Create hw_init function")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+v2: Use a cleaner solution
 
+ drivers/gpu/drm/vc4/vc4_hvs.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 4811d794001f..06aedd906d74 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -1675,6 +1675,17 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 		if (!firmware)
+ 			return -EPROBE_DEFER;
+ 
++		max_rate = rpi_firmware_clk_get_max_rate(firmware,
++							 RPI_FIRMWARE_CORE_CLK_ID);
++		rpi_firmware_put(firmware);
++		if (max_rate >= 550000000)
++			hvs->vc5_hdmi_enable_hdmi_20 = true;
++
++		if (max_rate >= 600000000)
++			hvs->vc5_hdmi_enable_4096by2160 = true;
++
++		hvs->max_core_rate = max_rate;
++
+ 		hvs->core_clk = devm_clk_get(&pdev->dev,
+ 					     (vc4->gen >= VC4_GEN_6_C) ? "core" : NULL);
+ 		if (IS_ERR(hvs->core_clk)) {
+@@ -1689,17 +1700,6 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 			return PTR_ERR(hvs->disp_clk);
+ 		}
+ 
+-		max_rate = rpi_firmware_clk_get_max_rate(firmware,
+-							 RPI_FIRMWARE_CORE_CLK_ID);
+-		rpi_firmware_put(firmware);
+-		if (max_rate >= 550000000)
+-			hvs->vc5_hdmi_enable_hdmi_20 = true;
+-
+-		if (max_rate >= 600000000)
+-			hvs->vc5_hdmi_enable_4096by2160 = true;
+-
+-		hvs->max_core_rate = max_rate;
+-
+ 		ret = clk_prepare_enable(hvs->core_clk);
+ 		if (ret) {
+ 			dev_err(&pdev->dev, "Couldn't enable the core clock\n");
 -- 
-With best wishes
-Dmitry
+2.47.2
+
