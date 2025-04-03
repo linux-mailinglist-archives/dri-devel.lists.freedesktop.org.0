@@ -2,52 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4A2A79FE5
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 11:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DD6A79FF4
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 11:24:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F11210E1C5;
-	Thu,  3 Apr 2025 09:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E69310E979;
+	Thu,  3 Apr 2025 09:24:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lSQG6vIR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iejpTnim";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8970C10E1C5
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 09:21:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D68E8FA;
- Thu,  3 Apr 2025 11:19:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1743671984;
- bh=fx8e5TCq57JpioEX2uKOR3o+OiSpqk5ukc8/rTV7wvQ=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=lSQG6vIRnz9bAV8suBHqPRavEbwhbp65wngQl4Oxr5uaEZtfdjLKAypWQwPBtZbfR
- 2aA9BxB+PtfMgYxJbi7MJ854ZnnM5d2x7Y2enUxQa7zolGOW1bgtInHITAny9qvG+M
- w++G+QDusDLhjFiz8YPHCPz/Q9EDiAKOut2EKsSc=
-Content-Type: text/plain; charset="utf-8"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB5510E975;
+ Thu,  3 Apr 2025 09:24:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743672263; x=1775208263;
+ h=from:date:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=7VCT8HrgotJu0FeOR9DgnBYiH6sAi4gtpRg/UAtuitk=;
+ b=iejpTnimZJQ+/jR2jcEqw7EwiGr2ACplR1wSk5xqUiOPiejUXl9eUJSr
+ Ic4jFsB48QV0nk155kapL0Kd/dsUYqZa8b+XS/Uj1Emetpj8IpeSzA9S4
+ G6gR3OrneOWFz06CU+3aMjsgPF3R1KXpmRQsIWA3QQFp+RC0ypJx+Xwwf
+ G1G+0tRmP2KPsrqazIBRp0YMoXEXdTwSGOxX9VVJ9OdT0utQRjidj3aos
+ MkfVDhPYfyPMky+rBKhnu23Uyv2yRSFEF4T7LYpocCJqIpkkItD7TjkYG
+ 4wOgIm0oaPRdMYPvgczmHoV2UxO+hK0x2nHsHLjf0zcXJ7fe8e9tz48bU A==;
+X-CSE-ConnectionGUID: KNv7k3wzSTen60Ggo4LLzg==
+X-CSE-MsgGUID: ORTLk8lISEyq4OqTPyeZVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="44963072"
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; d="scan'208";a="44963072"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2025 02:24:13 -0700
+X-CSE-ConnectionGUID: O4CbjtLxTYWttoyiGo7z2g==
+X-CSE-MsgGUID: UefEEqGFQd+rZ5+ctpbh4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; d="scan'208";a="127452098"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.152])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2025 02:24:05 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Thu, 3 Apr 2025 12:24:02 +0300 (EEST)
+To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
+cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
+ =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Michal Wajdeczko <michal.wajdeczko@intel.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v7 2/6] PCI: Add a helper to convert between VF BAR number
+ and IOV resource
+In-Reply-To: <20250402141122.2818478-3-michal.winiarski@intel.com>
+Message-ID: <1355b321-da51-62fb-1696-290b87fe783b@linux.intel.com>
+References: <20250402141122.2818478-1-michal.winiarski@intel.com>
+ <20250402141122.2818478-3-michal.winiarski@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250330102357.56010-2-biju.das.jz@bp.renesas.com>
-References: <20250330102357.56010-1-biju.das.jz@bp.renesas.com>
- <20250330102357.56010-2-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] drm: renesas: rz-du: Drop bpp variable from struct
- rzg2l_du_format_info
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Date: Thu, 03 Apr 2025 10:21:34 +0100
-Message-ID: <174367209464.2211561.6626065609601707141@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Type: multipart/mixed; boundary="8323328-1835209759-1743672242=:1302"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,60 +81,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Biju Das (2025-03-30 11:23:52)
-> Drop the unused variable bpp from struct rzg2l_du_format_info.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+--8323328-1835209759-1743672242=:1302
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-> ---
-> v2:
->  * New patch.
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c | 3 ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h | 1 -
->  2 files changed, 4 deletions(-)
+On Wed, 2 Apr 2025, Micha=C5=82 Winiarski wrote:
+
+> There are multiple places where conversions between IOV resources and
+> corresponding VF BAR numbers are done.
 >=20
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c b/drivers/gpu/d=
-rm/renesas/rz-du/rzg2l_du_kms.c
-> index 90c6269ccd29..1a428ab3c424 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> @@ -38,19 +38,16 @@ static const struct rzg2l_du_format_info rzg2l_du_for=
-mat_infos[] =3D {
->         {
->                 .fourcc =3D DRM_FORMAT_XRGB8888,
->                 .v4l2 =3D V4L2_PIX_FMT_XBGR32,
-> -               .bpp =3D 32,
->                 .planes =3D 1,
->                 .hsub =3D 1,
->         }, {
->                 .fourcc =3D DRM_FORMAT_ARGB8888,
->                 .v4l2 =3D V4L2_PIX_FMT_ABGR32,
-> -               .bpp =3D 32,
->                 .planes =3D 1,
->                 .hsub =3D 1,
->         }, {
->                 .fourcc =3D DRM_FORMAT_RGB888,
->                 .v4l2 =3D V4L2_PIX_FMT_BGR24,
-> -               .bpp =3D 24,
->                 .planes =3D 1,
->                 .hsub =3D 1,
->         }
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h b/drivers/gpu/d=
-rm/renesas/rz-du/rzg2l_du_kms.h
-> index 876e97cfbf45..e2c599f115c6 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
-> @@ -23,7 +23,6 @@ struct sg_table;
->  struct rzg2l_du_format_info {
->         u32 fourcc;
->         u32 v4l2;
-> -       unsigned int bpp;
->         unsigned int planes;
->         unsigned int hsub;
->  };
-> --=20
-> 2.43.0
->
+> Extract the logic to pci_resource_num_from_vf_bar() and
+> pci_resource_num_to_vf_bar() helpers.
+>=20
+> Suggested-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+>  drivers/pci/iov.c       | 26 ++++++++++++++++----------
+>  drivers/pci/pci.h       | 19 +++++++++++++++++++
+>  drivers/pci/setup-bus.c |  3 ++-
+>  3 files changed, 37 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+> index 8bdc0829f847b..3d5da055c3dc1 100644
+> --- a/drivers/pci/iov.c
+> +++ b/drivers/pci/iov.c
+> @@ -151,7 +151,7 @@ resource_size_t pci_iov_resource_size(struct pci_dev =
+*dev, int resno)
+>  =09if (!dev->is_physfn)
+>  =09=09return 0;
+> =20
+> -=09return dev->sriov->barsz[resno - PCI_IOV_RESOURCES];
+> +=09return dev->sriov->barsz[pci_resource_num_to_vf_bar(resno)];
+>  }
+> =20
+>  static void pci_read_vf_config_common(struct pci_dev *virtfn)
+> @@ -342,12 +342,14 @@ int pci_iov_add_virtfn(struct pci_dev *dev, int id)
+>  =09virtfn->multifunction =3D 0;
+> =20
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> +=09=09int idx =3D pci_resource_num_from_vf_bar(i);
+> +
+> +=09=09res =3D &dev->resource[idx];
+>  =09=09if (!res->parent)
+>  =09=09=09continue;
+>  =09=09virtfn->resource[i].name =3D pci_name(virtfn);
+>  =09=09virtfn->resource[i].flags =3D res->flags;
+> -=09=09size =3D pci_iov_resource_size(dev, i + PCI_IOV_RESOURCES);
+> +=09=09size =3D pci_iov_resource_size(dev, idx);
+>  =09=09resource_set_range(&virtfn->resource[i],
+>  =09=09=09=09   res->start + size * id, size);
+>  =09=09rc =3D request_resource(res, &virtfn->resource[i]);
+> @@ -644,8 +646,10 @@ static int sriov_enable(struct pci_dev *dev, int nr_=
+virtfn)
+> =20
+>  =09nres =3D 0;
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09bars |=3D (1 << (i + PCI_IOV_RESOURCES));
+> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> +=09=09int idx =3D pci_resource_num_from_vf_bar(i);
+> +
+> +=09=09bars |=3D (1 << idx);
+> +=09=09res =3D &dev->resource[idx];
+>  =09=09if (res->parent)
+>  =09=09=09nres++;
+>  =09}
+> @@ -811,8 +815,10 @@ static int sriov_init(struct pci_dev *dev, int pos)
+> =20
+>  =09nres =3D 0;
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> -=09=09res_name =3D pci_resource_name(dev, i + PCI_IOV_RESOURCES);
+> +=09=09int idx =3D pci_resource_num_from_vf_bar(i);
+> +
+> +=09=09res =3D &dev->resource[idx];
+> +=09=09res_name =3D pci_resource_name(dev, idx);
+> =20
+>  =09=09/*
+>  =09=09 * If it is already FIXED, don't change it, something
+> @@ -871,7 +877,7 @@ static int sriov_init(struct pci_dev *dev, int pos)
+>  =09dev->is_physfn =3D 0;
+>  failed:
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> +=09=09res =3D &dev->resource[pci_resource_num_from_vf_bar(i)];
+>  =09=09res->flags =3D 0;
+>  =09}
+> =20
+> @@ -933,7 +939,7 @@ static void sriov_restore_state(struct pci_dev *dev)
+>  =09pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, ctrl);
+> =20
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++)
+> -=09=09pci_update_resource(dev, i + PCI_IOV_RESOURCES);
+> +=09=09pci_update_resource(dev, pci_resource_num_from_vf_bar(i));
+> =20
+>  =09pci_write_config_dword(dev, iov->pos + PCI_SRIOV_SYS_PGSIZE, iov->pgs=
+z);
+>  =09pci_iov_set_numvfs(dev, iov->num_VFs);
+> @@ -999,7 +1005,7 @@ void pci_iov_update_resource(struct pci_dev *dev, in=
+t resno)
+>  {
+>  =09struct pci_sriov *iov =3D dev->is_physfn ? dev->sriov : NULL;
+>  =09struct resource *res =3D pci_resource_n(dev, resno);
+> -=09int vf_bar =3D resno - PCI_IOV_RESOURCES;
+> +=09int vf_bar =3D pci_resource_num_to_vf_bar(resno);
+>  =09struct pci_bus_region region;
+>  =09u16 cmd;
+>  =09u32 new;
+> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+> index adc54bb2c8b34..f44840ee3c327 100644
+> --- a/drivers/pci/pci.h
+> +++ b/drivers/pci/pci.h
+> @@ -693,6 +693,15 @@ static inline bool pci_resource_is_iov(int resno)
+>  {
+>  =09return resno >=3D PCI_IOV_RESOURCES && resno <=3D PCI_IOV_RESOURCE_EN=
+D;
+>  }
+> +static inline int pci_resource_num_from_vf_bar(int resno)
+> +{
+> +=09return resno + PCI_IOV_RESOURCES;
+> +}
+> +
+> +static inline int pci_resource_num_to_vf_bar(int resno)
+> +{
+> +=09return resno - PCI_IOV_RESOURCES;
+> +}
+>  extern const struct attribute_group sriov_pf_dev_attr_group;
+>  extern const struct attribute_group sriov_vf_dev_attr_group;
+>  #else
+> @@ -717,6 +726,16 @@ static inline bool pci_resource_is_iov(int resno)
+>  {
+>  =09return false;
+>  }
+> +static inline int pci_resource_num_from_vf_bar(int resno)
+> +{
+> +=09WARN_ON_ONCE(1);
+> +=09return -ENODEV;
+> +}
+> +static inline int pci_resource_num_to_vf_bar(int resno)
+> +{
+> +=09WARN_ON_ONCE(1);
+> +=09return -ENODEV;
+> +}
+>  #endif /* CONFIG_PCI_IOV */
+> =20
+>  #ifdef CONFIG_PCIE_TPH
+> diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
+> index 54d6f4fa3ce16..281121449fc0b 100644
+> --- a/drivers/pci/setup-bus.c
+> +++ b/drivers/pci/setup-bus.c
+> @@ -1885,7 +1885,8 @@ static int iov_resources_unassigned(struct pci_dev =
+*dev, void *data)
+>  =09bool *unassigned =3D data;
+> =20
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09struct resource *r =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> +=09=09int idx =3D pci_resource_num_from_vf_bar(i);
+> +=09=09struct resource *r =3D &dev->resource[idx];
+>  =09=09struct pci_bus_region region;
+> =20
+>  =09=09/* Not assigned or rejected by kernel? */
+>=20
+
+Thanks, looks more readable now.
+
+Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+
+--=20
+ i.
+
+--8323328-1835209759-1743672242=:1302--
