@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C78EA7B0F5
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 23:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57F0A7B0F6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 23:25:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB43110EB72;
-	Thu,  3 Apr 2025 21:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E473810EB76;
+	Thu,  3 Apr 2025 21:25:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RYKpK9pY";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="d0+uYudw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C872610EB76
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 21:25:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB1E410EB76
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 21:25:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743715533;
+ s=mimecast20190719; t=1743715539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jfrQ3Cq2A0GYGom4sCavz7KUPidND0JXISJ+OyVumdQ=;
- b=RYKpK9pYhf4Id6Bj+cG9bJw+aLmeljomYIzzO1+ioitE7LHhGECSa/3aLBw4pN6fTwnlh+
- Oxy+cYOsNXn/B+nlwIxmp2parTBkH4nhsT7X7xiGCaYVa4I58fFYMPneH5xe0rrX8Swrc1
- JDWY0kaW1CL6+pydw+/d79soj8zIjxo=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ bh=YSjX5q0zuUeGqz9bX6zAV0oVJKcc4BZjYga6WzSpqto=;
+ b=d0+uYudw+Ws6K8hyj/fpqqp7lUG9tnQr9z+UkarapfxclxTaQ3ViR9/Q48z9QQfUAmMZ+M
+ PFupvErkJRYroxre+o81B7t+Xvh4VwI9YSkBztvoZmrkIjCSasBsjVp/+Xkww80ZfmSnxc
+ MWKfPqJ82fiXI2vbNnVi9uRUehA39YE=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-622-DlWAG3MTO8KmjYUPMdiE-A-1; Thu,
- 03 Apr 2025 17:25:31 -0400
-X-MC-Unique: DlWAG3MTO8KmjYUPMdiE-A-1
-X-Mimecast-MFC-AGG-ID: DlWAG3MTO8KmjYUPMdiE-A_1743715527
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-554-8_pW4TgDMHeJv1r4YFRWKA-1; Thu,
+ 03 Apr 2025 17:25:35 -0400
+X-MC-Unique: 8_pW4TgDMHeJv1r4YFRWKA-1
+X-Mimecast-MFC-AGG-ID: 8_pW4TgDMHeJv1r4YFRWKA_1743715532
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 8B354195608A; Thu,  3 Apr 2025 21:25:27 +0000 (UTC)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 3425F1801A07; Thu,  3 Apr 2025 21:25:32 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 3FCA5180B488; Thu,  3 Apr 2025 21:25:23 +0000 (UTC)
+ id D8648180A803; Thu,  3 Apr 2025 21:25:27 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 03 Apr 2025 16:21:11 -0400
-Subject: [PATCH 40/46] panel/visionox-vtdr6130: Use refcounted allocation
- in place of devm_kzalloc()
+Date: Thu, 03 Apr 2025 16:21:12 -0400
+Subject: [PATCH 41/46] panel/widechips-ws2401: Use refcounted allocation in
+ place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-40-965b15ad5b8e@redhat.com>
+Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-41-965b15ad5b8e@redhat.com>
 References: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
 In-Reply-To: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -71,11 +71,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=1540;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=1265;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=ptEPwMVz8OHWOHccPTjsnzIxgpu2mOLxFpSgq9fx7RE=;
- b=KLjW4g4JcgBhFCRZfE/45h6ilopGYdYCO+IBv0FPDAbeKlkmkEpaUeJ4igJ1+KY9NODTeqcz0
- YsggkCarOysDG6v7vdZBXPI3i0cBP+1AOQtQHKj/CbE2mcRPfHYhnFc
+ bh=wtbBlblKhvvPd3RxLybMPkgMtkog169R3TwzzY7e1QU=;
+ b=R6NLjYG+pKu1/oofYQrVGu1qM95Kg3CDgnb8tsgBCX4/iH/BkL8vujuxzKGVJzLFlrKM1gcks
+ WUa7tXQ7F+2Buryz6EJS6rCXGiTPAM0Pbr4PUC7+OtEpNTugf4wTLaZ
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
@@ -99,38 +99,38 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-visionox-vtdr6130.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-widechips-ws2401.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-index 17b8defe79c10ffdbe643f1b3e07318c655eeb89..40f4cc0db758b38157babeda6723a61d36580db8 100644
---- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-@@ -248,9 +248,11 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
- 	struct visionox_vtdr6130 *ctx;
+diff --git a/drivers/gpu/drm/panel/panel-widechips-ws2401.c b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
+index 2591ff8f0d4e8b84b7283718bf05684e8d44d1f5..bb3e5e4306ee2cb5e95b812775b4418d672d91d5 100644
+--- a/drivers/gpu/drm/panel/panel-widechips-ws2401.c
++++ b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
+@@ -347,9 +347,11 @@ static int ws2401_probe(struct spi_device *spi)
+ 	struct ws2401 *ws;
  	int ret;
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	ws = devm_kzalloc(dev, sizeof(*ws), GFP_KERNEL);
+-	if (!ws)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct visionox_vtdr6130, panel,
-+				   &visionox_vtdr6130_panel_funcs,
-+				  DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
++	ws = devm_drm_panel_alloc(dev, struct ws2401, panel, &ws2401_drm_funcs,
++				   DRM_MODE_CONNECTOR_DPI);
++	if (IS_ERR(ws))
++		return PTR_ERR(ws);
++
+ 	ws->dev = dev;
  
- 	ret = devm_regulator_bulk_get_const(&dsi->dev,
- 					    ARRAY_SIZE(visionox_vtdr6130_supplies),
-@@ -273,9 +275,6 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
- 			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
- 	ctx->panel.prepare_prev_first = true;
+ 	/*
+@@ -379,9 +381,6 @@ static int ws2401_probe(struct spi_device *spi)
+ 	ws2401_read_mtp_id(ws);
+ 	ws2401_power_off(ws);
  
--	drm_panel_init(&ctx->panel, dev, &visionox_vtdr6130_panel_funcs,
--		       DRM_MODE_CONNECTOR_DSI);
+-	drm_panel_init(&ws->panel, dev, &ws2401_drm_funcs,
+-		       DRM_MODE_CONNECTOR_DPI);
 -
- 	ctx->panel.backlight = visionox_vtdr6130_create_backlight(dsi);
- 	if (IS_ERR(ctx->panel.backlight))
- 		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+ 	ret = drm_panel_of_backlight(&ws->panel);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret,
 
 -- 
 2.48.1
