@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D46A7AAF0
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E467AA7AAF2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:17:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DDDF10EAD1;
-	Thu,  3 Apr 2025 19:17:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E960C10EAD5;
+	Thu,  3 Apr 2025 19:17:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RYzd6ca/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LBjgtHTm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD5DC10EAD1
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:17:05 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD31810EACC;
+ Thu,  3 Apr 2025 19:17:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 27B8AA44623;
- Thu,  3 Apr 2025 19:11:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 603C3C4CEE3;
- Thu,  3 Apr 2025 19:17:03 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 179C7614B8;
+ Thu,  3 Apr 2025 19:17:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26815C4CEE8;
+ Thu,  3 Apr 2025 19:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707824;
- bh=AS4RaIshtcU30uLBqrbLWUqtMzDm0R+BHz6wn5S4PGo=;
- h=From:To:Cc:Subject:Date:From;
- b=RYzd6ca/Q6LpGHgN8dn+/15GDY6Sfxahu/v9J+88YvV7bEYWyJ6RJfozr9F2qMBM+
- WegpFYd8tGZQVxKrhufJeT32kmLqzgQ/zZTnzXdvtbJZtFXHZb0XnqMgxZRpdmAMa5
- Vj9V13/Dc43aeyH8vv5q+xeGq/Nrba9WXYJrqL3QyjLPhopIcW+T03YZ/F4GWnluKm
- eCOSZpCBNSWAPh/cDDy4VxkcfHLcaXR1yzE4gsiVqibv1yycduqCcuJ0Gp3wLqhg3d
- HztyFbZ7nX9ziwDJpQOpLBu0JmzTcJrwF2eIEgs5ypK0eBvXh0PnaRFMcl1/xrZ+9l
- LxqsTmwygN9zg==
+ s=k20201202; t=1743707826;
+ bh=yUpA0qjHvZKAAfgwXDObkqFQ3RYg+pih7cXGpVy1gts=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=LBjgtHTmW9JVQFmazjM9TFTdcpxl8Q692kxX2gRuo0tdScc8BWycK6+7NdT5DlV+1
+ hCnG1tZtIrH6ibC/wGXMibR7XPNbOkACll9uEqoRpDc/gFMZgbk4U9qFwBzdqoWEyu
+ hJvgUPRiTSdZOIuPgafJ6u10fQ+6aRPjuCHONvUlay1dCAgqH9uDoxZb+7x/qhNO7O
+ gmYqRc1vcuYK6/myIgVpfgq569W8P7/ufpid+KJDvfY2O9FksVc6pj+49quAaTfkVW
+ LIDifJNsvmPgxH8R4fwP3PyBD5arnK9vU2QA9NZnCxMZhmwez8n8BqgkHko4/jUHaa
+ 4YMf/gANHSI6g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+Cc: Shekhar Chauhan <shekhar.chauhan@intel.com>,
+ Clint Taylor <Clinton.A.Taylor@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sasha Levin <sashal@kernel.org>,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, airlied@gmail.com, simona@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 01/33] drm: allow encoder mode_set even when
- connectors change for crtc
-Date: Thu,  3 Apr 2025 15:16:24 -0400
-Message-Id: <20250403191656.2680995-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 02/33] drm/xe/bmg: Add new PCI IDs
+Date: Thu,  3 Apr 2025 15:16:25 -0400
+Message-Id: <20250403191656.2680995-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250403191656.2680995-1-sashal@kernel.org>
+References: <20250403191656.2680995-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -65,46 +67,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+From: Shekhar Chauhan <shekhar.chauhan@intel.com>
 
-[ Upstream commit 7e182cb4f5567f53417b762ec0d679f0b6f0039d ]
+[ Upstream commit fa8ffaae1b15236b8afb0fbbc04117ff7c900a83 ]
 
-In certain use-cases, a CRTC could switch between two encoders
-and because the mode being programmed on the CRTC remains
-the same during this switch, the CRTC's mode_changed remains false.
-In such cases, the encoder's mode_set also gets skipped.
+Add 3 new PCI IDs for BMG.
 
-Skipping mode_set on the encoder for such cases could cause an issue
-because even though the same CRTC mode was being used, the encoder
-type could have changed like the CRTC could have switched from a
-real time encoder to a writeback encoder OR vice-versa.
+v2: Fix typo -> Replace '.' with ','
 
-Allow encoder's mode_set to happen even when connectors changed on a
-CRTC and not just when the mode changed.
-
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241211-abhinavk-modeset-fix-v3-1-0de4bf3e7c32@quicinc.com
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Shekhar Chauhan <shekhar.chauhan@intel.com>
+Reviewed-by: Clint Taylor <Clinton.A.Taylor@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250128162015.3288675-1-shekhar.chauhan@intel.com
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/drm/intel/i915_pciids.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 5186d2114a503..32902f77f00dd 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1376,7 +1376,7 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *old_state)
- 		mode = &new_crtc_state->mode;
- 		adjusted_mode = &new_crtc_state->adjusted_mode;
+diff --git a/include/drm/intel/i915_pciids.h b/include/drm/intel/i915_pciids.h
+index f35534522d333..dacea289acaf5 100644
+--- a/include/drm/intel/i915_pciids.h
++++ b/include/drm/intel/i915_pciids.h
+@@ -809,6 +809,9 @@
+ 	MACRO__(0xE20B, ## __VA_ARGS__), \
+ 	MACRO__(0xE20C, ## __VA_ARGS__), \
+ 	MACRO__(0xE20D, ## __VA_ARGS__), \
+-	MACRO__(0xE212, ## __VA_ARGS__)
++	MACRO__(0xE210, ## __VA_ARGS__), \
++	MACRO__(0xE212, ## __VA_ARGS__), \
++	MACRO__(0xE215, ## __VA_ARGS__), \
++	MACRO__(0xE216, ## __VA_ARGS__)
  
--		if (!new_crtc_state->mode_changed)
-+		if (!new_crtc_state->mode_changed && !new_crtc_state->connectors_changed)
- 			continue;
- 
- 		drm_dbg_atomic(dev, "modeset on [ENCODER:%d:%s]\n",
+ #endif /* _I915_PCIIDS_H */
 -- 
 2.39.5
 
