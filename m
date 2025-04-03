@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07D2A7A0E5
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 12:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E55A7A0F5
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 12:26:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3226C10E992;
-	Thu,  3 Apr 2025 10:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60CE410E999;
+	Thu,  3 Apr 2025 10:25:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YOMpwmEH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WAxALzSe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27F9010E992
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 10:21:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743675682;
- bh=0oE4lMdKbjGPtKZ/zki1hCNZrfNg91tWfdphSD8J1Nw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YOMpwmEH6WLl5/kP+yXKdKE0c29/hieX44XzQ4RsIYxxu3SwsDQ17jv6szsAdzoyE
- oABAy3C2DKTNPlg6FuaPa8CUQS7tcRNpzBN5byRJGF2KC9Mi+IQ+grVNxdoYfqm/HR
- dUhT/adw6a5M3thbMccMxadccDn/EdlBz5hVJsx63TexyCB8X0y1m3ruccKaKcutg5
- qxFBTlQlL7AihMPBkxV59weTtantbf6BM5CtJY4kwnZBfg6RvDt27QLJXuib/SqaC5
- CUjCJ1IlnaRwnIthCpnLv+6+2JFEyXplP1Al2+CT0Pah8v1LP8qVUiY1p8kM6S/aY/
- Pl6DhKuIpPfQw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C28C817E0F47;
- Thu,  3 Apr 2025 12:21:21 +0200 (CEST)
-Message-ID: <568517cc-7108-4e38-b208-43d4e305f663@collabora.com>
-Date: Thu, 3 Apr 2025 12:21:21 +0200
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E92DE10E997;
+ Thu,  3 Apr 2025 10:25:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id AAE3843DF9;
+ Thu,  3 Apr 2025 10:25:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF4C6C4CEE3;
+ Thu,  3 Apr 2025 10:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743675953;
+ bh=Y9/JjJAnyFciSb9gRCH9l+cicpwYPTr2yg3ZDp1TJSc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WAxALzSesz8VNaOY9otLdh3s16xHmTqb9sTdv49jH6Cb/gbWzB8mOcn/QHElPh1Ci
+ UV8gKr3iU2QVTH3M5dCwpMc9rPLZ68B01ebi8L5oUZqRT8bBEg3qFQ0GzOmtsG26Ca
+ cEELM2NjI1OMJG2esNzR9sEJ4K+CvBaU2e1Q93dwe3BMInQ1x6/yigYwmPCtBsTB75
+ Tvmh7HCZEILaJdy/h36a0GLLpuLiu/x6jkpPcgLrjFmWpfhDnjqR1t7MHRgv+hNISy
+ r7G0JzveWH0Tljon7pheRV0OBLNfvJfLOKWwYghFLbt+bxIZpT44RVC4+mRxMqH95D
+ Dj4CSnoFmz4bA==
+Date: Thu, 3 Apr 2025 12:25:47 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: phasta@kernel.org
+Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] drm/nouveau: Prevent signalled fences in pending list
+Message-ID: <Z-5iK-mIYPIhanX-@pollux>
+References: <20250403101353.42880-2-phasta@kernel.org>
+ <84b0db2de7a26aab00778bcaca15a0dffaa9c32a.camel@mailbox.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mediatek: Replace custom compare_dev with
- component_compare_of
-To: shao.mingyin@zte.com.cn, chunkuang.hu@kernel.org
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, yang.yang29@zte.com.cn,
- xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn, tang.dongxing@zte.com.cn
-References: <20250403155419406T5YhIJKId1FWor70EWWHG@zte.com.cn>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250403155419406T5YhIJKId1FWor70EWWHG@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <84b0db2de7a26aab00778bcaca15a0dffaa9c32a.camel@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +63,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 03/04/25 09:54, shao.mingyin@zte.com.cn ha scritto:
-> From: Tang Dongxing <tang.dongxing@zte.com.cn>
+On Thu, Apr 03, 2025 at 12:17:29PM +0200, Philipp Stanner wrote:
+> On Thu, 2025-04-03 at 12:13 +0200, Philipp Stanner wrote:
+> > -static int
+> > -nouveau_fence_signal(struct nouveau_fence *fence)
+> > +static void
+> > +nouveau_fence_cleanup_cb(struct dma_fence *dfence, struct
+> > dma_fence_cb *cb)
+> >  {
+> > -	int drop = 0;
+> > +	struct nouveau_fence_chan *fctx;
+> > +	struct nouveau_fence *fence;
+> > +
+> > +	fence = container_of(dfence, struct nouveau_fence, base);
+> > +	fctx = nouveau_fctx(fence);
+> >  
+> > -	dma_fence_signal_locked(&fence->base);
+> >  	list_del(&fence->head);
+> >  	rcu_assign_pointer(fence->channel, NULL);
+> >  
+> >  	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags))
+> > {
+> > -		struct nouveau_fence_chan *fctx =
+> > nouveau_fctx(fence);
+> > -
+> >  		if (!--fctx->notify_ref)
+> > -			drop = 1;
+> > +			nvif_event_block(&fctx->event);
+> >  	}
+> >  
+> >  	dma_fence_put(&fence->base);
 > 
-> Remove the custom device comparison function compare_dev and replace it
-> with the existing kernel helper component_compare_of
+> What I realized while coding this v2 is that we might want to think
+> about whether we really want the dma_fence_put() in the fence callback?
 > 
-> Signed-off-by: Tang Dongxing <tang.dongxing@zte.com.cn>
-> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+> It should work fine, since it's exactly identical to the previous
+> code's behavior – but effectively it means that the driver's reference
+> will be dropped whenever it signals that fence.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Not quite, it's the reference of the fence context's pending list.
 
-> ---
->   drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c | 7 +------
->   1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-> index fa0e95dd29a0..fe97bb97e004 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-> @@ -492,11 +492,6 @@ static const struct of_device_id mtk_ovl_adaptor_comp_dt_ids[] = {
->   	{ /* sentinel */ }
->   };
-> 
-> -static int compare_of(struct device *dev, void *data)
-> -{
-> -	return dev->of_node == data;
-> -}
-> -
->   static int ovl_adaptor_of_get_ddp_comp_type(struct device_node *node,
->   					    enum mtk_ovl_adaptor_comp_type *ctype)
->   {
-> @@ -567,7 +562,7 @@ static int ovl_adaptor_comp_init(struct device *dev, struct component_match **ma
-> 
->   		priv->ovl_adaptor_comp[id] = &comp_pdev->dev;
-> 
-> -		drm_of_component_match_add(dev, match, compare_of, node);
-> +		drm_of_component_match_add(dev, match, component_compare_of, node);
->   		dev_dbg(dev, "Adding component match for %pOF\n", node);
->   	}
-> 
-
-
+When the fence is emitted, dma_fence_init() is called, which initializes the
+reference count to 1. Subsequently, another reference is taken, when the fence
+is added to the pending list. Once the fence is signaled and hence removed from
+the pending list, we can (and have to) drop this reference.
