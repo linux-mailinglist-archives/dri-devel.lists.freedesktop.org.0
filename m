@@ -2,93 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01C3A7A449
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 15:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D90A7A57D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 16:43:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D845510E9E1;
-	Thu,  3 Apr 2025 13:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3E3C10E9E5;
+	Thu,  3 Apr 2025 14:43:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="U5ovn5D2";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OZdZ5/kw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FFED10EA07
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 13:49:37 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-43cec5cd73bso5197865e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 06:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1743688172; x=1744292972; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+Lbun0GNki6Idmi3A3g8x7YFlOE4BIKGs03UY95gVCA=;
- b=U5ovn5D2L4h+B9BP6bexZqxFEJxMKWPhQm28AGep5mMhiljvOrerZnXL9XAsF/2Nzw
- X8kxUyVZ16jUVydzBpvPa0q8XFGpGWov/stQFoABISH+NPc529RfgsL6sY1KFkIcFnYP
- KZwpkpNxbbu2+dM+EkgcMcFzj+safSKKlB1Fhqf5ho8HBZZzrzCSfp3XDwzVWe33Wycx
- JrwFkUwDE+MYrIIy7qx406+jZo2+oR+jom0HEGJTxmD5tlHAOeQ7kf4KDdVWvKaUAr1r
- 3MDYeONkjjbMfZMlolIUaOT8GvMsQEYqOzAobYVxX5edWyyOv9DdKfCewY6s34pGHrBH
- yMbg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 141DC10E9E5
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 14:43:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1743691421;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G0/3xF7LqKpHtjllUeSgNdL9BkYbSzaTgS+iogKs1P0=;
+ b=OZdZ5/kwbGLH0y9Ft5AC5iycEwwcaBMOjPKrXon3/AI4KH/hYDVHZy+1SIqAn1nzj0DyhD
+ H2LTdBOs/0VXMIPyb5ojFoxc/wQ+U1/bJzcPS01fDsBdoHXRsFN9I5vPuJZiOTBAKnSKiZ
+ BZnKc/LDw16KsHAq2LMabYclhEESKXE=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-392-5LuGOogrNn6WHZLpeETpYw-1; Thu, 03 Apr 2025 10:43:39 -0400
+X-MC-Unique: 5LuGOogrNn6WHZLpeETpYw-1
+X-Mimecast-MFC-AGG-ID: 5LuGOogrNn6WHZLpeETpYw_1743691419
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-6fec94421f8so15284587b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 07:43:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743688172; x=1744292972;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1743691419; x=1744296219;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+Lbun0GNki6Idmi3A3g8x7YFlOE4BIKGs03UY95gVCA=;
- b=PgpEpz4ke/3x3wweBnw7qpvqXbY047a+2TsZfIvWcI1NJQIQGLfEyaR4fz/xoily9Z
- UIpILV9XVvo8JGgAsvU+5PBq3zh3fYixX+yCtUJRbZ9yIV5Qz8mxb+GuqQlp04b7SeTy
- 3aiYSvrRw61Ji+lppp17qclPem5o0uXhVwqSy+ERXKWmJrYySQTmlO3RvvQ3N2Ta9W6K
- Da1Tprpd3oBs0zLO/+fLtUoWsgC7dEDu2sj3noCMraXJ6O+PTgqvEE9f3jQVPOf8Hb6w
- B3JWzkfdJ5uPprCwKmj35llsFNPwB1q4ldFqtc2shIGInGey1XVL7Eth8SaOUyb3yh03
- 4e4w==
+ bh=G0/3xF7LqKpHtjllUeSgNdL9BkYbSzaTgS+iogKs1P0=;
+ b=pZfM1hUkj3A0JbRz3aI8tGEq9YGYP/Nnna3s6VXsvkv1Cpy/f1BFDNV1zkNyuP2q2X
+ Uvf/Qb65LAX8/B8u3M9y4by+K5P/4Gzz3R2+rM6iFhht8NpKoH+cvT9zM7WNU4+8KDN8
+ tdIIemRNL4k3FQ4bFAlH5BGrSsBWeJo/JM0h7vVC8canSXamVTXTC8vMiSZKTDxqwz/n
+ m599JYlsP9vCWX/qMpWJLfHmGyGih14it8VXNl7EZrpDqGv0Uxp7lv9Xigc4S9SSI0Mv
+ AQLmCJPEbyCvkqE7V7S6KnrpZM/foH/Iv0zQde3uowxRPF/Kd0tciUMq2qRNe1RP2dAp
+ ZBXA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVBb7MpuoWe0s6jxJwJRzE6j5YZcVOLTtpr04wLKGXUpsiz3BgB6BNSotVUohd7o8GKCQax26Gwdtw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZ+Fa0avDP0VCZLd2TScKKV5Qdyy94yNUPrU2Q4Lrw5y9DQEEf
- 6MDYjWz1ZvcwYKpvHf4XBMRHcisRJ3qT3+i/atsKHwmixLKQikdJzRSLok+6Uu4=
-X-Gm-Gg: ASbGncuUBYSoE8etinaUelwC5Xg4Y7pmwkJ5ywdglB8uXaaAHT7tTQvEAzEwaqHN0KJ
- w0yncI51MBzR17R12FOlN6tsupoNrDSaC7PTXL7PYL94xwqaDG8GJObbSDKAnVcoF2mEgiReLeQ
- 7G0b9Wk+TZTpy5rPtZM5u64jzB4MvkOg3cEiza+mEixlVGmTZe9F66qSOHju5brp7N1+n4MiKHp
- 5+2BlksfPZXZ9uZPFba8T+S+mG5AnEQJBZ//jcYdvQc3an/X4lPPagYf9XM290WxN444JgXFJZ4
- m2bbP473uASi2hdhGeiAm7gUwWMB0pT8BmWAWJE3T7jtn8dMh97D+xYkIG+eOwOg/WMDF3lU6w=
- =
-X-Google-Smtp-Source: AGHT+IE9rPmpD+lql1OOhXGIwaIr3nFGx77QjAL7GITh3M6FkiFPLNOqADUYHdezax8BrNQwiF0+bA==
-X-Received: by 2002:a05:600c:4589:b0:43d:300f:fa51 with SMTP id
- 5b1f17b1804b1-43eb5c187e8mr59872065e9.9.1743688172289; 
- Thu, 03 Apr 2025 06:49:32 -0700 (PDT)
-Received: from [192.168.68.117] ([5.133.47.210])
- by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43ec1692ba4sm22202575e9.16.2025.04.03.06.49.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Apr 2025 06:49:31 -0700 (PDT)
-Message-ID: <fe188552-3f1c-49f3-96ef-6e5aca6896ca@linaro.org>
-Date: Thu, 3 Apr 2025 14:49:31 +0100
+ AJvYcCXuPjnFieCyaGWQ1aehZ8688DEDBN7frKBhH4CooT1O/OWk3yXUV09vh2WMXa1PcNr7HaqJNtkngc4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwA30Wwj8wEWPJ42EFmKozgQNcTkpLGC/4wKB8sxOTX/VzkiNA5
+ 5ohk7fQCLfQoEJMmMkBhYusakOwELnno7trK6FBbwrE3X2kTgYVjfzDadKMRGhkw0K4th9IbHty
+ Voew9N8wa6KrhwnN8FKgXrn43stIbXXE3nruHmXB8NC1i0M7GwXN4bsYlPnBWJEO5AyReS6Ac9X
+ DT4d+Pj+U23NWmpUOAXFYUnsppfCc44Jv9NDjT5oEJ
+X-Gm-Gg: ASbGncv50XisIWXvIv/4xuqm+lHA0zx26rMiaH18Sl6NgRyzPXU+gxNaAHtjliHqYTV
+ i+8Ed1v/Pvi3rj3vKKZcqNB8f5WuZ9yjrTXcDLykgECVggTxl2cO1vppGGl0vbd54EcKSi+I=
+X-Received: by 2002:a05:690c:4c07:b0:6f9:a3c6:b2e4 with SMTP id
+ 00721157ae682-703d08b9668mr57470467b3.37.1743691419228; 
+ Thu, 03 Apr 2025 07:43:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEy0jWUEBPrwVi5+cp4UiEoK2GwZruFeMmvvFiZ/FfQJ3rvFuOg36l+02AtRrya7XMe57ywC9rDPaJzzKe6+QQ=
+X-Received: by 2002:a05:690c:4c07:b0:6f9:a3c6:b2e4 with SMTP id
+ 00721157ae682-703d08b9668mr57469947b3.37.1743691418913; Thu, 03 Apr 2025
+ 07:43:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Ling Xu <quic_lxu5@quicinc.com>, andersson@kernel.org,
- konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- gregkh@linuxfoundation.org, quic_kuiw@quicinc.com,
- quic_ekangupt@quicinc.com, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
- <20250320091446.3647918-3-quic_lxu5@quicinc.com>
- <30bba296-8e6f-41ee-880e-2d5ecc8fe5a4@linaro.org>
- <qhriqbm6fcy5vcclfounaaepxcvnck2lb7k2gcpbtrojqzehua@khv5lwdgbysc>
- <9962c517-5c0e-4d46-ac0c-2a7bab550156@linaro.org>
- <412fe24e-ce70-4733-ace5-d3fbe43476c4@oss.qualcomm.com>
- <c27a97ed-c765-421a-a48c-3abbae3bac93@oss.qualcomm.com>
- <bfa29a76-f89a-4398-b6b3-1be7ae6cf8b3@oss.qualcomm.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <bfa29a76-f89a-4398-b6b3-1be7ae6cf8b3@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250402-b4-drm_panel_mass_convert_part2-v1-0-903b70999ea6@redhat.com>
+ <20250402-b4-drm_panel_mass_convert_part2-v1-7-903b70999ea6@redhat.com>
+ <75q6u7kgyhveuzlxujoocvqfzilaxsvh3udzeltk2itwigy2n3@f5sqxddtjxuf>
+In-Reply-To: <75q6u7kgyhveuzlxujoocvqfzilaxsvh3udzeltk2itwigy2n3@f5sqxddtjxuf>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Thu, 3 Apr 2025 09:42:05 -0400
+X-Gm-Features: ATxdqUGIuvmtYOcLysnbRX-17l-WfrVBjLqnj3qYOgi5YL2_hLuPabNHBYRCCfE
+Message-ID: <CAN9Xe3QpdbCW_802yxp5h3OHLf0hMA6diY=HZjR07-shggNsBg@mail.gmail.com>
+Subject: Re: [PATCH 07/30] panel/ilitek-ili9341: Use refcounted allocation in
+ place of devm_kzalloc()
+To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>, 
+ Anusha Srivatsa <asrivats@redhat.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Icenowy Zheng <icenowy@aosc.io>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ Michael Walle <mwalle@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, Linus Walleij <linus.walleij@linaro.org>, 
+ Jianhua Lu <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: aKQRObt5-JIC6ouTtHkMPYdq5S7sJJgBfI7G-vx2sFw_1743691419
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000009f5f650631e0cb11"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,97 +106,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--0000000000009f5f650631e0cb11
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Apr 2, 2025 at 5:09=E2=80=AFPM Ond=C5=99ej Jirman <megi@xff.cz> wro=
+te:
 
-On 03/04/2025 05:44, Ekansh Gupta wrote:
-> 
-> On 4/2/2025 2:12 PM, Dmitry Baryshkov wrote:
->> On 02/04/2025 11:38, Ekansh Gupta wrote:
->>>
->>> On 3/21/2025 5:53 PM, Srinivas Kandagatla wrote:
->>>>
->>>> On 20/03/2025 18:43, Dmitry Baryshkov wrote:
->>>>> On Thu, Mar 20, 2025 at 05:11:20PM +0000, Srinivas Kandagatla wrote:
->>>>>>
->>>>>> On 20/03/2025 09:14, Ling Xu wrote:
->>>>>>> The fastrpc driver has support for 5 types of remoteprocs. There are
->>>>>>> some products which support GPDSP remoteprocs. Add changes to support
->>>>>>> GPDSP remoteprocs.
->>>>>>>
->>>>>>> Reviewed-by: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
->>>>>>> Signed-off-by: Ling Xu<quic_lxu5@quicinc.com>
->>>>>>> ---
->>>>>>>      drivers/misc/fastrpc.c | 10 ++++++++--
->>>>>>>      1 file changed, 8 insertions(+), 2 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>>>>>> index 7b7a22c91fe4..80aa554b3042 100644
->>>>>>> --- a/drivers/misc/fastrpc.c
->>>>>>> +++ b/drivers/misc/fastrpc.c
->>>>>>> @@ -28,7 +28,9 @@
->>>>>>>      #define SDSP_DOMAIN_ID (2)
->>>>>>>      #define CDSP_DOMAIN_ID (3)
->>>>>>>      #define CDSP1_DOMAIN_ID (4)
->>>>>>> -#define FASTRPC_DEV_MAX        5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
->>>>>>> +#define GDSP0_DOMAIN_ID (5)
->>>>>>> +#define GDSP1_DOMAIN_ID (6)
->>>>>> We have already made the driver look silly here, Lets not add domain ids for
->>>>>> each instance, which is not a scalable.
->>>>>>
->>>>>> Domain ids are strictly for a domain not each instance.
->>>>> Then CDSP1 should also be gone, correct?
->>>> Its already gone as part of the patch that I shared in this discussion.
->>>>
->>>> I will send a proper patch to list once Ling/Ekansh has agree with it.
->>>>
->>> Thanks, Srini, for sharing this clean-up patch. It looks proper to
->>> me, but I was thinking if we could remove the domain_id dependency
->>> from the fastrpc driver. The addition of any new DSP will frequently
->>> require changes in the driver. Currently, its usage is for creating
->>> different types of device nodes and transferring memory ownership to
->>> SLPI when a memory region is added.
->>>
->>> The actual intention behind different types of device nodes can be
->>> defined as follows:
->>>
->>> fastrpc-xdsp-secure: Used for signed (privileged) PD offload and for daemons.
->>> fastrpc-xdsp: Should be used only for unsigned (less privileged) PD offload.
->>>
->>> The reason for this constraint is to prevent any untrusted process
->>> from communicating with any privileged PD on DSP, which poses a security risk.
->>> The access to different device nodes can be provided/restricted based on UID/GID
->>> (still need to check more on this; on Android-like systems, this is controlled by
->>> SELinux).
->>>
->>> There is already a qcom,non-secure-domain device tree property[1] which doesn't
->>> have a proper definition as of today. The actual way to differentiate between
->>> secure and non-secure DSP should be based on its ability to support unsigned PD.
->>>
->>> One way to remove the domain_id dependency that I can think of is to use this
->>> property to create different types of device nodes. Essentially, if unsigned PD
->>> is supported (e.g., CDSP, GPDSP), we add this property to the DT node and create
->>> both types of device nodes based on this. Otherwise, only the secure device node
->>> is created.
->> This sounds like breaking backwards compatibility on the userspace side. You can not do that.
-> Okay, I thought if the property is added for all older platforms, that will ensure backward
-> compatibility is maintained for old built applications.
-> 
->  From userspace, the expected device open sequence is to try with the secure device node and
-> fallback to the default/non-secure node if the secure node is not available/accessible.
-> I understand the ABI cannot be broken, and this expectation should be added for new
-> applications/platforms.
-> 
-> This is still a security issue that needs to be fixed in some way. I'll try to find out if any other
-> approach can address this.
-In the past I have suggested you to update the dt-bindings so that any 
-new platforms that get added will not use the qcom,non-secure-domain 
-flag. The usage of this flag is still confusing for any new users, as 
-per the dt bindings its open to be used.
+> Hi Anusha,
+>
+> On Wed, Apr 02, 2025 at 11:23:45AM -0400, Anusha Srivatsa wrote:
+> > Move to using the new API devm_drm_panel_alloc() to allocate the
+> > panel.
+> >
+> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> > ---
+> >  drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 8 +++++---
+> >  1 file changed, 5 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> > index
+> ff39f5dd4097e8da0a0e16c50c5bfd45c078d91c..d87b7eefe9beedd290fb59065b389b3=
+315c85720
+> 100644
+> > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> > @@ -490,9 +490,11 @@ static int ili9341_dpi_probe(struct spi_device
+> *spi, struct gpio_desc *dc,
+> >       struct ili9341 *ili;
+> >       int ret;
+> >
+> > -     ili =3D devm_kzalloc(dev, sizeof(struct ili9341), GFP_KERNEL);
+> > -     if (!ili)
+> > -             return -ENOMEM;
+> > +     ili =3D devm_drm_panel_alloc(dev, struct ili9341, panel,
+> > +                                &ili9341_dpi_funcs,
+> > +                                DRM_MODE_CONNECTOR_DPI);
+> > +     if (IS_ERR(ili))
+> > +             return PTR_ERR(ili);
+> >
+> >       ili->dbi =3D devm_kzalloc(dev, sizeof(struct mipi_dbi),
+> >                               GFP_KERNEL);
+>
+> Unlike in other patches, in this one you did not remove:
+>
+>
+> https://elixir.bootlin.com/linux/v6.13.7/source/drivers/gpu/drm/panel/pan=
+el-ilitek-ili9341.c#L529
+>
+>         drm_panel_init(&ili->panel, dev, &ili9341_dpi_funcs,
+>                        DRM_MODE_CONNECTOR_DPI);
+>
+> Unintentional?
+>
+> Yup. Unintentional. WIll remove this in the next iteration.
 
-As we can not break the backwards compatibility, why not just restrict 
-that to those platforms for now, and enforce new platforms to use not 
-use it for for domains like adsp.
+Thanks!
+Anusha
 
---srini
+> kind regards,
+>         o.
+>
+> > --
+> > 2.48.1
+> >
+>
+>
 
+--0000000000009f5f650631e0cb11
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 2, =
+2025 at 5:09=E2=80=AFPM Ond=C5=99ej Jirman &lt;<a href=3D"mailto:megi@xff.c=
+z">megi@xff.cz</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">Hi Anusha,<br>
+<br>
+On Wed, Apr 02, 2025 at 11:23:45AM -0400, Anusha Srivatsa wrote:<br>
+&gt; Move to using the new API devm_drm_panel_alloc() to allocate the<br>
+&gt; panel.<br>
+&gt; <br>
+&gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.c=
+om" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 8 +++++---<br>
+&gt;=C2=A0 1 file changed, 5 insertions(+), 3 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gp=
+u/drm/panel/panel-ilitek-ili9341.c<br>
+&gt; index ff39f5dd4097e8da0a0e16c50c5bfd45c078d91c..d87b7eefe9beedd290fb59=
+065b389b3315c85720 100644<br>
+&gt; --- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c<br>
+&gt; +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c<br>
+&gt; @@ -490,9 +490,11 @@ static int ili9341_dpi_probe(struct spi_device *s=
+pi, struct gpio_desc *dc,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct ili9341 *ili;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 =C2=A0ili =3D devm_kzalloc(dev, sizeof(struct ili9341),=
+ GFP_KERNEL);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0if (!ili)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0ili =3D devm_drm_panel_alloc(dev, struct ili9341,=
+ panel,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;ili9341_dpi_funcs,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_MODE_CONNECTOR_DPI);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (IS_ERR(ili))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(ili);<=
+br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ili-&gt;dbi =3D devm_kzalloc(dev, sizeof(str=
+uct mipi_dbi),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GFP_KERNEL);<br>
+<br>
+Unlike in other patches, in this one you did not remove:<br>
+<br>
+<a href=3D"https://elixir.bootlin.com/linux/v6.13.7/source/drivers/gpu/drm/=
+panel/panel-ilitek-ili9341.c#L529" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://elixir.bootlin.com/linux/v6.13.7/source/drivers/gpu/drm/panel/panel-il=
+itek-ili9341.c#L529</a><br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_panel_init(&amp;ili-&gt;panel, dev, &amp;il=
+i9341_dpi_funcs,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0DRM_MODE_CONNECTOR_DPI);<br>
+<br>
+Unintentional?<br>
+<br></blockquote><div>Yup. Unintentional. WIll remove this in the next iter=
+ation.</div><div><br></div><div>Thanks!</div><div>Anusha <br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+kind regards,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 o.<br>
+<br>
+&gt; -- <br>
+&gt; 2.48.1<br>
+&gt; <br>
+<br>
+</blockquote></div></div>
+
+--0000000000009f5f650631e0cb11--
 
