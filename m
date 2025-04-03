@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBD5A7AAC8
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE6EA7AACA
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:16:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7162110EAB7;
-	Thu,  3 Apr 2025 19:15:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C2410EABA;
+	Thu,  3 Apr 2025 19:16:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aabU8eKX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oVFnhHgr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 532D310EAB8
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:15:57 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37E6E10EABB
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:15:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B4817A45A52;
- Thu,  3 Apr 2025 19:10:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E1B9C4CEE3;
- Thu,  3 Apr 2025 19:15:54 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 846B9614B7;
+ Thu,  3 Apr 2025 19:15:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D05F0C4CEE3;
+ Thu,  3 Apr 2025 19:15:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707756;
- bh=RsSQvyW3QrtSAJP9FCcNN6N/x+TyIyFZQExTiaNbHWM=;
+ s=k20201202; t=1743707758;
+ bh=xm7sDgQav9lbbEd0kVSgwqWfivHkaFEd3qIJdAM/vPA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aabU8eKXa4/EKYkYOBXlQP1pqE86+RQXx3U+ec8Xujoj1A2/0/B7kEmkO7eagjvZf
- 1IrptqutgJqtzH8HpGzPlmZr0QgHWcCLkZ4nN+JE6/hUTxsZ/Jhg9t/9HK9tEugCmY
- YHWLgSTvEsfKa4kitl81dibDsZE28Xe21mS2URUOrQ0qYdQbnCOEiznMzB7uJ/ieOR
- DH4+FNwAyZWAXS40okIHgN4WotkKDXBSMRD9Rz2U0wACXcx43yYfHEiUebZ5t0aqXL
- rSvHL+P1qMLN+uXYjAIC/4om+nkKzNdXaAuQh6xG2q+9L5qbBG9q1oiIeWHmTfHVjI
- FuxjdT6zc81Dg==
+ b=oVFnhHgrgAkOKZqz3tzJpRtPUvMVB2OMSyb8v86hM7Ev9sqHVAST1T+Gw59Wm0X9U
+ iE1PbG5+8JMRG0ngs+xzCtS+3iUdAR/QYqTkjaSKJYJ0KupZ8IAilJTf3yKp0LzAUV
+ NLlgoh6xrsZP6lqBZTs7fb+7i8ss4Y8Pcr7/QfbTgiVPZXWsdVDbordS+a0k+QGPhF
+ kLUt+9xTxeYpjO6FHFoz3ri9NfvaHbCjNHsTchvTmRkzvhLwI+QnvRu19lr1EQnc6Y
+ 9RzUtygG8sGd3335kSoT8j1YsxuKilln2ujqN5pR9nhCN0iAoAxeh+TOqHQ+MMqwmv
+ KOV2zCWqEWR+g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Robert Foss <rfoss@kernel.org>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.13 13/37] drm/debugfs: fix printk format for bridge
- index
-Date: Thu,  3 Apr 2025 15:14:49 -0400
-Message-Id: <20250403191513.2680235-13-sashal@kernel.org>
+ neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.13 14/37] drm/bridge: panel: forbid initializing a
+ panel with unknown connector type
+Date: Thu,  3 Apr 2025 15:14:50 -0400
+Message-Id: <20250403191513.2680235-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191513.2680235-1-sashal@kernel.org>
 References: <20250403191513.2680235-1-sashal@kernel.org>
@@ -67,32 +68,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-[ Upstream commit 72443c730b7a7b5670a921ea928e17b9b99bd934 ]
+[ Upstream commit b296955b3a740ecc8b3b08e34fd64f1ceabb8fb4 ]
 
-idx is an unsigned int, use %u for printk-style strings.
+Having an DRM_MODE_CONNECTOR_Unknown connector type is considered bad, and
+drm_panel_bridge_add_typed() and derivatives are deprecated for this.
+
+drm_panel_init() won't prevent initializing a panel with a
+DRM_MODE_CONNECTOR_Unknown connector type. Luckily there are no in-tree
+users doing it, so take this as an opportinuty to document a valid
+connector type must be passed.
+
+Returning an error if this rule is violated is not possible because
+drm_panel_init() is a void function. Add at least a warning to make any
+violations noticeable, especially to non-upstream drivers.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Robert Foss <rfoss@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250214-drm-assorted-cleanups-v7-1-88ca5827d7af@bootlin.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20250214-drm-assorted-cleanups-v7-5-88ca5827d7af@bootlin.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_debugfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_panel.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 536409a35df40..6b2178864c7ee 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -748,7 +748,7 @@ static int bridges_show(struct seq_file *m, void *data)
- 	unsigned int idx = 0;
- 
- 	drm_for_each_bridge_in_chain(encoder, bridge) {
--		drm_printf(&p, "bridge[%d]: %ps\n", idx++, bridge->funcs);
-+		drm_printf(&p, "bridge[%u]: %ps\n", idx++, bridge->funcs);
- 		drm_printf(&p, "\ttype: [%d] %s\n",
- 			   bridge->type,
- 			   drm_get_connector_type_name(bridge->type));
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index 19ab0a794add3..fd8fa2e0ef6fa 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -49,7 +49,7 @@ static LIST_HEAD(panel_list);
+  * @dev: parent device of the panel
+  * @funcs: panel operations
+  * @connector_type: the connector type (DRM_MODE_CONNECTOR_*) corresponding to
+- *	the panel interface
++ *	the panel interface (must NOT be DRM_MODE_CONNECTOR_Unknown)
+  *
+  * Initialize the panel structure for subsequent registration with
+  * drm_panel_add().
+@@ -57,6 +57,9 @@ static LIST_HEAD(panel_list);
+ void drm_panel_init(struct drm_panel *panel, struct device *dev,
+ 		    const struct drm_panel_funcs *funcs, int connector_type)
+ {
++	if (connector_type == DRM_MODE_CONNECTOR_Unknown)
++		DRM_WARN("%s: %s: a valid connector type is required!\n", __func__, dev_name(dev));
++
+ 	INIT_LIST_HEAD(&panel->list);
+ 	INIT_LIST_HEAD(&panel->followers);
+ 	mutex_init(&panel->follower_lock);
 -- 
 2.39.5
 
