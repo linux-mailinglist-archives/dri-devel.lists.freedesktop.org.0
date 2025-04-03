@@ -2,70 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6EE1A7A084
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 11:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B519FA7A0C8
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 12:16:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 965DC10E991;
-	Thu,  3 Apr 2025 09:54:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 133C610E095;
+	Thu,  3 Apr 2025 10:16:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bFzT12Nt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cVlBjpfV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A66910E990;
- Thu,  3 Apr 2025 09:54:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743674096; x=1775210096;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=4aLRfN57w9gzYeMIUFZ1CreUx/4uJrM+2z5ByxW5EGs=;
- b=bFzT12Nt9dslMvu07bR3cLjt/fVQhkGGPAKKxQ63NUufFka4fJ8oxecM
- fNXIXhzauvxjbZ+vkAPsBqzHZOEhEysYQzJzKcmw+Cq4Z6Gq0goynPFVM
- ScmmcltwNMWt3JR20ufjUWl43UmNQ9+iNkOxSN2eRRb7mh/UrXiLVcNlz
- nl2CjRin7HYhew4jGY24UBNdPQhoTpikx/61LI+d5uHAnF6bgFlX7R3/s
- 1O4NvKt32UdHTlraMNtK59NK5iwzSjCSx2eoYTT4JuwVDeeXlE2r/hGui
- h3uDDj9i0krnyRWm9y7jl1rhexykZ3nJhvMXLBYMCVCgRt1K0rd+ebwVI g==;
-X-CSE-ConnectionGUID: ulEQ3WI4R9GJ2m1UEA5tqg==
-X-CSE-MsgGUID: Fbb0ohgoRC6+0aohl/G2GA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="45197221"
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; d="scan'208";a="45197221"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2025 02:54:56 -0700
-X-CSE-ConnectionGUID: /c3TGysPSg6RF7ARnplGBw==
-X-CSE-MsgGUID: WQuuYpJoT9S6C/he/aCgvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; d="scan'208";a="150158033"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.152])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2025 02:54:51 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 3 Apr 2025 12:54:47 +0300 (EEST)
-To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
-cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v7 4/6] PCI/IOV: Check that VF BAR fits within the
- reservation
-In-Reply-To: <20250402141122.2818478-5-michal.winiarski@intel.com>
-Message-ID: <308209c2-508e-19d1-a5aa-9c8a8af68b23@linux.intel.com>
-References: <20250402141122.2818478-1-michal.winiarski@intel.com>
- <20250402141122.2818478-5-michal.winiarski@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C342A10E095;
+ Thu,  3 Apr 2025 10:15:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B78675C6677;
+ Thu,  3 Apr 2025 10:13:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4932CC4CEE3;
+ Thu,  3 Apr 2025 10:15:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743675344;
+ bh=Y5lfKBIHipEzLx3pRzlfCRd1YVUuZIoPVyyxseg8ZRI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=cVlBjpfVoI5iXt6biIGOugHzCgetf6T+X7OsygIQ3EeJaFKlp3/iRtaZBPnKqjMQa
+ NcETm9+IbOnfpk11YK2QIQcAYDO5LPw/INgTCDj/+JKbglsTrfPCGLMCtd1Grbhlyp
+ qaGhsFdGbjL4j/15R6gPTw4BYqZTDmgFxaUMUqSL1zUz0XHgXey6Hj6j1oqsuma2Xw
+ 481dS1xkvUZYeR5J+BvJo82JjXpa3lktdGLpEEfNPx1mXIboVHH4+ZfpU96uvEI5o7
+ IDEY760y5oExSByhc4tianjkdziAGaJm/9ub1gGLx7gQMxiscYh/TeUuB73M4KeRmF
+ qc/SAU8hNQJQQ==
+From: Philipp Stanner <phasta@kernel.org>
+To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, Philipp Stanner <phasta@kernel.org>,
+ stable@vger.kernel.org
+Subject: [PATCH v2] drm/nouveau: Prevent signalled fences in pending list
+Date: Thu,  3 Apr 2025 12:13:54 +0200
+Message-ID: <20250403101353.42880-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1411218873-1743674087=:1302"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,56 +60,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Nouveau currently relies on the assumption that dma_fences will only
+ever get signalled through nouveau_fence_signal(), which takes care of
+removing a signalled fence from the list nouveau_fence_chan.pending.
 
---8323328-1411218873-1743674087=:1302
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+This self-imposed rule is violated in nouveau_fence_done(), where
+dma_fence_is_signaled() can signal the fence without removing it from
+the list. This enables accesses to already signalled fences through the
+list, which is a bug.
 
-On Wed, 2 Apr 2025, Micha=C5=82 Winiarski wrote:
+Furthermore, it must always be possible to use standard dma_fence
+methods an a dma_fence and observe valid behavior. The canonical way of
+ensuring that signalling a fence has additional effects is to add those
+effects to a callback and register it on that fence.
 
-> When the resource representing VF MMIO BAR reservation is created, its
-> size is always large enough to accommodate the BAR of all SR-IOV Virtual
-> Functions that can potentially be created (total VFs). If for whatever
-> reason it's not possible to accommodate all VFs - the resource is not
-> assigned and no VFs can be created.
->=20
-> An upcoming change will allow VF BAR size to be modified by drivers at
-> a later point in time, which means that the check for resource
-> assignment is no longer sufficient.
->=20
-> Add an additional check that verifies that VF BAR for all enabled VFs
-> fits within the underlying reservation resource.
->=20
-> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
-> ---
->  drivers/pci/iov.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> index fee99e15a943f..2fafbd6a998f0 100644
-> --- a/drivers/pci/iov.c
-> +++ b/drivers/pci/iov.c
-> @@ -668,9 +668,12 @@ static int sriov_enable(struct pci_dev *dev, int nr_=
-virtfn)
->  =09nres =3D 0;
->  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
->  =09=09int idx =3D pci_resource_num_from_vf_bar(i);
-> +=09=09resource_size_t vf_bar_sz =3D pci_iov_resource_size(dev, idx);
-> =20
->  =09=09bars |=3D (1 << idx);
->  =09=09res =3D &dev->resource[idx];
-> +=09=09if (vf_bar_sz * nr_virtfn > resource_size(res))
-> +=09=09=09continue;
->  =09=09if (res->parent)
->  =09=09=09nres++;
->  =09}
->=20
+Move the code from nouveau_fence_signal() into a dma_fence callback.
+Register that callback when creating the fence.
 
-Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+Cc: <stable@vger.kernel.org> # 4.10+
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+Changes in v2:
+  - Remove Fixes: tag. (Danilo)
+  - Remove integer "drop" and call nvif_event_block() in the fence
+    callback. (Danilo)
+---
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 52 +++++++++++++------------
+ drivers/gpu/drm/nouveau/nouveau_fence.h |  1 +
+ 2 files changed, 29 insertions(+), 24 deletions(-)
 
---=20
- i.
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index 7cc84472cece..cf510ef9641a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -50,24 +50,24 @@ nouveau_fctx(struct nouveau_fence *fence)
+ 	return container_of(fence->base.lock, struct nouveau_fence_chan, lock);
+ }
+ 
+-static int
+-nouveau_fence_signal(struct nouveau_fence *fence)
++static void
++nouveau_fence_cleanup_cb(struct dma_fence *dfence, struct dma_fence_cb *cb)
+ {
+-	int drop = 0;
++	struct nouveau_fence_chan *fctx;
++	struct nouveau_fence *fence;
++
++	fence = container_of(dfence, struct nouveau_fence, base);
++	fctx = nouveau_fctx(fence);
+ 
+-	dma_fence_signal_locked(&fence->base);
+ 	list_del(&fence->head);
+ 	rcu_assign_pointer(fence->channel, NULL);
+ 
+ 	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags)) {
+-		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+-
+ 		if (!--fctx->notify_ref)
+-			drop = 1;
++			nvif_event_block(&fctx->event);
+ 	}
+ 
+ 	dma_fence_put(&fence->base);
+-	return drop;
+ }
+ 
+ static struct nouveau_fence *
+@@ -93,8 +93,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
+ 		if (error)
+ 			dma_fence_set_error(&fence->base, error);
+ 
+-		if (nouveau_fence_signal(fence))
+-			nvif_event_block(&fctx->event);
++		dma_fence_signal_locked(&fence->base);
+ 	}
+ 	fctx->killed = 1;
+ 	spin_unlock_irqrestore(&fctx->lock, flags);
+@@ -127,11 +126,10 @@ nouveau_fence_context_free(struct nouveau_fence_chan *fctx)
+ 	kref_put(&fctx->fence_ref, nouveau_fence_context_put);
+ }
+ 
+-static int
++static void
+ nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fctx)
+ {
+ 	struct nouveau_fence *fence;
+-	int drop = 0;
+ 	u32 seq = fctx->read(chan);
+ 
+ 	while (!list_empty(&fctx->pending)) {
+@@ -140,10 +138,8 @@ nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fc
+ 		if ((int)(seq - fence->base.seqno) < 0)
+ 			break;
+ 
+-		drop |= nouveau_fence_signal(fence);
++		dma_fence_signal_locked(&fence->base);
+ 	}
+-
+-	return drop;
+ }
+ 
+ static void
+@@ -152,7 +148,6 @@ nouveau_fence_uevent_work(struct work_struct *work)
+ 	struct nouveau_fence_chan *fctx = container_of(work, struct nouveau_fence_chan,
+ 						       uevent_work);
+ 	unsigned long flags;
+-	int drop = 0;
+ 
+ 	spin_lock_irqsave(&fctx->lock, flags);
+ 	if (!list_empty(&fctx->pending)) {
+@@ -161,11 +156,8 @@ nouveau_fence_uevent_work(struct work_struct *work)
+ 
+ 		fence = list_entry(fctx->pending.next, typeof(*fence), head);
+ 		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
+-		if (nouveau_fence_update(chan, fctx))
+-			drop = 1;
++		nouveau_fence_update(chan, fctx);
+ 	}
+-	if (drop)
+-		nvif_event_block(&fctx->event);
+ 
+ 	spin_unlock_irqrestore(&fctx->lock, flags);
+ }
+@@ -235,6 +227,19 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+ 			       &fctx->lock, fctx->context, ++fctx->sequence);
+ 	kref_get(&fctx->fence_ref);
+ 
++	fence->cb.func = nouveau_fence_cleanup_cb;
++	/* Adding a callback runs into __dma_fence_enable_signaling(), which will
++	 * ultimately run into nouveau_fence_no_signaling(), where a WARN_ON
++	 * would fire because the refcount can be dropped there.
++	 *
++	 * Increment the refcount here temporarily to work around that.
++	 */
++	dma_fence_get(&fence->base);
++	ret = dma_fence_add_callback(&fence->base, &fence->cb, nouveau_fence_cleanup_cb);
++	dma_fence_put(&fence->base);
++	if (ret)
++		return ret;
++
+ 	ret = fctx->emit(fence);
+ 	if (!ret) {
+ 		dma_fence_get(&fence->base);
+@@ -246,8 +251,7 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+ 			return -ENODEV;
+ 		}
+ 
+-		if (nouveau_fence_update(chan, fctx))
+-			nvif_event_block(&fctx->event);
++		nouveau_fence_update(chan, fctx);
+ 
+ 		list_add_tail(&fence->head, &fctx->pending);
+ 		spin_unlock_irq(&fctx->lock);
+@@ -270,8 +274,8 @@ nouveau_fence_done(struct nouveau_fence *fence)
+ 
+ 		spin_lock_irqsave(&fctx->lock, flags);
+ 		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
+-		if (chan && nouveau_fence_update(chan, fctx))
+-			nvif_event_block(&fctx->event);
++		if (chan)
++			nouveau_fence_update(chan, fctx);
+ 		spin_unlock_irqrestore(&fctx->lock, flags);
+ 	}
+ 	return dma_fence_is_signaled(&fence->base);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
+index 8bc065acfe35..e6b2df7fdc42 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.h
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+@@ -10,6 +10,7 @@ struct nouveau_bo;
+ 
+ struct nouveau_fence {
+ 	struct dma_fence base;
++	struct dma_fence_cb cb;
+ 
+ 	struct list_head head;
+ 
+-- 
+2.48.1
 
---8323328-1411218873-1743674087=:1302--
