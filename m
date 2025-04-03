@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3347AA7AB55
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F1DA7AB57
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3633910EB26;
-	Thu,  3 Apr 2025 19:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C54C910EB1E;
+	Thu,  3 Apr 2025 19:19:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="evsnJNW2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jckuWxxJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2915510EB1E;
- Thu,  3 Apr 2025 19:19:49 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D46F910EB1E;
+ Thu,  3 Apr 2025 19:19:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 84E8F44BD8;
+ by tor.source.kernel.org (Postfix) with ESMTP id 4971F6113B;
  Thu,  3 Apr 2025 19:19:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7029CC4CEE3;
- Thu,  3 Apr 2025 19:19:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9ACC4CEE8;
+ Thu,  3 Apr 2025 19:19:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707988;
- bh=M+LD18HVsFl5z7d34huX864eZca3XD7hkoqhhzG8Cjk=;
+ s=k20201202; t=1743707995;
+ bh=3Z6fy5hxSvMdFpWWJUca2tlJiW70Z0YISP1h6W4KPgI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=evsnJNW2fye9gAKoqHlqhhbbBtCSFKVuNz0ahPpCcfN05/If0rNerpuum403Mcvkv
- N9k4jNiX8/1Q4u5b/HKbs7nbc6a6SP942xtWKzseaaLyWqjc4Wjh1Jd+ReumxZtMyF
- HzwbC7nwUdngWjM9w817oQA0cNef2R1O1tsFRE0ViL7FQdUU+wJ8ry2j74C5JrGvqi
- Cw3iOkbm5JqykxJGT93oGuIPLF4Cj3UUAF0BmK1inb5tIY7J7NK3ibpCefgYokWYe/
- aA6HSUXU6eyCW4RuwYMXoIWhpY9RYKkaAzfPB2WtGWHSHLuNhG85Y0HH2uua0Wn1JA
- QdlP3geoz5gfg==
+ b=jckuWxxJwREwAUoehhuKZleQhx96ZnuJMUd0JbmsPpTZNwCO6B4a7oWrqojDacA7P
+ PqTMr0gwQmG6fAJBdChPwJREzcndnI5iYE+6Ol0vjgcjPp83IqBDVFCPqMD92sQgbR
+ rkgLMCa5qvvaPKEM44DDsb+qlPBIYdSH2FJ8ZH08sEuiVL7fQM9zvdOFV5+eu8sW5I
+ lguvy4xgtPGD3GXOg77oeM2WWxH25ICR8nVMnByKi6aqBMsPuMrkNpn6dsWUu7J3N8
+ py4OzviDiQTa/LVeFqAgYNS4OWjgXQkGLcpLy9gHadrGjzqFEl/U6kImKFWyOb3crW
+ GBEBIWPJtAEpQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Wentao Liang <vulab@iscas.ac.cn>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, kenneth.feng@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, boyuan.zhang@amd.com, Jun.Ma2@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 15/20] drm/amdgpu: handle
- amdgpu_cgs_create_device() errors in amd_powerplay_create()
-Date: Thu,  3 Apr 2025 15:19:08 -0400
-Message-Id: <20250403191913.2681831-15-sashal@kernel.org>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ airlied@gmail.com, simona@ffwll.ch, lijo.lazar@amd.com,
+ sunil.khatri@amd.com, Hawking.Zhang@amd.com, Jun.Ma2@amd.com,
+ Yunxiang.Li@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 17/20] drm/amdgpu: grab an additional reference on
+ the gang fence v2
+Date: Thu,  3 Apr 2025 15:19:10 -0400
+Message-Id: <20250403191913.2681831-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191913.2681831-1-sashal@kernel.org>
 References: <20250403191913.2681831-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.132
@@ -65,39 +68,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wentao Liang <vulab@iscas.ac.cn>
+From: Christian König <christian.koenig@amd.com>
 
-[ Upstream commit 1435e895d4fc967d64e9f5bf81e992ac32f5ac76 ]
+[ Upstream commit 0d9a95099dcb05b5f4719c830d15bf4fdcad0dc2 ]
 
-Add error handling to propagate amdgpu_cgs_create_device() failures
-to the caller. When amdgpu_cgs_create_device() fails, release hwmgr
-and return -ENOMEM to prevent null pointer dereference.
+We keep the gang submission fence around in adev, make sure that it
+stays alive.
 
-[v1]->[v2]: Change error code from -EINVAL to -ENOMEM. Free hwmgr.
+v2: fix memory leak on retry
 
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Acked-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-index eae4b4826f043..ab8ae74646649 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-@@ -51,6 +51,11 @@ static int amd_powerplay_create(struct amdgpu_device *adev)
- 	hwmgr->adev = adev;
- 	hwmgr->not_vf = !amdgpu_sriov_vf(adev);
- 	hwmgr->device = amdgpu_cgs_create_device(adev);
-+	if (!hwmgr->device) {
-+		kfree(hwmgr);
-+		return -ENOMEM;
-+	}
-+
- 	mutex_init(&hwmgr->msg_lock);
- 	hwmgr->chip_family = adev->family;
- 	hwmgr->chip_id = adev->asic_type;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index b41a97185823a..fcd0c61499f89 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -6186,6 +6186,7 @@ struct dma_fence *amdgpu_device_switch_gang(struct amdgpu_device *adev,
+ {
+ 	struct dma_fence *old = NULL;
+ 
++	dma_fence_get(gang);
+ 	do {
+ 		dma_fence_put(old);
+ 		rcu_read_lock();
+@@ -6195,12 +6196,19 @@ struct dma_fence *amdgpu_device_switch_gang(struct amdgpu_device *adev,
+ 		if (old == gang)
+ 			break;
+ 
+-		if (!dma_fence_is_signaled(old))
++		if (!dma_fence_is_signaled(old)) {
++			dma_fence_put(gang);
+ 			return old;
++		}
+ 
+ 	} while (cmpxchg((struct dma_fence __force **)&adev->gang_submit,
+ 			 old, gang) != old);
+ 
++	/*
++	 * Drop it once for the exchanged reference in adev and once for the
++	 * thread local reference acquired in amdgpu_device_get_gang().
++	 */
++	dma_fence_put(old);
+ 	dma_fence_put(old);
+ 	return NULL;
+ }
 -- 
 2.39.5
 
