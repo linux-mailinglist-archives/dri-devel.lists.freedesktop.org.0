@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3E6A7AA71
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F4EA7AA73
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:13:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAC3510EA78;
-	Thu,  3 Apr 2025 19:13:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B316210EA7B;
+	Thu,  3 Apr 2025 19:13:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Izgpaq8o";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L/AKLBv0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E925610EA78;
- Thu,  3 Apr 2025 19:13:37 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F36E10EA7B;
+ Thu,  3 Apr 2025 19:13:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 59BF4614B3;
- Thu,  3 Apr 2025 19:13:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F908C4CEE3;
- Thu,  3 Apr 2025 19:13:34 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CE60F434E9;
+ Thu,  3 Apr 2025 19:13:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A5A3C4CEE3;
+ Thu,  3 Apr 2025 19:13:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707617;
- bh=QoFL3C+pqb3ZA6QT+RVsVDHuPJ7V7FTtn3PQ6iuLvYM=;
+ s=k20201202; t=1743707622;
+ bh=eWgw06fRSvqjEvBo5bsP/T6Y4MFBKn6dv3hWxJrlJ1M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Izgpaq8os+x9/9ObeXmI68fhd3abzjL9J85u2ze8Y3L/SZmcQJRK1yfIa5sg+yk2j
- 31ga+TSYegSRTbvIwzh3Jx0GxO+2q5KId3FITKAMQBIntx6opUO1CW/N1hy1j9el/a
- e82QXHZf2CFxk4Kpm97fTOmr6vBO12PmzWyHPoJ0TU9qtq6mIZ8XnISEE8RZYIAXwf
- RTUX0gk5jZK6DaYyJNOdIyUfn6C4LNaPtwqkui+B0JVyd/OT8jpGux9VV9b9h/fDt/
- UqrsKuPdmOH1kDOcXutuUrUzG6T1S3OrBjazIggQgxfEl7uU7qfwvHDXRJ9iTM6AJh
- 1jURVmUFMnSww==
+ b=L/AKLBv0gsxasLR1JAdK5poTbGXD0W3wW3laj7gwOzSEXh0Ts5ZLuDZiygtKEStEw
+ u+ip4yGFqFOU+44KRE7hTs6cWUTT/ANyC8pJHpJubaxJP5ycyp/9sVDY08cq2r6Xg4
+ g2rW4mxT/DgMkFl70Jr74ljy3qd8B6aOEuvgEsj+JFPCoZ3f78ALPTIH2iAwKouc+d
+ X6ra8J8xq+Z0FEgzQfjB3Z84P9v3hqk6srNXpxyo76y8xo6MKprNhxRq4+f57LWTG1
+ JWpbQDt7V3W90BUn9z878PS7BRoTQC8JU2C7h/DvDTTHyNObxGDQRaO1IBUIa+l3At
+ tq1vaPeQWhEAQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zhikai Zhai <zhikai.zhai@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+Cc: Sung Lee <Sung.Lee@amd.com>, Joshua Aberback <joshua.aberback@amd.com>,
  Zaeem Mohamed <zaeem.mohamed@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, bhuvanachandra.pinninti@amd.com,
- chiahsuan.chung@amd.com, Aric.Cyr@amd.com, siqueira@igalia.com,
- wayne.lin@amd.com, alex.hung@amd.com, mwen@igalia.com,
- tjakobi@math.uni-bielefeld.de, peterson.guo@amd.com, ivlipski@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 08/44] drm/amd/display: Update Cursor request
- mode to the beginning prefetch always
-Date: Thu,  3 Apr 2025 15:12:37 -0400
-Message-Id: <20250403191313.2679091-8-sashal@kernel.org>
+ airlied@gmail.com, simona@ffwll.ch, siqueira@igalia.com,
+ alvin.lee2@amd.com, alex.hung@amd.com, Wayne.Lin@amd.com,
+ Austin.Zheng@amd.com, Ilya.Bakoulin@amd.com, aurabindo.pillai@amd.com,
+ mario.limonciello@amd.com, Josip.Pavic@amd.com, dillon.varone@amd.com,
+ wenjing.liu@amd.com, linux@treblig.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 09/44] drm/amd/display: Guard Possible Null
+ Pointer Dereference
+Date: Thu,  3 Apr 2025 15:12:38 -0400
+Message-Id: <20250403191313.2679091-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191313.2679091-1-sashal@kernel.org>
 References: <20250403191313.2679091-1-sashal@kernel.org>
@@ -71,93 +71,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhikai Zhai <zhikai.zhai@amd.com>
+From: Sung Lee <Sung.Lee@amd.com>
 
-[ Upstream commit 4a4077b4b63a8404efd6d37fc2926f03fb25bace ]
+[ Upstream commit c87d202692de34ee71d1fd4679a549a29095658a ]
 
-[Why]
-The double buffer cursor registers is updated by the cursor
-vupdate event. There is a gap between vupdate and cursor data
-fetch if cursor fetch data reletive to cursor position.
-Cursor corruption will happen if we update the cursor surface
-in this gap.
+[WHY]
+In some situations, dc->res_pool may be null.
 
-[How]
-Modify the cursor request mode to the beginning prefetch always
-and avoid wraparound calculation issues.
+[HOW]
+Check if pointer is null before dereference.
 
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Signed-off-by: Zhikai Zhai <zhikai.zhai@amd.com>
+Reviewed-by: Joshua Aberback <joshua.aberback@amd.com>
+Signed-off-by: Sung Lee <Sung.Lee@amd.com>
 Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/dc/hubp/dcn31/dcn31_hubp.c    |  2 +-
- .../amd/display/dc/hwss/dcn10/dcn10_hwseq.c   | 22 ++++++++-----------
- 2 files changed, 10 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hubp/dcn31/dcn31_hubp.c b/drivers/gpu/drm/amd/display/dc/hubp/dcn31/dcn31_hubp.c
-index c2900c79a2d35..7fd582a8a4ba9 100644
---- a/drivers/gpu/drm/amd/display/dc/hubp/dcn31/dcn31_hubp.c
-+++ b/drivers/gpu/drm/amd/display/dc/hubp/dcn31/dcn31_hubp.c
-@@ -44,7 +44,7 @@ void hubp31_set_unbounded_requesting(struct hubp *hubp, bool enable)
- 	struct dcn20_hubp *hubp2 = TO_DCN20_HUBP(hubp);
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index f84e795e35f58..4683c7ef4507f 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -5549,9 +5549,11 @@ void dc_allow_idle_optimizations_internal(struct dc *dc, bool allow, char const
+ 	if (dc->clk_mgr != NULL && dc->clk_mgr->funcs->get_hard_min_memclk)
+ 		idle_dramclk_khz = dc->clk_mgr->funcs->get_hard_min_memclk(dc->clk_mgr);
  
- 	REG_UPDATE(DCHUBP_CNTL, HUBP_UNBOUNDED_REQ_MODE, enable);
--	REG_UPDATE(CURSOR_CONTROL, CURSOR_REQ_MODE, enable);
-+	REG_UPDATE(CURSOR_CONTROL, CURSOR_REQ_MODE, 1);
- }
- 
- void hubp31_soft_reset(struct hubp *hubp, bool reset)
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
-index 44e405e9bc971..13f9e9b439f6a 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
-@@ -1992,20 +1992,11 @@ static void delay_cursor_until_vupdate(struct dc *dc, struct pipe_ctx *pipe_ctx)
- 	dc->hwss.get_position(&pipe_ctx, 1, &position);
- 	vpos = position.vertical_count;
- 
--	/* Avoid wraparound calculation issues */
--	vupdate_start += stream->timing.v_total;
--	vupdate_end += stream->timing.v_total;
--	vpos += stream->timing.v_total;
--
- 	if (vpos <= vupdate_start) {
- 		/* VPOS is in VACTIVE or back porch. */
- 		lines_to_vupdate = vupdate_start - vpos;
--	} else if (vpos > vupdate_end) {
--		/* VPOS is in the front porch. */
--		return;
- 	} else {
--		/* VPOS is in VUPDATE. */
--		lines_to_vupdate = 0;
-+		lines_to_vupdate = stream->timing.v_total - vpos + vupdate_start;
+-	for (i = 0; i < dc->res_pool->pipe_count; i++) {
+-		pipe = &context->res_ctx.pipe_ctx[i];
+-		subvp_pipe_type[i] = dc_state_get_pipe_subvp_type(context, pipe);
++	if (dc->res_pool && context) {
++		for (i = 0; i < dc->res_pool->pipe_count; i++) {
++			pipe = &context->res_ctx.pipe_ctx[i];
++			subvp_pipe_type[i] = dc_state_get_pipe_subvp_type(context, pipe);
++		}
  	}
  
- 	/* Calculate time until VUPDATE in microseconds. */
-@@ -2013,13 +2004,18 @@ static void delay_cursor_until_vupdate(struct dc *dc, struct pipe_ctx *pipe_ctx)
- 		stream->timing.h_total * 10000u / stream->timing.pix_clk_100hz;
- 	us_to_vupdate = lines_to_vupdate * us_per_line;
- 
-+	/* Stall out until the cursor update completes. */
-+	if (vupdate_end < vupdate_start)
-+		vupdate_end += stream->timing.v_total;
-+
-+	/* Position is in the range of vupdate start and end*/
-+	if (lines_to_vupdate > stream->timing.v_total - vupdate_end + vupdate_start)
-+		us_to_vupdate = 0;
-+
- 	/* 70 us is a conservative estimate of cursor update time*/
- 	if (us_to_vupdate > 70)
- 		return;
- 
--	/* Stall out until the cursor update completes. */
--	if (vupdate_end < vupdate_start)
--		vupdate_end += stream->timing.v_total;
- 	us_vupdate = (vupdate_end - vupdate_start + 1) * us_per_line;
- 	udelay(us_to_vupdate + us_vupdate);
- }
+ 	DC_LOG_DC("%s: allow_idle=%d\n HardMinUClk_Khz=%d HardMinDramclk_Khz=%d\n Pipe_0=%d Pipe_1=%d Pipe_2=%d Pipe_3=%d Pipe_4=%d Pipe_5=%d (caller=%s)\n",
 -- 
 2.39.5
 
