@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6B0A7A8C8
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 19:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5584CA7A8D8
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 19:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E17B410E2D5;
-	Thu,  3 Apr 2025 17:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C31010EA4C;
+	Thu,  3 Apr 2025 17:48:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dPoLcU6S";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MiwyLODk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84E9A10E2BE;
- Thu,  3 Apr 2025 17:41:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 69D88A450A2;
- Thu,  3 Apr 2025 17:35:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EED42C4CEE7;
- Thu,  3 Apr 2025 17:41:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743702083;
- bh=8lR9ylBsfo7PBLZHWh9qmMylsgZ+XsmxjxGaNWbQYxA=;
- h=Date:From:To:Cc:Subject:From;
- b=dPoLcU6SLa7ZgTJZaHaiRDW64dPYRH3R0/kUgslJwP6Oc8Zk4UilUUJ+wx4HPhgf9
- PC+5aY3fNv3g0VpN+shYeyJMpiajZZ9sQ6nHWfFRDICVfbvbozCbJklIdl3GnJ/ZIK
- SZg7VIarvzNTFY7QwvkgrbUmcKhqG/uKyKWh3eDD15JnnIRBGDC24gcPTPpieWO0H8
- kcHvzqm9K4M2vSSmwdthaiiWzgKgJBBrfJtdU88EiN1ljDnX3iTgMgaFJdckCJ8y90
- YoNkIDTPGC9a1uk13aXXd0386xbs0TBu/Yw0XNJ/21lWmDmQco7jptuqkA8IhCPArs
- nCKRo+DLE/qUA==
-Date: Thu, 3 Apr 2025 11:41:21 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-hardening@vger.kernel.org
-Subject: [PATCH][next] drm/nouveau: fifo: Avoid
- -Wflex-array-member-not-at-end warning
-Message-ID: <Z-7IQcWNePAMQEM0@kspp>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D53810EA4C;
+ Thu,  3 Apr 2025 17:48:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743702537; x=1775238537;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PZeBAhvFbGzC/ucKCVJJPsG4eJ8ayzzu2piI8QkaiBw=;
+ b=MiwyLODk4aUGjJz9fD1tEURi06xecLQ8dD1tIt0NvNELSqAhma3jbr3F
+ 4azwfEEUGolkTk012CvjOlfxgvdv7S5T8FhdckShJK79G0i5cE2lIx3LJ
+ FI+QLE4niuzzXHN0h7Ad7NzyMgviKC/SIx7hmVFxteEfY70Zwn7N7urPV
+ eC01mD6wwp2XzoSk9RLiNC+uScCfXc8OdO0ouYf6+74uCV0S6n+u+MTkh
+ TUBWGZBUPxE3CU/tTAunr3u/Sz/AsEHX/cQhKE7awQcd06sCjW1O7cG2f
+ Na4mITbk/nFxXjzs47STch9bOrwxLVzEuHnvpjiJXfN6Zg7Knox0Mchpr g==;
+X-CSE-ConnectionGUID: F77KzEUPSvG20KWYhE59Mw==
+X-CSE-MsgGUID: q45tPXZyTIiVLbdB3qUHcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="55758509"
+X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="55758509"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2025 10:48:57 -0700
+X-CSE-ConnectionGUID: CTLvKKZMRPG1n8VMAo1SZw==
+X-CSE-MsgGUID: AMPVGZVCTxGngsBgrsTlIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="158057919"
+Received: from dut138lnl.fm.intel.com ([10.105.23.23])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2025 10:48:57 -0700
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+To: igt-dev@lists.freedesktop.org
+Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
+ joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
+ jianxun.zhang@intel.com, shuicheng.lin@intel.com,
+ dri-devel@lists.freedesktop.org, stuart.summers@intel.com,
+ ivan.briano@intel.com
+Subject: [PATCH v3 0/4] tests/intel/xe_vm: Add drm_xe_vm_get_property tests
+Date: Thu,  3 Apr 2025 17:48:52 +0000
+Message-ID: <20250403174856.75458-1-jonathan.cavitt@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,87 +69,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
--Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-getting ready to enable it, globally.
+Add tests that exercise the new drm_xe_vm_get_property uapi,
+specifically for ioctl input validation and for determining that
+pagefaults are correctly tracked and returned by the reporter.
 
-Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
-a flexible structure where the size of the flexible-array member
-is known at compile-time, and refactor the rest of the code,
-accordingly.
+drm_xe_vm_get_property ioctl to be added by
+https://patchwork.freedesktop.org/series/145529/
 
-So, with these changes, fix the following warning:
+v2:
+- Remove engine class and instance (Ivan)
 
-drivers/gpu/drm/nouveau/nvif/fifo.c:29:42: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+v3:
+- Add declares for fault type, access type, and fault level (Matt Brost,
+  Ivan)
+- Add reference to KMD change (Kamil)
 
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/gpu/drm/nouveau/nvif/fifo.c | 32 ++++++++++++-----------------
- 1 file changed, 13 insertions(+), 19 deletions(-)
+References: 
+Signed-off-by: Jonathan Cavitt <joanthan.cavitt@intel.com>
+Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Suggested-by: Zhang Jianxun <jianxun.zhang@intel.com>
+Suggested-by: Stuart Summers <stuart.summers@intel.com>
+CC: Shuicheng Lin <shuicheng.lin@intel.com>
+Cc: Ivan Briano <ivan.briano@intel.com>
 
-diff --git a/drivers/gpu/drm/nouveau/nvif/fifo.c b/drivers/gpu/drm/nouveau/nvif/fifo.c
-index a463289962b2..f8772340fec4 100644
---- a/drivers/gpu/drm/nouveau/nvif/fifo.c
-+++ b/drivers/gpu/drm/nouveau/nvif/fifo.c
-@@ -25,33 +25,28 @@ static int
- nvif_fifo_runlists(struct nvif_device *device)
- {
- 	struct nvif_object *object = &device->object;
--	struct {
--		struct nv_device_info_v1 m;
--		struct {
--			struct nv_device_info_v1_data runlists;
--			struct nv_device_info_v1_data runlist[64];
--		} v;
--	} *a;
-+	DEFINE_RAW_FLEX(struct nv_device_info_v1, a, data, 65);
-+	struct nv_device_info_v1_data *runlists = &a->data[0];
-+	struct nv_device_info_v1_data *runlist = &a->data[1];
-+	const u8 rl_cnt = (__struct_size(a) - sizeof(*a)) / sizeof(*a->data) - 1;
- 	int ret, i;
- 
- 	if (device->runlist)
- 		return 0;
- 
--	if (!(a = kmalloc(sizeof(*a), GFP_KERNEL)))
--		return -ENOMEM;
--	a->m.version = 1;
--	a->m.count = sizeof(a->v) / sizeof(a->v.runlists);
--	a->v.runlists.mthd = NV_DEVICE_HOST_RUNLISTS;
--	for (i = 0; i < ARRAY_SIZE(a->v.runlist); i++) {
--		a->v.runlist[i].mthd = NV_DEVICE_HOST_RUNLIST_ENGINES;
--		a->v.runlist[i].data = i;
-+	a->version = 1;
-+	a->count = (__struct_size(a) - sizeof(*a)) / sizeof(*a->data);
-+	runlists->mthd = NV_DEVICE_HOST_RUNLISTS;
-+	for (i = 0; i < rl_cnt; i++) {
-+		runlist[i].mthd = NV_DEVICE_HOST_RUNLIST_ENGINES;
-+		runlist[i].data = i;
- 	}
- 
- 	ret = nvif_object_mthd(object, NV_DEVICE_V0_INFO, a, sizeof(*a));
- 	if (ret)
- 		goto done;
- 
--	device->runlists = fls64(a->v.runlists.data);
-+	device->runlists = fls64(runlists->data);
- 	device->runlist = kcalloc(device->runlists, sizeof(*device->runlist),
- 				  GFP_KERNEL);
- 	if (!device->runlist) {
-@@ -60,12 +55,11 @@ nvif_fifo_runlists(struct nvif_device *device)
- 	}
- 
- 	for (i = 0; i < device->runlists; i++) {
--		if (a->v.runlist[i].mthd != NV_DEVICE_INFO_INVALID)
--			device->runlist[i].engines = a->v.runlist[i].data;
-+		if (runlist[i].mthd != NV_DEVICE_INFO_INVALID)
-+			device->runlist[i].engines = runlist[i].data;
- 	}
- 
- done:
--	kfree(a);
- 	return ret;
- }
- 
+Jonathan Cavitt (4):
+  drm-uapi/xe: Declare xe_vm_get_property_ioctl
+  lib/xe/xe_ioctl: Add xe_vm_get_property helper function
+  tests/intel/xe_vm: Add DRM_IOCTL_XE_VM_GET_PROPERTY validation tests
+  tests/intel/xe_vm: Test DRM_IOCTL_XE_VM_GET_PROPERTY fault reporting
+
+ include/drm-uapi/xe_drm.h |  85 ++++++++++++++
+ lib/xe/xe_ioctl.c         |   5 +
+ lib/xe/xe_ioctl.h         |   1 +
+ tests/intel/xe_vm.c       | 237 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 328 insertions(+)
+
 -- 
 2.43.0
 
