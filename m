@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D062A7AE3F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 22:24:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE73A7AE41
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 22:25:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD07110E164;
-	Thu,  3 Apr 2025 20:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985A910E2E8;
+	Thu,  3 Apr 2025 20:24:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="LcGBSLa+";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ux1cXe50";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
- [209.85.216.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F11C710E278
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 20:24:50 +0000 (UTC)
-Received: by mail-pj1-f74.google.com with SMTP id
- 98e67ed59e1d1-2ff854a2541so1207992a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 13:24:50 -0700 (PDT)
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com
+ [209.85.215.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D5F010E278
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 20:24:53 +0000 (UTC)
+Received: by mail-pg1-f201.google.com with SMTP id
+ 41be03b00d2f7-af8e645a1d1so844716a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Apr 2025 13:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1743711890; x=1744316690;
+ d=google.com; s=20230601; t=1743711892; x=1744316692;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=Pil1LeiyQzc9Wfedi7qRLX2THzbN1bSqcXBycZBxx3E=;
- b=LcGBSLa+3/JohHuf4GzKUw6d2qdi4ito6j6BiP//uttPCLn6o0XgWDde2r2ZYNyh9W
- G2fN3HljeRUWUWi/qzeiI2tS1IQs8gay1IT4gHYlKzXgtsw7Kei463DqbkO08LtRRh5h
- brd5o2ejIubSWMI6z0uG2at5JeW4cbapZYPzYBP50UGQbdSju4r6gDVlnVHEo+vQo0v/
- oXC+GY6Rn8KndLZwqw8hfIA7KcuSt+0Yx5MVoR3je7MOq6X2MFnRpqe6pG5462Hy1daE
- TVaB8ouEB73BYWZvz3M26MOfPVLWX/btlz7eIKWMpezD4c+Dx2eaEgIibHOMD4dJCtqM
- Bs1w==
+ bh=Tilk3aFHymzdwH/49hi2NVgSsKIEgE1zvVteMHXS+8s=;
+ b=ux1cXe50QPJw7e99us4tNWaqagcbI1BfoDCQevk7QrcwAHZFVCmZf8hjqplAW7wsDw
+ Hx+eF4VEvlyk7bYCyfxO02B9nLzCHLgCycY76tEAL1WhXiISTvygt+xoI5gmoBttzXzZ
+ A9BRTdJMOJy9uxnO4H3r9ZWI2nkF2ZhRVLEuQn/PUH3bkm+oT0AlDgYq3PSU7Db/bV8P
+ iddQse0XU7Ba3sHz0gCJLzF91hnLdH9pMWrfeOgoJArzLXUv5/WoSQ+C0J3gZEyfKLBs
+ jpMesawJJDxakdDnOPF10fgocawSbGIghEP4QagBS4HlmVBqp8WzIRUIgDUSOIYZk5U/
+ 247Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743711890; x=1744316690;
+ d=1e100.net; s=20230601; t=1743711892; x=1744316692;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pil1LeiyQzc9Wfedi7qRLX2THzbN1bSqcXBycZBxx3E=;
- b=Rrb+KdABZTJaLo2y76zOvsek+sEcEOUuABWp/8aZf0AnaE0ZeJupXwDR5R2bkxT8nw
- vRgqxbbdiddn62qf/NxHmELrPylIMmnny67rb+X4NvF1WbCmSMnney7nybHtMQ6NbAXz
- +unOb7sLnIg52PYQu3W9FgB/TVdq2JovVCtqE8y8GeSeJxXfnmoujEI2P+Kdh3lmQkJF
- ZRkIqOBDliNRcfJZaYlaaUAWsLADGpOzBakWAfFypif/nRoic/Mu4O2r1SDJiNBFzITL
- Ur0eFo+DoiVh2VttYVqiXXhZTDYP8DMt8DYk4CiqH42GWkPyMupk4cBn7d2nRNZltfAW
- 0Oyg==
-X-Gm-Message-State: AOJu0Yy1X41ilsBQTxAutmQ3DpEglM75PmpGaZTddhDwxq3PZRDNzw3p
- Xr5h+N5GGpcWpwNe8CDGRPxezACWUTEUeWi2T/kqbCL9Le/1tyAmwtF4ZQ2xAJhhuYznH+MCGKm
- scJpXUw==
-X-Google-Smtp-Source: AGHT+IHECJgbaJYB5gyuhkerty/z5QcoT9YXQkYlH1mJyNC2bK+Z2YOQrOHG9csQbYSvdr6YjtqHqs0SwrVx
-X-Received: from pjg12.prod.google.com ([2002:a17:90b:3f4c:b0:301:1bf5:2efc])
+ bh=Tilk3aFHymzdwH/49hi2NVgSsKIEgE1zvVteMHXS+8s=;
+ b=vt19k4sGdoli93uyjxdLUHTvkR+XUZ2LI72YcW5xKfV1k8pdU8vJ+GrV/omXAXsbqk
+ 6kqyIxyBMbVCJHgNoMGoqJ1Pu3QFT3iUUMzPvJZlO+fFHdUjMwxlVLbnU2/am3r5Kf0z
+ hzMaHvrknMP7ncIofVsOpLXqR5MWtZxuciG3eIgqs8AxRH8pa5dJWPJhLPHoH53hDy5E
+ Ve3jt2KUEu79xcNr4DH5xNTwJCEOjdII/aHQgRGXDj3tLiFDFOttcVXjz964KGwLdef3
+ E8c91LgMMT1E8ym4nRhEMTADeOwcP4ELH9V4KGspSuEZWbCo+W2Tf/ohUtqMy3mu3iE7
+ RA2g==
+X-Gm-Message-State: AOJu0Yw8aqZ1R+S2yb3G3n9kIFMfji0OPeTfreJ42Sv7c1TVeHV2bj0V
+ YgNvr7ptszayLQDTbLwj8OOgcn7UkxA9EwdcopjP/0sWSuI1v21xTz+6wW3byWRv3EfyYY94rK4
+ nYZDEfw==
+X-Google-Smtp-Source: AGHT+IEryC+x1Td+fTmPyBksTzhsJltkWaZNz7ZcV3ft48rRChAcFSC8nQC73Hy3G/qeYPy+qRrlXc4bl5d8
+X-Received: from pjbqn7.prod.google.com ([2002:a17:90b:3d47:b0:2ff:5f6a:835c])
  (user=irogers job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:51cc:b0:2fa:1e3e:9be5
- with SMTP id 98e67ed59e1d1-306a4757ff7mr1693465a91.0.1743711890504; Thu, 03
- Apr 2025 13:24:50 -0700 (PDT)
-Date: Thu,  3 Apr 2025 13:24:36 -0700
+ 2002:a17:90b:514e:b0:304:ec28:4437
+ with SMTP id 98e67ed59e1d1-306a4b70e72mr996487a91.22.1743711892605; Thu, 03
+ Apr 2025 13:24:52 -0700 (PDT)
+Date: Thu,  3 Apr 2025 13:24:37 -0700
 In-Reply-To: <20250403202439.57791-1-irogers@google.com>
 Mime-Version: 1.0
 References: <20250403202439.57791-1-irogers@google.com>
 X-Mailer: git-send-email 2.49.0.504.g3bcea36a83-goog
-Message-ID: <20250403202439.57791-2-irogers@google.com>
-Subject: [PATCH v3 1/4] perf parse-events: Avoid scanning PMUs that can't
- contain events
+Message-ID: <20250403202439.57791-3-irogers@google.com>
+Subject: [PATCH v3 2/4] perf parse-events: Avoid scanning PMUs that can't
+ match a wildcard
 From: Ian Rogers <irogers@google.com>
 To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
  Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
@@ -90,78 +90,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add perf_pmus__scan_for_event that only reads sysfs for pmus that
-could contain a given event.
+Add perf_pmus__scan_matching_wildcard that only reads sysfs for pmus
+that could wildcard match. For example, if searching for the event
+'inst_retired.any/period=1000000/' first 'inst_retired.any' will try
+to be directly looked up as a PMU, then 'inst_retired.any' will try to
+be wildcard matched against all PMUs, finally it is assumed
+'inst_retired.any' is an event name and opened on all PMUs avoiding
+reading PMUs that can't have such an event. However, before this patch
+such a case would read all PMUs for the wildcard matching. Now if the
+wildcard can't be a hwmon PMU wildcard, reading hwmon PMUs is
+avoided. On my laptop this reduces 'perf stat -e inst_retired.any
+true' from performing 253 openat system calls down to 234.
 
 Signed-off-by: Ian Rogers <irogers@google.com>
 ---
- tools/perf/util/parse-events.c |  4 ++--
- tools/perf/util/pmus.c         | 35 ++++++++++++++++++++++++++++++++++
+ tools/perf/util/parse-events.c | 26 +++++++++++----------
+ tools/perf/util/pmus.c         | 42 ++++++++++++++++++++++++++++++++++
  tools/perf/util/pmus.h         |  1 +
- 3 files changed, 38 insertions(+), 2 deletions(-)
+ 3 files changed, 57 insertions(+), 12 deletions(-)
 
 diff --git a/tools/perf/util/parse-events.c b/tools/perf/util/parse-events.c
-index 5152fd5a6ead..d77af1d24985 100644
+index d77af1d24985..19caf1ed9f5d 100644
 --- a/tools/perf/util/parse-events.c
 +++ b/tools/perf/util/parse-events.c
-@@ -434,7 +434,7 @@ int parse_events_add_cache(struct list_head *list, int *idx, const char *name,
- 	const char *config_name = get_config_name(parsed_terms);
- 	const char *metric_id = get_config_metric_id(parsed_terms);
+@@ -1664,18 +1664,20 @@ int parse_events_multi_pmu_add_or_add_pmu(struct parse_events_state *parse_state
  
+ 	pmu = NULL;
+ 	/* Failed to add, try wildcard expansion of event_or_pmu as a PMU name. */
 -	while ((pmu = perf_pmus__scan(pmu)) != NULL) {
-+	while ((pmu = perf_pmus__scan_for_event(pmu, name)) != NULL) {
- 		LIST_HEAD(config_terms);
- 		struct perf_event_attr attr;
- 		int ret;
-@@ -1585,7 +1585,7 @@ int parse_events_multi_pmu_add(struct parse_events_state *parse_state,
- 
- 	INIT_LIST_HEAD(list);
- 
--	while ((pmu = perf_pmus__scan(pmu)) != NULL) {
-+	while ((pmu = perf_pmus__scan_for_event(pmu, event_name)) != NULL) {
- 		bool auto_merge_stats;
- 
- 		if (parse_events__filter_pmu(parse_state, pmu))
+-		if (!parse_events__filter_pmu(parse_state, pmu) &&
+-		    perf_pmu__wildcard_match(pmu, event_or_pmu)) {
+-			bool auto_merge_stats = perf_pmu__auto_merge_stats(pmu);
+-
+-			if (!parse_events_add_pmu(parse_state, *listp, pmu,
+-						  const_parsed_terms,
+-						  auto_merge_stats,
+-						  /*alternate_hw_config=*/PERF_COUNT_HW_MAX)) {
+-				ok++;
+-				parse_state->wild_card_pmus = true;
+-			}
++	while ((pmu = perf_pmus__scan_matching_wildcard(pmu, event_or_pmu)) != NULL) {
++		bool auto_merge_stats;
++
++		if (parse_events__filter_pmu(parse_state, pmu))
++			continue;
++
++		auto_merge_stats = perf_pmu__auto_merge_stats(pmu);
++
++		if (!parse_events_add_pmu(parse_state, *listp, pmu,
++					  const_parsed_terms,
++					  auto_merge_stats,
++					  /*alternate_hw_config=*/PERF_COUNT_HW_MAX)) {
++			ok++;
++			parse_state->wild_card_pmus = true;
+ 		}
+ 	}
+ 	if (ok)
 diff --git a/tools/perf/util/pmus.c b/tools/perf/util/pmus.c
-index b99292de7669..f2706c395509 100644
+index f2706c395509..93d5db1c89b4 100644
 --- a/tools/perf/util/pmus.c
 +++ b/tools/perf/util/pmus.c
-@@ -350,6 +350,41 @@ struct perf_pmu *perf_pmus__scan_core(struct perf_pmu *pmu)
+@@ -19,6 +19,7 @@
+ #include "tool_pmu.h"
+ #include "print-events.h"
+ #include "strbuf.h"
++#include "string2.h"
+ 
+ /*
+  * core_pmus:  A PMU belongs to core_pmus if it's name is "cpu" or it's sysfs
+@@ -385,6 +386,47 @@ struct perf_pmu *perf_pmus__scan_for_event(struct perf_pmu *pmu, const char *eve
  	return NULL;
  }
  
-+struct perf_pmu *perf_pmus__scan_for_event(struct perf_pmu *pmu, const char *event)
++struct perf_pmu *perf_pmus__scan_matching_wildcard(struct perf_pmu *pmu, const char *wildcard)
 +{
 +	bool use_core_pmus = !pmu || pmu->is_core;
 +
 +	if (!pmu) {
-+		/* Hwmon filename values that aren't used. */
-+		enum hwmon_type type;
-+		int number;
 +		/*
-+		 * Core PMUs, other sysfs PMUs and tool PMU can take all event
-+		 * types or aren't wother optimizing for.
++		 * Core PMUs, other sysfs PMUs and tool PMU can have any name or
++		 * aren't wother optimizing for.
 +		 */
 +		unsigned int to_read_pmus =  PERF_TOOL_PMU_TYPE_PE_CORE_MASK |
 +			PERF_TOOL_PMU_TYPE_PE_OTHER_MASK |
 +			PERF_TOOL_PMU_TYPE_TOOL_MASK;
 +
-+		/* Could the event be a hwmon event? */
-+		if (parse_hwmon_filename(event, &type, &number, /*item=*/NULL, /*alarm=*/NULL))
++		/*
++		 * Hwmon PMUs have an alias from a sysfs name like hwmon0,
++		 * hwmon1, etc. or have a name of hwmon_<name>. They therefore
++		 * can only have a wildcard match if the wildcard begins with
++		 * "hwmon".
++		 */
++		if (strisglob(wildcard) ||
++		    (strlen(wildcard) >= 5 && strncmp("hwmon", wildcard, 5) == 0))
 +			to_read_pmus |= PERF_TOOL_PMU_TYPE_HWMON_MASK;
 +
 +		pmu_read_sysfs(to_read_pmus);
 +		pmu = list_prepare_entry(pmu, &core_pmus, list);
 +	}
 +	if (use_core_pmus) {
-+		list_for_each_entry_continue(pmu, &core_pmus, list)
-+			return pmu;
-+
++		list_for_each_entry_continue(pmu, &core_pmus, list) {
++			if (perf_pmu__wildcard_match(pmu, wildcard))
++				return pmu;
++		}
 +		pmu = NULL;
 +		pmu = list_prepare_entry(pmu, &other_pmus, list);
 +	}
-+	list_for_each_entry_continue(pmu, &other_pmus, list)
-+		return pmu;
++	list_for_each_entry_continue(pmu, &other_pmus, list) {
++		if (perf_pmu__wildcard_match(pmu, wildcard))
++			return pmu;
++	}
 +	return NULL;
 +}
 +
@@ -169,14 +207,14 @@ index b99292de7669..f2706c395509 100644
  {
  	bool use_core_pmus = !pmu || pmu->is_core;
 diff --git a/tools/perf/util/pmus.h b/tools/perf/util/pmus.h
-index 8def20e615ad..213ee65306d6 100644
+index 213ee65306d6..2794d8c3a466 100644
 --- a/tools/perf/util/pmus.h
 +++ b/tools/perf/util/pmus.h
-@@ -19,6 +19,7 @@ struct perf_pmu *perf_pmus__find_by_type(unsigned int type);
- 
+@@ -20,6 +20,7 @@ struct perf_pmu *perf_pmus__find_by_type(unsigned int type);
  struct perf_pmu *perf_pmus__scan(struct perf_pmu *pmu);
  struct perf_pmu *perf_pmus__scan_core(struct perf_pmu *pmu);
-+struct perf_pmu *perf_pmus__scan_for_event(struct perf_pmu *pmu, const char *event);
+ struct perf_pmu *perf_pmus__scan_for_event(struct perf_pmu *pmu, const char *event);
++struct perf_pmu *perf_pmus__scan_matching_wildcard(struct perf_pmu *pmu, const char *wildcard);
  
  const struct perf_pmu *perf_pmus__pmu_for_pmu_filter(const char *str);
  
