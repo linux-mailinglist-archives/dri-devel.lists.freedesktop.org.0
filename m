@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29925A7AB5A
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082FBA7AB5B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8D510EB27;
-	Thu,  3 Apr 2025 19:19:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34B6310EB1A;
+	Thu,  3 Apr 2025 19:20:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z20biPVu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Pq49ayD4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86BA110EB2A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:19:58 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A619B10EB1A
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 19:20:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E2FC144BD8;
- Thu,  3 Apr 2025 19:19:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11477C4CEE8;
- Thu,  3 Apr 2025 19:19:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2592A5C69DE;
+ Thu,  3 Apr 2025 19:17:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89827C4CEE3;
+ Thu,  3 Apr 2025 19:20:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707998;
- bh=Gow6IuClrqGagVkV5rrqj44wwyG2SuQAjyOARluPy+A=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z20biPVucO4gpIoSoMDJhr9zamCuqILHaqp8fbJYj9//3BPOggKSFpGEmA1vL6NiV
- WBGW+yPwDYuJbg/c9I9yuz1AKoHu5p0MUWBmVkKM/glYs8V2gEKtjSPohwViNZryaZ
- ISTUuj6cajWZ8FJvajgvcqOtDPVULNibhfX0/p8DcOxSElQMeZmfZMz2SNrNcY6HLb
- 3HkBkJPszO3nQHb9BrNo5CVOFGbkESWmIsJ6hwLtVcsNdTXSclEFCWnEL5+hLVIyIw
- l9otl4p3ZfQWv1LrWBJIeyVHMTeA/PfzESlWfDlrBXfKVx/M2iYFEsOwVkh4I9DD04
- d3C0o17hXo0OA==
+ s=k20201202; t=1743708006;
+ bh=DbdOCu8C2UPRFYr3yj+hI9OuY166nAcFAiyTOGAScDA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Pq49ayD4g/Sc/0VrhN6h95cakMKl2p9hNglL6KK+uPbanzZ0Xin7VjwuEMqzn8NuO
+ iMcGofF8+u4hQzPWSXP9DJIQI5eGnQp+vzIwSdXpAW+XFBytpR0FK1aorno6EnQvO7
+ qroIbkEw/hhKUZfvkmVSB6W4ak2Pw3ZTAUtX/tAkU8F6X+PVIAS5PIw2v5Roxlk4PR
+ EuzT+bPSRqzi+0eos1iN/ThpH4hnpftWBs0Lnng1iYH0Sisb7/dBG5EeMHqYy5AtWp
+ Q2TGAWu46uyOzUHy4qe+bBkL2bagbE1bvFwFWFdTfZ9P/d1lrfMc8MGyZSNckNJBmv
+ M6B6BwXMqXshg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Leonid Arapov <arapovl839@gmail.com>, Helge Deller <deller@gmx.de>,
- Sasha Levin <sashal@kernel.org>, krzysztof.kozlowski@linaro.org,
- u.kleine-koenig@baylibre.com, tzimmermann@suse.de, linux@treblig.org,
- linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 18/20] fbdev: omapfb: Add 'plane' value check
-Date: Thu,  3 Apr 2025 15:19:11 -0400
-Message-Id: <20250403191913.2681831-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 01/12] drm: allow encoder mode_set even when
+ connectors change for crtc
+Date: Thu,  3 Apr 2025 15:19:50 -0400
+Message-Id: <20250403192001.2682149-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250403191913.2681831-1-sashal@kernel.org>
-References: <20250403191913.2681831-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.132
+X-stable-base: Linux 5.15.179
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,55 +65,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leonid Arapov <arapovl839@gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-[ Upstream commit 3e411827f31db7f938a30a3c7a7599839401ec30 ]
+[ Upstream commit 7e182cb4f5567f53417b762ec0d679f0b6f0039d ]
 
-Function dispc_ovl_setup is not intended to work with the value OMAP_DSS_WB
-of the enum parameter plane.
+In certain use-cases, a CRTC could switch between two encoders
+and because the mode being programmed on the CRTC remains
+the same during this switch, the CRTC's mode_changed remains false.
+In such cases, the encoder's mode_set also gets skipped.
 
-The value of this parameter is initialized in dss_init_overlays and in the
-current state of the code it cannot take this value so it's not a real
-problem.
+Skipping mode_set on the encoder for such cases could cause an issue
+because even though the same CRTC mode was being used, the encoder
+type could have changed like the CRTC could have switched from a
+real time encoder to a writeback encoder OR vice-versa.
 
-For the purposes of defensive coding it wouldn't be superfluous to check
-the parameter value, because some functions down the call stack process
-this value correctly and some not.
+Allow encoder's mode_set to happen even when connectors changed on a
+CRTC and not just when the mode changed.
 
-For example, in dispc_ovl_setup_global_alpha it may lead to buffer
-overflow.
-
-Add check for this value.
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE static
-analysis tool.
-
-Signed-off-by: Leonid Arapov <arapovl839@gmail.com>
-Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241211-abhinavk-modeset-fix-v3-1-0de4bf3e7c32@quicinc.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/omap2/omapfb/dss/dispc.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
-index 92fb6b7e1f681..a6225f9621902 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
-@@ -2749,9 +2749,13 @@ int dispc_ovl_setup(enum omap_plane plane, const struct omap_overlay_info *oi,
- 		bool mem_to_mem)
- {
- 	int r;
--	enum omap_overlay_caps caps = dss_feat_get_overlay_caps(plane);
-+	enum omap_overlay_caps caps;
- 	enum omap_channel channel;
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 2c3883d79f531..bd01d925769db 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1279,7 +1279,7 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *old_state)
+ 		mode = &new_crtc_state->mode;
+ 		adjusted_mode = &new_crtc_state->adjusted_mode;
  
-+	if (plane == OMAP_DSS_WB)
-+		return -EINVAL;
-+
-+	caps = dss_feat_get_overlay_caps(plane);
- 	channel = dispc_ovl_get_channel_out(plane);
+-		if (!new_crtc_state->mode_changed)
++		if (!new_crtc_state->mode_changed && !new_crtc_state->connectors_changed)
+ 			continue;
  
- 	DSSDBG("dispc_ovl_setup %d, pa %pad, pa_uv %pad, sw %d, %d,%d, %dx%d ->"
+ 		DRM_DEBUG_ATOMIC("modeset on [ENCODER:%d:%s]\n",
 -- 
 2.39.5
 
