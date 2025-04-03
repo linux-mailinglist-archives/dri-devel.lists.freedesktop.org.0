@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6AEA7AA63
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:13:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB7AA7AA6C
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:13:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00A6810E1C1;
-	Thu,  3 Apr 2025 19:13:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD30B10EA73;
+	Thu,  3 Apr 2025 19:13:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J4nhbtwx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f01DyL7t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C319A10EA4D;
- Thu,  3 Apr 2025 19:13:25 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4577F10EA70;
+ Thu,  3 Apr 2025 19:13:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 31E93614B5;
- Thu,  3 Apr 2025 19:13:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43347C4CEE9;
- Thu,  3 Apr 2025 19:13:23 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 9AC4A434E9;
+ Thu,  3 Apr 2025 19:13:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CADDC4CEE8;
+ Thu,  3 Apr 2025 19:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707604;
- bh=EKdo6glVJ5uwfI//1+P8dkxEj9XhjdNxCeuyPd/eAPg=;
+ s=k20201202; t=1743707607;
+ bh=SRyFvLMMRGesH6dLXsN6I9az/EgLLJC2UoRs9dEt4/4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J4nhbtwxVtFV98KFbap5pev82KSlYL52LiWhtk8yKSdQaFJ2ImEehxKXZ6Aey3k/Q
- 5aj+GUl1JStMZeh6nXuUG/gszDD7GUd0s2NBYobcHWPokubqAjxgH28mxN4sBj1GXU
- eeq+2N8tlIjRmbWbWgg+U1G+9QFECrJ4RSwPcMVrCCVjxYKuWLImucbELIaobVgUqD
- /vIZ50nE+22XxtZGZBBLYzUqMFU8J47k2aQmjM+VXvQcdbQf+M0c+p2+ThhS1Lm2Y4
- 1+hoC1sKNW5QKneKYy9eRZddJDNbcA/q3vN38LZFjQ4jHajFeRpspWwgjd5xPM9OZC
- 0DkoCrh/p0pPQ==
+ b=f01DyL7tHh2c8wjXu2kjpZJRCzgga4H3rWtjvrx3IDdDn++wc2+EQwKJ/6rlRcrY0
+ DBnE2p6klBpf+z4+qohF9Ej4hBPf77v5CbcQjJv/WeED9d6G5j5lrp/XGX9ghNjI8f
+ oy1L6nYIhRRtse6TVrJg+m/T2GNUmsTmMV/eFvL/scwTqClaQTomiv/yL95eUJ03Dd
+ gF6Bbo3RU7l0ff2+el45anRZc+5/lJw2l2GijuUWrEtt/QhsZgWhqGweY1BXgQBsqG
+ uQlmEhSV27tkC4ZHIzDNR+Pli1s61+vdLds2BbYe9H7vt2VbcojZPTlAiVwNYJR1Vf
+ zXjuhv0c/RAGQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shekhar Chauhan <shekhar.chauhan@intel.com>,
+Cc: Matt Atwood <matthew.s.atwood@intel.com>,
  Clint Taylor <Clinton.A.Taylor@intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Sasha Levin <sashal@kernel.org>,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
@@ -41,9 +41,9 @@ Cc: Shekhar Chauhan <shekhar.chauhan@intel.com>,
  thomas.hellstrom@linux.intel.com, airlied@gmail.com, simona@ffwll.ch,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 04/44] drm/xe/bmg: Add new PCI IDs
-Date: Thu,  3 Apr 2025 15:12:33 -0400
-Message-Id: <20250403191313.2679091-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 05/44] drm/xe/ptl: Update the PTL pci id table
+Date: Thu,  3 Apr 2025 15:12:34 -0400
+Message-Id: <20250403191313.2679091-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191313.2679091-1-sashal@kernel.org>
 References: <20250403191313.2679091-1-sashal@kernel.org>
@@ -67,39 +67,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shekhar Chauhan <shekhar.chauhan@intel.com>
+From: Matt Atwood <matthew.s.atwood@intel.com>
 
-[ Upstream commit fa8ffaae1b15236b8afb0fbbc04117ff7c900a83 ]
+[ Upstream commit 16016ade13f691da315fac7b23ebf1ab7b28b7ab ]
 
-Add 3 new PCI IDs for BMG.
+Update to current bspec table.
 
-v2: Fix typo -> Replace '.' with ','
+Bspec: 72574
 
-Signed-off-by: Shekhar Chauhan <shekhar.chauhan@intel.com>
+Signed-off-by: Matt Atwood <matthew.s.atwood@intel.com>
 Reviewed-by: Clint Taylor <Clinton.A.Taylor@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250128162015.3288675-1-shekhar.chauhan@intel.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20250128175102.45797-1-matthew.s.atwood@intel.com
 Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/drm/intel/pciids.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ include/drm/intel/pciids.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/include/drm/intel/pciids.h b/include/drm/intel/pciids.h
-index 77c826589ec11..4035e215c962a 100644
+index 4035e215c962a..f9d3e85142ea8 100644
 --- a/include/drm/intel/pciids.h
 +++ b/include/drm/intel/pciids.h
-@@ -846,7 +846,10 @@
- 	MACRO__(0xE20B, ## __VA_ARGS__), \
- 	MACRO__(0xE20C, ## __VA_ARGS__), \
- 	MACRO__(0xE20D, ## __VA_ARGS__), \
--	MACRO__(0xE212, ## __VA_ARGS__)
-+	MACRO__(0xE210, ## __VA_ARGS__), \
-+	MACRO__(0xE212, ## __VA_ARGS__), \
-+	MACRO__(0xE215, ## __VA_ARGS__), \
-+	MACRO__(0xE216, ## __VA_ARGS__)
+@@ -856,12 +856,10 @@
+ 	MACRO__(0xB080, ## __VA_ARGS__), \
+ 	MACRO__(0xB081, ## __VA_ARGS__), \
+ 	MACRO__(0xB082, ## __VA_ARGS__), \
++	MACRO__(0xB083, ## __VA_ARGS__), \
++	MACRO__(0xB08F, ## __VA_ARGS__), \
+ 	MACRO__(0xB090, ## __VA_ARGS__), \
+-	MACRO__(0xB091, ## __VA_ARGS__), \
+-	MACRO__(0xB092, ## __VA_ARGS__), \
+ 	MACRO__(0xB0A0, ## __VA_ARGS__), \
+-	MACRO__(0xB0A1, ## __VA_ARGS__), \
+-	MACRO__(0xB0A2, ## __VA_ARGS__), \
+ 	MACRO__(0xB0B0, ## __VA_ARGS__)
  
- /* PTL */
- #define INTEL_PTL_IDS(MACRO__, ...) \
+ #endif /* __PCIIDS_H__ */
 -- 
 2.39.5
 
