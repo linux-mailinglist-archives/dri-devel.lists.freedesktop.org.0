@@ -2,83 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2ABA7B0FE
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 23:26:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0A1A7AE46
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 22:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 332E510EB7D;
-	Thu,  3 Apr 2025 21:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028BC10EA74;
+	Thu,  3 Apr 2025 20:25:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NmYnx+20";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BKiwAlD0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D0D10EB7D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Apr 2025 21:26:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1743715563;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VQZmoEoHHMWJOWX6FSnXoplhBUtLobxJ6QjeQfN5Yng=;
- b=NmYnx+20HcNdgpNyZcKJYJ7CbOEIw99qtc7lSqW9kKVNEMXUp5bQ2LcSDHsx4KWZTZ5MWT
- /qCAeNRi2iz30CzTe8VhStVPNdvET0iRVnYpnJHDLD3VgwQMQgVxNJxEu56pdAnrzjz1yQ
- 1uAxo63TwhIOCSXh3HcuLoqKVCITafg=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-17-9LWrhFxGNUyv8OyB5kxTvw-1; Thu,
- 03 Apr 2025 17:25:58 -0400
-X-MC-Unique: 9LWrhFxGNUyv8OyB5kxTvw-1
-X-Mimecast-MFC-AGG-ID: 9LWrhFxGNUyv8OyB5kxTvw_1743715555
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 5101F1956050; Thu,  3 Apr 2025 21:25:55 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
- by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 05B2B180A803; Thu,  3 Apr 2025 21:25:50 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 03 Apr 2025 16:21:17 -0400
-Subject: [PATCH 46/46] panel/lg-lb035q02: Use refcounted allocation in
- place of devm_kzalloc()
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02B6310EB50;
+ Thu,  3 Apr 2025 20:25:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743711901; x=1775247901;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ in-reply-to:mime-version;
+ bh=7xhkOpSmQawbRMNKOlumJvCQQ4a8H1ZKMD7JhuTifLM=;
+ b=BKiwAlD0KShJwi1cQNxGZ5FOCpuGA2h7boHawRSVlCm2X1MFBkmC/nwk
+ z8VIkwKXTzOXRQnwwmHpkG86kvuTrbqHI5d+5edpx3eVjMxHbRAPpF7Qq
+ xC2sE9zuBmimjUiIyOWca8HrcObgL2p/9bcO+ZraK1wVDqgAug4Os1jyu
+ cC8m3ZffAer2P/0VKwgjBQ3zyJu16OPpeem0bc+MN2kEP2LFEAihKmWor
+ 66a1GCzjGucEeLfK1bEPXskrzZ+ulxuRKAR8R0rNCWgai4u8AuQFHuRbY
+ /ke6gL64q6gE0josd9IZ/Z7klQ0TfjWZueVbZna5+jg1YLo08iBNu0FyH g==;
+X-CSE-ConnectionGUID: N4z7+oN8RqaI3vfLrN8Suw==
+X-CSE-MsgGUID: PrtxDLzTSsCEbLCIu9c7Tg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="70514197"
+X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="70514197"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2025 13:25:00 -0700
+X-CSE-ConnectionGUID: Q54+MpyBTuCEbV7SjW4bvw==
+X-CSE-MsgGUID: i40ldyC4R9+9x0GxKncFMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="131973217"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2025 13:24:59 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Thu, 3 Apr 2025 13:24:59 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Thu, 3 Apr 2025 13:24:59 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.175)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 3 Apr 2025 13:24:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aV8idBlG9sXgaL9asIrDg/NbYwKYR29ajzqzSR2o/R21eRXpgIpMekGGoKqLCiHxBOYzYSfS/RIRT918fJ3p3WHzqreJzh8XqrOWp4jgWG2hBTBSNIeoP63Pn3LNPBQWDgbXZePrSjExVJ1J7IyDTHk59nQkhzn8MAOGqMSL5Qxe3v1QvV8jNOnvRtIWJ9/dxbjZWqDaPDHwqaf8kIVQApeK//A0U5F7xFhmQeNrCa0lhg4IX3NXSmTJazxx+wM/NzqzTZ40m3dKIDcNZlt032fLaRPNC4eP3B+AxJvQ63YGVTxII46lBB65AsLh6NDdelYZo2nqZo+60BVL5C5e1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tB4aju7YpVFuUdfEYnKjxlqfl7v21hEOY8SKQ+6Ssco=;
+ b=HaXJBqcek0ASW6pX+gCAdlnLXne3bX7DO2HnvgaTAhGYcRukT8mKMf6WoKegOOqd/NPHI0jQliq/2JK5WK5Qs/pgdkAXE311NMIkFbLOXaNOqfng/VW4IKjYy4h8LkrHUqh1xXP7Eqk9xpGCjzaFw8QyjDssvMyaAkKHMvMzogmhJgj75/nEFSnZJmKgWWRhuVd8593QcmpybSRSrVVdL+iwRV00MGqfNmPvUQ5DKCtduU4gTMtCh0ioaEBXvQlXlFAm2ejq36811f6GI+kLBJ6qsIKPfYHtUPSrQsREyKzGf8hnfM8769uwsxPLPtoD0mlMpkVxNohRUWzvO9p+Jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by DS4PPFA08475C7D.namprd11.prod.outlook.com (2603:10b6:f:fc02::3f)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.42; Thu, 3 Apr
+ 2025 20:24:29 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%6]) with mapi id 15.20.8534.048; Thu, 3 Apr 2025
+ 20:24:29 +0000
+Date: Thu, 3 Apr 2025 23:24:28 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: <shantam.yashashvi@intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: drm/i915: Add DSC/FEC support info to debugfs
+Message-ID: <Z-7ufGS4D2cMDenl@ideak-desk.fi.intel.com>
+References: <20250403190448.29795-1-shantam.yashashvi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250403190448.29795-1-shantam.yashashvi@intel.com>
+X-ClientProxiedBy: TL2P290CA0021.ISRP290.PROD.OUTLOOK.COM
+ (2603:1096:950:3::15) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-46-965b15ad5b8e@redhat.com>
-References: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
-In-Reply-To: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Robert Chiras <robert.chiras@nxp.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Markuss Broks <markuss.broks@gmail.com>, 
- Artur Weber <aweber.kernel@gmail.com>, 
- Dzmitry Sankouski <dsankouski@gmail.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>, 
- Michael Trimarchi <michael@amarulasolutions.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=1245;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=zmk7pM4zUFxP8zRUkY8Z6LycAMaLij94htuAzyPh1gM=;
- b=7HxQoapcNJ/QWW1ObXq0uQfPoC2dJ23Wc1zGuVS0eU0EFP3OgFepBvQCXzMOl6CU1WTFmsQn8
- hgfbmMOGG0UD+KIZCsZSRhucCleVfoG6FFENAeEMq2bgwy4DwXZX+XS
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|DS4PPFA08475C7D:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56e0d25a-aaff-4746-b910-08dd72ed8968
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?6Q8YKDRP0UxokaXEhIzAJn+HFRJEkPC55j89VNYzxSsu7bryhbG5/Eb8JMGv?=
+ =?us-ascii?Q?QVfhSCcP5ixa+psvFsvZjNQXAYw2+wAU9kjH9EXqYwcl6VUvf3N7xgVe6W5M?=
+ =?us-ascii?Q?xBh4QY7+oZGlE/w9mOnfsGoIAPdX1S+f4PNjx9aVdaTnlliRrOxlbg1AmfrL?=
+ =?us-ascii?Q?nuQq7en1gqoyqVgFk+tM634VkErqymzdTToP92U2dJD8VyDHNHQEkIowUO3q?=
+ =?us-ascii?Q?nRWfgm/4JjHf0vfF2YbJpojZCkcSgMFKwHuNJafkMKCGgbyhy+lo8NSty4oF?=
+ =?us-ascii?Q?U2FeApbI0yN+2SAskOyvz2RVyGLhn+5kEV7Yn9zV+9B+Z2Z48+c8BykQEIFp?=
+ =?us-ascii?Q?2GVIambKhIxY5Q65z2mAtqeOetxxLHt9gimfiN4reowo8fLTmdgG5Q2ib7y4?=
+ =?us-ascii?Q?r3oQnqrkKrk0EdjFUFHNVGJO51VQC13Xtymd7gsyzC4CybPq0vZujYJMhoCJ?=
+ =?us-ascii?Q?Yi5UKWM95ffg5bzY2ZP5LOeTwh82wh9IBZ/FZCxYF0I068hJICjXtC8KRtCm?=
+ =?us-ascii?Q?S32wo4tGsUBo1cGzCooEfyk60tTnlQI2aLaHJAKDaSK4MYV8IM+wtC0SIOWI?=
+ =?us-ascii?Q?mSLM2YjSVBiMDuT4ZfEPXIVABACkD0VgUeE59U5fHrfopFcmhtQS/AOCZynM?=
+ =?us-ascii?Q?Z8h/5j7kUkePqZ3DWtKb7rXR6lIbDAFFSOXmXD3HlDy9mOzcoKXs01MNucro?=
+ =?us-ascii?Q?8OK25euLnWi12ekXA51wgW6rda3kCPu+g1HEEvDjuHfybQgkBeVQOYXjFsLA?=
+ =?us-ascii?Q?jwyBIDB7eLbpvaEOBG8ZyWfYDS9Yx97GSY0kSRh2VdDvqYbrxNrPtGqCHm6m?=
+ =?us-ascii?Q?1SqGmLm/r25ZLZ9fRwvWPYWX+0mpbuDGrc5JM8uXtYYzZArv5CU+nFDd7Qi4?=
+ =?us-ascii?Q?SdmMdCOVq5w2f0S/WNvNaQLylY+1wZKv+hscx/jFWHndTTHlD+sKNob8LQlN?=
+ =?us-ascii?Q?kOkWE2LwDuy0up2S+jUPGGw7D3vrFFIDSHJo6XXslkxwMy9XdcdDGk8Ed36l?=
+ =?us-ascii?Q?ve9XGkZhHWJL4JZkRhh34zsK5RETefhUe8C3jqy9lwbk8GYC7c7v67gUkZo5?=
+ =?us-ascii?Q?QcBIovUfXoZRMk4wQJ3Klfw7MmspWCrPcWU1FkUliu7SE6Eb5NuytxTeWttZ?=
+ =?us-ascii?Q?zDtSSMe5lundSkK2ht05KYMnQQ3M6dsnBnRTsY4dLra2ncvEY44n405UhWBC?=
+ =?us-ascii?Q?VWHsMk6lMZ1SukVHGGfkE6IzZhxpAb1x5PuZBwcAFfBZqlW2vKyKcq+dD4Cn?=
+ =?us-ascii?Q?O0kkjhVxqUQ9ePgMLG3lsQEfoYnVqlDSvfqvlVMAM9wK4DJT3XoI4pRUjAc5?=
+ =?us-ascii?Q?h8W3kc5IrtbIdHEcVQFreU7esFgZLUBGXO60T1f3+G6r4iDKnyR6a/83G9tg?=
+ =?us-ascii?Q?betkfva3K8Ff7Z8IFuUAeJb7TAVNsF6tZp+M7qfgrwYS63KjFQmY4dKOON14?=
+ =?us-ascii?Q?93cjcO/3VYM=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Sg56Qy39dwGGaAKcHUf1tIYQpZnVJl9OO6Xt8EB4jDol0FMSZvycAauMO+zF?=
+ =?us-ascii?Q?Efv9n49e5DXTY66e1hAGXtyv+GMc3io3ATH0TDT3aNU5AqewcZQYMCWEdCp2?=
+ =?us-ascii?Q?GM2+mw7W8K5/5EPahSiSDg1VJZv0LTKFLdgK2LVsDzmRCdCV9ITU+kbIJMjo?=
+ =?us-ascii?Q?QrfcF1ada2hTqTfzwAx4riOS4tgLdr0eLeBMgTfyfgRaDT6ZXEayAWVt/7St?=
+ =?us-ascii?Q?LnMaAYv+2fg/MFnrpvtyTEtRLltfb8zUeHYkRUOIgpAI2KzYuPNOZHSy7QA0?=
+ =?us-ascii?Q?V8QPziMKrjaEFW2VbjbU02XV+7we1liiDSc281BZC0s7KwS/niiDgsOTfDPe?=
+ =?us-ascii?Q?PR4mRs4NCn4No30Jk5suuw0o0nxt0c++8syye3nCTB+TVNZnkGk1IryXMYcU?=
+ =?us-ascii?Q?6euhLtFCTtBuu2np4R6tQfZahpEU3TJ/sKeRTPUzcPoT+3YG4mGZ5r1AOrHi?=
+ =?us-ascii?Q?FJZYGuX+EtcTvwRHrBGqD2BFlQwg9zpBlronFZ7qadFUfLuWWUocAO2ijG3l?=
+ =?us-ascii?Q?/ZqYgQE8/bI3KF7HgmdH4JYpKQOYBEsoGwZ25GU5sygieFfymn4f0kbO8L9p?=
+ =?us-ascii?Q?V16cSpQ3cSO3VC6XceBmNc3HbMO3AX7B6U4GcKLOFyNTEsXYPv+Kh6BtmMwk?=
+ =?us-ascii?Q?cIpoc8DoPW4LJ+xSZVFurG9dDGGYFkYY+rzRnrtEiDyzfN/VUd4vJrfRT2Vt?=
+ =?us-ascii?Q?qTPnfyuzm6hSTMpPYIDCkI3JX7/XCPBO3hpTgoz7sSVb8Q+9QMQiW/vCefbA?=
+ =?us-ascii?Q?/G83sm8l66+YQ0+4fD9j762ZPakzxYVvp/9+ENj03MtCotBPk7JxGyo8OlHr?=
+ =?us-ascii?Q?TgIOol1nCyNRBRd9aW5K85eZ05LSXZr6bnugES2LsU13Ftt15io17DWalMcv?=
+ =?us-ascii?Q?qxxf4VueD+voPg+CRUhYPnFJQ02kL+3/RNXRkRVkZaSZL5VqhmfdkQ27cGmZ?=
+ =?us-ascii?Q?OuSqBG+IaeTtQYsQvmQR/VwdOOoCUC9FIg82bmvWmHZd7DKI4ROkJ8En7pdj?=
+ =?us-ascii?Q?++yTDeV6YU/Fwh8cYdZB5kQKEx2hPpz7ZTdgjbAw1z5maBmsIML5R+B38irc?=
+ =?us-ascii?Q?LuLEh/rfDVXT0fvqP95/OZ7iNRsu3IYZoAASV8itM4x9IMtQ0dU2sdHTOyzL?=
+ =?us-ascii?Q?4+743x10RoMPgi/tAKOPJzFEf3tP4bi4lbu1homzELzjtQ2u3q0UEJcIpLe0?=
+ =?us-ascii?Q?pXAB+R3GVrdtR8xOCbcYU8HzC9vPNCXm2x4vVasBwgl9tU0AyrJFF9EdEbjf?=
+ =?us-ascii?Q?Nikv9PBlzAS5geeYDQHvg6rE+hfAmWi4vY/vRbxvxa14w1zUAfdR3MtD38dp?=
+ =?us-ascii?Q?KXpiQ91ynxlh+Sls+fBoZsQcaNLX87CzTOgxe+te/MnwIOJ26ehXeFNFcacT?=
+ =?us-ascii?Q?QOdE6+7HUCSYr2h44A1Bl92FUcLyk4ZwraiZrn347GGvG9Ia3CoLCYvUAvfs?=
+ =?us-ascii?Q?vPVSGSeOpE4oWWOhfkcyiOMrkm5X+t+6kWNIKTm9bJtY8VLy7SwPnd/XoiBx?=
+ =?us-ascii?Q?GIVnJmEoB5ofgWD1Te+twZl2otrix6s9jtPbI5lFPuIo+Dp2lSdrb2hJdDNN?=
+ =?us-ascii?Q?wGaS5Ii3i/AY5FWEljX2K7INFj+lCw3FONFimMo9?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56e0d25a-aaff-4746-b910-08dd72ed8968
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2025 20:24:29.6142 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 836algKTqXbYwce9N/ce5gm8V67RR64AytBTE83ZVrBcnqUzcYkhvRZb54w5IAvOTyWJXP3b4f7LH8uv6S1DgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFA08475C7D
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,46 +172,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move to using the new API devm_drm_panel_alloc() to allocate the
-panel.
+On Fri, Apr 04, 2025 at 12:34:48AM +0530, shantam.yashashvi@intel.com wrote:
+> From: Shantam Yashashvi <shantam.yashashvi@intel.com>
+> 
+> Signed-off-by: Shantam Yashashvi <shantam.yashashvi@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display_debugfs.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> index 057a8ce0c2c97..b8d3a438a34d9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> @@ -276,6 +276,7 @@ static void intel_connector_info(struct seq_file *m,
+>  	struct intel_encoder *encoder =
+>  		to_intel_encoder(conn_state->best_encoder);
+>  	const struct drm_display_mode *mode;
+> +	struct intel_dp *intel_dp;
+>  
+>  	seq_printf(m, "[CONNECTOR:%d:%s]: status: %s\n",
+>  		   connector->base.id, connector->name,
+> @@ -301,6 +302,16 @@ static void intel_connector_info(struct seq_file *m,
+>  			intel_dp_mst_info(m, intel_connector);
+>  		else
+>  			intel_dp_info(m, intel_connector);
+> +
+> +		/* Add DSC and FEC Support Information for DisplayPort / eDP Connectors */
+> +		intel_dp = intel_attached_dp(intel_connector);
+> +		if (intel_dp){
+> +			seq_printf(m, "\tDSC_Sink_Support: %s\n",
+> +                str_yes_no(drm_dp_sink_supports_dsc(intel_connector->dp.dsc_dpcd)));
+> +			if (!intel_dp_is_edp(intel_dp))
+> +				    seq_printf(m, "\tFEC_Sink_Support: %s\n",
+> +				        str_yes_no(drm_dp_sink_supports_fec(intel_connector->dp.fec_capability)));
 
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- drivers/gpu/drm/panel/panel-lg-lb035q02.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Both of the above info is available already in the connector's
+i915_dsc_fec_support debugfs entry. As I understood the aim is having
+each CRTC / connector show its own properties, instead of combinining
+all those into one debugfs entry (as this is done in i915_display_info).
+Based on that I don't think more (duplicated) information should be
+added here.
 
-diff --git a/drivers/gpu/drm/panel/panel-lg-lb035q02.c b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-index 9d0d4faa3f58aa4950e48d082352e0013880ee30..b2be6727bf73d34c8a9fdc9ad2f52b11d22d3b28 100644
---- a/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-+++ b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-@@ -178,9 +178,10 @@ static int lb035q02_probe(struct spi_device *spi)
- 	struct lb035q02_device *lcd;
- 	int ret;
- 
--	lcd = devm_kzalloc(&spi->dev, sizeof(*lcd), GFP_KERNEL);
--	if (!lcd)
--		return -ENOMEM;
-+	lcd = devm_drm_panel_alloc(&spi->dev, struct lb035q02_device, panel,
-+				   &lb035q02_funcs, DRM_MODE_CONNECTOR_DPI);
-+	if (IS_ERR(lcd))
-+		return PTR_ERR(lcd);
- 
- 	spi_set_drvdata(spi, lcd);
- 	lcd->spi = spi;
-@@ -195,9 +196,6 @@ static int lb035q02_probe(struct spi_device *spi)
- 	if (ret < 0)
- 		return ret;
- 
--	drm_panel_init(&lcd->panel, &lcd->spi->dev, &lb035q02_funcs,
--		       DRM_MODE_CONNECTOR_DPI);
--
- 	drm_panel_add(&lcd->panel);
- 
- 	return 0;
+One issue with the i915_dsc_fec_support entry is that it doesn't show
+the sink capabilities if the output isn't enabled on the connector, I
+plan to follow up with a fix for that.
 
--- 
-2.48.1
-
+> +		}
+>  		break;
+>  	case DRM_MODE_CONNECTOR_HDMIA:
+>  		if (encoder->type == INTEL_OUTPUT_HDMI ||
+> -- 
+> 2.25.1
+> 
