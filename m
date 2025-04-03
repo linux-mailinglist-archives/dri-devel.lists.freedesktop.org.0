@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8169BA7AB1F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A9AA7AB21
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 21:18:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B60EC10EAF8;
-	Thu,  3 Apr 2025 19:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0C810EAF9;
+	Thu,  3 Apr 2025 19:18:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iXIKoKVT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MOo7yTM0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D09610EAF6;
- Thu,  3 Apr 2025 19:18:27 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FFA910EAF9;
+ Thu,  3 Apr 2025 19:18:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C1C1C5C0F6E;
- Thu,  3 Apr 2025 19:16:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1E47C4CEE8;
- Thu,  3 Apr 2025 19:18:24 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8DA08448E5;
+ Thu,  3 Apr 2025 19:18:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19248C4CEE9;
+ Thu,  3 Apr 2025 19:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743707906;
- bh=otqcOSfMoH3iQE8svAci/APa4hc6+FBjbvDY3rMfqic=;
+ s=k20201202; t=1743707913;
+ bh=a9ONbC/GI5yKD6EzoRZ0UunHGO/W3XphgI/C8jmfoJI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iXIKoKVTADhpZGsp9dkgLSlbtvh0538C2vQ7AUjU5Oi8+yUnfDbJM4g6pL3leomj9
- /n9MCWtTvLm4TO2do8NNd8vRyV/TVf6NEdW4lVMBuxAzkM5JgZok1WvwClq3rML1i3
- SIVsZxY28IGTKiLzg+zueOlv5Xmv0FTudD1biIY2EWPrLVzZo4RGrLUL9Uc80K2fW1
- zdDGhKG9RnOswAaxc78Bo4PEOHFokjm9EttJXiJMt88NmsGEDmawFEtImUBYLOU9jk
- 27Yl8JmBUGIamst1LXdlYsKTJIT1uVcWgjws+nmtx0jrsQQ6TBluFE4vSDH1ZZr0gM
- 16IM+l8koAfHA==
+ b=MOo7yTM0UCVXV3glAbjDKXO8m/tsKl28woNF7DsyyFqqn0rKn24wC0Jp7ajn5BxQJ
+ 4/j7eoZ1wjRly6k545ojj28RhOl2f2WhZPe84BFfgJth1tjRL0ICQCrI+hA6/Q4Boo
+ xVTTer6a5CEGnQXy/LHBywG6DkfeCb+1Uc/hYs1pN03EKaEMkJHvyoJI496828mi8t
+ 5Qkixwlfhh6gVmPnFStQbufzf6illlo/XEcpuspP06LedUQapPsdryKVoce3cs7J96
+ rKCop/n0KRapbctlO7mBzWfkLGMCw7pD8J6DPT3nV3laMTipiQbdSjRyMBXR/DxPBw
+ 9C3stLJ55XK1g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zhikai Zhai <zhikai.zhai@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Zaeem Mohamed <zaeem.mohamed@amd.com>,
+Cc: Brendan Tam <Brendan.Tam@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, martin.leung@amd.com,
- chiahsuan.chung@amd.com, bhuvanachandra.pinninti@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, aric.cyr@amd.com, siqueira@igalia.com,
+ alex.hung@amd.com, roman.li@amd.com, dillon.varone@amd.com,
+ Samson.Tam@amd.com, Syed.Hassan@amd.com, george.shen@amd.com,
+ Cruise.Hung@amd.com, joshua.aberback@amd.com, PeiChen.Huang@amd.com,
+ michael.strauss@amd.com, jerry.zuo@amd.com, ivlipski@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 02/23] drm/amd/display: Update Cursor request mode
- to the beginning prefetch always
-Date: Thu,  3 Apr 2025 15:17:55 -0400
-Message-Id: <20250403191816.2681439-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 03/23] drm/amd/display: add workaround flag to
+ link to force FFE preset
+Date: Thu,  3 Apr 2025 15:17:56 -0400
+Message-Id: <20250403191816.2681439-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250403191816.2681439-1-sashal@kernel.org>
 References: <20250403191816.2681439-1-sashal@kernel.org>
@@ -69,93 +71,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhikai Zhai <zhikai.zhai@amd.com>
+From: Brendan Tam <Brendan.Tam@amd.com>
 
-[ Upstream commit 4a4077b4b63a8404efd6d37fc2926f03fb25bace ]
+[ Upstream commit 51d1b338541dea83fec8e6f95d3e46fa469a73a8 ]
 
 [Why]
-The double buffer cursor registers is updated by the cursor
-vupdate event. There is a gap between vupdate and cursor data
-fetch if cursor fetch data reletive to cursor position.
-Cursor corruption will happen if we update the cursor surface
-in this gap.
+There have been instances of some monitors being unable to link train on
+their reported link speed using their selected FFE preset. If a different
+FFE preset is found that has a higher rate of success during link training
+this workaround can be used to force its FFE preset.
 
 [How]
-Modify the cursor request mode to the beginning prefetch always
-and avoid wraparound calculation issues.
+A new link workaround flag is made called force_dp_ffe_preset. The flag is
+checked in override_training_settings and will set lt_settings->ffe_preset
+which is null if the flag is not set. The flag is then set in
+override_lane_settings.
 
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Signed-off-by: Zhikai Zhai <zhikai.zhai@amd.com>
-Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Signed-off-by: Brendan Tam <Brendan.Tam@amd.com>
+Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/dc/dcn10/dcn10_hw_sequencer.c | 22 ++++++++-----------
- .../gpu/drm/amd/display/dc/dcn31/dcn31_hubp.c |  2 +-
- 2 files changed, 10 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dc.h                             | 2 ++
+ .../gpu/drm/amd/display/dc/link/protocols/link_dp_training.c    | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-index ff38a85c4fa22..e71b79f5a66cd 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-@@ -1930,20 +1930,11 @@ static void delay_cursor_until_vupdate(struct dc *dc, struct pipe_ctx *pipe_ctx)
- 	dc->hwss.get_position(&pipe_ctx, 1, &position);
- 	vpos = position.vertical_count;
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index cc5e01df15135..88e64b280c90f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -1563,7 +1563,9 @@ struct dc_link {
+ 		bool dongle_mode_timing_override;
+ 		bool blank_stream_on_ocs_change;
+ 		bool read_dpcd204h_on_irq_hpd;
++		bool force_dp_ffe_preset;
+ 	} wa_flags;
++	union dc_dp_ffe_preset forced_dp_ffe_preset;
+ 	struct link_mst_stream_allocation_table mst_stream_alloc_table;
  
--	/* Avoid wraparound calculation issues */
--	vupdate_start += stream->timing.v_total;
--	vupdate_end += stream->timing.v_total;
--	vpos += stream->timing.v_total;
--
- 	if (vpos <= vupdate_start) {
- 		/* VPOS is in VACTIVE or back porch. */
- 		lines_to_vupdate = vupdate_start - vpos;
--	} else if (vpos > vupdate_end) {
--		/* VPOS is in the front porch. */
--		return;
- 	} else {
--		/* VPOS is in VUPDATE. */
--		lines_to_vupdate = 0;
-+		lines_to_vupdate = stream->timing.v_total - vpos + vupdate_start;
- 	}
- 
- 	/* Calculate time until VUPDATE in microseconds. */
-@@ -1951,13 +1942,18 @@ static void delay_cursor_until_vupdate(struct dc *dc, struct pipe_ctx *pipe_ctx)
- 		stream->timing.h_total * 10000u / stream->timing.pix_clk_100hz;
- 	us_to_vupdate = lines_to_vupdate * us_per_line;
- 
-+	/* Stall out until the cursor update completes. */
-+	if (vupdate_end < vupdate_start)
-+		vupdate_end += stream->timing.v_total;
-+
-+	/* Position is in the range of vupdate start and end*/
-+	if (lines_to_vupdate > stream->timing.v_total - vupdate_end + vupdate_start)
-+		us_to_vupdate = 0;
-+
- 	/* 70 us is a conservative estimate of cursor update time*/
- 	if (us_to_vupdate > 70)
- 		return;
- 
--	/* Stall out until the cursor update completes. */
--	if (vupdate_end < vupdate_start)
--		vupdate_end += stream->timing.v_total;
- 	us_vupdate = (vupdate_end - vupdate_start + 1) * us_per_line;
- 	udelay(us_to_vupdate + us_vupdate);
- }
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubp.c
-index 39a57bcd78667..576acf2ce10dd 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubp.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubp.c
-@@ -44,7 +44,7 @@ void hubp31_set_unbounded_requesting(struct hubp *hubp, bool enable)
- 	struct dcn20_hubp *hubp2 = TO_DCN20_HUBP(hubp);
- 
- 	REG_UPDATE(DCHUBP_CNTL, HUBP_UNBOUNDED_REQ_MODE, enable);
--	REG_UPDATE(CURSOR_CONTROL, CURSOR_REQ_MODE, enable);
-+	REG_UPDATE(CURSOR_CONTROL, CURSOR_REQ_MODE, 1);
- }
- 
- void hubp31_soft_reset(struct hubp *hubp, bool reset)
+ 	struct dc_link_status link_status;
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+index 9d1adfc09fb2a..51e88efee11e4 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+@@ -697,6 +697,8 @@ void override_training_settings(
+ 		lt_settings->pre_emphasis = overrides->pre_emphasis;
+ 	if (overrides->post_cursor2 != NULL)
+ 		lt_settings->post_cursor2 = overrides->post_cursor2;
++	if (link->wa_flags.force_dp_ffe_preset && !dp_is_lttpr_present(link))
++		lt_settings->ffe_preset = &link->forced_dp_ffe_preset;
+ 	if (overrides->ffe_preset != NULL)
+ 		lt_settings->ffe_preset = overrides->ffe_preset;
+ 	/* Override HW lane settings with BIOS forced values if present */
 -- 
 2.39.5
 
