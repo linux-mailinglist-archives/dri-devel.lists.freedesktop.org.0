@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D7DA7AE5B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 22:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B5DA7AE5D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Apr 2025 22:26:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D033610EB40;
-	Thu,  3 Apr 2025 20:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB8D610EB35;
+	Thu,  3 Apr 2025 20:26:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W7hAiEQt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gyyYxpzo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9179510EA67;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5CBC10EA5A;
  Thu,  3 Apr 2025 20:25:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1743711955; x=1775247955;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HzMwQuXidQMUhSnA9WwbP7ZSDx73OS5wYEVIStd5jKo=;
- b=W7hAiEQtdQnZLrYFqIRKBhruK4Foel5qcPs8rKMSOLFg7K7OOGIe/fMs
- vFG7l7oFbLvWBwbrdeZZ3HQBl7mp+Yfde5QuV9G5UWySb5dmB1Rx7j7f0
- /hO2oZCYqgZ08y3957vRj17oXrmxoTC05fnnn/iQCqkPNhhZClusqXWa3
- Fl6OwknlPaj+xBe/SxExShKLTgvgA6o/cM2J/oCas75IHdzS0cud1o291
- qXuGxwIfSEVcfUf/C19gHSHkpS6+dnpSgKhFxvoqQW7DaZLRAUp50b6Uo
- hVtLn2dC1A87OFOQ027PEtnmoL3VGSzXc8z/OrLZbKjoH9J3TYB/EJGDv Q==;
-X-CSE-ConnectionGUID: Di8dcw70QE6K6OjTcvymFg==
-X-CSE-MsgGUID: uNz9ytfzRPGK43bVRLEE1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="55337818"
-X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="55337818"
+ bh=12plUmyAMQbrqtMr8rbW/3nEIAi2BVyriKWTFI0IVxI=;
+ b=gyyYxpzoVIWK4B4fStB/e8+0bF9xN9JhDa5N64Yr9ZP4n7Gcqjqm+6c5
+ Z2Ryvt9o18KUrOI9b+TB83gCImUOtej0POCGOvfTljpo/5l0EmikYTtMU
+ 8eqMauAjHrUlAvDj3oHQD+HCAP/4x/VVV4aohoWC2bzhEvTiuqmlOJ4KD
+ PQMDLBAV7XYHjb12ezyIL2YYfwJaMOs3YL5zfCJUtwh6R5zTMqr5gGljU
+ Zxec0yK/foxI6jasQCxaRXDChStrukQQOldO7spVVB6j2ip16u64AvxR6
+ 0Po5T1iPz4TZ8ykMSBqAc1VmoRGGghsAuMMnmzTcV78pAYHi4oe+Hi5GY Q==;
+X-CSE-ConnectionGUID: unKtO4VhQhOTZBEBJK8vAQ==
+X-CSE-MsgGUID: 9oq4qbpIRBGwxfA7aY0dqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="55337819"
+X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="55337819"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2025 13:25:54 -0700
-X-CSE-ConnectionGUID: 7evRfP+SSbWY13yb22Lp/w==
-X-CSE-MsgGUID: RziysdyMTlOlAP99a9zVtA==
+ 03 Apr 2025 13:25:55 -0700
+X-CSE-ConnectionGUID: GuNSZSQ/R1KX+mSaqRm7tw==
+X-CSE-MsgGUID: 4SO+TzQ6QVaLrxJ9fkcvkA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="127972862"
+X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; d="scan'208";a="127972863"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Apr 2025 13:25:54 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/4] drm/print: Add drm_printer_is_full
-Date: Thu,  3 Apr 2025 13:27:04 -0700
-Message-Id: <20250403202705.18488-4-matthew.brost@intel.com>
+Subject: [PATCH v2 4/4] drm/xe: Abort printing coredump in VM printer output
+ if full
+Date: Thu,  3 Apr 2025 13:27:05 -0700
+Message-Id: <20250403202705.18488-5-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250403202705.18488-1-matthew.brost@intel.com>
 References: <20250403202705.18488-1-matthew.brost@intel.com>
@@ -67,43 +68,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_printer_is_full which indicates if a drm printer's output is
-full. Useful to short circuit coredump printing once printer's output is
-full.
+Abort printing coredump in VM printer output if full. Helps speedup
+large coredumps which need to walked multiple times in
+xe_devcoredump_read.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- include/drm/drm_print.h | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/gpu/drm/xe/xe_vm.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index f31eba1c7cab..db7517ee1b19 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -242,6 +242,23 @@ struct drm_print_iterator {
- 	ssize_t offset;
- };
+diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+index 864266e38aa7..164824617a2e 100644
+--- a/drivers/gpu/drm/xe/xe_vm.c
++++ b/drivers/gpu/drm/xe/xe_vm.c
+@@ -3847,6 +3847,9 @@ void xe_vm_snapshot_print(struct xe_vm_snapshot *snap, struct drm_printer *p)
+ 		}
  
-+/**
-+ * drm_printer_is_full() - DRM printer output is full
-+ * @p: DRM printer
-+ *
-+ * DRM printer output is full, useful to short circuit coredump printing once
-+ * printer is full.
-+ *
-+ * RETURNS:
-+ * True if DRM printer output buffer is full, False otherwise
-+ */
-+static inline bool drm_printer_is_full(struct drm_printer *p)
-+{
-+	struct drm_print_iterator *iterator = p->arg;
+ 		drm_puts(p, "\n");
 +
-+	return !iterator->remain;
-+}
-+
- /**
-  * drm_coredump_printer - construct a &drm_printer that can output to a buffer
-  * from the read function for devcoredump
++		if (drm_printer_is_full(p))
++			return;
+ 	}
+ }
+ 
 -- 
 2.34.1
 
