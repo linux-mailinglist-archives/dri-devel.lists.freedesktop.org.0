@@ -2,103 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF57A7B7FF
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 08:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DBDA7B859
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 09:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF93010EA53;
-	Fri,  4 Apr 2025 06:51:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D73110E309;
+	Fri,  4 Apr 2025 07:42:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="boYZmGZy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8Bpv8bro";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="boYZmGZy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8Bpv8bro";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="mlgQCiQu";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="f4D9D1uB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0809210E311
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 06:51:09 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 949F1211C4;
- Fri,  4 Apr 2025 06:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743749467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=SjpAnnOxN0Q1H004weBg/wRQGuQae06E5nKdJp7hhjI=;
- b=boYZmGZyifW3xCiPqqYo5S5EmFpeUqs2UZPrAx53H2xWh8Rk4eftK51K/1u3viMeTJ9//L
- 3A8+1hg/mSxx35xVi1jB6eMNey+3jSbj/UFSqtwkEqDrJCDyloEH1rf2gdsLD5ATSy1+YC
- kYdV8ZO/1iEcHGzp1BwO5wKI57W7mNg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743749467;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=SjpAnnOxN0Q1H004weBg/wRQGuQae06E5nKdJp7hhjI=;
- b=8Bpv8bro85Fkmwdh5T0UIpPc90dQXIRq/G3Pjo/8tYT05jB1qN4rafZalujI3nIz6ASE24
- T8kbAH36UfL91uAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1743749467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=SjpAnnOxN0Q1H004weBg/wRQGuQae06E5nKdJp7hhjI=;
- b=boYZmGZyifW3xCiPqqYo5S5EmFpeUqs2UZPrAx53H2xWh8Rk4eftK51K/1u3viMeTJ9//L
- 3A8+1hg/mSxx35xVi1jB6eMNey+3jSbj/UFSqtwkEqDrJCDyloEH1rf2gdsLD5ATSy1+YC
- kYdV8ZO/1iEcHGzp1BwO5wKI57W7mNg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1743749467;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=SjpAnnOxN0Q1H004weBg/wRQGuQae06E5nKdJp7hhjI=;
- b=8Bpv8bro85Fkmwdh5T0UIpPc90dQXIRq/G3Pjo/8tYT05jB1qN4rafZalujI3nIz6ASE24
- T8kbAH36UfL91uAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 30DEE13691;
- Fri,  4 Apr 2025 06:51:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id x2afCluB72cgWgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 04 Apr 2025 06:51:07 +0000
-Date: Fri, 4 Apr 2025 08:51:05 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20250404065105.GA27699@linux.fritz.box>
+X-Greylist: delayed 531 seconds by postgrey-1.36 at gabe;
+ Fri, 04 Apr 2025 07:42:38 UTC
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41ED410E309
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 07:42:38 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1743752015;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CORAwJdGdFJqSXpfBY2eBhV3jtyb7N9hwR1HOp2miIw=;
+ b=mlgQCiQuOrsco+po4sSITtC11nph9KQwzE+DSpGJF+GzYbY1iOkm+3JPijRAA5OPBTYb6Q
+ cVSO8otipo4wfZTMR9e4XBBy7+JZWjVU78K6a6RbI0La0EjxVpHCOfajgXBYkW9pF5mIXq
+ MlOfJJTps1zAjYHYoUraLaIKshDoNKjvRocZeBCwdTQVYw4qZfIwfNdNvPStyBPsBA4mLl
+ 34iqpxCz3hMPEH8Q1L2pQRcmKyoMQeBTVMkaLkZkmiM8/40W3mmcqN7vd10cylBbYoZ9bg
+ uMqnQytDLVcIlT2rUK9A5IB9f59wnGpgcz8y0nYaOE2A3fDlx9Xnjr1IpgLgmw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1743752015;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CORAwJdGdFJqSXpfBY2eBhV3jtyb7N9hwR1HOp2miIw=;
+ b=f4D9D1uBxpPnWMpsC1nrSzp/rcZLMY6vogYgkx7/pYNMe8b3tUWHHdgp5rXAqD/prNL9o3
+ 0oyADrspMYRwtfBQ==
+To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ryosuke Yasuoka <ryasuoka@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, Wei Yang
+ <richard.weiyang@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, John Ogness
+ <john.ogness@linutronix.de>, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 1/2] mm/kmap: Add kmap_local_page_try_from_panic()
+In-Reply-To: <20250321112436.1739876-2-jfalempe@redhat.com>
+References: <20250321112436.1739876-1-jfalempe@redhat.com>
+ <20250321112436.1739876-2-jfalempe@redhat.com>
+Date: Fri, 04 Apr 2025 09:33:35 +0200
+Message-ID: <87mscwv0s0.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.992]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
- MISSING_XM_UA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,47 +72,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+On Fri, Mar 21 2025 at 12:16, Jocelyn Falempe wrote:
+> kmap_local_page() can be unsafe to call from a panic handler, if
+> CONFIG_HIGHMEM is set, and the page is in the highmem zone.
+> So add kmap_local_page_try_from_panic() to handle this case.
 
-this is the final PR for this release cycle's drm-misc-next-fixes.
+I think this is a reasonable solution and the highmem case can suffer
+from not getting the reliable panic output.
 
-Best regards
-Thomas
+> Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  include/linux/highmem-internal.h | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/include/linux/highmem-internal.h b/include/linux/highmem-internal.h
+> index dd100e849f5e0..5d089b0ca56de 100644
+> --- a/include/linux/highmem-internal.h
+> +++ b/include/linux/highmem-internal.h
+> @@ -73,6 +73,13 @@ static inline void *kmap_local_page(struct page *page)
+>  	return __kmap_local_page_prot(page, kmap_prot);
+>  }
+>  
+> +static inline void *kmap_local_page_try_from_panic(struct page *page)
+> +{
+> +	if (!PageHighMem(page))
+> +		return page_address(page);
+> +	return NULL;
 
-drm-misc-next-fixes-2025-04-04:
-Short summary of fixes pull:
+A comment explaining the reason why the highmem mapping cannot work here
+would be appreciated.
 
-bridge:
-- tda998x: Select CONFIG_DRM_KMS_HELPER
-The following changes since commit ee20c69c789b6cb2179a535cf440d72b98f4a134:
+Aside of that:
 
-  drm: adp: Fix NULL vs IS_ERR() check in adp_plane_new() (2025-03-14 09:42:11 -0400)
+      Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
 
-are available in the Git repository at:
+Thanks,
 
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-fixes-2025-04-04
-
-for you to fetch changes up to 85a063b8b281e144ed96463936fb4e6b3d4fe9e4:
-
-  drm/i2c: tda998x: select CONFIG_DRM_KMS_HELPER (2025-03-30 21:02:06 +0300)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-bridge:
-- tda998x: Select CONFIG_DRM_KMS_HELPER
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      drm/i2c: tda998x: select CONFIG_DRM_KMS_HELPER
-
- drivers/gpu/drm/bridge/Kconfig | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+        tglx
