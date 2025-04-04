@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C909CA7B894
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 10:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31E5A7B896
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 10:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58B7510EAC9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C575B10EB85;
 	Fri,  4 Apr 2025 08:09:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="O4jUMOi+";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fskQ++U1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB13A10EB83
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEE0410EA68
  for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 08:09:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743754175;
- bh=vG2/aLoQH2NqodH0R3VU9kCoxT4tTk8CTpFdEHqKVLI=;
- h=From:To:Cc:Subject:Date:From;
- b=O4jUMOi+3kxtd4TjhFqfJaWR/1WxdX8Js7jMZJVmlCP3K0BShb8xdW79KYp7EYIKu
- yoNjMXMM9h9T99m30DhobUXnhTv92hRXnFLQvdV+hLB4fKM4wvy8ID1lMxXaeG1HPX
- 335i9hqkVzhgoDxf0xS3VC8s5aKBUIu25bEY7My15Uz1RoPinioUG7rFr6HzBtiLlL
- j3OY90rAHC0ctKD0zeokKX92ek2KtA/O+nlLr58Xkv1y8UAmHlVkVUDoA7FSF3fzhR
- 0iPwnKBIJ42cCtA2mUMtv73CYnmDyYxZOh3lbDRSYI1NlQxZRPQ69LI6CEK/mB18fe
- Y7XBG2XjSBmLA==
+ s=mail; t=1743754176;
+ bh=GOLofEZ5fXyg/x1Bi2tg4mZs0GSEehr9mxtK0pdmYAM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=fskQ++U1zkbsiDsUpBEXMFBOd1jzzVkUKnx5vfHI+PWnIRdovDen37djyP252gxga
+ cKUwLQtZuzXxvHJhAcOI9Ds04xkItQciizHpbUjT/a00I48HgRrFB4v5JFN9nMcRxS
+ DRPr+t6bPDRUxEEkUOAI1/synQOH2bKVu7bEu3MzmYPCm+xqgFGWQ3ynplXY6sQ/ju
+ zE0SdNMicu0tBV9FCwCIAxQ5QXxIaZIRcA0p5a0TafaI9o6urLcZwx2b2ZB2PMyLXG
+ bHU+FGPH+H4918FBqPH0/ghIMjhqfmAS9EiFs3V93gPKlHjelWLlKAh8qY67WwlASe
+ qKCETfl5NK0rg==
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4411617E0865;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B049717E0C50;
  Fri,  4 Apr 2025 10:09:35 +0200 (CEST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -39,10 +39,12 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org,
 	kernel@collabora.com
-Subject: [PATCH v3 0/5] drm/panthor: Misc fixes
-Date: Fri,  4 Apr 2025 10:09:28 +0200
-Message-ID: <20250404080933.2912674-1-boris.brezillon@collabora.com>
+Subject: [PATCH v3 1/5] drm/panthor: Fix GPU_COHERENCY_ACE[_LITE] definitions
+Date: Fri,  4 Apr 2025 10:09:29 +0200
+Message-ID: <20250404080933.2912674-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250404080933.2912674-1-boris.brezillon@collabora.com>
+References: <20250404080933.2912674-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,37 +62,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+GPU_COHERENCY_ACE and GPU_COHERENCY_ACE_LITE definitions have been
+swapped.
 
-This is a collection of fixes for bugs found while working on adding
-JM support to panthor. Those are not particularly tied to JM support
-and are worth having regardless.
+Changes in v2:
+- New patch
 
-Note that the last two don't have Fixes tag because they fix issues
-we can't really hit with the current implementation (no fault
-handling, and no shared irq line).
+Changes in v3:
+- Add Steve's R-b
 
-Changelog available in each patch if you're interested.
+Reported-by: Liviu Dudau <liviu.dudau@arm.com>
+Fixes: 546b366600ef ("drm/panthor: Add GPU register definitions")
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_regs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
-
-Boris
-
-Boris Brezillon (5):
-  drm/panthor: Fix GPU_COHERENCY_ACE[_LITE] definitions
-  drm/panthor: Call panthor_gpu_coherency_init() after PM resume()
-  drm/panthor: Update panthor_mmu::irq::mask when needed
-  drm/panthor: Let IRQ handlers clear the interrupts themselves
-  drm/panthor: Don't update MMU_INT_MASK in panthor_mmu_irq_handler()
-
- drivers/gpu/drm/panthor/panthor_device.c | 8 ++++----
- drivers/gpu/drm/panthor/panthor_device.h | 2 --
- drivers/gpu/drm/panthor/panthor_fw.c     | 2 ++
- drivers/gpu/drm/panthor/panthor_gpu.c    | 2 ++
- drivers/gpu/drm/panthor/panthor_mmu.c    | 9 ++++++++-
- drivers/gpu/drm/panthor/panthor_regs.h   | 4 ++--
- 6 files changed, 18 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+index b7b3b3add166..a7a323dc5cf9 100644
+--- a/drivers/gpu/drm/panthor/panthor_regs.h
++++ b/drivers/gpu/drm/panthor/panthor_regs.h
+@@ -133,8 +133,8 @@
+ #define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
+ 
+ #define GPU_COHERENCY_PROTOCOL				0x304
+-#define   GPU_COHERENCY_ACE				0
+-#define   GPU_COHERENCY_ACE_LITE			1
++#define   GPU_COHERENCY_ACE_LITE			0
++#define   GPU_COHERENCY_ACE				1
+ #define   GPU_COHERENCY_NONE				31
+ 
+ #define MCU_CONTROL					0x700
 -- 
 2.49.0
 
