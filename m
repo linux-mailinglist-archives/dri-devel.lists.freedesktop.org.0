@@ -2,99 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E06A7BBDC
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 13:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D97EA7BC63
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 14:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95B9210EBB7;
-	Fri,  4 Apr 2025 11:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D987E10EBA6;
+	Fri,  4 Apr 2025 12:12:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CLW6ErKW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EOPGpSQ1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE9DE10EBA8;
- Fri,  4 Apr 2025 11:56:07 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53489EmM006604;
- Fri, 4 Apr 2025 11:55:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=hVCi7gtLhpA
- XdSAk9dtD/5Maw7VEwUB2kEsjxp7ZhWY=; b=CLW6ErKW9hcuHwyeXE32gOaqf/h
- k2wsvJU4j/fd+2ujaG/uQIbMDK1Jg2QZIa+2uDT87ZLnCX3mu2Vq69952+D17lLS
- jJtFZ6WGRub9ph0/mAZuPw/+xxdd/ipz2OuHJyNezzP5KfIDwxaTB02i5II/yxYB
- hMOw48s1Fkp1/KG7/RZn6OnOGuQ7LW+FQFFqBCxzdXjM/fwWM00t6bslUd7Hs6BL
- Y16FJjs8j1Dxjw5xoGW54CMIslgjfMKzx5FPKaRm8waaXj1ihho583g+feY0ShA7
- DWeJFCe7ki2IvoAc87z0LBQNq8E+7lK7Kc2kxgSjwQ65d37lYWdGKcP/62Q==
-Received: from apblrppmta01.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45tbnkrh04-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Apr 2025 11:55:49 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 534Btju9016523; 
- Fri, 4 Apr 2025 11:55:46 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 45p9xmaejp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Apr 2025 11:55:46 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 534Btkmv016546;
- Fri, 4 Apr 2025 11:55:46 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-amakhija-hyd.qualcomm.com
- [10.213.99.91])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 534BtkFp016541
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Apr 2025 11:55:46 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4090850)
- id 586BD59F; Fri,  4 Apr 2025 17:25:44 +0530 (+0530)
-From: Ayushi Makhija <quic_amakhija@quicinc.com>
-To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Ayushi Makhija <quic_amakhija@quicinc.com>, robdclark@gmail.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
- quic_jesszhan@quicinc.com
-Subject: [PATCH v3 10/10] drm/bridge: anx7625: change the gpiod_set_value API
-Date: Fri,  4 Apr 2025 17:25:39 +0530
-Message-Id: <20250404115539.1151201-11-quic_amakhija@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250404115539.1151201-1-quic_amakhija@quicinc.com>
-References: <20250404115539.1151201-1-quic_amakhija@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD8710EBA6
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 12:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1743768745; x=1775304745;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2+/hVHJ3ikgYmb9CqmbEFwXKHCoK8Xdm8vlDc6QEwBQ=;
+ b=EOPGpSQ1moL3d0X0Mjikwx/xSLk2L4gxdVLCPS3zY1mbcd3Gg90hzCwi
+ s9EtYkvi7kQ//TNZ9/gZeH76NYcgRxdzJB+JB4msRB6T+4PPlFubvxC+D
+ wIBP4t+5lCdAYBfikfSpo+WMiO+jrguRetKzHR2Y/aZTenNH/vqRoTPvB
+ /gG+InDX9YrnIKtrc3C81T63rH5LbDd1dDy/JQB6qhgu1DUU236Rh4b0V
+ PNc96aPbukWgNg97KC5kIAGSp8IzoPaCpLq0FNSiahcIy7KsiF9vURFoq
+ WcuSxP1HYTb7zMOsJNaBsPeQQPS2D5M6Xedlvm2J4Pc/ni1RoXY294PD3 g==;
+X-CSE-ConnectionGUID: Tqt8+aBTT/aSiwxx8Vz8Yw==
+X-CSE-MsgGUID: q6xR15UtT1WPgk5utQVMrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="49066527"
+X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; d="scan'208";a="49066527"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2025 05:12:24 -0700
+X-CSE-ConnectionGUID: eOp6rLXCTq+6PY7b/AtjOQ==
+X-CSE-MsgGUID: 58tM2qFgQgaBJ+kvzQBbbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; d="scan'208";a="127792583"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 04 Apr 2025 05:12:19 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1u0fuC-0001DN-39;
+ Fri, 04 Apr 2025 12:12:16 +0000
+Date: Fri, 4 Apr 2025 20:11:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Yan <andyshrk@163.com>, dmitry.baryshkov@oss.qualcomm.com,
+ heiko@sntech.de
+Cc: oe-kbuild-all@lists.linux.dev, hjc@rock-chips.com, mripard@kernel.org,
+ naoki@radxa.com, stephen@radxa.com,
+ cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
+ Laurent.pinchart@ideasonboard.com, yubing.zhang@rock-chips.com,
+ krzk+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, robh@kernel.org,
+ sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v3 3/9] drm/rockchip: Add RK3588 DPTX output support
+Message-ID: <202504041920.g5XTp8Xp-lkp@intel.com>
+References: <20250403033748.245007-4-andyshrk@163.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: q8O9dFXJH86HnqBNqL7WQT_r_FhBN4h3
-X-Proofpoint-GUID: q8O9dFXJH86HnqBNqL7WQT_r_FhBN4h3
-X-Authority-Analysis: v=2.4 cv=X9xSKHTe c=1 sm=1 tr=0 ts=67efc8c6 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=qu7jSu7UeuI-ykz2460A:9
- a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-04_05,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0 suspectscore=0
- spamscore=0 adultscore=0 bulkscore=0 mlxscore=0 clxscore=1015
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504040082
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250403033748.245007-4-andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,54 +79,256 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use gpiod_set_value_cansleep() instead of gpiod_set_value()
-to fix the below call trace in the boot log:
+Hi Andy,
 
-[    5.690534] Call trace:
-[    5.690536]  gpiod_set_value+0x40/0xa4
-[    5.690540]  anx7625_runtime_pm_resume+0xa0/0x324 [anx7625]
-[    5.690545]  __rpm_callback+0x48/0x1d8
-[    5.690549]  rpm_callback+0x6c/0x78
+kernel test robot noticed the following build errors:
 
-Certain GPIO controllers require access via message-based buses
-such as I2C or SPI, which may cause the GPIOs to enter a sleep
-state. Therefore, use the gpiod_set_value_cansleep().
+[auto build test ERROR on rockchip/for-next]
+[also build test ERROR on robh/for-next drm-exynos/exynos-drm-next linus/master v6.14 next-20250404]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Yan/dt-bindings-display-rockchip-Add-schema-for-RK3588-DPTX-Controller/20250403-114203
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20250403033748.245007-4-andyshrk%40163.com
+patch subject: [PATCH v3 3/9] drm/rockchip: Add RK3588 DPTX output support
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250404/202504041920.g5XTp8Xp-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041920.g5XTp8Xp-lkp@intel.com/reproduce)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 365d1c871028..f6f730262511 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1257,10 +1257,10 @@ static void anx7625_power_on(struct anx7625_data *ctx)
- 	usleep_range(11000, 12000);
- 
- 	/* Power on pin enable */
--	gpiod_set_value(ctx->pdata.gpio_p_on, 1);
-+	gpiod_set_value_cansleep(ctx->pdata.gpio_p_on, 1);
- 	usleep_range(10000, 11000);
- 	/* Power reset pin enable */
--	gpiod_set_value(ctx->pdata.gpio_reset, 1);
-+	gpiod_set_value_cansleep(ctx->pdata.gpio_reset, 1);
- 	usleep_range(10000, 11000);
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "power on !\n");
-@@ -1280,9 +1280,9 @@ static void anx7625_power_standby(struct anx7625_data *ctx)
- 		return;
- 	}
- 
--	gpiod_set_value(ctx->pdata.gpio_reset, 0);
-+	gpiod_set_value_cansleep(ctx->pdata.gpio_reset, 0);
- 	usleep_range(1000, 1100);
--	gpiod_set_value(ctx->pdata.gpio_p_on, 0);
-+	gpiod_set_value_cansleep(ctx->pdata.gpio_p_on, 0);
- 	usleep_range(1000, 1100);
- 
- 	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->pdata.supplies),
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504041920.g5XTp8Xp-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/bridge/synopsys/dw-dp.c: In function 'dw_dp_link_disable':
+>> drivers/gpu/drm/bridge/synopsys/dw-dp.c:1599:17: error: implicit declaration of function 'drm_dp_link_power_down' [-Wimplicit-function-declaration]
+    1599 |                 drm_dp_link_power_down(&dp->aux, dp->link.revision);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/synopsys/dw-dp.c: In function 'dw_dp_link_enable':
+>> drivers/gpu/drm/bridge/synopsys/dw-dp.c:1617:15: error: implicit declaration of function 'drm_dp_link_power_up' [-Wimplicit-function-declaration]
+    1617 |         ret = drm_dp_link_power_up(&dp->aux, dp->link.revision);
+         |               ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/synopsys/dw-dp.c: At top level:
+>> drivers/gpu/drm/bridge/synopsys/dw-dp.c:1790:26: error: initialization of 'void (*)(struct drm_bridge *, struct drm_bridge_state *)' from incompatible pointer type 'void (*)(struct drm_bridge *, struct drm_atomic_state *)' [-Wincompatible-pointer-types]
+    1790 |         .atomic_enable = dw_dp_bridge_atomic_enable,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/synopsys/dw-dp.c:1790:26: note: (near initialization for 'dw_dp_bridge_funcs.atomic_enable')
+   drivers/gpu/drm/bridge/synopsys/dw-dp.c:1791:27: error: initialization of 'void (*)(struct drm_bridge *, struct drm_bridge_state *)' from incompatible pointer type 'void (*)(struct drm_bridge *, struct drm_atomic_state *)' [-Wincompatible-pointer-types]
+    1791 |         .atomic_disable = dw_dp_bridge_atomic_disable,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/synopsys/dw-dp.c:1791:27: note: (near initialization for 'dw_dp_bridge_funcs.atomic_disable')
+
+
+vim +1790 drivers/gpu/drm/bridge/synopsys/dw-dp.c
+
+d366451bed980ac Andy Yan 2025-04-03  1593  
+d366451bed980ac Andy Yan 2025-04-03  1594  static void dw_dp_link_disable(struct dw_dp *dp)
+d366451bed980ac Andy Yan 2025-04-03  1595  {
+d366451bed980ac Andy Yan 2025-04-03  1596  	struct dw_dp_link *link = &dp->link;
+d366451bed980ac Andy Yan 2025-04-03  1597  
+d366451bed980ac Andy Yan 2025-04-03  1598  	if (dw_dp_hpd_detect(dp))
+d366451bed980ac Andy Yan 2025-04-03 @1599  		drm_dp_link_power_down(&dp->aux, dp->link.revision);
+d366451bed980ac Andy Yan 2025-04-03  1600  
+d366451bed980ac Andy Yan 2025-04-03  1601  	dw_dp_phy_xmit_enable(dp, 0);
+d366451bed980ac Andy Yan 2025-04-03  1602  
+d366451bed980ac Andy Yan 2025-04-03  1603  	phy_power_off(dp->phy);
+d366451bed980ac Andy Yan 2025-04-03  1604  
+d366451bed980ac Andy Yan 2025-04-03  1605  	link->train.clock_recovered = false;
+d366451bed980ac Andy Yan 2025-04-03  1606  	link->train.channel_equalized = false;
+d366451bed980ac Andy Yan 2025-04-03  1607  }
+d366451bed980ac Andy Yan 2025-04-03  1608  
+d366451bed980ac Andy Yan 2025-04-03  1609  static int dw_dp_link_enable(struct dw_dp *dp)
+d366451bed980ac Andy Yan 2025-04-03  1610  {
+d366451bed980ac Andy Yan 2025-04-03  1611  	int ret;
+d366451bed980ac Andy Yan 2025-04-03  1612  
+d366451bed980ac Andy Yan 2025-04-03  1613  	ret = phy_power_on(dp->phy);
+d366451bed980ac Andy Yan 2025-04-03  1614  	if (ret)
+d366451bed980ac Andy Yan 2025-04-03  1615  		return ret;
+d366451bed980ac Andy Yan 2025-04-03  1616  
+d366451bed980ac Andy Yan 2025-04-03 @1617  	ret = drm_dp_link_power_up(&dp->aux, dp->link.revision);
+d366451bed980ac Andy Yan 2025-04-03  1618  	if (ret < 0)
+d366451bed980ac Andy Yan 2025-04-03  1619  		return ret;
+d366451bed980ac Andy Yan 2025-04-03  1620  
+d366451bed980ac Andy Yan 2025-04-03  1621  	ret = dw_dp_link_train(dp);
+d366451bed980ac Andy Yan 2025-04-03  1622  
+d366451bed980ac Andy Yan 2025-04-03  1623  	return ret;
+d366451bed980ac Andy Yan 2025-04-03  1624  }
+d366451bed980ac Andy Yan 2025-04-03  1625  
+d366451bed980ac Andy Yan 2025-04-03  1626  static void dw_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+d366451bed980ac Andy Yan 2025-04-03  1627  				       struct drm_atomic_state *state)
+d366451bed980ac Andy Yan 2025-04-03  1628  {
+d366451bed980ac Andy Yan 2025-04-03  1629  	struct dw_dp *dp = bridge_to_dp(bridge);
+d366451bed980ac Andy Yan 2025-04-03  1630  	struct drm_connector *connector;
+d366451bed980ac Andy Yan 2025-04-03  1631  	struct drm_connector_state *conn_state;
+d366451bed980ac Andy Yan 2025-04-03  1632  	int ret;
+d366451bed980ac Andy Yan 2025-04-03  1633  
+d366451bed980ac Andy Yan 2025-04-03  1634  	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+d366451bed980ac Andy Yan 2025-04-03  1635  	if (!connector) {
+d366451bed980ac Andy Yan 2025-04-03  1636  		dev_err(dp->dev, "failed to get connector\n");
+d366451bed980ac Andy Yan 2025-04-03  1637  		return;
+d366451bed980ac Andy Yan 2025-04-03  1638  	}
+d366451bed980ac Andy Yan 2025-04-03  1639  
+d366451bed980ac Andy Yan 2025-04-03  1640  	conn_state = drm_atomic_get_new_connector_state(state, connector);
+d366451bed980ac Andy Yan 2025-04-03  1641  	if (!conn_state) {
+d366451bed980ac Andy Yan 2025-04-03  1642  		dev_err(dp->dev, "failed to get connector state\n");
+d366451bed980ac Andy Yan 2025-04-03  1643  		return;
+d366451bed980ac Andy Yan 2025-04-03  1644  	}
+d366451bed980ac Andy Yan 2025-04-03  1645  
+d366451bed980ac Andy Yan 2025-04-03  1646  	set_bit(0, dp->sdp_reg_bank);
+d366451bed980ac Andy Yan 2025-04-03  1647  
+d366451bed980ac Andy Yan 2025-04-03  1648  	ret = dw_dp_link_enable(dp);
+d366451bed980ac Andy Yan 2025-04-03  1649  	if (ret < 0) {
+d366451bed980ac Andy Yan 2025-04-03  1650  		dev_err(dp->dev, "failed to enable link: %d\n", ret);
+d366451bed980ac Andy Yan 2025-04-03  1651  		return;
+d366451bed980ac Andy Yan 2025-04-03  1652  	}
+d366451bed980ac Andy Yan 2025-04-03  1653  
+d366451bed980ac Andy Yan 2025-04-03  1654  	ret = dw_dp_video_enable(dp);
+d366451bed980ac Andy Yan 2025-04-03  1655  	if (ret < 0) {
+d366451bed980ac Andy Yan 2025-04-03  1656  		dev_err(dp->dev, "failed to enable video: %d\n", ret);
+d366451bed980ac Andy Yan 2025-04-03  1657  		return;
+d366451bed980ac Andy Yan 2025-04-03  1658  	}
+d366451bed980ac Andy Yan 2025-04-03  1659  }
+d366451bed980ac Andy Yan 2025-04-03  1660  
+d366451bed980ac Andy Yan 2025-04-03  1661  static void dw_dp_reset(struct dw_dp *dp)
+d366451bed980ac Andy Yan 2025-04-03  1662  {
+d366451bed980ac Andy Yan 2025-04-03  1663  	int val;
+d366451bed980ac Andy Yan 2025-04-03  1664  
+d366451bed980ac Andy Yan 2025-04-03  1665  	disable_irq(dp->irq);
+d366451bed980ac Andy Yan 2025-04-03  1666  	regmap_update_bits(dp->regmap, DW_DP_SOFT_RESET_CTRL, CONTROLLER_RESET,
+d366451bed980ac Andy Yan 2025-04-03  1667  			   FIELD_PREP(CONTROLLER_RESET, 1));
+d366451bed980ac Andy Yan 2025-04-03  1668  	udelay(10);
+d366451bed980ac Andy Yan 2025-04-03  1669  	regmap_update_bits(dp->regmap, DW_DP_SOFT_RESET_CTRL, CONTROLLER_RESET,
+d366451bed980ac Andy Yan 2025-04-03  1670  			   FIELD_PREP(CONTROLLER_RESET, 0));
+d366451bed980ac Andy Yan 2025-04-03  1671  
+d366451bed980ac Andy Yan 2025-04-03  1672  	dw_dp_init_hw(dp);
+d366451bed980ac Andy Yan 2025-04-03  1673  	regmap_read_poll_timeout(dp->regmap, DW_DP_HPD_STATUS, val,
+d366451bed980ac Andy Yan 2025-04-03  1674  				 FIELD_GET(HPD_HOT_PLUG, val), 200, 200000);
+d366451bed980ac Andy Yan 2025-04-03  1675  	regmap_write(dp->regmap, DW_DP_HPD_STATUS, HPD_HOT_PLUG);
+d366451bed980ac Andy Yan 2025-04-03  1676  	enable_irq(dp->irq);
+d366451bed980ac Andy Yan 2025-04-03  1677  }
+d366451bed980ac Andy Yan 2025-04-03  1678  
+d366451bed980ac Andy Yan 2025-04-03  1679  static void dw_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+d366451bed980ac Andy Yan 2025-04-03  1680  					struct drm_atomic_state *state)
+d366451bed980ac Andy Yan 2025-04-03  1681  {
+d366451bed980ac Andy Yan 2025-04-03  1682  	struct dw_dp *dp = bridge_to_dp(bridge);
+d366451bed980ac Andy Yan 2025-04-03  1683  
+d366451bed980ac Andy Yan 2025-04-03  1684  	dw_dp_video_disable(dp);
+d366451bed980ac Andy Yan 2025-04-03  1685  	dw_dp_link_disable(dp);
+d366451bed980ac Andy Yan 2025-04-03  1686  	bitmap_zero(dp->sdp_reg_bank, SDP_REG_BANK_SIZE);
+d366451bed980ac Andy Yan 2025-04-03  1687  	dw_dp_reset(dp);
+d366451bed980ac Andy Yan 2025-04-03  1688  }
+d366451bed980ac Andy Yan 2025-04-03  1689  
+d366451bed980ac Andy Yan 2025-04-03  1690  static bool dw_dp_hpd_detect_link(struct dw_dp *dp)
+d366451bed980ac Andy Yan 2025-04-03  1691  {
+d366451bed980ac Andy Yan 2025-04-03  1692  	int ret;
+d366451bed980ac Andy Yan 2025-04-03  1693  
+d366451bed980ac Andy Yan 2025-04-03  1694  	ret = phy_power_on(dp->phy);
+d366451bed980ac Andy Yan 2025-04-03  1695  	if (ret < 0)
+d366451bed980ac Andy Yan 2025-04-03  1696  		return false;
+d366451bed980ac Andy Yan 2025-04-03  1697  	ret = dw_dp_link_parse(dp);
+d366451bed980ac Andy Yan 2025-04-03  1698  	phy_power_off(dp->phy);
+d366451bed980ac Andy Yan 2025-04-03  1699  
+d366451bed980ac Andy Yan 2025-04-03  1700  	return !ret;
+d366451bed980ac Andy Yan 2025-04-03  1701  }
+d366451bed980ac Andy Yan 2025-04-03  1702  
+d366451bed980ac Andy Yan 2025-04-03  1703  static enum drm_connector_status dw_dp_bridge_detect(struct drm_bridge *bridge)
+d366451bed980ac Andy Yan 2025-04-03  1704  {
+d366451bed980ac Andy Yan 2025-04-03  1705  	struct dw_dp *dp = bridge_to_dp(bridge);
+d366451bed980ac Andy Yan 2025-04-03  1706  
+d366451bed980ac Andy Yan 2025-04-03  1707  	if (!dw_dp_hpd_detect(dp))
+d366451bed980ac Andy Yan 2025-04-03  1708  		return connector_status_disconnected;
+d366451bed980ac Andy Yan 2025-04-03  1709  
+d366451bed980ac Andy Yan 2025-04-03  1710  	if (!dw_dp_hpd_detect_link(dp))
+d366451bed980ac Andy Yan 2025-04-03  1711  		return connector_status_disconnected;
+d366451bed980ac Andy Yan 2025-04-03  1712  
+d366451bed980ac Andy Yan 2025-04-03  1713  	return connector_status_connected;
+d366451bed980ac Andy Yan 2025-04-03  1714  }
+d366451bed980ac Andy Yan 2025-04-03  1715  
+d366451bed980ac Andy Yan 2025-04-03  1716  static const struct drm_edid *dw_dp_bridge_edid_read(struct drm_bridge *bridge,
+d366451bed980ac Andy Yan 2025-04-03  1717  						     struct drm_connector *connector)
+d366451bed980ac Andy Yan 2025-04-03  1718  {
+d366451bed980ac Andy Yan 2025-04-03  1719  	struct dw_dp *dp = bridge_to_dp(bridge);
+d366451bed980ac Andy Yan 2025-04-03  1720  	const struct drm_edid *edid;
+d366451bed980ac Andy Yan 2025-04-03  1721  	int ret;
+d366451bed980ac Andy Yan 2025-04-03  1722  
+d366451bed980ac Andy Yan 2025-04-03  1723  	ret = phy_power_on(dp->phy);
+d366451bed980ac Andy Yan 2025-04-03  1724  	if (ret)
+d366451bed980ac Andy Yan 2025-04-03  1725  		return NULL;
+d366451bed980ac Andy Yan 2025-04-03  1726  
+d366451bed980ac Andy Yan 2025-04-03  1727  	edid = drm_edid_read_ddc(connector, &dp->aux.ddc);
+d366451bed980ac Andy Yan 2025-04-03  1728  
+d366451bed980ac Andy Yan 2025-04-03  1729  	phy_power_off(dp->phy);
+d366451bed980ac Andy Yan 2025-04-03  1730  
+d366451bed980ac Andy Yan 2025-04-03  1731  	return edid;
+d366451bed980ac Andy Yan 2025-04-03  1732  }
+d366451bed980ac Andy Yan 2025-04-03  1733  
+d366451bed980ac Andy Yan 2025-04-03  1734  static u32 *dw_dp_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+d366451bed980ac Andy Yan 2025-04-03  1735  						    struct drm_bridge_state *bridge_state,
+d366451bed980ac Andy Yan 2025-04-03  1736  						    struct drm_crtc_state *crtc_state,
+d366451bed980ac Andy Yan 2025-04-03  1737  						    struct drm_connector_state *conn_state,
+d366451bed980ac Andy Yan 2025-04-03  1738  						    unsigned int *num_output_fmts)
+d366451bed980ac Andy Yan 2025-04-03  1739  {
+d366451bed980ac Andy Yan 2025-04-03  1740  	struct dw_dp *dp = bridge_to_dp(bridge);
+d366451bed980ac Andy Yan 2025-04-03  1741  	struct dw_dp_link *link = &dp->link;
+d366451bed980ac Andy Yan 2025-04-03  1742  	struct drm_display_info *di = &conn_state->connector->display_info;
+d366451bed980ac Andy Yan 2025-04-03  1743  	struct drm_display_mode mode = crtc_state->mode;
+d366451bed980ac Andy Yan 2025-04-03  1744  	const struct dw_dp_output_format *fmt;
+d366451bed980ac Andy Yan 2025-04-03  1745  	u32 i, j = 0;
+d366451bed980ac Andy Yan 2025-04-03  1746  	u32 *output_fmts;
+d366451bed980ac Andy Yan 2025-04-03  1747  
+d366451bed980ac Andy Yan 2025-04-03  1748  	*num_output_fmts = 0;
+d366451bed980ac Andy Yan 2025-04-03  1749  
+d366451bed980ac Andy Yan 2025-04-03  1750  	output_fmts = kcalloc(ARRAY_SIZE(dw_dp_output_formats), sizeof(*output_fmts), GFP_KERNEL);
+d366451bed980ac Andy Yan 2025-04-03  1751  	if (!output_fmts)
+d366451bed980ac Andy Yan 2025-04-03  1752  		return NULL;
+d366451bed980ac Andy Yan 2025-04-03  1753  
+d366451bed980ac Andy Yan 2025-04-03  1754  	for (i = 0; i < ARRAY_SIZE(dw_dp_output_formats); i++) {
+d366451bed980ac Andy Yan 2025-04-03  1755  		fmt = &dw_dp_output_formats[i];
+d366451bed980ac Andy Yan 2025-04-03  1756  
+d366451bed980ac Andy Yan 2025-04-03  1757  		if (fmt->bpc > conn_state->max_bpc)
+d366451bed980ac Andy Yan 2025-04-03  1758  			continue;
+d366451bed980ac Andy Yan 2025-04-03  1759  
+d366451bed980ac Andy Yan 2025-04-03  1760  		if (!(fmt->color_format & di->color_formats))
+d366451bed980ac Andy Yan 2025-04-03  1761  			continue;
+d366451bed980ac Andy Yan 2025-04-03  1762  
+d366451bed980ac Andy Yan 2025-04-03  1763  		if (fmt->color_format == DRM_COLOR_FORMAT_YCBCR420 &&
+d366451bed980ac Andy Yan 2025-04-03  1764  		    !link->vsc_sdp_supported)
+d366451bed980ac Andy Yan 2025-04-03  1765  			continue;
+d366451bed980ac Andy Yan 2025-04-03  1766  
+d366451bed980ac Andy Yan 2025-04-03  1767  		if (fmt->color_format != DRM_COLOR_FORMAT_YCBCR420 &&
+d366451bed980ac Andy Yan 2025-04-03  1768  		    drm_mode_is_420_only(di, &mode))
+d366451bed980ac Andy Yan 2025-04-03  1769  			continue;
+d366451bed980ac Andy Yan 2025-04-03  1770  
+d366451bed980ac Andy Yan 2025-04-03  1771  		if (!dw_dp_bandwidth_ok(dp, &mode, fmt->bpp, link->lanes, link->rate))
+d366451bed980ac Andy Yan 2025-04-03  1772  			continue;
+d366451bed980ac Andy Yan 2025-04-03  1773  
+d366451bed980ac Andy Yan 2025-04-03  1774  		output_fmts[j++] = fmt->bus_format;
+d366451bed980ac Andy Yan 2025-04-03  1775  	}
+d366451bed980ac Andy Yan 2025-04-03  1776  
+d366451bed980ac Andy Yan 2025-04-03  1777  	*num_output_fmts = j;
+d366451bed980ac Andy Yan 2025-04-03  1778  
+d366451bed980ac Andy Yan 2025-04-03  1779  	return output_fmts;
+d366451bed980ac Andy Yan 2025-04-03  1780  }
+d366451bed980ac Andy Yan 2025-04-03  1781  
+d366451bed980ac Andy Yan 2025-04-03  1782  static const struct drm_bridge_funcs dw_dp_bridge_funcs = {
+d366451bed980ac Andy Yan 2025-04-03  1783  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+d366451bed980ac Andy Yan 2025-04-03  1784  	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+d366451bed980ac Andy Yan 2025-04-03  1785  	.atomic_reset = drm_atomic_helper_bridge_reset,
+d366451bed980ac Andy Yan 2025-04-03  1786  	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
+d366451bed980ac Andy Yan 2025-04-03  1787  	.atomic_get_output_bus_fmts = dw_dp_bridge_atomic_get_output_bus_fmts,
+d366451bed980ac Andy Yan 2025-04-03  1788  	.atomic_check = dw_dp_bridge_atomic_check,
+d366451bed980ac Andy Yan 2025-04-03  1789  	.mode_valid = dw_dp_bridge_mode_valid,
+d366451bed980ac Andy Yan 2025-04-03 @1790  	.atomic_enable = dw_dp_bridge_atomic_enable,
+d366451bed980ac Andy Yan 2025-04-03  1791  	.atomic_disable = dw_dp_bridge_atomic_disable,
+d366451bed980ac Andy Yan 2025-04-03  1792  	.detect = dw_dp_bridge_detect,
+d366451bed980ac Andy Yan 2025-04-03  1793  	.edid_read = dw_dp_bridge_edid_read,
+d366451bed980ac Andy Yan 2025-04-03  1794  };
+d366451bed980ac Andy Yan 2025-04-03  1795  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
