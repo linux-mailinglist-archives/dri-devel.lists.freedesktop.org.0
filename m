@@ -2,78 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB76A7C06F
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 17:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B281A7C112
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 17:58:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5313E10EBF2;
-	Fri,  4 Apr 2025 15:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0236410E03A;
+	Fri,  4 Apr 2025 15:58:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NZqdoljc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CbqIsOOq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
- [209.85.208.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C662810EBF2
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 15:19:22 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id
- 38308e7fff4ca-30effbfaf61so22581831fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Apr 2025 08:19:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1743779961; x=1744384761; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b7iWccUiw/ID8NYLVkhb9PSyPwcEt5/Y/IQ2ZtQH16c=;
- b=NZqdoljcotq7dDmeBTKidKjWKMxXL5J9wBH9HNsrsDW2IJ4+OlvJ1YlH7/afjL08k5
- 5BIFtELm17YIGA3lj1jcWsm23tZi5TMQhs6aOKfsLgdsDFyOwr5j8KNham3VHV6vYU/x
- yZ6SiXk0mf08uHGQ8DSqPE6BGqeAeU4l5WRniLJS8oRCG627SCvLF025Nb/9x12MDB7m
- Kf/mPdnoHk/gzLgzzFZ6xV5AcBmGi8fJY+ZuYo881vQsaz/0gY9f2zCF3NQH4ptSuuFS
- 5igN+rrhfjKoFl703T0HXeAMtwWdIScYY+nDtRttgZl2N7I6/Yaba0HNjwIyY+xCkNxv
- j/rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743779961; x=1744384761;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=b7iWccUiw/ID8NYLVkhb9PSyPwcEt5/Y/IQ2ZtQH16c=;
- b=aGeHvNx1qSJB6wM/2AyZAdvCJUUFpk8EfJXZzTUNPExBptIOpxWvb9rtMkBgt2VDLx
- yvGYlJn8FxMggtn6LUp9D8pPZEP9TmCN2qVR9xqIE/ByG3DpW61QpNt4EOTyPzySrKLW
- 9416I67aE6JntR6vhjYUYhzrclUwbuwzK2zTg3ITB+Gij3YWKX+X+XTDvoUtgAQkym90
- 0q9jLq9djGpz9OmPS+YUUbOchD6h/ZJkWP/ZB/PGRnwwgUC9o4pgcpVll1qAwKusnF6W
- r+WoNCmL/nhouhgDWjy73aFHzap6hiZtNb5KxgweeotUcu86YiZXYt1xrSPSc5KqLTb/
- tWww==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWZKBGKNfQLeHfie8qWRH8mUYLI/oVwzCR/hx//AuAgwIuZ034B12bhJn6OgzTmVghEnP4U6T72aaE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyvUg0+jiLKXiTfh9o4jKvgkGqbdg9zMv+CU7Wv9dtJqKA9elo7
- pUySmYhriuqGdRokMuDD7PTd36YWGBETi7lYi4e+OAQiHLhnZhshoZan+Evk1WdqQ2v6iAeP5AW
- yjRh6AD5rvvbmIqA+S+yOU8bx6tdr3RQugkxwMSJ+
-X-Gm-Gg: ASbGncvo/LnGJIQ//V9su0EMu6ftXdqWIppDG/JkZNG3x4kXi0DxQBbI6qaS24JyqZz
- WY+xBjnDsBXd8nn3hkxYp63ZXVCLcY8dWN91Rvd3zZIwfvSKGuVVOIlMUMkZGZAy5kicugCpe7N
- ccctLyTAix2yYSXAUV1ec3bybHqW8=
-X-Google-Smtp-Source: AGHT+IEXx6acthjgAn6//pGGjgLYBD1HWjhVlOep3HaA55zS/PUR37+AJSk2OPFw/dPZLEdIcG0O31KhRGxGnR7OnQE=
-X-Received: by 2002:a05:651c:1449:b0:30d:c4c3:eafa with SMTP id
- 38308e7fff4ca-30f0a6672c6mr13405141fa.7.1743779960600; Fri, 04 Apr 2025
- 08:19:20 -0700 (PDT)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 479B910E03A;
+ Fri,  4 Apr 2025 15:58:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 4E46644BC3;
+ Fri,  4 Apr 2025 15:58:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBF8DC4CEDD;
+ Fri,  4 Apr 2025 15:58:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1743782286;
+ bh=xOiggh8DWpjifRlcJQPZM2ttanlog0Jb00HcwcfkuKQ=;
+ h=Date:From:To:Cc:Subject:From;
+ b=CbqIsOOqpmQ9Z1SmXjdz2RLNN5hz7aJF9A+2x68ag3BEg9ieyM3/FBkleHNoMIasZ
+ fcgEnet2tGDkjrCPIv8q/G5h8CajXjp51J66yjl8Q3ebQijcyN6YDoSXQ5HnA3Mp4I
+ 8PojdLhL+s2qQPOaAMLVxgzFqy0h+Njj+9I5Uafx0Bobl3318P2F8cnPPVS1zyxD2T
+ X34glHvBgBVftnP2rvBAtqa7y/CrAl4NcNdRn4vfg53ERbwPYYj+ezixshalYvs/1e
+ 8EKHKTH8AJhBxuoDO7HuxiPPzyPdKodTDo1crYkEdTvm9QACBOTzKCMP2JNUozjKDI
+ MPoAOfgRWE1SQ==
+Date: Fri, 4 Apr 2025 09:58:03 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hardening@vger.kernel.org
+Subject: [PATCH v2][next] drm/nouveau: fifo: Avoid
+ -Wflex-array-member-not-at-end warning
+Message-ID: <Z_ABiwj7hoXR0fJ5@kspp>
 MIME-Version: 1.0
-References: <Z-uqpxcge0J99IPI@aspen.lan>
- <20250401091647.22784-1-bsdhenrymartin@gmail.com>
- <174377951404.402191.3996310155954584937.b4-ty@kernel.org>
- <20250404151300.GD372032@google.com>
-In-Reply-To: <20250404151300.GD372032@google.com>
-From: henry martin <bsdhenrymartin@gmail.com>
-Date: Fri, 4 Apr 2025 23:19:09 +0800
-X-Gm-Features: ATxdqUEtLv1VLfi6vRSrJH5UTl_kVLlPCY8-xy9xcLIwMYM5iu9pWJ5-wcimQ4I
-Message-ID: <CAEnQdOpWrZPor9WMtEfub5qJFT98rrsN_A6jb_a-JqSjd9tihw@mail.gmail.com>
-Subject: Re: (subset) [PATCH v4] backlight: pm8941: Add NULL check in
- wled_configure()
-To: Lee Jones <lee@kernel.org>
-Cc: danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,36 +59,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Noted, thanks for the feedback! I=E2=80=99ll send subsequent versions as
-independent patches in the future.
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-Best regards,
-Henry
+Adjust heap allocation to account for the flex-array-in-the-middle
+issue, and refactor the rest of the code accordingly.
 
+So, with these changes, fix the following warning:
 
-Lee Jones <lee@kernel.org> =E4=BA=8E2025=E5=B9=B44=E6=9C=884=E6=97=A5=E5=91=
-=A8=E4=BA=94 23:13=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Fri, 04 Apr 2025, Lee Jones wrote:
->
-> > On Tue, 01 Apr 2025 17:16:47 +0800, Henry Martin wrote:
-> > > devm_kasprintf() returns NULL when memory allocation fails. Currently=
-,
-> > > wled_configure() does not check for this case, which results in a NUL=
-L
-> > > pointer dereference.
-> > >
-> > > Add NULL check after devm_kasprintf() to prevent this issue.
-> > >
-> > >
-> > > [...]
-> >
-> > Applied, thanks!
-> >
-> > [1/1] backlight: pm8941: Add NULL check in wled_configure()
-> >       commit: b0fdeb96ead46de57a6226bc3a3ac7f9b50c0ace
->
-> Next time, please send subsequent patch versions independently.
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+drivers/gpu/drm/nouveau/nvif/fifo.c:29:42: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+Changes in v2:
+ - Adjust heap allocation instead of using the DEFINE_RAW_FLEX() helper.
+ - Link: https://lore.kernel.org/lkml/202504041254.6e26LBdj-lkp@intel.com/
+
+v1:
+ - Link: https://lore.kernel.org/linux-hardening/Z-7IQcWNePAMQEM0@kspp/
+
+ drivers/gpu/drm/nouveau/nvif/fifo.c | 35 +++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvif/fifo.c b/drivers/gpu/drm/nouveau/nvif/fifo.c
+index a463289962b2..2c887dffa45d 100644
+--- a/drivers/gpu/drm/nouveau/nvif/fifo.c
++++ b/drivers/gpu/drm/nouveau/nvif/fifo.c
+@@ -25,33 +25,34 @@ static int
+ nvif_fifo_runlists(struct nvif_device *device)
+ {
+ 	struct nvif_object *object = &device->object;
+-	struct {
+-		struct nv_device_info_v1 m;
+-		struct {
+-			struct nv_device_info_v1_data runlists;
+-			struct nv_device_info_v1_data runlist[64];
+-		} v;
+-	} *a;
++	struct nv_device_info_v1_data *runlists;
++	struct nv_device_info_v1_data *runlist;
++	struct nv_device_info_v1 *a;
++	const u8 runlist_cnt = 64;
+ 	int ret, i;
+ 
+ 	if (device->runlist)
+ 		return 0;
+ 
+-	if (!(a = kmalloc(sizeof(*a), GFP_KERNEL)))
++	a = kmalloc(struct_size(a, data, runlist_cnt + 1), GFP_KERNEL);
++	if (!a)
+ 		return -ENOMEM;
+-	a->m.version = 1;
+-	a->m.count = sizeof(a->v) / sizeof(a->v.runlists);
+-	a->v.runlists.mthd = NV_DEVICE_HOST_RUNLISTS;
+-	for (i = 0; i < ARRAY_SIZE(a->v.runlist); i++) {
+-		a->v.runlist[i].mthd = NV_DEVICE_HOST_RUNLIST_ENGINES;
+-		a->v.runlist[i].data = i;
++
++	runlists = &a->data[0];
++	runlist = &a->data[1];
++	a->version = 1;
++	a->count = runlist_cnt + 1;
++	runlists->mthd = NV_DEVICE_HOST_RUNLISTS;
++	for (i = 0; i < runlist_cnt; i++) {
++		runlist[i].mthd = NV_DEVICE_HOST_RUNLIST_ENGINES;
++		runlist[i].data = i;
+ 	}
+ 
+ 	ret = nvif_object_mthd(object, NV_DEVICE_V0_INFO, a, sizeof(*a));
+ 	if (ret)
+ 		goto done;
+ 
+-	device->runlists = fls64(a->v.runlists.data);
++	device->runlists = fls64(runlists->data);
+ 	device->runlist = kcalloc(device->runlists, sizeof(*device->runlist),
+ 				  GFP_KERNEL);
+ 	if (!device->runlist) {
+@@ -60,8 +61,8 @@ nvif_fifo_runlists(struct nvif_device *device)
+ 	}
+ 
+ 	for (i = 0; i < device->runlists; i++) {
+-		if (a->v.runlist[i].mthd != NV_DEVICE_INFO_INVALID)
+-			device->runlist[i].engines = a->v.runlist[i].data;
++		if (runlist[i].mthd != NV_DEVICE_INFO_INVALID)
++			device->runlist[i].engines = runlist[i].data;
+ 	}
+ 
+ done:
+-- 
+2.43.0
+
