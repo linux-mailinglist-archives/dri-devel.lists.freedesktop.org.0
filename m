@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259E3A7B8AF
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 10:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BFEA7B8B1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 10:20:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CCC910E341;
-	Fri,  4 Apr 2025 08:19:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B21010EB87;
+	Fri,  4 Apr 2025 08:20:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KtKYCcQU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FzOAUZnY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11B9010E33D;
- Fri,  4 Apr 2025 08:19:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0778810E334;
+ Fri,  4 Apr 2025 08:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1743754778; x=1775290778;
+ t=1743754842; x=1775290842;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=R4vaMDtg08GBucOZMuiVsV/TD1ZSgjUQmVHtZS2Qx4Q=;
- b=KtKYCcQUq8y7MPlOlwWp9memaUjpyt2/9ItaPd5BwSMzBkbtjOwQlma2
- lPKJS3CnnbP4qhH1uUklgfSMdCiUsPJQVeRskG388CfvqtX5ZlLuJohne
- BycLpt+IcbDbBsXrgGrGWEcQer1ue7IjUKMfaqeI7lao0S1NsQFiw+a1Z
- n46p0elKQLfQ0nxzlZrP511WvBSNUuy6ceVGioeNcPkVln6OMC1Mozlpl
- 8JHDz7ZyqlrQq/MjbtiTZldBmmmHuQHGK2BRnLpNBPUDDiWZH/b+kiAwN
- 8OvmM3NrgBlHfK3mFZWL/qxasgz/7ekmtxKIPyzyOIteN2NNfT+QMSPjs A==;
-X-CSE-ConnectionGUID: gN2JHPmkRIq5KsDWs8j+fg==
-X-CSE-MsgGUID: ie5l8QFKRSiE3/V/Q2T+pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="44905157"
-X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; d="scan'208";a="44905157"
+ bh=dlLJ5y6yJapKHTeBcp9iPvnta+v8NdI6OGfUolbA1ck=;
+ b=FzOAUZnYo6ty+v9xmId9GfGK3Sz4ZHbMPlP8fdyU7J9xGVP4noFKNk6t
+ g7JYibTKSlwd3Bg+sLLC9KP+hot8vhfBr0Z9iVhMoYjM91qXKH5lLtE8p
+ z/gcBF9Pch2Ei3t/+I1EU9QOvu0UY6zxd0kWQpUWNiA/o0ZM25H9ajKWC
+ lr7kSis4TQYgnL8buSRQFm3q9OVIxdINO6hT0jKP6EcRvQ91TBCdCZJ77
+ rRy8EC1SwonKHeNLCzzpVgQMwbLQcmbtSX3ccVUtQMwKXnfOjRB4ZgK8P
+ PXvhOad3JnXC3Tp0u2nF9i07Zp02QYDUW0G2wKUbGxiZ6vB44pw1C5gTR Q==;
+X-CSE-ConnectionGUID: urQtpjrTS/aIsP6GGEONxg==
+X-CSE-MsgGUID: NS38oQXDQzCUI2QjyVWeDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="44905205"
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; d="scan'208";a="44905205"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2025 01:19:38 -0700
-X-CSE-ConnectionGUID: Vyvjln09QBmt1j55uM6QQg==
-X-CSE-MsgGUID: XeYKGux/StCdVX3IsFepwA==
+ 04 Apr 2025 01:20:42 -0700
+X-CSE-ConnectionGUID: qobaTLXNQHCRESjqjdOkXw==
+X-CSE-MsgGUID: lykQPJY3R1GWMOAUuFscjg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; d="scan'208";a="132372923"
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; d="scan'208";a="132373146"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.245.34])
  ([10.245.245.34])
  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2025 01:19:36 -0700
-Message-ID: <bd0476de-fd5b-4ea6-806f-ca49b33b9404@intel.com>
-Date: Fri, 4 Apr 2025 09:19:34 +0100
+ 04 Apr 2025 01:20:40 -0700
+Message-ID: <5377fe99-426e-460e-8b57-1d29abe85be6@intel.com>
+Date: Fri, 4 Apr 2025 09:20:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 7/7] drm/xe/pt: unify xe_pt_svm_pre_commit with userptr
@@ -53,10 +53,10 @@ Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 References: <20250328181028.288312-9-matthew.auld@intel.com>
  <20250328181028.288312-16-matthew.auld@intel.com>
- <Z+78wBNpgGG+D7h9@lstrano-desk.jf.intel.com>
+ <Z+78XPpZP8UOB4sq@lstrano-desk.jf.intel.com>
 Content-Language: en-GB
 From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <Z+78wBNpgGG+D7h9@lstrano-desk.jf.intel.com>
+In-Reply-To: <Z+78XPpZP8UOB4sq@lstrano-desk.jf.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,7 +74,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/04/2025 22:25, Matthew Brost wrote:
+On 03/04/2025 22:23, Matthew Brost wrote:
 > On Fri, Mar 28, 2025 at 06:10:36PM +0000, Matthew Auld wrote:
 >> We now use the same notifier lock for SVM and userptr, with that we can
 >> combine xe_pt_userptr_pre_commit and xe_pt_svm_pre_commit.
@@ -106,16 +106,6 @@ On 03/04/2025 22:25, Matthew Brost wrote:
 >>   
 >> -	down_read(&vm->svm.gpusvm.notifier_lock);
 >> +	drm_gpusvm_notifier_lock(&vm->svm.gpusvm);
-> 
-> Also any reason not use xe_svm_notifier_lock / xe_svm_notifier_unlock wrappers?
-
-Just that those are hidden behind CONFIG_DRM_XE_GPUSVM, so looks 
-possible to disable svm, but then I think we should still have working 
-userptr. Should I pull xe_svm_notifier_lock out of CONFIG_DRM_XE_GPUSVM?
-
-> 
-> Matt
-> 
 >>   
 >>   	list_for_each_entry(op, &vops->list, link) {
 >> -		err = op_check_userptr(vm, op, pt_update_ops);
@@ -143,6 +133,19 @@ userptr. Should I pull xe_svm_notifier_lock out of CONFIG_DRM_XE_GPUSVM?
 >> +#endif
 >> +		} else {
 >> +			err = op_check_userptr(vm, op, pt_update_ops);
+> 
+> I think it would be better to combine needs_svm_lock into a single
+> variable, rename op_check_userptr to op_check_svm_userptr, and then add
+> the code in the above if statement to op_check_svm_userptr. Yes, the way
+> have it coded now works but when Himal's code for SVM prefetch lands a
+> VM operation list could have both userptr binds and binds SVM within
+> single list. Changing it per my suggestion should make that work too.
+
+Will try this. Thanks for the comments.
+
+> 
+> Matt
+> 
 >> +			if (err) {
 >> +				drm_gpusvm_notifier_unlock(&vm->svm.gpusvm);
 >> +				break;
