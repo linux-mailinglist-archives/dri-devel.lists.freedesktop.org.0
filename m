@@ -2,39 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C012A7B8CB
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 10:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B7FA7B8D5
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 10:27:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DD910E334;
-	Fri,  4 Apr 2025 08:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B037610E33D;
+	Fri,  4 Apr 2025 08:27:51 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wm7CUFPy";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2C9E610E334
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 08:25:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E4261007;
- Fri,  4 Apr 2025 01:25:22 -0700 (PDT)
-Received: from [10.1.36.21] (e122027.cambridge.arm.com [10.1.36.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5ABDA3F59E;
- Fri,  4 Apr 2025 01:25:19 -0700 (PDT)
-Message-ID: <cf92f64d-b50e-4058-8ad7-703031088af6@arm.com>
-Date: Fri, 4 Apr 2025 09:25:00 +0100
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F37D10E33D
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 08:27:45 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-43cf3192f3bso17575135e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Apr 2025 01:27:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1743755263; x=1744360063; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=DJa0y5uHqB+uXYxg4Ee5P8Mqg/g0/KhhIdf1SuA6v4A=;
+ b=wm7CUFPyw9OIFgng3yeIgngnEjn+wdmlaiPdF6oLiwLpPPqX9iLOhAaeB2YHI8Zb4o
+ XBZi8ifqNJ2yaxaTEAgiNPopDV5tgiJCDdRu30U3ercH7+o7uPZFCwKRJ2qy6afwCLLE
+ 3F7c9QLH8ycVqNH01kJ0d+tUlecEST/7UtqfCQWtrC1VWjziPLZm8IkDM3hN/V6ovBIx
+ 2yjSwAsuclSvjULq3+QUubGnKLFYkh0T+NnvcmDP6TfvZdpYeDHHUiI2ETe3NMOxbtBr
+ vToPIK5GSxHqUeXU82g/t8JVIIUprqAoUkGOOZFHY98z6bbuzm20TprShfofp/zxH3am
+ fDDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743755263; x=1744360063;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DJa0y5uHqB+uXYxg4Ee5P8Mqg/g0/KhhIdf1SuA6v4A=;
+ b=nrubrzGkCgNlx2mhsufP5fnR+yNURhjsomuksDnbBA/uucRCfprsawWAwzuSmmL1Wd
+ 6cQtm7gH4KeqMcG3uQayOhGm/ZEbQKazXc/oB3OAb0Xe3PFQzmYaY1Dsanm2cNIiosGA
+ +FHCK6aSyIf+XPfV5+l2Dh3hgjmbUTnIqBqpbZBsc6TE+GKlWV3JkaizhDXXsbABx3i+
+ F+J62QUERQPVbt52pqZ4/lnAA0gEmGbs0FCbgMuVXCel+e3Sn9xS8YI9jygELzFyciY8
+ ftP0nXTXaMvyNniHsQydWpFK4saLAkJpzlxl9tGSXSAnYWPRsVcHmqrq75VSKaI/3vxd
+ jCwA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXIemB69jNAkKR21VP7862rd4HHUxn0jNeOv/cYIr+/71gz18ZsBV8JKikWG3bWCVAWenNginniq40=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxuCut9R6FPytB7WHtLotUYGECqoZF0+cYyr3LVrXabLx8ZNibf
+ L9p7a8f+7ZXNShANbQcabMUc9GikVC3z+4avrfy5dPT09zED3lg+xzPwe6tZ170=
+X-Gm-Gg: ASbGncvekoM09rfLzVYQ+jb7U0paieDjtqP92bG5tEKX/lOV5iFlfU+o+TcpZpzF7SP
+ H83DCpsrLpN1m6bCVvi20vPRGx2Vdy7b1j+BICt+PyoniVa+TPKnvWNTmJ2rm2yIdPUbiEeq05X
+ OsOiAh41UmuIn6g3fVInB5VWHl4+aEz2m2KpBkg2mPgutYN5BEQWP0infjWTr7DE7qwtrw8Qd8L
+ mTqLy2oQvB9si4ekxDl6pMiT8Y92AW1xElUMF0uQicPjWGkdKhXcRKZKyN5Jip7IqYzAT4HCcm6
+ anMLj1cyaAV/7WrzS/T032jm4rM9SzNOamEJttxjZctvaJp8SA==
+X-Google-Smtp-Source: AGHT+IG+NDQDuY7wpbCJM2rLv7MTUqbCkkmKdHj5rYcXcQpcsNWGZu7a+1mkk53652ueI0HgxX47pg==
+X-Received: by 2002:a05:6000:250a:b0:391:12a5:3cb3 with SMTP id
+ ffacd0b85a97d-39d0873fd19mr1619780f8f.3.1743755263387; 
+ Fri, 04 Apr 2025 01:27:43 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-39c3020dacfsm3780694f8f.72.2025.04.04.01.27.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Apr 2025 01:27:42 -0700 (PDT)
+Date: Fri, 4 Apr 2025 11:27:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] dma-buf/sw_sync: Decrement refcount on error in
+ sw_sync_ioctl_get_deadline()
+Message-ID: <03c838ab-3bc8-4e5a-9f0a-331254701b0c@stanley.mountain>
+References: <5dbd6105-3acf-47ad-84d6-2920171916ac@stanley.mountain>
+ <0e832ed8-9692-43ba-869d-8db3b419f3a9@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/5] drm/panthor: Let IRQ handlers clear the interrupts
- themselves
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
-References: <20250404080933.2912674-1-boris.brezillon@collabora.com>
- <20250404080933.2912674-5-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250404080933.2912674-5-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0e832ed8-9692-43ba-869d-8db3b419f3a9@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,95 +95,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/04/2025 09:09, Boris Brezillon wrote:
-> MMU handler needs to be in control of the job interrupt clears because
-> clearing the interrupt also unblocks the writer/reader that triggered
-> the fault, and we don't want it to be unblocked until we've had a chance
-> to process the IRQ.
+On Mon, Mar 31, 2025 at 02:02:44PM +0200, Christian König wrote:
+> Am 31.03.25 um 11:45 schrieb Dan Carpenter:
+> > Call dma_fence_put(fence) before returning an error on this error path.
+> >
+> > Fixes: 70e67aaec2f4 ("dma-buf/sw_sync: Add fence deadline support")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> >  drivers/dma-buf/sw_sync.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> > index f5905d67dedb..b7615c5c6cac 100644
+> > --- a/drivers/dma-buf/sw_sync.c
+> > +++ b/drivers/dma-buf/sw_sync.c
+> > @@ -438,8 +438,10 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+> >  		return -EINVAL;
+> >  
+> >  	pt = dma_fence_to_sync_pt(fence);
+> > -	if (!pt)
+> > +	if (!pt) {
+> > +		dma_fence_put(fence);
+> >  		return -EINVAL;
+> > +	}
 > 
-> Since clearing the clearing is just one line, let's make it explicit
-> instead of doing it in the generic code path.
+> Good catch.
 > 
-> Note that this commit changes the existing behavior in that the MMU
-> COMPLETED irqs are no longer cleared, which is fine because they are
-> masked, so we're not risking an interrupt flood.
+> I think it would be cleaner if we add an error label and then use "ret = -EINVAL; goto error;" here as well as a few lines below when ret is set to -ENOENT.
 > 
-> Changes in v3:
-> - Mention the fact we no longer clear MMU COMPLETED irqs
+> This way we can also avoid the ret = 0 in the declaration and let the compiler actually check the lifetime of the assignment.
+> 
 
-Thanks!
+I had some issues with my email and it silently ate a bunch of outgoing
+email without saving a single trace of anything I had sent.  I see
+this was one that was eaten.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Unwind ladders don't work really well for things where you just take it
+for a little while and then drop it a few lines later.  Such as here you
+take reference and then drop it or you take a lock and then drop it.
+Normally, you can add things to anywere in the unwind ladder but if you
+add an unlock to the ladder than you to add a weird bunny hop if the goto
+isn't holding the lock.  It ends up getting confusing.  With that kind of
+thing, I prefer to do the unlock before the goto.
 
-> - Add Liviu's R-b
-> 
-> Changes in v2:
-> - Move the MMU_INT_CLEAR around
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.h | 2 --
->  drivers/gpu/drm/panthor/panthor_fw.c     | 2 ++
->  drivers/gpu/drm/panthor/panthor_gpu.c    | 2 ++
->  drivers/gpu/drm/panthor/panthor_mmu.c    | 7 +++++++
->  4 files changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index da6574021664..4c27b6d85f46 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -383,8 +383,6 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
->  		if (!status)									\
->  			break;									\
->  												\
-> -		gpu_write(ptdev, __reg_prefix ## _INT_CLEAR, status);				\
-> -												\
->  		__handler(ptdev, status);							\
->  		ret = IRQ_HANDLED;								\
->  	}											\
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 0f52766a3120..446bb377b953 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -1008,6 +1008,8 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
->  
->  static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
-> +	gpu_write(ptdev, JOB_INT_CLEAR, status);
-> +
->  	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
->  		ptdev->fw->booted = true;
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 671049020afa..32d678a0114e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -150,6 +150,8 @@ static void panthor_gpu_init_info(struct panthor_device *ptdev)
->  
->  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
-> +	gpu_write(ptdev, GPU_INT_CLEAR, status);
-> +
->  	if (status & GPU_IRQ_FAULT) {
->  		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
->  		u64 address = ((u64)gpu_read(ptdev, GPU_FAULT_ADDR_HI) << 32) |
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 7cca97d298ea..0ba76982d45b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1710,6 +1710,13 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->  			access_type, access_type_name(ptdev, fault_status),
->  			source_id);
->  
-> +		/* We don't handle VM faults at the moment, so let's just clear the
-> +		 * interrupt and let the writer/reader crash.
-> +		 * Note that COMPLETED irqs are never cleared, but this is fine
-> +		 * because they are always masked.
-> +		 */
-> +		gpu_write(ptdev, MMU_INT_CLEAR, mask);
-> +
->  		/* Ignore MMU interrupts on this AS until it's been
->  		 * re-enabled.
->  		 */
+free_c:
+	free(c);
+	goto free_b;  <-- bunny hop;
+unlock:
+	unlock();
+free_b:
+	free(b);
+free_a:
+	free(a);
+
+	return ret;
+
+regards,
+dan carpenter
+
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index f5905d67dedb..22a808995f10 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -438,15 +438,17 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+ 		return -EINVAL;
+ 
+ 	pt = dma_fence_to_sync_pt(fence);
+-	if (!pt)
+-		return -EINVAL;
++	if (!pt) {
++		ret = -EINVAL;
++		goto put_fence;
++	}
+ 
+ 	spin_lock_irqsave(fence->lock, flags);
+-	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
+-		data.deadline_ns = ktime_to_ns(pt->deadline);
+-	} else {
++	if (!test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
+ 		ret = -ENOENT;
++		goto unlock;
+ 	}
++	data.deadline_ns = ktime_to_ns(pt->deadline);
+ 	spin_unlock_irqrestore(fence->lock, flags);
+ 
+ 	dma_fence_put(fence);
+@@ -458,6 +460,13 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+ 		return -EFAULT;
+ 
+ 	return 0;
++
++unlock:
++	spin_unlock_irqrestore(fence->lock, flags);
++put_fence:
++	dma_fence_put(fence);
++
++	return ret;
+ }
+ 
+ static long sw_sync_ioctl(struct file *file, unsigned int cmd,
+
 
