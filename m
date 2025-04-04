@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0237BA7B9DE
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 11:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56336A7B9E1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 11:26:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A234810EBA0;
-	Fri,  4 Apr 2025 09:26:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E75E10EBA4;
+	Fri,  4 Apr 2025 09:26:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UoyFIKiz";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e4ELU7Ih";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F396910EB98;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0DE10EB9C;
  Fri,  4 Apr 2025 09:26:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1743758796;
- bh=dogtfLm8ltzLqQRjxjKj1BZhcKWK5p507LBQHL4+NT0=;
- h=From:To:Cc:Subject:Date:From;
- b=UoyFIKizBFKGkjig3tS2tEHVUjeisWlNbFcXKu93nlV9IRHCkZmqi5pa120vZupb1
- pKSs0o7gM2TljRu70Nhxfrq5Ffl65RpDRmUwEyvRzBvegwIIVEuIsmR2FVaKagR5MC
- MzDRYsKRtA9Ibp0FB6XhN8yqnnJTKW/C3hxNFznRWHl2oIuNEViVYlk506ct5PePPS
- 6keOEk1ZHHlz9ez0asUYh+1tJE9HtXxcWjQxzkAvA8BGYT+C9mk2BVrEuvyIXpKCF0
- Fko3ivJ4t8xQMRs7pnly09nl3PcAiMVvIjkl9eZaY/3QPjNqION1UibuMqeM/tT1SY
- kRBSl9CdMI8rg==
+ bh=xliOrKm5kMx4CT9Ta7jUUPECfyVE3BnGikvenamuELg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=e4ELU7IhvekWFYwXBi0n5vHf8P1cjl+Eo3jYH5OpRfqsFgZTw+/3JBVl9LKE+NjmA
+ 7g9Vcj5o1sKEqw7UIlvF5IlgxEpJjkfzSEGBriqB8MNUmMi8v+V3NlypdZOrIaZvGs
+ ZanhA7GeEV6pZtCK/jGLxfQMXTpXHau8BJtHJF7HoRoLLepyQPKvN2iGPMDEy0O6IX
+ oH47FMarCnCPJcHUXwauYj1JFKAWh/adrsHeumya4/uupUQIwI2pfC11ZJwapRl1V9
+ ji+s2oFRzzCP0JQf0yIi+r8Fqz+PZ4tY7hpCqgQi3mj+YAOMPufg+4BIRX53m/kg7d
+ f+cXqgGklvkUg==
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 84AEA17E07FD;
- Fri,  4 Apr 2025 11:26:35 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3A6CA17E0865;
+ Fri,  4 Apr 2025 11:26:36 +0200 (CEST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -43,10 +43,13 @@ Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  Dmitry Osipenko <dmitry.osipenko@collabora.com>, kernel@collabora.com
-Subject: [PATCH v3 0/8] drm: Introduce sparse GEM shmem
-Date: Fri,  4 Apr 2025 11:26:26 +0200
-Message-ID: <20250404092634.2968115-1-boris.brezillon@collabora.com>
+Subject: [PATCH v3 1/8] drm/gem: Add helpers to request a range of pages on a
+ GEM
+Date: Fri,  4 Apr 2025 11:26:27 +0200
+Message-ID: <20250404092634.2968115-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250404092634.2968115-1-boris.brezillon@collabora.com>
+References: <20250404092634.2968115-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -65,114 +68,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series is a proposal for implementing sparse page allocations
-for shmem objects. It was initially motivated by a kind of BO managed by
-the Panfrost/Panthor and Lima drivers, the tiler heap, which grows on
-demand every time the GPU faults on a virtual address within the heap BO
-range.
+From: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-Because keeping a struct page pointer array that can describe the entire
-virtual range is wasteful when only a few backing pages have been
-allocated, we thought a sparse allocation approach with xarrays was a
-more efficient choice.
+This new API provides a way to partially populate/unpopulate a GEM
+object, and also lets the caller specify the GFP flags to use for
+the allocation.
 
-This sparse GEM shmem features takes the form of a new optional
-drm_gem_shmem_sparse_backing object that can be attached to a
-drm_gem_shmem_object at creation time if the driver wants. When this
-sparse GEM shmem backing mode is enabled, the driver is allow to
-partially populate the GEM pages, either at use time, or at fault
-time. The page population can be done progressively as the need for
-more memory arises. The new APIs takes explicit gfp_t flags to solve
-a long standing issue reported by Sima a while ago: all allocations
-happening in the fault handler path shouldn't block.
+This will help drivers that need to support sparse/alloc-on-demand
+GEM objects.
 
-We also introduce two new helpers at the drm_gem.{c,h} level to
-automate the partial xarray population which the GEM-SHMEM logic
-relies on to populate its sparse page array.
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+---
+ drivers/gpu/drm/drm_gem.c | 134 ++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_gem.h     |  14 ++++
+ 2 files changed, 148 insertions(+)
 
-A few details about the implementation now:
-
-- Sparse GEM backing locking is deferred to the driver, because
-  we can't take the resv locks in the GPU fault handler path, and
-  since the page population can come from there, we have to let
-  the driver decide how to lock.
-- The pin/get semantics for sparse GEM shmem objects is different,
-  in that it doesn't populate the pages, but just flag them as
-  being used/required by some GPU component. The page population
-  will happen explicitly at GEM creation time or when a GPU fault
-  happens. Once pages have been populated, they won't disappear
-  until the GEM object is destroyed, purged or evicted. This means
-  you can grow, but not shrink. If we ever need to discard
-  BO ranges, the API can be extended to allow it, but it's not
-  something we needed for the Lima/Panthor/Panfrost case.
-- Panthor and Panfrost changes have been tested, but not extensively.
-  Lima changes have only been compile-tested.
-
-Changes from v2:
-- We decided to focus more on the DRM aspects and forget about the
-  sgt building optimizations (sgt helpers taking an xarray instead of
-  a plain array). If the xarray -> array copies happening in that
-  path ever become the bottleneck, we can resurrect those changes.
-- We decided to make the sparse GEM changes less invasive by making
-  them an extra layer on top of drm_gem_shmem_object. What this means
-  is that sparse GEM shmem can now be used as regular GEM shmem
-  objects (vmap, pin, export, ... all work as they would on a regular
-  GEM). When that happens, we just force all pages to be populated,
-  so we kinda lose the benefit of sparse GEMs, but that's fine, because
-  in practice, such objects shouldn't be manipulated as regular GEMs.
-  It just serves as a safety guard to limit the risk of regressions
-  introduced by these sparse GEM shmem changes.
-
-Discussion of previus revision can be found here[2][3].
-
-For those used to review gitlab MRs, here's a link [1] to a Draft
-MR grouping those changes, but I'm in no way asking that the review
-happens on gitlab.
-
-Regards,
-
-Boris
-
-[1]https://gitlab.freedesktop.org/panfrost/linux/-/merge_requests/16
-[2]https://lore.kernel.org/lkml/20250326021433.772196-1-adrian.larumbe@collabora.com/T/
-[3]https://lore.kernel.org/dri-devel/20250218232552.3450939-1-adrian.larumbe@collabora.com/
-
-Adrián Larumbe (1):
-  drm/gem: Add helpers to request a range of pages on a GEM
-
-Boris Brezillon (7):
-  drm/gem-shmem: Support sparse backing
-  drm/panfrost: Switch to sparse gem shmem to implement our
-    alloc-on-fault
-  drm/panthor: Add support for alloc-on-fault buffers
-  drm/panthor: Allow kernel BOs to pass DRM_PANTHOR_BO_ALLOC_ON_FAULT
-  drm/panthor: Add a panthor_vm_pre_fault_range() helper
-  drm/panthor: Make heap chunk allocation non-blocking
-  drm/lima: Use drm_gem_shmem_sparse_backing for heap buffers
-
- drivers/gpu/drm/drm_gem.c               | 134 +++++++
- drivers/gpu/drm/drm_gem_shmem_helper.c  | 404 +++++++++++++++++++-
- drivers/gpu/drm/lima/lima_gem.c         |  89 ++---
- drivers/gpu/drm/lima/lima_gem.h         |   1 +
- drivers/gpu/drm/lima/lima_vm.c          |  48 ++-
- drivers/gpu/drm/panfrost/panfrost_drv.c |   2 +-
- drivers/gpu/drm/panfrost/panfrost_gem.c |  37 +-
- drivers/gpu/drm/panfrost/panfrost_gem.h |   8 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c |  98 ++---
- drivers/gpu/drm/panfrost/panfrost_mmu.h |   2 +
- drivers/gpu/drm/panthor/panthor_drv.c   |  20 +-
- drivers/gpu/drm/panthor/panthor_fw.c    |   6 +-
- drivers/gpu/drm/panthor/panthor_gem.c   |  18 +-
- drivers/gpu/drm/panthor/panthor_gem.h   |  12 +-
- drivers/gpu/drm/panthor/panthor_heap.c  | 222 ++++++-----
- drivers/gpu/drm/panthor/panthor_mmu.c   | 481 ++++++++++++++++++------
- drivers/gpu/drm/panthor/panthor_mmu.h   |   2 +
- drivers/gpu/drm/panthor/panthor_sched.c |   6 +-
- include/drm/drm_gem.h                   |  14 +
- include/drm/drm_gem_shmem_helper.h      | 285 +++++++++++++-
- include/uapi/drm/panthor_drm.h          |  19 +-
- 21 files changed, 1492 insertions(+), 416 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 1e659d2660f7..769eaf9943d7 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -679,6 +679,140 @@ void drm_gem_put_pages(struct drm_gem_object *obj, struct page **pages,
+ }
+ EXPORT_SYMBOL(drm_gem_put_pages);
+ 
++/**
++ * drm_gem_put_page_range - helper to return a range of pages backing a GEM
++ * @obj: Object this request applies to.
++ * @pa: Page array to unpopulate.
++ * @start: The first page to unpopulate.
++ * @npages: The number of pages to unpopulate.
++ * @dirty: Flag all returned pages dirty if true.
++ * @accessed: Flag all returned pages accessed if true.
++ *
++ * This is used to flag pages as unused. The pages themselves will stay
++ * unreclaimable until all pages are gone, because we can't partially
++ * flag a mapping unevictable.
++ *
++ * @npages is clamped to the object size, so start=0, npages=UINT_MAX
++ * effectively return all pages.
++ */
++void drm_gem_put_page_range(struct drm_gem_object *obj, struct xarray *pa,
++			    pgoff_t start, unsigned int npages,
++			    bool dirty, bool accessed)
++{
++	struct folio_batch fbatch;
++	unsigned long idx;
++	unsigned long end = start + npages - 1;
++	struct page *page;
++
++	xa_for_each_range(pa, idx, page, start, end)
++		xa_clear_mark(pa, idx, DRM_GEM_PAGE_USED);
++
++	/* If the mapping is still used, we bail out. */
++	if (xa_marked(pa, DRM_GEM_PAGE_USED))
++		return;
++
++	mapping_clear_unevictable(file_inode(obj->filp)->i_mapping);
++
++	folio_batch_init(&fbatch);
++
++	xa_for_each(pa, idx, page) {
++		struct folio *folio = page_folio(page);
++		unsigned long folio_pg_idx = folio_page_idx(folio, page);
++
++		xa_erase(pa, idx);
++
++		if (dirty)
++			folio_mark_dirty(folio);
++
++		if (accessed)
++			folio_mark_accessed(folio);
++
++		/* Undo the reference we took when populating the table */
++		if (!folio_batch_add(&fbatch, folio))
++			drm_gem_check_release_batch(&fbatch);
++
++		idx += folio_nr_pages(folio) - folio_pg_idx - 1;
++	}
++
++	if (folio_batch_count(&fbatch))
++		drm_gem_check_release_batch(&fbatch);
++}
++EXPORT_SYMBOL(drm_gem_put_page_range);
++
++/**
++ * drm_gem_get_page_range - helper to populate GEM a range of pages
++ * @obj: Object this request applies to.
++ * @pa: Page array to populate.
++ * @start: The first page to populate.
++ * @npages: The number of pages to populate.
++ * @page_gfp: GFP flags to use for page allocations.
++ * @other_gfp: GFP flags to use for other allocations, like extending the xarray.
++ *
++ * Partially or fully populate a page xarray backing a GEM object. @npages will
++ * be clamped to the object size, so passing start=0, npages=UINT_MAX fully
++ * populates the GEM object.
++ *
++ * There's no optimization to avoid repopulating already populated ranges, but
++ * this case is not rejected either. As soon as one page is populated, the entire
++ * mapping is flagged unevictable, meaning pages returned with
++ * drm_gem_put_page_range() won't be reclaimable until all pages have been
++ * returned.
++ *
++ * If something fails in the middle, pages that were acquired stay there. The
++ * caller should call drm_gem_put_page_range() explicitly to undo what was
++ * partially done.
++ *
++ * Return: 0 on success, a negative error code otherwise.
++ */
++int drm_gem_get_page_range(struct drm_gem_object *obj, struct xarray *pa,
++			   pgoff_t start, unsigned int npages, gfp_t page_gfp,
++			   gfp_t other_gfp)
++{
++	struct address_space *mapping;
++	struct page *page;
++	unsigned long i;
++	int ret = 0;
++
++	if (WARN_ON(!obj->filp))
++		return -EINVAL;
++
++	if (start + npages < start)
++		return -EINVAL;
++
++	if (start + npages > obj->size >> PAGE_SHIFT)
++		return -EINVAL;
++
++	if (npages == 0)
++		return 0;
++
++	/* This is the shared memory object that backs the GEM resource */
++	mapping = obj->filp->f_mapping;
++
++	/* We already BUG_ON() for non-page-aligned sizes in
++	 * drm_gem_object_init(), so we should never hit this unless
++	 * driver author is doing something really wrong:
++	 */
++	WARN_ON((obj->size & (PAGE_SIZE - 1)) != 0);
++
++	mapping_set_unevictable(mapping);
++
++	for (i = 0; i < npages; i++) {
++		page  = shmem_read_mapping_page_gfp(mapping, start + i, page_gfp);
++		if (IS_ERR(page))
++			return PTR_ERR(page);
++
++		/* Add the page into the xarray */
++		ret = xa_err(xa_store(pa, start + i, page, other_gfp));
++		if (ret)
++			return ret;
++
++		xa_set_mark(pa, start + i, DRM_GEM_PAGE_USED);
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_gem_get_page_range);
++
+ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
+ 			  struct drm_gem_object **objs)
+ {
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index 9b71f7a9f3f8..9980c04355b6 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -39,11 +39,13 @@
+ #include <linux/dma-resv.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
++#include <linux/xarray.h>
+ 
+ #include <drm/drm_vma_manager.h>
+ 
+ struct iosys_map;
+ struct drm_gem_object;
++struct xarray;
+ 
+ /**
+  * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
+@@ -537,6 +539,18 @@ struct page **drm_gem_get_pages(struct drm_gem_object *obj);
+ void drm_gem_put_pages(struct drm_gem_object *obj, struct page **pages,
+ 		bool dirty, bool accessed);
+ 
++/* drm_gem_{get,put}_page_range() use XA_MARK_1 to track which pages are
++ * currently used. Make sure you don't mess up with this mark.
++ */
++#define DRM_GEM_PAGE_USED	XA_MARK_1
++
++int drm_gem_get_page_range(struct drm_gem_object *obj, struct xarray *pa,
++			   pgoff_t start, unsigned int npages,
++			   gfp_t page_gfp, gfp_t other_gfp);
++void drm_gem_put_page_range(struct drm_gem_object *obj, struct xarray *pa,
++			    pgoff_t start, unsigned int npages,
++			    bool dirty, bool accessed);
++
+ void drm_gem_lock(struct drm_gem_object *obj);
+ void drm_gem_unlock(struct drm_gem_object *obj);
+ 
 -- 
 2.49.0
 
