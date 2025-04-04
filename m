@@ -2,66 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2109BA7B7B6
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 08:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6103A7B7EB
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 08:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3263510E30D;
-	Fri,  4 Apr 2025 06:18:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2953B10E02A;
+	Fri,  4 Apr 2025 06:41:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tNW0ofYI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PDzEykG1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFF5A10E02F;
- Fri,  4 Apr 2025 06:18:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D23810E02A
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 06:41:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0710844F96;
- Fri,  4 Apr 2025 06:18:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 381B6C4CEED;
- Fri,  4 Apr 2025 06:18:31 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8224C44FA9;
+ Fri,  4 Apr 2025 06:41:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C93B7C4CEDD;
+ Fri,  4 Apr 2025 06:41:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1743747511;
- bh=3p5RNKQynEmmFhTxUyZItzxVy7jBWoLZXalEJ5ewl1Q=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=tNW0ofYItsCGfFKgULwKUFWn/IsHIBsv27jrwH9TEpC5G+C8spXXN2kFLc7opQvSC
- pr1Z/sGeFmA973aKq95qpkXsV688D8QjUT45IJq4qBqOA5+/bdXQiTjVWy4LEHQKXy
- Kq6JTIbvTN6gRA98RMCdWUTlYk6pxmQpwRQh1yiriSLIW9WKzUhISKukVplZ2pZ25j
- hP/AVeVovgWBU2DNAvJ67yo3SA2LlPkStna/60NwqsPqQJDe7AUfIQKxsKFQhNobNN
- 67NG5bPVgWn9v9FTyIFJ8UWSTQYXTau3SAFjrlUiSDwE7MurlpOohJFJh5dPNOeiDq
- 4qBVqWTQ1KY1g==
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-54b10594812so1919435e87.1; 
- Thu, 03 Apr 2025 23:18:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUMqjVWNGW423Fa+CnhswBTasa+uKMnoQ+VzLssExdI72UnCTRYnToLMXVZPZM5HNK/ygio/Ju2sPuU@lists.freedesktop.org,
- AJvYcCUk6VoBaGWJITAOg03NM5dwsFDmx8updJS8KFQhZc4q3yWjTwbLg3zuZuLRn/DL5cW589IKYIP6mEQ=@lists.freedesktop.org,
- AJvYcCVxij/l6WPFErG24r18DH4Ph/ncexBp0ExCLiEhXHu/QKq30SCGaSyAJvqPrHQplKx4e7B25cvXg2g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0vO1bLnGkCCHQlbh/uT7ALZ3RnCOcWc8oxb3xupLvbpaWke8i
- UKK/JACB1MST83F81wF9W3LaJXQiQHVrV/Wkyczdwru1xRAtqZs15NDNTUlqC0xK49MOqLixM03
- 3eDdKtaQ8jVLyvgD9b/Rp3DDk/Ms=
-X-Google-Smtp-Source: AGHT+IE2XmXzaXXRt/W18azDyhTg48mW3/EOlXBV7L209Nxgz796Ei03JAtTjXjq/GjtOuzlgopGB7HjhNcXr2yPQss=
-X-Received: by 2002:a05:6512:398a:b0:549:8f15:db18 with SMTP id
- 2adb3069b0e04-54c232f8267mr313948e87.28.1743747509736; Thu, 03 Apr 2025
- 23:18:29 -0700 (PDT)
+ s=k20201202; t=1743748910;
+ bh=gNKz3ftSm+WCqgxdAGdG7TwBCa2MkJq8Xh2F2CQKuCg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=PDzEykG1/Osw1rmGAXcH6UBaAVJjINdrYfQIZrv1QW5fcr7rMtvtdA9citOOR8Lx+
+ wL/T6VdxmRwLpRSfMohNdGbzzytrdggVbMyiYxWJvHrysJTN83dsI9Anoax6m3AmEm
+ R98MwLA3MK8br3YGNOiBhqJQ4MV6Mee52BJGto4FNXg7gqppy4HxNa5jopbMyo+HFo
+ 9qSKauy2CblOeLXKLrix0VTtqMAf+d02qOtEHuTSzuo5mYIMrY/AC7JUqEHjkRnWL5
+ aQmnEsLUOaK+jR6hrB08oOxDMeC29KlddDXgN9u7qthxIT8tDoKiqptEx3HC38blcA
+ 8oO8rvowKjFSA==
 MIME-Version: 1.0
-References: <20250402124656.629226-1-jani.nikula@intel.com>
-In-Reply-To: <20250402124656.629226-1-jani.nikula@intel.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 4 Apr 2025 15:17:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS6o_66bUB6-qj6NnaTRNKvu5ycxOP+kGfizYVBNjZAyw@mail.gmail.com>
-X-Gm-Features: AQ5f1JrOz4H_4S-Z7mgpbDaDA45qEgY5_OEPXah-LKNkWABZ8jBaQbV0gBwl1ms
-Message-ID: <CAK7LNAS6o_66bUB6-qj6NnaTRNKvu5ycxOP+kGfizYVBNjZAyw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] kbuild: resurrect generic header check facility
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, 
- Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, linux-kbuild@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Fri, 04 Apr 2025 08:41:44 +0200
+From: Michael Walle <mwalle@kernel.org>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Icenowy Zheng <icenowy@aosc.io>, Jagan Teki
+ <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>, Javier Martinez
+ Canillas <javierm@redhat.com>, Michael Trimarchi
+ <michael@amarulasolutions.com>, Jagan Teki <jagan@edgeble.ai>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team
+ <kernel@puri.sm>, Linus Walleij <linus.walleij@linaro.org>, Jianhua Lu
+ <lujianhua000@gmail.com>, Stefan Mavrodiev <stefan@olimex.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 09/30] panel/ilitek-ili9806e: Use refcounted allocation
+ in place of devm_kzalloc()
+In-Reply-To: <20250403-b4-drm_panel_mass_convert_part2-v2-9-260c8a44c56b@redhat.com>
+References: <20250403-b4-drm_panel_mass_convert_part2-v2-0-260c8a44c56b@redhat.com>
+ <20250403-b4-drm_panel_mass_convert_part2-v2-9-260c8a44c56b@redhat.com>
+Message-ID: <0fed1ed195aac73395f20c14c29ef9af@kernel.org>
+X-Sender: mwalle@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,101 +71,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 2, 2025 at 9:47=E2=80=AFPM Jani Nikula <jani.nikula@intel.com> =
-wrote:
->
-> Another go at hiding the turds.
->
-> In v1 [1] I hid the build artifacts under .hdrtest subdirectories, one in=
- each
-> $(obj) directory, but the feedback from Linus [2] was to have one top lev=
-el
-> directory for this.
->
-> This is not possible without turning the whole thing back into a generic =
-header
-> check facility. Personally, I think this is a good thing. Just look at pa=
-tches
-> 2-4, it's great.
->
-> The main reason we've been doing this in the subsystem/driver level at al=
-l is
-> the opposition from the kbuild maintainer. We'd very much like for Masahi=
-ro to
-> support us in our efforts, but without that support, we're limited to hac=
-king in
-> the subsystem/driver Makefiles.
->
-> BR,
-> Jani.
->
->
-> [1] https://lore.kernel.org/r/20250401121830.21696-1-jani.nikula@intel.co=
-m
->
-> [2] https://lore.kernel.org/r/CAHk-=3DwiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJ=
-kaFrjqUdkQ@mail.gmail.com
->
->
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Move to using the new API devm_drm_panel_alloc() to allocate the
+> panel.
+> 
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 
+Reviewed-by: Michael Walle <mwalle@kernel.org>
 
-NACK.
-
-This does not solve any real issue, except making Linus happy
-- Sure, he is happy as long as he no longer has to see the turds.
-
-This patch merely hides the turds by moving all the
-header-test build artifacts under the .header-check/
-and introducing CONFIG_HEADER_CHECK_DISABLE.
-Yes, Linus advised us to hide all the turds because he cares
-about the TAB-completion.
-
-But to me, from the Kbuild perspective, this is not a solution at all.
-What is worse, Jani is pushing his workaround into the common
-Kbuild Makefiles, which I maintain, and he is even make this
-broken feature widely accessible.
-
-I agree with Jason.
-His idea sounds better, although I do not have enough time
-for investigating it further or implementing it now.
-
-
-At least, this patchset is not something we should rush into.
-
-
-
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: intel-xe@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
->
->
-> Jani Nikula (4):
->   kbuild: add generic header check facility
->   drm: switch to generic header check facility
->   drm/i915: switch to generic header check facility
->   drm/xe: switch to generic header check facility
->
->  drivers/gpu/drm/Kconfig           |  2 +-
->  drivers/gpu/drm/Makefile          | 15 +--------------
->  drivers/gpu/drm/i915/Makefile     | 14 ++------------
->  drivers/gpu/drm/xe/Makefile       | 10 ++--------
->  drivers/gpu/drm/xe/xe_pcode_api.h |  4 ++++
->  include/drm/Makefile              | 15 +--------------
->  init/Kconfig                      | 25 +++++++++++++++++++++++++
->  scripts/Makefile.build            | 13 +++++++++++++
->  scripts/Makefile.lib              |  7 +++++++
->  9 files changed, 56 insertions(+), 49 deletions(-)
->
-> --
-> 2.39.5
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+-michael
