@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25054A7BC76
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 14:17:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC8DA7BD12
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Apr 2025 14:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04FEA10EBDB;
-	Fri,  4 Apr 2025 12:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2652510E0BF;
+	Fri,  4 Apr 2025 12:58:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZEFtbJhY";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Aez8+8Xz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64F0810E128;
- Fri,  4 Apr 2025 12:17:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1743769046;
- bh=davIGDkdg8VNjfo6+KI2+Fl/WDS2qOtv6hTPqrPGLLg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZEFtbJhYa8DQbnMD5yBGO7AArYwW5Dkt3KZtpnwagknukvvJ6EE7Rid5HuhxlLaDn
- +EQO+XHUaIqkzoRvTmp/GeiW/OqmT48bOEn+f/J6l8RFPuCtmMc0Q/Kh0P6fhA5uFK
- 3glOVSf7gHN1rqF8LfRRgB4agmYlcWZ5f0pmzzBmolK5rCB/fB95rBXwinMfNNdWC0
- bFQYrJLcmKGSthuNHfRaOUBm0Y0FaKQ7gK/7PVoQaFm3RTsAN/c7TW/wFi7tIW6fVD
- PI3/oCr/IgBTdh/k+q80mui4HTE95fziN+gaFyKaPHHGIWsSxIjHZF4rD5vUQDfj+h
- B621HlVATWCXQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3450D17E0C50;
- Fri,  4 Apr 2025 14:17:26 +0200 (CEST)
-Date: Fri, 4 Apr 2025 14:17:20 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
- =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
- lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, kernel@collabora.com
-Subject: Re: [PATCH v3 4/8] drm/panthor: Add support for alloc-on-fault buffers
-Message-ID: <20250404141720.49d2709e@collabora.com>
-In-Reply-To: <20250404092634.2968115-5-boris.brezillon@collabora.com>
-References: <20250404092634.2968115-1-boris.brezillon@collabora.com>
- <20250404092634.2968115-5-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B792D10E0BF
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 12:58:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1743771473; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=hEnfFmxvzdFtRTSIwelHkDDiIIwvmp8Z4eKlZmICISdRMJX7v+fzFk8QxMPKg8uBX9yZwEfSGys0h1Eb3xfvkMykCD/++APNnERrA4fDRusjHJUZEhEZEvw2atfXjjy060oObjE6LdUvbuSSOxN/iosEZtj5RDXkgpNbaYtKc6U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1743771473;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=eACs556LWYn/VXJSp36c3evelj61tsdIYGmy50dFBBo=; 
+ b=kyF34fNHuTazzDNS8kvCRvhSx6EdtH6yZO6htz8OmU7P0tmx2gynHSQh+6rdBvb9/lLo79NaSMDab3XDrVqEYGy24dikUTYHawDcYbyniIan0jcbTMloyCLOjZW0L/a8gou1lO8yEmk/GCM1Q7D52rTG+V6bjTZn2pl2G2aS5j8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743771473; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:Cc:Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=eACs556LWYn/VXJSp36c3evelj61tsdIYGmy50dFBBo=;
+ b=Aez8+8XzBP6r/zqefw8kNqUqTy6KdxYrq0MNqyxj35+nbobgFrSbryqT8Ag/hJ1p
+ UOvBJjMeHrqgq//mVJlbFF4vyIaT2k1C6CO1K1e5X47v/3+kJO6cyfZYqrJHTFVnOln
+ ZEwdYQtNq006hGJe8MBjo48GcGBSdMeEuvJXqabk=
+Received: by mx.zohomail.com with SMTPS id 1743771470818665.4330160938939;
+ Fri, 4 Apr 2025 05:57:50 -0700 (PDT)
+Message-ID: <f59c4c85-0a64-4cb5-b16a-fa519a9c6fb1@collabora.com>
+Date: Fri, 4 Apr 2025 15:57:47 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/shmem-helper: Fix unsetting shmem vaddr while vmap
+ refcount > 0
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com
+References: <20250403142633.484660-1-dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250403142633.484660-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,48 +70,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  4 Apr 2025 11:26:30 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
-
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 97e2c4510e69..8071f1c438e2 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -615,6 +615,16 @@ struct drm_panthor_vm_get_state {
->  enum drm_panthor_bo_flags {
->  	/** @DRM_PANTHOR_BO_NO_MMAP: The buffer object will never be CPU-mapped in userspace. */
->  	DRM_PANTHOR_BO_NO_MMAP = (1 << 0),
+On 4/3/25 17:26, Dmitry Osipenko wrote:
+> We switched to use refcount_t for vmaps and missed to change the vunmap
+> code to properly unset the vmap pointer, which is now cleared while vmap's
+> refcount > 0. Clear the cached vmap pointer only when refcounting drops to
+> zero to fix the bug.
+> 
+> Fixes: e1fc39a92332 ("drm/shmem-helper: Use refcount_t for vmap_use_count")
+> Reported-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> Closes: https://lore.kernel.org/dri-devel/20250403105053.788b0f6e@collabora.com/T/#m3dca6d81bedc8d6146a56b82694624fbc6fa4c96
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 2d924d547a51..aa43265f4f4f 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -415,11 +415,11 @@ void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+>  
+>  		if (refcount_dec_and_test(&shmem->vmap_use_count)) {
+>  			vunmap(shmem->vaddr);
+> +			shmem->vaddr = NULL;
 > +
-> +	/**
-> +	 * @DRM_PANTHOR_BO_ALLOC_ON_FAULT: The buffer sections will be allocated on-demand.
-> +	 *
-> +	 * When alloc-on-faut is used, the user should expect job failures, because the
-> +	 * allocation happens in a path where waiting is not allowed, meaning the allocation
-> +	 * can fail and there's nothing the kernel will do to mitigate that. The group will
-> +	 * be unusable after such a failure.
-> +	 */
-> +	DRM_PANTHOR_BO_ALLOC_ON_FAULT = (1 << 1),
-
-I forgot to increment the driver version to reflect those uAPI changes.
-Will fix that in v2.
-
->  };
+>  			drm_gem_shmem_unpin_locked(shmem);
+>  		}
+>  	}
+> -
+> -	shmem->vaddr = NULL;
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_vunmap_locked);
 >  
->  /**
-> @@ -649,8 +659,13 @@ struct drm_panthor_bo_create {
->  	 */
->  	__u32 handle;
->  
-> -	/** @pad: MBZ. */
-> -	__u32 pad;
-> +	/**
-> +	 * @alloc_on_fault_granularity: Granularity of the alloc-on-fault behavior.
-> +	 *
-> +	 * Must be zero when DRM_PANTHOR_BO_ALLOC_ON_FAULT is not set.
-> +	 * Must be a power-of-two, at least a page size, and less or equal to @size.
-> +	 */
-> +	__u32 alloc_on_faut_granularity;
->  };
->  
->  /**
 
+Applied to misc-next
+
+-- 
+Best regards,
+Dmitry
