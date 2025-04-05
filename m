@@ -2,55 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95E2A7CB27
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Apr 2025 20:08:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A59AA7CBED
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Apr 2025 23:58:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22E1A10E363;
-	Sat,  5 Apr 2025 18:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B37D710E03D;
+	Sat,  5 Apr 2025 21:51:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jLrHuQhG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MFkHUTd8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4AB10E16D
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Apr 2025 18:08:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=6qIyleONiLSSPKKgUjjASa5DayAR0eM92TEDLOf7Z7A=; b=jLrHuQhG9Rj0wGejx3thobwiMs
- jZWXL9Y2pJo7r1dO3s+22uk2vwk67hSpN/VeEfCDLXVfT3G3TfIiPSqseYnK8JqGRLJQAMBv6GFGH
- FaDfzL01xUxjamIak0Nm3g17KTcUxQe/Ic9C9Us+l++6NcM4peIBRzn1dbgecyr8oWLY1yZvKrw5n
- ZXr4X8a6O9X4x4/siKKMBphsSQkHopHyw4cy7RYyfjhYNwR8QDRyc7cQBel13B+TgfYYRs/aPUtvI
- UB1FA++kycOdD3RvblyxPrzMf9eXUqtcDIPAFT0N5QlGjRQYD+ZsFfF3TDWBH/0hKaXyFMVDsxeT9
- HLpD4PEg==;
-Received: from [189.7.87.174] (helo=[192.168.0.224])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1u17w0-00C0Re-Ko; Sat, 05 Apr 2025 20:08:00 +0200
-Message-ID: <161cd38b-2119-43f2-bc2c-494e9e60de41@igalia.com>
-Date: Sat, 5 Apr 2025 15:07:56 -0300
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C804510E03D
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Apr 2025 21:51:17 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-5e6194e9d2cso5996353a12.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Apr 2025 14:51:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1743889876; x=1744494676; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ud/ewkyrMmecxCAoYghhiOwHotHzqr4g+GeslqjCe6c=;
+ b=MFkHUTd8R1w5x6hAXZPx7nAubj8Nkmb7te96JQvPbE9FLX7gCN3qvcaGXtC4HHzs13
+ Gu8E8M1H/kWtGwCIIsEmwuYd4S+DBx7UJ+TQIvm9I59zpqi7iIGehbbpxOy2H8ns+u/0
+ fh9E7hRx9BcIo87WLDip2eOMhqkZiuzFJBiLpCWimPKibjc1wK8kl+QABnr4PnsjCJ6h
+ eRmX0PQo/1HAcrsHCLK9J17dC8cVO2oL/XeygMxpRC68kPT4FRXw/wkRT9LouNFB0Q7U
+ baj3WrjeRB7MlpiXOIvfyFo0LUv5O/uzdd8q/ezI1fmZXHjM/jNlLLTmnH5/K1+Hn2KY
+ oDAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1743889876; x=1744494676;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ud/ewkyrMmecxCAoYghhiOwHotHzqr4g+GeslqjCe6c=;
+ b=MdhejCV0L8+80/06UXvAgjPOLJQ+w6V8Usza474/qU38Z8c/PxcVlcK8ydE4wfx8Fu
+ D5kWYPKoqa0Vp5qTz6lopZXw9pQzVWeIyDWVQF3d8fYyxroebhSVJPQ1fVdUqEgrnZY+
+ A+emWP47oW7aqVY7rkxKY3uALPEIxAI8U7l5GNscY43i67QIQ2083NL/g/nnRE8mCKOE
+ nxC7DTldGwTa+53pJBT0hLJL6FpyRC9lbV2Ow4fDlqHCxRxoG9EQwlnZ2LmuuSYvnbKV
+ R2bLP6dVr4uqNRaK9cQQG/xE2rLCVU9KqY6sMxRnNqF+rDFyZT+sFUzIdXQDLk7jght1
+ IRbg==
+X-Gm-Message-State: AOJu0Yz6ATtT6j/8cTNcBy1r0XMQYCZb6kjMT3Vz7jQneKVOYut8GxHP
+ VJsMDwOECNNENrjrqBcZUmrP8kHUWEgsGJS3229kdpFKUZeeRD8p0c7ZqgbzrDRhvgJ0IKQf082
+ 28nDRbYoaMpVTdemn4KlFxb5EpWo=
+X-Gm-Gg: ASbGncsrhiU7LJG38k1b4V4/tjUcvXEKtNy4p4+/R3Pp9QOiHU1lRM+WtRXP+2QGWvZ
+ /IYRny28gDiTqTxf4eGFw7gfPo2Ws8o8WNrnqhF3Sv0HsgrFoYFZMxJXnWZgEpuQrlTrOkfRo8S
+ YrHnoR38Vr1Ectxp6e67mg4kQJ
+X-Google-Smtp-Source: AGHT+IFAxhkDCFaJYi76qMBfOVKfjwDqSmg52QSiii9D3+n5VtMsTZujiMhS77XfBrD2y9NbKG6S5rcj6BGl5aWIm2Y=
+X-Received: by 2002:a17:907:9728:b0:ac6:b853:d07f with SMTP id
+ a640c23a62f3a-ac7d185e3c9mr623776766b.2.1743889875776; Sat, 05 Apr 2025
+ 14:51:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] drm/vc4: tests: Document output handling functions
-To: Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+References: <CAPM=9twD=Epq278=nVGxMU4veeEpznYLnr_PVQ9WqvdnxZac_w@mail.gmail.com>
+In-Reply-To: <CAPM=9twD=Epq278=nVGxMU4veeEpznYLnr_PVQ9WqvdnxZac_w@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sun, 6 Apr 2025 07:51:03 +1000
+X-Gm-Features: ATxdqUF9yBPE7wBNvjm6ewMZPMXF5vH9OnQtUrcGioOiPWZxiCWpEwcZdeL2T_Y
+Message-ID: <CAPM=9tw5SBS_P1oX+ySAhNx-M_NeO4RzK249i6vtwSU0V4mbDA@mail.gmail.com>
+Subject: Fwd: [git pull] drm fixes for 6.15-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
  Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250403-drm-vc4-kunit-failures-v2-0-e09195cc8840@kernel.org>
- <20250403-drm-vc4-kunit-failures-v2-2-e09195cc8840@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250403-drm-vc4-kunit-failures-v2-2-e09195cc8840@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,76 +82,255 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+(resend including Linus this time, autocomplete picked the mailing list)
 
-On 03/04/25 10:33, Maxime Ripard wrote:
-> vc4_mock_atomic_add_output() and vc4_mock_atomic_del_output() are public
-> but aren't documented. Let's provide the documentation.
-> 
-> In particular, special care should be taken to deal with EDEADLK.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Hi Linus,
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+Weekly fixes, mostly from the end of last week, this week was very
+quiet, maybe you scared everyone away. I probably should have
+highlighted Jani's work more closely, but it never occured that anyone
+would willingingly build a kernel without O=3D../toilet-builddir. This
+doesn't contain any fixes for that stuff, Jani is working on it, and
+hopefully you can help that make forward progress.
 
-Best Regards,
-- Maíra
+As for this, it's mostly amdgpu, and xe, with some i915, adp and
+bridge bits, since I think this is overly quiet I'd expect rc2 to be a
+bit more lively.
 
-> ---
->   drivers/gpu/drm/vc4/tests/vc4_mock_output.c | 26 ++++++++++++++++++++++++++
->   1 file changed, 26 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock_output.c b/drivers/gpu/drm/vc4/tests/vc4_mock_output.c
-> index f0ddc223c1f839e8a14f37fdcbb72e7b2c836aa1..577d9a9563696791632aec614c381a214886bf27 100644
-> --- a/drivers/gpu/drm/vc4/tests/vc4_mock_output.c
-> +++ b/drivers/gpu/drm/vc4/tests/vc4_mock_output.c
-> @@ -59,10 +59,23 @@ struct vc4_dummy_output *vc4_dummy_output(struct kunit *test,
->   
->   static const struct drm_display_mode default_mode = {
->   	DRM_SIMPLE_MODE(640, 480, 64, 48)
->   };
->   
-> +/**
-> + * vc4_mock_atomic_add_output() - Enables an output in a state
-> + * @test: The test context object
-> + * @state: Atomic state to enable the output in.
-> + * @type: Type of the output encoder
-> + *
-> + * Adds an output CRTC and connector to a state, and enables them.
-> + *
-> + * Returns:
-> + * 0 on success, a negative error code on failure. If the error is
-> + * EDEADLK, the entire atomic sequence must be restarted. All other
-> + * errors are fatal.
-> + */
->   int vc4_mock_atomic_add_output(struct kunit *test,
->   			       struct drm_atomic_state *state,
->   			       enum vc4_encoder_type type)
->   {
->   	struct drm_device *drm = state->dev;
-> @@ -103,10 +116,23 @@ int vc4_mock_atomic_add_output(struct kunit *test,
->   	crtc_state->active = true;
->   
->   	return 0;
->   }
->   
-> +/**
-> + * vc4_mock_atomic_del_output() - Disables an output in a state
-> + * @test: The test context object
-> + * @state: Atomic state to disable the output in.
-> + * @type: Type of the output encoder
-> + *
-> + * Adds an output CRTC and connector to a state, and disables them.
-> + *
-> + * Returns:
-> + * 0 on success, a negative error code on failure. If the error is
-> + * EDEADLK, the entire atomic sequence must be restarted. All other
-> + * errors are fatal.
-> + */
->   int vc4_mock_atomic_del_output(struct kunit *test,
->   			       struct drm_atomic_state *state,
->   			       enum vc4_encoder_type type)
->   {
->   	struct drm_device *drm = state->dev;
-> 
+Regards,
+Dave.
 
+drm-next-2025-04-05:
+drm fixes for 6.15-rc1
+
+bridge:
+- tda998x: Select CONFIG_DRM_KMS_HELPER
+
+amdgpu:
+- Guard against potential division by 0 in fan code
+- Zero RPM support for SMU 14.0.2
+- Properly handle SI and CIK support being disabled
+- PSR fixes
+- DML2 fixes
+- DP Link training fix
+- Vblank fixes
+- RAS fixes
+- Partitioning fix
+- SDMA fix
+- SMU 13.0.x fixes
+- Rom fetching fix
+- MES fixes
+- Queue reset fix
+
+xe:
+- Fix NULL pointer dereference on error path
+- Add missing HW workaround for BMG
+- Fix survivability mode not triggering
+- Fix build warning when DRM_FBDEV_EMULATION is not set
+
+i915:
+- Bounds check for scalers in DSC prefill latency computation
+- Fix build by adding a missing include
+
+adp:
+- Fix error handling in plane setup
+The following changes since commit cf05922d63e2ae6a9b1b52ff5236a44c3b29f78c=
+:
+
+  Merge tag 'drm-intel-gt-next-2025-03-12' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+(2025-03-25 08:21:07 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2025-04-05
+
+for you to fetch changes up to e2cb28ea3e01cb25095d1a341459901363dc39e9:
+
+  Merge tag 'drm-misc-next-fixes-2025-04-04' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
+(2025-04-05 06:28:03 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.15-rc1
+
+bridge:
+- tda998x: Select CONFIG_DRM_KMS_HELPER
+
+amdgpu:
+- Guard against potential division by 0 in fan code
+- Zero RPM support for SMU 14.0.2
+- Properly handle SI and CIK support being disabled
+- PSR fixes
+- DML2 fixes
+- DP Link training fix
+- Vblank fixes
+- RAS fixes
+- Partitioning fix
+- SDMA fix
+- SMU 13.0.x fixes
+- Rom fetching fix
+- MES fixes
+- Queue reset fix
+
+xe:
+- Fix NULL pointer dereference on error path
+- Add missing HW workaround for BMG
+- Fix survivability mode not triggering
+- Fix build warning when DRM_FBDEV_EMULATION is not set
+
+i915:
+- Bounds check for scalers in DSC prefill latency computation
+- Fix build by adding a missing include
+
+adp:
+- Fix error handling in plane setup
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      drm/amdgpu/gfx11: fix num_mec
+      drm/amdgpu/gfx12: fix num_mec
+
+Ankit Nautiyal (1):
+      drm/i915/watermark: Check bounds for scaler_users for dsc prefill lat=
+ency
+
+Arnd Bergmann (1):
+      drm/i2c: tda998x: select CONFIG_DRM_KMS_HELPER
+
+Asad Kamal (3):
+      drm/amd/pm: Remove host limit metrics support
+      drm/amd/pm: Update smu metrics table for smu_v13_0_6
+      drm/amd/pm: Add gpu_metrics_v1_8
+
+Brendan Tam (1):
+      drm/amd/display: prevent hang on link training fail
+
+Candice Li (1):
+      Remove unnecessary firmware version check for gc v9_4_2
+
+Charlene Liu (1):
+      Revert "drm/amd/display: dml2 soc dscclk use DPM table clk setting"
+
+Christian K=C3=B6nig (1):
+      drm/amdgpu: stop unmapping MQD for kernel queues v3
+
+Dan Carpenter (1):
+      drm: adp: Fix NULL vs IS_ERR() check in adp_plane_new()
+
+Dave Airlie (5):
+      Merge tag 'drm-misc-next-fixes-2025-03-27' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
+      Merge tag 'drm-intel-next-fixes-2025-03-25' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+      Merge tag 'drm-xe-next-fixes-2025-03-27' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-next
+      Merge tag 'amd-drm-next-6.15-2025-03-27' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next
+      Merge tag 'drm-misc-next-fixes-2025-04-04' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
+
+Denis Arefev (5):
+      drm/amd/pm: Prevent division by zero
+      drm/amd/pm: Prevent division by zero
+      drm/amd/pm: Prevent division by zero
+      drm/amd/pm: Prevent division by zero
+      drm/amd/pm: Prevent division by zero
+
+Harish Chegondi (1):
+      drm/xe/eustall: Fix a possible pointer dereference after free
+
+Jesse.zhang@amd.com (1):
+      Revert "drm/amdgpu/sdma_v4_4_2: update VM flush implementation for SD=
+MA"
+
+Leo Li (2):
+      drm/amd/display: Increase vblank offdelay for PSR panels
+      drm/amd/display: Actually do immediate vblank disable
+
+Lijo Lazar (2):
+      drm/amdgpu: Add NPS2 to DPX compatible mode
+      drm/amdgpu: Prefer shadow rom when available
+
+Lucas De Marchi (2):
+      drm/xe: Move survivability back to xe
+      drm/xe: Set survivability mode before heci init
+
+Mario Limonciello (1):
+      drm/amd: Handle being compiled without SI or CIK support better
+
+Michal Wajdeczko (1):
+      drm/xe/vf: Don't check CTC_MODE[0] if VF
+
+Stanley.Yang (1):
+      drm/amdgpu: Update ta ras block
+
+Tomasz Paku=C5=82a (1):
+      drm/amd/pm: Add zero RPM enabled OD setting support for SMU14.0.2
+
+Vinay Belgaumkar (1):
+      drm/xe: Apply Wa_16023105232
+
+Xiang Liu (2):
+      drm/amdgpu: Use correct gfx deferred error count
+      drm/amdgpu: Parse all deferred errors with UMC aca handle
+
+Yue Haibing (2):
+      drm/i915/display: Fix build error without DRM_FBDEV_EMULATION
+      drm/xe: Fix unmet direct dependencies warning
+
+ drivers/gpu/drm/adp/adp_drv.c                      |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c            |   4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_aca.h            |   8 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c           |  34 ++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  44 ++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h            |   7 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |  58 ++---------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c           |   2 +-
+ drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c         |   3 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  88 ++--------------
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  90 ++--------------
+ drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             | 104 +++--------------=
+--
+ drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c              |  45 +-------
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  58 ++---------
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c            |  66 +++---------
+ drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c           |   2 +-
+ drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c            |   2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |  79 +++-----------
+ drivers/gpu/drm/amd/amdgpu/ta_ras_if.h             |   3 +
+ drivers/gpu/drm/amd/amdgpu/umc_v12_0.c             |   3 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c            |   2 +-
+ drivers/gpu/drm/amd/amdgpu/vega10_sdma_pkt_open.h  |  70 -------------
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  41 ++++++--
+ .../amd/display/dc/dml2/dml2_translation_helper.c  |   2 +-
+ .../drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c    |   6 +-
+ .../drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c  |   7 +-
+ drivers/gpu/drm/amd/include/kgd_pp_interface.h     | 114 +++++++++++++++++=
+++++
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_thermal.c  |   4 +-
+ .../drm/amd/pm/powerplay/hwmgr/vega10_thermal.c    |   4 +-
+ .../drm/amd/pm/powerplay/hwmgr/vega20_thermal.c    |   2 +-
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_6_pmfw.h    |   7 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |   3 +
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |   2 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |  15 ---
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  55 +++++++++-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |   3 +
+ drivers/gpu/drm/bridge/Kconfig                     |  13 +--
+ drivers/gpu/drm/i915/display/intel_fbdev.h         |   2 +
+ drivers/gpu/drm/i915/display/skl_watermark.c       |   5 +-
+ drivers/gpu/drm/xe/Kconfig                         |   2 +-
+ drivers/gpu/drm/xe/regs/xe_engine_regs.h           |   4 +
+ drivers/gpu/drm/xe/xe_device.c                     |  17 ++-
+ drivers/gpu/drm/xe/xe_eu_stall.c                   |   8 +-
+ drivers/gpu/drm/xe/xe_gt_clock.c                   |  54 +++++++---
+ drivers/gpu/drm/xe/xe_gt_types.h                   |   2 +
+ drivers/gpu/drm/xe/xe_hw_engine.c                  |  33 ++++++
+ drivers/gpu/drm/xe/xe_pci.c                        |  16 ++-
+ drivers/gpu/drm/xe/xe_survivability_mode.c         |  31 ++++--
+ drivers/gpu/drm/xe/xe_survivability_mode.h         |   1 -
+ drivers/gpu/drm/xe/xe_wa.c                         |   6 ++
+ drivers/gpu/drm/xe/xe_wa_oob.rules                 |   2 +
+ 52 files changed, 537 insertions(+), 701 deletions(-)
