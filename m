@@ -2,117 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCF2A7C663
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Apr 2025 00:39:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7428AA7C74D
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Apr 2025 03:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61F6010E035;
-	Fri,  4 Apr 2025 22:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29E6E10E32F;
+	Sat,  5 Apr 2025 01:57:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jOhfj/0z";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="hWWlWtw/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03BA410E035
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Apr 2025 22:39:06 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 534JEkTK030277
- for <dri-devel@lists.freedesktop.org>; Fri, 4 Apr 2025 22:39:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- oAQPPAwHz4E9W2g7oqIWAj/qTk23uygOmdFEWxol8hk=; b=jOhfj/0zRCcAbJQe
- qFeozMfMur4+mg0GLAWSsq/qWByJ10Zn03FKYICtyOqJ7DehQikQ8TOuqhBixExJ
- qxm3qFcRlkD6ry99hrq+4CiY7ydxVWN0gLiYpvPZ6gAg6+RaUIZeEmwJJn5vVdF7
- hkQxR9J3+JLhWhbXzcNHegkIDOyB6f54PSiOLrd5vapiiw/3oB4bqvAdqPx9l4hg
- W8cSl2mPs8VwYSFCkGHNuHXR6CSyaLtP2mi5JfyjxqFnbrEuuzIQhz16bbSkhJOE
- vXB8vcrhSCLAhAj6dnExSJHsKIyqWH5HOqnsJYmEVZZg4KFTX60kxRZ/7ZQBKchK
- BTdAsw==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45t2d5359b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Apr 2025 22:39:05 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-477608e8e4aso1179581cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Apr 2025 15:39:05 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A2F10E32F
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Apr 2025 01:57:38 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-4393ee912e1so12625e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Apr 2025 18:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1743818257; x=1744423057;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OAoewxTDbadnGF1GAguojqOu/hTz+6xUWg05jevi4+Q=;
+ b=hWWlWtw/Xom8F8eK/3tO0Uwf5qhCuVUjjYUQECu6IkLxwvV2df1jOyduzmM9W0KMtN
+ lTuP09VRhKRxU1iZoCfSQtLGg4yHcGwzGRRmMFTsS8pv0F9j+gGrXeFF++SgG3T9PKxy
+ bsiqRCb8yowoQVcyy+/HcnBJiG96TzdiH3/MFt5q4uwGicokaleHcElMPf8ft0E9a2xw
+ zgnPs6ZA8pchu3Uw2XJWCVaS9/oP9yWChv2ATFBdvpxs96LDjLEooxNBVl8XFrq0R1JT
+ lKY5A6AL7EZsx9siUKzAApr6Eruf12eoJ8yl/5Zp5AbZp7QVh+OX2TN56LWNbAyckMc0
+ dOwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1743806345; x=1744411145;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oAQPPAwHz4E9W2g7oqIWAj/qTk23uygOmdFEWxol8hk=;
- b=uAHe2PH1svABf0x9tKdpRHnxOE9oQ+z7ZqufbLYibkD2bDcAi9cPllF+yhQEbJ12nf
- g+iSyRSgTMQnyN0PK0bD5qwDVzIKdmYe29/zGSLQRlrW/k08J6dptpbYTEqBGBkd76ia
- u30GldbpLtK1QzMSdby9Y64BG5r3tc/ehhgFu4nyMSXnpax/TCEhIu2l0j2uH32Hqv8W
- lO6pDojHanidLuHbRHZ1+xUk2e2zIPKTfpAqfkAnHN1d6NlJ4hGjl/XmuQMUzo9ilGfu
- YHG00l0lXHK5bxmH4L+xu2fMLEhFoqt6PGG+S08h0emPfanIhz75y3HqjHE+EdStjxKM
- a9cw==
+ d=1e100.net; s=20230601; t=1743818257; x=1744423057;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OAoewxTDbadnGF1GAguojqOu/hTz+6xUWg05jevi4+Q=;
+ b=WbrJKQEqtpHePX+lUfq3KUoOsvuMjtoInbFNUTQ3Mqcw9blICDYZCXzIsa9LF5fgfi
+ SARJEa33ViV2cXwJSGD4z75fNp6jMAoc91uHJulWJzasDe7fp7Ub/cgLECik+HCVc3g/
+ R/S37ByCq918af4Bj1U9Lh017gHbEBpHCDy36xTVOHsixDwUXIUiUNAP0dSi02pqc/WH
+ nznOt2okwQge3WADQu/dSfk8tjPYKZ9C5ChCNLU3s4NM/ucT0BzoVOGYt0coUMDYkvQt
+ grArSivMYcRE7zkNPOGiCIEfVj/Ws/hDxyh7Iai04sS0IG1gyB49zgd6qQJUs9sU9t81
+ 1d7w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUYeClJUF4gEt+DUy2WXHoGTRwXEEHCUh4SgFLoKNUFPg1AeDhDrifjOdXeC1lZG5Fek4Hmm/KGspQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw22duwuSvfpgbLSjdd5vzc1sa4h6m9qfC1rcrmHlwDqIBsXd8Y
- i59pekavOTcofYCV1d5Bv6ZiCTaQgn4ta8+Ff54jcBMAIedkAfP8u3J8lqXcn2GTxTcNNIO8br6
- S3w7DGErSxa3fQSWD1DGiGWbZY9c8d46JcIFRLZhhsEBmieiNXkKI+Fs9AcKlZOrJqwE=
-X-Gm-Gg: ASbGncvJRs+O4PRxJYCYXWTCpACkdXN1LcV0GqKw1so8z4sNipTpiQs2ipplBwNz/gp
- MfAnzy0bB0UVWg6BKwPNnMxOcv2200iy7UfMRvTTGhfkEUDrXKbhHOfLDFCN2MTDtMCpXJ3srRP
- GS11GIVbOdRK+aB5/zVnNg/PbEbDg0q1MZam+5NFFRWYIOEhOjQnTyqDkgUUBzL0MjXpcacVnU3
- oEvkJmxAgWG2m2XCBSQiUUkcct/EGn/ixcvl3f/tDhSnAvpigIUD/ISqDl5nxgxizUrXHJB4igU
- 8h/lmcX2x1ek1busCYTsyehLpxCA5O4LHAJT4ACbBn03kIAEbN/yZg/l2vEZRljXmTPBLg==
-X-Received: by 2002:a05:622a:1898:b0:475:876:ac3d with SMTP id
- d75a77b69052e-479249e2cd1mr26006451cf.13.1743806345084; 
- Fri, 04 Apr 2025 15:39:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG+NzcEKIjX/Q355mfL2t7DYQXJRcMD6VxP8/NFF8Z5Gmr/gnpuijoylXIpLqB0qI6DVbx04w==
-X-Received: by 2002:a05:622a:1898:b0:475:876:ac3d with SMTP id
- d75a77b69052e-479249e2cd1mr26006291cf.13.1743806344699; 
- Fri, 04 Apr 2025 15:39:04 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5f087f0a9c9sm3106401a12.41.2025.04.04.15.39.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Apr 2025 15:39:04 -0700 (PDT)
-Message-ID: <79c9ab2d-f970-4dfb-9170-ac3dd8b1c772@oss.qualcomm.com>
-Date: Sat, 5 Apr 2025 00:39:01 +0200
+ AJvYcCW1O3EHj14TFwzUwxHxkdif7buiGicb4an/w18ikMOclGwG9VkXc7bJXv4rkFgKB4/oGiAsiDLM6As=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwrKez8RfQ6Pjd3VSLjDffPWPsYkdRBqcZKviO8etIyPtbe9q/Q
+ AyH6yIG7fK/leQFYKbDpKRnf4cVezBpM93EHPoF7DQ3xclX6TdvVl5supF2xYudhfoh8JEeFFNg
+ 1G0UcWUtuiET2MpwlL4HJKZBgoQHjopJ0HRkG
+X-Gm-Gg: ASbGncuHZefe4Q5yw9sCfCN4D3VoSGbtPdAeZaboKKfd4pFbDUHpnbU0LcuHbiZkPYQ
+ Evc9OSza19B8A/y+E4bZbNUsBJIv0XREIUuT8lZJHitreSRky/ZlVY1+cLHzxX/Mfkz7SrE0ybv
+ TSU6PvAPEsdzmPcpVJiNbtu3a0
+X-Google-Smtp-Source: AGHT+IEZgBBuLcDuNWx/jFE8YY2SlwYmrCbwtiJPDyDgjgoOsHULjpV/CWiTVdB4+NcESAdkrCw+xWEHlXEt9xlkY4M=
+X-Received: by 2002:a05:600c:3548:b0:43d:409c:6142 with SMTP id
+ 5b1f17b1804b1-43ee0e84029mr527915e9.0.1743818256732; Fri, 04 Apr 2025
+ 18:57:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/10] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI
- to DP bridge nodes
-To: Ayushi Makhija <quic_amakhija@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: robdclark@gmail.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
- quic_jesszhan@quicinc.com
-References: <20250404115539.1151201-1-quic_amakhija@quicinc.com>
- <20250404115539.1151201-8-quic_amakhija@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250404115539.1151201-8-quic_amakhija@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: z1ktRuCTuqL4W4bWSsB9rTt7kUGLKMD-
-X-Proofpoint-GUID: z1ktRuCTuqL4W4bWSsB9rTt7kUGLKMD-
-X-Authority-Analysis: v=2.4 cv=Cvu/cm4D c=1 sm=1 tr=0 ts=67f05f89 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=GLHRRWOWZVtnXAxWSSAA:9
- a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-04_10,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- bulkscore=0 suspectscore=0 mlxlogscore=786 malwarescore=0 spamscore=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504040156
+References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+ <f5fdc666-dd72-4a4f-9270-b539a3179382@amd.com>
+ <20250310-eccentric-wonderful-puffin-ddbb26@houat>
+ <CAPM=9tzkLXOz=-3eujUbbjMHunR+_5JZ4oQaqNmbrWWF9WZJ0w@mail.gmail.com>
+ <e08f10da-b0cd-444b-8e0b-11009b05b161@amd.com>
+ <CAPM=9twgFt43OKqUY0TNopTmibnR_d891xmV=wFM91n604NUCw@mail.gmail.com>
+ <5ed87c80-6fe3-4f8c-bb98-ca07f1db8c34@amd.com>
+ <20250403-quick-salamander-of-charisma-cab289@houat>
+ <202c3a58-97a3-489c-b3f2-b1fd2735bd19@amd.com>
+In-Reply-To: <202c3a58-97a3-489c-b3f2-b1fd2735bd19@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 4 Apr 2025 18:57:25 -0700
+X-Gm-Features: ATxdqUG3Y0HIBufABo7xowgVhlloVVBpkM4JhVkK9QLhPMspK9dsEIobBZzLpG8
+Message-ID: <CABdmKX2LhrcyDM0r1tytt2vKLuCLGsxZaGHgN+u1hUmEMXuGtw@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Tomasz Figa <tfiga@chromium.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Ben Woodard <woodard@redhat.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,31 +105,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/4/25 1:55 PM, Ayushi Makhija wrote:
-> Add anx7625 DSI to DP bridge device nodes.
-> 
-> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
-> ---
+On Fri, Apr 4, 2025 at 1:47=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> Hi Maxime,
+>
+> Am 03.04.25 um 17:47 schrieb Maxime Ripard:
+> > On Thu, Apr 03, 2025 at 09:39:52AM +0200, Christian K=C3=B6nig wrote:
+> >>> For the UMA GPU case where there is no device memory or eviction
+> >>> problem, perhaps a configurable option to just say account memory in
+> >>> memcg for all allocations done by this process, and state yes you can
+> >>> work around it with allocation servers or whatever but the behaviour
+> >>> for well behaved things is at least somewhat defined.
+> >> We can have that as a workaround, but I think we should approach that
+> >> differently.
+> >>
+> >> With upcoming CXL even coherent device memory is exposed to the core
+> >> OS as NUMA memory with just a high latency.
+> >>
+> >> So both in the CXL and UMA case it actually doesn't make sense to
+> >> allocate the memory through the driver interfaces any more. With
+> >> AMDGPU for example we are just replicating mbind()/madvise() within
+> >> the driver.
+> >>
+> >> Instead what the DRM subsystem should aim for is to allocate memory
+> >> using the normal core OS functionality and then import it into the
+> >> driver.
+> >>
+> >> AMD, NVidia and Intel have HMM working for quite a while now but it
+> >> has some limitations, especially on the performance side.
+> >>
+> >> So for AMDGPU we are currently evaluating udmabuf as alternative. That
+> >> seems to be working fine with different NUMA nodes, is perfectly memcg
+> >> accounted and gives you a DMA-buf which can be imported everywhere.
+> >>
+> >> The only show stopper might be the allocation performance, but even if
+> >> that's the case I think the ongoing folio work will properly resolve
+> >> that.
+> > I mean, no, the showstopper to that is that using udmabuf has the
+> > assumption that you have an IOMMU for every device doing DMA, which is
+> > absolutely not true on !x86 platforms.
+> >
+> > It might be true for all GPUs, but it certainly isn't for display
+> > controllers, and it's not either for codecs, ISPs, and cameras.
+> >
+> > And then there's the other assumption that all memory is under the
+> > memory allocator control, which isn't the case on most recent platforms
+> > either.
+> >
+> > We *need* to take CMA into account there, all the carved-out, device
+> > specific memory regions, and the memory regions that aren't even under
+> > Linux supervision like protected memory that is typically handled by th=
+e
+> > firmware and all you get is a dma-buf.
+> >
+> > Saying that it's how you want to workaround it on AMD is absolutely
+> > fine, but DRM as a whole should certainly not aim for that, because it
+> > can't.
+>
+> A bunch of good points you bring up here but it sounds like you misunders=
+tood me a bit.
+>
+> I'm certainly *not* saying that we should push for udmabuf for everything=
+, that is clearly use case specific.
+>
+> For use cases like CMA or protected carve-out the question what to do doe=
+sn't even arise in the first place.
+>
+> When you have CMA which dynamically steals memory from the core OS then o=
+f course it should be accounted to memcg.
+>
+> When you have carve-out which the core OS memory management doesn't even =
+know about then it should certainly be handled by dmem.
+>
+> The problematic use cases are the one where a buffer can sometimes be bac=
+ked by system memory and sometime by something special. For this we don't h=
+ave a good approach what to do since every approach seems to have a draw ba=
+ck for some use case.
 
-[...]
+This reminds me of memory.memsw in cgroup v1, where both resident and
+swapped memory show up under the same memcg counter. In this dmem
+scenario it's similar but across two different cgroup controllers
+instead of two different types of system memory under the same
+controller.
 
-> +
-> +	io_expander: gpio@74 {
-> +		compatible = "ti,tca9539";
-> +		reg = <0x74>;
-> +		interrupts-extended = <&tlmm 98 IRQ_TYPE_EDGE_BOTH>;
-> +		gpio-controller;
-> +		#gpio-cells = <2>;
-> +		interrupt-controller;
-> +		#interrupt-cells = <2>;
-> +
-> +		gpio2-hog {
-> +			gpio-hog;
-> +			gpios = <2 GPIO_ACTIVE_HIGH>;
-> +			input;
-> +			line-name = "dsi0_int_pin";
+memsw doesn't exist in v2, and users are asking for it back. [1] I
+tend to agree that a combined counter is useful as I don't see a great
+way to apply meaningful limits to individual counters (or individual
+controller limits in the dmem+memcg case) when multiple cgroups are
+involved and eviction can cause memory to be transferred from one
+place to another. Sorry I'm not really offering a solution to this,
+but I feel like only transferring the charge between cgroups is a
+partial solution since the enforcement by the kernel is independent
+for each controller. So yeah as Dave and Sima said for accounting I
+guess it works, and maybe that's good enough if you have userspace
+enforcement that's smart enough to look in all the different places.
+But then there are the folks asking for kernel enforcement. Maybe just
+accounting as best we can is a good place to start?
 
-Are you sure hogging is what you need here? Aren't those GPIOs only
-required to be in a certain state when the connected devices are active?
-
-Konrad
+[1] https://lore.kernel.org/all/20250319064148.774406-5-jingxiangzeng.cas@g=
+mail.com/
