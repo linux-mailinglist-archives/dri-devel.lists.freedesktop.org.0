@@ -2,36 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BCEA7D08A
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Apr 2025 22:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE761A7D088
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Apr 2025 22:55:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D518A10E0F4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6A4B10E008;
 	Sun,  6 Apr 2025 20:55:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="SG3AWJGl";
+	dkim=pass (1024-bit key; unprotected) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="fmXDOVdU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06A6010E0E0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06AA410E138
  for <dri-devel@lists.freedesktop.org>; Sun,  6 Apr 2025 20:55:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
- t=1743972926; bh=jWdQxL4tiW+qSHnkQphZb/Zp5cQSwhzY2xtPrVC3GWE=;
- h=From:Subject:Date:To:Cc;
- b=SG3AWJGl4UCZj5poyNEUtGVzmPjS8Z1uAjvISmrjipNFyRUrxiheXaZS2YBGXywek
- fDwAi242mk0UGaCCJzO5I3kDNd1Wkt7V6AI47kLUdZwQY6Ptnq0vzKCTEkFaq9z35f
- LfPSFol1Nj0SUTyV5Y6xiqWDMwqJ/U3Zr2D0zybQ=
+ t=1743972926; bh=54KKEjad1+ij3E2hBLbA9dHHdBX4M8D7STWk9Y+wemo=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc;
+ b=fmXDOVdULftlhuXvFyjVOcH93PJLsOdoXWXXqSUrjYfw0jq4btFgG9p+rnqYfSUOL
+ GrJ4oSE0MzJGoiu46dQFsb1ppRRz4a+4iKyeqw2XErQMAJUNCfY2jMBTYPSzPTwlPK
+ lVy2tOXek45Aw8gLOPsbEcrKSjeWIqKFc1fZ0L2A=
 From: Luca Weiss <luca@lucaweiss.eu>
-Subject: [PATCH 0/2] Add interconnect nodes and paths for MSM8953 SoC
-Date: Sun, 06 Apr 2025 22:55:02 +0200
-Message-Id: <20250406-msm8953-interconnect-v1-0-a23e22e236e0@lucaweiss.eu>
+Date: Sun, 06 Apr 2025 22:55:03 +0200
+Subject: [PATCH 1/2] dt-bindings: msm: qcom,mdss: Document interconnect paths
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACbq8mcC/x3Myw5AMBBG4VeRWWsyrsGriAX1l1kY0opIxLtrL
- L/FOQ8FeEGgLnnI45Igu0ZkaUJ2HXWBkTmacs4rLrk2W9iatiqM6Alvd1XY08Bxxi0ah2mimB4
- eTu5/2w/v+wGr+7Q9ZgAAAA==
-X-Change-ID: 20250406-msm8953-interconnect-ef0109e8febb
+Message-Id: <20250406-msm8953-interconnect-v1-1-a23e22e236e0@lucaweiss.eu>
+References: <20250406-msm8953-interconnect-v1-0-a23e22e236e0@lucaweiss.eu>
+In-Reply-To: <20250406-msm8953-interconnect-v1-0-a23e22e236e0@lucaweiss.eu>
 To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>, 
@@ -47,20 +45,20 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Luca Weiss <luca@lucaweiss.eu>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=707; i=luca@lucaweiss.eu;
- h=from:subject:message-id; bh=jWdQxL4tiW+qSHnkQphZb/Zp5cQSwhzY2xtPrVC3GWE=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBn8uoq9h70vV5OPX88cyIjjjTYTKq8XihZFUn/x
- YI2zhndcQ6JAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZ/LqKgAKCRBy2EO4nU3X
- Vv9sD/kBgKhGOAV/rOtwBE55cyyss3AFX+12gXgk/vGNsEBtS56Nj9aZF2q7+WOcTC/wEGJZWRE
- 2d57t6D1RLgwAbxGncXLLp/xU0yRsNqJ80DrIuygHN/EkTnNwPUz6LDwN2WlQfJ69o5uGm9doxh
- Jgrtyd2c+IzQLi5WqM+pWxvxPnvbt4Qyko6fU9UO4+HloUmReNUgYBb6ET2kQZ4JfRZsTWqLBxA
- O7AP5Hu6W7rqe1eEbg0nQ72OilBBDdLo+gNmFXHLAZTaAoSoccyYZ+pKSYzc8/myWCsk6+qWQCi
- DOAogTHNxphbWAuMjFIn8OZ+W5y97Jq9Ool1/ByGn8obrO3pzPaNovyU5Ne06aYSyIvQRJescZg
- oemCGCAkxTPRwQqrh0u0KZ+5qHiP8nMsXkXxDXyy9gttlKd6/XbJx8Eqq8yKym63m9kCnmYO9fY
- RBV+hz3xe8+M69oPITMOvgMpaZknp3lvTEVpHdBPASYBr1TmpXIfdDpI1hueoyrvC3mvUyLwstw
- vNVkWNrTwVUMAvQPJyiE2AIKoLbfwL7hVVKXj1qu+0QMtaZqmY1XEcAwmvYhfpNpWfcoHOwl1Eh
- 3px23JBHzKVnIRUA46sZfMiNoQ72yspWOEWr/NR6vB0pht7+T2q7QCTq7IKaNiwZTeDXrnrKmAB
- Szpw2uC+nQ17smQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1338; i=luca@lucaweiss.eu;
+ h=from:subject:message-id; bh=54KKEjad1+ij3E2hBLbA9dHHdBX4M8D7STWk9Y+wemo=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBn8uo7V02lvvdaDbCDg+UHeKAdIc/9YNmZNePsB
+ XhoAvdHPOqJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZ/LqOwAKCRBy2EO4nU3X
+ VmAtD/0S8EspPCGaoYWyHm+lUUgH6JsHtkmKH6Tkl4hRdjdIz4a4cdIpWXohWAlyZLs2Ap7pPRr
+ WFHmeu5V8T1HYVf6qqGnRwDSdNRMpEH8LK3edVGMS8e2XB7tEoyWop5xdiAMftJo7njhiZpAA31
+ F7uqog68pLdzfuXmkXw1wvkkPnQUe1O9idriGs0HMaGcfaivY2gh1M+KIz/hvwvQZH8H+HRQuYA
+ LAkAojOfyFXleVs9OYu85eN8lAU4OUwIo5v+6kbpeOgvA87zi7C2SGZeBBakZm+txi25iylGdmt
+ I5dd5zzKE9427bhaZxO7TY5oGuMZe9MPQf8EIBrMP7MiAn7lQGEDAdS/E0U9Co0jH85ORqyM3q8
+ +AvOZ1rsegU6zq6YLM46FWnN0Oa+AI8pnmiC8Jux2VFqpskIMwjunC1ehqEjt7Y6oCCvFnDoPTt
+ Auszh2sxE+zxKepaGN9xdHHtmEoSRIspCWksIWYPamFLhs/MWa/cOKJs9lbWIAZyhHkK2jgcUci
+ ml+f+2afDXQlGNhKOlzqaOtHHT8g0mP6X07MZzV6K802//prn+EvX1J979DF3EIQptsII0EoWZe
+ MYrPI0mJnFL6Kzgxj/H08g2EfEUZFqdbEn/MiKZFFo1YaLekOSpeGw7Ew/zEL89eZjBK04wlCvp
+ o585n7rnV/pU1nw==
 X-Developer-Key: i=luca@lucaweiss.eu; a=openpgp;
  fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,25 +76,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the interconnect driver for msm8953 is already upstream, let's add
-the nodes which are required for it to enable interconnect on MSM8953.
+Document two interconnect paths found on the MDSS on MSM8953.
 
 Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
 ---
-Luca Weiss (1):
-      dt-bindings: msm: qcom,mdss: Document interconnect paths
-
-Vladimir Lypak (1):
-      arm64: dts: qcom: msm8953: Add interconnects
-
- .../devicetree/bindings/display/msm/qcom,mdss.yaml | 12 +++
- arch/arm64/boot/dts/qcom/msm8953.dtsi              | 96 ++++++++++++++++++++++
- 2 files changed, 108 insertions(+)
+There's also some interconnect paths defined in the mdp5 schema, both
+drivers accept it. Newer mdss schemas seem to prefer mdp0-mem + cpu-cfg
+in the mdss schema instead of in the dpu subnode. Since there's no
+cpu-cfg defined with mdp5, I've added these paths here.
 ---
-base-commit: 3bcfefea9711deb32db207977d531d720d32a0a5
-change-id: 20250406-msm8953-interconnect-ef0109e8febb
+ Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Best regards,
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
+index 7c6462caa4428bc284619275e61ddacc26d0c06e..db9c43b20e2a705bcaae4a9e0e11ce13be853b78 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
+@@ -84,6 +84,18 @@ properties:
+     items:
+       - description: MDSS_CORE reset
+ 
++  interconnects:
++    minItems: 1
++    items:
++      - description: Interconnect path from mdp0 (or a single mdp) port to the data bus
++      - description: Interconnect path from CPU to the reg bus
++
++  interconnect-names:
++    minItems: 1
++    items:
++      - const: mdp0-mem
++      - const: cpu-cfg
++
+ required:
+   - compatible
+   - reg
+
 -- 
-Luca Weiss <luca@lucaweiss.eu>
+2.49.0
 
