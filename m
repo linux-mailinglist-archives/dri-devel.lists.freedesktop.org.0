@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411EFA7DC8A
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 13:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26161A7DC88
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 13:40:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83F5B10E43A;
-	Mon,  7 Apr 2025 11:40:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7594010E438;
+	Mon,  7 Apr 2025 11:40:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nwfaqktu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jkCLmPgt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 528DB10E40C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:53:58 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-22622ddcc35so54604625ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 02:53:58 -0700 (PDT)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE8110E40C
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:54:08 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-2255003f4c6so35858365ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 02:54:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744019638; x=1744624438; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1744019647; x=1744624447; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QqsxLQYznUT9RsPhQAq/Ha4vcZ/fvmuGVrYbn4a8PBA=;
- b=Nwfaqktu361bxFj4YtkikYabEKOxFlx+Sl+XGcfLz0nAl7e+f3qQmtf6ohmpsz21SF
- JhHkqLqKfsgBB3ZBQ3utwLNUuV9+IePgoyx04DN/47IR8Q3hi921zOmv1JstpFwatdR1
- X8xKDKxgNiDMCeMrH8oh5ps9w0kT3q1kgAni5n4DVH25A/OJOEAB4KHLc0E7rYzIqzYm
- JfaBG8y3ufDxh023OtL06mlgGqfLqzr0iMqIsGnUFU0IUd8tYVWjTxXNSCaxxOMFjTAk
- iQTd5XFPCiGG4dxe/MPl3Ql2jr51nmThWCOHp1QDupwTvgj7cMkvsHFRVgWUjTDssLQE
- iCXw==
+ bh=O8diRuAQehXi7R+D5qp01L9GbmQB2F98eyfpHLigrsU=;
+ b=jkCLmPgttITpT5HZsOLitpRtWwIDEdYToVjX5kMZUTxfrvwJAbKEB/VXT76EDZx9H8
+ yTBB9IGE+Osba4+Lc4tTJnChOlzFGQMa3avEKG5D6NoXjpBZmTkUJjG6CcexsndkZkHq
+ DIqY9ISrpQ4E0S+10XL9Tm4o6FtdBdMbDo7nW3Ok4p8t2Bk29GgXsHku8lT+3qBHhfZ+
+ 8OmNDRFYrX6+XqVp00CqBMIVHhpB1aU+j523pX8DA2h8WakkMxDYogZ371Eabsi1HXTF
+ 0z75JtnS4khGjCJEvDzIizD4jRf1q5UCNhNrjc2IF8rb2B865cehkOThBjcd2k7ZERO6
+ oG+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744019638; x=1744624438;
+ d=1e100.net; s=20230601; t=1744019647; x=1744624447;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QqsxLQYznUT9RsPhQAq/Ha4vcZ/fvmuGVrYbn4a8PBA=;
- b=wk7M4LNbdYfQfP4gdY17D4HGVmQdeA2uxSsPPyFcAc9bHjVWDmIYaE5jKacyNGe1fz
- V6Z1iZbk05T929Uy409MBshmMt6EbuAFF/y2TtQNjrssahy7Jt/RTy+IaF9DpeTMYk/X
- P/hu8Lh6gpuvPdUHeEEVXDepHM9TJI5HTfp6v8ggunThI8LIjHXM6sJ6ZG6ZNM0yQAQh
- BSlMNO3m+ztw0wBM3Qe3d0oTpoC5jhzGCCuADY1RtxpcRkATx9x9M4Dv0qMM9kaH7NU7
- 53RrzbGhLNhsKgMszyM+8Yq5Euw/Hf90QKmMCHJw/ffTkxEHVZLJD/xP+oRbHb+ro/6e
- sw5A==
-X-Gm-Message-State: AOJu0YyK471f1CmyHmIG5AvzikI1YfZYJnnBn1tuWMpRCPX0tRA437CC
- kc11Se5I6LSs4l7iGARQZJQX+tiOywFr97qo/6KrqUoso58ru9VC
-X-Gm-Gg: ASbGncsOyXFYNQi3J645LgzDeKzYmsvNk0Srx97ZM7Y/ni/jA+hwICzrUA8TDun0RyS
- KhtDyodWc2u2cgTE37jW7CUmLY/Kek674u7Z1ox9yqSIc3VkpGVs1cv3L2pbhXNcr49TDOW/Xgc
- 0zdjvJoek1B532+njsvwIB/kvh9Sx64kKGziNJ1uVcd3BbQBQ4ouPu0nMCuih7UxvtD0oVp9zHg
- i6wIyQXcCyF5mIvHxBSawjLjCgZf+M2/nZQwsW/BKiMBTb3QBavskGJ/stKrQwKG+RTHjAihXwT
- 0ENbgcW8DjOqV9quwp0EhRD+Rt8dzrmiHMI7L07yHSU=
-X-Google-Smtp-Source: AGHT+IEuCKwpckL0Z9qXyRFKR/AGg8nN7XQo8YQhcxfUUoLSqUZ0cLSWOWcAvb+fY4I/YHLsAll3+Q==
-X-Received: by 2002:a17:902:ebc7:b0:21f:dbb:20a6 with SMTP id
- d9443c01a7336-22a95573892mr114847295ad.33.1744019637847; 
- Mon, 07 Apr 2025 02:53:57 -0700 (PDT)
+ bh=O8diRuAQehXi7R+D5qp01L9GbmQB2F98eyfpHLigrsU=;
+ b=vNXaa3RmbqHJjjb8g5sENDv5HM+MDlLQfIFKbiwn6ue5JO5+XQ1GZgoUaNx9t74M00
+ LRj5Ktjw9UI3GDnFUQb4RtCj5yAEKjDCjS35Agid5Xf//5rnp0HbBSyop97tw/Zcl0yr
+ phmYIq4/M+KrEFtk8WSi3uRbC2EBQnwItBj16gr5X0nNoWk2AS8oKq/CWkLWeQSjQIlX
+ cBUZi2Nq9l5P+ZSFNGWEP5ug4r3G3xMk5C9PgT1FDdOBUGJIklHb49n7G1bCO4RoQoVS
+ PbjeXkleWexxiCNWZwVz3Q1TERW7Kn+k7OqLmf4DkkaMhUekHo3u/sG2n7KAawwN6lfI
+ 9OYA==
+X-Gm-Message-State: AOJu0YyGaTHDHD+zjcR8ywbO4mdwyvm7vJlfgZdgbP5mMn/ifVwqObR2
+ kGVI7vtsdXffTaRcvfTXzhXCt4rI08jmpEXw2Dvie+bvPyRZvJy4
+X-Gm-Gg: ASbGncuH+YFDe1nCeb4qG2VqEM/WNQqfCsrf5Vpu79txF3LiI0drdIoyDKNQJZ2cAm2
+ PTucxg4r0st00NxpzyHj9nKBXHt9E9TyzPlyBFvPmGnmWp1QEz/KXXmWd5NEfnd7VP3svj0UasD
+ LqoYoE2r47txPnhY+QjXUtrdawNPlDnyTrQzC7x5sNX53xvCshrZkxc5u1KG5zLr9JDLIS8SSOK
+ bNj3bggMZRvP5ULKVrNqrFFvsciKs7t62ZbW1PMbW3oTG2CuAP6kcdTRCWeNF9PZ6+cFho7gcQH
+ HCllzCzaKhiuC4QudURod9zBO8jTzHK9WKsavWGTP1U=
+X-Google-Smtp-Source: AGHT+IEZza3sL31uGEXE9GqOZmRwDZovRtw/5y2xgKCiRmfb48lzBMArT3fRLQbnoTwMSm5KJMfMfw==
+X-Received: by 2002:a17:903:18d:b0:225:abd2:5e4b with SMTP id
+ d9443c01a7336-22a8a05e84fmr162795925ad.16.1744019647625; 
+ Mon, 07 Apr 2025 02:54:07 -0700 (PDT)
 Received: from nuvole.. ([144.202.86.13]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-229785bfddfsm77213805ad.66.2025.04.07.02.53.48
+ d9443c01a7336-229785bfddfsm77213805ad.66.2025.04.07.02.53.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Apr 2025 02:53:57 -0700 (PDT)
+ Mon, 07 Apr 2025 02:54:07 -0700 (PDT)
 From: Pengyu Luo <mitltlatltl@gmail.com>
 To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
  Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
@@ -67,9 +67,9 @@ To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH 2/4] backlight: ktz8866: add slave handler
-Date: Mon,  7 Apr 2025 17:51:17 +0800
-Message-ID: <20250407095119.588920-3-mitltlatltl@gmail.com>
+Subject: [PATCH 3/4] backlight: ktz8866: improve current sinks setting
+Date: Mon,  7 Apr 2025 17:51:18 +0800
+Message-ID: <20250407095119.588920-4-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250407095119.588920-1-mitltlatltl@gmail.com>
 References: <20250407095119.588920-1-mitltlatltl@gmail.com>
@@ -91,145 +91,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kinetic ktz8866, found in many android devices, nowadays, some oem use
-dual ktz8866 to support a larger panel and  higher brightness, original
-driver would only handle half backlight region on these devices,
-registering it twice is unreasonable, so adding the slave handler to
-support it.
-
-Note that, none of the devices supported by upstream require this, the
-devices using this is porting.
+I polled all registers when the module was loading, found that
+current sinks have already been configured. Bootloader would set
+when booting. So checking it before setting the all channels.
 
 Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 ---
- drivers/video/backlight/ktz8866.c | 68 +++++++++++++++++++++++++++----
- 1 file changed, 59 insertions(+), 9 deletions(-)
+ drivers/video/backlight/ktz8866.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
-index 351c2b4d6..017ad80dd 100644
+index 017ad80dd..b67ca136d 100644
 --- a/drivers/video/backlight/ktz8866.c
 +++ b/drivers/video/backlight/ktz8866.c
-@@ -3,6 +3,9 @@
-  * Backlight driver for the Kinetic KTZ8866
-  *
-  * Copyright (C) 2022, 2023 Jianhua Lu <lujianhua000@gmail.com>
-+ *
-+ * Apr 2025 - Pengyu Luo <mitltlatltl@gmail.com>
-+ *	Added handling for dual KTZ8866(master and slave)
-  */
- 
- #include <linux/backlight.h>
-@@ -43,11 +46,17 @@
+@@ -46,6 +46,8 @@
  #define LCD_BIAS_EN 0x9F
  #define PWM_HYST 0x5
  
-+struct ktz8866_slave {
-+	struct i2c_client *client;
-+	struct regmap *regmap;
-+};
++#define CURRENT_SINKS_MASK GENMASK(5, 0)
 +
- struct ktz8866 {
+ struct ktz8866_slave {
  	struct i2c_client *client;
  	struct regmap *regmap;
--	bool led_on;
- 	struct gpio_desc *enable_gpio;
-+	struct ktz8866_slave *slave;
-+	bool led_on;
- };
- 
- static const struct regmap_config ktz8866_regmap_config = {
-@@ -56,16 +65,22 @@ static const struct regmap_config ktz8866_regmap_config = {
+@@ -65,6 +67,12 @@ static const struct regmap_config ktz8866_regmap_config = {
  	.max_register = REG_MAX,
  };
  
--static int ktz8866_write(struct ktz8866 *ktz, unsigned int reg,
--			 unsigned int val)
-+static void ktz8866_write(struct ktz8866 *ktz, unsigned int reg,
-+			  unsigned int val)
- {
--	return regmap_write(ktz->regmap, reg, val);
-+	regmap_write(ktz->regmap, reg, val);
-+
-+	if (ktz->slave)
-+		regmap_write(ktz->slave->regmap, reg, val);
- }
- 
--static int ktz8866_update_bits(struct ktz8866 *ktz, unsigned int reg,
--			       unsigned int mask, unsigned int val)
-+static void ktz8866_update_bits(struct ktz8866 *ktz, unsigned int reg,
-+				unsigned int mask, unsigned int val)
- {
--	return regmap_update_bits(ktz->regmap, reg, mask, val);
-+	regmap_update_bits(ktz->regmap, reg, mask, val);
-+
-+	if (ktz->slave)
-+		regmap_update_bits(ktz->slave->regmap, reg, mask, val);
- }
- 
- static int ktz8866_backlight_update_status(struct backlight_device *backlight_dev)
-@@ -124,10 +139,41 @@ static void ktz8866_init(struct ktz8866 *ktz)
- 		ktz8866_write(ktz, LCD_BIAS_CFG1, LCD_BIAS_EN);
- }
- 
-+static int ktz8866_slave_register(struct ktz8866 *ktz)
++static inline void ktz8866_read(struct ktz8866 *ktz, unsigned int reg,
++				unsigned int *val)
 +{
-+	struct device *dev = &ktz->client->dev;
-+	struct ktz8866_slave *slave;
-+	struct i2c_client *client;
-+	struct device_node *np;
-+
-+	np = of_find_compatible_node(NULL, NULL, "kinetic,ktz8866-slave");
-+	if (!np)
-+		return 0;
-+
-+	client = of_find_i2c_device_by_node(np);
-+	of_node_put(np);
-+	if (!client)
-+		return 0;
-+
-+	slave = devm_kzalloc(dev, sizeof(*slave), GFP_KERNEL);
-+	if (!slave)
-+		return -ENOMEM;
-+
-+	slave->client = client;
-+	slave->regmap = devm_regmap_init_i2c(client, &ktz8866_regmap_config);
-+	if (IS_ERR(slave->regmap))
-+		return dev_err_probe(&client->dev, PTR_ERR(slave->regmap),
-+				     "failed to init regmap\n");
-+
-+	ktz->slave = slave;
-+
-+	return 0;
++	regmap_read(ktz->regmap, reg, &val);
 +}
 +
- static int ktz8866_probe(struct i2c_client *client)
+ static void ktz8866_write(struct ktz8866 *ktz, unsigned int reg,
+ 			  unsigned int val)
  {
- 	struct backlight_device *backlight_dev;
--	struct backlight_properties props;
-+	struct backlight_properties props = {};
- 	struct ktz8866 *ktz;
- 	int ret = 0;
+@@ -112,11 +120,18 @@ static void ktz8866_init(struct ktz8866 *ktz)
+ {
+ 	unsigned int val = 0;
  
-@@ -151,7 +197,6 @@ static int ktz8866_probe(struct i2c_client *client)
- 	if (IS_ERR(ktz->enable_gpio))
- 		return PTR_ERR(ktz->enable_gpio);
+-	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val))
++	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val)) {
+ 		ktz8866_write(ktz, BL_EN, BIT(val) - 1);
+-	else
+-		/* Enable all 6 current sinks if the number of current sinks isn't specified. */
+-		ktz8866_write(ktz, BL_EN, BIT(6) - 1);
++	} else {
++		/*
++		 * Enable all 6 current sinks if the number of current
++		 * sinks isn't specified and the bootloader didn't set
++		 * the value.
++		 */
++		ktz8866_read(ktz, BL_EN, &val);
++		if (!(val && CURRENT_SINKS_MASK))
++			ktz8866_write(ktz, BL_EN, CURRENT_SINKS_MASK);
++	}
  
--	memset(&props, 0, sizeof(props));
- 	props.type = BACKLIGHT_RAW;
- 	props.max_brightness = MAX_BRIGHTNESS;
- 	props.brightness = DEFAULT_BRIGHTNESS;
-@@ -163,6 +208,11 @@ static int ktz8866_probe(struct i2c_client *client)
- 		return dev_err_probe(&client->dev, PTR_ERR(backlight_dev),
- 				"failed to register backlight device\n");
- 
-+	ret = ktz8866_slave_register(ktz);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret,
-+				     "failed to register slave\n");
-+
- 	ktz8866_init(ktz);
- 
- 	i2c_set_clientdata(client, backlight_dev);
+ 	if (!of_property_read_u32(ktz->client->dev.of_node, "kinetic,current-ramp-delay-ms", &val)) {
+ 		if (val <= 128)
 -- 
 2.49.0
 
