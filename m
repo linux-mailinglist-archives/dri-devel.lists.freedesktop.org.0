@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3526DA7E671
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 18:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB60EA7E677
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 18:29:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78E4810E1E7;
-	Mon,  7 Apr 2025 16:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 117D310E510;
+	Mon,  7 Apr 2025 16:29:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tHYLFz9r";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y3wgLohg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78C5110E1E7
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 16:29:21 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D3A10E50E;
+ Mon,  7 Apr 2025 16:29:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id F3C69A46E18;
- Mon,  7 Apr 2025 16:23:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DF99C4CEE9;
- Mon,  7 Apr 2025 16:29:19 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0193A6115E;
+ Mon,  7 Apr 2025 16:29:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27C86C4CEDD;
+ Mon,  7 Apr 2025 16:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744043360;
- bh=y9uUCO5LiRtQLj6Fsm+YQo4CsMyHiN/s5Cd299WnI0c=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=tHYLFz9rTubs/OO1rSbWuQiYtjhxuhCajimdG5YHCHpwUUjZsKuMXqtGzKk0Mh+ah
- JiIMYPsBMEOCpTVrnAtYyID7kI8tELiAOEocYVmqjMOXlQ+MYql+mMvvu1s0IIYPyD
- tJXzY7H4j0Fytgm74jDgE8xj+GWsXMkCVD2z+Ia/fIlXND7xMehBcn2HRWEz/YBP3Q
- HARczcsYzspU6CxUN33TZEvWY8jbvyBARWu55dS4THt33pRfy38nfKCPo96cgyGTjK
- 1lh5XfrGVnO4C+hIoxv7t1EEDs/w7yUjFOfIGAs/kPZ1ZgxIOu4AShT8K6aNrMZtMk
- N3Z6NspnhN3OQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 07 Apr 2025 18:29:08 +0200
-Subject: [PATCH v3 2/2] dma-buf: heaps: Introduce a new heap for reserved
- memory
+ s=k20201202; t=1744043385;
+ bh=yXMQBu0GyLTPoE3gkFmC2nns5przlZL4HLcX1yZT9K8=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+ b=Y3wgLohgM6p0/u1FBKyY9LdGDuYN7o1z8zqPiEkjSgLE99KhL9PIqpau83C0DpkM8
+ jpscPof6Lsskj18VSPotDeh349sBQKzsns2ItNlumNcqQzR4MUXEoh/WigKWzVScLy
+ iOVuj55ZjVytajnAzA0MU53rvuWJ6eiE+uFF7rWTTgQMYv3mQ0Cj3DpzC9PhDmZPyS
+ OpG9bZWSV22orn98bUFmRt1N+hVfTiAuCyUOcHUYMiuI7UBS0AF/bhBZc+V+sgIDng
+ 8WETA3tjW6rXJ78YldVvLUAuM1kysmp6m2v7eDcXupuQJgYEt4mq0e7yeQQGizcm+Y
+ jGGYiRpphGs2g==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+ id BF5DBCE089F; Mon,  7 Apr 2025 09:29:44 -0700 (PDT)
+Date: Mon, 7 Apr 2025 09:29:44 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kernel-team@meta.com" <kernel-team@meta.com>,
+ kernel test robot <lkp@intel.com>, "Feng, Kenneth" <Kenneth.Feng@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH RFC 4/9] drm/amd/pm: Avoid open-coded use of
+ ratelimit_state structure's internals
+Message-ID: <bcf4ab09-5b87-404c-9231-567a10fd9764@paulmck-laptop>
+References: <fbe93a52-365e-47fe-93a4-44a44547d601@paulmck-laptop>
+ <20250403211514.985900-4-paulmck@kernel.org>
+ <BL1PR12MB5144A3990501E76BB96F9557F7AA2@BL1PR12MB5144.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-dma-buf-ecc-heap-v3-2-97cdd36a5f29@kernel.org>
-References: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
-In-Reply-To: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Mattijs Korpershoek <mkorpershoek@kernel.org>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10813; i=mripard@kernel.org;
- h=from:subject:message-id; bh=y9uUCO5LiRtQLj6Fsm+YQo4CsMyHiN/s5Cd299WnI0c=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOmf/4b/+cT3WHj+BuZIo5cfDwVylwQf73MImN3+peeT6
- sv0zL/vOkpZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCR3acYGV492WRU77v46Iae
- XjmP/1r2x7MTchVqfQ/vMtngsHmevhzDP+0FF4s9/xukzbmhsCZ64jauJn3zzKe7Ny2ernB/03s
- RRn4A
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BL1PR12MB5144A3990501E76BB96F9557F7AA2@BL1PR12MB5144.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,416 +66,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some reserved memory regions might have particular memory setup or
-attributes that make them good candidates for heaps.
+On Mon, Apr 07, 2025 at 02:35:59PM +0000, Deucher, Alexander wrote:
+> [Public]
+> 
+> > -----Original Message-----
+> > From: Paul E. McKenney <paulmck@kernel.org>
+> > Sent: Thursday, April 3, 2025 5:15 PM
+> > To: linux-kernel@vger.kernel.org
+> > Cc: kernel-team@meta.com; Paul E. McKenney <paulmck@kernel.org>; kernel
+> > test robot <lkp@intel.com>; Feng, Kenneth <Kenneth.Feng@amd.com>; Deucher,
+> > Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
+> > <Christian.Koenig@amd.com>; Xinhui Pan <Xinhui.Pan@amd.com>; David Airlie
+> > <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; amd-
+> > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> > Subject: [PATCH RFC 4/9] drm/amd/pm: Avoid open-coded use of ratelimit_state
+> > structure's internals
+> >
+> > The amdgpu_set_thermal_throttling_logging() function directly accesses the
+> > ratelimit_state structure's ->missed field, which work, but which also makes it more
+> > difficult to change this field.  Therefore, make use of the ratelimit_state_reset_miss()
+> > function instead of directly accessing the ->missed field.
+> >
+> > Nevertheless, open-coded use of ->burst and ->interval is still permitted, for
+> > example, for runtime sysfs adjustment of these fields.
+> >
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202503180826.EiekA1MB-
+> > lkp@intel.com/
+> > Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> 
+> 
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> 
+> Feel free to take this via whatever tree makes sense for the larger series.  Otherwise, let me know, and I will pick it up.
 
-Let's provide a heap type that will create a new heap for each reserved
-memory region flagged as such.
+Thank you, and yes, this does depend on a patch that is earlier in
+this series, so I will be happy to carry it.
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/dma-buf/heaps/Kconfig         |   8 +
- drivers/dma-buf/heaps/Makefile        |   1 +
- drivers/dma-buf/heaps/carveout_heap.c | 360 ++++++++++++++++++++++++++++++++++
- 3 files changed, 369 insertions(+)
+							Thanx, Paul
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..c6981d696733b4d8d0c3f6f5a37d967fd6a1a4a2 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -1,5 +1,13 @@
-+config DMABUF_HEAPS_CARVEOUT
-+	bool "Carveout Heaps"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable the carveout dmabuf heap. The carveout
-+	  heap is backed by pages from reserved memory regions flagged as
-+	  exportable. If in doubt, say Y.
-+
- config DMABUF_HEAPS_SYSTEM
- 	bool "DMA-BUF System Heap"
- 	depends on DMABUF_HEAPS
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 974467791032ffb8a7aba17b1407d9a19b3f3b44..b734647ad5c84f449106748160258e372f153df2 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_DMABUF_HEAPS_CARVEOUT)	+= carveout_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heaps/carveout_heap.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..f7198b781ea57f4f60e554d917c9277e9a716b16
---- /dev/null
-+++ b/drivers/dma-buf/heaps/carveout_heap.c
-@@ -0,0 +1,360 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+#include <linux/genalloc.h>
-+#include <linux/highmem.h>
-+#include <linux/of_reserved_mem.h>
-+
-+struct carveout_heap_priv {
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+};
-+
-+struct carveout_heap_buffer_priv {
-+	struct mutex lock;
-+	struct list_head attachments;
-+
-+	unsigned long num_pages;
-+	struct carveout_heap_priv *heap;
-+	dma_addr_t daddr;
-+	void *vaddr;
-+	unsigned int vmap_cnt;
-+};
-+
-+struct carveout_heap_attachment {
-+	struct list_head head;
-+	struct sg_table table;
-+
-+	struct device *dev;
-+	bool mapped;
-+};
-+
-+static int carveout_heap_attach(struct dma_buf *buf,
-+				struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = buf->priv;
-+	struct carveout_heap_attachment *a;
-+	struct sg_table *sgt;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+	int ret;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+	INIT_LIST_HEAD(&a->head);
-+	a->dev = attachment->dev;
-+	attachment->priv = a;
-+
-+	sgt = &a->table;
-+	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-+	if (ret)
-+		goto err_cleanup_attach;
-+
-+	sg_dma_address(sgt->sgl) = priv->daddr;
-+	sg_dma_len(sgt->sgl) = len;
-+
-+	mutex_lock(&priv->lock);
-+	list_add(&a->head, &priv->attachments);
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+
-+err_cleanup_attach:
-+	kfree(a);
-+	return ret;
-+}
-+
-+static void carveout_heap_detach(struct dma_buf *dmabuf,
-+				 struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&priv->lock);
-+	list_del(&a->head);
-+	mutex_unlock(&priv->lock);
-+
-+	sg_free_table(&a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *
-+carveout_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+			  enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+	struct sg_table *table = &a->table;
-+	int ret;
-+
-+	ret = dma_map_sgtable(a->dev, table, direction, 0);
-+	if (ret)
-+		return ERR_PTR(-ENOMEM);
-+
-+	a->mapped = true;
-+
-+	return table;
-+}
-+
-+static void carveout_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+					struct sg_table *table,
-+					enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	a->mapped = false;
-+	dma_unmap_sgtable(a->dev, table, direction, 0);
-+}
-+
-+static int
-+carveout_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-+				       enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt > 0)
-+		invalidate_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int
-+carveout_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
-+				     enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt > 0)
-+		flush_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int carveout_heap_mmap(struct dma_buf *dmabuf,
-+			      struct vm_area_struct *vma)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+	struct page *page = virt_to_page(priv->vaddr);
-+
-+	return remap_pfn_range(vma, vma->vm_start, page_to_pfn(page),
-+			       len, vma->vm_page_prot);
-+}
-+
-+static int carveout_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+
-+	mutex_lock(&priv->lock);
-+
-+	iosys_map_set_vaddr(map, priv->vaddr);
-+	priv->vmap_cnt++;
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static void carveout_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+
-+	mutex_lock(&priv->lock);
-+
-+	priv->vmap_cnt--;
-+	mutex_unlock(&priv->lock);
-+
-+	iosys_map_clear(map);
-+}
-+
-+static void carveout_heap_dma_buf_release(struct dma_buf *buf)
-+{
-+	struct carveout_heap_buffer_priv *buffer_priv = buf->priv;
-+	struct carveout_heap_priv *heap_priv = buffer_priv->heap;
-+	unsigned long len = buffer_priv->num_pages * PAGE_SIZE;
-+
-+	gen_pool_free(heap_priv->pool, (unsigned long)buffer_priv->vaddr, len);
-+	kfree(buffer_priv);
-+}
-+
-+static const struct dma_buf_ops carveout_heap_buf_ops = {
-+	.attach		= carveout_heap_attach,
-+	.detach		= carveout_heap_detach,
-+	.map_dma_buf	= carveout_heap_map_dma_buf,
-+	.unmap_dma_buf	= carveout_heap_unmap_dma_buf,
-+	.begin_cpu_access	= carveout_heap_dma_buf_begin_cpu_access,
-+	.end_cpu_access	= carveout_heap_dma_buf_end_cpu_access,
-+	.mmap		= carveout_heap_mmap,
-+	.vmap		= carveout_heap_vmap,
-+	.vunmap		= carveout_heap_vunmap,
-+	.release	= carveout_heap_dma_buf_release,
-+};
-+
-+static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
-+					      unsigned long len,
-+					      u32 fd_flags,
-+					      u64 heap_flags)
-+{
-+	struct carveout_heap_priv *heap_priv = dma_heap_get_drvdata(heap);
-+	struct carveout_heap_buffer_priv *buffer_priv;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	struct dma_buf *buf;
-+	dma_addr_t daddr;
-+	size_t size = PAGE_ALIGN(len);
-+	void *vaddr;
-+	int ret;
-+
-+	buffer_priv = kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
-+	if (!buffer_priv)
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_LIST_HEAD(&buffer_priv->attachments);
-+	mutex_init(&buffer_priv->lock);
-+
-+	vaddr = gen_pool_dma_zalloc(heap_priv->pool, size, &daddr);
-+	if (!vaddr) {
-+		ret = -ENOMEM;
-+		goto err_free_buffer_priv;
-+	}
-+
-+	buffer_priv->vaddr = vaddr;
-+	buffer_priv->daddr = daddr;
-+	buffer_priv->heap = heap_priv;
-+	buffer_priv->num_pages = size >> PAGE_SHIFT;
-+
-+	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
-+	exp_info.ops = &carveout_heap_buf_ops;
-+	exp_info.size = size;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer_priv;
-+
-+	buf = dma_buf_export(&exp_info);
-+	if (IS_ERR(buf)) {
-+		ret = PTR_ERR(buf);
-+		goto err_free_buffer;
-+	}
-+
-+	return buf;
-+
-+err_free_buffer:
-+	gen_pool_free(heap_priv->pool, (unsigned long)vaddr, len);
-+err_free_buffer_priv:
-+	kfree(buffer_priv);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+static const struct dma_heap_ops carveout_heap_ops = {
-+	.allocate = carveout_heap_allocate,
-+};
-+
-+static int __init carveout_heap_setup(struct device_node *node)
-+{
-+	struct dma_heap_export_info exp_info = {};
-+	const struct reserved_mem *rmem;
-+	struct carveout_heap_priv *priv;
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+	void *base;
-+	int ret;
-+
-+	rmem = of_reserved_mem_lookup(node);
-+	if (!rmem)
-+		return -EINVAL;
-+
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	pool = gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
-+	if (!pool) {
-+		ret = -ENOMEM;
-+		goto err_cleanup_heap;
-+	}
-+	priv->pool = pool;
-+
-+	base = memremap(rmem->base, rmem->size, MEMREMAP_WB);
-+	if (!base) {
-+		ret = -ENOMEM;
-+		goto err_release_mem_region;
-+	}
-+
-+	ret = gen_pool_add_virt(pool, (unsigned long)base, rmem->base,
-+				rmem->size, NUMA_NO_NODE);
-+	if (ret)
-+		goto err_unmap;
-+
-+	exp_info.name = node->full_name;
-+	exp_info.ops = &carveout_heap_ops;
-+	exp_info.priv = priv;
-+
-+	heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(heap)) {
-+		ret = PTR_ERR(heap);
-+		goto err_cleanup_pool_region;
-+	}
-+	priv->heap = heap;
-+
-+	return 0;
-+
-+err_cleanup_pool_region:
-+	gen_pool_free(pool, (unsigned long)base, rmem->size);
-+err_unmap:
-+	memunmap(base);
-+err_release_mem_region:
-+	gen_pool_destroy(pool);
-+err_cleanup_heap:
-+	kfree(priv);
-+	return ret;
-+}
-+
-+static int __init carveout_heap_init(void)
-+{
-+	struct device_node *rmem_node;
-+	struct device_node *node;
-+	int ret;
-+
-+	rmem_node = of_find_node_by_path("/reserved-memory");
-+	if (!rmem_node)
-+		return 0;
-+
-+	for_each_child_of_node(rmem_node, node) {
-+		if (!of_property_read_bool(node, "export"))
-+			continue;
-+
-+		ret = carveout_heap_setup(node);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+module_init(carveout_heap_init);
-
--- 
-2.49.0
-
+> Alex
+> 
+> 
+> > Cc: Kenneth Feng <kenneth.feng@amd.com>
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: "Christian König" <christian.koenig@amd.com>
+> > Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Simona Vetter <simona@ffwll.ch>
+> > Cc: <amd-gfx@lists.freedesktop.org>
+> > Cc: <dri-devel@lists.freedesktop.org>
+> > ---
+> >  drivers/gpu/drm/amd/pm/amdgpu_pm.c | 11 ++---------
+> >  1 file changed, 2 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > index e8ae7681bf0a3..6adf4e8822108 100644
+> > --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > @@ -1663,7 +1663,6 @@ static ssize_t
+> > amdgpu_set_thermal_throttling_logging(struct device *dev,
+> >       struct drm_device *ddev = dev_get_drvdata(dev);
+> >       struct amdgpu_device *adev = drm_to_adev(ddev);
+> >       long throttling_logging_interval;
+> > -     unsigned long flags;
+> >       int ret = 0;
+> >
+> >       ret = kstrtol(buf, 0, &throttling_logging_interval); @@ -1674,18 +1673,12
+> > @@ static ssize_t amdgpu_set_thermal_throttling_logging(struct device *dev,
+> >               return -EINVAL;
+> >
+> >       if (throttling_logging_interval > 0) {
+> > -             raw_spin_lock_irqsave(&adev->throttling_logging_rs.lock, flags);
+> >               /*
+> >                * Reset the ratelimit timer internals.
+> >                * This can effectively restart the timer.
+> >                */
+> > -             adev->throttling_logging_rs.interval =
+> > -                     (throttling_logging_interval - 1) * HZ;
+> > -             adev->throttling_logging_rs.begin = 0;
+> > -             adev->throttling_logging_rs.printed = 0;
+> > -             adev->throttling_logging_rs.missed = 0;
+> > -             raw_spin_unlock_irqrestore(&adev->throttling_logging_rs.lock,
+> > flags);
+> > -
+> > +             ratelimit_state_reset_interval(&adev->throttling_logging_rs,
+> > +                                            (throttling_logging_interval - 1) * HZ);
+> >               atomic_set(&adev->throttling_logging_enabled, 1);
+> >       } else {
+> >               atomic_set(&adev->throttling_logging_enabled, 0);
+> > --
+> > 2.40.1
+> 
