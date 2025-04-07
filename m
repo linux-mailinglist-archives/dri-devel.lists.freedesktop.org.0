@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26161A7DC88
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 13:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF8BA7DC8D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 13:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7594010E438;
-	Mon,  7 Apr 2025 11:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABA8A10E43C;
+	Mon,  7 Apr 2025 11:40:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jkCLmPgt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mPTyG1VA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE8110E40C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:54:08 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2255003f4c6so35858365ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 02:54:08 -0700 (PDT)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4AF10E40C
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:54:18 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-223fd89d036so45905485ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 02:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744019647; x=1744624447; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1744019658; x=1744624458; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=O8diRuAQehXi7R+D5qp01L9GbmQB2F98eyfpHLigrsU=;
- b=jkCLmPgttITpT5HZsOLitpRtWwIDEdYToVjX5kMZUTxfrvwJAbKEB/VXT76EDZx9H8
- yTBB9IGE+Osba4+Lc4tTJnChOlzFGQMa3avEKG5D6NoXjpBZmTkUJjG6CcexsndkZkHq
- DIqY9ISrpQ4E0S+10XL9Tm4o6FtdBdMbDo7nW3Ok4p8t2Bk29GgXsHku8lT+3qBHhfZ+
- 8OmNDRFYrX6+XqVp00CqBMIVHhpB1aU+j523pX8DA2h8WakkMxDYogZ371Eabsi1HXTF
- 0z75JtnS4khGjCJEvDzIizD4jRf1q5UCNhNrjc2IF8rb2B865cehkOThBjcd2k7ZERO6
- oG+g==
+ bh=LkqbTBwPGVLrWizLUawPs+MSKpssOAtGiDagVUV4NJ4=;
+ b=mPTyG1VAz3ESZJieBPfa0Q2iEoh2RT+HkRUOJQD71gRXNiOSSzEiO1qLGkhldZbLMK
+ JDa6oXjrfAv07/kXfnG5UwUI/lKZK/kEfauwq0BtC52owbowOvzqC71nZCdVL7ha4ydq
+ 5Ju80opRlC0c1pnIR4kFMsXjHPouYOapkR1p/JWKHC5sB4MPkoJrsA0q7lG4AF2sijym
+ /uSPbU2Wv54wUq3H0DgL3sluQhZb9UwKrmPj6EmVI1udmPwvRgdR7dD9X/MEVx6FkF46
+ cqM3XNYYVTXsOgkMShNFTSG8GtjmGMh7mJrCBIKEHu3UeWO1fPeTOKgUaXpRfLGu9f7Y
+ 0S/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744019647; x=1744624447;
+ d=1e100.net; s=20230601; t=1744019658; x=1744624458;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=O8diRuAQehXi7R+D5qp01L9GbmQB2F98eyfpHLigrsU=;
- b=vNXaa3RmbqHJjjb8g5sENDv5HM+MDlLQfIFKbiwn6ue5JO5+XQ1GZgoUaNx9t74M00
- LRj5Ktjw9UI3GDnFUQb4RtCj5yAEKjDCjS35Agid5Xf//5rnp0HbBSyop97tw/Zcl0yr
- phmYIq4/M+KrEFtk8WSi3uRbC2EBQnwItBj16gr5X0nNoWk2AS8oKq/CWkLWeQSjQIlX
- cBUZi2Nq9l5P+ZSFNGWEP5ug4r3G3xMk5C9PgT1FDdOBUGJIklHb49n7G1bCO4RoQoVS
- PbjeXkleWexxiCNWZwVz3Q1TERW7Kn+k7OqLmf4DkkaMhUekHo3u/sG2n7KAawwN6lfI
- 9OYA==
-X-Gm-Message-State: AOJu0YyGaTHDHD+zjcR8ywbO4mdwyvm7vJlfgZdgbP5mMn/ifVwqObR2
- kGVI7vtsdXffTaRcvfTXzhXCt4rI08jmpEXw2Dvie+bvPyRZvJy4
-X-Gm-Gg: ASbGncuH+YFDe1nCeb4qG2VqEM/WNQqfCsrf5Vpu79txF3LiI0drdIoyDKNQJZ2cAm2
- PTucxg4r0st00NxpzyHj9nKBXHt9E9TyzPlyBFvPmGnmWp1QEz/KXXmWd5NEfnd7VP3svj0UasD
- LqoYoE2r47txPnhY+QjXUtrdawNPlDnyTrQzC7x5sNX53xvCshrZkxc5u1KG5zLr9JDLIS8SSOK
- bNj3bggMZRvP5ULKVrNqrFFvsciKs7t62ZbW1PMbW3oTG2CuAP6kcdTRCWeNF9PZ6+cFho7gcQH
- HCllzCzaKhiuC4QudURod9zBO8jTzHK9WKsavWGTP1U=
-X-Google-Smtp-Source: AGHT+IEZza3sL31uGEXE9GqOZmRwDZovRtw/5y2xgKCiRmfb48lzBMArT3fRLQbnoTwMSm5KJMfMfw==
-X-Received: by 2002:a17:903:18d:b0:225:abd2:5e4b with SMTP id
- d9443c01a7336-22a8a05e84fmr162795925ad.16.1744019647625; 
- Mon, 07 Apr 2025 02:54:07 -0700 (PDT)
+ bh=LkqbTBwPGVLrWizLUawPs+MSKpssOAtGiDagVUV4NJ4=;
+ b=Jta/r1VGXLQwbKLA6pig8b72jIOl0mr7cIIS0a7TiHvphpjq5SJfQjmWEF24LBBwzN
+ tp18cuKCegzM8XNhbcdiO3Hd/WyFOhR24W88dIUaG7vjXZ8w7xL61BAni9D1v9dCrona
+ FRPpQ/12gmxb7cI1S6DgyYzkWLp1sTlFpaQUrSjNWfeZQk4R1X3xCxCOOJoFCIogQ3aN
+ wM6lkGxHFSHdPeBEbNJbzuHdVLkrcvO6qxsFBTJiJouT9f9deoUcs6A6wnUiEHXirpuz
+ gpkfuERPDEroach7qg4+solZZA7go8SsdT/h9SJnPz9nf7uikNjr3d632FL4cUFHXPv4
+ G04g==
+X-Gm-Message-State: AOJu0Yw7+6rCEcFZn1L/BDuzArNxN1xDdHfs2GZJ8BMaf/ATfN1IuY7G
+ 9pwkNrmQrVs/D0y6iSi6D4s+i+Pa9rE+qFvS5WX1Evn2/ZcCjiIn
+X-Gm-Gg: ASbGnctXpqyzfNjJaZN7jFcq5Pj5+9zsc+zdw0SfgwrxfMD3NVrm8pKF+8G80huplKU
+ mmRfWJSoonODOkYBZyl+3tAmH4x4TbqvjbUKr457uQIcwH4Rg6XMIHzkRk1cDrO3RLjt7t6O+Pw
+ ogGylhFwYAyjKPiliao/2qd0taCskWr9PFr2O7v5qey9NKH6QM/+RccGgFjqV080o9Xy5Z/ETI9
+ qQ9rpVSg6Jr1QTSyGr0yCcgBpQGyIpvAmc7JPoTfj9fvA3AvzuH/KUhhelekTyLd5ea5xrTX6/0
+ nnJPYTZMpT/jwmrcGE/ZFfLhUqkikEblekr/kQrP71I=
+X-Google-Smtp-Source: AGHT+IH9E8XsbCxLfsVsslPNMo/cSHYFTOjiDQDxMCuBzObL12vZxjJVRmA/QuSkAieMl45UO5T2kA==
+X-Received: by 2002:a17:903:2ce:b0:215:9bc2:42ec with SMTP id
+ d9443c01a7336-22a8a0b3744mr133132005ad.47.1744019657677; 
+ Mon, 07 Apr 2025 02:54:17 -0700 (PDT)
 Received: from nuvole.. ([144.202.86.13]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-229785bfddfsm77213805ad.66.2025.04.07.02.53.58
+ d9443c01a7336-229785bfddfsm77213805ad.66.2025.04.07.02.54.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Apr 2025 02:54:07 -0700 (PDT)
+ Mon, 07 Apr 2025 02:54:16 -0700 (PDT)
 From: Pengyu Luo <mitltlatltl@gmail.com>
 To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
  Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
@@ -67,9 +67,10 @@ To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH 3/4] backlight: ktz8866: improve current sinks setting
-Date: Mon,  7 Apr 2025 17:51:18 +0800
-Message-ID: <20250407095119.588920-4-mitltlatltl@gmail.com>
+Subject: [PATCH 4/4] backlight: ktz8866: add definitions to make it more
+ readable
+Date: Mon,  7 Apr 2025 17:51:19 +0800
+Message-ID: <20250407095119.588920-5-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250407095119.588920-1-mitltlatltl@gmail.com>
 References: <20250407095119.588920-1-mitltlatltl@gmail.com>
@@ -91,64 +92,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I polled all registers when the module was loading, found that
-current sinks have already been configured. Bootloader would set
-when booting. So checking it before setting the all channels.
+LSB, MSB and their handling are slightly confused, so improve it.
 
 Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 ---
- drivers/video/backlight/ktz8866.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ drivers/video/backlight/ktz8866.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
-index 017ad80dd..b67ca136d 100644
+index b67ca136d..5364ecfc0 100644
 --- a/drivers/video/backlight/ktz8866.c
 +++ b/drivers/video/backlight/ktz8866.c
-@@ -46,6 +46,8 @@
- #define LCD_BIAS_EN 0x9F
+@@ -24,7 +24,9 @@
+ #define DEVICE_ID 0x01
+ #define BL_CFG1 0x02
+ #define BL_CFG2 0x03
++/* least significant byte */
+ #define BL_BRT_LSB 0x04
++/* most significant byte */
+ #define BL_BRT_MSB 0x05
+ #define BL_EN 0x08
+ #define LCD_BIAS_CFG1 0x09
+@@ -47,6 +49,8 @@
  #define PWM_HYST 0x5
  
-+#define CURRENT_SINKS_MASK GENMASK(5, 0)
-+
+ #define CURRENT_SINKS_MASK GENMASK(5, 0)
++#define LOWER_BYTE GENMASK(2, 0)
++#define HIGHER_BYTE GENMASK(10, 3)
+ 
  struct ktz8866_slave {
  	struct i2c_client *client;
- 	struct regmap *regmap;
-@@ -65,6 +67,12 @@ static const struct regmap_config ktz8866_regmap_config = {
- 	.max_register = REG_MAX,
- };
+@@ -105,8 +109,8 @@ static int ktz8866_backlight_update_status(struct backlight_device *backlight_de
+ 	}
  
-+static inline void ktz8866_read(struct ktz8866 *ktz, unsigned int reg,
-+				unsigned int *val)
-+{
-+	regmap_read(ktz->regmap, reg, &val);
-+}
-+
- static void ktz8866_write(struct ktz8866 *ktz, unsigned int reg,
- 			  unsigned int val)
- {
-@@ -112,11 +120,18 @@ static void ktz8866_init(struct ktz8866 *ktz)
- {
- 	unsigned int val = 0;
+ 	/* Set brightness */
+-	ktz8866_write(ktz, BL_BRT_LSB, brightness & 0x7);
+-	ktz8866_write(ktz, BL_BRT_MSB, (brightness >> 3) & 0xFF);
++	ktz8866_write(ktz, BL_BRT_LSB, FIELD_GET(LOWER_BYTE, brightness);
++	ktz8866_write(ktz, BL_BRT_MSB, FIELD_GET(HIGHER_BYTE, brightness);
  
--	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val))
-+	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val)) {
- 		ktz8866_write(ktz, BL_EN, BIT(val) - 1);
--	else
--		/* Enable all 6 current sinks if the number of current sinks isn't specified. */
--		ktz8866_write(ktz, BL_EN, BIT(6) - 1);
-+	} else {
-+		/*
-+		 * Enable all 6 current sinks if the number of current
-+		 * sinks isn't specified and the bootloader didn't set
-+		 * the value.
-+		 */
-+		ktz8866_read(ktz, BL_EN, &val);
-+		if (!(val && CURRENT_SINKS_MASK))
-+			ktz8866_write(ktz, BL_EN, CURRENT_SINKS_MASK);
-+	}
- 
- 	if (!of_property_read_u32(ktz->client->dev.of_node, "kinetic,current-ramp-delay-ms", &val)) {
- 		if (val <= 128)
+ 	return 0;
+ }
 -- 
 2.49.0
 
