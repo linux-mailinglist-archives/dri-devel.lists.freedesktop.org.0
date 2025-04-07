@@ -2,160 +2,188 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F4AA7EF70
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 22:49:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08555A7EFB2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 23:17:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2060B10E574;
-	Mon,  7 Apr 2025 20:49:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1430810E57C;
+	Mon,  7 Apr 2025 21:17:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="uIVIzJOq";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3ZCzqvVH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2076.outbound.protection.outlook.com [40.107.220.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B95810E574
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 20:49:42 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2081.outbound.protection.outlook.com [40.107.96.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 007F810E3E4;
+ Mon,  7 Apr 2025 21:17:23 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bigcKcmg5OcNV9kkM4X/5/7e6TLwA1hq3Aw00jCsV6LoRoFGRIYhRi/Nso00YqKHD6MkFS3zkmP+zU1hld3xg1H6JzkBto6AI7F054phSoQsKdGAGrAdQPNCOHCey4OK3fCNSbxjKRuKKykMGPYi4fNE4tLW6/Na3ZY6Bi0vjMjLVnsU7VH8785we5NzHHrLpwwNUW9IJqhetLqhgXTkCmWHNsom+Savr5XkIzrqdsfjJfS45SZtaMtRcWm5eDS+ya1B6rJ9i5/po4DrsfPV9OnzbWaCPnjU2tbhEkQn4s7uqL3cZkeZkTlJKFGnlpQU1Rs5xQB9yngHMs8cnPqJFg==
+ b=lZm0KUq+DH1dBH6c1vPHz0XQOkKehMATdTaDlV0MqbsYxHdwq4VTtptWwlsdGI8EHZUg7BNawEIBOtKpoOfz3MDMkBlR1Euvssb1OX1e1d3TcBNpHDPSftgV3WIS6b0D1TIbumILuosOwfE5Kzddv9Jlu2rQLSKKkvak4H7Piy9BTrVwdvz7jUry04FH6nU+wKsV814/Ak6FJDHFWhEDjXsZPS453ojbd7SfRhplFRxKBXi1YKcUL4w2Lt0V7bKe1KcF+IqOFZui/kQsDwZUIAuqQ+/FQfPiT63cjKayF/HRouUAff3McFc3qMKWYczaglyhWVtl5VUOoPQBxFwVZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Eqim+fPcWOQIlnSTJhsQZhbvBk+qUlJ0I9rDtyb3Tqc=;
- b=CPXG/5e4rIcJKKOSPIj82QkB+MtPFRSzUbOKVcnX5fPdzjvQn1KycE3BgwkcYrnp167/dHVDRLHqNURdFzQkNy7nhKv45JBYxcLznVz4K+FL6GjBYDhMwd75llV0X0l6q871MypUida6xkIa7MFVNSrAwgD25XjRy7v2lLbv5YaovIv2UTkd6WGwKYwus4wCDbtJltXhsHyPkq4q4LRcqWf+0amXj+KVuu7BxP8DBXlTyIy6KnTu4QnfHfT4Pkbl4ifPcYShsWarIT3XXKtEGS0tlNDiWvvEYJjjhIqufU7aLGIJWph3G/ii2ohE641FGwB6QcJGzAphc8QBSr5oFg==
+ bh=Bt0kY3B9cBaLOg2P5DWFxYuKr5eNH9yDyKTrge+bUgI=;
+ b=ezXhyk8cNcSD82MAIS6HHT3tSiIuFs83A3QUt7MRd0sEKdcH5kK/LZAPdEfa4+Rvr6Kvy5Miu0F9wVLr/uqZBke+eZQ8/NKQ3qiNgptv0U9WLLoYTs0SA0Od9sHFFXvrY8/Sd9Kt9yPdCT46LH5H00bQ4NKNuY8FTYEVDFR1CqSBzDErt2lOB7MeJvyUNJTAHK5wYukcjNz36xe/FPAhhyK7eB48Y4J7DheS/IPkWQuDM1t8cmFycQLB8nYCainibjZR2F0GuGblfG68Pxf9Q1/JtiC4CJdTF7MvOVPJ2T5+ilaYbfvIjp6Yf2Qi7g0noK90K8NbFZ+tFkzr3bbKrA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Eqim+fPcWOQIlnSTJhsQZhbvBk+qUlJ0I9rDtyb3Tqc=;
- b=uIVIzJOqt9MuNP5k/Ja4h7FM9BxoFQax9a+BUcX6J0HDwGmVUyPfuT3Bh4qq+8OpEyDKwiogZ1SaRl8hDpjirPo35GVG8DH9K1JU10bdEmtmcpBER/Tji/dpUGk1QvqZZJEAfbmz+A1jUOpkjPYNJvYE7Emht6eRe6ng4Ishf0U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6566.namprd12.prod.outlook.com (2603:10b6:8:8d::16) by
- LV3PR12MB9410.namprd12.prod.outlook.com (2603:10b6:408:212::19) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=Bt0kY3B9cBaLOg2P5DWFxYuKr5eNH9yDyKTrge+bUgI=;
+ b=3ZCzqvVH2wvd8Bf+pJ6itzmTAEADuNVN/pvHM/4Z4Rb/7hfFaRfhbPDAyC3Zaj01WQ0V0tmVsb15b1FQ6vgrxTUbaxXMhHPhEncmvQIrveOyTAid82bw2pY//qzsqk/F3WyGR4VTIfgqAGOZaDu8cWA4tmQCURiH0GHGgFWOUlo=
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
+ by SN7PR12MB6716.namprd12.prod.outlook.com (2603:10b6:806:270::20)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.31; Mon, 7 Apr
- 2025 20:49:39 +0000
-Received: from DM4PR12MB6566.namprd12.prod.outlook.com
- ([fe80::31b:5d31:8ba6:abd7]) by DM4PR12MB6566.namprd12.prod.outlook.com
- ([fe80::31b:5d31:8ba6:abd7%4]) with mapi id 15.20.8534.043; Mon, 7 Apr 2025
- 20:49:38 +0000
-Content-Type: multipart/alternative;
- boundary="------------Nuv0omMtTHCc5angzmDjZl50"
-Message-ID: <27f173f6-867d-42de-92dc-069ddc5125d3@amd.com>
-Date: Mon, 7 Apr 2025 15:49:34 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] udmabuf: fix a buf size overflow issue during udmabuf
- creation
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
-References: <20250321164126.329638-1-xiaogang.chen@amd.com>
- <555feb70-5d80-4a36-818f-f00fbc3dff23@amd.com>
- <IA0PR11MB718563F5C571E07F1314F152F8A72@IA0PR11MB7185.namprd11.prod.outlook.com>
- <099dbff3-42fb-4445-b5a0-1c4031bb9e7c@amd.com>
- <IA0PR11MB71859EE03E705A33BB5274F3F8A62@IA0PR11MB7185.namprd11.prod.outlook.com>
- <366587a4-9097-40d8-b21b-a2e82ae79476@amd.com>
+ 2025 21:17:15 +0000
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::491a:cce3:e531:3c42]) by BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::491a:cce3:e531:3c42%6]) with mapi id 15.20.8606.029; Mon, 7 Apr 2025
+ 21:17:15 +0000
+From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+To: Arnd Bergmann <arnd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
+CC: Arnd Bergmann <arnd@arndb.de>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>, Dave Airlie <airlied@redhat.com>, Jocelyn Falempe
+ <jfalempe@redhat.com>, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, John Stultz
+ <jstultz@google.com>, Sui Jingfeng <suijingfeng@loongson.cn>, Lyude Paul
+ <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Gerd Hoffmann
+ <kraxel@redhat.com>, Zack Rusin <zack.rusin@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, =?iso-8859-1?Q?Thomas_Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Saurav Kashyap <skashyap@marvell.com>, Javed Hasan
+ <jhasan@marvell.com>, "GR-QLogic-Storage-Upstream@marvell.com"
+ <GR-QLogic-Storage-Upstream@marvell.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, Manish
+ Rangankar <mrangankar@marvell.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Javier Martinez Canillas <javierm@redhat.com>, Jani Nikula
+ <jani.nikula@intel.com>, "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+ =?iso-8859-1?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>, "Lazar, Lijo"
+ <Lijo.Lazar@amd.com>, Niklas Schnelle <schnelle@linux.ibm.com>, Dmitry
+ Baryshkov <lumag@kernel.org>, "linux-arm-msm@vger.kernel.org"
+ <linux-arm-msm@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux1394-devel@lists.sourceforge.net"
+ <linux1394-devel@lists.sourceforge.net>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
+ <nouveau@lists.freedesktop.org>, "virtualization@lists.linux.dev"
+ <virtualization@lists.linux.dev>, "spice-devel@lists.freedesktop.org"
+ <spice-devel@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
+ <intel-xe@lists.freedesktop.org>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "linux-pci@vger.kernel.org"
+ <linux-pci@vger.kernel.org>, "linux-scsi@vger.kernel.org"
+ <linux-scsi@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Subject: RE: [RFC] PCI: add CONFIG_MMU dependency
+Thread-Topic: [RFC] PCI: add CONFIG_MMU dependency
+Thread-Index: AQHbp6mM3qqF8PZF602CPtcSaq/ibbOYtUcQ
+Date: Mon, 7 Apr 2025 21:17:14 +0000
+Message-ID: <BL1PR12MB51448EAE34D063B661C0F358F7AA2@BL1PR12MB5144.namprd12.prod.outlook.com>
+References: <20250407104025.3421624-1-arnd@kernel.org>
+In-Reply-To: <20250407104025.3421624-1-arnd@kernel.org>
+Accept-Language: en-US
 Content-Language: en-US
-From: "Chen, Xiaogang" <xiaogang.chen@amd.com>
-In-Reply-To: <366587a4-9097-40d8-b21b-a2e82ae79476@amd.com>
-X-ClientProxiedBy: SN6PR01CA0032.prod.exchangelabs.com (2603:10b6:805:b6::45)
- To DM4PR12MB6566.namprd12.prod.outlook.com
- (2603:10b6:8:8d::16)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ActionId=459762ed-1276-486d-90ea-afa6f1c890d5;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ContentBits=0;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Enabled=true;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Method=Privileged;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Name=Open Source;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SetDate=2025-04-07T21:16:26Z;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Tag=10, 0, 1, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR12MB5144:EE_|SN7PR12MB6716:EE_
+x-ms-office365-filtering-correlation-id: 99af99be-3453-4c98-3efb-08dd761991e4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|366016|38070700018; 
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?MUA1S1EcKfudEbiHpAoV4FL8x36v4yY5Jf2syoI8/N+ywDR1yDhIyOF1Oi?=
+ =?iso-8859-1?Q?H777sXJ5+SQYLYKgPey89wvbDdeEsF5SPKB74tI0pLvZRhC2p9hPifCqsW?=
+ =?iso-8859-1?Q?QOl785yhMlmJyO5uT653yPtqRRd+jH0uuljseif2G1ODUaYzTH1KJHbg68?=
+ =?iso-8859-1?Q?ADdbF1MN2tte6VCJYB83qTjFLaMXu1ZjHth9dUAB7wqw1oSzmnZ/GdBmzi?=
+ =?iso-8859-1?Q?++8xswZM5oIUxAYWoaAZicHrtJeWPP4jEh0TOzFca+2cOILVCR2XdpsGpN?=
+ =?iso-8859-1?Q?EksaYILg3GOETrgidyMWyUwaHsG5+cXSb/iuQuygvDxKegfclyIYzqf9lc?=
+ =?iso-8859-1?Q?sgG9SZVEVNcXEfK3LZhFF433GY3fbUtoYVsqiOIL7Vk9TNBaOtW1U8FfDo?=
+ =?iso-8859-1?Q?LBMKkN+T3pQ/BxRNE1twZrdsfTyv0bTbPuY2eOB3n0KqMZgHGM3001OMgg?=
+ =?iso-8859-1?Q?i/vIo46UPu172AVBI2sqVcjC30iiK+wPbQRuqyGncqEPboJ1VGYlVzW/gO?=
+ =?iso-8859-1?Q?0HlJoTH8NfF1weZ6xKZYk0at2jTeVFOXGevQSadfB7EL9+uSE+tzvdJrIM?=
+ =?iso-8859-1?Q?vwF5qo8K6r4r4RGCxC51UFmHBsWMkOdIul5ce4Eb3KflWHCLIQ1bhGeB0h?=
+ =?iso-8859-1?Q?nWnjfeAjIon9/7T7mcJWVZA9TvGJehnkDfv9EdmaP5lpEptBmjgHZUkS14?=
+ =?iso-8859-1?Q?d7JtBUbLmavArh41/uhtTQfiJF8bVXDCnkmHQZEHDxruvJYXkptmNq8FuK?=
+ =?iso-8859-1?Q?0wkJRSSnPGK9jb7cMsxiqAEWe9FEYlJSGm0wEBFvGU74R1Jg3ISTtBefpc?=
+ =?iso-8859-1?Q?WDQCc5NObnvUWQN7VpryJZFtpOZqWd+B/Pin+LotWgyRsWX0f0UcOAGYi6?=
+ =?iso-8859-1?Q?vPaiF3BYChPxqg+0VUPpOt5jyPj5ekGKqJTkS4QcN3OB4UEfMqGvofYOK7?=
+ =?iso-8859-1?Q?NMJwnbbWrw957zPdcajMrD6OcL//RgxkTVnRERafQjflN0wLTs1dh4OFp8?=
+ =?iso-8859-1?Q?r619IdyjzJ1LOa3LvYwqZmsrjIm0ZLM7NpqrvW/87zyhf0+oyAcKSqi74e?=
+ =?iso-8859-1?Q?MYtbWUhgcUGdqjUqE5ziYwT1RWikojYXiWgNBuDxrtHLFD7X2EhtTeyKGV?=
+ =?iso-8859-1?Q?GQ6WArPYWi5x7vQbtMWftc2JIEwQycSf8zZdzK49kIuKph7erYhKmmo3EL?=
+ =?iso-8859-1?Q?rA+CJnHUakD561PDZrYHgLXKNBjn+8JhZnhyVPNlztCtR2Bh7YCT3RzmnC?=
+ =?iso-8859-1?Q?O6O9XPrPyouqGa7qh/vHcxUyomAsKcY1LmXu0UvLvAykVb6XOPPmzQGRVg?=
+ =?iso-8859-1?Q?uiwgzrwmiSyjV5RUdnEB8aAtiQfE3ehFR1lSM4TIAAoUPtt7TWsj08NEEI?=
+ =?iso-8859-1?Q?KSZzLSOtbLljQozo/BblHSn/bzhEizCeIY0qs91oIeKDJb0oHygRqgERcb?=
+ =?iso-8859-1?Q?zHruO3ypdrgEN5wCcgPdwS6WjCby2XADWhyevC/Rs1ysDnuZgbQBakjasb?=
+ =?iso-8859-1?Q?QWoKeIqhDr/ZSHUuJZBZoB?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?zV+YYkWlCLIpbTYox196BrUAW1aJi9foVZPe+ZwXQHCvn38sssIXpi/zP8?=
+ =?iso-8859-1?Q?QkAc9oHAKVKxzm0jmktakaozzlGJCZ6mHeoV/ijKFG9xCvmj974F37OETr?=
+ =?iso-8859-1?Q?ScbFvttBXxZr08+KAjvV5aOZhM/ADw7CNwmi9SoGx9BUzwXBFUriASyDje?=
+ =?iso-8859-1?Q?Wpi1Qlifz3j5h46kBwcReytmu3iEaf94ZRAeWipx/DSNR3Qt1pIhvKndax?=
+ =?iso-8859-1?Q?oUTYDpLucnj9RyL6KA+PmtDtnV0NwrZptattapPMxOXe7tbBbcoR+Bqr+8?=
+ =?iso-8859-1?Q?THRy40IVJPzmmJaKxCTE/fVTLiIx0hXLL7IJQTXzu/ggDP2k23/OAlIJeT?=
+ =?iso-8859-1?Q?HTwMaQ9VtF9st7cBUUT0cf2oLHUy7hmIl/aTrthn4b95Go6zNaqKS0hS9l?=
+ =?iso-8859-1?Q?PwLFAlLFOq4gj2tIF2ixTBQrpQNGzwXxraNoUirZrHMyFe29ecxTd9+zc6?=
+ =?iso-8859-1?Q?1GhfzAQCcq8rRascC9iQJ0vFBrtbnmmtTjFPwMnmcq9KG5CfCXBDfOfTFJ?=
+ =?iso-8859-1?Q?HPXfgeuUdR+AcgUls9RqyF9+uoKl7TMUNTwistIjdJstATRcrmEAwNm+PC?=
+ =?iso-8859-1?Q?hXiA4q+RXsizI1w1Q+jpKN5hMUoouOevLnqS5T7FC2wyjrcpDYuDaE8Uli?=
+ =?iso-8859-1?Q?rJi+zsrQkX48jU/DxU1cZS0e/qJzJ+2WREppauTX60hcAroFZ1P5boS4be?=
+ =?iso-8859-1?Q?GK4N8YRxbOiX+5GBDl0mrESrnNLYpJbIesrFilJNUtv0FO2u3OCAr8fdyq?=
+ =?iso-8859-1?Q?QJTyGL83qVsnKdKA+QQLau4IBTmRcspA1ws9iXveTTgBf5u2JBDwAzf2AT?=
+ =?iso-8859-1?Q?rHK3tav72GOj6s36BCJvOT9Xr7w0IJ2rOXmdcpSvtzQJoYAWjjfk2FlV0i?=
+ =?iso-8859-1?Q?5FPuofYgNobrnIbZJ72+9P333BZhV+B6Sbhoo0tezRUytEWpNXxLeUUEHp?=
+ =?iso-8859-1?Q?zyZXAt2AB4/VERl9ZaFf5k8x6iGu9hqhSKb5qsl8IRR4iV0rVBeE4HBYU4?=
+ =?iso-8859-1?Q?jBsEPC0fE3nqsvAMSJq87IeOHfB4AwnLMBFrbx0o8pkA8aJ3qE3yfbmIS6?=
+ =?iso-8859-1?Q?/GywMzYrlpf2JxrYNlx1qFmK6NKs1PA8L1BhQOZrZEMGCWjs/413UI8mNm?=
+ =?iso-8859-1?Q?C7GKvfhePAv3+0iKjXADRLP+tUP4kRlDYB4bW4jKMPPMRzmFdwlf9BENGA?=
+ =?iso-8859-1?Q?ULgil4O8oa+gUias6ktVNwXo+FMqwcJzk6hDarwGhCjA6hxtaynkahYjDl?=
+ =?iso-8859-1?Q?MfubPR1aEGOmFv98mWau10NgIggm5Kct9wZy8WYSDwvEPjxd5EpwiKCaBT?=
+ =?iso-8859-1?Q?OHiVAjMl7UMexe2MxE1NKFNIXNomHepC9zCBFekLv/zNlQjtQrNU92CoU5?=
+ =?iso-8859-1?Q?Cx9dLfGAUSeayqz5hTh+n5y90QjcfroEVd7ddDsRhw5f+IgsyIQu51KHxQ?=
+ =?iso-8859-1?Q?vfmMAB8WEb3AA/K9sowGrsTTy6QF3HKWJOdG33kOHk8GVLnMbQxfABD5XJ?=
+ =?iso-8859-1?Q?2ddtpLlAPXhr/Nz2U2tWIqUASsDBKMinARFcMYXc5svrHqlwDBGkezXbu+?=
+ =?iso-8859-1?Q?6X272fVn9TUmcQe1WPatYrG8qeDoXH2oVeHzvb7kmklyvBLe4dbMZgitII?=
+ =?iso-8859-1?Q?tusnPH3+0+zj4=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6566:EE_|LV3PR12MB9410:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85ec8c44-71bd-44f2-08c3-08dd7615b6a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|8096899003;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QUEvaHQ3bGZYc2lUMXZiMGhxZ2VmWWFQQ0cwWFNMeWxKZXNkS3RKbUI1end3?=
- =?utf-8?B?dWp0am1iNTJOZ1Q4eWFVNjc3QnQrd01UZEFSUDN4SHBPWXZ1LzVQbk1PR2VH?=
- =?utf-8?B?UThYKzFhOEFpWWwxcllsVEJERHBKZ0R3LzQ5Z0d0TUdsWTV0S2hTa1lmL1VB?=
- =?utf-8?B?NlIzelRJVHorZTJ2WlhUOHZlRjNCd29pUnVLaE9GU3FaMEpLYnkwVFVseWVn?=
- =?utf-8?B?blNoQ1c2SUdFS0FNcEEvZktYNTd3QzVoWm44bWg1blJ6SVVqVkV6Q214TVJk?=
- =?utf-8?B?TTJFUjNFTkRFWFU5LzBNMU40RjliMENZd25rVzJJWUF1RGJlY0JmdEd1Um82?=
- =?utf-8?B?ajR5d1l3NTJoMXJ4N2c0VmFXZHAvMHBCUStHanV2eXNxajVQZXFrOThtYisv?=
- =?utf-8?B?WTFFYVgzMnN4cnNITU55ZU9aTjF3dG91SXYvbHhrZDhqRkRKK0hyNTdUUVpF?=
- =?utf-8?B?YmZtR3JMRWtTOVY5clB2U1lXbEZnSFVrUnZud1J0RkhMNTEzTnZuL2pNaWJF?=
- =?utf-8?B?ZTRLbVZFMm5odjVQRmdWVXFHY0FJcUU0Sk93V3Q4bGN5di9rT3ZJNWkrYjJY?=
- =?utf-8?B?RzNhcmdMMW9lVTNCcWNPQlJLNVlDMnU5NmljR0I2NFQ1U1M4dmFSRkwxY25v?=
- =?utf-8?B?ckw3VXdiRnQwZjZJZ1FJa2I1V0Z5ckRxWG15RlhzUUluWFFSYU1vQWhkb0tE?=
- =?utf-8?B?eFdHdWkxbjlLbktRUTk3a3RiWnJ2cE45Tis3clBPaGR0a0ZoVTFaU1hzYXRw?=
- =?utf-8?B?b09xMkorbmkwL1J6ZGxLUUNTSFdLMmljWGxJeFNjelA4U2NMVjVMdDBBZVNi?=
- =?utf-8?B?dlkwa2RYYmE1RjVrR085K0lhMVZCLzBscy9PWktwNWkwNTIxcVJBVG1iS2Y2?=
- =?utf-8?B?RzlaYi9kdVpxNGR3cDF1a0h6dHJlRjZZRXNqeWM4a2RKSUt5V01PUlRBMGY3?=
- =?utf-8?B?cG9XU3Ivd1pzQzBTVlpNY2c0N2hCdUViWGwxQ1g1Q3RUVUpmOUloMStZbWo0?=
- =?utf-8?B?WnRnSW5OMTdLTjNmcDBpN2wzVEhZRW5ZSmo0Wm1QQUc5K3FrNXduOEphZkY1?=
- =?utf-8?B?QkZhT3pqM09pMTBNb0VudHJmV3lMdHBVbXovdDhmUTVHSHVtNVhYN3UrMkQw?=
- =?utf-8?B?UGRjVWcyUzV5RkIvbHl6cGd5ODNFdjFxcUJlQWdPY3NqNWhObkVkVE9IVm9S?=
- =?utf-8?B?eEJmdUFnNHhldTh4MUwvMHJQdjhQSUZucnF5VzdEdGtreEtNV1RORnY5ZGxN?=
- =?utf-8?B?alhPb1RKY2tJTXdsY2p3RWVNNzNwQTAwSTB1WlRvYTNBbFArVk1MMitGeTdH?=
- =?utf-8?B?U0IvUWFISDJkRmU1YXhoZHFzUnVwMlpWVU1HaEg3NDQzakF1bTZJOHFPM0Ev?=
- =?utf-8?B?WDFVMEVweldEMnlyM2o4TE9rNTArOXA4SzZ3WFpaU1RjZkhHSkVDUU5adUtl?=
- =?utf-8?B?UWhjL25TQWN4OEJrMTZBOFYzQ1psZm96YXFYQzdrd2ZSZDdvVWhqRGtLWDFS?=
- =?utf-8?B?L284WXZ2OVNwK0RuaVBDMlF4YStlUmlMVDhud1EzRW9zS21ZcVhCVWpHRXVC?=
- =?utf-8?B?UVg3U3hhLzIrSWUxRTVRR3MwNE44V0Mza0dRZko3MzNBakxIMDNhUFBRa0VE?=
- =?utf-8?B?b3RTa2VsYTcwMnRhNFpZZFZqdHV5WGFRY1RnWGl6aDluajZhUlNUdFpYQTYz?=
- =?utf-8?B?UVZYQ2xPVTRPUUN3Z3VQWThkdnBDMGVqaXFFRUpLSDJFY2NaWDB1OVZIUVhW?=
- =?utf-8?B?a0E0dGQxVGRhN0lpTkZPcmhjWHhIRVJyc2RFbVkyWjV4U2R0UGFjSFUwVkJU?=
- =?utf-8?B?RUUyYlhQNnRyZ2FlcHFCbkwydnVEay9USDJJMlY1Qk9WZlFzK3Jjd2FEenNK?=
- =?utf-8?Q?TRXRODh7Dn0sW?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6566.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(8096899003); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c0VIc3ljd0Q1a0wvK1NENlM0ZFpBV29aSXVPNTVTak5BbWp0Y0k3RkZFUFpm?=
- =?utf-8?B?RW9CNUU0WjdCZEhrNmN4VmQ4QlhCL2VXK1N1QWlqa3hBMUpZa2JPK1hwcCs4?=
- =?utf-8?B?aDdEdm05S0hoZVBrZ2NwUFBwWmU3M1ZpdjU3MURaZjBlMzRDY3dOMG43S2Qy?=
- =?utf-8?B?bVRJejJtaDlwWEFCTU9QM0dhck40eGhlTTNZcWhpVkREeksrVnhSbFFCOXUv?=
- =?utf-8?B?V1hXWlU2aXpaR25YOXZWcWtWNmpHWjB2V2hhb2x5Vm50K28vNEtvcnVneWcr?=
- =?utf-8?B?TEJPWUs2UHBRbms1Q2dtYXV3aEdjWkgyZDFUdEtoTWFBRU5oWnpRNjZqM2Zp?=
- =?utf-8?B?cllTK2VyS2tMd2I5N2RoREFpbGZ3eDg3VnVlZ2pDSDJrcGlhWms2VnlNZVRr?=
- =?utf-8?B?VlRXTmVWZ1AwRkhVeGd6bDduRzFUdzlMZUZCOTJ6ZVVPcnpaY2F1VnVlYWtl?=
- =?utf-8?B?Q0NyaW9EUjFxSlU4c05TM3RJN3cydXloTE5GN0FxL0c5aGhmU2RwNmNZL0NE?=
- =?utf-8?B?QkN5NEFrdUd5SHFKYmRvU1RjUDJRN3ByZHFCeWpWYlVDT2xBV3BVODhBSHVH?=
- =?utf-8?B?MzcvYUJsckdkQXkvTURTTVpSZ3VwNldwVUZYc3Z2U0ZseG5ZcVNlNE5sQy82?=
- =?utf-8?B?Wjl2K1lOMmx1NjVnYlhuck9INlc4eVY5cTI0YmlVVmoxN0t5UmgvTkV4cU1h?=
- =?utf-8?B?MVdEeTVhdWhHTFNxNVByMEVVMS9JN2tqdjZlV0NreE4vUFJZVllmcWZLYlRC?=
- =?utf-8?B?cnZNRHF4bnpWeVgzSW1ELzJSTzNCL050eGtuR1JKeGkrMUcyWmgzWEg2ZjZh?=
- =?utf-8?B?YjhLWXNkWlhiVjBDUUREQytFVk5lNnJMeDMwa2JRd3d5TFMwMExpQ1NRalRq?=
- =?utf-8?B?VkVoVHRYU0JWb21YMk93YnZJNzdSYmxnSTlvYU9vU1NKRXRnUnJNbnFzbm9o?=
- =?utf-8?B?SjF0MzJSUyt1eGR6V1d4SjY5YnRkcU1yMW80MlBKWlVpMjlZbUhyb0tma3Jp?=
- =?utf-8?B?Qmc1WWhSbHVUdWVGQkFGSkJMWWdMNGFJemVzYm9BY1NqNmp6ZSt0dHhQalFP?=
- =?utf-8?B?LzVBTEpGZkdmV01mVTlLZm5ORzVOcHAwc0thVXVvNnBZdnFCM2xqaThzdEFx?=
- =?utf-8?B?N2h3OEZCcGdJWjFsbEl1S1J4RU51RzMzZEprWFN1cW1NV3Nua1o3NlpzZ3ZL?=
- =?utf-8?B?czBWMnJVR1dPdmZhZkNYaTFlZ0prY1l0cTNCSHZaVVNGbTBWQXVoTGcyaGVL?=
- =?utf-8?B?QmVYeENMclBjZDYzdVVSS2dab3czRTFTTGtBVWZ4V1YwZ2xHd2lRUndma2k1?=
- =?utf-8?B?Z3J5STNZNUZUWEdKNWRLYTNOWmt3TDdSZWpmUVNsMkZ6bXhOdzNTMUh1RGZ4?=
- =?utf-8?B?MVBmSEVDZ1BhamxKQ0luR0tjQUVIRFhYemVNZlRJanFOM0E0ODE1dm5qRW1r?=
- =?utf-8?B?Vkw4WGhZYjVCN2sweDE2dHdjUHJKN3c5Wk9BM3h0Mmc3TWxDaDg5ZE81a2tE?=
- =?utf-8?B?VHY5WFk2Y0tLNHU5cG9CWW9KZnM1L05vNm9PRUpBeWVXY3ZLTStNaW16ZFFm?=
- =?utf-8?B?L1YrUk1QYjAvWFNMb3R4ZE1JVW9DeTlyQUVpalJIVGJnaC9adno5d1VTenVn?=
- =?utf-8?B?TlRyblhzdXE2VENaRnNUbXJFbk1CQTh2Wk1KbVAwNXl4ZGJ4TjhVemQyOElE?=
- =?utf-8?B?Rml1SXlrN291NnRVYmFpdmQyazhQd21kM1gvMnJHWFYwT0NzSnZyRFFyT1JC?=
- =?utf-8?B?eWdtcXJqWTF2b29WRmgyeDhGWEQreWNGNHRKNXFnVDBYV092V1hiNWR3dnor?=
- =?utf-8?B?azA0djNhakRnMVAxTnFLSjUzdVhTck9aRXI5cjBjVVd5OC95dzBod1c4K003?=
- =?utf-8?B?QUFEUE84V3dDTExOMm9qRVRkTVVUWU4zZndtYm5Lc0VQUTVNOXlDTkg5L0pD?=
- =?utf-8?B?Wm5KSGgwQ203MTVQREsrS1VERVZZSEdWdmlrNTRVLzd3VTkrOCswT1kwcTNR?=
- =?utf-8?B?dFZZYTFxVFk1RlZ6b3QwdzFQZW1PTU0rR3dNek9yaXphWVpqVHVicjNWbm1T?=
- =?utf-8?B?Z1BCYnJrS3FLVlBxZ2I5NVJFVmJyNXBVYW95TjdtV2IyeUErK1k2VEdhcmZ4?=
- =?utf-8?Q?3t94=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85ec8c44-71bd-44f2-08c3-08dd7615b6a1
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6566.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2025 20:49:38.8824 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F7FePgkfCqVO0Det+Kys6xOd84lXQh6oQ6BrZry3O0okWTfHwuE091sI2N1gwVrb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9410
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99af99be-3453-4c98-3efb-08dd761991e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2025 21:17:15.0125 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4jyfTHcGD4AB7gMfQWphHL9Me7aBApmlp6OwMNzuIWcto+ebeCgrL9GfTTq1+TbWyvZ9IUkPz2Qb+Q2SQc5Leg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,887 +199,410 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------Nuv0omMtTHCc5angzmDjZl50
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+[Public]
 
-
-On 3/26/2025 2:41 AM, Christian König wrote:
-> Am 26.03.25 um 03:59 schrieb Kasireddy, Vivek:
->> Hi Christian,
->>
->>> Subject: Re: [PATCH] udmabuf: fix a buf size overflow issue during udmabuf
->>> creation
->>>
->>> Am 25.03.25 um 07:23 schrieb Kasireddy, Vivek:
->>>> Hi Christian,
->>>>
->>>>> Am 21.03.25 um 17:41 schrieb Xiaogang.Chen:
->>>>>> From: Xiaogang Chen<xiaogang.chen@amd.com>
->>>>>>
->>>>>> by casting size_limit_mb to u64  when calculate pglimit.
->>>>>>
->>>>>> Signed-off-by: Xiaogang Chen<Xiaogang.Chen@amd.com>
->>>>> Reviewed-by: Christian König<christian.koenig@amd.com>
->>>>>
->>>>> If nobody objects I'm going to push that to drm-misc-fixes.
->>>> No objection but I wish the author would have added more details in the
->>> commit
->>>> message particularly the value they have used to trigger the overflow. I
->>> guess
->>>> Xiaogang can still comment here and briefly describe the exact use-
->>> case/test-case
->>>> they are running where they encountered this issue.
->>> Isn't that obvious? At least it was for me.
->>>
->>> As soon as you have a value larger than 4095 the 32bit multiplication
->>> overflows, resulting in incorrectly limiting the buffer size.
->> Right, that part makes sense. I was mostly curious about why or how they
->> were using such a large buffer (use-case details).
-> Well I suggested that we use udmabuf to implement shareable dma-bufs which can be allocated from a specific NUMA node and are also accounted in memcg.
+> -----Original Message-----
+> From: Arnd Bergmann <arnd@kernel.org>
+> Sent: Monday, April 7, 2025 6:38 AM
+> To: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>; Jeff Hugo
+> <jeff.hugo@oss.qualcomm.com>; Carl Vanderlip <quic_carlv@quicinc.com>; Od=
+ed
+> Gabbay <ogabbay@kernel.org>; Takashi Sakamoto <o-takashi@sakamocchi.jp>;
+> Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>; David
+> Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Deucher, Ale=
+xander
+> <Alexander.Deucher@amd.com>; Koenig, Christian
+> <Christian.Koenig@amd.com>; Dave Airlie <airlied@redhat.com>; Jocelyn
+> Falempe <jfalempe@redhat.com>; Patrik Jakobsson
+> <patrik.r.jakobsson@gmail.com>; Xinliang Liu <xinliang.liu@linaro.org>; T=
+ian Tao
+> <tiantao6@hisilicon.com>; Xinwei Kong <kong.kongxinwei@hisilicon.com>; Su=
+mit
+> Semwal <sumit.semwal@linaro.org>; Yongqin Liu <yongqin.liu@linaro.org>; J=
+ohn
+> Stultz <jstultz@google.com>; Sui Jingfeng <suijingfeng@loongson.cn>; Lyud=
+e Paul
+> <lyude@redhat.com>; Danilo Krummrich <dakr@kernel.org>; Gerd Hoffmann
+> <kraxel@redhat.com>; Zack Rusin <zack.rusin@broadcom.com>; Broadcom
+> internal kernel review list <bcm-kernel-feedback-list@broadcom.com>; Luca=
+s De
+> Marchi <lucas.demarchi@intel.com>; Thomas Hellstr=F6m
+> <thomas.hellstrom@linux.intel.com>; Rodrigo Vivi <rodrigo.vivi@intel.com>=
+;
+> Andrew Lunn <andrew+netdev@lunn.ch>; David S. Miller
+> <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>; Jakub Kicinski
+> <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>; Saurav Kashyap
+> <skashyap@marvell.com>; Javed Hasan <jhasan@marvell.com>; GR-QLogic-
+> Storage-Upstream@marvell.com; James E.J. Bottomley
+> <James.Bottomley@HansenPartnership.com>; Martin K. Petersen
+> <martin.petersen@oracle.com>; Nilesh Javali <njavali@marvell.com>; Manish
+> Rangankar <mrangankar@marvell.com>; Alex Williamson
+> <alex.williamson@redhat.com>; Geert Uytterhoeven <geert+renesas@glider.be=
+>;
+> Javier Martinez Canillas <javierm@redhat.com>; Jani Nikula
+> <jani.nikula@intel.com>; Limonciello, Mario <Mario.Limonciello@amd.com>;
+> Thomas Wei=DFschuh <linux@weissschuh.net>; Lazar, Lijo <Lijo.Lazar@amd.co=
+m>;
+> Niklas Schnelle <schnelle@linux.ibm.com>; Dmitry Baryshkov
+> <lumag@kernel.org>; linux-arm-msm@vger.kernel.org; dri-
+> devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; linux1394-
+> devel@lists.sourceforge.net; amd-gfx@lists.freedesktop.org;
+> nouveau@lists.freedesktop.org; virtualization@lists.linux.dev; spice-
+> devel@lists.freedesktop.org; intel-xe@lists.freedesktop.org;
+> netdev@vger.kernel.org; linux-pci@vger.kernel.org; linux-scsi@vger.kernel=
+.org;
+> kvm@vger.kernel.org
+> Subject: [RFC] PCI: add CONFIG_MMU dependency
 >
-> But to be honest I have absolutely no idea what's the use case for a buffer larger than 4GiB.
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Regards,
-> Christian.
+> It turns out that there are no platforms that have PCI but don't have an =
+MMU, so
+> adding a Kconfig dependency on CONFIG_PCI simplifies build testing kernel=
+s for
+> those platforms a lot, and avoids a lot of inadvertent build regressions.
+>
+> Add a dependency for CONFIG_PCI and remove all the ones for PCI specific
+> device drivers that are currently marked not having it.
+>
+> Link: https://lore.kernel.org/lkml/a41f1b20-a76c-43d8-8c36-
+> f12744327a54@app.fastmail.com/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Sorry, just noticed this email response.
+For radeon, amdgpu:
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-Application may allocate buf bigger than 4GB and map to GPU VM where 
-shadder code uses the buffer.
 
-  Regards
 
-Xiaogang
+> ---
+>  drivers/accel/qaic/Kconfig              | 1 -
+>  drivers/firewire/Kconfig                | 2 +-
+>  drivers/gpu/drm/Kconfig                 | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/Kconfig      | 3 +--
+>  drivers/gpu/drm/ast/Kconfig             | 2 +-
+>  drivers/gpu/drm/gma500/Kconfig          | 2 +-
+>  drivers/gpu/drm/hisilicon/hibmc/Kconfig | 1 -
+>  drivers/gpu/drm/loongson/Kconfig        | 2 +-
+>  drivers/gpu/drm/mgag200/Kconfig         | 2 +-
+>  drivers/gpu/drm/nouveau/Kconfig         | 3 +--
+>  drivers/gpu/drm/qxl/Kconfig             | 2 +-
+>  drivers/gpu/drm/radeon/Kconfig          | 2 +-
+>  drivers/gpu/drm/tiny/Kconfig            | 2 +-
+>  drivers/gpu/drm/vmwgfx/Kconfig          | 2 +-
+>  drivers/gpu/drm/xe/Kconfig              | 2 +-
+>  drivers/net/ethernet/broadcom/Kconfig   | 1 -
+>  drivers/pci/Kconfig                     | 1 +
+>  drivers/pci/pci.c                       | 4 ++--
+>  drivers/scsi/bnx2fc/Kconfig             | 1 -
+>  drivers/scsi/bnx2i/Kconfig              | 1 -
+>  drivers/vfio/pci/Kconfig                | 2 +-
+>  21 files changed, 17 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/accel/qaic/Kconfig b/drivers/accel/qaic/Kconfig inde=
+x
+> a9f866230058..5e405a19c157 100644
+> --- a/drivers/accel/qaic/Kconfig
+> +++ b/drivers/accel/qaic/Kconfig
+> @@ -8,7 +8,6 @@ config DRM_ACCEL_QAIC
+>       depends on DRM_ACCEL
+>       depends on PCI && HAS_IOMEM
+>       depends on MHI_BUS
+> -     depends on MMU
+>       select CRC32
+>       help
+>         Enables driver for Qualcomm's Cloud AI accelerator PCIe cards tha=
+t are
+> diff --git a/drivers/firewire/Kconfig b/drivers/firewire/Kconfig index
+> 905c82e26ce7..a5f5e250223a 100644
+> --- a/drivers/firewire/Kconfig
+> +++ b/drivers/firewire/Kconfig
+> @@ -83,7 +83,7 @@ config
+> FIREWIRE_KUNIT_SELF_ID_SEQUENCE_HELPER_TEST
+>
+>  config FIREWIRE_OHCI
+>       tristate "OHCI-1394 controllers"
+> -     depends on PCI && FIREWIRE && MMU
+> +     depends on PCI && FIREWIRE
+>       help
+>         Enable this driver if you have a FireWire controller based
+>         on the OHCI specification.  For all practical purposes, this diff=
+ --git
+> a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig index
+> 2cba2b6ebe1c..6e95d204597e 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -462,7 +462,7 @@ source "drivers/gpu/drm/imagination/Kconfig"
+>
+>  config DRM_HYPERV
+>       tristate "DRM Support for Hyper-V synthetic video device"
+> -     depends on DRM && PCI && MMU && HYPERV
+> +     depends on DRM && PCI && HYPERV
+>       select DRM_CLIENT_SELECTION
+>       select DRM_KMS_HELPER
+>       select DRM_GEM_SHMEM_HELPER
+> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig
+> b/drivers/gpu/drm/amd/amdgpu/Kconfig
+> index 1a11cab741ac..058e3b3ad520 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
+> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+> @@ -2,7 +2,7 @@
+>
+>  config DRM_AMDGPU
+>       tristate "AMD GPU"
+> -     depends on DRM && PCI && MMU
+> +     depends on DRM && PCI
+>       depends on !UML
+>       select FW_LOADER
+>       select DRM_CLIENT
+> @@ -68,7 +68,6 @@ config DRM_AMDGPU_CIK
+>  config DRM_AMDGPU_USERPTR
+>       bool "Always enable userptr write support"
+>       depends on DRM_AMDGPU
+> -     depends on MMU
+>       select HMM_MIRROR
+>       select MMU_NOTIFIER
+>       help
+> diff --git a/drivers/gpu/drm/ast/Kconfig b/drivers/gpu/drm/ast/Kconfig in=
+dex
+> da0663542e8a..242fbccdf844 100644
+> --- a/drivers/gpu/drm/ast/Kconfig
+> +++ b/drivers/gpu/drm/ast/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only  config DRM_AST
+>       tristate "AST server chips"
+> -     depends on DRM && PCI && MMU
+> +     depends on DRM && PCI
+>       select DRM_CLIENT_SELECTION
+>       select DRM_GEM_SHMEM_HELPER
+>       select DRM_KMS_HELPER
+> diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kcon=
+fig index
+> aa2ea128aa2f..a2acaa699dd5 100644
+> --- a/drivers/gpu/drm/gma500/Kconfig
+> +++ b/drivers/gpu/drm/gma500/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only  config DRM_GMA500
+>       tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
+> -     depends on DRM && PCI && X86 && MMU && HAS_IOPORT
+> +     depends on DRM && PCI && X86 && HAS_IOPORT
+>       select DRM_CLIENT_SELECTION
+>       select DRM_KMS_HELPER
+>       select FB_IOMEM_HELPERS if DRM_FBDEV_EMULATION diff --git
+> a/drivers/gpu/drm/hisilicon/hibmc/Kconfig b/drivers/gpu/drm/hisilicon/hib=
+mc/Kconfig
+> index 98d77d74999d..d1f3f5793f34 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/Kconfig
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
+> @@ -2,7 +2,6 @@
+>  config DRM_HISI_HIBMC
+>       tristate "DRM Support for Hisilicon Hibmc"
+>       depends on DRM && PCI
+> -     depends on MMU
+>       select DRM_CLIENT_SELECTION
+>       select DRM_DISPLAY_HELPER
+>       select DRM_DISPLAY_DP_HELPER
+> diff --git a/drivers/gpu/drm/loongson/Kconfig b/drivers/gpu/drm/loongson/=
+Kconfig
+> index 552edfec7afb..d739d51cf54c 100644
+> --- a/drivers/gpu/drm/loongson/Kconfig
+> +++ b/drivers/gpu/drm/loongson/Kconfig
+> @@ -2,7 +2,7 @@
+>
+>  config DRM_LOONGSON
+>       tristate "DRM support for Loongson Graphics"
+> -     depends on DRM && PCI && MMU
+> +     depends on DRM && PCI
+>       depends on LOONGARCH || MIPS || COMPILE_TEST
+>       select DRM_CLIENT_SELECTION
+>       select DRM_KMS_HELPER
+> diff --git a/drivers/gpu/drm/mgag200/Kconfig b/drivers/gpu/drm/mgag200/Kc=
+onfig
+> index 412dcbea0e2d..a962ae564a75 100644
+> --- a/drivers/gpu/drm/mgag200/Kconfig
+> +++ b/drivers/gpu/drm/mgag200/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only  config DRM_MGAG200
+>       tristate "Matrox G200"
+> -     depends on DRM && PCI && MMU
+> +     depends on DRM && PCI
+>       select DRM_CLIENT_SELECTION
+>       select DRM_GEM_SHMEM_HELPER
+>       select DRM_KMS_HELPER
+> diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kc=
+onfig
+> index 7b3e979c51ec..d1587639ebb0 100644
+> --- a/drivers/gpu/drm/nouveau/Kconfig
+> +++ b/drivers/gpu/drm/nouveau/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only  config DRM_NOUVEAU
+>       tristate "Nouveau (NVIDIA) cards"
+> -     depends on DRM && PCI && MMU
+> +     depends on DRM && PCI
+>       select IOMMU_API
+>       select FW_LOADER
+>       select FW_CACHE if PM_SLEEP
+> @@ -94,7 +94,6 @@ config DRM_NOUVEAU_SVM
+>       bool "(EXPERIMENTAL) Enable SVM (Shared Virtual Memory) support"
+>       depends on DEVICE_PRIVATE
+>       depends on DRM_NOUVEAU
+> -     depends on MMU
+>       depends on STAGING
+>       select HMM_MIRROR
+>       select MMU_NOTIFIER
+> diff --git a/drivers/gpu/drm/qxl/Kconfig b/drivers/gpu/drm/qxl/Kconfig in=
+dex
+> 69427eb8bed2..d8f24bcae34b 100644
+> --- a/drivers/gpu/drm/qxl/Kconfig
+> +++ b/drivers/gpu/drm/qxl/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only  config DRM_QXL
+>       tristate "QXL virtual GPU"
+> -     depends on DRM && PCI && MMU && HAS_IOPORT
+> +     depends on DRM && PCI && HAS_IOPORT
+>       select DRM_CLIENT_SELECTION
+>       select DRM_KMS_HELPER
+>       select DRM_TTM
+> diff --git a/drivers/gpu/drm/radeon/Kconfig b/drivers/gpu/drm/radeon/Kcon=
+fig index
+> f51bace9555d..c479f0c0dd5c 100644
+> --- a/drivers/gpu/drm/radeon/Kconfig
+> +++ b/drivers/gpu/drm/radeon/Kconfig
+> @@ -2,7 +2,7 @@
+>
+>  config DRM_RADEON
+>       tristate "ATI Radeon"
+> -     depends on DRM && PCI && MMU
+> +     depends on DRM && PCI
+>       depends on AGP || !AGP
+>       select FW_LOADER
+>       select DRM_CLIENT_SELECTION
+> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig =
+index
+> 54c84c9801c1..6ca12fe7f57a 100644
+> --- a/drivers/gpu/drm/tiny/Kconfig
+> +++ b/drivers/gpu/drm/tiny/Kconfig
+> @@ -37,7 +37,7 @@ config DRM_BOCHS
+>
+>  config DRM_CIRRUS_QEMU
+>       tristate "Cirrus driver for QEMU emulated device"
+> -     depends on DRM && PCI && MMU
+> +     depends on DRM && PCI
+>       select DRM_CLIENT_SELECTION
+>       select DRM_KMS_HELPER
+>       select DRM_GEM_SHMEM_HELPER
+> diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/Kcon=
+fig index
+> 6c3c2922ae8b..aab646b91ca9 100644
+> --- a/drivers/gpu/drm/vmwgfx/Kconfig
+> +++ b/drivers/gpu/drm/vmwgfx/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  config DRM_VMWGFX
+>       tristate "DRM driver for VMware Virtual GPU"
+> -     depends on DRM && PCI && MMU
+> +     depends on DRM && PCI
+>       depends on (X86 && HYPERVISOR_GUEST) || ARM64
+>       select DRM_CLIENT_SELECTION
+>       select DRM_TTM
+> diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig inde=
+x
+> 5c2f459a2925..2dec62737ff6 100644
+> --- a/drivers/gpu/drm/xe/Kconfig
+> +++ b/drivers/gpu/drm/xe/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only  config DRM_XE
+>       tristate "Intel Xe Graphics"
+> -     depends on DRM && PCI && MMU && (m || (y && KUNIT=3Dy))
+> +     depends on DRM && PCI && (m || (y && KUNIT=3Dy))
+>       select INTERVAL_TREE
+>       # we need shmfs for the swappable backing store, and in particular
+>       # the shmem_readpage() which depends upon tmpfs diff --git
+> a/drivers/net/ethernet/broadcom/Kconfig b/drivers/net/ethernet/broadcom/K=
+config
+> index eeec8bf17cf4..aa43984a05cf 100644
+> --- a/drivers/net/ethernet/broadcom/Kconfig
+> +++ b/drivers/net/ethernet/broadcom/Kconfig
+> @@ -96,7 +96,6 @@ config BNX2
+>  config CNIC
+>       tristate "QLogic CNIC support"
+>       depends on PCI && (IPV6 || IPV6=3Dn)
+> -     depends on MMU
+>       select BNX2
+>       select UIO
+>       help
+> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig index
+> da28295b4aac..9c0e4aaf4e8c 100644
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -21,6 +21,7 @@ config GENERIC_PCI_IOMAP  menuconfig PCI
+>       bool "PCI support"
+>       depends on HAVE_PCI
+> +     depends on MMU
+>       help
+>         This option enables support for the PCI local bus, including
+>         support for PCI-X and the foundations for PCI Express support.
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c index 4d7c9f64ea24..60=
+a20a0ac41f
+> 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -4257,7 +4257,7 @@ unsigned long __weak pci_address_to_pio(phys_addr_t
+> address)  #ifndef pci_remap_iospace  int pci_remap_iospace(const struct r=
+esource
+> *res, phys_addr_t phys_addr)  { -#if defined(PCI_IOBASE) &&
+> defined(CONFIG_MMU)
+> +#if defined(PCI_IOBASE)
+>       unsigned long vaddr =3D (unsigned long)PCI_IOBASE + res->start;
+>
+>       if (!(res->flags & IORESOURCE_IO))
+> @@ -4290,7 +4290,7 @@ EXPORT_SYMBOL(pci_remap_iospace);
+>   */
+>  void pci_unmap_iospace(struct resource *res)  { -#if defined(PCI_IOBASE)=
+ &&
+> defined(CONFIG_MMU)
+> +#if defined(PCI_IOBASE)
+>       unsigned long vaddr =3D (unsigned long)PCI_IOBASE + res->start;
+>
+>       vunmap_range(vaddr, vaddr + resource_size(res)); diff --git
+> a/drivers/scsi/bnx2fc/Kconfig b/drivers/scsi/bnx2fc/Kconfig index
+> ecdc0f0f4f4e..3cf7e08df809 100644
+> --- a/drivers/scsi/bnx2fc/Kconfig
+> +++ b/drivers/scsi/bnx2fc/Kconfig
+> @@ -5,7 +5,6 @@ config SCSI_BNX2X_FCOE
+>       depends on (IPV6 || IPV6=3Dn)
+>       depends on LIBFC
+>       depends on LIBFCOE
+> -     depends on MMU
+>       select NETDEVICES
+>       select ETHERNET
+>       select NET_VENDOR_BROADCOM
+> diff --git a/drivers/scsi/bnx2i/Kconfig b/drivers/scsi/bnx2i/Kconfig inde=
+x
+> 0cc06c2ce0b8..75ace2302fed 100644
+> --- a/drivers/scsi/bnx2i/Kconfig
+> +++ b/drivers/scsi/bnx2i/Kconfig
+> @@ -4,7 +4,6 @@ config SCSI_BNX2_ISCSI
+>       depends on NET
+>       depends on PCI
+>       depends on (IPV6 || IPV6=3Dn)
+> -     depends on MMU
+>       select SCSI_ISCSI_ATTRS
+>       select NETDEVICES
+>       select ETHERNET
+> diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig index
+> c3bcb6911c53..2b0172f54665 100644
+> --- a/drivers/vfio/pci/Kconfig
+> +++ b/drivers/vfio/pci/Kconfig
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only  menu "VFIO support for PCI devi=
+ces"
+> -     depends on PCI && MMU
+> +     depends on PCI
+>
+>  config VFIO_PCI_CORE
+>       tristate
+> --
+> 2.39.5
 
->>   
->>
->> Thanks,
->> Vivek
->>
->>> Regards,
->>> Christian.
->>>
->>>> Thanks,
->>>> Vivek
->>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>> ---
->>>>>>   drivers/dma-buf/udmabuf.c | 2 +-
->>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->>>>>> index 8ce1f074c2d3..e99e3a65a470 100644
->>>>>> --- a/drivers/dma-buf/udmabuf.c
->>>>>> +++ b/drivers/dma-buf/udmabuf.c
->>>>>> @@ -398,7 +398,7 @@ static long udmabuf_create(struct miscdevice
->>>>> *device,
->>>>>>   	if (!ubuf)
->>>>>>   		return -ENOMEM;
->>>>>>
->>>>>> -	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
->>>>>> +	pglimit = ((u64)size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
->>>>>>   	for (i = 0; i < head->count; i++) {
->>>>>>   		pgoff_t subpgcnt;
->>>>>>
---------------Nuv0omMtTHCc5angzmDjZl50
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 3/26/2025 2:41 AM, Christian König
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:366587a4-9097-40d8-b21b-a2e82ae79476@amd.com">
-      <pre wrap="" class="moz-quote-pre">Am 26.03.25 um 03:59 schrieb Kasireddy, Vivek:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">Hi Christian,
-
-</pre>
-        <blockquote type="cite">
-          <pre wrap="" class="moz-quote-pre">Subject: Re: [PATCH] udmabuf: fix a buf size overflow issue during udmabuf
-creation
-
-Am 25.03.25 um 07:23 schrieb Kasireddy, Vivek:
-</pre>
-          <blockquote type="cite">
-            <pre wrap="" class="moz-quote-pre">Hi Christian,
-
-</pre>
-            <blockquote type="cite">
-              <pre wrap="" class="moz-quote-pre">Am 21.03.25 um 17:41 schrieb Xiaogang.Chen:
-</pre>
-              <blockquote type="cite">
-                <pre wrap="" class="moz-quote-pre">From: Xiaogang Chen <a class="moz-txt-link-rfc2396E" href="mailto:xiaogang.chen@amd.com">&lt;xiaogang.chen@amd.com&gt;</a>
-
-by casting size_limit_mb to u64  when calculate pglimit.
-
-Signed-off-by: Xiaogang Chen<a class="moz-txt-link-rfc2396E" href="mailto:Xiaogang.Chen@amd.com">&lt;Xiaogang.Chen@amd.com&gt;</a>
-</pre>
-              </blockquote>
-              <pre wrap="" class="moz-quote-pre">Reviewed-by: Christian König <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a>
-
-If nobody objects I'm going to push that to drm-misc-fixes.
-</pre>
-            </blockquote>
-            <pre wrap="" class="moz-quote-pre">No objection but I wish the author would have added more details in the
-</pre>
-          </blockquote>
-          <pre wrap="" class="moz-quote-pre">commit
-</pre>
-          <blockquote type="cite">
-            <pre wrap="" class="moz-quote-pre">message particularly the value they have used to trigger the overflow. I
-</pre>
-          </blockquote>
-          <pre wrap="" class="moz-quote-pre">guess
-</pre>
-          <blockquote type="cite">
-            <pre wrap="" class="moz-quote-pre">Xiaogang can still comment here and briefly describe the exact use-
-</pre>
-          </blockquote>
-          <pre wrap="" class="moz-quote-pre">case/test-case
-</pre>
-          <blockquote type="cite">
-            <pre wrap="" class="moz-quote-pre">they are running where they encountered this issue.
-</pre>
-          </blockquote>
-          <pre wrap="" class="moz-quote-pre">Isn't that obvious? At least it was for me.
-
-As soon as you have a value larger than 4095 the 32bit multiplication
-overflows, resulting in incorrectly limiting the buffer size.
-</pre>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">Right, that part makes sense. I was mostly curious about why or how they
-were using such a large buffer (use-case details).
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-Well I suggested that we use udmabuf to implement shareable dma-bufs which can be allocated from a specific NUMA node and are also accounted in memcg.
-
-But to be honest I have absolutely no idea what's the use case for a buffer larger than 4GiB.
-
-Regards,
-Christian.
-</pre>
-    </blockquote>
-    <!--[if gte mso 9]><xml>
- <o:OfficeDocumentSettings>
-  <o:AllowPNG/>
- </o:OfficeDocumentSettings>
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <w:WordDocument>
-  <w:View>Normal</w:View>
-  <w:Zoom>0</w:Zoom>
-  <w:TrackMoves/>
-  <w:TrackFormatting/>
-  <w:PunctuationKerning/>
-  <w:ValidateAgainstSchemas/>
-  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
-  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
-  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
-  <w:DoNotPromoteQF/>
-  <w:LidThemeOther>EN-US</w:LidThemeOther>
-  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
-  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
-  <w:Compatibility>
-   <w:BreakWrappedTables/>
-   <w:SnapToGridInCell/>
-   <w:WrapTextWithPunct/>
-   <w:UseAsianBreakRules/>
-   <w:DontGrowAutofit/>
-   <w:SplitPgBreakAndParaMark/>
-   <w:EnableOpenTypeKerning/>
-   <w:DontFlipMirrorIndents/>
-   <w:OverrideTableStyleHps/>
-  </w:Compatibility>
-  <w:DoNotOptimizeForBrowser/>
-  <m:mathPr>
-   <m:mathFont m:val="Cambria Math"/>
-   <m:brkBin m:val="before"/>
-   <m:brkBinSub m:val="&#45;-"/>
-   <m:smallFrac m:val="off"/>
-   <m:dispDef/>
-   <m:lMargin m:val="0"/>
-   <m:rMargin m:val="0"/>
-   <m:defJc m:val="centerGroup"/>
-   <m:wrapIndent m:val="1440"/>
-   <m:intLim m:val="subSup"/>
-   <m:naryLim m:val="undOvr"/>
-  </m:mathPr></w:WordDocument>
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
-  DefSemiHidden="false" DefQFormat="false" DefPriority="99"
-  LatentStyleCount="376">
-  <w:LsdException Locked="false" Priority="0" QFormat="true" Name="Normal"/>
-  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 1"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 2"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 3"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 4"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 5"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 6"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 7"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 8"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 9"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 6"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 7"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 8"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 9"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 1"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 2"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 3"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 4"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 5"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 6"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 7"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 8"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 9"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Normal Indent"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="footnote text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="annotation text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="header"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="footer"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index heading"/>
-  <w:LsdException Locked="false" Priority="35" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="caption"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="table of figures"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="envelope address"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="envelope return"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="footnote reference"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="annotation reference"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="line number"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="page number"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="endnote reference"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="endnote text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="table of authorities"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="macro"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="toa heading"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number 5"/>
-  <w:LsdException Locked="false" Priority="10" QFormat="true" Name="Title"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Closing"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Signature"/>
-  <w:LsdException Locked="false" Priority="1" SemiHidden="true"
-   UnhideWhenUsed="true" Name="Default Paragraph Font"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text Indent"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Message Header"/>
-  <w:LsdException Locked="false" Priority="11" QFormat="true" Name="Subtitle"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Salutation"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Date"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text First Indent"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text First Indent 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Note Heading"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text Indent 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text Indent 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Block Text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Hyperlink"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="FollowedHyperlink"/>
-  <w:LsdException Locked="false" Priority="22" QFormat="true" Name="Strong"/>
-  <w:LsdException Locked="false" Priority="20" QFormat="true" Name="Emphasis"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Document Map"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Plain Text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="E-mail Signature"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Top of Form"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Bottom of Form"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Normal (Web)"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Acronym"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Address"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Cite"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Code"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Definition"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Keyboard"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Preformatted"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Sample"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Typewriter"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Variable"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Normal Table"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="annotation subject"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="No List"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Outline List 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Outline List 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Outline List 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Simple 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Simple 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Simple 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Classic 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Classic 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Classic 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Classic 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Colorful 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Colorful 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Colorful 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 6"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 7"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 8"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 6"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 7"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 8"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table 3D effects 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table 3D effects 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table 3D effects 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Contemporary"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Elegant"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Professional"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Subtle 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Subtle 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Web 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Web 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Web 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Balloon Text"/>
-  <w:LsdException Locked="false" Priority="39" Name="Table Grid"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Theme"/>
-  <w:LsdException Locked="false" SemiHidden="true" Name="Placeholder Text"/>
-  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" Name="Revision"/>
-  <w:LsdException Locked="false" Priority="34" QFormat="true"
-   Name="List Paragraph"/>
-  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
-  <w:LsdException Locked="false" Priority="30" QFormat="true"
-   Name="Intense Quote"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
-  <w:LsdException Locked="false" Priority="19" QFormat="true"
-   Name="Subtle Emphasis"/>
-  <w:LsdException Locked="false" Priority="21" QFormat="true"
-   Name="Intense Emphasis"/>
-  <w:LsdException Locked="false" Priority="31" QFormat="true"
-   Name="Subtle Reference"/>
-  <w:LsdException Locked="false" Priority="32" QFormat="true"
-   Name="Intense Reference"/>
-  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
-  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
-   UnhideWhenUsed="true" Name="Bibliography"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
-  <w:LsdException Locked="false" Priority="41" Name="Plain Table 1"/>
-  <w:LsdException Locked="false" Priority="42" Name="Plain Table 2"/>
-  <w:LsdException Locked="false" Priority="43" Name="Plain Table 3"/>
-  <w:LsdException Locked="false" Priority="44" Name="Plain Table 4"/>
-  <w:LsdException Locked="false" Priority="45" Name="Plain Table 5"/>
-  <w:LsdException Locked="false" Priority="40" Name="Grid Table Light"/>
-  <w:LsdException Locked="false" Priority="46" Name="Grid Table 1 Light"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark"/>
-  <w:LsdException Locked="false" Priority="51" Name="Grid Table 6 Colorful"/>
-  <w:LsdException Locked="false" Priority="52" Name="Grid Table 7 Colorful"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 1"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 1"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 1"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 1"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 1"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 1"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 2"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 2"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 2"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 2"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 2"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 2"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 3"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 3"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 3"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 3"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 3"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 3"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 4"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 4"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 4"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 4"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 4"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 4"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 5"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 5"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 5"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 5"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 5"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 5"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 6"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 6"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 6"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 6"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 6"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 6"/>
-  <w:LsdException Locked="false" Priority="46" Name="List Table 1 Light"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark"/>
-  <w:LsdException Locked="false" Priority="51" Name="List Table 6 Colorful"/>
-  <w:LsdException Locked="false" Priority="52" Name="List Table 7 Colorful"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 1"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 1"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 1"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 1"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 1"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 1"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 2"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 2"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 2"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 2"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 2"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 2"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 3"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 3"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 3"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 3"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 3"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 3"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 4"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 4"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 4"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 4"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 4"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 4"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 5"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 5"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 5"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 5"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 5"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 5"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 6"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 6"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 6"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 6"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 6"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 6"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Mention"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Smart Hyperlink"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Hashtag"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Unresolved Mention"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Smart Link"/>
- </w:LatentStyles>
-</xml><![endif]--><!--[if gte mso 10]>
-<style>
- /* Style Definitions */
- table.MsoNormalTable
-	{mso-style-name:"Table Normal";
-	mso-tstyle-rowband-size:0;
-	mso-tstyle-colband-size:0;
-	mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-style-parent:"";
-	mso-padding-alt:0in 5.4pt 0in 5.4pt;
-	mso-para-margin:0in;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	font-family:"Aptos",sans-serif;
-	mso-ascii-font-family:Aptos;
-	mso-ascii-theme-font:minor-latin;
-	mso-hansi-font-family:Aptos;
-	mso-hansi-theme-font:minor-latin;
-	mso-font-kerning:1.0pt;
-	mso-ligatures:standardcontextual;}
-</style>
-<![endif]-->
-    <p class="MsoPlainText">Sorry, just noticed this email response. </p>
-    <p class="MsoPlainText">Application may allocate buf bigger than 4GB
-      and map to GPU
-      VM where shadder code uses the buffer.&nbsp; </p>
-    <p class="MsoPlainText">&nbsp;Regards</p>
-    <p class="MsoPlainText">Xiaogang</p>
-    <blockquote type="cite" cite="mid:366587a4-9097-40d8-b21b-a2e82ae79476@amd.com">
-      <pre wrap="" class="moz-quote-pre">
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre"> 
-
-Thanks,
-Vivek
-
-</pre>
-        <blockquote type="cite">
-          <pre wrap="" class="moz-quote-pre">Regards,
-Christian.
-
-</pre>
-          <blockquote type="cite">
-            <pre wrap="" class="moz-quote-pre">Thanks,
-Vivek
-
-</pre>
-            <blockquote type="cite">
-              <pre wrap="" class="moz-quote-pre">Regards,
-Christian.
-
-</pre>
-              <blockquote type="cite">
-                <pre wrap="" class="moz-quote-pre">---
- drivers/dma-buf/udmabuf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 8ce1f074c2d3..e99e3a65a470 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -398,7 +398,7 @@ static long udmabuf_create(struct miscdevice
-</pre>
-              </blockquote>
-              <pre wrap="" class="moz-quote-pre">*device,
-</pre>
-              <blockquote type="cite">
-                <pre wrap="" class="moz-quote-pre"> 	if (!ubuf)
- 		return -ENOMEM;
-
--	pglimit = (size_limit_mb * 1024 * 1024) &gt;&gt; PAGE_SHIFT;
-+	pglimit = ((u64)size_limit_mb * 1024 * 1024) &gt;&gt; PAGE_SHIFT;
- 	for (i = 0; i &lt; head-&gt;count; i++) {
- 		pgoff_t subpgcnt;
-
-</pre>
-              </blockquote>
-            </blockquote>
-          </blockquote>
-        </blockquote>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------Nuv0omMtTHCc5angzmDjZl50--
