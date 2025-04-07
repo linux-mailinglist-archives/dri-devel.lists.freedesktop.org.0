@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82947A7E446
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 17:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08446A7E44A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 17:27:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2573010E500;
-	Mon,  7 Apr 2025 15:27:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7E610E4EE;
+	Mon,  7 Apr 2025 15:27:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KukuFIp0";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="LBZvLE2G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E62A510E4ED;
- Mon,  7 Apr 2025 15:27:33 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 140D5432BC;
- Mon,  7 Apr 2025 15:27:28 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 304AB10E4ED;
+ Mon,  7 Apr 2025 15:27:49 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 72646431EA;
+ Mon,  7 Apr 2025 15:27:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744039652;
+ t=1744039667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s0/FGDDEEv1bADImBm72Eb+o2LF4PnN49TpkyA00SwI=;
- b=KukuFIp0YBL5FQjQWYQ8SGM7gkfrYmCM7nnmPpRASGoNkxuFJbGM0XKXsIwRRilROfUgwq
- ad6wshOz6uKHYkrgtVWgjy4lERLiqko/2OkisS6SdDhqulm4Nde6vJUFhfeICP0joX9rW+
- 3HUdgGa3QxSuhSCz2y4T3lB+J8qt3L4ijmDvhjZX1lopmA+XqDyWMcsDNRLcOkAi7xnxeT
- xwZM4PbX4ciQYE4BNO87a6N1atu3bnOtMYTM1+0ptAhQlt+DC6n7wdkkhv9LPFzdVK55zA
- KzbvA57i8wz/lR9Epi8aAVu2EkCKVxnqEqmhObAGuQpYi3hgphLud2IDm1Wngg==
+ bh=WgX6S64ngnXsjU0lQPqeLHBfnA+UnbXv6BjQk1oGXZU=;
+ b=LBZvLE2G+afaVJ2bwhuBl1x1YRR/aqaZ2Xm5yU+xaLjjIqM+WbNAKPx85Swnqti9EdXmCR
+ jxm3gIWcOaG1co2jTwQSHLMwRfa/o37ZW3TL5sERhaicxQw3i4iyp8UcVcTXkH1w4KSGdk
+ Y19KevZYjLYHr3HXXP8AducFPd1YdMFTPsJeGctmaMWsKIGeEO+n7SDKrX8kxYN5Z1gWgI
+ +UT+rfLgfI9oZV+al0AMr7X1Hj0w9CZsV0S3DJwxwGrF5CvYlrRAnPH725fFHTQ9VF1+RR
+ KAa03YipbyuRmYOv8qQstJ9OZTNaCvUkN6DRY2d/JonMQilxNjXgv50w/l7c9A==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -59,9 +59,10 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH 33/34] drm/bridge: add devm_drm_put_bridge()
-Date: Mon,  7 Apr 2025 17:27:08 +0200
-Message-ID: <20250407-drm-bridge-convert-to-alloc-api-v1-33-42113ff8d9c0@bootlin.com>
+Subject: [PATCH 34/34] drm/bridge: panel: convert to devm_drm_bridge_alloc()
+ API
+Date: Mon,  7 Apr 2025 17:27:39 +0200
+Message-ID: <20250407-drm-bridge-convert-to-alloc-api-v1-34-42113ff8d9c0@bootlin.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
 References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
@@ -71,7 +72,7 @@ X-Mailer: b4 0.14.2
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtheehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtoffgsehtkeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudffiefgvdfftdffkeejjefhffduleejleeuieetieetgeehtefhjedtgeegieegnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihrdhfrhhithiirdgsohigpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedupdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvp
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtoffgsehtkeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudffiefgvdfftdffkeejjefhffduleejleeuieetieetgeehtefhjedtgeegieegnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihrdhfrhhithiirdgsohigpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedupdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvp
  dhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,16 +90,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Bridges obtained via devm_drm_bridge_alloc(dev, ...) will be put when the
-requesting device (@dev) is removed.
+This is the new API for allocating DRM bridges.
 
-However drivers which obtained them may need to put the obtained reference
-explicitly. One such case is if they bind the devm removal action to a
-different device than the one implemented by the driver itself and which
-might be removed at a different time, such as bridge/panel.c.
+The devm lifetime management of this driver is peculiar. The underlying
+device for the panel_bridge is the panel, and the devm lifetime is tied the
+panel device (panel->dev). However the panel_bridge allocation is not
+performed by the panel driver, but rather by a separate entity (typically
+the previous bridge in the encoder chain).
 
-Add devm_drm_put_bridge() to manually release a devm-obtained bridge in
-such cases.
+Thus when that separate entoty is destroyed, the panel_bridge is not
+removed automatically by devm, so it is rather done explicitly by calling
+drm_panel_bridge_remove(). This is the function that does devm_kfree() the
+panel_bridge in current code, so update it as well to put the bridge
+reference instead.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
@@ -144,56 +148,41 @@ Cc: linux-arm-msm@vger.kernel.org
 Cc: freedreno@lists.freedesktop.org
 Cc: linux-stm32@st-md-mailman.stormreply.com
 ---
- drivers/gpu/drm/drm_bridge.c | 14 ++++++++++++++
- include/drm/drm_bridge.h     |  4 ++++
- 2 files changed, 18 insertions(+)
+ drivers/gpu/drm/bridge/panel.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index b4c89ec01998b849018ce031c7cd84614e65e710..456363d86080b2a55035c3108c16afa4f9e57e06 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1392,6 +1392,20 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- EXPORT_SYMBOL(of_drm_find_bridge);
- #endif
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 79b009ab9396048eac57ad47631a902e949d77c6..ddd1e91970d09b93aa64f50cd9155939a12a2c6f 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -287,15 +287,14 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
+ 	if (!panel)
+ 		return ERR_PTR(-EINVAL);
  
-+/**
-+ * devm_drm_put_bridge - Release a bridge reference obtained via devm
-+ * @dev: device that got the bridge via devm
-+ * @bridge: pointer to a struct drm_bridge obtained via devm
-+ *
-+ * Same as drm_bridge_put() for bridge pointers obtained via devm functions
-+ * such as devm_drm_bridge_alloc().
-+ */
-+void devm_drm_put_bridge(struct device *dev, struct drm_bridge *bridge)
-+{
-+	devm_release_action(dev, drm_bridge_put_void, bridge);
-+}
-+EXPORT_SYMBOL(devm_drm_put_bridge);
-+
- static void drm_bridge_debugfs_show_bridge(struct drm_printer *p,
- 					   struct drm_bridge *bridge,
- 					   unsigned int idx)
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index df9bbf6fd1fb522add28b76406b74cdb7391fc57..5b4e5e935a17ba6fc4a6a53ad0a302e249ca418b 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -1167,6 +1167,8 @@ static inline struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
- 	return ERR_PTR(-ENODEV);
+-	panel_bridge = devm_kzalloc(panel->dev, sizeof(*panel_bridge),
+-				    GFP_KERNEL);
+-	if (!panel_bridge)
+-		return ERR_PTR(-ENOMEM);
++	panel_bridge = devm_drm_bridge_alloc(panel->dev, struct panel_bridge, bridge,
++					     &panel_bridge_bridge_funcs);
++	if (IS_ERR(panel_bridge))
++		return (void *)panel_bridge;
+ 
+ 	panel_bridge->connector_type = connector_type;
+ 	panel_bridge->panel = panel;
+ 
+-	panel_bridge->bridge.funcs = &panel_bridge_bridge_funcs;
+ 	panel_bridge->bridge.of_node = panel->dev->of_node;
+ 	panel_bridge->bridge.ops = DRM_BRIDGE_OP_MODES;
+ 	panel_bridge->bridge.type = connector_type;
+@@ -327,7 +326,7 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
+ 	panel_bridge = drm_bridge_to_panel_bridge(bridge);
+ 
+ 	drm_bridge_remove(bridge);
+-	devm_kfree(panel_bridge->panel->dev, bridge);
++	devm_drm_put_bridge(panel_bridge->panel->dev, bridge);
  }
- 
-+static inline void devm_drm_put_bridge(struct device *dev, struct drm_bridge *bridge) {}
-+
- static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
- 						     struct device_node *node,
- 						     u32 port,
-@@ -1176,6 +1178,8 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
- }
- #endif
- 
-+void devm_drm_put_bridge(struct device *dev, struct drm_bridge *bridge);
-+
- void drm_bridge_debugfs_params(struct dentry *root);
- void drm_bridge_debugfs_encoder_params(struct dentry *root, struct drm_encoder *encoder);
+ EXPORT_SYMBOL(drm_panel_bridge_remove);
  
 
 -- 
