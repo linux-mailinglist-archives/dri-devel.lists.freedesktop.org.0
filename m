@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445BCA7DA2F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 11:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB06CA7DA3A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 11:49:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B49D10E053;
-	Mon,  7 Apr 2025 09:48:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 107B210E32D;
+	Mon,  7 Apr 2025 09:49:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="yTVTX3jN";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Ioe0kTZU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
- [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42BC110E053
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:48:14 +0000 (UTC)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5375uENI000926;
- Mon, 7 Apr 2025 10:47:56 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=L
- rdbaiWgj+VqUgPxskU+PG3nQx7JvvWRLYO0Q0qnifE=; b=yTVTX3jNV8nyVF1kN
- OdDZ1wscYyHSHQGCSK624IPFaYmm64J6st+wC5TIpdw8dci0fALl/hxqPNfKpmRa
- HLtG+GSfVBYjZ2pgcOp8M5wqfdI7YRKEbQSeMW8cptJKxms01Ulr68gsDztJoRUo
- 7yKP5/zcRTjVR6/uFUkWIlIwvh661qAicbZCGLr1o3SzPeQaONF4P6LJUUb+774R
- YQWir3NqWXZmHfIRqNjhn3m6jeXe8U1oWepoJcwActVtx7QLTzfJ1tOVBD3WtOfU
- LcOierFmQWJ0PkiDWr8L4vZyWin7yiS11GdJSnTn+vE+tTIPQ8CnQdNiCSGxqtaL
- YVWSg==
-Received: from hhmail05.hh.imgtec.org
- (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 45uv5w8fpa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Mon, 07 Apr 2025 10:47:56 +0100 (BST)
-Received: from Matts-MacBook-Pro.local (172.25.7.98) by HHMAIL05.hh.imgtec.org
- (10.100.10.120) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Mon, 7 Apr
- 2025 10:47:55 +0100
-From: Matt Coster <matt.coster@imgtec.com>
-To: Frank Binns <frank.binns@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-In-Reply-To: <20250402-for-loop-counter-scope-v2-1-4fd550d22832@imgtec.com>
-References: <20250402-for-loop-counter-scope-v2-1-4fd550d22832@imgtec.com>
-Subject: Re: [PATCH v2] drm/imagination: loop counters moved to loop scope
-Message-ID: <174401927500.42684.16219205012504623611.b4-ty@imgtec.com>
-Date: Mon, 7 Apr 2025 10:47:55 +0100
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
+ [95.215.58.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBA110E32D
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:49:12 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1744019347;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xY51UqUYs+eWoTOCBh+Jna/CIahu4dovjoMPFMGK+94=;
+ b=Ioe0kTZUDluJBwKyn71CrZez9rDEMB6zSMKpo+dmuXKcVyV5HkxteDiPlNtuTXAxXh/YCr
+ +tbcirKNDPJAdHtNsPEF1atCVV+4DI5qhgzgJZ4zN4T0Zb/lhbjyS94pgHzTZEKgOPARLl
+ daq/dx6lgL303v132nfYFpVxFTfuwUI=
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
+Subject: Re: CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is broken, was Re: [RFC
+ PATCH 0/6] Deep talk about folio vmap
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20250407085943.GA27481@lst.de>
+Date: Mon, 7 Apr 2025 17:48:27 +0800
+Cc: Huan Yang <link@vivo.com>, bingbu.cao@linux.intel.com,
+ Matthew Wilcox <willy@infradead.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ opensource.kernel@vivo.com
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Originating-IP: [172.25.7.98]
-X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: 6CXKL1Bl7JVCpFq_7teK4J7jLNJycVGZ
-X-Authority-Analysis: v=2.4 cv=VYD3PEp9 c=1 sm=1 tr=0 ts=67f39f4c cx=c_pps
- a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
- a=6pm0VhuFVbIA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=r_1tXGB3AAAA:8
- a=PEAm01bx7CXaZduv5QMA:9 a=QEXdDO2ut3YA:10
- a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: 6CXKL1Bl7JVCpFq_7teK4J7jLNJycVGZ
+Message-Id: <3DC6E604-3CE9-49E3-A688-DC7F424382DA@linux.dev>
+References: <20250327092922.536-1-link@vivo.com>
+ <20250404090111.GB11105@lst.de>
+ <9A899641-BDED-4773-B349-56AF1DD58B21@linux.dev>
+ <43DD699A-5C5D-429B-A2B5-61FBEAE2E252@linux.dev>
+ <e9f44d16-fd9a-4d82-b40e-c173d068676a@vivo.com>
+ <E4D6E02F-BC82-4630-8CB8-CD1A0163ABCF@linux.dev>
+ <6f76a497-248b-4f92-9448-755006c732c8@vivo.com>
+ <FDB7F930-8537-4B79-BAA6-AA782B39943A@linux.dev>
+ <35D26C00-952F-481C-8345-E339F0ED770B@linux.dev>
+ <20250407085943.GA27481@lst.de>
+To: Christoph Hellwig <hch@lst.de>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,18 +77,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 02 Apr 2025 09:40:05 +0100, Alexandru Dadu wrote:
-> Reduce the scope of some loop counters as these aren't needed outside
-> the loops they're used in.
+
+> On Apr 7, 2025, at 16:59, Christoph Hellwig <hch@lst.de> wrote:
 > 
+> On Mon, Apr 07, 2025 at 02:43:20PM +0800, Muchun Song wrote:
+>> By the way, in case you truly struggle to comprehend the fundamental
+>> aspects of HVO, I would like to summarize for you the user-visible
+>> behaviors in comparison to the situation where HVO is disabled.
+>> 
+>> HVO Status Tail Page Structures Head Page Structures
+>> Enabled Read-Only (RO) Read-Write (RW)
+>> Disabled Read-Write (RW) Read-Write (RW)
+>> 
+>> The sole distinction between the two scenarios lies in whether the
+>> tail page structures are allowed to be written or not. Please refrain
+>> from getting bogged down in the details of the implementation of HVO.
+> 
+> This feels extremely fragile to me.  I doubt many people know what
+> operations needs read vs write access to tail pages.  Or for higher
+> level operations if needs access to tail pages at all.
 > 
 
-Applied, thanks!
-
-[1/1] drm/imagination: loop counters moved to loop scope
-      commit: 81feddc12613567d8206a9697d068711140e9c47
-
-Best regards,
--- 
-Matt Coster <matt.coster@imgtec.com>
+A compound page should modify its head page structure (e.g., refcount),
+which is why `compound_head()` is widely used. Modifying its tail page
+structures is incorrect. Users needn't worry about whether to modify
+tail page structures. They should use `compound_head(tail)` to get the
+head page structure and update it. All users must follow this rule (I
+think folio-infrastructure also requires this). If a user tries to write
+to a HugeTLB page's tail page, an exception will be raised as these tail
+pages are read-only mapped to catch invalid operations.
 
