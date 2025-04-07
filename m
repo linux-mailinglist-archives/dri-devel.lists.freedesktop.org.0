@@ -2,86 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA08A7E038
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 15:59:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6069A7E039
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 15:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1DE910E478;
-	Mon,  7 Apr 2025 13:59:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BBFE10E479;
+	Mon,  7 Apr 2025 13:59:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QFNapmWS";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AikOFIAg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE2710E478
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 13:59:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE92E10E479
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 13:59:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744034363;
+ s=mimecast20190719; t=1744034365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SBQ5p+H6gH6K9oTgr8Qarv/Jc/69g+8F7QtSbIEx/HQ=;
- b=QFNapmWSIj7nqPUp/vETFuYCz99hgjR+zNSHAyQnOeCLCYgEuNMFwrJSPIWxP/Ils3fiqW
- wWVU2HMuBE4GbpuGhB7aw90N6kpT/JzwpEVLZE1GreomZtvuD5CwWckMpRFCtPXrPEoIkh
- DuM+gVEJUgbz22Bd5iMknRy0uhbELVk=
+ bh=swDbcea4TipT9nblctrkNfnrLjUIGyAQtn4f7FEMyIM=;
+ b=AikOFIAggfwHUw8ZyZl2UG69KtI1IFj/T/BTH6tHm4esgoxnkeWeJkCbmTxZmWzS+5NZ8z
+ JJ0IAQQUKkF3Z4CrrnbJ1LKfcVYA/6WkdBtXUYve2PNQpdjs9HRxdpvOvLN0ivU+ApwtP5
+ nm54Cv671q9tmFTl8wCyNr5raXomLE8=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-461-eNDk7gwZPB6BFAQKmyVAAg-1; Mon, 07 Apr 2025 09:59:12 -0400
-X-MC-Unique: eNDk7gwZPB6BFAQKmyVAAg-1
-X-Mimecast-MFC-AGG-ID: eNDk7gwZPB6BFAQKmyVAAg_1744034351
+ us-mta-593-1QmCAleMNVmipALd8a4bXA-1; Mon, 07 Apr 2025 09:59:23 -0400
+X-MC-Unique: 1QmCAleMNVmipALd8a4bXA-1
+X-Mimecast-MFC-AGG-ID: 1QmCAleMNVmipALd8a4bXA_1744034363
 Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-43ced8c2eb7so34115025e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 06:59:12 -0700 (PDT)
+ 5b1f17b1804b1-43eea5a5d80so10906845e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 06:59:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744034351; x=1744639151;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SBQ5p+H6gH6K9oTgr8Qarv/Jc/69g+8F7QtSbIEx/HQ=;
- b=aLdCB0Uz7FttBMfxTAsGurAbs/x7twFBQLAnnx/vz1MVRuf5X3Sy45tRsbWZ0WnScf
- lCouAVtzEkgCX4MM26X7r8qNMTh72heIqba8i6/wYcWXeUMtTwPebBXLUTNRacRkIyY0
- Pk8OLDiqNJV2RrF2N7+vFMr14i+AYNh4uayssNsof+HliZV0vg7S2klpYf1Hg7daeRKc
- osj4mK2NWzHwIw0wrsxB25Ax/wL5dk5QtBXGUi98Lwhks/98oEfToySugxIFNwkg8e87
- jExPjBwv262Sj0p+/CIkBdorIh7+b8gBDbpT+wheX3Ca9FFpQWHTuEFTlSGbHvDG1Ww1
- vjcw==
-X-Gm-Message-State: AOJu0Yy2Q9by0SWXT+FQ/tXnrH8POtAeXISebFNY8GCa70P0U6P3Sy6x
- WBfcvJX5wFdQdVLKXEeEeUpgLO5oP1TB7GZOti+a/xTZgByfJYJZkBc2+sMBtChWjy9UzeZqrEV
- 5gbkeg3wtxEv939fmmpk/+8xgMGP3/Z0EGBGF8UFMXZjLYNJPydC/PBRx4Kcfy/9gO1OQZOMMBA
+ d=1e100.net; s=20230601; t=1744034362; x=1744639162;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=swDbcea4TipT9nblctrkNfnrLjUIGyAQtn4f7FEMyIM=;
+ b=ryxCBaMoJ9OwgRuEWLoJia/1Z3xW3mrFjun2uLDfKArA1wsTDC2a4ocealidw6wfPq
+ s2vNBtQjryHiFwS6RdBYn8B+O+E5+NbHRN2Qt8ltN1X1UPcpf0RmknT7fzNFlBn/hMun
+ JCpwTGes4BGk3XeWbHEvLBkypgx0Fm15Yf6YwVB3UYcGGFnx1rx80MftKGz8s9e8DLpV
+ RjLSnpGxard5w4pq9QTKOw/T2BGZBvpk2IcjhVt8EWbseCfglZeM4L291zTQJ4Dbd3lM
+ Tuacqbt3/6FS0FLZ7xYq4GwC1btjKfyV8wTmW1w++lhhOB2CM+VZezZkQZzfyv8O8Xtb
+ rpJg==
+X-Gm-Message-State: AOJu0Yw8BisJJ0GQp4q3jqnVmlD8A3EGHmVHtgXzyuahWt+biqE45RfJ
+ QfK+zi6IRnRud715R8QT/pxO95KfYaaFNpnghk9eGAAHkCquEjknPHPVyFVt3MVfg6/EuuGgQZ0
+ sC3yKOgevvepJ4hD9RoN3/SPC0WUR66MOs1oVbSc0sD3/1P2fsGQetxWv73ezZ2ngqIHG9jPcUg
  ==
-X-Gm-Gg: ASbGncvi3ldx25lwvLIIlnKPYPn/5nIXjezp21Q1VvN0r3931bS2u1elztqrC90PSbd
- puB1DybUHMKs1JpbG1fZNSpCU1VXP+kJOiaffAREwTAkUw+4AAl5ZC6V2+MGQczRtLXbWWRApxS
- Gm1GxCTVngqwPafKPML3AS6YyJWf5lul1B2MMjGsNoQlJ0aAVAs2rHdu4fsx4lvCEFloVVRVO0d
- vBlw2J926cr9ofTwKR7Ka84dln2Jp0VXYD9loPamdvMY20V2+bUPscZPgP2PDD4SOs595H2XjEp
- JPlvZx53Q8qHTlC4excVB2eO9QNehVIrSKBhVrYTvoduJQnSiE6XilVyazrUmpZpHBmIype9+Q=
- =
-X-Received: by 2002:a05:6000:2288:b0:39c:12f2:2f86 with SMTP id
- ffacd0b85a97d-39d07ad55a6mr9356949f8f.8.1744034351004; 
- Mon, 07 Apr 2025 06:59:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFSyeol/J3aqPzXHT+RMs0s6f79pCGajAjdnEDm1LBPwgH/yneFYb7f16pIaFVjk5nG7ur7qw==
-X-Received: by 2002:a05:6000:2288:b0:39c:12f2:2f86 with SMTP id
- ffacd0b85a97d-39d07ad55a6mr9356931f8f.8.1744034350678; 
- Mon, 07 Apr 2025 06:59:10 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+X-Gm-Gg: ASbGncudsrM0L47TPiVFGBJ+eE6KULqENmMn480jOoUBYbavG6EteRmFmdlpOxUio5H
+ 60Q9NzzMEZIVhf6a5ZDo6MaGpUv5UKGqgWA6xSOy4p6KU+wDXWfvJhXaVN/HYxDPc2eEpDBdomw
+ rKCS8ukPmfGKzD7VgkYatugY5jLTL2jKMwUDRranXXvN5IeB90HRGbm8ZwFKmm5XmFADkUB0utw
+ Oygln++gaxi6Q5RHCFNivnMEAdg0+fejrJbDOeWzvO80nOm5FyRNeua5xqkatIfb+RFLgZGf0Q6
+ RpVTt5O5vYFjHtnx7ZxgWSon/SzB7YFoSt91qp7p+Rg+oWtFmiq0PjE=
+X-Received: by 2002:a05:6000:2489:b0:391:4873:7943 with SMTP id
+ ffacd0b85a97d-39cb35aaaeamr10085984f8f.32.1744034362093; 
+ Mon, 07 Apr 2025 06:59:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHw2emtkUQsGZRx29I6DAM0QANpQ6u2DCnwRNVRC+w8OR50X1TALVDqwjuf7VIZBgHdswRKsQ==
+X-Received: by 2002:a05:6000:2489:b0:391:4873:7943 with SMTP id
+ ffacd0b85a97d-39cb35aaaeamr10085951f8f.32.1744034361427; 
+ Mon, 07 Apr 2025 06:59:21 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39c3020d6b1sm12320615f8f.62.2025.04.07.06.59.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Apr 2025 06:59:10 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/2] drm/sysfb: simpledrm: Remove unused helper
- simpledrm_device_of_dev()
-In-Reply-To: <20250407134753.985925-3-tzimmermann@suse.de>
-References: <20250407134753.985925-1-tzimmermann@suse.de>
- <20250407134753.985925-3-tzimmermann@suse.de>
-Date: Mon, 07 Apr 2025 15:59:08 +0200
-Message-ID: <87v7rgoyxf.fsf@minerva.mail-host-address-is-not-set>
+ 5b1f17b1804b1-43ec3669002sm132582065e9.33.2025.04.07.06.59.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Apr 2025 06:59:20 -0700 (PDT)
+Message-ID: <86cfa8ab-8f20-4e29-81c8-358012261270@redhat.com>
+Date: Mon, 7 Apr 2025 15:59:20 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/simpledrm: Do not upcast in release helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+References: <20250407134753.985925-1-tzimmermann@suse.de>
+ <20250407134753.985925-2-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250407134753.985925-2-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ZbsYSy5Xl1TX5xCcUo5asL6H4I9TRjwAAEkhhg7eNs4_1744034351
+X-Mimecast-MFC-PROC-ID: 5hZbOre1QEYSVCF2zgYgiuuRqggf4Tw5tvAQQjFS1y4_1744034363
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,23 +101,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On 07/04/2025 15:47, Thomas Zimmermann wrote:
+> The res pointer passed to simpledrm_device_release_clocks() and
+> simpledrm_device_release_regulators() points to an instance of
+> struct simpledrm_device. No need to upcast from struct drm_device.
+> The upcast is harmless, as DRM device is the first field in struct
+> simpledrm_device.
+> 
+Thanks, it looks good to me.
 
-> After moving most of the mode-setting pipeline into drm_sysfb_helper.c,
-> simpledrm_device_of_dev() is no longer being used. Remove it.
->
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: Jocelyn Falempe <jfalempe@redhat.com>
-> Closes: https://lore.kernel.org/dri-devel/20250407131344.139878-1-jfalempe@redhat.com/
-> Fixes: 177dfbdb7e67 ("drm/sysfb: Merge primary-plane functions")
+> Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
+> Cc: <stable@vger.kernel.org> # v5.14+
 > ---
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+>   drivers/gpu/drm/sysfb/simpledrm.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/sysfb/simpledrm.c b/drivers/gpu/drm/sysfb/simpledrm.c
+> index cfb1fe07704d7..78672422bcada 100644
+> --- a/drivers/gpu/drm/sysfb/simpledrm.c
+> +++ b/drivers/gpu/drm/sysfb/simpledrm.c
+> @@ -275,7 +275,7 @@ static struct simpledrm_device *simpledrm_device_of_dev(struct drm_device *dev)
+>   
+>   static void simpledrm_device_release_clocks(void *res)
+>   {
+> -	struct simpledrm_device *sdev = simpledrm_device_of_dev(res);
+> +	struct simpledrm_device *sdev = res;
+>   	unsigned int i;
+>   
+>   	for (i = 0; i < sdev->clk_count; ++i) {
+> @@ -373,7 +373,7 @@ static int simpledrm_device_init_clocks(struct simpledrm_device *sdev)
+>   
+>   static void simpledrm_device_release_regulators(void *res)
+>   {
+> -	struct simpledrm_device *sdev = simpledrm_device_of_dev(res);
+> +	struct simpledrm_device *sdev = res;
+>   	unsigned int i;
+>   
+>   	for (i = 0; i < sdev->regulator_count; ++i) {
 
