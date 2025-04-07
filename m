@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF54A7DA79
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 11:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8AEA7DA90
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 12:00:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 323FE10E413;
-	Mon,  7 Apr 2025 09:57:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E09C410E414;
+	Mon,  7 Apr 2025 10:00:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y+j+IA+o";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CYRbyaGj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD12210E413
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:57:47 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57FE910E414
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 10:00:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 017CAA486A5;
- Mon,  7 Apr 2025 09:52:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9DF5C4CEDD;
- Mon,  7 Apr 2025 09:57:39 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 9F78261129;
+ Mon,  7 Apr 2025 10:00:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33094C4CEDD;
+ Mon,  7 Apr 2025 10:00:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744019863;
- bh=+leZAOgv1p8vUSpsx7CFEyKcsFmvohU4JdSQl13lHkg=;
+ s=k20201202; t=1744020031;
+ bh=/azf35r5cQXte1FxB3g5fAuyGOdAl0zghe2ozQC+Kn4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Y+j+IA+o0qewxZsdrTbggvxB/+6KUQsrUryxr2o8rEIWzhgI4Svq0lY713/dRKJ0Q
- cRryF3bpzTtDPKHV2SIC5H3egWanJ8F+8iAaY+n4W6LVEBpLPFor5ml7Je32fXAKUD
- WKpTx3kib14X1tO6WUXuSa3rhvB25nE4guOlQ2jC/2A6WZFXq3yqVHy84eS9Afkupn
- /sA3m1uX1Nf1DoJC5b5f+xO/emwsopxvHVFic7eyEjfxgjPQMJ0F3YU3A85IUPBDmf
- 3bqqPTo6GrPUK+T/OkD/xDoH3n+wipGTW4+ewBi+xftyAD31krO+o/ITSTaTgoiIns
- Iz5ayF0xjazhg==
-Message-ID: <36c30069-3e7a-495c-8225-acd080732485@kernel.org>
-Date: Mon, 7 Apr 2025 11:57:37 +0200
+ b=CYRbyaGjCTlWAvE77/0u6V30sPCuB80WsYDLaqroMlIWmBOOkVPhGBebGZOSu4Lyd
+ mdIVGa2j/eDkSq3GVN6zToGrvyshTlJ+t9UgFJbIkHLKXhOwPQMfQt0YQua+/VJSAA
+ HUPOr74ed64AFZdCuolGgZaSBvUXCtJikQTYzPbYDXjNeqGm8pUtlh0bHktlucp4Gc
+ skViajnJwU3h9WkHKEnnykPzrmwcIik44eJ1jbjV7tCAZm4Jzzm7M5I21kA2fZLKvH
+ L2tUuo1WOxx05GV6kOd57IVsQqCrAlmVhI98b29o/HmO26BgzFgbcEDF2VUezjgu7+
+ J+HEUyvxFJucQ==
+Message-ID: <eb23737f-5b6c-47fd-8b39-637e059bd5f1@kernel.org>
+Date: Mon, 7 Apr 2025 12:00:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: backlight: kinetic, ktz8866: add ktz8866
- slave compatible
+Subject: Re: [PATCH 2/4] backlight: ktz8866: add slave handler
 To: Pengyu Luo <mitltlatltl@gmail.com>, Jianhua Lu <lujianhua000@gmail.com>,
  Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
  Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
@@ -45,7 +44,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-fbdev@vger.kernel.org
 References: <20250407095119.588920-1-mitltlatltl@gmail.com>
- <20250407095119.588920-2-mitltlatltl@gmail.com>
+ <20250407095119.588920-3-mitltlatltl@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +90,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250407095119.588920-2-mitltlatltl@gmail.com>
+In-Reply-To: <20250407095119.588920-3-mitltlatltl@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,88 +110,111 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 07/04/2025 11:51, Pengyu Luo wrote:
 > Kinetic ktz8866, found in many android devices, nowadays, some oem use
-> dual ktz8866 to support a larger panel and  higher brightness, add the
-
-Just one space after 'and'.
-
-> binding for slave case.
+> dual ktz8866 to support a larger panel and  higher brightness, original
+> driver would only handle half backlight region on these devices,
+> registering it twice is unreasonable, so adding the slave handler to
+> support it.
+> 
+> Note that, none of the devices supported by upstream require this, the
+> devices using this is porting.
 > 
 > Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 > ---
->  .../leds/backlight/kinetic,ktz8866.yaml       | 29 +++++++++++++++----
->  1 file changed, 24 insertions(+), 5 deletions(-)
+>  drivers/video/backlight/ktz8866.c | 68 +++++++++++++++++++++++++++----
+>  1 file changed, 59 insertions(+), 9 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> index c914e1276..825a6fbf1 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> @@ -19,7 +19,9 @@ allOf:
+> diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
+> index 351c2b4d6..017ad80dd 100644
+> --- a/drivers/video/backlight/ktz8866.c
+> +++ b/drivers/video/backlight/ktz8866.c
+> @@ -3,6 +3,9 @@
+>   * Backlight driver for the Kinetic KTZ8866
+>   *
+>   * Copyright (C) 2022, 2023 Jianhua Lu <lujianhua000@gmail.com>
+> + *
+> + * Apr 2025 - Pengyu Luo <mitltlatltl@gmail.com>
+> + *	Added handling for dual KTZ8866(master and slave)
+>   */
 >  
->  properties:
->    compatible:
-> -    const: kinetic,ktz8866
-> +    enum:
-> +      - kinetic,ktz8866
-> +      - kinetic,ktz8866-slave
-
-Does not look right. That's the same device. Same devices have same
-compatible.
-
+>  #include <linux/backlight.h>
+> @@ -43,11 +46,17 @@
+>  #define LCD_BIAS_EN 0x9F
+>  #define PWM_HYST 0x5
 >  
->    reg:
->      maxItems: 1
-> @@ -58,9 +60,16 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - vddpos-supply
-> -  - vddneg-supply
-> -  - enable-gpios
+> +struct ktz8866_slave {
+> +	struct i2c_client *client;
+> +	struct regmap *regmap;
+> +};
 > +
-> +if:
-> +  properties:
-> +    compatible:
-> +      const: kinetic,ktz8866
-> +then:
-> +  required:
-> +    - vddpos-supply
-> +    - vddneg-supply
-> +    - enable-gpios
-
-I don't understand why other device does not need power.
-
+>  struct ktz8866 {
+>  	struct i2c_client *client;
+>  	struct regmap *regmap;
+> -	bool led_on;
+>  	struct gpio_desc *enable_gpio;
+> +	struct ktz8866_slave *slave;
+> +	bool led_on;
+>  };
 >  
->  unevaluatedProperties: false
+>  static const struct regmap_config ktz8866_regmap_config = {
+> @@ -56,16 +65,22 @@ static const struct regmap_config ktz8866_regmap_config = {
+>  	.max_register = REG_MAX,
+>  };
 >  
-> @@ -68,7 +77,7 @@ examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
->  
-> -    i2c {
-> +    i2c0 {
-
-No, don't change.
-
->          #address-cells = <1>;
->          #size-cells = <0>;
->  
-> @@ -84,3 +93,13 @@ examples:
->              kinetic,enable-lcd-bias;
->          };
->      };
+> -static int ktz8866_write(struct ktz8866 *ktz, unsigned int reg,
+> -			 unsigned int val)
+> +static void ktz8866_write(struct ktz8866 *ktz, unsigned int reg,
+> +			  unsigned int val)
+>  {
+> -	return regmap_write(ktz->regmap, reg, val);
+> +	regmap_write(ktz->regmap, reg, val);
 > +
-> +    i2c1 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
+> +	if (ktz->slave)
+> +		regmap_write(ktz->slave->regmap, reg, val);
+>  }
+>  
+> -static int ktz8866_update_bits(struct ktz8866 *ktz, unsigned int reg,
+> -			       unsigned int mask, unsigned int val)
+> +static void ktz8866_update_bits(struct ktz8866 *ktz, unsigned int reg,
+> +				unsigned int mask, unsigned int val)
+>  {
+> -	return regmap_update_bits(ktz->regmap, reg, mask, val);
+> +	regmap_update_bits(ktz->regmap, reg, mask, val);
 > +
-> +        backlight@11 {
-> +            compatible = "kinetic,ktz8866-slave";
-> +            reg = <0x11>;
+> +	if (ktz->slave)
+> +		regmap_update_bits(ktz->slave->regmap, reg, mask, val);
+>  }
+>  
+>  static int ktz8866_backlight_update_status(struct backlight_device *backlight_dev)
+> @@ -124,10 +139,41 @@ static void ktz8866_init(struct ktz8866 *ktz)
+>  		ktz8866_write(ktz, LCD_BIAS_CFG1, LCD_BIAS_EN);
+>  }
+>  
+> +static int ktz8866_slave_register(struct ktz8866 *ktz)
+> +{
+> +	struct device *dev = &ktz->client->dev;
+> +	struct ktz8866_slave *slave;
+> +	struct i2c_client *client;
+> +	struct device_node *np;
+> +
+> +	np = of_find_compatible_node(NULL, NULL, "kinetic,ktz8866-slave");
+> +	if (!np)
+> +		return 0;
+> +
+> +	client = of_find_i2c_device_by_node(np);
 
-No real differences here, so drop the example. Anyway, new examples
-would start from - | (see other bindings).
 
+I wrote on IRC - phandle to express the relationship between hardware -
+and I do not see it implemented.
 
+If you have devices depending on each other, you need to express it -
+for links, for resource dependencies etc. phandle is for that usually.
+Or OF graph. Or parent-child relationship.
+
+You did not provide any description of the hardware in the binding, so I
+really do not have any idea what is this setup thus how to represent it.
+Use hardware terms, diagrams etc to explain the hardware in the bindings
+commit. What are the addresses? Are there any shared resources? What
+buses are devices sitting on, etc.
 
 Best regards,
 Krzysztof
