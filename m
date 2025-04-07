@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE4CA7E012
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 15:54:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F8CA7E018
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 15:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29C710E451;
-	Mon,  7 Apr 2025 13:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60BA710E46B;
+	Mon,  7 Apr 2025 13:55:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="njm3MsMY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QcPQLc2j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C49810E451
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 13:54:28 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6E9D10E46B
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 13:55:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744034069; x=1775570069;
+ t=1744034151; x=1775570151;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=ebTEjSHDPVKHjqLElg5dQchc9kRzX7fngXPEzS/5OSM=;
- b=njm3MsMYe6kHl/CYawpupEj+4QjzldJGxB35jbFlLuhcDre8lRlzT18x
- 79NMkxUqetu9yF3quKpsrZKVIZ9VIQKkWWo4EuU6QPJBKVozfW5Ff2T6E
- kSTPFsqexBO3T3zzGuB1IELuqNUpTCEfEGoCO+wNJEGb5wQauRw1PAgRo
- ZqOF/w54DS3Ihn8TE/K495z32OIb15KYWut+e5hqynxPG3JY5qXoDYQ/L
- vgF7Va4Bhr2ccyAZVLLDC5T0Hd7zwU9mTcMaRSLOTwquSIpfhYjNXijxa
- do3MhgW6YBTZjQUhActD/6C54inz424mZ46t1Aus7daSDyMpCFZMQL8Me Q==;
-X-CSE-ConnectionGUID: sU9Y696jQ/6iqpq6SCdGPQ==
-X-CSE-MsgGUID: lgZV76qxRbKjIPQ9IBL0wQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45587699"
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; d="scan'208";a="45587699"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2025 06:54:25 -0700
-X-CSE-ConnectionGUID: Dy4TRIkCT5CJkptOv4ahSw==
-X-CSE-MsgGUID: ehvvZzDbTdKqfCX5RZ/uWA==
+ bh=w+Szp4qRe6od/VKiQ0QTbtbzWdiqzc20uA+XzIXV+Ek=;
+ b=QcPQLc2jfZhhJUNKPuGN2seu0DqDk9xO+8ahUUOwos2XBn3tGhkRatd7
+ E+ahYjlGNqxHXJyPgeoWwsi8zCG475YgLs+MOxy+hBVK8wxXlHUFIQ+Z5
+ /NtKEVqTcnjr4KRw1tQyrzu5aUMehiaWPn6zTj2FE3AesVuI8ignnBMVg
+ 6TcGa9iVogGN+QwnUUBU4d3GGgwBBfZhIQ0pOp4Jqh0QOOdwDE6D6/JmO
+ aRSGM3A/upWWzAg0xSIFMrOHNIKWC/wqLefcG4cuWNYY/eK6D870Efzke
+ gAzUnxK3Dz6Z4/0Q6CJr+HP0lVyoQrRX3qTL4DHND/Ig6StziKfFoUN4l Q==;
+X-CSE-ConnectionGUID: aYoyTEjMRsWo4P3IBhyHGA==
+X-CSE-MsgGUID: BDoJF0kiSK+lEUyXTxKORQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56058810"
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; d="scan'208";a="56058810"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 06:55:50 -0700
+X-CSE-ConnectionGUID: yN/pI+e+RzqBjngpWOGVkg==
+X-CSE-MsgGUID: aSeNLAvTQue274cUj/gT8Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; d="scan'208";a="133171633"
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; d="scan'208";a="132100493"
 Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2025 06:54:18 -0700
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 06:55:46 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1u1mvW-0000000A5On-3Pgc; Mon, 07 Apr 2025 16:54:14 +0300
-Date: Mon, 7 Apr 2025 16:54:14 +0300
+ id 1u1mwv-0000000A5Q5-0pqS; Mon, 07 Apr 2025 16:55:41 +0300
+Date: Mon, 7 Apr 2025 16:55:40 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Aditya Garg <gargaditya08@live.com>
 Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
@@ -62,14 +62,13 @@ Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  Hector Martin <marcan@marcan.st>,
  Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: Re: [PATCH v3 3/3] drm/appletbdrm: use %p4cl instead of %p4cc
-Message-ID: <Z_PZBr0BPnkuoLs2@smile.fi.intel.com>
-References: <8153cb02-d8f1-4e59-b2d5-0dfdde7a832e@live.com>
- <PN3PR01MB9597A66B39FF5824E3718EC3B8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH v3 0/3] Use proper printk format in appletbdrm
+Message-ID: <Z_PZXPAklfkMlx6O@smile.fi.intel.com>
+References: <PN3PR01MB9597596DA5DA9FC02825CF0FB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PN3PR01MB9597A66B39FF5824E3718EC3B8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <PN3PR01MB9597596DA5DA9FC02825CF0FB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,18 +85,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 07, 2025 at 07:07:54PM +0530, Aditya Garg wrote:
-> From: Aditya Garg <gargaditya08@live.com>
-> 
-> Due to lack of a proper printk format, %p4cc was being used instead of
+On Mon, Apr 07, 2025 at 07:05:13PM +0530, Aditya Garg wrote:
+> The vsprint patch was originally being sent as a seperate patch [1], and
+> I was waiting it to be taken up. But as suggested by Petr, I'm sending
+> them via DRM.
 
-s/printk format/format specifier/
 
-That's basically the term (`man printf`) everybody knows.
+Your message is detached from the thread, make sure you use proper tools, e.g.
 
-> %p4cl for the purpose of printing FourCCs. But the disadvange was that
-> they were being printed in a reverse order. %p4cl should correct this
-> issue.
+`git format-patch --thread --cover-letter -v3 ...` gives the correct result.
+
+...
+
+> [1]: https://lore.kernel.org/lkml/1A03A5B4-93AC-4307-AE6A-4A4C4B7E9472@live.com/
+
+Even here you can use Link: tag
+
+Link: https://lore.kernel.org/lkml/1A03A5B4-93AC-4307-AE6A-4A4C4B7E9472@live.com/ [1]
 
 -- 
 With Best Regards,
