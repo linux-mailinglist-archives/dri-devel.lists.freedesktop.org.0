@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBB4A7D465
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 08:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B759A7D46B
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 08:44:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8112C10E2C1;
-	Mon,  7 Apr 2025 06:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FEDF10E2BA;
+	Mon,  7 Apr 2025 06:44:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PtQo/Lm2";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="DSQiM1yG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49D6010E2CA
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 06:43:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5836644048;
- Mon,  7 Apr 2025 06:43:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45AF2C4CEE8;
- Mon,  7 Apr 2025 06:43:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744008200;
- bh=gnBFumum9PP+8xhx0Y/DA+stQr0WbR+RKX2uP2j/1Nk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PtQo/Lm2yeKEZ5c+E6SJuXZi2DWesmqvHyQQaiSX5+vmJsQc8YKn+GEkrVlRj4mrx
- 0Egkpwkk8Jeg7sDEp7oDvqxFFTURmbuNQioyThDP2uXhKD3OPq5CazopBNoVlafp+M
- xnwyQlarGlNd6uM60mclp2MMfZV9ZSHqapDKrEcxGXbSBs0kpgWZg3BpqhPxXLS3QZ
- wJ17rTuinzWXLbvDxTMiC/lZqx/wgZU1E6ldOAD/pa3QbA3mTJjVbLCuOGXs2kXcS6
- WLTBvuMIt+XrGA4T8QNqct0YQ6aQhIDsWb4Fdynfb30FHkbAECo14nDyC5Miq7Cnv7
- NwJN4+tFO6c4w==
-Date: Mon, 7 Apr 2025 08:43:18 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
- biju.das.jz@bp.renesas.com, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 2/4] dt-bindings: gpu: mali-bifrost: Add compatible for
- RZ/G3E SoC
-Message-ID: <20250407-weightless-sincere-beetle-d1986e@shite>
-References: <20250402131142.1270701-1-tommaso.merciai.xr@bp.renesas.com>
- <20250402131142.1270701-3-tommaso.merciai.xr@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250402131142.1270701-3-tommaso.merciai.xr@bp.renesas.com>
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com
+ [95.215.58.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC8F10E2BA
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 06:44:03 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1744008241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e/CZwjzLThDPBcpzNJbPn8jjn4kcP3tilyZ15dYYTMw=;
+ b=DSQiM1yGCPxf+jlCgxKzo6DIH9Mb2RciRD3k0uOS3Z6dngdRX8F18kW9ovmnjkk1INtygE
+ H6W9NuTR8vMLMJ8CCg6sJWxbCU9/cm9OO6cDoxKn+Be/aHqiA9BSCu4etl3bzLZY2mtgGB
+ lT5blpH8gSSw/x69NF6HOoa2yrXWk3A=
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
+Subject: Re: CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is broken, was Re: [RFC
+ PATCH 0/6] Deep talk about folio vmap
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <FDB7F930-8537-4B79-BAA6-AA782B39943A@linux.dev>
+Date: Mon, 7 Apr 2025 14:43:20 +0800
+Cc: bingbu.cao@linux.intel.com, Christoph Hellwig <hch@lst.de>,
+ Matthew Wilcox <willy@infradead.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ opensource.kernel@vivo.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <35D26C00-952F-481C-8345-E339F0ED770B@linux.dev>
+References: <20250327092922.536-1-link@vivo.com>
+ <20250404090111.GB11105@lst.de>
+ <9A899641-BDED-4773-B349-56AF1DD58B21@linux.dev>
+ <43DD699A-5C5D-429B-A2B5-61FBEAE2E252@linux.dev>
+ <e9f44d16-fd9a-4d82-b40e-c173d068676a@vivo.com>
+ <E4D6E02F-BC82-4630-8CB8-CD1A0163ABCF@linux.dev>
+ <6f76a497-248b-4f92-9448-755006c732c8@vivo.com>
+ <FDB7F930-8537-4B79-BAA6-AA782B39943A@linux.dev>
+To: Huan Yang <link@vivo.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,19 +74,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 02, 2025 at 03:11:39PM GMT, Tommaso Merciai wrote:
-> Add a compatible string for the Renesas RZ/G3E SoC variants that
-> include a Mali-G52 GPU. These variants share the same restrictions on
-> interrupts, clocks, and power domains as the RZ/G2L SoC, so extend
-> the existing schema validation accordingly.
-> 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 2 ++
->  1 file changed, 2 insertions(+)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Best regards,
-Krzysztof
+> On Apr 7, 2025, at 11:37, Muchun Song <muchun.song@linux.dev> wrote:
+>=20
+>=20
+>=20
+>> On Apr 7, 2025, at 11:21, Huan Yang <link@vivo.com> wrote:
+>>=20
+>>=20
+>> =E5=9C=A8 2025/4/7 10:57, Muchun Song =E5=86=99=E9=81=93:
+>>>=20
+>>>> On Apr 7, 2025, at 09:59, Huan Yang <link@vivo.com> wrote:
+>>>>=20
+>>>>=20
+>>>> =E5=9C=A8 2025/4/4 18:07, Muchun Song =E5=86=99=E9=81=93:
+>>>>>> On Apr 4, 2025, at 17:38, Muchun Song <muchun.song@linux.dev> =
+wrote:
+>>>>>>=20
+>>>>>>=20
+>>>>>>=20
+>>>>>>> On Apr 4, 2025, at 17:01, Christoph Hellwig <hch@lst.de> wrote:
+>>>>>>>=20
+>>>>>>> After the btrfs compressed bio discussion I think the hugetlb =
+changes that
+>>>>>>> skip the tail pages are fundamentally unsafe in the current =
+kernel.
+>>>>>>>=20
+>>>>>>> That is because the bio_vec representation assumes tail pages do =
+exist, so
+>>>>>>> as soon as you are doing direct I/O that generates a bvec =
+starting beyond
+>>>>>>> the present head page things will blow up.  Other users of =
+bio_vecs might
+>>>>>>> do the same, but the way the block bio_vecs are generated are =
+very suspect
+>>>>>>> to that.  So we'll first need to sort that out and a few other =
+things
+>>>>>>> before we can even think of enabling such a feature.
+>>>>>>>=20
+>>>>>> I would like to express my gratitude to Christoph for including =
+me in the
+>>>>>> thread. I have carefully read the cover letter in [1], which =
+indicates
+>>>>>> that an issue has arisen due to the improper use of `vmap_pfn()`. =
+I'm
+>>>>>> wondering if we could consider using `vmap()` instead. In the HVO =
+scenario,
+>>>>>> the tail struct pages do **exist**, but they are read-only. I've =
+examined
+>>>>>> the code of `vmap()`, and it appears that it only reads the =
+struct page.
+>>>>>> Therefore, it seems feasible for us to use `vmap()` (I am not a =
+expert in
+>>>>>> udmabuf.). Right?
+>>>>> I believe my stance is correct. I've also reviewed another thread =
+in [2].
+>>>>> Allow me to clarify and correct the viewpoints you presented. You =
+stated:
+>>>>>  "
+>>>>>   So by HVO, it also not backed by pages, only contains folio =
+head, each
+>>>>>   tail pfn's page struct go away.
+>>>>>  "
+>>>>> This statement is entirely inaccurate. The tail pages do not cease =
+to exist;
+>>>>> rather, they are read-only. For your specific use-case, please use =
+`vmap()`
+>>>>> to resolve the issue at hand. If you wish to gain a comprehensive =
+understanding
+>>>> I see the document give a simple graph to point:
+>>>>=20
+>>>> +-----------+ ---virt_to_page---> +-----------+   mapping to   =
++-----------+
+>>>> |           |                                     |     0     | =
+-------------> |     0     |
+>>>> |           | +-----------+                +-----------+
+>>>> |           |                                      |     1     | =
+-------------> |     1     |
+>>>> |           | +-----------+                +-----------+
+>>>> |           |                                      |     2     | =
+----------------^ ^ ^ ^ ^ ^
+>>>> |           | +-----------+                      | | | | |
+>>>> |           |                                      |     3     | =
+------------------+ | | | |
+>>>> |           | +-----------+                        | | | |
+>>>> |           |                                      |     4     | =
+--------------------+ | | |
+>>>> |    PMD    | +-----------+                          | | |
+>>>> |   level   |                                   |     5     | =
+----------------------+ | |
+>>>> |  mapping  | +-----------+                             | |
+>>>> |           |                                     |     6     | =
+------------------------+ |
+>>>> |           | +-----------+                              |
+>>>> |           |                                     |     7     | =
+--------------------------+
+>>>> |           |                                    +-----------+
+>>>> |           |
+>>>> |           |
+>>>> |           |
+>>>> +-----------+
+>>>>=20
+>>>> If I understand correct, each 2-7 tail's page struct is freed, so =
+if I just need map page 2-7, can we use vmap do
+>>>>=20
+>>>> something correctly?
+>>> The answer is you can. It is essential to distinguish between =
+virtual
+>>=20
+>> Thanks for your reply, but I still can't understand it. For example, =
+I need vmap a hugetlb HVO folio's
+>>=20
+>> 2-7 page:
+>>=20
+>> struct page **pages =3D kvmalloc(sizeof(*pages), 6, GFP_KENREL);
+>>=20
+>> for (i =3D 2; i < 8; ++i)
+>>=20
+>>    pages[i] =3D folio_page(folio, i);    //set 2-7 range page into =
+pages,
+>>=20
+>> void *vaddr =3D vmap(pages, 6, 0, PAGE_KERNEL);
+>>=20
+>> For no HVO pages, this can work. If HVO enabled, do "pages[i] =3D =
+folio_page(folio, i);" just
+>>=20
+>> got the head page? and how vmap can correctly map each page?
+>=20
+> Why do you think folio_page(folio, i) (i =E2=89=A0 0) returns the head =
+page?
+> Is it speculation or tested? Please base it on the actual situation
+> instead of indulging in wild thoughts.
+
+By the way, in case you truly struggle to comprehend the fundamental
+aspects of HVO, I would like to summarize for you the user-visible
+behaviors in comparison to the situation where HVO is disabled.
+
+HVO Status		Tail Page Structures	Head Page Structures
+Enabled			Read-Only (RO)		Read-Write (RW)
+Disabled		Read-Write (RW)		Read-Write (RW)
+
+The sole distinction between the two scenarios lies in whether the
+tail page structures are allowed to be written or not. Please refrain
+from getting bogged down in the details of the implementation of HVO.
+
+Thanks,
+Muchun.
+
+>=20
+> Thanks,
+> Muchun.
+>=20
+>>=20
+>> Please correct me. :)
+>>=20
+>> Thanks,
+>>=20
+>> Huan Yang
+>>=20
+>>> address (VA) and physical address (PA). The VAs of tail struct pages
+>>> aren't freed but remapped to the physical page mapped by the VA of =
+the
+>>> head struct page (since contents of those tail physical pages are =
+the
+>>> same). Thus, the freed pages are the physical pages mapped by =
+original
+>>> tail struct pages, not their virtual addresses. Moreover, while it
+>>> is possible to read the virtual addresses of these tail struct =
+pages,
+>>> any write operations are prohibited since it is within the realm of
+>>> acceptability that the kernel is expected to perform write =
+operations
+>>> solely on the head struct page of a compound head and conduct read
+>>> operations only on the tail struct pages. BTW, folio infrastructure
+>>> is also based on this assumption.
+>>>=20
+>>> Thanks,
+>>> Muchun.
+>>>=20
+>>>> Or something I still misunderstand, please correct me.
+>>>>=20
+>>>> Thanks,
+>>>>=20
+>>>> Huan Yang
+>>>>=20
+>>>>> of the fundamentals of HVO, I kindly suggest a thorough review of =
+the document
+>>>>> in [3].
+>>>>>=20
+>>>>> [2] =
+https://lore.kernel.org/lkml/5229b24f-1984-4225-ae03-8b952de56e3b@vivo.com=
+/#t
+>>>>> [3] Documentation/mm/vmemmap_dedup.rst
+>>>>>=20
+>>>>>> [1] =
+https://lore.kernel.org/linux-mm/20250327092922.536-1-link@vivo.com/T/#m05=
+5b34978cf882fd44d2d08d929b50292d8502b4
+>>>>>>=20
+>>>>>> Thanks,
+>>>>>> Muchun.
+
 
