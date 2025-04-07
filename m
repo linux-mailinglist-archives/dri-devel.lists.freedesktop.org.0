@@ -2,61 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56737A7E6A7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 18:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C61A7E71F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 18:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC5210E519;
-	Mon,  7 Apr 2025 16:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20CC610E520;
+	Mon,  7 Apr 2025 16:47:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="AyOZgjiK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XsXYPM6I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C62110E516
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 16:34:12 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C7AAF20579;
- Mon,  7 Apr 2025 16:34:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744043651;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FsMOy7QRYRved35PCqQuHrlR3pOYMkBV4GzXKflkZTo=;
- b=AyOZgjiKxPkYfk6DG/FW6H/Di8ZUYWAokF3yYnkHRRWslbgAJNtQj+DZ9o7ZGGvnsWqSw7
- Mp1epUZ4psulceBqDV6dde9bBxTYn6p7j4mnDFBpUZIBQ9qoa/gfP1M9Rnv9mvwEIgJqT6
- i9pxyLrOUD2RX1tOJuOcxUmH88x7AV6R2umo2deLb8n6mN7V5K0QRywOqcGsXzhZSBHS50
- VjaX+StzFYzNS5NSFQHjTDUNEJVv07tETB+W2eigUlidZD5urp1O7cC9zTqFo3PF4XoTIT
- QKq8GzUyBOfiNPWoIHryQjHwEJfGtmjw/0gq9ZloTy0ffQbxVd+RrBQaYQuVug==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Mon, 07 Apr 2025 18:34:01 +0200
-Subject: [PATCH v2 3/3] drm/panel: simple: add Tianma P0700WXF1MBAA panel
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1DA110E520;
+ Mon,  7 Apr 2025 16:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744044438; x=1775580438;
+ h=from:date:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=d/9rF2v6gxz+aVjjloTd50bAqLAn569sdN/hKyUhniA=;
+ b=XsXYPM6IUjuuabnjasAYhW2DkGkGjqiX1oebt1eJSJHcOp3cLZiHN+78
+ wzfuo3D44KwKJDpWiykV+aNXpgh2m0AgHZw80UxOX15x40/mgRLNu+1oU
+ KzxwHU8WXsX0NeDjGkAzPcTe2/m9/tdyjBWuE+EDTV14tGv8z5sFV1nXx
+ +O2A9KBcYUOJ5KILWnXEY8CGzuxkQSoiv2FUTu2Yo3LftFZHMpZ1lzGke
+ /gcXlvtVKuJSaTe4eAUBUH+Rh++1O1M2Rzu+uf1Fuj/l+bzycWGSvE5Qo
+ IzJxWk5GDYlKEzIbN5p59ozlK/johH8D8w2df0exnYffUksOHMiKfxSma g==;
+X-CSE-ConnectionGUID: KHwFlaWYSaafZ4P98R9/Pw==
+X-CSE-MsgGUID: OwDZnmJ+RNObfgMBPf02yg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45533292"
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; d="scan'208";a="45533292"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 09:47:13 -0700
+X-CSE-ConnectionGUID: dEMeJzZ7RJaZ+YDO48bYaw==
+X-CSE-MsgGUID: yioqSJnkQC+IzOwpsUAeHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; d="scan'208";a="127767783"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.229])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 09:47:02 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 7 Apr 2025 19:46:59 +0300 (EEST)
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Douglas Anderson <dianders@chromium.org>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Anusha Srivatsa <asrivats@redhat.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
+ =?ISO-8859-15?Q?Herv=E9_Codina?= <herve.codina@bootlin.com>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+ LKML <linux-kernel@vger.kernel.org>, chrome-platform@lists.linux.dev, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 02/34] platform: arm64: acer-aspire1-ec: convert to
+ devm_drm_bridge_alloc() API
+In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-2-42113ff8d9c0@bootlin.com>
+Message-ID: <a9000632-a6d1-d369-c317-9ee73aa645dc@linux.intel.com>
+References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
+ <20250407-drm-bridge-convert-to-alloc-api-v1-2-42113ff8d9c0@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-tianma-p0700wxf1mbaa-v2-3-ede8c5a3f538@bootlin.com>
-References: <20250407-tianma-p0700wxf1mbaa-v2-0-ede8c5a3f538@bootlin.com>
-In-Reply-To: <20250407-tianma-p0700wxf1mbaa-v2-0-ede8c5a3f538@bootlin.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- "Pu, Hui" <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtieekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudekpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepthhhihgvrhhrhidrrhgvughinhhgsehgmhgrihhlr
- dgtohhmpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshgrmhesrhgrvhhnsghorhhgrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: multipart/mixed; boundary="8323328-1316811861-1744044419=:936"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,84 +97,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the Tianma P0700WXF1MBAA 7" 1280x800 LVDS RGB TFT LCD panel.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Reuse the timings of the TM070JDHG34-00 as they are identical, even though
-they are described differently by the datasheet as noted in the
-comment. Power up/down timing are slightly different, so add a new struct
-panel_desc for that.
+--8323328-1316811861-1744044419=:936
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 33 +++++++++++++++++++++++++++++----
- 1 file changed, 29 insertions(+), 4 deletions(-)
+On Mon, 7 Apr 2025, Luca Ceresoli wrote:
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 3496ed3e62056938ccc0ed2389ea46eed8d17ea2..0bc20547fc3b3b7164e7f5743d30332c479414b5 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4418,10 +4418,10 @@ static const struct panel_desc tianma_tm070jvhg33 = {
- };
- 
- /*
-- * The datasheet computes total blanking as back porch + front porch, not
-- * including sync pulse width. This is for both H and V. To make the total
-- * blanking and period correct, subtract the pulse width from the front
-- * porch.
-+ * The TM070JDHG34-00 datasheet computes total blanking as back porch +
-+ * front porch, not including sync pulse width. This is for both H and
-+ * V. To make the total blanking and period correct, subtract the pulse
-+ * width from the front porch.
-  *
-  * This works well for the Min and Typ values, but for Max values the sync
-  * pulse width is higher than back porch + front porch, so work around that
-@@ -4430,6 +4430,10 @@ static const struct panel_desc tianma_tm070jvhg33 = {
-  *
-  * Exact datasheet values are added as a comment where they differ from the
-  * ones implemented for the above reason.
-+ *
-+ * The P0700WXF1MBAA datasheet is even less detailed, only listing period
-+ * and total blanking time, however the resulting values are the same as
-+ * the TM070JDHG34-00.
-  */
- static const struct display_timing tianma_tm070jdhg34_00_timing = {
- 	.pixelclock = { 68400000, 71900000, 78100000 },
-@@ -4462,6 +4466,24 @@ static const struct panel_desc tianma_tm070jdhg34_00 = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct panel_desc tianma_p0700wxf1mbaa = {
-+	.timings = &tianma_tm070jdhg34_00_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 150, /* 149.76 */
-+		.height = 94, /* 93.60 */
-+	},
-+	.delay = {
-+		.prepare = 18,		/* Tr + Tp1 */
-+		.enable = 152,		/* Tp2 + Tp5 */
-+		.disable = 152,		/* Tp6 + Tp4 */
-+		.unprepare = 120,	/* Tp3 */
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct display_timing tianma_tm070rvhg71_timing = {
- 	.pixelclock = { 27700000, 29200000, 39600000 },
- 	.hactive = { 800, 800, 800 },
-@@ -5247,6 +5269,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "tfc,s9700rtwv43tr-01b",
- 		.data = &tfc_s9700rtwv43tr_01b,
-+	}, {
-+		.compatible = "tianma,p0700wxf1mbaa",
-+		.data = &tianma_p0700wxf1mbaa,
- 	}, {
- 		.compatible = "tianma,tm070jdhg30",
- 		.data = &tianma_tm070jdhg30,
+> This is the new API for allocating DRM bridges.
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>=20
+> ---
+>=20
+> Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+> Cc: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/arm64/acer-aspire1-ec.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/platform/arm64/acer-aspire1-ec.c b/drivers/platform/=
+arm64/acer-aspire1-ec.c
+> index 958fe1bf5f85bb69ac7962f217de9f0b40cde9a1..438532a047e68799ac53a16a4=
+c813fc16be997b9 100644
+> --- a/drivers/platform/arm64/acer-aspire1-ec.c
+> +++ b/drivers/platform/arm64/acer-aspire1-ec.c
+> @@ -452,9 +452,9 @@ static int aspire_ec_probe(struct i2c_client *client)
+>  =09int ret;
+>  =09u8 tmp;
+> =20
+> -=09ec =3D devm_kzalloc(dev, sizeof(*ec), GFP_KERNEL);
+> -=09if (!ec)
+> -=09=09return -ENOMEM;
+> +=09ec =3D devm_drm_bridge_alloc(dev, struct aspire_ec, bridge, &aspire_e=
+c_bridge_funcs);
+> +=09if (IS_ERR(ec))
+> +=09=09return PTR_ERR(ec);
+> =20
+>  =09ec->client =3D client;
+>  =09i2c_set_clientdata(client, ec);
+> @@ -497,7 +497,6 @@ static int aspire_ec_probe(struct i2c_client *client)
+>  =09fwnode =3D device_get_named_child_node(dev, "connector");
+>  =09if (fwnode) {
+>  =09=09INIT_WORK(&ec->work, aspire_ec_bridge_update_hpd_work);
+> -=09=09ec->bridge.funcs =3D &aspire_ec_bridge_funcs;
+>  =09=09ec->bridge.of_node =3D to_of_node(fwnode);
+>  =09=09ec->bridge.ops =3D DRM_BRIDGE_OP_HPD;
+>  =09=09ec->bridge.type =3D DRM_MODE_CONNECTOR_USB;
 
--- 
-2.49.0
+Hi Luca,
 
+It took a while to locate where the code for the new helper is. I suggest=
+=20
+if you need send another version of the series directly linking to the=20
+commit in the cover letter so that it won't take multiple hoops to find it=
+=20
+if one wants to review the code and is not having all drm trees easily at=
+=20
+hand. Here it is for the benefit of other pdx86 people:
+
+https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b71=
+5ea3d1ba537ef2da95eec
+
+
+Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+
+I assume you want this to go through the drm tree where the helper already=
+=20
+is?
+
+--=20
+ i.
+
+--8323328-1316811861-1744044419=:936--
