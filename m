@@ -2,160 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05BCA7E8E2
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 19:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 441FCA7E935
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 20:01:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A2010E53A;
-	Mon,  7 Apr 2025 17:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C66310E09D;
+	Mon,  7 Apr 2025 18:00:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ZQbQTI9M";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="QEPXk48X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2073.outbound.protection.outlook.com [40.107.236.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCFE10E53A
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 17:49:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AGtLJtBAs7PNJFJWKD1/IeeG0GUJrYVIxS95byOo4AD3F+evzbxkcEL82cMXsFi2G5GqXwu2BhcW3WjN7yqmHB4E6WOgHwoBxGsdU7+tfAH5rM2uDjroqUcxRBc6vYuV0Ix8yKPUPlfqNzoQkAEoqWi5xBF+Nk1fKG+H720u6VkIDMCri1fn020agKpRykruodsjaEK51A1gt2xMhDgtHLxuwXOAsg8I+SvtKWD6Drimd1HjqjeFFaX+iGJYj0Q+VZ6TDBnWp/SpanM5L2FQCRzhorlnyso545/wjghvVPCfxvecA+1lPXoNs6jZMw0+GvPnzwiiqd2I6XPw0GCVHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kxL8xffSbv0kms3ytkGlEm3mM6S4gneI5WToDV/EfMM=;
- b=auonyQUvRgvCUfZk7B7t3s/M+Df9IL5aTMhytDQUJQW+Ze4oNqJ5ZyFEGNcYGT5sz4pX9ewQaW71yioEVfR+Vk3iMo/x2fYtthre2n6IPP06Oe+goCfwoUZdZ3VDIMmNyJEN/gNaDEyhyoP0UQL/XYN4Ex0RnGs/i3moI4Ud3WR/7x30vsg1DtufKee4CY8NnQlVMxvuNhzCB1FCttdnNBcILarsbU1dzcpvXldAc3XXvJHJLmUTvZESeenN/CIxCwdBJBjTRy8XnJZR5VDDiyHY2h95RaIcYjkN7Vosty3P/7OujQu+aARIDSpDqf/JXgUYmiDyCjNDTnMTe33ykg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kxL8xffSbv0kms3ytkGlEm3mM6S4gneI5WToDV/EfMM=;
- b=ZQbQTI9M9HFVuwhlTtCHHdQp/uFLmbUn5FUCxTUNliaoMokkxxcEREbxqlPuBsmq1wo9XQsfxvA/fDQBAzDAZtr+4wEFX57xMyLxPj56TBj4dAop01+91krS2hji8/vi2FoYjpmyPGzTUzOAotz3DUX1+ydjGnz8bk7/veXj3u8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB7610.namprd12.prod.outlook.com (2603:10b6:930:9a::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.32; Mon, 7 Apr
- 2025 17:49:23 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8583.045; Mon, 7 Apr 2025
- 17:49:23 +0000
-Message-ID: <784b3f08-38f7-4479-9e83-03937fa2d19a@amd.com>
-Date: Mon, 7 Apr 2025 19:49:16 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dma-buf: heaps: system: Remove global variable
-To: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>
-Cc: Mattijs Korpershoek <mkorpershoek@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
- <20250407-dma-buf-ecc-heap-v3-1-97cdd36a5f29@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250407-dma-buf-ecc-heap-v3-1-97cdd36a5f29@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0127.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9e::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
+ [95.215.58.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A788610E09D
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 18:00:50 +0000 (UTC)
+Message-ID: <46dc6803-47f0-4434-9794-08307604e450@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1744048846;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LYQgn5/fy4dHXJLjzY7D/eH42PtSSXiU5EQQrf/mBGI=;
+ b=QEPXk48XAIJwFjsEkynJHh8BkD7K6R7O3WxD+ynoOmVgsn3k4PmYUCzmmB8MkHr7AN0G6g
+ Edf5aQOyIkfIPSNRLd6br718NyzzNT5EVVzm3orqZ8iTpgHbKEiiBu/nFsKZuKQaEa/BU7
+ EJ/AhQ9vJrNKR2TUnoIDZwg0gn/FJ7c=
+Date: Mon, 7 Apr 2025 23:29:55 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7610:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2299aa62-1503-482b-9edc-08dd75fc87be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RGpwby9jYUdJc0N1STNyelI4c0Uxb0hEbDhBZ3JSckh3QWx2SXQyaG12bXlY?=
- =?utf-8?B?Ti9renpaSklyU0M1eEFJN0pkTE0rcjdzODhZZytySjJ0cFhUdHVIMlNSay9C?=
- =?utf-8?B?YVdGTEs3TGMwL2ppSSt3VVdZeGliSElnNkNTQVhGa2ZiUjBrZWJ6MmtxVFI4?=
- =?utf-8?B?WWY5YmpVaWdWaDlueEswKzZJODhQSHNOSnNIbVpjQ1huVWJyWG5QWURPM1pt?=
- =?utf-8?B?QTlqRDE2MXV0WmZ1V25xeUFWK1NOdGZKL1VWcnFQNUpzZkZRYnB6Uy9MVjZv?=
- =?utf-8?B?a1REaEpleEE5MUUrUDVhakFBY2ZZNy96N0RPZnoxOVAvUGlmbjVsRzRxV3Jz?=
- =?utf-8?B?NFE2ZlBvS3BLK1BrclA4WXRhRURsNE5MUWNKYnFRbTJkSisxTjFMZUYrQ2dz?=
- =?utf-8?B?WHRCN0dJd3J1K1dXWGVwZWZSc29oQzRSTEFtWHNvaFlrVjZlSmp0dG9tM09m?=
- =?utf-8?B?S1Q5RU9MS0JpWGUvRVk4NGJHOVdVWUZyVTZNbXBpb1UxcmpHM1phVWZ1UDNx?=
- =?utf-8?B?dFlsem1CZG1RdWhUanJpNmlXS3BJQlVya1dQL2xVMGNzQ01WUzd6T2FPR0kx?=
- =?utf-8?B?SHFpSERXRlY5dWQyeFd3Yzd6c09sYnlUYVVrZVd5cjJKT3k5SGVnRVA3MGRH?=
- =?utf-8?B?RGdHU0JwYkdJZFR0MGJuaTR1anYyUnJSTVZFV3Ryb2dCd1JLZCtUd0tJVW1I?=
- =?utf-8?B?aWhjcm90bDNNQVI1enRwUW4rdXllLzk2YTJ1eVdmNUx0Wi9TMkhyaHFWTUtv?=
- =?utf-8?B?SGxJZDAydmJVaklnSytyU3NTY2lwU0lJd1dEU1BoenN5V0g1K2VIYnRFM0xD?=
- =?utf-8?B?bTEvanBMNFhRekllclNOY2hoemFGUTdNdVR0VlZqZ3d6MW5tUE1iN2xxV2dC?=
- =?utf-8?B?VVMwWlNJSnd2V3lSbXZPQnliUklCaStWVEVQdXprYlk4S2dWdVNUR3JqVEx4?=
- =?utf-8?B?V0VwNndxRWhnU2IwOVd5WEtJV3VoUnl2andzWkp5dk5jZU9VWjJNQlE5OUlX?=
- =?utf-8?B?UkJOQ1UvcmZGRWF5cUYyRDdwL294b0FWc293Szc0T3NSTHRxVFV4d1E2Lzda?=
- =?utf-8?B?bEVVQXQ5K1FRRTB1b1ptaC8zT0ZiK2ptMEw4dU94OTl2NDQwdTcwTzFYaDUx?=
- =?utf-8?B?YXBia1R4WGF2T0FZU0lqUDZEeVRvUVBBUTBDTnFBOFpYL3lPL3ZlNldVUkJw?=
- =?utf-8?B?eTNNUkwvU2VCNExSUi9ma2R6U1IrM0dhbkZyMlhKSWFIMFdmMm9ycDZLU3hn?=
- =?utf-8?B?blNqUk5mU0pvUld5enNZNmt5U2JPRjRkc2x6TmRmY0l0b1FtRkdJYjk4WStm?=
- =?utf-8?B?MkdJb0xiallQUGR0VXhucUNuc2RJTTJUQkJ4Z1pCS3llUXZZb0dTeHRJamcw?=
- =?utf-8?B?TE9rL3pRMTcyb1RsNEV1T0EvajFhM01od2ZVWmM3TUN6WHVFT2tGZ2dlclJo?=
- =?utf-8?B?N2FtK0o0UGM3aDluSTBOTGRXeWVlV2FGbWdzelFVckZXTk0vWXlvT0pUVnhW?=
- =?utf-8?B?R05NSDM5bExadmVFbXdtZ2RhWDhKV2cyN0JwZkJVQjFCUEx1dU5qUU0xL1B0?=
- =?utf-8?B?cS90akJrSTJhbnp1ZVhVSmxadUlJM09KVXlrNUlOaVNqUUJ3TWtPcWpOMTdJ?=
- =?utf-8?B?b1JrRUpSWHdzNGpQL3NWN1lLdTk1Z2czRVg5SVRVQ0VTWHBhSm9XRS8zMXZu?=
- =?utf-8?B?WU1Ld0xGalMxSEFRNUgyRTFRbnVEM2xrenRXRVVaSDRmVExpdyt4ZVBpaEJB?=
- =?utf-8?B?WDR4VHpnbk4wWUhnQmZSS2JYWEF4SEJHTEJzUzZiaGZFcFBrMEpnRVpmbnpV?=
- =?utf-8?B?b0FQVW55NmlNSWplenBNYXhYNWcyWmxKQ09oNFV3dDZNYktPKzJFeXdhSGl2?=
- =?utf-8?Q?aZUS7KMXMrLKb?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NUViQzdnV051bGgwTnowWEhlbC9FS2h2L2htckpsUWpmUkYybDBsS0ZKbGtK?=
- =?utf-8?B?dzUydUpPa2I4d3lBUlVjRTh5cjJJRDVpRlgwZjRCemw0NzhDYkVpNGFCRUNQ?=
- =?utf-8?B?NGM2cGVZcG4xbHpxTEZNVkdlQU5kd1pUaTU3MVJ4L0E4dFRjbUFqdUFzY2N4?=
- =?utf-8?B?eDJ1a2lHUVo4TFQxd1VzbUNzeFcxd0hZVXpYcW5JWVRmditmM2pmUS80MUdC?=
- =?utf-8?B?SC9UNjBUMGVFT3M0cndpR2JMOE5WWERYZjRjbUlrdVlMcG5yMm5TcGdnN2x4?=
- =?utf-8?B?TWcwOVJsWG82eGtIdU0zc3dGUGtZbUpVSkFnUXVPWVc2KzhoSnp4bEVGWHhO?=
- =?utf-8?B?cmd3MWdTZGw4T3FrNmMvaHFSRjZIczFaWVplS0craHoxeEZmQ2FxUGdsYzNY?=
- =?utf-8?B?cDFFM2lvOUJKYmhnQVQ2TUVUYkJodzArM0ZTWHJFNUNNNGUvN2RyVk1tTHVp?=
- =?utf-8?B?WU02RUovaFcyaHdBQ20yM2Fld2RVMTE3MmtNMkZ0M2ZGbVFBZ3lkV1VraTRQ?=
- =?utf-8?B?UVRCMTFZOFFTcnliZ2RZWmg4bXhWakozQVZyNUo2ZE1FWXZYU1FFMklKaHpt?=
- =?utf-8?B?eVJucytWa05yb0pRQVBxaEZCWStDMlFudVJhMlZwVnFuUCs0cW5ZazJmOHhK?=
- =?utf-8?B?ZUx6VTQ1aTVGOTNmcE9IQXI3SExIUWZXMzJacU44cTFwbCt3bkZJWnpLVlJH?=
- =?utf-8?B?R3Fqc0xlS0lDeTZHaW5XZkNyaXZhZkZvNTg0Tk96S3VzaDRveGgyNmowdDhy?=
- =?utf-8?B?MGw0SEIvNTR4aFgwNWRZNzczbGgyeTVjanFQc0l0akkydFcwZTU5L1k3cWt2?=
- =?utf-8?B?Z2N2N3BLWWF2S1pBcDBDb0pDcU50TEZiVmhlNHJkNS9XL1ZQZ3R6c2VuYkZj?=
- =?utf-8?B?Ty8yUFNNNE5ORTFVTVQ4bzFlOVJlU1FtZCtoMnBJTkRycGFnNSt3WWJROVRo?=
- =?utf-8?B?aEN5UVBsNGtnVDdwejlKMmYxSFphOVNBRTNHanpKQ3FBU1drNkJna1poamxz?=
- =?utf-8?B?ZXZYcSs2aFNVeGtFRHc1RGZMKzg2OERIVmM1cFhQcStQOGgyRnhnaExyanRx?=
- =?utf-8?B?UDNFZFVJVTBDdURvVThqb0hHQUkxV01nR0VmSlZxTHhhRUNzWjhLUndMZ3Bk?=
- =?utf-8?B?RkpMeC9jMDlnTnUySWxqY0NEazB4ZHQrRi96dDlDUjQ3ZTFVcXRSbEJETVBj?=
- =?utf-8?B?dDFjZlBCWWUxNzRONUhJL3M0bVhsSXozenlXSG40NTRuUE5yRFJzc1E1dEJv?=
- =?utf-8?B?b04xdmltUDhIMWpkSzVGZkkrbEFpL1BCbnVOVlF1QUlmbWZhUU1sYWg4TkpB?=
- =?utf-8?B?L3FSN2ZJdzN2amhEMHphSE04b0RuZThkMFRnTVNzSjNYVUZMa1NDdlNzN09E?=
- =?utf-8?B?V0RYSzFiYnFER21RakVYS0FpRmlVb1lBbHA0N0ROWHBLRTFjdHdFK0JSMGZB?=
- =?utf-8?B?QzF6TThpdWw1SnVEMDdFTzlOODMrZEdzNlVDWW5BRzhRSE1yY3ZQY3pmMDB1?=
- =?utf-8?B?WUhFWnBEbUREZGloak1sNEs2a0d4bWQrYWxpZTQrMUQxazFpT0o1dVNGS3dB?=
- =?utf-8?B?OXMyczN2dHVVSmpENUF0cDIvQ3dVNWVYcld2R00ybktFeFlUTTI3K0hMUzE4?=
- =?utf-8?B?am5CWG5DZjlCMm83bkdQQkJhdzZXNzdGL3F1UlBpVVp2V3RCQXFrSHV4RlE1?=
- =?utf-8?B?VVhPRUpqQXNMb3NEYldFT1lkWWVidHJEMlJuSTFiQ2pQeElUTjMwR1JPaFFv?=
- =?utf-8?B?UlNBZmZXVCtPajFoZktjckNaTTBhZzUxcXVkU2gwbGxSWGlxYmowU0d5cDdD?=
- =?utf-8?B?ZDkreWhITnBOUytLV3lFMGFueHlRQUVWVU9sblhKZVJISFpzRFdWSnZFdlNN?=
- =?utf-8?B?b3crMUxWRTN1eW8zNG82T1hDNE9PUC9XTzE1Q0IwalF6ZnFHZnplL0JiNUkx?=
- =?utf-8?B?MTA1VDlRTDg1eDM5L3pJU0pDSnVoRWpFQkttTUNzTE9GdEpFU1NISTAxRS85?=
- =?utf-8?B?WEJpbGZFWW5BT1R4cVgrU1BPOHA1dWJaT3c2STZidlB3RE1FcTNUMmJETlMv?=
- =?utf-8?B?S3Q2Tyt4a0ZBK2JUVHlVVFo5TjZBTEROdlc1MHFWa0RRL0xnUWg5djBnNzQ4?=
- =?utf-8?Q?bXwg=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2299aa62-1503-482b-9edc-08dd75fc87be
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2025 17:49:22.8875 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HdKHArvAvHaYNVBBRDxv73SohEhEsFS2rkfQyObprHrjv3MuXuRPgcFu9pQga8I6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7610
+Subject: Re: [PATCH v2 12/18] drm/bridge: cdns-dsi: Drop checks that shouldn't
+ be in .mode_valid()
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>,
+ Devarsh Thakkar <devarsht@ti.com>
+References: <20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com>
+ <20250402-cdns-dsi-impro-v2-12-4a093eaa5e27@ideasonboard.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+In-Reply-To: <20250402-cdns-dsi-impro-v2-12-4a093eaa5e27@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,54 +69,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.04.25 um 18:29 schrieb Maxime Ripard:
-> The system heap is storing its struct dma_heap pointer in a global
-> variable but isn't using it anywhere.
->
-> Let's move the global variable into system_heap_create() to make it
-> local.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Hi Tomi,
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
-Going to push this one to drm-misc-next, but I can't judge if in any way possible if patch #2 is correct or not.
-
-Regards,
-Christian.
-
+On 02/04/25 19:00, Tomi Valkeinen wrote:
+> The docs say about mode_valid():
+> 
+> "it is not allowed to look at anything else but the passed-in mode, and
+> validate it against configuration-invariant hardware constraints"
+> 
+> We're doing a lot more than just looking at the mode. The main issue
+> here is that we're doing checks based on the pixel clock, before we know
+> what the pixel clock from the crtc actually is.
+> 
+> So, drop the checks from .mode_valid(). This also allows us to remove
+> the 'mode_valid_check' parameter from internal functions, and the
+> related code.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/dma-buf/heaps/system_heap.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 26d5dc89ea1663a0d078e3a5723ca3d8d12b935f..82b1b714300d6ff5f3e543059dd8215ceaa00c69 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -19,12 +19,10 @@
->  #include <linux/module.h>
->  #include <linux/scatterlist.h>
->  #include <linux/slab.h>
->  #include <linux/vmalloc.h>
+>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 44 ++++++++------------------
+>  1 file changed, 14 insertions(+), 30 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index e85c8652c96e..cf783680b1b4 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -469,25 +469,17 @@ static unsigned int dpi_to_dsi_timing(unsigned int dpi_timing,
 >  
-> -static struct dma_heap *sys_heap;
-> -
->  struct system_heap_buffer {
->  	struct dma_heap *heap;
->  	struct list_head attachments;
->  	struct mutex lock;
->  	unsigned long len;
-> @@ -422,10 +420,11 @@ static const struct dma_heap_ops system_heap_ops = {
->  };
->  
->  static int __init system_heap_create(void)
+>  static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
+>  			     const struct drm_display_mode *mode,
+> -			     struct cdns_dsi_cfg *dsi_cfg,
+> -			     bool mode_valid_check)
+> +			     struct cdns_dsi_cfg *dsi_cfg)
 >  {
->  	struct dma_heap_export_info exp_info;
-> +	struct dma_heap *sys_heap;
+>  	struct cdns_dsi_output *output = &dsi->output;
+>  	u32 dpi_hsa, dpi_hbp, dpi_hfp, dpi_hact;
+>  	bool sync_pulse;
+>  	int bpp;
 >  
->  	exp_info.name = "system";
->  	exp_info.ops = &system_heap_ops;
->  	exp_info.priv = NULL;
+> -	if (mode_valid_check) {
+> -		dpi_hsa = mode->hsync_end - mode->hsync_start;
+> -		dpi_hbp = mode->htotal - mode->hsync_end;
+> -		dpi_hfp = mode->hsync_start - mode->hdisplay;
+> -		dpi_hact = mode->hdisplay;
+> -	} else {
+> -		dpi_hsa = mode->crtc_hsync_end - mode->crtc_hsync_start;
+> -		dpi_hbp = mode->crtc_htotal - mode->crtc_hsync_end;
+> -		dpi_hfp =  mode->crtc_hsync_start - mode->crtc_hdisplay;
+> -		dpi_hact = mode->crtc_hdisplay;
+> -	}
+> +	dpi_hsa = mode->crtc_hsync_end - mode->crtc_hsync_start;
+> +	dpi_hbp = mode->crtc_htotal - mode->crtc_hsync_end;
+> +	dpi_hfp =  mode->crtc_hsync_start - mode->crtc_hdisplay;
+> +	dpi_hact = mode->crtc_hdisplay;
 >  
->
+>  	memset(dsi_cfg, 0, sizeof(*dsi_cfg));
+>  
+> @@ -518,8 +510,7 @@ static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
+>  static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
+>  			      struct cdns_dsi_cfg *dsi_cfg,
+>  			      struct phy_configure_opts_mipi_dphy *phy_cfg,
+> -			      const struct drm_display_mode *mode,
+> -			      bool mode_valid_check)
+> +			      const struct drm_display_mode *mode)
+>  {
+>  	struct cdns_dsi_output *output = &dsi->output;
+>  	unsigned long long dlane_bps;
+> @@ -549,11 +540,11 @@ static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
+>  	if (dsi_htotal % lanes)
+>  		adj_dsi_htotal += lanes - (dsi_htotal % lanes);
+>  
+> -	dpi_hz = (mode_valid_check ? mode->clock : mode->crtc_clock) * 1000;
+> +	dpi_hz = mode->crtc_clock * 1000;
+>  	dlane_bps = (unsigned long long)dpi_hz * adj_dsi_htotal;
+>  
+>  	/* data rate in bytes/sec is not an integer, refuse the mode. */
+> -	dpi_htotal = mode_valid_check ? mode->htotal : mode->crtc_htotal;
+> +	dpi_htotal = mode->crtc_htotal;
+>  	if (do_div(dlane_bps, lanes * dpi_htotal))
+>  		return -EINVAL;
+>  
+> @@ -569,27 +560,25 @@ static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
+>  
+>  static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+>  			       const struct drm_display_mode *mode,
+> -			       struct cdns_dsi_cfg *dsi_cfg,
+> -			       bool mode_valid_check)
+> +			       struct cdns_dsi_cfg *dsi_cfg)
+>  {
+>  	struct cdns_dsi_output *output = &dsi->output;
+>  	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
+>  	unsigned int nlanes = output->dev->lanes;
+> -	int mode_clock = (mode_valid_check ? mode->clock : mode->crtc_clock);
+>  	unsigned long req_hs_clk_rate;
+>  	int ret;
+>  
+> -	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg, mode_valid_check);
+> +	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg);
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = phy_mipi_dphy_get_default_config(mode_clock * 1000,
+> +	ret = phy_mipi_dphy_get_default_config(mode->crtc_clock * 1000,
+>  					       mipi_dsi_pixel_format_to_bpp(output->dev->format),
+>  					       nlanes, phy_cfg);
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, mode, mode_valid_check);
+> +	ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, mode);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -635,8 +624,7 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+>  	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+>  	struct cdns_dsi *dsi = input_to_dsi(input);
+>  	struct cdns_dsi_output *output = &dsi->output;
+> -	struct cdns_dsi_cfg dsi_cfg;
+> -	int bpp, ret;
+> +	int bpp;
+>  
+>  	/*
+>  	 * VFP_DSI should be less than VFP_DPI and VFP_DSI should be at
+> @@ -654,10 +642,6 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+>  	if ((mode->hdisplay * bpp) % 32)
+>  		return MODE_H_ILLEGAL;
+>  
+> -	ret = cdns_dsi_check_conf(dsi, mode, &dsi_cfg, true);
+> -	if (ret)
+> -		return MODE_BAD;
+> -
+>  	return MODE_OK;
+>  }
+>  
+> @@ -996,7 +980,7 @@ static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
+>  	adjusted_crtc_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+>  	adjusted_crtc_mode->flags |= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC;
+>  
+> -	return cdns_dsi_check_conf(dsi, mode, dsi_cfg, false);
+> +	return cdns_dsi_check_conf(dsi, mode, dsi_cfg);
+
+With this patch, the driver shifts to using the crtc_* values during the
+check phase, and then, it is brought back to using non crtc_* values in
+the next patch.
+
+Should this patch just drop the cdns_dsi_check_conf() check from
+.mode_valid() instead, and let the next patch phase out the
+mdoe_valid_check parameter as the driver simultaneously shifts to using
+the non crtc_* values throughout?
+
+
+-- 
+Regards
+Aradhya
 
