@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3082A7D52E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 09:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2ADA7D54D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 09:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F37A10E322;
-	Mon,  7 Apr 2025 07:14:06 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YdKqgeF7";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4903A10E328;
+	Mon,  7 Apr 2025 07:17:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6927410E322
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 07:14:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EAA49A48547;
- Mon,  7 Apr 2025 07:08:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0470EC4CEDD;
- Mon,  7 Apr 2025 07:14:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744010042;
- bh=Vik9Kl1OnWUvLSlBk9v3zimdZysvG8TJElj2+wcY2ho=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YdKqgeF7KjA0dOunC1QwnM/KBFZNIQRyVPuBoB+cwfq7Zm9pGkT2+CO1Y+iXhNfhS
- Z4/IzzwdCUnF7DjgZT5TCUy2jLXiw2IxI8kAzPC058T/Hlr9HM7BrTKFotqDcChADc
- SSBhMXmUOt4bMgd4SEsPFsoU9OHk5uTYXhbjjFWtqi9AWEHv9So1xvGzZFD1+RSHct
- l9xjWLy8jlXARnUw237dA9YTzXw6SDYVjQlaHNLuWCup+bOaVhJ4B2cjnEduN1w7qT
- 2t/UoBubjeW3fsAVyz9N0AdsdH5Dfw6HYin5ojOkTim0E8lxwPvSLtcOKm3LxQfrJ9
- bPeWRB9yh0l3Q==
-Date: Mon, 7 Apr 2025 09:13:59 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: sunliming@linux.dev
-Cc: dave.stevenson@raspberrypi.com, mcanal@igalia.com, 
- kernel-list@raspberrypi.com, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, sunliming <sunliming@kylinos.cn>, 
- kernel test robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH] drm/vc4: fix uninitialized smatch warnings
-Message-ID: <20250407-colorful-important-saluki-5e4ac5@houat>
-References: <20250405024503.694981-1-sunliming@linux.dev>
+Received: from cstnet.cn (unknown [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C22D810E328;
+ Mon,  7 Apr 2025 07:17:06 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.141.245])
+ by APP-01 (Coremail) with SMTP id qwCowABXAAHfe_NnCWDSBg--.45177S2;
+ Mon, 07 Apr 2025 15:16:49 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: hamza.mahfooz@amd.com, chiahsuan.chung@amd.com, sunil.khatri@amd.com,
+ alex.hung@amd.com, aurabindo.pillai@amd.com, hersenxs.wu@amd.com,
+ mario.limonciello@amd.com, mwen@igalia.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Wentao Liang <vulab@iscas.ac.cn>
+Subject: [PATCH] drm/amd/display: Add error check for avi and vendor infoframe
+ setup function
+Date: Mon,  7 Apr 2025 15:16:27 +0800
+Message-ID: <20250407071627.1666-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="dcazzgp6om5urcyf"
-Content-Disposition: inline
-In-Reply-To: <20250405024503.694981-1-sunliming@linux.dev>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowABXAAHfe_NnCWDSBg--.45177S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CF4UAr47KFW8CF47Jw1rtFb_yoW8Gw4Upw
+ 48Ja4qvrWkWFZFyryUAF1ruFWYk3srJFW7Kr45Aw15W345CrZ8Ja1rJwn5t347uFWrA3ya
+ y3WDZ3yxXF1vkw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+ 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+ zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+ 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+ CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+ nIWIevJa73UjIFyTuYvjTRCnmRDUUUU
+X-Originating-IP: [124.16.141.245]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgwFA2fzOj3udQACsG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +65,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The function fill_stream_properties_from_drm_display_mode() calls the
+function drm_hdmi_avi_infoframe_from_display_mode() and the
+function drm_hdmi_vendor_infoframe_from_display_mode(), but does
+not check its return value. Log the error messages to prevent silent
+failure if either function fails.
 
---dcazzgp6om5urcyf
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/vc4: fix uninitialized smatch warnings
-MIME-Version: 1.0
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Sat, Apr 05, 2025 at 10:45:03AM +0800, sunliming@linux.dev wrote:
-> From: sunliming <sunliming@kylinos.cn>
->=20
-> Fix below smatch warnings:
-> drivers/gpu/drm/vc4/vc4_gem.c:604 vc4_lock_bo_reservations() error: unini=
-tialized symbol 'ret'.
->=20
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/r/202504021500.3AM1hKKS-lkp@intel.com/
-> Signed-off-by: sunliming <sunliming@kylinos.cn>
-> ---
->  drivers/gpu/drm/vc4/vc4_gem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-> index 8125f87edc60..04ea1696fc5d 100644
-> --- a/drivers/gpu/drm/vc4/vc4_gem.c
-> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
-> @@ -582,7 +582,7 @@ static int
->  vc4_lock_bo_reservations(struct vc4_exec_info *exec,
->  			 struct drm_exec *exec_ctx)
->  {
-> -	int ret;
-> +	int ret =3D 0;
-> =20
->  	/* Reserve space for our shared (read-only) fence references,
->  	 * before we commit the CL to the hardware.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 0396429a64be..d6feafb8fa3d 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6152,8 +6152,8 @@ static void fill_stream_properties_from_drm_display_mode(
+ 
+ 	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A) {
+ 		err = drm_hdmi_avi_infoframe_from_display_mode(&avi_frame, (struct drm_connector *)connector, mode_in);
+-                if (err < 0)
+-                        dev_err(connector->dev, "Failed to setup avi infoframe: %zd\n", err);
++		if (err < 0)
++			dev_err(connector->dev, "Failed to setup avi infoframe: %zd\n", err);
+ 		timing_out->vic = avi_frame.video_code;
+ 		err = drm_hdmi_vendor_infoframe_from_display_mode(&hv_frame, (struct drm_connector *)connector, mode_in);
+ 		if (err < 0)
+-- 
+2.42.0.windows.2
 
-I don't see a code path where ret is used without being initialized. Can
-you clarify that in the commit log?
-
-Maxime
-
---dcazzgp6om5urcyf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ/N7MwAKCRAnX84Zoj2+
-dnnpAX4p/k+3OSHIvHET/V8fbdfhdVwBNlqRL7LZ2Fr0GVM6Obd+QRYTXZbjhp5v
-XZFVV6wBf2UbqWQOG6wq+GkK8EfOkZ57n/4XfTDLXB6yQyBEs1Ukd/LiBWWenKp5
-45zpM5fWzQ==
-=PWYe
------END PGP SIGNATURE-----
-
---dcazzgp6om5urcyf--
