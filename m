@@ -2,78 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978D8A7E15C
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DBFA7E16A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4636110E4CE;
-	Mon,  7 Apr 2025 14:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC17310E4A0;
+	Mon,  7 Apr 2025 14:27:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lM7vJvKv";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="hlLXgiRo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6263210E4AF
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:25:41 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1AB77442B9;
- Mon,  7 Apr 2025 14:25:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744035940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ebgCpKb0JBnNyBzMJIKOLuwJd1meFjjT61fyzD63fBQ=;
- b=lM7vJvKvBKYwHDIqNg9m3hu0vb4jPOkECMiAsXsESARSvZnpOjIAjGzvaM/5i+nq9n2SBO
- YtBRrm574LAiOzMnAO9HrNMZCkEiSROPGlWsfHDWPfz7V3XlGeVEkBKILnpY1GccdFEMi8
- sRYEC1xRJvmvyR14c6t/p5Qf/OjP2RRZLItT+jnl8JtWHtkU+g+ofusmSAsKDsQwH4/BCi
- a7nm6y0DFtMvOvar/IHOpkQaeTruncyAbMr4BIib0lywGqvCIiy+subPgADw/GmsCc1woM
- oXvYIgNRYfImNH0cyIFRsSap2efDKkLC44W4+1kLi78zA+IKX+2yFUMWLh2W3g==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Mon, 07 Apr 2025 16:23:46 +0200
-Subject: [PATCH 31/34] drm/bridge: imx8*-ldb: convert to
- devm_drm_bridge_alloc() API
+Received: from PNZPR01CU001.outbound.protection.outlook.com
+ (mail-centralindiaazolkn19011028.outbound.protection.outlook.com
+ [52.103.68.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5044C10E48E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:27:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cWa4ni5lM89ftFBolIU/UplGFGmx2MhlajtiJ6vYKwi5dS3cLBBGpXD9ACK7VRPOwtBi5nWzZTsfTdk9ltBchkG1zN2XNk90k+tgIwqBsyjHxZPGxmqU+s+Lp/Gm4CJhpLlWLIO4iBlVcMOnh7Tn8Asiemytcsd1OEhaoUh7pQKRR/erzAw/6VrBnOGvW5zoq9SL4TjX+9kDhd+gAbLNJLWO3XdcpSajj9/Sz6UnU+NcfzJC/JfdgrptTyUDf2e0HqMDxq+lY8J6tWIJtwQ8fRlpoTO3vC41h0ZsbzR83OLkzplJgpmswcfzALdpy5RGrq//KnJdYtY+roulrHWC/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v0dM5yvqiFsDFIaJ9rroDlt2+tktDTqoYmy+5vh66OA=;
+ b=Fzv2q3axntzxCgQM0cKvKNJFyWG8XhnDw9BR8bS7377PN594IINwZlHSrwWqgFLkRh3qzkheOyAv8eQkPATGQ2OVQifrXGIK8FF6g6PTK2VHx8t4xB68kbKVHZodP5GxChfZdYIPp1aeLqyDxir6TMd6ufLT6a50feINwnQbmOOVOnvgh+aT2eJgsa3UwxuLf+mg3rZ+MX5ybB0bwzspTv4SQhCbxO/d8ygh1CE+4bUSyDTa4q9LoXvmd9ikODHDpCqKQrqE+0Ul8M1vZ1dfvQ2AukqfHnNV5R5QWzkBAuDRHEawLfKOE12f6r/b3t3fzGtaHDwXdEdJIsXTsnfjeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v0dM5yvqiFsDFIaJ9rroDlt2+tktDTqoYmy+5vh66OA=;
+ b=hlLXgiRoxxMB14+ORVXjN+nXuTL0KyUQ8qYElPKPXdGDweHN/Q8MVJWCGrEUSVCdLhHvq7Q68EVlSpHgHv5pCCnK5nkDMhlU/wzowv83AsZi3eMcwG1ZGQ2H2YRv2koKrO2MYQ7y1Z7ADl4VCh18xx8EL+KRBmEkBd4bPNxxaUNoZJZSGTimKoCad4/wWKNpp01LmVe2SRkznZjWImVVS0mxqZd35roHUaoxOclDMDTGrx3cnNSL6qEL1YH87DaDoX+A5q77iUmWoKribx0JbPYll8KLkdkmFY/Q2u2yO94b+1LKuaPqEXXrg972fXxjKa2cHAkl14ZiIUlEYo95mQ==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by PN0PR01MB5859.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:66::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Mon, 7 Apr
+ 2025 14:27:13 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8606.029; Mon, 7 Apr 2025
+ 14:27:13 +0000
+Message-ID: <PN3PR01MB9597227004F9472689FA6395B8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Date: Mon, 7 Apr 2025 19:57:08 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/3] Use proper printk format in appletbdrm
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
+ Petr Mladek <pmladek@suse.com>, Sven Peter <sven@svenpeter.dev>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>,
+ Maxime Ripard <mripard@kernel.org>, "airlied@redhat.com"
+ <airlied@redhat.com>, Simona Vetter <simona@ffwll.ch>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ "apw@canonical.com" <apw@canonical.com>, "joe@perches.com"
+ <joe@perches.com>, "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ Kees Cook <kees@kernel.org>, "tamird@gmail.com" <tamird@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Hector Martin <marcan@marcan.st>,
+ "asahi@lists.linux.dev" <asahi@lists.linux.dev>
+References: <PN3PR01MB9597596DA5DA9FC02825CF0FB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z_PZXPAklfkMlx6O@smile.fi.intel.com>
+ <PN3PR01MB9597E19A55EAFC3E7B191F5FB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z_PfwShQX95IyHWR@smile.fi.intel.com>
+Content-Language: en-US
+From: Aditya Garg <gargaditya08@live.com>
+In-Reply-To: <Z_PfwShQX95IyHWR@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN4P287CA0083.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:26b::11) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:f7::14)
+X-Microsoft-Original-Message-ID: <8f6cfdff-001c-4823-985c-ee227e7c0813@live.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-drm-bridge-convert-to-alloc-api-v1-31-42113ff8d9c0@bootlin.com>
-References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
-In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Douglas Anderson <dianders@chromium.org>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
- =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Liu Ying <victor.liu@nxp.com>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedvieenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegvddprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvr
- hhnvghlrdhorhhgpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhm
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN0PR01MB5859:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7262930e-7fae-418b-08b2-08dd75e04a37
+X-Microsoft-Antispam: BCL:0;
+ ARA:14566002|461199028|19110799003|6090799003|5072599009|8060799006|15080799006|7092599003|3412199025|440099028;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RmpIQTBtZXlJd083NDdybDVmMFRiM2RTd1FMTkZuNmxTdGZ5TGlZZHBySW9u?=
+ =?utf-8?B?VmRDL1czSWVUaVZuWldHeUxQSllZVlVWdHlUMHV1VEVrWDZYMXBvS0FpeDN6?=
+ =?utf-8?B?RXlUMHV6bWEwdjN6eE5zUXV5ZTErSFhBTFhBeEU2ZmNNUk5tR2o4Q2pCeGxt?=
+ =?utf-8?B?dWNnNGQ2emVCWkx2Q0l1aldrV3AwTWxuZStYckxkbmtRMlVtQUdEdDIxdTZP?=
+ =?utf-8?B?U2h0VUdkQnFrczZLcTFseVBrVWI4VzJNNEFmYUtyR25IOFF3MSs5ekZsTmh4?=
+ =?utf-8?B?YWt4MUV5UytabUt0Mk1EVmpiTVYwOUJxQk1yV0pUb3J3dFBCYjBiNGtGUC83?=
+ =?utf-8?B?YWR4QTdmMU1SMTNKeVZpYmNRYkNYQWlVN0hXSnJrc0pGWWVTTCtFM1Mzc1Vt?=
+ =?utf-8?B?bGN4WHlQalNwM1V3WmNhUTNORXFZaWJmZTJpaTExdHVONVBWSEdXYzBtOExm?=
+ =?utf-8?B?bFpaYkpnT3hwaE8yWThEQTVtUFBCb0gxREJCSzdkTFE2WnErK1FNUmdDU25o?=
+ =?utf-8?B?VTJzaHJyNUFNckp0dkNDVEdVN3crWjd4ODNPcjlVMnY2cERvb0xxSDlsWnN0?=
+ =?utf-8?B?QWJSa3E5Tng1d3BMUHkyd1Y4dUhSV0hqMDljMEFLVXJ2YWhiTlV5d042WjRM?=
+ =?utf-8?B?Ym0wUGFoN1VSYkhQaGc4ZGMyclFZc040YVdOVnBCdThyMWtNTStJbVQ1NW9Z?=
+ =?utf-8?B?ZEQyV0JnZnRuTDVSUytGOU9sQ3JzOGNvYVZxUEM4WkFGVkF3TzdLUFRKbHJh?=
+ =?utf-8?B?LzVnZ0JZNG43OGJFMmF2V2tIZURsQmtrK0UvRWpFcDF2T3Vzbk5WbVVsVERS?=
+ =?utf-8?B?OWFRdW1TZHY0a1BvbjNRLy9BRER3aHJkZ21Sa2JlS3hRWkpyYnFENENEaWl6?=
+ =?utf-8?B?dG9UWTd4ZCttQzN6bEQwTEtxY1FIWFJ5Z0dxVVpKeTdPeXpsRHZsWUpWS1ZS?=
+ =?utf-8?B?RnkzejJkUGRLWkhqUG5qbFc1VmU2NGtha2crcTFQd3VHTkVQUE9xV3o2RTlP?=
+ =?utf-8?B?RHVaQTV1OU9iWTRlSkRtLzNvRFdVOEVlYXNWN2U2bG4wQUw4V1lsbTdnNXNu?=
+ =?utf-8?B?Qlk0VmsyVGNyNFhnZkRKR2xHb244VkFzZ3JMVFc3djQ0S3lOYmhONytoRFd6?=
+ =?utf-8?B?RzREL01MbThXbkFSWS82Titrb0hDdzl0bXFtS1h1am94a1QxNlVMZFlrdE05?=
+ =?utf-8?B?NjJXcjhGVXJQT1JDczhJek1rT3htVWpUZWQvcG1nSHM0NlJzcEVNZWt2Ykth?=
+ =?utf-8?B?Qnl5U1RQalpzai9CRTFBdVI3WFZkeE1iWkJEZStxMUcwMFV2aXB0TkF2Y3dw?=
+ =?utf-8?B?OU1XOWpJZVN6T0RLREFzUEMyZUdVc0RPcU9MV3RINEVkSjNaQXVlSDN3NE1p?=
+ =?utf-8?B?QVhDekVWTjROc1JhVXIvMlcweGpucXRKdGs1RllaQUgxcDB4MU92TjFNN0tm?=
+ =?utf-8?B?UTZOZTVyUFlkcGFPOFV2RllraVhsMmZlMUtUOEdwUE8xNlBoaFZzdEpRUTFE?=
+ =?utf-8?B?TG01SWp1NTZnZldGWU5lYU5VeG4vMzYxeU9BdEVPdk84NTZKSStwVWZQL3I3?=
+ =?utf-8?B?S1NGQT09?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmI5ZGpFU2VUcktvMHg3ejFMUGpnZlhYMjROZ3FBZ3MwSjFZc2p5dmQ1S2F0?=
+ =?utf-8?B?QjlvSnZqeTllOXdCOTdpS0JaUGRSc1NRajF2b2V6a0NvajBIN0MyRWZIK25R?=
+ =?utf-8?B?WC9GQ0JGRDFLUHdLYlhMWUJiN1BpelNJU3BvWFl1dzQyMWhpaU9VRHdvWCt1?=
+ =?utf-8?B?NUJjY1EyKzFTbGZUNlZlQUhJWjZRT1JoVVNjL2RzY1Ercjdla2JBMUVZMjR2?=
+ =?utf-8?B?S2xFSlYwTHV1SXk5UzRHUEE0UHY0TjUxSDFVNGRFa0pzYnBwdFFxQnN4N0Rq?=
+ =?utf-8?B?NnJFWHJqOVVNaVkzbEFEYzNWOVFyRXlWYkhSZTlNRmlYSmlmMURyY2p3c1d1?=
+ =?utf-8?B?NEFNZm96VHRuY08wTVdHbGdYbnljblBTekgvdElQVXFyK3BwSlVMWVcrVjVG?=
+ =?utf-8?B?aUFYaXphRUZvd2J5VExCTWN3eHZKMmtQMFFzc3hoNjI3dXJCbzF4OTNyeGJa?=
+ =?utf-8?B?YmVFd1RWc1VjYjNzckRIRG1aUW9DRG9vQjhpbEhHV2xLbVFKck03L00xNVkw?=
+ =?utf-8?B?Zzc2MXBHNzc4S1NzWTVEbHpjZEdCUVpDa1pnNFVvN0xjR0UvaEtmMDFlbGgv?=
+ =?utf-8?B?N09aSnhnUDFuSXU3MXJ4Vk55V2RYQ0JHcUZlWVdJQ29DMFg3dHFHYkZhenh6?=
+ =?utf-8?B?cnRuWm1kMTFnbURsTCt1WXJYOGVEZU13R1RRNTNscTVRVjhPME9uV1BweG9q?=
+ =?utf-8?B?bGttY09VZDNsOVg1T0RyMGxBbDA5bUJXanBXTzFIQWNQa1VGWVg4Rmk1aDMw?=
+ =?utf-8?B?Q1NSVzRocWY3UDNVa0xrZzdoZ2M1eW11RmxwelAzeFBzVVdvVForTmRxRkdY?=
+ =?utf-8?B?NWdJdlJMcEF0ZFB2cHkxT1U4czFkSGVuSC9aWnViNGsyR092R3BsR2JhenB6?=
+ =?utf-8?B?YW9sNEhNSVpXMkprNmJkd0lVbGhNOHlXdFNwcmI4Z0ZBTHB6cnRwSUhPNFBh?=
+ =?utf-8?B?YkxYYWVTMWFRdjBDU1F2Kyt3RnBrZnVPcmhSeVo3bzBuY3l6Tk42MjJlTXUx?=
+ =?utf-8?B?a01ydFUrV084VEdlemVjUzYwbkZhdXlDWllvRnFpb2ZBakpoejdxdzVVSW1B?=
+ =?utf-8?B?NjF6YnFDcG9udnY5MFdNTHp2aXZoZWpkSm53WmQ1ZW9BY2psY1hpMlpLd1Ja?=
+ =?utf-8?B?Z1R0SU1CVWF3bHZSY3RteERCcWFRcGozYzRzbWM4K2RJVUJIQ1NHeS8vQ1VC?=
+ =?utf-8?B?bjU4alh2cnV2ZCtVQXBOci92cUUzbHJheEZrZlJmd2MyVUxNNE9HbCtKUnBS?=
+ =?utf-8?B?WHRJZlpIWUF5bVI3S1ZJTHU3MmRKNXlYODhrTVB1SzhjN0Vza1NZdm5lOHlT?=
+ =?utf-8?B?NmZtenNEVmdEanZyc2NLWGZqNy9uWkFtSUUxL0ZCcEFmaG9OZlJlZFY2ZnBi?=
+ =?utf-8?B?Q0VRRVJ3WW5qM1VNTlNTRjRWUjhZbHJ0VWc5TXRwL3lOcmpvWnFYckdrenNN?=
+ =?utf-8?B?bG4ralFnWGJYQjJtMkZRWXhpWjBibWV3RldMTTRHbnR1bnJFaTBRa3NvTm1D?=
+ =?utf-8?B?OHpTbCtLaFQ1SXIwYWxhRGszRUlEcGZtRjJXdXFIbVZQdW4yemlHR2pGMitW?=
+ =?utf-8?B?RW9JZTFoUkcwTFBRVC9KSytUaXI0ditmZzNWb2o5ZnE1SkhIcXkxNitjNkpQ?=
+ =?utf-8?B?Mmc2RGtaMXBqTUxEU0RpMXdBR1M2Q2RKa1VEWllud0FNeWJOMXNlczNxUFhH?=
+ =?utf-8?B?STQ0SFVPcjltYWI0QytrTnBOcnZHYkliUmxpdkhDRHQrekY1VnRRSkJhdG9y?=
+ =?utf-8?Q?kSbo5ODH0SqqvQqES/ShdeRNFfxO54wVT2igWro?=
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7262930e-7fae-418b-08b2-08dd75e04a37
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2025 14:27:13.6919 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB5859
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,264 +164,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the new API for allocating DRM bridges.
 
-These two drivers are tangled together by the ldb_add_bridge_helper(), so
-they are converted at once.
 
-They also have a similar design, each embedding an array of channels in
-their main struct, and each channel embeds a drm_bridge. This prevents
-dynamic, refcount-based deallocation of the bridges.
+On 07-04-2025 07:52 pm, Andy Shevchenko wrote:
+> On Mon, Apr 07, 2025 at 02:17:00PM +0000, Aditya Garg wrote:
+>>> On 7 Apr 2025, at 7:26 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+>>> On Mon, Apr 07, 2025 at 07:05:13PM +0530, Aditya Garg wrote:
+>>>> The vsprint patch was originally being sent as a seperate patch [1], and
+>>>> I was waiting it to be taken up. But as suggested by Petr, I'm sending
+>>>> them via DRM.
+>>>
+>>> Your message is detached from the thread, make sure you use proper tools, e.g.
+>>
+>> It's not a problem with tools, it's a problem with my email provider.
+>>
+>> Microsoft now supports only oauth2 for SMTP, which git send-email doesn't
+>> support. I had done a few tests using msmtp with git send-email, but msmtp
+>> also had this detached from thread bug, since it doesn't read the message id
+>> specified by git send-email. I've been using macOS mail for a long time for
+>> kernel patches, but since it was a pain to reboot to macOS every time for
+>> this. So I just tried using thunderbird in Linux this time. Now this time, it
+>> was a configuration issue in thunderbird, in which it was making a copy of
+>> the sent email in my sent folder, resulting in 2 copies there. I replied to
+>> the copied one by mistake. I've finally fixed this issue as well, so should
+>> be good in future.
+> 
+> There is a project called email-oauth2-proxy, which makes it transparent, so
+> just take your time and configure your box or find another email provider.
 
-To make the new, dynamic bridge allocation possible:
+I already have a way to get oauth2 tokens for Outlook, something similar to this.
 
- * change the array of channels into an array of channel pointers
- * allocate each channel using devm_drm_bridge_alloc()
- * adapt ldb_add_bridge_helper() to not set the funcs pointer
-   (now done by devm_drm_bridge_alloc())
- * adapt the code wherever using the channels
+> The above is not an excuse to break the process.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
----
-
-Cc: Liu Ying <victor.liu@nxp.com>
----
- drivers/gpu/drm/bridge/imx/imx-ldb-helper.c |  4 +---
- drivers/gpu/drm/bridge/imx/imx-ldb-helper.h |  3 +--
- drivers/gpu/drm/bridge/imx/imx8qm-ldb.c     | 32 ++++++++++++++++++-----------
- drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c    | 20 ++++++++++++------
- 4 files changed, 36 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-index 61347f6ec33d906264f7e06902b0d915d263f3f8..6149ba141a389a04b3c347a67f13e049328c07ff 100644
---- a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-+++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-@@ -190,8 +190,7 @@ int ldb_find_next_bridge_helper(struct ldb *ldb)
- }
- EXPORT_SYMBOL_GPL(ldb_find_next_bridge_helper);
- 
--void ldb_add_bridge_helper(struct ldb *ldb,
--			   const struct drm_bridge_funcs *bridge_funcs)
-+void ldb_add_bridge_helper(struct ldb *ldb)
- {
- 	struct ldb_channel *ldb_ch;
- 	int i;
-@@ -203,7 +202,6 @@ void ldb_add_bridge_helper(struct ldb *ldb,
- 			continue;
- 
- 		ldb_ch->bridge.driver_private = ldb_ch;
--		ldb_ch->bridge.funcs = bridge_funcs;
- 		ldb_ch->bridge.of_node = ldb_ch->np;
- 
- 		drm_bridge_add(&ldb_ch->bridge);
-diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.h b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.h
-index 38a8a54b37a60e1be942aaa60b1d1bc375a7a131..de187e3269996d284ecad451dd857271056812e1 100644
---- a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.h
-+++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.h
-@@ -88,8 +88,7 @@ int ldb_init_helper(struct ldb *ldb);
- 
- int ldb_find_next_bridge_helper(struct ldb *ldb);
- 
--void ldb_add_bridge_helper(struct ldb *ldb,
--			   const struct drm_bridge_funcs *bridge_funcs);
-+void ldb_add_bridge_helper(struct ldb *ldb);
- 
- void ldb_remove_bridge_helper(struct ldb *ldb);
- 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
-index 524aac751359f5cd377807508cbeeb6a597529e1..47aa65938e6a521cd6f111535f6feb3920a0dfb7 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
-@@ -47,7 +47,7 @@ struct imx8qm_ldb_channel {
- struct imx8qm_ldb {
- 	struct ldb base;
- 	struct device *dev;
--	struct imx8qm_ldb_channel channel[MAX_LDB_CHAN_NUM];
-+	struct imx8qm_ldb_channel *channel[MAX_LDB_CHAN_NUM];
- 	struct clk *clk_pixel;
- 	struct clk *clk_bypass;
- 	int active_chno;
-@@ -107,7 +107,7 @@ static int imx8qm_ldb_bridge_atomic_check(struct drm_bridge *bridge,
- 
- 	if (is_split) {
- 		imx8qm_ldb_ch =
--			&imx8qm_ldb->channel[imx8qm_ldb->active_chno ^ 1];
-+			imx8qm_ldb->channel[imx8qm_ldb->active_chno ^ 1];
- 		imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, true,
- 				       phy_cfg);
- 		ret = phy_validate(imx8qm_ldb_ch->phy, PHY_MODE_LVDS, 0, &opts);
-@@ -158,7 +158,7 @@ imx8qm_ldb_bridge_mode_set(struct drm_bridge *bridge,
- 
- 	if (is_split) {
- 		imx8qm_ldb_ch =
--			&imx8qm_ldb->channel[imx8qm_ldb->active_chno ^ 1];
-+			imx8qm_ldb->channel[imx8qm_ldb->active_chno ^ 1];
- 		imx8qm_ldb_set_phy_cfg(imx8qm_ldb, di_clk, is_split, true,
- 				       phy_cfg);
- 		ret = phy_configure(imx8qm_ldb_ch->phy, &opts);
-@@ -226,13 +226,13 @@ static void imx8qm_ldb_bridge_atomic_enable(struct drm_bridge *bridge,
- 	}
- 
- 	if (is_split) {
--		ret = phy_power_on(imx8qm_ldb->channel[0].phy);
-+		ret = phy_power_on(imx8qm_ldb->channel[0]->phy);
- 		if (ret)
- 			DRM_DEV_ERROR(dev,
- 				      "failed to power on channel0 PHY: %d\n",
- 				      ret);
- 
--		ret = phy_power_on(imx8qm_ldb->channel[1].phy);
-+		ret = phy_power_on(imx8qm_ldb->channel[1]->phy);
- 		if (ret)
- 			DRM_DEV_ERROR(dev,
- 				      "failed to power on channel1 PHY: %d\n",
-@@ -261,12 +261,12 @@ static void imx8qm_ldb_bridge_atomic_disable(struct drm_bridge *bridge,
- 	ldb_bridge_disable_helper(bridge);
- 
- 	if (is_split) {
--		ret = phy_power_off(imx8qm_ldb->channel[0].phy);
-+		ret = phy_power_off(imx8qm_ldb->channel[0]->phy);
- 		if (ret)
- 			DRM_DEV_ERROR(dev,
- 				      "failed to power off channel0 PHY: %d\n",
- 				      ret);
--		ret = phy_power_off(imx8qm_ldb->channel[1].phy);
-+		ret = phy_power_off(imx8qm_ldb->channel[1]->phy);
- 		if (ret)
- 			DRM_DEV_ERROR(dev,
- 				      "failed to power off channel1 PHY: %d\n",
-@@ -412,7 +412,7 @@ static int imx8qm_ldb_get_phy(struct imx8qm_ldb *imx8qm_ldb)
- 	int i, ret;
- 
- 	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
--		imx8qm_ldb_ch = &imx8qm_ldb->channel[i];
-+		imx8qm_ldb_ch = imx8qm_ldb->channel[i];
- 		ldb_ch = &imx8qm_ldb_ch->base;
- 
- 		if (!ldb_ch->is_available)
-@@ -448,6 +448,14 @@ static int imx8qm_ldb_probe(struct platform_device *pdev)
- 	if (!imx8qm_ldb)
- 		return -ENOMEM;
- 
-+	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-+		imx8qm_ldb->channel[i] =
-+			devm_drm_bridge_alloc(dev, struct imx8qm_ldb_channel, base.bridge,
-+					      &imx8qm_ldb_bridge_funcs);
-+		if (IS_ERR(imx8qm_ldb->channel[i]))
-+			return PTR_ERR(imx8qm_ldb->channel[i]);
-+	}
-+
- 	imx8qm_ldb->clk_pixel = devm_clk_get(dev, "pixel");
- 	if (IS_ERR(imx8qm_ldb->clk_pixel)) {
- 		ret = PTR_ERR(imx8qm_ldb->clk_pixel);
-@@ -473,7 +481,7 @@ static int imx8qm_ldb_probe(struct platform_device *pdev)
- 	ldb->ctrl_reg = 0xe0;
- 
- 	for (i = 0; i < MAX_LDB_CHAN_NUM; i++)
--		ldb->channel[i] = &imx8qm_ldb->channel[i].base;
-+		ldb->channel[i] = &imx8qm_ldb->channel[i]->base;
- 
- 	ret = ldb_init_helper(ldb);
- 	if (ret)
-@@ -499,12 +507,12 @@ static int imx8qm_ldb_probe(struct platform_device *pdev)
- 		}
- 
- 		imx8qm_ldb->active_chno = 0;
--		imx8qm_ldb_ch = &imx8qm_ldb->channel[0];
-+		imx8qm_ldb_ch = imx8qm_ldb->channel[0];
- 		ldb_ch = &imx8qm_ldb_ch->base;
- 		ldb_ch->link_type = pixel_order;
- 	} else {
- 		for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
--			imx8qm_ldb_ch = &imx8qm_ldb->channel[i];
-+			imx8qm_ldb_ch = imx8qm_ldb->channel[i];
- 			ldb_ch = &imx8qm_ldb_ch->base;
- 
- 			if (ldb_ch->is_available) {
-@@ -525,7 +533,7 @@ static int imx8qm_ldb_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, imx8qm_ldb);
- 	pm_runtime_enable(dev);
- 
--	ldb_add_bridge_helper(ldb, &imx8qm_ldb_bridge_funcs);
-+	ldb_add_bridge_helper(ldb);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-index d4f3492ca5abf65a3327d7fa62214832946eb218..5d272916e200980f7253a032701dcd990e0e34f2 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-@@ -44,7 +44,7 @@ struct imx8qxp_ldb_channel {
- struct imx8qxp_ldb {
- 	struct ldb base;
- 	struct device *dev;
--	struct imx8qxp_ldb_channel channel[MAX_LDB_CHAN_NUM];
-+	struct imx8qxp_ldb_channel *channel[MAX_LDB_CHAN_NUM];
- 	struct clk *clk_pixel;
- 	struct clk *clk_bypass;
- 	struct drm_bridge *companion;
-@@ -410,7 +410,7 @@ static const struct drm_bridge_funcs imx8qxp_ldb_bridge_funcs = {
- static int imx8qxp_ldb_set_di_id(struct imx8qxp_ldb *imx8qxp_ldb)
- {
- 	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
--			 &imx8qxp_ldb->channel[imx8qxp_ldb->active_chno];
-+			 imx8qxp_ldb->channel[imx8qxp_ldb->active_chno];
- 	struct ldb_channel *ldb_ch = &imx8qxp_ldb_ch->base;
- 	struct device_node *ep, *remote;
- 	struct device *dev = imx8qxp_ldb->dev;
-@@ -456,7 +456,7 @@ imx8qxp_ldb_check_chno_and_dual_link(struct ldb_channel *ldb_ch, int link)
- static int imx8qxp_ldb_parse_dt_companion(struct imx8qxp_ldb *imx8qxp_ldb)
- {
- 	struct imx8qxp_ldb_channel *imx8qxp_ldb_ch =
--			 &imx8qxp_ldb->channel[imx8qxp_ldb->active_chno];
-+			 imx8qxp_ldb->channel[imx8qxp_ldb->active_chno];
- 	struct ldb_channel *ldb_ch = &imx8qxp_ldb_ch->base;
- 	struct ldb_channel *companion_ldb_ch;
- 	struct device_node *companion;
-@@ -586,6 +586,14 @@ static int imx8qxp_ldb_probe(struct platform_device *pdev)
- 	if (!imx8qxp_ldb)
- 		return -ENOMEM;
- 
-+	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-+		imx8qxp_ldb->channel[i] =
-+			devm_drm_bridge_alloc(dev, struct imx8qxp_ldb_channel, base.bridge,
-+					      &imx8qxp_ldb_bridge_funcs);
-+		if (IS_ERR(imx8qxp_ldb->channel[i]))
-+			return PTR_ERR(imx8qxp_ldb->channel[i]);
-+	}
-+
- 	imx8qxp_ldb->clk_pixel = devm_clk_get(dev, "pixel");
- 	if (IS_ERR(imx8qxp_ldb->clk_pixel)) {
- 		ret = PTR_ERR(imx8qxp_ldb->clk_pixel);
-@@ -611,7 +619,7 @@ static int imx8qxp_ldb_probe(struct platform_device *pdev)
- 	ldb->ctrl_reg = 0xe0;
- 
- 	for (i = 0; i < MAX_LDB_CHAN_NUM; i++)
--		ldb->channel[i] = &imx8qxp_ldb->channel[i].base;
-+		ldb->channel[i] = &imx8qxp_ldb->channel[i]->base;
- 
- 	ret = ldb_init_helper(ldb);
- 	if (ret)
-@@ -627,7 +635,7 @@ static int imx8qxp_ldb_probe(struct platform_device *pdev)
- 	}
- 
- 	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
--		imx8qxp_ldb_ch = &imx8qxp_ldb->channel[i];
-+		imx8qxp_ldb_ch = imx8qxp_ldb->channel[i];
- 		ldb_ch = &imx8qxp_ldb_ch->base;
- 
- 		if (ldb_ch->is_available) {
-@@ -660,7 +668,7 @@ static int imx8qxp_ldb_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, imx8qxp_ldb);
- 	pm_runtime_enable(dev);
- 
--	ldb_add_bridge_helper(ldb, &imx8qxp_ldb_bridge_funcs);
-+	ldb_add_bridge_helper(ldb);
- 
- 	return 0;
- }
-
--- 
-2.49.0
+It was an honest mistake, and I just said I managed to fix it and should be good in the future right?
+> 
+>>> `git format-patch --thread --cover-letter -v3 ...` gives the correct result.
+> 
 
