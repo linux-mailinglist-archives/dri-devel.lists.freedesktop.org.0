@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90964A7DD1F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 14:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131B5A7DDC4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 14:35:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9326110E0F5;
-	Mon,  7 Apr 2025 12:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A57410E0F3;
+	Mon,  7 Apr 2025 12:35:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icloud.com header.i=@icloud.com header.b="anymPyWj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cIOkmgSj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 594 seconds by postgrey-1.36 at gabe;
- Mon, 07 Apr 2025 12:05:33 UTC
-Received: from pv50p00im-ztdg10021801.me.com (pv50p00im-ztdg10021801.me.com
- [17.58.6.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3624810E0F5
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 12:05:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; bh=Z75kDtTMKquraVShLM7bPPJB66WvUMJ0QtUbJjFQFJk=;
- h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:x-icloud-hme;
- b=anymPyWjrQHKXWLbTzp5qhjeZc2WbjdqfQgYHsxP3SmB7oAoFj7RauAT55mdnYQR7
- w0unR/JlTIpMBC24xy0XXDAAPFtIRMu4uOkRsFL2SSnkPk/jNH13/dFZOR7PFQLA2m
- gliT4Ukkmd1dcAdSSsULfYzSbkG5wwiM4tbVlL3l+p1Lm9cc5T81eOZ34VZt2n3o3A
- pyYLv8NXk+wuPEC4xAuNO41DDZMu0Xr6FNV5F9yTxFdlIOH+m76ivGFDzCR2gEsUsJ
- HU6ZBYzzLE5DfD7Bg6STnOASObUNAJnw1x5ULuZgWAg2/0rId3A2aE221RvNTpLWZi
- Lf16WFvaI+aiw==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com
- [17.56.9.10])
- by pv50p00im-ztdg10021801.me.com (Postfix) with ESMTPSA id A20402010176;
- Mon,  7 Apr 2025 11:55:34 +0000 (UTC)
-From: Zijun Hu <zijun_hu@icloud.com>
-Date: Mon, 07 Apr 2025 19:55:20 +0800
-Subject: [PATCH] fbdev/nvidiafb: Correct const string length in
- nvidiafb_setup()
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A2B10E0F3
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 12:35:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A17755C049A;
+ Mon,  7 Apr 2025 12:32:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D87FBC4CEDD;
+ Mon,  7 Apr 2025 12:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744029309;
+ bh=LZtCZhrq/j20h74c70XZWF4FnHaFn9BU+I9ulwZRlIk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cIOkmgSjS30KJqPARWW8wI/QfKkbDqug8EKl/sn2KOMlp+S9T6P6c+75Px3KoMPpF
+ RQC2KtREWv5PLx7XF/pjDjGO6QfIBMIpnze7biNKnnELJh65QYmRVVM0s1lXHDfE1h
+ 6/lfiZpqmt+iJLO2dKAU33/oQfpFiP+d5rCeG5yJpWpxChVPm8TBFElkYDn1Tz6Q9A
+ bhq1HgY2p17LMqfpzgB4rqPa2OKQInBbAv+IkHl0blDSz9rnl4nomW6q4cll58oBSr
+ i0mXxjivDMu2/F/3kwJC8Td9dzsbQ7RYsAXaxJXgvCOXo5TPsZ2CzDPYGCwQW0nfcG
+ OJAxlk/8GXwqg==
+Date: Mon, 7 Apr 2025 14:35:06 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
+ helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch,
+ robdclark@gmail.com, 
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ valentine.burley@collabora.com, 
+ lumag@kernel.org, quic_abhinavk@quicinc.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] drm/ci: Add jobs to run KUnit tests
+Message-ID: <20250407-laughing-mauve-cricket-86e1e0@houat>
+References: <20250327160117.945165-1-vignesh.raman@collabora.com>
+ <20250327160117.945165-4-vignesh.raman@collabora.com>
+ <20250328-idealistic-invisible-unicorn-961d67@houat>
+ <11f27552-9fac-4d96-980c-dcfcb093fa54@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-fix_nvidia-v1-1-843f8d031c7d@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIACe982cC/x2MQQqAIBAAvyJ7TjAp1L4SEYtutRcLBQnEvycdh
- 2GmQqbElGERFRIVznzHDuMgwF8YT5IcOoNWelaTMvLgd4+FA6NEF4z2zqJVFnrwJOr2n61bax/
- BNxyRXAAAAA==
-X-Change-ID: 20250407-fix_nvidia-a9d72c98a808
-To: Antonino Daplas <adaplas@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: Zijun Hu <zijun_hu@icloud.com>, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Zijun Hu <quic_zijuhu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: hR7R5pRJtDpg_X92yc7fAbAx09XflHRV
-X-Proofpoint-GUID: hR7R5pRJtDpg_X92yc7fAbAx09XflHRV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-07_03,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- clxscore=1011
- malwarescore=0 spamscore=0 mlxlogscore=857 adultscore=0 suspectscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2504070085
-X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ev2lugbvzjpsenvx"
+Content-Disposition: inline
+In-Reply-To: <11f27552-9fac-4d96-980c-dcfcb093fa54@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,37 +66,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zijun Hu <quic_zijuhu@quicinc.com>
 
-The actual length of const string "noaccel" is 7, but the strncmp()
-branch in nvidiafb_setup() wrongly hard codes it as 6.
+--ev2lugbvzjpsenvx
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 3/3] drm/ci: Add jobs to run KUnit tests
+MIME-Version: 1.0
 
-Fix by using actual length 7 as argument of the strncmp().
+On Tue, Apr 01, 2025 at 07:47:16AM +0530, Vignesh Raman wrote:
+> On 28/03/25 20:40, Maxime Ripard wrote:
+> > On Thu, Mar 27, 2025 at 09:31:12PM +0530, Vignesh Raman wrote:
+> > > Add jobs to run KUnit tests using tools/testing/kunit/kunit.py tool.
+> > >=20
+> > > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> > > ---
+> > >   drivers/gpu/drm/ci/gitlab-ci.yml |  1 +
+> > >   drivers/gpu/drm/ci/kunit.sh      | 34 +++++++++++++++++++++++++++++=
++++
+> > >   drivers/gpu/drm/ci/kunit.yml     | 19 ++++++++++++++++++
+> > >   3 files changed, 54 insertions(+)
+> > >   create mode 100755 drivers/gpu/drm/ci/kunit.sh
+> > >   create mode 100644 drivers/gpu/drm/ci/kunit.yml
+> > >=20
+> > > diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gi=
+tlab-ci.yml
+> > > index 9e61b49e9960..90ae57ca86a1 100644
+> > > --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+> > > +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+> > > @@ -109,6 +109,7 @@ include:
+> > >     - drivers/gpu/drm/ci/build.yml
+> > >     - drivers/gpu/drm/ci/test.yml
+> > >     - drivers/gpu/drm/ci/check-devicetrees.yml
+> > > +  - drivers/gpu/drm/ci/kunit.yml
+> > >     - 'https://gitlab.freedesktop.org/gfx-ci/lab-status/-/raw/main/la=
+b-status.yml'
+> > > diff --git a/drivers/gpu/drm/ci/kunit.sh b/drivers/gpu/drm/ci/kunit.sh
+> > > new file mode 100755
+> > > index 000000000000..197b19d05fba
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/ci/kunit.sh
+> > > @@ -0,0 +1,34 @@
+> > > +#!/bin/bash
+> > > +# SPDX-License-Identifier: MIT
+> > > +
+> > > +set -euxo pipefail
+> > > +
+> > > +case "${KERNEL_ARCH}" in
+> > > +    "arm")
+> > > +        QEMU_PKG=3D"qemu-system-arm"
+> > > +        GCC_ARCH=3D"arm-linux-gnueabihf"
+> > > +        ;;
+> > > +    "arm64")
+> > > +        QEMU_PKG=3D"qemu-system-aarch64"
+> > > +        GCC_ARCH=3D"aarch64-linux-gnu"
+> > > +        ;;
+> > > +    "x86_64")
+> > > +        QEMU_PKG=3D"qemu-system-x86"
+> > > +        GCC_ARCH=3D"x86_64-linux-gnu"
+> > > +        ;;
+> > > +    *)
+> > > +        echo "Unsupported architecture: ${KERNEL_ARCH}"
+> > > +        exit 1
+> > > +        ;;
+> > > +esac
+> > > +
+> > > +export ARCH=3D"${KERNEL_ARCH}"
+> > > +export CROSS_COMPILE=3D"${GCC_ARCH}-"
+> > > +
+> > > +apt-get update -qq && apt-get install -y --no-install-recommends "${=
+QEMU_PKG}"
+> >=20
+> > Thanks for working on that.
+> >=20
+> > I'm a bit concerned about using making it entirely debian specific here.
+> > Between the call to apt, the gcc triplet and the qemu package name, this
+> > not really a script to run kunit tests, but to run them on Debian :)
+> >=20
+> > We should make it pretty explicit and / or just assume the runner has
+> > the right packages and call kunit directly.
+>=20
+> Agree. This script is debian specific. I will move the debian bits to yaml
+> job and make the script generic.
 
-Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
----
- drivers/video/fbdev/nvidia/nvidia.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Using LLVM there is probably more convenient, since you don't have to
+deal with the triplet at all when cross-compiling.
 
-diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
-index 8900f181f1952acd2acc16a6ab49a5a42ec056ac..cfaf9454014d8161bedc3598fb68855e04ea9408 100644
---- a/drivers/video/fbdev/nvidia/nvidia.c
-+++ b/drivers/video/fbdev/nvidia/nvidia.c
-@@ -1484,7 +1484,7 @@ static int nvidiafb_setup(char *options)
- 			flatpanel = 1;
- 		} else if (!strncmp(this_opt, "hwcur", 5)) {
- 			hwcur = 1;
--		} else if (!strncmp(this_opt, "noaccel", 6)) {
-+		} else if (!strncmp(this_opt, "noaccel", 7)) {
- 			noaccel = 1;
- 		} else if (!strncmp(this_opt, "noscale", 7)) {
- 			noscale = 1;
+Maxime
 
----
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-change-id: 20250407-fix_nvidia-a9d72c98a808
+--ev2lugbvzjpsenvx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
--- 
-Zijun Hu <quic_zijuhu@quicinc.com>
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/PGeQAKCRDj7w1vZxhR
+xTDVAQC6xt/UjwNMMbl0m9/DXn6O8sgVlF4vAhcWSdDj/qwGBAEApIfgtZr0Nhap
+1GKn9Vr5iwAy2gwMeaAcAju62Wf1hwY=
+=ix8r
+-----END PGP SIGNATURE-----
+
+--ev2lugbvzjpsenvx--
