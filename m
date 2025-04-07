@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6DC2A7E13D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:25:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAACEA7E13E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:25:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0737E10E4A6;
-	Mon,  7 Apr 2025 14:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 994C110E4A8;
+	Mon,  7 Apr 2025 14:25:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ki2pkgWC";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FrvQtA5a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
  [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5B6210E4A1
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:25:02 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4A9A9442C1;
- Mon,  7 Apr 2025 14:24:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDD0910E4A2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:25:05 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BA915443B4;
+ Mon,  7 Apr 2025 14:25:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744035901;
+ t=1744035904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bLDy713DSCSiEtaJQVHhalrNIkPHI1Ti+irjYvcfZ5Q=;
- b=Ki2pkgWCVc6Z/XbQYZa/Tlu8C0A6DsGzk2SJxr0tXyXeDpJ53mIkFT8lZET5I+4FZGitbc
- l1Tb27xzMXQpElxKVZF1ib+foMKPZ3HWxZ79gAd/xW/Mq1gzBkyFwqpOzInd5yJjTEBPdg
- T+ktL8K8WZ+ByX7ft+FeuFQmNfaZLFqTinMfOTzzw/nCSlREswJ7OjKN54jGyfcHxwsL0h
- cOq7/LAag/OrQ55gtZU1Bg8fbTTolnjR4xkCWi42+ZPGiso36l1kQdWNOJJzL/mOwq6zHD
- ljEy95L0134RWjnkT8xJVsoxzoDf4938afXeIDUQhhwmyfvWHx09u3fBDxxWVw==
+ bh=ZGPg3CaFcgRVJ8850LNIB6x+uZPNGlEFwt/DV2kuPyk=;
+ b=FrvQtA5aFX/JPkFBdFCynrzhIBdXq58OYlrfKLfJIzCyb0Yfuq1QgUTRXFkZh1u+jUCkTA
+ 54BDBunPMh3WGtpI5ieGGK2wrdTPl7RAJqo/T3oAxhNykMKT3pL7w0wOsgi7pSTW1BWucY
+ EAC2XP8UhUwWuhKRFLLUnya8dBidNFnco5yZU84OfhhDGIZ2r78d35xHjxnG4jgwPlSms8
+ KmWaIbvdvf1N5Jg9MAAQnCDWNj8r+ca9Rgwr5mRyw6GWrHNX0JtQ9Jpzto4SWP19X6UTgJ
+ 3Fvs0i1RC+BRY4B+svTwZdqQcueoLionjVH9LLR9JUbITX8cu+l6qA/Icouuiw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Mon, 07 Apr 2025 16:23:34 +0200
-Subject: [PATCH 19/34] drm/omap: dss: dpi: convert to
+Date: Mon, 07 Apr 2025 16:23:35 +0200
+Subject: [PATCH 20/34] drm/omap: dss: dsi: convert to
  devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-drm-bridge-convert-to-alloc-api-v1-19-42113ff8d9c0@bootlin.com>
+Message-Id: <20250407-drm-bridge-convert-to-alloc-api-v1-20-42113ff8d9c0@bootlin.com>
 References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
 In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -68,13 +68,11 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>, Helge Deller <deller@gmx.de>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeduieenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeghedprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeduieenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegvddprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvr
  hhnvghlrdhorhhgpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhm
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,39 +96,36 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Cc: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dpi.c | 7 +++----
+ drivers/gpu/drm/omapdrm/dss/dsi.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dpi.c b/drivers/gpu/drm/omapdrm/dss/dpi.c
-index 6eff97a091602f6d137095b3b7bf54fce17e8d3e..9f86db774c395db7e3396cbf2694748fc23c309d 100644
---- a/drivers/gpu/drm/omapdrm/dss/dpi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dpi.c
-@@ -562,7 +562,6 @@ static const struct drm_bridge_funcs dpi_bridge_funcs = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index 35e3e332bdcf4cf69659de65deeea0f5dbd70358..d7e3196c83e07e544f85c975e9d913ae3547692c 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -4701,7 +4701,6 @@ static const struct drm_bridge_funcs dsi_bridge_funcs = {
  
- static void dpi_bridge_init(struct dpi_data *dpi)
+ static void dsi_bridge_init(struct dsi_data *dsi)
  {
--	dpi->bridge.funcs = &dpi_bridge_funcs;
- 	dpi->bridge.of_node = dpi->pdev->dev.of_node;
- 	dpi->bridge.type = DRM_MODE_CONNECTOR_DPI;
+-	dsi->bridge.funcs = &dsi_bridge_funcs;
+ 	dsi->bridge.of_node = dsi->host.dev->of_node;
+ 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
  
-@@ -707,9 +706,9 @@ int dpi_init_port(struct dss_device *dss, struct platform_device *pdev,
- 	u32 datalines;
+@@ -4894,9 +4893,9 @@ static int dsi_probe(struct platform_device *pdev)
+ 	unsigned int i;
  	int r;
  
--	dpi = devm_kzalloc(&pdev->dev, sizeof(*dpi), GFP_KERNEL);
--	if (!dpi)
+-	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+-	if (!dsi)
 -		return -ENOMEM;
-+	dpi = devm_drm_bridge_alloc(&pdev->dev, struct dpi_data, bridge, &dpi_bridge_funcs);
-+	if (IS_ERR(dpi))
-+		return PTR_ERR(dpi);
++	dsi = devm_drm_bridge_alloc(dev, struct dsi_data, bridge, &dsi_bridge_funcs);
++	if (IS_ERR(dsi))
++		return PTR_ERR(dsi);
  
- 	ep = of_graph_get_next_port_endpoint(port, NULL);
- 	if (!ep)
+ 	dsi->dev = dev;
+ 	dev_set_drvdata(dev, dsi);
 
 -- 
 2.49.0
