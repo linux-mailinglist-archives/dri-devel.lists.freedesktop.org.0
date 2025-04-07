@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F73A7D757
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA4CA7D756
 	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 10:14:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15F6D10E3AC;
-	Mon,  7 Apr 2025 08:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3BB10E3AD;
+	Mon,  7 Apr 2025 08:14:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BpqOY6Xs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k3/xBqoj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC30210E3A7
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 08:14:48 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4394a823036so36791305e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 01:14:48 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFED110E3A9
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 08:14:49 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-43ce71582e9so26107225e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 01:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744013687; x=1744618487; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1744013688; x=1744618488; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zIdjBnojDe9JlRJkQtXkq6PiLeEhZjPQxZt/O+Cfesg=;
- b=BpqOY6Xs2H4dKeH47+hcywMBOH3eZ8ZwV5XZqZZRpTGebw4o0ly7t8tu8UogWue4Vj
- w+aEsP5Z+jwqklyV9QicLkWDqxdiIjuqTPjKutEmvZJeXPB3YpMMx0SDE0WYXU5xmsWX
- Wjyd7B5bqZEp7dFfYRnvKWl9uasb8L7gfKpu1M9Y/Kt7Mr92qOOy3MrnhU743Rt4FONA
- M8AxsUmu87Vk1X4H5w/0WlMbQ2Bh+70akrktLqDuvL/7ZwFYwBqp7Ljm4RJHe6BI+PNw
- K420ulLDwOxCkfmtjS53TZDF0SlkwZI2F2E8gxMovRDMplIV6xfc8Sy9JUnQrPL5J3NH
- VZfw==
+ bh=g2I+AKiUaGilJvwS/f5X1LlsvDutZk3cs9KHKo4vYS0=;
+ b=k3/xBqoj+KdGjJS3/V/eBP+TOTSnVEmCgkJgaVgheBqAUSYu8bR06z0pAldVOTdjUQ
+ 8MxMFuwdTuECqxC1hBAa9/nr1HxtJYFHKII4ocrsUHgvZc3yX3Npu1m97t0rC/HQrv+A
+ QV3e+kVGWVgQpkADWn1rXdjYO2aFvv/RLwOxXIZFS1gux53GUKAceL8DmgsRUZaFEZKL
+ BXNPOrxzEKLu5NHCEhJpgiUa0/x8AkLqar6D7LwGJLPlq3ei3t+XtI58tNSEehWR7ud9
+ ZY/NK5ByMkVWSxFgXYIoANw+fTpK5LAR2LvpzMdsZDSNsYO5d29hSHPfxuEUQlpMPZrP
+ CtcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744013687; x=1744618487;
+ d=1e100.net; s=20230601; t=1744013688; x=1744618488;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zIdjBnojDe9JlRJkQtXkq6PiLeEhZjPQxZt/O+Cfesg=;
- b=QsRBUOVKAjmMuWcDkLx6WxIcJjBT8t2lyuev+/fgyUIUXMIGrJsCmexeac9y2ZX43c
- y9KOSObjXNTTqtdgS3734KvGcpYqu0p1qtpu8XjFT1TfH05VbtqKfY36/Yds36XMnZXr
- igmWya5gk5hiOKx2fq3DN8iTTF1ICcfjF0rdwH4xEXUtesjpZor+3ue1UghyFJ3/xx8m
- w3QKo+Qd2SwYu6SoghlcQEVLyxzgGFLdHpb6jB3AVpqhCebn0uD3Vw5K5/uKxJ1GtI+e
- HATX5c1vbsOSs6S+H09aQEM8qgd5gghJHVII5jI78BeZ46dAiuL977IK3sj2LsT1kOtX
- fagA==
+ bh=g2I+AKiUaGilJvwS/f5X1LlsvDutZk3cs9KHKo4vYS0=;
+ b=DWXAR+eYxlvm/iBZ+YAhuwlYQ2X5smp9FxvvkozU2um4jmfQFRcClvnQ6/M1a9U6im
+ a7IllLY1xJK4FJcEdWdqo4qoEip+X5hi6tDApQcuSetXUlyC3H+cERq8QnJVUkuONkJk
+ XDjN4F42QFbxqvqSl5mhVlVKz5Q1h/cM2KcvykTIPk+xquAiatkRL6z5NUnvYD72/aDt
+ I6mtbOYQJhN5dM99Wczb+pMv5vQYYz+YHZrSNvHUI3Dspz9MbdQ+7N831BLuN1u1PnyD
+ /fWcvBba1lDUoj33g/vnwb07JGjRZrZQsMu0LkK0FOFagNn1GskfwUXtnFjyoVCUDEO8
+ 38KA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWSLNgMtZKyNP3+meZW3Z/oCO7Fb+MLpH/46HVNN7QUmEs4dAkbxi4WALv4hwZRdIaTrjEpBOzUYvM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywk6Fk84fNL96iI2S7S4H6kksr7WZ+J8zjUy0cc4Xsi1y+whqq6
- YmAVstHX/tOrXIxWDR7JL5btbbacurvMAWfSL9gffWsmILcydlEnLdiBcQ==
-X-Gm-Gg: ASbGncu6bH3bqFwWcsDZRBIRfBNyVDEbBIsHFU/1vWcfqFOV5wIlJdIiAUBneZ6ezRW
- OPf9167BspU+EaNfmCPncOglBncuDy6ZG5fBFHuTF/2gzIPxe3aEHGABed7MK7fJgyt2BAGL7gS
- EZwUGAvg12kANsHJTmsfepNfNJG5I8p7NdZKLpscUI+e23Mku2pN1evy0DNl4RlS4Gv9fCSX4yB
- RGFzHLU0RZORvkdYKiTLmHnvoJvrDlWvhGax0ma6S/DNzffIMwViNTmftczXfsu+Nj+FV34ea0v
- D8W0lj5fax+F83Q3qiP6Aygx8mSWBKpU8oRoY/Ukrrx9
-X-Google-Smtp-Source: AGHT+IFEC5GG2+hUc2x3gBJXtIb381aGws3rfz4/kdhZc+Tli1KoK5wHEcldern7+kcj8ZfKsinmig==
-X-Received: by 2002:a05:600c:3d0c:b0:43b:c284:5bc2 with SMTP id
- 5b1f17b1804b1-43ee047ca70mr75672455e9.0.1744013687392; 
- Mon, 07 Apr 2025 01:14:47 -0700 (PDT)
+ AJvYcCXaZMveIkpHRWxxxZVBUcVNJEsQXGeil+PP5sI/ztWTdscb9U3uGqQEANieMOYpqyNhwZmYOgfZrlU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwvSlPzgU9ZwOy68hmmYg+LG6k959eppa61muZrGO1WAz55PGwF
+ Ss48Y7RCwPcA6GAPtETLvjrLm3jpV95p5/gygQTiJwyfBv9LqeW8
+X-Gm-Gg: ASbGncv+4D0aQIQDyMHT03x3DBsO7XMrAKXgykyymu/8920kqCRVs2hkdk9GCHz2nYW
+ Xoo4UKQMc1v/qANEiuJarxfGEhzSDBtXiTeSrum4KmlddGUwN2BoOdcuLTP0CkMABiMSnU2eRAO
+ uVI3wy/u4bc93UiJP93HBbP6yq+0meF6AM+2lBOtqWADL9Jab041Nn+sdPqcLUw1F8cLo+y1GMS
+ 5VX0pE0LJdZNbTkIoUqRgzTdjY0Tq8EMXZGn23RXQ+EpDWZw1OhyZRg8oeVV4+W9JGPpFz59or8
+ I1WsZL6zY7MUJegWH5XQndlnFF5z6z8c84QV0mp00xjp
+X-Google-Smtp-Source: AGHT+IGbgQ//mAxkxBQPqRYYwqdydsPUaU2Ht9FH9jq4jjH4ZQzh906R4fJI7RwkRpSwroXoZXzckA==
+X-Received: by 2002:a5d:5f96:0:b0:390:f2f1:2a17 with SMTP id
+ ffacd0b85a97d-39d1466229bmr10501615f8f.53.1744013688359; 
+ Mon, 07 Apr 2025 01:14:48 -0700 (PDT)
 Received: from fedora.. ([94.73.34.87]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43ec16a3aefsm125473445e9.21.2025.04.07.01.14.46
+ 5b1f17b1804b1-43ec16a3aefsm125473445e9.21.2025.04.07.01.14.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Apr 2025 01:14:46 -0700 (PDT)
+ Mon, 07 Apr 2025 01:14:48 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -67,10 +67,9 @@ Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v4 12/16] drm/vkms: Allow to configure the default device
- creation
-Date: Mon,  7 Apr 2025 10:14:21 +0200
-Message-ID: <20250407081425.6420-13-jose.exposito89@gmail.com>
+Subject: [PATCH v4 13/16] drm/vkms: Remove completed task from the TODO list
+Date: Mon,  7 Apr 2025 10:14:22 +0200
+Message-ID: <20250407081425.6420-14-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250407081425.6420-1-jose.exposito89@gmail.com>
 References: <20250407081425.6420-1-jose.exposito89@gmail.com>
@@ -92,41 +91,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new module param to allow to create or not the default VKMS
-instance. Useful when combined with configfs to avoid having additional
-VKMS instances.
+Remove the configfs related TODO items from the "Runtime Configuration"
+section.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ Documentation/gpu/vkms.rst | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 5bcfbcb6c0c5..b4ed19c97576 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -50,6 +50,10 @@ static bool enable_overlay;
- module_param_named(enable_overlay, enable_overlay, bool, 0444);
- MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index 74126d2e32e4..c551241fe873 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -222,21 +222,14 @@ Runtime Configuration
+ ---------------------
  
-+static bool create_default_dev = true;
-+module_param_named(create_default_dev, create_default_dev, bool, 0444);
-+MODULE_PARM_DESC(create_default_dev, "Create or not the default VKMS device");
-+
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+ We want to be able to reconfigure vkms instance without having to reload the
+-module. Use/Test-cases:
++module through configfs. Use/Test-cases:
  
- static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
-@@ -219,6 +223,9 @@ static int __init vkms_init(void)
- 	if (ret)
- 		return ret;
+ - Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
+   of compositors).
  
-+	if (!create_default_dev)
-+		return 0;
-+
- 	config = vkms_config_default_create(enable_cursor, enable_writeback, enable_overlay);
- 	if (IS_ERR(config))
- 		return PTR_ERR(config);
+-- Configure planes/crtcs/connectors (we'd need some code to have more than 1 of
+-  them first).
+-
+ - Change output configuration: Plug/unplug screens, change EDID, allow changing
+   the refresh rate.
+ 
+-The currently proposed solution is to expose vkms configuration through
+-configfs. All existing module options should be supported through configfs
+-too.
+-
+ Writeback support
+ -----------------
+ 
 -- 
 2.48.1
 
