@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1467A7E145
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7A2A7E146
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:25:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E27C210E499;
-	Mon,  7 Apr 2025 14:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9715110E4A4;
+	Mon,  7 Apr 2025 14:25:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nKyegbdN";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IOIZY+9F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
  [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED08210E4A2
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:25:11 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BBAE3443B2;
- Mon,  7 Apr 2025 14:25:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53C0810E4A2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:25:15 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DAC6F442C5;
+ Mon,  7 Apr 2025 14:25:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744035910;
+ t=1744035914;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9+BYFVcRDiQgQH/nZjjYWzU/YP4kTmfchyC/pK/sOu4=;
- b=nKyegbdNaqF37YXQ6CYfrjoyhLEZTA1GUcGksOo+M3WC6+e/MVsxaL7alFmiCcn018TVxK
- 1xQgKGvjqeldKR79qBQZO+CrUTkOvddMQBz0GWfcPULA5KskY2QhdFUETxi9nKXR4UjZ/B
- igEtmYREglv28eFedWqkYhVdcmqzmDzOMLaIoiD5RfdFt5A/yBCsFUO0PleExW9kj66ahJ
- mRkspO/+jgknYEgs8qVzYmDbTVJkQ29IWxEJqIHRn0JP1eKSEJFMTRuOro2iZFUV3Px0PD
- fhSqg9OAntEjx/ifPhdlejWA0NGlAsbbrWcLVrcHJUUEPUoaFs/mCoNynH3/Nw==
+ bh=Au0mQLhtD+SC9FQejYqXmeWmtMq3lmMU5k6WXMVlQsE=;
+ b=IOIZY+9FLNNwjOVUejlZYenKMCe4v8sL2aHDUymtGUB7UEo7ItpPsVQB3px1CLvTO+tCP+
+ wwXiP9jbwgPcWbyu8yKyvZ6PMMtiLrBkA2OFiRaynXANve6aeDokcxnigRFnwAIqqNuQJO
+ nWtiE1DVBvbdm4kZIrB4gHRHM16+/1px4IiI3mo+2tGIScPdDMb9usH/cU4EkoQeM7fZ3C
+ 8zlxR6WDD51Kzr+yAVmCjsQhN66beiiN/CY46HZS+Fys+UC3Bl/KQSCBEN4uglieZrsr++
+ 5FCuNrtemNjPAZqFylLv01rdESTyKWF4eKEGQkHtudkimjTOjeHytwktMm5zxg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Mon, 07 Apr 2025 16:23:37 +0200
-Subject: [PATCH 22/34] drm/omap: dss: hdmi5: convert to
+Date: Mon, 07 Apr 2025 16:23:38 +0200
+Subject: [PATCH 23/34] drm/omap: dss: sdi: convert to
  devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-drm-bridge-convert-to-alloc-api-v1-22-42113ff8d9c0@bootlin.com>
+Message-Id: <20250407-drm-bridge-convert-to-alloc-api-v1-23-42113ff8d9c0@bootlin.com>
 References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
 In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -68,11 +68,13 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ "Rob Herring (Arm)" <robh@kernel.org>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedukeenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegvddprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedvtdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeggedprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvr
  hhnvghlrdhorhhgpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhm
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,103 +102,81 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
+Cc: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi5.c | 26 ++++++++++----------------
- 1 file changed, 10 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/sdi.c | 25 ++++++++-----------------
+ 1 file changed, 8 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-index 0c98444d39a93d8336b4d8dbd45aa4521181c3b4..5636b3dfec1c9581118b20adecd268c03e882efb 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-@@ -480,7 +480,6 @@ static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/sdi.c b/drivers/gpu/drm/omapdrm/dss/sdi.c
+index e78826e4b560a2b9af2d8a5a38e181bd3e44d250..df4cbc683e2ca27ef5fc45f79b77dcdcd9ca529a 100644
+--- a/drivers/gpu/drm/omapdrm/dss/sdi.c
++++ b/drivers/gpu/drm/omapdrm/dss/sdi.c
+@@ -284,7 +284,6 @@ static const struct drm_bridge_funcs sdi_bridge_funcs = {
  
- static void hdmi5_bridge_init(struct omap_hdmi *hdmi)
+ static void sdi_bridge_init(struct sdi_device *sdi)
  {
--	hdmi->bridge.funcs = &hdmi5_bridge_funcs;
- 	hdmi->bridge.of_node = hdmi->pdev->dev.of_node;
- 	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID;
- 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-@@ -727,9 +726,9 @@ static int hdmi5_probe(struct platform_device *pdev)
- 	int irq;
+-	sdi->bridge.funcs = &sdi_bridge_funcs;
+ 	sdi->bridge.of_node = sdi->pdev->dev.of_node;
+ 	sdi->bridge.type = DRM_MODE_CONNECTOR_LVDS;
+ 
+@@ -344,21 +343,19 @@ int sdi_init_port(struct dss_device *dss, struct platform_device *pdev,
+ 	u32 datapairs;
  	int r;
  
--	hdmi = kzalloc(sizeof(*hdmi), GFP_KERNEL);
--	if (!hdmi)
+-	sdi = kzalloc(sizeof(*sdi), GFP_KERNEL);
+-	if (!sdi)
 -		return -ENOMEM;
-+	hdmi = devm_drm_bridge_alloc(&pdev->dev, struct omap_hdmi, bridge, &hdmi5_bridge_funcs);
-+	if (IS_ERR(hdmi))
-+		return PTR_ERR(hdmi);
++	sdi = devm_drm_bridge_alloc(&pdev->dev, struct sdi_device, bridge, &sdi_bridge_funcs);
++	if (IS_ERR(sdi))
++		return PTR_ERR(sdi);
  
- 	hdmi->pdev = pdev;
- 
-@@ -740,25 +739,24 @@ static int hdmi5_probe(struct platform_device *pdev)
- 
- 	r = hdmi5_probe_of(hdmi);
- 	if (r)
+ 	ep = of_graph_get_next_port_endpoint(port, NULL);
+-	if (!ep) {
+-		r = 0;
 -		goto err_free;
-+		return r;
+-	}
++	if (!ep)
++		return 0;
  
- 	r = hdmi_wp_init(pdev, &hdmi->wp, 5);
- 	if (r)
--		goto err_free;
-+		return r;
- 
- 	r = hdmi_phy_init(pdev, &hdmi->phy, 5);
- 	if (r)
--		goto err_free;
-+		return r;
- 
- 	r = hdmi5_core_init(pdev, &hdmi->core);
- 	if (r)
--		goto err_free;
-+		return r;
- 
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0) {
- 		DSSERR("platform_get_irq failed\n");
--		r = -ENODEV;
--		goto err_free;
-+		return -ENODEV;
- 	}
- 
- 	r = devm_request_threaded_irq(&pdev->dev, irq,
-@@ -766,7 +764,7 @@ static int hdmi5_probe(struct platform_device *pdev)
- 			IRQF_ONESHOT, "OMAP HDMI", hdmi);
+ 	r = of_property_read_u32(ep, "datapairs", &datapairs);
+ 	of_node_put(ep);
  	if (r) {
- 		DSSERR("HDMI IRQ request failed\n");
+ 		DSSERR("failed to parse datapairs\n");
 -		goto err_free;
 +		return r;
  	}
  
- 	hdmi->vdda_reg = devm_regulator_get(&pdev->dev, "vdda");
-@@ -774,7 +772,7 @@ static int hdmi5_probe(struct platform_device *pdev)
- 		r = PTR_ERR(hdmi->vdda_reg);
+ 	sdi->datapairs = datapairs;
+@@ -372,19 +369,14 @@ int sdi_init_port(struct dss_device *dss, struct platform_device *pdev,
+ 		r = PTR_ERR(sdi->vdds_sdi_reg);
  		if (r != -EPROBE_DEFER)
- 			DSSERR("can't get VDDA regulator\n");
+ 			DSSERR("can't get VDDS_SDI regulator\n");
 -		goto err_free;
 +		return r;
  	}
  
- 	pm_runtime_enable(&pdev->dev);
-@@ -793,8 +791,6 @@ static int hdmi5_probe(struct platform_device *pdev)
- 	hdmi5_uninit_output(hdmi);
- err_pm_disable:
- 	pm_runtime_disable(&pdev->dev);
--err_free:
--	kfree(hdmi);
- 	return r;
- }
+ 	r = sdi_init_output(sdi);
+ 	if (r)
+-		goto err_free;
++		return r;
  
-@@ -807,8 +803,6 @@ static void hdmi5_remove(struct platform_device *pdev)
- 	hdmi5_uninit_output(hdmi);
- 
- 	pm_runtime_disable(&pdev->dev);
+ 	return 0;
 -
--	kfree(hdmi);
+-err_free:
+-	kfree(sdi);
+-
+-	return r;
  }
  
- static const struct of_device_id hdmi_of_match[] = {
+ void sdi_uninit_port(struct device_node *port)
+@@ -395,5 +387,4 @@ void sdi_uninit_port(struct device_node *port)
+ 		return;
+ 
+ 	sdi_uninit_output(sdi);
+-	kfree(sdi);
+ }
 
 -- 
 2.49.0
