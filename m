@@ -2,81 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF8BA7DC8D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 13:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96326A7DB3D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 12:30:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABA8A10E43C;
-	Mon,  7 Apr 2025 11:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E72A10E41F;
+	Mon,  7 Apr 2025 10:30:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mPTyG1VA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XRpXyxfi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4AF10E40C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:54:18 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-223fd89d036so45905485ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 02:54:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744019658; x=1744624458; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LkqbTBwPGVLrWizLUawPs+MSKpssOAtGiDagVUV4NJ4=;
- b=mPTyG1VAz3ESZJieBPfa0Q2iEoh2RT+HkRUOJQD71gRXNiOSSzEiO1qLGkhldZbLMK
- JDa6oXjrfAv07/kXfnG5UwUI/lKZK/kEfauwq0BtC52owbowOvzqC71nZCdVL7ha4ydq
- 5Ju80opRlC0c1pnIR4kFMsXjHPouYOapkR1p/JWKHC5sB4MPkoJrsA0q7lG4AF2sijym
- /uSPbU2Wv54wUq3H0DgL3sluQhZb9UwKrmPj6EmVI1udmPwvRgdR7dD9X/MEVx6FkF46
- cqM3XNYYVTXsOgkMShNFTSG8GtjmGMh7mJrCBIKEHu3UeWO1fPeTOKgUaXpRfLGu9f7Y
- 0S/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744019658; x=1744624458;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LkqbTBwPGVLrWizLUawPs+MSKpssOAtGiDagVUV4NJ4=;
- b=Jta/r1VGXLQwbKLA6pig8b72jIOl0mr7cIIS0a7TiHvphpjq5SJfQjmWEF24LBBwzN
- tp18cuKCegzM8XNhbcdiO3Hd/WyFOhR24W88dIUaG7vjXZ8w7xL61BAni9D1v9dCrona
- FRPpQ/12gmxb7cI1S6DgyYzkWLp1sTlFpaQUrSjNWfeZQk4R1X3xCxCOOJoFCIogQ3aN
- wM6lkGxHFSHdPeBEbNJbzuHdVLkrcvO6qxsFBTJiJouT9f9deoUcs6A6wnUiEHXirpuz
- gpkfuERPDEroach7qg4+solZZA7go8SsdT/h9SJnPz9nf7uikNjr3d632FL4cUFHXPv4
- G04g==
-X-Gm-Message-State: AOJu0Yw7+6rCEcFZn1L/BDuzArNxN1xDdHfs2GZJ8BMaf/ATfN1IuY7G
- 9pwkNrmQrVs/D0y6iSi6D4s+i+Pa9rE+qFvS5WX1Evn2/ZcCjiIn
-X-Gm-Gg: ASbGnctXpqyzfNjJaZN7jFcq5Pj5+9zsc+zdw0SfgwrxfMD3NVrm8pKF+8G80huplKU
- mmRfWJSoonODOkYBZyl+3tAmH4x4TbqvjbUKr457uQIcwH4Rg6XMIHzkRk1cDrO3RLjt7t6O+Pw
- ogGylhFwYAyjKPiliao/2qd0taCskWr9PFr2O7v5qey9NKH6QM/+RccGgFjqV080o9Xy5Z/ETI9
- qQ9rpVSg6Jr1QTSyGr0yCcgBpQGyIpvAmc7JPoTfj9fvA3AvzuH/KUhhelekTyLd5ea5xrTX6/0
- nnJPYTZMpT/jwmrcGE/ZFfLhUqkikEblekr/kQrP71I=
-X-Google-Smtp-Source: AGHT+IH9E8XsbCxLfsVsslPNMo/cSHYFTOjiDQDxMCuBzObL12vZxjJVRmA/QuSkAieMl45UO5T2kA==
-X-Received: by 2002:a17:903:2ce:b0:215:9bc2:42ec with SMTP id
- d9443c01a7336-22a8a0b3744mr133132005ad.47.1744019657677; 
- Mon, 07 Apr 2025 02:54:17 -0700 (PDT)
-Received: from nuvole.. ([144.202.86.13]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-229785bfddfsm77213805ad.66.2025.04.07.02.54.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Apr 2025 02:54:16 -0700 (PDT)
-From: Pengyu Luo <mitltlatltl@gmail.com>
-To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH 4/4] backlight: ktz8866: add definitions to make it more
- readable
-Date: Mon,  7 Apr 2025 17:51:19 +0800
-Message-ID: <20250407095119.588920-5-mitltlatltl@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250407095119.588920-1-mitltlatltl@gmail.com>
-References: <20250407095119.588920-1-mitltlatltl@gmail.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6C4010E41D;
+ Mon,  7 Apr 2025 10:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744021824;
+ bh=5xJ6/MRvAgqaafqhcbFQ0suIwFHqaSsWKo7hABkc/NA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=XRpXyxfirkK2czU/Ktb1AKIu6Z13NjaqcpAp+z2AyPXegkuvxVDGHrU+sNwVMEooa
+ wWcwKaU7L8FCu7NXk9sfkTprn4eHoKKCHvn6dmREAy+8WEt7JKDboGsiWtIJcZNKIN
+ 8XLYtaCPY4ofO3kJSV6BtflI2/Ll32q6g3H4zfDZ/HLbgnNcUiU/lFduIZ1X+FKwtd
+ hX8oAek/ykJhBhvP3gduiZTTjCQGtF1e+O8uDmiBUgq7tsvpKJt0uJqoq22HbHOnwl
+ JxrCt1KHnCs2Fr81GgDIaELuMPM7rNI24wpyBXxDFp0kFOFqisJMhxhixePprLMis9
+ D8ZanfsvR3qoQ==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id D805617E001E;
+ Mon,  7 Apr 2025 12:30:23 +0200 (CEST)
+Date: Mon, 7 Apr 2025 12:30:18 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Cc: intel-xe@lists.freedesktop.org, matthew.brost@intel.com,
+ thomas.hellstrom@linux.intel.com, Danilo Krummrich <dakr@redhat.com>, Boris
+ Brezillon <bbrezillon@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 16/32] Introduce drm_gpuvm_sm_map_ops_flags enums for
+ sm_map_ops
+Message-ID: <20250407123018.77f7aa94@collabora.com>
+In-Reply-To: <20250407101719.3350996-17-himal.prasad.ghimiray@intel.com>
+References: <20250407101719.3350996-1-himal.prasad.ghimiray@intel.com>
+ <20250407101719.3350996-17-himal.prasad.ghimiray@intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 07 Apr 2025 11:40:40 +0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,47 +64,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LSB, MSB and their handling are slightly confused, so improve it.
+On Mon,  7 Apr 2025 15:47:03 +0530
+Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com> wrote:
 
-Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
----
- drivers/video/backlight/ktz8866.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+> - DRM_GPUVM_SM_MAP_NOT_MADVISE: Default sm_map operations for the input
+>   range.
+> 
+> - DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE: This flag is used by
+>   drm_gpuvm_sm_map_ops_create to iterate over GPUVMA's in the
+> user-provided range and split the existing non-GEM object VMA if the
+> start or end of the input range lies within it. The operations can
+> create up to 2 REMAPS and 2 MAPs. The purpose of this operation is to be
+> used by the Xe driver to assign attributes to GPUVMA's within the
+> user-defined range. Unlike drm_gpuvm_sm_map_ops_flags in default mode,
+> the operation with this flag will never have UNMAPs and
+> merges, and can be without any final operations.
+> 
+> v2
+> - use drm_gpuvm_sm_map_ops_create with flags instead of defining new
+>   ops_create (Danilo)
+> - Add doc (Danilo)
+> 
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Himal Prasad Ghimiray<himal.prasad.ghimiray@intel.com>
+> 
+> ---
+> RFC Link:
+> https://lore.kernel.org/intel-xe/20250314080226.2059819-1-himal.prasad.ghimiray@intel.com/T/#mb706bd1c55232110e42dc7d5c05de61946982472
+> ---
+>  drivers/gpu/drm/drm_gpuvm.c            | 93 ++++++++++++++++++++------
+>  drivers/gpu/drm/nouveau/nouveau_uvmm.c |  1 +
+>  drivers/gpu/drm/xe/xe_vm.c             |  1 +
+>  include/drm/drm_gpuvm.h                | 25 ++++++-
+>  4 files changed, 98 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index f9eb56f24bef..9d09d177b9fa 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -2102,10 +2102,13 @@ static int
+>  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  		   const struct drm_gpuvm_ops *ops, void *priv,
+>  		   u64 req_addr, u64 req_range,
+> +		   enum drm_gpuvm_sm_map_ops_flags flags,
+>  		   struct drm_gem_object *req_obj, u64 req_offset)
 
-diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
-index b67ca136d..5364ecfc0 100644
---- a/drivers/video/backlight/ktz8866.c
-+++ b/drivers/video/backlight/ktz8866.c
-@@ -24,7 +24,9 @@
- #define DEVICE_ID 0x01
- #define BL_CFG1 0x02
- #define BL_CFG2 0x03
-+/* least significant byte */
- #define BL_BRT_LSB 0x04
-+/* most significant byte */
- #define BL_BRT_MSB 0x05
- #define BL_EN 0x08
- #define LCD_BIAS_CFG1 0x09
-@@ -47,6 +49,8 @@
- #define PWM_HYST 0x5
- 
- #define CURRENT_SINKS_MASK GENMASK(5, 0)
-+#define LOWER_BYTE GENMASK(2, 0)
-+#define HIGHER_BYTE GENMASK(10, 3)
- 
- struct ktz8866_slave {
- 	struct i2c_client *client;
-@@ -105,8 +109,8 @@ static int ktz8866_backlight_update_status(struct backlight_device *backlight_de
- 	}
- 
- 	/* Set brightness */
--	ktz8866_write(ktz, BL_BRT_LSB, brightness & 0x7);
--	ktz8866_write(ktz, BL_BRT_MSB, (brightness >> 3) & 0xFF);
-+	ktz8866_write(ktz, BL_BRT_LSB, FIELD_GET(LOWER_BYTE, brightness);
-+	ktz8866_write(ktz, BL_BRT_MSB, FIELD_GET(HIGHER_BYTE, brightness);
- 
- 	return 0;
- }
--- 
-2.49.0
+Not exactly related to this series, but I've been playing with Lina's
+series[1] which is hooking up flag propagation from _map() calls to
+drm_gpuva, and I think we should pass all map args through a struct so
+we don't have to change all call-sites anytime we add one a new optional
+argument. Here's a patch [2] doing that.
 
+[1]https://lore.kernel.org/lkml/4a431b98-cccc-495e-b72e-02362828c96b@asahilina.net/T/
+[2]https://gitlab.freedesktop.org/bbrezillon/linux/-/commit/0587c15b9b81ccae1e37ad0a5d524754d8455558
