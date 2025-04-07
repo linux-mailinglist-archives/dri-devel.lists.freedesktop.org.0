@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAACEA7E13E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F053DA7E141
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:25:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 994C110E4A8;
-	Mon,  7 Apr 2025 14:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E64810E4CA;
+	Mon,  7 Apr 2025 14:25:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FrvQtA5a";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TrPhd/9y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
  [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD0910E4A2
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:25:05 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BA915443B4;
- Mon,  7 Apr 2025 14:25:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D716C10E4AC
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:25:08 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B675143281;
+ Mon,  7 Apr 2025 14:25:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744035904;
+ t=1744035907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZGPg3CaFcgRVJ8850LNIB6x+uZPNGlEFwt/DV2kuPyk=;
- b=FrvQtA5aFX/JPkFBdFCynrzhIBdXq58OYlrfKLfJIzCyb0Yfuq1QgUTRXFkZh1u+jUCkTA
- 54BDBunPMh3WGtpI5ieGGK2wrdTPl7RAJqo/T3oAxhNykMKT3pL7w0wOsgi7pSTW1BWucY
- EAC2XP8UhUwWuhKRFLLUnya8dBidNFnco5yZU84OfhhDGIZ2r78d35xHjxnG4jgwPlSms8
- KmWaIbvdvf1N5Jg9MAAQnCDWNj8r+ca9Rgwr5mRyw6GWrHNX0JtQ9Jpzto4SWP19X6UTgJ
- 3Fvs0i1RC+BRY4B+svTwZdqQcueoLionjVH9LLR9JUbITX8cu+l6qA/Icouuiw==
+ bh=41vTHyL+V115rpzV8yiJOSt8o1/SbibksvBOkcYUztI=;
+ b=TrPhd/9yx/uz+Jqhl6cevPGe1U4iJYU/GtPYsROsV9SszFY7WzMHdKyCFM32TgMqsvJp5S
+ bTOwqvj7B8cNjD2QoNzqZkZ4k2B/tZ3NSugTR0mh2kVtaTk24SAli1yaHhVuCuGSTxKvCS
+ NQ1MyEwid5p0Dx2ztEIFOoXPsRnx7sivyEv7jc26iVzSFwtn/HuVFCYSlVnu/38P9xMMoH
+ bIMowGNR6DiM6Wsc5v7EbAJVZ+mZYrSZXtHzJpGm4Xp+xzR1DK0vNcLRcHoTDc1TGjoY5d
+ iOCTdFprFCIN145qsTw+uPPlChnIW3Dhoxw0P65R7Fl5vYfdak6BesuQ3m7Gng==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Mon, 07 Apr 2025 16:23:35 +0200
-Subject: [PATCH 20/34] drm/omap: dss: dsi: convert to
+Date: Mon, 07 Apr 2025 16:23:36 +0200
+Subject: [PATCH 21/34] drm/omap: dss: hdmi4: convert to
  devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-drm-bridge-convert-to-alloc-api-v1-20-42113ff8d9c0@bootlin.com>
+Message-Id: <20250407-drm-bridge-convert-to-alloc-api-v1-21-42113ff8d9c0@bootlin.com>
 References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
 In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -72,7 +72,7 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeduieenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegvddprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedukeenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegvddprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvr
  hhnvghlrdhorhhgpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhm
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,40 +92,111 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is the new API for allocating DRM bridges.
 
+Switching from a non-devm to a devm allocation allows removing the kfree()
+in the remove function and in the probe error management code, and as a
+consequence to simplify the code flow by removing now unnecessary gotos.
+
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dsi.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c | 26 ++++++++++----------------
+ 1 file changed, 10 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index 35e3e332bdcf4cf69659de65deeea0f5dbd70358..d7e3196c83e07e544f85c975e9d913ae3547692c 100644
---- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -4701,7 +4701,6 @@ static const struct drm_bridge_funcs dsi_bridge_funcs = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+index a3b22952fdc32b5899dae82d413108c5c0a1c3c8..3cd612af24498b057c33eaecb3d43c8df76cd23e 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+@@ -505,7 +505,6 @@ static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
  
- static void dsi_bridge_init(struct dsi_data *dsi)
+ static void hdmi4_bridge_init(struct omap_hdmi *hdmi)
  {
--	dsi->bridge.funcs = &dsi_bridge_funcs;
- 	dsi->bridge.of_node = dsi->host.dev->of_node;
- 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 
-@@ -4894,9 +4893,9 @@ static int dsi_probe(struct platform_device *pdev)
- 	unsigned int i;
+-	hdmi->bridge.funcs = &hdmi4_bridge_funcs;
+ 	hdmi->bridge.of_node = hdmi->pdev->dev.of_node;
+ 	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID;
+ 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+@@ -761,9 +760,9 @@ static int hdmi4_probe(struct platform_device *pdev)
+ 	int irq;
  	int r;
  
--	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
--	if (!dsi)
+-	hdmi = kzalloc(sizeof(*hdmi), GFP_KERNEL);
+-	if (!hdmi)
 -		return -ENOMEM;
-+	dsi = devm_drm_bridge_alloc(dev, struct dsi_data, bridge, &dsi_bridge_funcs);
-+	if (IS_ERR(dsi))
-+		return PTR_ERR(dsi);
++	hdmi = devm_drm_bridge_alloc(&pdev->dev, struct omap_hdmi, bridge, &hdmi4_bridge_funcs);
++	if (IS_ERR(hdmi))
++		return PTR_ERR(hdmi);
  
- 	dsi->dev = dev;
- 	dev_set_drvdata(dev, dsi);
+ 	hdmi->pdev = pdev;
+ 
+@@ -774,25 +773,24 @@ static int hdmi4_probe(struct platform_device *pdev)
+ 
+ 	r = hdmi4_probe_of(hdmi);
+ 	if (r)
+-		goto err_free;
++		return r;
+ 
+ 	r = hdmi_wp_init(pdev, &hdmi->wp, 4);
+ 	if (r)
+-		goto err_free;
++		return r;
+ 
+ 	r = hdmi_phy_init(pdev, &hdmi->phy, 4);
+ 	if (r)
+-		goto err_free;
++		return r;
+ 
+ 	r = hdmi4_core_init(pdev, &hdmi->core);
+ 	if (r)
+-		goto err_free;
++		return r;
+ 
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0) {
+ 		DSSERR("platform_get_irq failed\n");
+-		r = -ENODEV;
+-		goto err_free;
++		return -ENODEV;
+ 	}
+ 
+ 	r = devm_request_threaded_irq(&pdev->dev, irq,
+@@ -800,7 +798,7 @@ static int hdmi4_probe(struct platform_device *pdev)
+ 			IRQF_ONESHOT, "OMAP HDMI", hdmi);
+ 	if (r) {
+ 		DSSERR("HDMI IRQ request failed\n");
+-		goto err_free;
++		return r;
+ 	}
+ 
+ 	hdmi->vdda_reg = devm_regulator_get(&pdev->dev, "vdda");
+@@ -808,7 +806,7 @@ static int hdmi4_probe(struct platform_device *pdev)
+ 		r = PTR_ERR(hdmi->vdda_reg);
+ 		if (r != -EPROBE_DEFER)
+ 			DSSERR("can't get VDDA regulator\n");
+-		goto err_free;
++		return r;
+ 	}
+ 
+ 	pm_runtime_enable(&pdev->dev);
+@@ -827,8 +825,6 @@ static int hdmi4_probe(struct platform_device *pdev)
+ 	hdmi4_uninit_output(hdmi);
+ err_pm_disable:
+ 	pm_runtime_disable(&pdev->dev);
+-err_free:
+-	kfree(hdmi);
+ 	return r;
+ }
+ 
+@@ -841,8 +837,6 @@ static void hdmi4_remove(struct platform_device *pdev)
+ 	hdmi4_uninit_output(hdmi);
+ 
+ 	pm_runtime_disable(&pdev->dev);
+-
+-	kfree(hdmi);
+ }
+ 
+ static const struct of_device_id hdmi_of_match[] = {
 
 -- 
 2.49.0
