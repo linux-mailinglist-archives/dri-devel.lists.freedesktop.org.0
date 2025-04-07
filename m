@@ -2,63 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3D1A7DEA7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 15:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E61A7DEB8
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 15:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35FC610E47C;
-	Mon,  7 Apr 2025 13:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24BFB10E463;
+	Mon,  7 Apr 2025 13:16:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HPsJNXX0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HjJveQlZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AAAB10E458
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 13:14:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744031638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9SpQQiJ63n0rLM0/lYh4xUP6SXIxDSrLe9wSuPmrOkg=;
- b=HPsJNXX03D4asq99QS+KbSKi7+6jsst4i8qjBGdnegqpHuvhQkm3Gk0SPhv3D5f3KJLg+3
- ng8MVt/nc7xdsfHe66YSutjSOaDKF9q/Oq+8iNqFBppnlg9nx02Jebj1vOZBGV32dRYd3B
- U0FtSQBpVrUESdGUPWx4pHuNbbAqhDA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-310-Iw65SczrMCSFjhWB2ohvig-1; Mon,
- 07 Apr 2025 09:13:55 -0400
-X-MC-Unique: Iw65SczrMCSFjhWB2ohvig-1
-X-Mimecast-MFC-AGG-ID: Iw65SczrMCSFjhWB2ohvig_1744031634
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id A41B61800258; Mon,  7 Apr 2025 13:13:53 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.45.225.175])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 7F14219560AD; Mon,  7 Apr 2025 13:13:50 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH] drm/sysfb: Fix unused function simpledrm_device_of_dev()
-Date: Mon,  7 Apr 2025 15:13:26 +0200
-Message-ID: <20250407131344.139878-1-jfalempe@redhat.com>
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F0A510E462;
+ Mon,  7 Apr 2025 13:16:29 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-af90510be2eso246498a12.3; 
+ Mon, 07 Apr 2025 06:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744031789; x=1744636589; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=n7cCR1MuP2kYdCb0YqxaqR0Dqkjekp9ngJLjuSiWMX4=;
+ b=HjJveQlZl7VdiH5So+dfDAX5rd121h9I0oWK1cMlzifIY4E8SJ6WcffihXhQ4YUXEY
+ 9LG6b1svEQeMU5/32G6vmJ3JPHBtIUfZAqMiqkEujnuCRECHNeFrxI4rv4an94Ju64P0
+ +NnL/M30QiOK/dQ/6EWhYyexIWxTjWosMTTQ0sITFISuO4/9NwviezA5M6XsvPLGr3KX
+ huJ+VDbTjxwAe3KuSmIk5VDITJUiS9I4c5iOo/hf7dW5IVBxzw8hpSos7fU4K7vwmuub
+ PK3jYnZ9DIRjQP1dubRBFyURDYfwdgThI+kysCJmhLH6r8rrF7eXkaNx1akYFNKRKC7w
+ +GWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744031789; x=1744636589;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=n7cCR1MuP2kYdCb0YqxaqR0Dqkjekp9ngJLjuSiWMX4=;
+ b=T380vACkNfRYDkF5DKTDykO58+9GrqMNg3bKXwN3R9nXiQ172kX5uHZS1dMH3HwRH9
+ HhIJ4LtcGvaB+fXn6NoyeAJJByySsUdRtSkR0RGSTrvfxeGW+N3qfRPsmTAO1OB4E97f
+ 1C/UO0hqSHEdT6clIkU+5/sG+8bYXpT0XAAaEkSADCJ7ocaSXhMiZgPME8ApJfRNdHUO
+ 09Igu77bj6ksMnZKfFXl1gJ9wpgICTmSxlz3LEqBwXCDxUwAJ8IsZscj3CqnmpKrlV2w
+ VJoweFOK2vu6ck4wnjE9odvWWi5uQoMoDbQyaV8ws1+iymoddTeD6eYy0WOb2nAEmQCr
+ Vgog==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVE56DVhQLqh78lDXH1xrxScTuLjm8vi7sSwQSzjB4nfbBP1O3cFyBrqs7s0BUs5oxFoS70qkzf@lists.freedesktop.org,
+ AJvYcCWLJ5R+vxCnTwzQSbixVtnNU2IcCMAK3SzXGmIJPnm5gmpa6Vs3j7r4RngGn2MxoURglaJzQmoKvi+o@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxaZwKS60kl9nUP/i1WRJaVneDTQEKvetsu3PwPClABxunEzCGl
+ Aq+Omkr9CNSbdXiGFJhR+9xganX28LWUMdhBehzgRxVuSRfwcM8Bmow1aitDFcrrFZPnmx2MNyC
+ Cec3aLo0rSa4XMvwwGVaivBtTW4M=
+X-Gm-Gg: ASbGncszTmyVKat1BGuNT1dVXXmyYebuAmlPT8jkRrWLs0F2aFqehZCqPePgQQ9O9JH
+ QRUoF0hun52uv2aaKW0sIMEFsA7F748ucsnzIU0v9PmGXqsnmyZXdNtDOeszTu5+Q980RkQc7F6
+ fPZ22F1nGfrTxaluOJRr6t5qz8nA==
+X-Google-Smtp-Source: AGHT+IGWsGXh2awIMFrukeFB4nL/EgfghTCD3qed+lyorBMGb+RwsVzpe4gd5IAuVIA6p04Z35Ji0j4QKUKfQ397qF8=
+X-Received: by 2002:a17:90b:4ac7:b0:2ff:4be6:c5e2 with SMTP id
+ 98e67ed59e1d1-306a49aafa0mr5487508a91.7.1744031788284; Mon, 07 Apr 2025
+ 06:16:28 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: G9gaToCi_FNnC59J8KKezVrBcC1uW4GcTtkAptKVCjk_1744031634
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+References: <20250407071627.1666-1-vulab@iscas.ac.cn>
+In-Reply-To: <20250407071627.1666-1-vulab@iscas.ac.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 7 Apr 2025 09:16:16 -0400
+X-Gm-Features: ATxdqUH55S0TFCTeQ1RCmu6WBynu-cBG5VFi3Gz6QmQJXLT7nDsvMJiHqxjBnk4
+Message-ID: <CADnq5_MuOUbnxw3qNcUsvvAKVWL-Bx+_2n81bWPXgz4D5fuAeg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Add error check for avi and vendor
+ infoframe setup function
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, simona@ffwll.ch, hamza.mahfooz@amd.com, 
+ chiahsuan.chung@amd.com, sunil.khatri@amd.com, alex.hung@amd.com, 
+ aurabindo.pillai@amd.com, hersenxs.wu@amd.com, mario.limonciello@amd.com, 
+ mwen@igalia.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,39 +90,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When building with clang, with CONFIG_OF unset, I got the following
-error:
+On Mon, Apr 7, 2025 at 8:52=E2=80=AFAM Wentao Liang <vulab@iscas.ac.cn> wro=
+te:
+>
+> The function fill_stream_properties_from_drm_display_mode() calls the
+> function drm_hdmi_avi_infoframe_from_display_mode() and the
+> function drm_hdmi_vendor_infoframe_from_display_mode(), but does
+> not check its return value. Log the error messages to prevent silent
+> failure if either function fails.
 
-drivers/gpu/drm/sysfb/simpledrm.c:247:33: error: unused function 'simpledrm_device_of_dev' [-Werror,-Wunused-function]
-  247 | static struct simpledrm_device *simpledrm_device_of_dev(struct drm_device *dev)
+This description doesn't seem to match the code change below.
 
-Add #if to define the function only when needed.
+Alex
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Fixes: 177dfbdb7e67 ("drm/sysfb: Merge primary-plane functions")
----
- drivers/gpu/drm/sysfb/simpledrm.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/sysfb/simpledrm.c b/drivers/gpu/drm/sysfb/simpledrm.c
-index cfb1fe07704d..82b1a669a42e 100644
---- a/drivers/gpu/drm/sysfb/simpledrm.c
-+++ b/drivers/gpu/drm/sysfb/simpledrm.c
-@@ -244,10 +244,12 @@ struct simpledrm_device {
- 	struct drm_connector connector;
- };
- 
-+#if defined CONFIG_OF && (defined CONFIG_COMMON_CLK || defined CONFIG_REGULATOR)
- static struct simpledrm_device *simpledrm_device_of_dev(struct drm_device *dev)
- {
- 	return container_of(to_drm_sysfb_device(dev), struct simpledrm_device, sysfb);
- }
-+#endif
- 
- /*
-  * Hardware
-
-base-commit: fbe43810d563a293e3de301141d33caf1f5d5c5a
--- 
-2.49.0
-
+>
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 0396429a64be..d6feafb8fa3d 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -6152,8 +6152,8 @@ static void fill_stream_properties_from_drm_display=
+_mode(
+>
+>         if (stream->signal =3D=3D SIGNAL_TYPE_HDMI_TYPE_A) {
+>                 err =3D drm_hdmi_avi_infoframe_from_display_mode(&avi_fra=
+me, (struct drm_connector *)connector, mode_in);
+> -                if (err < 0)
+> -                        dev_err(connector->dev, "Failed to setup avi inf=
+oframe: %zd\n", err);
+> +               if (err < 0)
+> +                       dev_err(connector->dev, "Failed to setup avi info=
+frame: %zd\n", err);
+>                 timing_out->vic =3D avi_frame.video_code;
+>                 err =3D drm_hdmi_vendor_infoframe_from_display_mode(&hv_f=
+rame, (struct drm_connector *)connector, mode_in);
+>                 if (err < 0)
+> --
+> 2.42.0.windows.2
+>
