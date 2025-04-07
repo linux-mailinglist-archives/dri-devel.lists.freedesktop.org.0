@@ -2,126 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BFEA7DA40
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 11:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6226A7DA64
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 11:56:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4160310E065;
-	Mon,  7 Apr 2025 09:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E1B10E40C;
+	Mon,  7 Apr 2025 09:56:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Al0JkPmX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xJ1cPT7c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECB8C10E065
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:50:54 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D07D6432F4;
- Mon,  7 Apr 2025 09:50:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744019447;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=un1sepzSSrQyyA7E1EuGMdvogzWZ9PqXPPCQRmW27Io=;
- b=Al0JkPmXCMyWKJwSKMD/zgMi561P28OTCGtw1w/ulS8iOmM1CI/GUhAcysU+67PDUIL+Vd
- uwo3RZ01D/S8pUF1px+RS6314PIns7DAUyk0suG62RlPxpE6Xf2SNLAOC/jYGiAHxIsgVX
- jbGTH5pQtzbTzn8eoqT2GDntvXwjEejIuSGRVGlshP5o3eT4yeAzEn1/FCSg3JzLns5WXf
- qqgXXqls8zI8Zadt1RADniTCbnCU7G5ARScilubNhH//63BovGULrHoKFAqCuax09s3KsX
- UKO4WijJBM6WKXBOsct0awVkg62RcMVCinNok49h2EsKRDt1e/TmAxU3H5+FGQ==
-Message-ID: <f902bafa-6102-4a8c-a74f-48e3975e8ffd@bootlin.com>
-Date: Mon, 7 Apr 2025 11:50:43 +0200
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19C4C10E40C
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 09:56:17 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-39c1ef4ae3aso2294521f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 02:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1744019772; x=1744624572; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=exKXl8iO7SzmJWroy0QI+krsFjcxaCbrBNWz/awsG7U=;
+ b=xJ1cPT7cFt9aDN03Rj7oAlfdpCy3qjmlBrk9JccQu/b82S6tdpfL17NM80/s9gqDA5
+ UveSHav7Th2uqBAcLhkTn5/kO2LxPAZBKWGcK7XlJfzbHf4sW1clz5F/Bw9vWJvqdv8A
+ S9Cd/XRSFvkmuU/LPBYD9JsD1Padijj6KJK5ImPmUt/5Tw3vEaVOBfp7qiBLCbJ24FWq
+ kRv+fX+VgPebpQYfi6CiSAfqZbjo9CEEGooXuEjVpi0AMz+9X4HNTewNz3jya/+pmZl2
+ LZfOXdXNNfuNIl7MndAWOIs5I66o+p1D7zv+vH8ZPGbqHFJSnIVTcRDB/5QrHBWLZgjQ
+ PCPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744019772; x=1744624572;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=exKXl8iO7SzmJWroy0QI+krsFjcxaCbrBNWz/awsG7U=;
+ b=ViN8MucjnS6VUEehoLGxkOaNoGQr9WT7LM6nhhIvefYjQyGmUXylIAFNO9tcyz/XXf
+ rgjhiidePmdzXlTsnqVLKBubUkuBZno9lJQ3I0/rn1y4j5eiVzAmNxuLa2m/GBMVrp5L
+ TLsFDXZer3j4dUVjP+2qwG4QhVxqL0mmHZJMCw2pA2EjKVRc4PnMpfpedywUzFx1OHGI
+ yg5qtvQuRi7I/0IkIBISSetb3/j5XZALsV9zTAlMJgSx07bbf45dSQ4e02VW7yQqVdkh
+ X+p1DvdW8lOXvxIVFrDziIMo8jH70eAj2G8wm84SabLHxoavF6uXQuZTGi4iHEaqqLSk
+ e6Bg==
+X-Gm-Message-State: AOJu0Yw9/k0AIaQ9XzyvZn+c3ZXTsxqLFi2bKYJ4FLpwjsz9zoAxFaOL
+ cVwhxtUuOfpL4IIEchCXmE9sp4CEoPenlGo50mAY4cq6Z6wNMyF1xyf9acw4Yoo=
+X-Gm-Gg: ASbGncu1P5HwXDxS93nHjviRv0AUuAVOGHw4GaL/EmP95/NWC6rPf/6SI2iJHMeo8tp
+ Isyb9aiJ7IM2d7lkOl68gHsZQq9y8WCm1Ry5X7yA/GqzY3gn9ZgIhG/BMPepdki2FQfBwiighJ+
+ /tGo8VW5grtXmO/sRMd0SviaFE5X24bl+6rXvSxTlwqoRZjHdSWLfmh92pHU5VDTBbSuO5q06tV
+ 1E4qpwh4pYOq2tRkdlSFmJWybAkOMF04sZ7fuobYxOcGxMFgURE2zOZjZo6/5TmczmwL2wHalGD
+ cYeDJnp1L3MTF2juG14R2fDZ7Fihw3rrBsPXnC6N6WcsUpDTzxC8NqKKIWGJId2fQG0X3ueVOs0
+ OIcPCnEzkAV/m0qvauOTpAQ==
+X-Google-Smtp-Source: AGHT+IHvW9AY8dW8OeqiLq7BVhAE1rWiDpJrGLyBLxtZgZUhwxSkhw7t/IeGNuQI9SNzXAwkxQIpzg==
+X-Received: by 2002:a05:6000:2287:b0:39c:266b:feec with SMTP id
+ ffacd0b85a97d-39cb35aec8dmr11421588f8f.7.1744019772364; 
+ Mon, 07 Apr 2025 02:56:12 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:f2a4:b974:cba3:a605?
+ ([2a01:e0a:3d9:2080:f2a4:b974:cba3:a605])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39c301a7225sm11480515f8f.26.2025.04.07.02.56.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Apr 2025 02:56:12 -0700 (PDT)
+Message-ID: <dc9ebbfc-7227-412b-b1d6-9ccfb393658f@linaro.org>
+Date: Mon, 7 Apr 2025 11:56:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 0/5] drm/bridge: add devm_drm_bridge_alloc() with
- bridge refcount
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 22/30] panel/newvision-nv3052c: Use refcounted
+ allocation in place of devm_kzalloc()
+To: Anusha Srivatsa <asrivats@redhat.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski
- <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
- =?UTF-8?Q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>,
- Hui Pu <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20250326-drm-bridge-refcount-v9-0-5e0661fe1f84@bootlin.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250326-drm-bridge-refcount-v9-0-5e0661fe1f84@bootlin.com>
+ Icenowy Zheng <icenowy@aosc.io>, Jagan Teki <jagan@amarulasolutions.com>,
+ Ondrej Jirman <megi@xff.cz>, Javier Martinez Canillas <javierm@redhat.com>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ Michael Walle <mwalle@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Linus Walleij
+ <linus.walleij@linaro.org>, Jianhua Lu <lujianhua000@gmail.com>,
+ Stefan Mavrodiev <stefan@olimex.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250403-b4-drm_panel_mass_convert_part2-v2-0-260c8a44c56b@redhat.com>
+ <20250403-b4-drm_panel_mass_convert_part2-v2-22-260c8a44c56b@redhat.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250403-b4-drm_panel_mass_convert_part2-v2-22-260c8a44c56b@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduleelkeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeejgeejgedutdekhfffgfegudeutdetgfeuveegteeftddtfeevueffgfevgfevkeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddvkegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedupdhrtghpthhtoheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkv
- ghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhm
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,64 +126,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 26/03/2025 à 18:47, Luca Ceresoli a écrit :
-> This series improves the way DRM bridges are allocated and initialized and
-> makes them reference-counted. The goal of reference counting is to avoid
-> use-after-free by drivers which got a pointer to a bridge and keep it
-> stored and used even after the bridge has been deallocated.
+On 03/04/2025 16:16, Anusha Srivatsa wrote:
+> Move to using the new API devm_drm_panel_alloc() to allocate the
+> panel.
 > 
-> The overall goal is supporting Linux devices with a DRM pipeline whose
-> final components can be hot-plugged and hot-unplugged, including one or
-> more bridges. For more details see the big picture [0].
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> ---
+> v2: none.
+> ---
+>   drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 10 ++++------
+>   1 file changed, 4 insertions(+), 6 deletions(-)
 > 
-> DRM bridge drivers will have to be adapted to the new API -- the change is
-> trivial for most cases. This series converts two of them to serve as an
-> example. The remaining ones will be done as a follow-up after this first
-> part is merged.
-> 
-> After that, refcounting will have to be added on the two sides: all
-> functions returning a bridge pointer and all code obtaining such a
-> pointer. A few examples have been sent in v7 (link below), they are OK, but
-> I removed them since v8 because they must be merged only after converting
-> all bridges.
-> 
-> Here's the grand plan:
-> 
->   A. add new alloc API and refcounting (this series, at least patches 1-3)
->   B. after (A), convert all bridge drivers to new API
->   C. after (A), add documentation and kunit tests
->   D. after (B), add get/put to drm_bridge_add/remove() + attach/detech()
->      (patches 3-4 in the v7 series)
->   E. after (B), convert accessors (including patches 5-9 in the v7 series
->      which convert drm_bridge_chain_get_first_bridge() and its users);
->      this is a large work and can be done in chunks
->   F. after (A), debugfs: show refcount, show removed bridges
+> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> index 06e16a7c14a756b9a399347b29b410fd5f4ae273..08c99a48e06dc02677c6f0575d344f890871e0af 100644
+> --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> @@ -777,9 +777,10 @@ static int nv3052c_probe(struct spi_device *spi)
+>   	struct nv3052c *priv;
+>   	int err;
 >   
-> Layout of this:
-> 
->   1. Add the new API and refcounting:
-> 
->      drm/bridge: add devm_drm_bridge_alloc()
->      drm/bridge: add support for refcounting
->      drm/bridge: deprecate old-style bridge allocation
-> 
->   2. convert a few bridge drivers (bridge providers) to the new API:
-> 
->      drm/bridge: ti-sn65dsi83: use dynamic lifetime management
->      drm/bridge: samsung-dsim: use dynamic lifetime management
-> 
-> [0] https://lore.kernel.org/dri-devel/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Applied on drm-misc-next, thanks!
+> -	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> -	if (!priv)
+> -		return -ENOMEM;
+> +	priv = devm_drm_panel_alloc(dev, struct nv3052c, panel, &nv3052c_funcs,
+> +				DRM_MODE_CONNECTOR_DPI);
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Wrong alignment here
+
+Neil
+
+> +	if (IS_ERR(priv))
+> +		return PTR_ERR(priv);
+>   
+>   	priv->dev = dev;
+>   
+> @@ -803,9 +804,6 @@ static int nv3052c_probe(struct spi_device *spi)
+>   
+>   	spi_set_drvdata(spi, priv);
+>   
+> -	drm_panel_init(&priv->panel, dev, &nv3052c_funcs,
+> -		       DRM_MODE_CONNECTOR_DPI);
+> -
+>   	err = drm_panel_of_backlight(&priv->panel);
+>   	if (err)
+>   		return dev_err_probe(dev, err, "Failed to attach backlight\n");
+> 
 
