@@ -2,44 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0916A7DE6B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 15:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE3AA7DE86
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 15:08:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B8EB10E0A4;
-	Mon,  7 Apr 2025 13:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38F4710E461;
+	Mon,  7 Apr 2025 13:08:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QaKULHF2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Eyxdn4Mh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA8D310E3DC
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 13:03:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 154B7236;
- Mon,  7 Apr 2025 15:01:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1744030885;
- bh=RnFytON1oEiOwl7kLssTjnWwvt6YbDHMajfNtWPwXGw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QaKULHF2Ddzs5ZgvY6rIEiizhuv8sBkbees4KB+AnVd2imw1tB6Wf/dE5AwOb7MzZ
- XjrMOK/ADmVaXiB4tJH3IbDLzlYlg8ucg3OOjy+wrzeyPZBRT9JmNJiEwSS4WEEMYW
- IA8l6aciwm1JP5orhPx5BdZdOf2YohHZkdohaGLM=
-Date: Mon, 7 Apr 2025 16:02:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>
-Subject: Re: Need Help Enabling HDMI on Debix Model A
-Message-ID: <20250407130257.GD3924@pendragon.ideasonboard.com>
-References: <PN3P287MB1829E84B6B79E9C7189D7CB78BAA2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0208610E450;
+ Mon,  7 Apr 2025 13:07:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 7261B4438D;
+ Mon,  7 Apr 2025 13:07:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C8DC4CEDD;
+ Mon,  7 Apr 2025 13:07:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744031275;
+ bh=xWhe7be5o/ojbUteURkl1C2wpnLnMk1jv3KDBCNo/ZY=;
+ h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+ b=Eyxdn4MhcX6zneXRyK4gH+8366w1qqqWPtZyPSKuGcORR1sQdtzdUz8hB1zVGmww/
+ A1fSQN+CPx3GPu7shg62eCQcREJIyCzbWqt4l1qN3sao5i9DFaW1ZDBic7uw9jbNr8
+ BaX4b4WWIEA1TjHMPJlUlYIbTv0HbyPyYq3Gkddw5cEFyqCumoItutsBEiNLmhFlUr
+ b61NOuhhx0IftjSdlBQWwwPNFe7wjTmrXJcfxpSk4niwv8A1sDS55P1E/A5nQE/Gxd
+ PVvqy9Z6tOnSXY6asarx90PnfiWo2zusbaryvwYWNn2s1S4G/nOqKSD3g6K1Q9WYpZ
+ NSrB9HrSpCYFA==
+Message-ID: <5acd1373-5be9-4d20-a4cd-bb88cf4c767e@kernel.org>
+Date: Mon, 7 Apr 2025 15:07:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3P287MB1829E84B6B79E9C7189D7CB78BAA2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] rust: alloc: add Vec::resize and Vec::truncate
+To: Andrew Ballance <andrewjballance@gmail.com>
+References: <20250316111644.154602-1-andrewjballance@gmail.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, ojeda@kernel.org,
+ alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@kernel.org,
+ aliceryhl@google.com, tmgross@umich.edu, acourbot@nvidia.com,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Content-Language: en-US
+In-Reply-To: <20250316111644.154602-1-andrewjballance@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,65 +65,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tarang,
+On 3/16/25 12:16 PM, Andrew Ballance wrote:
+> This patch series implements the Vec::truncate and Vec::resize methods
+> that were needed by the nova driver and removes the corresponding item
+> from their task list
+> 
+> changes in v2:
+>   - updated safety comments
+>   - fixed rustdoc comment spacing
+>   - reworded commit messages to be imperative
+>   - Link to v1: https://lore.kernel.org/rust-for-linux/20250315024235.5282-1-andrewjballance@gmail.com/
+> 
+> Andrew Ballance (3):
+>    rust: alloc: add Vec::truncate method
+>    rust: alloc: add Vec::resize method
 
-On Mon, Apr 07, 2025 at 11:10:23AM +0000, Tarang Raval wrote:
-> Hi Laurent,
-> 
-> I’m trying to bring up HDMI on the Debix Model A board using the
-> mainline kernel, but I’m currently facing issues.
-> 
-> I saw that you tested the patch for HDMI support on this board in
-> mainline, so I am hoping you could help me figure out what might be
-> missing.
-> 
-> To clarify — I'm using the prebuilt image provided by Debix, but I replaced
-> the kernel image and the device tree (DTS) file in the /boot directory with
-> ones built from the mainline kernel.
-> 
-> I’ve enabled the following configurations in the kernel:
-> CONFIG_DRM_DISPLAY_CONNECTOR=y
-> CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE=y
-> CONFIG_DRM_IMX8MP_HDMI_PVI=y
-> CONFIG_DRM_IMX_LCDIF=y
-> CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY=y
-> 
-> When I boot the board, I see the following HDMI/DRM related logs:
-> debix@imx8mp-debix:~$ dmesg | grep -iE "drm|hdmi"
-> [    0.121979] /soc@0/bus@32c00000/display-bridge@32fc4000: Fixed dependency cycle(s) with /soc@0/bus@32c00000/hdmi@32fd8000
-> [    0.122164] /soc@0/bus@32c00000/hdmi@32fd8000: Fixed dependency cycle(s) with /soc@0/bus@32c00000/display-bridge@32fc4000
-> [    0.127417] /soc@0/bus@32c00000/hdmi@32fd8000: Fixed dependency cycle(s) with /hdmi-connector
-> [    0.127608] /hdmi-connector: Fixed dependency cycle(s) with /soc@0/bus@32c00000/hdmi@32fd8000
-> [    1.947962] imx8mp-dw-hdmi-tx 32fd8000.hdmi: Detected HDMI TX controller v2.13a with HDCP (SAMSUNG HDMI TX PHY)
-> [    1.949220] imx8mp-dw-hdmi-tx 32fd8000.hdmi: registered DesignWare HDMI I2C bus driver
-> [    1.956365] [drm] Initialized imx-lcdif 1.0.0 for 32fc6000.display-controller on minor 0
-> [    2.016601] imx-lcdif 32fc6000.display-controller: [drm] fb0: imx-lcdifdrmfb frame buffer device
-> [    8.380915] systemd[1]: Starting Load Kernel Module drm...
-> 
-> 
-> I also checked that the display's modeline is recognized under sysfs :
-> 
-> root@imx8mp-debix:~# ls /sys/class/drm/card0-HDMI-A-1/
-> connector_id  dpms          modes         subsystem/   
-> ddc/          edid          power/        uevent       
-> device/       enabled       status       
-> 
-> However, there is still no HDMI output on the display. Instead,
-> I only see a white blinking cursor on the screen.. I'm not sure
-> what I'm missing.
+With the following changes, applied to rust/alloc-next, thanks!
 
-The white blinking cursor means the display is working from the kernel
-point of view. What are you expecting, are you running an X server or
-Wayland compositor ?
+   - Rewrote safety comment of set_len().
+   - Use checked_sub(), as suggested by Tamir.
 
-> Could you please help me out or point me in the right direction?
+>    gpu: nova-core: remove completed Vec extentions from task list
+
+Applied to nova-next, thanks!
+
+>   Documentation/gpu/nova/core/todo.rst | 10 -----
+>   rust/kernel/alloc/kvec.rs            | 62 ++++++++++++++++++++++++++++
+>   2 files changed, 62 insertions(+), 10 deletions(-)
 > 
-> Thank you for your time.
-> 
-> Best Regards,
-> Tarang
-
--- 
-Regards,
-
-Laurent Pinchart
