@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC2EA7E11F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D11DA7E122
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:24:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 423DD10E48A;
-	Mon,  7 Apr 2025 14:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB28D10E490;
+	Mon,  7 Apr 2025 14:24:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gvb9Ef1f";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kYdr1YU9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
  [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99E7610E490
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:24:24 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6D056442B6;
- Mon,  7 Apr 2025 14:24:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C40F710E492
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:24:27 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8129C443B6;
+ Mon,  7 Apr 2025 14:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744035863;
+ t=1744035866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jsGI7zLMLEptOY92QCgZnp7NLPJpnGIfItx5r9mRyww=;
- b=gvb9Ef1f4FHrteKdP63SALZMdKy15lDXh9pghE3xkA14RGq8o7aNLF4z51TL5OFdV2pbTC
- Z1glSmQUE5uexS0GBLDg7oeiE41LNeIN554P25fvwWI5qyO9vSCBneVAc4ZM9AFIMM9M+s
- /nz30u9vaZSeTOGImJi1f2Dbp4vnAZPKeR1g1TvzZPXWlaZ6UBJtK21Msu+JfpMTngwolq
- to4Q6hYHnCt7YpOI1liXZNsIWq0WkcTlmN+fFpMymU+FBJ6crPbL+4QyARwMBfJe10a3ey
- AXUqzrSZ/PNofEXk/09UFKnPGkh7ED6sgBJqykJoopgw49OGdvz3TlMoyA/BWw==
+ bh=/O3LOiW6qlWOLvEGw+B4O1JAwtUWMQ+DkwfDtCgM5ok=;
+ b=kYdr1YU9TU6r0qqhpOTSiLYEQiQzOa0B4YfKeO85xFe0JOgnNVk8Ngn3pTu1dgAVeZrXbo
+ /6pioVVYiLloP6e0nWM8VJhXP1gPNcjvOdjMrnktZc813lllTTTJP/nxBxobk5bdVNnJ8I
+ XEgXXC5+VIdLl1JqlLElRdFm2xOKmusuqQcHL4yq8aTK6nuzuj4eJkA3ns6aMHpjWhmWDB
+ VCu38WwXYAx7XxEOow3UuKCoTCWbQN5rRnSnqb0l3vOPknGTlV6j8gE4MIurQMR2eDweVk
+ hRDNfqZygNY8HpUACvyPjKEry0lF4eH5xYfh5+DvlzeMkHWztJ+hJH7bwEIo3w==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Mon, 07 Apr 2025 16:23:22 +0200
-Subject: [PATCH 07/34] drm/bridge: lt9611uxc: convert to
- devm_drm_bridge_alloc() API
+Date: Mon, 07 Apr 2025 16:23:23 +0200
+Subject: [PATCH 08/34] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw: convert
+ to devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-drm-bridge-convert-to-alloc-api-v1-7-42113ff8d9c0@bootlin.com>
+Message-Id: <20250407-drm-bridge-convert-to-alloc-api-v1-8-42113ff8d9c0@bootlin.com>
 References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
 In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -67,11 +67,13 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Ian Ray <ian.ray@ge.com>, 
+ Martyn Welch <martyn.welch@collabora.co.uk>, 
+ Peter Senna Tschudin <peter.senna@gmail.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedupdhrtghpthhtohephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirghtvghksehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrn
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgeegpdhrtghpthhtohephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirghtvghksehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrn
  hgvlhdrohhrghdprhgtphhtthhopefjuhhirdfruhesghgvhhgvrghlthhhtggrrhgvrdgtohhmpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,35 +94,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 This is the new API for allocating DRM bridges.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index 20bf1a3c786d8ecc10ac58225f28e5c519fd1bf9..22703390ac88df904eeba0cdc3dd92a374373c96 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -775,9 +775,9 @@ static int lt9611uxc_probe(struct i2c_client *client)
- 		return -ENODEV;
+---
+
+Cc: Ian Ray <ian.ray@ge.com>
+Cc: Martyn Welch <martyn.welch@collabora.co.uk>
+Cc: Peter Senna Tschudin <peter.senna@gmail.com>
+---
+ drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+index 15a5a1f644fc10182c55bc9e489ccb81d4f924f9..81dde9ed7bcf7cacae000d9da31a3a5c347ce037 100644
+--- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
++++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+@@ -225,13 +225,11 @@ static int ge_b850v3_lvds_init(struct device *dev)
+ 	if (ge_b850v3_lvds_ptr)
+ 		goto success;
+ 
+-	ge_b850v3_lvds_ptr = devm_kzalloc(dev,
+-					  sizeof(*ge_b850v3_lvds_ptr),
+-					  GFP_KERNEL);
+-
+-	if (!ge_b850v3_lvds_ptr) {
++	ge_b850v3_lvds_ptr = devm_drm_bridge_alloc(dev, struct ge_b850v3_lvds, bridge,
++						   &ge_b850v3_lvds_funcs);
++	if (IS_ERR(ge_b850v3_lvds_ptr)) {
+ 		mutex_unlock(&ge_b850v3_lvds_dev_mutex);
+-		return -ENOMEM;
++		return PTR_ERR(ge_b850v3_lvds_ptr);
  	}
  
--	lt9611uxc = devm_kzalloc(dev, sizeof(*lt9611uxc), GFP_KERNEL);
--	if (!lt9611uxc)
--		return -ENOMEM;
-+	lt9611uxc = devm_drm_bridge_alloc(dev, struct lt9611uxc, bridge, &lt9611uxc_bridge_funcs);
-+	if (IS_ERR(lt9611uxc))
-+		return PTR_ERR(lt9611uxc);
+ success:
+@@ -264,7 +262,6 @@ static int ge_b850v3_register(void)
+ 	struct device *dev = &stdp4028_i2c->dev;
  
- 	lt9611uxc->dev = dev;
- 	lt9611uxc->client = client;
-@@ -856,7 +856,6 @@ static int lt9611uxc_probe(struct i2c_client *client)
- 
- 	i2c_set_clientdata(client, lt9611uxc);
- 
--	lt9611uxc->bridge.funcs = &lt9611uxc_bridge_funcs;
- 	lt9611uxc->bridge.of_node = client->dev.of_node;
- 	lt9611uxc->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
- 	if (lt9611uxc->hpd_supported)
+ 	/* drm bridge initialization */
+-	ge_b850v3_lvds_ptr->bridge.funcs = &ge_b850v3_lvds_funcs;
+ 	ge_b850v3_lvds_ptr->bridge.ops = DRM_BRIDGE_OP_DETECT |
+ 					 DRM_BRIDGE_OP_EDID;
+ 	ge_b850v3_lvds_ptr->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
 
 -- 
 2.49.0
