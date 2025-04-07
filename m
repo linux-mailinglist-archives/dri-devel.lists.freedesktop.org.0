@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5654A7DF8F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 15:39:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342CDA7E049
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 16:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E051E10E46A;
-	Mon,  7 Apr 2025 13:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE1410E47D;
+	Mon,  7 Apr 2025 14:02:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="AnUSn8Q0";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PBYpzZPn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com
- [95.215.58.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F337910E46A
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 13:39:20 +0000 (UTC)
-Date: Mon, 7 Apr 2025 09:39:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1744033157;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2D210E47D
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 14:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1744034524;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0XIUj5MzVf7FhQ0vyFo3sl3uOZZc7cydDbrjDL7zEyw=;
- b=AnUSn8Q0qW8EJbxaYpV//3gIq1BNV/l5jNmEnDrt4l/wo2PakV7tNGYR3IGv8dO3t9xeD3
- +NN/OvaHFh8FOR7dTh1CsE5vkBE7vez9xz0VrEfZ6dv3STH+Rf7ckwxp2tWoIei8Igcy+b
- 5ZL1vloSJpacSgEcvZajunglNsWrXrPJtUwTkeD4TUBaP4z2lKD81FrWDJHzISwRmWBHK5
- ffSD87Wb3JhA4PhsNHKX94CjNbepPnT4bxu/TzV5+cArtmVlca9UXRCb1L+gXrzL+5pZEh
- XjUw/m5gpT2xdAw7014fsH5NKMpbUjw5qodLb7bWpla2dQqp8SCvv990JnvcKA==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Petr Mladek <pmladek@suse.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
- Aun-Ali Zaidi <admin@kodeit.net>,
- Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
- Simona Vetter <simona@ffwll.ch>, Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
- joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
- Kees Cook <kees@kernel.org>, tamird@gmail.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Hector Martin <marcan@marcan.st>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: Re: [PATCH v3 3/3] drm/appletbdrm: use %p4cl instead of %p4cc
-Message-ID: <Z_PVfqVzvscBFND_@blossom>
-References: <8153cb02-d8f1-4e59-b2d5-0dfdde7a832e@live.com>
- <PN3PR01MB9597A66B39FF5824E3718EC3B8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1Q+gQlDrMOfjGrlEjwGCJBXtgRU8uY1eeO/aQN+gl+g=;
+ b=PBYpzZPn7UKqJGkUgB3RTzSaymliIfpfLTF86unVdfNDZsyD/DMD3hCoF9F6f3ayII8MdN
+ hptPDZu/RdKJqVJqdpLpdMCG9iZ/fR31O/29458Dr5FncaYmdVf2WXNBNn2BZhWV/+s7+Q
+ 9n6W5FYUjxbWBu4eTmNnBj+SsaVxXKI=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-326-QPHcBfKnOV-i9Y4rA6L0rg-1; Mon,
+ 07 Apr 2025 10:02:02 -0400
+X-MC-Unique: QPHcBfKnOV-i9Y4rA6L0rg-1
+X-Mimecast-MFC-AGG-ID: QPHcBfKnOV-i9Y4rA6L0rg_1744034520
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id C17351955E79; Mon,  7 Apr 2025 14:01:59 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.45.225.175])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 44192190DB07; Mon,  7 Apr 2025 14:01:52 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ryosuke Yasuoka <ryasuoka@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Wei Yang <richard.weiyang@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>,
+ John Ogness <john.ogness@linutronix.de>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH v3 0/2] drm/panic: Add support to scanout buffer as array of
+ pages
+Date: Mon,  7 Apr 2025 15:42:24 +0200
+Message-ID: <20250407140138.162383-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3PR01MB9597A66B39FF5824E3718EC3B8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-X-Migadu-Flow: FLOW_OUT
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,43 +77,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Some drivers like virtio-gpu, don't map the scanout buffer in the
+kernel. Calling vmap() in a panic handler is not safe, and writing an
+atomic_vmap() API is more complex than expected [1].
+So instead, pass the array of pages of the scanout buffer to the
+panic handler, and map only one page at a time to draw the pixels.
+This is obviously slow, but acceptable for a panic handler.
+As kmap_local_page() is not safe to call from a panic handler,
+introduce a kmap_local_page_try_from_panic() that will avoid unsafe
+operations.
 
-Le Mon , Apr 07, 2025 at 07:07:54PM +0530, Aditya Garg a écrit :
-> From: Aditya Garg <gargaditya08@live.com>
-> 
-> Due to lack of a proper printk format, %p4cc was being used instead of
-> %p4cl for the purpose of printing FourCCs. But the disadvange was that
-> they were being printed in a reverse order. %p4cl should correct this
-> issue.
-> 
-> Signed-off-by: Aditya Garg <gargaditya08@live.com>
-> ---
->  drivers/gpu/drm/tiny/appletbdrm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/appletbdrm.c b/drivers/gpu/drm/tiny/appletbdrm.c
-> index 703b9a41a..751b05753 100644
-> --- a/drivers/gpu/drm/tiny/appletbdrm.c
-> +++ b/drivers/gpu/drm/tiny/appletbdrm.c
-> @@ -212,7 +212,7 @@ static int appletbdrm_read_response(struct appletbdrm_device *adev,
->  	}
->  
->  	if (response->msg != expected_response) {
-> -		drm_err(drm, "Unexpected response from device (expected %p4cc found %p4cc)\n",
-> +		drm_err(drm, "Unexpected response from device (expected %p4cl found %p4cl)\n",
->  			&expected_response, &response->msg);
->  		return -EIO;
->  	}
-> @@ -286,7 +286,7 @@ static int appletbdrm_get_information(struct appletbdrm_device *adev)
->  	}
->  
->  	if (pixel_format != APPLETBDRM_PIXEL_FORMAT) {
-> -		drm_err(drm, "Encountered unknown pixel format (%p4cc)\n", &pixel_format);
-> +		drm_err(drm, "Encountered unknown pixel format (%p4cl)\n", &pixel_format);
->  		ret = -EINVAL;
->  		goto free_info;
->  	}
-> -- 
-> 2.43.0
-> 
+[1] https://lore.kernel.org/dri-devel/20250305152555.318159-1-ryasuoka@redhat.com/
+
+v2:
+ * Add kmap_local_page_try_from_panic() (Simona Vetter)
+ * Correctly handle the case if kmap_local_page_try_from_panic()
+   returns NULL
+ * Check that the current page is not NULL before trying to map it.
+ * Add a comment in struct drm_scanout_buffer, that the array of
+   pages shouldn't be allocated in the get_scanout_buffer() callback.
+
+v3:
+ * Replace DRM_WARN_ONCE with pr_debug_once (Simona Vetter)
+ * Add a comment in kmap_local_page_try_from_panic() (Thomas Gleixner)
+
+Jocelyn Falempe (2):
+  mm/kmap: Add kmap_local_page_try_from_panic()
+  drm/panic: Add support to scanout buffer as array of pages
+
+ drivers/gpu/drm/drm_panic.c      | 142 +++++++++++++++++++++++++++++--
+ include/drm/drm_panic.h          |  12 ++-
+ include/linux/highmem-internal.h |  13 +++
+ 3 files changed, 160 insertions(+), 7 deletions(-)
+
+
+base-commit: fbe43810d563a293e3de301141d33caf1f5d5c5a
+-- 
+2.49.0
+
