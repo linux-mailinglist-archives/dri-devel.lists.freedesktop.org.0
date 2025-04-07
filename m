@@ -2,62 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63928A7E5B7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 18:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98FDA7E5CF
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Apr 2025 18:13:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CDD310E457;
-	Mon,  7 Apr 2025 16:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 362FC10E46D;
+	Mon,  7 Apr 2025 16:13:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uCSADcsw";
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="h5mNXUyF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 753C610E457
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 16:10:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 946625C1ECA;
- Mon,  7 Apr 2025 16:08:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BA86C4CEDD;
- Mon,  7 Apr 2025 16:10:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744042219;
- bh=T/icUZNKagvrKD/XyMsdV5kUXZvHz0F432ZQ6gD6/bc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uCSADcswQIgmHv9oHsLj9h4sGt3gtocSsO3jdUKpd+jKaOH8nQfKzmfm4woAno6NN
- ymVchZUBmmnbhQhN7zMQl1h1dAo44xBd6sGtcOBjGNqkkSKdNVPB38ZJAqNU4AjjGL
- MbKC5udI1PomP+E/ZbVSHRCt4sPTm4UWgGMqkZ6St3oRwyOBthcc6DRtqbvfMRSpKt
- d+wbjuc13tikm6zQvxnVYfiI7CqHsk0+CYdXDIMqzFLrOXjkH2UEUT0RJ6rjFSMdNi
- gdf1JrW62iBFzpwTZX8WG/lapMNvFFii1nDV6XANfrjE94Umjn5ZUHwYgI9gIfuhxC
- RGy9BJ5DsapnA==
-Date: Mon, 7 Apr 2025 17:10:13 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Bincai Liu <bincai.liu@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jitao Shi <jitao.shi@mediatek.com>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-phy@lists.infradead.org
-Subject: Re: [PATCH 1/4] dt-bindings: soc: mediatek: add mipi yaml for MT8196
-Message-ID: <20250407-cramp-fidelity-b3a6db245938@spud>
-References: <20250407133138.22449-1-bincai.liu@mediatek.com>
- <20250407133138.22449-2-bincai.liu@mediatek.com>
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3401C10E46D
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 16:13:49 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-43d0782d787so31643115e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 09:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1744042428; x=1744647228;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=hAlufBsPlnjuTWbgusP8CYnzhAGj3Mnwll46JdWGBbE=;
+ b=h5mNXUyF5Atoq2vq+RQm4/uD2rkuWxa1Vs3EaxwkC/JuXSmnpKEa8wvaPXFQGVboaw
+ 4ljtL6IJH265Pc767JamHMiMBUIScpWq9VyxJFlCwRNKXPMfD5Zo8hUo2+gbIIkDwHVD
+ i2Da18V0Y41yXQfzu2jY4decIV+f7CCbyumHio/HkH+5i/c1106Idc5scbM2TOLsMVFF
+ ghC4m6YtHt9no8lGXEazoBS96nhkb4vrmuu6Fa/p0wBhTqIGwlibrr5tuO+u0rXL2E6W
+ Lr0DRCOqygekJrUGt5dsYXLIkoCDgwy7eIjZ/TTi6wwZtMVY1G1v1UbycpkHU53Ycxi+
+ qdKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744042428; x=1744647228;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hAlufBsPlnjuTWbgusP8CYnzhAGj3Mnwll46JdWGBbE=;
+ b=Uaf6vHi3ecVEFYqKAn5SB2R1u14NZcF0NH19DYfycVKMKR9vYiSJz448HhPxvjqbAR
+ IlUMngwDsBOiv+eyeTWBCCeQ64qi8z5XKXpPS7E23iMd5lmXNIllNzCq0g22OdNOu6qi
+ qSea7dFqe62OuhN4Z93o5VXGNH0ixRm7zNuB29/XYYAHBHazlzrb+BWzLtT/Ycm+wWeF
+ NAVV8ZCr/C8kesT0C2Hgl16t0qp+VCMq9QFIsjsh47h0LnivtmRf8oPboo7vbbjkam8X
+ JVpaOVdDDiPrsuxsjR8od1n0VjuTSuiCU5puYF5eSo8n6egGVYZmRvaP7CLAznDfPBy6
+ ggeA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXeXtZsbtCS9Vd97DkByP/+4BK7MgqFuIvPVva3hKgkYbo57Drm0veQ72qLTz+Fx8CTA6R6H/h1RLQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVhQN9IdbzFvhclXPTdFm1OTUYwLvGYCmblvc4nO5Pp5fqPJrw
+ 7gbAHToPCeEWJeIe435DD5OKBkYCT6uU2EcBwZ/CGjn6WOk/3Sjy0uamjGBQYdA=
+X-Gm-Gg: ASbGncsZaJ4OsNXvRQxxOB/lqTVrsrcuS83+YOqsaLBHF8C1isStxQ3ctIwDA8Qx6cA
+ fi9tcnonRFOfod2rugzqV4lhhc3Ypv6FtD0QKWQ3A7icAJNbPP3U8pAtWcrhnYZk5ld848E09ei
+ hYW8gL7reTG6vC6eBIaM7givxzPVWPiEBa5BNycBpyHVQGb9p8gCXVHxzMBBepceYpa6Vm3IiJr
+ qU6TNP9ezUj/h/ldX87vuBrtDMfXdTUea45nPt+Ni83xZjUJ0MsgmKPTOzAmhmeLCmWCWubzRau
+ z+IjTh9j/EYXZG6YIzgkicochvMU0upKR8AC+UzDsYCH64KEQ4neriEWMOVY61nTdgCjwwOXgsa
+ J+JbpBxxBt6xP5bsVWLm58jGRoZQ=
+X-Google-Smtp-Source: AGHT+IF9E+Yu68SivmKTZ/2oBu6XpMDyufJhLClsxWUTbSHDLDqi5DwsmXJhaL8CEGG/v/moBPNDvw==
+X-Received: by 2002:a05:600c:1d28:b0:43c:fad6:fa5a with SMTP id
+ 5b1f17b1804b1-43ed0d9ce1dmr107471025e9.24.1744042427942; 
+ Mon, 07 Apr 2025 09:13:47 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43ec1630ddesm137924675e9.5.2025.04.07.09.13.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Apr 2025 09:13:46 -0700 (PDT)
+Date: Mon, 7 Apr 2025 17:13:44 +0100
+From: Daniel Thompson <daniel@riscstar.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>
+Cc: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 3/4] backlight: ktz8866: improve current sinks setting
+Message-ID: <Z_P5uLrGiQWez0jv@aspen.lan>
+References: <20250407095119.588920-1-mitltlatltl@gmail.com>
+ <20250407095119.588920-4-mitltlatltl@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8xUyRlIlJRn2Mb1P"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250407133138.22449-2-bincai.liu@mediatek.com>
+In-Reply-To: <20250407095119.588920-4-mitltlatltl@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +97,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Apr 07, 2025 at 05:51:18PM +0800, Pengyu Luo wrote:
+> I polled all registers when the module was loading, found that
+> current sinks have already been configured. Bootloader would set
+> when booting. So checking it before setting the all channels.
 
---8xUyRlIlJRn2Mb1P
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Can you rephrase this so the problem and solution are more clearly
+expressed. Perhaps template Ingo suggests here would be good:
+https://www.spinics.net/lists/kernel/msg1633438.html
 
-On Mon, Apr 07, 2025 at 09:31:22PM +0800, Bincai Liu wrote:
-> Add compatible string to support mipi for MT8196.
 
-You need to point out in your commit message here and in the mipi
-binding patch, why a fallback compatible is not suitable.
-
-Cheers,
-Conor.
-
->=20
-> Signed-off-by: Bincai Liu <bincai.liu@mediatek.com>
+> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 > ---
->  Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml =
-b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> index f6e494d0d89b..ed99e959bf4b 100644
-> --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> @@ -37,6 +37,7 @@ properties:
->        - const: mediatek,mt2701-mipi-tx
->        - const: mediatek,mt8173-mipi-tx
->        - const: mediatek,mt8183-mipi-tx
-> +      - const: mediatek,mt8196-mipi-tx
-> =20
->    reg:
->      maxItems: 1
-> --=20
-> 2.45.2
->=20
+>  drivers/video/backlight/ktz8866.c | 23 +++++++++++++++++++----
+>  1 file changed, 19 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
+> index 017ad80dd..b67ca136d 100644
+> --- a/drivers/video/backlight/ktz8866.c
+> +++ b/drivers/video/backlight/ktz8866.c
+> @@ -46,6 +46,8 @@
+>  #define LCD_BIAS_EN 0x9F
+>  #define PWM_HYST 0x5
+>
+> +#define CURRENT_SINKS_MASK GENMASK(5, 0)
+> +
 
---8xUyRlIlJRn2Mb1P
-Content-Type: application/pgp-signature; name="signature.asc"
+Call this BL_EN_CURRENT_SINKS_MASK and keep it next to the register it
+applies to.
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ/P45QAKCRB4tDGHoIJi
-0uZ2AQCmQRddIAahlK8Ed+uZbLQZVr9L4zCTUWXg3FZUCLVczwD+KTSQUSVEAcAA
-ytubYwzhw6MZqL5MEKTRb+4e+b1dCA0=
-=3pKV
------END PGP SIGNATURE-----
+>  struct ktz8866_slave {
+>  	struct i2c_client *client;
+>  	struct regmap *regmap;
+> @@ -112,11 +120,18 @@ static void ktz8866_init(struct ktz8866 *ktz)
+>  {
+>  	unsigned int val = 0;
+>
+> -	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val))
+> +	if (!of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val)) {
+>  		ktz8866_write(ktz, BL_EN, BIT(val) - 1);
+> -	else
+> -		/* Enable all 6 current sinks if the number of current sinks isn't specified. */
+> -		ktz8866_write(ktz, BL_EN, BIT(6) - 1);
+> +	} else {
+> +		/*
+> +		 * Enable all 6 current sinks if the number of current
+> +		 * sinks isn't specified and the bootloader didn't set
+> +		 * the value.
+> +		 */
+> +		ktz8866_read(ktz, BL_EN, &val);
+> +		if (!(val && CURRENT_SINKS_MASK))
 
---8xUyRlIlJRn2Mb1P--
+This is the wrong form of AND.
+
+> +			ktz8866_write(ktz, BL_EN, CURRENT_SINKS_MASK);
+> +	}
+
+
+Daniel.
