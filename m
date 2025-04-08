@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BB4A81084
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 17:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC8BA81085
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 17:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBAB710E6E4;
-	Tue,  8 Apr 2025 15:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475BB10E6E5;
+	Tue,  8 Apr 2025 15:47:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="B+vW1Cpx";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UlgbwyNm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E01B10E6E5
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD0110E6E1
  for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 15:47:03 +0000 (UTC)
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::229])
- by mslow3.mail.gandi.net (Postfix) with ESMTP id BE6BB5836CF
+ [217.70.183.199])
+ by mslow3.mail.gandi.net (Postfix) with ESMTP id B5219580E9F
  for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 15:27:06 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B832C443CD;
- Tue,  8 Apr 2025 15:27:02 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AE7E843291;
+ Tue,  8 Apr 2025 15:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744126023;
+ t=1744126024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LfAx4lVS0KGN2cWpFco43WjIJVHZrufPU/v15sg8xV4=;
- b=B+vW1Cpxk2j9SQVdgSnkzsXvOJaa6m77+oYmpQJJHMQlkUbGEW+2k/zQzrHttaCtyVDItA
- kzeycUUKa+pgBiIObvDHvnTRtemTdsNobjZ2VQwRHTIApLh6k/qSXXd/UOlCb9StpCW6Ie
- Il8OXZ9H0zk4KyhQ3/zOHKxjo2R32NuCA6haMuHz1oSd5Q6Um3OQrv+HhRslVnmAV8Vqys
- xSHqtdoIsgpQ1Wpq+FPduhQy8nyDzHazCTiIA7Z+YQwonp6h+AWRpNhhV4JhBhpAGXk+Ti
- msT+jUGqEZZWRQhq46wQAfVt4sW5vmJkhvULf7LjVcEfPrO2/DeaZOta7gslBQ==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b5PsY8isH+UjJ+MTxXst2noiDEN9q4jOAnmVDjsyuK8=;
+ b=UlgbwyNmvvnklgknEmVfg3W7VwujEMBrRRgaRs4C2cV469sNy/iZ7cTl4LpPMK1GMalfZw
+ VwaVn7+68Xax4VDzeXxQzC3fZ6rZEUMFky02GKOy0EbRnvk+5lzNAEb32m14dSwaJEhwSZ
+ jyzlCU3wAy+USiAgZN3Hkw+0kGgo0k+4MKfF60i5QUYqFqo96rsld/mkuYpkA2MWGkAMh/
+ 6/B1nBdH9KWbFiFJFnJ3QXzkR3QkhJ/YUXPumL/pr6f/izNrHZILx+FCNy1qIGdjWNPfoD
+ ija50DgpzedZkJ+Bi6MLAQCMIF6uNEQ/rn9C1CXyYGs8Uf91wG0zEsT/8ZpDFg==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Subject: [PATCH 0/4] Add support for Saef SFTO340XC panel.
-Date: Tue, 08 Apr 2025 17:26:59 +0200
-Message-Id: <20250408-feature_sfto340xc-v1-0-f303d1b9a996@bootlin.com>
+Date: Tue, 08 Apr 2025 17:27:00 +0200
+Subject: [PATCH 1/4] dt-bindings: display: panel: ili9881c: Add dsi-lanes
+ property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAENA9WcC/x3MTQqAIBBA4avErBNsUvq5SkRojTWbCq0IxLsnL
- b/FexECeaYAfRHB08OBjz2jKguYN7OvJHjJBpSoZYWdcGSu29MU3HXUSr6zWNCiNtrqRrWQu9O
- T4/d/DmNKH7t+hRFjAAAA
-X-Change-ID: 20250129-feature_sfto340xc-d2b25a5b5748
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250408-feature_sfto340xc-v1-1-f303d1b9a996@bootlin.com>
+References: <20250408-feature_sfto340xc-v1-0-f303d1b9a996@bootlin.com>
+In-Reply-To: <20250408-feature_sfto340xc-v1-0-f303d1b9a996@bootlin.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -56,8 +56,8 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdefgeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthekredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedugefgudfftefhtdeghedtieeiueevleeludeiieetjeekteehleehfeetuefggeenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduhedprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvi
- hgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepqhhuihgtpghjvghsshiihhgrnhesqhhuihgtihhntgdrtghomhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdefgeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevgfdvgfektefgfefggeekudfggffhtdfffedtueetheejtddvledvvdelhedtveenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduhedprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvl
+ hdrohhrghdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepqhhuihgtpghjvghsshiihhgrnhesqhhuihgtihhntgdrtghomhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomh
 X-GND-Sasl: kory.maincent@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,28 +74,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for Saef Technology Limited SFTO340XC LCD panel.
-Add alongside the number of lanes configuration in the ili9881c driver
-as the board on my desc use the panel with only two lanes.
+Add the dsi-lanes property to specify the number of DSI lanes used by the
+panel. This allows configuring the panel for either two, three or four
+lanes.
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
-Kory Maincent (4):
-      dt-bindings: display: panel: ili9881c: Add dsi-lanes property
-      drm/panel: ilitek-ili9881c: Add support for two-lane configuration
-      dt-bindings: ili9881c: Add Saef SFTO340XC support
-      drm: panel: Add Saef SFTO340XC LCD panel
+ Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
- .../bindings/display/panel/ilitek,ili9881c.yaml    |   6 +
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c      | 267 ++++++++++++++++++++-
- 2 files changed, 271 insertions(+), 2 deletions(-)
----
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-change-id: 20250129-feature_sfto340xc-d2b25a5b5748
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+index baf5dfe5f5ebdd92f460a78d0e56e1b45e7dd323..e36550616f6aac86c79832a48132ce8c11ebcf7a 100644
+--- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
++++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+@@ -27,6 +27,11 @@ properties:
+   reg:
+     maxItems: 1
+ 
++  dsi-lanes:
++    description: Number of DSI lanes to be used must be <2>, <3> or <4>
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [2, 3, 4]
++
+   backlight: true
+   power-supply: true
+   reset-gpios: true
 
-Best regards,
 -- 
-Köry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+2.34.1
 
