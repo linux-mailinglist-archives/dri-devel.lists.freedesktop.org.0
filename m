@@ -2,99 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81C6A7F6A9
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 09:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305F9A7F71F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 09:56:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55D0D10E1A4;
-	Tue,  8 Apr 2025 07:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DBBC10E5FA;
+	Tue,  8 Apr 2025 07:56:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="XNB0RIlT";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="i3pOW+UA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iTAJqycX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i3pOW+UA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iTAJqycX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3760910E1A4
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 07:43:01 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-43cf06eabdaso48297065e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 00:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1744098180; x=1744702980;
- darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UnGRyek4b0Q9O6DVrKIv8GSHSuD+kexCPo4NSS6OhDg=;
- b=XNB0RIlTmNB5UoCg6WW7GEMz9zXXTvpCP5VHhgHZ5mjXXOczhLylULYTzq/jIHtmIB
- qla0jZIp7yncgPI3DGXDP1k+x97nkd0Apv1OSCJJh+z0UsALBid5gQhpcP67MLMyEdXf
- JGnXYfauAZBf7qwDAZfQfOGpgYp6fWVUNJlT6zMUHg51lgOxvOnYWGTiSxnFsMo96CHX
- 22PmV4uTwdFJp+pnhzjAwEpy5Y83vymWlK1nBVSgC36YVIbQZW9vUvtnwgZtam8Zq21i
- Hy5tryPgVisZhBP6ngnloM1L+2HjbTjYgZGogvf3LBdemFSKKvpdZkfvDllNKqn5YJej
- ONvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744098180; x=1744702980;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UnGRyek4b0Q9O6DVrKIv8GSHSuD+kexCPo4NSS6OhDg=;
- b=dpoG+jF4GG+WetTIkeYnMQxiNEployojanwEjhQwDo3d/grzepNJJKRkckqhWjwm9C
- vXm4lI3irFtyiWMo/K7JvJ/EivppO0cWYWy1ix5liy8Ou8/uG0Bk5c+lX/eL5b6iINbh
- CSzk7pbln7GawkjQtLgfH7tIQLFDnPDTNeny+QW97qDdRhym/YkARVg/DtP3o5S/FO9h
- lhSv0qGuerZPYc6qgDw2pJBe41rPSQb6ZDptPhrFdWTc8a3JdT1Qlg0dOx+Lt/D/3YdV
- jG4H1yD7LWJe0ElnmIXf+ypi5lUT4PXW0aKC1nlQA2vjZ8mFml7KXCzhL4ZzN2r+iwGP
- 6rKw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/1yBSEWFqLhlqUPDks4k1H0iTnQ6KrIdvhn3hnCliuM6JLgTi1Ysdt3xciwCvtvM+eFZ3w+zzaLc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxnkx1lWs5myiyTTlr8rtcdoL/TwjOa6Bx25Ag+4RIOfPoqC426
- Gc+aS+g7omcmIZQmtAxxrNhYvK3pA6qXk98ihoOW7nrtk2LTMLGMxPW0rf9QyaA=
-X-Gm-Gg: ASbGnctiBIRYD/aG9ux7E6WLVZmhyeJk+u/4gs3/ZhenTeFTgXICDTo/ZhpOxHOX1VC
- XC7udugTckiIKxxnvOrkxLUBx5DtQ6MACH+sLbozyeN4NxAFJZWqhI76377QmRPLAeZArhMc8kl
- 28n3rOxA5tlJmt9PLn97Qf86fTo+rOJdn1C6O4UpdILO3NdTmZ2WlwlasG1Jy990pZ7FB4zCwus
- fydYvzqnU4ly4Yq3eIEuSpnxrrhA7/UZvfHxz28M1PEsJUql9Pq6PKldE9leY5A1a+I7PocwH/b
- kkYEv8PGXgtuQTrIoJLEFVp/QEHiagcWXVTxog==
-X-Google-Smtp-Source: AGHT+IGL45iV9q8qlh/Y51nlH28fz/uo5n75LAnwAcUwjWWcmy/4Xz7sdy2C72SYXaCiAiCukmgEsw==
-X-Received: by 2002:a05:6000:2285:b0:391:3049:d58d with SMTP id
- ffacd0b85a97d-39cadc85ab6mr13296226f8f.0.1744098179869; 
- Tue, 08 Apr 2025 00:42:59 -0700 (PDT)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:2adf:eaae:f6ea:1a73])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43ec3174cf0sm157870225e9.0.2025.04.08.00.42.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Apr 2025 00:42:58 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 08 Apr 2025 09:42:56 +0200
-Subject: [PATCH] fbdev: via: use new GPIO line value setter callbacks
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 194C610E5FA
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 07:56:09 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8C7771F457;
+ Tue,  8 Apr 2025 07:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744098967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0lkhxYJUuqfCDX57IYN493q9tMuE5ous2NwIddIpcEo=;
+ b=i3pOW+UA4q810bZjC9iWLpSOC2HDqeOuXFArmJQqBJpcOG+J0QaCbJPEdr3xoRn4pq3RNe
+ URHmuUULw11NpTQeoON4jPE6aaD69/G9ml4O5uzF/J7II4mk67IvxRpNC34SXo0vuYcKTv
+ 402gu9yTZPmQ7OL8jSdnMi2/lHXhOO4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744098967;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0lkhxYJUuqfCDX57IYN493q9tMuE5ous2NwIddIpcEo=;
+ b=iTAJqycXAXiSgKF9FgRDUDJa4CySIQXTGuTFM8wu+VkrA9u2eMYOggEaI8SPd2S+UjjmZj
+ pBaMcjq8hJkxGPBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744098967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0lkhxYJUuqfCDX57IYN493q9tMuE5ous2NwIddIpcEo=;
+ b=i3pOW+UA4q810bZjC9iWLpSOC2HDqeOuXFArmJQqBJpcOG+J0QaCbJPEdr3xoRn4pq3RNe
+ URHmuUULw11NpTQeoON4jPE6aaD69/G9ml4O5uzF/J7II4mk67IvxRpNC34SXo0vuYcKTv
+ 402gu9yTZPmQ7OL8jSdnMi2/lHXhOO4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744098967;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0lkhxYJUuqfCDX57IYN493q9tMuE5ous2NwIddIpcEo=;
+ b=iTAJqycXAXiSgKF9FgRDUDJa4CySIQXTGuTFM8wu+VkrA9u2eMYOggEaI8SPd2S+UjjmZj
+ pBaMcjq8hJkxGPBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5CE0313A1E;
+ Tue,  8 Apr 2025 07:56:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ZR5SFZfW9Gd9RgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 08 Apr 2025 07:56:07 +0000
+Message-ID: <34f3cdf6-ca11-4eea-aecb-6d7bc5e82a1b@suse.de>
+Date: Tue, 8 Apr 2025 09:56:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] drm/tests: Fix drm_display_mode memory leaks
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Philipp Stanner <phasta@mailbox.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250408-drm-kunit-drm-display-mode-memleak-v1-0-996305a2e75a@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250408-drm-kunit-drm-display-mode-memleak-v1-0-996305a2e75a@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250408-gpiochip-set-rv-video-v1-1-200ea4d24a29@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAH/T9GcC/x3MQQqAIBBA0avErBvQrIyuEi2sppqNioYE4t2Tl
- m/xf4ZIgSnC3GQIlDiysxWybWC/jb0I+aiGTnSDUEri5dntN3uM9GBImPggh+N2ymHqjdFaQG1
- 9oJPf/7uspXwfzH8VZwAAAA==
-To: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>, 
- Helge Deller <deller@gmx.de>, Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2107;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=yngfshF14pwSvzrYSNhyzUkMWDnjaEIdy0M4XDuzgqM=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBn9NOAFPzoYiBfJTd1dvJSY7THpbhM5Nui3ZcaB
- ywwwKbK9XSJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZ/TTgAAKCRARpy6gFHHX
- crk+D/9Xizg8WvZa9J61rbqYpcpvD1ujH1jEBpC2/Og+c4KsE/FYxmYpTFDxBBH9IkCNU0wZ+MW
- sXsQwo8xypAlB0Qkmn8E4YG+7VqjDpbbq00hsJNax69W+Ces/apbqznairccWCqnWraBxWjxlMA
- qmLoYtdidVEQBbYSFHmDQWFjfBYnBbxhbSSrvwpbGsJLsmTo3mtZnSTRlkOzwRxvoRcx6gAlo/l
- 05ShLFNEo4ofMRbiQBiB6Q+5PNS4fCG5VqIxmFykmT9fuhZ+gGNfIdE41tX2Cu/7rdoTutaFa1c
- GlsasQIGu33rxNBj3nQRS4hmPW/uUvSe8p2/xGqZ6heD4oFMxImiaMckAdvl8ogEqULDzknduvk
- L6eeHIWdzXOqYm6uBpMmO6w9XJhcCGJf3D5O5LSSZDBWBPDR58x0xDYecnSrhoMLxcV5y8QJphB
- S/1FBPnALDBJSWI2zsF3KfzpkJFOEXE6iA6ph7u+bz+Kulgqd8oZta3LL/VVJN3kOkbQg5LhI1r
- Fs5mXSUi9X2tNacDZ/4CXZS6xYO48VRwKEQyKQntkXb9yYOi6XsQH1szvlipwTizNW88c6w5vJ5
- 2qD7Pp1PSJC+CHjId8JeHhL9CGNIa4HMH+CJZEsDJsbzUX7WkEL92Z3gs3HolgyKBdH6NDFgp9G
- BtCYYpvPO2gxKfw==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[7]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,68 +142,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-struct gpio_chip now has callbacks for setting line values that return
-an integer, allowing to indicate failures. Convert the driver to using
-them.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
-Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
-values") added new line setter callbacks to struct gpio_chip. They allow
-to indicate failures to callers. We're in the process of converting all
-GPIO controllers to using them before removing the old ones.
----
- drivers/video/fbdev/via/via-gpio.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Am 08.04.25 um 09:34 schrieb Maxime Ripard:
+> Hi,
+>
+> Here's a series that fixes some memory leaks in our kunit tests that
+> eventually show up in kmemleak.
+>
+> Let me know what you think,
+> Maxime
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-diff --git a/drivers/video/fbdev/via/via-gpio.c b/drivers/video/fbdev/via/via-gpio.c
-index 9577c2cd52c7..27226a8f3f42 100644
---- a/drivers/video/fbdev/via/via-gpio.c
-+++ b/drivers/video/fbdev/via/via-gpio.c
-@@ -81,8 +81,7 @@ struct viafb_gpio_cfg {
- /*
-  * GPIO access functions
-  */
--static void via_gpio_set(struct gpio_chip *chip, unsigned int nr,
--			 int value)
-+static int via_gpio_set(struct gpio_chip *chip, unsigned int nr, int value)
- {
- 	struct viafb_gpio_cfg *cfg = gpiochip_get_data(chip);
- 	u8 reg;
-@@ -99,13 +98,14 @@ static void via_gpio_set(struct gpio_chip *chip, unsigned int nr,
- 		reg &= ~(0x10 << gpio->vg_mask_shift);
- 	via_write_reg(VIASR, gpio->vg_port_index, reg);
- 	spin_unlock_irqrestore(&cfg->vdev->reg_lock, flags);
-+
-+	return 0;
- }
- 
- static int via_gpio_dir_out(struct gpio_chip *chip, unsigned int nr,
- 			    int value)
- {
--	via_gpio_set(chip, nr, value);
--	return 0;
-+	return via_gpio_set(chip, nr, value);
- }
- 
- /*
-@@ -146,7 +146,7 @@ static struct viafb_gpio_cfg viafb_gpio_config = {
- 		.label = "VIAFB onboard GPIO",
- 		.owner = THIS_MODULE,
- 		.direction_output = via_gpio_dir_out,
--		.set = via_gpio_set,
-+		.set_rv = via_gpio_set,
- 		.direction_input = via_gpio_dir_input,
- 		.get = via_gpio_get,
- 		.base = -1,
+On the series:
 
----
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-change-id: 20250331-gpiochip-set-rv-video-6bf1584aa770
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Best regards,
+> ---
+> Maxime Ripard (7):
+>        drm/tests: helpers: Create kunit helper to destroy a drm_display_mode
+>        drm/tests: modeset: Fix drm_display_mode memory leak
+>        drm/tests: modeset: Fix drm_display_mode memory leak
+>        drm/tests: cmdline: Fix drm_display_mode memory leak
+>        drm/tests: modes: Fix drm_display_mode memory leak
+>        drm/tests: modes: Fix drm_display_mode memory leak
+>        drm/tests: probe-helper: Fix drm_display_mode memory leak
+>
+>   drivers/gpu/drm/tests/drm_client_modeset_test.c |  9 ++++++++-
+>   drivers/gpu/drm/tests/drm_cmdline_parser_test.c | 10 +++++++++-
+>   drivers/gpu/drm/tests/drm_kunit_helpers.c       | 23 ++++++++++++++++++++++
+>   drivers/gpu/drm/tests/drm_modes_test.c          | 26 +++++++++++++++++++++++++
+>   drivers/gpu/drm/tests/drm_probe_helper_test.c   |  8 +++++++-
+>   include/drm/drm_kunit_helpers.h                 |  3 +++
+>   6 files changed, 76 insertions(+), 3 deletions(-)
+> ---
+> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+> change-id: 20250408-drm-kunit-drm-display-mode-memleak-49d05334c16e
+>
+> Best regards,
+
 -- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
