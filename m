@@ -2,60 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A53BA7F23E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 03:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590C5A7F24E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 03:40:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91B5B10E074;
-	Tue,  8 Apr 2025 01:32:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B16EB10E1EB;
+	Tue,  8 Apr 2025 01:40:28 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZNCPSG22";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A07210E074
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 01:32:30 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7399a2dc13fso6730777b3a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 18:32:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744075950; x=1744680750;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IT6EO3uXq7W/DtEevmI6X3jGcRw4tHqVpMI32qli+6k=;
- b=kDvU+ir7M97aqNNOvZGR5uMgeg6SL/fgn+PRAGksc3kz42XgiP1wqKBo6sRXji4ME3
- bE9t70Bkp9XxTpg4370JW0X7jKiRprsmULvL0KohcIPqr0a8lp9Lp1JC+MOnnfhwaObf
- J9Xq5VU1J/cQzsNG3X1BbxBw2m3Hs1cKT+e+9fLDPM7Q2Y57qcnriw/xaYbGZJD5D//b
- 2C0GrDgnkkKVvLRakW/iJvYYotnRbdL/LehdkcusldF6ROvT/5rgDkXOartAd2UDJBjR
- aHfmVGRjP1BqX/CGRTJkOF2TWPK/yx1/bxmgTWZGwTxiC/2qRZiPjPM0+W7g2Bmnvkwh
- YiEg==
-X-Gm-Message-State: AOJu0YwC00opLujogIkTyEZ+A8b46ZnqBdTfJPtFFciL6EMP8ZGfC84V
- pU9JidRIYA0rJ3dZoYkZX4/QQwW9L4813qzxU2EOmeZWhrf1YRpbJLfQCwW1Ze9vvw==
-X-Gm-Gg: ASbGncsIdJ7znX0nBXVCYlKHXRdlyyWr727VrwyxpYwRsuNOGP51bwoGqPqaErD78WI
- Z4gtePUeklHl6E7DK4VlhaBnMZp00M3GoLFimRIiEKc9yTOHYXU2jrqneCGHdBW+MZ9CaIaLILF
- /Aok+NOe77iA7w67rtyXQ8BEdisb74VbiFgpbDsVILhODHyqiDaSdISy9FLjPGdKm2J7LygmtaJ
- 3oa3uKjJdYE05Bm811mt+sbf9Vw+vGd/cJkhaN1A5yZxMMuXGcMfRuW1hV5EYbe9QxNaFGXe0lu
- /UEtnVYliNBLXDy9PEehICAMmgzanG0HKOkRs30Tz91Y241jOmcFNU5JjKri
-X-Google-Smtp-Source: AGHT+IEzl0nskbxsR96eaqQW/1gJQJ8+1JpvRWHmYANqFKElkG6cxZpJBqxLTJ5cU0yAVVNeQ20Pfw==
-X-Received: by 2002:a05:6a00:2186:b0:736:5545:5b84 with SMTP id
- d2e1a72fcca58-739e48cefd7mr22131846b3a.3.1744075949719; 
- Mon, 07 Apr 2025 18:32:29 -0700 (PDT)
-Received: from localhost.localdomain ([116.128.244.169])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-739d9ea089csm9243885b3a.111.2025.04.07.18.32.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Apr 2025 18:32:29 -0700 (PDT)
-From: jiangfeng@kylinos.cn
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, rodrigo.vivi@intel.com,
- andrealmeid@igalia.com, christian.koenig@amd.com, raag.jadav@intel.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Feng Jiang <jiangfeng@kylinos.cn>
-Subject: [PATCH] drm: Fix the length of event_string in drm_dev_wedged_event()
-Date: Tue,  8 Apr 2025 09:32:19 +0800
-Message-Id: <20250408013219.26006-1-jiangfeng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B4610E1EB
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 01:40:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744076426; x=1775612426;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=HgrmWXIBNbmdElp1wf1UHlcrxPduAJniYElZ7U6cAAk=;
+ b=ZNCPSG22xyXGD55CxgebVgCVZp4uv43XePNEo/85v861WQDKtLdd010L
+ eIptxjE5XHUCxjo1ldznGfvgcftsta360vK+46BWm2rZvTk6jMCBT23Bi
+ 7iz9o9nC7FbYDl96sfQ+QYSuWd+T4k1/a9y40LJSFkjIIpUYpC7mrE5H9
+ gvVueIdF9iRWtRSKp4SU2J0mnX91/klZniqpxu/mCypSp4ESqUvrroZ5/
+ gfwhfEtBCdwz5RXxBhlXXQQkxGl1G/zQsdtUgF5o2a0LSSux8Xb3BolYX
+ t0DYJvBuFhiFYofqYr8ja24RwEIzUjwycMHmQeFcpgE21osOSy5l1m7Bf A==;
+X-CSE-ConnectionGUID: rwPcOOqlSTyElFU9Rm9ADw==
+X-CSE-MsgGUID: h9TxPSpOSOmJQvMws3nYxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49284625"
+X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; d="scan'208";a="49284625"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 18:40:25 -0700
+X-CSE-ConnectionGUID: XbE4urcSTwyZGrxlHESIRQ==
+X-CSE-MsgGUID: njGT9niPTtqA5Jxi5D2hvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; d="scan'208";a="127873567"
+Received: from ksmithe-mobl1.amr.corp.intel.com (HELO adixit-MOBL3.intel.com)
+ ([10.125.211.148])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 18:40:24 -0700
+Date: Mon, 07 Apr 2025 18:40:24 -0700
+Message-ID: <87a58re8hj.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: <imre.deak@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ "Jessica Zhang" <quic_jesszhan@quicinc.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
+ Joel Selvaraj <jo@jsfamily.in>, Douglas Anderson <dianders@chromium.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 04/10] panel/auo-a030jtn01: Use refcounted allocation in
+ place of devm_kzalloc()
+In-Reply-To: <87bjt7eca8.wl-ashutosh.dixit@intel.com>
+References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
+ <20250401-b4-drm-panel-mass-driver-convert-v1-4-cdd7615e1f93@redhat.com>
+ <Z_P0A9lxWD0aAdjp@ideak-desk.fi.intel.com>
+ <85a58rsgjj.wl-ashutosh.dixit@intel.com>
+ <87bjt7eca8.wl-ashutosh.dixit@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/29.4 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,31 +82,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Feng Jiang <jiangfeng@kylinos.cn>
+On Mon, 07 Apr 2025 17:18:23 -0700, Dixit, Ashutosh wrote:
+>
+> On Mon, 07 Apr 2025 16:22:40 -0700, Dixit, Ashutosh wrote:
+> >
+> > On Mon, 07 Apr 2025 08:49:23 -0700, Imre Deak wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Tue, Apr 01, 2025 at 12:03:47PM -0400, Anusha Srivatsa wrote:
+> > > > Move to using the new API devm_drm_panel_alloc() to allocate the
+> > > > panel.
+> > > >
+> > > > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> > > > ---
+> > > >  drivers/gpu/drm/panel/panel-auo-a030jtn01.c | 10 ++++------
+> > > >  1 file changed, 4 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c b/drivers/=
+gpu/drm/panel/panel-auo-a030jtn01.c
+> > > > index 77604d6a4e72c915c40575be0e47810c90b4ed71..83529b1c2bac2e29f41=
+efaf4028950214b056a95 100644
+> > > > --- a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+> > > > +++ b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+> > > > @@ -200,9 +200,10 @@ static int a030jtn01_probe(struct spi_device *=
+spi)
+> > > >
+> > > >	spi->mode |=3D SPI_MODE_3 | SPI_3WIRE;
+> > > >
+> > > > -	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > > > -	if (!priv)
+> > > > -		return -ENOMEM;
+> > > > +	panel =3D devm_drm_panel_alloc(dev, struct a030jtn01, panel,
+> > > > +				     &a030jtn01_funcs, DRM_MODE_CONNECTOR_DPI);
+> > >
+> > > This doesn't compile and (yet) it's pushed already to drm-tip. AFAIU
+> > > it's supposed to be
+> > >	priv =3D devm_drm_panel_alloc(...);
+> >
+> > Yes:
+> >
+> > drivers/gpu/drm/panel/panel-auo-a030jtn01.c: In function =A1a030jtn01_p=
+robe=A2:
+> > drivers/gpu/drm/panel/panel-auo-a030jtn01.c:203:9: error: =A1panel=A2 u=
+ndeclared (first use in this function)
+> >   203 |         panel =3D devm_drm_panel_alloc(dev, struct a030jtn01, p=
+anel,
+> >       |         ^~~~~
+> > drivers/gpu/drm/panel/panel-auo-a030jtn01.c:203:9: note: each undeclare=
+d identifier is reported only once for each function it appears in
+> >
+> > Please turn on the config options for particular module if you are maki=
+ng
+> > changes to that module.
+>
+> Though probably, you can argue, that the pre-merge CI build should already
+> be doing this. A sort of allmodconfig for the DRM subsystem, so that these
+> kinds of issues don't get missed.
 
-The format of the event_string value is `WEDGED=<method1>[,..,<methodN>]`,
-so method should be appended after 'WEDGED=' rather than overwriting it.
+More compile errors:
 
-Fixes: b7cf9f4ac1b8 ("drm: Introduce device wedged event")
-Signed-off-by: Feng Jiang <jiangfeng@kylinos.cn>
----
- drivers/gpu/drm/drm_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I'm still getting some allmodconfig errors:
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 17fc5dc708f4..58babdab9e66 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -549,7 +549,8 @@ int drm_dev_wedged_event(struct drm_device *dev, unsigned long method)
- 		if (drm_WARN_ONCE(dev, !recovery, "invalid recovery method %u\n", opt))
- 			break;
- 
--		len += scnprintf(event_string + len, sizeof(event_string), "%s,", recovery);
-+		len += scnprintf(event_string + len,
-+				sizeof(event_string) - len, "%s,", recovery);
- 	}
- 
- 	if (recovery)
--- 
-2.25.1
+../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c: In function 'boe_t=
+h101mb31ig002_dsi_probe':
+../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:9: error: 'pane=
+l' undeclared (first use in this function)
+  352 |         panel =3D devm_drm_panel_alloc(dev, struct panel_desc, pane=
+l,
+      |         ^~~~~
+../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:9: note: each u=
+ndeclared identifier is reported only once for each function it appears in
+In file included from ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a=
+.c:18:
+../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:38: error: 'dev=
+' undeclared (first use in this function); did you mean 'cdev'?
+  352 |         panel =3D devm_drm_panel_alloc(dev, struct panel_desc, pane=
+l,
+      |                                      ^~~
+../include/drm/drm_panel.h:305:41: note: in definition of macro 'devm_drm_p=
+anel_alloc'
+  305 |         ((type *)__devm_drm_panel_alloc(dev, sizeof(type), \
+      |                                         ^~~
+In file included from ../include/uapi/linux/posix_types.h:5,
+                 from ../include/uapi/linux/types.h:14,
+                 from ../include/linux/types.h:6,
+                 from ../include/linux/math.h:5,
+                 from ../include/linux/delay.h:12,
+                 from ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a=
+.c:8:
+../include/linux/stddef.h:16:33: error: 'struct panel_desc' has no member n=
+amed 'panel'
+   16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+      |                                 ^~~~~~~~~~~~~~~~~~
+../include/drm/drm_panel.h:306:41: note: in expansion of macro 'offsetof'
+  306 |                                         offsetof(type, member), fun=
+cs, \
+      |                                         ^~~~~~~~
+../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:17: note: in ex=
+pansion of macro 'devm_drm_panel_alloc'
+  352 |         panel =3D devm_drm_panel_alloc(dev, struct panel_desc, pane=
+l,
+      |                 ^~~~~~~~~~~~~~~~~~~~
 
+
+
+
+>
+>
+> >
+> > >
+> > > > +	if (IS_ERR(panel))
+> > > > +		return PTR_ERR(panel);
+> > > >
+> > > >	priv->spi =3D spi;
+> > > >	spi_set_drvdata(spi, priv);
+> > > > @@ -223,9 +224,6 @@ static int a030jtn01_probe(struct spi_device *s=
+pi)
+> > > >	if (IS_ERR(priv->reset_gpio))
+> > > >		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio), "Failed to ge=
+t reset GPIO");
+> > > >
+> > > > -	drm_panel_init(&priv->panel, dev, &a030jtn01_funcs,
+> > > > -		       DRM_MODE_CONNECTOR_DPI);
+> > > > -
+> > > >	err =3D drm_panel_of_backlight(&priv->panel);
+> > > >	if (err)
+> > > >		return err;
+> > > >
+> > > > --
+> > > > 2.48.1
+> > > >
