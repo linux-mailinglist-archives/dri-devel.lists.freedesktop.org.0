@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F9EA80EBD
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 16:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7397A80EFA
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 16:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E649410E6CF;
-	Tue,  8 Apr 2025 14:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB1210E241;
+	Tue,  8 Apr 2025 14:55:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="odebGuo0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M6weDvw/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC2210E6CF
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 14:47:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744123619;
- bh=3l/+LdDt9BYOa/k+vw35IDN76tFD/70Aqr4RSI5LQog=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=odebGuo09qjtBQa6bETbDReyUhxnT+390+HBJip7ET6xtXmRjJCVmCvL78bTg2c3p
- grjLlycqXcSlIvD7xUk/2AmN+3BUl4Lfuml2Rbl3h76I6eWBRBQ7uivBQJsr3Eig5v
- /4rtjC7LH+lQsKEWL2H20RYqlQzQtYdw+Oujp87ZvS3cdeD6NzKjbR5h94sBEL3SH1
- vkMl3hry2MOLD292kUF2qIHhSyQTCLMFho19+PWqHIVN1TCVC9uJouCDWJmHh5OwUQ
- fsOmGI4DMdsK/NGfjd/cVem5sxzPnMaAc8M+1cSRkZ6gJIoTahBYT9zafygGnYBi2W
- S1morMARsrTPQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id DBF7417E1072;
- Tue,  8 Apr 2025 16:46:58 +0200 (CEST)
-Date: Tue, 8 Apr 2025 16:46:52 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 4/4] drm/panthor: show device-wide list of DRM GEM
- objects over DebugFS
-Message-ID: <20250408164652.2cc26723@collabora.com>
-In-Reply-To: <k5pf4wkpaeuahdg5vasxo226jppjxtndkswoi2g72eezecttic@vrdnyjxbqont>
-References: <20250402115432.1469703-1-adrian.larumbe@collabora.com>
- <20250402115432.1469703-5-adrian.larumbe@collabora.com>
- <20250402145804.5cf07f5e@collabora.com>
- <s66dyt32ukr37p24zjgbatm6sk5lzw5ujx2n7p2pr2ixrq3jf4@byemjauyp2mv>
- <20250408154755.0d45b54b@collabora.com>
- <k5pf4wkpaeuahdg5vasxo226jppjxtndkswoi2g72eezecttic@vrdnyjxbqont>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4579110E147
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 14:55:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744124124; x=1775660124;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to;
+ bh=o8ReBQljhmpMI3FPMcUculst+xOm6O19xdXnTHZtiY8=;
+ b=M6weDvw/tGd5L+wOJSAAM6vZ+VNt+i6Cb5gb6KB6hlSJBgjtXpI3EFF5
+ PJvJboc+9rUmO4XXkWzsxUMEEnVcTgq/ni/+QgaI8eIFGgZL2A6CIlj71
+ jW1Oj985KgdmiH2eL1H3Z7dl/0iWxj9GxKG1g4o89J8366PQrlP/Ms2gK
+ 4af4ieznKcQM2JZLeokA6t6SZD0CR39SVie4QsCiCbMZZOzzOVgyWIn+v
+ 6F4kwo8iwK1l+KD1NTo46pJl51QHvtKbPs4Yi0hWrBN5BO3X0IP8+Ce6V
+ idn8i0lGRgs9EZverqV03HlYkzlcVDdnmCw6fMZtbGi3AsPs4LkfZEOQ1 A==;
+X-CSE-ConnectionGUID: 8LqMPKwST9qZIzixaUiZIA==
+X-CSE-MsgGUID: PwSPjB0sTDC+30y/GK4jhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="55744801"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208,217";a="55744801"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 07:55:23 -0700
+X-CSE-ConnectionGUID: 8DuRXhMMS6u/ghoER8+jHw==
+X-CSE-MsgGUID: muETkjt7StyLf9jE0ySZrQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
+ d="scan'208,217";a="165514707"
+Received: from mfalkows-mobl.ger.corp.intel.com (HELO [10.245.121.109])
+ ([10.245.121.109])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 07:55:22 -0700
+Content-Type: multipart/alternative;
+ boundary="------------aVSzgYYiFcpnfNTYNGSFm5yN"
+Message-ID: <07d3558d-54c9-45b9-9945-fb948d37e84f@linux.intel.com>
+Date: Tue, 8 Apr 2025 16:55:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] accel/ivpu: Show NPU frequency in sysfs
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jacek.lawrynowicz@linux.intel.com,
+ lizhi.hou@amd.com, Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+References: <20250401155912.4049340-1-maciej.falkowski@linux.intel.com>
+ <20250401155912.4049340-3-maciej.falkowski@linux.intel.com>
+ <464ccbb4-3c72-4ecf-a0cf-35d2ad9d04a4@oss.qualcomm.com>
+Content-Language: en-US
+From: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>
+In-Reply-To: <464ccbb4-3c72-4ecf-a0cf-35d2ad9d04a4@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,97 +74,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 8 Apr 2025 15:38:18 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+This is a multi-part message in MIME format.
+--------------aVSzgYYiFcpnfNTYNGSFm5yN
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> On 08.04.2025 15:47, Boris Brezillon wrote:
-> On Tue, 8 Apr 2025 14:38:44 +0100
-> Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
->=20
-> > > > > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/=
-drm/panthor/panthor_gem.c
-> > > > > index 44d027e6d664..2fc87be9b700 100644
-> > > > > --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> > > > > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> > > > > @@ -2,6 +2,7 @@
-> > > > >  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> > > > >  /* Copyright 2023 Collabora ltd. */
-> > > > >
-> > > > > +#include <linux/cleanup.h>
-> > > > >  #include <linux/dma-buf.h>
-> > > > >  #include <linux/dma-mapping.h>
-> > > > >  #include <linux/err.h>
-> > > > > @@ -10,14 +11,65 @@
-> > > > >  #include <drm/panthor_drm.h>
-> > > > >
-> > > > >  #include "panthor_device.h"
-> > > > > +#include "panthor_fw.h"
-> > > > >  #include "panthor_gem.h"
-> > > > >  #include "panthor_mmu.h"
-> > > > >
-> > > > > +#ifdef CONFIG_DEBUG_FS
-> > > > > +static void panthor_gem_debugfs_bo_init(struct panthor_gem_objec=
-t *bo, u32 type_mask)
-> > > > > +{
-> > > > > +	INIT_LIST_HEAD(&bo->debugfs.node); =20
-> > > >
-> > > > This should be called when the GEM object is created, otherwise the
-> > > > list_empty() test done in panthor_gem_debugfs_bo_rm() will only wor=
-k if
-> > > > panthor_gem_debugfs_bo_add() is called, and depending on when this
-> > > > happens, or whether it happens at all, the error path will do a NULL
-> > > > deref. =20
-> > >
-> > > I'll be moving panthor_gem_debugfs_bo_add() back into panthor_gem_cre=
-ate_object() and
-> > > inline panthor_gem_debugfs_bo_init() into it. =20
-> >
-> > You mean moving the panthor_gem_debugfs_bo_add() call to
-> > panthor_gem_create_object(), not inlining its content, right? =20
->=20
-> Yes, inlining panthor_gem_debugfs_bo_init() into panthor_gem_debugfs_bo_a=
-dd() and moving
-> panthor_gem_debugfs_bo_add() into panthor_gem_create_object().
->=20
-> > > > > +	} else {
-> > > > > +		bo->debugfs.creator.tgid =3D 0;
-> > > > > +		snprintf(bo->debugfs.creator.process_name,
-> > > > > +			 sizeof(bo->debugfs.creator.process_name),
-> > > > > +			 "kernel");
-> > > > > +	}
-> > > > > +
-> > > > > +	bo->debugfs.bo_mask =3D type_mask; =20
-> > > >
-> > > > Why not do that directly in panthor_gem_debugfs_bo_add()? The only =
-bits
-> > > > that might be useful to do early is the INIT_LIST_HEAD(), and I thi=
-nk
-> > > > it can be inlined in panthor_gem_create_object(). =20
-> > >
-> > > I'll be doing in this in the next revision, but because I've no acces=
-s to the BO
-> > > type mask from inside Panthor's drm_driver::gem_create_object() bindi=
-ng, then
-> > > I'll have to assign the mask right after the object has been created.
-> > >
-> > > I think this means there might be a short window after the object's b=
-een added to
-> > > the DebugFS GEMs list in which it could be shown with the kernel mask=
- field still
-> > > set to 0, but I guess that's not too important either. =20
-> >
-> > I think it's okay, as long as you don't crash when printing partially
-> > initialized objects. Another solution would be to have a flag encoding
-> > when the obj is initialized, so you can skip objects that don't have
-> > this flag set yet. =20
->=20
-> I think what I'll do is set the mask to a poison value, maybe 0xFF, and o=
-nly when
-> it's overwritten with a legitimate value, display the object in the Debug=
-FS GEMS file.
+On 4/4/2025 5:13 PM, Jeff Hugo wrote:
 
-Well, it's just as simple to leave it to zero at bo_add() time, and
-have an INITIALIZED flag that you set along the other flags in the
-caller of gem_shmem_create(). If you make it a poison value, you'll
-need to make sure it never conflicts with a valid flag combination,
-which might be annoying.
+> On 4/1/2025 9:59 AM, Maciej Falkowski wrote:
+>> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+>>
+>> Add sysfs files that show maximum and current
+>> frequency of the NPU's data processing unit.
+>> New sysfs entries:
+>> - npu_max_frequency_mhz
+>
+> Don't you have an ioctl to get this, which is fixed in patch 1 of the 
+> series?  Why duplicate that with a sysfs?
+
+We added this to keep it consistent with sysfs entry for current frequency.
+This is more for a convenience but ioctl is still required as user-mode 
+driver requires this.
+Do you think it is justified having this consideration?
+
+>
+>> - npu_current_frequency_mhz
+>
+> Do you have userspace code that consumes these?
+
+We do have a support for two device monitors in a userspace - 
+resources[1] and  btop[2].
+I develop myself a btop support and have already frequency included, I 
+will also include it in resources.
+
+[1]: https://github.com/nokyan/resources/blob/main/src/utils/npu/intel.rs
+<https://github.com/nokyan/resources/blob/main/src/utils/npu/intel.rs>[2]: 
+https://github.com/m-falkowski/btop
+
+>
+>>
+>> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+>> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+>> ---
+>>   drivers/accel/ivpu/ivpu_hw.h      |  5 ++++
+>>   drivers/accel/ivpu/ivpu_hw_btrs.c |  8 +++++
+>>   drivers/accel/ivpu/ivpu_hw_btrs.h |  1 +
+>>   drivers/accel/ivpu/ivpu_sysfs.c   | 49 ++++++++++++++++++++++++++++++-
+>
+> Missing uapi documentation.
+>
+> Also, should the sysfs maintainers be included in the review?
+>
+Thank you for point this out. I included recipients using 
+get_maintainers script.
+
+Best regards,
+Maciej
+
+--------------aVSzgYYiFcpnfNTYNGSFm5yN
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>On 4/4/2025 5:13 PM, Jeff Hugo wrote:</p>
+    <blockquote type="cite"
+      cite="mid:464ccbb4-3c72-4ecf-a0cf-35d2ad9d04a4@oss.qualcomm.com">On
+      4/1/2025 9:59 AM, Maciej Falkowski wrote:
+      <br>
+      <blockquote type="cite">From: Andrzej Kacprowski
+        <a class="moz-txt-link-rfc2396E" href="mailto:Andrzej.Kacprowski@intel.com">&lt;Andrzej.Kacprowski@intel.com&gt;</a>
+        <br>
+        <br>
+        Add sysfs files that show maximum and current
+        <br>
+        frequency of the NPU's data processing unit.
+        <br>
+        New sysfs entries:
+        <br>
+        - npu_max_frequency_mhz
+        <br>
+      </blockquote>
+      <br>
+      Don't you have an ioctl to get this, which is fixed in patch 1 of
+      the series?  Why duplicate that with a sysfs?<br>
+    </blockquote>
+    <p>We added this to keep it consistent with sysfs entry for current
+      frequency.<br>
+      This is more for a convenience but ioctl is still required as
+      user-mode driver requires this.<br>
+      Do you think it is justified having this consideration?</p>
+    <blockquote type="cite"
+      cite="mid:464ccbb4-3c72-4ecf-a0cf-35d2ad9d04a4@oss.qualcomm.com">
+      <br>
+      <blockquote type="cite">- npu_current_frequency_mhz
+        <br>
+      </blockquote>
+      <br>
+      Do you have userspace code that consumes these?<br>
+    </blockquote>
+    <p>We do have a support for two device monitors in a userspace -
+      resources[1] and  btop[2].<br>
+      I develop myself a btop support and have already frequency
+      included, I will also include it in resources.</p>
+    <p>[1]: <a
+href="https://github.com/nokyan/resources/blob/main/src/utils/npu/intel.rs"
+        rel="noreferrer noopener"
+title="https://github.com/nokyan/resources/blob/main/src/utils/npu/intel.rs"
+        target="_blank">https://github.com/nokyan/resources/blob/main/src/utils/npu/intel.rs<br>
+      </a>[2]: <a href="https://github.com/m-falkowski/btop"
+        rel="noreferrer noopener"
+        title="https://github.com/m-falkowski/btop" target="_blank"
+        class="moz-txt-link-freetext">https://github.com/m-falkowski/btop</a></p>
+    <blockquote type="cite"
+      cite="mid:464ccbb4-3c72-4ecf-a0cf-35d2ad9d04a4@oss.qualcomm.com">
+      <br>
+      <blockquote type="cite">
+        <br>
+        Signed-off-by: Andrzej Kacprowski
+        <a class="moz-txt-link-rfc2396E" href="mailto:Andrzej.Kacprowski@intel.com">&lt;Andrzej.Kacprowski@intel.com&gt;</a>
+        <br>
+        Signed-off-by: Maciej Falkowski
+        <a class="moz-txt-link-rfc2396E" href="mailto:maciej.falkowski@linux.intel.com">&lt;maciej.falkowski@linux.intel.com&gt;</a>
+        <br>
+        ---
+        <br>
+          drivers/accel/ivpu/ivpu_hw.h      |  5 ++++
+        <br>
+          drivers/accel/ivpu/ivpu_hw_btrs.c |  8 +++++
+        <br>
+          drivers/accel/ivpu/ivpu_hw_btrs.h |  1 +
+        <br>
+          drivers/accel/ivpu/ivpu_sysfs.c   | 49
+        ++++++++++++++++++++++++++++++-
+        <br>
+      </blockquote>
+      <br>
+      Missing uapi documentation.
+      <br>
+      <br>
+      Also, should the sysfs maintainers be included in the review?
+      <br>
+      <br>
+    </blockquote>
+    Thank you for point this out. I included recipients using
+    get_maintainers script.<br>
+    <br>
+    Best regards,<br>
+    Maciej<br>
+    <br>
+  </body>
+</html>
+
+--------------aVSzgYYiFcpnfNTYNGSFm5yN--
