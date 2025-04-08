@@ -2,89 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7F4A81477
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 20:21:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F003A814A2
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 20:29:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92A8A10E2C6;
-	Tue,  8 Apr 2025 18:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41C7710E2BC;
+	Tue,  8 Apr 2025 18:29:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fW34edki";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="Lc2LL1Sn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F220610E2C6;
- Tue,  8 Apr 2025 18:21:37 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538BFqCO027667;
- Tue, 8 Apr 2025 18:21:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- yawypgTDfQmeut2IdACsl8MD5B/MwSN9qyvRnPW0+3w=; b=fW34edkiLmHxqdvA
- hdp4DF48388vpWiJco8svJxmUOIrT2jxt+nXbGm6GGCUgXi8ezbyhAjYqbaMZkGp
- fdJ3a3KKxvKifgMDSbrnXuP551mW53vZNw67Fan6BVzcLVT5CtfBd9zHdiC/n3uB
- yqwMxkKiSttMTxQAWUqjrlk/1gJLOYdtnevibnioA2DvNvKvRytsCt8Cs27cHh0M
- 4vl4VH7rbbsuhxbwZ2UQww314HmhsoE3d5zSQKzMuYWclSrZKs+9qgkYgsBFjcL6
- wyB432R+iLBgyQV342x1N12Dsu+m1YGYhZtQUOl5IvPh6FJWY0nexzScx2CEXE5a
- HnuwYg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twd00v9d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Apr 2025 18:21:33 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 538ILVCf015403
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 8 Apr 2025 18:21:32 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 8 Apr 2025
- 11:21:31 -0700
-Message-ID: <181a3138-fce2-47cb-8258-ff08a00c2b3a@quicinc.com>
-Date: Tue, 8 Apr 2025 11:21:31 -0700
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34F1B10E2BE
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 18:29:08 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-47662449055so31461091cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 11:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1744136947; x=1744741747;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wnJMeGeygiELK5KDa7MNHpgLu+a1Tj2VkGwfQxzOg0c=;
+ b=Lc2LL1SnyXYdy/vHuRDuUHvIuGEjG4uiB4m8ci1zPpVVTB7gqh73th6vWlP4srJAwr
+ G3Y520ehI1apEOeXhE5Lo4TuUXT/Y0IuoojuM94KUZBbPjcIIggPU4pxTvNVclPwha8p
+ 0opxj3qouUy67CzhZgCAf3jmQkibwCND3bc5r1gSQIas+/APg4hvA8f47i+5fDmZQlnv
+ LylcdtSx2DRS4R28NWAy4vzv7REJkjGYSyaKLL/IdnIrdgPCep3r7oB1zyiELiY2NOO+
+ 9Bw5VZQZGidhgUS7bCivkwRR74w6kABQNqsvUUuZA4+32MealgvbiZ3JT/cha5F7Agyk
+ RSJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744136947; x=1744741747;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wnJMeGeygiELK5KDa7MNHpgLu+a1Tj2VkGwfQxzOg0c=;
+ b=h9n7mUqezby572HSxlw65yyb5cpjTC9vtsF/TiLkpeKaD3/49KL1Mc0h+htR6uqr9V
+ hlWK2C2L/k39WD1ZQKdXVxva4c4XVUjmrVNqZ/lnPbz+dZNpVJDS8/KBxRjj8e3kH+1f
+ 3zxgiU4wqzXL7C6xGrAB5qezZw2ubmPDlrQK2gGqj83xcv0MzSYI8Wq6yN967AxyTlkd
+ xOYzs9hpptXBPMx+sahQmK78r+bMcxhsXh+NswZZd8xFrXYHNORM6VJWrttzoqQUWuMF
+ /i7o1Hgmq6CAJQAzR+R+g0uYUtcazdP0ziC2aRLjlgwWwmgiE5BcoibFebaWEDXJaR9a
+ PUNA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUTVxp7croplHGdST0It9qi4GgSlXps9OR3Pqy3C8EAc/gXiIomlCJDZMZBTWIuJPc872AK2sbM9S4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyO5ru0k3S/Ctx4nbMgoWXICCab6qcgB1WMksl3nNT8pnn70ya3
+ BgIpnuKJLtIupg3sXDAtrM3xCH4Idw4rLnkXzQ6RaLiqQW/+iMuiOKXNRqbNu6bfBn3IXuE6cB8
+ D9VKVVxdjZPgeTG8vHoVaDCv5Q1Wjf5yukhFldw==
+X-Gm-Gg: ASbGncsdF/MDEgRh1fBjTbCGIIekqHQ2eNFX+V7zGxSAzaWmAqk11r/MSNOD+8da8PJ
+ fclv47KfJVyzoHyXyLF168LDn/i2XsSxOMjYqVirxKl1hKB1PBIMwTXyH5owCqHU0xLvcnkFaUV
+ uqUsIAy7sEDnsqMzGrTBN9Q3Y1
+X-Google-Smtp-Source: AGHT+IHkiKiOx8zEwytj2F0hfHHlmvcz1w1J+CXVq3PVa8+Gcjwc4AyeAV9KFzIa2DI74k8Y1rRE2pPUzoblEz2hsT0=
+X-Received: by 2002:ac8:5843:0:b0:476:87dd:16f9 with SMTP id
+ d75a77b69052e-47925957f3emr300079321cf.18.1744136947096; Tue, 08 Apr 2025
+ 11:29:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 RESEND] drm/msm/dpu: reorder pointer operations after
- sanity checks to avoid NULL deref
-To: Qasim Ijaz <qasdev00@gmail.com>, <robdclark@gmail.com>, <lumag@kernel.org>,
- <sean@poorly.run>, <marijn.suijten@somainline.org>,
- <airlied@gmail.com>, <simona@ffwll.ch>, <quic_jesszhan@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>
-References: <20250408172223.10827-1-qasdev00@gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250408172223.10827-1-qasdev00@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 6ZAnYeOiOeNZTdojBCkaKPDn5qGs5enQ
-X-Authority-Analysis: v=2.4 cv=Q4vS452a c=1 sm=1 tr=0 ts=67f5692d cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8
- a=pGLkceISAAAA:8 a=COk6AnOGAAAA:8
- a=Ss2e1SayUNo6jylPtukA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: 6ZAnYeOiOeNZTdojBCkaKPDn5qGs5enQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-08_07,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1011 phishscore=0
- bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504080126
+References: <20250326234748.2982010-1-alex.hung@amd.com>
+ <20250326234748.2982010-7-alex.hung@amd.com>
+ <CAPj87rOh=1OuASau+fjL_z+XBs-P=jUiQgjJjWXQZt1FYFC==w@mail.gmail.com>
+ <46R4JuwCeyu56R2FsAN-j6n0Pu5VSeLdju8KUycQ3PF5cVQrlUO3C5SX8CgpRJ-QL5_-XS2ds94pPjhzEl6hOo3iyLl0y_d0Syzinn7BxSY=@emersion.fr>
+ <CAPj87rOpp8CE_kmcJmp69pM5NhxBkLOGp-BKdALX4F8GL5-29Q@mail.gmail.com>
+ <87fd7840-b021-4d3a-9d0b-2724e941c5dc@amd.com>
+In-Reply-To: <87fd7840-b021-4d3a-9d0b-2724e941c5dc@amd.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 8 Apr 2025 19:28:55 +0100
+X-Gm-Features: ATxdqUFEF4Q9mAfrumzSuc7g5ifgiQqNhjSqadOYsGxpNal9icnc5V1X2xA53Q0
+Message-ID: <CAPj87rPhc1L7gGW9WY0SDdG5SN12wvxhbbz=mt_2SmuoRwv9wA@mail.gmail.com>
+Subject: Re: [PATCH V8 06/43] drm/colorop: Add 1D Curve subtype
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: Simon Ser <contact@emersion.fr>, Alex Hung <alex.hung@amd.com>, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, leo.liu@amd.com, 
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, mwen@igalia.com, 
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com, 
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch, 
+ uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com, 
+ quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com, 
+ sashamcintosh@google.com, chaitanya.kumar.borah@intel.com, 
+ louis.chauvet@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,25 +96,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Harry,
 
+On Tue, 8 Apr 2025 at 18:30, Harry Wentland <harry.wentland@amd.com> wrote:
+> On 2025-04-08 12:40, Daniel Stone wrote:
+> > OK, Harry's reply cleared that up perfectly - the flexibility that's
+> > there at the moment is about being able to reuse colorops for CRTCs in
+> > post-blend ops (great!), not shared between planes.
+>
+> Just to make sure we're talking about the same thing:
+>
+> The design intent is to allow drm_colorops on a crtc (once we implement
+> that), not to be able to share the same drm_colorop between a plane and
+> crtc.
 
-On 4/8/2025 10:22 AM, Qasim Ijaz wrote:
-> _dpu_encoder_trigger_start dereferences "struct dpu_encoder_phys *phys"
-> before the sanity checks which can lead to a NULL pointer dereference if
-> phys is NULL.
->   
-> Fix this by reordering the dereference after the sanity checks.
->   
-> Fixes: 8144d17a81d9 ("drm/msm/dpu: Skip trigger flush and start for CWB")
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
-> ---
-> v2:
-> - Moved Signed-off tag below Fixes tag
-> - Moved dpu_enc declaration to the top and initialisation below sanity checks
-> 
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
+Right, that's my understanding here.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cheers,
+Daniel
