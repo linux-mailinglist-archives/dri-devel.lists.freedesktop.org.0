@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE44FA81873
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 00:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E85B5A8188D
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 00:30:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 038F510E78C;
-	Tue,  8 Apr 2025 22:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C5210E78E;
+	Tue,  8 Apr 2025 22:29:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="JmFMSs2g";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gp4plmzz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
- [136.143.184.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3427E10E78C
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 22:25:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1744151095; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=eU0K48qNuF0io5JdyOsxSbCLdqkmrdFw1s5WLe587xwhTAHMzhSFazp4Kg2Mcx9AGiugEGyEuo2UvCVqkT/zH8wbbYn9WFq1+5VWp91QCyYc+6PoKDuohgTxOKfH1ffCAZS9mwJ6I0fqcvlC52KMxgRmNur/g6hv8xrLXTnmCE4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1744151095;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=ULTK1FqB+UN5vCxtkwwHmILu4kdDSIXWgWFmlBu4W/0=; 
- b=YjoK4b9PpMIrmPY/cXCfpGs9PsUK/IKrMmTPrFG9hxv50PHbkNQB2kGR20jD78pcXWE8XjARWc2u/xUoLLUfErzcD5j+fcOnMofEhOFWOkPvnjaIVIG18wubIyQ63FXxWs1qD+3nsvQzuEh42Qs7Gf18L8FqjgIKa4ViSZfdE6E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744151095; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=ULTK1FqB+UN5vCxtkwwHmILu4kdDSIXWgWFmlBu4W/0=;
- b=JmFMSs2gQ5fOwtUE64St6l3GJj3nrEHS+VIKmJhFVBGI6TIxKQxCwwNxM3BoHQkA
- 56Msoy7sphBRSXnLIaNuihFKrbVeAfKzb2n731D2E5qVcoXbPnU6QxelO/F/VzZaMvZ
- AwrzPjL7csH8vG9YQWg6kKneKqzCZDD8quoMPlbY=
-Received: by mx.zohomail.com with SMTPS id 1744151093280865.5330418374582;
- Tue, 8 Apr 2025 15:24:53 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v5 4/4] drm/panthor: show device-wide list of DRM GEM objects
- over DebugFS
-Date: Tue,  8 Apr 2025 23:24:24 +0100
-Message-ID: <20250408222427.1214330-5-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250408222427.1214330-1-adrian.larumbe@collabora.com>
-References: <20250408222427.1214330-1-adrian.larumbe@collabora.com>
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF4C610E78A;
+ Tue,  8 Apr 2025 22:29:55 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-39c2688619bso3772674f8f.1; 
+ Tue, 08 Apr 2025 15:29:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744151394; x=1744756194; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=trYnNMkpMxvHvEGlTFlPN0SIFfLLkw2QH1P3nATN+eY=;
+ b=gp4plmzz2Y1laB2ItwzCruHOrl0JLZ3f0jq/Kv6TaTCIc7mri26FMIrwv+eRhzS7Kv
+ wd6PrhiIrRUpGB15DMs4d9B3IfLpez11uwzIGUgBkAoJRgv92zpaUx401UidPummGeQs
+ HNE7betSoa7IFG56t6btfSylL4xQbjSLhw20s90iiAOdpsEfIcazGLJRsVSwGajHa/T1
+ 4tia+B8ItODwTvAg31jAxkiny8aPF5khmehClsXiV4nIEoQuUJjyUEnXD4psOabJS+Xb
+ uy7EK2qpQb3bqOCBcobBAbVABfmvUiZ/FILdf9jAkzmJTJTQ2HiY3c561DNSEFRhTNDq
+ SWJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744151394; x=1744756194;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=trYnNMkpMxvHvEGlTFlPN0SIFfLLkw2QH1P3nATN+eY=;
+ b=jHzJr++JtD3JYVvekLSnXLwrraCjKOrsV63kgxeJZ+Y7WVNRlVOxZVSWH8lre2xnrA
+ s4wG8QcQPG+8V6g46otQYVB+HkT6m3JBK+5mP0DVcJ15S7oUr7SVchYRQ7DpdJYMWeUe
+ QnZm32XAt3b6mCCVr+C83kPD+dtAxv4vm6BsD01aPZUQNUNX8hv2ePpTp1ltetvRTv/o
+ k5K9JwBBba1w2w0XNh2g5tG7Uu+d9REmFS+lbMaq4KjdpgaQ/cPs77e3bPYo2WsCUa1D
+ yJc1F1YPgqFJoohQKVIPRd14aoEngLYkmClnZTrCKOwctUEDQYwIhABWujy2vTRNgJOW
+ Ebjw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUwi7pcswsctmRIg8IU48haLi42aSzNbaG+1cwZ7vsX0UdZtFaWlkD8zhUgZNwLfC8ys5PPjXdzMEE=@lists.freedesktop.org,
+ AJvYcCVVFJ6XWnu1TolcDQoN0AJSip9IUn1KFXIBcNuoUGXY5Rfn8BiidAm9QSULBSkp1jkaF7Fef95wqJao@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXuNTsPXISHG6TiZUUWjKtVvICGrVUVs2MnBqWateNLBDb6/w6
+ 81KbRNsuFYDB+Yz16DMHkRQPPrwmUaWQzDa4gbtYetVlI5C//atZv43TkUYs4pcCfljV8QsX+m8
+ 92RHVEy1gg87KQPwGZN3kEZMkBA==
+X-Gm-Gg: ASbGncvlSorRedcD9txJu14NfQ4oLCWYz1ZwSCVlr9vqXNjxTZYj+LieW+qdJlc/DUc
+ FLVpGcaeqzKv2zROXVgbmLAxww8n7ikdUROB8Wvq/XH1TCuKspUZTWVFbltHCIPl511nbg9n6DQ
+ AKscglx/VueHurYhRTtafPh89f1iTjGNuOHiJd
+X-Google-Smtp-Source: AGHT+IGFJ1h6c7rrjXitNfryyN56EJFk54x4HXhpiJE0OeyKnJIfnuX0wLfbdBCcxZ0T9JVpEVGf90+BeOOm/NW27NU=
+X-Received: by 2002:a05:6000:4205:b0:391:489a:ce12 with SMTP id
+ ffacd0b85a97d-39d87ac932emr647254f8f.26.1744151393766; Tue, 08 Apr 2025
+ 15:29:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250311234109.136510-1-alex.vinarskis@gmail.com>
+ <20250311234109.136510-3-alex.vinarskis@gmail.com>
+ <ytqnodci5xhkd4eqs3homrdwbv4zkaiewalfsbuclvkkaw754t@wpt3noqxlcvu>
+In-Reply-To: <ytqnodci5xhkd4eqs3homrdwbv4zkaiewalfsbuclvkkaw754t@wpt3noqxlcvu>
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Date: Wed, 9 Apr 2025 00:29:42 +0200
+X-Gm-Features: ATxdqUH4lOg3IAGwzqaLkczSwrWtKZLWkStF4_OSAJfvJH7twA4Fq4RzWuI0R2I
+Message-ID: <CAMcHhXrZiO7PxyGsZY3upPzk=GeM4GVSmwUUWy2J+DYEe6ggVg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/msm/dp: Introduce link training per-segment
+ for LTTPRs
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, laurentiu.tudor1@dell.com,
+ abel.vesa@linaro.org, johan@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,426 +92,569 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a device DebugFS file that displays a complete list of all the DRM
-GEM objects that are exposed to UM through a DRM handle.
+On Tue, 1 Apr 2025 at 02:55, Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> On Wed, Mar 12, 2025 at 12:38:04AM +0100, Aleksandrs Vinarskis wrote:
+> > DisplayPort requires per-segment link training when LTTPR are switched
+> > to non-transparent mode, starting with LTTPR closest to the source.
+> > Only when each segment is trained individually, source can link train
+> > to sink.
+> >
+> > Implement per-segment link traning when LTTPR(s) are detected, to
+> > support external docking stations. On higher level, changes are:
+> >
+> > * Pass phy being trained down to all required helpers
+> > * Run CR, EQ link training per phy
+> > * Set voltage swing, pre-emphasis levels per phy
+> >
+> > This ensures successful link training both when connected directly to
+> > the monitor (single LTTPR onboard most X1E laptops) and via the docking
+> > station (at least two LTTPRs).
+> >
+> > Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+> > Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
+> > ---
+> >  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 137 +++++++++++++++++++---------
+> >  drivers/gpu/drm/msm/dp/dp_ctrl.h    |   2 +-
+> >  drivers/gpu/drm/msm/dp/dp_display.c |   4 +-
+> >  3 files changed, 99 insertions(+), 44 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > index d8633a596f8d..419a519ccf6b 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > @@ -79,6 +79,8 @@ struct msm_dp_ctrl_private {
+> >       struct msm_dp_link *link;
+> >       struct msm_dp_catalog *catalog;
+> >
+> > +     int *lttpr_count;
+>
+> Please move lttpr_count to msm_dp_ctrl or msm_dp_link. It would remove a
+> need for this ugly pointer.
 
-Since leaking object identifiers that might belong to a different NS is
-inadmissible, this functionality is only made available in debug builds
-with DEBUGFS support enabled.
+Thanks for your review,
 
-File format is that of a table, with each entry displaying a variety of
-fields with information about each GEM object.
+Sure, will move it.
 
-Each GEM object entry in the file displays the following information
-fields: Client PID, BO's global name, reference count, BO virtual size,
-BO resize size, VM address in its DRM-managed range, BO label and a GEM
-state flags.
+>
+> > +
+> >       struct phy *phy;
+> >
+> >       unsigned int num_core_clks;
+> > @@ -1034,9 +1036,11 @@ static int msm_dp_ctrl_set_vx_px(struct msm_dp_ctrl_private *ctrl,
+> >       return 0;
+> >  }
+> >
+> > -static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
+> > +static int msm_dp_ctrl_update_phy_vx_px(struct msm_dp_ctrl_private *ctrl,
+> > +                                     enum drm_dp_phy dp_phy)
+> >  {
+> >       struct msm_dp_link *link = ctrl->link;
+> > +     int reg = DP_TRAINING_LANE0_SET;
+> >       int ret = 0, lane, lane_cnt;
+> >       u8 buf[4];
+> >       u32 max_level_reached = 0;
+> > @@ -1075,8 +1079,11 @@ static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
+> >
+> >       drm_dbg_dp(ctrl->drm_dev, "sink: p|v=0x%x\n",
+> >                       voltage_swing_level | pre_emphasis_level);
+> > -     ret = drm_dp_dpcd_write(ctrl->aux, DP_TRAINING_LANE0_SET,
+> > -                                     buf, lane_cnt);
+> > +
+> > +     if (dp_phy != DP_PHY_DPRX)
+> > +             reg = DP_TRAINING_LANE0_SET_PHY_REPEATER(dp_phy);
+>
+> Please always init reg here rather than using a default value above.
+> It's a cleaner code IMO.
 
-There's also a kflags field for the type of BO, which tells us whether
-it's a kernel BO and/or mapped onto the FW's address space.
+Will fix.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_device.c |   5 +
- drivers/gpu/drm/panthor/panthor_device.h |  11 ++
- drivers/gpu/drm/panthor/panthor_drv.c    |  26 ++++
- drivers/gpu/drm/panthor/panthor_gem.c    | 168 +++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_gem.h    |  65 +++++++++
- 5 files changed, 275 insertions(+)
+>
+> > +
+> > +     ret = drm_dp_dpcd_write(ctrl->aux, reg, buf, lane_cnt);
+> >       if (ret == lane_cnt)
+> >               ret = 0;
+> >
+> > @@ -1084,9 +1091,10 @@ static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
+> >  }
+> >
+> >  static bool msm_dp_ctrl_train_pattern_set(struct msm_dp_ctrl_private *ctrl,
+> > -             u8 pattern)
+> > +             u8 pattern, enum drm_dp_phy dp_phy)
+> >  {
+> >       u8 buf;
+> > +     int reg = DP_TRAINING_PATTERN_SET;
+> >       int ret = 0;
+> >
+> >       drm_dbg_dp(ctrl->drm_dev, "sink: pattern=%x\n", pattern);
+> > @@ -1096,7 +1104,10 @@ static bool msm_dp_ctrl_train_pattern_set(struct msm_dp_ctrl_private *ctrl,
+> >       if (pattern && pattern != DP_TRAINING_PATTERN_4)
+> >               buf |= DP_LINK_SCRAMBLING_DISABLE;
+> >
+> > -     ret = drm_dp_dpcd_writeb(ctrl->aux, DP_TRAINING_PATTERN_SET, buf);
+> > +     if (dp_phy != DP_PHY_DPRX)
+> > +             reg = DP_TRAINING_PATTERN_SET_PHY_REPEATER(dp_phy);
+>
+> The same comment here.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index a9da1d1eeb70..b776e1a2e4f3 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -184,6 +184,11 @@ int panthor_device_init(struct panthor_device *ptdev)
- 	if (ret)
- 		return ret;
- 
-+#ifdef CONFIG_DEBUG_FS
-+	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
-+	INIT_LIST_HEAD(&ptdev->gems.node);
-+#endif
-+
- 	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
- 	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
- 	if (!p)
-diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-index da6574021664..86206a961b38 100644
---- a/drivers/gpu/drm/panthor/panthor_device.h
-+++ b/drivers/gpu/drm/panthor/panthor_device.h
-@@ -205,6 +205,17 @@ struct panthor_device {
- 
- 	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
- 	unsigned long fast_rate;
-+
-+#ifdef CONFIG_DEBUG_FS
-+	/** @gems: Device-wide list of GEM objects owned by at least one file. */
-+	struct {
-+		/** @gems.lock: Protects the device-wide list of GEM objects. */
-+		struct mutex lock;
-+
-+		/** @node: Used to keep track of all the device's DRM objects */
-+		struct list_head node;
-+	} gems;
-+#endif
- };
- 
- struct panthor_gpu_usage {
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 163c027562aa..935ca9e6138e 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1534,9 +1534,35 @@ static const struct file_operations panthor_drm_driver_fops = {
- };
- 
- #ifdef CONFIG_DEBUG_FS
-+static int panthor_gems_show(struct seq_file *m, void *data)
-+{
-+	struct drm_info_node *node = m->private;
-+	struct drm_device *dev = node->minor->dev;
-+	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
-+
-+	panthor_gem_debugfs_print_bos(ptdev, m);
-+
-+	return 0;
-+}
-+
-+
-+static struct drm_info_list panthor_debugfs_list[] = {
-+	{"gems", panthor_gems_show, 0, NULL},
-+};
-+
-+static int panthor_gems_debugfs_init(struct drm_minor *minor)
-+{
-+	drm_debugfs_create_files(panthor_debugfs_list,
-+				 ARRAY_SIZE(panthor_debugfs_list),
-+				 minor->debugfs_root, minor);
-+
-+	return 0;
-+}
-+
- static void panthor_debugfs_init(struct drm_minor *minor)
- {
- 	panthor_mmu_debugfs_init(minor);
-+	panthor_gems_debugfs_init(minor);
- }
- #endif
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 742192c42f58..439f2ae4e6bb 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -2,6 +2,7 @@
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
- /* Copyright 2023 Collabora ltd. */
- 
-+#include <linux/cleanup.h>
- #include <linux/dma-buf.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
-@@ -10,14 +11,51 @@
- #include <drm/panthor_drm.h>
- 
- #include "panthor_device.h"
-+#include "panthor_fw.h"
- #include "panthor_gem.h"
- #include "panthor_mmu.h"
- 
-+#ifdef CONFIG_DEBUG_FS
-+static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
-+				       struct panthor_gem_object *bo)
-+{
-+	INIT_LIST_HEAD(&bo->debugfs.node);
-+
-+	bo->debugfs.creator.tgid = current->group_leader->pid;
-+	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
-+
-+	mutex_lock(&ptdev->gems.lock);
-+	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
-+	mutex_unlock(&ptdev->gems.lock);
-+}
-+
-+static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
-+{
-+	struct panthor_device *ptdev = container_of(bo->base.base.dev,
-+						    struct panthor_device, base);
-+
-+	if (list_empty(&bo->debugfs.node))
-+		return;
-+
-+	mutex_lock(&ptdev->gems.lock);
-+	list_del_init(&bo->debugfs.node);
-+	mutex_unlock(&ptdev->gems.lock);
-+}
-+
-+#else
-+static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
-+				       struct panthor_gem_object *bo)
-+{}
-+static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
-+#endif
-+
- static void panthor_gem_free_object(struct drm_gem_object *obj)
- {
- 	struct panthor_gem_object *bo = to_panthor_bo(obj);
- 	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
- 
-+	panthor_gem_debugfs_bo_rm(bo);
-+
- 	/*
- 	 * Label might have been allocated with kstrdup_const(),
- 	 * we need to take that into account when freeing the memory
-@@ -86,6 +124,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
- 	struct drm_gem_shmem_object *obj;
- 	struct panthor_kernel_bo *kbo;
- 	struct panthor_gem_object *bo;
-+	u32 debug_flags = PANTHOR_DEBUGFS_BO_FLAGS_KERNEL;
- 	int ret;
- 
- 	if (drm_WARN_ON(&ptdev->base, !vm))
-@@ -105,7 +144,11 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
- 	kbo->obj = &obj->base;
- 	bo->flags = bo_flags;
- 
-+	if (vm == panthor_fw_vm(ptdev))
-+		debug_flags |= PANTHOR_DEBUGFS_BO_FW_FLAG_MAPPED;
-+
- 	panthor_gem_kernel_bo_set_label(kbo, name);
-+	panthor_gem_debugfs_bo_set_mask(to_panthor_bo(kbo->obj), debug_flags);
- 
- 	/* The system and GPU MMU page size might differ, which becomes a
- 	 * problem for FW sections that need to be mapped at explicit address
-@@ -208,6 +251,8 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
- 	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
- 	mutex_init(&obj->label.lock);
- 
-+	panthor_gem_debugfs_bo_add(ptdev, obj);
-+
- 	return &obj->base.base;
- }
- 
-@@ -256,6 +301,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
- 	/* drop reference from allocate - handle holds it now. */
- 	drm_gem_object_put(&shmem->base);
- 
-+	panthor_gem_debugfs_bo_set_mask(bo, 0);
-+
- 	return ret;
- }
- 
-@@ -287,3 +334,124 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
- 
- 	panthor_gem_bo_set_label(bo->obj, kstrdup_const(str, GFP_KERNEL));
- }
-+
-+#ifdef CONFIG_DEBUG_FS
-+static void
-+panthor_gem_debugfs_print_flags(struct seq_file *m,
-+				const char *names[],
-+				u32 name_count,
-+				u32 flags)
-+{
-+	bool first = true;
-+
-+	seq_puts(m, "(");
-+
-+	if (!flags)
-+		seq_puts(m, "none");
-+
-+	while (flags) {
-+		u32 bit = fls(flags) - 1;
-+
-+		if (!first)
-+			seq_puts(m, ",");
-+
-+		if (bit >= name_count || !names[bit])
-+			seq_printf(m, "unknown-bit%d", bit);
-+		else
-+			seq_printf(m, "%s", names[bit]);
-+
-+		first = false;
-+		flags &= ~BIT(bit);
-+	}
-+
-+	seq_puts(m, ")");
-+}
-+
-+struct gem_size_totals {
-+	size_t size;
-+	size_t resident;
-+	size_t reclaimable;
-+};
-+
-+static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
-+					 struct seq_file *m,
-+					 struct gem_size_totals *totals)
-+{
-+	unsigned int refcount = kref_read(&bo->base.base.refcount);
-+	char creator_info[32] = {};
-+	u32 gem_state_flags = 0;
-+	size_t resident_size;
-+
-+	static const char *gem_status_flags[] = {
-+		"imported", "exported", "purged", "purgeable"
-+	};
-+
-+	static const char *panthor_bo_flags[] = {
-+		"kernel", "fw"
-+	};
-+
-+	/* Skip BOs being destroyed. */
-+	if (!refcount)
-+		return;
-+
-+	resident_size = bo->base.pages != NULL ? bo->base.base.size : 0;
-+
-+	snprintf(creator_info, sizeof(creator_info),
-+		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
-+	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
-+		   creator_info,
-+		   bo->base.base.name,
-+		   refcount,
-+		   bo->base.base.size,
-+		   resident_size,
-+		   drm_vma_node_start(&bo->base.base.vma_node));
-+
-+
-+	if (bo->base.base.import_attach != NULL)
-+		gem_state_flags |= PANTHOR_DEBUGFS_GEM_IMPORTED;
-+	if (bo->base.base.dma_buf != NULL)
-+		gem_state_flags |= PANTHOR_DEBUGFS_GEM_EXPORTED;
-+	if (bo->base.madv < 0)
-+		gem_state_flags |= PANTHOR_DEBUGFS_GEM_PURGED;
-+	if (bo->base.madv)
-+		gem_state_flags |= PANTHOR_DEBUGFS_GEM_PURGEABLE;
-+
-+	panthor_gem_debugfs_print_flags(m, gem_status_flags,
-+					sizeof(gem_status_flags), gem_state_flags);
-+	seq_printf(m, "%-4s", "");
-+	panthor_gem_debugfs_print_flags(m, panthor_bo_flags, sizeof(panthor_bo_flags),
-+					bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_BO_FLAG_INITIALISED);
-+
-+	mutex_lock(&bo->label.lock);
-+	seq_printf(m, "%-6s%-60s", "", bo->label.str ? : NULL);
-+	mutex_unlock(&bo->label.lock);
-+	seq_puts(m, "\n");
-+
-+	totals->size += bo->base.base.size;
-+	totals->resident += resident_size;
-+	if (bo->base.madv > 0)
-+		totals->reclaimable += resident_size;
-+}
-+
-+void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
-+				   struct seq_file *m)
-+{
-+	struct gem_size_totals totals = {0};
-+	struct panthor_gem_object *bo;
-+
-+	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset     state     kflags     label\n");
-+	seq_puts(m, "------------------------------------------------------------------------------------------------------------------------------------------------\n");
-+
-+	scoped_guard(mutex, &ptdev->gems.lock) {
-+		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
-+			if (bo->debugfs.flags & PANTHOR_DEBUGFS_BO_FLAG_INITIALISED)
-+				panthor_gem_debugfs_bo_print(bo, m, &totals);
-+		}
-+
-+	}
-+
-+	seq_puts(m, "==========================================================================================================================================================\n");
-+	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
-+		   totals.size, totals.resident, totals.reclaimable);
-+}
-+#endif
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 49daa5088a0d..58575f38ee26 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -15,6 +15,54 @@ struct panthor_vm;
- 
- #define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
- 
-+enum panthor_debugfs_gem_state_flags {
-+	/** @PANTHOR_DEBUGFS_GEM_IMPORTED: GEM BO is PRIME imported. */
-+	PANTHOR_DEBUGFS_GEM_IMPORTED = BIT(0),
-+
-+	/** @PANTHOR_DEBUGFS_GEM_EXPORTED: GEM BO is PRIME exported. */
-+	PANTHOR_DEBUGFS_GEM_EXPORTED = BIT(1),
-+
-+	/** @PANTHOR_DEBUGFS_GEM_PURGED: GEM BO was reclaimed by the shrinker. */
-+	PANTHOR_DEBUGFS_GEM_PURGED = BIT(2),
-+
-+	/** @PANTHOR_DEBUGFS_GEM_PURGEABLE: GEM BO can be reclaimed by the shrinker. */
-+	PANTHOR_DEBUGFS_GEM_PURGEABLE = BIT(3),
-+};
-+
-+enum panthor_debugfs_bo_flags {
-+	/** @PANTHOR_DEBUGFS_BO_KERNEL: BO is for kernel use only. */
-+	PANTHOR_DEBUGFS_BO_FLAGS_KERNEL = BIT(0),
-+
-+	/** @PANTHOR_DEBUGFS_BO_FW_MAPPED: BO is mapped on the FW VM. */
-+	PANTHOR_DEBUGFS_BO_FW_FLAG_MAPPED = BIT(1),
-+
-+	/** @PANTHOR_DEBUGFS_BO_INITIALISED: BO is ready for DebugFS display. */
-+	PANTHOR_DEBUGFS_BO_FLAG_INITIALISED = BIT(31),
-+};
-+
-+/**
-+ * struct panthor_gem_debugfs - GEM object's DebugFS list information
-+ */
-+struct panthor_gem_debugfs {
-+	/**
-+	 * @node: Node used to insert the object in the device-wide list of
-+	 * GEM objects, to display information about it through a DebugFS file.
-+	 */
-+	struct list_head node;
-+
-+	/** @creator: Information about the UM process which created the GEM. */
-+	struct {
-+		/** @creator.process_name: Group leader name in owning thread's process */
-+		char process_name[TASK_COMM_LEN];
-+
-+		/** @creator.tgid: PID of the thread's group leader within its process */
-+		pid_t tgid;
-+	} creator;
-+
-+	/** @bo_mask: Combination of panthor_debugfs_bo_flags flags */
-+	u32 flags;
-+};
-+
- /**
-  * struct panthor_gem_object - Driver specific GEM object.
-  */
-@@ -62,6 +110,10 @@ struct panthor_gem_object {
- 		/** @lock.str: Protects access to the @label.str field. */
- 		struct mutex lock;
- 	} label;
-+
-+#ifdef CONFIG_DEBUG_FS
-+	struct panthor_gem_debugfs debugfs;
-+#endif
- };
- 
- /**
-@@ -157,4 +209,17 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
- 
- void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
- 
-+#ifdef CONFIG_DEBUG_FS
-+void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
-+				   struct seq_file *m);
-+static inline void
-+panthor_gem_debugfs_bo_set_mask(struct panthor_gem_object *bo, u32 type_mask)
-+{
-+	bo->debugfs.flags = type_mask | PANTHOR_DEBUGFS_BO_FLAG_INITIALISED;
-+}
-+
-+#else
-+void panthor_gem_debugfs_bo_set_mask(struct panthor_gem_object *bo, u32 type_mask) {};
-+#endif
-+
- #endif /* __PANTHOR_GEM_H__ */
--- 
-2.48.1
+Will fix.
 
+>
+> > +
+> > +     ret = drm_dp_dpcd_writeb(ctrl->aux, reg, buf);
+> >       return ret == 1;
+> >  }
+> >
+> > @@ -1115,12 +1126,16 @@ static int msm_dp_ctrl_read_link_status(struct msm_dp_ctrl_private *ctrl,
+> >  }
+> >
+> >  static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
+> > -                     int *training_step)
+> > +                     int *training_step, enum drm_dp_phy dp_phy)
+> >  {
+> > +     int delay_us;
+> >       int tries, old_v_level, ret = 0;
+> >       u8 link_status[DP_LINK_STATUS_SIZE];
+> >       int const maximum_retries = 4;
+> >
+> > +     delay_us = drm_dp_read_clock_recovery_delay(ctrl->aux,
+> > +             ctrl->panel->dpcd, dp_phy, false);
+> > +
+> >       msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
+> >
+> >       *training_step = DP_TRAINING_1;
+> > @@ -1129,18 +1144,19 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
+> >       if (ret)
+> >               return ret;
+> >       msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_1 |
+> > -             DP_LINK_SCRAMBLING_DISABLE);
+> > +             DP_LINK_SCRAMBLING_DISABLE, dp_phy);
+> >
+> > -     ret = msm_dp_ctrl_update_vx_px(ctrl);
+> > +     msm_dp_link_reset_phy_params_vx_px(ctrl->link);
+> > +     ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
+> >       if (ret)
+> >               return ret;
+> >
+> >       tries = 0;
+> >       old_v_level = ctrl->link->phy_params.v_level;
+> >       for (tries = 0; tries < maximum_retries; tries++) {
+> > -             drm_dp_link_train_clock_recovery_delay(ctrl->aux, ctrl->panel->dpcd);
+> > +             fsleep(delay_us);
+> >
+> > -             ret = msm_dp_ctrl_read_link_status(ctrl, link_status);
+> > +             ret = drm_dp_dpcd_read_phy_link_status(ctrl->aux, dp_phy, link_status);
+>
+> Please rebase this code on top of drm-misc-next.
+
+What is the relation of drm-misc-next to linux-next? When rebasing on
+top of drm-misc-next, I lose all displays including internal one. Same
+if just build drm-misc-next without this series with config imported
+from linux-next. I could of course address comments, test on
+linux-next and then rebase before submitting, but that sounds wrong.
+
+```
+auxiliary aux_bridge.aux_bridge.0: deferred probe pending:
+aux_bridge.aux_bridge: failed to acquire drm_bridge
+auxiliary aux_bridge.aux_bridge.1: deferred probe pending:
+aux_bridge.aux_bridge: failed to acquire drm_bridge
+```
+
+>
+> >               if (ret)
+> >                       return ret;
+> >
+> > @@ -1161,7 +1177,7 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
+> >               }
+> >
+> >               msm_dp_link_adjust_levels(ctrl->link, link_status);
+> > -             ret = msm_dp_ctrl_update_vx_px(ctrl);
+> > +             ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
+> >               if (ret)
+> >                       return ret;
+> >       }
+> > @@ -1213,21 +1229,31 @@ static int msm_dp_ctrl_link_lane_down_shift(struct msm_dp_ctrl_private *ctrl)
+> >       return 0;
+> >  }
+> >
+> > -static void msm_dp_ctrl_clear_training_pattern(struct msm_dp_ctrl_private *ctrl)
+> > +static void msm_dp_ctrl_clear_training_pattern(struct msm_dp_ctrl_private *ctrl,
+> > +                                            enum drm_dp_phy dp_phy)
+> >  {
+> > -     msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_DISABLE);
+> > -     drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
+> > +     int delay_us;
+> > +
+> > +     msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_DISABLE, dp_phy);
+> > +
+> > +     delay_us = drm_dp_read_channel_eq_delay(ctrl->aux,
+> > +             ctrl->panel->dpcd, dp_phy, false);
+>
+> Misaligned, checkpatch should warn about it.
+
+Will fix, somehow overlooked it.
+
+>
+> > +     fsleep(delay_us);
+> >  }
+> >
+> >  static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
+> > -                     int *training_step)
+> > +                     int *training_step, enum drm_dp_phy dp_phy)
+> >  {
+> > +     int delay_us;
+> >       int tries = 0, ret = 0;
+> >       u8 pattern;
+> >       u32 state_ctrl_bit;
+> >       int const maximum_retries = 5;
+> >       u8 link_status[DP_LINK_STATUS_SIZE];
+> >
+> > +     delay_us = drm_dp_read_channel_eq_delay(ctrl->aux,
+> > +             ctrl->panel->dpcd, dp_phy, false);
+>
+> Misaligned
+
+Will fix.
+
+>
+> > +
+> >       msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
+> >
+> >       *training_step = DP_TRAINING_2;
+> > @@ -1247,12 +1273,12 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
+> >       if (ret)
+> >               return ret;
+> >
+> > -     msm_dp_ctrl_train_pattern_set(ctrl, pattern);
+> > +     msm_dp_ctrl_train_pattern_set(ctrl, pattern, dp_phy);
+> >
+> >       for (tries = 0; tries <= maximum_retries; tries++) {
+> > -             drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
+> > +             fsleep(delay_us);
+> >
+> > -             ret = msm_dp_ctrl_read_link_status(ctrl, link_status);
+> > +             ret = drm_dp_dpcd_read_phy_link_status(ctrl->aux, dp_phy, link_status);
+> >               if (ret)
+> >                       return ret;
+> >
+> > @@ -1262,7 +1288,7 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
+> >               }
+> >
+> >               msm_dp_link_adjust_levels(ctrl->link, link_status);
+> > -             ret = msm_dp_ctrl_update_vx_px(ctrl);
+> > +             ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
+> >               if (ret)
+> >                       return ret;
+> >
+> > @@ -1271,10 +1297,32 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
+> >       return -ETIMEDOUT;
+> >  }
+> >
+> > +static int msm_dp_ctrl_link_train_1_2(struct msm_dp_ctrl_private *ctrl,
+> > +                                   int *training_step, enum drm_dp_phy dp_phy)
+> > +{
+> > +     int ret;
+> > +
+> > +     ret = msm_dp_ctrl_link_train_1(ctrl, training_step, dp_phy);
+> > +     if (ret) {
+> > +             DRM_ERROR("link training #1 on phy %d failed. ret=%d\n", dp_phy, ret);
+> > +             return ret;
+> > +     }
+> > +     drm_dbg_dp(ctrl->drm_dev, "link training #1 on phy %d successful\n", dp_phy);
+> > +
+> > +     ret = msm_dp_ctrl_link_train_2(ctrl, training_step, dp_phy);
+> > +     if (ret) {
+> > +             DRM_ERROR("link training #2 on phy %d failed. ret=%d\n", dp_phy, ret);
+> > +             return ret;
+> > +     }
+> > +     drm_dbg_dp(ctrl->drm_dev, "link training #2 on phy %d successful\n", dp_phy);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
+> >                       int *training_step)
+> >  {
+> > -     int ret = 0;
+> > +     int ret = 0, i;
+>
+> Don't mix initialized and non-initialized variables in the same line.
+
+Will fix.
+
+>
+> >       const u8 *dpcd = ctrl->panel->dpcd;
+> >       u8 encoding[] = { 0, DP_SET_ANSI_8B10B };
+> >       u8 assr;
+> > @@ -1286,8 +1334,6 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
+> >       link_info.rate = ctrl->link->link_params.rate;
+> >       link_info.capabilities = DP_LINK_CAP_ENHANCED_FRAMING;
+> >
+> > -     msm_dp_link_reset_phy_params_vx_px(ctrl->link);
+> > -
+> >       msm_dp_aux_link_configure(ctrl->aux, &link_info);
+> >
+> >       if (drm_dp_max_downspread(dpcd))
+> > @@ -1302,23 +1348,29 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
+> >                               &assr, 1);
+> >       }
+> >
+> > -     ret = msm_dp_ctrl_link_train_1(ctrl, training_step);
+> > +     for (i = *ctrl->lttpr_count - 1; i >= 0; i--) {
+> > +             enum drm_dp_phy dp_phy = DP_PHY_LTTPR(i);
+> > +
+> > +             ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, dp_phy);
+> > +             msm_dp_ctrl_clear_training_pattern(ctrl, dp_phy);
+> > +
+> > +             if (ret)
+> > +                     break;
+> > +     }
+> > +
+> >       if (ret) {
+> > -             DRM_ERROR("link training #1 failed. ret=%d\n", ret);
+> > +             DRM_ERROR("link training of LTTPR(s) failed. ret=%d\n", ret);
+> >               goto end;
+> >       }
+> >
+> > -     /* print success info as this is a result of user initiated action */
+> > -     drm_dbg_dp(ctrl->drm_dev, "link training #1 successful\n");
+> > -
+> > -     ret = msm_dp_ctrl_link_train_2(ctrl, training_step);
+> > +     ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, DP_PHY_DPRX);
+> >       if (ret) {
+> > -             DRM_ERROR("link training #2 failed. ret=%d\n", ret);
+> > +             DRM_ERROR("link training on sink failed. ret=%d\n", ret);
+> >               goto end;
+> >       }
+> >
+> >       /* print success info as this is a result of user initiated action */
+> > -     drm_dbg_dp(ctrl->drm_dev, "link training #2 successful\n");
+> > +     drm_dbg_dp(ctrl->drm_dev, "link training on sink successful\n");
+> >
+>
+> No need for keeping these debug messages, you have them in
+> msm_dp_ctrl_link_train_1_2().
+
+Will drop.
+
+>
+> >  end:
+> >       msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
+> > @@ -1636,7 +1688,7 @@ static int msm_dp_ctrl_link_maintenance(struct msm_dp_ctrl_private *ctrl)
+> >       if (ret)
+> >               goto end;
+> >
+> > -     msm_dp_ctrl_clear_training_pattern(ctrl);
+> > +     msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
+> >
+> >       msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
+> >
+> > @@ -1660,7 +1712,7 @@ static bool msm_dp_ctrl_send_phy_test_pattern(struct msm_dp_ctrl_private *ctrl)
+> >               return false;
+> >       }
+> >       msm_dp_catalog_ctrl_send_phy_pattern(ctrl->catalog, pattern_requested);
+> > -     msm_dp_ctrl_update_vx_px(ctrl);
+> > +     msm_dp_ctrl_update_phy_vx_px(ctrl, DP_PHY_DPRX);
+> >       msm_dp_link_send_test_response(ctrl->link);
+> >
+> >       pattern_sent = msm_dp_catalog_ctrl_read_phy_pattern(ctrl->catalog);
+> > @@ -1902,7 +1954,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
+> >                       }
+> >
+> >                       /* stop link training before start re training  */
+> > -                     msm_dp_ctrl_clear_training_pattern(ctrl);
+> > +                     msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
+>
+> Just DPRX or should this include all LTTPRs? Could you point out how
+> this is handled inside Intel or AMD drivers?
+
+Just DPRX since this call follows `rc =
+msm_dp_ctrl_setup_main_link(ctrl, &training_step);` [1], which in turn
+calls `msm_dp_ctrl_link_train` [2].
+The latter one with the proposed changes will attempt to Train
+LTTPRx->Clear training pattern on LTTPRx->Proceed. Finally, it will
+attempt to Train DPRX, without cleaning the training pattern:
+
+```
+    for (i = *ctrl->lttpr_count - 1; i >= 0; i--) {
+        enum drm_dp_phy dp_phy = DP_PHY_LTTPR(i);
+
+        ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, dp_phy);
+        msm_dp_ctrl_clear_training_pattern(ctrl, dp_phy);
+
+        if (ret)
+            break;
+    }
+
+    if (ret) {
+        DRM_ERROR("link training of LTTPR(s) failed. ret=%d\n", ret);
+        goto end;
+    }
+
+    ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, DP_PHY_DPRX);
+    if (ret) {
+        DRM_ERROR("link training on sink failed. ret=%d\n", ret);
+        goto end;
+    }
+```
+
+The reason for not clearing training pattern on DPRX right after
+training like with LTTPRs appears to be needed for compliance, as it
+should only be cleared right before stream starts [3]:
+```
+    if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN)
+        return rc;
+
+    if (rc == 0) {  /* link train successfully */
+        /*
+         * do not stop train pattern here
+         * stop link training at on_stream
+         * to pass compliance test
+         */
+    } else  {
+        /*
+         * link training failed
+         * end txing train pattern here
+         */
+        msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
+
+        msm_dp_ctrl_deinitialize_mainlink(ctrl);
+        rc = -ECONNRESET;
+    }
+```
+
+Intel does a somewhat similar approach - they have
+`intel_dp_link_train_all_phys` function [4] which would Train
+LTTPRx->Clear dpcd training pattern on LTTPRx->Proceed, and finally
+train DPRX but not disable training pattern. DPRX's training is
+disabled separately in the `intel_dp_stop_link_train` [5] at a much
+later stage.
+
+The difference to msm's drm driver is that in case of link training
+failure, Intel schedules software hpd event [6] and exists, while msm
+stops and restarts training with reduced parameters internally (this
+very function), hence it appears more than once.
+
+[1] https://github.com/torvalds/linux/blob/v6.14/drivers/gpu/drm/msm/dp/dp_ctrl.c#L1856
+[2] https://github.com/torvalds/linux/blob/v6.14/drivers/gpu/drm/msm/dp/dp_ctrl.c#L1273
+[3] https://github.com/torvalds/linux/blob/v6.14/drivers/gpu/drm/msm/dp/dp_ctrl.c#L1917-L1932
+[4] https://github.com/torvalds/linux/blob/v6.14/drivers/gpu/drm/i915/display/intel_dp_link_training.c#L1338-L1364
+[5] https://github.com/torvalds/linux/blob/v6.14/drivers/gpu/drm/i915/display/intel_dp_link_training.c#L1107-L1136
+[6] https://github.com/torvalds/linux/blob/v6.14/drivers/gpu/drm/i915/display/intel_dp_link_training.c#L1313-L1336
+
+>
+> >               }
+> >
+> >               rc = msm_dp_ctrl_reinitialize_mainlink(ctrl);
+> > @@ -1926,7 +1978,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
+> >                * link training failed
+> >                * end txing train pattern here
+> >                */
+> > -             msm_dp_ctrl_clear_training_pattern(ctrl);
+> > +             msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
+>
+> The same.
+>
+> >
+> >               msm_dp_ctrl_deinitialize_mainlink(ctrl);
+> >               rc = -ECONNRESET;
+> > @@ -1997,7 +2049,7 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train
+> >               msm_dp_ctrl_link_retrain(ctrl);
+> >
+> >       /* stop txing train pattern to end link training */
+> > -     msm_dp_ctrl_clear_training_pattern(ctrl);
+> > +     msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
+> >
+> >       /*
+> >        * Set up transfer unit values and set controller state to send
+> > @@ -2207,7 +2259,7 @@ static int msm_dp_ctrl_clk_init(struct msm_dp_ctrl *msm_dp_ctrl)
+> >
+> >  struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link,
+> >                       struct msm_dp_panel *panel,     struct drm_dp_aux *aux,
+> > -                     struct msm_dp_catalog *catalog,
+> > +                     struct msm_dp_catalog *catalog, int *lttpr_count,
+> >                       struct phy *phy)
+> >  {
+> >       struct msm_dp_ctrl_private *ctrl;
+> > @@ -2242,12 +2294,13 @@ struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link
+> >       init_completion(&ctrl->video_comp);
+> >
+> >       /* in parameters */
+> > -     ctrl->panel    = panel;
+> > -     ctrl->aux      = aux;
+> > -     ctrl->link     = link;
+> > -     ctrl->catalog  = catalog;
+> > -     ctrl->dev      = dev;
+> > -     ctrl->phy      = phy;
+> > +     ctrl->panel       = panel;
+> > +     ctrl->aux         = aux;
+> > +     ctrl->link        = link;
+> > +     ctrl->catalog     = catalog;
+> > +     ctrl->dev         = dev;
+> > +     ctrl->phy         = phy;
+> > +     ctrl->lttpr_count = lttpr_count;
+>
+> I'd rather reduce noise and keep old assignments intact.
+
+Actually, taking into account the very first comment of your review,
+this change will drop all together.
+
+Thanks,
+Will be sending updated version shortly,
+
+Alex
+
+>
+> >
+> >       ret = msm_dp_ctrl_clk_init(&ctrl->msm_dp_ctrl);
+> >       if (ret) {
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> > index b7abfedbf574..3fb45b138b31 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> > +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> > @@ -27,7 +27,7 @@ irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl);
+> >  void msm_dp_ctrl_handle_sink_request(struct msm_dp_ctrl *msm_dp_ctrl);
+> >  struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link,
+> >                       struct msm_dp_panel *panel,     struct drm_dp_aux *aux,
+> > -                     struct msm_dp_catalog *catalog,
+> > +                     struct msm_dp_catalog *catalog, int *lttpr_count,
+> >                       struct phy *phy);
+> >
+> >  void msm_dp_ctrl_reset_irq_ctrl(struct msm_dp_ctrl *msm_dp_ctrl, bool enable);
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > index d0c2dc7e6648..393ce3479a7e 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > @@ -108,6 +108,7 @@ struct msm_dp_display_private {
+> >       struct msm_dp_event event_list[DP_EVENT_Q_MAX];
+> >       spinlock_t event_lock;
+> >
+> > +     int lttpr_count;
+> >       u8 lttpr_common_caps[DP_LTTPR_COMMON_CAP_SIZE];
+> >
+> >       bool wide_bus_supported;
+> > @@ -397,7 +398,7 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
+> >       if (rc)
+> >               goto end;
+> >
+> > -     msm_dp_display_lttpr_init(dp, dpcd);
+> > +     dp->lttpr_count = msm_dp_display_lttpr_init(dp, dpcd);
+> >
+> >       rc = msm_dp_panel_read_sink_caps(dp->panel, dp->lttpr_common_caps, connector);
+> >       if (rc)
+> > @@ -798,6 +799,7 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
+> >
+> >       dp->ctrl = msm_dp_ctrl_get(dev, dp->link, dp->panel, dp->aux,
+> >                              dp->catalog,
+> > +                            &dp->lttpr_count,
+> >                              phy);
+> >       if (IS_ERR(dp->ctrl)) {
+> >               rc = PTR_ERR(dp->ctrl);
+> > --
+> > 2.45.2
+> >
+>
+> --
+> With best wishes
+> Dmitry
