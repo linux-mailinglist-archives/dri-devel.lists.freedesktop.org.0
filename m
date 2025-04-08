@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F09A7F38C
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 06:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1397A7F38E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 06:25:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7074A10E5B3;
-	Tue,  8 Apr 2025 04:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E75510E5B7;
+	Tue,  8 Apr 2025 04:25:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jQPtadRq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U0tZR9sV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 768F310E113;
- Tue,  8 Apr 2025 04:25:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8175710E5B4;
+ Tue,  8 Apr 2025 04:25:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744086314; x=1775622314;
+ t=1744086316; x=1775622316;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=8xcY4DcOAX0cRvuH0p3So19RFo6PrVunQAd0MX2GbW8=;
- b=jQPtadRqNEzOox5eFO28cElbsirF8My3qJAfDTjrGJiDV+8c9MB1Arye
- fsDO0aNFLZROjof+tbwJXIA8BPm1jo72lKzfDeVn6X9Og1sb6EO36Lves
- HiFk2I2P4RI0QbTy9rmX2RNqVviIY4x1BMHRKvfEsLdtEqfsvuKz7teoy
- cXRa+NYWni/Y/eX58VyRX34JYVBDSYXNgg+tKfceZKP5dJu8Nw+hugNrv
- eac2OFR2u9vAPKbUrN9cw5XBPOa9I3RaMV2GiEnEjOqH9AuMhwhaKL63b
- 0tY1BxUrkIHWlap5UzZp5o/WATAQG2fOyBkmyTtrcF79Ju91fxZlFro2K g==;
-X-CSE-ConnectionGUID: DKFdwK7DS56lbe1f26/bQQ==
-X-CSE-MsgGUID: nvPNPlqUTQCOpbHehujLfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="63043685"
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="63043685"
+ bh=hYBtwQ9foEjwQ00a6TAO++yMh5CmivKZ9V7KJMdfqXY=;
+ b=U0tZR9sV6OECcotshbCSlH/gnILA1M4O5TkagBuXjoNtoulUwQmQW4dX
+ gvSw0XI8VK8Vd+PUagndynBVGdtyIpqmPZOlqUP/hJGkQcH/rqGwntWe0
+ M8x+e8KMOKJANTOnc4wKhVL2bxxDw7f8b4IMLVXihBjKs2RP0yZePn6ZW
+ 7WTBcaZW7Rw4Oo1+MV92bz9YZPifGUn5keMYuekNdGW3BZhH9x8fLewCf
+ NefS+QXXbab0sCcy7jLTV6aNC+J9Y+COnCCcThaWTKRaJfb50w7Xf06JE
+ oQeMwCAPUOPEbXLKuU5sU4Bbsq1iwqKEttWu/TrfrXKIBfgaLjawNKVX+ w==;
+X-CSE-ConnectionGUID: 0D2P4mwOQ6qqoYmbGXyiuA==
+X-CSE-MsgGUID: yMWFeh60QLalpk0+/dBxRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="63043686"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="63043686"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2025 21:25:14 -0700
-X-CSE-ConnectionGUID: EwDGCHzQRO2TlIm7CMaiLA==
-X-CSE-MsgGUID: FlF5lkO0QCe1B1hOVhLfiQ==
+ 07 Apr 2025 21:25:16 -0700
+X-CSE-ConnectionGUID: sh13U6kiSr2vwCpkHgIVMA==
+X-CSE-MsgGUID: 6DNFgcFuSkKuFW4J44S4NQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="128479399"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="128479407"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa008.fm.intel.com with ESMTP; 07 Apr 2025 21:25:12 -0700
+ by fmviesa008.fm.intel.com with ESMTP; 07 Apr 2025 21:25:15 -0700
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Tue, 08 Apr 2025 09:40:34 +0530
-Subject: [PATCH 1/3] drm/drm_dp_helper: export link symbol cycles calculation
+Date: Tue, 08 Apr 2025 09:40:35 +0530
+Subject: [PATCH 2/3] drm/i915/display: export function to count dsc slices
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250408-hblank-v1-1-4ba17aebee65@intel.com>
+Message-Id: <20250408-hblank-v1-2-4ba17aebee65@intel.com>
 References: <20250408-hblank-v1-0-4ba17aebee65@intel.com>
 In-Reply-To: <20250408-hblank-v1-0-4ba17aebee65@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
@@ -69,64 +69,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Link symbol cycles are required for the calculation of the minimum
-HBlank calculation.
+Export the function to calculate dsc slice count. This will be used in
+minimum hblank calculation.
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_helper.c | 10 ++++++----
- include/drm/display/drm_dp_helper.h     |  5 +++++
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 4 ++--
+ drivers/gpu/drm/i915/display/intel_dp_mst.h | 3 +++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 57828f2b7b5a0582ca4a6f2a9be2d5909fe8ad24..488aaef61e3aa8b25975dfc98cbccdf5b7f083f8 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -4393,17 +4393,18 @@ EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
- #endif
- 
- /* See DP Standard v2.1 2.6.4.4.1.1, 2.8.4.4, 2.8.7 */
--static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
--				     int symbol_size, bool is_mst)
-+int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-+			      int symbol_size, bool is_mst)
- {
- 	int cycles = DIV_ROUND_UP(pixels * bpp_x16, 16 * symbol_size * lane_count);
- 	int align = is_mst ? 4 / lane_count : 1;
- 
- 	return ALIGN(cycles, align);
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index d2988b9a6e7bd55d2ea4d34230c4d017e1f4cc93..af98a0d0e8376a79ce1ab6ff3c4f6af30f4d3e73 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -198,8 +198,8 @@ static int intel_dp_mst_calc_pbn(int pixel_clock, int bpp_x16, int bw_overhead)
+ 	return DIV_ROUND_UP(effective_data_rate * 64, 54 * 1000);
  }
-+EXPORT_SYMBOL(drm_dp_link_symbol_cycles);
  
--static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
--					 int bpp_x16, int symbol_size, bool is_mst)
-+int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
-+				  int bpp_x16, int symbol_size, bool is_mst)
+-static int intel_dp_mst_dsc_get_slice_count(const struct intel_connector *connector,
+-					    const struct intel_crtc_state *crtc_state)
++int intel_dp_mst_dsc_get_slice_count(const struct intel_connector *connector,
++				     const struct intel_crtc_state *crtc_state)
  {
- 	int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
- 	int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count, slice_pixels,
-@@ -4412,6 +4413,7 @@ static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_c
+ 	const struct drm_display_mode *adjusted_mode =
+ 		&crtc_state->hw.adjusted_mode;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.h b/drivers/gpu/drm/i915/display/intel_dp_mst.h
+index c1bbfeb02ca9e7afb96156f58143275225245956..b3d5b347c4b5258cefb0e559a5cb8d0d769111cc 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.h
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.h
+@@ -12,6 +12,7 @@ struct drm_connector_state;
+ struct intel_atomic_state;
+ struct intel_crtc;
+ struct intel_crtc_state;
++struct intel_connector;
+ struct intel_digital_port;
+ struct intel_dp;
+ struct intel_link_bw_limits;
+@@ -35,5 +36,7 @@ int intel_dp_mtp_tu_compute_config(struct intel_dp *intel_dp,
+ 				   struct intel_crtc_state *crtc_state,
+ 				   struct drm_connector_state *conn_state,
+ 				   int min_bpp_x16, int max_bpp_x16, int bpp_step_x16, bool dsc);
++int intel_dp_mst_dsc_get_slice_count(const struct intel_connector *connector,
++				     const struct intel_crtc_state *crtc_state);
  
- 	return slice_count * (slice_data_cycles + slice_eoc_cycles);
- }
-+EXPORT_SYMBOL(drm_dp_link_dsc_symbol_cycles);
- 
- /**
-  * drm_dp_bw_overhead - Calculate the BW overhead of a DP link stream
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index d9614e2c89397536f44bb7258e894628ae1dccc9..f6bfa3b74810438b837540dccb08a987bcdb5d03 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -972,4 +972,9 @@ int drm_dp_max_dprx_data_rate(int max_link_rate, int max_lanes);
- 
- ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc, struct dp_sdp *sdp);
- 
-+int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-+			      int symbol_size, bool is_mst);
-+int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
-+				  int bpp_x16, int symbol_size, bool is_mst);
-+
- #endif /* _DRM_DP_HELPER_H_ */
+ #endif /* __INTEL_DP_MST_H__ */
 
 -- 
 2.25.1
