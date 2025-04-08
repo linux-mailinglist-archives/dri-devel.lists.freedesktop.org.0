@@ -2,65 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB68A7F358
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 05:56:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF057A7F367
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 06:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 633BA10E1FE;
-	Tue,  8 Apr 2025 03:56:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B570110E213;
+	Tue,  8 Apr 2025 04:01:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D3kP6DIe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PnpnYQWx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2B310E1FE
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 03:56:23 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A94D510E213
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 04:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744084583; x=1775620583;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=6nM+a9P+AflVQBvgcnpoJN0HDDMjdC2INdvympzIzCk=;
- b=D3kP6DIeD2ceYmiov2aeRiiw/uD2Jbvxexahz5K4njvFNIRkI6pw/O3r
- q/MdQos4AZ4h74h8qrNyTr9UYPyTiaGzP+MUaaB3hSxw8dKGvkF/B8T4M
- F/lGSKGJsVeJhUixvmoiPdPZwxVZdBxBpC4A//+6A8BXiA30wTy5F5o5A
- JqgKQwPHa0EcHF8cqyeP1MuOznfLJpiGE+w5suPh2Jeg4+Ns4XJMQT6B1
- JKQ7X4xjGsHcDPkemb5MvOWLK7Ws8FC2oWQj2hs8TQFmd73IUYCM7NwQ4
- OTrFAOyhYajHcyN7f0hNhAeOSkAVuSoaSmsAx2qv2BcMgWxSWEXVyB9U6 A==;
-X-CSE-ConnectionGUID: U0yM/aa3QVicc1NuLf/UCg==
-X-CSE-MsgGUID: GrtaVv4FRgCQWXq8w09ZFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="55684045"
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="55684045"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2025 20:56:23 -0700
-X-CSE-ConnectionGUID: azDhbRetRsqFQc/6skcgwg==
-X-CSE-MsgGUID: sbZr6CaxR1mYR5mffhSuFA==
+ t=1744084875; x=1775620875;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=zoB0xc59/a0nfeKjU5CSFK4d1gniYV0+H5Cqm60IMjY=;
+ b=PnpnYQWxJLDdMq/SeeLMVEQ0HDuTyR54daqvXvDtlUJMUmqMcz1RR4gX
+ riT28ZqZTDCMSQsFaeM6xVZa+VuJVKKOGN1jcIL/H0RA03dJjtxvFapse
+ IspzidX3ducTW+BqA5AIhmhL84qn3erpib+MaLOyHtYO34uu6fXtKSmpC
+ 95sl971wxOQz0IbfZbopuCTszWhqhY/88tKFbPmM+h0CgA5ljXe5VsG9H
+ OakyszaIT1qK696537N1h4vGX0Yb/Uc8iAK1368udTKj66AQ4dn7/qUyk
+ hZj2kcp8NxKU1a93QpirdMb7xir4rM8BxG4GUL7uSFiurih5FQ1Jzcs+E g==;
+X-CSE-ConnectionGUID: lG05TetNSl6smgaFHQqSSQ==
+X-CSE-MsgGUID: jOCp0guvQuuNekYZymzDhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56136983"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="56136983"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 21:01:14 -0700
+X-CSE-ConnectionGUID: T24HncF1T8qZsH4N+aI50A==
+X-CSE-MsgGUID: cCEHoE/6TQ+7I3t5lxD9Xg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="128476400"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
- by fmviesa008.fm.intel.com with ESMTP; 07 Apr 2025 20:56:19 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1u204P-000463-1E;
- Tue, 08 Apr 2025 03:56:17 +0000
-Date: Tue, 8 Apr 2025 11:55:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pengyu Luo <mitltlatltl@gmail.com>, Jianhua Lu <lujianhua000@gmail.com>,
- Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Pengyu Luo <mitltlatltl@gmail.com>
-Subject: Re: [PATCH 3/4] backlight: ktz8866: improve current sinks setting
-Message-ID: <202504081106.mAYfJsQj-lkp@intel.com>
-References: <20250407095119.588920-4-mitltlatltl@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250407095119.588920-4-mitltlatltl@gmail.com>
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="128135392"
+Received: from orsosgc001.jf.intel.com (HELO orsosgc001.intel.com)
+ ([10.165.21.142])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 21:01:14 -0700
+Date: Mon, 07 Apr 2025 21:01:13 -0700
+Message-ID: <854iyzs3na.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: <imre.deak@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ "Jessica Zhang" <quic_jesszhan@quicinc.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
+ Joel Selvaraj <jo@jsfamily.in>, Douglas Anderson <dianders@chromium.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 04/10] panel/auo-a030jtn01: Use refcounted allocation in
+ place of devm_kzalloc()
+In-Reply-To: <87a58re8hj.wl-ashutosh.dixit@intel.com>
+References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
+ <20250401-b4-drm-panel-mass-driver-convert-v1-4-cdd7615e1f93@redhat.com>
+ <Z_P0A9lxWD0aAdjp@ideak-desk.fi.intel.com>
+ <85a58rsgjj.wl-ashutosh.dixit@intel.com>
+ <87bjt7eca8.wl-ashutosh.dixit@intel.com>
+ <87a58re8hj.wl-ashutosh.dixit@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/29.4 (x86_64-redhat-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,53 +83,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pengyu,
+On Mon, 07 Apr 2025 18:40:24 -0700, Dixit, Ashutosh wrote:
+>
+> On Mon, 07 Apr 2025 17:18:23 -0700, Dixit, Ashutosh wrote:
+> >
+> > On Mon, 07 Apr 2025 16:22:40 -0700, Dixit, Ashutosh wrote:
+> > >
+> > > On Mon, 07 Apr 2025 08:49:23 -0700, Imre Deak wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > On Tue, Apr 01, 2025 at 12:03:47PM -0400, Anusha Srivatsa wrote:
+> > > > > Move to using the new API devm_drm_panel_alloc() to allocate the
+> > > > > panel.
+> > > > >
+> > > > > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/panel/panel-auo-a030jtn01.c | 10 ++++------
+> > > > >  1 file changed, 4 insertions(+), 6 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c b/driver=
+s/gpu/drm/panel/panel-auo-a030jtn01.c
+> > > > > index 77604d6a4e72c915c40575be0e47810c90b4ed71..83529b1c2bac2e29f=
+41efaf4028950214b056a95 100644
+> > > > > --- a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+> > > > > +++ b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+> > > > > @@ -200,9 +200,10 @@ static int a030jtn01_probe(struct spi_device=
+ *spi)
+> > > > >
+> > > > >	spi->mode |=3D SPI_MODE_3 | SPI_3WIRE;
+> > > > >
+> > > > > -	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > > > > -	if (!priv)
+> > > > > -		return -ENOMEM;
+> > > > > +	panel =3D devm_drm_panel_alloc(dev, struct a030jtn01, panel,
+> > > > > +				     &a030jtn01_funcs, DRM_MODE_CONNECTOR_DPI);
+> > > >
+> > > > This doesn't compile and (yet) it's pushed already to drm-tip. AFAIU
+> > > > it's supposed to be
+> > > >	priv =3D devm_drm_panel_alloc(...);
+> > >
+> > > Yes:
+> > >
+> > > drivers/gpu/drm/panel/panel-auo-a030jtn01.c: In function =A1a030jtn01=
+_probe=A2:
+> > > drivers/gpu/drm/panel/panel-auo-a030jtn01.c:203:9: error: =A1panel=A2=
+ undeclared (first use in this function)
+> > >   203 |         panel =3D devm_drm_panel_alloc(dev, struct a030jtn01,=
+ panel,
+> > >       |         ^~~~~
+> > > drivers/gpu/drm/panel/panel-auo-a030jtn01.c:203:9: note: each undecla=
+red identifier is reported only once for each function it appears in
+> > >
+> > > Please turn on the config options for particular module if you are ma=
+king
+> > > changes to that module.
+> >
+> > Though probably, you can argue, that the pre-merge CI build should alre=
+ady
+> > be doing this. A sort of allmodconfig for the DRM subsystem, so that th=
+ese
+> > kinds of issues don't get missed.
+>
+> More compile errors:
+>
+> I'm still getting some allmodconfig errors:
+>
+> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c: In function 'boe=
+_th101mb31ig002_dsi_probe':
+> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:9: error: 'pa=
+nel' undeclared (first use in this function)
+>   352 |         panel =3D devm_drm_panel_alloc(dev, struct panel_desc, pa=
+nel,
+>       |         ^~~~~
+> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:9: note: each=
+ undeclared identifier is reported only once for each function it appears in
+> In file included from ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-2=
+8a.c:18:
+> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:38: error: 'd=
+ev' undeclared (first use in this function); did you mean 'cdev'?
+>   352 |         panel =3D devm_drm_panel_alloc(dev, struct panel_desc, pa=
+nel,
+>       |                                      ^~~
+> ../include/drm/drm_panel.h:305:41: note: in definition of macro 'devm_drm=
+_panel_alloc'
+>   305 |         ((type *)__devm_drm_panel_alloc(dev, sizeof(type), \
+>       |                                         ^~~
+> In file included from ../include/uapi/linux/posix_types.h:5,
+>                  from ../include/uapi/linux/types.h:14,
+>                  from ../include/linux/types.h:6,
+>                  from ../include/linux/math.h:5,
+>                  from ../include/linux/delay.h:12,
+>                  from ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-2=
+8a.c:8:
+> ../include/linux/stddef.h:16:33: error: 'struct panel_desc' has no member=
+ named 'panel'
+>    16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+>       |                                 ^~~~~~~~~~~~~~~~~~
+> ../include/drm/drm_panel.h:306:41: note: in expansion of macro 'offsetof'
+>   306 |                                         offsetof(type, member), f=
+uncs, \
+>       |                                         ^~~~~~~~
+> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:17: note: in =
+expansion of macro 'devm_drm_panel_alloc'
+>   352 |         panel =3D devm_drm_panel_alloc(dev, struct panel_desc, pa=
+nel,
+>       |                 ^~~~~~~~~~~~~~~~~~~~
+>
 
-kernel test robot noticed the following build errors:
+In case it is not clear, to reproduce and fix these, do:
 
-[auto build test ERROR on lee-backlight/for-backlight-next]
-[also build test ERROR on lee-leds/for-leds-next lee-backlight/for-backlight-fixes linus/master v6.15-rc1 next-20250407]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pengyu-Luo/dt-bindings-backlight-kinetic-ktz8866-add-ktz8866-slave-compatible/20250407-175635
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
-patch link:    https://lore.kernel.org/r/20250407095119.588920-4-mitltlatltl%40gmail.com
-patch subject: [PATCH 3/4] backlight: ktz8866: improve current sinks setting
-config: sparc64-randconfig-002-20250408 (https://download.01.org/0day-ci/archive/20250408/202504081106.mAYfJsQj-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081106.mAYfJsQj-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504081106.mAYfJsQj-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/video/backlight/ktz8866.c: In function 'ktz8866_read':
->> drivers/video/backlight/ktz8866.c:73:39: error: passing argument 3 of 'regmap_read' from incompatible pointer type [-Wincompatible-pointer-types]
-      73 |         regmap_read(ktz->regmap, reg, &val);
-         |                                       ^~~~
-         |                                       |
-         |                                       unsigned int **
-   In file included from drivers/video/backlight/ktz8866.c:17:
-   include/linux/regmap.h:1297:69: note: expected 'unsigned int *' but argument is of type 'unsigned int **'
-    1297 | int regmap_read(struct regmap *map, unsigned int reg, unsigned int *val);
-         |                                                       ~~~~~~~~~~~~~~^~~
+	make -j$(nproc) allmodconfig
 
 
-vim +/regmap_read +73 drivers/video/backlight/ktz8866.c
-
-    69	
-    70	static inline void ktz8866_read(struct ktz8866 *ktz, unsigned int reg,
-    71					unsigned int *val)
-    72	{
-  > 73		regmap_read(ktz->regmap, reg, &val);
-    74	}
-    75	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>
+>
+> >
+> >
+> > >
+> > > >
+> > > > > +	if (IS_ERR(panel))
+> > > > > +		return PTR_ERR(panel);
+> > > > >
+> > > > >	priv->spi =3D spi;
+> > > > >	spi_set_drvdata(spi, priv);
+> > > > > @@ -223,9 +224,6 @@ static int a030jtn01_probe(struct spi_device =
+*spi)
+> > > > >	if (IS_ERR(priv->reset_gpio))
+> > > > >		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio), "Failed to =
+get reset GPIO");
+> > > > >
+> > > > > -	drm_panel_init(&priv->panel, dev, &a030jtn01_funcs,
+> > > > > -		       DRM_MODE_CONNECTOR_DPI);
+> > > > > -
+> > > > >	err =3D drm_panel_of_backlight(&priv->panel);
+> > > > >	if (err)
+> > > > >		return err;
+> > > > >
+> > > > > --
+> > > > > 2.48.1
+> > > > >
