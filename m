@@ -2,53 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A0CA7F15F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 01:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67D4A7F19A
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 02:18:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD33D10E588;
-	Mon,  7 Apr 2025 23:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0665610E03C;
+	Tue,  8 Apr 2025 00:18:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r8Z86gJo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HuF9mxA3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4203810E588
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Apr 2025 23:48:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AE1BF5C563D;
- Mon,  7 Apr 2025 23:45:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A2EAC4CEDD;
- Mon,  7 Apr 2025 23:48:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744069694;
- bh=61FySSGCFmYcaDfbgWfsvj/rq0z+27TihchOLygJZyk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=r8Z86gJojkJUri5K0AWxvKlU4zjP2gmuFhQCGbJJmxFyihKwvvFO2IAaHOb/0bNdE
- kfHzhAJ1AWCxi/DIZyppPOBls8mrv/D68nZDU041XdNOBYZnH4wmyMQ7jLJY1vyA37
- iamK6ikTJoTmU1a5w7jxK60NIJIgKZzT4rvKqRGyRUoEKkQLLSEG5k8rF/SYG2P04Q
- VnooibXuzPc7+YQhHahs+2glJGfTyZyaPiah8itex2xNcm7DkaBdT4sQJxv4SMf1L7
- FyQNSiSz/m0l31nbQaAstYp5b1G02XyZmcYcsa9b7uJU/RHjVyYV+BcO/dJVdlxcEn
- 6p1n/baAFJIaA==
-Date: Mon, 7 Apr 2025 18:48:13 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: jernej.skrabec@gmail.com, krzk@kernel.org, agx@sigxcpu.org,
- linux-kernel@vger.kernel.org, robert.chiras@nxp.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, devicetree@vger.kernel.org, mripard@kernel.org,
- andrzej.hajda@intel.com, jonas@kwiboo.se,
- Laurent.pinchart@ideasonboard.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, airlied@gmail.com
-Subject: Re: [PATCH RESEND V2 1/1] dt-bindings: display: nwl-dsi: Allow
- 'data-lanes' property for port@1
-Message-ID: <174406969099.171841.8161329634639318848.robh@kernel.org>
-References: <20250407150442.2778299-1-Frank.Li@nxp.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250407150442.2778299-1-Frank.Li@nxp.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 021F110E03C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 00:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744071506; x=1775607506;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=NEg8ot9+60o0XVU9F8BkVCyIub49xYwxQ7uQrOauiII=;
+ b=HuF9mxA30/5uzIvt+LXwMbHEpnOQEt8MznBwJ07eR/W+U2MJFQCc2+bU
+ xGtb3FVCUgvTkVe7ya6R8nRLBH/ZYaS1VX72i8VLwMVK8n3inxlyiAHKC
+ YjTy2fFNZQJhnihGZgOSxgqJrH1xttjBC+G5j89h7OZf+YOKUn8rGZmu6
+ aAj65b2KbPyEVK053bNQvmFfzCVmL59mwK2EyFGGfuCkyyr+1E0YsATS7
+ I3IbjNoYYUMnskHqjijjZGn0brJ7jOBMlW8i6FsPHQZGwXXHU9SXwTmmS
+ 0vYFLj1Ja+DEFJyL/r0WhrGRiW3MiticXuFKQk4P+Pzi/06xdYl11pzI8 w==;
+X-CSE-ConnectionGUID: MKk033/fSnSJtOhugCe8iw==
+X-CSE-MsgGUID: HYvbzOiQS62ObYlk50kx8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44629338"
+X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; d="scan'208";a="44629338"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 17:18:25 -0700
+X-CSE-ConnectionGUID: t3H/F+gwSFCwxKNA/uREKg==
+X-CSE-MsgGUID: dK9qkXUXS7GHlshAfYP5jQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; d="scan'208";a="151291770"
+Received: from ksmithe-mobl1.amr.corp.intel.com (HELO adixit-MOBL3.intel.com)
+ ([10.125.211.148])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 17:18:25 -0700
+Date: Mon, 07 Apr 2025 17:18:23 -0700
+Message-ID: <87bjt7eca8.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: <imre.deak@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ "Jessica Zhang" <quic_jesszhan@quicinc.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
+ Joel Selvaraj <jo@jsfamily.in>, Douglas Anderson <dianders@chromium.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 04/10] panel/auo-a030jtn01: Use refcounted allocation in
+ place of devm_kzalloc()
+In-Reply-To: <85a58rsgjj.wl-ashutosh.dixit@intel.com>
+References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
+ <20250401-b4-drm-panel-mass-driver-convert-v1-4-cdd7615e1f93@redhat.com>
+ <Z_P0A9lxWD0aAdjp@ideak-desk.fi.intel.com>
+ <85a58rsgjj.wl-ashutosh.dixit@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/29.4 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,40 +81,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 07 Apr 2025 16:22:40 -0700, Dixit, Ashutosh wrote:
+>
+> On Mon, 07 Apr 2025 08:49:23 -0700, Imre Deak wrote:
+> >
+> > Hi,
+> >
+> > On Tue, Apr 01, 2025 at 12:03:47PM -0400, Anusha Srivatsa wrote:
+> > > Move to using the new API devm_drm_panel_alloc() to allocate the
+> > > panel.
+> > >
+> > > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> > > ---
+> > >  drivers/gpu/drm/panel/panel-auo-a030jtn01.c | 10 ++++------
+> > >  1 file changed, 4 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c b/drivers/gp=
+u/drm/panel/panel-auo-a030jtn01.c
+> > > index 77604d6a4e72c915c40575be0e47810c90b4ed71..83529b1c2bac2e29f41ef=
+af4028950214b056a95 100644
+> > > --- a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+> > > +++ b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+> > > @@ -200,9 +200,10 @@ static int a030jtn01_probe(struct spi_device *sp=
+i)
+> > >
+> > >	spi->mode |=3D SPI_MODE_3 | SPI_3WIRE;
+> > >
+> > > -	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > > -	if (!priv)
+> > > -		return -ENOMEM;
+> > > +	panel =3D devm_drm_panel_alloc(dev, struct a030jtn01, panel,
+> > > +				     &a030jtn01_funcs, DRM_MODE_CONNECTOR_DPI);
+> >
+> > This doesn't compile and (yet) it's pushed already to drm-tip. AFAIU
+> > it's supposed to be
+> >	priv =3D devm_drm_panel_alloc(...);
+>
+> Yes:
+>
+> drivers/gpu/drm/panel/panel-auo-a030jtn01.c: In function =A1a030jtn01_pro=
+be=A2:
+> drivers/gpu/drm/panel/panel-auo-a030jtn01.c:203:9: error: =A1panel=A2 und=
+eclared (first use in this function)
+>   203 |         panel =3D devm_drm_panel_alloc(dev, struct a030jtn01, pan=
+el,
+>       |         ^~~~~
+> drivers/gpu/drm/panel/panel-auo-a030jtn01.c:203:9: note: each undeclared =
+identifier is reported only once for each function it appears in
+>
+> Please turn on the config options for particular module if you are making
+> changes to that module.
 
-On Mon, 07 Apr 2025 11:04:42 -0400, Frank Li wrote:
-> This controller support scalable data lanes from 1 to 4. Add the
-> 'data-lanes' property to configure the number of MIPI display panel lanes
-> selected for boards.
-> 
-> Change $ref of port@1 from 'port' to 'port-base' and add 'endpoint'
-> property referencing video-interfaces.yaml. Allow 'data-lanes' values
-> 1, 2, 3, and 4 for port@1.
-> 
-> Fix below CHECK_DTB warnings:
-> arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx-lvds-tm070jvhg33.dtb:
->  dsi@30a00000: ports:port@1:endpoint: Unevaluated properties are not allowed ('data-lanes' was unexpected)
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Missed v6.15 merge windows.
-> 
-> This one elimiate last two lines warning under arm64: dts/freescale
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> Resend V2: include Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> tags.
-> 
-> Original v2 thread:
-> https://lore.kernel.org/imx/c5y6mocsd77wj5lah6n47vtteqc5ekcrbdod6z5vtcnxhleudw@kfhpyoiylqqp/
-> 
-> Change from v1 to v2
-> - Add the reason why need 'data-lanes' property in commit message.
-> ---
->  .../bindings/display/bridge/nwl-dsi.yaml       | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
-> 
+Though probably, you can argue, that the pre-merge CI build should already
+be doing this. A sort of allmodconfig for the DRM subsystem, so that these
+kinds of issues don't get missed.
 
-Applied, thanks!
 
+>
+> >
+> > > +	if (IS_ERR(panel))
+> > > +		return PTR_ERR(panel);
+> > >
+> > >	priv->spi =3D spi;
+> > >	spi_set_drvdata(spi, priv);
+> > > @@ -223,9 +224,6 @@ static int a030jtn01_probe(struct spi_device *spi)
+> > >	if (IS_ERR(priv->reset_gpio))
+> > >		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio), "Failed to get =
+reset GPIO");
+> > >
+> > > -	drm_panel_init(&priv->panel, dev, &a030jtn01_funcs,
+> > > -		       DRM_MODE_CONNECTOR_DPI);
+> > > -
+> > >	err =3D drm_panel_of_backlight(&priv->panel);
+> > >	if (err)
+> > >		return err;
+> > >
+> > > --
+> > > 2.48.1
+> > >
