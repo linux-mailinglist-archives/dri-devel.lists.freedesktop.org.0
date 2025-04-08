@@ -2,66 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E834A7F413
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 07:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266AFA7F44D
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 07:42:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 737C910E1D0;
-	Tue,  8 Apr 2025 05:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9084810E00E;
+	Tue,  8 Apr 2025 05:42:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mpg08OMX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gustUHa3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2DC210E1D0
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 05:20:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744089636; x=1775625636;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=/0DCSkYs9FK7HPj8e3N5ePHpwmEPO47Lc4S2mr9GGEg=;
- b=Mpg08OMX29TzW50Qzy164vmWlI7ToFP+lI/XIgJWC4VyhymS9PuDrWbY
- x685YLuBzKXMbWVMh0K8KFqnHYl00d26GrpSRvIuSkE4X/oleEGj2ruJG
- YuldSU/gecw66B4YwCVlzmbiL4NNJeVfY/LSUbJTIP4GMVFhQ5dSOQzMh
- xFxjo5cXHkPPuCv6QfU0RojhUBdkkXOj3PGagjFe00a6bOHyr4wEzQZYv
- NBLKJEHJnzZBJ92Q06QBVkCC6m5k0h4ESA3yWfDyGMox6rJ18tF7DoG96
- xbNtaIvoby6mUnhcveS8K0eXJAXjCwXl1gQYu8OcGahAgIm8Tw0LmFf8e A==;
-X-CSE-ConnectionGUID: pvRWLlckROeTDMXn84H5bQ==
-X-CSE-MsgGUID: +MVNJOGcQL24Elidq1sPvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45390092"
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="45390092"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2025 22:20:34 -0700
-X-CSE-ConnectionGUID: z7YBI9LvRBmLdFYHNnA0RA==
-X-CSE-MsgGUID: oDg5vx6gTu2Rw5dbJx4vng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="151343970"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 07 Apr 2025 22:20:30 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1u21Ns-00048Z-0a;
- Tue, 08 Apr 2025 05:20:28 +0000
-Date: Tue, 8 Apr 2025 13:19:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pengyu Luo <mitltlatltl@gmail.com>, Jianhua Lu <lujianhua000@gmail.com>,
- Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
-Subject: Re: [PATCH 4/4] backlight: ktz8866: add definitions to make it more
- readable
-Message-ID: <202504081215.rL4DExNA-lkp@intel.com>
-References: <20250407095119.588920-5-mitltlatltl@gmail.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3616610E0B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 05:42:44 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-43ede096d73so20469525e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Apr 2025 22:42:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744090962; x=1744695762; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hNlU9IW0/3w2Hi0+ap/18NdS+AKkCCQ6NPlM5h3+t2Q=;
+ b=gustUHa3PF6lu6q0ZDIXd578zctnQz8sLDFADdi5+5Qx/qQd+DadV9CG3RZ6465jTp
+ pOvXqWa+pZURETMs6iLWcr+wsJOukM8g0LMB24aI4CWmfA0HsqDMxlcvN0jA7rNHAkc1
+ kzz8HsIjluI7HEVruOAjQpjcN24vxTUVMTABYlROGFK0p774grKCBe5pyPtf7kxg9wRw
+ WkZ0BMl2tg/AOdoz1K/EOY0Cv1jAhjVgHGUb738zyAp7VAekzOt3xgQYi62M7w6NT5Gc
+ ROW6nnLObhwNg0/yKiTc/DsYVdWXtAuofkLPll/pNx+zFBwVt9GHBKERMJC1cv58D3An
+ RC1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744090962; x=1744695762;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hNlU9IW0/3w2Hi0+ap/18NdS+AKkCCQ6NPlM5h3+t2Q=;
+ b=kB1+e/T7OKtCUqSUKMSPmfCcy89vJsqKC2uYcMJXYh26StKbWVe1r+oNZYitTp2CIg
+ I2YtfhkZntYnod24sBw+1KfHi5oFqyRus4S/3Z7OxoQpQuy7o1i4Kg+2lGSIHVFcPxnF
+ f11EohfinPxtWKTNRxM8GBeaQD/qVuCDlplMVNM+3r17hPLM2qlgctScgmDiiCwLpRc8
+ alYGJ4ycxmYJ9AkYzm+iYvrkVzHarx2drQLihLABo5+dB/HQA4bIrTf/dWhlAbG4v4lR
+ zBwkWxdVbF9faDSVOlBob5OqYVBBG9P2BKRaLfD0mQCynuoflmNj0rRsvwaTwfCrxglo
+ 2a7Q==
+X-Gm-Message-State: AOJu0Yzb3MjN9zvxSGUBcEeFU+vknV86Lr+JPvrwcpgx27hy1Nvt3LvJ
+ 9xhsnEawaA9UELEquozTc4W04NUs5wyN0wsSDusNGWKVi55TM04fp6b9Rr0lpYtrWoD4qVq/V8l
+ Zt42Y7N6dipnx+37NSyhkkOAaBkk=
+X-Gm-Gg: ASbGncu//IgRdWtxiazvqFgAJmvZjdnNMPOFUfXTLxuZRlcsXKGpFwCwjhl+CM+SU/i
+ Z+MWb65lp5ukZsYMvvO/6VN4m+v0+tiQp/dV8UINIjd0rSR5ODVJUjwHndmoaJbEK4jEkwPOG42
+ cjc5apGbHLeWi+N92ynfxbAyMvqy4=
+X-Google-Smtp-Source: AGHT+IHmnqwp7fYLD9r0VzUZ9uVobcEtY3ANbSUHe5IqHvpSb08zJTe5lq7GR0A2HHq8TuJDFRWbEUa4D0HngXEzQro=
+X-Received: by 2002:a05:6000:420f:b0:39c:30fb:fd97 with SMTP id
+ ffacd0b85a97d-39d07ad8accmr11712104f8f.1.1744090962383; Mon, 07 Apr 2025
+ 22:42:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250407095119.588920-5-mitltlatltl@gmail.com>
+References: <20250223153244.149102-1-clamor95@gmail.com>
+ <20250223153244.149102-3-clamor95@gmail.com>
+In-Reply-To: <20250223153244.149102-3-clamor95@gmail.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 8 Apr 2025 08:42:31 +0300
+X-Gm-Features: ATxdqUFll3jD8BcEvaAkgpR3n64WmaGGcMsqo5zGxP_xFPaWja_GHAYRiR6wr5A
+Message-ID: <CAPVz0n21dv1faVeWaRRtA=06D4Ve65cwP_nYF=f=orv_d67oWw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm: bridge: Add support for Solomon SSD2825
+ RGB/DSI bridge
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,86 +93,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pengyu,
+=D0=BD=D0=B4, 23 =D0=BB=D1=8E=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 17:33 Svya=
+toslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> SSD2825 is a cost-effective MIPI Bridge Chip solution targeting mainly
+> smartphones. It can convert 24bit RGB interface into 4-lane MIPI-DSI
+> interface to drive display modules of up to 800 x 1366, while supporting
+> AMOLED, a-si LCD or LTPS panel technologies for smartphone applications.
+>
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/Kconfig   |  13 +
+>  drivers/gpu/drm/bridge/Makefile  |   1 +
+>  drivers/gpu/drm/bridge/ssd2825.c | 821 +++++++++++++++++++++++++++++++
+>  3 files changed, 835 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/ssd2825.c
 
-kernel test robot noticed the following build errors:
+These patches had no activity/feedback from maintainers for a while,
+so, in case they got lost in the depths of email box, this is a
+friendly reminder that they are still relevant and I would like them
+to move on.
 
-[auto build test ERROR on lee-backlight/for-backlight-next]
-[also build test ERROR on lee-leds/for-leds-next lee-backlight/for-backlight-fixes linus/master v6.15-rc1 next-20250407]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pengyu-Luo/dt-bindings-backlight-kinetic-ktz8866-add-ktz8866-slave-compatible/20250407-175635
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
-patch link:    https://lore.kernel.org/r/20250407095119.588920-5-mitltlatltl%40gmail.com
-patch subject: [PATCH 4/4] backlight: ktz8866: add definitions to make it more readable
-config: riscv-randconfig-002-20250408 (https://download.01.org/0day-ci/archive/20250408/202504081215.rL4DExNA-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081215.rL4DExNA-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504081215.rL4DExNA-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/video/backlight/ktz8866.c:77:32: error: incompatible pointer types passing 'unsigned int **' to parameter of type 'unsigned int *'; remove & [-Werror,-Wincompatible-pointer-types]
-      77 |         regmap_read(ktz->regmap, reg, &val);
-         |                                       ^~~~
-   include/linux/regmap.h:1297:69: note: passing argument to parameter 'val' here
-    1297 | int regmap_read(struct regmap *map, unsigned int reg, unsigned int *val);
-         |                                                                     ^
->> drivers/video/backlight/ktz8866.c:112:66: error: expected ')'
-     112 |         ktz8866_write(ktz, BL_BRT_LSB, FIELD_GET(LOWER_BYTE, brightness);
-         |                                                                         ^
-   drivers/video/backlight/ktz8866.c:112:15: note: to match this '('
-     112 |         ktz8866_write(ktz, BL_BRT_LSB, FIELD_GET(LOWER_BYTE, brightness);
-         |                      ^
-   drivers/video/backlight/ktz8866.c:113:67: error: expected ')'
-     113 |         ktz8866_write(ktz, BL_BRT_MSB, FIELD_GET(HIGHER_BYTE, brightness);
-         |                                                                          ^
-   drivers/video/backlight/ktz8866.c:113:15: note: to match this '('
-     113 |         ktz8866_write(ktz, BL_BRT_MSB, FIELD_GET(HIGHER_BYTE, brightness);
-         |                      ^
-   drivers/video/backlight/ktz8866.c:136:13: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
-     136 |                 if (!(val && CURRENT_SINKS_MASK))
-         |                           ^  ~~~~~~~~~~~~~~~~~~
-   drivers/video/backlight/ktz8866.c:136:13: note: use '&' for a bitwise operation
-     136 |                 if (!(val && CURRENT_SINKS_MASK))
-         |                           ^~
-         |                           &
-   drivers/video/backlight/ktz8866.c:136:13: note: remove constant to silence this warning
-     136 |                 if (!(val && CURRENT_SINKS_MASK))
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   1 warning and 3 errors generated.
-
-
-vim +112 drivers/video/backlight/ktz8866.c
-
-    97	
-    98	static int ktz8866_backlight_update_status(struct backlight_device *backlight_dev)
-    99	{
-   100		struct ktz8866 *ktz = bl_get_data(backlight_dev);
-   101		unsigned int brightness = backlight_get_brightness(backlight_dev);
-   102	
-   103		if (!ktz->led_on && brightness > 0) {
-   104			ktz8866_update_bits(ktz, BL_EN, BL_EN_BIT, BL_EN_BIT);
-   105			ktz->led_on = true;
-   106		} else if (brightness == 0) {
-   107			ktz8866_update_bits(ktz, BL_EN, BL_EN_BIT, 0);
-   108			ktz->led_on = false;
-   109		}
-   110	
-   111		/* Set brightness */
- > 112		ktz8866_write(ktz, BL_BRT_LSB, FIELD_GET(LOWER_BYTE, brightness);
-   113		ktz8866_write(ktz, BL_BRT_MSB, FIELD_GET(HIGHER_BYTE, brightness);
-   114	
-   115		return 0;
-   116	}
-   117	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Svyatoslav R.
