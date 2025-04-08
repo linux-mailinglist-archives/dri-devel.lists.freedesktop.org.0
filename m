@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB2CA80CA1
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 15:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 493BAA80CB7
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 15:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4557410E6A6;
-	Tue,  8 Apr 2025 13:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54A1110E6A9;
+	Tue,  8 Apr 2025 13:44:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ndVeUD8/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kBzA5GCO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
- [95.215.58.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68C7610E6A6
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 13:41:33 +0000 (UTC)
-Message-ID: <94a1f5bf-5b6d-47cc-a344-753a8a5272bd@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1744119688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UJ24xdldXfdfyi1hupLmHyJNywDoo6R03YHUziiP89M=;
- b=ndVeUD8/kmEJGa0tXr+U2XGei6GsKw6VxzY1HY/8dfxqLJXpDOk3JwaAWHvPTzlganu84O
- FTxfRsXeLa5VY5i5pvXul53pqFATDlZYfrWCQiynWbpVdOfLi9AY64rOMtFLNkbJ0n0S+b
- QCr/G4TBZyYWYZqUE4WroZ/OTQRGGM4=
-Date: Tue, 8 Apr 2025 19:10:34 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E72D110E6A9
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 13:44:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744119883; x=1775655883;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lX0pIzOE6xn7y8oUMpUCvkkt3P0Jc65RairfyqZv//Y=;
+ b=kBzA5GCODSaQC5D/eUaUhYAuj8Abtm9WJGkWKMQFQeCwbP/qWhAD6Pl0
+ W5vPUEbxCHbI3zRbhkwvC97nK+lWXnYsSw2SBEzGVy3yACGQHubunW/dL
+ cEN0zRa7BcVEWuncL0d6XuxZFO607FCuWkRrY+rNMb1B8+9qqK0lMPqGL
+ /rhzBEMhwvez0zJvCcQ8FCFYuk1f1DEmnk6lXLF6Hs1N4xoFp5lsIXJgx
+ D/5JN6LD4PZEE+t8hGDp7DTAAAU+ckaSbcHMcbdlaL4bQOMuX8X8BjNDC
+ HmWUktbGod1ZXgv+LF94yrC2vua6BH7vRBuxi2ZfE/b5uGVMO16G6p3Dg A==;
+X-CSE-ConnectionGUID: DG7K+K8PReWhDJOIrst0Ow==
+X-CSE-MsgGUID: abSeyeOeQ6Cckd+0yvVWtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49397305"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="49397305"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 06:44:43 -0700
+X-CSE-ConnectionGUID: BNm7oigUQIS10VdWuwGFYQ==
+X-CSE-MsgGUID: 1KHuuWiuQw6k4jCTg/M+Yg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="128005936"
+Received: from mfalkows-mobl.ger.corp.intel.com (HELO [10.245.121.109])
+ ([10.245.121.109])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 06:44:41 -0700
+Message-ID: <3a22799a-bb02-4d79-b2e0-40f88a222b96@linux.intel.com>
+Date: Tue, 8 Apr 2025 15:44:22 +0200
 MIME-Version: 1.0
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: Re: [PATCH v2 12/18] drm/bridge: cdns-dsi: Drop checks that shouldn't
- be in .mode_valid()
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>,
- Devarsh Thakkar <devarsht@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com>
- <20250402-cdns-dsi-impro-v2-12-4a093eaa5e27@ideasonboard.com>
- <46dc6803-47f0-4434-9794-08307604e450@linux.dev>
- <daa8c462-e2c7-47fa-9ccd-b72dc3c6b9cc@ideasonboard.com>
- <03142c89-fc5a-45cf-9233-549ec1b9a469@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Flush pending jobs of device's workqueues
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jacek.lawrynowicz@linux.intel.com, lizhi.hou@amd.com
+References: <20250401155755.4049156-1-maciej.falkowski@linux.intel.com>
+ <d1c263de-bece-44f1-bfb0-c5f00404abe4@oss.qualcomm.com>
 Content-Language: en-US
-In-Reply-To: <03142c89-fc5a-45cf-9233-549ec1b9a469@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+From: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>
+In-Reply-To: <d1c263de-bece-44f1-bfb0-c5f00404abe4@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,203 +71,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+On 4/4/2025 5:00 PM, Jeff Hugo wrote:
 
-On 08/04/25 12:39, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 08/04/2025 09:09, Tomi Valkeinen wrote:
->> Hi,
+> On 4/1/2025 9:57 AM, Maciej Falkowski wrote:
+>> Use flush_work() instead of cancel_work_sync() for driver
+>> workqueues to guarantee that remaining pending work
+>> will be handled.
 >>
->> On 07/04/2025 20:59, Aradhya Bhatia wrote:
->>> Hi Tomi,
->>>
->>> On 02/04/25 19:00, Tomi Valkeinen wrote:
->>>> The docs say about mode_valid():
->>>>
->>>> "it is not allowed to look at anything else but the passed-in mode, and
->>>> validate it against configuration-invariant hardware constraints"
->>>>
->>>> We're doing a lot more than just looking at the mode. The main issue
->>>> here is that we're doing checks based on the pixel clock, before we
->>>> know
->>>> what the pixel clock from the crtc actually is.
->>>>
->>>> So, drop the checks from .mode_valid(). This also allows us to remove
->>>> the 'mode_valid_check' parameter from internal functions, and the
->>>> related code.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 44 +++++++
->>>> +------------------
->>>>   1 file changed, 14 insertions(+), 30 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/
->>>> drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->>>> index e85c8652c96e..cf783680b1b4 100644
->>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->>>> @@ -469,25 +469,17 @@ static unsigned int dpi_to_dsi_timing(unsigned
->>>> int dpi_timing,
->>>>   static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
->>>>                    const struct drm_display_mode *mode,
->>>> -                 struct cdns_dsi_cfg *dsi_cfg,
->>>> -                 bool mode_valid_check)
->>>> +                 struct cdns_dsi_cfg *dsi_cfg)
->>>>   {
->>>>       struct cdns_dsi_output *output = &dsi->output;
->>>>       u32 dpi_hsa, dpi_hbp, dpi_hfp, dpi_hact;
->>>>       bool sync_pulse;
->>>>       int bpp;
->>>> -    if (mode_valid_check) {
->>>> -        dpi_hsa = mode->hsync_end - mode->hsync_start;
->>>> -        dpi_hbp = mode->htotal - mode->hsync_end;
->>>> -        dpi_hfp = mode->hsync_start - mode->hdisplay;
->>>> -        dpi_hact = mode->hdisplay;
->>>> -    } else {
->>>> -        dpi_hsa = mode->crtc_hsync_end - mode->crtc_hsync_start;
->>>> -        dpi_hbp = mode->crtc_htotal - mode->crtc_hsync_end;
->>>> -        dpi_hfp =  mode->crtc_hsync_start - mode->crtc_hdisplay;
->>>> -        dpi_hact = mode->crtc_hdisplay;
->>>> -    }
->>>> +    dpi_hsa = mode->crtc_hsync_end - mode->crtc_hsync_start;
->>>> +    dpi_hbp = mode->crtc_htotal - mode->crtc_hsync_end;
->>>> +    dpi_hfp =  mode->crtc_hsync_start - mode->crtc_hdisplay;
->>>> +    dpi_hact = mode->crtc_hdisplay;
->>>>       memset(dsi_cfg, 0, sizeof(*dsi_cfg));
->>>> @@ -518,8 +510,7 @@ static int cdns_dsi_mode2cfg(struct cdns_dsi *dsi,
->>>>   static int cdns_dsi_adjust_phy_config(struct cdns_dsi *dsi,
->>>>                     struct cdns_dsi_cfg *dsi_cfg,
->>>>                     struct phy_configure_opts_mipi_dphy *phy_cfg,
->>>> -                  const struct drm_display_mode *mode,
->>>> -                  bool mode_valid_check)
->>>> +                  const struct drm_display_mode *mode)
->>>>   {
->>>>       struct cdns_dsi_output *output = &dsi->output;
->>>>       unsigned long long dlane_bps;
->>>> @@ -549,11 +540,11 @@ static int cdns_dsi_adjust_phy_config(struct
->>>> cdns_dsi *dsi,
->>>>       if (dsi_htotal % lanes)
->>>>           adj_dsi_htotal += lanes - (dsi_htotal % lanes);
->>>> -    dpi_hz = (mode_valid_check ? mode->clock : mode->crtc_clock) *
->>>> 1000;
->>>> +    dpi_hz = mode->crtc_clock * 1000;
->>>>       dlane_bps = (unsigned long long)dpi_hz * adj_dsi_htotal;
->>>>       /* data rate in bytes/sec is not an integer, refuse the mode. */
->>>> -    dpi_htotal = mode_valid_check ? mode->htotal : mode->crtc_htotal;
->>>> +    dpi_htotal = mode->crtc_htotal;
->>>>       if (do_div(dlane_bps, lanes * dpi_htotal))
->>>>           return -EINVAL;
->>>> @@ -569,27 +560,25 @@ static int cdns_dsi_adjust_phy_config(struct
->>>> cdns_dsi *dsi,
->>>>   static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
->>>>                      const struct drm_display_mode *mode,
->>>> -                   struct cdns_dsi_cfg *dsi_cfg,
->>>> -                   bool mode_valid_check)
->>>> +                   struct cdns_dsi_cfg *dsi_cfg)
->>>>   {
->>>>       struct cdns_dsi_output *output = &dsi->output;
->>>>       struct phy_configure_opts_mipi_dphy *phy_cfg = &output-
->>>> >phy_opts.mipi_dphy;
->>>>       unsigned int nlanes = output->dev->lanes;
->>>> -    int mode_clock = (mode_valid_check ? mode->clock : mode-
->>>> >crtc_clock);
->>>>       unsigned long req_hs_clk_rate;
->>>>       int ret;
->>>> -    ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg, mode_valid_check);
->>>> +    ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg);
->>>>       if (ret)
->>>>           return ret;
->>>> -    ret = phy_mipi_dphy_get_default_config(mode_clock * 1000,
->>>> +    ret = phy_mipi_dphy_get_default_config(mode->crtc_clock * 1000,
->>>>                              mipi_dsi_pixel_format_to_bpp(output-
->>>> >dev->format),
->>>>                              nlanes, phy_cfg);
->>>>       if (ret)
->>>>           return ret;
->>>> -    ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, mode,
->>>> mode_valid_check);
->>>> +    ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, mode);
->>>>       if (ret)
->>>>           return ret;
->>>> @@ -635,8 +624,7 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge
->>>> *bridge,
->>>>       struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
->>>>       struct cdns_dsi *dsi = input_to_dsi(input);
->>>>       struct cdns_dsi_output *output = &dsi->output;
->>>> -    struct cdns_dsi_cfg dsi_cfg;
->>>> -    int bpp, ret;
->>>> +    int bpp;
->>>>       /*
->>>>        * VFP_DSI should be less than VFP_DPI and VFP_DSI should be at
->>>> @@ -654,10 +642,6 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge
->>>> *bridge,
->>>>       if ((mode->hdisplay * bpp) % 32)
->>>>           return MODE_H_ILLEGAL;
->>>> -    ret = cdns_dsi_check_conf(dsi, mode, &dsi_cfg, true);
->>>> -    if (ret)
->>>> -        return MODE_BAD;
->>>> -
->>>>       return MODE_OK;
->>>>   }
->>>> @@ -996,7 +980,7 @@ static int cdns_dsi_bridge_atomic_check(struct
->>>> drm_bridge *bridge,
->>>>       adjusted_crtc_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC |
->>>> DRM_MODE_FLAG_PVSYNC);
->>>>       adjusted_crtc_mode->flags |= DRM_MODE_FLAG_NHSYNC |
->>>> DRM_MODE_FLAG_NVSYNC;
->>>> -    return cdns_dsi_check_conf(dsi, mode, dsi_cfg, false);
->>>> +    return cdns_dsi_check_conf(dsi, mode, dsi_cfg);
->>>
->>> With this patch, the driver shifts to using the crtc_* values during the
->>> check phase, and then, it is brought back to using non crtc_* values in
->>> the next patch.
->>>
->>> Should this patch just drop the cdns_dsi_check_conf() check from
->>> .mode_valid() instead, and let the next patch phase out the
->>> mdoe_valid_check parameter as the driver simultaneously shifts to using
->>> the non crtc_* values throughout?
->>
->> Yes.
-> 
-> Actually, this patch doesn't change the crtc_* vs non-crtc_* behavior.
-> After dropping the cdns_dsi_check_conf() call in mode_valid(), the
-> 'mode_valid_check' is always false. So this patch removes the parameter,
-> and any code paths for the true-case.
-> 
-> Should the atomic_check() have been using 'true' for the
-> 'mode_valid_check'? The atomic_check code was added in
-> a53d987756eab40678f241d7cd0eb7e1ca42bba7.
-> 
+>> Fixes: bc3e5f48b7ee ("accel/ivpu: Use workqueue for IRQ handling")
+>> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+>
+> The fixes tag suggests that this is a bug fix, but the commit text 
+> doesn't really tell me why cancel_work_sync() is bad.  Does it leave 
+> the driver in some incomplete state that prevents later recovery?
+>
+> Put another way, "why is it necessary for the pending work to be 
+> handled?" appears unanswered.
 
-You are right. I had lost a bit of context there.
+You are right, thank you for pointing this out. FYI I will include the 
+following explanation in the patch message:
 
-Upon seeing the change logs, and history for my DSI patches, it seems
-that the _atomic_check() was added as a replacement for the check that
-was taking place in the _(atomic)_enable(), because the enable-path was
-not the right place to do so.
+This will resolve two issues that were encountered where a driver was 
+left in an incomplete state as the bottom-half was canceled:
+a) Cancelling context-abort of a job that is still executing and is 
+causing translation faults which is going to cause additional TDRs,
+b) Cancelling bottom-half of a DCT (duty-cycle throttling) request which 
+will cause a device to not be adjusted to an external frequency request.
 
-Since the enable-path worked on crtc_* values, the check used to happen
-with crtc_* values. And then the _atomic_check() continued to use the
-crtc_* values after the patch.
+Best regards,
+Maciej
 
-But, since the crtc_* values don't get populated before the bridge's
-check-phase, the crtc_* values shouldn't be used at this stage for any
-checks.
-They are getting populated in this case, via the fbdev_client_setup, if
-I understand that right. But it's not right to depend on fbdev as it can
-be disabled.
-
-So, it would make sense to use 'true' for the `mode_valid_check`
-parameter here. And, I will post a fix for this.
-
-
-However, we have another question. How would the driver verify the
-crtc_* values then, if not during the enable-path? Effectively, it might
-not matter for this driver, but there should be a general guideline.
-
-
---
-Regards
-Aradhya
+>
+> With that
+> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
