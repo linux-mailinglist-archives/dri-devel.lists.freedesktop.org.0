@@ -2,93 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECAAA800BF
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 13:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D48CA8010B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 13:37:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84BDD10E22F;
-	Tue,  8 Apr 2025 11:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB4F810E669;
+	Tue,  8 Apr 2025 11:37:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ypu2W7wq";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4VqMUEGC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66F3810E22F
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 11:34:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744112072;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PAhKuQb3RoCqJ3z/VKP8lkfDlIZ0rdzLrgCMtYUeatE=;
- b=Ypu2W7wqIpXpuM2lboTZeljw1dYUbG/c8HvAvINS2OtTBJ+uAgIC/aCW72J4Jh1rFXRue0
- iaW1B0L4XKfxQy/TrlaQ79POh37O84/se/MCLzvhOs38Nx8Kumzr0K3dEPjHCyg8AGoXxX
- qIGGD6TEq6MhlN9XWnuiyAtBrd4yCP8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-377-2L3igZYEM3e5KweZp_xeUQ-1; Tue, 08 Apr 2025 07:34:30 -0400
-X-MC-Unique: 2L3igZYEM3e5KweZp_xeUQ-1
-X-Mimecast-MFC-AGG-ID: 2L3igZYEM3e5KweZp_xeUQ_1744112070
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-39135d31ca4so2935371f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 04:34:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744112069; x=1744716869;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PAhKuQb3RoCqJ3z/VKP8lkfDlIZ0rdzLrgCMtYUeatE=;
- b=hZdCAJD0puj2vV1yTMhDGgqvRI0WNvZpZ8TH4bLJbZeAD+4je6NoXZPzbQSEEFQCU3
- 9AprCEO92NcMbjJbKISXvzy65YkBPXXeQi/cnFznbFFmwaQtrlwdYt+QdRkvMdyO0qpK
- hmCq9LwyqSPTSI1X/rVGCnMeqwPM7pLAxddHnxGV8OVUWfSyofWxiHxzzwz52lUQpDWh
- IVth7pIQfbPDORrCoZhKDMCcp7r69maXAf+DipZc6iyEdQrULQVfBBHrvQLPb/HqNOXG
- fWSdL+RRjbwIy7tBk/7UztuTtpRxlFCCkMIPHnwF1lzExgSM2WN1ePGf85UBgar6FbjI
- Tz7g==
-X-Gm-Message-State: AOJu0YxAdw/J43Zs0MVUHpg9YGhZKaqdl8MERpq7rPyoamwKSh4+RKox
- pLj6S+ud9KhWdXdiFSkOxVfB6Tx+rY7gifAfM/jiLISqjbJV+e5+asBaJvEsDEtrgX5VUdz8UV/
- XIgavSC7+O1qOIVOQnvaBx/LFtzqDjEtEwxBUwhZgyqxlj01GuLGU5TUVO/6I3W3/qw==
-X-Gm-Gg: ASbGncvu7HL9ALjK/ygw94X1Py6dA//18W8/u4umSYwhAGKwNzx+RVkeVrgcBBv3ZeR
- HUxDOE5UPZ24vZNXU5icAQxASSTOCgcKxSw+I15bg4fZ7X/S7ovk+VPhJNchHM1ofUfR29ZWZCo
- vBPCXC17MVcuPcphPbmAtFqOrIsQWasee1kiRZtbi29gXZWS6P8QaJYgXNZEawAtiaKN/ybrKL7
- olJWlH6HqWM8FBNuseCb7ZaUG16/udbBDbU0DpKZ/9yibKxUgpe2/nn+3lfT2rpqbO0IKAsjaye
- dM1ubn6zmOY4JOs4ORQeTBnHj7GYVyfwiMFZbStiAyWS+8OdEHgN/mzhPW2p4xQWPWMZOMuRnQ=
- =
-X-Received: by 2002:adf:b605:0:b0:391:21e2:ec3b with SMTP id
- ffacd0b85a97d-39d820ab5a7mr1911492f8f.3.1744112069653; 
- Tue, 08 Apr 2025 04:34:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHF7dCMQ395WPISkch1rK8BCQ56JHVKYbHjaY16C0nZdn5ezaBn6zxMmjhUxzXiNWxckPpQoA==
-X-Received: by 2002:adf:b605:0:b0:391:21e2:ec3b with SMTP id
- ffacd0b85a97d-39d820ab5a7mr1911463f8f.3.1744112069287; 
- Tue, 08 Apr 2025 04:34:29 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39c3020d9cfsm14619063f8f.78.2025.04.08.04.34.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Apr 2025 04:34:28 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Marcus Folkesson
- <marcus.folkesson@gmail.com>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmrmann@suse.de>
-Subject: Re: [PATCH v3 2/3] drm/st7571-i2c: add support for Sitronix ST7571
- LCD controller
-In-Reply-To: <c4669293-0d56-4bdd-9075-01281042b002@suse.de>
-References: <20250408-st7571-v3-0-200693efec57@gmail.com>
- <20250408-st7571-v3-2-200693efec57@gmail.com>
- <87cydn9bkx.fsf@minerva.mail-host-address-is-not-set>
- <c4669293-0d56-4bdd-9075-01281042b002@suse.de>
-Date: Tue, 08 Apr 2025 13:34:27 +0200
-Message-ID: <87iknega4c.fsf@minerva.mail-host-address-is-not-set>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2061.outbound.protection.outlook.com [40.107.94.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4F9510E669;
+ Tue,  8 Apr 2025 11:37:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lUeGnlEWtam+JQNh8J0/nnHc4a0HEkN9XhvuttCcKM+pozU40DDWi9ylcS1/0eSVz96c0lpIpvTL6IOiTCNjGVolsKx0EoZK2Xpt/aeupfbKl7E1gfhvlqn0ApWxH4+Oz3GG9pU5AE9szJzkBjc4LPKgmHJH72ian1XRAw0BprTuyz7WO5ylcPXpTkpVDcnG8zv2iuCX4h+rsr2dlNTUj15nUoyLgD250jl6aI3QJ0x9wUn1rNgz1soNOOX2NJ04jRmN+MV1bCfy01TfBAkbssuHFdd5rBO0lsnzHU+1N/4L0dlj/1pQxq/O3Qw6p3yCh7xdNl+f27UfdrOnd/4Dmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2SR5LUd9wmw9minZVXH7D3MxjwGyk+Xhr57j+7ZwOuY=;
+ b=Z30hiu2msp6nnzLTA+ZQWTXYeTtfCPy3P9gkjmi8WEaAbOZgzrYj3RqbLJzktWJ/ydJN3WZp7mIuDO14dyRWJvomfh5pv2+n1PjJ3Rt9D0DOIkyAAdsO8hveD+PcHA7blxEyQMyyi0NadEqtXsyyh7DMNK9/pSFEqvgF3FFOQMmG8suNdsR1HUQSMrMjt65nLW1X5/Y8jR21h8sgFFHqZRIMLgT+a6vSKufpx60Yo0rG2DIv+SZ5dtpKeGWJo1r9LXeeXi2HR3P1Amv/Qu6m+Aq6L3XWCHxdvXyph8cKi0O8a7FJjnp6u/Rj9iKGrbVystMg3H8JYwQwbGhMw/8Pig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2SR5LUd9wmw9minZVXH7D3MxjwGyk+Xhr57j+7ZwOuY=;
+ b=4VqMUEGC0BUAN+tXtxz6hKdJTCqG0wEP5TQbX38YNw1CEWocec63XNQ0KEfhCWEuNhqkPWhwCTHyZAIAlDJnBzIUiK1n/QpdzWlTw4GHyYxVRk2s0MGBh11guAX7n8EkJe3080+Fo+ydHhh4W7s1DkmZxEk0GRM/iEYeeRtnyow=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ1PR12MB6074.namprd12.prod.outlook.com (2603:10b6:a03:45f::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Tue, 8 Apr
+ 2025 11:37:24 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8583.045; Tue, 8 Apr 2025
+ 11:37:23 +0000
+Message-ID: <f8810b13-01d1-4615-b6e2-2e791c48b466@amd.com>
+Date: Tue, 8 Apr 2025 13:37:17 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [lvc-project] [PATCH] drm/amdgpu: check a user-provided number of
+ BOs in list
+To: Fedor Pchelkin <pchelkin@ispras.ru>
+Cc: Denis Arefev <arefev@swemel.ru>, Alex Deucher
+ <alexander.deucher@amd.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>, lvc-project@linuxtesting.org,
+ Chunming Zhou <david1.zhou@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ stable@vger.kernel.org, David Airlie <airlied@gmail.com>
+References: <20250408091755.10074-1-arefev@swemel.ru>
+ <e6ccef21-3ca5-4b5a-b18a-3ba45859569c@amd.com>
+ <bmdour3gw4tuwqgvvw764p4ot3nnltqm4e7n3edlbtpfazvp5c@cqe5dwgc66uy>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <bmdour3gw4tuwqgvvw764p4ot3nnltqm4e7n3edlbtpfazvp5c@cqe5dwgc66uy>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0166.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b4::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: uJGQlXq-3dTP0l0CF9teFkjiw1Brb31qIiIHVTPwwVI_1744112070
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6074:EE_
+X-MS-Office365-Filtering-Correlation-Id: cabfcbfe-f86f-43e8-6e52-08dd7691ba7f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eDBsRlI5ZXcxSGNwR2F3V04zU3BYNHRENzZKV0hnb21hSzRHcWlEbUhUV1Bk?=
+ =?utf-8?B?UlI1cWtlN2NpRnBKWWIzVjVvMjhJbHJYMlVNa1ROcklSSjhWSlFRdHJKbHc1?=
+ =?utf-8?B?V2ZlbDB0YUxsMzVqektPb0NQZ3RxaDlRZHp1NkVLRzlXZk9jMWhTUlZNdmYz?=
+ =?utf-8?B?d2FHTnN0bmk5d0FwdzV4YkhGTkVsUitJRmhOTUFoN244ak5rMllnUUx0MUxF?=
+ =?utf-8?B?WWZlcDdvQy8yWnRZTUZtMGVkNmViVi9JQjBxTHdxM3VkL0xGNkxWd3ZDMkpk?=
+ =?utf-8?B?RC9jUlZKaWJVVnNSU1owSU50c0J6aUhrbndOWVI4eCtCU1Z6UGgrMTREYjNp?=
+ =?utf-8?B?Ui9QU1I2Q05MZXp1eWppbTRMMXFlR2VSY0lnRW5jL0VJUVovVVgvSmNIV3JX?=
+ =?utf-8?B?QzZxOVFjN1RGQ0FrclNDQTJhK2d3dDN2SVNsNGlwWHB5WWpJVXF3aGR2dStI?=
+ =?utf-8?B?UkVSYVRQZ1VLMGl5UFdySzlkUGc0WFRvdDdaMlFVd01qVGpXMWcrMElobVVM?=
+ =?utf-8?B?NnNBd0VneDNpZGJ0QXYvSW1ueFg1NzdYd210STVPb0F0eHgxc0pxUXVyZk5a?=
+ =?utf-8?B?ZGVGbExMZlpuZW1pUUJ2eVB0VFMrejlZM0JlV09FN2dhZ0ZVMnp1Q2lsTHZo?=
+ =?utf-8?B?Tmo0dk1wbWhkTzhWUWYzYXc0aStKTXhSTm94MmgzOGYyZWtCT2k2NHpHMS9r?=
+ =?utf-8?B?Mk42RDdBT2ZaejBpMUswNjlrVGkycStFcGR4WHBXMmJJZ09vamZBYmtKOGRH?=
+ =?utf-8?B?dEpuZXpqMzhUUE1vemd1OHNFR2thU2V1VGFRV3JjWStJQmJqTEF1WFJlMVND?=
+ =?utf-8?B?dXBwc3E4Ym03UEYyYjIwN1B4UzJPTjdDOTNLVUJPRTY1anBQU2R0eERFYUht?=
+ =?utf-8?B?WjFYME1pMG1Tc3hTdEJ3L2t2dzhEWDE3RDF3ZkR1YVlKVThpQlRCbCtkWnFi?=
+ =?utf-8?B?ckN2VTJJUmJZWjdDS1VoTzdhQjVQeUlWdG90SW1VTm54OVJpQWFuK1R1TkQv?=
+ =?utf-8?B?ZkZKM25aOXdpZ01jTVc3YjJLL1QvREtoRXNPNHd5c0JJMEVMQUhpaXJZMXNL?=
+ =?utf-8?B?VG1wM0w2WVE3NTIvRGJmVk5LdUdMU0x0emFRWEdBUGxEdzZNVDlBVisvbW43?=
+ =?utf-8?B?eUhRWU0wNmYzaGhITERsL3N1YkZBYTFabzRVOWErYkJhSW9HcVBjdjBXTjJ2?=
+ =?utf-8?B?R3JZSDRxWHluTGwvczM4VzN5a29ZUzNXTWk1SkJjS2lkcTQ5SXJlRHdkTkVI?=
+ =?utf-8?B?dXl0RnBrREd6dC9Dem9ZQTFQd1FGVWwrS2V2STRhU3h2N3BqUFhEV2gwU1l6?=
+ =?utf-8?B?K2w5UWx6UE9iQUFVQXlnWDIrVkR2azVKVXlkVTdlUlVzQVpPc0UydVdPL1Fp?=
+ =?utf-8?B?dWtvQ2RqbzlxZFRkc3FOM0ZLaHhMV1FMdlFpZERHN05uR0J1TGtVT3FzQVVa?=
+ =?utf-8?B?K00vMlpmdXFuazZ3MkMwclZGSnp3Sm4wVC9uQUlra2plVmNWMExIWU54ZjV0?=
+ =?utf-8?B?SGNEcHhHVGtJRk1TWkJGdTlqcUNUaHpYSG05b3BqcHBqUndXQ1JFdm9CM1JO?=
+ =?utf-8?B?dlo2Zldwenl6UUtVYjB4OGtBbXlPSC91OFhTMDJMZlJIdWU5VjRKNWZhTXNL?=
+ =?utf-8?B?RlM0L1Z1U0doeFBuOWlJakg2Y3plRXlacGZqWktEelpkMXV0QklGb2ROQXRj?=
+ =?utf-8?B?OFBsSms2ZXIvcDAyTk1hTFhmMC9lRUp6MlBPdzczS1VxNnQvQi81UGFOdlpO?=
+ =?utf-8?B?TjF2VmlaVkFTVmFkNnRFUWZJc2diSTdDMnJDd1ZvOW5kTnN5TzhMWklKU1li?=
+ =?utf-8?B?Tk9aZCtacWh2T09pRDVtNkRPRFR0R0RuMWxjSnpwblkvbHRoRjBSU3Y0eWhk?=
+ =?utf-8?Q?n/td4oZir6bKq?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ck92U3hrUFBoQW9wNnZKSzFnTHVXNmRQU1JoMmlhVlRGR2k2LzVNSnBJUHRs?=
+ =?utf-8?B?L1cxTmdINzNub2Myc3BCbm5UV0REaEs2S3V3R2RXRkRhMzhkclVISm85NmhF?=
+ =?utf-8?B?aDJqUCt3WmdEK2N5SlcrWkkwTmdtUURGZEFtZ2kvWkNRU1JiZU9nM1k4eHla?=
+ =?utf-8?B?R2tuMTNkQzcwZ0JkTm5ncHpQbjNZQ3Y5RzhNVGtmemt2ZkhodjlSQWlMQkJH?=
+ =?utf-8?B?R2N5T1R4MVZ0YzhjVTJNWWo2Zkd6ZkU1bXRVSElXUUhHaVlOcHpsZEtlUkJV?=
+ =?utf-8?B?azVxMjlzQjhkRHVuaW9hUjJpWTRKSXRza2FGdU42WnBxSXM4YmY3c2p0UEtO?=
+ =?utf-8?B?dnRoaktCVHJuTHBTYWhpQ0tUS0VsT3RrY3ZpMmRpNnRpK3Fzam5hbml3M1cv?=
+ =?utf-8?B?T1c3OWZXd0tkWTdaWldaeGEzWGZRL21aemc2dVBPVHpoaDZlZmphSElkVWJQ?=
+ =?utf-8?B?bHZvaDMxcWJZK2ZwcjFvU0dpdXgxRDlHUHdIOVo1VWR1YTBlOFJWbjVqU3VI?=
+ =?utf-8?B?aDJqTXEzMEhGbzdmRmU5TElvcVRKOFMxRmxIeW9CNHJDWEUyeERuY05IWmpX?=
+ =?utf-8?B?dUpKS2lmM0xhOWZIeWVYWHR6cUFiT2NzVWdCWk9PVXVEWWlxekVwUnA0SGxt?=
+ =?utf-8?B?cjczSllMb1p4SXVucFZyUnhXNkF5V3dmVXE3YWhJOEV0dlBOT2JjVTZyWm5U?=
+ =?utf-8?B?eVpNZ2VPTGpIMDJBK0Rra1huZW51ZFRpMVRzT0RRb1kxZEZSZEdDdEhDT0Rk?=
+ =?utf-8?B?U2dCOTZ6YUtGRHA5SS9hTmwwSDhpSW1IZUU1WkNTeUg5NlRsOWNNbklHZC9V?=
+ =?utf-8?B?Wko5RExUeTRua0U2NExTdDFwUWcvd1ZieXVJZ3J4TjltR2l1VEdYZ09KK1RP?=
+ =?utf-8?B?VXBLb0ZaZkJvaUFoWUtveEZHTkhaSTJ1UjBkSDZHRnNaWHZvVyt0SXdvNXdE?=
+ =?utf-8?B?MkFBOUtCNkdFQnNpeC9VQlcwdnMxV1V0NWZaSlNiZmZ3NWRNYWRaNURSaUV1?=
+ =?utf-8?B?UVdyZGV1VVVTNldJZHZ0VTdsMHhicm9TcXZ4VTRoWTRkNlNvT29Db1Q3SXNJ?=
+ =?utf-8?B?UEpNL3djd2RjWDUwNTlqMCs0eDIwQXhKU2RtMjQ2S09aS1hkOEU1c2REWGZ6?=
+ =?utf-8?B?VEtwZ0dOc3pVMzdWS05mNVl4eFZrSVcwTlhwTkUya2RqWTFpNzlyUlVmejVT?=
+ =?utf-8?B?dzNQb05YdlBmOEtpMnFkM01NNldaemNCaGhsenF1M1UwVGFhT0c4blB3ZU1D?=
+ =?utf-8?B?L1puajM5NEVoQnNjWnNQWnhORVJqODVkUFlYVytLM0NydGovK0JZSXJuQUQ5?=
+ =?utf-8?B?VzYyM0Y4YmJHY1c0aEFaaFVHUlBpODFEVE8vOEw1V1gwaW52K2tTRWJFcEpW?=
+ =?utf-8?B?elJWSWV2T0gycWxlcTJBU0Nld3B2cFc4TDhGa2lMZ09MU0dDZWNQLzduMkQx?=
+ =?utf-8?B?S1FYSmxqVnI2ZHVHOHRvY3NJRkREZ2JSaW9OaTBiZHBCTUcrN0lud1U5bmxi?=
+ =?utf-8?B?YkRDMnA0VjZnQXRJVGF4cFc5S3czczExMDFCOFljK29iMG5FZkVySnNnQXh6?=
+ =?utf-8?B?YVBCQlRnRTE1UmJMand5QWZTL3ErcVhBWTFodkxsdFVaNFIwMEd3NjBEZzV6?=
+ =?utf-8?B?RDVYaml0Zng0bCtaek10ZDJGeWpaQWFETEh4dTU3Y1M5NHFHSWppMDNJc1Ba?=
+ =?utf-8?B?N2ZwYXRrY2t3dVpZM0wyL1ZyUDhUMTQ1MVRRd1Q5NFoyUGhhQU5Qa2ZFbmhQ?=
+ =?utf-8?B?N0VXaDhkakpGU1lzUzdPQ0xWQnNkNEpvaW4ralNhdlZGVmNybVlNTU9BWVZn?=
+ =?utf-8?B?ZEc3U3NlNFVXVDBLbHc2Zmk2SG1wSUdSWjVRN211dEltRVZ6NmtiWWY0bEMy?=
+ =?utf-8?B?a1ZNd2xxZnVHeWoyTWlhTy9Ma3dPOVlYVlY0WWNHYUIyZjh5WEY2NWZwN0hw?=
+ =?utf-8?B?dDRxS0h1Qm1xMjVNS2JrSDFhTUdpV1BJRDdNK2xNNml5eVpJWjd3ZHRURTdV?=
+ =?utf-8?B?NGh4WTV2QkY0ZmYyYkhrcGhWME53dTA4amxPN05wQU9GOHQybmxZMXQrM0Iv?=
+ =?utf-8?B?MFZ2ZWh0SFB4bHBRWFBLVVlQMCtTT1FWLzVBVjQvQnFMbWRjWXo5NS9JNnh3?=
+ =?utf-8?Q?g4cDRBTuBeF4G8O88UAOf5pDg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cabfcbfe-f86f-43e8-6e52-08dd7691ba7f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 11:37:23.0792 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WyDnuBSVs3beNWpOXtn3djvJj1XPxSG5uQ55mE3OR+JOFIKDeM/4tJSHZGaxujer
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,87 +168,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
-
-> Hi,
->
-> lots of good points in the review.
->
-> Am 08.04.25 um 12:44 schrieb Javier Martinez Canillas:
-> [...]
->>> Reviewed-by: Thomas Zimmermann <tzimmrmann@suse.de>
->>> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
->>> ---
->>>   drivers/gpu/drm/tiny/Kconfig      |  11 +
->>>   drivers/gpu/drm/tiny/Makefile     |   1 +
->>>   drivers/gpu/drm/tiny/st7571-i2c.c | 721 ++++++++++++++++++++++++++++++++++++++
->> I personally think that the tiny sub-directory is slowly becoming a
->> dumping ground for small drivers. Instead, maybe we should create a
->> drivers/gpu/drm/sitronix/ sub-dir and put all Sitronix drivers there?
+Am 08.04.25 um 11:39 schrieb Fedor Pchelkin:
+> On Tue, 08. Apr 11:26, Christian König wrote:
+>> Am 08.04.25 um 11:17 schrieb Denis Arefev:
+>>> The user can set any value to the variable ‘bo_number’, via the ioctl
+>>> command DRM_IOCTL_AMDGPU_BO_LIST. This will affect the arithmetic
+>>> expression ‘in->bo_number * in->bo_info_size’, which is prone to
+>>> overflow. Add a valid value check.
+>> As far as I can see that is already checked by kvmalloc_array().
 >>
->> So far we have drivers in tiny for: ST7735R, ST7586 and ST7571 with
->> your driver. And also have a few more Sitronix drivers in the panel
->> sub-directory (although those likely should remain there).
->>
->> I have a ST7565S and plan to write a driver for it. And I know someone
->> who is working on a ST7920 driver. That would be 5 Sitronix drivers and
->> the reason why I think that a dedicated sub-dir would be more organized.
->>
->> Maybe there's even common code among these drivers and could be reused?
->>
->> Just a thought though, it's OK to keep your driver as-is and we could do
->> refactor / move drivers around as follow-up if agreed that is desirable.
+>> So adding this additional check manually is completely superfluous.
+> Note that in->bo_number is of type 'u32' while kvmalloc_array() checks for
+> an overflow in 'size_t', usually 64-bit.
 >
-> That sounds like a good idea. But the other existing drivers are based 
-> on mipi-dbi helpers, while this one isn't. Not sure if that's important 
-> somehow.
+> So it looks possible to pass some large 32-bit number, then multiply it by
+> (comparatively small) in->bo_info_size and still remain in 64-bit bounds.
 >
-
-Yeah, I don't know. In any case, the driver / module name is not an ABI so
-we can always move around the files later if needed.
-
->>
->>>   3 files changed, 733 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
->>> index 94cbdb1337c07f1628a33599a7130369b9d59d98..33a69aea4232c5ca7a04b1fe18bb424e0fded697 100644
->>> --- a/drivers/gpu/drm/tiny/Kconfig
->>> +++ b/drivers/gpu/drm/tiny/Kconfig
->>> @@ -232,6 +232,17 @@ config TINYDRM_ST7586
->>>   
-> [...]
->>> +
->>> +static const uint32_t st7571_primary_plane_formats[] = {
->>> +	DRM_FORMAT_C1,
->>> +	DRM_FORMAT_C2,
->>> +};
->>> +
->> I would add a DRM_FORMAT_XRGB8888 format. This will allow your display to
->> be compatible with any user-space. Your st7571_fb_blit_rect() can then do
->> a pixel format conversion from XRGB8888 to the native pixel format.
+> And later that would likely result in a WARNING in
 >
-> It would be a starting point for XRGB8888 on C1/R1. I always wanted to 
-> reimplement drm_fb_xrgb8888_to_mono() [1] with the generic _xfrm_ 
-> helpers. Once the generic helpers can do such low-bit formats, C2 would 
-> also work easily.
+> void *__kvmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node)
+> {
+> ...
+> 	/* Don't even allow crazy sizes */
+> 	if (unlikely(size > INT_MAX)) {
+> 		WARN_ON_ONCE(!(flags & __GFP_NOWARN));
+> 		return NULL;
+> 	}
 >
-> [1] 
-> https://elixir.bootlin.com/linux/v6.14-rc6/source/drivers/gpu/drm/drm_format_helper.c#L1114
->
+> But the commit description lacks such details, I admit.
 
-Agreed. But even in its current form that helper is what I had in mind and
-what is used by the ssd130x driver too for XRGB8888 -> R1 conversion. There
-is no drm_fb_xrgb8888_to_gray2(), but that could be added as a part of this
-driver series.
+Yeah, so what? I'm perfectly aware that this can result in a warning, but that is just not something worth fixing.
 
-> Best regards
-> Thomas
->
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Christian.
