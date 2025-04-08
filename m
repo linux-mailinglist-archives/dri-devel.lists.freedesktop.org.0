@@ -2,146 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535F1A80775
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 14:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB834A8085E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 14:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9364410E226;
-	Tue,  8 Apr 2025 12:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E3910E041;
+	Tue,  8 Apr 2025 12:44:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="hA88t/vO";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="favHyVHy";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ovuATnNA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from flow-a4-smtp.messagingengine.com
- (flow-a4-smtp.messagingengine.com [103.168.172.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7BA10E226
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 12:37:42 +0000 (UTC)
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal
- [10.202.2.52])
- by mailflow.phl.internal (Postfix) with ESMTP id 17DEF20014C;
- Tue,  8 Apr 2025 08:37:42 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-12.internal (MEProxy); Tue, 08 Apr 2025 08:37:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm1; t=1744115862;
- x=1744123062; bh=zFcPiZ2dymYdvLOyrug0agUR+Yq1LwHn6b82n9khMg4=; b=
- hA88t/vObgZNfV8F5NhyBQDmfCG2RNVd3x2W8Zufg5dKOllZq0HmIBVOcD6R36zJ
- dUCUywkMJxl7olxwesgdwzLHVYZfXbO7TxVrBr34ZEZpUkerU1xvSRbkkDSZQ/9n
- ti95kDMNS1ircDu6txuTKq8Hh8VUCvlxep8/3cOOvCP7Q63L2FogRGZ33xdZokde
- PdfcEjksnqVG17B652nC+IhEmQNrFc3YibLlR/x90pUo9x9m0Ts21QdVCVpX/j7U
- 636ZLGawOhOkDuGc7S8W9Zmc4MYzQXDQHycgj5wwS0FmTIfNN0KNwgm4ro6pUeZX
- LsT22uPqc5Q1CNOHypTk1g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744115862; x=
- 1744123062; bh=zFcPiZ2dymYdvLOyrug0agUR+Yq1LwHn6b82n9khMg4=; b=f
- avHyVHyAljzCU9WCVJ7GlxybwygLxx2202W3vZyzfM1hE0yjRO840WBBo4hP3JK2
- r1jKrH5EIHGvxEKWXY4Ig+qnPSSqpTtVGTfy9AGbDze5O8/y/6+v1I/xl+CLdYrK
- aEQf8yAGMssi1yqPB8HPMx1ia4cNhlshdMv9ijgMlpEo2WgQBksdXe5hArDFuaIw
- esnV/cUFAWWwKm4cSMr+F5MisAl5eaHMhTJGxYfxNiE4JMziwW8LaIobdf5PtJYo
- muj3hPmZ1/VVn9ARm6FTGVJN9+VdUdIcK1pYNOfzSn2jD1pfDE2TgwwauKx7EWmd
- RBPRlx9lcMiaCjPpvyLng==
-X-ME-Sender: <xms:lBj1Z37JAzdSNf8RJrNISVcmekNoGYtUdhdE1QR9UEGc2QW4tGNGOg>
- <xme:lBj1Z84awh_MckpPiLeuycHQNakSdVuimpyB1mLs-zmVBFHbzFvyCubtMH4eHE4JS
- akJYYWs_HT1xQkMCP4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdefuddtucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
- gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
- tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
- gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
- fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
- hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
- hedtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrlhgvgigrnhguvghrrdguvg
- hutghhvghrsegrmhgurdgtohhmpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghn
- ihhgsegrmhgurdgtohhmpdhrtghpthhtoheplhhijhhordhlrgiirghrsegrmhgurdgtoh
- hmpdhrtghpthhtohepmhgrrhhiohdrlhhimhhonhgtihgvlhhlohesrghmugdrtghomhdp
- rhgtphhtthhopegstghmqdhkvghrnhgvlhdqfhgvvggusggrtghkqdhlihhsthessghroh
- gruggtohhmrdgtohhmpdhrtghpthhtohepiigrtghkrdhruhhsihhnsegsrhhorggutgho
- mhdrtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtg
- hpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehgvggvrhhtodhr
- vghnvghsrghssehglhhiuggvrhdrsggv
-X-ME-Proxy: <xmx:lBj1Z-fVAjsZ2IIW4CR__HAOTrryAbYjqVMOrlOZgaW86YnkED3CFw>
- <xmx:lBj1Z4IJOnTETXjr4ynY7WjdTH_esquf0Z5UMtrXw7IIvLP8bg1uYg>
- <xmx:lBj1Z7KcXF2sCvdK7Ff6e9FiI3KbzMJNGznflf86a2Xe4P-8mJ791g>
- <xmx:lBj1ZxxANUYN7ozS0kgUp28zlepO11cm_xgpJdfD8viEjBQpcHAVAQ>
- <xmx:lhj1Z5h2PSWgYdsFLsX0gpRa4lpt3LVHr5UE24EGmNNdcmE4PFSdJj4t>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 5F2962220073; Tue,  8 Apr 2025 08:37:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5D6A10E041
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 12:44:38 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538BFsNh019576
+ for <dri-devel@lists.freedesktop.org>; Tue, 8 Apr 2025 12:44:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ lg3ZT4srw+6aryFi5Qc7G2dueXIKHeooH8YunyQ+fbw=; b=ovuATnNAylzikAyd
+ WtOcoK/ivI0Z1bAvVeZIcWUM0vUOKBVIFq1RIDSG6DOTo6g14E4X/kfM8FHcayzZ
+ 60RyeWAWGrY1LETgrU1OQTE94j923Igv32/NuaYlTPz0Gh3dpN2pxPNWbmRjzjZ4
+ KZADeWIh059zhZsxgvrI0UhKbjoY3wWAIkxwEU2UHENveZagtDZpmYjeoUdXzk6I
+ CHx8mEf2FDsuI0V6lPCnKQCmmBYLzt9VczDOsESP4g7ql52bytZH5mtGUDKOlfD2
+ ACwfVqCLTHX8nmSZOfUrvaG61wc0WvOXe9l4n3vXWZsPZY3ddxrLpuQSCrFWYNNT
+ 4qY+/w==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twg3fr7n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 12:44:37 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7c54a6b0c70so487003985a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 05:44:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744116277; x=1744721077;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lg3ZT4srw+6aryFi5Qc7G2dueXIKHeooH8YunyQ+fbw=;
+ b=Vov/0fFVugbUIOl1y78uJ/TJqRaJUxf0t8fzD4QNi+utYlSs4rHssnPCKH9lAVmUhH
+ 1tFCRnxaHExoW5QcEU153JQZj2TuhampfdgB8+lB+ezBahata0sNfqDT/k2srClTU9pK
+ DehTHXcYiMsi9RB7iXAAlG08kg4vZafGwR4v2fwhdn9yFNtUiasJBklN0dvg2aluEGV+
+ gHrwI6vaJzCEmCg2y3McRj3oSOuBoqOsatx8v3Yv4Zqo44rIh/cIf5rwaW5DGuTETfnu
+ lfduB8cAgJ+FRD/yvpyVOIlMJ+IGxnhly4XpCTYviwkoa2Xv4Oep8oF8sixrcqxoLT3J
+ Ib7g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUC2zjmHBVvToxVYTbr6hUmet3VqDrFwCSLNsBssrk4mJfBDpjZwOsRg/onvYaakqTnp4ZrzQ53ks0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNm1yANQtGnWSoDrF0A1VndY/T2kkIwHUIyrNSxZsC9y1uAw4S
+ E7f4NH0XQSJP6P8dH9fgh8eNIqcSRl1s3z4Xwq2wCd7pIez/2v8oQlrHLSgrYSnxX+Cuf/yLl3D
+ qmv2bC81G2OmNkuL32T2AfGf/SEFmY8EsFY9GLRuzjbX1qPv1KNSrxSDIJL/8WiR0gus=
+X-Gm-Gg: ASbGncsdiDia0uUO3F7g34g+kxQIQ6eC+UP5AdNUaLBe9qyT5tqaRsSS0k9Uaxx1MPR
+ Jqe3ylM9+/cst7rfROOsNUc6D7cdC5TsHY9YXtjmSBZiRZZCO3kQDEQ6Lvpzq3ZVl7/cMtByDCk
+ 9CtI6hHaoPfKdaYyzREPOnFVOtjOLQK9Sdj3VYRl7mPzpTDW6MJDcnXoJFOEojog620EwyX6Z4r
+ pW71m77lOO5TrncTe7IGwDpxLXxRs8sMSUZb9Fhfxi39LmYCpiplEoJUHuPwKFsOQQ+bwk3WSU7
+ 9NaWTeu7DHr+bHzHcOh9DrF+u1NYZ/NE6iJgB0tnTL0Dz535azbWVOJc/c6Hlid0j43xyEd4ivL
+ /X/c=
+X-Received: by 2002:a05:620a:1918:b0:7c5:9c38:ef6b with SMTP id
+ af79cd13be357-7c775abfc97mr2255089185a.45.1744116276813; 
+ Tue, 08 Apr 2025 05:44:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEG22ST879wU1hj8qKN5DvkfkmnnORS8BpEMeXnfFTdBQ8zZsfg2IPMrVXraLLg9Li7ARcMaQ==
+X-Received: by 2002:a05:620a:1918:b0:7c5:9c38:ef6b with SMTP id
+ af79cd13be357-7c775abfc97mr2255084485a.45.1744116276401; 
+ Tue, 08 Apr 2025 05:44:36 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54c1e6370d1sm1512901e87.143.2025.04.08.05.44.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Apr 2025 05:44:35 -0700 (PDT)
+Date: Tue, 8 Apr 2025 15:44:33 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: Alex Bee <knaerzche@gmail.com>, heiko@sntech.de, conor+dt@kernel.org,
+ krzk+dt@kernel.org, robh@kernel.org, hjc@rock-chips.com,
+ mripard@kernel.org, neil.armstrong@linaro.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v3 7/7] drm/rockchip: inno-hdmi: Convert to drm bridge
+Message-ID: <yjxr7dphzm7rbuf7mfpkat4k2vssk2qxio3esvjfhd2ygq6byo@kag57knzrj4l>
+References: <20250402123150.238234-1-andyshrk@163.com>
+ <20250402123150.238234-8-andyshrk@163.com>
+ <680a40a8-07c1-4dde-93b2-337ab15f7afe@gmail.com>
+ <618c65eb.b8a8.1961550f5ae.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
-X-ThreadId: T702257fbe5397c0b
-Date: Tue, 08 Apr 2025 14:37:07 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Bjorn Helgaas" <bhelgaas@google.com>,
- "Jeff Hugo" <jeff.hugo@oss.qualcomm.com>,
- "Carl Vanderlip" <quic_carlv@quicinc.com>,
- "Oded Gabbay" <ogabbay@kernel.org>,
- "Takashi Sakamoto" <o-takashi@sakamocchi.jp>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Alex Deucher" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Dave Airlie" <airlied@redhat.com>,
- "Jocelyn Falempe" <jfalempe@redhat.com>,
- "Patrik Jakobsson" <patrik.r.jakobsson@gmail.com>,
- "Xinliang Liu" <xinliang.liu@linaro.org>,
- "Tian Tao" <tiantao6@hisilicon.com>,
- "Xinwei Kong" <kong.kongxinwei@hisilicon.com>,
- "Sumit Semwal" <sumit.semwal@linaro.org>,
- "Yongqin Liu" <yongqin.liu@linaro.org>, "John Stultz" <jstultz@google.com>,
- "Sui Jingfeng" <suijingfeng@loongson.cn>,
- "Lyude Paul" <lyude@redhat.com>, "Danilo Krummrich" <dakr@kernel.org>,
- "Gerd Hoffmann" <kraxel@redhat.com>,
- "Zack Rusin" <zack.rusin@broadcom.com>,
- "Broadcom internal kernel review list"
- <bcm-kernel-feedback-list@broadcom.com>,
- "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Andrew Lunn" <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Saurav Kashyap" <skashyap@marvell.com>,
- "Javed Hasan" <jhasan@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- "Nilesh Javali" <njavali@marvell.com>,
- "Manish Rangankar" <mrangankar@marvell.com>,
- "Alex Williamson" <alex.williamson@redhat.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Javier Martinez Canillas" <javierm@redhat.com>,
- "Jani Nikula" <jani.nikula@intel.com>,
- "Mario Limonciello" <mario.limonciello@amd.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- "Lijo Lazar" <lijo.lazar@amd.com>,
- "Niklas Schnelle" <schnelle@linux.ibm.com>,
- "Dmitry Baryshkov" <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, amd-gfx@lists.freedesktop.org,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Netdev <netdev@vger.kernel.org>,
- linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org,
- kvm@vger.kernel.org, "Greg Ungerer" <gerg@linux-m68k.org>
-Message-Id: <9abf582c-ea8e-42ca-a6d5-34c1e1932f95@app.fastmail.com>
-In-Reply-To: <CAMuHMdWN=wurw7qz0t2ovMkUNu0BJRAMv_0U63Lqs2MGxkVnHw@mail.gmail.com>
-References: <20250407104025.3421624-1-arnd@kernel.org>
- <CAMuHMdWN=wurw7qz0t2ovMkUNu0BJRAMv_0U63Lqs2MGxkVnHw@mail.gmail.com>
-Subject: Re: [RFC] PCI: add CONFIG_MMU dependency
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <618c65eb.b8a8.1961550f5ae.Coremail.andyshrk@163.com>
+X-Proofpoint-GUID: _s7eqP5ZWGyEtmi7ZSBIqfxSMA65heWV
+X-Proofpoint-ORIG-GUID: _s7eqP5ZWGyEtmi7ZSBIqfxSMA65heWV
+X-Authority-Analysis: v=2.4 cv=I/9lRMgg c=1 sm=1 tr=0 ts=67f51a35 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=Byx-y9mGAAAA:8 a=pGLkceISAAAA:8
+ a=s8YR1HE3AAAA:8 a=RRhK3aCThXU4g2SLoiEA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+ a=jGH_LyMDp9YhSvY-UuyI:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-08_04,2025-04-08_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
+ clxscore=1015 malwarescore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504080090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,39 +126,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 8, 2025, at 12:22, Geert Uytterhoeven wrote:
-> On Mon, 7 Apr 2025 at 12:40, Arnd Bergmann <arnd@kernel.org> wrote:
->
->> --- a/drivers/pci/Kconfig
->> +++ b/drivers/pci/Kconfig
->> @@ -21,6 +21,7 @@ config GENERIC_PCI_IOMAP
->>  menuconfig PCI
->>         bool "PCI support"
->>         depends on HAVE_PCI
->> +       depends on MMU
->>         help
->>           This option enables support for the PCI local bus, including
->>           support for PCI-X and the foundations for PCI Express support.
->
-> While having an MMU is a hardware feature, I consider disabling MMU
-> support software configuration.  So this change prevents people from
-> disabling MMU support on a system that has both a PCI bus and an MMU.
-> But other people may not agree, or care?
+On Tue, Apr 08, 2025 at 08:12:29PM +0800, Andy Yan wrote:
+> 
+> 
+> Hi Alex，
+> 
+> At 2025-04-03 01:24:22, "Alex Bee" <knaerzche@gmail.com> wrote:
+> >
+> >Hi Andy,
+> >
+> >> From: Andy Yan <andy.yan@rock-chips.com>
+> >> 
+> >> Convert it to drm bridge driver, it will be convenient for us to
+> >> migrate the connector part to the display driver later.
+> >> 
+> >> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> >> 
+> >> ---
+> >> 
+> >> Changes in v3:
+> >> - First included in v3
+> >> - Link to V2: https://lore.kernel.org/dri-devel/20250325132944.171111-1-andyshrk@163.com/
+> >> 
+> >>   drivers/gpu/drm/bridge/Kconfig                |   7 +
+> >>   drivers/gpu/drm/bridge/Makefile               |   1 +
+> >>   .../inno_hdmi.c => bridge/inno-hdmi.c}        | 924 ++++++++++--------
+> >>   drivers/gpu/drm/rockchip/Kconfig              |   1 +
+> >>   drivers/gpu/drm/rockchip/Makefile             |   2 +-
+> >>   drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c | 187 ++++
+> >>   drivers/gpu/drm/rockchip/inno_hdmi.h          | 349 -------
+> >>   include/drm/bridge/inno_hdmi.h                |  33 +
+> >>   8 files changed, 741 insertions(+), 763 deletions(-)
+> >>   rename drivers/gpu/drm/{rockchip/inno_hdmi.c => bridge/inno-hdmi.c} (52%)
+> >>   create mode 100644 drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c
+> >>   delete mode 100644 drivers/gpu/drm/rockchip/inno_hdmi.h
+> >>   create mode 100644 include/drm/bridge/inno_hdmi.h
+> >>
+> >
+> >...
+> >
+> >> +#define m_RX_DONE			(1 << 0)
+> >> +
+> >> +#define HDMI_CEC_TX_INT			0xda
+> >> +#define HDMI_CEC_RX_INT			0xdb
+> >> +#define HDMI_CEC_BUSFREETIME_L		0xdc
+> >> +#define HDMI_CEC_BUSFREETIME_H		0xdd
+> >> +#define HDMI_CEC_LOGICADDR		0xde
+> >> +
+> >>   struct inno_hdmi_i2c {
+> >>   	struct i2c_adapter adap;
+> >>   
+> >> @@ -68,41 +395,18 @@ struct inno_hdmi_i2c {
+> >>   
+> >>   struct inno_hdmi {
+> >>   	struct device *dev;
+> >> -
+> >> +	struct drm_bridge bridge;
+> >>   	struct clk *pclk;
+> >>   	struct clk *refclk;
+> >>   	void __iomem *regs;
+> >>   	struct regmap *grf;
+> >>   
+> >> -	struct drm_connector	connector;
+> >> -	struct rockchip_encoder	encoder;
+> >> -
+> >>   	struct inno_hdmi_i2c *i2c;
+> >>   	struct i2c_adapter *ddc;
+> >> -
+> >> -	const struct inno_hdmi_variant *variant;
+> >> +	const struct inno_hdmi_plat_data *plat_data;
+> >> +	unsigned int colorimetry;
+> >
+> >thanks a lot for doing the bridge conversion for this driver.
+> >Please keep the custom connector state which was introduced after Maxim's
+> >review during the last rework of this [0] driver. The colorimetry is not
+> >part of the device, but of the connector and thus should not be part of the
+> >device struct.
+> >It's, however, likely that the common (hdmi-)connector framework will once
+> >hold its own colorimetry property and then the custom connector state in
+> >this driver can go away, but until than we have to keep it here.
+> 
+> After converting to a bridge driver, this driver no longer has a connector. 
+> In this case, how should I create customized connector states?
 
-I created this patch after Greg said that the coldfire-v4 chips
-that have an MMU are not really used without it any more, and
-I had accidentally only build tested a patch without CONFIG_MMU.
+You can subclass drm_bridge_state. Another option is to follow
+rk3066_hdmi.c and to pass mode to inno_hdmi_config_video_csc().
+Finally, you can just extend the drm_connector_hdmi_state.
 
-On ARM, CONFIG_MMU can no longer be disabled on CPUs that have
-one, this was a side-effect of the ARCH_MULTIPLATFORM conversion.
+My preference would lean towards the second option.
 
-I just tried building an SH7751 kernel with MMU disabled but PCI
-enable. This produces build errors in several files, clearly nobody
-has tried this in a long time.
+> 
+> >
+> >Thanks,
+> >Alex
+> >
+> >[0]
+> >https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ceeb0f0104a62c867656c2730a51df47e7350b8f
+> >
+> >
+> >>   };
+> >>   
+> >> -struct inno_hdmi_connector_state {
+> >> -	struct drm_connector_state	base;
+> >> -	unsigned int			colorimetry;
+> >> -};
+> >> -
+> >> -static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
+> >> -{
+> >> -	struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+> >> -
+> >> -	return container_of(rkencoder, struct inno_hdmi, encoder);
+> >> -}
+> >> -
+> >> -static struct inno_hdmi *connector_to_inno_hdmi(struct drm_connector *connector)
+> >...
 
-I'm not entirely sure about xtensa, but it seems that PCI is
-only supported on the "virt" platform, which in turn cannot
-turn off MMU, even if there are other platforms that can build
-with out without MMU enabled.
-
-     Arnd
+-- 
+With best wishes
+Dmitry
