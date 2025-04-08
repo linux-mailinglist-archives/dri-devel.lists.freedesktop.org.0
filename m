@@ -2,57 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F5CA7F666
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 09:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81C6A7F6A9
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 09:43:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49A5610E5F5;
-	Tue,  8 Apr 2025 07:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D0D10E1A4;
+	Tue,  8 Apr 2025 07:43:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OxqjfCoH";
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="XNB0RIlT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E02E10E5F6
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 07:34:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D591AA48EA8;
- Tue,  8 Apr 2025 07:29:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC865C4CEE5;
- Tue,  8 Apr 2025 07:34:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744097681;
- bh=0zYH8GXeZCdhYRoG6dWvpLAyDo/PjwqMRCxfB3+ZTls=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=OxqjfCoHeIzklkN3oG4EVzuqyc9X/pvQAIq/xNsehgw+35KEcE96QHRpS1C7c49JU
- f6vrE3zjpamudNu3rGa1qCx0NEoNO5LhpurfO3AUliIQXj80hRuLM7TVjMu9LlCCeu
- 3fhYvFpCfYiT9pM4hF75gP0EgGi6kUsZzrrUJ/GDJPTbBotd7pGDgaSMyQuIiHKY9l
- ntxDpYXuX5o2swJKR1G5HqhEGX2ogxVkApOwowmdBluI/mqyr1Jhnh0lFIjRO9rAzL
- +obSiOlp383JzdXmjIKID8AKHyXyjadJb5gHxW0uD7jeYo7QPIv7Dd2UudFApJW/SO
- Cj3QaqI/NTLsw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 08 Apr 2025 09:34:13 +0200
-Subject: [PATCH 7/7] drm/tests: probe-helper: Fix drm_display_mode memory leak
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3760910E1A4
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 07:43:01 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-43cf06eabdaso48297065e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 00:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1744098180; x=1744702980;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UnGRyek4b0Q9O6DVrKIv8GSHSuD+kexCPo4NSS6OhDg=;
+ b=XNB0RIlTmNB5UoCg6WW7GEMz9zXXTvpCP5VHhgHZ5mjXXOczhLylULYTzq/jIHtmIB
+ qla0jZIp7yncgPI3DGXDP1k+x97nkd0Apv1OSCJJh+z0UsALBid5gQhpcP67MLMyEdXf
+ JGnXYfauAZBf7qwDAZfQfOGpgYp6fWVUNJlT6zMUHg51lgOxvOnYWGTiSxnFsMo96CHX
+ 22PmV4uTwdFJp+pnhzjAwEpy5Y83vymWlK1nBVSgC36YVIbQZW9vUvtnwgZtam8Zq21i
+ Hy5tryPgVisZhBP6ngnloM1L+2HjbTjYgZGogvf3LBdemFSKKvpdZkfvDllNKqn5YJej
+ ONvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744098180; x=1744702980;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UnGRyek4b0Q9O6DVrKIv8GSHSuD+kexCPo4NSS6OhDg=;
+ b=dpoG+jF4GG+WetTIkeYnMQxiNEployojanwEjhQwDo3d/grzepNJJKRkckqhWjwm9C
+ vXm4lI3irFtyiWMo/K7JvJ/EivppO0cWYWy1ix5liy8Ou8/uG0Bk5c+lX/eL5b6iINbh
+ CSzk7pbln7GawkjQtLgfH7tIQLFDnPDTNeny+QW97qDdRhym/YkARVg/DtP3o5S/FO9h
+ lhSv0qGuerZPYc6qgDw2pJBe41rPSQb6ZDptPhrFdWTc8a3JdT1Qlg0dOx+Lt/D/3YdV
+ jG4H1yD7LWJe0ElnmIXf+ypi5lUT4PXW0aKC1nlQA2vjZ8mFml7KXCzhL4ZzN2r+iwGP
+ 6rKw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/1yBSEWFqLhlqUPDks4k1H0iTnQ6KrIdvhn3hnCliuM6JLgTi1Ysdt3xciwCvtvM+eFZ3w+zzaLc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxnkx1lWs5myiyTTlr8rtcdoL/TwjOa6Bx25Ag+4RIOfPoqC426
+ Gc+aS+g7omcmIZQmtAxxrNhYvK3pA6qXk98ihoOW7nrtk2LTMLGMxPW0rf9QyaA=
+X-Gm-Gg: ASbGnctiBIRYD/aG9ux7E6WLVZmhyeJk+u/4gs3/ZhenTeFTgXICDTo/ZhpOxHOX1VC
+ XC7udugTckiIKxxnvOrkxLUBx5DtQ6MACH+sLbozyeN4NxAFJZWqhI76377QmRPLAeZArhMc8kl
+ 28n3rOxA5tlJmt9PLn97Qf86fTo+rOJdn1C6O4UpdILO3NdTmZ2WlwlasG1Jy990pZ7FB4zCwus
+ fydYvzqnU4ly4Yq3eIEuSpnxrrhA7/UZvfHxz28M1PEsJUql9Pq6PKldE9leY5A1a+I7PocwH/b
+ kkYEv8PGXgtuQTrIoJLEFVp/QEHiagcWXVTxog==
+X-Google-Smtp-Source: AGHT+IGL45iV9q8qlh/Y51nlH28fz/uo5n75LAnwAcUwjWWcmy/4Xz7sdy2C72SYXaCiAiCukmgEsw==
+X-Received: by 2002:a05:6000:2285:b0:391:3049:d58d with SMTP id
+ ffacd0b85a97d-39cadc85ab6mr13296226f8f.0.1744098179869; 
+ Tue, 08 Apr 2025 00:42:59 -0700 (PDT)
+Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:2adf:eaae:f6ea:1a73])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43ec3174cf0sm157870225e9.0.2025.04.08.00.42.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Apr 2025 00:42:58 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 08 Apr 2025 09:42:56 +0200
+Subject: [PATCH] fbdev: via: use new GPIO line value setter callbacks
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250408-drm-kunit-drm-display-mode-memleak-v1-7-996305a2e75a@kernel.org>
-References: <20250408-drm-kunit-drm-display-mode-memleak-v1-0-996305a2e75a@kernel.org>
-In-Reply-To: <20250408-drm-kunit-drm-display-mode-memleak-v1-0-996305a2e75a@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: Philipp Stanner <phasta@mailbox.org>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2493; i=mripard@kernel.org;
- h=from:subject:message-id; bh=0zYH8GXeZCdhYRoG6dWvpLAyDo/PjwqMRCxfB3+ZTls=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOlfLlat09LI9P9u3f9b1z6mwMYrZV/Uf/n778/LvMj7e
- CRvqffGjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAExk2glGhrt6G5Zk17iFJfRc
- PjA1tVtnXa/vL8Wjp5zXfv3W+/cuaxUjw17n1h1qgnN1Nv88aHFYY7tOz2PW6scb3zjHBa2Km+h
- dyQgA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Message-Id: <20250408-gpiochip-set-rv-video-v1-1-200ea4d24a29@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAH/T9GcC/x3MQQqAIBBA0avErBvQrIyuEi2sppqNioYE4t2Tl
+ m/xf4ZIgSnC3GQIlDiysxWybWC/jb0I+aiGTnSDUEri5dntN3uM9GBImPggh+N2ymHqjdFaQG1
+ 9oJPf/7uspXwfzH8VZwAAAA==
+To: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>, 
+ Helge Deller <deller@gmx.de>, Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2107;
+ i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
+ bh=yngfshF14pwSvzrYSNhyzUkMWDnjaEIdy0M4XDuzgqM=;
+ b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBn9NOAFPzoYiBfJTd1dvJSY7THpbhM5Nui3ZcaB
+ ywwwKbK9XSJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZ/TTgAAKCRARpy6gFHHX
+ crk+D/9Xizg8WvZa9J61rbqYpcpvD1ujH1jEBpC2/Og+c4KsE/FYxmYpTFDxBBH9IkCNU0wZ+MW
+ sXsQwo8xypAlB0Qkmn8E4YG+7VqjDpbbq00hsJNax69W+Ces/apbqznairccWCqnWraBxWjxlMA
+ qmLoYtdidVEQBbYSFHmDQWFjfBYnBbxhbSSrvwpbGsJLsmTo3mtZnSTRlkOzwRxvoRcx6gAlo/l
+ 05ShLFNEo4ofMRbiQBiB6Q+5PNS4fCG5VqIxmFykmT9fuhZ+gGNfIdE41tX2Cu/7rdoTutaFa1c
+ GlsasQIGu33rxNBj3nQRS4hmPW/uUvSe8p2/xGqZ6heD4oFMxImiaMckAdvl8ogEqULDzknduvk
+ L6eeHIWdzXOqYm6uBpMmO6w9XJhcCGJf3D5O5LSSZDBWBPDR58x0xDYecnSrhoMLxcV5y8QJphB
+ S/1FBPnALDBJSWI2zsF3KfzpkJFOEXE6iA6ph7u+bz+Kulgqd8oZta3LL/VVJN3kOkbQg5LhI1r
+ Fs5mXSUi9X2tNacDZ/4CXZS6xYO48VRwKEQyKQntkXb9yYOi6XsQH1szvlipwTizNW88c6w5vJ5
+ 2qD7Pp1PSJC+CHjId8JeHhL9CGNIa4HMH+CJZEsDJsbzUX7WkEL92Z3gs3HolgyKBdH6NDFgp9G
+ BtCYYpvPO2gxKfw==
+X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,66 +110,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_analog_tv_mode() and its variants return a drm_display_mode that
-needs to be destroyed later one. The
-drm_test_connector_helper_tv_get_modes_check() test never does however,
-which leads to a memory leak.
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Let's make sure it's freed.
+struct gpio_chip now has callbacks for setting line values that return
+an integer, allowing to indicate failures. Convert the driver to using
+them.
 
-Closes: https://lore.kernel.org/dri-devel/a7655158a6367ac46194d57f4b7433ef0772a73e.camel@mailbox.org/
-Fixes: 1e4a91db109f ("drm/probe-helper: Provide a TV get_modes helper")
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- drivers/gpu/drm/tests/drm_probe_helper_test.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
+values") added new line setter callbacks to struct gpio_chip. They allow
+to indicate failures to callers. We're in the process of converting all
+GPIO controllers to using them before removing the old ones.
+---
+ drivers/video/fbdev/via/via-gpio.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_probe_helper_test.c b/drivers/gpu/drm/tests/drm_probe_helper_test.c
-index bc09ff38aca18eb06dc476310e1dbf372bc5545c..db0e4f5df275e8473ec916ed7a7cf16db96b81c5 100644
---- a/drivers/gpu/drm/tests/drm_probe_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_probe_helper_test.c
-@@ -96,11 +96,11 @@ drm_test_connector_helper_tv_get_modes_check(struct kunit *test)
- 	const struct drm_connector_helper_tv_get_modes_test *params = test->param_value;
- 	struct drm_probe_helper_test_priv *priv = test->priv;
- 	struct drm_connector *connector = &priv->connector;
- 	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
- 	struct drm_display_mode *mode;
--	const struct drm_display_mode *expected;
-+	struct drm_display_mode *expected;
- 	size_t len;
- 	int ret;
- 
- 	if (params->cmdline) {
- 		cmdline->tv_mode_specified = true;
-@@ -132,10 +132,13 @@ drm_test_connector_helper_tv_get_modes_check(struct kunit *test)
- 		expected = params->expected_modes[0](priv->drm);
- 		KUNIT_ASSERT_NOT_NULL(test, expected);
- 
- 		KUNIT_EXPECT_TRUE(test, drm_mode_equal(mode, expected));
- 		KUNIT_EXPECT_TRUE(test, mode->type & DRM_MODE_TYPE_PREFERRED);
+diff --git a/drivers/video/fbdev/via/via-gpio.c b/drivers/video/fbdev/via/via-gpio.c
+index 9577c2cd52c7..27226a8f3f42 100644
+--- a/drivers/video/fbdev/via/via-gpio.c
++++ b/drivers/video/fbdev/via/via-gpio.c
+@@ -81,8 +81,7 @@ struct viafb_gpio_cfg {
+ /*
+  * GPIO access functions
+  */
+-static void via_gpio_set(struct gpio_chip *chip, unsigned int nr,
+-			 int value)
++static int via_gpio_set(struct gpio_chip *chip, unsigned int nr, int value)
+ {
+ 	struct viafb_gpio_cfg *cfg = gpiochip_get_data(chip);
+ 	u8 reg;
+@@ -99,13 +98,14 @@ static void via_gpio_set(struct gpio_chip *chip, unsigned int nr,
+ 		reg &= ~(0x10 << gpio->vg_mask_shift);
+ 	via_write_reg(VIASR, gpio->vg_port_index, reg);
+ 	spin_unlock_irqrestore(&cfg->vdev->reg_lock, flags);
 +
-+		ret = drm_kunit_add_mode_destroy_action(test, expected);
-+		KUNIT_ASSERT_EQ(test, ret, 0);
- 	}
- 
- 	if (params->num_expected_modes >= 2) {
- 		mode = list_next_entry(mode, head);
- 		KUNIT_ASSERT_NOT_NULL(test, mode);
-@@ -143,10 +146,13 @@ drm_test_connector_helper_tv_get_modes_check(struct kunit *test)
- 		expected = params->expected_modes[1](priv->drm);
- 		KUNIT_ASSERT_NOT_NULL(test, expected);
- 
- 		KUNIT_EXPECT_TRUE(test, drm_mode_equal(mode, expected));
- 		KUNIT_EXPECT_FALSE(test, mode->type & DRM_MODE_TYPE_PREFERRED);
-+
-+		ret = drm_kunit_add_mode_destroy_action(test, expected);
-+		KUNIT_ASSERT_EQ(test, ret, 0);
- 	}
- 
- 	mutex_unlock(&priv->drm->mode_config.mutex);
++	return 0;
  }
  
+ static int via_gpio_dir_out(struct gpio_chip *chip, unsigned int nr,
+ 			    int value)
+ {
+-	via_gpio_set(chip, nr, value);
+-	return 0;
++	return via_gpio_set(chip, nr, value);
+ }
+ 
+ /*
+@@ -146,7 +146,7 @@ static struct viafb_gpio_cfg viafb_gpio_config = {
+ 		.label = "VIAFB onboard GPIO",
+ 		.owner = THIS_MODULE,
+ 		.direction_output = via_gpio_dir_out,
+-		.set = via_gpio_set,
++		.set_rv = via_gpio_set,
+ 		.direction_input = via_gpio_dir_input,
+ 		.get = via_gpio_get,
+ 		.base = -1,
 
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250331-gpiochip-set-rv-video-6bf1584aa770
+
+Best regards,
 -- 
-2.49.0
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
