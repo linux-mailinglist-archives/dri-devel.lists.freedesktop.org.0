@@ -2,52 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2A4A81337
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 19:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDB0A8136E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 19:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 070B010E23D;
-	Tue,  8 Apr 2025 17:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE9D10E27E;
+	Tue,  8 Apr 2025 17:22:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C4ngqpBZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HP81XvJf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEFC710E23D
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 17:04:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6E80168432;
- Tue,  8 Apr 2025 17:04:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD2EFC4CEE5;
- Tue,  8 Apr 2025 17:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744131853;
- bh=BPgoYDjsWQUapZ9bLnrqCt/iW/iMPEl2Daf0Khl0opc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C4ngqpBZUIXFjUVYpWOSJtH9zAx2//vBKgf0Up51Lrai8hrsnmmiJPsfkhewm1Ivy
- DFpeldR4TbHJJ6CCk87Xz2tPjBGFxXraZ3BuT8MiGV5GLnAS2/DNQ0egCCpPiFG5Nl
- Q8RRfZOU6O5glDGp6IHpHjpEFQqnxvAP/M7pOSIAYA1ucfvBtFeN2UdXlQ8caZOOX9
- w6l9NhVspMJaVpOaiAWKVMI4mK0niLMHyMKDlcyg69gmSZ2RAq2YMt2ShsQNUyIPtN
- jyOOy/ZVrsZZZr0QfgxQETUSFiYH9nm6RzEAXcUY4xMNij06Aucve2mhMdzw0xAXEZ
- b4kyk2ELf9amA==
-Date: Tue, 8 Apr 2025 19:04:05 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Asahi Lina <lina@asahilina.net>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, lyude@redhat.com,
- acurrid@nvidia.com, daniel.almeida@collabora.com, j@jannau.net,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 0/8] DRM Rust abstractions
-Message-ID: <Z_VXBZcBsk2k6eVN@cassiopeiae>
-References: <20250325235522.3992-1-dakr@kernel.org>
- <32e7da7e-de32-4bc6-a751-f604da36a63f@asahilina.net>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD61410E218;
+ Tue,  8 Apr 2025 17:22:36 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-3995ff6b066so3240282f8f.3; 
+ Tue, 08 Apr 2025 10:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744132955; x=1744737755; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=k4URTuU4OqPDMxhBgu52MpzTH+LX835ANJbVjlWk8JY=;
+ b=HP81XvJfVFiMRTG5Duh6KscIHDeW61zmxQhjplMKeg84Prsv/KguimRrKHtvR95ixt
+ BQoJDb4ZvXzyatECl9UQ+JjySdf6Axb9ywGK4Gg9f0NpMDO3PzqFfd9n/EUbsfHh9ViM
+ 5dzX71jwX5YSEVqFPzb5AiBccVnjDNSSddV/0MXzeoHBTr2u6rySFgS69YP8dGTN/Yut
+ 7M12qwLJ/YPoU2+votpZ1wVCisST+hA+W5dGDHMZU8LKI4bokxxIi2e6brq8M+DWYZ34
+ a7lgRxVqORM+pKy+nwuiIw7rGy6vhg9Xy6jY1o4F0A6FSpNKw9Jfmb+24xW8xsruV/Qr
+ bUnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744132955; x=1744737755;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=k4URTuU4OqPDMxhBgu52MpzTH+LX835ANJbVjlWk8JY=;
+ b=xEnaOj9kJG0266C3EymmvLi01Xlkwa4tZxTfKe3RO1TDsyDB9NHXVSdT7D6KbDEptx
+ gN6150W50Hh+SZAKMEi4VlZtBFF4FR81gBqBNwEhWVmTsOi3Wi4PNm8LVrh4SDTb3bpd
+ myajWWtLYBEAXqj5pcJz8IxOXOQbI/cyVcoOW6rIcM70vv4/+ldvxYnjOx9FgIwvL8vB
+ B8Am4MUtnNd2qDvl6CtxLcPm9+VsgaCCrseXyYKUBt66MYyzpyygEeRqpoRtPIOGCvej
+ 3EiLcUcE0BSNWRtH3HBFUuAWdHs4Y03a/5bYRpqqsdN8k4rvES3wopOxQnXqz/0HYprP
+ Iqdw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWxpR4YI/kq7DQyA1QFm8GX40Rd4AnZqT7lktFUkII6Abe8kjnDR7XuoHAjU8yH1V1SqULbcvkl6lou@lists.freedesktop.org,
+ AJvYcCXnqF23uFZriFEmHQpE0rB5UKejABfRva+tLdbb3fcoucjZbPGllDtc7LxZB5Xd188vIS5SBF1s2so=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwoxEyc7KZU/Pk44C7MtluO17i1UYCPspGFayxCr26dak77eCCA
+ lESdBQosjkkOo7xiUnDH1n2FDIZCdcKtoPQZ9wds1ECKzDJv73vk
+X-Gm-Gg: ASbGncvXjke7DNL5tl3esc8FkBc7pQLtozUcxH/MSeznctCep2WT4GwZ7ijs/LksSQb
+ E9fSkKUKB5qwoe7cnj5p6dvNlhE2kitlIjf1XqkOF3C+831nNsqZSuOgAqi08ZkHgtGkPZiVrjP
+ pg7nv+9X4KIfpApI+75+650fR716hI53NwDBcT09mwezeKlspR5qob8tIMQGLox//shIk3HT7Dr
+ Vj6VSmf3TKDx2XJDn4apJCDYE4PrDXLCQW7Sb1d+4/8h7kuvD2ciSNXdXqWGAkUKcuB0Yie170n
+ 7J/XOSlWekqd/OysOei2X3HEm/SID+b1TZYcWCarive2E/PPUgfKGzvY
+X-Google-Smtp-Source: AGHT+IGF2ELWn/bt4SThTAhIsS85ycBVt4QmEGy6AROd0iJukYlBEQMvgJpx007p2eIQD1aBh/DVGw==
+X-Received: by 2002:a5d:64c4:0:b0:39c:1257:c7a3 with SMTP id
+ ffacd0b85a97d-39d87ce3284mr16492f8f.59.1744132955207; 
+ Tue, 08 Apr 2025 10:22:35 -0700 (PDT)
+Received: from qasdev.Home ([2a02:c7c:6696:8300:5b45:5642:beb0:688f])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39c30096896sm15729953f8f.19.2025.04.08.10.22.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Apr 2025 10:22:34 -0700 (PDT)
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com, lumag@kernel.org,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, quic_jesszhan@quicinc.com
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 RESEND] drm/msm/dpu: reorder pointer operations after
+ sanity checks to avoid NULL deref
+Date: Tue,  8 Apr 2025 18:22:23 +0100
+Message-Id: <20250408172223.10827-1-qasdev00@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <32e7da7e-de32-4bc6-a751-f604da36a63f@asahilina.net>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,134 +90,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 09, 2025 at 01:29:35AM +0900, Asahi Lina wrote:
-> On 3/26/25 8:54 AM, Danilo Krummrich wrote:
-> > This is the series for the initial DRM Rust abstractions, including DRM device /
-> > driver, IOCTL, File and GEM object abstractions.
-> > 
-> > This series has been posted previously, however this is a long time ago and I
-> > reworked a lot of things quite heavily. Hence, I decided to post this as a whole
-> > new series.
-> > 
-> > Besides the rework, I want to credit Lina for her initial work, which this
-> > series is based on.
-> > 
-> > In a private mail Lina told me to "feel free to take anything that's useful
-> > from my past patch submissions or the downstream branches and use it/submit it
-> > in any way".
-> > 
-> > @Lina: If you, however, feel uncomfortable with any of the Co-developed-by:
-> > tags, due to the major changes, please let me know.
-> 
-> I'm wondering why you took over primary authorship for some patches.
+_dpu_encoder_trigger_start dereferences "struct dpu_encoder_phys *phys"
+before the sanity checks which can lead to a NULL pointer dereference if
+phys is NULL.
+ 
+Fix this by reordering the dereference after the sanity checks.
+ 
+Fixes: 8144d17a81d9 ("drm/msm/dpu: Skip trigger flush and start for CWB")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+---
+v2:
+- Moved Signed-off tag below Fixes tag
+- Moved dpu_enc declaration to the top and initialisation below sanity checks
 
-Because the patches did either not exist previously or have been changed
-extensively.
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-For instance, the patch you are referring to below (commit 242ae06b5ec9 ("rust:
-drm: Add Device and Driver abstractions")) has been split up in three different
-patches, where one of them (patch #2) in this series has indeed mostly the same
-code, the other two (#3 and #4) were modified.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 0eed93a4d056..0bd1f2bfaaff 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1667,7 +1667,7 @@ static void _dpu_encoder_trigger_flush(struct drm_encoder *drm_enc,
+  */
+ static void _dpu_encoder_trigger_start(struct dpu_encoder_phys *phys)
+ {
+-	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(phys->parent);
++	struct dpu_encoder_virt *dpu_enc;
+ 
+ 	if (!phys) {
+ 		DPU_ERROR("invalid argument(s)\n");
+@@ -1678,6 +1678,8 @@ static void _dpu_encoder_trigger_start(struct dpu_encoder_phys *phys)
+ 		DPU_ERROR("invalid pingpong hw\n");
+ 		return;
+ 	}
++
++	dpu_enc = to_dpu_encoder_virt(phys->parent);
+ 
+ 	if (phys->parent->encoder_type == DRM_MODE_ENCODER_VIRTUAL &&
+ 	    dpu_enc->cwb_mask) {
+-- 
+2.39.5
 
-> For
-> example, patch #3 has you listed as primary author, and yet when I diff:
-> 
-> git diff asahi-6.11-1 asahi-6.12.12-1 rust/kernel/drm/drv.rs | grep '^+'
-> | wc -l
-> 41
-> 
-> (Those two trees have my original commit and your commits, as rebased
-> over by Janne).
-
-Not really, this series is much different than what is in asahi-6.12.12-1.
-
-> Of those 41 added lines, most are comments, and reworking Registration a
-> bit.
-> 
-> I thought general kernel etiquette is that you keep the original author
-> unless you are literally rewriting the majority of the file from scratch...
-
-As mentioned above I re-organized patches and changed quite a lot of code. If,
-with this precondition, I would have kept you as "primary" author, you could
-have been complaining about me misrepresenting you / your work instead.
-
-Now, you could argue that I should have been asking first, right?
-
-But in a private mail you told me (and others that have been on CC as well) the
-following:
-
-"Please feel free to take anything that's useful from my past patch
-submissions or the downstream branches and use it/submit it in any way."
-
-You said "use it/submit it in any way".
-
-If you changed your mind on this, that is fine with me.
-
-Please let me know where you'd like to have primary authorship changed and how
-you'd like it to be.
-
-> I'm really tired of kernel politics and I don't want to spend more brain
-> cycles looking at all the other patches or having to argue (in fact I
-> usually don't look at patch emails at all recently), but I would
-> appreciate if you keep my authorship for files that I did largely author
-> myself. After everything I've been going through the past weeks (some of
-> the people on Cc know what that's about...) this feels like yet another
-> slap in the face.
-
-As mentioned, please diff the correct thing and then just tell me where you'd
-like to have primary authorship changed.
-
-> > 
-> > Those changes include:
-> >   - switch to the subclassing pattern for DRM device
-> >   - rework of the GEM object abstraction; dropping the custom reference types in
-> >     favor of AlwaysRefCounted
-> >   - rework of the File abstractions
-> >   - rework of the driver registration
-> >   - lots of minor changes (e.g. to better align with existing abstractions)
-> > 
-> > This patch series is also available in [1]; an example usage from nova-drm can
-> > be found in [2] and [3].
-> > 
-> > [1] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/topic/rust-drm
-> > [2] https://lore.kernel.org/nouveau/20250325232222.5326-1-dakr@kernel.org/
-> > [3] https://gitlab.freedesktop.org/drm/nova/-/tree/staging/nova-drm
-> > 
-> > Asahi Lina (1):
-> >   rust: drm: ioctl: Add DRM ioctl abstraction
-> > 
-> > Danilo Krummrich (7):
-> >   drm: drv: implement __drm_dev_alloc()
-> >   rust: drm: add driver abstractions
-> >   rust: drm: add device abstraction
-> >   rust: drm: add DRM driver registration
-> >   rust: drm: file: Add File abstraction
-> >   rust: drm: gem: Add GEM object abstraction
-> >   MAINTAINERS: add DRM Rust source files to DRM DRIVERS
-> > 
-> >  MAINTAINERS                     |   1 +
-> >  drivers/gpu/drm/drm_drv.c       |  58 ++++--
-> >  include/drm/drm_drv.h           |   5 +
-> >  rust/bindings/bindings_helper.h |   6 +
-> >  rust/helpers/drm.c              |  19 ++
-> >  rust/helpers/helpers.c          |   1 +
-> >  rust/kernel/drm/device.rs       | 195 +++++++++++++++++++
-> >  rust/kernel/drm/driver.rs       | 194 +++++++++++++++++++
-> >  rust/kernel/drm/file.rs         |  99 ++++++++++
-> >  rust/kernel/drm/gem/mod.rs      | 321 ++++++++++++++++++++++++++++++++
-> >  rust/kernel/drm/ioctl.rs        | 159 ++++++++++++++++
-> >  rust/kernel/drm/mod.rs          |  19 ++
-> >  rust/kernel/lib.rs              |   2 +
-> >  rust/uapi/uapi_helper.h         |   1 +
-> >  14 files changed, 1064 insertions(+), 16 deletions(-)
-> >  create mode 100644 rust/helpers/drm.c
-> >  create mode 100644 rust/kernel/drm/device.rs
-> >  create mode 100644 rust/kernel/drm/driver.rs
-> >  create mode 100644 rust/kernel/drm/file.rs
-> >  create mode 100644 rust/kernel/drm/gem/mod.rs
-> >  create mode 100644 rust/kernel/drm/ioctl.rs
-> >  create mode 100644 rust/kernel/drm/mod.rs
-> > 
-> 
-> ~~ Lina
-> 
