@@ -2,53 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FCCA7FD1F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 12:57:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278C2A7FCB8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 12:47:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9506B10E62C;
-	Tue,  8 Apr 2025 10:57:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 421DD10E637;
+	Tue,  8 Apr 2025 10:47:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g2xlgDkG";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="KoIqO+Ic";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E005810E62C;
- Tue,  8 Apr 2025 10:57:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9F6E76115B;
- Tue,  8 Apr 2025 10:56:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0DFDC4CEE5;
- Tue,  8 Apr 2025 10:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1744109813;
- bh=SulBvQ4epalG51tE7QUhvSfdtr/57Adw814kw0BYwis=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=g2xlgDkGfpWvOHx+3Z4Pkv5iKZ+QPbg+gU4PCCy8N9ckfwoco6RyjGJ2oENYeUGKl
- DrqQoIlrSmiJ6sT0t1Zw8xzn1dZHbZsU0+IHt3LLkqM3s5R5PuT3ZrCEtNs37rAnkd
- fhwrYnv6+k/HNwLrB1TTqR9eNcAebHzd6a5H7IHA=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Lee Jones <lee.jones@linaro.org>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 062/227] drm/amd/display/dc/core/dc_resource: Staticify
- local functions
-Date: Tue,  8 Apr 2025 12:47:20 +0200
-Message-ID: <20250408104822.267936264@linuxfoundation.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250408104820.353768086@linuxfoundation.org>
-References: <20250408104820.353768086@linuxfoundation.org>
-User-Agent: quilt/0.68
-X-stable: review
-X-Patchwork-Hint: ignore
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 261BD10E637
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 10:47:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1744109271;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4xw+wBnQVfWgv0zC6Ricz7sQ1fp9U8GQwNm1YcDj298=;
+ b=KoIqO+Iczffu9X7OOTBEJkkuHbTbSkfEfuaABkrgYm3rPrZPKwkfbnc6xoYXObGnWNQ8d+
+ LGtw6lGqMo1NePWdHm2sTjZ6c3+ShP4lVT6/8d/iWuT8P37i23xR5elHrEdjGQCv2lvpg0
+ q1TP/qCTUBgYv4f0RbxqzBuP4Ba8RqU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-115-xmoTAx6EMJSQHQ0eXEhL-g-1; Tue, 08 Apr 2025 06:47:50 -0400
+X-MC-Unique: xmoTAx6EMJSQHQ0eXEhL-g-1
+X-Mimecast-MFC-AGG-ID: xmoTAx6EMJSQHQ0eXEhL-g_1744109269
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-43d51bd9b41so47123595e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 03:47:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744109269; x=1744714069;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4xw+wBnQVfWgv0zC6Ricz7sQ1fp9U8GQwNm1YcDj298=;
+ b=pXS4aFQmp6gtzLTXtvqnu+3bkBtBmnlhPrCaugyheoKS/gQMReyCqrLR5ParARFdzd
+ a1Mw/MmfUG1r1Mdt4b/msbQZ2cToUNuU/sMEervaHYL/UktusPJwXVSMO/CSET1Maed0
+ HDGQSQ7MoIgdWxms8yEqmkKhDmaYCKuyKFuS7L6xOgxuj0Qo1SUrl5dpVP7GEbezQsYM
+ eGktCCr871MdSPA5N7jpQm+Q8kbJa0yDKVuYUg57HzDIacyJEFVw9fJam5iUkh6VndC6
+ oISYeFqzW5TcwYYxhmJL8UJBzdkReTAU5LWJAHUkAYEblJdwsOmqRn4Lffelcj7mN9Q2
+ R2FQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXS4zOJNQ6FGfzGz+VxAc3G4fxhx51xVBKKJTlpcNl5XuOGNX+Po8TvFLi0E5sFGoi6fXi0p8UEYzw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YydU0j/XJTfG6cbCdlXoE6LpzAfk1ZQsjJMLs2AQvJSZC460CDQ
+ ppXbySclfmCIdeampscnLZ2VA5RY1KYYd5l6QBQQ04GjdBRkAZsYS6jqXVOuwcsvtfrPlHu3S/k
+ z9+zYxiZaryl5VKWu4K7UOmK97ZvdL66wGL/ULd0TKF7mEvVyGbmEPn5IJN+X4E0m2g==
+X-Gm-Gg: ASbGncvgmn9Pq07xOTcZcxyH8PO5o5ynOJ3z8TCxuK2iTfsfYe5zvvBl1Cuxbs1Ll+U
+ bxPoUDAaYDifL1c+F/PJZpXSy4KKgnSQh2wMD4lfU0/zpYax3A8XuUdsw6t5p6D1ck2imqCK79V
+ 0qKXUk9RNqRmilldUBaRIRnEn7yC8Eq10KzkAEe6IDz0KBhjFKQMTYJQt/3xC3Wk77dzdG5I0FV
+ jUkIIfCoSAVAIB0ulGVZSUh1x7R+ms015wPoODC96sVxQv2UopwKonCOt98/H2z0MkJ5oRBILZr
+ fJPu064TF/lg9f/eW6393UdA91yqTD/6FE5atxRFRBhbM4Iu8oGaoVMNQh/z3PLSj26JZthzjw=
+ =
+X-Received: by 2002:adf:b611:0:b0:39c:1257:ccb0 with SMTP id
+ ffacd0b85a97d-39d14765fd3mr9548180f8f.59.1744109269041; 
+ Tue, 08 Apr 2025 03:47:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEh1uMDeBq+pU4IaUBuRFJpmb8rjcktVpXoisHx2sKdsI8ltO9xVwk8LYU0/ltb7JZRqus7Rw==
+X-Received: by 2002:adf:b611:0:b0:39c:1257:ccb0 with SMTP id
+ ffacd0b85a97d-39d14765fd3mr9548170f8f.59.1744109268665; 
+ Tue, 08 Apr 2025 03:47:48 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39c301a79aasm14836365f8f.35.2025.04.08.03.47.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Apr 2025 03:47:48 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, ardb@kernel.org,
+ linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/2] efi: Export symbol efi_mem_desc_lookup
+In-Reply-To: <20250408091837.407401-2-tzimmermann@suse.de>
+References: <20250408091837.407401-1-tzimmermann@suse.de>
+ <20250408091837.407401-2-tzimmermann@suse.de>
+Date: Tue, 08 Apr 2025 12:47:47 +0200
+Message-ID: <87a58r9bfw.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: dCpciSbAOTarhjMnuuIocVlzrDQoKUOxNrhF5217Els_1744109269
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,61 +98,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-------------------
+> Building efidrm as module requires efi_mem_desc_lookup(). Export
+> the symbol.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-From: Lee Jones <lee.jones@linaro.org>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-[ Upstream commit c88855f3a50903721c4e1dda16cb42b5f5432b5c ]
-
-Fixes the following W=1 kernel build warning(s):
-
- drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1120:5: warning: no previous prototype for ‘shift_border_left_to_dst’ [-Wmissing-prototypes]
- drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1131:6: warning: no previous prototype for ‘restore_border_left_from_dst’ [-Wmissing-prototypes]
-
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Stable-dep-of: 374c9faac5a7 ("drm/amd/display: Fix null check for pipe_ctx->plane_state in resource_build_scaling_params")
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index b619ebd452ad4..5dc6840cea248 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -1108,7 +1108,7 @@ static void calculate_inits_and_adj_vp(struct pipe_ctx *pipe_ctx)
-  * We also need to make sure pipe_ctx->plane_res.scl_data.h_active uses the
-  * original h_border_left value in its calculation.
-  */
--int shift_border_left_to_dst(struct pipe_ctx *pipe_ctx)
-+static int shift_border_left_to_dst(struct pipe_ctx *pipe_ctx)
- {
- 	int store_h_border_left = pipe_ctx->stream->timing.h_border_left;
- 
-@@ -1119,8 +1119,8 @@ int shift_border_left_to_dst(struct pipe_ctx *pipe_ctx)
- 	return store_h_border_left;
- }
- 
--void restore_border_left_from_dst(struct pipe_ctx *pipe_ctx,
--                                  int store_h_border_left)
-+static void restore_border_left_from_dst(struct pipe_ctx *pipe_ctx,
-+					 int store_h_border_left)
- {
- 	pipe_ctx->stream->dst.x -= store_h_border_left;
- 	pipe_ctx->stream->timing.h_border_left = store_h_border_left;
 -- 
-2.39.5
+Best regards,
 
-
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
