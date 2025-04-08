@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA02FA8093D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 14:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30D1A80946
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 14:52:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4601910E688;
-	Tue,  8 Apr 2025 12:52:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526DE10E68E;
+	Tue,  8 Apr 2025 12:52:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NOf/OpSu";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="W3tCMRND";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5393410E688
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 12:52:24 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538Axo5Y029735
- for <dri-devel@lists.freedesktop.org>; Tue, 8 Apr 2025 12:52:23 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68E1310E68E
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 12:52:50 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538AwYPP027695
+ for <dri-devel@lists.freedesktop.org>; Tue, 8 Apr 2025 12:52:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=/RhAbopXZzYSZ2snzri292Eq
- ZjBPlNjasAOXmgSUoLA=; b=NOf/OpSuJoghY6yFXkAGgD5610T6SpL5s8ltbk41
- OuSmvFXSw3uTTMf09VegztcuVUoftQXVbJi1Ck1vLytFw+htGZBd7kfAKf06PmU3
- ERV+pYu1K86IFUMeQf0mfXA9kCmQxoZTHvKYBIXPPVJarV961Tm1Kk1N62PZTDiF
- O0XiiFf75vbyzt6qPrlSorn61yuwTzAyZLY6YtPl0bFJ5mQLTYQNQ9Zp8Lt+M0SC
- PwYA2G6yN8sIbnSXyX3kuhAJf6waltYpUa9bSCVDxqER/HreAF3Tu4sWaKeCXx8c
- kNe59U4RYQtxxlLowGXbzyvQnxrY3+v4cSk9yChpcHUmZQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twcrft68-1
+ :references:subject:to; s=qcppdkim1; bh=ozOy0GqJhvM4p+i6g86ZdCT/
+ y47R+QwpvYzEE25KFo8=; b=W3tCMRNDVV6kOJXIZ0EmD/SnguEJDNfoPUwX7V5D
+ iAcIbJxvaoeB7jKfrCEujpOb67naWQd4Pd4yqIU1JIWpzX3c0UcuwejM3E2vz9ss
+ 9FE9s96SBrJR/fKTkKD1ZIbh0tQSiZereJiyK5C8eTIz7ENY1r7lwrb2M1LrbjYF
+ OxhaZmAO2R9j+pXtroVZs806qYxz8HUmMylDJ2p69UFshJ46HJcuuXbD4tYYbbw/
+ wjoWN/KM+ACcE36RTgsw8Ofv2UI3yZ44VxjR4YSVZvMH4FFAJBIzDQ4vxSJzmjMs
+ wb4CNpA1nTeHh5c1VRHt1fPF6dtKYJuuuz3Hj6G2+9sSJA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twcyyted-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 12:52:23 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c5cd0f8961so1168005485a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 05:52:23 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 12:52:49 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7c5f7210995so1008079285a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 05:52:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744116742; x=1744721542;
+ d=1e100.net; s=20230601; t=1744116768; x=1744721568;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/RhAbopXZzYSZ2snzri292EqZjBPlNjasAOXmgSUoLA=;
- b=i1FUDxJs/pwMAxgV0WrZE4v8qvHoExB7IAew5AbvII/n8WBeam6vPie9XL5CqnKIeU
- IT3wPc/Rqsk6fp+fNFbY4vEmm+iSKynL1SGT7kdVsdf+3zgjey0FBqmXF7HcztLuY8GJ
- EbZ3XKSEknN2G/NGu7rGtg7vuoUvo0kq/N0HhuVzsXDd4/LUOYLbm1bYTqvOht1dEuet
- DJBr/xOyx0MxWSWoDuTqLgJd+6PNpRktx1UxyIVrbnuT2U2EGGKkYFJzqU9KLrJewELV
- 4XBfT39sVmXh19qVVxbdEjilwL07gOo9FbeXlwZvV40azWbidYRZ+3Lf6dGYgrTD4Ar4
- 73Aw==
+ bh=ozOy0GqJhvM4p+i6g86ZdCT/y47R+QwpvYzEE25KFo8=;
+ b=iE8ATuwYIMiG4Px1Ie/0wzC+p9E9el+BAUm1irefYVueq66yi2tNJe02HY6mk0WekN
+ WuH2pglO6Lw7qxYQdaaSomLusxc2ykavqfGuGrSuqRFHgySouJYY+pnOygS2MS9slC8V
+ IoNmdgxRJ/KbFyZINfXU1sCIKVhMzX7KM0aM1+Pf3Xc75jpcDjKLkZXMiPKqam2RxDK3
+ M+EPehS1MBqFDmSKpqG/RUu5y6umHZ5K2fXqvc26K86/rVZxn2gYlGV3k8sKrFHFBNOS
+ snxum7oMNM2ErS40daSC91r9PJt2KzAcbMCbozsI0FmxNbhnGrALP7QJ1XIs8ZWr1473
+ gaLA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfZ8Yx7KOyGVWq0AYtpVbiFXA9Gt+grtyTy0PpRNa7K5R4Cn8m0bpZ7HWwwpGnZUgSIJn2/ftLfJA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9RERQ8C9LZvjoE39cyh3jkRdnfAjE98E9glJ746oRX0TKc7UR
- wWUtjv6A/C9hOxx8NxWaA9yXshT+EGnmCuyPtXRGUKySid51Y+GKanJvqwUOJ6wnXH32SVDvuqW
- P63lFIrN2c7005PunA9C7ekOi79tyUz9cwn6izp0N0bDeN0D5dTNVR7DiIapz2WLaINE=
-X-Gm-Gg: ASbGnctsx6JpdNupq9ZIEGWZh89rbXSo6QSmPwf81m+NrjgGLiCyReZ8fSLK5qQwaRC
- wCEFin7/P0us7TgnhLoI4J1IJ2nWxNqo57pg4PXMt8OXPzPlLwldAGRKiWJ5wv8Qe04IkJRR5RH
- 1WVTVVHT2TeWqQra0D9YmMpBHcWRfeq7nKP5bYlmYHzMxD9ZMg9kAuXqxaC2cYhprCr3PfQ9+EI
- Cm1330rVLu2k+NrXR4vFftzjUnKo/UEAV4+4ZkNNkuCN4PXohzmi2vtOrPrSRfy495ojxAApy4G
- 4g1MGC5AhUQLdq5DWV0MAQLOaM5e8GZWn1oYOMqeqp/jQcAHxmR9VDVK6LMBfP3UIForNBl9zif
- UfOE=
-X-Received: by 2002:a05:620a:424c:b0:7c5:4eee:5405 with SMTP id
- af79cd13be357-7c775ade724mr2198473185a.35.1744116742503; 
- Tue, 08 Apr 2025 05:52:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFFDiuOVK4fqofPRbu3JaWKpIlUn1TV35mTKoHmAkptZzlJT6SxBzt4YQZhIm9U/ibG6EVK9g==
-X-Received: by 2002:a05:620a:424c:b0:7c5:4eee:5405 with SMTP id
- af79cd13be357-7c775ade724mr2198469585a.35.1744116742092; 
- Tue, 08 Apr 2025 05:52:22 -0700 (PDT)
+ AJvYcCWCYn/tx7HTA3M162SC0nLnQOqMd8juoIxN5fgP5j84l36yfVGEDHVSCPJLpp+G7zttKe+OXKQ9x7Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzatJOgMtEHwuBewGezRERl/IddupYoggTRZEGUb6dTHYUAhe3L
+ v7qF7QYepEgCE16QIKeLGel1XV2YKEIp9RNSFUGvzcUUZsnqZb/1tcvBahfygpe3cLGRy71ITGG
+ qHEtFoCnUsBxsah+tl7/1mnxjJD/EU95kGD4qzAkFjoPaTCkfMka26Vv7IwpNJux9sko=
+X-Gm-Gg: ASbGncsB4XRqq0x26pNssb4ho/IINObIPnnxi0k1OjIMvb4clRnVUiRhQupKq+5sZ7L
+ E0ZYsuYKJo1W4rTQk2kW6lG3mBp66JmgfDIWtTK8n3NILGk+Z4PfdrPrbdaSLjmG1WDmqJNMGFA
+ N/7n5Eh0R61WigfRz0xtNYUtYT2pIxifLR4h+AJ0j5qGJk9PRBOChTYZfvjMkpXnVeRU76GGI0o
+ cKqDPaKP1INHiX8lzbdyPrWcsjaptHSpqb9+roN2Ej7CCpF0DoCdUAXYnDxHnTsFqU8wjmlR5Qj
+ 9aEC6S0n86r4qF9HjdZwGanuMiZ/qKxtT/+XXkzpNgLXvqiU6oIz38vOoPzBHSLg0aZlGJ5XnZ0
+ SZiM=
+X-Received: by 2002:a05:620a:1a97:b0:7c2:3f1f:1a15 with SMTP id
+ af79cd13be357-7c79406989dmr487480185a.8.1744116768695; 
+ Tue, 08 Apr 2025 05:52:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IENrprMV38pKL2vCzgWJqCOhSuJOXB3SPgKkRxCoZMwFOXx95HGF4YDMgZqebwP9lm9d8nn9A==
+X-Received: by 2002:a05:620a:1a97:b0:7c2:3f1f:1a15 with SMTP id
+ af79cd13be357-7c79406989dmr487477685a.8.1744116768396; 
+ Tue, 08 Apr 2025 05:52:48 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30f031ed8absm20036791fa.111.2025.04.08.05.52.20
+ 2adb3069b0e04-54c1e635c46sm1531376e87.129.2025.04.08.05.52.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Apr 2025 05:52:21 -0700 (PDT)
-Date: Tue, 8 Apr 2025 15:52:19 +0300
+ Tue, 08 Apr 2025 05:52:46 -0700 (PDT)
+Date: Tue, 8 Apr 2025 15:52:44 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -87,29 +87,29 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  "Pu, Hui" <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] drm/panel: simple: Tianma TM070JDHG34-00: add
- delays
-Message-ID: <563qsg52t5rio45xyofhihdxhsnu3j5togxoq65n6v65yevpcy@rv2eabnsuete>
+Subject: Re: [PATCH v2 3/3] drm/panel: simple: add Tianma P0700WXF1MBAA panel
+Message-ID: <owlfv4nuxiwxjjoooyx5haoh7bxuovyctjvi4esa5j7el7756d@xxfl45lpv6o3>
 References: <20250407-tianma-p0700wxf1mbaa-v2-0-ede8c5a3f538@bootlin.com>
- <20250407-tianma-p0700wxf1mbaa-v2-2-ede8c5a3f538@bootlin.com>
+ <20250407-tianma-p0700wxf1mbaa-v2-3-ede8c5a3f538@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250407-tianma-p0700wxf1mbaa-v2-2-ede8c5a3f538@bootlin.com>
-X-Proofpoint-ORIG-GUID: yPU0bdSf9w1R1sPZS_cnKZCp10LvoEb9
-X-Authority-Analysis: v=2.4 cv=QuVe3Uyd c=1 sm=1 tr=0 ts=67f51c07 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=P-IC7800AAAA:8 a=pk7s4CxdNanXLCiXgvgA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-GUID: yPU0bdSf9w1R1sPZS_cnKZCp10LvoEb9
+In-Reply-To: <20250407-tianma-p0700wxf1mbaa-v2-3-ede8c5a3f538@bootlin.com>
+X-Proofpoint-ORIG-GUID: 7tlOYPqcPuGoQK_ocuPpNjKPFIr77pJz
+X-Authority-Analysis: v=2.4 cv=Q4vS452a c=1 sm=1 tr=0 ts=67f51c21 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=P-IC7800AAAA:8 a=EUspDBNiAAAA:8 a=4pWTrk0WRE-EHe8MsE4A:9
+ a=CjuIK1q_8ugA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-GUID: 7tlOYPqcPuGoQK_ocuPpNjKPFIr77pJz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-08_04,2025-04-08_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- spamscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0 priorityscore=1501
- clxscore=1015 phishscore=0 impostorscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=924 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2504080090
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,41 +127,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 07, 2025 at 06:34:00PM +0200, Luca Ceresoli wrote:
-> Add power on/off delays for the Tianma TM070JDHG34-00.
+On Mon, Apr 07, 2025 at 06:34:01PM +0200, Luca Ceresoli wrote:
+> Add the Tianma P0700WXF1MBAA 7" 1280x800 LVDS RGB TFT LCD panel.
+> 
+> Reuse the timings of the TM070JDHG34-00 as they are identical, even though
+> they are described differently by the datasheet as noted in the
+> comment. Power up/down timing are slightly different, so add a new struct
+> panel_desc for that.
 > 
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > ---
->  drivers/gpu/drm/panel/panel-simple.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-
-Fixes: bf6daaa281f7 ("drm/panel: simple: Add Tianma TM070JDHG34-00 panel support")
-
+>  drivers/gpu/drm/panel/panel-simple.c | 33 +++++++++++++++++++++++++++++----
+>  1 file changed, 29 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index df718c4a86cb7dc0cd126e807d33306e5a21d8a0..3496ed3e62056938ccc0ed2389ea46eed8d17ea2 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -4452,6 +4452,12 @@ static const struct panel_desc tianma_tm070jdhg34_00 = {
->  		.width = 150, /* 149.76 */
->  		.height = 94, /* 93.60 */
->  	},
-> +	.delay = {
-> +		.prepare = 18,		/* Tr + Tp1 */
 
-I think this should be 15, Tr is handled by the regulator, so no need to
-handled it in the panel driver.
-
-> +		.enable = 150,		/* Tp2 */
-> +		.disable = 150,		/* Tp4 */
-> +		.unprepare = 120,	/* Tp3 */
-> +	},
->  	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
-> 
-> -- 
-> 2.49.0
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > 
 
 -- 
