@@ -2,76 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2AFA80CD9
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 15:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 190A6A80CED
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 15:53:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8709310E6B1;
-	Tue,  8 Apr 2025 13:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBA410E238;
+	Tue,  8 Apr 2025 13:53:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nndeeJUK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QMrPSF+u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E60510E6B1
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 13:51:34 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECA9210E238
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 13:53:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744120294; x=1775656294;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=FRyVqyIGDDWPX66ccDPKXCI5hV4OAn9aT1p3wZZXQEM=;
- b=nndeeJUKT2XaEmxQ12CCJC/g4edewUKAUBUi0wCi7vUk07X1fAa0pjmB
- kCBfCrb8Fn7+vbi4wO3trkr1xqV78ljudL/PQJFi+iMIsPOUsXlAFA5OF
- xuFuwibxtj9oP/4J+3eji8IiMGEe4O14EpLmx+QJ3HozN5lSdi93iW9rH
- SVu+Xg/sXZK8dXDE6fAp1nP1omzkBl3s01bygBARKJeeafNgzwQ/dhvPE
- c0NMICfORogXhkUkL8wBmL1fb1yd2Sv2R4lRX/GPExZB5Xh1MKK22AsSh
- mjwYbc7cU2drS3+mPStT9feu2IjgEXeOZK2jcG+yXwBBWRtGvuFNOskuY A==;
-X-CSE-ConnectionGUID: 7yRiH+C2T8CVYzOF7RAeyw==
-X-CSE-MsgGUID: CcSi4A8tSCmQhxjzj2ZPZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49398264"
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="49398264"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2025 06:51:34 -0700
-X-CSE-ConnectionGUID: LUP5wNbDRZ6oDLkXV+3D9Q==
-X-CSE-MsgGUID: LJrp2DPkTDa9WtrX1v+ONQ==
+ t=1744120395; x=1775656395;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=YloKW4Y24uRtH0SSzG3gDMmvDKQlBJfUTCktaaI7hXY=;
+ b=QMrPSF+u6CrpBY70atnh464iEVGB4eArnlJ42OnlEow6TZbNPrOg1NXd
+ JDGwFe18/1bFoiv2YohqDBBP7TgybESZQHRtjggvvXgJCumCHVTOvoXjZ
+ TcSzmLwarvfd5cDfYMPU/gJs/a2CGaFO49Yx0CU+Sg6ANgMhzIxDtd+gm
+ +VK/ntSEEKIkLlyB77nQz+83osbHS2ZDRHUx0GWJCh2cQYlS08rmQ7try
+ UIpkTwPG8cAbG7tusBVgejJW1nT0RaqWZhydkzIP7g+mK8zi9YqTf5HgO
+ CWqhgvOJ1wmknUWWCq52qASyawwrSeM0QyZRkNKJ483RRucVWMlr5p04/ A==;
+X-CSE-ConnectionGUID: o6lM2sipTzK8fLPywdZHpg==
+X-CSE-MsgGUID: O1EWqpv5Sn2HHwvhaH5Jyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45269448"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="45269448"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 06:53:14 -0700
+X-CSE-ConnectionGUID: v64n5md9Sz68UlWN4QaD4g==
+X-CSE-MsgGUID: +3XY0fOxRJOeTfTWaFK2gQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="159268858"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.137])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2025 06:51:28 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>, Maxime
- Ripard <mripard@kernel.org>
-Cc: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>, Anusha Srivatsa
- <asrivats@redhat.com>, "Deak, Imre" <imre.deak@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>, Joel Selvaraj
- <jo@jsfamily.in>, Douglas Anderson <dianders@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 04/10] panel/auo-a030jtn01: Use refcounted allocation in
- place of devm_kzalloc()
-In-Reply-To: <SJ1PR11MB61291B6DC29337864C59210FB9B52@SJ1PR11MB6129.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
- <20250401-b4-drm-panel-mass-driver-convert-v1-4-cdd7615e1f93@redhat.com>
- <Z_P0A9lxWD0aAdjp@ideak-desk.fi.intel.com>
- <85a58rsgjj.wl-ashutosh.dixit@intel.com>
- <87bjt7eca8.wl-ashutosh.dixit@intel.com>
- <87a58re8hj.wl-ashutosh.dixit@intel.com>
- <854iyzs3na.wl-ashutosh.dixit@intel.com>
- <SJ1PR11MB6129F0A86E4A543021A636E6B9B52@SJ1PR11MB6129.namprd11.prod.outlook.com>
- <20250408-industrious-impetuous-wombat-f6d7dc@houat>
- <SJ1PR11MB61291B6DC29337864C59210FB9B52@SJ1PR11MB6129.namprd11.prod.outlook.com>
-Date: Tue, 08 Apr 2025 16:51:25 +0300
-Message-ID: <87o6x6yd5u.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="128008080"
+Received: from mfalkows-mobl.ger.corp.intel.com (HELO [10.245.121.109])
+ ([10.245.121.109])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 06:53:13 -0700
+Message-ID: <1de68a42-52a2-431e-8a5c-5bff746964b7@linux.intel.com>
+Date: Tue, 8 Apr 2025 15:53:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Add cmdq_id to job related logs
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jacek.lawrynowicz@linux.intel.com,
+ lizhi.hou@amd.com, Karol Wachowski <karol.wachowski@intel.com>
+References: <20250401155939.4049467-1-maciej.falkowski@linux.intel.com>
+ <7508a003-7a2e-4525-8466-099953e31497@oss.qualcomm.com>
+Content-Language: en-US
+From: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>
+In-Reply-To: <7508a003-7a2e-4525-8466-099953e31497@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,49 +72,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 08 Apr 2025, "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com> wrote:
->> > We will need more changes than fixing the variable names.
->> >
->> > I get this error
->> >
->> > ERROR: modpost: "__devm_drm_panel_alloc"
->> [drivers/gpu/drm/panel/panel-auo-a030jtn01.ko] undefined!
->> > make[2]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
->> > make[1]: ***
->> > [/home/chaitanya/exodus/repos/drm-tip-sandbox/Makefile:1956:
->> modpost]
->> > Error 2
->> > make: *** [Makefile:248: __sub-make] Error 2
->> >
->> > after making the following change.
->> 
->> I couldn't reproduce this one on current drm-misc-next with arm64 and
->> x86 allmodconfig. Could you share your configuration?
->> 
+On 4/4/2025 5:18 PM, Jeff Hugo wrote:
+
+> On 4/1/2025 9:59 AM, Maciej Falkowski wrote:
+>> From: Karol Wachowski <karol.wachowski@intel.com>
+>>
+>> Add tracking of command queue ID in JOB debug message to improve
+>> debugging capabilities.
+>>
+>> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+>> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 >
-> Here is the config that our CI uses
+> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 >
-> https://gitlab.freedesktop.org/drm/xe/ci/-/raw/main/kernel/kconfig
+> When reviewing this patch, I noticed the kernel doc for struct 
+> ivpu_job does not document cmdq_id.  I think that would cause an error 
+> when generating the documentation.  Please address that.
 
-There's
+Yes, cmdq_id was added recently without according doc line and I will 
+fix that accordingly.
 
-CONFIG_DRM_PANEL=y
-# CONFIG_OF is not set
+Best regards,
+Maciej
 
-but __devm_drm_panel_alloc is inside #ifdef CONFIG_OF. I don't know that
-it should be.
-
-There are some stubs in drm_panel.h for !CONFIG_OF but not this one.
-
-Finally, DRM_PANEL_AUO_A030JTN01 does not depend on OF.
-
-
-That's the issue, but I don't know what the correct fix would be.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel
