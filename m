@@ -2,126 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF580A80DD2
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 16:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E20A80E33
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 16:35:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8F710E6C9;
-	Tue,  8 Apr 2025 14:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 585F010E6C7;
+	Tue,  8 Apr 2025 14:35:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="n25rDri1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="euX8v3Il";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD3810E6C9
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 14:26:33 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538AcPqn014098
- for <dri-devel@lists.freedesktop.org>; Tue, 8 Apr 2025 14:26:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=o7D2vba2qxhE/7GMEyr0f0Bv
- HKyDq1U5eu/ARQN9ZTg=; b=n25rDri1TWv46Bg1Cp7AjUKt6I+YtZTCNm2L0LpW
- z6MPXdCWz/S508/Cm0CfQ+VxWeRvyd2Vb5wuQwEuJPSuQjtOnFMa0fGZskTlVuTM
- xb6fihigjLAN6+DV9/cICW8Hpx2RYHxa5ABZpp6VIwh0LN7SvD+ACTArw5hTEdbt
- DBynayUyx9rJCQmrihffi8pjwQmgqlQUU9+0tASAYaCvXyQEcNuEz2vpscN9cKMB
- yFaeaE9uBR3DFh0945FrwEj5qmux09ySzCsxsHGgKE1pWxXEjCqafCkrgwsohoK9
- WfgNP1uo2vVqm2nBrjbJ843nn3l0nvpY5cWHe9riX2wJNQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twpm80gq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 14:26:33 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c5f876bfe0so941520785a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 07:26:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744122392; x=1744727192;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o7D2vba2qxhE/7GMEyr0f0BvHKyDq1U5eu/ARQN9ZTg=;
- b=SzH1qkm/HNxi1ZzZZWyMCmW3Z++WIR8+hKxnc8u9L9dc5z15GHt7xXCr1gloxrBZoV
- qjlGtJsD2pdCGnCnRfzMcQJWhsTdXlFpTS6wRwzgggiyAf3O9UCfzfbfr5bvBg/++cDR
- vdTgMxWpX6nKLGTxu2nuOi53lr9H3H/zP1Fr0CE9JLXHLLI/SNepbtGhR5r/+2ERj7ON
- AlwQc2o5VFEQEBOrc8n0Tq2TL2LQVGQYUFLwl7F5cbul0GHouUw4FHq5z9lAtVZ1rZJq
- 1wQCYYAunwJPSm/9CFYi/j6rddK7gutQgLT8AFycGwwdOj+6A1oBj7k8m7tCm6F4Xbee
- mccA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVHFHrgx/ref42opaO2GIf74snGm8z9l6AAw8sjIoE/dLgJYuhkBBwzURIVvRPPVdzBdvo3eelq5G0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOnY4MhGQIXyVsi9tyNM00b4U7xO4+eFDkjemDMe4ymbCBL3tl
- 3ZARXSvWtMFnsXvtLTB8nBXXqM2TQamiF2dJThzpEXH8E1Sjs7GdrzEFgykGM33HXq6XB731EpA
- lkb8PyYfttlORko7I/V2k8YsetLkafP38YJHMnAwUJJXFwr8BDp50AnKslgb+LMHWeKk=
-X-Gm-Gg: ASbGncu1wUMP0sSCU1k/2A84OMH0mQvO1mDejLjfV/P2EPyMTsMAE4VKb8RFxCrxXIU
- gQV63iTPlr/+jXbjBR83TdGo0brfj91dhhTzOjEhOuKhhqWeZ064hYKhmnjszD2+8OOcCP0rAKd
- YUcnmv2aVLUoDvnOd2OLQ5CxrNB3Pel0AyOYHzmy/4uk0MVJrI9uSUZh090k1noqp+MjSR6N5bv
- Tf49s2EMmuj1AyrA6BXAzXo4fAsH9pp0OaR9yHQJW5R57qMQLlKJrF8R8jruRk+AX8dO6h5Pu/t
- ZaWsDiXDAsoHq+m/nu9y4qGjCMMpoSKkJPMq3YeAxhSiWmXIjHMhw91sTHL7qoYh0PJwjmU2sL1
- KFQg=
-X-Received: by 2002:a05:620a:4409:b0:7c5:5584:dc1b with SMTP id
- af79cd13be357-7c77ddde0f5mr2556510885a.54.1744122391456; 
- Tue, 08 Apr 2025 07:26:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE1CXPNzIxksI1Sc/Nw+rGc934zFFHpftogdgR9xLiJV8g256P7E0nAw6VVDl0PG2vC6pWH7g==
-X-Received: by 2002:a05:620a:4409:b0:7c5:5584:dc1b with SMTP id
- af79cd13be357-7c77ddde0f5mr2556501885a.54.1744122390721; 
- Tue, 08 Apr 2025 07:26:30 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54c1e65d526sm1528721e87.177.2025.04.08.07.26.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Apr 2025 07:26:28 -0700 (PDT)
-Date: Tue, 8 Apr 2025 17:26:27 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
- Anusha Srivatsa <asrivats@redhat.com>, "Deak, Imre" <imre.deak@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Linus Walleij <linus.walleij@linaro.org>, Joel Selvaraj <jo@jsfamily.in>,
- Douglas Anderson <dianders@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 04/10] panel/auo-a030jtn01: Use refcounted allocation in
- place of devm_kzalloc()
-Message-ID: <4ixxpk4shsva6ryut4vdvbsafuefpwhiydzb7f5gky2sbl7mkv@4nrigdhvz3z2>
-References: <20250401-b4-drm-panel-mass-driver-convert-v1-4-cdd7615e1f93@redhat.com>
- <Z_P0A9lxWD0aAdjp@ideak-desk.fi.intel.com>
- <85a58rsgjj.wl-ashutosh.dixit@intel.com>
- <87bjt7eca8.wl-ashutosh.dixit@intel.com>
- <87a58re8hj.wl-ashutosh.dixit@intel.com>
- <854iyzs3na.wl-ashutosh.dixit@intel.com>
- <SJ1PR11MB6129F0A86E4A543021A636E6B9B52@SJ1PR11MB6129.namprd11.prod.outlook.com>
- <20250408-industrious-impetuous-wombat-f6d7dc@houat>
- <SJ1PR11MB61291B6DC29337864C59210FB9B52@SJ1PR11MB6129.namprd11.prod.outlook.com>
- <87o6x6yd5u.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4A4610E6C7
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 14:35:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744122911; x=1775658911;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=pbEY1yRbhnYL/cAchSTSG1XQFbVFh/EJvvN2OVIy2QU=;
+ b=euX8v3IleYqLeSN/Vx/+WvQgZ7d/U54JRmH4T6uCtf90s2NmpKhizxK0
+ wFa6qRcGL2rrg041ZmuSDVLk5yArpoo37RC/on1cnhd6TyGXBgcVwVQhf
+ /L7+7ZSsZUX5fua05wU2uhcond8zxnVq1NY1MMO1GhNIw11wjp793bgm4
+ 0HeqW/tv0WMHbRi2S8HAs06XL79zNTdt/G5tAX1L/9iiFV7OKTcSo2FqC
+ Whe4Ak+D9XYlon4FKdFVEaGHPt5/40NziaRLNi3FlV4BfHjeP2uJL8hiq
+ QrE57t9ff0kxOWLFjf2AQQ5RRtpOgBqbAYRLBCeXcH5ARb8cIZQTxvnwm g==;
+X-CSE-ConnectionGUID: iIhFW5ktT/GoFX5mHCDPRg==
+X-CSE-MsgGUID: SXVO6m7yTA2JwGru4poW4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49218388"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="49218388"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 07:35:10 -0700
+X-CSE-ConnectionGUID: cSm9Q0H6RbmzAIP/YMkY2A==
+X-CSE-MsgGUID: mUMCiJiTQ2eYiJFeD0anbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="133439414"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 08 Apr 2025 07:35:09 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Tue, 8 Apr 2025 07:35:09 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Tue, 8 Apr 2025 07:35:09 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 8 Apr 2025 07:35:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xa9vHSf4IxvFKKxmtxpbadkzAudds4iNpUlBxC780kx2MpGFuxH7pqTtks6QUts2LByAdjPcTMDtSCrWt6wT2+k5Dh3mh5K9cb/n92+Z3l0/PkGyKFsrJZaPGOpUk+DsW5kL5v0JKZPVC7MiLYYv5ky1vYm0jfnTLNhtfbZi8em4I5R1L8Bdvw+k6Gnie/GrprJ1aYRttNSteDSUpk3GCtqCwL0Tf0jrKcFRrtbfiiScu21fPyGNjHjgcBkf4L6erU6X9v2rkgIGyBZVTmJXOAijT/hYQAYBno728rVkkdIggDqj7uZ3LGMWaOo8KHK5GHNaEiJR0bT8s6tihXMTAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OfkQyCOS1hGyJc0e7sr3JPKM0NAp7RHx1qIrwtxh0fE=;
+ b=uXiY0d4qIWq7wfRXAtoJZlzIiWhVfUcYJse0gf/5DezU1BsqOwyuUh+XjOTIz1nCcUIRDd7f2d5V4oAkKgXP4Kv1ZAs2B6+mUi5o989z0P3Gfz97H0KldeE+qoUWbdXi8YZWk9ROQedwp6iaF29bXeginjm+PpBOpOxxGTZqs5KWweKZsO+agbO+2VEudO6bhxazwyHc9tc0/nEk/kBVolf+aDETMi3yxNPTlBSjcfeAy+uS0uAZ0m+IMb6FBlQKsts4VXzKiXragI+bU9T3B1zgTUbVAzv6g3cEyfhHlH/2P3kwBJitOtIFhEc/KktRJ557IZq1aLlqpjgDCqJfJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by IA3PR11MB9040.namprd11.prod.outlook.com (2603:10b6:208:576::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.20; Tue, 8 Apr
+ 2025 14:34:26 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%3]) with mapi id 15.20.8606.033; Tue, 8 Apr 2025
+ 14:34:25 +0000
+Date: Tue, 8 Apr 2025 09:34:22 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+CC: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>, Anusha Srivatsa
+ <asrivats@redhat.com>
+Subject: Re: [PATCH 1/3] drm/panel: auo-a030jtn01: Fix compilation build
+Message-ID: <nyrjnvctqnk6f3x5q7rlmy5nb7iopoti56pgh43zqknici5ms4@cibpldh7epra>
+References: <20250408122008.1676235-1-mripard@kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <87o6x6yd5u.fsf@intel.com>
-X-Proofpoint-GUID: mpF4H8zfCG64ZCqTKs_ZTBl3W5FsY5G9
-X-Proofpoint-ORIG-GUID: mpF4H8zfCG64ZCqTKs_ZTBl3W5FsY5G9
-X-Authority-Analysis: v=2.4 cv=MpRS63ae c=1 sm=1 tr=0 ts=67f53219 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=e5mUnYsNAAAA:8 a=QyXUC8HyAAAA:8 a=NtLb_cBUabAe4dSeclwA:9
- a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-08_06,2025-04-08_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=999 clxscore=1015 priorityscore=1501 impostorscore=0
- spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
- phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504080101
+In-Reply-To: <20250408122008.1676235-1-mripard@kernel.org>
+X-ClientProxiedBy: MW4PR03CA0198.namprd03.prod.outlook.com
+ (2603:10b6:303:b8::23) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|IA3PR11MB9040:EE_
+X-MS-Office365-Filtering-Correlation-Id: 230faca7-ee0a-4524-6d1f-08dd76aa75f8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?TlzHxeoIkQWWj4xN5P2KoEgzuf1v7odPFjGPDm5lUIrjviSHOBL2LxjWk9wF?=
+ =?us-ascii?Q?RvgRKGUn/TNlGZ6TLhzGHJ0AjO2cKxD4Oth80ODj65MtH8+MFXHnK+7/C+Ch?=
+ =?us-ascii?Q?9QVP+saGFnEqJQFFRnTURKzf+yvKloYMAAGxzNHyw83zKOb0llUCaV4uaXEK?=
+ =?us-ascii?Q?1BJ9MNxNz22M7yhTKy3ikGv7X2cQtEU5C+1eDI0FeG+AjjpbGVEN6nPJBa0b?=
+ =?us-ascii?Q?v0WZmRR7o3wE3+Kpuaatr9yLrnI6f1OM9Ji2ifccctjZ1gOaGpd8MYfKQ0GD?=
+ =?us-ascii?Q?WOBj6l90BUNlfo25AdOiD7jIb0Pu8DoAr0TFJV+k9ahVmmiXhRVzGyvpO3S4?=
+ =?us-ascii?Q?C+IxgoD/e2vH9SXwk34iYOqEPTTDluzhb/HcLGqs90gUJ7Mcx6fE1B8Jq1xL?=
+ =?us-ascii?Q?T3zPvEboxyi4hhbFXH6vLPZggr9noBBR6OMiag6rXeoCkzB3TIIIN64sWQc9?=
+ =?us-ascii?Q?+ICYQZrGkLSWJ7dizVuwY2PSw3dE5fZE4IQ2BngyBeHiiVetn8AC2+726QOD?=
+ =?us-ascii?Q?PLEkZk29Z9+VelEvPAscGnl8/0UuZHF9KxEh9e1ahdlcN6q9J6xAz/sRN3oO?=
+ =?us-ascii?Q?dJskT8PZA9lArog3mshVETWGRgd05J7oOIiA9j7Rd1lCW2OCGu5Qlt+sKNFS?=
+ =?us-ascii?Q?a8G+IExR7mnlSfg0E4f65hdAtZqM9trcVMrW2J4QqNLaU3KEn/Ep7DtICcI2?=
+ =?us-ascii?Q?6Thj44gZrC5qB6iMVdjWAYibdq5MUCxVcHY2flP1pZdvLwYxg3fWOtbez+g4?=
+ =?us-ascii?Q?xr1rPNsCT+2UyZUM6qZQkZLSMQBol7qvZMEisPrWkt7JwX7fdKGjmrIuEYWn?=
+ =?us-ascii?Q?9jFzZaYa/H9Ddo8ZzdAcJVbLhyb8wGq7r1dtuv8CRSCB1ll/9SI7hbr1lmH2?=
+ =?us-ascii?Q?b1u0Jv+8wGf2N+5ENom4ktzjcXrbOtStEfne9Qqnzf+0FZ+/EusnLYJwhIRb?=
+ =?us-ascii?Q?5Rt2MRlQNtQvBgcdqP/wifAawZG2HKIVJGk6kSBNhyk5PNvXA6r/byno6GvG?=
+ =?us-ascii?Q?BoC7yo49TMkiesEv0mNNdnxcnAHg/ygapMDiBFDwx3T352gyXuIoV2GZCvEr?=
+ =?us-ascii?Q?ujfQlEt8FCat0XMNoOPqA9/Bvp3pXDkbA2PmvYV54Oske01fnVgve2r9brnH?=
+ =?us-ascii?Q?II7t4cOtSTCL5DQsflDb/KXOjnqBeLl9PoIx6ULT+HQlP5283SbWRBMzH/LP?=
+ =?us-ascii?Q?6hgdvCrJDCWAQZJSHzV/zx5E1QpNhtw8uPEsQyg4F70BuwyCZeR33r03POln?=
+ =?us-ascii?Q?CrBBeCUl4ID9pEeIldRhex9R00Uuimz5VyX/nlPczNe8Di24T8bu4kI06xAy?=
+ =?us-ascii?Q?w/9lEcYTU6HSOPwxuE6/e0L0CAIf3FfQP682SK9HFOjEjG0NTlgbvYaKs32a?=
+ =?us-ascii?Q?mjGIt7HusnG8aiQSZTHHVbYxIvAH?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?34nyTxxGud4ZrK/B0o+07nL+udegO1Du+irVgUvpZP1gvra/SJlikvRba6xv?=
+ =?us-ascii?Q?c/MAo7yyA2+x9HpkMdJqp9nuRMjKqBP4Z4cjKxEclKyZQmYRTe72Jv5fLxbi?=
+ =?us-ascii?Q?1TO6uc/y9CYnScdUsTLk0Bo4DLPfxlDNWGHcvBAuhq+ud8cRuC9BdGp+MNb1?=
+ =?us-ascii?Q?0TaE77TgLb5GiWHdr5DQx2nJo07l8idLapPGRyywxtkIj0ZQFATyNAVLbI5J?=
+ =?us-ascii?Q?he7OsfWxlFDXhSYNys5kSxDl023CK1+NbV8rneKOfn7AAHuytRbLQtD9/86K?=
+ =?us-ascii?Q?8Cm8gQVmRVumA3NiFw8nnHZnEugmiOh8KYB1nyOlXQnmHK4lO/ifTsGCci/T?=
+ =?us-ascii?Q?BPJkNva2BBX2IoN0obNkNPEo6klmEtGXHbsaxk0QaECo97JAHEqkXOWhbRl/?=
+ =?us-ascii?Q?tFE2TqBrGQP8LVeTaVWFvRrNjivTJ0SiA9n7rntRgoeHby+XExooewD2dMAI?=
+ =?us-ascii?Q?bGukobSbRZzTbTS6KkNPht6CB9Fm0Xt/29e5aL2NzDBSPnQaECJtN9jCnj0V?=
+ =?us-ascii?Q?aDnKf60bbboIbZOGfIop6vF4GkE+IW6MrXkVJ/+I64meDp5T05YI246WAxY1?=
+ =?us-ascii?Q?tvlKqZAxzsq8js36XS3+XNVjFRDx1if4P7ABYh0ykksgaGKZBxddOPgTz4Cm?=
+ =?us-ascii?Q?GZo+r4Tg8GkKO4WZVpzg/ShZkC8UOWWKfSAWIzsInAK9bsnX3EJmVbBfb6G+?=
+ =?us-ascii?Q?n/ETVSXFuHvczirOzZNzMe2R+f9yRuiagjCApH/RqAMi5ZXK5DEGsWOkccMK?=
+ =?us-ascii?Q?3WDfmZzBl9w+PeBue0qdZCBwzCH71mN8POuTxrAAoV1bpBOpwWSRJZAsK2Ma?=
+ =?us-ascii?Q?PWKO1drObEkXJVRz6kmFBORm97oZVtVHBx8VstlICKYoS+sh5A+NkfJ2mWBs?=
+ =?us-ascii?Q?7v2HAslopMC7HDHeTG+qSqEIZ2pJ9py8dr8CPF4ePpbBYM31e+mKBN1gYdeF?=
+ =?us-ascii?Q?Xrb5LGqP4GTSFgCwDnLCI/NIGivrQeuz59w1K/zqRUpS8HiSkvIzNwJ8n8IJ?=
+ =?us-ascii?Q?uDak98Y8hpbPTUUR0OikQ4OEfio5A6hUJtjZGxLQha3Qo/3SQej3Spj1cGgG?=
+ =?us-ascii?Q?JbT/KQz0B+C7oyXPiqYXRz9iWozzeLg4/GIwEAAzJR0ZxLE49dCm+efc9Xfb?=
+ =?us-ascii?Q?9+yZv+2i4MjVUIRtzHuYug/MWxfwsUJEFBjwYANg72tf18eMz6Y1PeaPlhwY?=
+ =?us-ascii?Q?veCBmoi2a68tuTQIm6NgDyN4OefsoRVmQnptb5jlnpZOd//ofbWmHzT+nPxe?=
+ =?us-ascii?Q?eCOyCCCEj0sz14DfrucewNm3/3587s2dHkcZHtvl1aywmgupUQMCZ5BJ9EA2?=
+ =?us-ascii?Q?hqu0GkZCa9qYpiNzM7q1peAWscycCQh/Kukh9uK43N1uECrKFgnFleVq0sNZ?=
+ =?us-ascii?Q?W0l28JcuhuzOmZrJKFs6zId1WOmE59ZP9HOF/0lVxSqZnc+RKceN+f8HwEPI?=
+ =?us-ascii?Q?BQDM6xdm6+lxNCygsJWih8VlCylsZQ5H+8AC4ZynH3nZo0/tju9yTtl9yb6/?=
+ =?us-ascii?Q?cY05SIUc7Q0X5Y9BDg7icZJdgVCVQDQWFAqzqAil1XZOVrVEHbTnAIGm3A1G?=
+ =?us-ascii?Q?0GvMpOBNKWYPu0kq5nbXVfTMQ2qCD0aIaR9NFaqpsqByCcL89jQY8Z5o/+9V?=
+ =?us-ascii?Q?uw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 230faca7-ee0a-4524-6d1f-08dd76aa75f8
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 14:34:25.5192 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AVATVyf8mylfmgTd5Ii2/JhBkznySpyDPf2WFcIFwJZlwo6jG62T5T7LAqdiJMaCliBoTlo3X7uHbf5Fu4zM9dw0qEFGcK7EgZ27RTmDXPI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9040
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,57 +178,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 08, 2025 at 04:51:25PM +0300, Jani Nikula wrote:
-> On Tue, 08 Apr 2025, "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com> wrote:
-> >> > We will need more changes than fixing the variable names.
-> >> >
-> >> > I get this error
-> >> >
-> >> > ERROR: modpost: "__devm_drm_panel_alloc"
-> >> [drivers/gpu/drm/panel/panel-auo-a030jtn01.ko] undefined!
-> >> > make[2]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
-> >> > make[1]: ***
-> >> > [/home/chaitanya/exodus/repos/drm-tip-sandbox/Makefile:1956:
-> >> modpost]
-> >> > Error 2
-> >> > make: *** [Makefile:248: __sub-make] Error 2
-> >> >
-> >> > after making the following change.
-> >> 
-> >> I couldn't reproduce this one on current drm-misc-next with arm64 and
-> >> x86 allmodconfig. Could you share your configuration?
-> >> 
-> >
-> > Here is the config that our CI uses
-> >
-> > https://gitlab.freedesktop.org/drm/xe/ci/-/raw/main/kernel/kconfig
-> 
-> There's
-> 
-> CONFIG_DRM_PANEL=y
-> # CONFIG_OF is not set
-> 
-> but __devm_drm_panel_alloc is inside #ifdef CONFIG_OF. I don't know that
-> it should be.
-> 
-> There are some stubs in drm_panel.h for !CONFIG_OF but not this one.
-> 
-> Finally, DRM_PANEL_AUO_A030JTN01 does not depend on OF.
-> 
-> 
-> That's the issue, but I don't know what the correct fix would be.
+On Tue, Apr 08, 2025 at 02:20:06PM +0200, Maxime Ripard wrote:
+>Commit 9d7d7c3c9a19 ("panel/auo-a030jtn01: Use refcounted allocation in
+>place of devm_kzalloc()") switched from a kmalloc + drm_panel_init call
+>to a devm_drm_panel_alloc one.
+>
+>However, the variable it was storing the allocated pointer in doesn't
+>exist, resulting in a compilation breakage.
+>
+>Fixes: 9d7d7c3c9a19 ("panel/auo-a030jtn01: Use refcounted allocation in place of devm_kzalloc()")
+>Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-I'l send a patch.
+I still get a failure in modpost:
 
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> -- 
-> Jani Nikula, Intel
+	ERROR: modpost: "__devm_drm_panel_alloc" [drivers/gpu/drm/panel/panel-auo-a030jtn01.ko] undefined!
 
+because that entire block is:
+
+	#ifdef CONFIG_OF
+
+Based on the header, I think the intention wasn't to add those functions
+there, right? Moving it outside the ifdef at least fixes the build for
+me.
+
+Lucas De Marchi
+
+-------8<------------
+Subject: [PATCH] drm/panel: Fix build error on !CONFIG_OF
+
+Move helpers outside of CONFIG_OF, so basic allocation also works
+without it.
+
+Fixes: ed9c594d495d ("drm/panel: Add new helpers for refcounted panel allocatons")
+Fixes: dcba396f6907 ("drm/panel: Add refcount support")
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+  drivers/gpu/drm/drm_panel.c | 76 ++++++++++++++++++-------------------
+  1 file changed, 38 insertions(+), 38 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index 870bf8d471ee9..99b348782ce31 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -318,44 +318,6 @@ int drm_panel_get_modes(struct drm_panel *panel,
+  }
+  EXPORT_SYMBOL(drm_panel_get_modes);
+  
+-#ifdef CONFIG_OF
+-/**
+- * of_drm_find_panel - look up a panel using a device tree node
+- * @np: device tree node of the panel
+- *
+- * Searches the set of registered panels for one that matches the given device
+- * tree node. If a matching panel is found, return a pointer to it.
+- *
+- * Return: A pointer to the panel registered for the specified device tree
+- * node or an ERR_PTR() if no panel matching the device tree node can be found.
+- *
+- * Possible error codes returned by this function:
+- *
+- * - EPROBE_DEFER: the panel device has not been probed yet, and the caller
+- *   should retry later
+- * - ENODEV: the device is not available (status != "okay" or "ok")
+- */
+-struct drm_panel *of_drm_find_panel(const struct device_node *np)
+-{
+-	struct drm_panel *panel;
+-
+-	if (!of_device_is_available(np))
+-		return ERR_PTR(-ENODEV);
+-
+-	mutex_lock(&panel_lock);
+-
+-	list_for_each_entry(panel, &panel_list, list) {
+-		if (panel->dev->of_node == np) {
+-			mutex_unlock(&panel_lock);
+-			return panel;
+-		}
+-	}
+-
+-	mutex_unlock(&panel_lock);
+-	return ERR_PTR(-EPROBE_DEFER);
+-}
+-EXPORT_SYMBOL(of_drm_find_panel);
+-
+  static void __drm_panel_free(struct kref *kref)
+  {
+  	struct drm_panel *panel = container_of(kref, struct drm_panel, refcount);
+@@ -443,6 +405,44 @@ void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t offset,
+  }
+  EXPORT_SYMBOL(__devm_drm_panel_alloc);
+  
++#ifdef CONFIG_OF
++/**
++ * of_drm_find_panel - look up a panel using a device tree node
++ * @np: device tree node of the panel
++ *
++ * Searches the set of registered panels for one that matches the given device
++ * tree node. If a matching panel is found, return a pointer to it.
++ *
++ * Return: A pointer to the panel registered for the specified device tree
++ * node or an ERR_PTR() if no panel matching the device tree node can be found.
++ *
++ * Possible error codes returned by this function:
++ *
++ * - EPROBE_DEFER: the panel device has not been probed yet, and the caller
++ *   should retry later
++ * - ENODEV: the device is not available (status != "okay" or "ok")
++ */
++struct drm_panel *of_drm_find_panel(const struct device_node *np)
++{
++	struct drm_panel *panel;
++
++	if (!of_device_is_available(np))
++		return ERR_PTR(-ENODEV);
++
++	mutex_lock(&panel_lock);
++
++	list_for_each_entry(panel, &panel_list, list) {
++		if (panel->dev->of_node == np) {
++			mutex_unlock(&panel_lock);
++			return panel;
++		}
++	}
++
++	mutex_unlock(&panel_lock);
++	return ERR_PTR(-EPROBE_DEFER);
++}
++EXPORT_SYMBOL(of_drm_find_panel);
++
+  /**
+   * of_drm_get_panel_orientation - look up the orientation of the panel through
+   * the "rotation" binding from a device tree node
 -- 
-With best wishes
-Dmitry
+2.49.0
+
