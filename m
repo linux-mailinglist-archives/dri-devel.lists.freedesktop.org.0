@@ -2,84 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF86A814C3
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 20:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12B1A814DF
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 20:42:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C20510E2D3;
-	Tue,  8 Apr 2025 18:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9944010E71B;
+	Tue,  8 Apr 2025 18:42:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FpV3hQTt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VjCD8Fa0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31BB510E2CC
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 18:37:02 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-736c1138ae5so5889680b3a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 11:37:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744137422; x=1744742222; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:reply-to:references
- :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
- :date:message-id:reply-to;
- bh=GNk2zZpC65xRherJZoi8fazJtKf8aShkVrAnPTjrn2Y=;
- b=FpV3hQTtYJn+bGcDrgQpyZ717QXDuQAMhbuuz8ODoQL61C1/AJskf0PQB1zGPXagMr
- OUgd6Pps6JZ3+zTs3hDB4PCK+lSSj9xgg+kZks79yoX6gFe+yqNG2jxxeEfPhlt2UiKH
- tk1djdRFXZNBsBOT28Fn+bm7dgwc0BpxRRbP/BSfAsBjy5w8/EcIOJVAehWHlIWLr7L1
- gTyBebYBzAuUa3D/4L0+JbTGyB7oU5sIOLQOuKs0CXB5HMQ4A8C08H585r4Dh1EwrmfK
- 7B4JKdNwZnoLcSqGonl1apyzyP7noDp/U+Ep8RJvJCep7EX4I+oj627u9stJisIxOEW8
- J2zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744137422; x=1744742222;
- h=content-transfer-encoding:mime-version:reply-to:references
- :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GNk2zZpC65xRherJZoi8fazJtKf8aShkVrAnPTjrn2Y=;
- b=GJTgOICzQmzfVjOD/NHWLUrbfZzvzqfjo1iCuu2hRwnqrtmI6f8tTLEfYkOC23cTTX
- vJSWrcEPDWiXv3Z1J9VK2YBpkR7G5gwF7sPp9pNFzhDi8S30FggHKbiEb1IgOJJUMd1j
- qFjgPRCu5sP/DDcC7Bx/fhtWUB0wjE9ggEyS5do9xf7pUpz9a58DChOvDR7VWzueKWQH
- bWvcRln50iLpUyewj159Ai/KGAFwUGspzaG77VJGSsuPkWBG6VPRZoHyc1xSg7HchGSk
- E+o9GIbBBcb27PEjFQ5g3bLYRYLGRD20ppLVl9VJkRP501sGHEmq+oquFDnf5YabQvXC
- PXLQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVqp4tGlUHBfZUpcOfepNAcemcB0gMUMNxc7az8ebS/Lts44cc27+iSYAv/IIuczK+oTMWUv/bocso=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBvQMp0oRE3Bc7akQYcqhSourSE5mj6e9uW/fCm/tUp3WZpWut
- 9xyPiNX43eEcECE2Cu/oWzRnFKWc7WTxq8fgQRog4IiFIO928apq
-X-Gm-Gg: ASbGnct6j7kx+J2PRySEchoykGh5kT246veZhX6yJEyLTD6EbmkUgBkeDn3okGtm2DO
- d0YW2DTbPpN/Qd8JEmm62XLbR7EiHPb3Mj4nyneexpK7BMkURySuadYAO41iiI1sJXLE5g69ysv
- /8c6OgvkFfKV0kAZ4F2rgDH4n8M6FAEk0YsB8BFJ0XzuJ1ArBHClrRb6iwSQmndGxxmsXzADiS5
- A9sBf6YzX6H3nNzmOpiV0lbLsJpACDUqbo6UviTXII5kEHrFTRMhxdbg283GcbsFEgmv2BmsReg
- 9TIIA0+nPrN7hZkopFC7tZTESAxaZ47NaetPQlD4M1EyKqyJC64U1VVrKlZie1N9/p7VVjAwpAk
- 29hGRXfRaZKwmTZWMeIxDL5M=
-X-Google-Smtp-Source: AGHT+IFoxxArLlbdFj00rZFAC5VSPOC5ZnT2KxxJEAFIcKSD0E+nUXdTHUx2/AnLXQqCMh8+l9gjPg==
-X-Received: by 2002:a05:6a00:2408:b0:737:e73:f64b with SMTP id
- d2e1a72fcca58-73bae497469mr99517b3a.1.1744137421614; 
- Tue, 08 Apr 2025 11:37:01 -0700 (PDT)
-Received: from localhost.localdomain (c-67-160-120-253.hsd1.wa.comcast.net.
- [67.160.120.253]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-739d97d32b2sm10960469b3a.5.2025.04.08.11.37.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Apr 2025 11:37:01 -0700 (PDT)
-From: mhkelley58@gmail.com
-X-Google-Original-From: mhklinux@outlook.com
-To: jayalk@intworks.biz, simona@ffwll.ch, deller@gmx.de,
- haiyangz@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, akpm@linux-foundation.org
-Cc: weh@microsoft.com, tzimmermann@suse.de, hch@lst.de,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-mm@kvack.org
-Subject: [PATCH 3/3] fbdev: hyperv_fb: Fix mmap of framebuffers allocated
- using alloc_pages()
-Date: Tue,  8 Apr 2025 11:36:46 -0700
-Message-Id: <20250408183646.1410-4-mhklinux@outlook.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250408183646.1410-1-mhklinux@outlook.com>
-References: <20250408183646.1410-1-mhklinux@outlook.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B32910E2D5;
+ Tue,  8 Apr 2025 18:42:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744137769; x=1775673769;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Gk2fzlQjUCLt/ACS0iGbHiEoJLXRFDn3gd/CajWFMrU=;
+ b=VjCD8Fa0q0AkmAYAovpyJYKPnGMNQZZjXUPuMyfKRswhm4zwlHTwuGdb
+ /DGkAQ90vLRgebWCjX5wr6X5Xm4DxWI8Rrpb5mEZX0vFBuCsZCVstX+ix
+ oDdS1q1BTpegp+VkIIJIuLZA7wfkV7s+MBlQj3kKAGZ35Os/u0PyeTHfB
+ 3En4ANe0aRjR3z4MYV3wJv9OngoBHsV7NdEdmdPNTc4goudu78CA06LFM
+ vLFT06UMMmCKtuk6y34a7Tm3ckIy7OvIG+OJDNHiydLnjsYp1Pg4vsgPM
+ Alci5EAVPa0n9UyL/TtW7/zjJQu/ZtFjar3njedpTn7UvAS3lLYJLOXDB A==;
+X-CSE-ConnectionGUID: q4hDUFdXRj+Y3UsZ6MDQSg==
+X-CSE-MsgGUID: 1Pv0dyBPQ/K9mbxsZcv+dg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49385086"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="49385086"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 11:42:43 -0700
+X-CSE-ConnectionGUID: iCCNA21DQBKQORjCd8kn8A==
+X-CSE-MsgGUID: bvmlVMOTTxaX/KP11+a2QA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="133219858"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.137])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 11:42:39 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/4] kbuild: resurrect generic header check facility
+In-Reply-To: <20250408160127.GD1778492@nvidia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250402124656.629226-1-jani.nikula@intel.com>
+ <CAK7LNAS6o_66bUB6-qj6NnaTRNKvu5ycxOP+kGfizYVBNjZAyw@mail.gmail.com>
+ <878qoczbhn.fsf@intel.com> <20250407171209.GJ1557073@nvidia.com>
+ <871pu3ys4x.fsf@intel.com> <20250408160127.GD1778492@nvidia.com>
+Date: Tue, 08 Apr 2025 21:42:36 +0300
+Message-ID: <87friixzoj.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,42 +72,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: mhklinux@outlook.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Kelley <mhklinux@outlook.com>
+On Tue, 08 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
+> On Tue, Apr 08, 2025 at 11:27:58AM +0300, Jani Nikula wrote:
+>> On Mon, 07 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
+>> > On Mon, Apr 07, 2025 at 10:17:40AM +0300, Jani Nikula wrote:
+>> >
+>> >> Even with Jason's idea [1], you *still* have to start small and opt-in
+>> >> (i.e. the patch series at hand). You can't just start off by testing
+>> >> every header in one go, because it's a flag day switch. 
+>> >
+>> > You'd add something like 'make header_check' that does not run
+>> > automatically. Making it run automatically after everything is fixed
+>> > to keep it fixed would be the flag day change. It is how we have
+>> > managed to introduce other warning levels in the past.
+>> 
+>> That approach does not help *me* or drm, i915 and xe in the least. They
+>> are already fixed, and we want a way to keep them fixed. This is how all
+>> of this got started.
+>
+> I imagine you'd include a way to have the 'make header_check' run on
+> some subset of files only, then use that in your CI for the interm.
+>
+>> Your goal may be to make everything self-contained, but AFAICS there is
+>> no agreement on that goal. As long as there's no buy-in to this, it's
+>> not possible fix everything, it's an unreachable goal.
+>
+> I didn't see that. I saw technical problems with the implementation
+> that was presented. I'd be shocked if there was broad opposition to
+> adding missing includes and forward declaration to most headers. It is
+> a pretty basic C thing. :\
 
-Framebuffer memory allocated using alloc_pages() was added to hyperv_fb in
-commit 3a6fb6c4255c ("video: hyperv: hyperv_fb: Use physical memory for fb
-on HyperV Gen 1 VMs.") in kernel version 5.6. But mmap'ing such
-framebuffers into user space has never worked due to limitations in the
-kind of memory that fbdev deferred I/O works with. As a result of the
-limitation, hyperv_fb's usage results in memory free lists becoming corrupt
-and Linux eventually panics.
+Unless I'm mistaken, both Linus and Masahiro have said they disagree
+with headers having to be self-contained as a general rule, regardless
+of the issues with kconfig and the build artifacts.
 
-With support for framebuffers allocated using alloc_pages() recently added
-to fbdev deferred I/O, fix the problem by setting the flag telling fbdev
-deferred I/O to use the new support.
+We actually had header checks back in 2019 but it was reverted basically
+without discussion with commit fcbb8461fd23 ("kbuild: remove header
+compile test"). Sure, there were issues, but still removed without an
+attempt to address the issues. Since then it's been skunkworks in
+i915. There's a reason this has felt like an uphill battle, and why I'm
+reluctant to putting effort into much more than small incremental steps
+at a time.
 
-Fixes: 3a6fb6c4255c ("video: hyperv: hyperv_fb: Use physical memory for fb on HyperV Gen 1 VMs.")
-Signed-off-by: Michael Kelley <mhklinux@outlook.com>
----
- drivers/video/fbdev/hyperv_fb.c | 1 +
- 1 file changed, 1 insertion(+)
+> Until someone sends a series trying to add missing includes and
+> forward declarations we can't really know..
+>
+>> Arguably the situation is similar to W=1 builds. We can't run W=1 in our
+>> CI, because of failures outside of the drivers we maintain. 
+>
+> You can run W=1 using a subdirectory build just for your drivers.
 
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index 75338ffc703f..1698221f857e 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -1020,6 +1020,7 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- 			info->fix.smem_len = screen_fb_size;
- 			info->screen_base = par->mmio_vp;
- 			info->screen_size = screen_fb_size;
-+			info->flags |= FBINFO_KMEMFB;
- 
- 			par->need_docopy = false;
- 			goto getmem_done;
+I don't think there's a way to build the entire kernel while limiting
+W=1 warnings to a subdirectory, is there? Mixing W=1 and regular builds
+causes everything to be rebuilt due to dependencies. It's not only for
+CI, it's also for developers.
+
+>> Even if I put in the effort to generalize this the way you prefer, I
+>> guess a few kernel releases from now, it still would not do what we have
+>> already in place in i915 and xe. And, no offense, but I think your
+>> proposal is technically vague to start with. I really don't know where
+>> the goal posts are.
+>
+> Well, I spent a little bit and wrote a mock up and did some looking at
+> how much work is here. Focusing on allnoconfig as a starting point,
+> 293 out of 1858 headers failed to build, and with some fiddling I got
+> it down to 150, a couple of hours would get patches made for the vast
+> majority of it.
+>
+> https://github.com/jgunthorpe/linux/commits/hdrcheck/
+>
+> I don't see the same dire view as you do, it seems reasonable and doable.
+
+Thanks for the proof-of-concept. It's just that I don't see how that
+could be bolted to kbuild, with dependency tracking. I don't want to
+have to rebuild the world every time something changes.
+
+Say, I'm refactoring stuff, and I want to ensure headers are okay every
+step of the way. git rebase -i origin -x 'make header_check'. How do you
+only check the headers whose dependencies were changed since the
+previous commit? That requires looking at the .cmd again.
+
+
+BR,
+Jani.
+
+
 -- 
-2.25.1
-
+Jani Nikula, Intel
