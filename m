@@ -2,104 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37990A7FD86
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 13:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E45A80010
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 13:27:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3E810E095;
-	Tue,  8 Apr 2025 11:04:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AsMUIa52";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E70E10E667;
+	Tue,  8 Apr 2025 11:27:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93CBD10E095;
- Tue,  8 Apr 2025 11:04:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 80B505C5CFE;
- Tue,  8 Apr 2025 11:01:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B34AC4CEE5;
- Tue,  8 Apr 2025 11:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744110242;
- bh=IaCE8ry81yWFWl+oEdRavtYitFtnqyoIWiboz1QixuI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AsMUIa52fzeBKKEqmrnQMlNDCitU8Pu1J6NuuGG6YCd12zHY1ha4sv3v4N7T7QKWg
- PS71rMag431FVF7V9v7CjKzcl2zuF4R/MTq0syXXNhA0Qlvq3YpTx2dS9NibUAjVPt
- /q963+kJw00nqnQKj3eoXEKCtgo7UnRDMFAJ9bKJOCxN8o/j+e5wMMvXGe42ffKdPC
- AqL/pKjG4S5rwCNSfHzqRWC4oRv6v3rwf+cRNjecooD1oFVY4yYq+jzByN7sCNjFrZ
- uQ4SPksu7OiSD8HjJ9TpZmnpEeIamICfzb4HPiT2gfNFmMQIo6f6V6BFMsHT/P67FE
- enmRbUTKUbdxg==
-Message-ID: <a168a473-c363-4041-8e3e-84fa44e92b10@kernel.org>
-Date: Tue, 8 Apr 2025 13:03:53 +0200
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B825A10E667
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 11:27:46 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-22928d629faso53781495ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 04:27:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744111666; x=1744716466;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sWNuU4PXGcFFUxJOOD6+vUejwIulJeOU2+PZK360UKs=;
+ b=bFBEJhNeBvWIHlNkQsYvNCakx0l/6LzZiO6yZ9V1t0zVJ0LivcTtukIuIQ1BgD/qc5
+ YQuYG2ziK7ZdsCgrih408m0g6bU5BpRPC25u7SpClfsX4o7oOC7Vs3YgEiEdkf8AF1LY
+ TofLbOAOdQ7wQ511roSnZo9ctZueOje00omhvOZ3z4dhCVY1ktzLBhTb2xVjDhlJwDf7
+ zrbdJiXHvB5oVVI2fnpUHHgo+vO6nQjMzbiZLn/wqgB22wjfFV/pB7DhG9TwUoXck3eU
+ v3S/b+Y+/KNJ1HhdcdrJjGuSa+vXbp1UcyXwkpphdJZxLoTtTacTH0QjdHIoqagT5z7k
+ UuHg==
+X-Gm-Message-State: AOJu0Yxk5tP0MtPBsBrbQKux243WDVbBHZrN4AxIioodjGHT6TtpV1nT
+ e1vh23zavenq6nU0A3qbF8pYLg8tIvgTg/R4haGi6iEmtldDXBSS
+X-Gm-Gg: ASbGncuO1S++1zEveeOneQ/wFEToMqw3ytoIDqaGZQn0VmUjOaiD2fS+10EC5DCRht+
+ cQFkwPoBWlFZt6atd+wn+SklaLDOkHUY5QHoVvCOpCqKfF7EIAW1v+eb2BHtA63/avvTOcc0YE4
+ MYUqm39jDTFmEFIPiaMbl6AVJp1iXy7WPFl3ZhWbYdIfbHXb0e7UjJo7pMTyPqC46i9bvytLSnv
+ LDoLI/kynAihu7uBkNkYtqT6X6BtwQks4xGa3acAAir4ZxymXvjMc482B82vF0leTYbRhvuPkir
+ wx+Dt6cEx+Hr3U1JUoEdANvpkRaNb66KvXM/3HQobGX2bIKuwYUBxBMU0J0a
+X-Google-Smtp-Source: AGHT+IHq28UvQIqWAknFOlE8tIbb/hwfHmeUHFw2eZnKNEbxo/0KO+z2EsthClTeQucSfsOEE2tUVw==
+X-Received: by 2002:a17:902:f684:b0:224:2a6d:55ae with SMTP id
+ d9443c01a7336-22a8a8e44camr224245775ad.48.1744111665988; 
+ Tue, 08 Apr 2025 04:27:45 -0700 (PDT)
+Received: from localhost.localdomain ([116.128.244.169])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-229785c0127sm97708895ad.91.2025.04.08.04.27.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Apr 2025 04:27:45 -0700 (PDT)
+From: jiangfeng@kylinos.cn
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, rodrigo.vivi@intel.com,
+ christian.koenig@amd.com, raag.jadav@intel.com, andrealmeid@igalia.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Feng Jiang <jiangfeng@kylinos.cn>
+Subject: [PATCH v2] drm: Fix the length of event_string in
+ drm_dev_wedged_event()
+Date: Tue,  8 Apr 2025 19:27:28 +0800
+Message-Id: <20250408112728.244146-1-jiangfeng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/10] dt-bindings: display: msm: document DSI
- controller and phy on SA8775P
-To: Ayushi Makhija <quic_amakhija@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, robdclark@gmail.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run, marijn.suijten@somainline.org,
- andersson@kernel.org, robh@kernel.org, robh+dt@kernel.org,
- krzk+dt@kernel.org, konradybcio@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
- quic_jesszhan@quicinc.com
-References: <20250311122445.3597100-1-quic_amakhija@quicinc.com>
- <20250311122445.3597100-4-quic_amakhija@quicinc.com>
- <20250312-calm-steadfast-cricket-fe9dd8@krzk-bin>
- <654d409e-2325-46e7-a064-ed9e64277e69@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <654d409e-2325-46e7-a064-ed9e64277e69@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,23 +72,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/04/2025 12:38, Ayushi Makhija wrote:
->>> +    properties:
->>> +      compatible:
->>> +        items:
->>
->> contains
->>
->>> +          - const: qcom,sa8775p-dsi-ctrl
->>> +          - const: qcom,mdss-dsi-ctrl
->>
->> Drop fallback
->>
->  
-> Hi Krzysztof,
-> 
-> I couldn't understand the meaning of "Drop fallback", could please elaborate it ?
-Look at SM8750 example on the lists. Keep only front compatible.
+From: Feng Jiang <jiangfeng@kylinos.cn>
 
-Best regards,
-Krzysztof
+When calling scnprintf() to append recovery method to event_string,
+the second argument should be `sizeof(event_string) - len`, otherwise
+there is a potential overflow problem.
+
+Fixes: b7cf9f4ac1b8 ("drm: Introduce device wedged event")
+Signed-off-by: Feng Jiang <jiangfeng@kylinos.cn>
+---
+v2:
+- update commit message
+- keep scnprintf() as a single line
+---
+ drivers/gpu/drm/drm_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 17fc5dc708f4..60e5ac179c15 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -549,7 +549,7 @@ int drm_dev_wedged_event(struct drm_device *dev, unsigned long method)
+ 		if (drm_WARN_ONCE(dev, !recovery, "invalid recovery method %u\n", opt))
+ 			break;
+ 
+-		len += scnprintf(event_string + len, sizeof(event_string), "%s,", recovery);
++		len += scnprintf(event_string + len, sizeof(event_string) - len, "%s,", recovery);
+ 	}
+ 
+ 	if (recovery)
+-- 
+2.25.1
+
