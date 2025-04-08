@@ -2,148 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B2BA7F7CC
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 10:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20180A7F7D1
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 10:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C59E810E52C;
-	Tue,  8 Apr 2025 08:27:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 911DB10E60B;
+	Tue,  8 Apr 2025 08:28:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VJXfJvSl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M+01oPwO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VJXfJvSl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M+01oPwO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y058KRFk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24DFA10E52C
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 08:27:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BF59C21181;
- Tue,  8 Apr 2025 08:27:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744100872; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V2aDaxwpJt9URjxPe1TOoxUHmwpxYV0x1ZMpgrIFTPg=;
- b=VJXfJvSl59+uwbSQT6ww0v2NVIvtwJg4ih1cJ6dt/16hto6i3PtXx5pflmv0alrL+/0KGW
- miQSq9GkN95wAL74ve9hzu6wfPMGAAwNzYnf35EfsmMuU849K103i1rG5d4RblGkhTmFpZ
- 2EY1RVy+L6IVrZfz7Tlc3mJ4Pxee7Lk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744100872;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V2aDaxwpJt9URjxPe1TOoxUHmwpxYV0x1ZMpgrIFTPg=;
- b=M+01oPwOSDTE2vcgoKcPfXP9EYHgSAAyyJ5W6ybxDD50G6BNtC+leAZvE62RvOYF5rZVEA
- cRrIMWESya5Sb2Dg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VJXfJvSl;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=M+01oPwO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744100872; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V2aDaxwpJt9URjxPe1TOoxUHmwpxYV0x1ZMpgrIFTPg=;
- b=VJXfJvSl59+uwbSQT6ww0v2NVIvtwJg4ih1cJ6dt/16hto6i3PtXx5pflmv0alrL+/0KGW
- miQSq9GkN95wAL74ve9hzu6wfPMGAAwNzYnf35EfsmMuU849K103i1rG5d4RblGkhTmFpZ
- 2EY1RVy+L6IVrZfz7Tlc3mJ4Pxee7Lk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744100872;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V2aDaxwpJt9URjxPe1TOoxUHmwpxYV0x1ZMpgrIFTPg=;
- b=M+01oPwOSDTE2vcgoKcPfXP9EYHgSAAyyJ5W6ybxDD50G6BNtC+leAZvE62RvOYF5rZVEA
- cRrIMWESya5Sb2Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 64F2313691;
- Tue,  8 Apr 2025 08:27:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id tbiwFgje9GdHUgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 08 Apr 2025 08:27:52 +0000
-Message-ID: <ddc2d18b-a57b-4714-85ca-634201bb1273@suse.de>
-Date: Tue, 8 Apr 2025 10:27:51 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 324A910E609;
+ Tue,  8 Apr 2025 08:28:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744100887; x=1775636887;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=5nkU3pywDyYpm6B8QE8CDHNm5Jg/YRm60RtxsBZZNSY=;
+ b=Y058KRFk8hOwB9yZI97YzWZkaE8/l62Y5wSc9x/2415BY1WH5x+sFetT
+ 1i1AJDpIazokkaYFTwYv/gifcIS2bEp/Ox5+sr3okyxnm5pjhBZo74U3/
+ 4BAErl/bQEDLpyb++RAVblxw5ywnICo8ARoonQu7i/pmcl7PhxTrB3XHa
+ +6I+mNqQW+A2v950gZFvBIGvUT7bd/appcmWL/MGoeIEH8fY4hmcBzQ68
+ T3mROt7AH0oQIw7xJsA4jrKeGb7le1QLQXdDUwBWKORGkL6VNPZi8YLZg
+ 492lC4sfRnnE9MeF+vAjruVAjdyrefyzEYwV2V2p1tYmeuzxUcdayXp3v A==;
+X-CSE-ConnectionGUID: fi8rLrUxSNCHQ7jP0eqUSw==
+X-CSE-MsgGUID: J7tD4R9fQLmddu97OqC+QQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56886010"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="56886010"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 01:28:05 -0700
+X-CSE-ConnectionGUID: x4G6H6sxTuWnpeVE/j3SIA==
+X-CSE-MsgGUID: NQh7EQA9Q5aZcEeLBdZO1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="133066492"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.137])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 01:28:01 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/4] kbuild: resurrect generic header check facility
+In-Reply-To: <20250407171209.GJ1557073@nvidia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250402124656.629226-1-jani.nikula@intel.com>
+ <CAK7LNAS6o_66bUB6-qj6NnaTRNKvu5ycxOP+kGfizYVBNjZAyw@mail.gmail.com>
+ <878qoczbhn.fsf@intel.com> <20250407171209.GJ1557073@nvidia.com>
+Date: Tue, 08 Apr 2025 11:27:58 +0300
+Message-ID: <871pu3ys4x.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] panel/boe-tv101wum-ll2: Use refcounted allocation
- in place of devm_kzalloc()
-To: Anusha Srivatsa <asrivats@redhat.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
- Joel Selvaraj <jo@jsfamily.in>, Douglas Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
- <20250401-b4-drm-panel-mass-driver-convert-v1-7-cdd7615e1f93@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250401-b4-drm-panel-mass-driver-convert-v1-7-cdd7615e1f93@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: BF59C21181
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_TWELVE(0.00)[12];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FREEMAIL_TO(0.00)[redhat.com,linaro.org,quicinc.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,jsfamily.in,chromium.org];
- ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:mid, suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,117 +74,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-this patch doesn't build.
-
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c: In function 
-‘boe_tv101wum_ll2_probe’:
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:241:23: error: 
-unterminated argument list invoking macro "devm_drm_panel_alloc"
-   241 | MODULE_LICENSE("GPL");
-       |                       ^
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:169:15: error: 
-‘devm_drm_panel_alloc’ undeclared (first use in this function); did you 
-mean ‘devm_drm_panel_add_follower’?
-   169 |         ctx = devm_drm_panel_alloc(dev, struct 
-boe_tv101wum_ll2, panel,
-       |               ^~~~~~~~~~~~~~~~~~~~
-       |               devm_drm_panel_add_follower
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:169:15: note: each 
-undeclared identifier is reported only once for each function it appears in
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:169:35: error: 
-expected ‘;’ at end of input
-   169 |         ctx = devm_drm_panel_alloc(dev, struct 
-boe_tv101wum_ll2, panel,
-       |                                   ^
-       |                                   ;
-......
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:169:9: error: 
-expected declaration or statement at end of input
-   169 |         ctx = devm_drm_panel_alloc(dev, struct 
-boe_tv101wum_ll2, panel,
-       |         ^~~
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:167:13: warning: 
-unused variable ‘ret’ [-Wunused-variable]
-   167 |         int ret;
-       |             ^~~
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:166:34: warning: 
-variable ‘ctx’ set but not used [-Wunused-but-set-variable]
-   166 |         struct boe_tv101wum_ll2 *ctx;
-       |                                  ^~~
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:165:24: warning: 
-unused variable ‘dev’ [-Wunused-variable]
-   165 |         struct device *dev = &dsi->dev;
-       |                        ^~~
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:169:9: error: no 
-return statement in function returning non-void [-Werror=return-type]
-   169 |         ctx = devm_drm_panel_alloc(dev, struct 
-boe_tv101wum_ll2, panel,
-       |         ^~~
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c: At top level:
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:163:12: warning: 
-‘boe_tv101wum_ll2_probe’ defined but not used [-Wunused-function]
-   163 | static int boe_tv101wum_ll2_probe(struct mipi_dsi_device *dsi)
-       |            ^~~~~~~~~~~~~~~~~~~~~~
-linux/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c:157:37: warning: 
-‘boe_tv101wum_ll2_panel_funcs’ defined but not used 
-[-Wunused-const-variable=]
-   157 | static const struct drm_panel_funcs 
-boe_tv101wum_ll2_panel_funcs = {
-       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
-
-Please fix.
-
-Best regard
-Thomas
-
-Am 01.04.25 um 18:03 schrieb Anusha Srivatsa:
-> Move to using the new API devm_drm_panel_alloc() to allocate the
-> panel.
+On Mon, 07 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
+> On Mon, Apr 07, 2025 at 10:17:40AM +0300, Jani Nikula wrote:
 >
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->   drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
+>> Even with Jason's idea [1], you *still* have to start small and opt-in
+>> (i.e. the patch series at hand). You can't just start off by testing
+>> every header in one go, because it's a flag day switch. 
 >
-> diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c
-> index 50e4a5341bc65727b5ed6ba43a11f5ab9ac9f5b9..04c7890cc51db43bdc6e38cdae8f7f21fd48009f 100644
-> --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c
-> +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c
-> @@ -166,9 +166,11 @@ static int boe_tv101wum_ll2_probe(struct mipi_dsi_device *dsi)
->   	struct boe_tv101wum_ll2 *ctx;
->   	int ret;
->   
-> -	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> -	if (!ctx)
-> -		return -ENOMEM;
-> +	ctx = devm_drm_panel_alloc(dev, struct boe_tv101wum_ll2, panel,
-> +				   &boe_tv101wum_ll2_panel_funcs,
-> +				   DRM_MODE_CONNECTOR_DSI
-> +	if (IS_ERR(panel))
-> +		return PTR_ERR(panel);
->   
->   	ret = devm_regulator_bulk_get_const(&dsi->dev,
->   					ARRAY_SIZE(boe_tv101wum_ll2_supplies),
-> @@ -190,8 +192,6 @@ static int boe_tv101wum_ll2_probe(struct mipi_dsi_device *dsi)
->   	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
->   			  MIPI_DSI_MODE_VIDEO_HSE;
->   
-> -	drm_panel_init(&ctx->panel, dev, &boe_tv101wum_ll2_panel_funcs,
-> -		       DRM_MODE_CONNECTOR_DSI);
->   	ctx->panel.prepare_prev_first = true;
->   
->   	ret = drm_panel_of_backlight(&ctx->panel);
+> You'd add something like 'make header_check' that does not run
+> automatically. Making it run automatically after everything is fixed
+> to keep it fixed would be the flag day change. It is how we have
+> managed to introduce other warning levels in the past.
+
+That approach does not help *me* or drm, i915 and xe in the least. They
+are already fixed, and we want a way to keep them fixed. This is how all
+of this got started.
+
+Your goal may be to make everything self-contained, but AFAICS there is
+no agreement on that goal. As long as there's no buy-in to this, it's
+not possible fix everything, it's an unreachable goal.
+
+Arguably the situation is similar to W=1 builds. We can't run W=1 in our
+CI, because of failures outside of the drivers we maintain. Thus we add
+most W=1 checks manually in our Makefiles, and keep our drivers warning
+free. This is what we want for headers too. But the key difference is
+that there *is* general consensus that W=1 fixes should be merged.
+
+Perhaps inadvertently, you're making it harder for the people who are on
+board with your goal to do their part of the job in their corner of the
+kernel.
+
+> If you added the infrastructure there is a whole list of people on
+> kernel-janitors that would probably help with the trivial cleanups to
+> make it run clean.
 >
+>> With this type of antagonistic rather than encouraging attitude towards
+>> contributions, there's just no way I can justify to myself (or my
+>> employer) spending more time on what looks like a wild goose chase. I
+>> have zero confidence that no matter what I do I'd get approval from you.
+>
+> I think you've been given a clear direction on what would be accepted
+> and have the option to persue it. Claiming that is "antagonistic"
+> seems unnecessary.
+
+I have to disagree on both of those points.
+
+>> And this is the primary reason subsystems and drivers hack up stuff in
+>> their little corners of the kernel instead of sticking their necks out
+>> and trying to generalize anything.
+>
+> Seems to me like this is the usual case of generalizing being actually
+> hard, you almost always have to actually do more work to succeed.
+
+I think you and me both share the idea that most headers should be
+self-contained. Neither Linus nor Masahiro seem to think that is
+generally true. I've provided a way to opt-in for the checks. Linus
+seems to find the approach acceptable. You and Masahiro don't.
+
+I think I'm at an impasse.
+
+Even if I put in the effort to generalize this the way you prefer, I
+guess a few kernel releases from now, it still would not do what we have
+already in place in i915 and xe. And, no offense, but I think your
+proposal is technically vague to start with. I really don't know where
+the goal posts are.
+
+
+BR,
+Jani.
+
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Jani Nikula, Intel
