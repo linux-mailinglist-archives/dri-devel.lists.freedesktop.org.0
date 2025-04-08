@@ -2,89 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CC3A814F3
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 20:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3873A815B6
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 21:18:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E46510E71C;
-	Tue,  8 Apr 2025 18:50:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 044E410E17F;
+	Tue,  8 Apr 2025 19:18:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ANmBVDSi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l7uwt9Jn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08D4810E171;
- Tue,  8 Apr 2025 18:50:06 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538Aj2Ge029517;
- Tue, 8 Apr 2025 18:50:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 0xKW77pHsNVjmQD9NKN5YZmVw8/W/eiz6MnSObafraw=; b=ANmBVDSimGvkdLrH
- I3iScDex7Bfkz7hdPBkZNh64xZWnzzEG5f4AgkdNryt9Hk+5Ni5lQYKNIQcHUKSL
- zjQJAJ5KnpjvyF5UetxUhGMf5lIjWjpIGVUsWxTnYCt1NpeRj2gRJkw2/EyvPbRc
- 1CsqeMA3ZYqPU6rXyZOW0pYVitEWr8EwMQiM7Nlk3h3QauGK+gb/cG4qkDYDzaXN
- aLIdUIPHW60dvtSf/Q21ySMadvYcAJH+3PKnxqWlKlaRWkNmGILD8ltMNYAI3H0/
- F05ZujNn0+MiRXsK8ZzMp/oEFKFSheDXX8P4iVH8q5EI0MVge6MYBOaq+YghDXFa
- IxFkAA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twcrgxej-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Apr 2025 18:50:03 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 538Io2nQ017307
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 8 Apr 2025 18:50:02 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 8 Apr 2025
- 11:50:01 -0700
-Message-ID: <d6756204-b950-4b71-9efa-d0f1691c56f7@quicinc.com>
-Date: Tue, 8 Apr 2025 11:50:01 -0700
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 632A610E725
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 19:18:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 38B4343DF4;
+ Tue,  8 Apr 2025 19:18:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65E84C4CEE8;
+ Tue,  8 Apr 2025 19:18:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744139891;
+ bh=OFp36ZrwylnM8HdDNF4FJoUbKWi2vaQLcRpFjCDvDlA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=l7uwt9Jn536qNHg5xlaKPEyqnkqiAnhx3rbol2BZk7jKQ+5WUxF0E44LeT9amX0Zv
+ zy+mYfpJ1Yovn9fVEaJiQjesdX+QhF69DBZw+gGr/RTmwD9LcX/U0G4gJZ8FWXIpLt
+ FFH8hohies+hZGu1mzDWU184QLZhEfoM2XBEol+s7sgOkB/B5aK2laN7yFunWvSGl5
+ 4YDNbe0xdxHN4unGgt3xvPlsStLwtwxtwhlMUifsDFmb0fjXBUZvteicrwIvssBve0
+ 1lFp58VVyeGnHC2ARoH69WamCgS2/jNpYmY6zwx9qTQ6zOXU3f1xV1d2r03sFwcZLj
+ iTPHm5S/J6rEg==
+Date: Tue, 8 Apr 2025 21:17:59 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Asahi Lina <lina@asahilina.net>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, lyude@redhat.com,
+ acurrid@nvidia.com, daniel.almeida@collabora.com, j@jannau.net,
+ ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 0/8] DRM Rust abstractions
+Message-ID: <Z_V2ZxIZxI_HiHM5@cassiopeiae>
+References: <20250325235522.3992-1-dakr@kernel.org>
+ <32e7da7e-de32-4bc6-a751-f604da36a63f@asahilina.net>
+ <Z_VXBZcBsk2k6eVN@cassiopeiae>
+ <143206f6-cd97-4ef8-a4f3-f68d703903bf@asahilina.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 01/15] drm/msm/dpu: check every pipe per capability
-To: Jun Nie <jun.nie@linaro.org>, Rob Clark <robdclark@gmail.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- "Marijn Suijten" <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jessica Zhang
- <quic_jesszhan@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-0-eb5df105c807@linaro.org>
- <20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-1-eb5df105c807@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-1-eb5df105c807@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: U3FIKMp27eUnG1BF_0q02kLU0_27n1bF
-X-Authority-Analysis: v=2.4 cv=QuVe3Uyd c=1 sm=1 tr=0 ts=67f56fdb cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8
- a=COk6AnOGAAAA:8 a=ceskOXBvEOXfFmsVgpkA:9
- a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: U3FIKMp27eUnG1BF_0q02kLU0_27n1bF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-08_08,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- spamscore=0 malwarescore=0 mlxlogscore=970 bulkscore=0 priorityscore=1501
- clxscore=1015 phishscore=0 impostorscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504080129
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <143206f6-cd97-4ef8-a4f3-f68d703903bf@asahilina.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,21 +65,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/3/2025 7:14 AM, Jun Nie wrote:
-> The capability stored in sblk and pipe_hw_caps is checked only for
-> SSPP of the first pipe in the pair with current implementation. That
-> of the 2nd pipe, r_pipe, is not checked and may violate hardware
-> capability. Move requirement check to dpu_plane_atomic_check_pipe()
-> for the check of every pipe.
+On Wed, Apr 09, 2025 at 03:06:38AM +0900, Asahi Lina wrote:
+> On 4/9/25 2:04 AM, Danilo Krummrich wrote:
+> > On Wed, Apr 09, 2025 at 01:29:35AM +0900, Asahi Lina wrote:
+> >> On 3/26/25 8:54 AM, Danilo Krummrich wrote:
+> > 
+> > You said "use it/submit it in any way".
 > 
-> Fixes: ("dbbf57dfd04e6 drm/msm/dpu: split dpu_plane_atomic_check()")
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 71 ++++++++++++++++---------------
->   1 file changed, 36 insertions(+), 35 deletions(-)
-> 
+> I thought keeping authorship is an implied part of kernel etiquette.
+> Usually when you submit code someone else wrote, you keep them as
+> primary author... I want you and others to use the code, that doesn't
+> mean I want you to put your name on it as if you wrote most of it.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+The broader context of the private mail was about you stepping back on kernel
+development. You did so with a few more details (which I'm not going to
+disclose), that made it clear to me that you don't want to be bothered with
+kernel development any more.
+
+In combination with you giving permission to "use it/submit it in any way", I
+thought it's better to just pick a safe path to not misrepresent you given all
+the changes I made.
+
+I do still credit you on all corresponding patches though.
+
+> >> I'm really tired of kernel politics and I don't want to spend more brain
+> >> cycles looking at all the other patches or having to argue (in fact I
+> >> usually don't look at patch emails at all recently), but I would
+> >> appreciate if you keep my authorship for files that I did largely author
+> >> myself. After everything I've been going through the past weeks (some of
+> >> the people on Cc know what that's about...) this feels like yet another
+> >> slap in the face.
+> > 
+> > As mentioned, please diff the correct thing and then just tell me where you'd
+> > like to have primary authorship changed.
+> 
+> I don't even know what tree this series is supposed to apply onto (tried
+> drm-misc next, torvalds/master, v6.15-rc1) so I'm just going to take
+> drm-misc/topic/rust-drm and assume that's what this series includes.
+> 
+> $ diff -urN rust/kernel/drm/drv.rs ../uplinux/rust/kernel/drm/driver.rs
+> | grep '^+' | wc -l
+> 45
+> 
+> So I'm diffing the correct thing now and the result is essentially
+> identical.
+> 
+> Meanwhile, device.rs has many additions... but a big chunk of those is
+> code that was just moved from drv.rs (like drm_legacy_fields and the
+> code that uses it).
+
+Except drm_legacy_fields! and VTABLE (which is just trival boilerplate code)
+device.rs changed fundamentally, i.e. I switched the device abstraction to use
+the subclassing pattern.
+
+If you look further you will find that I really changed a lot of things.
+
+I have *nothing* to hide, here's the overall diff for all the changes I made:
+
+	[1] https://pastebin.com/FT4tNn5d
+
+> 
+> Again, I don't have the spoons to make some deep analysis here, you
+> should know how much of the code you changed, added, or just moved
+> around. I'm not going to litigate this further. If you think splitting
+> up a commit into multiple commits and moving code around warrants taking
+> over primary authorship of a project I've been working on for years now,
+> so be it.
+
+You just said you "don't have the spoons to make some deep analysis here" and
+right below you acuse me of just "moving code around".
+
+Which means that you do so *without* evidence. And again, I have *nothing* to
+hide, see [1].
+
+Besides that I also told you that I'm fine to change primary authership, if you
+tell me where you think it would be appropriate (even though I do think my
+changes do justify how things are currently).
+
+> I'm just disappointed.
+
+That's where you are maneuvering *yourself* into.
+
+You could have easily just asked me to change things for patch #X, #Y and #Z.
+
+Instead you outright started with accusing me of things. I also feel like you
+intentionally try to misrepresent what I am doing and what my intentions are.
+
+I neither have the time, nor am I willing to deal with random drama like this.
+
+If you want something changed, just go ahead and tell me what, *without* more
+drama and without more accusing me of things.
