@@ -2,78 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA12FA80920
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 14:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA02FA8093D
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 14:52:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3678110E22D;
-	Tue,  8 Apr 2025 12:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4601910E688;
+	Tue,  8 Apr 2025 12:52:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W+/RyYYl";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NOf/OpSu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72DB910E22D;
- Tue,  8 Apr 2025 12:51:21 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-3032a9c7cfeso1051414a91.1; 
- Tue, 08 Apr 2025 05:51:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744116681; x=1744721481; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jJefxB8FLGWpi/gmyGyC0hTJwrgS8z3n6ed8v3Y5FJ8=;
- b=W+/RyYYl4/wb1gpHzZ81zNmlaHwVXNCBggNuLdU5OyLxYXWyTDgCQeLigYzioOKEQ1
- asWxWkUAIwnbHXAonhOC3ArJT0Ls+rm9cZY4Ds3lBokgUTwrmA1PGXw6jxdTuZBem2fM
- GKY72SSUZPyaKOmvkwbIpKRsB9opD2o3wajaMDKo5JgyrSjVid0YH7+hb083jk9t+L+3
- HigTEZBfbeeStBfluRwOLJse59X7deVrMTGo4N7gNzGCY4R74UX9KSr4btllmsD5BX7j
- KzHdb4y6dExe09uXl+K1eiImihItPwa1lnGHOxbJzSorZ3ERy38rK/uUgNBaUNF7NNm4
- Puug==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5393410E688
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 12:52:24 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538Axo5Y029735
+ for <dri-devel@lists.freedesktop.org>; Tue, 8 Apr 2025 12:52:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=/RhAbopXZzYSZ2snzri292Eq
+ ZjBPlNjasAOXmgSUoLA=; b=NOf/OpSuJoghY6yFXkAGgD5610T6SpL5s8ltbk41
+ OuSmvFXSw3uTTMf09VegztcuVUoftQXVbJi1Ck1vLytFw+htGZBd7kfAKf06PmU3
+ ERV+pYu1K86IFUMeQf0mfXA9kCmQxoZTHvKYBIXPPVJarV961Tm1Kk1N62PZTDiF
+ O0XiiFf75vbyzt6qPrlSorn61yuwTzAyZLY6YtPl0bFJ5mQLTYQNQ9Zp8Lt+M0SC
+ PwYA2G6yN8sIbnSXyX3kuhAJf6waltYpUa9bSCVDxqER/HreAF3Tu4sWaKeCXx8c
+ kNe59U4RYQtxxlLowGXbzyvQnxrY3+v4cSk9yChpcHUmZQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twcrft68-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 12:52:23 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7c5cd0f8961so1168005485a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 05:52:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744116681; x=1744721481;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jJefxB8FLGWpi/gmyGyC0hTJwrgS8z3n6ed8v3Y5FJ8=;
- b=WbVLs6H6zacdnjfmot9Q9vTY/AGk5C6DlkY9LfJzIhN1FcYUB2xo9QFRf5Qz9BxFt8
- XjqzTMrgpcFjs2opXIJI1qOd4R7pWnfUwBvc/kAFcQ3ym8TIL5CHV1R0/Nx0zt0CPVuT
- jbZHNExjCDsjBw1ou3oygjelra/tOGvb4u88J3NwGEMuhGmj9XSwsGaxx1BMNYSMOdup
- YUOx8fpaUagqXs1zvnXWOHf6LPYEYA74zuNEc3OYkosZPXGjune2AJskvSpV8b6mGFkA
- D6nt9DdtmOIUlkosDy8sxJrssL2/ayhMpSVBXx59/+db0a3ijPwnZzzRmaVtuFMa5Ha1
- HXkw==
+ d=1e100.net; s=20230601; t=1744116742; x=1744721542;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/RhAbopXZzYSZ2snzri292EqZjBPlNjasAOXmgSUoLA=;
+ b=i1FUDxJs/pwMAxgV0WrZE4v8qvHoExB7IAew5AbvII/n8WBeam6vPie9XL5CqnKIeU
+ IT3wPc/Rqsk6fp+fNFbY4vEmm+iSKynL1SGT7kdVsdf+3zgjey0FBqmXF7HcztLuY8GJ
+ EbZ3XKSEknN2G/NGu7rGtg7vuoUvo0kq/N0HhuVzsXDd4/LUOYLbm1bYTqvOht1dEuet
+ DJBr/xOyx0MxWSWoDuTqLgJd+6PNpRktx1UxyIVrbnuT2U2EGGKkYFJzqU9KLrJewELV
+ 4XBfT39sVmXh19qVVxbdEjilwL07gOo9FbeXlwZvV40azWbidYRZ+3Lf6dGYgrTD4Ar4
+ 73Aw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUHNW5aRnCoP12mfNrvpaQs3GHPPVKAzMS4YIoTIcopW+Mg54VYX6hchzQjV8waJBynT1RHQEPT@lists.freedesktop.org,
- AJvYcCWh7zgt9QR1G0AOpb5sNYcRKsSS1O2vnmjUQxEdx3SJNqDMsYdqUWvkQtRU1AypwLmJGdMb7kBtYKle@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yywy39pTfEVuUdnZ6zyFFKx/81ut1zOfqZXtz4I3ypN/OeHnJKI
- FV129613Np6N2BCyOamOuoDbFL/axqdu/3mcAd3kwKp1ueHXWz0p2dsWiA+setywHbWUWeDPsOl
- fIpLj6/N6d28BIidvnT4gTWFp74k=
-X-Gm-Gg: ASbGncstF9RwdekPZBZ1mJngyWgWHDAPvAhaHascQM+z34UnI5dcXlZHSbMbp1C2yJJ
- Ua5Ho/tp5Lg4pMSx6ildmv9bQvI0Mx5eCymhgIz6dLSjKNQp7KWX3VMJslDam5Mr8jRVRgZ4T1S
- p9s4hi42rhdHE9ptfbhLJfYhKtww==
-X-Google-Smtp-Source: AGHT+IE3BGwIB7veoj6eje0Tze9/r/Sfa9ZWHYQiSGUExiNmqGzA6W8+JIfoimN+DZu/Gni15fMcKjpQ8CFj3IA9bI4=
-X-Received: by 2002:a17:90b:3a88:b0:301:ba2b:3bc6 with SMTP id
- 98e67ed59e1d1-306a496b929mr7897756a91.7.1744116681025; Tue, 08 Apr 2025
- 05:51:21 -0700 (PDT)
+ AJvYcCUfZ8Yx7KOyGVWq0AYtpVbiFXA9Gt+grtyTy0PpRNa7K5R4Cn8m0bpZ7HWwwpGnZUgSIJn2/ftLfJA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9RERQ8C9LZvjoE39cyh3jkRdnfAjE98E9glJ746oRX0TKc7UR
+ wWUtjv6A/C9hOxx8NxWaA9yXshT+EGnmCuyPtXRGUKySid51Y+GKanJvqwUOJ6wnXH32SVDvuqW
+ P63lFIrN2c7005PunA9C7ekOi79tyUz9cwn6izp0N0bDeN0D5dTNVR7DiIapz2WLaINE=
+X-Gm-Gg: ASbGnctsx6JpdNupq9ZIEGWZh89rbXSo6QSmPwf81m+NrjgGLiCyReZ8fSLK5qQwaRC
+ wCEFin7/P0us7TgnhLoI4J1IJ2nWxNqo57pg4PXMt8OXPzPlLwldAGRKiWJ5wv8Qe04IkJRR5RH
+ 1WVTVVHT2TeWqQra0D9YmMpBHcWRfeq7nKP5bYlmYHzMxD9ZMg9kAuXqxaC2cYhprCr3PfQ9+EI
+ Cm1330rVLu2k+NrXR4vFftzjUnKo/UEAV4+4ZkNNkuCN4PXohzmi2vtOrPrSRfy495ojxAApy4G
+ 4g1MGC5AhUQLdq5DWV0MAQLOaM5e8GZWn1oYOMqeqp/jQcAHxmR9VDVK6LMBfP3UIForNBl9zif
+ UfOE=
+X-Received: by 2002:a05:620a:424c:b0:7c5:4eee:5405 with SMTP id
+ af79cd13be357-7c775ade724mr2198473185a.35.1744116742503; 
+ Tue, 08 Apr 2025 05:52:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFFDiuOVK4fqofPRbu3JaWKpIlUn1TV35mTKoHmAkptZzlJT6SxBzt4YQZhIm9U/ibG6EVK9g==
+X-Received: by 2002:a05:620a:424c:b0:7c5:4eee:5405 with SMTP id
+ af79cd13be357-7c775ade724mr2198469585a.35.1744116742092; 
+ Tue, 08 Apr 2025 05:52:22 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30f031ed8absm20036791fa.111.2025.04.08.05.52.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Apr 2025 05:52:21 -0700 (PDT)
+Date: Tue, 8 Apr 2025 15:52:19 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ "Pu, Hui" <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] drm/panel: simple: Tianma TM070JDHG34-00: add
+ delays
+Message-ID: <563qsg52t5rio45xyofhihdxhsnu3j5togxoq65n6v65yevpcy@rv2eabnsuete>
+References: <20250407-tianma-p0700wxf1mbaa-v2-0-ede8c5a3f538@bootlin.com>
+ <20250407-tianma-p0700wxf1mbaa-v2-2-ede8c5a3f538@bootlin.com>
 MIME-Version: 1.0
-References: <CADnq5_O+TMVD0B28Q6CgzhAi1aDR5ofjogE18HDXrJOJ1XwbDQ@mail.gmail.com>
- <20250408081638.5295-1-arefev@swemel.ru>
-In-Reply-To: <20250408081638.5295-1-arefev@swemel.ru>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 8 Apr 2025 08:51:09 -0400
-X-Gm-Features: ATxdqUGGeuAEy76obe-8bptynlXwPr_CzRnD4kBRgOpWKyyCycqmaT_JREsPGPI
-Message-ID: <CADnq5_NHD9ULZ21tApHk=c2z+brnms9XotGUvpOri8G3Df594g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm/smu11: Prevent division by zero
-To: Denis Arefev <arefev@swemel.ru>
-Cc: Jun.Ma2@amd.com, airlied@gmail.com, alexander.deucher@amd.com, 
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com, 
- dri-devel@lists.freedesktop.org, kenneth.feng@amd.com, kevinyang.wang@amd.com, 
- lijo.lazar@amd.com, linux-kernel@vger.kernel.org, 
- lvc-project@linuxtesting.org, mario.limonciello@amd.com, simona@ffwll.ch, 
- srinivasan.shanmugam@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250407-tianma-p0700wxf1mbaa-v2-2-ede8c5a3f538@bootlin.com>
+X-Proofpoint-ORIG-GUID: yPU0bdSf9w1R1sPZS_cnKZCp10LvoEb9
+X-Authority-Analysis: v=2.4 cv=QuVe3Uyd c=1 sm=1 tr=0 ts=67f51c07 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=P-IC7800AAAA:8 a=pk7s4CxdNanXLCiXgvgA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-GUID: yPU0bdSf9w1R1sPZS_cnKZCp10LvoEb9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-08_04,2025-04-08_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ spamscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0 priorityscore=1501
+ clxscore=1015 phishscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504080090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,42 +127,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Oh, sorry, I've picked it up now.  Thanks!
+On Mon, Apr 07, 2025 at 06:34:00PM +0200, Luca Ceresoli wrote:
+> Add power on/off delays for the Tianma TM070JDHG34-00.
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-Alex
+Fixes: bf6daaa281f7 ("drm/panel: simple: Add Tianma TM070JDHG34-00 panel support")
 
-On Tue, Apr 8, 2025 at 4:16=E2=80=AFAM Denis Arefev <arefev@swemel.ru> wrot=
-e:
->
-> > ---
-> >  drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c b/drivers/g=
-pu/drm/amd/pm/swsmu/smu11/smu_v11_0.c
-> > index 189c6a32b6bd..54229b991858 100644
-> > --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c
-> > +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c
-> > @@ -1200,7 +1200,7 @@ int smu_v11_0_set_fan_speed_rpm(struct smu_contex=
-t *smu,
-> >         uint32_t crystal_clock_freq =3D 2500;
-> >         uint32_t tach_period;
-> >
-> > -       if (speed =3D=3D 0)
-> > +       if (!speed || speed > UINT_MAX/8)
-> >                 return -EINVAL;
-> >         /*
-> >          * To prevent from possible overheat, some ASICs may have requi=
-rement
-> > --
-> > 2.43.0
-> >
->
-> Hi Alex.
->
-> The patch 'drm/amd/pm/smu11: Prevent division by zero' was sent
-> separately, not part of the patch series, maybe that's why it wasn't
-> accepted. Should I resend it?
->
-> Regards, Denis.
->
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index df718c4a86cb7dc0cd126e807d33306e5a21d8a0..3496ed3e62056938ccc0ed2389ea46eed8d17ea2 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -4452,6 +4452,12 @@ static const struct panel_desc tianma_tm070jdhg34_00 = {
+>  		.width = 150, /* 149.76 */
+>  		.height = 94, /* 93.60 */
+>  	},
+> +	.delay = {
+> +		.prepare = 18,		/* Tr + Tp1 */
+
+I think this should be 15, Tr is handled by the regulator, so no need to
+handled it in the panel driver.
+
+> +		.enable = 150,		/* Tp2 */
+> +		.disable = 150,		/* Tp4 */
+> +		.unprepare = 120,	/* Tp3 */
+> +	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+> 
+> -- 
+> 2.49.0
+> 
+
+-- 
+With best wishes
+Dmitry
