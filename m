@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BFAA814C4
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 20:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D74A814C0
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 20:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBC0110E2DB;
-	Tue,  8 Apr 2025 18:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3E4B10E2CE;
+	Tue,  8 Apr 2025 18:37:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dqrCc/s7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="izcTM0EV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D56810E2CE
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 18:37:00 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-736ee709c11so4995782b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 11:37:00 -0700 (PDT)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 445FA10E2D3
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 18:37:01 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-730517040a9so7204211b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 11:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744137419; x=1744742219; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1744137421; x=1744742221; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:reply-to:references
  :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
  :date:message-id:reply-to;
- bh=sQx5kL2HMBRicxt7p/SiPvwoIXxU9EbXiMpn/Q8TNZ0=;
- b=dqrCc/s79LzgrpwpbRqzjOr888OJpQpyU77B6fLUQ/ihfEl+DGYnFqsfJI6cRveXJE
- CMvQ/0hye9857XjzAX3u/n7xWRXcrPETq7lGMkfxpdBWkhueZbQL1OVkmwSgYd+g1YNi
- 5p0x+eXIYLATj+sYgaP3CNjNE1CyVHna6md9R3awE2xsUe57r5gI5ray5g+Am2hGfLBC
- P90VzJNGQXiNdspomUnxL9FMjcliNfaZSKxQReDHq/VPFtt0lfsBLO2YvpkJoLNylA8H
- Vi7PaVrSF8sP0sn6MzsFScba4SXYTHT1X2LZYWUSv+vkaAyhBRkj3+64iJyIAhodfL+P
- qscQ==
+ bh=yaU+5633ewJo+47cjHg1WFMmmsE9Nb6gzhZCIjFmnWA=;
+ b=izcTM0EVuPf0D3B/K02PfOJgNXtiLDYA6fDDNFIw0fYG1yqV1tnAEJt8xcLGY8dD1f
+ lT19GqHPN8Y1OgQ4QjBzbxtP/CNkZc8HBKAEJdUsYJ89X7rszJtCO0CHVLE0pWUjz7bz
+ SZRmK9xo2pCdfjud3DV++buTQqq8+7r5c1JKRWdXgJ9wa3MaibGFhRpLC7MbrH6fCty7
+ gxtK5ja7WMRHev4z5KlY0ODtvFQ5cmAVNVHBg7PB8w8X0GIBbuZv3cczS99YNX5z8DlT
+ cr/fq2zWs2eQAbN3npXJFcjA6Oxb+l25J+bsBWFZrjPXxuGf7HIJacy0Y0sETLVJgtcl
+ WKCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744137419; x=1744742219;
+ d=1e100.net; s=20230601; t=1744137421; x=1744742221;
  h=content-transfer-encoding:mime-version:reply-to:references
  :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=sQx5kL2HMBRicxt7p/SiPvwoIXxU9EbXiMpn/Q8TNZ0=;
- b=ZPbnXD8fHcRne0Ja+A+FfNZ59y3U2n+PY082tnMM2nW/EoXVXz54xys+2jey0cmYpD
- N6faxqT38agk5z0XcYQigSlBEI7p5s0Wi+Nwwi8zQYZvVTPgHmG0LxH8YQegwTXUGApR
- Lthc8844mbMcKx6QeLpRExR3TvyOmp7s5YSLqcOg8/Cag6ID20BGaVQ8luboNNwtEQUj
- 7itIbfbH/8iJBv597DarsD3aqK2dnhNJehNhTKfzlqOssoL5JBYVnfVRFUH/10jBkYwo
- 1QKh5/HS1G9RKzrlBZVE0xdh24Pr4bHH33kGZJkvkssohqtFsaxa16wZIUFuP40ebT8b
- +3pw==
+ bh=yaU+5633ewJo+47cjHg1WFMmmsE9Nb6gzhZCIjFmnWA=;
+ b=dz7Nvw8pGw3KOnk/ZP+CoDlXwigmgwwgT9nkFcxZx8MDaaKwTnUjj79CjDFBVmvw4Y
+ f0tHta8OK2IxDfOONJPsoH4U8QJbgODLj69pjOym2yNMUWCdnB/THjXe8qoRtXBWVD+G
+ uHZv2LHm1i2bGfBmn2273Fv1EFojZH289STdVax+OGI3M0gdo1/eRIEP2xntw6KRopgf
+ eedc6tU/vc3CdQ0e60XC4frBovvysi5OdbyFM2c6G9696Nq08B/WWCq0prHx31tbo68w
+ kaHpXt/gX9G6NqG6I9sg4Lyd7omJQ40ZuYzCYlgUg/1Q8HPqk4ynUwvQtVe250MVQ08/
+ wo0w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWFKVtUUKpd4+kBEl1i8ORN0Ak7VtynCAQF+dOfsk4O+/aqGIErcZrHzlCPH7F1Ag4mk6SwHnLIzgs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxRl3IzHQS2qKn/VwtD+fjiJTd+fGKQtOGZ45k+GuRXdDkYmQXi
- z3PW96n0fiTLY4KUsi31Q1GDcB3WVyfxKz4rcgjsPVCgXH01aKVG
-X-Gm-Gg: ASbGnctH7FIYkzs+SgdX4tQh6r7v03Y+cBUIxSXv0PFCNRVQzSyzBuKJAnt/1Dgfn7N
- TvY6XfuZ+9mvFvEBwIN8QGu2LUqJmm9DAacMjdcg3s9MbSQ8SgnyUHaobOrgBwurpkhGq7ogaeB
- m3k4i58vpKl0gyUhIGNVZjvCpRITIlpeSx2q8kIJPnNozvdfEVEIaby8a1I8O7UZcb1P2uisdps
- mqmQ1Pe7epTsRc5S6HWGXHr1Y82dqnR1Cdkccr6F1xGJxHWjLK5jzGKklhppHbBbsAna2KfKppx
- HX0uJouLx23sY7wWpRFzn5G6mpYZi6bZjk6c+u9MdCGrAJXBNySnfkrJjo5933POGVxYMjqX0+/
- /Y3lAKifluErLS8sQCeV+MH4=
-X-Google-Smtp-Source: AGHT+IEjwArdNPWWYuDFcDmnKKWKrgBr6kLPXpKsC7dfbpRyYKqI8aTmyy8lbfzaFKrF/1/S/MR/dw==
-X-Received: by 2002:a05:6a00:1152:b0:736:ab21:6f37 with SMTP id
- d2e1a72fcca58-73bae30912bmr152104b3a.0.1744137419397; 
- Tue, 08 Apr 2025 11:36:59 -0700 (PDT)
+ AJvYcCWBS+STUEPUhQgtFZgeqo9Q9BYeCtZ2vGbvG8YNnovS2Ldz80RPftnrbtuNpodVJIO+N0E2yvkNglY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpIzrrpA5IqMuCpIifupW1aS0AdO+TNwJjed4jwsGfM/flrGHy
+ S6SUB+lXbvYTScIbkgPzs1aNMn/K3uatxrQqNOqGYpykLHM6w8rh
+X-Gm-Gg: ASbGncsnMVJSsJgypvu/QnP0ZHBzjtz+Jvg29EKsLIaqUM8TAN6G2++LP75SndHBxqI
+ ddKInzpA9u9amdvcbCdwpXdC2upPnY/vgoT9RR5PBgMugmlnVIzrjG1Nn4tBQWb02GbJrk4DZJt
+ NA7vzsmBE8w6cQrOAhG+87+OGYARw7Jb38tuDzRlGP6rm3ao4ZH2AsnaVKiibKLSmIWiv0KuSNG
+ lzQX2lCL7UX3xNYj9OGTHecD14CrFJqaMAsb754brlHburr3TlEOcH4XyCTbFwYc7zYIiKY45pE
+ OUgjYq4d0Abs4Bez1WDLm3WD02tYgKEpzOJsyqbWMO4UoVubcKr17S39oUhj4DXlVdwF6/z0l2Q
+ 5LdRb6X4yrhZ8bleqyWVV4HQ=
+X-Google-Smtp-Source: AGHT+IHVHsepbXorylQC9VxOWgtbUH6lFwU2otdZFrXXy0fXuJkqEdBn0S7PNfOtArRZ51249Vrk0Q==
+X-Received: by 2002:a05:6a00:114f:b0:736:2ff4:f255 with SMTP id
+ d2e1a72fcca58-73bae527668mr78501b3a.15.1744137420544; 
+ Tue, 08 Apr 2025 11:37:00 -0700 (PDT)
 Received: from localhost.localdomain (c-67-160-120-253.hsd1.wa.comcast.net.
  [67.160.120.253]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-739d97d32b2sm10960469b3a.5.2025.04.08.11.36.58
+ d2e1a72fcca58-739d97d32b2sm10960469b3a.5.2025.04.08.11.36.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Apr 2025 11:36:59 -0700 (PDT)
+ Tue, 08 Apr 2025 11:37:00 -0700 (PDT)
 From: mhkelley58@gmail.com
 X-Google-Original-From: mhklinux@outlook.com
 To: jayalk@intworks.biz, simona@ffwll.ch, deller@gmx.de,
@@ -71,13 +71,15 @@ Cc: weh@microsoft.com, tzimmermann@suse.de, hch@lst.de,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
  linux-mm@kvack.org
-Subject: [PATCH 1/3] mm: Export vmf_insert_mixed_mkwrite()
-Date: Tue,  8 Apr 2025 11:36:44 -0700
-Message-Id: <20250408183646.1410-2-mhklinux@outlook.com>
+Subject: [PATCH 2/3] fbdev/deferred-io: Support contiguous kernel memory
+ framebuffers
+Date: Tue,  8 Apr 2025 11:36:45 -0700
+Message-Id: <20250408183646.1410-3-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250408183646.1410-1-mhklinux@outlook.com>
 References: <20250408183646.1410-1-mhklinux@outlook.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,30 +99,284 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michael Kelley <mhklinux@outlook.com>
 
-Export vmf_insert_mixed_mkwrite() for use by fbdev deferred I/O code,
-which can be built as a module. For consistency with the related function
-vmf_insert_mixed(), export without the GPL qualifier.
+Current defio code works only for framebuffer memory that is allocated
+with vmalloc(). The code assumes that the underlying page refcount can
+be used by the mm subsystem to manage each framebuffer page's lifecycle,
+including freeing the page if the refcount goes to 0. This approach is
+consistent with vmalloc'ed memory, but not with contiguous kernel memory
+allocated via alloc_pages() or similar. The latter such memory pages
+usually have a refcount of 0 when allocated, and would be incorrectly
+freed page-by-page if used with defio. That free'ing corrupts the memory
+free lists and Linux eventually panics. Simply bumping the refcount after
+allocation doesn’t work because when the framebuffer memory is freed,
+__free_pages() complains about non-zero refcounts.
 
-Commit cd1e0dac3a3e ("mm: unexport vmf_insert_mixed_mkwrite") is
-effectively reverted.
+Commit 37b4837959cb ("video: deferred io with physically contiguous
+memory") from the year 2008 purported to add support for contiguous
+kernel memory framebuffers. The motivating device, sh_mobile_lcdcfb, uses
+dma_alloc_coherent() to allocate framebuffer memory, which is likely to
+use alloc_pages(). It's unclear to me how this commit actually worked at
+the time, unless dma_alloc_coherent() was pulling from a CMA pool instead
+of alloc_pages(). Or perhaps alloc_pages() worked differently or on the
+arm32 architecture on which sh_mobile_lcdcfb is used.
 
+In any case, for x86 and arm64 today, commit 37b4837959cb9 is not
+sufficient to support contiguous kernel memory framebuffers. The problem
+can be seen with the hyperv_fb driver, which may allocate the framebuffer
+memory using vmalloc() or alloc_pages(), depending on the configuration
+of the Hyper-V guest VM (Gen 1 vs. Gen 2) and the size of the framebuffer.
+
+Fix this limitation by adding defio support for contiguous kernel memory
+framebuffers. A driver with a framebuffer allocated from contiguous
+kernel memory must set the FBINFO_KMEMFB flag to indicate such.
+
+Tested with the hyperv_fb driver in both configurations -- with a vmalloc()
+framebuffer and with an alloc_pages() framebuffer on x86. Also verified a
+vmalloc() framebuffer on arm64. Hardware is not available to me to verify
+that the older arm32 devices still work correctly, but the path for
+vmalloc() framebuffers is essentially unchanged.
+
+Even with these changes, defio does not support framebuffers in MMIO
+space, as defio code depends on framebuffer memory pages having
+corresponding 'struct page's.
+
+Fixes: 3a6fb6c4255c ("video: hyperv: hyperv_fb: Use physical memory for fb on HyperV Gen 1 VMs.")
 Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
- mm/memory.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/video/fbdev/core/fb_defio.c | 126 +++++++++++++++++++++++-----
+ include/linux/fb.h                  |   1 +
+ 2 files changed, 107 insertions(+), 20 deletions(-)
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 9d0ba6fe73c1..883ad53d077e 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -2660,6 +2660,7 @@ vm_fault_t vmf_insert_mixed_mkwrite(struct vm_area_struct *vma,
- {
- 	return __vm_insert_mixed(vma, addr, pfn, true);
+diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+index 4fc93f253e06..0879973a4572 100644
+--- a/drivers/video/fbdev/core/fb_defio.c
++++ b/drivers/video/fbdev/core/fb_defio.c
+@@ -8,11 +8,38 @@
+  * for more details.
+  */
+ 
++/*
++ * Deferred I/O ("defio") allows framebuffers that are mmap()'ed to user space
++ * to batch user space writes into periodic updates to the underlying
++ * framebuffer hardware or other implementation (such as with a virtualized
++ * framebuffer in a VM). At each batch interval, a callback is invoked in the
++ * framebuffer's kernel driver, and the callback is supplied with a list of
++ * pages that have been modified in the preceding interval. The callback can
++ * use this information to update the framebuffer hardware as necessary. The
++ * batching can improve performance and reduce the overhead of updating the
++ * hardware.
++ *
++ * Defio is supported on framebuffers allocated using vmalloc() and allocated
++ * as contiguous kernel memory using alloc_pages(), kmalloc(), or
++ * dma_alloc_coherent(), the latter of which might allocate from CMA. These
++ * memory allocations all have corresponding "struct page"s. Framebuffers
++ * in MMIO space are *not* supported because MMIO space does not have
++ * corrresponding "struct page"s.
++ *
++ * For framebuffers allocated using vmalloc(), struct fb_info must have
++ * "screen_buffer" set to the vmalloc address of the framebuffer. For
++ * framebuffers allocated from contiguous kernel memory, FBINFO_KMEMFB must
++ * be set, and "fix.smem_start" must be set to the physical address of the
++ * frame buffer. In both cases, "fix.smem_len" must be set to the framebuffer
++ * size in bytes.
++ */
++
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+ #include <linux/string.h>
+ #include <linux/mm.h>
++#include <linux/pfn_t.h>
+ #include <linux/vmalloc.h>
+ #include <linux/delay.h>
+ #include <linux/interrupt.h>
+@@ -37,7 +64,7 @@ static struct page *fb_deferred_io_get_page(struct fb_info *info, unsigned long
+ 	else if (info->fix.smem_start)
+ 		page = pfn_to_page((info->fix.smem_start + offs) >> PAGE_SHIFT);
+ 
+-	if (page)
++	if (page && !(info->flags & FBINFO_KMEMFB))
+ 		get_page(page);
+ 
+ 	return page;
+@@ -137,6 +164,15 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
+ 
+ 	BUG_ON(!info->fbdefio->mapping);
+ 
++	if (info->flags & FBINFO_KMEMFB)
++		/*
++		 * In this path, the VMA is marked VM_PFNMAP, so mm assumes
++		 * there is no struct page associated with the page. The
++		 * PFN must be directly inserted and the created PTE will be
++		 * marked "special".
++		 */
++		return vmf_insert_pfn(vmf->vma, vmf->address, page_to_pfn(page));
++
+ 	vmf->page = page;
+ 	return 0;
  }
-+EXPORT_SYMBOL(vmf_insert_mixed_mkwrite);
+@@ -163,13 +199,14 @@ EXPORT_SYMBOL_GPL(fb_deferred_io_fsync);
  
  /*
-  * maps a range of physical memory into the requested pages. the old
+  * Adds a page to the dirty list. Call this from struct
+- * vm_operations_struct.page_mkwrite.
++ * vm_operations_struct.page_mkwrite or .pfn_mkwrite.
+  */
+-static vm_fault_t fb_deferred_io_track_page(struct fb_info *info, unsigned long offset,
++static vm_fault_t fb_deferred_io_track_page(struct fb_info *info, struct vm_fault *vmf,
+ 					    struct page *page)
+ {
+ 	struct fb_deferred_io *fbdefio = info->fbdefio;
+ 	struct fb_deferred_io_pageref *pageref;
++	unsigned long offset = vmf->pgoff << PAGE_SHIFT;
+ 	vm_fault_t ret;
+ 
+ 	/* protect against the workqueue changing the page list */
+@@ -182,20 +219,34 @@ static vm_fault_t fb_deferred_io_track_page(struct fb_info *info, unsigned long
+ 	}
+ 
+ 	/*
+-	 * We want the page to remain locked from ->page_mkwrite until
+-	 * the PTE is marked dirty to avoid mapping_wrprotect_range()
+-	 * being called before the PTE is updated, which would leave
+-	 * the page ignored by defio.
+-	 * Do this by locking the page here and informing the caller
+-	 * about it with VM_FAULT_LOCKED.
++	 * The PTE must be marked writable before the defio deferred work runs
++	 * again and potentially marks the PTE write-protected. If the order
++	 * should be switched, the PTE would become writable without defio
++	 * tracking the page, leaving the page forever ignored by defio.
++	 *
++	 * For vmalloc() framebuffers, the associated struct page is locked
++	 * before releasing the defio lock. mm will later mark the PTE writaable
++	 * and release the struct page lock. The struct page lock prevents
++	 * the page from being prematurely being marked write-protected.
++	 *
++	 * For FBINFO_KMEMFB framebuffers, mm assumes there is no struct page,
++	 * so the PTE must be marked writable while the defio lock is held.
+ 	 */
+-	lock_page(pageref->page);
++	if (info->flags & FBINFO_KMEMFB) {
++		unsigned long pfn = page_to_pfn(pageref->page);
++
++		ret = vmf_insert_mixed_mkwrite(vmf->vma, vmf->address,
++					       __pfn_to_pfn_t(pfn, PFN_SPECIAL));
++	} else {
++		lock_page(pageref->page);
++		ret = VM_FAULT_LOCKED;
++	}
+ 
+ 	mutex_unlock(&fbdefio->lock);
+ 
+ 	/* come back after delay to process the deferred IO */
+ 	schedule_delayed_work(&info->deferred_work, fbdefio->delay);
+-	return VM_FAULT_LOCKED;
++	return ret;
+ 
+ err_mutex_unlock:
+ 	mutex_unlock(&fbdefio->lock);
+@@ -207,10 +258,10 @@ static vm_fault_t fb_deferred_io_track_page(struct fb_info *info, unsigned long
+  * @fb_info: The fbdev info structure
+  * @vmf: The VM fault
+  *
+- * This is a callback we get when userspace first tries to
+- * write to the page. We schedule a workqueue. That workqueue
+- * will eventually mkclean the touched pages and execute the
+- * deferred framebuffer IO. Then if userspace touches a page
++ * This is a callback we get when userspace first tries to write to a
++ * page. We schedule a workqueue. That workqueue will eventually do
++ * mapping_wrprotect_range() on the written pages and execute the
++ * deferred framebuffer IO. Then if userspace writes to a page
+  * again, we repeat the same scheme.
+  *
+  * Returns:
+@@ -218,12 +269,11 @@ static vm_fault_t fb_deferred_io_track_page(struct fb_info *info, unsigned long
+  */
+ static vm_fault_t fb_deferred_io_page_mkwrite(struct fb_info *info, struct vm_fault *vmf)
+ {
+-	unsigned long offset = vmf->pgoff << PAGE_SHIFT;
+ 	struct page *page = vmf->page;
+ 
+ 	file_update_time(vmf->vma->vm_file);
+ 
+-	return fb_deferred_io_track_page(info, offset, page);
++	return fb_deferred_io_track_page(info, vmf, page);
+ }
+ 
+ /* vm_ops->page_mkwrite handler */
+@@ -234,9 +284,25 @@ static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
+ 	return fb_deferred_io_page_mkwrite(info, vmf);
+ }
+ 
++/*
++ * Similar to fb_deferred_io_mkwrite(), but for first writes to pages
++ * in VMAs that have VM_PFNMAP set.
++ */
++static vm_fault_t fb_deferred_io_pfn_mkwrite(struct vm_fault *vmf)
++{
++	struct fb_info *info = vmf->vma->vm_private_data;
++	unsigned long offset = vmf->pgoff << PAGE_SHIFT;
++	struct page *page = phys_to_page(info->fix.smem_start + offset);
++
++	file_update_time(vmf->vma->vm_file);
++
++	return fb_deferred_io_track_page(info, vmf, page);
++}
++
+ static const struct vm_operations_struct fb_deferred_io_vm_ops = {
+ 	.fault		= fb_deferred_io_fault,
+ 	.page_mkwrite	= fb_deferred_io_mkwrite,
++	.pfn_mkwrite	= fb_deferred_io_pfn_mkwrite,
+ };
+ 
+ static const struct address_space_operations fb_deferred_io_aops = {
+@@ -246,11 +312,31 @@ static const struct address_space_operations fb_deferred_io_aops = {
+ int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ {
+ 	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
++	vm_flags_t flags = VM_DONTEXPAND | VM_DONTDUMP;
+ 
+ 	vma->vm_ops = &fb_deferred_io_vm_ops;
+-	vm_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
+-	if (!(info->flags & FBINFO_VIRTFB))
+-		vm_flags_set(vma, VM_IO);
++	if (info->flags & FBINFO_KMEMFB) {
++		/*
++		 * I/O fault path calls vmf_insert_pfn(), which bug checks
++		 * if the vma is not marked shared. mmap'ing the framebuffer
++		 * as PRIVATE doesn't really make sense anyway, though doing
++		 * so isn't harmful for vmalloc() framebuffers. So there's
++		 * no prohibition for that case.
++		 */
++		if (!(vma->vm_flags & VM_SHARED))
++			return -EINVAL;
++		/*
++		 * Set VM_PFNMAP so mm code will not try to manage the pages'
++		 * lifecycles. We don't want individual pages to be freed
++		 * based on refcount. Instead the memory must be returned to
++		 * the free pool in the usual way. Cf. the implementation of
++		 * remap_pfn_range() and remap_pfn_range_internal().
++		 */
++		flags |= VM_PFNMAP | VM_IO;
++	} else if (!(info->flags & FBINFO_VIRTFB)) {
++		flags |= VM_IO;
++	}
++	vm_flags_set(vma, flags);
+ 	vma->vm_private_data = info;
+ 	return 0;
+ }
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index cd653862ab99..ea2092757a18 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -402,6 +402,7 @@ struct fb_tile_ops {
+ 
+ /* hints */
+ #define FBINFO_VIRTFB		0x0004 /* FB is System RAM, not device. */
++#define FBINFO_KMEMFB		0x0008 /* FB is allocated in contig kernel mem */
+ #define FBINFO_PARTIAL_PAN_OK	0x0040 /* otw use pan only for double-buffering */
+ #define FBINFO_READS_FAST	0x0080 /* soft-copy faster than rendering */
+ 
 -- 
 2.25.1
 
