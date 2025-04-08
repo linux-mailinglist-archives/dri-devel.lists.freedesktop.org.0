@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278C2A7FCB8
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 12:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C184A7FCC0
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 12:48:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 421DD10E637;
-	Tue,  8 Apr 2025 10:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69B3810E1A0;
+	Tue,  8 Apr 2025 10:48:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="KoIqO+Ic";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="a4237Xv2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 261BD10E637
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 10:47:52 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 261CB10E1A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 10:48:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744109271;
+ s=mimecast20190719; t=1744109306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4xw+wBnQVfWgv0zC6Ricz7sQ1fp9U8GQwNm1YcDj298=;
- b=KoIqO+Iczffu9X7OOTBEJkkuHbTbSkfEfuaABkrgYm3rPrZPKwkfbnc6xoYXObGnWNQ8d+
- LGtw6lGqMo1NePWdHm2sTjZ6c3+ShP4lVT6/8d/iWuT8P37i23xR5elHrEdjGQCv2lvpg0
- q1TP/qCTUBgYv4f0RbxqzBuP4Ba8RqU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Y5x8ztklRj+hcaxqPRCHP3RYpTBH39TiiFhtTkJ0tSc=;
+ b=a4237Xv2NoiNj5oJt9iNm2muNQ+gQoY8GAEuTa/6TZqlqt2Sos77QK8PJ06pzrb++ydKHC
+ IUO0uLgKr8Kk4hkTqhNhDfwufP0APnVjOHKdd9eyuHN4bwKo0jBfIS2/3TxCldpfmRl2xI
+ IjRE6os8kJstMYBNeWJxO1mGPEZkK/8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-115-xmoTAx6EMJSQHQ0eXEhL-g-1; Tue, 08 Apr 2025 06:47:50 -0400
-X-MC-Unique: xmoTAx6EMJSQHQ0eXEhL-g-1
-X-Mimecast-MFC-AGG-ID: xmoTAx6EMJSQHQ0eXEhL-g_1744109269
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-43d51bd9b41so47123595e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 03:47:50 -0700 (PDT)
+ us-mta-320-adETgCcxNnWTZl7Gxzt8Bw-1; Tue, 08 Apr 2025 06:48:24 -0400
+X-MC-Unique: adETgCcxNnWTZl7Gxzt8Bw-1
+X-Mimecast-MFC-AGG-ID: adETgCcxNnWTZl7Gxzt8Bw_1744109303
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-43ced8c2eb7so41124205e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 03:48:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744109269; x=1744714069;
+ d=1e100.net; s=20230601; t=1744109303; x=1744714103;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4xw+wBnQVfWgv0zC6Ricz7sQ1fp9U8GQwNm1YcDj298=;
- b=pXS4aFQmp6gtzLTXtvqnu+3bkBtBmnlhPrCaugyheoKS/gQMReyCqrLR5ParARFdzd
- a1Mw/MmfUG1r1Mdt4b/msbQZ2cToUNuU/sMEervaHYL/UktusPJwXVSMO/CSET1Maed0
- HDGQSQ7MoIgdWxms8yEqmkKhDmaYCKuyKFuS7L6xOgxuj0Qo1SUrl5dpVP7GEbezQsYM
- eGktCCr871MdSPA5N7jpQm+Q8kbJa0yDKVuYUg57HzDIacyJEFVw9fJam5iUkh6VndC6
- oISYeFqzW5TcwYYxhmJL8UJBzdkReTAU5LWJAHUkAYEblJdwsOmqRn4Lffelcj7mN9Q2
- R2FQ==
+ bh=Y5x8ztklRj+hcaxqPRCHP3RYpTBH39TiiFhtTkJ0tSc=;
+ b=mjDq797uctTbc+Q78xA6iWP+/DRtgFEwLtamEZ41NkJHXqQc3XDDfry20dOng4vQyd
+ QN91w1+8L8CEzA5CKF2qGCDUd1FGz2UB5wz7fQwLOnle9vKAY1xEbSFXfQZpr+vj2kql
+ O3CbPyzzA8A4BrR9bll4rdDY+Mx+vTFXaslJ8rGEHwaNwuK+RuiLCycFKMZv6BDKZ5Ls
+ iwbCiMkuZFnR4x3AV5DYbtr2x4DE7QBehqgocvUHN8337rOQ/+oeThg9aCP7e8rFSd30
+ kdFmIapa18wRtJFNElYJsivwR6uC/RTEy+WmDEheqMqbEt/E94ATiMcCKrwFwL5r1krw
+ PDKw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXS4zOJNQ6FGfzGz+VxAc3G4fxhx51xVBKKJTlpcNl5XuOGNX+Po8TvFLi0E5sFGoi6fXi0p8UEYzw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YydU0j/XJTfG6cbCdlXoE6LpzAfk1ZQsjJMLs2AQvJSZC460CDQ
- ppXbySclfmCIdeampscnLZ2VA5RY1KYYd5l6QBQQ04GjdBRkAZsYS6jqXVOuwcsvtfrPlHu3S/k
- z9+zYxiZaryl5VKWu4K7UOmK97ZvdL66wGL/ULd0TKF7mEvVyGbmEPn5IJN+X4E0m2g==
-X-Gm-Gg: ASbGncvgmn9Pq07xOTcZcxyH8PO5o5ynOJ3z8TCxuK2iTfsfYe5zvvBl1Cuxbs1Ll+U
- bxPoUDAaYDifL1c+F/PJZpXSy4KKgnSQh2wMD4lfU0/zpYax3A8XuUdsw6t5p6D1ck2imqCK79V
- 0qKXUk9RNqRmilldUBaRIRnEn7yC8Eq10KzkAEe6IDz0KBhjFKQMTYJQt/3xC3Wk77dzdG5I0FV
- jUkIIfCoSAVAIB0ulGVZSUh1x7R+ms015wPoODC96sVxQv2UopwKonCOt98/H2z0MkJ5oRBILZr
- fJPu064TF/lg9f/eW6393UdA91yqTD/6FE5atxRFRBhbM4Iu8oGaoVMNQh/z3PLSj26JZthzjw=
+ AJvYcCWBJFoClmeWcj0weyAFBZvgqP4P0n2l/pL0mDgoyH/6UAeqgRBmyac02dJDPXZrDJWxTTUcxpKQSFI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyycQdubrBOl8+k0OxTLPAQyP8hjQ/75T0KxndSg/MR6s5Itrqh
+ atyMBjq/2Ry8bVKFiYow4rg2T3B5rQM00PIODx1WR3UJlTQUUHPoO8jlSsoJy4/iHmo5amhJeoP
+ QIu0eEq3QmZr0igEg4Weli/U1228z0Vy7qRZGtxhGjCzPuMXk7rkekK8OhyouNxNvCg==
+X-Gm-Gg: ASbGncvf6CA2lvAxliA+aoYJZ5c9MslaPBptLE8dCLcqeZ4ZOh+88c6raDO8tAA0VOl
+ 7eo5COauUx0JSPv854qBt/cC3lZWtMzp2lhtIicte+2qzTz1m02GJMTUhaK+8xVTUEioy6Fk/CJ
+ bIqcYBf8GZatSDt5fwlyF12vTgbvBvci/LPC4t/7LzbZWm1Yh7XyOMrGhaIqizEig4nNI4vmMP9
+ dGmjvRxoSq1R+cjZyqxhy04tZoZnokebCmlOaax8aCydx7/fhdI1O7T1z0oQUSuCl/Mm1428+Bi
+ iY4REe/VXTCw2YdOCd1z+/3PZFghl5dWkLsXi/Sl2nADsIhXhy35jtVXSLHEQtTgsrsby17uWQ=
  =
-X-Received: by 2002:adf:b611:0:b0:39c:1257:ccb0 with SMTP id
- ffacd0b85a97d-39d14765fd3mr9548180f8f.59.1744109269041; 
- Tue, 08 Apr 2025 03:47:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEh1uMDeBq+pU4IaUBuRFJpmb8rjcktVpXoisHx2sKdsI8ltO9xVwk8LYU0/ltb7JZRqus7Rw==
-X-Received: by 2002:adf:b611:0:b0:39c:1257:ccb0 with SMTP id
- ffacd0b85a97d-39d14765fd3mr9548170f8f.59.1744109268665; 
- Tue, 08 Apr 2025 03:47:48 -0700 (PDT)
+X-Received: by 2002:a05:600c:500a:b0:43b:ce3c:19d0 with SMTP id
+ 5b1f17b1804b1-43ed0da06f1mr141448615e9.29.1744109303226; 
+ Tue, 08 Apr 2025 03:48:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFPyvr9IC5YPwrbteXJ5HIsOUrWufQQG1ons9V7EEJ7Y1tjpgMs/bSQiqMrHaDIkzT80gnIxQ==
+X-Received: by 2002:a05:600c:500a:b0:43b:ce3c:19d0 with SMTP id
+ 5b1f17b1804b1-43ed0da06f1mr141448445e9.29.1744109302834; 
+ Tue, 08 Apr 2025 03:48:22 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39c301a79aasm14836365f8f.35.2025.04.08.03.47.47
+ 5b1f17b1804b1-43ec1795db7sm164592015e9.25.2025.04.08.03.48.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Apr 2025 03:47:48 -0700 (PDT)
+ Tue, 08 Apr 2025 03:48:22 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, ardb@kernel.org,
  linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/2] efi: Export symbol efi_mem_desc_lookup
-In-Reply-To: <20250408091837.407401-2-tzimmermann@suse.de>
+Subject: Re: [PATCH 2/2] drm/sysfb: efidrm: Support module builds
+In-Reply-To: <20250408091837.407401-3-tzimmermann@suse.de>
 References: <20250408091837.407401-1-tzimmermann@suse.de>
- <20250408091837.407401-2-tzimmermann@suse.de>
-Date: Tue, 08 Apr 2025 12:47:47 +0200
-Message-ID: <87a58r9bfw.fsf@minerva.mail-host-address-is-not-set>
+ <20250408091837.407401-3-tzimmermann@suse.de>
+Date: Tue, 08 Apr 2025 12:48:21 +0200
+Message-ID: <877c3v9bey.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: dCpciSbAOTarhjMnuuIocVlzrDQoKUOxNrhF5217Els_1744109269
+X-Mimecast-MFC-PROC-ID: EQ6xdXn8sHnGF-SlZrJrG35HfuxswG6b4mjFY2xgLnE_1744109303
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,8 +100,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Building efidrm as module requires efi_mem_desc_lookup(). Export
-> the symbol.
+> Make CONFIG_DRM_EFIDRM a tristate to enable module builds.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
