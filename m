@@ -2,164 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0ECA80F17
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 17:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92726A80FB6
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 17:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D3C10E6DE;
-	Tue,  8 Apr 2025 15:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98B11899B7;
+	Tue,  8 Apr 2025 15:21:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b/flR4sh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aK+ZgPme";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC5010E205;
- Tue,  8 Apr 2025 15:00:15 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E55E7899B7
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 15:21:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744124416; x=1775660416;
- h=date:from:to:cc:subject:message-id:reply-to:references:
+ t=1744125687; x=1775661687;
+ h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=PjvtRC4AAerVzoBsOKaHRS8c8Urdv0S8BrdtUI3gmEc=;
- b=b/flR4shfLVK2InV8LL8h3G2SpVVoTjFG00uIoCFpR2qhs5oDIjTfjfa
- BW6LIH3fiNZfpu04qfLsw9NxTcrPe83qWGpr7/zDlwSw+to5kn+eDbN9v
- uQZZbfDKklUYqG8tQKYA0680sCWHFVkYJ72UV1EJVUX1WrpUKo2YM/t2B
- e6+1b8QMM2afSdJ+Vf8+ue6CKzAjyfnZ5MqyEDe+Dh3MNmMMFyNZt8kZT
- e3CZfxVL28z8Xlbcgm4AiI3feOrtqi9sKhIFNoeh4RwTmEbIedNuWqOOJ
- WNNo+Vo3fxGXPjsRV3QY1X2I/XosDhBHgCvGMn2t9dKEkVsRdljKwhqaD Q==;
-X-CSE-ConnectionGUID: Df1bywx3QSut87dEXGS83g==
-X-CSE-MsgGUID: yKYFlgc3RUe896AfRTy61g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45450301"
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="45450301"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2025 08:00:13 -0700
-X-CSE-ConnectionGUID: qInWGUi5S7WmGTLPCPPKyg==
-X-CSE-MsgGUID: YTRdTa6rT2aUJ8SWmwHEow==
+ bh=uIhqU0QTxZl0Xpv3I5xwk16v7qQPifeKDLmMuARr5M8=;
+ b=aK+ZgPmeVTjQmEyUEubD/6dStET08Rnv1/Cgrbi/6XldgRWkztCwNinJ
+ zagJQ71cBdCtVAsJPSfws2iQPx9oT2eSyTTRdHqfUB2we4EdU2Fa949rO
+ aa70gfq3lcQbbRuHdAfm6KuARLHAyrgod8/+CqRLLFN+4JytSdmeJapEg
+ S0T6vZcb2SbgcmH6QBJwigr9/J95PYIgIjLObvVuiLPxzyT+dhdYOF+1f
+ lsELQIR0z6BkNGx6hLYRbm/sTUBUeWqAch8uEHnm4LaoCYKu0vxrOujTX
+ md91B1VaGrschVZ2zXen5Bt0Va/l2Mvqscd/dTP6aE8canZeZJ/mWCgzI Q==;
+X-CSE-ConnectionGUID: 7dyUCrXKR3OwBcUqdMgL2g==
+X-CSE-MsgGUID: wsSeNi6MTLWprrlz09Peiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49362374"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="49362374"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 08:21:24 -0700
+X-CSE-ConnectionGUID: Cec8IAm8Ryq6+Dr0vnersw==
+X-CSE-MsgGUID: qO14zw2MSEmcls7orvioEg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="133019160"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; d="scan'208";a="128191969"
 Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 08 Apr 2025 08:00:12 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 08 Apr 2025 08:21:25 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
  ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Tue, 8 Apr 2025 08:00:11 -0700
+ 15.1.2507.44; Tue, 8 Apr 2025 08:21:24 -0700
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 8 Apr 2025 08:00:11 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.45) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.2.1544.14 via Frontend Transport; Tue, 8 Apr 2025 08:21:24 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 8 Apr 2025 08:00:08 -0700
+ 15.1.2507.44; Tue, 8 Apr 2025 08:21:24 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fGTsAw8WDGFa6n2qTm4ZABeRveHB60Z1Xw2RHTQTrPv6LZoSScFUv/qvUkgAA3P6KW5vwi0aDydRQQu3T7Gki983GowQK1lXcWsDzEt6ckbbxyvbvWAlwfynD2+c44BUHOzP+2ev5o1jaUTO1GBJGd+cSFa5XEOqcyWX9WEb8ObFaJRBoKC5Sw4VJsif4Eej5S2PJjs3n3tnojHyBuMRGruUEQGJ7xOZdgEfOZnskAAcglyc6vyvPWJTfg67Jgcjpar4pGIuJ5elbROOJuHtpMY0e8eCkDtNN8RemyLAv4Z5PjxfWtHewtpJzZWha1v0Y4H5ZSMuyu+zc/xcU+6PeA==
+ b=sEfTzn4Bjxf3JyECyGXN2uGHnpZE+M0AkbUZ6gZeKomHjZrHVBNvm+kNhuuL2HJqchK2+Qrybq3NEyFbI8pra4p4fRFRH3V2oi9MS+0R5qAWKYD4CDTH2E//d21zJlxSwpRN1T2VwKJ5wYzIyxQch4dYEbK+jrVcQIrLUXQTMso/w+0Dg13yAbR2RnCLV0K3QzVCAhaBg27D/SQoODdsAucRDbd/UaAkZOCgmKlWsx0voAXJreJWZ+qynxtznO+Ul2Jr9NRj7Wn7uteaGYGQD4l+GcJaF/DHUgjSyRtAs8FHD8RVPozokiqf/4YGhlohW6a/wVYRi6/HFQa4ytnmHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NEqaozaSQ/C3Z3iH6IHuTBdNHzlpmPUDza0+aiyu1CI=;
- b=fTjI5uUKpx7kI5koguaIpk0YNorjC75hwoFi8894F0x4IoZNLf6F7n0ZDGB5KK5CbeIZQnQmzS0IqQNsDVPja9O5YzlvmvrO88K38sLs3UOFwoUYZcBtQcWAHwSkw5zRAl60I1aV/YI3+nbmty4xDhIceYa0HEU9/TvdhBtwNc9j3qkiPpsgOJHxVk1V09dsUeUYnPOtdFyceG74dAh/cYDd1+2BnyUJRuH/VTliHqUVYK6Y0NlMfPNfZ/bPxIHdVC/+wuNKbAhHK8Dq99HPivaV/gBrO8ISVD7nN0Bx+p0awc07T3NHoKw0k19m9PqGx2kIrSKNSW93A8UiQLej8g==
+ bh=fJKmZzhNxxUzbkJdXYOiHMOfvibUlmO7cVKRSnzcQKg=;
+ b=awHdC62MAgGBbWvO09IjQH8fD4YSwSrtrm53lyrS8W2bDm+KUasq/xuRMMzrEwVhYQzY9QYa3KNtDKa57WcY0UfYtsYBDY9pcULETpQVDSRm+BHQYxQoZW/STp3NZ0cUEQH1/d0Kw4I9HeCyKjji4/2w+pcM+berV231X5iDrBdZf6L1WCkUtnECuDr1Hp530hEMmRG76hcgrle4of16fsMVDr7JwJtJX8k/FjbwFIlLGCCfHtsq2VxfGNNB5bDsaeFYRG6S7OC8NFVRZNE8TdCT1kvmLfoRnZsz/78NA/e6MWZ3xg89qw1rkhlgI7jiR7qSGW0wpVl0x1A3AMKZCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
- by MW3PR11MB4556.namprd11.prod.outlook.com (2603:10b6:303:5b::21)
- with Microsoft SMTP Server (version=TLS1_2,
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SJ5PPF1EED2E381.namprd11.prod.outlook.com
+ (2603:10b6:a0f:fc02::817) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Tue, 8 Apr
- 2025 14:59:53 +0000
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f%6]) with mapi id 15.20.8606.033; Tue, 8 Apr 2025
- 14:59:53 +0000
-Date: Tue, 8 Apr 2025 17:59:54 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-CC: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <vinod.govindapillai@intel.com>
-Subject: Re: [PATCH 3/3] drm/i915/audio: move min_hblank from dp_mst to audio
-Message-ID: <Z_U56mE3pJgP_m7M@ideak-desk.fi.intel.com>
-References: <20250408-hblank-v1-0-4ba17aebee65@intel.com>
- <20250408-hblank-v1-3-4ba17aebee65@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+ 2025 15:21:22 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%3]) with mapi id 15.20.8606.033; Tue, 8 Apr 2025
+ 15:21:22 +0000
+Date: Tue, 8 Apr 2025 10:21:18 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+CC: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>, Anusha Srivatsa
+ <asrivats@redhat.com>
+Subject: Re: [PATCH 1/3] drm/panel: auo-a030jtn01: Fix compilation build
+Message-ID: <r6gh6jdfipcvg7qxcsjnldpz3txsp65xjj7mpqsnlu3yhcijta@n6mk5a76r3ko>
+References: <20250408122008.1676235-1-mripard@kernel.org>
+ <nyrjnvctqnk6f3x5q7rlmy5nb7iopoti56pgh43zqknici5ms4@cibpldh7epra>
+ <20250408-imaginary-khaki-sloth-eeceff@houat>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20250408-hblank-v1-3-4ba17aebee65@intel.com>
-X-ClientProxiedBy: DU2PR04CA0017.eurprd04.prod.outlook.com
- (2603:10a6:10:3b::22) To SJ0PR11MB4845.namprd11.prod.outlook.com
- (2603:10b6:a03:2d1::10)
+In-Reply-To: <20250408-imaginary-khaki-sloth-eeceff@houat>
+X-ClientProxiedBy: MW4PR04CA0221.namprd04.prod.outlook.com
+ (2603:10b6:303:87::16) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|MW3PR11MB4556:EE_
-X-MS-Office365-Filtering-Correlation-Id: 90ad84f1-167a-49fd-1ff8-08dd76ae0497
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ5PPF1EED2E381:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0b91ba9-ff53-429f-5c83-08dd76b104c8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|376014|366016|1800799024|13003099007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1bbAkGGxJkU33xfRc/fDD1hoF5Er5K7Rp87LzdsmlJS5k5NrwQ2bTE3is4x2?=
- =?us-ascii?Q?OWaiJJQBR6RrJDn7e8vKnSq2EXXTwxfiGKg762DKilsNdD1tn53Vm72fIE8T?=
- =?us-ascii?Q?k/3q1fA+jx2j0iC9muB7CFvGwZHUSspypJeZLuQS+aL7p0aQjmCLLcP5wYPj?=
- =?us-ascii?Q?VHEiv1UhaM23coegUxPze/ORiNjaDk0H7GkH7erOrLX3j+cYBkAJLQ128yFx?=
- =?us-ascii?Q?58KNNmatamC+ys95Hhjnh3zI7zm3tsc4fDdHQA5E6Ckmr8ruMiiJIa8ILLtJ?=
- =?us-ascii?Q?i5ZH6/KaC7HtimpcbOCkcujMUv3qv2/bEdiWN8BVcBsjXZW3UQwDms+6G+N/?=
- =?us-ascii?Q?X+yMEqjC61Ij85m4PywmlUHRNzoR82B1MnmsY84LmUiK7x+mIytXuvGB8a1V?=
- =?us-ascii?Q?D975HeEazTMKrTdv4Br4BZ4cZcCByPQWV5519DdAKvMm1ffR5J6AwcquUL2s?=
- =?us-ascii?Q?aeRYtTdszoTCzKuJt1EpVhhr73/6hCUTpEV8NufysUI5FF+J1RK2eMziDCQj?=
- =?us-ascii?Q?1SsB3nuydyJLpPQr08fQqQoPNq5+4VILRrlAfYsPatLcyMsQ7Q6Kn7uCyJC9?=
- =?us-ascii?Q?u4uU7zvvCqC1wB/72avNcJec8wdrknnKrQSDr1vSkXw1zTNLvvex9ZxNnOtS?=
- =?us-ascii?Q?5sFzScNj9bQRLCW6oNhj45rO4ItkGs8aj/YS2jfr3cJDFXyXBdUU/SWzxlig?=
- =?us-ascii?Q?BobHotjenElhK7RU6QIWRmoYZoDf4ZzEyaJkf5x8lUYedSm7Zt017hGqO73G?=
- =?us-ascii?Q?43h6RpLtfwnVHecD0FWfK5Ijqp2XRNM00S92PD7jEIdMfJQ+NCii7fBYx0/Q?=
- =?us-ascii?Q?lYar1OI7za2wQ9O6x+R/dMVst6rx5uR+aw302fmEqrCuY771HiM8biQwwzvY?=
- =?us-ascii?Q?uiq/AQFtvOvg8YkfRJkp5dMAda2aE6vDC7ocR4BNNnghiHzbr/D+EqIO9V6m?=
- =?us-ascii?Q?baMDlwdddF8VmwzVBqIbH+eVpCkCSsAcQBGOKCbYmlHj5rdvcCiyCS2LCNo7?=
- =?us-ascii?Q?xX3aHiHhdHmae7HmESHRLbCzWCJPxTfF8+gSej2B1NaqKnGlS/F+2FqzTeDR?=
- =?us-ascii?Q?C8NG6z+jiYTPiNjHn8O7bLxlAz07xyE/MuPpUb62sxO0EkeyWlYkq+3BwFDo?=
- =?us-ascii?Q?N+URKZKW+BHpZscB6qK11pWJ9TiOAXg77AitVfrI8J9rGwrm4jViRXDRGpbX?=
- =?us-ascii?Q?qoNA7fwghTpDIUbCSgDKRhSX55EJq4/UI66SyRGHWT3SG611q2lQJjxsLY0m?=
- =?us-ascii?Q?mXKO8+jvPX4/5yBthF0YsBQayOHLlHs2evmO6pHCgZ+Jd9y8HMuXrQ5GaNlZ?=
- =?us-ascii?Q?8nItzWdkqq5Npg7DnE3v1+Q8SLl0n4yaGuORH/F7Gfb35tNy/7xq44x1ngd8?=
- =?us-ascii?Q?RoTc6+E=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?F/4zeMCIZRjwWESWf1hTN+dyg2npKVhIONabmpL/J6G3en82Mo6FXKyuA4s8?=
+ =?us-ascii?Q?jvx2J9kEp3TayO3YPQPZIud53OsYnJP5T4aEmDfdj5cE1HngEwG7yDZsJiv5?=
+ =?us-ascii?Q?wNiZuqtqYFCBREAYeE9yZvCdtr6hqGjFGX6U+u+g4IEZeLuzOfkrchhm4x7d?=
+ =?us-ascii?Q?0qLk5HMBqTnoLm4U9KRvwZHcuG3PVUGhkj7D5vzkHoBQgNJ6o6+Tc9ka8hm7?=
+ =?us-ascii?Q?iCNz++CyRd0UHQxA3KobQ4UT56OZqE5MmbuFJ9pGww5Z8NGDQgWn7jWz2E5h?=
+ =?us-ascii?Q?to3WvZocnAePgSGE4gmCuDHk3/+iD9ieBq3QPfdFJRGEpspFUh1WG+dtLJ7O?=
+ =?us-ascii?Q?sTChsChB2HtPrb1N373KW56SZnFrIOwKiSzEapwoWECNa7CgMhddfI3CLxEw?=
+ =?us-ascii?Q?rdwW0uj/2xonMrT0avN1v0y104mZhx8wZ6gLTzre2lj/WOenj6qPrKlMzVtp?=
+ =?us-ascii?Q?QhOxy+gOgujkQT07k7+dS1nbU9PynR6+zkPXr6flO4Yc+zgkHuN33o9O8L5+?=
+ =?us-ascii?Q?I2k/wKad6oDjsnE4o5HDEWLRmlOgQpEgVsDQHyzpb3qqYnhf8VNRbJn4pkC8?=
+ =?us-ascii?Q?JQ3pF+xoR1e84XZrdYec8Fr5YnPdNgy480lNXatrfr7JkzOI13ShWsHkSnL0?=
+ =?us-ascii?Q?a6YK6z5gc8irdIa3+xrgrmJgXNuqFWvGapOVhxDepepM1tQ2Mxoi/ZKfF8CL?=
+ =?us-ascii?Q?t6FnwRtWQ//pIzOaDTGBoS8IkX0n24sRoJYecwdhNUkkx8xQDvy4b5A4+sYj?=
+ =?us-ascii?Q?j3Xp+qRYu7bkzvnEt02mdjU8lqU6cdV2IQA+HJ9uY/J+FMC9rRBnhUN7mngk?=
+ =?us-ascii?Q?v2AVQNMTrJbdIs3PsCVtp4G5b5s+2Uw6HUroaG8Bp7AGk9ry4HVij7UDPEf+?=
+ =?us-ascii?Q?8B7JEH6sVpd1thhvd+iLfamVwsN1Z+qEJnIo+7xhypRSShZMqB8Zk8zFaZga?=
+ =?us-ascii?Q?lWA8fQqnvkv0oUKu7k7nmLwi5S8/TDJbV4jYdNVlcUuK/yLjinQDz3P5eW51?=
+ =?us-ascii?Q?2b+67/XVDUCeFe6gMApl8fN+cmEFux59srdNDmlQ1R7S/bokgj1WUPsj1FoK?=
+ =?us-ascii?Q?w4AYyDCEkUMjmB6WNy5z92hT2nDJDxzWZAsT5wh6gusEEYBPEjtOWzPUevFQ?=
+ =?us-ascii?Q?6sdDkMgOlhRd7C6JsMkr/rTxsqZGBK24WJr4ZZLe9oAigJj771SdvOU9hYUj?=
+ =?us-ascii?Q?j6QNJV79iW6IVTONB1zCJ0UturuzWzBxSYi+lc3kQbayMhnMK+zfLVsoFAOf?=
+ =?us-ascii?Q?Zt5lMk7YVmhG9VOOyyjp8f/nG8sXP71cy0VjqLPczOkALW7+SqW+EOh6wG01?=
+ =?us-ascii?Q?9nXrIeFwJuKy7OytTwjfdqkJEF4u5hPhRouuLjNt+pI3O8Bw64qCmXDVcebO?=
+ =?us-ascii?Q?3gnUmbJZI06oBEUr+5bvPhyg8tpm?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(13003099007); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eaEX1sIzvdL/xmsuAAsk4RgsYIGIAukvXhssoYWr+Oe3kOXvVHlj889Y6y1B?=
- =?us-ascii?Q?yHEieheKtNqPYR4M4l1E6GGFZE3lxWBdM6nuOV36UH0HpoGVbkdZ/0ZFRy/q?=
- =?us-ascii?Q?EwePn5ZHLLQe/xPXurybnhXH1863NpVSl35ewqFWBRamy/gdsdM2AQnXNYjP?=
- =?us-ascii?Q?Q/mL6tC9fnmT+PT1bK04kMnUo9fZgLgjO5BuroohFDo29SafPWOQqM4G/N1c?=
- =?us-ascii?Q?lLWcgoOdiwEBKvolpmxDnuklgINRjmVCZGaEnKyvV4T9JNuCokXy9GnXAJlo?=
- =?us-ascii?Q?6+fryjF28IAkoxwL7jyLRZw+wfHbDsfRzk6oYXdD8A0zcFawdY86XoauZRG2?=
- =?us-ascii?Q?QnrRSxRAaTRGOUQgu+lzl8jZh673SLtXWJ2wefteHgE+/F3lslvojLNllv0B?=
- =?us-ascii?Q?6KBAkkhkzAc8sHg0CTHjicQxQ1+aJGGQgeS6Wg1acY3UWYYgIceZacmDHVdG?=
- =?us-ascii?Q?Eb68GRFWgikdO0AmQai1c4PLqasKQL+Z44DRqhva5GtpskJs2wW7uNC1GFBt?=
- =?us-ascii?Q?9a6lrCzt1wtLhpUQQVsou2172n+vn0zrAH4gDgL0tg7BekBykg8wvHEYnNnf?=
- =?us-ascii?Q?Rftk9qx3WZsLmAMUrzfatslixIfpSUb/IRaVoLgvVGvRU5mu/tpvLFrYwsVI?=
- =?us-ascii?Q?eryuqdAfbwYh53qcI9AMItS3gH4fCFuvFjS4sJiayrF4reUVris2B15f9+0J?=
- =?us-ascii?Q?spuK2fmucQ57HsTvGs3oqKFtT58TTRZm1T8IOh3ZjNI6F+L8V3LheQGToOw3?=
- =?us-ascii?Q?QHTJnh0DgVFThmc8PZXToxdEBTkHmRK029VU7KNRlVVZu9Fn7uISOMIwJeff?=
- =?us-ascii?Q?eGGufg8AeDXj+inuOo8gphOvpQSNvuGcpcTqjTagd3baV2S0amTyepXH1Fys?=
- =?us-ascii?Q?PPeNVJxBRcX6jW2zE7A7I3a7NUQ/5GFd0xbwPVM5unHZ0KGzfZa9wQY6v8Wg?=
- =?us-ascii?Q?F/VocdFEWwixb8/54F23C0RkwEn4zKNzx2ngbscQA9pZ0FOQHwQx6sxQbBUE?=
- =?us-ascii?Q?CJ+gaA6MOgImnQt/x7TzE2sfeCzS7IPSlGptcxw9ojnSIrous/eZIK92gtkf?=
- =?us-ascii?Q?VacqdVz+qPto9e+ZGmi2+soW7TGgh+lSHb6xJb44ZWUbb/5Pqk2jVEod6jpY?=
- =?us-ascii?Q?75MwigSHxTshNUEIon2ZYWGd3UydtOHE9CqSyqP5LCTUgIt0jiYL5ZB6kLkt?=
- =?us-ascii?Q?XpLeZ1CJTTx08+zmbAY/kocQsJweNVqJqT/YPq3cyy0ufoc6WO0Dq3VT4YUb?=
- =?us-ascii?Q?e5zFxm4TjeOIAxRU2GXA6x8Y2z4YJV8IuerZLmCbn5Xrjvjj+mHuPrBNQJ5w?=
- =?us-ascii?Q?HmDOK7ghBNJUiRgy+lT7QkNYuMiZicqYskJiNXM9ToOafjHt3O/bWgWyGV1P?=
- =?us-ascii?Q?twGjp+RthynVFDZ3N1HfKST6bPfsCPwIwMpTrQYiqLOCjObXiV/3wK0cQIyy?=
- =?us-ascii?Q?QLqXUCYPYnskoNLxXuA2g6YG2KYWcD0DPiJg6hXl3aC4aJ8WRtryoZZMtgrA?=
- =?us-ascii?Q?OamBiNOOIn6H3BPpXhNZiystEMTd8B4JZsQhVaA8jt8Ik7nPB981+kV+eI5Q?=
- =?us-ascii?Q?01Pc88XM3IHjc7KGrAmrOp6BOlxZ1jLXTxfRe1xf?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90ad84f1-167a-49fd-1ff8-08dd76ae0497
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JeeST5gwyb+Dfa0c/IkPnuDn8HiCLtCBwVBBJMD1V2laDYpVdm++O7awlYe/?=
+ =?us-ascii?Q?7+bkDMIDULZjvhdol4YQjBGDD+prZjb9rxCO+Mfo3CoxuTOB9EE03+VRL41M?=
+ =?us-ascii?Q?d7wQnVc9Sp0SwyhDsIlHXueozrV5CNF0fehzNG8meUnaDiQqWi/v7BEeADWo?=
+ =?us-ascii?Q?7I33zqDGYhMmUo+sWshhMrsbI4srdM9xVhvjc50mx+LLpqCl9bzaSysuJPEW?=
+ =?us-ascii?Q?qk/Vb2yUXgYzsM3IIC47scmQpuMyHR2F+Rg5aSTeLagESVAwr2hhLyG7UED4?=
+ =?us-ascii?Q?XxG5eM/16uEOpXCT9UhbgXzAlpk4topWemlBPVMcH2eqVEtiqGwSaKJAYBkp?=
+ =?us-ascii?Q?XiOKeaMLM9DmTUPN2CsM/O0Rr+MNZMzBMCnnKOnaM0J0Z7JA+/Y7QPvG8EXc?=
+ =?us-ascii?Q?Bw42wnofA+8X6JQs/RcRrDhKbPO2FbNVhVcFYcThZz8w+2c2aNeZB2BhM8J0?=
+ =?us-ascii?Q?qOgW5o9M3bvD4wjAztJs1Glhqz3v3yvUhkUfbRLlQvYI52lS+WdxSFd6+dDx?=
+ =?us-ascii?Q?iU3KlViigUcNviO7UJneDFhsgMkOYAOAO40dp6nRNWP7ekSswYYrYaLhCKPa?=
+ =?us-ascii?Q?cicquQCJm2WB48AJBePDGmukWfcHEHBcSw3uaLyVQ4xkviF8nNOxNlCwY64L?=
+ =?us-ascii?Q?1lnzS90yHl0NM9GaMrEXxI83bK04D2QrVIiB6ZSZvkJNOebZrQUO0FRn8EUi?=
+ =?us-ascii?Q?dN9Z8WyRLRkkM1foUIpre9JFdwUjjc4CtzQNR4RPdCWtdllI2oPSgfgstaGs?=
+ =?us-ascii?Q?6E2OwB2VJoF03XxbH1Uo6Ox0zY4MgyRJebUnOaYoS36gBRRTJkfOvx8RO26D?=
+ =?us-ascii?Q?AqDVHWMV4ImYD5yZvleAUtdlNNzUMpq6+W5aVbAB6LHAx6s3RudNmHC0+EDS?=
+ =?us-ascii?Q?bC6Cd+gsMnFqeqXGpvd0+53fOfm3KgsVKpWgqJ9sp5/X+IcWXdSLhFIe/KBX?=
+ =?us-ascii?Q?3LzKE8R+i29aOO54CCybPSAt1tSHRanat+1mbOU2XrrOgS7gFfcaixHLUMJ1?=
+ =?us-ascii?Q?jaa9lPpKJiKZXlyBE7OXXmuLlSNeSTss8vtMfnk/WR+QLd58vM7KdAv0jbdz?=
+ =?us-ascii?Q?PTkhB1BG1DKdSMqGvqZRknUZwGR+dgf2kYmgkRsxKtbpoDmRRDcRVaHxW/Nl?=
+ =?us-ascii?Q?8BoqTVsRt8Uayl49vNSy8XDKabNZ4YaafiiYWS/W+S2II78/w7oLN2tMptc5?=
+ =?us-ascii?Q?+yhuNe53PbPGd//yzcExxNVmHyOyCWOg8nFABnCxODuNJZdAQ0sMMuWp0unN?=
+ =?us-ascii?Q?nRcvzmJaW3FrOmV7RNuRKPOwe4WjCbFodvVu1mc0YHYqmZAVi64UGr+X2iq6?=
+ =?us-ascii?Q?kKVuF4H8rI7YyeoBLcwSExw4lsmijESOcTZNue8dkRcuW2rBa5zU5uBN3IcG?=
+ =?us-ascii?Q?0K7wLgTQI0mO9+88bglo5xIZdM+p+HvTFmcsrqEORSqu+oPzgBs7WJvjRt0Z?=
+ =?us-ascii?Q?Huea2bTG2d34NYa78PdfgelbRPr/OKvtZKzQKJhMKEf1gOAuUxlbHs+lciLc?=
+ =?us-ascii?Q?6oAxB5LqbGN6P74niVkOdO0U/UjY3iMSeCrSQgn1subpmjgp5Js2TBKC/HwW?=
+ =?us-ascii?Q?JTPE2qdXbXgEpRAN3d95dcbqFvEDodM7ahyWMP7rKBWXvi4cyWv4TQPZA5G/?=
+ =?us-ascii?Q?FA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0b91ba9-ff53-429f-5c83-08dd76b104c8
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 14:59:53.2045 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 15:21:22.0164 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: du2QMplQLM4HWpfDiUFb59OhZOfLjmdDvEqzqur9VLbtKz8iJUSEr3E6enbIRAUN9wQo1TUFp6EwMF+No7aY5w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4556
+X-MS-Exchange-CrossTenant-UserPrincipalName: CZUsPOz1FLCDTyCk7UX6KejJclsIcciiGz+yAa0JsAEVUeD0IWUV2JRyfzWwU03UxKkR2jyleentGF2s8zndLEtf492b7HGMbbD+pA88Zt0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF1EED2E381
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -173,288 +177,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 08, 2025 at 09:40:36AM +0530, Arun R Murthy wrote:
-> Minimum HBlank is programmed to address jitter for high resolutions with
-> high refresh rates that have small Hblank, specifically where Hblank is
-> smaller than one MTP.
+On Tue, Apr 08, 2025 at 04:57:44PM +0200, Maxime Ripard wrote:
+>Hi Lucas,
+>
+>On Tue, Apr 08, 2025 at 09:34:22AM -0500, Lucas De Marchi wrote:
+>> On Tue, Apr 08, 2025 at 02:20:06PM +0200, Maxime Ripard wrote:
+>> > Commit 9d7d7c3c9a19 ("panel/auo-a030jtn01: Use refcounted allocation in
+>> > place of devm_kzalloc()") switched from a kmalloc + drm_panel_init call
+>> > to a devm_drm_panel_alloc one.
+>> >
+>> > However, the variable it was storing the allocated pointer in doesn't
+>> > exist, resulting in a compilation breakage.
+>> >
+>> > Fixes: 9d7d7c3c9a19 ("panel/auo-a030jtn01: Use refcounted allocation in place of devm_kzalloc()")
+>> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>>
+>> I still get a failure in modpost:
+>>
+>> 	ERROR: modpost: "__devm_drm_panel_alloc" [drivers/gpu/drm/panel/panel-auo-a030jtn01.ko] undefined!
+>>
+>> because that entire block is:
+>>
+>> 	#ifdef CONFIG_OF
+>>
+>> Based on the header, I think the intention wasn't to add those functions
+>> there, right? Moving it outside the ifdef at least fixes the build for
+>> me.
+>>
+>> Lucas De Marchi
+>>
+>> -------8<------------
+>> Subject: [PATCH] drm/panel: Fix build error on !CONFIG_OF
+>>
+>> Move helpers outside of CONFIG_OF, so basic allocation also works
+>> without it.
+>>
+>> Fixes: ed9c594d495d ("drm/panel: Add new helpers for refcounted panel allocatons")
+>> Fixes: dcba396f6907 ("drm/panel: Add refcount support")
+>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_panel.c | 76 ++++++++++++++++++-------------------
+>>  1 file changed, 38 insertions(+), 38 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+>> index 870bf8d471ee9..99b348782ce31 100644
+>> --- a/drivers/gpu/drm/drm_panel.c
+>> +++ b/drivers/gpu/drm/drm_panel.c
+>> @@ -318,44 +318,6 @@ int drm_panel_get_modes(struct drm_panel *panel,
+>>  }
+>>  EXPORT_SYMBOL(drm_panel_get_modes);
+>> -#ifdef CONFIG_OF
+>> -/**
+>> - * of_drm_find_panel - look up a panel using a device tree node
+>> - * @np: device tree node of the panel
+>> - *
+>> - * Searches the set of registered panels for one that matches the given device
+>> - * tree node. If a matching panel is found, return a pointer to it.
+>> - *
+>> - * Return: A pointer to the panel registered for the specified device tree
+>> - * node or an ERR_PTR() if no panel matching the device tree node can be found.
+>> - *
+>> - * Possible error codes returned by this function:
+>> - *
+>> - * - EPROBE_DEFER: the panel device has not been probed yet, and the caller
+>> - *   should retry later
+>> - * - ENODEV: the device is not available (status != "okay" or "ok")
+>> - */
+>> -struct drm_panel *of_drm_find_panel(const struct device_node *np)
+>> -{
+>> -	struct drm_panel *panel;
+>> -
+>> -	if (!of_device_is_available(np))
+>> -		return ERR_PTR(-ENODEV);
+>> -
+>> -	mutex_lock(&panel_lock);
+>> -
+>> -	list_for_each_entry(panel, &panel_list, list) {
+>> -		if (panel->dev->of_node == np) {
+>> -			mutex_unlock(&panel_lock);
+>> -			return panel;
+>> -		}
+>> -	}
+>> -
+>> -	mutex_unlock(&panel_lock);
+>> -	return ERR_PTR(-EPROBE_DEFER);
+>> -}
+>> -EXPORT_SYMBOL(of_drm_find_panel);
+>> -
+>>  static void __drm_panel_free(struct kref *kref)
+>>  {
+>>  	struct drm_panel *panel = container_of(kref, struct drm_panel, refcount);
+>> @@ -443,6 +405,44 @@ void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t offset,
+>>  }
+>>  EXPORT_SYMBOL(__devm_drm_panel_alloc);
+>> +#ifdef CONFIG_OF
+>> +/**
+>> + * of_drm_find_panel - look up a panel using a device tree node
+>> + * @np: device tree node of the panel
+>> + *
+>> + * Searches the set of registered panels for one that matches the given device
+>> + * tree node. If a matching panel is found, return a pointer to it.
+>> + *
+>> + * Return: A pointer to the panel registered for the specified device tree
+>> + * node or an ERR_PTR() if no panel matching the device tree node can be found.
+>> + *
+>> + * Possible error codes returned by this function:
+>> + *
+>> + * - EPROBE_DEFER: the panel device has not been probed yet, and the caller
+>> + *   should retry later
+>> + * - ENODEV: the device is not available (status != "okay" or "ok")
+>> + */
+>> +struct drm_panel *of_drm_find_panel(const struct device_node *np)
+>> +{
+>> +	struct drm_panel *panel;
+>> +
+>> +	if (!of_device_is_available(np))
+>> +		return ERR_PTR(-ENODEV);
+>> +
+>> +	mutex_lock(&panel_lock);
+>> +
+>> +	list_for_each_entry(panel, &panel_list, list) {
+>> +		if (panel->dev->of_node == np) {
+>> +			mutex_unlock(&panel_lock);
+>> +			return panel;
+>> +		}
+>> +	}
+>> +
+>> +	mutex_unlock(&panel_lock);
+>> +	return ERR_PTR(-EPROBE_DEFER);
+>> +}
+>> +EXPORT_SYMBOL(of_drm_find_panel);
+>> +
+>>  /**
+>>   * of_drm_get_panel_orientation - look up the orientation of the panel through
+>>   * the "rotation" binding from a device tree node
+>
+>It's a bit hard to read with that change log, but assuming this doesn't
+>change of_drm_find_panel,
+>
+>Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-I wondered if following the standard practice of one change per commit
-is indeed not practical as you do it in this case.
+unfortunately in plain text we don't have the equivalent of
+`git show --color-moved`. I confirmed here it's only moving code outside
+the ifdef so the only functions inside it are the of_* ones. I will push
+them to drm-misc-next soon
 
-> 
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_audio.c  | 78 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp_mst.c | 51 +------------------
->  2 files changed, 79 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drivers/gpu/drm/i915/display/intel_audio.c
-> index ea935a5d94c87202a68f84b28b0152835f47fe73..b73cb208a37c6d4928c1ce16d2ab689626dcbbc5 100644
-> --- a/drivers/gpu/drm/i915/display/intel_audio.c
-> +++ b/drivers/gpu/drm/i915/display/intel_audio.c
-> @@ -27,9 +27,11 @@
->  #include <drm/drm_edid.h>
->  #include <drm/drm_eld.h>
->  #include <drm/drm_fixed.h>
-> +#include <drm/display/drm_dp_helper.h>
->  #include <drm/intel/i915_component.h>
->  
->  #include "i915_drv.h"
-> +#include "i915_reg.h"
->  #include "intel_atomic.h"
->  #include "intel_audio.h"
->  #include "intel_audio_regs.h"
-> @@ -37,6 +39,8 @@
->  #include "intel_crtc.h"
->  #include "intel_de.h"
->  #include "intel_display_types.h"
-> +#include "intel_dp.h"
-> +#include "intel_dp_mst.h"
->  #include "intel_lpe_audio.h"
->  
->  /**
-> @@ -184,6 +188,62 @@ static const struct hdmi_aud_ncts hdmi_aud_ncts_36bpp[] = {
->  	{ 192000, TMDS_445_5M, 20480, 371250 },
->  };
->  
-> +static void intel_audio_compute_min_hblank(struct intel_crtc_state *crtc_state,
-> +					   struct drm_connector_state *conn_state)
+thanks
+Lucas De Marchi
 
-I don't see any audio specific parameters in the calculation. This
-function is also called for non-DP encoders (HDMI) and for DP encoders
-it's called only if the DP sink supports audio.
+>
+>Maxime
 
-Isn't it supposed to be a generic (not audio specific) DP state
-calculated elsewhere (intel_dp.c)?
 
-> +{
-> +	struct intel_display *display = to_intel_display(crtc_state);
-> +	const struct drm_display_mode *adjusted_mode =
-> +					&crtc_state->hw.adjusted_mode;
-> +	struct intel_connector *connector = to_intel_connector(conn_state->connector);
-> +	int symbol_size = intel_dp_is_uhbr(crtc_state) ? 32 : 8;
-> +	int min_sym_cycles = intel_dp_is_uhbr(crtc_state) ? 3 : 5;
-
-Would be good to figure out and comment here what the 3 and 5 symbols
-stand for.
-
-> +	bool is_dsc = crtc_state->dsc.compression_enable;
-> +	int bpp = is_dsc ? crtc_state->dsc.compressed_bpp_x16 :
-> +			   crtc_state->pipe_bpp;
-
-This looks incorrect as the units for compressed_bpp_x16 and pipe_bpp
-are different.
-
-> +	bool is_mst = intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DP_MST);
-> +	u8 lane_count = crtc_state->lane_count;
-> +	int min_hblank, htotal, hactive;
-
-I don't think it's worth adding separate variables for lane_count,
-htotal, hactive.
-
-> +	int hactive_sym_cycles, htotal_sym_cycles;
-> +	int dsc_slices = intel_dp_mst_dsc_get_slice_count(connector,
-> +							  crtc_state);
-> +
-> +	if (DISPLAY_VER(display) < 30)
-> +		return;
-> +
-> +	/* Calculate min Hblank Link Layer Symbol Cycle Count for 8b/10b MST & 128b/132b */
-> +	hactive = adjusted_mode->hdisplay;
-> +	htotal = adjusted_mode->htotal;
-> +
-> +	hactive_sym_cycles = is_dsc ? drm_dp_link_dsc_symbol_cycles(lane_count,
-
-To get LL instead of ML symbol cycles as required by bspec, you should
-pass here lane_count=4 always, independent of the actual lane_count in
-crtc_state.
-
-> +								    hactive,
-> +								    dsc_slices,
-> +								    bpp,
-> +								    symbol_size,
-> +								    is_mst) :
-> +				      drm_dp_link_symbol_cycles(lane_count,
-> +								hactive,
-> +								bpp,
-
-This expects bpp_x16 units, but pipe_bpp that would be passed here has
-different units.
-
-> +								symbol_size,
-> +								is_mst);
-> +	htotal_sym_cycles = htotal * hactive_sym_cycles / hactive;
-> +
-> +	min_hblank = DIV_ROUND_UP((htotal_sym_cycles * bpp),
-> +				  (4 * symbol_size)) - hactive_sym_cycles;
-
-Not sure what the above division adjusts for, I think it should be just
-
-	min_hblank = htotal_sym_cycles - hactive_sym_cycles
-
-> +	/* minimum Hblank calculation: https://groups.vesa.org/wg/DP/document/20494 */
-> +	min_hblank = max(min_hblank, min_sym_cycles);
-> +
-> +	/*
-> +	 * adjust the BlankingStart/BlankingEnd framing control from
-> +	 * the calculated value
-> +	 */
-> +	min_hblank = min_hblank - 2;
-> +
-> +	/* Maximum value to be programmed is limited to 10 */
-> +	min_hblank = min(10, min_hblank);
-> +	crtc_state->min_hblank = min_hblank;
-> +}
-> +
-> +
->  /*
->   * WA_14020863754: Implement Audio Workaround
->   * Corner case with Min Hblank Fix can cause audio hang
-> @@ -715,6 +775,8 @@ bool intel_audio_compute_config(struct intel_encoder *encoder,
->  	memcpy(crtc_state->eld, connector->eld, sizeof(crtc_state->eld));
->  
->  	crtc_state->eld[6] = drm_av_sync_delay(connector, adjusted_mode) / 2;
-> +
-> +	intel_audio_compute_min_hblank(crtc_state, conn_state);
->  	mutex_unlock(&connector->eld_mutex);
->  
->  	return true;
-> @@ -778,6 +840,19 @@ void intel_audio_codec_enable(struct intel_encoder *encoder,
->  	intel_lpe_audio_notify(display, cpu_transcoder, port, crtc_state->eld,
->  			       crtc_state->port_clock,
->  			       intel_crtc_has_dp_encoder(crtc_state));
-> +
-> +	if (DISPLAY_VER(display) >= 30) {
-> +		/*
-> +		 * Address issues for resolutions with high refresh rate that
-> +		 * have small Hblank, specifically where Hblank is smaller than
-> +		 * one MTP. Simulations indicate this will address the
-> +		 * jitter issues that currently causes BS to be immediately
-> +		 * followed by BE which DPRX devices are unable to handle.
-> +		 * https://groups.vesa.org/wg/DP/document/20494
-> +		 */
-> +		intel_de_write(display, DP_MIN_HBLANK_CTL(cpu_transcoder),
-> +			       crtc_state->min_hblank);
-> +	}
-
-It's not clear why this programming is audio specific, based on my
-earlier comment above.
-
->  }
->  
->  /**
-> @@ -834,6 +909,9 @@ void intel_audio_codec_disable(struct intel_encoder *encoder,
->  	}
->  
->  	intel_lpe_audio_notify(display, cpu_transcoder, port, NULL, 0, false);
-> +
-> +	if (DISPLAY_VER(display) >= 30)
-> +		intel_de_write(display, DP_MIN_HBLANK_CTL(cpu_transcoder), 0);
->  }
->  
->  static void intel_acomp_get_config(struct intel_encoder *encoder,
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index af98a0d0e8376a79ce1ab6ff3c4f6af30f4d3e73..dae74c645c1a1d716504b7843fe1a5c8ace0d87d 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -211,26 +211,6 @@ int intel_dp_mst_dsc_get_slice_count(const struct intel_connector *connector,
->  					    num_joined_pipes);
->  }
->  
-> -static void intel_dp_mst_compute_min_hblank(struct intel_crtc_state *crtc_state,
-> -					    int bpp_x16)
-> -{
-> -	struct intel_display *display = to_intel_display(crtc_state);
-> -	const struct drm_display_mode *adjusted_mode =
-> -					&crtc_state->hw.adjusted_mode;
-> -	int symbol_size = intel_dp_is_uhbr(crtc_state) ? 32 : 8;
-> -	int hblank;
-> -
-> -	if (DISPLAY_VER(display) < 20)
-> -		return;
-> -
-> -	/* Calculate min Hblank Link Layer Symbol Cycle Count for 8b/10b MST & 128b/132b */
-> -	hblank = DIV_ROUND_UP((DIV_ROUND_UP
-> -			       (adjusted_mode->htotal - adjusted_mode->hdisplay, 4) * bpp_x16),
-> -			      symbol_size);
-> -
-> -	crtc_state->min_hblank = hblank;
-> -}
-> -
->  int intel_dp_mtp_tu_compute_config(struct intel_dp *intel_dp,
->  				   struct intel_crtc_state *crtc_state,
->  				   struct drm_connector_state *conn_state,
-> @@ -301,8 +281,6 @@ int intel_dp_mtp_tu_compute_config(struct intel_dp *intel_dp,
->  		local_bw_overhead = intel_dp_mst_bw_overhead(crtc_state,
->  							     false, dsc_slice_count, link_bpp_x16);
->  
-> -		intel_dp_mst_compute_min_hblank(crtc_state, link_bpp_x16);
-> -
->  		intel_dp_mst_compute_m_n(crtc_state,
->  					 local_bw_overhead,
->  					 link_bpp_x16,
-> @@ -998,7 +976,6 @@ static void mst_stream_disable(struct intel_atomic_state *state,
->  	struct intel_dp *intel_dp = to_primary_dp(encoder);
->  	struct intel_connector *connector =
->  		to_intel_connector(old_conn_state->connector);
-> -	enum transcoder trans = old_crtc_state->cpu_transcoder;
->  
->  	drm_dbg_kms(display->drm, "active links %d\n",
->  		    intel_dp->mst.active_links);
-> @@ -1009,9 +986,6 @@ static void mst_stream_disable(struct intel_atomic_state *state,
->  	intel_hdcp_disable(intel_mst->connector);
->  
->  	intel_dp_sink_disable_decompression(state, connector, old_crtc_state);
-> -
-> -	if (DISPLAY_VER(display) >= 20)
-> -		intel_de_write(display, DP_MIN_HBLANK_CTL(trans), 0);
->  }
->  
->  static void mst_stream_post_disable(struct intel_atomic_state *state,
-> @@ -1286,7 +1260,7 @@ static void mst_stream_enable(struct intel_atomic_state *state,
->  	enum transcoder trans = pipe_config->cpu_transcoder;
->  	bool first_mst_stream = intel_dp->mst.active_links == 1;
->  	struct intel_crtc *pipe_crtc;
-> -	int ret, i, min_hblank;
-> +	int ret, i;
->  
->  	drm_WARN_ON(display->drm, pipe_config->has_pch_encoder);
->  
-> @@ -1301,29 +1275,6 @@ static void mst_stream_enable(struct intel_atomic_state *state,
->  			       TRANS_DP2_VFREQ_PIXEL_CLOCK(crtc_clock_hz & 0xffffff));
->  	}
->  
-> -	if (DISPLAY_VER(display) >= 20) {
-> -		/*
-> -		 * adjust the BlankingStart/BlankingEnd framing control from
-> -		 * the calculated value
-> -		 */
-> -		min_hblank = pipe_config->min_hblank - 2;
-> -
-> -		/* Maximum value to be programmed is limited to 0x10 */
-> -		min_hblank = min(0x10, min_hblank);
-> -
-> -		/*
-> -		 * Minimum hblank accepted for 128b/132b would be 5 and for
-> -		 * 8b/10b would be 3 symbol count
-> -		 */
-> -		if (intel_dp_is_uhbr(pipe_config))
-> -			min_hblank = max(min_hblank, 5);
-> -		else
-> -			min_hblank = max(min_hblank, 3);
-> -
-> -		intel_de_write(display, DP_MIN_HBLANK_CTL(trans),
-> -			       min_hblank);
-> -	}
-> -
->  	enable_bs_jitter_was(pipe_config);
->  
->  	intel_ddi_enable_transcoder_func(encoder, pipe_config);
-> 
-> -- 
-> 2.25.1
-> 
