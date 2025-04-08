@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E941A817FF
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 23:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA959A81903
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 00:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6001710E77A;
-	Tue,  8 Apr 2025 21:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 663BE10E2D0;
+	Tue,  8 Apr 2025 22:50:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e0Na17Ig";
+	dkim=temperror (0-bit key; unprotected) header.d=asahilina.net header.i=@asahilina.net header.b="Zt4droY5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF4D510E77A
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 21:56:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8D4F25C4BEB;
- Tue,  8 Apr 2025 21:54:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 413A7C4CEE5;
- Tue,  8 Apr 2025 21:56:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744149387;
- bh=pFYXmZR6+jwBdXIM8IMf1ZM5f+SPt+A0Ob1udfXGNgo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e0Na17IgV55ORUx7uGu46oo8HnhMwXM27DrVZ6eQvYyDeWnzTw0kxDCu0V8df2oMb
- 3//aBTOUv6zxKplp6Ch9BsDLQeciaDmGTG8rNRsbzzr5THFYW/cSx3TQ6EoxmkMNgY
- zsD6BWXFzLH3/ivv4Of4HbaNX2CBGfgcnvgbMcSN67Ux2fDiWARRzmKLkst3HvpK4W
- gDIEMdQ0G3RT/DRsFtvnRPY7XZHnM2kFPGneSM6uBFMXwHOVMJzf8yEmr+4EUgOf3C
- 13GQxY7IldGbwPfvw4MZBpDhuYEhdr8ZHNe/QiufQmmJPXZ+Vico/GBq7iiF7uLz39
- B166q0vRRyUHg==
-Date: Tue, 8 Apr 2025 14:56:24 -0700
-From: Kees Cook <kees@kernel.org>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
- Aun-Ali Zaidi <admin@kodeit.net>,
- Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
- Simona Vetter <simona@ffwll.ch>, Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
- joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
- tamird@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Hector Martin <marcan@marcan.st>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <202504081456.31AF24D2F7@keescook>
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+X-Greylist: delayed 494 seconds by postgrey-1.36 at gabe;
+ Tue, 08 Apr 2025 16:38:07 UTC
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D26610E269
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 16:38:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 977D944CFC;
+ Tue,  8 Apr 2025 16:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1744129779;
+ bh=S/TJS8d87QFulyRwYwtV4MM1f/RFPnLTSXbH7okYRf4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=Zt4droY5nw4LmCJWod37WMpx/A14IMORZp3523qx6YknGBF1PfXDstI3dcRoTqsXm
+ RbF9Je0Z77q/lsO7iMqoMwlmc2P3hpiNjLPYETGuyj99ywI18N79And46rB6RMyGiL
+ 6HpS61dBwNbwhT+0Mlv0AQbXzgLZD5q+g6NMd09gnm1O2lq4qtejO6oQ+H4NoswEKg
+ +DlxnaFIR7fZ25Cdt2aX86HnpGYdtmFktl1z/V0+QlJ0N3LznTNuNDOh/YzoXtPGAg
+ CmhT8j+I8AthAVtJhK1Fo3kvLYwDv9pCz2IGWfv2UQn7EKMaV+Eo8R9VGDPp7wkL3w
+ LVaatKFhE7iVg==
+Message-ID: <32e7da7e-de32-4bc6-a751-f604da36a63f@asahilina.net>
+Date: Wed, 9 Apr 2025 01:29:35 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] DRM Rust abstractions
+To: Danilo Krummrich <dakr@kernel.org>, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ lyude@redhat.com, acurrid@nvidia.com, daniel.almeida@collabora.com,
+ j@jannau.net
+Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+References: <20250325235522.3992-1-dakr@kernel.org>
+Content-Language: en-US
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <20250325235522.3992-1-dakr@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Tue, 08 Apr 2025 22:50:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,33 +69,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 08, 2025 at 12:17:57PM +0530, Aditya Garg wrote:
-> From: Hector Martin <marcan@marcan.st>
-> 
-> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
-> it's useful to be able to print generic 4-character codes formatted as
-> an integer. Extend it to add format specifiers for printing generic
-> 32-bit FourCCs with various endian semantics:
-> 
-> %p4ch	Host byte order
-> %p4cn	Network byte order
-> %p4cl	Little-endian
-> %p4cb	Big-endian
-> 
-> The endianness determines how bytes are interpreted as a u32, and the
-> FourCC is then always printed MSByte-first (this is the opposite of
-> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
-> allow printing LSByte-first FourCCs stored in host endian order
-> (other than the hex form being in character order, not the integer
-> value).
-> 
-> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
-> Tested-by: Petr Mladek <pmladek@suse.com>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
 
-Reviewed-by: Kees Cook <kees@kernel.org>
 
--- 
-Kees Cook
+On 3/26/25 8:54 AM, Danilo Krummrich wrote:
+> This is the series for the initial DRM Rust abstractions, including DRM device /
+> driver, IOCTL, File and GEM object abstractions.
+> 
+> This series has been posted previously, however this is a long time ago and I
+> reworked a lot of things quite heavily. Hence, I decided to post this as a whole
+> new series.
+> 
+> Besides the rework, I want to credit Lina for her initial work, which this
+> series is based on.
+> 
+> In a private mail Lina told me to "feel free to take anything that's useful
+> from my past patch submissions or the downstream branches and use it/submit it
+> in any way".
+> 
+> @Lina: If you, however, feel uncomfortable with any of the Co-developed-by:
+> tags, due to the major changes, please let me know.
+
+I'm wondering why you took over primary authorship for some patches. For
+example, patch #3 has you listed as primary author, and yet when I diff:
+
+git diff asahi-6.11-1 asahi-6.12.12-1 rust/kernel/drm/drv.rs | grep '^+'
+| wc -l
+41
+
+(Those two trees have my original commit and your commits, as rebased
+over by Janne).
+
+Of those 41 added lines, most are comments, and reworking Registration a
+bit.
+
+I thought general kernel etiquette is that you keep the original author
+unless you are literally rewriting the majority of the file from scratch...
+
+I'm really tired of kernel politics and I don't want to spend more brain
+cycles looking at all the other patches or having to argue (in fact I
+usually don't look at patch emails at all recently), but I would
+appreciate if you keep my authorship for files that I did largely author
+myself. After everything I've been going through the past weeks (some of
+the people on Cc know what that's about...) this feels like yet another
+slap in the face.
+
+> 
+> Those changes include:
+>   - switch to the subclassing pattern for DRM device
+>   - rework of the GEM object abstraction; dropping the custom reference types in
+>     favor of AlwaysRefCounted
+>   - rework of the File abstractions
+>   - rework of the driver registration
+>   - lots of minor changes (e.g. to better align with existing abstractions)
+> 
+> This patch series is also available in [1]; an example usage from nova-drm can
+> be found in [2] and [3].
+> 
+> [1] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/topic/rust-drm
+> [2] https://lore.kernel.org/nouveau/20250325232222.5326-1-dakr@kernel.org/
+> [3] https://gitlab.freedesktop.org/drm/nova/-/tree/staging/nova-drm
+> 
+> Asahi Lina (1):
+>   rust: drm: ioctl: Add DRM ioctl abstraction
+> 
+> Danilo Krummrich (7):
+>   drm: drv: implement __drm_dev_alloc()
+>   rust: drm: add driver abstractions
+>   rust: drm: add device abstraction
+>   rust: drm: add DRM driver registration
+>   rust: drm: file: Add File abstraction
+>   rust: drm: gem: Add GEM object abstraction
+>   MAINTAINERS: add DRM Rust source files to DRM DRIVERS
+> 
+>  MAINTAINERS                     |   1 +
+>  drivers/gpu/drm/drm_drv.c       |  58 ++++--
+>  include/drm/drm_drv.h           |   5 +
+>  rust/bindings/bindings_helper.h |   6 +
+>  rust/helpers/drm.c              |  19 ++
+>  rust/helpers/helpers.c          |   1 +
+>  rust/kernel/drm/device.rs       | 195 +++++++++++++++++++
+>  rust/kernel/drm/driver.rs       | 194 +++++++++++++++++++
+>  rust/kernel/drm/file.rs         |  99 ++++++++++
+>  rust/kernel/drm/gem/mod.rs      | 321 ++++++++++++++++++++++++++++++++
+>  rust/kernel/drm/ioctl.rs        | 159 ++++++++++++++++
+>  rust/kernel/drm/mod.rs          |  19 ++
+>  rust/kernel/lib.rs              |   2 +
+>  rust/uapi/uapi_helper.h         |   1 +
+>  14 files changed, 1064 insertions(+), 16 deletions(-)
+>  create mode 100644 rust/helpers/drm.c
+>  create mode 100644 rust/kernel/drm/device.rs
+>  create mode 100644 rust/kernel/drm/driver.rs
+>  create mode 100644 rust/kernel/drm/file.rs
+>  create mode 100644 rust/kernel/drm/gem/mod.rs
+>  create mode 100644 rust/kernel/drm/ioctl.rs
+>  create mode 100644 rust/kernel/drm/mod.rs
+> 
+
+~~ Lina
+
