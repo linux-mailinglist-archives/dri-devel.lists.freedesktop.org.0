@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2E6A7F53A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 08:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA83A7F53E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 08:48:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC6410E216;
-	Tue,  8 Apr 2025 06:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB88A10E0E9;
+	Tue,  8 Apr 2025 06:48:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="Rzk3VnFq";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="n1GxuTdu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com
- (mail-centralindiaazolkn19011036.outbound.protection.outlook.com
- [52.103.68.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2B9310E216
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 06:48:14 +0000 (UTC)
+Received: from MA0PR01CU012.outbound.protection.outlook.com
+ (mail-southindiaazolkn19011027.outbound.protection.outlook.com
+ [52.103.67.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8328A10E0E9
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 06:48:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aXaCTB9P5lk42Vf1+cRUz88zm6IaJlHD/w0S3pLarNXpq7GNLzDx7+KMBndh3qhbgYh591Cu6Y62cNgfgHGCV1Y8zcJeToG20I5rh+ebgmJbD7ivYTFmDc6LyspU9JLZCmc1SVZV04qxzSAz4tc1whjKQorY2HCUaMTXVavUXgxIX1zlmujIVElH/PbyHkZxSUC7N5Fge9H4A1Oz7a7uTMt1CDLNIDOU4JGrT4xSZWlaWHy6XD0VZP6R26gwa7NyvRWu4XcOJWafhMYvupA4v4PEHo2pN7/Pwoy/IpKttPJiMtOby6V5Qs2npoDhUSLZYVCAkIACyLEnuuzr0rLo3A==
+ b=CBko4/dYStnxNm+vT8aS7CpoPjHWCWTnz494dCA4e7vN06uGwy5dFHKGTv2DZmU6Z5UJcIQzXnOA2K6hGHaqtkCKr07WAoXMKJoI7+GucoFvnGzX5lNgXxPahRVX8PvsMdd7ZNF5Pk38rAwMUWOBK9/qXitIlOy2z6mYTjPvSjTSjnPaUe/1nLgi7+xoLOWktXVZMskXBVkefUVqv8wZDUoYgfm5pXieptrqlA7a0qT4ifVzOSKcY2NadNdy6MkzDaFBWTXP3CEydyUsLnsYuyHdQeW5dH+tOPMAynpumeitdvi/AGSY1H4b0wfEb7LMpy41LqWkwM/aPswrJS8PGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9BaK2sIbKkGMx/9FF6qJRdXWycczn6mmYQVjFvZlDi8=;
- b=OufoNkMz4NA9PV9HJWkPtDfZSHdz6sFLmpjL7I5RcZwJ2jUt2qsWccj1dO1rMK7UZQ0XWe4EoxRvS9YfzZf1wlSrbiymEi89vEZZnodpSXCWiTMmQ9QRBOup8pTvzr7/aGizut1em2j6W+JUuXiWD+B+VRGtO8jX0LQEsDB26s9vZtgk4sNQaZBm7Tnq0oEqqsqDdj3pTAYCjGQy0bujY0CV3sHn5j4xWg+uHKOHIbsZzBM6MyBHXJjXV5PmMsULZImE17gUwrxjiTjeGptDiXvCRL350u9+JsAn6LAISURryP8LWgzcPqLLaSBocMMocpnKSQcsJRZe77B0Z4lPfg==
+ bh=EfKNRZZ4wSX/GVjiAu61b39RPWBTnYTKKt8RDZMGdPQ=;
+ b=I+8QFuqDJmFj5P5b/j2oklVeShRfhsvBn4JGP3zYuWw8ehbp8USnYxzEPYiaTmsjkbWtGiIDQhyXxPBVswhHhTr1czfD/C69ipQoJ1MvBp/tOuDJDlsmojsr+dHODYrJz4Jz00eDtP5kDy7CEiQmWbErpkf2D5DFhIF8fGdWBCjdDG/GA9J9WVbQZ+JfSKnkZwiz3GDK5tdGA9Qcu5FEUvP0advwovkPZN/emNMvGQTHLOCtfGbCY0JfFaCcnYdWzp66nVvE7fJo5YxvReT65jDkTSutHrIJlHRZHTJCtfWJWpyWU58auzTMszXH6wApLU7BdTtp49JHuHuwbVYxyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9BaK2sIbKkGMx/9FF6qJRdXWycczn6mmYQVjFvZlDi8=;
- b=Rzk3VnFqu7mu9f9eqHK3uYwwwVCv93ExBinNxJ8SVgCi9ZcXFY3yXjvbGCGl8N9Thq9KFQWwZtolzn54pdUfrFRyZzv0pzmTa8wp1bM8Y6HjtwJ7fAR8YQjTHKKhpqzxNSp34lAvReX7B0Y7c6w+t2ba4B68HSrVReMSR6kMWwMcy20Tc9r8jkv40i9kqDBR1wVv1I0GNx9s7n/Eej/92tkLq/t+uap3lAKo2x42VQGR1sZaV8DcZjzf9WT0Mod+zbXxUvHpmBk4OTJF493buZNTvq3lQft/nz17DP3oSd5bmo8256oP1DiPilDVLakBBKmdG1Ga2UNMxC/FQLJZmg==
+ bh=EfKNRZZ4wSX/GVjiAu61b39RPWBTnYTKKt8RDZMGdPQ=;
+ b=n1GxuTduwTdvOj3V8sHpMuCq3cS/+vfKfDctqfttGE4I56phkMvEkyv7OVuAgzLBEiac59WQ1StGPump2mZDw2qZzRH2ExwKklG2i0H8MM5P/iV9vJfsP9dwx0lXrujNCpykXL/x7Vjm9de404chzJ/e1TsvZQF7niHD4WXAMjZ59U8v+L5NJj/OwK22F1wMgY9BT8hQtNwMxDjCSk0fBGDFjiaSPGnyCAGPBL/VxujBaIF3F/CuZYgP7X5f+TGAPZsJGfClBHTVrG/oky3wrjsP33kbqttgHUkB8wPRDuUuhmd43bhHVSW+gQsl4AGJbzYhEuH8f411uqY05xe+ng==
 Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN0PR01MB9261.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:11e::16)
+ by MA0PR01MB7052.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:5e::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.35; Tue, 8 Apr
- 2025 06:48:02 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.33; Tue, 8 Apr
+ 2025 06:48:36 +0000
 Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8606.029; Tue, 8 Apr 2025
- 06:48:02 +0000
-Message-ID: <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Tue, 8 Apr 2025 12:17:57 +0530
+ 06:48:36 +0000
+Message-ID: <PN3PR01MB95973AF4F6262B2D1996FB25B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Date: Tue, 8 Apr 2025 12:18:32 +0530
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
+Subject: [PATCH v4 2/3] printf: add tests for generic FourCCs
 From: Aditya Garg <gargaditya08@live.com>
 To: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -68,81 +67,80 @@ Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: PN3PR01CA0090.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:c01:9a::9) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID: <65855c14-4158-423b-8d0c-0afaadeca8ae@live.com>
+X-Microsoft-Original-Message-ID: <170a9e37-5e3d-4628-acb5-04959f8a6224@live.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN0PR01MB9261:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55964a5f-a61a-420c-b890-08dd76694e8f
+X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|MA0PR01MB7052:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9e00d81c-22df-4861-7f4e-08dd766962de
 X-Microsoft-Antispam: BCL:0;
- ARA:14566002|8060799006|7092599003|15080799006|6090799003|5072599009|461199028|19110799003|3412199025|440099028|41001999003;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SjcvVU1iSDZoc1AzR0pqVEdLN2Q5bzR6Y0hPMnlUbEtDVElaNjdRYnBiWXBv?=
- =?utf-8?B?UkhKS2k1alF3aURKMjRrVXd4a0Fydm5LcFBrRFBCdDR4bnpTYUgwUURualc0?=
- =?utf-8?B?Rzlmb0p1RHNYY2ZhUkZsQnlSb3ZsWXZmTmJ0RUdUUVd5RTBJUE5CUDRtaG0v?=
- =?utf-8?B?VVZGU0hXeWtUVUhJZGNxMHg1WkQ2MUZsSEd3ZldrOTc3MERMK1lMSndnTnN1?=
- =?utf-8?B?SkFCaWNWbnZDeFNmVzdOeHd1OUZrNnB2ZnBhRFJGRUFRcVphSXVHbDdDWDR3?=
- =?utf-8?B?UUlWNHJzVWMrRHp6TUpQT1d1Wm5QdzV4K0w0SzZLdTYvMCtwbGx0QmZMWHRZ?=
- =?utf-8?B?by9oeFZlZ3lwcUQrcXBQODRqVnRrRExtVHZsTy9jRUJXcDlRMkpPSnp1RWFp?=
- =?utf-8?B?bXQ0T2srMFFLcldVZXcrRDFhY2Y0T3NaTnMrRGo2M1EzRmRNemFkU0YrOWpB?=
- =?utf-8?B?NlQxVDVzcCthU3hJNTVpSlZEeDFkZUFGcGZYVG5sYjlaZkN4S2FjVXg2V2hq?=
- =?utf-8?B?VzlqR3A4dFpUWUJNWWJXU3FCRFdCY0FqTTNHWjR5ZGFNbEpqcm4vYzFvYkJz?=
- =?utf-8?B?UWhhRHBmT0tucUd4TFVTZk1ENHRtMlNiSnBiMU1POTFBay82UDkvOE9RNFRv?=
- =?utf-8?B?QS9wRFlNdU1UWG52bDdNenVhREFneGY2OERFdHNGeU5NcjBPZkdIQzgvcWtk?=
- =?utf-8?B?LzRSamhteUl3ZUcvOURFY3RKNVk2Q3dwS0QrTmFhc3EzSjVjOWJUc2szQmJm?=
- =?utf-8?B?Q3k4Mk9Hc1dRcyt1TUlNc0JhWTVIWVdIQTdLek5QcXlZYmJYdVZta2ppMWtz?=
- =?utf-8?B?WTBKZHZvQzNOVVY5eGtMSkkvNzk1eG85d2NaUDNxOWxyNUZLR0xBWTNBQm1m?=
- =?utf-8?B?enBydzRuUG9FVFIvTm03NlNYSkRXMG1FcFg0V3BpS1NmSFNqeFVUZnYySStF?=
- =?utf-8?B?TjYzcjJjUmFCWk12NUdKTS82OHRYUjlxaU9qVlhDZytRUy8vTS9hZlhHSXAy?=
- =?utf-8?B?K1p4RERNNE5JUzdRRCt4TXEwQVdDSVgzWFJVek83ZkRpcGFVU09aVXROd2Y5?=
- =?utf-8?B?QitFVjlkREVvdE1jKzJEaEt5WjFtZ0pLTGV2VnBpa3prNlgrcTlRMS9rTHpa?=
- =?utf-8?B?Y2V3R1lEalo4L0pBSTVqNXZlY1FuM3VPNnphaTAxS0NlSG13eTVHWlRnMFJN?=
- =?utf-8?B?U0duTGJEMXJHK3M5by9Pc0Q5TXB3OWpwZTEwakY0WmNTMlFnNnp5Y0Q0RExF?=
- =?utf-8?B?c0tJRWVtbHJ2Yk9QNXRlVllDRm1LNHdxdjVvQnFTZktrWWVOKzgzLzhoN2p6?=
- =?utf-8?B?Q2ZQWUxkOThBdE5JSjk0RG9keVBuakc2azRyak91OThnZmJBejdIblhwRzUr?=
- =?utf-8?B?QkFZVGF5OEQzdTBpUk9vN2duSTZIVDJ0Wnc4YURidEZybnJPbFppa00xTkpi?=
- =?utf-8?B?ckhRWXM2c21Mbld5TWdYT0k0Z0pzOTVGb0k1emdRcUo0L3hMNkJGWnVCUzR6?=
- =?utf-8?B?bVoxT1pRZkRta3dDM1BManJTaE9tVjNsSnI0dXluUEpZVmtLdkI1T2xSSFMy?=
- =?utf-8?Q?3Ma5gYYiidABy6qAhN6nSbTxs=3D?=
+ ARA:14566002|6090799003|5072599009|15080799006|7092599003|8060799006|19110799003|461199028|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y0Zkdy9idFNaK0FyWjlpd250cjk0RmMrREMvajM5cldtVW95UExZS2NsWW5N?=
+ =?utf-8?B?Q2ZxRndOdkhCTTBjSnRFUk5qOGMvNk4yUkh2TGYwS1pGUHdoVDZzenRJK2Nh?=
+ =?utf-8?B?SkVyOTk4VG1pWXR2TzdsejRNYmFHSkw0OG15S1ptb3lUS0ltd08zbEVGMVdv?=
+ =?utf-8?B?MjNDSnprcUxpY3BKa09rdFdiMzl2bzZzckhvRW80Q3hiNFpNSk5YbWM2NnVW?=
+ =?utf-8?B?cVBpaENjR1Y0QTgxaUJJWkQvWVlDOEJDdHd0TFVlMHArSW5ZNmp0NWlsd2pZ?=
+ =?utf-8?B?TC9qRkx1U1RWRXVPSGJWQXVZTVQ5RGV5SzRONkxHRWs1NlFuMHM3SU5SdHdE?=
+ =?utf-8?B?NmtxWDlJeFdOam1FU0c0aXR2N2FzeTcweUhoZFM5NFRxeldwUW03LzZDNzJY?=
+ =?utf-8?B?Z3NGZEd2Rm95c3ZRUXcyQXpYVnhUV3l3aHVpNVRxQm5DQlpycVNzRjNSY2VY?=
+ =?utf-8?B?K1dBUjdMaVRvUDIxd2Y1RGowWm0xd2hJUWYrcXRGVml4Y25NbC9aZlg2OTFF?=
+ =?utf-8?B?Q0JHdm5wOEtPbWxUNlNMOVVTQ1F1UjBCRXlYNDR5aGlwb0tzZ3ZNejlmQW1C?=
+ =?utf-8?B?VFhJdUl3RlI3cFJxTUtGNG42TTdPeDBZeVFQV2pZSXdRdklSbVRhRkM1clNz?=
+ =?utf-8?B?QjZXMTVueHN0U1lBTmZJeVZreXlrZ0JhTHFlOHhDMzJhbXhiYXRJNmhPMXVD?=
+ =?utf-8?B?UDdLN3ZHbXlnSjh4dDU2a2wwVWl1cXUwcDhJLzNocGxqUHEreEN2YTN2bGdM?=
+ =?utf-8?B?Tm9oNnp0SjBHZjhjN2hBcU5FY1Q5VEo3M2tHeGxTWk5IK293enl2NU9NaTBs?=
+ =?utf-8?B?eW9pVmZxQjAxN1VZVTlIRks0SU56bTlRTXViZEhrQi9WTmFVNnBMSjVsM2l2?=
+ =?utf-8?B?UlcxMVBLVUsxekhubUtXQjhQS2g2VFgyY2VUT091NDBLc0xDRkR5a1dVdytj?=
+ =?utf-8?B?OE9pTnVtZGVtWDg4VC9XKytESWlGWlNHdnkzUEF6aThkUzhSaFp6KzNCbDlv?=
+ =?utf-8?B?QWUwdW1VOHNpL1UrNWoxbmR0dk8yd1NXSGptMUF0TU0vMjgxVStiblUyMWc0?=
+ =?utf-8?B?ZmJ5eTFOc2pjempnQnVHcksrbmFJOWZGejM4aWVobldLZW1jai9WZjFKR1Ar?=
+ =?utf-8?B?RjM0dGtnNWVtdjJyMytTVUZCaW1hY2FVMDZvRVN6TDBHeFRRdHBVaW16b2xo?=
+ =?utf-8?B?NFdMQTNaLzV1emlsbDdFMXFBSXdrWDMrRHpyaTFvWHVqcTZUOWxFbFAvTkN6?=
+ =?utf-8?B?STJ0WjFKaGFxMWZNVzM3R2hrVE9QaXU1VU1XbTJGRlJqdUg5TlA1TTJEWk51?=
+ =?utf-8?B?ZUpUSGNLYlNoQXJ5SXBNMG1sb0dyYWZtS3RtMFlOaHVlUS9WejV1eThGc1Fs?=
+ =?utf-8?B?VGR2MXFoczBuZVZvME1yUHhDT0FDblBkSkJqb2srTmVzNDlHUkpFVmFMVHQ5?=
+ =?utf-8?B?ZUJSSy9hdXZ4NEhJYUhsTmswTGhwNlkyakpqVkZ5S3RPVWJBNGg0TUw1bUhS?=
+ =?utf-8?Q?r4P+boOcveOWqvdhjwLM+A9S8k8?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ajYrOVVBSTRMQXdnbHpUSHVjVm1aK1g2dmdrVVdTb0l3MWFxZUd3OFAzM1Bt?=
- =?utf-8?B?aDZod054eEg0WGlQTjBPMFA5WC92T05MNXUxeTBKUUtBUHpybW80N0t5NjZH?=
- =?utf-8?B?dkh6NFJLd2VWV3RRQTMxbWtidnY2c0xqVzg4cnhtanlONHg4VGwzUmlxdHZD?=
- =?utf-8?B?RzRYZjdwQTc2SWx1akpHMjFZMU9PMnd4eGJKMDBEeXdIcHg0MTlqOFBSY3Rw?=
- =?utf-8?B?T3YxK2lIaUNIMjZBOFZHY3FVTGhEK3pQOHlOR0tDdTZneXJWVG9OSjVycWNj?=
- =?utf-8?B?amo4czlRUWQwby9UelJkTHVsRjNGRzdRa2Q2Z25UMFJmbTVhWXJqWnJHVjYy?=
- =?utf-8?B?dnFzclVLKytaTVdCUExINHVKWllzWlJBa3J3a25ydWttaGpJNFBYRnNNczQ1?=
- =?utf-8?B?dUJhV0g3ZVAvbW5FZHZNYVM3WHl3ZEY3UXJ2YjM4TEl1djkwbER4WWNQYk5Z?=
- =?utf-8?B?QytJaW9HMVRmN3VxeTFxcmdEZVg0bHprbTRRVlhyVEcxaEUxWk5BNWZHQ0wz?=
- =?utf-8?B?SC9WQmkydllUYkZaZGc4VU5kVSt0WjFGTUlMR045eHYyL1JXRDY0eGU2OWZZ?=
- =?utf-8?B?RFJiY3ZVS2pCdW9ja2g2Ukd4Z2VuTmowY3VIa2dtS285a3RwYS9sNFRLWEZX?=
- =?utf-8?B?dVRPWGMyYmtTbHpuYjBwd2htbjJkOWMvWjFRdnBhNG5ibTFxSHJzUk1WMm1r?=
- =?utf-8?B?Yy9CZ3RQRWJSZUY4a3Rhb0FqbTdCcW9Cbk0xcG1jak1GT3crVThEMEo4TGQv?=
- =?utf-8?B?Wm5pQkV2OFE0ekxkY29CcEZHeGI3RVJxL3h2YmttbzA0b3R3MWNER3FOTEw5?=
- =?utf-8?B?SVZ4NlYzZVUrbnhBKy8xSEFUNjV4U2VLelV5ajhna1prQ24xaXBlQlhxTS8w?=
- =?utf-8?B?QU1OTVVzM1htcDZ3SVBOTGdRcWxJYlVLRk0zdVNVNThUc3JiQVAzd2pnUnBk?=
- =?utf-8?B?d0doQ0VIZmV2ZE5wYmJKUVhvempQWnpMTmtOdUNoYUREaWFEdEllN05RUWgx?=
- =?utf-8?B?SGtWUitkY0hOZFJwN1NwdXdWaENoMVZzVllZQW5yVjExejRXYmx5bC9JRVhq?=
- =?utf-8?B?OEZhNDZiOGNwc25BSFlrc0RPYkIvUUlJMXg5dGt1U2J3OVJac0lxNWZ0MUxW?=
- =?utf-8?B?V28rdjdZR2I1bGY0QlBMWURtajAva2lLTUJkSVE1b3NnVG5UN0tQLzAzSmZ0?=
- =?utf-8?B?aUp1aGNIelVRWGp0SkYrM1NCcmptRHQ4NFk4ZXppWjY0Y05iajNDcVRUTWJK?=
- =?utf-8?B?Zk05WHVmelUyMlp4SEpmNFJRb2xZRktMOVN0TjMwc04zSFRyeGpHSmZPL05w?=
- =?utf-8?B?SVEyL05xdVVPSFhXRVRod2tLZndFenFpdmZyNW9FMlZibWRQTWN6U09CTHNs?=
- =?utf-8?B?QXkyTkp2QXNybTF3RU1CZXRQUWFzc3NFYjZyUkxYOG1WZkZpVzhwNUM1dXJP?=
- =?utf-8?B?YThhdG1BUDVBYUV1M2Nob1VjNjY0Q0hkSlB3dmdHbzNxNG1RTWZoTU9GNGI1?=
- =?utf-8?B?V0lGRC9jNWszZ01pbWRJV3hxRnRHU3ZPQ0ZUdnphL2k2dVp1YlJkeFloWU1M?=
- =?utf-8?B?eEdmWmpQZS84WnNBV2YyVm44czEyaGpQOUFMeURWVE5vcXE0ZVlwZTc0YjU5?=
- =?utf-8?B?MzlScm55bEZadTUxVituNkNabUxLcjJSc0ROSktXK0ZLR1hsdEphakpQS1hz?=
- =?utf-8?B?MnBNUlF4M2dGL0dVMUVTVjlTRjEyZGR5cnNjME51aFZDeTRQWFlGcUlLRTVW?=
- =?utf-8?Q?RQA2qU33pBhwZtYrHRjYLXHOLGpnstKpWM/x9tz?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnQ1Ti9VN2dTUEt0SWh6QUN2V1RmZDVpY1FsdkVqVmxVd2FXQmF0UmVvd1p1?=
+ =?utf-8?B?Q09ZM0JrQ1FoM3NpeXhNYjJlT2dZbmdJa0pRS3ZCM3JhZjN6Y1VoeDNBVlJu?=
+ =?utf-8?B?NEM2eE5XbEZmeDBDMlUxdEo0Z0tpMFBGbVNFanc0Q1VudWIxd0xmTGFSWE9y?=
+ =?utf-8?B?MTY2dkhiNG8wbUVmdmJMQ1FqcnduUm5mVkEycG1UY1FBUG92VWw0RXYxVFBw?=
+ =?utf-8?B?VHU2TFFxNXFVcWRrMDhxKzBDNHdVcjdJempBOGEvYkpEL1RuYVVqcXJNQnBN?=
+ =?utf-8?B?WTY5WjVPUDlaRk8yUDVaYWtUNnE1SUNTazdVTGhRdjdYcjg1ME9XaGtWdWF5?=
+ =?utf-8?B?R3NiUGpCZjNpZmQzVkkvTmZjZkRYdktEcDA4d09NckdNQ2FJdytmVDIwSjVa?=
+ =?utf-8?B?SVlHUkVqOGlwbWY2WDBDNC9WcTlQb3AzSkE2bEFGZWlSUEh2VHF4WVlSOVBC?=
+ =?utf-8?B?dmtqMXIzTUJZYVZiVFdYRlpmTnV0ZkJYY2YvNWx0ZGZiZm9mOWFEbTR3V01R?=
+ =?utf-8?B?QkZtY0MyWEV2M25kYnluTE9TRmhpc25xZy9FL1V5ejdPK1FyWVJCdnI5UFl0?=
+ =?utf-8?B?dkhCQkVpa0lSVTZvWkk2R3VQMlM4dGlPekVQN3NDdVNoTWtLZG1hR0c2Zy93?=
+ =?utf-8?B?ZHJORXdpdHlzVlJjNHh5VmhmdGd4NTliYWRqWUJFNklDZmw5NkFjMno4VHVX?=
+ =?utf-8?B?Zzk1Skk5YzhlSEFyUVduNXdXc1dxTENPbzhZS0RJOGM0bWdnRldUL2FMYzNp?=
+ =?utf-8?B?eWpqWm1xdGx4QkVSQm4wYXdvSDk0dXh5M2M4YVgrNysvWkh2Um5SRFhYWTB0?=
+ =?utf-8?B?a1ZqTGptRnpDdHhrU1E3R3dTem5MMXdhclFnZytzbGU0dVZOMnE3eXhsTVFJ?=
+ =?utf-8?B?ZHZoR3NuWE9Qd3hBSjEraUJsV2lSdTVWdHlSYzcyQXM1YzJuUHBaR3FpVlUx?=
+ =?utf-8?B?am1idThBcnhER08vQnlKZng4K25zSG5acGljUmlEQVI5aTFjSkZJeHAyZDdz?=
+ =?utf-8?B?eWU5NGkyd2pMZUlBQWtsYWFVb3krU0FBYXVJbDUvNDJhdnFGM1U1RTNrRVJ0?=
+ =?utf-8?B?RGRHN0VSVDB5T3VsWWlYODgvdytvWllHbTltb1RCdWJDZlN2TUx4RWhLNm83?=
+ =?utf-8?B?Z2FOTVBGNmkyMnFmcWF3a1drVlpONkpETC9CTTFOdm94c0RWazBEQTA3UTI1?=
+ =?utf-8?B?blRmYkpYQU9XdTg0WXdDN0lsS3BPV2xoakdYZDJ1YnRPeUpsVFpmUGdoR3Fs?=
+ =?utf-8?B?YldvYW04REpCTmNYOUkyNEEvMERBTTRNYXB4SkpHZlE3SFowWEYvNG5zaERE?=
+ =?utf-8?B?djRrRnB2dzhFM1BGNDhVY2lEeXpwd21oR0V1S1FrbHFjblFucUhlU1ZONDBJ?=
+ =?utf-8?B?RFlucjB6dTVJQTVaU2p2S3l1eWpzWXRyck9ZRVBZNUZzekdsNlFyd3RhZUZI?=
+ =?utf-8?B?aDhkR0MrRE9hSmFGeUM0dHk4Z0ZSWXNmcm5CMWRDbDVWQzE5ZGV5S0hDZVFh?=
+ =?utf-8?B?T2hTUzZFNXFxekpXbDZCQkdROFZPSnpXZS91ZDg4cUVkUWd0WlBTdTdCa0RK?=
+ =?utf-8?B?QlJPZ2syeXBuNFFMZmh5Nk5ZZVNXbTQxNEN6RlFlUlVvcnhrdFk2RXkycHM4?=
+ =?utf-8?B?ajVxckFOU1hYR21VZWhZYkozaW82VDBxQ2w4WmVoU1MwMjFZSWZsWllRdDRJ?=
+ =?utf-8?B?cWsyTTdHMmZ2dXRuSWRQZGs4YlJ3VlBRV3NNbnZPU0ZaQ1l6RTV1OGI1Vjdt?=
+ =?utf-8?Q?Yr8rl62PsKJIaHeM8LF+fx562IQlqTUSkS7NBaB?=
 X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55964a5f-a61a-420c-b890-08dd76694e8f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e00d81c-22df-4861-7f4e-08dd766962de
 X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 06:48:02.0516 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 06:48:36.1130 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB9261
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB7052
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,154 +156,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hector Martin <marcan@marcan.st>
+From: Aditya Garg <gargaditya08@live.com>
 
-%p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
-it's useful to be able to print generic 4-character codes formatted as
-an integer. Extend it to add format specifiers for printing generic
-32-bit FourCCs with various endian semantics:
+This patch adds support for kunit tests of generic 32-bit FourCCs added to
+vsprintf.
 
-%p4ch	Host byte order
-%p4cn	Network byte order
-%p4cl	Little-endian
-%p4cb	Big-endian
-
-The endianness determines how bytes are interpreted as a u32, and the
-FourCC is then always printed MSByte-first (this is the opposite of
-V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
-allow printing LSByte-first FourCCs stored in host endian order
-(other than the hex form being in character order, not the integer
-value).
-
-Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Acked-by: Tamir Duberstein <tamird@gmail.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Reviewed-by: Petr Mladek <pmladek@suse.com>
 Tested-by: Petr Mladek <pmladek@suse.com>
-Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Aditya Garg <gargaditya08@live.com>
 ---
- Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++++
- lib/vsprintf.c                            | 35 +++++++++++++++++++----
- scripts/checkpatch.pl                     |  2 +-
- 3 files changed, 62 insertions(+), 7 deletions(-)
+ lib/tests/printf_kunit.c | 39 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 32 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 4bdc394e8..125fd0397 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -648,6 +648,38 @@ Examples::
- 	%p4cc	Y10  little-endian (0x20303159)
- 	%p4cc	NV12 big-endian (0xb231564e)
+diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
+index 2c9f6170b..b1fa0dcea 100644
+--- a/lib/tests/printf_kunit.c
++++ b/lib/tests/printf_kunit.c
+@@ -701,21 +701,46 @@ static void fwnode_pointer(struct kunit *kunittest)
+ 	software_node_unregister_node_group(group);
+ }
  
-+Generic FourCC code
-+-------------------
++struct fourcc_struct {
++	u32 code;
++	const char *str;
++};
 +
-+::
-+	%p4c[hnlb]	gP00 (0x67503030)
++static void fourcc_pointer_test(struct kunit *kunittest, const struct fourcc_struct *fc,
++				size_t n, const char *fmt)
++{
++	size_t i;
 +
-+Print a generic FourCC code, as both ASCII characters and its numerical
-+value as hexadecimal.
++	for (i = 0; i < n; i++)
++		test(fc[i].str, fmt, &fc[i].code);
++}
 +
-+The generic FourCC code is always printed in the big-endian format,
-+the most significant byte first. This is the opposite of V4L/DRM FourCCs.
-+
-+The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
-+endianness is used to load the stored bytes. The data might be interpreted
-+using the host byte order, network byte order, little-endian, or big-endian.
-+
-+Passed by reference.
-+
-+Examples for a little-endian machine, given &(u32)0x67503030::
-+
-+	%p4ch	gP00 (0x67503030)
-+	%p4cn	00Pg (0x30305067)
-+	%p4cl	gP00 (0x67503030)
-+	%p4cb	00Pg (0x30305067)
-+
-+Examples for a big-endian machine, given &(u32)0x67503030::
-+
-+	%p4ch	gP00 (0x67503030)
-+	%p4cn	00Pg (0x30305067)
-+	%p4cl	00Pg (0x30305067)
-+	%p4cb	gP00 (0x67503030)
-+
- Rust
- ----
+ static void fourcc_pointer(struct kunit *kunittest)
+ {
+-	struct {
+-		u32 code;
+-		char *str;
+-	} const try[] = {
++	static const struct fourcc_struct try_cc[] = {
+ 		{ 0x3231564e, "NV12 little-endian (0x3231564e)", },
+ 		{ 0xb231564e, "NV12 big-endian (0xb231564e)", },
+ 		{ 0x10111213, ".... little-endian (0x10111213)", },
+ 		{ 0x20303159, "Y10  little-endian (0x20303159)", },
+ 	};
+-	unsigned int i;
++	static const struct fourcc_struct try_ch[] = {
++		{ 0x41424344, "ABCD (0x41424344)", },
++	};
++	static const struct fourcc_struct try_cn[] = {
++		{ 0x41424344, "DCBA (0x44434241)", },
++	};
++	static const struct fourcc_struct try_cl[] = {
++		{ (__force u32)cpu_to_le32(0x41424344), "ABCD (0x41424344)", },
++	};
++	static const struct fourcc_struct try_cb[] = {
++		{ (__force u32)cpu_to_be32(0x41424344), "ABCD (0x41424344)", },
++	};
  
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 01699852f..6bc64ae52 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1793,27 +1793,50 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
- 	char output[sizeof("0123 little-endian (0x01234567)")];
- 	char *p = output;
- 	unsigned int i;
-+	bool pixel_fmt = false;
- 	u32 orig, val;
+-	for (i = 0; i < ARRAY_SIZE(try); i++)
+-		test(try[i].str, "%p4cc", &try[i].code);
++	fourcc_pointer_test(kunittest, try_cc, ARRAY_SIZE(try_cc), "%p4cc");
++	fourcc_pointer_test(kunittest, try_ch, ARRAY_SIZE(try_ch), "%p4ch");
++	fourcc_pointer_test(kunittest, try_cn, ARRAY_SIZE(try_cn), "%p4cn");
++	fourcc_pointer_test(kunittest, try_cl, ARRAY_SIZE(try_cl), "%p4cl");
++	fourcc_pointer_test(kunittest, try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+ }
  
--	if (fmt[1] != 'c' || fmt[2] != 'c')
-+	if (fmt[1] != 'c')
- 		return error_string(buf, end, "(%p4?)", spec);
- 
- 	if (check_pointer(&buf, end, fourcc, spec))
- 		return buf;
- 
- 	orig = get_unaligned(fourcc);
--	val = orig & ~BIT(31);
-+	switch (fmt[2]) {
-+	case 'h':
-+		break;
-+	case 'n':
-+		orig = swab32(orig);
-+		break;
-+	case 'l':
-+		orig = (__force u32)cpu_to_le32(orig);
-+		break;
-+	case 'b':
-+		orig = (__force u32)cpu_to_be32(orig);
-+		break;
-+	case 'c':
-+		/* Pixel formats are printed LSB-first */
-+		pixel_fmt = true;
-+		break;
-+	default:
-+		return error_string(buf, end, "(%p4?)", spec);
-+	}
-+
-+	val = pixel_fmt ? swab32(orig & ~BIT(31)) : orig;
- 
- 	for (i = 0; i < sizeof(u32); i++) {
--		unsigned char c = val >> (i * 8);
-+		unsigned char c = val >> ((3 - i) * 8);
- 
- 		/* Print non-control ASCII characters as-is, dot otherwise */
- 		*p++ = isascii(c) && isprint(c) ? c : '.';
- 	}
- 
--	*p++ = ' ';
--	strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
--	p += strlen(p);
-+	if (pixel_fmt) {
-+		*p++ = ' ';
-+		strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
-+		p += strlen(p);
-+	}
- 
- 	*p++ = ' ';
- 	*p++ = '(';
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 3d22bf863..44e233b6f 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6891,7 +6891,7 @@ sub process {
- 					    ($extension eq "f" &&
- 					     defined $qualifier && $qualifier !~ /^w/) ||
- 					    ($extension eq "4" &&
--					     defined $qualifier && $qualifier !~ /^cc/)) {
-+					     defined $qualifier && $qualifier !~ /^c[hnlbc]/)) {
- 						$bad_specifier = $specifier;
- 						last;
- 					}
+ static void
 -- 
 2.43.0
 
