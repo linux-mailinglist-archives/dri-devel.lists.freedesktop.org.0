@@ -2,72 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF057A7F367
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 06:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4209A7F38A
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 06:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B570110E213;
-	Tue,  8 Apr 2025 04:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA9510E1F9;
+	Tue,  8 Apr 2025 04:25:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PnpnYQWx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZItzXi2D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A94D510E213
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 04:01:14 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AADBD10E113;
+ Tue,  8 Apr 2025 04:25:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744084875; x=1775620875;
- h=date:message-id:from:to:cc:subject:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zoB0xc59/a0nfeKjU5CSFK4d1gniYV0+H5Cqm60IMjY=;
- b=PnpnYQWxJLDdMq/SeeLMVEQ0HDuTyR54daqvXvDtlUJMUmqMcz1RR4gX
- riT28ZqZTDCMSQsFaeM6xVZa+VuJVKKOGN1jcIL/H0RA03dJjtxvFapse
- IspzidX3ducTW+BqA5AIhmhL84qn3erpib+MaLOyHtYO34uu6fXtKSmpC
- 95sl971wxOQz0IbfZbopuCTszWhqhY/88tKFbPmM+h0CgA5ljXe5VsG9H
- OakyszaIT1qK696537N1h4vGX0Yb/Uc8iAK1368udTKj66AQ4dn7/qUyk
- hZj2kcp8NxKU1a93QpirdMb7xir4rM8BxG4GUL7uSFiurih5FQ1Jzcs+E g==;
-X-CSE-ConnectionGUID: lG05TetNSl6smgaFHQqSSQ==
-X-CSE-MsgGUID: jOCp0guvQuuNekYZymzDhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56136983"
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="56136983"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2025 21:01:14 -0700
-X-CSE-ConnectionGUID: T24HncF1T8qZsH4N+aI50A==
-X-CSE-MsgGUID: cCEHoE/6TQ+7I3t5lxD9Xg==
+ t=1744086312; x=1775622312;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=maY77zyBJXqoChT8hJnQGcfIMrV0E2pq8QkkwKr+6Ig=;
+ b=ZItzXi2D6WrddkVV0apVf+1Od6dc+za2TyLXy1wWumT2P3LvdrkNgPrT
+ DH9EQGEK3QoqRxLzc+ykxaVe/2BZIkvyKL+C8XPkNDXLCEG9Fcu2g8MIY
+ 6jSJADrD3PXNLVVkHea9jBt/hmavxvjKuoy9JTYv4eST3n3pZAdUi1U/N
+ IiA11ncySkq2aoiaNKfQYlfMdI03OgbMweb/MEmQrcAHo6+a+NLcVRQVW
+ eKgiTvwntOr/K6jzQLFXDSmhaTtGAZld5+6tCSrbSIU07azFeCElBlvxO
+ ku+J8R22ZGYzPWo0pvzNXRjD9bg+NK7JyEPt4736V8tZFm+gt4iFilLUL A==;
+X-CSE-ConnectionGUID: mCgDIX8FRt2qvQC9ASkGPA==
+X-CSE-MsgGUID: s7inR+xTQOSkoHU9HiIV2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="63043683"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="63043683"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2025 21:25:12 -0700
+X-CSE-ConnectionGUID: J/CR2wrAT5iYm8xfV2T4Jg==
+X-CSE-MsgGUID: DDfVANXpSumq+GYdQbBdHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="128135392"
-Received: from orsosgc001.jf.intel.com (HELO orsosgc001.intel.com)
- ([10.165.21.142])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2025 21:01:14 -0700
-Date: Mon, 07 Apr 2025 21:01:13 -0700
-Message-ID: <854iyzs3na.wl-ashutosh.dixit@intel.com>
-From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: <imre.deak@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- "Jessica Zhang" <quic_jesszhan@quicinc.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
- Joel Selvaraj <jo@jsfamily.in>, Douglas Anderson <dianders@chromium.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 04/10] panel/auo-a030jtn01: Use refcounted allocation in
- place of devm_kzalloc()
-In-Reply-To: <87a58re8hj.wl-ashutosh.dixit@intel.com>
-References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
- <20250401-b4-drm-panel-mass-driver-convert-v1-4-cdd7615e1f93@redhat.com>
- <Z_P0A9lxWD0aAdjp@ideak-desk.fi.intel.com>
- <85a58rsgjj.wl-ashutosh.dixit@intel.com>
- <87bjt7eca8.wl-ashutosh.dixit@intel.com>
- <87a58re8hj.wl-ashutosh.dixit@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
- Emacs/29.4 (x86_64-redhat-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-7
-Content-Transfer-Encoding: quoted-printable
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; d="scan'208";a="128479396"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by fmviesa008.fm.intel.com with ESMTP; 07 Apr 2025 21:25:10 -0700
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH 0/3] Rework/Correction on minimum hblank calculation
+Date: Tue, 08 Apr 2025 09:40:33 +0530
+Message-Id: <20250408-hblank-v1-0-4ba17aebee65@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALmh9GcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDEwNz3YyknMS8bF0TyyRjE4PE1KREY0MloOKCotS0zAqwQdGxtbUA4uf
+ RYFgAAAA=
+X-Change-ID: 20250407-hblank-49b340aeba31
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: vinod.govindapillai@intel.com, imre.deak@intel.com, 
+ Arun R Murthy <arun.r.murthy@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,144 +71,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Apr 2025 18:40:24 -0700, Dixit, Ashutosh wrote:
->
-> On Mon, 07 Apr 2025 17:18:23 -0700, Dixit, Ashutosh wrote:
-> >
-> > On Mon, 07 Apr 2025 16:22:40 -0700, Dixit, Ashutosh wrote:
-> > >
-> > > On Mon, 07 Apr 2025 08:49:23 -0700, Imre Deak wrote:
-> > > >
-> > > > Hi,
-> > > >
-> > > > On Tue, Apr 01, 2025 at 12:03:47PM -0400, Anusha Srivatsa wrote:
-> > > > > Move to using the new API devm_drm_panel_alloc() to allocate the
-> > > > > panel.
-> > > > >
-> > > > > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/panel/panel-auo-a030jtn01.c | 10 ++++------
-> > > > >  1 file changed, 4 insertions(+), 6 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c b/driver=
-s/gpu/drm/panel/panel-auo-a030jtn01.c
-> > > > > index 77604d6a4e72c915c40575be0e47810c90b4ed71..83529b1c2bac2e29f=
-41efaf4028950214b056a95 100644
-> > > > > --- a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
-> > > > > +++ b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
-> > > > > @@ -200,9 +200,10 @@ static int a030jtn01_probe(struct spi_device=
- *spi)
-> > > > >
-> > > > >	spi->mode |=3D SPI_MODE_3 | SPI_3WIRE;
-> > > > >
-> > > > > -	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> > > > > -	if (!priv)
-> > > > > -		return -ENOMEM;
-> > > > > +	panel =3D devm_drm_panel_alloc(dev, struct a030jtn01, panel,
-> > > > > +				     &a030jtn01_funcs, DRM_MODE_CONNECTOR_DPI);
-> > > >
-> > > > This doesn't compile and (yet) it's pushed already to drm-tip. AFAIU
-> > > > it's supposed to be
-> > > >	priv =3D devm_drm_panel_alloc(...);
-> > >
-> > > Yes:
-> > >
-> > > drivers/gpu/drm/panel/panel-auo-a030jtn01.c: In function =A1a030jtn01=
-_probe=A2:
-> > > drivers/gpu/drm/panel/panel-auo-a030jtn01.c:203:9: error: =A1panel=A2=
- undeclared (first use in this function)
-> > >   203 |         panel =3D devm_drm_panel_alloc(dev, struct a030jtn01,=
- panel,
-> > >       |         ^~~~~
-> > > drivers/gpu/drm/panel/panel-auo-a030jtn01.c:203:9: note: each undecla=
-red identifier is reported only once for each function it appears in
-> > >
-> > > Please turn on the config options for particular module if you are ma=
-king
-> > > changes to that module.
-> >
-> > Though probably, you can argue, that the pre-merge CI build should alre=
-ady
-> > be doing this. A sort of allmodconfig for the DRM subsystem, so that th=
-ese
-> > kinds of issues don't get missed.
->
-> More compile errors:
->
-> I'm still getting some allmodconfig errors:
->
-> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c: In function 'boe=
-_th101mb31ig002_dsi_probe':
-> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:9: error: 'pa=
-nel' undeclared (first use in this function)
->   352 |         panel =3D devm_drm_panel_alloc(dev, struct panel_desc, pa=
-nel,
->       |         ^~~~~
-> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:9: note: each=
- undeclared identifier is reported only once for each function it appears in
-> In file included from ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-2=
-8a.c:18:
-> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:38: error: 'd=
-ev' undeclared (first use in this function); did you mean 'cdev'?
->   352 |         panel =3D devm_drm_panel_alloc(dev, struct panel_desc, pa=
-nel,
->       |                                      ^~~
-> ../include/drm/drm_panel.h:305:41: note: in definition of macro 'devm_drm=
-_panel_alloc'
->   305 |         ((type *)__devm_drm_panel_alloc(dev, sizeof(type), \
->       |                                         ^~~
-> In file included from ../include/uapi/linux/posix_types.h:5,
->                  from ../include/uapi/linux/types.h:14,
->                  from ../include/linux/types.h:6,
->                  from ../include/linux/math.h:5,
->                  from ../include/linux/delay.h:12,
->                  from ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-2=
-8a.c:8:
-> ../include/linux/stddef.h:16:33: error: 'struct panel_desc' has no member=
- named 'panel'
->    16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
->       |                                 ^~~~~~~~~~~~~~~~~~
-> ../include/drm/drm_panel.h:306:41: note: in expansion of macro 'offsetof'
->   306 |                                         offsetof(type, member), f=
-uncs, \
->       |                                         ^~~~~~~~
-> ../drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c:352:17: note: in =
-expansion of macro 'devm_drm_panel_alloc'
->   352 |         panel =3D devm_drm_panel_alloc(dev, struct panel_desc, pa=
-nel,
->       |                 ^~~~~~~~~~~~~~~~~~~~
->
+Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+---
+Arun R Murthy (3):
+      drm/drm_dp_helper: export link symbol cycles calculation
+      drm/i915/display: export function to count dsc slices
+      drm/i915/audio: move min_hblank from dp_mst to audio
 
-In case it is not clear, to reproduce and fix these, do:
+ drivers/gpu/drm/display/drm_dp_helper.c     | 10 ++--
+ drivers/gpu/drm/i915/display/intel_audio.c  | 78 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 55 ++------------------
+ drivers/gpu/drm/i915/display/intel_dp_mst.h |  3 ++
+ include/drm/display/drm_dp_helper.h         |  5 ++
+ 5 files changed, 95 insertions(+), 56 deletions(-)
+---
+base-commit: c4fc93b0ec49f4b0105c142502b7d1d5de379950
+change-id: 20250407-hblank-49b340aeba31
 
-	make -j$(nproc) allmodconfig
+Best regards,
+-- 
+Arun R Murthy <arun.r.murthy@intel.com>
 
-
->
->
->
-> >
-> >
-> > >
-> > > >
-> > > > > +	if (IS_ERR(panel))
-> > > > > +		return PTR_ERR(panel);
-> > > > >
-> > > > >	priv->spi =3D spi;
-> > > > >	spi_set_drvdata(spi, priv);
-> > > > > @@ -223,9 +224,6 @@ static int a030jtn01_probe(struct spi_device =
-*spi)
-> > > > >	if (IS_ERR(priv->reset_gpio))
-> > > > >		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio), "Failed to =
-get reset GPIO");
-> > > > >
-> > > > > -	drm_panel_init(&priv->panel, dev, &a030jtn01_funcs,
-> > > > > -		       DRM_MODE_CONNECTOR_DPI);
-> > > > > -
-> > > > >	err =3D drm_panel_of_backlight(&priv->panel);
-> > > > >	if (err)
-> > > > >		return err;
-> > > > >
-> > > > > --
-> > > > > 2.48.1
-> > > > >
