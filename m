@@ -2,57 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81E6A81404
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 19:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56794A81452
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 20:13:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E320510E26D;
-	Tue,  8 Apr 2025 17:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6282910E29E;
+	Tue,  8 Apr 2025 18:13:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B/KVKiFt";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DbyzvJnU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8CF10E26D
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Apr 2025 17:51:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2557568442;
- Tue,  8 Apr 2025 17:51:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46800C4CEE5;
- Tue,  8 Apr 2025 17:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744134689;
- bh=YJcCFBlWegUtNSWytIrTHoO8XOROx/f/2uidCc2O6hg=;
- h=From:To:Cc:Subject:Date:From;
- b=B/KVKiFtzQASAkPFeJUpxNAxfGXTsURausjF6DqDuQlKBRulDHYL2oMLKekwib22i
- xrB97gQ0qTDukkUti/Fe3otw9qbP5rEx8U6mCZlX49BBMsvS9mfGatOUpLlldr3vre
- fEEHG34JCeB6EB56HYIcQpOC/Q51cIonYI9PizyE9xiW7ffl+RYhffMBvYx4x1k0IC
- NdZRAl4eQxV0FonN5WXkamv5Y9zayR6uityBoB27+1KDOcDaAUqTYAUvbSw4K4FRbV
- FS23BqHhSuNON0DZT4RhIK5IFV2qRiljUs0jKo8Qkqsjzlj1ty4hkH4MwZxduNhZhb
- ONukmH8aYEfjw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Andy Yan <andy.yan@rock-chips.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH] drm/bridge/synopsys: avoid field overflow warning
-Date: Tue,  8 Apr 2025 19:51:06 +0200
-Message-Id: <20250408175116.1770876-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1814210E256;
+ Tue,  8 Apr 2025 18:13:29 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538B31IJ015072;
+ Tue, 8 Apr 2025 18:13:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 0y6b8/5pR/Ib0BDUjpJtu40s1XQAZ2OxuSBQWOHL8RY=; b=DbyzvJnUPDvzHqYm
+ 09PoifKgkbJNCbAL2LEtGpOG7SA1xqVdiKx4+1NOEZO/GgbWRRLtIQ6a2dho1I+/
+ V2LGJpdDSG9xhP2RY1Np1qz3tS/f2lqccDx3H9LTaqJHPlJSVIAO5gOv3Dbm4Bf3
+ 8FJuoOHSjo5LXl5wRcxlaF38f/WSuCJGnPcm9ZxuIDfycHHuLPXb+tIqkHJ8me9t
+ 5xFapYd6qLk0Ho2mve7Ow0l4aHp/B/FK5qr3LRp2QwGwRx+n0rYXOP1cVKSCyVKJ
+ +x+WaPJBwHzrqEzkfpo6Ihako1UBzlb/Db7GpDpOL8FJ3h+gjGZX8xyoLBZxyVSr
+ Wqi+XQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twbuguxn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Apr 2025 18:13:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 538IDPrF006879
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 8 Apr 2025 18:13:25 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 8 Apr 2025
+ 11:13:24 -0700
+Message-ID: <5e64069f-d93e-404f-a4f1-99f2ef101f5f@quicinc.com>
+Date: Tue, 8 Apr 2025 11:13:15 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/dpu: Fix error pointers in
+ dpu_plane_virtual_atomic_check
+To: Chenyuan Yang <chenyuan0y@gmail.com>, <robdclark@gmail.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <airlied@gmail.com>, <simona@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250314011004.663804-1-chenyuan0y@gmail.com>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20250314011004.663804-1-chenyuan0y@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ry4NnG94CZzaGpJUKZUINO3P1cdbO0Qa
+X-Proofpoint-ORIG-GUID: ry4NnG94CZzaGpJUKZUINO3P1cdbO0Qa
+X-Authority-Analysis: v=2.4 cv=dbeA3WXe c=1 sm=1 tr=0 ts=67f56746 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=pGLkceISAAAA:8
+ a=COk6AnOGAAAA:8 a=fWY0QR86pWCIX_IcxasA:9
+ a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-08_07,2025-04-08_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 mlxlogscore=999 phishscore=0 mlxscore=0 spamscore=0
+ malwarescore=0 clxscore=1011 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2504080125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,40 +98,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-clang-16 and earlier complain about what it thinks might be an out of
-range number:
 
-drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:348:8: error: call to __compiletime_assert_579 declared with 'error' attribute: FIELD_PREP: value too large for the field
-                     PHY_SYS_RATIO(tmp));
-                     ^
-drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:90:27: note: expanded from macro 'PHY_SYS_RATIO'
- #define PHY_SYS_RATIO(x)                FIELD_PREP(GENMASK(16, 0), x)
+On 3/13/2025 6:10 PM, Chenyuan Yang wrote:
+> The function dpu_plane_virtual_atomic_check was dereferencing pointers
+> returned by drm_atomic_get_plane_state without checking for errors. This
+> could lead to undefined behavior if the function returns an error pointer.
+> 
+> This commit adds checks using IS_ERR to ensure that plane_state is
+> valid before dereferencing them.
+> 
+> Similar to commit da29abe71e16
+> ("drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_changed").
+> 
+> Fixes: 774bcfb73176 ("drm/msm/dpu: add support for virtual planes")
+> Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
 
-I could not figure out if that overflow is actually possible or not,
-but truncating the range to the maximum value avoids the warning and
-probably can't hurt.
-
-Fixes: 0d6d86253fef ("drm/bridge/synopsys: Add MIPI DSI2 host controller bridge")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
-index 5fd7a459efdd..440b9a71012f 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
-@@ -342,7 +342,7 @@ static void dw_mipi_dsi2_phy_ratio_cfg(struct dw_mipi_dsi2 *dsi2)
- 	/*
- 	 * SYS_RATIO_MAN_CFG = MIPI_DCPHY_HSCLK_Freq / MIPI_DCPHY_HSCLK_Freq
- 	 */
--	tmp = DIV_ROUND_CLOSEST_ULL(phy_hsclk << 16, sys_clk);
-+	tmp = min(DIV_ROUND_CLOSEST_ULL(phy_hsclk << 16, sys_clk), GENMASK(16, 0));
- 	regmap_write(dsi2->regmap, DSI2_PHY_SYS_RATIO_MAN_CFG,
- 		     PHY_SYS_RATIO(tmp));
- }
--- 
-2.39.5
-
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
