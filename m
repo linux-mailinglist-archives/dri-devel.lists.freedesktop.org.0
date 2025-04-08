@@ -2,75 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457DBA810A5
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 17:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C158EA81109
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Apr 2025 18:00:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B37DC10E6EA;
-	Tue,  8 Apr 2025 15:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 910D710E259;
+	Tue,  8 Apr 2025 16:00:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U92RPZbz";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="J+Y0KkdK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B42410E6E3;
- Tue,  8 Apr 2025 15:51:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id AD96DA460A3;
- Tue,  8 Apr 2025 15:45:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51D55C4CEE5;
- Tue,  8 Apr 2025 15:51:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744127472;
- bh=fHyIFk+1JdVwh1YZHnuAzmhPYe/0ws1mktZxa7Zztis=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U92RPZbzB9fHNqMYcnKtrz/GqeAT94kOVr2zBKXfoy72b/TXH1UV1Pf1iKd+FF1Mt
- fEsn+06FNEilpE9JZe4Zlklge1+NhbTctVc202lqfcvEDxj3sfuL425JMNNKbAv8Zy
- 3XZ06lfKlaKvFyseN7gHRyVtS+O6zfETbsBEAg0e1albQ4vcN7UBXLpfMV13u9PmCO
- VjMZ379EgPxs5yizezEA0IXimAOEARimykKOEUJudXEx1J1Bn/fiNpJrruF/5hvVXa
- WxLGHFI56wktIKiFGnLrOz+2A1PufwrmZcAevCgKRkjYZ5K2i1sRn3kLD8oPjvHubU
- vUx4RBSwAqNqQ==
-Date: Tue, 8 Apr 2025 17:51:08 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- Douglas Anderson <dianders@chromium.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
- Dmitry Baryshkov <lumag@kernel.org>,
- =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 34/34] drm/bridge: panel: convert to
- devm_drm_bridge_alloc() API
-Message-ID: <20250408-thankful-husky-of-weather-355cae@houat>
-References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
- <20250407-drm-bridge-convert-to-alloc-api-v1-34-42113ff8d9c0@bootlin.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2071.outbound.protection.outlook.com [40.107.223.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECAE410E259;
+ Tue,  8 Apr 2025 16:00:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l3kuYE6uKItoc1xiAfBME7QfEG5b08Y57iKf5EZPc5GNB7c0jhRXUUHQo2bZ9NhvzHnH5TS769VkYTYfY75VTsIC/+464p28nSjSloEHlqfI3EVz3PW58dwMIahNO8v/lHSXpda9e4wC2Xyo5/1Z4jJVfVh9EKWhpfZdyy3KMc3WzqxihN0G2zmd1y4cSZeZmKu1X4qG/8UlIph48y/YPZZXj0lrnGCXOz9CEbQLAgRkj107VuTwUbQAgRxF8sJa6Mpa7I0zCff2pe0wj6bk1NNpMk1PE3n7Rcyd/JKl2cAyUHDhOu1lowho4rgWI3gJ1Po7KqaNADehuaFrDwLlHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sCg+mxEejd7TOtYSTzCY8l049JGj9oYN+5IvrKBUnXg=;
+ b=tR6eOxkresmsKcHsftKoC8oEWxdlQSVpwX0SUGoR2gng2LmfXHwxJk+ZtU/UKS1C9EDVXQR4QooAUYQmasVnG59c+xM5p9IHjmx/i6CENgVfhBzbuAxO159b7TXomQhxYXZ+gQYtKflNSgBs0sVNa1H4nKekIaPrK/5HkACHN/4S2tgYWliLcE0aJOKbfQ5BqrHD/L3Nn/i17HerP6mgotTwNWUrpJBjHn1bkmDrDtaG8ZvtUSlVpl9JvgYXW7n2M3x/PnBA0XVzdxkE7QaXP6+6pHIFEzU6cU+P1fcS4s6zAyf4tOsktnb3j+V79nr2Jp8VXb1eE60McMvdBcCbmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sCg+mxEejd7TOtYSTzCY8l049JGj9oYN+5IvrKBUnXg=;
+ b=J+Y0KkdKYrV/i2HbUehvZw5y9ahvpeUgdeJfaB51OqDzGCRpqiDj2PcEPrpBToHX/cCoyjorJpdyGED0kqQulpudxmElZWiBJKZdTbHsuWc5sAoJ7EfApxbAWsexhKk81BXHP/s4awIkEYr7793qDjmaBmqT6ATIqX0OCNQ7cA6ZeAtUrIiqF673kGC4cE34mQkPq23ArcFlGqaowx2CMBfSyH54S5IAB9pRfpI6vHlu+h1vB9c9QyOI/Dvpvz893nFS+x5W9qccFEH2fp/cdnyqdgDG4I3qacquanwEh+zPVmKcea2PkndLLnUt8chglQ8WzneIIRnxu6w9JKJqZQ==
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com (2603:10b6:930:31::20)
+ by LV8PR12MB9644.namprd12.prod.outlook.com (2603:10b6:408:296::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Tue, 8 Apr
+ 2025 15:59:55 +0000
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::e420:4e37:166:9c56]) by CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::e420:4e37:166:9c56%5]) with mapi id 15.20.8606.033; Tue, 8 Apr 2025
+ 15:59:55 +0000
+From: Timur Tabi <ttabi@nvidia.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>, Ben Skeggs
+ <bskeggs@nvidia.com>, "dwmw2@infradead.org" <dwmw2@infradead.org>
+Subject: Re: [6.13.6 stable regression?] Nouveau reboot failure in
+ r535_gsp_msg_recv()
+Thread-Topic: [6.13.6 stable regression?] Nouveau reboot failure in
+ r535_gsp_msg_recv()
+Thread-Index: AQHbp9G0LmhXfQe7vUujDTTQzzqtibOYZIwAgAAJR4CAAAOaAIAAFVWAgAACUACAAAJUAIAADx4AgAAC2ICAAATUAIABTLUA
+Date: Tue, 8 Apr 2025 15:59:55 +0000
+Message-ID: <c5bf5cf5a6d0d9020c6f7f0adb1b68c6d9598c23.camel@nvidia.com>
+References: <69997152cb8688a63b50fd8d3f189cc0e2668225.camel@infradead.org>
+ <71e3db014ae5bf84048313197ec08abb271ce757.camel@nvidia.com>
+ <5a0a20cddbc13d3f9eb96067491034a22830620e.camel@infradead.org>
+ <9890af80b576c61bd503134c13ee866a105a89fa.camel@nvidia.com>
+ <7acb91aac7e7e720e735b5271e4938f866a476ac.camel@nvidia.com>
+ <b26d088c043a83aecff243a9d08457f77381b5f0.camel@infradead.org>
+ <b3632ad6a6f8f4848ee70583286f72668406e10e.camel@nvidia.com>
+ <bf00be734d5311b703a3d9eb491b345f64ea8092.camel@infradead.org>
+ <83204f028c1fb0b2e36812b79cedd438966b4c6f.camel@nvidia.com>
+ <5B682A0A-C81D-47F4-A0A2-BA81A6281413@infradead.org>
+In-Reply-To: <5B682A0A-C81D-47F4-A0A2-BA81A6281413@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR12MB6526:EE_|LV8PR12MB9644:EE_
+x-ms-office365-filtering-correlation-id: 2e0a4cd7-5771-4c0b-e94d-08dd76b667a7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?WDZnMStRMFUvRFJibk4rUTNXeFpYWkNnemhiQlcrZ3VVYjk2b1o4L2s1ZGZq?=
+ =?utf-8?B?UTI2KzlzamFwaStZSnp0V2VhTXNtQWpBdlRWUGcwOGNaUDJ1UE1iK2FRSytj?=
+ =?utf-8?B?U1QzWkoyZEF4Q0c1dDdnTEYxdHZwY0RjRlo5dVFYWnN5eGNJTXlldEpNZFdZ?=
+ =?utf-8?B?M3B2a2c1TlhHREtsRi8rRUNldzNWcU9Pbk50dmxJWk9zblNtWHR5UnZJVzkv?=
+ =?utf-8?B?ci9hVWRZZzM0ZmdVbnJkYUV5ci9CUXRrcVRaUjluVlR6WVYrZXdHcHlNNlV2?=
+ =?utf-8?B?cEY5RzY0b01sdFd2RE1xZXhSVGRqQU4vdHdjMDV1T1VRNXg4Y2ZvRHlCSFkz?=
+ =?utf-8?B?MEZIbWUrOHQwbVZ3WGxWczBTbERUZ3BLSUZaSk5LNXRNa2tjbHpwaUhJN0xq?=
+ =?utf-8?B?Szd5VGlVNHFkN3BVUUZtYVJLMHZtVkFHNGlVWXE0NndxNzB0TVoyeWNQc2cr?=
+ =?utf-8?B?NnMyRGk0WnEvTkxHOWNjN09wbXJiL1E3S1l3bTdDL3l2NGZQYmhQSE42aklI?=
+ =?utf-8?B?eVlpRW11R3JjdGN4QnhpUXRpL3VJQnFCVE9vckJ4anJKbGFxazE2WWFiQmZB?=
+ =?utf-8?B?aW80OXE2MWw2eWJtWVI5bVlMTTllYzRZaHRJUGRaSGZCOGJXcndDN0ZaRStq?=
+ =?utf-8?B?V2VPVUdlWHR2dXdmMFh4NUU2MENVcVhMa2dRNHExVjVQcnRzV0JPNmJvSEJT?=
+ =?utf-8?B?ditXQzhxZ3RLU2ZBT001R3EvQnV0RkdVZTVpUWJuNHhZUUhhOEMzZDVwQm5K?=
+ =?utf-8?B?TkZUQjBnd0hFTlVpeHNTRC8zRHNjenl1dVNYVkRBU0ZhOEl1Z25leGc0NjZk?=
+ =?utf-8?B?QnZaVUJENzdUVmcyeTJLUVd1ekUyZVdJM0ZqTDRUa1I5K2lmSFdiNXNDTjI5?=
+ =?utf-8?B?TTRsazBLM25rUE9WK1kvTkdLeFBiOVVQNk1zSWVTc3J0MkRTVTJPM2VCemdQ?=
+ =?utf-8?B?L2x4Q0Z0aWJlS3JSNkt1SDBkMG5zTW5ENEVPSG1ObGdmbkhGQkh6N3dGblNF?=
+ =?utf-8?B?UHl4SmdsdWhuRjBsWm9MeUh6cUU4czR3aTVLMXJrVFVMZXQyMlBNeUVFcVAr?=
+ =?utf-8?B?RzB1RHM2SHRDUmJsT0x5QUJXV1pMdnJXaTM0WVNOWDZWd0pYSU1YTjJydnAy?=
+ =?utf-8?B?WW1IbWwzVklSTElFRUx3VUxCVHJJbVpmSVROc1BoTEZENHVGNTA2djVCNlpu?=
+ =?utf-8?B?a3NtZUoyNlhpL0tVempDQTFsSWhDU2phYmg5V1ZGSk5yczN4QzZkZFVRazF5?=
+ =?utf-8?B?WEJsODJHN25CY0tRZHBCRVY1WmpFa0JJYzNZR3JoUDlwL2tkMUlkMEplZzhL?=
+ =?utf-8?B?WkZpeHFYcm9wVlBrRkU1cVJvYWNza3VNNzcxcFJTQ1RHY21HY3piZExIVVJX?=
+ =?utf-8?B?SnEvTVRYSW90bFFuTUtyT2JRcTVLT0dNVnd1VFZIYitRdzJtWk9YZVhuNHVP?=
+ =?utf-8?B?YVk4MTBwdEtIcTU0YUJ5bzN0cHVtVWh6aXlnQldVbDNweXdYVWdPc1YrRWNh?=
+ =?utf-8?B?a1Z6MkVmbjEvcFNsNUlCZlY1WlpMNEpTdlRpOHhHczdrblhEUkNPNWNqS2x5?=
+ =?utf-8?B?RTEyS1F5eHdhVFpBM3dueWw0Q0ZSLy9RVm5jRTF3Qkw2VEsvWm44VUNjelRN?=
+ =?utf-8?B?Vk5zYXZjY2hORHo2R2h6azN6SldocjQrZVVEUk9ZOWFwbDc4M0JOMzhpUUha?=
+ =?utf-8?B?OTJoQUp6MFl4di84QzRwWis0ZmlBNGxhRGlMaHhOTTVNRVZWTThFSnUxb3Vk?=
+ =?utf-8?B?R0tkdmlmZyszRm9IRzRwSHEvdFZvbHluWUtCSXE5aWdiTnFCWkdHVkM2RFhP?=
+ =?utf-8?B?NTZCaGpjMTZVTXFIclJxYmF1aGlRU216SzY2ckNBbUliWE9GY3RsRkV1OS9k?=
+ =?utf-8?B?TFRRRUs0VmVPUnljcG5wSjEweHFpMTYyb3JHbjNwYy9SQmlIY3VXMUNYK0NZ?=
+ =?utf-8?Q?8hRXK1m3/nwa72VHVDgoh3gh1tEFZONP?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR12MB6526.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VytHQnRyakc5Nmw0SXBndWhTemd2ODFnQ1ZiclNxQ1E4ZEVJQnN4cHFaQmds?=
+ =?utf-8?B?RFIxRWdiVkFPQU50MTgxV2hYRlZNMnRuSjZIY3JBWlc1TTllNm5NT01uSlND?=
+ =?utf-8?B?alREazNJR0wwS2wzOGcyZmVlN1IzaFVtQW85SmVjcDJ3Qm1BYjlyRUx2UGxD?=
+ =?utf-8?B?c2YxQ2JwWUFYQlAwL21Rb1VNdjFYaXpxMUhzK25BdlpkMFBFM2ZFbVBCeTRv?=
+ =?utf-8?B?cDJ6dFVGUHZRZThCWVV0MjFyTElPVlkxc0orSHZsOHlmVm8wUDd3UGg3VFV2?=
+ =?utf-8?B?L2hoKzkzRnlIazhWMVcyV3ZINklpcUtnS3FyWVpnV1RLSTAzZkIxL3ZtaE9w?=
+ =?utf-8?B?R29jZnFqVTZTNytKanpqbjI0eHMzTktveENvYlUwOElORFZmRGVZS1ROcXBs?=
+ =?utf-8?B?Y2ZQZTU1aU1VK1kydjl0Skt6bDlMTWgzZTZVUTBXRWlzNEI2bmxEOWQ0ODd1?=
+ =?utf-8?B?TmxSTEtIRVBlTG1MOW1NTzladWt4ODJJUXc3NzRZWlZiYXpzMFF4OEdhS29v?=
+ =?utf-8?B?ZmxWcUhaVEpQOEJhbnBIM2hUbWJOT3JvUHFNWkJEVWRIeVE2d0tqeENaZUZU?=
+ =?utf-8?B?QnlkVTJJWWtDRWhIZUdRZVNGNit2UW16WTZsejEzbHZtZysrUTZabU5pM2Nv?=
+ =?utf-8?B?d0dkK3I4ZTBpZWRwc1dDZFVFZU5HNHFaa1BZVFRQeGFLMTR6RE9Wckhhd0Zz?=
+ =?utf-8?B?WFpMM3FsYVFycnZhSGtLUGR1T2JvM1dmcWkrbGRTazcxSWZ0REJ0UHdHTmFo?=
+ =?utf-8?B?YmlNYVIxVzVlL2x2VzgyWncvc2FJUm5RWkpNVmVGNjhSdlZFTU9LNVlCbHZa?=
+ =?utf-8?B?ZURrZ2VWV054VGpJU2U5NkMwY2JrOVlMYW44cm04eVI1TktGVTRQZ2F5VkpP?=
+ =?utf-8?B?STlTUFhGRkljVVVWaXdrb3dicXlOdFQ2STJsS2x4MXRReFkrbDlSYzlwdEdh?=
+ =?utf-8?B?d0ZmbEJjclZ5SFUrbHUyenAzcGZ5bklVcjV1NENPZ0wyRHVmOENmcXBmZ3VX?=
+ =?utf-8?B?SlFGd2tnOWhyZzdLQ1RERFdvT1c0TFhBMFV5TDQ1dHZZRzFwRkJpdzhUcUxv?=
+ =?utf-8?B?bTkwL2Y5QWlkajkyQis2bnpSbm9xaFQ1aU5RTTl4WjdOTmxnUjN5Ky9tWmw0?=
+ =?utf-8?B?QTRzQzVxdnhtQXhvSHJJV01YbG9sV2R3K1M2bU5JU1dMeG43eUN3Q2dwY0VE?=
+ =?utf-8?B?U0NhL1pyampTaFVueGp5bVZxWVFHdXBxN3YvN3hQTnpuMWtnTXpzb0puMVcx?=
+ =?utf-8?B?S0tiaW0zNnRPRDZaRndPUVVTRmJUWWNKVDB4SVZaYkdCd3lBRTd2dzlQM2xa?=
+ =?utf-8?B?Q2FhYU9hcy9nK3ZQem15aExCZTRmTGpXUkU0ZUMycXRIMnhXb3hBRW1vNGJR?=
+ =?utf-8?B?UmFRcW03NThhUDNqMTRmeVRvQi9ocFpWQlNzdW4xcC9aRHRpVlVEWE5VSlY4?=
+ =?utf-8?B?RzRLbVVNS0JPVi9zNjFuaDlNYXRXVFBvVlQzSytybXBRdUh6WVkwbFhtNE9r?=
+ =?utf-8?B?bnRuM3RzVStsUFVPSldVbTI3MEJEZ2VmSzJpN3RDcU9XdUdERGwrSEZ4alFv?=
+ =?utf-8?B?b3V3Nnc0ZVdGaFUrUFNJWms3cktSd0t5MEVTb2REV2p6blkyUlNVbFFPVmRZ?=
+ =?utf-8?B?TlZTYmo2cS9pclFKRjIyZGwyTzgyM3JCMHNXYTNCZ1Naa0VDVUVpV3psbVEx?=
+ =?utf-8?B?Mlh0ZnpyRTk4N0RNWHcrVjh4aEhJeE9MM2YycUhKSDMraDBveTRTT2xRaHhi?=
+ =?utf-8?B?M2k1SUhFcVFGUk1VRGx6SWdCYjZ1MGlSREJHTVFSWHN2UFd5Y2owYXUvUHJr?=
+ =?utf-8?B?dHl6UitQc0didi9hL3ZwM0pnS05xaEt5VFBOU3NGa2pVYm5EcC9JTlhNcS9a?=
+ =?utf-8?B?bkRqRmZST0o4QzZLQTNQcTZSUFpCTlFrNklueWY1bnpKdnV2RGFJc25vYllW?=
+ =?utf-8?B?bjUzM2VZZG1EL2VwL04wbStybS95QXhVRWtWWUdlMm1DeGQwUGQwV0VuZ1NK?=
+ =?utf-8?B?NG9GUDdvU3p0akhORHc2V3NvNEpEeFk1dHRSRmFYVXNZdmk1UXVIRTUvNkFl?=
+ =?utf-8?B?eXZxODhSa1hYaTFjMUlKQ3hITW96NE5rRkJtSTkzamEvR3hpUlRaSHVOVDN3?=
+ =?utf-8?Q?1e01nuTMxua0NjcA+KDDiPIfA?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E9629A912A23AC45B5D4FB8913E9A4D7@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="whaxztwnulei2tij"
-Content-Disposition: inline
-In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-34-42113ff8d9c0@bootlin.com>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6526.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e0a4cd7-5771-4c0b-e94d-08dd76b667a7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2025 15:59:55.1202 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: s977z4vwQQmBScTbkEGygcBGRZREYRHde6L/2cKpPlGZFM5MCo6bGVcp+0Cr1F4vUjuboyVtIrhBG09Eezx/Ew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9644
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,139 +177,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---whaxztwnulei2tij
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 34/34] drm/bridge: panel: convert to
- devm_drm_bridge_alloc() API
-MIME-Version: 1.0
-
-Hi,
-
-On Mon, Apr 07, 2025 at 05:27:39PM +0200, Luca Ceresoli wrote:
-> This is the new API for allocating DRM bridges.
->=20
-> The devm lifetime management of this driver is peculiar. The underlying
-> device for the panel_bridge is the panel, and the devm lifetime is tied t=
-he
-> panel device (panel->dev). However the panel_bridge allocation is not
-> performed by the panel driver, but rather by a separate entity (typically
-> the previous bridge in the encoder chain).
->=20
-> Thus when that separate entoty is destroyed, the panel_bridge is not
-> removed automatically by devm, so it is rather done explicitly by calling
-> drm_panel_bridge_remove(). This is the function that does devm_kfree() the
-> panel_bridge in current code, so update it as well to put the bridge
-> reference instead.
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->=20
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: Simona Vetter <simona@ffwll.ch>
-> To: Andrzej Hajda <andrzej.hajda@intel.com>
-> To: Neil Armstrong <neil.armstrong@linaro.org>
-> To: Robert Foss <rfoss@kernel.org>
-> To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> To: Jonas Karlman <jonas@kwiboo.se>
-> To: Jernej Skrabec <jernej.skrabec@gmail.com>
-> To: Jagan Teki <jagan@amarulasolutions.com>
-> To: Shawn Guo <shawnguo@kernel.org>
-> To: Sascha Hauer <s.hauer@pengutronix.de>
-> To: Pengutronix Kernel Team <kernel@pengutronix.de>
-> To: Fabio Estevam <festevam@gmail.com>
-> To: Douglas Anderson <dianders@chromium.org>
-> To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> To: Krzysztof Kozlowski <krzk@kernel.org>
-> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Anusha Srivatsa <asrivats@redhat.com>
-> Cc: Paul Kocialkowski <paulk@sys-base.io>
-> Cc: Dmitry Baryshkov <lumag@kernel.org>
-> Cc: Herv=E9 Codina <herve.codina@bootlin.com>
-> Cc: Hui Pu <Hui.Pu@gehealthcare.com>
-> Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: asahi@lists.linux.dev
-> Cc: linux-kernel@vger.kernel.org
-> Cc: chrome-platform@lists.linux.dev
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: platform-driver-x86@vger.kernel.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> ---
->  drivers/gpu/drm/bridge/panel.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pane=
-l.c
-> index 79b009ab9396048eac57ad47631a902e949d77c6..ddd1e91970d09b93aa64f50cd=
-9155939a12a2c6f 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -287,15 +287,14 @@ struct drm_bridge *drm_panel_bridge_add_typed(struc=
-t drm_panel *panel,
->  	if (!panel)
->  		return ERR_PTR(-EINVAL);
-> =20
-> -	panel_bridge =3D devm_kzalloc(panel->dev, sizeof(*panel_bridge),
-> -				    GFP_KERNEL);
-> -	if (!panel_bridge)
-> -		return ERR_PTR(-ENOMEM);
-> +	panel_bridge =3D devm_drm_bridge_alloc(panel->dev, struct panel_bridge,=
- bridge,
-> +					     &panel_bridge_bridge_funcs);
-> +	if (IS_ERR(panel_bridge))
-> +		return (void *)panel_bridge;
-> =20
->  	panel_bridge->connector_type =3D connector_type;
->  	panel_bridge->panel =3D panel;
-> =20
-> -	panel_bridge->bridge.funcs =3D &panel_bridge_bridge_funcs;
->  	panel_bridge->bridge.of_node =3D panel->dev->of_node;
->  	panel_bridge->bridge.ops =3D DRM_BRIDGE_OP_MODES;
->  	panel_bridge->bridge.type =3D connector_type;
-> @@ -327,7 +326,7 @@ void drm_panel_bridge_remove(struct drm_bridge *bridg=
-e)
->  	panel_bridge =3D drm_bridge_to_panel_bridge(bridge);
-> =20
->  	drm_bridge_remove(bridge);
-> -	devm_kfree(panel_bridge->panel->dev, bridge);
-> +	devm_drm_put_bridge(panel_bridge->panel->dev, bridge);
->  }
->  EXPORT_SYMBOL(drm_panel_bridge_remove);
-
-I'm fine with it on principle, but as a temporary measure.
-
-Now that we have the panel allocation function in place, we can just
-allocate a bridge for each panel and don't need drm_panel_bridge_add_*
-at all.
-
-As I was saying before, it doesn't need to happen right now, or before
-the rest of your work for hotplug goes in. But this needs to be tackled
-at some point.
-
-Maxime
-
---whaxztwnulei2tij
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/VF6wAKCRDj7w1vZxhR
-xZU9AP9+Olq0gODzONr66OWy2JUMq3Zt+9qdaFGpPxZ/7/LDgAD+JNtu7g0v4KKA
-HdXhPPGzl2cAOI04En1cGAdCRKq6ZQw=
-=xkvL
------END PGP SIGNATURE-----
-
---whaxztwnulei2tij--
+T24gTW9uLCAyMDI1LTA0LTA3IGF0IDIxOjA5ICswMTAwLCBEYXZpZCBXb29kaG91c2Ugd3JvdGU6
+DQo+IEl0ICp3YXMqIHdvcmtpbmcsIGFzIGxvbmcgYXMgSSBjb3VsZCB0b2xlcmF0ZSBpdCBiZWlu
+ZyBzY2FsZWQgdG8gMjAwJSBsaWtlDQo+IHRoZSBpbnRlcm5hbCBkaXNwbGF5LiBJdCAqZGlkKiBs
+aWdodCB1cCB0aGUgZXh0ZXJuYWwgZGlzcGxheSBqdXN0IGZpbmUuDQoNCk9rLCB0aGUgb25seSB0
+aGluZyBJIGNhbiB0aGluayBvZiBpcyB0byBkbyBhIGJpc2VjdCBiZXR3ZWVuIDYuMTMuNCBhbmQN
+CjYuMTMuNiB0byBkZXRlcm1pbmUgdGhlIGNvbW1pdCB0aGF0IGJyb2tlIGl0Lg0KDQo=
