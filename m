@@ -2,78 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A70A8211D
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 11:38:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 145DEA82135
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 11:44:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF37510E81D;
-	Wed,  9 Apr 2025 09:38:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6343E10E822;
+	Wed,  9 Apr 2025 09:44:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aUIaGlUN";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="THwnFTdk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 790EF10E81D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 09:38:21 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-301c4850194so5236132a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 02:38:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1744191501; x=1744796301;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=SgTC8w9iL276TFi8uSLwBxbq6oM19eQgvWXN0fTHj+M=;
- b=aUIaGlUNCnnYiRH7PpNgEsy1N9z2u83de4d8uvQfJkBI+79Jz7WtO7WNpqHuYqtCXm
- U9EFkoDaMyyLCO3e8md09xmLWvD4uRTPRRfTmZfCJutps/KRhb+z3tvnFjadcRV9He18
- l38OFHwaQQizkXA1T+3vcbKW8zjze04IZ6B5g=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF2110E822
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 09:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1744191839;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G7znzCj/gfMRbAPJAEPE1rTbQF7vTbZ1Y1hJc3xX8N8=;
+ b=THwnFTdkOqieDievgHeG/SqRgOB5nTyJod4QImtnUO/RDqONCjL9zaqIh4RuDhK+TGCoBn
+ y4m49+h72h3HN108Yjl+wFSv6pwN19SBFyF9BwezUabSVqPj8uHjkfGqqktKa0gnD3h8ac
+ pVQxo9xTsyf02iVppJSFm/YAnWIRAsI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-76-fpqUAFSBNnO5adbkzqtcHQ-1; Wed, 09 Apr 2025 05:43:58 -0400
+X-MC-Unique: fpqUAFSBNnO5adbkzqtcHQ-1
+X-Mimecast-MFC-AGG-ID: fpqUAFSBNnO5adbkzqtcHQ_1744191837
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-43cf172ffe1so55256875e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 02:43:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744191501; x=1744796301;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SgTC8w9iL276TFi8uSLwBxbq6oM19eQgvWXN0fTHj+M=;
- b=UQ4+d0hKKlPuhEFkEtCg1D6vEcTzSJ8vej71mBjTAYHxlGVAhz/mHUA2sp2MQ9hP3O
- wA7NVZVAjbOddpiKNqPYm9dwIsiwIlWCx643S5t3tkrDhTgHoAnBM9RBGHspitcn0gIk
- /6dNy8Uf7dsQJEi5m05VYf0EHDasKmGx3ktpXbn/TfIagRYQu8Fs/y1vL6cRr5IeMhTY
- h2zhPdcTAMh4/vQF6/tcRbs+Dt+Mju3cQQpeOqvgdn1hTTrA2sVI0XoczmvM3sWHmP3i
- kCJ8TWISReYCm2UYj+Nqbfz2H8nAbE0ImJhN5FaShVZ3TsH/bxDG4Yhvbdao+ug0X/vv
- beuA==
+ d=1e100.net; s=20230601; t=1744191837; x=1744796637;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G7znzCj/gfMRbAPJAEPE1rTbQF7vTbZ1Y1hJc3xX8N8=;
+ b=s8iMS0zZscKQ3qMhJNcc7OaJrs8yMkEU9+J0Fa11drbQiG/hjl2+vsQcb5BAMwtKXD
+ pIjejSTzhUfvqhDcd4Y5xwL6F5384kTB2dQ8cqM06JhO2I7p5/6TTMxSlblaIa7jHo82
+ BcKSFSajnAu5BkFjN+GZp3rzoX2Ivgrl6qzFQGoGumRDsrLVNXVvSJOxOdJqPgtrB/u5
+ 33FNjNDV7UvC9YE5R3fMx+eswAZCl5EyFr/8a+FCL4g18VWzpLADvoXb/sdUfpeIvOQR
+ VxWEvMsCbPjLOPh2CELkeCyAXnIU10mnVzXdzrxuG3OEH6R7/bn6V1dZfroESyEd8wop
+ DY/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW/gHVjE6ymcDE8cjCfATILCbJ+WuEqT4JRi8wH38kqSCxFJmG+49RiwW5vCG7uDkdDvYvknKQOzfI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwR9vocwSMdtNUhnJrdrkrM1UgMV/S9uOR0zbOZq1oCOiYX42Tl
- GGbezOKdzzwtKIHZMvbSc/b+Josz4C9Act8LOUiTMWTwcR0Qnxm+uuuM9y9UuA==
-X-Gm-Gg: ASbGnctrQE9uqyZKJCP3f1OIKjpT+WYWZxFCwO0w9E9KQSD277CPMWFeQrjwzTPW60/
- sxmwZj0+OVfJ8KFWMm91DG7iy5lkH11C57yx37rWgZn954CNIct2qMpzMa/5PhNZcxM+vTRt0sb
- iEk+LIKy18IPA0jFLByDAUG+5cvcgjCjLDPCmCvpP0HLm/S6n68JdBkiCjOYtnoxDGgE/mGetEW
- 7ZElMa9Up9JYKMJeZqt2Ga+bjWd7Slo0Ds5+O2dSErEUMLq+3iDCkuEi3T16rjg6ICFSuib+3jf
- l/BkBuZpnr9LpHiZ0Y8zgwsQ21rXTcY+fdBKGW6LnH7csYc21Eazl0gRfs8=
-X-Google-Smtp-Source: AGHT+IEFN4eKM3khV+a3oSUDISWcchGGNrkzq2zapiCD0nKURmKZ+1EdmsOfjDcNWMOTQ70G90l/XA==
-X-Received: by 2002:a17:90b:5750:b0:2ff:7331:18bc with SMTP id
- 98e67ed59e1d1-306dd56b1cemr2114604a91.26.1744191500989; 
- Wed, 09 Apr 2025 02:38:20 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com
- ([2401:fa00:1:10:9ddd:3b40:5dbf:9350])
+ AJvYcCVgzh+hZxo/VyLXYoBd9A87SNKzF7Sp1wii+PLkS3AJN1ovba2clglK8/AlWM5t7/jUdRFSlkqvSYw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWyuJR691ejUb8OZBTK2izqEBLqYGsARUFkinND9Qo2DbK28yD
+ pndTDL382Xof9yKVu/9MRV6G/b4OSjr1XS7Kk7nxiMDLfO7BFr8fiMKOuEzM/XraCYvV+O+Aknk
+ g3zp7D5ASpQXPYeemRG8Xh+hzQYTVY2QNGQc3upTyOQ4nI0eCl4QSWfGxBCey2M2y+A==
+X-Gm-Gg: ASbGncuhDd058a18hsFIJ8wf6WqagXhhktbO7XK65T4ndQiUYo4D0/2LhUqZUDQvo+k
+ uyUA9pyAUieY1ZWIGQko/Sj3rKi9jj8mwdjDPiKKLCJ5J27cAdtikiyTB6oUORkOPJv3jGmX0+f
+ qCzf0moAZxKzEGJvgMjpelLMdtdWMdAykCtH1A0VZNI15ZvA/hxM+gIn+oaBha5013Vc6H5Dzfx
+ 5mjgoFV9uVbIoBGuPSJJvc3PXqnHU2b3aTsvxjidTwevauNayDIswHIqaPUbEV6d8vHx0lufGc1
+ WXF/EcKHS2yeni+sWRfQLM82Ci6tEp0vbpuK7AQmKQ69sNxmRJ5PY1nO5fLyOl3QCvnT2Q==
+X-Received: by 2002:a5d:64c4:0:b0:391:3915:cffb with SMTP id
+ ffacd0b85a97d-39d885612a7mr1577992f8f.43.1744191836705; 
+ Wed, 09 Apr 2025 02:43:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHGu4u3BK/v6GJbjaLAKLe1GqebFBXWq85va/hCAimH4+nbm9+X2gTzlrwLpJ0IJFLslffWkQ==
+X-Received: by 2002:a5d:64c4:0:b0:391:3915:cffb with SMTP id
+ ffacd0b85a97d-39d885612a7mr1577958f8f.43.1744191836268; 
+ Wed, 09 Apr 2025 02:43:56 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-306df2fb171sm940713a91.34.2025.04.09.02.38.18
+ ffacd0b85a97d-39d893f113csm1113919f8f.69.2025.04.09.02.43.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Apr 2025 02:38:20 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: anx7625: Use devm_pm_runtime_enable()
-Date: Wed,  9 Apr 2025 17:38:13 +0800
-Message-ID: <20250409093814.3977025-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.49.0.504.g3bcea36a83-goog
+ Wed, 09 Apr 2025 02:43:55 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Thomas
+ Zimmermann <tzimmrmann@suse.de>
+Subject: Re: [PATCH v3 2/3] drm/st7571-i2c: add support for Sitronix ST7571
+ LCD controller
+In-Reply-To: <Z_YWq4ry6Y-Jgvjq@gmail.com>
+References: <20250408-st7571-v3-0-200693efec57@gmail.com>
+ <20250408-st7571-v3-2-200693efec57@gmail.com>
+ <87cydn9bkx.fsf@minerva.mail-host-address-is-not-set>
+ <Z_Uin2dvmbantQU4@gmail.com>
+ <87ecy1g8z8.fsf@minerva.mail-host-address-is-not-set>
+ <Z_YWq4ry6Y-Jgvjq@gmail.com>
+Date: Wed, 09 Apr 2025 11:43:54 +0200
+Message-ID: <87bjt5fz51.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: i54nNlaf4EJAHo9pD_c74K9Zmmk7hpOasFe2q7tU1rE_1744191837
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,45 +107,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The anx7625 driver is open coding what devm_pm_runtime_enable() does.
+Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
-Switch to the common helper instead.
+Hello Marcus,
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+[...]
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 866806e908cd..8bfe477c476c 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2569,12 +2569,6 @@ static const struct dev_pm_ops anx7625_pm_ops = {
- 			   anx7625_runtime_pm_resume, NULL)
- };
- 
--static void anx7625_runtime_disable(void *data)
--{
--	pm_runtime_dont_use_autosuspend(data);
--	pm_runtime_disable(data);
--}
--
- static int anx7625_link_bridge(struct drm_dp_aux *aux)
- {
- 	struct anx7625_data *platform = container_of(aux, struct anx7625_data, aux);
-@@ -2708,11 +2702,10 @@ static int anx7625_i2c_probe(struct i2c_client *client)
- 		goto free_wq;
- 	}
- 
--	pm_runtime_enable(dev);
- 	pm_runtime_set_autosuspend_delay(dev, 1000);
- 	pm_runtime_use_autosuspend(dev);
- 	pm_suspend_ignore_children(dev, true);
--	ret = devm_add_action_or_reset(dev, anx7625_runtime_disable, dev);
-+	ret = devm_pm_runtime_enable(dev);
- 	if (ret)
- 		goto free_wq;
- 
+>> 
+>> That's a god question, I don't really know...
+>> 
+>> But fbdev does support XRGB8888, which may be another good reason to add
+>> it and make it the default format. Yes, it will cause an unnecessary pixel
+>> format conversion but the I2C transport is so slow anyways that compute is
+>> not the bottleneck when using these small displays.
+>
+> Hrm, I now realised that I have another issue.
+> Not all LCDs that will be attached to the ST7571 controller will be
+> grayscale.
+> The display I've attached to the ST7571 is a monochrome LCD for example.
+>
+
+Oh, that's very interesting. This means that vendors are using a more capable IC
+(i.e: ST7571) for display controllers + LCD panels board designs, even where they
+could had used a less capable one (i.e: ST7765). That is, using an IC that supports
+2-bit grayscale when they could just used one that only supported monochrome pixels.
+
+From a quick search, I found for example this one from SinoCrystal:
+
+https://displaysino.com/product_details/SC128128012-V01.html
+
+> Maybe the right way to do it is to only support XRGB8888 and specify 
+> if the display is monochrome or grayscale in the device tree.
+>
+> Or do you have any good suggestions?
+>
+
+I don't know the proper way to handle this, but what I would do is to include
+the actual boards as entries in the OF device ID table instead of just the ICs.
+
+And then for each entry you can specify what formats are supported, e.g:
+
+static const uint32_t monochrome_formats[] = {
+	DRM_FORMAT_XRGB8888,
+        DRM_FORMAT_R1
+};
+
+static const uint32_t grayscale_formats[] = {
+	DRM_FORMAT_XRGB8888,
+        DRM_FORMAT_R1
+        DRM_FORMAT_R2
+};
+
+static const struct of_device_id st7571_of_match[] = {
+	/* monochrome displays */
+	{
+		.compatible = "sinocrystal,sc128128012-v01",
+		.data = monochrome_formats,
+	},
+...
+        /* grayscale displays */
+	{
+		.compatible = "foo,bar",
+		.data = grayscale_formats,
+	},
+};
+
+and then in your probe callback, you can get the correct format list for
+the device matched. Something like the following for example:
+
+static int st7571_probe(struct i2c_client *client) {
+       const uint32_t *formats = device_get_match_data(client->dev);
+       ...
+
+       ret = drm_universal_plane_init(..., formats, ...);
+       ...
+};
+
+Likely you will need to define more stuff to be specific for each entry, maybe
+you will need different primary plane update handlers too. Similar to how I had  
+to do it the ssd130x driver to support all the Solomon OLED controller families:
+
+https://elixir.bootlin.com/linux/v6.11/source/drivers/gpu/drm/solomon/ssd130x.c#L1439
+
 -- 
-2.49.0.504.g3bcea36a83-goog
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
