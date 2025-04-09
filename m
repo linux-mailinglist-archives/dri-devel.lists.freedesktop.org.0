@@ -2,87 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1B7A82AD6
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 17:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6596A82ADB
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 17:44:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4989D10E27D;
-	Wed,  9 Apr 2025 15:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2902E10E21F;
+	Wed,  9 Apr 2025 15:44:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W035egiv";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TWRAM9wL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE0F810E06E;
- Wed,  9 Apr 2025 15:44:23 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-7393eab4a75so866411b3a.2; 
- Wed, 09 Apr 2025 08:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744213463; x=1744818263; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pzRTGH1ny0vv7Ey4MKuvYlccmkZb3G5nEDPJcfHDxZg=;
- b=W035egivoC+iBYkFVT8LNOwZvmBIXKo2KLrIzjQ/dSk+TCNLobeoD/MSh+58wvF6Bo
- Uy2alV6fY9DEkVGI/tFmdHp/51ZWtXWC5/0vnt6kBaPe6lXUr8qvB7mQzBemXzFTIpi+
- 0J5LASSJrnkidn4WqWAS9JD3uDzCUtY50k9zSHgJYEwTWgG6cjm1OGwx4Om401hGcwLK
- rOFxSZgvPQwVABxl1wAoQjKYjmf7LnWgTEH8K/pSJXOX/edaENmNIo+KUYcxg3UgzPE/
- /XA8G8KddO1XWj1UjgWLKS19zKj/HbvTpEwsEiL7RBPF1QjY8z1OnWVffiqQ9PWXnqpd
- vdlA==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDC3A10E146
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 15:44:36 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5398GVkw022996
+ for <dri-devel@lists.freedesktop.org>; Wed, 9 Apr 2025 15:44:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ jf9Ry+p2QQQupfgw9vOlP3Ifvgj581gqI0fqXPxyhMg=; b=TWRAM9wLBxqUMUOp
+ 936fUT/TBvmCbxUFWKW/cG7VqA8rE+UhFA/ur7uT0cj7S+cipzBvhPb/KBmwrU36
+ TQLv6z1O2ntFSPaxOXgRIJ+B36Die/6n8xZ/Rg3PbRA8+xz+KRglopxtYQPQfgze
+ wXNtWUFaQi9pwbA0fo0GsPNuvD+YLiRfF3KhO0IL/4qPvo3ezADfziS7dr+Pky2l
+ 8comIh1oY3UbvXJxx6Uw9UHMr0OvSZ0a+dqBf6YsULlZzLj+850W8VHIpYNxSmvs
+ E8ywtn6Xnk8wvyXYf3BHhJ3fNzvtqQ4xjo++qhO8bS0N1bZmRO5OBx2iambMT7YN
+ goH6SQ==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twd03y9f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 15:44:35 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c5f3b94827so1252345185a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 08:44:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744213463; x=1744818263;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pzRTGH1ny0vv7Ey4MKuvYlccmkZb3G5nEDPJcfHDxZg=;
- b=jMr4KLkd4XKvkjzEnFTYt1Ve/Dt7GreUzS8th/6xjSTaNK4hpD57o22vDU51Zxe3Wo
- L1KPIvgGrRpWi86b68Sc5ZNODWRobgCrcFxMAV3AypyuOhWduH6RUSgAV8rnoHItCMLQ
- TzlkDIJR0fbF9yFk7JrZGXU8xeWAu7HQKY0+u4tgr1+82vFMSe517J3V811pCw2IpK8e
- lkt3o4USJThdHWt6J60UEi5tHBSG99BB+JrP7NYTa+faGye0kRdc9JJ2OM2cBHWg7KyN
- JyHJflFiuoRlKVuToPmlhTPSleRIXvfHEPpazqm7q1Q88EXUw4YjLkbgNWTIIWH4oC5D
- GdGA==
+ d=1e100.net; s=20230601; t=1744213475; x=1744818275;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jf9Ry+p2QQQupfgw9vOlP3Ifvgj581gqI0fqXPxyhMg=;
+ b=ZZ1ggdr8rxdN4URhVJ+g+rEHC1AQZvoiF25zXW9zqkTn5nbXHc4/SA8p7adNvBxjEV
+ rYkUqcEU59B7YL/yfl5I9FOcCcQNl0lXTkGO+rnt1KX1hRE3P/FDn3fr3Yy4glMArLso
+ xnE8qVrh+wHc2JSc2ITo6EKvYDup6CiwiTK9/JriaxNo/fE0In8/vNRFoJhh6ZtvNfOm
+ hOAvffKgJdPdmP33a/2UcTCWW4Cp8DdEg0eBzBK+n0/9JTZQwp+VFXpgGS4OBnKx61yu
+ /Bm6TRG9xE6AsMHVp42E7qqasqz1nmnlEzKF+BN5vnDBjd/61jIbMqiK1ArvbKn74d9r
+ GDUg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUJ0NgzxOY97gh5hPlg0MbNIvBhc7t8tJwZeS5XQzkwivuHMARZjv1MKBqmxacZ/bqfvEjzUDTV/YA=@lists.freedesktop.org,
- AJvYcCVGheSreWc2QKBdaCZrQHa1G9IV7dM7L9DFtjLo9Hu6uHeWW0Vh4IDMVpDiaKrP+d2CTK6d+5jH1vHP@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwW9db3pLCgTJ72UG8h/vbgj6I2Psg6J8uyF5enWZuMpPt0E4RC
- NApBLyfYFg2RzbH1MMxKn/NAonajPbX75MDuZG0i85ts26aWSGLPZk4DPND6vCFGVW34sNiJdrP
- kPrAChx7n72186h6ERc7zlYFj5RE=
-X-Gm-Gg: ASbGncscEB42U2HArWGNmP9mLIeJyteaMStB9bEdj1eZDP9TTmkcrhhfdXlj09CmFvB
- c7vmkedWLgxvbyI9Gt55wWnwz6YQQIRX4qCR+imQW4jj6b1FL95BNboYnKEzeZUFupxd86obUvp
- KFNhf6L5Vxpw0BFdQb2Hw6Xw==
-X-Google-Smtp-Source: AGHT+IF5oThqq2ezhfnJ6WCfpy2FnPDcHZNg2MdPGxfC5acUPxiGFCloLJ76HFGANCkrc6gQf5RcO2ZdqDZ2EJeWKG4=
-X-Received: by 2002:a05:6a00:2410:b0:730:87b2:e848 with SMTP id
- d2e1a72fcca58-73bae54d12amr1658559b3a.5.1744213462627; Wed, 09 Apr 2025
- 08:44:22 -0700 (PDT)
+ AJvYcCUJNmJph02agOz3BD6y/QjhQfvUGoZLER5ZpcdmFZfyxuFrFflqP+J0Yn6SUVRVlmnGHyHNpxjtp+M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpRzhL7uAnqowIK8Lvs+rfUhqtKKwRZ9UyA/6AJynta3rfnlep
+ eAesCwNrMs+nzFOdhMDCfMtbOqlNd0NuEkkdHwRtSktPx7ILuGyvFbW7h1Zx3Ntk4H398quQCu2
+ 3NI9ZCh+BEJUXvagTHqeeYQnzJpqK7/RMzXeTZB9V421ebDQqquYmtJU2ma1h5PFtpSA=
+X-Gm-Gg: ASbGncufgpiuALYEGiI+5xfc4W3v1N3sW1DKJdgdio6Rq0KMg0aI6HTUyKaPo975+ha
+ 6W4kxbZlQ0/z652RXo42N+UIAHkHMPYtFVxti4mCcFVuZaZ89/y2hkdAVOnbK0NrYmhZN2gKKGj
+ WKSnLOQzL8nSELsca7/YrYBnFnjiy6CJ1/9mWFXAPMqlJOvtZ6KSi9tbf6ZtGoJjwTUowvgcunN
+ zNb9XA1vfT0i4f6DL7LdYl6yRG3b31r/Euvj86cn7usF4ow81t+XpI/n1CViYiRBMO3qSzlenvE
+ F3BseGkyWXfsNFFAhv76XcvObmbZkSpaxzxQoN5u97jm3WqgkJo9PoXqQWVkjzLtjv0=
+X-Received: by 2002:a05:620a:6223:b0:7c7:a212:d1e7 with SMTP id
+ af79cd13be357-7c7a212d215mr251122885a.32.1744213475109; 
+ Wed, 09 Apr 2025 08:44:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFR79I/nR+rW+zjtLRr7uRkQezm/LzIKrYmKHQlSC0gniwNCOb3Sxvl8FOipevKYywu+GxHkQ==
+X-Received: by 2002:a05:620a:6223:b0:7c7:a212:d1e7 with SMTP id
+ af79cd13be357-7c7a212d215mr251120085a.32.1744213474747; 
+ Wed, 09 Apr 2025 08:44:34 -0700 (PDT)
+Received: from [10.187.209.180] (37-33-188-210.bb.dnainternet.fi.
+ [37.33.188.210]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30f465f7b0asm2007281fa.98.2025.04.09.08.44.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Apr 2025 08:44:34 -0700 (PDT)
+Message-ID: <685e784c-3f36-4cd1-9c34-7f98c64d50f2@oss.qualcomm.com>
+Date: Wed, 9 Apr 2025 18:44:36 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] Retrieve information about DDR from SMEM
+To: Konrad Dybcio <konradybcio@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 References: <20250409-topic-smem_dramc-v1-0-94d505cd5593@oss.qualcomm.com>
- <20250409-topic-smem_dramc-v1-3-94d505cd5593@oss.qualcomm.com>
- <CACu1E7GMf0Mx2ZX_t76h+b1CPin49LGix7c5uvoWaJZC3dKyOw@mail.gmail.com>
- <c2dac38b-bbe5-4cd1-9d33-b4bba629d54b@oss.qualcomm.com>
- <CACu1E7F71M0Z5KUdArRYbLEMXoS3jQEtp=0-4LEYFRysOsYZfA@mail.gmail.com>
- <9a12e042-487b-4937-a583-709f0c37ab12@oss.qualcomm.com>
-In-Reply-To: <9a12e042-487b-4937-a583-709f0c37ab12@oss.qualcomm.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Wed, 9 Apr 2025 11:44:11 -0400
-X-Gm-Features: ATxdqUESO1yUGm43W-4aJ0p1YKGgK-hvQNegRseX9b5IIsphXiy86aIo60d1HwI
-Message-ID: <CACu1E7Hto_Ms3RxQjXXYB+RB+FC5n1VFtohKbe4EzKWgEk9uiQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/msm/a6xx: Get HBB dynamically, if available
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Konrad Dybcio <konradybcio@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov <lumag@kernel.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250409-topic-smem_dramc-v1-0-94d505cd5593@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 8MV7mmi9lYFWHk5rnr3yhOw4SIsOnsLU
+X-Authority-Analysis: v=2.4 cv=Q4vS452a c=1 sm=1 tr=0 ts=67f695e3 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=gh1egkeLKbPt9jDVRuYeUQ==:17
+ a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=9wHiH3TPsHwm208gvmQA:9
+ a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: 8MV7mmi9lYFWHk5rnr3yhOw4SIsOnsLU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-09_05,2025-04-08_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=784 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504090100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,135 +125,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 9, 2025 at 11:40=E2=80=AFAM Konrad Dybcio
-<konrad.dybcio@oss.qualcomm.com> wrote:
->
-> On 4/9/25 5:30 PM, Connor Abbott wrote:
-> > On Wed, Apr 9, 2025 at 11:22=E2=80=AFAM Konrad Dybcio
-> > <konrad.dybcio@oss.qualcomm.com> wrote:
-> >>
-> >> On 4/9/25 5:12 PM, Connor Abbott wrote:
-> >>> On Wed, Apr 9, 2025 at 10:48=E2=80=AFAM Konrad Dybcio <konradybcio@ke=
-rnel.org> wrote:
-> >>>>
-> >>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >>>>
-> >>>> The Highest Bank address Bit value can change based on memory type u=
-sed.
-> >>>>
-> >>>> Attempt to retrieve it dynamically, and fall back to a reasonable
-> >>>> default (the one used prior to this change) on error.
-> >>>>
-> >>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >>>> ---
-> >>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 22 ++++++++++++++++------
-> >>>>  1 file changed, 16 insertions(+), 6 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm=
-/msm/adreno/a6xx_gpu.c
-> >>>> index 06465bc2d0b4b128cddfcfcaf1fe4252632b6777..0cc397378c99db353152=
-09d0265ad9223e8b55c7 100644
-> >>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >>>> @@ -13,6 +13,7 @@
-> >>>>  #include <linux/firmware/qcom/qcom_scm.h>
-> >>>>  #include <linux/pm_domain.h>
-> >>>>  #include <linux/soc/qcom/llcc-qcom.h>
-> >>>> +#include <linux/soc/qcom/smem.h>
-> >>>>
-> >>>>  #define GPU_PAS_ID 13
-> >>>>
-> >>>> @@ -669,17 +670,22 @@ static void a6xx_calc_ubwc_config(struct adren=
-o_gpu *gpu)
-> >>>>  static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
-> >>>>  {
-> >>>>         struct adreno_gpu *adreno_gpu =3D to_adreno_gpu(gpu);
-> >>>> +       u32 hbb =3D qcom_smem_dram_get_hbb();
-> >>>> +       u32 ubwc_mode =3D adreno_gpu->ubwc_config.ubwc_swizzle & 1;
-> >>>> +       u32 level2_swizzling_dis =3D !(adreno_gpu->ubwc_config.ubwc_=
-swizzle & 2);
-> >>>> +       u32 hbb_hi, hbb_lo;
-> >>>> +
-> >>>>         /*
-> >>>>          * We subtract 13 from the highest bank bit (13 is the minim=
-um value
-> >>>>          * allowed by hw) and write the lowest two bits of the remai=
-ning value
-> >>>>          * as hbb_lo and the one above it as hbb_hi to the hardware.
-> >>>>          */
-> >>>> -       BUG_ON(adreno_gpu->ubwc_config.highest_bank_bit < 13);
-> >>>> -       u32 hbb =3D adreno_gpu->ubwc_config.highest_bank_bit - 13;
-> >>>> -       u32 hbb_hi =3D hbb >> 2;
-> >>>> -       u32 hbb_lo =3D hbb & 3;
-> >>>> -       u32 ubwc_mode =3D adreno_gpu->ubwc_config.ubwc_swizzle & 1;
-> >>>> -       u32 level2_swizzling_dis =3D !(adreno_gpu->ubwc_config.ubwc_=
-swizzle & 2);
-> >>>> +       if (hbb < 0)
-> >>>> +               hbb =3D adreno_gpu->ubwc_config.highest_bank_bit;
-> >>>
-> >>> No. The value we expose to userspace must match what we program.
-> >>> You'll break VK_EXT_host_image_copy otherwise.
-> >>
-> >> I didn't know that was exposed to userspace.
-> >>
-> >> The value must be altered either way - ultimately, the hardware must
-> >> receive the correct information. ubwc_config doesn't seem to be const,
-> >> so I can edit it there if you like it better.
-> >>
-> >> Konrad
-> >
-> > Yes, you should be calling qcom_smem_dram_get_hbb() in
-> > a6xx_calc_ubwc_config(). You can already see there's a TODO there to
-> > plug it in.
->
-> Does this look good instead?
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.c
-> index 0cc397378c99..ae8dbc250e6a 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -588,6 +588,8 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
->
->  static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->  {
-> +       u8 hbb;
+On 09/04/2025 17:47, Konrad Dybcio wrote:
+> SMEM allows the OS to retrieve information about the DDR memory.
+> Among that information, is a semi-magic value called 'HBB', or Highest
+> Bank address Bit, which multimedia drivers (for hardware like Adreno
+> and MDSS) must retrieve in order to program the IP blocks correctly.
+> 
+> This series introduces an API to retrieve that value, uses it in the
+> aforementioned programming sequences and exposes available DDR
+> frequencies in debugfs (to e.g. pass to aoss_qmp debugfs). More
+> information can be exposed in the future, as needed.
 
-You can't make it u8 and then test for a negative value on error.
-Other than that, looks good.
+I know that for some platforms HBB differs between GPU and DPU (as it's 
+being programmed currently). Is there a way to check, which values are 
+we going to program:
 
-Connor
+- SM6115, SM6350, SM6375 (13 vs 14)
+- SC8180X (15 vs 16)
+- QCM2290 (14 vs 15)
 
-> +
->         gpu->ubwc_config.rgb565_predicator =3D 0;
->         gpu->ubwc_config.uavflagprd_inv =3D 0;
->         gpu->ubwc_config.min_acc_len =3D 0;
-> @@ -636,7 +638,6 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *=
-gpu)
->             adreno_is_a690(gpu) ||
->             adreno_is_a730(gpu) ||
->             adreno_is_a740_family(gpu)) {
-> -               /* TODO: get ddr type from bootloader and use 2 for LPDDR=
-4 */
->                 gpu->ubwc_config.highest_bank_bit =3D 16;
->                 gpu->ubwc_config.amsbc =3D 1;
->                 gpu->ubwc_config.rgb565_predicator =3D 1;
-> @@ -665,6 +666,13 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu =
-*gpu)
->                 gpu->ubwc_config.highest_bank_bit =3D 14;
->                 gpu->ubwc_config.min_acc_len =3D 1;
->         }
-> +
-> +       /* Attempt to retrieve HBB data from SMEM, keep the above default=
-s in case of error */
-> +       hbb =3D qcom_smem_dram_get_hbb();
-> +       if (hbb < 0)
-> +               return;
-> +
-> +       gpu->ubwc_config.highest_bank_bit =3D hbb;
->  }
->
->  static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
->
->
-> Konrad
+
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+> Konrad Dybcio (4):
+>        soc: qcom: Expose DDR data from SMEM
+>        drm/msm/a5xx: Get HBB dynamically, if available
+>        drm/msm/a6xx: Get HBB dynamically, if available
+>        drm/msm/mdss: Get HBB dynamically, if available
+> 
+>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c |  13 +-
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c |  22 ++-
+>   drivers/gpu/drm/msm/msm_mdss.c        |  35 ++++-
+>   drivers/soc/qcom/Makefile             |   3 +-
+>   drivers/soc/qcom/smem.c               |  14 +-
+>   drivers/soc/qcom/smem.h               |   9 ++
+>   drivers/soc/qcom/smem_dramc.c         | 287 ++++++++++++++++++++++++++++++++++
+>   include/linux/soc/qcom/smem.h         |   4 +
+>   8 files changed, 371 insertions(+), 16 deletions(-)
+> ---
+> base-commit: 46086739de22d72319e37c37a134d32db52e1c5c
+> change-id: 20250409-topic-smem_dramc-6467187ac865
+> 
+> Best regards,
+
+
+-- 
+With best wishes
+Dmitry
