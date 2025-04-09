@@ -2,84 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F74EA82454
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 14:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4B6A8248A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 14:21:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AED510E860;
-	Wed,  9 Apr 2025 12:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B29C10E873;
+	Wed,  9 Apr 2025 12:21:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BzAQ/Bdu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l2vDAyU7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15EF110E860
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 12:08:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744200484;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kCvjuJG694/CHcqxRL6/SHd0pXzTwZPbyCr1soiBCdk=;
- b=BzAQ/Bdux1Xr/hrD/7too0voHIg6qgwSv43FkdM95O7gjeqD90Vd1t/q4/7Ve+BM/J6I4C
- 5RdLdv+b5ZmBfPsG7aHD9PUCD4qknraVE8yx1e2+MtiOZ7PTmG4wCWeeeSYSxTkMzKpFEl
- xh75gOh1aos8pNggzlP3pbSo+XFFgg8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-527-26pdZ1KpPYOUAL5wqUXqdw-1; Wed, 09 Apr 2025 08:08:02 -0400
-X-MC-Unique: 26pdZ1KpPYOUAL5wqUXqdw-1
-X-Mimecast-MFC-AGG-ID: 26pdZ1KpPYOUAL5wqUXqdw_1744200482
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3913aaf1e32so3899017f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 05:08:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744200481; x=1744805281;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kCvjuJG694/CHcqxRL6/SHd0pXzTwZPbyCr1soiBCdk=;
- b=j4e2IBsI/CDNWlotdcF9AnICJhBHV9HdT4SzkCfRR7Lh2y8Au81vlJUEB2r+5pfq3e
- omJXFCFhrtnKlDHp22TwIjBJ1YtkCoq4qp6oPyrnI2xvnjPTyO1AUEpefjknFdLz0tq0
- IUokAOookvJONE2jmdnBV+Ctjd2U7wJ3SO9/fZjk/tXgLRweuosqBp3ZtIPDAPrgyWmn
- MqCC31oapOyhCf8Bc3lkWD5w3k2q4+pVAiGSobo61fik4aeYyLj54B2TPuhJmItn1ZXl
- MJKbBMjjmmLNyQCH2/C0mzjPBTsAfdtmKK8NFDu2rmYyGzNZ+/FBSRURjH5YMXqx2aOR
- lmEQ==
-X-Gm-Message-State: AOJu0YzvUKH+JV42ugjWu6ZTtpGRWl5KTZjK8BYOPBjmJ/idpz7ETzen
- 5oRA24VzYLGDdWbLKbdSbwmu9OJWmCQNsQYD6Dc3SniJXKDCJXFJdSABEvcc4MU9QYKd8b4tlEA
- Gl295pZzmV2mAqBmOOcFIPyWo+2sdPk2c1rKClkU0yfzr0eAJ8gxRA8TzX74KkZU1XyJyOCvmTg
- ==
-X-Gm-Gg: ASbGncsCCQCXdi8IPEH4KG6hYMPmS++yOPDruDLLye8B2egm+f9I74gz8N/A7fkytKH
- IPwQATtxovvMTvL3MalUfYSBz73PhDaa4OtaU8kMi2Id5F7j3HHmslr/d4Mm7e57oFiQv6pEXep
- epVQkDQtxePc/HZfoyBRsAPrRmoGZilLcw5LLML5Oo7QwYz8P3HDQny0xqt7Ymp+JIcjF8e+/ir
- FazAkvdb15EPH3p0p4Sm/rBRwsKYFfCbuXT7p+2hlvmwu7cAwago3jDtxX3qnj902qo76c0HrKL
- asGP9QvvlJ0bgjeoO7su5JYEzh6DsYlMdqdIfNu/6mcMboQTISy+nrpTGFSZ8C+qjMqkfg==
-X-Received: by 2002:a05:6000:430e:b0:391:ccf:2d17 with SMTP id
- ffacd0b85a97d-39d87a67bdcmr2300406f8f.0.1744200481075; 
- Wed, 09 Apr 2025 05:08:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGecikQMGfcRWAWRQ2NOn5LtMF0T2KJVQQxrAGMhwK20jonEis8SpV3Ow8Ez+EzRJTgaFNBHA==
-X-Received: by 2002:a05:6000:430e:b0:391:ccf:2d17 with SMTP id
- ffacd0b85a97d-39d87a67bdcmr2300386f8f.0.1744200480736; 
- Wed, 09 Apr 2025 05:08:00 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43f233c8224sm14239295e9.22.2025.04.09.05.07.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Apr 2025 05:07:59 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/3] drm/sysfb: Share helpers for screen_info validation
-In-Reply-To: <20250409084729.236719-4-tzimmermann@suse.de>
-References: <20250409084729.236719-1-tzimmermann@suse.de>
- <20250409084729.236719-4-tzimmermann@suse.de>
-Date: Wed, 09 Apr 2025 14:07:58 +0200
-Message-ID: <8734ehfsgx.fsf@minerva.mail-host-address-is-not-set>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C19810E873
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 12:21:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 8212561364;
+ Wed,  9 Apr 2025 12:21:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C74ABC4CEE3;
+ Wed,  9 Apr 2025 12:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744201306;
+ bh=4t4Wq5bMUS44d/UJ61XjcweeMUI0dgxkR3h8v0acrhI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=l2vDAyU7JVulITVyTZqYR1Pj8WUo/5DgHVTiooGnrvirjqxu+CDAVux+rqjtFMR5j
+ vFcg9KmzA8x7AUxwcZcdmYUTnbugXXdYK5A9Ebq06Rdr5fy3jnnM7rK1lYd5t93rru
+ F+BY7RbPTG13EpGd3f1bEOnoLqra8nmNXresuF90QazZARU+OlsiJt33DsgcfsUEyr
+ CxB6rYRae5Hv5vXHqY1gnkks/fS5k04Aa5NY873rE/NUyIqjo1ADwxEwktbxJAjzFO
+ diLG3vQwwIE8ZZlCATWo+T16oYgxm2kF85ifEqATMlwVhDeB7gbS2XG+i4LYHkHq7E
+ sl9g4tGHgM3Ag==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
+ Jiri Kosina <jikos@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ian Abbott <abbotti@mev.co.uk>,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Peter Rosin <peda@axentia.se>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ iommu@lists.linux.dev
+Subject: [PATCH 00/10] -Wunused-const-variable warning fixes
+Date: Wed,  9 Apr 2025 14:21:31 +0200
+Message-Id: <20250409122131.2766719-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: FnygvX3akQaKCoF_b3UzJxWVmWlsJ2laG18yp_AdLtU_1744200482
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,28 +81,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+From: Arnd Bergmann <arnd@arndb.de>
 
-> Share efidrm's and vesadrm's validation of struct screen_info in
-> shared helpers. Update the drivers.
->
-> Most validation helpers test individual values against limits and
-> can be shared as they are. For color formats, a common helper looks
-> up the correct DRM format info from a driver-provided list of color
-> formats.
->
-> These screen_info helpers are only available if CONFIG_SCREEN_INFO
-> has been selected, as done by efidrm and vesadrm.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Most patches I sent during the previous kernel cycle have made it in, these 
+ten still remain for the moment. Please apply.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Arnd Bergmann (10):
+  drm/imagination: avoid unused-const-variable warning
+  [v2] clocksource: atmel_tcb: fix kconfig dependency
+  [v2] Input: stmpe-ts - use module alias instead of device table
+  [RESEND] mux: adg792a: remove incorrect of_match_ptr annotation
+  [RESEND] sched: open-code max_rt_runtime definition
+  [RESEND] lockdep: change 'static const' variables to enum values
+  [RESEND] ARM: fixmap: make __end_of_early_ioremap_region an enum value
+  [RESEND 2] comedi: ni_atmio: avoid warning for unused device_ids[] table
+  [RESEND 2] apm-emulation: hide an unused variable
+  [RESEND 3] dma/contiguous: avoid warning about unused size_bytes
+
+ arch/arm/include/asm/fixmap.h              |  9 ++++-----
+ drivers/char/apm-emulation.c               |  5 ++---
+ drivers/clocksource/Kconfig                |  4 ++--
+ drivers/comedi/drivers/ni_atmio.c          |  2 +-
+ drivers/gpu/drm/imagination/pvr_fw_trace.c |  8 ++++----
+ drivers/gpu/drm/imagination/pvr_fw_trace.h |  2 --
+ drivers/input/touchscreen/stmpe-ts.c       |  7 +------
+ drivers/mux/adg792a.c                      |  2 +-
+ kernel/dma/contiguous.c                    |  3 +--
+ kernel/locking/lockdep_internals.h         | 18 ++++++++++--------
+ kernel/sched/rt.c                          |  6 ++----
+ 11 files changed, 28 insertions(+), 38 deletions(-)
 
 -- 
-Best regards,
+2.39.5
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Cc: Russell King <linux@armlinux.org.uk> (maintainer:ARM PORT)
+Cc: Jiri Kosina <jikos@kernel.org> (maintainer:APM DRIVER)
+Cc: Arnd Bergmann <arnd@arndb.de> (maintainer:CHAR and MISC DRIVERS,commit_signer:2/2=100%,authored:2/2=100%,added_lines:8/8=100%,removed_lines:10/10=100%,commit_signer:2/3=67%,authored:2/3=67%,added_lines:2/11=18%,removed_lines:2/2=100%,commit_signer:2/4=50%,blamed_fixes:1/1=100%)
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org> (maintainer:CHAR and MISC DRIVERS,commit_signer:1/3=33%)
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org> (maintainer:CLOCKSOURCE, CLOCKEVENT DRIVERS)
+Cc: Thomas Gleixner <tglx@linutronix.de> (maintainer:CLOCKSOURCE, CLOCKEVENT DRIVERS)
+Cc: Ian Abbott <abbotti@mev.co.uk> (maintainer:COMEDI DRIVERS,commit_signer:1/3=33%,authored:1/3=33%,added_lines:9/11=82%)
+Cc: H Hartley Sweeten <hsweeten@visionengravers.com> (maintainer:COMEDI DRIVERS)
+Cc: Frank Binns <frank.binns@imgtec.com> (maintainer:IMGTEC POWERVR DRM DRIVER)
+Cc: Matt Coster <matt.coster@imgtec.com> (maintainer:IMGTEC POWERVR DRM DRIVER)
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com> (maintainer:DRM DRIVERS AND MISC GPU PATCHES)
+Cc: Maxime Ripard <mripard@kernel.org> (maintainer:DRM DRIVERS AND MISC GPU PATCHES)
+Cc: Thomas Zimmermann <tzimmermann@suse.de> (maintainer:DRM DRIVERS AND MISC GPU PATCHES)
+Cc: David Airlie <airlied@gmail.com> (maintainer:DRM DRIVERS)
+Cc: Simona Vetter <simona@ffwll.ch> (maintainer:DRM DRIVERS)
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com> (maintainer:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...,commit_signer:2/4=50%)
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com> (maintainer:ARM/STM32 ARCHITECTURE)
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com> (maintainer:ARM/STM32 ARCHITECTURE)
+Cc: Peter Rosin <peda@axentia.se> (maintainer:MULTIPLEXER SUBSYSTEM)
+Cc: Marek Szyprowski <m.szyprowski@samsung.com> (maintainer:DMA MAPPING HELPERS,blamed_fixes:1/1=100%)
+Cc: Robin Murphy <robin.murphy@arm.com> (reviewer:DMA MAPPING HELPERS)
+Cc: Peter Zijlstra <peterz@infradead.org> (maintainer:LOCKING PRIMITIVES)
+Cc: Ingo Molnar <mingo@redhat.com> (maintainer:LOCKING PRIMITIVES)
+Cc: Will Deacon <will@kernel.org> (maintainer:LOCKING PRIMITIVES)
+Cc: Boqun Feng <boqun.feng@gmail.com> (maintainer:LOCKING PRIMITIVES)
+Cc: Waiman Long <longman@redhat.com> (reviewer:LOCKING PRIMITIVES)
+Cc: Juri Lelli <juri.lelli@redhat.com> (maintainer:SCHEDULER)
+Cc: Vincent Guittot <vincent.guittot@linaro.org> (maintainer:SCHEDULER)
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com> (reviewer:SCHEDULER)
+Cc: Steven Rostedt <rostedt@goodmis.org> (reviewer:SCHEDULER)
+Cc: Ben Segall <bsegall@google.com> (reviewer:SCHEDULER)
+Cc: Mel Gorman <mgorman@suse.de> (reviewer:SCHEDULER)
+Cc: Valentin Schneider <vschneid@redhat.com> (reviewer:SCHEDULER)
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> (commit_signer:2/4=50%,authored:2/4=50%,added_lines:2/5=40%,removed_lines:2/5=40%)
+Cc: linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT)
+Cc: linux-kernel@vger.kernel.org (open list)
+Cc: dri-devel@lists.freedesktop.org (open list:DRM DRIVERS)
+Cc: linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...)
+Cc: linux-stm32@st-md-mailman.stormreply.com (moderated list:ARM/STM32 ARCHITECTURE)
+Cc: iommu@lists.linux.dev (open list:DMA MAPPING HELPERS)
+
 
