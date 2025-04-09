@@ -2,58 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5211BA82084
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 10:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FF7A82099
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 10:55:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8601610E80E;
-	Wed,  9 Apr 2025 08:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1604210E07F;
+	Wed,  9 Apr 2025 08:55:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ru+Ii6yu";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28B5410E782
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 08:50:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E158221168;
- Wed,  9 Apr 2025 08:50:20 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5A0D13A7A;
- Wed,  9 Apr 2025 08:50:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6EoBK8w09mdgZQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 09 Apr 2025 08:50:20 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 3/3] drm/sysfb: Share helpers for screen_info validation
-Date: Wed,  9 Apr 2025 10:45:38 +0200
-Message-ID: <20250409084729.236719-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250409084729.236719-1-tzimmermann@suse.de>
-References: <20250409084729.236719-1-tzimmermann@suse.de>
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com
+ [209.85.221.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389EB10E07F
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 08:55:47 +0000 (UTC)
+Received: by mail-vk1-f181.google.com with SMTP id
+ 71dfb90a1353d-523fa0df55dso536293e0c.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 01:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744188946; x=1744793746; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xKkhSratOE8FhNwto8msCYe3EaTscTslbqKejN9e03g=;
+ b=Ru+Ii6yu4AtZMbUlkUeoaNGZGgNXjMOmpw4OZb67xB2olfXr4umiyCpyMVGrCJdoYs
+ nawdY8lcxKRMiKZu5e3IFdBmVmyHERYLfZ0mdFiZG3FvplTukxqLy7w+FvhXl+R4EVi6
+ Ck+GM3aI/t9xOUeaZ/WO8EIdn2FSDdNzeyJgo16JWTEx1tm3Hadf8UUgkK8Vg2hglpvq
+ 2f9W+fFx6ZqKbe7NuyrckkLrA5GgqrDZ1wounxpVqOhblPkAXSk0//7bquORqcjbftm1
+ nRZZneLs5NJP5K0aZyJHQfz7YKZCOGqYMiC/55173r2xDGN4QAm4DYGQVlBuhdEyT15Z
+ 04vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744188946; x=1744793746;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xKkhSratOE8FhNwto8msCYe3EaTscTslbqKejN9e03g=;
+ b=TRTS5SnH1d+lfZlS/mldVzuf4UNZsImQgKl641zVBfuwQlApcAsNcNrtZbEF5q3oEu
+ 87+xJ9FFcbfyh45G1ZBY4abhwFi6dMWCW5KKQ3zOouWUC2r/Rj86pAfeV/WwKx2v3DGf
+ ndmL7M44oULKYIP8GzB2cZG1qgmcBaYlp2OGUHQrWXC5Z+35x1utVw9vK0DnMPeKI82j
+ x2LdXmpBYkMjtvibLNhC6NQp0l1TQqB10u88AcuPpq2HwF7dtJT55qIUdiw0IGGRih+n
+ y4luveyFbctZTjSr/L3dyhLahPHMhIUMPpfWOahKnfNIxN59XK7qNEyLmGYt4hSbj+Yo
+ zBJQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZR7f8U34b6VQY68D36anMv6uRvidJEWGa0S4K7Mj/0WPUoD9cuEuUCIgFhKL/jXKdcepyeTsx58c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzuf5IGNQY3DAV+uAgEMZFgQL7UOmFLoo02/8DkmRy0WIFBU+Qa
+ yQr7xsBsFMfbykX7X5MJNHNNWFrJB5VLBmGRWtDTxOPIrupbSTts2yEIVlxP6q2wDZGyZcb1cHn
+ 4wVPFtS150rw5fWNj9HYltVIZx5k=
+X-Gm-Gg: ASbGncv6Nhps73BRwXW3AUcC9nWa4Q9Zhtqf0Xad7SjIGjLihBuAZ4X7ojM+v9txp7t
+ fT/FbpxM+GTBYoC42gbFq+sEP16pOHM906aNWkypFIjOquYUxfKOe6Ker1XsE6WAzug55Jt7ysF
+ B9s2BnYdqSO6JE4OeG78gA/QYZSKbS09rgWwrlLDgYGh/tFUenWx/m+eY=
+X-Google-Smtp-Source: AGHT+IFkvSJE5U/9fmVpXSs+iaoY5nuY5+IWwlLNMnF2gNZkr5kIoflvPEnL4H4NBK6FHRKQDcdNNrDvBUNiQdI3bio=
+X-Received: by 2002:a05:6122:d89:b0:50d:39aa:7881 with SMTP id
+ 71dfb90a1353d-527a8beff21mr1371744e0c.0.1744188946056; Wed, 09 Apr 2025
+ 01:55:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00]; REPLY(-4.00)[];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU]
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: E158221168
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
+References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250408200916.93793-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVAxaLZJ4y0AWKrLobp55n5NPqQgEtHK_d1DDUM1LAkDw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVAxaLZJ4y0AWKrLobp55n5NPqQgEtHK_d1DDUM1LAkDw@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 9 Apr 2025 09:55:20 +0100
+X-Gm-Features: ATxdqUF6pkX8g8cSssT4x6HUE0uVbLtqiF0Qca_2kkdcVwxXzZnsXvGx2QnlRqk
+Message-ID: <CA+V-a8uc22sYFwfB7CJK9gSmT7ibv5MxTPyTBJtJMijKcgbW5g@mail.gmail.com>
+Subject: Re: [PATCH v2 10/15] drm: renesas: rz-du: mipi_dsi: Use mHz for D-PHY
+ frequency calculations
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,486 +105,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Share efidrm's and vesadrm's validation of struct screen_info in
-shared helpers. Update the drivers.
+Hi Geert,
 
-Most validation helpers test individual values against limits and
-can be shared as they are. For color formats, a common helper looks
-up the correct DRM format info from a driver-provided list of color
-formats.
+Thank you for the review.
 
-These screen_info helpers are only available if CONFIG_SCREEN_INFO
-has been selected, as done by efidrm and vesadrm.
+On Wed, Apr 9, 2025 at 9:16=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, 8 Apr 2025 at 22:09, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Pass the HSFREQ in milli-Hz to the `dphy_init()` callback to improve
+> > precision, especially for the RZ/V2H(P) SoC, where PLL dividers require
+> > high accuracy.
+> >
+> > These changes prepare the driver for upcoming RZ/V2H(P) SoC support.
+> >
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > @@ -33,7 +33,7 @@
+> >  struct rzg2l_mipi_dsi;
+> >
+> >  struct rzg2l_mipi_dsi_hw_info {
+> > -       int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, unsigned long hsfr=
+eq);
+> > +       int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, unsigned long long=
+ hsfreq_mhz);
+>
+> Due to the lack of capitalization of the "hz" part, it is not clear
+> that the "m" stands for "milli" instead of "mega".
+> Perhaps hsfreq_mHz or hsfreq_millihz?
+>
+Agreed, I will use `hsfreq_millihz`. Shall I respin a new version as
+the initial patches do the same (i.e. use mhz).
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/sysfb/Makefile                |   1 +
- drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |  34 ++++++
- drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c | 107 ++++++++++++++++++
- drivers/gpu/drm/sysfb/efidrm.c                | 105 ++---------------
- drivers/gpu/drm/sysfb/vesadrm.c               | 105 ++---------------
- 5 files changed, 160 insertions(+), 192 deletions(-)
- create mode 100644 drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c
-
-diff --git a/drivers/gpu/drm/sysfb/Makefile b/drivers/gpu/drm/sysfb/Makefile
-index 861b4026f4a6e..a156c496413d3 100644
---- a/drivers/gpu/drm/sysfb/Makefile
-+++ b/drivers/gpu/drm/sysfb/Makefile
-@@ -3,6 +3,7 @@
- drm_sysfb_helper-y := \
- 	drm_sysfb.o \
- 	drm_sysfb_modeset.o
-+drm_sysfb_helper-$(CONFIG_SCREEN_INFO) += drm_sysfb_screen_info.o
- obj-$(CONFIG_DRM_SYSFB_HELPER)	+= drm_sysfb_helper.o
- 
- obj-$(CONFIG_DRM_EFIDRM)	+= efidrm.o
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-index 1697cf7ace973..cb08a88242cc1 100644
---- a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-@@ -6,12 +6,46 @@
- #include <linux/container_of.h>
- #include <linux/iosys-map.h>
- 
-+#include <video/pixel_format.h>
-+
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
- #include <drm/drm_modes.h>
- 
- struct drm_format_info;
- struct drm_scanout_buffer;
-+struct screen_info;
-+
-+/*
-+ * Input parsing
-+ */
-+
-+struct drm_sysfb_format {
-+	struct pixel_format pixel;
-+	u32 fourcc;
-+};
-+
-+int drm_sysfb_get_validated_int(struct drm_device *dev, const char *name,
-+				u64 value, u32 max);
-+int drm_sysfb_get_validated_int0(struct drm_device *dev, const char *name,
-+				 u64 value, u32 max);
-+
-+#if defined(CONFIG_SCREEN_INFO)
-+int drm_sysfb_get_width_si(struct drm_device *dev, const struct screen_info *si);
-+int drm_sysfb_get_height_si(struct drm_device *dev, const struct screen_info *si);
-+struct resource *drm_sysfb_get_memory_si(struct drm_device *dev,
-+					 const struct screen_info *si,
-+					 struct resource *res);
-+int drm_sysfb_get_stride_si(struct drm_device *dev, const struct screen_info *si,
-+			    const struct drm_format_info *format,
-+			    unsigned int width, unsigned int height, u64 size);
-+u64 drm_sysfb_get_visible_size_si(struct drm_device *dev, const struct screen_info *si,
-+				  unsigned int height, unsigned int stride, u64 size);
-+const struct drm_format_info *drm_sysfb_get_format_si(struct drm_device *dev,
-+						      const struct drm_sysfb_format *formats,
-+						      size_t nformats,
-+						      const struct screen_info *si);
-+#endif
- 
- /*
-  * Input parsing
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c b/drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c
-new file mode 100644
-index 0000000000000..0b3fb874a51f2
---- /dev/null
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c
-@@ -0,0 +1,107 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/export.h>
-+#include <linux/limits.h>
-+#include <linux/minmax.h>
-+#include <linux/screen_info.h>
-+
-+#include <drm/drm_fourcc.h>
-+#include <drm/drm_print.h>
-+
-+#include "drm_sysfb_helper.h"
-+
-+static s64 drm_sysfb_get_validated_size0(struct drm_device *dev, const char *name,
-+					 u64 value, u64 max)
-+{
-+	if (!value) {
-+		drm_warn(dev, "%s of 0 not allowed\n", name);
-+		return -EINVAL;
-+	} else if (value > min(max, S64_MAX)) {
-+		drm_warn(dev, "%s of %llu exceeds maximum of %llu\n", name, value, max);
-+		return -EINVAL;
-+	}
-+	return value;
-+}
-+
-+int drm_sysfb_get_width_si(struct drm_device *dev, const struct screen_info *si)
-+{
-+	return drm_sysfb_get_validated_int0(dev, "width", si->lfb_width, U16_MAX);
-+}
-+EXPORT_SYMBOL(drm_sysfb_get_width_si);
-+
-+int drm_sysfb_get_height_si(struct drm_device *dev, const struct screen_info *si)
-+{
-+	return drm_sysfb_get_validated_int0(dev, "height", si->lfb_height, U16_MAX);
-+}
-+EXPORT_SYMBOL(drm_sysfb_get_height_si);
-+
-+struct resource *drm_sysfb_get_memory_si(struct drm_device *dev,
-+					 const struct screen_info *si,
-+					 struct resource *res)
-+{
-+	ssize_t	num;
-+
-+	num = screen_info_resources(si, res, 1);
-+	if (!num) {
-+		drm_warn(dev, "memory resource not found\n");
-+		return NULL;
-+	}
-+
-+	return res;
-+}
-+EXPORT_SYMBOL(drm_sysfb_get_memory_si);
-+
-+int drm_sysfb_get_stride_si(struct drm_device *dev, const struct screen_info *si,
-+			    const struct drm_format_info *format,
-+			    unsigned int width, unsigned int height, u64 size)
-+{
-+	u64 lfb_linelength = si->lfb_linelength;
-+
-+	if (!lfb_linelength)
-+		lfb_linelength = drm_format_info_min_pitch(format, 0, width);
-+
-+	return drm_sysfb_get_validated_int0(dev, "stride", lfb_linelength, div64_u64(size, height));
-+}
-+EXPORT_SYMBOL(drm_sysfb_get_stride_si);
-+
-+u64 drm_sysfb_get_visible_size_si(struct drm_device *dev, const struct screen_info *si,
-+				  unsigned int height, unsigned int stride, u64 size)
-+{
-+	u64 vsize = PAGE_ALIGN(height * stride);
-+
-+	return drm_sysfb_get_validated_size0(dev, "visible size", vsize, size);
-+}
-+EXPORT_SYMBOL(drm_sysfb_get_visible_size_si);
-+
-+const struct drm_format_info *drm_sysfb_get_format_si(struct drm_device *dev,
-+						      const struct drm_sysfb_format *formats,
-+						      size_t nformats,
-+						      const struct screen_info *si)
-+{
-+	const struct drm_format_info *format = NULL;
-+	u32 bits_per_pixel;
-+	size_t i;
-+
-+	bits_per_pixel = __screen_info_lfb_bits_per_pixel(si);
-+
-+	for (i = 0; i < nformats; ++i) {
-+		const struct pixel_format *f = &formats[i].pixel;
-+
-+		if (bits_per_pixel == f->bits_per_pixel &&
-+		    si->red_size == f->red.length &&
-+		    si->red_pos == f->red.offset &&
-+		    si->green_size == f->green.length &&
-+		    si->green_pos == f->green.offset &&
-+		    si->blue_size == f->blue.length &&
-+		    si->blue_pos == f->blue.offset) {
-+			format = drm_format_info(formats[i].fourcc);
-+			break;
-+		}
-+	}
-+
-+	if (!format)
-+		drm_warn(dev, "No compatible color format found\n");
-+
-+	return format;
-+}
-+EXPORT_SYMBOL(drm_sysfb_get_format_si);
-diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-index a77ea5285cc1d..07eb494203a25 100644
---- a/drivers/gpu/drm/sysfb/efidrm.c
-+++ b/drivers/gpu/drm/sysfb/efidrm.c
-@@ -33,72 +33,10 @@
- #define DRIVER_MAJOR	1
- #define DRIVER_MINOR	0
- 
--static s64 efidrm_get_validated_size0(struct drm_device *dev, const char *name,
--				      u64 value, u64 max)
--{
--	if (!value) {
--		drm_err(dev, "%s of 0 not allowed\n", name);
--		return -EINVAL;
--	} else if (value > max) {
--		drm_err(dev, "%s of %llu exceeds maximum of %llu\n", name, value, max);
--		return -EINVAL;
--	}
--	return value;
--}
--
--static int efidrm_get_width_si(struct drm_device *dev, const struct screen_info *si)
--{
--	return drm_sysfb_get_validated_int0(dev, "width", si->lfb_width, U16_MAX);
--}
--
--static int efidrm_get_height_si(struct drm_device *dev, const struct screen_info *si)
--{
--	return drm_sysfb_get_validated_int0(dev, "height", si->lfb_height, U16_MAX);
--}
--
--static struct resource *efidrm_get_memory_si(struct drm_device *dev,
--					     const struct screen_info *si,
--					     struct resource *res)
--{
--	ssize_t	num;
--
--	num = screen_info_resources(si, res, 1);
--	if (!num) {
--		drm_err(dev, "memory resource not found\n");
--		return NULL;
--	}
--
--	return res;
--}
--
--static int efidrm_get_stride_si(struct drm_device *dev, const struct screen_info *si,
--				const struct drm_format_info *format,
--				unsigned int width, unsigned int height, u64 size)
--{
--	u64 lfb_linelength = si->lfb_linelength;
--
--	if (!lfb_linelength)
--		lfb_linelength = drm_format_info_min_pitch(format, 0, width);
--
--	return drm_sysfb_get_validated_int0(dev, "stride", lfb_linelength,
--					    div64_u64(size, height));
--}
--
--static u64 efidrm_get_visible_size_si(struct drm_device *dev, const struct screen_info *si,
--				      unsigned int height, unsigned int stride, u64 size)
--{
--	u64 vsize = PAGE_ALIGN(height * stride);
--
--	return efidrm_get_validated_size0(dev, "visible size", vsize, size);
--}
--
- static const struct drm_format_info *efidrm_get_format_si(struct drm_device *dev,
- 							  const struct screen_info *si)
- {
--	static const struct {
--		struct pixel_format pixel;
--		u32 fourcc;
--	} efi_formats[] = {
-+	static const struct drm_sysfb_format formats[] = {
- 		{ PIXEL_FORMAT_XRGB1555, DRM_FORMAT_XRGB1555, },
- 		{ PIXEL_FORMAT_RGB565, DRM_FORMAT_RGB565, },
- 		{ PIXEL_FORMAT_RGB888, DRM_FORMAT_RGB888, },
-@@ -106,33 +44,8 @@ static const struct drm_format_info *efidrm_get_format_si(struct drm_device *dev
- 		{ PIXEL_FORMAT_XBGR8888, DRM_FORMAT_XBGR8888, },
- 		{ PIXEL_FORMAT_XRGB2101010, DRM_FORMAT_XRGB2101010, },
- 	};
--	const struct drm_format_info *format = NULL;
--	u32 bits_per_pixel;
--	size_t i;
--
--	bits_per_pixel = __screen_info_lfb_bits_per_pixel(si);
--
--	for (i = 0; i < ARRAY_SIZE(efi_formats); ++i) {
--		const struct pixel_format *f = &efi_formats[i].pixel;
--
--		if (bits_per_pixel == f->bits_per_pixel &&
--		    si->red_size == f->red.length &&
--		    si->red_pos == f->red.offset &&
--		    si->green_size == f->green.length &&
--		    si->green_pos == f->green.offset &&
--		    si->blue_size == f->blue.length &&
--		    si->blue_pos == f->blue.offset) {
--			format = drm_format_info(efi_formats[i].fourcc);
--			break;
--		}
--	}
--
--	if (!format)
--		return ERR_PTR(-EINVAL);
--	if (format->is_color_indexed)
--		return ERR_PTR(-EINVAL);
- 
--	return format;
-+	return drm_sysfb_get_format_si(dev, formats, ARRAY_SIZE(formats), si);
- }
- 
- static u64 efidrm_get_mem_flags(struct drm_device *dev, resource_size_t start,
-@@ -268,21 +181,21 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 	 */
- 
- 	format = efidrm_get_format_si(dev, si);
--	if (IS_ERR(format))
--		return ERR_CAST(format);
--	width = efidrm_get_width_si(dev, si);
-+	if (!format)
-+		return ERR_PTR(-EINVAL);
-+	width = drm_sysfb_get_width_si(dev, si);
- 	if (width < 0)
- 		return ERR_PTR(width);
--	height = efidrm_get_height_si(dev, si);
-+	height = drm_sysfb_get_height_si(dev, si);
- 	if (height < 0)
- 		return ERR_PTR(height);
--	res = efidrm_get_memory_si(dev, si, &resbuf);
-+	res = drm_sysfb_get_memory_si(dev, si, &resbuf);
- 	if (!res)
- 		return ERR_PTR(-EINVAL);
--	stride = efidrm_get_stride_si(dev, si, format, width, height, resource_size(res));
-+	stride = drm_sysfb_get_stride_si(dev, si, format, width, height, resource_size(res));
- 	if (stride < 0)
- 		return ERR_PTR(stride);
--	vsize = efidrm_get_visible_size_si(dev, si, height, stride, resource_size(res));
-+	vsize = drm_sysfb_get_visible_size_si(dev, si, height, stride, resource_size(res));
- 	if (!vsize)
- 		return ERR_PTR(-EINVAL);
- 
-diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
-index d87ff77be20de..4d62c78e7d1e0 100644
---- a/drivers/gpu/drm/sysfb/vesadrm.c
-+++ b/drivers/gpu/drm/sysfb/vesadrm.c
-@@ -36,105 +36,18 @@
- 
- #define VESADRM_GAMMA_LUT_SIZE 256
- 
--static s64 vesadrm_get_validated_size0(struct drm_device *dev, const char *name,
--				       u64 value, u64 max)
--{
--	if (!value) {
--		drm_err(dev, "vesadrm: %s of 0 not allowed\n", name);
--		return -EINVAL;
--	} else if (value > max) {
--		drm_err(dev, "vesadrm: %s of %llu exceeds maximum of %llu\n", name, value, max);
--		return -EINVAL;
--	}
--	return value;
--}
--
--static int vesadrm_get_width_si(struct drm_device *dev, const struct screen_info *si)
--{
--	return drm_sysfb_get_validated_int0(dev, "width", si->lfb_width, U16_MAX);
--}
--
--static int vesadrm_get_height_si(struct drm_device *dev, const struct screen_info *si)
--{
--	return drm_sysfb_get_validated_int0(dev, "height", si->lfb_height, U16_MAX);
--}
--
--static struct resource *vesadrm_get_memory_si(struct drm_device *dev,
--					      const struct screen_info *si,
--					      struct resource *res)
--{
--	ssize_t	num;
--
--	num = screen_info_resources(si, res, 1);
--	if (!num) {
--		drm_err(dev, "vesadrm: memory resource not found\n");
--		return NULL;
--	}
--
--	return res;
--}
--
--static int vesadrm_get_stride_si(struct drm_device *dev, const struct screen_info *si,
--				 const struct drm_format_info *format,
--				 unsigned int width, unsigned int height, u64 size)
--{
--	u64 lfb_linelength = si->lfb_linelength;
--
--	if (!lfb_linelength)
--		lfb_linelength = drm_format_info_min_pitch(format, 0, width);
--
--	return drm_sysfb_get_validated_int0(dev, "stride", lfb_linelength,
--					    div64_u64(size, height));
--}
--
--static u64 vesadrm_get_visible_size_si(struct drm_device *dev, const struct screen_info *si,
--				       unsigned int height, unsigned int stride, u64 size)
--{
--	u64 vsize = PAGE_ALIGN(height * stride);
--
--	return vesadrm_get_validated_size0(dev, "visible size", vsize, size);
--}
--
- static const struct drm_format_info *vesadrm_get_format_si(struct drm_device *dev,
- 							   const struct screen_info *si)
- {
--	static const struct {
--		struct pixel_format pixel;
--		u32 fourcc;
--	} vesa_formats[] = {
-+	static const struct drm_sysfb_format formats[] = {
- 		{ PIXEL_FORMAT_XRGB1555, DRM_FORMAT_XRGB1555, },
- 		{ PIXEL_FORMAT_RGB565, DRM_FORMAT_RGB565, },
- 		{ PIXEL_FORMAT_RGB888, DRM_FORMAT_RGB888, },
- 		{ PIXEL_FORMAT_XRGB8888, DRM_FORMAT_XRGB8888, },
- 		{ PIXEL_FORMAT_XBGR8888, DRM_FORMAT_XBGR8888, },
- 	};
--	const struct drm_format_info *format = NULL;
--	u32 bits_per_pixel;
--	size_t i;
--
--	bits_per_pixel = __screen_info_lfb_bits_per_pixel(si);
--
--	for (i = 0; i < ARRAY_SIZE(vesa_formats); ++i) {
--		const struct pixel_format *f = &vesa_formats[i].pixel;
- 
--		if (bits_per_pixel == f->bits_per_pixel &&
--		    si->red_size == f->red.length &&
--		    si->red_pos == f->red.offset &&
--		    si->green_size == f->green.length &&
--		    si->green_pos == f->green.offset &&
--		    si->blue_size == f->blue.length &&
--		    si->blue_pos == f->blue.offset) {
--			format = drm_format_info(vesa_formats[i].fourcc);
--			break;
--		}
--	}
--
--	if (!format)
--		return ERR_PTR(-EINVAL);
--	if (format->is_color_indexed)
--		return ERR_PTR(-EINVAL);
--
--	return format;
-+	return drm_sysfb_get_format_si(dev, formats, ARRAY_SIZE(formats), si);
- }
- 
- /*
-@@ -426,21 +339,21 @@ static struct vesadrm_device *vesadrm_device_create(struct drm_driver *drv,
- 	 */
- 
- 	format = vesadrm_get_format_si(dev, si);
--	if (IS_ERR(format))
--		return ERR_CAST(format);
--	width = vesadrm_get_width_si(dev, si);
-+	if (!format)
-+		return ERR_PTR(-EINVAL);
-+	width = drm_sysfb_get_width_si(dev, si);
- 	if (width < 0)
- 		return ERR_PTR(width);
--	height = vesadrm_get_height_si(dev, si);
-+	height = drm_sysfb_get_height_si(dev, si);
- 	if (height < 0)
- 		return ERR_PTR(height);
--	res = vesadrm_get_memory_si(dev, si, &resbuf);
-+	res = drm_sysfb_get_memory_si(dev, si, &resbuf);
- 	if (!res)
- 		return ERR_PTR(-EINVAL);
--	stride = vesadrm_get_stride_si(dev, si, format, width, height, resource_size(res));
-+	stride = drm_sysfb_get_stride_si(dev, si, format, width, height, resource_size(res));
- 	if (stride < 0)
- 		return ERR_PTR(stride);
--	vsize = vesadrm_get_visible_size_si(dev, si, height, stride, resource_size(res));
-+	vsize = drm_sysfb_get_visible_size_si(dev, si, height, stride, resource_size(res));
- 	if (!vsize)
- 		return ERR_PTR(-EINVAL);
- 
--- 
-2.49.0
-
+Cheers,
+Prabhakar
