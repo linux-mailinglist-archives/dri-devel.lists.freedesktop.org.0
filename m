@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA84A82F9F
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 20:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FC4A82FCF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 20:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D17210E20D;
-	Wed,  9 Apr 2025 18:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D95C10E26A;
+	Wed,  9 Apr 2025 18:59:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z/wqDGMu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T3P+ZwCh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 857F110E20D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 18:56:52 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-301918a4e1bso5055035a91.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 11:56:52 -0700 (PDT)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B58B10E26A
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 18:59:52 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-7399838db7fso63365b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 11:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744225012; x=1744829812; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1744225191; x=1744829991; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=H44gXeIcAME6+J3Fln1VrlgyA4FgneecNdZbE5MtilQ=;
- b=Z/wqDGMuYDNJS/Q5Yzg0uINLm/CnOIAZfHiAfo12/D18sPsaTFbJAh0JPDnjJ9ZZDA
- 436vF9IclU7NFMlzw8i5puJTDtT6s53bPbRvSmTBCZL5azRW7U1pDOwaY+HULWkKFbSh
- jurZX2KsF3lul7kFCRnpuvMR1ft9YhshWgu41T8xO5/2thoXBJrifxJ1AZHuNhtvVppG
- 63qwpiCoHgUNmRMQRb1d/3+F4h7vA4ABEmQwsvdsPrv46bVs6BHuESSeDgHU249iluJB
- Kr/567VcQGcY9ZAyfn6LyRsI+WCQqvZ/mgdbi1osY+a06ALF3l31HpBMeX2wkbxZBCNz
- PXpw==
+ bh=n1wi01EF8Z0TS5kAzJp4gC5MlmlCKp8z1jxkmp6i2uY=;
+ b=T3P+ZwChEsJxeNFsEicjcdy217V7PHfPM8JOkYC3BoV5v38cw6k1Ut1LNRoPLGHYxi
+ Ozn9ium6fxwRiXf8qF1ObiR/dZmzMC+laqEhOSpoHFV2YHQwsmVZRRw1pG52Wp+zgn4R
+ 7gy3YrJ0lBDnwuYXWCkCCE1ZYN+YsYwTF0NnM/OrLap1QUSuxkWaWd+jh/N0NEmmzx1s
+ EkSanKGzC4bix9zCO1ewRge32IBMamfDDnwYDeHjiQO0nOyu7276VdHGtGQjYlICp/Zo
+ y61NXsetqW29mvDP/3O0bAbXD8xH7T4RhOmDKWrwMqDZuscDr1aduLKZZnSS4Qq9ftkL
+ z6/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744225012; x=1744829812;
+ d=1e100.net; s=20230601; t=1744225191; x=1744829991;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=H44gXeIcAME6+J3Fln1VrlgyA4FgneecNdZbE5MtilQ=;
- b=mcojAU81ZsXjySJWeowD712B+nFFKdgktgVJi5sMpYCnPwBjcx5eii8eD5OCoBt/9C
- 1VYGqec95B8o2LNBhJWoH2aagNq7zXIeCdrQIMKkF7K4odRzcyW48vw0Em6K3L/owr+V
- ZFrCR7KAsjc24XjTzOJQaEJOyHHsn2fT5JIxg2lfds+Fr9cXmlfjUnnXW0vNWg2XowrM
- errJUYbf0x+lBXtLpCv5z2ZclU4Wv1ZLFhWo1qBn5qTqCLkBN26aeofOw/AiLoDqPkGD
- /ana61KHVUg59MPjT/dLfUsR4ciq4QBSHTi0NcSB6jX9oYrA9KmTrhB1K6YoABemh0Ve
- TkXg==
+ bh=n1wi01EF8Z0TS5kAzJp4gC5MlmlCKp8z1jxkmp6i2uY=;
+ b=IkUb6siVLtsa27HFbTr+GcUS2/SJPn1WKT08pX6Ae9aE5mJpH67iVKMBUPqfURJ1R/
+ yiwdGJ9wDmrVk5TZUiSEN04kUCtD+XubfkxEAVCI1v+RpGsXGGSQIbem2RgrWoU4BDAf
+ oz6bZQWpLUvbi4p1tj3I3DlNS48wS7Evx/adUULCgD3+jmChC3TwLBzq9wOnE51E0SWc
+ DnVmYAtr93a9P1dhmQtov3lbDRR06kNpk1Cuf2IOLjV5qyk8FEvlh58lrIKhzcYwKtZA
+ gsu8G/kPN9uWST9ydJMvjE+7j9HE6vh39lbudpbkKkimHcDJeW4GDWpN2KbhgW8znrYr
+ yygA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWfb0FsBaNVleMhahcZAnjA6qk/mDEe2nJFny2f5Km258CCRTLPC3CgN3ygZulIiyTN+I62b50MK4g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzhWDVY+ZrvomCZrWwWAnRoEKyhXkkQT0Nj82+IiGljolLAF6A9
- 5JKs2AWCSv2UIAqQH0HhRTMnfFaC6mm5GdT3CXlC3I23xUQ4RQGn
-X-Gm-Gg: ASbGncu152m2IUnVWRl4832JV/mybpTrTBJ7Ka3O4qD7stI57Ng1Y2MaTu8RQX7dQBK
- wUuPCgQX87COP5NXHtvXcnQp/tqOs87DAI5mQOndjwlmXtCWcKaLQHJ0sx+E5d9n/VJXVzXkoww
- PhlT0lH2zfDw/VCaA0PSI+iBYy2W6lVXDAGfSRt5GazZyblmehxeMoRK/qMSziupyobh1RiVUMl
- P4VWCwpWehqauByIdVNx7bAvVpQ0MaRASVis83IgDndLXWCgwoW7rVpq8Ep2a1CE/kNoNgBqdTj
- dQo9PsESiw/KrZaYy+jgSvJ3zlc7ohC//SfJkqVOObSxS4wYqj8k6VcT9MCudNjD4v944+uKqM/
- BoKE=
-X-Google-Smtp-Source: AGHT+IEU+9HbHaJYQfODCw2wi9ncyjloO96dCdgihc1EFdOo4Cq2cGK7FSRZJO7xATXKowJYXeayuQ==
-X-Received: by 2002:a17:90b:53c8:b0:2ee:cded:9ac7 with SMTP id
- 98e67ed59e1d1-30718b83034mr84933a91.20.1744225011817; 
- Wed, 09 Apr 2025 11:56:51 -0700 (PDT)
+ AJvYcCVr6A5pVv/TlNuCKD3noFzh3cIWMq4HD7GgH36Aj7nlAb0HdpqKR9ygGBs1cFftlDOx4PPjHDKoiJo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxhNg8CSJ8u7LtVORzrnoaTe6r1EZKk07Q9M6lwEH70A85ZmpLc
+ ow2+Va8BBOLfYEVUHItRFe7E94l7u79Agv2maCBWRvRNXK21uJXf
+X-Gm-Gg: ASbGncsBDZTziKOA8EKFUeF/Nb+uMqsF2P9dVQAr9gucseGOnD53YSxqmn7kUvwh5wX
+ S+VGTdmgrs4F6Me3xV0uKyh6Fky5WD+FhYakdpyBc1u1ue/ZNKHxlhZk4gah05xEH/lIKkDQGrK
+ IugHhYcg766qpV0wtkteDgWNAVFHeRI+OTh2RUAYawWYXIqQwTCvATLZh6aQVHv93yVBRjx+QgW
+ x2eQY3FE6K6zPmKcE7WBNNP5mdDQZ9OWL3rSCVYodKS1EAU54VKmR2YKIzbzV+b21yaK07A89le
+ bCmvpSjeWORRbjMWj1knBcfrBzoMDDbYkcFp14msZABIlYNqfIu+RjUqfu8nooIrTNX+12/Yk1n
+ KY8w=
+X-Google-Smtp-Source: AGHT+IECCxkkYx11FRXflSmygxg09UKvf+V06wtQrEcsVk2bA1aQzXREqWD22vkpXtX6pPvgieHcAA==
+X-Received: by 2002:a05:6a00:22d4:b0:73b:ac3d:9d6b with SMTP id
+ d2e1a72fcca58-73bbcc568a5mr921360b3a.4.1744225191359; 
+ Wed, 09 Apr 2025 11:59:51 -0700 (PDT)
 Received: from visitorckw-System-Product-Name ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-306dd12b4d5sm2218595a91.25.2025.04.09.11.56.42
+ d2e1a72fcca58-73bb1e53e92sm1699061b3a.156.2025.04.09.11.59.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Apr 2025 11:56:51 -0700 (PDT)
-Date: Thu, 10 Apr 2025 02:56:41 +0800
+ Wed, 09 Apr 2025 11:59:50 -0700 (PDT)
+Date: Thu, 10 Apr 2025 02:59:40 +0800
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
+To: Arend van Spriel <arend.vanspriel@broadcom.com>
 Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
  joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
@@ -75,9 +75,9 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
  louis.peens@corigine.com, andrew+netdev@lunn.ch,
  davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, akpm@linux-foundation.org, jdelvare@suse.com,
+ parthiban.veerasooran@microchip.com, johannes@sipsolutions.net,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org,
+ yury.norov@gmail.com, akpm@linux-foundation.org, jdelvare@suse.com,
  linux@roeck-us.net, alexandre.belloni@bootlin.com, pgaj@cadence.com,
  hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -92,18 +92,16 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
  david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
  Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v4 02/13] media: media/test_drivers: Replace open-coded
+Subject: Re: [PATCH v4 03/13] media: pci: cx18-av-vbi: Replace open-coded
  parity calculation with parity_odd()
-Message-ID: <Z/bC6cygo0hem5IO@visitorckw-System-Product-Name>
+Message-ID: <Z/bDnLzcajzIxey3@visitorckw-System-Product-Name>
 References: <20250409154356.423512-1-visitorckw@gmail.com>
- <20250409154356.423512-3-visitorckw@gmail.com>
- <Z_aobrK3t7zdwZRK@yury>
- <Z/a7DecDljuLtKeS@visitorckw-System-Product-Name>
- <Z_a_PzmNnvC2z7se@yury>
+ <20250409154356.423512-4-visitorckw@gmail.com>
+ <25b7888d-f704-493b-a2d7-c5e8fff9cfb4@broadcom.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z_a_PzmNnvC2z7se@yury>
+In-Reply-To: <25b7888d-f704-493b-a2d7-c5e8fff9cfb4@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,75 +117,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 09, 2025 at 02:41:03PM -0400, Yury Norov wrote:
-> On Thu, Apr 10, 2025 at 02:23:09AM +0800, Kuan-Wei Chiu wrote:
-> > On Wed, Apr 09, 2025 at 01:03:42PM -0400, Yury Norov wrote:
-> > > On Wed, Apr 09, 2025 at 11:43:45PM +0800, Kuan-Wei Chiu wrote:
-> > > > Refactor parity calculations to use the standard parity_odd() helper.
-> > > > This change eliminates redundant implementations.
-> > > > 
-> > > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > > > ---
-> > > >  drivers/media/test-drivers/vivid/vivid-vbi-gen.c | 8 ++------
-> > > >  1 file changed, 2 insertions(+), 6 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
-> > > > index 70a4024d461e..5e1b7b1742e4 100644
-> > > > --- a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
-> > > > +++ b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
-> > > > @@ -5,6 +5,7 @@
-> > > >   * Copyright 2014 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
-> > > >   */
-> > > >  
-> > > > +#include <linux/bitops.h>
-> > > >  #include <linux/errno.h>
-> > > >  #include <linux/kernel.h>
-> > > >  #include <linux/ktime.h>
-> > > > @@ -165,12 +166,7 @@ static const u8 vivid_cc_sequence2[30] = {
-> > > >  
-> > > >  static u8 calc_parity(u8 val)
-> > > >  {
-> > > > -	unsigned i;
-> > > > -	unsigned tot = 0;
-> > > > -
-> > > > -	for (i = 0; i < 7; i++)
-> > > > -		tot += (val & (1 << i)) ? 1 : 0;
-> > > > -	return val | ((tot & 1) ? 0 : 0x80);
-> > > > +	return val | (parity_odd(val) ? 0 : 0x80);
-> > > 
-> > > So, if val == 0 than parity_odd(val) is also 0, and this can be
-> > > simplified just to:
-> > >         return parity(val) ? 0 : 0x80;
-> > > Or I miss something?
-> > >
-> > If val == 0x01, the return value of calc_parity() will remain 0x01.
-> > If changed to return parity_odd(val) ? 0 : 0x80;, the return value will
-> > be changed to 0x00.
+On Wed, Apr 09, 2025 at 08:43:09PM +0200, Arend van Spriel wrote:
+> On 4/9/2025 5:43 PM, Kuan-Wei Chiu wrote:
+> > Refactor parity calculations to use the standard parity_odd() helper.
+> > This change eliminates redundant implementations.
+> > 
+> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > ---
+> >   drivers/media/pci/cx18/cx18-av-vbi.c | 12 ++----------
+> >   1 file changed, 2 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/media/pci/cx18/cx18-av-vbi.c b/drivers/media/pci/cx18/cx18-av-vbi.c
+> > index 65281d40c681..15b515b95956 100644
+> > --- a/drivers/media/pci/cx18/cx18-av-vbi.c
+> > +++ b/drivers/media/pci/cx18/cx18-av-vbi.c
 > 
-> Sorry, I meant
->         return val ? 0 : 0x80;
+> [...]
 > 
-> This 'val | (parity_odd(val)' is only false when val == 0, right?
-> When val != 0, compiler will return true immediately, not even calling
-> parity().
->
-I'm still confused.
-
-Maybe you're interpreting the code as:
-
-	(val | parity(val)) ? 0 : 0x80
-
-But what we're trying to do is:
-
-	val | (parity(val) ? 0 : 0x80)
-
-So, for example, if val == 0x06, the return value will be 0x86.
-Only returning 0 or 0x80 seems wrong to me.
-Or did I misunderstand something?
+> > @@ -278,7 +270,7 @@ int cx18_av_decode_vbi_line(struct v4l2_subdev *sd,
+> >   		break;
+> >   	case 6:
+> >   		sdid = V4L2_SLICED_CAPTION_525;
+> > -		err = !odd_parity(p[0]) || !odd_parity(p[1]);
+> > +		err = !parity_odd(p[0]) || !parity_odd(p[1]);
+> 
+> No need to call parity_odd() twice here. Instead you could do:
+> 
+> 		err = !parity_odd(p[0] ^ p[1]);
+> 
+> This is orthogonal to the change to parity_odd() though. More specific to
+> the new parity_odd() you can now do following as parity_odd() argument is
+> u64:
+> 
+> 		err = !parity_odd(*(u16 *)p);
+> 
+> 
+Thanks for the feedback!
+Would you prefer this change to be part of the parity() conversion
+patch, or in a separate one?
 
 Regards,
 Kuan-Wei
-
-> I think we need a comment from authors.
