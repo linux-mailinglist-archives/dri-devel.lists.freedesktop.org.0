@@ -2,84 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1BBA81D3E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 08:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3E1A81D47
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 08:42:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890AF10E2F0;
-	Wed,  9 Apr 2025 06:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 532B510E313;
+	Wed,  9 Apr 2025 06:41:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AbXj39fu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Lmv0kjZr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E55F10E2F0
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 06:41:15 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-2c7f876b321so1999753fac.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 23:41:15 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD3E10E7F9
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 06:41:52 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-54b10956398so508426e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Apr 2025 23:41:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1744180874; x=1744785674; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lg1zubIIQ2f2lCdRuDMx0bvXEmWPDBNMHPp9FQ2hXHQ=;
- b=AbXj39fu1NFxEuZvHEDmzESMgfng9h62zv3kw2LBZAUmg3JN4qUPxrUTglatWDGsr8
- psCrh08ijanD1Jzx51wVxnXfqVfLwaop0PFIg8ui2KGdM3VhHoXNvoFen17Zk2E1lUGK
- N/l3KVzO3nP7dxHI5INWTeZxyPBhFOl9MmnhVGDZZQ7VEWH5DLPBaalJ9FrTrwH/mtPc
- umDaxx3J9EdfvlBPL8C0yPr5ZZvHMFQzeoqoAcpKeLqrTSZwHBNtilu1DWxDBmY2k1rZ
- 6ltcVLSOfWSpuPKbc4zKh8SrHtlu6exwQVbYa3dcOr2acLV6yQsXJxS0XU4mMbq5Enkj
- 6FyA==
+ d=gmail.com; s=20230601; t=1744180911; x=1744785711; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=YuicuWNl+78SMq+BOx5Lp7ZhEP+45+5kk+zhckCm74k=;
+ b=Lmv0kjZrfnNLQt8+GuNrh7pSJwbIa4n8HaLHD1Nr/SZvJRXqTCupj+I12io2MsUxFj
+ Z8lqo4EOCQPcSCmYrucEXF2NaOPo9R4MO6CAPzB7vl2f/koex9A9Xz8l8bHsuYjVk7RF
+ D3SAW+QTmYQauuMNH8YWVW7dY3bgCy4oBgxhmjmaHCVLGS4Jg9z1N9hYDL4VxcAqgynt
+ dyepADw5IxgD9iBHVSAqXoNxnXcY9l3OzW0SUNZrtOzO/ONYrE+X30/U+PagtQXj5lwF
+ iIWLZNheNj0IltQEn4YgQonWo8i7MB6ECY1XhSnCeNGzbsoi1ZNGeaQgkuvPnKyB7LzA
+ fsUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744180874; x=1744785674;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lg1zubIIQ2f2lCdRuDMx0bvXEmWPDBNMHPp9FQ2hXHQ=;
- b=bI3Vf1FzCMeo05ry1hVCfBDiahvf5GqTFkBYFH6Ob4/r6R7VPh8xFfuI4NEfJ2BXtm
- UBd/qJuPfgdC8WrXUnd5GEgdC/SW1E6Wc1OSvX+vapAMTxvtQfFwnd83qNsxHqiSDZuu
- Hp+tMdfuPwlg8+fJ6gb8P6A/xTN+9RTVpqgR5NTwSA9xySoHuaa0+GRzGFKg28BiXSmS
- B6o9vSpMjDAJo3B15Ta84vKLC/PhuoN1Cgq9RjvqcloeFpcqq96F2RoIb6H3KV/XCrsC
- X3ip2e2Ts54PL6VqSlMQZZCv+7sSLoHghdDdZHmPtirigsT4a4Tlpt/64WSXVGIK1mQa
- qonw==
+ d=1e100.net; s=20230601; t=1744180911; x=1744785711;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YuicuWNl+78SMq+BOx5Lp7ZhEP+45+5kk+zhckCm74k=;
+ b=kXidFfKBrDT69pNUWClAh3JehQY64YTzz54dAWppQLyTOXuopb+qQYa4TAHNh7lnDz
+ tpHIKoWD0pVyWD6vQjtSdKbixGzh4hPLQ3k4QT8TXMbKjXnrisKhq2RO0qYV9T9OdqXV
+ QRLA7Wl1shhoZk32HLIjgLt2Eopa8Bow1RqPhAfuND3mE+y+6opPjAlB6toK0NqI2QXD
+ ZDNmaStPe3q5O5dg69zh2wfU+35qWCrkUL6Ju9W3pKbslLrdLsZaL7kfOQxWuxFacSLj
+ sv5u9G/n6AeGdSrBUK94VOvV480SSnSgXvL4wVpNTyfgObC3IlqqPMNSPn2DMhh1xdVX
+ Srtg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWTbgze2+2eYzfj7i12tXAVAUc9ZVLzqTibHG9nuF1de7QpuG68B0d9fKijvagOprnUcdJeL35bA4o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyHvJGp1UBCb6qmW8Crcd5nyOYqpF3CfBOcEyypP6e5opQpo8e7
- lOmW2yHyddg7NttvX44Im/YYK4sqC1cwIxfgmTwJcHqgqV+we63CMpZHJ0p4+De9VfqTPQ47l7A
- Bv5Er2U9Y1UK5P3vdo6KG6NRTuj6Qcp2pmydscw==
-X-Gm-Gg: ASbGncuPNVa9AJ0hgICFz/GlqR3DKnS63RtQJt9VjDFgnlAwHPn8i1Guj9ERqcmmlTl
- 6TC3IqWPnl3xZroN32ccFIGlGyn9RDKpvU6B6vRv7Gmkh1Lqi6us7CM2hcw9WzEl8abxBlF11kq
- X4P6qlyxj3AMlhHxR6nJ/vQN8=
-X-Google-Smtp-Source: AGHT+IEcOaeO7Dkm5yTCQ3Lz50IL70ppiKK0D3qC/MhJowKSiZsAxvldI+lzaOfmcOXeeFDEQzyNagex8XBOSbhG59c=
-X-Received: by 2002:a05:6871:618c:b0:297:c04:9191 with SMTP id
- 586e51a60fabf-2d091733057mr659862fac.3.1744180874156; Tue, 08 Apr 2025
- 23:41:14 -0700 (PDT)
+ AJvYcCVVtN+5NzjPaXs0147VYq+DO7xOChai8uqm2kxjrN/bYg40ORMaykc76RUm59uJMXvMI+YKzgNJLhY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyD4W4hfx6aLY90IvQ/Med6/lHPDf2aWYvzC0BJLSN0g4b9wGDf
+ 6uZFfZBONorhXFsNf4EZTVS9aVWI2Qvsksm0ijksUKLLKlgCEm9w
+X-Gm-Gg: ASbGncungc9weLm4L3avMwYOcUvagiLmT4+hIbutTc0BnAB40Dt7Tup5PLoZ8KMYsq6
+ xiLq0wcxEvAYQA37LCCVhW4Yg/0q8W6qJgdaIRRXGEW62W4tjZXKYrSe690RtzzP8wSx+TX2d3y
+ 7WFTJMoso/+l9VcVY1ySH9ZvROT+b3W7FIk1nFPeSwkMmaIN4GtxGO9OPLVAXUPlxe2W6IiEeMP
+ Ezopb6MhCsXleVNiriVB2i1TSbL2MkdwtuLAmzjOK/7Q2CFK7ls5kFSdVzCZNotnVMrZh0+JVCr
+ uO9bLsTNDyc3VllB6hzfSi56oR8RrmAe16UlUpuiBS+rCMS/WwfjIbG7OQ2waN8ICl2yy/6YRI5
+ fcw==
+X-Google-Smtp-Source: AGHT+IFdnlxer68Yln0fuFLV1bJP2lPBgYXnZwBE2tazPW/qAEw5qRAr1HSLKKeZe59pVJ/g7Y58kw==
+X-Received: by 2002:ac2:5f7b:0:b0:549:9643:68d0 with SMTP id
+ 2adb3069b0e04-54c3bbbd60amr1572364e87.17.1744180910558; 
+ Tue, 08 Apr 2025 23:41:50 -0700 (PDT)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54c4566dc80sm53867e87.192.2025.04.08.23.41.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Apr 2025 23:41:49 -0700 (PDT)
+Date: Wed, 9 Apr 2025 08:41:47 +0200
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmrmann@suse.de>
+Subject: Re: [PATCH v3 2/3] drm/st7571-i2c: add support for Sitronix ST7571
+ LCD controller
+Message-ID: <Z_YWq4ry6Y-Jgvjq@gmail.com>
+References: <20250408-st7571-v3-0-200693efec57@gmail.com>
+ <20250408-st7571-v3-2-200693efec57@gmail.com>
+ <87cydn9bkx.fsf@minerva.mail-host-address-is-not-set>
+ <Z_Uin2dvmbantQU4@gmail.com>
+ <87ecy1g8z8.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-0-7f457073282d@oss.qualcomm.com>
- <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-3-7f457073282d@oss.qualcomm.com>
- <CAHUa44GRBiRr6CsFWxJhyzf1cRSEP66m5K7uFntOv3oYWTHWgQ@mail.gmail.com>
- <5de2a378-77cf-4373-b3ae-faeebb931e2d@oss.qualcomm.com>
-In-Reply-To: <5de2a378-77cf-4373-b3ae-faeebb931e2d@oss.qualcomm.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Wed, 9 Apr 2025 08:41:02 +0200
-X-Gm-Features: ATxdqUGhoGZIEx3Ym3PuzG5zEQQIskuGmF1s73EkPFrW4w3uoAZ-oqJKPmuDlxQ
-Message-ID: <CAHUa44F-t29Hu0o3+0vFLjtrnA8ZGycPFcUTXEOmms9B=cZ6XA@mail.gmail.com>
-Subject: Re: [PATCH v3 03/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-Cc: Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Ylj4ERT0Ocye4RUt"
+Content-Disposition: inline
+In-Reply-To: <87ecy1g8z8.fsf@minerva.mail-host-address-is-not-set>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,204 +100,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Amirreza,
 
-On Wed, Apr 9, 2025 at 2:28=E2=80=AFAM Amirreza Zarrabi
-<amirreza.zarrabi@oss.qualcomm.com> wrote:
->
-> Hi jens,
->
-> On 4/8/2025 10:19 PM, Jens Wiklander wrote:
->
-> Hi Amirreza,
->
-> On Fri, Mar 28, 2025 at 3:48=E2=80=AFAM Amirreza Zarrabi
-> <amirreza.zarrabi@oss.qualcomm.com> wrote:
->
-> For drivers that can transfer data to the TEE without using shared
-> memory from client, it is necessary to receive the user address
-> directly, bypassing any processing by the TEE subsystem. Introduce
-> TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT/OUTPUT/INOUT to represent
-> userspace buffers.
->
-> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> ---
->  drivers/tee/tee_core.c   | 33 +++++++++++++++++++++++++++++++++
->  include/linux/tee_drv.h  |  6 ++++++
->  include/uapi/linux/tee.h | 22 ++++++++++++++++------
->  3 files changed, 55 insertions(+), 6 deletions(-)
->
-> Is this patch needed now that the QCOMTEE driver supports shared
-> memory? I prefer keeping changes to the ABI to a minimum.
->
-> Cheers,
-> Jens
->
-> Unfortunately, this is still required. QTEE supports two types of data tr=
-ansfer:
-> (1) using UBUF and (2) memory objects. Even with memory object support, s=
-ome APIs still
-> expect to receive data using UBUF. For instance, to load a TA, QTEE offer=
-s two interfaces:
-> one where the TA binary is in UBUF and another where the TA binary is in =
-a memory object.
+--Ylj4ERT0Ocye4RUt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Is this a limitation in the QTEE backend driver or on the secure side?
-Can it be fixed? I don't ask for changes in the ABI to the secure
-world since I assume you haven't made such changes while this patch
-set has evolved.
+Hello Javier,
 
-Cheers,
-Jens
+On Wed, Apr 09, 2025 at 08:11:23AM +0200, Javier Martinez Canillas wrote:
 
->
-> Best Regards,
-> Amir
->
-> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> index 22cc7d624b0c..bc862a11d437 100644
-> --- a/drivers/tee/tee_core.c
-> +++ b/drivers/tee/tee_core.c
-> @@ -404,6 +404,17 @@ static int params_from_user(struct tee_context *ctx,=
- struct tee_param *params,
->                         params[n].u.value.b =3D ip.b;
->                         params[n].u.value.c =3D ip.c;
->                         break;
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
-> +                       params[n].u.ubuf.uaddr =3D u64_to_user_ptr(ip.a);
-> +                       params[n].u.ubuf.size =3D ip.b;
-> +
-> +                       if (!access_ok(params[n].u.ubuf.uaddr,
-> +                                      params[n].u.ubuf.size))
-> +                               return -EFAULT;
-> +
-> +                       break;
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> @@ -472,6 +483,11 @@ static int params_to_user(struct tee_ioctl_param __u=
-ser *uparams,
->                             put_user(p->u.value.c, &up->c))
->                                 return -EFAULT;
->                         break;
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
-> +                       if (put_user((u64)p->u.ubuf.size, &up->b))
-> +                               return -EFAULT;
-> +                       break;
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
->                         if (put_user((u64)p->u.memref.size, &up->b))
-> @@ -672,6 +688,13 @@ static int params_to_supp(struct tee_context *ctx,
->                         ip.b =3D p->u.value.b;
->                         ip.c =3D p->u.value.c;
->                         break;
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
-> +                       ip.a =3D (u64)p->u.ubuf.uaddr;
-> +                       ip.b =3D p->u.ubuf.size;
-> +                       ip.c =3D 0;
-> +                       break;
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> @@ -774,6 +797,16 @@ static int params_from_supp(struct tee_param *params=
-, size_t num_params,
->                         p->u.value.b =3D ip.b;
->                         p->u.value.c =3D ip.c;
->                         break;
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
-> +                       p->u.ubuf.uaddr =3D u64_to_user_ptr(ip.a);
-> +                       p->u.ubuf.size =3D ip.b;
-> +
-> +                       if (!access_ok(params[n].u.ubuf.uaddr,
-> +                                      params[n].u.ubuf.size))
-> +                               return -EFAULT;
-> +
-> +                       break;
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
->                         /*
-> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> index ce23fd42c5d4..d773f91c6bdd 100644
-> --- a/include/linux/tee_drv.h
-> +++ b/include/linux/tee_drv.h
-> @@ -82,6 +82,11 @@ struct tee_param_memref {
->         struct tee_shm *shm;
->  };
->
-> +struct tee_param_ubuf {
-> +       void * __user uaddr;
-> +       size_t size;
-> +};
-> +
->  struct tee_param_value {
->         u64 a;
->         u64 b;
-> @@ -92,6 +97,7 @@ struct tee_param {
->         u64 attr;
->         union {
->                 struct tee_param_memref memref;
-> +               struct tee_param_ubuf ubuf;
->                 struct tee_param_value value;
->         } u;
->  };
-> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> index d0430bee8292..3e9b1ec5dfde 100644
-> --- a/include/uapi/linux/tee.h
-> +++ b/include/uapi/linux/tee.h
-> @@ -151,6 +151,13 @@ struct tee_ioctl_buf_data {
->  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT        6
->  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT 7       /* input and outp=
-ut */
->
-> +/*
-> + * These defines userspace buffer parameters.
-> + */
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT   8
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT  9
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT   10      /* input and outp=
-ut */
-> +
->  /*
->   * Mask for the type part of the attribute, leaves room for more types
->   */
-> @@ -186,14 +193,17 @@ struct tee_ioctl_buf_data {
->  /**
->   * struct tee_ioctl_param - parameter
->   * @attr: attributes
-> - * @a: if a memref, offset into the shared memory object, else a value p=
-arameter
-> - * @b: if a memref, size of the buffer, else a value parameter
-> + * @a: if a memref, offset into the shared memory object,
-> + *     else if a ubuf, address of the user buffer,
-> + *     else a value parameter
-> + * @b: if a memref or ubuf, size of the buffer, else a value parameter
->   * @c: if a memref, shared memory identifier, else a value parameter
->   *
-> - * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref or value is used=
- in
-> - * the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value and
-> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref. TEE_PARAM_ATTR_TYPE_NO=
-NE
-> - * indicates that none of the members are used.
-> + * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value =
-is
-> + * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
-> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYP=
-E_UBUF_*
-> + * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the m=
-embers
-> + * are used.
->   *
->   * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
->   * identifier representing the shared memory object. A memref can refere=
-nce
->
-> --
-> 2.34.1
->
+[...]
+> >> > +static int st7571_set_pixel_format(struct st7571_device *st7571,
+> >> > +				   u32 pixel_format)
+> >> > +{
+> >> > +	switch (pixel_format) {
+> >> > +	case DRM_FORMAT_C1:
+> >> > +		return st7571_set_color_mode(st7571, ST7571_COLOR_MODE_BLACKWHITE=
+);
+> >> > +	case DRM_FORMAT_C2:
+> >> > +		return st7571_set_color_mode(st7571, ST7571_COLOR_MODE_GRAY);
+> >> > +	default:
+> >> > +		return -EINVAL;
+> >> > +	}
+> >>=20
+> >> These should be DRM_FORMAT_R1 and DRM_FORMAT_R2 and not C{1,2}. The fo=
+rmer
+> >> is for displays have a single color (i.e: grey) while the latter is wh=
+en a
+> >> pixel can have different color, whose values are defined by a CLUT tab=
+le.
+> >>=20
+> >
+> > I see.
+> > Does fbdev only works with CLUT formats? I get this error when I switch
+> > to DRM_FORMAT_R{1,2}:
+> >
+> > [drm] Initialized st7571 1.0.0 for 0-003f on minor 0
+> > st7571 0-003f: [drm] format C1   little-endian (0x20203143) not support=
+ed
+> > st7571 0-003f: [drm] No compatible format found
+> > st7571 0-003f: [drm] *ERROR* fbdev: Failed to setup emulation (ret=3D-2=
+2)
+> >
+> >
+>=20
+> That's a god question, I don't really know...
+>=20
+> But fbdev does support XRGB8888, which may be another good reason to add
+> it and make it the default format. Yes, it will cause an unnecessary pixel
+> format conversion but the I2C transport is so slow anyways that compute is
+> not the bottleneck when using these small displays.
+
+Hrm, I now realised that I have another issue.
+Not all LCDs that will be attached to the ST7571 controller will be
+grayscale.
+The display I've attached to the ST7571 is a monochrome LCD for example.
+
+Maybe the right way to do it is to only support XRGB8888 and specify=20
+if the display is monochrome or grayscale in the device tree.
+
+Or do you have any good suggestions?
+
+[...]
+>=20
+> --=20
+> Best regards,
+>=20
+> Javier Martinez Canillas
+> Core Platforms
+> Red Hat
+>=20
+
+Best regards,
+Marcus Folkesson
+
+--Ylj4ERT0Ocye4RUt
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmf2FqcACgkQiIBOb1ld
+UjJlFA/+Mvgnw0GHgT/CbvHMZfsKrzVui9dIXTaP9ruHztPyzxKfhzb/VOxWIqm2
+Grdh3t1Q2HqElAM/cpET2LpPRej5WHklHoah93ATdVsE29LDwkULtRSqAND7laJc
+FGjvEM23bcXSeToZ7kvJZHYziu3ABhJKtGmGOKGfUFOPg7LOvdpkBWxj2dzni/mq
+02OVArtj0gmMvdyQDXBLrAVN0OvbWCc0IIDlVfQ6EiZeag/Kefqt57kL02y2ffVo
+OR7DHz2QrkPJLzK61dfVwA3uMC+RP6S5a+nGcB+Qw5z0KMkiO7S8hOIOxoyW+eF2
+FFrPjv1fnPZPjjfulVcKJHAk84hqOiyTnll9YDUMefB0BrwYCtTc56CKa+abATuH
+trbrdtDY6BnKSNN/fzwkHeKtRwWoISvJ1s+WcO5bf2nsA751uuxpVXV/xy+ZrMZ/
+IIraaNw+mHPpCeUZW+bjf9sSiGvGKjBiWFQGCCUiEzbbhnd4CQcLl0N61umLWjZT
+3IAY67lI0vk5Bms0wJnP1vZwop9c8MX7GVK6gd+5fy5q1AXa/sVAQsz74rwaLyX9
+uErGQKENWaTdlVes8hzJUOSIlgamh9M+P/H29qGfaQqCfI6UkdH+qFowo3JV0A/j
+OQOe8CHsfLkesxn7/18YT3eiP7PPOR+TuapvXPoSCBLQjzmBajs=
+=oJhl
+-----END PGP SIGNATURE-----
+
+--Ylj4ERT0Ocye4RUt--
