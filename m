@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08A7A828AD
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 16:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E441CA82928
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 17:02:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65F4A10E923;
-	Wed,  9 Apr 2025 14:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FAA989ECB;
+	Wed,  9 Apr 2025 15:02:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ijoqRPOi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="USeGB18u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6499B10E916
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 14:50:50 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 70E024427E;
- Wed,  9 Apr 2025 14:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744210249;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mzm1JuGkocIsGBpNPmA5oKl0NqM4cvm2NKtV1oMF3eQ=;
- b=ijoqRPOijtHQVSqqM/gfbkTeRSVsd5eqPrGNS8JjT+DJ7aqdiD/GWWEdf7CCD2qkPsWZjD
- tH387B9pU4qb45sOs11AO0mrDCeMo6Mx0XBU3RYmdwUGoYiDNAEO6RrwBZ5spySJ49/QNZ
- k8WWYIhcCgego2JauCKR/6+zlNLb1/amQUjPIoYzqt+jdJo+L0FU6cZ5JZYd+W4UuGgnMI
- O8vLbnCDJpAK2vL5dFneqP80lKiuPpI7tViBgqgQQrmuOsC850B+ZU8o+6SaJMleMvUjaf
- oOlp5cDkRtVfkR/EJCbMCrs7O1P+8GCgStDURNjAHudBr5bx/EayYX+bq1ZTKA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 09 Apr 2025 16:50:35 +0200
-Subject: [PATCH v7 2/2] drm/tests: bridge: add a KUnit test for
- devm_drm_bridge_alloc()
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D102389ECB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 15:02:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 79D85A40BC6;
+ Wed,  9 Apr 2025 14:56:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA47C4CEE2;
+ Wed,  9 Apr 2025 15:02:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744210927;
+ bh=aJQppEWjaL2KF5deFSae2ldF9ctBxth+C4C3IIXJlnw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=USeGB18uwqiTZNbG1Z0F1wrI5ftkJYJTV2a43/QfqQGLa3C3TQ3TW142CivEOBMV1
+ Rym2Y9R+o367sWZ2dWJQOJKZ5pTsKMsSKD9BkwX4gskWdEbokQGKIE5cOrixPNmHLA
+ DYNFzGHPfnbAZ2JX6sjDYJ3Rk1hx4e/+iVrc+pm6eOTuLp14sordp1lKImVmnQpxRH
+ OB8ijywqomEfMx4P5JyBtEZuQJvC9tfMxTvRCz34DyMz/IM9SCS2Cd+oagIKismoqY
+ F+IFRxzgZLYcXKSDlIrmWP08NbI7yP6tNtM6l3Wwax8qpvf52G3Vp3JQKUtDEDWzPw
+ bya+z+Besvnuw==
+Date: Wed, 9 Apr 2025 17:02:04 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 06/15] drm/connector: hdmi: Factor out bpc and format
+ computation logic
+Message-ID: <20250409-funny-hopping-condor-cbc50c@houat>
+References: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
+ <20250326-hdmi-conn-yuv-v3-6-294d3ebbb4b2@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250409-drm-bridge-alloc-doc-test-v7-2-a3ca4b97597f@bootlin.com>
-References: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
-In-Reply-To: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
- =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdeivdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvvddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhms
- hhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehluhhmrghgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="yynkvojouwztmong"
+Content-Disposition: inline
+In-Reply-To: <20250326-hdmi-conn-yuv-v3-6-294d3ebbb4b2@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,112 +66,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic KUnit test for the newly introduced drm_bridge_alloc().
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+--yynkvojouwztmong
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 06/15] drm/connector: hdmi: Factor out bpc and format
+ computation logic
+MIME-Version: 1.0
 
----
+Hi,
 
-Changed in v7:
- - rebase on current drm-misc-next, which now has a drm_bridge_test.c file
- - cleanup commit message
+On Wed, Mar 26, 2025 at 12:19:55PM +0200, Cristian Ciocaltea wrote:
+> In preparation to support fallback to an alternative output format, e.g.
+> YUV420, when RGB cannot be used for any of the available color depths,
+> move the bpc try loop out of hdmi_compute_config() and, instead, make it
+> part of hdmi_compute_format_bpc().  Additionally, add a new parameter to
+> the latter holding the output format to be checked and eventually set.
+>
+> This improves code reusability and further extensibility.
+>=20
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-Changed in v6:
- - update to new devm_drm_bridge_alloc() API
- - remove drm_test_drm_bridge_put test, not straightforward to write with
-   the new API and the current notification mechanism
- - do not allocate a drm_device: a bridge is allocated without one
- - rename some identifiers for easier code reading
+I think patch 5 could be squashed into this one.
 
-This patch was added in v5.
----
- drivers/gpu/drm/tests/drm_bridge_test.c | 60 +++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 50 ++++++++++++-------=
+------
+>  1 file changed, 23 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
+u/drm/display/drm_hdmi_state_helper.c
+> index 160964190d82ac233fdbe34ac54024a007a19872..6de0abb15ecb36fd4eb98725e=
+2a3835e5e0db134 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -608,42 +608,19 @@ static int
+>  hdmi_compute_format_bpc(const struct drm_connector *connector,
+>  			struct drm_connector_state *conn_state,
+>  			const struct drm_display_mode *mode,
+> -			unsigned int bpc)
+> +			unsigned int max_bpc, enum hdmi_colorspace fmt)
+>  {
+>  	struct drm_device *dev =3D connector->dev;
+> -
+> -	/*
+> -	 * TODO: Add support for YCbCr420 output for HDMI 2.0 capable
+> -	 * devices, for modes that only support YCbCr420.
+> -	 */
 
-diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/tests/drm_bridge_test.c
-index ff88ec2e911c9cc9a718483f09d4c764f45f991a..87fb64744b67f0780457a546aba77ba945a0ce67 100644
---- a/drivers/gpu/drm/tests/drm_bridge_test.c
-+++ b/drivers/gpu/drm/tests/drm_bridge_test.c
-@@ -8,6 +8,7 @@
- #include <drm/drm_bridge_helper.h>
- #include <drm/drm_kunit_helpers.h>
- 
-+#include <kunit/device.h>
- #include <kunit/test.h>
- 
- struct drm_bridge_init_priv {
-@@ -407,11 +408,70 @@ static struct kunit_suite drm_bridge_helper_reset_crtc_test_suite = {
- 	.test_cases = drm_bridge_helper_reset_crtc_tests,
- };
- 
-+struct drm_bridge_alloc_test_ctx {
-+	struct device *dev;
-+};
-+
-+/*
-+ * Mimick the typical struct defined by a bridge driver, which embeds a
-+ * bridge plus other fields.
-+ */
-+struct dummy_drm_bridge {
-+	int dummy; // ensure we test non-zero @bridge offset
-+	struct drm_bridge bridge;
-+};
-+
-+static const struct drm_bridge_funcs drm_bridge_dummy_funcs = {
-+};
-+
-+static int drm_test_bridge_alloc_init(struct kunit *test)
-+{
-+	struct drm_bridge_alloc_test_ctx *ctx;
-+
-+	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+
-+	ctx->dev = kunit_device_register(test, "drm-bridge-dev");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
-+
-+	test->priv = ctx;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Test that the allocation and initialization of a bridge works as
-+ * expected and doesn't report any error.
-+ */
-+static void drm_test_drm_bridge_alloc(struct kunit *test)
-+{
-+	struct drm_bridge_alloc_test_ctx *ctx = test->priv;
-+	struct dummy_drm_bridge *dummy;
-+
-+	dummy = devm_drm_bridge_alloc(ctx->dev, struct dummy_drm_bridge, bridge,
-+				      &drm_bridge_dummy_funcs);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy);
-+}
-+
-+static struct kunit_case drm_bridge_alloc_tests[] = {
-+	KUNIT_CASE(drm_test_drm_bridge_alloc),
-+	{ }
-+};
-+
-+static struct kunit_suite drm_bridge_alloc_test_suite = {
-+	.name = "drm_bridge_alloc",
-+	.init = drm_test_bridge_alloc_init,
-+	.test_cases = drm_bridge_alloc_tests,
-+};
-+
- kunit_test_suites(
- 	&drm_bridge_get_current_state_test_suite,
- 	&drm_bridge_helper_reset_crtc_test_suite,
-+	&drm_bridge_alloc_test_suite,
- );
- 
- MODULE_AUTHOR("Maxime Ripard <mripard@kernel.org>");
-+MODULE_AUTHOR("Luca Ceresoli <luca.ceresoli@bootlin.com>");
-+
- MODULE_DESCRIPTION("Kunit test for drm_bridge functions");
- MODULE_LICENSE("GPL");
+And we should fix that comment for now.
 
--- 
-2.49.0
+Once fixed,
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
+Maxime
+
+--yynkvojouwztmong
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/aL7AAKCRDj7w1vZxhR
+xRX7AP9oCS18KWYPOr+6QUwEjFua6SqgR4gNhMjWooVbQ7iSmQEAiyIln41e61EW
+KUxzlYInnsg5bfGRUAn7NvOBEPb9ZQE=
+=yeix
+-----END PGP SIGNATURE-----
+
+--yynkvojouwztmong--
