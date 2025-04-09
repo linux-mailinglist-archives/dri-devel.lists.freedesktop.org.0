@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1015FA825A4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 15:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD9EA825B5
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 15:13:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7081610E88C;
-	Wed,  9 Apr 2025 13:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 567DF10E8A5;
+	Wed,  9 Apr 2025 13:13:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oFDUDqXQ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XyQ+LArk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46EAE10E88C
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 13:13:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39FE410E89C
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 13:13:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744204394;
- bh=pQbgxTHUSndGNceRAo7lyCtBFDwzO+1qKqjpMO19XNA=;
+ s=mail; t=1744204416;
+ bh=viVwHHTxF6+VTBDbjKYNenuIu/RWABNZL++TFWSVyFM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oFDUDqXQGhUNRTx4Ub8V+URTI2v16LvKKB0f0CoaRT6KxgIucCSSzcoShvKWiOQSJ
- 1WAbypQYkPBjcvXpcuMt7x4wlh8IVNTqG6zDsVkzXy6nzOH6+KBbmJr3amNgX4Bksq
- Ab/PEnipUeyPLPFI62WHk0uTC4fp74REV7W2t5IeZgsSrijZLus3UQo8VfmUlK2SXG
- wI+zM57t7CFi09YcbVzgINGWFrswop7vssaqfi+9F1D5S/EZzFv75C6FAAI63kDrBi
- 5hpM42crND+tIiBG11xZO07azJjJ5RlIqW5typCSRLYbSUBhh05sOZnoVSKXfsMWhW
- hwQ22xxlGfY4A==
+ b=XyQ+LArkrochmO+b0d542pBtg7+g39QPZ2C3ffAIm6ktWnv1qbR9f1fNDDBqWZGwq
+ sseSflJzE/6zOZENR4byzATkav3WfdozLSBv/dxLUsEGJ47zwLIEwWd8mz/QrTR+7b
+ dT9psFkIeIg+0x4226hCfHB/fbHaoTFDcANS+L/qjhIYdKK0y38Vh7yyNJnohIcWq3
+ fhY2lQx/KVTkwPQsNiNsFodqtDJvmqzEw0c90LhH3euzcMm0Qv4zM90At7bvTO0G33
+ Jy8QOUVsAY2MBvCANjOC8B5tETB6HQSrPMKPhFf65FX5XE4nqzu/2iFK6wDNXgCKnW
+ OQnJ5ncTj7U9Q==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CE23417E09BF;
- Wed,  9 Apr 2025 15:13:13 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5633017E35E5;
+ Wed,  9 Apr 2025 15:13:35 +0200 (CEST)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ ck.hu@mediatek.com, jitao.shi@mediatek.com, jie.qiu@mediatek.com,
+ junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com, lewis.liao@mediatek.com, ives.chenjh@mediatek.com,
- tommyyl.chen@mediatek.com, jason-jh.lin@mediatek.com
-Subject: [PATCH v1 2/5] drm/mediatek: mtk_dpi: Add local helpers for bus
- format parameters
-Date: Wed,  9 Apr 2025 15:13:03 +0200
-Message-ID: <20250409131306.108635-3-angelogioacchino.delregno@collabora.com>
+ kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
+ ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
+ jason-jh.lin@mediatek.com
+Subject: [PATCH v8 09/23] drm/mediatek: mtk_hdmi: Move plugged_cb/codec_dev
+ setting to new function
+Date: Wed,  9 Apr 2025 15:13:04 +0200
+Message-ID: <20250409131318.108690-10-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250409131306.108635-1-angelogioacchino.delregno@collabora.com>
-References: <20250409131306.108635-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250409131318.108690-1-angelogioacchino.delregno@collabora.com>
+References: <20250409131318.108690-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,82 +70,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for adding support for additional color formats,
-add local helpers to map media bus format parameters to this
-driver's bit_num, channel_swap and color_format.
+In preparation for splitting common bits of this driver, move the
+mutex-protected cable plugged callback and codec device setting
+to a new function called mtk_hdmi_audio_set_plugged_cb().
 
-This commit brings no functional changes.
-
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 46 ++++++++++++++++++++++++++----
- 1 file changed, 40 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index d735398e97f8..5a66dfe3ad40 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -738,6 +738,43 @@ static u32 *mtk_dpi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	return input_fmts;
- }
- 
-+static unsigned int mtk_dpi_bus_fmt_bit_num(unsigned int out_bus_format)
-+{
-+	switch (out_bus_format) {
-+	default:
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_RGB888_2X12_LE:
-+	case MEDIA_BUS_FMT_RGB888_2X12_BE:
-+	case MEDIA_BUS_FMT_YUYV8_1X16:
-+		return MTK_DPI_OUT_BIT_NUM_8BITS;
-+	}
-+}
-+
-+static unsigned int mtk_dpi_bus_fmt_channel_swap(unsigned int out_bus_format)
-+{
-+	switch (out_bus_format) {
-+	default:
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_RGB888_2X12_LE:
-+	case MEDIA_BUS_FMT_RGB888_2X12_BE:
-+	case MEDIA_BUS_FMT_YUYV8_1X16:
-+		return MTK_DPI_OUT_CHANNEL_SWAP_RGB;
-+	}
-+}
-+
-+static unsigned int mtk_dpi_bus_fmt_color_format(unsigned int out_bus_format)
-+{
-+	switch (out_bus_format) {
-+	default:
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_RGB888_2X12_LE:
-+	case MEDIA_BUS_FMT_RGB888_2X12_BE:
-+		return MTK_DPI_COLOR_FORMAT_RGB;
-+	case MEDIA_BUS_FMT_YUYV8_1X16:
-+		return MTK_DPI_COLOR_FORMAT_YCBCR_422;
-+	}
-+}
-+
- static int mtk_dpi_bridge_atomic_check(struct drm_bridge *bridge,
- 				       struct drm_bridge_state *bridge_state,
- 				       struct drm_crtc_state *crtc_state,
-@@ -757,13 +794,10 @@ static int mtk_dpi_bridge_atomic_check(struct drm_bridge *bridge,
- 		bridge_state->output_bus_cfg.format);
- 
- 	dpi->output_fmt = out_bus_format;
--	dpi->bit_num = MTK_DPI_OUT_BIT_NUM_8BITS;
--	dpi->channel_swap = MTK_DPI_OUT_CHANNEL_SWAP_RGB;
-+	dpi->bit_num = mtk_dpi_bus_fmt_bit_num(out_bus_format);
-+	dpi->channel_swap = mtk_dpi_bus_fmt_channel_swap(out_bus_format);
- 	dpi->yc_map = MTK_DPI_OUT_YC_MAP_RGB;
--	if (out_bus_format == MEDIA_BUS_FMT_YUYV8_1X16)
--		dpi->color_format = MTK_DPI_COLOR_FORMAT_YCBCR_422;
--	else
--		dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
-+	dpi->color_format = mtk_dpi_bus_fmt_color_format(out_bus_format);
- 
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index 2cfab3419415..87cf97136fb7 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -1586,17 +1586,22 @@ static int mtk_hdmi_audio_get_eld(struct device *dev, void *data, uint8_t *buf,
  	return 0;
  }
+ 
+-static int mtk_hdmi_audio_hook_plugged_cb(struct device *dev, void *data,
+-					  hdmi_codec_plugged_cb fn,
++static void mtk_hdmi_audio_set_plugged_cb(struct mtk_hdmi *hdmi, hdmi_codec_plugged_cb fn,
+ 					  struct device *codec_dev)
+ {
+-	struct mtk_hdmi *hdmi = data;
+-
+ 	mutex_lock(&hdmi->update_plugged_status_lock);
+ 	hdmi->plugged_cb = fn;
+ 	hdmi->codec_dev = codec_dev;
+ 	mutex_unlock(&hdmi->update_plugged_status_lock);
++}
++
++static int mtk_hdmi_audio_hook_plugged_cb(struct device *dev, void *data,
++					  hdmi_codec_plugged_cb fn,
++					  struct device *codec_dev)
++{
++	struct mtk_hdmi *hdmi = data;
+ 
++	mtk_hdmi_audio_set_plugged_cb(hdmi, fn, codec_dev);
+ 	mtk_hdmi_update_plugged_status(hdmi);
+ 
+ 	return 0;
 -- 
 2.49.0
 
