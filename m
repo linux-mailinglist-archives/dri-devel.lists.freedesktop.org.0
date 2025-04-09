@@ -2,100 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6530BA82D91
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 19:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F85A82DA2
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 19:31:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85C6E10E258;
-	Wed,  9 Apr 2025 17:27:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23D0310E26B;
+	Wed,  9 Apr 2025 17:31:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="WwF7PIVq";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="dEujMkv+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 390CD10E26B
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 17:27:33 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-5e5b6f3025dso10017812a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 10:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1744219651; x=1744824451;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pK2SJRHEMGZQKPPhXQK2rlcnL3fUmvPRMjfdbeZZl1I=;
- b=WwF7PIVqv2Wqgl8vRkTs4ceEFKEw6lpnQxBnzHs0dEF7PgmgfA5xzvtkq6VuExHS8X
- QV9QA7AJGdoVeMbmKqDk+zGPauG0iR4f17qMDPOZJRm7W5BHDBziyE/AhLSpnqd094vc
- HiZqEpUaDXOZ0yj0H/fYlTDpG03DKEL4/ZwHI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744219651; x=1744824451;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pK2SJRHEMGZQKPPhXQK2rlcnL3fUmvPRMjfdbeZZl1I=;
- b=hr0t2UuILRZYd/GW/fxQwFvYJMg30kyrJoX1TT54d+4hAdDhwMETV5ZhA3IKK0aj3U
- TC88sKWesXfXSdwF1ZxfCHnGTTsHwbLXINuDUjOcVitDS8Mv10ngkKWfX7lVtbjfN1wn
- OXkm4Pjb1QWdq993fEi94sdINzObJeb+ospTa3zqIgEOBxTPJ+gaLyV2uMT7PFDeIgbG
- t7FNHALUFRji5RKCVDmhiSXXHgZGMwwOL62vXOdYpORZEIdZ94UQfVv4ncgvtDM/UnkK
- zJbQSzaafRWBPGafvWhFJoEB6x4pVRvfz3Q2jTMopJZLrKR/VabKQ9skxX1zgDdeW5+E
- XZKw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWugl02oaAVoHXkVNaqbqMAKQleILCJj/O1FbQ3Hgl9Hf1UrYffkKL6+PYS59pnG0VaJCuuL3iSUGc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWpuYJsDytgzD3Zhhu22+57Qj9hGJ3zbzgZ5jXwbek6gOOwmU+
- XM5TSLWi9W+aX/aIZYop+JYPNl+NwBcl/fq0zdmm7gmCF5fsgod/7RxP1KVYur0RZEkoDDsjX+8
- JDLc=
-X-Gm-Gg: ASbGncuA5i/KGwvfmOVglesx+d/UhvNrSDz3rkqYwnHf/y05cewTz1Oz//Qh0IPQ0t4
- 9K1s4TqrElXjq9bdRO64rNzn0GbW3Hvd4dzj3TVEGOSV8gO8Th5vSeM5/60EctJ2TjxpSmZArpp
- FE4FcWPWJ+38TjQB7UHRo23SEbSF/zCk7knOT4Io0hcJrFilMtfKVzHu9ED0avmrEFfPLWqEvI+
- yhtH2WI+/xPo03RLLLTx1LEBqEZvAws2Ek3VDaE0Kbk0lKnTkX9773ydAVFoCsShUzc3KrgZ/3f
- nJyqHqvpDttT6SWw5unJ0Hg7npyxOvUJtfuQG3L/8Iq7C8Rv7knQWhnpIw7nViN/3VLQgKAWG0x
- byjM7E8cjwVLVvj4=
-X-Google-Smtp-Source: AGHT+IHZ0ucUlL2MWv/ygodqSrFFN7zXATedAh8lRIhxP31x6Zy2tH0jbYQyLglDefvWfuDnuIsXcw==
-X-Received: by 2002:a17:906:6a0f:b0:ac8:1798:f57 with SMTP id
- a640c23a62f3a-aca9b70dcf2mr353277966b.38.1744219651403; 
- Wed, 09 Apr 2025 10:27:31 -0700 (PDT)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com.
- [209.85.218.41]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-acaa1be9198sm124795966b.49.2025.04.09.10.27.30
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Apr 2025 10:27:30 -0700 (PDT)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-ac3fcf5ab0dso1220119566b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 10:27:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWVpQUQvOksc+ja/08robWFvblSdRdKgqHv+xUVrguzPP5K6FxOBac0YNkxxGcDf9UY69c18nOHXZY=@lists.freedesktop.org
-X-Received: by 2002:a17:907:3e8c:b0:ac7:c59e:fc3e with SMTP id
- a640c23a62f3a-aca9b67684bmr382920066b.25.1744219649909; Wed, 09 Apr 2025
- 10:27:29 -0700 (PDT)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2047.outbound.protection.outlook.com [40.107.223.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0FA10E26B
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 17:30:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oKUNITZrQinrxkOpIpxLElshWxSoFRvioUA8sivKLPfe3mk1wY3Hi2bUv82yzuGDRZMVcu9vF8ehTkcFGrtNYzxm3/FAx/5HSTjBAfKVoHb5thKFZwwqrkGoHQH7tn8EgrUVtpBPx1B/S7OPS/WUxeodX5FEQNWQ9LiArMflbI4lNx2pVlIGfIcmLrqWMf/WMeaHj7ao4wsO1FN9QAl5VkMTTii0LeGWUK76MYHoJnIWsnhIOWAvoopqDQKhbag32LPkQfQyaf7HmpGmB6/qPNTVdmDPcB0dZXNWqBFc3PnDYnvo4RMMeVVxgmRqcC/VCQv1GlldQuFw7l4AlJUQbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iSGwJnoUUE1B7uraxshnA1DLplKEz/j+HYGZ4mOKKfo=;
+ b=XO/v+sFAcmwQ52gMOLQsTSc3IQc0cUmUwKwLB2Bky7pNAkhnh7gF63LnC5U+glCZhVhhT/51+v+5byjvfMSNbTuBB5P6zmUWTmtvGzyAS8c/UPk+AODv0OEuobHanSYDcxAQp4aYJDVKhcZaDS8DTHLd5gmMF5NSKAKHU/zHLL37SnAmW5ZjseqeBfJNXNJE0DS7lrVgEr9lWQywEZ/p+pEq+BcGUc0QUsssD3h0ZNXuuQFI/U8qU3wDIkuzxXMGC2Om1JVr484ebC/MqwTgdbhlIxPcnUPdzM56jyxvUkPr7nsSYdv7u7HtCEcla0/XNhXlBYo5rnf4gjnkiE0XWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iSGwJnoUUE1B7uraxshnA1DLplKEz/j+HYGZ4mOKKfo=;
+ b=dEujMkv+GJFYxGhSrkedIAeEIpcHHFHt9ycJDY0CSsGH29EH5eBAhn2couIVUpkxZICrZzXTGsg43d+TrvOrgzWLWTS3/j7rrXWfzJ4Dlsn5QiH9hkulmNTxkYZmMNin0Esd3mNBCe94kl7+RLbkCgKzsEnBbPsQbgCppdLjlfY=
+Received: from SJ0PR03CA0238.namprd03.prod.outlook.com (2603:10b6:a03:39f::33)
+ by PH7PR12MB5760.namprd12.prod.outlook.com (2603:10b6:510:1d3::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.33; Wed, 9 Apr
+ 2025 17:30:50 +0000
+Received: from CY4PEPF0000FCC5.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f:cafe::4a) by SJ0PR03CA0238.outlook.office365.com
+ (2603:10b6:a03:39f::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8606.35 via Frontend Transport; Wed,
+ 9 Apr 2025 17:30:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000FCC5.mail.protection.outlook.com (10.167.242.107) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8632.13 via Frontend Transport; Wed, 9 Apr 2025 17:30:49 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 9 Apr
+ 2025 12:30:48 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 9 Apr
+ 2025 12:30:48 -0500
+Received: from xhdipdslab69.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via
+ Frontend Transport; Wed, 9 Apr 2025 12:30:43 -0500
+From: Nipun Gupta <nipun.gupta@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <krzk+dt@kernel.org>,
+ <gregkh@linuxfoundation.org>, <robh@kernel.org>, <conor+dt@kernel.org>,
+ <ogabbay@kernel.org>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <derek.kiernan@amd.com>, <dragan.cvetic@amd.com>,
+ <arnd@arndb.de>
+CC: <praveen.jain@amd.com>, <harpreet.anand@amd.com>,
+ <nikhil.agarwal@amd.com>, <srivatsa@csail.mit.edu>, <code@tyhicks.com>,
+ <ptsm@linux.microsoft.com>, Nipun Gupta <nipun.gupta@amd.com>
+Subject: [PATCH v2 1/3] dt-bindings: accel: add device tree for AMD PKI
+ accelerator
+Date: Wed, 9 Apr 2025 23:00:31 +0530
+Message-ID: <20250409173033.2261755-1-nipun.gupta@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250408091755.10074-1-arefev@swemel.ru>
- <e6ccef21-3ca5-4b5a-b18a-3ba45859569c@amd.com>
- <bmdour3gw4tuwqgvvw764p4ot3nnltqm4e7n3edlbtpfazvp5c@cqe5dwgc66uy>
- <f8810b13-01d1-4615-b6e2-2e791c48b466@amd.com>
- <qc72y52kt7vuwox4lhk42zligy5bslttselfoexse42mywtpps@ebqijs2tap2t>
- <edc08eb4-63dd-402c-82df-af6898d499a9@amd.com>
- <pmby7iowvxuomsbuxebttosz245j7ngw5enbl72dq675nrgvve@ugkvzeihbtut>
- <CAHk-=whLixL8-iYt1qH0-YvEnVsYtryZaN5Da0qoBBhKsBnumw@mail.gmail.com>
- <437e12e2-ac0d-4a97-bd55-39ee03979526@amd.com>
-In-Reply-To: <437e12e2-ac0d-4a97-bd55-39ee03979526@amd.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 9 Apr 2025 10:27:13 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjLQzkTTDwJ+ZdVdgNKMg958petkdsu-+m7s9UL6PVCRg@mail.gmail.com>
-X-Gm-Features: ATxdqUGsb92LP0ScG527vuGNoNqzICJmAsHs4dqdA5fj_-LSDqiGYUn4VgwYYwc
-Message-ID: <CAHk-=wjLQzkTTDwJ+ZdVdgNKMg958petkdsu-+m7s9UL6PVCRg@mail.gmail.com>
-Subject: Re: [lvc-project] [PATCH] drm/amdgpu: check a user-provided number of
- BOs in list
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Fedor Pchelkin <pchelkin@ispras.ru>, Denis Arefev <arefev@swemel.ru>, 
- Alex Deucher <alexander.deucher@amd.com>, Simona Vetter <simona@ffwll.ch>, 
- lvc-project@linuxtesting.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- David Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC5:EE_|PH7PR12MB5760:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8fdfcb19-3117-46ab-2cbc-08dd778c4549
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|7416014|36860700013|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5Ku3ZyMN5qpgQ9mLvRF1lLWVkMQihRY+vKDDAFYbgpH5IsQWAqyB59fWeQXM?=
+ =?us-ascii?Q?RCbwV3h3JcMGD36H7VQ0cvvhA/yU6G4ZdhriIRYfzRCtrRFnQw0BoI7Vp9OK?=
+ =?us-ascii?Q?VHieQ8kP2Wi/babCeT5GXEVqcTYCQ9e2oGBhUd/wG/WtAPbgXY+Wj4WkjRnf?=
+ =?us-ascii?Q?HqVBT8qGXYDv02N+uO4uyPeq/7KZfK0ilDET8jy+LOuekWzbnMyMgpY7GMhZ?=
+ =?us-ascii?Q?pgTwChZ2cnF/IGpThaPRztJtkM7tbHVtOWh3cMYmv8PL8lv5o6p6R+IbF7gH?=
+ =?us-ascii?Q?7IRZYts4LGRPL+WVkFORFwLIaIlxUwue14KA1DNn2dvHCDl0MWE28lp0YUKg?=
+ =?us-ascii?Q?1FaJ6R53+alzVJtTg9PnjWp5RborFEwp9iLWjs9cpeMptd3UveJErLBQV9Lg?=
+ =?us-ascii?Q?R4yq9eFqTfrYtJ2muiG89OwHDKKAChZOqCGWIpxyvpeAfZXFfLzbFf7wjHQ+?=
+ =?us-ascii?Q?9LhMcYbbVuqPbcn3sdID8r3sK/4PCgxr9WOR2vdHWgK5a2CZhqZI2tspfyWy?=
+ =?us-ascii?Q?W/8JzVs+SOisWj3RU8pxSzsoKXR9CuEmjaHja+wfLFFJ40mK6bx3HhX8Wx2E?=
+ =?us-ascii?Q?KNogZNaHbxyyrIQGqMq7ydCSGNDYMVk0rjiExWYZpSa5zD2XdW5P8mM+VkgV?=
+ =?us-ascii?Q?vEpxZ9JNNJCJxxLGtwlla6fOqJ9ZGNp5hgNqEjYRMpvNJWUSncIjxJ0C/QFs?=
+ =?us-ascii?Q?kx507zQnsK+owAruQSksQpEylLQ+AhX1labLdUBPdS/aGbrA1gW29xeR/Cmm?=
+ =?us-ascii?Q?12EOpdjT8Vzp0cuyqjLf8JLUZMsvjXKCOgS7xrS86xmjMSJn0MAk9glby5Z6?=
+ =?us-ascii?Q?GHuBYl/74gZunCMuqsSnELgg0Frwzjr/I9wvBJeM/x1w1lS4ySkJO+rYdWuH?=
+ =?us-ascii?Q?utt+WgOIds7GvNtlU07RKwUiDFuozxGszTsHUgiw8bJn9wOEUL5f3p3VZbq+?=
+ =?us-ascii?Q?kzmhA8CLjn2EGQImAW5QNdS7jqPnTfuQlNXPp3SGn7dFXxAogtVp8SuiFjza?=
+ =?us-ascii?Q?FDaGHe9MRDCfrfkKYxGXIj56TvNJctbS9Z4lVp5qy0pLCPvrfgOxa5kSGels?=
+ =?us-ascii?Q?Ps88L7IklFmSxWQf7rbrCJOH4yTfe/7ZY7HM7/oJwztwX6kpj9ZWYTUd0/xu?=
+ =?us-ascii?Q?WzO0uoO+dbxnclSYnerQtvfnrMEHgHAJgOnjYA8hejOMRyucYRDEImkN8HI3?=
+ =?us-ascii?Q?9i41zwDzWI5q+ZCb5UBsIXqRkCUUPLEunAGqCJtRLbL0XdA3M1wlssoHtaf5?=
+ =?us-ascii?Q?QWVvvWaPwWTL2iYp9pOSBEAs751Jy8YYEhJrMaLVVOqeGyvk+JLaBkLW1GPZ?=
+ =?us-ascii?Q?MD6/vZdka9YZ2221myRTdwMwgadXi1nIuGyFgUItr+0h2avQ+UAeZQG8olPM?=
+ =?us-ascii?Q?NsuPD8G6qbwsEqLci6LszOnG2luWQ4/RFtFYRojGC8gQDV5z2ETTWMKrgWKH?=
+ =?us-ascii?Q?mdQCYnbUE9AcT5vZRWG58yJBjHCPd3imMjAgJGqsaMWMvU6hEYl9B0Nc8rkK?=
+ =?us-ascii?Q?bx/i/CiWGdsUja0=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 17:30:49.6622 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fdfcb19-3117-46ab-2cbc-08dd778c4549
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000FCC5.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5760
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,41 +144,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 9 Apr 2025 at 00:29, Christian K=C3=B6nig <christian.koenig@amd.com=
-> wrote:
->
-> I mean open coding the limit checks everywhere certainly works, but as fa=
-r as I can see it would be more defensive if we do that inside kvmalloc_arr=
-ay().
+Add binding documentation for AMD PKI accelerator supported for AMD
+versal-net SoC.
 
-No.
+AMD PKI accelerator is a device on AMD versa-net SoC to execute public key
+asymmetric crypto operations like ECDSA, ECDH, RSA etc. with high performance.
+The driver provides accel interface to applications for configuring the device
+and performing the required operations. AMD PKI device comprises of multiple
+Barco Silex ba414 PKI engines bundled together, and providing a queue based
+interface to interact with the device.
 
-If we add some limit to kvmalloc_array(), I guarantee that people will
-just then call it with ~0UL.
+ +------------------+
+ |    Software      |
+ +------------------+
+     |          |
+     |          v
+     |     +-----------------------------------------------------------+
+     |     |                     RAM                                   |
+     |     |  +----------------------------+   +---------------------+ |
+     |     |  |           RQ pages         |   |       CQ pages      | |
+     |     |  | +------------------------+ |   | +-----------------+ | |
+     |     |  | |   START (cmd)          | |   | | req_id | status | | |
+     |     |  | |   TFRI (addr, sz)---+  | |   | | req_id | status | | |
+     |     |  | | +-TFRO (addr, sz)   |  | |   | | ...             | | |
+     |     |  | | | NTFY (req_id)     |  | |   | +-----------------+ | |
+     |     |  | +-|-------------------|--+ |   |                     | |
+     |     |  |   |                   v    |   +---------------------+ |
+     |     |  |   |         +-----------+  |                           |
+     |     |  |   |         | input     |  |                           |
+     |     |  |   |         | data      |  |                           |
+     |     |  |   v         +-----------+  |                           |
+     |     |  |  +----------------+        |                           |
+     |     |  |  |  output data   |        |                           |
+     |     |  |  +----------------+        |                           |
+     |     |  +----------------------------+                           |
+     |     |                                                           |
+     |     +-----------------------------------------------------------+
+     |
+     |
+ +---|----------------------------------------------------+
+ |   v                AMD PKI device                      |
+ |  +-------------------+     +------------------------+  |
+ |  | New request FIFO  | --> |       PK engines       |  |
+ |  +-------------------+     +------------------------+  |
+ +--------------------------------------------------------+
 
-Making it all entirely pointless.
+To perform a crypto operation, the software writes a sequence of descriptors,
+into the RQ memory. This includes input data and designated location for the
+output data. After preparing the request, request offset (from the RQ memory
+region) is written into the NEW_REQUEST register. Request is then stored in a
+common hardware FIFO shared among all RQs.
 
-So thus the "kvmalloc_array() warns about unreasonable uses
-unconditionally, at a limit that is high enough to be useful, and low
-enough that the automated code randomization tools will hopefully
-trigger it and find bad code that doesn't validate kernel input".
+When a PK engine becomes available, device pops the request from the FIFO and
+fetches the descriptors. It DMAs the input data from RQ memory and executes
+the necessary computations. After computation is complete, the device writes
+output data back to RAM via DMA. Device then writes a new entry in CQ ring
+buffer in RAM, indicating completion of the request. Device also generates
+an interrupt for notifying completion to the software.
 
-> BTW we have been running into the kvmalloc() check on valid use cases as =
-well.
+Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+---
 
-*IF* you do proper validation, you can just use the raw vmalloc()
-interfaces by hand and avoid it all.
+The patch series was originally submitted as misc driver:
+https://lore.kernel.org/all/20250312095421.1839220-1-nipun.gupta@amd.com/
 
-The VM layer allows larger allocations. But the "this is a simple
-allocation, choose kmalloc or vmalloc automatically based on size"
-helper says "you are being simple, I'm going to check your arguments
-are actually sane".
+As suggested by Greg, the driver does not fit in misc and should be part
+of accel or crypto. Accel is well suited for AMD PKI Crypto Accelerator,
+and thus the driver is updated as an accel driver and yaml moved to
+newly created accel folder.
 
-So the drm code can easily have a function that validates the input
-for your specific cases, and then you (a) don't need the helper
-function that does the overflow protection and (b) don't want it.
+Changes RFC->v2:
+- updated device tree documentation to be the first patch
+- fixed subject
+- added documentation in commit log
+- fixed compatible string providing correct prefix and SoC
+- updated description to be more elaborative, providing datasheet link
+- fixed the example
 
-But it should actually validate arguments for real sanity at that
-point. Not just open-code kvmalloc() without the sanity check.
+ .../bindings/accel/amd,versal-net-pki.yaml    | 58 +++++++++++++++++++
+ MAINTAINERS                                   |  8 +++
+ 2 files changed, 66 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/accel/amd,versal-net-pki.yaml
 
-             Linus
+diff --git a/Documentation/devicetree/bindings/accel/amd,versal-net-pki.yaml b/Documentation/devicetree/bindings/accel/amd,versal-net-pki.yaml
+new file mode 100644
+index 000000000000..2dca7458f845
+--- /dev/null
++++ b/Documentation/devicetree/bindings/accel/amd,versal-net-pki.yaml
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/accel/amd,versal-net-pki.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: AMD PKI accelerator device
++
++maintainers:
++  - Nipun Gupta <nipun.gupta@amd.com>
++  - Praveen Jain <praveen.jain@amd.com>
++
++description: |
++  AMD PKI accelerator handles the public key asymmetric crypto operations.
++  The driver provides accel interface to the application for configuring the
++  device and performing the required operations. AMD PKI device comprises of
++  multiple Barco Silex ba414 PKI engines bundled together, and providing a
++  queue based interface to interact with these devices on AMD versal-net SoC.
++
++  Link to ba414 datasheet:
++  https://datasheet.datasheetarchive.com/originals/crawler/barco-silex.com/34b540b9dc5db40c5bc01999401cf1e4.pdf
++
++properties:
++  compatible:
++    const: amd,versal-net-pki
++
++  reg:
++    description: AMD PKI register space
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  iommus: true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - iommus
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    bus {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        amdpk@20400000000 {
++            compatible = "amd,versal-net-pki";
++            interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
++            reg = <0x204 0x00000000 0x0 0x10000>;
++            iommus = <&smmu 0x25b>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 96b827049501..11f8815daa77 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1154,6 +1154,14 @@ F:	Documentation/networking/device_drivers/ethernet/amd/pds_core.rst
+ F:	drivers/net/ethernet/amd/pds_core/
+ F:	include/linux/pds/
+
++AMD PKI DRIVER
++M:	Nipun Gupta <nipun.gupta@amd.com>
++M:	Praveen Jain <praveen.jain@amd.com>
++L:	dri-devel@lists.freedesktop.org
++S:	Maintained
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	Documentation/devicetree/bindings/accel/amd,versal-net-pki.yaml
++
+ AMD PMC DRIVER
+ M:	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+ L:	platform-driver-x86@vger.kernel.org
+--
+2.34.1
+
